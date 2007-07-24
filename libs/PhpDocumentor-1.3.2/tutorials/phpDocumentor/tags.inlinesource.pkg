@@ -1,0 +1,172 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>inline {@}source}</refname>
+  <refpurpose>Display source code of a function or method in the long description</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.1+ (undocumented in 1.1)</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>{@}source</command>
+    <arg choice="opt">
+     <option>startline <arg choice="opt"><option>number of lines</option></arg></option>
+    </arg>
+	<arg choice="plain">
+	 <option>}</option>
+	</arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The {@}source} inline tag is used in the DocBlock of functions or methods to extract source code of the function/method for display in generated documentation.  This tag is designed to allow detailed line-by-line description of how a function works without having to cut and paste from the source.  This allows modification to the source and automatic update of documentation so that it remains current.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>The inline {@}source} differs from all ordinary tags.  Inline tags parse and display their output directly in the documentation.  In other words, this DocBlock:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Text with a normal tag, @copyright
+ * @copyright Copyright 2002, Greg Beaver
+ */
+function element()
+{
+}
+   ]]>
+   </programlisting>
+  </para>
+  <para>will display normal documentation.</para>
+  <para>This DocBlock:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Text with an inline source tag:
+ *
+ * {@}source}
+ * displays without a break in the flow
+ */
+function element($pages)
+{
+    if (empty($pages))
+    {
+        die("<b>ERROR</b>: nothing parsed");
+    }
+}
+   ]]>
+   </programlisting>
+  </para>
+  <para>will display the complete source inside the documentation as if we had typed it out</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Text with an inline source tag:
+ *
+ * <code>
+ * function element($pages)
+ * {
+ *     if (empty($pages))
+ *     {
+ *         die("<b>ERROR</b>: nothing parsed");
+ *     }
+ * }
+ * </code>
+ * displays without a break in the flow
+ */
+   ]]>
+   </programlisting>
+  </para>
+  <para>The {@}source tag has two optional parameters, the starting line number to display and the ending line number to display.  If only the first parameter is present, {@}source} will print the source code starting on that line number to the end of the function source code.  If both parameters are present, {@}source} will print an excerpt of the source code beginning on the starting line number, and concluding with the ending line number.</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Text with an inline source tag:
+ *
+ * {@}source 3}
+ * displays without a break in the flow
+ */
+function element($pages)
+{
+    if (empty($pages))
+    {
+        die("<b>ERROR</b>: nothing parsed");
+    }
+    foreach($test as $hello)
+    {
+        echo "I love $hello";
+    }
+}
+   ]]>
+   </programlisting>
+  </para>
+  <para>Parses as if we had coded:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Text with an inline source tag:
+ *
+ * <code>
+ *     if (empty($pages))
+ *     {
+ *         die("<b>ERROR</b>: nothing parsed");
+ *     }
+ *     foreach($test as $hello)
+ *     {
+ *         echo "I love $hello";
+ *     }
+ * }
+ * </code>
+ * displays without a break in the flow
+ */
+   ]]>
+   </programlisting>
+  </para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Text with an inline source tag:
+ * {@}source 3 1}
+ * displays without a break in the flow
+ */
+function element($pages)
+{
+    if (empty($pages))
+    {
+        die("<b>ERROR</b>: nothing parsed");
+    }
+    foreach($test as $hello)
+    {
+        echo "I love $hello";
+    }
+}
+   ]]>
+   </programlisting>
+  </para>
+  <para>Parses as if we had coded:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Text with an inline source tag:
+ *
+ * <code>
+ *     if (empty($pages))
+ * </code>
+ * displays without a break in the flow
+ */
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

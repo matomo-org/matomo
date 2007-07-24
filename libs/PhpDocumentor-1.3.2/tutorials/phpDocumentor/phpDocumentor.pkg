@@ -1,0 +1,68 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>phpDocumentor Guide to Creating Fantastic Documentation</refname>
+  <refpurpose>What makes good documentation?  This is unanswerable, but there are a few things to keep in mind</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Gregory Beaver
+   <authorblurb>
+    {@link mailto:cellog@php.net cellog@php.net}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ <refsect1 id="{@id intro}">
+  <title>Why write good documentation for open source code?</title>
+  <para>Writing good documentation is essential to the success of any software project.  The quality of documentation can be even more important than the quality of the code itself, as a good first impression will prompt developers to look further into your code.  phpDocumentor is designed to make it easier to create documentation.  phpDocumentor even makes it possible to generate separate sets of documentation from the same source!</para>
+ </refsect1>
+ <refsect1 id="{@id writing}">
+  <title>Writing Great Documentation</title>
+  <refsect2 id="{@id audience}">
+   <title>Consider the audience</title>
+   <para>The first question any writer must ask is &quot;Who is my audience?&quot;  This will answer many questions.  For most software, such as any MS product, the software is intended only to be used.  The programmers are the only people who have access to the source code.  The challenge in this case is to write good documentation for end-users.</para>
+   <para>When writing documentation for an open-source project intending to be both used and extended, this challenge is magnified by the fact that many people will also intend to extend the source, or even find obscure bugs and fix them.  These two audiences tend to be opposed to each other in their needs.</para>
+   <para>An end-user generally wants:
+    <itemizedlist>
+     <listitem><para>Instruction-style writing, that explains and describes general concepts more than how a particular variable is used</para></listitem>
+     <listitem><para>Interface information only, no low-level details</para></listitem>
+     <listitem><para>Examples of how to use, and tutorials</para></listitem>
+    </itemizedlist>
+    Whereas a programmer may want in addition:
+    <itemizedlist>
+     <listitem><para>Details on how program elements interact, which elements use others</para></listitem>
+     <listitem><para>Where in the source code an action or series of actions occurs</para></listitem>
+     <listitem><para>How to extend the code to add new functionality</para></listitem>
+    </itemizedlist>
+   </para>
+   <para>These two kinds of users can not be serviced by just API documentation or just tutorials, but a subtle blend of the two.</para>
+  </refsect2>
+  <refsect2 id="{@id using}">
+   <title>Using phpDocumentor to make documentation for two separate audiences</title>
+   <para>In essence, there may need to be two separate sets of documentation!  phpDocumentor can be used to create this option using a few things.  First, using the command-line file-selection options, one can write two sets of documentation, one for end-users, and the other for programmers, and put them in different subdirectories.  For instance, one could put enduser docs in &quot;enduser/tutorials&quot; and programmer docs in &quot;programmer/tutorials.&quot;  In addition, using the {@tutorial tags.access.pkg} tag, one can mark programmer-level elements with @access private, and they will be ignored by default.  The {@tutorial tags.internal.pkg} tag and {@tutorial tags.inlineinternal.pkg} inline tag construct can be used to mark documentation that is low-level or internal to a smaller audience of developers.  When creating programmer documentation, turn on the parse private option (see {@tutorial phpDocumentor.howto.pkg#using.command-line.parseprivate}), and the low-level detail will be generated.</para>
+   <para>More important, the in-code documents in your {@tutorial phpDocumentor.howto.pkg#basics.docblock} must be written for both end-users and programmers wherever possible.</para>
+   <para>phpDocumentor uses the chaining feature of tutorials to link together related documentation like chapters in a book, and this is another way to organize documentation.  Experiment, and find what's best for your project's needs.</para>
+  </refsect2>
+  <refsect2 id="{@id tips}">
+   <title>Tips on Revising</title>
+   <para>There are many ways of creating good documentation, but perhaps the best is to read what you have written from different perspectives.  Open up your documentation, and try to use it to figure out your software project.  If this is difficult, go back and edit or rewrite.  Remove anything that is confusing or unnecessary, make sure everything is there that is needed, and then when it seems good, ask a php user that doesn't know your project, or even a non-programmer to read it and use their reactions to tailor the documentation.</para>
+  </refsect2>
+  <refsect2 id="{@id conclusion}">
+   <title>Conclusion</title>
+   <para>The use of phpDocumentor will definitely improve the look and feel of your documentation, but don't stop there, let it help you to create truly dynamic documents that are easily maintained and kept up-to-date.  After all, great docs for great programs will help to secure PHP's rightful throne as the best out there!
+   </para>
+  </refsect2>
+ </refsect1>
+ <refsect1 id="{@id references}">
+  <title>References for learning how to use phpDocumentor</title>
+  <para>
+   <itemizedlist>
+    <listitem>
+	 <para>
+	  {@tutorial phpDocumentor.quickstart.pkg}
+	 </para>
+	</listitem>
+   </itemizedlist>
+  </para>
+ </refsect1>
+</refentry>
+

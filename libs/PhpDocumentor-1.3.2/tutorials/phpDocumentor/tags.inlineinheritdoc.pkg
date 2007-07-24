@@ -1,0 +1,79 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>inline {@}inheritdoc}</refname>
+  <refpurpose>Used to directly inherit the long description from the parent class in child classes</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.2+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+   <command>{@}inheritdoc}</command>
+  </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The {@}inheritdoc} inline tag is used in the DocBlocks of classes, methods and class variables of child classes.  phpDocumentor will automatically inherit the {@tutorial tags.author.pkg @author tag}, {@tutorial tags.version.pkg @version tag}, and {@tutorial tags.copyright.pkg @copyright tag} from a parent class.  In addition, if there is no documentation comment present, it will inherit the parent's documentation.</para>
+  <para>Note that if the {@}inheritdoc} inline tag is not present, and a child class is undocumented, the child class will still attempt to inherit documentation from the parent class as is.  {@}inheritdoc} allows flexibility of where to put documentation from the parent class in a child class's documentation.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+<para>In some cases, the child class may want to simply augment the parent class's documentation.  This is the primary purpose {@}inheritdoc} was designed for.  For example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Makes bars
+ *
+ * This class generates bars using the main algorithm.
+ */
+class bar
+{
+}
+
+/**
+ * Makes chocolate bars
+ *
+ * There are two aspects to this class.
+ * {@}inheritdoc}  In addition, the foo class
+ * makes the bars chocolate
+ */
+class foo extends bar
+{
+}
+   ]]>
+   </programlisting>
+  </para>
+  <para>This source code will parse as if it was:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Makes bars
+ *
+ * Generates bars using the main algorithm.
+ */
+class bar
+{
+}
+
+/**
+ * Makes chocolate bars
+ *
+ * There are two aspects to this class.
+ * This class generates bars using the main algorithm.  In addition, the foo class
+ * makes the bars chocolate
+ */
+class foo extends bar
+{
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

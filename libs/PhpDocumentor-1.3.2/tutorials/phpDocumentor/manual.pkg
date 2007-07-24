@@ -1,0 +1,129 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>{@link http://phpdocu.sourceforge.net phpDocumentor 1.3.2} Manual</refname>
+  <refpurpose>Introduction to phpDocumentor</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <para>phpDocumentor authors</para>
+  <authorgroup>
+   <author>
+    Gregory Beaver
+    <authorblurb>
+     {@link mailto:cellog@php.net cellog@php.net}
+    </authorblurb>
+   </author>
+   <author>
+    Joshua Eichorn
+    <authorblurb>
+     {@link mailto:jeichorn@phpdoc.org jeichorn@phpdoc.org}
+    </authorblurb>
+   </author>
+   <author>
+    Kellin
+    <authorblurb>
+     {@link mailto:passionplay@hotmail.com passionplay@hotmail.com}
+    </authorblurb>
+   </author>
+   <author>
+    Juan Pablo Morales
+    <authorblurb>
+     {@link mailto:ju-moral@uniandes.edu.co ju-moral@uniandes.edu.co}
+    </authorblurb>
+   </author>
+   <author>
+    Florian Clever
+    <authorblurb>
+     {@link mailto:fclever@verinform.com fclever@verinform.com}
+    </authorblurb>
+   </author>
+   <author>
+    Dennis Kehrig
+    <authorblurb>
+     {@link mailto:TheGeek@web.de TheGeek@web.de}
+    </authorblurb>
+   </author>
+   <author>
+    Robert Hoffmann
+    <authorblurb>
+     {@link mailto:half-dead@users.sourceforge.net half-dead@users.sourceforge.net}
+    </authorblurb>
+   </author>
+   <author>
+    Roberto Berto
+    <authorblurb>
+     {@link mailto:darkelder@users.sourceforge.net darkelder@users.sourceforge.net}
+    </authorblurb>
+   </author>
+   <author>
+    Dave Viner
+    <authorblurb>
+     {@link mailto:dviner@yahoo-inc.com dviner@yahoo-inc.com}
+    </authorblurb>
+   </author>
+   <author>
+    Walter A Boring IV
+    <authorblurb>
+     {@link mailto:hemna@users.sourceforge.net hemna@users.sourceforge.net}
+    </authorblurb>
+   </author>
+   <author>
+    Mark van Reunswolde
+    <authorblurb>
+     {@link mailto:support@esdsoftware.net support@esdsoftware.net}
+    </authorblurb>
+   </author>
+   <author>
+    Julien Damon
+    <authorblurb>
+     {@link mailto:julien.damon@free.fr julien.damon@free.fr}
+    </authorblurb>
+   </author>
+   <author>
+    Harald Fielker
+    <authorblurb>
+     {@link mailto:fielker@informatik.fh-augsburg.de fielker@informatik.fh-augsburg.de}
+    </authorblurb>
+   </author>
+   <author>
+    Marco von Ballmoos
+    <authorblurb>
+     {@link mailto:mvonballmo@users.sourceforge.net mvonballmo@users.sourceforge.net}
+    </authorblurb>
+   </author>
+   <author>
+    Andrew Eddie
+    <authorblurb>
+     {@link mailto:eddieajau@users.sourceforge.net eddieajau@users.sourceforge.net}
+    </authorblurb>
+   </author>
+   <author>
+    William K. Hardeman
+    <authorblurb>
+     {@link mailto:william_hardeman@hands-solutions.com william_hardeman@hands-solutions.com}
+    </authorblurb>
+   </author>
+   <author>
+    Chuck Burgess
+    <authorblurb>
+     {@link mailto:ashnazg@php.net ashnazg@php.net}
+    </authorblurb>
+   </author>
+  </authorgroup>
+ </refsynopsisdiv>
+ <refsect1 id="{@id intro}">
+  <refsect2 id="{@id documentation}">
+   <title>Documentation</title>
+   <para>The release of phpDocumentor 1.2.0+ marks a radical shift in the design philosophy of phpDocumentor.  No longer is this tool intended only to generate documentation from the source code.  Now it facilitates generating user-level documentation for people who only wish to use your software, and not to modify it.  This allows complete integration of all the documentation for the software project, and that means even greater ease of documenting, and ultimately more time to work on making the software work!</para>
+   <para>The old functionality of phpDocumentor has not been changed, only extended.  The old HTMLdefaultConverter has been ported to a new HTMLframesConverter.  The output looks the same, or better, but the templates are now {@link smarty.php.net Smarty}-based templates, and allow much greater customization.  To start out right away, read {@tutorial phpDocumentor.howto.pkg}.</para>
+  </refsect2>
+  <refsect2 id="{@id bug-reporting}">
+   <title>Bugs and Features (guaranteed to be separate entities...)</title>
+   <para>If you think you've found a bug in phpDocumentor, please check our bug tracker online at {@link http://sourceforge.net/tracker/?func=browse&group_id=11194&atid=111194 http://sourceforge.net/tracker/?func=browse&group_id=11194&atid=111194}, the bug may have already been fixed (we develop at a rapid rate).  If you don't find it, please submit a bug, and we will attempt to fix it as quickly as possible.</para>
+   <para>If there is a feature you're dying to have, check our feature tracker at {@link http://sourceforge.net/tracker/?func=browse&group_id=11194&atid=361194 http://sourceforge.net/tracker/?func=browse&group_id=11194&atid=361194}.  Please don't hesitate to look right at the source code and help apply your feature.  We love that, and can easily give you access to the cvs.</para>
+  </refsect2>
+  <refsect2 id="{@id helping-out}">
+   <title>How to Help Out</title>
+   <para>If you would like to help out with phpDocumentor, don't be shy.  Email {@link mailto:jeichorn@phpdoc.org Joshua Eichorn} right away and say you'd like to be added to the developer team.  We need people who are willing to develop Converters, translate documentation, and handle various bugs and feature requests as they come up.  phpDocumentor is fast becoming the de facto standard of automatic documentors in PHP, so it is in your best interest to make sure it works the way you need it to work.</para>
+  </refsect2>
+ </refsect1>
+</refentry>

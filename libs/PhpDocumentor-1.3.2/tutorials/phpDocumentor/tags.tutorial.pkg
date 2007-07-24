@@ -1,0 +1,83 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@tutorial</refname>
+  <refpurpose>Display a link to the documentation for a tutorial</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@tutorial</command>
+    <arg choice="opt"><option>package/</option></arg>
+    <arg choice="opt"><option>subpackage/</option></arg>
+    <arg choice="req">tutorialname.ext</arg>
+    <arg choice="opt">#section<arg choice="opt"><option>.subsection</option></arg></arg>
+    <arg choice="opt"><option>description</option></arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The @tutorial tag may be used to document any element (global variable, include, page, class, function, define, method, variable)
+  </para>
+  <caution>@tutorial only displays links to tutorials/extended documentation.  If you want to display a hyperlink or link to a documented element, use {@tutorial tags.see.pkg} or {@tutorial tags.link.pkg} or {@tutorial tags.inlinelink.pkg}</caution>
+  <para>Along with {@tutorial tags.inlinetutorial.pkg}, the @tutorial tag is among the most useful features of phpDocumentor.  With this tag, you can create a link to any tutorial or extended documentation.  The @tutorial parser can be told exactly where to look using a format similar to a <acronym>URI</acronym>:
+   <itemizedlist>
+    <listitem><para><emphasis>package/</emphasis> -- Preface to specify a tutorial in a specific package</para></listitem>
+    <listitem><para><emphasis>subpackage/</emphasis> -- Preface to specify a tutorial in a specific package/subpackage</para></listitem>
+    <listitem><para><emphasis>#section</emphasis> -- Link to a specific section of the documentation package/subpackage/tutorial.ext#section</para></listitem>
+    <listitem><para><emphasis>.subsection</emphasis> -- Link to a specific sub-section of the documentation package/subpackage/tutorial.ext#section.subsection</para></listitem>
+   </itemizedlist>
+  </para>
+  <para>However, @tutorial, like @see, is also intelligent enough to recognize shorthand.  The search order for a tutorial is identical to what is specified in {@tutorial tags.see.pkg}</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example of valid @tutorial syntax:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * This will link to the phpDocumentor.pkg tutorial if it is unique, regardless
+ * of its location
+ * @tutorial phpDocumentor.pkg
+ */
+class test1
+{
+}
+
+/**
+ * This will link to the phpDocumentor.pkg tutorial if and only if it is in the
+ * phpDocumentor package, any subpackage.
+ * @tutorial phpDocumentor/phpDocumentor.pkg
+ */
+class test2
+{
+}
+
+/**
+ * This will link to the phpDocumentor.pkg tutorial if and only if it is in the
+ * phpDocumentor package, info subpackage.
+ * @tutorial phpDocumentor/info/phpDocumentor.pkg
+ */
+class test3
+{
+}
+
+/**
+ * This will link to the phpDocumentor.pkg tutorial, section1 and subsection one
+ * @tutorial phpDocumentor.pkg#section1, phpDocumentor.pkg#section1.subsection1
+ */
+class test4
+{
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

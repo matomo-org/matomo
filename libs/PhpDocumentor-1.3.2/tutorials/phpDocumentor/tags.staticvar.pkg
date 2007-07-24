@@ -1,0 +1,62 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@staticvar</refname>
+  <refpurpose>Document a static variable's use in a function/method</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@staticvar</command>
+    <arg choice="req">
+     <option>datatype</option>
+    </arg>
+    <arg choice="opt">
+     <option>description</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>Datatype should be a valid PHP type or "mixed."</para>
+  <para>phpDocumentor will display the optional description unmodified</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * example of basic @staticvar usage in a function
+ * @staticvar integer used to calculate the division tables
+ * @staticvar array $bar is used to make me happy.  Note that $bar is part of the description
+ * @param bool $baz
+ * @return mixed
+ */
+function function1($baz)
+{
+   static $foo = 6,$bar = array();
+   // note that this works as:
+   // static $foo = 6;
+   // static $bar = array();
+   if ($baz)
+   {
+      $a = 5;
+   } else
+   {
+      $a = array(1,4);
+   }
+   return $a;
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

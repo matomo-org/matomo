@@ -1,0 +1,142 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@uses</refname>
+  <refpurpose>Display a link to the documentation for an element, and create a backlink in the other element's documentation to this</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@uses</command>
+    <arg choice="req">
+     <option>file.ext|elementname|class::methodname()|class::$variablename|functionname()|function functionname</option>
+    </arg>
+    <arg choice="opt">
+     <option>description of how the element is used</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <caution>Since version 1.2.0beta3, the syntax for @uses has changed.  It differs in that @uses now contains a description of how the element is used and does not allow a comma-delimited list of values any longer.</caution>
+  <para>The @uses tag may be used to document any element (global variable, include, page, class, function, define, method, variable)
+  </para>
+  <caution>@uses only displays links to element documentation.  If you want to display a hyperlink, use {@tutorial tags.link.pkg} or {@tutorial tags.inlinelink.pkg}</caution>
+  <para>@uses is very similar to {@tutorial tags.see.pkg}, see the documentation for @see for details on format and structure.  The @uses tag differs from @see in two ways.  @see is a one-way link, meaning the documentation containing a @see tag contains a link to other documentation.  The @uses tag automatically creates a virtual @usedby tag in the other documentation that links to the documentation containing the @uses tag.  In other words, it is exactly like @see, except a return link is added automatically.
+  </para>
+  <para>The other difference is that @uses only accepts one element to link to, and a description of that element.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example of valid @uses syntax:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * class 1
+ * 
+ */
+class main_class
+{
+    /**
+     * @var integer
+     */
+    var foo = 3;
+
+    /**
+     * subclass inherits this method.
+     * example of a word which is either a constant or class name,
+     * in this case a classname
+     * @uses subclass sets a temporary variable
+     * @uses subclass::$foo this is compared to {@link TEST_CONST}
+     * @uses TEST_CONST compared to {@link subclass::$foo}, we
+     *                  {@link die()} if not found
+     */
+
+    function parent_method()
+    {
+        if ($this->foo==9) die;
+        $test = new subclass;
+        $a = $test->foo;
+        if ($a == TEST_CONST) die;
+    }
+}
+
+/**
+ * this class extends main_class.
+ */
+subclass extends main_class
+{
+    /**
+     * @var integer
+     */
+    var $foo = 9;
+}
+
+define("TEST_CONST","foobar");
+   ]]>
+   </programlisting>
+  </para>
+  <para>This will parse as if it were:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * class 1
+ * 
+ */
+class main_class
+{
+    /**
+     * @var integer
+     */
+    var foo = 3;
+
+    /**
+     * subclass inherits this method.
+     * example of a word which is either a constant or class name,
+     * in this case a classname
+     * @uses subclass sets a temporary variable
+     * @uses subclass::$foo this is compared to {@link TEST_CONST}
+     * @uses TEST_CONST compared to {@link subclass::$foo}, we
+     *                  {@link die()} if not found
+     */
+
+    function parent_method()
+    {
+        if ($this->foo==9) die;
+        $test = new subclass;
+        $a = $test->foo;
+        if ($a == TEST_CONST) die;
+    }
+}
+
+/**
+ * this class extends main_class.
+ * @usedby main_class::parent_method() sets a temporary variable
+ */
+subclass extends main_class
+{
+    /**
+     * @var integer
+     * @usedby main_class::parent_method() this is compared to {@link TEST_CONST}
+     */
+    var $foo = 9;
+}
+
+/**
+ * @usedby main_class::parent_method() compared to {@link subclass::$foo}, we
+ *                                     {@link die()} if not found
+ */
+define("TEST_CONST","foobar");
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

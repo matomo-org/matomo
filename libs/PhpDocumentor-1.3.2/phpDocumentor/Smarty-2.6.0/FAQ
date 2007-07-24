@@ -1,0 +1,284 @@
+QUESTION INDEX
+--------------
+
+GENERAL
+
+Q: What is Smarty?
+Q: What's the difference between Smarty and other template engines?
+Q: What do you mean "Compiled PHP Scripts" ?
+Q: Why can't I just use PHPA (http://php-accelerator.co.uk) or Zend Cache?
+Q: Why does smarty have a built in cache? Wouldn't it be better to handle this
+   in a separate class?
+Q: Is Smarty faster than <insert other PHP template engine>?
+Q: How can I be sure to get the best performance from Smarty?
+Q: Do you have a mailing list?
+Q: Can you change the mailing list so reply-to sends to the list and not the
+   user?
+
+TROUBLESHOOTING
+
+Q: Smarty doesn't work.
+Q: I get the following error when running Smarty:
+   Warning:  Smarty error: problem creating directory "templates_c/239/239105369"
+   in /path/to/Smarty.class.php on line 542
+Q: I get the following error when running Smarty:
+   Warning: Wrong parameter count for preg_replace() in
+   Smarty.class.php on line 371
+Q: I get this error when passing variables to {include}:
+   Fatal error: Call to undefined function: get_defined_vars() in
+   /path/to/Smarty/templates_c/index.tpl.php on line 8
+Q: I get PHP errors in my {if} tag logic.
+Q: I'm changing my php code and/or templates, and my results are not getting
+   updated.
+Q: I'm running Windows 2000 and I get blank content. My compiled PHP files are
+   also zero length.
+Q: The template goes into an infinite loop when I include included templates
+   that pass local variables
+Q: Javascript is causing Smarty errors in my templates.
+Q: I get "SAFE MODE Restriction in effect. ..."-errors when running smarty.
+
+MISC
+
+Q: Can I use Macromedia's Dreamweaver to edit my templates?
+Q: Dreamweaver is urlencoding the template delimiters when they are in a SRC or
+   HREF link. How do I get around this?
+
+HOWTO
+
+Q: How do I generate different cache files per template based on arguments
+   passed to the page?
+Q: How do I pass a template variable as a parameter? {function param={$varname}}
+   does not work.
+Q: How do I include cached template(s) within a non-cached template?
+
+
+GENERAL
+-------
+
+Q: What is Smarty?
+A: Smarty is a template engine for PHP... but be aware this isn't just another
+   PHP template engine. It's much more than that.
+
+Q: What's the difference between Smarty and other template engines?
+A: Most other template engines for PHP provide basic variable substitution and
+   dynamic block functionality. Smarty takes a step further to be a "smart"
+   template engine, adding features such as configuration files, template
+   functions, variable modifiers (see the docs!) and making all of this
+   functionality as easy as possible to use for both programmers and template
+   designers. Smarty also compiles the templates into PHP scripts, eliminating
+   the need to parse the templates on every invocation, making Smarty extremely
+   scalable and manageable for large application needs.
+
+Q: What do you mean "Compiled PHP Scripts" ?
+A: Smarty reads the template files and creates PHP scripts from them. Once
+   these PHP scripts are created, Smarty executes these, never having to parse
+   the template files again. If you change a template file, Smarty will
+   recreate the PHP script for it. All this is done automatically by Smarty.
+   Template designers never need to mess with the generated PHP scripts or even
+   know of their existance. (NOTE: you can turn off this compile checking step
+   in Smarty for increased performance.)
+
+Q: Why can't I just use PHPA (http://php-accelerator.co.uk) or Zend Cache?
+A: You certainly can, and we highly recommend it! What PHPA does is caches
+   compiled bytecode of your PHP scripts in shared memory or in a file. This
+   speeds up server response and saves the compilation step. Smarty creates PHP
+   scripts, which PHPA will cache nicely. Now, Smarty's built-in cache is
+   something completely different. It caches the _output_ of the template
+   contents. For example, if you have a template that requires several database
+   queries, Smarty can cache this output, saving the need to call the database
+   every time. Smarty and PHPA (or Zend Cache) complement each other nicely. If
+   performance is of the utmost importance, we would recommend using one of
+   these with any PHP application, using Smarty or not. As you can see in the
+   benchmarks, Smartys performance _really_ excels in combination with a PHP
+   accelerator.
+
+Q: Why does Smarty have a built in cache? Wouldn't it be better to handle this
+   in a separate class?
+A: Smarty's caching functionality is tightly integrated with the template
+   engine, making it quite a bit more flexible than a simple caching wrapper.
+   For instance, you can cache select portions of a template page. Let's say
+   you have a polling box on your site. With Smarty, you can leave the poll
+   dynamic and cache the rest of the page. You can also pass templates
+   multiple cache ids, meaning that a template can have several caches
+   depending on URL, cookies, etc.
+
+Q: Is Smarty faster than <insert other PHP template engine>?
+A: See the benchmark page for some performance comparisons. Smarty's approach
+   to templates is a bit different from some languages: it compiles templates
+   into PHP scripts instead of parsing them on each invocation. This usually
+   results in great performance gains, especially with complex templates.
+   Coupled with the built-in caching of Smarty templates, the performance is
+   outstanding.
+
+Q: How can I be sure to get the best performance from Smarty?
+A: Be sure you set $compile_check=false once your templates are initially
+   compiled. This will skip the unneeded step of testing if the template has
+   changed since it was last compiled. If you have complex pages that don't
+   change too often, turn on the caching engine and adjust your application so
+   it doesn't do unnecessary work (like db calls) if a cached page is
+   available. See the documentation for examples.
+   
+Q: Do you have a mailing list?
+A:  We have a few mailing lists. "general" for you to share your ideas or ask
+	questions, "dev" for those interested in the development efforts of Smarty,
+	and "cvs" for those that would like to track the updates made in the cvs
+	repository.
+
+    send a blank e-mail message to:
+      smarty-general-subscribe@lists.php.net (subscribe to the general list)
+      smarty-general-unsubscribe@lists.php.net (unsubscribe from the general list)
+      smarty-general-digest-subscribe@lists.php.net (subscribe to digest)
+      smarty-general-digest-unsubscribe@lists.php.net (unsubscribe from digest)
+      smarty-dev-subscribe@lists.php.net (subscribe to the dev list)
+      smarty-dev-unsubscribe@lists.php.net (unsubscribe from the dev list)
+      smarty-cvs-subscribe@lists.php.net (subscribe to the cvs list)
+      smarty-cvs-unsubscribe@lists.php.net (unsubscribe from the cvs list)
+    You can also browse the mailing list archives at
+    http://marc.theaimsgroup.com/?l=smarty&r=1&w=2
+
+
+
+Q: Can you change the mailing list so Reply-To sends to the list and not the
+   user?
+A: Yes we could, but no we won't. Use "Reply-All" in your e-mail client to send
+   to the list. http://www.unicom.com/pw/reply-to-harmful.html
+
+TROUBLESHOOTING
+---------------
+
+Q: Smarty doesn't work.
+A: You must be using PHP 4.0.6 or later if you use any version of Smarty
+   past 2.0.1. Read the BUGS file for more info.
+
+Q: I get the following error when running Smarty:
+   Warning:  Smarty error: problem creating directory "templates_c/239/239105369"
+   in /path/to/Smarty.class.php on line 542
+A: Your web server user does not have permission to write to the templates_c
+   directory, or is unable to create the templates_c directory. Be sure the
+   templates_c directory exists in the location defined in Smarty.class.php,
+   and the web server user can write to it. If you do not know the web server
+   user, chmod 777 the templates_c directory, reload the page, then check the
+   file ownership of the files created in templates_c. Or, you can check the
+   httpd.conf (usually in /usr/local/apache/conf) file for this setting:
+   User nobody
+   Group nobody
+
+Q: I get the following error when running Smarty: Warning: Wrong parameter
+   count for preg_replace() in Smarty.class.php on line 371
+A: preg_replace had a parameter added in PHP 4.0.2 that Smarty
+   requires. Upgrade to at least 4.0.6 to fix all known PHP issues with
+   Smarty.
+
+Q: I get this error when passing variables to {include}:
+   Fatal error: Call to undefined function: get_defined_vars() in
+   /path/to/Smarty/templates_c/index.tpl.php on line 8
+A: get_defined_vars() was added to PHP 4.0.4. If you plan on passing
+   variables to included templates, you will need PHP 4.0.6 or later.
+
+Q: I get PHP errors in my {if} tag logic.
+A: All conditional qualifiers must be separated by spaces. This syntax will not
+   work: {if $name=="Wilma"} You must instead do this: {if $name == "Wilma"}.
+   The reason for this is syntax ambiguity. Both "==" and "eq" are equivalent
+   in the template parser, so something like {if $nameeq"Wilma"} wouldn't be
+   parsable by the tokenizer.
+
+Q: I'm changing my php code and/or templates, and my results are not getting
+   updated.
+A: This may be the result of your compile or cache settings. If you are
+   changing your php code, your templates will not necessarily get recompiled
+   to reflect the changes. Use $force_compile during develpment to avoid these
+   situations. Also turn off caching during development when you aren't
+   specifically testing it. You can also remove everything from your
+   compile_dir and cache_dir and reload the page to be sure everything gets
+   regenerated.
+
+Q: I'm running Windows 2000 and I get blank content. My compiled PHP files are
+   also zero length.
+A: There seems to be a problem with some W2k machines and exclusive file
+   locking. Comment out the flock() call in _write_file to get around this,
+   although be aware this could possibly cause a problem with simultaneous
+   writes to a file, especially with caching turned on. NOTE: As of Smarty
+   1.4.0, a workaround was put in place that should solve this.
+
+Q: The template goes into an infinite loop when I include included templates
+   that pass local variables
+A: This was fixed in 1.3.2 (new global attribute)
+
+Q: Javascript is causing Smarty errors in my templates.
+A: Surround your javascript with {literal}{/literal} tags. See the docs.
+
+Q: I get "SAFE MODE Restriction in effect. ..."-errors when running smarty.
+A: Use $smarty->use_sub_dirs = false when running php in safe mode.
+
+MISC
+----
+
+Q: Can I use Macromedia's Dreamweaver to edit my templates?
+A: Certainly. You might want to change your tag delimiters from {} to something
+   that resembles valid HTML, like <!--{ }--> or <{ }> or something similar.
+   This way the editor won't view the template tags as errors.
+
+Q: Dreamweaver is urlencoding the template delimiters when they are in a SRC or
+   HREF link. How do I get around this?
+A: In Edit - Properties - Rewrite HTML you can specify if Dreamweaver should
+   change special letters to %-equivalent or not. The default is on which
+   produces this error.
+
+HOWTO
+-----
+   
+Q: How do I generate different cache files per template based on arguments
+   passed to the page?
+A: Use your $REQUEST_URI as the cache_id when fetching the page:
+
+   global $REQUEST_URI; // if not already present
+   $smarty->display('index.tpl',$REQUEST_URI);
+
+   This will create a separate cache file for each unique URL when you call
+   index.tpl. See the documentation for display() and fetch()
+
+Q: How do I pass a template variable as a parameter? {function param={$varname}}
+   does not work.
+A: {function param=$varname} (You cannot nest template delimiters.)
+
+Q: How do I include cached template(s) within a non-cached template?
+A: One way to do it:
+
+   $smarty->caching = true;
+   $tpl1 = $smarty->fetch("internal1.tpl");
+   $tpl2 = $smarty->fetch("internal2.tpl");
+   $tpl3 = $smarty->fetch("internal3.tpl");
+
+   $smarty->assign("tpl1_contents",$tpl1);
+   $smarty->assign("tpl2_contents",$tpl2);
+   $smarty->assign("tpl3_contents",$tpl3);
+
+   $smarty->caching = false;
+   $smarty->display('index.tpl');
+
+   index.tpl
+   ---------
+
+   <table>
+           <tr>
+                   <td>{$tpl1_contents}</td>
+                   <td>{$tpl2_contents}</td>
+                   <td>{$tpl3_contents}</td>
+           </tr>
+   </table>
+
+
+
+
+   Another approach:
+
+   You could write a custom insert function to fetch your internal
+   templates:
+
+   <table>
+           <tr>
+                   <td>{insert name=fetch_tpl tpl="internal1.tpl"}</td>
+                   <td>{insert name=fetch_tpl tpl="internal2.tpl"}</td>
+                   <td>{insert name=fetch_tpl tpl="internal3.tpl"}</td>
+           </tr>
+   </table>

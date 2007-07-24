@@ -1,0 +1,20 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Source code for sample1.php</refname>
+  <refpurpose>phpDocumentor for newbies tutorial</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Gregory Beaver
+   <authorblurb>
+    {@link mailto:cellog@php.net cellog@php.net}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ <refsect1 id="{@id source}">
+  <title>sample1.php</title>
+  <para>
+  {@example sample1.php}
+  </para>
+ </refsect1>
+</refentry>

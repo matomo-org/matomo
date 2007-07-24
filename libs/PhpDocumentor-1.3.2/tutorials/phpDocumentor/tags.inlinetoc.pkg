@@ -1,0 +1,90 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>inline {@}toc}</refname>
+  <refpurpose>Display a table of contents of all {@}id}s declared in a file</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.2+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+   <command>{@}toc}</command>
+  </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The inline {@}toc} tag is used as a sub-element of the &lt;refentry&gt; tag to display a table of contents of the current tutorial.  This table of contents is generated directly by a call to {@link Converter::formatTutorialTOC()}.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>This sample tutorial:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+<refentry id="{@}id}">
+ <refnamediv>
+  <refname>{@}}toc} example</refname>
+  <refpurpose>Uses {@}}toc} to generate a table of contents</refpurpose>
+ </refnamediv>
+ {@}toc}
+ <refsect1 id="{@}id one}">
+  <title>First section</title>
+ </refsect1>
+ <refsect1 id="{@}id two}">
+  <title>Second section</title>
+  <refsect2 id="{@}id sub}">
+   <title>Sub-section</title>
+  </refsect2>
+ </refsect1>
+ <refsect1 id="{@}id three}">
+  <title>Third section</title>
+ </refsect1>
+</refentry>
+   ]]>
+   </programlisting>
+  </para>
+  <para>Will parse as if it were</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+<refentry id="{@}id}">
+ <refnamediv>
+  <refname>{@}}toc} example</refname>
+  <refpurpose>Uses {@}}toc} to generate a table of contents</refpurpose>
+ </refnamediv>
+ 
+ <refsect1>
+  <itemizedlist>
+   <listitem><para>{@}tutorial mytutorial#one}</para></listitem>
+   <listitem><para>{@}tutorial mytutorial#two}
+    <itemizedlist>
+     <listitem><para>{@}tutorial mytutorial#two.sub}</para></listitem>
+    </itemizedlist>
+   </para></listitem>
+   <listitem><para>{@}tutorial mytutorial#three}</para></listitem>
+ </refsect1>
+ 
+ <refsect1 id="{@}id one}">
+  <title>First section</title>
+ </refsect1>
+ <refsect1 id="{@}id two}">
+  <title>Second section</title>
+  <refsect2 id="{@}id sub}">
+   <title>Sub-section</title>
+  </refsect2>
+ </refsect1>
+ <refsect1 id="{@}id three}">
+  <title>Third section</title>
+ </refsect1>
+</refentry>
+   ]]>
+   </programlisting>
+  </para>
+  <note>The format of the table of contents is Converter-dependent, and for the converters supplied with phpDocumentor, can be set up through the use of tutorial_toc.tpl in the template for tremendous customization control</note>
+ </refsect1>
+</refentry>

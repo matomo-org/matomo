@@ -1,0 +1,70 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@static</refname>
+  <refpurpose>Document a static class or method</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@static</command>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>Use the @static tag to declare a method or class to be static.  Static elements can be called without reference to an instantiated class variable, as in class::method().</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * example of basic @static usage in a class
+ * Use this if every single method is static
+ * @static
+ */
+class mystaticclass
+{
+   function function1($baz)
+   {
+   ...
+   }
+   
+   function function2()
+   {
+   ...
+   }
+}
+
+/**
+ * example of a class with a single static method
+ */
+class myclass
+{
+   /**
+    * @static
+    */
+   function mystaticfunction()
+   {
+   ...
+   }
+}
+
+// example of usage of static methods
+mystaticclass::function1();
+mystaticclass::function2();
+
+myclass::mystaticfunction();
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

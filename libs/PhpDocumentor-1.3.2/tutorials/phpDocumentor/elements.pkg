@@ -1,0 +1,225 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Documentable PHP Elements</refname>
+  <refpurpose>Elements of PHP source that phpDocumentor can automatically document</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <authorgroup>
+   <author>
+    Joshua Eichorn
+    <authorblurb>
+     {@link mailto:jeichorn@phpdoc.org jeichorn@phpdoc.org}
+    </authorblurb>
+   </author>
+   <author>
+    Gregory Beaver
+    <authorblurb>
+     {@link mailto:cellog@php.net cellog@php.net}
+    </authorblurb>
+   </author>
+  </authorgroup>
+ </refsynopsisdiv>
+ {@toc}
+ <refsect1 id="{@id intro}">
+  <title>Introduction to Documentable Elements</title>
+  <para>phpDocumentor is capable of automatically documenting include statements, define statements, functions, procedural pages, classes, class variables, and class methods.</para>
+ </refsect1>
+ <refsect1 id="{@id procedural}">
+  <title>Procedural Elements</title>
+  <para>From phpDocumentor's perspective, the basic container for procedural elements (as in real life) is the file that contains them.  To reflect this, it is possible to document information about the entire contents of a file.  This is accomplished through the use of a page-level DocBlock (see {@tutorial phpDocumentor.howto.pkg#basics.docblock} for basic information on what a DocBlock is).  A page-level DocBlock is the only DocBlock that cannot precede the element that it is documenting, as there is no way to precede a file.  To solve this issue, the way phpDocumentor finds a page-level DocBlock is to parse the first DocBlock in a file as the page-level DocBlock, with certain conditions.</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+<?php
+/**
+ * Page-level DocBlock
+ */
+define('oops','Page-level DocBlock it is not!');
+?>
+   ]]>
+   </programlisting>
+  </para>
+  <para>This last example has one DocBlock, and it is the first DocBlock in a file, but it is not a Page-level DocBlock.  How can phpDocumentor tell the difference between a Page-level DocBlock and any other DocBlock?  Simple:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+<?php
+/**
+ * Pretend this is a file
+ *
+ * Page-level DocBlock is here because it is the first DocBlock
+ * in the file, and contains a @package tag
+ * @package pagepackage
+ */
+define("almost","Now the Page-level DocBlock is for the page, and the Define has no docblock");?>
+   ]]>
+   </programlisting>
+  </para>
+  <para>In phpDocumentor version 1.2.2, a Page-level DocBlock is the first DocBlock in a file if it contains a {@tutorial tags.package.pkg} tag.  However, this example will raise a warning like <screen>WARNING in test.php on line 8: Page-level DocBlock precedes "define almost", use another DocBlock to document the source element</screen>.  You can eliminate the warning by adding documentation to the define as follows:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+<?php
+/**
+ * Page-level DocBlock
+ * @package pagepackage
+ */
+/**
+ * Define DocBlock
+ */
+define("ahhhh","Now the Page-level DocBlock is for the page, and the Define DocBlock for the define");
+?>
+   ]]>
+   </programlisting>
+  </para>
+  <para>Now, the page has its documentation, and the define has its own documentation.</para>
+  <para>So, a DocBlock is a page-level DocBlock IF AND ONLY IF it is both:
+   <orderedlist>
+    <listitem><para>The first DocBlock in a file</para></listitem>
+    <listitem><para>One of:
+     <unorderedlist>
+      <listitem><para>Contains a {@tutorial tags.package.pkg} tag</para></listitem>
+      <listitem><para>Immediately followed by another DocBlock for any documentable PHP element <emphasis>this is deprecated, always use a @package tag</emphasis></para></listitem>
+     </unorderedlist>
+    </para></listitem>
+   </orderedlist>
+  </para>
+  <para>A Page-level DocBlock may have any of the standard phpDocumentor Tags (see {@tutorial tags.pkg#manual.standard}) plus the following tags:
+   <itemizedlist>
+    <listitem><para>{@tutorial tags.package.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.subpackage.pkg}</para></listitem>
+   </itemizedlist>
+  </para>
+  <caution>phpDocumentor will not document a file like the first example, there must be at least one documentable PHP element in the file.</caution>
+  <refsect2 id="{@id include}">
+   <title>include/require/include_once/require_once statements</title>
+   <para>phpDocumentor extracts the filename and attempts to link to documentation for that filename if possible.  Include statements may only have any of the {@tutorial tags.pkg#manual.standard}</para>
+   <para>phpDocumentor will attempt to locate the included file in the list of files parsed, and if found will make a link to that file's documentation.</para>
+  </refsect2>
+  <refsect2 id="{@id define}">
+   <title>define statements</title>
+   <para>A define statement's DocBlock may have any of the standard phpDocumentor Tags (see {@tutorial tags.pkg#manual.standard}) plus the following tag:
+    <itemizedlist>
+     <listitem><para>{@tutorial tags.name.pkg}</para></listitem>
+    </itemizedlist>
+   </para>
+  </refsect2>
+  <refsect2 id="{@id function}">
+   <title>function declarations</title>
+   <para>A function's DocBlock may have any of the standard phpDocumentor Tags (see {@tutorial tags.pkg#manual.standard}) plus the following tags:
+    <itemizedlist>
+     <listitem><para>{@tutorial tags.global.pkg}</para></listitem>
+     <listitem><para>{@tutorial tags.param.pkg}</para></listitem>
+     <listitem><para>{@tutorial tags.return.pkg}</para></listitem>
+     <listitem><para>{@tutorial tags.staticvar.pkg}</para></listitem>
+     <listitem><para>{@tutorial tags.inlinesource.pkg}</para></listitem>
+    </itemizedlist>
+   </para>
+  </refsect2>
+  <refsect2 id="{@id global}">
+   <title>global variables</title>
+   <para>A global variable's DocBlock may have any of the standard phpDocumentor Tags (see {@tutorial tags.pkg#manual.standard}) plus the following tag:
+    <itemizedlist>
+     <listitem><para>{@tutorial tags.name.pkg}</para></listitem>
+    </itemizedlist>
+    In addition, the global variable's DocBlock <emphasis>must</emphasis> contain the {@tutorial tags.global.pkg} tag.
+   </para>
+  </refsect2>
+ </refsect1>
+ <refsect1 id="{@id class}">
+  <title>Class Elements</title>
+  <para>A class's DocBlock may have any of the standard phpDocumentor Tags (see {@tutorial tags.pkg#manual.standard}) plus the following tags:
+   <itemizedlist>
+    <listitem><para>{@tutorial tags.package.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.subpackage.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.static.pkg}</para></listitem>
+   </itemizedlist>
+  </para>
+  <refsect2 id="{@id inheritance}">
+   <title>DocBlock inheritance</title>
+   <para>New in version 1.2.0, DocBlock's are inherited by child classes, variables, and methods.  There are a few simple rules for inheritance:
+    <itemizedlist>
+     <listitem><para>tags {@tutorial tags.author.pkg}, {@tutorial tags.version.pkg}, and {@tutorial tags.copyright.pkg} are automatically inherited unless explicitly specified in the DocBlock</para></listitem>
+     <listitem><para>As in previous versions, {@tutorial tags.package.pkg} and {@tutorial tags.subpackage.pkg} are inherited unless explicitly specified in the DocBlock.  We recommend that you explicitly use @package and @subpackage for every class to avoid problems with name conflicts that may arise</para></listitem>
+     <listitem><para>If there is no short description, the short description will be inherited.</para></listitem>
+     <listitem><para>If there is no long description, the long description will be inherited.</para></listitem>
+     <listitem><para>If there is a long description, and you still want to inherit the parent's description, use {@tutorial tags.inlineinheritdoc.pkg}</para></listitem>
+    </itemizedlist>
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * short desc
+ *
+ * long desc
+ * @package test
+ * @author me
+ * @version 1.0
+ * @abstract
+ * @copyright never
+ */
+class parclass
+{
+}
+
+// inherits entire DocBlock minus @abstract
+class child1 extends parclass
+{
+}
+
+// inherits DocBlock minus @abtract, short desc
+/**
+ * overriding short desc
+ */
+class child2 extends parclass
+{
+}
+
+// inherits @author, @version, @copyright, @package
+/**
+ * overriding short desc
+ *
+ * overriding long desc
+ */
+class child3 extends parclass
+{
+}
+
+// inherits @version, @copyright, @package
+/**
+ * overriding short desc
+ *
+ * overriding long desc
+ * @author you
+ */
+class child4 extends parclass
+{
+}
+    ]]>
+    </programlisting>
+   </para>
+  </refsect2>
+  <refsect2 id="{@id var}">
+   <title>class variables</title>
+   <para>A class variable's DocBlock may have any of the standard phpDocumentor Tags (see {@tutorial tags.pkg#manual.standard}) plus the following tag:
+    <itemizedlist>
+     <listitem><para>{@tutorial tags.var.pkg}</para></listitem>
+    </itemizedlist>
+   </para>
+  </refsect2>
+  <refsect2 id="{@id method}">
+   <title>class methods</title>
+   <para>A method's DocBlock may have any of the standard phpDocumentor Tags (see {@tutorial tags.pkg#manual.standard}) plus the following tags:
+    <itemizedlist>
+     <listitem><para>{@tutorial tags.global.pkg}</para></listitem>
+     <listitem><para>{@tutorial tags.param.pkg}</para></listitem>
+     <listitem><para>{@tutorial tags.return.pkg}</para></listitem>
+     <listitem><para>{@tutorial tags.static.pkg}</para></listitem>
+     <listitem><para>{@tutorial tags.staticvar.pkg}</para></listitem>
+     <listitem><para>{@tutorial tags.inlinesource.pkg}</para></listitem>
+    </itemizedlist>
+   </para>
+  </refsect2>
+ </refsect1>
+</refentry>

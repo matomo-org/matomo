@@ -1,0 +1,114 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@param</refname>
+  <refpurpose>Document a function parameter</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@param</command>
+    <arg choice="req">
+     <option>datatype</option>
+    </arg>
+    <arg choice="opt">
+     <option>$paramname</option>
+    </arg>
+    <arg choice="opt">
+     <option>description</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>NOTE: as of 0.4.1, @param can document phpdoc.de-style, with optional $paramname</para>
+  <para>datatype should be a valid PHP type or "mixed."  You may document parameters listed or any optional paramters that will be parsed by standard PHP functions func_num_args()/get_func_arg().  Recommended name format for parameters listed with func_get_arg() is:
+   <itemizedlist>
+    <listitem><para><emphasis>$paramname</emphasis> if there is only one parameter</para></listitem>
+    <listitem><para><emphasis>$paramname,...</emphasis> if the number of parameters is unlimited</para></listitem>
+   </itemizedlist>
+  </para>
+  <para>phpDocumentor will display the optional description unmodified</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * example of basic @param usage
+ * @param bool $baz
+ * @return mixed
+ */
+function function1($baz)
+{
+   if ($baz)
+   {
+      $a = 5;
+   } else
+   {
+      $a = array(1,4);
+   }
+   return $a;
+}
+
+class class1
+{
+   /**
+    * example of documenting a method, and using optional description with @return
+    * @return string de-html_entitied string (no entities at all)
+    */
+   function bar($foo)
+   {
+      return strtr($foo,array_flip(get_html_translation_table(HTML_ENTITIES)));
+   }
+}
+
+/**
+ * Example of documenting undetermined function arguments
+ * @param string $foo
+ * @param mixed $foo_desc optional description of foo
+ */
+function function2($foo)
+{
+   echo $foo;
+   if (func_num_args == 2)
+   {
+      echo 'Description: '.func_get_arg(1);
+   }
+}
+
+/**
+ * Example of unlimited parameters.
+ * Returns a formatted var_dump for debugging purposes
+ * @param string $s string to display
+ * @param mixed $v variable to display with var_dump()
+ * @param mixed $v,... unlimited number of additional variables to display with var_dump()
+ */
+function fancy_debug($s,$v)
+{
+   print $s."<blockquote>\n";
+   var_dump($v);
+   if (func_num_args()>2)
+   {
+      for($i=2;$i<func_num_args();$i++)
+      {
+         $a = func_get_arg($i);
+         var_dump($a);
+         print "<br>\n";
+      }
+   }
+   print "</blockquote>\n";
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

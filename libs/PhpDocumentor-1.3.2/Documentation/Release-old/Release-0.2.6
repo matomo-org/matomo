@@ -1,0 +1,73 @@
+PhpDocumentor Version 0.2.6
+################################################################################
+################################################################################
+
+Well I haven't got a chance to start the 0.3.x series.  But that works out the
+best since a new php extension that produces xml using the zend engine as
+surfaced.  At some point this will become a parser for this xml and a front-end
+for running things.  At the moment the extension isn't stable but there some 
+hope for having a really good parse engine built into php somewhere in the 
+php 4.1.x series.
+
+Now onto the changes in the new version.  I've got quite a bit activity from 
+others in the last few months including a patch fixing the rest of the win32
+directory problems by Florian Clever.  There is also a small patch added by
+Gerard CANTEGRIL <CANTEGRIL_Gerard@stna.dgac.fr> that updates the web interface.
+
+Thanks to Dennis Kehrig <TheGeek@web.de> for his new template, to use just 
+add -td templates/l0l33t/ when you run phpdoc.  The template doesn't use tables 
+and has a nice clean look.  Here is Dennis intro to it
+	I have created an alternate template for phpDoc. Because I often used 
+	<UL> and <LI> and did not use <TABLE>, I first thought of Ul-Li-Ta and 
+	therefore of Lolita. And since we are computer geeks, l0l33t@ would be 
+	funny, too ;) So that's the name...
+
+Thanks to Gregory Beaver <cellog at users.sourceforge.net> for all the recent
+bug filing, and patches
+
+Keep the patchs coming its great to see improvments and bug fixes coming from
+someone else.
+
+################################################################################
+
+The following bugs are fixed in version 0.2.6:
+	[ #460180 ] @remarks things
+	[ #460182 ] multiple vars declaration on one line
+	[ #472445 ] error parsing my file
+	[ #511336 ] .php4 files not scanned
+	[ #489398 ] Error displaying default value correctly
+	[ No bug# ] {sdesc} and {desc} showing on procedural pages with no top 
+			of page docblock
+	[ #539593 ] more than 1 @see not parsed right
+	[ #540341 ] BUGFIX '\'whatever' parsed wrong
+	[ #540368 ] BUGFIX } followed by } in class
+	[ #540388 ] BUGFIX } followed by } in class - duplicate
+	[ #489260 ] Function being placed into class
+	[ #519768 ] php4.0.6 gives Warning about array_map
+
+
+	There of course might be a number of other things i fixed but didn't record
+
+Know Issues in version 0.2.6:
+	Procedural code after a class is not documented, there were thrown into
+	the class before I fixed bug #540368 
+	
+
+
+################################################################################
+
+Also if you haven't noticed yet I'm starting to write some documentation the 
+howto is available at http://phpdocu.sourceforge.net/howto.php
+
+The changelog is available in the tarball, or online at 
+http://phpdocu.sourceforge.net/Changelog
+
+You can download the newest version from 
+http://phpdocu.sourceforge.net/downloads.php
+
+And of course you can reach the webpage at http://phpdocu.sourceforge.net/ or 
+http://phpdoc.org/ 
+
+enjoy
+-joshua eichorn
+jeichorn@phpdoc.org

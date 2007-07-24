@@ -1,0 +1,63 @@
+PhpDocumentor Version 0.2.5
+################################################################################
+################################################################################
+
+The focus of this release was mainly bug fixes and new features for handling the 
+which files phpdoc will parse.
+
+hidden directories and files and now ignored by default, there is a command line
+option for changing this behavior if needed
+
+files not to parse can be specified
+directories not to parse can be specified
+Both of these options only work in php 4.0.5 or greater, but everything should
+still work with 4.0.2 or greater, php version 4.0.5 or greater is recommened
+for this verision
+
+The template directory can now be changed allowing for custom templates to be
+used without overwriting files in the templates/default directory
+
+Not all of these options are available through the web-interface, though it was
+updated to allow files and directories to be ignored to be specified
+
+This will be the last 0.2.x release that contains new features, the new 0.3.x
+series will contain new features that i have been putting off, including:
+	XML output
+	Default HTML template that makes more use of css and html4 complaint
+	Alternate HTML template similar to Ulf Wendel's phpdoc
+	Clean up of template class to allow for new features
+	Autogeneration of web interface so that it keeps upto date with cli
+	A web and php-gtk based class browser that uses the xml output files
+	A test framework to use for regression and bug testing
+
+
+################################################################################
+
+The following bugs are fixed in version 0.2.5:
+	[ #441433 ] Escape-Characters in Strings...
+	[ #441778 ] Empty stylesheet.css
+	[ #442011 ] Provide options for skipping directories (partial fix)
+	[ #445305 ] Multi-line desc. for @param not working.
+	[ #443153 ] multiple authors not showing up
+	[ #445298 ] Multiple @see tages not showing up.
+	[ #445820 ] Parser broken on "array" ...
+	 
+
+
+################################################################################
+
+Also if you haven't noticed yet I'm starting to write some documentation the 
+howto is available at http://phpdocu.sourceforge.net/howto.php
+
+The changelog is available in the tarball, or online at 
+http://phpdocu.sourceforge.net/Changelog
+
+You can download the newest version from 
+http://phpdocu.sourceforge.net/downloads.php
+
+And of course you can reach the webpage at http://phpdocu.sourceforge.net/ or 
+http://phpdoc.org/ 
+
+enjoy
+-joshua eichorn
+jeichorn@phpdoc.org

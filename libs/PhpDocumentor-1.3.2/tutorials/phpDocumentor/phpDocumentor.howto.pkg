@@ -1,0 +1,1205 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>{@link http://phpdocu.sourceforge.net phpDocumentor 1.3.2} Tutorial</refname>
+  <refpurpose>An in-depth look at using phpDocumentor to document PHP Source Code, and phpDocumentor internals</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Gregory Beaver
+   <authorblurb>
+    Tutorial written by {@link mailto:cellog@php.net cellog@php.net}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ {@toc}
+ <refsect1 id="{@id intro}">
+   <title>Introduction</title>
+   <para>phpDocumentor is the most advanced automatic documentation system written for PHP, in PHP. This package has many features:</para>
+   <para>
+    <itemizedlist>
+	 <listitem><para><emphasis>NEW</emphasis> The first auto-documentor with PHP 5 support</para></listitem>
+     <listitem><para>Extended documentation in docbook format with linking to any element and to other documentation,
+      including sub-sections, from the source code (see {@tutorial tutorials.pkg})</para></listitem>
+     <listitem><para>docblock templates to cut down on repetition</para></listitem>
+     <listitem><para>XML:DocBook:peardoc2 templates for PEAR developers</para></listitem>
+     <listitem><para>Greater ease of extending a Converter, see {@tutorial Converters/Converters.pkg}</para></listitem>
+     <listitem><para>ability to parse any PHP file, regardless of documentation format</para></listitem>
+     <listitem><para>conforms loosely to the {@link http://java.sun.com/docs/books/jls/first_edition/html/18.doc.html JavaDOC protocol},
+     and will be familiar to Java programmers</para></listitem>
+     <listitem><para>documents all includes, constants, functions, static functions, classes,
+      methods, static variables, class variables, and can document global variables and
+      external tutorials</para></listitem>
+     <listitem><para>auto-linking to pre-defined PHP functions</para></listitem>
+     <listitem><para>Output in HTML, CHM, PDF, XML DocBook formats</para></listitem>
+     <listitem><para>templateable with many bundled templates</para></listitem>
+     <listitem><para>automatic linking to elements in any documented package</para></listitem>
+     <listitem><para>documents name conflicts between packages to help avoid PHP errors</para></listitem>
+     <listitem><para>document CVS repository directly.</para></listitem>
+     <listitem><para>support for JavaDoc doclet-like output through Converters</para></listitem>
+     <listitem><para>error/warning tracking system</para></listitem>
+     <listitem><para>extreme class intelligence: inherits documentation, package</para></listitem>
+     <listitem><para>complete phpdoc.de DocBlock tag support.  Additions include @var, @magic, @deprec, @todo, and phpdoc.de parsing of @param.</para></listitem>
+     <listitem><para>alphabetical indexing of all elements by package and overall</para></listitem>
+     <listitem><para>class trees</para></listitem>
+     <listitem><para>MUCH more than just this short list</para></listitem>
+    </itemizedlist>
+   </para>
+ </refsect1>
+ <refsect1 id="{@id basics}">
+  <title>phpDocumentor Basics</title>
+  <refsect2 id="{@id starting}">
+   <title>Starting Out From Scratch</title>
+   <para>The documentation process begins with the most basic element of phpDocumentor: a
+    <emphasis>Documentation block </emphasis> or <emphasis>DocBlock</emphasis>. A basic
+    DocBlock looks like this:
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ *
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para>A DocBlock is an extended C++-style PHP comment that begins with &quot;/**&quot; and has
+    an &quot;*&quot; at the beginning of every line.  DocBlocks precede the element they are documenting.
+   </para>
+   <caution>Any line within a DocBlock that doesn't begin with a * will be ignored.</caution>
+   <para>To document function &quot;foo()&quot;, place the DocBlock immediately before the function declaration:</para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * Defies imagination, extends boundaries and saves the world ...all before breakfast!
+ */
+function foo()
+{
+}
+    ]]>
+    </programlisting>
+   </para>
+   <para>This example will apply the DocBlock to &quot;define('me',2);&quot; instead of to &quot;function foo()&quot;:
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * DocBlock for function foo?
+ *
+ * No, this will be for the constant me!
+ */
+define('me',2);
+function foo($param = me)
+{
+}
+   ]]>
+   </programlisting>
+   </para>
+   <para>define() statements, functions, classes, class methods, and class vars, include()
+    statements, and global variables can all be documented, see
+    {@tutorial phpDocumentor.howto.pkg#documenting.elements}
+   </para>
+  </refsect2>
+  <refsect2 id="{@id docblock}">
+   <title>DocBlocks</title>
+   <para>A DocBlock contains three basic segments in this order:</para>
+   <para>
+    <itemizedlist>
+     <listitem><para>Short Description</para></listitem>
+     <listitem><para>Long Description</para></listitem>
+     <listitem><para>Tags</para></listitem>
+    </itemizedlist>
+   </para>
+   <para>The Short Description starts on the first line, and can be terminated with a blank line
+    or a period. A period inside a word (like example.com or 0.1 %) is ignored. If the Short
+    Description would become more than three lines long, only the first line is taken. The Long
+    Description continues for as many lines as desired and may contain html markup for display
+    formatting.  Here is a sample DocBlock with a Short and a Long Description:
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * return the date of Easter
+ * 
+ * Using the formula from "Formulas that are way too complicated for anyone to 
+ * ever understand except for me" by Irwin Nerdy, this function calculates the 
+ * date of Easter given a date in the Ancient Mayan Calendar, if you can also
+ * guess the birthday of the author.
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para>Optionally, you may enclose all paragraphs in a &lt;p&gt;&lt;/p&gt; tag.  Be careful,
+    if the first paragraph does not begin with &lt;p&gt;, phpDocumentor will assume that the
+    DocBlock is using the simple double linebreak to define paragraph breaks as in:
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * Short desc
+ *
+ * Long description first sentence starts here
+ * and continues on this line for a while
+ * finally concluding here at the end of
+ * this paragraph
+ *
+ * The blank line above denotes a paragraph break
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para>Here is an example of using &lt;p&gt;</para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * Short desc
+ *
+ * <p>Long description first sentence starts here
+ * and continues on this line for a while
+ * finally concluding here at the end of
+ * this paragraph</p>
+ * This text is completely ignored! it is not enclosed in p tags
+ * <p>This is a new paragraph</p>
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para>phpDocumentor also supports JavaDoc's DocBlock format through the command-line
+    option {@tutorial phpDocumentor.howto.pkg#using.command-line.javadocdesc}.  Due to
+    the non-xhtml compliant unmatched p tag, we highly recommend you avoid this syntax
+    whenever possible
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * <p>
+ * Short desc is only to the first period.
+ * This means a sentence like:
+ * "Parses Mr./Mrs. out of $_GET." will
+ * parse a short description of "Parses Mr."
+ * which is rather silly.  Long description is
+ * the entire DocBlock description including the
+ * Short desc, and paragraphs begin where p is like:
+ * <p>
+ * The p above denotes a paragraph break
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para>phpDocumentor will convert all whitespace into a single space in the
+    long description, use paragraph breaks to define newlines, or &lt;pre&gt;,
+    as discussed in the next section.</para>
+  </refsect2>
+  <refsect2 id="{@id desc}">
+   <title>DocBlock Description details</title>
+   <para>As of phpDocumentor 1.2.0, the long and short description of a DocBlock
+    is parsed for a few select html tags that determine additional formatting.  Due
+    to the nature of phpDocumentor's output as multiple-format, straight html is not
+    allowed in a DocBlock, and will be converted into plain text by all of the
+    converters unless it is one of these tags:
+    <itemizedlist>
+     <listitem><para>&lt;b&gt; -- emphasize/bold text</para></listitem>
+     <listitem><para>&lt;code&gt; -- Use this to surround php code, some converters will highlight it</para></listitem>
+     <listitem><para>&lt;br&gt; -- hard line break, may be ignored by some converters</para></listitem>
+     <listitem><para>&lt;i&gt; -- italicize/mark as important</para></listitem>
+     <listitem><para>&lt;kbd&gt; -- denote keyboard input/screen display</para></listitem>
+     <listitem><para>&lt;li&gt; -- list item</para></listitem>
+     <listitem><para>&lt;ol&gt; -- ordered list</para></listitem>
+     <listitem><para>&lt;p&gt; -- If used to enclose all paragraphs, otherwise it will be considered text</para></listitem>
+     <listitem><para>&lt;pre&gt; -- Preserve line breaks and spacing, and assume all tags are text (like XML's CDATA)</para></listitem>
+     <listitem><para>&lt;samp&gt; -- denote sample or examples (non-php)</para></listitem>
+     <listitem><para>&lt;ul&gt; -- unordered list</para></listitem>
+     <listitem><para>&lt;var&gt; -- denote a variable name</para></listitem>
+    </itemizedlist>
+    Do not think of these tags as text, they are parsed into objects and converted
+    into the appropriate output format by the converter.  So, a b tag may become
+    &lt;emphasis&gt; in DocBook, and a &lt;p&gt; tag might become <![CDATA["    "]]> (4 spaces)
+    in the PDF converter!  The text output is determined by the template options file
+    options.ini found in the base directory of every template.  For instance, the
+    options.ini file for the HTML:frames:default template is in
+    phpDocumentor/Converters/HTML/frames/templates/default/options.ini
+   </para>
+   <para>For the rare case when the text &quot;&lt;b&gt;&quot; is needed in a DocBlock,
+    use a double delimiter as in &lt;&lt;b&gt;&gt;.  phpDocumentor will automatically
+    translate that to the physical text &quot;&lt;b&gt;&quot;.
+   </para>
+   <note>
+    <title>Using &lt;code&gt; and &lt;pre&gt;</title>
+    Both &lt;code&gt; and &lt;pre&gt; ignore any html listed above except for their
+    closing tags &lt;/code&gt; for &lt;code&gt; and &lt;/pre&gt; for &lt;pre&gt;
+   </note>
+   <para><emphasis>New 1.2.0rc1:</emphasis> If you need to use the closing comment &quot;*/&quot;
+    in a DocBlock, use the special escape sequence &quot;{@*}.&quot;  Here's an example:
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * Simple DocBlock with a code example containing a docblock
+ *
+ * <code>
+ *  /**
+ *   * My sample DocBlock in code
+ *   {@}*}
+ * </code>
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para>This will parse as if it were:</para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * Simple DocBlock with a code example containing a docblock
+ *
+ * <code>
+ *  /**
+ *   * My sample DocBlock in code
+ *   */
+ * </code>
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para><emphasis>New 1.2.0rc1:</emphasis> The phpEdit tool supports very clever list
+    extraction from DocBlocks, and now phpDocumentor supports the same cleverness.  This example:
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * Simple DocBlock with simple lists
+ *
+ * Here's a simple list:
+ * - item 1
+ * - item 2, this one
+ *   is multi-line
+ * - item 3
+ * end of list.  Next list is ordered
+ * 1 ordered item 1
+ * 2 ordered item 2
+ * end of list. This is also ordered:
+ * 1. ordered item 1
+ * 2. ordered item 2
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para>phpDocumentor recognizes any simple list that begins with &quot;-&quot;,
+    &quot;+&quot;, &quot;#&quot; and &quot;o&quot;, and any ordered list with
+    sequential numbers or numbers followed by &quot;.&quot; as above.  The list
+    delimiter must be followed by a space (not a tab!) and whitespace must line
+    up exactly, or phpDocumentor will not recognize the list items as being in
+    the same list.
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * Simple DocBlock with screwy lists
+ *
+ * +not a list at all, no space
+ * Here's 3 lists!
+ * - item 1
+ *  - item 2, this one
+ *   is multi-line
+ *- item 3
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para>Again, you must line up the list iterators in the same vertical column
+     in order for those list items to be considered &quot;on the same list&quot;.
+     Also, you cannot create nested lists using the simple list iterators...
+     doing so means it's no longer a &quot;simple&quot; list!  Varying the spacing
+     of the list iterators does not create nesting of the lists... it only starts up
+     new simple lists.  If you specifically need a nested list, you must use the list
+     tags (&lt;ol&gt;, &lt;ul&gt;):
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * DocBlock with nested lists
+ *
+ * Here's the "complex" list:
+ * <ul>
+ * <li>outer item 1</li>
+ * <li>outer item 2, this one
+ *   is multi-line</li>
+ * <li>item 3 is a nested inner list
+ * <ul>
+ * <li>inner item 1</li>
+ * <li>inner item 2</li>
+ * </ul>
+ * <li>outer item 4</li>
+ * </ul>
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para>In some cases, the text description in a doc tag can contain a list, be it simple
+     or complex.  Notice that a title line is needed, with the list items themselves 
+     beginning on the next line:
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * DocBlock with nested lists
+ * in the tag descriptions
+ * @todo My Simple TODO List
+ *    - item 1
+ *    - item 2
+ *    - item 3
+ * @todo My Complex TODO List
+ *    <ol>
+ *      <li>item 1.0</li>
+ *      <li>item 2.0</li>
+ *      <li>item 3.0</li>
+ *        <ol>
+ *          <li>item 3.1</li>
+ *          <li>item 3.2</li>
+ *        </ol>
+ *      <li>item 4.0</li>
+ *    </ol>
+ */
+    ]]>
+    </programlisting>
+   </para>
+   <para>Tagged lists are always a more robust and predictable option for you to
+     use.  Simple lists are convenient, but if you find yourself trying to bend
+     a simple list into displaying a certain way in your generated docs, you may
+     be better served by switching to a tagged list instead.
+   </para>
+   <para>For in-depth information on how phpDocumentor parses the description
+    field, see {@link ParserDescCleanup.inc}
+   </para>
+  </refsect2>
+  <refsect2 id="{@id docblocktemplate}">
+   <title>DocBlock Templates</title>
+   <para>New for version 1.2.0, phpDocumentor supports the use of DocBlock
+    templates.  The purpose of a DocBlock template is to reduce redundant
+    typing.  For instance, if a large number of class variables are private,
+    one would use a DocBlock template to mark them as private.  DocBlock templates
+    simply augment any normal DocBlocks found in the template block.
+   </para>
+   <para>A DocBlock template is distinguished from a normal DocBlock by its header.
+    Here is the most basic DocBlock template:
+   </para>
+   <para>
+    <programlisting role="php">
+     <![CDATA[
+/**#@+
+ *
+ */
+     ]]>
+    </programlisting>
+   </para>
+   <para>The text that marks this as a DocBlock template is &quot;/**#@+&quot;
+    - all 6 characters must be present.  DocBlock templates are applied to all
+    documentable elements until the ending template marker:
+   </para>
+   <para>
+    <programlisting role="php">
+     <![CDATA[
+/**#@-*/
+     ]]>
+    </programlisting>
+   </para>
+   <para>Note that all 8 characters must appear as &quot;/**#@-*/&quot; in order
+    for phpDocumentor to recognize them as a template.  Here is an example of a
+    DocBlock template in action:
+   </para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+class Bob
+{
+    // beginning of docblock template area
+    /**#@+
+     * @access private
+     * @var string
+     */
+    var $_var1 = 'hello';
+    var $_var2 = 'my';
+    var $_var3 = 'name';
+    var $_var4 = 'is';
+    var $_var5 = 'Bob';
+    var $_var6 = 'and';
+    var $_var7 = 'I';
+    /**
+     * Two words
+     */
+    var $_var8 = 'like strings';
+    /**#@-*/
+    var $publicvar = 'Lookee me!';
+}
+    ]]>
+    </programlisting>
+   </para>
+   <para>This example will parse as if it were:</para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+class Bob
+{
+    // beginning of docblock template area
+    /**
+     * @access private
+     * @var string
+     */
+    var $_var1 = 'hello';
+    /**
+     * @access private
+     * @var string
+     */
+    var $_var2 = 'my';
+    /**
+     * @access private
+     * @var string
+     */
+    var $_var3 = 'name';
+    /**
+     * @access private
+     * @var string
+     */
+    var $_var4 = 'is';
+    /**
+     * @access private
+     * @var string
+     */
+    var $_var5 = 'Bob';
+    /**
+     * @access private
+     * @var string
+     */
+    var $_var6 = 'and';
+    /**
+     * @access private
+     * @var string
+     */
+    var $_var7 = 'I';
+    /**
+     * Two words
+     * @access private
+     * @var string
+     */
+    var $_var8 = 'like strings';
+    var $publicvar = 'Lookee me!';
+}
+    ]]>
+    </programlisting>
+   </para>
+   <para>Note that for <varname>$_var8</varname> the DocBlock template merged
+    with the DocBlock.  The rules for merging are simple:
+    <itemizedlist>
+     <listitem><para>The long description of the docblock template is added to
+      the front of the long description.  The short description is ignored.
+     </para></listitem>
+     <listitem><para>All tags are merged from the docblock template</para></listitem>
+    </itemizedlist>
+   </para>
+  </refsect2>
+  <refsect2 id="{@id tags}">
+   <title>Tags</title>
+   <para>Tags are single words prefixed by a &quot;@&quot; symbol.  Tags inform
+    phpDocumentor how to present information and modify display of documentation.
+    All tags are optional, but if you use a tag, they do have specific requirements
+    to parse properly.
+   </para>
+   <para>A list of all possible tags in phpDocumentor follows:</para>
+   <para>
+    <programlisting role="php">
+    <![CDATA[
+/**
+ * The short description
+ *
+ * As many lines of extendend description as you want {@}link element}
+ * links to an element
+ * {@}link http://www.example.com Example hyperlink inline link} links to
+ * a website. The inline
+ * source tag displays function source code in the description:
+ * {@}source}
+ * 
+ * In addition, in version 1.2+ one can link to extended documentation like this
+ * documentation using {@}tutorial phpDocumentor/phpDocumentor.howto.pkg}
+ * In a method/class var, {@}inheritdoc may be used to copy documentation from
+ * the parent method
+ * {@internal
+ * This paragraph explains very detailed information that will only
+ * be of use to advanced developers, and can contain
+ * {@}link http://www.example.com Other inline links!} as well as text}}
+ *
+ * Here are the tags:
+ *
+ * @abstract
+ * @access       public or private
+ * @author       author name <author@email>
+ * @copyright    name date
+ * @deprecated   description
+ * @deprec       alias for deprecated
+ * @example      /path/to/example
+ * @exception    Javadoc-compatible, use as needed
+ * @global       type $globalvarname
+   or
+ * @global       type description of global variable usage in a function
+ * @ignore
+ * @internal     private information for advanced developers only
+ * @param        type [$varname] description
+ * @return       type description
+ * @link         URL
+ * @name         procpagealias
+   or
+ * @name         $globalvaralias
+ * @magic        phpdoc.de compatibility
+ * @package      package name
+ * @see          name of another element that can be documented,
+ *               produces a link to it in the documentation
+ * @since        a version or a date
+ * @static
+ * @staticvar    type description of static variable usage in a function
+ * @subpackage	sub package name, groupings inside of a project
+ * @throws       Javadoc-compatible, use as needed
+ * @todo         phpdoc.de compatibility
+ * @var		type	a data type for a class variable
+ * @version	version
+ */
+function if_there_is_an_inline_source_tag_this_must_be_a_function()
+{
+// ...
+}
+    ]]>
+    </programlisting>
+   </para>
+   <para>In addition, tutorials allow two addition inline tags: {@}id}, used to
+    allow direct linking to sections in a tutorial, and {@}toc}, used to generate
+    a table of contents from {@}id}s in the file.  Think of {@}id} like an &lt;a
+    name=&quot;idname&quot;&gt; HTML tag, it serves the same function.
+   </para>
+   <para>See {@tutorial tags.inlineid.pkg} and {@tutorial tags.inlinetoc.pkg} for
+    detailed information
+   </para>
+   <para>In the example below, {@}id} is used to name the refsect1 "mysection"
+    and the refsect2 "mysection.mysubsection" - note that the sub-sections inherit
+    the parent section's id.
+   </para>
+   <para>
+    <example role="xml">
+    <![CDATA[
+<refentry id="{@}id}">
+ <refsect1 id="{@}id mysection}">
+  <refsect2 id="{@}id mysubsection}">
+  </refsect2>
+ </refsect1>
+</refentry>
+    ]]>
+    </example>
+   </para>
+   <para>For an in-depth look at phpDocumentor tags, read {@tutorial tags.pkg},
+    and for an in-depth look at inline tags, read {@tutorial inlinetags.pkg}.
+   </para>
+  </refsect2>
+ </refsect1>
+ <refsect1 id="{@id documenting}">
+  <title>Documenting your PHP project</title>
+  <refsect2 id="{@id intro}">
+   <title>Where to begin</title>
+   <para>Before you begin documenting your PHP project, you might want to try
+    a test run on your undocumented source code to see what kind of information
+    phpDocumentor will automatically extract from the source code.  phpDocumentor
+    is designed to make the task of documenting minimally redundant.  This means
+    less work, and better, up-to-date documentation with less effort than it used
+    to take.
+   </para>
+   <caution>phpDocumentor is a great tool, but it will not write good documentation
+    for you.  Please read the {@tutorial phpDocumentor.pkg}
+   </caution>
+  </refsect2>
+  <refsect2 id="{@id elements}">
+   <title>Elements of the source code that can be documented</title>
+   <refsect3 id="{@id packages}">
+    <title>Dividing projects into packages</title>
+    <para>To understand the role of packages and how to use {@tutorial tags.package.pkg},
+     it is important to know the logic behind packaging in PHP.  The quest for structured
+     programming led to the invention of functions, then classes, and finally packages.
+     Traditionally, a re-usable software module was a collection of variables, constants
+     and functions that could be used by another software package.  PHP is an example of
+     this model, as their are many extensions that consist of constants and functions like
+     the tokenizer extension.  One can think of the tokenizer extension as a package: it
+     is a complete set of data, variables and functions that can be used in other programs.
+     A more structured format of this model is of course objects, or classes.  A class
+     contains variables and functions (but no constants in PHP).  A single class packages
+     together related functions and variables to be re-used.
+    </para>
+    <para>phpDocumentor defines package in two ways:
+     <orderedlist>
+      <listitem><para>Functions, Constants and Global Variables are grouped into files
+       (by the filesystem), which are in turn grouped into packages using the @package
+       tag in a page-level DocBlock
+      </para></listitem>
+      <listitem><para>Methods and Class Variables are grouped into classes (by PH),
+       which are in turn grouped into packages in a Class DocBlock
+      </para></listitem>
+     </orderedlist>
+     These two definitions of package are exclusive.  In other words, it is possible
+     to have classes of a different package of the file that contains it!  Here's an example:
+    </para>
+    <caution>It may be possible, but don't put classes into a different package from the
+     file they reside in, that will be very confusing and unnecessary.  This behavior is
+     deprecated, in version 2.0, phpDocumentor will halt parsing upon this condition.
+    </caution>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+<?php
+/**
+ * Pretend this is a file
+ *
+ * Page-level DocBlock is here because it is the first DocBlock
+ * in the file, and is immediately followed by the second
+ * DocBlock before any documentable element is declared
+ * (function, define, class, global variable, include)
+ * @package pagepackage
+ */
+/**
+ * Here is the class DocBlock
+ *
+ * The class package is different from the page package!
+ * @package classpackage
+ */
+class myclass
+{
+}
+?>
+     ]]>
+     </programlisting>
+    </para>
+    <para>For more information on page-level versus class-level packaging, see {@tutorial elements.pkg#procedural}</para>
+    <para>Perhaps the best way to organize packages is to put all procedural code
+     into separate files from classes.  {@link http://pear.php.net PEAR} recommends
+     putting every class into a separate file.  For small, utility classes, this may
+     not be the best solution for all cases, but it is still best to separate packages
+     into different files for consistency.
+    </para>
+   </refsect3>
+  </refsect2>
+  <refsect2 id="{@id tutorials}">
+   <title>Advanced phpDocumentor: tutorials and extended Documentation</title>
+   <para>phpDocumentor developers have received a number of requests to allow linking
+    to external documentation, and to sections of that documentation.  If phpDocumentor
+    only could create HTML documents, this would be a simple task, but the presence of
+    PDF and now XML converters as well as future possibilities complicates this question
+    tremendously.  What is the solution?
+   </para>
+   <para>Give phpDocumentor the ability to parse external documentation in a common format
+    and then convert it to the appropriate format for each converter.  The implementation
+    of this solution in version 1.2.0 is very versatile.  Making use of the standard DocBook
+    XML format, external documentation can be designed and then reformatted for any output.
+    No longer is external documentation tied down to one &quot;look.&quot;  Here's a short
+    list of the benefits of this approach:
+   </para>
+   <para>
+    Benefits of using DocBook as the format:
+    <itemizedlist>
+     <listitem><para>DocBook is very similar to HTML at the basic level and very
+      easy to learn.
+     </para></listitem>
+     <listitem><para>Each template has its own options.ini file which determines
+      how the DocBook tags will be translated into the output language - no need
+      to learn xslt.
+     </para></listitem>
+     <listitem><para>Adding in xslt support will be very easy to allow for future
+      customization
+     </para></listitem>
+    </itemizedlist>
+    Benefits of integrating tutorials/external documentation into phpDocumentor:
+    <itemizedlist>
+     <listitem><para>Linking to external documentation from within API docs is possible</para></listitem>
+     <listitem><para>Linking to API docs from external documentation is also possible</para></listitem>
+     <listitem><para>Customizable table of contents, both of all tutorials and within
+      a tutorial via {@tutorial tags.inlinetoc.pkg}
+     </para></listitem>
+     <listitem><para>It is possible to create User-level documentation that has direct
+      access to Programmer-level documentation
+     </para></listitem>
+    </itemizedlist>
+   </para>
+   <para>User-level documentation generally consists of tutorials and information on how
+    to use a package, and avoids extreme detail.  On the other hand, programmer-level
+    documentation has all the details a programmer needs to extend and modify a package.
+    phpDocumentor has been assisting the creation of programmer-level documentation since
+    its inception.  With the addition of tutorials, it can now ease the creation of user-level
+    documentation.
+   </para>
+   <para>For an in-depth look at how to use tutorials, read {@tutorial tutorials.pkg}</para>
+  </refsect2>
+ </refsect1>
+ <refsect1 id="{@id using}">
+  <title>Running phpDocumentor</title>
+  <para>There are two bundled ways of invoking phpDocumentor, the command-line phpdoc,
+   or the web interface phpdoc.php/new_phpdoc.php.
+  </para>
+  <refsect2 id="{@id docbuilder}">
+   <title>Using the new Web Interface docbuilder</title>
+   <para>The new web interface requires a working installation of PHP with a web server,
+    and must be accessible from the document root.  Docbuilder is the creation of Andrew
+    Eddies, and it combines some slick formatting with the functionality of the old web
+    interface.  The docbuilder interface can be accessed via index.html in the install
+    directory of phpDocumentor, or the docbuilder subdirectory.
+   </para>
+  </refsect2>
+  <refsect2 id="{@id web}">
+   <title>Using the old Web Interface {@link phpdoc.php} or {@link new_phpdoc.php}</title>
+   <para>In order to use the web interface, there are a number of factors that must
+    be set up before anything else can occur.  First, you need a working web server
+    with php (it had to be said).  This manual will not assist with that setup.  Next,
+    the phpdoc.php or new_phpdoc.php file needs to be accessible by the webserver.  In
+    unix, place a symbolic link using ln -s to the desired interface into the public
+    html directory.
+   </para>
+   <caution>Security is always an issue with the internet.  Do not place phpDocumentor
+    into the web server publicly available path on a server connected to the internet.
+    Make sure that phpDocumentor will not have the power to overwrite <emphasis>ANY</emphasis>
+    system or user files.
+   </caution>
+   <para>Note that since the webserver runs as user nobody in unix, the generated files
+    will be owned by nobody.  The only way to change this is to either run phpDocumentor
+    from the command-line or to add a chuser wrapper around httpd.  <emphasis>We do not
+    recommend using a chuser wrapper or running phpDocumentor as root.</emphasis>  It is
+    much easier and safer to use a config file (see {@tutorial phpDocumentor.howto.pkg#using.config-files})
+    from the command line.
+   </para>
+  </refsect2>
+  <refsect2 id="{@id command-line}">
+   <title>Using the Command-line tool</title>
+   <refsect3 id="{@id windows}">
+    <title>Running the command-line in MS Windows</title>
+    <para>Running phpDocumentor from the command-line is fairly straightforward, even in
+     windows.  It is recommended to use the web interface in windows, from a non-publicly
+     accessible server root, as none of the permissions issues exist that exist in unix.
+     However, to use phpDocumentor from the command line is possible.  First, put the
+     location of php into the system path, then type:
+    </para>
+    <para>
+     <screen>
+<![CDATA[
+C:\>php-cli C:\path\to\phpdoc\phpdoc [commandline]
+]]>
+     </screen>
+    </para>
+    <para>An alternative is to edit the phpdoc.bat file, and place phpdoc in the path,
+     then you can run phpdoc as a normal command.
+    </para>
+   </refsect3>
+   <refsect3 id="{@id unix}">
+    <title>Running the command-line in unix</title>
+    <para>Running the command-line tool phpdoc is very easy in unix:</para>
+     <screen>
+<![CDATA[
+.\phpdoc [commandline]
+]]>
+     </screen>
+   </refsect3>
+   <table frame="all" id="{@id summary}">
+    <tgroup cols="3">
+     <thead align="center">
+      <row>
+       <entry morerows="2">
+        <emphasis>Command-line switches</emphasis>
+       </entry>
+      </row>
+     </thead>
+    <tbody>
+     <row>
+      <entry>-cp</entry>
+      <entry>--converterparams</entry>
+      <entry>dynamic parameters for a converter, separate values with commas</entry>
+     </row>
+     <row>
+      <entry>-ct</entry>
+      <entry>--customtags</entry>
+      <entry>comma-separated list of non-standard @tags to pass to the converter as valid tags</entry>
+     </row>
+     <row>
+      <entry>-d</entry>
+      <entry>--directory</entry>
+      <entry>name of a directory(s) to parse directory1,directory2</entry>
+     </row>
+  	 <row>
+      <entry>-dc</entry>
+      <entry>--defaultcategoryname</entry>
+      <entry>name to use for the default category.  If not specified, uses 'default'</entry>
+     </row>
+     <row>
+      <entry>-dh</entry>
+      <entry>--hidden</entry>
+      <entry>set equal to on (-dh on) to descend into hidden directories (directories
+       starting with '.'), default is off
+      </entry>
+     </row>
+  	 <row>
+      <entry>-dn</entry>
+      <entry>--defaultpackagename</entry>
+      <entry>name to use for the default package.  If not specified, uses 'default'</entry>
+     </row>
+     <row>
+      <entry>-ed</entry>
+      <entry>--examplesdir</entry>
+      <entry>full path of the directory to look for example files from @example tags</entry>
+     </row>
+     <row>
+      <entry>-f</entry>
+      <entry>--filename</entry>
+      <entry>name of file(s) to parse ',' file1,file2.  Can contain complete path and * ? wildcards</entry>
+     </row>
+     <row>
+      <entry>-i</entry>
+      <entry>--ignore</entry>
+      <entry>file(s) that will be ignored, multiple separated by ','.  Wildcards * and ? are ok</entry>
+     </row>
+     <row>
+      <entry>-it</entry>
+      <entry>--ignore-tags</entry>
+      <entry>tags to ignore for this parse.  @package, @subpackage, @access and @ignore may not be ignored.</entry>
+     </row>
+     <row>
+      <entry>-j</entry>
+      <entry>--javadocdesc</entry>
+      <entry>use JavaDoc-compliant description (short desc is part of description, and is everything up to first .)</entry>
+     </row>
+     <row>
+      <entry>-o</entry>
+      <entry>--output</entry>
+      <entry>output information, format:converter:template (HTML:frames:phpedit for example)</entry>
+     </row>
+     <row>
+      <entry>-p</entry>
+      <entry>--pear</entry>
+      <entry>Parse a PEAR-style repository (package is directory, _members are @access private) on/off default off</entry>
+     </row>
+     <row>
+      <entry>-po</entry>
+      <entry>--packageoutput</entry>
+      <entry>output documentation only for selected packages.  Use a comma-delimited list</entry>
+     </row>
+     <row>
+      <entry>-pp</entry>
+      <entry>--parseprivate</entry>
+      <entry>parse elements marked private with @access.  Valid options are &quot;on&quot;
+       and &quot;offn&quot; default value is &quot;off&quot;
+      </entry>
+     </row>
+     <row>
+      <entry>-q</entry>
+      <entry>--quiet</entry>
+      <entry>do not display parsing/conversion messages.  Useful for cron jobs</entry>
+     </row>
+     <row>
+      <entry>-ric</entry>
+      <entry>--readmeinstallchangelog</entry>
+      <entry>Specify custom filenames to parse like README, INSTALL or CHANGELOG files</entry>
+     </row>
+     <row>
+      <entry>-s</entry>
+      <entry>--sourcecode</entry>
+      <entry>generate highlighted sourcecode for every parsed file (PHP 4.3.0+ only) on/off default off</entry>
+     </row>
+     <row>
+      <entry>-t</entry>
+      <entry>--target</entry>
+      <entry>path where to save the generated files</entry>
+     </row>
+     <row>
+      <entry>-ti</entry>
+      <entry>--title</entry>
+      <entry>title of generated documentation, default is 'Generated Documentation'</entry>
+     </row>
+     <row>
+      <entry>-tb</entry>
+      <entry>--templatebase</entry>
+      <entry>base location of all templates for this parse.  Note that if -tb /path/to/here, then
+       templates for HTML:frames:default must be in /path/to/here/Converters/HTML/frames/templates/default/templates
+       and the /path/to/here/Converters/HTML/frames/templates/default/templates_c directory must
+       exist, or Smarty will bail on attempting to compile the templates.
+      </entry>
+     </row>
+    </tbody>
+    </tgroup>
+   </table>
+   <refsect3 id="{@id config}">
+    <title>-c, --config</title>
+    <para>Use this option to load a config file (see {@tutorial phpDocumentor.howto.pkg#using.config-files})</para>
+    <para>&quot;phpdoc -c default&quot; will load the default.ini file</para>
+   </refsect3>
+   <refsect3 id="{@id converterparams}">
+    <title>-cp, --converterparams</title>
+    <para>This option is only used to pass dynamic parameters to extended converters.  The options
+     passed should be separated by commas, and are placed in the global variable
+     <varname>$_phpDocumentor_setting['converterparams']</varname>, an array.  It is the
+     responsibility of the Converter to access this variable, the code included with phpDocumentor 
+     does nothing with it.
+    </para>
+   </refsect3>
+   <refsect3 id="{@id customtags}">
+    <title>-ct, --customtags</title>
+    <para>Use this option to specify tags that should be included in the list of valid tags for
+     the current run of phpdoc
+    </para>
+    <para>&quot;phpdoc -ct mytag,anothertag&quot; will tell phpDocumentor to parse this DocBlock:</para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+/**
+ * @mytag this is my tag
+ * @anothertag this is another tag
+ */
+     ]]>
+     </programlisting>
+    </para>
+    <para>without raising any errors, and include the tags in the known tags list for the
+     template to handle.  Note that in version 1.2.0+, the unknown_tags array is passed to templates.
+    </para>
+   </refsect3>
+   <refsect3 id="{@id defaultcategoryname}">
+    <title>-dn, --defaultcategoryname</title>
+    <para>This will tell phpDocumentor to group any uncategorized elements into the primary
+     categoryname.  If not specified, the primary category is &quot;default.&quot;  The
+     category should be specified using the {@tutorial tags.category.pkg} tag.
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+/**
+ * This package has no category and will be grouped into the default
+ * category unless -dc categoryname is used
+ * @package mypackage
+ */
+class nocategory
+{
+}
+     ]]>
+     </programlisting>
+    </para>
+   </refsect3>
+   <refsect3 id="{@id defaultpackagename}">
+    <title>-dn, --defaultpackagename</title>
+    <para>Use this option to tell phpDocumentor what the primary package's name is.  This will also tell phpDocumentor to group any unpackaged elements into the primary packagename.  If not specified, the primary package is &quot;default&quot;</para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+/**
+ * This class has no package and will be grouped into the default
+ * package unless -dn packagename is used
+ */
+class nopackage
+{
+}
+     ]]>
+     </programlisting>
+    </para>
+   </refsect3>
+   <refsect3 id="{@id directory}">
+    <title>-d, --directory</title>
+    <para>This or the -f option must be present, either on the command-line or in the config file.</para>
+    <para>Unlike -f, -d does not accept wildcards.  Use -d to specify full paths or relative paths to the current directory that phpDocumentor should recursively search for documentable files.  phpDocumentor will search through all subdirectories of any directory in the command-line list for tutorials/ and any files that have valid .php extensions as defined in phpDocumentor.ini.  For example:</para>
+    <para>&quot;phpdoc -d relative/path/to/dir1,/fullpath/to/here,..&quot;</para>
+   </refsect3>
+   <refsect3 id="{@id examplesdir}">
+    <title>-ed, --examplesdir</title>
+    <para>The -ed option is used to specify the full path to a directory that example files are located in.  This command-line setting affects the output of the {@tutorial tags.example.pkg} tag.</para>
+    <para>&quot;phpdoc -ed /fullpath/to/examples&quot;</para>
+   </refsect3>
+   <refsect3 id="{@id filename}">
+    <title>-f, --filename</title>
+    <para>This or the -d option must be present, either on the command-line or in the config file.</para>
+    <para>This option is used to specify individual files or expressions with wildcards * and ?.  Use * to match any string, and ? to match any single character.</para>
+    <para>
+     <itemizedlist>
+      <listitem><para>phpdoc -f m*.p* will match myfile.php, mary_who.isthat.phtml, etc.</para></listitem>
+      <listitem><para>phpdoc -f /path/m* will match /path/my/files/here.php, /path/mommy.php /path/mucho/grande/what.doc, etc.</para></listitem>
+      <listitem><para>phpdoc -f file?.php will match file1.php, file2.php and will not match file10.php</para></listitem>
+     </itemizedlist>
+    </para>
+   </refsect3>
+   <refsect3 id="{@id hidden}">
+    <title>-h, --hidden</title>
+    <para>Use this option to tell phpDocumentor to parse files that begin with a period (.)</para>
+   </refsect3>
+   <refsect3 id="{@id ignore}">
+    <title>-i, --ignore</title>
+    <para>Use the -i option to exclude files and directories from parsing.  The -i option recognizes the * and ? wildcards, like -f does.  In addition, it is possible to ignore a subdirectory of any directory using &quot;dirname/&quot;</para>
+    <para>
+     <itemizedlist>
+      <listitem><para>phpdoc -i tests/ will ignore /path/to/here/tests/* and /path/tests/*</para></listitem>
+      <listitem><para>phpdoc -i *.inc will ignore all .inc files</para></listitem>
+      <listitem><para>phpdoc -i *path/to/* will ignore /path/path/to/my/* as well as /path/to/*</para></listitem>
+      <listitem><para>phpdoc -i *test* will ignore /path/tests/* and /path/here/my_test.php</para></listitem>
+     </itemizedlist>
+    </para>
+   </refsect3>
+   <refsect3 id="{@id ignore-tags}">
+    <title>-it, --ignore-tags</title>
+    <para>Use the -it option to exclude specific tags from output.  This is used for creating multiple sets of documentation for different audiences.  For instance, to generate documentation for end-users, it may not be desired to output all @todo tags, so --ignore-tags @todo would be used.  To ignore inline tags, surround them with brackets {} like --ignore-tags {@internal}.</para>
+    <para>--ignore-tags will not ignore the core tags @global, @access, @package, @ignore, @name, @param, @return, @staticvar or @var.</para>
+    <caution>The --ignore-tags option requires a full tag name like --ignore-tags @todo.  --ignore-tags todo will not work.</caution>
+   </refsect3>
+   <refsect3 id="{@id javadocdesc}">
+    <title>-j, --javadocdesc</title>
+    <para>Use this command-line option to enforce strict compliance with JavaDoc.  JavaDoc DocBlocks are much less flexible than phpDocumentor's DocBlocks (see {@tutorial phpDocumentor.howto.pkg#basics.docblock} for information).</para>
+   </refsect3>
+   <refsect3 id="{@id output}">
+    <title>-o, --output</title>
+    <para>Use this required option to tell phpDocumentor which Converters and templates to use.  In this release, there are several choices:
+     <itemizedlist>
+      <listitem><para>HTML:frames:* - output is HTML with frames.
+       <itemizedlist>
+        <listitem><para>HTML:frames:default - JavaDoc-like template, very plain, minimal formatting</para></listitem>
+        <listitem><para>HTML:frames:earthli - BEAUTIFUL template written by Marco von Ballmoos</para></listitem>
+        <listitem><para>HTML:frames:l0l33t - Stylish template</para></listitem>
+        <listitem><para>HTML:frames:phpdoc.de - Similar to phpdoc.de's PHPDoc output</para></listitem>
+        <listitem><para>HTML:frames:phphtmllib - Very nice user-contributed template</para></listitem>
+        <listitem><para>all of the templates listed above are also available with javascripted expandable indexes, as HTML:frames:DOM/name where name is default, l0l33t, phpdoc.de, etcetera</para></listitem>
+        <listitem><para>HTML:frames:phpedit - Based on output from {@link http://www.phpedit.net PHPEdit} Help Generator</para></listitem>
+       </itemizedlist>
+      </para></listitem>
+      <listitem><para>HTML:Smarty:* - output is HTML with no frames.
+       <itemizedlist>
+        <listitem><para>HTML:Smarty:default - Bold template design using css to control layout</para></listitem>
+        <listitem><para>HTML:Smarty:HandS - Layout is based on PHP, but more refined, with logo image</para></listitem>
+        <listitem><para>HTML:Smarty:PHP - Layout is identical to the PHP website</para></listitem>
+       </itemizedlist>
+      </para></listitem>
+      <listitem><para>CHM:default:* - output is CHM, compiled help file format (Windows help).
+       <itemizedlist>
+        <listitem><para>CHM:default:default - Windows help file, based on HTML:frames:l0l33t</para></listitem>
+       </itemizedlist>
+      </para></listitem>
+      <listitem><para>PDF:default:* - output is PDF, Adobe Acrobat format
+       <itemizedlist>
+        <listitem><para>PDF:default:default - standard, plain PDF formatting</para></listitem>
+       </itemizedlist>
+      </para></listitem>
+      <listitem><para>XML:DocBook:* - output is XML, in DocBook format
+       <itemizedlist>
+        <listitem><para>XML:DocBook/peardoc2:default - documentation ready for compiling into peardoc for online pear.php.net documentation, 2nd revision</para></listitem>
+       </itemizedlist>
+      </para></listitem>
+     </itemizedlist>
+    </para>
+    <para>In 1.2.0+, it is possible to generate output for several converters and/or templates at once.  Simply specify a comma-delimited list of output:converter:template like:
+    </para>
+    <para>
+     <screen>phpdoc -o HTML:frames:default,HTML:Smarty:PHP,HTML:frames:phpedit,PDF:default:default -t ./docs -d .</screen>
+    </para>
+   </refsect3>
+   <refsect3 id="{@id parseprivate}">
+    <title>-pp, --parseprivate</title>
+    <para>By default, phpDocumentor does not create documentation for any elements marked {@tutorial tags.access.pkg} private.  This allows creation of end-user API docs that filter out low-level information that will not be useful to most developers using your code.  To create complete documentation of all elements, use this command-line option to turn on parsing of elements marked private with @access private.</para>
+   </refsect3>
+   <refsect3 id="{@id packageoutput}">
+    <title>-po, --packageoutput</title>
+    <para>Use this option to remove all elements grouped by {@tutorial tags.package.pkg} tags in a comma-delimited list from output.  This option is useful for projects that are not organized into separate files for each package.  Parsing speed is not affected by this option, use {@tutorial phpDocumentor.howto.pkg#using.command-line.ignore} whenever possible instead of --packageoutput.</para>
+    <para>
+     <screen>phpdoc -o HTML:frames:default -t ./docs -d . -po mypackage,thatotherpackage</screen> will only display documentation for elements marked with &quot;@package mypackage&quot; or &quot;@package thatotherpackage&quot;
+    </para>
+   </refsect3>
+   <refsect3 id="{@id pear}">
+    <title>-p, --pear</title>
+    <para>Use this option to parse a {@link http://pear.php.net PEAR}-style repository.  phpDocumentor will do several &quot;smart&quot; things to make life easier:
+     <itemizedlist>
+      <listitem><para>PEAR-style destructors are automatically parsed</para></listitem>
+      <listitem><para>If no @package tag is present in a file or class DocBlock, it will guess the package based on subdirectory</para></listitem>
+      <listitem><para>If a variable or method name begins with &quot;_&quot;, it will be assumed to be {@tutorial tags.access.pkg} private, unless an @access tag is present.  Constructors are also assumed to be @access private in the current version.</para></listitem>
+     </itemizedlist>
+     <note>
+      <title>@access and @package should always be explicit!</title>
+      <para>Warnings will be raised for every case above, as @package should always be explicit, as should @access private.  We do not like to assume that phpDocumentor knows better than you what to do with your code, and so will always require explicit usage or raise warnings if phpDocumentor does make any assumptions.</para>
+     </note>
+    </para>
+   </refsect3>
+   <refsect3 id="{@id quiet}">
+    <title>-q, --quiet</title>
+    <para>This option tells phpDocumentor to suppress output of parsing/conversion information to the console.  Use this for cron jobs or other situations where human intervention will not be needed.</para>
+   </refsect3>
+   <refsect3 id="{@id readmeinstallchangelog}">
+    <title>-ric, --readmeinstallchangelog</title>
+    <para>This comma-separated list of files specifies files that should be parsed and included in the
+    documentation.  phpDocumentor will automatically grab files listed here if and only if they are located
+    in the top-level directory that is parsed.  In other words, if you parse these files:</para>
+    <para>
+     <itemizedlist>
+      <listitem><simpara>/path/to/files/file1.php</simpara></listitem>
+      <listitem><simpara>/path/to/files/file2.php</simpara></listitem>
+      <listitem><simpara>/path/to/files/README</simpara></listitem>
+      <listitem><simpara>/path/to/files/subdir/file2.php</simpara></listitem>
+      <listitem><simpara>/path/to/files/subdir/README</simpara></listitem>
+     </itemizedlist>
+    </para>
+    <para>
+     The only README file that will be grabbed is /path/to/files/README, and not /path/to/files/subdir/REAMDE,
+     because the directory that is closest to the root directory that contains a parsed file is /path/to/files.
+    </para>
+    <para>
+     The default list of files is located in phpDocumentor.ini, which is found in the root installation directory
+     of phpDocumentor.
+    </para>
+   </refsect3>
+   <refsect3 id="{@id sourcecode}">
+    <title>-s, --sourcecode</title>
+    <para>This option tells phpDocumentor to generate highlighted cross-referenced source code for every file parsed.  The highlighting code is somewhat unstable, so use this option at your own risk.</para>
+   </refsect3>
+   <refsect3 id="{@id target}">
+    <title>-t, --target</title>
+    <para>Use this to tell phpDocumentor where to put generated documentation.  Legal values are paths that phpDocumentor will have write access and directory creation priveleges.</para>
+   </refsect3>
+   <refsect3 id="{@id templatebase}">
+    <title>-tb, --templatebase</title>
+    <para>-tb accepts a single pathname as its parameter.  The default value of -tb if unspecified is &lt;phpDocumentor install directory&gt;/phpDocumentor.  This raises a very important point to understand.  The -tb command-line is designed to tell phpDocumentor to look for <emphasis>all</emphasis> templates for all converters in subdirectories of the path specified.  By default, templates are located in a special subdirectory structure.</para>
+    <para>For the hypothetical outputformat:convertername:templatename {@tutorial phpDocumentor.howto.pkg#using.command-line.output} argument, the directory structure is Converters/outputformat/convertname/templates/templatename/.  In addition, Smarty expects to find two subdirectories, templates/ (containing the Smarty template files) and templates_c/ (which will contain the compiled template files).</para>
+    <para>&quot;phpdoc -tb ~/phpdoctemplates -o HTML:frames:default&quot; will only work if the directory ~/phpdoctemplates/Converters/HTML/frames/default/templates contains all the template files, and ~/phpdoctemplates/Converters/HTML/frames/default/templates_c exists.</para>
+   </refsect3>
+   <refsect3 id="{@id title}">
+    <title>-ti, --title</title>
+    <para>Set the global title of the generated documentation</para>
+   </refsect3>
+  </refsect2>
+  <refsect2 id="{@id config-files}">
+   <title>phpDocumentor's dynamic User-defined config files</title>
+   <para>The new {@tutorial phpDocumentor.howto.pkg#using.command-line.config} command-line options heralds a new era of ease in using phpDocumentor.  What used to require:</para>
+   <para>
+    <screen>
+    <![CDATA[
+phpdoc -t /path/to/output -d path/to/directory1,/another/path,/third/path\
+-f /path/to/anotherfile.php -i *test.php,tests/ -pp on -ti My Title -o HTML:frames:phpedit
+    ]]>
+    </screen>
+   </para>
+   <para>Can now be done in a single stroke!</para>
+   <para>
+    <screen>
+    <![CDATA[
+phpdoc -c myconfig
+    ]]>
+    </screen>
+   </para>
+   <para>What makes this all possible is the use of config files that contain all of the command-line information.  There are two configuration files included in the distribution of phpDocumentor, and both are in the user/ subdirectory.  To use a configuration file &quot;myconfig.ini,&quot; simply place it in the user directory, and the command-line &quot;phpdoc -c myconfig&quot; will tell phpDocumentor to read all the command-line settings from that config file.  Configuration files may also be placed in another directory, just specify the full path to the configuration file:</para>
+   <para>
+    <screen>
+    <![CDATA[
+phpdoc -c /full/path/to/myconfig.ini
+    ]]>
+    </screen>
+   </para>
+   <para>The best way to ensure your config file matches the format expected by phpDocumentor is to copy the default.ini config file, and modify it to match your needs.  Lines that begin with a semi-colon (;) are ignored, and can be used for comments.</para>
+  </refsect2>
+  <refsect2 id="{@id phpdocumentorini}">
+   <title>phpDocumentor.ini - global configuration options</title>
+   <para>The phpDocumentor.ini file contains several useful options, most of which will never need to be changed.  However, some are useful.  The section [_phpDocumentor_options] contains several configuration settings that may be changed to enhance output documentation.  For Program Location, the relative path is specified as Program_Root/relativepath/to/file.  The prefix &quot;Program_Root&quot; may be changed to any text, including none at all, or &quot;Include &quot;, etc.  The [_phpDocumentor_setting] section can be used to specify a config file that should be used by default, so phpDocumentor may be run without any command-line arguments whatsoever!  The [_phpDocumentor_phpfile_exts] section tells phpDocumentor which file extensions are php files, add any non-standard extensions, such as &quot;class&quot; to this section.</para>
+  </refsect2>
+ </refsect1>
+</refentry>

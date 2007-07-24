@@ -1,0 +1,187 @@
+################################################################################
+				phpDocumentor Frequently Asked Questions
+
+################################################################################
+Introduction
+################################################################################
+
+Before we start with questions and their answers, make sure to read the
+documentation *thoroughly* found at http://www.phpdoc.org/manual.php.  The
+complexity of phpDocumentor can be a bit impenetrable until you understand the
+logic behind it.
+
+If you have read the documentation thoroughly, and have read this FAQ and you
+are still lost, please go directly to the bug database at
+http://sourceforge.net/tracker/?group_id=11194&atid=111194 and read through the
+open bugs.  If you don't find the solution to your problem (or proof that it
+at least is not your fault), then go to the help forum and post a help message
+at http://sourceforge.net/forum/forum.php?forum_id=35065.
+
+################################################################################
+All Questions (Table of Contents)
+################################################################################
+Installation
+ Q: There is no package.xml in the release, where is it?
+Documentation Errors
+ Q: I keep getting an illegal package tag error for the first DocBlock in a file,
+    isn't this a page-level DocBlock?
+ Q: I keep getting a warning that there is no @package tag in file xxx.php, but
+    there is a @package tag in the class definition, doesn't this apply to the
+    file?
+Feature Requests
+ Q: Can you implement the @example tag inline so that I can put PHP source code
+    examples directly in DocBlocks?
+Crash/Segfaults
+ Q: phpDocumentor crashes if I use __FUNCTION__!!!
+ 
+################################################################################
+Installation
+################################################################################
+
+Q: There is no package.xml in the release, where is it?
+
+A: this problem occurs when one does the faulty steps of:
+
+$ tar xvf PhpDocumentor-1.3.1.tgz
+$ pear install package.xml
+
+   instead, the user should simply run:
+
+$ pear install PhpDocumentor-1.3.1.tgz
+
+   or, if the zlib extension is not enabled:
+
+$ gunzip PhpDocumentor-1.3.1.tgz
+$ pear install PhpDocumentor-1.3.1.tar
+
+################################################################################
+Documentation Errors
+################################################################################
+
+Q: I keep getting an illegal package tag error for the first DocBlock in a file,
+   isn't this a page-level DocBlock?
+
+---
+---[[UPDATE]]
+---VERSION 1.2.2 has a different page-level docblock recognition algorithm
+---Now, the first docblock in a file is a page-level docblock if it contains
+---a @package tag.
+---
+A: Please read the documentation very carefully.  A page-level DocBlock does
+   occur at the start of a file, but the first DocBlock is not always a
+   page-level DocBlock!  Why is this?  Very often, you will want to document
+   the entire page, or describe it (this page contains functions for blah), and
+   also document the first item in a page separately.  An example:
+   
+   <?php
+   /**
+   * This file contains all foobar functions and defines
+   * @package mypackage
+   */
+   /**
+   * controls parsing of bar information
+   */
+   define('parse_bar',true);
+   ?>
+   
+   The page has its own information, and the define has its own information.
+   An example of what not to do:
+   
+   <?php
+   /**
+   * This file contains all foobar functions and defines
+   * @package mypackage
+   */
+   define('parse_bar',true);
+   ?>
+   
+   Here, the DocBlock belongs to the define and not to the page!  phpDocumentor
+   can successfully parse this DocBlock, but it will apply the comment to the
+   documentation of define('parse_bar',true); and not to the page.  Therefore,
+   it warns you that your @package tag will be ignored because defines may not
+   contain a @package tag.
+
+Q: I keep getting a warning that there is no @package tag in file xxx.php, but
+   there is a @package tag in the class definition, doesn't this apply to the
+   file?
+
+A: No.  This example does not have a page-level DocBlock:
+
+   <?php
+   /**
+   * This class is in package mypackage
+   * @package mypackage
+   */
+   class in_mypackage {...}
+   ?>
+   
+   phpDocumentor therefore assumes the page-level package is the same as the
+   class package, mypackage.  This is fine in most cases, but if multiple
+   classes are in the same file with different packages, as in:
+
+   <?php
+   /**
+   * This class is in package mypackage
+   * @package mypackage
+   */
+   class in_mypackage {...}
+   /**
+   * This class is in package anotherpackage
+   * @package anotherpackage
+   */
+   class in_anotherpackage {...}
+   ?>
+   
+   There is no way to determine which package the page should belong to, and
+   phpDocumentor will automatically put it in the default package.  This can
+   cause incredible headaches debugging, and so we have added a warning in the
+   1.2.0 series that informs you if the package is inferred by phpDocumentor.
+   To fix this warning, simply place a page-level DocBlock with a @package tag
+   like:
+
+   <?php
+   /**
+   * This file contains two packages
+   * @package filepackage
+   */
+   /**
+   * This class is in package mypackage
+   * @package mypackage
+   */
+   class in_mypackage {...}
+   /**
+   * This class is in package anotherpackage
+   * @package anotherpackage
+   */
+   class in_anotherpackage {...}
+   ?>
+################################################################################
+Feature Requests
+################################################################################
+Q: Can you implement the @example tag inline so that I can put PHP source code
+   examples directly in DocBlocks?
+
+A: This is implemented using the HTML <code></code> tags as in:
+
+   /**
+    * Short description
+    *
+    * Start of long description, here is a code example:
+    * <code>
+    *  $my_phpcode = "easy to explain";
+    * </code>
+    * More text
+    * <code>
+    *  define('morecode',true);
+    * </code>
+    */
+################################################################################
+Crash/Segfaults
+################################################################################
+Q: phpDocumentor crashes if I use __FUNCTION__!!!
+
+A: This is caused by a known bug in all PHP versions prior to 4.3.2.  It was
+   fixed in PHP 4.3.2RC1, you must upgrade to PHP 4.3.2 if you use __FUNCTION__
+   in code that you wish to document (sorry!) or apply the bugfix patch to the
+   tokenizer extension and recompile php (see the php.internals archive at
+   php.net for help)

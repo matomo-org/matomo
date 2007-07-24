@@ -1,0 +1,49 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@todo</refname>
+  <refpurpose>Document changes that will be made in the future</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.0+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@todo</command>
+    <arg choice="req">
+     <option>information string [unspecified format]</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>Use @todo to document planned changes to an element that have not been implemented.  phpDocumentor will display the information string unaltered.</para>
+  <para>The @todo tag may be used to document future changes to almost any element that can be documented (global variable, constant, function, define, class, variable, method, page).  <emphasis>Since v1.3.0,</emphasis> @todo can no longer be used on an "include" element.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Page-level DocBlock
+ * @package unfinished
+ * @todo finish the functions on this page
+ */
+/**
+ * function datafunction
+ * @todo make it do something
+ */
+function datafunction()
+{
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

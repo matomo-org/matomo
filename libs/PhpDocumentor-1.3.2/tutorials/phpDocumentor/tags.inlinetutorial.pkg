@@ -1,0 +1,108 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>inline {@}tutorial}</refname>
+  <refpurpose>Display a link to a tutorial in the the flow of descriptive text</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.2+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+   <command>{@}tutorial</command>
+    <arg choice="opt"><option>package/</option></arg>
+    <arg choice="opt"><option>subpackage/</option></arg>
+    <arg choice="req">tutorialname.ext</arg>
+    <arg choice="opt">#section<arg choice="opt"><option>.subsection</option></arg></arg>
+    <arg choice="opt"><option>description</option></arg>
+	<arg choice="plain">}</arg>
+   <command>}</command>
+  </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The inline {@}tutorial} tag is used in any context to link to the documentation for a tutorial.</para>
+  <caution>inline {@}tutorial} displays links directly in the natural text flow of a DocBlock.  If you want to display links to a tutorial prominently after descriptive text, use {@tutorial tags.tutorial.pkg}</caution>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>The inline {@}tutorial} differs from ordinary non-inline tags.  Inline tags parse and display their output directly in the documentation.  In other words, this DocBlock:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Text with a normal @tutorial tag
+ * @tutorial phpDocumentor/phpDocumentor.pkg
+ */
+function element()
+{
+}
+   ]]>
+   </programlisting>
+  </para>
+  <para>Parses as (with -o HTML:frames:default):</para>
+  <para>
+   <example role="html">
+   <![CDATA[
+<H3>element</H3>
+<P><B>element ( )</B></P>
+<!-- ========== Info from phpDoc block ========= -->
+<b></b>
+<pre>
+Text with a normal @tutorial tag
+</pre>
+<DL>
+	<DT>Function Parameters:</DT>
+	
+
+	<DT>Function Info:</DT>
+	<DD><b>Tutorial</b> - <CODE><a href="../phpDocumentor/tutorial_phpDocumentor.pkg.html">phpDocumentor 1.2.2 Tutorial</a></CODE></DD>
+	
+</DL>
+
+<HR>
+   ]]>
+   </example>
+  </para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Text with an inline link to {@}tutorial phpDocumentor/phpDocumentor.pkg} displays
+ * without a break in the flow
+ */
+function element()
+{
+}
+   ]]>
+   </programlisting>
+  </para>
+  <para>Parses as (with -o HTML:frames:default):</para>
+  <para>
+   <example role="html">
+   <![CDATA[
+<H3>element</H3>
+<P><B>element ( )</B></P>
+<!-- ========== Info from phpDoc block ========= -->
+<b></b>
+<pre>
+Text with an an inline link to <a href="../phpDocumentor/tutorial_phpDocumentor.pkg.html">phpDocumentor 1.2.2 Tutorial</a> displays without a break in the flow
+</pre>
+<DL>
+	<DT>Function Parameters:</DT>
+	
+
+	<DT>Function Info:</DT>
+	
+</DL>
+
+<HR>
+   ]]>
+   </example>
+  </para>
+ </refsect1>
+</refentry>

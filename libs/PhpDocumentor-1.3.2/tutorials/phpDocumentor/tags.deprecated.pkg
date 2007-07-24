@@ -1,0 +1,51 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@deprecated</refname>
+  <refpurpose>Document elements that have been deprecated and should not be used as they may be removed at any time from a future version</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+   <command>@deprecated</command>
+   <arg choice="opt"><option>version/info string</option></arg>
+  </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The @deprecated tag is used to document the deprecation version or other information of any element that can be documented except for page (global variable, include, constant, function, define, class, variable, method).  If present, phpDocumentor will display the optional version/info string unaltered.</para>
+  <para>Use @deprecated to notify users of deprecated elements that should not be used any longer</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * @deprecated deprecated since version 2.0
+ */
+function uselessfunction()
+{
+...
+}
+
+/**
+ * also legal
+ * @deprecated
+ */
+class stupidclass
+{
+...
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

@@ -1,0 +1,75 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>inline {@}id}</refname>
+  <refpurpose>Used to control XML tutorial ids in refsects</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.2+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>{@}id</command>
+    <arg choice="opt"><option>sectionname</option>
+    </arg>
+    <command>}</command>
+  </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The {@}id} inline tag is used only in tutorials/extended documentation.  It is very simply designed to solve the problem of identifying sections for hyperlinking.  For instance, in the DocBook Converter, id's are in the format package.packagename[.subpackagename].file[.sectionname], where file is either the classname, function/method name, or summary.  In the other Converters, the id is not nearly as restrictive, but this inline tag allows for the potential of future converters that are equally exacting.  Use <![CDATA[<refsect1 id="{@}id idname}">]]> in the tutorial (tutorialname.pkg/tutorialname.cls/tutorialname.proc) to do this.</para>
+ <para>The {@}id} tag is context-sensitive, and will pre-pend the id of the current refsect1, refsect2, or refsect3 to any {@}id}, allowing further error control.</para>
+ <caution>The sectionname may only consist of <emphasis>lower-case</emphasis> letters, numbers, and hyphens "-."  No other characters are allowed</caution>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <para>Here is an example of how {@}id} must be used</para>
+  <para>
+   <programlisting role="tutorial">
+   <![CDATA[
+<refentry id="{@}id}">
+ <refnamediv>
+  <refname>Main Title</refname>
+  <refpurpose>Description of tutorial</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+  </refsynopsisdivinfo>
+ </refsynopsisdiv>
+ <refsect1 id="{@}id section}">
+  <title>First Section Title</title>
+  <para>
+   Note that the id parameter must be within quotes
+   and there must be no whitespace on either side.
+   id=&quot;  {@}id section}&quot; will break the id parsing
+  </para>
+  <para>
+   This section's name is 
+   &quot;packagesubpackagetutorial.ext.section&quot; by default.
+   The HTML/CHM converters name it &quot;section,&quot; the XML
+   converter names it &quot;package.subpackage.tutorial-ext.section&quot;
+  </para>
+  <refsect2 id="{@}id subsection}">
+   <title>Subsection Title</title>
+   <para>
+    This section inherit's the refsect1's id, and is named
+    &quot;packagesubpackagetutorial.ext.section.subsection&quot; or
+    &quot;section.subsection&quot; for HTML/CHM, and
+    &quot;package.subpackage.tutorial-ext.section.subsection&quot; in XML
+   </para>
+  </refsect2>
+ </refsect1>
+</refentry>
+   ]]>
+   </programlisting>
+   
+  </para>
+ </refsect1>
+</refentry>

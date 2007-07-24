@@ -1,0 +1,45 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@license</refname>
+  <refpurpose>Display a hyperlink to a URL for a license</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.2+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@license</command>
+    <arg choice="req">
+     <option>URL</option>
+    </arg>
+    <arg choice="req">
+     <option>name of license</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>You may use the @license tag to document any element (include, page, class, function, define, method, variable)</para>
+  <para>URL is any valid Uniform Resource Locator that points to the full text of a license.  The description for the license is optional</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Displays <a href="http://opensource.org/licenses/gpl-license.php">GNU Public License</a>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+class opensource_class {...}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

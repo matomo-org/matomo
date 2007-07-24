@@ -1,0 +1,50 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@since</refname>
+  <refpurpose>Document when (at which version) an element was first added to a package</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@since</command>
+    <arg choice="req">
+     <option>version/info string [unspecified format]</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The @since tag may be used to document the release version of any element that can be documented (global variable, include, constant, function, define, class, variable, method, page).  phpDocumentor will display the version/info string unaltered.</para>
+  <para>Use @since to document revisions, as in "This function has been a part of this package since version 2.0"</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Page-level DocBlock
+ * @package BigImportantProjectWithLotsofVersions
+ * @version 72.5
+ */
+/**
+ * function datafunction
+ * @since Version 21.1
+ */
+function datafunction()
+{
+...
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

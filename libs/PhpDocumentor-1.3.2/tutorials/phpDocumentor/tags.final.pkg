@@ -1,0 +1,53 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@final</refname>
+  <refpurpose>Document a class method that should never be overridden in a child class</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.2+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@final</command>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>Use the @final tag to declare a method that cannot be overridden in a child class.</para>
+  <warning>The @final tag is only valid in PHP 4, PHP 5 has a keyword final.</warning>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * example of basic @final usage in a class
+ */
+class myclass
+{
+   /**
+    * function1 should never be overridden
+    * @final
+    */
+   function function1($baz)
+   {
+   ...
+   }
+   
+   function function2()
+   {
+   ...
+   }
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>
