@@ -1,0 +1,73 @@
+PhpDocumentor Version 0.4.0	The BETA Release
+################################################################################
+################################################################################
+
+With this release were into the beta cycle.  All important features are there
+and there shouldn't be any big bugs left.  Were of course always looking for
+great new features and bug fixes, keep up the support.
+
+Thanks to Gregory Beaver <cellog@users.sourceforge.net> for all his help on
+making this release possible.  He will be gone until late May so development
+will slow down for a bit, but don't worry 1.0 will be released before he gets 
+back.
+
+In 0.4.1 im planing on updating to template engine to somethign with a couple
+more features.  This will change the basic syntax for loops and includes,
+I will provide documentation so anyone who has custom templates should be able
+to make a quick update to the new engine.  Also if you have a custom template
+and you think others would enjoy email it to me, or post it on the SF site
+and i'll include it in the main release.
+
+################################################################################
+
+The following bugs are fixed in version 0.4.0:
+	[ 541890 ] Non default templates out of date
+	[ 542586 ] @access private shouldn't document
+	[ 541283 ] needs htmlspecialchars
+	[ 541900 ] Some PHP echo syntax not covered
+	[ 541899 ] Javascript functions documented as PHP
+	[ 541893 ] Web interface should be index.php
+	[ 542348 ] function links currently by page
+	[ 542349 ] constants indexed incorrectly in CVS
+	[ 541887 ] Should work at E_ALL
+	[ 542223 ] parsing of defines breaks
+	[ 541891 ] @package for procedural pages
+	[ 460181 ] Links into comments
+	[ 541892 ] Update Howto
+	[ 541889 ] file extensions should be easy to change
+	[ 540795 ] default globals
+	[ 527252 ] multiple classes in a single file
+	[ 489259 ] Nav Frame Dups
+	[ 445299 ] @see values not being linked. (Really in 0.3.0)
+
+There of course were other small bugs fixed, these were just the bugs with 
+entries in source forge.  You can view the bug details or reopen it if
+you think its not totaly fixed at:
+http://sourceforge.net/tracker/?group_id=11194&atid=111194
+
+Just change the filters to see all Bugs.
+
+Features added that had Feature Request entries in SF:
+	[ 541895 ] Create a PHPDOC spec
+	[ 541905 ] Global Package Page
+	[ 541898 ] Parse Packages into individual directori
+	[ 441435 ] Class hierarchy
+	[ 541901 ] Use first @package for procedural (wont implement)
+
+################################################################################
+
+The documentation has been updated for this release you can view it at
+http://phpdocu.sourceforge.net/howto.php
+
+The changelog is available in the tarball, or online at 
+http://phpdocu.sourceforge.net/Changelog
+
+You can download the newest version from 
+http://phpdocu.sourceforge.net/downloads.php
+
+And of course you can reach the webpage at http://phpdocu.sourceforge.net/ or 
+http://phpdoc.org/ 
+
+enjoy
+-joshua eichorn
+jeichorn@phpdoc.org

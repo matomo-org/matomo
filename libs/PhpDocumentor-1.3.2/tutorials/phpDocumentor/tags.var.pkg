@@ -1,0 +1,57 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@var</refname>
+  <refpurpose>Document the data type of a class variable</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.4.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@var</command>
+    <arg choice="req">
+     <option>datatype</option>
+    </arg>
+	<arg choice="opt">
+	 <option>description</option>
+	</arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+   <para>You may use the @var tag to document the data type of class variables.</para>
+   <para>datatype should be a valid PHP type or "mixed."  phpDocumentor will display the optional description unmodified, and defaults to "mixed" if the datatype is not present</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+class class1
+{
+   /**
+    * example of documenting a variable's type
+    * @var string
+    */
+   var $variable;
+   /**
+    * example of documenting a variable's type
+    * @var string contains {@link class1} information
+    */
+   var $variable_with_desc;
+   /**
+    * this variable is documented as type "mixed" since no @var tag is present
+    */
+   var $mixed_variable;
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

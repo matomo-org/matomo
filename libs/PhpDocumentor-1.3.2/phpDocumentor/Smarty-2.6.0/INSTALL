@@ -1,0 +1,29 @@
+REQUIREMENTS:
+
+Smarty requires PHP 4.0.6 or later.
+See the on-line documentation for complete install instructions.
+
+INSTALLATION (quick):
+
+* copy the files under the libs/ directory to a directory that is in your PHP
+  include_path, or set the SMARTY_DIR constant and put them in this directory.
+  (if you upgrade from versions before 2.5.0 be aware that up to Smarty 2.4.2
+  all necessary files where in the distribution's root directory, but are now
+  in libs/.)
+
+* for each application using Smarty, create a "templates", "configs", and a
+  "templates_c" directory, be sure to set the appropriate directory settings in
+  Smarty for them. If they are located in the same directory as your
+  application, they shouldn't need to be modified. Be sure the "templates_c"
+  directory is writable by your web server user (usually nobody). chown
+  nobody:nobody templates_c; chmod 700 templates_c You can also chmod 777 this
+  directory, but be aware of security issues for multi-user systems. If you are
+  using Smarty's built-in caching, create a "cache" directory and also chown
+  nobody:nobody.
+
+* setup your php and template files. A good working example is in the on-line
+  documentation.
+
+* TECHNICAL NOTE: If you do not have access to the php.ini file, you can change
+  non-server settings (such as your include_path) with the ini_set() command.
+  example: ini_set("include_path",".:/usr/local/lib/php");

@@ -1,0 +1,356 @@
+$Id: Release-1.2.1,v 1.1 2005/10/17 18:36:51 jeichorn Exp $
+
+PhpDocumentor Version 1.2.0 RELEASE CANDIDATE 2
+################################################################################
+http://www.phpdoc.org
+Joshua Eichorn jeichorn@phpdoc.org
+Gregory Beaver cellog@users.sourceforge.net
+################################################################################
+################################################################################
+
+The phpDocumentor team would like to announce the release of phpDocumentor
+1.2.1.  This is a bugfix maintenance release.
+
+Note that the license of phpDocumentor 1.2.1 is different from phpDocumentor 1.1.0.
+phpDocumentor 1.2.1 is under the PHP License version 3.0, full text is in
+PHPLICENSE.txt
+
+for PEAR programmers, the new --pear command-line switch will be a boon.  Leave
+it on by default if your package follows PEAR coding and directory naming standards
+
+------
+IMPORTANT: phpDocumentor 1.2.1 requires PHP version 4.1.0 or greater.
+phpDocumentor will function best with PHP version 4.3.0 or greater, as it will
+use of the tokenizer extension if php 4.3.0 is installed for a tremendous
+increase in parsing speed.
+------
+
+phpDocumentor is a JavaDoc-like automatic documentation generator for PHP
+written in PHP.  It is the most versatile tool for documenting PHP.
+
+Once again, phpDocumentor brings a great increase in usability with the 1.2
+branch.  The addition of a tokenizer-based parser increases parsing speed by
+up to 4 times (that's 400% faster) compared to previous versions.  In addition,
+scalability has been improved, allowing generation of documents in multiple
+output formats with one command.  The usage of config files makes repetitive
+parsing tasks straightforward and reduces the chance for error.
+
+The addition of DocBlock templates, extended documentation (tutorials) parsing,
+and many other new features make this release the most useful automatic
+documentor for any programming language.
+
+The default HTML Converter has been ported to a new Smarty-based converter,
+HTMLframesConverter, and all of the old templates have been ported to the new
+Smarty-based format.  The HTMLdefaultConverter has been deprecated since its
+functionality is redundant.  Due to the time it takes to convert a template to
+the new format, the phpDocumentor team extends an offer to do this conversion
+for anyone who has a brand new template.  We may also include the template in a
+future release, if permission is granted.
+
+Due to interest from PEAR programmers, there is a new beta-quality XML:DocBook
+converter with peardoc2 templates.  This converter could also generate other
+DocBook formats, if desired, but does not generate indexing for this release.
+
+The PDF Converter has stepped up to beta-quality, is fully templatable, and
+has most bugs completely fixed.  The CHM converter has also taken major strides
+and is beta quality.
+
+As predicted, the Smarty template engine is the primary template engine for
+all converters.
+
+For users new to phpDocumentor, phpDocumentor uses an event-driven parser
+and intermediary data structures that allow it to perform at a level other
+automatic documentors for PHP cannot achieve:
+  --parsing any php file, with multiple classes and functions in the same file
+  --fully compliant with even the most esoteric php syntax 
+  	($string = <<< EOF, for example)
+  --ability to generate multiple output formats
+  --extremely fast parsing
+  --error/warnings by line number and file to allow for debugging of
+	documentation tags
+  --multiple output templates to easily customize the look of generated
+	documentation
+  --extensive documentation of the package, including a detailed specification
+	for tags and the included template engine
+  --open source, GPL
+  
+
+A full listing of all closed bugs and feature requests can be found in the 
+next section of the notes
+
+phpDocumentor 1.2.1 ready for production use documenting any PHP project,
+download it and try the most advanced solution for PHP documentation
+today.
+
+################################################################################
+
+The following bugs are fixed in version 1.2.1
+ [ 731750 ] Links to unparsed includes shown (reopened)
+ [ 735134 ] HTML:Smarty:default Documentation can not be printed
+ [ 749446 ] php-cli.exe has been renamed in the PHP 4.3.x distribution
+ [ 749841 ] The links do not work in errors.html. Page has no achors.
+ [ 750264 ] @ignore won't work with DocBlock Templates /**#@+
+ [ 750392 ] Formatting doesn't work in Templates /**#@+
+ [ 751066 ] Return type of a constructor is not void.
+ [ 751101 ] output error when optional parameters are in use
+ [ 752015 ] Docbuilder problems
+ [ 752040 ] phpDocumentor 1.2.0 can't parse itself in php < 4.3.0
+ [ 753278 ] @see parent::_privatefunc causes endless loop
+ [ 753641 ] phpdoc -h output
+ [ 755681 ] include error in docbuilder file_dialog.php
+ [ 755688 ] lost image(s)
+ [ 756730 ] preview image for HTML:Smarty not found
+ [ 757841 ] JavaScript-Error cause of Package-Name
+ [ 758387 ] Use of undefined constants in DocBlockTags.inc on line 830
+ [ 764412 ] Complex class inheritance/package causes endless loop
+ [ 765753 ] Extraneous trailing "-" in @uses when no description
+ [ 765765 ] docbuilder can't change ini dir
+
+The following bugs are fixed in version 1.2.0
+ [ 729841 ] Source code only for certain file if same name used
+ [ 730081 ] --ignore-tags docs unclear
+ [ 730214 ] weird filesource
+ [ 731560 ] docbuilder include error on linux
+ [ 731750 ] Links to unparsed includes shown
+ [ 732900 ] ordered list messes up
+ [ 733100 ] phpdoc's help output shows 2 times option "quiet"
+ [ 733352 ] optional description parameter in @license tag
+ [ 732642 ] DocBook support broken/incomplete.
+ [ 735697 ] the web interface
+ [ 736832 ] Fatal error in phpDocumentorTParser.inc
+ [ 739740 ] Page-level docs are not generated without a @package tag
+ [ 740859 ] @uses in docblock template crashes parser
+ [ 740871 ] crash in DocBlockTags.inc line 99
+ [ 741887 ] case-sensitivity bug
+ [ 744026 ] @uses breaks on Classes.inc
+ [ 744028 ] {@link $el, $notfound} returns blank text
+ [ 746674 ] phpedit - vars, methods
+ [ 746690 ] DocBlocks not parsed for require_once statements
+ [ 746692 ] makedoc.sh $TITLE bug
+ [ 747733 ] cannot use same filename + different path in @example
+ [ 748314 ] --pear on php4/pear uses . as dirname
+ [ 748837 ] @uses with spaces
+ [ 748850 ] {@link} documentation is unclear
+
+The following bugs are fixed in version 1.2.0RC2
+ [ 708928 ] write permissions needed on some program dirs
+ [ 723230 ] warning on line 1391, HighlightParser
+ [ 723320 ] @param output behaves funny
+ [ 723767 ] space needed after @param type $var
+ [ 723947 ] RIC parsing not reading the correct README
+ [ 724415 ] Non-package references not always resolved
+ [ 724417 ] Multi-level method references not linked
+ [ 724701 ] conflicting package names, inherited links fails to show up
+ [ 724857 ] @link URL text broken
+ [ 725247 ] Wrong list handling in peardoc converter
+ [ 725745 ] HTML:Smarty:* not creating ric_README.html
+ [ 725161 ] File view displays class symbols without names
+ [ 725788 ] if --packageoutput excludes files with classes
+ [ 725742 ] code tag alignment
+ [ 726195 ] Formatting tags breaks lists
+ [ 726313 ] Changelog not linked
+ [ 727823 ] "#@+"-block quirck?
+ [ 728585 ] static keyword
+ [ 728167 ] HTML tags are case sensitive
+
+The following bugs are fixed in version 1.2.0RC1
+ [ 566663 ] @param &$arg broken
+ [ 657041 ] {@source} doesn't work right
+ [ 675871 ] --pear breaks if not a pear repository
+ [ 678176 ] Inherited vars/methods in HTML:frames:phpedit
+ [ 680652 ] Optional method/function parameters
+ [ 681459 ] {@internal}} not quite working
+ [ 681463 ] {@source} drops characters
+ [ 681735 ] {@source} in sdesc needs warning
+ [ 682490 ] {@internal}} not parsed right by highlightparser
+ [ 682491 ] multi-line description fubared in @tag
+ [ 687091 ] special characters not encoded
+ [ 687364 ] highlightparser $class->member incorrect
+ [ 687403 ] {@source} leaves "}"
+ [ 689874 ] is_a is not avaliable in PHP 4.1.0
+ [ 689893 ] Warnings on PHP 4.1.0
+ [ 689894 ] getincludevalue() missing argument 2 warning
+ [ 692522 ] @uses is screwy
+ [ 693213 ] tutorials post-processed twice
+ [ 693215 ] {@internal}} on single line not working
+ [ 694448 ] PKZip has bug, use winzip (not phpDocumentor bug)
+ [ 694594 ] PEAR mode: destructor image not shown by phpedit template
+ [ 694742 ] PDF converter has no table of contents
+ [ 695291 ] link to todo disappears in HTML:Smarty:*
+ [ 695482 ] @uses not checking for @access private
+ [ 695622 ] HTML:Smarty:* has no package-level docs
+ [ 696883 ] <code> in description crashes parser
+ [ 697156 ] PHP Warning with PDF Converter
+ [ 697656 ] putting a <code> inside a <li> turns it into a literal
+ [ 698417 ] {@link element descrip} wrong
+ [ 697644 ] parse fails if unmatched html tag, or text outside <li> list
+ [ 698468 ] Fatal error when inline tag across two lines
+ [ 698356 ] {@internal} not working properly
+ [ 701199 ] extra br in @filesource generation
+ [ 702549 ] --quiet option not valid?
+ [ 705897 ] HTML:frames:earthli misses Page.gif
+ [ 708560 ] intelligent list handling isn't quite working
+ [ 708559 ] @category tag not really working
+ [ 710366 ] <i>-Tag is ignored
+ [ 710700 ] empty defaultpackagename = caused busy loop
+ [ 711569 ] Fatal Error: Undefined Method during write
+ [ 712704 ] HTML:Smarty:* drops class level author information
+ [ 708914 ] <var>, <samp>, <kbd> broken
+ [ 713201 ] variable variables are not parsed properly in @global
+ [ 713954 ] @param type $var when &$var broken
+ [ 715077 ] HighlightParser needs @tag object classname support
+ [ 715084 ] HighlightParser craps out after $var->
+ [ 715452 ] @example doesn't work with anything other than .php
+ [ 718253 ] Using 'parent' in @example file causes crash
+ 
+The following bugs are fixed in version 1.2.0BETA3
+ [ 661317 ] PDF converter in subpackage ids broken
+ [ 669945 ] CHM: "undefined function: convert()" with multiple outputs 
+ [ 670205 ] inherited methods have no links
+ [ 670341 ] <pre> in docblock doesn't htmlentitie
+ [ 670350 ] left_frame.tpl missing package level doc link
+ [ 670440 ] Io::getBase() is buggy
+ [ 670903 ] inline desc <code> not <pre>-ized
+ [ 671620 ] warning in Parser line 2271
+ [ 672149 ] @desc broken
+ [ 674053 ] Support for require_once 
+ [ 674059 ] requires PHP version 4.2 or higher
+ [ 674075 ] Bad @param kills parser
+ [ 677105 ] unbalanced HTML-comments in output of HTML:frames:phpedit
+ [ 677821 ] define not parsed right in highlightparser
+ [ 677822 ] {@source} not showing whole source
+ [ 677826 ] nonsense @link in @see breaks HTML output
+ [ 677938 ] whitespace wrong after certain docblocks
+
+The following bugs are fixed in version 1.2.0BETA2
+ [ 665707 ] Warnings and errors in new_phpdoc.php
+ [ 666307 ] whitespace not ignored in @param
+ [ 669132 ] "no @package tag was used" error but @ignore & @package used
+ [ 669525 ] {$children[kids].sdesc} contains parent sdesc
+ [ 669613 ] Call to undefined function: getclassleft()
+ [ 669615 ] methods disapper
+ [ 669640 ] javadocdesc broken
+ [ 669909 ] PDF text starts off left side of page when have package.html
+
+The following bugs are fixed in version 1.2.0BETA1a
+ [ 661976 ] @see broken
+ [ 662630 ] {} delimited variables within strings mess up the parser
+ [ 663435 ] define values, global variable values need htmlentities
+ [ 664058 ] @param not displayed in HTMLframesConverter 
+
+The following bugs are fixed in version 1.2.0BETA1
+
+ [ 586357 ] ignore a directory
+ [ 637921 ] sorting is weird with multiple package
+ [ 637928 ] multiple converters legal, but fails
+ [ 638042 ] two declarations of checkstate()
+ [ 638128 ] commandline win32 fails, w/relative path
+ [ 639553 ] new_phpdoc.php fails with php 4.2.3
+ [ 640507 ] constructor links broken
+ [ 641076 ] second instance of loop fails
+ [ 641235 ] need trim of -f and -d commandline
+ [ 641334 ] parse <script language="php"> as <?php
+ [ 642427 ] Incorrect Anchor link from elementIndex
+ [ 645588 ] elements named "function.." or "global.." don't link
+ [ 646281 ] {@link mailto:e@a descrip} broken
+ [ 647494 ] {@link element1, element2} incorrect
+ [ 648684 ] links to global vars, defines in Smarty wrong
+ [ 649646 ] comments not parsed in function
+ [ 649953 ] phpdoc command-line only runs from install dir
+ [ 650946 ] link to phpdoc.org new window
+ [ 651837 ] getLink broken in rare case
+ [ 653627 ] @staticvar broken
+ [ 654429 ] tutorial prev/next links not working
+ [ 655372 ] smarty template not found in pdf convers
+ [ 657041 ] {@source} doesn't work right
+ [ 657387 ] parent/child tutorials converted twice
+ [ 657726 ] used by link htmlentitiezed
+ [ 657739 ] need separate categories of {@tags}
+ [ 657934 ] subtrees not processed in Converter
+ [ 658120 ] PDF define template has bug
+ [ 658121 ] PDF Converter not passing elements sorte
+ [ 661316 ] @tutorial tutorial.ext#subsection.section broken
+
+There of course were other small bugs fixed, these were just the bugs with 
+entries in source forge.  You can view the bug details or reopen it if
+you think it's not totally fixed at:
+http://sourceforge.net/tracker/?group_id=11194&atid=111194
+
+Features added that had Feature Request entries in SF for 1.2.0:
+ [ 748419 ] Provide different tag variable types for template use
+
+Features added that had Feature Request entries in SF for 1.2.0 rc 2:
+ [ 704808 ] command-line switch for template directory/converter directory
+ [ 722987 ] Relative example files
+
+Features added that had Feature Request entries in SF for 1.2.0 rc 1:
+ [ 681470 ] Add syntax highlighting for <programlisting role="php"> 
+ [ 682810 ] Xref
+ [ 683101 ] starting/ending line numbers of docblocks/classes/methods
+ [ 687366 ] phpEdit-style list support
+ [ 695621 ] link to section of @filesource from each element
+ [ 714025 ] @license tag
+
+Features added that had Feature Request entries in SF for 1.2.0 beta 3:
+ [ 674470 ] output a list of all @todos
+ [ 675194 ] -cp for converter-specific dynamic params 
+
+Features added that had Feature Request entries in SF for 1.2.0 beta 2:
+ [ 650251 ] @filesource tag 
+ [ 670184 ] @example tag 
+ [ 670189 ] @internal/{@internal}} 
+ [ 670190 ] --ignore-tags command-line 
+ 
+Features added that had Feature Request entries in SF for 1.2.0 beta 1a:
+ [ 663436 ] --title available in all pages, html
+ [ 663437 ] error if @package is missing 
+ [ 663439 ] PEAR command-line switch 
+ 
+Features added that had Feature Request entries in SF for 1.2.0 beta 1:
+
+ [ 541896 ] Create an Extended Howto
+ [ 558118 ] add {@inheritDoc}
+ [ 562604 ] Using @access blocs (_start ... _end)
+ [ 564991 ] auto-links to php manual
+ [ 566942 ] add {@link seeelement descrip}
+ [ 569746 ] make Program_root/ template thing
+ [ 577714 ] have master directory option
+ [ 586401 ] @access protected
+ [ 608603 ] REQUEST:class/function usage information
+ [ 615419 ] manuals like "php.net manual"
+ [ 623055 ] Zend IDE suport
+ [ 634518 ] inherit @author, @version, @copyright
+ [ 634589 ] @uses element
+ [ 634641 ] A way to document form variables
+ [ 635184 ] update all templates to phphtmllib
+ [ 637409 ] {keyword} - {data} pairs not flexible
+ [ 637660 ] parse type|type
+ [ 637920 ] simple way to extend a converter
+ [ 642235 ] Index of phphtmllib template
+ [ 645775 ] line numbers for elements
+ [ 651275 ] tutorials
+ [ 651716 ] automatically find README/INSTALL
+ [ 651723 ] @tutorial/{@tutorial}
+ [ 653608 ] allow the /user ini dir to be configable 
+
+################################################################################
+
+The documentation has been updated for this release you can view it at
+http://phpdocu.sourceforge.net/spec/
+or in the distribution in the spec directory
+
+The changelog is available in the tarball, or online at 
+http://phpdocu.sourceforge.net/Changelog
+
+You can download the newest version from 
+http://phpdocu.sourceforge.net/downloads.php
+
+And of course you can reach the webpage at http://phpdocu.sourceforge.net/ or 
+http://phpdoc.org/ 
+
+enjoy
+-joshua eichorn <jeichorn@phpdoc.org>
+-gregory beaver <cellog@users.sourceforge.net>
+
+
+vim: set expandtab :

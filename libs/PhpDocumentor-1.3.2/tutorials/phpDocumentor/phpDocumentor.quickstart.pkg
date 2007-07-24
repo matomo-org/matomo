@@ -1,0 +1,533 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>phpDocumentor Quickstart</refname>
+  <refpurpose>phpDocumentor for newbies</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Gregory Beaver
+   <authorblurb>
+    {@link mailto:cellog@php.net cellog@php.net}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ {@toc}
+ <refsect1 id="{@id intro}">
+  <title>What is phpDocumentor?  What can it do?</title>
+  <para>
+   phpDocumentor is a tool written in PHP designed to create complete documentation
+   directly from both PHP code and external documentation.  The truth is, PHP source code
+   is so lucid, it can practically serve as its own documentation.  phpDocumentor taps
+   into this fact by parsing out all kinds of logical structures already found in PHP,
+   such as files, classes, functions, define constants, global variables, and class
+   variables/methods and organizes them into a traditional manual format.  In addition, new
+   with version 1.3.0, source code elements introduced in PHP 5 (class constants,
+   interfaces, and others) can also be parsed, if phpDocumentor is run through PHP 5.
+   Output can be created for remote web
+   browsing, print, and integration into IDE help systems through
+   converters for HTML, PDF, and CHM (windows help files).
+  </para>
+  <para>
+   phpDocumentor generates manual-format documentation by reading it from special
+   PHP comments called {@tutorial phpDocumentor.howto.pkg#basics.docblock}.
+   DocBlocks are where you as the author of a software project should document helpful
+   information that can be used by others (or your future self) to
+   determine how to use and extend your PHP package.
+  </para>
+  <para>
+   Although the ability to add succinct documentation in the source code is essential,
+   it cannot replace the importance of verbose documentation that is not
+   in the source code, such as a user manual, or tutorials such as the one you
+   are reading now.  If the text you see here were placed in the source code
+   for phpDocumentor, it would serve little useful purpose, clutter up the code,
+   and be difficult to locate.  However, the ability to hyperlink between documentation
+   in the source code and external documentation is essential.  External documentation
+   for function foo must be able to reference the generated in-code documentation, and
+   with phpDocumentor this is finally possible.  To learn more, read about
+   {@tutorial tutorials.pkg}.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id installation}">
+  <title>Installation</title>
+  <para>
+   There are two official installation methods for phpDocumentor.  The first is through
+   downloading and extracting one of the available archives downloadable through
+   sourceforge.net, and the other is through the PEAR installer.  There is planning for
+   a {@link http://www.phing.org Phing} task and for distribution through other
+   new and promising installation frameworks like the {@link http://www.zzoss.com ZZ/OSS installer}.
+   However, only the two official installation methods are supported by phpDocumentor's developers.
+  </para>
+  <refsect2 id="{@id sf}">
+   <title>Download from Sourceforge.net</title>
+   <para>
+    To install phpDocumentor from a .zip or tarball downloaded directly from
+    sourceforge.net, first determine whether you will be using phpDocumentor's web or command-line
+    interface (see the {@tutorial phpDocumentor.quickstart.pkg#basicusage} section for
+    help in making this decision).
+   </para>
+   <para>
+    If you wish to use the command-line interface, unzip the archive into any directory,
+    say <screen>/home/myuser/phpdoc</screen> or <screen>C:\Program Files\phpdoc</screen>,
+    and add that directory to your path statement.  To use, run the &quot;phpdoc&quot;
+    command.  In windows, you will need to edit the phpdoc.bat file, and change the
+    first line to the path of the CLI version of PHP (usually C:\php4\cli\php.exe by
+    default).
+   </para>
+   <para>
+    To use the web interface, you must have a web server such as Apache installed, and
+    must have a working PHP sapi for that webserver.  To test, save the code below as
+    phpinfo.php in your document root and browse to http://localhost/phpinfo.php
+   </para>
+   <para>
+    phpinfo.php:
+    <programlisting role="php">
+    <![CDATA[
+<?php
+phpinfo();
+?>
+    ]]>
+    </programlisting>
+   </para>
+   <para>
+    If you see a beautiful purple display of PHP information, then your PHP setup is
+    working.  To use phpDocumentor's web interface, simply unzip the archive into
+    a subdirectory of your document root (such as phpdoc) and browse to that location
+    (http://localhost/phpdoc).
+   </para>
+   <caution>
+    A Javascript-enabled browser such as Netscape, Mozilla, Internet Explorer, Opera, or Konqueror is
+    required to view the newer web interface.  If you wish to use a non-javascript browser such as
+    links/lynx, use the old web interface, phpdoc.php at http://localhost/phpdoc/phpdoc.php.
+   </caution>
+  </refsect2>
+  <refsect2 id="{@id pear}">
+   <title>Installation through {@link http://pear.php.net PEAR}</title>
+   <para>
+    To install phpDocumentor through PEAR, you must first have a working installation of
+    PEAR.  Instructions for properly installing PEAR are located at the official
+    PEAR website, {@link http://pear.php.net}.  phpDocumentor developers do not support
+    installation issues with PEAR, instead seek help from PEAR developers.
+   </para>
+   <para>
+    Installing phpDocumentor for use on the command-line is simple.  Simply run:
+    <screen>
+     <![CDATA[
+$ pear install PhpDocumentor
+    ]]>
+    </screen>
+    and you then have full access
+    to the phpdoc command, both in windows and unix, without further configuration.
+   </para>
+   <para>
+    To install phpDocumentor to use the web interface, you must first change one of
+    PEAR's configuration variables, data_dir, to be a sub-directory of your web
+    server's document root.  The simplest way to do this is through PEAR's command-line
+    interface with the command:
+    <screen>
+    <![CDATA[
+$ pear config-set data_dir /path/to/document_root/pear
+    ]]>
+    </screen>
+   </para>
+   <para>
+    Configuring this value through the web interface is also simple.  Click on the
+    configuration icon in the left-hand frame, and type in the path in the data_dir
+    text box.
+   </para>
+   <para>
+    Once this configuration is complete, simply install phpDocumentor as described
+    in the second paragraph above, and you can then browse to 
+    http://localhost/pear/PhpDocumentor to have access to the web interface.  Once
+    this configuration step has been taken, there is never any need to change, and you
+    can easily upgrade to future phpDocumentor versions by using pear's upgrade command.
+   </para>
+  </refsect2>
+ </refsect1>
+ <refsect1 id="{@id coding}">
+  <title>How to document your code for use with phpDocumentor</title>
+  <para>
+   Documenting your code projects is straightforward and intuitive for the most part.
+   Before you begin, you may wish to download the sample documentation project and
+   try running phpDocumentor on them as you read along, found at
+   {@tutorial sample1.pkg}, {@tutorial sample2.pkg}, {@tutorial sample3.pkg} or found
+   bundled in the tutorials/ directory of your phpDocumentor distribution.  Before parsing,
+   copy the examples to another directory.
+  </para>
+  <para>
+   First of all, run phpDocumentor on the blank file sample1.php.  If you are using the command-line interface, run this command from the tutorials/sample directory:
+  </para>
+  <para>
+   <screen>
+    <![CDATA[
+$ phpdoc -o HTML:frames:earthli -f sample1.php -t docs
+    ]]>
+   </screen>
+  </para>
+  <para>
+   If you are using the web interface, click the &quot;Files&quot; tab, and type in
+   the full path to <filename>tutorials/sample/sample1.php</filename>.  Then click the &quot;Output&quot;
+   tab and type in the full path to <filename>tutorials/sample/docs</filename>, and finally click the
+   &quot;Create&quot; button in the lower right-hand corner.
+  </para>
+  <para>
+   With a web browser, open the newly created <filename>tutorials/sample/docs/index.html</filename> file
+   and you will see the rich array of information that phpDocumentor can parse from
+   the source code even without any documentation comments.  Inheritance information,
+   polymorphism and constants are all recognized automatically.  Note that the only
+   element that is not automatically documented is the global variable - to do this,
+   you must use a phpDocumentor DocBlock as described in the next section of this
+   quickstart manual.  Also note that although the include_once specifies a file
+   within the include_path, phpDocumentor will not automatically parse sample2.php,
+   you must manually specify the files or directories to parse.
+  </para>
+  <para>
+   If you're feeling adventurous, experiment with the parse options available and
+   parse the sample files a few times to see how they affect the documentation output.
+   To find out options in the command-line interface, type
+   <screen>
+   <![CDATA[
+$ phpdoc -h
+   ]]>
+   </screen>
+  </para>
+  <refsect2 id="{@id phpcomments}">
+   <title>Documenting your PHP source code with comments</title>
+   <para>
+    Now open <filename>{@tutorial sample2.pkg sample2.php}</filename>.  This is the same code content as
+    sample1.php, but it contains a full array of phpDocumentor DocBlock comments.
+    Note that every DocBlock comment is a C-style comment with two leading asterisks
+    (*), like so:
+   </para>
+   <para>
+    <programlisting role="php">
+/**
+ *
+ */
+    </programlisting>
+   </para>
+   <para>
+    All other comments are ignored by the documentation parser.  Note that although most
+    of the documentation is plain English, there are a few &quot;@&quot; characters
+    floating around the source code.  This symbol is used to pass a special command to
+    the parser, and is called a tag.  If the symbol is at the beginning of a line, it
+    is a standard tag, and if it is enclosed in {curly brackets}, it is an inline tag.
+    You can read more about tags at {@tutorial tags.pkg} and {@tutorial inlinetags.pkg}.
+   </para>
+   <para>
+    <programlisting role="php">
+/**
+ * {@inlinetag}
+ * this is @not a standardtag - must begin a line.
+ * this is a valid {@inlinetag} also
+ * @standardtag
+ */
+    </programlisting>
+   </para>
+   <refsect3 id="{@id global}">
+    <title>Documenting global variables</title>
+    <para>
+     Notice this code from sample2.php:
+    </para>
+    <para>
+     <programlisting role="php">
+/**
+ * Special global variable declaration DocBlock
+ * @global integer $GLOBALS['_myvar']
+ * @name $_myvar
+ */ 
+$GLOBALS['_myvar'] = 6;
+     </programlisting>
+    </para>
+    <para>
+     In this segment, we can see the two important tags used for documenting global
+     variables.  The {@tutorial tags.global.pkg} tag is used to tell the parser how to
+     find a global variable declaration.  Without this tag, no documentation would
+     be generated for $_myvar.  The @global tag can take many forms - be sure to specify
+     the type and global name, with no description, or the parser will generate a warning
+     and fail to document the variable.
+    </para>
+    <para>
+     Now, parse <filename>{@tutorial sample3.pkg sample3.php}</filename> and observe the generated documentation.
+     The {@tutorial tags.name.pkg} tag is used to tell the parser how the global
+     variable would be referenced by a global statement in a function.
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+/**
+ * @global integer this is a function-based @global tag,
+ *         because the variable name is missing
+ */
+function someFunction()
+{
+    global $_myvar;
+}
+     ]]>
+     </programlisting>
+    </para>
+    <para>
+     The @global tag here will associate the information with the declared global statements in the
+     function body in the same order of their declaration.
+    </para>
+   </refsect3>
+   <refsect3 id="{@id warnings}">
+    <title>Page-level DocBlock warnings</title>
+    <para>
+     The single most commonly asked question about using phpDocumentor involves
+     warnings about Page-level DocBlocks.  This section will answer any
+     questions about this warning once and for all.
+    </para>
+    <para>
+     phpDocumentor organizes procedural elements and classes into special groupings called
+     {@tutorial phpDocumentor.howto.pkg#documenting.elements.packages packages}.
+     In earlier versions of phpDocumentor, if package was not specified explicitly using
+     the {@tutorial tags.package.pkg} tag, the program would make an educated guess
+     as to which package a source element belongs to.
+    </para>
+    <para>
+     Over time, it became apparent that in many cases, source elements were incorrectly
+     grouped into a package due to the guesswork phpDocumentor uses.  Finally, the decision
+     was made to require an explicit @package tag, and to raise a warning any time this
+     tag was missing from a top-level source element.
+    </para>
+    <para>
+     The greatest confusion comes from the documenting of files.  phpDocumentor documents all
+     source elements by reading the DocBlock that immediately precedes the element, like so:
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+<?php
+/**
+ * Documents the class following
+ * @package SomePackage
+ */
+class SomeClass {
+}
+?>
+     ]]>
+     </programlisting>
+    </para>
+    <para>
+     phpDocumentor also can document the contents of a file.  But how can a DocBlock immediately precede
+     the file that contains it?  The easy answer is to assume the first DocBlock in a file documents the
+     file that contains it, and this works well, but can be deceptive:
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+<?php
+/**
+ * Documents the class following or the file?
+ * @package SomePackage
+ */
+class SomeClass {
+}
+?>
+     ]]>
+     </programlisting>
+    </para>
+    <para>
+     The same example shows the ambiguity - does this DocBlock document the class, or the file?  To resolve
+     this ambiguity, phpDocumentor uses a simple algorithm to make its decision.
+     <orderedlist>
+      <listitem>
+       <simpara>
+        If the first DocBlock in a file contains a @package tag, it documents the file unless it
+        precedes a class declaration
+       </simpara>
+      </listitem>
+      <listitem>
+       <simpara>
+        If the first DocBlock in a file precedes another DocBlock, it documents the file
+       </simpara>
+      </listitem>
+     </orderedlist>
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+<?php
+/**
+ * This is a file-level DocBlock
+ * 
+ * A warning will be raised, saying that to document the define, use
+ * another DocBlock
+ * @package SomePackage
+ */
+define('foo', 'bar');
+?>
+     ]]>
+     </programlisting>
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+<?php
+/**
+ * This is a not a file-level DocBlock
+ * 
+ * A warning will be raised, saying that no file-level DocBlock is present
+ * and this DocBlock will attach to the define statement
+ */
+define('foo', 'bar');
+?>
+     ]]>
+     </programlisting>
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+<?php
+/**
+ * This is a not a file-level DocBlock
+ * 
+ * A warning will be raised, saying that no file-level DocBlock is present
+ * and this DocBlock will attach to the class statement
+ */
+class foo {}
+?>
+     ]]>
+     </programlisting>
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+<?php
+/**
+ * This is a not a file-level DocBlock, because it precedes a class declaration
+ * 
+ * A warning will be raised, saying that no file-level DocBlock is present
+ * and this DocBlock will attach to the class statement
+ * @package SomePackage
+ */
+class foo {}
+?>
+     ]]>
+     </programlisting>
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+<?php
+/**
+ * This is a file-level DocBlock
+ * 
+ * A warning will be raised saying that the package was assumed to be
+ * SomePackage
+ */
+/**
+ * This is a normal class-level DocBlock
+ * 
+ * this DocBlock will attach to the class statement
+ * @package SomePackage
+ */
+class foo {}
+?>
+     ]]>
+     </programlisting>
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+<?php
+/**
+ * This is a file-level DocBlock
+ * 
+ * A warning will be raised saying that the package was assumed to be
+ * SomePackage because no @package tag was used
+ */
+/**
+ * This is a not a file-level DocBlock, because it precedes a class declaration
+ * 
+ * A warning will be raised, saying that no file-level DocBlock is present
+ * and this DocBlock will attach to the class statement
+ * @package SomePackage
+ */
+class foo {}
+?>
+     ]]>
+     </programlisting>
+    </para>
+    <para>
+     <programlisting role="php">
+     <![CDATA[
+<?php
+/**
+ * This is a file-level DocBlock
+ * 
+ * No warning will be raised.  This is the recommended usage
+ * @package SomePackage
+ */
+/**
+ * This is a not a file-level DocBlock, because it precedes a class declaration
+ * 
+ * This is also the recommended usage
+ * @package SomePackage
+ */
+class foo {}
+?>
+     ]]>
+     </programlisting>
+    </para>
+   </refsect3>
+  </refsect2>
+  <refsect2 id="{@id tutorials}">
+   <title>Writing external documentation and linking to source code documentation</title>
+   <para>
+    Although documentation parsed directly from source code is tremendously useful, it cannot stand on its own.
+    In addition, truly useful in-code documentation must be succinct enough so that the code is not completely
+    obscured by the documentation.  External documentation is a must for a complete documentation solution.
+    However, external documentation must be able to link to API source documentation to be useful.  With a
+    constantly changing API documentation, it is very easy for external documentation to become out of date.
+    In addition, external documentation must be in a format that can be converted into other formats such as
+    HTML, PDF and XML.
+   </para>
+   <para>
+    phpDocumentor provides a simple and elegant solution to all of these problems.  External
+    documentation in DocBook format can be easily converted to other formats.  Using inline
+    tags, phpDocumentor can generate a consistent manual in many different formats by combining
+    the output from parsing the source and parsing external documentation.  The words you read at this
+    moment are in a DocBook-based file located in tutorials/phpDocumentor/phpDocumentor.quickstart.pkg
+   </para>
+   <para>
+    <programlisting role="tutorial">
+     <![CDATA[
+<refentry id="{@}id}">
+ <refnamediv>
+  <refname>Simple Tutorial</refname>
+  <refpurpose>The simplest Tutorial Possible</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Gregory Beaver
+   <authorblurb>
+    {@}link mailto:cellog@php.net cellog@php.net}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ <refsect1 id="{@}id intro}">
+  <para>Hello World</para>
+ </refsect1>
+</refentry>
+     ]]>
+    </programlisting>
+   </para>
+  </refsect2>
+ </refsect1>
+ <refsect1 id="{@id basicusage}">
+  <title>Basic usage of phpDocumentor tool</title>
+  <para>
+   Now that phpDocumentor is installed, how can you use it to document a project?  First,
+   you must understand how phpDocumentor divides your code into packages and subpackages.
+   If you haven't already, now would be a good time to read the 
+   {@tutorial phpDocumentor.quickstart.pkg#coding} section of this quickstart.
+  </para>
+  <refsect2 id="{@id commandline}">
+   <title>Command-line tool, <filename>phpdoc</filename></title>
+  </refsect2>
+  <refsect2 id="{@id webinterface}">
+   <title>docbuilder, the phpDocumentor web interface</title>
+  </refsect2>
+ </refsect1>
+</refentry>

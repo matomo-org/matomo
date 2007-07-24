@@ -1,0 +1,84 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@subpackage</refname>
+  <refpurpose>Specify sub-package to group classes or functions and defines into.  Requires {@tutorial tags.package.pkg @package tag}</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@subpackage</command>
+    <arg choice="req">
+     <option>subpackagename</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>@subpackage works with {@tutorial tags.package.pkg} to group php files together for documentation.</para>
+  <para>If found in a page-level DocBlock, specifies the sub-package that all functions and defines in the php file belong to.  If found in a class-level DocBlock, specifies the sub-package that the class belongs to.</para>
+  <caution>If @package is not present in the same DocBlock, the @subpackage tag is ignored.  A SUBPACKAGE NAME MUST BE ONE WORD WITH NO SPACES OR NEWLINES CONTAINING ONLY LETTERS, DIGITS, and "_", "-", "[" or "]"</caution>
+  <para>A @subpackage tag is applied to documented elements in the same way that @package is applied.</para>
+  <para>If a file contains functions and defines, they will be packaged by a page-level DocBlock.  A page-level DocBlock is a DocBlock that is not paired with any phpDocumentor element (include, function, define, class, class function, class variable).</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>phpDocumentor parses a DocBlock as a page-level DocBlock if it precedes another DocBlock like this:</para>
+  <para>
+  <programlisting role="php">
+  <![CDATA[
+/**
+ * Page-Level DocBlock example.
+ * This DocBlock precedes another DocBlock and will be parsed as the page-level.
+ * Put your @package and @subpackage tags here
+ * @package pagelevel_package
+ * @subpackage data
+ */
+/**
+ * function datafunction
+ */
+function datafunction()
+{
+...
+}
+  ]]>
+  </programlisting>
+  </para>
+  <para>A class-level DocBlock is any DocBlock that precedes a class definition in a php file.</para>
+  <para>
+  <programlisting role="php">
+  <![CDATA[
+<?php
+/**
+ * class bluh
+ * class-level DocBlock example.
+ * @package applies_to_bluh
+ * @subpackage bluh
+ */
+class bluh
+{
+   /**
+    * This variable is parsed as part of package applies_to_bluh, and subpackage bluh
+    */
+   var $foo;
+	
+   /**
+    * So is this function
+    */
+   function bar()
+   {
+   }	
+}
+?>
+  ]]>
+  </programlisting>
+  </para>
+  <para>See also: {@tutorial tags.package.pkg}</para>
+ </refsect1>
+</refentry>

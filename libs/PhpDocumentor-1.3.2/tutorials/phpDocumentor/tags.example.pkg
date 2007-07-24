@@ -1,0 +1,77 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@example</refname>
+  <refpurpose>Include an external example file with syntax highlighting</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.2+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+   <command>@example</command>
+   <arg choice="req">
+    <option>/path/to/example.php</option>
+   </arg>
+   <arg choice="req">
+    <option>description</option>
+   </arg>
+  </cmdsynopsis>
+  <cmdsynopsis>
+   <command>(phpDocumentor 1.2.1+) @example</command>
+   <arg choice="req">
+    <option>url://path/to/example.php </option>
+   </arg>
+   <arg choice="req">
+    <option>description</option>
+   </arg>
+  </cmdsynopsis>
+  <cmdsynopsis>
+   <command>@example</command>
+   <arg choice="req">
+    <option>relativepath/to/example.php</option>
+   </arg>
+   <arg choice="req">
+    <option>description</option>
+   </arg>
+  </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The example tag can be used to parse an example file for syntax highlighting and linking to documentation.  This versatile tag attempts to read the file from the full path specified, and will accept any path that {@link fopen()} will accept.  phpDocumentor checks the path to ensure that the file retrieved has a valid .php extension as defined in phpDocumentor.ini, and then opens the file.  It will parse the file, and output syntax-highlighted source with line numbers, links to documentation and will then add a link to the documentation to that file.</para>
+  <para>If given an absolute path, phpDocumentor will not search for the example file any further.  If given a relative path (no leading c:\ or /) phpDocumentor searches for examples files first in the directory specified by the {@tutorial phpDocumentor.howto.pkg#using.command-line.examplesdir} command-line, if present.  As of phpDocumentor 1.2.1, it will next search for the file in an examples/ subdirectory of the current file's directory.  Otherwise, it will search for a subdirectory named &quot;examples&quot; in the top-level parsing directory, and if not found, in the top-level directory.</para>
+  <para>The top-level parsing directory is simply the directory that every file parsed has in common.</para>
+  <para>The {@tutorial tags.filesource.pkg} tag serves a similar purpose, but instead of parsing a separate file, it parses the current file's source.</para>
+  <para>To do an inline code example, use the html tag &lt;code&gt; or the new {@tutorial tags.inlineexample.pkg} tag</para>
+  <warning>@example only works with PHP 4.3.0+ due to the use of the tokenizer extension, which was not stable prior to PHP 4.3.0.  Go to {@link http://www.php.net} and download PHP 4.3.0 to use @example</warning>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * My function
+ *
+ * Here is an inline example:
+ * <code>
+ * <?php
+ * echo strlen('6');
+ * ?>
+ * </code>
+ * @example /path/to/example.php How to use this function
+ * @example anotherexample.inc This example is in the "examples" subdirectory
+ */
+function mine()
+{
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

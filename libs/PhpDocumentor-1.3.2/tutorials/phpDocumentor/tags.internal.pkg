@@ -1,0 +1,49 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@internal</refname>
+  <refpurpose>Mark documentation as private, internal to the software project</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.2+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@internal</command>
+    <arg choice="req">
+     <option>any information that should not be displayed in public documentation [unspecified format]</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>Use @internal to facilitate the creation of two sets of documentation, one for advanced developers or for internal company use, and the other for the general PHP public.  Use this tag or its cousin, {@tutorial tags.inlineinternal.pkg}</para>
+  <para>@internal responds to the command-line {@tutorial phpDocumentor.howto.pkg#using.command-line.parseprivate}, as both @internal and --parseprivate share the same purpose.  In both cases, the intent is to allow the creation of two sets of documentation, one for public use, and the other for a subset of developers, either the project developers or those who wish to extend the project.  In essence, it allows the creation of both user-level and programmer-level documentation from the same source, and is one of phpDocumentor's most useful features.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here is an example of how to use @internal and {@}internal}}:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * This class does things
+ *
+ * {@}internal To access the company guidelines on modifying this class,
+ * see {@}link http://www.example.com Company Guidelines}, or contact
+ * your supervisor}}
+ * Using this class can be very helpful for several reasons. etc. etc.
+ * @internal the class uses the private methods {@}link _foo()} and
+ * {@}link _bar()} to do some wacky stuff
+ */
+class Doesthings
+   ]]>
+   </programlisting>
+  </para>
+  <para></para>
+ </refsect1>
+</refentry>

@@ -1,0 +1,88 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>phpDocumentor tags</refname>
+  <refpurpose>How to use tags in DocBlocks</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+  </refsynopsisdivinfo>
+ </refsynopsisdiv>
+ <refsect1 id="{@id manual}">
+  <title>Tags Manual</title>
+  <para>Welcome to the phpDocumentor Tags Manual</para>
+  <para>phpDocumentor tags are very similar to tags for the JavaDoc tool for Sun's Java Programming Language.  Tags are only parsed if they are the first thing on a new line of a DocBlock.  You may use the @ character freely throughout documents as long as it does not begin a new line.  An example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * tags demonstration
+ * @author this tag is parsed, but this @version tag is ignored
+ * @version 1.0 this version tag is parsed
+ */
+   ]]>
+   </programlisting>
+  </para>
+  <para>Any tags that phpDocumentor does not recognize will not be parsed, and will be displayed in text flow as if they are part of the DocBlock long description. The example below displays text "tags demonstration @foobar this is silly," and also displays the author as "this tag is parsed, but this @version tag is ignored"
+  </para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * tags demonstration
+ * @foobar this is silly
+ * @author this tag is parsed, but this @version tag is ignored
+ */
+   ]]>
+   </programlisting>
+  </para>
+  <para>Inline tags display in the text flow where they appear, and are not separated from the description.  As of version 1.2, there are several inline tags.  The allowed inline tag list is different for tutorials and regular in-code documentation.  See {@tutorial inlinetags.pkg} for more information.
+  </para>
+  <para>The example below will display the text "this function works heavily with <important>foo()</important> to rule the world" where <important>foo()</important> represents a hyperlink that links to the function foo()'s documentation.
+  </para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * inline tags demonstration
+ *
+ * this function works heavily with {@}link foo()} to rule the world
+ */
+function bar()
+{
+}
+
+function foo()
+{
+}
+   ]]>
+   </programlisting>
+  </para>
+  <refsect2 id="{@id standard}">
+   <title>Standard phpDocumentor Tags</title>
+   <para>Most tags can be in the DocBlock of any documentable PHP element (for a definition of a documentable PHP element, see {@tutorial elements.pkg}).  Here is a list of the standard tags:
+    <itemizedlist>
+    <listitem><para>{@tutorial tags.access.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.author.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.copyright.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.deprecated.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.example.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.ignore.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.internal.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.link.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.see.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.since.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.tutorial.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.version.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.inlineinternal.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.inlineinheritdoc.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.inlinelink.pkg}</para></listitem>
+    </itemizedlist>
+   </para>
+  </refsect2>
+ </refsect1>
+</refentry>

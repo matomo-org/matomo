@@ -1,0 +1,111 @@
+$Id: Release-1.3.2,v 1.1.2.3 2007/04/02 18:21:50 ashnazg Exp $
+
+PhpDocumentor Version 1.3.2
+################################################################################
+http://www.phpdoc.org
+Gregory Beaver cellog@users.sourceforge.net
+Joshua Eichorn jeichorn@phpdoc.org
+################################################################################
+################################################################################
+
+The phpDocumentor team would like to announce the release of phpDocumentor
+1.3.2.  This release deals with a critical bug in PHP v5.2.1 that causes an 
+infinite loop condition when PhpDocumentor parses tutorials, plus many minor 
+bugs and documentation updates.
+
+------
+IMPORTANT:  phpDocumentor 1.3.2 requires PHP version 4.2.0 or greater.
+phpDocumentor will function best with PHP version 4.3.0 or greater, as it will
+use of the tokenizer extension if php 4.3.0 is installed for a tremendous
+increase in parsing speed.  PHP version 5.1.0 or newer is recommended to take
+advantage of PHP5-only features.
+
+WARNING:  A bug in PHP v5.2.1 can cause PhpDocumentor v1.3.1 and older to
+spiral into an infinite loop when parsing tutorial documents.  PhpDocumentor 
+v1.3.2 and newer will crash itself at the beginning of the tutorial parsing stage
+if it detects PHP v5.2.1 being used to parse tutorials.
+------
+
+Speaking of speed, do NOT run the PDF Converter with --sourcecode = on for any
+medium to large sized projects.  I had to kill a PDF generation after 36 hours
+on a Pentium IV 2.66GHz computer - 36 hours!  The design of the PDF generation
+library is tremendously inefficient, probably on the order of O(n^2).  I'd fix
+this if I knew anything about PDF.  If there are any users out there with the
+time and expertise to look into the algorithms used by CPdf, we would all
+appreciate it.
+
+A full listing of all closed bugs and feature requests can be found in the 
+next section of the notes
+
+phpDocumentor 1.3.2 is ready for production use documenting any PHP project,
+download it and try the most advanced solution for PHP documentation
+today.
+
+################################################################################
+
+The following Sourceforge bugs are fixed in version 1.3.2:
+ [ 1667333 ] Mishandled Param = 0 Default in Converters
+ [ 1656902 ] Error when converting class that extends Exception
+ [ 1640392 ] docBuilder user directory
+ [ 1634369 ] @global syntax in @name example
+ [ 1633275 ] Update TODO Links to SF/PEAR Buglists
+ [ 1631553 ] Docs Say TODO on INCLUDE Is OK
+ [ 1620470 ] Ensure No Pathing Given in Output Converter Name
+ [ 1620396 ] INSTALL is wrong and outdated
+ [ 1614286 ] Fix Indexing of Constants
+ [ 1611861 ] Fix --hidden flag handling
+ [ 1611847 ] Fix PEAR Bug #9366
+ [ 1602961 ] "--hidden off" / "-dh off" results in hidden=true
+ [ 1590240 ] Double Tab-Count after Shell # Comment in SourceCode
+ [ 1589650 ] Segfault with PHP 5.2
+ [ 1588175 ] const elements sorting incorrectly
+ [ 1586917 ] Object of class parserLinkInlineTag could not be converted
+ [ 1585879 ] Fix the error text for Includes without docblock
+ [ 1585875 ] Error text for Includes without docblock is incorrect
+ [ 1583877 ] tagsort corrections in ParserDocBlock.inc
+ [ 1583850 ] "Created by PhpDoc", not "Somesite"
+ [ 1573816 ] CHM default template does not set help file title
+ [ 1570942 ] Grammar/Typo Corrections in Tutorial
+ [ 1548910 ] Do not copy \\\".svn\\\" and \\\"CVS\\\" dirs from media fol
+ [ 1545418 ] Duplicated title in generated tutorials (docbook)
+ [ 1544661 ] bteer line number alignment in smarty::php html template
+ [ 1543686 ] Doesn't treat interface level docblock like class level docb
+ [ 1525150 ] tag information displayed in random order
+ [ 1518565 ] "-q off" different then not passing it
+ [ 1348589 ] @copyright bug?
+
+ - fixed these bugs reported in PEAR:
+  Bug # 9151:  ReflectionException when documenting classes derived from PHP internal classes
+  Bug # 9366:  Last line with comment in <code> disappears
+  Bug # 9673:  potential major security issue
+  Bug # 9915:  PHP Notice in PDF Converter
+  Bug # 9937:  Security Exploit CVE-2005-4593
+  Bug #10266:  List in @todo tags not processed correctly
+  Bug #10289:  Hangs at "Converting tutorials"
+ 
+You can view the bug details or reopen one if
+you think it's not totally fixed at:
+http://sourceforge.net/tracker/?group_id=11194&atid=111194
+http://pear.php.net/bugs/search.php?cmd=display&package_name%5B%5D=PhpDocumentor
+
+################################################################################
+
+The documentation has been updated for this release you can view it at
+http://www.phpdoc.org/docs
+or in the distribution in the spec directory
+
+The changelog is available in the tarball, or online at 
+http://cvs.php.net/viewvc.cgi/pear/PhpDocumentor/ChangeLog?view=markup
+
+You can download the newest version from 
+http://phpdocu.sourceforge.net/downloads.php
+
+And of course you can reach the webpage at http://phpdocu.sourceforge.net/ or 
+http://phpdoc.org/ 
+
+enjoy
+-gregory beaver <cellog@users.sourceforge.net>
+-joshua eichorn <jeichorn@phpdoc.org>
+
+
+vim: set expandtab :

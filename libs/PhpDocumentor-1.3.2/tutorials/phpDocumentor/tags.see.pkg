@@ -1,0 +1,111 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@see</refname>
+  <refpurpose>Display a link to the documentation for an element</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@see</command>
+    <arg choice="req">
+     <option>file.ext|elementname|class::methodname()|class::$variablename|functionname()|function functionname</option>
+    </arg>
+	<arg choice="opt">
+     <option>unlimited number of values separated by commas</option>
+	</arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The @see tag may be used to document any element (global variable, include, page, class, function, define, method, variable)
+  </para>
+  <caution>@see only displays links to element documentation.  If you want to display a hyperlink, use {@tutorial tags.link.pkg} or {@tutorial tags.inlinelink.pkg}</caution>
+  <para><emphasis>New in version 1.2:</emphasis> You can link to any defined function in the current php version using the function's name.  This linking is done using the standard php function {@link PHP_MANUAL#get_defined_functions}, and so relies on the version of php that is used to execute phpDocumentor.  A benefit of this method is that the function highlighting will automatically upgrade with a php upgrade without any change to the underlying code.  You may also link directly to any portion of the php website using the fake package override PHP_MANUAL (as in PHP_MANUAL#get_defined_functions, or PHP_MANUAL#support.php)
+  </para>
+  <para>Along with {@tutorial tags.inlinelink.pkg}, the @see tag is among the most useful features of phpDocumentor.  With this tag, you can create a link to any element (except include/require) in the documentation with a very wide range of options.  The @see parser can be told exactly where to look using some basic punctuation:
+   <itemizedlist>
+    <listitem><para><emphasis>::</emphasis> -- This is the class scope override.  Use it to tell the @see parser which class to look in for the element specified, like <emphasis>classname::methodname()</emphasis> or <emphasis>classname::$variablename</emphasis>.</para></listitem>
+    <listitem><para><emphasis>()</emphasis> -- When present at the end of elementname, like <emphasis>elementname()</emphasis>, this tells the @see parser to search for a function or method.</para></listitem>
+    <listitem><para><emphasis>$</emphasis> -- When present at the beginning of elementname, like <emphasis>$elementname</emphasis>, this tells the @see parser to search for a variable in the current class.</para></listitem>
+   </itemizedlist>
+  </para>
+  <para>However, @see is also intelligent enough to recognize shorthand.  If @see receives an elementname with no punctuation, it will search for an element in this order:
+   <orderedlist>
+    <listitem><para>is elementname the name of a class?</para></listitem>
+    <listitem><para>is elementname the name of a procedural page? (file.ext)</para></listitem>
+    <listitem><para>is elementname the name of a define?</para></listitem>
+    <listitem><para>if the DocBlock containing the @see is in a class:
+     <orderedlist>
+	  <listitem><para>is elementname a method?</para></listitem>
+      <listitem><para>is elementname a variable?</para></listitem>
+     </orderedlist>
+	</para></listitem>
+	<listitem><para>is elementname a function?</para></listitem>
+   </orderedlist>
+  </para>
+  <para>@see parsing is slightly slower when passed an elementname with no punctuation, especially if the elementname is a function, so use it sparingly in large projects (500+ elements with @sees in their DocBlocks).  The best use for punctuation-less elementname is in a project whose classnames are in flux.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example of valid @see syntax:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * class 1
+ * 
+ * example of use of the :: scope operator
+ * @see subclass::method()
+ */
+class main_class
+{
+    /**
+     * example of linking to same class, outputs <u>main_class::parent_method()</u>
+     * @see function parent_method
+     */
+    var foo = 3;
+
+    /**
+     * subclass inherits this method.
+     * example of a word which is either a constant or class name, in this case a classname
+     * @see subclass
+     * @see subclass::$foo
+     */
+
+	function parent_method()
+	{
+		if ($this->foo==9) die;
+	}
+}
+
+/**
+ * this class extends main_class.
+ * example of linking to a constant, and of putting more than one element on the same line
+ * @see main_class, TEST_CONST
+ */
+subclass extends main_class
+{
+    /**
+     * bar.
+     * example of same class lookup - see will look through parent hierarchy to
+     * find the method in { @link main_class}
+     * the above inline link tag will parse as <u>main_class</u>
+     * @see parent_method()
+     */
+    var $foo = 9;
+}
+
+define("TEST_CONST","foobar");
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

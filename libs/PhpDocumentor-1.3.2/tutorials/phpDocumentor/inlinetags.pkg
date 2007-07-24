@@ -1,0 +1,58 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>phpDocumentor Inline tags</refname>
+  <refpurpose>How to use Inline tags in DocBlocks and in Tutorials</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+  </refsynopsisdivinfo>
+ </refsynopsisdiv>
+ <refsect1 id="{@id manual}">
+  <title>Inline Tags Manual</title>
+  <para>Welcome to the phpDocumentor Inline Tags Manual</para>
+  <para>Unlike regular tags (see {@tutorial tags.pkg}), Inline tags display in the text flow where they appear.  As of version 1.2, there are several inline tags.  The allowed inline tag list is different for tutorials and regular in-code documentation.</para>
+  <para>Inline tags allowed in both tutorials and DocBlocks include:
+   <itemizedlist>
+    <listitem><para>{@tutorial tags.inlinelink.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.inlinetutorial.pkg}</para></listitem>
+   </itemizedlist>
+  </para>
+  <para>Inline tags allowed in only DocBlocks include:
+   <itemizedlist>
+    <listitem><para>{@tutorial tags.inlinesource.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.inlineinheritdoc.pkg}</para></listitem>
+   </itemizedlist>
+  </para>
+  <para>Inline tags allowed in only tutorials include:
+   <itemizedlist>
+    <listitem><para>{@tutorial tags.inlineid.pkg}</para></listitem>
+    <listitem><para>{@tutorial tags.inlinetoc.pkg}</para></listitem>
+   </itemizedlist>
+  </para>
+  <para>The example below will display the text "this function works heavily with <important>foo()</important> to rule the world" where <important>foo()</important> represents a hyperlink that links to the function foo()'s documentation.
+  </para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * inline tags demonstration
+ *
+ * this function works heavily with {@}link foo()} to rule the world. If I want
+ * to use the characters "{@}link" in a docblock, I just use "{@}}link."  If
+ * I want the characters "{@*}" I use "{@}}*}"
+ */
+function bar()
+{
+}
+
+function foo()
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

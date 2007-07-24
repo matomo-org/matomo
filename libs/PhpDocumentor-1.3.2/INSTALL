@@ -1,0 +1,81 @@
+$Id: INSTALL,v 1.3 2007/02/07 20:06:44 ashnazg Exp $
+
+phpDocumentor Installation instructions
+---------------------------------------
+
+phpDocumentor is very easy to install.  The hardest part is installing PHP
+and possibly a Web Server, if you plan to use the web interface phpdoc.php.
+
+To install phpDocumentor, use a compression program to decompress the
+contents to a directory, preserving internal directory structure of the
+archive.  If you wish to use the web interface, you must unzip the
+archive into a subdirectory accessible by the web server.
+
+NOTE:
+There have been problems with the non GNU tar not being able to extracts some
+of the long directory paths properly.  The simplest solution for BSD users is
+to download the zip version of phpDocumentor.
+
+PEAR installation
+-----------------
+This is by far the easiest way to install phpDocumentor.  Included in this
+release is a package.xml file.
+
+If you plan to use the web interface, you must run this command prior to installation:
+
+pear config-set data_dir /path/to/public_html/pear
+
+The line above assumes that /path/to/public_html is the location of index.html if you browse
+to http://localhost/index.html
+
+To install or upgrade phpDocumentor, simply run
+
+pear upgrade PhpDocumentor
+
+To use the web interface, browse to http://localhost/pear/PhpDocumentor/index.html
+
+The cli interface is installed in the pear bin_dir, you can find this directory by running:
+pear config-show
+
+Command-line interface installation and usage instructions
+----------------------------------------------------------
+To use phpDocumentor as a command-line interface, you need to install PHP
+version 4.1.0 or greater.
+
+*IMPORTANT* any version of PHP below 4.1.0 will not work with version 1.3.0 or later of
+phpDocumentor!!!  To use the advanced tokenizer-based parser, you must have php 4.3.0
+
+Windows
+-------
+You need the cli version of PHP (php-cli.exe or cli/php.exe in 4.3.0+).
+Either run phpDocumentor from the directory that PHP resides in, or put
+php.exe in your DOS PATH enviroment variable.  The simplest usage of phpDocumentor is:
+
+C:\>php.exe "C:\Path\To\phpdoc" -t targetdir -o HTML:default:default -d parsedir
+
+where targetdir is the directory you wish phpDocumentor to create output,
+and parsedir is the directory you wish to parse.
+
+Unix
+----
+Make sure that the cgi/cli version of PHP is in your path.  The simplest usage
+of phpDocumentor is:
+
+phpdoc -t targetdir -o HTML:default:default -d parsedir
+
+You can also use makedoc.sh. Simply copy it to your project path and edit it.
+When you wish to (re)build your project's documentation, simply run it.
+
+
+Web interface installation and usage instructions
+-------------------------------------------------
+To use phpDocumentor as a web interface, you need to install a Web server
+and configure it, as well as install PHP version 4.1.0 or greater.  Consult
+the documentation of your webserver and of PHP for installation support.
+
+Windows and Unix
+----------------
+Open a web browser and browse to phpdoc.php at the location that you set up.
+Instructions are in the web interface.
+
+vim: set expandtab :

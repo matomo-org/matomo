@@ -1,0 +1,50 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@name</refname>
+  <refpurpose>Specify an alias to use for a procedural page or global variable in displayed documentation and linking</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@name</command>
+    <arg choice="req">
+     <option>$globalvariablename</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>phpDocumentor recognizes the @name tag in global variable DocBlocks (in conjunction with {@tutorial tags.global.pkg}), and uses it to rename a global variable for documentation to make it more readable.  A global variable name MUST begin with a dollar sign ($) or phpDocumentor will ignore the tag and raise an error.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an examples:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Now, when @global is used in a function, it will link to $baz
+ * @name $baz
+ * @global array $GLOBALS['baz']
+ */
+$GLOBALS['baz'] = array('foo','bar');
+
+/**
+ * @global array used for stuff
+ */
+function mine()
+{
+    global $baz;
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

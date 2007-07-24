@@ -1,0 +1,92 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@package</refname>
+  <refpurpose>Specify package to group classes or functions and defines into</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@package</command>
+    <arg choice="req">
+     <option>packagename</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>@package can only be used to document procedural pages or classes.</para>
+  <para><emphasis>Packages</emphasis> are used to help you logically group related elements. You write classes to group related functions and data together, and phpDocumentor represents the contents of files (functions, defines, and includes) as "Procedural Pages." A package is used to group classes and procedural pages together in the same manner that a directory groups related files together.</para>
+  <para>If found in a page-level DocBlock, packagename specifies the package that all functions, includes, and defines in the php file belong to.  If found in a class-level DocBlock, packagename specifies the package that the class belongs to.</para>
+  <caution>If not present, a class's package is set to <emphasis>default</emphasis>, or the value of the -dn command-line switch, <emphasis>even if the page-level package is set to another value.</emphasis>  This may be changed by the command-line option -dn or --defaultpackagename.  PACKAGES MUST BE ONE WORD WITH NO SPACES OR NEWLINES CONTAINING ONLY LETTERS, DIGITS, and "_", "-", "[" or "]"</caution>
+  <para>@package groups php files together for documentation.</para>
+  <para>There are two ways a @package tag is parsed:
+   <orderedlist role="I">
+    <listitem><para>page-level package (defines, functions, includes/requires)</para></listitem>
+    <listitem><para>class-level package (class, all its variables and methods)</para></listitem>
+   </orderedlist>
+  </para>
+  <para>If a file contains functions and defines, they will be packaged by a page-level DocBlock.  A page-level DocBlock is a DocBlock at the top of a file that precedes another DocBlock.  In other words, it is not paired with any phpDocumentor element (include, function, define, class, class function, class variable).</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>phpDocumentor parses a DocBlock as a page-level DocBlock if it precedes another DocBlock like this:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Page-Level DocBlock example.
+ * This DocBlock precedes another DocBlock and will be parsed as the page-level.
+ * Put your @package and @subpackage tags here
+ * @package pagelevel_package
+ */
+/**
+ * function bluh
+ */
+function bluh()
+{
+...
+}
+   ]]>
+   </programlisting>
+  </para>
+  <para>A page is documented as a procedural page if it is parsed, regardless of its content <emphasis>(NEW in 1.0)</emphasis>.</para>
+  <para>A class-level DocBlock is any DocBlock that precedes a class definition in a php file.</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+<?php
+/**
+ * class bluh
+ * class-level DocBlock example.
+ * @package applies_to_bluh
+ */
+class bluh
+{
+   /**
+    * This variable is parsed as part of package applies_to_bluh
+    */
+   var $foo;
+	
+   /**
+    * So is this function
+    */
+   function bar()
+   {
+   }	
+}
+?>
+   ]]>
+   </programlisting>
+  </para>
+  <para>If no @package tag is specified, the package named "default" will be used, with one major exception.  If a class extends a parent class that has a @package tag, it will inherit the package from the parent class.  This can be very useful in small projects.  HOWEVER, it is highly recommended that a @package tag is used before every class that should have that package to avoid name collisions.  What is a name collision?  If you are documenting two related but separate packages, and both packages contain classes with the same name.  For example, the tests package included with phpDocumentor contains several files used to verify the eradication of bugs from phpDocumentor.  Several of these files contain classes with the same name as classes in phpDocumentor.  phpDocumentor cannot determine the correct parent class automatically and will not inherit package at all to avoid a wrong guess.  WE HIGHLY RECOMMEND THAT YOU USE @package IN THE DOCBLOCK OF EVERY CLASS OR PROCEDURAL PAGE YOU WISH TO BE IN A PACKAGE.</para>
+  <para>Elements can also be grouped into subpackages using {@tutorial tags.subpackage.pkg}</para>
+  <para>See also {@tutorial tags.subpackage.pkg}</para>
+ </refsect1>
+</refentry>

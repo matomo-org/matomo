@@ -1,0 +1,26 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>inline {@}internal}}</refname>
+  <refpurpose>Mark documentation as private, internal to the software project in text flow</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.2+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+   <command>{@}internal</command>
+     <arg choice="opt"><option>any text including inline tags</option></arg>
+   <command>}}</command>
+  </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <caution>Unlike other inline tags, {@}internal}} may contain other inline tags due to its purpose.  To terminate an {@}internal}} inline tag, you must use two ending brackets &quot;}}&quot;</caution>
+  <para>Use {@}internal}} to facilitate the creation of two sets of documentation, one for advanced developers or for internal company use, and the other for the general PHP public.  Use this inline tag or its cousin, {@tutorial tags.internal.pkg}</para>
+ </refsect1>
+</refentry>

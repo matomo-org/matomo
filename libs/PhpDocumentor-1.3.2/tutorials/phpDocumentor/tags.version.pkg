@@ -1,0 +1,52 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@version</refname>
+  <refpurpose>Version of current element</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@version</command>
+    <arg choice="req">
+     <option>versionstring [unspecified format]</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>Documents the version of any element, including a page-level block</para>
+  <para><emphasis>NEW v1.2</emphasis> - @version is now inherited by child classes from a parent class, see {@tutorial tags.inlineinheritdoc.pkg}.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>phpDocumentor displays a @version string without modification, so it may be used in any way you'd like:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * example of @version tag with CVS tag
+ * @version $Id: tags.version.pkg,v 1.2 2006/04/29 04:08:27 cellog Exp $;
+ */
+function datafunction()
+{
+}
+
+/**
+ * Custom version string
+ * @version customversionstring1.0
+ */
+class blah
+{
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

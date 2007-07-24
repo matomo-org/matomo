@@ -1,0 +1,50 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@category</refname>
+  <refpurpose>Specify a category to organize the documented element's package into</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 1.2+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@category</command>
+    <arg choice="req">
+     <option>categoryname</option>
+    </arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The @category tag is used to organize groups of packages together.  This is directly applicable to the XML:DocBook/peardoc2 Converter, and can be used by other converters.  Other Converters packaged with phpDocumentor ignore the category, but this may change in future versions.  It is also possible to dynamically specify category using the {@tutorial phpDocumentor.howto.pkg#using.command-line.defaultcategoryname} command-line switch.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Page-Level DocBlock
+ * @package MyPackage
+ * @category mycategory
+ */
+
+/**
+ * @global array used for stuff
+ */
+function mine()
+{
+    global $baz;
+    ...
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

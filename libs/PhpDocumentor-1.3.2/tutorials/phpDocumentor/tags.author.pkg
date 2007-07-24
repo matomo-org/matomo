@@ -1,0 +1,50 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@author</refname>
+  <refpurpose>Author of current element</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+    <command>@author</command>
+    <arg choice="req"><option>authorname <arg choice="opt"><option><![CDATA[<authoremail@example.com>]]></option></arg></option></arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The @author tag is used to document the author of any element that can be documented (global variable, include, constant, function, define, class, variable, method, page).  phpDocumentor will take any text between angle brackets <![CDATA[(< and >)]]> and try to parse it as an email address.  If successful, it will be displayed with a mailto link in the page</para>
+  <para><emphasis>NEW v1.2</emphasis> - @author is now inherited by child classes from a parent class, see {@tutorial tags.inlineinheritdoc.pkg}.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Page-Level DocBlock example.
+ * displays as Gregory Beaver ]]><important>cellog@php.net</important>
+ * <![CDATA[, where underlined text is a "mailto:cellog@php.net" link
+ * @author Gregory Beaver <cellog@php.net>
+ */
+/**
+ * function datafunction
+ * another contributor authored this function
+ * @author Joe Shmoe
+ */
+function datafunction()
+{
+...
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>
+

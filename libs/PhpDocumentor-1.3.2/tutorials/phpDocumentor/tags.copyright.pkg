@@ -1,0 +1,46 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@copyright</refname>
+  <refpurpose>Document Copyright information</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+   <command>@copyright</command>
+    <arg choice="opt"><option>copyright information</option></arg>
+   </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>The @copyright tag is used to document the copyright information of any element that can be documented (global variable, include, constant, function, define, class, variable, method, page).  phpDocumentor will display the copyright string unaltered.</para>
+  <para><emphasis>NEW v1.2</emphasis> - @copyright is now inherited by child classes from a parent class, see {@tutorial tags.inlineinheritdoc.pkg}.</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Page-Level DocBlock example.
+ * @author Gregory Beaver <cellog@php.net>
+ * @copyright Copyright (c) 2002, Gregory Beaver
+ */
+/**
+ * function datafunction
+ */
+function datafunction()
+{
+...
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

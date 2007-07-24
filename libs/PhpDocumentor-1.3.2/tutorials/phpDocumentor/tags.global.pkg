@@ -1,0 +1,135 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>@global</refname>
+  <refpurpose>Document a global variable, or its use in a function/method</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <refsynopsisdivinfo>
+   <author>
+    Gregory Beaver
+    <authorblurb>Tag Documentation written by {@link mailto:cellog@php.net cellog@php.net}</authorblurb>
+   </author>
+   <copyright>Copyright 2002, Gregory Beaver</copyright>
+   <releaseinfo>phpDocumentor 0.1+</releaseinfo>
+  </refsynopsisdivinfo>
+  <cmdsynopsis>
+   <group>
+    <cmdsynopsis>
+     <command>@global</command>
+     <arg choice="req">datatype</arg>
+     <arg choice="req">$globalvariablename</arg>
+    </cmdsynopsis>
+	<cmdsynopsis>
+     <command>@global</command>
+     <arg choice="req">datatype</arg>
+     <arg choice="req">description</arg>
+    </cmdsynopsis>
+   </group>
+  </cmdsynopsis>
+ </refsynopsisdiv>
+ <refsect1 id="{@id description}">
+  <title>Description</title>
+  <para>Since there is no standard way to declare global variables, phpDocumentor requires that a @global tag be used in a docblock preceding a global variable's definition.  To support previous usage of @global, there is an alternate syntax that applies to DocBlocks preceding a function, used to document usage of global variables.  in other words, There are two usages of @global: definition and function usage.</para>
+  <para>phpDocumentor will not attempt to automatically parse out any global variables.  Only one @global tag is allowed per global variable DocBlock.  A global variable DocBlock must be followed by the global variable's definition before any other element or DocBlock occurs in the source, or an error will be raised.</para>
+  <para>datatype should be a valid PHP type or "mixed."</para>
+  <para>$varname should be the EXACT name of the global variable as it is declared in the source (use {@tutorial tags.name.pkg} to change the name displayed by documentation)</para>
+  <para>The function/method @global syntax is used to document usage of global variables in a function, and MUST NOT have a $ starting the third word.  The datatype will be ignored if a match is made between the declared global variable and a variable documented in the project.</para>
+  <para>phpDocumentor will check to see if the type specified is the name of a class that has been parsed.  If so, it will make a link to that class as the type instead of just the type.</para>
+  <para>phpDocumentor will display the optional description unmodified</para>
+ </refsect1>
+ <refsect1 id="{@id example}">
+  <title>Example</title>
+  <para>Here's an example of documenting the definition of a global variable:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * example of incorrect @global declaration #1
+ * @global bool $GLOBALS['baz']
+ * @author blahblah
+ * @version -6
+ */
+include("file.ext");
+// error - element encountered before global variable declaration, docblock will apply to this include!
+$GLOBALS['baz'] = array('foo','bar');
+
+/** example of incorrect @global declaration #2
+ * @global parserElement $_Element
+ */
+/**
+ * error - this DocBlock occurs before the global variable definition and will apply to the function,
+ * ignoring the global variable completely
+ * /
+$_Element = new parserElement;
+
+function oopsie()
+{
+...
+}
+
+/** example of correct @global declaration,
+ * even with many irrelevant things in between
+ * @global mixed $_GLOBALS["myvar"]
+ */
+// this is OK
+if ($pre)
+{
+	$thisstuff = 'is fine too';
+}
+$_GLOBALS["myvar"] = array( "this" => 'works just fine');
+
+/**
+ * example of using @name with @global
+ * the @name tag *must* have a $ in the name, or an error will be raised
+ * @global array $GLOBALS['neato']
+ * @name $neato
+ */
+$GLOBALS['neato'] = 'This variable\'s name is documented as $neato, and not as $GLOBALS[\'neato\']';
+   ]]>
+   </programlisting>
+  </para>
+  <para>Here's an example of documenting the use of a global variable in a function/method:</para>
+  <para>
+   <programlisting role="php">
+   <![CDATA[
+/**
+ * Used to showcase linking feature of function @global
+ */
+class test
+{
+}
+
+/**
+ * @global test $GLOBALS['baz']
+ * @name $bar
+ */
+$GLOBALS['bar'] = new test
+
+/**
+ * example of basic @global usage in a function
+ * assume global variables "$foo" and "$bar" are already documented
+ * @global bool used to control the weather
+ * @global test used to calculate the division tables
+ * @param bool $baz
+ * @return mixed
+ */
+function function1($baz)
+{
+   global $foo,$bar;
+   // note that this also works as:
+   // global $foo;
+   // global $bar;
+   if ($baz)
+   {
+      $a = 5;
+   } else
+   {
+      $a = array(1,4);
+   }
+   return $a;
+}
+   ]]>
+   </programlisting>
+  </para>
+ </refsect1>
+</refentry>

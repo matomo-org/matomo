@@ -1,0 +1,80 @@
+NAME:
+
+    Smarty - the PHP compiling template engine
+
+VERSION: 2.5.0
+
+AUTHORS:
+    
+    Monte Ohrt <monte@ispi.net>
+    Andrei Zmievski <andrei@php.net>
+
+MAILING LISTS:
+
+    We have a few mailing lists. "general" for you to share your ideas or ask
+	questions, "dev" for those interested in the development efforts of Smarty,
+	and "cvs" for those that would like to track the updates made in the cvs
+	repository.
+
+    send a blank e-mail message to:
+      smarty-general-subscribe@lists.php.net (subscribe to the general list)
+      smarty-general-unsubscribe@lists.php.net (unsubscribe from the general list)
+      smarty-general-digest-subscribe@lists.php.net (subscribe to digest)
+      smarty-general-digest-unsubscribe@lists.php.net (unsubscribe from digest)
+      smarty-dev-subscribe@lists.php.net (subscribe to the dev list)
+      smarty-dev-unsubscribe@lists.php.net (unsubscribe from the dev list)
+      smarty-cvs-subscribe@lists.php.net (subscribe to the cvs list)
+      smarty-cvs-unsubscribe@lists.php.net (unsubscribe from the cvs list)
+    You can also browse the mailing list archives at
+    http://marc.theaimsgroup.com/?l=smarty&r=1&w=2
+
+SYNOPSIS:
+
+    require("Smarty.class.php");
+
+    $smarty = new Smarty;
+
+    $smarty->assign("Title","My Homepage");
+    $smarty->assign("Names",array("John","Gary","Gregg","James"));
+
+    $smarty->display("index.tpl");
+
+
+DESCRIPTION:
+
+    What is Smarty?
+
+    Smarty is a template engine for PHP. Many other template engines for PHP
+    provide basic variable substitution and dynamic block functionality.
+    Smarty takes a step further to be a "smart" template engine, adding
+    features such as configuration files, template functions, and variable
+    modifiers, and making all of this functionality as easy as possible to
+    use for both programmers and template designers. Smarty also converts
+    the templates into PHP scripts, eliminating the need to parse the
+    templates on every invocation. This makes Smarty extremely scalable and
+    manageable for large application needs.
+
+    Some of Smarty's features:
+
+    * it is extremely fast
+    * no template parsing overhead, only compiles once.
+	* it is smart about recompiling only the template files that have
+	  changed.
+    * the template language is remarkably extensible via the plugin
+      architecture.
+    * configurable template delimiter tag syntax, so you can use
+      {}, {{}}, <!--{}-->, or whatever you like.
+    * built-in caching of template output.
+    * arbitrary template sources (filesystem, databases, etc.)
+    * template if/elseif/else/endif constructs are passed to the PHP parser,
+      so the if syntax can be as simple or as complex as you like.
+    * unlimited nesting of sections, conditionals, etc. allowed
+    * it is possible to embed PHP code right in your template files,
+      although not recommended and doubtfully needed since the engine
+      is so customizable.
+    * and many more.
+
+COPYRIGHT:
+    Copyright (c) 2001,2002 ispi of Lincoln, Inc. All rights reserved.
+    This software is released under the GNU Lesser General Public License.
+    Please read the disclaimer at the top of the Smarty.class.php file.
