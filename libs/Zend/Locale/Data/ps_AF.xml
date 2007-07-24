@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.38 $"/>
+		<generation date="$Date: 2006/06/27 18:46:54 $"/>
+		<language type="ps"/>
+		<territory type="AF"/>
+	</identity>
+	<numbers>
+		<symbols>
+			<decimal>٫</decimal>
+			<group>٬</group>
+			<percentSign>٪</percentSign>
+			<nativeZeroDigit>۰</nativeZeroDigit>
+			<minusSign>−</minusSign>
+			<exponential>×۱۰^</exponential>
+		</symbols>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>#,##0.00 ¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+	</numbers>
+</ldml>

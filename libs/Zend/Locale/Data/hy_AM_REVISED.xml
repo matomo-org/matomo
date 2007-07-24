@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.38 $"/>
+		<generation date="$Date: 2006/06/27 23:30:54 $"/>
+		<language type="hy"/>
+		<territory type="AM"/>
+		<variant type="REVISED"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="ar" draft="unconfirmed">Արաբերեն</language>
+			<language type="az" draft="unconfirmed">Ադրբեջաներեն</language>
+			<language type="fa" draft="unconfirmed">Պարսկերեն</language>
+			<language type="ka" draft="unconfirmed">Վրացերեն</language>
+			<language type="tr" draft="unconfirmed">Թուրքերեն</language>
+		</languages>
+	</localeDisplayNames>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">Հնվ</month>
+							<month type="2">Փտվ</month>
+							<month type="6">Հնս</month>
+							<month type="7">Հլս</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Հունվար</month>
+							<month type="2">Փետրվար</month>
+							<month type="6">Հունիս</month>
+							<month type="7">Հուլիս</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<pm>Կե․</pm>
+				<eras>
+					<eraAbbr>
+						<era type="0">Մ․Թ․Ա․</era>
+						<era type="1">Մ․Թ․</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+</ldml>

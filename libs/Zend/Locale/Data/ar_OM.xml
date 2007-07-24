@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.37 $"/>
+		<generation date="$Date: 2006/06/27 23:30:53 $"/>
+		<language type="ar"/>
+		<territory type="OM"/>
+	</identity>
+</ldml>
+

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.44 $"/>
+		<generation date="$Date: 2006/07/11 19:27:38 $"/>
+		<language type="sv"/>
+		<territory type="SE"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="afa">afroasiatiskt (annat)</language>
+			<language type="cpe">kreol- och pidginspråk, engelskbaserade (övriga)</language>
+			<language type="cpf">kreol- och pidginspråk, franskbaserade (övriga)</language>
+			<language type="cpp">kreol- och pidginspråk, portugisiskbaserade (övriga)</language>
+			<language type="crh">krimturkiska, krimtatariska</language>
+			<language type="crp">kreol- och pidginspråk (annat)</language>
+			<language type="enm">medelengelska (ca 1100-1500)</language>
+			<language type="gil">gilbertesiska, kiribati</language>
+			<language type="gn">guarani</language>
+			<language type="iro">irokesiska språk</language>
+			<language type="khi">khoisanska (annat)</language>
+			<language type="km">kambodjanska, khmeriska</language>
+			<language type="kn">kanaresiska, kannada</language>
+			<language type="lol">lolo, mongo</language>
+			<language type="mga">medeliriska (ca 900-1200)</language>
+			<language type="nah">nahuatl, aztekiska</language>
+			<language type="nds">lågtyska, lågsaxiska</language>
+			<language type="oc">provensalska (efter 1500), occitanska</language>
+			<language type="oj">odjibwa, chippewa</language>
+			<language type="phn">kananeiska, feniciska</language>
+			<language type="ps">pashto, afghanska</language>
+			<language type="rw">rwanda, kinjarwanda</language>
+			<language type="sit">sinotibetanskt (annat)</language>
+			<language type="smi">samiska språk (övriga)</language>
+			<language type="sn">shona, manshona</language>
+		</languages>
+		<territories>
+			<territory type="UM">USA:s yttre öar</territory>
+		</territories>
+		<types>
+			<type type="stroke" key="collation">streckordning</type>
+		</types>
+		<measurementSystemNames>
+			<measurementSystemName type="US">Tumsystem</measurementSystemName>
+			<measurementSystemName type="metric">Metriskt system</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<delimiters>
+		<quotationStart>’</quotationStart>
+		<quotationEnd>’</quotationEnd>
+		<alternateQuotationStart>”</alternateQuotationStart>
+		<alternateQuotationEnd>”</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<dateFormats>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>EEE d MMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMMMEEEd" draft="provisional">EEE d MMMM</dateFormatItem>
+						<dateFormatItem id="MMd" draft="provisional">d/MM</dateFormatItem>
+						<dateFormatItem id="hhmm" draft="provisional">hh.mm a</dateFormatItem>
+						<dateFormatItem id="hhmmss" draft="provisional">hh.mm.ss a</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ" draft="provisional">QQQQ yyyy</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+				<fields>
+					<field type="dayperiod">
+						<displayName>tidsvisning</displayName>
+					</field>
+				</fields>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<percentFormats>
+			<percentFormatLength>
+				<percentFormat>
+					<pattern references="R3">#,##0 %</pattern>
+				</percentFormat>
+			</percentFormatLength>
+		</percentFormats>
+	</numbers>
+</ldml>
+

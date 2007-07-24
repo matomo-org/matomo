@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.13 $"/>
+		<generation date="$Date: 2006/06/24 23:27:01 $"/>
+		<language type="sr"/>
+		<territory type="BA"/>
+	</identity>
+	<alias source="sr_Cyrl_BA" path="//ldml" draft="unconfirmed"/>
+</ldml>
+

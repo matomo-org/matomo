@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.12 $"/>
+		<generation date="$Date: 2006/07/11 19:22:10 $"/>
+		<language type="zu"/>
+	</identity>
+	<characters>
+		<exemplarCharacters>[a b {bh} c {ch} d {dl} e-g {gc} {gq} {gx} h {hh} {hl} i k {kh} {kl} l-n {nc} {nq} {nx} {ny} o p {ph} q {qh} s {sh} t {th} {ts} {tsh} u-x {xh} y z]</exemplarCharacters>
+	</characters>
+	<delimiters>
+		<quotationStart>‘</quotationStart>
+		<quotationEnd>’</quotationEnd>
+		<alternateQuotationStart>“</alternateQuotationStart>
+		<alternateQuotationEnd draft="unconfirmed">”</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">Jan</month>
+							<month type="2" draft="unconfirmed">Feb</month>
+							<month type="3" draft="unconfirmed">Mas</month>
+							<month type="4" draft="unconfirmed">Apr</month>
+							<month type="5" draft="unconfirmed">Mey</month>
+							<month type="6" draft="unconfirmed">Jun</month>
+							<month type="7" draft="unconfirmed">Jul</month>
+							<month type="8" draft="unconfirmed">Aga</month>
+							<month type="9" draft="unconfirmed">Sep</month>
+							<month type="10" draft="unconfirmed">Okt</month>
+							<month type="11" draft="unconfirmed">Nov</month>
+							<month type="12" draft="unconfirmed">Dis</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Januwari</month>
+							<month type="2" draft="unconfirmed">Februwari</month>
+							<month type="3" draft="unconfirmed">Mashi</month>
+							<month type="4" draft="unconfirmed">Apreli</month>
+							<month type="5" draft="unconfirmed">Meyi</month>
+							<month type="6" draft="unconfirmed">Juni</month>
+							<month type="7" draft="unconfirmed">Julayi</month>
+							<month type="8" draft="unconfirmed">Agasti</month>
+							<month type="9" draft="unconfirmed">Septemba</month>
+							<month type="10" draft="unconfirmed">Okthoba</month>
+							<month type="11" draft="unconfirmed">Novemba</month>
+							<month type="12" draft="unconfirmed">Disemba</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">Son</day>
+							<day type="mon" draft="unconfirmed">Mso</day>
+							<day type="tue" draft="unconfirmed">Bil</day>
+							<day type="wed" draft="unconfirmed">Tha</day>
+							<day type="thu" draft="unconfirmed">Sin</day>
+							<day type="fri" draft="unconfirmed">Hla</day>
+							<day type="sat" draft="unconfirmed">Mgq</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">Sonto</day>
+							<day type="mon" draft="unconfirmed">Msombuluko</day>
+							<day type="tue" draft="unconfirmed">Lwesibili</day>
+							<day type="wed" draft="unconfirmed">Lwesithathu</day>
+							<day type="thu" draft="unconfirmed">Lwesine</day>
+							<day type="fri" draft="unconfirmed">Lwesihlanu</day>
+							<day type="sat" draft="unconfirmed">Mgqibelo</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">BC</era>
+						<era type="1" draft="unconfirmed">AD</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">BC</era>
+						<era type="1" draft="unconfirmed">AD</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal draft="provisional">,</decimal>
+		</symbols>
+		<currencies>
+			<currency type="ZAR">
+				<symbol>R</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+

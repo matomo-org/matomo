@@ -1,0 +1,2394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.70 $"/>
+		<generation date="$Date: 2006/10/26 22:46:08 $"/>
+		<language type="hu"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="aa">afar</language>
+			<language type="ab">abház</language>
+			<language type="ae" draft="provisional">avesztán</language>
+			<language type="af">afrikai</language>
+			<language type="af" references="RP3" alt="proposed-u46-2" draft="provisional">afrikaans</language>
+			<language type="afa" draft="provisional">afro-ázsiai (egyéb)</language>
+			<language type="afh" draft="provisional">afrihili</language>
+			<language type="ain" draft="provisional">ainu</language>
+			<language type="ak" draft="provisional">akan</language>
+			<language type="ale" draft="provisional">aleut</language>
+			<language type="alt" references="RP1" draft="provisional">dél-altaji</language>
+			<language type="am">amhara</language>
+			<language type="an" draft="provisional">aragonéz</language>
+			<language type="ang" references="RP1" draft="provisional">óangol (kb. 450-1100)</language>
+			<language type="apa" references="RP1" draft="provisional">apacs nyelvek</language>
+			<language type="ar">arab</language>
+			<language type="arp" draft="provisional">arapaho</language>
+			<language type="art" draft="provisional">mesterséges (egyéb)</language>
+			<language type="as">asszámi</language>
+			<language type="ast" draft="provisional">asztúr</language>
+			<language type="ath" draft="provisional">atapaszkan nyelvek</language>
+			<language type="aus" draft="provisional">ausztrál nyelvek</language>
+			<language type="av" draft="provisional">avar</language>
+			<language type="ay">ajmara</language>
+			<language type="az">azerbajdzsáni</language>
+			<language type="ba">baskír</language>
+			<language type="bad" draft="provisional">banda</language>
+			<language type="bai" draft="provisional">bamileke nyelvek</language>
+			<language type="ban" draft="provisional">balinéz</language>
+			<language type="bat" draft="provisional">balti (egyéb)</language>
+			<language type="be">belorusz</language>
+			<language type="ber" references="RP1" draft="provisional">berber</language>
+			<language type="bg">bolgár</language>
+			<language type="bh">bihari</language>
+			<language type="bi">bislama</language>
+			<language type="bik" draft="provisional">bikol</language>
+			<language type="bin" draft="provisional">bini</language>
+			<language type="bm" draft="provisional">bambara</language>
+			<language type="bn">bengáli</language>
+			<language type="bnt" references="RP1" draft="provisional">bantu</language>
+			<language type="bo">tibeti</language>
+			<language type="br">breton</language>
+			<language type="bs" references="RP3" draft="provisional">bosnyák</language>
+			<language type="btk" draft="provisional">batak</language>
+			<language type="ca">katalán</language>
+			<language type="cai" draft="provisional">közép-amerikai indián (egyéb)</language>
+			<language type="car" draft="provisional">karib</language>
+			<language type="cau" draft="provisional">kaukázusi (egyéb)</language>
+			<language type="ce" references="RP1" draft="provisional">csecsen</language>
+			<language type="cel" references="RP1" draft="provisional">kelta (egyéb)</language>
+			<language type="chy" draft="provisional">csejen</language>
+			<language type="co">korzikai</language>
+			<language type="cop" references="RP1" draft="provisional">kopt</language>
+			<language type="crh" draft="provisional">krími török; krími tatár</language>
+			<language type="cs">cseh</language>
+			<language type="cu" draft="provisional">egyházi szláv</language>
+			<language type="cy">walesi</language>
+			<language type="da">dán</language>
+			<language type="dak" draft="provisional">dakota</language>
+			<language type="de">német</language>
+			<language type="del" draft="provisional">delavár</language>
+			<language type="dz">butáni</language>
+			<language type="egy" draft="provisional">egyiptomi (ókori)</language>
+			<language type="el">görög</language>
+			<language type="en">angol</language>
+			<language type="eo">eszperantó</language>
+			<language type="es">spanyol</language>
+			<language type="et">észt</language>
+			<language type="eu">baszk</language>
+			<language type="fa">perzsa</language>
+			<language type="fi">finn</language>
+			<language type="fil" references="RP3" draft="provisional">filippínó</language>
+			<language type="fiu" references="RP1" draft="provisional">finnugor (egyéb)</language>
+			<language type="fj">fidzsi</language>
+			<language type="fo">feröeri</language>
+			<language type="fr">francia</language>
+			<language type="fro" draft="provisional">ófrancia</language>
+			<language type="fy">fríz</language>
+			<language type="ga">ír</language>
+			<language type="gd">skót (gael)</language>
+			<language type="gd" references="RP3" alt="proposed-u46-1" draft="provisional">skót gael</language>
+			<language type="gem" draft="provisional">germán (egyéb)</language>
+			<language type="gil" draft="provisional">ikiribati</language>
+			<language type="gl">galíciai</language>
+			<language type="gn">guarani</language>
+			<language type="got" draft="provisional">gót</language>
+			<language type="grc" draft="provisional">ógörög</language>
+			<language type="gu">gudzsaráti</language>
+			<language type="gv" references="RP2" draft="provisional">Man-szigeti</language>
+			<language type="ha">hausza</language>
+			<language type="haw" draft="provisional">hawaii</language>
+			<language type="he">héber</language>
+			<language type="hi">hindi</language>
+			<language type="hr">horvát</language>
+			<language type="ht" draft="provisional">haiti</language>
+			<language type="hu">magyar</language>
+			<language type="hy">örmény</language>
+			<language type="ia">interlingua</language>
+			<language type="id">indonéz</language>
+			<language type="ie">interlingue</language>
+			<language type="ik">inupiak</language>
+			<language type="ine" draft="provisional">indo-európai (egyéb)</language>
+			<language type="ira" draft="provisional">iráni</language>
+			<language type="is">izlandi</language>
+			<language type="it">olasz</language>
+			<language type="iu">inuktitut</language>
+			<language type="ja">japán</language>
+			<language type="jpr" draft="provisional">zsidó-perzsa</language>
+			<language type="jrb" draft="provisional">zsidó-arab</language>
+			<language type="jv">jávai</language>
+			<language type="ka">grúz</language>
+			<language type="kk">kazah</language>
+			<language type="kl">grönlandi</language>
+			<language type="km">kambodzsai</language>
+			<language type="kn">kannada</language>
+			<language type="ko">koreai</language>
+			<language type="ks">kasmíri</language>
+			<language type="ks" references="RP3" alt="proposed-u46-1" draft="provisional">kásmíri</language>
+			<language type="ku">kurd</language>
+			<language type="ky">kirgiz</language>
+			<language type="la">latin</language>
+			<language type="lb" references="RP1" draft="provisional">luxemburgi</language>
+			<language type="ln">lingala</language>
+			<language type="lo">laoszi</language>
+			<language type="lt">litván</language>
+			<language type="lv">lett</language>
+			<language type="map" draft="provisional">ausztronéz</language>
+			<language type="mg">madagaszkári</language>
+			<language type="mg" references="RP3" alt="proposed-u46-1" draft="provisional">málgas</language>
+			<language type="mi">maori</language>
+			<language type="mk">macedón</language>
+			<language type="ml">malajalam</language>
+			<language type="ml" references="RP3" alt="proposed-u46-1" draft="provisional">malajálam</language>
+			<language type="mn">mongol</language>
+			<language type="mo">moldvai</language>
+			<language type="mr">marati</language>
+			<language type="ms">maláj</language>
+			<language type="mt">máltai</language>
+			<language type="my">burmai</language>
+			<language type="myn" draft="provisional">maja nyelvek</language>
+			<language type="na">naurui</language>
+			<language type="nai" draft="provisional">észak-amerikai indián (egyéb)</language>
+			<language type="nb" draft="provisional">norvég bokmál</language>
+			<language type="ne">nepáli</language>
+			<language type="nl">holland</language>
+			<language type="nn" draft="provisional">norvég nynorsk</language>
+			<language type="no">norvég</language>
+			<language type="nv" draft="provisional">navaho</language>
+			<language type="oc">okszitán</language>
+			<language type="om">oromói</language>
+			<language type="or">orija</language>
+			<language type="os" draft="provisional">oszét</language>
+			<language type="ota" draft="provisional">ottomán török</language>
+			<language type="pa">pandzsábi</language>
+			<language type="paa" draft="provisional">pápuai (egyéb)</language>
+			<language type="peo" draft="provisional">óperzsa</language>
+			<language type="phi" draft="provisional">filippínó (egyéb)</language>
+			<language type="phn" draft="provisional">főniciai</language>
+			<language type="pl">lengyel</language>
+			<language type="ps">pastu (afgán)</language>
+			<language type="ps" references="RP3" alt="proposed-u46-1" draft="provisional">pastu</language>
+			<language type="pt">portugál</language>
+			<language type="qu">kecsua</language>
+			<language type="rm">rétoromán</language>
+			<language type="rn">kirundi</language>
+			<language type="ro">román</language>
+			<language type="ru">orosz</language>
+			<language type="rw">kiruanda</language>
+			<language type="sa">szanszkrit</language>
+			<language type="sai" draft="provisional">dél-amerikai indián (egyéb)</language>
+			<language type="sc" draft="provisional">szardíniai</language>
+			<language type="scn" draft="provisional">szicíliai</language>
+			<language type="sd">szindi</language>
+			<language type="sg">sango</language>
+			<language type="sga" draft="provisional">óír</language>
+			<language type="sh">szerb-horvát</language>
+			<language type="sh" references="RP1" alt="proposed-u46-1" draft="provisional">szerbhorvát</language>
+			<language type="si">szingaléz</language>
+			<language type="sio" draft="provisional">sziú nyelvek</language>
+			<language type="sk">szlovák</language>
+			<language type="sl">szlovén</language>
+			<language type="sla" draft="provisional">szláv (egyéb)</language>
+			<language type="sm">szamoai</language>
+			<language type="sn">sona</language>
+			<language type="so">szomáli</language>
+			<language type="sq">albán</language>
+			<language type="sr">szerb</language>
+			<language type="ss">sziszuati</language>
+			<language type="st">szeszotó</language>
+			<language type="su">szundanéz</language>
+			<language type="sux" draft="provisional">sumér</language>
+			<language type="sv">svéd</language>
+			<language type="sw">szuahéli</language>
+			<language type="ta">tamil</language>
+			<language type="te">telugu</language>
+			<language type="tg">tadzsik</language>
+			<language type="th">thai</language>
+			<language type="ti">tigrinya</language>
+			<language type="tk">türkmén</language>
+			<language type="tl">tagalog</language>
+			<language type="tlh" draft="provisional">klingon</language>
+			<language type="tn">szecsuáni</language>
+			<language type="to">tonga</language>
+			<language type="tr">török</language>
+			<language type="ts">conga</language>
+			<language type="tt">tatár</language>
+			<language type="tvl" draft="provisional">tuvalu</language>
+			<language type="tw">tui</language>
+			<language type="ty" draft="provisional">tahiti</language>
+			<language type="ug">ujgur</language>
+			<language type="uk">ukrán</language>
+			<language type="ur">urdu</language>
+			<language type="uz">üzbég</language>
+			<language type="vi">vietnámi</language>
+			<language type="vo">volapük</language>
+			<language type="wo">volof</language>
+			<language type="xh">hosza</language>
+			<language type="yi">zsidó</language>
+			<language type="yo">joruba</language>
+			<language type="za">zsuang</language>
+			<language type="zh">kínai</language>
+			<language type="zu">zulu</language>
+		</languages>
+		<scripts>
+			<script type="Armn">Örmény</script>
+			<script type="Beng">Bengáli</script>
+			<script type="Bopo">Bopomofo</script>
+			<script type="Brai">Vakírás</script>
+			<script type="Cans">Egyesített kanadai őslakos jelek</script>
+			<script type="Copt" draft="provisional">Kopt</script>
+			<script type="Cprt">Ciprusi</script>
+			<script type="Cyrl">Cirill</script>
+			<script type="Cyrs" draft="provisional">Cirill (régi egyházi szláv variáns)</script>
+			<script type="Deva" draft="provisional">Devanagári</script>
+			<script type="Egyp" draft="provisional">Egyiptomi hieroglifák</script>
+			<script type="Ethi">Etióp</script>
+			<script type="Geor">Grúz</script>
+			<script type="Goth">Gótikus</script>
+			<script type="Goth" alt="proposed-u46-1" draft="provisional">Gót</script>
+			<script type="Grek">Görög</script>
+			<script type="Gujr" draft="provisional">Gudzsaráti</script>
+			<script type="Guru" draft="provisional">Gurmuki</script>
+			<script type="Hang" draft="provisional">Hangul</script>
+			<script type="Hani">Han</script>
+			<script type="Hano">Hanunoo</script>
+			<script type="Hans">Egyszerűsített Han</script>
+			<script type="Hant">Hagyományos Han</script>
+			<script type="Hebr">Héber</script>
+			<script type="Hira" draft="provisional">Hiragana</script>
+			<script type="Hrkt" draft="provisional">Katakana vagy hiragana</script>
+			<script type="Hung" draft="provisional">Ómagyar</script>
+			<script type="Ital">Régi olasz</script>
+			<script type="Java" draft="provisional">Jávai</script>
+			<script type="Kana" draft="provisional">Katakana</script>
+			<script type="Knda">Kannada</script>
+			<script type="Laoo">Lao</script>
+			<script type="Latg" draft="provisional">Latin (gael variáns)</script>
+			<script type="Latn" draft="provisional">Latin</script>
+			<script type="Limb">Limbu</script>
+			<script type="Lina" draft="provisional">Lineáris A</script>
+			<script type="Linb" draft="provisional">Lineáris B</script>
+			<script type="Maya" draft="provisional">Maja hieroglifák</script>
+			<script type="Mlym">Malayalam</script>
+			<script type="Mlym" references="RP3" alt="proposed-u46-1" draft="provisional">Malajálam</script>
+			<script type="Mong" draft="provisional">Mongol</script>
+			<script type="Mymr">Burmai</script>
+			<script type="Ogam">Ogham</script>
+			<script type="Orya">Oriya</script>
+			<script type="Osma">Oszmán</script>
+			<script type="Phnx" draft="provisional">Főniciai</script>
+			<script type="Sinh">Szingaléz</script>
+			<script type="Syrc">Szíriai</script>
+			<script type="Tagb">Tagbanwa</script>
+			<script type="Tale">Tai Le</script>
+			<script type="Taml" draft="provisional">Tamil</script>
+			<script type="Telu">Telugu</script>
+			<script type="Thaa">Thaana</script>
+			<script type="Thai" draft="provisional">Thai</script>
+			<script type="Tibt">Tibeti</script>
+			<script type="Ugar">Ugari</script>
+			<script type="Visp" draft="provisional">Látható beszéd</script>
+			<script type="Xpeo" draft="provisional">óperzsa</script>
+			<script type="Yiii" draft="provisional">Yi</script>
+			<script type="Zxxx" draft="provisional">Íratlan nyelvek kódja</script>
+			<script type="Zyyy">Meghatározatlan</script>
+			<script type="Zyyy" alt="proposed-u46-1" draft="provisional">Közös</script>
+			<script type="Zzzz" draft="provisional">Kódolatlan írásrendszerek kódja</script>
+		</scripts>
+		<territories>
+			<territory type="001">Világ</territory>
+			<territory type="002">Afrika</territory>
+			<territory type="005">Dél-Amerika</territory>
+			<territory type="009">Óceánia</territory>
+			<territory type="011">Nyugat-Afrika</territory>
+			<territory type="013">Közép-Amerika</territory>
+			<territory type="014">Kelet-Afrika</territory>
+			<territory type="015">Észak-Afrika</territory>
+			<territory type="017">Közép-Afrika</territory>
+			<territory type="018" references="RP3" draft="provisional">Afrika déli része</territory>
+			<territory type="019">Amerika</territory>
+			<territory type="021">Észak-Amerika</territory>
+			<territory type="029" draft="provisional">Karib-térség</territory>
+			<territory type="030">Kelet-Ázsia</territory>
+			<territory type="034" references="RP3" draft="provisional">Dél-Ázsia</territory>
+			<territory type="035">Délkelet-Ázsia</territory>
+			<territory type="039">Dél-Európa</territory>
+			<territory type="053">Ausztrália és Új-Zéland</territory>
+			<territory type="054">Melanézia</territory>
+			<territory type="057" draft="unconfirmed">Mikronézia</territory>
+			<territory type="061">Polinézia</territory>
+			<territory type="062" draft="unconfirmed">Délközép-Ázsia</territory>
+			<territory type="142">Ázsia</territory>
+			<territory type="143" references="RP3" draft="provisional">Közép-Ázsia</territory>
+			<territory type="145">Nyugat-Ázsia</territory>
+			<territory type="150">Európa</territory>
+			<territory type="151">Kelet-Európa</territory>
+			<territory type="154">Észak-Európa</territory>
+			<territory type="155">Nyugat-Európa</territory>
+			<territory type="172" draft="provisional">Független Államok Közössége</territory>
+			<territory type="419" draft="provisional">Latin-Amerika és a Karib-térség</territory>
+			<territory type="830">Csatorna-szigetek</territory>
+			<territory type="IM">Man-sziget</territory>
+			<territory type="AD">Andorra</territory>
+			<territory type="AE">Egyesült Arab Emirátus</territory>
+			<territory type="AE" references="RP3" alt="proposed-u46-1" draft="provisional">Egyesült Arab Emírségek</territory>
+			<territory type="AF">Afganisztán</territory>
+			<territory type="AG">Antigua és Barbuda</territory>
+			<territory type="AI">Anguilla</territory>
+			<territory type="AL">Albánia</territory>
+			<territory type="AM">Örményország</territory>
+			<territory type="AN">Holland Antillák</territory>
+			<territory type="AO">Angola</territory>
+			<territory type="AQ">Antarktisz</territory>
+			<territory type="AR">Argentína</territory>
+			<territory type="AS">Amerikai Szamoa</territory>
+			<territory type="AT">Ausztria</territory>
+			<territory type="AU">Ausztrália</territory>
+			<territory type="AW">Aruba</territory>
+			<territory type="AX">Aland-szigetek</territory>
+			<territory type="AZ">Azerbajdzsán</territory>
+			<territory type="BA">Bosznia-Hercegovina</territory>
+			<territory type="BB">Barbados</territory>
+			<territory type="BD">Banglades</territory>
+			<territory type="BE">Belgium</territory>
+			<territory type="BF">Burkina Faso</territory>
+			<territory type="BG">Bulgária</territory>
+			<territory type="BH">Bahrain</territory>
+			<territory type="BH" references="RP3" alt="proposed-u46-1" draft="provisional">Bahrein</territory>
+			<territory type="BI">Burundi</territory>
+			<territory type="BJ">Benin</territory>
+			<territory type="BM">Bermuda</territory>
+			<territory type="BN">Brunei Darussalam</territory>
+			<territory type="BN" references="RP3" alt="proposed-u46-1" draft="provisional">Brunei</territory>
+			<territory type="BO">Bolívia</territory>
+			<territory type="BR">Brazília</territory>
+			<territory type="BS">Bahamák</territory>
+			<territory type="BT">Bhután</territory>
+			<territory type="BV">Bouvet-sziget</territory>
+			<territory type="BW">Botswana</territory>
+			<territory type="BY">Fehéroroszország</territory>
+			<territory type="BZ">Beliz</territory>
+			<territory type="BZ" references="RP3" alt="proposed-u46-1" draft="provisional">Belize</territory>
+			<territory type="CA">Kanada</territory>
+			<territory type="CC">Kókusz (Keeling)-szigetek</territory>
+			<territory type="CD">Kongó, Demokratikus köztársaság</territory>
+			<territory type="CD" references="RP3" alt="proposed-u46-1" draft="provisional">Kongói Demokratikus Köztársaság</territory>
+			<territory type="CF">Közép-afrikai Köztársaság</territory>
+			<territory type="CG">Kongó</territory>
+			<territory type="CH">Svájc</territory>
+			<territory type="CI">Elefántcsontpart</territory>
+			<territory type="CK">Cook-szigetek</territory>
+			<territory type="CL">Chile</territory>
+			<territory type="CM">Kamerun</territory>
+			<territory type="CN">Kína</territory>
+			<territory type="CO">Kolumbia</territory>
+			<territory type="CR">Costa Rica</territory>
+			<territory type="CS" references="RP3" draft="provisional">Szerbia és Montenegró</territory>
+			<territory type="CU">Kuba</territory>
+			<territory type="CV">Zöld-foki Köztársaság</territory>
+			<territory type="CX">Karácsony-szigetek</territory>
+			<territory type="CY">Ciprus</territory>
+			<territory type="CZ">Cseh Köztársaság</territory>
+			<territory type="CZ" references="RP3" alt="proposed-u46-1" draft="provisional">Csehország</territory>
+			<territory type="DE">Németország</territory>
+			<territory type="DJ">Dzsibuti</territory>
+			<territory type="DK">Dánia</territory>
+			<territory type="DM">Dominika</territory>
+			<territory type="DO">Dominikai Köztársaság</territory>
+			<territory type="DZ">Algéria</territory>
+			<territory type="EC">Ecuador</territory>
+			<territory type="EE">Észtország</territory>
+			<territory type="EG">Egyiptom</territory>
+			<territory type="EH">Nyugat Szahara</territory>
+			<territory type="EH" references="RP1" alt="proposed-u46-1" draft="provisional">Nyugat-Szahara</territory>
+			<territory type="ER">Eritrea</territory>
+			<territory type="ES">Spanyolország</territory>
+			<territory type="ET">Etiópia</territory>
+			<territory type="FI">Finnország</territory>
+			<territory type="FJ">Fidzsi</territory>
+			<territory type="FK">Falkland-szigetek</territory>
+			<territory type="FM">Mikronézia, Szövetségi Államok</territory>
+			<territory type="FO">Feröer-szigetek</territory>
+			<territory type="FR">Franciaország</territory>
+			<territory type="GA">Gabon</territory>
+			<territory type="GB">Egyesült Királyság</territory>
+			<territory type="GD">Grenada</territory>
+			<territory type="GE">Grúzia</territory>
+			<territory type="GF">Francia Guyana</territory>
+			<territory type="GH">Ghana</territory>
+			<territory type="GH" references="RP3" alt="proposed-u46-1" draft="provisional">Ghána</territory>
+			<territory type="GI">Gibraltár</territory>
+			<territory type="GL">Grönland</territory>
+			<territory type="GM">Gambia</territory>
+			<territory type="GN">Guinea</territory>
+			<territory type="GP">Guadeloupe</territory>
+			<territory type="GQ">Egyenlítďi Guinea</territory>
+			<territory type="GQ" references="RP3" alt="proposed-u46-1" draft="provisional">Egyenlítői-Guinea</territory>
+			<territory type="GR">Görögország</territory>
+			<territory type="GS">Dél-Georgia és Dél-Sandwich Szigetek</territory>
+			<territory type="GT">Guatemala</territory>
+			<territory type="GU">Guam</territory>
+			<territory type="GW">Guinea-Bissau</territory>
+			<territory type="GY">Guyana</territory>
+			<territory type="HK">Hong Kong S.A.R., China</territory>
+			<territory type="HM">Heard és McDonald Szigetek</territory>
+			<territory type="HN">Honduras</territory>
+			<territory type="HR">Horvátország</territory>
+			<territory type="HT">Haiti</territory>
+			<territory type="HU">Magyarország</territory>
+			<territory type="ID">Indonézia</territory>
+			<territory type="IE">Írország</territory>
+			<territory type="IL">Izrael</territory>
+			<territory type="IN">India</territory>
+			<territory type="IO">Brit Indiai Oceán</territory>
+			<territory type="IQ">Irak</territory>
+			<territory type="IR">Irán</territory>
+			<territory type="IS">Izland</territory>
+			<territory type="IT">Olaszország</territory>
+			<territory type="JM">Jamaica</territory>
+			<territory type="JO">Jordánia</territory>
+			<territory type="JP">Japán</territory>
+			<territory type="KE">Kenya</territory>
+			<territory type="KG">Kirgizisztán</territory>
+			<territory type="KH">Kambodzsa</territory>
+			<territory type="KI">Kiribati</territory>
+			<territory type="KM">Comore-szigetek</territory>
+			<territory type="KN">Saint Kitts és Nevis</territory>
+			<territory type="KP">Korea, Észak</territory>
+			<territory type="KP" alt="proposed-u46-1" draft="provisional">Észak-Korea</territory>
+			<territory type="KR">Korea, Dél</territory>
+			<territory type="KR" alt="proposed-u46-1" draft="provisional">Dél-Korea</territory>
+			<territory type="KW">Kuwait</territory>
+			<territory type="KW" references="RP3" alt="proposed-u46-1" draft="provisional">Kuvait</territory>
+			<territory type="KY">Kajmán-szigetek</territory>
+			<territory type="KZ">Kazahsztán</territory>
+			<territory type="LA">Laoszi Népi Demokratikus Köztársaság</territory>
+			<territory type="LA" references="RP3" alt="proposed-u46-1" draft="provisional">Laosz</territory>
+			<territory type="LB">Libanon</territory>
+			<territory type="LC">Saint Lucia</territory>
+			<territory type="LI">Liechtenstein</territory>
+			<territory type="LK">Sri Lanka</territory>
+			<territory type="LK" references="RP3" alt="proposed-u46-1" draft="provisional">Srí Lanka</territory>
+			<territory type="LR">Libéria</territory>
+			<territory type="LS">Lesotho</territory>
+			<territory type="LT">Litvánia</territory>
+			<territory type="LU">Luxemburg</territory>
+			<territory type="LV">Lettország</territory>
+			<territory type="LY">Líbiai Arab Jamahiriya</territory>
+			<territory type="LY" references="RP3" alt="proposed-u46-1" draft="provisional">Líbia</territory>
+			<territory type="MA">Marokkó</territory>
+			<territory type="MC">Monaco</territory>
+			<territory type="MD">Moldáv Köztársaság</territory>
+			<territory type="MD" references="RP3" alt="proposed-u46-1" draft="provisional">Moldova</territory>
+			<territory type="MG">Madagaszkár</territory>
+			<territory type="MH">Marshall-szigetek</territory>
+			<territory type="MK">Macedónia, Köztársaság</territory>
+			<territory type="MK" references="RP3" alt="proposed-u46-1" draft="provisional">Macedónia</territory>
+			<territory type="ML">Mali</territory>
+			<territory type="MM">Mianmar</territory>
+			<territory type="MN">Mongólia</territory>
+			<territory type="MO">Macao S.A.R., China</territory>
+			<territory type="MO" alt="proposed-u46-1" draft="provisional">Makaó S.A.R, Kína</territory>
+			<territory type="MP">Északi Mariana-szigetek</territory>
+			<territory type="MQ">Martinique (francia)</territory>
+			<territory type="MQ" references="RP3" alt="proposed-u46-1" draft="provisional">Martinique</territory>
+			<territory type="MR">Mauritánia</territory>
+			<territory type="MS">Montserrat</territory>
+			<territory type="MT">Málta</territory>
+			<territory type="MU">Mauritius</territory>
+			<territory type="MV">Maldív-szigetek</territory>
+			<territory type="MW">Malawi</territory>
+			<territory type="MX">Mexikó</territory>
+			<territory type="MY">Malajzia</territory>
+			<territory type="MZ">Mozambik</territory>
+			<territory type="NA">Namíbia</territory>
+			<territory type="NC">Új Kaledónia (francia)</territory>
+			<territory type="NC" references="RP3" alt="proposed-u46-1" draft="provisional">Új-Kaledónia</territory>
+			<territory type="NE">Niger</territory>
+			<territory type="NF">Norfolk-sziget</territory>
+			<territory type="NG">Nigéria</territory>
+			<territory type="NI">Nicaragua</territory>
+			<territory type="NL">Hollandia</territory>
+			<territory type="NO">Norvégia</territory>
+			<territory type="NP">Nepál</territory>
+			<territory type="NR">Nauru</territory>
+			<territory type="NU">Niue</territory>
+			<territory type="NZ">Új-Zéland</territory>
+			<territory type="OM">Omán</territory>
+			<territory type="PA">Panama</territory>
+			<territory type="PE">Peru</territory>
+			<territory type="PF">Polinézia (francia)</territory>
+			<territory type="PF" references="RP3" alt="proposed-u46-1" draft="provisional">Francia Polinézia</territory>
+			<territory type="PG">Pápua Új-Guinea</territory>
+			<territory type="PH">Fülöp-szigetek</territory>
+			<territory type="PK">Pakisztán</territory>
+			<territory type="PL">Lengyelország</territory>
+			<territory type="PM">Saint Pierre és Miquelon</territory>
+			<territory type="PN">Pitcairn-sziget</territory>
+			<territory type="PR">Puerto Rico</territory>
+			<territory type="PS">Palesztín Terület</territory>
+			<territory type="PS" references="RP1" alt="proposed-u46-1" draft="provisional">Palesztin Terület</territory>
+			<territory type="PT">Portugália</territory>
+			<territory type="PW">Palau</territory>
+			<territory type="PY">Paraguay</territory>
+			<territory type="QA">Katar</territory>
+			<territory type="QO">Külső-Óceánia</territory>
+			<territory type="RE">Reunion (francia)</territory>
+			<territory type="RE" references="RP3" alt="proposed-u46-1" draft="provisional">Réunion</territory>
+			<territory type="RO">Románia</territory>
+			<territory type="RU">Orosz Köztársaság</territory>
+			<territory type="RU" references="RP3" alt="proposed-u46-1" draft="provisional">Oroszország</territory>
+			<territory type="RW">Ruanda</territory>
+			<territory type="SA">Szaud-Arábia</territory>
+			<territory type="SA" references="RP3" alt="proposed-u46-1" draft="provisional">Szaúd-Arábia</territory>
+			<territory type="SB">Salamon-szigetek</territory>
+			<territory type="SC">Seychelles</territory>
+			<territory type="SC" references="RP3" alt="proposed-u46-1" draft="provisional">Seychelle-szigetek</territory>
+			<territory type="SD">Szudán</territory>
+			<territory type="SE">Svédország</territory>
+			<territory type="SG">Szingapúr</territory>
+			<territory type="SH">Saint Helena</territory>
+			<territory type="SI">Szlovénia</territory>
+			<territory type="SJ">Svalbard és Jan Mayen</territory>
+			<territory type="SK">Szlovákia</territory>
+			<territory type="SL">Sierra Leone</territory>
+			<territory type="SM">San Marino</territory>
+			<territory type="SN">Szenegál</territory>
+			<territory type="SO">Szomália</territory>
+			<territory type="SR">Suriname</territory>
+			<territory type="ST">Saint Tome és Principe</territory>
+			<territory type="ST" references="RP3" alt="proposed-u46-1" draft="provisional">São Tomé és Príncipe</territory>
+			<territory type="SV">El Salvador</territory>
+			<territory type="SV" references="RP3" alt="proposed-u46-1" draft="provisional">Salvador</territory>
+			<territory type="SY">Szíriai Arab Köztársaság</territory>
+			<territory type="SY" references="RP3" alt="proposed-u46-1" draft="provisional">Szíria</territory>
+			<territory type="SZ">Szváziföld</territory>
+			<territory type="TC">Török és Caicos Szigetek</territory>
+			<territory type="TC" references="RP3" alt="proposed-u46-1" draft="provisional">Turks- és Caicos-szigetek</territory>
+			<territory type="TD">Csád</territory>
+			<territory type="TF">Francia Déli Területek</territory>
+			<territory type="TG">Togo</territory>
+			<territory type="TH">Thaiföld</territory>
+			<territory type="TJ">Tadzsikisztán</territory>
+			<territory type="TK">Tokelau</territory>
+			<territory type="TL">Kelet-Timor</territory>
+			<territory type="TM">Türkmenisztán</territory>
+			<territory type="TN">Tunézia</territory>
+			<territory type="TO">Tonga</territory>
+			<territory type="TR">Törökország</territory>
+			<territory type="TT">Trinidad és Tobago</territory>
+			<territory type="TV">Tuvalu</territory>
+			<territory type="TW">Taiwan</territory>
+			<territory type="TW" references="RP3" alt="proposed-u46-1" draft="provisional">Tajvan</territory>
+			<territory type="TZ">Tanzánia</territory>
+			<territory type="UA">Ukrajna</territory>
+			<territory type="UG">Uganda</territory>
+			<territory type="UM">United States Minor Outlying Islands</territory>
+			<territory type="UM" references="RP3" alt="proposed-u46-1" draft="provisional">Amerikai Csendes-óceáni Szigetek</territory>
+			<territory type="US">Egyesült Államok</territory>
+			<territory type="UY">Uruguay</territory>
+			<territory type="UZ">Üzbegisztán</territory>
+			<territory type="VA">Vatikán</territory>
+			<territory type="VC">Saint Vincent és Grenadines</territory>
+			<territory type="VE">Venezuela</territory>
+			<territory type="VG">Brit Virgin-szigetek</territory>
+			<territory type="VI">U.S. Virgin-szigetek</territory>
+			<territory type="VN">Vietnám</territory>
+			<territory type="VN" references="RP3" alt="proposed-u46-1" draft="provisional">Vietnam</territory>
+			<territory type="VU">Vanuatu</territory>
+			<territory type="WF">Wallis és Futuna Szigetek</territory>
+			<territory type="WF" references="RP3" alt="proposed-u46-1" draft="provisional">Wallis és Futuna</territory>
+			<territory type="WS">Szamoa</territory>
+			<territory type="YE">Jemen</territory>
+			<territory type="YT">Mayotte</territory>
+			<territory type="ZA">Dél-Afrika</territory>
+			<territory type="ZM">Zambia</territory>
+			<territory type="ZW">Zimbabwe</territory>
+		</territories>
+		<variants>
+			<variant type="1901" draft="provisional">Hagyományos német helyesírás</variant>
+			<variant type="1996" draft="provisional">1996-os német helyesírás</variant>
+			<variant type="POLYTONI" draft="provisional">Politonikus</variant>
+			<variant type="REVISED" draft="provisional">Átdolgozott helyesírás</variant>
+		</variants>
+		<keys>
+			<key type="calendar">Naptár</key>
+			<key type="collation">Rendezés</key>
+			<key type="collation" alt="proposed-u46-1" draft="provisional">Egybevetés</key>
+			<key type="currency">Pénznem</key>
+		</keys>
+		<types>
+			<type type="big5han" key="collation" draft="provisional">Hagyományos kínai (Big5)</type>
+			<type type="buddhist" key="calendar">buddhista naptár</type>
+			<type type="chinese" key="calendar">kínai naptár</type>
+			<type type="direct" key="collation">Közvetlen sorrend</type>
+			<type type="gb2312han" key="collation" draft="provisional">Egyszerűsített kínai (GB2312)</type>
+			<type type="gregorian" key="calendar">Gergely-naptár</type>
+			<type type="hebrew" key="calendar">héber naptár</type>
+			<type type="islamic" key="calendar">iszlám naptár</type>
+			<type type="islamic-civil" key="calendar">iszlám civil naptár</type>
+			<type type="japanese" key="calendar">japán naptár</type>
+			<type type="phonebook" key="collation">Telefonkönyv sorrend</type>
+			<type type="pinyin" key="collation" draft="provisional">Pinyin sorrend</type>
+			<type type="stroke" key="collation" references="RP4" draft="provisional">Vonássorrend</type>
+			<type type="traditional" key="collation">Hagyományos</type>
+		</types>
+		<measurementSystemNames>
+			<measurementSystemName type="US" draft="provisional">USA</measurementSystemName>
+			<measurementSystemName type="metric" draft="provisional">Metrikus</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters references="RP5">[a á b c {cs} {ccs} d {dz} {ddz} {dzs} {ddzs} e é f g {gy} {ggy} h i í j-l {ly} {lly} m n {ny} {nny} o ó ö ő p r s {sz} {ssz} t {ty} {tty} u ú ü ű v z {zs} {zzs}]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[q w-y]</exemplarCharacters>
+	</characters>
+	<dates>
+		<localizedPatternChars>GanjkHmsSEDFwWxhKzAeugXZvcL</localizedPatternChars>
+		<calendars>
+			<calendar type="buddhist">
+				<eras>
+					<eraAbbr>
+						<era type="0">BK</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">jan.</month>
+							<month type="2">febr.</month>
+							<month type="3">márc.</month>
+							<month type="4">ápr.</month>
+							<month type="5">máj.</month>
+							<month type="6">jún.</month>
+							<month type="7">júl.</month>
+							<month type="8">aug.</month>
+							<month type="9">szept.</month>
+							<month type="10">okt.</month>
+							<month type="11">nov.</month>
+							<month type="12">dec.</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">január</month>
+							<month type="2">február</month>
+							<month type="3">március</month>
+							<month type="4">április</month>
+							<month type="5">május</month>
+							<month type="6">június</month>
+							<month type="7">július</month>
+							<month type="8">augusztus</month>
+							<month type="9">szeptember</month>
+							<month type="10">október</month>
+							<month type="11">november</month>
+							<month type="12">december</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1">J</month>
+							<month type="2">F</month>
+							<month type="3">M</month>
+							<month type="4">Á</month>
+							<month type="5">M</month>
+							<month type="6">J</month>
+							<month type="7">J</month>
+							<month type="8">A</month>
+							<month type="9">S</month>
+							<month type="10">O</month>
+							<month type="11">N</month>
+							<month type="12">D</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">V</day>
+							<day type="mon">H</day>
+							<day type="tue">K</day>
+							<day type="wed">Sze</day>
+							<day type="thu">Cs</day>
+							<day type="fri">P</day>
+							<day type="sat">Szo</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">vasárnap</day>
+							<day type="mon">hétfő</day>
+							<day type="tue">kedd</day>
+							<day type="wed">szerda</day>
+							<day type="thu">csütörtök</day>
+							<day type="fri">péntek</day>
+							<day type="sat">szombat</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun">V</day>
+							<day type="mon">H</day>
+							<day type="tue">K</day>
+							<day type="wed">S</day>
+							<day type="thu">C</day>
+							<day type="fri">P</day>
+							<day type="sat">S</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1">N1</quarter>
+							<quarter type="2">N2</quarter>
+							<quarter type="3">N3</quarter>
+							<quarter type="4">N4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1">I. negyedév</quarter>
+							<quarter type="2">II. negyedév</quarter>
+							<quarter type="3">III. negyedév</quarter>
+							<quarter type="4">IV. negyedév</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<am>DE</am>
+				<am references="RP1" alt="proposed-u46-1" draft="provisional">de.</am>
+				<pm>DU</pm>
+				<pm references="RP1" alt="proposed-u46-1" draft="provisional">du.</pm>
+				<eras>
+					<eraNames>
+						<era type="0" references="RP1" draft="provisional">időszámításunk előtt</era>
+						<era type="1" references="RP1" draft="provisional">időszámításunk szerint</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">i. e.</era>
+						<era type="1">i. sz.</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>yyyy. MMMM d.</pattern>
+							<pattern references="RP5" alt="proposed-u46-1" draft="provisional">yyyy. MMMM d., EEEE</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>yyyy. MMMM d.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>yyyy.MM.dd.</pattern>
+							<pattern references="RP5" alt="proposed-u46-1" draft="provisional">yyyy. MMM d.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>yyyy.MM.dd.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>H:mm:ss z</pattern>
+							<pattern alt="proposed-u46-1" draft="provisional">H:mm:ss zzzz</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern>H:mm:ss z</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>H:mm:ss</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>H:mm</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMMMd" draft="provisional">MMMM d.</dateFormatItem>
+						<dateFormatItem id="MMdd" draft="provisional">MM.dd.</dateFormatItem>
+						<dateFormatItem id="mmss" draft="provisional">mm:ss</dateFormatItem>
+						<dateFormatItem id="yyyyMM" draft="provisional">yyyy.MM</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="provisional">yyyy. MMMM</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+				<fields>
+					<field type="era">
+						<displayName references="RP1" draft="provisional">éra</displayName>
+					</field>
+					<field type="year">
+						<displayName references="RP1" draft="provisional">év</displayName>
+					</field>
+					<field type="month">
+						<displayName references="RP1" draft="provisional">hónap</displayName>
+					</field>
+					<field type="week">
+						<displayName references="RP1" draft="provisional">hét</displayName>
+					</field>
+					<field type="day">
+						<displayName references="RP1" draft="provisional">nap</displayName>
+					</field>
+					<field type="weekday">
+						<displayName references="RP1" draft="provisional">hét napja</displayName>
+					</field>
+					<field type="dayperiod">
+						<displayName references="RP1" draft="provisional">napszak</displayName>
+					</field>
+					<field type="hour">
+						<displayName references="RP1" draft="provisional">óra</displayName>
+					</field>
+					<field type="minute">
+						<displayName references="RP1" draft="provisional">perc</displayName>
+					</field>
+					<field type="second">
+						<displayName references="RP1" draft="provisional">másodperc</displayName>
+					</field>
+					<field type="zone">
+						<displayName references="RP1" draft="provisional">zóna</displayName>
+					</field>
+				</fields>
+			</calendar>
+			<calendar type="hebrew">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1">Tisri</month>
+							<month type="2">Hesván</month>
+							<month type="3">Kiszlév</month>
+							<month type="4">Tévész</month>
+							<month type="5">Svát</month>
+							<month type="6">Ádár risón</month>
+							<month type="7">Ádár séni</month>
+							<month type="8">Niszán</month>
+							<month type="9">Ijár</month>
+							<month type="10">Sziván</month>
+							<month type="12">Áv</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0">TÉ</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+			<calendar type="islamic">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1">Moharrem</month>
+							<month type="3">Rébi el avvel</month>
+							<month type="4">Rébi el accher</month>
+							<month type="5">Dsemádi el avvel</month>
+							<month type="6">Dsemádi el accher</month>
+							<month type="7">Redseb</month>
+							<month type="8">Sabán</month>
+							<month type="9">Ramadán</month>
+							<month type="10">Sevvál</month>
+							<month type="11">Dsül kade</month>
+							<month type="12">Dsül hedse</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0">MF</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<zone type="America/Argentina/ComodRivadavia">
+				<exemplarCity>Comodoro Rivadavia</exemplarCity>
+			</zone>
+			<zone type="Pacific/Yap">
+				<exemplarCity>Yap-szigetek</exemplarCity>
+			</zone>
+			<zone type="Antarctica/South_Pole">
+				<exemplarCity>Déli-sark</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Vostok">
+				<exemplarCity>Vosztok</exemplarCity>
+			</zone>
+			<zone type="Antarctica/DumontDUrville">
+				<exemplarCity>Dumont d'Urville</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/Rio_Gallegos">
+				<exemplarCity>Río Gallegos</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/Tucuman">
+				<exemplarCity>Tucumán</exemplarCity>
+			</zone>
+			<zone type="America/Cordoba">
+				<exemplarCity>Córdoba</exemplarCity>
+			</zone>
+			<zone type="America/Eirunepe">
+				<exemplarCity>Eirunepé</exemplarCity>
+			</zone>
+			<zone type="America/Rio_Branco">
+				<exemplarCity>Río Branco</exemplarCity>
+			</zone>
+			<zone type="America/Porto_Velho">
+				<exemplarCity>Pôrto Velho</exemplarCity>
+			</zone>
+			<zone type="America/Cuiaba">
+				<exemplarCity>Cuiabá</exemplarCity>
+			</zone>
+			<zone type="America/Belem">
+				<exemplarCity>Belém</exemplarCity>
+			</zone>
+			<zone type="America/Araguaina">
+				<exemplarCity>Araguaína</exemplarCity>
+			</zone>
+			<zone type="America/Sao_Paulo">
+				<exemplarCity>São Paulo</exemplarCity>
+			</zone>
+			<zone type="America/Maceio">
+				<exemplarCity>Maceió</exemplarCity>
+			</zone>
+			<zone type="America/Montreal">
+				<exemplarCity>Montréal</exemplarCity>
+			</zone>
+			<zone type="America/St_Johns">
+				<exemplarCity>St. John's</exemplarCity>
+			</zone>
+			<zone type="Pacific/Easter">
+				<exemplarCity>Húsvét-szigetek</exemplarCity>
+			</zone>
+			<zone type="Asia/Kashgar">
+				<exemplarCity>Kasgár</exemplarCity>
+			</zone>
+			<zone type="Asia/Urumqi">
+				<exemplarCity>Ürümqi</exemplarCity>
+			</zone>
+			<zone type="Asia/Chongqing">
+				<exemplarCity>Csungking</exemplarCity>
+			</zone>
+			<zone type="Asia/Shanghai">
+				<exemplarCity>Sanghaj</exemplarCity>
+			</zone>
+			<zone type="Pacific/Galapagos">
+				<exemplarCity>Galapagos-szigetek</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Canary">
+				<exemplarCity>Kanári-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Truk">
+				<exemplarCity>Truk-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Ponape">
+				<exemplarCity>Ponape-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kosrae">
+				<exemplarCity>Kosrae-szigetek</exemplarCity>
+			</zone>
+			<zone type="Europe/Paris">
+				<long>
+					<standard>közép-európai idő</standard>
+					<daylight>közép-európai nyári idő</daylight>
+				</long>
+				<exemplarCity>Paris</exemplarCity>
+				<exemplarCity alt="proposed-u46-1" draft="provisional">Párizs</exemplarCity>
+			</zone>
+			<zone type="America/Godthab">
+				<exemplarCity>Godthåb</exemplarCity>
+			</zone>
+			<zone type="America/Scoresbysund">
+				<exemplarCity>Scoresby Sound</exemplarCity>
+			</zone>
+			<zone type="America/Danmarkshavn">
+				<exemplarCity>Danmarks Havn</exemplarCity>
+			</zone>
+			<zone type="Asia/Jakarta">
+				<exemplarCity>Dzsakarta</exemplarCity>
+			</zone>
+			<zone type="Asia/Makassar">
+				<exemplarCity>Makasar</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kiritimati">
+				<exemplarCity>Kiritimati-sziget</exemplarCity>
+			</zone>
+			<zone type="Pacific/Tarawa">
+				<exemplarCity draft="unconfirmed">Tarawa-sziget</exemplarCity>
+			</zone>
+			<zone type="Asia/Aqtau">
+				<exemplarCity>Aktau</exemplarCity>
+			</zone>
+			<zone type="Asia/Aqtobe">
+				<exemplarCity>Aktöbe</exemplarCity>
+			</zone>
+			<zone type="Asia/Qyzylorda">
+				<exemplarCity>Kizilorda</exemplarCity>
+			</zone>
+			<zone type="Asia/Almaty">
+				<exemplarCity>Alma-Ata</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kwajalein">
+				<exemplarCity>Kwajalein-zátony</exemplarCity>
+			</zone>
+			<zone type="Pacific/Majuro">
+				<exemplarCity>Majuro-zátony</exemplarCity>
+			</zone>
+			<zone type="Asia/Ulaanbaatar">
+				<exemplarCity draft="unconfirmed">Ulan Bator</exemplarCity>
+			</zone>
+			<zone type="Asia/Choibalsan">
+				<exemplarCity>Csojbalszan</exemplarCity>
+			</zone>
+			<zone type="America/Mazatlan">
+				<exemplarCity>Mazatlán</exemplarCity>
+			</zone>
+			<zone type="America/Mexico_City">
+				<exemplarCity>Mexikóváros</exemplarCity>
+			</zone>
+			<zone type="America/Merida">
+				<exemplarCity>Mérida</exemplarCity>
+			</zone>
+			<zone type="America/Cancun">
+				<exemplarCity>Cancún</exemplarCity>
+			</zone>
+			<zone type="Pacific/Chatham">
+				<exemplarCity>Chatham-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Tahiti">
+				<exemplarCity draft="unconfirmed">Tahiti-sziget</exemplarCity>
+			</zone>
+			<zone type="Pacific/Marquesas">
+				<exemplarCity>Marquesas-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Gambier">
+				<exemplarCity>Gambier-szigetek</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Azores">
+				<exemplarCity draft="unconfirmed">Azóri-szigetek</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Madeira">
+				<exemplarCity draft="unconfirmed">Madeira-sziget</exemplarCity>
+			</zone>
+			<zone type="Europe/Lisbon">
+				<exemplarCity>Lisszabon</exemplarCity>
+			</zone>
+			<zone type="Europe/Kaliningrad">
+				<exemplarCity>Kalinyingrád</exemplarCity>
+			</zone>
+			<zone type="Europe/Moscow">
+				<exemplarCity>Moszkva</exemplarCity>
+			</zone>
+			<zone type="Europe/Samara">
+				<exemplarCity>Szamara</exemplarCity>
+			</zone>
+			<zone type="Asia/Yekaterinburg">
+				<exemplarCity>Jekatyerinburg</exemplarCity>
+			</zone>
+			<zone type="Asia/Omsk">
+				<exemplarCity>Omszk</exemplarCity>
+			</zone>
+			<zone type="Asia/Novosibirsk">
+				<exemplarCity>Novoszibirszk</exemplarCity>
+			</zone>
+			<zone type="Asia/Krasnoyarsk">
+				<exemplarCity>Krasznojarszk</exemplarCity>
+			</zone>
+			<zone type="Asia/Irkutsk">
+				<exemplarCity>Irkutszk</exemplarCity>
+			</zone>
+			<zone type="Asia/Yakutsk">
+				<exemplarCity>Jakutszk</exemplarCity>
+			</zone>
+			<zone type="Asia/Vladivostok">
+				<exemplarCity>Vlagyivosztok</exemplarCity>
+			</zone>
+			<zone type="Asia/Sakhalin">
+				<exemplarCity>Szahalin</exemplarCity>
+			</zone>
+			<zone type="Asia/Magadan">
+				<exemplarCity>Magadán</exemplarCity>
+			</zone>
+			<zone type="Asia/Kamchatka">
+				<exemplarCity>Kamcsatka</exemplarCity>
+			</zone>
+			<zone type="Asia/Anadyr">
+				<exemplarCity>Anadir</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Jan_Mayen">
+				<exemplarCity draft="unconfirmed">Jan Mayen-szigetek</exemplarCity>
+			</zone>
+			<zone type="Europe/Uzhgorod">
+				<exemplarCity>Ungvár</exemplarCity>
+			</zone>
+			<zone type="Europe/Kiev">
+				<exemplarCity>Kijev</exemplarCity>
+			</zone>
+			<zone type="Europe/Simferopol">
+				<exemplarCity>Szimferopol</exemplarCity>
+			</zone>
+			<zone type="Europe/Zaporozhye">
+				<exemplarCity>Zaporozsje</exemplarCity>
+			</zone>
+			<zone type="Pacific/Midway">
+				<exemplarCity>Midway-szigetek</exemplarCity>
+			</zone>
+			<zone type="Pacific/Wake">
+				<exemplarCity>Wake-sziget</exemplarCity>
+			</zone>
+			<zone type="Asia/Samarkand">
+				<exemplarCity>Szamarkand</exemplarCity>
+			</zone>
+			<zone type="Asia/Tashkent">
+				<exemplarCity>Taskent</exemplarCity>
+			</zone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>,</decimal>
+			<group> </group>
+		</symbols>
+		<decimalFormats>
+			<decimalFormatLength>
+				<decimalFormat>
+					<pattern references="RP5" draft="provisional">#,##0.###</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern references="RP5" draft="provisional">#,##0.00 ¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="ADP">
+				<displayName>Andorrai peseta</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">andorrai peseta</displayName>
+			</currency>
+			<currency type="AED">
+				<displayName>EAE dirham</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">emirátusi dirham</displayName>
+			</currency>
+			<currency type="AFA">
+				<displayName>Afghani (1927-2002)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">afghani (1927-2002)</displayName>
+			</currency>
+			<currency type="AFN">
+				<displayName>Afghani</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">afghani</displayName>
+				<symbol>Af</symbol>
+				<symbol alt="proposed-u46-1" draft="provisional">AFN</symbol>
+			</currency>
+			<currency type="ALL">
+				<displayName>Albán lek</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">lek</displayName>
+				<symbol>lek</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">ALL</symbol>
+			</currency>
+			<currency type="AMD">
+				<displayName>Dram</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">dram</displayName>
+				<symbol>dram</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">AMD</symbol>
+			</currency>
+			<currency type="ANG">
+				<displayName>Holland-antilla forint</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">holland antillai gulden</displayName>
+				<symbol>NA f.</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">ANG</symbol>
+			</currency>
+			<currency type="AOA">
+				<displayName>Angolai kwanza</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">kwanza</displayName>
+			</currency>
+			<currency type="AOK">
+				<displayName>Angolai kwanza (1977-1990)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kwanza (1977-1990)</displayName>
+			</currency>
+			<currency type="AON">
+				<displayName>Angolai új kwanza (1990-2000)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">új kwanza (1990-2000)</displayName>
+			</currency>
+			<currency type="AOR">
+				<displayName>Angolai kwanza reajustado (1995-1999)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kwanza reajustado (1995-1999)</displayName>
+			</currency>
+			<currency type="ARA">
+				<displayName>Argentín austral</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">argentin austral</displayName>
+			</currency>
+			<currency type="ARP">
+				<displayName>Argentín peso (1983-1985)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">argentin peso (1983-1985)</displayName>
+			</currency>
+			<currency type="ARS">
+				<displayName>Peso</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">argentin peso</displayName>
+				<symbol>Arg$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">ARS</symbol>
+			</currency>
+			<currency type="ATS">
+				<displayName>Osztrák schilling</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">osztrák schilling</displayName>
+			</currency>
+			<currency type="AUD">
+				<displayName>Ausztrál dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">ausztrál dollár</displayName>
+				<symbol>$A</symbol>
+				<symbol alt="proposed-u46-1" draft="provisional">AUD</symbol>
+			</currency>
+			<currency type="AWG">
+				<displayName>Arubai forint</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">arubai gulden</displayName>
+			</currency>
+			<currency type="AZM">
+				<displayName>Azerbajdzsáni manat</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">azerbajdzsáni manat</displayName>
+			</currency>
+			<currency type="BAD">
+				<displayName>Bosznia-hercegovinai dínár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">bosznia-hercegovinai dínár</displayName>
+			</currency>
+			<currency type="BAM">
+				<displayName>Bozsnia-hercegovinai konvertibilis márka</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">márka</displayName>
+				<symbol>KM</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BAM</symbol>
+			</currency>
+			<currency type="BBD">
+				<displayName>Barbadosi dollár</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">barbadosi dollár</displayName>
+				<symbol>BDS$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BBD</symbol>
+			</currency>
+			<currency type="BDT">
+				<displayName>Bangladesi taka</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">taka</displayName>
+				<symbol>Tk</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BDT</symbol>
+			</currency>
+			<currency type="BEC">
+				<displayName>Belga frank (konvertibilis)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">belga frank (konvertibilis)</displayName>
+			</currency>
+			<currency type="BEF">
+				<displayName>Belga frank</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">belga frank</displayName>
+				<symbol>BF</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BEF</symbol>
+			</currency>
+			<currency type="BEL">
+				<displayName>Belga frank (pénzügyi)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">belga frank (pénzügyi)</displayName>
+			</currency>
+			<currency type="BGL">
+				<displayName>Bolgár kemény leva</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">leva</displayName>
+				<symbol>lev</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BGL</symbol>
+			</currency>
+			<currency type="BGN">
+				<displayName>Bolgár új leva</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">új leva</displayName>
+			</currency>
+			<currency type="BHD">
+				<displayName>Bahreini dinár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">bahreini dinár</displayName>
+				<symbol>BD</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BHD</symbol>
+			</currency>
+			<currency type="BIF">
+				<displayName>Burundi frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">burundi frank</displayName>
+				<symbol>Fbu</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BIF</symbol>
+			</currency>
+			<currency type="BMD">
+				<displayName>Bermudai dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">bermudai dollár</displayName>
+				<symbol>Ber$</symbol>
+				<symbol alt="proposed-u46-1" draft="provisional">BMD</symbol>
+			</currency>
+			<currency type="BND">
+				<displayName>Brunei dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">brunei dollár</displayName>
+			</currency>
+			<currency type="BOB">
+				<displayName>Boliviano</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">boliviano</displayName>
+				<symbol>Bs</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BOB</symbol>
+			</currency>
+			<currency type="BOP">
+				<displayName>Bolíviai peso</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">bolíviai peso</displayName>
+			</currency>
+			<currency type="BOV">
+				<displayName>Bolíviai mvdol</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">bolíviai mvdol</displayName>
+			</currency>
+			<currency type="BRB">
+				<displayName>Brazi cruzeiro novo (1967-1986)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">brazil cruzeiro novo (1967-1968)</displayName>
+			</currency>
+			<currency type="BRC">
+				<displayName>Brazi cruzado</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">brazil cruzado</displayName>
+			</currency>
+			<currency type="BRE">
+				<displayName>Brazil cruzeiro (1990-1993)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">brazil cruzeiro (1990-1993)</displayName>
+			</currency>
+			<currency type="BRL">
+				<displayName>Brazil real</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">real</displayName>
+				<symbol>R$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BRL</symbol>
+			</currency>
+			<currency type="BRN">
+				<displayName>Brazil cruzado novo</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">brazil cruzado novo</displayName>
+			</currency>
+			<currency type="BRR">
+				<displayName>Brazil cruzeiro</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">brazil cruzeiro</displayName>
+			</currency>
+			<currency type="BSD">
+				<displayName>Bahamai dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">bahamai dollár</displayName>
+			</currency>
+			<currency type="BTN">
+				<displayName>Bhutáni ngultrum</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">ngultrum</displayName>
+				<symbol>Nu</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BTN</symbol>
+			</currency>
+			<currency type="BUK">
+				<displayName>Burmai kyat</displayName>
+			</currency>
+			<currency type="BWP">
+				<displayName>Botswanai pula</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">pula</displayName>
+			</currency>
+			<currency type="BYB">
+				<displayName>Fehérorosz új rubel (1994-1999)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">belorusz új rubel (1994-1999)</displayName>
+			</currency>
+			<currency type="BYR">
+				<displayName>Fehérorosz rubel</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">belorusz rubel</displayName>
+				<symbol>Rbl</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BYR</symbol>
+			</currency>
+			<currency type="BZD">
+				<displayName>Belizei dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">belizei dollár</displayName>
+				<symbol>BZ$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">BZD</symbol>
+			</currency>
+			<currency type="CAD">
+				<displayName>Kanadai dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kanadai dollár</displayName>
+				<symbol>Can$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">CAD</symbol>
+			</currency>
+			<currency type="CDF">
+				<displayName>Kongói frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kongói frank</displayName>
+			</currency>
+			<currency type="CHE">
+				<displayName draft="provisional">WIR euro</displayName>
+			</currency>
+			<currency type="CHF">
+				<displayName>Svájci frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">svájci frank</displayName>
+				<symbol>SwF</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">CHF</symbol>
+			</currency>
+			<currency type="CHW">
+				<displayName draft="provisional">WIR frank</displayName>
+			</currency>
+			<currency type="CLF">
+				<displayName>Chilei unidades de fomento</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">chilei unidades de fomento</displayName>
+			</currency>
+			<currency type="CLP">
+				<displayName>Chilei peso</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">chilei peso</displayName>
+				<symbol>Ch$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">CLP</symbol>
+			</currency>
+			<currency type="CNY">
+				<displayName>Kínai jüan renminbi</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">jüan</displayName>
+				<symbol>Y</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">CNY</symbol>
+			</currency>
+			<currency type="COP">
+				<displayName>Kolumbiai peso</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kolumbiai peso</displayName>
+				<symbol>Col$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">COP</symbol>
+			</currency>
+			<currency type="COU">
+				<displayName draft="provisional">unidad de valor real</displayName>
+			</currency>
+			<currency type="CRC">
+				<displayName>Costa Ricai colon</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">costa ricai colón</displayName>
+				<symbol>C</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">CRC</symbol>
+			</currency>
+			<currency type="CSD">
+				<displayName draft="provisional">szerb dinár</displayName>
+			</currency>
+			<currency type="CSK">
+				<displayName>Csehszlovák kemény korona</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">csehszlovák korona</displayName>
+			</currency>
+			<currency type="CUP">
+				<displayName>Kubai peso</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kubai peso</displayName>
+			</currency>
+			<currency type="CVE">
+				<displayName>Cape Verdei escudo</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">cape verdei escudo</displayName>
+				<symbol>CVEsc</symbol>
+				<symbol alt="proposed-u46-1" draft="provisional">CVE</symbol>
+			</currency>
+			<currency type="CYP">
+				<displayName>Ciprusi font</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">ciprusi font</displayName>
+				<symbol>£C</symbol>
+				<symbol alt="proposed-u46-1" draft="provisional">CYP</symbol>
+			</currency>
+			<currency type="CZK">
+				<displayName>Cseh korona</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">cseh korona</displayName>
+			</currency>
+			<currency type="DDM">
+				<displayName>Kelet-Német márka</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kelet-német márka</displayName>
+			</currency>
+			<currency type="DEM">
+				<displayName>Német márka</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">német márka</displayName>
+			</currency>
+			<currency type="DJF">
+				<displayName>Dzsibuti frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">dzsibuti frank</displayName>
+				<symbol>DF</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">DJF</symbol>
+			</currency>
+			<currency type="DKK">
+				<displayName>Dán korona</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">dán korona</displayName>
+				<symbol>DKr</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">DKK</symbol>
+			</currency>
+			<currency type="DOP">
+				<displayName>Dominikai peso</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">dominikai peso</displayName>
+				<symbol>RD$</symbol>
+				<symbol alt="proposed-u46-1" draft="provisional">DOP</symbol>
+			</currency>
+			<currency type="DZD">
+				<displayName>Algériai dínár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">algériai dinár</displayName>
+				<symbol>DA</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">DZD</symbol>
+			</currency>
+			<currency type="ECS">
+				<displayName>Ecuadori sucre</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">sucre</displayName>
+			</currency>
+			<currency type="ECV">
+				<displayName>Ecuadori Unidad de Valor Constante (UVC)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">unidad de valor constante</displayName>
+			</currency>
+			<currency type="EEK">
+				<displayName>Észt korona</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">észt korona</displayName>
+			</currency>
+			<currency type="EGP">
+				<displayName>Egyiptomi font</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">egyiptomi font</displayName>
+			</currency>
+			<currency type="EQE">
+				<displayName draft="provisional">ekwele</displayName>
+			</currency>
+			<currency type="ERN">
+				<displayName>Eritreai nakfa</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">nakfa</displayName>
+			</currency>
+			<currency type="ESA">
+				<displayName draft="provisional">spanyol peseta (A-kontó)</displayName>
+			</currency>
+			<currency type="ESB">
+				<displayName draft="provisional">spanyol peseta (konvertibilis kontó)</displayName>
+			</currency>
+			<currency type="ESP">
+				<displayName>Spanyol peseta</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">spanyol peseta</displayName>
+			</currency>
+			<currency type="ETB">
+				<displayName>Etiópiai birr</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">birr</displayName>
+				<symbol>Br</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">ETB</symbol>
+			</currency>
+			<currency type="EUR">
+				<displayName>Euro</displayName>
+				<symbol draft="provisional">EUR</symbol>
+			</currency>
+			<currency type="FIM">
+				<displayName>Finn markka</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">markka</displayName>
+			</currency>
+			<currency type="FJD">
+				<displayName>Fidzsi dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">fidzsi dollár</displayName>
+				<symbol>F$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">FJD</symbol>
+			</currency>
+			<currency type="FKP">
+				<displayName>Falkland-szigeteki font</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">falklandi pound</displayName>
+			</currency>
+			<currency type="FRF">
+				<displayName>Francia frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">francia frank</displayName>
+			</currency>
+			<currency type="GBP">
+				<displayName>Brit font sterling</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">brit font</displayName>
+				<symbol references="RP3" draft="provisional">GBP</symbol>
+			</currency>
+			<currency type="GEK">
+				<displayName>Grúz kupon larit</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kupon larit</displayName>
+			</currency>
+			<currency type="GEL">
+				<displayName>Grúz lari</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">lari</displayName>
+				<symbol>lari</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">GEL</symbol>
+			</currency>
+			<currency type="GHC">
+				<displayName>Ghánai cedi</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">cedi</displayName>
+			</currency>
+			<currency type="GIP">
+				<displayName>Gibraltári font</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">gibraltári font</displayName>
+			</currency>
+			<currency type="GMD">
+				<displayName>Gambiai dalasi</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">dalasi</displayName>
+			</currency>
+			<currency type="GNF">
+				<displayName>Guineai frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">guineai frank</displayName>
+				<symbol>GF</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">GNF</symbol>
+			</currency>
+			<currency type="GNS">
+				<displayName>Guineai syli</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">guineai syli</displayName>
+			</currency>
+			<currency type="GQE">
+				<displayName>Egyenlítői-guineai ekwele guineana</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">egyenlítői-guineai ekwele guineana</displayName>
+			</currency>
+			<currency type="GRD">
+				<displayName>Görög drachma</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">görög drachma</displayName>
+			</currency>
+			<currency type="GTQ">
+				<displayName>Guatemalai quetzal</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">quetzal</displayName>
+				<symbol>Q</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">GTQ</symbol>
+			</currency>
+			<currency type="GWE">
+				<displayName>Portugál guinea escudo</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">portugál guinea escudo</displayName>
+			</currency>
+			<currency type="GWP">
+				<displayName>Guinea-Bissaui peso</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">guinea-bissaui peso</displayName>
+			</currency>
+			<currency type="GYD">
+				<displayName>Guyanai dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">guyanai dollár</displayName>
+				<symbol>G$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">GYD</symbol>
+			</currency>
+			<currency type="HKD">
+				<displayName>Hongkongi dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">hongkongi dollár</displayName>
+				<symbol>HK$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">HKD</symbol>
+			</currency>
+			<currency type="HNL">
+				<displayName>Hodurasi lempira</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">lempira</displayName>
+				<symbol>L</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">HNL</symbol>
+			</currency>
+			<currency type="HRD">
+				<displayName>Horvát dínár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">dinár</displayName>
+			</currency>
+			<currency type="HRK">
+				<displayName>Horvát kuna</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">kuna</displayName>
+			</currency>
+			<currency type="HTG">
+				<displayName>Haiti gourde</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">gourde</displayName>
+			</currency>
+			<currency type="HUF">
+				<displayName>Magyar forint</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">forint</displayName>
+				<symbol>Ft</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">HUF</symbol>
+			</currency>
+			<currency type="IDR">
+				<displayName>Indonéz rúpia</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">indonéz rúpia</displayName>
+				<symbol>Rp</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">IDR</symbol>
+			</currency>
+			<currency type="IEP">
+				<displayName>Ír font</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">ír font</displayName>
+				<symbol>IR£</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">IEP</symbol>
+			</currency>
+			<currency type="ILP">
+				<displayName>Izraeli font</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">izraeli font</displayName>
+			</currency>
+			<currency type="ILS">
+				<displayName>Izraeli új sékel</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">új izraeli shekel</displayName>
+			</currency>
+			<currency type="INR">
+				<displayName draft="provisional">indiai rúpia</displayName>
+				<symbol draft="provisional">INR</symbol>
+			</currency>
+			<currency type="IQD">
+				<displayName>Iraki dínár</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">iraki dinár</displayName>
+				<symbol>ID</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">IQD</symbol>
+			</currency>
+			<currency type="IRR">
+				<displayName>Iráni rial</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">iráni rial</displayName>
+				<symbol>RI</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">IRR</symbol>
+			</currency>
+			<currency type="ISK">
+				<displayName>Izlandi korona</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">izlandi korona</displayName>
+			</currency>
+			<currency type="ITL">
+				<displayName>Olasz líra</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">olasz líra</displayName>
+				<symbol references="RP3" draft="provisional">LIT</symbol>
+			</currency>
+			<currency type="JMD">
+				<displayName>Jamaikai dollár</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">jamaicai dollár</displayName>
+				<symbol>J$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">JMD</symbol>
+			</currency>
+			<currency type="JOD">
+				<displayName>Jordániai dínár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">jordániai dinár</displayName>
+				<symbol>JD</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">JOD</symbol>
+			</currency>
+			<currency type="JPY">
+				<displayName>Japán jen</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">jen</displayName>
+				<symbol references="RP3" draft="provisional">JPY</symbol>
+			</currency>
+			<currency type="KES">
+				<displayName>Kenyai shilling</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kenyai shilling</displayName>
+				<symbol>K Sh</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">KES</symbol>
+			</currency>
+			<currency type="KGS">
+				<displayName>Kirgizisztáni szom</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kirgizisztáni szom</displayName>
+				<symbol>som</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">KGS</symbol>
+			</currency>
+			<currency type="KHR">
+				<displayName>Kambodzsai riel</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">riel</displayName>
+				<symbol>CR</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">KHR</symbol>
+			</currency>
+			<currency type="KMF">
+				<displayName>Comorei frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">comorei frank</displayName>
+				<symbol>CF</symbol>
+				<symbol alt="proposed-u46-1" draft="provisional">KMF</symbol>
+			</currency>
+			<currency type="KPW">
+				<displayName>Észak-koreai won</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">észak-koreai won</displayName>
+			</currency>
+			<currency type="KRW">
+				<displayName>Dél-koreai won</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">dél-koreai won</displayName>
+			</currency>
+			<currency type="KWD">
+				<displayName>Kuvaiti dínár</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">kuvaiti dinár</displayName>
+				<symbol>KD</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">KWD</symbol>
+			</currency>
+			<currency type="KYD">
+				<displayName>Kajmán-szigeteki dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kajmán-szigeteki dollár</displayName>
+			</currency>
+			<currency type="KZT">
+				<displayName>Kazahsztáni tenge</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">tenge</displayName>
+				<symbol>T</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">KZT</symbol>
+			</currency>
+			<currency type="LAK">
+				<displayName>Laoszi kip</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">kip</displayName>
+			</currency>
+			<currency type="LBP">
+				<displayName>Libanoni font</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">libanoni font</displayName>
+				<symbol>LL</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">LBP</symbol>
+			</currency>
+			<currency type="LKR">
+				<displayName>Sri Lankai rúpia</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">srí lankai rúpia</displayName>
+				<symbol>SL Re</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">LKR</symbol>
+			</currency>
+			<currency type="LRD">
+				<displayName>Libériai dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">libériai dollár</displayName>
+			</currency>
+			<currency type="LSL">
+				<displayName>Lesothoi loti</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">loti</displayName>
+				<symbol>M</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">LSL</symbol>
+			</currency>
+			<currency type="LSM">
+				<displayName draft="provisional">maloti</displayName>
+			</currency>
+			<currency type="LTL">
+				<displayName>Litvániai litas</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">litas</displayName>
+			</currency>
+			<currency type="LTT">
+				<displayName>Litvániai talonas</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">talonas</displayName>
+			</currency>
+			<currency type="LUC">
+				<displayName draft="provisional">luxemburgi konvertibilis frank</displayName>
+			</currency>
+			<currency type="LUF">
+				<displayName>Luxemburgi frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">luxemburgi frank</displayName>
+			</currency>
+			<currency type="LUL">
+				<displayName draft="provisional">luxemburgi pénzügyi frank</displayName>
+			</currency>
+			<currency type="LVL">
+				<displayName>Lett lats</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">lats</displayName>
+			</currency>
+			<currency type="LVR">
+				<displayName>Lett rubel</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">rubel</displayName>
+			</currency>
+			<currency type="LYD">
+				<displayName>Líbiai dínár</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">líbiai dinár</displayName>
+				<symbol>LD</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">LYD</symbol>
+			</currency>
+			<currency type="MAD">
+				<displayName>Marokkói dirham</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">marokkói dirham</displayName>
+			</currency>
+			<currency type="MAF">
+				<displayName>Marokkói frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">marokkói frank</displayName>
+			</currency>
+			<currency type="MDL">
+				<displayName>Moldován lei</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">moldován lei</displayName>
+			</currency>
+			<currency type="MGA">
+				<displayName>Madagaszkári ariary</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">madagaszkári ariary</displayName>
+			</currency>
+			<currency type="MGF">
+				<displayName>Madagaszkári frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">madagaszkári frank</displayName>
+			</currency>
+			<currency type="MKD">
+				<displayName>Macedon dínár</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">macedóniai dinár</displayName>
+				<symbol>MDen</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">MKD</symbol>
+			</currency>
+			<currency type="MLF">
+				<displayName>Mali frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">mali frank</displayName>
+			</currency>
+			<currency type="MMK">
+				<displayName>Mianmari kyat</displayName>
+			</currency>
+			<currency type="MNT">
+				<displayName>Mongóliai tugrik</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">tugrik</displayName>
+				<symbol>Tug</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">MNT</symbol>
+			</currency>
+			<currency type="MOP">
+				<displayName>Macaoi pataca</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">makaói pataca</displayName>
+			</currency>
+			<currency type="MRO">
+				<displayName>Mauritániai ouguiya</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">ouguiya</displayName>
+				<symbol>UM</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">MRO</symbol>
+			</currency>
+			<currency type="MTL">
+				<displayName>Máltai líra</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">máltai líra</displayName>
+				<symbol>Lm</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">MTL</symbol>
+			</currency>
+			<currency type="MTP">
+				<displayName>Máltai font</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">máltai font</displayName>
+			</currency>
+			<currency type="MUR">
+				<displayName>Mauritiusi rúpia</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">mauritiusi rúpia</displayName>
+			</currency>
+			<currency type="MVR">
+				<displayName>Maldív-szigeteki rufiyaa</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">rufiyaa</displayName>
+			</currency>
+			<currency type="MWK">
+				<displayName>Malawi kwacha</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">malawi kwacha</displayName>
+				<symbol>MK</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">MWK</symbol>
+			</currency>
+			<currency type="MXN">
+				<displayName>Mexikói peso</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">mexikói peso</displayName>
+				<symbol>MEX$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">MXN</symbol>
+			</currency>
+			<currency type="MXP">
+				<displayName>Mexikói ezüst peso (1861-1992)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">mexikói ezüst peso (1861-1992)</displayName>
+			</currency>
+			<currency type="MXV">
+				<displayName>Mexikói Unidad de Inversion (UDI)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">mexikói unidad de inversion (UDI)</displayName>
+			</currency>
+			<currency type="MYR">
+				<displayName>Malajziai ringgit</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">ringgit</displayName>
+				<symbol>RM</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">MYR</symbol>
+			</currency>
+			<currency type="MZE">
+				<displayName>Mozambik escudo</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">escudo</displayName>
+			</currency>
+			<currency type="MZM">
+				<displayName>Mozambik metical</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">metical</displayName>
+				<symbol>Mt</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">MZM</symbol>
+			</currency>
+			<currency type="NAD">
+				<displayName>Namíbiai dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">namíbiai dollár</displayName>
+				<symbol>N$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">NAD</symbol>
+			</currency>
+			<currency type="NGN">
+				<displayName>Nigériai naira</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">naira</displayName>
+			</currency>
+			<currency type="NIC">
+				<displayName>Nikaraguai cordoba</displayName>
+			</currency>
+			<currency type="NIO">
+				<displayName>Nikaraguai cordoba oro</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">arany cordoba</displayName>
+			</currency>
+			<currency type="NLG">
+				<displayName>Holland forint</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">holland gulden</displayName>
+			</currency>
+			<currency type="NOK">
+				<displayName>Norvég korona</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">norvég korona</displayName>
+				<symbol>NKr</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">NOK</symbol>
+			</currency>
+			<currency type="NPR">
+				<displayName>Nepáli rúpia</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">nepáli rúpia</displayName>
+				<symbol>Nrs</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">NPR</symbol>
+			</currency>
+			<currency type="NZD">
+				<displayName>Új-zélandi dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">új-zélandi dollár</displayName>
+				<symbol>$NZ</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">NZD</symbol>
+			</currency>
+			<currency type="OMR">
+				<displayName>Ománi rial</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">ománi rial</displayName>
+				<symbol>RO</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">OMR</symbol>
+			</currency>
+			<currency type="PAB">
+				<displayName>Panamai balboa</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">balboa</displayName>
+			</currency>
+			<currency type="PEI">
+				<displayName>Perui inti</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">inti</displayName>
+			</currency>
+			<currency type="PEN">
+				<displayName>Perui sol nuevo</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">nuevo sol</displayName>
+			</currency>
+			<currency type="PES">
+				<displayName>Perui sol</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">sol</displayName>
+			</currency>
+			<currency type="PGK">
+				<displayName>Pápua új-guineai kina</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">kina</displayName>
+			</currency>
+			<currency type="PHP">
+				<displayName>Fülöp-szigeteki peso</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">fülöp-szigeteki peso</displayName>
+			</currency>
+			<currency type="PKR">
+				<displayName>Pakisztáni rúpia</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">pakisztáni rúpia</displayName>
+				<symbol>Pra</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">PKR</symbol>
+			</currency>
+			<currency type="PLN">
+				<displayName>Lengyel zloty</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">złoty</displayName>
+				<symbol>Zl</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">PLN</symbol>
+			</currency>
+			<currency type="PLZ">
+				<displayName>Lengyel zloty (1950-1995)</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">złoty (1950-1995)</displayName>
+			</currency>
+			<currency type="PTE">
+				<displayName>Portugál escudo</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">portugál escudo</displayName>
+			</currency>
+			<currency type="PYG">
+				<displayName>Paraguayi guarani</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">guarani</displayName>
+			</currency>
+			<currency type="QAR">
+				<displayName>Katari rial</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">katari rial</displayName>
+				<symbol>QR</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">QAR</symbol>
+			</currency>
+			<currency type="RHD">
+				<displayName draft="provisional">rhodéziai dollár</displayName>
+			</currency>
+			<currency type="ROL">
+				<displayName>Román lej</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">lej</displayName>
+				<symbol>leu</symbol>
+				<symbol alt="proposed-u46-1" draft="provisional">ROL</symbol>
+			</currency>
+			<currency type="RUB">
+				<displayName>Orosz rubel</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">orosz rubel</displayName>
+			</currency>
+			<currency type="RUR">
+				<displayName>Orosz rubel (1991-1998)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">orosz rubel (1991-1998)</displayName>
+			</currency>
+			<currency type="RWF">
+				<displayName>Ruandai frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">ruandai frank</displayName>
+			</currency>
+			<currency type="SAR">
+				<displayName>Szaúdi riyal</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">szaúdi riyal</displayName>
+				<symbol>SRl</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">SAR</symbol>
+			</currency>
+			<currency type="SBD">
+				<displayName>Salamon-szigeteki dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">salamon-szigeteki dollár</displayName>
+				<symbol>SI$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">SBD</symbol>
+			</currency>
+			<currency type="SCR">
+				<displayName>Seychelle-szigeteki rúpia</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">seychelle-i rúpia</displayName>
+				<symbol>SR</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">SCR</symbol>
+			</currency>
+			<currency type="SDD">
+				<displayName>Szudáni dínár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">szudáni dinár</displayName>
+			</currency>
+			<currency type="SDP">
+				<displayName>Szudáni font</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">szudáni font</displayName>
+			</currency>
+			<currency type="SEK">
+				<displayName>Svéd korona</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">svéd korona</displayName>
+				<symbol>SKr</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">SEK</symbol>
+			</currency>
+			<currency type="SGD">
+				<displayName>Szingapúri dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">szingapúri dollár</displayName>
+				<symbol>S$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">SGD</symbol>
+			</currency>
+			<currency type="SHP">
+				<displayName>Saint Helena font</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">saint helena font</displayName>
+			</currency>
+			<currency type="SIT">
+				<displayName>Szlovén tolar</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">tolar</displayName>
+			</currency>
+			<currency type="SKK">
+				<displayName>Szlovák korona</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">szlovák korona</displayName>
+				<symbol>Sk</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">SKK</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName>Sierra Leonei leone</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">leone</displayName>
+			</currency>
+			<currency type="SOS">
+				<displayName>Szomáli shilling</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">szomáli shilling</displayName>
+				<symbol>So. Sh.</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">SOS</symbol>
+			</currency>
+			<currency type="SRG">
+				<displayName>Suriname-i gulden</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">suriname-i guilder</displayName>
+				<symbol>Sf</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">SRG</symbol>
+			</currency>
+			<currency type="STD">
+				<displayName>Sao tome-i és principe-i dobra</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">dobra</displayName>
+				<symbol>Db</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">STD</symbol>
+			</currency>
+			<currency type="SUR">
+				<displayName>Szovjet rubel</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">szovjet rubel</displayName>
+			</currency>
+			<currency type="SVC">
+				<displayName>Salvadori colón</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">salvadori colon</displayName>
+			</currency>
+			<currency type="SYP">
+				<displayName>Szíriai font</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">szíriai font</displayName>
+				<symbol>LS</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">SYP</symbol>
+			</currency>
+			<currency type="SZL">
+				<displayName>Szváziföldi lilangeni</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">lilangeni</displayName>
+				<symbol>E</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">SZL</symbol>
+			</currency>
+			<currency type="THB">
+				<displayName>Thai baht</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">baht</displayName>
+			</currency>
+			<currency type="TJR">
+				<displayName>Tádzsikisztáni rubel</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">tádzsik rubel</displayName>
+			</currency>
+			<currency type="TJS">
+				<displayName>Tádzsikisztáni somoni</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">somoni</displayName>
+			</currency>
+			<currency type="TMM">
+				<displayName>Türkmenisztáni manat</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">türkmén manat</displayName>
+			</currency>
+			<currency type="TND">
+				<displayName>Tunéziai dínár</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">tunéziai dinár</displayName>
+			</currency>
+			<currency type="TOP">
+				<displayName references="RP3" draft="provisional">pa'anga</displayName>
+			</currency>
+			<currency type="TPE">
+				<displayName>Timori escudo</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">timori escudo</displayName>
+			</currency>
+			<currency type="TRL">
+				<displayName>Török líra</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">török líra</displayName>
+				<symbol>TL</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">TRL</symbol>
+			</currency>
+			<currency type="TRY">
+				<displayName draft="provisional">új török líra</displayName>
+			</currency>
+			<currency type="TTD">
+				<displayName>Trinidad és tobagoi dollár</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">trinidad-tobagói dollár</displayName>
+				<symbol>TT$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">TTD</symbol>
+			</currency>
+			<currency type="TWD">
+				<displayName>Tajvani új dollár</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">új tajvani dollár</displayName>
+				<symbol>NT$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">TWD</symbol>
+			</currency>
+			<currency type="TZS">
+				<displayName>Tanzániai shilling</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">tanzániai shilling</displayName>
+				<symbol>T Sh</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">TZS</symbol>
+			</currency>
+			<currency type="UAH">
+				<displayName>Ukrán hrivnya</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">hrivnya</displayName>
+			</currency>
+			<currency type="UAK">
+				<displayName>Ukrán karbovanec</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">karbovanec</displayName>
+			</currency>
+			<currency type="UGS">
+				<displayName>Ugandai shilling (1966-1987)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">ugandai shilling (1966-1987)</displayName>
+			</currency>
+			<currency type="UGX">
+				<displayName>Ugandai shilling</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">ugandai shilling</displayName>
+				<symbol>U Sh</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">UGX</symbol>
+			</currency>
+			<currency type="USD">
+				<displayName>USA dollár</displayName>
+				<symbol>US$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">USD</symbol>
+			</currency>
+			<currency type="USN">
+				<displayName>USA dollár (következő napi)</displayName>
+			</currency>
+			<currency type="USS">
+				<displayName>USA dollár (aznapi)</displayName>
+			</currency>
+			<currency type="UYP">
+				<displayName>Uruguay-i peso (1975-1993)</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">uruguayi peso (1975-1993)</displayName>
+			</currency>
+			<currency type="UYU">
+				<displayName>Uruguay-i peso uruguayo</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">uruguayi peso</displayName>
+				<symbol>Ur$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">UYU</symbol>
+			</currency>
+			<currency type="UZS">
+				<displayName>Üzbegisztáni szum</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">üzbegisztáni szum</displayName>
+			</currency>
+			<currency type="VEB">
+				<displayName>Venezuelai bolívar</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">bolivar</displayName>
+				<symbol>Be</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">VEB</symbol>
+			</currency>
+			<currency type="VND">
+				<displayName>Vietnámi dong</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">dong</displayName>
+			</currency>
+			<currency type="VUV">
+				<displayName>Vanuatui vatu</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">vatu</displayName>
+				<symbol>VT</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">VUV</symbol>
+			</currency>
+			<currency type="WST">
+				<displayName>Nyugat-szamoai tala</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">tala</displayName>
+			</currency>
+			<currency type="XAF">
+				<displayName>CFA frank BEAC</displayName>
+			</currency>
+			<currency type="XAG">
+				<displayName draft="provisional">Ezüst</displayName>
+			</currency>
+			<currency type="XAU">
+				<displayName>Arany</displayName>
+			</currency>
+			<currency type="XBA">
+				<displayName>European Composite Unit</displayName>
+			</currency>
+			<currency type="XBB">
+				<displayName>European Monetary Unit</displayName>
+			</currency>
+			<currency type="XBC">
+				<displayName>European Unit of Account (XBC)</displayName>
+			</currency>
+			<currency type="XBD">
+				<displayName>European Unit of Account (XBD)</displayName>
+			</currency>
+			<currency type="XCD">
+				<displayName>Kelet-karibi dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">kelet-karibi dollár</displayName>
+				<symbol>EC$</symbol>
+				<symbol alt="proposed-u46-1" draft="provisional">XCD</symbol>
+			</currency>
+			<currency type="XDR">
+				<displayName>Special Drawing Rights</displayName>
+			</currency>
+			<currency type="XEU">
+				<displayName>European Currency Unit</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">európai pénznemegység</displayName>
+			</currency>
+			<currency type="XFO">
+				<displayName>Francia arany frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">francia aranyfrank</displayName>
+			</currency>
+			<currency type="XFU">
+				<displayName>Francia UIC-frank</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">francia UIC-frank</displayName>
+			</currency>
+			<currency type="XOF">
+				<displayName>CFA frank BCEAO</displayName>
+			</currency>
+			<currency type="XPD">
+				<displayName draft="provisional">palládium</displayName>
+			</currency>
+			<currency type="XPF">
+				<displayName>CFP frank</displayName>
+				<symbol>CFPF</symbol>
+			</currency>
+			<currency type="XPT">
+				<displayName draft="provisional">platina</displayName>
+			</currency>
+			<currency type="XTS">
+				<displayName draft="provisional">tesztelési pénznemkód</displayName>
+			</currency>
+			<currency type="XXX">
+				<displayName draft="provisional">nincs pénznem</displayName>
+			</currency>
+			<currency type="YDD">
+				<displayName>Jemeni dínár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">jemeni dinár</displayName>
+			</currency>
+			<currency type="YER">
+				<displayName>Jemeni rial</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">jemeni rial</displayName>
+				<symbol>YRl</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">YER</symbol>
+			</currency>
+			<currency type="YUD">
+				<displayName>Jugoszláv kemény dínár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">jugoszláv dinár</displayName>
+			</currency>
+			<currency type="YUM">
+				<displayName>Jugoszláv új dínár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">új jugoszláv dinár</displayName>
+			</currency>
+			<currency type="YUN">
+				<displayName>Jugoszláv konvertibilis dínár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">konvertibilis jugoszláv dinár</displayName>
+			</currency>
+			<currency type="ZAL">
+				<displayName>Dél-afrikai rand (pénzügyi)</displayName>
+			</currency>
+			<currency type="ZAR">
+				<displayName>Dél-afrikai rand</displayName>
+				<displayName references="RP3" alt="proposed-u46-1" draft="provisional">rand</displayName>
+				<symbol>R</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">ZAR</symbol>
+			</currency>
+			<currency type="ZMK">
+				<displayName>Zambiai kwacha</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">zambiai kwacha</displayName>
+			</currency>
+			<currency type="ZRN">
+				<displayName>Zairei új zaire</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">zairei új zaire</displayName>
+			</currency>
+			<currency type="ZRZ">
+				<displayName>Zairei zaire</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">zairei zaire</displayName>
+			</currency>
+			<currency type="ZWD">
+				<displayName>Zimbabwei dollár</displayName>
+				<displayName alt="proposed-u46-1" draft="provisional">zimbabwei dollár</displayName>
+				<symbol>Z$</symbol>
+				<symbol references="RP3" alt="proposed-u46-1" draft="provisional">ZWD</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr>igen:i</yesstr>
+			<nostr>nem:n</nostr>
+		</messages>
+	</posix>
+	<references>
+		<reference type="RP1">Helyesírási kéziszótár, Második kiadás, Akadémiai Kiadó, Budapest, 1991, ISBN 963 05 6040 2</reference>
+		<reference type="RP2">Angol-magyar nagyszótár, Tizenegyedik kiadás (az ötödik, teljesen átdolgozott és bővített kiadás változatlan lenyomata), Akadémiai Kiadó, Budapest, 1992, ISBN 963 05 6349 5 (I-II. kötet)</reference>
+		<reference type="RP3" uri="http://www.cartographia.hu/">Földrajzi világatlasz, Cartographia Kft., Budapest, 2004, ISBN 963 352 570 5 CM</reference>
+		<reference type="RP4" uri="http://web.tvnetwork.hu/~aguti/shufa.htm">Kalligráfia</reference>
+		<reference type="RP5" uri="http://www.akademiaikiado.hu/">A magyar helyesírás szabályai, Tizenegyedik kiadás, Tizenkettedik (szótári anyagában bővített) lenyomat, Akadémiai Kiadó, Budapest, 2000, ISBN 963 05 7735 6</reference>
+	</references>
+</ldml>

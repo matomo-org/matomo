@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.38 $"/>
+		<generation date="$Date: 2006/06/27 23:30:54 $"/>
+		<language type="et"/>
+		<territory type="EE"/>
+	</identity>
+	<delimiters>
+		<quotationStart draft="unconfirmed">„</quotationStart>
+		<quotationEnd draft="unconfirmed">“</quotationEnd>
+		<alternateQuotationStart draft="unconfirmed">„</alternateQuotationStart>
+		<alternateQuotationEnd draft="unconfirmed">“</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">enne meie aega</era>
+						<era type="1" draft="unconfirmed">meie aja järgi</era>
+					</eraNames>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>#,##0.00 ¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+	</numbers>
+</ldml>
+

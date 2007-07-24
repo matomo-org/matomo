@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.13 $"/>
+		<generation date="$Date: 2006/06/24 23:27:02 $"/>
+		<language type="uz"/>
+		<script type="Latn"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="ar" draft="unconfirmed">Arabcha</language>
+			<language type="de" draft="unconfirmed">Olmoncha</language>
+			<language type="en" draft="unconfirmed">Inglizcha</language>
+			<language type="es" draft="unconfirmed">Ispancha</language>
+			<language type="fr" draft="unconfirmed">Frantsuzcha</language>
+			<language type="hi" draft="unconfirmed">Hindcha</language>
+			<language type="it" draft="unconfirmed">Italyancha</language>
+			<language type="ja" draft="unconfirmed">Yaponcha</language>
+			<language type="pt" draft="unconfirmed">Portugalcha</language>
+			<language type="ru" draft="unconfirmed">Ruscha</language>
+			<language type="uz" draft="unconfirmed">oʿzbek</language>
+			<language type="zh" draft="unconfirmed">Xitoycha</language>
+		</languages>
+		<scripts>
+			<script type="Cyrl" draft="unconfirmed">Kiril</script>
+			<script type="Latn" draft="unconfirmed">Lotin</script>
+		</scripts>
+		<territories>
+			<territory type="AF" draft="unconfirmed">Afgʿoniston</territory>
+			<territory type="BR" draft="unconfirmed">Braziliya</territory>
+			<territory type="CN" draft="unconfirmed">Xitoy</territory>
+			<territory type="DE" draft="unconfirmed">Olmoniya</territory>
+			<territory type="FR" draft="unconfirmed">Frantsiya</territory>
+			<territory type="GB" draft="unconfirmed">Birlashgan Qirollik</territory>
+			<territory type="IN" draft="unconfirmed">Hindiston</territory>
+			<territory type="IT" draft="unconfirmed">Italiya</territory>
+			<territory type="JP" draft="unconfirmed">Yaponiya</territory>
+			<territory type="RU" draft="unconfirmed">Rossiya</territory>
+			<territory type="US" draft="unconfirmed">Qo'shma Shtatlar</territory>
+			<territory type="UZ" draft="unconfirmed">Oʿzbekiston</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters draft="unconfirmed">[a-v x-z ʿ]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">Yanv</month>
+							<month type="2" draft="unconfirmed">Fev</month>
+							<month type="3" draft="unconfirmed">Mar</month>
+							<month type="4" draft="unconfirmed">Apr</month>
+							<month type="5" draft="unconfirmed">May</month>
+							<month type="6" draft="unconfirmed">Iyun</month>
+							<month type="7" draft="unconfirmed">Iyul</month>
+							<month type="8" draft="unconfirmed">Avg</month>
+							<month type="9" draft="unconfirmed">Sen</month>
+							<month type="10" draft="unconfirmed">Okt</month>
+							<month type="11" draft="unconfirmed">Noya</month>
+							<month type="12" draft="unconfirmed">Dek</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Muharram</month>
+							<month type="2" draft="unconfirmed">Safar</month>
+							<month type="3" draft="unconfirmed">Rabiul-avval</month>
+							<month type="4" draft="unconfirmed">Rabiul-oxir</month>
+							<month type="5" draft="unconfirmed">Jumodiul-ulo</month>
+							<month type="6" draft="unconfirmed">Jumodiul-uxro</month>
+							<month type="7" draft="unconfirmed">Rajab</month>
+							<month type="8" draft="unconfirmed">Shaʿbon</month>
+							<month type="9" draft="unconfirmed">Ramazon</month>
+							<month type="10" draft="unconfirmed">Shavvol</month>
+							<month type="11" draft="unconfirmed">Zil-qaʿda</month>
+							<month type="12" draft="unconfirmed">Zil-hijja</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1" draft="unconfirmed">Y</month>
+							<month type="2" draft="unconfirmed">F</month>
+							<month type="3" draft="unconfirmed">M</month>
+							<month type="4" draft="unconfirmed">A</month>
+							<month type="5" draft="unconfirmed">M</month>
+							<month type="6" draft="unconfirmed">I</month>
+							<month type="7" draft="unconfirmed">I</month>
+							<month type="8" draft="unconfirmed">A</month>
+							<month type="9" draft="unconfirmed">S</month>
+							<month type="10" draft="unconfirmed">O</month>
+							<month type="11" draft="unconfirmed">N</month>
+							<month type="12" draft="unconfirmed">D</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">Yaksh</day>
+							<day type="mon" draft="unconfirmed">Dush</day>
+							<day type="tue" draft="unconfirmed">Sesh</day>
+							<day type="wed" draft="unconfirmed">Chor</day>
+							<day type="thu" draft="unconfirmed">Pay</day>
+							<day type="fri" draft="unconfirmed">Jum</day>
+							<day type="sat" draft="unconfirmed">Shan</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">yakshanba</day>
+							<day type="mon" draft="unconfirmed">dushanba</day>
+							<day type="tue" draft="unconfirmed">seshanba</day>
+							<day type="wed" draft="unconfirmed">chorshanba</day>
+							<day type="thu" draft="unconfirmed">payshanba</day>
+							<day type="fri" draft="unconfirmed">juma</day>
+							<day type="sat" draft="unconfirmed">shanba</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun" draft="unconfirmed">Y</day>
+							<day type="mon" draft="unconfirmed">D</day>
+							<day type="tue" draft="unconfirmed">S</day>
+							<day type="wed" draft="unconfirmed">C</day>
+							<day type="thu" draft="unconfirmed">P</day>
+							<day type="fri" draft="unconfirmed">J</day>
+							<day type="sat" draft="unconfirmed">Sh</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="BRL">
+				<displayName draft="unconfirmed">Brazil reali</displayName>
+			</currency>
+			<currency type="CNY">
+				<displayName draft="unconfirmed">Xitoy yuani</displayName>
+			</currency>
+			<currency type="EUR">
+				<displayName draft="unconfirmed">Evro</displayName>
+			</currency>
+			<currency type="GBP">
+				<displayName draft="unconfirmed">Ingliz funt sterlingi</displayName>
+			</currency>
+			<currency type="INR">
+				<displayName draft="unconfirmed">Hind rupiyasi</displayName>
+			</currency>
+			<currency type="JPY">
+				<displayName draft="unconfirmed">Yapon yenasi</displayName>
+			</currency>
+			<currency type="RUB">
+				<displayName draft="unconfirmed">Rus rubli</displayName>
+			</currency>
+			<currency type="USD">
+				<displayName draft="unconfirmed">AQSH dollari</displayName>
+			</currency>
+			<currency type="UZS">
+				<displayName draft="unconfirmed">Oʿzbekiston soʿm</displayName>
+				<symbol draft="unconfirmed">soʿm</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+

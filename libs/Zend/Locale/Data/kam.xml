@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.13 $"/>
+		<generation date="$Date: 2006/07/11 19:26:44 $"/>
+		<language type="kam"/>
+	</identity>
+	<characters>
+		<exemplarCharacters draft="unconfirmed">[a-e g-o r-w y z]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">Mwei wa mbee</month>
+							<month type="2" draft="unconfirmed">Mwei wa keli</month>
+							<month type="3" draft="unconfirmed">Mwei wa katatu</month>
+							<month type="4" draft="unconfirmed">Mwei wa kanne</month>
+							<month type="5" draft="unconfirmed">Mwei wa katano</month>
+							<month type="6" draft="unconfirmed">Mwei wa thanthatu</month>
+							<month type="7" draft="unconfirmed">Mwei wa muonza</month>
+							<month type="8" draft="unconfirmed">Mwei wa nyanya</month>
+							<month type="9" draft="unconfirmed">Mwei wa kenda</month>
+							<month type="10" draft="unconfirmed">Mwei wa ikumi</month>
+							<month type="11" draft="unconfirmed">Mwei wa ikumi na imwe</month>
+							<month type="12" draft="unconfirmed">Mwei wa ikumi na ili</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Mwei wa mbee</month>
+							<month type="2" draft="unconfirmed">Mwei wa keli</month>
+							<month type="3" draft="unconfirmed">Mwei wa katatu</month>
+							<month type="4" draft="unconfirmed">Mwei wa kanne</month>
+							<month type="5" draft="unconfirmed">Mwei wa katano</month>
+							<month type="6" draft="unconfirmed">Mwei wa thanthatu</month>
+							<month type="7" draft="unconfirmed">Mwei wa muonza</month>
+							<month type="8" draft="unconfirmed">Mwei wa nyanya</month>
+							<month type="9" draft="unconfirmed">Mwei wa kenda</month>
+							<month type="10" draft="unconfirmed">Mwei wa ikumi</month>
+							<month type="11" draft="unconfirmed">Mwei wa ikumi na imwe</month>
+							<month type="12" draft="unconfirmed">Mwei wa ikumi na ili</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">Jpl</day>
+							<day type="mon" draft="unconfirmed">Jtt</day>
+							<day type="tue" draft="unconfirmed">Jnn</day>
+							<day type="wed" draft="unconfirmed">Jtn</day>
+							<day type="thu" draft="unconfirmed">Alh</day>
+							<day type="fri" draft="unconfirmed">Ijm</day>
+							<day type="sat" draft="unconfirmed">Jms</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">Jumapili</day>
+							<day type="mon" draft="unconfirmed">Jumatatu</day>
+							<day type="tue" draft="unconfirmed">Jumanne</day>
+							<day type="wed" draft="unconfirmed">Jumatano</day>
+							<day type="thu" draft="unconfirmed">Alamisi</day>
+							<day type="fri" draft="unconfirmed">Ijumaa</day>
+							<day type="sat" draft="unconfirmed">Jumamosi</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">mbee wa yesu</era>
+						<era type="1" draft="unconfirmed">IY</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">MY</era>
+						<era type="1" draft="unconfirmed">IY</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="KES">
+				<displayName draft="unconfirmed">Silingi ya Kenya</displayName>
+				<symbol draft="unconfirmed">KSh</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+

@@ -1,0 +1,1345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.56.2.1 $"/>
+		<generation date="$Date: 2007/01/04 00:09:46 $"/>
+		<language type="am"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="aa">አፋርኛ</language>
+			<language type="ab">አብሐዚኛ</language>
+			<language type="af">አፍሪቃንስኛ</language>
+			<language type="af" alt="proposed-u121-3" draft="unconfirmed">አፍሪካንስኛ</language>
+			<language type="am">አማርኛ</language>
+			<language type="ar">ዐርቢኛ</language>
+			<language type="as">አሳሜዛዊ</language>
+			<language type="as" alt="proposed-u121-1" draft="unconfirmed">አሳሜዝኛ</language>
+			<language type="ay">አያማርኛ</language>
+			<language type="az">አዜርባይጃንኛ</language>
+			<language type="ba">ባስኪርኛ</language>
+			<language type="ba" alt="proposed-u121-1" draft="unconfirmed">ባሽኪርኛ</language>
+			<language type="be">ቤላራሻኛ</language>
+			<language type="be" alt="proposed-u121-1" draft="unconfirmed">ቤላሩስኛ</language>
+			<language type="bg">ቡልጋሪኛ</language>
+			<language type="bh">ቢሃሪ</language>
+			<language type="bh" alt="proposed-u121-1" draft="unconfirmed">ቢኻሪኛ</language>
+			<language type="bi">ቢስላምኛ</language>
+			<language type="bn">በንጋሊኛ</language>
+			<language type="bo">ትበትንኛ</language>
+			<language type="bo" alt="proposed-u121-1" draft="unconfirmed">ቲቤቲኛ</language>
+			<language type="br">ብሬቶንኛ</language>
+			<language type="byn">ብሊን</language>
+			<language type="byn" alt="proposed-u121-1" draft="unconfirmed">ብሌንኛ</language>
+			<language type="ca">ካታላንኛ</language>
+			<language type="co">ኮርሲካኛ</language>
+			<language type="co" alt="proposed-u121-1" draft="unconfirmed">ክሮሽያኛ</language>
+			<language type="cs">ቼክኛ</language>
+			<language type="cy">ወልሽ</language>
+			<language type="da">ዴኒሽ</language>
+			<language type="da" alt="proposed-u121-1" draft="unconfirmed">ዴንሽኛ</language>
+			<language type="de">ጀርመን</language>
+			<language type="de" alt="proposed-u121-1" draft="unconfirmed">ጀርመንኛ</language>
+			<language type="dz">ድዞንግኻኛ</language>
+			<language type="el">ግሪክኛ</language>
+			<language type="en">እንግሊዝኛ</language>
+			<language type="eo">ኤስፐራንቶ</language>
+			<language type="es">ስፓኒሽ</language>
+			<language type="es" alt="proposed-u121-1" draft="unconfirmed">ስፓኒሽኛ</language>
+			<language type="et">ኤስቶኒአን</language>
+			<language type="eu">ባስክኛ</language>
+			<language type="fa">ፐርሲያኛ</language>
+			<language type="fi">ፊኒሽ</language>
+			<language type="fj">ፊጂኛ</language>
+			<language type="fo">ፋሮኛ</language>
+			<language type="fr">ፈረንሳይኛ</language>
+			<language type="fy">ፍሪስኛ</language>
+			<language type="ga">አይሪሽ</language>
+			<language type="gd">እስኮትስ ጌልክኛ</language>
+			<language type="gez">ግዕዝኛ</language>
+			<language type="gl">ጋለጋኛ</language>
+			<language type="gn">ጓራኒኛ</language>
+			<language type="gu">ጉጃርቲኛ</language>
+			<language type="ha">ሃውሳኛ</language>
+			<language type="ha" alt="proposed-u121-1" draft="unconfirmed">ሃውሳኛ (የናይጄሪያ ቋንቋ)</language>
+			<language type="he">ዕብራስጥ</language>
+			<language type="hi">ሐንድኛ</language>
+			<language type="hr">ክሮሽያንኛ</language>
+			<language type="hu">ሀንጋሪኛ</language>
+			<language type="hy">አርመናዊ</language>
+			<language type="hy" alt="proposed-u121-1" draft="unconfirmed">አርመኒያኛ</language>
+			<language type="ia">ኢንቴርሊንጓ</language>
+			<language type="id">እንዶኒሲኛ</language>
+			<language type="ie">እንተርሊንግወ</language>
+			<language type="ik">እኑፒያቅኛ</language>
+			<language type="is">አይስላንድኛ</language>
+			<language type="it">ጣሊያንኛ</language>
+			<language type="iu">እኑክቲቱትኛ</language>
+			<language type="ja">ጃፓንኛ</language>
+			<language type="jv">ጃቫንኛ</language>
+			<language type="ka">ጊዮርጊያን</language>
+			<language type="kk">ካዛክኛ</language>
+			<language type="kl">ካላሊሱትኛ</language>
+			<language type="km">ክመርኛ</language>
+			<language type="kn">ካናዳኛ</language>
+			<language type="ko">ኮሪያኛ</language>
+			<language type="ks">ካሽሚርኛ</language>
+			<language type="ku">ኩርድሽኛ</language>
+			<language type="ky">ኪርጊዝኛ</language>
+			<language type="la">ላቲንኛ</language>
+			<language type="ln">ሊንጋላኛ</language>
+			<language type="lo">ላውስኛ</language>
+			<language type="lt">ሊቱአኒያን</language>
+			<language type="lv">ላትቪያን</language>
+			<language type="mg">ማላጋስኛ</language>
+			<language type="mi">ማዮሪኛ</language>
+			<language type="mi" alt="proposed-u121-1" draft="unconfirmed">ማኦሪኛ</language>
+			<language type="mk">ማከዶኒኛ</language>
+			<language type="mk" alt="proposed-u121-1" draft="unconfirmed">ማኬኮኒአንኛ</language>
+			<language type="ml">ማላያላምኛ</language>
+			<language type="mn">ሞንጎላዊኛ</language>
+			<language type="mo">ሞልዳቫዊና</language>
+			<language type="mr">ማራዚኛ</language>
+			<language type="mr" alt="proposed-u121-1" draft="unconfirmed">ማራቲኛ</language>
+			<language type="ms">ማላይኛ</language>
+			<language type="mt">ማልቲስኛ</language>
+			<language type="my">ቡርማኛ</language>
+			<language type="na">ናኡሩ</language>
+			<language type="na" alt="proposed-u121-1" draft="unconfirmed">ናኡሩኛ</language>
+			<language type="ne">ኔፓሊኛ</language>
+			<language type="nl">ደች</language>
+			<language type="no">ኖርዌጂያን</language>
+			<language type="no" alt="proposed-u121-1" draft="unconfirmed">ኖርዌጅያንኛ</language>
+			<language type="oc">ኦኪታንኛ</language>
+			<language type="oc" alt="proposed-u121-1" draft="unconfirmed">ኦኪታንኛ (ከ1500 በኋላ)፤ ፕሮቬንሳልኛ</language>
+			<language type="om">ኦሮምኛ</language>
+			<language type="or">ኦሪያኛ</language>
+			<language type="pa">ፓንጃቢኛ</language>
+			<language type="pl">ፖሊሽ</language>
+			<language type="ps">ፑሽቶኛ</language>
+			<language type="pt">ፖርቱጋሊኛ</language>
+			<language type="qu">ኵቿኛ</language>
+			<language type="rm">ሮማንስ</language>
+			<language type="rm" alt="proposed-u121-1" draft="unconfirmed">ራኼቶ-ሮማንስኛ</language>
+			<language type="rn">ሩንዲኛ</language>
+			<language type="ro">ሮማኒያን</language>
+			<language type="ru">ራሽኛ</language>
+			<language type="rw">ኪንያርዋንድኛ</language>
+			<language type="sa">ሳንስክሪትኛ</language>
+			<language type="sd">ሲንድሂኛ</language>
+			<language type="sg">ሳንጎኛ</language>
+			<language type="si">ስንሃልኛ</language>
+			<language type="sid">ሲዳምኛ</language>
+			<language type="sk">ስሎቫክኛ</language>
+			<language type="sl">ስሎቪኛ</language>
+			<language type="sm">ሳሞአኛ</language>
+			<language type="sn">ሾናኛ</language>
+			<language type="so">ሱማልኛ</language>
+			<language type="sq">ልቤኒኛ</language>
+			<language type="sr">ሰርቢኛ</language>
+			<language type="ss">ስዋቲኛ</language>
+			<language type="st">ሶዞኛ</language>
+			<language type="su">ሱዳንኛ</language>
+			<language type="sv">ስዊድንኛ</language>
+			<language type="sw">ስዋሂሊኛ</language>
+			<language type="ta">ታሚልኛ</language>
+			<language type="te">ተሉጉኛ</language>
+			<language type="tg">ታጂኪኛ</language>
+			<language type="th">ታይኛ</language>
+			<language type="ti">ትግርኛ</language>
+			<language type="tig">ትግረ</language>
+			<language type="tk">ቱርክመንኛ</language>
+			<language type="tl">ታጋሎገኛ</language>
+			<language type="tn">ጽዋናዊኛ</language>
+			<language type="to">ቶንጋ</language>
+			<language type="tr">ቱርክኛ</language>
+			<language type="ts">ጾንጋኛ</language>
+			<language type="tt">ታታርኛ</language>
+			<language type="tw">ትዊኛ</language>
+			<language type="ug">ኡዊግሁርኛ</language>
+			<language type="uk">ዩክረኒኛ</language>
+			<language type="ur">ኡርዱኛ</language>
+			<language type="uz">ኡዝበክኛ</language>
+			<language type="vi">ቪትናምኛ</language>
+			<language type="vo">ቮላፑክኛ</language>
+			<language type="wo">ዎሎፍኛ</language>
+			<language type="xh">ዞሳኛ</language>
+			<language type="yi">ይዲሻዊኛ</language>
+			<language type="yo">ዮሩባዊኛ</language>
+			<language type="za">ዡዋንግኛ</language>
+			<language type="zh">ቻይንኛ</language>
+			<language type="zu">ዙሉኛ</language>
+		</languages>
+		<scripts>
+			<script type="Arab" draft="unconfirmed">አረቢክ</script>
+			<script type="Armn" draft="unconfirmed">የአርማኒያ ፊደል</script>
+			<script type="Beng" draft="unconfirmed">ቤንጃሊ</script>
+			<script type="Bopo" draft="unconfirmed">ቡፖሞፎ</script>
+			<script type="Brai" draft="unconfirmed">ብሬይል</script>
+			<script type="Buhd" draft="unconfirmed">ቡሂድ</script>
+			<script type="Cans" draft="unconfirmed">የተዋሐዱ የካናዳ ጥንታዊ ምልክቶች</script>
+			<script type="Cher" draft="unconfirmed">ቼሮኪ</script>
+			<script type="Copt" draft="unconfirmed">ኮፕቲክ</script>
+			<script type="Cprt" draft="unconfirmed">ሲፕሪኦት</script>
+			<script type="Cyrl" draft="unconfirmed">ሲርሊክ</script>
+			<script type="Deva" draft="unconfirmed">ዴቫናጋሪ</script>
+			<script type="Dsrt" draft="unconfirmed">ዴዘረት</script>
+			<script type="Ethi" draft="unconfirmed">ፊደል</script>
+			<script type="Geor" draft="unconfirmed">የጆርጂያ ፊደል</script>
+			<script type="Goth" draft="unconfirmed">ጐቲክ</script>
+			<script type="Grek" draft="unconfirmed">ግሪክ</script>
+			<script type="Gujr" draft="unconfirmed">ጉጃራቲ</script>
+			<script type="Guru" draft="unconfirmed">ጉርሙኪ</script>
+			<script type="Hang" draft="unconfirmed">ሀንጉል</script>
+			<script type="Hani" draft="unconfirmed">ሀን</script>
+			<script type="Hano" draft="unconfirmed">ሀኑኦ</script>
+			<script type="Hans" draft="unconfirmed">ቀላል ሀን</script>
+			<script type="Hant" draft="unconfirmed">ባሕላዊ ሀን</script>
+			<script type="Hebr" draft="unconfirmed">እብራይስጥ</script>
+			<script type="Hira" draft="unconfirmed">ሂራጋና</script>
+			<script type="Hrkt" draft="unconfirmed">ካታካና ወይንም ሂራጋና</script>
+			<script type="Kana" draft="unconfirmed">ክአታካና</script>
+			<script type="Khmr" draft="unconfirmed">ካኽሜር</script>
+			<script type="Knda" draft="unconfirmed">ካናዳ</script>
+			<script type="Laoo" draft="unconfirmed">ላኦ</script>
+			<script type="Latn" draft="unconfirmed">ላቲን</script>
+			<script type="Limb" draft="unconfirmed">ሊምቡ</script>
+			<script type="Lina" draft="unconfirmed">ሊኒያር ኤ</script>
+			<script type="Linb" draft="unconfirmed">ሊኒያር ቢ</script>
+			<script type="Mlym" draft="unconfirmed">ማላያላም</script>
+			<script type="Mong" draft="unconfirmed">የሞንጎሊያ ፊደል</script>
+			<script type="Mymr" draft="unconfirmed">ሚአንማር</script>
+			<script type="Ogam" draft="unconfirmed">ኦግሀም</script>
+			<script type="Orya" draft="unconfirmed">ኦሪያ</script>
+			<script type="Osma" draft="unconfirmed">ኦስማኒያ</script>
+			<script type="Qaai" draft="unconfirmed">የተወረሰ</script>
+			<script type="Runr" draft="unconfirmed">ሩኒክ</script>
+			<script type="Shaw" draft="unconfirmed">የሻቪያ ፊደል</script>
+			<script type="Sinh" draft="unconfirmed">ሲንሃላ</script>
+			<script type="Syrc" draft="unconfirmed">ሲሪክ</script>
+			<script type="Tagb" draft="unconfirmed">ትአግባንዋ</script>
+			<script type="Tale" draft="unconfirmed">ታኢ ለ</script>
+			<script type="Talu" draft="unconfirmed">አዲስ ታኢ ሉ</script>
+			<script type="Taml" draft="unconfirmed">ታሚል</script>
+			<script type="Telu" draft="unconfirmed">ቴሉጉ</script>
+			<script type="Tglg" draft="unconfirmed">ታጋሎግ</script>
+			<script type="Thaa" draft="unconfirmed">ታኸና</script>
+			<script type="Thai" draft="unconfirmed">ታኢ</script>
+			<script type="Tibt" draft="unconfirmed">ቲቤታን</script>
+			<script type="Ugar" draft="unconfirmed">ኡጋሪቲክ</script>
+			<script type="Vaii" draft="unconfirmed">ቫይ</script>
+			<script type="Yiii" draft="unconfirmed">ዪ</script>
+		</scripts>
+		<territories>
+			<territory type="001" draft="unconfirmed">ዓለም</territory>
+			<territory type="002" draft="unconfirmed">አፍሪካ</territory>
+			<territory type="005" draft="unconfirmed">ደቡባዊ አሜሪካ</territory>
+			<territory type="009" draft="unconfirmed">ኦሽኒያ</territory>
+			<territory type="011" draft="unconfirmed">ምዕራባዊ አፍሪካ</territory>
+			<territory type="013" draft="unconfirmed">መካከለኛ አሜሪካ [013]</territory>
+			<territory type="014" draft="unconfirmed">ምስራቃዊ አፍሪካ</territory>
+			<territory type="015" draft="unconfirmed">ሰሜናዊ አፍሪካ</territory>
+			<territory type="017" draft="unconfirmed">መካከለኛ አፍሪካ</territory>
+			<territory type="018" draft="unconfirmed">ደቡባዊ አፍሪካ</territory>
+			<territory type="019" draft="unconfirmed">አሜሪካዎች</territory>
+			<territory type="021" draft="unconfirmed">ሰሜናዊ አሜሪካ</territory>
+			<territory type="029" draft="unconfirmed">ካሪቢያን</territory>
+			<territory type="030" draft="unconfirmed">ደቡብ-ምሥራቃዊ እስያ [030]</territory>
+			<territory type="034" draft="unconfirmed">ምሥራቃዊ እስያ</territory>
+			<territory type="035" draft="unconfirmed">ደቡብ-ምሥራቃዊ እስያ [035]</territory>
+			<territory type="039" draft="unconfirmed">ደቡባዊ አውሮፓ</territory>
+			<territory type="053" draft="unconfirmed">አውስትራሊያ እና ኒው ዚላንድ</territory>
+			<territory type="054" draft="unconfirmed">ሜላኔሲያ</territory>
+			<territory type="057" draft="unconfirmed">ሚክሮኔዢያ [057]</territory>
+			<territory type="061" draft="unconfirmed">ፖሊኔዢያ</territory>
+			<territory type="142" draft="unconfirmed">እስያ</territory>
+			<territory type="143" draft="unconfirmed">መካከለኛ አሜሪካ [143]</territory>
+			<territory type="145" draft="unconfirmed">ምዕራባዊ እስያ</territory>
+			<territory type="150" draft="unconfirmed">አውሮፓ</territory>
+			<territory type="151" draft="unconfirmed">ምስራቃዊ አውሮፓ</territory>
+			<territory type="154" draft="unconfirmed">ሰሜናዊ አውሮፓ</territory>
+			<territory type="155" draft="unconfirmed">ምዕራባዊ አውሮፓ</territory>
+			<territory type="AD">አንዶራ</territory>
+			<territory type="AE">የተባበሩት አረብ ኤምሬትስ</territory>
+			<territory type="AF" draft="unconfirmed">አፍጋኒስታን</territory>
+			<territory type="AG" draft="unconfirmed">አንቲጓ እና ባሩዳ</territory>
+			<territory type="AI" draft="unconfirmed">አንጉኢላ</territory>
+			<territory type="AL">አልባኒያ</territory>
+			<territory type="AM">አርሜኒያ</territory>
+			<territory type="AN">ኔዘርላንድስ አንቲልስ</territory>
+			<territory type="AO" draft="unconfirmed">አንጐላ</territory>
+			<territory type="AQ" draft="unconfirmed">አንታርክቲካ</territory>
+			<territory type="AR">አርጀንቲና</territory>
+			<territory type="AS" draft="unconfirmed">የአሜሪካ ሳሞአ</territory>
+			<territory type="AT">ኦስትሪያ</territory>
+			<territory type="AU">አውስትሬሊያ</territory>
+			<territory type="AW" draft="unconfirmed">አሩባ</territory>
+			<territory type="AX" draft="unconfirmed">የአላንድ ደሴቶች</territory>
+			<territory type="AZ">አዘርባጃን</territory>
+			<territory type="BA">ቦስኒያ እና ሄርዞጎቪኒያ</territory>
+			<territory type="BB">ባርቤዶስ</territory>
+			<territory type="BD" draft="unconfirmed">ባንግላዲሽ</territory>
+			<territory type="BE">ቤልጄም</territory>
+			<territory type="BF" draft="unconfirmed">ቡርኪና ፋሶ</territory>
+			<territory type="BG">ቡልጌሪያ</territory>
+			<territory type="BH">ባህሬን</territory>
+			<territory type="BI" draft="unconfirmed">ብሩንዲ</territory>
+			<territory type="BJ" draft="unconfirmed">ቤኒን</territory>
+			<territory type="BM">ቤርሙዳ</territory>
+			<territory type="BN" draft="unconfirmed">ብሩኒ</territory>
+			<territory type="BO">ቦሊቪያ</territory>
+			<territory type="BR">ብራዚል</territory>
+			<territory type="BS" draft="unconfirmed">ባሃማስ</territory>
+			<territory type="BT">ቡህታን</territory>
+			<territory type="BV" draft="unconfirmed">የቦውቬት ደሴት</territory>
+			<territory type="BW" draft="unconfirmed">ቦትስዋና</territory>
+			<territory type="BY">ቤላሩስ</territory>
+			<territory type="BZ">ቤሊዘ</territory>
+			<territory type="CA" draft="unconfirmed">ካናዳ</territory>
+			<territory type="CC" draft="unconfirmed">ኮኮስ ኬሊንግ ደሴቶች</territory>
+			<territory type="CD">ኮንጎ</territory>
+			<territory type="CF">የመካከለኛው አፍሪካ ሪፐብሊክ</territory>
+			<territory type="CG" draft="unconfirmed">ኮንጐ</territory>
+			<territory type="CH">ስዊዘርላንድ</territory>
+			<territory type="CI" draft="unconfirmed">ኮት ዲቯር</territory>
+			<territory type="CK" draft="unconfirmed">ኩክ ደሴቶች</territory>
+			<territory type="CL">ቺሊ</territory>
+			<territory type="CM">ካሜሩን</territory>
+			<territory type="CN">ቻይና</territory>
+			<territory type="CO">ኮሎምቢያ</territory>
+			<territory type="CR" draft="unconfirmed">ኮስታ ሪካ</territory>
+			<territory type="CS" draft="unconfirmed">ሰርቢያ</territory>
+			<territory type="CU" draft="unconfirmed">ኩባ</territory>
+			<territory type="CV">ኬፕ ቬርዴ</territory>
+			<territory type="CX" draft="unconfirmed">የገና ደሴቶች</territory>
+			<territory type="CY">ሳይፕረስ</territory>
+			<territory type="CZ">ቼክ ሪፑብሊክ</territory>
+			<territory type="DE">ጀርመን</territory>
+			<territory type="DJ" draft="unconfirmed">ጂቡቲ</territory>
+			<territory type="DK">ዴንማርክ</territory>
+			<territory type="DM">ዶሚኒካ</territory>
+			<territory type="DO">ዶሚኒክ ሪፑብሊክ</territory>
+			<territory type="DZ">አልጄሪያ</territory>
+			<territory type="EC">ኢኳዶር</territory>
+			<territory type="EE">ኤስቶኒያ</territory>
+			<territory type="EG">ግብጽ</territory>
+			<territory type="EH">ምዕራባዊ ሳህራ</territory>
+			<territory type="ER">ኤርትራ</territory>
+			<territory type="ES">ስፔን</territory>
+			<territory type="ET">ኢትዮጵያ</territory>
+			<territory type="FI">ፊንላንድ</territory>
+			<territory type="FJ">ፊጂ</territory>
+			<territory type="FK" draft="unconfirmed">የፎልክላንድ ደሴቶች</territory>
+			<territory type="FM">ሚክሮኔዢያ</territory>
+			<territory type="FO" draft="unconfirmed">የፋሮይ ደሴቶች</territory>
+			<territory type="FR" draft="unconfirmed">ፈረንሳይ</territory>
+			<territory type="GA" draft="unconfirmed">ጋቦን</territory>
+			<territory type="GB">እንግሊዝ</territory>
+			<territory type="GD" draft="unconfirmed">ግሬናዳ</territory>
+			<territory type="GE">ጆርጂያ</territory>
+			<territory type="GF">የፈረንሳይ ጉዊአና</territory>
+			<territory type="GH" draft="unconfirmed">ጋና</territory>
+			<territory type="GI" draft="unconfirmed">ጊብራልታር</territory>
+			<territory type="GL" draft="unconfirmed">ግሪንላንድ</territory>
+			<territory type="GM">ጋምቢያ</territory>
+			<territory type="GN">ጊኒ</territory>
+			<territory type="GP" draft="unconfirmed">ጉዋደሉፕ</territory>
+			<territory type="GQ">ኢኳቶሪያል ጊኒ</territory>
+			<territory type="GR">ግሪክ</territory>
+			<territory type="GS" draft="unconfirmed">ደቡብ ጆርጂያ እና የደቡድ ሳንድዊች ደሴቶች</territory>
+			<territory type="GT" draft="unconfirmed">ጉዋቲማላ</territory>
+			<territory type="GU" draft="unconfirmed">ጉዋም</territory>
+			<territory type="GW">ቢሳዎ</territory>
+			<territory type="GY">ጉያና</territory>
+			<territory type="HK" draft="unconfirmed">ሆንግ ኮንግ</territory>
+			<territory type="HM" draft="unconfirmed">የኧርድ እና የማክዶናልድ ደሴቶች</territory>
+			<territory type="HN" draft="unconfirmed">ሆንዱራስ</territory>
+			<territory type="HR">ክሮኤሽያ</territory>
+			<territory type="HT">ሀይቲ</territory>
+			<territory type="HU">ሀንጋሪ</territory>
+			<territory type="ID">ኢንዶኔዢያ</territory>
+			<territory type="IE">አየርላንድ</territory>
+			<territory type="IL">እስራኤል</territory>
+			<territory type="IN">ህንድ</territory>
+			<territory type="IO" draft="unconfirmed">የብሪታኒያ ህንድ ውቂያኖስ ግዛት</territory>
+			<territory type="IQ">ኢራቅ</territory>
+			<territory type="IR" draft="unconfirmed">ኢራን</territory>
+			<territory type="IS">አይስላንድ</territory>
+			<territory type="IT">ጣሊያን</territory>
+			<territory type="JM">ጃማይካ</territory>
+			<territory type="JO">ጆርዳን</territory>
+			<territory type="JP">ጃፓን</territory>
+			<territory type="KE" draft="unconfirmed">ኬንያ</territory>
+			<territory type="KH">ካምቦዲያ</territory>
+			<territory type="KI" draft="unconfirmed">ኪሪባቲ</territory>
+			<territory type="KM">ኮሞሮስ</territory>
+			<territory type="KN" draft="unconfirmed">ቅዱስ ኪትስ እና ኔቪስ</territory>
+			<territory type="KP" alt="proposed-u121-1" draft="unconfirmed">ሰሜን ኮሪያ</territory>
+			<territory type="KR" alt="proposed-u121-1" draft="unconfirmed">ደቡብ ኮሪያ</territory>
+			<territory type="KW">ክዌት</territory>
+			<territory type="KY" draft="unconfirmed">ካይማን ደሴቶች</territory>
+			<territory type="LA" draft="unconfirmed">ላኦስ</territory>
+			<territory type="LB">ሊባኖስ</territory>
+			<territory type="LC" draft="unconfirmed">ሴንት ሉቺያ</territory>
+			<territory type="LI" draft="unconfirmed">ሊችተንስታይን</territory>
+			<territory type="LK" draft="unconfirmed">ሲሪላንካ</territory>
+			<territory type="LR" draft="unconfirmed">ላይቤሪያ</territory>
+			<territory type="LS" draft="unconfirmed">ሌሶቶ</territory>
+			<territory type="LT">ሊቱዌኒያ</territory>
+			<territory type="LU" draft="unconfirmed">ሉክሰምበርግ</territory>
+			<territory type="LV">ላትቪያ</territory>
+			<territory type="LY">ሊቢያ</territory>
+			<territory type="MA">ሞሮኮ</territory>
+			<territory type="MC" draft="unconfirmed">ሞናኮ</territory>
+			<territory type="MD">ሞልዶቫ</territory>
+			<territory type="MG" draft="unconfirmed">ማዳጋስካር</territory>
+			<territory type="MH" draft="unconfirmed">ማርሻል አይላንድ</territory>
+			<territory type="MK">ማከዶኒያ</territory>
+			<territory type="ML" draft="unconfirmed">ማሊ</territory>
+			<territory type="MM" draft="unconfirmed">ማያንማር</territory>
+			<territory type="MN">ሞንጎሊያ</territory>
+			<territory type="MO" draft="unconfirmed">ማካዎ</territory>
+			<territory type="MP" draft="unconfirmed">የሰሜናዊ ማሪያና ደሴቶች</territory>
+			<territory type="MQ" draft="unconfirmed">ማርቲኒክ</territory>
+			<territory type="MR">ሞሪቴኒያ</territory>
+			<territory type="MS" draft="unconfirmed">ሞንትሴራት</territory>
+			<territory type="MT">ማልታ</territory>
+			<territory type="MU">ማሩሸስ</territory>
+			<territory type="MV" draft="unconfirmed">ማልዲቭስ</territory>
+			<territory type="MW" draft="unconfirmed">ማላዊ</territory>
+			<territory type="MX">ሜክሲኮ</territory>
+			<territory type="MY">ማሌዢያ</territory>
+			<territory type="MZ" draft="unconfirmed">ሞዛምቢክ</territory>
+			<territory type="NA">ናሚቢያ</territory>
+			<territory type="NC">ኒው ካሌዶኒያ</territory>
+			<territory type="NE" draft="unconfirmed">ኒጀር</territory>
+			<territory type="NF" draft="unconfirmed">ኖርፎልክ ደሴት</territory>
+			<territory type="NG">ናይጄሪያ</territory>
+			<territory type="NI" draft="unconfirmed">ኒካራጓ</territory>
+			<territory type="NL">ኔዘርላንድ</territory>
+			<territory type="NO">ኖርዌ</territory>
+			<territory type="NP">ኔፓል</territory>
+			<territory type="NR" draft="unconfirmed">ናኡሩ</territory>
+			<territory type="NU" draft="unconfirmed">ኒኡይ</territory>
+			<territory type="NZ">ኒው ዚላንድ</territory>
+			<territory type="OM" draft="unconfirmed">ኦማን</territory>
+			<territory type="PA" draft="unconfirmed">ፓናማ</territory>
+			<territory type="PE">ፔሩ</territory>
+			<territory type="PF">የፈረንሳይ ፖሊኔዢያ</territory>
+			<territory type="PG">ፓፑዋ ኒው ጊኒ</territory>
+			<territory type="PH" draft="unconfirmed">ፊሊፒንስ</territory>
+			<territory type="PK" draft="unconfirmed">ፓኪስታን</territory>
+			<territory type="PL">ፖላንድ</territory>
+			<territory type="PM" draft="unconfirmed">ቅዱስ ፒዬር እና ሚኩኤሎን</territory>
+			<territory type="PN" draft="unconfirmed">ፒትካኢርን</territory>
+			<territory type="PR">ፖርታ ሪኮ</territory>
+			<territory type="PS" draft="unconfirmed">የፍልስጤም ግዛት</territory>
+			<territory type="PT" draft="unconfirmed">ፖርቱጋል</territory>
+			<territory type="PW" draft="unconfirmed">ፓላው</territory>
+			<territory type="PY" draft="unconfirmed">ፓራጓይ</territory>
+			<territory type="QA" draft="unconfirmed">ኳታር</territory>
+			<territory type="QO" draft="unconfirmed">ወጣ ያለ ኦሽኒያ</territory>
+			<territory type="RE" draft="unconfirmed">ሪዩኒየን</territory>
+			<territory type="RO">ሮሜኒያ</territory>
+			<territory type="RU">ራሺያ</territory>
+			<territory type="RW" draft="unconfirmed">ሩዋንዳ</territory>
+			<territory type="SA">ሳውድአረቢያ</territory>
+			<territory type="SB" draft="unconfirmed">ሰሎሞን ደሴት</territory>
+			<territory type="SC" draft="unconfirmed">ሲሼልስ</territory>
+			<territory type="SD">ሱዳን</territory>
+			<territory type="SE">ስዊድን</territory>
+			<territory type="SG">ሲንጋፖር</territory>
+			<territory type="SH" draft="unconfirmed">ሴንት ሄለና</territory>
+			<territory type="SI">ስሎቬኒያ</territory>
+			<territory type="SJ" draft="unconfirmed">የስቫልባርድ እና ዣን ማየን ደሴቶች</territory>
+			<territory type="SK">ስሎቫኪያ</territory>
+			<territory type="SL" draft="unconfirmed">ሴራሊዮን</territory>
+			<territory type="SM" draft="unconfirmed">ሳን ማሪኖ</territory>
+			<territory type="SN">ሴኔጋል</territory>
+			<territory type="SO">ሱማሌ</territory>
+			<territory type="SR" draft="unconfirmed">ሱሪናም</territory>
+			<territory type="ST" draft="unconfirmed">ሳኦ ቶሜ እና ፕሪንሲፔ</territory>
+			<territory type="SV" draft="unconfirmed">ኤል ሳልቫዶር</territory>
+			<territory type="SY">ሲሪያ</territory>
+			<territory type="SZ" draft="unconfirmed">ሱዋዚላንድ</territory>
+			<territory type="TC" draft="unconfirmed">የቱርኮችና የካኢኮስ ደሴቶች</territory>
+			<territory type="TD">ቻድ</territory>
+			<territory type="TF">የፈረንሳይ ደቡባዊ ግዛቶች</territory>
+			<territory type="TG" draft="unconfirmed">ቶጐ</territory>
+			<territory type="TH">ታይላንድ</territory>
+			<territory type="TJ">ታጃኪስታን</territory>
+			<territory type="TK" draft="unconfirmed">ቶክላው</territory>
+			<territory type="TL">ምስራቅ ቲሞር</territory>
+			<territory type="TM" draft="unconfirmed">ቱርክሜኒስታን</territory>
+			<territory type="TN">ቱኒዚያ</territory>
+			<territory type="TO" draft="unconfirmed">ቶንጋ</territory>
+			<territory type="TR">ቱርክ</territory>
+			<territory type="TT">ትሪኒዳድ እና ቶባጎ</territory>
+			<territory type="TV" draft="unconfirmed">ቱቫሉ</territory>
+			<territory type="TW" draft="unconfirmed">ታይዋን</territory>
+			<territory type="TZ">ታንዛኒያ</territory>
+			<territory type="UA" draft="unconfirmed">ዩክሬን</territory>
+			<territory type="UG">ዩጋንዳ</territory>
+			<territory type="UM" draft="unconfirmed">የአሜሪካ ራቅ ያሉ አናሳ ደሴቶች</territory>
+			<territory type="US">አሜሪካ</territory>
+			<territory type="UY" draft="unconfirmed">ኡራጓይ</territory>
+			<territory type="UZ">ዩዝበኪስታን</territory>
+			<territory type="VA" draft="unconfirmed">ቫቲካን</territory>
+			<territory type="VC" draft="unconfirmed">ቅዱስ ቪንሴንት እና ግሬናዲንስ</territory>
+			<territory type="VE">ቬንዙዌላ</territory>
+			<territory type="VG">የእንግሊዝ ድንግል ደሴቶች</territory>
+			<territory type="VI">የአሜሪካ ቨርጂን ደሴቶች</territory>
+			<territory type="VN" draft="unconfirmed">ቬትናም</territory>
+			<territory type="VU" draft="unconfirmed">ቫኑአቱ</territory>
+			<territory type="WF" draft="unconfirmed">ዋሊስ እና ፉቱና ደሴቶች</territory>
+			<territory type="WS" draft="unconfirmed">ሳሞአ</territory>
+			<territory type="YE">የመን</territory>
+			<territory type="YT" draft="unconfirmed">ሜይኦቴ</territory>
+			<territory type="ZA">ደቡብ አፍሪካ</territory>
+			<territory type="ZM">ዛምቢያ</territory>
+			<territory type="ZW" draft="unconfirmed">ዚምቧቤ</territory>
+		</territories>
+		<keys>
+			<key type="calendar" draft="unconfirmed">የቀን መቁጠሪያ</key>
+			<key type="collation" draft="unconfirmed">የጽሑፎች ንፅፅር</key>
+			<key type="currency" draft="unconfirmed">ገንዘብ</key>
+		</keys>
+		<types>
+			<type type="big5han" key="collation" draft="unconfirmed">የቻይና ባህላዊ ቅደም ተከተል (Big5)</type>
+			<type type="buddhist" key="calendar" draft="unconfirmed">የቡድሐ የቀን መቁጠሪያ</type>
+			<type type="chinese" key="calendar" draft="unconfirmed">የቻይና የቀን መቁጠሪያ</type>
+			<type type="direct" key="collation" draft="unconfirmed">ቀጥታ የቃላት ንፅፅር</type>
+			<type type="gb2312han" key="collation" draft="unconfirmed">የቀለል ያለ ቻይንኛ (GB2312) ቅደም ተከተል</type>
+			<type type="gregorian" key="calendar" draft="unconfirmed">የግሪጐሪ የቀን መቁጠሪያ</type>
+			<type type="hebrew" key="calendar" draft="unconfirmed">የእብራይስጥ የቀን መቁጠሪያ</type>
+			<type type="islamic" key="calendar" draft="unconfirmed">የእስላም የቀን መቁጠሪያ</type>
+			<type type="islamic-civil" key="calendar" draft="unconfirmed">የእስላም ሕዝባዊ የቀን መቁጠሪያ</type>
+			<type type="japanese" key="calendar" draft="unconfirmed">የጃፓን የቀን መቁጠሪያ</type>
+			<type type="phonebook" key="collation" draft="unconfirmed">የስልክ ማውጫ ቅደም ተከተል</type>
+			<type type="pinyin" key="collation" draft="unconfirmed">የፒንዪን ቅደም ተከተል</type>
+			<type type="stroke" key="collation" draft="unconfirmed">የጭረት/የመቀቢያ ቅደም ተከተል</type>
+			<type type="traditional" key="collation" draft="unconfirmed">ባህላዊ ቅደም ተከተል</type>
+		</types>
+		<measurementSystemNames>
+			<measurementSystemName type="metric" draft="unconfirmed">ሜትሪክ</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[፟ ሀ-ሆ ለ-ቆ ቈ ቊ-ቍ በ-ኆ ኈ ኊ-ኍ ነ-ኮ ኰ ኲ-ኵ ኸ-ኾ ወ-ዎ ዐ-ዖ ዘ-ዷ ጀ-ጎ ጐ ጒ-ጕ ጠ-ፚ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" draft="unconfirmed">[᎐-᎙ ሇ ⶀ ᎀ-ᎃ ⶁ-ⶄ ቇ ቐ-ቖ ቘ ቚ-ቝ ᎄ-ᎇ ⶅ-ⶇ ኇ ⶈ-ⶊ ኯ ዀ ዂ-ዅ ዏ ⶋ ⶌ ዸ-ዿ ⶍ ⶎ ጏ ጘ-ጟ ⶓ-ⶖ ⶏ-ⶑ ᎈ-ᎏ ⶒ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</exemplarCharacters>
+		<exemplarCharacters alt="proposed-u121-2" draft="unconfirmed">[፟ ፡ ፣-፧ ። ፠ ፨ ፲-፼ ፩-፱ ሀ-ሆ ለ-ቆ ቈ ቊ-ቍ በ-ኆ ኈ ኊ-ኍ ነ-ኮ ኰ ኲ-ኵ ኸ-ኾ ወ-ዎ ዐ-ዖ ዘ-ዷ ጀ-ጎ ጐ ጒ-ጕ ጠ-ፚ]</exemplarCharacters>
+	</characters>
+	<delimiters>
+		<quotationStart draft="unconfirmed">«</quotationStart>
+		<quotationEnd draft="unconfirmed">»</quotationEnd>
+		<alternateQuotationStart draft="unconfirmed">‹</alternateQuotationStart>
+		<alternateQuotationEnd draft="unconfirmed">›</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<calendars>
+			<calendar type="coptic">
+				<eras>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">ዓ/ዓ</era>
+						<era type="1" draft="unconfirmed">ዓ/ም</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+			<calendar type="ethiopic">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">መስከ</month>
+							<month type="2" draft="unconfirmed">ጥቅም</month>
+							<month type="3" draft="unconfirmed">ኅዳር</month>
+							<month type="4" draft="unconfirmed">ታኅሣ</month>
+							<month type="5" draft="unconfirmed">ጥር</month>
+							<month type="6" draft="unconfirmed">የካቲ</month>
+							<month type="7" draft="unconfirmed">መጋቢ</month>
+							<month type="8" draft="unconfirmed">ሚያዝ</month>
+							<month type="9" draft="unconfirmed">ግንቦ</month>
+							<month type="10" draft="unconfirmed">ሰኔ</month>
+							<month type="11" draft="unconfirmed">ሐምሌ</month>
+							<month type="12" draft="unconfirmed">ነሐሴ</month>
+							<month type="13" draft="unconfirmed">ጳጉሜ</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">መስከረም</month>
+							<month type="2" draft="unconfirmed">ጥቅምት</month>
+							<month type="3" draft="unconfirmed">ኅዳር</month>
+							<month type="4" draft="unconfirmed">ታኅሣሥ</month>
+							<month type="5" draft="unconfirmed">ጥር</month>
+							<month type="6" draft="unconfirmed">የካቲት</month>
+							<month type="7" draft="unconfirmed">መጋቢት</month>
+							<month type="8" draft="unconfirmed">ሚያዝያ</month>
+							<month type="9" draft="unconfirmed">ግንቦት</month>
+							<month type="10" draft="unconfirmed">ሰኔ</month>
+							<month type="11" draft="unconfirmed">ሐምሌ</month>
+							<month type="12" draft="unconfirmed">ነሐሴ</month>
+							<month type="13" draft="unconfirmed">ጳጉሜን</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+			</calendar>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">ጃንዩ</month>
+							<month type="2">ፌብሩ</month>
+							<month type="3">ማርች</month>
+							<month type="4">ኤፕረ</month>
+							<month type="5">ሜይ</month>
+							<month type="6">ጁን</month>
+							<month type="7">ጁላይ</month>
+							<month type="8">ኦገስ</month>
+							<month type="9">ሴፕቴ</month>
+							<month type="10">ኦክተ</month>
+							<month type="11">ኖቬም</month>
+							<month type="12">ዲሴም</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">ጃንዩወሪ</month>
+							<month type="2">ፌብሩወሪ</month>
+							<month type="3">ማርች</month>
+							<month type="4">ኤፕረል</month>
+							<month type="5">ሜይ</month>
+							<month type="6">ጁን</month>
+							<month type="7">ጁላይ</month>
+							<month type="8">ኦገስት</month>
+							<month type="9">ሴፕቴምበር</month>
+							<month type="10">ኦክተውበር</month>
+							<month type="11">ኖቬምበር</month>
+							<month type="12">ዲሴምበር</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1" draft="unconfirmed">ጃ</month>
+							<month type="2" draft="unconfirmed">ፌ</month>
+							<month type="3" draft="unconfirmed">ማ</month>
+							<month type="4" draft="unconfirmed">ኤ</month>
+							<month type="5" draft="unconfirmed">ሜ</month>
+							<month type="6" draft="unconfirmed">ጁ</month>
+							<month type="7" draft="unconfirmed">ጁ</month>
+							<month type="8" draft="unconfirmed">ኦ</month>
+							<month type="9" draft="unconfirmed">ሴ</month>
+							<month type="10" draft="unconfirmed">ኦ</month>
+							<month type="11" draft="unconfirmed">ኖ</month>
+							<month type="12" draft="unconfirmed">ዲ</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">እሑድ</day>
+							<day type="mon">ሰኞ</day>
+							<day type="tue">ማክሰ</day>
+							<day type="wed">ረቡዕ</day>
+							<day type="thu">ሐሙስ</day>
+							<day type="fri">ዓርብ</day>
+							<day type="sat">ቅዳሜ</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">እሑድ</day>
+							<day type="mon">ሰኞ</day>
+							<day type="tue">ማክሰኞ</day>
+							<day type="wed">ረቡዕ</day>
+							<day type="thu">ሐሙስ</day>
+							<day type="fri">ዓርብ</day>
+							<day type="sat">ቅዳሜ</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun" draft="unconfirmed">እ</day>
+							<day type="mon" draft="unconfirmed">ሰ</day>
+							<day type="tue" draft="unconfirmed">ማ</day>
+							<day type="wed" draft="unconfirmed">ረ</day>
+							<day type="thu" draft="unconfirmed">ሐ</day>
+							<day type="fri" draft="unconfirmed">ዓ</day>
+							<day type="sat" draft="unconfirmed">ቅ</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<am draft="unconfirmed">ጡዋት</am>
+				<pm draft="unconfirmed">ከሰዓት</pm>
+				<eras>
+					<eraAbbr>
+						<era type="0">ዓ/ዓ</era>
+						<era type="1">ዓ/ም</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern draft="unconfirmed">EEEE፣ MMMM dd ቀን yyyy G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern draft="unconfirmed">MMMM d yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern draft="unconfirmed">MMM d yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern draft="unconfirmed">dd/MM/yy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern draft="unconfirmed">hh:mm:ss a</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern draft="unconfirmed">hh:mm:ss a</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern draft="unconfirmed">h:mm:ss a</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern draft="unconfirmed">h:mm a</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMMMd" draft="provisional">MMMM d</dateFormatItem>
+						<dateFormatItem id="MMdd" draft="provisional">dd/MM</dateFormatItem>
+						<dateFormatItem id="yyMM" draft="provisional">MM/yy</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+				<fields>
+					<field type="era">
+						<displayName draft="unconfirmed">ዘመን</displayName>
+					</field>
+					<field type="year">
+						<displayName draft="unconfirmed">ዓመት</displayName>
+					</field>
+					<field type="month">
+						<displayName draft="unconfirmed">ወር</displayName>
+					</field>
+					<field type="week">
+						<displayName draft="unconfirmed">ሳምንት</displayName>
+					</field>
+					<field type="day">
+						<displayName draft="unconfirmed">ቀን</displayName>
+					</field>
+					<field type="hour">
+						<displayName draft="unconfirmed">ሰዓት</displayName>
+					</field>
+					<field type="minute">
+						<displayName draft="unconfirmed">ደቂቃ</displayName>
+					</field>
+				</fields>
+			</calendar>
+			<calendar type="islamic">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">ሙሀረም</month>
+							<month type="2" draft="unconfirmed">ሳፈር</month>
+							<month type="3" draft="unconfirmed">ረቢዑል አወል</month>
+							<month type="4" draft="unconfirmed">ረቢዑል አኺር</month>
+							<month type="5" draft="unconfirmed">ጀማደል አወል</month>
+							<month type="6" draft="unconfirmed">ጀማደል አኺር</month>
+							<month type="7" draft="unconfirmed">ረጀብ</month>
+							<month type="8" draft="unconfirmed">ሻእባን</month>
+							<month type="9" draft="unconfirmed">ረመዳን</month>
+							<month type="10" draft="unconfirmed">ሸዋል</month>
+							<month type="11" draft="unconfirmed">ዙልቂዳህ</month>
+							<month type="12" draft="unconfirmed">ዙልሂጃህ</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<hourFormat>+HHmm;-HHmm</hourFormat>
+			<zone type="Africa/Timbuktu">
+				<exemplarCity draft="unconfirmed">ቲምቡክቱ</exemplarCity>
+			</zone>
+			<zone type="Europe/Belfast">
+				<exemplarCity draft="unconfirmed">ቤልፋስት</exemplarCity>
+			</zone>
+			<zone type="Pacific/Yap">
+				<exemplarCity draft="unconfirmed">ያፕ</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Rothera">
+				<exemplarCity draft="unconfirmed">ሮተራ</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Palmer">
+				<exemplarCity draft="unconfirmed">ፓልመር</exemplarCity>
+			</zone>
+			<zone type="Antarctica/South_Pole">
+				<exemplarCity draft="unconfirmed">South_Pole</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Syowa">
+				<exemplarCity draft="unconfirmed">ስዮዋ</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Mawson">
+				<exemplarCity draft="unconfirmed">ማውሰን</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Davis">
+				<exemplarCity draft="unconfirmed">ዴቪስ</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Vostok">
+				<exemplarCity draft="unconfirmed">ቮስቱክ</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Casey">
+				<exemplarCity draft="unconfirmed">ቼሲ</exemplarCity>
+			</zone>
+			<zone type="Antarctica/DumontDUrville">
+				<exemplarCity draft="unconfirmed">ዱሞንትዱርቪል</exemplarCity>
+			</zone>
+			<zone type="Antarctica/McMurdo">
+				<exemplarCity draft="unconfirmed">ማክሙርዶ</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/Rio_Gallegos">
+				<exemplarCity draft="unconfirmed">Rio_Gallegos</exemplarCity>
+			</zone>
+			<zone type="America/Mendoza">
+				<exemplarCity draft="unconfirmed">ሜንዶዛ</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/San_Juan">
+				<exemplarCity draft="unconfirmed">San_Juan</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/La_Rioja">
+				<exemplarCity draft="unconfirmed">La_Rioja</exemplarCity>
+			</zone>
+			<zone type="America/Catamarca">
+				<exemplarCity draft="unconfirmed">ካታማርካ</exemplarCity>
+			</zone>
+			<zone type="America/Jujuy">
+				<exemplarCity draft="unconfirmed">ጁጁይ</exemplarCity>
+			</zone>
+			<zone type="America/Cordoba">
+				<exemplarCity draft="unconfirmed">ኮርዶባ</exemplarCity>
+			</zone>
+			<zone type="America/Buenos_Aires">
+				<exemplarCity draft="unconfirmed">ቡኤኖስ-ኤይሪስ</exemplarCity>
+			</zone>
+			<zone type="Australia/Perth">
+				<exemplarCity draft="unconfirmed">ፕርዝ</exemplarCity>
+			</zone>
+			<zone type="Australia/Darwin">
+				<exemplarCity draft="unconfirmed">ዳርዊን</exemplarCity>
+			</zone>
+			<zone type="Australia/Adelaide">
+				<exemplarCity draft="unconfirmed">አዴላኢደ</exemplarCity>
+			</zone>
+			<zone type="Australia/Broken_Hill">
+				<exemplarCity draft="unconfirmed">ብሮከን ሂል</exemplarCity>
+			</zone>
+			<zone type="Australia/Melbourne">
+				<exemplarCity draft="unconfirmed">ሜልቦኡመ</exemplarCity>
+			</zone>
+			<zone type="Australia/Hobart">
+				<exemplarCity draft="unconfirmed">ሆባርት</exemplarCity>
+			</zone>
+			<zone type="Australia/Lindeman">
+				<exemplarCity draft="unconfirmed">ሊንደማን</exemplarCity>
+			</zone>
+			<zone type="Australia/Sydney">
+				<exemplarCity draft="unconfirmed">ሲድኒ</exemplarCity>
+			</zone>
+			<zone type="Australia/Brisbane">
+				<exemplarCity draft="unconfirmed">ቢሪስባን</exemplarCity>
+			</zone>
+			<zone type="Australia/Lord_Howe">
+				<exemplarCity draft="unconfirmed">ሎርድ ሆዌ</exemplarCity>
+			</zone>
+			<zone type="America/Eirunepe">
+				<exemplarCity draft="unconfirmed">ኢሩኔፕ</exemplarCity>
+			</zone>
+			<zone type="America/Rio_Branco">
+				<exemplarCity draft="unconfirmed">ሪኦ ብራንኮ</exemplarCity>
+			</zone>
+			<zone type="America/Porto_Velho">
+				<exemplarCity draft="unconfirmed">ፖርቶ ቨልሆ</exemplarCity>
+			</zone>
+			<zone type="America/Boa_Vista">
+				<exemplarCity draft="unconfirmed">ቦአ ቪስታ</exemplarCity>
+			</zone>
+			<zone type="America/Manaus">
+				<exemplarCity draft="unconfirmed">ማናኡስ</exemplarCity>
+			</zone>
+			<zone type="America/Cuiaba">
+				<exemplarCity draft="unconfirmed">ኩባ</exemplarCity>
+			</zone>
+			<zone type="America/Campo_Grande">
+				<exemplarCity draft="unconfirmed">Campo_Grande</exemplarCity>
+			</zone>
+			<zone type="America/Belem">
+				<exemplarCity draft="unconfirmed">በለም</exemplarCity>
+			</zone>
+			<zone type="America/Araguaina">
+				<exemplarCity draft="unconfirmed">አራጉአኢና</exemplarCity>
+			</zone>
+			<zone type="America/Sao_Paulo">
+				<exemplarCity draft="unconfirmed">ሳኦ ፓውሎ</exemplarCity>
+			</zone>
+			<zone type="America/Bahia">
+				<exemplarCity draft="unconfirmed">America/Bahia</exemplarCity>
+			</zone>
+			<zone type="America/Fortaleza">
+				<exemplarCity draft="unconfirmed">ፎርታለዛ</exemplarCity>
+			</zone>
+			<zone type="America/Maceio">
+				<exemplarCity draft="unconfirmed">ማቺዎ</exemplarCity>
+			</zone>
+			<zone type="America/Recife">
+				<exemplarCity draft="unconfirmed">ሪሲፋይ</exemplarCity>
+			</zone>
+			<zone type="America/Noronha">
+				<exemplarCity draft="unconfirmed">ኖሮሃ</exemplarCity>
+			</zone>
+			<zone type="America/Dawson">
+				<exemplarCity draft="unconfirmed">ዳውሰን</exemplarCity>
+			</zone>
+			<zone type="America/Whitehorse">
+				<exemplarCity draft="unconfirmed">ሁዋይትሆርስ</exemplarCity>
+			</zone>
+			<zone type="America/Vancouver">
+				<exemplarCity draft="unconfirmed">ቫንኩቨር</exemplarCity>
+			</zone>
+			<zone type="America/Dawson_Creek">
+				<exemplarCity draft="unconfirmed">ዳውሰን ክሪክ</exemplarCity>
+			</zone>
+			<zone type="America/Yellowknife">
+				<exemplarCity draft="unconfirmed">የሎውናይፍ</exemplarCity>
+			</zone>
+			<zone type="America/Inuvik">
+				<exemplarCity draft="unconfirmed">ኢኑቪክ</exemplarCity>
+			</zone>
+			<zone type="America/Edmonton">
+				<exemplarCity draft="unconfirmed">ኤድመንተን</exemplarCity>
+			</zone>
+			<zone type="America/Swift_Current">
+				<exemplarCity draft="unconfirmed">ስዊፍት ከረንት</exemplarCity>
+			</zone>
+			<zone type="America/Cambridge_Bay">
+				<exemplarCity draft="unconfirmed">ካምብሪጅ ቤይ</exemplarCity>
+			</zone>
+			<zone type="America/Regina">
+				<exemplarCity draft="unconfirmed">ሬጂና</exemplarCity>
+			</zone>
+			<zone type="America/Winnipeg">
+				<exemplarCity draft="unconfirmed">ዊኒፔግ</exemplarCity>
+			</zone>
+			<zone type="America/Rainy_River">
+				<exemplarCity draft="unconfirmed">ሬኒ ሪቨር</exemplarCity>
+			</zone>
+			<zone type="America/Rankin_Inlet">
+				<exemplarCity draft="unconfirmed">ራንኪን ኢንሌት</exemplarCity>
+			</zone>
+			<zone type="America/Thunder_Bay">
+				<exemplarCity draft="unconfirmed">ተንደር ቤይ</exemplarCity>
+			</zone>
+			<zone type="America/Nipigon">
+				<exemplarCity draft="unconfirmed">ኒፒጎን</exemplarCity>
+			</zone>
+			<zone type="America/Toronto">
+				<exemplarCity draft="unconfirmed">ቶሮንቶ</exemplarCity>
+			</zone>
+			<zone type="America/Montreal">
+				<exemplarCity draft="unconfirmed">ሞንትሪያል</exemplarCity>
+			</zone>
+			<zone type="America/Iqaluit">
+				<exemplarCity draft="unconfirmed">ኢካሊኡት</exemplarCity>
+			</zone>
+			<zone type="America/Pangnirtung">
+				<exemplarCity draft="unconfirmed">ፓንግኒርቱንግ</exemplarCity>
+			</zone>
+			<zone type="America/Halifax">
+				<exemplarCity draft="unconfirmed">ሀሊፋክስ</exemplarCity>
+			</zone>
+			<zone type="America/Goose_Bay">
+				<exemplarCity draft="unconfirmed">ጉዝ ቤይ</exemplarCity>
+			</zone>
+			<zone type="America/Glace_Bay">
+				<exemplarCity draft="unconfirmed">ግሌስ ቤይ</exemplarCity>
+			</zone>
+			<zone type="America/St_Johns">
+				<exemplarCity draft="unconfirmed">ሴንት ጆንስ</exemplarCity>
+			</zone>
+			<zone type="Africa/Kinshasa">
+				<exemplarCity draft="unconfirmed">ኪንሻሳ</exemplarCity>
+			</zone>
+			<zone type="Africa/Lubumbashi">
+				<exemplarCity draft="unconfirmed">ሉቡምባሺ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Easter">
+				<exemplarCity draft="unconfirmed">ኢስተር</exemplarCity>
+			</zone>
+			<zone type="America/Santiago">
+				<exemplarCity draft="unconfirmed">ሳንቲያጎ</exemplarCity>
+			</zone>
+			<zone type="Asia/Kashgar">
+				<exemplarCity draft="unconfirmed">ካሽጋር</exemplarCity>
+			</zone>
+			<zone type="Asia/Urumqi">
+				<exemplarCity draft="unconfirmed">ኡሩምኪ</exemplarCity>
+			</zone>
+			<zone type="Asia/Chongqing">
+				<exemplarCity draft="unconfirmed">ቾንግኪንግ</exemplarCity>
+			</zone>
+			<zone type="Asia/Shanghai">
+				<exemplarCity draft="unconfirmed">ሻንጋይ</exemplarCity>
+			</zone>
+			<zone type="Asia/Harbin">
+				<exemplarCity draft="unconfirmed">ባርቢን</exemplarCity>
+			</zone>
+			<zone type="Pacific/Galapagos">
+				<exemplarCity draft="unconfirmed">ጋላፓጎስ</exemplarCity>
+			</zone>
+			<zone type="America/Guayaquil">
+				<exemplarCity draft="unconfirmed">ጓያኪል</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Canary">
+				<exemplarCity draft="unconfirmed">ካናሪ</exemplarCity>
+			</zone>
+			<zone type="Africa/Ceuta">
+				<exemplarCity draft="unconfirmed">ኬውታ</exemplarCity>
+			</zone>
+			<zone type="Europe/Madrid">
+				<exemplarCity draft="unconfirmed">ማርድሪድ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Truk">
+				<exemplarCity draft="unconfirmed">ትሩክ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Ponape">
+				<exemplarCity draft="unconfirmed">ፖኔፕ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kosrae">
+				<exemplarCity draft="unconfirmed">ኮስራይ</exemplarCity>
+			</zone>
+			<zone type="Europe/London">
+				<exemplarCity draft="unconfirmed">ሎንዶን</exemplarCity>
+			</zone>
+			<zone type="America/Thule">
+				<exemplarCity draft="unconfirmed">ቱለ</exemplarCity>
+			</zone>
+			<zone type="America/Godthab">
+				<exemplarCity draft="unconfirmed">ጐድታኽብ</exemplarCity>
+			</zone>
+			<zone type="America/Scoresbysund">
+				<exemplarCity draft="unconfirmed">ስኮረስቢሱንድ</exemplarCity>
+			</zone>
+			<zone type="America/Danmarkshavn">
+				<exemplarCity draft="unconfirmed">ዴንማርክ</exemplarCity>
+			</zone>
+			<zone type="Asia/Jakarta">
+				<exemplarCity draft="unconfirmed">ጃካርታ</exemplarCity>
+			</zone>
+			<zone type="Asia/Pontianak">
+				<exemplarCity draft="unconfirmed">ፖንቲአንካ</exemplarCity>
+			</zone>
+			<zone type="Asia/Makassar">
+				<exemplarCity draft="unconfirmed">ማካሳር</exemplarCity>
+			</zone>
+			<zone type="Asia/Jayapura">
+				<exemplarCity draft="unconfirmed">ጃያፑራ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Enderbury">
+				<exemplarCity draft="unconfirmed">እንደርቡርይ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kiritimati">
+				<exemplarCity draft="unconfirmed">ኪሪቲማቲ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Tarawa">
+				<exemplarCity draft="unconfirmed">ታራዋ</exemplarCity>
+			</zone>
+			<zone type="Asia/Aqtau">
+				<exemplarCity draft="unconfirmed">አክታው</exemplarCity>
+			</zone>
+			<zone type="Asia/Oral">
+				<exemplarCity draft="unconfirmed">ኦራል</exemplarCity>
+			</zone>
+			<zone type="Asia/Aqtobe">
+				<exemplarCity draft="unconfirmed">አክቶቤ</exemplarCity>
+			</zone>
+			<zone type="Asia/Qyzylorda">
+				<exemplarCity draft="unconfirmed">ኪዝያሎርዳ</exemplarCity>
+			</zone>
+			<zone type="Asia/Almaty">
+				<exemplarCity draft="unconfirmed">አልማቲ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kwajalein">
+				<exemplarCity draft="unconfirmed">ክዋጃላይን</exemplarCity>
+			</zone>
+			<zone type="Pacific/Majuro">
+				<exemplarCity draft="unconfirmed">ማጁሮ</exemplarCity>
+			</zone>
+			<zone type="Africa/Bamako">
+				<exemplarCity draft="unconfirmed">ባማኮ</exemplarCity>
+			</zone>
+			<zone type="Asia/Hovd">
+				<exemplarCity draft="unconfirmed">ሆቭድ</exemplarCity>
+			</zone>
+			<zone type="Asia/Ulaanbaatar">
+				<exemplarCity draft="unconfirmed">ኡላንባታር</exemplarCity>
+			</zone>
+			<zone type="Asia/Choibalsan">
+				<exemplarCity draft="unconfirmed">ቾይባልሳን</exemplarCity>
+			</zone>
+			<zone type="America/Tijuana">
+				<exemplarCity draft="unconfirmed">ቲጁአና</exemplarCity>
+			</zone>
+			<zone type="America/Hermosillo">
+				<exemplarCity draft="unconfirmed">ሄርሞሲሎ</exemplarCity>
+			</zone>
+			<zone type="America/Mazatlan">
+				<exemplarCity draft="unconfirmed">ማዛቲአን</exemplarCity>
+			</zone>
+			<zone type="America/Chihuahua">
+				<exemplarCity draft="unconfirmed">ቺኽዋኽዋ</exemplarCity>
+			</zone>
+			<zone type="America/Monterrey">
+				<exemplarCity draft="unconfirmed">ሞንተሪ</exemplarCity>
+			</zone>
+			<zone type="America/Mexico_City">
+				<exemplarCity draft="unconfirmed">ሜክሲኮ ሲቲ</exemplarCity>
+			</zone>
+			<zone type="America/Merida">
+				<exemplarCity draft="unconfirmed">ሜሪዳ</exemplarCity>
+			</zone>
+			<zone type="America/Cancun">
+				<exemplarCity draft="unconfirmed">ካንኩን</exemplarCity>
+			</zone>
+			<zone type="Asia/Kuala_Lumpur">
+				<exemplarCity draft="unconfirmed">ኳላልምፑር</exemplarCity>
+			</zone>
+			<zone type="Asia/Kuching">
+				<exemplarCity draft="unconfirmed">ኩቺንግ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Chatham">
+				<exemplarCity draft="unconfirmed">ቻትሃም</exemplarCity>
+			</zone>
+			<zone type="Pacific/Auckland">
+				<exemplarCity draft="unconfirmed">ኦክላንድ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Tahiti">
+				<exemplarCity draft="unconfirmed">ታሂቲ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Marquesas">
+				<exemplarCity draft="unconfirmed">ማሩኩሳስ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Gambier">
+				<exemplarCity draft="unconfirmed">ጋምባየር</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Azores">
+				<exemplarCity draft="unconfirmed">አዞረስ</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Madeira">
+				<exemplarCity draft="unconfirmed">ማዴኢራ</exemplarCity>
+			</zone>
+			<zone type="Europe/Lisbon">
+				<exemplarCity draft="unconfirmed">ሊስቦን</exemplarCity>
+			</zone>
+			<zone type="Europe/Kaliningrad">
+				<exemplarCity draft="unconfirmed">ካሊኒንጋርድ</exemplarCity>
+			</zone>
+			<zone type="Europe/Moscow">
+				<exemplarCity draft="unconfirmed">ማስኮ</exemplarCity>
+			</zone>
+			<zone type="Europe/Samara">
+				<exemplarCity draft="unconfirmed">ሳማራ</exemplarCity>
+			</zone>
+			<zone type="Asia/Yekaterinburg">
+				<exemplarCity draft="unconfirmed">የካተሪንበርግ</exemplarCity>
+			</zone>
+			<zone type="Asia/Omsk">
+				<exemplarCity draft="unconfirmed">ኦምስክ</exemplarCity>
+			</zone>
+			<zone type="Asia/Novosibirsk">
+				<exemplarCity draft="unconfirmed">ኖቮሲቢርስክ</exemplarCity>
+			</zone>
+			<zone type="Asia/Krasnoyarsk">
+				<exemplarCity draft="unconfirmed">ክራስኖያሽክ</exemplarCity>
+			</zone>
+			<zone type="Asia/Irkutsk">
+				<exemplarCity draft="unconfirmed">ኢርኩትስክ</exemplarCity>
+			</zone>
+			<zone type="Asia/Yakutsk">
+				<exemplarCity draft="unconfirmed">ያኩትስክ</exemplarCity>
+			</zone>
+			<zone type="Asia/Vladivostok">
+				<exemplarCity draft="unconfirmed">ቭላዲቮስቱክ</exemplarCity>
+			</zone>
+			<zone type="Asia/Sakhalin">
+				<exemplarCity draft="unconfirmed">ሳክሃሊን</exemplarCity>
+			</zone>
+			<zone type="Asia/Magadan">
+				<exemplarCity draft="unconfirmed">ማጋዳን</exemplarCity>
+			</zone>
+			<zone type="Asia/Kamchatka">
+				<exemplarCity draft="unconfirmed">ካምቻትካ</exemplarCity>
+			</zone>
+			<zone type="Asia/Anadyr">
+				<exemplarCity draft="unconfirmed">አናዲር</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Jan_Mayen">
+				<exemplarCity draft="unconfirmed">Jan_Mayen</exemplarCity>
+			</zone>
+			<zone type="Europe/Uzhgorod">
+				<exemplarCity draft="unconfirmed">ኡዝጎሩድ</exemplarCity>
+			</zone>
+			<zone type="Europe/Kiev">
+				<exemplarCity draft="unconfirmed">ካይቭ</exemplarCity>
+			</zone>
+			<zone type="Europe/Simferopol">
+				<exemplarCity draft="unconfirmed">ሲምፈሮፖል</exemplarCity>
+			</zone>
+			<zone type="Europe/Zaporozhye">
+				<exemplarCity draft="unconfirmed">ዛፖሮዝሂይ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Midway">
+				<exemplarCity draft="unconfirmed">ሚድዌ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Johnston">
+				<exemplarCity draft="unconfirmed">ጆንስቶን</exemplarCity>
+			</zone>
+			<zone type="Pacific/Wake">
+				<exemplarCity draft="unconfirmed">ዌክ</exemplarCity>
+			</zone>
+			<zone type="America/Adak">
+				<exemplarCity draft="unconfirmed">አዳክ</exemplarCity>
+			</zone>
+			<zone type="America/Nome">
+				<exemplarCity draft="unconfirmed">ኖሜ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Honolulu">
+				<exemplarCity draft="unconfirmed">ሆኖሉሉ</exemplarCity>
+			</zone>
+			<zone type="America/Anchorage">
+				<exemplarCity draft="unconfirmed">አንኮራጅ</exemplarCity>
+			</zone>
+			<zone type="America/Yakutat">
+				<exemplarCity draft="unconfirmed">ያኩታት</exemplarCity>
+			</zone>
+			<zone type="America/Juneau">
+				<exemplarCity draft="unconfirmed">ጁነአኡ</exemplarCity>
+			</zone>
+			<zone type="America/Los_Angeles">
+				<exemplarCity draft="unconfirmed">ሎስ አንጀለስ</exemplarCity>
+			</zone>
+			<zone type="America/Boise">
+				<exemplarCity draft="unconfirmed">ቦይስ</exemplarCity>
+			</zone>
+			<zone type="America/Phoenix">
+				<exemplarCity draft="unconfirmed">ፎኔክስ</exemplarCity>
+			</zone>
+			<zone type="America/Denver">
+				<exemplarCity draft="unconfirmed">ዴንቨር</exemplarCity>
+			</zone>
+			<zone type="America/North_Dakota/Center">
+				<exemplarCity draft="unconfirmed">መካከል</exemplarCity>
+			</zone>
+			<zone type="America/Chicago">
+				<exemplarCity draft="unconfirmed">ቺካጐ</exemplarCity>
+			</zone>
+			<zone type="America/Menominee">
+				<exemplarCity draft="unconfirmed">መኖሚኔ</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Knox">
+				<exemplarCity draft="unconfirmed">ክኖክስ</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Marengo">
+				<exemplarCity draft="unconfirmed">ማሬንጎ</exemplarCity>
+			</zone>
+			<zone type="America/Indianapolis">
+				<exemplarCity draft="unconfirmed">ኢንዲያናፖሊስ</exemplarCity>
+			</zone>
+			<zone type="America/Louisville">
+				<exemplarCity draft="unconfirmed">ሉዊስቪለ</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Vevay">
+				<exemplarCity draft="unconfirmed">ቬቫይ</exemplarCity>
+			</zone>
+			<zone type="America/Kentucky/Monticello">
+				<exemplarCity draft="unconfirmed">ሞንቲሴሎ</exemplarCity>
+			</zone>
+			<zone type="America/Detroit">
+				<exemplarCity draft="unconfirmed">ዲትሮይት</exemplarCity>
+			</zone>
+			<zone type="America/New_York">
+				<exemplarCity draft="unconfirmed">ኒውዮርክ</exemplarCity>
+			</zone>
+			<zone type="Asia/Samarkand">
+				<exemplarCity draft="unconfirmed">ሳማርካንድ</exemplarCity>
+			</zone>
+			<zone type="Asia/Tashkent">
+				<exemplarCity draft="unconfirmed">ታሽኬንት</exemplarCity>
+			</zone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<symbols>
+			<patternDigit draft="unconfirmed">ቍ</patternDigit>
+		</symbols>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern draft="unconfirmed">#,##0.00 ¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="BRL">
+				<displayName draft="unconfirmed">የብራዚል ሪል</displayName>
+				<symbol draft="unconfirmed">R$</symbol>
+			</currency>
+			<currency type="CNY">
+				<displayName draft="unconfirmed">የቻይና ዩአን ረንሚንቢ</displayName>
+				<symbol draft="unconfirmed">Y</symbol>
+			</currency>
+			<currency type="ETB">
+				<displayName draft="unconfirmed">የኢትዮጵያ ብር</displayName>
+				<symbol draft="unconfirmed">ብር</symbol>
+			</currency>
+			<currency type="EUR">
+				<displayName draft="unconfirmed">ዩሮ</displayName>
+			</currency>
+			<currency type="GBP">
+				<displayName draft="unconfirmed">የእንግሊዝ ፓውንድ ስተርሊንግ</displayName>
+			</currency>
+			<currency type="INR">
+				<displayName draft="unconfirmed">የሕንድ ሩፒ</displayName>
+			</currency>
+			<currency type="JPY">
+				<displayName draft="unconfirmed">የጃፓን የን</displayName>
+			</currency>
+			<currency type="RUB">
+				<displayName draft="unconfirmed">የራሻ ሩብል</displayName>
+			</currency>
+			<currency type="USD">
+				<displayName draft="unconfirmed">የአሜሪካን ዶላር</displayName>
+				<symbol draft="unconfirmed">USD</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr draft="unconfirmed">አዎን:y</yesstr>
+			<nostr draft="unconfirmed">አይ:n</nostr>
+		</messages>
+	</posix>
+	<references>
+		<reference type="RP1">አምሳሉ አክሊሉ, አማርኛ - እንግሊዝኛ መዝገበ ቃላት Amharic-English Dictionary, ኩራዝ አሳታሚ ድርጅት, አዲስ አበባ, ሰኔ 1979EC</reference>
+	</references>
+</ldml>

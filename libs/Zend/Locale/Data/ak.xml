@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.17 $"/>
+		<generation date="$Date: 2006/06/28 01:23:32 $"/>
+		<language type="ak"/>
+	</identity>
+	<characters>
+		<exemplarCharacters references="RP2">[a b d e ɛ f-i k m-o ɔ p r-u w y z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" references="RP2">[c j l v]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" references="RP2" alt="proposed-u151-2" draft="unconfirmed">[̃ ã e ĩ õ ũ]</exemplarCharacters>
+		<exemplarCharacters references="RP2" alt="proposed-u151-4" draft="unconfirmed">[a-e ɛ f-o ɔ p r-u w y z]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">S-Ɔ</month>
+							<month type="2" draft="unconfirmed">K-Ɔ</month>
+							<month type="3" draft="unconfirmed">E-Ɔ</month>
+							<month type="4" draft="unconfirmed">E-O</month>
+							<month type="5" draft="unconfirmed">E-K</month>
+							<month type="6" draft="unconfirmed">O-A</month>
+							<month type="7" draft="unconfirmed">A-K</month>
+							<month type="8" draft="unconfirmed">D-Ɔ</month>
+							<month type="9" draft="unconfirmed">F-Ɛ</month>
+							<month type="10" draft="unconfirmed">Ɔ-A</month>
+							<month type="11" draft="unconfirmed">Ɔ-O</month>
+							<month type="12" draft="unconfirmed">M-Ɔ</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Sanda-Ɔpɛpɔn</month>
+							<month type="2" draft="unconfirmed">Kwakwar-Ɔgyefuo</month>
+							<month type="3" draft="unconfirmed">Ebɔw-Ɔbenem</month>
+							<month type="4" draft="unconfirmed">Ebɔbira-Oforisuo</month>
+							<month type="5" draft="unconfirmed">Esusow Aketseaba-Kɔtɔnimba</month>
+							<month type="6" draft="unconfirmed">Obirade-Ayɛwohomumu</month>
+							<month type="7" draft="unconfirmed">Ayɛwoho-Kitawonsa</month>
+							<month type="8" draft="unconfirmed">Difuu-Ɔsandaa</month>
+							<month type="9" draft="unconfirmed">Fankwa-Ɛbɔ</month>
+							<month type="10" draft="unconfirmed">Ɔbɛsɛ-Ahinime</month>
+							<month type="11" draft="unconfirmed">Ɔberɛfɛw-Obubuo</month>
+							<month type="12" draft="unconfirmed">Mumu-Ɔpɛnimba</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">Kwe</day>
+							<day type="mon" draft="unconfirmed">Dwo</day>
+							<day type="tue" draft="unconfirmed">Ben</day>
+							<day type="wed" draft="unconfirmed">Wuk</day>
+							<day type="thu" draft="unconfirmed">Yaw</day>
+							<day type="fri" draft="unconfirmed">Fia</day>
+							<day type="sat" draft="unconfirmed">Mem</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">Kwesida</day>
+							<day type="mon" draft="unconfirmed">Dwowda</day>
+							<day type="tue" draft="unconfirmed">Benada</day>
+							<day type="wed" draft="unconfirmed">Wukuda</day>
+							<day type="thu" draft="unconfirmed">Yawda</day>
+							<day type="fri" draft="unconfirmed">Fida</day>
+							<day type="sat" draft="unconfirmed">Memeneda</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun" draft="unconfirmed">K</day>
+							<day type="mon" draft="unconfirmed">D</day>
+							<day type="tue" draft="unconfirmed">B</day>
+							<day type="wed" draft="unconfirmed">W</day>
+							<day type="thu" draft="unconfirmed">Y</day>
+							<day type="fri" draft="unconfirmed">F</day>
+							<day type="sat" draft="unconfirmed">M</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<am draft="unconfirmed">AN</am>
+				<pm draft="unconfirmed">EW</pm>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">Ansa Kristo</era>
+						<era type="1" draft="unconfirmed">Kristo Ekyiri</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">AK</era>
+						<era type="1" draft="unconfirmed">KE</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="GHC">
+				<displayName draft="unconfirmed">Sidi</displayName>
+				<symbol draft="unconfirmed">¢</symbol>
+				<symbol alt="variant" draft="unconfirmed">₵</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<references>
+		<reference type="RP1" uri="http://www.omniglot.com/writing/akan.htm">Omniglot on Akan alphabet</reference>
+		<reference type="RP2" uri="http://kasa.ghanathink.org/akan/lg/languageGuide.htm">Akan Language Guide</reference>
+	</references>
+</ldml>
+

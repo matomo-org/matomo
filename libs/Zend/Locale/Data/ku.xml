@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.9 $"/>
+		<generation date="$Date: 2006/06/27 23:30:54 $"/>
+		<language type="ku"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="ar" draft="unconfirmed">erebî</language>
+			<language type="en" draft="unconfirmed">îngilîzî</language>
+			<language type="ja" draft="unconfirmed">japonî</language>
+			<language type="ku" draft="unconfirmed">kurdî</language>
+		</languages>
+		<scripts>
+			<script type="Arab" draft="unconfirmed">erebî</script>
+		</scripts>
+		<territories>
+			<territory type="001" draft="unconfirmed">Cîhan</territory>
+			<territory type="TR" draft="unconfirmed">Tirkiye</territory>
+		</territories>
+		<keys>
+			<key type="calendar" draft="unconfirmed">salname</key>
+			<key type="collation" draft="unconfirmed">rêzkirin</key>
+		</keys>
+		<types>
+			<type type="gregorian" key="calendar" draft="unconfirmed">mîladî</type>
+			<type type="islamic" key="calendar" draft="unconfirmed">hîcrî</type>
+		</types>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[a-c ç d e ê f-i î j-s ş t u û v-z]</exemplarCharacters>
+		<exemplarCharacters alt="proposed-u142-1" draft="unconfirmed">[a-c ç d e ê f-i î j-s ş t u û v-z]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">çil</month>
+							<month type="2" draft="unconfirmed">sib</month>
+							<month type="3" draft="unconfirmed">adr</month>
+							<month type="4" draft="unconfirmed">nîs</month>
+							<month type="5" draft="unconfirmed">gul</month>
+							<month type="6" draft="unconfirmed">hez</month>
+							<month type="7" draft="unconfirmed">tîr</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">çile</month>
+							<month type="2" draft="unconfirmed">sibat</month>
+							<month type="3" draft="unconfirmed">adar</month>
+							<month type="4" draft="unconfirmed">nîsan</month>
+							<month type="5" draft="unconfirmed">gulan</month>
+							<month type="6" draft="unconfirmed">hezîran</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1" draft="unconfirmed">ç</month>
+							<month type="2" draft="unconfirmed">s</month>
+							<month type="3" draft="unconfirmed">a</month>
+							<month type="4" draft="unconfirmed">n</month>
+							<month type="5" draft="unconfirmed">g</month>
+							<month type="6" draft="unconfirmed">h</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">yş</day>
+							<day type="mon" draft="unconfirmed">dş</day>
+							<day type="tue" draft="unconfirmed">sş</day>
+							<day type="wed" draft="unconfirmed">çş</day>
+							<day type="thu" draft="unconfirmed">pş</day>
+							<day type="fri" draft="unconfirmed">în</day>
+							<day type="sat" draft="unconfirmed">ş</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">yekşem</day>
+							<day type="mon" draft="unconfirmed">duşem</day>
+							<day type="tue" draft="unconfirmed">şê</day>
+							<day type="wed" draft="unconfirmed">çarşem</day>
+							<day type="thu" draft="unconfirmed">pêncşem</day>
+							<day type="fri" draft="unconfirmed">în</day>
+							<day type="sat" draft="unconfirmed">şemî</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun" draft="unconfirmed">y</day>
+							<day type="mon" draft="unconfirmed">d</day>
+							<day type="tue" draft="unconfirmed">s</day>
+							<day type="wed" draft="unconfirmed">ç</day>
+							<day type="thu" draft="unconfirmed">p</day>
+							<day type="fri" draft="unconfirmed">în</day>
+							<day type="sat" draft="unconfirmed">ş</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1" draft="unconfirmed">Ç1</quarter>
+							<quarter type="2" draft="unconfirmed">Ç2</quarter>
+							<quarter type="3" draft="unconfirmed">Ç3</quarter>
+							<quarter type="4" draft="unconfirmed">Ç4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1" draft="unconfirmed">Ç1</quarter>
+							<quarter type="2" draft="unconfirmed">Ç2</quarter>
+							<quarter type="3" draft="unconfirmed">Ç3</quarter>
+							<quarter type="4" draft="unconfirmed">Ç4</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<am draft="unconfirmed">BN</am>
+				<pm draft="unconfirmed">PN</pm>
+				<eras>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">BZ</era>
+						<era type="1" draft="unconfirmed">PZ</era>
+					</eraAbbr>
+				</eras>
+				<fields>
+					<field type="year">
+						<displayName draft="unconfirmed">sal</displayName>
+					</field>
+					<field type="month">
+						<displayName draft="unconfirmed">meh</displayName>
+					</field>
+					<field type="week">
+						<displayName draft="unconfirmed">hefte</displayName>
+					</field>
+					<field type="day">
+						<displayName draft="unconfirmed">roj</displayName>
+					</field>
+					<field type="hour">
+						<displayName draft="unconfirmed">demjimêr</displayName>
+					</field>
+					<field type="minute">
+						<displayName draft="unconfirmed">xulek</displayName>
+					</field>
+					<field type="second">
+						<displayName draft="unconfirmed">çirke</displayName>
+					</field>
+				</fields>
+			</calendar>
+			<calendar type="islamic">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">muẖerem</month>
+							<month type="2" draft="unconfirmed">sefer</month>
+							<month type="3" draft="unconfirmed">rebîʿulewel</month>
+							<month type="4" draft="unconfirmed">rebîʿulaxer</month>
+							<month type="5" draft="unconfirmed">cemazîyelewel</month>
+							<month type="6" draft="unconfirmed">cemazîyelaxer</month>
+							<month type="7" draft="unconfirmed">receb	</month>
+							<month type="8" draft="unconfirmed">şeʿban	</month>
+							<month type="9" draft="unconfirmed">remezan</month>
+							<month type="10" draft="unconfirmed">şewal	</month>
+							<month type="11" draft="unconfirmed">zîlqeʿde	</month>
+							<month type="12" draft="unconfirmed">zîlẖece</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+			</calendar>
+		</calendars>
+	</dates>
+	<posix>
+		<messages>
+			<yesstr draft="unconfirmed">erê:e</yesstr>
+			<nostr draft="unconfirmed">na:n</nostr>
+		</messages>
+	</posix>
+</ldml>
+

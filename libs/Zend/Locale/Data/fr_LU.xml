@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.39 $"/>
+		<generation date="$Date: 2006/06/27 23:30:54 $"/>
+		<language type="fr"/>
+		<territory type="LU"/>
+	</identity>
+	<numbers>
+		<symbols>
+			<group>.</group>
+		</symbols>
+		<currencies>
+			<currency type="FRF">
+				<symbol>FRF</symbol>
+			</currency>
+			<currency type="LUF">
+				<symbol>F</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>

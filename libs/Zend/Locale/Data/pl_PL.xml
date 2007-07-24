@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.40 $"/>
+		<generation date="$Date: 2006/06/28 01:23:33 $"/>
+		<language type="pl"/>
+		<territory type="PL"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="aa">afar</language>
+			<language type="ab">abchaski</language>
+			<language type="ach">aczoli</language>
+			<language type="ady">adygejski</language>
+			<language type="ae">awestyjski</language>
+			<language type="af">afrikaans</language>
+			<language type="afa">afro-azjatycki (inne)</language>
+			<language type="ain">ajnu</language>
+			<language type="ak">akan</language>
+			<language type="akk">akadyjski</language>
+			<language type="ale">aleucki</language>
+			<language type="alg">języki algonkin</language>
+			<language type="am">amharski</language>
+			<language type="an">aragoński</language>
+			<language type="ang">staroangielski (450-1100)</language>
+			<language type="apa">języki Apaczów</language>
+			<language type="arc">aramejski</language>
+			<language type="art">sztuczny (inne)</language>
+			<language type="arw">arawak</language>
+			<language type="as">asamski</language>
+			<language type="ast">asturyjski</language>
+			<language type="ath">języki Atapasków</language>
+			<language type="aus">języki australijskie</language>
+			<language type="av">awarski</language>
+			<language type="awa">awadhi</language>
+			<language type="ay">ajmara</language>
+			<language type="az">azerski</language>
+			<language type="ba">baszkirski</language>
+			<language type="bal">beludżi</language>
+			<language type="ban">balijski</language>
+			<language type="bat">bałtycki (inne)</language>
+			<language type="be">białoruski</language>
+			<language type="bej">bedża</language>
+			<language type="bem">bemba</language>
+			<language type="ber">berberski</language>
+			<language type="bh">biharski</language>
+			<language type="bho">bhodźpuri</language>
+			<language type="bi">bislama</language>
+			<language type="bik">bikol</language>
+			<language type="bm">bambara</language>
+			<language type="bnt">bantu</language>
+			<language type="bo">tybetański</language>
+			<language type="br">bretoński</language>
+			<language type="bra">bradź</language>
+			<language type="bs">bośniacki</language>
+			<language type="btk">batak</language>
+			<language type="bua">buriacki</language>
+			<language type="cad">kaddo</language>
+			<language type="cai">język Indian środkowoamerykańskich (inne)</language>
+			<language type="car">karibi</language>
+			<language type="cau">kaukaski (inne)</language>
+			<language type="ce">czeczeński</language>
+			<language type="cel">celtycki (inne)</language>
+			<language type="ch">chamorro</language>
+			<language type="chb">czibcza</language>
+			<language type="chg">czagatajski</language>
+			<language type="chk">truk</language>
+			<language type="chm">maryjski</language>
+			<language type="chn">żargon Chinook</language>
+			<language type="chy">język Czejenów</language>
+			<language type="cmc">czam</language>
+			<language type="co">korsykański</language>
+			<language type="cop">koptyjski</language>
+			<language type="cpe">kreolski i pidżynowy, angielskie (inne)</language>
+			<language type="cpf">kreolski i pidżynowy, francuskie (inne)</language>
+			<language type="cpp">kreolski i pidżynowy, portugalskie (inne)</language>
+			<language type="cr">kri</language>
+			<language type="crh">karaimski turecki; karaimski tatarski</language>
+			<language type="crp">kreolski i pidżynowy (inne)</language>
+			<language type="csb">kaszubski</language>
+			<language type="cu">staro-cerkiewno-słowiański</language>
+			<language type="cus">kuszycki (inne)</language>
+			<language type="cv">czuwaski</language>
+			<language type="dar">dargwijski</language>
+			<language type="day">dajak</language>
+			<language type="dgr">dogrib</language>
+			<language type="din">dinka</language>
+			<language type="doi">dogri</language>
+			<language type="dra">drawidyjski (inne)</language>
+			<language type="dsb">dolnołużycki</language>
+			<language type="dum">niderlandzki, średniowiecze (ok. 1050-1350)</language>
+			<language type="dv">malediwski</language>
+			<language type="dz">dzongkha</language>
+			<language type="ee">ewe</language>
+			<language type="efi">efik</language>
+			<language type="egy">egipski (starożytny)</language>
+			<language type="enm">średnioangielski</language>
+			<language type="eo">esperanto</language>
+			<language type="fa">perski</language>
+			<language type="fan">fang</language>
+			<language type="fat">fanti</language>
+			<language type="ff">fulani</language>
+			<language type="fiu">ugrofiński (inne)</language>
+			<language type="fj">fidżijski</language>
+			<language type="fo">farerski</language>
+			<language type="frm">średniofrancuski</language>
+			<language type="fro">starofrancuski</language>
+			<language type="fur">friulijski</language>
+			<language type="fy">fryzyjski</language>
+			<language type="ga">irlandzki</language>
+			<language type="gd">szkocki gaelicki</language>
+			<language type="gem">germański (inne)</language>
+			<language type="gez">gyyz</language>
+			<language type="gil">gilbertański</language>
+			<language type="gl" draft="provisional">galisyjski</language>
+			<language type="gmh">średnio-wysoko-niemiecki</language>
+			<language type="gn">guarani</language>
+			<language type="goh">staro-wysoko-niemiecki</language>
+			<language type="gon">gondi</language>
+			<language type="got">gocki</language>
+			<language type="grb">grebo</language>
+			<language type="grc">starogrecki</language>
+			<language type="gu">gudźaracki</language>
+			<language type="gv">manx</language>
+			<language type="ha">hausa</language>
+			<language type="hai">haida</language>
+			<language type="haw">hawajski</language>
+			<language type="hit">hetycki</language>
+			<language type="ho">hiri motu</language>
+			<language type="hsb">górnołużycki</language>
+			<language type="hy">ormiański</language>
+			<language type="hz">herero</language>
+			<language type="ia">interlingua</language>
+			<language type="iba">ibanag</language>
+			<language type="id">indonezyjski</language>
+			<language type="ie">interlingue</language>
+			<language type="ig">igbo</language>
+			<language type="ii">syczuański</language>
+			<language type="ik">inupiak</language>
+			<language type="ilo">ilokano</language>
+			<language type="ine">indoeuropejskie (pozostałe)</language>
+			<language type="inh">inguski</language>
+			<language type="io">ido</language>
+			<language type="ira">irański</language>
+			<language type="is">islandzki</language>
+			<language type="iu">inuktitut</language>
+			<language type="jv">jawajski</language>
+			<language type="ka">gruziński</language>
+			<language type="kaa">karakałpacki</language>
+			<language type="kar">kareński</language>
+			<language type="kbd">kabardyjski</language>
+			<language type="kg">kongo</language>
+			<language type="kha">khasi</language>
+			<language type="khi">khoisan (inne)</language>
+			<language type="ki">kikuju</language>
+			<language type="kj">kwanyama</language>
+			<language type="kk">kazaski</language>
+			<language type="km">khmerski</language>
+			<language type="kn">kannada</language>
+			<language type="kok">konkani</language>
+			<language type="kos">kosrae</language>
+			<language type="kpe">kpelle</language>
+			<language type="kr">kanuri</language>
+			<language type="krc">karaczajsko-bałkarski</language>
+			<language type="kro" draft="provisional">kru</language>
+			<language type="kru">kurukh</language>
+			<language type="ks">kaszmirski</language>
+			<language type="ku">kurdyjski</language>
+			<language type="kum">kumycki</language>
+			<language type="kv">komi</language>
+			<language type="kw">kornijski</language>
+			<language type="ky">kirgiski</language>
+			<language type="la">łaciński</language>
+			<language type="lb">luksemburski</language>
+			<language type="lg">ganda</language>
+			<language type="li">limburgijski</language>
+			<language type="ln">lingala</language>
+			<language type="lo">laotański</language>
+			<language type="lu">luba-katanga</language>
+			<language type="lua">luba-lulua</language>
+			<language type="mad">madurajski</language>
+			<language type="map">austronezyjski</language>
+			<language type="mas">masajski</language>
+			<language type="mg">malgaski</language>
+			<language type="mga">średnioirlandzki</language>
+			<language type="mh">marshall</language>
+			<language type="mi">maoryjski</language>
+			<language type="mis">języki różne</language>
+			<language type="mk">macedoński</language>
+			<language type="mkh">mon-khmer (pozostałe)</language>
+			<language type="ml">malajalam</language>
+			<language type="mn">mongolski</language>
+			<language type="mo">mołdawski</language>
+			<language type="mr">marathijski</language>
+			<language type="ms">malajski</language>
+			<language type="mun">języki mundajskie</language>
+			<language type="my">birmański</language>
+			<language type="myn" draft="provisional">języki maja</language>
+			<language type="na">nauru</language>
+			<language type="nah">nahuatl</language>
+			<language type="nai">języki Indian północnoamerykańskich (pozostałe)</language>
+			<language type="nap">neapolitański</language>
+			<language type="nb">norweski Bokmål</language>
+			<language type="nd">ndebele północny</language>
+			<language type="nds">dolnoniemiecki, dolnosaksoński</language>
+			<language type="ne">nepalski</language>
+			<language type="new">newarski</language>
+			<language type="nic">niger-kordofańskie (pozostałe)</language>
+			<language type="niu">niue</language>
+			<language type="nn">norweski Nynorsk</language>
+			<language type="nr">ndebele południowy</language>
+			<language type="nso">sotho północny</language>
+			<language type="nub">języki nubijskie</language>
+			<language type="nv">nawaho</language>
+			<language type="nwc">newarski klasyczny</language>
+			<language type="ny">njandża</language>
+			<language type="oc">oksytański (po 1500); prowansalski</language>
+			<language type="oj">odżibwa</language>
+			<language type="om">oromo</language>
+			<language type="or">orija</language>
+			<language type="os">osetyjski</language>
+			<language type="ota">osmańsko-turecki</language>
+			<language type="oto">języki Otomi</language>
+			<language type="pa">pendżabski</language>
+			<language type="paa">papuaski (inne)</language>
+			<language type="pau">palau</language>
+			<language type="peo">staroperski</language>
+			<language type="phn">fenicki</language>
+			<language type="pi">palijski</language>
+			<language type="pra">prakryty</language>
+			<language type="pro">staroprowansalski</language>
+			<language type="ps">paszto</language>
+			<language type="qu">keczua</language>
+			<language type="raj">radźasthani</language>
+			<language type="rap">rapanui</language>
+			<language type="rar">rarotonga</language>
+			<language type="rm">retoromański</language>
+			<language type="rn">rundi</language>
+			<language type="roa">romański (inne)</language>
+			<language type="rom">cygański</language>
+			<language type="rup">arumuński</language>
+			<language type="rw">kinya-ruanda</language>
+			<language type="sa">sanskryt</language>
+			<language type="sah">jakucki</language>
+			<language type="sai">języki Indian południowoamerykańskich (pozostałe)</language>
+			<language type="sal">języki salisz</language>
+			<language type="sam">samarytański aramejski</language>
+			<language type="sas">sasak</language>
+			<language type="sat">santali</language>
+			<language type="sc">sardyński</language>
+			<language type="scn">sycylijski</language>
+			<language type="sco">szkocki</language>
+			<language type="sd">sindhi</language>
+			<language type="se">lapoński północny</language>
+			<language type="sem">semickie (pozostałe)</language>
+			<language type="sg">sango</language>
+			<language type="sga">staroirlandzki</language>
+			<language type="sgn">migowy</language>
+			<language type="si">syngaleski</language>
+			<language type="sid">sidamo</language>
+			<language type="sit">chińsko-tybetańskie (pozostałe)</language>
+			<language type="sla">słowiańskie (pozostałe)</language>
+			<language type="sm">samoański</language>
+			<language type="sma">lapoński południowy</language>
+			<language type="smi">lapońskie (pozostałe)</language>
+			<language type="smj">lapoński Lule</language>
+			<language type="smn">lapoński Inari</language>
+			<language type="sms">lapoński Skolt</language>
+			<language type="sn">szona</language>
+			<language type="so">somali</language>
+			<language type="sq">albański</language>
+			<language type="sr">serbski</language>
+			<language type="ss">suazi</language>
+			<language type="ssa">nilo-saharyjskie (pozostałe)</language>
+			<language type="st">sotho południowy</language>
+			<language type="su">sundajski</language>
+			<language type="suk">sukuma</language>
+			<language type="sux">sumeryjski</language>
+			<language type="sw">suahili</language>
+			<language type="syr">syryjski</language>
+			<language type="ta">tamilski</language>
+			<language type="tai">taj (pozostałe)</language>
+			<language type="te">telugu</language>
+			<language type="tet">tetum</language>
+			<language type="tg">tadżycki</language>
+			<language type="ti">tigrinia</language>
+			<language type="tig">tigre</language>
+			<language type="tk">turkmeński</language>
+			<language type="tkl">tokelau</language>
+			<language type="tl">tagalski</language>
+			<language type="tlh">klingoński</language>
+			<language type="tli">tlingit</language>
+			<language type="tmh">tamaszek</language>
+			<language type="tn">tswana</language>
+			<language type="to">tonga (wyspy Tonga)</language>
+			<language type="tog">tonga (Niasa)</language>
+			<language type="ts">tsonga</language>
+			<language type="tt">tatarski</language>
+			<language type="tup">języki tupi</language>
+			<language type="tut">ałtajski (pozostałe)</language>
+			<language type="tw">twi</language>
+			<language type="ty">tahitański</language>
+			<language type="tyv">tuwiński</language>
+			<language type="udm">udmurcki</language>
+			<language type="ug">ujgurski</language>
+			<language type="uga">ugarycki</language>
+			<language type="uk">ukraiński</language>
+			<language type="und">nieokreślony</language>
+			<language type="ur">urdu</language>
+			<language type="uz">uzbecki</language>
+			<language type="vai">wai</language>
+			<language type="ve">venda</language>
+			<language type="vi">wietnamski</language>
+			<language type="vo">volapuk</language>
+			<language type="vot">wotiacki</language>
+			<language type="wa">waloński</language>
+			<language type="wak">języki wakasz</language>
+			<language type="wen">języki łużyckie</language>
+			<language type="wo">wolof</language>
+			<language type="xal">kałmucki</language>
+			<language type="xh">khosa</language>
+			<language type="yap">japski</language>
+			<language type="yi">jidysz</language>
+			<language type="yo">joruba</language>
+			<language type="za">czuang</language>
+			<language type="zen">zenaga</language>
+			<language type="znd">azande</language>
+			<language type="zu">zulu</language>
+			<language type="zun">zuni</language>
+		</languages>
+		<scripts>
+			<script type="Armn">Ormiański</script>
+			<script type="Batk">Batak</script>
+			<script type="Cher">Irokeski</script>
+			<script type="Cyrs">Cyrylicki (odmiana staro-cerkiewno-słowiańska)</script>
+			<script type="Deva">Devanagari</script>
+			<script type="Dsrt">Deseret</script>
+			<script type="Egyd">Egipski demotyczny</script>
+			<script type="Egyh">Egipski hieratyczny</script>
+			<script type="Egyp">Hieroglify egipskie</script>
+			<script type="Glag">Głagolicki</script>
+			<script type="Gujr">Gudźaracki</script>
+			<script type="Guru">Gurmukhi</script>
+			<script type="Hang">Hangul</script>
+			<script type="Hani">Han</script>
+			<script type="Hira">Hiragana</script>
+			<script type="Hmng">Pahawh Hmong</script>
+			<script type="Hrkt">Katakana lub Hiragana</script>
+			<script type="Hung">Starowęgierski</script>
+			<script type="Inds">Indus (Harappan)</script>
+			<script type="Kana">Katakana</script>
+			<script type="Khar">Kharoshthi</script>
+			<script type="Knda">Kannada</script>
+			<script type="Latg">Łaciński (odmiana gaelicka)</script>
+			<script type="Lepc">Lepcha (Róng)</script>
+			<script type="Lina">Linearny A</script>
+			<script type="Osma">Osmanya</script>
+			<script type="Perm">Staropermski</script>
+			<script type="Phnx">Fenicki</script>
+			<script type="Sara">Sarati</script>
+			<script type="Syrj">Syryjski (odmiana zachodnia)</script>
+			<script type="Syrn">Syryjski (odmiana wschodnia)</script>
+			<script type="Tfng">Tifinagh (berberski)</script>
+			<script type="Xpeo">Staroperski</script>
+		</scripts>
+		<territories>
+			<territory type="001">świat</territory>
+			<territory type="034">Azja Południowa</territory>
+			<territory type="143">Azja Środkowa</territory>
+			<territory type="172">Wspólnota Niezależnych Państw</territory>
+			<territory type="419">Ameryka Łacińska i Karaiby</territory>
+			<territory type="LA">Laos</territory>
+			<territory type="LY">Libia</territory>
+			<territory type="MD">Mołdawia</territory>
+			<territory type="MK">Macedonia</territory>
+			<territory type="MP">Mariany Północne</territory>
+			<territory type="PM">Saint-Pierre i Miquelon</territory>
+			<territory type="PR">Portoryko</territory>
+			<territory type="SH">Święta Helena</territory>
+			<territory type="TF">Francuskie Terytoria Południowe i Antarktyczne</territory>
+			<territory type="UM">Dalekie Wyspy Mniejsze Stanów Zjednoczonych</territory>
+			<territory type="VA">Watykan</territory>
+			<territory type="VC">Saint Vincent i Grenadyny</territory>
+			<territory type="VI">Wyspy Dziewicze Stanów Zjednoczonych</territory>
+			<territory type="ZA">Republika Południowej Afryki</territory>
+		</territories>
+		<variants>
+			<variant type="1901">Tradycyjna ortografia niemiecka</variant>
+			<variant type="1996">Ortografia niemiecka z 1996 r.</variant>
+		</variants>
+		<types>
+			<type type="big5han" key="collation">Tradycyjny chiński (Big5)</type>
+			<type type="gb2312han" key="collation">Uproszczony chiński (GB2312)</type>
+		</types>
+		<measurementSystemNames>
+			<measurementSystemName type="US">USA</measurementSystemName>
+			<measurementSystemName type="metric">metryczny</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<delimiters>
+		<quotationStart>‘</quotationStart>
+		<quotationEnd>’</quotationEnd>
+		<alternateQuotationStart>„</alternateQuotationStart>
+		<alternateQuotationEnd>”</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">sty</month>
+							<month type="3">mar</month>
+							<month type="4">kwi</month>
+							<month type="6">cze</month>
+							<month type="8">sie</month>
+							<month type="12">gru</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="abbreviated">
+							<month type="1">sty</month>
+							<month type="3">mar</month>
+							<month type="4">kwi</month>
+							<month type="6">cze</month>
+							<month type="8">sie</month>
+							<month type="12">gru</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<fields>
+					<field type="year">
+						<displayName>Rok</displayName>
+					</field>
+					<field type="month">
+						<displayName>Miesiąc</displayName>
+					</field>
+					<field type="week">
+						<displayName>Tydzień</displayName>
+					</field>
+					<field type="day">
+						<displayName>Dzień</displayName>
+					</field>
+					<field type="weekday">
+						<displayName>Dzień tygodnia</displayName>
+					</field>
+					<field type="hour">
+						<displayName>Godzina</displayName>
+					</field>
+					<field type="minute">
+						<displayName>Minuta</displayName>
+					</field>
+					<field type="second">
+						<displayName>Sekunda</displayName>
+					</field>
+					<field type="zone">
+						<displayName>Strefa</displayName>
+					</field>
+				</fields>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>#,##0.00 ¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="BRE">
+				<displayName>cruzeiro brazylijskie (1990-1993)</displayName>
+			</currency>
+			<currency type="BRN">
+				<displayName>nowe cruzado brazylijskie</displayName>
+			</currency>
+			<currency type="BTN">
+				<displayName>ngultrum Bhutanu</displayName>
+			</currency>
+			<currency type="ESA">
+				<displayName>peseta hiszpańska (Konto A)</displayName>
+			</currency>
+			<currency type="ESB">
+				<displayName>peseta hiszpańska (konto wymienne)</displayName>
+			</currency>
+			<currency type="GEK">
+				<displayName>kupon gruziński larit</displayName>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+

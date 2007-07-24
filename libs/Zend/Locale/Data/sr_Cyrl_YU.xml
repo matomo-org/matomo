@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.23 $"/>
+		<generation date="$Date: 2006/10/28 00:22:48 $"/>
+		<language type="sr"/>
+		<script type="Cyrl"/>
+		<territory type="YU"/>
+	</identity>
+    <alias source="sr_Cyrl_RS" path="//ldml"/>
+</ldml>
+

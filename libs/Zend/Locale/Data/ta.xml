@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.52 $"/>
+		<generation date="$Date: 2006/06/28 06:03:59 $"/>
+		<language type="ta"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="aa">அபார்</language>
+			<language type="ab">அப்காஸின்</language>
+			<language type="af">ஆப்ரிகன்ஸ்</language>
+			<language type="am">அம்ஹாரிக்</language>
+			<language type="ar">அரபு</language>
+			<language type="as">அஸ்ஸாமி</language>
+			<language type="ay">அயமரா</language>
+			<language type="az">அசர்பாய்ஜானி</language>
+			<language type="ba">பாஷ்கிர்0</language>
+			<language type="be">பைலோருஷ்ன்</language>
+			<language type="bg">பல்கேரியன்</language>
+			<language type="bh">பிஹாரி</language>
+			<language type="bi">பிஸ்லாமா</language>
+			<language type="bn">வங்காளம்</language>
+			<language type="bo">திபெத்து</language>
+			<language type="br">பிரிடன்</language>
+			<language type="ca">காடலான்</language>
+			<language type="co">கார்சியன்</language>
+			<language type="cs">செக்</language>
+			<language type="cy">வெல்ஷ்</language>
+			<language type="da">டானிஷ்</language>
+			<language type="de">ஜெர்மன்</language>
+			<language type="dz">புடானி</language>
+			<language type="el">கிரேக்கம்</language>
+			<language type="en">ஆங்கிலம்</language>
+			<language type="eo">எஸ்பரேன்டோ</language>
+			<language type="es">ஸ்பேனிஷ்</language>
+			<language type="et">எஸ்டோனியன்</language>
+			<language type="eu">பஸ்க்</language>
+			<language type="fa">பர்ஸியன்</language>
+			<language type="fi">பின்னிஷ்</language>
+			<language type="fj">பிஜி</language>
+			<language type="fo">பைரோஸி</language>
+			<language type="fr">பிரெஞ்சு</language>
+			<language type="fy">பிரிஷியன்</language>
+			<language type="ga">ஐரிஷ்</language>
+			<language type="gd">ஸ்காட்ஸ் காலெக்</language>
+			<language type="gl">கெலிஸியன்</language>
+			<language type="gn">குரானி</language>
+			<language type="gu">குஜராத்தி</language>
+			<language type="ha">ஹொஸா</language>
+			<language type="he">ஹுப்ரு</language>
+			<language type="hi">இந்தி</language>
+			<language type="hr">கரோஷியன்</language>
+			<language type="hu">ஹங்கேரியன்</language>
+			<language type="hy">ஆர்மேனியன்</language>
+			<language type="ia">இன்டர்லிங்குவா [ia]</language>
+			<language type="id">இந்தோனேஷியன்</language>
+			<language type="ie">இன்டர்லிங்குவா</language>
+			<language type="ik">இனுபெக்</language>
+			<language type="is">ஐஸ்லென்டிக்</language>
+			<language type="it">இத்தாலியன்</language>
+			<language type="iu">இனுகிடட்</language>
+			<language type="ja">ஜப்பானீஸ்</language>
+			<language type="jv">ஜாவானீஸ்</language>
+			<language type="ka">கன்னடம்</language>
+			<language type="kk">கசாக்</language>
+			<language type="kl">கிரின்லென்டிக்</language>
+			<language type="km">கம்போடியன்</language>
+			<language type="kn">கன்னடா</language>
+			<language type="ko">கொரியன்</language>
+			<language type="kok">கொங்கனி</language>
+			<language type="ks">காஷ்மிரி</language>
+			<language type="ku">குர்திஷ்</language>
+			<language type="ky">கிர்கிஷ்</language>
+			<language type="la">லாதின்</language>
+			<language type="ln">லிங்காலா</language>
+			<language type="lo">லோத்தியன்</language>
+			<language type="lt">லுத்தேனியன்</language>
+			<language type="lv">லேட்வியன் (லேட்டிஷ்)</language>
+			<language type="mg">மலகெஸி</language>
+			<language type="mi">மோரி</language>
+			<language type="mk">மெக்கடோனியன்</language>
+			<language type="ml">மலையாளம்</language>
+			<language type="mn">மங்கோலியன்</language>
+			<language type="mo">மோல்டேவியன்</language>
+			<language type="mr">மராத்தி</language>
+			<language type="ms">மலாய்</language>
+			<language type="mt">மால்டிஸ்</language>
+			<language type="my">பர்மிஸ்</language>
+			<language type="na">நாரூ</language>
+			<language type="ne">நேப்பாலி</language>
+			<language type="nl">டச்சு</language>
+			<language type="no">நார்வேகியன்</language>
+			<language type="oc">ஆகிடியன்</language>
+			<language type="om">ஒரோம (அபன்)</language>
+			<language type="or">ஒரியா</language>
+			<language type="pa">பஞ்சாபி</language>
+			<language type="pl">போலிஷ்</language>
+			<language type="ps">பேஷ்டோ (புஷ்டோ)</language>
+			<language type="pt">போர்த்துகீஸ்</language>
+			<language type="qu">கியுசா</language>
+			<language type="rm">ரைட்டோ-ரோமென்ஸ்</language>
+			<language type="rn">கிருந்தி</language>
+			<language type="ro">ரோமேனியன்</language>
+			<language type="ru">ரஷியன்</language>
+			<language type="rw">கின்யர்வென்டா</language>
+			<language type="sa">சமஸ்கிருதம்</language>
+			<language type="sd">சிந்தி</language>
+			<language type="sg">சென்க்ரோ</language>
+			<language type="sh">செர்போ-க்ரோஷியன்</language>
+			<language type="si">சிங்களம்</language>
+			<language type="sk">ஸ்லோவெக்</language>
+			<language type="sl">ஸ்லோவினேயின்</language>
+			<language type="sm">ஸெமோன்</language>
+			<language type="sn">ஷோனா</language>
+			<language type="so">சோமாலி</language>
+			<language type="sq">அல்பெனியன்</language>
+			<language type="sr">சர்பியன்</language>
+			<language type="ss">ஷிஸ்வாதி</language>
+			<language type="st">ஷெஸ்ஸோதோ</language>
+			<language type="su">சுடானீஸ்</language>
+			<language type="sv">ஷீவிடிஸ்</language>
+			<language type="sw">சுவாஹிலி</language>
+			<language type="ta">தமிழ்</language>
+			<language type="te">தெலுங்கு</language>
+			<language type="tg">தாஜிக்</language>
+			<language type="th">தாய்</language>
+			<language type="ti">டிக்ரின்யா</language>
+			<language type="tk">டர்க்மென்</language>
+			<language type="tl">டாகாலோக்</language>
+			<language type="tn">ஸெட்ஸ்வானா</language>
+			<language type="to">டோங்கா</language>
+			<language type="tr">டர்கிஷ்</language>
+			<language type="ts">ஸோங்கா</language>
+			<language type="tt">டாடர்</language>
+			<language type="tw">த்திவி</language>
+			<language type="ug">யுகுர்</language>
+			<language type="uk">உக்ரேனியன்</language>
+			<language type="ur">உருது</language>
+			<language type="uz">உஸ்பெக்</language>
+			<language type="vi">வியட்நாமிஸ்</language>
+			<language type="vo">ஒலபுக்</language>
+			<language type="wo">ஒலோப்</language>
+			<language type="xh">ஹோஷா</language>
+			<language type="yi">ஈத்திஷ</language>
+			<language type="yo">யோருப்பா</language>
+			<language type="za">ஜுவாங்</language>
+			<language type="zh">சீனம்</language>
+			<language type="zu">ஜூலூ</language>
+		</languages>
+		<territories>
+			<territory type="AD">அன்டோரா</territory>
+			<territory type="AE">ஐக்கிய அரபு கூட்டாட்சி</territory>
+			<territory type="AF">ஆப்கானிஸ்தான்</territory>
+			<territory type="AG">ஆன்டிகுவா பார்புடா</territory>
+			<territory type="AL">அல்பேனியா</territory>
+			<territory type="AM">ஆர்மீனியா</territory>
+			<territory type="AO">அங்கோலா</territory>
+			<territory type="AR">அர்ஜெண்டினா</territory>
+			<territory type="AT">ஆஸ்திரியா</territory>
+			<territory type="AU">ஆஸ்திரேலியா</territory>
+			<territory type="AZ">அஜர்பைஜான்</territory>
+			<territory type="BA">போஸ்னியா ஹெர்ஸிகோவினா</territory>
+			<territory type="BB">பார்படோஸ்</territory>
+			<territory type="BD">பங்களாதேஷ்</territory>
+			<territory type="BE">பெல்ஜியம்</territory>
+			<territory type="BF">பர்கினோ பாஸோ</territory>
+			<territory type="BG">பல்கேரியா</territory>
+			<territory type="BH">பஹ்ரைன்</territory>
+			<territory type="BI">புருண்டி</territory>
+			<territory type="BJ">பெனின்</territory>
+			<territory type="BN">புரூனேய்</territory>
+			<territory type="BO">பொலிவியா</territory>
+			<territory type="BR">பிரேஸில்</territory>
+			<territory type="BS">பஹாமாஸ்</territory>
+			<territory type="BT">பூடான்</territory>
+			<territory type="BW">போட்ஸ்வானா</territory>
+			<territory type="BY">பெலாரூஸ்</territory>
+			<territory type="BZ">பெலிஸ்</territory>
+			<territory type="CA">கனடா</territory>
+			<territory type="CF">மத்திய ஆப்ரிக்கக் குடியரசு</territory>
+			<territory type="CG">காங்கோ</territory>
+			<territory type="CH">ஸ்விட்சர்லாந்து</territory>
+			<territory type="CI">ஐவரி கோஸ்ட்</territory>
+			<territory type="CL">சிலி</territory>
+			<territory type="CM">கேமரூன்</territory>
+			<territory type="CN">சீன</territory>
+			<territory type="CO">கொலம்பியா</territory>
+			<territory type="CR">கோஸ்டாரிகா</territory>
+			<territory type="CU">கியூபா</territory>
+			<territory type="CV">கேப் வெர்டே</territory>
+			<territory type="CY">சைப்ரஸ்</territory>
+			<territory type="CZ">செக் குடியரசு</territory>
+			<territory type="DE">ஜெர்மன்</territory>
+			<territory type="DJ">ஜிபௌடி</territory>
+			<territory type="DK">டென்மார்க்</territory>
+			<territory type="DM">டொமினிகா</territory>
+			<territory type="DO">டொமினிகன் குடியரசு</territory>
+			<territory type="DZ">அல்ஜீரியா</territory>
+			<territory type="EC">ஈக்வடார்</territory>
+			<territory type="EE">எஸ்டோனியா</territory>
+			<territory type="EG">எகிப்து</territory>
+			<territory type="ES">ஸ்பெயின்</territory>
+			<territory type="ET">எதியோப்பியா</territory>
+			<territory type="FI">பின்லாந்து</territory>
+			<territory type="FJ">பிஜி</territory>
+			<territory type="FR">பிரான்ஸ்</territory>
+			<territory type="GA">காபோன்</territory>
+			<territory type="GB">பிரிடிஷ் கூட்டரசு</territory>
+			<territory type="GD">கிரனெடா</territory>
+			<territory type="GE">ஜார்ஜியா</territory>
+			<territory type="GH">கானா</territory>
+			<territory type="GM">காம்பியா</territory>
+			<territory type="GN">கினி</territory>
+			<territory type="GQ">ஈக்குவிடோரியல் கினி</territory>
+			<territory type="GR">கிரீஸ்</territory>
+			<territory type="GT">குவாத்தாமாலா</territory>
+			<territory type="GW">கினி-பிஸ்ஸாவ்</territory>
+			<territory type="GY">கயானா</territory>
+			<territory type="HN">ஹாண்டுராஸ்</territory>
+			<territory type="HR">குரோசியா</territory>
+			<territory type="HT">ஹெய்தி</territory>
+			<territory type="HU">ஹங்கேரி</territory>
+			<territory type="ID">இந்தோனேஷியா</territory>
+			<territory type="IE">அயர்லாந்து</territory>
+			<territory type="IL">இஸ்ரேல்</territory>
+			<territory type="IN">இந்தியா</territory>
+			<territory type="IQ">இராக்</territory>
+			<territory type="IR">ஈரான்</territory>
+			<territory type="IS">ஐஸ்லாந்து</territory>
+			<territory type="IT">இத்தாலி</territory>
+			<territory type="JM">ஜமாய்க்கா</territory>
+			<territory type="JO">ஜொர்டான்</territory>
+			<territory type="JP">ஜப்பான்</territory>
+			<territory type="KE">கென்யா</territory>
+			<territory type="KG">கிர்கிஸ்தான்</territory>
+			<territory type="KH">கம்போடியா</territory>
+			<territory type="KI">கிரிபடி</territory>
+			<territory type="KM">கோமரோஸ்</territory>
+			<territory type="KP">வட கொரியா</territory>
+			<territory type="KR">தென் கொரியா</territory>
+			<territory type="KW">குவைத்து</territory>
+			<territory type="KZ">கஜகஸ்தான்</territory>
+			<territory type="LA">லாவோஸ்</territory>
+			<territory type="LB">லெபனான்</territory>
+			<territory type="LI">லிச்டெண்ஸ்டீன்</territory>
+			<territory type="LK">இலங்கை</territory>
+			<territory type="LR">லைபீரியா</territory>
+			<territory type="LS">லெசோதோ</territory>
+			<territory type="LT">லிதுவேனியா</territory>
+			<territory type="LU">லக்ஸ்சம்பர்க்</territory>
+			<territory type="LV">லாட்வியா</territory>
+			<territory type="LY">லிப்யா</territory>
+			<territory type="MA">மொரோக்கோ</territory>
+			<territory type="MC">மொனாக்கோ</territory>
+			<territory type="MD">மால்டோவா</territory>
+			<territory type="MK">மசெடோணியா</territory>
+			<territory type="ML">மாலீ</territory>
+			<territory type="MM">மியான்மார்</territory>
+			<territory type="MN">மங்கோலியா</territory>
+			<territory type="MT">மால்டா</territory>
+			<territory type="MV">மாலத்தீவு</territory>
+			<territory type="MW">மலாவீ</territory>
+			<territory type="MX">மெக்சிகோ</territory>
+			<territory type="MY">மலேஷியா</territory>
+			<territory type="NA">னாமீபியா</territory>
+			<territory type="NI">நிகாராகுவா</territory>
+			<territory type="NL">நெதர்லாந்து</territory>
+			<territory type="NO">நார்வே</territory>
+			<territory type="NP">நேபாளம்</territory>
+			<territory type="NR">நௌரு</territory>
+			<territory type="NZ">நியூசிலாந்து</territory>
+			<territory type="OM">ஓமான்</territory>
+			<territory type="PA">பணாமா</territory>
+			<territory type="PE">பெரு</territory>
+			<territory type="PG">பாப்புவா-நியூகினி</territory>
+			<territory type="PH">பிலிப்பைன்ஸ்</territory>
+			<territory type="PK">பாகிஸ்தான்</territory>
+			<territory type="PL">போலந்து</territory>
+			<territory type="PT">போர்ச்சுக்கல்</territory>
+			<territory type="PY">பாரகுவே</territory>
+			<territory type="QA">காடார்</territory>
+			<territory type="RO">ருமேனியா</territory>
+			<territory type="RU">ரஷ்யா</territory>
+			<territory type="SA">சவூதி அரேபியா</territory>
+			<territory type="SB">சாலமன் தீவுகள்</territory>
+			<territory type="SE">ஸ்வீடன்</territory>
+			<territory type="SG">சிங்கப்பூர்</territory>
+			<territory type="SI">ஸ்லோவேனியா</territory>
+			<territory type="SK">ஸ்லோவாகியா</territory>
+			<territory type="SM">சான்மெரினோ</territory>
+			<territory type="SR">சூரினாம்</territory>
+			<territory type="SV">எல் சால்வடார்</territory>
+			<territory type="SY">சிரியா</territory>
+			<territory type="TD">சாட்</territory>
+			<territory type="TH">தாய்லாந்து</territory>
+			<territory type="TJ">தாஜிகிஸ்தான்</territory>
+			<territory type="TM">துர்க்மெனிஸ்தான்</territory>
+			<territory type="TN">துனிசியா</territory>
+			<territory type="TO">தொங்கா</territory>
+			<territory type="TR">துருக்கி</territory>
+			<territory type="TT">திரினிடாட் தொபாகோ</territory>
+			<territory type="TV">துவாலூ</territory>
+			<territory type="TW">தைவான்</territory>
+			<territory type="UA">உக்ரைன்</territory>
+			<territory type="US">ஐக்கிய அமெரிக்கா குடியரசு</territory>
+			<territory type="UY">உருகுவே</territory>
+			<territory type="UZ">உஸ்பெகிஸ்தான்</territory>
+			<territory type="VA">வாடிகன்</territory>
+			<territory type="VE">வெனஜுவேலா</territory>
+			<territory type="VN">வியட்நாம்</territory>
+			<territory type="VU">வனுவாட்டு</territory>
+			<territory type="WS">சமோவா</territory>
+			<territory type="YE">யேமன்</territory>
+			<territory type="ZA">தென் ஆப்ரிக்கா</territory>
+			<territory type="ZW">ஜிம்பாப்வே</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters references="RP1">[ஃ அ-ஊ எ-ஐ ஒ-க ங ச ஜ ஞ ட ண த ந-ப ம-வ ஷ-ஹ ா-ூ ெ-ை ொ-்]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">ஜன.</month>
+							<month type="2">பிப்.</month>
+							<month type="3">மார்.</month>
+							<month type="4">ஏப்.</month>
+							<month type="5">மே</month>
+							<month type="6">ஜூன்</month>
+							<month type="7">ஜூலை</month>
+							<month type="8">ஆக.</month>
+							<month type="9">செப்.</month>
+							<month type="10">அக்.</month>
+							<month type="11">நவ.</month>
+							<month type="12">டிச.</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">ஜனவரி</month>
+							<month type="2">பிப்ரவரி</month>
+							<month type="3">மார்ச்</month>
+							<month type="4">ஏப்ரல்</month>
+							<month type="5">மே</month>
+							<month type="6">ஜூன்</month>
+							<month type="7">ஜூலை</month>
+							<month type="8">ஆகஸ்ட்</month>
+							<month type="9">செப்டம்பர்</month>
+							<month type="10">அக்டோபர்</month>
+							<month type="11">நவம்பர்</month>
+							<month type="12">டிசம்பர்</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">ஞா</day>
+							<day type="mon">தி</day>
+							<day type="tue">செ</day>
+							<day type="wed">பு</day>
+							<day type="thu">வி</day>
+							<day type="fri">வெ</day>
+							<day type="sat">ச</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">ஞாயிறு</day>
+							<day type="mon">திங்கள்</day>
+							<day type="tue">செவ்வாய்</day>
+							<day type="wed">புதன்</day>
+							<day type="thu">வியாழன்</day>
+							<day type="fri">வெள்ளி</day>
+							<day type="sat">சனி</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="wide">
+							<quarter type="1" draft="unconfirmed">வந்ந௧  1</quarter>
+							<quarter type="2" draft="unconfirmed">ரெஂட௨ 2</quarter>
+							<quarter type="3" draft="unconfirmed">மூடு௩ 3</quarter>
+							<quarter type="4" draft="unconfirmed">நால்௪ 4</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<am>காலை</am>
+				<pm>மாலை</pm>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">வர்ஷು.</era>
+						<era type="1" draft="unconfirmed">ஸந்.</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">கிமு</era>
+						<era type="1">கிபி</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<zone type="Asia/Calcutta">
+				<long>
+					<standard>இந்திய நேரப்படி</standard>
+					<daylight>இந்திய நேரப்படி</daylight>
+				</long>
+				<short>
+					<standard>IST</standard>
+					<daylight>IST</daylight>
+				</short>
+			</zone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<decimalFormats>
+			<decimalFormatLength>
+				<decimalFormat>
+					<pattern>#,##,##0.###</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
+		<percentFormats>
+			<percentFormatLength>
+				<percentFormat>
+					<pattern>#,##,##0%</pattern>
+				</percentFormat>
+			</percentFormatLength>
+		</percentFormats>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>¤ #,##,##0.00</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="INR">
+				<symbol>ரூ</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr draft="unconfirmed">ஆம்</yesstr>
+			<nostr draft="unconfirmed">இல்லை</nostr>
+		</messages>
+	</posix>
+	<references>
+		<reference type="RP1">Unicode Standard 4.0</reference>
+	</references>
+</ldml>

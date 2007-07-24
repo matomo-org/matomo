@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.84 $"/>
+		<generation date="$Date: 2006/06/29 15:44:37 $"/>
+		<language type="root"/>
+	</identity>
+	<localeDisplayNames>
+		<measurementSystemNames>
+			<measurementSystemName type="US">US</measurementSystemName>
+			<measurementSystemName type="metric">Metric</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<layout>
+		<orientation draft="unconfirmed"/>
+	</layout>
+	<characters>
+		<exemplarCharacters>[]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
+	</characters>
+	<delimiters>
+		<quotationStart>“</quotationStart>
+		<quotationEnd>”</quotationEnd>
+		<alternateQuotationStart>‘</alternateQuotationStart>
+		<alternateQuotationEnd>’</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<localizedPatternChars>GyMdkHmsSEDFwWahKzYeugAZvcL</localizedPatternChars>
+		<calendars>
+			<default choice="gregorian"/>
+			<calendar type="buddhist">
+				<eras>
+					<eraAbbr>
+						<era type="0">BE</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<default choice="medium"/>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, MMMM d, yyyy G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>MMMM d, yyyy G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>MMM d, yyyy G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>M/d/yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
+				</timeFormats>
+				<dateTimeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="chinese">
+				<dateFormats>
+					<default choice="medium"/>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE y'x'G-Ml-d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>y'x'G-Ml-d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>y'x'G-Ml-d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>y'x'G-Ml-d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
+				</timeFormats>
+				<dateTimeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="coptic">
+				<months>
+					<default choice="format" draft="unconfirmed"/>
+					<monthContext type="format">
+						<default choice="wide" draft="unconfirmed"/>
+						<monthWidth type="abbreviated">
+							<alias source="locale" path="../monthWidth[@type='wide']" draft="unconfirmed"/>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Tout</month>
+							<month type="2" draft="unconfirmed">Baba</month>
+							<month type="3" draft="unconfirmed">Hator</month>
+							<month type="4" draft="unconfirmed">Kiahk</month>
+							<month type="5" draft="unconfirmed">Toba</month>
+							<month type="6" draft="unconfirmed">Amshir</month>
+							<month type="7" draft="unconfirmed">Baramhat</month>
+							<month type="8" draft="unconfirmed">Baramouda</month>
+							<month type="9" draft="unconfirmed">Bashans</month>
+							<month type="10" draft="unconfirmed">Paona</month>
+							<month type="11" draft="unconfirmed">Epep</month>
+							<month type="12" draft="unconfirmed">Mesra</month>
+							<month type="13" draft="unconfirmed">Nasie</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">ERA0</era>
+						<era type="1" draft="unconfirmed">ERA1</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateFormats" draft="unconfirmed"/>
+				</dateFormats>
+				<timeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats" draft="unconfirmed"/>
+				</timeFormats>
+				<dateTimeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats" draft="unconfirmed"/>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="ethiopic">
+				<months>
+					<default choice="format" draft="unconfirmed"/>
+					<monthContext type="format">
+						<default choice="wide" draft="unconfirmed"/>
+						<monthWidth type="abbreviated">
+							<alias source="locale" path="../monthWidth[@type='wide']" draft="unconfirmed"/>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Meskerem</month>
+							<month type="2" draft="unconfirmed">Tekemt</month>
+							<month type="3" draft="unconfirmed">Hedar</month>
+							<month type="4" draft="unconfirmed">Tahsas</month>
+							<month type="5" draft="unconfirmed">Ter</month>
+							<month type="6" draft="unconfirmed">Yekatit</month>
+							<month type="7" draft="unconfirmed">Megabit</month>
+							<month type="8" draft="unconfirmed">Miazia</month>
+							<month type="9" draft="unconfirmed">Genbot</month>
+							<month type="10" draft="unconfirmed">Sene</month>
+							<month type="11" draft="unconfirmed">Hamle</month>
+							<month type="12" draft="unconfirmed">Nehasse</month>
+							<month type="13" draft="unconfirmed">Pagumen</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">ERA0</era>
+						<era type="1" draft="unconfirmed">ERA1</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateFormats"/>
+				</dateFormats>
+				<timeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
+				</timeFormats>
+				<dateTimeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="gregorian">
+				<months>
+					<default choice="format"/>
+					<monthContext type="format">
+						<default choice="wide"/>
+						<monthWidth type="abbreviated">
+							<alias source="locale" path="../monthWidth[@type='wide']"/>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">1</month>
+							<month type="2">2</month>
+							<month type="3">3</month>
+							<month type="4">4</month>
+							<month type="5">5</month>
+							<month type="6">6</month>
+							<month type="7">7</month>
+							<month type="8">8</month>
+							<month type="9">9</month>
+							<month type="10">10</month>
+							<month type="11">11</month>
+							<month type="12">12</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1">1</month>
+							<month type="2">2</month>
+							<month type="3">3</month>
+							<month type="4">4</month>
+							<month type="5">5</month>
+							<month type="6">6</month>
+							<month type="7">7</month>
+							<month type="8">8</month>
+							<month type="9">9</month>
+							<month type="10">10</month>
+							<month type="11">11</month>
+							<month type="12">12</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<default choice="format"/>
+					<dayContext type="format">
+						<default choice="wide"/>
+						<dayWidth type="abbreviated">
+							<day type="sun">1</day>
+							<day type="mon">2</day>
+							<day type="tue">3</day>
+							<day type="wed">4</day>
+							<day type="thu">5</day>
+							<day type="fri">6</day>
+							<day type="sat">7</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">1</day>
+							<day type="mon">2</day>
+							<day type="tue">3</day>
+							<day type="wed">4</day>
+							<day type="thu">5</day>
+							<day type="fri">6</day>
+							<day type="sat">7</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun">1</day>
+							<day type="mon">2</day>
+							<day type="tue">3</day>
+							<day type="wed">4</day>
+							<day type="thu">5</day>
+							<day type="fri">6</day>
+							<day type="sat">7</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1">Q1</quarter>
+							<quarter type="2">Q2</quarter>
+							<quarter type="3">Q3</quarter>
+							<quarter type="4">Q4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1">Q1</quarter>
+							<quarter type="2">Q2</quarter>
+							<quarter type="3">Q3</quarter>
+							<quarter type="4">Q4</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<am>AM</am>
+				<pm>PM</pm>
+				<eras>
+					<eraNames>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">BCE</era>
+						<era type="1">CE</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<default choice="medium"/>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, yyyy MMMM dd</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>yyyy MMMM d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>yyyy MMM d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>yy/MM/dd</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<default choice="medium"/>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>HH:mm:ss z</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern>HH:mm:ss z</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>HH:mm:ss</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>HH:mm</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength>
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="yyQ" draft="provisional">Q yy</dateFormatItem>
+					</availableFormats>
+					<appendItems>
+						<appendItem request="Day">{0} ({2}: {1})</appendItem>
+						<appendItem request="Day-Of-Week">{0} {1}</appendItem>
+						<appendItem request="Era">{0} {1}</appendItem>
+						<appendItem request="Hour">{0} ({2}: {1})</appendItem>
+						<appendItem request="Minute">{0} ({2}: {1})</appendItem>
+						<appendItem request="Month">{0} ({2}: {1})</appendItem>
+						<appendItem request="Quarter">{0} ({2}: {1})</appendItem>
+						<appendItem request="Second">{0} ({2}: {1})</appendItem>
+						<appendItem request="Timezone">{0} {1}</appendItem>
+						<appendItem request="Week">{0} ({2}: {1})</appendItem>
+						<appendItem request="Year">{0} {1}</appendItem>
+					</appendItems>
+				</dateTimeFormats>
+				<fields>
+					<field type="era">
+						<displayName>Era</displayName>
+					</field>
+					<field type="year">
+						<displayName>Year</displayName>
+					</field>
+					<field type="month">
+						<displayName>Month</displayName>
+					</field>
+					<field type="week">
+						<displayName>Week</displayName>
+					</field>
+					<field type="day">
+						<displayName>Day</displayName>
+					</field>
+					<field type="weekday">
+						<displayName>Day of the Week</displayName>
+					</field>
+					<field type="dayperiod">
+						<displayName>Dayperiod</displayName>
+					</field>
+					<field type="hour">
+						<displayName>Hour</displayName>
+					</field>
+					<field type="minute">
+						<displayName>Minute</displayName>
+					</field>
+					<field type="second">
+						<displayName>Second</displayName>
+					</field>
+					<field type="zone">
+						<displayName>Zone</displayName>
+					</field>
+				</fields>
+			</calendar>
+			<calendar type="hebrew">
+				<months>
+					<default choice="format"/>
+					<monthContext type="format">
+						<default choice="wide"/>
+						<monthWidth type="abbreviated">
+							<alias source="locale" path="../monthWidth[@type='wide']"/>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Tishri</month>
+							<month type="2">Heshvan</month>
+							<month type="3">Kislev</month>
+							<month type="4">Tevet</month>
+							<month type="5">Shevat</month>
+							<month type="6">Adar I</month>
+							<month type="7">Adar</month>
+							<month type="8">Nisan</month>
+							<month type="9">Iyar</month>
+							<month type="10">Sivan</month>
+							<month type="11">Tamuz</month>
+							<month type="12">Av</month>
+							<month type="13">Elul</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0">AM</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+			<calendar type="islamic">
+				<months>
+					<default choice="format"/>
+					<monthContext type="format">
+						<default choice="wide"/>
+						<monthWidth type="abbreviated">
+							<alias source="locale" path="../monthWidth[@type='wide']"/>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Muharram</month>
+							<month type="2">Safar</month>
+							<month type="3">Rabiʻ I</month>
+							<month type="4">Rabiʻ II</month>
+							<month type="5">Jumada I</month>
+							<month type="6">Jumada II</month>
+							<month type="7">Rajab</month>
+							<month type="8">Shaʻban</month>
+							<month type="9">Ramadan</month>
+							<month type="10">Shawwal</month>
+							<month type="11">Dhuʻl-Qiʻdah</month>
+							<month type="12">Dhuʻl-Hijjah</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0">AH</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateFormats"/>
+				</dateFormats>
+				<timeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
+				</timeFormats>
+				<dateTimeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="islamic-civil">
+				<alias source="locale" path="../calendar[@type='islamic']"/>
+			</calendar>
+			<calendar type="japanese">
+				<eras>
+					<eraAbbr>
+						<era type="0">Taika</era>
+						<era type="1">Hakuchi</era>
+						<era type="2">Hakuhō</era>
+						<era type="3">Shuchō</era>
+						<era type="4">Taihō</era>
+						<era type="5">Keiun</era>
+						<era type="6">Wadō</era>
+						<era type="7">Reiki</era>
+						<era type="8">Yōrō</era>
+						<era type="9">Jinki</era>
+						<era type="10">Tempyō</era>
+						<era type="11">Tempyō-kampō</era>
+						<era type="12">Tempyō-shōhō</era>
+						<era type="13">Tempyō-hōji</era>
+						<era type="14">Temphō-jingo</era>
+						<era type="15">Jingo-keiun</era>
+						<era type="16">Hōki</era>
+						<era type="17">Ten-ō</era>
+						<era type="18">Enryaku</era>
+						<era type="19">Daidō</era>
+						<era type="20">Kōnin</era>
+						<era type="21">Tenchō</era>
+						<era type="22">Shōwa</era>
+						<era type="23">Kajō</era>
+						<era type="24">Ninju</era>
+						<era type="25">Saiko</era>
+						<era type="26">Tennan</era>
+						<era type="27">Jōgan</era>
+						<era type="28">Genkei</era>
+						<era type="29">Ninna</era>
+						<era type="30">Kampyō</era>
+						<era type="31">Shōtai</era>
+						<era type="32">Engi</era>
+						<era type="33">Enchō</era>
+						<era type="34">Shōhei</era>
+						<era type="35">Tengyō</era>
+						<era type="36">Tenryaku</era>
+						<era type="37">Tentoku</era>
+						<era type="38">Ōwa</era>
+						<era type="39">Kōhō</era>
+						<era type="40">Anna</era>
+						<era type="41">Tenroku</era>
+						<era type="42">Ten-en</era>
+						<era type="43">Jōgen</era>
+						<era type="44">Tengen</era>
+						<era type="45">Eikan</era>
+						<era type="46">Kanna</era>
+						<era type="47">Ei-en</era>
+						<era type="48">Eiso</era>
+						<era type="49">Shōryaku</era>
+						<era type="50">Chōtoku</era>
+						<era type="51">Chōhō</era>
+						<era type="52">Kankō</era>
+						<era type="53">Chōwa</era>
+						<era type="54">Kannin</era>
+						<era type="55">Jian</era>
+						<era type="56">Manju</era>
+						<era type="57">Chōgen</era>
+						<era type="58">Chōryaku</era>
+						<era type="59">Chōkyū</era>
+						<era type="60">Kantoku</era>
+						<era type="61">Eishō</era>
+						<era type="62">Tengi</era>
+						<era type="63">Kōhei</era>
+						<era type="64">Jiryaku</era>
+						<era type="65">Enkyū</era>
+						<era type="66">Shōho</era>
+						<era type="67">Shōryaku</era>
+						<era type="68">Eiho</era>
+						<era type="69">Ōtoku</era>
+						<era type="70">Kanji</era>
+						<era type="71">Kaho</era>
+						<era type="72">Eichō</era>
+						<era type="73">Shōtoku</era>
+						<era type="74">Kōwa</era>
+						<era type="75">Chōji</era>
+						<era type="76">Kashō</era>
+						<era type="77">Tennin</era>
+						<era type="78">Ten-ei</era>
+						<era type="79">Eikyū</era>
+						<era type="80">Gen-ei</era>
+						<era type="81">Hoan</era>
+						<era type="82">Tenji</era>
+						<era type="83">Daiji</era>
+						<era type="84">Tenshō</era>
+						<era type="85">Chōshō</era>
+						<era type="86">Hoen</era>
+						<era type="87">Eiji</era>
+						<era type="88">Kōji</era>
+						<era type="89">Tenyō</era>
+						<era type="90">Kyūan</era>
+						<era type="91">Ninpei</era>
+						<era type="92">Kyūju</era>
+						<era type="93">Hogen</era>
+						<era type="94">Heiji</era>
+						<era type="95">Eiryaku</era>
+						<era type="96">Ōho</era>
+						<era type="97">Chōkan</era>
+						<era type="98">Eiman</era>
+						<era type="99">Nin-an</era>
+						<era type="100">Kaō</era>
+						<era type="101">Shōan</era>
+						<era type="102">Angen</era>
+						<era type="103">Jishō</era>
+						<era type="104">Yōwa</era>
+						<era type="105">Juei</era>
+						<era type="106">Genryuku</era>
+						<era type="107">Bunji</era>
+						<era type="108">Kenkyū</era>
+						<era type="109">Shōji</era>
+						<era type="110">Kennin</era>
+						<era type="111">Genkyū</era>
+						<era type="112">Ken-ei</era>
+						<era type="113">Shōgen</era>
+						<era type="114">Kenryaku</era>
+						<era type="115">Kenpō</era>
+						<era type="116">Shōkyū</era>
+						<era type="117">Jōō</era>
+						<era type="118">Gennin</era>
+						<era type="119">Karoku</era>
+						<era type="120">Antei</era>
+						<era type="121">Kanki</era>
+						<era type="122">Jōei</era>
+						<era type="123">Tempuku</era>
+						<era type="124">Bunryaku</era>
+						<era type="125">Katei</era>
+						<era type="126">Ryakunin</era>
+						<era type="127">En-ō</era>
+						<era type="128">Ninji</era>
+						<era type="129">Kangen</era>
+						<era type="130">Hōji</era>
+						<era type="131">Kenchō</era>
+						<era type="132">Kōgen</era>
+						<era type="133">Shōka</era>
+						<era type="134">Shōgen</era>
+						<era type="135">Bun-ō</era>
+						<era type="136">Kōchō</era>
+						<era type="137">Bun-ei</era>
+						<era type="138">Kenji</era>
+						<era type="139">Kōan</era>
+						<era type="140">Shōō</era>
+						<era type="141">Einin</era>
+						<era type="142">Shōan</era>
+						<era type="143">Kengen</era>
+						<era type="144">Kagen</era>
+						<era type="145">Tokuji</era>
+						<era type="146">Enkei</era>
+						<era type="147">Ōchō</era>
+						<era type="148">Shōwa</era>
+						<era type="149">Bunpō</era>
+						<era type="150">Genō</era>
+						<era type="151">Genkyō</era>
+						<era type="152">Shōchū</era>
+						<era type="153">Kareki</era>
+						<era type="154">Gentoku</era>
+						<era type="155">Genkō</era>
+						<era type="156">Kemmu</era>
+						<era type="157">Engen</era>
+						<era type="158">Kōkoku</era>
+						<era type="159">Shōhei</era>
+						<era type="160">Kentoku</era>
+						<era type="161">Bunchũ</era>
+						<era type="162">Tenju</era>
+						<era type="163">Kōryaku</era>
+						<era type="164">Kōwa</era>
+						<era type="165">Genchũ</era>
+						<era type="166">Meitoku</era>
+						<era type="167">Kakei</era>
+						<era type="168">Kōō</era>
+						<era type="169">Meitoku</era>
+						<era type="170">Ōei</era>
+						<era type="171">Shōchō</era>
+						<era type="172">Eikyō</era>
+						<era type="173">Kakitsu</era>
+						<era type="174">Bun-an</era>
+						<era type="175">Hōtoku</era>
+						<era type="176">Kyōtoku</era>
+						<era type="177">Kōshō</era>
+						<era type="178">Chōroku</era>
+						<era type="179">Kanshō</era>
+						<era type="180">Bunshō</era>
+						<era type="181">Ōnin</era>
+						<era type="182">Bunmei</era>
+						<era type="183">Chōkyō</era>
+						<era type="184">Entoku</era>
+						<era type="185">Meiō</era>
+						<era type="186">Bunki</era>
+						<era type="187">Eishō</era>
+						<era type="188">Taiei</era>
+						<era type="189">Kyōroku</era>
+						<era type="190">Tenmon</era>
+						<era type="191">Kōji</era>
+						<era type="192">Eiroku</era>
+						<era type="193">Genki</era>
+						<era type="194">Tenshō</era>
+						<era type="195">Bunroku</era>
+						<era type="196">Keichō</era>
+						<era type="197">Genwa</era>
+						<era type="198">Kan-ei</era>
+						<era type="199">Shōho</era>
+						<era type="200">Keian</era>
+						<era type="201">Shōō</era>
+						<era type="202">Meiryaku</era>
+						<era type="203">Manji</era>
+						<era type="204">Kanbun</era>
+						<era type="205">Enpō</era>
+						<era type="206">Tenwa</era>
+						<era type="207">Jōkyō</era>
+						<era type="208">Genroku</era>
+						<era type="209">Hōei</era>
+						<era type="210">Shōtoku</era>
+						<era type="211">Kyōhō</era>
+						<era type="212">Genbun</era>
+						<era type="213">Kanpō</era>
+						<era type="214">Enkyō</era>
+						<era type="215">Kan-en</era>
+						<era type="216">Hōryaku</era>
+						<era type="217">Meiwa</era>
+						<era type="218">An-ei</era>
+						<era type="219">Tenmei</era>
+						<era type="220">Kansei</era>
+						<era type="221">Kyōwa</era>
+						<era type="222">Bunka</era>
+						<era type="223">Bunsei</era>
+						<era type="224">Tenpō</era>
+						<era type="225">Kōka</era>
+						<era type="226">Kaei</era>
+						<era type="227">Ansei</era>
+						<era type="228">Man-en</era>
+						<era type="229">Bunkyū</era>
+						<era type="230">Genji</era>
+						<era type="231">Keiō</era>
+						<era type="232">Meiji</era>
+						<era type="233">Taishō</era>
+						<era type="234">Shōwa</era>
+						<era type="235">Heisei</era>
+					</eraAbbr>
+					<eraNarrow>
+						<era type="232" draft="unconfirmed">M</era>
+						<era type="233" draft="unconfirmed">T</era>
+						<era type="234" draft="unconfirmed">S</era>
+						<era type="235" draft="unconfirmed">H</era>
+					</eraNarrow>
+				</eras>
+				<dateFormats>
+					<default choice="medium"/>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, MMMM d, y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>MMMM d, y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>MMM d, y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>M/d/yy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
+				</timeFormats>
+				<dateTimeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="persian">
+				<months>
+					<default choice="format" draft="unconfirmed"/>
+					<monthContext type="format">
+						<default choice="wide" draft="unconfirmed"/>
+						<monthWidth type="abbreviated">
+							<alias source="locale" path="../monthWidth[@type='wide']" draft="unconfirmed"/>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Farvardin</month>
+							<month type="2">Ordibehesht</month>
+							<month type="3">Khordad</month>
+							<month type="4">Tir</month>
+							<month type="5">Mordad</month>
+							<month type="6">Shahrivar</month>
+							<month type="7">Mehr</month>
+							<month type="8">Aban</month>
+							<month type="9">Azar</month>
+							<month type="10">Dey</month>
+							<month type="11">Bahman</month>
+							<month type="12">Esfand</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<eras>
+					<eraAbbr>
+						<era type="0">AP</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateFormats"/>
+				</dateFormats>
+				<timeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
+				</timeFormats>
+				<dateTimeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+				</dateTimeFormats>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<hourFormat>+HH:mm;-HH:mm</hourFormat>
+			<hoursFormat>{0}/{1}</hoursFormat>
+			<gmtFormat>GMT{0}</gmtFormat>
+			<regionFormat>{0}</regionFormat>
+			<fallbackFormat>{0} ({1})</fallbackFormat>
+			<abbreviationFallback choice="standard" draft="unconfirmed"/>
+			<preferenceOrdering choice="" draft="unconfirmed"/>
+			<singleCountries list="Africa/Bamako America/Godthab America/Santiago America/Guayaquil Asia/Shanghai Asia/Tashkent Asia/Kuala_Lumpur Europe/Madrid Europe/Lisbon Europe/London Pacific/Auckland Pacific/Tahiti" draft="unconfirmed"/>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>.</decimal>
+			<group>,</group>
+			<list>;</list>
+			<percentSign>%</percentSign>
+			<nativeZeroDigit>0</nativeZeroDigit>
+			<patternDigit>#</patternDigit>
+			<plusSign>+</plusSign>
+			<minusSign>-</minusSign>
+			<exponential>E</exponential>
+			<perMille>‰</perMille>
+			<infinity>∞</infinity>
+			<nan>NaN</nan>
+		</symbols>
+		<decimalFormats>
+			<decimalFormatLength>
+				<decimalFormat>
+					<pattern>#,##0.###</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
+		<scientificFormats>
+			<scientificFormatLength>
+				<scientificFormat>
+					<pattern>#E0</pattern>
+				</scientificFormat>
+			</scientificFormatLength>
+		</scientificFormats>
+		<percentFormats>
+			<percentFormatLength>
+				<percentFormat>
+					<pattern>#,##0%</pattern>
+				</percentFormat>
+			</percentFormatLength>
+		</percentFormats>
+		<currencyFormats>
+			<currencySpacing>
+				<beforeCurrency>
+					<currencyMatch>[:letter:]</currencyMatch>
+					<surroundingMatch>[:digit:]</surroundingMatch>
+					<insertBetween> </insertBetween>
+				</beforeCurrency>
+				<afterCurrency>
+					<currencyMatch>[:letter:]</currencyMatch>
+					<surroundingMatch>[:digit:]</surroundingMatch>
+					<insertBetween> </insertBetween>
+				</afterCurrency>
+			</currencySpacing>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>¤ #,##0.00</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="EUR">
+				<displayName>EUR</displayName>
+				<symbol>€</symbol>
+			</currency>
+			<currency type="GBP">
+				<displayName>GBP</displayName>
+				<symbol>£</symbol>
+			</currency>
+			<currency type="INR">
+				<displayName>INR</displayName>
+				<symbol choice="true">0≤Rs.|1≤Re.|1&lt;Rs.</symbol>
+			</currency>
+			<currency type="ITL">
+				<displayName>ITL</displayName>
+				<symbol>₤</symbol>
+			</currency>
+			<currency type="JPY">
+				<displayName>JPY</displayName>
+				<symbol>¥</symbol>
+			</currency>
+			<currency type="USD">
+				<displayName>USD</displayName>
+				<symbol>$</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr>yes:y</yesstr>
+			<nostr>no:n</nostr>
+		</messages>
+	</posix>
+</ldml>

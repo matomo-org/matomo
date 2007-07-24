@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.49 $"/>
+		<generation date="$Date: 2006/06/28 21:46:02 $"/>
+		<language type="hy"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="de" draft="unconfirmed">Գերմաներեն</language>
+			<language type="en" draft="unconfirmed">Անգլերեն</language>
+			<language type="es" draft="unconfirmed">Իսպաներեն</language>
+			<language type="fr" draft="unconfirmed">Ֆրանսերեն</language>
+			<language type="hy">Հայերէն</language>
+			<language type="hy" alt="proposed-u152-1" draft="unconfirmed">Հայերեն</language>
+			<language type="it" draft="unconfirmed">Իտալերեն</language>
+			<language type="ja" draft="unconfirmed">Ճապոներեն</language>
+			<language type="pt" draft="unconfirmed">Պորտուգալերեն</language>
+			<language type="ru" draft="unconfirmed">Ռուսերեն</language>
+			<language type="zh" draft="unconfirmed">Չինարեն</language>
+		</languages>
+		<territories>
+			<territory type="001" draft="unconfirmed">Աշխարհ</territory>
+			<territory type="002" draft="unconfirmed">Աֆրիկա</territory>
+			<territory type="005" draft="unconfirmed">Հարավային Ամերիկա</territory>
+			<territory type="011" draft="unconfirmed">Արևմտյան Աֆրիկա</territory>
+			<territory type="014" draft="unconfirmed">Արևելյան Աֆրիկա</territory>
+			<territory type="015" draft="unconfirmed">Հյուսիսային Աֆրիկա</territory>
+			<territory type="018" draft="unconfirmed">Հարավային Աֆրիկա [018]</territory>
+			<territory type="AD">Անդորա</territory>
+			<territory type="AE">Միացյալ Արաբական Էմիրաթներ</territory>
+			<territory type="AF">Աֆղանստան</territory>
+			<territory type="AG">Անտիգուա-Բարբուդա</territory>
+			<territory type="AL">Ալբանիա</territory>
+			<territory type="AM">Հայաստանի Հանրապետութիւն</territory>
+			<territory type="AM" alt="proposed-u152-1" draft="unconfirmed">Հայաստան</territory>
+			<territory type="AO">Անգոլա</territory>
+			<territory type="AR">Արգենտինա</territory>
+			<territory type="AT">Ավստրիա</territory>
+			<territory type="AU">Ավստրալիա</territory>
+			<territory type="AZ">Ադրբեջան</territory>
+			<territory type="BA">Բոսնիա-Հերցեգովինա</territory>
+			<territory type="BB">Բարբադոս</territory>
+			<territory type="BD">Բանգլադեշ</territory>
+			<territory type="BE">Բելգիա</territory>
+			<territory type="BF">Բուրկինա Ֆասո</territory>
+			<territory type="BG">Բուլղարիա</territory>
+			<territory type="BH">Բահրեյն</territory>
+			<territory type="BI">Բուրունդի</territory>
+			<territory type="BJ">Բենին</territory>
+			<territory type="BN">Բրունեյ</territory>
+			<territory type="BO">Բոլիվիա</territory>
+			<territory type="BR">Բրազիլիա</territory>
+			<territory type="BS">Բահամներ</territory>
+			<territory type="BT">Բուտան</territory>
+			<territory type="BW">Բոտսվանա</territory>
+			<territory type="BY">Բելոռուս</territory>
+			<territory type="BY" alt="proposed-u152-1" draft="unconfirmed">Բելառուս</territory>
+			<territory type="BZ">Բելիզ</territory>
+			<territory type="CA">Կանադա</territory>
+			<territory type="CF">Կենտրոնական Աֆրիկյան Հանրապետություն</territory>
+			<territory type="CG">Կոնգո</territory>
+			<territory type="CH">Շվեյցարիա</territory>
+			<territory type="CI">Փղոսկրի Ափ</territory>
+			<territory type="CL">Չիլի</territory>
+			<territory type="CM">Կամերուն</territory>
+			<territory type="CN">Չինաստան</territory>
+			<territory type="CO">Կոլումբիա</territory>
+			<territory type="CR">Կոստա-Ռիկա</territory>
+			<territory type="CS" draft="unconfirmed">Սերբիա և Մոնտենեգրո</territory>
+			<territory type="CU">Կուբա</territory>
+			<territory type="CV">Կաբո-Վերդե</territory>
+			<territory type="CY">Կիպրոս</territory>
+			<territory type="CZ">Չեխիայի Հանրապետություն</territory>
+			<territory type="DE">Գերմանիա</territory>
+			<territory type="DJ">Ջիբուտի</territory>
+			<territory type="DK">Դանիա</territory>
+			<territory type="DM">Դոմինիկա</territory>
+			<territory type="DO">Դոմինիկյան Հանրապետություն</territory>
+			<territory type="DZ">Ալժիր</territory>
+			<territory type="EC">Էկվադոր</territory>
+			<territory type="EE">Էստոնիա</territory>
+			<territory type="EG">Եգիպտոս</territory>
+			<territory type="EH">Արեվմտյան Սահարա</territory>
+			<territory type="EH" alt="proposed-u152-1" draft="unconfirmed">Արևմտյան Սահարա</territory>
+			<territory type="ER">Էրիտրեա</territory>
+			<territory type="ES">Իսպանիա</territory>
+			<territory type="ET">Եթովպիա</territory>
+			<territory type="FI">Ֆինլանդիա</territory>
+			<territory type="FJ">Ֆիջի</territory>
+			<territory type="FM">Միկրոնեզիա</territory>
+			<territory type="FR">Ֆրանսիա</territory>
+			<territory type="GA">Գաբոն</territory>
+			<territory type="GB">Մեծ Բրիտանիա</territory>
+			<territory type="GB" alt="proposed-u152-1" draft="unconfirmed">Միացյալ Թագավորություն</territory>
+			<territory type="GD">Գրենադա</territory>
+			<territory type="GE">Վրաստան</territory>
+			<territory type="GH">Գանա</territory>
+			<territory type="GM">Գամբիա</territory>
+			<territory type="GN">Գվինեա</territory>
+			<territory type="GQ">Հասարակածային Գվինեա</territory>
+			<territory type="GR">Հունաստան</territory>
+			<territory type="GT">Գվատեմալա</territory>
+			<territory type="GW">Գվինեա-Բիսաու</territory>
+			<territory type="GY">Գայանա</territory>
+			<territory type="HN">Հոնդուրաս</territory>
+			<territory type="HR">Հորվաթիա</territory>
+			<territory type="HT">Հաիթի</territory>
+			<territory type="HU">Հունգարիա</territory>
+			<territory type="ID">Ինդոնեզիա</territory>
+			<territory type="IE">Իռլանդիա</territory>
+			<territory type="IL">Իսրայել</territory>
+			<territory type="IN">Հնդկաստան</territory>
+			<territory type="IQ">Իրաք</territory>
+			<territory type="IR">Իրան</territory>
+			<territory type="IS">Իսլանդիա</territory>
+			<territory type="IT">Իտալիա</territory>
+			<territory type="JM">Ջամայկա</territory>
+			<territory type="JO">Հորդանան</territory>
+			<territory type="JP">Ճապոնիա</territory>
+			<territory type="KE">Քենիա</territory>
+			<territory type="KG">Կիրգիզստան</territory>
+			<territory type="KH">Կամբոջա</territory>
+			<territory type="KI">Կիրիբատի</territory>
+			<territory type="KM">Կոմորոս</territory>
+			<territory type="KN">Սենտ Կիտս-Նեվիս</territory>
+			<territory type="KP">Հյուսիսային Կորեա</territory>
+			<territory type="KR">Հարավային Կորեա</territory>
+			<territory type="KW">Քուվեյթ</territory>
+			<territory type="KZ">Ղազախստան</territory>
+			<territory type="LA">Լաոս</territory>
+			<territory type="LB">Լիբանան</territory>
+			<territory type="LC">Սանտա Լուչիա</territory>
+			<territory type="LI">Լիխտենշտեյն</territory>
+			<territory type="LK">Շրի Լանկա</territory>
+			<territory type="LR">Լիբերիա</territory>
+			<territory type="LS">Լեսոտո</territory>
+			<territory type="LT">Լիտվա</territory>
+			<territory type="LU">Լյուքսեմբուրգ</territory>
+			<territory type="LV">Լատվիա</territory>
+			<territory type="LY">Լիբիա</territory>
+			<territory type="MA">Մարոկո</territory>
+			<territory type="MC">Մոնակո</territory>
+			<territory type="MD">Մոլդովա</territory>
+			<territory type="MG">Մադագասկար</territory>
+			<territory type="MH">Մարշալյան կղզիներ</territory>
+			<territory type="MK">Մակեդոնիա</territory>
+			<territory type="ML">Մալի</territory>
+			<territory type="MM">Մյանմա</territory>
+			<territory type="MN">Մոնղոլիա</territory>
+			<territory type="MR">Մավրիտանիա</territory>
+			<territory type="MT">Մալթա</territory>
+			<territory type="MU">Մավրիտոս</territory>
+			<territory type="MV">Մալդիվներ</territory>
+			<territory type="MW">Մալավի</territory>
+			<territory type="MX">Մեքսիկա</territory>
+			<territory type="MY">Մալայզիա</territory>
+			<territory type="MZ">Մոզամբիկ</territory>
+			<territory type="NA">Նամիբիա</territory>
+			<territory type="NE">Նիգեր</territory>
+			<territory type="NG">Նիգերիա</territory>
+			<territory type="NI">Նիկարագուա</territory>
+			<territory type="NL">Նիդերլանդեր</territory>
+			<territory type="NO">Նորվեգիա</territory>
+			<territory type="NP">Նեպալ</territory>
+			<territory type="NR">Նաուրու</territory>
+			<territory type="NZ">Նոր Զելանդիա</territory>
+			<territory type="OM">Օման</territory>
+			<territory type="PA">Պանամա</territory>
+			<territory type="PE">Պերու</territory>
+			<territory type="PG">Պապուա Նոր Գվինեա</territory>
+			<territory type="PH">Ֆիլիպիններ</territory>
+			<territory type="PK">Պակիստան</territory>
+			<territory type="PL">Լեհաստան</territory>
+			<territory type="PT">Պորտուգալիա</territory>
+			<territory type="PW">Պալաու</territory>
+			<territory type="PY">Պարագվայ</territory>
+			<territory type="QA">Կատար</territory>
+			<territory type="RO">Ռումինիա</territory>
+			<territory type="RU">Ռուսաստան</territory>
+			<territory type="RW">Ռուանդա</territory>
+			<territory type="SA">Սաուդիան Արաբիա</territory>
+			<territory type="SB">Սոլոմոնյան կղզիներ</territory>
+			<territory type="SC">Սեյշելներ</territory>
+			<territory type="SD">Սուդան</territory>
+			<territory type="SE">Շվեդիա</territory>
+			<territory type="SG">Սինգապուր</territory>
+			<territory type="SI">Սլովենիա</territory>
+			<territory type="SK">Սլովակիա</territory>
+			<territory type="SL">Սյերա-Լեոնե</territory>
+			<territory type="SM">Սան Մարինո</territory>
+			<territory type="SN">Սենեգալ</territory>
+			<territory type="SO">Սոմալի</territory>
+			<territory type="SR">Սուրինամ</territory>
+			<territory type="ST">Սան-Թոմե-Փրինսիպի</territory>
+			<territory type="SV">Սալվադոր</territory>
+			<territory type="SY">Սիրիա</territory>
+			<territory type="SZ">Սվազիլենդ</territory>
+			<territory type="TD">Չադ</territory>
+			<territory type="TG">Տոգո</territory>
+			<territory type="TH">Թաիլանդ</territory>
+			<territory type="TJ">Տաճիկստան</territory>
+			<territory type="TM">Թուրքմենստան</territory>
+			<territory type="TN">Թունիս</territory>
+			<territory type="TO">Տոնգա</territory>
+			<territory type="TR">Թուրքիա</territory>
+			<territory type="TT">Տրինիդադ-Տոբագո</territory>
+			<territory type="TV">Տուվալու</territory>
+			<territory type="TW">Թայվան</territory>
+			<territory type="TZ">Տանզանիա</territory>
+			<territory type="UA">Ուկրաինա</territory>
+			<territory type="UG">Ուգանդա</territory>
+			<territory type="US">Ամէրիկայի Միացյալ Նահանգնէր</territory>
+			<territory type="US" alt="proposed-u152-1" draft="unconfirmed">Միացյալ Նահանգներ</territory>
+			<territory type="UY">Ուրուգվայ</territory>
+			<territory type="UZ">Ուզբեկստան</territory>
+			<territory type="VA">Վատիկան</territory>
+			<territory type="VC">Սենտ Վիսենտ-Գրենադիններ</territory>
+			<territory type="VE">Վենեսուելա</territory>
+			<territory type="VN">Վիետնամ</territory>
+			<territory type="VU">Վանուատու</territory>
+			<territory type="WS">Սամոա</territory>
+			<territory type="YE">Եմեն</territory>
+			<territory type="ZA">Հարավային Աֆրիկա</territory>
+			<territory type="ZM">Զամբիա</territory>
+			<territory type="ZW">Զիմբաբվե</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[֊ ՝ ՜ ՞ ՚ ՛ ՟ ա-ե և զ-ֆ]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">Յնր</month>
+							<month type="2">Փտր</month>
+							<month type="3">Մրտ</month>
+							<month type="4">Ապր</month>
+							<month type="5">Մյս</month>
+							<month type="6">Յնս</month>
+							<month type="7">Յլս</month>
+							<month type="8">Օգս</month>
+							<month type="9">Սեպ</month>
+							<month type="10">Հոկ</month>
+							<month type="11">Նոյ</month>
+							<month type="12">Դեկ</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Յունուար</month>
+							<month type="2">Փետրուար</month>
+							<month type="3">Մարտ</month>
+							<month type="4">Ապրիլ</month>
+							<month type="5">Մայիս</month>
+							<month type="6">Յունիս</month>
+							<month type="7">Յուլիս</month>
+							<month type="8">Օգոստոս</month>
+							<month type="9">Սեպտեմբեր</month>
+							<month type="10">Հոկտեմբեր</month>
+							<month type="11">Նոյեմբեր</month>
+							<month type="12">Դեկտեմբեր</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">Կիր</day>
+							<day type="mon">Երկ</day>
+							<day type="tue">Երք</day>
+							<day type="wed">Չոր</day>
+							<day type="thu">Հնգ</day>
+							<day type="fri">Ուր</day>
+							<day type="sat">Շաբ</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">Կիրակի</day>
+							<day type="mon">Երկուշաբթի</day>
+							<day type="tue">Երեքշաբթի</day>
+							<day type="wed">Չորեքշաբթի</day>
+							<day type="thu">Հինգշաբթի</day>
+							<day type="fri">Ուրբաթ</day>
+							<day type="sat">Շաբաթ</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<am>Առ․</am>
+				<pm>Եր․</pm>
+				<eras>
+					<eraAbbr>
+						<era type="0">Յ․Տ․</era>
+						<era type="1">Ն․Ք․</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, MMMM d, yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>MMMM dd, yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>MMM d, yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>MM/dd/yy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMMMdd" draft="provisional">MMMM dd</dateFormatItem>
+						<dateFormatItem id="MMdd" draft="provisional">MM/dd</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>,</decimal>
+			<group>.</group>
+		</symbols>
+		<decimalFormats>
+			<decimalFormatLength>
+				<decimalFormat>
+					<pattern>#0.###</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
+		<percentFormats>
+			<percentFormatLength>
+				<percentFormat>
+					<pattern>#0%</pattern>
+				</percentFormat>
+			</percentFormatLength>
+		</percentFormats>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>#0.00 ¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+	</numbers>
+</ldml>

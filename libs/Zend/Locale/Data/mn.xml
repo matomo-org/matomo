@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.31 $"/>
+		<generation date="$Date: 2006/06/24 23:27:01 $"/>
+		<language type="mn"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="de">герман</language>
+			<language type="en">англи</language>
+			<language type="es">испани</language>
+			<language type="fr">франц</language>
+			<language type="it">итали</language>
+			<language type="ja">япон</language>
+			<language type="mn" draft="unconfirmed">Монгол хэл</language>
+			<language type="pt">португали</language>
+			<language type="ru">орос</language>
+			<language type="zh">хятад</language>
+		</languages>
+		<territories>
+			<territory type="BR">Бразили</territory>
+			<territory type="DE">Герман</territory>
+			<territory type="FR">Франц</territory>
+			<territory type="IN">Энэтхэг</territory>
+			<territory type="IT">Итали</territory>
+			<territory type="JP">Япон</territory>
+			<territory type="MN" draft="unconfirmed">Монгол улс</territory>
+			<territory type="RU">Орос</territory>
+			<territory type="US">Америкийн Нэгдсэн Улс</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters references="RP1">[а-е ё ж-о ө п-у ү ф-я]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" references="RP1">[ә җ ӊ һ]</exemplarCharacters>
+	</characters>
+	<delimiters>
+		<quotationStart draft="unconfirmed">‘</quotationStart>
+		<quotationEnd draft="unconfirmed">’</quotationEnd>
+		<alternateQuotationStart draft="unconfirmed">“</alternateQuotationStart>
+		<alternateQuotationEnd draft="unconfirmed">”</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">хул</month>
+							<month type="2" draft="unconfirmed">үхэ</month>
+							<month type="3" draft="unconfirmed">бар</month>
+							<month type="4" draft="unconfirmed">туу</month>
+							<month type="5" draft="unconfirmed">луу</month>
+							<month type="6" draft="unconfirmed">мог</month>
+							<month type="7" draft="unconfirmed">мор</month>
+							<month type="8" draft="unconfirmed">хон</month>
+							<month type="9" draft="unconfirmed">бич</month>
+							<month type="10" draft="unconfirmed">тах</month>
+							<month type="11" draft="unconfirmed">нох</month>
+							<month type="12" draft="unconfirmed">гах</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Хулгана</month>
+							<month type="2" draft="unconfirmed">Үхэр</month>
+							<month type="3" draft="unconfirmed">Бар</month>
+							<month type="4" draft="unconfirmed">Туулай</month>
+							<month type="5" draft="unconfirmed">Луу</month>
+							<month type="6" draft="unconfirmed">Могой</month>
+							<month type="7" draft="unconfirmed">Морь</month>
+							<month type="8" draft="unconfirmed">Хонь</month>
+							<month type="9" draft="unconfirmed">Бич</month>
+							<month type="10" draft="unconfirmed">Тахиа</month>
+							<month type="11" draft="unconfirmed">Нохой</month>
+							<month type="12" draft="unconfirmed">Гахай</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">Ня</day>
+							<day type="mon" draft="unconfirmed">Да</day>
+							<day type="tue" draft="unconfirmed">Мя</day>
+							<day type="wed" draft="unconfirmed">Лх</day>
+							<day type="thu" draft="unconfirmed">Пү</day>
+							<day type="fri" draft="unconfirmed">Ба</day>
+							<day type="sat" draft="unconfirmed">Бя</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">ням</day>
+							<day type="mon" draft="unconfirmed">даваа</day>
+							<day type="tue" draft="unconfirmed">мягмар</day>
+							<day type="wed" draft="unconfirmed">лхагва</day>
+							<day type="thu" draft="unconfirmed">пүрэв</day>
+							<day type="fri" draft="unconfirmed">баасан</day>
+							<day type="sat" draft="unconfirmed">бямба</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1" draft="unconfirmed">1/4</quarter>
+							<quarter type="2" draft="unconfirmed">2/4</quarter>
+							<quarter type="3">3/4</quarter>
+							<quarter type="4" draft="unconfirmed">4/4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1" draft="unconfirmed">дөрөвний нэг</quarter>
+							<quarter type="2" draft="unconfirmed">дөрөвний хоёр</quarter>
+							<quarter type="3" draft="unconfirmed">дөрөвний гурав</quarter>
+							<quarter type="4" draft="unconfirmed">дөрөвний дөрөв</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">манай эриний өмнөх</era>
+						<era type="1" draft="unconfirmed">манай эриний</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">м.э.ө</era>
+						<era type="1" draft="unconfirmed">м.э.</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal draft="unconfirmed">,</decimal>
+			<group draft="unconfirmed"> </group>
+		</symbols>
+		<currencies>
+			<currency type="MNT">
+				<symbol draft="unconfirmed">₮</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<references>
+		<reference type="RP1" uri="http://en.wikipedia.org/wiki/Cyrillic_alphabet">Wikipedia - Cyrillic alphabet, usage in various languages</reference>
+		<reference type="RP2" uri="http://www.omniglot.com/writing/mongolian.htm">Omniglot on Mongolian</reference>
+	</references>
+</ldml>
+

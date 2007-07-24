@@ -1,0 +1,315 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Documentation SimpleTest : les bouchons serveur</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back">
+<div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div>
+</div>
+<h1>Documentation sur les bouchons serveur</h1>
+        This page...
+        <ul>
+<li>
+            <a href="#quoi">Que sont les bouchons ?</a>
+        </li>
+<li>
+            <a href="#creation">Cr&eacute;er des bouchons serveur</a> avec SimpleTest.
+        </li>
+<li>
+            <a href="#modeles">Mod&egrave;les de simulation</a> pour simuler des interactions d'objet plus complexes.
+        </li>
+<li>
+            <a href="#options">Options &agrave; la g&eacute;n&eacute;ration</a> pour diff&eacute;rents contextes.
+        </li>
+</ul>
+<div class="content">
+        <p>
+<a class="target" name="quoi">
+<h2>Que sont les bouchons serveur ?</h2>
+</a>
+</p>
+            <p>
+                Au d&eacute;part il s'agit d'un mod&egrave;le de conception initi&eacute; par Robert Binder (Testing object-oriented systems: models, patterns, and tools, Addison-Wesley) in 1999. Un bouchon serveur est une simulation d'un objet ou d'un composant. Il doit remplacer exactement un composant dans un syst&egrave;me pour des raisons de testabilit&eacute; ou de prototypage, tout en restant l&eacute;ger. Il permet aux tests de tourner plus rapidement ou alors, si la classe simul&eacute;e n'a pas &eacute;t&eacute; &eacute;crite, juste de fonctionner.
+            </p>
+        
+        <p>
+<a class="target" name="creation">
+<h2>Cr&eacute;er des bouchons serveur</h2>
+</a>
+</p>
+            <p>
+                Nous avons juste besoin d'une classe pr&eacute;existante, par exemple une connexion vers une base de donn&eacute;es qui ressemblerait &agrave;...
+<pre>
+<strong>class DatabaseConnection {
+    function DatabaseConnection() {
+    }
+    
+    function query() {
+    }
+    
+    function selectQuery() {
+    }
+}</strong>
+</pre>
+                La classe n'a m&ecirc;me pas encore besoin d'avoir &eacute;t&eacute; impl&eacute;ment&eacute;e. Pour cr&eacute;er la version bouchonn&eacute;e de cette classe, nous incluons la librairie de bouchon serveur et ex&eacute;cutons le g&eacute;n&eacute;rateur...
+<pre>
+<strong>require_once('simpletest/mock_objects.php');
+require_once('database_connection.php');
+Stub::generate('DatabaseConnection');</strong>
+</pre>
+                Est g&eacute;n&eacute;r&eacute; un clone de la classe appel&eacute; <span class="new_code">StubDatabaseConnection</span>. Nous pouvons alors cr&eacute;er des instances de cette nouvelle classe &agrave; l'int&eacute;rieur de notre prototype de script...
+<pre>
+require_once('simpletest/mock_objects.php');
+require_once('database_connection.php');
+Stub::generate('DatabaseConnection');
+<strong>
+$connection = new StubDatabaseConnection();
+</strong>
+</pre>
+                La version bouchonn&eacute;e de la classe contient toutes les m&eacute;thodes de l'original de telle sorte qu'une op&eacute;ration comme <span class="new_code">$connection-&gt;query()</span> soit encore l&eacute;gale. La valeur retourn&eacute;e sera <span class="new_code">null</span>, Mais nous pouvons y rem&eacute;dier avec...
+<pre>
+<strong>$connection-&gt;setReturnValue('query', 37)</strong>
+</pre>
+                D&eacute;sormais &agrave; chaque appel de <span class="new_code">$connection-&gt;query()</span> nous obtenons un r&eacute;sultat de 37. Nous pouvons choisir n'importe quelle valeur pour le r&eacute;sultat, par exemple un hash de r&eacute;sultats provenant d'une base de donn&eacute;es imaginaire ou alors une liste d'objets persistants. Peu importe les param&egrave;tres, nous obtenons syst&eacute;matiquement les m&ecirc;me valeurs chaque fois qu'ils ont &eacute;t&eacute; initialis&eacute;s de la sorte : &ccedil;a ne ressemble peut-&ecirc;tre pas &agrave; une r&eacute;ponse convaincante venant d'une connexion vers une base de donn&eacute;es. Mais pour la demi-douzaine de lignes d'une m&eacute;thode de test c'est souvent largement suffisant.
+            </p>
+        
+        <p>
+<a class="target" name="mod%C3%A8les">
+<h2>Mod&egrave;les de simulation</h2>
+</a>
+</p>
+            <p>
+                Sauf que les choses ne sont que rarement aussi simples. Parmi les probl&egrave;mes les plus courants on trouve les it&eacute;rateurs : le renvoi d'une valeur constante peut causer une boucle infini dans l'objet test&eacute;. Pour ceux-ci nous avons besoin de mettre sur pied une suite de valeurs. Prenons par exemple un it&eacute;rateur simple qui ressemble &agrave;...
+<pre>
+class Iterator {
+    function Iterator() {
+    }
+    
+    function next() {
+    }
+}
+</pre>
+                C'est probablement le plus simple des it&eacute;rateurs possibles. Supposons que cet it&eacute;rateur ne retourne que du texte, jusqu'&agrave; la fin - quand il retourne <span class="new_code">false</span>. Une simulation est possible avec...
+<pre>
+<strong>Stub::generate('Iterator');
+
+$iterator = new StubIterator();
+$iterator-&gt;setReturnValue('next', false);
+$iterator-&gt;setReturnValueAt(0, 'next', 'First string');
+$iterator-&gt;setReturnValueAt(1, 'next', 'Second string');</strong>
+</pre>
+                A l'appel de <span class="new_code">next()</span> sur l'it&eacute;rateur bouchonn&eacute; il va d'abord renvoyer "First string", puis au second appel c'est "Second string" qui sera renvoy&eacute;. Finalement pour tous les autres appels, il s'agira d'un <span class="new_code">false</span>. Les valeurs renvoy&eacute;es successivement ont priorit&eacute; sur la valeur constante renvoy&eacute;. Cette derni&egrave;re est un genre de valeur par d&eacute;faut.
+            </p>
+            <p>
+                Une autre situation d&eacute;licate est une op&eacute;ration <span class="new_code">get()</span> surcharg&eacute;e. Un exemple ? Un porteur d'information avec des pairs de clef / valeur. Prenons une classe de configuration...
+<pre>
+class Configuration {
+    function Configuration() {
+    }
+    
+    function getValue($key) {
+    }
+}
+</pre>
+                Il s'agit d'une situation propice &agrave; l'utilisation d'objets bouchon, surtout que la configuration en production d&eacute;pend invariablement de la machine : l'utiliser directement ne va pas nous aider &agrave; maintenir notre confiance dans nos tests. Sauf que le probl&egrave;me tient de ce que toutes les donn&eacute;es proviennent de la m&eacute;thode <span class="new_code">getValue()</span> et que nous voulons des r&eacute;sultats diff&eacute;rents suivant la clef. Par chance les bouchons ont un syst&egrave;me de filtre...
+<pre>
+<strong>Stub::generate('Configuration');
+
+$config = &amp;new StubConfiguration();
+$config-&gt;setReturnValue('getValue', 'primary', array('db_host'));
+$config-&gt;setReturnValue('getValue', 'admin', array('db_user'));
+$config-&gt;setReturnValue('getValue', 'secret', array('db_password'));</strong>
+</pre>
+                Ce param&egrave;tre suppl&eacute;mentaire est une liste d'arguments que l'on peut utiliser. Dans ce cas nous essayons d'utiliser un unique argument, &agrave; savoir la clef recherch&eacute;e. Maintenant quand on invoque le bouchon serveur via la m&eacute;thode <span class="new_code">getValue()</span> avec...
+<pre>
+$config-&gt;getValue('db_user');
+</pre>
+                ...il renvoie "admin". Il le trouve en essayant d'assortir successivement les arguments d'entr&eacute;e avec sa liste de ceux de sortie jusqu'au moment o&ugrave; une correspondance exacte est trouv&eacute;e.
+            </p>
+            <p>
+                Vous pouvez d&eacute;finir un argument par d&eacute;faut avec...
+<pre>
+<strong>
+$config-&gt;setReturnValue('getValue', false, array('*'));</strong>
+</pre>
+                Attention ce n'est pas &eacute;quivalent &agrave; initialiser la valeur retourn&eacute;e sans aucun argument.
+<pre>
+<strong>
+$config-&gt;setReturnValue('getValue', false);</strong>
+</pre>
+                Dans le premier cas il acceptera n'importe quel argument, mais exactement un -- pas plus -- est n&eacute;cessaire. Dans le second cas n'importe quel nombre d'arguments fera l'affaire : il agit comme un <cite>catchall</cite> apr&egrave;s tous les correspondances. Prenez garde &agrave; l'ordre : si nous ajoutons un autre param&egrave;tre apr&egrave;s le joker ('*') il sera ignor&eacute; puisque le joker aura &eacute;t&eacute; trouv&eacute; auparavant. Avec des listes de param&egrave;tres complexes l'ordre peut devenir crucial, au risque de perdre des correspondances souhait&eacute;es, masqu&eacute;es par un joker ant&eacute;rieur. Pensez &agrave; mettre d'abord les cas les plus sp&eacute;cifiques si vous n'&ecirc;tes pas s&ucirc;r.
+            </p>
+            <p>
+                Il y a des fois o&ugrave; l'on souhaite qu'un objet sp&eacute;cifique soit servi par le bouchon plut&ocirc;t qu'une simple copie. La s&eacute;mantique de la copie en PHP nous force &agrave; utiliser une autre m&eacute;thode pour cela. Vous &ecirc;tes peut-&ecirc;tre en train de simuler un conteneur par exemple...
+<pre>
+class Thing {
+}
+
+class Vector {
+    function Vector() {
+    }
+    
+    function get($index) {
+    }
+}
+</pre>
+                Dans ce cas vous pouvez mettre une r&eacute;f&eacute;rence dans la liste renvoy&eacute;e par le bouchon...
+<pre>
+Stub::generate('Vector');
+
+$thing = new Thing();<strong>
+$vector = &amp;new StubVector();
+$vector-&gt;setReturnReference('get', $thing, array(12));</strong>
+</pre>
+                Avec ce petit arrangement vous vous assurez qu'&agrave; chaque fois que <span class="new_code">$vector-&gt;get(12)</span> est appel&eacute; il renverra le m&ecirc;me <span class="new_code">$thing</span>.
+            </p>
+            <p>
+                Ces trois facteurs, ordre, param&egrave;tres et copie (ou r&eacute;f&eacute;rence), peuvent &ecirc;tre combin&eacute;s orthogonalement. Par exemple...
+<pre>
+$complex = &amp;new StubComplexThing();
+$stuff = new Stuff();<strong>
+$complex-&gt;setReturnReferenceAt(3, 'get', $stuff, array('*', 1));</strong>
+</pre>
+                Le <span class="new_code">$stuff</span> ne sera renvoy&eacute; qu'au troisi&egrave;me appel et seulement si deux param&egrave;tres &eacute;taient indiqu&eacute;s, avec la contrainte que le second de ceux-ci soit l'entier 1. N'est-ce pas suffisant pour des situations de prototypage simple ?
+            </p>
+            <p>
+                Un dernier cas critique reste celle d'un objet en cr&eacute;ant un autre, connu sous le nom du mod&egrave;le factory - fabrique. Supposons qu'apr&egrave;s une requ&ecirc;te r&eacute;ussie &agrave; notre base de donn&eacute;es imaginaire, un ensemble de r&eacute;sultats est retourn&eacute; sous la forme d'un it&eacute;rateur, chaque appel &agrave; <span class="new_code">next()</span> donnant une ligne et &agrave; la fin un <span class="new_code">false</span>.
+                Au premier abord, &ccedil;a donne l'impression d'&ecirc;tre cauchemardesque &agrave; simuler. Alors qu'en fait tout peut &ecirc;tre bouchonn&eacute; en utilisant les m&eacute;canismes ci-dessus.
+            </p>
+            <p>
+                Voici comment...
+<pre>
+Stub::generate('DatabaseConnection');
+Stub::generate('ResultIterator');
+
+class DatabaseTest extends UnitTestCase {
+    
+    function testUserFinder() {<strong>
+        $result = &amp;new StubResultIterator();
+        $result-&gt;setReturnValue('next', false);
+        $result-&gt;setReturnValueAt(0, 'next', array(1, 'tom'));
+        $result-&gt;setReturnValueAt(1, 'next', array(3, 'dick'));
+        $result-&gt;setReturnValueAt(2, 'next', array(6, 'harry'));
+        
+        $connection = &amp;new StubDatabaseConnection();
+        $connection-&gt;setReturnValue('query', false);
+        $connection-&gt;setReturnReference(
+                'query',
+                $result,
+                array('select id, name from users'));</strong>
+                
+        $finder = &amp;new UserFinder($connection);
+        $this-&gt;assertIdentical(
+                $finder-&gt;findNames(),
+                array('tom', 'dick', 'harry'));
+    }
+}
+</pre>
+                D&eacute;sormais ce n'est que si notre <span class="new_code">$connection</span> est appel&eacute; avec la bonne <span class="new_code">query()</span> que le <span class="new_code">$result</span> sera renvoy&eacute; apr&egrave;s le troisi&egrave;me appel &agrave; <span class="new_code">next()</span>. Cela devrait &ecirc;tre suffisant pour que notre classe <span class="new_code">UserFinder</span>, la classe effectivement test&eacute;e &agrave; ce niveau, puisse s'ex&eacute;cuter comme il faut. Un test tr&egrave;s pr&eacute;cis et pas une seule base de donn&eacute;es &agrave; l'horizon.
+            </p>
+        
+        <p>
+<a class="target" name="options">
+<h2>Options de cr&eacute;ation pour les bouchons</h2>
+</a>
+</p>
+            <p>
+                Il y a d'autres options additionnelles &agrave; la cr&eacute;ation d'un bouchon. Au moment de la g&eacute;n&eacute;ration nous pouvons changer le nom de la classe...
+<pre>
+<strong>Stub::generate('Iterator', 'MyStubIterator');
+$iterator = &amp;new MyStubIterator();
+</strong>
+</pre>
+                Pris tout seul ce n'est pas tr&egrave;s utile &eacute;tant donn&eacute; qu'il n'y aurait pas de diff&eacute;rence entre cette classe et celle par d&eacute;faut -- &agrave; part le nom bien entendu. Par contre nous pouvons aussi lui ajouter d'autres m&eacute;thodes qui ne se trouveraient pas dans l'interface originale...
+<pre>
+class Iterator {
+}
+<strong>Stub::generate('Iterator', 'PrototypeIterator', array('next', 'isError'));
+$iterator = &amp;new PrototypeIterator();
+$iterator-&gt;setReturnValue('next', 0);
+</strong>
+</pre>
+                Les m&eacute;thodes <span class="new_code">next()</span> et <span class="new_code">isError()</span> peuvent maintenant renvoyer des ensembles de valeurs exactement comme si elles existaient dans la classe originale.
+            </p>
+            <p>
+                Un moyen encore plus &eacute;sot&eacute;rique de modifier les bouchons est de changer le joker utilis&eacute; par d&eacute;faut pour la correspondance des param&egrave;tres.
+<pre>
+<strong>Stub::generate('Connection');
+$iterator = &amp;new StubConnection('wild');
+$iterator-&gt;setReturnValue('query', array('id' =&gt; 33), array('wild'));
+</strong>
+</pre>
+                L'unique raison valable pour effectuer cette op&eacute;ration, c'est quand vous souhaitez tester la cha&icirc;ne "*" sans pour autant l'interpr&eacute;ter comme un "n'importe lequel".
+            </p>
+        
+    </div>
+        References and related information...
+        <ul>
+<li>
+            La page du projet SimpleTest sur <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            La page de t&eacute;l&eacute;chargement de SimpleTest sur <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </li>
+<li>
+            <a href="http://simpletest.sourceforge.net/">L'API compl&egrave;te pour SimpleTest</a> g&eacute;n&eacute;r&eacute;e par PHPDoc.
+        </li>
+</ul>
+<div class="menu_back">
+<div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div>
+</div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>

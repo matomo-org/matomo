@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.28 $"/>
+		<generation date="$Date: 2006/08/04 21:50:49 $"/>
+		<language type="ml"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="aa" draft="provisional">അഫാര്‍</language>
+			<language type="ab" draft="provisional">അബ്ഖാസിയന്‍</language>
+			<language type="af" draft="provisional">ആഫ്രിക്കന്‍</language>
+			<language type="am" draft="provisional">അംഹാറിക്</language>
+			<language type="ar" draft="provisional">അറബിക്ക്</language>
+			<language type="as" draft="provisional">ആസ്സാമീസ്</language>
+			<language type="ay" draft="provisional">അയ്മാറ</language>
+			<language type="az" draft="provisional">അസര്‍ബൈജാനി</language>
+			<language type="ba" draft="provisional">ബഷ്ഖിര്‍</language>
+			<language type="be" draft="provisional">ബൈലോറഷ്യന്‍</language>
+			<language type="bh" draft="provisional">ബീഹാറി</language>
+			<language type="bi" draft="provisional">ബിസ്‌ലാമ</language>
+			<language type="bn" draft="provisional">ബംഗാളി</language>
+			<language type="bo" draft="unconfirmed">തിബറ്റന്‍</language>
+			<language type="br" draft="provisional">ബ്രിട്ടണ്‍</language>
+			<language type="ca" draft="provisional">ക്യാറ്റലന്‍</language>
+			<language type="co" draft="provisional">കോര്‍സിക്കന്‍</language>
+			<language type="cs" draft="provisional">ചെക്ക്</language>
+			<language type="cy" draft="unconfirmed">വെല്‍ഷ്</language>
+			<language type="da" draft="provisional">ഡാനിഷ്</language>
+			<language type="de" draft="provisional">ജര്‍മ്മന്‍</language>
+			<language type="dz" draft="provisional">ഭൂട്ടാനി</language>
+			<language type="el" draft="provisional">ഗ്രീക്ക്</language>
+			<language type="en" draft="provisional">ഇംഗ്ലീഷ്</language>
+			<language type="es" draft="unconfirmed">സ്പാനിഷ്</language>
+			<language type="et" draft="provisional">എസ്റ്റോണിയന്‍</language>
+			<language type="eu" draft="provisional">ബാസ്ക്ക്</language>
+			<language type="fa" draft="unconfirmed">പേര്‍ഷ്യന്‍</language>
+			<language type="fi" draft="provisional">ഫിന്നിഷ്</language>
+			<language type="fj" draft="provisional">ഫിജിയന്‍</language>
+			<language type="fo" draft="provisional">ഫാറോസ്</language>
+			<language type="fr" draft="provisional">ഫ്രഞ്ച്</language>
+			<language type="fy" draft="unconfirmed">ഫ്രീസിയന്‍</language>
+			<language type="ga" draft="provisional">ഐറിഷ്</language>
+			<language type="gd" draft="unconfirmed">സ്കോട്ടിഷ് ഗൈലിക്</language>
+			<language type="gl" draft="provisional">ഗലിഷ്യണ്‍</language>
+			<language type="gn" draft="provisional">ഗ്വാറാനി</language>
+			<language type="gu" draft="provisional">ഗുജറാത്തി</language>
+			<language type="ha" draft="provisional">ഹൌസ</language>
+			<language type="he" draft="provisional">ഹിബ്രു</language>
+			<language type="hr" draft="provisional">ക്രോയേഷ്യന്‍</language>
+			<language type="hu" draft="provisional">ഹംഗേറിയന്‍</language>
+			<language type="hy" draft="provisional">അര്‍മേനിയന്‍</language>
+			<language type="ia" draft="provisional">ഇന്‍റര്‍ലിംഗ്വാ</language>
+			<language type="id" draft="provisional">ഇന്‍ഡോനേഷ്യന്‍</language>
+			<language type="ie" draft="provisional">ഇന്‍റര്‍ലിംഗ്വി</language>
+			<language type="ik" draft="provisional">ഇനുപിയാക്</language>
+			<language type="is" draft="provisional">ഐസ്‌ലാന്‍ഡിക്</language>
+			<language type="it" draft="provisional">ഇറ്റാലിയന്‍</language>
+			<language type="iu" draft="provisional">ഇനുക്റ്റിറ്റട്ട്</language>
+			<language type="ja" draft="provisional">ജാപ്പനീസ്</language>
+			<language type="jv" draft="provisional">ജാവാനീസ്</language>
+			<language type="ka" draft="provisional">ജോര്‍ജിയന്‍</language>
+			<language type="kk" draft="provisional">കസാഖ്</language>
+			<language type="kn" draft="provisional">കന്നഡ</language>
+			<language type="ko" draft="provisional">കൊറിയന്‍</language>
+			<language type="kok" draft="provisional">കൊങ്കണി</language>
+			<language type="ks" draft="provisional">കാശ്മീരി</language>
+			<language type="ku" draft="provisional">കുര്‍ദിഷ്</language>
+			<language type="ky" draft="provisional">കിര്‍ഗിസ്</language>
+			<language type="la" draft="provisional">ലാറ്റിന്‍</language>
+			<language type="ln" draft="provisional">ലിംഗാല</language>
+			<language type="lo" draft="provisional">ലാവോത്യന്‍</language>
+			<language type="lt" draft="provisional">ലിത്വാനിയന്‍</language>
+			<language type="mg" draft="provisional">മലഗാസി</language>
+			<language type="mi" draft="provisional">മൌറി</language>
+			<language type="mk" draft="provisional">മാസിഡോണിയന്‍</language>
+			<language type="ml" draft="unconfirmed">മലയാളം</language>
+			<language type="mn" draft="provisional">മംഗോളിയന്‍</language>
+			<language type="mo" draft="provisional">മൊള്‍ഡോവന്‍</language>
+			<language type="mr" draft="provisional">മറാഠി</language>
+			<language type="ms" draft="provisional">മലയ</language>
+			<language type="mt" draft="provisional">മാള്‍ട്ടീസ്</language>
+			<language type="my" draft="provisional">ബര്‍മീസ്</language>
+			<language type="na" draft="provisional">നൌറു</language>
+			<language type="ne" draft="provisional">നേപ്പാളി</language>
+			<language type="nl" draft="provisional">ഡച്ച്</language>
+			<language type="no" draft="provisional">നോര്‍വീജിയന്‍</language>
+			<language type="oc" draft="unconfirmed">ഒസിറ്റാന്‍</language>
+			<language type="om" draft="provisional">ഒറോമിംഗ</language>
+			<language type="or" draft="provisional">ഒറിയ</language>
+			<language type="pa" draft="unconfirmed">പഞ്ചാബി</language>
+			<language type="pl" draft="unconfirmed">പോളിഷ്</language>
+			<language type="ps" draft="provisional">പഷ്തു</language>
+			<language type="pt" draft="unconfirmed">പോര്‍ച്ചുഗീസ്</language>
+			<language type="qu" draft="unconfirmed">ക്വെച്ചുവ</language>
+			<language type="rm" draft="unconfirmed">രഹയ്ട്ടോ-റോമന്‍സ്</language>
+			<language type="rn" draft="unconfirmed">കിറുണ്ടി</language>
+			<language type="ro" draft="unconfirmed">റൊമാനിയന്‍</language>
+			<language type="root" draft="unconfirmed">ശിഖര്‍</language>
+			<language type="ru" draft="unconfirmed">റഷ്യന്‍</language>
+			<language type="rw" draft="provisional">കിന്യര്‍വണ്ട</language>
+			<language type="sa" draft="unconfirmed">സംസ്കൃതം</language>
+			<language type="sd" draft="unconfirmed">സിന്ധി</language>
+			<language type="sg" draft="unconfirmed">സാങ്കോ</language>
+			<language type="si" draft="unconfirmed">സിംഹളീസ്</language>
+			<language type="sk" draft="unconfirmed">സ്ലോവാക്ക്</language>
+			<language type="sl" draft="unconfirmed">സ്ലോവേനിയന്‍</language>
+			<language type="sm" draft="unconfirmed">സമോവന്‍</language>
+			<language type="sn" draft="unconfirmed">ഷോണാ</language>
+			<language type="so" draft="unconfirmed">സോമാലി</language>
+			<language type="sq" draft="provisional">അല്‍ബേനിയന്‍</language>
+			<language type="sr" draft="unconfirmed">സെര്‍ബിയന്‍</language>
+			<language type="ss" draft="unconfirmed">സ്വാസി</language>
+			<language type="st" draft="unconfirmed">സെസോത്തോ</language>
+			<language type="su" draft="unconfirmed">സുഡാനീസ്</language>
+			<language type="sv" draft="unconfirmed">സ്വീഡിഷ്</language>
+			<language type="sw" draft="unconfirmed">സ്വാഹിലി</language>
+			<language type="ta" draft="unconfirmed">തമിഴ്</language>
+			<language type="te" draft="unconfirmed">തെലുഗു</language>
+			<language type="tg" draft="unconfirmed">താജിക്</language>
+			<language type="th" draft="unconfirmed">തായ്</language>
+			<language type="ti" draft="unconfirmed">തിഗ്രിഗ്‌നാ</language>
+			<language type="tk" draft="unconfirmed">തുര്‍ക്കമന്‍</language>
+			<language type="tl" draft="unconfirmed">തഗാലോഗ്</language>
+			<language type="tn" draft="unconfirmed">സെറ്റ്സ്വാന</language>
+			<language type="to" draft="unconfirmed">ടോംഗന്‍</language>
+			<language type="tr" draft="unconfirmed">ടര്‍ക്കിഷ്</language>
+			<language type="ts" draft="unconfirmed">ഷോണ</language>
+			<language type="tt" draft="unconfirmed">റ്റാറ്റര്‍</language>
+			<language type="tw" draft="unconfirmed">ത്വവി</language>
+			<language type="ug" draft="unconfirmed">ഉയ്ഘുര്‍</language>
+			<language type="uk" draft="unconfirmed">ഉക്രേനിയന്‍</language>
+			<language type="ur" draft="unconfirmed">ഉറുദു</language>
+			<language type="uz" draft="unconfirmed">ഉസ്ബക്</language>
+			<language type="vi" draft="unconfirmed">വിയറ്റ്നാമീസ്</language>
+			<language type="vo" draft="unconfirmed">വോളാപുക്</language>
+			<language type="wo" draft="unconfirmed">വൊളോഫ്</language>
+			<language type="xh" draft="unconfirmed">ക്ഷോസാ</language>
+			<language type="yi" draft="unconfirmed">യിദ്ദിഷ്</language>
+			<language type="yo" draft="unconfirmed">യൊറൂബാ</language>
+			<language type="za" draft="unconfirmed">സ്വാംഗ്</language>
+			<language type="zh" draft="provisional">ചൈനീസ്</language>
+			<language type="zu" draft="unconfirmed">സുളു</language>
+		</languages>
+		<scripts>
+			<script type="Arab" draft="provisional">അറബിക്ക്</script>
+			<script type="Beng" draft="provisional">ബംഗാളി</script>
+			<script type="Gujr" draft="provisional">ഗുജറാത്തി</script>
+			<script type="Hant" draft="provisional">ചൈനയുടെ പ്രാചീന ലിപി</script>
+			<script type="Hira" draft="provisional">ഹിബ്രു</script>
+			<script type="Knda" draft="provisional">കന്നഡ</script>
+			<script type="Latn" draft="provisional">ലാറ്റിന്‍</script>
+			<script type="Mlym" draft="provisional">മലയാളം</script>
+			<script type="Orya" draft="provisional">ഒറിയ</script>
+			<script type="Taml" draft="provisional">തമിഴ്</script>
+		</scripts>
+		<territories>
+			<territory type="002" draft="provisional">ആഫ്രിക്ക</territory>
+			<territory type="005" draft="unconfirmed">ദക്ഷിണ അമേരിക്ക</territory>
+			<territory type="011" draft="unconfirmed">പശ്ചിമആഫ്രിക്ക</territory>
+			<territory type="013" draft="provisional">മദ്ധ്യഅമേരിക്ക</territory>
+			<territory type="015" draft="unconfirmed">ഉത്തരആഫ്രിക്ക</territory>
+			<territory type="017" draft="unconfirmed">മദ്ധ്യആഫ്രിക്ക</territory>
+			<territory type="019" draft="provisional">അമേരിക്കസ്</territory>
+			<territory type="029" draft="provisional">കരീബിയന്‍</territory>
+			<territory type="142" draft="provisional">ഏഷ്യ</territory>
+			<territory type="150" draft="provisional">യൂറോപ്പ്</territory>
+			<territory type="AD" draft="provisional">അന്‍ടോറ</territory>
+			<territory type="AE" draft="unconfirmed">സംയുക്ത അറബ് രാഷ്ട്രം</territory>
+			<territory type="AF" draft="provisional">അഫ്ഗാനിസ്ഥാന്‍</territory>
+			<territory type="AG" draft="provisional">ആന്‍റിഗ്വ ആന്‍റ് ബര്‍ബുഡ</territory>
+			<territory type="AL" draft="provisional">അല്‍ബേനിയ</territory>
+			<territory type="AM" draft="provisional">അര്‍മേനിയ</territory>
+			<territory type="AO" draft="provisional">അംഗോള</territory>
+			<territory type="AQ" draft="provisional">അന്‍റാര്‍ട്ടിക്ക</territory>
+			<territory type="AR" draft="provisional">അര്‍ജന്‍റീന</territory>
+			<territory type="AT" draft="provisional">ഓസ്ട്രിയ</territory>
+			<territory type="AU" draft="provisional">ഓസ്ട്രേലിയ</territory>
+			<territory type="AZ" draft="provisional">അസര്‍ബൈജാന്‍</territory>
+			<territory type="BA" draft="provisional">ബോസ്നിയ ഹെര്‍സഗോവിന</territory>
+			<territory type="BB" draft="provisional">ബാര്‍ബഡോസ്</territory>
+			<territory type="BD" draft="provisional">ബംഗ്ലാദേശ്</territory>
+			<territory type="BE" draft="provisional">ബെല്‍ജിയം</territory>
+			<territory type="BF" draft="provisional">ബുര്‍ക്കിനാ ഫാസോ</territory>
+			<territory type="BG" draft="provisional">ബള്‍ഗേറിയ</territory>
+			<territory type="BH" draft="provisional">ബഹ്റൈന്‍</territory>
+			<territory type="BI" draft="provisional">ബുറുണ്ടി</territory>
+			<territory type="BJ" draft="provisional">ബെനിന്‍</territory>
+			<territory type="BM" draft="provisional">ബര്‍മുഡ</territory>
+			<territory type="BN" draft="provisional">ബ്രൂണയ്</territory>
+			<territory type="BO" draft="provisional">ബൊളീവിയ</territory>
+			<territory type="BR" draft="provisional">ബ്രസീല്‍</territory>
+			<territory type="BS" draft="provisional">ബഹാമാസ്</territory>
+			<territory type="BT" draft="provisional">ഭൂട്ടാന്‍</territory>
+			<territory type="BW" draft="provisional">ബോട്സ്വാന</territory>
+			<territory type="BY" draft="provisional">ബെലറൂസ്</territory>
+			<territory type="BZ" draft="provisional">ബെലീസ്</territory>
+			<territory type="CA" draft="provisional">കനഡ</territory>
+			<territory type="CC" draft="provisional">കോക്കസ്</territory>
+			<territory type="CF" draft="provisional">സെന്‍ട്രല്‍ ആഫ്രിക്കന്‍ റിപ്പബ്ലിക്</territory>
+			<territory type="CG" draft="provisional">കോംഗോ</territory>
+			<territory type="CH" draft="unconfirmed">സ്വിറ്റ്സര്‍ലന്‍ഡ്</territory>
+			<territory type="CI" draft="unconfirmed">ഐവറി കോസ്റ്റ്</territory>
+			<territory type="CL" draft="provisional">ചിലി</territory>
+			<territory type="CM" draft="provisional">കാമറൂണ്‍</territory>
+			<territory type="CN" draft="provisional">ചൈന</territory>
+			<territory type="CO" draft="provisional">കൊളംബിയ</territory>
+			<territory type="CR" draft="provisional">കോസ്റ്ററിക്ക</territory>
+			<territory type="CU" draft="provisional">ക്യൂബ</territory>
+			<territory type="CV" draft="provisional">കേപ്പ് വെര്‍ഡെ</territory>
+			<territory type="CY" draft="provisional">സൈപ്രസ്സ്</territory>
+			<territory type="CZ" draft="provisional">ചെക്ക് റിപ്പബ്ലിക്</territory>
+			<territory type="DE" draft="provisional">ജര്‍മനി</territory>
+			<territory type="DJ" draft="provisional">ജിബൂട്ടി</territory>
+			<territory type="DK" draft="provisional">ഡെന്മാര്‍ക്ക്</territory>
+			<territory type="DM" draft="provisional">ഡൊമിനിക്ക</territory>
+			<territory type="DO" draft="provisional">ഡൊമിനിക്കന്‍ റിപ്പബ്ലിക്</territory>
+			<territory type="DZ" draft="provisional">അല്‍ജീറിയ</territory>
+			<territory type="EC" draft="provisional">ഇക്വഡോര്‍</territory>
+			<territory type="EE" draft="provisional">എസ്റ്റോണിയ‍</territory>
+			<territory type="EG" draft="provisional">ഈജിപ്ത്</territory>
+			<territory type="EH" draft="unconfirmed">പശ്ചിമ സഹാറ</territory>
+			<territory type="ER" draft="provisional">എരിട്രിയ</territory>
+			<territory type="ES" draft="unconfirmed">സ്പെയ്ന്‍</territory>
+			<territory type="ET" draft="provisional">എത്യോപ്യ</territory>
+			<territory type="FI" draft="provisional">ഫിന്‍ലാന്‍ഡ്</territory>
+			<territory type="FJ" draft="provisional">ഫിജി</territory>
+			<territory type="FR" draft="provisional">ഫ്രാന്‍സ്</territory>
+			<territory type="GB" draft="unconfirmed">ബ്രിട്ടന്‍</territory>
+			<territory type="GD" draft="provisional">ഗ്രനേഡ</territory>
+			<territory type="GE" draft="provisional">ജോര്‍ജിയ</territory>
+			<territory type="GI" draft="provisional">ജിബ്രിള്‍ട്ടര്‍</territory>
+			<territory type="GL" draft="provisional">ഗ്രീന്‍ലാന്‍റ്</territory>
+			<territory type="GM" draft="provisional">ഗാംബിയ</territory>
+			<territory type="GR" draft="provisional">ഗ്രീസ്</territory>
+			<territory type="GT" draft="provisional">ഗ്വാട്ടിമാലാ</territory>
+			<territory type="GW" draft="provisional">ഗിനി-ബിസോ</territory>
+			<territory type="GY" draft="provisional">ഗയാന</territory>
+			<territory type="HR" draft="provisional">ക്രൊയേഷ്യ</territory>
+			<territory type="HT" draft="provisional">ഹൈയ്തി</territory>
+			<territory type="HU" draft="provisional">ഹംഗറി</territory>
+			<territory type="IE" draft="provisional">ഐയര്‍ലാന്‍റ്</territory>
+			<territory type="IL" draft="unconfirmed">ഇസ്രായേല്‍</territory>
+			<territory type="IN">ഇന്ത്യ</territory>
+			<territory type="IQ" draft="provisional">ഇറാക്ക്</territory>
+			<territory type="IR" draft="provisional">ഇറാന്‍</territory>
+			<territory type="IT" draft="unconfirmed">ഇറ്റലി</territory>
+			<territory type="JM" draft="unconfirmed">ജമൈക്ക</territory>
+			<territory type="JO" draft="unconfirmed">ജോര്‍ദ്ദാന്‍</territory>
+			<territory type="JP" draft="unconfirmed">ജപ്പാന്‍</territory>
+			<territory type="KE" draft="unconfirmed">കെനിയ</territory>
+			<territory type="KG" draft="unconfirmed">കിര്‍ഗിസ്ഥാന്‍</territory>
+			<territory type="KH" draft="provisional">കംബോഡിയ</territory>
+			<territory type="KI" draft="unconfirmed">കിരിബാത്തി</territory>
+			<territory type="KP" draft="unconfirmed">ഉത്തരകൊറിയ</territory>
+			<territory type="KR" draft="unconfirmed">ദക്ഷിണകൊറിയ</territory>
+			<territory type="KW" draft="unconfirmed">കുവൈറ്റ്</territory>
+			<territory type="KZ" draft="unconfirmed">കസാഖ്സ്ഥാന്‍</territory>
+			<territory type="LA" draft="unconfirmed">ലാവോസ്</territory>
+			<territory type="LB" draft="unconfirmed">ലബനന്‍</territory>
+			<territory type="LK" draft="unconfirmed">ശ്രീലങ്ക</territory>
+			<territory type="LR" draft="unconfirmed">ലൈബീരിയ</territory>
+			<territory type="LS" draft="unconfirmed">ലെസോത്തോ</territory>
+			<territory type="LT" draft="unconfirmed">ലിത്വാനിയ</territory>
+			<territory type="LU" draft="unconfirmed">ലക്സംബര്‍ഗ്</territory>
+			<territory type="LY" draft="unconfirmed">ലിബിയ</territory>
+			<territory type="MA" draft="unconfirmed">മൊറോക്കൊ</territory>
+			<territory type="MC" draft="unconfirmed">മൊണോക്കൊ</territory>
+			<territory type="MG" draft="unconfirmed">മഡഗാസ്കര്‍</territory>
+			<territory type="ML" draft="unconfirmed">മാലി</territory>
+			<territory type="MM" draft="unconfirmed">മ്യാന്‍മാര്‍</territory>
+			<territory type="MN" draft="unconfirmed">മംഗോളിയ</territory>
+			<territory type="MT" draft="unconfirmed">മാള്‍ട്ട</territory>
+			<territory type="MX" draft="unconfirmed">മേക്സിക്കോ</territory>
+			<territory type="MY" draft="unconfirmed">മലേഷ്യ</territory>
+			<territory type="MZ" draft="unconfirmed">മൊസാംബിക്ക്</territory>
+			<territory type="NA" draft="unconfirmed">നമീബിയ</territory>
+			<territory type="NE" draft="unconfirmed">നൈഗര്‍</territory>
+			<territory type="NG" draft="unconfirmed">നൈജീരിയ</territory>
+			<territory type="NP" draft="unconfirmed">നേപ്പാള്‍</territory>
+			<territory type="PA" draft="unconfirmed">പനാമ</territory>
+			<territory type="PE" draft="unconfirmed">പെറു</territory>
+			<territory type="PH" draft="unconfirmed">ഫിലിപ്പൈന്‍സ്</territory>
+			<territory type="PK" draft="unconfirmed">പാക്കിസ്ഥാന്‍</territory>
+			<territory type="PT" draft="unconfirmed">പോര്‍ച്ചുഗല്‍</territory>
+			<territory type="QA" draft="unconfirmed">ഖത്തര്‍</territory>
+			<territory type="RU" draft="unconfirmed">റഷ്യ</territory>
+			<territory type="SD" draft="unconfirmed">സുഡാന്‍</territory>
+			<territory type="SE" draft="unconfirmed">സ്വീഡന്‍</territory>
+			<territory type="SG" draft="unconfirmed">സിംഗപ്പുര്‍</territory>
+			<territory type="SN" draft="unconfirmed">സെനഗല്‍</territory>
+			<territory type="SO" draft="unconfirmed">സോമാലിയ</territory>
+			<territory type="SY" draft="unconfirmed">സിറിയ</territory>
+			<territory type="TL" draft="provisional">കിഴക്കന്‍ തിമുര്‍</territory>
+			<territory type="TV" draft="unconfirmed">തുവാലു</territory>
+			<territory type="US" draft="unconfirmed">യുണൈറ്റഡ് സ്റ്റേറ്റ്സ് ഓഫ് അമേരിക്ക</territory>
+			<territory type="VA" draft="unconfirmed">വത്തിക്കാന്‍</territory>
+			<territory type="VN" draft="unconfirmed">വിയറ്റ്നാം</territory>
+			<territory type="ZM" draft="unconfirmed">സാംബിയ</territory>
+			<territory type="ZW" draft="unconfirmed">സിംബാവെ</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[അ-ഋ ൠ ഌ ൡ എ-ഐ ഒ-ന പ-ര ല വ ള ഴ റ ശ-ഹ ഃ ം ാ-ൃ െ-ൈ ൊ-് ൗ]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">ജനു</month>
+							<month type="2" draft="unconfirmed">ഫിബ്</month>
+							<month type="3" draft="unconfirmed">മാറ്അ</month>
+							<month type="4" draft="unconfirmed">ഏപ്റില്അ</month>
+							<month type="5" draft="unconfirmed">മെയ്</month>
+							<month type="6" draft="unconfirmed">ജൂണ്അ</month>
+							<month type="7" draft="unconfirmed">ജൂൈല</month>
+							<month type="8" draft="unconfirmed">ആഗ</month>
+							<month type="9" draft="unconfirmed">സെപ്തം</month>
+							<month type="10" draft="unconfirmed">ഒക്ട</month>
+							<month type="11" draft="unconfirmed">നവം</month>
+							<month type="12" draft="unconfirmed">ഡിസം</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">ജനുവരി</month>
+							<month type="2" draft="unconfirmed">ഫിബ്റവരി</month>
+							<month type="3" draft="unconfirmed">മാറ്അച്അച്</month>
+							<month type="4" draft="unconfirmed">ഏപ്റില്അ</month>
+							<month type="5" draft="unconfirmed">മെയ്</month>
+							<month type="6" draft="unconfirmed">ജൂണ്അ</month>
+							<month type="7" draft="unconfirmed">ജൂൈല</month>
+							<month type="8" draft="unconfirmed">ആഗസ്ത്അ</month>
+							<month type="9" draft="unconfirmed">സെപ്തംബറ്അ</month>
+							<month type="10" draft="unconfirmed">ഒക്ടൈബറ്അ</month>
+							<month type="11" draft="unconfirmed">നവംബറ്അ</month>
+							<month type="12" draft="unconfirmed">ഡിസംബറ്അ</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">ഞാ</day>
+							<day type="mon" draft="unconfirmed">തി</day>
+							<day type="tue" draft="unconfirmed">ചൊ</day>
+							<day type="wed" draft="unconfirmed">ബു</day>
+							<day type="thu" draft="unconfirmed">വ്യ</day>
+							<day type="fri" draft="unconfirmed">വെ</day>
+							<day type="sat" draft="unconfirmed">ശ</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">ഞായറ്അ</day>
+							<day type="mon" draft="unconfirmed">തിങ്കള്അ</day>
+							<day type="tue" draft="unconfirmed">ചൊവ്വ</day>
+							<day type="wed" draft="unconfirmed">ബുനഭ്അ</day>
+							<day type="thu" draft="unconfirmed">വ്യാഴം</day>
+							<day type="fri" draft="unconfirmed">വെള്ളി</day>
+							<day type="sat" draft="unconfirmed">ശനി</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<am draft="unconfirmed">രാവിലെ</am>
+				<pm draft="unconfirmed">വൈകു</pm>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<symbols>
+			<nativeZeroDigit draft="unconfirmed">൦</nativeZeroDigit>
+		</symbols>
+		<currencies>
+			<currency type="AED">
+				<displayName draft="provisional">യുഎഇ ദിര്‍ഹം</displayName>
+			</currency>
+			<currency type="AUD">
+				<displayName draft="provisional">ആസ്ട്രേലിയന്‍ ഡോളര്‍</displayName>
+			</currency>
+			<currency type="BBD">
+				<displayName draft="provisional">ബാര്‍ബഡോസ് ഡോളര്‍</displayName>
+			</currency>
+			<currency type="BEL">
+				<displayName draft="provisional">ബല്‍ജിയന്‍ ഫ്രാങ്ക്</displayName>
+			</currency>
+			<currency type="BGN">
+				<displayName draft="provisional">ബള്‍ഗേറിയന്‍ ന്യൂലവ്</displayName>
+			</currency>
+			<currency type="BRL">
+				<displayName draft="unconfirmed">ബ്രസീലിയന്‍ റിയാല്‍</displayName>
+			</currency>
+			<currency type="EUR">
+				<displayName draft="provisional">യൂറോ</displayName>
+			</currency>
+			<currency type="FJD">
+				<displayName draft="provisional">ഫിജി ഡോളര്‍</displayName>
+			</currency>
+			<currency type="GBP">
+				<displayName draft="provisional">ബ്രിട്ടീഷ് പൌണ്ട് സ്റ്റെര്‍ലിംങ്</displayName>
+			</currency>
+			<currency type="INR">
+				<displayName draft="unconfirmed">ഇന്‍ഡ്യന്‍ രൂപ</displayName>
+			</currency>
+			<currency type="ITL">
+				<displayName draft="provisional">ഇറ്റാലിയന്‍ ലിറ</displayName>
+			</currency>
+			<currency type="JPY">
+				<displayName draft="provisional">ജാപ്പാനീസ് യെന്‍</displayName>
+			</currency>
+			<currency type="RUB">
+				<displayName draft="unconfirmed">റഷ്യന്‍ റൂബിള്‍</displayName>
+			</currency>
+			<currency type="USD">
+				<displayName draft="provisional">യുഎസ് ഡോളര്‍</displayName>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr draft="unconfirmed">അതെ</yesstr>
+			<nostr draft="unconfirmed">അല്ല</nostr>
+		</messages>
+	</posix>
+	<references>
+		<reference type="RP1" uri="http://tdil.mit.gov.in/newsIndexApr02.htm">Govt of India Newsletter April 02</reference>
+	</references>
+</ldml>

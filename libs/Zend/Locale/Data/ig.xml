@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.12 $"/>
+		<generation date="$Date: 2006/06/28 01:23:33 $"/>
+		<language type="ig"/>
+	</identity>
+	<characters>
+		<exemplarCharacters>[a b {ch} d-g {gb} {gh} {gw} h i ị j k {kp} {kw} l-n ṅ {nw} {ny} o ọ p r s {sh} t u ụ v w y z]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">Jen</month>
+							<month type="2" draft="unconfirmed">Feb</month>
+							<month type="3" draft="unconfirmed">Maa</month>
+							<month type="4" draft="unconfirmed">Epr</month>
+							<month type="5" draft="unconfirmed">Mee</month>
+							<month type="6" draft="unconfirmed">Juu</month>
+							<month type="7" draft="unconfirmed">Jul</month>
+							<month type="8" draft="unconfirmed">Ọgọ</month>
+							<month type="9" draft="unconfirmed">Sep</month>
+							<month type="10" draft="unconfirmed">Ọkt</month>
+							<month type="11" draft="unconfirmed">Nov</month>
+							<month type="12" draft="unconfirmed">Dis</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Jenụwarị</month>
+							<month type="2" draft="unconfirmed">Febrụwarị</month>
+							<month type="3" draft="unconfirmed">Maachị</month>
+							<month type="4" draft="unconfirmed">Eprel</month>
+							<month type="5" draft="unconfirmed">Mee</month>
+							<month type="6" draft="unconfirmed">Juun</month>
+							<month type="7" draft="unconfirmed">Julaị</month>
+							<month type="8" draft="unconfirmed">Ọgọọst</month>
+							<month type="9" draft="unconfirmed">Septemba</month>
+							<month type="10" draft="unconfirmed">Ọktoba</month>
+							<month type="11" draft="unconfirmed">Novemba</month>
+							<month type="12" draft="unconfirmed">Disemba</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">Ụka</day>
+							<day type="mon" draft="unconfirmed">Mọn</day>
+							<day type="tue" draft="unconfirmed">Tiu</day>
+							<day type="wed" draft="unconfirmed">Wen</day>
+							<day type="thu" draft="unconfirmed">Tọọ</day>
+							<day type="fri" draft="unconfirmed">Fraị</day>
+							<day type="sat" draft="unconfirmed">Sat</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">Mbọsị Ụka</day>
+							<day type="mon" draft="unconfirmed">Mọnde</day>
+							<day type="tue" draft="unconfirmed">Tiuzdee</day>
+							<day type="wed" draft="unconfirmed">Wenezdee</day>
+							<day type="thu" draft="unconfirmed">Tọọzdee</day>
+							<day type="fri" draft="unconfirmed">Fraịdee</day>
+							<day type="sat" draft="unconfirmed">Satọdee</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<am draft="unconfirmed">A.M.</am>
+				<pm draft="unconfirmed">P.M.</pm>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">Tupu Kristi</era>
+						<era type="1" draft="unconfirmed">Afọ Kristi</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">T.K.</era>
+						<era type="1" draft="unconfirmed">A.K.</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="NGN">
+				<displayName draft="unconfirmed">Naịra</displayName>
+				<symbol draft="unconfirmed">₦</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<references>
+		<reference type="RP1" uri="http://en.wikipedia.org/wiki/Igbo_language">Wikipedia on Igbo</reference>
+		<reference type="RP2" uri="http://www.omniglot.com/writing/igbo.htm">Omniglot on Igbo</reference>
+		<reference type="RP3" uri="http://developer.mimer.com/charts/igbo.htm">Mimer Igbo collation</reference>
+		<reference type="RP4" uri="http://ilc.igbonet.com/lesson01/">Learn Igbo - alphabet etc. (lesson 1)</reference>
+	</references>
+</ldml>
+

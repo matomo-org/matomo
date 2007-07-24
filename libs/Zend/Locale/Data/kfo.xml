@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.12 $"/>
+		<generation date="$Date: 2006/06/28 01:23:33 $"/>
+		<language type="kfo"/>
+	</identity>
+	<characters>
+		<exemplarCharacters draft="unconfirmed">[a ā b-e ē f g {gb} h-k {kh} l-p {pk} r-u w y z]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">Wey</month>
+							<month type="2" draft="unconfirmed">Fan</month>
+							<month type="3" draft="unconfirmed">Tat</month>
+							<month type="4" draft="unconfirmed">Nan</month>
+							<month type="5" draft="unconfirmed">Tuy</month>
+							<month type="6" draft="unconfirmed">Tso</month>
+							<month type="7" draft="unconfirmed">Taf</month>
+							<month type="8" draft="unconfirmed">War</month>
+							<month type="9" draft="unconfirmed">Kun</month>
+							<month type="10" draft="unconfirmed">Ban</month>
+							<month type="11" draft="unconfirmed">Kom</month>
+							<month type="12" draft="unconfirmed">Sau</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Fai Weyene</month>
+							<month type="2" draft="unconfirmed">Fai Fani</month>
+							<month type="3" draft="unconfirmed">Fai Tataka</month>
+							<month type="4" draft="unconfirmed">Fai Nangra</month>
+							<month type="5" draft="unconfirmed">Fai Tuyo</month>
+							<month type="6" draft="unconfirmed">Fai Tsoyi</month>
+							<month type="7" draft="unconfirmed">Fai Tafaka</month>
+							<month type="8" draft="unconfirmed">Fai Warachi</month>
+							<month type="9" draft="unconfirmed">Fai Kunobok</month>
+							<month type="10" draft="unconfirmed">Fai Bansok</month>
+							<month type="11" draft="unconfirmed">Fai Kom</month>
+							<month type="12" draft="unconfirmed">Fai Sauk</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">Lah</day>
+							<day type="mon" draft="unconfirmed">Kub</day>
+							<day type="tue" draft="unconfirmed">Gba</day>
+							<day type="wed" draft="unconfirmed">Tan</day>
+							<day type="thu" draft="unconfirmed">Yei</day>
+							<day type="fri" draft="unconfirmed">Koy</day>
+							<day type="sat" draft="unconfirmed">Sat</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">Lahadi</day>
+							<day type="mon" draft="unconfirmed">Je-Kubacha</day>
+							<day type="tue" draft="unconfirmed">Je-Gbai</day>
+							<day type="wed" draft="unconfirmed">Tansati</day>
+							<day type="thu" draft="unconfirmed">Je-Yei</day>
+							<day type="fri" draft="unconfirmed">Je-Koye</day>
+							<day type="sat" draft="unconfirmed">Sati</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">Kafi Mar Wenom</era>
+						<era type="1" draft="unconfirmed">Bayan Chi Wenom</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">KMW</era>
+						<era type="1" draft="unconfirmed">BCW</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="NGN">
+				<displayName draft="unconfirmed">Neira</displayName>
+				<symbol draft="unconfirmed">₦</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+
