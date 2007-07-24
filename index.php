@@ -49,7 +49,7 @@ Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
  * Piwik classes
  */
 Zend_Loader::loadClass('Piwik_Access');
-Zend_Loader::loadClass('Piwik_Apiable');
+Zend_Loader::loadClass('Piwik_Apiable'); 
 Zend_Loader::loadClass('Piwik_Log');
 Zend_Loader::loadClass('Piwik_Config');
 Zend_Loader::loadClass('Piwik_PublicApi');
