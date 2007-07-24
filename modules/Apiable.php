@@ -5,6 +5,10 @@ class Piwik_Apiable
 	{
 	}
 
+	public function checkAccessSpecified()
+	{
+		 
+	}
 	public function getMinimumRoleRequired( $methodName )
 	{
 		if(isset($this->minimumAccessRequired[$methodName]))
