@@ -60,6 +60,7 @@ Piwik::createConfigObject();
 Piwik::createDatabaseObject();
 Piwik::createLogObject();
 
+Piwik::createDatabase();
 Piwik::createTables();
 
 /*Piwik_UsersManager::deleteUser("login");

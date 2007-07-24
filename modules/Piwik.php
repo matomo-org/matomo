@@ -111,7 +111,8 @@ class Piwik
 	static public function createDatabaseObject()
 	{
 		$config = Zend_Registry::get('config');
-		$db = Zend_Db::factory($config->database->adapter, $config->database->toArray());
+		$dbOptions = $config->database->toArray();
+		$db = Zend_Db::factory($config->database->adapter, $dbOptions);
 		Zend_Db_Table::setDefaultAdapter($db);
 		Zend_Registry::set('db', $db);
 	}
