@@ -6,7 +6,8 @@ function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
     if(!defined('E_STRICT'))            define('E_STRICT', 2048);
     if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
     print "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'><b>";
-    switch($errno){
+    switch($errno)
+    {
         case E_ERROR:               print "Error";                  break;
         case E_WARNING:             print "Warning";                break;
         case E_PARSE:               print "Parse Error";            break;

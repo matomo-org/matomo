@@ -18,7 +18,7 @@ class Piwik_Config extends Zend_Config_Ini
 		$this->setPrefixTables();
 	}
 	
-	public function setPrefixTables()
+	private function setPrefixTables()
 	{		
 		Zend_Registry::set('tablesPrefix', $this->database->tables_prefix);
 	}
