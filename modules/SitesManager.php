@@ -1,5 +1,6 @@
 <?php
 
+Zend_Loader::loadClass('Piwik_APIable');
 class Piwik_SitesManager extends Piwik_APIable
 {
 	static private $instance = null;
@@ -255,7 +256,7 @@ class Piwik_SitesManager extends Piwik_APIable
 	/**
 	 * Check that the website name has a correct format.
 	 * 
-	 * @exception 
+	 * @exception if the website name is empty
 	 */
 	static private function checkName($name)
 	{
@@ -268,7 +269,7 @@ class Piwik_SitesManager extends Piwik_APIable
 	/**
 	 * Check that the array of URLs are valid URLs
 	 * 
-	 * @exception 
+	 * @exception if the url is not valid
 	 */
 	static private function checkUrls($aUrls)
 	{
