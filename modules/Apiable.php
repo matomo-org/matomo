@@ -7,9 +7,9 @@ class Piwik_Apiable
 
 	public function getMinimumRoleRequired( $methodName )
 	{
-		if(isset($this->roles[$methodName]))
+		if(isset($this->minimumAccessRequired[$methodName]))
 		{
-			$minimumRole = $this->roles[$methodName];
+			$minimumRole = $this->minimumAccessRequired[$methodName];
 		}
 		else
 		{

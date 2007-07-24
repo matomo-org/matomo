@@ -9,7 +9,7 @@ class Piwik_Access
 	
 	const SUCCESS_SUPERUSER_AUTH_CODE = 42;
 	
-	static private $availableRoles = array('anonymous', 'view', 'admin', 'superuser');
+	static private $availableRoles = array('noaccess', 'view', 'admin', 'superuser');
 	
 	public function __construct( $auth)
 	{
@@ -19,7 +19,8 @@ class Piwik_Access
 	
 	private function loadRoles()
 	{
-		$rolesByIdsite = $idsitesByRole = array();
+		$rolesByIdsite = array();
+		$idsitesByRole = array( 'view', 'admin', 'superuser');
 		
 		// roles = array ( idsite => roleIdSite, idsite2 => roleIdSite2)
         $result = $this->auth->authenticate();
@@ -41,7 +42,8 @@ class Piwik_Access
 			$this->identity = $result->getIdentity();
 			
 			$db = Zend_Registry::get('db');
-			$rolesRaw = $db->fetchAll("SELECT role, idsite FROM ".Piwik::prefixTable('role').
+			$rolesRaw = $db->fetchAll("SELECT role, idsite 
+							  FROM ".Piwik::prefixTable('role').
 							" WHERE login=?", $this->identity);
 
 			foreach($rolesRaw as $role)
@@ -62,8 +64,8 @@ class Piwik_Access
 	
 	private function isRoleAllowed( $roleRequired, $idSite )
 	{
-		// if no role specified, the current role is anonymous
-		$role = 'anonymous';
+		// if no role specified, the current access is noaccess
+		$role = 'noaccess';
 		
 		if(isset($this->rolesByIdsite[$idSite]))
 		{
@@ -72,7 +74,7 @@ class Piwik_Access
 		
 		switch($roleRequired)
 		{
-			case 'anonymous':
+			case 'noaccess':
 				return true;
 			break;
 			
@@ -90,33 +92,37 @@ class Piwik_Access
 		}
 	}
 	
-	public function getIdsitesWithViewAccess()
+	public function getIdsitesViewable()
 	{
-		return $this->idsitesByRole['view'];
+		return array_unique(array_merge(
+					$this->idsitesByRole['view'],
+					$this->idsitesByRole['admin'],
+					$this->idsitesByRole['superuser']));
 	}
-	public function getIdsitesWithAdminAccess()
+	
+	public function getIdsitesAdministrable()
 	{
-		return array_merge(
-							$this->idsitesByRole['view'], 
-							$this->idsitesByRole['admin']);
-		
+		return array_unique(array_merge(
+					$this->idsitesByRole['admin'],
+					$this->idsitesByRole['superuser']));
 	}
+	
 	// is the current authentificated user allowed to access 
 	// the method with the idsite given the minimumRole
 	// false means no IdSite provided to the method. null means apply the method to all the websites on which the user has
 	// the access required.
 	public function isAllowed( $minimumRole, $idSites = false )
-	{		
+	{
 		// *use cases
-		// view + 1/2/3 with 1/2 view and 3 anonymous => refused
+		// view + 1/2/3 with 1/2 view and 3 noaccess => refused
 		// view + 1/2/3 with 1/2 view and 3 admin => allowed
-		// view + 1/2/3 with 1/2 anonymous and 3 admin => refused
-		// view + null with 1/2 anonymous and 3 admin => allowed
+		// view + 1/2/3 with 1/2 noaccess and 3 admin => refused
+		// view + null with 1/2 noaccess and 3 admin => allowed
 		// admin + null with 1/2 view => refused
 		// admin + 1 with 1 view => refused
 		// admin + 1 with 1 admin => allowed
 		// admin + null with 1 admin => allowed
-		// superuser + 1 with 1 admin => refused				
+		// superuser + 1 with 1 admin => refused
 		if(is_null($idSites))
 		{
 			if(isset($this->idsitesByRole[$minimumRole]))
