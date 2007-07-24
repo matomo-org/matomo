@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.48 $"/>
+		<generation date="$Date: 2006/06/28 20:38:29 $"/>
+		<language type="af"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="af">Afrikaans</language>
+			<language type="afa" draft="unconfirmed">Afro-Asiaties (Ander)</language>
+			<language type="ar" references="RP3" draft="provisional">Arabies</language>
+			<language type="arc" references="RP1" draft="unconfirmed">Aramees</language>
+			<language type="art" draft="unconfirmed">Kunsmatig (Ander)</language>
+			<language type="bat" draft="unconfirmed">Balties (Ander)</language>
+			<language type="ber" references="RP3" draft="provisional">Berbers</language>
+			<language type="bg" references="RP3" draft="provisional">Bulgaars</language>
+			<language type="bnt" references="RP3" draft="provisional">Bantoe</language>
+			<language type="br" references="RP3" draft="provisional">Bretons</language>
+			<language type="ca" references="RP1" draft="unconfirmed">Katalaans</language>
+			<language type="cel" references="RP3" draft="provisional">Kelties (Ander)</language>
+			<language type="chr" references="RP3" draft="provisional">Cherokees</language>
+			<language type="cop" references="RP1" draft="unconfirmed">Kopties</language>
+			<language type="cs" references="RP3" draft="provisional">Tsjeggies</language>
+			<language type="cu" references="RP3" draft="provisional">Kerkslawies</language>
+			<language type="cy" references="RP3" draft="provisional">Wallies</language>
+			<language type="da" references="RP1" draft="unconfirmed">Deens</language>
+			<language type="de" references="RP3">Duits</language>
+			<language type="egy" draft="unconfirmed">Egipties (Antiek)</language>
+			<language type="el" references="RP1" draft="unconfirmed">Grieks</language>
+			<language type="en" references="RP3">Engels</language>
+			<language type="eo" references="RP1" draft="unconfirmed">Esperanto</language>
+			<language type="es">Spaans</language>
+			<language type="eu" references="RP3" draft="provisional">Baskies</language>
+			<language type="fa" references="RP1" draft="unconfirmed">Persies</language>
+			<language type="fi" references="RP3" draft="provisional">Fins</language>
+			<language type="fj" references="RP3" draft="provisional">Fidjiaans</language>
+			<language type="fo" references="RP3" draft="provisional">Faroëes</language>
+			<language type="fr" references="RP3">Frans</language>
+			<language type="fy" references="RP3" draft="provisional">Fries</language>
+			<language type="ga" references="RP3" draft="provisional">Iers</language>
+			<language type="gd" references="RP1" draft="unconfirmed">Gaelies</language>
+			<language type="gem" references="RP3" draft="provisional">Germaans (Ander)</language>
+			<language type="got" references="RP3" draft="provisional">Goties</language>
+			<language type="grc" draft="unconfirmed">Antieke Grieks</language>
+			<language type="gv" references="RP3" draft="provisional">Manx</language>
+			<language type="he" references="RP3">Hebreeus</language>
+			<language type="hi" references="RP3" draft="provisional">Hindi</language>
+			<language type="hit" references="RP3" draft="provisional">Hetities</language>
+			<language type="hr" draft="unconfirmed">Kroaties</language>
+			<language type="hu" references="RP3" draft="provisional">Hongaars</language>
+			<language type="hy" draft="unconfirmed">Armeens</language>
+			<language type="ia" references="RP3" draft="provisional">Interlingua</language>
+			<language type="id" references="RP3" draft="provisional">Indonesies</language>
+			<language type="ine" references="RP3" draft="provisional">Indo-Europees (Ander)</language>
+			<language type="is" references="RP3" draft="provisional">Yslands</language>
+			<language type="it" references="RP3">Italiaans</language>
+			<language type="ja" references="RP3">Japannees</language>
+			<language type="jv" references="RP3" draft="provisional">Javaans</language>
+			<language type="khi" references="RP3" draft="provisional">Khoi-San (Ander)</language>
+			<language type="km" references="RP3" draft="provisional">Khmer</language>
+			<language type="ko" draft="unconfirmed">Koreaans</language>
+			<language type="kru" references="RP3" draft="provisional">Koerdies</language>
+			<language type="kw" references="RP3" draft="provisional">Kornies</language>
+			<language type="la" references="RP3" draft="provisional">Latyn</language>
+			<language type="li" draft="unconfirmed">Limburgs</language>
+			<language type="lo" references="RP3" draft="provisional">Lao</language>
+			<language type="lt" references="RP3" draft="provisional">Litaus</language>
+			<language type="lv" references="RP3" draft="provisional">Letties</language>
+			<language type="mas" references="RP3" draft="provisional">Masai</language>
+			<language type="mg" references="RP3" draft="provisional">Malgassies</language>
+			<language type="mk" draft="unconfirmed">Masedonies</language>
+			<language type="ml" references="RP3" draft="provisional">Malajalam</language>
+			<language type="mn" draft="unconfirmed">Mongools</language>
+			<language type="ms" references="RP3" draft="provisional">Maleis</language>
+			<language type="mul" draft="unconfirmed">Veelvuldige tale</language>
+			<language type="my" references="RP3" draft="provisional">Birmaans</language>
+			<language type="nd" draft="unconfirmed">Noord-Ndebele</language>
+			<language type="nl" references="RP1" draft="unconfirmed">Nederlands</language>
+			<language type="no" draft="unconfirmed">Noorweegs</language>
+			<language type="nr" draft="unconfirmed">Suid-Ndebele</language>
+			<language type="nso" references="RP3" draft="provisional">Sepedi</language>
+			<language type="pa" references="RP3" draft="provisional">Pandjabi</language>
+			<language type="phn" references="RP1" draft="unconfirmed">Fenisies</language>
+			<language type="pl" references="RP3" draft="provisional">Pools</language>
+			<language type="ps" references="RP3" draft="provisional">Pasjtoe</language>
+			<language type="pt">Portugees</language>
+			<language type="ro" draft="unconfirmed">Romeens</language>
+			<language type="ru">Russies</language>
+			<language type="sa" references="RP1" draft="unconfirmed">Sanskrit</language>
+			<language type="sco" references="RP3" draft="provisional">Skots</language>
+			<language type="sem" references="RP1" draft="unconfirmed">Semities (Ander)</language>
+			<language type="sgn" references="RP3" draft="provisional">Gebaretaal</language>
+			<language type="sk" references="RP3" draft="provisional">Slowaaks</language>
+			<language type="sl" references="RP3" draft="provisional">Sloweens</language>
+			<language type="sla" references="RP3" draft="provisional">Slawies (Ander)</language>
+			<language type="sn" references="RP3" draft="provisional">Shona</language>
+			<language type="sr" draft="unconfirmed">Serwies</language>
+			<language type="ss" references="RP3" draft="provisional">Swazi</language>
+			<language type="st" draft="unconfirmed">Suid-Sotho</language>
+			<language type="sv" references="RP3" draft="provisional">Sweeds</language>
+			<language type="sw" references="RP3" draft="provisional">Swahili</language>
+			<language type="tn" references="RP3" draft="provisional">Tswana</language>
+			<language type="tr" references="RP3" draft="provisional">Turks</language>
+			<language type="ts" references="RP3" draft="provisional">Tsonga</language>
+			<language type="und" draft="unconfirmed">Onbepaald</language>
+			<language type="ve" references="RP3" draft="provisional">Venda</language>
+			<language type="vi" references="RP1" draft="unconfirmed">Viëtnamees</language>
+			<language type="xh" references="RP3" draft="provisional">Xhosa</language>
+			<language type="yi" references="RP1" draft="unconfirmed">Jiddisj</language>
+			<language type="zh">Sjinees</language>
+			<language type="zu" references="RP3" draft="provisional">Zoeloe</language>
+		</languages>
+		<scripts>
+			<script type="Arab" references="RP3" draft="provisional">Arabies</script>
+			<script type="Armn" draft="unconfirmed">Armeens</script>
+			<script type="Brai" references="RP1" draft="unconfirmed">braille</script>
+			<script type="Copt" draft="unconfirmed">Kopties</script>
+			<script type="Cyrl" references="RP3" draft="provisional">Cyrillies</script>
+			<script type="Cyrs" draft="unconfirmed">Cyrillies (Ou Kerkslawiese variant)</script>
+			<script type="Egyp" draft="unconfirmed">Egiptiese hiërogliewe</script>
+			<script type="Ethi" draft="unconfirmed">Etiopies</script>
+			<script type="Goth" draft="unconfirmed">Goties</script>
+			<script type="Grek" draft="unconfirmed">Grieks</script>
+			<script type="Hans" draft="unconfirmed">Vereenvoudigde Sjinees</script>
+			<script type="Hant" draft="unconfirmed">Tradisionele Sjinees</script>
+			<script type="Hebr" draft="unconfirmed">Hebreeus</script>
+			<script type="Khmr" draft="unconfirmed">Khmer</script>
+			<script type="Latn" references="RP3" draft="provisional">Latyn</script>
+			<script type="Mong" draft="unconfirmed">Mongools</script>
+			<script type="Phnx" draft="unconfirmed">Fenisies</script>
+			<script type="Visp" draft="unconfirmed">Sigbare spraak</script>
+			<script type="Zxxx" draft="unconfirmed">Kode vir ongeskrewe tale</script>
+			<script type="Zyyy" draft="unconfirmed">Algemeen</script>
+			<script type="Zzzz" draft="unconfirmed">Kode vir ongekodeerde alfabette</script>
+		</scripts>
+		<territories>
+			<territory type="001" references="RP2" draft="provisional">Wêreld</territory>
+			<territory type="002" references="RP2" draft="provisional">Afrika</territory>
+			<territory type="005" references="RP2" draft="provisional">Suid-Amerika</territory>
+			<territory type="009" references="RP2" draft="provisional">Oseanië</territory>
+			<territory type="011" references="RP3" draft="provisional">Wes-Afrika</territory>
+			<territory type="013" references="RP3" draft="provisional">Sentraal-Amerika</territory>
+			<territory type="014" draft="unconfirmed">Oos-Afrika</territory>
+			<territory type="015" draft="unconfirmed">Noord-Afrika</territory>
+			<territory type="017" references="RP3" draft="provisional">Midde-Afrika</territory>
+			<territory type="018" references="RP2" draft="provisional">Suider-Afrika</territory>
+			<territory type="019" draft="unconfirmed">Amerikas</territory>
+			<territory type="021" draft="unconfirmed">Noord-Amerika</territory>
+			<territory type="029" references="RP2" draft="provisional">Karibies</territory>
+			<territory type="030" draft="unconfirmed">Oos-Asië</territory>
+			<territory type="034" draft="unconfirmed">Suid-Asië</territory>
+			<territory type="035" draft="unconfirmed">Suidoos-Asië</territory>
+			<territory type="039" draft="unconfirmed">Suid-Europa</territory>
+			<territory type="053" draft="unconfirmed">Australië en Nieu-Seeland</territory>
+			<territory type="054" references="RP2" draft="provisional">Melanesië</territory>
+			<territory type="061" references="RP2" draft="provisional">Polinesië</territory>
+			<territory type="142" references="RP2" draft="provisional">Asië</territory>
+			<territory type="143" draft="unconfirmed">Sentraal-Asië</territory>
+			<territory type="145" draft="unconfirmed">Wes-Asië</territory>
+			<territory type="150" references="RP2" draft="provisional">Europa</territory>
+			<territory type="151" draft="unconfirmed">Oos-Europa</territory>
+			<territory type="154" draft="unconfirmed">Noord-Europa</territory>
+			<territory type="155" draft="unconfirmed">Wes-Europa</territory>
+			<territory type="172" draft="unconfirmed">Statebond</territory>
+			<territory type="AD" references="RP1" draft="unconfirmed">Andorra</territory>
+			<territory type="AE">Verenigde Arabiese Emirate</territory>
+			<territory type="AF">Afganistan</territory>
+			<territory type="AG">Antigua en Barbuda</territory>
+			<territory type="AL">Albanië</territory>
+			<territory type="AM">Armenië</territory>
+			<territory type="AN" references="RP1" draft="provisional">Nederlands-Antille</territory>
+			<territory type="AO" draft="unconfirmed">Angola</territory>
+			<territory type="AQ" references="RP2" draft="provisional">Antarktika</territory>
+			<territory type="AR">Argentinië</territory>
+			<territory type="AT">Oostenryk</territory>
+			<territory type="AU">Australië</territory>
+			<territory type="AZ">Aserbeidjan</territory>
+			<territory type="AZ" references="RP1" alt="proposed-u178-1" draft="unconfirmed">Azerbeidjan</territory>
+			<territory type="BA">Bosnië en Herzegowina</territory>
+			<territory type="BD">Bangladesj</territory>
+			<territory type="BE">België</territory>
+			<territory type="BF">Boerkina Fasso</territory>
+			<territory type="BF" references="RP1" alt="proposed-u178-1" draft="unconfirmed">Burkina Faso</territory>
+			<territory type="BG">Bulgarye</territory>
+			<territory type="BH">Bahrein</territory>
+			<territory type="BJ" references="RP1" draft="unconfirmed">Benin</territory>
+			<territory type="BN">Broenei</territory>
+			<territory type="BO">Bolivië</territory>
+			<territory type="BR">Brasilië</territory>
+			<territory type="BS" draft="unconfirmed">Bahamas</territory>
+			<territory type="BT">Bhoetan</territory>
+			<territory type="BW" draft="unconfirmed">Botswana</territory>
+			<territory type="BY">Wit-Rusland</territory>
+			<territory type="CA">Kanada</territory>
+			<territory type="CF">Sentraal-Afrikaanse Republiek</territory>
+			<territory type="CG">Kongo</territory>
+			<territory type="CH">Switserland</territory>
+			<territory type="CI">Ivoorkus</territory>
+			<territory type="CL">Chili</territory>
+			<territory type="CM">Kameroen</territory>
+			<territory type="CN">Sjina</territory>
+			<territory type="CR" draft="unconfirmed">Costa Rica</territory>
+			<territory type="CS" references="RP1" draft="unconfirmed">Serwië en Montenegro</territory>
+			<territory type="CU">Kuba</territory>
+			<territory type="CV">Kaap Verde</territory>
+			<territory type="CY">Ciprus</territory>
+			<territory type="CZ">Tjeggiese Republiek</territory>
+			<territory type="DE">Duitsland</territory>
+			<territory type="DJ">Djiboeti</territory>
+			<territory type="DK">Denemarke</territory>
+			<territory type="DO">Dominikaanse Republiek</territory>
+			<territory type="DZ">Algerië</territory>
+			<territory type="EE">Estland</territory>
+			<territory type="EG">Egipte</territory>
+			<territory type="EH">Wes-Sahara</territory>
+			<territory type="ES">Spanje</territory>
+			<territory type="ET">Ethiopië</territory>
+			<territory type="FI" draft="unconfirmed">Finland</territory>
+			<territory type="FJ">Fidji</territory>
+			<territory type="FK" references="RP1" draft="provisional">Falklandeilande</territory>
+			<territory type="FM">Mikronesië</territory>
+			<territory type="FO" references="RP1" draft="provisional">Faroëreilande</territory>
+			<territory type="FR">Frankryk</territory>
+			<territory type="GA">Gaboen</territory>
+			<territory type="GB">Groot-Brittanje</territory>
+			<territory type="GE">Georgië</territory>
+			<territory type="GF" references="RP1" draft="provisional">Frans-Guyana</territory>
+			<territory type="GH" draft="unconfirmed">Ghana</territory>
+			<territory type="GL" references="RP1" draft="provisional">Groenland</territory>
+			<territory type="GM">Gambië</territory>
+			<territory type="GN">Guinee</territory>
+			<territory type="GQ">Ekwatoriaal-Guinee</territory>
+			<territory type="GR">Griekeland</territory>
+			<territory type="GW">Guinee-Bissau</territory>
+			<territory type="HK" references="RP1" draft="provisional">Hongkong</territory>
+			<territory type="HR">Kroasië</territory>
+			<territory type="HT">Haïti</territory>
+			<territory type="HU">Hongarye</territory>
+			<territory type="ID">Indonesië</territory>
+			<territory type="IE">Ierland</territory>
+			<territory type="IL" draft="unconfirmed">Israel</territory>
+			<territory type="IN">Indië</territory>
+			<territory type="IQ">Irak</territory>
+			<territory type="IR" references="RP1" draft="unconfirmed">Iran</territory>
+			<territory type="IS">Ysland</territory>
+			<territory type="IT">Italië</territory>
+			<territory type="JM">Jamaika</territory>
+			<territory type="JO">Jordanië</territory>
+			<territory type="JP">Japan</territory>
+			<territory type="KE">Kenia</territory>
+			<territory type="KG">Kirgisië</territory>
+			<territory type="KH">Kambodja</territory>
+			<territory type="KM">Comore</territory>
+			<territory type="KN">Saint Kitts en Nevis</territory>
+			<territory type="KP">Noord-Korea</territory>
+			<territory type="KR">Suid-Korea</territory>
+			<territory type="KW">Koeweit</territory>
+			<territory type="KY" references="RP1" draft="provisional">Kaaimanseilande</territory>
+			<territory type="KZ">Kasakstan</territory>
+			<territory type="LA" references="RP1" draft="unconfirmed">Laos</territory>
+			<territory type="LB">Libanon</territory>
+			<territory type="LI" references="RP1" draft="unconfirmed">Liechtenstein</territory>
+			<territory type="LK" references="RP1" draft="unconfirmed">Sri Lanka</territory>
+			<territory type="LR">Liberië</territory>
+			<territory type="LS" references="RP1" draft="unconfirmed">Lesotho</territory>
+			<territory type="LT">Litaue</territory>
+			<territory type="LU">Luxemburg</territory>
+			<territory type="LV">Letland</territory>
+			<territory type="LY">Libië</territory>
+			<territory type="MA">Marokko</territory>
+			<territory type="MC" references="RP1" draft="unconfirmed">Monaco</territory>
+			<territory type="MG">Madagaskar</territory>
+			<territory type="MH">Marshall-eilande</territory>
+			<territory type="MK">Macedonië</territory>
+			<territory type="ML" references="RP1" draft="unconfirmed">Mali</territory>
+			<territory type="MN">Mongolië</territory>
+			<territory type="MO" references="RP1" draft="provisional">Macao</territory>
+			<territory type="MR">Mouritanië</territory>
+			<territory type="MT" references="RP1" draft="unconfirmed">Malta</territory>
+			<territory type="MU" references="RP1" draft="unconfirmed">Mauritius</territory>
+			<territory type="MV">Maldive</territory>
+			<territory type="MX">Meksiko</territory>
+			<territory type="MY">Maleisië</territory>
+			<territory type="MZ">Mosambiek</territory>
+			<territory type="NA">Namibië</territory>
+			<territory type="NC" references="RP1" draft="provisional">Nieu-Kaledonië</territory>
+			<territory type="NE" references="RP1" alt="proposed-u176-1" draft="provisional">Niger</territory>
+			<territory type="NG" references="RP1" draft="provisional">Nigerië</territory>
+			<territory type="NI" references="RP1" draft="unconfirmed">Nicaragua</territory>
+			<territory type="NL">Nederland</territory>
+			<territory type="NO">Noorweë</territory>
+			<territory type="NR">Naoeroe</territory>
+			<territory type="NZ">Nieu-Seeland</territory>
+			<territory type="OM" references="RP1" draft="unconfirmed">Oman</territory>
+			<territory type="PA" references="RP1" draft="unconfirmed">Panama</territory>
+			<territory type="PE" references="RP1" draft="unconfirmed">Peru</territory>
+			<territory type="PG">Papoea Nieu-Guinee</territory>
+			<territory type="PG" references="RP1" alt="proposed-u176-1" draft="provisional">Papoea-Nieu-Guinee</territory>
+			<territory type="PH">Filippyne</territory>
+			<territory type="PK" references="RP1" draft="unconfirmed">Pakistan</territory>
+			<territory type="PL">Pole</territory>
+			<territory type="PR" references="RP1" draft="unconfirmed">Puerto Rico</territory>
+			<territory type="PT" references="RP1" draft="unconfirmed">Portugal</territory>
+			<territory type="PY" references="RP1" draft="unconfirmed">Paraguay</territory>
+			<territory type="QA">Katar</territory>
+			<territory type="RE" references="RP1" draft="provisional">Réunion</territory>
+			<territory type="RO">Roemenië</territory>
+			<territory type="RU">Rusland</territory>
+			<territory type="RW" references="RP1" draft="unconfirmed">Rwanda</territory>
+			<territory type="SA">Saoedi-Arabië</territory>
+			<territory type="SB">Solomon Eilande</territory>
+			<territory type="SC">Seychelle</territory>
+			<territory type="SD">Soedan</territory>
+			<territory type="SE">Swede</territory>
+			<territory type="SG">Singapoer</territory>
+			<territory type="SI">Slowenië</territory>
+			<territory type="SK">Slowakye</territory>
+			<territory type="SL" references="RP1" draft="unconfirmed">Sierra Leone</territory>
+			<territory type="SM" references="RP1" draft="unconfirmed">San Marino</territory>
+			<territory type="SN" references="RP1" draft="unconfirmed">Senegal</territory>
+			<territory type="SO">Somalië</territory>
+			<territory type="SR" references="RP1" draft="unconfirmed">Suriname</territory>
+			<territory type="ST">Sao Tome en Principe</territory>
+			<territory type="ST" references="RP1" alt="proposed-u176-1" draft="provisional">Sao Tomé en Principe</territory>
+			<territory type="SV">Salvador</territory>
+			<territory type="SV" references="RP1" alt="proposed-u178-1" draft="unconfirmed">El Salvador</territory>
+			<territory type="SY">Sirië</territory>
+			<territory type="SZ" references="RP1" draft="unconfirmed">Swaziland</territory>
+			<territory type="TD">Tsjaad</territory>
+			<territory type="TH" draft="unconfirmed">Thailand</territory>
+			<territory type="TJ">Tadjikistan</territory>
+			<territory type="TM">Turkmenië</territory>
+			<territory type="TN">Tunisië</territory>
+			<territory type="TR">Turkye</territory>
+			<territory type="TT">Trinidad en Tobago</territory>
+			<territory type="TW" draft="unconfirmed">Taiwan</territory>
+			<territory type="TZ">Tanzanië</territory>
+			<territory type="UA">Oekraine</territory>
+			<territory type="UA" references="RP1" alt="proposed-u178-1" draft="unconfirmed">Oekraïne</territory>
+			<territory type="UG" references="RP1" draft="unconfirmed">Uganda</territory>
+			<territory type="US">Verenigde State van Amerika</territory>
+			<territory type="UZ">Oesbekistan</territory>
+			<territory type="VA">Vatikaan</territory>
+			<territory type="VC">Saint Vincent en die Grenadine</territory>
+			<territory type="VE" references="RP1" draft="unconfirmed">Venezuela</territory>
+			<territory type="VN">Viëtnam</territory>
+			<territory type="WS" draft="unconfirmed">Samoa</territory>
+			<territory type="YE">Jemen</territory>
+			<territory type="ZA">Suid-Afrika</territory>
+			<territory type="ZM">Zambië</territory>
+			<territory type="ZW" draft="provisional">Zimbabwe</territory>
+		</territories>
+		<variants>
+			<variant type="1901" draft="unconfirmed">Trandisionele Duitse ortografie</variant>
+			<variant type="1996" draft="unconfirmed">Duitse ortografie van 1996</variant>
+			<variant type="REVISED" draft="unconfirmed">Hersiene ortografie</variant>
+		</variants>
+		<keys>
+			<key type="calendar" references="RP2" draft="provisional">Kalender</key>
+			<key type="collation" references="RP2" draft="provisional">Vergelyking</key>
+			<key type="currency" draft="provisional">Geldeenheid</key>
+		</keys>
+		<types>
+			<type type="big5han" key="collation" draft="unconfirmed">Tradisionele Sjinees (Groot5)</type>
+			<type type="chinese" key="calendar" draft="unconfirmed">Sjinese kalender</type>
+			<type type="gb2312han" key="collation" draft="unconfirmed">Vereenvoudigde Sjinees</type>
+			<type type="gregorian" key="calendar" references="RP3" draft="provisional">Gregoriaanse kalender</type>
+			<type type="hebrew" key="calendar" draft="unconfirmed">Hebreeuse kalender</type>
+			<type type="islamic" key="calendar" draft="unconfirmed">Islamitiese kalender</type>
+			<type type="japanese" key="calendar" draft="unconfirmed">Japannese kalender</type>
+			<type type="phonebook" key="collation" draft="unconfirmed">Telefoongidsvolgorde</type>
+			<type type="traditional" key="collation" draft="unconfirmed">Tradisioneel</type>
+		</types>
+		<measurementSystemNames>
+			<measurementSystemName type="US" draft="unconfirmed">VSA</measurementSystemName>
+			<measurementSystemName type="metric" draft="provisional">Metriek</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[a á â b-e é è ê ë f-i î ï j-o ô ö p-u û v-z ŉ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" draft="unconfirmed">[à å-ç ñ ø œ ß]</exemplarCharacters>
+		<exemplarCharacters alt="proposed-u178-2" draft="unconfirmed">[a á â ä b-e é è ê ë f-i í-ï j-o ó ò ô ö p-u ú-ü v-y ý z ŉ]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">Jan</month>
+							<month type="1" references="RP1" alt="proposed-u176-1" draft="provisional">Jan.</month>
+							<month type="2">Feb</month>
+							<month type="2" references="RP1" alt="proposed-u176-1" draft="provisional">Feb.</month>
+							<month type="3">Mar</month>
+							<month type="3" references="RP1" alt="proposed-u176-2" draft="provisional">Mrt.</month>
+							<month type="4">Apr</month>
+							<month type="4" references="RP1" alt="proposed-u176-1" draft="provisional">Apr.</month>
+							<month type="5">Mei</month>
+							<month type="6">Jun</month>
+							<month type="6" references="RP1" alt="proposed-u176-1" draft="provisional">Jun.</month>
+							<month type="7">Jul</month>
+							<month type="7" references="RP1" alt="proposed-u176-1" draft="provisional">Jul.</month>
+							<month type="8">Aug</month>
+							<month type="8" references="RP1" alt="proposed-u176-1" draft="provisional">Aug.</month>
+							<month type="9">Sep</month>
+							<month type="9" references="RP1" alt="proposed-u176-1" draft="provisional">Sep.</month>
+							<month type="10">Okt</month>
+							<month type="10" references="RP1" alt="proposed-u176-1" draft="provisional">Okt.</month>
+							<month type="11">Nov</month>
+							<month type="11" references="RP1" alt="proposed-u176-1" draft="provisional">Nov.</month>
+							<month type="12">Des</month>
+							<month type="12" references="RP1" alt="proposed-u176-1" draft="provisional">Des.</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Januarie</month>
+							<month type="2">Februarie</month>
+							<month type="3">Maart</month>
+							<month type="4">April</month>
+							<month type="5">Mei</month>
+							<month type="6">Junie</month>
+							<month type="7">Julie</month>
+							<month type="8">Augustus</month>
+							<month type="9">September</month>
+							<month type="10">Oktober</month>
+							<month type="11">November</month>
+							<month type="12">Desember</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">So</day>
+							<day type="sun" references="RP1" alt="proposed-u176-1" draft="provisional">So.</day>
+							<day type="mon">Ma</day>
+							<day type="mon" references="RP1" alt="proposed-u176-1" draft="provisional">Ma.</day>
+							<day type="tue">Di</day>
+							<day type="tue" references="RP1" alt="proposed-u176-1" draft="provisional">Di.</day>
+							<day type="wed">Wo</day>
+							<day type="wed" references="RP1" alt="proposed-u176-1" draft="provisional">Wo.</day>
+							<day type="thu">Do</day>
+							<day type="thu" references="RP1" alt="proposed-u176-1" draft="provisional">Do.</day>
+							<day type="fri">Vr</day>
+							<day type="fri" references="RP1" alt="proposed-u176-1" draft="provisional">Vr.</day>
+							<day type="sat">Sa</day>
+							<day type="sat" references="RP1" alt="proposed-u176-1" draft="provisional">Sa.</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">Sondag</day>
+							<day type="mon">Maandag</day>
+							<day type="tue">Dinsdag</day>
+							<day type="wed">Woensdag</day>
+							<day type="thu">Donderdag</day>
+							<day type="fri">Vrydag</day>
+							<day type="sat">Saterdag</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1" draft="unconfirmed">K1</quarter>
+							<quarter type="2" draft="unconfirmed">K2</quarter>
+							<quarter type="3" draft="unconfirmed">K3</quarter>
+							<quarter type="4" draft="unconfirmed">K4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1" draft="provisional">1ste kwartaal</quarter>
+							<quarter type="2" draft="provisional">2de kwartaal</quarter>
+							<quarter type="3" draft="provisional">3de kwartaal</quarter>
+							<quarter type="4" draft="provisional">4de kwartaal</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<am>vm.</am>
+				<pm>nm.</pm>
+				<eras>
+					<eraNames>
+						<era type="0" references="RP1" draft="provisional">voor Christus</era>
+						<era type="1" references="RP1" draft="provisional">na Christus</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">v.C.</era>
+						<era type="1">n.C.</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern references="RP1" draft="provisional">EEEE d MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern references="RP1" draft="provisional">d MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern references="RP1" draft="provisional">d MMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern references="RP1" draft="provisional">yyyy-MM-dd</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMMMd" draft="provisional">d MMMM</dateFormatItem>
+						<dateFormatItem id="MMdd" draft="provisional">MM-dd</dateFormatItem>
+						<dateFormatItem id="yyyyMM" draft="provisional">yyyy-MM</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="provisional">MMMM yyyy</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+				<fields>
+					<field type="era">
+						<displayName draft="provisional">Tydperk</displayName>
+					</field>
+					<field type="year">
+						<displayName draft="provisional">Jaar</displayName>
+					</field>
+					<field type="month">
+						<displayName draft="provisional">Maand</displayName>
+					</field>
+					<field type="week">
+						<displayName references="RP3" draft="provisional">Week</displayName>
+					</field>
+					<field type="day">
+						<displayName references="RP3" draft="provisional">Dag</displayName>
+					</field>
+					<field type="weekday">
+						<displayName draft="provisional">Dag van die week</displayName>
+					</field>
+					<field type="hour">
+						<displayName draft="provisional">Uur</displayName>
+					</field>
+					<field type="minute">
+						<displayName draft="provisional">Minuut</displayName>
+					</field>
+					<field type="second">
+						<displayName draft="provisional">Sekonde</displayName>
+					</field>
+					<field type="zone">
+						<displayName draft="provisional">Tydsone</displayName>
+					</field>
+				</fields>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<zone type="Antarctica/South_Pole">
+				<exemplarCity references="RP3" draft="provisional">Suidpool</exemplarCity>
+			</zone>
+			<zone type="Asia/Shanghai">
+				<exemplarCity references="RP3" draft="provisional">Sjanghai</exemplarCity>
+			</zone>
+			<zone type="America/Mexico_City">
+				<exemplarCity draft="provisional">Mexikostad</exemplarCity>
+			</zone>
+			<zone type="Europe/Lisbon">
+				<exemplarCity references="RP1" draft="provisional">Lissabon</exemplarCity>
+			</zone>
+			<zone type="Europe/Moscow">
+				<exemplarCity references="RP1" draft="provisional">Moskou</exemplarCity>
+			</zone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>,</decimal>
+			<group> </group>
+		</symbols>
+		<currencies>
+			<currency type="BRL">
+				<displayName references="RP3" draft="provisional">Reaal</displayName>
+			</currency>
+			<currency type="CHF">
+				<displayName draft="unconfirmed">Switserse frank</displayName>
+			</currency>
+			<currency type="CNY">
+				<displayName references="RP3" draft="provisional">Joean</displayName>
+			</currency>
+			<currency type="EUR">
+				<displayName draft="unconfirmed">Euro</displayName>
+			</currency>
+			<currency type="GBP">
+				<displayName draft="unconfirmed">Britse pond</displayName>
+			</currency>
+			<currency type="ITL">
+				<displayName draft="unconfirmed">Italiaanse lier</displayName>
+			</currency>
+			<currency type="JPY">
+				<displayName draft="unconfirmed">Japannese jen</displayName>
+			</currency>
+			<currency type="NAD">
+				<displayName draft="unconfirmed">Namibiese dollar</displayName>
+			</currency>
+			<currency type="RUB">
+				<displayName references="RP3" draft="provisional">Roebel</displayName>
+			</currency>
+			<currency type="USD">
+				<displayName draft="unconfirmed">VSA-dollar</displayName>
+			</currency>
+			<currency type="ZAR">
+				<displayName>Rand</displayName>
+				<displayName alt="proposed-u178-2" draft="provisional">Rand</displayName>
+				<symbol>R</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr draft="provisional">ja:j</yesstr>
+			<nostr draft="provisional">nee:n</nostr>
+		</messages>
+	</posix>
+	<references>
+		<reference type="RP1" uri="ISBN 1 86890 034 7">Afrikaanse Woordelys en Spelreëls</reference>
+		<reference type="RP2" uri="ISBN 1 86890 002 9">Pharos - Groot Woordeboek 1997</reference>
+		<reference type="RP3" uri="ISBN 1 86890 044 4">Pharos - Afrikaans-Engels Woordeboek 2005</reference>
+	</references>
+</ldml>

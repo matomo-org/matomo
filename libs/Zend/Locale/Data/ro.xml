@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.66 $"/>
+		<generation date="$Date: 2006/06/27 23:30:54 $"/>
+		<language type="ro"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="ar">Arabă</language>
+			<language type="bg">Bulgară</language>
+			<language type="cs">Cehă</language>
+			<language type="da">Daneză</language>
+			<language type="de">Germană</language>
+			<language type="el">Greacă</language>
+			<language type="en">Engleză</language>
+			<language type="es">Spaniolă</language>
+			<language type="et">Estoniană</language>
+			<language type="fi">Finlandeză</language>
+			<language type="fr">Franceză</language>
+			<language type="he">Ebraică</language>
+			<language type="hr">Croată</language>
+			<language type="hu">Maghiară</language>
+			<language type="it">Italiană</language>
+			<language type="ja">Japoneză</language>
+			<language type="ko">Coreeană</language>
+			<language type="lt">Lituaniană</language>
+			<language type="lv">Letonă</language>
+			<language type="nl">Olandeză</language>
+			<language type="no">Norvegiană</language>
+			<language type="pl">Poloneză</language>
+			<language type="pt">Portugheză</language>
+			<language type="ro">Română</language>
+			<language type="ru">Rusă</language>
+			<language type="sk">Slovacă</language>
+			<language type="sl">Slovenă</language>
+			<language type="sv">Suedeză</language>
+			<language type="tr">Turcă</language>
+			<language type="zh">Chineză</language>
+		</languages>
+		<territories>
+			<territory type="001">Lume</territory>
+			<territory type="005">America de Sud</territory>
+			<territory type="011">Africa occidentală</territory>
+			<territory type="013">America centrală</territory>
+			<territory type="014">Africa orientală</territory>
+			<territory type="015">Africa septentrională</territory>
+			<territory type="017">Africa centrală</territory>
+			<territory type="018">Africa australă</territory>
+			<territory type="019">Americi</territory>
+			<territory type="021">America de Nord</territory>
+			<territory type="029">Caraibe</territory>
+			<territory type="030">Asia orientală</territory>
+			<territory type="035">Asia de Sud-Est</territory>
+			<territory type="039">Europa meridională</territory>
+			<territory type="053">Australia și Noua Zeelandă</territory>
+			<territory type="054">Melanezia</territory>
+			<territory type="057">Micronezia</territory>
+			<territory type="061">Polinezia</territory>
+			<territory type="062">Asia centrala și de Sud</territory>
+			<territory type="145">Asia occidentală</territory>
+			<territory type="150">Europa</territory>
+			<territory type="151">Europa de Est</territory>
+			<territory type="154">Europa septentrională</territory>
+			<territory type="155">Europa occidentală</territory>
+			<territory type="830">Insulele Anglo-Normande</territory>
+			<territory type="AD">Andora</territory>
+			<territory type="AE">Emiratele Arabe Unite</territory>
+			<territory type="AF">Afganistan</territory>
+			<territory type="AG">Antigua și Barbuda</territory>
+			<territory type="AI">Anguilla</territory>
+			<territory type="AL">Albania</territory>
+			<territory type="AM">Armenia</territory>
+			<territory type="AN">Antilele Olandeze</territory>
+			<territory type="AO">Angola</territory>
+			<territory type="AQ">Antarctica</territory>
+			<territory type="AR">Argentina</territory>
+			<territory type="AS">Samoa Americană</territory>
+			<territory type="AT">Austria</territory>
+			<territory type="AU">Australia</territory>
+			<territory type="AW">Aruba</territory>
+			<territory type="AX">Insulele Aland</territory>
+			<territory type="AZ">Azerbaidjan</territory>
+			<territory type="BA">Bosnia și Herzegovina</territory>
+			<territory type="BB">Barbados</territory>
+			<territory type="BD">Bangladesh</territory>
+			<territory type="BE">Belgia</territory>
+			<territory type="BF">Burkina Faso</territory>
+			<territory type="BG">Bulgaria</territory>
+			<territory type="BH">Bahrain</territory>
+			<territory type="BI">Burundi</territory>
+			<territory type="BJ">Benin</territory>
+			<territory type="BM">Bermuda</territory>
+			<territory type="BN">Brunei</territory>
+			<territory type="BO">Bolivia</territory>
+			<territory type="BR">Brazilia</territory>
+			<territory type="BS">Bahamas</territory>
+			<territory type="BT">Bhutan</territory>
+			<territory type="BV">Insula Bouvet</territory>
+			<territory type="BW">Botswana</territory>
+			<territory type="BY">Bielorusia</territory>
+			<territory type="BZ">Belize</territory>
+			<territory type="CA">Canada</territory>
+			<territory type="CC">Insulele Cocos (Keeling)</territory>
+			<territory type="CD">Congo, Republica Democratică</territory>
+			<territory type="CF">Republica Central Africană</territory>
+			<territory type="CG">Congo</territory>
+			<territory type="CH">Eleveția</territory>
+			<territory type="CI">Coasta de Fildeș</territory>
+			<territory type="CK">Insulele Cook</territory>
+			<territory type="CL">Chile</territory>
+			<territory type="CM">Camerun</territory>
+			<territory type="CN">China</territory>
+			<territory type="CO">Columbia</territory>
+			<territory type="CR">Costa Rica</territory>
+			<territory type="CS">Serbia și Muntenegru</territory>
+			<territory type="CU">Cuba</territory>
+			<territory type="CV">Capul Verde</territory>
+			<territory type="CX">Insula Christmas</territory>
+			<territory type="CY">Cipru</territory>
+			<territory type="CZ">Republica Cehă</territory>
+			<territory type="DE">Germania</territory>
+			<territory type="DJ">Djibouti</territory>
+			<territory type="DK">Danemarca</territory>
+			<territory type="DM">Dominica</territory>
+			<territory type="DO">Republica Dominicană</territory>
+			<territory type="DZ">Algeria</territory>
+			<territory type="EC">Ecuador</territory>
+			<territory type="EE">Estonia</territory>
+			<territory type="EG">Egipt</territory>
+			<territory type="EH">Sahara de Vest</territory>
+			<territory type="ER">Eritrea</territory>
+			<territory type="ES">Spania</territory>
+			<territory type="ET">Etiopia</territory>
+			<territory type="FI">Finlanda</territory>
+			<territory type="FJ">Fiji</territory>
+			<territory type="FK">Insulele Falkland</territory>
+			<territory type="FM">Micronezia, Statele Federate</territory>
+			<territory type="FO">Insulele Feroe</territory>
+			<territory type="FR">Franța</territory>
+			<territory type="GA">Gabon</territory>
+			<territory type="GB" draft="unconfirmed">Regatul Unit</territory>
+			<territory type="GD">Grenada</territory>
+			<territory type="GE">Georgia</territory>
+			<territory type="GF">Guyana Franceză</territory>
+			<territory type="GH">Ghana</territory>
+			<territory type="GI">Gibraltar</territory>
+			<territory type="GL">Groenlanda</territory>
+			<territory type="GM">Gambia</territory>
+			<territory type="GN">Guineea</territory>
+			<territory type="GP">Guadeloupe</territory>
+			<territory type="GQ">Guineea Ecuatorială</territory>
+			<territory type="GR">Grecia</territory>
+			<territory type="GS">Insulele South Georgia și South Sandwich</territory>
+			<territory type="GT">Guatemala</territory>
+			<territory type="GU">Guam</territory>
+			<territory type="GW">Guineea-Bissau</territory>
+			<territory type="GY">Guyana</territory>
+			<territory type="HK">R.A.S. Hong Kong a Chinei</territory>
+			<territory type="HM">Insula Heard și Insulele McDonald</territory>
+			<territory type="HN">Honduras</territory>
+			<territory type="HR">Croația</territory>
+			<territory type="HT">Haiti</territory>
+			<territory type="HU">Ungaria</territory>
+			<territory type="ID">Indonezia</territory>
+			<territory type="IE">Irlanda</territory>
+			<territory type="IL">Israel</territory>
+			<territory type="IN">India</territory>
+			<territory type="IO">Teritoriile Britanice din Oceanul Indian</territory>
+			<territory type="IQ">Iraq</territory>
+			<territory type="IR">Iran</territory>
+			<territory type="IS">Islanda</territory>
+			<territory type="IT">Italia</territory>
+			<territory type="JM">Jamaica</territory>
+			<territory type="JO">Iordania</territory>
+			<territory type="JP">Japonia</territory>
+			<territory type="KE">Kenya</territory>
+			<territory type="KG">Kirghizia</territory>
+			<territory type="KH">Cambodgia</territory>
+			<territory type="KI">Kiribati</territory>
+			<territory type="KM">Comoros</territory>
+			<territory type="KN">Saint Kitts și Nevis</territory>
+			<territory type="KP">Coreea de Nord</territory>
+			<territory type="KR">Coreea de Sud</territory>
+			<territory type="KW">Kuweit</territory>
+			<territory type="KY">Insulele Cayman</territory>
+			<territory type="KZ">Kazahstan</territory>
+			<territory type="LA">Lao, Republica Democratică Populară</territory>
+			<territory type="LB">Liban</territory>
+			<territory type="LC">Saint Lucia</territory>
+			<territory type="LI">Liechtenstein</territory>
+			<territory type="LK">Sri Lanka</territory>
+			<territory type="LR">Liberia</territory>
+			<territory type="LS">Lesotho</territory>
+			<territory type="LT">Lituania</territory>
+			<territory type="LU">Luxemburg</territory>
+			<territory type="LV">Letonia</territory>
+			<territory type="LY">Libia, Jamahiriya Arabă</territory>
+			<territory type="MA">Maroc</territory>
+			<territory type="MC">Monaco</territory>
+			<territory type="MD">Moldova, Republica</territory>
+			<territory type="MG">Madagascar</territory>
+			<territory type="MH">Insulele Marshall</territory>
+			<territory type="MK">Macedonia</territory>
+			<territory type="ML">Mali</territory>
+			<territory type="MM">Myanmar</territory>
+			<territory type="MN">Mongolia</territory>
+			<territory type="MO">R.A.S. Macao a Chinei</territory>
+			<territory type="MP">Insulele Northern Mariana</territory>
+			<territory type="MQ">Martinica</territory>
+			<territory type="MR">Mauritania</territory>
+			<territory type="MS">Montserrat</territory>
+			<territory type="MT">Malta</territory>
+			<territory type="MU">Mauritius</territory>
+			<territory type="MV">Maldive</territory>
+			<territory type="MW">Malawi</territory>
+			<territory type="MX">Mexic</territory>
+			<territory type="MY">Malaezia</territory>
+			<territory type="MZ">Mozambic</territory>
+			<territory type="NA">Namibia</territory>
+			<territory type="NC">Noua Caledonie</territory>
+			<territory type="NE">Niger</territory>
+			<territory type="NF">Insulele Norfolk</territory>
+			<territory type="NG">Nigeria</territory>
+			<territory type="NI">Nicaragua</territory>
+			<territory type="NL">Olanda</territory>
+			<territory type="NO">Norvegia</territory>
+			<territory type="NP">Nepal</territory>
+			<territory type="NR">Nauru</territory>
+			<territory type="NU">Niue</territory>
+			<territory type="NZ">Noua Zeelandă</territory>
+			<territory type="OM">Oman</territory>
+			<territory type="PA">Panama</territory>
+			<territory type="PE">Peru</territory>
+			<territory type="PF">Polinezia Franceză</territory>
+			<territory type="PG">Papua Noua Guinee</territory>
+			<territory type="PH">Filipine</territory>
+			<territory type="PK">Pakistan</territory>
+			<territory type="PL">Polonia</territory>
+			<territory type="PM">Saint Pierre și Miquelon</territory>
+			<territory type="PN">Pitcairn</territory>
+			<territory type="PR">Porto Rico</territory>
+			<territory type="PS">Teritoriul Palestinian</territory>
+			<territory type="PT">Portugalia</territory>
+			<territory type="PW">Palau</territory>
+			<territory type="PY">Paraguay</territory>
+			<territory type="QA">Qatar</territory>
+			<territory type="QO">Altă Oceania</territory>
+			<territory type="RE">Reunion</territory>
+			<territory type="RO">România</territory>
+			<territory type="RU">Federația Rusă</territory>
+			<territory type="RW">Rwanda</territory>
+			<territory type="SA">Arabia Saudită</territory>
+			<territory type="SB">Insulele Solomon</territory>
+			<territory type="SC">Seychelles</territory>
+			<territory type="SD">Sudan</territory>
+			<territory type="SE">Suedia</territory>
+			<territory type="SG">Singapore</territory>
+			<territory type="SH">Saint Helena</territory>
+			<territory type="SI">Slovenia</territory>
+			<territory type="SJ">Svalbard și Jan Mayen</territory>
+			<territory type="SK">Slovacia</territory>
+			<territory type="SL">Sierra Leone</territory>
+			<territory type="SM">San Marino</territory>
+			<territory type="SN">Senegal</territory>
+			<territory type="SO">Somalia</territory>
+			<territory type="SR">Surinam</territory>
+			<territory type="ST">Sao Tome și Principe</territory>
+			<territory type="SV">El Salvador</territory>
+			<territory type="SY">Siria</territory>
+			<territory type="SZ">Swaziland</territory>
+			<territory type="TC">Insulele Turks și Caicos</territory>
+			<territory type="TD">Ciad</territory>
+			<territory type="TF">Teritoriile Franceze de Sud</territory>
+			<territory type="TG">Togo</territory>
+			<territory type="TH">Tailanda</territory>
+			<territory type="TJ">Tadjikistan</territory>
+			<territory type="TK">Tokelau</territory>
+			<territory type="TL">Timorul de Est</territory>
+			<territory type="TM">Turkmenistan</territory>
+			<territory type="TN">Tunisia</territory>
+			<territory type="TO">Tonga</territory>
+			<territory type="TR">Turcia</territory>
+			<territory type="TT">Trinidad şi Tobago</territory>
+			<territory type="TV">Tuvalu</territory>
+			<territory type="TW">Taiwan</territory>
+			<territory type="TZ">Tanzania</territory>
+			<territory type="UA">Ucraina</territory>
+			<territory type="UG">Uganda</territory>
+			<territory type="UM">United States Minor Outlying Islands</territory>
+			<territory type="US">Statele Unite</territory>
+			<territory type="UY">Uruguay</territory>
+			<territory type="UZ">Uzbekistan</territory>
+			<territory type="VA">Sfântul Scaun (Statul Vatican)</territory>
+			<territory type="VC">Saint Vincent şi Grenadines</territory>
+			<territory type="VE">Venezuela</territory>
+			<territory type="VG">Insulele Virgine Britanice</territory>
+			<territory type="VI">Insulele Virgine S.U.A.</territory>
+			<territory type="VN">Vietnam</territory>
+			<territory type="VU">Vanuatu</territory>
+			<territory type="WF">Wallis şi Futuna</territory>
+			<territory type="WS">Samoa</territory>
+			<territory type="YE">Yemen</territory>
+			<territory type="YT">Mayotte</territory>
+			<territory type="ZA">Africa de Sud</territory>
+			<territory type="ZM">Zambia</territory>
+			<territory type="ZW">Zimbabwe</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[a ă â b-i î j-p r s ș t ț u-x z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[q w y]</exemplarCharacters>
+	</characters>
+	<dates>
+		<localizedPatternChars>GanjkHmsSEDFwWxhKzAeugXZvcL</localizedPatternChars>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">Ian</month>
+							<month type="2">Feb</month>
+							<month type="3">Mar</month>
+							<month type="4">Apr</month>
+							<month type="5">Mai</month>
+							<month type="6">Iun</month>
+							<month type="7">Iul</month>
+							<month type="8">Aug</month>
+							<month type="9">Sep</month>
+							<month type="10">Oct</month>
+							<month type="11">Nov</month>
+							<month type="12">Dec</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">ianuarie</month>
+							<month type="2">februarie</month>
+							<month type="3">martie</month>
+							<month type="4">aprilie</month>
+							<month type="5">mai</month>
+							<month type="6">iunie</month>
+							<month type="7">iulie</month>
+							<month type="8">august</month>
+							<month type="9">septembrie</month>
+							<month type="10">octombrie</month>
+							<month type="11">noiembrie</month>
+							<month type="12">decembrie</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1">I</month>
+							<month type="2">F</month>
+							<month type="3">M</month>
+							<month type="4">A</month>
+							<month type="5">M</month>
+							<month type="6">I</month>
+							<month type="7">I</month>
+							<month type="8">A</month>
+							<month type="9">S</month>
+							<month type="10">O</month>
+							<month type="11">N</month>
+							<month type="12">D</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">D</day>
+							<day type="mon">L</day>
+							<day type="tue">Ma</day>
+							<day type="wed">Mi</day>
+							<day type="thu">J</day>
+							<day type="fri">V</day>
+							<day type="sat">S</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">duminică</day>
+							<day type="mon">luni</day>
+							<day type="tue">marți</day>
+							<day type="wed">miercuri</day>
+							<day type="thu">joi</day>
+							<day type="fri">vineri</day>
+							<day type="sat">sîmbătă</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun">D</day>
+							<day type="mon">L</day>
+							<day type="tue">M</day>
+							<day type="wed">M</day>
+							<day type="thu">J</day>
+							<day type="fri">V</day>
+							<day type="sat">S</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1" draft="unconfirmed">T1</quarter>
+							<quarter type="2" draft="unconfirmed">T2</quarter>
+							<quarter type="3" draft="unconfirmed">T3</quarter>
+							<quarter type="4" draft="unconfirmed">T4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1" draft="unconfirmed">trimestrul 1</quarter>
+							<quarter type="2" draft="unconfirmed">trimestrul 2</quarter>
+							<quarter type="3" draft="unconfirmed">trimestrul 3</quarter>
+							<quarter type="4" draft="unconfirmed">trimestrul 4</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<eras>
+					<eraAbbr>
+						<era type="0">d.C.</era>
+						<era type="1">î.d.C.</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>d MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd.MM.yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd.MM.yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMMMd" draft="provisional">d MMMM</dateFormatItem>
+						<dateFormatItem id="MMdd" draft="provisional">dd.MM</dateFormatItem>
+						<dateFormatItem id="yyyyMM" draft="provisional">MM.yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="provisional">MMMM yyyy</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<zone type="Antarctica/South_Pole">
+				<exemplarCity>Polul Sud</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Canary">
+				<exemplarCity>Canare</exemplarCity>
+			</zone>
+			<zone type="Europe/London">
+				<exemplarCity>Londra</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Azores">
+				<exemplarCity>Azore</exemplarCity>
+			</zone>
+			<zone type="Europe/Lisbon">
+				<exemplarCity>Lisabona</exemplarCity>
+			</zone>
+			<zone type="Europe/Moscow">
+				<exemplarCity>Moscova</exemplarCity>
+			</zone>
+			<zone type="Asia/Yekaterinburg">
+				<exemplarCity>Ekaterinburg</exemplarCity>
+			</zone>
+			<zone type="Asia/Irkutsk">
+				<exemplarCity>Irkuțk</exemplarCity>
+			</zone>
+			<zone type="Asia/Yakutsk">
+				<exemplarCity>Yakuțk</exemplarCity>
+			</zone>
+			<zone type="Asia/Sakhalin">
+				<exemplarCity>Sahalin</exemplarCity>
+			</zone>
+			<zone type="Asia/Kamchatka">
+				<exemplarCity>Kamciatka</exemplarCity>
+			</zone>
+			<zone type="Europe/Zaporozhye">
+				<exemplarCity>Zaporoje</exemplarCity>
+			</zone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>,</decimal>
+			<group>.</group>
+		</symbols>
+		<currencies>
+			<currency type="BRL">
+				<displayName draft="unconfirmed">Real brazilian</displayName>
+			</currency>
+			<currency type="CNY">
+				<displayName draft="unconfirmed">Yuan Renminbi chinezesc</displayName>
+			</currency>
+			<currency type="GBP">
+				<displayName draft="unconfirmed">Liră sterlină britanică</displayName>
+			</currency>
+			<currency type="INR">
+				<displayName draft="unconfirmed">Rupie indiană</displayName>
+			</currency>
+			<currency type="JPY">
+				<displayName draft="unconfirmed">Yen japonez</displayName>
+			</currency>
+			<currency type="ROL">
+				<symbol draft="unconfirmed">lei</symbol>
+			</currency>
+			<currency type="RUB">
+				<displayName draft="unconfirmed">Rublă rusească</displayName>
+			</currency>
+			<currency type="TRY">
+				<displayName draft="unconfirmed">Noua liră turcească</displayName>
+			</currency>
+			<currency type="USD">
+				<displayName draft="unconfirmed">Dolar SUA</displayName>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr>da:d</yesstr>
+			<nostr>nu:n</nostr>
+		</messages>
+	</posix>
+</ldml>

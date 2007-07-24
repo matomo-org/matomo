@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.41 $"/>
+		<generation date="$Date: 2006/06/27 23:30:53 $"/>
+		<language type="el"/>
+		<territory type="GR"/>
+	</identity>
+	<delimiters>
+		<quotationStart>‘</quotationStart>
+		<quotationEnd>’</quotationEnd>
+		<alternateQuotationStart>“</alternateQuotationStart>
+		<alternateQuotationEnd>”</alternateQuotationEnd>
+	</delimiters>
+	<numbers>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern>#,##0.00¤;-¤#,##0.00</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="GRD">
+				<pattern>#,##0.00 ¤;-#,##0.00 ¤</pattern>
+				<decimal>,</decimal>
+				<group>.</group>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>

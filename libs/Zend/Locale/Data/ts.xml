@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.11 $"/>
+		<generation date="$Date: 2006/06/28 02:08:34 $"/>
+		<language type="ts"/>
+	</identity>
+    <characters>
+		<exemplarCharacters>[a-z]</exemplarCharacters>
+	</characters>
+	<delimiters>
+		<quotationStart draft="unconfirmed">‘</quotationStart>
+		<quotationEnd draft="unconfirmed">’</quotationEnd>
+		<alternateQuotationStart draft="unconfirmed">“</alternateQuotationStart>
+		<alternateQuotationEnd draft="unconfirmed">”</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">Sun</month>
+							<month type="2" draft="unconfirmed">Yan</month>
+							<month type="3" draft="unconfirmed">Kul</month>
+							<month type="4" draft="unconfirmed">Dzi</month>
+							<month type="5" draft="unconfirmed">Mud</month>
+							<month type="6" draft="unconfirmed">Kho</month>
+							<month type="7" draft="unconfirmed">Maw</month>
+							<month type="8" draft="unconfirmed">Mha</month>
+							<month type="9" draft="unconfirmed">Ndz</month>
+							<month type="10" draft="unconfirmed">Nhl</month>
+							<month type="11" draft="unconfirmed">Huk</month>
+							<month type="12" draft="unconfirmed">N'w</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Sunguti</month>
+							<month type="2" draft="unconfirmed">Nyenyenyani</month>
+							<month type="3" draft="unconfirmed">Nyenyankulu</month>
+							<month type="4" draft="unconfirmed">Dzivamisoko</month>
+							<month type="5" draft="unconfirmed">Mudyaxihi</month>
+							<month type="6" draft="unconfirmed">Khotavuxika</month>
+							<month type="7" draft="unconfirmed">Mawuwani</month>
+							<month type="8" draft="unconfirmed">Mhawuri</month>
+							<month type="9" draft="unconfirmed">Ndzhati</month>
+							<month type="10" draft="unconfirmed">Nhlangula</month>
+							<month type="11" draft="unconfirmed">Hukuri</month>
+							<month type="12" draft="unconfirmed">N'wendzamhala</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">Son</day>
+							<day type="mon" draft="unconfirmed">Mus</day>
+							<day type="tue" draft="unconfirmed">Bir</day>
+							<day type="wed" draft="unconfirmed">Har</day>
+							<day type="thu" draft="unconfirmed">Ne</day>
+							<day type="fri" draft="unconfirmed">Tlh</day>
+							<day type="sat" draft="unconfirmed">Mug</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">Sonto</day>
+							<day type="mon" draft="unconfirmed">Musumbhunuku</day>
+							<day type="tue" draft="unconfirmed">Ravumbirhi</day>
+							<day type="wed" draft="unconfirmed">Ravunharhu</day>
+							<day type="thu" draft="unconfirmed">Ravumune</day>
+							<day type="fri" draft="unconfirmed">Ravuntlhanu</day>
+							<day type="sat" draft="unconfirmed">Mugqivela</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1" draft="unconfirmed">K1</quarter>
+							<quarter type="2" draft="unconfirmed">K2</quarter>
+							<quarter type="3" draft="unconfirmed">K3</quarter>
+							<quarter type="4" draft="unconfirmed">K4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1" draft="unconfirmed">Kotara yo sungula</quarter>
+							<quarter type="2" draft="unconfirmed">Kotara ya vumbirhi</quarter>
+							<quarter type="3" draft="unconfirmed">Kotara ya vunharhu</quarter>
+							<quarter type="4" draft="unconfirmed">Kotara ya vumune</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">BC</era>
+						<era type="1" draft="unconfirmed">AD</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">BC</era>
+						<era type="1" draft="unconfirmed">AD</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="ZAR">
+				<symbol draft="unconfirmed">R</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+

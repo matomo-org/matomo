@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.13 $"/>
+		<generation date="$Date: 2006/06/28 01:23:34 $"/>
+		<language type="yo"/>
+	</identity>
+	<characters>
+		<exemplarCharacters>[a á à b d e é è ẹ {ẹ́} {ẹ̀} f g {gb} h i í ì j-o ó ò ọ {ọ́} {ọ̀} p r s ṣ t u ú ù w y]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[c q v x z]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">Sere</month>
+							<month type="2" draft="unconfirmed">Erele</month>
+							<month type="3" draft="unconfirmed">Erena</month>
+							<month type="4" draft="unconfirmed">Igbe</month>
+							<month type="5" draft="unconfirmed">Ebibi</month>
+							<month type="6" draft="unconfirmed">Okudu</month>
+							<month type="7" draft="unconfirmed">Agemo</month>
+							<month type="8" draft="unconfirmed">Ogun</month>
+							<month type="9" draft="unconfirmed">Owewe</month>
+							<month type="10" draft="unconfirmed">Owara</month>
+							<month type="11" draft="unconfirmed">Belu</month>
+							<month type="12" draft="unconfirmed">Ope</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">Osukini</month>
+							<month type="2" draft="unconfirmed">Osukeji</month>
+							<month type="3" draft="unconfirmed">Osuketa</month>
+							<month type="4" draft="unconfirmed">Osukerin</month>
+							<month type="5" draft="unconfirmed">Osukarun</month>
+							<month type="6" draft="unconfirmed">Osukefa</month>
+							<month type="7" draft="unconfirmed">Osukeje</month>
+							<month type="8" draft="unconfirmed">Osukejo</month>
+							<month type="9" draft="unconfirmed">Osukesan</month>
+							<month type="10" draft="unconfirmed">Osukewa</month>
+							<month type="11" draft="unconfirmed">Osukokanla</month>
+							<month type="12" draft="unconfirmed">Osukejila</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">Aiku</day>
+							<day type="mon" draft="unconfirmed">Aje</day>
+							<day type="tue" draft="unconfirmed">Isegun</day>
+							<day type="wed" draft="unconfirmed">Ojoru</day>
+							<day type="thu" draft="unconfirmed">Ojobo</day>
+							<day type="fri" draft="unconfirmed">Eti</day>
+							<day type="sat" draft="unconfirmed">Abameta</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">Ojoaiku</day>
+							<day type="mon" draft="unconfirmed">Ojoaje</day>
+							<day type="tue" draft="unconfirmed">Ojoisegun</day>
+							<day type="wed" draft="unconfirmed">Ojoru</day>
+							<day type="thu" draft="unconfirmed">Ojobo</day>
+							<day type="fri" draft="unconfirmed">Ojoeti</day>
+							<day type="sat" draft="unconfirmed">Ojoabameta</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<am draft="unconfirmed">ARO</am>
+				<pm draft="unconfirmed">ALE</pm>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">Saju Kristi</era>
+						<era type="1" draft="unconfirmed">Lehin Kristi</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">SK</era>
+						<era type="1" draft="unconfirmed">LK</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="NGN">
+				<displayName draft="unconfirmed">Naira</displayName>
+				<symbol draft="unconfirmed">₦</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<references>
+		<reference type="RP1" uri="http://www.omniglot.com/writing/yoruba.htm">Omniglot on Yoruba</reference>
+		<reference type="RP2" uri="http://www.motherlandnigeria.com/languages.html">Nigerian languages - Yoruba</reference>
+		<reference type="RP3" uri="http://www.learnyoruba.com/orthography_1.htm">Learn Yoruba - orthography</reference>
+	</references>
+</ldml>
+

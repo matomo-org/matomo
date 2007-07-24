@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.18 $"/>
+		<generation date="$Date: 2006/07/11 19:26:44 $"/>
+		<language type="ln"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="en" draft="unconfirmed">ngɛlɛ́sa</language>
+			<language type="fr" draft="unconfirmed">falansé</language>
+			<language type="kg" references="RP1" draft="unconfirmed">kikɔ́ngɔ</language>
+			<language type="ln" draft="unconfirmed">lingála</language>
+			<language type="lua" draft="unconfirmed">ciluba</language>
+			<language type="sw" draft="unconfirmed">swahili</language>
+		</languages>
+		<territories>
+			<territory type="002" draft="unconfirmed">Afríka</territory>
+			<territory type="005" draft="unconfirmed">Amérika ya nsé</territory>
+			<territory type="011" draft="unconfirmed">Afríka ya límbe</territory>
+			<territory type="015" draft="unconfirmed">Afríka ya likoló</territory>
+			<territory type="018" draft="unconfirmed">Nsé ya Afríka</territory>
+			<territory type="142" draft="unconfirmed">Azia</territory>
+			<territory type="150" draft="unconfirmed">Eropa</territory>
+			<territory type="155" draft="unconfirmed">Eropa ya límbe</territory>
+			<territory type="BE" draft="unconfirmed">Bɛ́ljika</territory>
+			<territory type="BF" draft="unconfirmed">Burkina Faso</territory>
+			<territory type="BI" draft="unconfirmed">Burundi</territory>
+			<territory type="BW" draft="unconfirmed">Botswana</territory>
+			<territory type="CD" draft="unconfirmed">Kɔngɔ́ (Kinshasa)</territory>
+			<territory type="CF" draft="unconfirmed">Bê Afríka</territory>
+			<territory type="CG" draft="unconfirmed">Kɔngɔ́ (Brazzaville)</territory>
+			<territory type="CH" draft="unconfirmed">Swisi</territory>
+			<territory type="CM" draft="unconfirmed">Kamerun</territory>
+			<territory type="DE" draft="unconfirmed">Alémanyi</territory>
+			<territory type="DJ" draft="unconfirmed">Djibuti</territory>
+			<territory type="EG" draft="unconfirmed">Ejipti</territory>
+			<territory type="EH" draft="unconfirmed">Sahara ya límbe</territory>
+			<territory type="ET" draft="unconfirmed">Etiopya</territory>
+			<territory type="FR" draft="unconfirmed">Falansia</territory>
+			<territory type="GH" draft="unconfirmed">Ghana</territory>
+			<territory type="GM" draft="unconfirmed">Gambia</territory>
+			<territory type="GN" draft="unconfirmed">Gine</territory>
+			<territory type="GW" draft="unconfirmed">Gine-Bisau</territory>
+			<territory type="IT" draft="unconfirmed">Italia</territory>
+			<territory type="KE" draft="unconfirmed">Kenya</territory>
+			<territory type="LR" draft="unconfirmed">Liberia</territory>
+			<territory type="LY" draft="unconfirmed">Libîya</territory>
+			<territory type="ML" draft="unconfirmed">Mali</territory>
+			<territory type="MZ" draft="unconfirmed">Mozambiki</territory>
+			<territory type="NA" draft="unconfirmed">Namibia</territory>
+			<territory type="NE" draft="unconfirmed">Nijé</territory>
+			<territory type="NG" draft="unconfirmed">Nijeria</territory>
+			<territory type="RW" draft="unconfirmed">Rwanda</territory>
+			<territory type="SD" draft="unconfirmed">Sudani</territory>
+			<territory type="SO" draft="unconfirmed">Somalia</territory>
+			<territory type="ST" draft="unconfirmed">Sǎo Tomé na Principe</territory>
+			<territory type="TG" draft="unconfirmed">Togo</territory>
+			<territory type="TN" draft="unconfirmed">Tunizia</territory>
+			<territory type="ZA" draft="unconfirmed">Afríka ya Nsé</territory>
+			<territory type="ZM" draft="unconfirmed">Zambia</territory>
+			<territory type="ZW" draft="unconfirmed">Zimbabwe</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[a á â ǎ b-e é ê ě ɛ {ɛ́} {ɛ̂} {ɛ̌} f g {gb} h i í î ǐ k-m {mb} {mp} n {nd} {ng} {nk} {ns} {nt} {nz} o ó ô ǒ ɔ {ɔ́} {ɔ̂} {ɔ̌} p r-u ú û ǔ v w y z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[j q x]</exemplarCharacters>
+		<exemplarCharacters alt="proposed-u149-1" draft="unconfirmed">[a á â ǎ b-e é ê ě ɛ {ɛ́} {ɛ̂} {ɛ̌} f g {gb} h i í î ǐ j-m {mb} {mp} n {nd} {ng} {ngb} {nk} {ns} {nt} {nz} o ó ô ǒ ɔ {ɔ́} {ɔ̂} {ɔ̌} p-u ú û ǔ v-z]</exemplarCharacters>
+	</characters>
+	<delimiters>
+		<quotationStart draft="unconfirmed">«</quotationStart>
+		<quotationEnd draft="unconfirmed">»</quotationEnd>
+		<alternateQuotationStart draft="unconfirmed">“</alternateQuotationStart>
+		<alternateQuotationEnd draft="unconfirmed">”</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">s1</month>
+							<month type="2" draft="unconfirmed">s2</month>
+							<month type="3" draft="unconfirmed">s3</month>
+							<month type="4" draft="unconfirmed">s4</month>
+							<month type="5" draft="unconfirmed">s5</month>
+							<month type="6" draft="unconfirmed">s6</month>
+							<month type="7" draft="unconfirmed">s7</month>
+							<month type="8" draft="unconfirmed">s8</month>
+							<month type="9" draft="unconfirmed">s9</month>
+							<month type="10" draft="unconfirmed">s10</month>
+							<month type="11" draft="unconfirmed">s11</month>
+							<month type="12" draft="unconfirmed">s12</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">sánzá ya yambo</month>
+							<month type="2" draft="unconfirmed">sánzá ya míbalé</month>
+							<month type="3" draft="unconfirmed">sánzá ya mísáto</month>
+							<month type="4" draft="unconfirmed">sánzá ya mínéi</month>
+							<month type="5" draft="unconfirmed">sánzá ya mítáno</month>
+							<month type="6" draft="unconfirmed">sánzá ya motóbá</month>
+							<month type="7" draft="unconfirmed">sánzá ya nsambo</month>
+							<month type="8" draft="unconfirmed">sánzá ya mwambe</month>
+							<month type="9" draft="unconfirmed">sánzá ya libwa</month>
+							<month type="10" draft="unconfirmed">sánzá ya zómí</month>
+							<month type="11" draft="unconfirmed">sánzá ya zómí na mɔ̌kɔ́</month>
+							<month type="12" draft="unconfirmed">sánzá ya zómí na míbalé</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">eye</day>
+							<day type="mon" draft="unconfirmed">m1</day>
+							<day type="tue" draft="unconfirmed">m2</day>
+							<day type="wed" draft="unconfirmed">m3</day>
+							<day type="thu" draft="unconfirmed">m4</day>
+							<day type="fri" draft="unconfirmed">m5</day>
+							<day type="sat" draft="unconfirmed">mps</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">eyenga</day>
+							<day type="mon" draft="unconfirmed">mokɔlɔ ya libosó</day>
+							<day type="tue" draft="unconfirmed">mokɔlɔ ya míbalé</day>
+							<day type="wed" draft="unconfirmed">mokɔlɔ ya mísáto</day>
+							<day type="thu" draft="unconfirmed">mokɔlɔ ya mínéi</day>
+							<day type="fri" draft="unconfirmed">mokɔlɔ ya mítáno</day>
+							<day type="sat" draft="unconfirmed">mpɔ́sɔ</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1" draft="unconfirmed">SM1</quarter>
+							<quarter type="2" draft="unconfirmed">SM2</quarter>
+							<quarter type="3" draft="unconfirmed">SM3</quarter>
+							<quarter type="4" draft="unconfirmed">SM4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1" draft="unconfirmed">sánzá mísáto ya yambo</quarter>
+							<quarter type="2" draft="unconfirmed">sánzá mísáto ya míbalé</quarter>
+							<quarter type="3" draft="unconfirmed">sánzá mísáto ya mísáto</quarter>
+							<quarter type="4" draft="unconfirmed">sánzá mísáto ya mínéi</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">libosó ya Y.-K.</era>
+						<era type="1" draft="unconfirmed">nsima ya Y.-K.</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">libosó ya Y.-K.</era>
+						<era type="1" draft="unconfirmed">nsima ya Y.-K.</era>
+					</eraAbbr>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal draft="unconfirmed">,</decimal>
+			<list draft="unconfirmed">;</list>
+		</symbols>
+		<currencies>
+			<currency type="CDF">
+				<displayName draft="unconfirmed">falánga</displayName>
+			</currency>
+		</currencies>
+	</numbers>
+	<references>
+		<reference type="RP1" uri="http://www.amazon.ca/exec/obidos/ASIN/2845865686/qid%3D1140216973/702-7033870-9370469">Kawata Ashem Tem, Bago ya lingala mambi ma lokota (dictionnaire lingala) ISBN 2-84586-494-9</reference>
+		<reference type="RP2" uri="http://www.amazon.ca/exec/obidos/ASIN/0967958776/qid=1140217014/sr=1-7/ref=sr_1_0_7/702-7033870-9370469">Bokamba, Eyamba G. &amp; Bokamba, Molingo Virginie, Tosolola Na Lingala: Let's Speak Lingala ISBN: 0967958776</reference>
+		<reference type="RP3" uri="http://www.rifal.org/3_information.html">Edema Atibakwa-Baboya, L’orthographe des langues de la République démocratique du Congo: entre usages et norme, Les cahiers du Rifal, N° 23, novembre 2003</reference>
+		<reference type="RP4" uri="http://en.wikipedia.org/wiki/Lingala_language">Wikipedia on Lingala</reference>
+	</references>
+</ldml>
+

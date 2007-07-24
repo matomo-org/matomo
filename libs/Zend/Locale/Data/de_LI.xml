@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.33 $"/>
+		<generation date="$Date: 2006/06/28 01:23:32 $"/>
+		<language type="de"/>
+		<territory type="LI"/>
+	</identity>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="yyMMdd" draft="provisional">dd.MM.yy</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>.</decimal>
+			<group>'</group>
+		</symbols>
+	</numbers>
+</ldml>
+

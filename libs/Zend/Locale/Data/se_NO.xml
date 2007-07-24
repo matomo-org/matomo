@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.12 $"/>
+		<generation date="$Date: 2006/07/11 19:27:38 $"/>
+		<language type="se"/>
+		<territory type="NO"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="ang" draft="unconfirmed">Boares eaŋgalasgiella</language>
+			<language type="apa" draft="unconfirmed">Apachegielat</language>
+			<language type="be" draft="unconfirmed">Vilgesruoššagiella</language>
+			<language type="cs" draft="unconfirmed">Tšehkkiagiella</language>
+			<language type="da" draft="unconfirmed">Dánskkagiella</language>
+			<language type="de" draft="unconfirmed">Duiskkagiella</language>
+			<language type="el" draft="unconfirmed">Greikkagiella</language>
+			<language type="en" draft="unconfirmed">Eŋgelasgiella</language>
+			<language type="es" draft="unconfirmed">Spánskkagiella</language>
+			<language type="et" draft="unconfirmed">Eestegiella</language>
+			<language type="fi" draft="unconfirmed">Suomagiella</language>
+			<language type="fiu" draft="unconfirmed">Fenno-Ugrálaš</language>
+			<language type="fo" draft="unconfirmed">Sjekk</language>
+			<language type="fr" draft="unconfirmed">Fránskkagiella</language>
+			<language type="gem" draft="unconfirmed">Eará duiskkagielat</language>
+			<language type="is" draft="unconfirmed">Islánddagiela</language>
+			<language type="nb" draft="unconfirmed">Girjedárugiela</language>
+			<language type="nn" draft="unconfirmed">Ođđadárogiela</language>
+			<language type="no" draft="unconfirmed">Norgga</language>
+			<language type="ru" draft="unconfirmed">Ruoššagiela</language>
+			<language type="se" draft="unconfirmed">dávvisámegiella</language>
+			<language type="sma" draft="unconfirmed">Máttasámegiella</language>
+			<language type="smi" draft="unconfirmed">Sámi gielat</language>
+			<language type="smj" draft="unconfirmed">juvlevsámegiella</language>
+			<language type="smn" draft="unconfirmed">ánársámegiella</language>
+			<language type="sms" draft="unconfirmed">nuortálašgiella</language>
+			<language type="sv" draft="unconfirmed">Ruoŧagiella</language>
+		</languages>
+		<territories>
+			<territory type="011" draft="unconfirmed">Oarji-Afrihká</territory>
+			<territory type="014" draft="unconfirmed">Nuorta-Afrihká</territory>
+			<territory type="AT" draft="unconfirmed">Nuortariika</territory>
+			<territory type="AU" draft="unconfirmed">Austrália</territory>
+			<territory type="AX" draft="unconfirmed">Ålánda</territory>
+			<territory type="BE" draft="unconfirmed">Belgia</territory>
+			<territory type="BG" draft="unconfirmed">Bulgária</territory>
+			<territory type="BR" draft="unconfirmed">Brasil</territory>
+			<territory type="BY" draft="unconfirmed">Vilgesruošša</territory>
+			<territory type="CH" draft="unconfirmed">Šveica</territory>
+			<territory type="CM" draft="unconfirmed">Kamerun</territory>
+			<territory type="CN" draft="unconfirmed">Kiinná</territory>
+			<territory type="CZ" draft="unconfirmed">Čhekkia</territory>
+			<territory type="DE" draft="unconfirmed">Duiskka</territory>
+			<territory type="DK" draft="unconfirmed">Dánmárku</territory>
+			<territory type="EE" draft="unconfirmed">Estteeana</territory>
+			<territory type="ES" draft="unconfirmed">Espánjja</territory>
+			<territory type="FI" draft="unconfirmed">Suopma</territory>
+			<territory type="FO" draft="unconfirmed">Fearsullot</territory>
+			<territory type="FR" draft="unconfirmed">Fránkriika</territory>
+			<territory type="GL" draft="unconfirmed">Kalaallit Nunaat</territory>
+			<territory type="GR" draft="unconfirmed">Greika</territory>
+			<territory type="HR" draft="unconfirmed">Kroátia</territory>
+			<territory type="HU" draft="unconfirmed">Ungár</territory>
+			<territory type="IE" draft="unconfirmed">Irlánda</territory>
+			<territory type="IQ" draft="unconfirmed">Irak</territory>
+			<territory type="IR" draft="unconfirmed">Ir</territory>
+			<territory type="IS" draft="unconfirmed">Islánda</territory>
+			<territory type="IT" draft="unconfirmed">Itália</territory>
+			<territory type="JP" draft="unconfirmed">Jáhpan</territory>
+			<territory type="KP" draft="unconfirmed">Dávvi-Korea</territory>
+			<territory type="KR" draft="unconfirmed">Mátta-Korea</territory>
+			<territory type="LB" draft="unconfirmed">Libanon</territory>
+			<territory type="LT" draft="unconfirmed">Lietuva</territory>
+			<territory type="LV" draft="unconfirmed">Látvia</territory>
+			<territory type="MA" draft="unconfirmed">Marokko</territory>
+			<territory type="MG" draft="unconfirmed">Madagaskar</territory>
+			<territory type="MH" draft="unconfirmed">Marshallsullot</territory>
+			<territory type="MK" draft="unconfirmed">Makedonia</territory>
+			<territory type="MP" draft="unconfirmed">Dávvi-Mariánat</territory>
+			<territory type="MR" draft="unconfirmed">Mauretania</territory>
+			<territory type="MV" draft="unconfirmed">Malediivvat</territory>
+			<territory type="MY" draft="unconfirmed">Malesia</territory>
+			<territory type="NL" draft="unconfirmed">Nederland</territory>
+			<territory type="NO" draft="unconfirmed">Norgga</territory>
+			<territory type="NZ" draft="unconfirmed">Aotearoa</territory>
+			<territory type="PH" draft="unconfirmed">Filippinene</territory>
+			<territory type="PL" draft="unconfirmed">Polska</territory>
+			<territory type="PS" draft="unconfirmed">Palestina</territory>
+			<territory type="RU" draft="unconfirmed">Ruošša</territory>
+			<territory type="SE" draft="unconfirmed">Ruoŧŧa</territory>
+			<territory type="SI" draft="unconfirmed">Šlovenia</territory>
+			<territory type="SJ" draft="unconfirmed">Svalbárdda ja Jan Mayen</territory>
+			<territory type="SK" draft="unconfirmed">Šlovakia</territory>
+			<territory type="SR" draft="unconfirmed">Surinam</territory>
+			<territory type="TD" draft="unconfirmed">Čhad</territory>
+			<territory type="TL" draft="unconfirmed">Nuorta-Timor</territory>
+			<territory type="TR" draft="unconfirmed">Durka</territory>
+			<territory type="US" draft="unconfirmed">Amerihká Ovttastuvvan Stáhtat</territory>
+			<territory type="ZA" draft="unconfirmed">Mátta-Afrihká</territory>
+		</territories>
+		<keys>
+			<key type="calendar" draft="unconfirmed">kaleandar</key>
+			<key type="currency" draft="unconfirmed">valuhtta</key>
+		</keys>
+		<measurementSystemNames>
+			<measurementSystemName type="metric" draft="unconfirmed">mehter</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<delimiters>
+		<quotationStart draft="unconfirmed">«</quotationStart>
+		<quotationEnd draft="unconfirmed">»</quotationEnd>
+		<alternateQuotationStart draft="unconfirmed">&quot;</alternateQuotationStart>
+		<alternateQuotationEnd draft="unconfirmed">&quot;</alternateQuotationEnd>
+	</delimiters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1" draft="unconfirmed">ođđj</month>
+							<month type="2" draft="unconfirmed">guov</month>
+							<month type="3" draft="unconfirmed">njuk</month>
+							<month type="4" draft="unconfirmed">cuo</month>
+							<month type="5" draft="unconfirmed">mies</month>
+							<month type="6" draft="unconfirmed">geas</month>
+							<month type="7" draft="unconfirmed">suoi</month>
+							<month type="8" draft="unconfirmed">borg</month>
+							<month type="9" draft="unconfirmed">čakč</month>
+							<month type="10" draft="unconfirmed">golg</month>
+							<month type="11" draft="unconfirmed">skáb</month>
+							<month type="12" draft="unconfirmed">juov</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1" draft="unconfirmed">ođđajagemánnu</month>
+							<month type="2" draft="unconfirmed">guovvamánnu</month>
+							<month type="3" draft="unconfirmed">njukčamánnu</month>
+							<month type="4" draft="unconfirmed">cuoŋománnu</month>
+							<month type="5" draft="unconfirmed">miessemánnu</month>
+							<month type="6" draft="unconfirmed">geassemánnu</month>
+							<month type="7" draft="unconfirmed">suoidnemánnu</month>
+							<month type="8" draft="unconfirmed">borgemánnu</month>
+							<month type="9" draft="unconfirmed">čakčamánnu</month>
+							<month type="10" draft="unconfirmed">golggotmánnu</month>
+							<month type="11" draft="unconfirmed">skábmamánnu</month>
+							<month type="12" draft="unconfirmed">juovlamánnu</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1" draft="unconfirmed">O</month>
+							<month type="2" draft="unconfirmed">G</month>
+							<month type="3" draft="unconfirmed">N</month>
+							<month type="4" draft="unconfirmed">C</month>
+							<month type="5" draft="unconfirmed">M</month>
+							<month type="6" draft="unconfirmed">G</month>
+							<month type="7" draft="unconfirmed">S</month>
+							<month type="8" draft="unconfirmed">B</month>
+							<month type="9" draft="unconfirmed">Č</month>
+							<month type="10" draft="unconfirmed">G</month>
+							<month type="11" draft="unconfirmed">S</month>
+							<month type="12" draft="unconfirmed">J</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun" draft="unconfirmed">sotn</day>
+							<day type="mon" draft="unconfirmed">vuos</day>
+							<day type="tue" draft="unconfirmed">maŋ</day>
+							<day type="wed" draft="unconfirmed">gask</day>
+							<day type="thu" draft="unconfirmed">duor</day>
+							<day type="fri" draft="unconfirmed">bear</day>
+							<day type="sat" draft="unconfirmed">láv</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun" draft="unconfirmed">sotnabeaivi</day>
+							<day type="mon" draft="unconfirmed">vuossárga</day>
+							<day type="tue" draft="unconfirmed">maŋŋebárga</day>
+							<day type="wed" draft="unconfirmed">gaskavahkku</day>
+							<day type="thu" draft="unconfirmed">duorasdat</day>
+							<day type="fri" draft="unconfirmed">bearjadat</day>
+							<day type="sat" draft="unconfirmed">lávvardat</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun" draft="unconfirmed">s</day>
+							<day type="mon" draft="unconfirmed">v</day>
+							<day type="tue" draft="unconfirmed">m</day>
+							<day type="wed" draft="unconfirmed">g</day>
+							<day type="thu" draft="unconfirmed">d</day>
+							<day type="fri" draft="unconfirmed">b</day>
+							<day type="sat" draft="unconfirmed">l</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">Ovdal Kristtusa</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0" draft="unconfirmed">OK</era>
+					</eraAbbr>
+				</eras>
+				<fields>
+					<field type="year">
+						<displayName draft="unconfirmed">jáhki</displayName>
+					</field>
+					<field type="month">
+						<displayName draft="unconfirmed">mánnu</displayName>
+					</field>
+					<field type="week">
+						<displayName draft="unconfirmed">váhkku</displayName>
+					</field>
+					<field type="day">
+						<displayName draft="unconfirmed">beaivi</displayName>
+					</field>
+					<field type="weekday">
+						<displayName draft="unconfirmed">váhkkubeaivi</displayName>
+					</field>
+					<field type="hour">
+						<displayName draft="unconfirmed">tiibmu</displayName>
+					</field>
+					<field type="minute">
+						<displayName draft="unconfirmed">minuhtta</displayName>
+					</field>
+					<field type="second">
+						<displayName draft="unconfirmed">sekunda</displayName>
+					</field>
+					<field type="zone">
+						<displayName draft="unconfirmed">sone</displayName>
+					</field>
+				</fields>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="FIM">
+				<displayName draft="unconfirmed">suoma márkki</displayName>
+			</currency>
+			<currency type="NOK">
+				<displayName draft="unconfirmed">Norga kruvdno</displayName>
+			</currency>
+			<currency type="SEK">
+				<displayName draft="unconfirmed">Ruoŧŧa kruvdno</displayName>
+			</currency>
+			<currency type="XAG">
+				<displayName draft="unconfirmed">silba</displayName>
+			</currency>
+			<currency type="XAU">
+				<displayName draft="unconfirmed">golli</displayName>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr draft="unconfirmed">jo</yesstr>
+			<nostr draft="unconfirmed">ii</nostr>
+		</messages>
+	</posix>
+</ldml>
+

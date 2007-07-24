@@ -1,0 +1,2623 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.68 $"/>
+		<generation date="$Date: 2006/07/11 19:26:43 $"/>
+		<language type="da"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="aa">afar</language>
+			<language type="ab">abkhasisk</language>
+			<language type="ace">achinesisk</language>
+			<language type="ach">acoli</language>
+			<language type="ada">adangme</language>
+			<language type="ady">adyghe</language>
+			<language type="ae">avestan</language>
+			<language type="af">afrikaans</language>
+			<language type="afa" references="R1">afro-asiatisk (øvrige)</language>
+			<language type="afa" references="R1" alt="proposed-u219-1" draft="unconfirmed">afro-asiatisk sprog (annet)</language>
+			<language type="afh">afrihili</language>
+			<language type="ain">ainu</language>
+			<language type="ak">akan</language>
+			<language type="akk">akkadisk</language>
+			<language type="ale" references="R1">aleutisk</language>
+			<language type="ale" references="R1" alt="proposed-u219-1" draft="unconfirmed">aleutisk sprog</language>
+			<language type="alg">algonkiske sprog</language>
+			<language type="alg" alt="proposed-u219-1" draft="unconfirmed">algonkisk sprog</language>
+			<language type="alt" draft="provisional">sydaltaisk</language>
+			<language type="am">amharisk</language>
+			<language type="an">aragonesisk</language>
+			<language type="ang">Angelsaksisk (ca.450-1100)</language>
+			<language type="ang" alt="proposed-u219-1" draft="provisional">angelsaksisk (c:a 450-1100)</language>
+			<language type="apa">apache sprog</language>
+			<language type="ar">arabisk</language>
+			<language type="arc">aramæisk</language>
+			<language type="arn">araukansk</language>
+			<language type="arp">arapaho</language>
+			<language type="art">kunstsprog (øvrige)</language>
+			<language type="art" alt="proposed-u219-1" draft="unconfirmed">kunstsprog (annet)</language>
+			<language type="arw">arawak</language>
+			<language type="as">assamesisk</language>
+			<language type="ast">asturisk</language>
+			<language type="ath" references="R1">athapaskiske sprog</language>
+			<language type="ath" references="R1" alt="proposed-u219-1" draft="unconfirmed">athapaskisk sprog (annet)</language>
+			<language type="aus" references="RP2">australske sprog</language>
+			<language type="aus" references="RP2" alt="proposed-u219-1" draft="unconfirmed">australsk sprog</language>
+			<language type="av" references="RP2">avarisk</language>
+			<language type="av" references="RP2" alt="proposed-u219-1" draft="unconfirmed">avarisk sprog</language>
+			<language type="awa">awadhi</language>
+			<language type="ay">Aymara</language>
+			<language type="ay" alt="proposed-u219-1" draft="provisional">aymara</language>
+			<language type="az">aserbajdsjansk</language>
+			<language type="ba">bashkir</language>
+			<language type="bad">banda</language>
+			<language type="bai" references="R1">bamilekiske sprog</language>
+			<language type="bai" references="R1" alt="proposed-u219-1" draft="unconfirmed">bamilekisk sprog</language>
+			<language type="bal">baluchi</language>
+			<language type="ban">balinesisk</language>
+			<language type="bas">basa</language>
+			<language type="bat" references="RP2">baltiske sprog (øvrige)</language>
+			<language type="bat" references="RP2" alt="proposed-u219-2" draft="unconfirmed">baltisk sprog (annet)</language>
+			<language type="be">hviderussisk</language>
+			<language type="bej">beja</language>
+			<language type="bem">bemba</language>
+			<language type="ber" references="RP2">berberisk</language>
+			<language type="ber" references="RP2" alt="proposed-u219-1" draft="unconfirmed">berberisk sprog</language>
+			<language type="bg">bulgarsk</language>
+			<language type="bh">bihari</language>
+			<language type="bho">bhojpuri</language>
+			<language type="bi">bislama</language>
+			<language type="bik">bikol</language>
+			<language type="bin">bini</language>
+			<language type="bla">Siksika</language>
+			<language type="bla" alt="proposed-u219-1" draft="provisional">siksika</language>
+			<language type="bm">bambara</language>
+			<language type="bn">bengalsk</language>
+			<language type="bnt">bantu</language>
+			<language type="bo">Tibetansk</language>
+			<language type="bo" alt="proposed-u219-1" draft="provisional">tibetansk</language>
+			<language type="br">bretonsk</language>
+			<language type="bra">braj</language>
+			<language type="bs">bosnisk</language>
+			<language type="btk">batak</language>
+			<language type="bua">buriatisk</language>
+			<language type="bug">buginesisk</language>
+			<language type="byn">blin</language>
+			<language type="ca">katalansk</language>
+			<language type="cad">caddo</language>
+			<language type="cai" references="R1">mellemamerikansk indiansk (øvrige)</language>
+			<language type="cai" references="R1" alt="proposed-u219-1" draft="unconfirmed">mellemamerikanske indiansk sprog (annet)</language>
+			<language type="car">caribisk</language>
+			<language type="cau" references="R1">kaukasisk (øvrige)</language>
+			<language type="cau" references="R1" alt="proposed-u219-1" draft="unconfirmed">kaukasisk sprog (annet)</language>
+			<language type="ce">tjetjensk</language>
+			<language type="ceb">cebuano</language>
+			<language type="cel" references="R1">keltisk (øvrige)</language>
+			<language type="cel" references="R1" alt="proposed-u219-1" draft="unconfirmed">keltisk sprog (annet)</language>
+			<language type="ch">chamorro</language>
+			<language type="chb">Chibcha</language>
+			<language type="chb" alt="proposed-u219-1" draft="provisional">chibcha</language>
+			<language type="chg">chagatai</language>
+			<language type="chk">Chuukese</language>
+			<language type="chk" alt="proposed-u219-1" draft="provisional">chuukese</language>
+			<language type="chm">Mari</language>
+			<language type="chm" alt="proposed-u219-1" draft="provisional">mari</language>
+			<language type="chn">Chinook</language>
+			<language type="chn" alt="proposed-u219-1" draft="provisional">chinook</language>
+			<language type="cho">Choctaw</language>
+			<language type="cho" alt="proposed-u219-1" draft="provisional">choctaw</language>
+			<language type="chp">Chipewyan</language>
+			<language type="chp" alt="proposed-u219-1" draft="provisional">chipewyan</language>
+			<language type="chr">cherokee</language>
+			<language type="chy">cheyenne</language>
+			<language type="cmc" references="RP2">chamic sprog</language>
+			<language type="cmc" references="RP2" alt="proposed-u219-1" draft="unconfirmed">chamic sprog</language>
+			<language type="co">Korsikansk</language>
+			<language type="co" alt="proposed-u219-1" draft="provisional">korsikansk</language>
+			<language type="cop">Koptisk</language>
+			<language type="cop" alt="proposed-u219-1" draft="provisional">koptisk</language>
+			<language type="cpe">Kreolsk og pidgin, baseret på engelsk (øvrige)</language>
+			<language type="cpe" references="R1" alt="proposed-u165-1" draft="provisional">kreolsk og pidgin, baseret på engelsk (øvrige)</language>
+			<language type="cpe" alt="proposed-u219-1" draft="unconfirmed">engelsk kreolsk sprog (annet)</language>
+			<language type="cpf">Kreolsk og pidgin, baseret på fransk (øvrige)</language>
+			<language type="cpf" references="R1" alt="proposed-u165-1" draft="provisional">kreolsk og pidgin, baseret på fransk (øvrige)</language>
+			<language type="cpf" alt="proposed-u219-1" draft="unconfirmed">fransk kreolsk sprok (annet)</language>
+			<language type="cpp">Kreolsk og pidgin, baseret på portugisisk (øvrige)</language>
+			<language type="cpp" references="R1" alt="proposed-u165-1" draft="provisional">kreolsk og pidgin, baseret på portugisisk</language>
+			<language type="cpp" alt="proposed-u219-1" draft="unconfirmed">portugisisk kreolsk sprog (annet)</language>
+			<language type="cr">Cree</language>
+			<language type="cr" alt="proposed-u219-1" draft="provisional">cree</language>
+			<language type="crh">Krim-tyrkisk; Krim-tatarisk</language>
+			<language type="crh" alt="proposed-u219-1" draft="provisional">krim-tyrkisk; krim-tatarisk</language>
+			<language type="crp">Kreolsk og pidgin (øvrige)</language>
+			<language type="crp" references="RP2" alt="proposed-u165-1" draft="provisional">kreolsk og pidgin (øvrige)</language>
+			<language type="crp" alt="proposed-u219-1" draft="unconfirmed">kreolsk sprog (annet)</language>
+			<language type="cs">Tjekkisk</language>
+			<language type="cs" alt="proposed-u219-1" draft="provisional">tjekkisk</language>
+			<language type="csb">Kashubian</language>
+			<language type="csb" alt="proposed-u219-1" draft="provisional">kashubian</language>
+			<language type="cu">Kirkeslavisk</language>
+			<language type="cu" alt="proposed-u219-1" draft="provisional">oldkirkeslavisk</language>
+			<language type="cus">Kusjitiske sprog (øvrige)</language>
+			<language type="cus" references="R1" alt="proposed-u165-1" draft="provisional">kusjitisk (øvrige)</language>
+			<language type="cus" alt="proposed-u219-1" draft="unconfirmed">kusjitisk sprog (annet)</language>
+			<language type="cv">Chuvash</language>
+			<language type="cv" alt="proposed-u219-1" draft="provisional">chuvash</language>
+			<language type="cy">Walisisk</language>
+			<language type="cy" alt="proposed-u219-1" draft="provisional">walisisk</language>
+			<language type="da">Dansk</language>
+			<language type="da" alt="proposed-u219-1" draft="provisional">dansk</language>
+			<language type="dak">Dakota</language>
+			<language type="dak" alt="proposed-u219-1" draft="provisional">dakota</language>
+			<language type="dar">Dargwa</language>
+			<language type="dar" alt="proposed-u219-1" draft="provisional">dargwa</language>
+			<language type="day">Dayak</language>
+			<language type="day" alt="proposed-u219-1" draft="provisional">dayak</language>
+			<language type="de">Tysk</language>
+			<language type="de" alt="proposed-u219-1" draft="provisional">tysk</language>
+			<language type="del">Delaware</language>
+			<language type="del" alt="proposed-u219-1" draft="provisional">delaware</language>
+			<language type="den">Slave (Athapascan)</language>
+			<language type="den" alt="proposed-u219-1" draft="provisional">slavej</language>
+			<language type="dgr">Dogrib</language>
+			<language type="dgr" alt="proposed-u219-1" draft="provisional">dogrib</language>
+			<language type="din">Dinka</language>
+			<language type="din" alt="proposed-u219-1" draft="provisional">dinka</language>
+			<language type="doi">Dogri</language>
+			<language type="doi" alt="proposed-u219-1" draft="provisional">dogri</language>
+			<language type="dra">Dravidiske sprog (øvrige)</language>
+			<language type="dra" references="R1" alt="proposed-u165-1" draft="provisional">dravidisk (øvrige)</language>
+			<language type="dra" alt="proposed-u219-1" draft="unconfirmed">dravidisk sprog (annet)</language>
+			<language type="dsb">Nedre sorbisk</language>
+			<language type="dsb" alt="proposed-u219-1" draft="provisional">nedre sorbisk</language>
+			<language type="dua">Duala</language>
+			<language type="dua" alt="proposed-u219-1" draft="provisional">duala</language>
+			<language type="dum">Hollandsk (ca. 1050-1350)</language>
+			<language type="dum" alt="proposed-u219-1" draft="provisional">middelhollandsk (c:a 1050-1350)</language>
+			<language type="dv">Divehi</language>
+			<language type="dv" alt="proposed-u219-1" draft="provisional">divehi</language>
+			<language type="dyu">Dyula</language>
+			<language type="dyu" alt="proposed-u219-1" draft="provisional">dyula</language>
+			<language type="dz">Dzongkha</language>
+			<language type="dz" alt="proposed-u219-1" draft="provisional">dzongkha</language>
+			<language type="ee">Ewe</language>
+			<language type="ee" alt="proposed-u219-1" draft="provisional">ewe</language>
+			<language type="efi">Efik</language>
+			<language type="efi" alt="proposed-u219-1" draft="provisional">efik</language>
+			<language type="egy">Egyptisk (oldtid)</language>
+			<language type="egy" alt="proposed-u219-1" draft="provisional">oldegyptisk</language>
+			<language type="eka">Ekajuk</language>
+			<language type="eka" alt="proposed-u219-1" draft="provisional">ekajuk</language>
+			<language type="el">Græsk</language>
+			<language type="el" alt="proposed-u219-1" draft="provisional">græsk</language>
+			<language type="elx">Elamitisk</language>
+			<language type="elx" alt="proposed-u219-1" draft="provisional">elamitisk</language>
+			<language type="en">Engelsk</language>
+			<language type="en" alt="proposed-u219-1" draft="provisional">engelsk</language>
+			<language type="enm">Engelsk, Middel- (1100-1500)</language>
+			<language type="enm" alt="proposed-u219-1" draft="provisional">middelengelsk (1100-1500)</language>
+			<language type="eo">Esperanto</language>
+			<language type="eo" alt="proposed-u219-1" draft="provisional">esperanto</language>
+			<language type="es">Spansk</language>
+			<language type="es" alt="proposed-u219-1" draft="provisional">spansk</language>
+			<language type="et">Estisk</language>
+			<language type="et" alt="proposed-u219-1" draft="provisional">estisk</language>
+			<language type="eu">baskisk</language>
+			<language type="ewo">Ewondo</language>
+			<language type="ewo" alt="proposed-u219-1" draft="provisional">ewondo</language>
+			<language type="fa">Persisk</language>
+			<language type="fa" alt="proposed-u219-1" draft="provisional">persisk</language>
+			<language type="fan">Fang</language>
+			<language type="fan" alt="proposed-u219-1" draft="provisional">fang</language>
+			<language type="fat">Fanti</language>
+			<language type="fat" alt="proposed-u219-1" draft="provisional">fanti</language>
+			<language type="ff">Fulah</language>
+			<language type="ff" alt="proposed-u219-1" draft="provisional">fulah</language>
+			<language type="fi">Finsk</language>
+			<language type="fi" alt="proposed-u219-1" draft="provisional">finsk</language>
+			<language type="fil" draft="provisional">filippinsk</language>
+			<language type="fiu">Finsk-ugriske sprog (øvrige)</language>
+			<language type="fiu" references="R1" alt="proposed-u165-1" draft="provisional">finsk-ugrisk (øvrige)</language>
+			<language type="fiu" alt="proposed-u219-1" draft="unconfirmed">finsk-ugrisk sprog (annet)</language>
+			<language type="fj">Fijian</language>
+			<language type="fj" alt="proposed-u219-1" draft="provisional">fijian</language>
+			<language type="fo">Færøsk</language>
+			<language type="fo" alt="proposed-u219-1" draft="provisional">færøsk</language>
+			<language type="fon">Fon</language>
+			<language type="fon" alt="proposed-u219-1" draft="provisional">fon</language>
+			<language type="fr">Fransk</language>
+			<language type="fr" alt="proposed-u219-1" draft="provisional">fransk</language>
+			<language type="frm">Fransk, Middel- (ca.1400-1600)</language>
+			<language type="frm" alt="proposed-u219-1" draft="provisional">middelfransk (c:a 1400-1600)</language>
+			<language type="fro">Fransk, Old- (842-ca.1400)</language>
+			<language type="fro" alt="proposed-u219-1" draft="provisional">oldfransk (c:a 842-1400)</language>
+			<language type="fur">Friulian</language>
+			<language type="fur" alt="proposed-u219-1" draft="provisional">friulian</language>
+			<language type="fy">Frisisk</language>
+			<language type="fy" alt="proposed-u219-1" draft="provisional">vestfrisisk</language>
+			<language type="ga">Irsk</language>
+			<language type="ga" alt="proposed-u219-1" draft="provisional">irsk</language>
+			<language type="gaa">Ga</language>
+			<language type="gaa" alt="proposed-u219-1" draft="provisional">gã</language>
+			<language type="gay">Gayo</language>
+			<language type="gay" alt="proposed-u219-1" draft="provisional">gayo</language>
+			<language type="gba">Gbaya</language>
+			<language type="gba" alt="proposed-u219-1" draft="provisional">gbaya</language>
+			<language type="gd">Gælisk (skotsk)</language>
+			<language type="gd" alt="proposed-u219-1" draft="provisional">gælisk (skotsk)</language>
+			<language type="gem">Germanske sprog (øvrige)</language>
+			<language type="gem" references="R1" alt="proposed-u165-1" draft="provisional">germansk (øvrige)</language>
+			<language type="gem" alt="proposed-u219-1" draft="unconfirmed">germansk sprog (annet)</language>
+			<language type="gez">Geez</language>
+			<language type="gez" alt="proposed-u219-1" draft="provisional">etiopisk</language>
+			<language type="gil">Gilbertesisk</language>
+			<language type="gil" alt="proposed-u219-1" draft="provisional">gilbertesisk</language>
+			<language type="gl">Galicisk</language>
+			<language type="gl" alt="proposed-u219-1" draft="provisional">galicisk</language>
+			<language type="gmh">Tysk, Middelhøj- (ca.1050-1500)</language>
+			<language type="gmh" alt="proposed-u219-1" draft="provisional">middelhøjtysk (c:a 1050-1500)</language>
+			<language type="gn">Guarani</language>
+			<language type="gn" alt="proposed-u219-1" draft="provisional">guaraní</language>
+			<language type="goh">Tysk, Oldhøj- (ca.750-1050)</language>
+			<language type="goh" alt="proposed-u219-1" draft="provisional">oldhøjtysk (c:a 750-1050)</language>
+			<language type="gon">Gondi</language>
+			<language type="gon" alt="proposed-u219-1" draft="provisional">gondi</language>
+			<language type="gor">Gorontalo</language>
+			<language type="gor" alt="proposed-u219-1" draft="provisional">gorontalo</language>
+			<language type="got">Gotisk</language>
+			<language type="got" alt="proposed-u219-1" draft="provisional">gotisk</language>
+			<language type="grb">Grebo</language>
+			<language type="grb" alt="proposed-u219-1" draft="provisional">grebo</language>
+			<language type="grc">oldgræsk (til 1453)</language>
+			<language type="gu">Gujaratisk</language>
+			<language type="gu" alt="proposed-u219-1" draft="provisional">gujaratisk</language>
+			<language type="gv">Manx</language>
+			<language type="gv" alt="proposed-u219-1" draft="provisional">manx</language>
+			<language type="gwi">Gwichʼin</language>
+			<language type="gwi" alt="proposed-u219-1" draft="provisional">gwichin</language>
+			<language type="ha">Hausa</language>
+			<language type="ha" alt="proposed-u219-1" draft="provisional">hausa</language>
+			<language type="hai">Haida</language>
+			<language type="hai" alt="proposed-u219-1" draft="provisional">haida</language>
+			<language type="haw">Hawaiiansk</language>
+			<language type="haw" alt="proposed-u219-1" draft="provisional">hawaiiansk</language>
+			<language type="he">Hebraisk</language>
+			<language type="he" alt="proposed-u219-1" draft="provisional">hebraisk</language>
+			<language type="hi">Hindi</language>
+			<language type="hi" alt="proposed-u219-1" draft="provisional">hindi</language>
+			<language type="hil">Hiligaynon</language>
+			<language type="hil" alt="proposed-u219-1" draft="provisional">hiligaynon</language>
+			<language type="him">Himachali</language>
+			<language type="him" alt="proposed-u219-1" draft="provisional">himachali</language>
+			<language type="hit">Hittitisk</language>
+			<language type="hit" alt="proposed-u219-1" draft="provisional">hittitisk</language>
+			<language type="hmn">Hmong</language>
+			<language type="hmn" alt="proposed-u219-1" draft="provisional">hmong</language>
+			<language type="ho">Hiri Motu</language>
+			<language type="ho" alt="proposed-u219-1" draft="provisional">hirimotu</language>
+			<language type="hr">Kroatisk</language>
+			<language type="hr" alt="proposed-u219-1" draft="provisional">kroatisk</language>
+			<language type="hsb">Øvre sorbisk</language>
+			<language type="hsb" alt="proposed-u219-1" draft="provisional">øvre sorbisk</language>
+			<language type="ht">Haitisk</language>
+			<language type="ht" alt="proposed-u219-1" draft="provisional">haitisk</language>
+			<language type="hu">Ungarsk</language>
+			<language type="hu" alt="proposed-u219-1" draft="provisional">ungarsk</language>
+			<language type="hup">Hupa</language>
+			<language type="hup" alt="proposed-u219-1" draft="provisional">hupa</language>
+			<language type="hy">armensk</language>
+			<language type="hz">Herero</language>
+			<language type="hz" alt="proposed-u219-1" draft="provisional">herero</language>
+			<language type="ia">Interlingua</language>
+			<language type="ia" alt="proposed-u219-1" draft="provisional">interlingua</language>
+			<language type="iba">Iban</language>
+			<language type="iba" alt="proposed-u219-1" draft="provisional">iban</language>
+			<language type="id">Indonesisk</language>
+			<language type="id" alt="proposed-u219-1" draft="provisional">indonesisk</language>
+			<language type="ie">Interlingue</language>
+			<language type="ie" alt="proposed-u219-1" draft="provisional">interlingue</language>
+			<language type="ig">Igbo</language>
+			<language type="ig" alt="proposed-u219-1" draft="provisional">igbo</language>
+			<language type="ii">Sichuan Yi</language>
+			<language type="ii" alt="proposed-u219-1" draft="provisional">sichuan yi</language>
+			<language type="ijo">Ijo</language>
+			<language type="ijo" alt="proposed-u219-1" draft="provisional">ijo</language>
+			<language type="ik">Inupiaq</language>
+			<language type="ik" alt="proposed-u219-1" draft="provisional">inupiaq</language>
+			<language type="ilo">Iloko</language>
+			<language type="ilo" alt="proposed-u219-1" draft="provisional">iloko</language>
+			<language type="inc">Indiske sprog (øvrige)</language>
+			<language type="inc" references="R1" alt="proposed-u165-1" draft="provisional">indisk (øvrige)</language>
+			<language type="inc" alt="proposed-u219-1" draft="unconfirmed">indisk sprog (annet)</language>
+			<language type="ine">Indoeuropæiske sprog (øvrige)</language>
+			<language type="ine" references="R1" alt="proposed-u165-1" draft="provisional">indoeuropæisk (øvrige)</language>
+			<language type="ine" alt="proposed-u219-1" draft="unconfirmed">indo-europæisk sprog (annet)</language>
+			<language type="inh">Ingush</language>
+			<language type="inh" alt="proposed-u219-1" draft="provisional">ingush</language>
+			<language type="io">Ido</language>
+			<language type="io" alt="proposed-u219-1" draft="provisional">ido</language>
+			<language type="ira">Iranske sprog (øvrige)</language>
+			<language type="ira" references="R1" alt="proposed-u165-1" draft="provisional">iransk (øvrige)</language>
+			<language type="ira" alt="proposed-u219-1" draft="unconfirmed">iransk sprog (annet)</language>
+			<language type="iro">Irokesiske sprog</language>
+			<language type="iro" references="R1" alt="proposed-u165-1" draft="provisional">irokesiske sprog</language>
+			<language type="iro" alt="proposed-u219-1" draft="unconfirmed">irokesisk sprog</language>
+			<language type="is">Islandsk</language>
+			<language type="is" alt="proposed-u219-1" draft="provisional">islandsk</language>
+			<language type="it">Italiensk</language>
+			<language type="it" alt="proposed-u219-1" draft="provisional">italiensk</language>
+			<language type="iu">Inuktitut</language>
+			<language type="iu" alt="proposed-u219-1" draft="provisional">inuktitut</language>
+			<language type="ja">Japansk</language>
+			<language type="ja" alt="proposed-u219-1" draft="provisional">japansk</language>
+			<language type="jbo">Lojban</language>
+			<language type="jbo" alt="proposed-u219-1" draft="provisional">lojban</language>
+			<language type="jpr">Jødisk-persisk</language>
+			<language type="jpr" alt="proposed-u219-1" draft="provisional">jødisk-persisk</language>
+			<language type="jrb">Jødisk-arabisk</language>
+			<language type="jrb" alt="proposed-u219-1" draft="provisional">jødisk-arabisk</language>
+			<language type="jv">Javanesisk</language>
+			<language type="jv" alt="proposed-u219-1" draft="provisional">javanesisk</language>
+			<language type="ka">Georgisk</language>
+			<language type="ka" alt="proposed-u219-1" draft="provisional">georgisk</language>
+			<language type="kaa">Karakalpakisk</language>
+			<language type="kaa" alt="proposed-u219-1" draft="provisional">karakalpakisk</language>
+			<language type="kab">Kabyle</language>
+			<language type="kab" alt="proposed-u219-1" draft="provisional">kabyle</language>
+			<language type="kac">Kachin</language>
+			<language type="kac" alt="proposed-u219-1" draft="provisional">kachin</language>
+			<language type="kam">Kamba</language>
+			<language type="kam" alt="proposed-u219-1" draft="provisional">kamba</language>
+			<language type="kar">Karen</language>
+			<language type="kar" alt="proposed-u219-1" draft="provisional">karen</language>
+			<language type="kaw">Kawi</language>
+			<language type="kaw" alt="proposed-u219-1" draft="provisional">kawi</language>
+			<language type="kbd">Kabardian</language>
+			<language type="kbd" alt="proposed-u219-1" draft="provisional">kabardian</language>
+			<language type="kg">Kongo</language>
+			<language type="kg" alt="proposed-u219-1" draft="provisional">kikongo</language>
+			<language type="kha">Khasi</language>
+			<language type="kha" alt="proposed-u219-1" draft="provisional">khasi</language>
+			<language type="khi">Khoisan (øvrige)</language>
+			<language type="khi" references="R1" alt="proposed-u165-1" draft="provisional">khoisan (øvrige)</language>
+			<language type="khi" alt="proposed-u219-1" draft="unconfirmed">khoisansprog (annet)</language>
+			<language type="kho">Khotanesisk</language>
+			<language type="kho" alt="proposed-u219-1" draft="provisional">khotanesisk</language>
+			<language type="ki">Kikuyu</language>
+			<language type="ki" alt="proposed-u219-1" draft="provisional">kikuyu</language>
+			<language type="kj">Kuanyama</language>
+			<language type="kj" alt="proposed-u219-1" draft="provisional">kuanyama</language>
+			<language type="kk">Kasakhisk</language>
+			<language type="kk" alt="proposed-u219-1" draft="provisional">kasakhisk</language>
+			<language type="kl">Kalaallisut</language>
+			<language type="kl" alt="proposed-u219-1" draft="unconfirmed">grønlansk</language>
+			<language type="km">Khmer</language>
+			<language type="km" alt="proposed-u219-1" draft="provisional">khmer; kambodjansk</language>
+			<language type="kmb">Kimbundu</language>
+			<language type="kmb" alt="proposed-u219-1" draft="provisional">kimbundu</language>
+			<language type="kn">Kannaresisk</language>
+			<language type="kn" alt="proposed-u219-1" draft="provisional">kannaresisk</language>
+			<language type="ko">Koreansk</language>
+			<language type="ko" alt="proposed-u219-1" draft="provisional">koreansk</language>
+			<language type="kok">Konkani</language>
+			<language type="kok" alt="proposed-u219-1" draft="provisional">konkani</language>
+			<language type="kos">Kosraean</language>
+			<language type="kos" alt="proposed-u219-1" draft="provisional">kosraeansk</language>
+			<language type="kpe">Kpelle</language>
+			<language type="kpe" alt="proposed-u219-1" draft="provisional">kpelle</language>
+			<language type="kr">Kanuri</language>
+			<language type="kr" alt="proposed-u219-1" draft="provisional">kanuri</language>
+			<language type="krc">Karachay-Balkar</language>
+			<language type="krc" alt="proposed-u219-1" draft="provisional">karatjai-balkar</language>
+			<language type="kro">Kru</language>
+			<language type="kro" alt="proposed-u219-1" draft="provisional">kru</language>
+			<language type="kru">Kurukh</language>
+			<language type="kru" alt="proposed-u219-1" draft="provisional">kurukh</language>
+			<language type="ks">Kashmiri</language>
+			<language type="ks" alt="proposed-u219-1" draft="provisional">kashmiri</language>
+			<language type="ku">Kurdisk</language>
+			<language type="ku" alt="proposed-u219-1" draft="provisional">kurdisk</language>
+			<language type="kum" draft="provisional">kymyk</language>
+			<language type="kut" draft="provisional">kutenaj</language>
+			<language type="kv" draft="provisional">komi</language>
+			<language type="kw">Cornisk</language>
+			<language type="kw" alt="proposed-u219-1" draft="provisional">cornisk</language>
+			<language type="ky">Kirgisisk</language>
+			<language type="ky" alt="proposed-u219-1" draft="provisional">kirgisisk</language>
+			<language type="la">Latin</language>
+			<language type="la" alt="proposed-u219-1" draft="provisional">latin</language>
+			<language type="lad">Ladino</language>
+			<language type="lad" alt="proposed-u219-1" draft="provisional">ladino</language>
+			<language type="lah">Lahnda</language>
+			<language type="lah" alt="proposed-u219-1" draft="provisional">lahnda</language>
+			<language type="lam">Lamba</language>
+			<language type="lam" alt="proposed-u219-1" draft="provisional">lamba</language>
+			<language type="lb">Luxembourgsk</language>
+			<language type="lb" alt="proposed-u219-1" draft="provisional">luxembourgsk</language>
+			<language type="lez">Lezghian</language>
+			<language type="lez" alt="proposed-u219-1" draft="provisional">lezghian</language>
+			<language type="lg">Ganda</language>
+			<language type="lg" alt="proposed-u219-1" draft="provisional">ganda</language>
+			<language type="li">Limburgsk</language>
+			<language type="li" alt="proposed-u219-1" draft="provisional">limburgsk</language>
+			<language type="ln">Lingala</language>
+			<language type="ln" alt="proposed-u219-1" draft="provisional">lingala</language>
+			<language type="lo">Lao</language>
+			<language type="lo" alt="proposed-u219-1" draft="provisional">laotisk</language>
+			<language type="lol">Mongo</language>
+			<language type="lol" alt="proposed-u219-1" draft="provisional">mongo</language>
+			<language type="loz">Lozi</language>
+			<language type="loz" alt="proposed-u219-1" draft="provisional">lozi</language>
+			<language type="lt">Litauisk</language>
+			<language type="lt" alt="proposed-u219-1" draft="provisional">litauisk</language>
+			<language type="lu">Luba-Katanga</language>
+			<language type="lu" alt="proposed-u219-1" draft="provisional">luba-katanga</language>
+			<language type="lua">Luba-Lulua</language>
+			<language type="lua" alt="proposed-u219-1" draft="provisional">luba-lulua</language>
+			<language type="lui">Luiseno</language>
+			<language type="lui" alt="proposed-u219-1" draft="provisional">luiseño</language>
+			<language type="lun">Lunda</language>
+			<language type="lun" alt="proposed-u219-1" draft="provisional">lunda</language>
+			<language type="luo">Luo</language>
+			<language type="luo" alt="proposed-u219-1" draft="provisional">luo</language>
+			<language type="lus">Lushai</language>
+			<language type="lus" alt="proposed-u219-1" draft="provisional">lushai</language>
+			<language type="lv">Lettisk</language>
+			<language type="lv" alt="proposed-u219-1" draft="provisional">lettisk</language>
+			<language type="mad">Madurese</language>
+			<language type="mad" alt="proposed-u219-1" draft="provisional">maduresisk</language>
+			<language type="mag">Magahi</language>
+			<language type="mag" alt="proposed-u219-1" draft="provisional">magahi</language>
+			<language type="mai">Maithili</language>
+			<language type="mai" alt="proposed-u219-1" draft="provisional">maithili</language>
+			<language type="mak">Makasar</language>
+			<language type="mak" alt="proposed-u219-1" draft="provisional">makasar</language>
+			<language type="man">Mandingo</language>
+			<language type="man" alt="proposed-u219-1" draft="provisional">mandingo</language>
+			<language type="map" references="R1">malajo-polynesisk</language>
+			<language type="map" references="R1" alt="proposed-u219-1" draft="unconfirmed">malajo-polynesisk sprog (annet)</language>
+			<language type="mas">Masai</language>
+			<language type="mas" alt="proposed-u219-1" draft="provisional">masai</language>
+			<language type="mdf">Moksha</language>
+			<language type="mdf" alt="proposed-u219-1" draft="provisional">moksha</language>
+			<language type="mdr">Mandar</language>
+			<language type="mdr" alt="proposed-u219-1" draft="provisional">mandar</language>
+			<language type="men">Mende</language>
+			<language type="men" alt="proposed-u219-1" draft="provisional">mende</language>
+			<language type="mg">Malagasy</language>
+			<language type="mg" alt="proposed-u219-1" draft="provisional">malagasy</language>
+			<language type="mga">Irsk, Middel- (900-1200)</language>
+			<language type="mga" alt="proposed-u219-1" draft="provisional">middelirsk (c:a 900-1200)</language>
+			<language type="mh">Marshallese</language>
+			<language type="mh" alt="proposed-u219-1" draft="provisional">marshallese</language>
+			<language type="mi">Maori</language>
+			<language type="mi" alt="proposed-u219-1" draft="provisional">maori</language>
+			<language type="mic">Micmac</language>
+			<language type="mic" alt="proposed-u219-1" draft="provisional">micmac</language>
+			<language type="min">Minangkabau</language>
+			<language type="min" alt="proposed-u219-1" draft="provisional">minangkabau</language>
+			<language type="mis">Diverse sprog</language>
+			<language type="mis" references="R1" alt="proposed-u165-1" draft="provisional">diverse sprog</language>
+			<language type="mis" alt="proposed-u219-1" draft="unconfirmed">annet sprog</language>
+			<language type="mk">Makedonsk</language>
+			<language type="mk" alt="proposed-u219-1" draft="provisional">makedonsk</language>
+			<language type="mkh">Mon-khmer (øvrige)</language>
+			<language type="mkh" references="R1" alt="proposed-u165-1" draft="provisional">mon-khmer (øvrige)</language>
+			<language type="mkh" alt="proposed-u219-1" draft="unconfirmed">mon-khmer sprog (annet)</language>
+			<language type="ml">Malayalam</language>
+			<language type="ml" alt="proposed-u219-1" draft="provisional">malayalam</language>
+			<language type="mn">Mongolsk</language>
+			<language type="mn" alt="proposed-u219-1" draft="provisional">mongolsk</language>
+			<language type="mnc">Manchu</language>
+			<language type="mnc" alt="proposed-u219-1" draft="provisional">manchu</language>
+			<language type="mni">Manipuri</language>
+			<language type="mni" alt="proposed-u219-1" draft="provisional">manipuri</language>
+			<language type="mno" draft="unconfirmed">manobo sprog</language>
+			<language type="mo">Moldovisk</language>
+			<language type="mo" alt="proposed-u219-1" draft="provisional">moldovisk</language>
+			<language type="moh">Mohawk</language>
+			<language type="moh" alt="proposed-u219-1" draft="provisional">mohawk</language>
+			<language type="mos">Mossi</language>
+			<language type="mos" alt="proposed-u219-1" draft="provisional">mossi</language>
+			<language type="mr">Marathisk</language>
+			<language type="mr" alt="proposed-u219-1" draft="provisional">marathisk</language>
+			<language type="ms">Malay</language>
+			<language type="ms" alt="proposed-u219-1" draft="provisional">malay</language>
+			<language type="mt">Maltesisk</language>
+			<language type="mt" alt="proposed-u219-1" draft="provisional">maltesisk</language>
+			<language type="mul">Flere sprog</language>
+			<language type="mul" alt="proposed-u219-1" draft="provisional">flere sprog</language>
+			<language type="mun">Munda (øvrige)</language>
+			<language type="mun" references="R1" alt="proposed-u165-1" draft="provisional">munda (øvrige)</language>
+			<language type="mun" alt="proposed-u219-1" draft="unconfirmed">mundasprog (annet)</language>
+			<language type="mus">Creek</language>
+			<language type="mus" alt="proposed-u219-1" draft="provisional">creek</language>
+			<language type="mwl" draft="provisional">mirandesisk</language>
+			<language type="mwr">Marwari</language>
+			<language type="mwr" alt="proposed-u219-1" draft="provisional">marwari</language>
+			<language type="my">burmesisk</language>
+			<language type="myn">Maya sprog</language>
+			<language type="myn" references="RP2" alt="proposed-u165-1" draft="provisional">maya sprog</language>
+			<language type="myn" alt="proposed-u219-1" draft="unconfirmed">Mayasprog</language>
+			<language type="myv">Erzya</language>
+			<language type="myv" alt="proposed-u219-1" draft="provisional">erzya</language>
+			<language type="na">Nauru</language>
+			<language type="na" alt="proposed-u219-1" draft="provisional">nausu</language>
+			<language type="nah">Nahuatl</language>
+			<language type="nah" alt="proposed-u219-1" draft="provisional">nahuatl</language>
+			<language type="nai">Nordamerikanske indianske sprog (øvrige)</language>
+			<language type="nai" alt="proposed-u165-1" draft="provisional">nordamerikansk indiansk (øvrige)</language>
+			<language type="nai" alt="proposed-u219-1" draft="unconfirmed">nordamerikansk indiansk sprog (annet)</language>
+			<language type="nap">Neapolitansk</language>
+			<language type="nap" alt="proposed-u219-1" draft="provisional">neapolitansk</language>
+			<language type="nb">Norsk Bokmål</language>
+			<language type="nb" alt="proposed-u219-1" draft="provisional">norsk (bokmål)</language>
+			<language type="nd">Ndebele, Nord</language>
+			<language type="nd" alt="proposed-u219-1" draft="provisional">nordndebele</language>
+			<language type="nds">Nedertysk; nedersachsisk</language>
+			<language type="nds" alt="proposed-u219-1" draft="provisional">nedertysk; nedersachsisk</language>
+			<language type="ne">Nepalesisk</language>
+			<language type="ne" alt="proposed-u219-1" draft="provisional">nepalesisk</language>
+			<language type="new">Newari</language>
+			<language type="new" alt="proposed-u219-1" draft="provisional">newari</language>
+			<language type="ng">Ndonga</language>
+			<language type="ng" alt="proposed-u219-1" draft="provisional">ndonga</language>
+			<language type="nia">Nias</language>
+			<language type="nia" alt="proposed-u219-1" draft="provisional">nias</language>
+			<language type="nic">Niger-Congo sprog (øvrige)</language>
+			<language type="nic" references="R1" alt="proposed-u165-1" draft="provisional">Niger-Congo sprog (øvrige)</language>
+			<language type="nic" alt="proposed-u219-1" draft="unconfirmed">Niger-Congo sprog (annet)</language>
+			<language type="niu">Niuean</language>
+			<language type="niu" alt="proposed-u219-1" draft="provisional">niuansk</language>
+			<language type="nl">Hollandsk</language>
+			<language type="nl" alt="proposed-u219-1" draft="provisional">hollandsk</language>
+			<language type="nn">Nynorsk</language>
+			<language type="nn" alt="proposed-u219-1" draft="provisional">nynorsk</language>
+			<language type="no">Norsk</language>
+			<language type="no" alt="proposed-u219-1" draft="provisional">norsk</language>
+			<language type="nog">Nogai</language>
+			<language type="nog" alt="proposed-u219-1" draft="provisional">nogai</language>
+			<language type="non">Islandsk, Old-</language>
+			<language type="non" alt="proposed-u219-1" draft="provisional">oldislandsk</language>
+			<language type="nr">Ndebele, Syd</language>
+			<language type="nr" alt="proposed-u219-1" draft="provisional">sydndebele</language>
+			<language type="nso">Sotho, Nord</language>
+			<language type="nso" alt="proposed-u219-1" draft="provisional">nordsotho</language>
+			<language type="nub">Nubiske sprog</language>
+			<language type="nub" alt="proposed-u219-1" draft="unconfirmed">nubisk sprog</language>
+			<language type="nv">Navajo</language>
+			<language type="nv" alt="proposed-u219-1" draft="provisional">navajo</language>
+			<language type="nwc" draft="provisional">klassisk newarisk</language>
+			<language type="ny">Nyanja; Chichewa; Chewa</language>
+			<language type="ny" alt="proposed-u219-1" draft="provisional">nyanja; chichewa; chewa</language>
+			<language type="nym">Nyamwezi</language>
+			<language type="nym" alt="proposed-u219-1" draft="provisional">nyamwezi</language>
+			<language type="nyn">Nyankole</language>
+			<language type="nyn" alt="proposed-u219-1" draft="provisional">nyankole</language>
+			<language type="nyo">Nyoro sprog</language>
+			<language type="nyo" alt="proposed-u219-1" draft="provisional">nyoro sprog</language>
+			<language type="nzi">Nzima</language>
+			<language type="nzi" alt="proposed-u219-1" draft="provisional">nzima</language>
+			<language type="oc">Occitansk (efter 1500); Provencalsk</language>
+			<language type="oc" alt="proposed-u219-1" draft="provisional">occitansk (efter 1500); provencalsk</language>
+			<language type="oj">Ojibwa</language>
+			<language type="oj" alt="proposed-u219-1" draft="provisional">ojibwa</language>
+			<language type="om">Oromo</language>
+			<language type="om" alt="proposed-u219-1" draft="provisional">oromo</language>
+			<language type="or">Oriya</language>
+			<language type="or" alt="proposed-u219-1" draft="provisional">oriya</language>
+			<language type="os">Ossetisk</language>
+			<language type="os" alt="proposed-u219-1" draft="provisional">ossetisk</language>
+			<language type="osa">Osage</language>
+			<language type="osa" alt="proposed-u219-1" draft="provisional">osage</language>
+			<language type="ota">Osmannisk (1500-1928)</language>
+			<language type="ota" alt="proposed-u219-1" draft="provisional">osmannisk (1500-1928)</language>
+			<language type="oto">Otomi sprog</language>
+			<language type="oto" alt="proposed-u219-1" draft="provisional">otomi sprog</language>
+			<language type="pa">Punjabi</language>
+			<language type="pa" alt="proposed-u219-1" draft="provisional">punjabi</language>
+			<language type="paa">Papua-australske sprog (øvrige)</language>
+			<language type="paa" references="R1" alt="proposed-u165-1" draft="provisional">papua-australsk (øvrige)</language>
+			<language type="paa" alt="proposed-u219-1" draft="unconfirmed">papua-australsk sprog (annet)</language>
+			<language type="pag">Pangasinan</language>
+			<language type="pag" alt="proposed-u219-1" draft="provisional">pangasinan</language>
+			<language type="pal">Pahlavi</language>
+			<language type="pal" alt="proposed-u219-1" draft="provisional">pahlavi; middelpersisk</language>
+			<language type="pam">Pampanga</language>
+			<language type="pam" alt="proposed-u219-1" draft="provisional">pampanga</language>
+			<language type="pap">Papiamento</language>
+			<language type="pap" alt="proposed-u219-1" draft="provisional">papiamento</language>
+			<language type="pau">Palauansk</language>
+			<language type="pau" alt="proposed-u219-1" draft="provisional">palauansk</language>
+			<language type="peo">Persisk, Old- (ca. 600-400 f. Kr.)</language>
+			<language type="peo" alt="proposed-u219-1" draft="provisional">oldpersisk (c:a 600-400 f.Kr.)</language>
+			<language type="phi">Filippinske sprog (øvrige)</language>
+			<language type="phi" references="R1" alt="proposed-u165-1" draft="provisional">filippinsk (øvrige)</language>
+			<language type="phi" alt="proposed-u219-1" draft="unconfirmed">filippinsk sprog (annet)</language>
+			<language type="phn">Fønikisk</language>
+			<language type="phn" alt="proposed-u219-1" draft="provisional">fønikisk</language>
+			<language type="pi">Pali</language>
+			<language type="pi" alt="proposed-u219-1" draft="provisional">pali</language>
+			<language type="pl">Polsk</language>
+			<language type="pl" alt="proposed-u219-1" draft="provisional">polsk</language>
+			<language type="pon">Ponape</language>
+			<language type="pon" alt="proposed-u219-1" draft="provisional">ponape</language>
+			<language type="pra" draft="provisional">prakrit sprog</language>
+			<language type="pro">Provencalsk (før 1500)</language>
+			<language type="pro" alt="proposed-u219-1" draft="provisional">provencalsk (før 1500)</language>
+			<language type="ps">Pashto (Pushto)</language>
+			<language type="ps" alt="proposed-u219-1" draft="provisional">pashto</language>
+			<language type="pt">Portugisisk</language>
+			<language type="pt" alt="proposed-u219-1" draft="provisional">portugisisk</language>
+			<language type="qu">Quechua</language>
+			<language type="qu" alt="proposed-u219-1" draft="provisional">quechua</language>
+			<language type="raj">Rajasthani</language>
+			<language type="raj" alt="proposed-u219-1" draft="provisional">rajasthanisk</language>
+			<language type="rap">Rapanui</language>
+			<language type="rap" alt="proposed-u219-1" draft="provisional">rapanui</language>
+			<language type="rar">Rarotongan</language>
+			<language type="rar" alt="proposed-u219-1" draft="provisional">rarotongansk</language>
+			<language type="rm">Rætoromansk</language>
+			<language type="rm" alt="proposed-u219-1" draft="provisional">rætoromansk</language>
+			<language type="rn">Rundi</language>
+			<language type="rn" alt="proposed-u219-1" draft="provisional">rundi</language>
+			<language type="ro">Rumænsk</language>
+			<language type="ro" alt="proposed-u219-1" draft="provisional">rumænsk</language>
+			<language type="roa">Romanske sprog (øvrige)</language>
+			<language type="roa" references="R1" alt="proposed-u165-1" draft="provisional">romansk (øvrige)</language>
+			<language type="roa" alt="proposed-u219-1" draft="unconfirmed">romansk sprog (annet)</language>
+			<language type="rom">Romani</language>
+			<language type="rom" alt="proposed-u219-1" draft="provisional">romani</language>
+			<language type="root" draft="provisional">rot</language>
+			<language type="ru">Russisk</language>
+			<language type="ru" alt="proposed-u219-1" draft="provisional">russisk</language>
+			<language type="rup">arumænsk</language>
+			<language type="rw">Kinyarwanda</language>
+			<language type="rw" alt="proposed-u219-1" draft="provisional">kinyarwanda</language>
+			<language type="sa">Sanskrit</language>
+			<language type="sa" alt="proposed-u219-1" draft="provisional">sanskrit</language>
+			<language type="sad">Sandawe</language>
+			<language type="sad" alt="proposed-u219-1" draft="provisional">sandawe</language>
+			<language type="sah">Yakut</language>
+			<language type="sah" alt="proposed-u219-1" draft="provisional">jakut</language>
+			<language type="sai">Sydamerikanske indianske sprog (øvrige)</language>
+			<language type="sai" references="RP2" alt="proposed-u165-1" draft="provisional">sydamerikansk indiansk (øvrige)</language>
+			<language type="sai" alt="proposed-u219-1" draft="unconfirmed">sydamerikansk indiansk sprog (annet)</language>
+			<language type="sal" draft="provisional">salikisk sprog</language>
+			<language type="sam">Samaritansk</language>
+			<language type="sam" alt="proposed-u219-1" draft="provisional">samaritansk</language>
+			<language type="sas">Sasak</language>
+			<language type="sas" alt="proposed-u219-1" draft="provisional">sasak</language>
+			<language type="sat">Santali</language>
+			<language type="sat" alt="proposed-u219-1" draft="provisional">santali</language>
+			<language type="sc">Sardinsk</language>
+			<language type="sc" alt="proposed-u219-1" draft="provisional">sardisk</language>
+			<language type="scn" draft="provisional">siciliansk</language>
+			<language type="sco">Skotsk</language>
+			<language type="sco" alt="proposed-u219-1" draft="provisional">skotsk</language>
+			<language type="sd">Sindhi</language>
+			<language type="sd" alt="proposed-u219-1" draft="provisional">sindhi</language>
+			<language type="se">Nordsamisk</language>
+			<language type="se" alt="proposed-u219-1" draft="provisional">nordsamisk</language>
+			<language type="sel">Selkupisk</language>
+			<language type="sel" alt="proposed-u219-1" draft="provisional">selkupisk</language>
+			<language type="sem">Semitiske sprog (øvrige)</language>
+			<language type="sem" references="RP2" alt="proposed-u165-1" draft="provisional">semitisk (øvrige)</language>
+			<language type="sem" alt="proposed-u219-1" draft="unconfirmed">semitisk sprog (annet)</language>
+			<language type="sg">Sango</language>
+			<language type="sg" alt="proposed-u219-1" draft="provisional">sango</language>
+			<language type="sga">Irsk, Old- (indtil 900)</language>
+			<language type="sga" alt="proposed-u219-1" draft="provisional">oldirsk (indtil 900)</language>
+			<language type="sgn">Tegnsprog</language>
+			<language type="sgn" alt="proposed-u219-1" draft="provisional">tegnsprog</language>
+			<language type="sh">Serbokroatisk</language>
+			<language type="sh" alt="proposed-u219-1" draft="provisional">serbokroatisk</language>
+			<language type="shn">Shan</language>
+			<language type="shn" alt="proposed-u219-1" draft="provisional">shan</language>
+			<language type="si">Singalesisk</language>
+			<language type="si" alt="proposed-u219-1" draft="provisional">singalesisk</language>
+			<language type="sid">Sidamo</language>
+			<language type="sid" alt="proposed-u219-1" draft="provisional">sidamo</language>
+			<language type="sio" draft="provisional">sioux sprog</language>
+			<language type="sit">Sino-tibetanske sprog (øvrige)</language>
+			<language type="sit" references="R1" alt="proposed-u165-1" draft="provisional">sino-tibetansk (øvrige)</language>
+			<language type="sit" alt="proposed-u219-1" draft="unconfirmed">sino-tibetansk sprog (annet)</language>
+			<language type="sk">Slovakisk</language>
+			<language type="sk" alt="proposed-u219-1" draft="provisional">slovakisk</language>
+			<language type="sl">Slovensk</language>
+			<language type="sl" alt="proposed-u219-1" draft="provisional">slovensk</language>
+			<language type="sla">Slaviske sprog (øvrige)</language>
+			<language type="sla" references="R1" alt="proposed-u165-1" draft="provisional">slavisk (øvrige)</language>
+			<language type="sla" alt="proposed-u219-1" draft="unconfirmed">slavisk sprog (annet)</language>
+			<language type="sm">Samoansk</language>
+			<language type="sm" alt="proposed-u219-1" draft="provisional">samoansk</language>
+			<language type="sma">Sydsamisk</language>
+			<language type="sma" alt="proposed-u219-1" draft="provisional">sydsamisk</language>
+			<language type="smi">Samiske sprog (øvrige)</language>
+			<language type="smi" references="RP2" alt="proposed-u165-1" draft="provisional">samiske sprog (øvrige)</language>
+			<language type="smi" alt="proposed-u219-1" draft="unconfirmed">samisk sprog (annet)</language>
+			<language type="smj">Lule Sami</language>
+			<language type="smj" alt="proposed-u219-1" draft="provisional">lule sami</language>
+			<language type="smn">Inari Sami</language>
+			<language type="smn" alt="proposed-u219-1" draft="provisional">inari sami</language>
+			<language type="sms">Skolt Sami</language>
+			<language type="sms" alt="proposed-u219-1" draft="provisional">skolt sami</language>
+			<language type="sn">Shona</language>
+			<language type="sn" alt="proposed-u219-1" draft="provisional">shona</language>
+			<language type="snk">Soninke</language>
+			<language type="snk" alt="proposed-u219-1" draft="provisional">soninke</language>
+			<language type="so">Somalisk</language>
+			<language type="so" alt="proposed-u219-1" draft="provisional">somalisk</language>
+			<language type="sog">Sogdiansk</language>
+			<language type="sog" alt="proposed-u219-1" draft="provisional">sogdiansk</language>
+			<language type="son">Songhai</language>
+			<language type="son" alt="proposed-u219-1" draft="provisional">songhai</language>
+			<language type="sq">albansk</language>
+			<language type="sr">Serbisk</language>
+			<language type="sr" alt="proposed-u219-1" draft="provisional">serbisk</language>
+			<language type="srn" draft="provisional">sranan tongo</language>
+			<language type="srr">Serer</language>
+			<language type="srr" alt="proposed-u219-1" draft="provisional">serer</language>
+			<language type="ss">Swati</language>
+			<language type="ss" alt="proposed-u219-1" draft="provisional">swati</language>
+			<language type="ssa">Afrikanske sprog syd for Sahara (øvrige)</language>
+			<language type="ssa" references="R1" alt="proposed-u165-1" draft="provisional">afrikanske sprog syd for Sahara (øvrige)</language>
+			<language type="ssa" alt="proposed-u219-1" draft="unconfirmed">afrikansk sprog syd for Sahara (annet)</language>
+			<language type="st">Sotho, Southern</language>
+			<language type="st" alt="proposed-u219-1" draft="provisional">sydsotho</language>
+			<language type="su">Sundanesisk</language>
+			<language type="su" alt="proposed-u219-1" draft="provisional">sundanesisk</language>
+			<language type="suk">Sukuma</language>
+			<language type="suk" alt="proposed-u219-1" draft="provisional">sukuma</language>
+			<language type="sus">Susu</language>
+			<language type="sus" alt="proposed-u219-1" draft="provisional">susu</language>
+			<language type="sux">Sumerisk</language>
+			<language type="sux" alt="proposed-u219-1" draft="provisional">sumerisk</language>
+			<language type="sv">Svensk</language>
+			<language type="sv" alt="proposed-u219-1" draft="provisional">svensk</language>
+			<language type="sw">Swahili</language>
+			<language type="sw" alt="proposed-u219-1" draft="provisional">swahili</language>
+			<language type="syr">Syrisk</language>
+			<language type="syr" alt="proposed-u219-1" draft="provisional">syrisk</language>
+			<language type="ta">Tamilsk</language>
+			<language type="ta" alt="proposed-u219-1" draft="provisional">tamilsk</language>
+			<language type="tai">Tai (øvrige)</language>
+			<language type="tai" references="RP2" alt="proposed-u165-1" draft="provisional">tai (øvrige)</language>
+			<language type="tai" alt="proposed-u219-1" draft="unconfirmed">thai sprog (annet)</language>
+			<language type="te">Telugu</language>
+			<language type="te" alt="proposed-u219-1" draft="provisional">telugu</language>
+			<language type="tem">Temne</language>
+			<language type="tem" alt="proposed-u219-1" draft="provisional">temne</language>
+			<language type="ter">Tereno</language>
+			<language type="ter" alt="proposed-u219-1" draft="provisional">tereno</language>
+			<language type="tet">Tetum</language>
+			<language type="tet" alt="proposed-u219-1" draft="provisional">tetum</language>
+			<language type="tg">Tajik</language>
+			<language type="tg" alt="proposed-u219-1" draft="provisional">tajik</language>
+			<language type="th">Thailandsk</language>
+			<language type="th" alt="proposed-u219-1" draft="provisional">thailandsk</language>
+			<language type="ti">Tigrinya</language>
+			<language type="ti" alt="proposed-u219-1" draft="provisional">tigrinya</language>
+			<language type="tig">Tigre</language>
+			<language type="tig" alt="proposed-u219-1" draft="provisional">tigré</language>
+			<language type="tiv">Tivi</language>
+			<language type="tiv" alt="proposed-u219-1" draft="provisional">tivi</language>
+			<language type="tk">Turkmensk</language>
+			<language type="tk" alt="proposed-u219-1" draft="provisional">turkmensk</language>
+			<language type="tkl">Tokelau</language>
+			<language type="tkl" alt="proposed-u219-1" draft="provisional">tokelau</language>
+			<language type="tl">Tagalog</language>
+			<language type="tl" alt="proposed-u219-1" draft="provisional">tagalog</language>
+			<language type="tlh" draft="provisional">klingonsk</language>
+			<language type="tli">Tlingit</language>
+			<language type="tli" alt="proposed-u219-1" draft="provisional">tlingit</language>
+			<language type="tmh">Tamashek</language>
+			<language type="tmh" alt="proposed-u219-1" draft="provisional">tamashek</language>
+			<language type="tn">Tswana</language>
+			<language type="tn" alt="proposed-u219-1" draft="provisional">tswana</language>
+			<language type="to">Tonga (Tongaøerne)</language>
+			<language type="to" alt="proposed-u219-1" draft="provisional">tongansk (Tongaøerne)</language>
+			<language type="tog">Tonga (Nyasa)</language>
+			<language type="tog" alt="proposed-u219-1" draft="provisional">tongansk (Nyasa)</language>
+			<language type="tpi">Tok Pisin</language>
+			<language type="tpi" alt="proposed-u219-1" draft="provisional">tok pisin</language>
+			<language type="tr">Tyrkisk</language>
+			<language type="tr" alt="proposed-u219-1" draft="provisional">tyrkisk</language>
+			<language type="ts">Tsonga</language>
+			<language type="ts" alt="proposed-u219-1" draft="provisional">tsonga</language>
+			<language type="tsi">Tsimshisk</language>
+			<language type="tsi" alt="proposed-u219-1" draft="provisional">tsimshisk</language>
+			<language type="tt">Tatarisk</language>
+			<language type="tt" alt="proposed-u219-1" draft="provisional">tatarisk</language>
+			<language type="tum">Tumbuka</language>
+			<language type="tum" alt="proposed-u219-1" draft="provisional">tumbuka</language>
+			<language type="tup" draft="provisional">tupí sprog</language>
+			<language type="tut">tyrkisk-tatarisk (øvrige)</language>
+			<language type="tut" alt="proposed-u219-1" draft="unconfirmed">tyrkisk-tatarisk sprog (annet)</language>
+			<language type="tvl">Tuvalu</language>
+			<language type="tvl" alt="proposed-u219-1" draft="provisional">tuvalu</language>
+			<language type="tw">Twi</language>
+			<language type="tw" alt="proposed-u219-1" draft="provisional">twi</language>
+			<language type="ty">Tahitiansk</language>
+			<language type="ty" alt="proposed-u219-1" draft="provisional">tahitiansk</language>
+			<language type="tyv">Tuvinian</language>
+			<language type="tyv" alt="proposed-u219-1" draft="provisional">tuvinian</language>
+			<language type="udm">Udmurt</language>
+			<language type="udm" alt="proposed-u219-1" draft="provisional">udmurt</language>
+			<language type="ug">Uigurisk</language>
+			<language type="ug" alt="proposed-u219-1" draft="provisional">uigurisk</language>
+			<language type="uga">Ugaristisk</language>
+			<language type="uga" alt="proposed-u219-1" draft="provisional">ugaristisk</language>
+			<language type="uk">Ukrainsk</language>
+			<language type="uk" alt="proposed-u219-1" draft="provisional">ukrainsk</language>
+			<language type="umb">Umbundu</language>
+			<language type="umb" alt="proposed-u219-1" draft="provisional">umbundu</language>
+			<language type="und">Sproget kan ikke bestemmes</language>
+			<language type="und" references="R1" alt="proposed-u165-1" draft="provisional">sproget kan ikke bestemmes</language>
+			<language type="und" alt="proposed-u219-1" draft="unconfirmed">obestemt sprog</language>
+			<language type="ur">Urdu</language>
+			<language type="ur" alt="proposed-u219-1" draft="provisional">urdu</language>
+			<language type="uz">Usbekisk</language>
+			<language type="uz" alt="proposed-u219-1" draft="provisional">usbekisk</language>
+			<language type="vai">Vai</language>
+			<language type="vai" alt="proposed-u219-1" draft="provisional">vaj</language>
+			<language type="ve">Venda</language>
+			<language type="ve" alt="proposed-u219-1" draft="provisional">venda</language>
+			<language type="vi">Vietnamesisk</language>
+			<language type="vi" alt="proposed-u219-1" draft="provisional">vietnamesisk</language>
+			<language type="vo">Volapük</language>
+			<language type="vo" alt="proposed-u219-1" draft="provisional">volapyk</language>
+			<language type="vot">Votisk</language>
+			<language type="vot" alt="proposed-u219-1" draft="provisional">votisk</language>
+			<language type="wa">Vallonsk</language>
+			<language type="wa" alt="proposed-u219-1" draft="provisional">vallonsk</language>
+			<language type="wak" draft="provisional">wkashansk sprog</language>
+			<language type="wal">Walamo</language>
+			<language type="wal" alt="proposed-u219-1" draft="provisional">walamo</language>
+			<language type="war">Waray</language>
+			<language type="war" alt="proposed-u219-1" draft="provisional">waray</language>
+			<language type="was">Washo</language>
+			<language type="was" alt="proposed-u219-1" draft="provisional">washo</language>
+			<language type="wen">Vendiske sprog</language>
+			<language type="wen" references="RP2" alt="proposed-u165-1" draft="provisional">vendiske sprog</language>
+			<language type="wen" alt="proposed-u219-1" draft="unconfirmed">vendisk sprog</language>
+			<language type="wo">Wolof</language>
+			<language type="wo" alt="proposed-u219-1" draft="provisional">wolof</language>
+			<language type="xal">Kalmyk</language>
+			<language type="xal" alt="proposed-u219-1" draft="provisional">kalmyk</language>
+			<language type="xh">Xhosa</language>
+			<language type="xh" alt="proposed-u219-1" draft="provisional">xhosa</language>
+			<language type="yao">Yao</language>
+			<language type="yao" alt="proposed-u219-1" draft="provisional">yao</language>
+			<language type="yap">Yap</language>
+			<language type="yap" alt="proposed-u219-1" draft="provisional">yap</language>
+			<language type="yi">Jiddisch</language>
+			<language type="yi" alt="proposed-u219-1" draft="provisional">jiddisch</language>
+			<language type="yo">Yoruba</language>
+			<language type="yo" alt="proposed-u219-1" draft="provisional">yoruba</language>
+			<language type="ypk" draft="unconfirmed">yupisk sprog</language>
+			<language type="za">Zhuang</language>
+			<language type="za" alt="proposed-u219-1" draft="provisional">zhuang</language>
+			<language type="zap">Zapotec</language>
+			<language type="zap" alt="proposed-u219-1" draft="provisional">zapotec</language>
+			<language type="zen">Zenaga</language>
+			<language type="zen" alt="proposed-u219-1" draft="provisional">zenaga</language>
+			<language type="zh">Kinesisk</language>
+			<language type="zh" alt="proposed-u219-1" draft="provisional">kinesisk</language>
+			<language type="znd">Zande</language>
+			<language type="znd" alt="proposed-u219-1" draft="provisional">zandé</language>
+			<language type="zu">Zulu</language>
+			<language type="zu" alt="proposed-u219-1" draft="provisional">zulu</language>
+			<language type="zun">Zuni</language>
+			<language type="zun" alt="proposed-u219-1" draft="provisional">zuñi</language>
+		</languages>
+		<scripts>
+			<script type="Arab">Arabisk</script>
+			<script type="Arab" references="R1" alt="proposed-u165-1" draft="provisional">arabisk</script>
+			<script type="Arab" alt="proposed-u219-1" draft="unconfirmed">arabiske</script>
+			<script type="Armn">Armensk</script>
+			<script type="Armn" references="R1" alt="proposed-u165-1" draft="provisional">armensk</script>
+			<script type="Armn" alt="proposed-u219-1" draft="unconfirmed">armenske</script>
+			<script type="Bali" draft="unconfirmed">balinesiske</script>
+			<script type="Batk" draft="provisional">batak</script>
+			<script type="Beng" references="R1" draft="provisional">bengalisk</script>
+			<script type="Blis" draft="provisional">blissymboler</script>
+			<script type="Bopo" draft="provisional">bobomofo</script>
+			<script type="Brah" references="RP2" draft="provisional">bramisk</script>
+			<script type="Brai" draft="provisional">blindskrift</script>
+			<script type="Bugi" references="RP2" draft="provisional">buginesisk</script>
+			<script type="Buhd" draft="provisional">buhid</script>
+			<script type="Cans" draft="unconfirmed">kanadensiske stavelsetegn</script>
+			<script type="Cham" draft="provisional">cham</script>
+			<script type="Cher" draft="provisional">cherokee</script>
+			<script type="Cirt" draft="provisional">cirt</script>
+			<script type="Copt">Koptisk</script>
+			<script type="Copt" references="R1" alt="proposed-u165-1" draft="provisional">koptisk</script>
+			<script type="Copt" alt="proposed-u219-1" draft="unconfirmed">koptiske</script>
+			<script type="Cprt">Cypriotisk</script>
+			<script type="Cprt" references="R1" alt="proposed-u165-1" draft="provisional">cypriotisk</script>
+			<script type="Cprt" alt="proposed-u219-1" draft="unconfirmed">cypriotiske</script>
+			<script type="Cyrl">Kyrillisk</script>
+			<script type="Cyrl" references="R1" alt="proposed-u165-1" draft="provisional">kyrillisk</script>
+			<script type="Cyrl" alt="proposed-u219-1" draft="unconfirmed">kyrilliske</script>
+			<script type="Cyrs" references="R1" draft="provisional">kyrillisk (oldkirkslavisk variant)</script>
+			<script type="Deva">Devanagarisk</script>
+			<script type="Deva" references="R1" alt="proposed-u165-1" draft="provisional">devanagarisk</script>
+			<script type="Deva" alt="proposed-u219-1" draft="unconfirmed">devanagariske</script>
+			<script type="Dsrt" draft="provisional">deseret</script>
+			<script type="Egyd" references="R1" draft="provisional">egyptisk demotisk</script>
+			<script type="Egyh" draft="unconfirmed">hieratiske</script>
+			<script type="Egyp" draft="unconfirmed">egyptiske hieroglyfer</script>
+			<script type="Ethi">Etiopisk</script>
+			<script type="Ethi" references="R1" alt="proposed-u165-1" draft="provisional">etiopisk</script>
+			<script type="Ethi" alt="proposed-u219-1" draft="unconfirmed">etiopiske</script>
+			<script type="Geok" draft="provisional">kutsuri</script>
+			<script type="Geor">Georgisk</script>
+			<script type="Geor" references="RP2" alt="proposed-u165-1" draft="provisional">georgisk</script>
+			<script type="Geor" alt="proposed-u219-1" draft="unconfirmed">georgiske</script>
+			<script type="Glag" references="R1" draft="provisional">glagolitisk</script>
+			<script type="Goth">Gotisk</script>
+			<script type="Goth" references="R1" alt="proposed-u165-1" draft="provisional">gotisk</script>
+			<script type="Goth" alt="proposed-u219-1" draft="unconfirmed">gotiske</script>
+			<script type="Grek">Græsk</script>
+			<script type="Grek" references="RP2" alt="proposed-u165-1" draft="provisional">græsk</script>
+			<script type="Grek" alt="proposed-u219-1" draft="unconfirmed">græske</script>
+			<script type="Gujr" references="R1" draft="provisional">gujarati</script>
+			<script type="Guru" draft="unconfirmed">gurmikiske</script>
+			<script type="Hang" draft="provisional">hangul</script>
+			<script type="Hani" draft="unconfirmed">kinesiske</script>
+			<script type="Hano" draft="provisional">hanunå</script>
+			<script type="Hans">Forenklet Han</script>
+			<script type="Hans" references="R1" alt="proposed-u165-1" draft="provisional">forenklet kinesisk</script>
+			<script type="Hans" alt="proposed-u219-1" draft="unconfirmed">forenklet kinesiske</script>
+			<script type="Hant">Traditionelt Han</script>
+			<script type="Hant" references="R1" alt="proposed-u165-1" draft="provisional">traditionelt kinesisk</script>
+			<script type="Hant" alt="proposed-u219-1" draft="unconfirmed">traditionel kinesiske</script>
+			<script type="Hebr">Hebraisk</script>
+			<script type="Hebr" references="RP2" alt="proposed-u165-1" draft="provisional">hebraisk</script>
+			<script type="Hebr" alt="proposed-u219-1" draft="unconfirmed">hebraiske</script>
+			<script type="Hira" draft="provisional">hiragana</script>
+			<script type="Hmng" draft="provisional">pahaw mong</script>
+			<script type="Hrkt" draft="provisional">katakana/hiragana</script>
+			<script type="Hung" draft="unconfirmed">oldungerske</script>
+			<script type="Inds" draft="provisional">indus</script>
+			<script type="Ital">Olditalisk</script>
+			<script type="Ital" references="RP2" alt="proposed-u165-1" draft="provisional">olditalisk</script>
+			<script type="Ital" alt="proposed-u219-2" draft="unconfirmed">olditaliske</script>
+			<script type="Java" references="RP2" draft="provisional">javanesisk</script>
+			<script type="Kali" draft="provisional">kaya li</script>
+			<script type="Kana" draft="provisional">katakana</script>
+			<script type="Khar" draft="provisional">kharoshti</script>
+			<script type="Khmr" draft="unconfirmed">khmeriske</script>
+			<script type="Knda" draft="provisional">kannada</script>
+			<script type="Laoo" references="R1" draft="provisional">laotisk</script>
+			<script type="Latf" references="R1" draft="provisional">latinsk (frakturvariant)</script>
+			<script type="Latg" draft="unconfirmed">latinske (gaelisk variant)</script>
+			<script type="Latn">Latinsk</script>
+			<script type="Latn" references="R1" alt="proposed-u165-1" draft="provisional">latinsk</script>
+			<script type="Latn" alt="proposed-u219-1" draft="unconfirmed">latinske</script>
+			<script type="Lepc" draft="provisional">rong</script>
+			<script type="Limb" draft="provisional">limbu</script>
+			<script type="Lina" references="R1" draft="provisional">lineær A</script>
+			<script type="Linb" draft="unconfirmed">linjær B</script>
+			<script type="Mand" references="R1" draft="provisional">mandaeisk</script>
+			<script type="Maya" draft="provisional">maya hieroglyfer</script>
+			<script type="Mero" draft="unconfirmed">meriotiske</script>
+			<script type="Mlym" draft="provisional">malayalam</script>
+			<script type="Mong">Mongolsk</script>
+			<script type="Mong" references="R1" alt="proposed-u165-1" draft="provisional">mongolsk</script>
+			<script type="Mong" alt="proposed-u219-1" draft="unconfirmed">mongolske</script>
+			<script type="Mymr" draft="unconfirmed">burmesiske</script>
+			<script type="Nkoo" draft="provisional">nkå</script>
+			<script type="Ogam" draft="provisional">ogham</script>
+			<script type="Orkh" draft="provisional">orkon</script>
+			<script type="Orya" draft="provisional">oriya</script>
+			<script type="Osma" references="R1" draft="provisional">osmansk</script>
+			<script type="Perm" references="R1" draft="provisional">oldpermisk</script>
+			<script type="Phag" draft="provisional">phags-pa</script>
+			<script type="Phnx" references="R1" draft="provisional">fønikisk</script>
+			<script type="Plrd" references="R1" draft="provisional">pollardtegn</script>
+			<script type="Qaai" draft="unconfirmed">arvet</script>
+			<script type="Roro" draft="provisional">rongo-rongo</script>
+			<script type="Runr">Runer</script>
+			<script type="Runr" alt="proposed-u219-1" draft="provisional">runer</script>
+			<script type="Sara" draft="provisional">sarati</script>
+			<script type="Shaw" references="R1" draft="provisional">shawiske tegn</script>
+			<script type="Sinh">Singalesisk</script>
+			<script type="Sinh" references="R1" alt="proposed-u165-1" draft="provisional">singalesisk</script>
+			<script type="Sinh" alt="proposed-u219-1" draft="unconfirmed">singalesiske</script>
+			<script type="Sylo" draft="provisional">syloti nagri</script>
+			<script type="Syrc">Syrisk</script>
+			<script type="Syrc" references="R1" alt="proposed-u165-1" draft="provisional">syrisk</script>
+			<script type="Syrc" alt="proposed-u219-1" draft="unconfirmed">syriske</script>
+			<script type="Syre" references="R1" draft="provisional">syrisk (estrangelovariant)</script>
+			<script type="Syrj" draft="unconfirmed">syriske (vestlig variant))</script>
+			<script type="Syrn" draft="provisional">syrisk (østlig variant)</script>
+			<script type="Tagb" draft="provisional">tagbanwa</script>
+			<script type="Tale" draft="provisional">tai le</script>
+			<script type="Talu" draft="provisional">tai lue</script>
+			<script type="Taml">Tamilsk</script>
+			<script type="Taml" references="R1" alt="proposed-u165-1" draft="provisional">tamilsk</script>
+			<script type="Taml" alt="proposed-u219-1" draft="unconfirmed">tamilske</script>
+			<script type="Telu" draft="provisional">telugu</script>
+			<script type="Teng" draft="provisional">tengwar</script>
+			<script type="Tfng" draft="provisional">tifinagh</script>
+			<script type="Tglg" draft="provisional">tagalog</script>
+			<script type="Thaa" draft="provisional">thaana</script>
+			<script type="Thai" references="R1" draft="provisional">thailandsk</script>
+			<script type="Tibt">Tibetansk</script>
+			<script type="Tibt" references="R1" alt="proposed-u165-1" draft="provisional">tibetansk</script>
+			<script type="Tibt" alt="proposed-u219-1" draft="unconfirmed">tibetanske</script>
+			<script type="Ugar">Ugaritisk</script>
+			<script type="Ugar" alt="proposed-u165-1" draft="provisional">ugaritisk</script>
+			<script type="Ugar" alt="proposed-u219-1" draft="unconfirmed">egaritiske</script>
+			<script type="Vaii" draft="provisional">vaj</script>
+			<script type="Visp" draft="unconfirmed">synligt tal</script>
+			<script type="Xpeo" references="RP2" draft="provisional">oldpersisk</script>
+			<script type="Xsux" draft="provisional">sumero-akkadisk cuneiform</script>
+			<script type="Yiii" draft="provisional">yi</script>
+			<script type="Zxxx" draft="provisional">uskrevet sprog</script>
+			<script type="Zyyy">Ukendt</script>
+			<script type="Zyyy" references="R1" alt="proposed-u165-1" draft="provisional">fælles</script>
+			<script type="Zyyy" alt="proposed-u219-1" draft="unconfirmed">gemensamme</script>
+			<script type="Zzzz" references="R1" draft="provisional">ukodet instruks</script>
+		</scripts>
+		<territories>
+			<territory type="001" draft="provisional">verden</territory>
+			<territory type="002" draft="provisional">Afrika</territory>
+			<territory type="005" draft="provisional">Sydamerika</territory>
+			<territory type="009" draft="provisional">Oceanien</territory>
+			<territory type="011" draft="provisional">vestlige Afrika</territory>
+			<territory type="013" draft="provisional">Centralamerika</territory>
+			<territory type="014" draft="provisional">østlige Afrika</territory>
+			<territory type="015" draft="provisional">nordlige Afrika</territory>
+			<territory type="017" draft="unconfirmed">centrale Afrika</territory>
+			<territory type="018" draft="provisional">sydlige Afrika</territory>
+			<territory type="019" draft="provisional">Amerika</territory>
+			<territory type="021" draft="unconfirmed">nordamerika</territory>
+			<territory type="029" draft="provisional">Caribien</territory>
+			<territory type="030" draft="unconfirmed">østasien</territory>
+			<territory type="034" draft="unconfirmed">sydasien</territory>
+			<territory type="035" draft="provisional">Sydøstasien</territory>
+			<territory type="039" draft="provisional">Sydeuropa</territory>
+			<territory type="053" draft="provisional">Australien og New Zealand</territory>
+			<territory type="054" draft="provisional">Melanesien</territory>
+			<territory type="057" draft="provisional">Mikronesien</territory>
+			<territory type="061" draft="provisional">Polynesien</territory>
+			<territory type="142" draft="provisional">Asien</territory>
+			<territory type="143" draft="provisional">Centralasien</territory>
+			<territory type="145" draft="unconfirmed">vestasien</territory>
+			<territory type="150" draft="provisional">Europa</territory>
+			<territory type="151" draft="unconfirmed">østeuropa</territory>
+			<territory type="154" draft="unconfirmed">nordeuropa</territory>
+			<territory type="155" draft="unconfirmed">vesteuropa</territory>
+			<territory type="172" draft="provisional">Sammenslutningen af uafhængige stater</territory>
+			<territory type="419" draft="provisional">Sydamerika og Caribien</territory>
+			<territory type="AD">Andorra</territory>
+			<territory type="AE">Forenede Arabiske Emirater</territory>
+			<territory type="AF">Afghanistan</territory>
+			<territory type="AG">Antigua og Barbuda</territory>
+			<territory type="AI">Anguilla</territory>
+			<territory type="AL">Albanien</territory>
+			<territory type="AM">Armenien</territory>
+			<territory type="AN">Hollandske Antiller</territory>
+			<territory type="AO">Angola</territory>
+			<territory type="AQ">Antarktis</territory>
+			<territory type="AR">Argentina</territory>
+			<territory type="AS">Amerikansk Samoa</territory>
+			<territory type="AT">Østrig</territory>
+			<territory type="AU">Australien</territory>
+			<territory type="AW">Aruba</territory>
+			<territory type="AX" draft="provisional">Åland</territory>
+			<territory type="AZ">Aserbajdsjan</territory>
+			<territory type="BA">Bosnien-Hercegovina</territory>
+			<territory type="BB">Barbados</territory>
+			<territory type="BD">Bangladesh</territory>
+			<territory type="BE">Belgien</territory>
+			<territory type="BF">Burkina Faso</territory>
+			<territory type="BG">Bulgarien</territory>
+			<territory type="BH">Bahrain</territory>
+			<territory type="BI">Burundi</territory>
+			<territory type="BJ">Benin</territory>
+			<territory type="BM">Bermuda</territory>
+			<territory type="BN">Brunei Darussalam</territory>
+			<territory type="BO">Bolivia</territory>
+			<territory type="BR">Brasilien</territory>
+			<territory type="BS">Bahamas</territory>
+			<territory type="BT">Bhutan</territory>
+			<territory type="BV">Bouvetø</territory>
+			<territory type="BW">Botswana</territory>
+			<territory type="BY">Hviderusland</territory>
+			<territory type="BZ">Belize</territory>
+			<territory type="CA">Canada</territory>
+			<territory type="CC">Cocos-øerne (Keelingøerne)</territory>
+			<territory type="CD">Den Demokratiske Republik Congo</territory>
+			<territory type="CD" alt="proposed-u219-1" draft="provisional">Congo-Kinshasa</territory>
+			<territory type="CF">Centralafrikanske Republik</territory>
+			<territory type="CF" alt="proposed-u219-1" draft="unconfirmed">Centralafrikanske republik</territory>
+			<territory type="CG">Congo</territory>
+			<territory type="CG" alt="proposed-u219-1" draft="provisional">Congo-Brazzaville</territory>
+			<territory type="CH">Schweiz</territory>
+			<territory type="CI">Elfenbenskysten</territory>
+			<territory type="CK">Cook-øerne</territory>
+			<territory type="CL">Chile</territory>
+			<territory type="CM">Cameroun</territory>
+			<territory type="CN">Kina</territory>
+			<territory type="CO">Colombia</territory>
+			<territory type="CR">Costa Rica</territory>
+			<territory type="CS">Serbien og Montenegro</territory>
+			<territory type="CU">Cuba</territory>
+			<territory type="CV">Kap Verde</territory>
+			<territory type="CX">Juleøen</territory>
+			<territory type="CY">Cypern</territory>
+			<territory type="CZ">Tjekkiet</territory>
+			<territory type="DE">Tyskland</territory>
+			<territory type="DJ">Djibouti</territory>
+			<territory type="DK">Danmark</territory>
+			<territory type="DM">Dominica</territory>
+			<territory type="DO">Den Dominikanske Republik</territory>
+			<territory type="DZ">Algeriet</territory>
+			<territory type="EC">Ecuador</territory>
+			<territory type="EE">Estland</territory>
+			<territory type="EG">Egypten</territory>
+			<territory type="EH">Vestsahara</territory>
+			<territory type="ER">Eritrea</territory>
+			<territory type="ES">Spanien</territory>
+			<territory type="ET">Etiopien</territory>
+			<territory type="FI">Finland</territory>
+			<territory type="FJ">Fiji-øerne</territory>
+			<territory type="FK">Falklandsøerne</territory>
+			<territory type="FM">Mikronesiens Forenede Stater</territory>
+			<territory type="FO">Færøerne</territory>
+			<territory type="FR">Frankrig</territory>
+			<territory type="GA">Gabon</territory>
+			<territory type="GB">Storbritannien</territory>
+			<territory type="GD">Grenada</territory>
+			<territory type="GE">Georgien</territory>
+			<territory type="GF">Fransk Guyana</territory>
+			<territory type="GH">Ghana</territory>
+			<territory type="GI">Gibraltar</territory>
+			<territory type="GL">Grønland</territory>
+			<territory type="GM">Gambia</territory>
+			<territory type="GN">Guinea</territory>
+			<territory type="GP">Guadeloupe</territory>
+			<territory type="GQ">Ækvatorialguinea</territory>
+			<territory type="GR">Grækenland</territory>
+			<territory type="GS">South Georgia og De Sydlige Sandwichøer</territory>
+			<territory type="GT">Guatemala</territory>
+			<territory type="GU">Guam</territory>
+			<territory type="GW">Guinea-Bissau</territory>
+			<territory type="GY">Guyana</territory>
+			<territory type="HK">SAR Hongkong</territory>
+			<territory type="HM">Heard- og McDonald-øerne</territory>
+			<territory type="HN">Honduras</territory>
+			<territory type="HR">Kroatien</territory>
+			<territory type="HT">Haiti</territory>
+			<territory type="HU">Ungarn</territory>
+			<territory type="ID">Indonesien</territory>
+			<territory type="IE">Irland</territory>
+			<territory type="IL">Israel</territory>
+			<territory type="IN">Indien</territory>
+			<territory type="IO">Det Britiske Territorium i Det Indiske Ocean</territory>
+			<territory type="IQ">Irak</territory>
+			<territory type="IR">Iran</territory>
+			<territory type="IS">Island</territory>
+			<territory type="IT">Italien</territory>
+			<territory type="JM">Jamaica</territory>
+			<territory type="JO">Jordan</territory>
+			<territory type="JP">Japan</territory>
+			<territory type="KE">Kenya</territory>
+			<territory type="KG">Kirgisistan</territory>
+			<territory type="KH">Cambodja</territory>
+			<territory type="KI">Kiribati</territory>
+			<territory type="KM">Comorerne</territory>
+			<territory type="KN">Saint Kitts og Nevis</territory>
+			<territory type="KP">Nordkorea</territory>
+			<territory type="KR">Sydkorea</territory>
+			<territory type="KW">Kuwait</territory>
+			<territory type="KY">Caymanøerne</territory>
+			<territory type="KZ">Kasakhstan</territory>
+			<territory type="LA">Laos</territory>
+			<territory type="LB">Libanon</territory>
+			<territory type="LC">Saint Lucia</territory>
+			<territory type="LI">Liechtenstein</territory>
+			<territory type="LK">Sri Lanka</territory>
+			<territory type="LR">Liberia</territory>
+			<territory type="LS">Lesotho</territory>
+			<territory type="LT">Litauen</territory>
+			<territory type="LU">Luxembourg</territory>
+			<territory type="LV">Letland</territory>
+			<territory type="LY">Libyen</territory>
+			<territory type="MA">Marokko</territory>
+			<territory type="MC">Monaco</territory>
+			<territory type="MD">Republikken Moldova</territory>
+			<territory type="MG">Madagaskar</territory>
+			<territory type="MH">Marshalløerne</territory>
+			<territory type="MK">Republikken Makedonien</territory>
+			<territory type="ML">Mali</territory>
+			<territory type="MM">Myanmar</territory>
+			<territory type="MN">Mongoliet</territory>
+			<territory type="MO">SAR Macao</territory>
+			<territory type="MP">Nordmarianerne</territory>
+			<territory type="MQ">Martinique</territory>
+			<territory type="MR">Mauretanien</territory>
+			<territory type="MS">Montserrat</territory>
+			<territory type="MT">Malta</territory>
+			<territory type="MU">Mauritius</territory>
+			<territory type="MV">Maldiverne</territory>
+			<territory type="MW">Malawi</territory>
+			<territory type="MX">Mexico</territory>
+			<territory type="MY">Malaysia</territory>
+			<territory type="MZ">Mozambique</territory>
+			<territory type="NA">Namibia</territory>
+			<territory type="NC">Ny Caledonien</territory>
+			<territory type="NE">Niger</territory>
+			<territory type="NF">Norfolk Island</territory>
+			<territory type="NG">Nigeria</territory>
+			<territory type="NI">Nicaragua</territory>
+			<territory type="NL">Holland</territory>
+			<territory type="NO">Norge</territory>
+			<territory type="NP">Nepal</territory>
+			<territory type="NR">Nauru</territory>
+			<territory type="NU">Niue</territory>
+			<territory type="NZ">New Zealand</territory>
+			<territory type="NZ" alt="proposed-u219-1" draft="unconfirmed">Ny Zeeland</territory>
+			<territory type="OM">Oman</territory>
+			<territory type="PA">Panama</territory>
+			<territory type="PE">Peru</territory>
+			<territory type="PF">Fransk Polynesien</territory>
+			<territory type="PG">Papua Ny Guinea</territory>
+			<territory type="PH">Filippinerne</territory>
+			<territory type="PK">Pakistan</territory>
+			<territory type="PL">Polen</territory>
+			<territory type="PM">Saint Pierre og Miquelon</territory>
+			<territory type="PN">Pitcairn</territory>
+			<territory type="PR">Puerto Rico</territory>
+			<territory type="PS">De palæstinensiske områder</territory>
+			<territory type="PT">Portugal</territory>
+			<territory type="PW">Palau</territory>
+			<territory type="PY">Paraguay</territory>
+			<territory type="QA">Qatar</territory>
+			<territory type="QO" draft="unconfirmed">yttre Oceania</territory>
+			<territory type="RE">Reunion</territory>
+			<territory type="RO">Rumænien</territory>
+			<territory type="RU">Rusland</territory>
+			<territory type="RW">Rwanda</territory>
+			<territory type="SA">Saudi-Arabien</territory>
+			<territory type="SB">Salomonøerne</territory>
+			<territory type="SC">Seychellerne</territory>
+			<territory type="SD">Sudan</territory>
+			<territory type="SE">Sverige</territory>
+			<territory type="SG">Singapore</territory>
+			<territory type="SH">St. Helena</territory>
+			<territory type="SH" alt="proposed-u219-1" draft="unconfirmed">S:t Helena</territory>
+			<territory type="SI">Slovenien</territory>
+			<territory type="SJ">Svalbard og Jan Mayen</territory>
+			<territory type="SK">Slovakiet</territory>
+			<territory type="SL">Sierra Leone</territory>
+			<territory type="SM">San Marino</territory>
+			<territory type="SN">Senegal</territory>
+			<territory type="SO">Somalia</territory>
+			<territory type="SR">Surinam</territory>
+			<territory type="ST">São Tomé og Príncipe</territory>
+			<territory type="SV">El Salvador</territory>
+			<territory type="SY">Syrien</territory>
+			<territory type="SZ">Swaziland</territory>
+			<territory type="TC">Turks- og Caicosøerne</territory>
+			<territory type="TD">Tchad</territory>
+			<territory type="TF">Franske Besiddelser i Det Sydlige Indiske Ocean</territory>
+			<territory type="TG">Togo</territory>
+			<territory type="TH">Thailand</territory>
+			<territory type="TJ">Tadsjikistan</territory>
+			<territory type="TK">Tokelau</territory>
+			<territory type="TL">Timor-Leste</territory>
+			<territory type="TM">Turkmenistan</territory>
+			<territory type="TN">Tunesien</territory>
+			<territory type="TO">Tonga</territory>
+			<territory type="TR">Tyrkiet</territory>
+			<territory type="TT">Trinidad og Tobago</territory>
+			<territory type="TV">Tuvalu</territory>
+			<territory type="TW">Taiwan</territory>
+			<territory type="TZ">Tanzania</territory>
+			<territory type="UA">Ukraine</territory>
+			<territory type="UG">Uganda</territory>
+			<territory type="UM">De Mindre Amerikanske Oversøiske Øer</territory>
+			<territory type="US">USA</territory>
+			<territory type="UY">Uruguay</territory>
+			<territory type="UZ">Usbekistan</territory>
+			<territory type="VA">Vatikanstaten</territory>
+			<territory type="VC">St. Vincent og Grenadinerne</territory>
+			<territory type="VE">Venezuela</territory>
+			<territory type="VG">De britiske jomfruøer</territory>
+			<territory type="VI">De amerikanske jomfruøer</territory>
+			<territory type="VN">Vietnam</territory>
+			<territory type="VU">Vanuatu</territory>
+			<territory type="WF">Wallis og Futunaøerne</territory>
+			<territory type="WS">Samoa</territory>
+			<territory type="YE">Yemen</territory>
+			<territory type="YT">Mayotte</territory>
+			<territory type="ZA">Sydafrika</territory>
+			<territory type="ZM">Zambia</territory>
+			<territory type="ZW">Zimbabwe</territory>
+		</territories>
+		<keys>
+			<key type="calendar">Kalender</key>
+			<key type="collation">Sortering</key>
+			<key type="currency">Valuta</key>
+		</keys>
+		<types>
+			<type type="buddhist" key="calendar">Buddhistisk kalender</type>
+			<type type="chinese" key="calendar">Kinesisk kalender</type>
+			<type type="direct" key="collation">Direkte sorteringsrækkefølge</type>
+			<type type="gregorian" key="calendar">Gregoriansk kalender</type>
+			<type type="hebrew" key="calendar">Jødisk kalender</type>
+			<type type="islamic" key="calendar">Islamisk kalender</type>
+			<type type="islamic-civil" key="calendar">Verdslig islamisk kalender</type>
+			<type type="japanese" key="calendar">Japansk kalender</type>
+			<type type="phonebook" key="collation">Sorteringsrækkefølge i telefonbøger</type>
+			<type type="pinyin" key="collation">Pinyin-baseret sorteringsrækkefølge</type>
+			<type type="stroke" key="collation">Stroke-baseret sorteringsrækkefølge</type>
+			<type type="traditional" key="collation">Traditionel sorteringsrækkefølge</type>
+		</types>
+		<measurementSystemNames>
+			<measurementSystemName type="US" draft="provisional">Amerikansk</measurementSystemName>
+			<measurementSystemName type="metric" draft="provisional">Metrisk</measurementSystemName>
+		</measurementSystemNames>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[a-z æ ø å]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[á é í ó ú ý]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary" alt="proposed-u219-1" draft="unconfirmed">[á é í ñ ó ú ý ü ǽ ǿ ǻ]</exemplarCharacters>
+	</characters>
+	<delimiters>
+		<quotationStart draft="provisional">”</quotationStart>
+		<alternateQuotationStart draft="provisional">’</alternateQuotationStart>
+	</delimiters>
+	<dates>
+		<localizedPatternChars>GuMtkHmsSEDFwWahKzUeygAZvcL</localizedPatternChars>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">jan</month>
+							<month type="2">feb</month>
+							<month type="3">mar</month>
+							<month type="4">apr</month>
+							<month type="5">maj</month>
+							<month type="6">jun</month>
+							<month type="7">jul</month>
+							<month type="8">aug</month>
+							<month type="9">sep</month>
+							<month type="10">okt</month>
+							<month type="11">nov</month>
+							<month type="12">dec</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">januar</month>
+							<month type="2">februar</month>
+							<month type="3">marts</month>
+							<month type="4">april</month>
+							<month type="5">maj</month>
+							<month type="6">juni</month>
+							<month type="7">juli</month>
+							<month type="8">august</month>
+							<month type="9">september</month>
+							<month type="10">oktober</month>
+							<month type="11">november</month>
+							<month type="12">december</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1">J</month>
+							<month type="2">F</month>
+							<month type="3">M</month>
+							<month type="4">A</month>
+							<month type="5">M</month>
+							<month type="6">J</month>
+							<month type="7">J</month>
+							<month type="8">A</month>
+							<month type="9">S</month>
+							<month type="10">O</month>
+							<month type="11">N</month>
+							<month type="12">D</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">søn</day>
+							<day type="mon">man</day>
+							<day type="tue">tir</day>
+							<day type="wed">ons</day>
+							<day type="thu">tor</day>
+							<day type="fri">fre</day>
+							<day type="sat">lør</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">søndag</day>
+							<day type="mon">mandag</day>
+							<day type="tue">tirsdag</day>
+							<day type="wed">onsdag</day>
+							<day type="thu">torsdag</day>
+							<day type="fri">fredag</day>
+							<day type="sat">lørdag</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun">S</day>
+							<day type="mon">M</day>
+							<day type="tue">T</day>
+							<day type="wed">O</day>
+							<day type="thu">T</day>
+							<day type="fri">F</day>
+							<day type="sat">L</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1">K1</quarter>
+							<quarter type="2">K2</quarter>
+							<quarter type="3">K3</quarter>
+							<quarter type="4">K4</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1">1. kvartal</quarter>
+							<quarter type="2">2. kvartal</quarter>
+							<quarter type="3">3. kvartal</quarter>
+							<quarter type="4">4. kvartal</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<eras>
+					<eraAbbr>
+						<era type="0">f.Kr.</era>
+						<era type="1">e.Kr.</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE 'den' d. MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d. MMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd/MM/yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/yy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>HH.mm.ss z</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern>HH.mm.ss z</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>HH.mm.ss</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>HH.mm</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMMd" draft="provisional">d. MMM</dateFormatItem>
+						<dateFormatItem id="MMdd" draft="provisional">dd/MM</dateFormatItem>
+						<dateFormatItem id="mmss" draft="provisional">mm.ss</dateFormatItem>
+						<dateFormatItem id="yyyyMM" draft="provisional">MM/yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMM" draft="provisional">MMM yyyy</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+				<fields>
+					<field type="era">
+						<displayName draft="provisional">tid</displayName>
+					</field>
+					<field type="year">
+						<displayName>år</displayName>
+					</field>
+					<field type="month">
+						<displayName>måned</displayName>
+					</field>
+					<field type="week">
+						<displayName>uge</displayName>
+					</field>
+					<field type="day">
+						<displayName>dag</displayName>
+					</field>
+					<field type="weekday">
+						<displayName>ugedag</displayName>
+					</field>
+					<field type="dayperiod">
+						<displayName draft="provisional">dagtid</displayName>
+					</field>
+					<field type="hour">
+						<displayName>time</displayName>
+					</field>
+					<field type="minute">
+						<displayName>minut</displayName>
+					</field>
+					<field type="second">
+						<displayName>sekund</displayName>
+					</field>
+					<field type="zone">
+						<displayName>zone</displayName>
+					</field>
+				</fields>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<zone type="Antarctica/South_Pole">
+				<exemplarCity>Sydpolen</exemplarCity>
+			</zone>
+			<zone type="America/Halifax">
+				<long>
+					<standard>Atlantic-normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Halifax, normaltid</standard>
+					<daylight>Atlantic-sommertid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Halifax, sommertid</daylight>
+				</long>
+				<short>
+					<standard>AST</standard>
+					<daylight>ADT</daylight>
+				</short>
+			</zone>
+			<zone type="America/St_Johns">
+				<long>
+					<standard>Newfoundland-normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">St. Johns, normaltid</standard>
+					<daylight>Newfoundland-sommertid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">St. Johns, sommertid</daylight>
+				</long>
+				<short>
+					<standard>NST</standard>
+					<daylight>NDT</daylight>
+				</short>
+				<exemplarCity>St. Johns</exemplarCity>
+			</zone>
+			<zone type="Pacific/Easter">
+				<exemplarCity>Påskeøen</exemplarCity>
+			</zone>
+			<zone type="Asia/Shanghai">
+				<long>
+					<standard>Kinesisk normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Shanghai, normaltid</standard>
+					<daylight>Kinesisk normaltid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Shanghai, sommertid</daylight>
+				</long>
+			</zone>
+			<zone type="Atlantic/Canary">
+				<exemplarCity>De Kanariske Øer</exemplarCity>
+			</zone>
+			<zone type="Europe/Paris">
+				<long>
+					<standard>Mellemeuropæisk normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Paris, normaltid</standard>
+					<daylight>Mellemeuropæisk sommertid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Paris, sommertid</daylight>
+				</long>
+				<short>
+					<standard>CET</standard>
+					<daylight>CEST</daylight>
+				</short>
+				<exemplarCity>Paris</exemplarCity>
+			</zone>
+			<zone type="America/Godthab">
+				<exemplarCity>Nuuk</exemplarCity>
+			</zone>
+			<zone type="Asia/Jerusalem">
+				<long>
+					<standard>Israelsk normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Jerusalem, normaltid</standard>
+					<daylight>Israelsk sommertid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Jerusalem, sommertid</daylight>
+				</long>
+				<short>
+					<standard>IST</standard>
+					<daylight>IDT</daylight>
+				</short>
+				<exemplarCity>Jerusalem</exemplarCity>
+			</zone>
+			<zone type="Asia/Tokyo">
+				<long>
+					<standard>Japansk normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Tokyo, normaltid</standard>
+					<daylight>Japansk normaltid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Tokyo, sommertid</daylight>
+				</long>
+				<short>
+					<standard>JST</standard>
+					<daylight>JST</daylight>
+				</short>
+				<exemplarCity>Tokyo</exemplarCity>
+			</zone>
+			<zone type="Africa/Casablanca">
+				<long>
+					<standard>Verdenstid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Casablanca, normaltid</standard>
+					<daylight>Verdenstid</daylight>
+					<daylight alt="proposed-u165-2" draft="provisional">Casablanca, sommertid</daylight>
+				</long>
+				<short>
+					<standard>GMT</standard>
+					<daylight>GMT</daylight>
+				</short>
+				<exemplarCity>Casablanca</exemplarCity>
+			</zone>
+			<zone type="Europe/Lisbon">
+				<exemplarCity>Lissabon</exemplarCity>
+			</zone>
+			<zone type="Europe/Bucharest">
+				<long>
+					<standard>Østeuropæisk normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Bucharest, normaltid</standard>
+					<daylight>Østeuropæisk sommertid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Bucharest, sommertid</daylight>
+				</long>
+				<short>
+					<standard>EET</standard>
+					<daylight>EEST</daylight>
+				</short>
+				<exemplarCity>Bukarest</exemplarCity>
+			</zone>
+			<zone type="Europe/Moscow">
+				<exemplarCity>Moskva</exemplarCity>
+			</zone>
+			<zone type="Pacific/Honolulu">
+				<long>
+					<standard>Hawaii-normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Hawaii, normaltid</standard>
+					<daylight>Hawaii-normaltid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Hawaii, sommertid</daylight>
+				</long>
+				<short>
+					<standard>HST</standard>
+					<daylight>HST</daylight>
+				</short>
+			</zone>
+			<zone type="America/Anchorage">
+				<long>
+					<standard>Alaska-normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Alaska, normaltid</standard>
+					<daylight>Alaska-sommertid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Alaska, sommertid</daylight>
+				</long>
+				<short>
+					<standard>AKST</standard>
+					<daylight>AKDT</daylight>
+				</short>
+			</zone>
+			<zone type="America/Los_Angeles">
+				<long>
+					<standard>Pacific-normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Los Angeles, normaltid</standard>
+					<daylight>Pacific-sommertid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Los Angeles, sommertid</daylight>
+				</long>
+				<short>
+					<standard>PST</standard>
+					<daylight>PDT</daylight>
+				</short>
+			</zone>
+			<zone type="America/Phoenix">
+				<long>
+					<standard>Mountain-normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Phoenix, normaltid</standard>
+					<daylight>Mountain-normaltid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Phoenix, sommertid</daylight>
+				</long>
+				<short>
+					<standard>MST</standard>
+					<daylight>MST</daylight>
+				</short>
+			</zone>
+			<zone type="America/Denver">
+				<long>
+					<standard>Mountain-normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Denver, normaltid</standard>
+					<daylight>Mountain-sommertid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Denver, sommertid</daylight>
+				</long>
+				<short>
+					<standard>MST</standard>
+					<daylight>MDT</daylight>
+				</short>
+			</zone>
+			<zone type="America/Chicago">
+				<long>
+					<standard>Central-normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">Chicago, normaltid</standard>
+					<daylight>Central-sommertid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">Chicago, sommertid</daylight>
+				</long>
+				<short>
+					<standard>CST</standard>
+					<daylight>CDT</daylight>
+				</short>
+			</zone>
+			<zone type="America/Indianapolis">
+				<long>
+					<standard draft="provisional">Indianapolis, normaltid</standard>
+					<daylight draft="provisional">Indianapolis, sommertid</daylight>
+				</long>
+			</zone>
+			<zone type="America/New_York">
+				<long>
+					<standard>Eastern-normaltid</standard>
+					<standard alt="proposed-u165-1" draft="provisional">New York, normaltid</standard>
+					<daylight>Eastern-sommertid</daylight>
+					<daylight alt="proposed-u165-1" draft="provisional">New York, sommertid</daylight>
+				</long>
+				<short>
+					<standard>EST</standard>
+					<daylight>EDT</daylight>
+				</short>
+			</zone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<symbols>
+			<decimal>,</decimal>
+			<group>.</group>
+			<minusSign draft="provisional">−</minusSign>
+		</symbols>
+		<percentFormats>
+			<percentFormatLength>
+				<percentFormat>
+					<pattern>#,##0 %</pattern>
+				</percentFormat>
+			</percentFormatLength>
+		</percentFormats>
+		<currencyFormats>
+			<currencyFormatLength>
+				<currencyFormat>
+					<pattern draft="provisional">#,##0.00 ¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
+		<currencies>
+			<currency type="ADP">
+				<displayName>Andorransk peseta</displayName>
+			</currency>
+			<currency type="AED">
+				<displayName>Dirham fra de Forenede Arabiske Emirater</displayName>
+			</currency>
+			<currency type="AFA">
+				<displayName draft="provisional">Afghani (1927-2002)</displayName>
+			</currency>
+			<currency type="AFN">
+				<displayName draft="provisional">Afghani</displayName>
+			</currency>
+			<currency type="ALL">
+				<displayName>Albansk lek</displayName>
+				<symbol>lek</symbol>
+			</currency>
+			<currency type="AMD">
+				<displayName>Armensk dram</displayName>
+				<symbol>dram</symbol>
+			</currency>
+			<currency type="ANG">
+				<displayName>Gylden fra De Nederlandske Antiller</displayName>
+				<symbol>NA f.</symbol>
+			</currency>
+			<currency type="AOA">
+				<displayName>Angolansk kwanza</displayName>
+			</currency>
+			<currency type="AOK">
+				<displayName>Angolansk kwanza (1977-1990)</displayName>
+			</currency>
+			<currency type="AON">
+				<displayName>Ny angolansk kwanza (1990-2000)</displayName>
+			</currency>
+			<currency type="AOR">
+				<displayName>Angolansk kwanza reajustado (1995-1999)</displayName>
+			</currency>
+			<currency type="ARA">
+				<displayName>Argentinsk austral</displayName>
+			</currency>
+			<currency type="ARP">
+				<displayName>Argentinsk peso (1983-1985)</displayName>
+			</currency>
+			<currency type="ARS">
+				<displayName>Argentinsk peso</displayName>
+				<symbol>Arg$</symbol>
+				<symbol alt="proposed-u165-1" draft="provisional">ARS</symbol>
+			</currency>
+			<currency type="ATS">
+				<displayName>Østrigsk schilling</displayName>
+			</currency>
+			<currency type="AUD">
+				<displayName>Australsk dollar</displayName>
+				<symbol>$A</symbol>
+			</currency>
+			<currency type="AWG">
+				<displayName>Arubansk gylden</displayName>
+			</currency>
+			<currency type="AZM">
+				<displayName>Aserbajdsjansk manat</displayName>
+			</currency>
+			<currency type="BAD">
+				<displayName>Bosnien-Hercegovinsk dinar</displayName>
+			</currency>
+			<currency type="BAM">
+				<displayName>Bosnien-Hercegovinsk konvertibel mark</displayName>
+				<symbol>KM</symbol>
+			</currency>
+			<currency type="BBD">
+				<displayName>Barbadisk dollar</displayName>
+				<symbol>BDS$</symbol>
+			</currency>
+			<currency type="BDT">
+				<displayName>Bangladeshisk taka</displayName>
+				<symbol>Tk</symbol>
+			</currency>
+			<currency type="BEC">
+				<displayName>Belgisk franc (konvertibel)</displayName>
+			</currency>
+			<currency type="BEF">
+				<displayName>Belgisk franc</displayName>
+				<symbol>BF</symbol>
+			</currency>
+			<currency type="BEL">
+				<displayName>Belgisk franc (financial)</displayName>
+			</currency>
+			<currency type="BGL">
+				<displayName>Bulgarsk hard lev</displayName>
+				<symbol>lev</symbol>
+			</currency>
+			<currency type="BGN">
+				<displayName>Ny Bulgarsk lev</displayName>
+			</currency>
+			<currency type="BHD">
+				<displayName>Bahrainsk dinar</displayName>
+				<symbol>BD</symbol>
+			</currency>
+			<currency type="BIF">
+				<displayName>Burundisk franc</displayName>
+				<symbol>Fbu</symbol>
+			</currency>
+			<currency type="BMD">
+				<displayName>Bermudansk dollar</displayName>
+				<symbol>Ber$</symbol>
+			</currency>
+			<currency type="BND">
+				<displayName>Bruneisk dollar</displayName>
+			</currency>
+			<currency type="BOP">
+				<displayName>Boliviansk peso</displayName>
+			</currency>
+			<currency type="BOV">
+				<displayName>Boliviansk mvdol</displayName>
+			</currency>
+			<currency type="BRB">
+				<displayName>Brasiliansk cruzeiro novo (1967-1986)</displayName>
+			</currency>
+			<currency type="BRC">
+				<displayName>Brasiliansk cruzado</displayName>
+			</currency>
+			<currency type="BRE">
+				<displayName>Brasiliansk cruzeiro (1990-1993)</displayName>
+			</currency>
+			<currency type="BRL">
+				<displayName>Brasiliansk real</displayName>
+				<symbol>R$</symbol>
+			</currency>
+			<currency type="BRN">
+				<displayName>Brasiliansk cruzado novo</displayName>
+			</currency>
+			<currency type="BRR">
+				<displayName>Brasiliansk cruzeiro</displayName>
+			</currency>
+			<currency type="BSD">
+				<displayName>Bahamansk dollar</displayName>
+			</currency>
+			<currency type="BTN">
+				<displayName>Bhutansk ngultrum</displayName>
+				<symbol>Nu</symbol>
+			</currency>
+			<currency type="BUK">
+				<displayName>Burmesisk kyat</displayName>
+			</currency>
+			<currency type="BWP">
+				<displayName>Botswansk pula</displayName>
+			</currency>
+			<currency type="BYB">
+				<displayName>Ny hviderussisk rubel (1994-1999)</displayName>
+			</currency>
+			<currency type="BYR">
+				<displayName>Hviderussisk rubel</displayName>
+				<symbol>Rbl</symbol>
+			</currency>
+			<currency type="BZD">
+				<displayName>Belizisk dollar</displayName>
+				<symbol>BZ$</symbol>
+			</currency>
+			<currency type="CAD">
+				<displayName>Canadisk dollar</displayName>
+				<symbol>Can$</symbol>
+			</currency>
+			<currency type="CDF">
+				<displayName>Congolesisk franc congolais</displayName>
+			</currency>
+			<currency type="CHF">
+				<displayName>Schweizisk franc</displayName>
+				<symbol>SwF</symbol>
+			</currency>
+			<currency type="CLF">
+				<displayName>Chilensk unidades de fomento</displayName>
+			</currency>
+			<currency type="CLP">
+				<displayName>Chilensk peso</displayName>
+				<symbol>Ch$</symbol>
+			</currency>
+			<currency type="CNY">
+				<displayName>Kinesisk yuan renminbi</displayName>
+				<symbol>Y</symbol>
+			</currency>
+			<currency type="COP">
+				<displayName>Colombiansk peso</displayName>
+				<symbol>Col$</symbol>
+			</currency>
+			<currency type="CRC">
+				<displayName>Costaricansk colon</displayName>
+				<symbol>C</symbol>
+			</currency>
+			<currency type="CSK">
+				<displayName>Tjekkoslovakisk hard koruna</displayName>
+			</currency>
+			<currency type="CUP">
+				<displayName>Cubansk peso</displayName>
+			</currency>
+			<currency type="CVE">
+				<displayName>Kapverdisk escudo</displayName>
+				<symbol>CVEsc</symbol>
+			</currency>
+			<currency type="CYP">
+				<displayName>Cypriotisk pund</displayName>
+				<symbol>£C</symbol>
+			</currency>
+			<currency type="CZK">
+				<displayName>Tjekkisk koruna</displayName>
+			</currency>
+			<currency type="DDM">
+				<displayName>Østtysk mark</displayName>
+			</currency>
+			<currency type="DEM">
+				<displayName>Tysk mark</displayName>
+			</currency>
+			<currency type="DJF">
+				<displayName>Djiboutisk franc</displayName>
+				<symbol>DF</symbol>
+			</currency>
+			<currency type="DKK">
+				<displayName>Dansk krone</displayName>
+				<symbol>kr</symbol>
+			</currency>
+			<currency type="DOP">
+				<displayName>Dominikansk peso</displayName>
+				<symbol>RD$</symbol>
+			</currency>
+			<currency type="DZD">
+				<displayName>Algerisk dinar</displayName>
+				<symbol>DA</symbol>
+			</currency>
+			<currency type="ECS">
+				<displayName>Ecuadoriansk sucre</displayName>
+			</currency>
+			<currency type="EEK">
+				<displayName>Estisk kroon</displayName>
+			</currency>
+			<currency type="EGP">
+				<displayName>Egyptisk pund</displayName>
+			</currency>
+			<currency type="ERN">
+				<displayName>Eritreisk nakfa</displayName>
+			</currency>
+			<currency type="ESP">
+				<displayName>Spansk peseta</displayName>
+			</currency>
+			<currency type="ETB">
+				<displayName>Etiopisk birr</displayName>
+				<symbol>Br</symbol>
+			</currency>
+			<currency type="EUR">
+				<displayName>Euro</displayName>
+			</currency>
+			<currency type="FIM">
+				<displayName>Finsk mark</displayName>
+			</currency>
+			<currency type="FJD">
+				<displayName>Fijiansk dollar</displayName>
+				<symbol>F$</symbol>
+			</currency>
+			<currency type="FKP">
+				<displayName>Pund fra Falklandsøerne</displayName>
+			</currency>
+			<currency type="FRF">
+				<displayName>Fransk franc</displayName>
+			</currency>
+			<currency type="GBP">
+				<displayName>Britisk pund</displayName>
+			</currency>
+			<currency type="GEK">
+				<displayName>Georgisk kupon larit</displayName>
+			</currency>
+			<currency type="GEL">
+				<displayName>Georgisk lari</displayName>
+				<symbol>lari</symbol>
+			</currency>
+			<currency type="GHC">
+				<displayName>Ghanesisk cedi</displayName>
+			</currency>
+			<currency type="GIP">
+				<displayName>Gibraltarisk pund</displayName>
+			</currency>
+			<currency type="GMD">
+				<displayName>Gambisk dalasi</displayName>
+			</currency>
+			<currency type="GNF">
+				<displayName>Guineansk franc</displayName>
+				<symbol>GF</symbol>
+			</currency>
+			<currency type="GNS">
+				<displayName>Guineansk syli</displayName>
+			</currency>
+			<currency type="GQE">
+				<displayName>Ækvatorialguineask ekwele guineana</displayName>
+			</currency>
+			<currency type="GRD">
+				<displayName>Græsk drachma</displayName>
+			</currency>
+			<currency type="GTQ">
+				<displayName>Guatemalansk quetzal</displayName>
+				<symbol>Q</symbol>
+			</currency>
+			<currency type="GWE">
+				<displayName>Portugisisk guinea escudo</displayName>
+			</currency>
+			<currency type="GWP">
+				<displayName>Guineansk peso</displayName>
+			</currency>
+			<currency type="GYD">
+				<displayName>Guyansk dollar</displayName>
+				<symbol>G$</symbol>
+			</currency>
+			<currency type="HNL">
+				<displayName>Honduransk lempira</displayName>
+				<symbol>L</symbol>
+			</currency>
+			<currency type="HRD">
+				<displayName>Kroatisk dinar</displayName>
+			</currency>
+			<currency type="HRK">
+				<displayName>Kroatisk kuna</displayName>
+			</currency>
+			<currency type="HTG">
+				<displayName>Haitisk gourde</displayName>
+			</currency>
+			<currency type="HUF">
+				<displayName>Ungarsk forint</displayName>
+				<symbol>Ft</symbol>
+				<symbol references="R1" alt="proposed-u165-1" draft="provisional">HUF</symbol>
+			</currency>
+			<currency type="IDR">
+				<displayName>Indonesisk pupiah</displayName>
+				<symbol>Rp</symbol>
+			</currency>
+			<currency type="IEP">
+				<displayName>Irsk pund</displayName>
+				<symbol>IR£</symbol>
+			</currency>
+			<currency type="ILP">
+				<displayName>Israelsk pund</displayName>
+			</currency>
+			<currency type="ILS">
+				<displayName>Ny israelsk shekel</displayName>
+			</currency>
+			<currency type="INR">
+				<displayName>Indisk rupee</displayName>
+				<symbol references="RP1" draft="provisional">INR</symbol>
+			</currency>
+			<currency type="IQD">
+				<displayName>Irakisk dinar</displayName>
+				<symbol>ID</symbol>
+			</currency>
+			<currency type="IRR">
+				<displayName>Iransk rial</displayName>
+				<symbol>RI</symbol>
+			</currency>
+			<currency type="ISK">
+				<displayName>Islandsk krona</displayName>
+			</currency>
+			<currency type="ITL">
+				<displayName>Italiensk lira</displayName>
+			</currency>
+			<currency type="JMD">
+				<displayName>Jamaicansk dollar</displayName>
+				<symbol>J$</symbol>
+			</currency>
+			<currency type="JOD">
+				<displayName>Jordansk dinar</displayName>
+				<symbol>JD</symbol>
+			</currency>
+			<currency type="JPY">
+				<displayName>Japansk yen</displayName>
+			</currency>
+			<currency type="KES">
+				<displayName>Kenyansk shilling</displayName>
+				<symbol>K Sh</symbol>
+			</currency>
+			<currency type="KGS">
+				<displayName>Kirgisisk som</displayName>
+				<symbol>som</symbol>
+			</currency>
+			<currency type="KHR">
+				<displayName>Cambodjansk riel</displayName>
+				<symbol>CR</symbol>
+			</currency>
+			<currency type="KMF">
+				<displayName>Comorisk franc</displayName>
+				<symbol>CF</symbol>
+			</currency>
+			<currency type="KPW">
+				<displayName>Nordkoreansk won</displayName>
+			</currency>
+			<currency type="KRW">
+				<displayName>Sydkoreansk won</displayName>
+			</currency>
+			<currency type="KWD">
+				<displayName>Kuwaitisk dinar</displayName>
+				<symbol>KD</symbol>
+			</currency>
+			<currency type="KYD">
+				<displayName>Dollar fra Caymanøerne</displayName>
+			</currency>
+			<currency type="KZT">
+				<displayName>Kasakhisk tenge</displayName>
+				<symbol>T</symbol>
+			</currency>
+			<currency type="LAK">
+				<displayName>Laotisk kip</displayName>
+			</currency>
+			<currency type="LBP">
+				<displayName>Libanesisk pund</displayName>
+				<symbol>LL</symbol>
+			</currency>
+			<currency type="LKR">
+				<displayName>Srilankansk rupee</displayName>
+				<symbol>SL Re</symbol>
+			</currency>
+			<currency type="LRD">
+				<displayName>Liberisk dollar</displayName>
+			</currency>
+			<currency type="LSL">
+				<displayName>Lesothisk loti</displayName>
+				<symbol>M</symbol>
+			</currency>
+			<currency type="LTL">
+				<displayName>Litauisk lita</displayName>
+			</currency>
+			<currency type="LTT">
+				<displayName>Litauisk talonas</displayName>
+			</currency>
+			<currency type="LUF">
+				<displayName>Luxembourgsk franc</displayName>
+			</currency>
+			<currency type="LVL">
+				<displayName>Lettisk lats</displayName>
+			</currency>
+			<currency type="LVR">
+				<displayName>Lettisk rubel</displayName>
+			</currency>
+			<currency type="LYD">
+				<displayName>Libysk dinar</displayName>
+				<symbol>LD</symbol>
+			</currency>
+			<currency type="MAD">
+				<displayName>Marokkansk dirham</displayName>
+			</currency>
+			<currency type="MAF">
+				<displayName>Marokkansk franc</displayName>
+			</currency>
+			<currency type="MDL">
+				<displayName>Moldovisk leu</displayName>
+			</currency>
+			<currency type="MGA">
+				<displayName>Madagaskisk ariary</displayName>
+			</currency>
+			<currency type="MGF">
+				<displayName>Madagaskisk franc</displayName>
+			</currency>
+			<currency type="MKD">
+				<displayName>Makedonsk denar</displayName>
+				<symbol>MDen</symbol>
+			</currency>
+			<currency type="MLF">
+				<displayName>Malisk franc</displayName>
+			</currency>
+			<currency type="MMK">
+				<displayName>Myanmarsk kyat</displayName>
+			</currency>
+			<currency type="MNT">
+				<displayName>Mongolsk tugrik</displayName>
+				<symbol>Tug</symbol>
+			</currency>
+			<currency type="MOP">
+				<displayName>Macaosk pataca</displayName>
+			</currency>
+			<currency type="MRO">
+				<displayName>Mauritansk ouguiya</displayName>
+				<symbol>UM</symbol>
+			</currency>
+			<currency type="MTL">
+				<displayName>Maltesisk lira</displayName>
+				<symbol>Lm</symbol>
+			</currency>
+			<currency type="MTP">
+				<displayName>Maltesisk pund</displayName>
+			</currency>
+			<currency type="MUR">
+				<displayName>Mauritisk rupee</displayName>
+			</currency>
+			<currency type="MVR">
+				<displayName>Maldivisk rufiyaa</displayName>
+			</currency>
+			<currency type="MWK">
+				<displayName>Malawisk kwacha</displayName>
+				<symbol>MK</symbol>
+			</currency>
+			<currency type="MXN">
+				<displayName>Mexicansk peso</displayName>
+				<symbol>MEX$</symbol>
+			</currency>
+			<currency type="MXP">
+				<displayName>Mexicansk silver peso (1861-1992)</displayName>
+			</currency>
+			<currency type="MYR">
+				<displayName>Malaysisk ringgit</displayName>
+				<symbol>RM</symbol>
+			</currency>
+			<currency type="MZE">
+				<displayName>Mozambiquisk escudo</displayName>
+			</currency>
+			<currency type="MZM">
+				<displayName>Mozambiquisk metical</displayName>
+				<symbol>Mt</symbol>
+			</currency>
+			<currency type="NAD">
+				<displayName>Namibisk dollar</displayName>
+				<symbol>N$</symbol>
+			</currency>
+			<currency type="NGN">
+				<displayName>Nigeriansk naira</displayName>
+			</currency>
+			<currency type="NIC">
+				<displayName>Nicaraguansk cordoba</displayName>
+			</currency>
+			<currency type="NIO">
+				<displayName>Nicaraguansk cordoba oro</displayName>
+			</currency>
+			<currency type="NLG">
+				<displayName>Hollandsk guilder</displayName>
+			</currency>
+			<currency type="NOK">
+				<displayName>Norsk krone</displayName>
+				<symbol>NKr</symbol>
+				<symbol references="RP1" alt="proposed-u165-1" draft="provisional">NOK</symbol>
+			</currency>
+			<currency type="NPR">
+				<displayName>Nepalesisk rupee</displayName>
+				<symbol>Nrs</symbol>
+			</currency>
+			<currency type="NZD">
+				<displayName>New Zealandsk dollar</displayName>
+				<symbol>$NZ</symbol>
+			</currency>
+			<currency type="OMR">
+				<displayName>Omansk rial</displayName>
+				<symbol>RO</symbol>
+			</currency>
+			<currency type="PAB">
+				<displayName>Panamansk balboa</displayName>
+			</currency>
+			<currency type="PEI">
+				<displayName>Peruviansk inti</displayName>
+			</currency>
+			<currency type="PEN">
+				<displayName>Peruviansk sol nuevo</displayName>
+			</currency>
+			<currency type="PES">
+				<displayName>Peruviansk sol</displayName>
+			</currency>
+			<currency type="PGK">
+				<displayName>Papuansk kina</displayName>
+			</currency>
+			<currency type="PHP">
+				<displayName>Filippinsk peso</displayName>
+			</currency>
+			<currency type="PKR">
+				<displayName>Pakistansk rupee</displayName>
+				<symbol>Pra</symbol>
+			</currency>
+			<currency type="PLN">
+				<displayName>Polsk zloty</displayName>
+				<symbol>Zl</symbol>
+				<symbol references="RP1" alt="proposed-u165-1" draft="provisional">PLN</symbol>
+			</currency>
+			<currency type="PLZ">
+				<displayName>Polsk zloty (1950-1995)</displayName>
+			</currency>
+			<currency type="PTE">
+				<displayName>Portugisisk escudo</displayName>
+			</currency>
+			<currency type="PYG">
+				<displayName>Paraguaysk guarani</displayName>
+			</currency>
+			<currency type="QAR">
+				<displayName>Qatarsk rial</displayName>
+				<symbol>QR</symbol>
+			</currency>
+			<currency type="ROL">
+				<displayName>Rumænsk leu</displayName>
+				<symbol>leu</symbol>
+			</currency>
+			<currency type="RUB">
+				<displayName>Russisk rubel</displayName>
+			</currency>
+			<currency type="RUR">
+				<displayName>Russisk rubel (1991-1998)</displayName>
+			</currency>
+			<currency type="RWF">
+				<displayName>Rwandisk franc</displayName>
+			</currency>
+			<currency type="SAR">
+				<displayName>Saudisk riyal</displayName>
+				<symbol>SRl</symbol>
+			</currency>
+			<currency type="SBD">
+				<displayName>Salomonsk dollar</displayName>
+				<symbol>SI$</symbol>
+			</currency>
+			<currency type="SCR">
+				<displayName>Seychellisk rupee</displayName>
+				<symbol>SR</symbol>
+			</currency>
+			<currency type="SDD">
+				<displayName>Sudansk dinar</displayName>
+			</currency>
+			<currency type="SDP">
+				<displayName>Sudansk pund</displayName>
+			</currency>
+			<currency type="SEK">
+				<displayName>Svensk krona</displayName>
+				<symbol>SKr</symbol>
+				<symbol references="RP1" alt="proposed-u165-1" draft="provisional">SEK</symbol>
+			</currency>
+			<currency type="SGD">
+				<displayName>Singaporeansk dollar</displayName>
+				<symbol>S$</symbol>
+			</currency>
+			<currency type="SHP">
+				<displayName>Pund fra Saint Helena</displayName>
+			</currency>
+			<currency type="SIT">
+				<displayName>Slovensk tolar</displayName>
+			</currency>
+			<currency type="SKK">
+				<displayName>Slovakisk koruna</displayName>
+				<symbol>Sk</symbol>
+				<symbol references="RP1" alt="proposed-u165-1" draft="provisional">SKK</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName>Sierraleonsk leone</displayName>
+			</currency>
+			<currency type="SOS">
+				<displayName>Somalisk shilling</displayName>
+				<symbol>So. Sh.</symbol>
+			</currency>
+			<currency type="SRG">
+				<displayName>Surinamsk guilder</displayName>
+				<symbol>Sf</symbol>
+			</currency>
+			<currency type="STD">
+				<displayName>Dobra fra Sao Tome og Principe</displayName>
+				<symbol>Db</symbol>
+			</currency>
+			<currency type="SUR">
+				<displayName>Sovjetisk rubel</displayName>
+			</currency>
+			<currency type="SVC">
+				<displayName>Salvadoransk colon</displayName>
+			</currency>
+			<currency type="SYP">
+				<displayName>Syrisk pund</displayName>
+				<symbol>LS</symbol>
+			</currency>
+			<currency type="SZL">
+				<displayName>Swazilandsk lilangeni</displayName>
+				<symbol>E</symbol>
+			</currency>
+			<currency type="THB">
+				<displayName>Thailandsk baht</displayName>
+			</currency>
+			<currency type="TJR">
+				<displayName>Tadsjikisk rubel</displayName>
+			</currency>
+			<currency type="TJS">
+				<displayName>Tadsjikisk somoni</displayName>
+			</currency>
+			<currency type="TMM">
+				<displayName>Turkmensk manat</displayName>
+			</currency>
+			<currency type="TND">
+				<displayName>Tunesisk dinar</displayName>
+			</currency>
+			<currency type="TOP">
+				<displayName>Tongask paʻanga</displayName>
+				<symbol>T$</symbol>
+			</currency>
+			<currency type="TPE">
+				<displayName>Escudo fra Timor</displayName>
+			</currency>
+			<currency type="TRL">
+				<displayName>Tyrkisk lira</displayName>
+				<symbol>TL</symbol>
+			</currency>
+			<currency type="TRY">
+				<displayName>Ny tyrkisk lira</displayName>
+			</currency>
+			<currency type="TTD">
+				<displayName>Dollar fra Trinidad og Tobago</displayName>
+				<symbol>TT$</symbol>
+			</currency>
+			<currency type="TWD">
+				<displayName>Ny taiwansk dollar</displayName>
+				<symbol>NT$</symbol>
+			</currency>
+			<currency type="TZS">
+				<displayName>Tanzanisk shilling</displayName>
+				<symbol>T Sh</symbol>
+			</currency>
+			<currency type="UAH">
+				<displayName>Ukrainsk grynia</displayName>
+			</currency>
+			<currency type="UAK">
+				<displayName>Ukrainsk karbovanetz</displayName>
+			</currency>
+			<currency type="UGS">
+				<displayName>Ugandisk shilling (1966-1987)</displayName>
+			</currency>
+			<currency type="UGX">
+				<displayName>Ugandisk shilling</displayName>
+				<symbol>U Sh</symbol>
+			</currency>
+			<currency type="USD">
+				<displayName>Amerikanske dollar</displayName>
+				<symbol>US$</symbol>
+			</currency>
+			<currency type="USN">
+				<displayName>Amerikansk dollar (næste dag)</displayName>
+			</currency>
+			<currency type="USS">
+				<displayName>Amerikansk dollar (samme dag)</displayName>
+			</currency>
+			<currency type="UYP">
+				<displayName>Uruguaysk peso (1975-1993)</displayName>
+			</currency>
+			<currency type="UYU">
+				<displayName>Uruguaysk peso uruguayo</displayName>
+				<symbol>Ur$</symbol>
+			</currency>
+			<currency type="UZS">
+				<displayName>Usbekisk sum</displayName>
+			</currency>
+			<currency type="VEB">
+				<displayName>Venezuelansk bolivar</displayName>
+				<symbol>Be</symbol>
+			</currency>
+			<currency type="VND">
+				<displayName>Vietnamesisk dong</displayName>
+			</currency>
+			<currency type="VUV">
+				<displayName>Vanuaisk vatu</displayName>
+				<symbol>VT</symbol>
+			</currency>
+			<currency type="WST">
+				<displayName>Samoansk tala</displayName>
+			</currency>
+			<currency type="XAF">
+				<displayName>Beninsk CFA-franc</displayName>
+			</currency>
+			<currency type="XAU">
+				<displayName>Guld</displayName>
+			</currency>
+			<currency type="XCD">
+				<displayName>Øst-karaibisk dollar</displayName>
+				<symbol>EC$</symbol>
+			</currency>
+			<currency type="XFO">
+				<displayName>Fransk guldfranc</displayName>
+			</currency>
+			<currency type="XFU">
+				<displayName>Fransk UIC-franc</displayName>
+			</currency>
+			<currency type="XPF">
+				<displayName>CFP-franc</displayName>
+				<symbol>CFPF</symbol>
+			</currency>
+			<currency type="YDD">
+				<displayName>Yemenitisk dinar</displayName>
+			</currency>
+			<currency type="YER">
+				<displayName>Yemenitisk rial</displayName>
+				<symbol>YRl</symbol>
+			</currency>
+			<currency type="YUD">
+				<displayName>Jugoslavisk hard dinar</displayName>
+			</currency>
+			<currency type="YUM">
+				<displayName>Jugoslavisk noviy dinar</displayName>
+			</currency>
+			<currency type="YUN">
+				<displayName>Jugoslavisk convertible dinar</displayName>
+			</currency>
+			<currency type="ZAL">
+				<displayName>Sydafrikansk rand (financial)</displayName>
+			</currency>
+			<currency type="ZAR">
+				<displayName>Sydafrikansk rand</displayName>
+				<symbol>R</symbol>
+			</currency>
+			<currency type="ZMK">
+				<displayName>Zambisk kwacha</displayName>
+			</currency>
+			<currency type="ZRN">
+				<displayName>Ny zairisk zaire</displayName>
+			</currency>
+			<currency type="ZRZ">
+				<displayName>Zairisk naire</displayName>
+			</currency>
+			<currency type="ZWD">
+				<displayName>Zimbabwisk dollar</displayName>
+				<symbol>Z$</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr>ja:j</yesstr>
+			<nostr>nej:n</nostr>
+		</messages>
+	</posix>
+	<references>
+		<reference type="R1" uri="http://www.dsn.dk/oss_faq.htm">Dansk Sprognævn - Ofte stillede spørgsmål (OSS)</reference>
+		<reference type="RP1" uri="http://publications.eu.int/code/da/da-5000500.htm">Office for Official Publications of the European Communities</reference>
+		<reference type="RP2" uri="http://www.eki.ee/itstandard/docs/draft-alvestrand-lang-char-03.txt">Alvestrand, Characters and character sets for various languages</reference>
+	</references>
+</ldml>

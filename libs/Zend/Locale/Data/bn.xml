@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.49 $"/>
+		<generation date="$Date: 2006/06/27 23:30:53 $"/>
+		<language type="bn"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="bn">বাংলা</language>
+		</languages>
+		<territories>
+			<territory type="AF">আফগানিস্তান</territory>
+			<territory type="AL">আলব্যানিয়া</territory>
+			<territory type="AM">আর্মেনিয়া</territory>
+			<territory type="AR">আর্জেণ্টাইনা</territory>
+			<territory type="AT">অস্ট্রিয়া</territory>
+			<territory type="AU">অস্ট্রেলিয়া</territory>
+			<territory type="AZ">আজারবাইজান</territory>
+			<territory type="BD">বাংলাদেশ</territory>
+			<territory type="BE">বেল্জিয়ম</territory>
+			<territory type="BE" alt="proposed-u123-1" draft="unconfirmed">বেলজিয়াম</territory>
+			<territory type="BG">বুলগেরিয়া</territory>
+			<territory type="BO">বোলিভিয়া</territory>
+			<territory type="BR">ব্রাজিল</territory>
+			<territory type="BT">ভুটান</territory>
+			<territory type="BY">বেলোরুশিয়া</territory>
+			<territory type="CG">কঙ্গো</territory>
+			<territory type="CH">সুইজর্লণ্ড</territory>
+			<territory type="CH" alt="proposed-u123-1" draft="unconfirmed">সুইজারল্যান্ড</territory>
+			<territory type="CL">চিলি</territory>
+			<territory type="CN">চীন</territory>
+			<territory type="CO">কোলোম্বিয়া</territory>
+			<territory type="CR">কোস্টারিকা</territory>
+			<territory type="CU">কিউবা</territory>
+			<territory type="CZ">চেকিয়া</territory>
+			<territory type="DE">জার্মানি</territory>
+			<territory type="DK">ডেন্মার্ক</territory>
+			<territory type="DK" alt="proposed-u123-1" draft="unconfirmed">ডেনমার্ক</territory>
+			<territory type="DZ">এলজিরিয়া</territory>
+			<territory type="EC">ইকোয়াডর</territory>
+			<territory type="EE">এস্তোনিয়া</territory>
+			<territory type="EG">মিশর</territory>
+			<territory type="EH">পশ্চিমী সাহারা</territory>
+			<territory type="EH" alt="proposed-u123-1" draft="unconfirmed">পশ্চিম সাহারা</territory>
+			<territory type="ES">স্পেন</territory>
+			<territory type="ET">ইফিওপিয়া</territory>
+			<territory type="FI">ফিন্ল্যাণ্ড</territory>
+			<territory type="FI" alt="proposed-u123-1" draft="unconfirmed">ফিনল্যান্ড</territory>
+			<territory type="FR">ফ্রান্স</territory>
+			<territory type="GB">গ্রেটবৃটেন</territory>
+			<territory type="GE">জর্জিয়া</territory>
+			<territory type="GH">গানা</territory>
+			<territory type="GH" alt="proposed-u123-1" draft="unconfirmed">ঘানা</territory>
+			<territory type="GR">গ্রীস্</territory>
+			<territory type="GR" alt="proposed-u123-1" draft="unconfirmed">গ্রীস</territory>
+			<territory type="GT">গোয়াটিমালা</territory>
+			<territory type="GT" alt="proposed-u123-1" draft="unconfirmed">গোয়াতিমালা</territory>
+			<territory type="GY">গিয়ানা</territory>
+			<territory type="HN">হণ্ডুরাস</territory>
+			<territory type="HU">হাঙ্গেরি</territory>
+			<territory type="ID">ইন্দোনেশিয়া</territory>
+			<territory type="IE">আয়ার্লণ্ড</territory>
+			<territory type="IE" alt="proposed-u123-1" draft="unconfirmed">আয়ারল্যান্ড</territory>
+			<territory type="IL">ইস্রায়েল</territory>
+			<territory type="IL" alt="proposed-u123-1" draft="unconfirmed">ইসরায়েল</territory>
+			<territory type="IN">ভারত</territory>
+			<territory type="IQ">ইরাক</territory>
+			<territory type="IR">ইরান</territory>
+			<territory type="IS">আইসলণ্ড</territory>
+			<territory type="IS" alt="proposed-u123-1" draft="unconfirmed">আইসল্যান্ড</territory>
+			<territory type="IT">ইতালী</territory>
+			<territory type="JM">জ্যামেকা</territory>
+			<territory type="JM" alt="proposed-u123-1" draft="unconfirmed">জামাইকা</territory>
+			<territory type="JO">জর্ডন</territory>
+			<territory type="JO" alt="proposed-u123-1" draft="unconfirmed">জর্ডান</territory>
+			<territory type="JP">জাপান</territory>
+			<territory type="KE">কেনিয়া</territory>
+			<territory type="KG">কির্গিজিয়া</territory>
+			<territory type="KG" alt="proposed-u123-1" draft="unconfirmed">কির্ঘিজস্তান</territory>
+			<territory type="KH">কাম্বোজ</territory>
+			<territory type="KR">দক্ষিণ কোরিয়া</territory>
+			<territory type="KZ">কাজাকস্থান</territory>
+			<territory type="LA">লাওস</territory>
+			<territory type="LB">লেবানন</territory>
+			<territory type="LK">শ্রীলঙ্কা</territory>
+			<territory type="LR">লাইবিরিয়া</territory>
+			<territory type="LT">লিত্ভা</territory>
+			<territory type="LT" alt="proposed-u123-1" draft="unconfirmed">লিথুয়েনিয়া</territory>
+			<territory type="LU">লাক্সেমবার্গ</territory>
+			<territory type="LV">লাত্ভিয়া</territory>
+			<territory type="LV" alt="proposed-u123-1" draft="unconfirmed">লাতভিয়া</territory>
+			<territory type="LY">লিবিয়া</territory>
+			<territory type="MA">মোরক্কো</territory>
+			<territory type="MD">মোল্দাভিয়া</territory>
+			<territory type="MD" alt="proposed-u123-1" draft="unconfirmed">মলদোভিয়া</territory>
+			<territory type="MG">মাদাগাস্কার</territory>
+			<territory type="MN">মঙ্গোলিয়া</territory>
+			<territory type="MX">মক্সিকো</territory>
+			<territory type="MX" alt="proposed-u123-1" draft="unconfirmed">মেক্সিকো</territory>
+			<territory type="MY">মাল্যাশিয়া</territory>
+			<territory type="MY" alt="proposed-u123-1" draft="unconfirmed">মালয়েশিয়া</territory>
+			<territory type="NI">নিকারাগোয়া</territory>
+			<territory type="NI" alt="proposed-u123-1" draft="unconfirmed">নিকারাগুয়া</territory>
+			<territory type="NL">হলণ্ড</territory>
+			<territory type="NL" alt="proposed-u123-1" draft="unconfirmed">হল্যাণ্ড</territory>
+			<territory type="NO">নরওয়ে</territory>
+			<territory type="NP">নেপাল</territory>
+			<territory type="NZ">নিউ জিলণ্ড</territory>
+			<territory type="NZ" alt="proposed-u123-1" draft="unconfirmed">নিউজিল্যাণ্ড</territory>
+			<territory type="PA">পানামা</territory>
+			<territory type="PE">পিরু</territory>
+			<territory type="PE" alt="proposed-u123-1" draft="unconfirmed">পেরু</territory>
+			<territory type="PH">ফিলিপাইন</territory>
+			<territory type="PK">পাকিস্তান</territory>
+			<territory type="PL">পোল্যাণ্ড</territory>
+			<territory type="PT">পর্তুগাল</territory>
+			<territory type="PY">প্যারাগোয়ে</territory>
+			<territory type="RO">রুমানিয়া</territory>
+			<territory type="RU">রাশিয়া</territory>
+			<territory type="SA">সাউদি আরব</territory>
+			<territory type="SD">সুদান</territory>
+			<territory type="SE">সুইডেন</territory>
+			<territory type="SG">সিঙ্গাপুর</territory>
+			<territory type="SK">শ্লোভাকিয়া</territory>
+			<territory type="SO">সোমালি</territory>
+			<territory type="SV">সালভেডর</territory>
+			<territory type="SY">সিরিয়া</territory>
+			<territory type="TH">থাই</territory>
+			<territory type="TJ">তাজিকস্থান</territory>
+			<territory type="TM">তুর্কমেনিয়া</territory>
+			<territory type="TN">টিউনিস্</territory>
+			<territory type="TR">তুরস্ক</territory>
+			<territory type="TW">তাইওয়ান</territory>
+			<territory type="UA">ইউক্রেইন</territory>
+			<territory type="US">মার্কিন যুক্তরাষ্ট্র</territory>
+			<territory type="UY">উরুগোয়ে</territory>
+			<territory type="UZ">উজ্বেকিস্থান</territory>
+			<territory type="VE">ভেনেজুয়েলা</territory>
+			<territory type="VN">ভিয়েতনাম</territory>
+			<territory type="YE">ইমেন</territory>
+			<territory type="ZA">দক্ষিণ আফ্রিকা</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[় ঁ-ঃ ৺ অ-ঋ ৠ ঌ ৡ এ ঐ ও-ড {ড়} ঢ {ঢ়} ণ ত ৎ থ-ন প-য {য়} র ল শ-হ ঽ-ৄ ৢ ৣ ে ৈ ো-্ ৗ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[\u200C \u200D ৸ ৹ ৲ ৳ ০-৪ ৷ ৫-ৱ]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">জানুয়ারী</month>
+							<month type="2">ফেব্রুয়ারী</month>
+							<month type="3">মার্চ</month>
+							<month type="4">এপ্রিল</month>
+							<month type="5">মে</month>
+							<month type="6">জুন</month>
+							<month type="7">জুলাই</month>
+							<month type="8">আগস্ট</month>
+							<month type="9">সেপ্টেম্বর</month>
+							<month type="10">অক্টোবর</month>
+							<month type="11">নভেম্বর</month>
+							<month type="12">ডিসেম্বর</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">জানুয়ারী</month>
+							<month type="2">ফেব্রুয়ারী</month>
+							<month type="3">মার্চ</month>
+							<month type="4">এপ্রিল</month>
+							<month type="5">মে</month>
+							<month type="6">জুন</month>
+							<month type="7">জুলাই</month>
+							<month type="8">আগস্ট</month>
+							<month type="9">সেপ্টেম্বর</month>
+							<month type="10">অক্টোবর</month>
+							<month type="11">নভেম্বর</month>
+							<month type="12">ডিসেম্বর</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">রবি</day>
+							<day type="mon">সোম</day>
+							<day type="tue">মঙ্গল</day>
+							<day type="wed">বুধ</day>
+							<day type="thu">বৃহস্পতি</day>
+							<day type="fri">শুক্র</day>
+							<day type="sat">শনি</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">রবিবার</day>
+							<day type="mon">সোমবার</day>
+							<day type="tue">মঙ্গলবার</day>
+							<day type="wed">বুধবার</day>
+							<day type="thu">বৃহষ্পতিবার</day>
+							<day type="fri">শুক্রবার</day>
+							<day type="sat">শনিবার</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<am>পূর্বাহ্ণ</am>
+				<pm>অপরাহ্ণ</pm>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="BDT">
+				<symbol>৳</symbol>
+			</currency>
+			<currency type="INR">
+				<symbol>টাকা</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr draft="unconfirmed">হ্য়াঁ</yesstr>
+			<nostr draft="unconfirmed">না</nostr>
+		</messages>
+	</posix>
+</ldml>

@@ -1,0 +1,9 @@
+Priority 1 :
+
+- end of "Page" frontend (clone of "jpcache")
+	=> introduce conditionnal HTTP requests (304 Not Modified...)
+
+
+Priority 2 :
+
+- improve logging feature with debug support (only warnings are implemented now)

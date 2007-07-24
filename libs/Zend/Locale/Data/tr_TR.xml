@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.39 $"/>
+		<generation date="$Date: 2006/06/28 01:23:34 $"/>
+		<language type="tr"/>
+		<territory type="TR"/>
+	</identity>
+	<delimiters>
+		<quotationStart>‘</quotationStart>
+		<quotationStart alt="proposed-u51-1" draft="provisional">“</quotationStart>
+		<quotationEnd>’</quotationEnd>
+		<quotationEnd alt="proposed-u51-1" draft="provisional">”</quotationEnd>
+		<alternateQuotationStart>“</alternateQuotationStart>
+		<alternateQuotationStart alt="proposed-u51-1" draft="provisional">‘</alternateQuotationStart>
+		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<alternateQuotationEnd alt="proposed-u51-1" draft="provisional">’</alternateQuotationEnd>
+	</delimiters>
+</ldml>
+

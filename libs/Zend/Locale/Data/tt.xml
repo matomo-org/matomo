@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.26 $"/>
+		<generation date="$Date: 2006/06/24 23:27:02 $"/>
+		<language type="tt"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="tt" draft="unconfirmed">Татар</language>
+		</languages>
+		<territories>
+			<territory type="RU" draft="unconfirmed">Россия</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[а ә б-е ё ж җ з-о ө п-у ү ф х һ ц-я]</exemplarCharacters>
+	</characters>
+	<numbers>
+		<symbols>
+			<decimal draft="unconfirmed">,</decimal>
+			<group draft="unconfirmed"> </group>
+		</symbols>
+		<currencies>
+			<currency type="RUR">
+				<symbol draft="unconfirmed">р.</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+</ldml>
+

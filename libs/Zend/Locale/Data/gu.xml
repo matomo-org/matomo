@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.44 $"/>
+		<generation date="$Date: 2006/06/27 23:30:54 $"/>
+		<language type="gu"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="gu">ગુજરાતી</language>
+		</languages>
+		<territories>
+			<territory type="CN">ચીન</territory>
+			<territory type="DE">જમિની</territory>
+			<territory type="EG">મિસર</territory>
+			<territory type="GE">જ્યોર્જીયા</territory>
+			<territory type="IN">ભારત</territory>
+			<territory type="NP">નેપાળ</territory>
+			<territory type="PK">કરાંચી</territory>
+			<territory type="TM">તુર્ક્મનિસ્તાન</territory>
+			<territory type="TR">તુર્કસ્તાન</territory>
+			<territory type="US">સંયુકત રાજ્ય અમેરિકા</territory>
+		</territories>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[૦-૯ ૐ અ-ઋ ૠ ઍ એ-ઑ ઓ-ન પ-ર લ ળ વ-હ ઼ ઁ-ઃ ઽ ્ ા-ૅ ે-ૉ ો ૌ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[\u200C \u200D]</exemplarCharacters>
+	</characters>
+	<dates>
+		<calendars>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">જાન્યુ</month>
+							<month type="2">ફેબ્રુ</month>
+							<month type="3">માર્ચ</month>
+							<month type="4">એપ્રિલ</month>
+							<month type="5">મે</month>
+							<month type="6">જૂન</month>
+							<month type="7">જુલાઈ</month>
+							<month type="8">ઑગસ્ટ</month>
+							<month type="9">સપ્ટે</month>
+							<month type="10">ઑક્ટો</month>
+							<month type="11">નવે</month>
+							<month type="12">ડિસે</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">જાન્યુઆરી</month>
+							<month type="2">ફેબ્રુઆરી</month>
+							<month type="3">માર્ચ</month>
+							<month type="4">એપ્રિલ</month>
+							<month type="5">મે</month>
+							<month type="6">જૂન</month>
+							<month type="7">જુલાઈ</month>
+							<month type="8">ઑગસ્ટ</month>
+							<month type="9">સપ્ટેમ્બર</month>
+							<month type="10">ઑક્ટ્બર</month>
+							<month type="11">નવેમ્બર</month>
+							<month type="12">ડિસેમ્બર</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">રવિ</day>
+							<day type="mon">સોમ</day>
+							<day type="tue">મંગળ</day>
+							<day type="wed">બુધ</day>
+							<day type="thu">ગુરુ</day>
+							<day type="fri">શુક્ર</day>
+							<day type="sat">શનિ</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">રવિવાર</day>
+							<day type="mon">સોમવાર</day>
+							<day type="tue">મંગળવાર</day>
+							<day type="wed">બુધવાર</day>
+							<day type="thu">ગુરુવાર</day>
+							<day type="fri">શુક્રવાર</day>
+							<day type="sat">શનિવાર</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="wide">
+							<quarter type="1" draft="unconfirmed">પેહલા હંત 1</quarter>
+							<quarter type="2" draft="unconfirmed">ડૂસઋા હંત 2</quarter>
+							<quarter type="3" draft="unconfirmed">તીસઋા હંત 3</quarter>
+							<quarter type="4" draft="unconfirmed">ચૌતા હંત 4</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<am>પૂર્વ મધ્યાહ્ન</am>
+				<pm>ઉત્તર મધ્યાહ્ન</pm>
+				<eras>
+					<eraNames>
+						<era type="0" draft="unconfirmed">ઈસાપૂઋ્વ.</era>
+						<era type="1" draft="unconfirmed">સન.</era>
+					</eraNames>
+				</eras>
+			</calendar>
+		</calendars>
+	</dates>
+	<numbers>
+		<symbols>
+			<nativeZeroDigit>૦</nativeZeroDigit>
+		</symbols>
+		<currencies>
+			<currency type="INR">
+				<symbol>રુ</symbol>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr>હા</yesstr>
+			<nostr>ના</nostr>
+		</messages>
+	</posix>
+	<references>
+		<reference type="RP1" uri="isbn:0781800579">Learn Gujarati in 30 Days</reference>
+	</references>
+</ldml>
+

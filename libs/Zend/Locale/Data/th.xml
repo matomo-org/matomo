@@ -1,0 +1,2504 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldml.dtd">
+<ldml>
+	<identity>
+		<version number="$Revision: 1.75 $"/>
+		<generation date="$Date: 2006/10/26 22:46:09 $"/>
+		<language type="th"/>
+	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="aa">อาฟา</language>
+			<language type="ab">แอบกาเซีย</language>
+			<language type="ace">อาเจะห์</language>
+			<language type="ach">อาโคลิ</language>
+			<language type="ada">อาดางมี</language>
+			<language type="ady">อะดีเกยา</language>
+			<language type="af">แอฟริกัน</language>
+			<language type="afa">อาฟโร-เอเชียติก</language>
+			<language type="afh">อาฟริฮิลิ</language>
+			<language type="ain">ไอนุ</language>
+			<language type="ak">อาคาน</language>
+			<language type="akk">อัคคาเดียน</language>
+			<language type="ale">อลิอุต</language>
+			<language type="alg">ภาษาอาลงเควียน</language>
+			<language type="alt">อัลไตใต้</language>
+			<language type="am">อัมฮาริค</language>
+			<language type="an">อาราโกนิส</language>
+			<language type="ang">อังกฤษโบราณ (ค.ศ.450-1100)</language>
+			<language type="apa">ภาษาอาปาเช่</language>
+			<language type="ar" draft="provisional">อารบิก</language>
+			<language type="arc">อารามาอิค</language>
+			<language type="arn">อาราคาเนียน</language>
+			<language type="arp">อาราพาโฮ</language>
+			<language type="art">ภาษาประดิษฐ์ (อื่นๆ)</language>
+			<language type="arw">อาราวัก</language>
+			<language type="as">อัสสัมมิส</language>
+			<language type="ast">อัสเตอเรียน</language>
+			<language type="ath">ภาษาอาธาพาสกาน</language>
+			<language type="aus">ภาษาออสเตรเลีย</language>
+			<language type="av">อาวาริก</language>
+			<language type="awa">อาวาดิ</language>
+			<language type="ay">ไอมารา</language>
+			<language type="az">อาเซอร์ไบจานี</language>
+			<language type="ba">บาสช์กีร์</language>
+			<language type="bad">บันดา</language>
+			<language type="bai">ภาษาบามิเลค</language>
+			<language type="bal">บาลูชิ</language>
+			<language type="ban">บาหลี</language>
+			<language type="bas">บาสา</language>
+			<language type="bat">บัลทิก (อื่นๆ)</language>
+			<language type="be">บายโลรัสเซีย</language>
+			<language type="bej">เบจา</language>
+			<language type="bem">เบมบา</language>
+			<language type="ber">เบอร์เบอร์</language>
+			<language type="bg">บัลแกเรีย</language>
+			<language type="bh">บิฮารี</language>
+			<language type="bho">โบจพูริ</language>
+			<language type="bi">บิสลามา</language>
+			<language type="bik">บิกล</language>
+			<language type="bin">บินิ</language>
+			<language type="bla">สิกสิกา</language>
+			<language type="bm">บามบารา</language>
+			<language type="bn" draft="provisional">เบงกาลี</language>
+			<language type="bnt">บันทุ</language>
+			<language type="bo">ทิเบต</language>
+			<language type="br">บรีทัน</language>
+			<language type="bra">บราจ</language>
+			<language type="bs">บอสเนีย</language>
+			<language type="btk">บาทัค</language>
+			<language type="bua">บูเรียต</language>
+			<language type="bug">บูกีนิส</language>
+			<language type="byn">บลิน</language>
+			<language type="ca">แคตาแลน</language>
+			<language type="cad">คัดโด</language>
+			<language type="cai">อินเดียอเมริกากลาง(อื่นๆ)</language>
+			<language type="car">คาริบ</language>
+			<language type="cau">คอเคเซียน (อื่นๆ)</language>
+			<language type="ce">เชเชิน</language>
+			<language type="ceb">เคบัวโน</language>
+			<language type="cel">เซลติก</language>
+			<language type="chb">ชิบชา</language>
+			<language type="chg">ชากาไท</language>
+			<language type="chk">ชูกิส</language>
+			<language type="chm">มาริ</language>
+			<language type="chn">ชินุคจาร์กอน</language>
+			<language type="cho">ชอกทาว</language>
+			<language type="chp">ชิเพวยัน</language>
+			<language type="chr">เชอโรกี</language>
+			<language type="chy">เชเยน</language>
+			<language type="cmc">ภาษาชามิก</language>
+			<language type="co">คอร์ซิกา</language>
+			<language type="cop">คอปทิก</language>
+			<language type="cpe">ครีโอเลสและพิกกินส์ที่มาจากอังกฤษอื่นๆ</language>
+			<language type="cpf">ครีโอเลสและพิกกินส์ที่มาจากฝรั่งเศสอื่นๆ</language>
+			<language type="cpp">ครีโอเลสและพิกกินส์ที่มาจากโปรตุเกสอื่นๆ</language>
+			<language type="cr">ครี</language>
+			<language type="crh">ครีมีนเตอร์กี</language>
+			<language type="crp">ครีโอเลสและพิกกินส์ (อื่นๆ)</language>
+			<language type="cs" references="RP3">เช็ก</language>
+			<language type="csb">คาซูเบียน</language>
+			<language type="cu">เชอร์ชสลาวิก</language>
+			<language type="cus">คูชิทิก (อื่นๆ)</language>
+			<language type="cv">ชูวาส</language>
+			<language type="cy">เวลส์</language>
+			<language type="da">เดนมาร์ก</language>
+			<language type="dak">ดาโกทา</language>
+			<language type="dar">ดาร์จวา</language>
+			<language type="day">ดายัก</language>
+			<language type="de">เยอรมัน</language>
+			<language type="del">เดลาวารี</language>
+			<language type="den">สลาฟ</language>
+			<language type="dgr">ดอจริบ</language>
+			<language type="din">ดินกา</language>
+			<language type="doi">ดอจริ</language>
+			<language type="dra">ดราวิเดียน (อื่นๆ)</language>
+			<language type="dua">ดัวลา</language>
+			<language type="dum">ดัทช์กลาง</language>
+			<language type="dv">ดิเวฮิ</language>
+			<language type="dyu">ดิวลา</language>
+			<language type="dz">ดซองคา</language>
+			<language type="ee">อีเว</language>
+			<language type="efi">อีฟิก</language>
+			<language type="egy">อียิปต์โบราณ</language>
+			<language type="eka">อีกาจัก</language>
+			<language type="el">กรีก</language>
+			<language type="elx">อีลามิท</language>
+			<language type="en">อังกฤษ</language>
+			<language type="enm">อังกฤษกลาง</language>
+			<language type="eo">เอสเปอรันโต</language>
+			<language type="es">สเปน</language>
+			<language type="et">เอสโตเนีย</language>
+			<language type="eu">แบสก์</language>
+			<language type="ewo">อีวานโด</language>
+			<language type="fa">เปอร์เซีย</language>
+			<language type="fan">ฟาง</language>
+			<language type="fat">ฟันทิ</language>
+			<language type="ff">ฟูลาฮ์</language>
+			<language type="fi">ฟิน</language>
+			<language type="fil">ฟิลิปปินส์</language>
+			<language type="fiu">ฟินโน-อักเรียน</language>
+			<language type="fj">ฟิจิ</language>
+			<language type="fo">ฟาโรส</language>
+			<language type="fon">ฟอน</language>
+			<language type="fr">ฝรั่งเศส</language>
+			<language type="frm">ฝรั่งเศสกลาง</language>
+			<language type="fro">ฝรั่งเศสโบราณ</language>
+			<language type="fur">เฟรียเลียน</language>
+			<language type="fy">ฟรีสแลนด์</language>
+			<language type="ga">ไอริช</language>
+			<language type="gaa">กา</language>
+			<language type="gay">กาโย</language>
+			<language type="gba">กบายา</language>
+			<language type="gd">สก็อตส์เกลิค</language>
+			<language type="gem">เยอรมัน (อื่นๆ)</language>
+			<language type="gez">กีซ</language>
+			<language type="gil">กิลเบอร์ทิส</language>
+			<language type="gl">กะลีเชีย</language>
+			<language type="gmh">เยอรมันสูงกลาง</language>
+			<language type="gn">กัวรานี</language>
+			<language type="goh">เยอรมันสูงโบราณ</language>
+			<language type="gon">กอนดิ</language>
+			<language type="gor">กอรอนทาโล</language>
+			<language type="got">โกธิก</language>
+			<language type="grb">กรีโบ</language>
+			<language type="grc">กรีกโบราณ</language>
+			<language type="gu">กูจาราติ</language>
+			<language type="gv">มานซ์</language>
+			<language type="gwi">กวิชอิน</language>
+			<language type="ha">โฮซา</language>
+			<language type="hai">ไฮดา</language>
+			<language type="haw">ฮาวาย</language>
+			<language type="he">ฮิบรู</language>
+			<language type="hi">ฮินดี</language>
+			<language type="hil">ไฮลิเกนอน</language>
+			<language type="him">ฮิมาชาลิ</language>
+			<language type="hit">ฮิตทิต</language>
+			<language type="hmn">ฮมอง</language>
+			<language type="ho">ฮิริโมทุ</language>
+			<language type="hr">โครเอเทีย</language>
+			<language type="hsb">ซอร์เบียนบน</language>
+			<language type="ht">ไฮเทียน</language>
+			<language type="hu">ฮังการี</language>
+			<language type="hup">ฮูพา</language>
+			<language type="hy">อาร์มีเนีย</language>
+			<language type="hz">เฮียร์โร</language>
+			<language type="ia" references="RP2">ภาษากลางที่ใช้ในการสื่อสารระหว่างประเทศ</language>
+			<language type="iba">อิบาน</language>
+			<language type="id">อินโดนีเชีย</language>
+			<language type="ie">อินเตอร์ลิงค์</language>
+			<language type="ig">อิกโบ</language>
+			<language type="ii">สิชวนยิ</language>
+			<language type="ijo">อิโจ</language>
+			<language type="ik">ไอนูเปียก</language>
+			<language type="ilo">อิโลโก</language>
+			<language type="inc">อินดิก (อื่นๆ)</language>
+			<language type="ine">อินโดยูโรเปียน (อื่นๆ)</language>
+			<language type="inh">อินกุส</language>
+			<language type="io">อิโด</language>
+			<language type="ira">อิหร่าน</language>
+			<language type="iro">ภาษาอิโรกัวเอียน</language>
+			<language type="is">ไอซ์แลนด์ดิค</language>
+			<language type="it">อิตาลี</language>
+			<language type="iu">ไอนุกติตัท</language>
+			<language type="ja">ญี่ปุ่น</language>
+			<language type="jbo">โลจบัน</language>
+			<language type="jpr">จูดี-เปอร์เซีย</language>
+			<language type="jrb">จูดี-อาราบิก</language>
+			<language type="jv">ชวา</language>
+			<language type="ka">จอร์เจียน</language>
+			<language type="kaa">การา-กาลพาก</language>
+			<language type="kab">กาไบล</language>
+			<language type="kac" references="RP3">กะฉิ่น</language>
+			<language type="kam">กามบา</language>
+			<language type="kar" references="RP3">กะเหรี่ยง</language>
+			<language type="kaw">กาวิ</language>
+			<language type="kbd">กาบาร์เดียน</language>
+			<language type="kg">คองโก</language>
+			<language type="kha">คาสิ</language>
+			<language type="khi">คอยสัน (อื่นๆ)</language>
+			<language type="kho">คอทานิส</language>
+			<language type="ki">กิกุยุ</language>
+			<language type="kj">กวนยามา</language>
+			<language type="kk">คาซัค</language>
+			<language type="kl">กรีนแลนด์ดิค</language>
+			<language type="km">เขมร</language>
+			<language type="kmb">กิมบันดุ</language>
+			<language type="kn">กานาดา</language>
+			<language type="ko">เกาหลี</language>
+			<language type="kok">กอนกานิ</language>
+			<language type="kos">กอสราเอียน</language>
+			<language type="kpe">กเปลล์</language>
+			<language type="kr">กานุริ</language>
+			<language type="krc">การาชาย-บัลการ์</language>
+			<language type="kro">กรุ</language>
+			<language type="kru">กุรุก</language>
+			<language type="ks">คัชมีรี</language>
+			<language type="ku">เคิด</language>
+			<language type="kum">กุมิก</language>
+			<language type="kut">กุเทไน</language>
+			<language type="kv">โกมิ</language>
+			<language type="kw">คอร์นิส</language>
+			<language type="ky">เคอร์กิซ</language>
+			<language type="la">ละติน</language>
+			<language type="lad">ลาดิโน</language>
+			<language type="lah">ลาฮ์นดา</language>
+			<language type="lam">ลามบา</language>
+			<language type="lb">ลักเซมเบิร์ก</language>
+			<language type="lez">เลซเกียน</language>
+			<language type="lg">กานดา</language>
+			<language type="li">ลิมเบิร์ก</language>
+			<language type="ln">ลิงกาลา</language>
+			<language type="lo">ลาว</language>
+			<language type="lol">มองโก</language>
+			<language type="loz">โลซิ</language>
+			<language type="lt">ลิธัวเนีย</language>
+			<language type="lu">ลูกา-กาทันกา</language>
+			<language type="lua">ลูบา-ลูลัว</language>
+			<language type="lui">ลุยเซโน</language>
+			<language type="lun">ลันดา</language>
+			<language type="luo">ลัว</language>
+			<language type="lus">ลูไช</language>
+			<language type="lv">แลตเวีย (เลททิสช์)</language>
+			<language type="mad">มาดูริส</language>
+			<language type="mag">มากาฮิ</language>
+			<language type="mai">มัยธิลิ</language>
+			<language type="mak">มากาซาร์</language>
+			<language type="man">แมนดินโก</language>
+			<language type="map">ออสโทรนีเซีย</language>
+			<language type="mas">มาไซ</language>
+			<language type="mdf">มอกชา</language>
+			<language type="mdr">มานดาร์</language>
+			<language type="men">เมนเด</language>
+			<language type="mg">มาลากาซี</language>
+			<language type="mga">ไอริชกลาง</language>
+			<language type="mh">มาร์แชลลิส</language>
+			<language type="mi">เมารี</language>
+			<language type="mic">มิกแมก</language>
+			<language type="min">มินางกาเบา</language>
+			<language type="mis">ภาษาอื่นๆ</language>
+			<language type="mk">แมซีโดเนีย</language>
+			<language type="mkh">มอญ-เขมร (อื่นๆ)</language>
+			<language type="ml">มาลายาลัม</language>
+			<language type="mn">มองโกล</language>
+			<language type="mnc" references="RP2" draft="provisional">ชาวแมนจูเรีย</language>
+			<language type="mni">มานิพูริ</language>
+			<language type="mno">ภาษามาโนโบ</language>
+			<language type="mo">โมดาเวีย</language>
+			<language type="moh">โมฮอว์ก</language>
+			<language type="mos">มอสสิ</language>
+			<language type="mr">มาราที</language>
+			<language type="ms">มลายู</language>
+			<language type="mt">มอลตา</language>
+			<language type="mul">หลายภาษา</language>
+			<language type="mun">ภาษามันดา</language>
+			<language type="mus">ครีก</language>
+			<language type="mwl">มิรันกิส</language>
+			<language type="mwr">มาร์วาริ</language>
+			<language type="my">พม่า</language>
+			<language type="myn">ภาษามายัน</language>
+			<language type="myv">อิร์ซยา</language>
+			<language type="na">นอรู</language>
+			<language type="nah">นาฮวตล์</language>
+			<language type="nai">อเมริกาอินเดียนเหนือ</language>
+			<language type="nap">นีโพลิทัน</language>
+			<language type="nb">นอร์เวย์บอกมอล</language>
+			<language type="nd">เอ็นเดเบเลเหนือ</language>
+			<language type="nds">เยอรมันต่ำ; แซกซอนต่ำ</language>
+			<language type="ne">เนปาล</language>
+			<language type="new">เนวาริ</language>
+			<language type="ng">ดองกา</language>
+			<language type="nia">เนีส</language>
+			<language type="nic">ไนเกอร์-กอร์โดฟาเนียน (อื่นๆ)</language>
+			<language type="niu">ไนอีน</language>
+			<language type="nl">ฮอลันดา</language>
+			<language type="nn">นอร์เวย์ไนนอรส์ก</language>
+			<language type="no">นอร์เวย์</language>
+			<language type="nog">โนไก</language>
+			<language type="non">นอร์ส</language>
+			<language type="nso">โซโธเหนือ</language>
+			<language type="nub">ภาษานูเบียน</language>
+			<language type="nv">นาวาโจ</language>
+			<language type="nwc">เนวาริคลาสสิก</language>
+			<language type="ny">เนียนจา; ชิเชวา; เชวา</language>
+			<language type="nym">เนียมเวซิ</language>
+			<language type="nyn">เนียโกเล</language>
+			<language type="nyo">เนียโร</language>
+			<language type="nzi">นซิมา</language>
+			<language type="oc">ออกซิทัน</language>
+			<language type="oj">โอจิบวา</language>
+			<language type="om">โอโรโม (อาฟาน)</language>
+			<language type="or">โอริยา</language>
+			<language type="os">ออสเซทิก</language>
+			<language type="osa">โอซาเก</language>
+			<language type="ota">ออตโทแมนเตอร์กีส</language>
+			<language type="oto">ภาษาโอโทเมียน</language>
+			<language type="pa">ปัญจาป</language>
+			<language type="paa">ปาปัว (อื่นๆ)</language>
+			<language type="pag">พันกาซินัน</language>
+			<language type="pal">พาฮลาวิ</language>
+			<language type="pam">พามพานกา</language>
+			<language type="pap">พาเพียเมนโท</language>
+			<language type="pau">พาลาอวน</language>
+			<language type="peo">เปอร์เซียโบราณ</language>
+			<language type="phi" references="RP3">ฟิลิปปินส์ (อื่นๆ)</language>
+			<language type="phn">โฟนิเชียน</language>
+			<language type="pi">บาลี</language>
+			<language type="pl">โปแลนด์</language>
+			<language type="pon">โพฮ์นเพเอียน</language>
+			<language type="pra">ภาษาพรากริต</language>
+			<language type="pro">โพรเวนคอลโบราณ</language>
+			<language type="ps">พาสช์โต (พุสช์โต)</language>
+			<language type="pt">โปรตุเกส</language>
+			<language type="qu">คิวชัว</language>
+			<language type="raj">ราจาสธานิ</language>
+			<language type="rap">ราพานุย</language>
+			<language type="rar">ราโรท็องกัน</language>
+			<language type="rm">เรโต-โรแมนซ์</language>
+			<language type="rn">คิรันดี</language>
+			<language type="ro">โรมัน</language>
+			<language type="roa">โรมานซ์ (อื่นๆ)</language>
+			<language type="rom">โรมานี</language>
+			<language type="root">ราก</language>
+			<language type="ru">รัสเซีย</language>
+			<language type="rup">อาโรมาเนียน</language>
+			<language type="rw">คินยาวันดา</language>
+			<language type="sa">สันสกฤต</language>
+			<language type="sad">ซันดาเว</language>
+			<language type="sah">ยากุต</language>
+			<language type="sai">อเมริกาอินเดียนใต้ (อื่นๆ)</language>
+			<language type="sal">ภาษาซาลิชัน</language>
+			<language type="sam">ซามาริทันอารามาอิก</language>
+			<language type="sas">ซาซัก</language>
+			<language type="sat">ซันทาลิ</language>
+			<language type="sc">ซาร์ดิเนียน</language>
+			<language type="scn">ซิซิเลียน</language>
+			<language type="sco">สกอตส์</language>
+			<language type="sd">ซินดิ</language>
+			<language type="se">ซามิเหนือ</language>
+			<language type="sel">เซลกุป</language>
+			<language type="sem">เซมิทิก (อื่นๆ)</language>
+			<language type="sg">สันโค</language>
+			<language type="sga">ไอริชโบราณ</language>
+			<language type="sgn">ภาษาสัญญาณ</language>
+			<language type="sh">เซอร์โบ-โครเอเทียน</language>
+			<language type="shn">ชาน</language>
+			<language type="si">สิงหล</language>
+			<language type="sid">ซิดาโม</language>
+			<language type="sio">ภาษาซิอวน</language>
+			<language type="sit">ซิโน-ทิเบต (อื่นๆ)</language>
+			<language type="sk">สโลวัค</language>
+			<language type="sl">สโลเวเนีย</language>
+			<language type="sla">สลาวิก (อื่นๆ)</language>
+			<language type="sm">ซามัว</language>
+			<language type="sma">ซามิใต้</language>
+			<language type="smi">ภาษาซามิ (อื่นๆ)</language>
+			<language type="smj">ลูลซามิ</language>
+			<language type="smn">อินาริซามิ</language>
+			<language type="sms">สกอลตซามิ</language>
+			<language type="sn">โซนา</language>
+			<language type="snk">โซนินเก</language>
+			<language type="so">โซมาลี</language>
+			<language type="sog">ซอจเดียน</language>
+			<language type="son">ซองไฮ</language>
+			<language type="sq">แอลเบเนีย</language>
+			<language type="sr">เซอร์เบีย</language>
+			<language type="srn">ซรานานทองโก</language>
+			<language type="srr">เซเรอร์</language>
+			<language type="ss">ซีสวาติ</language>
+			<language type="ssa">นิโล-ซาฮารัน (อื่นๆ)</language>
+			<language type="st">เซโสโท</language>
+			<language type="su">ซันดานีส</language>
+			<language type="suk">ซุกุมา</language>
+			<language type="sus">ซุซุ</language>
+			<language type="sux">สุเมเรียน</language>
+			<language type="sv">สวีเดน</language>
+			<language type="sw">ซวาฮิรี</language>
+			<language type="syr">ไซเรียก</language>
+			<language type="ta">ทมิฬ</language>
+			<language type="tai">ไท (อื่นๆ)</language>
+			<language type="te">ทิลูกู</language>
+			<language type="tem">ทิมเน</language>
+			<language type="ter">เทอเรอโน</language>
+			<language type="tet">เททุม</language>
+			<language type="tg">ทาจิค</language>
+			<language type="th">ไทย</language>
+			<language type="ti">ทิกรินยา</language>
+			<language type="tig">ทิจเร</language>
+			<language type="tiv">ทิฟ</language>
+			<language type="tk">เติร์กเมน</language>
+			<language type="tkl">โทเคลัว</language>
+			<language type="tl">ตากาล็อก</language>
+			<language type="tlh">คลินกอน</language>
+			<language type="tli">ทลิงกิต</language>
+			<language type="tmh">ทามาเชก</language>
+			<language type="tn">เซตสวานา</language>
+			<language type="to">ทองก้า</language>
+			<language type="tog">ท็องกา (ไนซา)</language>
+			<language type="tpi">ท็อกพิซิน</language>
+			<language type="tr">ตุรกี</language>
+			<language type="ts">ซองกา</language>
+			<language type="tsi">ซิมเชียน</language>
+			<language type="tt">ตาด</language>
+			<language type="tum">ทุมบุกา</language>
+			<language type="tup">ภาษาทุพิ</language>
+			<language type="tut">อัลทาอิก (อื่นๆ)</language>
+			<language type="tvl">ทูวาลู</language>
+			<language type="tw">ทวี</language>
+			<language type="ty">ทาฮิเทียน</language>
+			<language type="tyv">ทูวิเนียน</language>
+			<language type="udm">อัดมาร์ต</language>
+			<language type="ug">อุยกัว</language>
+			<language type="uga">อูการิทิก</language>
+			<language type="uk">ยูเครน</language>
+			<language type="umb">อัมบันดู</language>
+			<language type="und">ไม่ระบุ</language>
+			<language type="ur">อิรดู</language>
+			<language type="uz">อุสเบค</language>
+			<language type="vai">ไว</language>
+			<language type="ve">เวนดา</language>
+			<language type="vi">เวียดนาม</language>
+			<language type="vo">โวลาพุก</language>
+			<language type="vot">โวทิก</language>
+			<language type="wa">วอลลูน</language>
+			<language type="wak">ภาษาวากาชาน</language>
+			<language type="wal">วาลาโม</language>
+			<language type="war">วาเรย์</language>
+			<language type="was">วาโช</language>
+			<language type="wen">ภาษาซอร์เบียน</language>
+			<language type="wo">วูลอฟ</language>
+			<language type="xal">กาลมิก</language>
+			<language type="xh">โซสา</language>
+			<language type="yao">เย้า</language>
+			<language type="yap">ยาเพส</language>
+			<language type="yi">ยีดิช</language>
+			<language type="yo">โยรูบา</language>
+			<language type="ypk">ภาษายูพิก</language>
+			<language type="za">จวง</language>
+			<language type="zap">ซาโปเทก</language>
+			<language type="zen">เซนากา</language>
+			<language type="zh">จีน</language>
+			<language type="znd">ซานเด</language>
+			<language type="zu">ซูลู</language>
+			<language type="zun">ซูนิ</language>
+		</languages>
+		<scripts>
+			<script type="Arab">อารบิก</script>
+			<script type="Armn">อาร์เมเนียน</script>
+			<script type="Bali">บาหลี</script>
+			<script type="Batk">บาทัก</script>
+			<script type="Beng">เบงกาลิ</script>
+			<script type="Blis">บลิสซิมโบลส์</script>
+			<script type="Bopo">โบโพโมโฟ</script>
+			<script type="Brah">บรามี</script>
+			<script type="Brai">ไบรลเล</script>
+			<script type="Bugi">บูกินิส</script>
+			<script type="Buhd">บูฮิด</script>
+			<script type="Cans">สัญลักษณ์ชนเผ่าพื้นเมืองแคนาดา</script>
+			<script type="Cham">ชาม</script>
+			<script type="Cher">เชโรกี</script>
+			<script type="Cirt">เซิร์ต</script>
+			<script type="Copt">คอปติก</script>
+			<script type="Cprt">ไซพริออต</script>
+			<script type="Cyrl">ไซริลลริก</script>
+			<script type="Cyrs">ไซริลลิก (ภาษาเก่าสโลวาเนีย)</script>
+			<script type="Deva">เทวนาครี</script>
+			<script type="Dsrt">ดีซีเรต</script>
+			<script type="Egyd">ดีโมติกอียิปต์</script>
+			<script type="Egyh">เฮียราติกอียิปต์</script>
+			<script type="Egyp">เฮียโรกลิฟส์อียิปต์</script>
+			<script type="Ethi">เอธิโอเปีย</script>
+			<script type="Geok">คัตซูรี (อาซอมทัฟรูลีและนูสคูรี)</script>
+			<script type="Geor" draft="provisional">จอร์เจีย</script>
+			<script type="Glag">กลาโกลิติก</script>
+			<script type="Goth">โกทิก</script>
+			<script type="Grek">กรีก</script>
+			<script type="Gujr">กูจาราทิ</script>
+			<script type="Guru">เกอร์มูคิ</script>
+			<script type="Hang">ฮันกูล</script>
+			<script type="Hani">ฮัน</script>
+			<script type="Hano">ฮานูนู</script>
+			<script type="Hans">ฮันปรับปรุง</script>
+			<script type="Hant">ฮันดั้งเดิม</script>
+			<script type="Hebr">ฮิบรู</script>
+			<script type="Hira">ฮิรางานะ</script>
+			<script type="Hmng">พาฮาวมอง</script>
+			<script type="Hrkt">กาตะงานะหรือฮิรางานะ</script>
+			<script type="Hung">ฮังการีเก่า</script>
+			<script type="Inds">อินดัส (ฮารัปพัน)</script>
+			<script type="Ital">อิตาลีเก่า</script>
+			<script type="Java">จาวานีส</script>
+			<script type="Kali">กายาลี</script>
+			<script type="Kana">กาตะกานะ</script>
+			<script type="Khar">คาโรสติ</script>
+			<script type="Khmr">เขมร</script>
+			<script type="Knda">กานนาดา</script>
+			<script type="Laoo">ลาว</script>
+			<script type="Latf">ลาติน (ฟรังเตอร์)</script>
+			<script type="Latg">ลาติน (แกลิก)</script>
+			<script type="Latn">ลาติน</script>
+			<script type="Lepc">เลปชา (รอง)</script>
+			<script type="Limb">ลิมบู</script>
+			<script type="Lina">ลีเนียร์เอ</script>
+			<script type="Linb">ลีเนียร์บี</script>
+			<script type="Mand">แมนแดน</script>
+			<script type="Maya">มายันฮีโรกลิฟส์</script>
+			<script type="Mero">เมโรติก</script>
+			<script type="Mlym">มะละยาลัม</script>
+			<script type="Mong">มองโกเลีย</script>
+			<script type="Mymr">พม่า</script>
+			<script type="Nkoo">เอ็นโก</script>
+			<script type="Ogam">โอกาม</script>
+			<script type="Orkh">ออร์คอน</script>
+			<script type="Orya">ออริยา</script>
+			<script type="Osma">ออสมันยา</script>
+			<script type="Perm">เปอร์มิกเก่า</script>
+			<script type="Phag">ฟากส์-พา</script>
+			<script type="Phnx">โฟนิเชียน</script>
+			<script type="Plrd">โพลลาร์ดโฟเนติก</script>
+			<script type="Qaai">อินเฮอริต</script>
+			<script type="Roro">รองโกรองโก</script>
+			<script type="Runr">รูนิก</script>
+			<script type="Sara">ซาราทิ</script>
+			<script type="Shaw">ซาเวียน</script>
+			<script type="Sinh">ซินฮาลา</script>
+			<script type="Sylo">ไซโลทินากรี</script>
+			<script type="Syrc" draft="provisional">ไซเรียก</script>
+			<script type="Syre" draft="provisional">ไซเรียก (เอสทรางเกโล)</script>
+			<script type="Syrj" draft="provisional">ไซเรียก (ตะวันตก)</script>
+			<script type="Syrn" draft="provisional">ไซเรียก (ตะวันออก)</script>
+			<script type="Tagb">ทักบันวา</script>
+			<script type="Tale">ไทเล</script>
+			<script type="Talu">ไทเลใหม่</script>
+			<script type="Taml">ทมิฬ</script>
+			<script type="Telu">เทลูกู</script>
+			<script type="Teng">เทงวอร์</script>
+			<script type="Tfng">ทิฟินา (เบอร์เบอร์)</script>
+			<script type="Tglg">ตากาล็อก</script>
+			<script type="Thaa">ทานา</script>
+			<script type="Thai">ไทย</script>
+			<script type="Tibt">ทิเบต</script>
+			<script type="Ugar">อูการิติก</script>
+			<script type="Vaii">ไว</script>
+			<script type="Visp" draft="provisional">คำพูดที่มองเห็นได้</script>
+			<script type="Xpeo">เปอร์เซียเก่า</script>
+			<script type="Xsux">ซูเมโร-อักคาเดียนคูนิฟอร์ม</script>
+			<script type="Yiii" draft="provisional">ยิ</script>
+			<script type="Zxxx">รหัสสำหรับภาษาที่ไม่มีภาษาเขียน</script>
+			<script type="Zyyy">สามัญ</script>
+			<script type="Zzzz">รหัสสำหรับสคริปต์ที่ไม่มีรหัส</script>
+		</scripts>
+		<territories>
+			<territory type="001">โลก</territory>
+			<territory type="002">แอฟริกา</territory>
+			<territory type="005">อเมริกาใต้</territory>
+			<territory type="009">โอเชียเนีย</territory>
+			<territory type="011">แอฟริกาตะวันตก</territory>
+			<territory type="013">อเมริกากลาง</territory>
+			<territory type="014">แอฟริกาตะวันออก</territory>
+			<territory type="015">แอฟริกาเหนือ</territory>
+			<territory type="017">แอฟริกากลาง</territory>
+			<territory type="018">แอฟริกาใต้ [018]</territory>
+			<territory type="019">อเมริกา</territory>
+			<territory type="021">อเมริกาเหนือ</territory>
+			<territory type="029">แคริเบียน</territory>
+			<territory type="030">เอเชียตะวันออก</territory>
+			<territory type="034">เอเชียใต้</territory>
+			<territory type="035">เอเชียตะวันออกเฉียงใต้</territory>
+			<territory type="039">ยุโรปใต้</territory>
+			<territory type="053">ออสเตรเลียและนิวซีแลนด์</territory>
+			<territory type="054">เมลานีเซีย</territory>
+			<territory type="057">ไมโครนีเซีย [057]</territory>
+			<territory type="061">โปลินีเซีย</territory>
+			<territory type="062">เอเชียกลางตอนใต้</territory>
+			<territory type="142">เอเชีย</territory>
+			<territory type="143">เอเชียกลาง</territory>
+			<territory type="145">เอเชียตะวันตก</territory>
+			<territory type="150">ยุโรป</territory>
+			<territory type="151">ยุโรปตะวันออก</territory>
+			<territory type="154">ยุโรปเหนือ</territory>
+			<territory type="155">ยุโรปตะวันตก</territory>
+			<territory type="172">เครือรัฐอิสระ</territory>
+			<territory type="419">ละตินอเมริกาและคาริบเบียน</territory>
+			<territory type="830">หมู่เกาะแชนเนล</territory>
+			<territory type="IM">เกาะแมน</territory>
+			<territory type="AD">อันดอร์รา</territory>
+			<territory type="AE">สหรัฐอาหรับเอมิเรตส์</territory>
+			<territory type="AF">อัฟกานิสถาน</territory>
+			<territory type="AG">แอนติกาและบาร์บูดา</territory>
+			<territory type="AI">อันกิล่า</territory>
+			<territory type="AL">แอลเบเนีย</territory>
+			<territory type="AM">อาร์เมเนีย</territory>
+			<territory type="AN">เนเฮอร์แลนด์แอนทิลลิส</territory>
+			<territory type="AO">แองโกลา</territory>
+			<territory type="AQ">แอนตาร์กติกา</territory>
+			<territory type="AR">อาร์เจนตินา</territory>
+			<territory type="AS">อเมริกันซามัว</territory>
+			<territory type="AT">ออสเตรีย</territory>
+			<territory type="AU">ออสเตรเลีย</territory>
+			<territory type="AW">อารูบา</territory>
+			<territory type="AX">หมู่เกาะอแลนด์</territory>
+			<territory type="AZ">อาเซอร์ไบจาน</territory>
+			<territory type="BA">บอสเนียและเฮอร์เซโกวีนา</territory>
+			<territory type="BB">บาร์เบโดส</territory>
+			<territory type="BD">บังคลาเทศ</territory>
+			<territory type="BE">เบลเยียม</territory>
+			<territory type="BF">บูร์กินาฟาโซ</territory>
+			<territory type="BG">บัลแกเรีย</territory>
+			<territory type="BH">บาห์เรน</territory>
+			<territory type="BI">บุรุนดี</territory>
+			<territory type="BJ">เบนิน</territory>
+			<territory type="BM">เบอร์มิวด้า</territory>
+			<territory type="BN">บรูไน</territory>
+			<territory type="BO">โบลิเวีย</territory>
+			<territory type="BR">บราซิล</territory>
+			<territory type="BS">บาฮามาส</territory>
+			<territory type="BT">ภูฏาน</territory>
+			<territory type="BV">เกาะบูเวต์</territory>
+			<territory type="BW">บอตสวานา</territory>
+			<territory type="BY">เบลารุส</territory>
+			<territory type="BZ">เบลีช</territory>
+			<territory type="CA">แคนาดา</territory>
+			<territory type="CC">หมู่เกาะโคโคส (คีลิง)</territory>
+			<territory type="CD">สาธารณรัฐประชาธิปไตยคองโก</territory>
+			<territory type="CF">สาธารณรัฐแอฟริกากลาง</territory>
+			<territory type="CG">คองโก</territory>
+			<territory type="CH">สวิตเซอร์แลนด์</territory>
+			<territory type="CI">โกตดิวัวร์</territory>
+			<territory type="CK">หมู่เกาะคุก</territory>
+			<territory type="CL">ชิลี</territory>
+			<territory type="CM">แคเมอรูน</territory>
+			<territory type="CN">จีน</territory>
+			<territory type="CO">โคลัมเบีย</territory>
+			<territory type="CR">คอสตาริกา</territory>
+			<territory type="CS">เซอร์เบีย</territory>
+			<territory type="CU">คิวบา</territory>
+			<territory type="CV">เคปเวิร์ด</territory>
+			<territory type="CX">เกาะคริสมาสต์</territory>
+			<territory type="CY">ไซปรัส</territory>
+			<territory type="CZ">สาธารณรัฐเช็ก</territory>
+			<territory type="DE">เยอรมนี</territory>
+			<territory type="DJ">จิบูตี</territory>
+			<territory type="DK">เดนมาร์ก</territory>
+			<territory type="DM">โดมินิกา</territory>
+			<territory type="DO">สาธารณรัฐโดมินิกัน</territory>
+			<territory type="DZ">แอลจีเรีย</territory>
+			<territory type="EC">เอกวาดอร์</territory>
+			<territory type="EE">เอสโตเนีย</territory>
+			<territory type="EG">อียิปต์</territory>
+			<territory type="EH">ซาฮาราตะวันตก</territory>
+			<territory type="ER">เอริเทรีย</territory>
+			<territory type="ES">สเปน</territory>
+			<territory type="ET">เอธิโอเปีย</territory>
+			<territory type="FI">ฟินแลนด์</territory>
+			<territory type="FJ">ฟิจิ</territory>
+			<territory type="FK">หมู่เกาะฟอล์คแลนด์</territory>
+			<territory type="FM">ไมโครนีเซีย</territory>
+			<territory type="FO">หมู่เกาะฟาโร</territory>
+			<territory type="FR">ฝรั่งเศส</territory>
+			<territory type="GA">กาบอง</territory>
+			<territory type="GB">สหราชอาณาจักร</territory>
+			<territory type="GD">เกรนาดา</territory>
+			<territory type="GE">จอร์เจีย</territory>
+			<territory type="GF">เฟรนช์กีอานา</territory>
+			<territory type="GH">กาน่า</territory>
+			<territory type="GI">ยิบรอลตาร์</territory>
+			<territory type="GL">กรีนแลนด์</territory>
+			<territory type="GM">แกมเบีย</territory>
+			<territory type="GN">กินี</territory>
+			<territory type="GP">กัวเดอลูป</territory>
+			<territory type="GQ">อิเควทอเรียลกินี</territory>
+			<territory type="GR">กรีซ</territory>
+			<territory type="GS">เกาะเซาท์จอร์เจียและหมู่เกาะเซาท์แซนด์วิช</territory>
+			<territory type="GT">กัวเตมาลา</territory>
+			<territory type="GU">กวม</territory>
+			<territory type="GW">กินี-บิสเซา</territory>
+			<territory type="GY">กายานา</territory>
+			<territory type="HK">ฮ่องกง เขตปกครองพิเศษประเทศจีน</territory>
+			<territory type="HM">เกาะเฮิร์ดและหมู่เกาะแมกดอนัลด์</territory>
+			<territory type="HN">ฮอนดูรัส</territory>
+			<territory type="HR">โครเอเชีย</territory>
+			<territory type="HT">เฮติ</territory>
+			<territory type="HU">ฮังการี</territory>
+			<territory type="ID">อินโดนีเซีย</territory>
+			<territory type="IE">ไอร์แลนด์</territory>
+			<territory type="IL">อิสราเอล</territory>
+			<territory type="IN">อินเดีย</territory>
+			<territory type="IO">บริติสอินเดียโอเชียนเทร์ริทอรี</territory>
+			<territory type="IQ">อิรัก</territory>
+			<territory type="IR">อิหร่าน</territory>
+			<territory type="IS">ไอซ์แลนด์</territory>
+			<territory type="IT">อิตาลี</territory>
+			<territory type="JM">จาเมกา</territory>
+			<territory type="JO">จอร์แดน</territory>
+			<territory type="JP">ญี่ปุ่น</territory>
+			<territory type="KE">เคนยา</territory>
+			<territory type="KG">คีร์กิซสถาน</territory>
+			<territory type="KH">กัมพูชา</territory>
+			<territory type="KI">คิริบาส</territory>
+			<territory type="KM">คอโมโรส</territory>
+			<territory type="KN">เซนต์คิตส์และเนวิส</territory>
+			<territory type="KP">เกาหลีเหนือ</territory>
+			<territory type="KR">เกาหลีใต้</territory>
+			<territory type="KW">คูเวต</territory>
+			<territory type="KY">หมู่เกาะเคย์แมน</territory>
+			<territory type="KZ">คาซัคสถาน</territory>
+			<territory type="LA">ลาว</territory>
+			<territory type="LB">เลบานอน</territory>
+			<territory type="LC">เซนต์ลูเซีย</territory>
+			<territory type="LI">ลิกเตนสไตน์</territory>
+			<territory type="LK">ศรีลังกา</territory>
+			<territory type="LR">ไลบีเรีย</territory>
+			<territory type="LS">เลโซโท</territory>
+			<territory type="LT">ลิทัวเนีย</territory>
+			<territory type="LU">ลักเซมเบิร์ก</territory>
+			<territory type="LV">ลัตเวีย</territory>
+			<territory type="LY">ลิเบีย</territory>
+			<territory type="MA">โมร็อกโก</territory>
+			<territory type="MC">โมนาโก</territory>
+			<territory type="MD">มอลโดวา</territory>
+			<territory type="MG">มาดากัสการ์</territory>
+			<territory type="MH">หมู่เกาะมาร์แชล</territory>
+			<territory type="MK">มาซิโดเนีย</territory>
+			<territory type="ML">มาลี</territory>
+			<territory type="MM">พม่า</territory>
+			<territory type="MN">มองโกเลีย</territory>
+			<territory type="MO">มาเก๊า เขตปกครองพิเศษประเทศจีน</territory>
+			<territory type="MP">หมู่เกาะนอร์ทเทิร์นมาเรียนา</territory>
+			<territory type="MQ">มาร์ตินีก</territory>
+			<territory type="MR">มอริเตเนีย</territory>
+			<territory type="MS">มอนต์เซร์แร็ต</territory>
+			<territory type="MT">มอลตา</territory>
+			<territory type="MU">มอริเชียส</territory>
+			<territory type="MV">มัลดีฟส์</territory>
+			<territory type="MW">มาลาวี</territory>
+			<territory type="MX">เม็กซิโก</territory>
+			<territory type="MY">มาเลเซีย</territory>
+			<territory type="MZ">โมแซมบิค</territory>
+			<territory type="NA">นามิเบีย</territory>
+			<territory type="NC">นิวแคลีโดเนีย</territory>
+			<territory type="NE">ไนเจอร์</territory>
+			<territory type="NF">เกาะนอร์ฟอล์ก</territory>
+			<territory type="NG">ไนจีเรีย</territory>
+			<territory type="NI">นิคารากัว</territory>
+			<territory type="NL">เนเธอร์แลนด์</territory>
+			<territory type="NO">นอร์เวย์</territory>
+			<territory type="NP">เนปาล</territory>
+			<territory type="NR">นาอูรู</territory>
+			<territory type="NU">นียู</territory>
+			<territory type="NZ">นิวซีแลนด์</territory>
+			<territory type="OM">โอมาน</territory>
+			<territory type="PA">ปานามา</territory>
+			<territory type="PE">เปรู</territory>
+			<territory type="PF">เฟรนช์โพลีนีเซีย</territory>
+			<territory type="PG">ปาปัวนิวกินี</territory>
+			<territory type="PH">ฟิลิปปินส์</territory>
+			<territory type="PK">ปากีสถาน</territory>
+			<territory type="PL">โปแลนด์</territory>
+			<territory type="PM">แซงปีแยร์และมีเกอลง</territory>
+			<territory type="PN">พิตแคร์น</territory>
+			<territory type="PR">เปอร์โตริโก</territory>
+			<territory type="PS">ปาเลซติเนียนเทร์ริทอรี</territory>
+			<territory type="PT">โปรตุเกส</territory>
+			<territory type="PW">ปาเลา</territory>
+			<territory type="PY">ปารากวัย</territory>
+			<territory type="QA">กาตาร์</territory>
+			<territory type="QO">เอาต์ไลอิงโอเชียเนีย</territory>
+			<territory type="RE">เรอูเนียง</territory>
+			<territory type="RO">โรมาเนีย</territory>
+			<territory type="RU">รัสเซีย</territory>
+			<territory type="RW">รวันดา</territory>
+			<territory type="SA">ซาอุดีอาระเบีย</territory>
+			<territory type="SB">หมู่เกาะโซโลมอน</territory>
+			<territory type="SC">เซเชลส์</territory>
+			<territory type="SD">ซูดาน</territory>
+			<territory type="SE">สวีเดน</territory>
+			<territory type="SG">สิงคโปร์</territory>
+			<territory type="SH">เซนต์เฮเลนา</territory>
+			<territory type="SI">สโลวีเนีย</territory>
+			<territory type="SJ">สฟาลบาร์และแจนมาเยน</territory>
+			<territory type="SK">สโลวาเกีย</territory>
+			<territory type="SL">เซียร์ราลีโอน</territory>
+			<territory type="SM">ซานมารีโน</territory>
+			<territory type="SN">เซเนกัล</territory>
+			<territory type="SO">โซมาเลีย</territory>
+			<territory type="SR">สุรินัม</territory>
+			<territory type="ST">เซาโตเมและปรินซิเป</territory>
+			<territory type="SV">เอลซัลวาดอร์</territory>
+			<territory type="SY">ซีเรีย</territory>
+			<territory type="SZ">สวาซิแลนด์</territory>
+			<territory type="TC">หมู่เกาะเติกส์และหมู่เกาะเคคอส</territory>
+			<territory type="TD">ชาด</territory>
+			<territory type="TF">อาณาเขตทางใต้ของฝรั่งเศส</territory>
+			<territory type="TG">โตโก</territory>
+			<territory type="TH">ประเทศไทย</territory>
+			<territory type="TJ">ทาจิกิสถาน</territory>
+			<territory type="TK">โทกิโล</territory>
+			<territory type="TL">ติมอร์ตะวันออก</territory>
+			<territory type="TM">เติร์กเมนิสถาน</territory>
+			<territory type="TN">ตูนิเซีย</territory>
+			<territory type="TO">ตองกา</territory>
+			<territory type="TR">ตุรกี</territory>
+			<territory type="TT">ตรินิแดดและโตเบโก</territory>
+			<territory type="TV">ตูวาลู</territory>
+			<territory type="TW">ไต้หวัน</territory>
+			<territory type="TZ">ทานซาเนีย</territory>
+			<territory type="UA">ยูเครน</territory>
+			<territory type="UG">อูกานดา</territory>
+			<territory type="UM">หมู่เกาะสหรัฐไมเนอร์เอาต์ไลอิง</territory>
+			<territory type="US">สหรัฐอเมริกา</territory>
+			<territory type="UY">อุรุกวัย</territory>
+			<territory type="UZ">อุซเบกิสถาน</territory>
+			<territory type="VA">วาติกัน</territory>
+			<territory type="VC">เซนต์วินเซนต์และเกรนาดีนส์</territory>
+			<territory type="VE">เวเนซุเอลา</territory>
+			<territory type="VG">บริทิชเวอร์จินไอส์แลนด์</territory>
+			<territory type="VI">ยูเอสเวอร์จินไอส์แลนด์</territory>
+			<territory type="VN">เวียดนาม</territory>
+			<territory type="VU">วานูอาตู</territory>
+			<territory type="WF">วาลลิสและฟุตูนา</territory>
+			<territory type="WS">ซามัว</territory>
+			<territory type="YE">เยเมน</territory>
+			<territory type="YT">มายอต</territory>
+			<territory type="ZA">แอฟริกาใต้</territory>
+			<territory type="ZM">แซมเบีย</territory>
+			<territory type="ZW">ซิมบาบเว</territory>
+		</territories>
+		<variants>
+			<variant type="1901">เยอรมันออร์โธกราฟีดั้งเดิม</variant>
+			<variant type="1996">เยอรมันออร์โธกราฟีปี 1996</variant>
+			<variant type="NEDIS">ภาษาพื้นเมืองนาทิโซเน</variant>
+			<variant type="POLYTONI">โพลีโทนิก</variant>
+			<variant type="REVISED">ออร์โธกราฟิปรับปรุง</variant>
+			<variant type="ROZAJ">เรเซียน</variant>
+			<variant type="SAAHO">ซาโฮ</variant>
+		</variants>
+		<keys>
+			<key type="calendar">ปฏิทิน</key>
+			<key type="collation" draft="provisional">ส่วนต่าง</key>
+			<key type="currency">เงินตรา</key>
+		</keys>
+		<types>
+			<type type="big5han" key="collation">จีนดั้งเดิม</type>
+			<type type="buddhist" key="calendar">ปฏิทินพุทธ</type>
+			<type type="chinese" key="calendar">ปฏิทินจีน</type>
+			<type type="direct" key="collation">ลำดับตรง</type>
+			<type type="gb2312han" key="collation">จีนปรับปรุงใหม่</type>
+			<type type="gregorian" key="calendar">ปฏิทินเกรกอเรียน</type>
+			<type type="hebrew" key="calendar">ปฏิทินฮิบรู</type>
+			<type type="islamic" key="calendar">ปฏิทินอิสลาม</type>
+			<type type="islamic-civil" key="calendar">ปฏิทินอิสลามซีวิล</type>
+			<type type="japanese" key="calendar">ปฏิทินญี่ปุ่น</type>
+			<type type="phonebook" key="collation">ลำดับสมุดโทรศัพท์</type>
+			<type type="pinyin" key="collation">ลำดับพินยิน</type>
+			<type type="stroke" key="collation">ลำดับการลากเส้น</type>
+			<type type="traditional" key="collation">ดั้งเดิม</type>
+		</types>
+	</localeDisplayNames>
+	<characters>
+		<exemplarCharacters>[ฯ ๆ ๎ ็-ํ ก-ฮ ะ-ฺ เ-ๅ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[\u200B]</exemplarCharacters>
+	</characters>
+	<dates>
+		<localizedPatternChars>GanjkHmsSEDFwWxhKzAeugXZvcL</localizedPatternChars>
+		<calendars>
+			<default choice="gregorian"/>
+			<calendar type="buddhist">
+				<eras>
+					<eraAbbr>
+						<era type="0">พ.ศ.</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE'ที่ 'd MMMM G yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d/M/yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>H' นาฬิกา 'm' นาที 'ss' วินาที'</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern>H' นาฬิกา 'm' นาที'</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>H:mm:ss</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>H:mm</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength>
+						<dateTimeFormat>
+							<pattern>{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="gregorian">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">ม.ค.</month>
+							<month type="2">ก.พ.</month>
+							<month type="3">มี.ค.</month>
+							<month type="4">เม.ย.</month>
+							<month type="5">พ.ค.</month>
+							<month type="6">มิ.ย.</month>
+							<month type="7">ก.ค.</month>
+							<month type="8">ส.ค.</month>
+							<month type="9">ก.ย.</month>
+							<month type="10">ต.ค.</month>
+							<month type="11">พ.ย.</month>
+							<month type="12">ธ.ค.</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">มกราคม</month>
+							<month type="2">กุมภาพันธ์</month>
+							<month type="3">มีนาคม</month>
+							<month type="4">เมษายน</month>
+							<month type="5">พฤษภาคม</month>
+							<month type="6">มิถุนายน</month>
+							<month type="7">กรกฎาคม</month>
+							<month type="8">สิงหาคม</month>
+							<month type="9">กันยายน</month>
+							<month type="10">ตุลาคม</month>
+							<month type="11">พฤศจิกายน</month>
+							<month type="12">ธันวาคม</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="narrow">
+							<month type="1">ม.ค.</month>
+							<month type="2">ก.พ.</month>
+							<month type="3">มี.ค.</month>
+							<month type="4">เม.ย.</month>
+							<month type="5">พ.ค.</month>
+							<month type="6">มิ.ย.</month>
+							<month type="7">ก.ค.</month>
+							<month type="8">ส.ค.</month>
+							<month type="9">ก.ย.</month>
+							<month type="10">ต.ค.</month>
+							<month type="11">พ.ย.</month>
+							<month type="12">ธ.ค.</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<dayContext type="format">
+						<dayWidth type="abbreviated">
+							<day type="sun">อา.</day>
+							<day type="mon">จ.</day>
+							<day type="tue">อ.</day>
+							<day type="wed">พ.</day>
+							<day type="thu">พฤ.</day>
+							<day type="fri">ศ.</day>
+							<day type="sat">ส.</day>
+						</dayWidth>
+						<dayWidth type="wide">
+							<day type="sun">วันอาทิตย์</day>
+							<day type="sun" alt="proposed-u153-1" draft="unconfirmed">อาทิตย์</day>
+							<day type="mon">วันจันทร์</day>
+							<day type="mon" alt="proposed-u153-1" draft="unconfirmed">จันทร์</day>
+							<day type="tue">วันอังคาร</day>
+							<day type="tue" alt="proposed-u153-1" draft="unconfirmed">อังคาร</day>
+							<day type="wed">วันพุธ</day>
+							<day type="wed" alt="proposed-u153-1" draft="unconfirmed">พุธ</day>
+							<day type="thu">วันพฤหัสบดี</day>
+							<day type="thu" alt="proposed-u153-1" draft="unconfirmed">พฤหัสบดี</day>
+							<day type="fri">วันศุกร์</day>
+							<day type="fri" alt="proposed-u153-1" draft="unconfirmed">ศุกร์</day>
+							<day type="sat">วันเสาร์</day>
+							<day type="sat" alt="proposed-u153-1" draft="unconfirmed">เสาร์</day>
+						</dayWidth>
+					</dayContext>
+					<dayContext type="stand-alone">
+						<dayWidth type="narrow">
+							<day type="sun">อ</day>
+							<day type="mon">จ</day>
+							<day type="tue">อ</day>
+							<day type="wed">พ</day>
+							<day type="thu">พ</day>
+							<day type="fri">ศ</day>
+							<day type="sat">ส</day>
+						</dayWidth>
+					</dayContext>
+				</days>
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="wide">
+							<quarter type="1">ไตรมาส 1</quarter>
+							<quarter type="2">ไตรมาส 2</quarter>
+							<quarter type="3">ไตรมาส 3</quarter>
+							<quarter type="4">ไตรมาส 4</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+				<eras>
+					<eraNames>
+						<era type="0">ปีก่อนคริสต์ศักราชที่</era>
+						<era type="1">คริสต์ศักราช</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">ปีก่อน ค.ศ. ที่</era>
+						<era type="1">ค.ศ.</era>
+					</eraAbbr>
+				</eras>
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE'ที่ 'd MMMM G yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d/M/yyyy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>H' นาฬิกา 'm' นาที 'ss' วินาที'</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="long">
+						<timeFormat>
+							<pattern>H' นาฬิกา 'm' นาที'</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="medium">
+						<timeFormat>
+							<pattern>H:mm:ss</pattern>
+						</timeFormat>
+					</timeFormatLength>
+					<timeFormatLength type="short">
+						<timeFormat>
+							<pattern>H:mm</pattern>
+						</timeFormat>
+					</timeFormatLength>
+				</timeFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength>
+						<dateTimeFormat>
+							<pattern>{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="MMMMd" draft="provisional">d MMMM</dateFormatItem>
+						<dateFormatItem id="Md" draft="provisional">d/M</dateFormatItem>
+						<dateFormatItem id="mmss" draft="provisional">mm:ss</dateFormatItem>
+						<dateFormatItem id="yyyyM" draft="provisional">M/yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="provisional">MMMM yyyy</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+				<fields>
+					<field type="era">
+						<displayName>สมัย</displayName>
+					</field>
+					<field type="year">
+						<displayName>ปี</displayName>
+					</field>
+					<field type="month">
+						<displayName>เดือน</displayName>
+					</field>
+					<field type="week">
+						<displayName>สัปดาห์</displayName>
+					</field>
+					<field type="day">
+						<displayName>วัน</displayName>
+					</field>
+					<field type="weekday">
+						<displayName>วันในสัปดาห์</displayName>
+					</field>
+					<field type="dayperiod">
+						<displayName>ช่วงวัน</displayName>
+					</field>
+					<field type="hour">
+						<displayName>ชั่วโมง</displayName>
+					</field>
+					<field type="minute">
+						<displayName>นาที</displayName>
+					</field>
+					<field type="second">
+						<displayName>วินาที</displayName>
+					</field>
+					<field type="zone">
+						<displayName>เขต</displayName>
+					</field>
+				</fields>
+			</calendar>
+		</calendars>
+		<timeZoneNames>
+			<hourFormat>+HHmm;-HHmm</hourFormat>
+			<zone type="America/Argentina/ComodRivadavia">
+				<exemplarCity>โคมอดริวาดาเวีย</exemplarCity>
+			</zone>
+			<zone type="Europe/Belfast">
+				<exemplarCity>เบลฟัสต์</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Rothera">
+				<exemplarCity>โรเทรา</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Palmer">
+				<exemplarCity>พาล์เมอร์</exemplarCity>
+			</zone>
+			<zone type="Antarctica/South_Pole">
+				<exemplarCity>ขั้วโลกใต้</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Syowa">
+				<exemplarCity>เซียวา</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Mawson">
+				<exemplarCity>มาว์ซัน</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Davis">
+				<exemplarCity>เดวิส</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Vostok">
+				<exemplarCity>วอสทอก</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Casey">
+				<exemplarCity>เคเซย์</exemplarCity>
+			</zone>
+			<zone type="Antarctica/DumontDUrville">
+				<exemplarCity>ดูมอนต์ดียูร์วิลล์</exemplarCity>
+			</zone>
+			<zone type="Antarctica/McMurdo">
+				<exemplarCity>แมคมูร์ดู</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/Rio_Gallegos">
+				<exemplarCity>ริโอกาลเลกอส</exemplarCity>
+			</zone>
+			<zone type="America/Mendoza">
+				<exemplarCity>เมนดูซา</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/San_Juan">
+				<exemplarCity>ซานจวน</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/Ushuaia">
+				<exemplarCity>อูชูเอีย</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/La_Rioja">
+				<exemplarCity>ลาริโอจา</exemplarCity>
+			</zone>
+			<zone type="America/Catamarca">
+				<exemplarCity>คาตามาร์กา</exemplarCity>
+			</zone>
+			<zone type="America/Jujuy">
+				<exemplarCity>จูจิว</exemplarCity>
+			</zone>
+			<zone type="America/Argentina/Tucuman">
+				<exemplarCity>ทูคูแมน</exemplarCity>
+			</zone>
+			<zone type="America/Cordoba">
+				<exemplarCity>คอร์โดบา</exemplarCity>
+			</zone>
+			<zone type="America/Buenos_Aires">
+				<exemplarCity>บัวโนสไอเรส</exemplarCity>
+			</zone>
+			<zone type="Australia/Perth">
+				<exemplarCity>เพิิร์ท</exemplarCity>
+			</zone>
+			<zone type="Australia/Darwin">
+				<exemplarCity>ดาร์วิน</exemplarCity>
+			</zone>
+			<zone type="Australia/Adelaide">
+				<exemplarCity>แอดิเลด</exemplarCity>
+			</zone>
+			<zone type="Australia/Broken_Hill">
+				<exemplarCity>โบรกเคนฮิว</exemplarCity>
+			</zone>
+			<zone type="Australia/Currie">
+				<exemplarCity>คูร์รี</exemplarCity>
+			</zone>
+			<zone type="Australia/Melbourne">
+				<exemplarCity>เมลเบิร์น</exemplarCity>
+			</zone>
+			<zone type="Australia/Hobart">
+				<exemplarCity>โฮบาร์ต</exemplarCity>
+			</zone>
+			<zone type="Australia/Lindeman">
+				<exemplarCity>ลินดีแมน</exemplarCity>
+			</zone>
+			<zone type="Australia/Sydney">
+				<exemplarCity>ซิดนีย์</exemplarCity>
+			</zone>
+			<zone type="Australia/Brisbane">
+				<exemplarCity>บริสเบน</exemplarCity>
+			</zone>
+			<zone type="Australia/Lord_Howe">
+				<exemplarCity>ลอร์ดโฮวี</exemplarCity>
+			</zone>
+			<zone type="America/Eirunepe">
+				<exemplarCity>เอรูเนเป</exemplarCity>
+			</zone>
+			<zone type="America/Rio_Branco">
+				<exemplarCity>ริโอบรังโก</exemplarCity>
+			</zone>
+			<zone type="America/Porto_Velho">
+				<exemplarCity references="RP3">ปอร์ตูเวลโย</exemplarCity>
+			</zone>
+			<zone type="America/Boa_Vista">
+				<exemplarCity>บัววีชตา</exemplarCity>
+			</zone>
+			<zone type="America/Manaus">
+				<exemplarCity>มาเนาส์</exemplarCity>
+			</zone>
+			<zone type="America/Cuiaba">
+				<exemplarCity>กุยาบา</exemplarCity>
+			</zone>
+			<zone type="America/Campo_Grande">
+				<exemplarCity>กัมปูกรัมดี</exemplarCity>
+			</zone>
+			<zone type="America/Belem">
+				<exemplarCity>เบเลง</exemplarCity>
+			</zone>
+			<zone type="America/Araguaina">
+				<exemplarCity>อารากัวนา</exemplarCity>
+			</zone>
+			<zone type="America/Sao_Paulo">
+				<exemplarCity>เซาเปาลู</exemplarCity>
+			</zone>
+			<zone type="America/Bahia">
+				<exemplarCity references="RP3">บาเยีย</exemplarCity>
+			</zone>
+			<zone type="America/Fortaleza">
+				<exemplarCity>ฟอร์ตาเลซา</exemplarCity>
+			</zone>
+			<zone type="America/Maceio">
+				<exemplarCity>มาเซโอ</exemplarCity>
+			</zone>
+			<zone type="America/Recife">
+				<exemplarCity>เรซีเฟ</exemplarCity>
+			</zone>
+			<zone type="America/Noronha">
+				<exemplarCity>โนรอนฮา</exemplarCity>
+			</zone>
+			<zone type="America/Dawson">
+				<exemplarCity>ดอว์สัน</exemplarCity>
+			</zone>
+			<zone type="America/Whitehorse">
+				<exemplarCity>ไวต์ฮอร์ส</exemplarCity>
+			</zone>
+			<zone type="America/Vancouver">
+				<exemplarCity>แวนคูเวอร์</exemplarCity>
+			</zone>
+			<zone type="America/Dawson_Creek">
+				<exemplarCity>ดอว์สัน ครีก</exemplarCity>
+			</zone>
+			<zone type="America/Yellowknife">
+				<exemplarCity>เยลโลว์ไนฟ์</exemplarCity>
+			</zone>
+			<zone type="America/Inuvik">
+				<exemplarCity>อินูวิก</exemplarCity>
+			</zone>
+			<zone type="America/Edmonton">
+				<exemplarCity>เอดมันตัน</exemplarCity>
+			</zone>
+			<zone type="America/Swift_Current">
+				<exemplarCity>สวิฟต์เคอร์เรนต์</exemplarCity>
+			</zone>
+			<zone type="America/Cambridge_Bay">
+				<exemplarCity>อ่าวแคมบริดจ์</exemplarCity>
+			</zone>
+			<zone type="America/Regina">
+				<exemplarCity>ริไจนา</exemplarCity>
+			</zone>
+			<zone type="America/Winnipeg">
+				<exemplarCity>วินนิเพก</exemplarCity>
+			</zone>
+			<zone type="America/Rainy_River">
+				<exemplarCity>เรนนี่ริเวอร์</exemplarCity>
+			</zone>
+			<zone type="America/Rankin_Inlet">
+				<exemplarCity>แรงกินอินเล็ต</exemplarCity>
+			</zone>
+			<zone type="America/Thunder_Bay">
+				<exemplarCity>ทันเดอร์เบย์</exemplarCity>
+			</zone>
+			<zone type="America/Nipigon">
+				<exemplarCity>นิปิกอน</exemplarCity>
+			</zone>
+			<zone type="America/Coral_Harbour">
+				<exemplarCity>โครัลฮาร์เบอร์</exemplarCity>
+			</zone>
+			<zone type="America/Toronto">
+				<exemplarCity>โทรอนโต</exemplarCity>
+			</zone>
+			<zone type="America/Montreal">
+				<exemplarCity>มอนทริออล</exemplarCity>
+			</zone>
+			<zone type="America/Iqaluit">
+				<exemplarCity>อีกวาลิต</exemplarCity>
+			</zone>
+			<zone type="America/Pangnirtung">
+				<exemplarCity>พางนีทัง</exemplarCity>
+			</zone>
+			<zone type="America/Moncton">
+				<exemplarCity>มองตัน</exemplarCity>
+			</zone>
+			<zone type="America/Halifax">
+				<exemplarCity>แฮลิแฟกซ์</exemplarCity>
+			</zone>
+			<zone type="America/Goose_Bay">
+				<exemplarCity>กูสเบย์</exemplarCity>
+			</zone>
+			<zone type="America/Glace_Bay">
+				<exemplarCity>อ่าวแกลซ</exemplarCity>
+			</zone>
+			<zone type="America/St_Johns">
+				<exemplarCity>เซนต์จอนส์</exemplarCity>
+			</zone>
+			<zone type="Africa/Kinshasa">
+				<exemplarCity references="RP3">กินชาซา</exemplarCity>
+			</zone>
+			<zone type="Africa/Lubumbashi">
+				<exemplarCity>ลูบัมบาชิ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Easter">
+				<exemplarCity>อีสเตอร์</exemplarCity>
+			</zone>
+			<zone type="America/Santiago">
+				<exemplarCity references="RP3">ซันติอาโก</exemplarCity>
+			</zone>
+			<zone type="Asia/Kashgar">
+				<exemplarCity>กัชการ์</exemplarCity>
+			</zone>
+			<zone type="Asia/Urumqi">
+				<exemplarCity>อุรุมชี</exemplarCity>
+			</zone>
+			<zone type="Asia/Chongqing">
+				<exemplarCity>ฉงชิ่ง</exemplarCity>
+			</zone>
+			<zone type="Asia/Shanghai">
+				<exemplarCity>เซี่ยงไฮ้</exemplarCity>
+			</zone>
+			<zone type="Asia/Harbin">
+				<exemplarCity>ฮาร์บิน</exemplarCity>
+			</zone>
+			<zone type="Pacific/Galapagos">
+				<exemplarCity>กาลาปากอส</exemplarCity>
+			</zone>
+			<zone type="America/Guayaquil">
+				<exemplarCity>กัวยากิล</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Canary">
+				<exemplarCity>คานารี</exemplarCity>
+			</zone>
+			<zone type="Africa/Ceuta">
+				<exemplarCity references="RP3">เซวตา</exemplarCity>
+			</zone>
+			<zone type="Europe/Madrid">
+				<exemplarCity>มาดริด</exemplarCity>
+			</zone>
+			<zone type="Pacific/Truk">
+				<exemplarCity>ทรัก</exemplarCity>
+			</zone>
+			<zone type="Pacific/Ponape">
+				<exemplarCity>โพนาป</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kosrae">
+				<exemplarCity>คอสแร</exemplarCity>
+			</zone>
+			<zone type="Europe/London">
+				<exemplarCity>ลอนดอน</exemplarCity>
+			</zone>
+			<zone type="America/Thule">
+				<exemplarCity>ทูเล</exemplarCity>
+			</zone>
+			<zone type="America/Godthab">
+				<exemplarCity>กอดแธบ</exemplarCity>
+			</zone>
+			<zone type="America/Scoresbysund">
+				<exemplarCity>สกอเรสไบซันด์</exemplarCity>
+			</zone>
+			<zone type="America/Danmarkshavn">
+				<exemplarCity>ดันมาร์กชาฟน์</exemplarCity>
+			</zone>
+			<zone type="Asia/Jakarta">
+				<exemplarCity>จาการ์ตา</exemplarCity>
+			</zone>
+			<zone type="Asia/Pontianak">
+				<exemplarCity>พอนเทียนัก</exemplarCity>
+			</zone>
+			<zone type="Asia/Makassar">
+				<exemplarCity>มากัสซาร์</exemplarCity>
+			</zone>
+			<zone type="Asia/Jayapura">
+				<exemplarCity>จายาพูรา</exemplarCity>
+			</zone>
+			<zone type="Pacific/Enderbury">
+				<exemplarCity>เอ็นเดอร์บูรี</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kiritimati">
+				<exemplarCity>คิริทิมาตี</exemplarCity>
+			</zone>
+			<zone type="Pacific/Tarawa">
+				<exemplarCity>ทาราวา</exemplarCity>
+			</zone>
+			<zone type="Asia/Aqtau">
+				<exemplarCity>อัคทัว</exemplarCity>
+			</zone>
+			<zone type="Asia/Oral">
+				<exemplarCity>ออรัล</exemplarCity>
+			</zone>
+			<zone type="Asia/Aqtobe">
+				<exemplarCity>อัคโทบี</exemplarCity>
+			</zone>
+			<zone type="Asia/Qyzylorda">
+				<exemplarCity>ไคซีลอร์ดา</exemplarCity>
+			</zone>
+			<zone type="Asia/Almaty">
+				<exemplarCity>อัลมาตี</exemplarCity>
+			</zone>
+			<zone type="Pacific/Kwajalein">
+				<exemplarCity>ควจาเลน</exemplarCity>
+			</zone>
+			<zone type="Pacific/Majuro">
+				<exemplarCity>มาจูโร</exemplarCity>
+			</zone>
+			<zone type="Asia/Hovd">
+				<exemplarCity>ฮอฟด์</exemplarCity>
+			</zone>
+			<zone type="Asia/Ulaanbaatar">
+				<exemplarCity references="RP3">อูลานบาตอร์</exemplarCity>
+			</zone>
+			<zone type="Asia/Choibalsan">
+				<exemplarCity>โชบาลซาน</exemplarCity>
+			</zone>
+			<zone type="America/Tijuana">
+				<exemplarCity>ทิฮัวนา</exemplarCity>
+			</zone>
+			<zone type="America/Hermosillo">
+				<exemplarCity>เอร์โมซีโย</exemplarCity>
+			</zone>
+			<zone type="America/Mazatlan">
+				<exemplarCity>มาซาทลาน</exemplarCity>
+			</zone>
+			<zone type="America/Chihuahua">
+				<exemplarCity>ชีวาวา</exemplarCity>
+			</zone>
+			<zone type="America/Monterrey">
+				<exemplarCity>มอนเตร์เรย์</exemplarCity>
+			</zone>
+			<zone type="America/Mexico_City">
+				<exemplarCity>เม็กซิโกซิตี</exemplarCity>
+			</zone>
+			<zone type="America/Merida">
+				<exemplarCity>เมรีดา</exemplarCity>
+			</zone>
+			<zone type="America/Cancun">
+				<exemplarCity>แคนคุน</exemplarCity>
+			</zone>
+			<zone type="Asia/Kuala_Lumpur">
+				<exemplarCity>กัวลาลัมเปอร์</exemplarCity>
+			</zone>
+			<zone type="Asia/Kuching">
+				<exemplarCity>กูชิง</exemplarCity>
+			</zone>
+			<zone type="Pacific/Chatham">
+				<exemplarCity>แชแธม</exemplarCity>
+			</zone>
+			<zone type="Pacific/Auckland">
+				<exemplarCity>โอคแลนด์</exemplarCity>
+			</zone>
+			<zone type="Pacific/Tahiti">
+				<exemplarCity>ทาฮิติ</exemplarCity>
+			</zone>
+			<zone type="Pacific/Marquesas">
+				<exemplarCity>มาร์คิวซัส</exemplarCity>
+			</zone>
+			<zone type="Pacific/Gambier">
+				<exemplarCity>แกมเบอร์</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Azores">
+				<exemplarCity>อาซอเรส</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Madeira">
+				<exemplarCity>มาเดรา</exemplarCity>
+			</zone>
+			<zone type="Europe/Lisbon">
+				<exemplarCity>ลิสบอน</exemplarCity>
+			</zone>
+			<zone type="Europe/Kaliningrad">
+				<exemplarCity>คาลินิงกราด</exemplarCity>
+			</zone>
+			<zone type="Europe/Moscow">
+				<exemplarCity>มอสโค</exemplarCity>
+			</zone>
+			<zone type="Europe/Samara">
+				<exemplarCity>ซามารา</exemplarCity>
+			</zone>
+			<zone type="Asia/Yekaterinburg">
+				<exemplarCity>ยีคาเตอรินเบิร์ก</exemplarCity>
+			</zone>
+			<zone type="Asia/Omsk">
+				<exemplarCity>โอมสก์</exemplarCity>
+			</zone>
+			<zone type="Asia/Novosibirsk">
+				<exemplarCity>โนโวซิบิร์สก์</exemplarCity>
+			</zone>
+			<zone type="Asia/Krasnoyarsk">
+				<exemplarCity>ครัสโนยาร์สก์</exemplarCity>
+			</zone>
+			<zone type="Asia/Yakutsk">
+				<exemplarCity>ยาคุตสค์</exemplarCity>
+			</zone>
+			<zone type="Asia/Vladivostok">
+				<exemplarCity>วลาดิโวสต็อก</exemplarCity>
+			</zone>
+			<zone type="Asia/Sakhalin">
+				<exemplarCity>ซาคาลิน</exemplarCity>
+			</zone>
+			<zone type="Asia/Magadan">
+				<exemplarCity references="RP3">มากาดาน</exemplarCity>
+			</zone>
+			<zone type="Asia/Kamchatka">
+				<exemplarCity>คามชัตกา</exemplarCity>
+			</zone>
+			<zone type="Asia/Anadyr">
+				<exemplarCity>อานาดีร์</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Jan_Mayen">
+				<exemplarCity>แจนมาเยน</exemplarCity>
+			</zone>
+			<zone type="Arctic/Longyearbyen">
+				<exemplarCity>ลองเยียร์เบียน</exemplarCity>
+			</zone>
+			<zone type="Europe/Uzhgorod">
+				<exemplarCity>อัซโกร็อด</exemplarCity>
+			</zone>
+			<zone type="Europe/Kiev">
+				<exemplarCity>กีฟ</exemplarCity>
+			</zone>
+			<zone type="Europe/Simferopol">
+				<exemplarCity>ซิมเฟอโรโปล</exemplarCity>
+			</zone>
+			<zone type="Europe/Zaporozhye">
+				<exemplarCity>ซาโปโรซี</exemplarCity>
+			</zone>
+			<zone type="Pacific/Midway">
+				<exemplarCity>มิดเวย์</exemplarCity>
+			</zone>
+			<zone type="Pacific/Johnston">
+				<exemplarCity>จอห์นสตัน</exemplarCity>
+			</zone>
+			<zone type="Pacific/Wake">
+				<exemplarCity>เวก</exemplarCity>
+			</zone>
+			<zone type="America/Adak">
+				<exemplarCity>เอดัก</exemplarCity>
+			</zone>
+			<zone type="America/Nome">
+				<exemplarCity>นอม</exemplarCity>
+			</zone>
+			<zone type="Pacific/Honolulu">
+				<exemplarCity>โฮโนลูลู</exemplarCity>
+			</zone>
+			<zone type="America/Anchorage">
+				<exemplarCity>แอนชอเรจ</exemplarCity>
+			</zone>
+			<zone type="America/Yakutat">
+				<exemplarCity>ยากูทัต</exemplarCity>
+			</zone>
+			<zone type="America/Juneau">
+				<exemplarCity references="RP3">จูโน</exemplarCity>
+			</zone>
+			<zone type="America/Los_Angeles">
+				<exemplarCity>ลอสแองเจลิส</exemplarCity>
+			</zone>
+			<zone type="America/Boise">
+				<exemplarCity>บอยซี</exemplarCity>
+			</zone>
+			<zone type="America/Phoenix">
+				<exemplarCity>ฟีนิกซ์</exemplarCity>
+			</zone>
+			<zone type="America/Shiprock">
+				<exemplarCity>ชิปร็อก</exemplarCity>
+			</zone>
+			<zone type="America/Denver">
+				<exemplarCity>เดนเวอร์</exemplarCity>
+			</zone>
+			<zone type="America/North_Dakota/Center">
+				<exemplarCity>เซนเตอร์</exemplarCity>
+			</zone>
+			<zone type="America/Chicago">
+				<exemplarCity>ชิคาโก</exemplarCity>
+			</zone>
+			<zone type="America/Menominee">
+				<exemplarCity>เมโนมินี</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Vincennes">
+				<exemplarCity>วินเซนเนส</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Petersburg">
+				<exemplarCity>ปีเตอร์สเบิร์ก</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Knox">
+				<exemplarCity>นอกซ์</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Marengo">
+				<exemplarCity>มาเรงโก</exemplarCity>
+			</zone>
+			<zone type="America/Indianapolis">
+				<exemplarCity>อินเดียแนโพลิส</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Vevay">
+				<exemplarCity>วีเวย์</exemplarCity>
+			</zone>
+			<zone type="America/Kentucky/Monticello">
+				<exemplarCity>มอนติเซลโล</exemplarCity>
+			</zone>
+			<zone type="America/Detroit">
+				<exemplarCity>ดีทรอยต์</exemplarCity>
+			</zone>
+			<zone type="America/New_York">
+				<exemplarCity>นิวยอร์ก</exemplarCity>
+			</zone>
+			<zone type="Asia/Samarkand">
+				<exemplarCity>ซามาร์กานด์</exemplarCity>
+			</zone>
+			<zone type="Asia/Tashkent">
+				<exemplarCity>ทาชเคนต์</exemplarCity>
+			</zone>
+		</timeZoneNames>
+	</dates>
+	<numbers>
+		<currencies>
+			<currency type="ADP">
+				<displayName>เปเซตาอันดอร์รา</displayName>
+			</currency>
+			<currency type="AED">
+				<displayName>ดีแรห์มสหรัฐอาหรับเอมิเรตส์</displayName>
+			</currency>
+			<currency type="AFA">
+				<displayName>อัฟกานี (1927-2002)</displayName>
+			</currency>
+			<currency type="AFN">
+				<displayName>อัฟกานี</displayName>
+			</currency>
+			<currency type="ALL">
+				<displayName>เลกอัลบาเนีย</displayName>
+			</currency>
+			<currency type="AMD">
+				<displayName>ดรัมอาเมเนีย</displayName>
+			</currency>
+			<currency type="ANG">
+				<displayName>แอนทิลลันกิลเดอร์เนเธอร์แลนด์</displayName>
+			</currency>
+			<currency type="AOA">
+				<displayName>กวานซาแองโกลา</displayName>
+			</currency>
+			<currency type="AOK">
+				<displayName>กวานซาแองโกลา (1977-1990)</displayName>
+			</currency>
+			<currency type="AON">
+				<displayName>นิวกวานซาแองโกลา (1990-2000)</displayName>
+			</currency>
+			<currency type="AOR">
+				<displayName>กวานซารีจัสทาโดแองโกลา (1995-1999)</displayName>
+			</currency>
+			<currency type="ARA">
+				<displayName>ออสตรัลอาเจนตินา</displayName>
+			</currency>
+			<currency type="ARP">
+				<displayName>เปโซอาร์เจนติน่า (1983-1985)</displayName>
+			</currency>
+			<currency type="ARS">
+				<displayName>เปโซอาร์เจนติน่า</displayName>
+				<symbol>Arg$</symbol>
+			</currency>
+			<currency type="ATS">
+				<displayName>ชิลลิงออสเตรีย</displayName>
+			</currency>
+			<currency type="AUD">
+				<displayName>เหรียญออสเตรเลีย</displayName>
+				<symbol>$A</symbol>
+			</currency>
+			<currency type="AWG">
+				<displayName>กิลเดอร์อารูบา</displayName>
+			</currency>
+			<currency type="AZM">
+				<displayName>มานัตอาเซอร์ไบจัน</displayName>
+			</currency>
+			<currency type="BAD">
+				<displayName>ดีนาร์บอสเนีย-เฮอร์เซโกวีนา</displayName>
+			</currency>
+			<currency type="BAM">
+				<displayName>มาร​์กบอสเนีย-เฮอร์เซโกวีนา</displayName>
+			</currency>
+			<currency type="BBD">
+				<displayName>ดอลลาร์บาร์เบดอส</displayName>
+			</currency>
+			<currency type="BDT">
+				<displayName>ตากาบังกลาเทศ</displayName>
+			</currency>
+			<currency type="BEC">
+				<displayName>ฟรังก์เบลเยียม (เปลี่ยนแปลงได้)</displayName>
+			</currency>
+			<currency type="BEF">
+				<displayName>ฟรังก์เบลเยียม</displayName>
+			</currency>
+			<currency type="BEL">
+				<displayName>ฟรังก์เบลเยียม (การเงิน)</displayName>
+			</currency>
+			<currency type="BGL">
+				<displayName>ฮาร์ดลีฟบัลแกเรีย</displayName>
+			</currency>
+			<currency type="BGN">
+				<displayName>นิวลีฟบัลแกเรีย</displayName>
+			</currency>
+			<currency type="BHD">
+				<displayName>ดีนาร์บาห์เรน</displayName>
+			</currency>
+			<currency type="BIF">
+				<displayName>ฟรังก์บุรุนดี</displayName>
+			</currency>
+			<currency type="BMD">
+				<displayName>ดอลลาร์เบอร์มิวดา</displayName>
+			</currency>
+			<currency type="BND">
+				<displayName>ดอลลาร์บรูไน</displayName>
+			</currency>
+			<currency type="BOB">
+				<displayName>โบลิเวียโน</displayName>
+			</currency>
+			<currency type="BOP">
+				<displayName>เปโซโบลิเวีย</displayName>
+			</currency>
+			<currency type="BOV">
+				<displayName>มฟดอลโบลิเวีย</displayName>
+			</currency>
+			<currency type="BRB">
+				<displayName>ครูเซโรโนโวบราซิล (1967-1986)</displayName>
+			</currency>
+			<currency type="BRC">
+				<displayName>ครูซาโดบราซิล</displayName>
+			</currency>
+			<currency type="BRE">
+				<displayName>ครูเซโรบราซิล (1990-1993)</displayName>
+			</currency>
+			<currency type="BRL">
+				<displayName>รีล</displayName>
+			</currency>
+			<currency type="BRN">
+				<displayName>ครูซาโดโนโวบราซิล</displayName>
+			</currency>
+			<currency type="BRR">
+				<displayName>ครูเซโรบราซิล</displayName>
+			</currency>
+			<currency type="BSD">
+				<displayName>ดอลลาร์บาฮามาส</displayName>
+			</currency>
+			<currency type="BTN">
+				<displayName>กัลทรัมภูฏาน</displayName>
+			</currency>
+			<currency type="BUK">
+				<displayName>จัคพม่า [BUK]</displayName>
+			</currency>
+			<currency type="BWP">
+				<displayName>พูลาบอตสวานา</displayName>
+			</currency>
+			<currency type="BYB">
+				<displayName>นิวรูเบิลเบลารัสเซีย (1994-1999)</displayName>
+			</currency>
+			<currency type="BYR">
+				<displayName>รูเบิลเบลารัสเซีย</displayName>
+			</currency>
+			<currency type="BZD">
+				<displayName>ดอลลาร์เบลีซ</displayName>
+			</currency>
+			<currency type="CAD">
+				<displayName>เหรียญคานาดา</displayName>
+				<symbol>Can$</symbol>
+			</currency>
+			<currency type="CDF">
+				<displayName>ฟรังก์คองโก</displayName>
+			</currency>
+			<currency type="CHE">
+				<displayName>ยูโรดับเบิลยูไออาร์</displayName>
+			</currency>
+			<currency type="CHF">
+				<displayName>ฟรังก์สวิส</displayName>
+			</currency>
+			<currency type="CHW">
+				<displayName>ฟรังก์ดับเบิลยูไออาร์</displayName>
+			</currency>
+			<currency type="CLF">
+				<displayName>ฟูเมนโตชิลี</displayName>
+			</currency>
+			<currency type="CLP">
+				<displayName>เปโซชิลี</displayName>
+				<symbol>Ch$</symbol>
+			</currency>
+			<currency type="CNY">
+				<displayName>หยวนเหรินเหมินบี้</displayName>
+				<symbol>￥</symbol>
+			</currency>
+			<currency type="COP">
+				<displayName>เปโซโคลัมเบีย</displayName>
+			</currency>
+			<currency type="COU">
+				<displayName>วาเลอร์รีล</displayName>
+			</currency>
+			<currency type="CRC">
+				<displayName>โคลอนคอสตาริกา</displayName>
+			</currency>
+			<currency type="CSD">
+				<displayName>ไดนาร์เซอร์เบีย</displayName>
+			</currency>
+			<currency type="CSK">
+				<displayName>ฮาร์ดโครูนาเช็กโกสโลวัก</displayName>
+			</currency>
+			<currency type="CUP">
+				<displayName>เปโซคิวบา</displayName>
+			</currency>
+			<currency type="CVE">
+				<displayName>เคปเวอร์เดอร์เอสคูโด</displayName>
+			</currency>
+			<currency type="CYP">
+				<displayName>ปอนด์ไซปรัส</displayName>
+			</currency>
+			<currency type="CZK">
+				<displayName>โครูนาสาธารณรัฐเช็ก</displayName>
+			</currency>
+			<currency type="DDM">
+				<displayName>ออสต์มาร์กเยอรมันตะวันออก</displayName>
+			</currency>
+			<currency type="DEM">
+				<displayName>มาร์กเยอรมนี</displayName>
+			</currency>
+			<currency type="DJF">
+				<displayName>ฟรังก์จิบูตี</displayName>
+			</currency>
+			<currency type="DKK">
+				<displayName>โครนเดนมาร์ก</displayName>
+			</currency>
+			<currency type="DOP">
+				<displayName>เปโซโดมินิกา</displayName>
+			</currency>
+			<currency type="DZD">
+				<displayName>ดีนาร์แอลจีเรีย</displayName>
+			</currency>
+			<currency type="ECS">
+				<displayName>ซูเกรเอกวาดอร์</displayName>
+			</currency>
+			<currency type="ECV">
+				<displayName>วาเลอร์คอนสแตนต์เอกวาดอร์</displayName>
+			</currency>
+			<currency type="EEK">
+				<displayName>ครูนเอสโตเนีย</displayName>
+			</currency>
+			<currency type="EGP">
+				<displayName>ปอนด์อียิปต์</displayName>
+			</currency>
+			<currency type="EQE">
+				<displayName>เอ็กเวเล</displayName>
+			</currency>
+			<currency type="ERN">
+				<displayName>นากฟาเอริเทรีย</displayName>
+			</currency>
+			<currency type="ESA">
+				<displayName>เปเซตาสเปน (บัญชี)</displayName>
+			</currency>
+			<currency type="ESB">
+				<displayName>เปเซตาสเปน (บัญชีที่เปลี่ยนแปลงได้)</displayName>
+			</currency>
+			<currency type="ESP">
+				<displayName>เปเซตาสเปน</displayName>
+			</currency>
+			<currency type="ETB">
+				<displayName>เบอรร์เอธิโอเปีย</displayName>
+			</currency>
+			<currency type="EUR">
+				<displayName>ยูโร</displayName>
+			</currency>
+			<currency type="FIM">
+				<displayName>มาร์กกาฟินแลนด์</displayName>
+			</currency>
+			<currency type="FJD">
+				<displayName>เหรียญฟิจิ</displayName>
+				<symbol>F$</symbol>
+			</currency>
+			<currency type="FKP">
+				<displayName>ปอนด์เกาะฟอล์กแลนด์</displayName>
+			</currency>
+			<currency type="FRF">
+				<displayName>เหรียญฝรั่งเศส</displayName>
+			</currency>
+			<currency type="GBP">
+				<displayName>ปอนด์สเตอร์ลิงอังกฤษ</displayName>
+				<symbol>\u00A3</symbol>
+			</currency>
+			<currency type="GEK">
+				<displayName>คูปอนลาริตจอร์เจีย</displayName>
+			</currency>
+			<currency type="GEL">
+				<displayName>ลารีจอร์เจีย</displayName>
+			</currency>
+			<currency type="GHC">
+				<displayName>เซดีกานา</displayName>
+			</currency>
+			<currency type="GIP">
+				<displayName>ปอนด์ยิบรอลตาร์</displayName>
+			</currency>
+			<currency type="GMD">
+				<displayName>ดาลาซีแกมเบีย</displayName>
+			</currency>
+			<currency type="GNF">
+				<displayName>ฟรังก์กินี</displayName>
+			</currency>
+			<currency type="GNS">
+				<displayName>ไซลีกินี</displayName>
+			</currency>
+			<currency type="GQE">
+				<displayName>เอ็กเวเลกินีนาอิเควทอเรียลกินี</displayName>
+			</currency>
+			<currency type="GRD">
+				<displayName>ดรัชมากรีก</displayName>
+			</currency>
+			<currency type="GTQ">
+				<displayName>เควตซัลกัวเตมาลา</displayName>
+			</currency>
+			<currency type="GWP">
+				<displayName>เปโซกีนีบิสเซา</displayName>
+			</currency>
+			<currency type="GYD">
+				<displayName>ดอลลาร์กายอานา</displayName>
+			</currency>
+			<currency type="HKD">
+				<displayName>เหรียญฮ่องกง</displayName>
+				<symbol>HK$</symbol>
+			</currency>
+			<currency type="HNL">
+				<displayName>เลมปิราฮอดูรัส</displayName>
+			</currency>
+			<currency type="HRD">
+				<displayName>ดีนาร์โครเอเชีย</displayName>
+			</currency>
+			<currency type="HRK">
+				<displayName>คูนาโครเอเชีย</displayName>
+			</currency>
+			<currency type="HTG">
+				<displayName>กอร์ดเฮติ</displayName>
+			</currency>
+			<currency type="HUF">
+				<displayName>ฟอรินต์ฮังการี</displayName>
+			</currency>
+			<currency type="IDR">
+				<displayName>รูเปียอินโดนีเซีย</displayName>
+				<symbol>Rp</symbol>
+			</currency>
+			<currency type="IEP">
+				<displayName>ปอนด์ไอริช</displayName>
+				<symbol>IR\u00A3</symbol>
+			</currency>
+			<currency type="ILP">
+				<displayName>ปอนด์อิสราเอล</displayName>
+			</currency>
+			<currency type="ILS">
+				<displayName>เชเกลอิสราเอล</displayName>
+			</currency>
+			<currency type="INR">
+				<displayName>รูปีอินเดีย</displayName>
+			</currency>
+			<currency type="IQD">
+				<displayName>ดีนาร์อิรัก</displayName>
+			</currency>
+			<currency type="IRR">
+				<displayName>เรียลอิหร่าน</displayName>
+			</currency>
+			<currency type="ISK">
+				<displayName>โครนาไอซ์แลนด์</displayName>
+			</currency>
+			<currency type="ITL">
+				<displayName>ลีราอิตาลี</displayName>
+			</currency>
+			<currency type="JMD">
+				<displayName>ดอลลาร์จาเมกา</displayName>
+			</currency>
+			<currency type="JOD">
+				<displayName>ดีนาร์จอร์แดน</displayName>
+			</currency>
+			<currency type="JPY">
+				<displayName>เยน</displayName>
+				<symbol draft="unconfirmed">\u00A5</symbol>
+			</currency>
+			<currency type="KES">
+				<displayName>ชิลลิ่งเคนยา</displayName>
+			</currency>
+			<currency type="KGS">
+				<displayName>ซอมคีร์กีซสถาน</displayName>
+			</currency>
+			<currency type="KHR">
+				<displayName>เรียลกัมพูชา</displayName>
+			</currency>
+			<currency type="KMF">
+				<displayName>ฟรังก์คอโมโรส</displayName>
+			</currency>
+			<currency type="KPW">
+				<displayName>วอนเกาหลีเหนือ</displayName>
+			</currency>
+			<currency type="KRW">
+				<displayName>วอนเกาหลีใต้</displayName>
+			</currency>
+			<currency type="KWD">
+				<displayName>ดีนาร์คูเวต</displayName>
+			</currency>
+			<currency type="KYD">
+				<displayName>ดอลลาร์หมู่เกาะเคย์แมน</displayName>
+			</currency>
+			<currency type="KZT">
+				<displayName>เทนจ์คาซัคสถาน</displayName>
+			</currency>
+			<currency type="LAK">
+				<displayName>กีบลาว</displayName>
+			</currency>
+			<currency type="LBP">
+				<displayName>ปอนด์เลบานอน</displayName>
+			</currency>
+			<currency type="LKR">
+				<displayName>รูปีศรีลังกา</displayName>
+			</currency>
+			<currency type="LRD">
+				<displayName>ดอลลาร์ไลบีเรีย</displayName>
+			</currency>
+			<currency type="LSL">
+				<displayName>โลตีเลโซโท</displayName>
+			</currency>
+			<currency type="LSM">
+				<displayName>มาโลตี</displayName>
+			</currency>
+			<currency type="LTL">
+				<displayName>ลีตาลิทัวเนีย</displayName>
+			</currency>
+			<currency type="LTT">
+				<displayName>ทาโลนัสลิทัวเนีย</displayName>
+			</currency>
+			<currency type="LUC">
+				<displayName>ฟรังก์ลักเซมเบิร์ก [LUC]</displayName>
+			</currency>
+			<currency type="LUF">
+				<displayName>ฟรังก์ลักเซมเบิร์ก</displayName>
+			</currency>
+			<currency type="LUL">
+				<displayName>ฟรังก์ลักเซมเบิร์ก  [LUL]</displayName>
+			</currency>
+			<currency type="LVL">
+				<displayName>ลัตส์ลัตเวีย</displayName>
+			</currency>
+			<currency type="LVR">
+				<displayName>รูเบิลลัตเวีย</displayName>
+			</currency>
+			<currency type="LYD">
+				<displayName>ดีนาร์ลิเบีย</displayName>
+			</currency>
+			<currency type="MAD">
+				<displayName>ดีแรห์มโมร็อกโก</displayName>
+			</currency>
+			<currency type="MAF">
+				<displayName>ฟรังก์โมร็อกโก</displayName>
+			</currency>
+			<currency type="MDL">
+				<displayName>ลิวมอลโดวาน</displayName>
+			</currency>
+			<currency type="MGA">
+				<displayName>อาเรียรีมาดากัสการ์</displayName>
+			</currency>
+			<currency type="MGF">
+				<displayName>ฟรังก์มาดากัสการ์</displayName>
+			</currency>
+			<currency type="MKD">
+				<displayName>ดีนาร์มาซิโดเนีย</displayName>
+			</currency>
+			<currency type="MLF">
+				<displayName>ฟรังก์มาลี</displayName>
+			</currency>
+			<currency type="MMK">
+				<displayName>จัคพม่า</displayName>
+			</currency>
+			<currency type="MNT">
+				<displayName>ตูกริกมองโกเลีย</displayName>
+			</currency>
+			<currency type="MOP">
+				<displayName>ปาตากามาเก๊า</displayName>
+			</currency>
+			<currency type="MRO">
+				<displayName>ออกิวยามอริเตเนีย</displayName>
+			</currency>
+			<currency type="MTL">
+				<displayName>ลีรามอลตา</displayName>
+			</currency>
+			<currency type="MTP">
+				<displayName>ปอนด์มอลตา</displayName>
+			</currency>
+			<currency type="MUR">
+				<displayName>รูปีมอริเชียส</displayName>
+			</currency>
+			<currency type="MVR">
+				<displayName>รูฟิยาเกาะมัลดีฟส์</displayName>
+			</currency>
+			<currency type="MWK">
+				<displayName>กวาชามาลาวี</displayName>
+			</currency>
+			<currency type="MXN">
+				<displayName>เปโซแม็กซิโก</displayName>
+				<symbol>MEX$</symbol>
+			</currency>
+			<currency type="MXP">
+				<displayName>ซิลเวอรืเม็กซิโก (1861-1992)</displayName>
+			</currency>
+			<currency type="MXV">
+				<displayName>อินเวอร์เซียนเม็กซิโก</displayName>
+			</currency>
+			<currency type="MYR">
+				<displayName>ริงกิตมาเลเซีย</displayName>
+				<symbol>RM</symbol>
+			</currency>
+			<currency type="MZE">
+				<displayName>เอสคูโดโมซัมบิก</displayName>
+			</currency>
+			<currency type="MZM">
+				<displayName>เมทิคัลโมซัมบิก</displayName>
+			</currency>
+			<currency type="NAD">
+				<displayName>ดอลลาร์นามิเบีย</displayName>
+			</currency>
+			<currency type="NGN">
+				<displayName>ไนราไนจีเรีย</displayName>
+			</currency>
+			<currency type="NIC">
+				<displayName>คอร์โดบานิการากัว</displayName>
+			</currency>
+			<currency type="NIO">
+				<displayName>คอร์โดบาโอโรนิการากัว</displayName>
+			</currency>
+			<currency type="NLG">
+				<displayName>กิลเดอร์เนเธอร์แลนด์</displayName>
+			</currency>
+			<currency type="NOK">
+				<displayName>โครนนอร์เวย์</displayName>
+			</currency>
+			<currency type="NPR">
+				<displayName>รูปีเนปาล</displayName>
+			</currency>
+			<currency type="NZD">
+				<displayName>เหรียญนิวซีแลนด์</displayName>
+				<symbol>$NZ</symbol>
+			</currency>
+			<currency type="OMR">
+				<displayName>เรียลโอมาน</displayName>
+			</currency>
+			<currency type="PAB">
+				<displayName>บัลบัวปานามา</displayName>
+			</currency>
+			<currency type="PEI">
+				<displayName>อินตีเปรู</displayName>
+			</currency>
+			<currency type="PEN">
+				<displayName>ซอลนูโวเปรู</displayName>
+			</currency>
+			<currency type="PES">
+				<displayName>ซอลเปรู</displayName>
+			</currency>
+			<currency type="PGK">
+				<displayName>กีนาปาปัวนิวกีนี</displayName>
+			</currency>
+			<currency type="PHP">
+				<displayName>เปโซฟิลิปปินส์</displayName>
+			</currency>
+			<currency type="PKR">
+				<displayName>รูปีปากีสถาน</displayName>
+				<symbol>Pra</symbol>
+			</currency>
+			<currency type="PLN">
+				<displayName>ซลอตีโปแลนด์</displayName>
+			</currency>
+			<currency type="PLZ">
+				<displayName>ซลอตีโปแลนด์ [PLZ]</displayName>
+			</currency>
+			<currency type="PTE">
+				<displayName>เอสคูโดโปรตุเกส</displayName>
+			</currency>
+			<currency type="PYG">
+				<displayName>กัวรานีปารากวัย</displayName>
+			</currency>
+			<currency type="QAR">
+				<displayName>เรียลกาตาร์</displayName>
+			</currency>
+			<currency type="RHD">
+				<displayName>ดอลลาร์โรดีเซีย</displayName>
+			</currency>
+			<currency type="ROL">
+				<displayName>ลิวโรมาเนียเก่า</displayName>
+			</currency>
+			<currency type="RUB">
+				<displayName>รูเบิลรัสเซีย</displayName>
+			</currency>
+			<currency type="RUR">
+				<displayName>รูเบิลรัสเซีย (1991-1998)</displayName>
+			</currency>
+			<currency type="RWF">
+				<displayName>ฟรังก์รวันดา</displayName>
+			</currency>
+			<currency type="SAR">
+				<displayName>เรียลซาอุดิอาระเบีย</displayName>
+			</currency>
+			<currency type="SBD">
+				<displayName>ดอลลาร์เกาะโซโลมอน</displayName>
+			</currency>
+			<currency type="SCR">
+				<displayName>รูปีเซเชลส์</displayName>
+			</currency>
+			<currency type="SDD">
+				<displayName>ดีนาร์ซูดาน</displayName>
+			</currency>
+			<currency type="SDP">
+				<displayName>ปอนด์ซูดาน</displayName>
+			</currency>
+			<currency type="SEK">
+				<displayName>โครนาสวีเดน</displayName>
+			</currency>
+			<currency type="SGD">
+				<displayName>เหรียญสิงคโปร์</displayName>
+				<symbol>S$</symbol>
+			</currency>
+			<currency type="SHP">
+				<displayName>ปอนด์เซนต์เฮเลนา</displayName>
+			</currency>
+			<currency type="SIT">
+				<displayName>ทอลาร์สโลวีเนีย</displayName>
+			</currency>
+			<currency type="SKK">
+				<displayName>โครูนาสโลวัก</displayName>
+			</currency>
+			<currency type="SLL">
+				<displayName>ลีโอนเซียร์ราลีโอน</displayName>
+			</currency>
+			<currency type="SOS">
+				<displayName>ชิลลิงโซมาเลีย</displayName>
+			</currency>
+			<currency type="SRD">
+				<displayName>ดอลลาร์สุรินัม</displayName>
+			</currency>
+			<currency type="SRG">
+				<displayName>กิลเดอร์สุรินัม</displayName>
+			</currency>
+			<currency type="STD">
+				<displayName>ดอบราเซาตูเมและปรินซิปี</displayName>
+			</currency>
+			<currency type="SUR">
+				<displayName>รูเบิลโซเวียต</displayName>
+			</currency>
+			<currency type="SVC">
+				<displayName>โคลอนเอลซัลวาดอร์</displayName>
+			</currency>
+			<currency type="SYP">
+				<displayName>ปอนด์ซีเรีย</displayName>
+			</currency>
+			<currency type="SZL">
+				<displayName>ลิลันกีนีสวาซิแลนด์</displayName>
+			</currency>
+			<currency type="THB">
+				<displayName>บาท</displayName>
+				<symbol>฿</symbol>
+			</currency>
+			<currency type="TJR">
+				<displayName>รูเบิลทาจิกิสถาน</displayName>
+			</currency>
+			<currency type="TJS">
+				<displayName>โซโมนีทาจิกิสถาน</displayName>
+			</currency>
+			<currency type="TMM">
+				<displayName>มานัตเติร์กเมนิสถาน</displayName>
+			</currency>
+			<currency type="TND">
+				<displayName>ดีนาร์ตูนิเซีย</displayName>
+			</currency>
+			<currency type="TOP">
+				<displayName>ปาอังกาตองกา</displayName>
+			</currency>
+			<currency type="TPE">
+				<displayName>เอสคูโดติมอร์</displayName>
+			</currency>
+			<currency type="TRL">
+				<displayName>ลีราตุรกี</displayName>
+			</currency>
+			<currency type="TRY">
+				<displayName>ตุรกี ลีร่า ใหม่</displayName>
+			</currency>
+			<currency type="TTD">
+				<displayName>ดอลลาร์ตรินิแดดและโตเบโก</displayName>
+			</currency>
+			<currency type="TWD">
+				<displayName>ดอลลาร์ไต้หวัน</displayName>
+			</currency>
+			<currency type="TZS">
+				<displayName>ชิลลิงแทนซาเนีย</displayName>
+			</currency>
+			<currency type="UAH">
+				<displayName>ฮรีฟเนียยูเครน</displayName>
+			</currency>
+			<currency type="UAK">
+				<displayName>คาร์โบวาเนตซ์ยูเครน</displayName>
+			</currency>
+			<currency type="UGS">
+				<displayName>ซิลลิ่งอูกันดา (1966-1987)</displayName>
+			</currency>
+			<currency type="UGX">
+				<displayName>ชิลลิงยูกันดา</displayName>
+			</currency>
+			<currency type="USD">
+				<displayName>ดอร์ล่าร์สหรัฐ</displayName>
+				<symbol>US$</symbol>
+			</currency>
+			<currency type="USN">
+				<displayName>เหรียญสหรัฐ (วันถัดไป)</displayName>
+			</currency>
+			<currency type="USS">
+				<displayName>เหรียญสหรัฐ (วันเดียวกัน)</displayName>
+			</currency>
+			<currency type="UYP">
+				<displayName>เปโซอุรุกวัย (1975-1993)</displayName>
+			</currency>
+			<currency type="UYU">
+				<displayName>เปโซอุรุกวัย</displayName>
+			</currency>
+			<currency type="UZS">
+				<displayName>ซัมอุซเบกิสถาน</displayName>
+			</currency>
+			<currency type="VEB">
+				<displayName>โบลิวาร์เวเนซุเอลา</displayName>
+			</currency>
+			<currency type="VND">
+				<displayName>ดองเวียดนาม</displayName>
+			</currency>
+			<currency type="VUV">
+				<displayName>วาตูวานูอาตู</displayName>
+			</currency>
+			<currency type="WST">
+				<displayName>ทาลาซามัวตะวันตก</displayName>
+			</currency>
+			<currency type="XAG">
+				<displayName>เงิน</displayName>
+			</currency>
+			<currency type="XAU">
+				<displayName>ทอง</displayName>
+			</currency>
+			<currency type="XBA">
+				<displayName>หน่วยคอมโพสิตยุโรป</displayName>
+			</currency>
+			<currency type="XBB">
+				<displayName>หน่วยโมเนทารียุโรป</displayName>
+			</currency>
+			<currency type="XBC">
+				<displayName>หน่วยบัญชียุโรป [XBC]</displayName>
+			</currency>
+			<currency type="XBD">
+				<displayName>หน่วยบัญชียุโรป [XBD]</displayName>
+			</currency>
+			<currency type="XCD">
+				<displayName>ดอลลาร์แคริบเบียนตะวันออก</displayName>
+			</currency>
+			<currency type="XEU">
+				<displayName>หน่วยเงินตรายุโรป</displayName>
+			</currency>
+			<currency type="XFO">
+				<displayName>ฟรังก์ทองฝรั่งเศส</displayName>
+			</currency>
+			<currency type="XPD">
+				<displayName>พัลลาดีม</displayName>
+			</currency>
+			<currency type="XPT">
+				<displayName>แพลตินัม</displayName>
+			</currency>
+			<currency type="XTS">
+				<displayName>รหัสทดสอบเงินตรา</displayName>
+			</currency>
+			<currency type="XXX">
+				<displayName>ไม่มีหน่วยเงินตรา</displayName>
+			</currency>
+			<currency type="YDD">
+				<displayName>ดีนาร์เยเมน</displayName>
+			</currency>
+			<currency type="YER">
+				<displayName>เรียลเยเมน</displayName>
+			</currency>
+			<currency type="YUD">
+				<displayName>ฮารืดดีนาร์ยูโกสลาเวีย</displayName>
+			</currency>
+			<currency type="YUM">
+				<displayName>โนวิย์ดีนาร์ยูโกสลาเวีย</displayName>
+			</currency>
+			<currency type="YUN">
+				<displayName>ดีนาร์ยูโกสลาเวีย</displayName>
+			</currency>
+			<currency type="ZAL">
+				<displayName>แรนด์แอฟริกาใต้ (การเงิน)</displayName>
+			</currency>
+			<currency type="ZAR">
+				<displayName>แรนด์แอฟริกาใต้</displayName>
+			</currency>
+			<currency type="ZMK">
+				<displayName>กวาชาแซมเบีย</displayName>
+			</currency>
+			<currency type="ZRN">
+				<displayName>นิวแซร์คองโก</displayName>
+			</currency>
+			<currency type="ZRZ">
+				<displayName>แซร์คองโก</displayName>
+			</currency>
+			<currency type="ZWD">
+				<displayName>ดอลลาร์ซิมบับเว</displayName>
+			</currency>
+		</currencies>
+	</numbers>
+	<posix>
+		<messages>
+			<yesstr>ใช่</yesstr>
+			<nostr>ไม่</nostr>
+		</messages>
+	</posix>
+	<references>
+		<reference type="RP1">New Model English-Thai Dictionary ISBN:974-08-6456-2</reference>
+		<reference type="RP2" uri="http://lexitron.nectec.or.th">Lexitron English Thai Dictionary website</reference>
+		<reference type="RP3" uri="http://www.royin.go.th/upload/246/FileUpload/419_1494.pdf">The Royal Institute's Country, Region and Capital name list</reference>
+	</references>
+</ldml>

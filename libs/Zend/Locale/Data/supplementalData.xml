@@ -1,0 +1,1726 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE supplementalData SYSTEM "http://www.unicode.org/cldr/dtd/1.4/ldmlSupplemental.dtd">
+<supplementalData version="1.4">
+	<version number="$Revision: 1.86 $"/>
+	<generation date="$Date: 2006/11/01 21:17:19 $"/>
+    <currencyData>
+        <fractions>
+            <info iso4217="ADP" digits="0" rounding="0"/>
+            <info iso4217="BHD" digits="3" rounding="0"/>
+            <info iso4217="BIF" digits="0" rounding="0"/>
+            <info iso4217="BYR" digits="0" rounding="0"/>
+            <info iso4217="CHF" digits="2" rounding="5"/>
+            <info iso4217="CLF" digits="0" rounding="0"/>
+            <info iso4217="CLP" digits="0" rounding="0"/>
+            <info iso4217="DEFAULT" digits="2" rounding="0"/>
+            <info iso4217="DJF" digits="0" rounding="0"/>
+            <info iso4217="ESP" digits="0" rounding="0"/>
+            <info iso4217="GNF" digits="0" rounding="0"/>
+            <info iso4217="IQD" digits="3" rounding="0"/>
+            <info iso4217="ITL" digits="0" rounding="0"/>
+            <info iso4217="JOD" digits="3" rounding="0"/>
+            <info iso4217="JPY" digits="0" rounding="0"/>
+            <info iso4217="KMF" digits="0" rounding="0"/>
+            <info iso4217="KRW" digits="0" rounding="0"/>
+            <info iso4217="KWD" digits="3" rounding="0"/>
+            <info iso4217="LUF" digits="0" rounding="0"/>
+            <info iso4217="LYD" digits="3" rounding="0"/>
+            <info iso4217="MGA" digits="0" rounding="0"/>
+            <info iso4217="MGF" digits="0" rounding="0"/>
+            <info iso4217="OMR" digits="3" rounding="0"/>
+            <info iso4217="PYG" digits="0" rounding="0"/>
+            <info iso4217="RWF" digits="0" rounding="0"/>
+            <info iso4217="TND" digits="3" rounding="0"/>
+            <info iso4217="TRL" digits="0" rounding="0"/>
+            <info iso4217="VUV" digits="0" rounding="0"/>
+            <info iso4217="XAF" digits="0" rounding="0"/>
+            <info iso4217="XOF" digits="0" rounding="0"/>
+            <info iso4217="XPF" digits="0" rounding="0"/>
+        </fractions>
+        <region iso3166="AD">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="ESP" from="1873" to="2002-02-28"/>
+            <currency iso4217="FRF" from="1960-01-01" to="2002-02-17"/>
+            <currency iso4217="ADP" from="1936" to="2001-12-31"/>
+        </region>
+        <region iso3166="AE">
+            <currency iso4217="AED" from="1973-05-19"/>
+        </region>
+        <region iso3166="AF">
+            <currency iso4217="AFN" from="2002-10-07"/>
+            <currency iso4217="AFA" from="1927-03-14" to="2002-12-31"/>
+        </region>
+        <region iso3166="AG">
+            <currency iso4217="XCD" from="1965-10-06"/>
+        </region>
+        <region iso3166="AI">
+            <currency iso4217="XCD" from="1965-10-06"/>
+        </region>
+        <region iso3166="AL">
+            <currency iso4217="ALL" from="1965-08-16"/>
+        </region>
+        <region iso3166="AM">
+            <currency iso4217="AMD" from="1993-11-22"/>
+            <currency iso4217="RUR" from="1991-12-25" to="1993-11-22"/>
+            <currency iso4217="SUR" from="1961-01-01" to="1991-12-25"/>
+        </region>
+        <region iso3166="AN">
+            <currency iso4217="ANG" from="1940-05-10"/>
+        </region>
+        <region iso3166="AO">
+            <currency iso4217="AOA" from="1999-12-13"/>
+            <currency iso4217="AOR" from="1995-07-01" to="2000-02"/>
+            <currency iso4217="AON" from="1990-09-25" to="2000-02"/>
+            <currency iso4217="AOK" from="1977-01-08" to="1991-03"/>
+        </region>
+        <region iso3166="AQ">
+        <currency iso4217="XXX"/>
+        </region>
+        <region iso3166="AR">
+            <currency iso4217="ARS" from="1992-01-01"/>
+            <currency iso4217="ARA" from="1985-06-14" to="1992-01-01"/>
+            <currency iso4217="ARP" from="1983-06-01" to="1985-06-14"/>
+        </region>
+        <region iso3166="AS">
+            <currency iso4217="USD" from="1904-07-16"/>
+        </region>
+        <region iso3166="AT">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="ATS" from="1947-12-04" to="2002-02-28"/>
+        </region>
+        <region iso3166="AU">
+            <currency iso4217="AUD" from="1966-02-14"/>
+        </region>
+        <region iso3166="AW">
+            <currency iso4217="AWG" from="1986-01-01"/>
+            <currency iso4217="ANG" from="1940-05-10" to="1986-01-01"/>
+        </region>
+        <region iso3166="AX">
+            <currency iso4217="EUR" from="1999-01-01"/>
+        </region>
+        <region iso3166="AZ">
+            <currency iso4217="AZN" from="2006-01-01"/>
+            <currency iso4217="AZM" from="1993-11-22" to="2006-12-31"/>
+            <currency iso4217="RUR" from="1991-12-25" to="1994-01-01"/>
+            <currency iso4217="SUR" from="1961-01-01" to="1991-12-25"/>
+        </region>
+        <region iso3166="BA">
+            <currency iso4217="BAM" from="1995-01-01"/>
+            <currency iso4217="BAD" from="1992-07-01" to="1997-07"/>
+            <currency iso4217="YUN" from="1990-01-01" to="1992-07-01"/>
+            <currency iso4217="YUD" from="1966-01-01" to="1990-01-01"/>
+        </region>
+        <region iso3166="BB">
+            <currency iso4217="BBD" from="1973-12-03"/>
+            <currency iso4217="XCD" from="1965-10-06" to="1973-12-03"/>
+        </region>
+        <region iso3166="BD">
+            <currency iso4217="BDT" from="1972-01-01"/>
+            <currency iso4217="PKR" from="1948-04-01" to="1972-01-01"/>
+            <currency iso4217="INR" from="1835-08-17" to="1948-04-01"/>
+        </region>
+        <region iso3166="BE">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="BEF" from="1831-02-07" to="2002-02-28"/>
+            <currency iso4217="NLG" from="1816-12-15" to="1831-02-07"/>
+        </region>
+        <region iso3166="BF">
+            <currency iso4217="XOF" from="1984-08-04"/>
+        </region>
+        <region iso3166="BG">
+            <currency iso4217="BGN" from="1999-07-05"/>
+            <currency iso4217="BGL" from="1962-01-01" to="1999-07-05"/>
+        </region>
+        <region iso3166="BH">
+            <currency iso4217="BHD" from="1965-10-16"/>
+        </region>
+        <region iso3166="BI">
+            <currency iso4217="BIF" from="1964-05-19"/>
+        </region>
+        <region iso3166="BJ">
+            <currency iso4217="XOF" from="1975-11-30"/>
+        </region>
+        <region iso3166="BM">
+            <currency iso4217="BMD" from="1970-02-06"/>
+        </region>
+        <region iso3166="BN">
+            <currency iso4217="BND" from="1967-06-12"/>
+            <currency iso4217="MYR" from="1963-09-16" to="1967-06-12"/>
+        </region>
+        <region iso3166="BO">
+            <currency iso4217="BOB" from="1987-01-01"/>
+            <currency iso4217="BOP" from="1963-01-01" to="1986-12-31"/>
+        </region>
+        <region iso3166="BR">
+            <currency iso4217="BRL" from="1994-07-01"/>
+            <currency iso4217="BRR" from="1993-08-01" to="1994-07-01"/>
+            <currency iso4217="BRE" from="1990-03-16" to="1993-08-01"/>
+            <currency iso4217="BRN" from="1989-01-15" to="1990-03-16"/>
+            <currency iso4217="BRC" from="1986-02-28" to="1989-01-15"/>
+            <currency iso4217="BRB" from="1967-02-13" to="1986-02-28"/>
+        </region>
+        <region iso3166="BS">
+            <currency iso4217="BSD" from="1966-05-25"/>
+        </region>
+        <region iso3166="BT">
+            <currency iso4217="INR" from="1907"/>
+            <currency iso4217="BTN" from="1974-04-16"/>
+        </region>
+        <region iso3166="BV">
+            <currency iso4217="NOK" from="1905-06-07"/>
+        </region>
+        <region iso3166="BW">
+            <currency iso4217="BWP" from="1976-08-23"/>
+            <currency iso4217="ZAR" from="1961-02-14" to="1976-08-23"/>
+        </region>
+        <region iso3166="BY">
+            <currency iso4217="BYR" from="2000-01-01"/>
+            <currency iso4217="BYB" from="1994-08" to="2000-12-31"/>
+            <currency iso4217="RUR" from="1991-12-25" to="1994-11-08"/>
+            <currency iso4217="SUR" from="1961-01-01" to="1991-12-25"/>
+        </region>
+        <region iso3166="BZ">
+            <currency iso4217="BZD" from="1974-01-01"/>
+        </region>
+        <region iso3166="CA">
+            <currency iso4217="CAD" from="1858-01-01"/>
+        </region>
+        <region iso3166="CC">
+            <currency iso4217="AUD" from="1966-02-14"/>
+        </region>
+        <region iso3166="CD">
+            <currency iso4217="CDF" from="1998-07"/>
+            <currency iso4217="ZRN" from="1993-11-01" to="1998-07"/>
+            <currency iso4217="ZRZ" from="1971-10-27" to="1993-11-01"/>
+        </region>
+        <region iso3166="CF">
+            <currency iso4217="XAF" from="1993-01-01"/>
+        </region>
+        <region iso3166="CG">
+            <currency iso4217="XAF" from="1993"/>
+        </region>
+        <region iso3166="CH">
+            <currency iso4217="CHF" from="1799-03-17"/>
+        </region>
+        <region iso3166="CI">
+            <currency iso4217="XOF" from="1958-12-04"/>
+        </region>
+        <region iso3166="CK">
+            <currency iso4217="NZD" from="1967-7-10"/>
+        </region>
+        <region iso3166="CL">
+            <currency iso4217="CLP" from="1975-09-29"/>
+        </region>
+        <region iso3166="CM">
+            <currency iso4217="XAF" from="1973-04-01"/>
+        </region>
+        <region iso3166="CN">
+            <currency iso4217="CNY" from="1953-03-01"/>
+        </region>
+        <region iso3166="CO">
+            <currency iso4217="COP" from="1905"/>
+        </region>
+        <region iso3166="CR">
+            <currency iso4217="CRC" from="1896-10-26"/>
+        </region>
+        <region iso3166="CS">
+            <currency iso4217="EUR" from="2003-02-04" to="2006-06-03"/>
+            <currency iso4217="CSD" from="2002-05-15" to="2006-06-03"/>
+            <currency iso4217="YUM" from="1994-01-24" to="2002-05-15"/>
+        </region>
+        <region iso3166="CU">
+            <currency iso4217="CUP" from="1859-01-01"/>
+            <currency iso4217="USD" from="1899" to="1959"/>
+        </region>
+        <region iso3166="CV">
+            <currency iso4217="CVE" from="1914-01-01"/>
+            <currency iso4217="PTE" from="1911-05-22" to="1975-07-05"/>
+        </region>
+        <region iso3166="CX">
+            <currency iso4217="AUD" from="1966-02-14"/>
+        </region>
+        <region iso3166="CY">
+            <currency iso4217="CYP" from="1914-09-10"/>
+        </region>
+        <region iso3166="CZ">
+            <currency iso4217="CZK" from="1993-01-01"/>
+            <currency iso4217="CSK" from="1953-06-01" to="1993-03"/>
+        </region>
+        <region iso3166="DE">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="DEM" from="1948-06-20" to="2002-02-28"/>
+        </region>
+        <region iso3166="DJ">
+            <currency iso4217="DJF" from="1977-06-27"/>
+        </region>
+        <region iso3166="DK">
+            <currency iso4217="DKK" from="1873-05-27"/>
+        </region>
+        <region iso3166="DM">
+            <currency iso4217="XCD" from="1965-10-06"/>
+        </region>
+        <region iso3166="DO">
+            <currency iso4217="DOP" from="1947-10"/>
+            <currency iso4217="USD" from="1905-06-21" to="1947-10"/>
+        </region>
+        <region iso3166="DZ">
+            <currency iso4217="DZD" from="1964-04-01"/>
+        </region>
+        <region iso3166="EC">
+            <currency iso4217="USD" from="2000-10-02"/>
+            <currency iso4217="ECS" from="1884-04-01" to="2000-10-02"/>
+        </region>
+        <region iso3166="EE">
+            <currency iso4217="EEK" from="1992-06-21"/>
+            <currency iso4217="SUR" from="1961-1-1" to="1992-06-20"/>
+        </region>
+        <region iso3166="EG">
+            <currency iso4217="EGP" from="1885-11-14"/>
+        </region>
+        <region iso3166="EH">
+            <currency iso4217="MAD" from="1976-02-26"/>
+        </region>
+        <region iso3166="ER">
+            <currency iso4217="ERN" from="1997-11-08"/>
+        </region>
+        <region iso3166="ES">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="ESP" from="1868-10-19" to="2002-02-28"/>
+        </region>
+        <region iso3166="ET">
+            <currency iso4217="ETB" from="1976-09-15"/>
+        </region>
+        <region iso3166="FI">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="FIM" from="1963-01-01" to="2002-02-28"/>
+        </region>
+        <region iso3166="FJ">
+            <currency iso4217="FJD" from="1969-01-13"/>
+        </region>
+        <region iso3166="FK">
+            <currency iso4217="FKP" from="1901"/>
+        </region>
+        <region iso3166="FM">
+            <currency iso4217="USD" from="1944"/>
+            <currency iso4217="JPY" from="1914-10-03" to="1944"/>
+        </region>
+        <region iso3166="FO">
+            <currency iso4217="DKK" from="1948"/>
+        </region>
+        <region iso3166="FR">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="FRF" from="1960-01-01" to="2002-02-17"/>
+        </region>
+        <region iso3166="GA">
+            <currency iso4217="XAF" from="1993-01-01"/>
+        </region>
+        <region iso3166="GB">
+            <currency iso4217="GBP" from="1694-07-27"/>
+        </region>
+        <region iso3166="GD">
+            <currency iso4217="XCD" from="1967-02-27"/>
+        </region>
+        <region iso3166="GE">
+            <currency iso4217="GEL" from="1995-09-23"/>
+            <currency iso4217="GEK" from="1993-04-05" to="1995-09-25"/>
+            <currency iso4217="RUR" from="1991-12-25" to="1993-06-11"/>
+            <currency iso4217="SUR" from="1961-01-01" to="1991-12-25"/>
+        </region>
+        <region iso3166="GF">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="FRF" from="1960-01-01" to="2002-02-17"/>
+        </region>
+        <region iso3166="GG">
+            <currency iso4217="GBP" from="1830"/>
+        </region>
+        <region iso3166="GH">
+            <currency iso4217="GHC" from="1979-03-09"/>
+        </region>
+        <region iso3166="GI">
+            <currency iso4217="GIP" from="1713"/>
+        </region>
+        <region iso3166="GL">
+            <currency iso4217="DKK" from="1873-05-27"/>
+        </region>
+        <region iso3166="GM">
+            <currency iso4217="GMD" from="1971-07-01"/>
+        </region>
+        <region iso3166="GN">
+            <currency iso4217="GNF" from="1986-01-06"/>
+            <currency iso4217="GNS" from="1972-10-02" to="1986-01-06"/>
+        </region>
+        <region iso3166="GP">
+            <currency iso4217="EUR" from="1999"/>
+            <currency iso4217="FRF" from="1960-01-01" to="2002-02-17"/>
+        </region>
+        <region iso3166="GQ">
+            <currency iso4217="XAF" from="1993-01-01"/>
+            <currency iso4217="GQE" from="1975-07-07" to="1986-06"/>
+        </region>
+        <region iso3166="GR">
+            <currency iso4217="EUR" from="2001-01-01"/>
+            <currency iso4217="GRD" from="1954-05-01" to="2002-02-28"/>
+        </region>
+        <region iso3166="GS">
+            <currency iso4217="GBP" from="1908"/>
+        </region>
+        <region iso3166="GT">
+            <currency iso4217="GTQ" from="1925-05-27"/>
+        </region>
+        <region iso3166="GU">
+            <currency iso4217="USD" from="1944-08-21"/>
+        </region>
+        <region iso3166="GW">
+            <currency iso4217="GWP" from="1976-02-28"/>
+            <currency iso4217="XOF" from="1997-01-01"/>
+            <currency iso4217="GWE" from="1914-01-01" to="1976-02-28"/>
+        </region>
+        <region iso3166="GY">
+            <currency iso4217="GYD" from="1966-05-26"/>
+        </region>
+        <region iso3166="HK">
+            <currency iso4217="HKD" from="1895-02-02"/>
+        </region>
+        <region iso3166="HM">
+            <currency iso4217="AUD" from="1967-02-16"/>
+        </region>
+        <region iso3166="HN">
+            <currency iso4217="HNL" from="1926-04-03"/>
+        </region>
+        <region iso3166="HR">
+            <currency iso4217="HRK" from="1994-05-30"/>
+            <currency iso4217="HRD" from="1991-12-23" to="1995-01"/>
+            <currency iso4217="YUN" from="1990-01-01" to="1991-12-23"/>
+            <currency iso4217="YUD" from="1966-01-01" to="1990-01-01"/>
+        </region>
+        <region iso3166="HT">
+            <currency iso4217="HTG" from="1872-08-26"/>
+            <currency iso4217="USD" from="1915"/>
+        </region>
+        <region iso3166="HU">
+            <currency iso4217="HUF" from="1946-07-23"/>
+        </region>
+        <region iso3166="ID">
+            <currency iso4217="IDR" from="1965-12-13"/>
+        </region>
+        <region iso3166="IE">
+            <currency iso4217="EUR" from="1999"/>
+            <currency iso4217="IEP" from="1922" to="2002-02-09"/>
+            <currency iso4217="GBP" from="1800" to="1922"/>
+        </region>
+        <region iso3166="IL">
+            <currency iso4217="ILS" from="1985-09-04"/>
+            <currency iso4217="ILP" from="1948-08-16" to="1980-02-22"/>
+        </region>
+        <region iso3166="IM">
+            <currency iso4217="GBP" from="1840-01-03"/>
+        </region>
+        <region iso3166="IN">
+            <currency iso4217="INR" from="1835-08-17"/>
+        </region>
+        <region iso3166="IO">
+            <currency iso4217="USD" from="1965-11-08"/>
+            <currency iso4217="GBP" from="1965-11-08"/>
+        </region>
+        <region iso3166="IQ">
+            <currency iso4217="IQD" from="1931-04-19"/>
+            <currency iso4217="EGP" from="1920-11-11" to="1931-04-19"/>
+            <currency iso4217="INR" from="1920-11-11" to="1931-04-19"/>
+        </region>
+        <region iso3166="IR">
+            <currency iso4217="IRR" from="1932-05-13"/>
+        </region>
+        <region iso3166="IS">
+            <currency iso4217="ISK" from="1981-01-01"/>
+            <currency iso4217="DKK" from="1873-05-27" to="1918-12-01"/>
+        </region>
+        <region iso3166="IT">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="ITL" from="1862-8-24" to="2002-02-28"/>
+        </region>
+        <region iso3166="JE">
+            <currency iso4217="GBP" from="1837"/>
+        </region>
+        <region iso3166="JM">
+            <currency iso4217="JMD" from="1969-09-08"/>
+        </region>
+        <region iso3166="JO">
+            <currency iso4217="JOD" from="1950-07-01"/>
+        </region>
+        <region iso3166="JP">
+            <currency iso4217="JPY" from="1871-06"/>
+        </region>
+        <region iso3166="KE">
+            <currency iso4217="KES" from="1966-09-14"/>
+        </region>
+        <region iso3166="KG">
+            <currency iso4217="KGS" from="1993-05-10"/>
+            <currency iso4217="RUR" from="1991-12-25" to="1993-05-10"/>
+            <currency iso4217="SUR" from="1961-01-01" to="1991-12-25"/>
+        </region>
+        <region iso3166="KH">
+            <currency iso4217="KHR" from="1980-03-20"/>
+        </region>
+        <region iso3166="KI">
+            <currency iso4217="AUD" from="1966-02-14"/>
+        </region>
+        <region iso3166="KM">
+            <currency iso4217="KMF" from="1975-07-06"/>
+        </region>
+        <region iso3166="KN">
+            <currency iso4217="XCD" from="1965-10-06"/>
+        </region>
+        <region iso3166="KP">
+            <currency iso4217="KPW" from="1959-04-17"/>
+        </region>
+        <region iso3166="KR">
+            <currency iso4217="KRW" from="1962-06-10"/>
+        </region>
+        <region iso3166="KW">
+            <currency iso4217="KWD" from="1961-04-01"/>
+        </region>
+        <region iso3166="KY">
+            <currency iso4217="KYD" from="1971"/>
+            <currency iso4217="JMD" from="1969-09-08" to="1971"/>
+        </region>
+        <region iso3166="KZ">
+            <currency iso4217="KZT" from="1993-11-05"/>
+        </region>
+        <region iso3166="LA">
+            <currency iso4217="LAK" from="1979-12-10"/>
+        </region>
+        <region iso3166="LB">
+            <currency iso4217="LBP" from="1948-02-02"/>
+        </region>
+        <region iso3166="LC">
+            <currency iso4217="XCD" from="1965-10-06"/>
+        </region>
+        <region iso3166="LI">
+            <currency iso4217="CHF" from="1921-02"/>
+        </region>
+        <region iso3166="LK">
+            <currency iso4217="LKR" from="1978-05-22"/>
+        </region>
+        <region iso3166="LR">
+            <currency iso4217="LRD" from="1944-01-01"/>
+        </region>
+        <region iso3166="LS">
+            <currency iso4217="ZAR" from="1961-02-14"/>
+            <currency iso4217="LSL" from="1980-01-22"/>
+        </region>
+        <region iso3166="LT">
+            <currency iso4217="LTL" from="1993-06-25"/>
+            <currency iso4217="LTT" from="1992-10-1" to="1993-06-25"/>
+            <currency iso4217="SUR" from="1961-1-1" to="1992-10-01"/>
+        </region>
+        <region iso3166="LU">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="LUF" from="1944-09-4" to="2002-02-28"/>
+        </region>
+        <region iso3166="LV">
+            <currency iso4217="LVL" from="1993-06-28"/>
+            <currency iso4217="LVR" from="1992-05-07" to="1993-10-17"/>
+            <currency iso4217="SUR" from="1961-01-01" to="1992-07-20"/>
+        </region>
+        <region iso3166="LY">
+            <currency iso4217="LYD" from="1971-09-01"/>
+        </region>
+        <region iso3166="MA">
+            <currency iso4217="MAD" from="1959-10-17"/>
+        </region>
+        <region iso3166="MC">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="FRF" from="1960-01-01" to="2002-02-17"/>
+        </region>
+        <region iso3166="MD">
+            <currency iso4217="MDL" from="1993-11-29"/>
+        </region>
+        <region iso3166="ME">
+            <currency iso4217="EUR" from="2002-01-01"/>
+            <currency iso4217="DEM" from="1999-10-02" to="2002-05-15"/>
+            <currency iso4217="YUM" from="1994-01-24" to="2002-05-15"/>
+        </region>
+        <region iso3166="MG">
+            <currency iso4217="MGA" from="1983-11-01"/>
+            <currency iso4217="MGF" from="1963-07-01" to="2004-12-31"/>
+        </region>
+        <region iso3166="MH">
+            <currency iso4217="USD" from="1944"/>
+        </region>
+        <region iso3166="MK">
+            <currency iso4217="MKD" from="1993-05-20"/>
+        </region>
+        <region iso3166="ML">
+            <currency iso4217="XOF" from="1984-06-01"/>
+            <currency iso4217="MLF" from="1962-07-02" to="1984-08-31"/>
+            <currency iso4217="XOF" from="1958-11-24" to="1962-07-02"/>
+        </region>
+        <region iso3166="MM">
+            <currency iso4217="MMK" from="1989-06-18"/>
+            <currency iso4217="BUK" from="1952-07-01" to="1989-06-18"/>
+        </region>
+        <region iso3166="MN">
+            <currency iso4217="MNT" from="1915-03"/>
+        </region>
+        <region iso3166="MO">
+            <currency iso4217="MOP" from="1901"/>
+        </region>
+        <region iso3166="MP">
+            <currency iso4217="USD" from="1944"/>
+        </region>
+        <region iso3166="MQ">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="FRF" from="1960-01-01" to="2002-02-17"/>
+        </region>
+        <region iso3166="MR">
+            <currency iso4217="MRO" from="1973-06-29"/>
+            <currency iso4217="XOF" from="1958-11-28" to="1973-06-29"/>
+        </region>
+        <region iso3166="MS">
+            <currency iso4217="XCD" from="1967-02-27"/>
+        </region>
+        <region iso3166="MT">
+            <currency iso4217="MTL" from="1968-06-07"/>
+            <currency iso4217="MTP" from="1914-08-13" to="1968-06-07"/>
+        </region>
+        <region iso3166="MU">
+            <currency iso4217="MUR" from="1934-04-01"/>
+        </region>
+        <region iso3166="MV">
+            <currency iso4217="MVR" from="1981-07-01"/>
+        </region>
+        <region iso3166="MW">
+            <currency iso4217="MWK" from="1971-02-15"/>
+        </region>
+        <region iso3166="MX">
+            <currency iso4217="MXN" from="1993-01-01"/>
+            <currency iso4217="MXP" from="1822" to="1992-12-31"/>
+        </region>
+        <region iso3166="MY">
+            <currency iso4217="MYR" from="1963-9-16"/>
+        </region>
+        <region iso3166="MZ">
+            <currency iso4217="MZN" from="2006-07-01"/>
+            <currency iso4217="MZM" from="1980-06-16" to="2006-12-31"/>
+            <currency iso4217="MZE" from="1975-06-25" to="1980-06-16"/>
+        </region>
+        <region iso3166="NA">
+            <currency iso4217="ZAR" from="1961-02-14"/>
+            <currency iso4217="NAD" from="1993"/>
+        </region>
+        <region iso3166="NC">
+            <currency iso4217="XPF" from="1985"/>
+        </region>
+        <region iso3166="NE">
+            <currency iso4217="XOF" from="1958-12-19"/>
+        </region>
+        <region iso3166="NF">
+            <currency iso4217="AUD" from="1966-02-14"/>
+        </region>
+        <region iso3166="NG">
+            <currency iso4217="NGN" from="1973-01-01"/>
+        </region>
+        <region iso3166="NI">
+            <currency iso4217="NIO" from="1991-04-30"/>
+            <currency iso4217="NIC" from="1988-02-15" to="1991-04-30"/>
+        </region>
+        <region iso3166="NL">
+            <currency iso4217="EUR" from="1999-1-1"/>
+            <currency iso4217="NLG" from="1813" to="2002-02-28"/>
+        </region>
+        <region iso3166="NO">
+            <currency iso4217="NOK" from="1905-06-07"/>
+            <currency iso4217="SEK" from="1873-5-27" to="1905-06-07"/>
+        </region>
+        <region iso3166="NP">
+            <currency iso4217="NPR" from="1933"/>
+            <currency iso4217="INR" from="1870" to="1966-10-17"/>
+        </region>
+        <region iso3166="NR">
+            <currency iso4217="AUD" from="1966-02-14"/>
+        </region>
+        <region iso3166="NU">
+            <currency iso4217="NZD" from="1967-07-10"/>
+        </region>
+        <region iso3166="NZ">
+            <currency iso4217="NZD" from="1967-07-10"/>
+        </region>
+        <region iso3166="OM">
+            <currency iso4217="OMR" from="1972-11-11"/>
+        </region>
+        <region iso3166="PA">
+            <currency iso4217="PAB" from="1903-11-04"/>
+            <currency iso4217="USD" from="1903-11-18"/>
+        </region>
+        <region iso3166="PE">
+            <currency iso4217="PEN" from="1991-07-01"/>
+            <currency iso4217="PEI" from="1985-02-01" to="1991-07-01"/>
+            <currency iso4217="PES" from="1863-02-14" to="1985-02-01"/>
+        </region>
+        <region iso3166="PF">
+            <currency iso4217="XPF" from="1945-12-26"/>
+        </region>
+        <region iso3166="PG">
+            <currency iso4217="PGK" from="1975-09-16"/>
+            <currency iso4217="AUD" from="1966-02-14" to="1975-09-16"/>
+        </region>
+        <region iso3166="PH">
+            <currency iso4217="PHP" from="1946-07-04"/>
+        </region>
+        <region iso3166="PK">
+            <currency iso4217="PKR" from="1948-04-01"/>
+            <currency iso4217="INR" from="1835-08-17" to="1947-08-15"/>
+        </region>
+        <region iso3166="PL">
+            <currency iso4217="PLN" from="1995-01-01"/>
+            <currency iso4217="PLZ" from="1950-10-28" to="1994-12-31"/>
+        </region>
+        <region iso3166="PM">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="FRF" from="1972-12-21" to="2002-02-17"/>
+        </region>
+        <region iso3166="PN">
+            <currency iso4217="NZD" from="1969-01-13"/>
+        </region>
+        <region iso3166="PR">
+            <currency iso4217="USD" from="1898-12-10"/>
+            <currency iso4217="ESP" from="1800" to="1898-12-10"/>
+        </region>
+        <region iso3166="PS">
+            <currency iso4217="JOD" from="1996-02-12"/>
+            <currency iso4217="ILS" from="1985-09-04"/>
+            <currency iso4217="ILP" from="1967-06" to="1980-02-22"/>
+            <currency iso4217="JOD" from="1950-07-01" to="1967-06"/>
+        </region>
+        <region iso3166="PT">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="PTE" from="1911-05-22" to="2002-02-28"/>
+        </region>
+        <region iso3166="PW">
+            <currency iso4217="USD" from="1944"/>
+        </region>
+        <region iso3166="PY">
+            <currency iso4217="PYG" from="1943-11"/>
+        </region>
+        <region iso3166="QA">
+            <currency iso4217="QAR" from="1973-05-19"/>
+        </region>
+        <region iso3166="RE">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="FRF" from="1975-01-01" to="2002-02-17"/>
+        </region>
+        <region iso3166="RO">
+            <currency iso4217="RON" from="2005-07-01"/>
+            <currency iso4217="ROL" from="1952-01-28" to="2006-12-31"/>
+        </region>
+        <region iso3166="RS">
+            <currency iso4217="RSD" from="2006-10-25"/>
+            <currency iso4217="CSD" from="2002-05-15" to="2006-10-25"/>
+            <currency iso4217="YUM" from="1994-01-24" to="2002-05-15"/>
+        </region>
+        <region iso3166="RU">
+            <currency iso4217="RUB" from="1999-01-01"/>
+            <currency iso4217="RUR" from="1991-12-25" to="1998-12-31"/>
+        </region>
+        <region iso3166="RW">
+            <currency iso4217="RWF" from="1964-05-19"/>
+        </region>
+        <region iso3166="SA">
+            <currency iso4217="SAR" from="1952-10-22"/>
+        </region>
+        <region iso3166="SB">
+            <currency iso4217="SBD" from="1977-10-24"/>
+            <currency iso4217="AUD" from="1966-02-14" to="1978-06-30"/>
+        </region>
+        <region iso3166="SC">
+            <currency iso4217="SCR" from="1903-11"/>
+        </region>
+        <region iso3166="SD">
+            <currency iso4217="SDD" from="1992"/>
+            <currency iso4217="SDP" from="1957-04-08" to="1998-06"/>
+            <currency iso4217="EGP" from="1889-01-19" to="1958-01-01"/>
+            <currency iso4217="GBP" from="1889-01-19" to="1958-01-01"/>
+        </region>
+        <region iso3166="SE">
+            <currency iso4217="SEK" from="1873-5-27"/>
+        </region>
+        <region iso3166="SG">
+            <currency iso4217="SGD" from="1967-06-12"/>
+            <currency iso4217="MYR" from="1963-09-16" to="1967-06-12"/>
+        </region>
+        <region iso3166="SH">
+            <currency iso4217="SHP" from="1917-02-15"/>
+        </region>
+        <region iso3166="SI">
+            <currency iso4217="EUR" from="2007-01-01"/>
+            <currency iso4217="SIT" from="1992-10-07" to="2007-01-14"/>
+        </region>
+        <region iso3166="SJ">
+            <currency iso4217="NOK" from="1905-06-07"/>
+        </region>
+        <region iso3166="SK">
+            <currency iso4217="SKK" from="1992-12-31"/>
+            <currency iso4217="CSK" from="1953-06-01" to="1992-12-31"/>
+        </region>
+        <region iso3166="SL">
+            <currency iso4217="SLL" from="1964-08-04"/>
+            <currency iso4217="GBP" from="1808-11-30" to="1966-02-04"/>
+        </region>
+        <region iso3166="SM">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="ITL" from="1865-12-23" to="2001-02-28"/>
+        </region>
+        <region iso3166="SN">
+            <currency iso4217="XOF" from="1959-04-04"/>
+        </region>
+        <region iso3166="SO">
+            <currency iso4217="SOS" from="1960-07-01"/>
+        </region>
+        <region iso3166="SR">
+            <currency iso4217="SRD" from="2004-01-01"/>
+            <currency iso4217="SRG" from="1940-05-10" to="2003-12-31"/>
+            <currency iso4217="NLG" from="1815-11-20" to="1940-05-10"/>
+        </region>
+        <region iso3166="ST">
+            <currency iso4217="STD" from="1977-09-08"/>
+        </region>
+        <region iso3166="SV">
+            <currency iso4217="SVC" from="1919-11-11"/>
+            <currency iso4217="USD" from="2001-01-01"/>
+        </region>
+        <region iso3166="SY">
+            <currency iso4217="SYP" from="1948-01-01"/>
+        </region>
+        <region iso3166="SZ">
+            <currency iso4217="SZL" from="1974-09-06"/>
+        </region>
+        <region iso3166="TC">
+            <currency iso4217="USD" from="1969-09-08"/>
+        </region>
+        <region iso3166="TD">
+            <currency iso4217="XAF" from="1993-01-01"/>
+        </region>
+        <region iso3166="TF">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="FRF" from="1959-01-01" to="2002-02-17"/>
+        </region>
+        <region iso3166="TG">
+            <currency iso4217="XOF" from="1958-11-28"/>
+        </region>
+        <region iso3166="TH">
+            <currency iso4217="THB" from="1928-04-15"/>
+        </region>
+        <region iso3166="TJ">
+            <currency iso4217="TJS" from="2000-10-26"/>
+            <currency iso4217="TJR" from="1995-05-10" to="2000-10-25"/>
+        </region>
+        <region iso3166="TK">
+            <currency iso4217="NZD" from="1967-07-10"/>
+        </region>
+        <region iso3166="TL">
+            <currency iso4217="USD" from="1999-10-20"/>
+            <currency iso4217="TPE" from="1959-01-02" to="2002-05-20"/>
+            <currency iso4217="IDR" from="1975-12-07" to="2002-05-20"/>
+        </region>
+        <region iso3166="TM">
+            <currency iso4217="TMM" from="1993-11-01"/>
+            <currency iso4217="RUR" from="1991-12-25" to="1993-11-01"/>
+            <currency iso4217="SUR" from="1961-01-01" to="1991-12-25"/>
+        </region>
+        <region iso3166="TN">
+            <currency iso4217="TND" from="1958-11-01"/>
+        </region>
+        <region iso3166="TO">
+            <currency iso4217="TOP" from="1966-02-14"/>
+        </region>
+        <region iso3166="TR">
+            <currency iso4217="TRY" from="2005-01-01"/>
+            <currency iso4217="TRL" from="1922-11-01" to="2005-12-31"/>
+        </region>
+        <region iso3166="TT">
+            <currency iso4217="TTD" from="1964"/>
+        </region>
+        <region iso3166="TV">
+            <currency iso4217="AUD" from="1966-02-14"/>
+        </region>
+        <region iso3166="TW">
+            <currency iso4217="TWD" from="1949-06-15"/>
+        </region>
+        <region iso3166="TZ">
+            <currency iso4217="TZS" from="1966-06-14"/>
+        </region>
+        <region iso3166="UA">
+            <currency iso4217="UAH" from="1996-09-02"/>
+            <currency iso4217="UAK" from="1992-11-13" to="1993-10-17"/>
+            <currency iso4217="RUR" from="1991-12-25" to="1992-11-13"/>
+            <currency iso4217="SUR" from="1961-1-1" to="1991-12-25"/>
+        </region>
+        <region iso3166="UG">
+            <currency iso4217="UGX" from="1987-05-15"/>
+            <currency iso4217="UGS" from="1966-08-15" to="1987-05-15"/>
+        </region>
+        <region iso3166="UM">
+            <currency iso4217="USD" from="1944"/>
+        </region>
+        <region iso3166="US">
+            <currency iso4217="USD" from="1792"/>
+        </region>
+        <region iso3166="UY">
+            <currency iso4217="UYU" from="1993-03-01"/>
+            <currency iso4217="UYP" from="1975-07-01" to="1993-03-01"/>
+        </region>
+        <region iso3166="UZ">
+            <currency iso4217="UZS" from="1994-07-01"/>
+        </region>
+        <region iso3166="VA">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="ITL" from="1870-10-19" to="2002-02-28"/>
+        </region>
+        <region iso3166="VC">
+            <currency iso4217="XCD" from="1965-10-06"/>
+        </region>
+        <region iso3166="VE">
+            <currency iso4217="VEB" from="1871-05-11"/>
+        </region>
+        <region iso3166="VG">
+            <currency iso4217="USD" from="1833"/>
+            <currency iso4217="GBP" from="1833" to="1959"/>
+        </region>
+        <region iso3166="VI">
+            <currency iso4217="USD" from="1837"/>
+        </region>
+        <region iso3166="VN">
+            <currency iso4217="VND" from="1985-09-14"/>
+        </region>
+        <region iso3166="VU">
+            <currency iso4217="VUV" from="1981-01-01"/>
+        </region>
+        <region iso3166="WF">
+            <currency iso4217="XPF" from="1961-07-30"/>
+        </region>
+        <region iso3166="WS">
+            <currency iso4217="WST" from="1967-07-10"/>
+        </region>
+        <region iso3166="YE">
+            <currency iso4217="YER" from="1990-05-22"/>
+        </region>
+        <region iso3166="YT">
+            <currency iso4217="EUR" from="1999-01-01"/>
+            <currency iso4217="FRF" from="1976-02-23" to="2002-02-17"/>
+            <currency iso4217="KMF" from="1975-01-01" to="1976-02-23"/>
+        </region>
+        <region iso3166="ZA">
+            <currency iso4217="ZAR" from="1961-02-14"/>
+        </region>
+        <region iso3166="ZM">
+            <currency iso4217="ZMK" from="1968-01-16"/>
+        </region>
+        <region iso3166="ZW">
+            <currency iso4217="ZWD" from="1980-04-18"/>
+        </region>
+    </currencyData>
+	<territoryContainment>
+		<group type="001" contains="002 009 019 142 150"/>
+		<group type="003" contains="021 029 013"/>
+		<group type="419" contains="029 013 005"/>
+		<group type="011" contains="BF BJ CI CV GH GM GN GW LR ML MR NE NG SH SL SN TG"/>
+		<group type="013" contains="BZ CR GT HN MX NI PA SV"/>
+		<group type="014" contains="BI DJ ER ET KE KM MG MU MW MZ RE RW SC SO TZ UG YT ZM ZW"/>
+		<group type="142" contains="030 035 143 145 034 062"/>
+		<group type="143" contains="TM TJ KG KZ UZ"/>
+		<group type="145" contains="AE AM AZ BH CY GE IL IQ JO KW LB OM PS QA SA NT SY TR YE YD"/>
+		<group type="015" contains="DZ EG EH LY MA SD TN"/>
+		<group type="150" contains="039 151 154 155 QU"/>
+		<group type="151" contains="BG BY CZ HU MD PL RO RU SU SK UA"/>
+		<group type="154" contains="GG IM JE AX DK EE FI FO GB IE IM IS LT LV NO SE SJ"/>
+		<group type="830" contains="GG JE"/>
+		<group type="155" contains="AT BE CH DE DD FR FX LI LU MC NL"/>
+		<group type="017" contains="AO CD ZR CF CG CM GA GQ ST TD"/>
+		<group type="172" contains="AM AZ BY GE KG KZ MD RU TJ TM UA UZ"/>
+		<group type="018" contains="BW LS NA SZ ZA"/>
+		<group type="019" contains="005 013 021 029 003 419"/>
+		<group type="002" contains="011 014 015 017 018"/>
+		<group type="021" contains="BM CA GL PM US"/>
+		<group type="029" contains="AG AI AN AW BB BS CU DM DO GD GP HT JM KN KY LC MQ MS PR TC TT VC VG VI"/>
+		<group type="003" contains="013 021 029"/>
+		<group type="030" contains="CN HK JP KP KR MN MO TW"/>
+		<group type="035" contains="BN ID KH LA MM BU MY PH SG TH TL TP VN"/>
+		<group type="039" contains="AD AL BA ES GI GR HR IT ME MK MT CS RS PT SI SM VA YU"/>
+		<group type="419" contains="005 013 029"/>
+		<group type="005" contains="AR BO BR CL CO EC FK GF GY PE PY SR UY VE"/>
+		<group type="053" contains="AU NF NZ"/>
+		<group type="054" contains="FJ NC PG SB VU"/>
+		<group type="057" contains="FM GU KI MH MP NR PW"/>
+		<group type="061" contains="AS CK NU PF PN TK TO TV WF WS"/>
+		<group type="062" contains="034 143"/>
+		<group type="034" contains="AF BD BT IN IR LK MV NP PK"/>
+		<group type="009" contains="053 054 057 061 QO"/>
+		<group type="QO" contains="AQ BV CC CX GS HM IO TF UM"/>
+		<group type="QU" contains="AT BE CY CZ DE DK EE ES FI FR GB GR HU IE IT LT LU LV MT NL PL PT SE SI SK"/>
+	</territoryContainment>
+	<languageData>
+		<language type="aa" scripts="Latn" territories="DJ ER ET"/>
+		<language type="ab" scripts="Cyrl" territories="GE" alt="secondary"/>
+		<language type="ab" scripts="Cyrl" territories="TR" alt="secondary"/>
+		<language type="af" scripts="Latn" territories="NA ZA"/>
+		<language type="ak" scripts="Latn" territories="GH"/>
+		<language type="am" scripts="Ethi" territories="ET"/>
+		<language type="ar" scripts="Arab" territories="AE BH DJ DZ EG EH ER IL IQ JO KM KW LB LY MA MR OM PS QA SA SD SY TD TN YE"/>
+		<language type="ar" scripts="Arab" territories="IR" alt="secondary"/>
+		<language type="as" scripts="Beng" territories="BD IN"/>
+		<language type="ay" scripts="Latn" territories="BO PE"/>
+		<language type="az" scripts="Arab Cyrl Latn" territories="AZ IR"/>
+		<language type="az" scripts="Arab Cyrl Latn" territories="GE TR" alt="secondary"/>
+		<language type="bal" scripts="Arab Latn" territories="AF IR OM" alt="secondary"/>
+		<language type="bal" scripts="Arab Latn" territories="PK"/>
+		<language type="be" scripts="Cyrl" territories="BY"/>
+		<language type="bg" scripts="Cyrl" territories="BG"/>
+		<language type="bn" scripts="Beng" territories="BD IN"/>
+		<language type="bo" scripts="Tibt" territories="CN IN NP" alt="secondary"/>
+		<language type="bs" scripts="Latn" territories="BA"/>
+		<language type="bs" scripts="Latn" territories="HR ME RS" alt="secondary"/>
+		<language type="byn" scripts="Ethi" territories="ER"/>
+		<language type="ca" scripts="Latn" territories="AD ES"/>
+		<language type="cch" scripts="Latn" territories="NG"/>
+		<language type="cch" scripts="Latn" territories="NG"/>
+		<language type="ch" scripts="Latn" territories="GU MP"/>
+		<language type="chr" scripts="Latn Cher" territories="US" alt="secondary"/>
+		<language type="cop" scripts="Copt Arab" territories="EG"/>
+		<language type="cop" scripts="Copt Arab" territories="US" alt="secondary"/>
+		<language type="cpe" scripts="Latn" territories="SL"/>
+		<language type="cr" scripts="Cans Latn" territories="CA" alt="secondary"/>
+		<language type="cs" scripts="Latn" territories="CZ"/>
+		<language type="cy" scripts="Latn" territories="GB"/>
+		<language type="da" scripts="Latn" territories="DK GL"/>
+		<language type="de" scripts="Latn" territories="AT BE CH DE LI LU NA"/>
+		<language type="de" scripts="Latn" territories="IT" alt="secondary"/>
+		<language type="dgr" territories="CA" alt="secondary"/>
+		<language type="dv" scripts="Thaa" territories="MV"/>
+		<language type="dz" scripts="Tibt" territories="BT"/>
+		<language type="ee" scripts="Latn" territories="GH TG"/>
+		<language type="el" scripts="Grek" territories="CY GR"/>
+		<language type="en" scripts="Latn" territories="AG AI AS AU AW BB BM BS BW BZ CA CC CK CM CX DM ER FJ FK FM GB GD GH GI GM GY HK IE IN IO JM KE KI KN KY LC LR LS MH MP MS MT MW NA NF NG NR NU NZ PG PH PK PN PW RW SB SG SH SL SZ TC TK TO TT TZ UG UM US VC VG VI ZA ZM ZW"/>
+		<language type="eo" scripts="Latn" />
+		<language type="eo" scripts="Latn"/>
+		<language type="es" scripts="Latn" territories="AR BO CL CO CR CU DO EC ES GI GQ GT HN MX NI PA PE PR PY SV US UY VE"/>
+		<language type="et" scripts="Latn" territories="EE"/>
+		<language type="eu" scripts="Latn" territories="ES"/>
+		<language type="fa" scripts="Arab" territories="AF IR"/>
+		<language type="fi" scripts="Latn" territories="FI SE"/>
+		<language type="fil" scripts="Latn" territories="PH"/>		
+		<language type="fiu" scripts="Latn" territories="FI SE" alt="secondary"/>
+		<language type="fj" scripts="Latn" territories="FJ"/>
+		<language type="fo" scripts="Latn" territories="FO"/>
+		<language type="fr" scripts="Latn" territories="BE BF BI BJ CA CD CF CG CH CI CM DJ FR GA GF GN GP GQ HT KM LU MC MG ML MQ MR MU NC NE PF PM RE RW SC SN TD TF TG VU WF YT"/>
+		<language type="fr" scripts="Latn" territories="IT US" alt="secondary"/>
+		<language type="fur" scripts="Latn" territories="IT"/>
+		<language type="fy" scripts="Latn" territories="DE NL" alt="secondary"/>
+		<language type="ga" scripts="Latn" territories="GB" alt="secondary"/>
+		<language type="ga" scripts="Latn" territories="IE"/>
+		<language type="gaa" scripts="Latn" territories="GH"/>
+		<language type="gd" scripts="Latn" territories="GB"/>
+		<language type="gez" scripts="Ethi" territories="ER ET"/>
+		<language type="gl" scripts="Latn" territories="ES"/>
+		<language type="gn" scripts="Latn" territories="AR BO" alt="secondary"/>
+		<language type="gn" scripts="Latn" territories="PY"/>
+		<language type="gsw" scripts="Latn" territories="CH"/>
+		<language type="gu" scripts="Gujr" territories="IN"/>
+		<language type="gv" scripts="Latn" territories="GB"/>
+		<language type="ha" scripts="Arab Latn" territories="NE NG"/>
+		<language type="haw" scripts="Latn" territories="US" alt="secondary"/>
+		<language type="he" scripts="Hebr" territories="IL"/>
+		<language type="hi" scripts="Deva" territories="IN FJ"/>
+		<language type="ho" scripts="Latn" territories="PG"/>
+		<language type="hr" scripts="Latn" territories="BA HR"/>
+		<language type="hr" scripts="Latn" territories="ME RS" alt="secondary"/>
+		<language type="ht" scripts="Latn" territories="HT"/>
+		<language type="hu" scripts="Latn" territories="HU"/>
+		<language type="hu" scripts="Latn" territories="SI SK HR RO RS" alt="secondary"/>
+		<language type="hy" scripts="Armn" territories="AM"/>
+		<language type="hy" scripts="Armn" territories="AZ GE IR" alt="secondary"/>
+		<language type="ia" scripts="Latn" />
+		<language type="id" scripts="Latn" territories="ID"/>
+		<language type="ig" scripts="Latn" territories="NG"/>
+		<language type="is" scripts="Latn" territories="IS"/>
+		<language type="it" scripts="Latn" territories="CH IT SM VA"/>
+		<language type="it" scripts="Latn" territories="HR SI" alt="secondary"/>
+		<language type="iu" scripts="Cans Cyrl Latn" territories="CA GL US RU" alt="secondary"/>
+		<language type="iu" scripts="Cans" />
+		<language type="ja" scripts="Hani Hira Kana" territories="GU JP PW"/>
+		<language type="ka" scripts="Geor" territories="GE"/>
+		<language type="kaj" scripts="Latn" territories="NG"/>
+		<language type="kaj" scripts="Latn" territories="NG"/>
+		<language type="kam" scripts="Latn" territories="KE"/>
+		<language type="kcg" scripts="Latn" territories="NG"/>
+		<language type="kcg" scripts="Latn" territories="NG"/>
+		<language type="kfo" scripts="Latn" territories="NG"/>
+		<language type="kfo" scripts="Latn" territories="NG"/>
+		<language type="kk" scripts="Cyrl" territories="KZ"/>
+		<language type="kl" scripts="Latn" territories="GL"/>
+		<language type="km" scripts="Khmr" territories="KH"/>
+		<language type="kn" scripts="Knda" territories="IN"/>
+		<language type="ko" scripts="Hang Hani" territories="KP KR"/>
+		<language type="kok" scripts="Deva" territories="IN"/>
+		<language type="kpe" scripts="Latn" territories="GN LR"/>
+		<language type="ks" scripts="Arab Deva" territories="IN"/>
+		<language type="ku" scripts="Arab Latn Cyrl" territories="IQ IR TR"/>
+		<language type="ku" scripts="Arab Latn Cyrl" territories="SY" alt="secondary"/>
+		<language type="kw" scripts="Latn" territories="GB" alt="secondary"/>
+		<language type="ky" scripts="Arab Cyrl" territories="CN" alt="secondary"/>
+		<language type="ky" scripts="Arab Cyrl" territories="KG"/>
+		<language type="la" scripts="Latn" territories="VA"/>
+		<language type="lb" scripts="Latn" territories="LU"/>
+		<language type="ln" scripts="Latn" territories="CD" alt="secondary"/>
+		<language type="ln" scripts="Latn" territories="CG" />
+		<language type="lo" scripts="Laoo" territories="LA"/>
+		<language type="lt" scripts="Latn" territories="LT"/>
+		<language type="lv" scripts="Latn" territories="LV"/>
+		<language type="mai" scripts="Deva" territories="IN"/>
+		<language type="men" scripts="Latn" territories="GN LR SL"/>
+		<language type="mg" scripts="Latn" territories="MG"/>
+		<language type="mh" scripts="Latn" territories="MH NR"/>
+		<language type="mi" scripts="Latn" territories="CK NZ" alt="secondary"/>
+		<language type="mk" scripts="Cyrl" territories="MK"/>
+		<language type="ml" scripts="Mlym" territories="IN"/>
+		<language type="mn" scripts="Cyrl Mong" territories="MN"/>
+		<language type="mni" territories="IN"/>
+		<language type="mo" scripts="Latn Cyrl" territories="MD"/>
+		<language type="mr" scripts="Deva" territories="IN"/>
+		<language type="ms" scripts="Arab Latn" territories="BN CC CX MY SG"/>
+		<language type="mt" scripts="Latn" territories="MT"/>
+		<language type="my" scripts="Mymr" territories="MM"/>
+		<language type="na" scripts="Latn" territories="NR"/>
+		<language type="nb" scripts="Latn" territories="NO SJ"/>
+		<language type="nd" scripts="Latn" territories="ZA"/>
+		<language type="ne" scripts="Deva" territories="NP"/>
+		<language type="niu" scripts="Latn" territories="NU"/>
+		<language type="nl" scripts="Latn" territories="AN AW BE NL SR"/>
+		<language type="nn" scripts="Latn" territories="NO SJ"/>
+		<language type="no" scripts="Latn" territories="NO SJ"/>
+		<language type="nr" scripts="Latn" territories="ZA"/>
+		<language type="nso" scripts="Latn" territories="ZA"/>
+		<language type="ny" scripts="Latn" territories="MW"/>
+		<language type="ny" scripts="Latn" territories="MZ ZM" alt="secondary"/>
+		<language type="oc" scripts="Latn" territories="ES" alt="secondary"/>
+		<language type="om" scripts="Latn" territories="ET KE"/>
+		<language type="or" scripts="Orya" territories="IN"/>
+		<language type="os" scripts="Latn" territories="GE RU" alt="secondary"/>
+		<language type="pa" scripts="Arab Guru" territories="IN PK"/>
+		<language type="pau" territories="PW"/>
+		<language type="pl" scripts="Latn" territories="PL"/>
+		<language type="ps" scripts="Arab" territories="AF PK"/>
+		<language type="pt" scripts="Latn" territories="AO BR CV GW MO MZ PT ST TL"/>
+		<language type="qu" scripts="Latn" territories="BO PE"/>		
+		<language type="rm" scripts="Latn" territories="CH" alt="secondary"/>
+		<language type="rn" scripts="Latn" territories="BI"/>
+		<language type="ro" scripts="Latn" territories="RS" alt="secondary"/>
+		<language type="ro" scripts="Latn" territories="RO"/>
+		<language type="ru" scripts="Cyrl" territories="BY GE KG KZ RU SJ UA"/>
+		<language type="ru" scripts="Cyrl" territories="MD" alt="secondary"/>
+		<language type="rw" scripts="Latn" territories="RW"/>
+		<language type="sa" scripts="Deva" territories="IN"/>
+		<language type="sd" scripts="Deva Arab" territories="IN PK"/>
+		<language type="se" scripts="Latn" territories="FI NO SE"/>
+		<language type="sg" scripts="Latn" territories="CF"/>
+		<language type="sh" scripts="Latn" territories="BA HR ME RS" alt="secondary"/>
+		<language type="si" scripts="Sinh" territories="LK"/>
+		<language type="sk" scripts="Latn" territories="RS" alt="secondary"/>
+		<language type="sk" scripts="Latn" territories="SK"/>
+		<language type="sl" scripts="Latn" territories="SI"/>
+		<language type="sm" scripts="Latn" territories="AS WS"/>
+		<language type="sma" scripts="Latn" territories="NO SE"/>
+		<language type="smj" scripts="Latn" territories="NO SE"/>
+		<language type="smn" scripts="Latn" territories="FI"/>
+		<language type="sms" scripts="Latn" territories="FI"/>
+		<language type="smi" scripts="Latn" territories="FI NO SE"/>
+		<language type="so" scripts="Latn" territories="DJ SO"/>
+		<language type="so" scripts="Latn" territories="ET KE" alt="secondary"/>
+		<language type="son" scripts="Latn" territories="BJ ML NE" alt="secondary"/>
+		<language type="sq" scripts="Latn" territories="AL MK ME RS"/>
+		<language type="sid" scripts="Latn" territories="ET"/>
+		<language type="sr" scripts="Cyrl Latn" territories="BA ME RS"/>
+		<language type="sr" scripts="Cyrl Latn" territories="HR" alt="secondary"/>
+		<language type="ss" scripts="Latn" territories="SZ ZA"/>
+		<language type="st" scripts="Latn" territories="LS ZA"/>
+		<language type="sv" scripts="Latn" territories="AX FI SE"/>
+		<language type="sw" scripts="Latn" territories="KE TZ YT"/>
+		<language type="syr" scripts="Syrc" territories="SY"/>
+		<language type="ta" scripts="Taml" territories="IN LK SG"/>
+		<language type="te" scripts="Telu" territories="IN"/>
+		<language type="tem" scripts="Latn" territories="SL"/>
+		<language type="tet" scripts="Latn" territories="TL"/>
+		<language type="tg" scripts="Arab Cyrl Latn" territories="TJ"/>
+		<language type="th" scripts="Thai" territories="TH"/>
+		<language type="ti" scripts="Ethi" territories="ER ET"/>
+		<language type="tig" scripts="Ethi" territories="ER"/>
+		<language type="tk" scripts="Arab Cyrl Latn" territories="AF IR" alt="secondary"/>
+		<language type="tk" scripts="Arab Cyrl Latn" territories="TM"/>
+		<language type="tkl" scripts="Latn" territories="TK"/>
+		<language type="tl" scripts="Latn" territories="GU PH"/>
+		<language type="tmh" scripts="Latn" territories="ML NE" alt="secondary"/>
+		<language type="tn" scripts="Latn" territories="BW ZA"/>
+		<language type="to" scripts="Latn" territories="TO"/>
+		<language type="tpi" scripts="Latn" territories="PG"/>
+		<language type="tr" scripts="Arab Latn" territories="CY TR"/>
+		<language type="ts" scripts="Latn" territories="ZA"/>
+		<language type="tt" scripts="Cyrl" territories="RU"/>
+		<language type="tvl" scripts="Latn" territories="TV"/>
+		<language type="uk" scripts="Cyrl" territories="MD" alt="secondary"/>
+		<language type="uk" scripts="Cyrl" territories="UA"/>
+		<language type="ur" scripts="Arab" territories="IN PK"/>
+		<language type="uz" scripts="Arab Cyrl Latn" territories="AF" alt="secondary"/>
+		<language type="uz" scripts="Arab Cyrl Latn" territories="UZ"/>
+		<language type="ug" scripts="Arab" territories="CN"/>
+		<language type="ve" scripts="Latn" territories="ZA"/>
+		<language type="vi" scripts="Latn" territories="VN"/>
+		<language type="wal" scripts="Ethi" territories="ET"/>
+		<language type="wo" scripts="Latn" territories="GM MR SN"/>
+		<language type="xh" scripts="Latn" territories="LS ZA"/>
+		<language type="yi" scripts="Hebr"/>
+		<language type="yo" scripts="Latn" territories="NG"/>
+		<language type="zh" scripts="Bopo Hani Hans Hant" territories="CN CX HK MO SG TW"/>
+		<language type="zu" scripts="Latn" territories="LS ZA"/>
+	</languageData>
+	<calendarData>
+		<calendar type="japanese" territories="JP"/>
+		<calendar type="islamic-civil" territories="AE BH DJ DZ EG EH ER IL IQ JO KM KW LB LY MA MR OM PS QA SA SD SY TD TN YE AF IR"/>
+		<calendar type="islamic" territories="AE BH DJ DZ EG EH ER IL IQ JO KM KW LB LY MA MR OM PS QA SA SD SY TD TN YE AF IR"/>
+		<calendar type="chinese" territories="CN CX HK MO SG TW"/>
+		<calendar type="hebrew" territories="IL"/>
+		<calendar type="buddhist" territories="TH"/>
+		<calendar type="coptic" territories="EG"/>
+		<calendar type="persian" territories="AF IR"/>
+		<calendar type="ethiopic" territories="ET"/>
+	</calendarData>
+    <weekData>
+          <minDays count="1" territories="001" />
+          <minDays count="4" territories="AT BE CA CH DE DK FI FR IT LI LT LU MC MT NL NO SE SK" />
+          <minDays count="4" territories="CD" draft="true" />
+        
+          <firstDay day="mon"  territories="001" />
+          <firstDay day="fri"  territories="MV" />
+          <firstDay day="sat"  territories="AE AF BH DJ DZ EG ER ET IQ IR JO KE KW LB LY MA OM QA SA SD SO TN YE" />
+          <firstDay day="sun"  territories="AS AU AZ BW CA CN FO GE GL GU HK IE IL IS JM JP KG KR LA MH MN MO MP MT NZ PH PK SG TH TT TW UM US UZ VI ZA ZW" />
+          <firstDay day="sun"  territories="ET MW NG TJ" draft="true" />
+		  <firstDay day="sun"  territories="GB" draft="true"  alt="variant" references="Shorter Oxford Dictionary (5th edition, 2002)"/>
+          <firstDay day="thu"  territories="SY" />
+        
+          <weekendStart day="sat"  territories="001"/>
+          <weekendStart day="fri"  territories="EG IL SY"/>
+          <weekendStart day="sun"  territories="IN"/>
+          <weekendStart day="thu"  territories="AE BH DZ IQ JO KW LB LY MA OM QA SA SD TN YE AF IR"/>
+        
+          <weekendEnd day="sun"  territories="001"/>
+          <weekendEnd day="fri"  territories="AE BH DZ IQ JO KW LB LY MA OM QA SA SD TN YE AF IR"/>
+          <weekendEnd day="sat"  territories="EG IL SY"/>
+    </weekData>
+
+    <measurementData>
+          <measurementSystem type="metric"  territories="001"/>
+          <measurementSystem type="US"  territories="US"/>
+          <paperSize type="A4"  territories="001"/>
+          <paperSize type="US-Letter"  territories="US"/>
+    </measurementData>
+	<timezoneData>
+		<mapTimezones type="windows">
+			<mapZone other="Dateline" type="Etc/GMT+12"/>
+			<mapZone other="Samoa" type="Pacific/Apia"/>
+			<mapZone other="Hawaiian" type="Pacific/Honolulu"/>
+			<mapZone other="Alaskan" type="America/Anchorage"/>
+			<mapZone other="Pacific" type="America/Los_Angeles"/>
+			<mapZone other="US Mountain" type="America/Phoenix"/>
+			<mapZone other="Mountain" type="America/Denver"/>
+			<mapZone other="Mexico Standard Time 2" type="America/Chihuahua"/>
+			<mapZone other="Central America" type="America/Managua"/>
+			<mapZone other="Canada Central" type="America/Regina"/>
+			<mapZone other="Mexico" type="America/Mexico_City"/>
+			<mapZone other="Central" type="America/Chicago"/>
+			<mapZone other="US Eastern" type="America/Indianapolis"/>
+			<mapZone other="SA Pacific" type="America/Bogota"/>
+			<mapZone other="Eastern" type="America/New_York"/>
+			<mapZone other="SA Western" type="America/Caracas"/>
+			<mapZone other="Pacific SA" type="America/Santiago"/>
+			<mapZone other="Atlantic" type="America/Halifax"/>
+			<mapZone other="Newfoundland" type="America/St_Johns"/>
+			<mapZone other="SA Eastern" type="America/Buenos_Aires"/>
+			<mapZone other="Greenland" type="America/Godthab"/>
+			<mapZone other="E. South America" type="America/Sao_Paulo"/>
+			<mapZone other="Mid-Atlantic" type="America/Noronha"/>
+			<mapZone other="Cape Verde" type="Atlantic/Cape_Verde"/>
+			<mapZone other="Azores" type="Atlantic/Azores"/>
+			<mapZone other="Greenwich" type="Africa/Casablanca"/>
+			<mapZone other="GMT" type="Europe/London"/>
+			<mapZone other="W. Central Africa" type="Africa/Lagos"/>
+			<mapZone other="W. Europe" type="Europe/Berlin"/>
+			<mapZone other="Romance" type="Europe/Paris"/>
+			<mapZone other="Central European" type="Europe/Sarajevo"/>
+			<mapZone other="Central Europe" type="Europe/Belgrade"/>
+			<mapZone other="South Africa" type="Africa/Johannesburg"/>
+			<mapZone other="Israel" type="Asia/Jerusalem"/>
+			<mapZone other="GTB" type="Europe/Istanbul"/>
+			<mapZone other="FLE" type="Europe/Helsinki"/>
+			<mapZone other="Egypt" type="Africa/Cairo"/>
+			<mapZone other="E. Europe" type="Europe/Bucharest"/>
+			<mapZone other="E. Africa" type="Africa/Nairobi"/>
+			<mapZone other="Arab" type="Asia/Riyadh"/>
+			<mapZone other="Russian" type="Europe/Moscow"/>
+			<mapZone other="Arabic" type="Asia/Baghdad"/>
+			<mapZone other="Iran" type="Asia/Tehran"/>
+			<mapZone other="Arabian" type="Asia/Muscat"/>
+			<mapZone other="Caucasus" type="Asia/Tbilisi"/>
+			<mapZone other="Afghanistan" type="Asia/Kabul"/>
+			<mapZone other="West Asia" type="Asia/Karachi"/>
+			<mapZone other="Ekaterinburg" type="Asia/Yekaterinburg"/>
+			<mapZone other="India" type="Asia/Calcutta"/>
+			<mapZone other="Nepal" type="Asia/Katmandu"/>
+			<mapZone other="Sri Lanka" type="Asia/Colombo"/>
+			<mapZone other="Central Asia" type="Asia/Dhaka"/>
+			<mapZone other="N. Central Asia" type="Asia/Novosibirsk"/>
+			<mapZone other="Myanmar" type="Asia/Rangoon"/>
+			<mapZone other="SE Asia" type="Asia/Bangkok"/>
+			<mapZone other="North Asia" type="Asia/Krasnoyarsk"/>
+			<mapZone other="W. Australia" type="Australia/Perth"/>
+			<mapZone other="Taipei" type="Asia/Taipei"/>
+			<mapZone other="Singapore" type="Asia/Singapore"/>
+			<mapZone other="China" type="Asia/Shanghai"/>
+			<mapZone other="North Asia East" type="Asia/Irkutsk"/>
+			<mapZone other="Tokyo" type="Asia/Tokyo"/>
+			<mapZone other="Korea" type="Asia/Seoul"/>
+			<mapZone other="Yakutsk" type="Asia/Yakutsk"/>
+			<mapZone other="AUS Central" type="Australia/Darwin"/>
+			<mapZone other="Cen. Australia" type="Australia/Adelaide"/>
+			<mapZone other="West Pacific" type="Pacific/Guam"/>
+			<mapZone other="E. Australia" type="Australia/Brisbane"/>
+			<mapZone other="Vladivostok" type="Asia/Vladivostok"/>
+			<mapZone other="Tasmania" type="Australia/Hobart"/>
+			<mapZone other="AUS Eastern" type="Australia/Sydney"/>
+			<mapZone other="Central Pacific" type="Asia/Magadan"/>
+			<mapZone other="Fiji" type="Pacific/Fiji"/>
+			<mapZone other="New Zealand" type="Pacific/Auckland"/>
+			<mapZone other="Tonga" type="Pacific/Tongatapu"/>
+		</mapTimezones>
+		<zoneFormatting multizone="001 AQ AR AU BR CA CD CL CN EC ES FM GL ID KI KZ MH MN MX MY NZ PF PT RU SJ UA UM US UZ" tzidVersion="2006n">
+			<zoneItem type="Africa/Abidjan" territory="CI"/>
+			<zoneItem type="Africa/Accra" territory="GH"/>
+			<zoneItem type="Africa/Addis_Ababa" territory="ET"/>
+			<zoneItem type="Africa/Algiers" territory="DZ"/>
+			<zoneItem type="Africa/Asmera" territory="ER"/>
+			<zoneItem type="Africa/Bamako" territory="ML" aliases="Africa/Timbuktu"/>
+			<zoneItem type="Africa/Bangui" territory="CF"/>
+			<zoneItem type="Africa/Banjul" territory="GM"/>
+			<zoneItem type="Africa/Bissau" territory="GW"/>
+			<zoneItem type="Africa/Blantyre" territory="MW"/>
+			<zoneItem type="Africa/Brazzaville" territory="CG"/>
+			<zoneItem type="Africa/Bujumbura" territory="BI"/>
+			<zoneItem type="Africa/Cairo" territory="EG" aliases="Egypt"/>
+			<zoneItem type="Africa/Casablanca" territory="MA"/>
+			<zoneItem type="Africa/Ceuta" territory="ES"/>
+			<zoneItem type="Africa/Conakry" territory="GN"/>
+			<zoneItem type="Africa/Dakar" territory="SN"/>
+			<zoneItem type="Africa/Dar_es_Salaam" territory="TZ"/>
+			<zoneItem type="Africa/Djibouti" territory="DJ"/>
+			<zoneItem type="Africa/Douala" territory="CM"/>
+			<zoneItem type="Africa/El_Aaiun" territory="EH"/>
+			<zoneItem type="Africa/Freetown" territory="SL"/>
+			<zoneItem type="Africa/Gaborone" territory="BW"/>
+			<zoneItem type="Africa/Harare" territory="ZW"/>
+			<zoneItem type="Africa/Johannesburg" territory="ZA"/>
+			<zoneItem type="Africa/Kampala" territory="UG"/>
+			<zoneItem type="Africa/Khartoum" territory="SD"/>
+			<zoneItem type="Africa/Kigali" territory="RW"/>
+			<zoneItem type="Africa/Kinshasa" territory="CD"/>
+			<zoneItem type="Africa/Lagos" territory="NG"/>
+			<zoneItem type="Africa/Libreville" territory="GA"/>
+			<zoneItem type="Africa/Lome" territory="TG"/>
+			<zoneItem type="Africa/Luanda" territory="AO"/>
+			<zoneItem type="Africa/Lubumbashi" territory="CD"/>
+			<zoneItem type="Africa/Lusaka" territory="ZM"/>
+			<zoneItem type="Africa/Malabo" territory="GQ"/>
+			<zoneItem type="Africa/Maputo" territory="MZ"/>
+			<zoneItem type="Africa/Maseru" territory="LS"/>
+			<zoneItem type="Africa/Mbabane" territory="SZ"/>
+			<zoneItem type="Africa/Mogadishu" territory="SO"/>
+			<zoneItem type="Africa/Monrovia" territory="LR"/>
+			<zoneItem type="Africa/Nairobi" territory="KE"/>
+			<zoneItem type="Africa/Ndjamena" territory="TD"/>
+			<zoneItem type="Africa/Niamey" territory="NE"/>
+			<zoneItem type="Africa/Nouakchott" territory="MR"/>
+			<zoneItem type="Africa/Ouagadougou" territory="BF"/>
+			<zoneItem type="Africa/Porto-Novo" territory="BJ"/>
+			<zoneItem type="Africa/Sao_Tome" territory="ST"/>
+			<zoneItem type="Africa/Tripoli" territory="LY" aliases="Libya"/>
+			<zoneItem type="Africa/Tunis" territory="TN"/>
+			<zoneItem type="Africa/Windhoek" territory="NA"/>
+			<zoneItem type="America/Adak" territory="US" aliases="America/Atka US/Aleutian"/>
+			<zoneItem type="America/Anchorage" territory="US" aliases="SystemV/YST9YDT US/Alaska"/>
+			<zoneItem type="America/Anguilla" territory="AI"/>
+			<zoneItem type="America/Antigua" territory="AG"/>
+			<zoneItem type="America/Araguaina" territory="BR"/>
+			<zoneItem type="America/Argentina/La_Rioja" territory="AR"/>
+			<zoneItem type="America/Argentina/Rio_Gallegos" territory="AR"/>
+			<zoneItem type="America/Argentina/San_Juan" territory="AR"/>
+			<zoneItem type="America/Argentina/Tucuman" territory="AR"/>
+			<zoneItem type="America/Argentina/Ushuaia" territory="AR"/>
+			<zoneItem type="America/Aruba" territory="AW"/>
+			<zoneItem type="America/Asuncion" territory="PY"/>
+			<zoneItem type="America/Bahia" territory="BR"/>
+			<zoneItem type="America/Barbados" territory="BB"/>
+			<zoneItem type="America/Belem" territory="BR"/>
+			<zoneItem type="America/Belize" territory="BZ"/>
+			<zoneItem type="America/Blanc-Sablon" territory="CA"/>
+			<zoneItem type="America/Boa_Vista" territory="BR"/>
+			<zoneItem type="America/Bogota" territory="CO"/>
+			<zoneItem type="America/Boise" territory="US"/>
+			<zoneItem type="America/Buenos_Aires" territory="AR" aliases="America/Argentina/Buenos_Aires"/>
+			<zoneItem type="America/Cambridge_Bay" territory="CA"/>
+			<zoneItem type="America/Campo_Grande" territory="BR"/>
+			<zoneItem type="America/Cancun" territory="MX"/>
+			<zoneItem type="America/Caracas" territory="VE"/>
+			<zoneItem type="America/Catamarca" territory="AR" aliases="America/Argentina/Catamarca America/Argentina/ComodRivadavia"/>
+			<zoneItem type="America/Cayenne" territory="GF"/>
+			<zoneItem type="America/Cayman" territory="KY"/>
+			<zoneItem type="America/Chicago" territory="US" aliases="CST6CDT SystemV/CST6CDT US/Central"/>
+			<zoneItem type="America/Chihuahua" territory="MX"/>
+			<zoneItem type="America/Coral_Harbour" territory="CA" aliases="America/Atikokan"/>
+			<zoneItem type="America/Cordoba" territory="AR" aliases="America/Argentina/Cordoba America/Rosario"/>
+			<zoneItem type="America/Costa_Rica" territory="CR"/>
+			<zoneItem type="America/Cuiaba" territory="BR"/>
+			<zoneItem type="America/Curacao" territory="AN"/>
+			<zoneItem type="America/Danmarkshavn" territory="GL"/>
+			<zoneItem type="America/Dawson" territory="CA"/>
+			<zoneItem type="America/Dawson_Creek" territory="CA"/>
+			<zoneItem type="America/Denver" territory="US" aliases="MST7MDT SystemV/MST7MDT US/Mountain"/>
+			<zoneItem type="America/Detroit" territory="US" aliases="US/Michigan"/>
+			<zoneItem type="America/Dominica" territory="DM"/>
+			<zoneItem type="America/Edmonton" territory="CA" aliases="Canada/Mountain"/>
+			<zoneItem type="America/Eirunepe" territory="BR"/>
+			<zoneItem type="America/El_Salvador" territory="SV"/>
+			<zoneItem type="America/Fortaleza" territory="BR"/>
+			<zoneItem type="America/Glace_Bay" territory="CA"/>
+			<zoneItem type="America/Godthab" territory="GL"/>
+			<zoneItem type="America/Goose_Bay" territory="CA"/>
+			<zoneItem type="America/Grand_Turk" territory="TC"/>
+			<zoneItem type="America/Grenada" territory="GD"/>
+			<zoneItem type="America/Guadeloupe" territory="GP"/>
+			<zoneItem type="America/Guatemala" territory="GT"/>
+			<zoneItem type="America/Guayaquil" territory="EC"/>
+			<zoneItem type="America/Guyana" territory="GY"/>
+			<zoneItem type="America/Halifax" territory="CA" aliases="Canada/Atlantic SystemV/AST4ADT"/>
+			<zoneItem type="America/Havana" territory="CU" aliases="Cuba"/>
+			<zoneItem type="America/Hermosillo" territory="MX"/>
+			<zoneItem type="America/Indiana/Knox" territory="US" aliases="America/Knox_IN US/Indiana-Starke"/>
+			<zoneItem type="America/Indiana/Marengo" territory="US"/>
+			<zoneItem type="America/Indiana/Petersburg" territory="US"/>
+			<zoneItem type="America/Indiana/Vevay" territory="US"/>
+			<zoneItem type="America/Indiana/Vincennes" territory="US"/>
+			<zoneItem type="America/Indianapolis" territory="US" aliases="America/Fort_Wayne America/Indiana/Indianapolis EST SystemV/EST5 US/East-Indiana"/>
+			<zoneItem type="America/Inuvik" territory="CA"/>
+			<zoneItem type="America/Iqaluit" territory="CA"/>
+			<zoneItem type="America/Jamaica" territory="JM" aliases="Jamaica"/>
+			<zoneItem type="America/Jujuy" territory="AR" aliases="America/Argentina/Jujuy"/>
+			<zoneItem type="America/Juneau" territory="US"/>
+			<zoneItem type="America/Kentucky/Monticello" territory="US"/>
+			<zoneItem type="America/La_Paz" territory="BO"/>
+			<zoneItem type="America/Lima" territory="PE"/>
+			<zoneItem type="America/Los_Angeles" territory="US" aliases="PST8PDT SystemV/PST8PDT US/Pacific US/Pacific-New"/>
+			<zoneItem type="America/Louisville" territory="US" aliases="America/Kentucky/Louisville"/>
+			<zoneItem type="America/Maceio" territory="BR"/>
+			<zoneItem type="America/Managua" territory="NI"/>
+			<zoneItem type="America/Manaus" territory="BR" aliases="Brazil/West"/>
+			<zoneItem type="America/Martinique" territory="MQ"/>
+			<zoneItem type="America/Mazatlan" territory="MX" aliases="Mexico/BajaSur"/>
+			<zoneItem type="America/Mendoza" territory="AR" aliases="America/Argentina/Mendoza"/>
+			<zoneItem type="America/Menominee" territory="US"/>
+			<zoneItem type="America/Merida" territory="MX"/>
+			<zoneItem type="America/Mexico_City" territory="MX" aliases="Mexico/General"/>
+			<zoneItem type="America/Miquelon" territory="PM"/>
+			<zoneItem type="America/Moncton" territory="CA"/>
+			<zoneItem type="America/Monterrey" territory="MX"/>
+			<zoneItem type="America/Montevideo" territory="UY"/>
+			<zoneItem type="America/Montreal" territory="CA"/>
+			<zoneItem type="America/Montserrat" territory="MS"/>
+			<zoneItem type="America/Nassau" territory="BS"/>
+			<zoneItem type="America/New_York" territory="US" aliases="EST5EDT SystemV/EST5EDT US/Eastern"/>
+			<zoneItem type="America/Nipigon" territory="CA"/>
+			<zoneItem type="America/Nome" territory="US"/>
+			<zoneItem type="America/Noronha" territory="BR" aliases="Brazil/DeNoronha"/>
+			<zoneItem type="America/North_Dakota/Center" territory="US"/>
+			<zoneItem type="America/North_Dakota/New_Salem" territory="US"/>
+			<zoneItem type="America/Panama" territory="PA"/>
+			<zoneItem type="America/Pangnirtung" territory="CA"/>
+			<zoneItem type="America/Paramaribo" territory="SR"/>
+			<zoneItem type="America/Phoenix" territory="US" aliases="MST SystemV/MST7 US/Arizona"/>
+			<zoneItem type="America/Port_of_Spain" territory="TT"/>
+			<zoneItem type="America/Port-au-Prince" territory="HT"/>
+			<zoneItem type="America/Porto_Velho" territory="BR"/>
+			<zoneItem type="America/Puerto_Rico" territory="PR" aliases="SystemV/AST4"/>
+			<zoneItem type="America/Rainy_River" territory="CA"/>
+			<zoneItem type="America/Rankin_Inlet" territory="CA"/>
+			<zoneItem type="America/Recife" territory="BR"/>
+			<zoneItem type="America/Regina" territory="CA" aliases="Canada/East-Saskatchewan Canada/Saskatchewan SystemV/CST6"/>
+			<zoneItem type="America/Rio_Branco" territory="BR" aliases="America/Porto_Acre Brazil/Acre"/>
+			<zoneItem type="America/Santiago" territory="CL" aliases="Chile/Continental"/>
+			<zoneItem type="America/Santo_Domingo" territory="DO"/>
+			<zoneItem type="America/Sao_Paulo" territory="BR" aliases="Brazil/East"/>
+			<zoneItem type="America/Scoresbysund" territory="GL"/>
+			<zoneItem type="America/Shiprock" territory="US" aliases="Navajo"/>
+			<zoneItem type="America/St_Johns" territory="CA" aliases="Canada/Newfoundland"/>
+			<zoneItem type="America/St_Kitts" territory="KN"/>
+			<zoneItem type="America/St_Lucia" territory="LC"/>
+			<zoneItem type="America/St_Thomas" territory="VI" aliases="America/Virgin"/>
+			<zoneItem type="America/St_Vincent" territory="VC"/>
+			<zoneItem type="America/Swift_Current" territory="CA"/>
+			<zoneItem type="America/Tegucigalpa" territory="HN"/>
+			<zoneItem type="America/Thule" territory="GL"/>
+			<zoneItem type="America/Thunder_Bay" territory="CA"/>
+			<zoneItem type="America/Tijuana" territory="MX" aliases="America/Ensenada Mexico/BajaNorte"/>
+			<zoneItem type="America/Toronto" territory="CA" aliases="Canada/Eastern"/>
+			<zoneItem type="America/Tortola" territory="VG"/>
+			<zoneItem type="America/Vancouver" territory="CA" aliases="Canada/Pacific"/>
+			<zoneItem type="America/Whitehorse" territory="CA" aliases="Canada/Yukon"/>
+			<zoneItem type="America/Winnipeg" territory="CA" aliases="Canada/Central"/>
+			<zoneItem type="America/Yakutat" territory="US"/>
+			<zoneItem type="America/Yellowknife" territory="CA"/>
+			<zoneItem type="Antarctica/Casey" territory="AQ"/>
+			<zoneItem type="Antarctica/Davis" territory="AQ"/>
+			<zoneItem type="Antarctica/DumontDUrville" territory="AQ"/>
+			<zoneItem type="Antarctica/Mawson" territory="AQ"/>
+			<zoneItem type="Antarctica/McMurdo" territory="AQ"/>
+			<zoneItem type="Antarctica/Palmer" territory="AQ"/>
+			<zoneItem type="Antarctica/Rothera" territory="AQ"/>
+			<zoneItem type="Antarctica/South_Pole" territory="AQ"/>
+			<zoneItem type="Antarctica/Syowa" territory="AQ"/>
+			<zoneItem type="Antarctica/Vostok" territory="AQ"/>
+			<zoneItem type="Arctic/Longyearbyen" territory="SJ"/>
+			<zoneItem type="Asia/Aden" territory="YE"/>
+			<zoneItem type="Asia/Almaty" territory="KZ"/>
+			<zoneItem type="Asia/Amman" territory="JO"/>
+			<zoneItem type="Asia/Anadyr" territory="RU"/>
+			<zoneItem type="Asia/Aqtau" territory="KZ"/>
+			<zoneItem type="Asia/Aqtobe" territory="KZ"/>
+			<zoneItem type="Asia/Ashgabat" territory="TM" aliases="Asia/Ashkhabad"/>
+			<zoneItem type="Asia/Baghdad" territory="IQ"/>
+			<zoneItem type="Asia/Bahrain" territory="BH"/>
+			<zoneItem type="Asia/Baku" territory="AZ"/>
+			<zoneItem type="Asia/Bangkok" territory="TH"/>
+			<zoneItem type="Asia/Beirut" territory="LB"/>
+			<zoneItem type="Asia/Bishkek" territory="KG"/>
+			<zoneItem type="Asia/Brunei" territory="BN"/>
+			<zoneItem type="Asia/Calcutta" territory="IN"/>
+			<zoneItem type="Asia/Choibalsan" territory="MN"/>
+			<zoneItem type="Asia/Chongqing" territory="CN" aliases="Asia/Chungking"/>
+			<zoneItem type="Asia/Colombo" territory="LK"/>
+			<zoneItem type="Asia/Damascus" territory="SY"/>
+			<zoneItem type="Asia/Dhaka" territory="BD" aliases="Asia/Dacca"/>
+			<zoneItem type="Asia/Dili" territory="TL"/>
+			<zoneItem type="Asia/Dubai" territory="AE"/>
+			<zoneItem type="Asia/Dushanbe" territory="TJ"/>
+			<zoneItem type="Asia/Gaza" territory="PS"/>
+			<zoneItem type="Asia/Harbin" territory="CN"/>
+			<zoneItem type="Asia/Hong_Kong" territory="HK" aliases="Hongkong"/>
+			<zoneItem type="Asia/Hovd" territory="MN"/>
+			<zoneItem type="Asia/Irkutsk" territory="RU"/>
+			<zoneItem type="Asia/Jakarta" territory="ID"/>
+			<zoneItem type="Asia/Jayapura" territory="ID"/>
+			<zoneItem type="Asia/Jerusalem" territory="IL" aliases="Asia/Tel_Aviv Israel"/>
+			<zoneItem type="Asia/Kabul" territory="AF"/>
+			<zoneItem type="Asia/Kamchatka" territory="RU"/>
+			<zoneItem type="Asia/Karachi" territory="PK"/>
+			<zoneItem type="Asia/Kashgar" territory="CN"/>
+			<zoneItem type="Asia/Katmandu" territory="NP"/>
+			<zoneItem type="Asia/Krasnoyarsk" territory="RU"/>
+			<zoneItem type="Asia/Kuala_Lumpur" territory="MY"/>
+			<zoneItem type="Asia/Kuching" territory="MY"/>
+			<zoneItem type="Asia/Kuwait" territory="KW"/>
+			<zoneItem type="Asia/Macau" territory="MO" aliases="Asia/Macao"/>
+			<zoneItem type="Asia/Magadan" territory="RU"/>
+			<zoneItem type="Asia/Makassar" territory="ID" aliases="Asia/Ujung_Pandang"/>
+			<zoneItem type="Asia/Manila" territory="PH"/>
+			<zoneItem type="Asia/Muscat" territory="OM"/>
+			<zoneItem type="Asia/Nicosia" territory="CY" aliases="Europe/Nicosia"/>
+			<zoneItem type="Asia/Novosibirsk" territory="RU"/>
+			<zoneItem type="Asia/Omsk" territory="RU"/>
+			<zoneItem type="Asia/Oral" territory="KZ"/>
+			<zoneItem type="Asia/Phnom_Penh" territory="KH"/>
+			<zoneItem type="Asia/Pontianak" territory="ID"/>
+			<zoneItem type="Asia/Pyongyang" territory="KP"/>
+			<zoneItem type="Asia/Qatar" territory="QA"/>
+			<zoneItem type="Asia/Qyzylorda" territory="KZ"/>
+			<zoneItem type="Asia/Rangoon" territory="MM"/>
+			<zoneItem type="Asia/Riyadh" territory="SA"/>
+			<zoneItem type="Asia/Saigon" territory="VN"/>
+			<zoneItem type="Asia/Sakhalin" territory="RU"/>
+			<zoneItem type="Asia/Samarkand" territory="UZ"/>
+			<zoneItem type="Asia/Seoul" territory="KR" aliases="ROK"/>
+			<zoneItem type="Asia/Shanghai" territory="CN" aliases="PRC"/>
+			<zoneItem type="Asia/Singapore" territory="SG" aliases="Singapore"/>
+			<zoneItem type="Asia/Taipei" territory="TW" aliases="ROC"/>
+			<zoneItem type="Asia/Tashkent" territory="UZ"/>
+			<zoneItem type="Asia/Tbilisi" territory="GE"/>
+			<zoneItem type="Asia/Tehran" territory="IR" aliases="Iran"/>
+			<zoneItem type="Asia/Thimphu" territory="BT" aliases="Asia/Thimbu"/>
+			<zoneItem type="Asia/Tokyo" territory="JP" aliases="Japan"/>
+			<zoneItem type="Asia/Ulaanbaatar" territory="MN" aliases="Asia/Ulan_Bator"/>
+			<zoneItem type="Asia/Urumqi" territory="CN"/>
+			<zoneItem type="Asia/Vientiane" territory="LA"/>
+			<zoneItem type="Asia/Vladivostok" territory="RU"/>
+			<zoneItem type="Asia/Yakutsk" territory="RU"/>
+			<zoneItem type="Asia/Yekaterinburg" territory="RU"/>
+			<zoneItem type="Asia/Yerevan" territory="AM"/>
+			<zoneItem type="Atlantic/Azores" territory="PT"/>
+			<zoneItem type="Atlantic/Bermuda" territory="BM"/>
+			<zoneItem type="Atlantic/Canary" territory="ES"/>
+			<zoneItem type="Atlantic/Cape_Verde" territory="CV"/>
+			<zoneItem type="Atlantic/Faeroe" territory="FO"/>
+			<zoneItem type="Atlantic/Jan_Mayen" territory="SJ"/>
+			<zoneItem type="Atlantic/Madeira" territory="PT"/>
+			<zoneItem type="Atlantic/Reykjavik" territory="IS" aliases="Iceland"/>
+			<zoneItem type="Atlantic/South_Georgia" territory="GS"/>
+			<zoneItem type="Atlantic/St_Helena" territory="SH"/>
+			<zoneItem type="Atlantic/Stanley" territory="FK"/>
+			<zoneItem type="Australia/Adelaide" territory="AU" aliases="Australia/South"/>
+			<zoneItem type="Australia/Brisbane" territory="AU" aliases="Australia/Queensland"/>
+			<zoneItem type="Australia/Broken_Hill" territory="AU" aliases="Australia/Yancowinna"/>
+			<zoneItem type="Australia/Currie" territory="AU"/>
+			<zoneItem type="Australia/Darwin" territory="AU" aliases="Australia/North"/>
+			<zoneItem type="Australia/Hobart" territory="AU" aliases="Australia/Tasmania"/>
+			<zoneItem type="Australia/Lindeman" territory="AU"/>
+			<zoneItem type="Australia/Lord_Howe" territory="AU" aliases="Australia/LHI"/>
+			<zoneItem type="Australia/Melbourne" territory="AU" aliases="Australia/Victoria"/>
+			<zoneItem type="Australia/Perth" territory="AU" aliases="Australia/West"/>
+			<zoneItem type="Australia/Sydney" territory="AU" aliases="Australia/ACT Australia/Canberra Australia/NSW"/>
+			<zoneItem type="Etc/GMT" territory="001" aliases="Etc/GMT+0 Etc/GMT-0 Etc/GMT0 Etc/Greenwich Etc/UCT Etc/UTC Etc/Universal Etc/Zulu GMT GMT+0 GMT-0 GMT0 Greenwich UCT UTC Universal Zulu"/>
+			<zoneItem type="Etc/GMT-1" territory="001"/>
+			<zoneItem type="Etc/GMT-2" territory="001"/>
+			<zoneItem type="Etc/GMT-3" territory="001"/>
+			<zoneItem type="Etc/GMT-4" territory="001"/>
+			<zoneItem type="Etc/GMT-5" territory="001"/>
+			<zoneItem type="Etc/GMT-6" territory="001"/>
+			<zoneItem type="Etc/GMT-7" territory="001"/>
+			<zoneItem type="Etc/GMT-8" territory="001"/>
+			<zoneItem type="Etc/GMT-9" territory="001"/>
+			<zoneItem type="Etc/GMT-10" territory="001"/>
+			<zoneItem type="Etc/GMT-11" territory="001"/>
+			<zoneItem type="Etc/GMT-12" territory="001"/>
+			<zoneItem type="Etc/GMT-13" territory="001"/>
+			<zoneItem type="Etc/GMT-14" territory="001"/>
+			<zoneItem type="Etc/GMT+1" territory="001"/>
+			<zoneItem type="Etc/GMT+2" territory="001"/>
+			<zoneItem type="Etc/GMT+3" territory="001"/>
+			<zoneItem type="Etc/GMT+4" territory="001"/>
+			<zoneItem type="Etc/GMT+5" territory="001"/>
+			<zoneItem type="Etc/GMT+6" territory="001"/>
+			<zoneItem type="Etc/GMT+7" territory="001"/>
+			<zoneItem type="Etc/GMT+8" territory="001"/>
+			<zoneItem type="Etc/GMT+9" territory="001"/>
+			<zoneItem type="Etc/GMT+10" territory="001"/>
+			<zoneItem type="Etc/GMT+11" territory="001"/>
+			<zoneItem type="Etc/GMT+12" territory="001"/>
+			<zoneItem type="Etc/Unknown" territory="001"/>
+			<zoneItem type="Europe/Amsterdam" territory="NL"/>
+			<zoneItem type="Europe/Andorra" territory="AD"/>
+			<zoneItem type="Europe/Athens" territory="GR"/>
+			<zoneItem type="Europe/Belgrade" territory="RS"/>
+			<zoneItem type="Europe/Berlin" territory="DE"/>
+			<zoneItem type="Europe/Bratislava" territory="SK"/>
+			<zoneItem type="Europe/Brussels" territory="BE"/>
+			<zoneItem type="Europe/Bucharest" territory="RO"/>
+			<zoneItem type="Europe/Budapest" territory="HU"/>
+			<zoneItem type="Europe/Chisinau" territory="MD" aliases="Europe/Tiraspol"/>
+			<zoneItem type="Europe/Copenhagen" territory="DK"/>
+			<zoneItem type="Europe/Dublin" territory="IE" aliases="Eire"/>
+			<zoneItem type="Europe/Gibraltar" territory="GI"/>
+			<zoneItem type="Europe/Guernsey" territory="GG"/>
+			<zoneItem type="Europe/Helsinki" territory="FI"/>
+			<zoneItem type="Europe/Isle_of_Man" territory="IM"/>
+			<zoneItem type="Europe/Istanbul" territory="TR" aliases="Asia/Istanbul Turkey"/>
+			<zoneItem type="Europe/Jersey" territory="JE"/>
+			<zoneItem type="Europe/Kaliningrad" territory="RU"/>
+			<zoneItem type="Europe/Kiev" territory="UA"/>
+			<zoneItem type="Europe/Lisbon" territory="PT" aliases="Portugal"/>
+			<zoneItem type="Europe/Ljubljana" territory="SI"/>
+			<zoneItem type="Europe/London" territory="GB" aliases="Europe/Belfast GB GB-Eire"/>
+			<zoneItem type="Europe/Luxembourg" territory="LU"/>
+			<zoneItem type="Europe/Madrid" territory="ES"/>
+			<zoneItem type="Europe/Malta" territory="MT"/>
+			<zoneItem type="Europe/Mariehamn" territory="AX"/>
+			<zoneItem type="Europe/Minsk" territory="BY"/>
+			<zoneItem type="Europe/Monaco" territory="MC"/>
+			<zoneItem type="Europe/Moscow" territory="RU" aliases="W-SU"/>
+			<zoneItem type="Europe/Oslo" territory="NO"/>
+			<zoneItem type="Europe/Paris" territory="FR"/>
+			<zoneItem type="Europe/Podgorica" territory="ME"/>
+			<zoneItem type="Europe/Prague" territory="CZ"/>
+			<zoneItem type="Europe/Riga" territory="LV"/>
+			<zoneItem type="Europe/Rome" territory="IT"/>
+			<zoneItem type="Europe/Samara" territory="RU"/>
+			<zoneItem type="Europe/San_Marino" territory="SM"/>
+			<zoneItem type="Europe/Sarajevo" territory="BA"/>
+			<zoneItem type="Europe/Simferopol" territory="UA"/>
+			<zoneItem type="Europe/Skopje" territory="MK"/>
+			<zoneItem type="Europe/Sofia" territory="BG"/>
+			<zoneItem type="Europe/Stockholm" territory="SE"/>
+			<zoneItem type="Europe/Tallinn" territory="EE"/>
+			<zoneItem type="Europe/Tirane" territory="AL"/>
+			<zoneItem type="Europe/Uzhgorod" territory="UA"/>
+			<zoneItem type="Europe/Vaduz" territory="LI"/>
+			<zoneItem type="Europe/Vatican" territory="VA"/>
+			<zoneItem type="Europe/Vienna" territory="AT"/>
+			<zoneItem type="Europe/Vilnius" territory="LT"/>
+			<zoneItem type="Europe/Volgograd" territory="RU"/>
+			<zoneItem type="Europe/Warsaw" territory="PL" aliases="Poland"/>
+			<zoneItem type="Europe/Zagreb" territory="HR"/>
+			<zoneItem type="Europe/Zaporozhye" territory="UA"/>
+			<zoneItem type="Europe/Zurich" territory="CH"/>
+			<zoneItem type="Indian/Antananarivo" territory="MG"/>
+			<zoneItem type="Indian/Chagos" territory="IO"/>
+			<zoneItem type="Indian/Christmas" territory="CX"/>
+			<zoneItem type="Indian/Cocos" territory="CC"/>
+			<zoneItem type="Indian/Comoro" territory="KM"/>
+			<zoneItem type="Indian/Kerguelen" territory="TF"/>
+			<zoneItem type="Indian/Mahe" territory="SC"/>
+			<zoneItem type="Indian/Maldives" territory="MV"/>
+			<zoneItem type="Indian/Mauritius" territory="MU"/>
+			<zoneItem type="Indian/Mayotte" territory="YT"/>
+			<zoneItem type="Indian/Reunion" territory="RE"/>
+			<zoneItem type="Pacific/Apia" territory="WS"/>
+			<zoneItem type="Pacific/Auckland" territory="NZ" aliases="NZ"/>
+			<zoneItem type="Pacific/Chatham" territory="NZ" aliases="NZ-CHAT"/>
+			<zoneItem type="Pacific/Easter" territory="CL" aliases="Chile/EasterIsland"/>
+			<zoneItem type="Pacific/Efate" territory="VU"/>
+			<zoneItem type="Pacific/Enderbury" territory="KI"/>
+			<zoneItem type="Pacific/Fakaofo" territory="TK"/>
+			<zoneItem type="Pacific/Fiji" territory="FJ"/>
+			<zoneItem type="Pacific/Funafuti" territory="TV"/>
+			<zoneItem type="Pacific/Galapagos" territory="EC"/>
+			<zoneItem type="Pacific/Gambier" territory="PF" aliases="SystemV/YST9"/>
+			<zoneItem type="Pacific/Guadalcanal" territory="SB"/>
+			<zoneItem type="Pacific/Guam" territory="GU"/>
+			<zoneItem type="Pacific/Honolulu" territory="US" aliases="HST SystemV/HST10 US/Hawaii"/>
+			<zoneItem type="Pacific/Johnston" territory="UM"/>
+			<zoneItem type="Pacific/Kiritimati" territory="KI"/>
+			<zoneItem type="Pacific/Kosrae" territory="FM"/>
+			<zoneItem type="Pacific/Kwajalein" territory="MH" aliases="Kwajalein"/>
+			<zoneItem type="Pacific/Majuro" territory="MH"/>
+			<zoneItem type="Pacific/Marquesas" territory="PF"/>
+			<zoneItem type="Pacific/Midway" territory="UM"/>
+			<zoneItem type="Pacific/Nauru" territory="NR"/>
+			<zoneItem type="Pacific/Niue" territory="NU"/>
+			<zoneItem type="Pacific/Norfolk" territory="NF"/>
+			<zoneItem type="Pacific/Noumea" territory="NC"/>
+			<zoneItem type="Pacific/Pago_Pago" territory="AS" aliases="Pacific/Samoa US/Samoa"/>
+			<zoneItem type="Pacific/Palau" territory="PW"/>
+			<zoneItem type="Pacific/Pitcairn" territory="PN" aliases="SystemV/PST8"/>
+			<zoneItem type="Pacific/Ponape" territory="FM"/>
+			<zoneItem type="Pacific/Port_Moresby" territory="PG"/>
+			<zoneItem type="Pacific/Rarotonga" territory="CK"/>
+			<zoneItem type="Pacific/Saipan" territory="MP"/>
+			<zoneItem type="Pacific/Tahiti" territory="PF"/>
+			<zoneItem type="Pacific/Tarawa" territory="KI"/>
+			<zoneItem type="Pacific/Tongatapu" territory="TO"/>
+			<zoneItem type="Pacific/Truk" territory="FM" aliases="Pacific/Yap"/>
+			<zoneItem type="Pacific/Wake" territory="UM"/>
+			<zoneItem type="Pacific/Wallis" territory="WF"/>
+		</zoneFormatting>
+	</timezoneData>
+</supplementalData>
