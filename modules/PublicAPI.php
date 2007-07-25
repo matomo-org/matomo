@@ -1,5 +1,5 @@
 <?php
-class Piwik_PublicApi
+class Piwik_PublicAPI
 {
 	static $classCalled = null;
 	private $api = null;
@@ -147,7 +147,7 @@ class Piwik_PublicApi
 				}
 				else
 				{
-					exit("must test this case and the other ones...");
+					exit("Must test this case and the other ones...");
 				}
 			}
 		}
@@ -171,6 +171,9 @@ class Piwik_PublicApi
 		return true;
 		
 	}
+	
+	
+	
 	public function __call($methodName, $parameters )
 	{
 		assert(!is_null(self::$classCalled));

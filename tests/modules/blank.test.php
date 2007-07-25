@@ -12,9 +12,27 @@ class Test_Piwik_Blank extends UnitTestCase
         parent::__construct('Log class test');
     }
     
-    function testToAdd()
+    /**
+     *
+     */
+    function test_ToAdd()
     {
     	
+    }
+    
+    
+    /**
+     * -> exception
+     */
+    public function _test_()
+    {
+    	try {
+    		test();
+    	}
+    	catch (Exception $expected) {
+            return;
+        }
+        $this->fail("Exception not raised.");
     }
 }
 ?>

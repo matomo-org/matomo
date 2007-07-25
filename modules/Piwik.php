@@ -135,7 +135,7 @@ class Piwik
 		$config = Zend_Registry::get('config');
 		$prefixTables = $config->database->tables_prefix;
 		
-		Piwik::log("Creating ". implode(", ", self::getTablesNames()));
+		//Piwik::log("Creating ". implode(", ", self::getTablesNames()));
 		
 		$tablesToCreate = self::getTablesCreateSql();
 		
