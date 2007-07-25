@@ -9,17 +9,17 @@ class Piwik_Apiable
 	{
 		 
 	}
-	public function getMinimumRoleRequired( $methodName )
+	public function getMinimumAccessRequired( $methodName )
 	{
 		if(isset($this->minimumAccessRequired[$methodName]))
 		{
-			$minimumRole = $this->minimumAccessRequired[$methodName];
+			$minimumAccess = $this->minimumAccessRequired[$methodName];
 		}
 		else
 		{
-			$minimumRole = 'superuser';
+			$minimumAccess = 'superuser';
 		}
-		return $minimumRole;
+		return $minimumAccess;
 	}	
 }
 ?>

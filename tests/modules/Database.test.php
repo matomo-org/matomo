@@ -11,11 +11,12 @@ class Test_Database extends UnitTestCase
 	function __construct( $title = '')
 	{
 		parent::__construct( $title );
+		print("For EVERY test the Database is created before and dropped at the end of the test method.<br>");
 	}
 	
 	public function setUp()
 	{
-		print("Setup database...");
+//		print("Setup database...");
 		Piwik::createConfigObject();
 		
 		// setup database	
@@ -31,7 +32,7 @@ class Test_Database extends UnitTestCase
 	
 	public function tearDown()
 	{
-		print("TearDown database...");
+//		print("TearDown database...");
 		Piwik::dropDatabase();
 	}
 }

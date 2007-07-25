@@ -2,27 +2,27 @@
 class Piwik_Access
 {
 	private $acl = null;
-	private $rolesByIdsite = null;
-	private $idsitesByRole = null;
+	private $accesssByIdsite = null;
+	private $idsitesByAccess = null;
 	private $identity = null; //login
 	private $isSuperUser = false;
 	
 	const SUCCESS_SUPERUSER_AUTH_CODE = 42;
 	
-	static private $availableRoles = array('noaccess', 'view', 'admin', 'superuser');
+	static private $availableAccess = array('noaccess', 'view', 'admin', 'superuser');
 	
 	public function __construct( $auth )
 	{
 		$this->auth = $auth;
-		$this->loadRoles();
+		$this->loadAccess();
     }
 	
-	private function loadRoles()
+	private function loadAccess()
 	{
-		$rolesByIdsite = array();
-		$idsitesByRole = array( 'view', 'admin', 'superuser');
+		$accessByIdsite = array();
+		$idsitesByAccess = array( 'view', 'admin', 'superuser');
 		
-		// roles = array ( idsite => roleIdSite, idsite2 => roleIdSite2)
+		// access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
         $result = $this->auth->authenticate();
 		
 		// case the superUser is logged in
@@ -32,8 +32,8 @@ class Piwik_Access
 			$sitesId = Piwik_SitesManager::getAllSitesId();
 			foreach($sitesId as $idSite)
 			{
-				$rolesByIdsite[$idSite] = 'superuser';
-				$idsitesByRole['superuser'][] = $idSite;
+				$accessByIdsite[$idSite] = 'superuser';
+				$idsitesByAccess['superuser'][] = $idSite;
 			}
 		}
 		// valid authentification (normal user logged in)
@@ -42,52 +42,52 @@ class Piwik_Access
 			$this->identity = $result->getIdentity();
 			
 			$db = Zend_Registry::get('db');
-			$rolesRaw = $db->fetchAll("SELECT role, idsite 
-							  FROM ".Piwik::prefixTable('role').
+			$accessRaw = $db->fetchAll("SELECT access, idsite 
+							  FROM ".Piwik::prefixTable('access').
 							" WHERE login=?", $this->identity);
 
-			foreach($rolesRaw as $role)
+			foreach($accessRaw as $access)
 			{
-				$rolesByIdsite[$role['idsite']] = $role['role'];
-				$idsitesByRole[$role['role']][] = $role['idsite'];
+				$accessByIdsite[$access['idsite']] = $access['access'];
+				$idsitesByAccess[$access['access']][] = $access['idsite'];
 			}
 		}
 		
-		$this->rolesByIdsite = $rolesByIdsite;
-		$this->idsitesByRole = $idsitesByRole;
+		$this->accessByIdsite = $accessByIdsite;
+		$this->idsitesByAccess = $idsitesByAccess;
 	}
 	    
-	static public function getListRoles()
+	static public function getListAccess()
 	{
-		return self::$availableRoles;
+		return self::$availableAccess;
 	}
 	
-	private function isRoleAllowed( $roleRequired, $idSite )
+	private function isAccessAllowed( $accessRequired, $idSite )
 	{
-		// if no role specified, the current access is noaccess
-		$role = 'noaccess';
+		// if no access specified, the current access is noaccess
+		$access = 'noaccess';
 		
-		if(isset($this->rolesByIdsite[$idSite]))
+		if(isset($this->accessByIdsite[$idSite]))
 		{
-			$role = $this->rolesByIdsite[$idSite];
+			$access = $this->accessByIdsite[$idSite];
 		}
 		
-		switch($roleRequired)
+		switch($accessRequired)
 		{
 			case 'noaccess':
 				return true;
 			break;
 			
 			case 'view':
-				return ($role == 'view' || $role == 'admin' || $role == 'superuser');
+				return ($access == 'view' || $access == 'admin' || $access == 'superuser');
 			break;
 			
 			case 'admin':
-				return ($role == 'admin' || $role == 'superuser');
+				return ($access == 'admin' || $access == 'superuser');
 			break;
 			
 			case 'superuser':
-				return ($role == 'superuser');
+				return ($access == 'superuser');
 			break;
 		}
 	}
@@ -95,28 +95,28 @@ class Piwik_Access
 	public function getSitesIdWithAtLeastViewAccess()
 	{
 		return array_unique(array_merge(
-					$this->idsitesByRole['view'],
-					$this->idsitesByRole['admin'],
-					$this->idsitesByRole['superuser']));
+					$this->idsitesByAccess['view'],
+					$this->idsitesByAccess['admin'],
+					$this->idsitesByAccess['superuser']));
 	}
 	
 	public function getSitesIdWithAdminAccess()
 	{
 		return array_unique(array_merge(
-					$this->idsitesByRole['admin'],
-					$this->idsitesByRole['superuser']));
+					$this->idsitesByAccess['admin'],
+					$this->idsitesByAccess['superuser']));
 	}
 	
 	public function getSitesIdWithViewAccess()
 	{
-		return 	$this->idsitesByRole['view'];
+		return 	$this->idsitesByAccess['view'];
 	}
 	
 	// is the current authentificated user allowed to access 
-	// the method with the idsite given the minimumRole
+	// the method with the idsite given the minimumAccess
 	// false means no IdSite provided to the method. null means apply the method to all the websites on which the user has
 	// the access required.
-	public function isAllowed( $minimumRole, $idSites = false )
+	public function isAllowed( $minimumAccess, $idSites = false )
 	{
 		// *use cases
 		// view + 1/2/3 with 1/2 view and 3 noaccess => refused
@@ -130,9 +130,9 @@ class Piwik_Access
 		// superuser + 1 with 1 admin => refused
 		if(is_null($idSites))
 		{
-			if(isset($this->idsitesByRole[$minimumRole]))
+			if(isset($this->idsitesByAccess[$minimumAccess]))
 			{
-				$idSites = $this->idsitesByRole[$minimumRole];				
+				$idSites = $this->idsitesByAccess[$minimumAccess];				
 			}
 			else
 			{
@@ -145,7 +145,7 @@ class Piwik_Access
 		{
 			if(!$this->isSuperUser)
 			{
-				throw new Exception("Access to this resource requires a 'superuser' role.");
+				throw new Exception("Access to this resource requires a 'superuser' access.");
 			}
 		}
 		else
@@ -155,17 +155,17 @@ class Piwik_Access
 				$idSites = array($idSites);
 			}
 			
-			// when the method called accepts an IdSite parameter, then we test that the user has a minimumRole matching
-			// for at least one website. For example, if the minimumRole is "admin" then the user must have at least 
-			// one "admin" role for a website to be allowed to execute the method. 
+			// when the method called accepts an IdSite parameter, then we test that the user has a minimumAccess matching
+			// for at least one website. For example, if the minimumAccess is "admin" then the user must have at least 
+			// one "admin" access for a website to be allowed to execute the method. 
 			// Then the method itself must take care of restricting its scope on the website with the "admin" right.
 			elseif(count($idSites) > 0)
 			{
 				foreach($idSites as $idsite)
 				{
-					if(!$this->isRoleAllowed($minimumRole, $idsite))
+					if(!$this->isAccessAllowed($minimumAccess, $idsite))
 					{
-						throw new Exception("Access to this resource requires a '$minimumRole' role for the idsite = $idsite.");
+						throw new Exception("Access to this resource requires a '$minimumAccess' access for the idsite = $idsite.");
 					}
 				}
 			}
