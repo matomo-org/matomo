@@ -9,6 +9,7 @@ define('PIWIK_INCLUDE_PATH', '.');
 require_once PIWIK_INCLUDE_PATH . "/modules/ErrorHandler.php";
 set_error_handler('Piwik_ErrorHandler');
 
+//TODO put in different file
 function Piwik_ExceptionHandler(Exception $exception) {
   echo "<div style='font-size:11pt'><pre>Uncaught exception: " , $exception->getMessage(), "\n";
   echo $exception->__toString();
@@ -51,27 +52,15 @@ Zend_Loader::loadClass('Piwik_Config');
 Zend_Loader::loadClass('Piwik_PublicAPI');
 Zend_Loader::loadClass('Piwik');
 
-
+//move into a init() method
 Piwik::createConfigObject();
 Piwik::createDatabaseObject();
 Piwik::createLogObject();
 
+//TODO move all DB related methods in a DB static class
 Piwik::createDatabase();
+
 Piwik::createTables();
-
-/*Piwik_UsersManager::deleteUser("login");
-Piwik_UsersManager::deleteUser("login2");
-Piwik_UsersManager::addUser("login","password1", "alias", "ema@i.coml");
-Piwik_UsersManager::addUser("login2","password2", "alias23", "ema2@i.coml");
-
-Piwik_SitesManager::replaceSiteUrls(1, array());
-Piwik_SitesManager::addSiteUrls(1, array("https://1", "http://2"));
-//var_dump(Piwik_SitesManager::getSiteUrlsFromId(4));
-//Piwik_SitesManager::addSite("many urls", array("https://t", "http://localhost/", "http://domain76.com/ijndex/"));
-
-Piwik_UsersManager::setUserRole("admin", "login", array(3,5));
-Piwik_UsersManager::setUserRole("admin", "login", array(6,7));
-*/
 
 // Create auth object
 $auth = Zend_Auth::getInstance();

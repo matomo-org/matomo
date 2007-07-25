@@ -25,10 +25,10 @@ class Piwik
 						)
 			",
 			
-			'role' => "CREATE TABLE {$prefixTables}role (
+			'access' => "CREATE TABLE {$prefixTables}access (
 						  login VARCHAR(20) NOT NULL,
 						  idsite INTEGER UNSIGNED NOT NULL,
-						  role VARCHAR(10) NULL,
+						  access VARCHAR(10) NULL,
 						  PRIMARY KEY(login, idsite)
 						)
 			",

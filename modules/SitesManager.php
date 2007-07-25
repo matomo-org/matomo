@@ -216,7 +216,7 @@ class Piwik_SitesManager extends Piwik_APIable
 	 */
 	static public function addSite( $name, $aUrls )
 	{
-		self::checkName($name);
+		$this->checkName($name);
 		$aUrls = self::cleanParameterUrls($aUrls);
 		self::checkUrls($aUrls);
 		self::checkAtLeastOneUrl($aUrls);

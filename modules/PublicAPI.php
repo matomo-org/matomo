@@ -4,7 +4,7 @@ class Piwik_PublicAPI
 	static $classCalled = null;
 	private $api = null;
 	
-	private $methodsNotToPublish = array('getMinimumRoleRequired');
+	private $methodsNotToPublish = array('getMinimumAccessRequired');
 	
 	static private $instance = null;
 	protected function __construct()
@@ -64,6 +64,9 @@ class Piwik_PublicAPI
 				Piwik::log("- $name is public ".$this->getStrListParameters($class, $name));				
 			}
 		}
+		
+		//TODO check that all the published method appear in the minimumAccess array
+		// or throw exception
 	}
 	
 	private function getStrListParameters($class, $name)
@@ -101,57 +104,6 @@ class Piwik_PublicAPI
 		return $this;
 	}
 	
-	private function getIdSitesParameter($class, $name, $parameters)
-	{
-		$paramsDefaultValues = $this->getParametersList($class, $name);
-		$parametersNames = array_keys($paramsDefaultValues);
-		$parametersNames = array_map("strtolower", $parametersNames);
-		
-		$sitesIdToLookFor = array("idsites", "idsite", "sitesid", "siteid", "siteids");
-		
-		$newlyFound = false;
-		$found = false;
-		foreach($sitesIdToLookFor as $strIdSite)
-		{
-			$newlyFound = array_search($strIdSite, $parametersNames);
-			if($newlyFound !== false 
-				&& $found !== false)
-			{
-				throw new Exception("
-					It seems that the parameters list ".$this->getStrListParameters($class, $name)." contains two potential IdSite parameters. 
-					Please rename the method parameters so that only one IdSite can be found in the method parameters list.
-					The following string are considered as being idSite parameter names : [".implode(", ", $sitesIdToLookFor)."]" );
-			}
-			elseif($newlyFound !== false)
-			{
-				$found = $newlyFound;
-			}
-		}
-
-		if($found===false)
-		{
-			return false;
-		}
-		else
-		{
-			if(isset($parameters[$found]))
-			{
-				$parameters[$found];
-			}
-			else
-			{
-				$values = array_values($paramsDefaultValues);
-				if(isset($values[$found]))
-				{
-					return $values[$found];
-				}
-				else
-				{
-					exit("Must test this case and the other ones...");
-				}
-			}
-		}
-	}
 	
 	private function checkNumberOfParametersMatch($className, $methodName, $parameters)
 	{
@@ -169,15 +121,18 @@ class Piwik_PublicAPI
 							Please check the method API.");
 		}
 		return true;
-		
 	}
-	
-	
+	/*
+	public function setCallback($classRegex, $methodRegex, $callback)
+	{
+		
+	}*/
 	
 	public function __call($methodName, $parameters )
 	{
+		if(ereg("MD", $methodName))
 		assert(!is_null(self::$classCalled));
-		
+
 		$args = @implode(", ", $parameters);
 		
 		$className = Piwik::prefixClass(self::$classCalled);
@@ -185,8 +140,7 @@ class Piwik_PublicAPI
 		{
 			throw new Exception("Objects that provide an API must be Singleton and have a 'static public function getInstance()' method.");
 		}
-		$object = null;
-		eval("\$object = $className::getInstance();");
+		$object = call_user_func(array($className, "getInstance"));
 		
 		// check method exists
 		if(!$this->isMethodAvailable($className, $methodName))
@@ -199,10 +153,10 @@ class Piwik_PublicAPI
 			// first check number of parameters do match
 			$this->checkNumberOfParametersMatch($className, $methodName, $parameters);
 
-			$idSites = $this->getIdSitesParameter($className, $methodName, $parameters);
+			//$idSites = $this->getIdSitesParameter($className, $methodName, $parameters);
 
 			$access = Zend_Registry::get('access');
-			$access->isAllowed( $object->getMinimumRoleRequired($methodName), $idSites);
+			//$access->isAllowed( $object->getMinimumAccessRequired($methodName), $idSites);
 			Piwik::log('Access granted!');
 
 			// call the method
