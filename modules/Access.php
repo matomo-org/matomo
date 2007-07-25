@@ -11,7 +11,7 @@ class Piwik_Access
 	
 	static private $availableRoles = array('noaccess', 'view', 'admin', 'superuser');
 	
-	public function __construct( $auth)
+	public function __construct( $auth )
 	{
 		$this->auth = $auth;
 		$this->loadRoles();
@@ -92,7 +92,7 @@ class Piwik_Access
 		}
 	}
 	
-	public function getIdsitesViewable()
+	public function getSitesIdWithAtLeastViewAccess()
 	{
 		return array_unique(array_merge(
 					$this->idsitesByRole['view'],
@@ -100,11 +100,16 @@ class Piwik_Access
 					$this->idsitesByRole['superuser']));
 	}
 	
-	public function getIdsitesAdministrable()
+	public function getSitesIdWithAdminAccess()
 	{
 		return array_unique(array_merge(
 					$this->idsitesByRole['admin'],
 					$this->idsitesByRole['superuser']));
+	}
+	
+	public function getSitesIdWithViewAccess()
+	{
+		return 	$this->idsitesByRole['view'];
 	}
 	
 	// is the current authentificated user allowed to access 

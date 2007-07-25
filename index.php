@@ -33,26 +33,22 @@ assert_options(ASSERT_BAIL, 	1);
  */
 include "Zend/Exception.php";
 include "Zend/Loader.php";
-Zend_Loader::loadClass('Zend_Controller_Front');
 Zend_Loader::loadClass('Zend_Registry');
 Zend_Loader::loadClass('Zend_Config_Ini');
 Zend_Loader::loadClass('Zend_Db');
 Zend_Loader::loadClass('Zend_Db_Table');
 Zend_Loader::loadClass('Zend_Debug');
 Zend_Loader::loadClass('Zend_Auth');
-Zend_Loader::loadClass('Zend_Acl');
-Zend_Loader::loadClass('Zend_Acl_Resource');
-Zend_Loader::loadClass('Zend_Acl_Role');
 Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
 
 /*
  * Piwik classes
  */
 Zend_Loader::loadClass('Piwik_Access');
-Zend_Loader::loadClass('Piwik_Apiable'); 
+Zend_Loader::loadClass('Piwik_APIable'); 
 Zend_Loader::loadClass('Piwik_Log');
 Zend_Loader::loadClass('Piwik_Config');
-Zend_Loader::loadClass('Piwik_PublicApi');
+Zend_Loader::loadClass('Piwik_PublicAPI');
 Zend_Loader::loadClass('Piwik');
 
 
@@ -103,7 +99,8 @@ function main()
 	$api->registerClass("Piwik_SitesManager");
 	$api->registerClass("Piwik_UsersManager");
 	
-	$api->SitesManager->getSiteUrlsFromId(1); 
+	$api->SitesManager->getSiteUrlsFromId(1);
+	
 	$api->SitesManager->addSite("test name site", array("http://localhost", "http://test.com"));
 	$api->UsersManager->addUser(2, "login", "password");
 }

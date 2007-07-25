@@ -15,6 +15,7 @@ if (! defined('SIMPLE_TEST'))
 }
 
 require_once SIMPLE_TEST . 'autorun.php';
+require_once SIMPLE_TEST . 'mock_objects.php';
 SimpleTest :: prefer(new HtmlReporter());
 
 error_reporting(E_ALL|E_NOTICE);
@@ -38,6 +39,7 @@ Zend_Loader::loadClass('Zend_Config_Ini');
 Zend_Loader::loadClass('Zend_Db');
 Zend_Loader::loadClass('Zend_Db_Table');
 Zend_Loader::loadClass('Piwik_Config');
+Zend_Loader::loadClass('Piwik_Access');
 Zend_Loader::loadClass('Piwik_Log');
 Zend_Loader::loadClass('Piwik');
 Piwik::createLogObject();
