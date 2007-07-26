@@ -3,9 +3,7 @@ class Piwik_PublicAPI
 {
 	static $classCalled = null;
 	private $api = null;
-	
-	private $methodsNotToPublish = array('getMinimumAccessRequired');
-	
+		
 	static private $instance = null;
 	protected function __construct()
 	{}
@@ -36,9 +34,13 @@ class Piwik_PublicAPI
 		$rMethods = $rClass->getMethods();
 		foreach($rMethods as $method)
 		{
+			// use this trick to read the static attribute of the class
+			// $class::$methodsNotToPublish doesn't work
+			$variablesClass = get_class_vars($class);
+						
 			if($method->isPublic() 
 				&& !$method->isConstructor()
-				&& !in_array($method->getName(), $this->methodsNotToPublish )
+				&& !in_array($method->getName(), $variablesClass['methodsNotToPublish'] )
 			)
 			{
 				$name = $method->getName();
@@ -153,12 +155,8 @@ class Piwik_PublicAPI
 			// first check number of parameters do match
 			$this->checkNumberOfParametersMatch($className, $methodName, $parameters);
 
-			//$idSites = $this->getIdSitesParameter($className, $methodName, $parameters);
-
 			$access = Zend_Registry::get('access');
-			//$access->isAllowed( $object->getMinimumAccessRequired($methodName), $idSites);
-			Piwik::log('Access granted!');
-
+			
 			// call the method
 			call_user_func(array($object, $methodName), $parameters);
 		}

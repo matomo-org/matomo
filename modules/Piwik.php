@@ -21,7 +21,8 @@ class Piwik
 						  email VARCHAR(100) NOT NULL,
 						  token_auth CHAR(32) NOT NULL,
 						  date_registered TIMESTAMP NOT NULL,
-						  PRIMARY KEY(login)
+						  PRIMARY KEY(login),
+						  UNIQUE INDEX uniq_keytoken(token_auth)
 						)
 			",
 			
@@ -51,6 +52,43 @@ class Piwik
 			);
 		return $tables;
 	}
+	static public function getCurrentUserLogin()
+	{
+		return Zend_Registry::get('access')->getIdentity();
+	}
+	// Accessible either to the user itself
+	static public function checkUserIsSuperUserOrTheUser( $theUser )
+	{
+		try{
+			if( Piwik::getCurrentUserLogin() !== $theUser)
+			{
+				// or to the super user
+				Piwik::checkUserIsSuperUser();
+			}
+		} catch( Exception $e){
+			throw new Exception("The user has to be either the Super User or the user '$theUser' itself.");
+		}
+	}
+	
+	static public function checkUserIsSuperUser()
+	{
+		Zend_Registry::get('access')->checkUserIsSuperUser();
+	}
+	
+	static public function checkUserHasAdminAccess( $idSites )
+	{
+		Zend_Registry::get('access')->checkUserHasAdminAccess( $idSites );
+	}
+	static public function checkUserHasSomeAdminAccess()
+	{
+		Zend_Registry::get('access')->checkUserHasSomeAdminAccess();
+	}
+	
+	static public function checkUserHasViewAccess( $idSites )
+	{
+		Zend_Registry::get('access')->checkUserHasViewAccess( $idSites );
+	}
+	
 	
 	static public function prefixClass( $class )
 	{

@@ -19,20 +19,8 @@ class Piwik_SitesManager extends Piwik_APIable
 		}
 		return self::$instance;
 	}
-
-	/**
-	 * The minimum access required for each public method of this class.
-	 */
-	protected $minimumAccessRequired = array(
-		'getSites' 				=> 'view',
-		'getSiteUrlsFromId' 	=> 'view',
-		'getSitesId' 			=> 'view',
-		'getAllSitesId'			=> 'superuser',
-		'replaceSiteUrls' 		=> 'admin',
-		'siteExists'			=> 'view',
-		'getSiteFromId'			=> 'view',
-	);
-
+	
+	static public $methodsNotToPublish = array();
 	
 	/**
 	 * Returns the website information : name, main_url
@@ -42,7 +30,8 @@ class Piwik_SitesManager extends Piwik_APIable
 	 */
 	static public function getSiteFromId( $idSite )
 	{
-		self::checkIdSite($idSite);
+		Piwik::checkUserHasViewAccess( $idSite );
+		
 		$db = Zend_Registry::get('db');
 		$site = $db->fetchRow("SELECT * FROM ".Piwik::prefixTable("site")." WHERE idsite = ?", $idSite);
 		return $site;
@@ -56,7 +45,6 @@ class Piwik_SitesManager extends Piwik_APIable
 	 */
 	static private function getAliasSiteUrlsFromId( $idsite )
 	{
-		self::checkIdSite($idsite);
 		$db = Zend_Registry::get('db');
 		$urls = $db->fetchCol("SELECT url 
 								FROM ".Piwik::prefixTable("site_url"). " 
@@ -72,7 +60,8 @@ class Piwik_SitesManager extends Piwik_APIable
 	 */
 	static public function getSiteUrlsFromId( $idsite )
 	{
-		self::checkIdSite($idsite);
+		Piwik::checkUserHasViewAccess($idsite);
+		
 		$site = self::getSiteFromId($idsite);
 		$urls = self::getAliasSiteUrlsFromId($idsite);
 		
@@ -86,6 +75,8 @@ class Piwik_SitesManager extends Piwik_APIable
 	 */
 	static public function getAllSitesId()
 	{
+		Piwik::checkUserIsSuperUser();
+		
 		$db = Zend_Registry::get('db');
 		$idSites = $db->fetchCol("SELECT idsite FROM ".Piwik::prefixTable('site'));
 		return $idSites;
@@ -192,18 +183,6 @@ class Piwik_SitesManager extends Piwik_APIable
 	}
 	
 	/**
-	 * Returns true if the idSite given do exist in the database 
-	 * and the user has at least a 'view' access on it.
-	 * 
-	 * @return bool true if the websites exists
-	 */
-	static public function siteExists( $idsite )
-	{
-		$sites = self::getSitesIdWithAtLeastViewAccess();
-		return is_numeric($idsite) && in_array($idsite, $sites);
-	}
-	
-	/**
 	 * Add a website to the database.
 	 * 
 	 * The website is defined by a name and an array of URLs.
@@ -216,7 +195,9 @@ class Piwik_SitesManager extends Piwik_APIable
 	 */
 	static public function addSite( $name, $aUrls )
 	{
-		$this->checkName($name);
+		Piwik::checkUserIsSuperUser();
+		
+		self::checkName($name);
 		$aUrls = self::cleanParameterUrls($aUrls);
 		self::checkUrls($aUrls);
 		self::checkAtLeastOneUrl($aUrls);
@@ -263,7 +244,8 @@ class Piwik_SitesManager extends Piwik_APIable
 	 */
 	static public function addSiteAliasUrls( $idsite,  $aUrls)
 	{
-		self::checkIdsite($idsite);
+		Piwik::checkUserHasAdminAccess( $idsite );
+		
 		$aUrls = self::cleanParameterUrls($aUrls);
 		self::checkUrls($aUrls);
 		
@@ -287,7 +269,9 @@ class Piwik_SitesManager extends Piwik_APIable
 	 * @return int the number of inserted URLs
 	 */
 	static public function replaceSiteUrls( $idSite,  $aUrls)
-	{	
+	{
+		Piwik::checkUserHasAdminAccess($idSite);
+		
 		$aUrls = self::cleanParameterUrls($aUrls);
 		self::checkUrls($aUrls);
 		self::checkAtLeastOneUrl($aUrls);
@@ -322,7 +306,8 @@ class Piwik_SitesManager extends Piwik_APIable
 	 */
 	static public function updateSite( $idSite, $name, $aUrls = null)
 	{
-		self::checkIdsite($idSite);
+		Piwik::checkUserHasAdminAccess($idSite);
+
 		self::checkName($name);
 		
 		// SQL fields to update
@@ -354,7 +339,6 @@ class Piwik_SitesManager extends Piwik_APIable
 		{
 			self::replaceSiteUrls($idSite, $aUrls);
 		}
-		return true;
 	}
 	
 	/**
@@ -465,26 +449,5 @@ class Piwik_SitesManager extends Piwik_APIable
 		
 		return $aUrls;
 	}
-
-	/**
-	 * Check that the website ID has a correct type (integer greater than zero)
-	 * and that it matches an existing website in the database.
-	 * 
-	 * @exception
-	 */
-	static private function checkIdsite($idsite)
-	{
-		if(!is_numeric($idsite)
-			|| $idsite <= 0)
-		{
-			throw new Exception("Idsite must be an integer > 0.");
-		}
-		
-		if(!self::siteExists($idsite))
-		{
-			throw new Exception("The site with Idsite = $idsite doesn't exist or the user doesn't have access to it.");
-		}
-	}
-	
 }
 ?>

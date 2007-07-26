@@ -85,6 +85,7 @@ function main()
 {
 	Piwik::log("Start process...");
 	$api = Piwik_PublicApi::getInstance();
+	
 	$api->registerClass("Piwik_SitesManager");
 	$api->registerClass("Piwik_UsersManager");
 	

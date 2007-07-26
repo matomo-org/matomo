@@ -25,38 +25,44 @@ class Piwik_Access
 		// access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
         $result = $this->auth->authenticate();
 		
-		// case the superUser is logged in
-		if($result->getCode() == Piwik_Access::SUCCESS_SUPERUSER_AUTH_CODE)
-		{
-			$this->isSuperUser = true;
-			$sitesId = Piwik_SitesManager::getAllSitesId();
-			foreach($sitesId as $idSite)
-			{
-				$accessByIdsite[$idSite] = 'superuser';
-				$idsitesByAccess['superuser'][] = $idSite;
-			}
-		}
-		// valid authentification (normal user logged in)
-		elseif($result->isValid())
+		if($result->isValid())
 		{
 			$this->identity = $result->getIdentity();
 			
-			$db = Zend_Registry::get('db');
-			$accessRaw = $db->fetchAll("SELECT access, idsite 
-							  FROM ".Piwik::prefixTable('access').
-							" WHERE login=?", $this->identity);
-
-			foreach($accessRaw as $access)
+			// case the superUser is logged in
+			if($result->getCode() == Piwik_Access::SUCCESS_SUPERUSER_AUTH_CODE)
 			{
-				$accessByIdsite[$access['idsite']] = $access['access'];
-				$idsitesByAccess[$access['access']][] = $access['idsite'];
+				$this->isSuperUser = true;
+				$sitesId = Piwik_SitesManager::getAllSitesId();
+				foreach($sitesId as $idSite)
+				{
+					$accessByIdsite[$idSite] = 'superuser';
+					$idsitesByAccess['superuser'][] = $idSite;
+				}
+			}
+			// valid authentification (normal user logged in)
+			else
+			{				
+				$db = Zend_Registry::get('db');
+				$accessRaw = $db->fetchAll("SELECT access, idsite 
+								  FROM ".Piwik::prefixTable('access').
+								" WHERE login=?", $this->identity);
+	
+				foreach($accessRaw as $access)
+				{
+					$accessByIdsite[$access['idsite']] = $access['access'];
+					$idsitesByAccess[$access['access']][] = $access['idsite'];
+				}
 			}
 		}
-		
 		$this->accessByIdsite = $accessByIdsite;
 		$this->idsitesByAccess = $idsitesByAccess;
 	}
-	    
+	
+	static public function getIdentity()
+	{
+		return $this->identity;
+	}
 	static public function getListAccess()
 	{
 		return self::$availableAccess;
@@ -116,7 +122,7 @@ class Piwik_Access
 	// the method with the idsite given the minimumAccess
 	// false means no IdSite provided to the method. null means apply the method to all the websites on which the user has
 	// the access required.
-	public function isAllowed( $minimumAccess, $idSites = false )
+	public function checkUserHasAccessToSites( $minimumAccess, $idSites = false )
 	{
 		// *use cases
 		// view + 1/2/3 with 1/2 view and 3 noaccess => refused
@@ -143,10 +149,7 @@ class Piwik_Access
 		// when the method called doesn't accept an IdSite parameter, then we must be a superUser
 		if($idSites === false)
 		{
-			if(!$this->isSuperUser)
-			{
-				throw new Exception("Access to this resource requires a 'superuser' access.");
-			}
+			self::checkUserIsSuperUser();
 		}
 		else
 		{			
@@ -172,6 +175,32 @@ class Piwik_Access
 		}
 		
 		return true;
+	}
+	
+	
+	public function checkUserIsSuperUser()
+	{
+		if($this->isSuperUser === false)
+		{
+			throw new Exception("Access to this resource requires a 'superuser' access.");
+		}
+	}
+	
+	public function checkUserHasSomeAdminAccess()
+	{
+		//TODO implement
+		return false;
+	}
+	public function checkUserHasAdminAccess( $idSites )
+	{
+		//TODO implement
+		return false;
+	}
+	
+	public function checkUserHasViewAccess( $idSites )
+	{
+		//TODO implement
+		return false;
 	}
 }
 
