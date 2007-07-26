@@ -1,0 +1,9 @@
+FEATURES
+========
+- when a method is called and doesn't make any access check, we can throw a NoticeException
+  and display the message in debug mode in the API returned value in the field "notice" or "debug"
+
+BUGS
+====
+- the token md5 generation doesn't check that the md5 generated is unique, 
+  but it should (the field is unique in the database)

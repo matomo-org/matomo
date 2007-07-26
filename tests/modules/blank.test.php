@@ -30,6 +30,7 @@ class Test_Piwik_Blank extends UnitTestCase
     		test();
     	}
     	catch (Exception $expected) {
+    		$this->assertPattern("()", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");

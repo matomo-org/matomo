@@ -18,14 +18,13 @@ class Test_Piwik_SitesManager extends Test_Database
     public function setUp()
     {
     	parent::setUp();
-		$access = new MockPiwik_Access;
-		$access->setReturnValue('getSitesIdWithAdminAccess', array(1,2,3));
-		$access->setReturnValue('getSitesIdWithViewAccess', array(10,12));
-		$access->setReturnValue('getSitesIdWithAtLeastViewAccess', array(1,2,3,10,12));
-						
-		Zend_Registry::set('access', $access);
-    }
 
+		// setup the access layer
+    	$pseudoMockAccess = new FakeAccess;
+		FakeAccess::$superUser = true;
+		Zend_Registry::set('access', $pseudoMockAccess);
+		
+    }
     
     /**
      * empty name -> exception
@@ -344,11 +343,10 @@ class Test_Piwik_SitesManager extends Test_Database
     
     
     /**
-     * wrong idsite => exception
+     * wrong idsite => no exception because simply no access to this resource
      */
     public function test_addSiteUrls_wrongIdSite1()
     {
-    	
     	$toAdd = array("http://pigeq.com/test");
     	try {
     		$insertedUrls = Piwik_SitesManager::addSiteAliasUrls(-1, $toAdd);
@@ -441,9 +439,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$this->assertEqual($idsite,1);
     	
     	// set noaccess to site 1
-		$access = new MockPiwik_Access;
-    	$access->setReturnValue('getSitesIdWithAtLeastViewAccess', array(2));
-    	Zend_Registry::set('access', $access);
+		FakeAccess::setIdSitesView (array(2));
+		FakeAccess::setIdSitesAdmin (array());
     	
     	try {
     		$siteInfo = Piwik_SitesManager::getSiteFromId(1);
@@ -474,9 +471,7 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_getSitesWithAdminAccess_noResult()
     {
-    	$access = new MockPiwik_Access;
-    	$access->setReturnValue('getSitesIdWithAdminAccess', array());
-    	Zend_Registry::set('access', $access);
+		FakeAccess::setIdSitesAdmin (array());
     	
     	$sites = Piwik_SitesManager::getSitesWithAdminAccess();
     	$this->assertEqual($sites, array());
@@ -496,10 +491,8 @@ class Test_Piwik_SitesManager extends Test_Database
     		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org"),
     	);
     		
-    	$access = new MockPiwik_Access;
-    	$access->setReturnValue('getSitesIdWithAdminAccess', array(1,3));
-    	Zend_Registry::set('access', $access);
-    	
+		FakeAccess::setIdSitesAdmin (array(1,3));
+		
     	$sites = Piwik_SitesManager::getSitesWithAdminAccess();
     	$this->assertEqual($sites, $resultWanted);
     }
@@ -509,9 +502,8 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_getSitesWithViewAccess_noResult()
     {
-    	$access = new MockPiwik_Access;
-    	$access->setReturnValue('getSitesIdWithViewAccess', array());
-    	Zend_Registry::set('access', $access);
+		FakeAccess::setIdSitesView (array());
+		FakeAccess::setIdSitesAdmin (array());
     	
     	$sites = Piwik_SitesManager::getSitesWithViewAccess();
     	$this->assertEqual($sites, array());
@@ -531,9 +523,8 @@ class Test_Piwik_SitesManager extends Test_Database
     		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org"),
     	);
     		
-    	$access = new MockPiwik_Access;
-    	$access->setReturnValue('getSitesIdWithViewAccess', array(1,3));
-    	Zend_Registry::set('access', $access);
+		FakeAccess::setIdSitesView (array(1,3));
+		FakeAccess::setIdSitesAdmin (array());
     	
     	$sites = Piwik_SitesManager::getSitesWithViewAccess();
     	$this->assertEqual($sites, $resultWanted);
@@ -544,9 +535,8 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_getSitesWithAtLeastViewAccess_noResult()
     {
-    	$access = new MockPiwik_Access;
-    	$access->setReturnValue('getSitesIdWithAtLeastViewAccess', array());
-    	Zend_Registry::set('access', $access);
+		FakeAccess::setIdSitesView (array());
+		FakeAccess::setIdSitesAdmin (array());
     	
     	$sites = Piwik_SitesManager::getSitesWithAtLeastViewAccess();
     	$this->assertEqual($sites, array());
@@ -566,9 +556,8 @@ class Test_Piwik_SitesManager extends Test_Database
     		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org"),
     	);
     		
-    	$access = new MockPiwik_Access;
-    	$access->setReturnValue('getSitesIdWithAtLeastViewAccess', array(1,3));
-    	Zend_Registry::set('access', $access);
+		FakeAccess::setIdSitesView (array(1,3));
+		FakeAccess::setIdSitesAdmin (array());
     	
     	$sites = Piwik_SitesManager::getSitesWithAtLeastViewAccess();
     	$this->assertEqual($sites, $resultWanted);
@@ -615,9 +604,9 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_getSiteUrlsFromId_wrongId()
     {
-    	$access = new MockPiwik_Access;
-    	$access->setReturnValue('getSitesIdWithAtLeastViewAccess', array(3));
-    	Zend_Registry::set('access', $access);
+		FakeAccess::setIdSitesView (array(3));
+		FakeAccess::setIdSitesAdmin (array());
+    	
     	try {
     		Piwik_SitesManager::getSiteUrlsFromId(1);
     	}
@@ -649,8 +638,9 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_replaceSiteUrls_noUrls()
     {
+    	$idsite = Piwik_SitesManager::addSite("site1","http://test.com");
     	try {
-    		Piwik_SitesManager::replaceSiteUrls(1, array());
+    		Piwik_SitesManager::replaceSiteUrls($idsite, array());
     	}
     	catch (Exception $expected) {
     		$this->assertPattern("(at least one URL)", $expected->getMessage());

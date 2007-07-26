@@ -19,6 +19,8 @@ class Piwik_UsersManager extends Piwik_APIable
 		return self::$instance;
 	}
 	
+	static public $methodsNotToPublish = array();
+	
 	/**
 	 * Returns the list of all the users login.
 	 * 
@@ -26,6 +28,8 @@ class Piwik_UsersManager extends Piwik_APIable
 	 */
 	static public function getUsers()
 	{
+		Piwik::checkUserIsSuperUser();
+		
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT login FROM ".Piwik::prefixTable("user"));
 		$return = array();
@@ -53,6 +57,8 @@ class Piwik_UsersManager extends Piwik_APIable
 	 */
 	static public function getUsersSitesFromAccess( $access )
 	{
+		Piwik::checkUserIsSuperUser();
+		
 		self::checkAccessType($access);
 		
 		$db = Zend_Registry::get('db');
@@ -85,7 +91,8 @@ class Piwik_UsersManager extends Piwik_APIable
 	 */
 	static public function getUsersAccessFromSite( $idSite )
 	{
-		Piwik_SitesManager::checkIdsite($idSite);
+		
+		Piwik::checkUserHasAdminAccess( $idSite );
 		
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT login,access 
@@ -107,6 +114,7 @@ class Piwik_UsersManager extends Piwik_APIable
 	 * For each website ID, returns the access level of the given $userLogin.
 	 * If the user doesn't have any access to a website ('noaccess'), 
 	 * this website will not be in the returned array.
+	 * If the user doesn't have any access, the returned array will be an empty array.
 	 * 
 	 * @param string User that has to be valid
 	 * 
@@ -120,6 +128,8 @@ class Piwik_UsersManager extends Piwik_APIable
 	 */
 	static public function getSitesAccessFromUser( $userLogin )
 	{
+		Piwik::checkUserIsSuperUser();
+		
 		self::checkUserExists($userLogin);
 		
 		$db = Zend_Registry::get('db');
@@ -143,6 +153,7 @@ class Piwik_UsersManager extends Piwik_APIable
 	 */
 	static public function getUser( $login )
 	{
+		Piwik::checkUserIsSuperUser();
 		self::checkUserExists($login);
 		
 		$db = Zend_Registry::get('db');
@@ -152,6 +163,49 @@ class Piwik_UsersManager extends Piwik_APIable
 		return $user;
 	}
 	
+	static private function checkLogin($userLogin)
+	{
+		if(self::userExists($userLogin))
+		{
+			throw new Exception("Login $userLogin already exists.");
+		}
+		
+		if(!self::isValidLoginString($userLogin))
+		{
+			throw new Exception("The login must contain only letters, numbers, or the characters '_' or '-' or '.'.");
+		}
+	}
+		
+	static private function checkPassword($password)
+	{
+		if(!self::isValidPasswordString($password))
+		{
+			throw new Exception("The password must contain at least 6 characters including at least one number.");
+		}
+	}
+	
+	static private function checkEmail($email)
+	{
+		if(!self::isValidEmailString($email))
+		{
+			throw new Exception("The email doesn't have a valid format.");
+		}
+	}
+		
+	static private function getCleanAlias($alias,$userLogin)
+	{
+		if(is_null($alias)
+			|| empty($alias))
+		{
+			$alias = $userLogin;
+		}
+		return $alias;
+	}
+	static private function getCleanPassword($password)
+	{
+		return md5($password);
+	}
+		
 	/**
 	 * Add a user in the database.
 	 * A user is defined by 
@@ -166,55 +220,46 @@ class Piwik_UsersManager extends Piwik_APIable
 	 * @see isValidEmailString()
 	 * 
 	 * @exception in case of an invalid parameter
-	 * @return bool true on success
 	 */
 	static public function addUser( $userLogin, $password, $email, $alias = null )
 	{
-		if(self::userExists($userLogin))
-		{
-			throw new Exception("Login $userLogin already exists.");
-		}
-		if(!self::isValidLoginString($userLogin))
-		{
-			throw new Exception("The login must contain only letters, numbers, or the characters '_' or '-' or '.'.");
-		}
-		if(!self::isValidPasswordString($password))
-		{
-			throw new Exception("The password must contain at least 6 characters including at least one number.");
-		}
-		if(!self::isValidEmailString($email))
-		{
-			throw new Exception("The email doesn't have a valid format.");
-		}
+		Piwik::checkUserIsSuperUser();
+		
+		self::checkLogin($userLogin);
+		self::checkPassword($password);
+		self::checkEmail($email);
+		
+		$alias = self::getCleanAlias($alias,$userLogin);
+		$token_auth = self::getTokenAuth($userLogin,$password);
+		$passwordTransformed = self::getCleanPassword($password);
 		
 		$db = Zend_Registry::get('db');
 		
 		$db->insert( Piwik::prefixTable("user"), array(
 									'login' => $userLogin,
-									'password' => md5($password),
+									'password' => $passwordTransformed,
 									'alias' => $alias,
 									'email' => $email,
-									'token_auth' => self::getTokenAuth($userLogin,$password)
+									'token_auth' => $token_auth,
 									)
 		);
-		return true;
 		
 	}
 	
 	/**
-	 * Updates a user in the dabase. 
+	 * Updates a user in the database. 
 	 * Only login and password are required (case when we update the password).
 	 * When the password changes, the key token for this user will change, which could break
 	 * its API calls.
 	 * 
 	 * @see addUser() for all the parameters
 	 */
-	static public function updateUser(  $userLogin, $password, $alias = null, $email = null )
+	static public function updateUser(  $userLogin, $password, $email = null, $alias = null )
 	{
+		Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+		
 		$userInfo = self::getUser($userLogin);
-		self::deleteUserOnly( $userLogin );
-		
-		
+				
 		if(is_null($alias))
 		{
 			$alias = $userInfo['alias'];
@@ -223,9 +268,25 @@ class Piwik_UsersManager extends Piwik_APIable
 		{
 			$email = $userInfo['email'];
 		}
-		self::addUser($userLogin, $password, $email, $alias);
 		
-		return true;
+		self::checkPassword($password);
+		self::checkEmail($email);
+		
+		$alias = self::getCleanAlias($alias,$userLogin);
+		$token_auth = self::getTokenAuth($userLogin,$password);
+		$passwordTransformed = self::getCleanPassword($password);
+		
+		$db = Zend_Registry::get('db');
+											
+		$db->update( Piwik::prefixTable("user"), 
+					array(
+						'password' => $passwordTransformed,
+						'alias' => $alias,
+						'email' => $email,
+						'token_auth' => $token_auth,
+						),
+					"login = '$userLogin'"
+			);		
 	}
 	
 	/**
@@ -239,6 +300,8 @@ class Piwik_UsersManager extends Piwik_APIable
 	 */
 	static public function deleteUser( $userLogin )
 	{
+		Piwik::checkUserIsSuperUser();
+		
 		if(!self::userExists($userLogin))
 		{
 			throw new Exception("User $userLogin doesn't exist therefore it can't be deleted.");
@@ -249,12 +312,16 @@ class Piwik_UsersManager extends Piwik_APIable
 	
 	/**
 	 * Returns true if the given userLogin is known in the database
+	 * 
 	 * @return bool true if the user is known
 	 */
 	static public function userExists( $userLogin )
 	{
-		$aLogins = self::getUsers();
-		return in_array($userLogin, $aLogins);
+		Piwik::checkUserHasSomeAdminAccess();	
+		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
+													FROM ".Piwik::prefixTable("user"). " 
+													WHERE login = ?", $userLogin);
+		return $count != 0;
 	}
 
 	/**
@@ -275,7 +342,7 @@ class Piwik_UsersManager extends Piwik_APIable
 	 */
 	static public function setUserAccess( $userLogin, $access, $idSites = null)
 	{
-		self::checkAccessType($access);
+		self::checkAccessType( $access );
 		self::checkUserExists( $userLogin);
 		
 		// in case idSites is null we grant access to all the websites on which the current connected user
@@ -290,14 +357,9 @@ class Piwik_UsersManager extends Piwik_APIable
 			$idSites = array($idSites);
 		}
 		
-		foreach($idSites as $idsite)
-		{		
-			if(	!Piwik_SitesManager::siteExists($idsite))
-			{
-				throw new Exception("Site id = $idsite doesn't exist.");
-			}
-		}
-		
+		// it is possible to set user access on websites only for the websites admin
+		// basically an admin can give the view or the admin access to any user for the websites he manages
+		Piwik::checkUserHasAdminAccess( $idSites );
 		
 		self::deleteUserAccess( $userLogin, $idSites);
 		
@@ -317,7 +379,6 @@ class Piwik_UsersManager extends Piwik_APIable
 						);
 			}
 		}
-		return true;
 	}
 	
 	/**
@@ -337,14 +398,14 @@ class Piwik_UsersManager extends Piwik_APIable
 	
 	static private function checkAccessType($access)
 	{
-		$access = Piwik_Access::getListAccess();
+		$accessList = Piwik_Access::getListAccess();
 		
 		// do not allow to set the superUser access
-		unset($access[array_search("superuser", $access)]);
+		unset($accessList[array_search("superuser", $accessList)]);
 		
-		if(!in_array($access,$access))
+		if(!in_array($access,$accessList))
 		{
-			throw new Exception("The parameter access must have one of the following values : [ ". implode(", ", $access)." ]");
+			throw new Exception("The parameter access must have one of the following values : [ ". implode(", ", $accessList)." ]");
 		}
 	}
 	
@@ -354,13 +415,11 @@ class Piwik_UsersManager extends Piwik_APIable
 	 * 
 	 * @param string the user login.
 	 *  
-	 * @return bool true on success
 	 */
 	static private function deleteUserOnly( $userLogin )
 	{
 		$db = Zend_Registry::get('db');
 		$db->query("DELETE FROM ".Piwik::prefixTable("user")." WHERE login = ?", $userLogin);
-		return true;
 	}
 	
 	
@@ -393,7 +452,6 @@ class Piwik_UsersManager extends Piwik_APIable
 				);
 			}
 		}
-		return true;
 	}
 	
 	/**
