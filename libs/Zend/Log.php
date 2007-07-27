@@ -44,22 +44,22 @@ class Zend_Log
      * @var array of priorities where the keys are the
      * priority numbers and the values are the priority names
      */
-    private $_priorities = array();
+    protected $_priorities = array();
 
     /**
      * @var array of Zend_Log_Writer_Abstract
      */
-    private $_writers = array();
+    protected $_writers = array();
 
     /**
      * @var array of Zend_Log_Filter_Interface
      */
-    private $_filters = array();
+    protected $_filters = array();
 
     /**
      * @var array of extra log event
      */
-    private $_extras = array();
+    protected $_extras = array();
 
     /**
      * Class constructor.  Create a new logger

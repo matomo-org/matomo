@@ -6,7 +6,7 @@ class Piwik
 	
 	static public function log($message, $priority = Zend_Log::NOTICE)
 	{
-		Zend_Registry::get('logger')->log($message . PHP_EOL, $priority);
+		Zend_Registry::get('logger')->log($message . PHP_EOL);
 	}
 	
 	static public function getTablesCreateSql()
@@ -52,10 +52,18 @@ class Piwik
 			);
 		return $tables;
 	}
+	
+	static public function getIp()
+	{
+		//TODO test and move from piwik
+		return '127.0.0.1';
+	}
+	
 	static public function getCurrentUserLogin()
 	{
 		return Zend_Registry::get('access')->getIdentity();
 	}
+	
 	// Accessible either to the user itself
 	static public function checkUserIsSuperUserOrTheUser( $theUser )
 	{
@@ -156,7 +164,8 @@ class Piwik
 
 	static public function createLogObject()
 	{
-		$log = new Piwik_Log;
+		//TODO
+		//$log = new Piwik_Log;
 	}
 	static public function createConfigObject()
 	{
