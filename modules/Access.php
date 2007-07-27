@@ -1,4 +1,5 @@
 <?php
+Zend_Loader::loadClass('Piwik_SitesManager');
 class Piwik_Access
 {
 	private $acl = null;
@@ -7,20 +8,23 @@ class Piwik_Access
 	private $identity = null; //login
 	private $isSuperUser = false;
 	
-	const SUCCESS_SUPERUSER_AUTH_CODE = 42;
 	
 	static private $availableAccess = array('noaccess', 'view', 'admin', 'superuser');
+	
+	static public function getListAccess()
+	{
+		return self::$availableAccess;
+	}
 	
 	public function __construct( $auth )
 	{
 		$this->auth = $auth;
-		$this->loadAccess();
     }
 	
-	private function loadAccess()
+	public function loadAccess()
 	{
 		$accessByIdsite = array();
-		$idsitesByAccess = array( 'view', 'admin', 'superuser');
+		$idsitesByAccess = array( 'view' => array(), 'admin'  => array(), 'superuser'  => array());
 		
 		// access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
         $result = $this->auth->authenticate();
@@ -30,7 +34,7 @@ class Piwik_Access
 			$this->identity = $result->getIdentity();
 			
 			// case the superUser is logged in
-			if($result->getCode() == Piwik_Access::SUCCESS_SUPERUSER_AUTH_CODE)
+			if($result->getCode() == Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE)
 			{
 				$this->isSuperUser = true;
 				$sitesId = Piwik_SitesManager::getAllSitesId();
@@ -55,47 +59,14 @@ class Piwik_Access
 				}
 			}
 		}
+		
 		$this->accessByIdsite = $accessByIdsite;
 		$this->idsitesByAccess = $idsitesByAccess;
 	}
 	
-	static public function getIdentity()
+	public function getIdentity()
 	{
 		return $this->identity;
-	}
-	static public function getListAccess()
-	{
-		return self::$availableAccess;
-	}
-	
-	private function isAccessAllowed( $accessRequired, $idSite )
-	{
-		// if no access specified, the current access is noaccess
-		$access = 'noaccess';
-		
-		if(isset($this->accessByIdsite[$idSite]))
-		{
-			$access = $this->accessByIdsite[$idSite];
-		}
-		
-		switch($accessRequired)
-		{
-			case 'noaccess':
-				return true;
-			break;
-			
-			case 'view':
-				return ($access == 'view' || $access == 'admin' || $access == 'superuser');
-			break;
-			
-			case 'admin':
-				return ($access == 'admin' || $access == 'superuser');
-			break;
-			
-			case 'superuser':
-				return ($access == 'superuser');
-			break;
-		}
 	}
 	
 	public function getSitesIdWithAtLeastViewAccess()
@@ -117,90 +88,62 @@ class Piwik_Access
 	{
 		return 	$this->idsitesByAccess['view'];
 	}
-	
-	// is the current authentificated user allowed to access 
-	// the method with the idsite given the minimumAccess
-	// false means no IdSite provided to the method. null means apply the method to all the websites on which the user has
-	// the access required.
-	public function checkUserHasAccessToSites( $minimumAccess, $idSites = false )
-	{
-		// *use cases
-		// view + 1/2/3 with 1/2 view and 3 noaccess => refused
-		// view + 1/2/3 with 1/2 view and 3 admin => allowed
-		// view + 1/2/3 with 1/2 noaccess and 3 admin => refused
-		// view + null with 1/2 noaccess and 3 admin => allowed
-		// admin + null with 1/2 view => refused
-		// admin + 1 with 1 view => refused
-		// admin + 1 with 1 admin => allowed
-		// admin + null with 1 admin => allowed
-		// superuser + 1 with 1 admin => refused
-		if(is_null($idSites))
-		{
-			if(isset($this->idsitesByAccess[$minimumAccess]))
-			{
-				$idSites = $this->idsitesByAccess[$minimumAccess];				
-			}
-			else
-			{
-				$idSites = array();
-			}
-		}
 		
-		// when the method called doesn't accept an IdSite parameter, then we must be a superUser
-		if($idSites === false)
-		{
-			self::checkUserIsSuperUser();
-		}
-		else
-		{			
-			if(!is_array($idSites))
-			{
-				$idSites = array($idSites);
-			}
-			
-			// when the method called accepts an IdSite parameter, then we test that the user has a minimumAccess matching
-			// for at least one website. For example, if the minimumAccess is "admin" then the user must have at least 
-			// one "admin" access for a website to be allowed to execute the method. 
-			// Then the method itself must take care of restricting its scope on the website with the "admin" right.
-			elseif(count($idSites) > 0)
-			{
-				foreach($idSites as $idsite)
-				{
-					if(!$this->isAccessAllowed($minimumAccess, $idsite))
-					{
-						throw new Exception("Access to this resource requires a '$minimumAccess' access for the idsite = $idsite.");
-					}
-				}
-			}
-		}
-		
-		return true;
-	}
-	
-	
 	public function checkUserIsSuperUser()
 	{
 		if($this->isSuperUser === false)
 		{
-			throw new Exception("Access to this resource requires a 'superuser' access.");
+			throw new Exception("You can't access this resource as it requires a 'superuser' access.");
 		}
 	}
 	
 	public function checkUserHasSomeAdminAccess()
 	{
-		//TODO implement
-		return false;
+		if(!$this->isSuperUser)
+		{
+			$idSitesAccessible = $this->getSitesIdWithAdminAccess();
+			if(count($idSitesAccessible) == 0)
+			{
+				throw new Exception("You can't access this resource as it requires an 'admin' access for at least one website.");
+			}
+		}
 	}
 	public function checkUserHasAdminAccess( $idSites )
 	{
-		//TODO implement
-		return false;
+		if(!is_array($idSites))
+		{
+			$idSites = array($idSites);
+		}
+		if(!$this->isSuperUser)
+		{
+			$idSitesAccessible = $this->getSitesIdWithAdminAccess();
+			foreach($idSites as $idsite)
+			{
+				if(!in_array($idsite, $idSitesAccessible))
+				{
+					throw new Exception("You can't access this resource as it requires an 'admin' access for the website id = $idsite.");
+				}
+			}
+		}
 	}
 	
 	public function checkUserHasViewAccess( $idSites )
 	{
-		//TODO implement
-		return false;
+		if(!is_array($idSites))
+		{
+			$idSites = array($idSites);
+		}
+		if(!$this->isSuperUser)
+		{
+			$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
+			foreach($idSites as $idsite)
+			{
+				if(!in_array($idsite, $idSitesAccessible))
+				{
+					throw new Exception("You can't access this resource as it requires a 'view' access for the website id = $idsite.");
+				}
+			}
+		}
 	}
 }
 

@@ -23,7 +23,6 @@ class Test_Piwik_SitesManager extends Test_Database
     	$pseudoMockAccess = new FakeAccess;
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
-		
     }
     
     /**
@@ -641,12 +640,11 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager::addSite("site1","http://test.com");
     	try {
     		Piwik_SitesManager::replaceSiteUrls($idsite, array());
+	        $this->fail("Exception not raised.");
     	}
     	catch (Exception $expected) {
     		$this->assertPattern("(at least one URL)", $expected->getMessage());
-            return;
         }
-        $this->fail("Exception not raised.");
     }
     
     /**

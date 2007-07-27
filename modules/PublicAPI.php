@@ -22,8 +22,12 @@ class Piwik_PublicAPI
 	{
 		Zend_Loader::loadClass($class);
 
+		// check that is is singleton
+		$this->checkClassIsSingleton($class);
+		
 		$rClass = new ReflectionClass($class);
 		
+		// check that it is a subclass of Piwik_APIable
 		if(!$rClass->isSubclassOf(new ReflectionClass("Piwik_Apiable")))
 		{
 			throw new Exception("To publish its public methods in the API, the class '$class' must be a subclass of 'Piwik_Apiable'.");
@@ -66,9 +70,6 @@ class Piwik_PublicAPI
 				Piwik::log("- $name is public ".$this->getStrListParameters($class, $name));				
 			}
 		}
-		
-		//TODO check that all the published method appear in the minimumAccess array
-		// or throw exception
 	}
 	
 	private function getStrListParameters($class, $name)
@@ -87,10 +88,12 @@ class Piwik_PublicAPI
 		$sParameters = implode(", ", $asParameters);
 		return "[$sParameters]";
 	}
+	
 	private function getParametersList($class, $name)
 	{
 		return $this->api[$class][$name]['parameters'];
 	}
+	
 	private function getNumberOfRequiredParameters($class, $name)
 	{
 		return $this->api[$class][$name]['numberOfRequiredParameters'];
@@ -100,12 +103,12 @@ class Piwik_PublicAPI
 	{
 		return isset($this->api[$className][$methodName]);
 	}
+	
 	public function __get($name)
 	{
 		self::$classCalled = $name;
 		return $this;
-	}
-	
+	}	
 	
 	private function checkNumberOfParametersMatch($className, $methodName, $parameters)
 	{
@@ -122,48 +125,52 @@ class Piwik_PublicAPI
 			throw new Exception("The number of parameters provided ($nbParamsGiven) is greater than the number of required parameters ($nbParamsRequired) for this method.
 							Please check the method API.");
 		}
-		return true;
 	}
-	/*
-	public function setCallback($classRegex, $methodRegex, $callback)
-	{
-		
-	}*/
 	
-	public function __call($methodName, $parameters )
+	private function checkClassIsSingleton($className)
 	{
-		if(ereg("MD", $methodName))
-		assert(!is_null(self::$classCalled));
-
-		$args = @implode(", ", $parameters);
-		
-		$className = Piwik::prefixClass(self::$classCalled);
-		if(!method_exists("$className", "getInstance"))
+		if(!method_exists($className, "getInstance"))
 		{
 			throw new Exception("Objects that provide an API must be Singleton and have a 'static public function getInstance()' method.");
 		}
-		$object = call_user_func(array($className, "getInstance"));
-		
-		// check method exists
+	}
+	
+	private function checkMethodExists($className, $methodName)
+	{
 		if(!$this->isMethodAvailable($className, $methodName))
 		{
 			throw new Exception("The method '$methodName' does not exist or is not available in the module '".self::$classCalled."'.");
 		}
-		Piwik::log("Calling ".self::$classCalled.".$methodName [$args]");
+	}
 		
+	public function __call($methodName, $parameters )
+	{
 		try {
+			assert(!is_null(self::$classCalled));
+				
+			$className = Piwik::prefixClass(self::$classCalled);
+						
+			// instanciate the object
+			$object = call_user_func(array($className, "getInstance"));
+			
+			// check method exists
+			$this->checkMethodExists($className, $methodName);
+						
 			// first check number of parameters do match
 			$this->checkNumberOfParametersMatch($className, $methodName, $parameters);
-
-			$access = Zend_Registry::get('access');
 			
+			$args = @implode(", ", $parameters);
+			Piwik::log("Calling ".self::$classCalled.".$methodName [$args]");
+		
 			// call the method
-			call_user_func(array($object, $methodName), $parameters);
+			$returnedValue = call_user_func_array(array($object, $methodName), $parameters);
+			
+			Piwik_Log::dump($returnedValue);
 		}
 		catch( Exception $e)
 		{
-			Piwik::log("Error during API call...". $e->getMessage());
-			exit;
+			Piwik::log("Error during API call... <br> => ". $e->getMessage());
+
 		}
 
 		self::$classCalled = null;

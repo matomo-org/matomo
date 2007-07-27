@@ -38,6 +38,7 @@ require_once "Zend/Loader.php";
 Zend_Loader::loadClass('Zend_Config_Ini');
 Zend_Loader::loadClass('Zend_Db');
 Zend_Loader::loadClass('Zend_Db_Table');
+Zend_Loader::loadClass('Zend_Debug');
 Zend_Loader::loadClass('Piwik_Config');
 Zend_Loader::loadClass('Piwik_Access');
 Zend_Loader::loadClass('Piwik_Log');
