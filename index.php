@@ -56,6 +56,39 @@ Piwik::createDatabase();
 
 Piwik::createTables();
 
+
+
+
+//$logger = new Piwik_Log_APICalls;
+$logger = new Piwik_Log_Messages;
+
+$configAPI = Zend_Registry::get('config')->log->api_calls;
+
+foreach($configAPI as $recordTo)
+{
+	switch($recordTo)
+	{
+		case 'screen':
+			$logger->addWriteToScreen();
+		break;
+		
+		case 'database':
+			$logger->addWriteToDatabase();
+		break;
+		
+		case 'file':
+			$logger->addWriteToFile();		
+		break;
+		
+		default:
+			throw new Exception("TODO");
+		break;
+	}
+}
+
+Zend_Registry::set('logger', $logger);
+
+
 // Create auth object
 $auth = Zend_Auth::getInstance();
 $authAdapter = new Piwik_Auth();
