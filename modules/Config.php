@@ -3,7 +3,7 @@ class Piwik_Config extends Zend_Config_Ini
 {
 	function __construct()
 	{
-		$pathIniFile = PIWIK_INCLUDE_PATH . '/config/config.ini';
+		$pathIniFile = PIWIK_INCLUDE_PATH . '/config/config.ini.php';
 
 		parent::__construct($pathIniFile, null, true);
 		

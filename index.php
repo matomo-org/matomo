@@ -8,13 +8,7 @@ define('PIWIK_INCLUDE_PATH', '.');
 
 require_once PIWIK_INCLUDE_PATH . "/modules/ErrorHandler.php";
 set_error_handler('Piwik_ErrorHandler');
-
-//TODO put in different file
-function Piwik_ExceptionHandler(Exception $exception) {
-  echo "<div style='font-size:11pt'><pre>Uncaught exception: " , $exception->getMessage(), "\n";
-  echo $exception->__toString();
-  exit;
-}
+require_once PIWIK_INCLUDE_PATH . "/modules/ExceptionHandler.php";
 set_exception_handler('Piwik_ExceptionHandler');
 
 set_include_path(PIWIK_INCLUDE_PATH 
@@ -27,7 +21,6 @@ set_include_path(PIWIK_INCLUDE_PATH
 assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);
 assert_options(ASSERT_BAIL, 	1);
-
 
 /*
  * Zend classes
@@ -48,6 +41,7 @@ Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
 Zend_Loader::loadClass('Piwik_Access');
 Zend_Loader::loadClass('Piwik_APIable'); 
 Zend_Loader::loadClass('Piwik_Log');
+Zend_Loader::loadClass('Piwik_Auth');
 Zend_Loader::loadClass('Piwik_Config');
 Zend_Loader::loadClass('Piwik_PublicAPI');
 Zend_Loader::loadClass('Piwik');
@@ -64,22 +58,27 @@ Piwik::createTables();
 
 // Create auth object
 $auth = Zend_Auth::getInstance();
-$authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('db'));
+$authAdapter = new Piwik_Auth();
 $authAdapter->setTableName(Piwik::prefixTable('user'))
 			->setIdentityColumn('login')
 			->setCredentialColumn('password')
 			->setCredentialTreatment('MD5(?)');
 
 // Set the input credential values (e.g., from a login form)
-$authAdapter->setIdentity('login')
-            ->setCredential('password1');
+$authAdapter->setIdentity('root')
+            ->setCredential('nintendo');
 
 // Perform the authentication query, saving the result
 $access = new Piwik_Access($authAdapter);
 Zend_Registry::set('access', $access);
 
+$access->loadAccess();
+
+
 main();
 //Piwik::uninstall();
+
+Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
 
 function main()
 {
@@ -92,7 +91,8 @@ function main()
 	$api->SitesManager->getSiteUrlsFromId(1);
 	
 	$api->SitesManager->addSite("test name site", array("http://localhost", "http://test.com"));
-	$api->UsersManager->addUser(2, "login", "password");
+	$api->UsersManager->deleteUser("login");
+	$api->UsersManager->addUser("login", "password", "email@geage.com");
 }
 
 ?>

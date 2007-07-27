@@ -89,7 +89,6 @@ class Piwik
 		Zend_Registry::get('access')->checkUserHasViewAccess( $idSites );
 	}
 	
-	
 	static public function prefixClass( $class )
 	{
 		if(substr_count($class, Piwik::CLASSES_PREFIX) > 0)

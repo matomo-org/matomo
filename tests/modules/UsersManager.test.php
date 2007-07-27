@@ -846,9 +846,9 @@ class Test_Piwik_UsersManager extends Test_Database
     					
     	Piwik_UsersManager::addUser($user['login'],$user['password'] ,$user['email'] ,$user['alias'] );
 		
-    	Piwik_UsersManager::updateUser(  $login, "passowordOK", "email@geaga.com", "new alias");
+    	Piwik_UsersManager::updateUser(  $login, "passowordOK", "email@geaga.com", "NEW ALIAS");
     	
-    	$this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com", "new alias");
+    	$this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com", "NEW ALIAS");
     }
     
 }

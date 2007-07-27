@@ -1,3 +1,7 @@
+[superuser]
+login			= root
+password		= nintendo
+
 [database]
 host			= localhost
 username		= root
@@ -5,14 +9,15 @@ password		= nintendo
 dbname			= piwiktrunk
 adapter			= PDO_MYSQL
 tables_prefix	= piwik_
+profiler 		= true
 
-[database_tests]
-host			= localhost
-username		= root
-password		= nintendo
+[database_tests : database]
 dbname			= piwiktests
-adapter			= PDO_MYSQL
 tables_prefix	= piwiktests_
+
+
+[log]
+
 
 [smarty]
 template_dir	= core/views/scripts

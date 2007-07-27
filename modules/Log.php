@@ -15,6 +15,12 @@ class Piwik_Log extends Zend_Log
 		$this->addWriter($writer);
 		Zend_Registry::set('logger', $this);
 	}
+	
+	static public function dump($var, $label=null)
+	{
+		Zend_Registry::get('logger')->log(Zend_Debug::dump($var, $label, false), Piwik_Log::DEBUG);
+	}
+	
 }
 
 ?>
