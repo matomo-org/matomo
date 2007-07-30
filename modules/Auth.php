@@ -39,7 +39,7 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 		}
 	
 		// if not then we return the result of the database authentification provided by zend
-		$this->authenticate();
+		return parent::authenticate();
 	}
 	
 }

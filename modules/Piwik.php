@@ -6,7 +6,7 @@ class Piwik
 	
 	static public function log($message, $priority = Zend_Log::NOTICE)
 	{
-		Zend_Registry::get('logger')->log($message . PHP_EOL);
+		Zend_Registry::get('logger_message')->log($message . "<br>" . PHP_EOL);
 	}
 	
 	static public function getTablesCreateSql()
@@ -48,6 +48,54 @@ class Piwik
 							  PRIMARY KEY(idsite, url)
 						)
 			",
+			
+			
+			'logger_message' => "CREATE TABLE {$prefixTables}logger_message (
+									  idlogger_message INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+									  timestamp TIMESTAMP NULL,
+									  message TINYTEXT NULL,
+									  PRIMARY KEY(idlogger_message)
+									)
+			",
+			
+			'logger_api_call' => "CREATE TABLE {$prefixTables}logger_api_call (
+									  idlogger_api_call INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+									  class_name VARCHAR(255) NULL,
+									  method_name VARCHAR(255) NULL,
+									  parameter_names_default_values TINYTEXT NULL,
+									  parameter_values TINYTEXT NULL,
+									  execution_time FLOAT NULL,
+									  caller_ip BIGINT NULL,
+									  timestamp TIMESTAMP NULL,
+									  returned_value TINYTEXT NULL,
+									  PRIMARY KEY(idlogger_api_call)
+									) 
+			",
+			
+			'logger_error' => "CREATE TABLE {$prefixTables}logger_error (
+									  idlogger_error INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+									  timestamp TIMESTAMP NULL,
+									  message TINYTEXT NULL,
+									  errno INTEGER UNSIGNED NULL,
+									  errline INTEGER UNSIGNED NULL,
+									  errfile VARCHAR(255) NULL,
+									  backtrace TEXT NULL,
+									  PRIMARY KEY(idlogger_error)
+									)
+			",
+			
+			'logger_exception' => "CREATE TABLE {$prefixTables}logger_exception (
+									  idlogger_exception INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+									  timestamp TIMESTAMP NULL,
+									  message TINYTEXT NULL,
+									  errno INTEGER UNSIGNED NULL,
+									  errline INTEGER UNSIGNED NULL,
+									  errfile VARCHAR(255) NULL,
+									  backtrace TEXT NULL,
+									  PRIMARY KEY(idlogger_exception)
+									)
+			",
+			
 			
 			);
 		return $tables;
@@ -104,6 +152,25 @@ class Piwik
 			return $class;
 		}
 		return Piwik::CLASSES_PREFIX.$class;
+	}
+	
+	static public function createHtAccess( $path )
+	{
+		file_put_contents($path . ".htaccess", "Deny from all");
+	}
+	
+	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
+	{
+		$path = PIWIK_INCLUDE_PATH . '/' . $path;
+		if(!is_dir($path))
+		{
+			mkdir($path, $mode, true);
+			
+		}
+		if($denyAccess)
+		{
+			Piwik::createHtAccess($path);
+		}
 	}
 	
 	static public function prefixTable( $table )
@@ -174,6 +241,17 @@ class Piwik
 		assert(count($config) != 0);
 	}
 
+	static public function dropTables()
+	{
+		$tablesAlreadyInstalled = self::getTablesInstalled();
+		$db = Zend_Registry::get('db');
+		
+		foreach($tablesAlreadyInstalled as $tableName)
+		{
+			$db->query("DROP TABLE $tableName");
+		}			
+	}
+	
 	static public function createTables()
 	{
 		$db = Zend_Registry::get('db');

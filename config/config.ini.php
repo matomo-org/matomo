@@ -18,30 +18,30 @@ tables_prefix	= piwiktests_
 
 [log]
 
-; query profiling information (SQL, avg execution time, etc.)
-query_profiles[]	= screen
-query_profiles[]	= database
-query_profiles[]	= file
+; normal messages
+;logger_message[]		= screen
+;logger_message[]		= database
+;logger_message[]		= file
 
-; all call to the API (method name, parameters, execution time, caller IP, etc.)
-api_calls[]			= screen
-api_calls[]			= database
-api_calls[]			= file
-
-; exception raised
-exceptions[]		= screen
-exceptions[]		= database
-exceptions[]		= file
+; all calls to the API (method name, parameters, execution time, caller IP, etc.)
+;logger_api_call[]		= screen
+;logger_api_call[]		= database
+;logger_api_call[]		= file
 
 ; error intercepted
-errors[]			= screen
-errors[]			= database
-errors[]			= file
+;logger_error[]			= screen
+;logger_error[]			= database
+;logger_error[]			= file
 
-; normal messages
-messages[]			= screen
-messages[]			= database
-messages[]			= file
+; exception raised
+;logger_exception[]		= screen
+;logger_exception[]		= database
+;logger_exception[]		= file
+
+; query profiling information (SQL, avg execution time, etc.)
+;logger_query_profile[]	= screen
+;logger_query_profile[]	= database
+;logger_query_profile[]	= file
 
 
 [path]
