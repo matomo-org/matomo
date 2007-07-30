@@ -88,7 +88,15 @@ class Piwik_PublicAPI
 		$sParameters = implode(", ", $asParameters);
 		return "[$sParameters]";
 	}
-	
+	/**
+	 * Returns the parameters names and default values for the method $name 
+	 * of the class $class
+	 * 
+	 * @return array Format array(
+	 * 					'parameter1Name'	=> 42 // default value = 42,
+	 * 					'date'				=> 'yesterday',
+	 * 				);
+	 */
 	private function getParametersList($class, $name)
 	{
 		return $this->api[$class][$name]['parameters'];
@@ -143,7 +151,7 @@ class Piwik_PublicAPI
 		}
 	}
 		
-	public function __call($methodName, $parameters )
+	public function __call($methodName, $parameterValues )
 	{
 		try {
 			assert(!is_null(self::$classCalled));
@@ -157,19 +165,29 @@ class Piwik_PublicAPI
 			$this->checkMethodExists($className, $methodName);
 						
 			// first check number of parameters do match
-			$this->checkNumberOfParametersMatch($className, $methodName, $parameters);
+			$this->checkNumberOfParametersMatch($className, $methodName, $parameterValues);
 			
-			$args = @implode(", ", $parameters);
-			Piwik::log("Calling ".self::$classCalled.".$methodName [$args]");
-		
+			// start the timer
+			$timer = new Piwik_Timer;
+			
 			// call the method
-			$returnedValue = call_user_func_array(array($object, $methodName), $parameters);
+			$returnedValue = call_user_func_array(array($object, $methodName), $parameterValues);
 			
-			Piwik_Log::dump($returnedValue);
+			// log the API Call
+			$parameterNamesDefaultValues  = $this->getParametersList($className, $methodName);
+			Zend_Registry::get('logger_api_call')->log(
+								self::$classCalled,
+								$methodName,
+								$parameterNamesDefaultValues,
+								$parameterValues,
+								$timer->getTimeMs(),
+								$returnedValue
+							);
 		}
 		catch( Exception $e)
 		{
-			Piwik::log("Error during API call... <br> => ". $e->getMessage());
+			Piwik::log("<br>\n Error during API call {$className}.{$methodName}... 
+					<br>\n => ". $e->getMessage());
 
 		}
 

@@ -1,4 +1,18 @@
 <?php
+/**
+ * To maximise the performance of the logging module, we 
+ * - minimize the number of external files included. 
+ * 	 Ideally only one (the configuration file).
+ * - write all the SQL queries without using any DB abstraction layer.
+ * 	 Of course we carefully filter all input values.
+ * - minimize the number of SQL queries necessary to complete the algorithm.
+ *   
+ * 
+ * 
+ * 
+ * 
+ */
+
 
 // load config file
 // connect Database

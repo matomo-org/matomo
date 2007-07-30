@@ -44,6 +44,7 @@ Zend_Loader::loadClass('Piwik_Log');
 Zend_Loader::loadClass('Piwik_Auth');
 Zend_Loader::loadClass('Piwik_Config');
 Zend_Loader::loadClass('Piwik_PublicAPI');
+Zend_Loader::loadClass('Piwik_Timer');
 Zend_Loader::loadClass('Piwik');
 
 //move into a init() method
@@ -53,40 +54,72 @@ Piwik::createLogObject();
 
 //TODO move all DB related methods in a DB static class
 Piwik::createDatabase();
-
+Piwik::createDatabaseObject();
+Piwik::dropTables();
 Piwik::createTables();
 
-
-
-
-//$logger = new Piwik_Log_APICalls;
-$logger = new Piwik_Log_Messages;
-
-$configAPI = Zend_Registry::get('config')->log->api_calls;
-
-foreach($configAPI as $recordTo)
+$configAPI = Zend_Registry::get('config')->log;
+foreach($configAPI as $loggerType => $aRecordTo)
 {
-	switch($recordTo)
+	$logger = null;
+	
+	switch($loggerType)
 	{
-		case 'screen':
-			$logger->addWriteToScreen();
+		case 'logger_query_profile':
+			//$logger = new Piwik_Log_QueryProfile;
 		break;
 		
-		case 'database':
-			$logger->addWriteToDatabase();
+		case 'logger_api_call':
+			$logger = new Piwik_Log_APICall;
 		break;
 		
-		case 'file':
-			$logger->addWriteToFile();		
+		case 'logger_exception':
+			$logger = new Piwik_Log_Exception;
+		break;
+		
+		case 'logger_error':
+			$logger = new Piwik_Log_Error;
+		break;
+		
+		case 'logger_message':
+			$logger = new Piwik_Log_Message;
 		break;
 		
 		default:
 			throw new Exception("TODO");
 		break;
 	}
+
+	if(is_null($logger))
+	{
+		continue;
+	}
+	
+	foreach($aRecordTo as $recordTo)
+	{
+		switch($recordTo)
+		{
+			case 'screen':
+				$logger->addWriteToScreen();
+			break;
+			
+			case 'database':
+				$logger->addWriteToDatabase();
+			break;
+			
+			case 'file':
+				$logger->addWriteToFile();		
+			break;
+			
+			default:
+				throw new Exception("TODO");
+			break;
+		}
+	}
+	
+	Zend_Registry::set($loggerType, $logger);
 }
 
-Zend_Registry::set('logger', $logger);
 
 
 // Create auth object
@@ -105,13 +138,13 @@ $authAdapter->setIdentity('root')
 $access = new Piwik_Access($authAdapter);
 Zend_Registry::set('access', $access);
 
-$access->loadAccess();
+Zend_Registry::get('access')->loadAccess();
 
 
 main();
 //Piwik::uninstall();
 
-Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
+//Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
 
 function main()
 {
@@ -124,6 +157,10 @@ function main()
 	$api->SitesManager->getSiteUrlsFromId(1);
 	
 	$api->SitesManager->addSite("test name site", array("http://localhost", "http://test.com"));
+	
+	
+	Zend_Registry::get('access')->loadAccess();
+	
 	$api->UsersManager->deleteUser("login");
 	$api->UsersManager->addUser("login", "password", "email@geage.com");
 }

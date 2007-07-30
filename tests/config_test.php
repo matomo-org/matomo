@@ -30,11 +30,12 @@ set_include_path(PATH_TEST_TO_ROOT
 
 
 require_once PIWIK_INCLUDE_PATH . "/modules/ErrorHandler.php";
-set_error_handler('Piwik_ErrorHandler');
+//set_error_handler('Piwik_ErrorHandler');
 
 require_once "Zend/Exception.php";
 require_once "Zend/Loader.php";
 
+Zend_Loader::loadClass('Zend_Registry');
 Zend_Loader::loadClass('Zend_Config_Ini');
 Zend_Loader::loadClass('Zend_Db');
 Zend_Loader::loadClass('Zend_Db_Table');

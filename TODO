@@ -7,3 +7,23 @@ BUGS
 ====
 - the token md5 generation doesn't check that the md5 generated is unique, 
   but it should (the field is unique in the database)
+- if elements from the config file are deleted, bug without any notice or warning
+  system for config file default values?
+- if the path necessary sometimes in the configuration do not have a / when they should
+  it could break the system...
+	/*
+	 * Make sure the compare directory has a trailing slash so that /tmp doesn't
+	 * accidentally match /tmpfoo
+	 */
+	if ($element{strlen($element)-1} != $slash) {
+	$element .= $slash;
+	}
+
+TODO MISC
+=========
+- tell zend that the attributes in Zend_Log have to be PROTECTED
+- tell zend_log the test on fwrite===false
+
+NOTES
+=====
+- edited zend_log and changed attr to protected

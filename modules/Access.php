@@ -99,14 +99,11 @@ class Piwik_Access
 	
 	public function checkUserHasSomeAdminAccess()
 	{
-		if(!$this->isSuperUser)
-		{
 			$idSitesAccessible = $this->getSitesIdWithAdminAccess();
 			if(count($idSitesAccessible) == 0)
 			{
 				throw new Exception("You can't access this resource as it requires an 'admin' access for at least one website.");
 			}
-		}
 	}
 	public function checkUserHasAdminAccess( $idSites )
 	{
@@ -114,8 +111,6 @@ class Piwik_Access
 		{
 			$idSites = array($idSites);
 		}
-		if(!$this->isSuperUser)
-		{
 			$idSitesAccessible = $this->getSitesIdWithAdminAccess();
 			foreach($idSites as $idsite)
 			{
@@ -124,7 +119,6 @@ class Piwik_Access
 					throw new Exception("You can't access this resource as it requires an 'admin' access for the website id = $idsite.");
 				}
 			}
-		}
 	}
 	
 	public function checkUserHasViewAccess( $idSites )
@@ -133,8 +127,6 @@ class Piwik_Access
 		{
 			$idSites = array($idSites);
 		}
-		if(!$this->isSuperUser)
-		{
 			$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
 			foreach($idSites as $idsite)
 			{
@@ -143,7 +135,6 @@ class Piwik_Access
 					throw new Exception("You can't access this resource as it requires a 'view' access for the website id = $idsite.");
 				}
 			}
-		}
 	}
 }
 

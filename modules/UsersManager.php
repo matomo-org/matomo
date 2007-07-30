@@ -304,7 +304,7 @@ class Piwik_UsersManager extends Piwik_APIable
 		
 		if(!self::userExists($userLogin))
 		{
-			throw new Exception("User $userLogin doesn't exist therefore it can't be deleted.");
+			throw new Exception("User '$userLogin' doesn't exist therefore it can't be deleted.");
 		}
 		self::deleteUserOnly( $userLogin );
 		self::deleteUserAccess( $userLogin );
