@@ -43,6 +43,12 @@ class Piwik_Log extends Zend_Log
 		$this->addWriter($writerFile);
 	}
 	
+	function addWriteToNull()
+	{
+		Zend_Loader::loadClass('Zend_Log_Writer_Null');
+		$this->addWriter( new Zend_Log_Writer_Null );
+	}
+	
 	function addWriteToDatabase()
 	{
 		$writerDb = new Zend_Log_Writer_Db(
@@ -58,6 +64,11 @@ class Piwik_Log extends Zend_Log
 		$writerScreen = new Zend_Log_Writer_Stream('php://output');
 		$writerScreen->setFormatter( $this->screenFormatter );
 		$this->addWriter($writerScreen);
+	}
+	
+	public function getWritersCount()
+	{
+		return count($this->_writers);
 	}
 	
     /**
@@ -181,6 +192,19 @@ class Piwik_Log_Formatter_APICall_ScreenFormatter implements Zend_Log_Formatter_
 		return $value;
 		
     }
+}
+
+
+class Piwik_Log_Null extends Zend_Log
+{
+	public function __construct()
+	{
+	}
+	
+	public function log($message, $priority = Zend_Log::INFO )
+	{
+		parent::log($message, $priority);
+	}
 }
 
 class Piwik_Log_APICall extends Piwik_Log

@@ -231,9 +231,56 @@ class Piwik
 
 	static public function createLogObject()
 	{
-		//TODO
-		//$log = new Piwik_Log;
+		$configAPI = Zend_Registry::get('config')->log;
+		
+		$aLoggers = array(
+				//'logger_query_profile' => new Piwik_Log_QueryProfile, // TODO Piwik_Log_QueryProfile
+				'logger_api_call' => new Piwik_Log_APICall,
+				'logger_exception' => new Piwik_Log_Exception,
+				'logger_error' => new Piwik_Log_Error,
+				'logger_message' => new Piwik_Log_Message,
+			);			
+			
+		foreach($configAPI as $loggerType => $aRecordTo)
+		{
+			if(isset($aLoggers[$loggerType]))
+			{
+				$logger = $aLoggers[$loggerType];
+				
+				foreach($aRecordTo as $recordTo)
+				{
+					switch($recordTo)
+					{
+						case 'screen':
+							$logger->addWriteToScreen();
+						break;
+						
+						case 'database':
+							$logger->addWriteToDatabase();
+						break;
+						
+						case 'file':
+							$logger->addWriteToFile();		
+						break;
+						
+						default:
+							throw new Exception("TODO");
+						break;
+					}
+				}
+			}
+		}
+		
+		foreach($aLoggers as $loggerType =>$logger)
+		{
+			if($logger->getWritersCount() == 0)
+			{
+				$logger->addWriteToNull();
+			}
+			Zend_Registry::set($loggerType, $logger);
+		}
 	}
+	
 	static public function createConfigObject()
 	{
 		$config = new Piwik_Config;
