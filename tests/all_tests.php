@@ -1,4 +1,8 @@
+
+<a href='modules'>Tests by module</a>
+<hr>
 <?php
+flush();
 if(!defined("PATH_TEST_TO_ROOT")) {
 	define('PATH_TEST_TO_ROOT', '..');
 }
@@ -49,4 +53,6 @@ foreach($toInclude as $file)
 	$test->addFile($file);
 }
 $test->run(new HtmlReporter());
+
+
 ?>

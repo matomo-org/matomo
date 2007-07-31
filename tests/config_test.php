@@ -44,7 +44,6 @@ Zend_Loader::loadClass('Piwik_Config');
 Zend_Loader::loadClass('Piwik_Access');
 Zend_Loader::loadClass('Piwik_Log');
 Zend_Loader::loadClass('Piwik');
-Piwik::createLogObject();
 
 assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);

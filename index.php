@@ -50,7 +50,6 @@ Zend_Loader::loadClass('Piwik');
 //move into a init() method
 Piwik::createConfigObject();
 Piwik::createDatabaseObject();
-Piwik::createLogObject();
 
 //TODO move all DB related methods in a DB static class
 Piwik::createDatabase();
@@ -58,69 +57,8 @@ Piwik::createDatabaseObject();
 Piwik::dropTables();
 Piwik::createTables();
 
-$configAPI = Zend_Registry::get('config')->log;
-foreach($configAPI as $loggerType => $aRecordTo)
-{
-	$logger = null;
-	
-	switch($loggerType)
-	{
-		case 'logger_query_profile':
-			//$logger = new Piwik_Log_QueryProfile;
-		break;
-		
-		case 'logger_api_call':
-			$logger = new Piwik_Log_APICall;
-		break;
-		
-		case 'logger_exception':
-			$logger = new Piwik_Log_Exception;
-		break;
-		
-		case 'logger_error':
-			$logger = new Piwik_Log_Error;
-		break;
-		
-		case 'logger_message':
-			$logger = new Piwik_Log_Message;
-		break;
-		
-		default:
-			throw new Exception("TODO");
-		break;
-	}
-
-	if(is_null($logger))
-	{
-		continue;
-	}
-	
-	foreach($aRecordTo as $recordTo)
-	{
-		switch($recordTo)
-		{
-			case 'screen':
-				$logger->addWriteToScreen();
-			break;
-			
-			case 'database':
-				$logger->addWriteToDatabase();
-			break;
-			
-			case 'file':
-				$logger->addWriteToFile();		
-			break;
-			
-			default:
-				throw new Exception("TODO");
-			break;
-		}
-	}
-	
-	Zend_Registry::set($loggerType, $logger);
-}
-
-
+// Create the log objects
+Piwik::createLogObject();
 
 // Create auth object
 $auth = Zend_Auth::getInstance();

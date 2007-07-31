@@ -143,6 +143,7 @@ class Test_Database extends UnitTestCase
 		
 		// setup database	
 		Piwik::createDatabaseObject();
+		Piwik::createLogObject();
 		
 		Zend_Registry::get('config')->setTestEnvironment();	
 		Piwik::dropDatabase();
