@@ -28,12 +28,13 @@ set_include_path(PATH_TEST_TO_ROOT
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/core/models'
 					. PATH_SEPARATOR . get_include_path());
 
+require_once "Zend/Exception.php";
+require_once "Zend/Loader.php";
+
 
 require_once PIWIK_INCLUDE_PATH . "/modules/ErrorHandler.php";
 //set_error_handler('Piwik_ErrorHandler');
 
-require_once "Zend/Exception.php";
-require_once "Zend/Loader.php";
 
 Zend_Loader::loadClass('Zend_Registry');
 Zend_Loader::loadClass('Zend_Config_Ini');

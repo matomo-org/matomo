@@ -1,15 +1,10 @@
 <?php
-/*
+/**
  * PHP Configuration init
  */
 error_reporting(E_ALL|E_NOTICE);
 date_default_timezone_set('Europe/London');
 define('PIWIK_INCLUDE_PATH', '.');
-
-require_once PIWIK_INCLUDE_PATH . "/modules/ErrorHandler.php";
-set_error_handler('Piwik_ErrorHandler');
-require_once PIWIK_INCLUDE_PATH . "/modules/ExceptionHandler.php";
-set_exception_handler('Piwik_ExceptionHandler');
 
 set_include_path(PIWIK_INCLUDE_PATH 
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
@@ -22,7 +17,15 @@ assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);
 assert_options(ASSERT_BAIL, 	1);
 
-/*
+/**
+ * Error / exception handling functions
+ */
+require_once PIWIK_INCLUDE_PATH . "/modules/ErrorHandler.php";
+set_error_handler('Piwik_ErrorHandler');
+require_once PIWIK_INCLUDE_PATH . "/modules/ExceptionHandler.php";
+set_exception_handler('Piwik_ExceptionHandler');
+
+/**
  * Zend classes
  */
 include "Zend/Exception.php";
@@ -35,7 +38,7 @@ Zend_Loader::loadClass('Zend_Debug');
 Zend_Loader::loadClass('Zend_Auth');
 Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
 
-/*
+/**
  * Piwik classes
  */
 Zend_Loader::loadClass('Piwik_Access');
@@ -104,3 +107,20 @@ function main()
 }
 
 ?>
+
+
+
+<!-- Piwik -->
+<a href="http://piwik.org" title="Web analytics" onclick="window.open(this.href);return(false);">
+<script language="javascript" src="piwik.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = "http://localhost/dev/piwiktrunk/piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+//-->
+</script><object>
+<noscript><p>Web analytics<img src="http://localhost/dev/piwiktrunk/piwik.php" style="border:0" /></p>
+</noscript></object></a>
+<!-- /Piwik --> 
