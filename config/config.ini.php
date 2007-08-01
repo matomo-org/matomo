@@ -7,13 +7,17 @@ host			= localhost
 username		= root
 password		= nintendo
 dbname			= piwiktrunk
-adapter			= PDO_MYSQL
+adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 tables_prefix	= piwik_
 profiler 		= true
 
 [database_tests : database]
 dbname			= piwiktests
 tables_prefix	= piwiktests_
+
+[LogStats]
+; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
+record_statistics	= 1
 
 
 [log]

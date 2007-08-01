@@ -243,9 +243,18 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             $port = null;
         }
 
+		if(!class_exists("mysqli"))
+		{
+            /**
+             * @see Zend_Db_Adapter_Mysqli_Exception
+             */
+            require_once 'Zend/Db/Adapter/Mysqli/Exception.php';
+            throw new Zend_Db_Adapter_Mysqli_Exception("The extension mysqli is not installed.");
+		}
+	
         // Suppress connection warnings here.
         // Throw an exception instead.
-        @$this->_connection = new mysqli(
+        $this->_connection = new mysqli(
             $this->_config['host'],
             $this->_config['username'],
             $this->_config['password'],
