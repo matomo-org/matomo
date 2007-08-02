@@ -5,6 +5,7 @@ define('PIWIK_INCLUDE_PATH', '.');
 
 @ignore_user_abort(true);
 @set_time_limit(0);
+
 set_include_path(PIWIK_INCLUDE_PATH 
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core/'
@@ -13,13 +14,23 @@ set_include_path(PIWIK_INCLUDE_PATH
 					. PATH_SEPARATOR . get_include_path() );
 
 require_once "Event/Dispatcher.php";
+require_once "Common.php";
 
-function printDebug( $str = '' )
+function printDebug( $info = '' )
 {
-	print($str . "<br>\n");
+	if(is_array($info))
+	{
+		print("<PRE>");
+		print(var_export($info,true));
+		print("</PRE>");
+	}
+	else
+	{
+		print($info . "<br>\n");
+	}
 }
 
-
+ob_start();
 
 /*
  * Some benchmarks
@@ -34,10 +45,6 @@ function printDebug( $str = '' )
  * Simple database PDO wrapper
  * 
  */
-	
-//Constante com caminhos para includes
-define("PATH_INCLUDES", $_SERVER['DOCUMENT_ROOT']."/conn");
-
 class Piwik_LogStats_Db 
 {
 	private $connection;
@@ -69,7 +76,7 @@ class Piwik_LogStats_Db
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_ASSOC);
 		} catch (PDOException $e) {
-			throw new Exception("Error connecting database: ".$e->getMessage());
+			throw new Exception("Error query: ".$e->getMessage());
 		}
 	}
 	
@@ -83,6 +90,9 @@ class Piwik_LogStats_Db
 	}
 }
 
+/**
+ * Simple class to access the configuration file
+ */
 class Piwik_LogStats_Config
 {
 	static private $instance = null;
@@ -142,7 +152,6 @@ class Piwik_LogStats_Config
  * 
  * 
  */ 
- 
 class Piwik_PluginsManager
 {
 	public $dispatcher;
@@ -187,6 +196,7 @@ class Piwik_PluginsManager
 			$pluginClassName = $pluginInfo['className'];
 			/*
 			// TODO make sure the plugin name is secure
+			// make sure thepluigin is a child of Piwik_Plugin
 			$path = PIWIK_INCLUDE_PATH 
 					. $this->pluginsPath 
 					. $this->pluginsCategory
@@ -230,7 +240,10 @@ function Piwik_PostEvent( $eventName, $object = null, $info = array() )
 	Piwik_PluginsManager::getInstance()->dispatcher->post( $object, $eventName, $info, false, false );
 }
 
-
+/**
+ * Abstract class to define a Piwik_Plugin.
+ * Any plugin has to at least implement the abstract methods of this class.
+ */
 abstract class Piwik_Plugin
 {
 	/**
@@ -356,27 +369,282 @@ Piwik_PostEvent( 'LogsStats.NewVisitor' );
 /**
  * Configuration options for the statsLogEngine module:
  * - use_cookie  ; defines if we try to get/set a cookie to help recognize a unique visitor
- * - 
  */
 
+/**
+ * Simple class to handle the cookies.
+ * Its features are:
+ * 
+ * - read a cookie values
+ * - edit an existing cookie and save it
+ * - create a new cookie, set values, expiration date, etc. and save it
+ * 
+ * The cookie content is saved in an optimized way.
+ */
+class Piwik_LogStats_Cookie
+{
+	/**
+	 * The name of the cookie 
+	 */
+	protected $name = null;
+	
+	/**
+	 * The expire time for the cookie (expressed in UNIX Timestamp)
+	 */
+	protected $expire = null;
+	
+	/**
+	 * The content of the cookie
+	 */
+	protected $value = array();
+	
+	const VALUE_SEPARATOR = ':';
+	
+	public function __construct( $cookieName, $expire = null)
+	{
+		$this->name = $cookieName;
+		
+		if(is_null($expire)
+			|| !is_numeric($expire)
+			|| $expire <= 0)
+		{
+			$this->expire = $this->getDefaultExpire();
+		}
+		
+		if($this->isCookieFound())
+		{
+			$this->loadContentFromCookie();
+		}
+	}
+	
+	public function isCookieFound()
+	{
+		return isset($_COOKIE[$this->name]);
+	}
+	
+	protected function getDefaultExpire()
+	{
+		return 86400*365*10;
+	}	
+	
+	/**
+	 * taken from http://usphp.com/manual/en/function.setcookie.php
+	 * fix expires bug for IE users (should i say expected to fix the bug in 2.3 b2)
+	 * TODO use the other parameters of the function
+	 */
+	protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false)
+	{
+		if (!empty($Domain))
+		{	
+			// Fix the domain to accept domains with and without 'www.'.
+			if (strtolower(substr($Domain, 0, 4)) == 'www.')  $Domain = substr($Domain, 4);
+			
+			$Domain = '.' . $Domain;
+			
+			// Remove port information.
+			$Port = strpos($Domain, ':');
+			if ($Port !== false)  $Domain = substr($Domain, 0, $Port);
+		}
+		
+		header('Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
+		 . (empty($Expires) ? '' : '; expires=' . gmdate('D, d-M-Y H:i:s', $Expires) . ' GMT')
+		 . (empty($Path) ? '' : '; path=' . $Path)
+		 . (empty($Domain) ? '' : '; domain=' . $Domain)
+		 . (!$Secure ? '' : '; secure')
+		 . (!$HTTPOnly ? '' : '; HttpOnly'), false);
+	}
+	
+	protected function setP3PHeader()
+	{
+		header("P3P: CP='OTI DSP COR NID STP UNI OTPa OUR'");
+	}
+	
+	public function deleteCookie()
+	{
+		$this->setP3PHeader();
+		setcookie($this->name, false, time() - 86400);
+	}
+	
+	public function save()
+	{
+		$this->setP3PHeader();
+		$this->setCookie( $this->name, $this->generateContentString(), $this->expire);
+	}
+	
+	/**
+	 * Load the cookie content into a php array 
+	 */
+	protected function loadContentFromCookie()
+	{
+		$cookieStr = $_COOKIE[$this->name];
+		
+		$values = explode( self::VALUE_SEPARATOR, $cookieStr);
+		foreach($values as $nameValue)
+		{
+			$equalPos = strpos($nameValue, '=');
+			$varName = substr($nameValue,0,$equalPos);
+			$varValue = substr($nameValue,$equalPos+1);
+			
+			// no numeric value are base64 encoded so we need to decode them
+			if(!is_numeric($varValue))
+			{
+				$varValue = base64_decode($varValue);
+				
+				// some of the values may be serialized array so we try to unserialize it
+				if( ($arrayValue = @unserialize($varValue)) !== false
+					// we set the unserialized version only for arrays as you can have set a serialized string on purpose
+					&& is_array($arrayValue) 
+					)
+				{
+					$varValue = $arrayValue;
+				}
+			}
+			
+			$this->set($varName, $varValue);
+		}
+	}
+	
+	/**
+	 * Returns the string to save in the cookie frpm the $this->value array of values
+	 * 
+	 */
+	public function generateContentString()
+	{
+		$cookieStr = '';
+		foreach($this->value as $name=>$value)
+		{
+			if(is_array($value))
+			{
+				$value = base64_encode(serialize($value));
+			}
+			elseif(is_string($value))
+			{
+				$value = base64_encode($value);
+			}
+			
+			$cookieStr .= "$name=$value" . self::VALUE_SEPARATOR;
+		}
+		$cookieStr = substr($cookieStr, 0, strlen($cookieStr)-1);
+		return $cookieStr;
+	}
+	
+	/**
+	 * Registers a new name => value association in the cookie.
+	 * 
+	 * Registering new values is optimal if the value is a numeric value.
+	 * If the value is a string, it will be saved as a base64 encoded string.
+	 * If the value is an array, it will be saved as a serialized and base64 encoded 
+	 * string which is not very good in terms of bytes usage. 
+	 * You should save arrays only when you are sure about their maximum data size.
+	 * 
+	 * @param string Name of the value to save; the name will be used to retrieve this value
+	 * @param string|array|numeric Value to save
+	 * 
+ 	 */
+	public function set( $name, $value )
+	{
+		$name = self::escapeValue($name);
+		$this->value[$name] = $value;
+	}
+	
+	/**
+	 * Returns the value defined by $name from the cookie.
+	 * 
+	 * @param string|integer Index name of the value to return
+	 * @return mixed The value if found, false if the value is not found
+	 */
+	public function get( $name )
+	{
+		$name = self::escapeValue($name);
+		return isset($this->value[$name]) ? self::escapeValue($this->value[$name]) : false;
+	}
+	
+	public function __toString()
+	{
+		$str = "<-- Content of the cookie '{$this->name}' <br>\n";
+		foreach($this->value as $name => $value )
+		{
+			$str .= $name . " = " . var_export($this->get($name), true) . "<br>\n";
+		}
+		$str .= "--> <br>\n";
+		return $str;
+	}
+	
+	static protected function escapeValue( $value )
+	{
+		return Piwik_Common::sanitizeInputValues($value);
+	}	
+}
 
-
+//
+//$c = new Piwik_LogStats_Cookie( 'piwik_logstats', 86400);
+//echo $c;
+//$c->set(1,1);
+//$c->set('test',1);
+//$c->set('test2','test=432:gea785');
+//$c->set('test3',array('test=432:gea785'));
+//$c->set('test4',array(array(0=>1),1=>'test'));
+//echo $c;
+//echo "<br>";
+//echo $c->generateContentString();
+//echo "<br>";
+//$v=$c->get('more!');
+//if(empty($v)) $c->set('more!',1);
+//$c->set('more!', array($c->get('more!')));
+//$c->save();
+//$c->deleteCookie();
 
 class Piwik_LogStats_Action
 {
+	function __construct( $actionName, $currentUrl)
+	{
+		$this->actionName = $actionName;
+		$this->url = $currentUrl;
+	}
+	
 	/**
 	 * About the Action concept:
 	 * 
 	 * - An action is defined by a name.
 	 * - The name can be specified in the JS Code in the variable 'action_name'
-	 * - If the name is not specified, we use the URL to build a name based on the path.
+	 * - An action is associated to a URL
+	 * - Handling UTF8 in the action name
+	 * 
+	 * + If the name is not specified, we use the URL(path+query) to build a default name.
 	 *   For example for "http://piwik.org/test/my_page/test.html" 
 	 *   the name would be "test/my_page/test.html"
-	 * - An action is associated to a URL
+	 * 
+	 * We make sure it is clean and displayable.
+	 * If the name is empty we set it to a default name.
 	 * 
 	 */
 	function getName()
-	{}
+	{
+		$actionName = $this->actionName;
+		$url = $this->url;
+		
+		// the ActionName wasn't specified
+		if($actionName === false)
+		{
+			$parsedUrl = parse_url( $url );
+			
+			$actionName = '';
+			
+			if(isset($parsedUrl['path']))
+			{
+				$actionName .= substr($parsedUrl['path'], 1);
+			}
+			
+			if(isset($parsedUrl['query']))
+			{
+				$actionName .= '?'.$parsedUrl['query'];
+			}
+		}
+		
+		// clean the name
+		$actionName = str_replace(array("\n", "\r"), '', $actionName);
+				
+	}
 	
 	/**
 	 * A query to the Piwik statistics logging engine is associated to 1 action.
@@ -442,12 +710,12 @@ class Piwik_LogStats_Visit
 	 */
 	private function recognizeTheVisitor()
 	{
-		
+		$this->visitorKnown = false;
 	}
 	
 	private function isVisitorKnown()
 	{
-		
+		return $this->visitorKnown === true;
 	}
 	
 	/**
@@ -519,17 +787,117 @@ class Piwik_LogStats_Visit
 	private function handleNewVisit()
 	{
 		printDebug("New Visit.");
+		
+		/**
+		 * Get the variables from the REQUEST 
+		 */
+		$plugin_Flash 			= Piwik_Common::getRequestVar( 'fla', 0, 'int');
+		$plugin_Director 		= Piwik_Common::getRequestVar( 'dir', 0, 'int');
+		$plugin_RealPlayer 		= Piwik_Common::getRequestVar( 'realp', 0, 'int');
+		$plugin_Pdf 			= Piwik_Common::getRequestVar( 'pdf', 0, 'int');
+		$plugin_WindowsMedia 	= Piwik_Common::getRequestVar( 'wma', 0, 'int');
+		$plugin_Java 			= Piwik_Common::getRequestVar( 'java', 0, 'int');
+		$plugin_Cookie 			= Piwik_Common::getRequestVar( 'cookie', 0, 'int');
+		
+		$localTime				= Piwik_Common::getRequestVar( 'h', date("H"), 'numeric')
+							.':'. Piwik_Common::getRequestVar( 'm', date("i"), 'numeric')
+							.':'. Piwik_Common::getRequestVar( 's', date("s"), 'numeric');
+
+		$userAgent		= Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_USER_AGENT']);
+		$aBrowserInfo	= Piwik_Common::getBrowserInfo($userAgent);
+		$os				= Piwik_Common::getOs($userAgent);
+		
+		$resolution		= Piwik_Common::getRequestVar('res', 'unknown', 'string');
+		$colorDept		= Piwik_Common::getRequestVar('col', 32, 'numeric');
+		
+		$urlReferer		= Piwik_Common::getRequestVar( 'urlref', '', 'string');
+
+		$ip				= Piwik_Common::getIp();
+		
+		$serverDate 	= date("Y-m-d");
+		$serverTime 	= date("H:i:s");
+		
+		$browserLang	= Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		$country 		= Piwik_Common::getCountry($browserLang);
+				
+		$continent		= Piwik_Common::getContinent( $country );
+		
+		/**
+		 * Init the action
+		 */
+		$action = new Piwik_LogStats_Action;
+		
+		$actionId = $action->getActionId();
+		
+		
+		/**
+		 * Save the visitor
+		 */
+		$visitorId = 1;
+		
+		
+		/**
+		 * Save the action
+		 */
+		$action->save( $visitorId );
+				
+			/*	CREATE TABLE log_visit (
+		  idvisit INTEGER(10) UNSIGNED NOT NULL,
+		  idsite INTEGER(10) UNSIGNED NOT NULL,
+		  visitor_localtime TIME NOT NULL DEFAULT 00:00:00,
+		  visitor_idcookie CHAR(32) NOT NULL,
+		  visitor_returning TINYINT(1) NOT NULL,
+		  visitor_last_visit_time TIME NOT NULL DEFAULT 00:00:00,
+		  visit_server_date DATE NOT NULL,
+		  visit_server_time TIME NOT NULL DEFAULT 00:00:00,
+		  visit_exit_idpage INTEGER(11) NOT NULL,
+		  visit_entry_idpage INTEGER(11) NOT NULL,
+		  visit_entry_idpageurl INTEGER(11) NOT NULL,
+		  visit_total_pages SMALLINT(5) UNSIGNED NOT NULL,
+		  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
+		  referer_type INTEGER UNSIGNED NULL,
+		  referer_name VARCHAR(70) NULL,
+		  referer_url TEXT NOT NULL,
+		  referer_keyword VARCHAR(255) NULL,
+		  config_md5config CHAR(32) NOT NULL,
+		  -config_os CHAR(3) NOT NULL,
+		  -config_browser_name VARCHAR(10) NOT NULL,
+		  -config_browser_version VARCHAR(20) NOT NULL,
+		  -config_resolution VARCHAR(9) NOT NULL,
+		  -config_color_depth TINYINT(2) UNSIGNED NOT NULL,
+		  -config_pdf TINYINT(1) NOT NULL,
+		  -config_flash TINYINT(1) NOT NULL,
+		  -config_java TINYINT(1) NOT NULL,
+		  -config_javascript TINYINT(1) NOT NULL,
+		  -config_director TINYINT(1) NOT NULL,
+		  -config_quicktime TINYINT(1) NOT NULL,
+		  -config_realplayer TINYINT(1) NOT NULL,
+		  -config_windowsmedia TINYINT(1) NOT NULL,
+		  -config_cookie TINYINT(1) NOT NULL,
+		  -location_ip BIGINT(11) NOT NULL,
+		  -location_browser_lang VARCHAR(20) NOT NULL,
+		  -location_country CHAR(3) NOT NULL,
+		  -location_continent CHAR(3) NOT NULL,
+		  PRIMARY KEY(idvisit)
+		);
+		*/
 	}
 }
 
+printDebug($_GET);
 
 class Piwik_LogStats
 {	
 	private $stateValid;
 	
-	const NOT_SPECIFIED   = 1;
+	const NOTHING_TO_NOTICE = 1;
 	const LOGGING_DISABLE = 10;
 	const NO_GET_VARIABLE = 11;
+	
+	public function __construct()
+	{
+		$this->stateValid = self::NOTHING_TO_NOTICE;
+	}
 	
 	// create the database object
 	function connectDatabase()
@@ -541,7 +909,6 @@ class Piwik_LogStats
 										$configDb['dbname']
 							);  
 		$db->connect();
-		$this->stateValid = self::NOT_SPECIFIED;
 	}
 	
 	private function initProcess()
@@ -561,7 +928,7 @@ class Piwik_LogStats
 	
 	private function processVisit()
 	{
-		return $this->stateValid === true;
+		return $this->stateValid === self::NOTHING_TO_NOTICE;
 	}
 	private function getState()
 	{
@@ -601,9 +968,9 @@ class Piwik_LogStats
 			case self::NO_GET_VARIABLE:
 				printDebug("No get variables => piwik page");
 			break;
-			case self::NOT_SPECIFIED:
+			case self::NOTHING_TO_NOTICE:
 			default:
-				printDebug("Unknown state => default behaviour");
+				printDebug("Nothing to notice => default behaviour");
 			break;
 		}
 		printDebug("End of the page.");
@@ -612,4 +979,6 @@ class Piwik_LogStats
 
 $process = new Piwik_LogStats;
 $process->main();
+
+ob_end_flush();
 ?>
