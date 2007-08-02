@@ -81,12 +81,12 @@ function _pk_getUrlLog( _pk_action_name, _pk_site, _pk_pkurl )
 		+'&res='+screen.width+'x'+screen.height
 		+'&col='+screen.colorDepth
 		+'&h='+_pk_da.getHours()+'&m='+_pk_da.getMinutes()+'&s='+_pk_da.getSeconds()
-		+'&flash='+_pk_fla
-		+'&director='+_pk_dir
-		+'&quicktime='+_pk_qt
-		+'&realplayer='+_pk_rea
+		+'&fla='+_pk_fla
+		+'&dir='+_pk_dir
+		+'&qt='+_pk_qt
+		+'&realp='+_pk_rea
 		+'&pdf='+_pk_pdf
-		+'&windowsmedia='+_pk_wma
+		+'&wma='+_pk_wma
 		+'&java='+_pk_jav
 		+'&cookie='+_pk_cookie
 		+'&urlref='+_pk_escape(_pk_rtu);

@@ -278,5 +278,23 @@ class Test_Piwik_Common extends UnitTestCase
     	$this->assertEqual( Piwik_Common::getRequestVar('test', array(1), 'array'), array(1));
     	$this->assertEqual( Piwik_Common::getRequestVar('test', array(), 'array'), array());
     }
+	
+    /**
+     * we give a number in a string and request for a number 
+     * 	=> it should give the string casted as a number
+     *
+     */
+    function test_getRequestVar_stringedNumericCastedNumeric()
+    {
+    	$test = "45645646";
+    	$_REQUEST['test'] = $test;
+    	
+    	$this->assertEqual( Piwik_Common::getRequestVar('test', 1, 'int'), 45645646);
+    	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'integer'), 45645646);
+    	$this->assertEqual( Piwik_Common::getRequestVar('test', 0, 'numeric'), 45645646);
+    	$this->assertEqual( Piwik_Common::getRequestVar('test', "45454", 'string'), $test);
+    	$this->assertEqual( Piwik_Common::getRequestVar('test', array(), 'array'), array());
+    	
+    }
 }
 ?>

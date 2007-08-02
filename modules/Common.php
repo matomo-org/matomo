@@ -2,7 +2,10 @@
 /**
  * Static class providing functions used by both the CORE of Piwik and the
  * visitor logging engine. 
+ * 
  * This is the only external class loaded by the Piwik.php file.
+ * This class should contain only the functions that are used in 
+ * both the CORE and the piwik.php statistics logging engine.
  */
 class Piwik_Common 
 {
@@ -43,18 +46,22 @@ class Piwik_Common
 				$value[$newKey] = Piwik_Common::sanitizeInputValues($value[$newKey]);
 			}
 		}
-		else 
+		elseif(is_string($value))
 		{
-			if(is_string($value))
+			$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+
+			/* Undo the damage caused by magic_quotes */
+			if (get_magic_quotes_gpc()) 
 			{
-				$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
-	
-				/* Undo the damage caused by magic_quotes */
-				if (get_magic_quotes_gpc()) 
-				{
-				    $value = stripslashes($value);
-				}
+			    $value = stripslashes($value);
 			}
+		}
+		elseif(!is_numeric($value)
+			&& !is_null($value)
+			&& !is_bool($value)
+		)
+		{
+			throw new Exception("The value to escape has not a supported type. Value = ".var_export($value, true));
 		}
 		return $value;
     }
@@ -79,7 +86,8 @@ class Piwik_Common
 		
 		if($varType == 'int')
 		{
-			//settype accepts only integer
+			// settype accepts only integer
+			// 'int' is simply a shortcut for 'integer'
 			$varType = 'integer';
 		}
 		
@@ -118,11 +126,11 @@ class Piwik_Common
 			}			
 			elseif($varType == 'numeric')
 			{
-					if(is_numeric($value)) $ok = true;
+					if(is_numeric($value) || $value==(int)$value || $value==(float)$value) $ok = true;
 			}
 			elseif($varType == 'integer')
 			{
-					if(is_int($value)) $ok = true;
+					if(is_int($value) || $value==(int)$value) $ok = true;
 			}
 			elseif($varType == 'array')
 			{
@@ -152,5 +160,347 @@ class Piwik_Common
 				
 		return $value;
 	}
+	
+	
+	static public function generateUniqId()
+	{
+		return md5(uniqid(rand(), true));
+	}
+	
+	/**
+	* get the visitor os
+	* 
+	* @param string $userAgent
+	* @param array $osList
+	* 
+	* @return string 
+	*/
+	static public function getOs($userAgent)
+	{
+		$osNameToId = Array(
+			'Nintendo Wii'	 => 'WII',
+			'PlayStation Portable' => 'PSP',
+			'PLAYSTATION 3'  => 'PS3',
+			'Windows NT 6.0' => 'WVI',
+			'Windows Vista'  => 'WVI',
+			'Windows NT 5.2' => 'WS3',
+			'Windows Server 2003' => 'WS3',
+			'Windows NT 5.1' => 'WXP',
+			'Windows XP'     => 'WXP',
+			'Win98'          => 'W98',
+			'Windows 98'     => 'W98',
+			'Windows NT 5.0' => 'W2K',
+			'Windows 2000'   => 'W2K',
+			'Windows NT 4.0' => 'WNT',
+			'WinNT'          => 'WNT',
+			'Windows NT'     => 'WNT',
+			'Win 9x 4.90'    => 'WME',
+			'Win 9x 4.90'    => 'WME',
+			'Windows Me'     => 'WME',
+			'Win32'          => 'W95',
+			'Win95'          => 'W95',		
+			'Windows 95'     => 'W95',
+			'Mac_PowerPC'    => 'MAC', 
+			'Mac PPC'        => 'MAC',
+			'PPC'            => 'MAC',
+			'Mac PowerPC'    => 'MAC',
+			'Mac OS'         => 'MAC',
+			'Linux'          => 'LIN',
+			'SunOS'          => 'SOS', 
+			'FreeBSD'        => 'BSD', 
+			'AIX'            => 'AIX', 
+			'IRIX'           => 'IRI', 
+			'HP-UX'          => 'HPX', 
+			'OS/2'           => 'OS2', 
+			'NetBSD'         => 'NBS',
+			'Unknown'        => 'UNK' 
+		);
+		
+		foreach($osNameToId as $key => $value)
+		{
+			if ($ok = ereg($key, $userAgent))
+			{
+				return $value;
+			}
+		}
+		return 'UNK';
+	}
+		
+	/**
+	* get visitor browser 
+	* 
+	* @param string $userAgent
+	*/
+	static public function getBrowserInfo($userAgent)
+	{
+		$browsers = array(
+				'msie'							=> 'IE',
+				'microsoft internet explorer'	=> 'IE',
+				'internet explorer'				=> 'IE',
+				'netscape6'						=> 'NS',
+				'netscape'						=> 'NS',
+				'galeon'						=> 'GA',
+				'phoenix'						=> 'PX',
+				'firefox'						=> 'FF',
+				'mozilla firebird'				=> 'FB',
+				'firebird'						=> 'FB',
+				'seamonkey'						=> 'SM',
+				'chimera'						=> 'CH',
+				'camino'						=> 'CA',
+				'safari'						=> 'SF',
+				'k-meleon'						=> 'KM',
+				'mozilla'						=> 'MO',
+				'opera'							=> 'OP',
+				'konqueror'						=> 'KO',
+				'icab'							=> 'IC',
+				'lynx'							=> 'LX',
+				'links'							=> 'LI',
+				'ncsa mosaic'					=> 'MC',
+				'amaya'							=> 'AM',
+				'omniweb'						=> 'OW',
+				'hotjava'						=> 'HJ',
+				'browsex'						=> 'BX',
+				'amigavoyager'					=> 'AV',
+				'amiga-aweb'					=> 'AW',
+				'ibrowse'						=> 'IB',
+				'unknown'						=> 'unk'
+		);
+		
+		$info = array(
+			'name' 			=> 'UNK',
+			'major_number' 	=> '',
+			'minor_number' 	=> '',
+			'version' 		=> ''
+		);
+		
+		$browser = '';
+		foreach($browsers as $key => $value) 
+		{
+			if(!empty($browser)) $browser .= "|";
+			$browser .= $key;
+		}
+		
+		$results = array();
+		
+		// added fix for Mozilla Suite detection
+		if ((preg_match_all("/(mozilla)[\/\sa-z;.0-9-(]+rv:([0-9]+)([.0-9a-z]+)\) gecko\/[0-9]{8}$/i", $userAgent, $results)) 
+		||	(preg_match_all("/($browser)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
+			)
+		 {
+			$count = count($results[0])-1;
+			
+			// browser code
+			$info['name'] = $browsers[strtolower($results[1][$count])];
+			
+			// majeur version number (7 in mozilla 1.7
+			$info['major_number'] = $results[2][$count];
+			
+			// is an minor version number ? If not, 0
+			$match = array();
+			
+			preg_match('/([.\0-9]+)?([\.a-z0-9]+)?/i', $results[3][$count], $match);
+			
+			if(isset($match[1])) 
+			{
+				// find minor version number (7 in mozilla 1.7, 9 in firefox 0.9.3)
+				$info['minor_number'] = substr($match[1], 0, 2);
+			} 
+			else 
+			{
+				$info['minor_number'] = '.0';
+			}
+			
+			$info['version'] = $info['major_number'] . $info['minor_number'];
+		}	
+		return $info;	
+	}
+
+	
+	/**
+	* Returns the best possible IP
+	* 
+	* @return string ip 
+	*/
+	static public function getIp() 
+	{
+		if(isset($_SERVER['HTTP_CLIENT_IP']) 
+			&& ($ip = Piwik_Common::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']))
+			&& strpos($ip, "unknown") === false)
+		{
+			return $ip;
+		}
+		elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR']) 
+				&& $ip = Piwik_Common::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_FOR'])
+				&& isset($ip) 
+				&& !empty($ip)
+				&& strpos($ip, "unknown")===false )
+		{
+			return $ip;
+		}
+		elseif( isset($_SERVER['HTTP_CLIENT_IP'])
+				&& strlen( Piwik_Common::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']) ) != 0 )
+		{
+			return Piwik_Common::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']);
+		}
+		else if( isset($_SERVER['HTTP_X_FORWARDED_FOR']) 
+				&& strlen ($ip = Piwik_Common::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_FOR'])) != 0)
+		{
+			return $ip;
+		}
+		else
+		{
+			return Piwik_Common::getFirstIpFromList($_SERVER['REMOTE_ADDR']);
+		}
+	}
+	
+	
+	/**
+	* Returns the first element of a comma separated list of IPs
+	* 
+	* @param string $ip
+	* 
+	* @return string first element before ','
+	*/
+	static private function getFirstIpFromList($ip)
+	{
+		$p = strpos($ip, ',');
+		if($p!==false)
+		{
+			return Piwik_Common::sanitizeInputValues(substr($ip, 0, $p));
+		}
+		return Piwik_Common::sanitizeInputValues($ip);
+	}
+	
+		
+	/**
+	* Returns the continent of a given country
+	* 
+	* @param string Country 2 letters isocode
+	* 
+	* @return string Continent (3 letters code : afr, asi, eur, amn, ams, oce)
+	*/
+	function getContinent($country)
+	{
+		require_once PIWIK_INCLUDE_PATH . "/modules/DataFiles/Countries.php";
+		
+		$countryList = $GLOBALS['Piwik_CountryList'];
+		
+		if(isset($countryList[$country][0]))
+		{
+			return $countryList[$country][0];
+		}
+		else
+		{
+			return 'unk';
+		}
+	}
+		
+	/**
+	* Returns the visitor country based only on the Browser Lang information
+	* 
+	* @param string $lang browser lang
+	* 
+	* @return string 
+	*/
+	function getCountry( $lang )
+	{
+		require_once PIWIK_INCLUDE_PATH . "/modules/DataFiles/Countries.php";
+		
+		$countryList = $GLOBALS['Piwik_CountryList'];
+		
+		$replaceLangCodeByCountryCode = array(
+			// replace cs language (Serbia Montenegro country code) with czech country code
+			'cs' => 'cz',
+			// replace sv language (El Salvador country code) with sweden country code
+			'sv' => 'se',
+			// replace fa language (Unknown country code) with Iran country code
+			'fa' => 'ir',
+			// replace ja language (Unknown country code) with japan country code
+			'ja' => 'jp',
+			// replace ko language (Unknown country code) with corée country code
+			'ko' => 'kr',
+			// replace he language (Unknown country code) with Israel country code
+			'he' => 'il',
+			// replace da language (Unknown country code) with Danemark country code
+			'da' => 'dk',
+			// replace gb code with UK country code
+			'gb' => 'uk',
+			);
+		
+		
+		if(empty($lang) || strlen($lang) < 2)
+		{
+			return 'xx';
+		}
+		
+		$lang = str_replace(	array_keys($replaceLangCodeByCountryCode), 
+								array_values($replaceLangCodeByCountryCode), 
+								$lang
+					);			
+
+        // Ex: "fr"
+		if(strlen($lang) == 2)
+		{
+			if(isset($countryList[$lang]))
+			{
+				return $lang;
+			}
+		}
+
+		// when comma
+		$offcomma = strpos($lang, ',');
+
+		if($offcomma == 2)
+		{
+			// in 'fr,en-us', keep first two chars
+			$domain = substr($lang, 0, 2);
+			if(isset($countryList[$domain]))
+			{
+				return $domain;
+			}
+
+			// catch the second language Ex: "fr" in "en,fr"
+			$domain = substr($lang, 3, 2);
+			if(isset($countryList[$domain]))
+			{
+				return $domain;
+			}
+		}
+
+		// detect second code Ex: "be" in "fr-be"
+		$off = strpos($lang, '-');
+		if($off!==false)
+		{
+			$domain = substr($lang, $off+1, 2);
+			
+			if(isset($countryList[$domain]))
+			{
+				return $domain;
+			}
+		}
+		
+		// catch the second language Ex: "fr" in "en;q=1.0,fr;q=0.9"
+		if(preg_match("/^[a-z]{2};q=[01]\.[0-9],(?P<domain>[a-z]{2});/", $lang, $parts))
+		{
+			$domain = $parts['domain'];
+
+			if(isset($GLOBALS['countryList'][$domain][0]))
+			{
+				return $domain;
+			}
+		}
+		
+		// finally try with the first ever langage code
+		$domain = substr($lang, 0, 2);
+		if(isset($countryList[$domain]))
+		{
+			return $domain;
+		}
+		
+		// at this point we really can't guess the country
+		return 'xx';
+	}
+		
+	
 }
 ?>
