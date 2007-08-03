@@ -108,8 +108,14 @@ function main()
 
 ?>
 
-
-
+<a href="piwik.php?idsite=1&download=http://php.net/get&name=test download/ the file">test download </a>
+<br>
+<a href="piwik.php?idsite=1&download=http://php.net/get">test download - without name var</a>
+<br>
+<a href="piwik.php?idsite=1&link=http://php.net/&name=php.net website">test link php</a>
+<br>
+<a href="piwik.php?idsite=1&link=http://php.net/">test link php - without name var</a>
+<br>
 <!-- Piwik -->
 <a href="http://piwik.org" title="Web analytics" onclick="window.open(this.href);return(false);">
 <script language="javascript" src="piwik.js" type="text/javascript"></script>

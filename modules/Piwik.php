@@ -97,14 +97,66 @@ class Piwik
 			",
 			
 			
-			);
+			'log_action' => "CREATE TABLE {$prefixTables}log_action (
+									  idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+									  name VARCHAR(255) NOT NULL,
+  									  type TINYINT UNSIGNED NULL,
+									  PRIMARY KEY(idaction)
+						)
+			",
+			
+			'log_visit' => "CREATE TABLE {$prefixTables}log_visit (
+								  idvisit INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+								  idsite INTEGER(10) UNSIGNED NOT NULL,
+								  visitor_localtime TIME NOT NULL,
+								  visitor_idcookie CHAR(32) NOT NULL,
+								  visitor_returning TINYINT(1) NOT NULL,
+								  visitor_last_visit_time TIME NOT NULL,
+								  visit_server_date DATE NOT NULL,
+								  visit_server_time TIME NOT NULL,
+								  visit_exit_idaction INTEGER(11) NOT NULL,
+								  visit_entry_idaction INTEGER(11) NOT NULL,
+								  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
+								  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
+								  referer_type INTEGER UNSIGNED NULL,
+								  referer_name VARCHAR(70) NULL,
+								  referer_url TEXT NOT NULL,
+								  referer_keyword VARCHAR(255) NULL,
+								  config_md5config CHAR(32) NOT NULL,
+								  config_os CHAR(3) NOT NULL,
+								  config_browser_name VARCHAR(10) NOT NULL,
+								  config_browser_version VARCHAR(20) NOT NULL,
+								  config_resolution VARCHAR(9) NOT NULL,
+								  config_color_depth TINYINT(2) UNSIGNED NOT NULL,
+								  config_pdf TINYINT(1) NOT NULL,
+								  config_flash TINYINT(1) NOT NULL,
+								  config_java TINYINT(1) NOT NULL,
+								  config_javascript TINYINT(1) NOT NULL,
+								  config_director TINYINT(1) NOT NULL,
+								  config_quicktime TINYINT(1) NOT NULL,
+								  config_realplayer TINYINT(1) NOT NULL,
+								  config_windowsmedia TINYINT(1) NOT NULL,
+								  config_cookie TINYINT(1) NOT NULL,
+								  location_ip BIGINT(11) NOT NULL,
+								  location_browser_lang VARCHAR(20) NOT NULL,
+								  location_country CHAR(3) NOT NULL,
+								  location_continent CHAR(3) NOT NULL,
+								  PRIMARY KEY(idvisit)
+								)
+			",
+			
+			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
+											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
+											  idvisit INTEGER(10) UNSIGNED NOT NULL,
+											  idaction INTEGER(10) UNSIGNED NOT NULL,
+											  idaction_ref INTEGER(11) UNSIGNED NOT NULL,
+											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
+											  PRIMARY KEY(idlink_va)
+											)
+			",
+			
+		);
 		return $tables;
-	}
-	
-	static public function getIp()
-	{
-		//TODO test and move from piwik
-		return '127.0.0.1';
 	}
 	
 	static public function getCurrentUserLogin()

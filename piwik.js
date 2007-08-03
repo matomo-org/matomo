@@ -68,6 +68,9 @@ function _pk_escape(_pk_str){
 		return escape(_pk_str);
 	}
 }
+var _pk_title = '';
+if (document.title && document.title!="") _pk_title = _pk_escape(document.title);
+
 var _pk_called;
 
 function _pk_getUrlLog( _pk_action_name, _pk_site, _pk_pkurl )
@@ -76,8 +79,8 @@ function _pk_getUrlLog( _pk_action_name, _pk_site, _pk_pkurl )
 	var _pk_da = new Date();
 	var _pk_src = _pk_pkurl
 		+'?url='+_pk_escape(_pk_url)
-		+'&aname='+_pk_escape(_pk_action_name)
-		+'&id='+_pk_site
+		+'&action_name='+_pk_escape(_pk_action_name)
+		+'&idsite='+_pk_site
 		+'&res='+screen.width+'x'+screen.height
 		+'&col='+screen.colorDepth
 		+'&h='+_pk_da.getHours()+'&m='+_pk_da.getMinutes()+'&s='+_pk_da.getSeconds()
@@ -89,6 +92,7 @@ function _pk_getUrlLog( _pk_action_name, _pk_site, _pk_pkurl )
 		+'&wma='+_pk_wma
 		+'&java='+_pk_jav
 		+'&cookie='+_pk_cookie
+		+'&title='+_pk_title
 		+'&urlref='+_pk_escape(_pk_rtu);
 	return _pk_src;
 }

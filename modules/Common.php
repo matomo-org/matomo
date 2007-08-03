@@ -11,6 +11,7 @@ class Piwik_Common
 {
 	/**
 	 * Returns the variable after cleaning operations.
+	 * NB: The variable still has to be escaped before going into a SQL Query!
 	 * 
 	 * If an array is passed the cleaning is done recursively on all the sub-arrays. \
 	 * The keys of the array are filtered as well!
@@ -18,6 +19,7 @@ class Piwik_Common
 	 * How this method works:
 	 * - The variable returned has been htmlspecialchars to avoid the XSS security problem.
 	 * - The single quotes are not protected so "Piwik's amazing" will still be "Piwik's amazing".
+	 * 
 	 * - Transformations are:
 	 * 		- '&' (ampersand) becomes '&amp;'
 	 *  	- '"'(double quote) becomes '&quot;' 
@@ -25,7 +27,7 @@ class Piwik_Common
 	 * 		- '>' (greater than) becomes '&gt;'
 	 * - It handles the magic_quotes setting.
 	 * - A non string value is returned without modification
-	 * 
+	 *
 	 * @param mixed The variable to be cleaned
 	 * @return mixed The variable after cleaning
 	 */
@@ -230,6 +232,11 @@ class Piwik_Common
 	* get visitor browser 
 	* 
 	* @param string $userAgent
+	* @return array array(  'name' 			=> '',
+							'major_number' 	=> '',
+							'minor_number' 	=> '',
+							'version' 		=> '' // major_number.minor_number
+						);
 	*/
 	static public function getBrowserInfo($userAgent)
 	{

@@ -17,8 +17,12 @@ tables_prefix	= piwiktests_
 
 [LogStats]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
-record_statistics	= 1
-
+record_statistics			= 1
+default_action_name 		= index
+default_time_one_page_visit = 20
+download_url_var_name 		= download
+outlink_url_var_name		= link
+download_outlink_name_var   = name
 
 [log]
 
