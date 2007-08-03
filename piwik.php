@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Misc Thoughts about optimization
+ * 
+ * - after a day is archived, we delete all the useless information from the log table, keeping only the useful data for weeks/month
+ *   maybe we create a new table containing only these aggregate and we can delete the rows of the day in the log table
+ * - To avoid join two huge tables (log_visit, log_link_visit_action) we may have to denormalize (idsite, date)#
+ * -  
+ */
 error_reporting(E_ALL|E_NOTICE);
 define('PIWIK_INCLUDE_PATH', '.');
 
@@ -69,24 +76,46 @@ class Piwik_LogStats_Db
 		}
 	}
 
-	public function fetchAll( $query )
+	public function prefixTable( $suffix )
+	{
+		$prefix = Piwik_LogStats_Config::getInstance()->database['tables_prefix'];
+		
+		return $prefix . $suffix;
+	}
+	
+	public function fetchAll( $query, $parameters )
 	{
 		try {
-			$sth = $this->connexion->prepare($query);
-			$sth->execute();
+			$sth = $this->query( $query, $parameters );
 			return $sth->fetchAll(PDO::FETCH_ASSOC);
 		} catch (PDOException $e) {
 			throw new Exception("Error query: ".$e->getMessage());
 		}
 	}
-	
-	public function query($query) 
+	public function fetch( $query, $parameters )
 	{
-		if (!$this->connection->query($query)) {
-			throw new Exception($this->connection->errorInfo());
-		} else {
-			return true;
+		try {
+			$sth = $this->query( $query, $parameters );
+			return $sth->fetch(PDO::FETCH_ASSOC);
+		} catch (PDOException $e) {
+			throw new Exception("Error query: ".$e->getMessage());
 		}
+	}
+	
+	public function query($query, $parameters = array()) 
+	{
+		try {
+			$sth = $this->connection->prepare($query);
+			$sth->execute( $parameters );
+			return $sth;
+		} catch (PDOException $e) {
+			throw new Exception("Error query: ".$e->getMessage());
+		}
+	}
+	
+	public function lastInsertId()
+	{
+		return  $this->connection->lastInsertId();
 	}
 }
 
@@ -354,6 +383,7 @@ Piwik_PostEvent( 'LogsStats.NewVisitor' );
  * 	 Of course we carefully filter all input values.
  * - minimize the number of SQL queries necessary to complete the algorithm.
  * - carefully index the tables used
+ * - try to have fixed length rows
  * 
  * [ - use a partitionning by date for the tables ]
  *   
@@ -362,7 +392,8 @@ Piwik_PostEvent( 'LogsStats.NewVisitor' );
  * [ - country detection plugin => ip lookup ]
  * [ - precise country detection plugin ]
  * 
- * 
+ * We could also imagine a batch system that would read a log file every 5min,
+ * and which prepares the file containg the rows to insert, then we load DATA INFILE 
  * 
  */
 
@@ -596,10 +627,66 @@ class Piwik_LogStats_Cookie
 
 class Piwik_LogStats_Action
 {
-	function __construct( $actionName, $currentUrl)
+	
+	 /*
+	  * Specifications
+	  *  
+	  * - External file tracking
+	  * 
+	  *    * MANUAL Download tracking 
+	  *      download = http://piwik.org/hellokity.zip
+	  * 	(name = dir1/file alias name)
+	  *
+	  *    * AUTOMATIC Download tracking for a known list of file extensions. 
+	  *    Make a hit to the piwik.php with the parameter: 
+	  *      download = http://piwik.org/hellokity.zip
+	  *  
+	  *   When 'name' is not specified, 
+	  * 	if AUTOMATIC and if anchor not empty => name = link title anchor
+	  * 	else name = path+query of the URL
+	  *   Ex: myfiles/beta.zip
+	  *
+	  * - External link tracking
+	  * 
+	  *    * MANUAL External link tracking
+	  * 	 outlink = http://amazon.org/test
+	  * 	(name = the big partners / amazon)
+	  * 
+	  *    * AUTOMATIC External link tracking
+	  *      When a link is not detected as being part of the same website 
+	  *     AND when the url extension is not detected as being a file download
+	  * 	 outlink = http://amazon.org/test
+	  * 
+	  *  When 'name' is not specified, 
+	  * 	if AUTOMATIC and if anchor not empty => name = link title anchor
+	  * 	else name = URL
+	  *   Ex: http://amazon.org/test
+	  */
+	private $actionName;
+	private $url;
+	private $defaultActionName;
+	private $nameDownloadOutlink;
+	
+	const TYPE_ACTION   = 1;
+	const TYPE_DOWNLOAD = 3;
+	const TYPE_OUTLINK  = 2;
+	
+	function __construct( $db )
 	{
-		$this->actionName = $actionName;
-		$this->url = $currentUrl;
+		$this->actionName = Piwik_Common::getRequestVar( 'action_name', '', 'string');
+		
+		$downloadVariableName = Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'];
+		$this->downloadUrl = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string');
+		
+		$outlinkVariableName = Piwik_LogStats_Config::getInstance()->LogStats['outlink_url_var_name'];
+		$this->outlinkUrl = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string');
+		
+		$nameVariableName = Piwik_LogStats_Config::getInstance()->LogStats['download_outlink_name_var'];
+		$this->nameDownloadOutlink = Piwik_Common::getRequestVar( $nameVariableName, '', 'string');
+		
+		$this->url = Piwik_Common::getRequestVar( 'url', '', 'string');
+		$this->db = $db;
+		$this->defaultActionName = Piwik_LogStats_Config::getInstance()->LogStats['default_action_name'];
 	}
 	
 	/**
@@ -607,8 +694,9 @@ class Piwik_LogStats_Action
 	 * 
 	 * - An action is defined by a name.
 	 * - The name can be specified in the JS Code in the variable 'action_name'
-	 * - An action is associated to a URL
 	 * - Handling UTF8 in the action name
+	 * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the interface
+	 * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action
 	 * 
 	 * + If the name is not specified, we use the URL(path+query) to build a default name.
 	 *   For example for "http://piwik.org/test/my_page/test.html" 
@@ -617,14 +705,37 @@ class Piwik_LogStats_Action
 	 * We make sure it is clean and displayable.
 	 * If the name is empty we set it to a default name.
 	 * 
+	 * TODO UTF8 handling to test
+	 * 
 	 */
-	function getName()
+	 
+	private function generateInfo()
 	{
-		$actionName = $this->actionName;
-		$url = $this->url;
+		if(!empty($this->downloadUrl))
+		{
+			$this->actionType = self::TYPE_DOWNLOAD;
+			$url = $this->downloadUrl;
+			$actionName = $this->nameDownloadOutlink;
+		}
+		elseif(!empty($this->outlinkUrl))
+		{
+			$this->actionType = self::TYPE_OUTLINK;
+			$url = $this->outlinkUrl;
+			$actionName = $this->nameDownloadOutlink;
+			if( empty($actionName) )
+			{
+				$actionName = $url;
+			}
+		}
+		else
+		{
+			$this->actionType = self::TYPE_ACTION;
+			$url = $this->url;
+			$actionName = $this->actionName;
+		}		
 		
 		// the ActionName wasn't specified
-		if($actionName === false)
+		if( empty($actionName) )
 		{
 			$parsedUrl = parse_url( $url );
 			
@@ -643,25 +754,80 @@ class Piwik_LogStats_Action
 		
 		// clean the name
 		$actionName = str_replace(array("\n", "\r"), '', $actionName);
-				
+		
+		if(empty($actionName))
+		{
+			$actionName = $this->defaultActionName;
+		}
+		
+		$this->finalActionName = $actionName;
 	}
 	
 	/**
-	 * A query to the Piwik statistics logging engine is associated to 1 action.
+	 * Returns the idaction of the current action name.
+	 * This idaction is used in the visitor logging table to link the visit information 
+	 * (entry action, exit action) to the actions.
+	 * This idaction is also used in the table that links the visits and their actions.
 	 * 
-	 * We have to save the action for the current visit.
-	 * - check the action exists already in the db
-	 * - save the relation between idvisit and idaction
+	 * The methods takes care of creating a new record in the action table if the existing 
+	 * action name doesn't exist yet.
+	 * 
+	 * @return int Id action
 	 */
-	function save()
-	{}
+	function getActionId()
+	{
+		$this->loadActionId();
+		return $this->idAction;
+	}
+	
+	/**
+	 * @see getActionId()
+	 */
+	private function loadActionId()
+	{		
+		$this->generateInfo();
+		
+		$name = $this->finalActionName;
+		$type = $this->actionType;
+		
+		$idAction = $this->db->fetch("	SELECT idaction 
+							FROM ".$this->db->prefixTable('log_action')
+						."  WHERE name = ? AND type = ?", array($name, $type) );
+		
+		// the action name has not been found, create it
+		if($idAction === false)
+		{
+			$this->db->query("INSERT INTO ". $this->db->prefixTable('log_action'). "( name, type ) 
+								VALUES (?,?)",array($name,$type) );
+			$idAction = $this->db->lastInsertId();
+		}
+		else
+		{
+			$idAction = $idAction['idaction'];
+		}
+		
+		$this->idAction = $idAction;
+	}
+	
+	/**
+	 * Records in the DB the association between the visit and this action.
+	 */
+	 public function record( $idVisit, $idRefererAction, $timeSpentRefererAction)
+	 {
+	 	$this->db->query("INSERT INTO ".$this->db->prefixTable('log_link_visit_action')
+						." (idvisit, idaction, idaction_ref, time_spent_ref_action) VALUES (?,?,?,?)",
+					array($idVisit, $this->idAction, $idRefererAction, $timeSpentRefererAction)
+					);
+	 }
+	 
 }
 
 class Piwik_LogStats_Visit
 {
 	
-	function __construct()
+	function __construct( $db )
 	{
+		$this->db = $db;
 	}
 	
 	// test if the visitor is excluded because of
@@ -762,7 +928,15 @@ class Piwik_LogStats_Visit
 			{
 				$this->handleNewVisit();
 			}
+			
+			$this->updateCookie();
+			
 		}
+	}
+	
+	private function updateCookie()
+	{
+		printDebug("We manage the cookie...");
 	}
 	
 	/**
@@ -791,97 +965,211 @@ class Piwik_LogStats_Visit
 		/**
 		 * Get the variables from the REQUEST 
 		 */
+
+		/*
+		 * Configuration settings
+		 */
 		$plugin_Flash 			= Piwik_Common::getRequestVar( 'fla', 0, 'int');
 		$plugin_Director 		= Piwik_Common::getRequestVar( 'dir', 0, 'int');
+		$plugin_Quicktime		= Piwik_Common::getRequestVar( 'qt', 0, 'int');
 		$plugin_RealPlayer 		= Piwik_Common::getRequestVar( 'realp', 0, 'int');
 		$plugin_Pdf 			= Piwik_Common::getRequestVar( 'pdf', 0, 'int');
 		$plugin_WindowsMedia 	= Piwik_Common::getRequestVar( 'wma', 0, 'int');
 		$plugin_Java 			= Piwik_Common::getRequestVar( 'java', 0, 'int');
 		$plugin_Cookie 			= Piwik_Common::getRequestVar( 'cookie', 0, 'int');
 		
-		$localTime				= Piwik_Common::getRequestVar( 'h', date("H"), 'numeric')
-							.':'. Piwik_Common::getRequestVar( 'm', date("i"), 'numeric')
-							.':'. Piwik_Common::getRequestVar( 's', date("s"), 'numeric');
-
 		$userAgent		= Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_USER_AGENT']);
 		$aBrowserInfo	= Piwik_Common::getBrowserInfo($userAgent);
+		$browserName	= $aBrowserInfo['name'];
+		$browserVersion	= $aBrowserInfo['version'];
+		
 		$os				= Piwik_Common::getOs($userAgent);
 		
 		$resolution		= Piwik_Common::getRequestVar('res', 'unknown', 'string');
-		$colorDept		= Piwik_Common::getRequestVar('col', 32, 'numeric');
+		$colorDepth		= Piwik_Common::getRequestVar('col', 32, 'numeric');
 		
-		$urlReferer		= Piwik_Common::getRequestVar( 'urlref', '', 'string');
 
+
+		/*
+		 * General information
+		 */
 		$ip				= Piwik_Common::getIp();
+		$ip 			= ip2long($ip);
+		$localTime				= Piwik_Common::getRequestVar( 'h', date("H"), 'numeric')
+							.':'. Piwik_Common::getRequestVar( 'm', date("i"), 'numeric')
+							.':'. Piwik_Common::getRequestVar( 's', date("s"), 'numeric');
 		
 		$serverDate 	= date("Y-m-d");
 		$serverTime 	= date("H:i:s");
 		
+		$idsite = Piwik_Common::getRequestVar('idsite', 0, 'int');
+		if($idsite <= 0)
+		{
+			throw new Exception("The 'idsite' in the request is not acceptable.");
+		}
+		
+		$idcookie = $this->getVisitorUniqueId();
+		
+		$defaultTimeOnePageVisit = Piwik_LogStats_Config::getInstance()->LogStats['default_time_one_page_visit'];
+		
+		/*
+		 * Location information
+		 */
 		$browserLang	= Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
 		$country 		= Piwik_Common::getCountry($browserLang);
 				
 		$continent		= Piwik_Common::getContinent( $country );
 		
+		/*
+		 * Misc
+		 */
+		$configurationHash = $this->getConfigHash( 
+												$os,
+												$browserName,
+												$browserVersion,
+												$resolution,
+												$colorDepth,
+												$plugin_Flash,
+												$plugin_Director,
+												$plugin_RealPlayer,
+												$plugin_Pdf,
+												$plugin_WindowsMedia,
+												$plugin_Java,
+												$plugin_Cookie,
+												$ip,
+												$browserLang);
 		/**
 		 * Init the action
 		 */
-		$action = new Piwik_LogStats_Action;
+		$action = new Piwik_LogStats_Action( $this->db );
 		
 		$actionId = $action->getActionId();
+		
+		printDebug("idAction = $actionId");
 		
 		
 		/**
 		 * Save the visitor
 		 */
-		$visitorId = 1;
 		
+		$informationToSave = array(
+			//'idvisit' => ,
+			'idsite' 				=> $idsite,
+			'visitor_localtime' 	=> $localTime,
+			'visitor_idcookie' 		=> $idcookie,
+			'visitor_returning' 	=> 0,
+			'visitor_last_visit_time' => 0,
+			'visit_server_date' 	=> $serverDate,
+			'visit_server_time' 	=> $serverTime,
+			'visit_exit_idaction' 	=> $actionId,
+			'visit_entry_idaction' 	=> $actionId,
+			'visit_total_actions' 	=> 1,
+			'visit_total_time' 		=> $defaultTimeOnePageVisit,
+			'referer_type' 			=> '',
+			'referer_name' 			=> '',
+			'referer_url' 			=> '',
+			'referer_keyword' 		=> '',
+			'config_md5config' 		=> $configurationHash,
+			'config_os' 			=> $os,
+			'config_browser_name' 	=> $browserName,
+			'config_browser_version' => $browserVersion,
+			'config_resolution' 	=> $resolution,
+			'config_color_depth' 	=> $colorDepth,
+			'config_pdf' 			=> $plugin_Pdf,
+			'config_flash' 			=> $plugin_Flash,
+			'config_java' 			=> $plugin_Java,
+			'config_director' 		=> $plugin_Director,
+			'config_quicktime' 		=> $plugin_Quicktime,
+			'config_realplayer' 	=> $plugin_RealPlayer,
+			'config_windowsmedia' 	=> $plugin_WindowsMedia,
+			'config_cookie' 		=> $plugin_RealPlayer,
+			'location_ip' 			=> $ip,
+			'location_browser_lang' => $browserLang,
+			'location_country' 		=> $country,
+			'location_continent' 	=> $continent,
+		);
+		
+		$fields = implode(", ", array_keys($informationToSave));
+		$values = substr(str_repeat( "?,",count($informationToSave)),0,-1);
+		
+		$this->db->query( "INSERT INTO ".$this->db->prefixTable('log_visit').
+						" ($fields) VALUES ($values)", array_values($informationToSave));
+						
+		$idVisit = $this->db->lastInsertId();
 		
 		/**
 		 * Save the action
 		 */
-		$action->save( $visitorId );
-				
-			/*	CREATE TABLE log_visit (
-		  idvisit INTEGER(10) UNSIGNED NOT NULL,
-		  idsite INTEGER(10) UNSIGNED NOT NULL,
-		  visitor_localtime TIME NOT NULL DEFAULT 00:00:00,
-		  visitor_idcookie CHAR(32) NOT NULL,
-		  visitor_returning TINYINT(1) NOT NULL,
-		  visitor_last_visit_time TIME NOT NULL DEFAULT 00:00:00,
-		  visit_server_date DATE NOT NULL,
-		  visit_server_time TIME NOT NULL DEFAULT 00:00:00,
-		  visit_exit_idpage INTEGER(11) NOT NULL,
-		  visit_entry_idpage INTEGER(11) NOT NULL,
-		  visit_entry_idpageurl INTEGER(11) NOT NULL,
-		  visit_total_pages SMALLINT(5) UNSIGNED NOT NULL,
-		  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
-		  referer_type INTEGER UNSIGNED NULL,
-		  referer_name VARCHAR(70) NULL,
-		  referer_url TEXT NOT NULL,
-		  referer_keyword VARCHAR(255) NULL,
-		  config_md5config CHAR(32) NOT NULL,
-		  -config_os CHAR(3) NOT NULL,
-		  -config_browser_name VARCHAR(10) NOT NULL,
-		  -config_browser_version VARCHAR(20) NOT NULL,
-		  -config_resolution VARCHAR(9) NOT NULL,
-		  -config_color_depth TINYINT(2) UNSIGNED NOT NULL,
-		  -config_pdf TINYINT(1) NOT NULL,
-		  -config_flash TINYINT(1) NOT NULL,
-		  -config_java TINYINT(1) NOT NULL,
-		  -config_javascript TINYINT(1) NOT NULL,
-		  -config_director TINYINT(1) NOT NULL,
-		  -config_quicktime TINYINT(1) NOT NULL,
-		  -config_realplayer TINYINT(1) NOT NULL,
-		  -config_windowsmedia TINYINT(1) NOT NULL,
-		  -config_cookie TINYINT(1) NOT NULL,
-		  -location_ip BIGINT(11) NOT NULL,
-		  -location_browser_lang VARCHAR(20) NOT NULL,
-		  -location_country CHAR(3) NOT NULL,
-		  -location_continent CHAR(3) NOT NULL,
-		  PRIMARY KEY(idvisit)
-		);
-		*/
+		$action->record( $idVisit, 0, 0 );
+		
 	}
+	
+	/**
+	 * Compute the following information
+	 * - referer_type
+	 *		- direct			-- absence of referer URL
+	 *		- site				-- based on the referer URL
+	 *		- search_engine		-- based on the referer URL
+	 *		- cpc				-- based on campaign URL parameter
+	 *		- newsletter		-- based on campaign URL parameter
+	 *		- partner			-- based on campaign URL parameter
+	 *
+	 * - referer_name
+	 * 		- piwik.net
+	 * 		- ()
+	 * 		- google.fr
+	 * 		- adwords-search
+	 * 		- beta-release
+	 * 		- my-nice-partner
+	 * 		
+	 * - referer_keyword
+	 * 		- ()
+	 * 		- ()
+	 * 		- my keyword
+	 * 		- my paid keyword
+	 * 		- ()
+	 * 		- ()
+	 *  
+	 * - referer_url : the same for all the referer types
+	 * 
+	 */
+	private function handleReferer()
+	{
+		/*
+		 * Referer analysis
+		 */
+		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string');
+		$url		= Piwik_Common::getRequestVar( 'url', '', 'string');
+		
+		
+		 /*
+		  * 
+		  * - Campaign tagging specification
+		  *		* newsletter / beta-release
+		  *     * partner / Amazon / [autofilled by piwik http://amazon.com/refererpage.html]
+		  *   	* CPC / adwords-search / myKeyword
+		  */
+		  
+		  
+	}
+	
+	private function getConfigHash( $os, $browserName, $browserVersion, $resolution, $colorDepth, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Java, $plugin_Cookie, $ip, $browserLang)
+	{
+		return md5( $os . $browserName . $browserVersion . $resolution . $colorDepth . $plugin_Flash . $plugin_Director . $plugin_RealPlayer . $plugin_Pdf . $plugin_WindowsMedia . $plugin_Java . $plugin_Cookie . $ip . $browserLang );
+	}
+	
+	private function getVisitorUniqueId()
+	{
+		if($this->isVisitorKnown())
+		{
+			return -1;
+		}
+		else
+		{
+			return Piwik_Common::generateUniqId();
+		}
+	}
+		
 }
 
 printDebug($_GET);
@@ -890,7 +1178,12 @@ class Piwik_LogStats
 {	
 	private $stateValid;
 	
+	private $urlToRedirect;
+	
+	private $db = null;
+	
 	const NOTHING_TO_NOTICE = 1;
+	const TO_REDIRECT_URL = 2;
 	const LOGGING_DISABLE = 10;
 	const NO_GET_VARIABLE = 11;
 	
@@ -903,18 +1196,18 @@ class Piwik_LogStats
 	function connectDatabase()
 	{
 		$configDb = Piwik_LogStats_Config::getInstance()->database;
-		$db = new Piwik_LogStats_Db( 	$configDb['host'], 
+		$this->db = new Piwik_LogStats_Db( 	$configDb['host'], 
 										$configDb['username'], 
 										$configDb['password'], 
 										$configDb['dbname']
 							);  
-		$db->connect();
+		$this->db->connect();
 	}
 	
 	private function initProcess()
 	{
-		
 		$saveStats = Piwik_LogStats_Config::getInstance()->LogStats['record_statistics'];
+		
 		if($saveStats == 0)
 		{
 			$this->setState(self::LOGGING_DISABLE);
@@ -924,15 +1217,43 @@ class Piwik_LogStats
 		{
 			$this->setState(self::NO_GET_VARIABLE);			
 		}
+		
+		$downloadVariableName = Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'];
+		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string');
+		
+		if( !empty($urlDownload) )
+		{
+			$this->setState( self::TO_REDIRECT_URL );
+			$this->setUrlToRedirect ( $urlDownload);
+		}
+		
+		$outlinkVariableName = Piwik_LogStats_Config::getInstance()->LogStats['outlink_url_var_name'];
+		$urlOutlink = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string');
+		
+		if( !empty($urlOutlink) )
+		{
+			$this->setState( self::TO_REDIRECT_URL );
+			$this->setUrlToRedirect ( $urlOutlink);
+		}
 	}
 	
 	private function processVisit()
 	{
-		return $this->stateValid === self::NOTHING_TO_NOTICE;
+		return $this->stateValid !== self::LOGGING_DISABLE
+				&&  $this->stateValid !== self::NO_GET_VARIABLE;
 	}
 	private function getState()
 	{
 		return $this->stateValid;
+	}
+	
+	private function setUrlToRedirect( $url )
+	{
+		$this->urlToRedirect = $url;
+	}
+	private function getUrlToRedirect()
+	{
+		return $this->urlToRedirect;
 	}
 	private function setState( $value )
 	{
@@ -948,7 +1269,8 @@ class Piwik_LogStats
 		
 		if( $this->processVisit() )
 		{
-			$visit = new Piwik_LogStats_Visit;
+			$this->connectDatabase();
+			$visit = new Piwik_LogStats_Visit( $this->db );
 			$visit->handle();
 		}
 		$this->endProcess();
@@ -965,20 +1287,34 @@ class Piwik_LogStats
 			case self::LOGGING_DISABLE:
 				printDebug("Logging disabled, display transparent logo");
 			break;
+			
 			case self::NO_GET_VARIABLE:
 				printDebug("No get variables => piwik page");
 			break;
+			
+			
+			case self::TO_REDIRECT_URL:
+				header('Location: ' . $this->getUrlToRedirect());
+			break;
+			
+			
 			case self::NOTHING_TO_NOTICE:
 			default:
 				printDebug("Nothing to notice => default behaviour");
 			break;
 		}
 		printDebug("End of the page.");
+		exit;
 	}
 }
 
 $process = new Piwik_LogStats;
 $process->main();
 
+// yet to do
+// known visitor test 1h
+// known visitor update 1h
+// referer analysis 3h
+// unit testing the module 7h
 ob_end_flush();
 ?>

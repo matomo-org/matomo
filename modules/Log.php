@@ -207,9 +207,12 @@ class Piwik_Log_Null extends Zend_Log
 	}
 }
 
+Zend_Loader::loadClass('Piwik_Common');
+
 class Piwik_Log_APICall extends Piwik_Log
 {
 	const ID = 'logger_api_call';
+
 	function __construct()
 	{
 		$logToFileFilename = self::ID;
@@ -224,7 +227,7 @@ class Piwik_Log_APICall extends Piwik_Log
 							$logToDatabaseTableName, 
 							$logToDatabaseColumnMapping );
 		
-		$this->setEventItem('caller_ip', ip2long( Piwik::getIp() ) );
+		$this->setEventItem('caller_ip', ip2long( Piwik_Common::getIp() ) );
 	}
 	
 	function log( $className, $methodName, $parameterNames,	$parameterValues, $executionTime, $returnedValue)
