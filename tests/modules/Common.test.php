@@ -58,6 +58,15 @@ class Test_Piwik_Common extends UnitTestCase
 		$this->assertEqual( $a1OK, Piwik_Common::sanitizeInputValues($a1));
 	}
 	
+	// sanitize a string unicode => no change
+	function test_sanitizeInputValues_arrayBadValueutf8()
+	{
+		$a1 =   " Поиск в Интернете  Поgqegиск страниц на рgeqg8978усском";
+		$a1OK = " Поиск в Интернете  Поgqegиск страниц на рgeqg8978усском";
+
+		$this->assertEqual( $a1OK, Piwik_Common::sanitizeInputValues($a1));
+	}
+	
 	// sanitize a bad string
 	function test_sanitizeInputValues_badString()
 	{
@@ -295,6 +304,92 @@ class Test_Piwik_Common extends UnitTestCase
     	$this->assertEqual( Piwik_Common::getRequestVar('test', "45454", 'string'), $test);
     	$this->assertEqual( Piwik_Common::getRequestVar('test', array(), 'array'), array());
     	
+    }
+    
+    
+    
+    /**
+     * no query string => false
+     */
+    function test_getParameterFromQueryString_noQuerystring()
+    {
+    	$urlQuery = "";
+    	$urlQuery = htmlentities($urlQuery);
+    	$parameter = "test''";
+    	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
+    	$expectedResult = false;
+    	$this->assertEqual($result, $expectedResult);
+    }
+    
+    /**
+     * param not found => false
+     */
+    function test_getParameterFromQueryString_parameternotfound()
+    {
+    	
+    	$urlQuery = "toto=mama&mama=titi";
+    	$urlQuery = htmlentities($urlQuery);
+    	$parameter = "tot";
+    	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
+    	$expectedResult = false;
+    	$this->assertEqual($result, $expectedResult);
+    }
+    
+    /**
+     * empty parameter value => returns empty string
+     */
+    function test_getParameterFromQueryString_emptyParamValue()
+    {
+    	
+    	$urlQuery = "toto=mama&mama=&tuytyt=teaoi";
+    	$urlQuery = htmlentities($urlQuery);
+    	$parameter = "mama";
+    	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
+    	$expectedResult = '';
+    	$this->assertEqual($result, $expectedResult);
+    }
+    
+    /**
+     * twice the parameter => returns the last value in the url
+     */
+    function test_getParameterFromQueryString_twiceTheParameterInQuery()
+    {
+    	
+    	$urlQuery = "toto=mama&mama=&tuytyt=teaoi&toto=mama second value";
+    	$urlQuery = htmlentities($urlQuery);
+    	$parameter = "toto";
+    	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
+    	$expectedResult = 'mama second value';
+    	$this->assertEqual($result, $expectedResult);
+    }
+    
+    /**
+     * normal use case => parameter found
+     */
+    function test_getParameterFromQueryString_normalCase()
+    {
+    	
+    	$urlQuery = "toto=mama&mama=&tuytyt=teaoi&toto=mama second value";
+    	$urlQuery = htmlentities($urlQuery);
+    	$parameter = "tuytyt";
+    	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
+    	$expectedResult = 'teaoi';
+    	$this->assertEqual($result, $expectedResult);
+    }
+    
+    /**
+     * normal use case with a string with many strange characters
+     */
+    function test_getParameterFromQueryString_strangeChars()
+    {
+    	
+    	$urlQuery = 'toto=mama&mama=&tuytyt=Поиск в Интернете  Поиск страниц на русском _*()!$!£$^!£$%&toto=mama second value';
+    	$urlQuery = htmlentities($urlQuery);
+    	$parameter = "tuytyt";
+    	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
+    	$expectedResult = 'Поиск в Интернете  Поиск страниц на русском _*()!$!£$^!£$%';
+    	$expectedResult = htmlentities($expectedResult);
+    	$this->assertEqual($result, $expectedResult);
     }
 }
 ?>

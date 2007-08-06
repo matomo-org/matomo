@@ -9,6 +9,15 @@
  */
 class Piwik_Common 
 {
+	const REFERER_TYPE_DIRECT_ENTRY		= 1;
+	const REFERER_TYPE_SEARCH_ENGINE	= 2;
+	const REFERER_TYPE_WEBSITE			= 3;
+	const REFERER_TYPE_PARTNER			= 4;
+	const REFERER_TYPE_NEWSLETTER		= 5;
+	const REFERER_TYPE_CAMPAIGN			= 6;
+	
+	const HTML_ENCODING_QUOTE_STYLE		= ENT_COMPAT;
+	
 	/**
 	 * Returns the variable after cleaning operations.
 	 * NB: The variable still has to be escaped before going into a SQL Query!
@@ -50,7 +59,7 @@ class Piwik_Common
 		}
 		elseif(is_string($value))
 		{
-			$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+			$value = htmlspecialchars($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
 			/* Undo the damage caused by magic_quotes */
 			if (get_magic_quotes_gpc()) 
@@ -68,6 +77,12 @@ class Piwik_Common
 		return $value;
     }
 
+
+	static public function getDatetimeFromTimestamp($timestamp)
+	{
+		return date("Y-m-d H:i:s",$timestamp);
+	}
+	
 	/**
 	 * Returns a variable from the $_REQUEST superglobal.
 	 * If the variable doesn't have a value or an empty value, returns the defaultValue if specified.
@@ -388,7 +403,7 @@ class Piwik_Common
 	*/
 	function getContinent($country)
 	{
-		require_once PIWIK_INCLUDE_PATH . "/modules/DataFiles/Countries.php";
+		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/Countries.php";
 		
 		$countryList = $GLOBALS['Piwik_CountryList'];
 		
@@ -411,7 +426,7 @@ class Piwik_Common
 	*/
 	function getCountry( $lang )
 	{
-		require_once PIWIK_INCLUDE_PATH . "/modules/DataFiles/Countries.php";
+		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/Countries.php";
 		
 		$countryList = $GLOBALS['Piwik_CountryList'];
 		
@@ -507,7 +522,37 @@ class Piwik_Common
 		// at this point we really can't guess the country
 		return 'xx';
 	}
-		
+	
+	/**
+	* Returns the value of a GET parameter $parameter in an URL query $urlQuery
+	* 
+	* @param string $urlQuery result of parse_url()['query'] and htmlentitied (& is &amp;)
+	* @param string $param
+	* 
+	* @return string|bool Parameter value if found (can be the empty string!), false if not found
+	*/
+	static public function getParameterFromQueryString( $urlQuery, $parameter)
+	{	
+		$refererQuery = '&amp;'.trim(str_replace(array('%20'), ' ', '&amp;'.$urlQuery));
+		$word = '&amp;'.$parameter.'=';
+				
+		if( $off = strrpos($refererQuery, $word))
+		{
+			$off += strlen($word); // &amp;q=
+			$str = substr($refererQuery, $off);
+			$len = strpos($str, '&amp;');
+			if($len === false)
+			{
+				$len = strlen($str);
+			}
+			$toReturn = substr($refererQuery, $off, $len);
+			return $toReturn;
+		}
+		else
+		{
+			return false;
+		}
+	}
 	
 }
 ?>
