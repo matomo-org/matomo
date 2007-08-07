@@ -1,7 +1,7 @@
 <?php
 if(!defined("PATH_TEST_TO_ROOT")) 
 {
-	define('PATH_TEST_TO_ROOT', '..');
+	define('PATH_TEST_TO_ROOT', '.');
 }
 if(!defined("PATH_TEST_TO_ROOT2")) 
 {
@@ -16,7 +16,11 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 set_include_path(PATH_TEST_TO_ROOT .'/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/libs/'
 					. PATH_SEPARATOR . getcwd() . '/../../libs/'
+					. PATH_SEPARATOR . getcwd() . '/../libs/'
 					. PATH_SEPARATOR . getcwd() . '/../../config/'
+					. PATH_SEPARATOR . getcwd() . '/../config/'
+					. PATH_SEPARATOR . getcwd() . '/../../modules/'
+					. PATH_SEPARATOR . getcwd() . '/../modules/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/core/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/config/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/modules/'
