@@ -77,12 +77,6 @@ class Piwik_Common
 		return $value;
     }
 
-
-	static public function getDatetimeFromTimestamp($timestamp)
-	{
-		return date("Y-m-d H:i:s",$timestamp);
-	}
-	
 	/**
 	 * Returns a variable from the $_REQUEST superglobal.
 	 * If the variable doesn't have a value or an empty value, returns the defaultValue if specified.

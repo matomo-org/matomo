@@ -27,7 +27,7 @@ require_once "LogStats.php";
 require_once "PluginManager.php";
 require_once "LogStats/Plugins.php";
 
-$GLOBALS['DEBUGPIWIK'] = false;
+$GLOBALS['DEBUGPIWIK'] = true;
 
 /*
  * Some benchmarks
@@ -42,7 +42,7 @@ $GLOBALS['DEBUGPIWIK'] = false;
 
 ob_start();
 printDebug($_GET);
-$process = new Piwik_LogStats;
+$process = new Piwik_LogStats_Controller;
 Piwik_PostEvent( 'LogsStats.NewVisitor' );
 $process->main();
 

@@ -2,7 +2,10 @@ FEATURES
 ========
 - when a method is called and doesn't make any access check, we can throw a NoticeException
   and display the message in debug mode in the API returned value in the field "notice" or "debug"
-
+- in the piwik.php process, we could do without all the information in the cookie except for the idvisitor
+  we could select the information last_action_time, last_id_action, etc. assuming we have the idvisitor in the cookie
+  this would allow to save the logs later by big bulk
+  
 BUGS
 ====
 - the token md5 generation doesn't check that the md5 generated is unique, 
