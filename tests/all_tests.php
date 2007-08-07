@@ -3,10 +3,7 @@
 <hr>
 <?php
 flush();
-if(!defined("PATH_TEST_TO_ROOT")) {
-	define('PATH_TEST_TO_ROOT', '..');
-}
-require_once PATH_TEST_TO_ROOT . "/tests/config_test.php";
+require_once  "config_test.php";
 
 /*
 assertTrue($x)					Fail if $x is false

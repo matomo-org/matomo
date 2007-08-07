@@ -1,10 +1,10 @@
 <?php
 if(!defined("PATH_TEST_TO_ROOT")) {
-	define('PATH_TEST_TO_ROOT', '../..');
+	define('PATH_TEST_TO_ROOT', '..');
 }
-require_once PATH_TEST_TO_ROOT ."/tests/config_test.php";
+require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+require_once "Database.test.php";
 
-require_once('Database.test.php');
 
 Zend_Loader::loadClass('Piwik_SitesManager');
 
