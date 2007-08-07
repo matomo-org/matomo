@@ -1,10 +1,12 @@
 <?php
 class Piwik_Config extends Zend_Config_Ini
 {
-	function __construct()
+	function __construct($pathIniFile = null)
 	{
-		$pathIniFile = PIWIK_INCLUDE_PATH . '/config/config.ini.php';
-
+		if(is_null($pathIniFile))
+		{	
+			$pathIniFile = PIWIK_INCLUDE_PATH . '/config/config.ini.php';
+		}
 		parent::__construct($pathIniFile, null, true);
 		
 		Zend_Registry::set('config', $this);
@@ -15,6 +17,7 @@ class Piwik_Config extends Zend_Config_Ini
 	public function setTestEnvironment()
 	{
 		$this->database = $this->database_tests;
+		$this->log = $this->log_tests;
 		$this->setPrefixTables();
 	}
 	

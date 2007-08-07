@@ -83,6 +83,13 @@ logger_query_profile[]	= screen
 ;logger_query_profile[]	= database
 ;logger_query_profile[]	= file
 
+[log_tests]
+logger_message[]		= screen
+logger_api_call[]		= screen
+logger_error[]			= screen
+logger_exception[]		= screen
+logger_query_profile[]	= screen
+
 
 [path]
 log				= logs/

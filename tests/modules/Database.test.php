@@ -2,7 +2,7 @@
 if(!defined("PATH_TEST_TO_ROOT")) {
 	define('PATH_TEST_TO_ROOT', '../..');
 }
-require_once PATH_TEST_TO_ROOT ."/tests/config_test.php";
+require_once "config_test.php";
 
 Mock::generate('Piwik_Access');
 
@@ -139,13 +139,15 @@ class Test_Database extends UnitTestCase
 	
 	public function setUp()
 	{
-		Piwik::createConfigObject();
+		Piwik::createConfigObject('config.ini.php');
 		
 		// setup database	
 		Piwik::createDatabaseObject();
-		Piwik::createLogObject();
 		
 		Zend_Registry::get('config')->setTestEnvironment();	
+		
+		Piwik::createLogObject();
+		
 		Piwik::dropDatabase();
 		Piwik::createDatabase();
 		Piwik::createDatabaseObject();
