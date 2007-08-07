@@ -28,5 +28,10 @@ class Piwik_Timer
     {
         return number_format(1000*($this->getMicrotime() - $this->m_Start), $decimals, '.', '');
     }
+    
+    public function __toString()
+    {
+    	return "Time elapsed: ". $this->getTime() ."s";
+    }
 }
 ?>

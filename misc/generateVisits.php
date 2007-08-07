@@ -19,30 +19,9 @@ require_once "Common.php";
 require_once "LogStats.php";
 require_once "PluginManager.php";
 require_once "LogStats/Plugins.php";
-$GLOBALS['DEBUGPIWIK'] = true;
 
-$_COOKIE = array();
+$GLOBALS['DEBUGPIWIK'] = false;
 
-$_GET =  $_REQUEST = array (
-  'url' => 'http:%2hF%2wik_kwd=teysyt',
-  'urlref' => 'http://locageq.g.lhost/test.php',
-  'action_name' => '',
-  'idsite' => '1',
-  'res' => '1280x1024',
-  'col' => '24',
-  'h' => '12',
-  'm' => '25',
-  's' => '45',
-  'fla' => '1',
-  'dir' => '0',
-  'qt' => '1',
-  'realp' => '1',
-  'pdf' => '0',
-  'wma' => '1',
-  'java' => '1',
-  'cookie' => '1',
-  'title' => '',
-);
 
 /**
  * Requirements of the visits generator script
@@ -70,15 +49,23 @@ $_GET =  $_REQUEST = array (
 
 class Piwik_LogStats_Generator
 {
-	private $get;
+	private $currentget=array();
+	private $allget=array();
 	
 	public $host = 'http://localhost';
 	
+	public function __construct()
+	{
+		// init GET and REQUEST to the empty array
+		$this->setFakeRequest();
+		$_COOKIE = array();
+	}
 	public function addParam( $name, $aValue)
 	{
 		if(is_array($aValue))
 		{	
-			$this->allget[$name] = array_merge($aValue,(array)$this->get[$name]);
+			$this->allget[$name] = array_merge(	$aValue,
+												(array)@$this->allget[$name]);
 		}
 		else
 		{
@@ -103,10 +90,26 @@ class Piwik_LogStats_Generator
 			$this->addParam($label,$values);
 		}
 		
+		$downloadOrOutlink = array(
+						Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'],
+						Piwik_LogStats_Config::getInstance()->LogStats['outlink_url_var_name'],
+		);
+		$this->addParam('piwik_downloadOrOutlink', $downloadOrOutlink);
+		$this->addParam('piwik_downloadOrOutlink', array_fill(0,8,''));
+		
+		$campaigns = array(
+						Piwik_LogStats_Config::getInstance()->LogStats['campaign_var_name'],
+						Piwik_LogStats_Config::getInstance()->LogStats['newsletter_var_name'],
+						Piwik_LogStats_Config::getInstance()->LogStats['partner_var_name'],
+		);
+		$this->addParam('piwik_vars_campaign', $campaigns);
+		$this->addParam('piwik_vars_campaign', array_fill(0,5,''));
+		
 		$referers = array();
 		require_once "misc/generateVisitsData/Referers.php";
 		
 		$this->addParam('urlref',$referers);
+		$this->addParam('urlref',array_fill(0,2000,''));
 		
 		$userAgent = $acceptLanguages = array();
 		require_once "misc/generateVisitsData/UserAgent.php";
@@ -117,8 +120,10 @@ class Piwik_LogStats_Generator
 	
 	public function generate( $nbVisits, $nbActionsMaxPerVisit )
 	{
+		$nbActionsTotal = 0;
 		for($i = 0; $i < $nbVisits; $i++)
 		{
+//			print("$i ");
 			$nbActions = rand(1, $nbActionsMaxPerVisit);
 			
 			$this->generateNewVisit();
@@ -127,13 +132,89 @@ class Piwik_LogStats_Generator
 				$this->generateActionVisit();
 				$this->saveVisit();
 			}
+			
+			$nbActionsTotal += $nbActions;
 		}
+		print("<br> Generated $nbVisits visits.");
+		print("<br> Generated $nbActionsTotal actions.");
+		
+		return $nbActionsTotal;
 	}
+	
+	private function generateNewVisit()
+	{
+		$this->setCurrentRequest( 'urlref' , $this->getRandom('urlref'));
+		$this->setCurrentRequest( 'idsite', $this->getRandom('idsite'));
+		$this->setCurrentRequest( 'res' ,$this->getRandom('res'));
+		$this->setCurrentRequest( 'col' ,$this->getRandom('col'));
+		$this->setCurrentRequest( 'h' ,$this->getRandom('h'));
+		$this->setCurrentRequest( 'm' ,$this->getRandom('m'));
+		$this->setCurrentRequest( 's' ,$this->getRandom('s'));
+		$this->setCurrentRequest( 'fla' ,$this->getRandom01());
+		$this->setCurrentRequest( 'dir' ,$this->getRandom01());
+		$this->setCurrentRequest( 'qt' ,$this->getRandom01());
+		$this->setCurrentRequest( 'realp' ,$this->getRandom01());
+		$this->setCurrentRequest( 'pdf' ,$this->getRandom01());
+		$this->setCurrentRequest( 'wma' ,$this->getRandom01());
+		$this->setCurrentRequest( 'java' ,$this->getRandom01());
+		$this->setCurrentRequest( 'cookie',$this->getRandom01());
+
+		$_SERVER['HTTP_CLIENT_IP'] = rand(0,255).".".rand(0,255).".".rand(0,255).".".rand(0,255);
+		$_SERVER['HTTP_USER_AGENT'] = $this->userAgents[rand(0,count($this->userAgents)-1)];
+		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $this->acceptLanguage[rand(0,count($this->acceptLanguage)-1)];
+	}
+	
 	
 	private function generateActionVisit()
 	{		
-		$this->setCurrentRequest( 'url' , $this->getRandomUrlFromHost($this->host));
-		$this->setCurrentRequest( 'action_name' , $this->getRandomString());
+		// generate new url referer ; case the visitor makes a new visit the referer will be used
+		$this->setCurrentRequest( 'urlref' , $this->getRandom('urlref'));
+		
+		$url = $this->getRandomUrlFromHost($this->host);
+		
+		// we generate a campaign (partner or newsletter or campaign)
+		$urlVars = $this->getRandom('piwik_vars_campaign');
+		// campaign name
+		$urlValue = $this->getRandomString(7,6,'lower');
+		
+		// if we actually generated a campaign
+		if(!empty($urlVars))
+		{
+			// add the parameter to the url
+			$url .= '?'. $urlVars . '=' . $urlValue;
+			
+			// for a campaign of the CPC kind, we sometimes generate a keyword 
+			if($urlVars==Piwik_LogStats_Config::getInstance()->LogStats['campaign_var_name']
+				&& rand(0,1)==0)
+			{
+				$url .= '&'. Piwik_LogStats_Config::getInstance()->LogStats['campaign_keyword_var_name'] 
+							. '=' . $this->getRandomString(11,6,'ALL');;
+			}
+		}
+//		print($url . "<br>");
+		$this->setCurrentRequest( 'url' ,$url);
+		
+		
+		
+		// we generate a download Or Outlink parameter in the GET request so that 
+		// the current action is counted as a download action OR a outlink click action
+		$GETParamToAdd = $this->getRandom('piwik_downloadOrOutlink');
+		if(!empty($GETParamToAdd))
+		{
+			// download / outlink url
+			$urlValue = $this->getRandomUrlFromHost($this->host);
+			$this->setCurrentRequest($GETParamToAdd, $urlValue);
+			if(rand(0,1)==0)
+			{
+				$this->setCurrentRequest(
+							Piwik_LogStats_Config::getInstance()->LogStats['download_outlink_name_var'], 	
+							$this->getRandomString(11,6,'ALL')
+					);
+			}
+		}
+		
+		
+		$this->setCurrentRequest( 'action_name' , $this->getRandomString(15,9));
 		$this->setCurrentRequest( 'title',$this->getRandomString(40,15));
 	}
 	
@@ -168,7 +249,7 @@ class Piwik_LogStats_Generator
 	    $num = array('1', '2', '3', '4', '5', '6', '7', '8', '9', '0');
 	    
 	    // Register the strange array              
-	    $strange = array('/', '?', '!','"','£','$','%','^','&','*','(',')');
+	    $strange = array('/', '?', '!','"','£','$','%','^','&','*','(',')',' ');
 	   
 	    // Initialize the keyVals array for use in the for loop
 	    $keyVals = array();
@@ -217,56 +298,13 @@ class Piwik_LogStats_Generator
 		$_REQUEST = $_GET = $this->currentget;
 	}
 	
-	private function generateNewVisit()
-	{
-		$this->setCurrentRequest( 'urlref' , $this->getRandom('urlref'));
-		$this->setCurrentRequest( 'idsite', $this->getRandom('idsite'));
-		$this->setCurrentRequest( 'res' ,$this->getRandom('res'));
-		$this->setCurrentRequest( 'col' ,$this->getRandom('col'));
-		$this->setCurrentRequest( 'h' ,$this->getRandom('h'));
-		$this->setCurrentRequest( 'm' ,$this->getRandom('m'));
-		$this->setCurrentRequest( 's' ,$this->getRandom('s'));
-		$this->setCurrentRequest( 'fla' ,$this->getRandom01());
-		$this->setCurrentRequest( 'dir' ,$this->getRandom01());
-		$this->setCurrentRequest( 'qt' ,$this->getRandom01());
-		$this->setCurrentRequest( 'realp' ,$this->getRandom01());
-		$this->setCurrentRequest( 'pdf' ,$this->getRandom01());
-		$this->setCurrentRequest( 'wma' ,$this->getRandom01());
-		$this->setCurrentRequest( 'java' ,$this->getRandom01());
-		$this->setCurrentRequest( 'cookie',$this->getRandom01());
-		
-		$_SERVER['HTTP_CLIENT_IP'] = rand(0,255).".".rand(0,255).".".rand(0,255).".".rand(0,255);
-		$_SERVER['HTTP_USER_AGENT'] = $this->userAgents[rand(0,count($this->userAgents)-1)];
-		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $this->acceptLanguage[rand(0,count($this->acceptLanguage)-1)];
-	}
-	
 	private function setCurrentRequest($name,$value)
 	{
 		$this->currentget[$name] = $value;
 	}
 	
 	private function getRandom( $name )
-	{
-		/*switch($name)
-		{
-			case 'url':
-			break;
-			case 'urlref':
-			break;
-			case 'action_name':
-			break;
-			case 'title':
-			break;
-			case 'idsite':
-			break;
-			case 'res':
-			break;
-			case 'col':
-			break;
-			default:
-			break;
-		}*/
-		
+	{		
 		if(!isset($this->allget[$name]))
 		{
 			throw new exception("You are asking for $name which doesnt exist");
@@ -288,13 +326,59 @@ class Piwik_LogStats_Generator
 	private function saveVisit()
 	{
 		$this->setFakeRequest();
-		$process = new Piwik_LogStats;
-		$process->main();
+		$process = new Piwik_LogStats_Generator_Controller;
+		$process->main('Piwik_LogStats_Generator_Visit');
 	}
 	
 }
 
+class Piwik_LogStats_Generator_Controller extends Piwik_LogStats_Controller
+{
+	protected function sendHeader($header)
+	{
+	//	header($header);
+	}
+}
+
+class Piwik_LogStats_Generator_Visit extends Piwik_LogStats_Visit
+{
+	private $time;
+	
+	function __construct( $db )
+	{
+		parent::__construct($db);
+		$this->time = time();			
+	}
+	
+	protected function getCurrentDate( $format = "Y-m-d")
+	{
+		if($format ==  "Y-m-d") return date($format);
+		else return date($format, $this->getCurrentTimestamp() );
+	}
+	
+	protected function getCurrentTimestamp()
+	{
+		$this->time = max(@$this->visitorInfo['visit_last_action_time'],time(),$this->time);
+		$this->time += rand(4,1840);
+		return $this->time;
+	}
+		
+	protected function getDatetimeFromTimestamp($timestamp)
+	{
+		return date("Y-m-d H:i:s",$timestamp);
+	}
+	
+}
+require_once PIWIK_INCLUDE_PATH . "/modules/Timer.php";
+
+ob_start();
 $generator = new Piwik_LogStats_Generator;
 $generator->init();
-$generator->generate(1000,10);
+
+$t = new Piwik_Timer;
+$nbActionsTotal = $generator->generate(1000,5);
+echo "<br>Request per sec: ". round($nbActionsTotal / $t->getTime(),0);
+echo "<br>".$t;
+
+ob_end_flush();
 ?>
