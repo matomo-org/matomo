@@ -9,8 +9,7 @@ define('PIWIK_INCLUDE_PATH', '.');
 set_include_path(PIWIK_INCLUDE_PATH 
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core/'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/modules'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core/models'
+					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/modules/'
 					. PATH_SEPARATOR . get_include_path());
 
 assert_options(ASSERT_ACTIVE, 	1);
@@ -52,7 +51,12 @@ Zend_Loader::loadClass('Piwik');
 
 //move into a init() method
 Piwik::createConfigObject();
+
+// database object
 Piwik::createDatabaseObject();
+
+// Create the log objects
+Piwik::createLogObject();
 
 //TODO move all DB related methods in a DB static class
 Piwik::createDatabase();
@@ -60,8 +64,6 @@ Piwik::createDatabaseObject();
 Piwik::dropTables();
 Piwik::createTables();
 
-// Create the log objects
-Piwik::createLogObject();
 
 // Create auth object
 $auth = Zend_Auth::getInstance();

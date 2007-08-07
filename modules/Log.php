@@ -1,6 +1,5 @@
 <?php
 Zend_Loader::loadClass('Zend_Log');
-Zend_Loader::loadClass('Zend_Log');
 Zend_Loader::loadClass('Zend_Log_Formatter_Interface');
 Zend_Loader::loadClass('Zend_Log_Writer_Stream');
 Zend_Loader::loadClass('Zend_Log_Writer_Db');
@@ -22,7 +21,6 @@ class Piwik_Log extends Zend_Log
 	{
 		parent::__construct();
 		
-		Piwik::mkdir(Zend_Registry::get('config')->path->log);
 		
 		$this->logToFileFilename = Zend_Registry::get('config')->path->log . $logToFileFilename;
 		$this->fileFormatter = $fileFormatter;
@@ -39,6 +37,7 @@ class Piwik_Log extends Zend_Log
 	function addWriteToFile()
 	{
 		$writerFile = new Zend_Log_Writer_Stream($this->logToFileFilename);
+		Piwik::mkdir(Zend_Registry::get('config')->path->log);
 		$writerFile->setFormatter( $this->fileFormatter );
 		$this->addWriter($writerFile);
 	}

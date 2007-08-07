@@ -1,15 +1,14 @@
 <?php
-if (! defined('SIMPLE_TEST')) {
-	define('SIMPLE_TEST', '../simpletest/');
+if(!defined("PATH_TEST_TO_ROOT")) {
+	define('PATH_TEST_TO_ROOT', '../..');
 }
-require_once(SIMPLE_TEST.'autorun.php');
-SimpleTest :: prefer(new HtmlReporter());
+require_once PATH_TEST_TO_ROOT ."/tests/config_test.php";
 
 class Test_Piwik_Blank extends UnitTestCase
 {
     function __construct() 
     {
-        parent::__construct('Log class test');
+        parent::__construct('');
     }
     
     /**

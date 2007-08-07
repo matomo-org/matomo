@@ -16,9 +16,16 @@ set_include_path(PIWIK_INCLUDE_PATH
 
 require_once "Event/Dispatcher.php";
 require_once "Common.php";
-require_once "LogStats.php";
 require_once "PluginManager.php";
 require_once "LogStats/Plugins.php";
+
+require_once "LogStats.php";
+require_once "LogStats/Plugins.php";
+require_once "LogStats/Config.php";
+require_once "LogStats/Action.php";
+require_once "LogStats/Cookie.php";
+require_once "LogStats/Db.php";
+require_once "LogStats/Visit.php";
 
 $GLOBALS['DEBUGPIWIK'] = false;
 
@@ -326,13 +333,13 @@ class Piwik_LogStats_Generator
 	private function saveVisit()
 	{
 		$this->setFakeRequest();
-		$process = new Piwik_LogStats_Generator_Controller;
+		$process = new Piwik_LogStats_Generator_Main;
 		$process->main('Piwik_LogStats_Generator_Visit');
 	}
 	
 }
 
-class Piwik_LogStats_Generator_Controller extends Piwik_LogStats_Controller
+class Piwik_LogStats_Generator_Main extends Piwik_LogStats
 {
 	protected function sendHeader($header)
 	{
@@ -376,7 +383,7 @@ $generator = new Piwik_LogStats_Generator;
 $generator->init();
 
 $t = new Piwik_Timer;
-$nbActionsTotal = $generator->generate(1000,5);
+$nbActionsTotal = $generator->generate(10000,5);
 echo "<br>Request per sec: ". round($nbActionsTotal / $t->getTime(),0);
 echo "<br>".$t;
 

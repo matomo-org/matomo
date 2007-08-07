@@ -23,9 +23,15 @@ set_include_path(PIWIK_INCLUDE_PATH
 
 require_once "Event/Dispatcher.php";
 require_once "Common.php";
-require_once "LogStats.php";
 require_once "PluginManager.php";
+
+require_once "LogStats.php";
 require_once "LogStats/Plugins.php";
+require_once "LogStats/Config.php";
+require_once "LogStats/Action.php";
+require_once "LogStats/Cookie.php";
+require_once "LogStats/Db.php";
+require_once "LogStats/Visit.php";
 
 $GLOBALS['DEBUGPIWIK'] = true;
 
@@ -42,8 +48,7 @@ $GLOBALS['DEBUGPIWIK'] = true;
 
 ob_start();
 printDebug($_GET);
-$process = new Piwik_LogStats_Controller;
-Piwik_PostEvent( 'LogsStats.NewVisitor' );
+$process = new Piwik_LogStats;
 $process->main();
 
 // yet to do

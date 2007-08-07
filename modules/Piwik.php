@@ -9,6 +9,18 @@ class Piwik
 		Zend_Registry::get('logger_message')->log($message . "<br>" . PHP_EOL);
 	}
 	
+	static public function getTableCreateSql( $tableName )
+	{
+		$tables = Piwik::getTablesCreateSql();
+		
+		if(!isset($tables[$tableName]))
+		{
+			throw new Exception("The table '$tableName' SQL creation code couldn't be found.");
+		}
+		
+		return $tables[$tableName];
+	}
+	
 	static public function getTablesCreateSql()
 	{
 		$config = Zend_Registry::get('config');
@@ -217,8 +229,8 @@ class Piwik
 		if(!is_dir($path))
 		{
 			mkdir($path, $mode, true);
-			
 		}
+		
 		if($denyAccess)
 		{
 			Piwik::createHtAccess($path);
@@ -250,11 +262,12 @@ class Piwik
 		$allMyTables = self::getTablesNames();
 
 		$db = Zend_Registry::get('db');
-		$allTables = $db->fetchCol('SHOW TABLES');
+		$config = Zend_Registry::get('config');
+		$prefixTables = $config->database->tables_prefix;
 		
-		$intersect = array_intersect($allTables, $allMyTables);
-		
-		return $intersect;		
+		$allTables = $db->fetchCol("SHOW TABLES LIKE '$prefixTables%'");
+				
+		return $allTables;		
 	}
 	
 	static public function createDatabase()
@@ -286,7 +299,7 @@ class Piwik
 		$configAPI = Zend_Registry::get('config')->log;
 		
 		$aLoggers = array(
-				//'logger_query_profile' => new Piwik_Log_QueryProfile, // TODO Piwik_Log_QueryProfile
+//				'logger_query_profile' => new Piwik_Log_QueryProfile, // TODO Piwik_Log_QueryProfile
 				'logger_api_call' => new Piwik_Log_APICall,
 				'logger_exception' => new Piwik_Log_Exception,
 				'logger_error' => new Piwik_Log_Error,
@@ -333,9 +346,9 @@ class Piwik
 		}
 	}
 	
-	static public function createConfigObject()
+	static public function createConfigObject( $pathConfigFile = null )
 	{
-		$config = new Piwik_Config;
+		$config = new Piwik_Config($pathConfigFile);
 		
 		assert(count($config) != 0);
 	}
