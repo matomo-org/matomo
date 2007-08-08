@@ -24,9 +24,9 @@ BUGS
 
 TODO MISC
 =========
-- tell zend that the attributes in Zend_Log have to be PROTECTED
-- tell zend_log the test on fwrite===false
 
-NOTES
-=====
+
+CHANGES DONE TO LIBRARIES
+=========================
 - edited zend_log and changed attr to protected
+- fixed bug fwrite in zend_log stream writer

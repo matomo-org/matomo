@@ -4,6 +4,23 @@ class Piwik_LogStats_Action
 {
 	
 	 /*
+	  * About the Action concept:
+	  * 
+	  * - An action is defined by a name.
+	  * - The name can be specified in the JS Code in the variable 'action_name'
+	  * - Handling UTF8 in the action name
+	  * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the interface
+	  * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action
+	  * 
+	  * + If the name is not specified, we use the URL(path+query) to build a default name.
+	  *   For example for "http://piwik.org/test/my_page/test.html" 
+	  *   the name would be "test/my_page/test.html"
+	  * 
+	  * We make sure it is clean and displayable.
+	  * If the name is empty we set it to a default name.
+	  * 
+	  * TODO UTF8 handling to test
+	  * 
 	  * Specifications
 	  *  
 	  * - External file tracking
@@ -64,25 +81,6 @@ class Piwik_LogStats_Action
 		$this->defaultActionName = Piwik_LogStats_Config::getInstance()->LogStats['default_action_name'];
 	}
 	
-	/**
-	 * About the Action concept:
-	 * 
-	 * - An action is defined by a name.
-	 * - The name can be specified in the JS Code in the variable 'action_name'
-	 * - Handling UTF8 in the action name
-	 * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the interface
-	 * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action
-	 * 
-	 * + If the name is not specified, we use the URL(path+query) to build a default name.
-	 *   For example for "http://piwik.org/test/my_page/test.html" 
-	 *   the name would be "test/my_page/test.html"
-	 * 
-	 * We make sure it is clean and displayable.
-	 * If the name is empty we set it to a default name.
-	 * 
-	 * TODO UTF8 handling to test
-	 * 
-	 */
 	private function generateInfo()
 	{
 		if(!empty($this->downloadUrl))
