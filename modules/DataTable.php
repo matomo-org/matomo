@@ -77,17 +77,21 @@
  * $table->loadFromArray( array(...) );
  * 
  * # sort the table by visits asc
- * $tableFiltered = new DataTable_Filter_Sort( $table, 'visits', 'asc');
+ * $filter = new DataTable_Filter_Sort( $table, 'visits', 'asc');
+ * $tableFiltered = $filter->getTableFiltered();
  * 
  * # add a filter to select only the website with a label matching '*.com' (regular expression)
- * $tableFiltered = new DataTable_Filter_Pattern( $table, 'label', '*(.com)');
+ * $filter = new DataTable_Filter_Pattern( $table, 'label', '*(.com)');
+ * $tableFiltered = $filter->getTableFiltered();
  * 
  * # keep the 20 elements from offset 15
- * $tableFiltered = new DataTable_Filter_Limit( $tableFiltered, 15, 20);
+ * $filter = new DataTable_Filter_Limit( $tableFiltered, 15, 20);
+ * $tableFiltered = $filter->getTableFiltered();
  * 
  * # add a column computing the percentage of visits
  * # params = table, column containing the value, new column name to add, number of total visits to use to compute the %
- * $tableFiltered = new DataTable_Filter_AddColumnPercentage( $tableFiltered, 'visits', 'visits_percentage', 2042);
+ * $filter = new DataTable_Filter_AddColumnPercentage( $tableFiltered, 'visits', 'visits_percentage', 2042);
+ * $tableFiltered = $filter->getTableFiltered();
  * 
  * # we get the table as XML
  * $xmlOutput = new DataTable_Exporter_Xml( $table );
@@ -95,10 +99,69 @@
  * $xmlOutput->setColumnsToExport( array('visits', 'visits_percent', 'label') );
  * $XMLstring = $xmlOutput->getOutput();
  * 
+ * 
+ * 
  */
- 
-class DataTable
+
+class Piwik_DataTable_Manager
 {
+	static private $instance = null;
+	protected function __construct()
+	{}
+	
+	static public function getInstance()
+	{
+		if (self::$instance == null)
+		{            
+			$c = __CLASS__;
+			self::$instance = new $c();
+		}
+		return self::$instance;
+	}
+	
+	static private $id = 0;
+	static private $tables = array();
+	
+	function addTable( $table )
+	{
+		$this->tables[] = $table;
+		return count($this->tables);
+	}
+	
+	function getTable( $idTable )
+	{
+		// the array tables is indexed at 0 
+		// but the index is computed as the count() of the array after inserting the table
+		$idTable -= 1;
+		
+		if(isset($this->tables[$idTable]))
+		{
+			return $this->tables[$idTable];
+		}
+		
+		return null;
+	} 
+}
+
+class Piwik_DataTable
+{	
+	protected $rows = array();
+	protected $currentId;
+	protected $depthLevel = 0;
+	
+	const MAXIMUM_RECURSION_LEVEL_ALLOWED = 20;
+	
+	public function __construct()
+	{
+		$this->currentId = Piwik_DataTable_Manager::getInstance()->addTable($this);
+//		self::$idSubtableAssociated[$this->currentId] = true;
+	}
+	
+	public function getId()
+	{
+		return $this->currentId;
+	}
+	
 	/**
 	 * The serialization returns a one dimension array containing all the 
 	 * serialized DataTable contained in this DataTable.
@@ -122,7 +185,34 @@ class DataTable
 	 * 					);
 	 */
 	public function getSerialized()
-	{}
+	{
+		static $depth = 0;
+		
+		if($depth > self::MAXIMUM_RECURSION_LEVEL_ALLOWED)
+		{
+			throw new Exception("Maximum recursion level of ".self::MAXIMUM_RECURSION_LEVEL_ALLOWED. " reached. You have probably set a DataTable_Row with an associated DataTable which belongs already to its parent hierarchy.");
+		}
+		// for each row, get the serialized row
+		// if it is associated to a sub table, get the serialized table recursively
+		// but returns all serialized tables and subtable in an array of 1 dimension!
+		
+		$aSerializedDataTable = array();
+		foreach($this->rows as $row)
+		{
+			if(($idSubTable = $row->getIdSubDataTable()) !== null)
+			{
+				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
+				$depth++;
+				$serialized = $subTable->getSerialized();
+				$depth--;
+				
+				$aSerializedDataTable = $aSerializedDataTable + $serialized;
+			}
+		}
+		$aSerializedDataTable[$this->getId()] = serialize($this->rows);
+		
+		return $aSerializedDataTable;
+	}
 	 
 	 /**
 	  * Load a serialized string.
@@ -134,8 +224,15 @@ class DataTable
 	  * 
 	  */
 	public function loadFromSerialized( $stringSerialized )
-	{}
-	 
+	{
+		$serialized = unserialize($stringSerialized);
+		if($serialized===false)
+		{
+			throw new Exception("The unserialization has failed!");
+		}
+		$this->loadFromArray($serialized);
+	}
+		 
 	/**
 	 * Load the data from a PHP array 
 	 * 
@@ -150,49 +247,233 @@ class DataTable
 	 */
 	public function loadFromArray( $array )
 	{
-		
+		foreach($array as $row)
+		{
+			if(is_array($row))
+			{
+				$row = new Piwik_DataTable_Row($row);
+			}
+			
+			$this->rows[] = $row;
+		}
+	}
+	
+	/**
+	 * You should use loadFromArray for performance!
+	 */
+	public function addRow( $row )
+	{
+		$this->loadFromArray(array($row));
+	}
+	
+	/**
+	 * Returns the array of Piwik_DataTable_Row
+	 */
+	public function getRows()
+	{
+		return $this->rows;
+	}
+	
+	public function deleteRow( $key )
+	{
+		if(!isset($this->rows[$key]))
+		{
+			throw new Exception("Trying to delete unknown row with idkey = $key");
+		}
+		unset($this->rows[$key]);
+	}
+	public function deleteRows( array $aKeys )
+	{
+		foreach($aKeys as $key)
+		{
+			$this->deleteRow($key);
+		}
 	}
 }
 
-/**
- * Static class containing all the rows constants such as columns constants, etc.
- */
-class DataTable_Row_Index
+class Piwik_DataTable_Renderer
 {
-	const COLUMNS = 0;
-	const DETAILS = 1;
-	const DATATABLE = 2;
+	protected $table;
+	function __construct($table)
+	{
+		if(!($table instanceof Piwik_DataTable))
+		{
+			throw new Exception("The renderer accepts only a Piwik_DataTable object.");
+		}
+		$this->table = $table;
+	}
+	
+	public function __toString()
+	{
+		return $this->render();
+	}
 }
 
-
-class DataTable_Row
+class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 {
-	protected $columns;
-	protected $details;
+	protected $prefixRows;
+	function __construct($table)
+	{
+		parent::__construct($table);
+	}
 	
-	protected $dataTableLinked;
+	function render()
+	{
+		return $this->renderTable($this->table);
+	}
 	
+	function setPrefixRow($str)
+	{
+		$this->prefixRows = $str;
+	}
+	
+	function renderTable($table)
+	{
+		static $depth=0;
+		$output = '';
+		$i = 1;
+		foreach($table->getRows() as $row)
+		{
+			$columns=array();
+			foreach($row->getColumns() as $column => $value)
+			{
+				$columns[] = "'$column' => $value";
+			}
+			$columns = implode(", ", $columns);
+			$details=array();
+			foreach($row->getDetails() as $detail => $value)
+			{
+				$details[] = "'$detail' => $value";
+			}
+			$details = implode(", ", $details);
+			$output.= str_repeat($this->prefixRows, $depth) . "- $i [".$columns."] [".$details."] [idsubtable = ".$row->getIdSubDataTable()."]<br>\n";
+			
+			if($row->getIdSubDataTable() !== null)
+			{
+				$depth++;
+				$output.= $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
+				$depth--;
+			}
+			$i++;
+		}
+		
+		return $output;
+		
+	}	
+}
+
+class Piwik_DataTable_Row
+{
+	public $content = array();
+	const COLUMNS = 0;
+	const DETAILS = 1;
+	const DATATABLE_ASSOCIATED = 2;
+
+	public function __construct( $row )
+	{
+		$this->loadFromArray($row);
+	}
+	public function getColumn( $name )
+	{
+		if(!isset($this->content[self::COLUMNS][$name]))
+		{
+			return false;
+		}
+		return $this->content[self::COLUMNS][$name];
+	}
+	public function getColumns()
+	{
+		return $this->content[self::COLUMNS];
+	}
+	
+	public function getDetails()
+	{	
+		return $this->content[self::DETAILS];
+	}
+	
+	public function getIdSubDataTable()
+	{
+		return $this->content[self::DATATABLE_ASSOCIATED];
+	}
 	/**
 	 * Very efficient load of the Row structure from a well structured php array
 	 * 
 	 * @param array The row array has the structure
 	 * 					array( 
-	 * 						DataTable_Row_Index::COLUMNS => array( 
+	 * 						DataTable_Row::COLUMNS => array( 
 	 * 										0 => 1554,
 	 * 										1 => 42,
 	 * 										2 => 657,
 	 * 										3 => 155744,	
 	 * 									),
-	 * 						DataTable_Row_Index::DETAILS => array(
+	 * 						DataTable_Row::DETAILS => array(
 	 * 										'logo' => 'test.png'
 	 * 									),
-	 * 						DataTable_Row_Index::DATATABLE => 455 // numeric idDataTable
+	 * 						DataTable_Row::DATATABLE_ASSOCIATED => #DataTable object // numeric idDataTable
 	 * 					)
 	 */
 	public function loadFromArray( $array )
 	{
+		$this->content[self::COLUMNS] = array();
+		$this->content[self::DETAILS] = array();
+		$this->content[self::DATATABLE_ASSOCIATED] = null;
+		
+		if(isset($array[self::COLUMNS]))
+		{
+			$this->content[self::COLUMNS] = $array[self::COLUMNS];
+		}
+		if(isset($array[self::DETAILS]))
+		{
+			$this->content[self::DETAILS] = $array[self::DETAILS];
+		}
+		if(isset($array[self::DATATABLE_ASSOCIATED]))
+		{
+			$this->content[self::DATATABLE_ASSOCIATED] = $array[self::DATATABLE_ASSOCIATED]->getId();
+		}
 	}
 	
+}
+
+abstract class Piwik_DataTable_Filter
+{
+	protected $table;
+	
+	public function __construct($table)
+	{
+		if(!($table instanceof Piwik_DataTable))
+		{
+			throw new Exception("The filter accepts only a Piwik_DataTable object.");
+		}
+		$this->table = $table;
+	}
+	
+	abstract protected function filter();
+}
+
+
+class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
+{
+	private $columnToFilter;
+	private $patternToSearch;
+	
+	public function __construct( $table, $columnToFilter, $patternToSearch )
+	{
+		parent::__construct($table);
+		$this->patternToSearch = $patternToSearch;
+		$this->columnToFilter = $columnToFilter;
+		$this->filter();
+	}
+	
+	protected function filter()
+	{
+		foreach($this->table->getRows() as $key => $row)
+		{
+			if( !ereg($this->patternToSearch, $row->getColumn($this->columnToFilter)))
+			{
+				$this->table->deleteRow($key);
+			}
+		}
+	}
 }
 
 
