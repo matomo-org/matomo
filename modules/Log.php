@@ -5,7 +5,7 @@ Zend_Loader::loadClass('Zend_Log_Writer_Stream');
 Zend_Loader::loadClass('Zend_Log_Writer_Db');
 
 
-class Piwik_Log extends Zend_Log
+abstract class Piwik_Log extends Zend_Log
 {
 	private $logToDatabaseTableName = null;
 	private $logToDatabaseColumnMapping = null;

@@ -58,7 +58,6 @@ class Piwik_LogStats_Cookie
 	
 	/**
 	 * taken from http://usphp.com/manual/en/function.setcookie.php
-	 * fix expires bug for IE users (should i say expected to fix the bug in 2.3 b2)
 	 * TODO setCookie: use the other parameters of the function
 	 */
 	protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false)
@@ -124,7 +123,7 @@ class Piwik_LogStats_Cookie
 				// some of the values may be serialized array so we try to unserialize it
 				if( ($arrayValue = @unserialize($varValue)) !== false
 					// we set the unserialized version only for arrays as you can have set a serialized string on purpose
-					&& is_array($arrayValue) 
+					&& is_array($arrayValue)
 					)
 				{
 					$varValue = $arrayValue;
@@ -146,12 +145,9 @@ class Piwik_LogStats_Cookie
 		{
 			if(is_array($value))
 			{
-				$value = base64_encode(serialize($value));
+				$value = serialize($value);
 			}
-			elseif(is_string($value))
-			{
-				$value = base64_encode($value);
-			}
+			$value = base64_encode($value);
 			
 			$cookieStr .= "$name=$value" . self::VALUE_SEPARATOR;
 		}
@@ -206,7 +202,7 @@ class Piwik_LogStats_Cookie
 		return Piwik_Common::sanitizeInputValues($value);
 	}	
 }
-
+//
 //
 //$c = new Piwik_LogStats_Cookie( 'piwik_logstats', 86400);
 //echo $c;

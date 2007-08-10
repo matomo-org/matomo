@@ -42,7 +42,21 @@ class Piwik_Common
 	 */
 	static public function sanitizeInputValues($value) 
 	{
-		if (is_array($value)) 
+		if(is_numeric($value))
+		{
+			return $value;
+		}
+		elseif(is_string($value))
+		{
+			$value = htmlspecialchars($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+
+			/* Undo the damage caused by magic_quotes */
+			if (get_magic_quotes_gpc()) 
+			{
+			    $value = stripslashes($value);
+			}
+		}
+		elseif (is_array($value)) 
 		{
 			foreach (array_keys($value) as $key) 
 			{
@@ -57,18 +71,7 @@ class Piwik_Common
 				$value[$newKey] = Piwik_Common::sanitizeInputValues($value[$newKey]);
 			}
 		}
-		elseif(is_string($value))
-		{
-			$value = htmlspecialchars($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
-
-			/* Undo the damage caused by magic_quotes */
-			if (get_magic_quotes_gpc()) 
-			{
-			    $value = stripslashes($value);
-			}
-		}
-		elseif(!is_numeric($value)
-			&& !is_null($value)
+		elseif( !is_null($value)
 			&& !is_bool($value)
 		)
 		{
