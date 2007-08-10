@@ -13,7 +13,7 @@ class Piwik_LogStats_Visit
 		$idsite = Piwik_Common::getRequestVar('idsite', 0, 'int');
 		if($idsite <= 0)
 		{
-			throw new Exception("The 'idsite' in the request is invalide.");
+			throw new Exception("The 'idsite' in the request is invalid.");
 		}
 		
 		$this->idsite = $idsite;
@@ -275,34 +275,25 @@ class Piwik_LogStats_Visit
 	 */
 	public function handle()
 	{
-		if(!$this->isExcluded())
+		if($this->isExcluded())
 		{
-			$this->recognizeTheVisitor();
-			
-			// known visitor
-			if($this->isVisitorKnown())
-			{
-				// the same visit is going on
-				if($this->isLastActionInTheSameVisit())
-				{
-					$this->handleKnownVisit();
-				}
-				// new visit
-				else
-				{
-					$this->handleNewVisit();
-				}
-			}
-			// new visitor => new visit
-			else
-			{
-				$this->handleNewVisit();
-			}
-			
-			// we update the cookie with the new visit information
-			$this->updateCookie();
-			
+			return;
 		}
+		
+		$this->recognizeTheVisitor();
+		
+		if($this->isVisitorKnown() 
+			&& $this->isLastActionInTheSameVisit())
+		{
+			$this->handleKnownVisit();
+		}
+		else
+		{
+			$this->handleNewVisit();
+		}
+		
+		// we update the cookie with the new visit information
+		$this->updateCookie();
 	}
 
 	private function updateCookie()
@@ -549,6 +540,7 @@ class Piwik_LogStats_Visit
 		$refererUrlParse = @parse_url($refererUrl);
 		$currentUrlParse = @parse_url($currentUrl);
 
+		//TODO remove the isset
 		if(isset($refererUrlParse['host'])
 			&& !empty($refererUrlParse['host']))
 		{
@@ -569,7 +561,7 @@ class Piwik_LogStats_Visit
 				 * be counted as a search engines, but as a website referer from google.com (because the
 				 * keyword couldn't be found in the URL) 
 				 */
-				require_once PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
+				require PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
 				
 				if(array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
 				{
@@ -593,7 +585,7 @@ class Piwik_LogStats_Visit
 						if((function_exists('iconv')) 
 							&& (isset($GLOBALS['Piwik_SearchEngines'][$refererHost][2])))
 						{
-							$charset = trim($GLOBALS['searchEngines'][$refererHost][2]);
+							$charset = trim($GLOBALS['Piwik_SearchEngines'][$refererHost][2]);
 							
 							if(!empty($charset)) 
 							{
@@ -627,7 +619,7 @@ class Piwik_LogStats_Visit
 					$newsletterVariableName = Piwik_LogStats_Config::getInstance()->LogStats['newsletter_var_name'];
 					$newsletterVar = Piwik_Common::getParameterFromQueryString( $currentUrlParse['query'], $newsletterVariableName);
 		
-					if($newsletterVar !== false && !empty($newsletterVar))
+					if(!empty($newsletterVar))
 					{
 						$refererAnalyzed = true;
 						$typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_NEWSLETTER;
@@ -647,7 +639,7 @@ class Piwik_LogStats_Visit
 					$partnerVariableName = Piwik_LogStats_Config::getInstance()->LogStats['partner_var_name'];
 					$partnerVar = Piwik_Common::getParameterFromQueryString($currentUrlParse['query'], $partnerVariableName);
 									
-					if($partnerVar !== false && !empty($partnerVar))
+					if(!empty($partnerVar))
 					{
 						$refererAnalyzed = true;
 						$typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_PARTNER;
@@ -666,7 +658,7 @@ class Piwik_LogStats_Visit
 					$campaignVariableName = Piwik_LogStats_Config::getInstance()->LogStats['campaign_var_name'];
 					$campaignName = Piwik_Common::getParameterFromQueryString($currentUrlParse['query'], $campaignVariableName);
 					
-					if( $campaignName !== false && !empty($campaignName))
+					if( !empty($campaignName))
 					{
 						$campaignKeywordVariableName = Piwik_LogStats_Config::getInstance()->LogStats['campaign_keyword_var_name'];
 						$campaignKeyword = Piwik_Common::getParameterFromQueryString($currentUrlParse['query'], $campaignKeywordVariableName);

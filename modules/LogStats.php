@@ -73,7 +73,7 @@ class Piwik_LogStats
 							);  
 		$this->db->connect();
 	}
-	
+
 	private function initProcess()
 	{
 		$saveStats = Piwik_LogStats_Config::getInstance()->LogStats['record_statistics'];

@@ -30,8 +30,10 @@ class Piwik_LogStats_Db
 
 	public function prefixTable( $suffix )
 	{
-		$prefix = Piwik_LogStats_Config::getInstance()->database['tables_prefix'];
-		
+		static $prefix;
+		if (!isset($prefix)) {
+			$prefix = Piwik_LogStats_Config::getInstance()->database['tables_prefix'];
+		}		
 		return $prefix . $suffix;
 	}
 	

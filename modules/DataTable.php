@@ -71,8 +71,133 @@
  * 	- sort rows should be applied with the highest priority
  * 	- remove rows should be applied with a high priority as they prune the data and improve performance.
  * 	
+ * ---- Code example
  * 
+ * $table = new DataTable;
+ * $table->loadFromArray( array(...) );
  * 
+ * # sort the table by visits asc
+ * $tableFiltered = new DataTable_Filter_Sort( $table, 'visits', 'asc');
+ * 
+ * # add a filter to select only the website with a label matching '*.com' (regular expression)
+ * $tableFiltered = new DataTable_Filter_Pattern( $table, 'label', '*(.com)');
+ * 
+ * # keep the 20 elements from offset 15
+ * $tableFiltered = new DataTable_Filter_Limit( $tableFiltered, 15, 20);
+ * 
+ * # add a column computing the percentage of visits
+ * # params = table, column containing the value, new column name to add, number of total visits to use to compute the %
+ * $tableFiltered = new DataTable_Filter_AddColumnPercentage( $tableFiltered, 'visits', 'visits_percentage', 2042);
+ * 
+ * # we get the table as XML
+ * $xmlOutput = new DataTable_Exporter_Xml( $table );
+ * $xmlOutput->setHeader( ... );
+ * $xmlOutput->setColumnsToExport( array('visits', 'visits_percent', 'label') );
+ * $XMLstring = $xmlOutput->getOutput();
+ * 
+ */
+ 
+class DataTable
+{
+	/**
+	 * The serialization returns a one dimension array containing all the 
+	 * serialized DataTable contained in this DataTable.
+	 * 
+	 * The keys of the array are very important as they are used to define the DataTable
+	 * For the example the key 3 is used in the array corresponding to the key 2 
+	 * because the key 3 is the array which is a child of the array corresponding to the key 2
+	 * 
+	 * @return array Serialized arrays	
+	 * 			array( 	// Datatable level0
+	 * 					0 => 'eghuighahgaueytae78yaet7yaetae', 
+	 * 
+	 * 					// first Datatable level1
+	 * 					1 => 'gaegae gh gwrh guiwh uigwhuige',
+	 * 					
+	 * 					//second Datatable level1 
+	 * 					2 => 'gqegJHUIGHEQjkgneqjgnqeugUGEQHGUHQE',  
+	 * 					
+	 * 					//first Datatable level3 (child of second Datatable level1 for example)
+ 	 *					3 => 'eghuighahgaueytae78yaet7yaetaeGRQWUBGUIQGH&QE',
+	 * 					);
+	 */
+	public function getSerialized()
+	{}
+	 
+	 /**
+	  * Load a serialized string.
+	  * 
+	  * Does not load recursively all the sub DataTable.
+	  * They will be loaded only when requesting them specifically.
+	  * 
+	  * The function creates the DataTable_Row
+	  * 
+	  */
+	public function loadFromSerialized( $stringSerialized )
+	{}
+	 
+	/**
+	 * Load the data from a PHP array 
+	 * 
+	 * @param array Array with the following structure
+	 * 				array(
+	 * 					array(...), // row1
+	 * 					array(...), // row2
+	 * 						)
+	 * 				)
+	 * 
+	 * @see DataTable_Row::loadFromArray for the row structures
+	 */
+	public function loadFromArray( $array )
+	{
+		
+	}
+}
+
+/**
+ * Static class containing all the rows constants such as columns constants, etc.
+ */
+class DataTable_Row_Index
+{
+	const COLUMNS = 0;
+	const DETAILS = 1;
+	const DATATABLE = 2;
+}
+
+
+class DataTable_Row
+{
+	protected $columns;
+	protected $details;
+	
+	protected $dataTableLinked;
+	
+	/**
+	 * Very efficient load of the Row structure from a well structured php array
+	 * 
+	 * @param array The row array has the structure
+	 * 					array( 
+	 * 						DataTable_Row_Index::COLUMNS => array( 
+	 * 										0 => 1554,
+	 * 										1 => 42,
+	 * 										2 => 657,
+	 * 										3 => 155744,	
+	 * 									),
+	 * 						DataTable_Row_Index::DETAILS => array(
+	 * 										'logo' => 'test.png'
+	 * 									),
+	 * 						DataTable_Row_Index::DATATABLE => 455 // numeric idDataTable
+	 * 					)
+	 */
+	public function loadFromArray( $array )
+	{
+	}
+	
+}
+
+
+
+/**
  * ---- Other
  * We can also imagine building a DataTable_Compare which would take 2 DataTable that have the same
  * structure and would compare them, by computing the percentages of differences, etc.
@@ -88,8 +213,4 @@
  * 						[ keyword3, -430% ]
  * 
  */
-class DataTable
-{
-	
-}
 ?>

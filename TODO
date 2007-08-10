@@ -24,6 +24,8 @@ BUGS
 
 TODO MISC
 =========
+- when the plugins are not used in the piwik.php logging script, don't load the related files
+
 
 
 CHANGES DONE TO LIBRARIES
