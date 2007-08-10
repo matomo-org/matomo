@@ -283,9 +283,35 @@ class Test_Piwik_DataTable extends UnitTestCase
 	 	$expectedtable->deleteRows(array(1,2,4,5,6));
 	  	
 	  	$filter = new Piwik_DataTable_Filter_Pattern($table, 'label', '(oo)');
-	  	$rowsFiltered = $table->getRows();
 	  		  	
-	  	$this->assertEqual($rowsFiltered, $expectedtable->getRows());
+	  	$this->assertEqual($table->getRows(), $expectedtable->getRows());
+	 }
+	/**
+	 * Test to filter a column with a pattern
+	 */
+	 function test_filter_OffsetLimit()
+	 {
+	 	$table = new Piwik_DataTable;
+	 	
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	 	
+	  	$rows = array(
+	  		array( $idcol => array('label'=>'google')),//0
+	  		array( $idcol => array('label'=>'ask')),//1
+	  		array( $idcol => array('label'=>'piwik')),//2
+	  		array( $idcol => array('label'=>'yahoo')),//3
+	  		array( $idcol => array('label'=>'amazon')),//4
+	  		array( $idcol => array('label'=>'238975247578949')),//5
+	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
+	  		);
+	  	
+	  	$table->loadFromArray( $rows );
+	  		  	
+	 	$expectedtable = clone $table;
+	 	$expectedtable->deleteRows(array(0,1,5,6));
+	  	
+	  	$filter = new Piwik_DataTable_Filter_Limit($table, 2, 4);
+	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()));
 	 }
 	
 }

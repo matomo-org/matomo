@@ -5,7 +5,7 @@
  * 
  * A DataTable is composed of multiple DataTable_Row.
  * A DataTable can be applied one or several DataTable_Filter.
- * A DataTable can be given to a DataTable_Exporter that would export the data under a given format (XML, HTML, etc.).
+ * A DataTable can be given to a DataTable_Renderer that would export the data under a given format (XML, HTML, etc.).
  * 
  * A DataTable has the following features:
  * - serializable to be stored in the DB
@@ -149,7 +149,7 @@ class Piwik_DataTable
 	protected $currentId;
 	protected $depthLevel = 0;
 	
-	const MAXIMUM_RECURSION_LEVEL_ALLOWED = 20;
+	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 20;
 	
 	public function __construct()
 	{
@@ -188,9 +188,9 @@ class Piwik_DataTable
 	{
 		static $depth = 0;
 		
-		if($depth > self::MAXIMUM_RECURSION_LEVEL_ALLOWED)
+		if($depth > self::MAXIMUM_DEPTH_LEVEL_ALLOWED)
 		{
-			throw new Exception("Maximum recursion level of ".self::MAXIMUM_RECURSION_LEVEL_ALLOWED. " reached. You have probably set a DataTable_Row with an associated DataTable which belongs already to its parent hierarchy.");
+			throw new Exception("Maximum recursion level of ".self::MAXIMUM_DEPTH_LEVEL_ALLOWED. " reached. You have probably set a DataTable_Row with an associated DataTable which belongs already to its parent hierarchy.");
 		}
 		// for each row, get the serialized row
 		// if it is associated to a sub table, get the serialized table recursively
@@ -273,6 +273,13 @@ class Piwik_DataTable
 	{
 		return $this->rows;
 	}
+	/**
+	 * Returns the number of rows 
+	 */
+	public function getRowsCount()
+	{
+		return count($this->rows);
+	}
 	
 	public function deleteRow( $key )
 	{
@@ -282,6 +289,12 @@ class Piwik_DataTable
 		}
 		unset($this->rows[$key]);
 	}
+	
+	public function deleteRowsOffset( $offset, $limit )
+	{
+		array_splice($this->rows, $offset, $limit);
+	}
+	
 	public function deleteRows( array $aKeys )
 	{
 		foreach($aKeys as $key)
@@ -476,7 +489,29 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	}
 }
 
-
+class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
+{	
+	public function __construct( $table, $offset, $limit )
+	{
+		parent::__construct($table);
+		$this->offset = $offset;
+		$this->limit = $limit;
+		$this->filter();
+	}
+	
+	protected function filter()
+	{
+		$table = $this->table;
+		
+		$rowsCount = $table->getRowsCount();
+		
+		// we have to delete
+		// - from 0 to offset
+		// - from limit to the end
+		$table->deleteRowsOffset( 0, $this->offset );
+		$table->deleteRowsOffset( $this->offset + $this->limit, $rowsCount );
+	}
+}
 
 /**
  * ---- Other
@@ -492,6 +527,5 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
  * 						[ keyword1, +154% ]
  * 						[ keyword2, +1000% ]
  * 						[ keyword3, -430% ]
- * 
  */
 ?>
