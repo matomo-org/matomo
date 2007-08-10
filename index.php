@@ -40,14 +40,17 @@ Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
 /**
  * Piwik classes
  */
+Zend_Loader::loadClass('Piwik_Timer');
 Zend_Loader::loadClass('Piwik_Access');
 Zend_Loader::loadClass('Piwik_APIable'); 
 Zend_Loader::loadClass('Piwik_Log');
 Zend_Loader::loadClass('Piwik_Auth');
 Zend_Loader::loadClass('Piwik_Config');
 Zend_Loader::loadClass('Piwik_PublicAPI');
-Zend_Loader::loadClass('Piwik_Timer');
 Zend_Loader::loadClass('Piwik');
+
+$timer = new Piwik_Timer;
+
 
 //move into a init() method
 Piwik::createConfigObject();
@@ -108,8 +111,11 @@ function main()
 	$api->UsersManager->addUser("login", "password", "email@geage.com");
 }
 
+echo $timer;
 ?>
-
+<br>
+<br>
+<br>
 <a href="piwik.php?idsite=1&download=http://php.net/get&name=test download/ the file">test download </a>
 <br>
 <a href="piwik.php?idsite=1&download=http://php.net/get">test download - without name var</a>
