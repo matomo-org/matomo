@@ -296,6 +296,11 @@ class Piwik
 
 	static public function createLogObject()
 	{
+		require_once PIWIK_INCLUDE_PATH . "/modules/Log/APICall.php";
+		require_once PIWIK_INCLUDE_PATH . "/modules/Log/Exception.php";
+		require_once PIWIK_INCLUDE_PATH . "/modules/Log/Error.php";
+		require_once PIWIK_INCLUDE_PATH . "/modules/Log/Message.php";
+		
 		$configAPI = Zend_Registry::get('config')->log;
 		
 		$aLoggers = array(
