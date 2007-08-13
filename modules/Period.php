@@ -1,11 +1,78 @@
 <?php
-
+/**
+ * Creating a new Piwik_Period 
+ * 
+ * Every overloaded method must start with the code
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
+	that checks whether the subperiods have already been computed.
+	This is for performance improvements, computing the subperiods is done a per demand basis.
+	
+	
+ */
 abstract class Piwik_Period
 {
 	protected $subperiods = array();
+	protected $subperiodsProcessed = false;
+	protected $label = null;
 	
-	public function __construct(  )
+	public function __construct( $date )
 	{	
+		$this->checkInputDate( $date );
+		$this->date = clone $date;
+	}
+	
+	//TODO test getDate
+	public function getDate()
+	{
+		return $this->date;
+	}
+	
+	//TODO test getDateStart
+	public function getDateStart()
+	{
+		if(count($this->subperiods) == 0)
+		{
+			return $this->getDate();
+		}
+		$periods = $this->getSubperiods();
+		$currentPeriod = $periods[0];
+		while( $currentPeriod->getNumberOfSubperiods() > 0 )
+		{
+			$periods = $currentPeriod->getSubperiods();
+			$currentPeriod = $periods[0];
+		}
+		return $currentPeriod->getDate();
+	}
+	
+	//TODO test getDateEnd
+	public function getDateEnd()
+	{
+		if(count($this->subperiods) == 0)
+		{
+			return $this->getDate();
+		}
+		$periods = $this->getSubperiods();
+		$currentPeriod = $periods[count($periods)-1];
+		while( $currentPeriod->getNumberOfSubperiods() > 0 )
+		{
+			$periods = $currentPeriod->getSubperiods();
+			$currentPeriod = $periods[count($periods)-1];
+		}
+		return $currentPeriod->getDate();
+	}
+	
+	//TODO test getId
+	public function getId()
+	{
+		return Piwik::$idPeriods[$this->getLabel()];
+	}
+	//TODO test getLabel
+	public function getLabel()
+	{
+		return $this->label;
 	}
 	
 	protected function checkInputDate($date)
@@ -16,8 +83,17 @@ abstract class Piwik_Period
 		}
 	}
 	
+	protected function generate()
+	{
+		$this->subperiodsProcessed = true;
+	}
+	
 	public function getNumberOfSubperiods()
 	{
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
 		return count($this->subperiods);
 	}
 	
@@ -28,6 +104,10 @@ abstract class Piwik_Period
 	 */
 	public function getSubperiods()
 	{
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
 		return $this->subperiods;
 	}
 		
@@ -48,6 +128,10 @@ abstract class Piwik_Period
 	 */
 	public function isFinished()
 	{
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
 		foreach($this->subperiods as $period)
 		{
 			if(!$period->isFinished())
@@ -60,6 +144,10 @@ abstract class Piwik_Period
 	
 	public function toString()
 	{
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
 		$dateString = array();
 		foreach($this->subperiods as $period)
 		{
@@ -67,19 +155,23 @@ abstract class Piwik_Period
 		}
 		return $dateString;
 	}
+	
+	public function get( $part= null )
+	{
+		return $this->date->get($part);
+	}
 }
 
 class Piwik_Period_Day extends Piwik_Period
 {
+	protected $label = 'day';
 	protected $date = null;
 	
 	public function __construct( $date )
 	{
-		parent::__construct();
-		$this->checkInputDate( $date );
-		$this->date = clone $date;
+		parent::__construct($date);		
 	}
-		
+			
 	public function isFinished()
 	{
 		$todayMidnight = Piwik_Date::today();
@@ -91,7 +183,7 @@ class Piwik_Period_Day extends Piwik_Period
 	
 	public function getNumberOfSubperiods()
 	{
-		return 1;
+		return 0;
 	}	
 	
 	public function addSubperiod( $date )
@@ -108,15 +200,21 @@ class Piwik_Period_Day extends Piwik_Period
 
 class Piwik_Period_Week extends Piwik_Period
 {
+	protected $label = 'week';
 	public function __construct( $date )
 	{
-		parent::__construct();
-		$this->checkInputDate( $date );
-		$this->generateWeekDates(clone $date);
+		parent::__construct($date);
 	}
 	
-	private function generateWeekDates($date)
+	protected function generate()
 	{
+		if($this->subperiodsProcessed)
+		{
+			return;
+		}
+		parent::generate();
+		$date = $this->date;
+		
 		if( $date->toString('N') > 1)
 		{
 			$date = $date->subDay($date->toString('N')-1);
@@ -136,15 +234,22 @@ class Piwik_Period_Week extends Piwik_Period
 
 class Piwik_Period_Month extends Piwik_Period
 {
+	protected $label = 'month';
 	public function __construct( $date )
 	{
-		parent::__construct();
-		$this->checkInputDate( $date );
-		$this->generateMonthDates(clone $date);
+		parent::__construct($date);
 	}
 	
-	private function generateMonthDates($date)
+	protected function generate()
 	{
+		if($this->subperiodsProcessed)
+		{
+			return;
+		}
+		parent::generate();
+		
+		$date = $this->date;
+		
 		$startMonth = $date->setDay(1);
 		$currentDay = clone $startMonth;
 		while($currentDay->compareMonth($startMonth) == 0)
@@ -153,36 +258,58 @@ class Piwik_Period_Month extends Piwik_Period
 			$currentDay = $currentDay->addDay(1);
 		}
 	}
+	
+	public function isFinished()
+	{
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
+		// a month is finished 
+		// if current month > month AND current year == year
+		// OR if current year > year
+		$year = $this->date->get("Y");
+		return ( date("m") > $this->date->get("m") && date("Y") == $year)
+				||  date("Y") > $year;
+	}
 }
 
 class Piwik_Period_Year extends Piwik_Period
 {	
+	protected $label = 'year';
 	public function __construct( $date )
 	{
-		parent::__construct();
-		$this->checkInputDate( $date );
-		$this->generateMonthSubperiods( clone $date );
+		parent::__construct($date);
 	}
 	
-	public function generateMonthSubperiods( $date )
+	protected function generate()
 	{
-		$currentMonth = $date->getYear();
+		if($this->subperiodsProcessed)
+		{
+			return;
+		}
+		parent::generate();
 		
+		$year = $this->date->get("Y");
 		for($i=1; $i<=12; $i++)
 		{
-			$this->addSubperiod( new Piwik_Period_Month( $currentMonth ) );
-			$currentMonth = $currentMonth->addMonth(1);
+			$this->addSubperiod( new Piwik_Period_Month( 
+									new Piwik_Date("$year-$i-01")
+								)
+							);
 		}
 	}
 	
 	function toString()
 	{
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
 		$stringMonth = array();
 		foreach($this->subperiods as $month)
 		{
-			$daysInMonth = $month->getSubperiods();
-			$firstDay = $daysInMonth[0];
-			$stringMonth[] = $firstDay->toString();
+			$stringMonth[] = $month->get("Y")."-".$month->get("m")."-01";
 		}
 		return $stringMonth;
 	}

@@ -4,6 +4,13 @@ class Piwik
 {
 	const CLASSES_PREFIX = "Piwik_";
 	
+	static $idPeriods =  array(
+		'day'	=>1,
+		'week'	=>2,
+		'month'	=>3,
+		'year'	=>4,
+		);
+		
 	static public function log($message, $priority = Zend_Log::NOTICE)
 	{
 		Zend_Registry::get('logger_message')->log($message . "<br>" . PHP_EOL);
@@ -167,6 +174,18 @@ class Piwik
 											)
 			",
 			
+			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
+										  idarchive INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  										  idsite INTEGER UNSIGNED NULL,
+										  date1 DATE NULL,
+										  date2 DATE NULL,
+										  ts_archived TIMESTAMP NULL,
+										  period TINYINT UNSIGNED NULL,
+										  done TINYINT UNSIGNED NULL,
+										  data_2 FLOAT NULL,
+										  PRIMARY KEY(idarchive)
+										)	
+			",
 		);
 		return $tables;
 	}

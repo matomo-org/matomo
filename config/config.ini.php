@@ -15,6 +15,11 @@ profiler 		= true
 dbname			= piwiktests
 tables_prefix	= piwiktests_
 
+[General]
+; Time in seconds after which an archive will be computed again. 
+; This setting is used only for today's statistics.
+time_before_archive_considered_outdated = 5
+
 [LogStats]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
@@ -59,7 +64,7 @@ cookie_name	= piwik_visitor
 [log]
 
 ; normal messages
-logger_message[]		= screen
+;logger_message[]		= screen
 ;logger_message[]		= database
 ;logger_message[]		= file
 

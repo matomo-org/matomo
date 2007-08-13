@@ -2,7 +2,10 @@
 if(!defined("PATH_TEST_TO_ROOT")) {
 	define('PATH_TEST_TO_ROOT', '..');
 }
-require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+if(!defined('CONFIG_TEST_INCLUDED'))
+{
+	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+}
 
 Zend_Loader::loadClass('Piwik_DataTable');
 Zend_Loader::loadClass('Piwik_DataTable_Row');
@@ -287,7 +290,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	$this->assertEqual($table->getRows(), $expectedtable->getRows());
 	 }
 	/**
-	 * Test to filter a column with a pattern
+	 * Test to filter a column with a offset, limit
 	 */
 	 function test_filter_OffsetLimit()
 	 {
@@ -308,9 +311,110 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	$table->loadFromArray( $rows );
 	  		  	
 	 	$expectedtable = clone $table;
-	 	$expectedtable->deleteRows(array(0,1,5,6));
+	 	$expectedtable->deleteRows(array(0,1,6));
 	  	
 	  	$filter = new Piwik_DataTable_Filter_Limit($table, 2, 4);
+	  	
+	  	$colAfter=$colExpected=array();
+	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
+	  	foreach($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
+	  	
+	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()),
+	  		implode(", ",array_values($colAfter)) ." does not match the expected ".implode(", ",array_values($colExpected)) );
+	 }
+	/**
+	 * Test to filter a column with a offset, limit off bound
+	 */
+	 function test_filter_OffsetLimitOffbound()
+	 {
+	 	$table = new Piwik_DataTable;
+	 	
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	 	
+	  	$rows = array(
+	  		array( $idcol => array('label'=>'google')),//0
+	  		array( $idcol => array('label'=>'ask')),//1
+	  		array( $idcol => array('label'=>'piwik')),//2
+	  		array( $idcol => array('label'=>'yahoo')),//3
+	  		array( $idcol => array('label'=>'amazon')),//4
+	  		array( $idcol => array('label'=>'238975247578949')),//5
+	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
+	  		);
+	  	
+	  	$table->loadFromArray( $rows );
+	  		  	
+	 	$expectedtable = clone $table;
+	 	$expectedtable->deleteRows(array(0,1,3,4,5,6));
+	  	
+	  	$filter = new Piwik_DataTable_Filter_Limit($table, 2, 1);
+	  	
+	  	$colAfter=$colExpected=array();
+	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
+	  	foreach($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
+	  	
+	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()));
+	 }
+	/**
+	 * Test to filter a column with a offset, limit 2
+	 */
+	 function test_filter_OffsetLimit2()
+	 {
+	 	$table = new Piwik_DataTable;
+	 	
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	 	
+	  	$rows = array(
+	  		array( $idcol => array('label'=>'google')),//0
+	  		array( $idcol => array('label'=>'ask')),//1
+	  		array( $idcol => array('label'=>'piwik')),//2
+	  		array( $idcol => array('label'=>'yahoo')),//3
+	  		array( $idcol => array('label'=>'amazon')),//4
+	  		array( $idcol => array('label'=>'238975247578949')),//5
+	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
+	  		);
+	  	
+	  	$table->loadFromArray( $rows );
+	  		  	
+	 	$expectedtable = clone $table;
+	  	
+	  	$filter = new Piwik_DataTable_Filter_Limit($table, 0, 15);
+	  	
+	  	$colAfter=$colExpected=array();
+	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
+	  	foreach($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
+	  	
+	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()));
+	 }
+	
+	/**
+	 * Test to filter a column with a offset, limit 3
+	 */
+	 function test_filter_OffsetLimit3()
+	 {
+	 	$table = new Piwik_DataTable;
+	 	
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	 	
+	  	$rows = array(
+	  		array( $idcol => array('label'=>'google')),//0
+	  		array( $idcol => array('label'=>'ask')),//1
+	  		array( $idcol => array('label'=>'piwik')),//2
+	  		array( $idcol => array('label'=>'yahoo')),//3
+	  		array( $idcol => array('label'=>'amazon')),//4
+	  		array( $idcol => array('label'=>'238975247578949')),//5
+	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
+	  		);
+	  	
+	  	$table->loadFromArray( $rows );
+	  		  	
+	 	$expectedtable = new Piwik_DataTable;
+	  	
+	  	$filter = new Piwik_DataTable_Filter_Limit($table, 8, 15);
+	  	
+	  	$colAfter=$colExpected=array();
+	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
+	  	foreach($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
+	  	
 	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()));
 	 }
 	

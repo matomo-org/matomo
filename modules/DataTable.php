@@ -290,8 +290,12 @@ class Piwik_DataTable
 		unset($this->rows[$key]);
 	}
 	
-	public function deleteRowsOffset( $offset, $limit )
+	public function deleteRowsOffset( $offset, $limit = null )
 	{
+		if(is_null($limit))
+		{
+			$limit = count($this->rows);
+		}
 		array_splice($this->rows, $offset, $limit);
 	}
 	
@@ -495,7 +499,7 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 	{
 		parent::__construct($table);
 		$this->offset = $offset;
-		$this->limit = $limit;
+		$this->limit = abs($limit);
 		$this->filter();
 	}
 	
@@ -507,9 +511,11 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 		
 		// we have to delete
 		// - from 0 to offset
-		// - from limit to the end
+		
+		// at this point the array has offset less elements
+		// - from limit - offset to the end - offset
 		$table->deleteRowsOffset( 0, $this->offset );
-		$table->deleteRowsOffset( $this->offset + $this->limit, $rowsCount );
+		$table->deleteRowsOffset( $this->limit );
 	}
 }
 
