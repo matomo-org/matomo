@@ -2,7 +2,10 @@
 if(!defined("PATH_TEST_TO_ROOT")) {
 	define('PATH_TEST_TO_ROOT', '..');
 }
-require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+if(!defined('CONFIG_TEST_INCLUDED'))
+{
+	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+}
 
 Zend_Loader::loadClass('Piwik_Timer');
 
@@ -94,30 +97,30 @@ class Test_PHP_Related extends UnitTestCase
 			}
 		}
 		
-		echo "<br>after generation array = ". $timer;
-		echo "<br>count array = ". count($a,1);
+		//echo "<br>after generation array = ". $timer;
+		//echo "<br>count array = ". count($a,1);
 		
 		$serialized = serialize($a);
 		$size = round(strlen($serialized)/1024/1024,3);
-		echo "<br>size serialized string = ". $size."mb";
-		echo "<br>after serialization array = ". $timer;
+		//echo "<br>size serialized string = ". $size."mb";
+		//echo "<br>after serialization array = ". $timer;
 		
 		$serialized = gzcompress($serialized);
 		$size = round(strlen($serialized)/1024/1024,3);
-		echo "<br>size compressed string = ". $size."mb";
-		echo "<br>after compression array = ". $timer;
+		//echo "<br>size compressed string = ". $size."mb";
+		//echo "<br>after compression array = ". $timer;
 		
 		$a = gzuncompress($serialized);
-		echo "<br>after uncompression array = ". $timer;
+		//echo "<br>after uncompression array = ". $timer;
 		$a = unserialize($a);
-		echo "<br>after unserialization array = ". $timer;
+		//echo "<br>after unserialization array = ". $timer;
 		
 	}
 	public function test_serializeManySmallTable()
 	{
 		$timer = new Piwik_Timer;
 		$a=array();
-		echo "<br>";
+		//echo "<br>";
 		//generate table
 		for($i=0;$i<100;$i++)
 		{
@@ -137,8 +140,8 @@ class Test_PHP_Related extends UnitTestCase
 				$a[$i][] = $infoPage;
 			}
 		}
-		echo "<br>after generation array = ". $timer;
-		echo "<br>count array = ". count($a,1);
+		//echo "<br>after generation array = ". $timer;
+		//echo "<br>count array = ". count($a,1);
 		
 		$allSerialized=array();
 		for($i=0;$i<100;$i++)
@@ -151,8 +154,8 @@ class Test_PHP_Related extends UnitTestCase
 			$allSerialized[] = serialize( array_slice($a[$i], 10,15));
 		}
 		
-		echo "<br>after serialize the subs-arrays = ". $timer;
-		echo "<br>count array = ". count($allSerialized,1);
+		//echo "<br>after serialize the subs-arrays = ". $timer;
+		//echo "<br>count array = ". count($allSerialized,1);
 		
 		$size=0;
 		foreach($allSerialized as $str)
@@ -160,7 +163,7 @@ class Test_PHP_Related extends UnitTestCase
 			$size+=strlen($str);
 		}
 		$size = round($size/1024/1024,3);
-		echo "<br>size serialized string = ". $size."mb";
+		//echo "<br>size serialized string = ". $size."mb";
 		
 		$acompressed=array();
 		$size = 0;
@@ -171,14 +174,8 @@ class Test_PHP_Related extends UnitTestCase
 			$acompressed[] = $compressed;
 		}
 		$size = round($size/1024/1024,3);
-		echo "<br>size compressed string = ". $size."mb";
-		echo "<br>after compression all sub arrays = ". $timer;
-//		
-//		$a = gzuncompress($serialized);
-//		echo "<br>after uncompression array = ". $timer;
-//		$a = unserialize($a);
-//		echo "<br>after unserialization array = ". $timer;
-		
+		//echo "<br>size compressed string = ". $size."mb";
+		//echo "<br>after compression all sub arrays = ". $timer;
 	}
 	
 }

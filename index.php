@@ -86,11 +86,39 @@ Zend_Registry::set('access', $access);
 
 Zend_Registry::get('access')->loadAccess();
 
+Zend_Loader::loadClass('Piwik_Archive');
+Zend_Loader::loadClass('Piwik_Date');
+
+$test = new Piwik_Archive;
+$period = new Piwik_Period_Day(new Piwik_Date('2007-02-02'));
+$site = new Piwik_Site(1);
+$test->setPeriod($period);
+$test->setSite($site);
+$test->get('toto0');
+$test->get('toto1');
+echo "Piwik_Period_Day" . $timer;
+
+$period = new Piwik_Period_Month(new Piwik_Date('2007-02-02'));
+$site = new Piwik_Site(2);
+$test->setPeriod($period);
+$test->setSite($site);
+$test->get('toto2');
+$test->get('toto3');
+echo "Piwik_Period_Month" . $timer;
+
+
+$period = new Piwik_Period_Year(new Piwik_Date('2007-02-02'));
+$site = new Piwik_Site(2);
+$test->setPeriod($period);
+$test->setSite($site);
+$test->get('toto2');
+$test->get('toto3');
+echo "Piwik_Period_Year" .  $timer;
 
 main();
 //Piwik::uninstall();
 
-//Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
+Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
 
 function main()
 {

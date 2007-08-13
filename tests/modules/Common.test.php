@@ -2,7 +2,10 @@
 if(!defined("PATH_TEST_TO_ROOT")) {
 	define('PATH_TEST_TO_ROOT', '..');
 }
-require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+if(!defined('CONFIG_TEST_INCLUDED'))
+{
+	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+}
 
 Zend_Loader::loadClass('Piwik_Common');
 class Test_Piwik_Common extends UnitTestCase
