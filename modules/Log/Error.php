@@ -51,7 +51,7 @@ class Piwik_Log_Formatter_Error_ScreenFormatter implements Zend_Log_Formatter_In
 		
 		$strReturned = '';
 	    $errno = $errno & error_reporting();
-	    if($errno == 0) return '';
+	    //if($errno == 0) return '';
 	    if(!defined('E_STRICT'))            define('E_STRICT', 2048);
 	    if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
 	    if(!defined('E_EXCEPTION')) 		define('E_EXCEPTION', 8192);

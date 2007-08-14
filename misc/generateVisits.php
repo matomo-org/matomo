@@ -63,9 +63,10 @@ class Piwik_LogStats_Generator
 	
 	public function __construct()
 	{
+		$_COOKIE = $_GET = $_REQUEST = $_POST = array();
+		
 		// init GET and REQUEST to the empty array
 		$this->setFakeRequest();
-		$_COOKIE = array();
 	}
 	public function addParam( $name, $aValue)
 	{
@@ -131,7 +132,7 @@ class Piwik_LogStats_Generator
 		for($i = 0; $i < $nbVisits; $i++)
 		{
 //			print("$i ");
-			$nbActions = rand(1, $nbActionsMaxPerVisit);
+			$nbActions = mt_rand(1, $nbActionsMaxPerVisit);
 			
 			$this->generateNewVisit();
 			for($j = 1; $j <= $nbActions; $j++)
@@ -166,9 +167,9 @@ class Piwik_LogStats_Generator
 		$this->setCurrentRequest( 'java' ,$this->getRandom01());
 		$this->setCurrentRequest( 'cookie',$this->getRandom01());
 
-		$_SERVER['HTTP_CLIENT_IP'] = rand(0,255).".".rand(0,255).".".rand(0,255).".".rand(0,255);
-		$_SERVER['HTTP_USER_AGENT'] = $this->userAgents[rand(0,count($this->userAgents)-1)];
-		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $this->acceptLanguage[rand(0,count($this->acceptLanguage)-1)];
+		$_SERVER['HTTP_CLIENT_IP'] = mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255);
+		$_SERVER['HTTP_USER_AGENT'] = $this->userAgents[mt_rand(0,count($this->userAgents)-1)];
+		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $this->acceptLanguage[mt_rand(0,count($this->acceptLanguage)-1)];
 	}
 	
 	
@@ -192,7 +193,7 @@ class Piwik_LogStats_Generator
 			
 			// for a campaign of the CPC kind, we sometimes generate a keyword 
 			if($urlVars==Piwik_LogStats_Config::getInstance()->LogStats['campaign_var_name']
-				&& rand(0,1)==0)
+				&& mt_rand(0,1)==0)
 			{
 				$url .= '&'. Piwik_LogStats_Config::getInstance()->LogStats['campaign_keyword_var_name'] 
 							. '=' . $this->getRandomString(11,6,'ALL');;
@@ -211,7 +212,7 @@ class Piwik_LogStats_Generator
 			// download / outlink url
 			$urlValue = $this->getRandomUrlFromHost($this->host);
 			$this->setCurrentRequest($GETParamToAdd, $urlValue);
-			if(rand(0,1)==0)
+			if(mt_rand(0,1)==0)
 			{
 				$this->setCurrentRequest(
 							Piwik_LogStats_Config::getInstance()->LogStats['download_outlink_name_var'], 	
@@ -229,7 +230,7 @@ class Piwik_LogStats_Generator
 	{
 		$url = $host;
 		
-		$deep = rand(0,5);
+		$deep = mt_rand(0,5);
 		for($i=0;$i<$deep;$i++)
 		{
 			$name = $this->getRandomString(12,3,'ALNUM');
@@ -242,7 +243,7 @@ class Piwik_LogStats_Generator
 	// from php.net and edited
 	private function getRandomString($maxLength = 15, $minLength = 5, $type = 'ALL')
 	{
-		$len = rand($minLength, $maxLength);
+		$len = mt_rand($minLength, $maxLength);
 		
 	    // Register the lower case alphabet array
 	    $alpha = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -292,7 +293,7 @@ class Piwik_LogStats_Generator
 	    // Register each value to the key array
 	    for($i = 0; $i <= $len-1; $i++)
 	    {
-	        $r = rand(0,count($keyVals)-1);
+	        $r = mt_rand(0,count($keyVals)-1);
 	        $key[$i] = $keyVals[$r];
 	    }
 	   
@@ -318,7 +319,7 @@ class Piwik_LogStats_Generator
 		}
 		else
 		{
-			$index = rand(0,count($this->allget[$name])-1);
+			$index = mt_rand(0,count($this->allget[$name])-1);
 			$value =$this->allget[$name][$index];
 			return $value;
 		}
@@ -326,7 +327,7 @@ class Piwik_LogStats_Generator
 	
 	private function getRandom01()
 	{
-		return rand(0,1);
+		return mt_rand(0,1);
 	}
 	
 	
@@ -366,7 +367,7 @@ class Piwik_LogStats_Generator_Visit extends Piwik_LogStats_Visit
 	protected function getCurrentTimestamp()
 	{
 		$this->time = max(@$this->visitorInfo['visit_last_action_time'],time(),$this->time);
-		$this->time += rand(4,1840);
+		$this->time += mt_rand(4,1840);
 		return $this->time;
 	}
 		
@@ -383,8 +384,8 @@ $generator = new Piwik_LogStats_Generator;
 $generator->init();
 
 $t = new Piwik_Timer;
-$nbActionsTotal = $generator->generate(10000,5);
-echo "<br>Request per sec: ". round($nbActionsTotal / $t->getTime(),0);
+$nbActionsTotal = $generator->generate(3000,6);
+echo "<br>Requests per sec: ". round($nbActionsTotal / $t->getTime(),0);
 echo "<br>".$t;
 
 ob_end_flush();

@@ -64,7 +64,7 @@ cookie_name	= piwik_visitor
 [log]
 
 ; normal messages
-;logger_message[]		= screen
+logger_message[]		= screen
 ;logger_message[]		= database
 ;logger_message[]		= file
 
@@ -84,7 +84,7 @@ logger_exception[]		= screen
 ;logger_exception[]		= file
 
 ; query profiling information (SQL, avg execution time, etc.)
-logger_query_profile[]	= screen
+;logger_query_profile[]	= screen
 ;logger_query_profile[]	= database
 ;logger_query_profile[]	= file
 

@@ -225,7 +225,7 @@ class Piwik_SitesManager extends Piwik_APIable
 	 * 
 	 * @exception if the parameter is not an array or if array empty 
 	 */
-	private function checkAtLeastOneUrl( $aUrls )
+	static private function checkAtLeastOneUrl( $aUrls )
 	{
 		if(!is_array($aUrls)
 			|| count($aUrls) == 0)

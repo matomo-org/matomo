@@ -38,7 +38,14 @@ class Piwik_Log_Formatter_Message_ScreenFormatter implements Zend_Log_Formatter_
      */
     public function format($event)
     {
-    	return $event['message'];
+    	if(is_array($event['message']))
+    	{
+    		return "<pre>".var_export($event['message'], true)."</pre>";
+    	}
+    	else
+    	{
+    		return $event['message'];
+    	}
     }
 }
 ?>

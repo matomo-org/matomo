@@ -109,19 +109,7 @@ class Piwik_LogStats_Action
 		// the ActionName wasn't specified
 		if( empty($actionName) )
 		{
-			$parsedUrl = parse_url( $url );
-			
-			$actionName = '';
-			
-			if(isset($parsedUrl['path']))
-			{
-				$actionName .= substr($parsedUrl['path'], 1);
-			}
-			
-			if(isset($parsedUrl['query']))
-			{
-				$actionName .= '?'.$parsedUrl['query'];
-			}
+			$actionName = Piwik_Common::getPathAndQueryFromUrl($url);
 		}
 		
 		// clean the name

@@ -29,28 +29,29 @@ set_exception_handler('Piwik_ExceptionHandler');
  */
 include "Zend/Exception.php";
 include "Zend/Loader.php";
-Zend_Loader::loadClass('Zend_Registry');
-Zend_Loader::loadClass('Zend_Config_Ini');
-Zend_Loader::loadClass('Zend_Db');
-Zend_Loader::loadClass('Zend_Db_Table');
-Zend_Loader::loadClass('Zend_Debug');
-Zend_Loader::loadClass('Zend_Auth');
-Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
+require_once "Zend/Registry.php";
+require_once "Zend/Config/Ini.php";
+require_once "Zend/Db.php";
+require_once "Zend/Db/Table.php";
+require_once "Zend/Debug.php";
+require_once "Zend/Auth.php";
+require_once "Zend/Auth/Adapter/DbTable.php";
 
 /**
  * Piwik classes
  */
-Zend_Loader::loadClass('Piwik_Timer');
-Zend_Loader::loadClass('Piwik_Access');
-Zend_Loader::loadClass('Piwik_APIable'); 
-Zend_Loader::loadClass('Piwik_Log');
-Zend_Loader::loadClass('Piwik_Auth');
-Zend_Loader::loadClass('Piwik_Config');
-Zend_Loader::loadClass('Piwik_PublicAPI');
-Zend_Loader::loadClass('Piwik');
-
+require_once "Timer.php";
 $timer = new Piwik_Timer;
 
+require_once "Access.php";
+require_once "APIable.php";
+require_once "Log.php";
+require_once "Auth.php";
+require_once "Config.php";
+require_once "PublicAPI.php";
+require_once "Piwik.php";
+require_once "Site.php";
+require_once "Archive.php";
 
 //move into a init() method
 Piwik::createConfigObject();
@@ -64,7 +65,7 @@ Piwik::createLogObject();
 //TODO move all DB related methods in a DB static class
 Piwik::createDatabase();
 Piwik::createDatabaseObject();
-Piwik::dropTables();
+Piwik::dropTables(array(Piwik::prefixTable('log_visit'),Piwik::prefixTable('log_link_visit_action'),Piwik::prefixTable('log_action')));
 Piwik::createTables();
 
 
@@ -90,35 +91,35 @@ Zend_Loader::loadClass('Piwik_Archive');
 Zend_Loader::loadClass('Piwik_Date');
 
 $test = new Piwik_Archive;
-$period = new Piwik_Period_Day(new Piwik_Date('2007-02-02'));
+$period = new Piwik_Period_Day(Piwik_Date::today());
 $site = new Piwik_Site(1);
 $test->setPeriod($period);
 $test->setSite($site);
 $test->get('toto0');
-$test->get('toto1');
-echo "Piwik_Period_Day" . $timer;
+//$test->get('toto1');
+echo "<br>Piwik_Period_Day" . $timer;
 
-$period = new Piwik_Period_Month(new Piwik_Date('2007-02-02'));
-$site = new Piwik_Site(2);
-$test->setPeriod($period);
-$test->setSite($site);
-$test->get('toto2');
-$test->get('toto3');
-echo "Piwik_Period_Month" . $timer;
+//$period = new Piwik_Period_Month(new Piwik_Date('2007-02-02'));
+//$site = new Piwik_Site(2);
+//$test->setPeriod($period);
+//$test->setSite($site);
+//$test->get('toto2');
+//$test->get('toto3');
+//echo "<br>Piwik_Period_Month" . $timer;
 
 
-$period = new Piwik_Period_Year(new Piwik_Date('2007-02-02'));
-$site = new Piwik_Site(2);
-$test->setPeriod($period);
-$test->setSite($site);
-$test->get('toto2');
-$test->get('toto3');
-echo "Piwik_Period_Year" .  $timer;
+//$period = new Piwik_Period_Year(new Piwik_Date('2007-02-02'));
+//$site = new Piwik_Site(2);
+//$test->setPeriod($period);
+//$test->setSite($site);
+//$test->get('toto2');
+//$test->get('toto3');
+//echo "Piwik_Period_Year" .  $timer;
 
 main();
 //Piwik::uninstall();
 
-Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
+//Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
 
 function main()
 {
