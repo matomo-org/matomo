@@ -120,9 +120,9 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	
 	  	$serialized = ($table->getSerialized());
 	  	
-		$this->assertEqual(array_keys($serialized), array($idsubsubtable,$idsubtable,$idtable));
+		$this->assertEqual(array_keys($serialized), array($idsubsubtable,$idsubtable,0));
 		$tableAfter = new Piwik_DataTable;
-		$tableAfter->loadFromSerialized($serialized[$idtable]);
+		$tableAfter->loadFromSerialized($serialized[0]);
 		$this->assertEqual($table->getRows(),$tableAfter->getRows());
 
 		$subsubtableAfter = new Piwik_DataTable;
@@ -189,12 +189,12 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtable)
 	  						);  
 	  	
-	  	$subtable = new Piwik_DataTable;
-	  	$idsubtable2 = $subtable->getId();
-	  	$subtable->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>5),));
+	  	$subtable2 = new Piwik_DataTable;
+	  	$idsubtable2 = $subtable2->getId();
+	  	$subtable2->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>5),));
 	  	
 	  	$table->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>9),
-	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtable)
+	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtable2)
 	  						);  
 	  	
 	  	
@@ -211,7 +211,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	 */
 	  	$render = new Piwik_DataTable_Renderer_Console ($table);
 	  	$render->setPrefixRow('*');
-	  	$rendered = $render->render();
+		$rendered = $render->render();
 	  	
 	  	$this->assertEqual($expected,$rendered);
 	}

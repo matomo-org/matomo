@@ -6,6 +6,12 @@ class Piwik_Date extends Zend_Date
 	{
 		Zend_Date::setOptions(array('format_type' => 'php'));
 		parent::__construct( $strDate, 'YYYY-MM-dd', 'en');
+		$this->strDate = $strDate;
+	}
+
+	public function toString()
+	{
+		return $this->strDate;
 	}
 	
 	/**

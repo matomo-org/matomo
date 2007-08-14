@@ -18,6 +18,28 @@ class Piwik_Common
 	
 	const HTML_ENCODING_QUOTE_STYLE		= ENT_COMPAT;
 	
+	
+	static function getPathAndQueryFromUrl($url)
+	{
+		$parsedUrl = parse_url( $url );
+	
+		$result = '';
+		
+		if(isset($parsedUrl['path']))
+		{
+			$result .= substr($parsedUrl['path'], 1);
+		}
+		
+		if(isset($parsedUrl['query']))
+		{
+			$result .= '?'.$parsedUrl['query'];
+		}
+		
+		return $result;
+	}
+	
+	
+	
 	/**
 	 * Returns the variable after cleaning operations.
 	 * NB: The variable still has to be escaped before going into a SQL Query!

@@ -13,7 +13,8 @@ class Piwik
 		
 	static public function log($message, $priority = Zend_Log::NOTICE)
 	{
-		Zend_Registry::get('logger_message')->log($message . "<br>" . PHP_EOL);
+		Zend_Registry::get('logger_message')->log($message);
+		Zend_Registry::get('logger_message')->log( "<br>" . PHP_EOL);
 	}
 	
 	static public function getTableCreateSql( $tableName )
@@ -175,16 +176,30 @@ class Piwik
 			",
 			
 			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
-										  idarchive INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  										  idsite INTEGER UNSIGNED NULL,
-										  date1 DATE NULL,
-										  date2 DATE NULL,
-										  ts_archived TIMESTAMP NULL,
-										  period TINYINT UNSIGNED NULL,
-										  done TINYINT UNSIGNED NULL,
-										  data_2 FLOAT NULL,
-										  PRIMARY KEY(idarchive)
-										)	
+						
+  idarchive INTEGER UNSIGNED NOT NULL,
+  idsite INTEGER UNSIGNED NULL,
+  date1 DATE NULL,
+  date2 DATE NULL,
+  period TINYINT UNSIGNED NULL,
+  ts_archived DATETIME NULL,
+  name VARCHAR(255) NULL,
+  value FLOAT NULL,
+  INDEX i1(idarchive, name)
+);
+			",
+			'archive_blob'	=> "CREATE TABLE {$prefixTables}archive_blob (
+										
+  idarchive INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  idsite INTEGER UNSIGNED NULL,
+  date1 DATE NULL,
+  date2 DATE NULL,
+  period TINYINT UNSIGNED NULL,
+  ts_archived DATETIME NULL,
+  name VARCHAR(255) NULL,
+  value BLOB NULL,
+  INDEX i1(idarchive, name)
+)
 			",
 		);
 		return $tables;
@@ -377,14 +392,17 @@ class Piwik
 		assert(count($config) != 0);
 	}
 
-	static public function dropTables()
+	static public function dropTables( $doNotDelete)
 	{
 		$tablesAlreadyInstalled = self::getTablesInstalled();
 		$db = Zend_Registry::get('db');
 		
 		foreach($tablesAlreadyInstalled as $tableName)
 		{
-			$db->query("DROP TABLE $tableName");
+			if(!in_array($tableName,$doNotDelete))
+			{
+				$db->query("DROP TABLE $tableName");
+			}
 		}			
 	}
 	
@@ -399,6 +417,8 @@ class Piwik
 		
 		$tablesToCreate = self::getTablesCreateSql();
 		
+		unset($tablesToCreate['archive_blob']);
+		unset($tablesToCreate['archive_numeric']);
 		$tablesAlreadyInstalled = self::getTablesInstalled();
 		
 		foreach($tablesToCreate as $tableName => $tableSql)

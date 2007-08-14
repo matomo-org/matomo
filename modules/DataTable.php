@@ -102,6 +102,8 @@
  * 
  * 
  */
+require_once "DataTable/Renderer.php";
+require_once "DataTable/Filter.php";
 
 class Piwik_DataTable_Manager
 {
@@ -119,8 +121,8 @@ class Piwik_DataTable_Manager
 		return self::$instance;
 	}
 	
-	static private $id = 0;
-	static private $tables = array();
+	protected $tables = array();
+	protected $count = 0;
 	
 	function addTable( $table )
 	{
@@ -151,9 +153,14 @@ class Piwik_DataTable
 	
 	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 20;
 	
-	public function __construct()
+	public function __construct( $reinitCurrentID = false)
 	{
+		if($reinitCurrentID)
+		{
+			$forcedID = 1;
+		}
 		$this->currentId = Piwik_DataTable_Manager::getInstance()->addTable($this);
+		
 //		self::$idSubtableAssociated[$this->currentId] = true;
 	}
 	
@@ -169,6 +176,12 @@ class Piwik_DataTable
 	 * The keys of the array are very important as they are used to define the DataTable
 	 * For the example the key 3 is used in the array corresponding to the key 2 
 	 * because the key 3 is the array which is a child of the array corresponding to the key 2
+	 * 
+	 * IMPORTANT: The main table (level 0, parent of all tables) will always be indexed by 0
+	 * 	even it was created after some other tables.
+	 * 	It also means that all the parent tables (level 0) will be indexed with 0 in their respective 
+	 *  serialized arrays. You should never lookup a parent table using the getTable( $id = 0) as it 
+	 *  won't work.
 	 * 
 	 * @return array Serialized arrays	
 	 * 			array( 	// Datatable level0
@@ -209,7 +222,13 @@ class Piwik_DataTable
 				$aSerializedDataTable = $aSerializedDataTable + $serialized;
 			}
 		}
-		$aSerializedDataTable[$this->getId()] = serialize($this->rows);
+		
+		$forcedId = $this->getId();
+		if($depth==0)
+		{
+			$forcedId = 0;
+		}	
+		$aSerializedDataTable[$forcedId] = serialize($this->rows);
 		
 		return $aSerializedDataTable;
 	}
@@ -255,6 +274,57 @@ class Piwik_DataTable
 			}
 			
 			$this->rows[] = $row;
+		}
+	}
+	
+	/**
+	 * Rewrite the input $array 
+	 * array (
+	 * 	 LABEL => array(col1 => X, col2 => Y),
+	 * 	 LABEL2 => array(col1 => X, col2 => Y),
+	 * )
+	 * 
+	 * to the structure 
+	 * array (
+	 * 	 array( Piwik_DataTable_Row::COLUMNS => array('label' => LABEL, col1 => X, col2 => Y)),
+	 * 	 array( Piwik_DataTable_Row::COLUMNS => array('label' => LABEL2, col1 => X, col2 => Y)),
+	 * )
+	 * 
+	 * The optional parameter $subtablePerLabel is an array of subTable associated to the rows of the $array
+	 * For example if $subtablePerLabel is given
+	 * array(
+	 * 		LABEL => #Piwik_DataTable_ForLABEL,
+	 * 		LABEL2 => #Piwik_DataTable_ForLABEL2,
+	 * )
+	 * 
+	 * the $array would become 
+	 * array (
+	 * 	 array( 	Piwik_DataTable_Row::COLUMNS => array('label' => LABEL, col1 => X, col2 => Y),
+	 * 				Piwik_DataTable_Row::DATATABLE_ASSOCIATED => #ID DataTable For LABEL
+	 * 		),
+	 * 	 array( 	Piwik_DataTable_Row::COLUMNS => array('label' => LABEL2, col1 => X, col2 => Y)
+	 * 				Piwik_DataTable_Row::DATATABLE_ASSOCIATED => #ID2 DataTable For LABEL2
+	 * 		),
+	 * )
+	 * 
+	 */
+	public function loadFromArrayLabelIsKey( $array, $subtablePerLabel = null)
+	{
+		$cleanRow = array();
+		foreach($array as $label => $row)
+		{
+			$cleanRow[Piwik_DataTable_Row::COLUMNS] = $row;
+			$cleanRow[Piwik_DataTable_Row::COLUMNS]['label'] = $label;
+			if(!is_null($subtablePerLabel)
+				// some rows of this table don't have subtables 
+				// (for examplecase of the campaign without keywords )
+				&& isset($subtablePerLabel[$label]) 
+			)
+			{
+				$cleanRow[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $subtablePerLabel[$label];
+			}
+			
+			$this->rows[] = new Piwik_DataTable_Row($cleanRow);
 		}
 	}
 	
@@ -308,109 +378,55 @@ class Piwik_DataTable
 	}
 }
 
-class Piwik_DataTable_Renderer
-{
-	protected $table;
-	function __construct($table)
-	{
-		if(!($table instanceof Piwik_DataTable))
-		{
-			throw new Exception("The renderer accepts only a Piwik_DataTable object.");
-		}
-		$this->table = $table;
-	}
-	
-	public function __toString()
-	{
-		return $this->render();
-	}
-}
-
-class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
-{
-	protected $prefixRows;
-	function __construct($table)
-	{
-		parent::__construct($table);
-	}
-	
-	function render()
-	{
-		return $this->renderTable($this->table);
-	}
-	
-	function setPrefixRow($str)
-	{
-		$this->prefixRows = $str;
-	}
-	
-	function renderTable($table)
-	{
-		static $depth=0;
-		$output = '';
-		$i = 1;
-		foreach($table->getRows() as $row)
-		{
-			$columns=array();
-			foreach($row->getColumns() as $column => $value)
-			{
-				$columns[] = "'$column' => $value";
-			}
-			$columns = implode(", ", $columns);
-			$details=array();
-			foreach($row->getDetails() as $detail => $value)
-			{
-				$details[] = "'$detail' => $value";
-			}
-			$details = implode(", ", $details);
-			$output.= str_repeat($this->prefixRows, $depth) . "- $i [".$columns."] [".$details."] [idsubtable = ".$row->getIdSubDataTable()."]<br>\n";
-			
-			if($row->getIdSubDataTable() !== null)
-			{
-				$depth++;
-				$output.= $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
-				$depth--;
-			}
-			$i++;
-		}
-		
-		return $output;
-		
-	}	
-}
 
 class Piwik_DataTable_Row
 {
-	public $content = array();
+	// Row content
+	public $c = array();
 	const COLUMNS = 0;
 	const DETAILS = 1;
 	const DATATABLE_ASSOCIATED = 2;
 
 	public function __construct( $row )
 	{
-		$this->loadFromArray($row);
+		$this->c[self::COLUMNS] = array();
+		$this->c[self::DETAILS] = array();
+		$this->c[self::DATATABLE_ASSOCIATED] = null;
+		
+		if(isset($row[self::COLUMNS]))
+		{
+			$this->c[self::COLUMNS] = $row[self::COLUMNS];
+		}
+		if(isset($row[self::DETAILS]))
+		{
+			$this->c[self::DETAILS] = $row[self::DETAILS];
+		}
+		if(isset($row[self::DATATABLE_ASSOCIATED]))
+		{
+			$this->c[self::DATATABLE_ASSOCIATED] = $row[self::DATATABLE_ASSOCIATED]->getId();
+		}
 	}
 	public function getColumn( $name )
 	{
-		if(!isset($this->content[self::COLUMNS][$name]))
+		if(!isset($this->c[self::COLUMNS][$name]))
 		{
 			return false;
 		}
-		return $this->content[self::COLUMNS][$name];
+		return $this->c[self::COLUMNS][$name];
 	}
 	public function getColumns()
 	{
-		return $this->content[self::COLUMNS];
+		return $this->c[self::COLUMNS];
 	}
 	
 	public function getDetails()
 	{	
-		return $this->content[self::DETAILS];
+		return $this->c[self::DETAILS];
 	}
 	
 	public function getIdSubDataTable()
 	{
-		return $this->content[self::DATATABLE_ASSOCIATED];
+		return $this->c[self::DATATABLE_ASSOCIATED];
 	}
 	/**
 	 * Very efficient load of the Row structure from a well structured php array
@@ -429,95 +445,9 @@ class Piwik_DataTable_Row
 	 * 						DataTable_Row::DATATABLE_ASSOCIATED => #DataTable object // numeric idDataTable
 	 * 					)
 	 */
-	public function loadFromArray( $array )
-	{
-		$this->content[self::COLUMNS] = array();
-		$this->content[self::DETAILS] = array();
-		$this->content[self::DATATABLE_ASSOCIATED] = null;
-		
-		if(isset($array[self::COLUMNS]))
-		{
-			$this->content[self::COLUMNS] = $array[self::COLUMNS];
-		}
-		if(isset($array[self::DETAILS]))
-		{
-			$this->content[self::DETAILS] = $array[self::DETAILS];
-		}
-		if(isset($array[self::DATATABLE_ASSOCIATED]))
-		{
-			$this->content[self::DATATABLE_ASSOCIATED] = $array[self::DATATABLE_ASSOCIATED]->getId();
-		}
-	}
 	
 }
 
-abstract class Piwik_DataTable_Filter
-{
-	protected $table;
-	
-	public function __construct($table)
-	{
-		if(!($table instanceof Piwik_DataTable))
-		{
-			throw new Exception("The filter accepts only a Piwik_DataTable object.");
-		}
-		$this->table = $table;
-	}
-	
-	abstract protected function filter();
-}
-
-
-class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
-{
-	private $columnToFilter;
-	private $patternToSearch;
-	
-	public function __construct( $table, $columnToFilter, $patternToSearch )
-	{
-		parent::__construct($table);
-		$this->patternToSearch = $patternToSearch;
-		$this->columnToFilter = $columnToFilter;
-		$this->filter();
-	}
-	
-	protected function filter()
-	{
-		foreach($this->table->getRows() as $key => $row)
-		{
-			if( !ereg($this->patternToSearch, $row->getColumn($this->columnToFilter)))
-			{
-				$this->table->deleteRow($key);
-			}
-		}
-	}
-}
-
-class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
-{	
-	public function __construct( $table, $offset, $limit )
-	{
-		parent::__construct($table);
-		$this->offset = $offset;
-		$this->limit = abs($limit);
-		$this->filter();
-	}
-	
-	protected function filter()
-	{
-		$table = $this->table;
-		
-		$rowsCount = $table->getRowsCount();
-		
-		// we have to delete
-		// - from 0 to offset
-		
-		// at this point the array has offset less elements
-		// - from limit - offset to the end - offset
-		$table->deleteRowsOffset( 0, $this->offset );
-		$table->deleteRowsOffset( $this->limit );
-	}
-}
 
 /**
  * ---- Other

@@ -578,7 +578,7 @@ class Piwik_LogStats_Visit
 						//TODO: port the phpmyvisites google-images hack here
 	
 						// search for keywords now &vname=keyword
-						$key = strtolower(Piwik_Common::getParameterFromQueryString($query, $variableName));
+						$key = trim(strtolower(Piwik_Common::getParameterFromQueryString($query, $variableName)));
 	
 						//TODO test the search engine non-utf8 support
 						// for search engines that don't use utf-8
