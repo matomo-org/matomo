@@ -29,10 +29,6 @@ set_exception_handler('Piwik_ExceptionHandler');
  */
 include "Zend/Exception.php";
 include "Zend/Loader.php";
-require_once "Zend/Registry.php";
-require_once "Zend/Config/Ini.php";
-require_once "Zend/Db.php";
-require_once "Zend/Db/Table.php";
 require_once "Zend/Debug.php";
 require_once "Zend/Auth.php";
 require_once "Zend/Auth/Adapter/DbTable.php";
@@ -47,7 +43,6 @@ require_once "Access.php";
 require_once "APIable.php";
 require_once "Log.php";
 require_once "Auth.php";
-require_once "Config.php";
 require_once "PublicAPI.php";
 require_once "Piwik.php";
 require_once "Site.php";
@@ -121,6 +116,30 @@ main();
 
 //Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
 
+function displayProfiler()
+{
+	$profiler = Zend_Registry::get('db')->getProfiler();
+
+	$totalTime    = $profiler->getTotalElapsedSecs();
+	$queryCount   = $profiler->getTotalNumQueries();
+	$longestTime  = 0;
+	$longestQuery = null;
+	
+	foreach ($profiler->getQueryProfiles() as $query) {
+	    if ($query->getElapsedSecs() > $longestTime) {
+	        $longestTime  = $query->getElapsedSecs();
+	        $longestQuery = $query->getQuery();
+	    }
+	}
+	
+	echo '<br>Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "\n";
+	echo '<br>Average query length: ' . $totalTime / $queryCount . ' seconds' . "\n";
+	echo '<br>Queries per second: ' . $queryCount / $totalTime . "\n";
+	echo '<br>Longest query length: ' . $longestTime . "\n";
+	echo "<br>Longest query: \n" . $longestQuery . "\n";
+
+	
+}
 function main()
 {
 	Piwik::log("Start process...");
@@ -139,7 +158,7 @@ function main()
 	$api->UsersManager->deleteUser("login");
 	$api->UsersManager->addUser("login", "password", "email@geage.com");
 }
-
+displayProfiler();
 echo $timer;
 ?>
 <br>

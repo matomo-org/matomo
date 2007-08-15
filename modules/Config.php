@@ -1,4 +1,6 @@
 <?php
+require_once "Zend/Config/Ini.php";
+require_once "Zend/Registry.php";
 class Piwik_Config extends Zend_Config_Ini
 {
 	function __construct($pathIniFile = null)

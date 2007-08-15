@@ -31,7 +31,7 @@ class Test_Piwik_SitesManager extends Test_Database
     /**
      * empty name -> exception
      */
-    public function test_addSite_emptyName()
+	public function test_addSite_emptyName()
     {
     	try {
     		Piwik_SitesManager::addSite("",array("http://piwik.net"));

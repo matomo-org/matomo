@@ -329,6 +329,14 @@ class Piwik_DataTable
 	}
 	
 	/**
+	 * Shortcut function used for performance reasons
+	 */
+	public function addDataTableRow( $row )
+	{
+		$this->rows[] = $row;
+	}
+	
+	/**
 	 * You should use loadFromArray for performance!
 	 */
 	public function addRow( $row )
@@ -379,6 +387,38 @@ class Piwik_DataTable
 }
 
 
+class Piwik_DataTable_Row_ActionTableSummary extends Piwik_DataTable_Row
+{
+	function __construct($subTable)
+	{
+		$currentColumns = array();
+
+		// go through the subTable and compute the summary
+		foreach($subTable->getRows() as $row)
+		{
+			$columns = $row->getColumns();
+			foreach($columns as $name => $value)
+			{
+				if(ereg('^[0-9.]$',$value))
+				{
+					if(!isset($currentColumns[$name]))
+					{
+						$currentColumns[$name] = $value;
+					}
+					else
+					{
+						$currentColumns[$name] += $value;
+					}
+				}
+			}
+		}
+		$newRow = array();
+		$newRow[Piwik_DataTable_Row::COLUMNS] = $currentColumns;
+		
+		parent::__construct($newRow);
+	}
+}
+
 class Piwik_DataTable_Row
 {
 	// Row content
@@ -401,7 +441,8 @@ class Piwik_DataTable_Row
 		{
 			$this->c[self::DETAILS] = $row[self::DETAILS];
 		}
-		if(isset($row[self::DATATABLE_ASSOCIATED]))
+		if(isset($row[self::DATATABLE_ASSOCIATED])
+			&& $row[self::DATATABLE_ASSOCIATED] instanceof Piwik_DataTable)
 		{
 			$this->c[self::DATATABLE_ASSOCIATED] = $row[self::DATATABLE_ASSOCIATED]->getId();
 		}
@@ -427,6 +468,15 @@ class Piwik_DataTable_Row
 	public function getIdSubDataTable()
 	{
 		return $this->c[self::DATATABLE_ASSOCIATED];
+	}
+	
+	public function addColumn($name, $value)
+	{
+		if(isset($this->c[self::COLUMNS][$name]))
+		{
+			throw new Exception("Column $name already in the array!");
+		}
+		$this->c[self::COLUMNS][$name] = $value;
 	}
 	/**
 	 * Very efficient load of the Row structure from a well structured php array

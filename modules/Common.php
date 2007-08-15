@@ -38,7 +38,10 @@ class Piwik_Common
 		return $result;
 	}
 	
-	
+	static function isUrl( $url )
+	{
+		return ereg('^http[s]?://[A-Za-z0-9\/_.-]', $url);
+	}
 	
 	/**
 	 * Returns the variable after cleaning operations.

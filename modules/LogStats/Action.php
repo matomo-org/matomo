@@ -23,7 +23,7 @@ class Piwik_LogStats_Action
 	  * 
 	  * Specifications
 	  *  
-	  * - External file tracking
+	  * - Download tracking
 	  * 
 	  *    * MANUAL Download tracking 
 	  *      download = http://piwik.org/hellokity.zip
@@ -109,10 +109,48 @@ class Piwik_LogStats_Action
 		// the ActionName wasn't specified
 		if( empty($actionName) )
 		{
-			$actionName = Piwik_Common::getPathAndQueryFromUrl($url);
+			$actionName = trim(Piwik_Common::getPathAndQueryFromUrl($url));
+			
+			// in case the $actionName is ending with a slash, 
+			// which means that it is the index page of a category 
+			// we append the defaultActionName 
+			// toto/tata/ becomes toto/tata/index 
+			if(strlen($actionName) > 0 
+				&& $actionName[strlen($actionName)-1] == '/'
+			)
+			{
+				$actionName.=$this->defaultActionName;
+			}
 		}
 		
-		// clean the name
+		/*
+		 * Clean the action name
+		 */
+		 
+		// get the delimiter, by default '/'
+		$actionCategoryDelimiter = Piwik_LogStats_Config::getInstance()->General['action_category_delimiter'];
+		
+		// case the name is an URL we dont clean the name the same way
+		if(Piwik_Common::isUrl($actionName))
+		{
+			$actionName = trim($actionName);
+		}
+		else
+		{
+			// create an array of the categories delimited by the delimiter
+			$split = explode($actionCategoryDelimiter, $actionName);
+			
+			// trim every category
+			$split = array_map('trim', $split);
+			
+			// remove empty categories
+			$split = array_filter($split);
+			
+			// rebuild the name from the array of cleaned categories
+			$actionName = implode($actionCategoryDelimiter, $split);
+		}
+		
+		// remove the extra bad characters if any (shouldn't be any at this point...)
 		$actionName = str_replace(array("\n", "\r"), '', $actionName);
 		
 		if(empty($actionName))
