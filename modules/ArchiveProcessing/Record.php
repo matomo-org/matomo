@@ -92,7 +92,7 @@ class Archive_Processing_Record_Blob extends Archive_Processing_Record
 	}
 	public function __toString()
 	{
-		return $this->name ." = ". gzuncompress($this->value);
+		return $this->name ." = BLOB";//". gzuncompress($this->value);
 	}
 }
 

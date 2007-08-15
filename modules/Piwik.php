@@ -1,5 +1,8 @@
 <?php
 
+require_once "Config.php";
+require_once "Zend/Db.php";
+require_once "Zend/Db/Table.php";
 class Piwik
 {
 	const CLASSES_PREFIX = "Piwik_";
@@ -173,6 +176,15 @@ class Piwik
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 											  PRIMARY KEY(idlink_va)
 											)
+			",
+			
+			'log_profiling' => "CREATE TABLE {$prefixTables}log_profiling (
+
+  query TEXT NOT NULL,
+  count INTEGER UNSIGNED NULL,
+  sum_time_ms FLOAT NULL,
+  UNIQUE INDEX query(query(700))
+)
 			",
 			
 			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (

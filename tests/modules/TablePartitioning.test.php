@@ -45,14 +45,11 @@ class Test_Piwik_TablePartitioning extends Test_Database
 		$prefixTables = $config->database->tables_prefix;
 		$tablename = $prefixTables.$tableName.$suffixShouldBe;
 		
-    	$p->setDate( $timestamp );
-    	
-    	$allTablesInstalled = Piwik::getTablesInstalled();
-    	$this->assertTrue( !in_array($tablename, $allTablesInstalled));
-    	$this->assertTrue( $tablename, $p->getTableName());
+    	$p->setTimestamp( $timestamp );
     	
     	$allTablesInstalled = Piwik::getTablesInstalled();
     	$this->assertTrue( in_array($tablename, $allTablesInstalled));
+    	$this->assertTrue( $tablename, $p->getTableName());
     	$this->assertEqual( $tablename, (string)$p);
     }
 	
@@ -69,11 +66,12 @@ class Test_Piwik_TablePartitioning extends Test_Database
 		
 		Zend_Registry::get('db')->query("CREATE TABLE $tablename (`test` VARCHAR( 255 ) NOT NULL)");
 
-		$p->setDate( $timestamp );
+		$p->setTimestamp( $timestamp );
     	
     	$allTablesInstalled = Piwik::getTablesInstalled();
     	$this->assertTrue( in_array($tablename, $allTablesInstalled));
     	$this->assertTrue( $tablename, $p->getTableName());
+    	$this->assertEqual( $tablename, (string)$p);
     }
     
 	// test monthly
@@ -88,14 +86,11 @@ class Test_Piwik_TablePartitioning extends Test_Database
 		$prefixTables = $config->database->tables_prefix;
 		$tablename = $prefixTables.$tableName.$suffixShouldBe;
 		
-    	$p->setDate( $timestamp );
-    	
-    	$allTablesInstalled = Piwik::getTablesInstalled();
-    	$this->assertTrue( !in_array($tablename, $allTablesInstalled));
-    	$this->assertTrue( $tablename, $p->getTableName());
+    	$p->setTimestamp( $timestamp );
     	
     	$allTablesInstalled = Piwik::getTablesInstalled();
     	$this->assertTrue( in_array($tablename, $allTablesInstalled));
+    	$this->assertTrue( $tablename, $p->getTableName());
     	$this->assertEqual( $tablename, (string)$p);
     }
         
@@ -111,14 +106,11 @@ class Test_Piwik_TablePartitioning extends Test_Database
 		$prefixTables = $config->database->tables_prefix;
 		$tablename = $prefixTables.$tableName.$suffixShouldBe;
 		
-    	$p->setDate( $timestamp );
-    	
-    	$allTablesInstalled = Piwik::getTablesInstalled();
-    	$this->assertTrue( !in_array($tablename, $allTablesInstalled));
-    	$this->assertTrue( $tablename, $p->getTableName());
+    	$p->setTimestamp( $timestamp );
     	
     	$allTablesInstalled = Piwik::getTablesInstalled();
     	$this->assertTrue( in_array($tablename, $allTablesInstalled));
+    	$this->assertTrue( $tablename, $p->getTableName());
     	$this->assertEqual( $tablename, (string)$p);
     }
     

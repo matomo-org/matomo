@@ -31,8 +31,32 @@ require_once(SIMPLE_TEST . 'reporter.php');
 $test = &new GroupTest('All Piwik Tests');
 
 $toInclude = array();
+function globr($sDir, $sPattern, $nFlags = NULL)
+{
+  $sDir = escapeshellcmd($sDir);
 
-foreach(glob("*/*.php") as $file)
+  // Get the list of all matching files currently in the
+  // directory.
+
+  $aFiles = glob("$sDir/$sPattern", $nFlags);
+
+  // Then get a list of all directories in this directory, and
+  // run ourselves on the resulting array.  This is the
+  // recursion step, which will not execute if there are no
+  // directories.
+
+  foreach (glob("$sDir/*", GLOB_ONLYDIR) as $sSubDir)
+  {
+    $aSubFiles = globr($sSubDir, $sPattern, $nFlags);
+   $aFiles = array_merge($aFiles, $aSubFiles);
+  }
+
+  // The array we return contains the files we found, and the
+  // files all of our children found.
+
+  return $aFiles;
+} 
+foreach(globr('./modules/',"*.php") as $file)
 {
 	if(!ereg("simpletest/",$file))
 	{

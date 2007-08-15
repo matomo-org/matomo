@@ -20,6 +20,9 @@ tables_prefix	= piwiktests_
 ; This setting is used only for today's statistics.
 time_before_archive_considered_outdated = 5
 
+action_category_delimiter = /
+
+
 [LogStats]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1

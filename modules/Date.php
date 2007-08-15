@@ -5,13 +5,14 @@ class Piwik_Date extends Zend_Date
 	public function __construct( $strDate )
 	{
 		Zend_Date::setOptions(array('format_type' => 'php'));
+		$strDate = date('Y-m-d', strtotime($strDate));
 		parent::__construct( $strDate, 'YYYY-MM-dd', 'en');
 		$this->strDate = $strDate;
 	}
 
-	public function toString()
+	public function toString($part = 'Y-m-d')
 	{
-		return $this->strDate;
+		return parent::toString($part);
 	}
 	
 	/**

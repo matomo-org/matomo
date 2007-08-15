@@ -37,6 +37,10 @@ abstract class Piwik_ArchiveProcessing
 	protected $strDateEnd;
 	protected $maxTimestampArchive;
 	
+	protected $logTable;
+	protected $logVisitActionTable;
+	protected $logActionTable;
+		
 	protected function loadArchiveProperties()
 	{		
 		$this->idsite = $this->site->getId();
@@ -108,7 +112,9 @@ abstract class Piwik_ArchiveProcessing
 		$this->insertRecord( $record);
 		$record->delete();
 		
-		
+		$this->logTable 			= Piwik::prefixTable('log_visit');
+		$this->logVisitActionTable 	= Piwik::prefixTable('log_link_visit_action');
+		$this->logActionTable	 	= Piwik::prefixTable('log_action');
 	}
 	
 	protected function loadNextIdarchives()
@@ -124,7 +130,8 @@ abstract class Piwik_ArchiveProcessing
 	}
 	protected function postCompute()
 	{
-//		echo Archive_Processing_Record_Manager::getInstance()->toString();
+		
+		echo "<br>".Archive_Processing_Record_Manager::getInstance()->toString();
 		
 		$finalRecord = new Archive_Processing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_OK);
 		
