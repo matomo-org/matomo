@@ -24,12 +24,14 @@
  * 
  */ 
 require_once "Plugin.php";
+require_once "Event/Dispatcher.php";
 
 class Piwik_PluginsManager
 {
 	public $dispatcher;
 	private $pluginsPath;
 	protected $pluginsToLoad = array();
+	protected $installPlugins = false;
 	
 	static private $instance = null;
 	
@@ -56,6 +58,15 @@ class Piwik_PluginsManager
 		$this->pluginsToLoad = $array;
 		
 		$this->loadPlugins();
+	}
+	
+	public function setInstallPlugins()
+	{
+		$this->installPlugins = true;
+	}
+	public function doInstallPlugins()
+	{
+		return $this->installPlugins;
 	}
 	/**
 	 * Load the plugins classes installed.
@@ -95,6 +106,16 @@ class Piwik_PluginsManager
 			}
 			$newPlugin = new $pluginClassName;
 			
+			
+			if($this->doInstallPlugins())
+			{
+				try{
+					$newPlugin->install();
+				} catch(Exception $e) {
+					//TODO Better plugin management....
+				}
+			}
+			
 			$this->addPluginObservers( $newPlugin );
 		}
 	}
@@ -108,7 +129,7 @@ class Piwik_PluginsManager
 		
 		foreach($hooks as $hookName => $methodToCall)
 		{
-			$this->dispatcher->addObserver( array( $plugin, $methodToCall) );
+			$this->dispatcher->addObserver( array( $plugin, $methodToCall), $hookName );
 		}
 	}
 	

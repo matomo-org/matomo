@@ -315,13 +315,13 @@ class Test_Piwik_Period extends UnitTestCase
 	 * Testing Period_Week
 	 *
 	 */
-	 //http://framework.zend.com/issues/browse/ZF-1832
+	/* //http://framework.zend.com/issues/browse/ZF-1832
 	 function test_week_zendsetweekday()
 	 {
 	 	$date = new Zend_Date('2006-01-01','YYYY-MM-dd', 'en');
 	 	$date->setWeekday(1);	 	
 	 	$this->assertEqual('2005-12-26', $date->toString("Y-m-d"));
-	 }
+	 }*/
 	// test week between 2 years
 	function test_week_Between2years()
 	 {

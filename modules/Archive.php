@@ -51,6 +51,8 @@ class Piwik_Archive
 	
 	protected $period = null;
 	protected $id = null;
+	protected $isThereSomeVisits = false;
+	protected $alreadyChecked = false;
 	
 	// to be used only once
 	public function setPeriod( Piwik_Period $period ) 
@@ -63,17 +65,44 @@ class Piwik_Archive
 		$this->site = $site;
 	}
 	
+	
+	function prepareArchive()
+	{
+		if(!$this->alreadyChecked)
+		{
+			// we make sure the archive is available for the given date
+			$periodLabel = $this->period->getLabel();
+			$archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
+			$archiveProcessing->setSite($this->site);
+			$archiveProcessing->setPeriod($this->period);
+			$IdArchive = $archiveProcessing->loadArchive();
+			
+			$isThereSomeVisits = Zend_Registry::get('db')->fetchOne(
+					'SELECT value 
+					FROM '.$archiveProcessing->getTableArchiveNumericName().
+					' WHERE name = ? AND idarchive = ?', array('nb_visits',$IdArchive));
+					
+			if($isThereSomeVisits!==false)
+			{
+				$this->isThereSomeVisits = true;
+			}
+			$this->alreadyChecked = true;
+		}
+	}
 
 	// returns a field of the archive
 	function get( $name )
 	{
+		$this->prepareArchive();
 		Piwik::log("-- get '$name'");
-		// we make sure the archive is available for the given date
-		$periodLabel = $this->period->getLabel();
-		$archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
-		$archiveProcessing->setSite($this->site);
-		$archiveProcessing->setPeriod($this->period);
-		$IdArchive = $archiveProcessing->loadArchive();
+		
+		if(!$this->isThereSomeVisits)
+		{
+			return false;
+		}
+		return 1;
+		// select the data requested
+		
 	}
 	
 	// fetches many fields at once for performance

@@ -274,7 +274,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 						'test_float'=> 150.0,
 						'test_float2'=> 14.5,
 						'test_float3'=> 1.5,
-						'test_stringint'=> "5", //keep the first
+						'test_stringint'=> "150", //add also strings!!
 						'super'=>array('this column has geagaean array value, amazing'),
 						0925824 => 'toto',
 				);

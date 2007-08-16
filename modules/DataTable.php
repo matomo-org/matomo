@@ -127,7 +127,8 @@ class Piwik_DataTable_Manager
 	function addTable( $table )
 	{
 		$this->tables[] = $table;
-		return count($this->tables);
+		$this->count++;
+		return $this->count;
 	}
 	
 	function getTable( $idTable )
@@ -445,7 +446,7 @@ class Piwik_DataTable_Row_ActionTableSummary extends Piwik_DataTable_Row
 			foreach($columns as $name => $value)
 			{
 				if($name != 'label' 
-					&& ( is_int($value) || is_float($value) )
+					&& ( Piwik::isNumeric($value) )
 				)
 				{
 					if(!isset($currentColumns[$name]))
@@ -605,7 +606,7 @@ class Piwik_DataTable_Row
 	{
 		foreach($rowToSum->getColumns() as $name => $value)
 		{
-			if(is_int($value) || is_float($value))
+			if(Piwik::isNumeric($value))
 			{
 				$current = $this->getColumn($name);
 				if($current==false)

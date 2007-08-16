@@ -33,7 +33,7 @@ abstract class Piwik_ArchiveProcessing
 	protected $maxTimestampArchive;
 	
 	// Attributes that can be used by plugins
-	public $idsite;
+	public $idsite	= null;
 	public $period 	= null;
 	public $site 	= null;
 	
@@ -70,6 +70,10 @@ abstract class Piwik_ArchiveProcessing
 		}
 	}
 	
+	public function getTableArchiveNumericName()
+	{
+		return $this->tableArchiveNumeric;
+	}
 	// to be used only once
 	public function setPeriod( Piwik_Period $period ) 
 	{
@@ -88,9 +92,11 @@ abstract class Piwik_ArchiveProcessing
 		if(!$idArchive)
 		{
 			$this->idArchivesSubperiods = $this->loadSubperiodsArchive();
+			
 			$this->initCompute();
 			$this->compute();
 			$this->postCompute();
+			
 			Piwik::log("New archive computed, id = {$this->idArchives}");
 		}
 		else
@@ -120,21 +126,17 @@ abstract class Piwik_ArchiveProcessing
 		$this->logActionTable	 	= Piwik::prefixTable('log_action');
 	}
 	
-	protected function loadNextIdarchives()
-	{
-		$db = Zend_Registry::get('db');
-		$id = $db->fetchOne("SELECT max(idarchive) FROM ".$this->tableArchiveNumeric);
-		if(empty($id))
-		{
-			$id = 1;
-		}
-		$this->idArchives = $id;
-		
-	}
 	protected function postCompute()
 	{
 		
 //		echo "<br>".Piwik_Archive_ProcessingRecord_Manager::getInstance()->toString();
+		
+		// delete the first done = ERROR 
+		Zend_Registry::get('db')->query("
+							DELETE FROM ".$this->tableArchiveNumeric." 
+							WHERE idarchive = ? AND name = 'done'",
+					array($this->idArchives)
+				);
 		
 		$finalRecord = new Piwik_Archive_Processing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_OK);
 		
@@ -145,13 +147,25 @@ abstract class Piwik_ArchiveProcessing
 		{
 			$this->insertRecord( $record);			
 		}
-		// save the final record 'done'
+		
+		// we delete all tables from the table register
+		Piwik_Archive_Processing_Record_Manager::getInstance()->deleteAll();
 	} 
 	
-	protected function insertRecord($record)
+	
+	protected function loadNextIdarchives()
 	{
 		$db = Zend_Registry::get('db');
+		$id = $db->fetchOne("SELECT max(idarchive) FROM ".$this->tableArchiveNumeric);
+		if(empty($id))
+		{
+			$id = 0;
+		}
+		$this->idArchives = $id + 1;
 		
+	}
+	protected function insertRecord($record)
+	{
 		// table to use to save the data
 		if(is_numeric($record->value))
 		{
@@ -164,7 +178,7 @@ abstract class Piwik_ArchiveProcessing
 		
 		$query = "INSERT INTO ".$table." (idarchive, idsite, date1, date2, period, ts_archived, name, value)
 					VALUES (?,?,?,?,?,?,?,?)";
-		$db->query($query, array(	$this->idArchives,
+		Zend_Registry::get('db')->query($query, array(	$this->idArchives,
 									$this->idsite, 
 									$this->strDateStart, 
 									$this->strDateEnd, 
