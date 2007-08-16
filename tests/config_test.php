@@ -49,6 +49,12 @@ require_once "Zend/Loader.php";
 require_once  "ErrorHandler.php";
 //set_error_handler('Piwik_ErrorHandler');
 
+function dump($var)
+{
+	print("<pre>");
+	var_export($var);
+	print("</pre>");
+}
 
 Zend_Loader::loadClass('Zend_Registry');
 Zend_Loader::loadClass('Zend_Config_Ini');

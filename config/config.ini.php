@@ -15,6 +15,10 @@ profiler 		= true
 dbname			= piwiktests
 tables_prefix	= piwiktests_
 
+[Plugins]
+enabled[] 		= UserSettings
+
+
 [General]
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.

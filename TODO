@@ -21,7 +21,7 @@ BUGS
 	if ($element{strlen($element)-1} != $slash) {
 	$element .= $slash;
 	}
-
+- is_numeric is not valid. Replace by is_int OR is_float
 
 TODO MISC
 =========

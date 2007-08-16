@@ -23,23 +23,26 @@ abstract class Piwik_ArchiveProcessing
 	const DONE_OK = 1;
 	const DONE_ERROR = 2;
 
-	protected $period 	= null;
-	protected $site 	= null;
 
 	protected $idArchives;
-	protected $idsite;
 	protected $periodId;
 	protected $dateStart;
 	protected $dateEnd;
 	protected $tableArchiveNumeric;
 	protected $tableArchiveBlob;
-	protected $strDateStart;
-	protected $strDateEnd;
 	protected $maxTimestampArchive;
 	
-	protected $logTable;
-	protected $logVisitActionTable;
-	protected $logActionTable;
+	// Attributes that can be used by plugins
+	public $idsite;
+	public $period 	= null;
+	public $site 	= null;
+	
+	public $strDateStart;
+	public $strDateEnd;
+	
+	public $logTable;
+	public $logVisitActionTable;
+	public $logActionTable;
 		
 	protected function loadArchiveProperties()
 	{		
@@ -108,7 +111,7 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->loadNextIdarchives();
 		
-		$record = new Archive_Processing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_ERROR);
+		$record = new Piwik_Archive_Processing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_ERROR);
 		$this->insertRecord( $record);
 		$record->delete();
 		
@@ -131,12 +134,12 @@ abstract class Piwik_ArchiveProcessing
 	protected function postCompute()
 	{
 		
-		echo "<br>".Archive_Processing_Record_Manager::getInstance()->toString();
+//		echo "<br>".Piwik_Archive_ProcessingRecord_Manager::getInstance()->toString();
 		
-		$finalRecord = new Archive_Processing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_OK);
+		$finalRecord = new Piwik_Archive_Processing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_OK);
 		
 		// save in the database the records
-		$records = Archive_Processing_Record_Manager::getInstance()->getRecords();
+		$records = Piwik_Archive_Processing_Record_Manager::getInstance()->getRecords();
 		
 		foreach($records as $record)
 		{

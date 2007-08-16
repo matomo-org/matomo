@@ -43,10 +43,5 @@ class Piwik_Plugin_LogStats_Provider extends Piwik_Plugin
 		printDebug();
 	}
 }
-/*
-class Piwik_Plugin_LogStats_UserSettings extends Piwik_Plugin
-{
-	
-}*/
 
 ?>

@@ -32,7 +32,6 @@ set_include_path(PIWIK_INCLUDE_PATH
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core/models'
 					. PATH_SEPARATOR . get_include_path() );
 
-require_once "Event/Dispatcher.php";
 require_once "Common.php";
 require_once "PluginManager.php";
 require_once "LogStats.php";

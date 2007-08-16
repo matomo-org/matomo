@@ -7,9 +7,7 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
 }
 
-Zend_Loader::loadClass('Piwik_DataTable');
-Zend_Loader::loadClass('Piwik_DataTable_Row');
-Zend_Loader::loadClass('Piwik_DataTable_Filter');
+require_once 'DataTable.php';
 
 class Test_Piwik_DataTable extends UnitTestCase
 {
@@ -40,7 +38,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	 * does not take in consideration those tables
 	  	 */
 	  	$useless1 = new Piwik_DataTable;
-	  	$useless1->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 13,),));
+	  	$useless1->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 13,),));
 		/*
 		 * end fake tables
 		 */
@@ -58,9 +56,9 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	 * does not take in consideration those tables
 	  	 */
 	  	$useless2 = new Piwik_DataTable;
-	  	$useless1->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 8487,),));
+	  	$useless1->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 8487,),));
 	  	$useless3 = new Piwik_DataTable;
-	  	$useless3->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 8487,),));
+	  	$useless3->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 8487,),));
 		/*
 		 * end fake tables
 		 */
@@ -70,10 +68,10 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	$row = new Piwik_DataTable_Row($row);
 	  	
 	  	$table->addRow($row);
-	  	$table->addRow(array( Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,1 => 42,),
+	  	$table->addRowFromArray(array( Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,1 => 42,),
 	  						Piwik_DataTable_Row::DETAILS => array('url' => 'piwik.org')));
 		
-	  	$table->addRow(array( Piwik_DataTable_Row::COLUMNS => array( 0 => 787877888787,),
+	  	$table->addRowFromArray(array( Piwik_DataTable_Row::COLUMNS => array( 0 => 787877888787,),
 	  						Piwik_DataTable_Row::DETAILS => array('url' => 'OUPLA ADDED'),
 	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtable));
 		  	
@@ -85,27 +83,27 @@ class Test_Piwik_DataTable extends UnitTestCase
 		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,),
 	  						Piwik_DataTable_Row::DETAILS => array('searchengine' => 'google'),
 	  					);
-	  	$subtable->addRow($row);
+	  	$subtable->addRowFromArray($row);
 	  	
 		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 84894,),
 	  						Piwik_DataTable_Row::DETAILS => array('searchengine' => 'yahoo'),
 	  					);
-	  	$subtable->addRow($row);
+	  	$subtable->addRowFromArray($row);
 		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 4898978989,),
 	  						Piwik_DataTable_Row::DETAILS => array('searchengine' => 'ask'),
 	  					);	  	
-	  	$subtable->addRow($row);
+	  	$subtable->addRowFromArray($row);
 	  	
 	  	
 	  	/*
 	  	 * SUB SUB TABLE
 	  	 */
 	  	$subsubtable = new Piwik_DataTable;
-	  	$subsubtable->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 245),
+	  	$subsubtable->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 245),
 	  						Piwik_DataTable_Row::DETAILS => array('yes' => 'subsubdetail1'),)
 	  						);  	
 	  						
-	  	$subsubtable->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 13,),
+	  	$subsubtable->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 13,),
 	  						Piwik_DataTable_Row::DETAILS => array('yes' => 'subsubdetail2'),)
 	  						);
 	  						
@@ -113,7 +111,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  						Piwik_DataTable_Row::DETAILS => array('url' => 'NEW ROW ADDED'),
 	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subsubtable);
 	  	
-	  	$subtable->addRow($row);
+	  	$subtable->addRowFromArray($row);
 		
 		$idsubsubtable = $subsubtable->getId();
 	  	
@@ -143,7 +141,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	{
 		
 	  	$table = new Piwik_DataTable;
-	  	$table->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
+	  	$table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
 	  						Piwik_DataTable_Row::DETAILS => array('logo' => 'test.png'),)
 	  	
 	  	);  	
@@ -170,7 +168,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 		
 	  	$table = new Piwik_DataTable;
 	  	$idtable = $table->getId();
-	  	$table->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
+	  	$table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
 	  						Piwik_DataTable_Row::DETAILS => array('logo' => 'test.png'),)
 	  	
 	  	);  
@@ -178,22 +176,22 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		
 	  	$subsubtable = new Piwik_DataTable;
 	  	$idsubsubtable = $subsubtable->getId();
-	  	$subsubtable->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>2)));
+	  	$subsubtable->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>2)));
 	  		
 	  	$subtable = new Piwik_DataTable;
 	  	$idsubtable1 = $subtable->getId();
-	  	$subtable->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>1),
+	  	$subtable->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>1),
 	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subsubtable));
 	  	
-	  	$table->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>3),
+	  	$table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>3),
 	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtable)
 	  						);  
 	  	
 	  	$subtable2 = new Piwik_DataTable;
 	  	$idsubtable2 = $subtable2->getId();
-	  	$subtable2->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>5),));
+	  	$subtable2->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>5),));
 	  	
-	  	$table->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>9),
+	  	$table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>9),
 	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtable2)
 	  						);  
 	  	
@@ -239,6 +237,55 @@ class Test_Piwik_DataTable extends UnitTestCase
 		$this->assertEqual($row->getIdSubDataTable(), null);
 		
 	}
+	/**
+	 * Simple test of the DataTable_Row
+	 */
+	function test_sumRow()
+	{
+		Zend_Loader::loadClass('Piwik_Timer');
+		$columns = array('test_int'=> 145,
+						'test_float'=> 145.5,
+						'test_float3'=> 1.5,
+						'test_stringint'=> "145",
+						"test" => 'string fake',
+						'super'=>array('this column has an array value, amazing')
+						);
+		$details = array('logo'=> 'piwik.png',
+						'super'=>array('this column has an array value, amazing'));
+		$arrayRow = array(
+			Piwik_DataTable_Row::COLUMNS => $columns,
+	  		Piwik_DataTable_Row::DETAILS => $details,
+	  		'fake useless key'=>38959,
+	  		43905724897=>'value');
+		$row1 = new Piwik_DataTable_Row($arrayRow);
+		
+		$columns2 = array('test_int'=> 5,
+						'test_float'=> 4.5,
+						'test_float2'=> 14.5,
+						'test_stringint'=> "5",
+						0925824 => 'toto',
+						'super'=>array('this column has geagaean array value, amazing'));
+		$finalRow = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columns2));
+
+		$finalRow->sumRow($row1);
+
+
+		$columnsWanted = array('test_int'=> 150,
+						'test_float'=> 150.0,
+						'test_float2'=> 14.5,
+						'test_float3'=> 1.5,
+						'test_stringint'=> "5", //keep the first
+						'super'=>array('this column has geagaean array value, amazing'),
+						0925824 => 'toto',
+				);
+		
+		$rowWanted = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columnsWanted));
+
+//		dump($rowWanted);
+//		dump($finalRow);
+		$this->assertTrue( Piwik_DataTable_Row::isEqual($rowWanted, $finalRow));
+				
+	}
 	
 	/**
 	 * Test serialize with an infinite recursion (a row linked to a table in the parent hierarchy)
@@ -248,7 +295,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	{
 		
 	  	$table = new Piwik_DataTable;
-	  	$table->addRow(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
+	  	$table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
 	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $table,));
 	  						
 	  	

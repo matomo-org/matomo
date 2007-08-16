@@ -16,55 +16,8 @@ abstract class Piwik_DataTable_Filter
 	abstract protected function filter();
 }
 
+require_once "DataTable/Filter/Limit.php";
+require_once "DataTable/Filter/Pattern.php";
+require_once "DataTable/Filter/Empty.php";
+require_once "DataTable/Filter/ColumnCallback.php";
 
-class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
-{
-	private $columnToFilter;
-	private $patternToSearch;
-	
-	public function __construct( $table, $columnToFilter, $patternToSearch )
-	{
-		parent::__construct($table);
-		$this->patternToSearch = $patternToSearch;
-		$this->columnToFilter = $columnToFilter;
-		$this->filter();
-	}
-	
-	protected function filter()
-	{
-		foreach($this->table->getRows() as $key => $row)
-		{
-			if( !ereg($this->patternToSearch, $row->getColumn($this->columnToFilter)))
-			{
-				$this->table->deleteRow($key);
-			}
-		}
-	}
-}
-
-class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
-{	
-	public function __construct( $table, $offset, $limit )
-	{
-		parent::__construct($table);
-		$this->offset = $offset;
-		$this->limit = abs($limit);
-		$this->filter();
-	}
-	
-	protected function filter()
-	{
-		$table = $this->table;
-		
-		$rowsCount = $table->getRowsCount();
-		
-		// we have to delete
-		// - from 0 to offset
-		
-		// at this point the array has offset less elements
-		// - from limit - offset to the end - offset
-		$table->deleteRowsOffset( 0, $this->offset );
-		$table->deleteRowsOffset( $this->limit );
-	}
-}
-?>
