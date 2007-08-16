@@ -17,8 +17,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * At the end of the process we add a fake record called 'done' that flags
 	 * the archive as being valid.
 	 * 
-	 * 
-	 * 
 	 */
 	protected function compute()
 	{

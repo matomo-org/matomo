@@ -100,26 +100,12 @@ $test->setPeriod($period);
 $test->setSite($site);
 $test->get('nb_visits');
 $test->get('toto12');
-echo "<br>Piwik_Period_Day" . $timer;
 
-//$period = new Piwik_Period_Month(new Piwik_Date('2007-02-02'));
-//$site = new Piwik_Site(2);
-//$test->setPeriod($period);
-//$test->setSite($site);
-//$test->get('toto2');
-//$test->get('toto3');
-//echo "<br>Piwik_Period_Month" . $timer;
+//main();
+//displayProfiler();
+Piwik::printMemoryUsage();
 
-
-//$period = new Piwik_Period_Year(new Piwik_Date('2007-02-02'));
-//$site = new Piwik_Site(2);
-//$test->setPeriod($period);
-//$test->setSite($site);
-//$test->get('toto2');
-//$test->get('toto3');
-//echo "Piwik_Period_Year" .  $timer;
-
-main();
+echo $timer;
 //Piwik::uninstall();
 
 //Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
@@ -145,9 +131,8 @@ function displayProfiler()
 	echo '<br>Queries per second: ' . $queryCount / $totalTime . "\n";
 	echo '<br>Longest query length: ' . $longestTime . "\n";
 	echo "<br>Longest query: \n" . $longestQuery . "\n";
-
-	
 }
+
 function main()
 {
 	Piwik::log("Start process...");
@@ -166,9 +151,8 @@ function main()
 	$api->UsersManager->deleteUser("login");
 	$api->UsersManager->addUser("login", "password", "email@geage.com");
 }
-displayProfiler();
-echo $timer;
 ?>
+
 <br>
 <br>
 <br>

@@ -32,6 +32,7 @@ class Piwik_PluginsManager
 	private $pluginsPath;
 	protected $pluginsToLoad = array();
 	protected $installPlugins = false;
+	protected $doLoadPlugins = true;
 	
 	static private $instance = null;
 	
@@ -63,6 +64,11 @@ class Piwik_PluginsManager
 	public function setInstallPlugins()
 	{
 		$this->installPlugins = true;
+	}
+	
+	public function doNotLoadPlugins()
+	{
+		$this->doLoadPlugins = false;
 	}
 	public function doInstallPlugins()
 	{
@@ -116,7 +122,10 @@ class Piwik_PluginsManager
 				}
 			}
 			
-			$this->addPluginObservers( $newPlugin );
+			if($this->doLoadPlugins)
+			{
+				$this->addPluginObservers( $newPlugin );
+			}
 		}
 	}
 	

@@ -30,9 +30,10 @@ require_once "Timer.php";
 require_once "LogStats/Generator.php";
 
 ob_start();
+Piwik_PluginsManager::getInstance()->doNotLoadPlugins();	
 $generator = new Piwik_LogStats_Generator;
-$generator->disableProfiler();
-$generator->emptyAllLogTables();	
+//$generator->disableProfiler();
+$generator->emptyAllLogTables();
 $generator->init();
 
 $t = new Piwik_Timer;
@@ -45,10 +46,10 @@ $startTime = time() - ($daysToCompute-1)*86400;
 $nbActionsTotal = 0;
 while($startTime <= time())
 {
-	$visits = rand(10000,20000);
+	$visits = rand(1,2);
 	$actions = 10;
-//	$visits = rand(100,1000);
-//	$actions = 10;
+	$visits = rand(100,1000);
+	$actions = 10;
 	
 	Piwik_LogStats_Generator_Visit::setTimestampToUse($startTime);
 	$nbActionsTotalThisDay = $generator->generate($visits,$actions);
