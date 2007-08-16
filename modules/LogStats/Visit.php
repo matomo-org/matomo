@@ -280,9 +280,7 @@ class Piwik_LogStats_Visit
 		
 		$this->recognizeTheVisitor();
 		
-		//TODO  delete
-		if(false
-		&&$this->isVisitorKnown() 
+		if( $this->isVisitorKnown() 
 			&& $this->isLastActionInTheSameVisit())
 		{
 			$this->handleKnownVisit();

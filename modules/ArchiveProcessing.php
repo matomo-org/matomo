@@ -145,7 +145,11 @@ abstract class Piwik_ArchiveProcessing
 		
 		foreach($records as $record)
 		{
-			$this->insertRecord( $record);			
+			$this->insertRecord( $record);	
+		}
+		foreach($records as $record)
+		{
+			$record->delete();	
 		}
 		
 		// we delete all tables from the table register
