@@ -145,6 +145,11 @@ class Piwik_DataTable_Manager
 	} 
 }
 
+function Piwik_DataTable_orderRowByLabel($o1,$o2)
+{
+	return ($o1->getColumn('label') < $o2->getColumn('label'))  ? -1 : 1;
+}
+
 class Piwik_DataTable
 {	
 	protected $rows = array();
@@ -153,17 +158,42 @@ class Piwik_DataTable
 	
 	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 20;
 	
-	public function __construct( $reinitCurrentID = false)
+	public function __construct()
 	{
-		if($reinitCurrentID)
-		{
-			$forcedID = 1;
-		}
 		$this->currentId = Piwik_DataTable_Manager::getInstance()->addTable($this);
 		
 //		self::$idSubtableAssociated[$this->currentId] = true;
 	}
 	
+	static public function isEqual($table1, $table2)
+	{
+		$rows1 = $table1->getRows();
+		$rows2 = $table2->getRows();
+		
+		usort($rows1, 'Piwik_DataTable_orderRowByLabel');
+		usort($rows2, 'Piwik_DataTable_orderRowByLabel');		
+		
+		$countrows1 = count($rows1);
+		$countrows2 = count($rows2);
+		
+		if($countrows1 != $countrows2)
+		{
+			return false;
+		}
+		
+		$i = 0;
+		while($i < $countrows1)
+		{
+			if( !Piwik_DataTable_Row::isEqual($rows1[$i],$rows2[$i]) )
+			{
+				return false;
+			}
+			$i++;
+		}
+		
+		return true;
+	}
+
 	public function getId()
 	{
 		return $this->currentId;
@@ -327,11 +357,20 @@ class Piwik_DataTable
 			$this->rows[] = new Piwik_DataTable_Row($cleanRow);
 		}
 	}
+	/*
+	public function loadFromRowLabelIsKey( $arrayOfRows )
+	{
+		foreach($arrayOfRows as $label => $row)
+		{
+			$row->addColumn('label', $label);
+			$this->rows[] = $row;
+		}
+	}*/
 	
 	/**
 	 * Shortcut function used for performance reasons
 	 */
-	public function addDataTableRow( $row )
+	public function addRow( $row )
 	{
 		$this->rows[] = $row;
 	}
@@ -339,7 +378,7 @@ class Piwik_DataTable
 	/**
 	 * You should use loadFromArray for performance!
 	 */
-	public function addRow( $row )
+	public function addRowFromArray( $row )
 	{
 		$this->loadFromArray(array($row));
 	}
@@ -384,6 +423,12 @@ class Piwik_DataTable
 			$this->deleteRow($key);
 		}
 	}
+	
+	public function __toString()
+	{
+		$renderer = new Piwik_DataTable_Renderer_Console($this);
+		return (string)$renderer;
+	}
 }
 
 
@@ -399,7 +444,9 @@ class Piwik_DataTable_Row_ActionTableSummary extends Piwik_DataTable_Row
 			$columns = $row->getColumns();
 			foreach($columns as $name => $value)
 			{
-				if(ereg('^[0-9.]$',$value))
+				if($name != 'label' 
+					&& ( is_int($value) || is_float($value) )
+				)
 				{
 					if(!isset($currentColumns[$name]))
 					{
@@ -414,6 +461,7 @@ class Piwik_DataTable_Row_ActionTableSummary extends Piwik_DataTable_Row
 		}
 		$newRow = array();
 		$newRow[Piwik_DataTable_Row::COLUMNS] = $currentColumns;
+		$newRow[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $subTable;
 		
 		parent::__construct($newRow);
 	}
@@ -427,7 +475,7 @@ class Piwik_DataTable_Row
 	const DETAILS = 1;
 	const DATATABLE_ASSOCIATED = 2;
 
-	public function __construct( $row )
+	public function __construct( $row = array() )
 	{
 		$this->c[self::COLUMNS] = array();
 		$this->c[self::DETAILS] = array();
@@ -447,6 +495,59 @@ class Piwik_DataTable_Row
 			$this->c[self::DATATABLE_ASSOCIATED] = $row[self::DATATABLE_ASSOCIATED]->getId();
 		}
 	}
+	// 2rows are equal is exact same columns / details
+	// and if subtable is there then subtable has to be the same!
+	static public function isEqual( $row1, $row2 )
+	{		
+		//same columns
+		$cols1 = $row1->getColumns();
+		$cols2 = $row2->getColumns();
+		
+		uksort($cols1, 'strnatcasecmp');
+		uksort($cols2, 'strnatcasecmp');
+		
+		if($cols1 != $cols2)
+		{
+			return false;
+		}
+		
+		$dets1 = $row1->getDetails();
+		$dets2 = $row2->getDetails();
+		
+		ksort($dets1);
+		ksort($dets2);
+		
+		// same details
+		if($dets1 != $dets2)
+		{
+			return false;
+		}
+		
+		// either both are null
+		// or both have a value
+		if( !(is_null($row1->getIdSubDataTable()) 
+				&& is_null($row2->getIdSubDataTable())
+			)
+		)
+		{
+			$subtable1 = Piwik_DataTable_Manager::getInstance()->getTable($row1->getIdSubDataTable());
+			$subtable2 = Piwik_DataTable_Manager::getInstance()->getTable($row2->getIdSubDataTable());
+			if(!is_null($subtable1) && !is_null($subtable2))
+			{
+				if(!Piwik_DataTable::isEqual($subtable1, $subtable2))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+			
+		}
+		return true;
+	}
+	
 	public function getColumn( $name )
 	{
 		if(!isset($this->c[self::COLUMNS][$name]))
@@ -469,6 +570,19 @@ class Piwik_DataTable_Row
 	{
 		return $this->c[self::DATATABLE_ASSOCIATED];
 	}
+	public function addSubtable(Piwik_DataTable $subTable)
+	{
+		if(!is_null($this->c[self::DATATABLE_ASSOCIATED]))
+		{
+			throw new Exception("Adding a subtable to the row, but it already has a subtable associated.");
+		}
+		$this->c[self::DATATABLE_ASSOCIATED] = $subTable->getId();
+	}
+	
+	public function setColumn($name, $value)
+	{
+		$this->c[self::COLUMNS][$name] = $value;
+	}
 	
 	public function addColumn($name, $value)
 	{
@@ -478,6 +592,31 @@ class Piwik_DataTable_Row
 		}
 		$this->c[self::COLUMNS][$name] = $value;
 	}
+	
+	/**
+	 * Add the given $row columns values to the existing row' columns values.
+	 * It will take in consideration only the int or float values of $row.
+	 * 
+	 * If a given column doesn't exist in $this then it is added with the value of $row.
+	 * If the column already exists in $this then we have
+	 * 		this.columns[idThisCol] += $row.column[idThisCol]
+	 */
+	public function sumRow( $rowToSum )
+	{
+		foreach($rowToSum->getColumns() as $name => $value)
+		{
+			if(is_int($value) || is_float($value))
+			{
+				$current = $this->getColumn($name);
+				if($current==false)
+				{
+					$current = 0;
+				}
+				$this->setColumn( $name, $current + $value);
+			}
+		}
+	}
+	
 	/**
 	 * Very efficient load of the Row structure from a well structured php array
 	 * 

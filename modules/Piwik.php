@@ -3,6 +3,9 @@
 require_once "Config.php";
 require_once "Zend/Db.php";
 require_once "Zend/Db/Table.php";
+require_once "Log.php";
+require_once "PluginsManager.php";
+
 class Piwik
 {
 	const CLASSES_PREFIX = "Piwik_";
@@ -18,6 +21,11 @@ class Piwik
 	{
 		Zend_Registry::get('logger_message')->log($message);
 		Zend_Registry::get('logger_message')->log( "<br>" . PHP_EOL);
+	}
+	
+	static public function loadPlugins()
+	{
+		Piwik_PluginsManager::getInstance()->setPluginsToLoad( Zend_Registry::get('config')->Plugins->enabled );
 	}
 	
 	static public function getTableCreateSql( $tableName )
@@ -154,7 +162,6 @@ class Piwik
   config_pdf TINYINT(1) NOT NULL,
   config_flash TINYINT(1) NOT NULL,
   config_java TINYINT(1) NOT NULL,
-  config_javascript TINYINT(1) NOT NULL,
   config_director TINYINT(1) NOT NULL,
   config_quicktime TINYINT(1) NOT NULL,
   config_realplayer TINYINT(1) NOT NULL,

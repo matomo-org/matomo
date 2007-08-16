@@ -6,6 +6,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	function __construct()
 	{
 		$this->setCategoryDelimiter( Zend_Registry::get('config')->General->action_category_delimiter);
+		$this->db = Zend_Registry::get('db');
 	}
 	public function setCategoryDelimiter($delimiter)
 	{
@@ -27,7 +28,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 */
 	protected function compute()
 	{		
-		$db = Zend_Registry::get('db');
 		
 		$query = "SELECT 	count(distinct visitor_idcookie) as nb_uniq_visitors, 
 							count(*) as nb_visits,
@@ -40,7 +40,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						AND idsite = ?
 					GROUP BY visit_server_date
 				 ";
-		$row = $db->fetchRow($query, array($this->strDateStart,$this->idsite ) );
+		$row = $this->db->fetchRow($query, array($this->strDateStart,$this->idsite ) );
 		
 		if($row === false)
 		{
@@ -49,9 +49,9 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	
 		foreach($row as $name => $value)
 		{
-			$record = new Archive_Processing_Record_Numeric($name, $value);
+			$record = new Piwik_Archive_Processing_Record_Numeric($name, $value);
 		}
-
+		Piwik::log($row);
 /*
 		$query = "SELECT count(distinct l.idaction) as nb_uniq_actions 
 				 FROM ".$this->logTable." as v 
@@ -59,8 +59,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				 WHERE v.visit_server_date = ?
 				 	AND v.idsite = ?
 				 LIMIT 1";
-		$row = $db->fetchRow($query, array( $this->strDateStart, $this->idsite ) );
-		$record = new Archive_Processing_Numeric_Record('nb_uniq_actions', $row['nb_uniq_actions']);
+		$row = $this->db->fetchRow($query, array( $this->strDateStart, $this->idsite ) );
+		$record = new Piwik_Archive_Processing_Numeric_Record('nb_uniq_actions', $row['nb_uniq_actions']);
 		*/
 		
 		$query = "SELECT 	count(distinct visitor_idcookie) as nb_uniq_visitors_returning,
@@ -74,11 +74,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				 		AND idsite = ?
 				 		AND visitor_returning = 1
 				 	GROUP BY visitor_returning";
-		$row = $db->fetchRow($query, array( $this->strDateStart, $this->idsite ) );
+		$row = $this->db->fetchRow($query, array( $this->strDateStart, $this->idsite ) );
 		
 		foreach($row as $name => $value)
 		{
-			$record = new Archive_Processing_Record_Numeric($name, $value);
+			$record = new Piwik_Archive_Processing_Record_Numeric($name, $value);
 		}
 		
 		
@@ -90,8 +90,46 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		/**
 		 * actions
 		 */
-		$this->computeActions();
+//		$this->computeActions();
 		
+		Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
+	}
+	
+	public function getDataTableInterestForLabel( $label )
+	{
+		$query = "SELECT 	$label as label,
+							count(distinct visitor_idcookie) as nb_uniq_visitors, 
+							count(*) as nb_visits,
+							sum(visit_total_actions) as nb_actions, 
+							max(visit_total_actions) as max_actions, 
+							sum(visit_total_time) as sum_visit_length,
+							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count
+				 FROM ".$this->logTable."
+					WHERE visit_server_date = ?
+						AND idsite = ?
+					GROUP BY label";
+		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ) );
+		
+		$interest = array();
+		while($rowBefore = $query->fetch())
+		{
+			$row = array(
+				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> $rowBefore['nb_uniq_visitors'], 
+				Piwik_Archive::INDEX_NB_VISITS 			=> $rowBefore['nb_visits'], 
+				Piwik_Archive::INDEX_NB_ACTIONS 		=> $rowBefore['nb_actions'], 
+				Piwik_Archive::INDEX_MAX_ACTIONS 		=> $rowBefore['max_actions'], 
+				Piwik_Archive::INDEX_SUM_VISIT_LENGTH 	=> $rowBefore['sum_visit_length'], 
+				Piwik_Archive::INDEX_BOUNCE_COUNT 		=> $rowBefore['bounce_count'],
+				'label'									=> $rowBefore['label']
+				);
+				
+			if(!isset($interest[$row['label']])) $interest[$row['label']]= $this->getNewInterestRow();
+			$this->updateInterestStats( $row, $interest[$row['label']]);
+		}
+		
+		$table = new Piwik_DataTable;
+		$table->loadFromArrayLabelIsKey($interest);
+		return $table;
 	}
 	
 	static public function getActionCategoryFromName($name)
@@ -119,9 +157,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	protected function computeActions()
 	{
 		$this->actionsTablesByType = array();
-		$db = Zend_Registry::get('db');
 		$timer = new Piwik_Timer;
-		
+				
 		/*
 		 * Actions global information
 		 */
@@ -136,7 +173,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				 		AND idsite = ?
 				 	GROUP BY idaction
 					";
-		$query = $db->query($query, array( $this->strDateStart, $this->idsite ));
+		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ));
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 
@@ -160,7 +197,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				 		AND idsite = ?
 				 	GROUP BY visit_entry_idaction
 					";
-		$query = $db->query($query, array( $this->strDateStart, $this->idsite ));
+		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ));
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
@@ -182,7 +219,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				 		AND idsite = ?
 				 	GROUP BY visit_exit_idaction
 					";
-		$query = $db->query($query, array( $this->strDateStart, $this->idsite ));
+		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ));
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
@@ -192,14 +229,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		require_once "LogStats/Action.php";
 		$data = $this->generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_ACTION]);
 		$s = $data->getSerialized();
+		
+		$record = new Piwik_Archive_Processing_Record_Blob_Array('actions', $s);
+		
 //		var_export($s);
 		print(" serialized has ".count($s)." elements");
 		
-		var_export($this->actionsTablesByType);
-		
-		// go through all the categories and compute recursively the category statistics
-		// depending on all the subcategories stats
-		
+//		var_export($this->actionsTablesByType);		
 	}
 	
 	protected function updateActionsTableWithRowQuery($query)
@@ -250,7 +286,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		return $rowsProcessed;
 	}
 	
-	protected function generateDataTable( $table )
+	static public function generateDataTable( $table )
 	{
 		$dataTableToReturn = new Piwik_DataTable;
 		
@@ -262,7 +298,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			// and we associate this row to the subtable
 			if( !($maybeDatatableRow instanceof Piwik_DataTable_Row) )
 			{
-				$subTable = $this->generateDataTable($maybeDatatableRow);
+				$subTable = self::generateDataTable($maybeDatatableRow);
 				$row = new Piwik_DataTable_Row_ActionTableSummary( $subTable );
 				$row->addColumn('label', $label);
 			}
@@ -272,7 +308,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				$row = $maybeDatatableRow;
 			}
 			
-			$dataTableToReturn->addDataTableRow($row);
+			$dataTableToReturn->addRow($row);
 		}
 		
 		return $dataTableToReturn;
@@ -280,7 +316,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	
 	protected function computeReferer()
 	{
-		$db = Zend_Registry::get('db');
 		$query = "SELECT 	referer_type, 
 							referer_name, 
 							referer_keyword,
@@ -295,7 +330,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
 				 	GROUP BY referer_type, referer_name, referer_keyword";
-		$query = $db->query($query, array( $this->strDateStart, $this->idsite ));
+		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ));
 				
 		$timer = new Piwik_Timer;
 		while($rowBefore = $query->fetch() )
@@ -400,30 +435,32 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		
 
 		$data = $this->getDataTableSerialized($interestByType);
-		$record = new Archive_Processing_Record_Blob_Array('referer_type', $data);
+		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_type', $data);
 		
 		$data = $this->getDataTablesSerialized($keywordBySearchEngine, $interestBySearchEngine);
-		$record = new Archive_Processing_Record_Blob_Array('referer_keyword_by_searchengine', $data);
-		var_dump($data);
+		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_keyword_by_searchengine', $data);
+		
+		var_export($data);
+		
 		$data = $this->getDataTablesSerialized($searchEngineByKeyword, $interestByKeyword);
-		$record = new Archive_Processing_Record_Blob_Array('referer_searchengine_by_keyword', $data);
+		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_searchengine_by_keyword', $data);
 		
 		$data = $this->getDataTablesSerialized($keywordByCampaign, $interestByCampaign);
-		$record = new Archive_Processing_Record_Blob_Array('referer_keyword_by_campaign', $data);
+		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_keyword_by_campaign', $data);
 		
 		$data = $this->getDataTablesSerialized($urlByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE], $interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE]);
-		$record = new Archive_Processing_Record_Blob_Array('referer_url_by_website', $data);
+		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_url_by_website', $data);
 		
 		$data = $this->getDataTablesSerialized($urlByWebsite[Piwik_Common::REFERER_TYPE_PARTNER], $interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);
-		$record = new Archive_Processing_Record_Blob_Array('referer_url_by_partner', $data);
+		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_url_by_partner', $data);
 			
 		echo "after serialization = ". $timer;
 	}
 	
 	protected function getDataTableSerialized( $arrayLevel0 )
 	{
-		$table = new Piwik_DataTable(true);
 		$table->loadFromArrayLabelIsKey($arrayLevel0);
+		$table = new Piwik_DataTable;
 		$toReturn = $table->getSerialized();
 		return $toReturn;
 	}
@@ -447,6 +484,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
 		return $toReturn;
 	}
+	
 	protected function getNewInterestRow()
 	{
 		return array(	Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 0, 
@@ -466,8 +504,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 = max($newRowToAdd[Piwik_Archive::INDEX_MAX_ACTIONS], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
 		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]	+= $newRowToAdd[Piwik_Archive::INDEX_SUM_VISIT_LENGTH];
 		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 		+= $newRowToAdd[Piwik_Archive::INDEX_BOUNCE_COUNT];
-		
-		return $oldRowToUpdate;
 	}
 }
 ?>

@@ -23,10 +23,13 @@
  * 
  * 
  */ 
+require_once "Plugin.php";
+
 class Piwik_PluginsManager
 {
 	public $dispatcher;
 	private $pluginsPath;
+	protected $pluginsToLoad = array();
 	
 	static private $instance = null;
 	
@@ -42,13 +45,18 @@ class Piwik_PluginsManager
 	
 	private function __construct()
 	{
-		$this->pluginsPath = 'plugins/';
-		$this->pluginsCategory = 'LogsStats/';
+//		$this->pluginsPath = '/plugins/';
+//		$this->pluginsCategory = null;
 		
 		$this->dispatcher = Event_Dispatcher::getInstance();
-		$this->loadPlugins();
 	}
 	
+	public function setPluginsToLoad( $array )
+	{
+		$this->pluginsToLoad = $array;
+		
+		$this->loadPlugins();
+	}
 	/**
 	 * Load the plugins classes installed.
 	 * Register the observers for every plugin.
@@ -56,22 +64,23 @@ class Piwik_PluginsManager
 	 */
 	public function loadPlugins()
 	{
-		$defaultPlugins = array(
-			array( 'fileName' => 'Provider', 'className' => 'Piwik_Plugin_LogStats_Provider' ),
-		//	'Piwik_Plugin_LogStats_UserSettings',
-		);
+//		$defaultPlugins = array(
+//			array( 'fileName' => 'Provider', 'className' => 'Piwik_Plugin_LogStats_Provider' ),
+//		//	'Piwik_Plugin_LogStats_UserSettings',
+//		);
 		
-		foreach($defaultPlugins as $pluginInfo)
+		foreach($this->pluginsToLoad as $pluginName)
 		{
-			$pluginFileName = $pluginInfo['fileName'];
-			$pluginClassName = $pluginInfo['className'];
-			/*
+			$pluginFileName = $pluginName . ".php";
+			$pluginClassName = "Piwik_Plugin_".$pluginName;
+			
 			// TODO make sure the plugin name is secure
 			// make sure thepluigin is a child of Piwik_Plugin
-			$path = PIWIK_INCLUDE_PATH 
-					. $this->pluginsPath 
-					. $this->pluginsCategory
-					. $pluginFileName . ".php";
+			$path = 
+//					PIWIK_INCLUDE_PATH 
+//					. $this->pluginsPath 
+//					. $this->pluginsCategory
+					$pluginFileName;
 			
 			if(is_file($path))
 			{
@@ -79,8 +88,11 @@ class Piwik_PluginsManager
 			}
 			
 			require_once $path;
-			*/
 			
+			if($pluginClassName instanceof Piwik_Plugin)
+			{
+				throw new Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
+			}
 			$newPlugin = new $pluginClassName;
 			
 			$this->addPluginObservers( $newPlugin );
@@ -107,52 +119,8 @@ class Piwik_PluginsManager
  */
 function Piwik_PostEvent( $eventName, $object = null, $info = array() )
 {
-	printDebug("Dispatching event $eventName...");
 	Piwik_PluginsManager::getInstance()->dispatcher->post( $object, $eventName, $info, false, false );
 }
 
-/**
- * Abstract class to define a Piwik_Plugin.
- * Any plugin has to at least implement the abstract methods of this class.
- */
-abstract class Piwik_Plugin
-{
-	/**
-	 * Returns the plugin details
-	 */
-	abstract function getInformation();
-	
-	/**
-	 * Returns the list of hooks registered with the methods names
-	 */
-	abstract function getListHooksRegistered();
-	
-	/**
-	 * Returns the names of the required plugins
-	 */
-	public function getListRequiredPlugins()
-	{
-		return array();
-	}
-	 
-	/**
-	 * Install the plugin
-	 * - create tables
-	 * - update existing tables
-	 * - etc.
-	*/
-	public function install()
-	{
-		return;
-	}
-	  
-	/**
-	 * Remove the created resources during the install
-	 */
-	public function uninstall()
-	{
-		return;
-	}
-}
 
 ?>

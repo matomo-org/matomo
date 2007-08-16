@@ -122,10 +122,10 @@ class Event_Dispatcher
      * @access  private
      * @param   string      Name of the notification dispatcher.
      */
-    function Event_Dispatcher($name)
-    {
-        Event_Dispatcher::__construct($name);
-    }
+//    function Event_Dispatcher($name)
+//    {
+//        Event_Dispatcher::__construct($name);
+//    }
 
     /**
      * PHP5 constructor
@@ -153,7 +153,7 @@ class Event_Dispatcher
      * 
      * @return object Event_Dispatcher
      */
-    function &getInstance($name = '__default')
+    static function getInstance($name = '__default')
     {
         static $dispatchers = array();
 
@@ -246,7 +246,7 @@ class Event_Dispatcher
      */
     function &post(&$object, $nName, $info = array(), $pending = true, $bubble = true)
     {
-        $notification =& new $this->_notificationClass($object, $nName, $info);
+        $notification = new $this->_notificationClass($object, $nName, $info);
         return $this->postNotification($notification, $pending, $bubble);
     }
 

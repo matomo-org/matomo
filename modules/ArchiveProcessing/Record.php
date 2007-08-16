@@ -1,6 +1,6 @@
 <?php
 
-class Archive_Processing_Record_Manager
+class Piwik_Archive_Processing_Record_Manager
 {
 	protected $records = array();
 	static private $instance = null;
@@ -50,7 +50,7 @@ class Archive_Processing_Record_Manager
 	}
 }
 
-abstract class Archive_Processing_Record
+abstract class Piwik_Archive_Processing_Record
 {
 	public $name;
 	public $value;
@@ -59,15 +59,15 @@ abstract class Archive_Processing_Record
 	{
 		$this->name = $name;
 		$this->value = $value;
-		Archive_Processing_Record_Manager::getInstance()->registerRecord($this);
+		Piwik_Archive_Processing_Record_Manager::getInstance()->registerRecord($this);
 	}
 	public function delete()
 	{
-		Archive_Processing_Record_Manager::getInstance()->unregister($this);
+		Piwik_Archive_Processing_Record_Manager::getInstance()->unregister($this);
 	}
 }
 
-class Archive_Processing_Record_Numeric extends Archive_Processing_Record
+class Piwik_Archive_Processing_Record_Numeric extends Piwik_Archive_Processing_Record
 {	
 	function __construct( $name, $value)
 	{
@@ -81,7 +81,7 @@ class Archive_Processing_Record_Numeric extends Archive_Processing_Record
 }
 
 
-class Archive_Processing_Record_Blob extends Archive_Processing_Record
+class Piwik_Archive_Processing_Record_Blob extends Piwik_Archive_Processing_Record
 {
 	public $name;
 	public $value;
@@ -97,7 +97,7 @@ class Archive_Processing_Record_Blob extends Archive_Processing_Record
 }
 
 
-class Archive_Processing_Record_Blob_Array extends Archive_Processing_Record
+class Piwik_Archive_Processing_Record_Blob_Array extends Piwik_Archive_Processing_Record
 {
 	public $name;
 	public $value;
@@ -116,7 +116,7 @@ class Archive_Processing_Record_Blob_Array extends Archive_Processing_Record
 			{
 				$newName = $name . '_' . $id;
 			}
-			$record = new Archive_Processing_Record_Blob( $newName,  $value );
+			$record = new Piwik_Archive_Processing_Record_Blob( $newName,  $value );
 		}
 	}
 	public function __toString()

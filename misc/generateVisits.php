@@ -16,7 +16,7 @@ set_include_path(PIWIK_INCLUDE_PATH
 
 require_once "Event/Dispatcher.php";
 require_once "Common.php";
-require_once "PluginManager.php";
+require_once "PluginsManager.php";
 require_once "LogStats/Plugins.php";
 
 require_once "LogStats.php";
@@ -35,7 +35,7 @@ require_once "LogStats/Generator.php";
 ob_start();
 $generator = new Piwik_LogStats_Generator;
 $generator->disableProfiler();
-$generator->emptyAllLogTables();
+//$generator->emptyAllLogTables();
 $generator->init();
 
 $t = new Piwik_Timer;
@@ -49,7 +49,7 @@ $nbActionsTotal = 0;
 while($startTime <= time())
 {
 	$visits = rand(1000,2000);
-	$actions = 4;
+	$actions = 7;
 //	$visits = rand(100,1000);
 //	$actions = 10;
 	

@@ -8,7 +8,7 @@ define('PIWIK_INCLUDE_PATH', '.');
 
 set_include_path(PIWIK_INCLUDE_PATH 
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core/'
+					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/modules/'
 					. PATH_SEPARATOR . get_include_path());
 
@@ -33,20 +33,18 @@ require_once "Zend/Debug.php";
 require_once "Zend/Auth.php";
 require_once "Zend/Auth/Adapter/DbTable.php";
 
+require_once "Event/Dispatcher.php";
 /**
  * Piwik classes
  */
 require_once "Timer.php";
 $timer = new Piwik_Timer;
+require_once "Piwik.php";
 
 require_once "Access.php";
-require_once "APIable.php";
-require_once "Log.php";
 require_once "Auth.php";
 require_once "PublicAPI.php";
-require_once "Piwik.php";
 require_once "Site.php";
-require_once "Archive.php";
 
 //move into a init() method
 Piwik::createConfigObject();
@@ -63,6 +61,8 @@ Piwik::createDatabaseObject();
 Piwik::dropTables(array(Piwik::prefixTable('log_visit'),Piwik::prefixTable('log_link_visit_action'),Piwik::prefixTable('log_action')));
 Piwik::createTables();
 
+// load plugins
+Piwik::loadPlugins();
 
 // Create auth object
 $auth = Zend_Auth::getInstance();
