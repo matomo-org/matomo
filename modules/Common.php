@@ -361,7 +361,7 @@ class Piwik_Common
 
 	
 	/**
-	* Returns the best possible IP
+	* Returns the best possible IP in the format A.B.C.D
 	* 
 	* @return string ip 
 	*/

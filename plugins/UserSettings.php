@@ -47,9 +47,51 @@ class Piwik_Plugin_UserSettings extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'ArchiveProcessing_Day.compute' => 'compute'
+			'ArchiveProcessing_Day.compute' => 'archiveDay'
 		);
 		return $hooks;
+	}
+	protected function getTableWideScreen($tableResolution)
+	{
+		$nameToRow = array(
+			'dual' 		=> null,
+			'wide' 		=> null,
+			'normal' 	=> null,
+		);
+		
+		foreach($tableResolution->getRows() as $row)
+		{
+			$resolution = $row->getColumn('label');
+			
+			$width = intval(substr($resolution, 0, strpos($resolution, 'x')));
+			$height= intval(substr($resolution, strpos($resolution, 'x') + 1));
+			$ratio = Piwik::secureDiv($width, $height);
+			
+			if($ratio < 1.4)
+			{
+				$name = 'normal';
+			}
+			else if($ratio < 2)
+			{
+				$name = 'wide';
+			}
+			else
+			{
+				$name = 'dual';
+			}
+			
+			if(!isset($nameToRow[$name]))
+			{
+				$nameToRow[$name] = new Piwik_DataTable_Row;
+				$nameToRow[$name]->addColumn('label', $name);
+			}
+			
+			$nameToRow[$name]->sumRow( $row );
+		}
+		$tableWideScreen = new Piwik_DataTable;
+		$tableWideScreen->loadFromArray($nameToRow);
+		
+		return $tableWideScreen;
 	}
 	
 	protected function getTableBrowserByType($tableBrowser)
@@ -82,29 +124,27 @@ class Piwik_Plugin_UserSettings extends Piwik_Plugin
 		
 		$tableBrowserType = new Piwik_DataTable;
 		$tableBrowserType->loadFromArray($nameToRow);
-		
-		echo $tableBrowserType;
-		
+				
 		return $tableBrowserType;
 	}
 	
-	function compute( $notification )
+	function archiveDay( $notification )
 	{
-		$this->ArchiveProcessing = $notification->getNotificationObject();
+		$this->archiveProcessing = $notification->getNotificationObject();
 		
 		$recordName = 'UserSettings_configuration';
 		$labelSQL = "CONCAT(config_os, ';', config_browser_name, ';', config_resolution)";
-		$tableConfiguration = $this->ArchiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$tableConfiguration = $this->archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableConfiguration->getSerialized());
 		
 		$recordName = 'UserSettings_os';
 		$labelSQL = "config_os";
-		$tableOs = $this->ArchiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$tableOs = $this->archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableOs->getSerialized());
 		
 		$recordName = 'UserSettings_browser';
 		$labelSQL = "CONCAT(config_browser_name, ';', config_browser_version)";
-		$tableBrowser = $this->ArchiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$tableBrowser = $this->archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableBrowser->getSerialized());
 		
 		$recordName = 'UserSettings_browserType';
@@ -113,40 +153,33 @@ class Piwik_Plugin_UserSettings extends Piwik_Plugin
 		
 		$recordName = 'UserSettings_resolution';
 		$labelSQL = "config_resolution";
-		$tableResolution = $this->ArchiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$tableResolution = $this->archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$filter = new Piwik_DataTable_Filter_ColumnCallback($tableResolution, 'label', 'Piwik_Plugin_UserSettings_keepStrlenGreater');
+		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableBrowser->getSerialized());
+		
+		$recordName = 'UserSettings_wideScreen';
+		$tableWideScreen = $this->getTableWideScreen($tableResolution);
 		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableBrowser->getSerialized());
 		
 		$recordName = 'UserSettings_plugin';
 		$tablePlugin = $this->getDataTablePlugin();
-		echo $tablePlugin;
 		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tablePlugin->getSerialized());
-		
+//		echo $tableResolution;
+//		echo $tableWideScreen;
+//		echo $tablePlugin;
 	}
 	
 	protected function getDataTablePlugin()
 	{
-		$query = "SELECT  	sum(case config_pdf when 1 then 1 else 0 end) as pdf, 
+		$toSelect = "sum(case config_pdf when 1 then 1 else 0 end) as pdf, 
 							sum(case config_flash when 1 then 1 else 0 end) as flash, 
 				 			sum(case config_java when 1 then 1 else 0 end) as java, 
 							sum(case config_director when 1 then 1 else 0 end) as director,
 				 			sum(case config_quicktime when 1 then 1 else 0 end) as quicktime, 
 							sum(case config_realplayer when 1 then 1 else 0 end) as realplayer,
 							sum(case config_windowsmedia when 1 then 1 else 0 end) as windowsmedia,
-							sum(case config_cookie when 1 then 1 else 0 end) as cookie		
-			 	FROM ".$this->ArchiveProcessing->logTable."
-				 	WHERE visit_server_date = ?
-				 		AND idsite = ?
-				";
-		$data = $this->ArchiveProcessing->db->fetchRow($query, array( $this->ArchiveProcessing->strDateStart, $this->ArchiveProcessing->idsite ));
-
-		foreach($data as $plugin => &$visitors)
-		{
-			$visitors = array('nb_visitors' => $visitors);
-		}
-		$table = new Piwik_DataTable;
-		$table->loadFromArrayLabelIsKey($data);
-		return $table;		
+							sum(case config_cookie when 1 then 1 else 0 end) as cookie	";
+		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, 'nb_visits');
 	}
 }
 

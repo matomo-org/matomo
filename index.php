@@ -33,7 +33,6 @@ require_once "Zend/Debug.php";
 require_once "Zend/Auth.php";
 require_once "Zend/Auth/Adapter/DbTable.php";
 
-require_once "Event/Dispatcher.php";
 /**
  * Piwik classes
  */
@@ -62,6 +61,7 @@ Piwik::dropTables(array(Piwik::prefixTable('log_visit'),Piwik::prefixTable('log_
 Piwik::createTables();
 
 // load plugins
+Piwik_PluginsManager::getInstance()->setInstallPlugins(); //TODO plugins install to handle in a better way
 Piwik::loadPlugins();
 
 // Create auth object
@@ -86,12 +86,20 @@ Zend_Loader::loadClass('Piwik_Archive');
 Zend_Loader::loadClass('Piwik_Date');
 
 $test = new Piwik_Archive;
-$period = new Piwik_Period_Day(Piwik_Date::today());
+$period = new Piwik_Period_Day( Piwik_Date::today() );
 $site = new Piwik_Site(1);
 $test->setPeriod($period);
 $test->setSite($site);
 $test->get('toto0');
-//$test->get('toto1');
+$test->get('toto1');
+
+$test = new Piwik_Archive;
+$period = new Piwik_Period_Day(Piwik_Date::today());
+$site = new Piwik_Site(12);
+$test->setPeriod($period);
+$test->setSite($site);
+$test->get('nb_visits');
+$test->get('toto12');
 echo "<br>Piwik_Period_Day" . $timer;
 
 //$period = new Piwik_Period_Month(new Piwik_Date('2007-02-02'));

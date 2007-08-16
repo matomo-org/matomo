@@ -22,7 +22,24 @@ class Piwik
 		Zend_Registry::get('logger_message')->log($message);
 		Zend_Registry::get('logger_message')->log( "<br>" . PHP_EOL);
 	}
-	
+	//TODO TEST secureDiv
+	static public function secureDiv( $i1, $i2 )
+	{
+	    if ( is_numeric($i1) && is_numeric($i2) && floatval($i2) != 0)
+		{ 
+			return $i1 / $i2;
+		}   
+		return 0;
+	}
+	static public function printMemoryUsage()
+	{
+		$usage = round(memory_get_usage() / 1024 / 1024, 2);
+		Piwik::log("Memory usage = $usage Mb");
+	}
+	static public function isNumeric($value)
+	{
+		return !is_array($value) && ereg('^([0-9.]*)$', $value);
+	}
 	static public function loadPlugins()
 	{
 		Piwik_PluginsManager::getInstance()->setPluginsToLoad( Zend_Registry::get('config')->Plugins->enabled );
@@ -195,29 +212,27 @@ class Piwik
 			",
 			
 			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
-						
-  idarchive INTEGER UNSIGNED NOT NULL,
-  idsite INTEGER UNSIGNED NULL,
-  date1 DATE NULL,
-  date2 DATE NULL,
-  period TINYINT UNSIGNED NULL,
-  ts_archived DATETIME NULL,
-  name VARCHAR(255) NULL,
-  value FLOAT NULL,
-  INDEX i1(idarchive, name)
-);
+										idarchive INTEGER UNSIGNED NOT NULL,
+										name VARCHAR(255) NOT NULL,
+										  idsite INTEGER UNSIGNED NULL,
+										  date1 DATE NULL,
+									  date2 DATE NULL,
+										  period TINYINT UNSIGNED NULL,
+									  ts_archived TIME NULL,
+									  value FLOAT NULL,
+									  PRIMARY KEY(idarchive, name)
+									)
 			",
 			'archive_blob'	=> "CREATE TABLE {$prefixTables}archive_blob (
-										
-  idarchive INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  idarchive INTEGER UNSIGNED NOT NULL,
+  name VARCHAR(255) NOT NULL,
   idsite INTEGER UNSIGNED NULL,
   date1 DATE NULL,
   date2 DATE NULL,
   period TINYINT UNSIGNED NULL,
   ts_archived DATETIME NULL,
-  name VARCHAR(255) NULL,
   value BLOB NULL,
-  INDEX i1(idarchive, name)
+  PRIMARY KEY(idarchive, name)
 )
 			",
 		);

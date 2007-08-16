@@ -277,7 +277,7 @@ class Piwik_LogStats_Generator
 			{
 				if(rand(0,2)==1)
 				{
-					$this->setCurrentRequest( 'action_name' , $this->getRandomString(8,4));
+					$this->setCurrentRequest( 'action_name' , $this->getRandomString(3,3));
 				}
 			}
 		}
@@ -292,10 +292,10 @@ class Piwik_LogStats_Generator
 	{
 		$url = $host;
 		
-		$deep = mt_rand(0,5);
+		$deep = mt_rand(0,2);
 		for($i=0;$i<$deep;$i++)
 		{
-			$name = $this->getRandomString(5,3,'ALNUM');
+			$name = $this->getRandomString(1,2,'alnum');
 			
 			$url .= '/'.$name;
 		}
@@ -308,8 +308,7 @@ class Piwik_LogStats_Generator
 		$len = mt_rand($minLength, $maxLength);
 		
 	    // Register the lower case alphabet array
-	    $alpha = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-	                   'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+	    $alpha = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm');
 	
 	    // Register the upper case alphabet array                    
 	    $ALPHA = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
@@ -342,6 +341,9 @@ class Piwik_LogStats_Generator
 	            break;
 	        case 'ALPHA' :
 	            $keyVals = array_merge($alpha, $ALPHA);
+	            break;
+	        case 'alnum' :
+	            $keyVals = array_merge($alpha, $num);
 	            break;
 	        case 'ALNUM' :
 	            $keyVals = array_merge($alpha, $ALPHA, $num);

@@ -48,6 +48,10 @@ class Piwik_Archive_Processing_Record_Manager
 	{
 		return $this->records;
 	}
+	public function deleteAll()
+	{
+		unset($this->records);
+	}
 }
 
 abstract class Piwik_Archive_Processing_Record

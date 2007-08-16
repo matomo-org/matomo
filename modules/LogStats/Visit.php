@@ -33,9 +33,7 @@ class Piwik_LogStats_Visit
 	{
 		return date("Y-m-d H:i:s",$timestamp);
 	}
-	
-	
-	
+		
 	// test if the visitor is excluded because of
 	// - IP
 	// - cookie
@@ -121,8 +119,8 @@ class Piwik_LogStats_Visit
 				
 				printDebug("The visitor is known because he has the piwik cookie (idcookie = {$this->visitorInfo['visitor_idcookie']}, idvisit = {$this->visitorInfo['idvisit']}, last action = ".date("r", $this->visitorInfo['visit_last_action_time']).") ");
 			}
-		}		
-		
+		}
+
 		/*
 		 * If the visitor doesn't have the piwik cookie, we look for a visitor that has exactly the same configuration
 		 * and that visited the website today.
@@ -131,7 +129,7 @@ class Piwik_LogStats_Visit
 		{
 			$userInfo = $this->getUserSettingsInformation();
 			$md5Config = $userInfo['config_md5config'];
-			
+
 			$visitRow = $this->db->fetch( 
 										" SELECT  	visitor_idcookie, 
 													UNIX_TIMESTAMP(visit_last_action_time) as visit_last_action_time,
@@ -282,7 +280,9 @@ class Piwik_LogStats_Visit
 		
 		$this->recognizeTheVisitor();
 		
-		if($this->isVisitorKnown() 
+		//TODO  delete
+		if(false
+		&&$this->isVisitorKnown() 
 			&& $this->isLastActionInTheSameVisit())
 		{
 			$this->handleKnownVisit();
@@ -473,6 +473,7 @@ class Piwik_LogStats_Visit
 			'location_continent' 	=> $continent,
 		);
 		
+		Piwik_PostEvent('LogStats.newVisitorInformation', &$informationToSave);
 		
 		$fields = implode(", ", array_keys($informationToSave));
 		$values = substr(str_repeat( "?,",count($informationToSave)),0,-1);
