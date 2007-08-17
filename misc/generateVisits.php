@@ -32,7 +32,7 @@ require_once "LogStats/Generator.php";
 ob_start();
 Piwik_PluginsManager::getInstance()->doNotLoadPlugins();	
 $generator = new Piwik_LogStats_Generator;
-//$generator->disableProfiler();
+$generator->disableProfiler();
 $generator->emptyAllLogTables();
 $generator->init();
 
@@ -41,17 +41,17 @@ $t = new Piwik_Timer;
 /*
  * Generate visits / actions for the last 31 days
  */
-$daysToCompute = 1;
+$daysToCompute = 4;
 $startTime = time() - ($daysToCompute-1)*86400;
 $nbActionsTotal = 0;
 while($startTime <= time())
 {
 	$visits = rand(1,2);
 	$actions = 10;
-	$visits = rand(100,1000);
-	$actions = 10;
+	$visits = rand(10,30);
+	$actions = 5;
 	
-	Piwik_LogStats_Generator_Visit::setTimestampToUse($startTime);
+	$generator->setTimestampToUse($startTime);
 	$nbActionsTotalThisDay = $generator->generate($visits,$actions);
 	
 	$actionsPerVisit = round($nbActionsTotalThisDay / $visits);

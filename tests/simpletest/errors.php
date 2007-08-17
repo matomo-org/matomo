@@ -269,8 +269,10 @@ class SimpleErrorQueue {
  */
 function SimpleTestErrorHandler($severity, $message, $filename = null, $line = null, $super_globals = null, $mask = null) {
     $severity = $severity & error_reporting();
+    
 	if ($severity) {
 		restore_error_handler();
+		
 		if (ini_get('log_errors')) {
 			$label = SimpleErrorQueue::getSeverityAsString($severity);
 			error_log("$label: $message in $filename on line $line");
@@ -280,6 +282,7 @@ function SimpleTestErrorHandler($severity, $message, $filename = null, $line = n
 		$queue->add($severity, $message, $filename, $line);
 		set_error_handler('SimpleTestErrorHandler');
 	}
+	
 	return true;
 }
 ?>

@@ -13,7 +13,6 @@ function Piwik_ExceptionHandler(Exception $exception)
 		print("<br> -------------------------- <br>
 			This exception occured and also raised this exception: ");
 		print("'" . $e->getMessage()."'");
-		
 	}
 }
 ?>

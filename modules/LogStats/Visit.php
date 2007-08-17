@@ -398,8 +398,9 @@ class Piwik_LogStats_Visit
 		$localTime				= Piwik_Common::getRequestVar( 'h', $this->getCurrentDate("H"), 'numeric')
 							.':'. Piwik_Common::getRequestVar( 'm', $this->getCurrentDate("i"), 'numeric')
 							.':'. Piwik_Common::getRequestVar( 's', $this->getCurrentDate("s"), 'numeric');
-		$serverDate 	= $this->getCurrentDate();
-		$serverTime 	= $this->getCurrentTimestamp();		
+		
+		$serverTime 	= $this->getCurrentTimestamp();	
+		$serverDate 	= $this->getCurrentDate();	
 		
 		if($this->isVisitorKnown())
 		{

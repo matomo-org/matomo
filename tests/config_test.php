@@ -14,6 +14,8 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 }
 
 set_include_path(PATH_TEST_TO_ROOT .'/'
+					. PATH_SEPARATOR . getcwd()
+					. PATH_SEPARATOR . getcwd() . '/../'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/libs/'
 					. PATH_SEPARATOR . getcwd() . '/../../libs/'
 					. PATH_SEPARATOR . getcwd() . '/../libs/'
@@ -73,4 +75,10 @@ assert_options(ASSERT_WARNING, 	1);
 assert_options(ASSERT_BAIL, 	0);
 
 define('CONFIG_TEST_INCLUDED', true);
-?>
+
+
+
+
+
+
+

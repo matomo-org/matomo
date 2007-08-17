@@ -37,6 +37,7 @@
  * - The *ArchiveProcessing* saves in the DB *numbers* or *Table* objects
  *  
  */
+ 
 require_once 'Period.php';
 require_once 'ArchiveProcessing.php';
 
@@ -53,9 +54,14 @@ class Piwik_Archive
 	protected $id = null;
 	protected $isThereSomeVisits = false;
 	protected $alreadyChecked = false;
+	protected $archiveProcessing = null;
+	
+	public function __construct()
+	{
+	}
 	
 	// to be used only once
-	public function setPeriod( Piwik_Period $period ) 
+	public function setPeriod( Piwik_Period $period )
 	{
 		$this->period = $period;
 	}
@@ -63,10 +69,9 @@ class Piwik_Archive
 	function setSite( Piwik_Site $site )
 	{
 		$this->site = $site;
-	}
+	}	
 	
-	
-	function prepareArchive()
+	public function prepareArchive()
 	{
 		if(!$this->alreadyChecked)
 		{
@@ -77,6 +82,7 @@ class Piwik_Archive
 			$archiveProcessing->setPeriod($this->period);
 			$IdArchive = $archiveProcessing->loadArchive();
 			
+			$this->archiveProcessing = $archiveProcessing;
 			$isThereSomeVisits = Zend_Registry::get('db')->fetchOne(
 					'SELECT value 
 					FROM '.$archiveProcessing->getTableArchiveNumericName().
@@ -86,30 +92,93 @@ class Piwik_Archive
 			{
 				$this->isThereSomeVisits = true;
 			}
+			$this->idArchive = $IdArchive;
 			$this->alreadyChecked = true;
 		}
 	}
-
-	// returns a field of the archive
-	function get( $name )
+	
+	//TODO implement cache 
+	public function get( $name, $typeValue = 'numeric' )
 	{
 		$this->prepareArchive();
+				
+		if($name == 'idarchive')
+		{
+			return $this->idArchive;
+		}
+		
 		Piwik::log("-- get '$name'");
 		
 		if(!$this->isThereSomeVisits)
 		{
 			return false;
 		}
-		return 1;
-		// select the data requested
+
+		// select the table to use depending on the type of the data requested		
+		$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
+		$tableNumeric = $this->archiveProcessing->getTableArchiveNumericName();
+		switch($typeValue)
+		{
+			case 'blob':
+				// select data from the blob table
+				$table = $tableBlob; 
+			break;
+
+			case 'numeric':
+			default:
+				// select data from the numeric table (by default)
+				$table = $tableNumeric;
+			break;
+		}
+
+		// we select the requested value
+		$db = Zend_Registry::get('db');
+		$value = $db->fetchOne("SELECT value 
+								FROM $table
+								WHERE idarchive = ?
+									AND name = ?",	
+								array( $this->idArchive , $name) 
+							);
+
+		// uncompresss when selecting from the BLOB table
+		if($typeValue == 'blob')
+		{
+			$value = gzuncompress($value);
+		}
+
+		return $value;
+	}
+	
+	public function getDataTable( $name )
+	{
+		$data = $this->get($name, 'blob');
 		
+		$table = new Piwik_DataTable;
+		
+		if($data !== false)
+		{
+			$table->loadFromSerialized($data);
+		}
+		
+		return $table;
+	}
+	
+	
+	public function getNumeric( $name )
+	{
+		return $this->get($name, 'numeric');
+	}
+	
+	public function getBlob( $name )
+	{
+		return $this->get($name, 'blob');		
 	}
 	
 	// fetches many fields at once for performance
 	function preFetch( $aName )
 	{
-		
-	}	
+		// TODO implement prefetch
+	}
 }
 
 

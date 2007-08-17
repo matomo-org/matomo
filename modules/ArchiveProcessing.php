@@ -24,7 +24,7 @@ abstract class Piwik_ArchiveProcessing
 	const DONE_ERROR = 2;
 
 
-	protected $idArchives;
+	protected $idArchive;
 	protected $periodId;
 	protected $dateStart;
 	protected $dateEnd;
@@ -43,7 +43,8 @@ abstract class Piwik_ArchiveProcessing
 	public $logTable;
 	public $logVisitActionTable;
 	public $logActionTable;
-		
+
+
 	protected function loadArchiveProperties()
 	{		
 		$this->idsite = $this->site->getId();
@@ -70,15 +71,23 @@ abstract class Piwik_ArchiveProcessing
 		}
 	}
 	
+	
 	public function getTableArchiveNumericName()
 	{
 		return $this->tableArchiveNumeric;
 	}
+	public function getTableArchiveBlobName()
+	{
+		return $this->tableArchiveBlob;
+	}
+	
+	
 	// to be used only once
 	public function setPeriod( Piwik_Period $period ) 
 	{
 		$this->period = $period;
 	}
+	
 	
 	public function setSite( Piwik_Site $site )
 	{
@@ -88,23 +97,23 @@ abstract class Piwik_ArchiveProcessing
 	public function loadArchive()
 	{
 		$this->loadArchiveProperties();
-		$idArchive = $this->isArchived();
-		if(!$idArchive)
+		$this->idArchive = $this->isArchived();
+		if(!$this->idArchive)
 		{
-			$this->idArchivesSubperiods = $this->loadSubperiodsArchive();
+			$this->archivesSubperiods = $this->loadSubperiodsArchive();
 			
 			$this->initCompute();
 			$this->compute();
 			$this->postCompute();
 			
-			Piwik::log("New archive computed, id = {$this->idArchives}");
+			Piwik::log("New archive computed, id = {$this->idArchive}");
 		}
 		else
 		{
-			Piwik::log("Archive already available, id = $idArchive");
+			Piwik::log("Archive already available, id = {$this->idArchive}");
 		}
 		
-		return $idArchive;
+		return $this->idArchive;
 	}
 	
 	/**
@@ -115,7 +124,7 @@ abstract class Piwik_ArchiveProcessing
 	
 	protected function initCompute()
 	{
-		$this->loadNextIdarchives();
+		$this->loadNextIdarchive();
 		
 		$record = new Piwik_Archive_Processing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_ERROR);
 		$this->insertRecord( $record);
@@ -135,7 +144,7 @@ abstract class Piwik_ArchiveProcessing
 		Zend_Registry::get('db')->query("
 							DELETE FROM ".$this->tableArchiveNumeric." 
 							WHERE idarchive = ? AND name = 'done'",
-					array($this->idArchives)
+					array($this->idArchive)
 				);
 		
 		$finalRecord = new Piwik_Archive_Processing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_OK);
@@ -157,7 +166,7 @@ abstract class Piwik_ArchiveProcessing
 	} 
 	
 	
-	protected function loadNextIdarchives()
+	protected function loadNextIdarchive()
 	{
 		$db = Zend_Registry::get('db');
 		$id = $db->fetchOne("SELECT max(idarchive) FROM ".$this->tableArchiveNumeric);
@@ -165,7 +174,7 @@ abstract class Piwik_ArchiveProcessing
 		{
 			$id = 0;
 		}
-		$this->idArchives = $id + 1;
+		$this->idArchive = $id + 1;
 		
 	}
 	protected function insertRecord($record)
@@ -182,7 +191,8 @@ abstract class Piwik_ArchiveProcessing
 		
 		$query = "INSERT INTO ".$table." (idarchive, idsite, date1, date2, period, ts_archived, name, value)
 					VALUES (?,?,?,?,?,?,?,?)";
-		Zend_Registry::get('db')->query($query, array(	$this->idArchives,
+		Zend_Registry::get('db')->query($query, 
+							array(	$this->idArchive,
 									$this->idsite, 
 									$this->strDateStart, 
 									$this->strDateEnd, 
@@ -191,7 +201,7 @@ abstract class Piwik_ArchiveProcessing
 									$record->name,
 									$record->value,
 							)
-						);
+					);
 	}
 	
 	/**
@@ -199,20 +209,20 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function loadSubperiodsArchive()
 	{
-		$periodsId = array();
+		$periods = array();
 		
 		// we first compute every subperiod of the archive
 		foreach($this->period->getSubperiods() as $period)
 		{
-			$archivePeriod = Piwik_ArchiveProcessing::factory($period->getLabel());
-			
+			$archivePeriod = new Piwik_Archive;
 			$archivePeriod->setSite( $this->site );
 			$archivePeriod->setPeriod( $period );
+			$archivePeriod->prepareArchive();
 			
-			$periodsId[] = $archivePeriod->loadArchive();
+			$periods[] = $archivePeriod;
 		}
 		
-		return $periodsId;
+		return $periods;
 	}
 	
 	protected function isArchived()

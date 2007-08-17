@@ -1,5 +1,11 @@
 <?php
 /**
+ * 
+ * Initial Specification 
+ * ---------------------------------------------------------
+ * CAREFUL: It may be outdated as I have not reviewed it yet
+ * ---------------------------------------------------------
+ * 
  * ---- DataTable
  * A DataTable is a data structure used to store complex tables of data.
  * 
@@ -104,52 +110,8 @@
  */
 require_once "DataTable/Renderer.php";
 require_once "DataTable/Filter.php";
-
-class Piwik_DataTable_Manager
-{
-	static private $instance = null;
-	protected function __construct()
-	{}
-	
-	static public function getInstance()
-	{
-		if (self::$instance == null)
-		{            
-			$c = __CLASS__;
-			self::$instance = new $c();
-		}
-		return self::$instance;
-	}
-	
-	protected $tables = array();
-	protected $count = 0;
-	
-	function addTable( $table )
-	{
-		$this->tables[] = $table;
-		$this->count++;
-		return $this->count;
-	}
-	
-	function getTable( $idTable )
-	{
-		// the array tables is indexed at 0 
-		// but the index is computed as the count() of the array after inserting the table
-		$idTable -= 1;
-		
-		if(isset($this->tables[$idTable]))
-		{
-			return $this->tables[$idTable];
-		}
-		
-		return null;
-	} 
-}
-
-function Piwik_DataTable_orderRowByLabel($o1,$o2)
-{
-	return ($o1->getColumn('label') < $o2->getColumn('label'))  ? -1 : 1;
-}
+require_once "DataTable/Row.php";
+require_once "DataTable/Manager.php";
 
 class Piwik_DataTable
 {	
@@ -162,18 +124,157 @@ class Piwik_DataTable
 	public function __construct()
 	{
 		$this->currentId = Piwik_DataTable_Manager::getInstance()->addTable($this);
-		
-//		self::$idSubtableAssociated[$this->currentId] = true;
 	}
+	
+	/**
+	 * Add a new DataTable to this DataTable
+	 * Go through all the rows of the new DataTable and applies the algorithm:
+	 * - if a row in $table doesnt exist in $this we add the row to $this
+	 * - if a row exists in both $table and $this we add the columns values into $this
+	 * 
+	 * A common row to 2 DataTable is defined by
+	 * - the same label
+	 * - the same idSubtable (or the absence of a subTable associated with the row)
+	 * 
+	 * Details: 
+	 * - if a row in $this doesnt exist in $table we do nothing
+	 * 	
+	 * @example @see tests/modules/DataTable.test.php
+	 */
+	public function addDataTable( Piwik_DataTable $tableToSum )
+	{
+		foreach($tableToSum->getRows() as $row)
+		{
+			$labelToLookFor = $row->getColumn('label');
+			$rowFound = $this->getRowFromLabel( $labelToLookFor );
+			
+			// the row with this label already exists
+			if($rowFound === false)
+			{
+				$this->addRow( $row );
+			}
+			else
+			{
+				$rowFound->sumRow( $row );
+				// if the row to add has a subtable whereas the current row doesn't
+				// we simply add it (cloning the subtable)
+				
+//				$rowFound->addSubtable( $row->)
+
+				// if the row has the subtable already 
+				// then we have to recursively sum the subtables
+			}
+			
+		}
+	}
+	
+	public function getRowFromLabel( $label )
+	{
+		$label = (string)$label;
+		if(!isset($this->rowsIndexByLabel[$label]))
+		{
+			return false;
+		}
+		return $this->rows[$this->rowsIndexByLabel[$label]];
+	}
+
+
+	/**
+	 * Shortcut function used for performance reasons
+	 */
+	public function addRow( $row )
+	{
+		$this->rows[] = $row;
+		
+		$label = $row->getColumn('label');
+		
+		if($label !== false)
+		{
+			if(isset($this->rowsIndexByLabel[$label]))
+			{
+				throw new Exception("The row with the label $label already exist in this DataTable");
+			}
+			$this->rowsIndexByLabel[$label] = count($this->rows) - 1;
+		}
+	}
+	
+	public function getId()
+	{
+		return $this->currentId;
+	}
+	
+	
+	/**
+	 * You should use loadFromArray for performance!
+	 */
+	public function addRowFromArray( $row )
+	{
+		$this->loadFromArray(array($row));
+	}
+	
+	/**
+	 * Returns the array of Piwik_DataTable_Row
+	 */
+	public function getRows()
+	{
+		return $this->rows;
+	}
+	/**
+	 * Returns the number of rows 
+	 */
+	public function getRowsCount()
+	{
+		return count($this->rows);
+	}
+	
+	public function deleteRow( $key )
+	{
+		if(!isset($this->rows[$key]))
+		{
+			throw new Exception("Trying to delete unknown row with idkey = $key");
+		}
+		unset($this->rows[$key]);
+	}
+	
+	public function deleteRowsOffset( $offset, $limit = null )
+	{
+		if(is_null($limit))
+		{
+			$limit = count($this->rows);
+		}
+		array_splice($this->rows, $offset, $limit);
+	}
+	
+	public function deleteRows( array $aKeys )
+	{
+		foreach($aKeys as $key)
+		{
+			$this->deleteRow($key);
+		}
+	}
+	
+	public function __toString()
+	{
+		$renderer = new Piwik_DataTable_Renderer_Console($this);
+		return (string)$renderer;
+	}
+	
 	
 	static public function isEqual($table1, $table2)
 	{
-		$rows1 = $table1->getRows();
-		$rows2 = $table2->getRows();
+		$rows1before = $table1->getRows();
+		$rows2before = $table2->getRows();
 		
-		usort($rows1, 'Piwik_DataTable_orderRowByLabel');
-		usort($rows2, 'Piwik_DataTable_orderRowByLabel');		
+//		usort($rows1, 'Piwik_DataTable_orderRowByLabel');
+//		usort($rows2, 'Piwik_DataTable_orderRowByLabel');		
 		
+		$rows1 = $rows2 = array();
+		foreach($rows1before as $row){
+			$rows1[$row->getColumn('label')] = $row;
+		}
+		foreach($rows2before as $row){
+			$rows2[$row->getColumn('label')] = $row;
+		}
 		$countrows1 = count($rows1);
 		$countrows2 = count($rows2);
 		
@@ -182,22 +283,16 @@ class Piwik_DataTable
 			return false;
 		}
 		
-		$i = 0;
-		while($i < $countrows1)
-		{
-			if( !Piwik_DataTable_Row::isEqual($rows1[$i],$rows2[$i]) )
+		foreach($rows1 as $label => $row1)
+		{			
+			if( !isset($rows2[$label])
+				|| !Piwik_DataTable_Row::isEqual($row1,$rows2[$label]) )
 			{
 				return false;
 			}
-			$i++;
 		}
 		
 		return true;
-	}
-
-	public function getId()
-	{
-		return $this->currentId;
 	}
 	
 	/**
@@ -304,7 +399,7 @@ class Piwik_DataTable
 				$row = new Piwik_DataTable_Row($row);
 			}
 			
-			$this->rows[] = $row;
+			$this->addRow($row);
 		}
 	}
 	
@@ -355,289 +450,16 @@ class Piwik_DataTable
 				$cleanRow[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $subtablePerLabel[$label];
 			}
 			
-			$this->rows[] = new Piwik_DataTable_Row($cleanRow);
+			$this->addRow( new Piwik_DataTable_Row($cleanRow) );
 		}
-	}
-	/*
-	public function loadFromRowLabelIsKey( $arrayOfRows )
-	{
-		foreach($arrayOfRows as $label => $row)
-		{
-			$row->addColumn('label', $label);
-			$this->rows[] = $row;
-		}
-	}*/
-	
-	/**
-	 * Shortcut function used for performance reasons
-	 */
-	public function addRow( $row )
-	{
-		$this->rows[] = $row;
-	}
-	
-	/**
-	 * You should use loadFromArray for performance!
-	 */
-	public function addRowFromArray( $row )
-	{
-		$this->loadFromArray(array($row));
-	}
-	
-	/**
-	 * Returns the array of Piwik_DataTable_Row
-	 */
-	public function getRows()
-	{
-		return $this->rows;
-	}
-	/**
-	 * Returns the number of rows 
-	 */
-	public function getRowsCount()
-	{
-		return count($this->rows);
-	}
-	
-	public function deleteRow( $key )
-	{
-		if(!isset($this->rows[$key]))
-		{
-			throw new Exception("Trying to delete unknown row with idkey = $key");
-		}
-		unset($this->rows[$key]);
-	}
-	
-	public function deleteRowsOffset( $offset, $limit = null )
-	{
-		if(is_null($limit))
-		{
-			$limit = count($this->rows);
-		}
-		array_splice($this->rows, $offset, $limit);
-	}
-	
-	public function deleteRows( array $aKeys )
-	{
-		foreach($aKeys as $key)
-		{
-			$this->deleteRow($key);
-		}
-	}
-	
-	public function __toString()
-	{
-		$renderer = new Piwik_DataTable_Renderer_Console($this);
-		return (string)$renderer;
 	}
 }
 
 
-class Piwik_DataTable_Row_ActionTableSummary extends Piwik_DataTable_Row
+function Piwik_DataTable_orderRowByLabel($o1,$o2)
 {
-	function __construct($subTable)
-	{
-		$currentColumns = array();
-
-		// go through the subTable and compute the summary
-		foreach($subTable->getRows() as $row)
-		{
-			$columns = $row->getColumns();
-			foreach($columns as $name => $value)
-			{
-				if($name != 'label' 
-					&& ( Piwik::isNumeric($value) )
-				)
-				{
-					if(!isset($currentColumns[$name]))
-					{
-						$currentColumns[$name] = $value;
-					}
-					else
-					{
-						$currentColumns[$name] += $value;
-					}
-				}
-			}
-		}
-		$newRow = array();
-		$newRow[Piwik_DataTable_Row::COLUMNS] = $currentColumns;
-		$newRow[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $subTable;
-		
-		parent::__construct($newRow);
-	}
+	return strcmp($o1->getColumn('label'), $o2->getColumn('label'));
 }
-
-class Piwik_DataTable_Row
-{
-	// Row content
-	public $c = array();
-	const COLUMNS = 0;
-	const DETAILS = 1;
-	const DATATABLE_ASSOCIATED = 2;
-
-	public function __construct( $row = array() )
-	{
-		$this->c[self::COLUMNS] = array();
-		$this->c[self::DETAILS] = array();
-		$this->c[self::DATATABLE_ASSOCIATED] = null;
-		
-		if(isset($row[self::COLUMNS]))
-		{
-			$this->c[self::COLUMNS] = $row[self::COLUMNS];
-		}
-		if(isset($row[self::DETAILS]))
-		{
-			$this->c[self::DETAILS] = $row[self::DETAILS];
-		}
-		if(isset($row[self::DATATABLE_ASSOCIATED])
-			&& $row[self::DATATABLE_ASSOCIATED] instanceof Piwik_DataTable)
-		{
-			$this->c[self::DATATABLE_ASSOCIATED] = $row[self::DATATABLE_ASSOCIATED]->getId();
-		}
-	}
-	// 2rows are equal is exact same columns / details
-	// and if subtable is there then subtable has to be the same!
-	static public function isEqual( $row1, $row2 )
-	{		
-		//same columns
-		$cols1 = $row1->getColumns();
-		$cols2 = $row2->getColumns();
-		
-		uksort($cols1, 'strnatcasecmp');
-		uksort($cols2, 'strnatcasecmp');
-		
-		if($cols1 != $cols2)
-		{
-			return false;
-		}
-		
-		$dets1 = $row1->getDetails();
-		$dets2 = $row2->getDetails();
-		
-		ksort($dets1);
-		ksort($dets2);
-		
-		// same details
-		if($dets1 != $dets2)
-		{
-			return false;
-		}
-		
-		// either both are null
-		// or both have a value
-		if( !(is_null($row1->getIdSubDataTable()) 
-				&& is_null($row2->getIdSubDataTable())
-			)
-		)
-		{
-			$subtable1 = Piwik_DataTable_Manager::getInstance()->getTable($row1->getIdSubDataTable());
-			$subtable2 = Piwik_DataTable_Manager::getInstance()->getTable($row2->getIdSubDataTable());
-			if(!is_null($subtable1) && !is_null($subtable2))
-			{
-				if(!Piwik_DataTable::isEqual($subtable1, $subtable2))
-				{
-					return false;
-				}
-			}
-			else
-			{
-				return false;
-			}
-			
-		}
-		return true;
-	}
-	
-	public function getColumn( $name )
-	{
-		if(!isset($this->c[self::COLUMNS][$name]))
-		{
-			return false;
-		}
-		return $this->c[self::COLUMNS][$name];
-	}
-	public function getColumns()
-	{
-		return $this->c[self::COLUMNS];
-	}
-	
-	public function getDetails()
-	{	
-		return $this->c[self::DETAILS];
-	}
-	
-	public function getIdSubDataTable()
-	{
-		return $this->c[self::DATATABLE_ASSOCIATED];
-	}
-	public function addSubtable(Piwik_DataTable $subTable)
-	{
-		if(!is_null($this->c[self::DATATABLE_ASSOCIATED]))
-		{
-			throw new Exception("Adding a subtable to the row, but it already has a subtable associated.");
-		}
-		$this->c[self::DATATABLE_ASSOCIATED] = $subTable->getId();
-	}
-	
-	public function setColumn($name, $value)
-	{
-		$this->c[self::COLUMNS][$name] = $value;
-	}
-	
-	public function addColumn($name, $value)
-	{
-		if(isset($this->c[self::COLUMNS][$name]))
-		{
-			throw new Exception("Column $name already in the array!");
-		}
-		$this->c[self::COLUMNS][$name] = $value;
-	}
-	
-	/**
-	 * Add the given $row columns values to the existing row' columns values.
-	 * It will take in consideration only the int or float values of $row.
-	 * 
-	 * If a given column doesn't exist in $this then it is added with the value of $row.
-	 * If the column already exists in $this then we have
-	 * 		this.columns[idThisCol] += $row.column[idThisCol]
-	 */
-	public function sumRow( $rowToSum )
-	{
-		foreach($rowToSum->getColumns() as $name => $value)
-		{
-			if(Piwik::isNumeric($value))
-			{
-				$current = $this->getColumn($name);
-				if($current==false)
-				{
-					$current = 0;
-				}
-				$this->setColumn( $name, $current + $value);
-			}
-		}
-	}
-	
-	/**
-	 * Very efficient load of the Row structure from a well structured php array
-	 * 
-	 * @param array The row array has the structure
-	 * 					array( 
-	 * 						DataTable_Row::COLUMNS => array( 
-	 * 										0 => 1554,
-	 * 										1 => 42,
-	 * 										2 => 657,
-	 * 										3 => 155744,	
-	 * 									),
-	 * 						DataTable_Row::DETAILS => array(
-	 * 										'logo' => 'test.png'
-	 * 									),
-	 * 						DataTable_Row::DATATABLE_ASSOCIATED => #DataTable object // numeric idDataTable
-	 * 					)
-	 */
-	
-}
-
 
 /**
  * ---- Other

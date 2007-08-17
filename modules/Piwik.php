@@ -11,10 +11,10 @@ class Piwik
 	const CLASSES_PREFIX = "Piwik_";
 	
 	static $idPeriods =  array(
-		'day'	=>1,
-		'week'	=>2,
-		'month'	=>3,
-		'year'	=>4,
+			'day'	=>1,
+			'week'	=>2,
+			'month'	=>3,
+			'year'	=>4,
 		);
 		
 	static public function log($message, $priority = Zend_Log::NOTICE)
@@ -22,6 +22,7 @@ class Piwik
 		Zend_Registry::get('logger_message')->log($message);
 		Zend_Registry::get('logger_message')->log( "<br>" . PHP_EOL);
 	}
+	
 	//TODO TEST secureDiv
 	static public function secureDiv( $i1, $i2 )
 	{
@@ -31,15 +32,30 @@ class Piwik
 		}   
 		return 0;
 	}
-	static public function printMemoryUsage()
+	
+	static public function printQueryCount()
+	{
+		$profiler = Zend_Registry::get('db')->getProfiler();
+		$totalTime    = $profiler->getTotalElapsedSecs();
+		$queryCount   = $profiler->getTotalNumQueries();
+		Piwik::log("Total queries = $queryCount (total sql time = ".round($totalTime,2)."s)");
+	}
+
+	static public function printMemoryUsage( $prefixString = null )
 	{
 		$usage = round(memory_get_usage() / 1024 / 1024, 2);
+		if(!is_null($prefixString))
+		{
+			Piwik::log($prefixString);
+		}
 		Piwik::log("Memory usage = $usage Mb");
 	}
+	
 	static public function isNumeric($value)
 	{
-		return !is_array($value) && ereg('^([0-9.]*)$', $value);
+		return !is_array($value) && ereg('^([-]{0,1}[0-9]{1,}[.]{0,1}[0-9]*)$', $value);
 	}
+	
 	static public function loadPlugins()
 	{
 		Piwik_PluginsManager::getInstance()->setPluginsToLoad( Zend_Registry::get('config')->Plugins->enabled );
@@ -453,6 +469,7 @@ class Piwik
 		
 		unset($tablesToCreate['archive_blob']);
 		unset($tablesToCreate['archive_numeric']);
+		
 		$tablesAlreadyInstalled = self::getTablesInstalled();
 		
 		foreach($tablesToCreate as $tableName => $tableSql)
