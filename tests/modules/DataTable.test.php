@@ -52,8 +52,11 @@ class Test_Piwik_DataTable extends UnitTestCase
 		$idsubtable = $subtable->getId();
 		
 	  	/*
-	  	 * create some fake tables to make sure that the serialized array of the first TABLE
+	  	 * create some fake tables to make sure 
+	  	 * that the serialized array of the first TABLE
 	  	 * does not take in consideration those tables
+	  	 * (yes theres a story of an ID given by some DataTable_Manager
+	  	 *  we check this module is not messing around)
 	  	 */
 	  	$useless2 = new Piwik_DataTable;
 	  	$useless1->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 8487,),));
@@ -465,4 +468,221 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()));
 	 }
 	
+	
+	/**
+	 * for all datatable->addDatatable tests we check that
+	 * - row uniqueness is based on the label + presence of the SUBTABLE id
+	 * 		=> the label is the criteria used to match 2 rows in 2 datatable
+	 * - no details are lost in the first datatable rows that have been changed
+	 * - when a subtable
+	 */
+	 
+	 
+	/**
+     * add an empty datatable to a normal datatable
+     */
+    public function test_addSimpleNoRowTable2()
+	{
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+		
+		$rows = array(
+	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 2)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+  		);	  	
+	 	$table = new Piwik_DataTable;
+	  	$table->loadFromArray( $rows );
+	  
+	 	$tableEmpty = new Piwik_DataTable;
+	  	
+	  	$tableAfter = clone $table;
+	  	$tableAfter->addDataTable($tableEmpty);
+	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableAfter) );
+	}
+	
+	/**
+     * add a normal datatable to an empty datatable
+     */
+    public function test_addSimpleNoRowTable1()
+	{ 	
+		$idcol = Piwik_DataTable_Row::COLUMNS;
+		
+		$rows = array(
+	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 2)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+  		);	  	
+	 	$table = new Piwik_DataTable;
+	  	$table->loadFromArray( $rows );
+	  
+	 	$tableEmpty = new Piwik_DataTable;
+	  	
+	  	$tableAfter = clone $tableEmpty;
+	  	$tableEmpty->addDataTable($table);
+	  	$this->assertTrue( Piwik_DataTable::isEqual($tableEmpty, $table) );
+	}
+	
+	/**
+     * add to the datatable another datatable// they don't have any row in common
+     */
+    public function test_addSimpleNoCommonRow()
+	{
+		$idcol = Piwik_DataTable_Row::COLUMNS;
+		
+		$rows = array(
+	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 2)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+  		);	  	
+	 	$table = new Piwik_DataTable;
+	  	$table->loadFromArray( $rows );
+	  	
+	  	
+		$rows2 = array(
+	  		array( $idcol => array('label'=>'test', 'visits' => 1)),
+	  		array( $idcol => array('label'=>' google ', 'visits' => 3)),
+	  		array( $idcol => array('label'=>'123a', 'visits' => 2)),
+  		);	  	
+	 	$table2 = new Piwik_DataTable;
+	  	$table2->loadFromArray( $rows2 );
+	  
+	  	$table->addDataTable($table2);
+	  
+	  	$rowsExpected = array_merge($rows,$rows2);
+	  	$tableExpected = new Piwik_DataTable;
+	  	$tableExpected->loadFromArray( $rowsExpected );
+	  	
+	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
+	}
+	
+	/**
+     * add 2 datatable with some common rows 
+     */
+    public function test_addSimpleSomeCommonRow()
+	{
+		
+		$idcol = Piwik_DataTable_Row::COLUMNS;
+		
+		$rows = array(
+	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 2)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+  		);	  	
+	 	$table = new Piwik_DataTable;
+	  	$table->loadFromArray( $rows );
+	  	
+	  	
+		$rows2 = array(
+	  		array( $idcol => array('label'=>'test', 'visits' => 1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 111)),
+	  		array( $idcol => array('label'=>' google ', 'visits' => 5)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+  		);	  	
+	 	$table2 = new Piwik_DataTable;
+	  	$table2->loadFromArray( $rows2 );
+	  
+	  	$table->addDataTable($table2);
+	  
+		$rowsExpected = array(
+	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 113)),
+	  		array( $idcol => array('label'=>'test', 'visits' => 1)),
+	  		array( $idcol => array('label'=>' google ', 'visits' => 5)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 4)),
+  		);	  	
+	  	$tableExpected = new Piwik_DataTable;
+	  	$tableExpected->loadFromArray( $rowsExpected );
+	  	
+	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
+	}
+	
+	/**
+     * add 2 datatable with only common rows
+     */
+    public function test_addSimpleAllCommonRow()
+	{
+		$idcol = Piwik_DataTable_Row::COLUMNS;
+		
+		$rows = array(
+	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 2)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+  		);	  	
+	 	$table = new Piwik_DataTable;
+	  	$table->loadFromArray( $rows );
+	  	
+	  	
+		$rows2 = array(
+	  		array( $idcol => array('label'=>'google', 'visits' => -1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 0)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 1.5)),
+  		);	  	
+	 	$table2 = new Piwik_DataTable;
+	  	$table2->loadFromArray( $rows2 );
+	  
+	  	$table->addDataTable($table2);
+	  
+		$rowsExpected = array(
+	  		array( $idcol => array('label'=>'google', 'visits' => 0)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 2)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 3.5)),
+  		);	  	
+	  	$tableExpected = new Piwik_DataTable;
+	  	$tableExpected->loadFromArray( $rowsExpected );
+	  	
+	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
+	}
+	
+	/**
+	 * test add 2 different tables to the same table
+	 */
+	 
+    public function test_addDataTable2times()
+	{
+	 
+		$idcol = Piwik_DataTable_Row::COLUMNS;
+		
+		$rows = array(
+	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 0)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+  		);	  	
+	 	$table = new Piwik_DataTable;
+	  	$table->loadFromArray( $rows );
+	  	
+	  	
+		$rows2 = array(
+	  		array( $idcol => array('label'=>'google2', 'visits' => -1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 100)),
+	  		array( $idcol => array('label'=>'123456', 'visits' => 1.5)),
+  		);	  	
+	 	$table2 = new Piwik_DataTable;
+	  	$table2->loadFromArray( $rows2 );
+	  
+	  	
+		$rows3 = array(
+	  		array( $idcol => array('label'=>'google2', 'visits' => -1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => -10)),
+	  		array( $idcol => array('label'=>'123ab', 'visits' => 1.5)),
+  		);	  	
+	 	$table3 = new Piwik_DataTable;
+	  	$table3->loadFromArray( $rows3 );
+	  	
+		// add the 2 tables
+	  	$table->addDataTable($table2);
+	  	$table->addDataTable($table3);
+	  
+		$rowsExpected = array(
+	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+	  		array( $idcol => array('label'=>'google2', 'visits' => -2)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 90)),
+	  		array( $idcol => array('label'=>'123456', 'visits' => 1.5)),
+	  		array( $idcol => array('label'=>'123ab', 'visits' => 1.5)),
+  		);
+	  	$tableExpected = new Piwik_DataTable;
+	  	$tableExpected->loadFromArray( $rowsExpected );
+	  	
+	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
+	}
 }

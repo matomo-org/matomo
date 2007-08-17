@@ -56,8 +56,14 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 	{
 		$archiveProcessing = $notification->getNotificationObject();
 		
+		require_once "LogStats/Action.php";
 		
-		$this->actionsTablesByType = array();
+		$this->actionsTablesByType = array(
+			Piwik_LogStats_Action::TYPE_ACTION => array(),
+			Piwik_LogStats_Action::TYPE_DOWNLOAD => array(),
+			Piwik_LogStats_Action::TYPE_OUTLINK => array(),
+		);
+		
 		$timer = new Piwik_Timer;
 				
 		Piwik::printMemoryUsage();
@@ -96,7 +102,7 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 							sum(case visit_total_actions when 1 then 1 else 0 end) as entry_bounce_count
 							
 				 	FROM ".$archiveProcessing->logTable." 
-						LEFT JOIN ".$archiveProcessing->logActionTable." ON (visit_entry_idaction = idaction)
+						JOIN ".$archiveProcessing->logActionTable." ON (visit_entry_idaction = idaction)
 				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
 				 	GROUP BY visit_entry_idaction
@@ -107,7 +113,7 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 		
 		Piwik::log("$modified rows for entry actions");
 		
-		Piwik::printMemoryUsage();
+//		Piwik::printMemoryUsage();
 		
 		/*
 		 * Exit actions
@@ -119,7 +125,7 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 							sum(case visit_total_actions when 1 then 1 else 0 end) as exit_bounce_count
 							
 				 	FROM ".$archiveProcessing->logTable." 
-						LEFT JOIN ".$archiveProcessing->logActionTable." ON (visit_exit_idaction = idaction)
+						JOIN ".$archiveProcessing->logActionTable." ON (visit_exit_idaction = idaction)
 				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
 				 	GROUP BY visit_exit_idaction
@@ -130,7 +136,7 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 		
 		Piwik::log("$modified rows for exit actions");
 		
-		Piwik::printMemoryUsage();
+//		Piwik::printMemoryUsage();
 		/*
 		 * Time per action
 		 */
@@ -138,8 +144,8 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 							type,
 							sum(time_spent_ref_action) as sum_time_spent
 					FROM (".$archiveProcessing->logTable." log_visit 
-						LEFT JOIN ".$archiveProcessing->logVisitActionTable." log_link_visit_action USING (idvisit))
-							LEFT JOIN ".$archiveProcessing->logActionTable."  log_action ON (log_action.idaction = log_link_visit_action.idaction_ref)				 	
+						JOIN ".$archiveProcessing->logVisitActionTable." log_link_visit_action USING (idvisit))
+							JOIN ".$archiveProcessing->logActionTable."  log_action ON (log_action.idaction = log_link_visit_action.idaction_ref)				 	
 					WHERE visit_server_date = ?
 				 		AND idsite = ?
 				 	GROUP BY idaction_ref
@@ -148,30 +154,28 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
-		require_once "LogStats/Action.php";
 		Piwik::log("$modified rows for sum time per action");
-		Piwik::printMemoryUsage();
+//		Piwik::printMemoryUsage();
 
 		$data = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_ACTION]);
-//		echo $data;
 		$s = $data->getSerialized();
 		$record = new Piwik_Archive_Processing_Record_Blob_Array('Actions_actions', $s);
-		print(" serialized has ".count($s)." elements");
-		Piwik::printMemoryUsage();
+		Piwik::log(" Action serialized has ".count($s)." elements");
+//		Piwik::printMemoryUsage();
 		
 		
 		$data = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_DOWNLOAD]);
 		$s = $data->getSerialized();
 		$record = new Piwik_Archive_Processing_Record_Blob_Array('Actions_downloads', $s);
-		print(" serialized has ".count($s)." elements");
-		Piwik::printMemoryUsage();
+		Piwik::log(" Download serialized has ".count($s)." elements");
+//		Piwik::printMemoryUsage();
 		
 		
 		$data = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_OUTLINK]);
 		$s = $data->getSerialized();
 		$record = new Piwik_Archive_Processing_Record_Blob_Array('Actions_outlink', $s);
-		print(" serialized has ".count($s)." elements");
-		Piwik::printMemoryUsage();
+		Piwik::log(" Outlink serialized has ".count($s)." elements");
+//		Piwik::printMemoryUsage();
 	}
 /*
 		$query = "SELECT count(distinct l.idaction) as nb_uniq_actions 

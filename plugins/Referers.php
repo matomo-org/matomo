@@ -62,8 +62,22 @@ class Piwik_Plugin_Referers extends Piwik_Plugin
 				 		AND idsite = ?
 				 	GROUP BY referer_type, referer_name, referer_keyword";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-				
+		
 		$timer = new Piwik_Timer;
+		
+		$interestBySearchEngine =
+			$interestByKeyword =
+			$keywordBySearchEngine =
+			$searchEngineByKeyword =
+			$interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE] =
+			$interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER] =
+			$urlByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE] =
+			$urlByWebsite[Piwik_Common::REFERER_TYPE_PARTNER] =
+			$interestByNewsletter =
+			$keywordByCampaign =
+			$interestByCampaign =
+			$interestByType = array();
+		
 		while($rowBefore = $query->fetch() )
 		{
 			$row = array(
@@ -134,7 +148,7 @@ class Piwik_Plugin_Referers extends Piwik_Plugin
 			if(!isset($interestByType[$row['referer_type']] )) $interestByType[$row['referer_type']] = $archiveProcessing->getNewInterestRow();
 			$archiveProcessing->updateInterestStats($row, $interestByType[$row['referer_type']]);
 		}
-		echo "after loop = ". $timer;
+//		echo "after loop = ". $timer;
 		
 //		Piwik::log("By search engine:");
 //		Piwik::log($interestBySearchEngine);
@@ -185,6 +199,6 @@ class Piwik_Plugin_Referers extends Piwik_Plugin
 		$data = $archiveProcessing->getDataTablesSerialized($urlByWebsite[Piwik_Common::REFERER_TYPE_PARTNER], $interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);
 		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_url_by_partner', $data);
 			
-		echo "after serialization = ". $timer;
+//		echo "after serialization = ". $timer;
 	}
 }

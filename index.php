@@ -16,6 +16,12 @@ assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);
 assert_options(ASSERT_BAIL, 	1);
 
+//ini_set('xdebug.collect_vars', 'on');
+//ini_set('xdebug.collect_params', '4');
+//ini_set('xdebug.dump_globals', 'on');
+//ini_set('xdebug.dump.SERVER', 'REQUEST_URI');
+//ini_set('xdebug.show_local_vars', 'on');
+
 /**
  * Error / exception handling functions
  */
@@ -54,10 +60,11 @@ Piwik::createDatabaseObject();
 // Create the log objects
 Piwik::createLogObject();
 
+Piwik::printMemoryUsage('Start program');
 //TODO move all DB related methods in a DB static class
 Piwik::createDatabase();
 Piwik::createDatabaseObject();
-Piwik::dropTables(array(Piwik::prefixTable('log_visit'),Piwik::prefixTable('log_link_visit_action'),Piwik::prefixTable('log_action')));
+Piwik::dropTables(array(Piwik::prefixTable('log_visit'),Piwik::prefixTable('log_link_visit_action'),Piwik::prefixTable('log_action'),Piwik::prefixTable('log_profiling')));
 Piwik::createTables();
 
 // load plugins
@@ -85,29 +92,39 @@ Zend_Registry::get('access')->loadAccess();
 Zend_Loader::loadClass('Piwik_Archive');
 Zend_Loader::loadClass('Piwik_Date');
 
+Piwik::printMemoryUsage('Before archiving');
 $test = new Piwik_Archive;
 $period = new Piwik_Period_Day( Piwik_Date::today() );
 $site = new Piwik_Site(1);
 $test->setPeriod($period);
 $test->setSite($site);
-$test->get('toto0');
-$test->get('toto1');
+Piwik::log($test->get('toto0'));
+Piwik::log($test->get('toto1'));
+
 
 $test = new Piwik_Archive;
-$period = new Piwik_Period_Day(Piwik_Date::today());
-$site = new Piwik_Site(12);
+$period = new Piwik_Period_Month(Piwik_Date::today());
+$site = new Piwik_Site(1);
 $test->setPeriod($period);
 $test->setSite($site);
-$test->get('nb_visits');
-$test->get('toto12');
+Piwik::log($test->get('nb_visits'));
+Piwik::log($test->get('toto12'));
+//
+//$test = new Piwik_Archive;
+//$period = new Piwik_Period_Day(Piwik_Date::today());
+//$site = new Piwik_Site(12);
+//$test->setPeriod($period);
+//$test->setSite($site);
+//$test->get('nb_visits');
+//$test->get('toto12');
 
 //main();
 //displayProfiler();
 Piwik::printMemoryUsage();
-
+Piwik::printQueryCount();
 echo $timer;
-//Piwik::uninstall();
 
+//Piwik::uninstall();
 //Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
 
 function displayProfiler()

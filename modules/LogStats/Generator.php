@@ -32,6 +32,7 @@ class Piwik_LogStats_Generator
 	public $reinitProfilingAtEveryRequest = true;
 	
 	public $host = 'http://localhost';
+	protected $timestampToUse;
 	
 	public function __construct()
 	{
@@ -48,6 +49,16 @@ class Piwik_LogStats_Generator
 		$this->profiling = true;
 		Piwik_LogStats_Db::enableProfiling();
 		
+		$this->timestampToUse = time();
+	}
+	
+	public function setTimestampToUse($timestamp)
+	{
+		$this->timestampToUse = $timestamp;
+	}
+	public function getTimestampToUse()
+	{
+		return $this->timestampToUse;
 	}
 	public function addParam( $name, $aValue)
 	{
@@ -182,6 +193,8 @@ class Piwik_LogStats_Generator
 //			print("$i ");
 			$nbActions = mt_rand(1, $nbActionsMaxPerVisit);
 			
+			Piwik_LogStats_Generator_Visit::setTimestampToUse($this->getTimestampToUse());
+						
 			$this->generateNewVisit();
 			for($j = 1; $j <= $nbActions; $j++)
 			{
@@ -308,7 +321,7 @@ class Piwik_LogStats_Generator
 		$len = mt_rand($minLength, $maxLength);
 		
 	    // Register the lower case alphabet array
-	    $alpha = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm');
+	    $alpha = array('a', 'b', 'c', 'd', 'e', 'f', 'g');
 	
 	    // Register the upper case alphabet array                    
 	    $ALPHA = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
@@ -427,8 +440,7 @@ class Piwik_LogStats_Generator_Visit extends Piwik_LogStats_Visit
 	}
 	protected function getCurrentDate( $format = "Y-m-d")
 	{
-		if($format ==  "Y-m-d") return date($format);
-		else return date($format, $this->getCurrentTimestamp() );
+		return date($format, $this->getCurrentTimestamp() );
 	}
 	
 	protected function getCurrentTimestamp()

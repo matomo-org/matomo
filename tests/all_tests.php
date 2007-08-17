@@ -75,6 +75,7 @@ foreach($toInclude as $file)
 }
 $timer = new Piwik_Timer;
 $test->run(new HtmlReporter());
-echo $timer;
+echo $timer."<br>";
+Piwik::printMemoryUsage();
 
 ?>

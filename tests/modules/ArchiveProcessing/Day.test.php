@@ -25,16 +25,14 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 	{
 	}
 	
-	
+	//TODO test with a label in the column list that is composed of numbers only
 	function test_generateDataTable_simple()
 	{
-		
-		
 		$row1 = new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => 
 							array(	'label' => 'page1', 'visits' => 1, 'actions' => 2)));
 							
 		$input = array(
-		'page1' => $row1,
+			'page1' => $row1,
 					);
 					
 		$table = new Piwik_DataTable;
@@ -160,7 +158,7 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 		
 		//FIRST ROW + SUBTABLE
 		$rowcat2 = new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => 
-							array(	'label' => 'pagecat2', 'visits' => 3, 'actions' => 5 )));
+							array(	'label' => '456', 'visits' => 3, 'actions' => 5 )));
 		
 		$cat2 =  new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => 
 							array(	'label' => 'cat2', 'visits' => 3, 'actions' => 5 )));
@@ -209,14 +207,14 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 		$table = new Piwik_DataTable;
 		
 		$rowpagecat3 = new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => 
-							array(	'label' => 'pagecat3', 'visits' => 3, 'actions' => 5 )));
+							array(	'label' => '123123', 'visits' => 3, 'actions' => 5 )));
 		
 		$rowcat3 =  new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => 
-							array(	'label' => 'cat3', 'visits' => 3, 'actions' => 5 )));
+							array(	'label' => '789.654', 'visits' => 3, 'actions' => 5 )));
 		$rowcat2 =  new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => 
 							array(	'label' => 'cat2', 'visits' => 3, 'actions' => 5 )));
 		$rowcat1 =  new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => 
-							array(	'label' => 'cat1', 'visits' => 3, 'actions' => 5 )));
+							array(	'label' => '&*()', 'visits' => 3, 'actions' => 5 )));
 
 		$subtablerowpagecat3 = new Piwik_DataTable;
 		$subtablerowpagecat3->addRow($rowpagecat3);
@@ -236,14 +234,15 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 		
 		// WHAT WE TEST
 		$input = array(
-			'cat1' => array(
+			'&*()' => array(
 				'cat2' => array(
-					'cat3' => array(
-						'pagecat3' => $rowpagecat3,
+					'789.654' => array(
+						'123123' => $rowpagecat3,
 					),
 				),
 			),
 		);				
+		
 		$tableGenerated = Piwik_ArchiveProcessing_Day::generateDataTable($input);
 		
 		$r1 = new Piwik_DataTable_Renderer_Console($table);
