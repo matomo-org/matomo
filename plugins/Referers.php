@@ -4,8 +4,9 @@ class Piwik_Plugin_Referers extends Piwik_Plugin
 {
 	public function __construct()
 	{
+		parent::__construct();
 	}
-
+	
 	public function setCategoryDelimiter($delimiter)
 	{
 		self::$actionCategoryDelimiter = $delimiter;
@@ -36,10 +37,29 @@ class Piwik_Plugin_Referers extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'ArchiveProcessing_Day.compute' => 'archiveDay'
+			'ArchiveProcessing_Day.compute' => 'archiveDay',
+			'ArchiveProcessing_Period.compute' => 'archiveMonth',
 		);
 		return $hooks;
 	}
+	
+	
+	function archiveMonth( $notification )
+	{
+		$this->archiveProcessing = $notification->getNotificationObject();
+		
+		$dataTableToSum = array( 
+				'Referers_type',
+				'Referers_keywordBySearchEngine',
+				'Referers_searchEngineByKeyword',
+				'Referers_keywordByCampaign',
+				'Referers_urlByWebsite',
+				'Referers_urlByPartner',
+		);
+		
+		$this->archiveProcessing->archiveDataTable($dataTableToSum);
+	}
+	
 	
 	/** 
 	 * 
@@ -64,6 +84,7 @@ class Piwik_Plugin_Referers extends Piwik_Plugin
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 		
 		$timer = new Piwik_Timer;
+		
 		
 		$interestBySearchEngine =
 			$interestByKeyword =
@@ -180,24 +201,24 @@ class Piwik_Plugin_Referers extends Piwik_Plugin
 		
 
 		$data = $archiveProcessing->getDataTableSerialized($interestByType);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_type', $data);
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_type', $data);
 		
 		$data = $archiveProcessing->getDataTablesSerialized($keywordBySearchEngine, $interestBySearchEngine);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_keyword_by_searchengine', $data);
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_keywordBySearchEngine', $data);
 		
 //		var_export($data);
 		
 		$data = $archiveProcessing->getDataTablesSerialized($searchEngineByKeyword, $interestByKeyword);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_searchengine_by_keyword', $data);
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_searchEngineByKeyword', $data);
 		
 		$data = $archiveProcessing->getDataTablesSerialized($keywordByCampaign, $interestByCampaign);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_keyword_by_campaign', $data);
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_keywordByCampaign', $data);
 		
 		$data = $archiveProcessing->getDataTablesSerialized($urlByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE], $interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE]);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_url_by_website', $data);
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_urlByWebsite', $data);
 		
 		$data = $archiveProcessing->getDataTablesSerialized($urlByWebsite[Piwik_Common::REFERER_TYPE_PARTNER], $interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array('referer_url_by_partner', $data);
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_urlByPartner', $data);
 			
 //		echo "after serialization = ". $timer;
 	}

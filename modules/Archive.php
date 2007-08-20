@@ -56,6 +56,8 @@ class Piwik_Archive
 	protected $alreadyChecked = false;
 	protected $archiveProcessing = null;
 	
+	protected $cacheEnabledForNumeric = true;
+	
 	public function __construct()
 	{
 	}
@@ -97,9 +99,15 @@ class Piwik_Archive
 		}
 	}
 	
-	//TODO implement cache 
 	public function get( $name, $typeValue = 'numeric' )
 	{
+		if($this->cacheEnabledForNumeric
+			&& isset($this->numericCached[$name])
+			)
+		{
+			return $this->numericCached[$name][$typeValue];
+		}
+		
 		$this->prepareArchive();
 				
 		if($name == 'idarchive')
@@ -107,7 +115,7 @@ class Piwik_Archive
 			return $this->idArchive;
 		}
 		
-		Piwik::log("-- get '$name'");
+//		Piwik::log("-- get '$name'");
 		
 		if(!$this->isThereSomeVisits)
 		{
@@ -115,17 +123,17 @@ class Piwik_Archive
 		}
 
 		// select the table to use depending on the type of the data requested		
-		$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
-		$tableNumeric = $this->archiveProcessing->getTableArchiveNumericName();
 		switch($typeValue)
 		{
 			case 'blob':
+				$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
 				// select data from the blob table
 				$table = $tableBlob; 
 			break;
 
 			case 'numeric':
 			default:
+				$tableNumeric = $this->archiveProcessing->getTableArchiveNumericName();
 				// select data from the numeric table (by default)
 				$table = $tableNumeric;
 			break;
@@ -140,17 +148,38 @@ class Piwik_Archive
 								array( $this->idArchive , $name) 
 							);
 
-		// uncompresss when selecting from the BLOB table
+		// no result, returns false
+		if($value === false)
+		{
+			if($this->cacheEnabledForNumeric)
+			{
+				// we cache the results
+				$this->numericCached[$name][$typeValue] = false;
+			}	
+			return $value;
+		}
+		
+		// uncompress when selecting from the BLOB table
 		if($typeValue == 'blob')
 		{
 			$value = gzuncompress($value);
 		}
-
+		
+		if($this->cacheEnabledForNumeric)
+		{
+			// we cache the results
+			$this->numericCached[$name][$typeValue] = $value;
+		}
 		return $value;
 	}
 	
-	public function getDataTable( $name )
+	public function getDataTable( $name, $idSubTable = null )
 	{
+		if($idSubTable !== null)
+		{
+			$name .= "_$idSubTable";
+		}
+		
 		$data = $this->get($name, 'blob');
 		
 		$table = new Piwik_DataTable;
@@ -160,6 +189,12 @@ class Piwik_Archive
 			$table->loadFromSerialized($data);
 		}
 		
+		if($data === false 
+			&& $idSubTable !== null)
+		{
+			throw new Exception("You are requesting a precise subTable but there is not such data in the Archive.");
+		}
+	
 		return $table;
 	}
 	
@@ -175,9 +210,52 @@ class Piwik_Archive
 	}
 	
 	// fetches many fields at once for performance
-	function preFetch( $aName )
+	public function preFetchNumeric( $aName )
 	{
 		// TODO implement prefetch
+		
+		
+	}
+	
+	public function freeBlob( $name )
+	{
+		
+	}
+	
+	// fetches all blob fields name_* at once for performance
+	public function preFetchBlob( $name )
+	{
+//		Piwik::log("-- prefetch blob ".$name."_*");
+		
+		if(!$this->isThereSomeVisits)
+		{
+			return false;
+		}
+
+		$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
+
+		// we select the requested value
+		$db = Zend_Registry::get('db');
+		$query = $db->query("SELECT value, name
+								FROM $tableBlob
+								WHERE idarchive = ?
+									AND name LIKE '$name%'",	
+								array( $this->idArchive ) 
+							);
+
+		while($row = $query->fetch())
+		{
+			$value = $row['value'];
+			$name = $row['name'];
+			
+			$value = gzuncompress($value);
+			
+			// we cache the results
+			if($this->cacheEnabledForNumeric)
+			{
+				$this->numericCached[$name]['blob'] = $value;
+			}
+		}
 	}
 }
 

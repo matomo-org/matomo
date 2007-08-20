@@ -4,6 +4,7 @@ class Piwik_Plugin_VisitFrequency extends Piwik_Plugin
 {	
 	public function __construct()
 	{
+		parent::__construct();
 	}
 
 	public function getInformation()
@@ -31,8 +32,26 @@ class Piwik_Plugin_VisitFrequency extends Piwik_Plugin
 	{
 		$hooks = array(
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
+			'ArchiveProcessing_Period.compute' => 'archiveMonth',
 		);
 		return $hooks;
+	}
+	
+	
+	function archiveMonth( $notification )
+	{
+		$this->archiveProcessing = $notification->getNotificationObject();
+		
+		$numericToSum = array( 
+				'nb_visits_returning',
+				'nb_actions_returning',
+				'sum_visit_length_returning',
+				'bounce_count_returning',
+		);
+		
+		$this->archiveProcessing->archiveNumericValuesSum($numericToSum);
+		
+		$this->archiveProcessing->archiveNumericValuesMax('max_actions_returning');
 	}
 	
 	function archiveDay($notification)
@@ -63,7 +82,7 @@ class Piwik_Plugin_VisitFrequency extends Piwik_Plugin
 		
 		foreach($row as $name => $value)
 		{
-			$record = new Piwik_Archive_Processing_Record_Numeric($name, $value);
+			$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
 		}
 		
 	}

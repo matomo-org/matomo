@@ -6,6 +6,11 @@
  */
 abstract class Piwik_Plugin
 {
+	function __construct()
+	{
+		Piwik::log("start of ".__CLASS__);
+		Piwik::printMemoryUsage(); 
+	}
 	/**
 	 * Returns the plugin details
 	 */

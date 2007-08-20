@@ -132,12 +132,10 @@ class Piwik_DataTable
 	 * - if a row in $table doesnt exist in $this we add the row to $this
 	 * - if a row exists in both $table and $this we add the columns values into $this
 	 * 
-	 * A common row to 2 DataTable is defined by
-	 * - the same label
-	 * - the same idSubtable (or the absence of a subTable associated with the row)
+	 * A common row to 2 DataTable is defined by the same label
 	 * 
 	 * Details: 
-	 * - if a row in $this doesnt exist in $table we do nothing
+	 * - if a row in $this doesnt exist in $table we simply keep the row of $this without modification
 	 * 	
 	 * @example @see tests/modules/DataTable.test.php
 	 */
@@ -156,15 +154,16 @@ class Piwik_DataTable
 			else
 			{
 				$rowFound->sumRow( $row );
+
 				// if the row to add has a subtable whereas the current row doesn't
 				// we simply add it (cloning the subtable)
-				
-//				$rowFound->addSubtable( $row->)
-
 				// if the row has the subtable already 
 				// then we have to recursively sum the subtables
+				if(($idSubTable = $row->getIdSubDataTable()) !== null)
+				{
+					$rowFound->sumSubtable( Piwik_DataTable_Manager::getInstance()->getTable($idSubTable) );
+				}
 			}
-			
 		}
 	}
 	
@@ -178,6 +177,10 @@ class Piwik_DataTable
 		return $this->rows[$this->rowsIndexByLabel[$label]];
 	}
 
+	public function __destruct()
+	{
+		unset($this->rows);
+	}
 
 	/**
 	 * Shortcut function used for performance reasons

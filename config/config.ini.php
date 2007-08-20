@@ -32,7 +32,7 @@ enabled[] 		= Provider
 [General]
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
-time_before_archive_considered_outdated = 5
+time_before_archive_considered_outdated = 3
 
 action_category_delimiter = /
 

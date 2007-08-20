@@ -51,7 +51,16 @@ class Piwik_DataTable_Row
 			$this->c[self::DATATABLE_ASSOCIATED] = $row[self::DATATABLE_ASSOCIATED]->getId();
 		}
 	}
-		
+	
+	public function __destruct()
+	{
+		$idSubtable = $this->getIdSubDataTable();
+		if(!is_null($idSubtable))
+		{
+			unset($idSubtable);
+		}
+	}
+
 	public function getColumn( $name )
 	{
 		if(!isset($this->c[self::COLUMNS][$name]))
@@ -71,11 +80,34 @@ class Piwik_DataTable_Row
 		return $this->c[self::DETAILS];
 	}
 	
+	/**
+	 * @return int|null
+	 */
 	public function getIdSubDataTable()
 	{
 		return $this->c[self::DATATABLE_ASSOCIATED];
 	}
 	
+	public function sumSubtable(Piwik_DataTable $subTable)
+	{
+		$thisSubtableID = $this->getIdSubDataTable();
+		if($thisSubtableID === null)
+		{
+			$thisSubTable = new Piwik_DataTable;
+			$this->addSubtable($thisSubTable);
+		}
+		else
+		{
+			$thisSubTable = Piwik_DataTable_Manager::getInstance()->getTable( $thisSubtableID );
+		}
+		
+		$thisSubTable->addDataTable($subTable);
+	}
+
+	/**
+	 * Adds a subtable to a row. 
+	 * 
+	 */
 	public function addSubtable(Piwik_DataTable $subTable)
 	{
 		$this->checkNoSubTable();
@@ -88,6 +120,12 @@ class Piwik_DataTable_Row
 		{
 			throw new Exception("Adding a subtable to the row, but it already has a subtable associated.");
 		}
+	}
+	
+	
+	public function setSubtable(Piwik_DataTable $subTable)
+	{
+		$this->c[self::DATATABLE_ASSOCIATED] = $subTable->getId();
 	}
 	
 	public function setColumn($name, $value)
@@ -175,18 +213,10 @@ class Piwik_DataTable_Row
 		{
 			$subtable1 = Piwik_DataTable_Manager::getInstance()->getTable($row1->getIdSubDataTable());
 			$subtable2 = Piwik_DataTable_Manager::getInstance()->getTable($row2->getIdSubDataTable());
-			if(!is_null($subtable1) && !is_null($subtable2))
-			{
-				if(!Piwik_DataTable::isEqual($subtable1, $subtable2))
-				{
-					return false;
-				}
-			}
-			else
+			if(!Piwik_DataTable::isEqual($subtable1, $subtable2))
 			{
 				return false;
 			}
-			
 		}
 		return true;
 	}

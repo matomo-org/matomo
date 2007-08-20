@@ -6,6 +6,7 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 	
 	public function __construct()
 	{
+		parent::__construct();
 		$this->setCategoryDelimiter( Zend_Registry::get('config')->General->action_category_delimiter);
 	}
 
@@ -39,9 +40,23 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'ArchiveProcessing_Day.compute' => 'archiveDay'
+			'ArchiveProcessing_Day.compute' => 'archiveDay',
+			'ArchiveProcessing_Period.compute' => 'archiveMonth',
 		);
 		return $hooks;
+	}
+	
+	function archiveMonth( $notification )
+	{
+		$this->archiveProcessing = $notification->getNotificationObject();
+		
+		$dataTableToSum = array( 
+				'Actions_actions',
+				'Actions_downloads',
+				'Actions_outlink',
+		);
+		
+		$this->archiveProcessing->archiveDataTable($dataTableToSum);
 	}
 	
 	/**
@@ -114,7 +129,7 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 		Piwik::log("$modified rows for entry actions");
 		
 //		Piwik::printMemoryUsage();
-		
+
 		/*
 		 * Exit actions
 		 */
@@ -135,7 +150,7 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 		Piwik::log("$modified rows for exit actions");
-		
+
 //		Piwik::printMemoryUsage();
 		/*
 		 * Time per action
@@ -155,38 +170,24 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 		Piwik::log("$modified rows for sum time per action");
-//		Piwik::printMemoryUsage();
 
 		$data = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_ACTION]);
 		$s = $data->getSerialized();
-		$record = new Piwik_Archive_Processing_Record_Blob_Array('Actions_actions', $s);
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_actions', $s);
 		Piwik::log(" Action serialized has ".count($s)." elements");
-//		Piwik::printMemoryUsage();
 		
 		
 		$data = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_DOWNLOAD]);
 		$s = $data->getSerialized();
-		$record = new Piwik_Archive_Processing_Record_Blob_Array('Actions_downloads', $s);
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_downloads', $s);
 		Piwik::log(" Download serialized has ".count($s)." elements");
-//		Piwik::printMemoryUsage();
 		
 		
 		$data = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_OUTLINK]);
 		$s = $data->getSerialized();
-		$record = new Piwik_Archive_Processing_Record_Blob_Array('Actions_outlink', $s);
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_outlink', $s);
 		Piwik::log(" Outlink serialized has ".count($s)." elements");
-//		Piwik::printMemoryUsage();
 	}
-/*
-		$query = "SELECT count(distinct l.idaction) as nb_uniq_actions 
-				 FROM ".$this->logTable." as v 
-					LEFT JOIN ".$this->logActionTable." as l USING (idvisit)
-				 WHERE v.visit_server_date = ?
-				 	AND v.idsite = ?
-				 LIMIT 1";
-		$row = $this->db->fetchRow($query, array( $this->strDateStart, $this->idsite ) );
-		$record = new Piwik_Archive_Processing_Numeric_Record('nb_uniq_actions', $row['nb_uniq_actions']);
-		*/
 	
 	static public function getActionCategoryFromName($name)
 	{
@@ -230,7 +231,7 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 			
 			// we know that the concatenation of a space and the name of the action
 			// will always be unique as all the action names have been trimmed before reaching this point
-			$actionName = ' ' . $actionNameBefore;
+			$actionName = '/' . $actionNameBefore;
 			
 			// currentTable is now the array element corresponding the the action
 			// at this point we may be for example at the 4th level of depth in the hierarchy
@@ -241,11 +242,12 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 			{
 				$currentTable = new Piwik_DataTable_Row(
 					array(	Piwik_DataTable_Row::COLUMNS => 
-							array(	'label' => (string)$actionNameBefore,
+							array(	'label' => (string)$actionName,
 								)
 						)
 					);
 			}
+			
 			foreach($row as $name => $value)
 			{
 				// we don't add this information as it not pertinent
@@ -253,17 +255,38 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 				// type is used to partition the different actions type in different table. Adding the info to the row would be a duplicate. 
 				if($name != 'name' && $name != 'type')
 				{
+					$name = $this->getIdColumn($name);
 					$currentTable->addColumn($name, $value);
 				}
 			}
-			
-			// simple count
+
+			// simple count 
 			$rowsProcessed++;
 		}
-		
+
 		// just to make sure php copies the last $currentTable in the $parentTable array
 		$currentTable =& $this->actionsTablesByType;
 		
 		return $rowsProcessed;
 	}
+
+	protected function getIdColumn( $name )
+	{
+		$map = array(
+			'nb_visits'	 				=> 0,
+			'nb_hits'					=> 1,
+			'entry_nb_unique_visitor'	=> 2,
+			'entry_nb_visits'			=> 3,
+			'entry_nb_actions'			=> 4,
+			'entry_sum_visit_length'	=> 5,
+			'entry_bounce_count'		=> 6,
+			'exit_nb_unique_visitor'	=> 7,
+			'exit_nb_visits'			=> 8,
+			'exit_bounce_count'			=> 9,
+			'sum_time_spent'			=> 10,
+		);
+
+		return $map[$name];
+	}
 }
+

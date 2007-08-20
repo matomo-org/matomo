@@ -1,6 +1,6 @@
 <?php
 
-class Piwik_Archive_Processing_Record_Manager
+class Piwik_ArchiveProcessing_Record_Manager
 {
 	protected $records = array();
 	static private $instance = null;
@@ -16,21 +16,17 @@ class Piwik_Archive_Processing_Record_Manager
 		}
 		return self::$instance;
 	}
+
 	public function registerRecord( $record )
 	{
-		$this->records[] = $record;
+		$this->records[$record->name] = $record;
 	}
+	
 	public function unregister( $deleteRecord )
 	{
-		foreach($this->records as $key=> $record)
-		{
-			if($record->name == $deleteRecord->name)
-			{
-				unset($this->records[$key]);
-				return;
-			}
-		}
+		unset($this->records[$deleteRecord->name]);
 	}
+	
 	public function toString()
 	{
 		$str = '';
@@ -40,14 +36,17 @@ class Piwik_Archive_Processing_Record_Manager
 		}
 		return $str;
 	}
+	
 	public function __toString()
 	{
 		return $this->toString();
 	}
+	
 	public function getRecords()
 	{
 		return $this->records;
 	}
+	
 	public function deleteAll()
 	{
 		unset($this->records);
@@ -55,7 +54,7 @@ class Piwik_Archive_Processing_Record_Manager
 	}
 }
 
-abstract class Piwik_Archive_Processing_Record
+abstract class Piwik_ArchiveProcessing_Record
 {
 	public $name;
 	public $value;
@@ -64,19 +63,19 @@ abstract class Piwik_Archive_Processing_Record
 	{
 		$this->name = $name;
 		$this->value = $value;
-		Piwik_Archive_Processing_Record_Manager::getInstance()->registerRecord($this);
+		Piwik_ArchiveProcessing_Record_Manager::getInstance()->registerRecord($this);
 	}
 	public function delete()
 	{
-		Piwik_Archive_Processing_Record_Manager::getInstance()->unregister($this);
+		Piwik_ArchiveProcessing_Record_Manager::getInstance()->unregister($this);
 	}
 	public function __destruct()
 	{
-		Piwik_Archive_Processing_Record_Manager::getInstance()->unregister($this);
+		Piwik_ArchiveProcessing_Record_Manager::getInstance()->unregister($this);
 	}
 }
 
-class Piwik_Archive_Processing_Record_Numeric extends Piwik_Archive_Processing_Record
+class Piwik_ArchiveProcessing_Record_Numeric extends Piwik_ArchiveProcessing_Record
 {	
 	function __construct( $name, $value)
 	{
@@ -90,7 +89,7 @@ class Piwik_Archive_Processing_Record_Numeric extends Piwik_Archive_Processing_R
 }
 
 
-class Piwik_Archive_Processing_Record_Blob extends Piwik_Archive_Processing_Record
+class Piwik_ArchiveProcessing_Record_Blob extends Piwik_ArchiveProcessing_Record
 {
 	public $name;
 	public $value;
@@ -106,7 +105,7 @@ class Piwik_Archive_Processing_Record_Blob extends Piwik_Archive_Processing_Reco
 }
 
 
-class Piwik_Archive_Processing_Record_Blob_Array extends Piwik_Archive_Processing_Record
+class Piwik_ArchiveProcessing_Record_Blob_Array extends Piwik_ArchiveProcessing_Record
 {
 	public $name;
 	public $value;
@@ -125,7 +124,7 @@ class Piwik_Archive_Processing_Record_Blob_Array extends Piwik_Archive_Processin
 			{
 				$newName = $name . '_' . $id;
 			}
-			$record = new Piwik_Archive_Processing_Record_Blob( $newName,  $value );
+			$record = new Piwik_ArchiveProcessing_Record_Blob( $newName,  $value );
 		}
 	}
 	public function __toString()

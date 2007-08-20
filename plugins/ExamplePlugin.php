@@ -4,8 +4,9 @@ class Piwik_Plugin_Example extends Piwik_Plugin
 {	
 	public function __construct()
 	{
+		parent::__construct();
 	}
-
+	
 	public function getInformation()
 	{
 		$info = array(

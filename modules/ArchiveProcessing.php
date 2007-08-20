@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The Archive_Processing module is a module that reads the Piwik logs from the DB and
+ * The ArchiveProcessing module is a module that reads the Piwik logs from the DB and
  * compute all the reports, which are then stored in the database.
  * 
  * A record in the Database for a given report is defined by
@@ -63,11 +63,11 @@ abstract class Piwik_ArchiveProcessing
 		$this->strDateEnd = $this->dateEnd->toString();
 		
 		$this->maxTimestampArchive = 0;
-		if( $this->period->getNumberOfSubperiods() == 1
+		if( $this->period->getNumberOfSubperiods() == 0
 			&& $this->period->toString() == date("Y-m-d")
 			)
 		{
-			$this->maxTimestampArchive = time() + Zend_Registry('config')->General->time_before_archive_considered_outdated;
+			$this->maxTimestampArchive = time() - Zend_Registry::get('config')->General->time_before_archive_considered_outdated;
 		}
 	}
 	
@@ -126,7 +126,7 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->loadNextIdarchive();
 		
-		$record = new Piwik_Archive_Processing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_ERROR);
+		$record = new Piwik_ArchiveProcessing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_ERROR);
 		$this->insertRecord( $record);
 		$record->delete();
 		
@@ -138,7 +138,7 @@ abstract class Piwik_ArchiveProcessing
 	protected function postCompute()
 	{
 		
-//		echo "<br>".Piwik_Archive_ProcessingRecord_Manager::getInstance()->toString();
+//		echo "<br>".Piwik_ArchiveProcessing_Record_Manager::getInstance()->toString();
 		
 		// delete the first done = ERROR 
 		Zend_Registry::get('db')->query("
@@ -147,22 +147,25 @@ abstract class Piwik_ArchiveProcessing
 					array($this->idArchive)
 				);
 		
-		$finalRecord = new Piwik_Archive_Processing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_OK);
+		$record = new Piwik_ArchiveProcessing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_OK);
 		
 		// save in the database the records
-		$records = Piwik_Archive_Processing_Record_Manager::getInstance()->getRecords();
+		$records = Piwik_ArchiveProcessing_Record_Manager::getInstance()->getRecords();
 		
 		foreach($records as $record)
 		{
 			$this->insertRecord( $record);	
 		}
+		
+		// delete the records from the global manager
 		foreach($records as $record)
 		{
 			$record->delete();	
 		}
+		unset($records);
 		
 		// we delete all tables from the table register
-		Piwik_Archive_Processing_Record_Manager::getInstance()->deleteAll();
+		Piwik_ArchiveProcessing_Record_Manager::getInstance()->deleteAll();
 	} 
 	
 	
@@ -228,6 +231,18 @@ abstract class Piwik_ArchiveProcessing
 	protected function isArchived()
 	{
 //		Piwik::log("Is archive site=$idsite for period = ".$this->period->getLabel()." for date_start = $strDateStart ?");
+		$bindSQL = array(	$this->idsite, 
+								$this->strDateStart, 
+								$this->strDateEnd, 
+								$this->periodId, 
+								);
+		$timeStampWhere = '';
+		if( $this->maxTimestampArchive != 0)
+		{
+			$timeStampWhere = " AND UNIX_TIMESTAMP(ts_archived) >= ? ";
+			$bindSQL[] = $this->maxTimestampArchive;
+		}
+			
 		$idarchive = Zend_Registry::get('db')->fetchOne("
 						SELECT idarchive
 						FROM ".$this->tableArchiveNumeric."
@@ -235,18 +250,12 @@ abstract class Piwik_ArchiveProcessing
 							AND date1 = ?
 							AND date2 = ?
 							AND period = ?
-							AND ts_archived <= ?
 							AND name = 'done'
 							AND value = ".Piwik_ArchiveProcessing::DONE_OK."
+							$timeStampWhere
 						ORDER BY ts_archived DESC",
-						array(	$this->idsite, 
-								$this->strDateStart, 
-								$this->strDateEnd, 
-								$this->periodId, 
-								$this->maxTimestampArchive
-								)
+						$bindSQL
 					);
-
 		if(!empty($idarchive))
 		{
 			return $idarchive;
@@ -265,18 +274,14 @@ abstract class Piwik_ArchiveProcessing
 				require_once 'ArchiveProcessing/Day.php';			
 				$process = new Piwik_ArchiveProcessing_Day;
 			break;
+			
 			case 'week':
-				require_once 'ArchiveProcessing/Week.php';	
-				$process = new Piwik_ArchiveProcessing_Week;
-			break;
 			case 'month':
-				require_once 'ArchiveProcessing/Month.php';	
-				$process = new Piwik_ArchiveProcessing_Month;
-			break;
 			case 'year':
-				require_once 'ArchiveProcessing/Year.php';	
-				$process = new Piwik_ArchiveProcessing_Year;
+				require_once 'ArchiveProcessing/Period.php';	
+				$process = new Piwik_ArchiveProcessing_Period;
 			break;
+			
 			default:
 				throw new Exception("Unknown period specified $name");
 			break;

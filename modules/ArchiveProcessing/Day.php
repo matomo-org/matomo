@@ -30,6 +30,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 					WHERE visit_server_date = ?
 						AND idsite = ?
 					GROUP BY visit_server_date
+					ORDER BY NULL
 				 ";
 		$row = $this->db->fetchRow($query, array($this->strDateStart,$this->idsite ) );
 		
@@ -40,11 +41,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	
 		foreach($row as $name => $value)
 		{
-			$record = new Piwik_Archive_Processing_Record_Numeric($name, $value);
+			$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
 		}
 		Piwik::log($row);
-		
-				
+
 		Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
 	}
 	
@@ -75,12 +75,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 							max(visit_total_actions) as max_actions, 
 							sum(visit_total_time) as sum_visit_length,
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count
-				 FROM ".$this->logTable."
-					WHERE visit_server_date = ?
-						AND idsite = ?
-					GROUP BY label";
+				FROM ".$this->logTable."
+				WHERE visit_server_date = ?
+					AND idsite = ?
+				GROUP BY label";
+
 		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ) );
-		
+
 		$interest = array();
 		while($rowBefore = $query->fetch())
 		{
@@ -97,7 +98,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			if(!isset($interest[$row['label']])) $interest[$row['label']]= $this->getNewInterestRow();
 			$this->updateInterestStats( $row, $interest[$row['label']]);
 		}
-		
+
 		$table = new Piwik_DataTable;
 		$table->loadFromArrayLabelIsKey($interest);
 		return $table;

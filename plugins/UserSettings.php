@@ -19,6 +19,7 @@ class Piwik_Plugin_UserSettings extends Piwik_Plugin
 	
 	public function __construct()
 	{
+		parent::__construct();
 	}
 
 	public function getInformation()
@@ -47,18 +48,13 @@ class Piwik_Plugin_UserSettings extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'ArchiveProcessing_Day.compute' => 'archiveDay'
+			'ArchiveProcessing_Day.compute' => 'archiveDay',
+			'ArchiveProcessing_Period.compute' => 'archiveMonth',
 		);
 		return $hooks;
 	}
 	protected function getTableWideScreen($tableResolution)
 	{
-		$nameToRow = array(
-			'dual' 		=> null,
-			'wide' 		=> null,
-			'normal' 	=> null,
-		);
-		
 		foreach($tableResolution->getRows() as $row)
 		{
 			$resolution = $row->getColumn('label');
@@ -135,38 +131,56 @@ class Piwik_Plugin_UserSettings extends Piwik_Plugin
 		$recordName = 'UserSettings_configuration';
 		$labelSQL = "CONCAT(config_os, ';', config_browser_name, ';', config_resolution)";
 		$tableConfiguration = $this->archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableConfiguration->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableConfiguration->getSerialized());
 		
 		$recordName = 'UserSettings_os';
 		$labelSQL = "config_os";
 		$tableOs = $this->archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableOs->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableOs->getSerialized());
 		
 		$recordName = 'UserSettings_browser';
 		$labelSQL = "CONCAT(config_browser_name, ';', config_browser_version)";
 		$tableBrowser = $this->archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableBrowser->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableBrowser->getSerialized());
 		
 		$recordName = 'UserSettings_browserType';
 		$tableBrowserType = $this->getTableBrowserByType($tableBrowser);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableBrowserType->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableBrowserType->getSerialized());
 		
 		$recordName = 'UserSettings_resolution';
 		$labelSQL = "config_resolution";
 		$tableResolution = $this->archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$filter = new Piwik_DataTable_Filter_ColumnCallback($tableResolution, 'label', 'Piwik_Plugin_UserSettings_keepStrlenGreater');
-		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableBrowser->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableResolution->getSerialized());
 		
 		$recordName = 'UserSettings_wideScreen';
 		$tableWideScreen = $this->getTableWideScreen($tableResolution);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableBrowser->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableWideScreen->getSerialized());
 		
 		$recordName = 'UserSettings_plugin';
 		$tablePlugin = $this->getDataTablePlugin();
-		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tablePlugin->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tablePlugin->getSerialized());
+		
 //		echo $tableResolution;
 //		echo $tableWideScreen;
 //		echo $tablePlugin;
+	}
+	
+	function archiveMonth( $notification )
+	{
+		$this->archiveProcessing = $notification->getNotificationObject();
+		
+		$dataTableToSum = array( 
+				'UserSettings_configuration',
+				'UserSettings_os',
+				'UserSettings_browser',
+				'UserSettings_browserType',
+				'UserSettings_resolution',
+				'UserSettings_wideScreen',
+				'UserSettings_plugin',
+		);
+		
+		$this->archiveProcessing->archiveDataTable($dataTableToSum);
 	}
 	
 	protected function getDataTablePlugin()
