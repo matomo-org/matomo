@@ -4,6 +4,7 @@ class Piwik_Plugin_Provider extends Piwik_Plugin
 {	
 	public function __construct()
 	{
+		parent::__construct();
 	}
 
 	public function getInformation()
@@ -37,11 +38,23 @@ class Piwik_Plugin_Provider extends Piwik_Plugin
 	{
 		$hooks = array(
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
+			'ArchiveProcessing_Period.compute' => 'archiveMonth',
 			'LogStats.newVisitorInformation' => 'logProviderInfo',
 		);
 		return $hooks;
 	}
 	
+	
+	function archiveMonth( $notification )
+	{
+		$this->archiveProcessing = $notification->getNotificationObject();
+		
+		$dataTableToSum = array( 
+				'Provider_hostnameExt',
+		);
+		
+		$this->archiveProcessing->archiveDataTable($dataTableToSum);
+	}
 		
 	/**
 	 * Archive the provider count
@@ -53,7 +66,7 @@ class Piwik_Plugin_Provider extends Piwik_Plugin
 		$recordName = 'Provider_hostnameExt';
 		$labelSQL = "location_provider";
 		$tableProvider = $this->ArchiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableProvider->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableProvider->getSerialized());
 //		echo $tableProvider;
 	}
 	

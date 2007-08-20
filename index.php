@@ -26,8 +26,8 @@ assert_options(ASSERT_BAIL, 	1);
  * Error / exception handling functions
  */
 require_once PIWIK_INCLUDE_PATH . "/modules/ErrorHandler.php";
-set_error_handler('Piwik_ErrorHandler');
 require_once PIWIK_INCLUDE_PATH . "/modules/ExceptionHandler.php";
+set_error_handler('Piwik_ErrorHandler');
 set_exception_handler('Piwik_ExceptionHandler');
 
 /**
@@ -44,6 +44,7 @@ require_once "Zend/Auth/Adapter/DbTable.php";
  */
 require_once "Timer.php";
 $timer = new Piwik_Timer;
+
 require_once "Piwik.php";
 
 require_once "Access.php";
@@ -62,9 +63,19 @@ Piwik::createLogObject();
 
 Piwik::printMemoryUsage('Start program');
 //TODO move all DB related methods in a DB static class
-Piwik::createDatabase();
-Piwik::createDatabaseObject();
-Piwik::dropTables(array(Piwik::prefixTable('log_visit'),Piwik::prefixTable('log_link_visit_action'),Piwik::prefixTable('log_action'),Piwik::prefixTable('log_profiling')));
+
+//Piwik::createDatabase();
+//Piwik::createDatabaseObject();
+
+$doNotDrop = array(
+		Piwik::prefixTable('log_visit'),
+		Piwik::prefixTable('log_link_visit_action'),
+		Piwik::prefixTable('log_action'),
+		Piwik::prefixTable('log_profiling'),
+		Piwik::prefixTable('archive'),
+	);
+
+Piwik::dropTables($doNotDrop);
 Piwik::createTables();
 
 // load plugins
@@ -98,8 +109,6 @@ $period = new Piwik_Period_Day( Piwik_Date::today() );
 $site = new Piwik_Site(1);
 $test->setPeriod($period);
 $test->setSite($site);
-Piwik::log($test->get('toto0'));
-Piwik::log($test->get('toto1'));
 
 
 $test = new Piwik_Archive;
@@ -107,16 +116,22 @@ $period = new Piwik_Period_Month(Piwik_Date::today());
 $site = new Piwik_Site(1);
 $test->setPeriod($period);
 $test->setSite($site);
-Piwik::log($test->get('nb_visits'));
-Piwik::log($test->get('toto12'));
-//
-//$test = new Piwik_Archive;
-//$period = new Piwik_Period_Day(Piwik_Date::today());
-//$site = new Piwik_Site(12);
-//$test->setPeriod($period);
-//$test->setSite($site);
-//$test->get('nb_visits');
-//$test->get('toto12');
+Piwik::log("visits=".$test->get('nb_visits'));
+Piwik::log("max_actions=".$test->get('max_actions'));
+Piwik::log("UserSettings_resolution = ".$test->getDataTable('UserSettings_resolution'));
+
+
+$test = new Piwik_Archive;
+$period = new Piwik_Period_Week(Piwik_Date::today());
+$site = new Piwik_Site(1);
+$test->setPeriod($period);
+$test->setSite($site);
+$test->get('nb_visits');
+$test->get('nb_visits');
+$test->get('nb_visits');
+$test->get('nb_visits');
+$test->get('toto12');
+
 
 //main();
 //displayProfiler();

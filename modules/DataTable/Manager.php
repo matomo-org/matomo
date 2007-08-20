@@ -32,12 +32,25 @@ class Piwik_DataTable_Manager
 		// but the index is computed as the count() of the array after inserting the table
 		$idTable -= 1;
 		
-		if(isset($this->tables[$idTable]))
+		if(!isset($this->tables[$idTable]))
 		{
-			return $this->tables[$idTable];
+			throw new Exception("The request table $idTable couldn't be found.");
 		}
 		
-		return null;
-	} 
+		return $this->tables[$idTable];
+	}
+	
+	function deleteAll()
+	{
+		foreach($this->tables as $key => $table)
+		{
+			unset($this->tables[$key]);
+		}
+		$this->tables = array();
+	}
+	function count()
+	{
+		return count($this->tables);
+	}
 }
 ?>

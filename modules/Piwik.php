@@ -449,8 +449,12 @@ class Piwik
 		
 		foreach($tablesAlreadyInstalled as $tableName)
 		{
-			if(!in_array($tableName,$doNotDelete))
+			$doNotDeletePattern = "(".implode("|",$doNotDelete).")";
+			if(!in_array($tableName,$doNotDelete)
+				&& !ereg($doNotDeletePattern,$tableName)
+				)
 			{
+				print("drop $tableName ");
 				$db->query("DROP TABLE $tableName");
 			}
 		}			

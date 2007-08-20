@@ -30,6 +30,7 @@ class Piwik_Plugin_VisitorInterest extends Piwik_Plugin
 		
 	public function __construct()
 	{
+		parent::__construct();
 	}
 
 	public function getInformation()
@@ -57,22 +58,35 @@ class Piwik_Plugin_VisitorInterest extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'ArchiveProcessing_Day.compute' => 'archiveDay'
+			'ArchiveProcessing_Day.compute' => 'archiveDay',
+			'ArchiveProcessing_Period.compute' => 'archiveMonth',
 		);
 		return $hooks;
 	}
 	
+	
+	function archiveMonth( $notification )
+	{
+		$this->archiveProcessing = $notification->getNotificationObject();
+		
+		$dataTableToSum = array( 
+				'VisitorInterest_timeGap',
+				'VisitorInterest_pageGap',
+		);
+		
+		$this->archiveProcessing->archiveDataTable($dataTableToSum);
+	}
 	public function archiveDay( $notification )
 	{
 		$this->archiveProcessing = $notification->getNotificationObject();
 
 		$recordName = 'VisitorInterest_timeGap';
 		$tableTimegap = $this->getTableTimeGap();
-		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tableTimegap->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableTimegap->getSerialized());
 		
 		$recordName = 'VisitorInterest_pageGap';
 		$tablePagegap = $this->getTablePageGap();
-		$record = new Piwik_Archive_Processing_Record_Blob_Array($recordName, $tablePagegap->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tablePagegap->getSerialized());
 		
 //		echo $tableTimegap;
 //		echo $tablePagegap;
