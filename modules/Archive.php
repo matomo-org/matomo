@@ -101,11 +101,20 @@ class Piwik_Archive
 	
 	public function get( $name, $typeValue = 'numeric' )
 	{
-		if($this->cacheEnabledForNumeric
+		// values previously "get" and now cached
+		if($typeValue == 'numeric'
+			&& $this->cacheEnabledForNumeric
 			&& isset($this->numericCached[$name])
 			)
 		{
-			return $this->numericCached[$name][$typeValue];
+			return $this->numericCached[$name];
+		}
+		
+		// Values prefetched
+		if($typeValue == 'blob'
+			&& isset($this->blobCached[$name]))
+		{
+			return $this->blobCached[$name];
 		}
 		
 		$this->prepareArchive();
@@ -126,16 +135,12 @@ class Piwik_Archive
 		switch($typeValue)
 		{
 			case 'blob':
-				$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
-				// select data from the blob table
-				$table = $tableBlob; 
+				$table = $this->archiveProcessing->getTableArchiveBlobName();
 			break;
 
 			case 'numeric':
 			default:
-				$tableNumeric = $this->archiveProcessing->getTableArchiveNumericName();
-				// select data from the numeric table (by default)
-				$table = $tableNumeric;
+				$table = $this->archiveProcessing->getTableArchiveNumericName();
 			break;
 		}
 
@@ -151,10 +156,11 @@ class Piwik_Archive
 		// no result, returns false
 		if($value === false)
 		{
-			if($this->cacheEnabledForNumeric)
+			if($typeValue == 'numeric' 
+				&& $this->cacheEnabledForNumeric)
 			{
 				// we cache the results
-				$this->numericCached[$name][$typeValue] = false;
+				$this->numericCached[$name] = false;
 			}	
 			return $value;
 		}
@@ -165,17 +171,18 @@ class Piwik_Archive
 			$value = gzuncompress($value);
 		}
 		
-		if($this->cacheEnabledForNumeric)
+		if($typeValue == 'numeric' 
+			&& $this->cacheEnabledForNumeric)
 		{
 			// we cache the results
-			$this->numericCached[$name][$typeValue] = $value;
+			$this->numericCached[$name] = $value;
 		}
 		return $value;
 	}
 	
 	public function getDataTable( $name, $idSubTable = null )
 	{
-		if($idSubTable !== null)
+		if(!is_null($idSubTable))
 		{
 			$name .= "_$idSubTable";
 		}
@@ -209,14 +216,6 @@ class Piwik_Archive
 		return $this->get($name, 'blob');		
 	}
 	
-	// fetches many fields at once for performance
-	public function preFetchNumeric( $aName )
-	{
-		// TODO implement prefetch
-		
-		
-	}
-	
 	public function freeBlob( $name )
 	{
 		
@@ -247,14 +246,8 @@ class Piwik_Archive
 		{
 			$value = $row['value'];
 			$name = $row['name'];
-			
-			$value = gzuncompress($value);
-			
-			// we cache the results
-			if($this->cacheEnabledForNumeric)
-			{
-				$this->numericCached[$name]['blob'] = $value;
-			}
+						
+			$this->blobCached[$name] = gzuncompress($value);
 		}
 	}
 }

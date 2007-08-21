@@ -49,7 +49,10 @@ class Piwik_ArchiveProcessing_Record_Manager
 	
 	public function deleteAll()
 	{
-		unset($this->records);
+		foreach($this->records as $key => $record)
+		{
+			unset($this->records[$key]);
+		}
 		$this->records = array();
 	}
 }
@@ -71,7 +74,6 @@ abstract class Piwik_ArchiveProcessing_Record
 	}
 	public function __destruct()
 	{
-		Piwik_ArchiveProcessing_Record_Manager::getInstance()->unregister($this);
 	}
 }
 

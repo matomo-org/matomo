@@ -171,22 +171,27 @@ class Piwik_Plugin_Actions extends Piwik_Plugin
 		
 		Piwik::log("$modified rows for sum time per action");
 
-		$data = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_ACTION]);
-		$s = $data->getSerialized();
+		Piwik::printMemoryUsage("Middle of ".get_class($this)." "); 
+		
+		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_ACTION]);
+		$s = $dataTable->getSerialized();
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_actions', $s);
 		Piwik::log(" Action serialized has ".count($s)." elements");
 		
 		
-		$data = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_DOWNLOAD]);
-		$s = $data->getSerialized();
+		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_DOWNLOAD]);
+		$s = $dataTable->getSerialized();
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_downloads', $s);
 		Piwik::log(" Download serialized has ".count($s)." elements");
 		
 		
-		$data = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_OUTLINK]);
-		$s = $data->getSerialized();
+		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_OUTLINK]);
+		$s = $dataTable->getSerialized();
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_outlink', $s);
 		Piwik::log(" Outlink serialized has ".count($s)." elements");
+		
+		unset($this->actionsTablesByType);
+		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
 	}
 	
 	static public function getActionCategoryFromName($name)

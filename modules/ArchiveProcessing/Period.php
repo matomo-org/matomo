@@ -13,12 +13,10 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$aNames = array($aNames);
 		}
 		
-		// fetch the numeric values and sum them
+		// fetch the numeric values and apply the operation on them
 		$results = array();
 		foreach($this->archives as $archive)
 		{
-			$archive->preFetchNumeric($aNames);
-			
 			foreach($aNames as $name)
 			{
 				if(!isset($results[$name]))
@@ -39,7 +37,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 						case 'min':
 							$results[$name] = min($results[$name], $valueToSum);		
 							break;
-					
 						default:
 							throw new Exception("Operation not applicable.");
 							break;
@@ -67,10 +64,12 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		// returns the array of records once summed
 		return $records;
 	}
+	
 	public function archiveNumericValuesSum( $aNames )
 	{
 		return $this->archiveNumericValuesGeneral($aNames, 'sum');
 	}
+	
 	public function archiveNumericValuesMax( $aNames )
 	{
 		return $this->archiveNumericValuesGeneral($aNames, 'max');
@@ -94,7 +93,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	}
 	
 	private function reloadSubtables($name, $dataTableToLoad, $archive)
-	{	
+	{
 		// we have to recursively load all the subtables associated to this table's rows
 		// and update the subtableID so that it matches the newly instanciated table 
 		foreach($dataTableToLoad->getRows() as $row)
@@ -125,8 +124,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			
 //			echo $datatableToSum;
 			$table->addDataTable($datatableToSum);
+			$archive->freeBlob($name);
 		}
-		$archive->freeBlob($name);
 //		echo $table;
 		return $table;
 	}
@@ -146,7 +145,10 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		);
 		$this->archiveNumericValuesSum($toSum);
 		
-		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);
+		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
+		
+		//delete all DataTable instanciated
+		Piwik_DataTable_Manager::getInstance()->deleteAll();
+		
 	}
 }
-?>

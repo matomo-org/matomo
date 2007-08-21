@@ -42,12 +42,10 @@ class Piwik_DataTable_Manager
 	
 	function deleteAll()
 	{
-		foreach($this->tables as $key => $table)
-		{
-			unset($this->tables[$key]);
-		}
+		Piwik::log("DELETE ALL ".$this->count()." TABLES");
 		$this->tables = array();
 	}
+	
 	function count()
 	{
 		return count($this->tables);
