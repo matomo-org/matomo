@@ -72,7 +72,7 @@ $doNotDrop = array(
 		Piwik::prefixTable('log_link_visit_action'),
 		Piwik::prefixTable('log_action'),
 		Piwik::prefixTable('log_profiling'),
-		Piwik::prefixTable('archive'),
+//		Piwik::prefixTable('archive'),
 	);
 
 Piwik::dropTables($doNotDrop);
@@ -104,34 +104,38 @@ Zend_Loader::loadClass('Piwik_Archive');
 Zend_Loader::loadClass('Piwik_Date');
 
 Piwik::printMemoryUsage('Before archiving');
-$test = new Piwik_Archive;
-$period = new Piwik_Period_Day( Piwik_Date::today() );
-$site = new Piwik_Site(1);
-$test->setPeriod($period);
-$test->setSite($site);
+//$test = new Piwik_Archive;
+//$period = new Piwik_Period_Day( Piwik_Date::today() );
+//$site = new Piwik_Site(1);
+//$test->setPeriod($period);
+//$test->setSite($site);
+//
+//
+//$test = new Piwik_Archive;
+//$period = new Piwik_Period_Month(Piwik_Date::today());
+//$site = new Piwik_Site(1);
+//$test->setPeriod($period);
+//$test->setSite($site);
+//Piwik::log("visits=".$test->get('nb_visits'));
+//Piwik::log("max_actions=".$test->get('max_actions'));
+//Piwik::log("UserSettings_resolution = ".$test->getDataTable('UserSettings_resolution'));
 
 
 $test = new Piwik_Archive;
-$period = new Piwik_Period_Month(Piwik_Date::today());
-$site = new Piwik_Site(1);
-$test->setPeriod($period);
-$test->setSite($site);
-Piwik::log("visits=".$test->get('nb_visits'));
-Piwik::log("max_actions=".$test->get('max_actions'));
-Piwik::log("UserSettings_resolution = ".$test->getDataTable('UserSettings_resolution'));
-
-
-$test = new Piwik_Archive;
+Piwik::printMemoryUsage('after archive instanciation');
 $period = new Piwik_Period_Week(Piwik_Date::today());
+Piwik::printMemoryUsage('after period');
 $site = new Piwik_Site(1);
+Piwik::printMemoryUsage('after site');
 $test->setPeriod($period);
 $test->setSite($site);
 $test->get('nb_visits');
+Piwik::printMemoryUsage('after first get');
 $test->get('nb_visits');
 $test->get('nb_visits');
 $test->get('nb_visits');
 $test->get('toto12');
-
+Piwik::log("Referers_keywordBySearchEngine = ". $test->getDataTable('Referers_keywordBySearchEngine'));
 
 //main();
 //displayProfiler();

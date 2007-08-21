@@ -100,11 +100,15 @@ abstract class Piwik_ArchiveProcessing
 		$this->idArchive = $this->isArchived();
 		if(!$this->idArchive)
 		{
+			Piwik::printMemoryUsage('Before loading subperiods');
 			$this->archivesSubperiods = $this->loadSubperiodsArchive();
-			
+			Piwik::printMemoryUsage('After loading subperiods');
 			$this->initCompute();
+			Piwik::printMemoryUsage('After init compute');
 			$this->compute();
+			Piwik::printMemoryUsage('After compute');
 			$this->postCompute();
+			Piwik::printMemoryUsage('After post compute');
 			
 			Piwik::log("New archive computed, id = {$this->idArchive}");
 		}
@@ -166,6 +170,7 @@ abstract class Piwik_ArchiveProcessing
 		
 		// we delete all tables from the table register
 		Piwik_ArchiveProcessing_Record_Manager::getInstance()->deleteAll();
+		
 	} 
 	
 	

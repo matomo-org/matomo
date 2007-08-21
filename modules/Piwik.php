@@ -17,7 +17,7 @@ class Piwik
 			'year'	=>4,
 		);
 		
-	static public function log($message, $priority = Zend_Log::NOTICE)
+	static public function log($message = '', $priority = Zend_Log::NOTICE)
 	{
 		Zend_Registry::get('logger_message')->log($message);
 		Zend_Registry::get('logger_message')->log( "<br>" . PHP_EOL);
@@ -43,12 +43,22 @@ class Piwik
 
 	static public function printMemoryUsage( $prefixString = null )
 	{
-		$usage = round(memory_get_usage() / 1024 / 1024, 2);
+		if(function_exists('xdebug_memory_usage'))
+		{
+			$memory = xdebug_memory_usage();
+		}
+		else
+		{
+			$memory = memory_get_usage();
+		}
+		
+		$usage = round( $memory / 1024 / 1024, 2);
 		if(!is_null($prefixString))
 		{
 			Piwik::log($prefixString);
 		}
 		Piwik::log("Memory usage = $usage Mb");
+		Piwik::log();
 	}
 	
 	static public function isNumeric($value)

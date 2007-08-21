@@ -199,6 +199,7 @@ class Piwik_Plugin_Referers extends Piwik_Plugin
 //		Piwik::log("Urls by partner website:");
 //		Piwik::log($urlByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);
 		
+		Piwik::printMemoryUsage("Middle of ".get_class($this)." "); 
 
 		$data = $archiveProcessing->getDataTableSerialized($interestByType);
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_type', $data);
@@ -220,6 +221,7 @@ class Piwik_Plugin_Referers extends Piwik_Plugin
 		$data = $archiveProcessing->getDataTablesSerialized($urlByWebsite[Piwik_Common::REFERER_TYPE_PARTNER], $interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_urlByPartner', $data);
 			
+		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
 //		echo "after serialization = ". $timer;
 	}
 }

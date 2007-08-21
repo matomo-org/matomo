@@ -78,7 +78,7 @@ function _pk_getUrlLog( _pk_action_name, _pk_site, _pk_pkurl )
 	var _pk_url = document.location.href;
 	var _pk_da = new Date();
 	var _pk_src = _pk_pkurl
-		+'?url='+_pk_escape(_pk_url)
+		+'?url='+_pk_escape(document.location.href)
 		+'&action_name='+_pk_escape(_pk_action_name)
 		+'&idsite='+_pk_site
 		+'&res='+screen.width+'x'+screen.height
