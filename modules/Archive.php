@@ -62,6 +62,18 @@ class Piwik_Archive
 	{
 	}
 	
+	static public function build($idSite, $date, $period )
+	{
+		$oDate = Piwik_Date::factory($date);
+		$oPeriod = Piwik_Period::factory($period, $oDate);
+		$oSite = new Piwik_Site($idSite);
+		
+		$archive = new Piwik_Archive;
+		$archive->setPeriod($oPeriod);
+		$archive->setSite($oSite);
+		return $archive;
+	}
+	
 	// to be used only once
 	public function setPeriod( Piwik_Period $period )
 	{
@@ -71,7 +83,11 @@ class Piwik_Archive
 	function setSite( Piwik_Site $site )
 	{
 		$this->site = $site;
-	}	
+	}
+	function getIdSite()
+	{
+		return $this->site->getId();
+	}
 	
 	public function prepareArchive()
 	{
@@ -178,6 +194,33 @@ class Piwik_Archive
 			$this->numericCached[$name] = $value;
 		}
 		return $value;
+	}
+	
+	
+	public function loadSubDataTables($name, Piwik_DataTable $dataTableToLoad)
+	{
+		// we have to recursively load all the subtables associated to this table's rows
+		// and update the subtableID so that it matches the newly instanciated table 
+		foreach($dataTableToLoad->getRows() as $row)
+		{
+			$subTableID = $row->getIdSubDataTable();
+			
+			if($subTableID !== null)
+			{
+				$subDataTableLoaded = $this->getDataTable($name, $subTableID);
+				
+				$this->loadSubDataTables($name, $subDataTableLoaded);
+				
+				$row->setSubtable( $subDataTableLoaded );
+			}
+		}
+	}
+	
+	public function getDataTableExpanded($name)
+	{
+		$dataTableToLoad = $this->getDataTable($name);
+		$this->loadSubDataTables($name, $dataTableToLoad);
+		return $dataTableToLoad;		
 	}
 	
 	public function getDataTable( $name, $idSubTable = null )

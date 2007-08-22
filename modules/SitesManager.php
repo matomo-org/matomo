@@ -1,8 +1,8 @@
 <?php
 
-Zend_Loader::loadClass('Piwik_APIable');
+require_once "API/APIable.php";
 
-class Piwik_SitesManager extends Piwik_APIable
+class Piwik_SitesManager_API extends Piwik_APIable
 {
 	static private $instance = null;
 	protected function __construct()

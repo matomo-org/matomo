@@ -89,7 +89,7 @@ class Piwik_PluginsManager
 		foreach($this->pluginsToLoad as $pluginName)
 		{
 			$pluginFileName = $pluginName . ".php";
-			$pluginClassName = "Piwik_Plugin_".$pluginName;
+			$pluginClassName = "Piwik_".$pluginName;
 			
 			// TODO make sure the plugin name is secure
 			// make sure thepluigin is a child of Piwik_Plugin

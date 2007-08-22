@@ -17,13 +17,13 @@ tables_prefix	= piwiktests_
 
 [Plugins]
 enabled[] 		= UserSettings
-enabled[] 		= UserCountry
-enabled[] 		= Provider
-enabled[] 		= Actions
-enabled[] 		= Referers
-enabled[] 		= VisitFrequency
-enabled[] 		= VisitTime
-enabled[] 		= VisitorInterest
+;enabled[] 		= UserCountry
+;enabled[] 		= Provider
+;enabled[] 		= Actions
+;enabled[] 		= Referers
+;enabled[] 		= VisitFrequency
+;enabled[] 		= VisitTime
+;enabled[] 		= VisitorInterest
 
 [Plugins_LogStats]
 enabled[] 		= Provider

@@ -49,7 +49,7 @@ require_once "Piwik.php";
 
 require_once "Access.php";
 require_once "Auth.php";
-require_once "PublicAPI.php";
+require_once "API/Proxy.php";
 require_once "Site.php";
 
 //move into a init() method
@@ -72,7 +72,7 @@ $doNotDrop = array(
 		Piwik::prefixTable('log_link_visit_action'),
 		Piwik::prefixTable('log_action'),
 		Piwik::prefixTable('log_profiling'),
-//		Piwik::prefixTable('archive'),
+		Piwik::prefixTable('archive'),
 	);
 
 Piwik::dropTables($doNotDrop);
@@ -122,29 +122,29 @@ Piwik::printMemoryUsage('Before archiving');
 
 
 $test = new Piwik_Archive;
-Piwik::printMemoryUsage('after archive instanciation');
+//Piwik::printMemoryUsage('after archive instanciation');
 $period = new Piwik_Period_Week(Piwik_Date::today());
-Piwik::printMemoryUsage('after period');
+//Piwik::printMemoryUsage('after period');
 $site = new Piwik_Site(1);
-Piwik::printMemoryUsage('after site');
+//Piwik::printMemoryUsage('after site');
 $test->setPeriod($period);
 $test->setSite($site);
 $test->get('nb_visits');
-Piwik::printMemoryUsage('after first get');
-$test->get('nb_visits');
-$test->get('nb_visits');
-$test->get('nb_visits');
-$test->get('toto12');
-Piwik::log("Referers_keywordBySearchEngine = ". $test->getDataTable('Referers_keywordBySearchEngine'));
+//Piwik::printMemoryUsage('after first get');
+//$test->get('nb_visits');
+//$test->get('nb_visits');
+//$test->get('nb_visits');
+//$test->get('toto12');
+//Piwik::log("Referers_keywordBySearchEngine = ". $test->getDataTableExpanded('Referers_keywordBySearchEngine'));
+//Piwik::log("Referers_keywordBySearchEngine = ". $test->getDataTable('Referers_keywordBySearchEngine'));
 
-//main();
-//displayProfiler();
+main();
+displayProfiler();
 Piwik::printMemoryUsage();
 Piwik::printQueryCount();
 echo $timer;
 
 //Piwik::uninstall();
-//Piwik_Log::dump( Zend_Registry::get('db')->getProfiler()->getQueryProfiles() );
 
 function displayProfiler()
 {
@@ -166,30 +166,41 @@ function displayProfiler()
 	echo '<br>Average query length: ' . $totalTime / $queryCount . ' seconds' . "\n";
 	echo '<br>Queries per second: ' . $queryCount / $totalTime . "\n";
 	echo '<br>Longest query length: ' . $longestTime . "\n";
-	echo "<br>Longest query: \n" . $longestQuery . "\n";
+	echo '<br>Longest query: <br>' . $longestQuery . "\n";
 }
+
 
 function main()
 {
 	Piwik::log("Start process...");
-	$api = Piwik_PublicApi::getInstance();
+	$api = Piwik_API_Proxy::getInstance();
 	
-	$api->registerClass("Piwik_SitesManager");
-	$api->registerClass("Piwik_UsersManager");
+	$api->registerClass("SitesManager");
+	$api->registerClass("UsersManager");
 	
 	$api->SitesManager->getSiteUrlsFromId(1);
 	
 	$api->SitesManager->addSite("test name site", array("http://localhost", "http://test.com"));
 	
-	
 	Zend_Registry::get('access')->loadAccess();
 	
 	$api->UsersManager->deleteUser("login");
 	$api->UsersManager->addUser("login", "password", "email@geage.com");
+	
+	require_once "API/Request.php";
+	$request = new Piwik_API_Request;
+	$return = $request->process();
+	
+	echo $return;
 }
+
+
 ?>
 
 <br>
+<a href="http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12">
+http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12
+</a>
 <br>
 <br>
 <a href="piwik.php?idsite=1&download=http://php.net/get&name=test download/ the file">test download </a>

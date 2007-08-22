@@ -1,5 +1,5 @@
 <?php
-class Piwik_PublicAPI
+class Piwik_API_Proxy
 {
 	static $classCalled = null;
 	private $api = null;
@@ -18,13 +18,31 @@ class Piwik_PublicAPI
 		return self::$instance;
 	}
 	
-	public function registerClass( $class )
-	{
-		Zend_Loader::loadClass($class);
-
-		// check that is is singleton
-		$this->checkClassIsSingleton($class);
+	public function registerClass( $fileName )
+	{		
+		$potentialPaths = array(
+			 PIWIK_INCLUDE_PATH . "/plugins/". $fileName ."/API.php",
+			 PIWIK_INCLUDE_PATH . "/modules/". $fileName .".php",
+	  	);
 		
+		$found = false;
+		foreach($potentialPaths as $path)
+		{
+			if(is_file($path))
+			{
+				require_once $path;
+				$found = true;
+				break;
+			}
+		}
+		
+		if(!$found)
+		{
+			throw new Exception("API module $fileName not found.");
+		}
+
+		$class= $this->getClassNameFromModule($fileName);
+			
 		$rClass = new ReflectionClass($class);
 		
 		// check that it is a subclass of Piwik_APIable
@@ -32,6 +50,10 @@ class Piwik_PublicAPI
 		{
 			throw new Exception("To publish its public methods in the API, the class '$class' must be a subclass of 'Piwik_Apiable'.");
 		}
+		
+		// check that is is singleton
+		$this->checkClassIsSingleton($class);
+		
 
 		Piwik::log("List of the public methods for the class $class");
 
@@ -41,7 +63,8 @@ class Piwik_PublicAPI
 			// use this trick to read the static attribute of the class
 			// $class::$methodsNotToPublish doesn't work
 			$variablesClass = get_class_vars($class);
-						
+			$variablesClass['methodsNotToPublish'][] = 'getInstance';
+
 			if($method->isPublic() 
 				&& !$method->isConstructor()
 				&& !in_array($method->getName(), $variablesClass['methodsNotToPublish'] )
@@ -88,16 +111,18 @@ class Piwik_PublicAPI
 		$sParameters = implode(", ", $asParameters);
 		return "[$sParameters]";
 	}
+	
 	/**
 	 * Returns the parameters names and default values for the method $name 
 	 * of the class $class
 	 * 
 	 * @return array Format array(
-	 * 					'parameter1Name'	=> 42 // default value = 42,
+	 * 					'parameter1Name'	=> '',
+	 * 					'life'				=> 42, // default value = 42
 	 * 					'date'				=> 'yesterday',
 	 * 				);
 	 */
-	private function getParametersList($class, $name)
+	public function getParametersList($class, $name)
 	{
 		return $this->api[$class][$name]['parameters'];
 	}
@@ -143,27 +168,34 @@ class Piwik_PublicAPI
 		}
 	}
 	
-	private function checkMethodExists($className, $methodName)
+	public function checkMethodExists($className, $methodName)
 	{
 		if(!$this->isMethodAvailable($className, $methodName))
 		{
-			throw new Exception("The method '$methodName' does not exist or is not available in the module '".self::$classCalled."'.");
+			throw new Exception("The method '$methodName' does not exist or is not available in the module '".$className."'.");
 		}
 	}
 		
+	public function getClassNameFromModule($module)
+	{
+		$class = Piwik::prefixClass($module ."_API");
+		return $class;
+	}
 	public function __call($methodName, $parameterValues )
 	{
+		$returnedValue = null;
+		
 		try {
 			assert(!is_null(self::$classCalled));
-				
-			$className = Piwik::prefixClass(self::$classCalled);
-						
+
+			$className = $this->getClassNameFromModule(self::$classCalled);
+
 			// instanciate the object
 			$object = call_user_func(array($className, "getInstance"));
-			
+
 			// check method exists
 			$this->checkMethodExists($className, $methodName);
-						
+			
 			// first check number of parameters do match
 			$this->checkNumberOfParametersMatch($className, $methodName, $parameterValues);
 			
@@ -192,6 +224,8 @@ class Piwik_PublicAPI
 		}
 
 		self::$classCalled = null;
+		
+		return $returnedValue;
 	}
 }
 ?>
