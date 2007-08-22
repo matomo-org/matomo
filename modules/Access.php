@@ -1,5 +1,5 @@
 <?php
-Zend_Loader::loadClass('Piwik_SitesManager');
+require_once 'SitesManager.php';
 class Piwik_Access
 {
 	private $acl = null;
@@ -37,7 +37,7 @@ class Piwik_Access
 			if($result->getCode() == Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE)
 			{
 				$this->isSuperUser = true;
-				$sitesId = Piwik_SitesManager::getAllSitesId();
+				$sitesId = Piwik_SitesManager_API::getAllSitesId();
 				foreach($sitesId as $idSite)
 				{
 					$accessByIdsite[$idSite] = 'superuser';

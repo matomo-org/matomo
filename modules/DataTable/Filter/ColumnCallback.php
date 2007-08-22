@@ -27,4 +27,4 @@ class Piwik_DataTable_Filter_ColumnCallback extends Piwik_DataTable_Filter
 		}
 	}
 }
-?>
+

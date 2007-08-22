@@ -92,24 +92,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		return $records;
 	}
 	
-	private function reloadSubtables($name, $dataTableToLoad, $archive)
-	{
-		// we have to recursively load all the subtables associated to this table's rows
-		// and update the subtableID so that it matches the newly instanciated table 
-		foreach($dataTableToLoad->getRows() as $row)
-		{
-			$subTableID = $row->getIdSubDataTable();
-			
-			if($subTableID !== null)
-			{
-				$subDataTableLoaded = $archive->getDataTable($name, $subTableID);
-				
-				$this->reloadSubtables($name, $subDataTableLoaded, $archive);
-				
-				$row->setSubtable( $subDataTableLoaded );
-			}
-		}
-	}
 
 	protected function getRecordDataTableSum( $name )
 	{
@@ -120,7 +102,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 					
 			$datatableToSum = $archive->getDataTable($name);
 			
-			$this->reloadSubtables($name, $datatableToSum, $archive);
+			$archive->loadSubDataTables($name, $datatableToSum);
 			
 //			echo $datatableToSum;
 			$table->addDataTable($datatableToSum);
@@ -148,7 +130,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
 		
 		//delete all DataTable instanciated
-		Piwik_DataTable_Manager::getInstance()->deleteAll();
+//		Piwik_DataTable_Manager::getInstance()->deleteAll();
 		
 	}
 }

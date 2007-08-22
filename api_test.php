@@ -1,7 +1,11 @@
 Use cases
 
-A request returns 
+This part is the equivalent of the Model in MVC.
+It accepts a list of defined parameters and executes action OR gives data.
+It doesnt read anything except the methods parameters.
+The query parameter processing is done outside.
 
+A request returns:
 - one datatable
 - one datable with lots of filters applied
 - an HTML page containing 3 datatables + other values

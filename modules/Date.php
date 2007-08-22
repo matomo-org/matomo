@@ -31,5 +31,15 @@ class Piwik_Date extends Zend_Date
 		$date = new Piwik_Date(date("Y-m-d", strtotime("yesterday")));
 		return $date;
 	}
+	
+	static public function factory($strDate)
+	{
+		switch($strDate)
+		{
+			case 'today': return self::today(); break;
+			case 'yesterday': return self::yesterday(); break;
+			default: return new Piwik_Date($strDate); break;
+		}
+	}
 }
 ?>

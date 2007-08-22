@@ -62,6 +62,45 @@ class Test_PHP_Related extends UnitTestCase
 		$this->assertEqual( $val, "test" );
 	}
 	
+	function test_array2XML()
+	{
+		
+		function array_to_simplexml($array, $name="config" ,&$xml=null )
+		{
+		    if(is_null($xml))
+		    {
+		        $xml = new SimpleXMLElement("<{$name}/>");
+		    }
+		   
+		    foreach($array as $key => $value)
+		    {
+		        if(is_array($value))
+		        {
+		            $xml->addChild($key);
+		            array_to_simplexml($value, $name, $xml->$key);
+		        }
+		        else
+		        {
+		            $xml->addChild($key, $value);
+		        }
+		    }
+		    return $xml;
+		}
+		$test=array("TEST"=>"nurso",
+       	 		"none"=>null,
+       		 "a"=>"b",
+        	array(
+          	  "c"=>"d",
+          		  array("d"=>"e"))
+          );
+          
+		$xml = array_to_simplexml($test);
+		
+		print("<pre>START");print($xml);print("START2");
+		print_r($xml->asXML());
+		
+		print("</pre>");
+	}
 	/**
 	 * misc tests for performance
 	 * 
@@ -71,7 +110,7 @@ class Test_PHP_Related extends UnitTestCase
 	 * 
 	 * clearly the best solution is to split the array in multiple small arrays
 	 */
-	public function test_serializeHugeTable()
+	public function _test_serializeHugeTable()
 	{
 		$timer = new Piwik_Timer;
 		$a=array();
@@ -116,7 +155,7 @@ class Test_PHP_Related extends UnitTestCase
 		//echo "<br>after unserialization array = ". $timer;
 		
 	}
-	public function test_serializeManySmallTable()
+	public function _test_serializeManySmallTable()
 	{
 		$timer = new Piwik_Timer;
 		$a=array();

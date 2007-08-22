@@ -209,6 +209,22 @@ class Test_Piwik_Common extends UnitTestCase
     	
     }
 	
+	
+    /**
+     * nodefault Withtype WithValue => exception cos type not matching
+     */
+    function test_getRequestVar_nodefaultWithtypeWithValue2()
+    {    	
+    	try {
+    		$this->assertEqual( Piwik_Common::getRequestVar('test', null, 'string'), 
+    						null);
+        	$this->fail("Exception not raised.");
+    	}
+    	catch (Exception $expected) {
+    		return;
+        }
+    }
+	
     /**
      * withdefault Withtype WithValue => value casted as type
      */

@@ -1,6 +1,6 @@
 <?php
-	
-class Piwik_Plugin_UserSettings extends Piwik_Plugin
+
+class Piwik_UserSettings extends Piwik_Plugin
 {	
 	// source: http://en.wikipedia.org/wiki/List_of_web_browsers
 	protected $browserType = array(

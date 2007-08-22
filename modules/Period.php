@@ -24,6 +24,31 @@ abstract class Piwik_Period
 		$this->date = clone $date;
 	}
 	
+	static public function factory($strPeriod, $date)
+	{
+		switch ($strPeriod) {
+			case 'day':
+				return new Piwik_Period_Day($date); 
+				break;
+		
+			case 'week':
+				return new Piwik_Period_Week($date); 
+				break;
+				
+			case 'month':
+				return new Piwik_Period_Month($date); 
+				break;
+				
+			case 'year':
+				return new Piwik_Period_Year($date); 
+				break;
+				
+			default:
+				throw new Exception("Unknown period!");
+				break;
+		}
+	}
+
 	//TODO test getDate
 	public function getDate()
 	{

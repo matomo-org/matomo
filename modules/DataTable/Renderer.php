@@ -3,7 +3,16 @@
 class Piwik_DataTable_Renderer
 {
 	protected $table;
-	function __construct($table)
+	
+	function __construct($table = null)
+	{
+		if(!is_null($table))
+		{
+			$this->setTable($table);
+		}
+	}
+	
+	public function setTable($table)
 	{
 		if(!($table instanceof Piwik_DataTable))
 		{
@@ -16,60 +25,40 @@ class Piwik_DataTable_Renderer
 	{
 		return $this->render();
 	}
-}
-
-class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
-{
-	protected $prefixRows;
-	function __construct($table)
-	{
-		parent::__construct($table);
-		$this->setPrefixRow('#');
-	}
 	
-	function render()
+	static public function factory( $name )
 	{
-		return $this->renderTable($this->table);
-	}
-	
-	function setPrefixRow($str)
-	{
-		$this->prefixRows = $str;
-	}
-	
-	function renderTable($table)
-	{
-		static $depth=0;
-		$output = '';
-		$i = 1;
-		foreach($table->getRows() as $row)
+		$name = strtolower($name);
+		switch ($name) 
 		{
-			$columns=array();
-			foreach($row->getColumns() as $column => $value)
-			{
-				if(is_string($value)) $value = "'$value'";
-				$columns[] = "'$column' => $value";
-			}
-			$columns = implode(", ", $columns);
-			$details=array();
-			foreach($row->getDetails() as $detail => $value)
-			{
-				$details[] = "'$detail' => $value";
-			}
-			$details = implode(", ", $details);
-			$output.= str_repeat($this->prefixRows, $depth) . "- $i [".$columns."] [".$details."] [idsubtable = ".$row->getIdSubDataTable()."]<br>\n";
+			case 'console':
+				require_once "DataTable/Renderer/Console.php";
+				$class = 'Piwik_DataTable_Renderer_Console';
+				break;
 			
-			if($row->getIdSubDataTable() !== null)
-			{
-				$depth++;
-				$output.= $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
-				$depth--;
-			}
-			$i++;
+			case 'xml':
+				require_once "DataTable/Renderer/XML.php";
+				$class = 'Piwik_DataTable_Renderer_XML';
+				break;
+			
+			case 'rss':
+				require_once "DataTable/Renderer/RSS.php";
+				$class = 'Piwik_DataTable_Renderer_RSS';
+				break;
+			
+			case 'php':
+				require_once "DataTable/Renderer/PHP.php";
+				$class = 'Piwik_DataTable_Renderer_PHP';
+				break;
+		
+			default:
+				throw new Exception("Renderer format $name unknown!");
+				break;
 		}
 		
-		return $output;
-		
-	}	
+		return new $class;
+	}
+	
+	
 }
 ?>
