@@ -172,6 +172,13 @@ function displayProfiler()
 
 function main()
 {
+	Piwik::log(
+			'<a href="http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=console&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12">
+			http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=console&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12
+			</a>
+			<br>'
+	);
+	
 	Piwik::log("Start process...");
 	$api = Piwik_API_Proxy::getInstance();
 	
@@ -188,19 +195,55 @@ function main()
 	$api->UsersManager->addUser("login", "password", "email@geage.com");
 	
 	require_once "API/Request.php";
-	$request = new Piwik_API_Request;
-	$return = $request->process();
 	
-	echo $return;
+	Piwik::log("getResolution");
+	$request = new Piwik_API_Request('method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=console&filter_limit=&filter_offset=&filter_column=label&filter_pattern=');
+	echo $return = $request->process();
+	
+	Piwik::log("getOS");
+	$request = new Piwik_API_Request('filter_sort_column=1&filter_sort_order=asc&method=UserSettings.getOS&idSite=1&date=yesterday&period=week&format=html&filter_limit=&filter_offset=&filter_column=label&filter_pattern=');
+	echo $return = $request->process();	
+	
+	Piwik::log("getConfiguration");
+	$request = new Piwik_API_Request('method=UserSettings.getConfiguration&idSite=1&date=yesterday&period=week&format=console&filter_limit=10&filter_offset=0&filter_column=label&filter_pattern=');
+	echo $return = $request->process();
+	
+	Piwik::log("getBrowser");
+	$request = new Piwik_API_Request('method=UserSettings.getBrowser&idSite=1&date=yesterday&period=week&format=console&filter_limit=10&filter_offset=0&filter_column=label&filter_pattern=');
+	echo $return = $request->process();
+	
+	Piwik::log("getBrowserType");
+	$request = new Piwik_API_Request('method=UserSettings.getBrowserType&idSite=1&date=yesterday&period=week&format=console&filter_limit=10&filter_offset=0&filter_column=label&filter_pattern=');
+	echo $return = $request->process();
+	
+	Piwik::log("getWideScreen");
+	$request = new Piwik_API_Request('method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=console&filter_limit=10&filter_offset=0&filter_column=label&filter_pattern=');
+	echo $return = $request->process();
+	
+	Piwik::log("getPlugin");
+	$request = new Piwik_API_Request('method=UserSettings.getPlugin&idSite=1&date=yesterday&period=week&format=console&filter_limit=10&filter_offset=0&filter_column=label&filter_pattern=');
+	echo $return = $request->process();
+	
+	Piwik::log("getActions");
+	$request = new Piwik_API_Request(
+		'method=Actions.getActions
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=html
+		&filter_limit=20
+		&filter_offset=0
+		&filter_column=label
+		&filter_pattern=
+	'
+	);
+	echo $return = $request->process();
+	
 }
 
 
 ?>
 
-<br>
-<a href="http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12">
-http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12
-</a>
 <br>
 <br>
 <a href="piwik.php?idsite=1&download=http://php.net/get&name=test download/ the file">test download </a>

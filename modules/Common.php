@@ -119,8 +119,13 @@ class Piwik_Common
 	 * 
 	 * @return mixed The variable after cleaning
 	 */
-	static public function getRequestVar($varName, $varDefault = null, $varType = null)
+	static public function getRequestVar($varName, $varDefault = null, $varType = null, $requestArrayToUse = null)
 	{
+		if(is_null($requestArrayToUse))
+		{
+			$requestArrayToUse = $_REQUEST;
+		}
+		
 		$varDefault = self::sanitizeInputValues( $varDefault );
 		
 		if($varType == 'int')
@@ -132,8 +137,11 @@ class Piwik_Common
 		
 		// there is no value $varName in the REQUEST so we try to use the default value	
 		if(empty($varName)
-			|| !isset($_REQUEST[$varName]) 
-			|| empty($_REQUEST[$varName]))
+			|| !isset($requestArrayToUse[$varName]) 
+			|| (	!is_array($requestArrayToUse[$varName]) 
+					&& strlen($requestArrayToUse[$varName]) === 0
+					)
+		)
 		{
 			if( is_null($varDefault))
 			{
@@ -153,7 +161,7 @@ class Piwik_Common
 		}
 		
 		// Normal case, there is a value available in REQUEST for the requested varName
-		$value = self::sanitizeInputValues( $_REQUEST[$varName] );
+		$value = self::sanitizeInputValues( $requestArrayToUse[$varName] );
 		
 		if( !is_null($varType))
 		{			
@@ -216,44 +224,9 @@ class Piwik_Common
 	*/
 	static public function getOs($userAgent)
 	{
-		$osNameToId = Array(
-			'Nintendo Wii'	 => 'WII',
-			'PlayStation Portable' => 'PSP',
-			'PLAYSTATION 3'  => 'PS3',
-			'Windows NT 6.0' => 'WVI',
-			'Windows Vista'  => 'WVI',
-			'Windows NT 5.2' => 'WS3',
-			'Windows Server 2003' => 'WS3',
-			'Windows NT 5.1' => 'WXP',
-			'Windows XP'     => 'WXP',
-			'Win98'          => 'W98',
-			'Windows 98'     => 'W98',
-			'Windows NT 5.0' => 'W2K',
-			'Windows 2000'   => 'W2K',
-			'Windows NT 4.0' => 'WNT',
-			'WinNT'          => 'WNT',
-			'Windows NT'     => 'WNT',
-			'Win 9x 4.90'    => 'WME',
-			'Win 9x 4.90'    => 'WME',
-			'Windows Me'     => 'WME',
-			'Win32'          => 'W95',
-			'Win95'          => 'W95',		
-			'Windows 95'     => 'W95',
-			'Mac_PowerPC'    => 'MAC', 
-			'Mac PPC'        => 'MAC',
-			'PPC'            => 'MAC',
-			'Mac PowerPC'    => 'MAC',
-			'Mac OS'         => 'MAC',
-			'Linux'          => 'LIN',
-			'SunOS'          => 'SOS', 
-			'FreeBSD'        => 'BSD', 
-			'AIX'            => 'AIX', 
-			'IRIX'           => 'IRI', 
-			'HP-UX'          => 'HPX', 
-			'OS/2'           => 'OS2', 
-			'NetBSD'         => 'NBS',
-			'Unknown'        => 'UNK' 
-		);
+		
+		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/OS.php";
+		$osNameToId = $GLOBALS['Piwik_Oslist'];
 		
 		foreach($osNameToId as $key => $value)
 		{
@@ -277,38 +250,10 @@ class Piwik_Common
 	*/
 	static public function getBrowserInfo($userAgent)
 	{
-		$browsers = array(
-				'msie'							=> 'IE',
-				'microsoft internet explorer'	=> 'IE',
-				'internet explorer'				=> 'IE',
-				'netscape6'						=> 'NS',
-				'netscape'						=> 'NS',
-				'galeon'						=> 'GA',
-				'phoenix'						=> 'PX',
-				'firefox'						=> 'FF',
-				'mozilla firebird'				=> 'FB',
-				'firebird'						=> 'FB',
-				'seamonkey'						=> 'SM',
-				'chimera'						=> 'CH',
-				'camino'						=> 'CA',
-				'safari'						=> 'SF',
-				'k-meleon'						=> 'KM',
-				'mozilla'						=> 'MO',
-				'opera'							=> 'OP',
-				'konqueror'						=> 'KO',
-				'icab'							=> 'IC',
-				'lynx'							=> 'LX',
-				'links'							=> 'LI',
-				'ncsa mosaic'					=> 'MC',
-				'amaya'							=> 'AM',
-				'omniweb'						=> 'OW',
-				'hotjava'						=> 'HJ',
-				'browsex'						=> 'BX',
-				'amigavoyager'					=> 'AV',
-				'amiga-aweb'					=> 'AW',
-				'ibrowse'						=> 'IB',
-				'unknown'						=> 'unk'
-		);
+		
+		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/Browsers.php";
+		
+		$browsers = $GLOBALS['Piwik_BrowserList'];
 		
 		$info = array(
 			'name' 			=> 'UNK',

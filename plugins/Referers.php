@@ -1,6 +1,6 @@
 <?php
 	
-class Piwik_Plugin_Referers extends Piwik_Plugin
+class Piwik_Referers extends Piwik_Plugin
 {
 	public function __construct()
 	{

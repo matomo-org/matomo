@@ -119,6 +119,7 @@ class Piwik_DataTable
 	protected $rows = array();
 	protected $currentId;
 	protected $depthLevel = 0;
+	protected $indexNotUpToDate = false;
 	
 	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 20;
 	
@@ -126,6 +127,28 @@ class Piwik_DataTable
 	{
 		$this->currentId = Piwik_DataTable_Manager::getInstance()->addTable($this);
 	}
+	
+	public function sort( $functionCallback )
+	{
+		$this->indexNotUpToDate = true;
+		usort(&$this->rows, $functionCallback);
+	}
+	
+	public function rebuildIndex()
+	{
+		foreach($this->getRows() as $id => $row)
+		{
+			$label = $row->getColumn('label');
+		
+			if($label !== false)
+			{
+				$this->rowsIndexByLabel[$label] = $id;
+			}
+		}
+		
+		$this->indexNotUpToDate = false;
+	}
+	
 	
 	/**
 	 * Add a new DataTable to this DataTable
@@ -170,6 +193,11 @@ class Piwik_DataTable
 	
 	public function getRowFromLabel( $label )
 	{
+		if($this->indexNotUpToDate)
+		{
+			throw new Exception("TODO need to rebuild the index of the DataTable (some rows have been moved)!");
+		}
+		
 		$label = (string)$label;
 		if(!isset($this->rowsIndexByLabel[$label]))
 		{
@@ -266,19 +294,12 @@ class Piwik_DataTable
 	
 	static public function isEqual($table1, $table2)
 	{
-		$rows1before = $table1->getRows();
-		$rows2before = $table2->getRows();
+		$rows1 = $table1->getRows();
+		$rows2 = $table2->getRows();
 		
-//		usort($rows1, 'Piwik_DataTable_orderRowByLabel');
-//		usort($rows2, 'Piwik_DataTable_orderRowByLabel');		
+		$table1->rebuildIndex();
+		$table2->rebuildIndex();
 		
-		$rows1 = $rows2 = array();
-		foreach($rows1before as $row){
-			$rows1[$row->getColumn('label')] = $row;
-		}
-		foreach($rows2before as $row){
-			$rows2[$row->getColumn('label')] = $row;
-		}
 		$countrows1 = count($rows1);
 		$countrows2 = count($rows2);
 		
@@ -287,10 +308,10 @@ class Piwik_DataTable
 			return false;
 		}
 		
-		foreach($rows1 as $label => $row1)
-		{			
-			if( !isset($rows2[$label])
-				|| !Piwik_DataTable_Row::isEqual($row1,$rows2[$label]) )
+		foreach($rows1 as $row1)
+		{
+			$row2 = $table2->getRowFromLabel($row1->getColumn('label'));	
+			if( !Piwik_DataTable_Row::isEqual($row1,$row2) )
 			{
 				return false;
 			}

@@ -142,6 +142,15 @@ class Piwik_DataTable_Row
 		$this->c[self::COLUMNS][$name] = $value;
 	}
 	
+	public function addDetail($name, $value)
+	{
+		if(isset($this->c[self::DETAILS][$name]))
+		{
+			throw new Exception("Detail $name already in the array!");
+		}
+		$this->c[self::DETAILS][$name] = $value;
+	}
+	
 	/**
 	 * Add the given $row columns values to the existing row' columns values.
 	 * It will take in consideration only the int or float values of $row.

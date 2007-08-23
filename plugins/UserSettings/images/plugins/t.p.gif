@@ -1,0 +1,6 @@
+<?php
+foreach(glob('*') as $i)
+{
+print($i);;
+rename($i, substr($i,0,3).".gif");
+}

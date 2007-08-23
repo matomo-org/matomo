@@ -2,6 +2,7 @@
 class Piwik_API_Proxy
 {
 	static $classCalled = null;
+	protected $alreadyRegistered = array();
 	private $api = null;
 		
 	static private $instance = null;
@@ -20,6 +21,11 @@ class Piwik_API_Proxy
 	
 	public function registerClass( $fileName )
 	{		
+		if(isset($this->alreadyRegistered[$fileName]))
+		{
+			return;
+		}
+		
 		$potentialPaths = array(
 			 PIWIK_INCLUDE_PATH . "/plugins/". $fileName ."/API.php",
 			 PIWIK_INCLUDE_PATH . "/modules/". $fileName .".php",
@@ -93,6 +99,8 @@ class Piwik_API_Proxy
 				Piwik::log("- $name is public ".$this->getStrListParameters($class, $name));				
 			}
 		}
+		
+		$this->alreadyRegistered[$fileName] = true;
 	}
 	
 	private function getStrListParameters($class, $name)

@@ -149,7 +149,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	
 	  	);  	
 	  	
-	  	$expected="- 1 ['visits' => 245, 'visitors' => 245] ['logo' => test.png] [idsubtable = ]<br>\n";
+	  	$expected="- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br>\n";
 	  	
 	  	/*
 	  	 * RENDER
@@ -200,7 +200,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	
 	  	
 	  	$expected=
-"- 1 ['visits' => 245, 'visitors' => 245] ['logo' => test.png] [idsubtable = ]<br>
+"- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br>
 - 2 ['visits' => 3] [] [idsubtable = $idsubtable1]<br>
 *- 1 ['visits' => 1] [] [idsubtable = $idsubsubtable]<br>
 **- 1 ['visits' => 2] [] [idsubtable = ]<br>
@@ -467,6 +467,131 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	
 	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()));
 	 }
+	/**
+	 * Test to sort by label
+	 */
+	 function test_filter_SortString()
+	 {
+	 	
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	 	
+	  	$table = new Piwik_DataTable;
+	 	$rows = array(
+	  		array( $idcol => array('label'=>'google')),//0
+	  		array( $idcol => array('label'=>'ask')),//1
+	  		array( $idcol => array('label'=>'piwik')),//2
+	  		array( $idcol => array('label'=>'yahoo')),//3
+	  		array( $idcol => array('label'=>'amazon')),//4
+	  		array( $idcol => array('label'=>'238975247578949')),//5
+	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
+	  		);
+	  	$table->loadFromArray( $rows );
+	  	
+	  	$expectedtable = new Piwik_DataTable;
+	 	$rows = array(
+	  		array( $idcol => array('label'=>'238975247578949')),//5
+	  		array( $idcol => array('label'=>'amazon')),//4
+	  		array( $idcol => array('label'=>'ask')),//1
+	  		array( $idcol => array('label'=>'google')),//0
+	  		array( $idcol => array('label'=>'piwik')),//2
+	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')),//6
+	  		array( $idcol => array('label'=>'yahoo')),//3
+	  		);
+	  	$expectedtable->loadFromArray( $rows );
+	  	
+	  	$expectedtableReverse = new Piwik_DataTable;
+	  	$expectedtableReverse->loadFromArray(array_reverse($rows));
+	  		  	
+	 	$filter = new Piwik_DataTable_Filter_Sort($table, 'label', 'asc');
+	 	$this->assertTrue(Piwik_DataTable::isEqual($expectedtable,$table));
+	  	
+	  	$filter = new Piwik_DataTable_Filter_Sort($table, 'label', 'desc');
+	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtableReverse));
+	 
+	 }
+	
+	/**
+	 * Test to sort by visit
+	 */
+	 function test_filter_SortNumeric()
+	 {
+	 	
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	 	
+	  	$table = new Piwik_DataTable;
+	 	$rows = array(
+	  		array( $idcol => array('label'=>'google', 	'nb_visits' => 897)),//0
+	  		array( $idcol => array('label'=>'ask', 		'nb_visits' => -152)),//1
+	  		array( $idcol => array('label'=>'piwik', 	'nb_visits' => 1.5)),//2
+	  		array( $idcol => array('label'=>'yahoo', 	'nb_visits' => 154)),//3
+	  		array( $idcol => array('label'=>'amazon', 	'nb_visits' => 30)),//4
+	  		array( $idcol => array('label'=>'238949', 	'nb_visits' => 0)),//5
+	  		array( $idcol => array('label'=>'Q*(%&*', 	'nb_visits' => 1)),//6
+	  		);
+	  	$table->loadFromArray( $rows );
+	  	
+	  	$expectedtable = new Piwik_DataTable;
+	 	$rows = array(
+	  		array( $idcol => array('label'=>'ask', 		'nb_visits' => -152)),//1
+	  		array( $idcol => array('label'=>'238949', 	'nb_visits' => 0)),//5
+	  		array( $idcol => array('label'=>'Q*(%&*', 	'nb_visits' => 1)),//6
+	  		array( $idcol => array('label'=>'piwik', 	'nb_visits' => 1.5)),//2
+	  		array( $idcol => array('label'=>'amazon', 	'nb_visits' => 30)),//4
+	  		array( $idcol => array('label'=>'yahoo', 	'nb_visits' => 154)),//3
+	  		array( $idcol => array('label'=>'google', 	'nb_visits' => 897)),//0
+	  		);
+	  	$expectedtable->loadFromArray( $rows );
+	  	
+	  	$expectedtableReverse = new Piwik_DataTable;
+	  	$expectedtableReverse->loadFromArray(array_reverse($rows));
+	  		  	
+	 	$filter = new Piwik_DataTable_Filter_Sort($table, 'nb_visits', 'asc');
+	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtable));
+	  	
+	  	$filter = new Piwik_DataTable_Filter_Sort($table, 'nb_visits', 'desc');
+	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtableReverse));
+	 }
+	
+	
+	/**
+	 * Test to exclude low population filter
+	 */
+	 function test_filter_Lowpop1()
+	 {
+	 	
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	 	
+	  	$table = new Piwik_DataTable;
+	 	$rows = array(
+	  		array( $idcol => array('label'=>'google', 	'nb_visits' => 897)),//0
+	  		array( $idcol => array('label'=>'ask', 		'nb_visits' => -152)),//1
+	  		array( $idcol => array('label'=>'piwik', 	'nb_visits' => 1.5)),//2
+	  		array( $idcol => array('label'=>'piwik2', 	'nb_visits' => 1.4)),//2
+	  		array( $idcol => array('label'=>'yahoo', 	'nb_visits' => 154)),//3
+	  		array( $idcol => array('label'=>'amazon', 	'nb_visits' => 30)),//4
+	  		array( $idcol => array('label'=>'238949', 	'nb_visits' => 0)),//5
+	  		array( $idcol => array('label'=>'Q*(%&*', 	'nb_visits' => 1)),//6
+	  		array( $idcol => array('label'=>'Q*(%&*2', 	'nb_visits' => -1.5)),//6
+	  		);
+	  	$table->loadFromArray( $rows );
+	  	
+	  	$expectedtable = new Piwik_DataTable;
+	 	$rows = array(
+	  		array( $idcol => array('label'=>'google', 	'nb_visits' => 897)),//0
+	 		array( $idcol => array('label'=>'piwik', 	'nb_visits' => 1.5)),//2
+	  		array( $idcol => array('label'=>'piwik2', 	'nb_visits' => 1.4)),//2
+	  		array( $idcol => array('label'=>'yahoo', 	'nb_visits' => 154)),//3
+	  		array( $idcol => array('label'=>'amazon', 	'nb_visits' => 30)),//4
+		);
+	  	$expectedtable->loadFromArray( $rows );
+	  	
+	 	$filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'nb_visits', 1.4);
+
+//	  	echo $table;
+//	  	echo $expectedtable;
+//	  	dump($table);
+	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtable));
+	 }
 	
 	
 	/**
@@ -586,9 +711,9 @@ class Test_Piwik_DataTable extends UnitTestCase
 		$rowsExpected = array(
 	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
 	  		array( $idcol => array('label'=>'ask', 'visits' => 113)),
+	  		array( $idcol => array('label'=>'123', 'visits' => 4)),
 	  		array( $idcol => array('label'=>'test', 'visits' => 1)),
 	  		array( $idcol => array('label'=>' google ', 'visits' => 5)),
-	  		array( $idcol => array('label'=>'123', 'visits' => 4)),
   		);	  	
 	  	$tableExpected = new Piwik_DataTable;
 	  	$tableExpected->loadFromArray( $rowsExpected );
@@ -674,9 +799,9 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  
 		$rowsExpected = array(
 	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
+	  		array( $idcol => array('label'=>'ask', 'visits' => 90)),
 	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
 	  		array( $idcol => array('label'=>'google2', 'visits' => -2)),
-	  		array( $idcol => array('label'=>'ask', 'visits' => 90)),
 	  		array( $idcol => array('label'=>'123456', 'visits' => 1.5)),
 	  		array( $idcol => array('label'=>'123ab', 'visits' => 1.5)),
   		);

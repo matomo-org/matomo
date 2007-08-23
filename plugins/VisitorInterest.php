@@ -1,6 +1,6 @@
 <?php
 	
-class Piwik_Plugin_VisitorInterest extends Piwik_Plugin
+class Piwik_VisitorInterest extends Piwik_Plugin
 {	
 	
 	protected $timeGap = array(

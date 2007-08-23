@@ -2,6 +2,19 @@
 
 class Piwik_API_Request
 {
+	function __construct($request = null)
+	{
+		$requestArray = $_REQUEST;
+		
+		if(!is_null($request))
+		{
+			$request = trim($request);
+			$request = str_replace(array("\n","\t"),'', $request);
+			parse_str($request, $requestArray);
+		}
+		$this->requestToUse = $requestArray;
+	}
+	
 	private function extractModuleAndMethod($parameter)
 	{
 		$a = explode('.',$parameter);
@@ -15,11 +28,10 @@ class Piwik_API_Request
 	public function process()
 	{
 		// read parameters
-		$moduleMethod = Piwik_Common::getRequestVar('method');
+		$moduleMethod = Piwik_Common::getRequestVar('method', null, null, $this->requestToUse);
 		
 		list($module, $method) = $this->extractModuleAndMethod($moduleMethod); 
-		
-		
+				
 		// call the method via the PublicAPI class
 		$api = Piwik_Api_Proxy::getInstance();
 		$api->registerClass($module);
@@ -37,12 +49,13 @@ class Piwik_API_Request
 		{
 			if(!empty($defaultValue))
 			{
-				$requestValue = Piwik_Common::getRequestVar($name, $defaultValue);
+				$requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $this->requestToUse);
 			}
 			else
 			{
-				$requestValue = Piwik_Common::getRequestVar($name);				
+				$requestValue = Piwik_Common::getRequestVar($name, null, null, $this->requestToUse);				
 			}
+			
 			$finalParameters[] = $requestValue;
 		}
 		
@@ -68,7 +81,7 @@ class Piwik_API_Request
 	protected function getRenderedDataTable($dataTable)
 	{
 		// Renderer
-		$format = Piwik_Common::getRequestVar('format', 'php', 'string');
+		$format = Piwik_Common::getRequestVar('format', 'php', 'string', $this->requestToUse);
 		$renderer = Piwik_DataTable_Renderer::factory($format);
 		$renderer->setTable($dataTable);
 		
@@ -90,6 +103,14 @@ class Piwik_API_Request
 								'filter_column' => 'string', 
 								'filter_pattern' => 'string',
 						),
+			'Sort' => array(
+								'filter_sort_column' => 'string', 
+								'filter_sort_order' => 'string',
+						),
+			'ExcludeLowPopulation'	=> array(
+								'filter_excludelowpop' => 'string', 
+								'filter_excludelowpop_value' => 'float',
+						),
 		);
 		
 		foreach($genericFilters as $filterName => $parameters)
@@ -100,7 +121,7 @@ class Piwik_API_Request
 			foreach($parameters as $name => $type)
 			{
 				try {
-					$value = Piwik_Common::getRequestVar($name);
+					$value = Piwik_Common::getRequestVar($name, null, null, $this->requestToUse);
 					settype($value, $type);
 					$filterParameters[] = $value;
 				}

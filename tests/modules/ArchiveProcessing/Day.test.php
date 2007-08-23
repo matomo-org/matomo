@@ -185,10 +185,10 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 		// WHAT WE TEST
 		$input = array(
 		'cat1' => array(
+				'pagecat1' => $rowcat1,
 				'cat2' => array(
 					'pagecat2' => $rowcat2,
 					),
-				'pagecat1' => $rowcat1,
 				),
 		);				
 		$tableGenerated = Piwik_ArchiveProcessing_Day::generateDataTable($input);
