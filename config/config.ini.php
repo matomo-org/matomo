@@ -17,9 +17,9 @@ tables_prefix	= piwiktests_
 
 [Plugins]
 enabled[] 		= UserSettings
+enabled[] 		= Actions
 ;enabled[] 		= UserCountry
 ;enabled[] 		= Provider
-;enabled[] 		= Actions
 ;enabled[] 		= Referers
 ;enabled[] 		= VisitFrequency
 ;enabled[] 		= VisitTime
@@ -86,7 +86,7 @@ logger_message[]		= screen
 ;logger_message[]		= file
 
 ; all calls to the API (method name, parameters, execution time, caller IP, etc.)
-logger_api_call[]		= screen
+;logger_api_call[]		= screen
 logger_api_call[]		= database
 ;logger_api_call[]		= file
 

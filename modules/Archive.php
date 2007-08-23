@@ -62,8 +62,15 @@ class Piwik_Archive
 	{
 	}
 	
+	static protected $alreadyBuilt = array();
+	
 	static public function build($idSite, $date, $period )
 	{
+		if(isset(self::$alreadyBuilt[$idSite][$date][$period]))
+		{
+			return self::$alreadyBuilt[$idSite][$date][$period];
+		}
+		
 		$oDate = Piwik_Date::factory($date);
 		$oPeriod = Piwik_Period::factory($period, $oDate);
 		$oSite = new Piwik_Site($idSite);
@@ -71,6 +78,8 @@ class Piwik_Archive
 		$archive = new Piwik_Archive;
 		$archive->setPeriod($oPeriod);
 		$archive->setSite($oSite);
+		
+		self::$alreadyBuilt[$idSite][$date][$period] = $archive;
 		return $archive;
 	}
 	
@@ -218,6 +227,7 @@ class Piwik_Archive
 	
 	public function getDataTableExpanded($name)
 	{
+		$this->preFetchBlob($name);
 		$dataTableToLoad = $this->getDataTable($name);
 		$this->loadSubDataTables($name, $dataTableToLoad);
 		return $dataTableToLoad;		

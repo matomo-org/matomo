@@ -40,6 +40,7 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 			$details=array();
 			foreach($row->getDetails() as $detail => $value)
 			{
+				if(is_string($value)) $value = "'$value'";
 				$details[] = "'$detail' => $value";
 			}
 			$details = implode(", ", $details);

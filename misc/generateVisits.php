@@ -32,6 +32,7 @@ require_once "LogStats/Generator.php";
 ob_start();
 Piwik_PluginsManager::getInstance()->doNotLoadPlugins();	
 $generator = new Piwik_LogStats_Generator;
+$generator->setMaximumUrlDepth(2);
 $generator->disableProfiler();
 $generator->emptyAllLogTables();
 $generator->init();

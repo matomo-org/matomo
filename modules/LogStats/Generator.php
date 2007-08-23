@@ -30,7 +30,7 @@ class Piwik_LogStats_Generator
 	private $allget=array();
 	public $profiling;
 	public $reinitProfilingAtEveryRequest = true;
-	
+	private $maximumUrlDepth = 1;
 	public $host = 'http://localhost';
 	protected $timestampToUse;
 	
@@ -50,6 +50,11 @@ class Piwik_LogStats_Generator
 		Piwik_LogStats_Db::enableProfiling();
 		
 		$this->timestampToUse = time();
+	}
+	
+	public function setMaximumUrlDepth($value)
+	{
+		$this->maximumUrlDepth = (int)$value;
 	}
 	
 	public function setTimestampToUse($timestamp)
@@ -305,7 +310,7 @@ class Piwik_LogStats_Generator
 	{
 		$url = $host;
 		
-		$deep = mt_rand(0,1);
+		$deep = mt_rand(0,$this->maximumUrlDepth);
 		for($i=0;$i<$deep;$i++)
 		{
 			$name = $this->getRandomString(1,1,'alnum');

@@ -349,7 +349,7 @@ class Piwik_UsersManager_API extends Piwik_APIable
 		// has an 'admin' access
 		if(is_null($idSites))
 		{
-			$idSites = Piwik_SitesManager::getSitesIdWithAdminAccess();
+			$idSites = Piwik_SitesManager_API::getSitesIdWithAdminAccess();
 		}
 		// in case the idSites is an integer we build an array		
 		elseif(!is_array($idSites))

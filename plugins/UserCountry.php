@@ -1,6 +1,6 @@
 <?php
 	
-class Piwik_Plugin_UserCountry extends Piwik_Plugin
+class Piwik_UserCountry extends Piwik_Plugin
 {	
 	public function __construct()
 	{

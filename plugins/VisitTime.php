@@ -1,6 +1,6 @@
 <?php
 	
-class Piwik_Plugin_VisitTime extends Piwik_Plugin
+class Piwik_VisitTime extends Piwik_Plugin
 {	
 	public function __construct()
 	{

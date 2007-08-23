@@ -1,6 +1,6 @@
 <?php
 	
-class Piwik_Plugin_Actions extends Piwik_Plugin
+class Piwik_Actions extends Piwik_Plugin
 {
 	static protected $actionCategoryDelimiter = null;
 	

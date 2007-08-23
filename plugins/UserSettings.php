@@ -3,14 +3,14 @@
 class Piwik_UserSettings extends Piwik_Plugin
 {	
 	// source: http://en.wikipedia.org/wiki/List_of_web_browsers
-	protected $browserType = array(
+	static public $browserType = array(
 		"ie"	=> array("IE"),
 		"gecko" => array("NS", "PX", "FF", "FB", "CA", "CH", "GA", "KM", "MO", "SM"),
 		"khtml" => array("SF", "KO", "OW"),
 		"opera" => array("OP")
 	);
 
-	protected $browserType_display = array(
+	static public $browserType_display = array(
 		'ie' => 'Internet Explorer',
 		'gecko' => 'Gecko (Mozilla, Netscape)',
 		'khtml' => 'Khtml (Konqueror, Safari)',
@@ -100,7 +100,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 			
 			$familyNameToUse = 'unknown';
 				
-			foreach($this->browserType as $familyName => $aBrowsers)
+			foreach(self::$browserType as $familyName => $aBrowsers)
 			{			
 				if(in_array(substr($browserLabel, 0, 2), $aBrowsers))
 				{
@@ -150,7 +150,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$recordName = 'UserSettings_resolution';
 		$labelSQL = "config_resolution";
 		$tableResolution = $this->archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$filter = new Piwik_DataTable_Filter_ColumnCallback($tableResolution, 'label', 'Piwik_Plugin_UserSettings_keepStrlenGreater');
+		$filter = new Piwik_DataTable_Filter_ColumnCallback($tableResolution, 'label', 'Piwik_UserSettings_keepStrlenGreater');
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableResolution->getSerialized());
 		
 		$recordName = 'UserSettings_wideScreen';
@@ -198,7 +198,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	}
 }
 
-function Piwik_Plugin_UserSettings_keepStrlenGreater($value)
+function Piwik_UserSettings_keepStrlenGreater($value)
 {
 	return strlen($value) > 5;
 }

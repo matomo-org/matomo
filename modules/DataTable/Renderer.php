@@ -51,6 +51,11 @@ class Piwik_DataTable_Renderer
 				$class = 'Piwik_DataTable_Renderer_PHP';
 				break;
 		
+			case 'html':
+				require_once "DataTable/Renderer/HTML.php";
+				$class = 'Piwik_DataTable_Renderer_HTML';
+				break;
+		
 			default:
 				throw new Exception("Renderer format $name unknown!");
 				break;
