@@ -4,6 +4,8 @@ class Piwik_API_Proxy
 	static $classCalled = null;
 	protected $alreadyRegistered = array();
 	private $api = null;
+	
+	const NO_DEFAULT_VALUE = null;
 		
 	static private $instance = null;
 	protected function __construct()
@@ -85,7 +87,7 @@ class Piwik_API_Proxy
 				{
 					$nameVariable = $parameter->getName();
 					
-					$defaultValue = '';
+					$defaultValue = Piwik_API_Proxy::NO_DEFAULT_VALUE;
 					if($parameter->isDefaultValueAvailable())
 					{
 						$defaultValue = $parameter->getDefaultValue();
@@ -94,7 +96,7 @@ class Piwik_API_Proxy
 					$aParameters[$nameVariable] = $defaultValue;
 				}
 				$this->api[$class][$name]['parameters'] = $aParameters;
-				$this->api[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
+				$this->api[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfParameters();
 				
 				Piwik::log("- $name is public ".$this->getStrListParameters($class, $name));				
 			}

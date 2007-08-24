@@ -227,7 +227,7 @@ class PEAR
     * @return mixed   A reference to the variable. If not set it will be
     *                 auto initialised to NULL.
     */
-    function &getStaticProperty($class, $var)
+    static  function &getStaticProperty($class, $var)
     {
         static $properties;
         if (!isset($properties[$class])) {
@@ -278,7 +278,7 @@ class PEAR
      */
     function isError($data, $code = null)
     {
-        if (is_a($data, 'PEAR_Error')) {
+        if ($data instanceof PEAR_Error) {
             if (is_null($code)) {
                 return true;
             } elseif (is_string($code)) {
@@ -521,7 +521,7 @@ class PEAR
      * @see PEAR::setErrorHandling
      * @since PHP 4.0.5
      */
-    function &raiseError($message = null,
+    static function &raiseError($message = null,
                          $code = null,
                          $mode = null,
                          $options = null,
@@ -566,10 +566,10 @@ class PEAR
             $ec = 'PEAR_Error';
         }
         if ($skipmsg) {
-            $a = &new $ec($code, $mode, $options, $userinfo);
+            $a = new $ec($code, $mode, $options, $userinfo);
             return $a;
         } else {
-            $a = &new $ec($message, $code, $mode, $options, $userinfo);
+            $a = new $ec($message, $code, $mode, $options, $userinfo);
             return $a;
         }
     }

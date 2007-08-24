@@ -33,6 +33,7 @@ class Piwik_PluginsManager
 	protected $pluginsToLoad = array();
 	protected $installPlugins = false;
 	protected $doLoadPlugins = true;
+	protected $languageToLoad = null;
 	
 	static private $instance = null;
 	
@@ -52,6 +53,11 @@ class Piwik_PluginsManager
 //		$this->pluginsCategory = null;
 		
 		$this->dispatcher = Event_Dispatcher::getInstance();
+	}
+	
+	public function isPluginEnabled($name)
+	{
+		return in_array( $name, $this->pluginsToLoad->toArray());		
 	}
 	
 	public function setPluginsToLoad( $array )
@@ -124,9 +130,17 @@ class Piwik_PluginsManager
 			
 			if($this->doLoadPlugins)
 			{
+				
+				$newPlugin->registerTranslation( $this->languageToLoad );
 				$this->addPluginObservers( $newPlugin );
+				
 			}
 		}
+	}
+	
+	public function setLanguageToLoad( $code )
+	{
+		$this->languageToLoad = $code;
 	}
 	
 	/**

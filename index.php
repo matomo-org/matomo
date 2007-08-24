@@ -5,6 +5,8 @@
 error_reporting(E_ALL|E_NOTICE);
 date_default_timezone_set('Europe/London');
 define('PIWIK_INCLUDE_PATH', '.');
+define('PIWIK_PLUGINS_PATH', PIWIK_INCLUDE_PATH . '/plugins');
+define('PIWIK_DATAFILES_INCLUDE_PATH', PIWIK_INCLUDE_PATH . "/modules/DataFiles");
 
 set_include_path(PIWIK_INCLUDE_PATH 
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
@@ -15,12 +17,6 @@ set_include_path(PIWIK_INCLUDE_PATH
 assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);
 assert_options(ASSERT_BAIL, 	1);
-
-//ini_set('xdebug.collect_vars', 'on');
-//ini_set('xdebug.collect_params', '4');
-//ini_set('xdebug.dump_globals', 'on');
-//ini_set('xdebug.dump.SERVER', 'REQUEST_URI');
-//ini_set('xdebug.show_local_vars', 'on');
 
 /**
  * Error / exception handling functions
@@ -51,6 +47,7 @@ require_once "Access.php";
 require_once "Auth.php";
 require_once "API/Proxy.php";
 require_once "Site.php";
+require_once "Translate.php";
 
 //move into a init() method
 Piwik::createConfigObject();
@@ -103,41 +100,6 @@ Zend_Registry::get('access')->loadAccess();
 Zend_Loader::loadClass('Piwik_Archive');
 Zend_Loader::loadClass('Piwik_Date');
 
-Piwik::printMemoryUsage('Before archiving');
-//$test = new Piwik_Archive;
-//$period = new Piwik_Period_Day( Piwik_Date::today() );
-//$site = new Piwik_Site(1);
-//$test->setPeriod($period);
-//$test->setSite($site);
-//
-//
-//$test = new Piwik_Archive;
-//$period = new Piwik_Period_Month(Piwik_Date::today());
-//$site = new Piwik_Site(1);
-//$test->setPeriod($period);
-//$test->setSite($site);
-//Piwik::log("visits=".$test->get('nb_visits'));
-//Piwik::log("max_actions=".$test->get('max_actions'));
-//Piwik::log("UserSettings_resolution = ".$test->getDataTable('UserSettings_resolution'));
-
-
-$test = new Piwik_Archive;
-//Piwik::printMemoryUsage('after archive instanciation');
-$period = new Piwik_Period_Week(Piwik_Date::today());
-//Piwik::printMemoryUsage('after period');
-$site = new Piwik_Site(1);
-//Piwik::printMemoryUsage('after site');
-$test->setPeriod($period);
-$test->setSite($site);
-$test->get('nb_visits');
-//Piwik::printMemoryUsage('after first get');
-//$test->get('nb_visits');
-//$test->get('nb_visits');
-//$test->get('nb_visits');
-//$test->get('toto12');
-//Piwik::log("Referers_keywordBySearchEngine = ". $test->getDataTableExpanded('Referers_keywordBySearchEngine'));
-//Piwik::log("Referers_keywordBySearchEngine = ". $test->getDataTable('Referers_keywordBySearchEngine'));
-
 main();
 displayProfiler();
 Piwik::printMemoryUsage();
@@ -173,8 +135,8 @@ function displayProfiler()
 function main()
 {
 	Piwik::log(
-			'<a href="http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=console&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12">
-			http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=console&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12
+			'<a href="http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12">
+			http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12
 			</a>
 			<br>'
 	);
@@ -197,32 +159,102 @@ function main()
 	require_once "API/Request.php";
 	
 	Piwik::log("getResolution");
-	$request = new Piwik_API_Request('method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=console&filter_limit=&filter_offset=&filter_column=label&filter_pattern=');
-	echo $return = $request->process();
+	$request = new Piwik_API_Request('
+			method=UserSettings.getResolution
+			&idSite=1
+			&date=yesterday
+			&period=week
+			&format=console
+			&filter_limit=
+			&filter_offset=
+			&filter_column=label
+			&filter_pattern=
+		');
+	print(($request->process()));
 	
 	Piwik::log("getOS");
-	$request = new Piwik_API_Request('filter_sort_column=1&filter_sort_order=asc&method=UserSettings.getOS&idSite=1&date=yesterday&period=week&format=html&filter_limit=&filter_offset=&filter_column=label&filter_pattern=');
-	echo $return = $request->process();	
+	$request = new Piwik_API_Request('method=UserSettings.getOS
+
+			&idSite=1
+			&date=yesterday
+			&period=week
+			&format=xml
+			&filter_limit=
+			&filter_offset=
+			&filter_column=label
+			&filter_pattern=
+	');
+	dump(htmlentities($request->process()));
 	
 	Piwik::log("getConfiguration");
-	$request = new Piwik_API_Request('method=UserSettings.getConfiguration&idSite=1&date=yesterday&period=week&format=console&filter_limit=10&filter_offset=0&filter_column=label&filter_pattern=');
-	echo $return = $request->process();
+	$request = new Piwik_API_Request('
+				method=UserSettings.getConfiguration
+				&idSite=1
+				&date=yesterday
+				&period=week
+				&format=xml
+				&filter_limit=10
+				&filter_offset=0
+				&filter_column=label
+				&filter_pattern=
+		');
+	dump(htmlentities($request->process()));
 	
 	Piwik::log("getBrowser");
-	$request = new Piwik_API_Request('method=UserSettings.getBrowser&idSite=1&date=yesterday&period=week&format=console&filter_limit=10&filter_offset=0&filter_column=label&filter_pattern=');
-	echo $return = $request->process();
+	$request = new Piwik_API_Request('
+				method=UserSettings.getBrowser
+				&idSite=1
+				&date=yesterday
+				&period=week
+				&format=xml
+				&filter_limit=
+				&filter_offset=
+				&filter_column=label
+				&filter_pattern=
+	');
+	dump(htmlentities($request->process()));
 	
 	Piwik::log("getBrowserType");
-	$request = new Piwik_API_Request('method=UserSettings.getBrowserType&idSite=1&date=yesterday&period=week&format=console&filter_limit=10&filter_offset=0&filter_column=label&filter_pattern=');
-	echo $return = $request->process();
+	$request = new Piwik_API_Request('
+				method=UserSettings.getBrowserType
+				&idSite=1
+				&date=yesterday
+				&period=week
+				&format=xml
+				&filter_limit=
+				&filter_offset=
+				&filter_column=label
+				&filter_pattern=
+	');
+	dump(htmlentities($request->process()));
 	
 	Piwik::log("getWideScreen");
-	$request = new Piwik_API_Request('method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=console&filter_limit=10&filter_offset=0&filter_column=label&filter_pattern=');
-	echo $return = $request->process();
+	$request = new Piwik_API_Request('
+				method=UserSettings.getWideScreen
+				&idSite=1
+				&date=yesterday
+				&period=week
+				&format=xml
+				&filter_limit=
+				&filter_offset=
+				&filter_column=label
+				&filter_pattern=
+	');
+	dump(htmlentities($request->process()));
 	
 	Piwik::log("getPlugin");
-	$request = new Piwik_API_Request('method=UserSettings.getPlugin&idSite=1&date=yesterday&period=week&format=console&filter_limit=10&filter_offset=0&filter_column=label&filter_pattern=');
-	echo $return = $request->process();
+	$request = new Piwik_API_Request('
+				method=UserSettings.getPlugin
+				&idSite=1
+				&date=yesterday
+				&period=week
+				&format=xml
+				&filter_limit=
+				&filter_offset=
+				&filter_column=label
+				&filter_pattern=
+	');
+	dump(htmlentities($request->process()));
 	
 	Piwik::log("getActions");
 	$request = new Piwik_API_Request(
@@ -231,16 +263,205 @@ function main()
 		&date=yesterday
 		&period=month
 		&format=html
-		&filter_limit=20
+		&filter_limit=10
 		&filter_offset=0
-		&filter_column=label
-		&filter_pattern=
 	'
 	);
-	echo $return = $request->process();
+//	echo(($request->process()));
+
+	Piwik::log("getActions EXPANDED");
+	$request = new Piwik_API_Request(
+		'method=Actions.getActions
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=html
+		&expanded=true
+		&filter_column=label
+		&filter_pattern=a
+		&filter_limit=10
+		&filter_offset=0
+		
+	'
+	);
+//	echo(($request->process()));
+	
+	Piwik::log("getActions EXPANDED SUBTABLE");
+	$request = new Piwik_API_Request(
+		'method=Actions.getActions
+		&idSubtable=5477
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=html
+		&expanded=false
+		
+	'
+	);
+//	echo(($request->process()));
+	
+	Piwik::log("getDownloads");
+	$request = new Piwik_API_Request(
+		'method=Actions.getDownloads
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=xml
+	'
+	);
+//	dump(htmlentities($request->process()));
+	Piwik::log("getOutlinks");
+	$request = new Piwik_API_Request(
+		'method=Actions.getOutlinks
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=xml
+	'
+	);
+//	dump(htmlentities($request->process()));
+	Piwik::log("getProvider");
+	$request = new Piwik_API_Request(
+		'method=Provider.getProvider
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=xml
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	Piwik::log("getCountry");
+	$request = new Piwik_API_Request(
+		'method=UserCountry.getCountry
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=xml
+		&filter_limit=10
+		&filter_offset=0
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	Piwik::log("getContinent");
+	$request = new Piwik_API_Request(
+		'method=UserCountry.getContinent
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=xml
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	
+	Piwik::log("getContinent");
+	$request = new Piwik_API_Request(
+		'method=VisitFrequency.getSummary
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=xml
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	Piwik::log("getNumberOfVisitsPerVisitDuration");
+	$request = new Piwik_API_Request(
+		'method=VisitorInterest.getNumberOfVisitsPerVisitDuration
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=xml
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	Piwik::log("getNumberOfVisitsPerPage");
+	$request = new Piwik_API_Request(
+		'method=VisitorInterest.getNumberOfVisitsPerPage
+		&idSite=1
+		&date=yesterday
+		&period=month
+		&format=xml
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	
+	
+	Piwik::log("getVisitInformationPerServerTime");
+	$request = new Piwik_API_Request(
+		'method=VisitTime.getVisitInformationPerServerTime
+		&idSite=1
+		&date=yesterday
+		&period=week
+		&format=xml
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	
+	Piwik::log("getRefererType");
+	$request = new Piwik_API_Request(
+		'method=Referers.getRefererType
+		&idSite=1
+		&date=yesterday
+		&period=week
+		&format=xml
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	Piwik::log("getKeywords");
+	$request = new Piwik_API_Request(
+		'method=Referers.getKeywords
+		&idSite=1
+		&date=yesterday
+		&period=week
+		&format=xml
+		&filter_limit=10
+		&filter_offset=0
+	'
+	);
+	dump(htmlentities($request->process()));
+	Piwik::log("getSearchEnginesFromKeywordId");
+	$request = new Piwik_API_Request(
+		'method=Referers.getSearchEnginesFromKeywordId
+		&idSite=1
+		&date=yesterday
+		&period=week
+		&format=xml
+		&idSubtable=1886
+		&filter_limit=10
+		&filter_offset=0
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	Piwik::log("getSearchEngines");
+	$request = new Piwik_API_Request(
+		'method=Referers.getSearchEngines
+		&idSite=1
+		&date=yesterday
+		&period=week
+		&format=xml
+		&filter_limit=10
+		&filter_offset=0
+	'
+	);
+	dump(htmlentities($request->process()));
+	
 	
 }
 
+function dump($var)
+{
+	print("<pre>");
+	var_export($var);
+	print("</pre>");
+}
 
 ?>
 

@@ -120,6 +120,7 @@ class Piwik_DataTable
 	protected $currentId;
 	protected $depthLevel = 0;
 	protected $indexNotUpToDate = false;
+	protected $queuedFilters = array();
 	
 	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 20;
 	
@@ -132,6 +133,31 @@ class Piwik_DataTable
 	{
 		$this->indexNotUpToDate = true;
 		usort(&$this->rows, $functionCallback);
+	}
+	
+	public function queueFilter( $className, $parameters = array() )
+	{
+		if(!is_array($parameters))
+		{
+			$parameters = array($parameters);
+		}
+		$this->queuedFilters[] = array('className' => $className, 'parameters' => $parameters);
+	}
+	public function applyQueuedFilters()
+	{
+		foreach($this->queuedFilters as $filter)
+		{
+			// make a reflection object
+			$reflectionObj = new ReflectionClass($filter['className']);
+			
+			// the first parameter of a filter is the DataTable
+			// we add the current datatable as the parameter
+			$filter['parameters'] = array_merge(array($this), $filter['parameters']);
+			
+			// use Reflection to create a new instance, using the $args
+			$filter = $reflectionObj->newInstanceArgs($filter['parameters']); 
+		}
+		$this->queuedFilters = array();
 	}
 	
 	public function rebuildIndex()

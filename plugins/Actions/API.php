@@ -2,6 +2,7 @@
 
 require_once "DataFiles/Browsers.php";
 require_once "DataFiles/OS.php";
+require_once "Actions.php";
 		
 class Piwik_Actions_API extends Piwik_Apiable
 {
@@ -21,11 +22,44 @@ class Piwik_Actions_API extends Piwik_Apiable
 		return self::$instance;
 	}
 	
-	public function getActions( $idSite, $period, $date )
+	protected function getDataTable($name, $idSite, $period, $date, $expanded, $idSubtable )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $date, $period );
-		$dataTable = $archive->getDataTableExpanded('Actions_actions');
+		
+		if($idSubtable === false)
+		{
+			$idSubtable = null;
+		}
+		
+		if($expanded)
+		{
+			$dataTable = $archive->getDataTableExpanded($name, $idSubtable);			
+		}
+		else
+		{
+			$dataTable = $archive->getDataTable($name, $idSubtable);
+		}
+		
+		$dataTable->queueFilter(	'Piwik_DataTable_Filter_ReplaceColumnNames', 
+									array(Piwik_Actions::getColumnsMap())
+						);
 		return $dataTable;
 	}
+	
+	public function getActions( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	{
+		return $this->getDataTable('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable );
+	}
+
+	public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	{
+		return $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
+	}
+
+	public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	{
+		return $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
+	}
 }
+

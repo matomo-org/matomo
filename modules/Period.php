@@ -75,6 +75,10 @@ abstract class Piwik_Period
 	//TODO test getDateEnd
 	public function getDateEnd()
 	{
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
 		if(count($this->subperiods) == 0)
 		{
 			return $this->getDate();

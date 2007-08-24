@@ -10,6 +10,43 @@ abstract class Piwik_Plugin
 	{
 	}
 	
+	public function registerTranslation( $langCode )
+	{
+		$infos = $this->getInformation();
+		if(!isset($infos['translationAvailable']))
+		{
+			$infos['translationAvailable'] = false;
+		}
+		$translationAvailable = $infos['translationAvailable'];
+		
+		if(!$translationAvailable)
+		{
+			return;
+		}
+		
+		$name = $infos['name'];
+		$path = PIWIK_INCLUDE_PATH . "/plugins/" . $name ."/lang/%s.php";
+		
+		$defaultLangPath = sprintf($path, $langCode);
+		$defaultEnglishLangPath = sprintf($path, 'en');
+		
+		$translations = array();
+		if(is_readable($defaultLangPath))
+		{
+			require $defaultLangPath;
+		}
+		elseif(is_readable($defaultEnglishLangPath))
+		{
+			require $defaultEnglishLangPath;
+		}
+		else
+		{
+			throw new Exception("The language file couldn't be find for this plugin '$name'.");
+		}
+		
+		Piwik_Translate::getInstance()->addTranslationArray($translations);
+	}
+	
 	/**
 	 * Returns the plugin details
 	 */

@@ -1,6 +1,6 @@
 <?php
 	
-class Piwik_Example extends Piwik_Plugin
+class Piwik_ExamplePlugin extends Piwik_Plugin
 {	
 	public function __construct()
 	{
@@ -10,11 +10,13 @@ class Piwik_Example extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Name',
+			// name must be the className prefix!
+			'name' => 'ExamplePlugin',
 			'description' => 'Description',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'translationAvailable' => false,
 		);
 		
 		return $info;
@@ -41,3 +43,4 @@ class Piwik_Example extends Piwik_Plugin
 		$objectPassed = $notification->getNotificationObject();
 	}
 }
+

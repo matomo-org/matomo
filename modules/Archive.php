@@ -206,7 +206,7 @@ class Piwik_Archive
 	}
 	
 	
-	public function loadSubDataTables($name, Piwik_DataTable $dataTableToLoad)
+	public function loadSubDataTables($name, Piwik_DataTable $dataTableToLoad, $addDetailSubtableId = false)
 	{
 		// we have to recursively load all the subtables associated to this table's rows
 		// and update the subtableID so that it matches the newly instanciated table 
@@ -220,16 +220,24 @@ class Piwik_Archive
 				
 				$this->loadSubDataTables($name, $subDataTableLoaded);
 				
+				// we edit the subtable ID so that it matches the newly table created in memory
+				// NB:
+				// we dont do that in the case we are displaying the table expanded.
+				// in this case we wan't the user to see the REAL dataId in the database
+				if($addDetailSubtableId)
+				{
+					$row->addDetail('databaseSubtableId', $row->getIdSubDataTable());
+				}
 				$row->setSubtable( $subDataTableLoaded );
 			}
 		}
 	}
 	
-	public function getDataTableExpanded($name)
+	public function getDataTableExpanded($name, $idSubTable = null)
 	{
 		$this->preFetchBlob($name);
-		$dataTableToLoad = $this->getDataTable($name);
-		$this->loadSubDataTables($name, $dataTableToLoad);
+		$dataTableToLoad = $this->getDataTable($name, $idSubTable);
+		$this->loadSubDataTables($name, $dataTableToLoad, $addDetailSubtableId = true);
 		return $dataTableToLoad;		
 	}
 	
@@ -255,6 +263,26 @@ class Piwik_Archive
 			throw new Exception("You are requesting a precise subTable but there is not such data in the Archive.");
 		}
 	
+		return $table;
+	}
+	
+	public function getDataTableFromNumeric( $fields )
+	{
+		require_once "DataTable/Simple.php";
+		if(!is_array($fields))
+		{
+			$fields = array($fields);
+		}
+		
+		$values = array();
+		foreach($fields as $field)
+		{
+			$values[$field] = $this->getNumeric($field);
+		}
+		
+		$table = new Piwik_DataTable_Simple;
+		$table->loadFromArray($values);
+		
 		return $table;
 	}
 	

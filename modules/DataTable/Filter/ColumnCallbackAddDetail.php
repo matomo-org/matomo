@@ -9,15 +9,16 @@
  */
 class Piwik_DataTable_Filter_ColumnCallbackAddDetail extends Piwik_DataTable_Filter
 {
-	private $columnToFilter;
+	private $columnToRead;
 	private $functionToApply;
+	private $detailToAdd;
 	
-	public function __construct( $table, $columnToRead, $columnToAdd, $functionToApply )
+	public function __construct( $table, $columnToRead, $detailToAdd, $functionToApply )
 	{
 		parent::__construct($table);
 		$this->functionToApply = $functionToApply;
 		$this->columnToRead = $columnToRead;
-		$this->columnToAdd = $columnToAdd;
+		$this->detailToAdd = $detailToAdd;
 		$this->filter();
 	}
 	
@@ -27,7 +28,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddDetail extends Piwik_DataTable_Fil
 		{
 			$oldValue = $row->getColumn($this->columnToRead);
 			$newValue = call_user_func( $this->functionToApply, $oldValue);
-			$row->addDetail($this->columnToAdd, $newValue);
+			$row->addDetail($this->detailToAdd, $newValue);
 		}
 	}
 }
