@@ -17,10 +17,16 @@ class Piwik
 			'year'	=>4,
 		);
 		
-	static public function log($message = '', $priority = Zend_Log::NOTICE)
+	static public function log($message = '')
 	{
 		Zend_Registry::get('logger_message')->log($message);
 		Zend_Registry::get('logger_message')->log( "<br>" . PHP_EOL);
+	}
+	
+		
+	static public function error($message = '')
+	{
+		trigger_error($message, E_USER_ERROR);
 	}
 	
 	//TODO TEST secureDiv
@@ -68,6 +74,7 @@ class Piwik
 	
 	static public function loadPlugins()
 	{
+		Piwik_PluginsManager::getInstance()->setLanguageToLoad(  Piwik_Translate::getInstance()->getLanguageToLoad() );
 		Piwik_PluginsManager::getInstance()->setPluginsToLoad( Zend_Registry::get('config')->Plugins->enabled );
 	}
 	

@@ -27,7 +27,8 @@ BUGS
 TODO MISC
 =========
 - when the plugins are not used in the piwik.php logging script, don't load the related files
-
+- Archive::build must have the same parameters order as all the API calls that use idSite, Period, Date
+- change all .png images to GIF
 
 
 CHANGES DONE TO LIBRARIES

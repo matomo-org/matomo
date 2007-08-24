@@ -21,7 +21,7 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 		// - from 0 to offset
 		
 		// at this point the array has offset less elements
-		// - from limit - offset to the end - offset
+		// - from limit to the end
 		$table->deleteRowsOffset( 0, $this->offset );
 		$table->deleteRowsOffset( $this->limit );
 	}

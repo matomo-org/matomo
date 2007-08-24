@@ -275,23 +275,28 @@ class Piwik_Actions extends Piwik_Plugin
 		return $rowsProcessed;
 	}
 
+	static protected $nameToIdMapping = array(
+			'nb_visits'	 				=> 1,
+			'nb_hits'					=> 2,
+			'entry_nb_unique_visitor'	=> 3,
+			'entry_nb_visits'			=> 4,
+			'entry_nb_actions'			=> 5,
+			'entry_sum_visit_length'	=> 6,
+			'entry_bounce_count'		=> 7,
+			'exit_nb_unique_visitor'	=> 8,
+			'exit_nb_visits'			=> 9,
+			'exit_bounce_count'			=> 10,
+			'sum_time_spent'			=> 11,
+			
+		);
+	static public function getColumnsMap()
+	{
+		return array_flip(self::$nameToIdMapping);
+	}
+	
 	protected function getIdColumn( $name )
 	{
-		$map = array(
-			'nb_visits'	 				=> 0,
-			'nb_hits'					=> 1,
-			'entry_nb_unique_visitor'	=> 2,
-			'entry_nb_visits'			=> 3,
-			'entry_nb_actions'			=> 4,
-			'entry_sum_visit_length'	=> 5,
-			'entry_bounce_count'		=> 6,
-			'exit_nb_unique_visitor'	=> 7,
-			'exit_nb_visits'			=> 8,
-			'exit_bounce_count'			=> 9,
-			'sum_time_spent'			=> 10,
-		);
-
-		return $map[$name];
+		return self::$nameToIdMapping[$name];
 	}
 }
 

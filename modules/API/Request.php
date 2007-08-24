@@ -31,7 +31,11 @@ class Piwik_API_Request
 		$moduleMethod = Piwik_Common::getRequestVar('method', null, null, $this->requestToUse);
 		
 		list($module, $method) = $this->extractModuleAndMethod($moduleMethod); 
-				
+		
+		if(!Piwik_PluginsManager::getInstance()->isPluginEnabled($module))
+		{
+			throw new Exception("The plugin '$module' is not enabled.");
+		}
 		// call the method via the PublicAPI class
 		$api = Piwik_Api_Proxy::getInstance();
 		$api->registerClass($module);
@@ -47,15 +51,19 @@ class Piwik_API_Request
 		$finalParameters = array();
 		foreach($parameters as $name => $defaultValue)
 		{
-			if(!empty($defaultValue))
-			{
-				$requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $this->requestToUse);
-			}
-			else
-			{
-				$requestValue = Piwik_Common::getRequestVar($name, null, null, $this->requestToUse);				
-			}
-			
+			try{
+				// there is a default value specified
+				if($defaultValue !== Piwik_API_Proxy::NO_DEFAULT_VALUE)
+				{
+					$requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $this->requestToUse);
+				}
+				else
+				{
+					$requestValue = Piwik_Common::getRequestVar($name, null, null, $this->requestToUse);				
+				}
+			} catch(Exception $e) {
+				Piwik::error("The required variable '$name' is not correct or has not been found in the API Request. <br>\n ".var_export($this->requestToUse, true));
+			}			
 			$finalParameters[] = $requestValue;
 		}
 		
@@ -71,6 +79,7 @@ class Piwik_API_Request
 			$dataTable = $returnedValue;
 			
 			$this->applyDataTableGenericFilters($dataTable);
+			$dataTable->applyQueuedFilters();
 			$toReturn = $this->getRenderedDataTable($dataTable);
 			
 		}
@@ -94,22 +103,28 @@ class Piwik_API_Request
 		
 		// Generic filters
 		// PatternFileName => Parameter names to match to constructor parameters
+		/*
+		 * Order to apply the filters:
+		 * 1 - Filter that remove filtered rows
+		 * 2 - Filter that sort the remaining rows
+		 * 3 - Filter that keep only a subset of the results
+		 */
 		$genericFilters = array(
-			'Limit' => array(
-								'filter_offset' 	=> 'integer',
-								'filter_limit' 		=> 'integer',
-						),
 			'Pattern' => array(
 								'filter_column' => 'string', 
 								'filter_pattern' => 'string',
+						),
+			'ExcludeLowPopulation'	=> array(
+								'filter_excludelowpop' => 'string', 
+								'filter_excludelowpop_value' => 'float',
 						),
 			'Sort' => array(
 								'filter_sort_column' => 'string', 
 								'filter_sort_order' => 'string',
 						),
-			'ExcludeLowPopulation'	=> array(
-								'filter_excludelowpop' => 'string', 
-								'filter_excludelowpop_value' => 'float',
+			'Limit' => array(
+								'filter_offset' 	=> 'integer',
+								'filter_limit' 		=> 'integer',
 						),
 		);
 		

@@ -188,7 +188,7 @@ abstract class Piwik_ArchiveProcessing
 	protected function insertRecord($record)
 	{
 		// table to use to save the data
-		if(is_numeric($record->value))
+		if(Piwik::isNumeric($record->value))
 		{
 			$table = $this->tableArchiveNumeric;
 		}

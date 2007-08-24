@@ -80,6 +80,15 @@ class Piwik_DataTable_Row
 		return $this->c[self::DETAILS];
 	}
 	
+	public function getDetail( $name )
+	{
+		if(!isset($this->c[self::DETAILS][$name]))
+		{
+			return false;
+		}
+		return $this->c[self::DETAILS][$name];
+	}
+	
 	/**
 	 * @return int|null
 	 */
@@ -128,6 +137,11 @@ class Piwik_DataTable_Row
 		$this->c[self::DATATABLE_ASSOCIATED] = $subTable->getId();
 	}
 	
+	public function setColumns( $columns )
+	{
+		$this->c[self::COLUMNS] = $columns;
+	}
+	
 	public function setColumn($name, $value)
 	{
 		$this->c[self::COLUMNS][$name] = $value;
@@ -161,12 +175,6 @@ class Piwik_DataTable_Row
 	 */
 	public function sumRow( $rowToSum )
 	{
-//		if( $rowToSum->getIdSubDataTable() != null xor $this->getIdSubDataTable() != null )
-//		{
-//			throw new Exception("Only one of either \$this or \$rowToSum 
-//									has a subTable associated. Not expected.");
-//		}
-//		
 		foreach($rowToSum->getColumns() as $name => $value)
 		{
 			if($name != 'label' 

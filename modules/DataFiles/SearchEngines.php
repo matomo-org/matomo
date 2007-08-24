@@ -51,6 +51,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"all.by"			=> array("All.by", "query"),
 		
 		// Altavista
+		"www.altavista.com"		=> array("AltaVista", "q"),
 		"listings.altavista.com"        => array("AltaVista", "q"),
 		"www.altavista.de"		=> array("AltaVista", "q"),
 		"altavista.fr"			=> array("AltaVista", "q"),
@@ -67,18 +68,17 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"us.altavista.com" 		=> array("AltaVista", "q"),
 		"nl.altavista.com" 		=> array("Altavista", "q"),
 		"ch.altavista.com" 		=> array("AltaVista", "q"),
-		"www.altavista.com"		=> array("AltaVista", "q"),
 		
 		// APOLLO7
 		"www.apollo7.de"		=> array("Apollo7", "query"),
 		"apollo7.de"			=> array("Apollo7", "query"),
 		
 		// AOL
+		"aolsearch.aol.com"		=> array("AOL", "query"),
 		"www.aolrecherche.aol.fr"	=> array("AOL", "q"),
 		"www.aolrecherches.aol.fr" 	=> array("AOL", "query"),
 		"www.aolimages.aol.fr"   	=> array("AOL", "query"),
 		"www.recherche.aol.fr"		=> array("AOL", "q"),
-		"aolsearch.aol.com"		=> array("AOL", "query"),
 		"aolsearcht.aol.com"		=> array("AOL", "query"),
 		"find.web.aol.com"		=> array("AOL", "query"),
 		"recherche.aol.ca"		=> array("AOL", "query"),
@@ -101,6 +101,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"arianna.libero.it" 		=> array("Arianna", "query"),
 		
 		// Ask
+		"www.ask.com"			=> array("Ask", "ask"),
 		"web.ask.com"			=> array("Ask", "ask"),
 		"www.ask.co.uk"			=> array("Ask", "q"),
 		"uk.ask.com"			=> array("Ask", "q"),
@@ -110,7 +111,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"it.ask.com"			=> array("Ask", "q"),
 		"nl.ask.com"			=> array("Ask", "q"),
 		"ask.jp"			=> array("Ask", "q"),
-		"www.ask.com"			=> array("Ask", "ask"),
 		
 		// Atlas
 		"search.atlas.cz" 		=> array("Atlas", "q", "windows-1250"),
@@ -195,10 +195,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"fr.dir.com" 			=> array("dir.com", "req"),
 		
 		// dmoz
+		"dmoz.org"			=> array("dmoz", "search"),
 		"editors.dmoz.org"		=> array("dmoz", "search"),
 		"search.dmoz.org"		=> array("dmoz", "search"),
 		"www.dmoz.org"			=> array("dmoz", "search"),
-		"dmoz.org"			=> array("dmoz", "search"),
 		
 		// Dogpile
 		"search.dogpile.com"		=> array("Dogpile", "q"),
@@ -241,8 +241,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.feedster.com"		=> array("Feedster", ""),
 		
 		// Francite
-		"antisearch.francite.com"	=> array("Francite", "KEYWORDS"),
 		"recherche.francite.com"	=> array("Francite", "name"),
+		"antisearch.francite.com"	=> array("Francite", "KEYWORDS"),
 		
 		// Fireball
 		"suche.fireball.de"		=> array("Fireball", "query"),
@@ -266,8 +266,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"suche.freenet.de"		=> array("Freenet", "query"),
 		
 		//Froogle
-		"froogle.google.de" 		=> array("Google (Froogle)", "q"),
 		"froogle.google.com" 		=> array("Google (Froogle)", "q"),
+		"froogle.google.de" 		=> array("Google (Froogle)", "q"),
 		"froogle.google.co.uk" 		=> array("Google (Froogle)", "q"),
 		
 		//GAIS
@@ -315,6 +315,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"search.sweetim.com"	        => array("Google", "q"),
 		
 		// Google
+		"www.google.com"		=> array("Google", "q"),
 		"gogole.fr"				=> array("Google", "q"),
 		"www.gogole.fr"			=> array("Google", "q"),
 		"wwwgoogle.fr"			=> array("Google", "q"),
@@ -468,9 +469,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.google.co.za" 		=> array("Google", "q"),
 		"www.google.co.ma"		=> array("Google", "q"),
 		"www.goggle.com"		=> array("Google", "q"),
-		"www.google.com"		=> array("Google", "q"),
 		
 		//Google Blogsearch
+		"blogsearch.google.com"		=> array("Google Blogsearch", "q"),
 		"blogsearch.google.de"		=> array("Google Blogsearch", "q"),
 		"blogsearch.google.fr"		=> array("Google Blogsearch", "q"),
 		"blogsearch.google.co.uk"	=> array("Google Blogsearch", "q"),
@@ -483,7 +484,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"blogsearch.google.at"		=> array("Google Blogsearch", "q"),
 		"blogsearch.google.ch"		=> array("Google Blogsearch", "q"),
 		"blogsearch.google.pl"		=> array("Google Blogsearch", "q"),
-		"blogsearch.google.com"		=> array("Google Blogsearch", "q"),
 		
 		
 		// Google translation
@@ -493,6 +493,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"directory.google.com"		=> array("Google Directory", " "),
 		
 		// Google Images
+		"images.google.com"		=> array("Google Images", "q"),
 		"images.google.fr"		=> array("Google Images", "q"),
 		"images.google.be" 		=> array("Google Images", "q"),
 		"images.google.ca" 		=> array("Google Images", "q"),
@@ -545,9 +546,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"images.google.ru"		=> array("Google Images", "q"),
 		"images.google.se"		=> array("Google Images", "q"),
 		"images.google.sk"		=> array("Google Images", "q"),
-		"images.google.com"		=> array("Google Images", "q"),
 		
 		// Google News
+		"news.google.com" 		=> array("Google News", "q"),
 		"news.google.se" 		=> array("Google News", "q"),
 		"news.google.com" 		=> array("Google News", "q"),
 		"news.google.es" 		=> array("Google News", "q"),
@@ -574,7 +575,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"news.google.com.ly" 		=> array("Google News", "q"),
 		"news.google.it" 		=> array("Google News", "q"),
 		"news.google.sm" 		=> array("Google News", "q"),
-		"news.google.com" 		=> array("Google News", "q"),
 		
 		// Goyellow.de
 		"www.goyellow.de"	        => array("GoYellow.de", "MDN"),
@@ -704,6 +704,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.mozbot.com"		=> array("mozbot", "q"),
 		
 		// MSN
+		"search.msn.com"		=> array("MSN", "q"),
 		"beta.search.msn.fr"		=> array("MSN", "q"),
 		"search.msn.fr"			=> array("MSN", "q"),
 		"search.msn.es"			=> array("MSN", "q"),
@@ -736,7 +737,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"search.ninemsn.com.au"		=> array("MSN", "q"),
 		"search.msn.dk"			=> array("MSN", "q"),
 		"search.arabia.msn.com"		=> array("MSN", "q"),
-		"search.msn.com"		=> array("MSN", "q"),
 		"search.prodigy.msn.com"	=> array("MSN", "q"),
 		
 		// El Mundo
@@ -890,10 +890,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"search.supereva.com" 		=> array("Supereva", "q"),
 		
 		// Sympatico
+		"search.sympatico.msn.ca"	=> array("Sympatico", "q"),
 		"search.sli.sympatico.ca"       => array("Sympatico", "q"),
 		"search.fr.sympatico.msn.ca"    => array("Sympatico", "q"),
 		"sea.search.fr.sympatico.msn.ca"=> array("Sympatico", "q"),
-		"search.sympatico.msn.ca"	=> array("Sympatico", "q"),
 		
 		// Suchmaschine.com
 		"www.suchmaschine.com"		=> array("Suchmaschine.com", "suchstr"),
@@ -931,11 +931,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"search.virgilio.it"		=> array("Virgilio", "qs"),
 		
 		// Voila
+		"search.voila.com"		=> array("Voila", "kw"),
 		"search.ke.voila.fr"		=> array("Voila", "rdata"),
 		"moteur.voila.fr"		=> array("Voila", "kw"),
 		"search.voila.fr"		=> array("Voila", "kw"),
 		"beta.voila.fr"			=> array("Voila", "kw"),
-		"search.voila.com"		=> array("Voila", "kw"),
 		
 		// Volny
 		"web.volny.cz" 			=> array("Volny", "search", "windows-1250"),
@@ -955,6 +955,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.x-recherche.com" 		=> array("X-Recherche", "mots"),
 		
 		// Yahoo
+		"search.yahoo.com"		=> array("Yahoo!", "p"),
 		"ink.yahoo.com"			=> array("Yahoo!", "p"),
 		"ink.yahoo.fr"			=> array("Yahoo!", "p"),
 		"fr.ink.yahoo.com"		=> array("Yahoo!", "p"),
@@ -977,7 +978,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"cade.search.yahoo.com"		=> array("Yahoo!", "p"),
 		"tw.search.yahoo.com" 		=> array("Yahoo!", "p"),
 		"www.yahoo.com.cn" 		=> array("Yahoo!", "p"),
-		"search.yahoo.com"		=> array("Yahoo!", "p"),
 		
 		"de.dir.yahoo.com"		     => array("Yahoo! Webverzeichnis", ""),   
 		"cf.dir.yahoo.com"		=> array("Yahoo! Directory", ""),
@@ -1036,5 +1036,15 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Zoznam
 		"www.zoznam.sk" 		=> array("Zoznam", "s"),
 	);
+	
+	$GLOBALS['Piwik_SearchEngines_NameToUrl'] = array();
+	foreach($GLOBALS['Piwik_SearchEngines'] as $url => $info)
+	{
+		if(!isset($GLOBALS['Piwik_SearchEngines_NameToUrl'][$info[0]]))
+		{
+			$GLOBALS['Piwik_SearchEngines_NameToUrl'][$info[0]] = $url;
+		}
+	}
+	
 }
 ?>

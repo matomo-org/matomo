@@ -511,6 +511,57 @@ class Test_Piwik_DataTable extends UnitTestCase
 	 }
 	
 	/**
+	 * Test to sort by label queing the filter
+	 */
+	 function test_filter_Queue_SortString()
+	 {
+	 	
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	 	
+	  	$table = new Piwik_DataTable;
+	 	$rows = array(
+	  		array( $idcol => array('label'=>'google')),//0
+	  		array( $idcol => array('label'=>'tsk')),//1
+	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')),//2
+	  		);
+	  	$table->loadFromArray( $rows );
+	  	
+	  	$expectedtable = new Piwik_DataTable;
+	 	$rows = array(
+	  		array( $idcol => array('label'=>'google')),//0
+	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')),//2
+	  		array( $idcol => array('label'=>'tsk')),//1
+	  		);
+	  	$expectedtable->loadFromArray( $rows );
+	  	
+	  	$expectedtableReverse = new Piwik_DataTable;
+	  	$expectedtableReverse->loadFromArray(array_reverse($rows));
+	  	
+		$tableCopy = clone $table;
+		$this->assertTrue(Piwik_DataTable::isEqual($tableCopy, $table));
+		
+		// queue the filter and check the table didnt change
+		$table->queueFilter("Piwik_DataTable_Filter_Sort", array('label', 'asc'));
+		$this->assertTrue(Piwik_DataTable::isEqual($tableCopy, $table));
+		
+		// apply filter and check the table is sorted
+		$table->applyQueuedFilters();
+		$this->assertTrue(Piwik_DataTable::isEqual($expectedtable, $table));
+		
+		// apply one more filter check it hasnt changed
+		$table->queueFilter("Piwik_DataTable_Filter_Sort", array('label', 'desc'));
+		$this->assertTrue(Piwik_DataTable::isEqual($expectedtable, $table));
+		
+		// now apply the second sort and check it is correctly sorted
+		$table->applyQueuedFilters();
+		$this->assertTrue(Piwik_DataTable::isEqual($expectedtableReverse, $table));
+		
+		// do one more time to make sure it doesnt change
+		$table->applyQueuedFilters();
+		$this->assertTrue(Piwik_DataTable::isEqual($expectedtableReverse, $table));
+	 }
+	
+	/**
 	 * Test to sort by visit
 	 */
 	 function test_filter_SortNumeric()

@@ -15,15 +15,19 @@ profiler 		= true
 dbname			= piwiktests
 tables_prefix	= piwiktests_
 
+[Language]
+current			= en
+default			= en
+
 [Plugins]
 enabled[] 		= UserSettings
 enabled[] 		= Actions
-;enabled[] 		= UserCountry
-;enabled[] 		= Provider
-;enabled[] 		= Referers
-;enabled[] 		= VisitFrequency
-;enabled[] 		= VisitTime
-;enabled[] 		= VisitorInterest
+enabled[] 		= Provider
+enabled[] 		= UserCountry
+enabled[] 		= Referers
+enabled[] 		= VisitFrequency
+enabled[] 		= VisitTime
+enabled[] 		= VisitorInterest
 
 [Plugins_LogStats]
 enabled[] 		= Provider

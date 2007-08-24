@@ -5,7 +5,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	private $columnToSort;
 	private $order;
 	
-	public function __construct( $table, $columnToSort, $order )
+	public function __construct( $table, $columnToSort, $order = 'desc' )
 	{
 		parent::__construct($table);
 		$this->columnToSort = $columnToSort;

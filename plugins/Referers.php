@@ -21,6 +21,7 @@ class Piwik_Referers extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'translationAvailable' => true,
 		);
 		
 		return $info;

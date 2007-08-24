@@ -64,6 +64,16 @@ class Piwik_DataTable_Renderer_HTML extends Piwik_DataTable_Renderer
 			}
 			$i++;
 		}
+		
+		/*
+		// to keep the same columns order as the columns labelled with strings
+		ksort($allColumns);
+		//replace the label first
+		if(isset($allColumns['label']))
+		{
+			$allColumns = array_merge(array('label'=>true),$allColumns);
+		}
+		*/
 		$allColumns['_details'] = true;
 		$allColumns['_idSubtable'] = true;
 

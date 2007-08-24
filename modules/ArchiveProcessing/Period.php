@@ -104,11 +104,10 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			
 			$archive->loadSubDataTables($name, $datatableToSum);
 			
-//			echo $datatableToSum;
 			$table->addDataTable($datatableToSum);
+			
 			$archive->freeBlob($name);
 		}
-//		echo $table;
 		return $table;
 	}
 	
