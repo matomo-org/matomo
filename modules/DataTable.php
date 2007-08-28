@@ -527,4 +527,3 @@ function Piwik_DataTable_orderRowByLabel($o1,$o2)
  * 						[ keyword2, +1000% ]
  * 						[ keyword3, -430% ]
  */
-?>

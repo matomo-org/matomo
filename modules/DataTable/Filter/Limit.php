@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Delete all rows from the table that are not in the offset,offset+limit range
+ * 
+ * @package Piwik_DataTable
+ * @subpackage Piwik_DataTable_Filter 
+ */
 
 class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 {	
@@ -27,4 +32,4 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 	}
 }
 
-?>
+

@@ -59,6 +59,18 @@ class Piwik_Referers extends Piwik_Plugin
 		);
 		
 		$this->archiveProcessing->archiveDataTable($dataTableToSum);
+		
+		$dataNumericToSum = array(
+			'Referers_distinctSearchEngines',
+			'Referers_distinctKeywords',
+			'Referers_distinctCampaigns',
+			'Referers_distinctWebsites',
+			'Referers_distinctWebsitesUrls',
+			'Referers_distinctPartners',
+			'Referers_distinctPartnersUrls',
+		);
+			
+		$this->archiveProcessing->archiveNumericValuesSum($dataNumericToSum);
 	}
 	
 	
@@ -98,7 +110,9 @@ class Piwik_Referers extends Piwik_Plugin
 			$interestByNewsletter =
 			$keywordByCampaign =
 			$interestByCampaign =
-			$interestByType = array();
+			$interestByType = 
+			$distinctUrls[Piwik_Common::REFERER_TYPE_WEBSITE] =
+			$distinctUrls[Piwik_Common::REFERER_TYPE_PARTNER] = array();
 		
 		while($rowBefore = $query->fetch() )
 		{
@@ -132,15 +146,6 @@ class Piwik_Referers extends Piwik_Plugin
 				
 				case Piwik_Common::REFERER_TYPE_WEBSITE:
 				case Piwik_Common::REFERER_TYPE_PARTNER:
-				
-					// for a website we remove the HOST from the url, to save some bytes in the DB
-					// for partners URLs we keep the full URL as the partner's name can be an alias and
-					// so is not necessarily the hostname of the URL...
-					if($row['referer_type']==Piwik_Common::REFERER_TYPE_WEBSITE
-						&& !empty($row['referer_url']))
-					{
-						$row['referer_url'] = Piwik_Common::getPathAndQueryFromUrl($row['referer_url']);
-					}
 					
 					if(!isset($interestByWebsite[$row['referer_type']][$row['referer_name']])) $interestByWebsite[$row['referer_type']][$row['referer_name']]= $archiveProcessing->getNewInterestRow();
 					$archiveProcessing->updateInterestStats( $row, $interestByWebsite[$row['referer_type']][$row['referer_name']]);
@@ -148,6 +153,11 @@ class Piwik_Referers extends Piwik_Plugin
 					if(!isset($urlByWebsite[$row['referer_type']][$row['referer_name']][$row['referer_url']])) $urlByWebsite[$row['referer_type']][$row['referer_name']][$row['referer_url']]= $archiveProcessing->getNewInterestRow();
 					$archiveProcessing->updateInterestStats( $row, $urlByWebsite[$row['referer_type']][$row['referer_name']][$row['referer_url']]);
 				
+					if(!isset($distinctUrls[$row['referer_type']][$row['referer_url']]))
+					{
+						$distinctUrls[$row['referer_type']][$row['referer_url']] = true;
+					}
+					
 				break;
 				
 				case Piwik_Common::REFERER_TYPE_NEWSLETTER:
@@ -199,6 +209,29 @@ class Piwik_Referers extends Piwik_Plugin
 //		Piwik::log($interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);
 //		Piwik::log("Urls by partner website:");
 //		Piwik::log($urlByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);
+		
+		
+		$numberOfDistinctSearchEngines = count($keywordBySearchEngine);
+		$numberOfDistinctKeywords = count($searchEngineByKeyword);
+		$numberOfDistinctCampaigns = count($keywordByCampaign);
+		$numberOfDistinctWebsites = count($interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE]);
+		$numberOfDistinctWebsitesUrls = count($distinctUrls[Piwik_Common::REFERER_TYPE_WEBSITE]);
+		$numberOfDistinctPartners = count($interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);
+		$numberOfDistinctPartnersUrls = count($distinctUrls[Piwik_Common::REFERER_TYPE_PARTNER]);
+		
+		$numericRecords = array(
+			'Referers_distinctSearchEngines'	=> $numberOfDistinctSearchEngines,
+			'Referers_distinctKeywords' 		=> $numberOfDistinctKeywords,
+			'Referers_distinctCampaigns'		=> $numberOfDistinctCampaigns,
+			'Referers_distinctWebsites'			=> $numberOfDistinctWebsites,
+			'Referers_distinctWebsitesUrls'		=> $numberOfDistinctWebsitesUrls,
+			'Referers_distinctPartners'			=> $numberOfDistinctPartners,
+			'Referers_distinctPartnersUrls'		=> $numberOfDistinctPartnersUrls,
+		);
+		foreach($numericRecords as $name => $value)
+		{
+			$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
+		}
 		
 		Piwik::printMemoryUsage("Middle of ".get_class($this)." "); 
 

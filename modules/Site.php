@@ -12,4 +12,4 @@ class Piwik_Site
 		return $this->id;
 	}
 }
-?>
+

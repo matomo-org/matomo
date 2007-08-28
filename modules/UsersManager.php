@@ -1,7 +1,7 @@
 <?php
 Zend_Loader::loadClass("Piwik_Access");
 
-class Piwik_UsersManager_API extends Piwik_APIable
+class Piwik_UsersManager_API extends Piwik_Apiable
 {
 	static private $instance = null;
 	protected function __construct()

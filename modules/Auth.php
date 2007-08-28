@@ -43,4 +43,5 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 	}
 	
 }
-?>
+
+

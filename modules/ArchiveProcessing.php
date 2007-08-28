@@ -295,4 +295,4 @@ abstract class Piwik_ArchiveProcessing
 	}
 	
 }
-?>
+

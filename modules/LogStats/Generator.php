@@ -461,4 +461,4 @@ class Piwik_LogStats_Generator_Visit extends Piwik_LogStats_Visit
 	}
 	
 }
-?>
+

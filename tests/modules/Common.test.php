@@ -411,4 +411,4 @@ class Test_Piwik_Common extends UnitTestCase
     	$this->assertEqual($result, $expectedResult);
     }
 }
-?>
+

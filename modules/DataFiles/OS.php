@@ -1,4 +1,9 @@
 <?php
+/**
+ * Operating systems database
+ * 
+ * @package Piwik_DataFiles
+ */
 if(!isset($GLOBALS['Piwik_Oslist']))
 {
 	$GLOBALS['Piwik_Oslist'] = array(

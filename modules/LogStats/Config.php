@@ -38,4 +38,4 @@ class Piwik_LogStats_Config
 	}
 }
 
-?>
+

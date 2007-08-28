@@ -1,8 +1,18 @@
 <?php
 /**
- * IMPORTANT: A column named 'label' must not be composed only of the characters [0-9.]
- * Otherwise the methods to addDataTable, sumRow, etc. would fail because they would consider
- * the label as being a column to sum
+ * A DataTable is composed by rows.
+ * A row is composed by 
+ * - columns often at least a 'label' column containing the description 
+ * 		of the row, and some numeric values ('nb_visits', etc.)
+ * - details: other information never to be shown as "columns")
+ * - idSubtable: a row can be linked to a SubTable
+ * 
+ * IMPORTANT: Make sure that the column named 'label' contains at least one non-numeric character.
+ * Otherwise the method addDataTable() or sumRow() would fail because they would consider
+ * the 'label' as being a numeric column to sum.
+ * 
+ * @package Piwik_DataTable
+ * 
  */
 class Piwik_DataTable_Row
 {
@@ -52,6 +62,9 @@ class Piwik_DataTable_Row
 		}
 	}
 	
+	/**
+	 * When destroyed, a row destroys its associated subTable if there is one
+	 */
 	public function __destruct()
 	{
 		$idSubtable = $this->getIdSubDataTable();
@@ -61,6 +74,11 @@ class Piwik_DataTable_Row
 		}
 	}
 
+	/**
+	 * Returns the given column
+	 * @param string Column name
+	 * @return mixed|false The column value  
+	 */
 	public function getColumn( $name )
 	{
 		if(!isset($this->c[self::COLUMNS][$name]))
@@ -70,16 +88,11 @@ class Piwik_DataTable_Row
 		return $this->c[self::COLUMNS][$name];
 	}
 	
-	public function getColumns()
-	{
-		return $this->c[self::COLUMNS];
-	}
-	
-	public function getDetails()
-	{	
-		return $this->c[self::DETAILS];
-	}
-	
+	/**
+	 * Returns the given detail
+	 * @param string Detail name
+	 * @return mixed|false The detail value  
+	 */
 	public function getDetail( $name )
 	{
 		if(!isset($this->c[self::DETAILS][$name]))
@@ -90,6 +103,36 @@ class Piwik_DataTable_Row
 	}
 	
 	/**
+	 * Returns the array of columns
+	 * 
+	 * @return array array( 
+	 * 					'column1' 	=> VALUE,
+	 * 					'label' 	=> 'www.php.net'
+	 * 					'nb_visits' => 15894,
+	 * 			)
+	 */
+	public function getColumns()
+	{
+		return $this->c[self::COLUMNS];
+	}
+	
+	/**
+	 * Returns the array of details
+	 * 
+	 * @return array array( 
+	 * 					'logo' 	=> 'images/logo/www.google.png',
+	 * 					'url'	=> 'www.google.com'
+	 * 			)
+	 */
+	public function getDetails()
+	{	
+		return $this->c[self::DETAILS];
+	}
+	
+	/**
+	 * Returns the ID of the subDataTable. 
+	 * If there is no such a table, returns null.
+	 * 
 	 * @return int|null
 	 */
 	public function getIdSubDataTable()
@@ -97,6 +140,12 @@ class Piwik_DataTable_Row
 		return $this->c[self::DATATABLE_ASSOCIATED];
 	}
 	
+	/**
+	 * Sums a DataTable to this row subDataTable.
+	 * If this row doesn't have a SubDataTable yet, we create a new one.
+	 * Then we add the values of the given DataTable to this row's DataTable 
+	 * @see addDataTable() for the summing algorithm 
+	 */
 	public function sumSubtable(Piwik_DataTable $subTable)
 	{
 		$thisSubtableID = $this->getIdSubDataTable();
@@ -113,15 +162,6 @@ class Piwik_DataTable_Row
 		$thisSubTable->addDataTable($subTable);
 	}
 
-	/**
-	 * Adds a subtable to a row. 
-	 * 
-	 */
-	public function addSubtable(Piwik_DataTable $subTable)
-	{
-		$this->checkNoSubTable();
-		$this->c[self::DATATABLE_ASSOCIATED] = $subTable->getId();
-	}
 	
 	protected function checkNoSubTable()
 	{
@@ -132,21 +172,51 @@ class Piwik_DataTable_Row
 	}
 	
 	
+	/**
+	 * Set a DataTable to be associated to this row.
+	 * If the row already has a DataTable associated to it, throws an Exception.
+	 * @throws Exception 
+	 * 
+	 */
+	public function addSubtable(Piwik_DataTable $subTable)
+	{
+		$this->checkNoSubTable();
+		$this->c[self::DATATABLE_ASSOCIATED] = $subTable->getId();
+	}
+	
+	/**
+	 * Set a DataTable to this row. If there is already 
+	 * a DataTable associated, it is simply overwritten.
+	 */
 	public function setSubtable(Piwik_DataTable $subTable)
 	{
 		$this->c[self::DATATABLE_ASSOCIATED] = $subTable->getId();
 	}
 	
+	/**
+	 * Set all the columns at once.
+	 * @param array array( 
+	 * 					'label' 	=> 'www.php.net'
+	 * 					'nb_visits' => 15894,
+	 * 			)
+	 */
 	public function setColumns( $columns )
 	{
 		$this->c[self::COLUMNS] = $columns;
 	}
 	
+	/**
+	 * Set the $value value to the column named $name
+	 */
 	public function setColumn($name, $value)
 	{
 		$this->c[self::COLUMNS][$name] = $value;
 	}
 	
+	/**
+	 * Add a new column to the row. If the column already exist, throw an exception
+	 * @throws Exception
+	 */
 	public function addColumn($name, $value)
 	{
 		if(isset($this->c[self::COLUMNS][$name]))
@@ -156,6 +226,11 @@ class Piwik_DataTable_Row
 		$this->c[self::COLUMNS][$name] = $value;
 	}
 	
+	
+	/**
+	 * Add a new detail to the row. If the column already exist, throw an exception
+	 * @throws Exception
+	 */
 	public function addDetail($name, $value)
 	{
 		if(isset($this->c[self::DETAILS][$name]))
@@ -192,8 +267,11 @@ class Piwik_DataTable_Row
 	
 	
 	/**
-	 *  2rows are equal is exact same columns / details
-	 * and if subtable is there then subtable has to be the same!
+	 * Helper function to test if two rows are equal.
+	 * 
+	 * Two rows are equal 
+	 * - if they have exactly the same columns / details
+	 * - if they have a subDataTable associated and that both of them are exactly the same.
 	 */
 	static public function isEqual( $row1, $row2 )
 	{		
@@ -240,4 +318,4 @@ class Piwik_DataTable_Row
 }
 
 require_once "Row/DataTableSummary.php";
-?>
+

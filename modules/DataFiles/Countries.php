@@ -1,4 +1,9 @@
 <?php
+/**
+ * Country code and continent database
+ * 
+ * @package Piwik_DataFiles
+ */
 if(!isset($GLOBALS['Piwik_CountryList']))
 {
 	$GLOBALS['Piwik_CountryList'] = array(
@@ -222,4 +227,4 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 			'zw' => array('afr'),
 		);
 }
-?>
+

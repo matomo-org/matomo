@@ -7,4 +7,4 @@ $translations = array(
 	'Referers_Newsletters' => 'Newsletters',
 	'Referers_Campaigns' => 'Campaigns',
 );
-?>
+ 

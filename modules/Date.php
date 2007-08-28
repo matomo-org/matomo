@@ -42,4 +42,4 @@ class Piwik_Date extends Zend_Date
 		}
 	}
 }
-?>
+

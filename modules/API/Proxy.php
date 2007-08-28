@@ -1,4 +1,15 @@
 <?php
+/**
+ * 
+ * The API Proxy receives all the API calls requests and forwards them to the given module.
+ *  
+ * It registers all the APIable modules (@see Piwik_Apiable)
+ * The class checks that a call to the API has to correct number of parameters.
+ * The proxy has the knowledge of every method available, and their parameters and default value.
+ * It also logs the calls performances (time spent, parameter values, etc.)
+ * 
+ * @package Piwik_API
+ */
 class Piwik_API_Proxy
 {
 	static $classCalled = null;
@@ -21,6 +32,17 @@ class Piwik_API_Proxy
 		return self::$instance;
 	}
 	
+	/**
+	 * Registers the API information of a given module.
+	 * 
+	 * The module to register must be
+	 * - extending the Piwik_Apiable class
+	 * - a singleton (providing a getInstance() method)
+	 * - the API file must be located in plugins/MODULE/API.php
+	 *   for example plugins/Referers/API.php
+	 * 
+	 * The method will introspect the methods, their parameters, etc. 
+	 */
 	public function registerClass( $fileName )
 	{		
 		if(isset($this->alreadyRegistered[$fileName]))
@@ -96,7 +118,7 @@ class Piwik_API_Proxy
 					$aParameters[$nameVariable] = $defaultValue;
 				}
 				$this->api[$class][$name]['parameters'] = $aParameters;
-				$this->api[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfParameters();
+				$this->api[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
 				
 				Piwik::log("- $name is public ".$this->getStrListParameters($class, $name));				
 			}
@@ -105,6 +127,12 @@ class Piwik_API_Proxy
 		$this->alreadyRegistered[$fileName] = true;
 	}
 	
+	/**
+	 * Returns the methods $class.$name parameters (and default value if provided)
+	 * as a string.
+	 * 
+	 * Example: [ idSite, period, date = today ]
+	 */
 	private function getStrListParameters($class, $name)
 	{
 		$aParameters = $this->getParametersList($class, $name);
@@ -112,7 +140,7 @@ class Piwik_API_Proxy
 		foreach($aParameters as $nameVariable=> $defaultValue)
 		{
 			$str = $nameVariable;
-			if(!empty($defaultValue))
+			if($defaultValue !== Piwik_API_Proxy::NO_DEFAULT_VALUE)
 			{
 				$str .= " = $defaultValue";
 			}
@@ -137,11 +165,17 @@ class Piwik_API_Proxy
 		return $this->api[$class][$name]['parameters'];
 	}
 	
+	/**
+	 * Returns the number of required parameters (parameters without default values).
+	 */
 	private function getNumberOfRequiredParameters($class, $name)
 	{
 		return $this->api[$class][$name]['numberOfRequiredParameters'];
 	}
 	
+	/**
+	 * Returns true if the method is found in the API
+	 */
 	private function isMethodAvailable( $className, $methodName)
 	{
 		return isset($this->api[$className][$methodName]);
@@ -153,6 +187,9 @@ class Piwik_API_Proxy
 		return $this;
 	}	
 	
+	/**
+	 * 
+	 */
 	private function checkNumberOfParametersMatch($className, $methodName, $parameters)
 	{
 		$nbParamsGiven = count($parameters);
@@ -170,6 +207,11 @@ class Piwik_API_Proxy
 		}
 	}
 	
+	/**
+	 * Checks that the class is a Singleton (presence of the getInstance() method)
+	 * 
+	 * @throws exception If the class is not a Singleton
+	 */
 	private function checkClassIsSingleton($className)
 	{
 		if(!method_exists($className, "getInstance"))
@@ -178,6 +220,11 @@ class Piwik_API_Proxy
 		}
 	}
 	
+	/**
+	 * Checks that the method exists in the class 
+	 * 
+	 * @throws exception If the method is not found
+	 */	
 	public function checkMethodExists($className, $methodName)
 	{
 		if(!$this->isMethodAvailable($className, $methodName))
@@ -185,12 +232,25 @@ class Piwik_API_Proxy
 			throw new Exception("The method '$methodName' does not exist or is not available in the module '".$className."'.");
 		}
 	}
-		
-	public function getClassNameFromModule($module)
+	
+	/**
+	 * Returns the API class name given the module name.
+	 * 
+	 * For exemple for $module = 'Referers' it returns 'Piwik_Referers_API' 
+	 * Piwik_Referers_API is the class that extends Piwik_Apiable 
+	 * and that contains the methods to be published in the API.
+	 */
+	protected  function getClassNameFromModule($module)
 	{
 		$class = Piwik::prefixClass($module ."_API");
 		return $class;
 	}
+	
+	/**
+	 * Method always called when making an API request.
+	 * It checks several things before actually calling the real method on the given module.
+	 * It also logs the API calls, with the parameters values, the returned value, the performance, etc.
+	 */
 	public function __call($methodName, $parameterValues )
 	{
 		$returnedValue = null;
@@ -228,6 +288,7 @@ class Piwik_API_Proxy
 		}
 		catch( Exception $e)
 		{
+			//TODO replace with nice error message
 			Piwik::log("<br>\n Error during API call {$className}.{$methodName}... 
 					<br>\n => ". $e->getMessage());
 
@@ -238,4 +299,3 @@ class Piwik_API_Proxy
 		return $returnedValue;
 	}
 }
-?>

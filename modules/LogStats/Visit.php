@@ -738,4 +738,4 @@ class Piwik_LogStats_Visit
 	}
 		
 }
-?>
+

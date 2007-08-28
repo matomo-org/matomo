@@ -1,6 +1,11 @@
 <?php
-
-class Piwik_DataTable_Renderer
+/**
+ * A DataTable Renderer can produce an output given a DataTable object.
+ * All new Renderers must be copied in DataTable/Renderer and added to the factory() method.
+ * 
+ * @package Piwik_DataTable
+ */
+abstract class Piwik_DataTable_Renderer
 {
 	protected $table;
 	
@@ -12,6 +17,22 @@ class Piwik_DataTable_Renderer
 		}
 	}
 	
+	/**
+	 * Computes the output and returns the string/binary
+	 */
+	abstract public function render();
+	
+	/**
+	 * @see render()
+	 */
+	public function __toString()
+	{
+		return $this->render();
+	}
+	
+	/**
+	 * Set the DataTable to be rendered
+	 */
 	public function setTable($table)
 	{
 		if(!($table instanceof Piwik_DataTable))
@@ -21,11 +42,10 @@ class Piwik_DataTable_Renderer
 		$this->table = $table;
 	}
 	
-	public function __toString()
-	{
-		return $this->render();
-	}
-	
+	/**
+	 * Returns the DataTable associated to the output format $name
+	 * @exception If the renderer is unknown
+	 */
 	static public function factory( $name )
 	{
 		$name = strtolower($name);
@@ -66,4 +86,4 @@ class Piwik_DataTable_Renderer
 	
 	
 }
-?>
+

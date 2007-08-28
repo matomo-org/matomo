@@ -1,5 +1,20 @@
 <?php
-
+/**
+ * Search Engine database
+ * 
+ * Detail of a line:
+ * Url => array( SearchEngineName, VariableKeyword, [charset used by the search engine])
+ * 
+ * The main search engine URL has to be at the top of the list for the given search Engine.
+ * 
+ * You can add new search engines icons by adding the icon 
+ * in the plugins/Referers/images/SearchEngines directory 
+ * using the format "mainSearchEngineUrl.png". Example: www.google.com.png
+ *  
+ * Post your new search engines and logos in the forum, thank you for your help!
+ * 
+ * @package Piwik_DataFiles
+ */
 if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 {
 	$GLOBALS['Piwik_SearchEngines'] = array(
@@ -1047,4 +1062,4 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 	}
 	
 }
-?>
+

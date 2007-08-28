@@ -522,4 +522,5 @@ class Piwik_Common
 	}
 	
 }
-?>
+
+

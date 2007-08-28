@@ -1,4 +1,10 @@
 <?php
+/**
+ * This class is the parent class of all the modules that can be called using the 
+ * API Proxy.
+ * 
+ * @package Piwik_API
+ */
 class Piwik_Apiable 
 {
 	static public $methodsNotToPublish = array();
@@ -7,6 +13,13 @@ class Piwik_Apiable
 	{
 	}
 
+	/**
+	 * Register a public method as "not to be published in the API".
+	 * Sometimes methods have to be marked as public to be used by other classes but
+	 * we don't want these methods to be called from outside the application.
+	 * 
+	 * @param string Method name not to be published
+	 */
 	protected function doNotPublishMethod( $methodName )
 	{
 		if(!method_exists($this, $methodName))
@@ -16,4 +29,3 @@ class Piwik_Apiable
 		$this->methodsNotToPublish[] = $methodName;
 	}
 }
-?>

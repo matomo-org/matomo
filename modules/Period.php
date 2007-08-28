@@ -344,7 +344,3 @@ class Piwik_Period_Year extends Piwik_Period
 	}
 }
 
-
-
-
-?>

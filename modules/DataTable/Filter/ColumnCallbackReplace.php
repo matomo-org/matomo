@@ -1,7 +1,10 @@
 <?php
-
 /**
- * Replace a column value with a new value resulting from the function call
+ * Replace a column value with a new value resulting 
+ * from the function called with the column's value
+ * 
+ * @package Piwik_DataTable
+ * @subpackage Piwik_DataTable_Filter 
  */
 class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filter
 {

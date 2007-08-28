@@ -516,4 +516,4 @@ class Piwik
 		$db->query( "DROP TABLE IF EXISTS ". implode(", ", self::getTablesNames()) );
 	}
 }
-?>
+

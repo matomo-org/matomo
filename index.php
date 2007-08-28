@@ -70,7 +70,7 @@ $doNotDrop = array(
 		Piwik::prefixTable('log_action'),
 		Piwik::prefixTable('log_profiling'),
 		Piwik::prefixTable('archive'),
-	);
+);
 
 Piwik::dropTables($doNotDrop);
 Piwik::createTables();
@@ -135,8 +135,8 @@ function displayProfiler()
 function main()
 {
 	Piwik::log(
-			'<a href="http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12">
-			http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=yesterday&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12
+			'<a href="http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=2007-08-25&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12">
+			http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=2007-08-25&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12
 			</a>
 			<br>'
 	);
@@ -162,7 +162,7 @@ function main()
 	$request = new Piwik_API_Request('
 			method=UserSettings.getResolution
 			&idSite=1
-			&date=yesterday
+			&date=2007-08-25
 			&period=week
 			&format=console
 			&filter_limit=
@@ -176,7 +176,7 @@ function main()
 	$request = new Piwik_API_Request('method=UserSettings.getOS
 
 			&idSite=1
-			&date=yesterday
+			&date=2007-08-25
 			&period=week
 			&format=xml
 			&filter_limit=
@@ -190,7 +190,7 @@ function main()
 	$request = new Piwik_API_Request('
 				method=UserSettings.getConfiguration
 				&idSite=1
-				&date=yesterday
+				&date=2007-08-25
 				&period=week
 				&format=xml
 				&filter_limit=10
@@ -204,7 +204,7 @@ function main()
 	$request = new Piwik_API_Request('
 				method=UserSettings.getBrowser
 				&idSite=1
-				&date=yesterday
+				&date=2007-08-25
 				&period=week
 				&format=xml
 				&filter_limit=
@@ -218,7 +218,7 @@ function main()
 	$request = new Piwik_API_Request('
 				method=UserSettings.getBrowserType
 				&idSite=1
-				&date=yesterday
+				&date=2007-08-25
 				&period=week
 				&format=xml
 				&filter_limit=
@@ -232,7 +232,7 @@ function main()
 	$request = new Piwik_API_Request('
 				method=UserSettings.getWideScreen
 				&idSite=1
-				&date=yesterday
+				&date=2007-08-25
 				&period=week
 				&format=xml
 				&filter_limit=
@@ -246,7 +246,7 @@ function main()
 	$request = new Piwik_API_Request('
 				method=UserSettings.getPlugin
 				&idSite=1
-				&date=yesterday
+				&date=2007-08-25
 				&period=week
 				&format=xml
 				&filter_limit=
@@ -260,7 +260,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=Actions.getActions
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=html
 		&filter_limit=10
@@ -273,7 +273,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=Actions.getActions
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=html
 		&expanded=true
@@ -291,7 +291,7 @@ function main()
 		'method=Actions.getActions
 		&idSubtable=5477
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=html
 		&expanded=false
@@ -304,7 +304,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=Actions.getDownloads
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=xml
 	'
@@ -314,7 +314,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=Actions.getOutlinks
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=xml
 	'
@@ -324,7 +324,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=Provider.getProvider
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=xml
 	'
@@ -335,7 +335,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=UserCountry.getCountry
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=xml
 		&filter_limit=10
@@ -348,7 +348,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=UserCountry.getContinent
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=xml
 	'
@@ -360,7 +360,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=VisitFrequency.getSummary
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=xml
 	'
@@ -371,7 +371,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=VisitorInterest.getNumberOfVisitsPerVisitDuration
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=xml
 	'
@@ -382,7 +382,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=VisitorInterest.getNumberOfVisitsPerPage
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=month
 		&format=xml
 	'
@@ -395,7 +395,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=VisitTime.getVisitInformationPerServerTime
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=week
 		&format=xml
 	'
@@ -407,7 +407,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=Referers.getRefererType
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=week
 		&format=xml
 	'
@@ -418,7 +418,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=Referers.getKeywords
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=week
 		&format=xml
 		&filter_limit=10
@@ -430,7 +430,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=Referers.getSearchEnginesFromKeywordId
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=week
 		&format=xml
 		&idSubtable=1886
@@ -444,7 +444,7 @@ function main()
 	$request = new Piwik_API_Request(
 		'method=Referers.getSearchEngines
 		&idSite=1
-		&date=yesterday
+		&date=2007-08-25
 		&period=week
 		&format=xml
 		&filter_limit=10
@@ -453,6 +453,136 @@ function main()
 	);
 	dump(htmlentities($request->process()));
 	
+	
+	Piwik::log("getKeywordsFromSearchEngineId");
+	$request = new Piwik_API_Request(
+		'method=Referers.getKeywordsFromSearchEngineId
+		&idSite=1
+		&date=2007-08-25
+		&period=week
+		&format=xml
+		&filter_limit=10
+		&filter_offset=0
+		&idSubtable=1779
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	
+	
+	Piwik::log("getCampaigns");
+	$request = new Piwik_API_Request(
+		'method=Referers.getCampaigns
+		&idSite=1
+		&date=2007-08-25
+		&period=week
+		&format=xml
+		&filter_limit=10
+		&filter_offset=0
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	
+	
+	Piwik::log("getKeywordsFromCampaignId");
+	$request = new Piwik_API_Request(
+		'method=Referers.getKeywordsFromCampaignId
+		&idSite=1
+		&date=2007-08-25
+		&period=week
+		&format=xml
+		&filter_limit=10
+		&filter_offset=0
+		&idSubtable=2251
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	
+	Piwik::log("getWebsites");
+	$request = new Piwik_API_Request(
+		'method=Referers.getWebsites
+		&idSite=1
+		&date=2007-08-25
+		&period=week
+		&format=xml
+		&filter_limit=10
+		&filter_offset=0
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	
+	
+	Piwik::log("getUrlsFromWebsiteId");
+	$request = new Piwik_API_Request(
+		'method=Referers.getUrlsFromWebsiteId
+		&idSite=1
+		&date=2007-08-25
+		&period=week
+		&format=xml
+		&filter_limit=10
+		&filter_offset=0
+		&idSubtable=2432
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	Piwik::log("getPartners");
+	$request = new Piwik_API_Request(
+		'method=Referers.getPartners
+		&idSite=1
+		&date=2007-08-25
+		&period=week
+		&format=xml
+		&filter_limit=10
+		&filter_offset=0
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	
+	
+	Piwik::log("getUrlsFromPartnerId");
+	$request = new Piwik_API_Request(
+		'method=Referers.getUrlsFromPartnerId
+		&idSite=1
+		&date=2007-08-25
+		&period=week
+		&format=xml
+		&filter_limit=10
+		&filter_offset=0
+		&idSubtable=3090
+	'
+	);
+	dump(htmlentities($request->process()));
+	
+	
+	$referersNumeric=array(
+		'getNumberOfDistinctSearchEngines',	
+		'getNumberOfDistinctKeywords',
+		'getNumberOfDistinctCampaigns',
+		'getNumberOfDistinctWebsites',
+		'getNumberOfDistinctWebsitesUrls',
+		'getNumberOfDistinctPartners',
+		'getNumberOfDistinctPartnersUrls',
+	);
+	foreach($referersNumeric as $name)
+	{
+		Piwik::log("$name");
+		$request = new Piwik_API_Request(
+			"method=Referers.$name
+			&idSite=1
+			&date=2007-08-20
+			&period=day
+			&format=xml
+			&filter_limit=10
+			&filter_offset=0
+		"
+		);
+		dump(htmlentities($request->process()));
+	}
 	
 }
 

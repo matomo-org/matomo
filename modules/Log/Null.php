@@ -13,4 +13,4 @@ class Piwik_Log_Null extends Zend_Log
 	}
 }
 
-?>
+

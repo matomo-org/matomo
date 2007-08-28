@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * XML export. Using the excellent Pear::XML_Serializer.
+ * We had to fix the PEAR library so that it works under PHP5 STRICT mode.
+ * 
+ * @package Piwik_DataTable
+ * @subpackage Piwik_DataTable_Renderer
+ */
 require_once "DataTable/Renderer/PHP.php";
 class Piwik_DataTable_Renderer_XML extends Piwik_DataTable_Renderer
 {
