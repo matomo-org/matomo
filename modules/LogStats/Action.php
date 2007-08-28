@@ -219,4 +219,4 @@ class Piwik_LogStats_Action
 	 }
 }
 
-?>
+

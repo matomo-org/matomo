@@ -34,4 +34,3 @@ class Piwik_Timer
     	return "Time elapsed: ". $this->getTime() ."s";
     }
 }
-?>

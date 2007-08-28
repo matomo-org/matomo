@@ -64,4 +64,4 @@ class Piwik_Log_Formatter_Exception_ScreenFormatter implements Zend_Log_Formatte
 
 
 
-?>
+

@@ -40,4 +40,4 @@ class Test_Piwik_Blank extends UnitTestCase
         }
     }
 }
-?>
+

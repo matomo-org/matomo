@@ -167,4 +167,3 @@ function Piwik_PostEvent( $eventName, $object = null, $info = array() )
 }
 
 
-?>

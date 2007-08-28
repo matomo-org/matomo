@@ -221,4 +221,4 @@ class Piwik_LogStats_Cookie
 //$c->save();
 //$c->deleteCookie();
 
-?>
+

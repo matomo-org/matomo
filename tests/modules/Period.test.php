@@ -467,4 +467,4 @@ class Test_Piwik_Period extends UnitTestCase
 //	 	$this->assertEqual( $week->toString(), $correct);
 	 }
 }
-?>
+

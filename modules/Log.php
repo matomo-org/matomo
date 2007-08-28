@@ -125,4 +125,4 @@ class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 
 
 
-?>
+

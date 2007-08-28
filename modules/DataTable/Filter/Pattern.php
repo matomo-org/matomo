@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Delete all rows for which the given $columnToFilter do not contain the $patternToSearch
+ * This filter is to be used on columns containing strings. 
+ * Exemple: fron the keyword report, keep only the rows for which the label contains "piwik"
+ * 
+ * @package Piwik_DataTable
+ * @subpackage Piwik_DataTable_Filter 
+ */
 class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 {
 	private $columnToFilter;
@@ -24,4 +31,4 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 		}
 	}
 }
-?>
+

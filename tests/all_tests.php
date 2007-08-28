@@ -78,4 +78,4 @@ $test->run(new HtmlReporter());
 echo $timer."<br>";
 Piwik::printMemoryUsage();
 
-?>
+

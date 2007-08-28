@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @package Piwik_ArchiveProcessing
+ */
 class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 {
 	function __construct()

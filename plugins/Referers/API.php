@@ -22,7 +22,7 @@ class Piwik_Referers_API extends Piwik_Apiable
 		return self::$instance;
 	}
 	
-	function getDataTable($name, $idSite, $period, $date, $idSubtable = null)
+	private function getDataTable($name, $idSite, $period, $date, $idSubtable = null)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $date, $period );
@@ -46,7 +46,6 @@ class Piwik_Referers_API extends Piwik_Apiable
 	
 	function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable)
 	{
-		require PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
 		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword',$idSite, $period, $date, $idSubtable);
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
 		$dataTable->queueFilter('Piwik_DataTable_Filter_DetailCallbackAddDetail', array( 'url', 'logo', 'Piwik_getSearchEngineLogoFromName') );
@@ -62,42 +61,102 @@ class Piwik_Referers_API extends Piwik_Apiable
 	}
 	
 	function getKeywordsFromSearchEngineId($idSite, $period, $date, $idSubtable)
-	{}
+	{
+		$dataTable = $this->getDataTable('Referers_keywordBySearchEngine',$idSite, $period, $date, $idSubtable);
+		return $dataTable;		
+	}
 	
 	function getCampaigns($idSite, $period, $date)
-	{}
+	{
+		$dataTable = $this->getDataTable('Referers_keywordByCampaign',$idSite, $period, $date);
+		return $dataTable;
+	}
+	
 	function getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable)
-	{}
+	{
+		$dataTable = $this->getDataTable('Referers_keywordByCampaign',$idSite, $period, $date, $idSubtable);
+		return $dataTable;	
+	}
 	
 	function getWebsites($idSite, $period, $date)
-	{}
+	{
+		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date);
+		return $dataTable;
+	}
 	function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable)
-	{}
+	{	
+		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date, $idSubtable);
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array( 'label', 'url', create_function('$label', 'return $label;')) );
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
+		return $dataTable;		
+	}
 	
 	function getPartners($idSite, $period, $date)
-	{}
-	function getUrlsFromPartnerId($idSite, $period, $date, $idSubtable)
-	{}
+	{
+		$dataTable = $this->getDataTable('Referers_urlByPartner',$idSite, $period, $date);
+		return $dataTable;
+	}
 	
+	function getUrlsFromPartnerId($idSite, $period, $date, $idSubtable)
+	{	
+		$dataTable = $this->getDataTable('Referers_urlByPartner',$idSite, $period, $date, $idSubtable);
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array( 'label', 'url', create_function('$label', 'return $label;')) );
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
+		return $dataTable;		
+	}
+	
+	private function getNumeric($name, $idSite, $period, $date)
+	{
+		Piwik::checkUserHasViewAccess( $idSite );
+		$archive = Piwik_Archive::build($idSite, $date, $period );
+		return $archive->getDataTableFromNumeric($name);
+	}
 	
 	function getNumberOfDistinctSearchEngines($idSite, $period, $date)
-	{}
+	{
+		return $this->getNumeric('Referers_distinctSearchEngines', $idSite, $period, $date);
+	}
+	
 	function getNumberOfDistinctKeywords($idSite, $period, $date)
-	{}
+	{
+		return $this->getNumeric('Referers_distinctKeywords', $idSite, $period, $date);
+	}
 	function getNumberOfDistinctCampaigns($idSite, $period, $date)
-	{}
+	{
+		return $this->getNumeric('Referers_distinctCampaigns', $idSite, $period, $date);
+	}
 	function getNumberOfDistinctWebsites($idSite, $period, $date)
-	{}
+	{
+		return $this->getNumeric('Referers_distinctWebsites', $idSite, $period, $date);
+	}
 	function getNumberOfDistinctWebsitesUrls($idSite, $period, $date)
-	{}
+	{
+		return $this->getNumeric('Referers_distinctWebsitesUrls', $idSite, $period, $date);
+	}
 	function getNumberOfDistinctPartners($idSite, $period, $date)
-	{}
+	{
+		return $this->getNumeric('Referers_distinctPartners', $idSite, $period, $date);
+	}
 	function getNumberOfDistinctPartnersUrls($idSite, $period, $date)
-	{}
+	{
+		return $this->getNumeric('Referers_distinctPartnersUrls', $idSite, $period, $date);
+	}
 }
+
+function Piwik_getPathFromUrl($url)
+{
+	$path = Piwik_Common::getPathAndQueryFromUrl($url);
+	if(empty($path))
+	{
+		return 'index';
+	}
+	return $path;
+}
+
 
 function Piwik_getSearchEngineUrlFromName($name)
 {
+	require_once PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
 	if(isset($GLOBALS['Piwik_SearchEngines_NameToUrl'][$name]))
 	{
 		$url = 'http://'.$GLOBALS['Piwik_SearchEngines_NameToUrl'][$name];
@@ -109,8 +168,10 @@ function Piwik_getSearchEngineUrlFromName($name)
 	return $url;
 }
 
+
 function Piwik_getSearchEngineLogoFromName($url)
 {
+	require_once PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
 	$path = PIWIK_PLUGINS_PATH . '/Referers/images/searchEngines/%s.png';
 	
 	$beginningUrl = strpos($url,'//')+2;
@@ -123,6 +184,7 @@ function Piwik_getSearchEngineLogoFromName($url)
 	}
 	return $normalPath;
 }
+
 
 function Piwik_getRefererTypeLabel($label)
 {	
@@ -150,11 +212,4 @@ function Piwik_getRefererTypeLabel($label)
 	}
 	return Piwik_Translate($indexTranslation);
 }
-//'Referers_keywordBySearchEngine',
-//'Referers_searchEngineByKeyword',
-//'Referers_type',
-
-//'Referers_keywordByCampaign',
-//'Referers_urlByWebsite',
-//'Referers_urlByPartner',
 

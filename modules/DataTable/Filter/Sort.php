@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Sort the DataTable based on the value of column $columnToSort ordered by $order.
+ * 
+ * @package Piwik_DataTable
+ * @subpackage Piwik_DataTable_Filter 
+ */
 class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 {
 	private $columnToSort;
@@ -51,4 +56,4 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		$this->table->sort( array($this,"sort") );
 	}
 }
-?>
+

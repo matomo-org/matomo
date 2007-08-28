@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Returns the equivalent PHP array of the DataTable.
+ * You can specify in the constructor if you want the serialized version.
+ * 
+ * @package Piwik_DataTable
+ * @subpackage Piwik_DataTable_Renderer
+ */
 class Piwik_DataTable_Renderer_PHP extends Piwik_DataTable_Renderer
 {
 	protected $serialize;

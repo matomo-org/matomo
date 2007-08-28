@@ -123,4 +123,5 @@ class Piwik_LogStats_Db
 		}
 	}
 }
-?>
+
+

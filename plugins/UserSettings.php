@@ -203,4 +203,4 @@ function Piwik_UserSettings_keepStrlenGreater($value)
 	return strlen($value) > 5;
 }
 
-?>
+

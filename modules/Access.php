@@ -138,4 +138,3 @@ class Piwik_Access
 	}
 }
 
-?>

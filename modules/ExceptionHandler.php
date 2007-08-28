@@ -15,4 +15,4 @@ function Piwik_ExceptionHandler(Exception $exception)
 		print("'" . $e->getMessage()."'");
 	}
 }
-?>
+

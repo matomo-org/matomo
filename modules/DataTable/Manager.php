@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * The DataTable_Manager registers all the instanciated DataTable and provides an 
+ * easy way to access them.
+ * 
+ * @package Piwik_DataTable
+ */
 class Piwik_DataTable_Manager
 {
 	static private $instance = null;
@@ -19,14 +24,24 @@ class Piwik_DataTable_Manager
 	protected $tables = array();
 	protected $count = 0;
 	
-	function addTable( $table )
+	/**
+	 * Add a DataTable to the registry
+	 */
+	public function addTable( $table )
 	{
 		$this->tables[] = $table;
 		$this->count++;
 		return $this->count;
 	}
 	
-	function getTable( $idTable )
+	/**
+	 * Returns the DataTable associated to the ID $idTable.
+	 * NB: The datatable has to have been instanciated before! 
+	 * This method will not fetch the DataTable from the DB.
+	 * 
+	 * @exception If the table can't be found
+	 */
+	public function getTable( $idTable )
 	{
 		// the array tables is indexed at 0 
 		// but the index is computed as the count() of the array after inserting the table
@@ -40,15 +55,21 @@ class Piwik_DataTable_Manager
 		return $this->tables[$idTable];
 	}
 	
-	function deleteAll()
+	/**
+	 * Delete all the registered DataTables
+	 */
+	public function deleteAll()
 	{
 		Piwik::log("DELETE ALL ".$this->count()." TABLES");
 		$this->tables = array();
 	}
 	
+	/**
+	 * Returns the number of DataTable currently registered.
+	 */
 	function count()
 	{
 		return count($this->tables);
 	}
 }
-?>
+

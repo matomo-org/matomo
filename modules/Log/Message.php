@@ -48,4 +48,4 @@ class Piwik_Log_Formatter_Message_ScreenFormatter implements Zend_Log_Formatter_
     	}
     }
 }
-?>
+

@@ -37,4 +37,4 @@ class Test_Piwik_Date extends UnitTestCase
 		$this->assertEqual( strtotime(date("Y-m-d",time()-86400). " 00:00:00"), $date->get());
 	}
 }
-?>
+

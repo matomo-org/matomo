@@ -130,4 +130,4 @@ class Test_Piwik_TablePartitioning extends Test_Database
         }
     }
 }
-?>
+

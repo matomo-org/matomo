@@ -1,4 +1,13 @@
 <?php
+/**
+ * Handles the archiving process for a day.
+ * The class provides generic methods to manipulate data from the DB, easily create Piwik_DataTable objects.
+ * 
+ * All the logic of the archiving is done inside the plugins listening to the event 'ArchiveProcessing_Day.compute'
+ * 
+ * @package Piwik_ArchiveProcessing
+ * 
+ */
 class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 {
 	
@@ -181,4 +190,5 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 		+= $newRowToAdd[Piwik_Archive::INDEX_BOUNCE_COUNT];
 	}
 }
-?>
+
+

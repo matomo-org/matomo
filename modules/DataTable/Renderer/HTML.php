@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Simple HTML output
+ * 
+ * @package Piwik_DataTable
+ * @subpackage Piwik_DataTable_Renderer
+ */
 class Piwik_DataTable_Renderer_HTML extends Piwik_DataTable_Renderer
 {
 	protected $prefixRows;
@@ -34,6 +40,7 @@ class Piwik_DataTable_Renderer_HTML extends Piwik_DataTable_Renderer
 		$allColumns = array();
 		foreach($table->getRows() as $row)
 		{
+			//TODO put that in a Simple_PHP filter that will make it easy as well to export in CSV
 			foreach($row->getColumns() as $column => $value)
 			{
 				$allColumns[$column] = true;
@@ -123,4 +130,5 @@ class Piwik_DataTable_Renderer_HTML extends Piwik_DataTable_Renderer
 	}	
 }
 
-?>
+
+

@@ -93,4 +93,4 @@ class Piwik_Log_Formatter_APICall_ScreenFormatter implements Zend_Log_Formatter_
 		
     }
 }
-?>
+

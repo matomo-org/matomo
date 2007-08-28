@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Simple output
+ * 
+ * @package Piwik_DataTable
+ * @subpackage Piwik_DataTable_Renderer
+ */
 class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 {
 	protected $prefixRows;
@@ -65,4 +70,4 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 	}	
 }
 
-?>
+

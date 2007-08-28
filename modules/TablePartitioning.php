@@ -98,4 +98,4 @@ class Piwik_TablePartitioning_Daily extends Piwik_TablePartitioning
 	}
 		
 }
-?>
+

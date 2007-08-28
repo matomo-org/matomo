@@ -84,4 +84,4 @@ abstract class Piwik_Plugin
 		return;
 	}
 }
-?>
+

@@ -17,6 +17,8 @@
  * - with the main algorithm working + one visitor requesting 5000 times
  * Requests per second:    155.00 [#/sec] (mean)
  * 
+ * - august 28th, main algo + files in place + one visitor requesting 5000 times
+ * Requests per second:    118.55 [#/sec] (mean)
  */
 error_reporting(E_ALL|E_NOTICE);
 define('PIWIK_INCLUDE_PATH', '.');
@@ -48,4 +50,4 @@ $process = new Piwik_LogStats;
 $process->main();
 ob_end_flush();
 printDebug($_COOKIE);
-?>
+

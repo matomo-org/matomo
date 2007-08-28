@@ -1,7 +1,9 @@
 <?php
-
 /**
- * Delete all rows of when a given function returns false for a given column 
+ * Delete all rows of when a given function returns false for a given column.
+ * 
+ * @package Piwik_DataTable
+ * @subpackage Piwik_DataTable_Filter 
  */
 class Piwik_DataTable_Filter_ColumnCallback extends Piwik_DataTable_Filter
 {

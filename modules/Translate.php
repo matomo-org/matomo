@@ -49,4 +49,4 @@ function Piwik_Translate($index)
 	}
 	throw new Exception("Translation string '$index' not available.");
 }
-?>
+

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Browser list
+ * 
+ * @package Piwik_DataFiles
+ */
 if(!isset($GLOBALS['Piwik_BrowserList'] ))
 {
 	$GLOBALS['Piwik_BrowserList'] = array(
