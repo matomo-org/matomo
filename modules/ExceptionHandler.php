@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * 
+ * @package Piwik
+ */
 function Piwik_ExceptionHandler(Exception $exception) 
 {
 	try	{

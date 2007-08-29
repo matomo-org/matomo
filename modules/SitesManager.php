@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * 
+ * @package Piwik
+ */
 require_once "API/APIable.php";
 
 class Piwik_SitesManager_API extends Piwik_Apiable

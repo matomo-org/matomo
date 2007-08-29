@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class used to log an exception event.
+ * 
+ * @package Piwik_Log
+ * @subpackage Piwik_Log_Exception
+ */
 class Piwik_Log_Exception extends Piwik_Log
 {
 	const ID = 'logger_exception';
@@ -33,6 +39,12 @@ class Piwik_Log_Exception extends Piwik_Log
 }
 
 
+/**
+ * Format an exception event to be displayed on the screen.
+ * 
+ * @package Piwik_Log
+ * @subpackage Piwik_Log_Exception
+ */
 class Piwik_Log_Formatter_Exception_ScreenFormatter implements Zend_Log_Formatter_Interface
 {
 	/**

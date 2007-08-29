@@ -28,6 +28,8 @@
  * We could also imagine a batch system that would read a log file every 5min,
  * and which prepares the file containg the rows to insert, then we load DATA INFILE 
  * 
+ * 
+ * @package Piwik_LogStats
  */
 
 /**

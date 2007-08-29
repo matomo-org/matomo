@@ -1,4 +1,8 @@
 <?php
+/**
+ * 
+ * @package Piwik
+ */
 Zend_Loader::loadClass('Zend_Date');
 class Piwik_Date extends Zend_Date
 {

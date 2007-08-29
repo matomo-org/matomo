@@ -20,6 +20,8 @@ current			= en
 default			= en
 
 [Plugins]
+enabled[] 		= Login
+
 enabled[] 		= UserSettings
 enabled[] 		= Actions
 enabled[] 		= Provider

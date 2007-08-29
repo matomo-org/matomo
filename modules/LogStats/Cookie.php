@@ -9,6 +9,8 @@
  * - create a new cookie, set values, expiration date, etc. and save it
  * 
  * The cookie content is saved in an optimized way.
+ * 
+ * @package Piwik_LogStats
  */
 class Piwik_LogStats_Cookie
 {
@@ -27,8 +29,18 @@ class Piwik_LogStats_Cookie
 	 */
 	protected $value = array();
 	
+	/**
+	 * The character used to separate the tuple name=value in the cookie 
+	 */
 	const VALUE_SEPARATOR = ':';
 	
+	/**
+	 * Instanciate a new Cookie object and tries to load the cookie content if the cookie
+	 * exists already.
+	 * 
+	 * @param string cookie Name
+	 * @param int The timestamp after which the cookie will expire, eg time() + 86400
+	 */
 	public function __construct( $cookieName, $expire = null)
 	{
 		$this->name = $cookieName;
@@ -46,18 +58,28 @@ class Piwik_LogStats_Cookie
 		}
 	}
 	
+	/**
+	 * Returns true if the visitor already has the cookie.
+	 * @return bool 
+	 */
 	public function isCookieFound()
 	{
 		return isset($_COOKIE[$this->name]);
 	}
 	
+	/**
+	 * Returns the default expiry time, 10 years
+	 * @return int Timestamp in 10 years
+	 */
 	protected function getDefaultExpire()
 	{
 		return time() + 86400*365*10;
 	}	
 	
 	/**
-	 * taken from http://usphp.com/manual/en/function.setcookie.php
+	 * We don't use the setcookie function because it is buggy for some PHP versions.
+	 * 
+	 * Taken from http://usphp.com/manual/en/function.setcookie.php
 	 * TODO setCookie: use the other parameters of the function
 	 */
 	protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false)
@@ -84,17 +106,28 @@ class Piwik_LogStats_Cookie
 		 header($header, false);
 	}
 	
+	/**
+	 * We set the privacy policy header
+	 */
 	protected function setP3PHeader()
 	{
 		header("P3P: CP='OTI DSP COR NID STP UNI OTPa OUR'");
 	}
 	
+	/**
+	 * Delete the cookie
+	 */
 	public function deleteCookie()
 	{
 		$this->setP3PHeader();
 		setcookie($this->name, false, time() - 86400);
 	}
 	
+	/**
+	 * Saves the cookie (set the Cookie header).
+	 * You have to call this method before sending any text to the browser or you would get the 
+	 * "Header already sent" error.
+	 */
 	public function save()
 	{
 		$this->setP3PHeader();
@@ -102,7 +135,10 @@ class Piwik_LogStats_Cookie
 	}
 	
 	/**
-	 * Load the cookie content into a php array 
+	 * Load the cookie content into a php array.
+	 * Parses the cookie string to extract the different variables.
+	 * Unserialize the array when necessary.
+	 * Decode the non numeric values that were base64 encoded.
 	 */
 	protected function loadContentFromCookie()
 	{
@@ -135,10 +171,11 @@ class Piwik_LogStats_Cookie
 	}
 	
 	/**
-	 * Returns the string to save in the cookie frpm the $this->value array of values
-	 * 
+	 * Returns the string to save in the cookie from the $this->value array of values.
+	 * It goes through the array and generate the cookie content string.
+	 * @return string Cookie string
 	 */
-	public function generateContentString()
+	protected function generateContentString()
 	{
 		$cookieStr = '';
 		foreach($this->value as $name=>$value)
@@ -163,6 +200,7 @@ class Piwik_LogStats_Cookie
 	 * If the value is an array, it will be saved as a serialized and base64 encoded 
 	 * string which is not very good in terms of bytes usage. 
 	 * You should save arrays only when you are sure about their maximum data size.
+	 * A cookie has to stay small and its size shouldn't increase over time!
 	 * 
 	 * @param string Name of the value to save; the name will be used to retrieve this value
 	 * @param string|array|numeric Value to save
@@ -186,6 +224,11 @@ class Piwik_LogStats_Cookie
 		return isset($this->value[$name]) ? self::escapeValue($this->value[$name]) : false;
 	}
 	
+	/**
+	 * Returns an easy to read cookie dump
+	 * 
+	 * @return string The cookie dump
+	 */
 	public function __toString()
 	{
 		$str = "<-- Content of the cookie '{$this->name}' <br>\n";
@@ -197,13 +240,19 @@ class Piwik_LogStats_Cookie
 		return $str;
 	}
 	
+	/**
+	 * Escape values from the cookie before sending them back to the client 
+	 * (when using the get() method).
+	 * 
+	 * @return mixed The value once cleaned.
+	 */
 	static protected function escapeValue( $value )
 	{
 		return Piwik_Common::sanitizeInputValues($value);
 	}	
 }
-//
-//
+
+
 //$c = new Piwik_LogStats_Cookie( 'piwik_logstats', 86400);
 //echo $c;
 //$c->set(1,1);

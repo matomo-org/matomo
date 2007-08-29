@@ -1,5 +1,17 @@
 <?php
-
+/**
+ * Class used to handle a Visit.
+ * A visit is either NEW or KNOWN.
+ * - If a visit is NEW then we process the visitor information (settings, referers, etc.) and save
+ * a new line in the log_visit table.
+ * - If a visit is KNOWN then we update the visit row in the log_visit table, updating the number of pages
+ * views, time spent, etc.
+ * 
+ * Whether a visit is NEW or KNOWN we also save the action in the DB. One request to the piwik.php script
+ * is associated to one action.
+ * 
+ * @package Piwik_LogStats
+ */
 class Piwik_LogStats_Visit
 {
 	protected $cookieLog = null;
@@ -19,25 +31,42 @@ class Piwik_LogStats_Visit
 		$this->idsite = $idsite;
 	}
 	
+	/**
+	 * Returns the current date in the "Y-m-d" PHP format
+	 * @return string
+	 */
 	protected function getCurrentDate( $format = "Y-m-d")
 	{
 		return date($format, $this->getCurrentTimestamp() );
 	}
 	
+	/**
+	 * Returns the current Timestamp
+	 * @return int
+	 */
 	protected function getCurrentTimestamp()
 	{
 		return time();
 	}
 	
+	/**
+	 * Returns the date in the "Y-m-d H:i:s" PHP format
+	 * @return string
+	 */
 	protected function getDatetimeFromTimestamp($timestamp)
 	{
 		return date("Y-m-d H:i:s",$timestamp);
 	}
 		
-	// test if the visitor is excluded because of
-	// - IP
-	// - cookie
-	// - configuration option?
+	/**
+	 * Test if the current visitor is excluded from the statistics.
+	 * 
+	 * Plugins can for example exclude visitors based on the 
+	 * - IP
+	 * - If a given cookie is found
+	 * 
+	 * @return bool True if the visit must not be saved, false otherwise
+	 */
 	private function isExcluded()
 	{
 		$excluded = 0;
@@ -51,6 +80,10 @@ class Piwik_LogStats_Visit
 		return false;
 	}
 	
+	/**
+	 * Returns the cookie name used for the Piwik LogStats cookie
+	 * @return string
+	 */
 	private function getCookieName()
 	{
 		return Piwik_LogStats_Config::getInstance()->LogStats['cookie_name'] . $this->idsite;
@@ -159,6 +192,11 @@ class Piwik_LogStats_Visit
 		}
 	}
 	
+	/**
+	 * Gets the UserSettings information and returns them in an array of name => value
+	 * 
+	 * @return array
+	 */
 	private function getUserSettingsInformation()
 	{
 		// we already called this method before, simply returns the result
@@ -238,6 +276,7 @@ class Piwik_LogStats_Visit
 	
 	/**
 	 * Returns true if the last action was done during the last 30 minutes
+	 * @return bool
 	 */
 	private function isLastActionInTheSameVisit()
 	{
@@ -245,13 +284,18 @@ class Piwik_LogStats_Visit
 					>= ($this->getCurrentTimestamp() - Piwik_LogStats::VISIT_STANDARD_LENGTH);
 	}
 
+	/**
+	 * Returns true if the recognizeTheVisitor() method did recognize the visitor
+	 */
 	private function isVisitorKnown()
 	{
 		return $this->visitorKnown === true;
 	}
 	
 	/**
-	 * Once we have the visitor information, we have to define if the visit is a new or a known visit.
+	 *	Main algorith to handle the visit. 
+	 *
+	 *  Once we have the visitor information, we have to define if the visit is a new or a known visit.
 	 * 
 	 * 1) When the last action was done more than 30min ago, 
 	 * 	  or if the visitor is new, then this is a new visit.
@@ -261,14 +305,11 @@ class Piwik_LogStats_Visit
 	 *
 	 * NB:
 	 *  - In the case of a new visit, then the time spent 
-	 *	during the last action of the previous visit is unknown.
+	 *	during the last action of the previous visit is unknown. 
 	 * 
 	 *	- In the case of a new visit but with a known visitor, 
 	 *	we can set the 'returning visitor' flag.
 	 *
-	 */
-	 
-	/**
 	 * In all the cases we set a cookie to the visitor with the new information.
 	 */
 	public function handle()
@@ -294,6 +335,9 @@ class Piwik_LogStats_Visit
 		$this->updateCookie();
 	}
 
+	/**
+	 * Update the cookie information.
+	 */
 	private function updateCookie()
 	{
 		printDebug("We manage the cookie...");
@@ -526,6 +570,7 @@ class Piwik_LogStats_Visit
 	 * - referer_url : the same for all the referer types
 	 * 
 	 */
+	 //TODO split this big method getRefererInformation into small methods
 	private function getRefererInformation()
 	{	
 		// bool that says if the referer detection is done
@@ -720,11 +765,20 @@ class Piwik_LogStats_Visit
 		return $refererInformation;
 	}
 	
+	/**
+	 * Returns a MD5 of all the configuration settings
+	 * @return string
+	 */
 	private function getConfigHash( $os, $browserName, $browserVersion, $resolution, $colorDepth, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Java, $plugin_Cookie, $ip, $browserLang)
 	{
 		return md5( $os . $browserName . $browserVersion . $resolution . $colorDepth . $plugin_Flash . $plugin_Director . $plugin_RealPlayer . $plugin_Pdf . $plugin_WindowsMedia . $plugin_Java . $plugin_Cookie . $ip . $browserLang );
 	}
 	
+	/**
+	 * Returns either 
+	 * - "-1" for a known visitor
+	 * - a unique 32 char identifier
+	 */
 	private function getVisitorUniqueId()
 	{
 		if($this->isVisitorKnown())

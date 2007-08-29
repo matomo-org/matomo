@@ -1,18 +1,27 @@
 <?php
 
 /**
- * Simple database PDO wrapper
+ * Simple database PDO wrapper.
+ * We can't afford to have a dependency with the Zend_Db module in the LogStats module.
  * 
+ * TODO write the mysqli wrapper
+ * 
+ * @package Piwik_LogStats
  */
+
 class Piwik_LogStats_Db 
 {
 	private $connection;
 	private $username;
 	private $password;
+	
 	//TODO test that in production is false
 	static private $profiling = false;
 	protected $queriesProfiling;
 	
+	/**
+	 * Builds the DB object
+	 */
 	public function __construct( $host, $username, $password, $dbname) 
 	{
 		$this->dsn = "mysql:dbname=$dbname;host=$host";
@@ -20,16 +29,28 @@ class Piwik_LogStats_Db
 		$this->password = $password;
 	}
 
+	/**
+	 * Enables the profiling. 
+	 * For each query, saves in the DB the time spent on this query. 
+	 * Very useful to see the slow query under heavy load.
+	 * You can then use Piwik::printLogStatsSQLProfiling(); 
+	 * to display the SQLProfiling report and see which queries take time, etc.
+	 */
 	static public function enableProfiling()
 	{
 		self::$profiling = true;
 	}
+	/** 
+	 * Disables the profiling logging.
+	 */
 	static public function disableProfiling()
 	{
 		self::$profiling = false;
 	}
 	
-	
+	/**
+	 * Connects to the DB
+	 */
 	public function connect() 
 	{
 		try {
@@ -41,6 +62,12 @@ class Piwik_LogStats_Db
 		}
 	}
 
+	/**
+	 * Returns the table name prefixed by the table prefix.
+	 * 
+	 * @param string The table name to prefix, ie "log_visit"
+	 * @return string The table name prefixed, ie "piwik-production_log_visit"
+	 */
 	public function prefixTable( $suffix )
 	{
 		static $prefix;
@@ -50,6 +77,10 @@ class Piwik_LogStats_Db
 		return $prefix . $suffix;
 	}
 	
+	/**
+	 * Returns an array containing all the rows of a query result.
+	 * @see also query()
+	 */
 	public function fetchAll( $query, $parameters )
 	{
 		try {
@@ -60,6 +91,10 @@ class Piwik_LogStats_Db
 		}
 	}
 	
+	/**
+	 * Returns the first row of a query result.
+	 * @see query()
+	 */
 	public function fetch( $query, $parameters )
 	{
 		try {
@@ -70,6 +105,12 @@ class Piwik_LogStats_Db
 		}
 	}
 	
+	/**
+	 * Executes a query with bind parameters
+	 * 
+	 * @param string Query 
+	 * @param array Parameters to bind
+	 */
 	public function query($query, $parameters = array()) 
 	{
 		try {
@@ -98,11 +139,19 @@ class Piwik_LogStats_Db
 		}
 	}
 	
+	/**
+	 * Returns the last inserted ID in the DB
+	 * Wrapper of PDO::lastInsertId()
+	 * @return int
+	 */
 	public function lastInsertId()
 	{
 		return  $this->connection->lastInsertId();
 	}
 	
+	/**
+	 * When destroyed, log the SQL profiling information
+	 */
 	public function __destruct()
 	{
 		if(self::$profiling)

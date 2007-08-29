@@ -1,15 +1,8 @@
 <?php
-
-class Piwik_Auth_Result extends Zend_Auth_Result
-{
-	public function __construct($code, $identity, array $messages = array())
-    {
-        $this->_code     = (int)$code;
-        $this->_identity = $identity;
-        $this->_messages = $messages;
-    }
-}
-
+/**
+ * 
+ * @package Piwik
+ */
 class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 {
 	const SUCCESS_SUPERUSER_AUTH_CODE = 42;
@@ -25,17 +18,18 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 		// we first try if the user is the super user
 		
 		$login = $this->_identity;
-		$password = $this->_credential;
+		$token = $this->_credential;
 		$rootLogin = Zend_Registry::get('config')->superuser->login;
 		$rootPassword = Zend_Registry::get('config')->superuser->password;
+		$rootToken = Piwik_UsersManager_API::getTokenAuth($rootLogin,$rootPassword);
 		
 		if($login == $rootLogin 
-			&& $password == $rootPassword)
+			&& $token == $rootToken)
 		{
 			return new Piwik_Auth_Result(Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE, 
 										$login, 
 										array() // message empty
-										);
+									);
 		}
 	
 		// if not then we return the result of the database authentification provided by zend
@@ -45,3 +39,17 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 }
 
 
+
+/**
+ * 
+ * @package Piwik
+ */
+class Piwik_Auth_Result extends Zend_Auth_Result
+{
+	public function __construct($code, $identity, array $messages = array())
+    {
+        $this->_code     = (int)$code;
+        $this->_identity = $identity;
+        $this->_messages = $messages;
+    }
+}

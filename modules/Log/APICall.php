@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Class used to log all the API Calls information (class / method / parameters / returned value / time spent)
+ * 
+ * @package Piwik_Log
+ * @subpackage Piwik_Log_APICall
+ */
 class Piwik_Log_APICall extends Piwik_Log
 {
 	const ID = 'logger_api_call';
@@ -35,6 +40,12 @@ class Piwik_Log_APICall extends Piwik_Log
 	}
 }
 
+/**
+ * Class used to format the API Call log on the screen. 
+ * 
+ * @package Piwik_Log
+ * @subpackage Piwik_Log_APICall
+ */
 class Piwik_Log_Formatter_APICall_ScreenFormatter implements Zend_Log_Formatter_Interface
 {
 	/**

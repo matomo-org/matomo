@@ -6,6 +6,8 @@
  * This is the only external class loaded by the Piwik.php file.
  * This class should contain only the functions that are used in 
  * both the CORE and the piwik.php statistics logging engine.
+ * 
+ * @package Piwik
  */
 class Piwik_Common 
 {

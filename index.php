@@ -39,7 +39,6 @@ require_once "Zend/Auth/Adapter/DbTable.php";
  * Piwik classes
  */
 require_once "Timer.php";
-$timer = new Piwik_Timer;
 
 require_once "Piwik.php";
 
@@ -48,543 +47,119 @@ require_once "Auth.php";
 require_once "API/Proxy.php";
 require_once "Site.php";
 require_once "Translate.php";
+require_once "Url.php";
+require_once "Controller.php";
 
-//move into a init() method
-Piwik::createConfigObject();
+$controller = new Piwik_FrontController;
+$controller->init();
+$controller->dispatch();
+$controller->end();
+exit;
 
-// database object
-Piwik::createDatabaseObject();
-
-// Create the log objects
-Piwik::createLogObject();
-
-Piwik::printMemoryUsage('Start program');
-//TODO move all DB related methods in a DB static class
-
-//Piwik::createDatabase();
-//Piwik::createDatabaseObject();
-
-$doNotDrop = array(
-		Piwik::prefixTable('log_visit'),
-		Piwik::prefixTable('log_link_visit_action'),
-		Piwik::prefixTable('log_action'),
-		Piwik::prefixTable('log_profiling'),
-		Piwik::prefixTable('archive'),
-);
-
-Piwik::dropTables($doNotDrop);
-Piwik::createTables();
-
-// load plugins
-Piwik_PluginsManager::getInstance()->setInstallPlugins(); //TODO plugins install to handle in a better way
-Piwik::loadPlugins();
-
-// Create auth object
-$auth = Zend_Auth::getInstance();
-$authAdapter = new Piwik_Auth();
-$authAdapter->setTableName(Piwik::prefixTable('user'))
-			->setIdentityColumn('login')
-			->setCredentialColumn('password')
-			->setCredentialTreatment('MD5(?)');
-
-// Set the input credential values (e.g., from a login form)
-$authAdapter->setIdentity('root')
-            ->setCredential('nintendo');
-
-// Perform the authentication query, saving the result
-$access = new Piwik_Access($authAdapter);
-Zend_Registry::set('access', $access);
-
-Zend_Registry::get('access')->loadAccess();
-
-Zend_Loader::loadClass('Piwik_Archive');
-Zend_Loader::loadClass('Piwik_Date');
-
-main();
-displayProfiler();
-Piwik::printMemoryUsage();
-Piwik::printQueryCount();
-echo $timer;
-
-//Piwik::uninstall();
-
-function displayProfiler()
+class Piwik_FrontController
 {
-	$profiler = Zend_Registry::get('db')->getProfiler();
-
-	$totalTime    = $profiler->getTotalElapsedSecs();
-	$queryCount   = $profiler->getTotalNumQueries();
-	$longestTime  = 0;
-	$longestQuery = null;
-	
-	foreach ($profiler->getQueryProfiles() as $query) {
-	    if ($query->getElapsedSecs() > $longestTime) {
-	        $longestTime  = $query->getElapsedSecs();
-	        $longestQuery = $query->getQuery();
-	    }
-	}
-	
-	echo '<br>Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "\n";
-	echo '<br>Average query length: ' . $totalTime / $queryCount . ' seconds' . "\n";
-	echo '<br>Queries per second: ' . $queryCount / $totalTime . "\n";
-	echo '<br>Longest query length: ' . $longestTime . "\n";
-	echo '<br>Longest query: <br>' . $longestQuery . "\n";
-}
-
-
-function main()
-{
-	Piwik::log(
-			'<a href="http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=2007-08-25&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12">
-			http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=2007-08-25&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12
-			</a>
-			<br>'
-	);
-	
-	Piwik::log("Start process...");
-	$api = Piwik_API_Proxy::getInstance();
-	
-	$api->registerClass("SitesManager");
-	$api->registerClass("UsersManager");
-	
-	$api->SitesManager->getSiteUrlsFromId(1);
-	
-	$api->SitesManager->addSite("test name site", array("http://localhost", "http://test.com"));
-	
-	Zend_Registry::get('access')->loadAccess();
-	
-	$api->UsersManager->deleteUser("login");
-	$api->UsersManager->addUser("login", "password", "email@geage.com");
-	
-	require_once "API/Request.php";
-	
-	Piwik::log("getResolution");
-	$request = new Piwik_API_Request('
-			method=UserSettings.getResolution
-			&idSite=1
-			&date=2007-08-25
-			&period=week
-			&format=console
-			&filter_limit=
-			&filter_offset=
-			&filter_column=label
-			&filter_pattern=
-		');
-	print(($request->process()));
-	
-	Piwik::log("getOS");
-	$request = new Piwik_API_Request('method=UserSettings.getOS
-
-			&idSite=1
-			&date=2007-08-25
-			&period=week
-			&format=xml
-			&filter_limit=
-			&filter_offset=
-			&filter_column=label
-			&filter_pattern=
-	');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getConfiguration");
-	$request = new Piwik_API_Request('
-				method=UserSettings.getConfiguration
-				&idSite=1
-				&date=2007-08-25
-				&period=week
-				&format=xml
-				&filter_limit=10
-				&filter_offset=0
-				&filter_column=label
-				&filter_pattern=
-		');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getBrowser");
-	$request = new Piwik_API_Request('
-				method=UserSettings.getBrowser
-				&idSite=1
-				&date=2007-08-25
-				&period=week
-				&format=xml
-				&filter_limit=
-				&filter_offset=
-				&filter_column=label
-				&filter_pattern=
-	');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getBrowserType");
-	$request = new Piwik_API_Request('
-				method=UserSettings.getBrowserType
-				&idSite=1
-				&date=2007-08-25
-				&period=week
-				&format=xml
-				&filter_limit=
-				&filter_offset=
-				&filter_column=label
-				&filter_pattern=
-	');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getWideScreen");
-	$request = new Piwik_API_Request('
-				method=UserSettings.getWideScreen
-				&idSite=1
-				&date=2007-08-25
-				&period=week
-				&format=xml
-				&filter_limit=
-				&filter_offset=
-				&filter_column=label
-				&filter_pattern=
-	');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getPlugin");
-	$request = new Piwik_API_Request('
-				method=UserSettings.getPlugin
-				&idSite=1
-				&date=2007-08-25
-				&period=week
-				&format=xml
-				&filter_limit=
-				&filter_offset=
-				&filter_column=label
-				&filter_pattern=
-	');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getActions");
-	$request = new Piwik_API_Request(
-		'method=Actions.getActions
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=html
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-//	echo(($request->process()));
-
-	Piwik::log("getActions EXPANDED");
-	$request = new Piwik_API_Request(
-		'method=Actions.getActions
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=html
-		&expanded=true
-		&filter_column=label
-		&filter_pattern=a
-		&filter_limit=10
-		&filter_offset=0
-		
-	'
-	);
-//	echo(($request->process()));
-	
-	Piwik::log("getActions EXPANDED SUBTABLE");
-	$request = new Piwik_API_Request(
-		'method=Actions.getActions
-		&idSubtable=5477
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=html
-		&expanded=false
-		
-	'
-	);
-//	echo(($request->process()));
-	
-	Piwik::log("getDownloads");
-	$request = new Piwik_API_Request(
-		'method=Actions.getDownloads
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-//	dump(htmlentities($request->process()));
-	Piwik::log("getOutlinks");
-	$request = new Piwik_API_Request(
-		'method=Actions.getOutlinks
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-//	dump(htmlentities($request->process()));
-	Piwik::log("getProvider");
-	$request = new Piwik_API_Request(
-		'method=Provider.getProvider
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getCountry");
-	$request = new Piwik_API_Request(
-		'method=UserCountry.getCountry
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getContinent");
-	$request = new Piwik_API_Request(
-		'method=UserCountry.getContinent
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	Piwik::log("getContinent");
-	$request = new Piwik_API_Request(
-		'method=VisitFrequency.getSummary
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getNumberOfVisitsPerVisitDuration");
-	$request = new Piwik_API_Request(
-		'method=VisitorInterest.getNumberOfVisitsPerVisitDuration
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getNumberOfVisitsPerPage");
-	$request = new Piwik_API_Request(
-		'method=VisitorInterest.getNumberOfVisitsPerPage
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	
-	Piwik::log("getVisitInformationPerServerTime");
-	$request = new Piwik_API_Request(
-		'method=VisitTime.getVisitInformationPerServerTime
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	Piwik::log("getRefererType");
-	$request = new Piwik_API_Request(
-		'method=Referers.getRefererType
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getKeywords");
-	$request = new Piwik_API_Request(
-		'method=Referers.getKeywords
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	Piwik::log("getSearchEnginesFromKeywordId");
-	$request = new Piwik_API_Request(
-		'method=Referers.getSearchEnginesFromKeywordId
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&idSubtable=1886
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getSearchEngines");
-	$request = new Piwik_API_Request(
-		'method=Referers.getSearchEngines
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	Piwik::log("getKeywordsFromSearchEngineId");
-	$request = new Piwik_API_Request(
-		'method=Referers.getKeywordsFromSearchEngineId
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-		&idSubtable=1779
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	
-	Piwik::log("getCampaigns");
-	$request = new Piwik_API_Request(
-		'method=Referers.getCampaigns
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	
-	Piwik::log("getKeywordsFromCampaignId");
-	$request = new Piwik_API_Request(
-		'method=Referers.getKeywordsFromCampaignId
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-		&idSubtable=2251
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	Piwik::log("getWebsites");
-	$request = new Piwik_API_Request(
-		'method=Referers.getWebsites
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	
-	Piwik::log("getUrlsFromWebsiteId");
-	$request = new Piwik_API_Request(
-		'method=Referers.getUrlsFromWebsiteId
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-		&idSubtable=2432
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getPartners");
-	$request = new Piwik_API_Request(
-		'method=Referers.getPartners
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	
-	Piwik::log("getUrlsFromPartnerId");
-	$request = new Piwik_API_Request(
-		'method=Referers.getUrlsFromPartnerId
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-		&idSubtable=3090
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	$referersNumeric=array(
-		'getNumberOfDistinctSearchEngines',	
-		'getNumberOfDistinctKeywords',
-		'getNumberOfDistinctCampaigns',
-		'getNumberOfDistinctWebsites',
-		'getNumberOfDistinctWebsitesUrls',
-		'getNumberOfDistinctPartners',
-		'getNumberOfDistinctPartnersUrls',
-	);
-	foreach($referersNumeric as $name)
+	function dispatch()
 	{
-		Piwik::log("$name");
-		$request = new Piwik_API_Request(
-			"method=Referers.$name
-			&idSite=1
-			&date=2007-08-20
-			&period=day
-			&format=xml
-			&filter_limit=10
-			&filter_offset=0
-		"
-		);
-		dump(htmlentities($request->process()));
+		$defaultModule = 'Home';
+		
+		// load the module requested
+		$module = Piwik_Common::getRequestVar('module', $defaultModule, 'string');
+		
+		if(ctype_alnum($module))
+		{
+			$moduleController = PIWIK_PLUGINS_PATH . "/" . $module . "/Controller.php";
+			if(is_readable($moduleController))
+			{
+				require_once $moduleController;
+				
+				$controllerClassName = "Piwik_".$module."_Controller";
+				
+				$controller = new $controllerClassName;
+				
+				$defaultAction = $controller->getDefaultAction();
+				$action = Piwik_Common::getRequestVar('action', $defaultAction, 'string');
+				
+				try{
+					$controller->$action();
+				} catch(Piwik_Access_NoAccessException $e) {
+					Piwik::log("NO ACCESS EXCEPTION =>");
+					Piwik_PostEvent('FrontController.NoAccessException', $e);					
+				}
+			}
+			else
+			{
+				throw new Exception("Module controller $moduleController not found!");
+			}			
+		}
+		else
+		{
+			throw new Exception("Invalid module name");
+		}
+		
 	}
 	
+	function end()
+	{
+		
+		Piwik::displayZendProfiler();
+		Piwik::printMemoryUsage();
+		Piwik::printQueryCount();		
+//		Piwik::uninstall();
+
+		echo $this->timer;
+		
+	}
+	
+	function init()
+	{
+		$this->timer = new Piwik_Timer;
+		
+		//move into a init() method
+		Piwik::createConfigObject();
+		
+		// database object
+		Piwik::createDatabaseObject();
+		
+		// Create the log objects
+		Piwik::createLogObject();
+		
+		Piwik::printMemoryUsage('Start program');
+		//TODO move all DB related methods in a DB static class
+		
+		//Piwik::createDatabase();
+		//Piwik::createDatabaseObject();
+		
+		$doNotDrop = array(
+				Piwik::prefixTable('log_visit'),
+				Piwik::prefixTable('log_link_visit_action'),
+				Piwik::prefixTable('log_action'),
+				Piwik::prefixTable('log_profiling'),
+				Piwik::prefixTable('archive'),
+		);
+		
+		Piwik::dropTables($doNotDrop);
+		Piwik::createTables();
+		
+		// load plugins
+		Piwik_PluginsManager::getInstance()->setInstallPlugins(); 
+		//TODO plugins install to handle in a better way
+		Piwik::loadPlugins();
+		
+		// Create auth object
+		Zend_Registry::set('auth', $authAdapter = new Piwik_Auth());
+		
+		// Setup the auth object
+		Piwik_PostEvent('FrontController.authSetCredentials');
+
+		// Perform the authentication query, saving the result
+		$access = new Piwik_Access($authAdapter);
+		Zend_Registry::set('access', $access);		
+		Zend_Registry::get('access')->loadAccess();					
+	}
 }
+
+//
+//main();
 
 function dump($var)
 {

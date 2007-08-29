@@ -2,6 +2,12 @@
 
 /**
  * Simple class to access the configuration file
+ * 
+ * This is essentially a very simple version of Zend_Config that we wrote 
+ * because of performance concerns. 
+ * The LogStats module can't afford a dependency with the Zend_Framework.
+ * 
+ * @package Piwik_LogStats
  */
 class Piwik_LogStats_Config
 {

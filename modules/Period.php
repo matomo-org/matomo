@@ -3,14 +3,14 @@
  * Creating a new Piwik_Period 
  * 
  * Every overloaded method must start with the code
-		if(!$this->subperiodsProcessed)
-		{
-			$this->generate();
-		}
-	that checks whether the subperiods have already been computed.
-	This is for performance improvements, computing the subperiods is done a per demand basis.
-	
-	
+ * 		if(!$this->subperiodsProcessed)
+ *		{
+ *			$this->generate();
+ *		}
+ *	that checks whether the subperiods have already been computed.
+ *	This is for performance improvements, computing the subperiods is done a per demand basis.
+ *
+ * @package Piwik	
  */
 abstract class Piwik_Period
 {

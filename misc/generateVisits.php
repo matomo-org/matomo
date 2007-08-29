@@ -33,8 +33,8 @@ ob_start();
 Piwik_PluginsManager::getInstance()->doNotLoadPlugins();	
 $generator = new Piwik_LogStats_Generator;
 $generator->setMaximumUrlDepth(2);
-$generator->disableProfiler();
-$generator->emptyAllLogTables();
+//$generator->disableProfiler();
+//$generator->emptyAllLogTables();
 $generator->init();
 
 $t = new Piwik_Timer;
@@ -49,7 +49,7 @@ while($startTime <= time())
 {
 	$visits = rand(1,2);
 	$actions = 10;
-	$visits = rand(100,300);
+	$visits = rand(10,30);
 	$actions = 5;
 	
 	$generator->setTimestampToUse($startTime);
