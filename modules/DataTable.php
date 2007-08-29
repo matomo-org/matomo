@@ -1,6 +1,7 @@
 <?php
 /**
  * 
+ * 
  * Initial Specification 
  * ---------------------------------------------------------
  * CAREFUL: It may be outdated as I have not reviewed it yet
@@ -106,6 +107,8 @@
  * $XMLstring = $xmlOutput->getOutput();
  * 
  * 
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  * 
  */
 require_once "DataTable/Renderer.php";
@@ -250,7 +253,7 @@ class Piwik_DataTable
 		{
 			if(isset($this->rowsIndexByLabel[$label]))
 			{
-				throw new Exception("The row with the label $label already exist in this DataTable");
+				throw new Exception("The row with the label $label already exists in this DataTable");
 			}
 			$this->rowsIndexByLabel[$label] = count($this->rows) - 1;
 		}

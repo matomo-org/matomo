@@ -1,4 +1,8 @@
 <?php
+/**
+ * 
+ * @package Piwik
+ */
 class Piwik_Translate
 {
 	static private $instance = null;

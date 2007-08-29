@@ -1,23 +1,11 @@
 <?php
 /**
  * Archiving process
- * 
- * 
+ *  
  * Requirements
  * 
- * + needs powerful and easy date handling => Zend_Date
- * + Needs many date helper functions
- * 		from a day, gives the week + list of the days in the week
- * 		from a day, gives the month + list of the days in the month
- * 		from a day, gives the year + list of the days in the year + list of the months in the year
- * - Contact with DB abstracted from the archive process
- * - Handle multi periods: day, week, month, year
- * - Each period logic is separated into different classes 
- *   so that we can in the future easily add new weird periods
- * - support for partial archive (today's archive for example, but not limited to today)
  * 
- * 	Features:
- * - delete logs once used for days
+ * TODO delete logs once used for days
  *   it means that we have to keep the useful information for months/week etc.
  *   check also that the logging process doesn't use the logs we are deleting
  * 
@@ -36,6 +24,7 @@
  * 		receives data directly from the sql query via a known API
  * - The *ArchiveProcessing* saves in the DB *numbers* or *Table* objects
  *  
+ * @package Piwik
  */
  
 require_once 'Period.php';

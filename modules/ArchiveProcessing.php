@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The ArchiveProcessing module is a module that reads the Piwik logs from the DB and
  * compute all the reports, which are then stored in the database.
@@ -13,6 +12,8 @@
  * - ts_archived = timestamp when the archive was processed
  * - name 		= the name of the report (ex: uniq_visitors or search_keywords_by_search_engines)
  * - value 		= the actual data
+ * 
+ * @package Piwik_ArchiveProcessing
  */
 require_once 'TablePartitioning.php';
 require_once 'ArchiveProcessing/Record.php';
@@ -32,7 +33,7 @@ abstract class Piwik_ArchiveProcessing
 	protected $tableArchiveBlob;
 	protected $maxTimestampArchive;
 	
-	// Attributes that can be used by plugins
+	// Attributes that can be accessed by plugins (that is why they are public)
 	public $idsite	= null;
 	public $period 	= null;
 	public $site 	= null;
@@ -44,7 +45,9 @@ abstract class Piwik_ArchiveProcessing
 	public $logVisitActionTable;
 	public $logActionTable;
 
-
+	/**
+	 * 
+	 */
 	protected function loadArchiveProperties()
 	{		
 		$this->idsite = $this->site->getId();
@@ -76,6 +79,7 @@ abstract class Piwik_ArchiveProcessing
 	{
 		return $this->tableArchiveNumeric;
 	}
+	
 	public function getTableArchiveBlobName()
 	{
 		return $this->tableArchiveBlob;

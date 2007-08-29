@@ -1,4 +1,8 @@
 <?php
+/**
+ * 
+ * @package Piwik
+ */
 Zend_Loader::loadClass("Piwik_Access");
 
 class Piwik_UsersManager_API extends Piwik_Apiable
@@ -459,7 +463,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	 * @param string login
 	 * @param string password
 	 */
-	static private function getTokenAuth($userLogin, $password)
+	static public function getTokenAuth($userLogin, $password)
 	{
 		return md5($userLogin . $password );
 		

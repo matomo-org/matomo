@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * 
+ * @package Piwik
+ */
 abstract class Piwik_TablePartitioning
 {
 	protected $tableName = null;

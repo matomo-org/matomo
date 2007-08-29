@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Requirements of the visits generator script
+ * Class used to generate fake visits. 
+ * Useful to test performances, general functional testing, etc.
  * 
- * Things possible to change
- * 
+ * Requirements of the visits generator script. It is to edit * 
  * - url => campaigns
  * 		- newsletter
  * 		- partner
@@ -20,8 +20,9 @@
  * - HTML title
  * 
  * Objective:
- * Generate thousands of visits / actions per visitor with random data to test the performance
+ * Generate thousands of visits / actions per visitor 
  *  
+ * @package Piwik_LogStats
  */
 
 class Piwik_LogStats_Generator
@@ -99,33 +100,7 @@ class Piwik_LogStats_Generator
 	{
 		if($this->profiling)
 		{
-			function maxSumMsFirst($a,$b)
-			{
-				return $a['sum_time_ms'] < $b['sum_time_ms'];
-			}
-			
-			$db = Zend_Registry::get('db');
-			$all = $db->fetchAll('SELECT *, sum_time_ms / count as avg_time_ms FROM '.Piwik::prefixTable('log_profiling').'' );
-			usort($all, 'maxSumMsFirst');
-			
-			
-			$str='<br><br>Query Profiling<br>----------------------<br>';
-			foreach($all as $infoQuery)
-			{
-				$query = $infoQuery['query'];
-				$count = $infoQuery['count'];
-				$sum_time_ms = $infoQuery['sum_time_ms'];
-				$avg_time_ms = round($infoQuery['avg_time_ms'],1);
-				$query = str_replace("\t", "", $query);
-				
-				$str .= "$query <br>
-			$count times, <b>$sum_time_ms ms total</b><br>
-			$avg_time_ms ms average<br>
-			<br>";
-			}
-			
-			
-			print($str);
+			Piwik::printLogStatsSQLProfiling();
 		}
 	}
 	

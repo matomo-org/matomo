@@ -131,7 +131,7 @@ class Piwik_API_Request
 				
 			}
 		} catch(Exception $e ) {
-			$toReturn = 'XML ERROR TEMPLATE TODO';
+			$toReturn = 'XML ERROR TEMPLATE TODO', $e;
 		}
 		return $toReturn;
 	}

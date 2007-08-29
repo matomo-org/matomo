@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * 
+ * @package Piwik
+ */
 require_once "Config.php";
 require_once "Zend/Db.php";
 require_once "Zend/Db/Table.php";
@@ -23,7 +26,29 @@ class Piwik
 		Zend_Registry::get('logger_message')->log( "<br>" . PHP_EOL);
 	}
 	
+	static function displayZendProfiler()
+	{
+		$profiler = Zend_Registry::get('db')->getProfiler();
+	
+		$totalTime    = $profiler->getTotalElapsedSecs();
+		$queryCount   = $profiler->getTotalNumQueries();
+		$longestTime  = 0;
+		$longestQuery = null;
 		
+		foreach ($profiler->getQueryProfiles() as $query) {
+		    if ($query->getElapsedSecs() > $longestTime) {
+		        $longestTime  = $query->getElapsedSecs();
+		        $longestQuery = $query->getQuery();
+		    }
+		}
+		
+		echo '<br>Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "\n";
+		echo '<br>Average query length: ' . $totalTime / $queryCount . ' seconds' . "\n";
+		echo '<br>Queries per second: ' . $queryCount / $totalTime . "\n";
+		echo '<br>Longest query length: ' . $longestTime . "\n";
+		echo '<br>Longest query: <br>' . $longestQuery . "\n";
+	}
+	
 	static public function error($message = '')
 	{
 		trigger_error($message, E_USER_ERROR);
@@ -45,6 +70,37 @@ class Piwik
 		$totalTime    = $profiler->getTotalElapsedSecs();
 		$queryCount   = $profiler->getTotalNumQueries();
 		Piwik::log("Total queries = $queryCount (total sql time = ".round($totalTime,2)."s)");
+	}
+	
+	static public function printLogStatsSQLProfiling()
+	{
+		function maxSumMsFirst($a,$b)
+		{
+			return $a['sum_time_ms'] < $b['sum_time_ms'];
+		}
+		
+		$db = Zend_Registry::get('db');
+		$all = $db->fetchAll('	SELECT *, sum_time_ms / count as avg_time_ms 
+								FROM '.Piwik::prefixTable('log_profiling') 
+						);
+		usort($all, 'maxSumMsFirst');
+		
+		$str='<br><br>Query Profiling<br>----------------------<br>';
+		foreach($all as $infoQuery)
+		{
+			$query = $infoQuery['query'];
+			$count = $infoQuery['count'];
+			$sum_time_ms = $infoQuery['sum_time_ms'];
+			$avg_time_ms = round($infoQuery['avg_time_ms'],1);
+			$query = str_replace("\t", "", $query);
+			
+			$str .= "	$query <br>
+						$count times, <b>$sum_time_ms ms total</b><br>
+						$avg_time_ms ms average<br>
+						<br>";
+		}		
+		
+		print($str);
 	}
 
 	static public function printMemoryUsage( $prefixString = null )

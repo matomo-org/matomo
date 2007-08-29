@@ -1,68 +1,83 @@
 <?php
 
+/**
+ * Handles an action by the visitor.
+ * A request to the piwik.php script is associated with one Action.
+ * This class is used to build the Action Name (which can be built from the URL, 
+ * or can be directly specified in the JS code, etc.).
+ * It also saves the Action when necessary in the DB. 
+ * 
+ * 
+ * About the Action concept
+ * ------------------------------------
+ * - An action is defined by a name.
+ * - The name can be specified in the JS Code in the variable 'action_name'
+ * - Handling UTF8 in the action name
+ * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the interface
+ * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action
+ * 
+ * + If the name is not specified, we use the URL(path+query) to build a default name.
+ *   For example for "http://piwik.org/test/my_page/test.html" 
+ *   the name would be "test/my_page/test.html"
+ * 
+ * We make sure it is clean and displayable.
+ * If the name is empty we set it to a default name.
+ * 
+ * TODO UTF8 handling to test
+ * 
+ * Specifications
+ *  
+ * - Download tracking
+ * 
+ *   * MANUAL Download tracking 
+ *      download = http://piwik.org/hellokity.zip
+ * 	(name = dir1/file alias name)
+ *
+ *   * AUTOMATIC Download tracking for a known list of file extensions. 
+ *    Make a hit to the piwik.php with the parameter: 
+ *      download = http://piwik.org/hellokity.zip
+ *  
+ *   When 'name' is not specified, 
+ * 	if AUTOMATIC and if anchor not empty => name = link title anchor
+ * 	else name = path+query of the URL
+ *   Ex: myfiles/beta.zip
+ *
+ * - External link tracking
+ * 
+ *   * MANUAL External link tracking
+ * 	 outlink = http://amazon.org/test
+ * 	(name = the big partners / amazon)
+ * 
+ *   * AUTOMATIC External link tracking
+ *      When a link is not detected as being part of the same website 
+ *     AND when the url extension is not detected as being a file download
+ * 	 outlink = http://amazon.org/test
+ * 
+ *  When 'name' is not specified, 
+ * 	if AUTOMATIC and if anchor not empty => name = link title anchor
+ * 	else name = URL
+ *   Ex: http://amazon.org/test
+ * 
+ * 
+ * @package Piwik_LogStats
+ */
 class Piwik_LogStats_Action
 {
-	
-	 /*
-	  * About the Action concept:
-	  * 
-	  * - An action is defined by a name.
-	  * - The name can be specified in the JS Code in the variable 'action_name'
-	  * - Handling UTF8 in the action name
-	  * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the interface
-	  * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action
-	  * 
-	  * + If the name is not specified, we use the URL(path+query) to build a default name.
-	  *   For example for "http://piwik.org/test/my_page/test.html" 
-	  *   the name would be "test/my_page/test.html"
-	  * 
-	  * We make sure it is clean and displayable.
-	  * If the name is empty we set it to a default name.
-	  * 
-	  * TODO UTF8 handling to test
-	  * 
-	  * Specifications
-	  *  
-	  * - Download tracking
-	  * 
-	  *    * MANUAL Download tracking 
-	  *      download = http://piwik.org/hellokity.zip
-	  * 	(name = dir1/file alias name)
-	  *
-	  *    * AUTOMATIC Download tracking for a known list of file extensions. 
-	  *    Make a hit to the piwik.php with the parameter: 
-	  *      download = http://piwik.org/hellokity.zip
-	  *  
-	  *   When 'name' is not specified, 
-	  * 	if AUTOMATIC and if anchor not empty => name = link title anchor
-	  * 	else name = path+query of the URL
-	  *   Ex: myfiles/beta.zip
-	  *
-	  * - External link tracking
-	  * 
-	  *    * MANUAL External link tracking
-	  * 	 outlink = http://amazon.org/test
-	  * 	(name = the big partners / amazon)
-	  * 
-	  *    * AUTOMATIC External link tracking
-	  *      When a link is not detected as being part of the same website 
-	  *     AND when the url extension is not detected as being a file download
-	  * 	 outlink = http://amazon.org/test
-	  * 
-	  *  When 'name' is not specified, 
-	  * 	if AUTOMATIC and if anchor not empty => name = link title anchor
-	  * 	else name = URL
-	  *   Ex: http://amazon.org/test
-	  */
 	private $actionName;
 	private $url;
 	private $defaultActionName;
 	private $nameDownloadOutlink;
 	
+	/**
+	 * 3 types of action, Standard action / Download / Outlink click
+	 */
 	const TYPE_ACTION   = 1;
 	const TYPE_DOWNLOAD = 3;
 	const TYPE_OUTLINK  = 2;
 	
+	/**
+	 * @param Piwik_LogStats_Db object
+	 */
 	function __construct( $db )
 	{
 		$this->actionName = Piwik_Common::getRequestVar( 'action_name', '', 'string');
@@ -81,6 +96,10 @@ class Piwik_LogStats_Action
 		$this->defaultActionName = Piwik_LogStats_Config::getInstance()->LogStats['default_action_name'];
 	}
 	
+	/**
+	 * Generate the name of the action from the URL or the specified name.
+	 * See the class description for more information.
+	 */
 	private function generateInfo()
 	{
 		if(!empty($this->downloadUrl))
@@ -170,7 +189,7 @@ class Piwik_LogStats_Action
 	 * The methods takes care of creating a new record in the action table if the existing 
 	 * action name doesn't exist yet.
 	 * 
-	 * @return int Id action
+	 * @return int Id action that is associated to this action name in the Actions table lookup
 	 */
 	function getActionId()
 	{
@@ -209,6 +228,11 @@ class Piwik_LogStats_Action
 	
 	/**
 	 * Records in the DB the association between the visit and this action.
+	 * 
+	 * @param int idVisit is the ID of the current visit in the DB table log_visit
+	 * @param int idRefererAction is the ID of the last action done by the current visit. 
+	 * @param int timeSpentRefererAction is the number of seconds since the last action was done. 
+	 * 				It is directly related to idRefererAction.
 	 */
 	 public function record( $idVisit, $idRefererAction, $timeSpentRefererAction)
 	 {

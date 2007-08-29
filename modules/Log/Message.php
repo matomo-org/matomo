@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class used to log a standard message event.
+ * 
+ * @package Piwik_Log
+ * @subpackage Piwik_Log_Message
+ */
 class Piwik_Log_Message extends Piwik_Log
 {
 	const ID = 'logger_message';
@@ -28,6 +34,13 @@ class Piwik_Log_Message extends Piwik_Log
 }
 
 
+/**
+ * Format a standard message event to be displayed on the screen.
+ * The message can be a PHP array or a string.
+ * 
+ * @package Piwik_Log
+ * @subpackage Piwik_Log_Message
+ */
 class Piwik_Log_Formatter_Message_ScreenFormatter implements Zend_Log_Formatter_Interface
 {
 	/**

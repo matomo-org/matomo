@@ -22,7 +22,8 @@
  * - generally a plugin method can modify data (filter) and add/remove data 
  * 
  * 
- */ 
+ * @package Piwik
+ */
 require_once "Plugin.php";
 require_once "Event/Dispatcher.php";
 

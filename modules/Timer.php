@@ -1,4 +1,8 @@
 <?php
+/**
+ * 
+ * @package Piwik
+ */
 class Piwik_Timer
 {
     private $m_Start;

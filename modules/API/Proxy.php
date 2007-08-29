@@ -258,6 +258,8 @@ class Piwik_API_Proxy
 		try {
 			assert(!is_null(self::$classCalled));
 
+			$this->registerClass(self::$classCalled);
+			
 			$className = $this->getClassNameFromModule(self::$classCalled);
 
 			// instanciate the object
@@ -286,12 +288,8 @@ class Piwik_API_Proxy
 								$returnedValue
 							);
 		}
-		catch( Exception $e)
-		{
-			//TODO replace with nice error message
-			Piwik::log("<br>\n Error during API call {$className}.{$methodName}... 
-					<br>\n => ". $e->getMessage());
-
+		catch( Piwik_Access_NoAccessException $e) {
+			throw $e;
 		}
 
 		self::$classCalled = null;

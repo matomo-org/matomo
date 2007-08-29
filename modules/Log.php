@@ -1,4 +1,9 @@
 <?php
+/**
+ * 
+ * 
+ * @package Piwik_Log
+ */
 Zend_Loader::loadClass('Zend_Log');
 Zend_Loader::loadClass('Zend_Log_Formatter_Interface');
 Zend_Loader::loadClass('Zend_Log_Writer_Stream');

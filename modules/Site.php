@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * 
+ * @package Piwik
+ */
 class Piwik_Site
 {
 	protected $id = null;
