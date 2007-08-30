@@ -1,0 +1,4 @@
+Home TEMPLATE SMARTY
+
+
+{debug}
