@@ -44,6 +44,7 @@ time_before_archive_considered_outdated = 3
 
 action_category_delimiter = /
 
+dataTable_default_limit = 10
 
 [LogStats]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.

@@ -22,7 +22,9 @@ class Piwik_DataTable_Filter_ColumnCallback extends Piwik_DataTable_Filter
 	{
 		foreach($this->table->getRows() as $key => $row)
 		{
-			if( !call_user_func( $this->function, $row->getColumn($this->columnToFilter)))
+			$columnValue = $row->getColumn($this->columnToFilter);
+			if( $columnValue !== false 
+				&& !call_user_func( $this->function, $columnValue))
 			{
 				$this->table->deleteRow($key);
 			}

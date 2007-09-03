@@ -13,7 +13,22 @@ class Piwik_DataTable_Renderer_PHP extends Piwik_DataTable_Renderer
 	function __construct($table = null, $serialize = true)
 	{
 		parent::__construct($table);
-		$this->serialize = $serialize;
+		$this->setSerialize($serialize);
+	}
+	
+	function setSerialize( $bool )
+	{
+		$this->serialize = $bool;
+	}
+	
+	function __toString()
+	{
+		$data = $this->render();
+		if(!is_string($data))
+		{
+			$data = serialize($data);
+		}
+		return $data;
 	}
 	
 	function render()

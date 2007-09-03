@@ -1,4 +1,70 @@
 
+function getDeleteSiteAJAX( idsite )
+{
+	var ajaxRequest = getStandardAjaxConf();
+	toggleAjaxLoading();
+		
+	// prepare the API parameters to update the user
+	var parameters = new Object;
+	parameters.module = 'API';
+	parameters.format = 'json';
+ 	parameters.method =  'SitesManager.deleteSite';
+ 	parameters.idSite = idsite;
+	
+	ajaxRequest.data = parameters;
+	
+	return ajaxRequest;
+}
+
+function getAddSiteAJAX( row )
+{
+	var ajaxRequest = getStandardAjaxConf();
+	toggleAjaxLoading();
+	
+	// prepare the API parameters to add the user
+	var parameters = new Object;
+	
+ 	var name = $(row).find('input[@id=siteadd_name]').val();
+ 	var urls =  $(row).find('textarea[@id=siteadd_urls]').val();
+	var aUrls = urls.trim().split("\n");
+ 	
+	var request = '';
+	request += '&module=API';
+	request += '&format=json';
+	request += '&method=SitesManager.addSite';
+	request += '&name='+escape(name);
+	
+	$.each(aUrls, function (key,value){ request+= '&aUrls[]='+escape(value);} );
+
+	ajaxRequest.data = request;
+ 	
+	return ajaxRequest;
+}
+
+function getUpdateSiteAJAX( row )
+{
+	var ajaxRequest = getStandardAjaxConf();
+	toggleAjaxLoading();
+	
+	var name = $(row).find('input[@id=name]').val();
+	var idSite = $(row).children('#idSite').html();
+	var aUrls = $(row).find('textarea[@id=aUrls]').val().trim().split("\n");
+	
+	var request = '';
+	request += '&module=API';
+	request += '&format=json';
+	request += '&method=SitesManager.updateSite';
+	request += '&name='+escape(name);
+	request += '&idSite='+idSite;
+	$.each(aUrls, function (key,value){ if(value.length>1) request+= '&aUrls[]='+value;} );
+
+	ajaxRequest.data = request;
+	
+	return ajaxRequest;
+
+}
+
+
 $('#addRowSite').click( function() {
 	ajaxHideError();
 	$(this).toggle();
@@ -94,7 +160,6 @@ function submitSiteOnEnter(e)
 	var key=e.keyCode || e.which;
 	if (key==13)
 	{
-	alert('ok');
 		$(this).parent().find('#updateSite').click();
 		$(this).find('#addsite').click();
 	}

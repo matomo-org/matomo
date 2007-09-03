@@ -1,5 +1,30 @@
 <?php
 
+/**
+ * Zend classes
+ */
+include "Zend/Exception.php";
+include "Zend/Loader.php";
+require_once "Zend/Debug.php";
+require_once "Zend/Auth.php";
+require_once "Zend/Auth/Adapter/DbTable.php";
+
+/**
+ * Piwik classes
+ */
+require_once "Timer.php";
+
+require_once "Piwik.php";
+
+require_once "API/APIable.php";
+require_once "Access.php";
+require_once "Auth.php";
+require_once "API/Proxy.php";
+require_once "Site.php";
+require_once "Translate.php";
+require_once "Url.php";
+require_once "Controller.php";
+
 class Piwik_FrontController
 {
 	function dispatch()
@@ -27,6 +52,7 @@ class Piwik_FrontController
 					$controller->$action();
 				} catch(Piwik_Access_NoAccessException $e) {
 					Piwik::log("NO ACCESS EXCEPTION =>");
+					
 					Piwik_PostEvent('FrontController.NoAccessException', $e);					
 				}
 			}
@@ -37,9 +63,8 @@ class Piwik_FrontController
 		}
 		else
 		{
-			throw new Exception("Invalid module name");
+			throw new Exception("Invalid module name '$module'");
 		}
-		
 	}
 	
 	function end()
