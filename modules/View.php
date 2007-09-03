@@ -3,6 +3,7 @@ require_once 'Smarty/Smarty.class.php';
 
 class Piwik_View
 {
+	private $template = '';
 	private $smarty = false;
 	private $variables = array();
 	
@@ -11,10 +12,15 @@ class Piwik_View
 		$this->template = $templateFile;
 		$this->smarty = new Smarty();
 
+		if(count($smConf) == 0)
+		{
+			$smConf = Zend_Registry::get('config')->smarty;
+		}
 		foreach($smConf as $key => $value)
 		{
 			$this->smarty->$key = $value;
 		}
+		$this->smarty->template_dir = $smConf->template_dir->toArray();
 	}
 
 	/**
@@ -26,7 +32,7 @@ class Piwik_View
 	 */
 	public function __set($key, $val)
 	{
-		$this->variables[$key] = $val;
+		$this->smarty->assign($key, $val);
 	}
 
 	/**
@@ -37,11 +43,7 @@ class Piwik_View
 	 */
 	public function __get($key)
 	{
-		if(!isset($this->variables[$key]))
-		{
-			throw new Exception("Variable $key not known!");
-		}
-		return $this->variables[$key];
+		return $this->smarty->get_template_vars($key);
 	}
 
 	public function render()
@@ -59,7 +61,8 @@ class Piwik_View
 		$form->accept($renderer);
 		
 		// assign array with form data
-		$this->smarty->assign('form', $renderer->toArray());
+		$this->smarty->assign('form_data', $renderer->toArray());
+		$this->smarty->assign('element_list', $form->getElementList());//$renderer->toArray());
 	}
 	
 	public function assign($var, $value=null)

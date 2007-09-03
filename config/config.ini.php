@@ -21,6 +21,8 @@ default			= en
 
 [Plugins]
 enabled[] 		= Login
+enabled[] 		= UsersManager
+enabled[] 		= SitesManager
 
 enabled[] 		= UserSettings
 enabled[] 		= Actions
@@ -87,7 +89,7 @@ cookie_name	= piwik_visitor
 [log]
 
 ; normal messages
-logger_message[]		= screen
+;logger_message[]		= screen
 ;logger_message[]		= database
 ;logger_message[]		= file
 
@@ -124,7 +126,10 @@ log				= logs/
 
 
 [smarty]
-template_dir	= core/views/scripts
+template_dir[]	= plugins
+template_dir[]	= themes/default
 compile_dir		= tmp/templates_c
 config_dir		= tmp/configs
 cache_dir		= tmp/cache
+error_reporting = E_ALL|E_NOTICE
+debugging		= TRUE

@@ -8,7 +8,7 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 }
 require_once "Database.test.php";
 
-require_once 'SitesManager.php';
+require_once 'SitesManager/API.php';
 
 class Test_Piwik_SitesManager extends Test_Database
 {

@@ -27,13 +27,17 @@
 
 class Piwik_LogStats_Generator
 {
-	private $currentget=array();
-	private $allget=array();
-	public $profiling;
-	public $reinitProfilingAtEveryRequest = true;
-	private $maximumUrlDepth = 1;
-	public $host = 'http://localhost';
+	protected $currentget	=	array();
+	protected $allget		=	array();
+	protected $maximumUrlDepth = 1;
 	protected $timestampToUse;
+	
+	public $profiling 	= true;
+	public $reinitProfilingAtEveryRequest = true;
+	
+	//TODO also make this variable dynamic so that a visitor can make hit on several hosts and 
+	// only the good ones are kept
+	public $host = 'http://localhost';
 	
 	public function __construct()
 	{
@@ -44,29 +48,57 @@ class Piwik_LogStats_Generator
 		
 		require_once "Piwik.php";
 		Piwik::createConfigObject('../config/config.ini.php');
+		
 		// setup database	
 		Piwik::createDatabaseObject();
 		
-		$this->profiling = true;
 		Piwik_LogStats_Db::enableProfiling();
 		
 		$this->timestampToUse = time();
 	}
 	
+	/**
+	 * Sets the depth level of the generated URLs
+	 * value = 1 => path OR path/page1
+	 * value = 2 => path OR path/pageRand OR path/dir1/pageRand
+	 * 
+	 * @param int Depth
+	 */
 	public function setMaximumUrlDepth($value)
 	{
 		$this->maximumUrlDepth = (int)$value;
 	}
 	
+	/**
+	 * Set the timestamp to use as the starting time for the visitors times
+	 * To be set with every day value
+	 * 
+	 * @param int Unix timestamp
+	 */
 	public function setTimestampToUse($timestamp)
 	{
 		$this->timestampToUse = $timestamp;
 	}
+	
+	/**
+	 * Returns the timestamp to be used as the visitor timestamp
+	 * 
+	 * @return int
+	 */
 	public function getTimestampToUse()
 	{
 		return $this->timestampToUse;
 	}
-	public function addParam( $name, $aValue)
+	
+	/**
+	 * Add a parameter to the GET global array
+	 * We set an array value to the GET global array when we want to random select
+	 * a value for a given name. 
+	 * 
+	 * @param string Name of the parameter _GET[$name]
+	 * @param array|mixed Value of the parameter
+	 */
+	protected function addParam( $name, $aValue)
 	{
 		if(is_array($aValue))
 		{	
@@ -79,7 +111,9 @@ class Piwik_LogStats_Generator
 		}
 	}
 	
-	
+	/**
+	 * TRUNCATE all logs related tables to start a fresh logging database
+	 */
 	public function emptyAllLogTables()
 	{
 		$db = Zend_Registry::get('db');
@@ -88,14 +122,19 @@ class Piwik_LogStats_Generator
 		$db->query('TRUNCATE TABLE '.Piwik::prefixTable('log_link_visit_action'));
 	}
 	
-	
+	/**
+	 * Call this method to disable the SQL query profiler
+	 */
 	public function disableProfiler()
 	{
 		$this->profiling = false;
 		Piwik_LogStats_Db::disableProfiling();
 	}
 	
-	
+	/**
+	 * This marks the end of the Generator script 
+	 * and calls the Profiler output if the profiler is enabled
+	 */
 	public function end()
 	{
 		if($this->profiling)
@@ -104,6 +143,14 @@ class Piwik_LogStats_Generator
 		}
 	}
 	
+	/**
+	 * Init the Generator script:
+	 * - init the SQL profiler
+	 * - init the random generator
+	 * - setup the different possible values for parameters such as 'resolution',
+	 * 		'color', 'hour', 'minute', etc.
+	 * - load and setup values for the other parameters
+	 */
 	public function init()
 	{
 		if($this->profiling)
@@ -131,33 +178,40 @@ class Piwik_LogStats_Generator
 			's' => range(0,59),
 			
 		);
-		
 		foreach($common as $label => $values)
 		{
 			$this->addParam($label,$values);
 		}
 		
+		// we get the name of the Download/outlink variables
 		$downloadOrOutlink = array(
 						Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'],
 						Piwik_LogStats_Config::getInstance()->LogStats['outlink_url_var_name'],
 		);
+		// we have a 20% chance to add a download or outlink variable to the URL 
 		$this->addParam('piwik_downloadOrOutlink', $downloadOrOutlink);
 		$this->addParam('piwik_downloadOrOutlink', array_fill(0,8,''));
 		
+		// we get the variables name for the campaign parameters
 		$campaigns = array(
 						Piwik_LogStats_Config::getInstance()->LogStats['campaign_var_name'],
 						Piwik_LogStats_Config::getInstance()->LogStats['newsletter_var_name'],
 						Piwik_LogStats_Config::getInstance()->LogStats['partner_var_name'],
 		);
+		// we generate a campaign in the URL in 3/18 % of the generated URls
 		$this->addParam('piwik_vars_campaign', $campaigns);
-		$this->addParam('piwik_vars_campaign', array_fill(0,5,''));
+		$this->addParam('piwik_vars_campaign', array_fill(0,15,''));
 		
+		// we load some real referers to be used by the generator
 		$referers = array();
 		require_once "misc/generateVisitsData/Referers.php";
-		
+
 		$this->addParam('urlref',$referers);
+
+		// and we add 2000 empty referers so that some visitors don't come using a referer (direct entry)
 		$this->addParam('urlref',array_fill(0,2000,''));
 		
+		// load some user agent and accept language
 		$userAgent = $acceptLanguages = array();
 		require_once "misc/generateVisitsData/UserAgent.php";
 		require_once "misc/generateVisitsData/AcceptLanguage.php";
@@ -165,12 +219,18 @@ class Piwik_LogStats_Generator
 		$this->acceptLanguage=$acceptLanguages;
 	}
 	
+	/**
+	 * Launches the process and generates an exact number of nbVisits
+	 * For each visit, we setup the timestamp to the common timestamp
+	 * Then we generate between 1 and nbActionsMaxPerVisit actions for this visit
+	 * 
+	 * @return int The number of total actions generated
+	 */
 	public function generate( $nbVisits, $nbActionsMaxPerVisit )
 	{
 		$nbActionsTotal = 0;
 		for($i = 0; $i < $nbVisits; $i++)
 		{
-//			print("$i ");
 			$nbActions = mt_rand(1, $nbActionsMaxPerVisit);
 			
 			Piwik_LogStats_Generator_Visit::setTimestampToUse($this->getTimestampToUse());
@@ -190,6 +250,12 @@ class Piwik_LogStats_Generator
 		return $nbActionsTotal;
 	}
 	
+	/**
+	 * Generate a new visit. Load a random value for 
+	 * all the parameters that are read by the piwik logging engine.
+	 * 
+	 * We even set the _SERVER values
+	 */
 	private function generateNewVisit()
 	{
 		$this->setCurrentRequest( 'urlref' , $this->getRandom('urlref'));
@@ -213,29 +279,37 @@ class Piwik_LogStats_Generator
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $this->acceptLanguage[mt_rand(0,count($this->acceptLanguage)-1)];
 	}
 	
-	
+	/**
+	 * Generates a new action for the current visitor.
+	 * We random generate some campaigns, action names, 
+	 * download or outlink clicks, etc.
+	 * 
+	 */
 	private function generateActionVisit()
 	{		
-		// we don't keep the previous action values // reinit them to empty string
+		// we don't keep the previous action values 
+		// reinit them to empty string
 		$this->setCurrentRequest( Piwik_LogStats_Config::getInstance()->LogStats['download_outlink_name_var'],'');
 		$this->setCurrentRequest( Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'],'');
 		$this->setCurrentRequest( Piwik_LogStats_Config::getInstance()->LogStats['outlink_url_var_name'],'');
 		$this->setCurrentRequest( 'action_name', '');
 
 		// generate new url referer ; case the visitor stays more than 30min
-		// we set it as a new visit and the referer will then be used
+		// (when the visit is known this value will simply be ignored)
 		$this->setCurrentRequest( 'urlref' , $this->getRandom('urlref'));
 		
+		// generates the current URL 
 		$url = $this->getRandomUrlFromHost($this->host);
 		
 		// we generate a campaign (partner or newsletter or campaign)
 		$urlVars = $this->getRandom('piwik_vars_campaign');
-		// campaign name
-		$urlValue = $this->getRandomString(5,3,'lower');
 		
 		// if we actually generated a campaign
 		if(!empty($urlVars))
 		{
+			// campaign name
+			$urlValue = $this->getRandomString(5,3,'lower');
+			
 			// add the parameter to the url
 			$url .= '?'. $urlVars . '=' . $urlValue;
 			
@@ -260,27 +334,32 @@ class Piwik_LogStats_Generator
 				// add the parameter to the url
 				$this->setCurrentRequest( $GETParamToAdd , $urlValue);
 				
+				// in 50% we give a special name to the download/outlink 
 				if(mt_rand(0,1)==0)
 				{
 					$this->setCurrentRequest( Piwik_LogStats_Config::getInstance()->LogStats['download_outlink_name_var'] 
 											, $this->getRandomString(6,3,'ALL'));
 				}
 			}
-			else
+			
+			// if we didn't set any campaign NOR any download click
+			// then we sometimes set a special action name to the current action
+			elseif(rand(0,2)==1)
 			{
-				if(rand(0,2)==1)
-				{
-					$this->setCurrentRequest( 'action_name' , $this->getRandomString(1,1));
-				}
+				$this->setCurrentRequest( 'action_name' , $this->getRandomString(1,1));
 			}
 		}
 		
-//		print($url . "<br>"); 
 		$this->setCurrentRequest( 'url' ,$url);
 		
+		// setup the title of the page
 		$this->setCurrentRequest( 'title',$this->getRandomString(15,5));
 	}
 	
+	/**
+	 * Returns a random URL using the $host as the URL host.
+	 * Depth level depends on @see setMaximumUrlDepth()
+	 */
 	private function getRandomUrlFromHost( $host )
 	{
 		$url = $host;
@@ -295,7 +374,18 @@ class Piwik_LogStats_Generator
 		return $url;
 	}
 	
-	// from php.net and edited
+	/**
+	 * Generates a random string from minLength to maxLenght 
+	 * using a specified set of characters
+	 * 
+	 * From php.net and then badly hacked by myself
+	 * 
+	 * @param int Maximum length
+	 * @param int Minimum length
+	 * @param string Characters set to use, ALL or lower or upper or numeric or ALPHA or ALNUM
+	 * 
+	 * @return string The generated random string
+	 */
 	private function getRandomString($maxLength = 15, $minLength = 5, $type = 'ALL')
 	{
 		$len = mt_rand($minLength, $maxLength);
@@ -358,16 +448,32 @@ class Piwik_LogStats_Generator
 	    return join("", $key);
 	}
 
+	/**
+	 * Set the _GET and _REQUEST superglobal to the current generated array of values
+	 */
 	private function setFakeRequest()
 	{
 		$_REQUEST = $_GET = $this->currentget;
 	}
 	
+	/**
+	 * Set a value in the current request
+	 * 
+	 * @param string Name of the parameter to set
+	 * @param string Value of the parameter
+	 */
 	private function setCurrentRequest($name,$value)
 	{
 		$this->currentget[$name] = $value;
 	}
 	
+	/**
+	 * Returns a value for the given parameter $name
+	 * 
+	 * @throws Exception if the parameter asked for has never been set
+	 * 
+	 * @return mixed Random value for the parameter named $name
+	 */
 	private function getRandom( $name )
 	{		
 		if(!isset($this->allget[$name]))
@@ -381,13 +487,21 @@ class Piwik_LogStats_Generator
 			return $value;
 		}
 	}
-	
+
+	/**
+	 * Returns either 0 or 1
+	 * @return int
+	 */	
 	private function getRandom01()
 	{
 		return mt_rand(0,1);
 	}
 	
-	
+	/**
+	 * Saves the visit 
+	 * - set the fake request 
+	 * - load the LogStats class and call the method to launch the recording
+	 */
 	private function saveVisit()
 	{
 		$this->setFakeRequest();
@@ -397,6 +511,10 @@ class Piwik_LogStats_Generator
 	
 }
 
+/**
+ * Fake Piwik_LogStats that simply overwrite the sendHeader method 
+ * so that no headers are sent
+ */
 class Piwik_LogStats_Generator_Main extends Piwik_LogStats
 {
 	protected function sendHeader($header)
@@ -405,6 +523,10 @@ class Piwik_LogStats_Generator_Main extends Piwik_LogStats
 	}
 }
 
+/**
+ * Fake Piwik_LogStats_Visit class that overwrite all the Time related method to be able
+ * to setup a given timestamp for the generated visitor and actions.
+ */
 class Piwik_LogStats_Generator_Visit extends Piwik_LogStats_Visit
 {
 	static protected $timestampToUse;

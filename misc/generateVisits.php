@@ -20,7 +20,7 @@ require_once "PluginsManager.php";
 require_once "LogStats.php";
 require_once "LogStats/Config.php";
 require_once "LogStats/Action.php";
-require_once "LogStats/Cookie.php";
+require_once "Cookie.php";
 require_once "LogStats/Db.php";
 require_once "LogStats/Visit.php";
 

@@ -57,7 +57,10 @@ abstract class Piwik_Plugin
 	/**
 	 * Returns the list of hooks registered with the methods names
 	 */
-	abstract function getListHooksRegistered();
+	function getListHooksRegistered()
+	{
+		return array();
+	}
 	
 	/**
 	 * Returns the names of the required plugins

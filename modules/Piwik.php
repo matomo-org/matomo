@@ -26,28 +26,6 @@ class Piwik
 		Zend_Registry::get('logger_message')->log( "<br>" . PHP_EOL);
 	}
 	
-	static function displayZendProfiler()
-	{
-		$profiler = Zend_Registry::get('db')->getProfiler();
-	
-		$totalTime    = $profiler->getTotalElapsedSecs();
-		$queryCount   = $profiler->getTotalNumQueries();
-		$longestTime  = 0;
-		$longestQuery = null;
-		
-		foreach ($profiler->getQueryProfiles() as $query) {
-		    if ($query->getElapsedSecs() > $longestTime) {
-		        $longestTime  = $query->getElapsedSecs();
-		        $longestQuery = $query->getQuery();
-		    }
-		}
-		
-		echo '<br>Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "\n";
-		echo '<br>Average query length: ' . $totalTime / $queryCount . ' seconds' . "\n";
-		echo '<br>Queries per second: ' . $queryCount / $totalTime . "\n";
-		echo '<br>Longest query length: ' . $longestTime . "\n";
-		echo '<br>Longest query: <br>' . $longestQuery . "\n";
-	}
 	
 	static public function error($message = '')
 	{
@@ -100,9 +78,34 @@ class Piwik
 						<br>";
 		}		
 		
-		print($str);
+		Piwik::log($str);
 	}
 
+	static function printZendProfiler()
+	{
+		$profiler = Zend_Registry::get('db')->getProfiler();
+	
+		$totalTime    = $profiler->getTotalElapsedSecs();
+		$queryCount   = $profiler->getTotalNumQueries();
+		$longestTime  = 0;
+		$longestQuery = null;
+		
+		foreach ($profiler->getQueryProfiles() as $query) {
+		    if ($query->getElapsedSecs() > $longestTime) {
+		        $longestTime  = $query->getElapsedSecs();
+		        $longestQuery = $query->getQuery();
+		    }
+		}
+		$str = '';
+		$str .= '<br>Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "\n";
+		$str .= '<br>Average query length: ' . $totalTime / $queryCount . ' seconds' . "\n";
+		$str .= '<br>Queries per second: ' . $queryCount / $totalTime . "\n";
+		$str .= '<br>Longest query length: ' . $longestTime . "\n";
+		$str .= '<br>Longest query: <br>' . $longestQuery . "\n";
+		
+		Piwik::log($str);
+	}
+	
 	static public function printMemoryUsage( $prefixString = null )
 	{
 		if(function_exists('xdebug_memory_usage'))
@@ -115,12 +118,16 @@ class Piwik
 		}
 		
 		$usage = round( $memory / 1024 / 1024, 2);
-		if(!is_null($prefixString))
+		
+		if(false)
 		{
-			Piwik::log($prefixString);
+			if(!is_null($prefixString))
+			{
+				Piwik::log($prefixString);
+			}
+			Piwik::log("Memory usage = $usage Mb");
+			Piwik::log();
 		}
-		Piwik::log("Memory usage = $usage Mb");
-		Piwik::log();
 	}
 	
 	static public function isNumeric($value)
@@ -453,10 +460,10 @@ class Piwik
 
 	static public function createLogObject()
 	{
-		require_once PIWIK_INCLUDE_PATH . "/modules/Log/APICall.php";
-		require_once PIWIK_INCLUDE_PATH . "/modules/Log/Exception.php";
-		require_once PIWIK_INCLUDE_PATH . "/modules/Log/Error.php";
-		require_once PIWIK_INCLUDE_PATH . "/modules/Log/Message.php";
+		require_once "Log/APICall.php";
+		require_once "Log/Exception.php";
+		require_once "Log/Error.php";
+		require_once "Log/Message.php";
 		
 		$configAPI = Zend_Registry::get('config')->log;
 		
@@ -527,7 +534,6 @@ class Piwik
 				&& !ereg($doNotDeletePattern,$tableName)
 				)
 			{
-				print("drop $tableName ");
 				$db->query("DROP TABLE $tableName");
 			}
 		}			

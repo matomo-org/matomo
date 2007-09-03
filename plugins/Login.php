@@ -1,6 +1,6 @@
 <?php
 require "Login/Controller.php";
-require "LogStats/Cookie.php";
+require "Cookie.php";
 
 class Piwik_Login extends Piwik_Plugin
 {	
@@ -41,10 +41,13 @@ class Piwik_Login extends Piwik_Plugin
 		return $hooks;
 	}
 	
-	function noAccess()
+	function noAccess( $notification )
 	{
+		$exception  = $notification->getNotificationObject();
+		$exceptionMessage = $exception->getMessage(); 
+		
 		$controller = new Piwik_Login_Controller;
-		$controller->login();
+		$controller->login($exceptionMessage);
 	}
 	
 	function authSetCredentials($notification)
@@ -54,14 +57,14 @@ class Piwik_Login extends Piwik_Plugin
 		$authCookieName = 'piwik-auth';
 		$authCookieExpiry = time() + 3600;
 
-		$authCookie = new Piwik_LogStats_Cookie($authCookieName, $authCookieExpiry);
+		$authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
 		
 		$login = $tokenAuth = 'abc';
 		
 		if($authCookie->isCookieFound())
 		{
 			$login = $authCookie->get('login');
-			$tokenAuth =  $authCookie->get('auth');
+			$tokenAuth =  $authCookie->get('token');
 		}
 		
 		$this->prepareAuthObject( $login, $tokenAuth);		

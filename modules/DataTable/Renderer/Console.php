@@ -49,15 +49,20 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 				$details[] = "'$detail' => $value";
 			}
 			$details = implode(", ", $details);
-			$output.= str_repeat($this->prefixRows, $depth) . "- $i [".$columns."] [".$details."] [idsubtable = ".$row->getIdSubDataTable()."]<br>\n";
+			$output.= str_repeat($this->prefixRows, $depth) 
+						. "- $i [".$columns."] [".$details."] [idsubtable = " 
+						. $row->getIdSubDataTable()."]<br>\n";
 			
 			if($row->getIdSubDataTable() !== null)
 			{
 				$depth++;
 				try{
-					$output.= $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
-				} catch(Exception $e)
-				{
+					$output.= $this->renderTable( 
+									Piwik_DataTable_Manager::getInstance()->getTable(
+												$row->getIdSubDataTable()
+											)
+										);
+				} catch(Exception $e) {
 					$output.= "-- Sub DataTable not loaded<br>\n";
 				}
 				$depth--;

@@ -1,0 +1,273 @@
+eZ Components - Url
+~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The Url component provides basic operations to handle urls (including parse,
+build, get/set path parameters, get/set query and create formatted urls).
+
+Class overview
+==============
+
+ezcUrl
+  This is the main class of this component. It contains methods for url
+  parsing, url building, get/set parameters and get/set query.
+
+ezcUrlConfiguration
+  This class allows the definition of url configurations (including basedir,
+  script, ordered parameters, unordered parameters and delimiters for unordered
+  parameter names).
+
+ezcUrlCreator
+  This class allows you to register a url under an alias. You can then use that
+  alias to generate another url suffixed with a value, or to create urls
+  formatted using the syntax of the PHP function sprintf().
+
+Notes
+=====
+
+Working with path, params and query parts
+-----------------------------------------
+
+Do not work with the path, params and query properties directly, because this
+will not work in PHP5.2.0 (that is, do not set/get $url->query[0], because a
+notice will be thrown: "Notice: Indirect modification of overloaded property
+ezcUrl::$query has no effect"). Instead, use the following methods.
+
+Using url configurations
+------------------------
+
+By using the ezcUrlConfiguration class, you can specify a custom configuration
+that can be used to parse urls. The properties you can set in objects of this
+class are the default base directory, default script name (which will be
+hidden when building the url), delimiters for unordered parameter names
+and names for accepted parameters.
+
+Working with the query part
+===========================
+
+Getting the query part
+----------------------
+
+Here is an example of getting the query part of urls:
+
+.. include:: tutorial/tutorial_get_query.php
+    :literal:
+
+The output would be: ::
+
+    array(1) {
+      ["user"]=>
+      array(3) {
+        ["name"]=>
+        string(9) "Bob Smith"
+        ["age"]=>
+        string(2) "47"
+        ["sex"]=>
+        string(1) "M"
+      }
+    }
+
+Setting the query part
+----------------------
+
+Here is an example of setting the query part of urls:
+
+.. include:: tutorial/tutorial_set_query.php
+    :literal:
+
+The output would be as follows (wrapped for clarity): ::
+
+    string(139) "http://www.example.com/mydir/index.php/content/view/article/
+    42/mode/print?user[name]=Bob+Smith&user[age]=47&user[sex]=M&user[dob]=
+    5/12/1956"
+
+    string(149) "http://www.example.com/mydir/index.php/content/view/article/
+    42/mode/print?user[name]=Bob+Smith&user[age]=47&user[sex]=M&user[dob]=
+    5/12/1956&sort=desc"
+
+    string(139) "http://www.example.com/mydir/index.php/content/view/article/
+    42/mode/print?user[name]=Bob+Smith&user[age]=47&user[sex]=M&user[dob]=
+    5/12/1956"
+
+Working with url configurations
+===============================
+
+Creating and using a custom url configuration
+---------------------------------------------
+
+The following example creates a custom url configuration and uses it when
+creating a new url object:
+
+.. include:: tutorial/tutorial_cfg_create.php
+    :literal:
+
+The output would be: ::
+
+    object(ezcUrlConfiguration)#1 (1) {
+      ["properties:private"]=>
+      array(5) {
+        ["basedir"]=>
+        string(5) "mydir"
+        ["script"]=>
+        string(9) "index.php"
+        ["unorderedDelimiters"]=>
+        array(2) {
+          [0]=>
+          string(1) "("
+          [1]=>
+          string(1) ")"
+        }
+        ["orderedParameters"]=>
+        array(4) {
+          ["section"]=>
+          int(0)
+          ["group"]=>
+          int(1)
+          ["category"]=>
+          int(2)
+          ["subcategory"]=>
+          int(3)
+        }
+        ["unorderedParameters"]=>
+        array(1) {
+          ["game"]=>
+          int(0)
+        }
+      }
+    }
+
+Lazy initialization
+-------------------
+
+Lazy initialization is a mechanism to load and configure a component, only 
+when it is really used in your application. This mechanism saves time for 
+parsing the classes and configuration, when the component is not used at all
+during one request. You can find a description how you can use it for your 
+own components and how it works in the `ezcBase tutorial`__. The keyword for
+the url component is *ezcUrlConfiguration*.
+
+__ introduction_Base.html#lazy-initialization
+
+.. include:: tutorial/tutorial_lazy_initialization.php
+	:literal:
+
+This examples configures the URL component exactly like the example before.
+The main difference is, that we roll out the configuration to an own class, 
+and define a callback using ezcBaseInit::setCallback to this class, which 
+will be called with a url configuration instance as the first parameter on
+the first call on ezcUrlConfiguration::getInstance().
+
+ezcBaseInit::setCallback accepts as a first parameter a component specific key,
+which lets the component later request the right configuration callback. The
+second parameter is the name of the class to perform the static callback on.
+This class must implement the ezcBaseConfigurationInitializer class.
+Each component's lazy initialization calls the static method configureObject()
+on the referenced class.
+
+When the URL is really parsed in your application, like shown in line 35 of
+the example, a new ezcUrlConfiguration is instatiated an automatically
+configured by the configureObject() method.
+
+Working with parameters
+=======================
+
+Getting parameters using a url configuration
+--------------------------------------------
+
+The following example uses the custom url configuration from before to get
+the parameters from the provided url:
+
+.. include:: tutorial/tutorial_get_params.php
+    :literal:
+
+The output would be as follows (wrapped for clarity): ::
+
+    string(6) "groups"
+    string(5) "Games"
+    string(9) "Adventure"
+    string(5) "Adult"
+    array(2) {
+      [0]=>
+      string(5) "Larry"
+      [1]=>
+      string(1) "7"
+    }
+    string(72) "http://www.example.com/mydir/groups/Games/Adventure/Adult/
+    (game)/Larry/7"
+
+Setting parameters using a url configuration
+--------------------------------------------
+
+The following example uses the custom url configuration from before to set
+the parameters into the provided url:
+
+.. include:: tutorial/tutorial_set_params.php
+    :literal:
+
+The output would be as follows (wrapped for clarity): ::
+
+    string(72) "http://www.example.com/mydir/groups/Games/Adventure/Adult/
+    (game)/Larry/7"
+
+    string(79) "http://www.example.com/mydir/groups/Games/Adventure/Kids/
+    (game)/Monkey_Island/3"
+
+Changing a url configuration dynamically
+----------------------------------------
+
+The following example uses the custom url configuration from before to set
+the parameters into the provided url:
+
+.. include:: tutorial/tutorial_cfg_change.php
+    :literal:
+
+The output would be: ::
+
+    string(7) "Beatles"
+
+Using the url creator
+=====================
+
+Appending a suffix to a url
+---------------------------
+
+With the url creator, you can register a url under an alias, then use that
+alias when you want to prepend the url to a file name.
+
+.. include:: tutorial/tutorial_url_creator.php
+    :literal:
+
+The output would be: ::
+
+    string(53) "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
+
+    string(53) "/images/geo/map_sweden.gif?xsize=450&ysize=450&zoom=4"
+
+    string(38) "/images/geo?xsize=450&ysize=450&zoom=4"
+
+Using formatting for a url
+--------------------------
+
+With the url creator, you can register a url under an alias, then use that
+alias when you want to apply formatting to a url.
+
+.. include:: tutorial/tutorial_url_creator_params.php
+    :literal:
+
+The output would be: ::
+
+    string(53) "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
+
+    string(53) "/images/geo/map_sweden.gif?xsize=450&ysize=450&zoom=4"
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

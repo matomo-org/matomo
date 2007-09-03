@@ -20,15 +20,19 @@
  * 
  * @package Piwik
  */
-require_once 'SitesManager.php';
+require_once 'SitesManager/API.php';
+
 class Piwik_Access
 {
-	private $acl = null;
 	private $accesssByIdsite = null;
 	private $idsitesByAccess = null;
 	private $identity = null; //login
 	private $isSuperUser = false;
 	
+	public function isSuperUser()
+	{
+		return $this->isSuperUser;
+	}
 	
 	static private $availableAccess = array('noaccess', 'view', 'admin', 'superuser');
 	
@@ -170,11 +174,17 @@ class Piwik_Access
 	 */
 	public function checkUserHasSomeAdminAccess()
 	{
-			$idSitesAccessible = $this->getSitesIdWithAdminAccess();
-			if(count($idSitesAccessible) == 0)
-			{
-				throw new Piwik_Access_NoAccessException("You can't access this resource as it requires an 'admin' access for at least one website.");
-			}
+		//commented because bug when super user method called with unknown websites
+//		if($this->isSuperUser)
+//		{
+//			return;
+//		}
+		
+		$idSitesAccessible = $this->getSitesIdWithAdminAccess();
+		if(count($idSitesAccessible) == 0)
+		{
+			throw new Piwik_Access_NoAccessException("You can't access this resource as it requires an 'admin' access for at least one website.");
+		}
 	}
 	
 	/**
@@ -185,18 +195,24 @@ class Piwik_Access
 	 */
 	public function checkUserHasAdminAccess( $idSites )
 	{
+		//commented because bug when super user method called with unknown websites
+//		if($this->isSuperUser)
+//		{
+//			return;
+//		}
+		
 		if(!is_array($idSites))
 		{
 			$idSites = array($idSites);
 		}
-			$idSitesAccessible = $this->getSitesIdWithAdminAccess();
-			foreach($idSites as $idsite)
+		$idSitesAccessible = $this->getSitesIdWithAdminAccess();
+		foreach($idSites as $idsite)
+		{
+			if(!in_array($idsite, $idSitesAccessible))
 			{
-				if(!in_array($idsite, $idSitesAccessible))
-				{
-					throw new Piwik_Access_NoAccessException("You can't access this resource as it requires an 'admin' access for the website id = $idsite.");
-				}
+				throw new Piwik_Access_NoAccessException("You can't access this resource as it requires an 'admin' access for the website id = $idsite.");
 			}
+		}
 	}
 	
 	
@@ -208,18 +224,24 @@ class Piwik_Access
 	 */
 	public function checkUserHasViewAccess( $idSites )
 	{
+		//commented because bug when super user method called with unknown websites
+//		if($this->isSuperUser)
+//		{
+//			return;
+//		}
+		
 		if(!is_array($idSites))
 		{
 			$idSites = array($idSites);
 		}
-			$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
-			foreach($idSites as $idsite)
+		$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
+		foreach($idSites as $idsite)
+		{
+			if(!in_array($idsite, $idSitesAccessible))
 			{
-				if(!in_array($idsite, $idSitesAccessible))
-				{
-					throw new Piwik_Access_NoAccessException("You can't access this resource as it requires a 'view' access for the website id = $idsite.");
-				}
+				throw new Piwik_Access_NoAccessException("You can't access this resource as it requires a 'view' access for the website id = $idsite.");
 			}
+		}
 	}
 }
 

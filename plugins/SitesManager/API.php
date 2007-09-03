@@ -3,8 +3,6 @@
  * 
  * @package Piwik
  */
-require_once "API/APIable.php";
-
 class Piwik_SitesManager_API extends Piwik_Apiable
 {
 	static private $instance = null;
@@ -169,10 +167,10 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 */
 	static private function getSitesFromIds( $idSites )
 	{
-		assert(is_array($idSites));
+//		assert(is_array($idSites));
 		foreach($idSites as $idsite)
 		{
-			assert(is_int($idsite));
+//			assert(is_int($idsite));
 		}
 		if(count($idSites) === 0)
 		{
@@ -181,7 +179,8 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		$db = Zend_Registry::get('db');
 		$sites = $db->fetchAll("SELECT * 
 								FROM ".Piwik::prefixTable("site")." 
-								WHERE idsite IN (".implode(", ", $idSites).")");
+								WHERE idsite IN (".implode(", ", $idSites).")
+								ORDER BY idsite ASC");
 		return $sites;
 	}
 	
@@ -220,8 +219,26 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		
 		self::insertSiteUrls($idSite, $aUrls);
 		
+		// we reload the access list which doesn't yet take in consideration this new website
+		Zend_Registry::get('access')->loadAccess();
+
 		return (int)$idSite;
 	}
+	
+	//TODO comment
+	static public function deleteSite( $idSite )
+	{
+		Piwik::checkUserIsSuperUser();
+		
+		$db = Zend_Registry::get('db');
+		
+		$db->query("DELETE FROM ".Piwik::prefixTable("site")." 
+					WHERE idsite = ?", $idSite);
+		
+		$db->query("DELETE FROM ".Piwik::prefixTable("site_url")." 
+					WHERE idsite = ?", $idSite);
+	}
+	
 	
 	/**
 	 * Checks that the array has at least one element

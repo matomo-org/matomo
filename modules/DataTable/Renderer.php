@@ -46,6 +46,7 @@ abstract class Piwik_DataTable_Renderer
 	 * Returns the DataTable associated to the output format $name
 	 * @exception If the renderer is unknown
 	 */
+	 //TODO make a generic code here
 	static public function factory( $name )
 	{
 		$name = strtolower($name);
