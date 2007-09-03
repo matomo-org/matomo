@@ -18,13 +18,13 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 		// we first try if the user is the super user
 		
 		$login = $this->_identity;
-		$token = $this->_credential;
+		$this->token = $this->_credential;
 		$rootLogin = Zend_Registry::get('config')->superuser->login;
 		$rootPassword = Zend_Registry::get('config')->superuser->password;
 		$rootToken = Piwik_UsersManager_API::getTokenAuth($rootLogin,$rootPassword);
 		
 		if($login == $rootLogin 
-			&& $token == $rootToken)
+			&& $this->token == $rootToken)
 		{
 			return new Piwik_Auth_Result(Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE, 
 										$login, 
@@ -36,6 +36,10 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 		return parent::authenticate();
 	}
 	
+	public function getTokenAuth()
+	{
+		return $this->token;
+	}
 }
 
 

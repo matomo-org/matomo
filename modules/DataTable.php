@@ -150,14 +150,12 @@ class Piwik_DataTable
 	{
 		foreach($this->queuedFilters as $filter)
 		{
-			// make a reflection object
 			$reflectionObj = new ReflectionClass($filter['className']);
 			
 			// the first parameter of a filter is the DataTable
 			// we add the current datatable as the parameter
 			$filter['parameters'] = array_merge(array($this), $filter['parameters']);
 			
-			// use Reflection to create a new instance, using the $args
 			$filter = $reflectionObj->newInstanceArgs($filter['parameters']); 
 		}
 		$this->queuedFilters = array();
@@ -402,7 +400,7 @@ class Piwik_DataTable
 				$aSerializedDataTable = $aSerializedDataTable + $serialized;
 			}
 		}
-		
+		//TODO COmment
 		$forcedId = $this->getId();
 		if($depth==0)
 		{

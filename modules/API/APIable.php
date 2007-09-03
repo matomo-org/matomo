@@ -5,6 +5,8 @@
  * 
  * @package Piwik_API
  */
+require_once "Archive.php";
+
 class Piwik_Apiable 
 {
 	static public $methodsNotToPublish = array();

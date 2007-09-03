@@ -1,6 +1,7 @@
 <?php
-require_once "UsersManager.php";
-require_once "Form.php";
+require_once "UsersManager/API.php";
+require_once "Login/Form.php";
+require_once "View.php";
 class Piwik_Login_Controller extends Piwik_Controller
 {
 	function getDefaultAction()
@@ -8,25 +9,21 @@ class Piwik_Login_Controller extends Piwik_Controller
 		return 'login';
 	}
 	
-	function login()
-	{
-		print("<br>-----------<br>--LOGIN PAGE<br>-----------");
-		
+	function login( $messageNoAccess = null )
+	{		
 		$form = new Piwik_Login_Form;
+		$AccessErrorString = false;
 		
 		if($form->validate())
-		{
-			$authCookieName = 'piwik-auth';
-			$authCookieExpiry = time() + 3600;
-	
+		{	
 			// value submitted in form
-			$login = 'root';
-			$password = 'nintendo';
+			$login = $form->getSubmitValue('form_login');
+			$password = $form->getSubmitValue('form_password');
 			
-			$baseUrl = Piwik_Url::getCurrentHost() . Piwik_Url::getCurrentScriptName(); 
-					
-			$urlToRedirect = Piwik_Common::getRequestVar('url', $baseUrl, 'string', $_POST);
-			$currentUrl = Piwik_Url::getCurrentUrl();
+			$baseUrl = Piwik_Url::getCurrentUrlWithoutQueryString(); 
+			$currentUrl = Piwik_Url::getCurrentUrl();		
+			$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string', $_POST);
+			
 			
 			$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login,$password);
 	
@@ -36,24 +33,40 @@ class Piwik_Login_Controller extends Piwik_Controller
 			
 			if($auth->authenticate()->isValid())
 			{
-				print("Authenticated, redirecting to $urlToRedirect");
-				
+//				Piwik::log("Authenticated ::: ");
 				
 				if($currentUrl === $urlToRedirect)
 				{
-					print("We redirect to the homepage! $baseUrl");
+//					Piwik::log("We redirect to the homepage! ");
+//					$urlToRedirect = $baseUrl;
 				}
+				
+//				Piwik::log("setup cookie");
+				$authCookieName = 'piwik-auth';
+				$authCookieExpiry = time() + 3600;
+				$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
+				$cookie->set('login', $login);
+				$tokenAuth = $auth->getTokenAuth();
+				$cookie->set('token', $tokenAuth);
+				$cookie->save();
+				
+//				Piwik_Login::prepareAuthObject($login,$tokenAuth);
+				
+//				Piwik::log("redirecting to $urlToRedirect .....");
+				
+				Piwik_Url::redirectToUrl($urlToRedirect);
 			}
 			else
 			{
-				print("Error authenticated");
-				
+				$messageNoAccess = 'login & password not correct';
 			}
 		}
 	
-		$view = new Piwik_View('home.tpl');	
+		$view = new Piwik_View('login.tpl');	
+		$view->AccessErrorString = $messageNoAccess;
 		$view->addForm( $form );
-		$view->render();
+		$view->subTemplate = 'genericForm.tpl'; 
+		echo $view->render();
 	}
 }
 ?>

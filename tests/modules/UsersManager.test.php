@@ -9,7 +9,7 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 require_once "Database.test.php";
 
 
-require 'UsersManager.php';
+require 'UsersManager/API.php';
 
 class Test_Piwik_UsersManager extends Test_Database
 {
@@ -432,10 +432,19 @@ class Test_Piwik_UsersManager extends Test_Database
     	Piwik_UsersManager_API::addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
     	Piwik_UsersManager_API::addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
     	
-    	   	
-    	$this->assertEqual(Piwik_UsersManager_API::getUsers(), array("gegg4564eqgeqag",
-    														"geggeqge632ge56a4qag",
-    														"geggeqgeqagqegg"));
+    	   $users = Piwik_UsersManager_API::getUsers();
+    	   foreach($users as &$user)
+    	   {
+    	   	unset($user['token_auth']);
+    	   	unset($user['date_registered']);
+    	   }
+    	$this->assertEqual($users, 
+    		array(
+    			array('login' => "gegg4564eqgeqag", 'password' => md5("geqgegagae"),    'alias' => "alias", 'email' => "tegst@tesgt.com"),
+    			array('login' => "geggeqge632ge56a4qag",  'password' => md5("geqgegeagae"),'alias' =>  "alias",  'email' => "tesggt@tesgt.com"),
+    			array('login' => "geggeqgeqagqegg",  'password' => md5("geqgeaggggae"),  'alias' => 'geggeqgeqagqegg','email' => "tesgggt@tesgt.com"),
+    		)
+    	);
     	
     }
     

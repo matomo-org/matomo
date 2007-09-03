@@ -109,7 +109,7 @@ class Piwik_API_Request
 						$requestValue = Piwik_Common::getRequestVar($name, null, null, $this->requestToUse);				
 					}
 				} catch(Exception $e) {
-					Piwik::error("The required variable '$name' is not correct or has not been found in the API Request. <br>\n ".var_export($this->requestToUse, true));
+					throw new Exception("The required variable '$name' is not correct or has not been found in the API Request.");
 				}			
 				$finalParameters[] = $requestValue;
 			}
@@ -130,12 +130,77 @@ class Piwik_API_Request
 				$toReturn = $this->getRenderedDataTable($dataTable);
 				
 			}
+			
+			if(empty($toReturn))
+			{
+				$format = Piwik_Common::getRequestVar('format', 'xml', 'string', $this->requestToUse);
+				$toReturn = $this->getStandardSuccessOutput($format);
+			}
+			
 		} catch(Exception $e ) {
-			$toReturn = 'XML ERROR TEMPLATE TODO', $e;
+			$format = Piwik_Common::getRequestVar('format', 'xml', 'string', $this->requestToUse);
+			$toReturn =  $this->getExceptionOutput( $e->getMessage(), $format);
 		}
+		
 		return $toReturn;
 	}
 	
+	
+	function getStandardSuccessOutput($format)
+	{
+		$return = 'TO OVERWRITE! getStandardSuccessOutput()';
+		switch($format)
+		{
+			case 'xml':
+				header('Content-type: text/xml');
+				$return = 
+					'<?xml version="1.0" encoding="utf-8" ?>'.
+					'<result>'.
+					'	<success message="ok" />'.
+					'</result>';
+			break;
+			case 'json':
+				header( "Content-type: application/json" );
+				$return = '{"result":"success", "message":"ok"}';
+			break;
+			case 'php':
+				$return = serialize(array('result' => 'success', 'message' => 'ok'));
+			break;
+			default:
+				$return = 'Success:ok';
+			break;
+		}
+		
+		return $return;
+	}
+	function getExceptionOutput($message, $format)
+	{
+		$return = 'TO OVERWRITE! getExceptionOutput()';
+		switch($format)
+		{
+			case 'xml':
+				header('Content-type: text/xml');
+				$return = 
+					'<?xml version="1.0" encoding="utf-8" ?>'.
+					'<result>'.
+					'	<error message="'.htmlentities($message).'" />'.
+					'</result>';
+			break;
+			case 'json':
+				header( "Content-type: application/json" );
+				$return = '{"result":"error", "message":"'.htmlentities($message).'"}';
+			break;
+			case 'php':
+				$return = serialize(array('result' => 'error', 'message' => $message));
+			break;
+			default:
+				$return = 'Error:'.$message;
+			break;
+		}
+		
+		return $return;
+	}
+
 	/**
 	 * Apply the specified renderer to the DataTable
 	 * @return Piwik_DataTable

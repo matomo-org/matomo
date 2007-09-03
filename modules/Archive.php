@@ -28,6 +28,7 @@
  */
  
 require_once 'Period.php';
+require_once 'Date.php';
 require_once 'ArchiveProcessing.php';
 
 class Piwik_Archive

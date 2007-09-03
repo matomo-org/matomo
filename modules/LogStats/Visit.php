@@ -86,7 +86,7 @@ class Piwik_LogStats_Visit
 	 */
 	private function getCookieName()
 	{
-		return Piwik_LogStats_Config::getInstance()->LogStats['cookie_name'] . $this->idsite;
+		return Piwik_Config::getInstance()->LogStats['cookie_name'] . $this->idsite;
 	}
 	
 	
@@ -123,7 +123,7 @@ class Piwik_LogStats_Visit
 	{
 		$this->visitorKnown = false;
 		
-		$this->cookieLog = new Piwik_LogStats_Cookie( $this->getCookieName() );
+		$this->cookieLog = new Piwik_Cookie( $this->getCookieName() );
 		/*
 		 * Case the visitor has the piwik cookie.
 		 * We make sure all the data that should saved in the cookie is available.
@@ -777,7 +777,7 @@ class Piwik_LogStats_Visit
 	/**
 	 * Returns either 
 	 * - "-1" for a known visitor
-	 * - a unique 32 char identifier
+	 * - a unique 32 char identifier @see Piwik_Common::generateUniqId()
 	 */
 	private function getVisitorUniqueId()
 	{

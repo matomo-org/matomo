@@ -340,7 +340,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	$this->assertEqual($table->getRows(), $expectedtable->getRows());
 	 }
 	/**
-	 * Test to filter a column with a offset, limit
+	 * Test to filter a table with a offset, limit
 	 */
 	 function test_filter_OffsetLimit()
 	 {

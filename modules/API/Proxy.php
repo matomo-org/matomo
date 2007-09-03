@@ -200,11 +200,6 @@ class Piwik_API_Proxy
 			throw new Exception("The number of parameters provided ($nbParamsGiven) is less than the number of required parameters ($nbParamsRequired) for this method.
 							Please check the method API.");
 		}
-		elseif($nbParamsGiven > $nbParamsRequired)
-		{
-			throw new Exception("The number of parameters provided ($nbParamsGiven) is greater than the number of required parameters ($nbParamsRequired) for this method.
-							Please check the method API.");
-		}
 	}
 	
 	/**

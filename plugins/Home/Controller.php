@@ -9,7 +9,6 @@ class Piwik_Home_Controller extends Piwik_Controller
 	
 	function homepage()
 	{
-		print("HOMEPAGE!");
 		main();
 	}
 }
@@ -26,15 +25,16 @@ function main()
 	
 	Piwik::log("Start process...");
 	$api = Piwik_API_Proxy::getInstance();
-	
-	$api->SitesManager->getSiteUrlsFromId(1);
-	
-	$api->SitesManager->addSite("test name site", array("http://localhost", "http://test.com"));
-	
-	Zend_Registry::get('access')->loadAccess();
-	
-	$api->UsersManager->deleteUser("login");
-	$api->UsersManager->addUser("login", "password", "email@geage.com");
+//	$api->SitesManager->addSite("t2site2", array("http://localhost44", "http://test123.com"));
+//	$api->SitesManager->addSite("2e site33", array("http://localhost52", "http://test123.com"));
+//	$api->SitesManager->addSite("te2 site44", array("http://localhost31231", "http://test123.com"));
+//	
+//	$api->SitesManager->addSite("test name site", array("http://localhost", "http://test.com"));
+//
+//	$api->SitesManager->getSiteUrlsFromId(1);
+		
+	//$api->UsersManager->deleteUser("login");
+//	$api->UsersManager->addUser("login", "password", "email@geage.com");
 	
 	require_once "API/Request.php";
 	

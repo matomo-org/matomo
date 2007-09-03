@@ -1,7 +1,21 @@
 <?php
 class Piwik_Url 
 {
+	static public function redirectToUrl( $url )
+	{
+		header("Location: $url");
+		exit;
+	}
 	
+	static public function getReferer()
+	{
+		if(!empty($_SERVER['HTTP_REFERER']))
+		{
+			return $_SERVER['HTTP_REFERER'];
+		}
+		return false;
+	}
+
 	static public function getCurrentUrl()
 	{
 		return    self::getCurrentHost()
@@ -9,6 +23,12 @@ class Piwik_Url
 				. self::getCurrentQueryString();
 	}
 	
+	static public function getCurrentUrlWithoutQueryString()
+	{
+		
+		return    self::getCurrentHost()
+				. self::getCurrentScriptName() ;
+	}
 	static public function getCurrentScriptName()
 	{
 		$url = '';

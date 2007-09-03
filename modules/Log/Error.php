@@ -63,7 +63,11 @@ class Piwik_Log_Formatter_Error_ScreenFormatter implements Zend_Log_Formatter_In
 		
 		$strReturned = '';
 	    $errno = $errno & error_reporting();
-	    //if($errno == 0) return '';
+	    
+	    // problem when using error_reporting with the @ silent fail operator
+	    // it gives an errno 0, and in this case the objective is to NOT display anything on the screen!
+	    // is there any other case where the errno is zero at this point?
+	    if($errno == 0) return '';
 	    if(!defined('E_STRICT'))            define('E_STRICT', 2048);
 	    if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
 	    if(!defined('E_EXCEPTION')) 		define('E_EXCEPTION', 8192);
@@ -83,7 +87,7 @@ class Piwik_Log_Formatter_Error_ScreenFormatter implements Zend_Log_Formatter_In
 	        case E_USER_NOTICE:         $strReturned .=  "User Notice";            break;
 	        case E_STRICT:              $strReturned .=  "Strict Notice";          break;
 	        case E_RECOVERABLE_ERROR:   $strReturned .=  "Recoverable Error";      break;
-	        case E_EXCEPTION:   		$strReturned .=  "Exception";      break;
+	        case E_EXCEPTION:   		$strReturned .=  "Exception";				break;
 	        default:                    $strReturned .=  "Unknown error ($errno)"; break;
 	    }
 	    $strReturned .= ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";

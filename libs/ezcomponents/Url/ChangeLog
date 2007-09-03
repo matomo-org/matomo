@@ -1,0 +1,41 @@
+1.1 - Monday 02 July 2007
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Documentation updates and fixes.
+
+
+1.1rc1 - Monday 25 June 2007
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #11012: basedir can be now specified as an absolute path also.
+- Documentation updates and fixes.
+
+
+1.1beta1 - Monday 07 May 2007
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented feature request #10109: Added support for delayed initialization
+  for ezcUrlConfiguration.
+- Implemented feature request #10444: Added removeOrderedParameter() and
+  removeUnorderedParameter() methods to ezcUrlConfiguration. Also exposed the
+  url configuration as a property of ezcUrl objects.
+
+
+1.0 - Monday 18 December 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Removed the defaultConfiguration() method from ezcUrlConfiguration.
+- Added missing docblocks.
+
+
+1.0beta2 - Monday 20 November 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented feature #9240: Added ezcUrlCreator class to allow
+  working with predefined locations (eg. images, design);
+
+
+1.0beta1 - Tuesday 24 October 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Initial release of this package.

@@ -12,7 +12,7 @@
  * 
  * @package Piwik_LogStats
  */
-class Piwik_LogStats_Cookie
+class Piwik_Cookie
 {
 	/**
 	 * The name of the cookie 
@@ -117,7 +117,7 @@ class Piwik_LogStats_Cookie
 	/**
 	 * Delete the cookie
 	 */
-	public function deleteCookie()
+	public function delete()
 	{
 		$this->setP3PHeader();
 		setcookie($this->name, false, time() - 86400);
@@ -155,7 +155,7 @@ class Piwik_LogStats_Cookie
 			if(!is_numeric($varValue))
 			{
 				$varValue = base64_decode($varValue);
-				
+
 				// some of the values may be serialized array so we try to unserialize it
 				if( ($arrayValue = @unserialize($varValue)) !== false
 					// we set the unserialized version only for arrays as you can have set a serialized string on purpose
@@ -253,7 +253,7 @@ class Piwik_LogStats_Cookie
 }
 
 
-//$c = new Piwik_LogStats_Cookie( 'piwik_logstats', 86400);
+//$c = new Piwik_Cookie( 'piwik_logstats', 86400);
 //echo $c;
 //$c->set(1,1);
 //$c->set('test',1);
@@ -262,12 +262,10 @@ class Piwik_LogStats_Cookie
 //$c->set('test4',array(array(0=>1),1=>'test'));
 //echo $c;
 //echo "<br>";
-//echo $c->generateContentString();
-//echo "<br>";
 //$v=$c->get('more!');
 //if(empty($v)) $c->set('more!',1);
 //$c->set('more!', array($c->get('more!')));
 //$c->save();
-//$c->deleteCookie();
+//$c->delete();
 
 

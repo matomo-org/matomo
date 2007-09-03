@@ -1120,9 +1120,6 @@ class Smarty
     {
         static $_cache_info = array();
         
-        $_smarty_old_error_level = $this->debugging ? error_reporting() : error_reporting(isset($this->error_reporting)
-               ? $this->error_reporting : error_reporting() & ~E_NOTICE);
-
         if (!$this->debugging && $this->debugging_ctrl == 'URL') {
             $_query_string = $this->request_use_auto_globals ? $_SERVER['QUERY_STRING'] : $GLOBALS['HTTP_SERVER_VARS']['QUERY_STRING'];
             if (@strstr($_query_string, $this->_smarty_debug_id)) {
@@ -1218,12 +1215,10 @@ class Smarty
                     } else {
                             echo $_smarty_results;
                     }
-                    error_reporting($_smarty_old_error_level);
                     // restore initial cache_info
                     $this->_cache_info = array_pop($_cache_info);
                     return true;
                 } else {
-                    error_reporting($_smarty_old_error_level);
                     // restore initial cache_info
                     $this->_cache_info = array_pop($_cache_info);
                     return $_smarty_results;
@@ -1303,10 +1298,8 @@ class Smarty
                 require_once(SMARTY_CORE_DIR . 'core.display_debug_console.php');
                 echo smarty_core_display_debug_console($_params, $this);
             }
-            error_reporting($_smarty_old_error_level);
             return;
         } else {
-            error_reporting($_smarty_old_error_level);
             if (isset($_smarty_results)) { return $_smarty_results; }
         }
     }

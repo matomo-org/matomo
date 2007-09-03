@@ -7,9 +7,13 @@ FEATURES
   this would allow to save the logs later by big bulk
 - Purge log_ when archiving is done
 - Provide Config file feature for plugins (works as the translation system)
+- Translate exception
+
+
 
 BUGS
 ====
+- the referer URLs with host registered as main_url or alias_url should NOT be counted as referer
 - the token md5 generation doesn't check that the md5 generated is unique, 
   but it should (the field is unique in the database)
 - if elements from the config file are deleted, bug without any notice or warning
