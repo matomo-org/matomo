@@ -181,6 +181,10 @@ class Piwik_Common
 			{
 					if(is_int($value) || $value==(int)$value) $ok = true;
 			}
+			elseif($varType == 'float')
+			{
+					if(is_float($value) || $value==(float)$value) $ok = true;
+			}
 			elseif($varType == 'array')
 			{
 					if(is_array($value)) $ok = true;

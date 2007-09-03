@@ -30,12 +30,18 @@ class Piwik_API_Request
 	{
 		$requestArray = $_REQUEST;
 		
+		// If an array is specified we use it
 		if(!is_null($request))
 		{
 			$request = trim($request);
 			$request = str_replace(array("\n","\t"),'', $request);
 			parse_str($request, $requestArray);
+				
+			// but we handle the case when an array is specified but we also want
+			// to look for the value in the _REQUEST
+			$requestArray = array_merge( $_REQUEST, $requestArray);
 		}
+		
 		$this->requestToUse = $requestArray;
 	}
 	
@@ -131,7 +137,9 @@ class Piwik_API_Request
 				
 			}
 			
-			if(empty($toReturn))
+			
+			if(!is_array($toReturn) // an empty array is not considered as "nothing has been returned"
+				&& empty($toReturn))
 			{
 				$format = Piwik_Common::getRequestVar('format', 'xml', 'string', $this->requestToUse);
 				$toReturn = $this->getStandardSuccessOutput($format);
@@ -164,7 +172,11 @@ class Piwik_API_Request
 				$return = '{"result":"success", "message":"ok"}';
 			break;
 			case 'php':
-				$return = serialize(array('result' => 'success', 'message' => 'ok'));
+				$return = array('result' => 'success', 'message' => 'ok');
+				if($this->caseRendererPHPSerialize())
+				{
+					$return = serialize($return);
+				}
 			break;
 			default:
 				$return = 'Success:ok';
@@ -191,7 +203,11 @@ class Piwik_API_Request
 				$return = '{"result":"error", "message":"'.htmlentities($message).'"}';
 			break;
 			case 'php':
-				$return = serialize(array('result' => 'error', 'message' => $message));
+				$return = array('result' => 'error', 'message' => $message);
+				if($this->caseRendererPHPSerialize())
+				{
+					$return = serialize($return);
+				}
 			break;
 			default:
 				$return = 'Error:'.$message;
@@ -209,12 +225,59 @@ class Piwik_API_Request
 	{
 		// Renderer
 		$format = Piwik_Common::getRequestVar('format', 'php', 'string', $this->requestToUse);
+		
 		$renderer = Piwik_DataTable_Renderer::factory($format);
 		$renderer->setTable($dataTable);
 		
-		$toReturn = (string)$renderer;
+		
+		if($format == 'php')
+		{
+			$renderer->setSerialize( $this->caseRendererPHPSerialize());
+		}
+		
+		$toReturn = $renderer->render();
 		return $toReturn;
 	}
+	
+	
+	function caseRendererPHPSerialize()
+	{
+		$serialize = Piwik_Common::getRequestVar('serialize', 1, 'int', $this->requestToUse);
+		if($serialize)
+		{
+			return true;
+		}
+		else
+		{
+			return false;		
+		}
+	}
+	
+	public static function getGenericFiltersInformation()
+	{
+		$genericFilters = array(
+			
+			'Pattern' => array(
+								'filter_column' 			=> array('string'), 
+								'filter_pattern' 			=> array('string'),
+						),
+			'ExcludeLowPopulation'	=> array(
+								'filter_excludelowpop' 		=> array('string'), 
+								'filter_excludelowpop_value'=> array('float'),
+						),
+			'Sort' => array(
+								'filter_sort_column' 		=> array('string', Piwik_Archive::INDEX_NB_VISITS),
+								'filter_sort_order' 		=> array('string', 'desc'),
+						),
+			'Limit' => array(
+								'filter_offset' 			=> array('integer', '0'),
+								'filter_limit' 				=> array('integer', Zend_Registry::get('config')->General->dataTable_default_limit),
+						),
+		);
+		
+		return $genericFilters;
+	}
+	
 	
 	/**
 	 * Applys generic filters to the DataTable object resulting from the API Call.
@@ -231,24 +294,7 @@ class Piwik_API_Request
 		 * 2 - Filter that sort the remaining rows
 		 * 3 - Filter that keep only a subset of the results
 		 */
-		$genericFilters = array(
-			'Pattern' => array(
-								'filter_column' 			=> array('string'), 
-								'filter_pattern' 			=> array('string'),
-						),
-			'ExcludeLowPopulation'	=> array(
-								'filter_excludelowpop' 		=> array('string'), 
-								'filter_excludelowpop_value'=> array('float'),
-						),
-			'Sort' => array(
-								'filter_sort_column' 		=> array('string', Piwik_Archive::INDEX_NB_VISITS),
-								'filter_sort_order' 		=> array('string', 'desc'),
-						),
-			'Limit' => array(
-								'filter_offset' 			=> array('integer'),
-								'filter_limit' 				=> array('integer'),
-						),
-		);
+		$genericFilters = Piwik_API_Request::getGenericFiltersInformation();
 		
 		foreach($genericFilters as $filterName => $parameters)
 		{
@@ -274,6 +320,7 @@ class Piwik_API_Request
 				}
 				catch(Exception $e)
 				{
+//					print($e->getMessage());
 					$exceptionRaised = true;
 					break;
 				}
@@ -281,6 +328,7 @@ class Piwik_API_Request
 			
 			if(!$exceptionRaised)
 			{
+//				var_dump($filterParameters);
 				assert(count($filterParameters)==count($parameters));
 				
 				// a generic filter class name must follow this pattern

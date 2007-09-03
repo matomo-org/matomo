@@ -434,8 +434,7 @@ function main()
 		&filter_limit=10
 		&filter_offset=0
 		&idSubtable=3090
-	'
-	);
+	');
 	dump(htmlentities($request->process()));
 	
 	

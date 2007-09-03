@@ -16,6 +16,7 @@ textarea{
 </style>
 {/literal}
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
+<script type="text/javascript" src="themes/default/common.js"></script>
 
 <h2>Sites</h2>
 <div id="ajaxError" style="display:none"></div>
