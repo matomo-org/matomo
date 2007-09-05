@@ -42,7 +42,7 @@ require_once "Cookie.php";
 require_once "LogStats/Db.php";
 require_once "LogStats/Visit.php";
 
-$GLOBALS['DEBUGPIWIK'] = true;
+$GLOBALS['DEBUGPIWIK'] = false;
 
 ob_start();
 printDebug($_GET);
