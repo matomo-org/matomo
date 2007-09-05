@@ -12,6 +12,7 @@
  * 
  * @package Piwik_LogStats
  */
+
 class Piwik_LogStats_Visit
 {
 	protected $cookieLog = null;
@@ -86,7 +87,7 @@ class Piwik_LogStats_Visit
 	 */
 	private function getCookieName()
 	{
-		return Piwik_Config::getInstance()->LogStats['cookie_name'] . $this->idsite;
+		return Piwik_LogStats_Config::getInstance()->LogStats['cookie_name'] . $this->idsite;
 	}
 	
 	
