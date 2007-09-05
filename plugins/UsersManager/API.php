@@ -218,6 +218,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		}
 		return $alias;
 	}
+	
 	static private function getCleanPassword($password)
 	{
 		return md5($password);

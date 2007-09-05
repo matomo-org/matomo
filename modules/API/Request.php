@@ -147,7 +147,15 @@ class Piwik_API_Request
 			
 		} catch(Exception $e ) {
 			$format = Piwik_Common::getRequestVar('format', 'xml', 'string', $this->requestToUse);
+			
+			// if it is not a direct API call, we are requesting the original data structure
+			// and we actually are handling this exception at the top level in the FrontController
+			if($format == 'original')
+			{
+				throw $e;
+			}
 			$toReturn =  $this->getExceptionOutput( $e->getMessage(), $format);
+			
 		}
 		
 		return $toReturn;
@@ -191,7 +199,7 @@ class Piwik_API_Request
 		switch($format)
 		{
 			case 'xml':
-				header('Content-type: text/xml');
+				@header('Content-type: text/xml');
 				$return = 
 					'<?xml version="1.0" encoding="utf-8" ?>'.
 					'<result>'.
@@ -199,7 +207,7 @@ class Piwik_API_Request
 					'</result>';
 			break;
 			case 'json':
-				header( "Content-type: application/json" );
+				@header( "Content-type: application/json" );
 				$return = '{"result":"error", "message":"'.htmlentities($message).'"}';
 			break;
 			case 'php':
@@ -226,9 +234,14 @@ class Piwik_API_Request
 		// Renderer
 		$format = Piwik_Common::getRequestVar('format', 'php', 'string', $this->requestToUse);
 		
+		// if asked for original dataStructure
+		if($format == 'original')
+		{
+			return $dataTable;
+		}
+		
 		$renderer = Piwik_DataTable_Renderer::factory($format);
 		$renderer->setTable($dataTable);
-		
 		
 		if($format == 'php')
 		{
@@ -285,6 +298,8 @@ class Piwik_API_Request
 	 */
 	protected function applyDataTableGenericFilters($dataTable)
 	{
+//		print($dataTable->getRowsCount());
+//		$filter = new Piwik_DataTable_Filter_Sort($dataTable, 2, 'desc');
 		
 		// Generic filters
 		// PatternFileName => Parameter names to match to constructor parameters
@@ -333,6 +348,11 @@ class Piwik_API_Request
 				
 				// a generic filter class name must follow this pattern
 				$class = "Piwik_DataTable_Filter_".$filterName;
+				
+				if($filterName == 'Limit')
+				{
+					$dataTable->setRowsCountBeforeLimitFilter();
+				}
 				
 				// build the set of parameters for the filter					
 				$filterParameters = array_merge(array($dataTable), $filterParameters);

@@ -52,6 +52,31 @@ class Test_PHP_Related extends UnitTestCase
 		
 		$this->assertEqual( $vars['a'], 'testa' );
 	}
+	
+	static $countSort=0;
+	function test_usortcalledHowManyTimes()
+	{
+		$a=array();
+		//generate fake 1000 elements access
+		for($i=0;$i<1000;$i++)
+		{
+			$a[]=mt_rand();
+		}
+		$timer = new Piwik_Timer;
+		function countSort($a,$b)
+		{
+			Test_PHP_Related::$countSort++;
+			return $a < $b ? -1 : 1;
+		}
+		//sort using usort
+		usort($a, "countSort");
+		
+		// in the function used count nb of times called
+		print("called ".self::$countSort." times to sort the 1000 elements array");
+		
+		echo $timer;
+	}
+	
 	/**
 	 * __get is not called when reading a static attribute from a class... snif 
 	 */

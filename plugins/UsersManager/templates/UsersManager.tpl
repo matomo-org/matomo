@@ -1,45 +1,6 @@
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="themes/default/common.js"></script>
-
-{literal}
-
-<style>
-#access td, #users td
-{ 
-	spacing: 0px;
-	padding: 2px 5px 5px 4px; 
-	border: 1px solid #660000; 
-	width:100px;
-}
-
-
-#ajaxError{
-	color:red;
-	text-align:center;
-	font-weight:bold;
-	width:550px;
-	border: 3px solid red;
-	margin: 10px;	
-	padding: 10px;
-}
-
-#addrow img {
-	 vertical-align:middle;
-}
-#addrow a {
-	 text-decoration:none;
-}
-
-#accessUpdated{
-	display:none;
-	border:2px solid green;
-	color:green;
-	width:100px;
-	text-align:center;
-}
-
-</style>
-{/literal}
+<link rel="stylesheet" href="themes/default/common-admin.css">
 
 <h2>Access</h2>
 
@@ -62,12 +23,16 @@
 </div>
 
 <table id="access">
+<thead>
 <tr>
-	<td>User</td>
-	<td>No access</td>
-	<td>View</td>
-	<td>Admin</td>
+	<th>User</th>
+	<th>No access</th>
+	<th>View</th>
+	<th>Admin</th>
 </tr>
+</thead>
+
+<tbody>
 {foreach from=$usersAccessByWebsite key=login item=access}
 {assign var=accesValid value="<img src='plugins/UsersManager/images/ok.png' class='accessGranted'>"}
 {assign var=accesInvalid value="<img src='plugins/UsersManager/images/no-access.png' class='updateAccess'>"}
@@ -78,6 +43,7 @@
 	<td id='admin'>{if $access=='admin' and $idSiteSelected!=-1}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
 </tr>
 {/foreach}
+</tbody>
 </table>
 
 <div id="accessUpdated">Done!</div>
@@ -88,15 +54,18 @@
 <div id="ajaxError" style="display:none"></div>
 <div id="ajaxLoading" style="display:none">Loading... <img src="themes/default/loading.gif"></div>
 <table id="users">
-    <tbody>
+	<thead>
         <tr>
-            <td>Login</td>
-            <td>Password</td>
-            <td>Email</td>
-            <td>Alias</td>
-            <td>Edit</td>
-            <td>Delete</td>
+            <th>Login</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Alias</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
+	</thead>
+	
+	<tbody>
         {foreach from=$users item=user key=i}
         <tr class="editable" id="row{$i}">
             <td id="userLogin" class="editable">{$user.login}</td>
@@ -107,7 +76,7 @@
             <td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete"></td>
         </tr>
         {/foreach}
-    </tbody>
+	</tbody>
     
 </table>
 <div id="addrow"><img src='plugins/UsersManager/images/add.png'> <a href="#">Add a new user</a></div>

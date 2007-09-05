@@ -12,8 +12,8 @@ class Piwik_Login_Form extends Piwik_Form
 		$urlToGoAfter = Piwik_Url::getReferer();
 		if($urlToGoAfter == false)
 		{
-			
 			$urlToGoAfter = Piwik_Url::getCurrentUrl();
+			
 		}
 
 		$formElements = array(
