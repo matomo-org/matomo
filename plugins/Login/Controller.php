@@ -24,6 +24,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$currentUrl = Piwik_Url::getCurrentUrl();		
 			$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string', $_POST);
 			
+			$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 			
 			$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login,$password);
 	

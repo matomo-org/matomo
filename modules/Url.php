@@ -29,6 +29,7 @@ class Piwik_Url
 		return    self::getCurrentHost()
 				. self::getCurrentScriptName() ;
 	}
+	
 	static public function getCurrentScriptName()
 	{
 		$url = '';

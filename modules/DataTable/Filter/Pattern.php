@@ -24,7 +24,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	{
 		foreach($this->table->getRows() as $key => $row)
 		{
-			if( !ereg($this->patternToSearch, $row->getColumn($this->columnToFilter)))
+			if( !eregi($this->patternToSearch, $row->getColumn($this->columnToFilter)))
 			{
 				$this->table->deleteRow($key);
 			}

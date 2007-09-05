@@ -85,8 +85,7 @@ class Piwik_API_Proxy
 		$this->checkClassIsSingleton($class);
 		
 
-		Piwik::log("List of the public methods for the class $class");
-
+		
 		$rMethods = $rClass->getMethods();
 		foreach($rMethods as $method)
 		{
@@ -120,9 +119,10 @@ class Piwik_API_Proxy
 				$this->api[$class][$name]['parameters'] = $aParameters;
 				$this->api[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
 				
-				Piwik::log("- $name is public ".$this->getStrListParameters($class, $name));				
+//				Piwik::log("- $name is public ".$this->getStrListParameters($class, $name));				
 			}
 		}
+//		Piwik::log("List of the public methods for the class $class");
 		
 		$this->alreadyRegistered[$fileName] = true;
 	}

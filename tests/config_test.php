@@ -58,17 +58,18 @@ function dump($var)
 	print("</pre>");
 }
 
-Zend_Loader::loadClass('Zend_Registry');
-Zend_Loader::loadClass('Zend_Config_Ini');
-Zend_Loader::loadClass('Zend_Config');
-Zend_Loader::loadClass('Zend_Db');
-Zend_Loader::loadClass('Zend_Db_Table');
-Zend_Loader::loadClass('Zend_Debug');
-Zend_Loader::loadClass('Piwik_Config');
-Zend_Loader::loadClass('Piwik_Timer');
-Zend_Loader::loadClass('Piwik_Access');
-Zend_Loader::loadClass('Piwik_Log');
-Zend_Loader::loadClass('Piwik');
+require_once 'Zend/Registry.php';
+require_once 'Zend/Config/Ini.php';
+require_once 'Zend/Config.php';
+require_once 'Zend/Db.php';
+require_once 'Zend/Db/Table.php';
+require_once 'Zend/Debug.php';
+require_once 'Config.php';
+require_once 'Timer.php';
+require_once 'API/APIable.php';
+require_once 'Access.php';
+require_once 'Log.php';
+require_once 'Piwik.php';
 
 assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);

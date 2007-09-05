@@ -124,7 +124,7 @@ class Piwik_DataTable
 	protected $depthLevel = 0;
 	protected $indexNotUpToDate = false;
 	protected $queuedFilters = array();
-	
+	protected $rowsCountBeforeLimitFilter = 0;
 	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 20;
 	
 	public function __construct()
@@ -135,7 +135,22 @@ class Piwik_DataTable
 	public function sort( $functionCallback )
 	{
 		$this->indexNotUpToDate = true;
-		usort(&$this->rows, $functionCallback);
+		usort( $this->rows, $functionCallback );
+	}
+	
+	public function getRowsCountBeforeLimitFilter()
+	{
+		$toReturn = $this->rowsCountBeforeLimitFilter;
+		if($toReturn == 0)
+		{
+			return $this->getRowsCount();
+		}
+		return $toReturn;
+	}
+	
+	function setRowsCountBeforeLimitFilter()
+	{
+		$this->rowsCountBeforeLimitFilter = $this->getRowsCount();
 	}
 	
 	public function queueFilter( $className, $parameters = array() )
@@ -146,10 +161,17 @@ class Piwik_DataTable
 		}
 		$this->queuedFilters[] = array('className' => $className, 'parameters' => $parameters);
 	}
+	
+	
 	public function applyQueuedFilters()
 	{
 		foreach($this->queuedFilters as $filter)
 		{
+			if($filter['className'] == 'Piwik_DataTable_Filter_Limit')
+			{
+				$this->setRowsCountBeforeLimitFilter();
+			}
+			
 			$reflectionObj = new ReflectionClass($filter['className']);
 			
 			// the first parameter of a filter is the DataTable
@@ -222,7 +244,7 @@ class Piwik_DataTable
 	{
 		if($this->indexNotUpToDate)
 		{
-			throw new Exception("TODO need to rebuild the index of the DataTable (some rows have been moved)!");
+			$this->rebuildIndex();
 		}
 		
 		$label = (string)$label;
@@ -243,26 +265,15 @@ class Piwik_DataTable
 	 */
 	public function addRow( $row )
 	{
-		$this->rows[] = $row;
-		
-		$label = $row->getColumn('label');
-		
-		if($label !== false)
-		{
-			if(isset($this->rowsIndexByLabel[$label]))
-			{
-				throw new Exception("The row with the label $label already exists in this DataTable");
-			}
-			$this->rowsIndexByLabel[$label] = count($this->rows) - 1;
-		}
+		$this->rows[] = $row;	
+		$this->indexNotUpToDate = true;
 	}
 	
 	public function getId()
 	{
 		return $this->currentId;
 	}
-	
-	
+		
 	/**
 	 * You should use loadFromArray for performance!
 	 */

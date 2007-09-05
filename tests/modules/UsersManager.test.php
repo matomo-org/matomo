@@ -753,7 +753,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	}
     	$userAfter = Piwik_UsersManager_API::getUser($user["login"]);
     	unset($userAfter['date_registered']);
-    	$user['token_auth']=md5($user["login"] . $newPassword );
+    	$user['token_auth']= Piwik_UsersManager_API::getTokenAuth($user["login"], $newPassword );
     	
     	$user['password']=md5($newPassword);
     	$user['email']=$newEmail;

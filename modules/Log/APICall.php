@@ -81,7 +81,7 @@ class Piwik_Log_Formatter_APICall_ScreenFormatter implements Zend_Log_Formatter_
     	}
     	$str .=  "\n<br> ";
     	
-    	$str .= "Returned: ".$this->formatValue($event['returned_value']);
+//    	$str .= "Returned: ".$this->formatValue($event['returned_value']);
     	$str .=  "\n<br> ";
     	return $str;
     }

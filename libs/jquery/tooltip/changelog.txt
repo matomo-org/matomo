@@ -1,0 +1,17 @@
+1.1
+---
+
+* Use bgiframe-plugin if available
+* Use dimensions-plugin to calculate viewport
+* Expose global blocked-property via $.Tooltip.blocked to programmatically disable all tooltips
+* Fixed image maps in IE by setting the alt-attribute to an empty string
+* Removed event-option (only hover-tooltips now)
+* Simplified event-handling (using hover instead of mouseover und mouseout)
+* Added another "pretty" example
+* Added top and left options to specify tooltip offset
+* Reworked example page: New layout, code examples
+
+1.0
+---
+
+* first release considered stable
