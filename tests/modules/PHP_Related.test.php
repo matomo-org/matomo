@@ -41,6 +41,20 @@ class Test_PHP_Related extends UnitTestCase
 	{
 	}
 	
+	public function testMergeArray()
+	{
+		$a = array('label' => 'test');
+		$b = array('test' => 1, 1 => 2100);
+		
+		$expected = array(
+		'label' => 'test',
+		'test' => 1, 1 => 2100
+		);
+		
+//		$this->assertEqual( array_merge($a,$b), $expected);
+		$this->assertEqual( $a+$b, $expected);
+	}
+	
 	/**
 	 * test reading static attribute of a variable class
 	 */

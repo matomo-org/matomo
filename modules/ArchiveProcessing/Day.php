@@ -13,6 +13,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	
 	function __construct()
 	{
+		parent::__construct();
 		$this->db = Zend_Registry::get('db');
 	}
 	
@@ -71,6 +72,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		}
 		$table = new Piwik_DataTable;
 		$table->loadFromArrayLabelIsKey($data);
+//		echo $table;
+//		exit;
 		return $table;
 	}
 	

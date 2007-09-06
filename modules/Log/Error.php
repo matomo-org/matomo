@@ -68,9 +68,6 @@ class Piwik_Log_Formatter_Error_ScreenFormatter implements Zend_Log_Formatter_In
 	    // it gives an errno 0, and in this case the objective is to NOT display anything on the screen!
 	    // is there any other case where the errno is zero at this point?
 	    if($errno == 0) return '';
-	    if(!defined('E_STRICT'))            define('E_STRICT', 2048);
-	    if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
-	    if(!defined('E_EXCEPTION')) 		define('E_EXCEPTION', 8192);
 	    $strReturned .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'><b>";
 	    switch($errno)
 	    {

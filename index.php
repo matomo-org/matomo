@@ -18,6 +18,10 @@ assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);
 assert_options(ASSERT_BAIL, 	1);
 
+if(!defined('E_STRICT'))            define('E_STRICT', 2048);
+if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
+if(!defined('E_EXCEPTION')) 		define('E_EXCEPTION', 8192);
+
 /**
  * Error / exception handling functions
  */

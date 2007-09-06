@@ -60,6 +60,10 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	
 	protected function filter()
 	{
+		if($this->table instanceof Piwik_DataTable_Simple)
+		{
+			return;
+		}
 		$rows = $this->table->getRows();
 		
 		if(count($rows) == 0)
@@ -69,9 +73,9 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		$row = current($rows);
 		$value = $row->getColumn($this->columnToSort);
 		
-		if($value == false)
+		if($value === false)
 		{
-			return;
+			throw new Exception("The column to sort by '".$this->columnToSort."' is unknown in the row ". implode(array_keys($row->getColumns()), ','));
 		}
 		
 		if( Piwik::isNumeric($value))

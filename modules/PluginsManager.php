@@ -35,6 +35,7 @@ class Piwik_PluginsManager
 	protected $installPlugins = false;
 	protected $doLoadPlugins = true;
 	protected $languageToLoad = null;
+	protected $loadedPlugins = array();
 	
 	static private $instance = null;
 	
@@ -80,6 +81,16 @@ class Piwik_PluginsManager
 	public function doInstallPlugins()
 	{
 		return $this->installPlugins;
+	}
+	
+	protected function addLoadedPlugin($newPlugin)
+	{
+		$this->loadedPlugins[] = $newPlugin;
+	}
+	
+	public function getLoadedPlugins()
+	{
+		return $this->loadedPlugins;
 	}
 	/**
 	 * Load the plugins classes installed.
@@ -134,7 +145,7 @@ class Piwik_PluginsManager
 				
 				$newPlugin->registerTranslation( $this->languageToLoad );
 				$this->addPluginObservers( $newPlugin );
-				
+				$this->addLoadedPlugin($pluginName);
 			}
 		}
 	}

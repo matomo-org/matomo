@@ -114,7 +114,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		}		
 		$toSelect = implode(" , ", $select);
 		
-		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, 'nb_visits');
+		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
 	}
 	
 	protected function getTableTimeGap()
@@ -142,6 +142,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		}		
 		$toSelect = implode(" , ", $select);
 		
-		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, 'nb_visits');
+		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
 	}
 }

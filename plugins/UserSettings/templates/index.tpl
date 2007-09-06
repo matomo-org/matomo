@@ -112,6 +112,40 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 		}
 	}
 	
+	function resetAllFilters()
+	{
+		var FiltersToRestore = new Array();
+		filters = [ 
+			'filter_column', 
+			'filter_pattern', 
+			'filter_excludelowpop',
+			'filter_excludelowpop_value',
+			'filter_offset',
+			'filter_limit',
+			'filter_sort_column',
+			'filter_sort_order',
+		];
+		
+		for(key in filters)
+		{
+			value = filters[key];
+			FiltersToRestore[value] = getRequestVariable(value);
+			//if(FiltersToRestore[value]!=false) alert('save '+value+'='+FiltersToRestore[value]);
+			addFilter(value, false);
+		}
+		
+		
+		return FiltersToRestore;
+	}
+	
+	function restoreAllFilters(FiltersToRestore)
+	{
+		for(key in FiltersToRestore)
+		{ 
+			value = FiltersToRestore[key];
+			addFilter(key, value);
+		}
+	}
 	/* List of the filters to be applied
 		// pattern search
 		'filter_column'
@@ -130,10 +164,35 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 		'filter_limit'
 	*/
 	
-	$('#loadingDataTable', this).hide();
+	if(getRequestVariable( 'show_search' ) == true)
+	{
+		$('#dataTableSearchPattern', this).show();
+	}
 	
-	$('#dataTableExcludeLowPopulation', this)
-		.each(  setExcludeLowPopulationString );
+	if( getRequestVariable( 'show_offset_information' ) == true )
+	{
+		$('#dataTablePages', this).each(
+			function(){
+				var offset = 1+Number(getRequestVariable('filter_offset'));
+				var offsetEnd = Number(getRequestVariable('filter_offset')) 
+									+ Number(getRequestVariable('filter_limit'));
+				var totalRows = Number(getRequestVariable('totalRows'));
+				offsetEndDisp = offsetEnd;
+	//		alert(totalRows);
+				if(offsetEnd > totalRows) offsetEndDisp = totalRows;
+				var str = offset + '-' + offsetEndDisp + ' of ' + totalRows;
+				//alert(str);
+				$(this).text(str);
+			}
+		);
+	}
+	
+	if( getRequestVariable( 'show_exclude_low_population' ) == true)
+	{
+		$('#dataTableExcludeLowPopulation', this)
+			.each(  setExcludeLowPopulationString );
+	}
+	
 	
 	$('#dataTableExcludeLowPopulation', this)
 		.click(
@@ -158,21 +217,6 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 		);
 	
 	
-	$('#dataTablePages', this).each(
-		function(){
-			var offset = 1+Number(getRequestVariable('filter_offset'));
-			var offsetEnd = Number(getRequestVariable('filter_offset')) 
-								+ Number(getRequestVariable('filter_limit'));
-			var totalRows = Number(getRequestVariable('totalRows'));
-			offsetEndDisp = offsetEnd;
-//		alert(totalRows);
-			if(offsetEnd > totalRows) offsetEndDisp = totalRows;
-			var str = offset + '-' + offsetEndDisp + ' of ' + totalRows;
-			//alert(str);
-			$(this).text(str);
-		}
-	);
-
 
 		//	
 			
@@ -182,7 +226,7 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 			var offsetEnd = Number(getRequestVariable('filter_offset')) 
 								+ Number(getRequestVariable('filter_limit'));
 			var totalRows = Number(getRequestVariable('totalRows'));
-			if(offsetEnd <= totalRows)
+			if(offsetEnd < totalRows)
 			{
 				$(this).css('display','inline');
 			}
@@ -250,8 +294,26 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 
 	
 	// we truncate the labels columns from the second row
-	$("td:first-child", this).truncate(30);
+	$("table tr td:first-child", this).truncate(30);
     $('.truncated', this).Tooltip();
+	
+	// we add a link based on the <span id="urlLink"> present in the column label (the first column)
+	// if this span is there, we add the link around the HTML in the TD
+	// but we add this link only for the rows that are not clickable already (subDataTable)
+	$("tr:not('.subDataTable') td:first-child:has('#urlLink')", this).each( function(){
+		
+		var imgToPrepend = '';
+		if( $(this).find('img').length == 0 )
+		{
+			imgToPrepend = '<img src="themes/default/images/link.gif" /> ';
+		}
+		var urlToLink = $('#urlLink',this).text();		
+		
+		$(this).html( 
+			'<a target="_blank" href="' + urlToLink + '">' + imgToPrepend + $(this).html() + '</a>'
+		);
+	});
+	
 	                
 	$("td:first-child:odd", this).addClass('label labelodd');
 	$("td:first-child:even", this).addClass('label labeleven');
@@ -363,40 +425,6 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 	
 	
 	
-	function resetAllFilters()
-	{
-		var FiltersToRestore = new Array();
-		filters = [ 
-			'filter_column', 
-			'filter_pattern', 
-			'filter_excludelowpop',
-			'filter_excludelowpop_value',
-			'filter_offset',
-			'filter_limit',
-			'filter_sort_column',
-			'filter_sort_order',
-		];
-		
-		for(key in filters)
-		{
-			value = filters[key];
-			FiltersToRestore[value] = getRequestVariable(value);
-			//if(FiltersToRestore[value]!=false) alert('save '+value+'='+FiltersToRestore[value]);
-			addFilter(value, false);
-		}
-		
-		
-		return FiltersToRestore;
-	}
-	
-	function restoreAllFilters(FiltersToRestore)
-	{
-		for(key in FiltersToRestore)
-		{ 
-			value = FiltersToRestore[key];
-			addFilter(key, value);
-		}
-	}
 }
 
 function bindAllDataTableEvent()
@@ -460,6 +488,11 @@ table.dataTable {
 	font-size:0.9em;
 }
 
+table.dataTable img {
+	border:0;
+	margin-right:1em;
+	margin-left:0.5em;
+}	
 table.dataTable tr.subDataTable{
 	cursor:pointer;
 }
@@ -482,11 +515,15 @@ table.dataTable td.label {
 }
 
 table.dataTable td {
-	margin:0;
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
-	background: #fff;
 	padding: 6px 6px 6px 12px;
+	background: #fff;
+}
+
+table.dataTable td,table.dataTable td a {
+	margin:0;
+	text-decoration:none;
 	color: #4f6b72;
 }
 
@@ -530,21 +567,24 @@ table.subDataTable tr.columnodd td	{
 	background:#f7fbff
 }
 
-
 table.subDataTable td {
-	color:#678197;
 	border-bottom:1px solid #e5eff8;
 	border-left:1px solid #e5eff8;
 	padding:.3em 1em;
+}
+
+table.subDataTable td, table.subDataTable td a {
+	text-decoration:none;
+	color:#678197;
 	text-align:left;
 }
 
-table.subDataTable td.label	{
+table.subDataTable td.label, table.subDataTable td.label a	{
 	background:#ffffff;
 	width:80%;
 }
 
-table.subDataTable td.labelodd	{
+table.subDataTable td.labelodd, table.subDataTable td.labelodd a{
 	background:#f4f9fe;
 }
 				
@@ -565,6 +605,11 @@ table.subDataTable thead th {
 }
 
 /* misc SPAN and DIV */
+
+/* A link in a column in the DataTable */
+table td #urlLink {
+	display:none;
+}
 
 #dataTablePages {
 	color:grey;
@@ -609,7 +654,7 @@ table.subDataTable thead th {
 div.subDataTable {
 	font-size:0.8em;
 }
-#dataTableNext, #dataTablePrevious {
+#dataTableNext, #dataTablePrevious, #dataTableSearchPattern, #loadingDataTable   {
 	display:none;
 
 }
@@ -624,14 +669,87 @@ div.subDataTable {
 </style>
 {/literal}
 
-<h1>User Settings<h1>
+<h1>All the Piwik reports<h1>
 
-<h2>Search engines</h2>
-{$dataTableSearchEngines}
-<h2>Keywords</h2>
+<h2>User Country</h2>
+
+<h3>Country</h3>
+{$dataTableCountry}
+
+<h3>Continent</h3>
+{$dataTableContinent}
+
+<h2>Provider</h2>
+{$dataTableProvider}
+
+<h2>Referers</h2>
+<h3>Numbers</h3>
+{$numberDistinctSearchEngines} distinct search engines <br>
+{$numberDistinctKeywords} distinct keywords<br>
+{$numberDistinctCampaigns} distinct campaigns <br>
+{$numberDistinctWebsites} distinct websites<br>
+{$numberDistinctWebsitesUrls} distinct websites URLs<br>
+{$numberDistinctPartners} distinct partners<br>
+{$numberDistinctPartnersUrls} distinct partners URLs<br>
+
+
+<h3>Referer Type</h3>
+{$dataTableRefererType}
+
+<h3>Keywords</h3>
 {$dataTableKeywords}
-<h2>Browsers</h2>
-{$dataTableBrowser}
-<h2>Resolutions</h2>
+
+<h3>Search Engines</h3>
+{$dataTableSearchEngines}
+
+<h3>Campaigns</h3>
+{$dataTableCampaigns}
+
+<h3>Websites</h3>
+{$dataTableWebsites}
+
+<h3>Partners</h3>
+{$dataTablePartners}
+
+<h2>User Settings</h2>
+<h3>Configurations</h3>
+{$dataTableConfiguration}
+
+<h3>Resolutions</h3>
 {$dataTableResolution}
 
+<h3>Operating systems</h3>
+{$dataTableOS}
+
+<h3>Browsers</h3>
+{$dataTableBrowser}
+
+<h3>Browser families</h3>
+{$dataTableBrowserType}
+
+<h3>Wide Screen</h3>
+{$dataTableWideScreen}
+
+<h3>Plugins</h3>
+{$dataTablePlugin}
+
+
+<h2>Frequency</h2>
+{$nbVisitsReturning} returning visits<br>
+{$nbActionsReturning} actions by the returning visits<br>
+{$maxActionsReturning} maximum actions by a returning visit<br>
+{$sumVisitLengthReturning} total time spent by returning visits<br>
+{$bounceCountReturning} times that a returning visit has bounced<br>
+
+<h2>Visit Time</h2>
+<h3>Visit per local time</h3>
+{$dataTableVisitInformationPerLocalTime}
+<h3>Visit per server time</h3>
+{$dataTableVisitInformationPerServerTime}
+		
+<h2>Visitor Interest</h2>
+<h3>Visits per visit duration</h3>
+{$dataTableNumberOfVisitsPerVisitDuration}
+<h3>Visits per number of pages</h3>
+{$dataTableNumberOfVisitsPerPage}
+	

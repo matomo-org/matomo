@@ -6,69 +6,469 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('UserSettings/templates/index.tpl');
 		
-		$view->dataTableResolution = $this->getResolution(true);
-		$view->dataTableSearchEngines = $this->getSearchEngines(true);
+		/* User settings */		
+		$view->dataTablePlugin = $this->getPlugin( true );
+		$view->dataTableResolution = $this->getResolution( true );
+		$view->dataTableConfiguration = $this->getConfiguration( true );
+		$view->dataTableOS = $this->getOS( true );
+		$view->dataTableBrowser = $this->getBrowser( true );
+		$view->dataTableBrowserType = $this->getBrowserType ( true );
+		$view->dataTableWideScreen = $this->getWideScreen( true );
+		
+		/* VisitorTime */
+		$view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
+		$view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
+		
+		/* VisitFrequency */
+		$arrayFrequency = $this->getSummary(true);
+		
+		$view->nbVisitsReturning = $arrayFrequency['nb_visits_returning'];
+		$view->nbActionsReturning = $arrayFrequency['nb_actions_returning'];
+		$view->maxActionsReturning = $arrayFrequency['max_actions_returning'];
+		$view->sumVisitLengthReturning = $arrayFrequency['sum_visit_length_returning'];
+		$view->bounceCountReturning = $arrayFrequency['bounce_count_returning'];
+		
+		/* Visitor Interest */
+		$view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
+		$view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
+		
+		/* Provider */
+		$view->dataTableProvider = $this->getProvider(true);
+		
+		/* User Country */
+		$view->dataTableCountry = $this->getCountry(true);
+		$view->dataTableContinent = $this->getContinent(true);
+		
+		/* Referers */
+		$view->dataTableRefererType = $this->getRefererType(true);
 		$view->dataTableKeywords = $this->getKeywords(true);
-		$view->dataTableBrowser = $this->getBrowser(true);
+		$view->dataTableSearchEngines = $this->getSearchEngines(true);
+		$view->dataTableCampaigns = $this->getCampaigns(true);
+		$view->dataTableWebsites = $this->getWebsites(true);
+		$view->dataTablePartners = $this->getPartners(true);
+		
+		$view->numberDistinctSearchEngines = $this->getNumberOfDistinctSearchEngines(true);
+		$view->numberDistinctKeywords = $this->getNumberOfDistinctKeywords(true);
+		$view->numberDistinctCampaigns = $this->getNumberOfDistinctCampaigns(true);
+		$view->numberDistinctWebsites = $this->getNumberOfDistinctWebsites(true);
+		$view->numberDistinctWebsitesUrls = $this->getNumberOfDistinctWebsitesUrls(true);
+		$view->numberDistinctPartners = $this->getNumberOfDistinctPartners(true);
+		$view->numberDistinctPartnersUrls = $this->getNumberOfDistinctPartnersUrls(true);
+
 		
 		echo $view->render();		
+	}
+		
+	protected function renderView($view, $fetch)
+	{
+		$rendered = $view->getView()->render();
+		if($fetch)
+		{
+			return $rendered;
+		}
+		echo $rendered;
+	}
+	protected function getNumericValue( $methodToCall )
+	{
+		$requestString = 'method='.$methodToCall.'&format=original';
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
+	}
+		/*
+		 * 
+
+List of the public methods for the class Piwik_Actions_API
+- getActions : [idSite, period, date, expanded = , idSubtable = ]
+- getDownloads : [idSite, period, date, expanded = , idSubtable = ]
+- getOutlinks : [idSite, period, date, expanded = , idSubtable = ]
+
+		 */
+
+	/**
+	 * VisitFrequency
+	 */
+	function getSummary( $fetch = false)
+	{		
+		$requestString = 'method='."VisitFrequency.getSummary".'&format=php&serialize=0';
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
+	}
+	
+	/**
+	 * VisitTime
+	 */
+	function getVisitInformationPerServerTime( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( __FUNCTION__, "VisitTime.getVisitInformationPerServerTime" );
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		$view->setSortedColumn( '0', 'asc' );
+		$view->setDefaultLimit( 24 );
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->disableOffsetInformation();
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getVisitInformationPerLocalTime( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( __FUNCTION__, "VisitTime.getVisitInformationPerLocalTime" );
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		$view->setSortedColumn( '0', 'asc' );
+		$view->setDefaultLimit( 24 );
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->disableOffsetInformation();
+		
+		return $this->renderView($view, $fetch);
+	}
+	/**
+	 * VisitorInterest
+	 */
+	function getNumberOfVisitsPerVisitDuration( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerVisitDuration" );
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 'nb_visits' );
+		$view->setDefaultLimit( 5 );
+		$view->disableExcludeLowPopulation();
+		$view->disableOffsetInformation();
+		$view->disableSearchBox();
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getNumberOfVisitsPerPage( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerPage" );
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 'nb_visits' );
+		$view->disableExcludeLowPopulation();
+		$view->disableOffsetInformation();
+		$view->disableSearchBox();
+		$view->main();
+//		echo $view->dataTable;
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * Provider
+	 */
+	function getProvider( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( __FUNCTION__, "Provider.getProvider" );
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 1 );
+		$view->setDefaultLimit( 5 );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * User Country
+	 */
+	function getCountry( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( __FUNCTION__, "UserCountry.getCountry" );
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,1) );
+//		$view->setSortedColumn( 1 );
+		$view->setDefaultLimit( 5 );
+		
+		return $this->renderView($view, $fetch);
+	}
+
+	function getContinent( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( __FUNCTION__, "UserCountry.getContinent" );
+		$view->disableExcludeLowPopulation();
+		$view->disableSearchBox();
+		$view->disableOffsetInformation();
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 1 );
+		
+		return $this->renderView($view, $fetch);
+	}
+
+	/**
+	 * User settings
+	 */
+	function getStandardDataTableUserSettings( $currentControllerAction, 
+												$APItoCall )
+	{
+		$view = new Piwik_View_DataTable( $currentControllerAction, $APItoCall );
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 1 );
+		$view->setDefaultLimit( 5 );
+		
+		return $view;
+	}
+	
+	function getResolution( $fetch = false)
+	{
+		$view = $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getResolution'
+									);
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getConfiguration( $fetch = false)
+	{
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getConfiguration'
+									);
+		return $this->renderView($view, $fetch);
+	}
+	function getOS( $fetch = false)
+	{
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getOS'
+									);
+		return $this->renderView($view, $fetch);
+	}
+	function getBrowser( $fetch = false)
+	{
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getBrowser'
+									);
+		return $this->renderView($view, $fetch);
+	}
+	function getBrowserType ( $fetch = false)
+	{
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getBrowserType'
+									);
+		$view->disableOffsetInformation();
+		return $this->renderView($view, $fetch);
+	}
+	function getWideScreen( $fetch = false)
+	{
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getWideScreen'
+									);
+		$view->disableOffsetInformation();
+		return $this->renderView($view, $fetch);
+	}
+	function getPlugin( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( __FUNCTION__, 'UserSettings.getPlugin' );
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 2 );
+		$view->setDefaultLimit( 5 );
+		
+		return $this->renderView($view, $fetch);
+	}
+
+
+
+	/**
+	 * Referers
+	 */
+	function getRefererType( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( 	'getRefererType', 
+											'Referers.getRefererType'
+								);
+		$view->disableSearchBox();
+		$view->disableOffsetInformation();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,1,2) );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getKeywords( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable(	'getKeywords', 
+											'Referers.getKeywords', 
+											'getSearchEnginesFromKeywordId'
+								);
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
 	}
 	
 	function getSearchEnginesFromKeywordId( $fetch = false )
 	{
-		$view = $this->getTable(	'getSearchEnginesFromKeywordId', 
-									'Referers.getSearchEnginesFromKeywordId', 
-									'ReferersKeywordsSe'
+		$view = new Piwik_View_DataTable(	'getSearchEnginesFromKeywordId', 
+											'Referers.getSearchEnginesFromKeywordId'
 								);
-		
-		return $this->renderView($view, $fetch);
-	}
-	
-	
-	function getKeywords( $fetch = false)
-	{
-		$view = $this->getTable(	'getKeywords', 
-									'Referers.getKeywords', 
-									'ReferersKeywords'
-								);
-		return $this->renderView($view, $fetch);
-	}
-	function getKeywordsFromSearchEngineId( $fetch = false )
-	{
-		$view = $this->getTable(	'getKeywordsFromSearchEngineId', 
-									'Referers.getKeywordsFromSearchEngineId', 
-									'ReferersSeKeywords'
-								);
-		//TODO setup a method for this
-		$view->dataTableColumns = array(
-					array('id' => 0, 'name' => 'label'),
-					array('id' => Piwik_Archive::INDEX_NB_VISITS, 'name' => 'nb_visits'),
-				);
-		
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
 		return $this->renderView($view, $fetch);
 	}
 	
 	
 	function getSearchEngines( $fetch = false)
 	{
-		$view = $this->getTable(	'getSearchEngines', 
-									'Referers.getSearchEngines', 
-									'ReferersSe'
+		$view = new Piwik_View_DataTable( 	'getSearchEngines', 
+											'Referers.getSearchEngines', 
+											'getKeywordsFromSearchEngineId'
 								);
-		//TODO setup a method for this
-		$view->dataTableColumns = array(
-					array('id' => 0, 'name' => 'label'),
-					array('id' => Piwik_Archive::INDEX_NB_VISITS, 'name' => 'nb_visits'),
-				);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		
 		return $this->renderView($view, $fetch);
 	}
+	
+	
+	function getKeywordsFromSearchEngineId( $fetch = false )
+	{
+		$view = new Piwik_View_DataTable(	'getKeywordsFromSearchEngineId', 
+											'Referers.getKeywordsFromSearchEngineId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getCampaigns( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( 	'getCampaigns', 
+											'Referers.getCampaigns',
+											'getKeywordsFromCampaignId'
+								);
+
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getKeywordsFromCampaignId( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable(	'getKeywordsFromCampaignId', 
+											'Referers.getKeywordsFromCampaignId'
+								);
+
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getWebsites( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( 	'getWebsites', 
+											'Referers.getWebsites',
+											'getUrlsFromWebsiteId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getUrlsFromWebsiteId( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable(	'getUrlsFromWebsiteId', 
+											'Referers.getUrlsFromWebsiteId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getPartners( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( 	'getPartners', 
+											'Referers.getPartners',
+											'getUrlsFromPartnerId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getUrlsFromPartnerId( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable(	'getUrlsFromPartnerId', 
+											'Referers.getUrlsFromPartnerId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
+	}
+	
+	
+	function getNumberOfDistinctSearchEngines( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctKeywords( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctCampaigns( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctWebsites( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctWebsitesUrls( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctPartners( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctPartnersUrls ( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	
+	
+	
+	
+	
+	/*
 	
 	
 	function getResolution( $fetch = false)
 	{
 		$view = $this->getTable(	'getResolution', 
-									'UserSettings.getResolution', 
-									'UserSettingsResolution'
+									'UserSettings.getResolution'
 								);
 		//TODO setup a method for this
 		$view->dataTableColumns = array(
@@ -81,64 +481,204 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	function getBrowser( $fetch = false)
 	{
 		$view = $this->getTable(	'getBrowser', 
-									'UserSettings.getBrowser', 
-									'UserSettingsBrowser'
+									'UserSettings.getBrowser'
 								);
 		return $this->renderView($view, $fetch);
 	}
-	
+	*/
+}
+class Piwik_View_DataTable
+{
 	protected $dataTableTemplate = 'UserSettings/templates/datatable.tpl';
 	
+	protected $currentControllerAction;
+	protected $moduleNameAndMethod;
+	protected $actionToLoadTheSubTable;
 	
-	protected function getTable( $currentControllerAction, $moduleNameAndMethod, $uniqIdTable )
+	protected $JSsearchBox = true;
+	protected $JSoffsetInformation = true;
+	protected $JSexcludeLowPopulation = true;
+	protected $JSsortColumn = false;
+	protected $JSsortOrder = false;
+	protected $JSlimit = false;
+	
+	protected $mainAlreadyExecuted = false;
+	protected $columnsToDisplay = array();
+	
+	function __construct( $currentControllerAction, 
+						$moduleNameAndMethod, 
+						$actionToLoadTheSubTable = null)
 	{
-		$requestString = 'method='.$moduleNameAndMethod.'
-			&format=original';
-			
-		$idSubtable = Piwik_Common::getRequestVar('idSubtable', false,'int');
-		if( $idSubtable != false)
-		{
-			$requestString .= '&idSubtable='.$idSubtable;
-			
-			$uniqIdTable = 'subDataTable_' . $idSubtable;
-		}
-		$request = new Piwik_API_Request($requestString);
+		$this->currentControllerAction = $currentControllerAction;
+		$this->moduleNameAndMethod = $moduleNameAndMethod;
+		$this->actionToLoadTheSubTable = $actionToLoadTheSubTable;
 		
-		$dataTable = $request->process();
-//		echo $dataTable; exit;
+		$this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false,'int');
+	}
+	
+	function getView()
+	{
+		$this->main();
+		return $this->view;
+	}
+	
+	public function main()
+	{
+		if($this->mainAlreadyExecuted)
+		{
+			return;
+		}
+		$this->mainAlreadyExecuted = true;
+		
+//		$i=0;while($i<1500000){ $j=$i*$i;$i++;}
+		
+		// is there a Sub DataTable requested ? 
+		// for example do we request the details for the search engine Google?
+		
+		
+		$this->loadDataTableFromAPI();
+
+	
+		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
 		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace(
-									$dataTable, 
+									$this->dataTable, 
 									'label', 
 									'urldecode'
 								);
 		
-		$renderer = Piwik_DataTable_Renderer::factory('php');
-		$renderer->setTable($dataTable);
-		$renderer->setSerialize( false );
-		$phpArray = $renderer->render();
-				
-//		var_dump( $data );exit;
+		
 		$view = new Piwik_View($this->dataTableTemplate);
-		$view->id 			= $uniqIdTable;
+		
+		$view->id 			= $this->getUniqIdTable();
+		
+		// We get the PHP array converted from the DataTable
+		$phpArray = $this->getPHPArrayFromDataTable();
+		
 		$view->dataTable 	= $phpArray;
 		
-//		$i=0;while($i<1500000){ $j=$i*$i;$i++;}
+		$view->dataTableColumns = $this->getColumnsToDisplay($phpArray);
+		
+		
+		$view->javascriptVariablesToSet 
+			= $this->getJavascriptVariablesToSet();
+		
+		$this->view = $view;
+	}
+	
+	protected function getUniqIdTable()
+	{
+		
+		// the $uniqIdTable variable is used as the DIV ID in the rendered HTML
+		// we use the current Controller action name as it is supposed to be unique in the rendered page 
+		$uniqIdTable = $this->currentControllerAction;
+
+		// if we request a subDataTable the $this->currentControllerAction DIV ID is already there in the page
+		// we make the DIV ID really unique by appending the ID of the subtable requested
+		if( $this->idSubtable != false)
+		{			
+			$uniqIdTable = 'subDataTable_' . $this->idSubtable;
+		}
+		return $uniqIdTable;
+	}
+	
+	public function setColumnsToDisplay( $arrayIds)
+	{
+		$this->columnsToDisplay = $arrayIds;
+	}
+	
+	protected function isColumnToDisplay( $idColumn )
+	{
+		// we return true
+		// - we didn't set any column to display (means we display all the columns)
+		// - the column has been set as to display
+		if( count($this->columnsToDisplay) == 0
+			|| in_array($idColumn, $this->columnsToDisplay))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	protected function getColumnsToDisplay($phpArray)
+	{
 		
 		$dataTableColumns = array();
-		
 		if(count($phpArray) > 0)
 		{
 			// build column information
 			$id = 0;
 			foreach($phpArray[0]['columns'] as $columnName => $row)
 			{
-				$dataTableColumns[]	= array('id' => $id, 'name' => $columnName);
+				if( $this->isColumnToDisplay( $id, $columnName) )
+				{
+					$dataTableColumns[]	= array('id' => $id, 'name' => $columnName);
+				}
 				$id++;
 			}
 		}
-		$view->dataTableColumns = $dataTableColumns;
-		
-		
+		return $dataTableColumns;
+	}
+	
+	protected function getDefaultOrCurrent( $nameVar )
+	{
+		if(isset($_REQUEST[$nameVar]))
+		{
+			return $_REQUEST[$nameVar];
+		}
+		$default = $this->getDefault($nameVar);
+		return $default;
+	}
+	
+	protected function getDefault($nameVar)
+	{
+		if(!isset($this->variablesDefault[$nameVar]))
+		{
+			return false;
+		}
+		return $this->variablesDefault[$nameVar];
+	}
+	
+	public function setDefaultLimit( $limit )
+	{
+		$this->variablesDefault['filter_limit'] = $limit;
+	}
+	
+	public function setSortedColumn( $columnId, $order = 'desc')
+	{
+		$this->variablesDefault['filter_sort_column']= $columnId;
+		$this->variablesDefault['filter_sort_order']= $order;
+	}
+	
+	
+	public function disableOffsetInformation()
+	{
+		$this->JSoffsetInformation = 'false';		
+	}
+	public function getOffsetInformation()
+	{
+		return $this->JSoffsetInformation;
+	}
+	
+	public function disableSearchBox()
+	{
+		$this->JSsearchBox = 'false';
+	}
+	public function getSearchBox()
+	{
+		return $this->JSsearchBox;
+	}
+	public function disableExcludeLowPopulation()
+	{
+		$this->JSexcludeLowPopulation = 'false';
+	}
+	
+	public function getExcludeLowPopulation()
+	{
+		return $this->JSexcludeLowPopulation;
+	}
+	
+	protected function getJavascriptVariablesToSet(	)
+	{
 		// build javascript variables to set
 		$javascriptVariablesToSet = array();
 		
@@ -152,10 +692,19 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 				if(isset($filterInfo[1]))
 				{
 					$javascriptVariablesToSet[$filterVariableName] = $filterInfo[1];
+					
+					// we set the default specified column and Order to sort by
+					// when this javascript variable is not set already
+					// for example during an AJAX call this variable will be set in the URL
+					// so this will not be executed ( and the default sorted not be used as the sorted column might have changed in the meanwhile)
+					if( false !== ($defaultValue = $this->getDefault($filterVariableName)))
+					{
+						$javascriptVariablesToSet[$filterVariableName] = $defaultValue;
+					}
 				}
 			}
 		}
-		
+//		var_dump($javascriptVariablesToSet);exit;
 		//TODO check security of printing javascript variables; inject some JS code here??
 		foreach($_GET as $name => $value)
 		{
@@ -168,35 +717,66 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 			$javascriptVariablesToSet[$name] = $requestValue;
 		}
 		
-		$javascriptVariablesToSet['action'] = $currentControllerAction;
+		$javascriptVariablesToSet['action'] = $this->currentControllerAction;
 		
-		// mapping between the current action call and the API method to call when a SubDataTable is requested 
-		// for a row returned by this action method
-		$mapping = array(
-			'getKeywords' => 'getSearchEnginesFromKeywordId',
-			'getSearchEngines' => 'getKeywordsFromSearchEngineId',
-		);
-		if(isset($mapping[$currentControllerAction]))
+		if(!is_null($this->actionToLoadTheSubTable))
 		{
-			$javascriptVariablesToSet['actionToLoadTheSubTable'] = $mapping[$currentControllerAction];
+			$javascriptVariablesToSet['actionToLoadTheSubTable'] = $this->actionToLoadTheSubTable;
 		}
 		
-		$javascriptVariablesToSet['totalRows'] = $dataTable->getRowsCountBeforeLimitFilter();
-		$view->javascriptVariablesToSet = $javascriptVariablesToSet;
+		$javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
 		
-		return $view;
+		$javascriptVariablesToSet['show_search'] = $this->getSearchBox();
+		$javascriptVariablesToSet['show_offset_information'] = $this->getOffsetInformation();
+		$javascriptVariablesToSet['show_exclude_low_population'] = $this->getExcludeLowPopulation();
+		
+		return $javascriptVariablesToSet;
 	}
 	
-	
-	protected function renderView($view, $fetch)
+	protected function loadDataTableFromAPI()
 	{
-		$rendered = $view->render();
-		if($fetch)
+		
+		// we prepare the string to give to the API Request
+		// we setup the method and format variable
+		// - we request the method to call to get this specific DataTable
+		// - the format = original specifies that we want to get the original DataTable structure itself, not rendered
+		$requestString = 'method='.$this->moduleNameAndMethod.'&format=original';
+		
+		// if a subDataTable is requested we add the variable to the API request string
+		if( $this->idSubtable != false)
 		{
-			return $rendered;
+			$requestString .= '&this->idSubtable='.$this->idSubtable;
 		}
-		echo $rendered;
-		return;
+		
+		$toSetEventually = array(
+			'filter_limit',
+			'filter_sort_column',
+			'filter_sort_order',
+		);
+		foreach($toSetEventually as $varToSet)
+		{
+			$value = $this->getDefaultOrCurrent($varToSet);
+			if( false !== $value )
+			{
+				$requestString .= '&'.$varToSet.'='.$value;
+			}
+		}
+		// We finally make the request to the API
+		$request = new Piwik_API_Request($requestString);
+		
+		// and get the DataTable structure
+		$dataTable = $request->process();
+		
+		$this->dataTable = $dataTable;
 	}
-	
+
+	protected function getPHPArrayFromDataTable( )
+	{
+		$renderer = Piwik_DataTable_Renderer::factory('php');
+		$renderer->setTable($this->dataTable);
+		$renderer->setSerialize( false );
+		$phpArray = $renderer->render();
+		return $phpArray;
+	}
 }
+
