@@ -89,6 +89,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"apollo7.de"			=> array("Apollo7", "query"),
 		
 		// AOL
+		"search.aol.com"		=> array("AOL", "query"),
 		"aolsearch.aol.com"		=> array("AOL", "query"),
 		"www.aolrecherche.aol.fr"	=> array("AOL", "q"),
 		"www.aolrecherches.aol.fr" 	=> array("AOL", "query"),
@@ -104,7 +105,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"suche.aol.de"			=> array("AOL", "q"),
 		
 		"aolbusqueda.aol.com.mx"	=> array("AOL", "query"),
-		"search.aol.com"		=> array("AOL", "query"),
 		
 		// Aport
 		"sm.aport.ru"			=> array("Aport", "r"),
@@ -134,8 +134,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www2.austronaut.at"		=> array("Austronaut", "begriff"),
 		
 		// Baidu
-		"www1.baidu.com"		=> array("Baidu", "wd"),
 		"www.baidu.com"			=> array("Baidu", "wd"),
+		"www1.baidu.com"		=> array("Baidu", "wd"),
 		
 		// BBC
 		"search.bbc.co.uk"	        => array("BBC", "q"),
@@ -304,31 +304,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"ocnsearch.goo.ne.jp"		=> array("goo", "mt"),
 		
 		
-		// Powered by Google (add or not?)
-		"www.charter.net" 		=> array("Google", "q"),
-		"brisbane.t-online.de" 	        => array("Google", "q"),
-		"www.eniro.se" 			=> array("Google", "q"),
-		"www.eniro.no" 			=> array("Google", "q"),
-		"miportal.bellsouth.net"        => array("Google", "string"),
-		"home.bellsouth.net"	        => array("Google", "string"),
-		"pesquisa.clix.pt" 		=> array("Google", "q"),
-		"google.startsiden.no" 	        => array("Google", "q"),
-		"arianna.libero.it" 	        => array("Google", "query"),
-		"google.startpagina.nl"		=> array("Google", "q"),
-		"search.peoplepc.com" 	        => array("Google", "q"),
-		"www.google.interia.pl"		=> array("Google", "q"),
-		"buscador.terra.es" 	        => array("Google", "query"),
-		"buscador.terra.cl" 	        => array("Google", "query"),
-		"buscador.terra.com.br"		=> array("Google", "query"),
-		"www.icq.com" 			=> array("Google", "q"),
-		"www.adelphia.net" 		=> array("Google", "q"),
-		"www.comcast.net" 		=> array("Google", "query"),
-		"so.qq.com" 			=> array("Google", "word"),
-		"misc.skynet.be" 		=> array("Google", "keywords"),
-		"www.start.no" 			=> array("Google", "q"),
-		"verden.abcsok.no"		=> array("Google", "q"),
-		"search.sweetim.com"	        => array("Google", "q"),
-		
 		// Google
 		"www.google.com"		=> array("Google", "q"),
 		"gogole.fr"				=> array("Google", "q"),
@@ -484,6 +459,29 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.google.co.za" 		=> array("Google", "q"),
 		"www.google.co.ma"		=> array("Google", "q"),
 		"www.goggle.com"		=> array("Google", "q"),
+		
+		
+		// Powered by Google 
+		"www.charter.net" 		=> array("Google", "q"),
+		"brisbane.t-online.de" 	        => array("Google", "q"),
+		"miportal.bellsouth.net"        => array("Google", "string"),
+		"home.bellsouth.net"	        => array("Google", "string"),
+		"pesquisa.clix.pt" 		=> array("Google", "q"),
+		"google.startsiden.no" 	        => array("Google", "q"),
+		"google.startpagina.nl"		=> array("Google", "q"),
+		"search.peoplepc.com" 	        => array("Google", "q"),
+		"www.google.interia.pl"		=> array("Google", "q"),
+		"buscador.terra.es" 	        => array("Google", "query"),
+		"buscador.terra.cl" 	        => array("Google", "query"),
+		"buscador.terra.com.br"		=> array("Google", "query"),
+		"www.icq.com" 			=> array("Google", "q"),
+		"www.adelphia.net" 		=> array("Google", "q"),
+		"so.qq.com" 			=> array("Google", "word"),
+		"misc.skynet.be" 		=> array("Google", "keywords"),
+		"www.start.no" 			=> array("Google", "q"),
+		"verden.abcsok.no"		=> array("Google", "q"),
+		"search.sweetim.com"	        => array("Google", "q"),
+		
 		
 		//Google Blogsearch
 		"blogsearch.google.com"		=> array("Google Blogsearch", "q"),
@@ -666,7 +664,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Live.com
 		"www.live.com"			=> array("Live", "q"),
-		"beta.search.live.com"		=> array("Live", "q"),
+		"beta.search.live.com"	=> array("Live", "q"),
 		"search.live.com"		=> array("Live", "q"),
 		"g.msn.com"		        => array("Live", " "),
 		

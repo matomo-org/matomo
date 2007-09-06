@@ -24,7 +24,7 @@ class Piwik_VisitTime_API extends Piwik_Apiable
 		
 		$archive = Piwik_Archive::build($idSite, $date, $period );
 		$dataTable = $archive->getDataTable($name);
-		$dataTable->queueFilter('Piwik_DataTable_Filter_Sort', array('label', 'asc'));
+		//$dataTable->queueFilter('Piwik_DataTable_Filter_Sort', array('label', 'asc'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
 		

@@ -194,7 +194,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 							sum(case config_realplayer when 1 then 1 else 0 end) as realplayer,
 							sum(case config_windowsmedia when 1 then 1 else 0 end) as windowsmedia,
 							sum(case config_cookie when 1 then 1 else 0 end) as cookie	";
-		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, 'nb_visits');
+		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
 	}
 }
 

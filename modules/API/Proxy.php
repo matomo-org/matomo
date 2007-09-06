@@ -14,7 +14,7 @@ class Piwik_API_Proxy
 {
 	static $classCalled = null;
 	protected $alreadyRegistered = array();
-	private $api = null;
+	private $api = array();
 	
 	const NO_DEFAULT_VALUE = null;
 		
@@ -118,13 +118,27 @@ class Piwik_API_Proxy
 				}
 				$this->api[$class][$name]['parameters'] = $aParameters;
 				$this->api[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
-				
-//				Piwik::log("- $name is public ".$this->getStrListParameters($class, $name));				
 			}
 		}
-//		Piwik::log("List of the public methods for the class $class");
 		
 		$this->alreadyRegistered[$fileName] = true;
+	}
+	
+	public function getAllInterfaceString()
+	{
+		$str = '';
+		foreach($this->api as $class => $info)
+		{
+			$str .= "\n<br>" . "List of the public methods for the class ".$class;
+			
+			foreach($info as $methodName => $infoMethod)
+			{
+				$params = $this->getStrListParameters($class, $methodName);
+				$str .= "\n<br>" . "- $methodName : " . $params;
+			}
+			$str.="\n<br>";
+		}
+		return $str;
 	}
 	
 	/**

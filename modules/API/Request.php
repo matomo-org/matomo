@@ -237,6 +237,12 @@ class Piwik_API_Request
 		// if asked for original dataStructure
 		if($format == 'original')
 		{
+			// if the original dataStructure is a simple data structure
+			if($dataTable instanceof Piwik_DataTable_Simple
+				&& $dataTable->getRowsCount() == 1)
+			{
+				return $dataTable->getRowFromId(0)->getColumn('value');
+			}
 			return $dataTable;
 		}
 		

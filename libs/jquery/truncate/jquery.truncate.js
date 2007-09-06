@@ -1,7 +1,8 @@
 jQuery.fn.truncate = function(max) {
     return this.each(function() {
     	var trail = '...';
-        if (jQuery(this).children().length == 0) {
+       	if (jQuery(this).children().length == 0) 
+        {
             v = jQuery.trim(jQuery(this).text());
             while (max < v.length) {
                 c = v.charAt(max);

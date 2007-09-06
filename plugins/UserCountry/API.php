@@ -26,7 +26,7 @@ class Piwik_UserCountry_API extends Piwik_Apiable
 		$archive = Piwik_Archive::build($idSite, $date, $period );
 		$dataTable = $archive->getDataTable('UserCountry_country');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'code', create_function('$label', 'return $label;')));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'flag', 'Piwik_getFlagFromCode'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'logo', 'Piwik_getFlagFromCode'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_CountryTranslate'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
 		return $dataTable;

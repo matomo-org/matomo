@@ -173,8 +173,7 @@ function Piwik_getSearchEngineLogoFromName($url)
 {
 	require_once PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
 	$path = PIWIK_PLUGINS_PATH . '/Referers/images/searchEngines/%s.png';
-	
-	$beginningUrl = strpos($url,'//')+2;
+	$beginningUrl = strpos($url,'//') + 2;
 	$normalPath = sprintf($path, substr($url,$beginningUrl));
 	
 	// flags not in the package !

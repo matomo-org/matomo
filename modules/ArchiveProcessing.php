@@ -44,7 +44,15 @@ abstract class Piwik_ArchiveProcessing
 	public $logTable;
 	public $logVisitActionTable;
 	public $logActionTable;
-
+	
+	protected $debugAlwaysArchive = false;
+	
+	public function __construct()
+	{
+		$this->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data;
+		//TODO remove
+		
+	}
 	/**
 	 * 
 	 */
@@ -239,6 +247,10 @@ abstract class Piwik_ArchiveProcessing
 	
 	protected function isArchived()
 	{
+		if($this->debugAlwaysArchive)
+		{
+			return false;
+		}
 //		Piwik::log("Is archive site=$idsite for period = ".$this->period->getLabel()." for date_start = $strDateStart ?");
 		$bindSQL = array(	$this->idsite, 
 								$this->strDateStart, 

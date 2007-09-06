@@ -254,6 +254,15 @@ class Piwik_DataTable
 		}
 		return $this->rows[$this->rowsIndexByLabel[$label]];
 	}
+	
+	public function getRowFromId($id)
+	{
+		if(!isset($this->rows[$id]))
+		{
+			return false;
+		}
+		return $this->rows[$id];
+	}
 
 	public function __destruct()
 	{
@@ -502,8 +511,11 @@ class Piwik_DataTable
 		$cleanRow = array();
 		foreach($array as $label => $row)
 		{
-			$cleanRow[Piwik_DataTable_Row::COLUMNS] = $row;
-			$cleanRow[Piwik_DataTable_Row::COLUMNS]['label'] = $label;
+			// we make sure that the label column is first in the list! 
+			// important for the UI javascript mainly...
+			// array_merge doesn't work here as it reindex the numeric value
+			// see the test testMergeArray in PHP_Related.test.php
+			$cleanRow[Piwik_DataTable_Row::COLUMNS] = array('label' => $label) + $row;
 			if(!is_null($subtablePerLabel)
 				// some rows of this table don't have subtables 
 				// (for examplecase of the campaign without keywords )

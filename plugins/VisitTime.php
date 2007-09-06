@@ -56,6 +56,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 		$recordName = 'VisitTime_localTime';
 		$labelSQL = "HOUR(visitor_localtime)";
 		$tableLocalTime = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
+		
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableLocalTime->getSerialized());
 //		echo $tableLocalTime;
 		

@@ -6,6 +6,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 {
 	function __construct()
 	{
+		parent::__construct();
 	}
 	
 	private function archiveNumericValuesGeneral($aNames, $operationToApply)
