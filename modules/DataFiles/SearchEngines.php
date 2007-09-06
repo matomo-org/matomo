@@ -273,9 +273,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.flix.de"			=> array("Flix.de", "keyword"),
 		
 		// Free
+		"search.free.fr"		=> array("Free", "q"),
 		"search1-2.free.fr"		=> array("Free", "q"),
 		"search1-1.free.fr"		=> array("Free", "q"),
-		"search.free.fr"		=> array("Free", "q"),
 		
 		// Freenet
 		"suche.freenet.de"		=> array("Freenet", "query"),
@@ -506,14 +506,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"directory.google.com"		=> array("Google Directory", " "),
 		
 		// Google Images
-		"images.google.com"		=> array("Google Images", "q"),
 		"images.google.fr"		=> array("Google Images", "q"),
 		"images.google.be" 		=> array("Google Images", "q"),
 		"images.google.ca" 		=> array("Google Images", "q"),
 		"images.google.co.uk"		=> array("Google Images", "q"),
 		"images.google.de" 		=> array("Google Images", "q"),
-		"images.google.be" 		=> array("Google Images", "q"),
-		"images.google.ca" 		=> array("Google Images", "q"),
 		"images.google.it"    		=> array("Google Images", "q"),
 		"images.google.at"		=> array("Google Images", "q"),
 		"images.google.bg"		=> array("Google Images", "q"),
