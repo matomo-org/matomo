@@ -179,6 +179,7 @@ List of the public methods for the class Piwik_Actions_API
 		
 		$view->setColumnsToDisplay( array(0,1) );
 //		$view->setSortedColumn( 1 );
+		$view->disableSearchBox();
 		$view->setDefaultLimit( 5 );
 		
 		return $this->renderView($view, $fetch);
