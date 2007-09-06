@@ -45,7 +45,7 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 	  	
 		if(displayLoading)
 		{
-			$('#'+workingDivId+' > #loadingDataTable', this).show();
+			$('#'+workingDivId+' #loadingDataTable').show();
 		}
 		var request = getAjaxRequest();
 		$.ajax(request);
