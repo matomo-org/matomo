@@ -136,7 +136,94 @@ class Test_Piwik_DataTable extends UnitTestCase
 		
 	}
 	
-	
+	/**
+	 * we test the count rows and the count rows recursive version
+	 * on a Simple array (1 level only)
+	 */
+	function test_countRowsSimple()
+	{
+		
+	 	$table = new Piwik_DataTable;
+	 	
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	 	
+	  	$rows = array(
+	  		array( $idcol => array('label'=>'google')),
+	  		array( $idcol => array('label'=>'ask')),
+	  		array( $idcol => array('label'=>'piwik')),
+	  		array( $idcol => array('label'=>'yahoo')),
+	  		array( $idcol => array('label'=>'amazon')),
+	  		array( $idcol => array('label'=>'238975247578949')),
+	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')));
+	  	
+	  	$table->loadFromArray( $rows );
+	  	
+	  	$this->assertEqual( $table->getRowsCount(), count($rows));
+	  	$this->assertEqual( $table->getRowsCountRecursive(), count($rows));
+	}
+	/**
+	 * we test the count rows and the count rows recursive version
+	 * on a Complex array (rows with 2 and 3 levels only)
+	 * 
+	 * the recursive count returns 
+	 * 		the sum of the number of rows of all the subtables 
+	 * 		+ the number of rows in the parent table
+	 */
+	function test_countRowsComplex()
+	{
+		
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	 	$idsubtable = Piwik_DataTable_Row::DATATABLE_ASSOCIATED;
+	 	
+		// table to go in the SUB table of RoW1
+	 	$tableSubOfSubOfRow1 = new Piwik_DataTable;
+	 	$rows1sub = array(
+	  		array( $idcol => array('label'=>'google')),
+	  		array( $idcol => array('label'=>'google78')),
+	  		array( $idcol => array('label'=>'googlaegge')),
+	  		array( $idcol => array('label'=>'gogeoggle')),
+	  		array( $idcol => array('label'=>'goaegaegaogle')),
+	  		array( $idcol => array('label'=>'ask')),
+	  		array( $idcol => array('label'=>'238975247578949')),
+	  	);
+	  	$tableSubOfSubOfRow1->loadFromArray( $rows1sub );
+	  	
+		// table to go in row1
+	 	$tableSubOfRow1 = new Piwik_DataTable;
+	 	$rows1 = array(
+	  		array( $idcol => array('label'=>'google'), $idsubtable =>$tableSubOfSubOfRow1),
+	  		array( $idcol => array('label'=>'ask')),
+	  		array( $idcol => array('label'=>'238975247578949')),
+	  	);
+	  	$tableSubOfRow1->loadFromArray( $rows1 );
+	  	
+		// table to go in row2
+	 	$tableSubOfRow2 = new Piwik_DataTable;
+	 	$rows2 = array(
+	  		array( $idcol => array('label'=>'google')),
+	  		array( $idcol => array('label'=>'ask')),
+	  		array( $idcol => array('label'=>'238975247578949')),
+	  		array( $idcol => array('label'=>'agaegaesk')),
+	  		array( $idcol => array('label'=>'23g  8975247578949')),
+	  	);
+	  	$tableSubOfRow2->loadFromArray( $rows2 );
+	  	
+	 	// main parent table
+	 	$table = new Piwik_DataTable;
+	 	$rows = array(
+	  		array( $idcol => array('label'=>'row1')),
+	  		array( $idcol => array('label'=>'row2'), 
+	  					$idsubtable => $tableSubOfRow1),
+	  		array( $idcol => array('label'=>'row3'), 
+	  					$idsubtable => $tableSubOfRow2),
+	  	);
+	  	$table->loadFromArray( $rows );
+		
+	  	
+	  	$this->assertEqual( $table->getRowsCount(), count($rows));
+	  	$countAllRows =  count($rows)+count($rows1)+count($rows2) + count($rows1sub);
+	  	$this->assertEqual( $table->getRowsCountRecursive(),$countAllRows);
+	}
 	/**
 	 *  test with a row without child
 	 */

@@ -12,14 +12,13 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->idSite = Piwik_Common::getRequestVar('idSite');
 		
 		/* General visits */
-		$arrayVisit = $this->getVisitsSummary();
-		
-		$view->nbUniqVisitors = $arrayVisit['nb_uniq_visitors'];
-		$view->nbVisits = $arrayVisit['nb_visits'];
-		$view->nbActions = $arrayVisit['nb_actions'];
-		$view->sumVisitLength = $arrayVisit['sum_visit_length'];
-		$view->bounceCount = $arrayVisit['bounce_count'];
-		$view->maxActions = $arrayVisit['max_actions'];
+		$dataTableVisit = $this->getVisitsSummary();
+		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
+		$view->nbVisits = $dataTableVisit->getColumn('nb_visits');
+		$view->nbActions = $dataTableVisit->getColumn('nb_actions');
+		$view->sumVisitLength = $dataTableVisit->getColumn('sum_visit_length');
+		$view->bounceCount = $dataTableVisit->getColumn('bounce_count');
+		$view->maxActions = $dataTableVisit->getColumn('max_actions');
 		
 		/* User settings */		
 		$view->dataTablePlugin = $this->getPlugin( true );
@@ -35,13 +34,13 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
 		
 		/* VisitFrequency */
-		$arrayFrequency = $this->getSummary(true);
+		$dataTableFrequency = $this->getSummary(true);
 		
-		$view->nbVisitsReturning = $arrayFrequency['nb_visits_returning'];
-		$view->nbActionsReturning = $arrayFrequency['nb_actions_returning'];
-		$view->maxActionsReturning = $arrayFrequency['max_actions_returning'];
-		$view->sumVisitLengthReturning = $arrayFrequency['sum_visit_length_returning'];
-		$view->bounceCountReturning = $arrayFrequency['bounce_count_returning'];
+		$view->nbVisitsReturning = $dataTableFrequency->getColumn('nb_visits_returning');
+		$view->nbActionsReturning = $dataTableFrequency->getColumn('nb_actions_returning');
+		$view->maxActionsReturning = $dataTableFrequency->getColumn('max_actions_returning');
+		$view->sumVisitLengthReturning = $dataTableFrequency->getColumn('sum_visit_length_returning');
+		$view->bounceCountReturning = $dataTableFrequency->getColumn('bounce_count_returning');
 		
 		/* Visitor Interest */
 		$view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
@@ -103,7 +102,7 @@ List of the public methods for the class Piwik_Actions_API
 	 */
 	function getVisitsSummary()
 	{
-		$requestString = 'method='."VisitsSummary.get".'&format=php&serialize=0';
+		$requestString = 'method='."VisitsSummary.get".'&format=original';
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}
@@ -112,7 +111,7 @@ List of the public methods for the class Piwik_Actions_API
 	 */
 	function getSummary( )
 	{		
-		$requestString = 'method='."VisitFrequency.getSummary".'&format=php&serialize=0';
+		$requestString = 'method='."VisitFrequency.getSummary".'&format=original';
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}

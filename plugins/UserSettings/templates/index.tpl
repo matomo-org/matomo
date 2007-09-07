@@ -13,16 +13,33 @@ var requestVariables = new Object;
 
 $(document).ready( bindAllDataTableEvent );
 
+/* This function is triggered when a new DIV is loaded, which happens
+   - at the first loading of the page
+   - after any AJAX loading of a DataTable
+   
+   This function basically add features to the DataTable, 
+   - such as column sorting, searching in the rows, displaying Next / Previous links, etc.
+   - add styles to the cells and rows (odd / even styles)
+   - modify some rows to add images if a span img is found, or add a link if a span urlLink is found
+     or truncate the labels when they are too big
+   - bind new events onclick / hover / etc. to trigger AJAX requests, 
+     nice hovertip boxes for truncated cells
+   */
 function bindDataTableEvent( indexDiv )
 {
+	// Array containing the subDataTables ID already loaded. So that when collapsing expanding the same sub Table
+	// There is only the first AJAX query and the next times it is read from an array
 	var DataTableAlreadyLoaded = new Array;
 	
-	// name of the DataTable we are working on
+	// ID of the DIV containing the DataTable we are currently working on
 	var workingDivId = $(this).attr('id');
 	
+	// Returns a given Javascript variable associated to the current DIV
 	function getRequestVariable( name )
 	{
-if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
+		// IE fix
+		if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
+		
 		if(requestVariables[workingDivId][name])
 		{
 			return requestVariables[workingDivId][name];
@@ -30,12 +47,16 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 		return false;
 	}
 	
-	function addFilter( nameVariable, value )
+	// Set a given JS variable for this DIV
+	function setVariable( nameVariable, value )
 	{
-	//if(nameVariable=='action') alert('set action for '+workingDivId);
 		requestVariables[workingDivId][nameVariable] = value;	
 	}
 				
+	// Function called to trigger the AJAX request 
+	// The ajax request contains the function callback to trigger if the request is successful or failed
+	// displayLoading = false When we don't want to display the Loading... DIV #loadingDataTable
+	// for example when the script add a Loading... it self and doesn't want to display the generic Loading
 	function reloadAjaxDataTable( displayLoading )
 	{
 		if (typeof displayLoading == "undefined") 
@@ -52,6 +73,7 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 //		alert('request done');
 	}
 	
+	// Returns the standard Ajax request object used by the Jquery .ajax method
 	function getAjaxRequest()
 	{
 		var ajaxRequest = new Object;
@@ -60,11 +82,14 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 		ajaxRequest.type = 'GET';
 		ajaxRequest.url = 'index.php';
 		ajaxRequest.dataType = 'html';
+		
+		// Callback when the request fails
 		ajaxRequest.error = ajaxHandleError;
+		
+		// Callback when the request succeeds
 		ajaxRequest.success = dataTableLoaded;
 		
-		//$.each(requestVariables.UserSettingsResolution, function (key,value){ alert(key+' = '+value);  } );
-
+		// Here 
 		var requestVariableAjax = new Object;
 		$.each(	requestVariables[workingDivId],
 				function (name, value)
@@ -131,7 +156,7 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 			value = filters[key];
 			FiltersToRestore[value] = getRequestVariable(value);
 			//if(FiltersToRestore[value]!=false) alert('save '+value+'='+FiltersToRestore[value]);
-			addFilter(value, false);
+			setVariable(value, false);
 		}
 		
 		
@@ -143,7 +168,7 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 		for(key in FiltersToRestore)
 		{ 
 			value = FiltersToRestore[key];
-			addFilter(key, value);
+			setVariable(key, value);
 		}
 	}
 	/* List of the filters to be applied
@@ -202,15 +227,15 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 		
 				if(excludeLowPopulationEnabled)
 				{
-					addFilter('filter_excludelowpop', false);
-					addFilter('filter_excludelowpop_value', false);
+					setVariable('filter_excludelowpop', false);
+					setVariable('filter_excludelowpop_value', false);
 				}
 				else
 				{
-					addFilter('filter_excludelowpop', 2); // add filter on the visits column
-					addFilter('filter_excludelowpop_value', 30.0);			
+					setVariable('filter_excludelowpop', 2); // add filter on the visits column
+					setVariable('filter_excludelowpop_value', 30.0);			
 				}
-				addFilter('filter_offset', 0);
+				setVariable('filter_offset', 0);
 
 				reloadAjaxDataTable();
 			}
@@ -232,7 +257,7 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 			}
 		})
 		.click(function(){
-			addFilter('filter_offset', 
+			setVariable('filter_offset', 
 								Number(getRequestVariable('filter_offset')) 
 								+ Number(getRequestVariable('filter_limit'))
 				); 
@@ -253,7 +278,7 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 			function(){
 				var offset = getRequestVariable('filter_offset') - getRequestVariable('filter_limit');
 				if(offset < 0) { offset = 0; }
-				addFilter('filter_offset', offset); 
+				setVariable('filter_offset', offset); 
 				reloadAjaxDataTable();
 			}
 		)
@@ -280,9 +305,9 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 						currentSortedOrder = 'asc';
 					}
 				}
-				addFilter('filter_offset', 0); 
-				addFilter('filter_sort_column', newColumnToSort);
-				addFilter('filter_sort_order', currentSortedOrder);
+				setVariable('filter_offset', 0); 
+				setVariable('filter_sort_column', newColumnToSort);
+				setVariable('filter_sort_order', currentSortedOrder);
 				reloadAjaxDataTable();
 			}
 		);
@@ -361,9 +386,9 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 				{
 					var keyword = $(this).siblings('#keyword').val();
 					
-					addFilter('filter_offset', 0); 
-					addFilter('filter_column', 'label');
-					addFilter('filter_pattern', keyword);
+					setVariable('filter_offset', 0); 
+					setVariable('filter_column', 'label');
+					setVariable('filter_pattern', keyword);
 					reloadAjaxDataTable();
 				}
 			);
@@ -410,11 +435,11 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 				// reset all the filters from the Parent table
 				filtersToRestore = resetAllFilters();				
 
-				addFilter('idSubtable', idSubTable);
-				addFilter('action', getRequestVariable('actionToLoadTheSubTable'));
+				setVariable('idSubtable', idSubTable);
+				setVariable('action', getRequestVariable('actionToLoadTheSubTable'));
 				reloadAjaxDataTable( false );
-				addFilter('action', savedActionVariable);
-				addFilter('idSubtable', false);
+				setVariable('action', savedActionVariable);
+				setVariable('idSubtable', false);
 				toString(filtersToRestore);
 				restoreAllFilters(filtersToRestore);
 								

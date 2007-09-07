@@ -39,6 +39,11 @@ class Piwik_DataTable_Simple extends Piwik_DataTable
 			$this->addRow($row);
 		}
 	}
+	
+	function getColumn( $label )
+	{
+		return $this->getRowFromLabel($label)->getColumn('value');
+	}
 }
 
 

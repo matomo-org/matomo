@@ -15,7 +15,7 @@ FEATURES
 BUGS
 ====
 - monthly unique visitors count is WRONG
-- check that ajax called made onceper request
+- check that ajax called made once per request
 - create the tmp directory + subdir automatically
 - the referer URLs with host registered as main_url or alias_url should NOT be counted as referer
 - the token md5 generation doesn't check that the md5 generated is unique, 

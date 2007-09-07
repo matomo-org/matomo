@@ -58,19 +58,60 @@ class Piwik_Referers extends Piwik_Plugin
 				'Referers_urlByPartner',
 		);
 		
-		$records = $this->archiveProcessing->archiveDataTable($dataTableToSum);
+		$nameToCount = $this->archiveProcessing->archiveDataTable($dataTableToSum);
 		
-		$dataNumericToSum = array(
-			'Referers_distinctSearchEngines',
-			'Referers_distinctKeywords',
-			'Referers_distinctCampaigns',
-			'Referers_distinctWebsites',
-			'Referers_distinctWebsitesUrls',
-			'Referers_distinctPartners',
-			'Referers_distinctPartnersUrls',
+		$mappingFromArchiveName = array(
+			'Referers_distinctSearchEngines' => 
+						array( 	'typeCountToUse' => 'level0',
+								'nameTableToUse' => 'Referers_keywordBySearchEngine',
+							),
+			'Referers_distinctKeywords' => 
+						array( 	'typeCountToUse' => 'level0',
+								'nameTableToUse' => 'Referers_searchEngineByKeyword',
+							),
+			'Referers_distinctCampaigns' => 
+						array( 	'typeCountToUse' => 'level0',
+								'nameTableToUse' => 'Referers_keywordByCampaign',
+							),
+			'Referers_distinctWebsites' => 
+						array( 	'typeCountToUse' => 'level0',
+								'nameTableToUse' => 'Referers_urlByWebsite',
+							),
+			'Referers_distinctWebsitesUrls' => 
+						array( 	'typeCountToUse' => 'recursive',
+								'nameTableToUse' => 'Referers_urlByWebsite',
+							),
+			'Referers_distinctPartners' => 
+						array( 	'typeCountToUse' => 'level0',
+								'nameTableToUse' => 'Referers_urlByPartner',
+							),
+			'Referers_distinctPartnersUrls' => 
+						array( 	'typeCountToUse' => 'recursive',
+								'nameTableToUse' => 'Referers_urlByPartner',
+							),
 		);
+//		var_dump($nameToCount);exit;
+		foreach($mappingFromArchiveName as $name => $infoMapping)
+		{
+			$typeCountToUse = $infoMapping['typeCountToUse'];
+			$nameTableToUse = $infoMapping['nameTableToUse'];
 			
-		$this->archiveProcessing->archiveNumericValuesSum($dataNumericToSum);
+			if($typeCountToUse == 'recursive')
+			{
+				
+				$countValue = $nameToCount[$nameTableToUse]['recursive']
+								- $nameToCount[$nameTableToUse]['level0'];
+			}
+			else
+			{
+				$countValue = $nameToCount[$nameTableToUse]['level0'];
+			}
+			
+			$record = new Piwik_ArchiveProcessing_Record_Numeric(
+													$name, 
+													$countValue
+												);
+		}
 	}
 	
 	
