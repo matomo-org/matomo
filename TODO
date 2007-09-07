@@ -8,7 +8,6 @@ FEATURES
 - Purge log_ when archiving is done
 - Provide Config file feature for plugins (works as the translation system)
 - Translate exception
-
 - CHANGE setColumnsToDisplay TO setColumnsIdsToDisplay
 
 
@@ -36,7 +35,7 @@ BUGS
 User Interface
 ==============
 - searching on countries should search on the final label and not the iso code
-
+- we must truncate the LABEL on sub data table as well (example, website urls)
 
 TODO MISC
 =========
