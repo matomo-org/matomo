@@ -311,12 +311,12 @@ class Piwik
 			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
 										idarchive INTEGER UNSIGNED NOT NULL,
 										name VARCHAR(255) NOT NULL,
-										  idsite INTEGER UNSIGNED NULL,
-										  date1 DATE NULL,
-									  date2 DATE NULL,
-										  period TINYINT UNSIGNED NULL,
-									  ts_archived TIME NULL,
-									  value FLOAT NULL,
+									  idsite INTEGER UNSIGNED NULL,
+									  date1 DATE NULL,
+								  	  date2 DATE NULL,
+									  period TINYINT UNSIGNED NULL,
+								  	  ts_archived DATETIME NULL,
+								  	  value FLOAT NULL,
 									  PRIMARY KEY(idarchive, name)
 									)
 			",

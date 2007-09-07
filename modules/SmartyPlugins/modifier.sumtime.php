@@ -25,13 +25,20 @@ function smarty_modifier_sumtime($string)
 	$minusDaysAndHours = $minusDays - $hours * 3600;
 	$minutes = floor($minusDaysAndHours / 60 );
 	
+	$minusDaysAndHoursAndMinutes = $minusDaysAndHours - $minutes * 60;
+	$secondsMod = $minusDaysAndHoursAndMinutes; // should be same as $seconds % 60 
+	
 	if($days > 0)
 	{
 		return sprintf("%d days %d hours", $days, $hours);
 	}
-	else
+	elseif($hours > 0)
 	{
 		return sprintf("%d hours %d min", $hours, $minutes);
+	}
+	else
+	{
+		return sprintf("%d min %d s", $minutes, $seconds);		
 	}
 }
 

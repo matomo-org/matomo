@@ -306,21 +306,26 @@ class Piwik_DataTable
 		return count($this->rows);
 	}
 	
+	/**
+	 * Returns the sum of the number of rows of all the subtables 
+	 * 		+ the number of rows in the parent table
+	 */
 	public function getRowsCountRecursive()
 	{
-//		foreach($this->rows as $row)
-//		{
-//			if(($idSubTable = $row->getIdSubDataTable()) !== null)
-//			{
-//				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
-//				$depth++;
-//				$serialized = $subTable->getSerialized();
-//				$depth--;
-//				
-//				$aSerializedDataTable = $aSerializedDataTable + $serialized;
-//			}
-//		}
-		return $this->getRowsCount();
+		$totalCount = 0;
+		foreach($this->rows as $row)
+		{
+			if(($idSubTable = $row->getIdSubDataTable()) !== null)
+			{
+				
+				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
+				$count = $subTable->getRowsCountRecursive();
+				$totalCount+=$count;
+			}
+		}
+		
+		$totalCount+=$this->getRowsCount();
+		return $totalCount;
 	}
 	
 	public function deleteRow( $key )
