@@ -182,8 +182,11 @@ class Piwik_ArchiveProcessing_Record_Blob extends Piwik_ArchiveProcessing_Record
  */
 class Piwik_ArchiveProcessing_Record_Blob_Array extends Piwik_ArchiveProcessing_Record
 {
-	public $name;
-	public $value;
+	// for a given ID, returns the number of rows this array had
+	// useful when sometimes you are saving a set of dataTables in the DB
+	// and you want to get their number of rows afterwards (sometimes not easy to get this info before)
+	protected $idToRowCount = array();
+
 	function __construct( $name, $aValue)
 	{		
 		foreach($aValue as $id => $value)
@@ -200,6 +203,7 @@ class Piwik_ArchiveProcessing_Record_Blob_Array extends Piwik_ArchiveProcessing_
 				$newName = $name . '_' . $id;
 			}
 			$record = new Piwik_ArchiveProcessing_Record_Blob( $newName,  $value );
+			
 		}
 	}
 	public function __toString()

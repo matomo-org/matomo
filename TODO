@@ -33,6 +33,11 @@ BUGS
 	}
 - is_numeric is not valid. Replace by is_int OR is_float
 
+User Interface
+==============
+- searching on countries should search on the final label and not the iso code
+
+
 TODO MISC
 =========
 - when the plugins are not used in the piwik.php logging script, don't load the related files

@@ -260,38 +260,41 @@ if(!requestVariables[workingDivId]) requestVariables[workingDivId] = new Object;
 	;
 	
 	
-	$('.sortable', this).click( 
-		function(){
-			var newColumnToSort = $(this).attr('id');
-			// we lookup if the column to sort was already this one, if it is the case then we switch from desc <-> asc 
-			var currentSortedColumn =  getRequestVariable('filter_sort_column');
-			var currentSortedOrder = getRequestVariable('filter_sort_order');
-			if(currentSortedColumn == newColumnToSort) 
-			{
-				// toggle the sorted order
-				if(currentSortedOrder == 'asc')
+	if( getRequestVariable( 'enable_sort' ) == true)
+	{
+		$('.sortable', this).click( 
+			function(){
+				var newColumnToSort = $(this).attr('id');
+				// we lookup if the column to sort was already this one, if it is the case then we switch from desc <-> asc 
+				var currentSortedColumn =  getRequestVariable('filter_sort_column');
+				var currentSortedOrder = getRequestVariable('filter_sort_order');
+				if(currentSortedColumn == newColumnToSort) 
 				{
-					currentSortedOrder = 'desc';
+					// toggle the sorted order
+					if(currentSortedOrder == 'asc')
+					{
+						currentSortedOrder = 'desc';
+					}
+					else
+					{
+						currentSortedOrder = 'asc';
+					}
 				}
-				else
-				{
-					currentSortedOrder = 'asc';
-				}
+				addFilter('filter_offset', 0); 
+				addFilter('filter_sort_column', newColumnToSort);
+				addFilter('filter_sort_order', currentSortedOrder);
+				reloadAjaxDataTable();
 			}
-			addFilter('filter_offset', 0); 
-			addFilter('filter_sort_column', newColumnToSort);
-			addFilter('filter_sort_order', currentSortedOrder);
-			reloadAjaxDataTable();
-		}
-	);
+		);
 	
-	// we change the style of the column currently used as sort column
-	var currentSortedColumn = getRequestVariable('filter_sort_column');
-	var currentSortedOrder = getRequestVariable('filter_sort_order');
-	$(".sortable[@id='"+currentSortedColumn+"']", this)
-			.addClass('columnSorted')
-			.append('<img src="themes/default/images/sort'+ currentSortedOrder+'.png">');
+		// we change the style of the column currently used as sort column
+		var currentSortedColumn = getRequestVariable('filter_sort_column');
+		var currentSortedOrder = getRequestVariable('filter_sort_order');
+		$(".sortable[@id='"+currentSortedColumn+"']", this)
+				.addClass('columnSorted')
+				.append('<img src="themes/default/images/sort'+ currentSortedOrder+'.png">');
 
+	}
 	
 	// we truncate the labels columns from the second row
 	$("table tr td:first-child", this).truncate(30);
@@ -669,7 +672,18 @@ div.subDataTable {
 </style>
 {/literal}
 
-<h1>All the Piwik reports<h1>
+<h1>Piwik reports</h1>
+<p>- Date = {$date}</p>
+<p>- Period = {$period}</p>
+<p>- IdSite = {$idSite}</p>
+
+<h2>Visits summary</h2>
+<p>{$nbUniqVisitors} unique visitors</p>
+<p>{$nbVisits} visits</p>
+<p>{$nbActions} actions (page views)</p>
+<p>{$sumVisitLength|sumtime} total time spent by the visitors</p>
+<p>{$maxActions} max actions</p>
+<p>{$bounceCount} visitors have bounced (left the site directly)</p>
 
 <h2>User Country</h2>
 
@@ -683,33 +697,32 @@ div.subDataTable {
 {$dataTableProvider}
 
 <h2>Referers</h2>
-<h3>Numbers</h3>
-{$numberDistinctSearchEngines} distinct search engines <br>
-{$numberDistinctKeywords} distinct keywords<br>
-{$numberDistinctCampaigns} distinct campaigns <br>
-{$numberDistinctWebsites} distinct websites<br>
-{$numberDistinctWebsitesUrls} distinct websites URLs<br>
-{$numberDistinctPartners} distinct partners<br>
-{$numberDistinctPartnersUrls} distinct partners URLs<br>
-
 
 <h3>Referer Type</h3>
 {$dataTableRefererType}
 
-<h3>Keywords</h3>
-{$dataTableKeywords}
-
 <h3>Search Engines</h3>
+<p>{$numberDistinctSearchEngines} distinct search engines</p>
 {$dataTableSearchEngines}
 
-<h3>Campaigns</h3>
-{$dataTableCampaigns}
+<h3>Keywords</h3>
+<p>{$numberDistinctKeywords} distinct keywords</p>
+{$dataTableKeywords}
+
 
 <h3>Websites</h3>
+<p>{$numberDistinctWebsites} distinct websites</p>
+<p>{$numberDistinctWebsitesUrls} distinct websites URLs</p>
 {$dataTableWebsites}
 
 <h3>Partners</h3>
+<p>{$numberDistinctPartners} distinct partners</p>
+<p>{$numberDistinctPartnersUrls} distinct partners URLs</p>
 {$dataTablePartners}
+
+<h3>Campaigns</h3>
+<p>{$numberDistinctCampaigns} distinct campaigns</p>
+{$dataTableCampaigns}
 
 <h2>User Settings</h2>
 <h3>Configurations</h3>
@@ -735,11 +748,11 @@ div.subDataTable {
 
 
 <h2>Frequency</h2>
-{$nbVisitsReturning} returning visits<br>
-{$nbActionsReturning} actions by the returning visits<br>
-{$maxActionsReturning} maximum actions by a returning visit<br>
-{$sumVisitLengthReturning} total time spent by returning visits<br>
-{$bounceCountReturning} times that a returning visit has bounced<br>
+<p>{$nbVisitsReturning} returning visits</p>
+<p>{$nbActionsReturning} actions by the returning visits</p>
+<p>{$maxActionsReturning} maximum actions by a returning visit</p>
+<p>{$sumVisitLengthReturning|sumtime} total time spent by returning visits</p>
+<p>{$bounceCountReturning} times that a returning visit has bounced</p>
 
 <h2>Visit Time</h2>
 <h3>Visit per local time</h3>

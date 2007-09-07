@@ -58,7 +58,7 @@ class Piwik_Referers extends Piwik_Plugin
 				'Referers_urlByPartner',
 		);
 		
-		$this->archiveProcessing->archiveDataTable($dataTableToSum);
+		$records = $this->archiveProcessing->archiveDataTable($dataTableToSum);
 		
 		$dataNumericToSum = array(
 			'Referers_distinctSearchEngines',

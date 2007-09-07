@@ -25,6 +25,7 @@ enabled[] 		= UsersManager
 enabled[] 		= SitesManager
 
 enabled[] 		= UserSettings
+enabled[] 		= VisitsSummary
 enabled[] 		= Actions
 enabled[] 		= Provider
 enabled[] 		= UserCountry
@@ -136,5 +137,9 @@ template_dir[]	= themes/default
 compile_dir		= tmp/templates_c
 config_dir		= tmp/configs
 cache_dir		= tmp/cache
+	
+	plugins_dir[] 	= libs/smarty/plugins
+plugins_dir[]	= modules/SmartyPlugins
+        
 error_reporting = E_ALL|E_NOTICE
 debugging		= TRUE
