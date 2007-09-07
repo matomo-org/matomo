@@ -324,7 +324,7 @@ class Piwik_DataTable
 			}
 		}
 		
-		$totalCount+=$this->getRowsCount();
+		$totalCount += $this->getRowsCount();
 		return $totalCount;
 	}
 	
