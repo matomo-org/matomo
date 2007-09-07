@@ -381,7 +381,6 @@ List of the public methods for the class Piwik_Actions_API
 											'Referers.getWebsites',
 											'getUrlsFromWebsiteId'
 								);
-		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		
 		$view->setColumnsToDisplay( array(0,2) );

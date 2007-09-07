@@ -77,6 +77,11 @@ abstract class Piwik_DataTable_Renderer
 				$class = 'Piwik_DataTable_Renderer_HTML';
 				break;
 		
+			case 'json':
+				require_once "DataTable/Renderer/JSON.php";
+				$class = 'Piwik_DataTable_Renderer_JSON';
+				break;
+		
 			default:
 				throw new Exception("Renderer format $name unknown!");
 				break;
