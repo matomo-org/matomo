@@ -5,6 +5,21 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	function index()
 	{
 		$view = new Piwik_View('UserSettings/templates/index.tpl');
+		/* To put in a Piwik_View_Report */
+		
+		$view->date = Piwik_Common::getRequestVar('date');
+		$view->period = Piwik_Common::getRequestVar('period');
+		$view->idSite = Piwik_Common::getRequestVar('idSite');
+		
+		/* General visits */
+		$arrayVisit = $this->getVisitsSummary();
+		
+		$view->nbUniqVisitors = $arrayVisit['nb_uniq_visitors'];
+		$view->nbVisits = $arrayVisit['nb_visits'];
+		$view->nbActions = $arrayVisit['nb_actions'];
+		$view->sumVisitLength = $arrayVisit['sum_visit_length'];
+		$view->bounceCount = $arrayVisit['bounce_count'];
+		$view->maxActions = $arrayVisit['max_actions'];
 		
 		/* User settings */		
 		$view->dataTablePlugin = $this->getPlugin( true );
@@ -83,11 +98,19 @@ List of the public methods for the class Piwik_Actions_API
 - getOutlinks : [idSite, period, date, expanded = , idSubtable = ]
 
 		 */
-
+	/**
+	 * General visit
+	 */
+	function getVisitsSummary()
+	{
+		$requestString = 'method='."VisitsSummary.get".'&format=php&serialize=0';
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
+	}
 	/**
 	 * VisitFrequency
 	 */
-	function getSummary( $fetch = false)
+	function getSummary( )
 	{		
 		$requestString = 'method='."VisitFrequency.getSummary".'&format=php&serialize=0';
 		$request = new Piwik_API_Request($requestString);
@@ -132,8 +155,9 @@ List of the public methods for the class Piwik_Actions_API
 		$view = new Piwik_View_DataTable( __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerVisitDuration" );
 		
 		$view->setColumnsToDisplay( array(0,1) );
-		$view->setSortedColumn( 'nb_visits' );
 		$view->setDefaultLimit( 5 );
+		
+		$view->disableSort();
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
 		$view->disableSearchBox();
@@ -150,6 +174,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
 		$view->disableSearchBox();
+		$view->disableSort();
 		$view->main();
 //		echo $view->dataTable;
 		return $this->renderView($view, $fetch);
@@ -178,7 +203,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->disableExcludeLowPopulation();
 		
 		$view->setColumnsToDisplay( array(0,1) );
-//		$view->setSortedColumn( 1 );
+		$view->setSortedColumn( 1 );
 		$view->disableSearchBox();
 		$view->setDefaultLimit( 5 );
 		
@@ -229,6 +254,7 @@ List of the public methods for the class Piwik_Actions_API
 										__FUNCTION__, 
 										'UserSettings.getConfiguration'
 									);
+		$view->setDefaultLimit( 3 );
 		return $this->renderView($view, $fetch);
 	}
 	function getOS( $fetch = false)
@@ -270,6 +296,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view = new Piwik_View_DataTable( __FUNCTION__, 'UserSettings.getPlugin' );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
+		$view->disableSort();
 		
 		$view->setColumnsToDisplay( array(0,1) );
 		$view->setSortedColumn( 2 );
@@ -349,6 +376,20 @@ List of the public methods for the class Piwik_Actions_API
 		return $this->renderView($view, $fetch);
 	}
 	
+	function getWebsites( $fetch = false)
+	{
+		$view = new Piwik_View_DataTable( 	'getWebsites', 
+											'Referers.getWebsites',
+											'getUrlsFromWebsiteId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
 	function getCampaigns( $fetch = false)
 	{
 		$view = new Piwik_View_DataTable( 	'getCampaigns', 
@@ -358,6 +399,7 @@ List of the public methods for the class Piwik_Actions_API
 
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
+		$view->setDefaultLimit( 5 );
 		
 		$view->setColumnsToDisplay( array(0,2) );
 		
@@ -374,20 +416,6 @@ List of the public methods for the class Piwik_Actions_API
 		$view->disableExcludeLowPopulation();
 		$view->setColumnsToDisplay( array(0,2));
 
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getWebsites( $fetch = false)
-	{
-		$view = new Piwik_View_DataTable( 	'getWebsites', 
-											'Referers.getWebsites',
-											'getUrlsFromWebsiteId'
-								);
-		$view->disableSearchBox();
-		$view->disableExcludeLowPopulation();
-		
-		$view->setColumnsToDisplay( array(0,2) );
-		
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -411,6 +439,7 @@ List of the public methods for the class Piwik_Actions_API
 								);
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
+		$view->setDefaultLimit( 5 );
 		
 		$view->setColumnsToDisplay( array(0,2) );
 		
@@ -496,12 +525,10 @@ class Piwik_View_DataTable
 	protected $moduleNameAndMethod;
 	protected $actionToLoadTheSubTable;
 	
-	protected $JSsearchBox = true;
-	protected $JSoffsetInformation = true;
-	protected $JSexcludeLowPopulation = true;
-	protected $JSsortColumn = false;
-	protected $JSsortOrder = false;
-	protected $JSlimit = false;
+	protected $JSsearchBox 				= true;
+	protected $JSoffsetInformation 		= true;
+	protected $JSexcludeLowPopulation 	= true;
+	protected $JSsortEnabled 			= true;
 	
 	protected $mainAlreadyExecuted = false;
 	protected $columnsToDisplay = array();
@@ -649,7 +676,14 @@ class Piwik_View_DataTable
 		$this->variablesDefault['filter_sort_column']= $columnId;
 		$this->variablesDefault['filter_sort_order']= $order;
 	}
-	
+	public function disableSort()
+	{
+		$this->JSsortEnabled = 'false';		
+	}
+	public function getSort()
+	{
+		return $this->JSsortEnabled;		
+	}
 	
 	public function disableOffsetInformation()
 	{
@@ -730,6 +764,7 @@ class Piwik_View_DataTable
 		$javascriptVariablesToSet['show_search'] = $this->getSearchBox();
 		$javascriptVariablesToSet['show_offset_information'] = $this->getOffsetInformation();
 		$javascriptVariablesToSet['show_exclude_low_population'] = $this->getExcludeLowPopulation();
+		$javascriptVariablesToSet['enable_sort'] = $this->getSort();
 		
 		return $javascriptVariablesToSet;
 	}

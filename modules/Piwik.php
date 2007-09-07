@@ -19,7 +19,8 @@ class Piwik
 			'month'	=>3,
 			'year'	=>4,
 		);
-		
+	
+	
 	static public function log($message = '')
 	{
 		Zend_Registry::get('logger_message')->log($message);

@@ -306,6 +306,23 @@ class Piwik_DataTable
 		return count($this->rows);
 	}
 	
+	public function getRowsCountRecursive()
+	{
+//		foreach($this->rows as $row)
+//		{
+//			if(($idSubTable = $row->getIdSubDataTable()) !== null)
+//			{
+//				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
+//				$depth++;
+//				$serialized = $subTable->getSerialized();
+//				$depth--;
+//				
+//				$aSerializedDataTable = $aSerializedDataTable + $serialized;
+//			}
+//		}
+		return $this->getRowsCount();
+	}
+	
 	public function deleteRow( $key )
 	{
 		if(!isset($this->rows[$key]))

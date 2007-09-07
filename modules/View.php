@@ -21,6 +21,7 @@ class Piwik_View
 			$this->smarty->$key = $value;
 		}
 		$this->smarty->template_dir = $smConf->template_dir->toArray();
+		$this->smarty->plugins_dir = $smConf->plugins_dir->toArray();
 		
 //		$this->smarty->load_filter('output','trimwhitespace');
 		
