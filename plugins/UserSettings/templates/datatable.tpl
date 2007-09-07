@@ -25,9 +25,7 @@
 					<span id="label">{$row.columns[$column.name]}</span>
 				{else}
 					{$row.columns[$column.name]}
-				{/if}
-				
-				
+				{/if}				
 			</td>
 			{/foreach}
 		</tr>
@@ -50,18 +48,13 @@
 	
 	</div>	
 		
-	<script type="text/javascript"  defer="defer">
-	function populateVar()
-	{$smarty.ldelim}
-	requestVariables.{$id} = new Object;
-	
+	<script type="text/javascript" defer="defer">
+	//$(document).ready( function(){$smarty.ldelim}
 	{foreach from=$javascriptVariablesToSet key=name item=value}
-	requestVariables.{$id}.{$name} 		= '{$value}';
+	setDivVariable( '{$id}', '{$name}', '{$value}');
 	{/foreach}
+	//{$smarty.rdelim});
 	
-	//alert('loaded');
-	{$smarty.rdelim}
-	populateVar();
 	</script>
 	{/if}
 </div>

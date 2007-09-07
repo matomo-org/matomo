@@ -11,6 +11,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->period = Piwik_Common::getRequestVar('period');
 		$view->idSite = Piwik_Common::getRequestVar('idSite');
 		
+		
 		/* General visits */
 		$dataTableVisit = $this->getVisitsSummary();
 		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
@@ -256,6 +257,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->setDefaultLimit( 3 );
 		return $this->renderView($view, $fetch);
 	}
+	
 	function getOS( $fetch = false)
 	{
 		$view =  $this->getStandardDataTableUserSettings(
@@ -264,6 +266,7 @@ List of the public methods for the class Piwik_Actions_API
 									);
 		return $this->renderView($view, $fetch);
 	}
+	
 	function getBrowser( $fetch = false)
 	{
 		$view =  $this->getStandardDataTableUserSettings(
@@ -272,6 +275,7 @@ List of the public methods for the class Piwik_Actions_API
 									);
 		return $this->renderView($view, $fetch);
 	}
+	
 	function getBrowserType ( $fetch = false)
 	{
 		$view =  $this->getStandardDataTableUserSettings(
@@ -281,6 +285,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->disableOffsetInformation();
 		return $this->renderView($view, $fetch);
 	}
+	
 	function getWideScreen( $fetch = false)
 	{
 		$view =  $this->getStandardDataTableUserSettings(
@@ -290,16 +295,18 @@ List of the public methods for the class Piwik_Actions_API
 		$view->disableOffsetInformation();
 		return $this->renderView($view, $fetch);
 	}
+	
 	function getPlugin( $fetch = false)
 	{
 		$view = new Piwik_View_DataTable( __FUNCTION__, 'UserSettings.getPlugin' );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->disableSort();
+		$view->disableOffsetInformation();
 		
 		$view->setColumnsToDisplay( array(0,1) );
 		$view->setSortedColumn( 2 );
-		$view->setDefaultLimit( 5 );
+		$view->setDefaultLimit( 10 );
 		
 		return $this->renderView($view, $fetch);
 	}

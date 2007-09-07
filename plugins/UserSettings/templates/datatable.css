@@ -1,0 +1,195 @@
+* {
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* main data table */
+
+table.dataTable th.columnSorted {
+	font-weight:bold;
+}
+table.dataTable {
+	width: 500px;
+	padding: 0;
+	border-spacing:0;
+	margin: 0;
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size:0.9em;
+}
+
+table.dataTable img {
+	border:0;
+	margin-right:1em;
+	margin-left:0.5em;
+}	
+table.dataTable tr.subDataTable{
+	cursor:pointer;
+}
+
+table.dataTable th {
+	margin:0;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA url(themes/default/images/bg_header.jpg) no-repeat;
+}
+
+table.dataTable td.label {
+	width:80%;
+}
+
+table.dataTable td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	padding: 6px 6px 6px 12px;
+	background: #fff;
+}
+
+table.dataTable td,table.dataTable td a {
+	margin:0;
+	text-decoration:none;
+	color: #4f6b72;
+}
+
+table.dataTable td.columneven {
+	background: #F5FAFA;
+	color: #797268;
+}
+
+table.dataTable td.labeleven {
+	border-top: 0;
+	border-left: 1px solid #C1DAD7;
+	background: #fff url(themes/default/images/bullet1.gif) no-repeat;
+}
+
+table.dataTable td.labelodd {
+	border-top: 0;
+	border-left: 1px solid #C1DAD7;
+	background: #f5fafa url(themes/default/images/bullet2.gif) no-repeat;
+	color: #797268;
+}
+
+
+/* a datatable inside another datatable */
+
+table.subDataTable img {
+	border:0;
+	margin-top:.5em;
+}	
+
+table.subDataTable {
+	background:#FFFFFF;
+	color: #678197;
+	width:80%;
+	border-top:1px solid #e5eff8;
+	border-right:1px solid #e5eff8;
+	margin:1em auto;
+	border-collapse:collapse;
+}
+
+table.subDataTable tr.columnodd td	{
+	background:#f7fbff
+}
+
+table.subDataTable td {
+	border-bottom:1px solid #e5eff8;
+	border-left:1px solid #e5eff8;
+	padding:.3em 1em;
+}
+
+table.subDataTable td, table.subDataTable td a {
+	text-decoration:none;
+	color:#678197;
+	text-align:left;
+}
+
+table.subDataTable td.label, table.subDataTable td.label a	{
+	background:#ffffff;
+	width:80%;
+}
+
+table.subDataTable td.labelodd, table.subDataTable td.labelodd a{
+	background:#f4f9fe;
+}
+				
+table.subDataTable th {
+	font-weight:normal;
+	color: #678197;
+	text-align:left;
+	border-bottom: 1px solid #e5eff8;
+	border-left:1px solid #e5eff8;
+	padding:.3em 1em;
+}
+					
+table.subDataTable thead th {
+	background:#f4f9fe;
+	text-align:center;
+	font: 0.8em "Century Gothic","Trebuchet MS",Arial,Helvetica,sans-serif;
+	color:#66a3d3
+}
+
+/* misc SPAN and DIV */
+
+/* A link in a column in the DataTable */
+table td #urlLink {
+	display:none;
+}
+
+#dataTablePages {
+	color:grey;
+	font-weight:bold;
+	margin:10px;
+	font-size:0.9em;
+}
+
+#dataTableSearchPattern input {
+	font-size: 0.7em;
+	padding:2px;
+	background:#FBFBFF none repeat scroll 0%;
+	border:1px solid #B3B3B3;
+	color:#0C183A;
+}
+#dataTableSearchPattern input:hover{
+	background:#F7F7FF none repeat scroll 0%;
+}
+
+#dataTableExcludeLowPopulation, #dataTableNext, #dataTablePrevious {
+	font-size: 1em;
+	color: #184A83;
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+#dataTableFeatures {
+	padding-top:10px;
+	padding-bottom:10px;
+	width:400px;
+	text-align:center;
+}
+
+#dataTableExcludeLowPopulation{
+	position:absolute;
+	float:left;
+	margin-top:2em;
+	margin-left:350px;
+	font-size:0.8em;
+	color:#C3C6D8;
+}
+div.subDataTable {
+	font-size:0.8em;
+}
+#dataTableNext, #dataTablePrevious, #dataTableSearchPattern, #loadingDataTable   {
+	display:none;
+
+}
+
+#loadingDataTable {
+	font-size: 1em;
+	font-decoration:bold;
+	color:#193B6C;
+	padding:0.5em;
+}
