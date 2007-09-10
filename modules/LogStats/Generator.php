@@ -153,6 +153,7 @@ class Piwik_LogStats_Generator
 	 */
 	public function init()
 	{
+		Piwik::createLogObject();
 		if($this->profiling)
 		{
 			if($this->reinitProfilingAtEveryRequest)
@@ -520,6 +521,10 @@ class Piwik_LogStats_Generator_Main extends Piwik_LogStats
 	protected function sendHeader($header)
 	{
 	//	header($header);
+	}
+	
+	protected function endProcess()
+	{
 	}
 }
 

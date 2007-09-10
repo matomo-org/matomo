@@ -52,7 +52,7 @@ class Piwik_View
 
 	public function render()
 	{
-		$this->smarty->assign('smarty', $this);
+//		$this->smarty->assign('smarty', $this);
 		return $this->smarty->fetch($this->template);
 	}
 	
