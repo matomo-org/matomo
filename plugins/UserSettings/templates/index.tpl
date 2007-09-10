@@ -8,12 +8,42 @@
 
 <link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
 <link rel="stylesheet" href="plugins/UserSettings/templates/datatable.css">
-
+{literal}
+<style>
+tr.level0 td.label{
+	padding-left:+1.5em;
+}
+tr.level1 td.label{
+	padding-left:+2.5em;
+}
+tr.level2 td.label{
+	padding-left:+3.5em;
+}
+tr.level3 td.label{
+	padding-left:+4.5em;
+}
+tr.level4 td.label{
+	padding-left:+5em;
+}
+tr td.label img.plusMinus {
+	margin-left:-1em;
+	position:absolute;
+}
+</style>
+{/literal}
 <h1>Piwik reports</h1>
 <p>- Date = {$date}</p>
 <p>- Period = {$period}</p>
 <p>- IdSite = {$idSite}</p>
 
+<h2>Actions</h2>
+{$dataTableActions} 
+<h2>Downloads</h2>
+{$dataTableDownloads} 
+<h2>Outlinks</h2>
+{$dataTableOutlinks}
+
+{*
 <h2>Visits summary</h2>
 <p>{$nbUniqVisitors} unique visitors</p>
 <p>{$nbVisits} visits</p>
@@ -22,6 +52,7 @@
 <p>{$maxActions} max actions</p>
 <p>{$bounceCount} visitors have bounced (left the site directly)</p>
 
+*}
 <h2>User Country</h2>
 
 <h3>Country</h3>
@@ -46,6 +77,7 @@
 <p>{$numberDistinctKeywords} distinct keywords</p>
 {$dataTableKeywords}
 
+{*
 
 <h3>Websites</h3>
 <p>{$numberDistinctWebsites} distinct websites</p>
@@ -102,4 +134,6 @@
 {$dataTableNumberOfVisitsPerVisitDuration}
 <h3>Visits per number of pages</h3>
 {$dataTableNumberOfVisitsPerPage}
+
+*}
 	

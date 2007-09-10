@@ -32,7 +32,7 @@ require_once "LogStats/Generator.php";
 ob_start();
 Piwik_PluginsManager::getInstance()->doNotLoadPlugins();	
 $generator = new Piwik_LogStats_Generator;
-$generator->setMaximumUrlDepth(2);
+$generator->setMaximumUrlDepth(4);
 //$generator->disableProfiler();
 //$generator->emptyAllLogTables();
 $generator->init();
@@ -42,7 +42,7 @@ $t = new Piwik_Timer;
 /*
  * Generate visits / actions for the last 31 days
  */
-$daysToCompute = 10;
+$daysToCompute = 1;
 $startTime = time() - ($daysToCompute-1)*86400;
 $nbActionsTotal = 0;
 while($startTime <= time())

@@ -154,7 +154,7 @@ class Piwik_LogStats
 	// or a marketing page if no parameters in the url
 	// or redirect to a url (transmit the cookie as well)
 	// or load a URL (rss feed) (transmit the cookie as well)
-	private function endProcess()
+	protected function endProcess()
 	{
 		switch($this->getState())
 		{
