@@ -460,7 +460,7 @@ function actionsDataTableLoaded( response )
 
 	$('#'+idToReplace).html(content);
 	
-	bindActionDataTableEvent();
+	$('#'+idToReplace).each( bindActionDataTableEvent );
 }
 
 // Called when a set of rows for a category of actions is loaded
@@ -485,6 +485,7 @@ function actionsSubDataTableLoaded( response )
 		parentId = ok[1];
 	}
 	//alert('parent id = '+parentId);
+	//alert('id='+idToReplace);
 	// we execute the bindDataTableEvent function for the new DIV
 	bindActionDataTableEvent();
 	
@@ -516,89 +517,122 @@ function getNextLevelFromClass( style )
 	return newLevel;
 }
 
+function getWorkingIdActions(currentThis)
+{
+	var id;
+	id = $(currentThis).parents('.parentDivActions').attr('id');
+	
+	if(id == undefined)
+	{
+		id = $(currentThis).attr('id');
+	}
+	
+	if(id == undefined)
+	{
+		//alert(id+' for '+$(currentThis).html() );
+	}
+	
+	return id;
+}
+
+var ActionsLoading = new Array;
+function onClickActionSubDataTable()
+{			
+		workingDivId = getWorkingIdActions(this);
+		// get the idSubTable
+		var idSubTable = $(this).attr('id');
+	
+		var divIdToReplaceWithSubTable = 'subDataTable_'+idSubTable;
+		
+		var NextStyle = $(this).next().attr('class');
+		var CurrentStyle = $(this).attr('class');
+		
+		var currentRowLevel = getLevelFromClass(CurrentStyle);
+		var nextRowLevel = getLevelFromClass(NextStyle);
+
+		// if the row has not been clicked
+		// which is the same as saying that the next row level is equal or less than the current row
+		// because when we click a row the level of the next rows is higher (level2 row gives level3 rows)
+		if(currentRowLevel >= nextRowLevel)
+		{
+			if( ActionsLoading[idSubTable] )
+			{
+				return ;
+			}
+			ActionsLoading[idSubTable] = true;
+			var numberOfColumns = $(this).children().length;
+			$(this).after( '\
+			<tr id="'+divIdToReplaceWithSubTable+'">\
+				<td colspan="'+numberOfColumns+'">\
+						<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif"> Loading...</span>\
+				</td>\
+			</tr>\
+			');
+			var savedActionVariable = getRequestVariable(workingDivId,'action');
+		
+			// reset search for subcategories
+			setVariable(workingDivId, 'filter_column', false);
+			setVariable(workingDivId, 'filter_pattern', false);
+			
+			setVariable(workingDivId, 'idSubtable', idSubTable);
+			setVariable(workingDivId, 'action', getRequestVariable(workingDivId,'actionToLoadTheSubTable'));
+			
+			reloadAjaxDataTable(workingDivId, false, actionsSubDataTableLoaded );
+			setVariable(workingDivId, 'action', savedActionVariable);
+			setVariable(workingDivId, 'idSubtable', false);		
+		}
+		// else we toggle all these rows
+		else
+		{
+			var plusDetected = $('td img', this).attr('src').indexOf('plus') >= 0;
+			
+			//alert('look for '+idSubTable);
+			$(this).siblings().each( function(){
+				if( parents = $(this).attr('parent') )
+				{
+					//alert('parent = '+ parents);
+					if(parents.indexOf(idSubTable) >= 0
+						|| parents.indexOf('subDataTable_'+idSubTable) >= 0
+					)
+					{
+						//alert('found');
+						if(plusDetected)
+							$(this).css('display','');
+						else
+							$(this).css('display','none');
+							
+					}
+				}
+			});
+		}
+		
+		// toggle the image
+		var plusDetected = $('td img', this).attr('src').indexOf('plus') >= 0;
+		if(plusDetected)
+		{
+//				$(this).css('font-weight','bold');
+			setImageMinus( this );
+		}
+		else
+		{
+//				$(this).css('font-weight','normal');
+			setImagePlus( this );
+		}
+}
 function bindActionDataTableEvent()
 {
-	var workingDivId;
-	workingDivId = 
-		$('tr.subActionsDataTable.rowToProcess').parents('.parentDivActions').attr('id') 
-			|| $(this).attr('id');
-	
-//	workingDivId = 'getActions';
-
+	ActionsLoading = new Array;
 	subTableId = $(this).attr('id');
 	$('tr.subActionsDataTable.rowToProcess')
-		.click( function(){
-			// get the idSubTable
-			var idSubTable = $(this).attr('id');
-		
-			var divIdToReplaceWithSubTable = 'subDataTable_'+idSubTable;
-			
-			var NextStyle = $(this).next().attr('class');
-			var CurrentStyle = $(this).attr('class');
-			
-			var currentRowLevel = getLevelFromClass(CurrentStyle);
-			var nextRowLevel = getLevelFromClass(NextStyle);
-
-			// if the row has not been clicked
-			// which is the same as saying that the next row level is equal or less than the current row
-			// because when we click a row the level of the next rows is higher (level2 row gives level3 rows)
-			if(currentRowLevel >= nextRowLevel)
-			{
-				var numberOfColumns = $(this).children().length;
-				$(this).after( '\
-				<tr id="'+divIdToReplaceWithSubTable+'">\
-					<td colspan="'+numberOfColumns+'">\
-							<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif"> Loading...</span>\
-					</td>\
-				</tr>\
-				');
-				var savedActionVariable = getRequestVariable(workingDivId,'action');
-			
-				setVariable(workingDivId, 'idSubtable', idSubTable);
-				setVariable(workingDivId, 'action', getRequestVariable(workingDivId,'actionToLoadTheSubTable'));
-				
-				reloadAjaxDataTable(workingDivId, false, actionsSubDataTableLoaded );
-				setVariable(workingDivId, 'action', savedActionVariable);
-				setVariable(workingDivId, 'idSubtable', false);		
-			}
-			// else we toggle all these rows
-			else
-			{
-				var plusDetected = $('td img', this).attr('src').indexOf('plus') >= 0;
-				
-				//alert('look for '+idSubTable);
-				$(this).siblings().each( function(){
-					if( parents = $(this).attr('parent') )
-					{
-						//alert('parent = '+ parents);
-						if(parents.indexOf(idSubTable) >= 0
-							|| parents.indexOf('subDataTable_'+idSubTable) >= 0
-						)
-						{
-							//alert('found');
-							if(plusDetected)
-								$(this).css('display','');
-							else
-								$(this).css('display','none');
-								
-						}
-					}
-				});
-			}
-			
-			// toggle the image
-			var plusDetected = $('td img', this).attr('src').indexOf('plus') >= 0;
-			if(plusDetected)
-			{
-				$(this).css('font-weight','bold');
-				setImageMinus( this );
-			}
-			else
-			{
-				$(this).css('font-weight','normal');
-				setImagePlus( this );
-			} 
-		})
+		.css('font-weight','bold')
+		.hover( function() {  
+		 	 $(this).css({ cursor: "pointer"}); 
+		  	},
+		  	function() {  
+		 	 $(this).css({ cursor: "auto"}); 
+		  	}
+ 		)
+		.click( onClickActionSubDataTable )
 		;
 	$('tr.subActionsDataTable.rowToProcess td:first-child')
 		.each( function(){
@@ -631,11 +665,12 @@ function bindActionDataTableEvent()
 	
 	// define the this to give to the handle search box
 	// if the function is called after the page is loaded we use the parents 
-	var currentThis = $(this);
-	if(currentThis)
+	workingDivId = getWorkingIdActions( this );
+
+	if( workingDivId != undefined)
 	{
-		handleSearchBox( workingDivId, currentThis, actionsDataTableLoaded );
-		handleLowPopulationLink( workingDivId, currentThis, actionsDataTableLoaded );
+		handleSearchBox( workingDivId, this, actionsDataTableLoaded );
+		handleLowPopulationLink( workingDivId, this, actionsDataTableLoaded );
 	}
 }
 	
@@ -681,6 +716,7 @@ function getAjaxRequest(workingDivId, callbackSuccess)
 	ajaxRequest.type = 'GET';
 	ajaxRequest.url = 'index.php';
 	ajaxRequest.dataType = 'html';
+	ajaxRequest.async = true;
 	
 	// Callback when the request fails
 	ajaxRequest.error = ajaxHandleError;

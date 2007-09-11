@@ -92,12 +92,18 @@ class Piwik_UserSettings_API extends Piwik_Apiable
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $date, $period );
 		$dataTable = $archive->getDataTable('UserSettings_plugin');
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');		
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'logo', 'Piwik_getPluginsLogo'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'ucfirst'));
 		return $dataTable;
 	}	
 }
-	
+
+function Piwik_getPluginsLogo( $oldLabel )
+{
+	return  PIWIK_PLUGINS_PATH . "/UserSettings/images/plugins/". $oldLabel . ".gif";
+}
+
 function Piwik_getOSLabel($oldLabel)
 {
 	if(isset($GLOBALS['Piwik_Oslist_IdToLabel'][$oldLabel]))

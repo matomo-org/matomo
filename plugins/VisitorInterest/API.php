@@ -25,6 +25,7 @@ class Piwik_VisitorInterest_API extends Piwik_Apiable
 		$archive = Piwik_Archive::build($idSite, $date, $period );
 		$dataTable = $archive->getDataTable('VisitorInterest_timeGap');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
+		$dataTable->queueFilter('Piwik_DataTable_Filter_Sort', array('label', 'asc', true));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getDurationLabel'));
 	
 		return $dataTable;
@@ -37,6 +38,7 @@ class Piwik_VisitorInterest_API extends Piwik_Apiable
 		$archive = Piwik_Archive::build($idSite, $date, $period );
 		$dataTable = $archive->getDataTable('VisitorInterest_pageGap');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
+		$dataTable->queueFilter('Piwik_DataTable_Filter_Sort', array('label', 'asc', true));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPageGapLabel'));
 	
 		return $dataTable;

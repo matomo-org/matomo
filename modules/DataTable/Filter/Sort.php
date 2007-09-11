@@ -10,7 +10,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	protected $columnToSort;
 	protected $order;
 	
-	public function __construct( $table, $columnToSort, $order = 'desc' )
+	public function __construct( $table, $columnToSort, $order = 'desc', $naturalSort = false )
 	{
 		parent::__construct($table);
 		
@@ -21,6 +21,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 			$columnToSort = 'label';
 		}
 		$this->columnToSort = $columnToSort;
+		$this->naturalSort = $naturalSort;
 		$this->setOrder($order);
 		$this->filter();
 	}
@@ -46,6 +47,14 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 					< $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
 				? -1 
 				: 1
+			);
+	}
+	
+	function naturalSort($a, $b)
+	{
+		return $this->sign * strnatcasecmp( 
+				$a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort], 
+				$b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort]
 			);
 	}
 	
@@ -84,7 +93,15 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		}
 		else
 		{
-			$methodToUse = "sortString";
+			
+			if($this->naturalSort)
+			{
+				$methodToUse = "naturalSort";
+			}
+			else
+			{
+				$methodToUse = "sortString";
+			}
 
 		}
 		

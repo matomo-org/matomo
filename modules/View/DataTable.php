@@ -75,8 +75,17 @@ class Piwik_View_DataTable
 		
 		$view->dataTable 	= $phpArray;
 		
-		$view->dataTableColumns = $this->getColumnsToDisplay($phpArray);
+		$columns = $this->getColumnsToDisplay($phpArray);
+		$view->dataTableColumns = $columns;
 		
+		$nbColumns = count($columns);
+		// case no data in the array we use the number of columns set to be displayed 
+		if($nbColumns == 0)
+		{
+			$nbColumns = count($this->columnsToDisplay);
+		}
+		
+		$view->nbColumns = $nbColumns;
 		
 		$view->javascriptVariablesToSet 
 			= $this->getJavascriptVariablesToSet();
