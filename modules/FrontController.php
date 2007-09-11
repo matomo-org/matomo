@@ -69,19 +69,16 @@ class Piwik_FrontController
 	
 	function end()
 	{
-		
-		Piwik::printZendProfiler();
-		Piwik::printMemoryUsage();
-		Piwik::printQueryCount();		
+//		Piwik::printZendProfiler();
+//		Piwik::printMemoryUsage();
+//		Piwik::printQueryCount();
 //		Piwik::uninstall();
-
-		Piwik::log($this->timer);
-		
+//
 	}
 	
 	function init()
 	{
-		$this->timer = new Piwik_Timer;
+		Zend_Registry::set('timer', new Piwik_Timer);
 		
 		//move into a init() method
 		Piwik::createConfigObject();
@@ -107,6 +104,10 @@ class Piwik_FrontController
 				Piwik::prefixTable('log_action'),
 				Piwik::prefixTable('log_profiling'),
 				Piwik::prefixTable('archive'),
+				Piwik::prefixTable('logger_api_call'),
+				Piwik::prefixTable('logger_error'),
+				Piwik::prefixTable('logger_exception'),
+				Piwik::prefixTable('logger_message'),
 		);
 		
 		Piwik::dropTables($doNotDrop);

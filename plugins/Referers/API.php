@@ -88,6 +88,7 @@ class Piwik_Referers_API extends Piwik_Apiable
 		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date, $idSubtable);
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array( 'label', 'url', create_function('$label', 'return $label;')) );
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_truncatePath'));
 		return $dataTable;		
 	}
 	
@@ -153,6 +154,17 @@ function Piwik_getPathFromUrl($url)
 	return $path;
 }
 
+function Piwik_truncatePath( $path )
+{
+	$limit = 27;
+	$path = htmlspecialchars_decode($path);
+	$len = strlen($path);
+	if($len > $limit)
+	{
+		$path = substr($path, 0, $limit-3) . "...";
+	}
+	return htmlspecialchars($path);
+}
 
 function Piwik_getSearchEngineUrlFromName($name)
 {

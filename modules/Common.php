@@ -506,25 +506,51 @@ class Piwik_Common
 	*/
 	static public function getParameterFromQueryString( $urlQuery, $parameter)
 	{	
-		$refererQuery = '&amp;'.trim(str_replace(array('%20'), ' ', '&amp;'.$urlQuery));
-		$word = '&amp;'.$parameter.'=';
-				
-		if( $off = strrpos($refererQuery, $word))
+		$nameToValue = self::getArrayFromQueryString($urlQuery);
+		
+		if(isset($nameToValue[$parameter]))
 		{
-			$off += strlen($word); // &amp;q=
-			$str = substr($refererQuery, $off);
-			$len = strpos($str, '&amp;');
-			if($len === false)
+			return $nameToValue[$parameter];
+		}
+		return false;
+	}
+	
+	/**
+	 * Returns an URL query string in an array format
+	 * 
+	 * @param string urlQuery
+	 * @return array array( param1=> value1, param2=>value2)
+	 */
+	static public function getArrayFromQueryString( $urlQuery )
+	{
+		if(strlen($urlQuery) == 0)
+		{
+			return array();
+		}
+		if($urlQuery[0] == '?')
+		{
+			$urlQuery = substr($urlQuery, 1);
+		}
+		
+		$separator = '&amp;';
+		
+		$urlQuery = $separator . $urlQuery;
+//		$urlQuery = str_replace(array('%20'), ' ', $urlQuery);
+		$refererQuery = trim($urlQuery);
+		
+		$values = explode($separator, $refererQuery);
+		
+		$nameToValue = array();
+		
+		foreach($values as $value)
+		{
+			if( false !== strpos($value, '='))
 			{
-				$len = strlen($str);
+				$exploded = explode('=',$value);
+				$nameToValue[$exploded[0]] = $exploded[1];
 			}
-			$toReturn = substr($refererQuery, $off, $len);
-			return $toReturn;
 		}
-		else
-		{
-			return false;
-		}
+		return $nameToValue;
 	}
 	
 }

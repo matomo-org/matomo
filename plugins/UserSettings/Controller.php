@@ -13,6 +13,10 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->period = Piwik_Common::getRequestVar('period');
 		$view->idSite = Piwik_Common::getRequestVar('idSite');
 		
+		$view->userLogin = Piwik::getCurrentUserLogin();
+		$view->sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+		$view->url = Piwik_Url::getCurrentUrl();
+		
 		$view->dataTableActions = $this->getActions( true );
 		$view->dataTableDownloads = $this->getDownloads( true );
 		$view->dataTableOutlinks = $this->getOutlinks( true );
@@ -75,7 +79,6 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->numberDistinctPartners = $this->getNumberOfDistinctPartners(true);
 		$view->numberDistinctPartnersUrls = $this->getNumberOfDistinctPartnersUrls(true);
 
-		
 		echo $view->render();		
 	}
 		

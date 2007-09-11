@@ -60,7 +60,6 @@ class Piwik_DataTable_Manager
 	 */
 	public function deleteAll()
 	{
-		Piwik::log("DELETE ALL ".$this->count()." TABLES");
 		$this->tables = array();
 	}
 	

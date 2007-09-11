@@ -168,7 +168,7 @@ class Piwik_API_Request
 		switch($format)
 		{
 			case 'xml':
-				header('Content-type: text/xml');
+				@header('Content-type: text/xml');
 				$return = 
 					'<?xml version="1.0" encoding="utf-8" ?>'.
 					'<result>'.
@@ -176,7 +176,7 @@ class Piwik_API_Request
 					'</result>';
 			break;
 			case 'json':
-				header( "Content-type: application/json" );
+				@header( "Content-type: application/json" );
 				$return = '{"result":"success", "message":"ok"}';
 			break;
 			case 'php':

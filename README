@@ -1,3 +1,28 @@
+Install
+=======
+1- copy paste the javascript code found in log.htm into your website
+2- launch index.php
 
-Listing all the plugins API 
+Some modules
+============
+Login
+?module=Login
+
+Logout
+?module=Login
+
+User manager admin UI 
+?module=UsersManager
+
+Sites manager admin UI 
+?module=SitesManager
+
+All the data is available via APIs for example to get todays keywords in XML
+?module=API&method=Referers.getKeywords&idSite=1&period=month&date=today&format=xml
+
+or yesterday visits information in JSON
+?module=API&method=VisitsSummary.get&idSite=1&period=month&date=yesterday&format=json
+
+You can find the full listing of the APIs provided by the plugins on
 ?module=API&action=listAllAPI
+

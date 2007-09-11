@@ -8,6 +8,12 @@
 
 <link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
 <link rel="stylesheet" href="plugins/UserSettings/templates/datatable.css">
+
+<script>
+var period = "{$period}";
+var currentDateStr = "{$date}";
+</script>
+
 {literal}
 <style>
 tr.level0 td.label{
@@ -29,15 +35,151 @@ tr td.label img.plusMinus {
 	margin-left:-1em;
 	position:absolute;
 }
+
+
+
+
+
+.calendar td.testSelect, .calendar td.testSelect a{
+	color:red;
+	border-color:red;
+}
 </style>
+
+
+<style type="text/css">@import url(libs/jquery/jquery-calendar.css);</style>
+<script type="text/javascript" src="libs/jquery/jquery-calendar.js"></script>
+<script>
+
+Date.prototype.getWeek = function (dowOffset) {
+	/*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
+	
+	dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
+	var newYear = new Date(this.getFullYear(),0,1);
+	var day = newYear.getDay() - dowOffset; //the day of week the year begins on
+	day = (day >= 0 ? day : day + 7);
+	var daynum = Math.floor((this.getTime() - newYear.getTime() -
+	(this.getTimezoneOffset()-newYear.getTimezoneOffset())*60000)/86400000) + 1;
+	var weeknum;
+	//if the year starts before the middle of a week
+	if(day < 4) {
+	weeknum = Math.floor((daynum+day-1)/7) + 1;
+	if(weeknum > 52) {
+	nYear = new Date(this.getFullYear() + 1,0,1);
+	nday = nYear.getDay() - dowOffset;
+	nday = nday >= 0 ? nday : nday + 7;
+	/*if the next year starts before the middle of
+	the week, it is week #1 of that year*/
+	weeknum = nday < 4 ? 1 : 53;
+	}
+	}
+	else {
+	weeknum = Math.floor((daynum+day-1)/7);
+	}
+	return weeknum;
+};
+
+var splitDate = currentDateStr.split("-");
+var currentYear = splitDate[0];
+var currentMonth = splitDate[1];
+var currentDay = splitDate[2];
+
+var currentDate = new Date(currentYear, currentMonth, currentDay);
+
+
+
+function isDateSelected( date )
+{
+	var valid = false;
+	if(period == "month" || period == "year")
+	{
+		valid = true;
+	}
+	else if(period == "week" && date.getWeek(1) == currentDate.getWeek(1) )
+	{
+		valid = true;
+	}
+	else if( period == "day"  && date.getDate() == currentDate.getDate() )
+	{
+		valid = true;
+	}
+	
+	if(valid)
+	{
+		return [true, 'testSelect'];
+	}
+	return [true, ''];
+}
+
+
+function updateDate()
+{
+	var date = formatDate(popUpCal.getDateFor($('#chooseDate')[0]));
+
+	var currentUrl = window.location.href;
+	if((startStrDate = currentUrl.indexOf("date")) >= 0)
+	{
+		var dateToReplace = currentUrl.substring( 
+							startStrDate + 4+1, 
+							startStrDate +4+1 +4+1+2+1+2 
+									);
+		regDateToReplace = new RegExp(dateToReplace, 'ig');
+		currentUrl = currentUrl.replace( regDateToReplace, date );		
+	}
+	else
+	{
+		currentUrl = currentUrl + '&date=' + date;
+	}
+	
+	window.location.href = currentUrl;
+}
+
+function formatDate(date) 
+{
+	var day = date.getDate();
+	var month = date.getMonth() + 1;
+	return date.getFullYear() + '-'
+		+ (month < 10 ? '0' : '') + month + '-'
+		+ (day < 10 ? '0' : '') + day ;
+}
+
+$(document).ready(function(){
+	$("#chooseDate").calendar({
+			onSelect: updateDate,
+			dateFormat: 'DMY-',
+			firstDay: 1,
+			minDate: new Date(2007, 1 - 1, 1),
+			maxDate: new Date(2007, 12 - 1, 31),
+			changeFirstDay: false,
+			prevText: "",
+			nextText: "",
+			currentText: "",
+			customDate: isDateSelected
+			});
+	}
+);
+</script>
+
+
 {/literal}
+
+
+<div class="calendarInline" id="inlineFrom"></div>
+
+<br>
+					
 <h1>Piwik reports</h1>
+<span id="chooseDate"></span>
 <p>- Date = {$date}</p>
-<p>- Period = {$period}</p>
-<p>- IdSite = {$idSite}</p>
+<p>Url = {url}</p>
+<p>User logged = {$userLogin}</p>
+{include file="UserSettings/templates/period_select.tpl"}
+{include file="UserSettings/templates/sites_select.tpl"}
+
 
 <h2>Actions</h2>
 {$dataTableActions} 
+{*
 <h2>Downloads</h2>
 {$dataTableDownloads} 
 <h2>Outlinks</h2>
@@ -131,5 +273,6 @@ tr td.label img.plusMinus {
 {$dataTableNumberOfVisitsPerVisitDuration}
 <h3>Visits per number of pages</h3>
 {$dataTableNumberOfVisitsPerPage}
+*}
 
-	
+{$totalTimeGeneration} seconds to generate the page
