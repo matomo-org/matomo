@@ -24,14 +24,17 @@ class Piwik_Date
 	{
 		return $this->timestamp;
 	}
+	
 	public function isEarlier(Piwik_Date $date)
 	{
 		return $this->getTimestamp() < $date->getTimestamp();
 	}
+	
 	public function toString($part = 'Y-m-d')
 	{
 		return date($part, $this->getTimestamp());
 	}
+	
     /**
      * Sets a new day
      * Returned is the new date object

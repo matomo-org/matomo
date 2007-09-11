@@ -122,11 +122,11 @@ abstract class Piwik_ArchiveProcessing
 			$this->postCompute();
 			Piwik::printMemoryUsage('After post compute');
 			
-			Piwik::log("New archive computed, id = {$this->idArchive}");
+//			Piwik::log("New archive computed, id = {$this->idArchive}");
 		}
 		else
 		{
-			Piwik::log("Archive already available, id = {$this->idArchive}");
+			//Piwik::log("Archive already available, id = {$this->idArchive}");
 		}
 		
 		return $this->idArchive;

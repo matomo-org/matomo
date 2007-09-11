@@ -573,7 +573,7 @@ class Piwik
 				//create tables
 		$db = Zend_Registry::get('db');
 		
-		Piwik::log("Droping ". implode(", ", self::getTablesNames()));
+//		Piwik::log("Droping ". implode(", ", self::getTablesNames()));
 		
 		$db->query( "DROP TABLE IF EXISTS ". implode(", ", self::getTablesNames()) );
 	}

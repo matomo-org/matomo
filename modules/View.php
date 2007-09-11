@@ -52,6 +52,7 @@ class Piwik_View
 
 	public function render()
 	{
+		$this->totalTimeGeneration = Zend_Registry::get('timer')->getTime();
 //		$this->smarty->assign('smarty', $this);
 		return $this->smarty->fetch($this->template);
 	}

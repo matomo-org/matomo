@@ -81,7 +81,6 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		$timer = new Piwik_Timer;
 				
-		Piwik::printMemoryUsage();
 		
 		//TODO map nb_visits etc. with numeric indexes to save space, memor and time
 		/*
@@ -101,9 +100,6 @@ class Piwik_Actions extends Piwik_Plugin
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 
-		Piwik::log("$modified rows for all actions");
-		
-		Piwik::printMemoryUsage();
 		
 		/*
 		 * Entry actions
@@ -126,9 +122,6 @@ class Piwik_Actions extends Piwik_Plugin
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
-		Piwik::log("$modified rows for entry actions");
-		
-//		Piwik::printMemoryUsage();
 
 		/*
 		 * Exit actions
@@ -149,9 +142,6 @@ class Piwik_Actions extends Piwik_Plugin
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
-		Piwik::log("$modified rows for exit actions");
-
-//		Piwik::printMemoryUsage();
 		/*
 		 * Time per action
 		 */
@@ -169,29 +159,22 @@ class Piwik_Actions extends Piwik_Plugin
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
-		Piwik::log("$modified rows for sum time per action");
-
-		Piwik::printMemoryUsage("Middle of ".get_class($this)." "); 
 		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_ACTION]);
 		$s = $dataTable->getSerialized();
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_actions', $s);
-		Piwik::log(" Action serialized has ".count($s)." elements");
 		
 		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_DOWNLOAD]);
 		$s = $dataTable->getSerialized();
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_downloads', $s);
-		Piwik::log(" Download serialized has ".count($s)." elements");
 		
 		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_OUTLINK]);
 		$s = $dataTable->getSerialized();
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_outlink', $s);
-		Piwik::log(" Outlink serialized has ".count($s)." elements");
 		
 		unset($this->actionsTablesByType);
-		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
 	}
 	
 	static public function getActionCategoryFromName($name)

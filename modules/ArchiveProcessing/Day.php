@@ -53,7 +53,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		{
 			$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
 		}
-		Piwik::log($row);
 
 		Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
 	}
