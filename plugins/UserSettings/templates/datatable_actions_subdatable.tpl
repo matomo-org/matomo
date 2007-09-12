@@ -1,11 +1,11 @@
 <tr id="{$id}"></tr>
-{if isset($dataTable.result) and $dataTable.result == 'error'}
-	{$dataTable.message} 
+{if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
+	{$arrayDataTable.message} 
 {else}
-	{if count($dataTable) == 0}
+	{if count($arrayDataTable) == 0}
 	<tr><td colspan="{$nbColumns}">No data in this category. Try to "Include all population".</td></tr>
 	{else}
-		{foreach from=$dataTable item=row}
+		{foreach from=$arrayDataTable item=row}
 		<tr {if $row.idsubdatatable}class="subActionsDataTable" id="{$row.idsubdatatable}"{/if}>
 			{foreach from=$dataTableColumns key=idColumn item=column}
 			<td>

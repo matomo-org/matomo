@@ -16,7 +16,7 @@
 		
 		<tbody>
 		{foreach from=$arrayDataTable item=row}
-		<tr {if $row.idsubdatatable}class="rowToProcess subActionsDataTable" id="{$row.idsubdatatable}"{else} class="rowToProcess"{/if}>
+		<tr {if $row.idsubdatatable}class="level{$row.level} rowToProcess subActionsDataTable" id="{$row.idsubdatatable}"{else}class="rowToProcess level{$row.level}"{/if}>
 			{foreach from=$dataTableColumns key=idColumn item=column}
 			<td>
 				{$row.columns[$column.name]}

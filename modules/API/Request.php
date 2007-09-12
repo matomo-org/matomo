@@ -280,6 +280,10 @@ class Piwik_API_Request
 								'filter_column' 			=> array('string'), 
 								'filter_pattern' 			=> array('string'),
 						),
+			'PatternRecursive' => array(
+								'filter_column_recursive' 	=> array('string'), 
+								'filter_pattern_recursive' 	=> array('string'),
+						),
 			'ExcludeLowPopulation'	=> array(
 								'filter_excludelowpop' 		=> array('string'), 
 								'filter_excludelowpop_value'=> array('float'),

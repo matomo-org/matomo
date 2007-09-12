@@ -1,4 +1,6 @@
 <?php
+
+// TODO clean this unit should'nt read the requests parameters (via getRequestVar)
 class Piwik_View_DataTable
 {
 	protected $dataTableTemplate = null;
@@ -6,6 +8,12 @@ class Piwik_View_DataTable
 	protected $currentControllerAction;
 	protected $moduleNameAndMethod;
 	protected $actionToLoadTheSubTable;
+	
+	public $dataTable; // data table
+	public $arrayDataTable; // phpArray
+	
+	// do we need all the children of the datatables?
+	protected $recursiveDataTableLoad   = false;
 	
 	protected $JSsearchBox 				= true;
 	protected $JSoffsetInformation 		= true;
@@ -59,7 +67,6 @@ class Piwik_View_DataTable
 	
 	function getView()
 	{
-		$this->main();
 		return $this->view;
 	}
 	
@@ -95,7 +102,8 @@ class Piwik_View_DataTable
 		// We get the PHP array converted from the DataTable
 		$phpArray = $this->getPHPArrayFromDataTable();
 		
-		$view->dataTable 	= $phpArray;
+		
+		$view->arrayDataTable 	= $phpArray;
 		$view->method = $this->method;
 		
 		$columns = $this->getColumnsToDisplay($phpArray);
@@ -188,6 +196,29 @@ class Piwik_View_DataTable
 		}
 		return $this->variablesDefault[$nameVar];
 	}
+	
+	public function setSearchRecursive()
+	{
+		$this->variablesDefault['search_recursive'] = true;
+	}
+	public function setRecursiveLoadDataTableIfSearchingForPattern()
+	{
+		try{
+			$requestValue = Piwik_Common::getRequestVar('filter_column_recursive');
+			$requestValue = Piwik_Common::getRequestVar('filter_pattern_recursive');
+			// if the 2 variables are set we are searching for something.
+			// we have to load all the children subtables in this case
+			
+			$this->recursiveDataTableLoad = true;
+			return true;
+		}
+		catch(Exception $e) {
+			$this->recursiveDataTableLoad = false;
+			return false;
+		}
+		
+	}
+	
 	public function setExcludeLowPopulation( $value = 30 )
 	{
 		$this->variablesDefault['filter_excludelowpop_default'] = 2;
@@ -318,19 +349,28 @@ class Piwik_View_DataTable
 		return $javascriptVariablesToSet;
 	}
 	
-	protected function loadDataTableFromAPI()
+	protected function loadDataTableFromAPI( $idSubtable = false)
 	{
-		
+		if($idSubtable === false)
+		{
+			$idSubtable = $this->idSubtable;
+		}
 		// we prepare the string to give to the API Request
 		// we setup the method and format variable
 		// - we request the method to call to get this specific DataTable
 		// - the format = original specifies that we want to get the original DataTable structure itself, not rendered
-		$requestString = 'method='.$this->moduleNameAndMethod.'&format=original';
+		$requestString = 'method='.$this->moduleNameAndMethod
+						.'&format=original'
+					;
+		if( $this->recursiveDataTableLoad )
+		{
+			$requestString .= '&expanded=1';
+		}
 		
 		// if a subDataTable is requested we add the variable to the API request string
-		if( $this->idSubtable != false)
+		if( $idSubtable != false)
 		{
-			$requestString .= '&this->idSubtable='.$this->idSubtable;
+			$requestString .= '&this->idSubtable='.$idSubtable;
 		}
 		
 		$toSetEventually = array(
@@ -353,7 +393,9 @@ class Piwik_View_DataTable
 		
 		// and get the DataTable structure
 		$dataTable = $request->process();
-		
+
+//		echo $dataTable;exit;
+
 		$this->dataTable = $dataTable;
 	}
 

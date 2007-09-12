@@ -11,30 +11,28 @@
 <span id="dataTableNext">Next &gt;</span>
 <span id="loadingDataTable"><img src="themes/default/images/loading-blue.gif"> Loading...</span>
 
-</div>	
+</div>
 	
 
-<span id="exportDataTable">
-
-<span id="exportToFormat">
-	<img src="themes/default/images/export.png">
-	<span id="linksExportToFormat" style="display:none">
-		<a target="_blank" class="exportToFormat" method="{$method}" format="JSON">Json</a> |
-		<a target="_blank" class="exportToFormat" method="{$method}" format="PHP">Php</a> | 
-		<a target="_blank" class="exportToFormat" method="{$method}" format="XML">XML</a>
+<span id="exportDataTable" style="display:none">
+	
+	<span id="exportToFormat">
+		<img src="themes/default/images/export.png">
+		<span id="linksExportToFormat" style="display:none">
+			<a target="_blank" class="exportToFormat" method="{$method}" format="JSON">Json</a> |
+			<a target="_blank" class="exportToFormat" method="{$method}" format="PHP">Php</a> | 
+			<a target="_blank" class="exportToFormat" method="{$method}" format="XML">XML</a>
+		</span>
 	</span>
-</span>
-
-<a class="viewDataTable" format="table"><img src="themes/default/images/table.png" title="Table"></a>
-<a class="viewDataTable" format="cloud"><img src="themes/default/images/tagcloud.png" title="Tag Cloud"></a>
+	
+	<a class="viewDataTable" format="table"><img src="themes/default/images/table.png" title="Table"></a>
+	<a class="viewDataTable" format="cloud"><img src="themes/default/images/tagcloud.png" title="Tag Cloud"></a>
 </span>
 
 
 <script type="text/javascript" defer="defer">
-//$(document).ready( function(){$smarty.ldelim}
 {foreach from=$javascriptVariablesToSet key=name item=value}
 setDivVariable( '{$id}', '{$name}', '{$value}');
 {/foreach}
-//{$smarty.rdelim});
 
 </script>

@@ -19,7 +19,7 @@ class Piwik_DataTable_Renderer_HTML extends Piwik_DataTable_Renderer
 		return $this->renderTable($this->table);
 	}
 	
-	function renderTable($table)
+	protected function renderTable($table)
 	{
 		if($table->getRowsCount() == 0)
 		{

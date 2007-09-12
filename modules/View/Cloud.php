@@ -101,7 +101,8 @@ class Piwik_Cloud
     function render($returnType = "html")
     {
         $this->shuffleCloud();
-        $this->max = max($this->wordsArray);
+        
+        
         
         if($returnType == "html")
         {
@@ -111,9 +112,13 @@ class Piwik_Cloud
         {
         	$return = array();
         }
-
-        if (is_array($this->wordsArray))
+		
+		
+        if (count($this->wordsArray) > 0)
         {
+        
+        	$this->max = max($this->wordsArray);
+        
             $return = ($returnType == "html" ? "" : ($returnType == "array" ? array() : ""));
             foreach ($this->wordsArray as $word => $popularity)
             {

@@ -22,6 +22,22 @@ var minDateDay = {$minDateDay};
 <style type="text/css">@import url(libs/jquery/jquery-calendar.css);</style>
 {literal}
 <style>
+
+h1 {
+	font-size:2em;
+	color:#0F1B2E;
+}
+h2 {
+	font-size:1.6em;
+	margin-top:2em;
+	color:#1D3256;
+}
+h3 {
+	font-size:1.3em;
+	margin-top:2em;
+	color:#1D3256;
+}
+/* Actions table */
 tr.level0 td.label{
 	padding-left:+1.5em;
 }
@@ -41,6 +57,8 @@ tr td.label img.plusMinus {
 	margin-left:-1em;
 	position:absolute;
 }
+
+/* Calendar */
 .calendar td.dateToday, .calendar td.dateToday a{
 	font-weight:bold;
 
@@ -58,6 +76,7 @@ tr td.label img.plusMinus {
 	float:left;
 	margin:10px;
 }
+
 #sitesSelection {
 	 
 }
@@ -67,10 +86,6 @@ tr td.label img.plusMinus {
 
 
 
-#exportDataTable,#exportDataTable a{
-	text-decoration:none;
-	color:#8894B1;
-}
 </style>
 {/literal}
 <h1>Piwik reports</h1>

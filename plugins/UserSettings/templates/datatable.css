@@ -60,16 +60,16 @@ table.dataTable td.columneven {
 	background: #F5FAFA;
 	color: #797268;
 }
-
-table.dataTable td.labeleven {
+table.dataTable td.label {
 	border-top: 0;
 	border-left: 1px solid #C1DAD7;
+}
+
+table.dataTable td.labeleven {
 	background: #fff url(themes/default/images/bullet1.gif) no-repeat;
 }
 
 table.dataTable td.labelodd {
-	border-top: 0;
-	border-left: 1px solid #C1DAD7;
 	background: #f5fafa url(themes/default/images/bullet2.gif) no-repeat;
 	color: #797268;
 }
@@ -183,9 +183,14 @@ table td #urlLink {
 div.subDataTable {
 	font-size:0.8em;
 }
+
 #dataTableNext, #dataTablePrevious, #dataTableSearchPattern, #loadingDataTable   {
 	display:none;
+}
 
+#exportDataTable,#exportDataTable a{
+	text-decoration:none;
+	color:#8894B1;
 }
 
 #loadingDataTable {

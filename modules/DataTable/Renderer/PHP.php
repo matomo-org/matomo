@@ -50,7 +50,7 @@ class Piwik_DataTable_Renderer_PHP extends Piwik_DataTable_Renderer
 		return $array;
 	}
 	
-	function renderTable($table)
+	protected function renderTable($table)
 	{
 		$array = array();
 
@@ -66,7 +66,7 @@ class Piwik_DataTable_Renderer_PHP extends Piwik_DataTable_Renderer
 		return $array;
 	}
 	
-	function renderSimpleTable($table)
+	protected function renderSimpleTable($table)
 	{
 		$array = array();
 
