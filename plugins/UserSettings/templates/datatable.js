@@ -687,14 +687,7 @@ function bindActionDataTableEvent()
 	workingDivId = getWorkingIdActions( this );
 	
 	$('tr.subActionsDataTable.rowToProcess')
-		.css('font-weight','bold')
-		.hover( function() {  
-		 	 $(this).css({ cursor: "pointer"}); 
-		  	},
-		  	function() {  
-		 	 $(this).css({ cursor: "auto"}); 
-		  	}
- 		);
+		.css('font-weight','bold');
 
 	// we dont display the link on the row with subDataTable when we are already
 	// printing all the subTables (case of recursive search when the content is
@@ -703,6 +696,13 @@ function bindActionDataTableEvent()
 	{
 		$('tr.subActionsDataTable.rowToProcess')
 			.click( onClickActionSubDataTable )
+			.hover( function() {  
+			 	 $(this).css({ cursor: "pointer"}); 
+			  	},
+			  	function() {  
+			 	 $(this).css({ cursor: "auto"}); 
+			  	}
+	 		)
 			;
 		
 	}
@@ -717,8 +717,7 @@ function bindActionDataTableEvent()
 					{
 						setImagePlus(this);
 					}
-				}
-			);
+				});
 	
 	$('tr.rowToProcess')
 		.each( function() {
