@@ -82,7 +82,6 @@ tr td.label img.plusMinus {
 {include file="UserSettings/templates/sites_select.tpl"}<br>
 </div>
 
-{*
 <h2>Actions</h2>
 {$dataTableActions} 
 <h2>Downloads</h2>
@@ -90,7 +89,6 @@ tr td.label img.plusMinus {
 <h2>Outlinks</h2>
 {$dataTableOutlinks}
 
-*}
 <h2>Visits summary</h2>
 <p>{$nbUniqVisitors} unique visitors</p>
 <p>{$nbVisits} visits</p>
