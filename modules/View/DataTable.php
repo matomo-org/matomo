@@ -1,7 +1,7 @@
 <?php
 class Piwik_View_DataTable
 {
-	protected $dataTableTemplate = 'UserSettings/templates/datatable.tpl';
+	protected $dataTableTemplate = null;
 	
 	protected $currentControllerAction;
 	protected $moduleNameAndMethod;
@@ -17,16 +17,42 @@ class Piwik_View_DataTable
 	protected $variablesDefault = array();
 	
 	const DEFAULT_COLUMN_EXCLUDE_LOW_POPULATION = 2;
-	function __construct( $currentControllerAction, 
+	
+	static public function factory( $type = null )
+	{
+		if(is_null($type))
+		{
+			$type = Piwik_Common::getRequestVar('viewDataTable', 'table', 'string');
+		}
+		switch($type)
+		{
+			case 'cloud':
+				require_once "View/DataTableCloud.php";
+				return new Piwik_View_DataTableCloud;			
+			break;
+			
+			case 'table':
+			default:
+				return new Piwik_View_DataTable;
+			break;
+		}
+	}
+	function __construct()
+	{
+	}
+	
+	function init( $currentControllerAction, 
 						$moduleNameAndMethod, 
 						$actionToLoadTheSubTable = null)
 	{
 		$this->currentControllerAction = $currentControllerAction;
 		$this->moduleNameAndMethod = $moduleNameAndMethod;
 		$this->actionToLoadTheSubTable = $actionToLoadTheSubTable;
+		$this->dataTableTemplate = 'UserSettings/templates/datatable.tpl';
 		
 		$this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false,'int');
 		
+		$this->method = $moduleNameAndMethod;
 		$this->variablesDefault['filter_excludelowpop_default'] = 'false';
 		$this->variablesDefault['filter_excludelowpop_value_default'] = 'false';	
 	}
@@ -41,6 +67,7 @@ class Piwik_View_DataTable
 	{
 		$this->dataTableTemplate = $tpl;
 	}
+	
 	public function main()
 	{
 		if($this->mainAlreadyExecuted)
@@ -51,12 +78,7 @@ class Piwik_View_DataTable
 		
 //		$i=0;while($i<1500000){ $j=$i*$i;$i++;}
 		
-		// is there a Sub DataTable requested ? 
-		// for example do we request the details for the search engine Google?
-		
-		
 		$this->loadDataTableFromAPI();
-
 	
 		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
 		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace(
@@ -74,6 +96,7 @@ class Piwik_View_DataTable
 		$phpArray = $this->getPHPArrayFromDataTable();
 		
 		$view->dataTable 	= $phpArray;
+		$view->method = $this->method;
 		
 		$columns = $this->getColumnsToDisplay($phpArray);
 		$view->dataTableColumns = $columns;
@@ -90,12 +113,12 @@ class Piwik_View_DataTable
 		$view->javascriptVariablesToSet 
 			= $this->getJavascriptVariablesToSet();
 		
+		
 		$this->view = $view;
 	}
 	
 	protected function getUniqIdTable()
 	{
-		
 		// the $uniqIdTable variable is used as the DIV ID in the rendered HTML
 		// we use the current Controller action name as it is supposed to be unique in the rendered page 
 		$uniqIdTable = $this->currentControllerAction;
@@ -205,10 +228,12 @@ class Piwik_View_DataTable
 	{
 		$this->JSsearchBox = 'false';
 	}
+	
 	public function getSearchBox()
 	{
 		return $this->JSsearchBox;
 	}
+	
 	public function disableExcludeLowPopulation()
 	{
 		$this->JSexcludeLowPopulation = 'false';
