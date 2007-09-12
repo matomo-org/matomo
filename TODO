@@ -43,6 +43,8 @@ TODO MISC
 - Archive::build must have the same parameters order as all the API calls that use idSite, Period, Date
 - change all .png images to GIF
 - Ensure that all parameters to the API are checked against security rules etc.
+- check that the yesterday/today etc. feature doesnt cause any bug in the process 
+  (like when checking if 2007-09-02 which is yesterday has been archived when piwik thinks 'yesterday' has been archived...)
 
 CHANGES DONE TO LIBRARIES
 =========================

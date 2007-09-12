@@ -8,8 +8,9 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('UserSettings/templates/index.tpl');
 
-		
-		$view->date = Piwik_Common::getRequestVar('date');
+		$oDate = Piwik_Date::factory(Piwik_Common::getRequestVar('date'));
+		$date = $oDate->toString();
+		$view->date = $date;
 		$view->period = Piwik_Common::getRequestVar('period');
 		$view->idSite = Piwik_Common::getRequestVar('idSite');
 		
@@ -34,9 +35,9 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->maxActions = $dataTableVisit->getColumn('max_actions');
 
 		/* Actions / Downloads / Outlinks */
-//		$view->dataTableActions = $this->getActions( true );
-//		$view->dataTableDownloads = $this->getDownloads( true );
-//		$view->dataTableOutlinks = $this->getOutlinks( true );
+		$view->dataTableActions = $this->getActions( true );
+		$view->dataTableDownloads = $this->getDownloads( true );
+		$view->dataTableOutlinks = $this->getOutlinks( true );
 		
 		/* User Country */
 		$view->dataTableCountry = $this->getCountry(true);

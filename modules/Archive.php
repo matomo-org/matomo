@@ -56,12 +56,13 @@ class Piwik_Archive
 	
 	static public function build($idSite, $date, $period )
 	{
+		$oDate = Piwik_Date::factory($date);
+		$date = $oDate->toString();
 		if(isset(self::$alreadyBuilt[$idSite][$date][$period]))
 		{
 			return self::$alreadyBuilt[$idSite][$date][$period];
 		}
 		
-		$oDate = Piwik_Date::factory($date);
 		$oPeriod = Piwik_Period::factory($period, $oDate);
 		$oSite = new Piwik_Site($idSite);
 		
