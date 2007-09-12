@@ -23,7 +23,8 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 	{
 		$this->prefixRows = $str;
 	}
-	function renderTable($table)
+	
+	protected function renderTable($table)
 	{
 		if($table->getRowsCount() == 0)
 		{

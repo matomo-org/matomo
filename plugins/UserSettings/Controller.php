@@ -25,6 +25,11 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->minDateMonth = $minDate->toString('m');
 		$view->minDateDay = $minDate->toString('d');
 		
+		/* Actions / Downloads / Outlinks */
+		$view->dataTableActions = $this->getActions( true );
+		$view->dataTableDownloads = $this->getDownloads( true );
+		$view->dataTableOutlinks = $this->getOutlinks( true );
+		
 		/* General visits */
 		$dataTableVisit = $this->getVisitsSummary();
 		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
@@ -34,10 +39,6 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->bounceCount = $dataTableVisit->getColumn('bounce_count');
 		$view->maxActions = $dataTableVisit->getColumn('max_actions');
 
-		/* Actions / Downloads / Outlinks */
-		$view->dataTableActions = $this->getActions( true );
-		$view->dataTableDownloads = $this->getDownloads( true );
-		$view->dataTableOutlinks = $this->getOutlinks( true );
 		
 		/* User Country */
 		$view->dataTableCountry = $this->getCountry(true);
@@ -94,6 +95,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		
 	protected function renderView($view, $fetch)
 	{
+		$view->main();
 		$rendered = $view->getView()->render();
 		if($fetch)
 		{
@@ -121,10 +123,22 @@ List of the public methods for the class Piwik_Actions_API
 						$subMethod = 'getActionsSubDataTable')
 	{
 		$view = Piwik_View_DataTable::factory();
-		$view->init(  $currentMethod, 
-											$methodToCall, 
-											$subMethod );
+		$view->init(  	$currentMethod, 
+						$methodToCall, 
+						$subMethod );
 		$view->setTemplate('UserSettings/templates/datatable_actions.tpl');
+		
+		if(Piwik_Common::getRequestVar('idSubtable', -1) != -1)
+		{
+			$view->setTemplate('UserSettings/templates/datatable_actions_subdatable.tpl');
+		}
+		$view->setSearchRecursive();
+		
+		$currentlySearching = $view->setRecursiveLoadDataTableIfSearchingForPattern();
+		if($currentlySearching)
+		{
+			$view->setTemplate('UserSettings/templates/datatable_actions_recursive.tpl');
+		}
 		$view->disableSort();
 		$view->disableOffsetInformation();
 		
@@ -132,7 +146,52 @@ List of the public methods for the class Piwik_Actions_API
 		$view->setDefaultLimit( 100 );
 		$view->setExcludeLowPopulation( 5 );
 		
+		$view->main();
+		// we need to rewrite the phpArray so it contains all the recursive arrays
+		if($currentlySearching)
+		{
+			$phpArrayRecursive = $this->getArrayFromRecursiveDataTable($view->dataTable);
+//			var_dump($phpArrayRecursive);exit;
+			$view->view->arrayDataTable = $phpArrayRecursive;
+		}
+		
 		return $view;
+	}
+	
+	protected function getArrayFromRecursiveDataTable( $dataTable, $depth = 0 )
+	{
+		$table = array();
+		foreach($dataTable->getRows() as $row)
+		{
+			$phpArray = array();
+			if(($idSubtable = $row->getIdSubDataTable()) !== null)
+			{
+				$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $idSubtable );
+					
+				if($subTable->getRowsCount() > 0)
+				{
+					$filter = new Piwik_DataTable_Filter_ReplaceColumnNames(
+									$subTable,
+									Piwik_Actions::getColumnsMap()
+								);				
+					$phpArray = $this->getArrayFromRecursiveDataTable( $subTable, $depth + 1 );
+				}
+			}
+			
+			$label = $row->getColumn('label');
+			$newRow = array(
+				'level' => $depth,
+				'columns' => $row->getColumns(),
+				'details' => $row->getDetails(),
+				'idsubdatatable' => $row->getIdSubDataTable()
+				);
+			$table[] = $newRow;
+			if(count($phpArray) > 0)
+			{
+				$table = array_merge( $table,  $phpArray);
+			}
+		}
+		return $table;
 	}
 	function getDownloads($fetch = false)
 	{
@@ -147,7 +206,6 @@ List of the public methods for the class Piwik_Actions_API
 		$view = $this->getActionsView( 	__FUNCTION__,
 										'Actions.getDownloads', 
 										'getDownloadsSubDataTable' );
-		$view->setTemplate('UserSettings/templates/datatable_actions_subdatable.tpl');
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -164,7 +222,6 @@ List of the public methods for the class Piwik_Actions_API
 		$view = $this->getActionsView( 	__FUNCTION__,
 										'Actions.getActions', 
 										'getActionsSubDataTable'  );
-		$view->setTemplate('UserSettings/templates/datatable_actions_subdatable.tpl');
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -181,7 +238,6 @@ List of the public methods for the class Piwik_Actions_API
 		$view = $this->getActionsView( 	__FUNCTION__,
 										'Actions.getOutlinks', 
 										'getOutlinksSubDataTable'  );
-		$view->setTemplate('UserSettings/templates/datatable_actions_subdatable.tpl');
 		
 		return $this->renderView($view, $fetch);
 	}

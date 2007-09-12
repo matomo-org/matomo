@@ -40,7 +40,9 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		}
 		$users = array();
 		if(Zend_Registry::get('access')->isSuperUser())
+		{
 			$users =  Piwik_UsersManager_API::getUsers();
+		}
 		
 		$view->idSiteSelected = $idSiteSelected;
 		$view->users = $users;

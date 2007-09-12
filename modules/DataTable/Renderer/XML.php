@@ -20,7 +20,7 @@ class Piwik_DataTable_Renderer_XML extends Piwik_DataTable_Renderer
 		return $this->renderTable($this->table);
 	}
 	
-	function renderTable($table)
+	protected function renderTable($table)
 	{
 		$renderer = new Piwik_DataTable_Renderer_PHP($table, $serialize = false);
 		$array = $renderer->render();

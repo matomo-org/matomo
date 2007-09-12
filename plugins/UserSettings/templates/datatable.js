@@ -40,6 +40,8 @@ function bindDataTableEvent( indexDiv )
 		filters = [ 
 			'filter_column', 
 			'filter_pattern', 
+			'filter_column_recursive', 
+			'filter_pattern_recursive', 
 			'filter_excludelowpop',
 			'filter_excludelowpop_value',
 			'filter_offset',
@@ -75,6 +77,10 @@ function bindDataTableEvent( indexDiv )
 		'filter_column'
 		'filter_pattern'
 		
+		// recursive pattern search
+		'filter_column_recursive'
+		'filter_pattern_recursive'
+		
 		// remove rows for which a given column is less than a given value
 		'filter_excludelowpop'
 		'filter_excludelowpop_value'
@@ -107,8 +113,6 @@ function bindDataTableEvent( indexDiv )
 			}
 		);
 		
-		
-	
 		// Display the next link if the total Rows is greater than the current end row
 		$('#dataTableNext', this)
 			.each(function(){
@@ -193,39 +197,45 @@ function bindDataTableEvent( indexDiv )
 			.append('<img src="themes/default/images/sort'+ currentSortedOrder+'.png">');
 	}
 	
-	$('.viewDataTable', this).click(
-		function(){
-				var viewDataTable = $(this).attr('format');
-				resetAllFilters();
-				setVariable(workingDivId, 'viewDataTable', viewDataTable);
-				
-				reloadAjaxDataTable(workingDivId);
-			}
-	);
-	
-	$('#exportDataTable', this).hover( function() {  
-	 	 $(this).css({ cursor: "pointer"}); 
-	  	},
-	  	function() {  
-	 	 $(this).css({ cursor: "auto"}); 
-	  	}
- 	);
- 	
- 	$('#exportToFormat img', this).click(function(){
- 		$(this).siblings('#linksExportToFormat').toggle();
- 	});
- 	
- 	$('.exportToFormat', this).attr( 'href', function(){
- 			var format = $(this).attr('format');
- 			var method = $(this).attr('method');
- 			
- 			return '?module=API&method='+method
- 					+'&format='+format
- 					+'&idSite='+getRequestVariable(workingDivId,'idSite')
- 					+'&period='+getRequestVariable(workingDivId,'period')
- 					+'&date='+getRequestVariable(workingDivId,'date');
- 		}
- 	);
+	if( getRequestVariable(workingDivId, 'idSubtable' ) == false)
+	{
+		$('#exportDataTable', this)
+			.show()
+			.hover( function() {  
+			 	 $(this).css({ cursor: "pointer"}); 
+			  	},
+			  	function() {  
+			 	 $(this).css({ cursor: "auto"}); 
+			  	}
+	 	);
+	 	
+		$('.viewDataTable', this).click(
+			function(){
+					var viewDataTable = $(this).attr('format');
+					resetAllFilters();
+					setVariable(workingDivId, 'viewDataTable', viewDataTable);
+					
+					reloadAjaxDataTable(workingDivId);
+				}
+		);
+		
+	 	$('#exportToFormat img', this).click(function(){
+	 		$(this).siblings('#linksExportToFormat').toggle();
+	 	});
+	 	
+	 	$('.exportToFormat', this).attr( 'href', function(){
+	 			var format = $(this).attr('format');
+	 			var method = $(this).attr('method');
+	 			
+	 			return '?module=API&method='+method
+	 					+'&format='+format
+	 					+'&idSite='+getRequestVariable(workingDivId,'idSite')
+	 					+'&period='+getRequestVariable(workingDivId,'period')
+	 					+'&date='+getRequestVariable(workingDivId,'date');
+	 		}
+	 	);
+	}
+
 	// we truncate the labels columns from the second row
 	$("table tr td:first-child", this).truncate(30);
     $('.truncated', this).Tooltip();
@@ -260,7 +270,7 @@ function bindDataTableEvent( indexDiv )
 	 	 $(this).css({ cursor: "auto"}); 
 	  	}
  	);
-
+	
 	// When the TR has a subDataTable class it means that this row has a link to a subDataTable
 	$('tr.subDataTable', this)
 		.click( 
@@ -312,7 +322,6 @@ function bindDataTableEvent( indexDiv )
 			$(this).next().toggle();
 		} 
 	);
-	
 	
 }
 
@@ -411,6 +420,11 @@ function handleSearchBox( workingDivId, currentThis, callbackSuccess )
 							{
 								return currentPattern;
 							}
+							var currentPattern = getRequestVariable(workingDivId,'filter_pattern_recursive');
+							if(currentPattern.length > 0)
+							{
+								return currentPattern;
+							}
 							return '';
 						}
 					)
@@ -421,8 +435,17 @@ function handleSearchBox( workingDivId, currentThis, callbackSuccess )
 					{
 						var keyword = $(this).siblings('#keyword').val();
 						setVariable(workingDivId, 'filter_offset', 0); 
-						setVariable(workingDivId, 'filter_column', 'label');
-						setVariable(workingDivId, 'filter_pattern', keyword);
+						
+						if(getRequestVariable(workingDivId, 'search_recursive' ) == true)
+						{
+							setVariable(workingDivId, 'filter_column_recursive', 'label');
+							setVariable(workingDivId, 'filter_pattern_recursive', keyword);
+						}
+						else
+						{
+							setVariable(workingDivId, 'filter_column', 'label');
+							setVariable(workingDivId, 'filter_pattern', keyword);
+						}
 						reloadAjaxDataTable(workingDivId, true, callbackSuccess);
 					}
 				);
@@ -573,6 +596,7 @@ var ActionsLoading = new Array;
 function onClickActionSubDataTable()
 {			
 		workingDivId = getWorkingIdActions(this);
+		
 		// get the idSubTable
 		var idSubTable = $(this).attr('id');
 	
@@ -657,6 +681,11 @@ function bindActionDataTableEvent()
 {
 	ActionsLoading = new Array;
 	subTableId = $(this).attr('id');
+	
+	// define the this to give to the handle search box
+	// if the function is called after the page is loaded we use the parents 
+	workingDivId = getWorkingIdActions( this );
+	
 	$('tr.subActionsDataTable.rowToProcess')
 		.css('font-weight','bold')
 		.hover( function() {  
@@ -665,18 +694,50 @@ function bindActionDataTableEvent()
 		  	function() {  
 		 	 $(this).css({ cursor: "auto"}); 
 		  	}
- 		)
-		.click( onClickActionSubDataTable )
-		;
+ 		);
+
+	// we dont display the link on the row with subDataTable when we are already
+	// printing all the subTables (case of recursive search when the content is
+	// including recursively all the subtables
+	if(getRequestVariable(workingDivId, 'filter_pattern_recursive' ) == false)
+	{
+		$('tr.subActionsDataTable.rowToProcess')
+			.click( onClickActionSubDataTable )
+			;
+		
+	}
 	$('tr.subActionsDataTable.rowToProcess td:first-child')
-		.each( function(){
-				$(this).prepend('<img class="plusMinus" src="" />');
-				setImagePlus(this);
-			}
-		);
+			.each( function(){
+					$(this).prepend('<img class="plusMinus" src="" />');
+					if(getRequestVariable(workingDivId, 'filter_pattern_recursive' ) != false)
+					{					
+						setImageMinus(this);	
+					}
+					else
+					{
+						setImagePlus(this);
+					}
+				}
+			);
 	
 	$('tr.rowToProcess')
 		.each( function() {
+			
+			// we add the CSS style depending on the level of the current loading category
+			// we look at the style of the parent row 
+			var style = $(this).prev().attr('class');
+			var currentStyle = $(this).attr('class');
+			
+			if( (typeof currentStyle != 'undefined')
+				&& currentStyle.indexOf('level') >= 0 )
+			{
+			}
+			else
+			{
+				var level = getNextLevelFromClass( style );
+				$(this).addClass('level'+ level);
+			}	
+			$(this).attr('parent', function(){ return parentAttributeParent + ' ' + parentId;} );
 		
 			// Add some styles on the cells even/odd
 			// label (first column of a data row) or not
@@ -685,22 +746,10 @@ function bindActionDataTableEvent()
 			// we truncate the labels columns from the second row
 			$("td:first-child", this).truncate(30);
 		    $('.truncated', this).Tooltip();
-			
-			// we add the CSS style depending on the level of the current loading category
-			// we look at the style of the parent row 
-			var style = $(this).prev().attr('class');
-			var level = getNextLevelFromClass( style );
-			$(this).addClass('level'+ level);
-			
-			$(this).attr('parent', function(){ return parentAttributeParent + ' ' + parentId;} );
 		})
 		.removeClass('rowToProcess')
 	;
 	
-	// define the this to give to the handle search box
-	// if the function is called after the page is loaded we use the parents 
-	workingDivId = getWorkingIdActions( this );
-
 	if( workingDivId != undefined)
 	{
 		handleSearchBox( workingDivId, this, actionsDataTableLoaded );

@@ -10,7 +10,6 @@ FEATURES
 - Translate exception
 - CHANGE setColumnsToDisplay TO setColumnsIdsToDisplay
 
-
 BUGS
 ====
 - monthly unique visitors count is WRONG

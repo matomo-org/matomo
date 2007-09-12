@@ -37,5 +37,6 @@ require_once "DataTable/Filter/Empty.php";
 require_once "DataTable/Filter/ExcludeLowPopulation.php";
 require_once "DataTable/Filter/Limit.php";
 require_once "DataTable/Filter/Pattern.php";
+require_once "DataTable/Filter/PatternRecursive.php";
 require_once "DataTable/Filter/ReplaceColumnNames.php";
 require_once "DataTable/Filter/Sort.php";
