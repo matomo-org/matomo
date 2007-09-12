@@ -51,7 +51,7 @@ class Piwik_FrontController
 				try{
 					$controller->$action();
 				} catch(Piwik_Access_NoAccessException $e) {
-					Piwik::log("NO ACCESS EXCEPTION =>");
+//					Piwik::log("NO ACCESS EXCEPTION =>");
 					
 					Piwik_PostEvent('FrontController.NoAccessException', $e);					
 				}
