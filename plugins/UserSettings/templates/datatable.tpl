@@ -33,28 +33,7 @@
 		</tbody>
 		</table>
 	{/if}
-	<div id="dataTableFeatures">
-	<span id="dataTableExcludeLowPopulation"></span>
+	{include file="UserSettings/templates/datatable_footer.tpl"}
 	
-	<span id="dataTableSearchPattern">
-		<input id="keyword" type="text" length="15">
-		<input type="submit" value="Search">
-	</span>
-	
-	<span id="dataTablePages"></span>
-	<span id="dataTablePrevious">&lt; Previous</span>
-	<span id="dataTableNext">Next &gt;</span>
-	<span id="loadingDataTable"><img src="themes/default/images/loading-blue.gif"> Loading...</span>
-	
-	</div>	
-		
-	<script type="text/javascript" defer="defer">
-	//$(document).ready( function(){$smarty.ldelim}
-	{foreach from=$javascriptVariablesToSet key=name item=value}
-	setDivVariable( '{$id}', '{$name}', '{$value}');
-	{/foreach}
-	//{$smarty.rdelim});
-	
-	</script>
-	{/if}
+{/if}
 </div>

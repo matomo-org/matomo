@@ -114,12 +114,6 @@ img.calendar_trigger {
 .calendar .calendar_unselectable {
 	color: #888;
 }
-.calendar_today {
-	background: #fcc !important;
-}
-.calendar_currentDay {
-	background: #999 !important;
-}
 
 /* ________ CALENDAR LINKS _______
 

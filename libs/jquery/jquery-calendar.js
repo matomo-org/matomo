@@ -154,10 +154,10 @@ $.extend(PopUpCal.prototype, {
 	},
 
 	/* Attach an inline calendar to a div. */
-	_inlineCalendar: function(target, inst) {
+	_inlineCalendar: function(target, inst, defaultDate) {
 		$(target).append(inst._calendarDiv);
 		target._calId = inst._id;
-		var date = new Date();
+		var date = defaultDate;
 		inst._selectedDay = date.getDate();
 		inst._selectedMonth = date.getMonth();
 		inst._selectedYear = date.getFullYear();
@@ -521,7 +521,7 @@ this).css({opacity:'1.0',cursor:''});
 
 /* Individualised settings for calendars applied to one or more related inputs.
    Instances are managed and manipulated through the PopUpCal manager. */
-function PopUpCalInstance(settings, inline) {
+function PopUpCalInstance(settings, inline, defaultDate) {
 	this._id = popUpCal._register(this);
 	this._selectedDay = 0;
 	this._selectedMonth = 0; // 0-11
@@ -531,7 +531,8 @@ function PopUpCalInstance(settings, inline) {
 	this._calendarDiv = (!inline ? popUpCal._calendarDiv :
 		$('<div id="calendar_div_' + this._id + '" class="calendar_inline"></div>'));
 	if (inline) {
-		var date = new Date();
+		var date = defaultDate;
+		this._currentDate = defaultDate;
 		this._currentDay = date.getDate();
 		this._currentMonth = date.getMonth();
 		this._currentYear = date.getFullYear();
@@ -583,7 +584,7 @@ $.extend(PopUpCalInstance.prototype, {
 
 	/* Generate the HTML for the current state of the calendar. */
 	_generateCalendar: function() {
-		var today = new Date();
+		var today = this._currentDate;
 		today = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // clear time
 		// build the calendar HTML
 		var controls = '<div class="calendar_control">' +
@@ -692,7 +693,7 @@ $.extend(PopUpCalInstance.prototype, {
 				html += '<td class="calendar_daysCell' +
 					((dow + firstDay + 6) % 7 >= 5 ? ' calendar_weekEndCell' : '') + // highlight weekends
 					(otherMonth ? ' calendar_otherMonth' : '') + // highlight days from other months
-					(printDate.getTime() == selectedDate.getTime() ? ' calendar_daysCellOver' : '') + // highlight selected day
+					//(printDate.getTime() == selectedDate.getTime() ? ' calendar_daysCellOver' : '') + // highlight selected day
 					(unselectable ? ' calendar_unselectable' : '') +  // highlight unselectable days
 					(!otherMonth || showOtherMonths ? ' ' + customSettings[1] : '') + // highlight custom dates
 					(printDate.getTime() == currentDate.getTime() ? ' calendar_currentDay' : // highlight current day
@@ -774,7 +775,7 @@ $.extend(PopUpCalInstance.prototype, {
 /* Attach the calendar to a jQuery selection.
    @param  settings  object - the new settings to use for this calendar instance (anonymous)
    @return jQuery object - for chaining further calls */
-$.fn.calendar = function(settings) {
+$.fn.calendar = function(settings, defaultDate) {
 	return this.each(function() {
 		// check for settings on the control itself - in namespace 'cal:'
 		var inlineSettings = null;
@@ -795,14 +796,14 @@ $.fn.calendar = function(settings) {
 			var instSettings = (inlineSettings ? $.extend($.extend({}, settings || {}),
 				inlineSettings || {}) : settings); // clone and customise
 			var inst = (inst && !inlineSettings ? inst :
-				new PopUpCalInstance(instSettings, false));
+				new PopUpCalInstance(instSettings, false, defaultDate));
 			popUpCal._connectCalendar(this, inst);
 		} 
 		else if (nodeName == 'div' || nodeName == 'span') {
 			var instSettings = $.extend($.extend({}, settings || {}),
 				inlineSettings || {}); // clone and customise
-			var inst = new PopUpCalInstance(instSettings, true);
-			popUpCal._inlineCalendar(this, inst);
+			var inst = new PopUpCalInstance(instSettings, true, defaultDate);
+			popUpCal._inlineCalendar(this, inst, defaultDate);
 		}
 	});
 };

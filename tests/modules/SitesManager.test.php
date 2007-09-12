@@ -495,6 +495,10 @@ class Test_Piwik_SitesManager extends Test_Database
 		FakeAccess::setIdSitesAdmin (array(1,3));
 		
     	$sites = Piwik_SitesManager_API::getSitesWithAdminAccess();
+    	
+    	// we dont test the ts_created
+    	unset($sites[0]['ts_created']);
+    	unset($sites[1]['ts_created']);
     	$this->assertEqual($sites, $resultWanted);
     }
     
@@ -528,6 +532,9 @@ class Test_Piwik_SitesManager extends Test_Database
 		FakeAccess::setIdSitesAdmin (array());
     	
     	$sites = Piwik_SitesManager_API::getSitesWithViewAccess();
+    	// we dont test the ts_created
+    	unset($sites[0]['ts_created']);
+    	unset($sites[1]['ts_created']);
     	$this->assertEqual($sites, $resultWanted);
     }
     
@@ -561,6 +568,9 @@ class Test_Piwik_SitesManager extends Test_Database
 		FakeAccess::setIdSitesAdmin (array());
     	
     	$sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+    	// we dont test the ts_created
+    	unset($sites[0]['ts_created']);
+    	unset($sites[1]['ts_created']);
     	$this->assertEqual($sites, $resultWanted);
     }
     

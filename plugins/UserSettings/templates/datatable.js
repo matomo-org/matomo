@@ -1,4 +1,3 @@
-
 var requestVariables = new Object;
 
 $(document).ready( bindAllDataTableEvent );
@@ -107,6 +106,52 @@ function bindDataTableEvent( indexDiv )
 				$(this).text(str);
 			}
 		);
+		
+		
+	
+		// Display the next link if the total Rows is greater than the current end row
+		$('#dataTableNext', this)
+			.each(function(){
+				var offsetEnd = Number(getRequestVariable(workingDivId,'filter_offset')) 
+									+ Number(getRequestVariable(workingDivId,'filter_limit'));
+				var totalRows = Number(getRequestVariable(workingDivId,'totalRows'));
+				if(offsetEnd < totalRows)
+				{
+					$(this).css('display','inline');
+				}
+			})
+			// bind the click event to trigger the ajax request with the new offset
+			.click(function(){
+				setVariable(workingDivId, 'filter_offset', 
+									Number(getRequestVariable(workingDivId,'filter_offset')) 
+									+ Number(getRequestVariable(workingDivId,'filter_limit'))
+					); 
+				reloadAjaxDataTable(workingDivId);
+			})
+		;
+		
+		// Display the previous link if the current offset is not zero
+		$('#dataTablePrevious', this)
+			.each(function(){
+					var offset = 1+Number(getRequestVariable(workingDivId,'filter_offset'));
+					if(offset != 1)
+					{
+						$(this).css('display','inline');
+					}
+				}
+			)
+			// bind the click event to trigger the ajax request with the new offset
+			// take care of the negative offset, we setup 0 
+			.click(
+				function(){
+					var offset = getRequestVariable(workingDivId,'filter_offset') - getRequestVariable(workingDivId,'filter_limit');
+					if(offset < 0) { offset = 0; }
+					setVariable(workingDivId, 'filter_offset', offset); 
+					reloadAjaxDataTable(workingDivId);
+				}
+			)
+		;	
+		
 	}
 	
 	// if sorting the columns is enabled, when clicking on a column, 
@@ -148,50 +193,39 @@ function bindDataTableEvent( indexDiv )
 			.append('<img src="themes/default/images/sort'+ currentSortedOrder+'.png">');
 	}
 	
-	
-	// Display the next link if the total Rows is greater than the current end row
-	$('#dataTableNext', this)
-		.each(function(){
-			var offsetEnd = Number(getRequestVariable(workingDivId,'filter_offset')) 
-								+ Number(getRequestVariable(workingDivId,'filter_limit'));
-			var totalRows = Number(getRequestVariable(workingDivId,'totalRows'));
-			if(offsetEnd < totalRows)
-			{
-				$(this).css('display','inline');
-			}
-		})
-		// bind the click event to trigger the ajax request with the new offset
-		.click(function(){
-			setVariable(workingDivId, 'filter_offset', 
-								Number(getRequestVariable(workingDivId,'filter_offset')) 
-								+ Number(getRequestVariable(workingDivId,'filter_limit'))
-				); 
-			reloadAjaxDataTable(workingDivId);
-		})
-	;
-	
-	// Display the previous link if the current offset is not zero
-	$('#dataTablePrevious', this)
-		.each(function(){
-				var offset = 1+Number(getRequestVariable(workingDivId,'filter_offset'));
-				if(offset != 1)
-				{
-					$(this).css('display','inline');
-				}
-			}
-		)
-		// bind the click event to trigger the ajax request with the new offset
-		// take care of the negative offset, we setup 0 
-		.click(
-			function(){
-				var offset = getRequestVariable(workingDivId,'filter_offset') - getRequestVariable(workingDivId,'filter_limit');
-				if(offset < 0) { offset = 0; }
-				setVariable(workingDivId, 'filter_offset', offset); 
+	$('.viewDataTable', this).click(
+		function(){
+				var viewDataTable = $(this).attr('format');
+				resetAllFilters();
+				setVariable(workingDivId, 'viewDataTable', viewDataTable);
+				
 				reloadAjaxDataTable(workingDivId);
 			}
-		)
-	;	
+	);
 	
+	$('#exportDataTable', this).hover( function() {  
+	 	 $(this).css({ cursor: "pointer"}); 
+	  	},
+	  	function() {  
+	 	 $(this).css({ cursor: "auto"}); 
+	  	}
+ 	);
+ 	
+ 	$('#exportToFormat img', this).click(function(){
+ 		$(this).siblings('#linksExportToFormat').toggle();
+ 	});
+ 	
+ 	$('.exportToFormat', this).attr( 'href', function(){
+ 			var format = $(this).attr('format');
+ 			var method = $(this).attr('method');
+ 			
+ 			return '?module=API&method='+method
+ 					+'&format='+format
+ 					+'&idSite='+getRequestVariable(workingDivId,'idSite')
+ 					+'&period='+getRequestVariable(workingDivId,'period')
+ 					+'&date='+getRequestVariable(workingDivId,'date');
+ 		}
+ 	);
 	// we truncate the labels columns from the second row
 	$("table tr td:first-child", this).truncate(30);
     $('.truncated', this).Tooltip();
@@ -259,7 +293,7 @@ function bindDataTableEvent( indexDiv )
 
 
 				// reset all the filters from the Parent table
-				filtersToRestore = resetAllFilters();				
+				filtersToRestore = resetAllFilters();
 
 				setVariable(workingDivId, 'idSubtable', idSubTable);
 				setVariable(workingDivId, 'action', getRequestVariable(workingDivId,'actionToLoadTheSubTable'));
@@ -432,7 +466,7 @@ function dataTableLoaded( response )
 	}
 	
 	
-	$('#'+idToReplace).html(content);
+	$('#'+idToReplace).html( $(content).html());
 	
 	// we execute the bindDataTableEvent function for the new DIV
 	$('#'+idToReplace).each(bindDataTableEvent);
