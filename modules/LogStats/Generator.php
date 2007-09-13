@@ -23,6 +23,8 @@
  * Generate thousands of visits / actions per visitor 
  *  
  * @package Piwik_LogStats
+ * 
+ * 													"Le Generator, il est trop Fort!"
  */
 
 class Piwik_LogStats_Generator
