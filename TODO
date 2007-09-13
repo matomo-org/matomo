@@ -1,19 +1,23 @@
 FEATURES
 ========
-- when a method is called and doesn't make any access check, we can throw a NoticeException
-  and display the message in debug mode in the API returned value in the field "notice" or "debug"
+- TRANSLATIONS
+	- All strings in the application
+	- JS strings to be translated
+	- Generic exception system
+- when a method is called and doesn't make any access check, 
+  we can throw a NoticeException and display the message 
+  in debug mode in the API returned value in the field "notice" or "debug"
 - in the piwik.php process, we could do without all the information in the cookie except for the idvisitor
   we could select the information last_action_time, last_id_action, etc. assuming we have the idvisitor in the cookie
   this would allow to save the logs later by big bulk
 - Purge log_ when archiving is done
 - Provide Config file feature for plugins (works as the translation system)
-- Translate exception
 - CHANGE setColumnsToDisplay TO setColumnsIdsToDisplay
 
 BUGS
 ====
+- hide the generator + phpdocumentor script from being triggered by the release
 - monthly unique visitors count is WRONG
-- check that ajax called made once per request
 - create the tmp directory + subdir automatically
 - the referer URLs with host registered as main_url or alias_url should NOT be counted as referer
 - the token md5 generation doesn't check that the md5 generated is unique, 
@@ -34,12 +38,12 @@ BUGS
 User Interface
 ==============
 - searching on countries should search on the final label and not the iso code
-- we must truncate the LABEL on sub data table as well (example, website urls)
 
 TODO MISC
 =========
+- check that ajax called made once per request
 - when the plugins are not used in the piwik.php logging script, don't load the related files
-- Archive::build must have the same parameters order as all the API calls that use idSite, Period, Date
+- Archive::build() must have the same parameters order as all the API calls that use idSite, Period, Date
 - change all .png images to GIF
 - Ensure that all parameters to the API are checked against security rules etc.
 - check that the yesterday/today etc. feature doesnt cause any bug in the process 
@@ -56,3 +60,4 @@ COMMENT
 When commenting
 - check warning PHP DOC for missing @package
 - look for "[TAB]function " for missing public/private on methods
+

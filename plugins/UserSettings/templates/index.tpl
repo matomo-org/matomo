@@ -1,3 +1,10 @@
+{literal}
+<style>
+
+</style>
+{/literal}
+
+
 <script type="text/javascript">
 var period = "{$period}";
 var currentDateStr = "{$date}";
