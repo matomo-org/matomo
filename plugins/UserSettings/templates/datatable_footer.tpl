@@ -17,16 +17,17 @@
 <span id="exportDataTable" style="display:none">
 	
 	<span id="exportToFormat">
-		<img src="themes/default/images/export.png">
-		<span id="linksExportToFormat" style="display:none">
-			<a target="_blank" class="exportToFormat" method="{$method}" format="JSON">Json</a> |
-			<a target="_blank" class="exportToFormat" method="{$method}" format="PHP">Php</a> | 
-			<a target="_blank" class="exportToFormat" method="{$method}" format="XML">XML</a>
+		<img  width="16" height="16" src="themes/default/images/export.png">
+		<span id="linksExportToFormat" style="display:none"> 
+			<a target="_blank" class="exportToFormat" method="{$method}" format="CSV" filter_limit="100">CSV</a> | 
+			<a target="_blank" class="exportToFormat" method="{$method}" format="XML" filter_limit="100">XML</a> |
+			<a target="_blank" class="exportToFormat" method="{$method}" format="JSON" filter_limit="100">Json</a> |
+			<a target="_blank" class="exportToFormat" method="{$method}" format="PHP" filter_limit="100">Php</a>
 		</span>
 	</span>
 	
-	<a class="viewDataTable" format="table"><img src="themes/default/images/table.png" title="Table"></a>
-	<a class="viewDataTable" format="cloud"><img src="themes/default/images/tagcloud.png" title="Tag Cloud"></a>
+	<a class="viewDataTable" format="table"><img width="16" height="16" src="themes/default/images/table.png" title="Table"></a>
+	<a class="viewDataTable" format="cloud"><img width="16" height="16" src="themes/default/images/tagcloud.png" title="Tag Cloud"></a>
 </span>
 
 
