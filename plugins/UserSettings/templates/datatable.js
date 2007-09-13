@@ -93,11 +93,59 @@ function bindDataTableEvent( indexDiv )
 		'filter_offset'
 		'filter_limit'
 	*/
+	
+	
+	// if sorting the columns is enabled, when clicking on a column, 
+	// - if this column was already the one used for sorting, we revert the order desc<->asc
+	// - we send the ajax request with the new sorting information
+	if( getRequestVariable(workingDivId, 'enable_sort' ) == true)
+	{
+		$('.sortable', this).click( 
+			function(){
+				var newColumnToSort = $(this).attr('id');
+				// we lookup if the column to sort was already this one, if it is the case then we switch from desc <-> asc 
+				var currentSortedColumn =  getRequestVariable(workingDivId,'filter_sort_column');
+				var currentSortedOrder = getRequestVariable(workingDivId,'filter_sort_order');
+				if(currentSortedColumn == newColumnToSort) 
+				{
+					// toggle the sorted order
+					if(currentSortedOrder == 'asc')
+					{
+						currentSortedOrder = 'desc';
+					}
+					else
+					{
+						currentSortedOrder = 'asc';
+					}
+				}
+				setVariable(workingDivId, 'filter_offset', 0); 
+				setVariable(workingDivId, 'filter_sort_column', newColumnToSort);
+				setVariable(workingDivId, 'filter_sort_order', currentSortedOrder);
+				reloadAjaxDataTable(workingDivId);
+			}
+		);
+	
+		var imageSortWidth = 16;
+		var imageSortHeight = 16;
+		// we change the style of the column currently used as sort column
+		// adding an image and the class columnSorted to the TD
+		var currentSortedColumn = getRequestVariable(workingDivId,'filter_sort_column');
+		var currentSortedOrder = getRequestVariable(workingDivId,'filter_sort_order');
+		$(".sortable[@id='"+currentSortedColumn+"']", this)
+			.addClass('columnSorted')
+			.append('<img width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+ currentSortedOrder+'.png">');
+	}
+	
+	
 	handleSearchBox( workingDivId, this );
 	handleLowPopulationLink( workingDivId, this );
 	
+	
 	// Showing the offset information (1 - 10 of 42) for this DIV
-	if( getRequestVariable(workingDivId, 'show_offset_information' ) == true )
+	if( getRequestVariable(workingDivId, 'show_offset_information' ) == true
+		// fix konqueror that doesnt recognize the show_offset_information false for the tag cloud
+		// and we really dont want to print Next/Previous for tag clouds
+		&& getRequestVariable(workingDivId, 'viewDataTable') != 'cloud' )
 	{
 		$('#dataTablePages', this).each(
 			function(){
@@ -158,45 +206,6 @@ function bindDataTableEvent( indexDiv )
 		
 	}
 	
-	// if sorting the columns is enabled, when clicking on a column, 
-	// - if this column was already the one used for sorting, we revert the order desc<->asc
-	// - we send the ajax request with the new sorting information
-	if( getRequestVariable(workingDivId, 'enable_sort' ) == true)
-	{
-		$('.sortable', this).click( 
-			function(){
-				var newColumnToSort = $(this).attr('id');
-				// we lookup if the column to sort was already this one, if it is the case then we switch from desc <-> asc 
-				var currentSortedColumn =  getRequestVariable(workingDivId,'filter_sort_column');
-				var currentSortedOrder = getRequestVariable(workingDivId,'filter_sort_order');
-				if(currentSortedColumn == newColumnToSort) 
-				{
-					// toggle the sorted order
-					if(currentSortedOrder == 'asc')
-					{
-						currentSortedOrder = 'desc';
-					}
-					else
-					{
-						currentSortedOrder = 'asc';
-					}
-				}
-				setVariable(workingDivId, 'filter_offset', 0); 
-				setVariable(workingDivId, 'filter_sort_column', newColumnToSort);
-				setVariable(workingDivId, 'filter_sort_order', currentSortedOrder);
-				reloadAjaxDataTable(workingDivId);
-			}
-		);
-	
-		// we change the style of the column currently used as sort column
-		// adding an image and the class columnSorted to the TD
-		var currentSortedColumn = getRequestVariable(workingDivId,'filter_sort_column');
-		var currentSortedOrder = getRequestVariable(workingDivId,'filter_sort_order');
-		$(".sortable[@id='"+currentSortedColumn+"']", this)
-			.addClass('columnSorted')
-			.append('<img src="themes/default/images/sort'+ currentSortedOrder+'.png">');
-	}
-	
 	if( getRequestVariable(workingDivId, 'idSubtable' ) == false)
 	{
 		$('#exportDataTable', this)
@@ -226,12 +235,19 @@ function bindDataTableEvent( indexDiv )
 	 	$('.exportToFormat', this).attr( 'href', function(){
 	 			var format = $(this).attr('format');
 	 			var method = $(this).attr('method');
+	 			var filter_limit = $(this).attr('filter_limit');
 	 			
-	 			return '?module=API&method='+method
+	 			var str = '?module=API'
+						+'&method='+method
 	 					+'&format='+format
 	 					+'&idSite='+getRequestVariable(workingDivId,'idSite')
 	 					+'&period='+getRequestVariable(workingDivId,'period')
 	 					+'&date='+getRequestVariable(workingDivId,'date');
+	 			if( filter_limit )
+	 			{
+	 				str += '&filter_limit=' + filter_limit;
+	 			}
+	 			return str;
 	 		}
 	 	);
 	}
@@ -239,6 +255,9 @@ function bindDataTableEvent( indexDiv )
 	// we truncate the labels columns from the second row
 	$("table tr td:first-child", this).truncate(30);
     $('.truncated', this).Tooltip();
+	
+	var imageLinkWidth = 10;
+	var imageLinkHeight = 9;
 	
 	// we add a link based on the <span id="urlLink"> present in the column label (the first column)
 	// if this span is there, we add the link around the HTML in the TD
@@ -248,7 +267,7 @@ function bindDataTableEvent( indexDiv )
 		var imgToPrepend = '';
 		if( $(this).find('img').length == 0 )
 		{
-			imgToPrepend = '<img src="themes/default/images/link.gif" /> ';
+			imgToPrepend = '<img width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="themes/default/images/link.gif" /> ';
 		}
 		var urlToLink = $('#urlLink',this).text();		
 		
@@ -706,9 +725,12 @@ function bindActionDataTableEvent()
 			;
 		
 	}
+	
+	var imagePlusMinusWidth = 12;
+	var imagePlusMinusHeight = 12;
 	$('tr.subActionsDataTable.rowToProcess td:first-child')
 			.each( function(){
-					$(this).prepend('<img class="plusMinus" src="" />');
+					$(this).prepend('<img width="'+imagePlusMinusWidth+'" height="'+imagePlusMinusHeight+'" class="plusMinus" src="" />');
 					if(getRequestVariable(workingDivId, 'filter_pattern_recursive' ) != false)
 					{					
 						setImageMinus(this);	

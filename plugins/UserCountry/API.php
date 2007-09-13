@@ -29,6 +29,8 @@ class Piwik_UserCountry_API extends Piwik_Apiable
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'logo', 'Piwik_getFlagFromCode'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_CountryTranslate'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
+		$dataTable->queueFilter('Piwik_DataTable_Filter_AddConstantDetail', array('logoWidth', 18));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_AddConstantDetail', array('logoHeight', 12));
 		return $dataTable;
 	}
 	public function getContinent( $idSite, $period, $date )

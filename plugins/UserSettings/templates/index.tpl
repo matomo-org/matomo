@@ -97,13 +97,6 @@ tr td.label img.plusMinus {
 {include file="UserSettings/templates/sites_select.tpl"}<br>
 </div>
 
-<h2>Actions</h2>
-{$dataTableActions} 
-<h2>Downloads</h2>
-{$dataTableDownloads} 
-<h2>Outlinks</h2>
-{$dataTableOutlinks}
-
 <h2>Visits summary</h2>
 <p>{$nbUniqVisitors} unique visitors</p>
 <p>{$nbVisits} visits</p>
@@ -150,6 +143,14 @@ tr td.label img.plusMinus {
 <h3>Campaigns</h3>
 <p>{$numberDistinctCampaigns} distinct campaigns</p>
 {$dataTableCampaigns}
+
+<h2>Actions</h2>
+<h3>Actions</h3>
+{$dataTableActions} 
+<h3>Downloads</h3>
+{$dataTableDownloads} 
+<h3>Outlinks</h3>
+{$dataTableOutlinks}
 
 <h2>User Settings</h2>
 <h3>Configurations</h3>

@@ -21,7 +21,7 @@
 			{foreach from=$dataTableColumns key=idColumn item=column}
 			<td>
 				{if $idColumn==0 && isset($row.details.url)}<span id="urlLink">{$row.details.url}</span>{/if}
-				{if $idColumn==0 && isset($row.details.logo)}<img src="{$row.details.logo}" />{/if}
+				{if $idColumn==0 && isset($row.details.logo)}<img {if isset($row.details.logoWidth)}width="{$row.details.logoWidth}"{/if} {if isset($row.details.logoHeight)}height="{$row.details.logoHeight}"{/if} src="{$row.details.logo}" />{/if}
 				{$row.columns[$column.name]}
 			</td>
 			{/foreach}

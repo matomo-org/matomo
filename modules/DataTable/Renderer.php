@@ -82,6 +82,11 @@ abstract class Piwik_DataTable_Renderer
 				$class = 'Piwik_DataTable_Renderer_JSON';
 				break;
 		
+			case 'csv':
+				require_once "DataTable/Renderer/CSV.php";
+				$class = 'Piwik_DataTable_Renderer_CSV';
+				break;
+		
 			default:
 				throw new Exception("Renderer format $name unknown!");
 				break;

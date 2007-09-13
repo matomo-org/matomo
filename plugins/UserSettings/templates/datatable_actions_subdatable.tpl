@@ -9,13 +9,7 @@
 		<tr {if $row.idsubdatatable}class="subActionsDataTable" id="{$row.idsubdatatable}"{/if}>
 			{foreach from=$dataTableColumns key=idColumn item=column}
 			<td>
-				{if $idColumn==0 && isset($row.details.url)}<span id="urlLink">{$row.details.url}</span>{/if}
-				{if $idColumn==0 && isset($row.details.logo)}<img src="{$row.details.logo}" />{/if}
-				{if false && $idColumn==0}
-					<span id="label">{$row.columns[$column.name]}</span>
-				{else}
-					{$row.columns[$column.name]}
-				{/if}				
+				{$row.columns[$column.name]}
 			</td>
 			{/foreach}
 		</tr>

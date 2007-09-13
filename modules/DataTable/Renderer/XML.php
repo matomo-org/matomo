@@ -51,7 +51,7 @@ class Piwik_DataTable_Renderer_XML extends Piwik_DataTable_Renderer
 			$xmlStr = str_replace(">\n", ">\n\t",$xmlStr);
 			$xmlStr = str_replace("\t</result>", "</result>",$xmlStr);
 		}
-		header('Content-type: text/xml');
+		header('Content-type: text/xml');		
 		return $xmlStr;
 	}
 }
