@@ -72,6 +72,7 @@ function Piwik_getDurationLabel($label)
 
 function Piwik_getPageGapLabel($label)
 { 
+	$return = false;
 	if(($pos = strpos($label,'-')) !== false)
 	{
 		$min = substr($label, 0, $pos);
@@ -79,8 +80,17 @@ function Piwik_getPageGapLabel($label)
 		
 		if($min == $max)
 		{
-			return $min;
+			$return = $min;
 		}
 	}
-	return $label;
+	if(!$return)
+	{
+		$return = $label;
+	}
+	
+	if($return == 1)
+	{
+		return $return . " page";
+	}
+	return $return . " pages";
 }
