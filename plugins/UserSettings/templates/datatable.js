@@ -29,8 +29,7 @@ function bindDataTableEvent( indexDiv )
 	var DataTableAlreadyLoaded = new Array;
 	
 	// ID of the DIV containing the DataTable we are currently working on
-	workingDivId = $(this).attr('id');
-	
+	workingDivId = $(this).attr('id');	
 	
 	// reset All filters set to false all the datatable filters JS variables
 	// returns the values before reseting the filters

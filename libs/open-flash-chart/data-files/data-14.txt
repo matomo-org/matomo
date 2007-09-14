@@ -1,0 +1,21 @@
+&title=Many data lines,{font-size:30px; color:#7E97A6}&
+
+&y_legend=Open Flash Chart,12,#7E97A6&
+&y_label_size=15&
+&y_ticks=5,10,4&
+&bar=70,#7E97A6,Page views,10&
+&values=9,6,7,9,5,7,6,9,9&
+&x_labels=January,February,March,April,May,June,July,August,September&
+&y_max=20&
+
+&bg_image=../data-files/logo.png&
+&bg_image_x=right&
+&bg_image_y=top&
+
+&bg_colour=#E2E6E0&
+&x_axis_colour=#818D9D&
+&x_grid_colour=#ADB5C7&
+&y_axis_colour=#818D9D&
+&y_grid_colour=#ADB5C7&
+
+&x_label_style=14,#000000,2,3,#00FF00&

@@ -4,7 +4,7 @@
  * @package Smarty
  * @subpackage plugins
  */
-
+require_once "Url.php";
 
 /**
  * Smarty {mailto} function plugin
@@ -29,16 +29,7 @@
  */
 function smarty_function_url($params, &$smarty)
 {
-	$queryString = Piwik_Url::getCurrentQueryString();
-	$queryString = htmlspecialchars($queryString);
-	$urlValues = Piwik_Common::getArrayFromQueryString($queryString);
-//	var_dump($urlValues);
-	foreach($params as $key => $value)
-	{
-		$urlValues[$key] = $value;
-	}
-	
-	return '?' . http_build_query($urlValues);
+	return Piwik_Url::getCurrentQueryStringWithParametersModified( $params );
 }
 
 /* vim: set expandtab: */

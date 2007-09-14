@@ -1,0 +1,10 @@
+&title=Background Image,{font-size:30px}&
+&y_legend=Attacks,12,0x736AFF&
+&y_ticks=5,10,8&
+&line_hollow=2,0x80a033,Fatal kitten attacks in 2007,10,4&
+&values=5,5,5,7,5,10,5,10,10,11,15,10,17,8,11,5,11,13,12,8,24,19,6,10,22,18,24,12,32,9&
+&y_min=0&
+&y_max=40&
+&bg_colour=#FFFFFF&
+&bg_image=http://teethgrinder.co.uk/open-flash-chart/email.png&
+

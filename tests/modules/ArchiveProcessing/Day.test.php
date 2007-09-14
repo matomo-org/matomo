@@ -39,8 +39,7 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 		$table->addRow($row1);
 		
 		$tableGenerated = Piwik_ArchiveProcessing_Day::generateDataTable($input);
-//		dump($tableGenerated);
-//		dump($table);
+
 		$this->assertTrue(Piwik_DataTable::isEqual($table,$tableGenerated));
 	}
 	

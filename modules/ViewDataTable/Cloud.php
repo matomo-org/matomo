@@ -1,156 +1,88 @@
 <?php
-// inspired from Derek Harvey (www.derekharvey.co.uk)
-class Piwik_Cloud
+require_once "Visualization/Cloud.php";
+class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 {
-	protected $wordsArray = array();
-    public $truncatingLimit = 30;
-   /**
-    * @param array array( word => 10, word2 => 50, word3 => 1)
-    */
-    function __construct($words = false)
-    {
-        if ($words !== false && is_array($words))
-        {
-            foreach ($words as $word => $value)
-            {
-                $this->addWord($word, $value);
-            }
-        }
-    }
-   
-    /*
-    * Assign word to array
-    *
-    * @param string $word
-    * @return string
-    */
-   
-    function addWord($word, $value = 1)
-    {
-//        $word = strtolower($word);
-        if (isset($this->wordsArray[$word]))
-    	{
-            $this->wordsArray[$word] += $value;
-    	}
-    	else
-        {
-        	$this->wordsArray[$word] = $value;
-        }
-    }
-   
-    /*
-    * Shuffle associated names in array
-    */
-   
-    function shuffleCloud()
-    {
-        $keys = array_keys($this->wordsArray);
-       
-        shuffle($keys);
-       
-        if (count($keys) && is_array($keys))
-        {
-            $tmpArray = $this->wordsArray;
-            $this->wordsArray = array();
-            foreach ($keys as $key => $value)
-                $this->wordsArray[$value] = $tmpArray[$value];
-        }
-    }
-   
-    /*
-    * Calculate size of words array
-    */
-   
-    function getCloudSize()
-    {
-        return array_sum($this->wordsArray);
-    }
-   
-    /*
-    * Get the class range using a percentage
-    *
-    * @returns int $class
-    */
-   
-    function getClassFromPercent($percent)
-    {
-    	$mapping = array( 
-    		95, 
-    		70,
-    		50,
-    		30,
-    		15,
-    		5,
-    		0
-    	);
-        foreach($mapping as $key => $value)
-        {
-        	if($percent >= $value)
-        	{
-        		return $key;
-        	}
-        }
-    }
-   
-    /*
-    * Create the HTML code for each word and apply font size.
-    *
-    * @returns string $spans
-    */
-   
-    function render($returnType = "html")
-    {
-        $this->shuffleCloud();
-        
-        
-        
-        if($returnType == "html")
-        {
-	        $return = '';
-        }
-        else
-        {
-        	$return = array();
-        }
+	function __construct($typeViewRequested)
+	{
+		parent::__construct($typeViewRequested);
+	}
+	protected $displayLogoInsteadOfLabel = false;
+	function init($currentControllerAction, 
+						$moduleNameAndMethod )
+	{
+		parent::init($currentControllerAction, 
+						$moduleNameAndMethod );
+		$this->dataTableTemplate = 'UserSettings/templates/cloud.tpl';
+		
+		$this->disableOffsetInformation();
+		$this->disableExcludeLowPopulation();
+		$this->disableSearchBox();
+	}
+	
+	public function main()
+	{
+		$this->setDefaultLimit( 30 );
+		if($this->mainAlreadyExecuted)
+		{
+			return;
+		}
+		$this->mainAlreadyExecuted = true;
+	
+		$this->loadDataTableFromAPI();
+	
+		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
+		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace(
+									$this->dataTable, 
+									'label', 
+									'urldecode'
+								);
 		
 		
-        if (count($this->wordsArray) > 0)
-        {
-        
-        	$this->max = max($this->wordsArray);
-        
-            $return = ($returnType == "html" ? "" : ($returnType == "array" ? array() : ""));
-            foreach ($this->wordsArray as $word => $popularity)
-            {
-            	
-            	// truncating the word
-            	$wordTruncated = $word;
-            	if(strlen($word) > $this->truncatingLimit)
-            	{
-	            	$wordTruncated = substr($word, 0, $this->truncatingLimit - 3).'...';
-            	}
-            	
-            	// computing the percentage
-            	$percent = ($popularity / $this->max) * 100;
-                
-                // and the CSS style value
-                $sizeRange = $this->getClassFromPercent($percent);
-                                
-                if ($returnType == "array")
-                {
-	                $return[$word]['word'] = $word;
-    	            $return[$word]['wordTruncated'] = $wordTruncated;
-        	        $return[$word]['size'] = $sizeRange;
-        	        $return[$word]['percent'] = $percent;
-                }
-                else if ($returnType == "html")
-                {
-                    $return .= "\n<span title='".$word."' class='word size{$sizeRange}'> &nbsp; {$wordTruncated} &nbsp; </span>";
-                }
-//            	print( $word ."=".$percent."<br>");
-            }
-        }
-        return $return;
-    }
+		$view = new Piwik_View($this->dataTableTemplate);
+		$view->method = $this->method;
+		
+		$view->id 			= $this->getUniqIdTable();
+		
+		
+		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
+//		echo $this->dataTable; exit;
+		$words = $labelDetails = array();
+		foreach($this->dataTable->getRows() as $row)
+		{
+			$label = $row->getColumn('label');
+			$value = $row->getColumn('nb_unique_visitors');
+			// case no unique visitors
+			if($value === false)
+			{
+				$value = $row->getColumn('nb_visits');
+			}
+			$words[$label] = $value;
+			
+			$logo = false;
+			if($this->displayLogoInsteadOfLabel)
+			{
+				$logo =  $row->getDetail('logo');
+			}
+			
+			$labelDetails[$label] = array( 
+				'logo' => $logo,
+				'url' => $row->getDetail('url'),
+				'hits' => $value
+				);
+		}
+		$cloud = new Piwik_Visualization_Cloud($words);
+		$cloudValues  = $cloud->render('array');
+		
+		foreach($cloudValues as &$value)
+		{
+			$value['logoWidth'] = round(max(16, $value['percent']));
+		}
+//		var_dump($cloudValues);exit;
+//		var_dump($labelDetails);exit;
+		$view->labelDetails = $labelDetails;
+		$view->cloudValues = $cloudValues;
+		
+		$this->view = $view;
+	}
 }
-
+?>

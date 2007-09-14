@@ -1,0 +1,1 @@
+&title=Profit (2007-2008),{font-size: 18px; color: #FF8040}& &x_axis_steps=4& &y_ticks=5,10,5& &line=1,0xB0E050,Jan,12& &values=15,17,18,18,13,17,17,14,16,13,13,16,14,15,11,17,11,19,16,14,11,17,18,19& &y_min=0& &y_max=20& 

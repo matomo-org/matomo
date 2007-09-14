@@ -1,0 +1,43 @@
+&title=Many data lines,{font-size:20px; color: #FFFFFF; margin: 5px; background-color: #505050; padding:5px 20px 5px 20px;}&
+&y_legend=Open Flash Chart,12,#7E97A6&
+&y_label_size=15&
+&y_ticks=5,10,4&
+
+&bar_3d=60,#D54C78,Page views,10&
+&bar_3d_2=60,#3334AD,Stuff,10&
+&bar_3=50,#339966,Green Bar,10&
+&line_dot_4=3,#CC3399,Line,10,5&
+
+&values=10,6,7,-9,5,7,6,9,9&
+&values_2=80,60,70,55,70,90,75,80,75&
+&values_3=7,9,5,7,6,-9,9,-4,1&
+&values_4=60,70,55,70,90,90,80,75,80&
+
+&x_labels=Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep&
+
+&bg_colour=#E2E6E0&
+&x_axis_colour=#909090&
+
+&x_axis_3d=5&
+
+&x_grid_colour=#ADB5C7&
+&y_axis_colour=#818D9D&
+&y_grid_colour=#ADB5C7&
+
+&x_ticks=20&
+
+&y_max=20&
+&y_min=-20&
+
+&show_y2=true&
+&y2_axis_colour=#164166&
+&y2_label_style=10,0x164166&
+&y2_lines=2,4&
+
+&y2_min=50&
+&y2_max=100&
+
+&y2_legend=Free Ram (mb),12,0x164166&
+
+&_tool_tip=#x_legend#, #x_label#<br>#key#: £#val#.00&
+&x_legend=2007,12,0x164166&

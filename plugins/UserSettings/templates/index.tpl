@@ -21,6 +21,7 @@ var minDateDay = {$minDateDay};
 <script type="text/javascript" src="plugins/UserSettings/templates/datatable.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery-calendar.js"></script>
 <script type="text/javascript" src="plugins/UserSettings/templates/calendar.js"></script>
+<script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
 
 <link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
 <link rel="stylesheet" href="plugins/UserSettings/templates/datatable.css">
