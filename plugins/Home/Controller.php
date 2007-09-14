@@ -13,6 +13,13 @@ class Piwik_Home_Controller extends Piwik_Controller
 	}
 }
 
+function dump($var)
+{
+	print("<pre>");
+	var_export($var);
+	print("</pre>");
+}
+
 
 function main()
 {

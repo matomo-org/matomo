@@ -1,0 +1,21 @@
+&title=Gothic Department,{font-size:25px;color:#FFB900}&
+&x_legend=Sacrifice breakdown (2007),12,#FFFFFF&
+&x_label_style=14,#FFFFFF,2,1&
+&x_axis_steps=1&
+&y_legend=Totals,12,#FFFFFF&
+&y_label_style=14,#FFFFFF&
+&y_ticks=5,10,2&
+&bar=75,#FFB900,Kittens,10&
+&bar_2=75,#28A0DC,Puppies,10&
+
+&values=24,25,22,23,22,25,25,21,22&
+&values_2=21,22,22,23,25,22,22,21,25&
+&x_labels=January,February,March,April,May,June,July,August,September&
+&y_min=20&
+&y_max=30&
+&bg_colour=#303030&
+&x_axis_colour=#D0D0D0&
+&x_grid_colour=#808080&
+&y_axis_colour=#D0D0D0&
+
+&y_grid_colour=#808080&

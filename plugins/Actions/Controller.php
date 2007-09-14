@@ -11,7 +11,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	}
 	function getActions($fetch = false)
 	{
-		$view = new Piwik_View_DataTable( __FUNCTION__, 'Actions.getActions' );
+		$view = new Piwik_ViewDataTable( __FUNCTION__, 'Actions.getActions' );
 		$view->disableSearchBox();
 		$view->disableSort();
 		$view->disableOffsetInformation();

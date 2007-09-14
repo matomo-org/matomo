@@ -1,0 +1,13 @@
+&title=Mixed Line and Bar Charts,{font-size:35px; color: #800000}&
+&y_legend=Your legend here!,12,#736AFF&
+&y_ticks=5,10,2&
+&bar=50,#9933CC,Purple Bar,10&
+&bar_2=50,#339966,Green Bar,10&
+&line_dot_3=3,#CC3399,Line,10,5&
+&values=3,2,5,5,4,5,2,2,2&
+&values_2=4,6,6,6,6,6,6,7,4&
+&values_3=5,5,7,7,9,5,6,8,6&
+
+&x_labels=Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep&
+&y_min=0&
+&y_max=10&

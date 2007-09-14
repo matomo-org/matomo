@@ -1,0 +1,9 @@
+&title=Many data lines,{font-size: 20;}&
+&y_legendx=Open Flash Chart,12,0x736AFF&
+&y_label_size=15&
+&y_ticks=5,10,4&
+&bar=50,0x9933CC,Page views,10&
+&values=9,6,7,9,5,7,6,9,9&
+&x_labels=January,,March,,May,,June,,August&
+&x_axis_steps=2&
+&y_max=20&

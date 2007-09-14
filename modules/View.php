@@ -1,7 +1,8 @@
 <?php
 require_once 'Smarty/Smarty.class.php';
 
-class Piwik_View
+require_once "iView.php";
+class Piwik_View implements iView
 {
 	private $template = '';
 	private $smarty = false;

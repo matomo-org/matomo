@@ -61,3 +61,10 @@ When commenting
 - check warning PHP DOC for missing @package
 - look for "[TAB]function " for missing public/private on methods
 
+RELEASE PROCESS
+===============
+Delete from the release
+- documentation/
+- libs/phpDocumentor
+- tmp
+

@@ -1,8 +1,13 @@
 <?php
 
 // TODO clean this unit should'nt read the requests parameters (via getRequestVar)
-class Piwik_View_DataTable
+// This unit should be some sort of configuration manager that would
+// redirect the config info on the renderer
+// currently this is ugly, YES!!!
+require_once "iView.php";
+class Piwik_ViewDataTable
 {
+	protected $typeViewRequested = null;
 	protected $dataTableTemplate = null;
 	
 	protected $currentControllerAction;
@@ -32,21 +37,37 @@ class Piwik_View_DataTable
 		{
 			$type = Piwik_Common::getRequestVar('viewDataTable', 'table', 'string');
 		}
+		
+		// TODO: instead of giving the parameter to the constructor we should really
+		// have only one class per type view renderer
 		switch($type)
 		{
 			case 'cloud':
-				require_once "View/DataTableCloud.php";
-				return new Piwik_View_DataTableCloud;			
+				require_once "ViewDataTable/Cloud.php";
+				return new Piwik_ViewDataTable_Cloud($type);			
 			break;
 			
+			case 'graphVerticalBar':
+			case 'graphPie':
+				require_once "ViewDataTable/Graph.php";
+				return new Piwik_ViewDataTable_Graph($type);
+			break;			
+			
+			case 'generateDataChartVerticalBar':
+			case 'generateDataChartPie':
+				require_once "ViewDataTable/GenerateGraphData.php";
+				return new Piwik_ViewDataTable_GenerateGraphData($type);
+			break;
+						
 			case 'table':
 			default:
-				return new Piwik_View_DataTable;
+				return new Piwik_ViewDataTable($type);
 			break;
 		}
 	}
-	function __construct()
+	function __construct($typeView)
 	{
+		$this->typeViewRequested = $typeView;
 	}
 	
 	function init( $currentControllerAction, 
@@ -67,6 +88,7 @@ class Piwik_View_DataTable
 	
 	function getView()
 	{
+		//TODO check at some point that the class implements the interface iView
 		return $this->view;
 	}
 	
@@ -339,8 +361,10 @@ class Piwik_View_DataTable
 //		var_dump($this->variablesDefault);
 //		var_dump($javascriptVariablesToSet); exit;
 		
-		$javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
-		
+		if($this->dataTable)
+		{
+			$javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
+		}	
 		$javascriptVariablesToSet['show_search'] = $this->getSearchBox();
 		$javascriptVariablesToSet['show_offset_information'] = $this->getOffsetInformation();
 		$javascriptVariablesToSet['show_exclude_low_population'] = $this->getExcludeLowPopulation();

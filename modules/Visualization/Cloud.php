@@ -1,6 +1,6 @@
 <?php
 // inspired from Derek Harvey (www.derekharvey.co.uk)
-class Piwik_Cloud
+class Piwik_Visualization_Cloud 
 {
 	protected $wordsArray = array();
     public $truncatingLimit = 30;
@@ -23,8 +23,7 @@ class Piwik_Cloud
     *
     * @param string $word
     * @return string
-    */
-   
+    */   
     function addWord($word, $value = 1)
     {
 //        $word = strtolower($word);
@@ -40,8 +39,7 @@ class Piwik_Cloud
    
     /*
     * Shuffle associated names in array
-    */
-   
+    */   
     function shuffleCloud()
     {
         $keys = array_keys($this->wordsArray);
@@ -102,8 +100,6 @@ class Piwik_Cloud
     {
         $this->shuffleCloud();
         
-        
-        
         if($returnType == "html")
         {
 	        $return = '';
@@ -113,10 +109,8 @@ class Piwik_Cloud
         	$return = array();
         }
 		
-		
         if (count($this->wordsArray) > 0)
-        {
-        
+        {        
         	$this->max = max($this->wordsArray);
         
             $return = ($returnType == "html" ? "" : ($returnType == "array" ? array() : ""));

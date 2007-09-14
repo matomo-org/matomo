@@ -1,6 +1,21 @@
 <?php
 class Piwik_Url 
 {
+	
+	static function getCurrentQueryStringWithParametersModified( $params )
+	{
+		$queryString = Piwik_Url::getCurrentQueryString();
+		$queryString = htmlspecialchars($queryString);
+		$urlValues = Piwik_Common::getArrayFromQueryString($queryString);
+	//	var_dump($urlValues);
+		foreach($params as $key => $value)
+		{
+			$urlValues[$key] = $value;
+		}
+		
+		return '?' . http_build_query($urlValues);
+	}
+	
 	static public function redirectToUrl( $url )
 	{
 		header("Location: $url");
@@ -28,6 +43,21 @@ class Piwik_Url
 		
 		return    self::getCurrentHost()
 				. self::getCurrentScriptName() ;
+	}
+	
+	/**
+	 * Ending with /
+	 */
+	static public function getCurrentUrlWithoutFileName()
+	{
+		
+		$host = self::getCurrentHost();
+		$queryString = self::getCurrentScriptName() ;
+		
+		//add a fake letter case /test/test2/ returns /test which is not expected
+		$urlDir = dirname ($queryString . 'x');
+		return $host.$urlDir.'/';
+		
 	}
 	
 	static public function getCurrentScriptName()

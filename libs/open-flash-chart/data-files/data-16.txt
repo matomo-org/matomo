@@ -1,0 +1,35 @@
+&title=Users vs. ram - 24h statistics,{color: #7E97A6; font-size: 20; margin: 30px 5px; text-align: center}&
+&x_label_style=10,0x164166,2,3&
+&x_axis_steps=1&
+&y_legend=Max Users,12,0x164166&
+&y_label_style=10,0x164166&
+&y_ticks=5,10,10&
+
+&line_hollow=2,0x164166,Ram free on irc server,10,3&
+
+
+&line_dot_2=2,0x164166,Max users,10,4&
+
+&values=698,1101,1324,1396,1568,1571,1496,1349,1140,1045,966,926,906,754,766,757,672,510,431,436,227,533,566,744,1004&&values_2=289,198,143,126,98,96,124,164,213,238,256,263,265,294,291,289,306,341,353,353,402,419,404,366,309&
+&x_labels=02:05,03:00,04:00,05:05,06:30,07:55,08:55,09:50,10:55,11:25,12:25,13:10,14:50,15:45,16:10,17:45,18:55,19:55,20:55,21:05,22:35,23:40,00:05,01:35,02:00&
+
+&y_min=0&
+&y_max=600&
+&bg_colour=#FFFFFF&
+&x_axis_colour=#164166&
+&x_grid_colour=#cedcea&
+&y_axis_colour=#164166&
+&y_grid_colour=#cedcea&
+&_inner_background=#FF0000&
+
+&show_y2=true&
+&y2_axis_colour=#164166&
+&y2_label_style=10,0x164166&
+&y2_lines=1&
+
+&y2_min=0&
+&y2_max=1700&
+
+&y2_legend=Free Ram (mb) xxxxxxxxx,12,0x164166&
+
+&y_legend=Max Users,12,0x164166&
