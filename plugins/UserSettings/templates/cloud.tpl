@@ -16,31 +16,31 @@ img {
 }
 span.size0, span.size0 a {
 	color: #344971;
-	font-size: 2em;
+	font-size: 28px;
 }
 span.size1, span.size1 a {
 	color: #344971;
-	font-size: 1.5em;
+	font-size: 24px;
 }
 span.size2, span.size2 a {
 	color: #4B74AD;
-	font-size:1.2em;
+	font-size:20px;
 }
 span.size3, span.size3 a {
 	color: #A3A8B6;
-	font-size: 1.1em;
+	font-size: 16px;
 }
 span.size4, span.size4 a {
 	color: #A3A8B6;
-	font-size: 1em;
+	font-size: 15px;
 }
 span.size5, span.size5 a {
 	color: #A3A8B6;
-	font-size: 0.95em;
+	font-size: 14px;
 }
 span.size6, span.size6 a {
 	color: #A3A8B6;
-	font-size: 0.9em;
+	font-size: 11px;
 }
 //-->
 </style>

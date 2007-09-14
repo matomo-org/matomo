@@ -1,2 +1,0 @@
-- Take a closer look at use of extract() in these classes and probably
-  remove it as a best practice
