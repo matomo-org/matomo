@@ -67,8 +67,8 @@ class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		
 		$div_name = $this->id;
 		
-	    $obj_id = 'chart';
-	    $div_name = 'flashcontent';
+	    $obj_id = $this->id . "_chart";
+	    $div_name = $this->id . "_flashContent";
 	    // I think we may use swfobject for all browsers,
 	    // not JUST for IE...
 	    //
