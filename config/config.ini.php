@@ -33,6 +33,7 @@ enabled[] 		= Referers
 enabled[] 		= VisitFrequency
 enabled[] 		= VisitTime
 enabled[] 		= VisitorInterest
+enabled[] 		= ExamplePlugin
 
 [Debug]
 always_archive_data = false
@@ -128,7 +129,7 @@ logger_query_profile[]	= screen
 
 
 [path]
-log				= logs/
+log				= tmp/logs/
 
 
 [smarty]

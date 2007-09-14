@@ -1,2 +1,0 @@
-Post 0.6 Items:
-- Detect recursion in Controller_Front
