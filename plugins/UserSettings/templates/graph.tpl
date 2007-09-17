@@ -14,5 +14,6 @@ type="text">
 </form>
 
 </small>
+	
 {include file="UserSettings/templates/datatable_footer.tpl"}
 </div>

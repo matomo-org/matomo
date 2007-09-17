@@ -116,7 +116,7 @@ class Piwik_PluginsManager
 //					. $this->pluginsPath 
 //					. $this->pluginsCategory
 					$pluginFileName;
-			
+			//TODO bug here should be NOT
 			if(is_file($path))
 			{
 				throw new Exception("The plugin file $path couldn't be found.");
@@ -124,6 +124,7 @@ class Piwik_PluginsManager
 			
 			require_once $path;
 			
+			//TODO bug here should be NOT
 			if($pluginClassName instanceof Piwik_Plugin)
 			{
 				throw new Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
@@ -141,8 +142,7 @@ class Piwik_PluginsManager
 			}
 			
 			if($this->doLoadPlugins)
-			{
-				
+			{				
 				$newPlugin->registerTranslation( $this->languageToLoad );
 				$this->addPluginObservers( $newPlugin );
 				$this->addLoadedPlugin($pluginName);

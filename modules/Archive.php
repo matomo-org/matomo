@@ -273,14 +273,14 @@ class Piwik_Archive
 		
 		$table = new Piwik_DataTable_Simple;
 		$table->loadFromArray($values);
-		
 		return $table;
 	}
 	
 	
 	public function getNumeric( $name )
 	{
-		return $this->get($name, 'numeric');
+		// we caste the result as float because returns false when no visitors
+		return (float)$this->get($name, 'numeric');
 	}
 	
 	public function getBlob( $name )

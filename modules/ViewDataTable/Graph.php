@@ -26,6 +26,8 @@ class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 	
+		
+		
 		$view = new Piwik_View($this->dataTableTemplate);
 		$this->id = $this->getUniqIdTable();
 		$view->id = $this->id;

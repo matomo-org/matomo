@@ -13,6 +13,7 @@ FEATURES
 - Purge log_ when archiving is done
 - Provide Config file feature for plugins (works as the translation system)
 - CHANGE setColumnsToDisplay TO setColumnsIdsToDisplay
+- Limit number of rows saved in the datatable during the archiving process
 
 BUGS
 ====
@@ -34,10 +35,16 @@ BUGS
 	$element .= $slash;
 	}
 - is_numeric is not valid. Replace by is_int OR is_float
+- images.google.X is not counted as a search engine. needs to read the prev variable and then the q variable.
 
 User Interface
 ==============
 - searching on countries should search on the final label and not the iso code
+- define the default output type on a per table basis
+- design a generic system to add _blocks_ in _pages_ (different from the _views_ associated to the controllers)
+- plugins can add & modify the menu
+- add the columns containing the % values based on the nb_visits or nb_visitors
+- when a given output is chosen (Tag cloud) hide the icon under the datatable
 
 TODO MISC
 =========
