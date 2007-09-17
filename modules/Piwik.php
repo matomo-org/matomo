@@ -393,7 +393,7 @@ class Piwik
 	 */
 	static public function createHtAccess( $path )
 	{
-		file_put_contents($path . "/.htaccess", "Deny from all");
+		@file_put_contents($path . "/.htaccess", "Deny from all");
 	}
 	
 	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
