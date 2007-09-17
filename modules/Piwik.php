@@ -109,25 +109,29 @@ class Piwik
 	
 	static public function printMemoryUsage( $prefixString = null )
 	{
+		$memory = false;
 		if(function_exists('xdebug_memory_usage'))
 		{
 			$memory = xdebug_memory_usage();
 		}
-		else
+		elseif(function_exists('memory_get_usage'))
 		{
 			$memory = memory_get_usage();
 		}
-		
-		$usage = round( $memory / 1024 / 1024, 2);
-		
-		if(false)
+				
+		if($memory !== false)
 		{
+			$usage = round( $memory / 1024 / 1024, 2);
 			if(!is_null($prefixString))
 			{
 				Piwik::log($prefixString);
 			}
 			Piwik::log("Memory usage = $usage Mb");
 			Piwik::log();
+		}
+		else
+		{
+			Piwik::log("Memory usage function not found.");
 		}
 	}
 	
@@ -384,9 +388,12 @@ class Piwik
 		return Piwik::CLASSES_PREFIX.$class;
 	}
 	
+	/**
+	 * path without trailing slash
+	 */
 	static public function createHtAccess( $path )
 	{
-		file_put_contents($path . ".htaccess", "Deny from all");
+		file_put_contents($path . "/.htaccess", "Deny from all");
 	}
 	
 	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
@@ -568,14 +575,17 @@ class Piwik
 		}
 	}
 	
+	static public function install()
+	{
+		// create directories
+		Piwik::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
+		Piwik::mkdir(Zend_Registry::get('config')->smarty->cache_dir);
+	}
+	
 	static public function uninstall()
 	{
 		// delete tables
-				//create tables
 		$db = Zend_Registry::get('db');
-		
-//		Piwik::log("Droping ". implode(", ", self::getTablesNames()));
-		
 		$db->query( "DROP TABLE IF EXISTS ". implode(", ", self::getTablesNames()) );
 	}
 }

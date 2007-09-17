@@ -69,7 +69,7 @@ require_once 'Timer.php';
 require_once 'API/APIable.php';
 require_once 'Access.php';
 require_once 'Log.php';
-require_once 'Piwik.php';
+require_once 'modules/Piwik.php';
 
 assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);

@@ -1,7 +1,13 @@
 Install
 =======
-1- copy paste the javascript code found in log.htm into your website
-2- launch index.php
+
+1 - copy paste the javascript code found in log.htm into your website
+2 - enable pdo_mysql in your php.ini
+2 - launch index.php, you should see some text without PHP warning/error message
+3 - go to ?module=SitesManager and add a website
+4 - go to misc/generateVisits.php to generate some visits
+5 - go to ?module=UserSettings&idSite=1&period=day&date=today to see the statistics
+
 
 Some modules
 ============

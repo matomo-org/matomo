@@ -3,6 +3,7 @@
  * 
  * @package Piwik
  */
+require_once "Zend/Registry.php"; 
 function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 {
     ob_start();

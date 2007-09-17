@@ -68,7 +68,7 @@ class Piwik_Provider extends Piwik_Plugin
 		$tableProvider = $this->ArchiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableProvider->getSerialized());
 //		echo $tableProvider;
-		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
+//		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
 	}
 	
 	/**
