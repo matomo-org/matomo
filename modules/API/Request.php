@@ -136,9 +136,7 @@ class Piwik_API_Request
 				$toReturn = $this->getRenderedDataTable($dataTable);
 				
 			}
-			
-			
-			if(!is_array($toReturn) // an empty array is not considered as "nothing has been returned"
+			elseif(!is_array($toReturn) // an empty array is not considered as "nothing has been returned"
 				&& empty($toReturn))
 			{
 				$format = Piwik_Common::getRequestVar('format', 'xml', 'string', $this->requestToUse);

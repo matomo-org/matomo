@@ -34,7 +34,6 @@ $referers = array(
 "http://www.google.fr/search?hl=fr&rls=GFRC%2CGFRC%3A2007-03%2CGFRC%3Afr&q=mesure audience sites&meta=",
 "http://www.phpmyvisites.net/",
 "http://www.google.fr/search?hl=fr&q=phpmyvisit&btnG=Recherche Google&meta=",
-"http://www.web-analytique.com/les-interviews/interview--matthieu-aubry-createur-de-phpmyvisites.html",
 "http://www.scriptdungeon.com/script.php?ScriptID=888",
 "http://www.google.ca/search?hl=fr&q=free web creation&meta=",
 "http://www.phpmyvisites.net/phpmv2/index.php?lang=fa-utf-8.php&mod=view_visits&site=1&adminsite=1&date=2007-03-19&period=1&action=",

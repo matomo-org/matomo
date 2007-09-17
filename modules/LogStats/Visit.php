@@ -791,6 +791,6 @@ class Piwik_LogStats_Visit
 			return Piwik_Common::generateUniqId();
 		}
 	}
-		
+
 }
 

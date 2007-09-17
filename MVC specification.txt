@@ -35,3 +35,7 @@ Use cases
 7 - Plugin that add a selection for every user
 ------------------------------------------------------------------------------------
 
+
+Links
+=====
+Netvibes box using jquery http://sonspring.com/journal/jquery-portlets

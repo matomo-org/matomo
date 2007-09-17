@@ -1,8 +1,8 @@
 <?php
 require_once "iView.php";
+// Original class provided by Open Flash Chart
 abstract class Piwik_Visualization_OpenFlashChart implements iView
 {	
-	// Original class provided by Open Flash Chart
     function __construct()
     {
 		$this->data = array();

@@ -17,7 +17,16 @@ abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashCh
 			$label[] = $row['label'];
 			$data[] = $row['value'];
 		}
-		$max = max($data);
+		
+		// case no data
+		if(count($data) == 0)
+		{
+			$max = 0;
+		}
+		else
+		{
+			$max = max($data);
+		}
 		
 		$this->arrayData = $data;
 		$this->arrayLabel = $label;
