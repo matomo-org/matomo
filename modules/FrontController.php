@@ -14,7 +14,7 @@ require_once "Zend/Auth/Adapter/DbTable.php";
  */
 require_once "Timer.php";
 
-require_once "Piwik.php";
+require_once "modules/Piwik.php";
 
 require_once "API/APIable.php";
 require_once "Access.php";
@@ -89,7 +89,9 @@ class Piwik_FrontController
 		// Create the log objects
 		Piwik::createLogObject();
 		
-		Piwik::printMemoryUsage('Start program');
+		Piwik::install();
+		
+//		Piwik::printMemoryUsage('Start program');
 		//TODO move all DB related methods in a DB static class
 		
 		//Piwik::createDatabase();

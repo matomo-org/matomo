@@ -164,7 +164,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 //		echo $tableResolution;
 //		echo $tableWideScreen;
 //		echo $tablePlugin;
-		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
+//		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
 	}
 	
 	function archiveMonth( $notification )

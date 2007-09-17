@@ -67,6 +67,6 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$tableContinent = $this->ArchiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableContinent->getSerialized());
 //		echo $tableContinent;
-		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
+//		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
 	}
 }

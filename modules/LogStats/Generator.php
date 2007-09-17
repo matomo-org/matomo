@@ -48,7 +48,7 @@ class Piwik_LogStats_Generator
 		// init GET and REQUEST to the empty array
 		$this->setFakeRequest();
 		
-		require_once "Piwik.php";
+		require_once "modules/Piwik.php";
 		Piwik::createConfigObject('../config/config.ini.php');
 		
 		// setup database	

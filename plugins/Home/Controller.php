@@ -9,7 +9,9 @@ class Piwik_Home_Controller extends Piwik_Controller
 	
 	function homepage()
 	{
+		ob_start();
 		main();
+    	ob_end_flush();
 	}
 }
 
@@ -23,29 +25,18 @@ function dump($var)
 
 function main()
 {
-	Piwik::log(
-			'<a href="http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=2007-08-25&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12">
-			http://localhost/dev/piwiktrunk/?method=UserSettings.getResolution&idSite=1&date=2007-08-25&period=week&format=xml&filter_limit=&filter_offset=&filter_column=label&filter_pattern=12
-			</a>
-			<br>'
-	);
-	
-	Piwik::log("Start process...");
 	$api = Piwik_API_Proxy::getInstance();
 //	$api->SitesManager->addSite("t2site2", array("http://localhost44", "http://test123.com"));
 //	$api->SitesManager->addSite("2e site33", array("http://localhost52", "http://test123.com"));
 //	$api->SitesManager->addSite("te2 site44", array("http://localhost31231", "http://test123.com"));
-//	
 //	$api->SitesManager->addSite("test name site", array("http://localhost", "http://test.com"));
-//
 //	$api->SitesManager->getSiteUrlsFromId(1);
-		
-	//$api->UsersManager->deleteUser("login");
+//$api->UsersManager->deleteUser("login");
 //	$api->UsersManager->addUser("login", "password", "email@geage.com");
 	
 	require_once "API/Request.php";
 	
-	Piwik::log("getResolution");
+//	Piwik::log("getResolution");
 	$request = new Piwik_API_Request('
 			method=UserSettings.getResolution
 			&idSite=1
@@ -57,7 +48,9 @@ function main()
 			&filter_column=label
 			&filter_pattern=
 		');
-	print(($request->process()));
+	print(($request->process())); 
+	
+	exit;
 	
 	Piwik::log("getOS");
 	$request = new Piwik_API_Request('method=UserSettings.getOS
