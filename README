@@ -11,6 +11,13 @@ Install
 5 - go to misc/generateVisits.php to generate some visits
 6 - go to your piwik/ directory to see the statistics 
 
+Requirements
+============
+- php 5.1.x minimum (x == ?)
+- mysql 4.1
+- php PDO module enabled
+- OS / server independant
+
 
 Some modules
 ============

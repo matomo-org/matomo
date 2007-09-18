@@ -17,6 +17,7 @@ FEATURES
 
 BUGS
 ====
+- archiving is creating some wrong lines in the archive_numeric tables for future dates
 - hide the generator + phpdocumentor script from being triggered by the release
 - monthly unique visitors count is WRONG
 - create the tmp directory + subdir automatically
