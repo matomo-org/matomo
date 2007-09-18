@@ -1,7 +1,7 @@
 <?php
+
 class Piwik_Url 
 {
-	
 	static function getCurrentQueryStringWithParametersModified( $params )
 	{
 		$queryString = Piwik_Url::getCurrentQueryString();
@@ -116,4 +116,3 @@ class Piwik_Url
 	}
 }
 
-//echo Piwik_Url::getCurrentCompleteUrl();

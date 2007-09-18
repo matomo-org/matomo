@@ -2,13 +2,8 @@
 {$jsInvocationTag}
 <br/><br/>
 <small>
-<form name="urlForm" id="urlForm">
-Embed <input 
-name="embed_code" 
-value="{$codeEmbed|escape}" 
-onclick="javascript:document.urlForm.embed_code.focus();document.urlForm.embed_code.select();" 
-readonly="true" 
-type="text">
+<form name="urlForm" id="{$formId}">
+Embed <input name="embed_code" value="{$codeEmbed}" onclick="javascript:document.getElementById('{$formId}').embed_code.focus();document.getElementById('{$formId}').embed_code.select();" readonly="true" type="text">
 
 | <a target="_blank" href="{$urlData}">Graph data</a>
 </form>

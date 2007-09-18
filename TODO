@@ -46,6 +46,12 @@ User Interface
 - add the columns containing the % values based on the nb_visits or nb_visitors
 - when a given output is chosen (Tag cloud) hide the icon under the datatable
 
+Browsers bugs
+==============
+Opera 9.23 windows
+	- actions expanding / collapse doesnt work. always expand. multiple clicks load the content multiple times
+	- the columns width are changing when sorting the columns, annoying effect
+	
 TODO MISC
 =========
 - check that ajax called made once per request

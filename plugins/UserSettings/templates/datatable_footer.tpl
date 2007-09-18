@@ -19,10 +19,10 @@
 	<span id="exportToFormat">
 		<img  width="16" height="16" src="themes/default/images/export.png">
 		<span id="linksExportToFormat" style="display:none"> 
-			<a target="_blank" class="exportToFormat" method="{$method}" format="CSV" filter_limit="100">CSV</a> | 
-			<a target="_blank" class="exportToFormat" method="{$method}" format="XML" filter_limit="100">XML</a> |
-			<a target="_blank" class="exportToFormat" method="{$method}" format="JSON" filter_limit="100">Json</a> |
-			<a target="_blank" class="exportToFormat" method="{$method}" format="PHP" filter_limit="100">Php</a>
+			<a target="_blank" class="exportToFormat" methodToCall="{$method}" format="CSV" filter_limit="100">CSV</a> | 
+			<a target="_blank" class="exportToFormat" methodToCall="{$method}" format="XML" filter_limit="100">XML</a> |
+			<a target="_blank" class="exportToFormat" methodToCall="{$method}" format="JSON" filter_limit="100">Json</a> |
+			<a target="_blank" class="exportToFormat" methodToCall="{$method}" format="PHP" filter_limit="100">Php</a>
 		</span>
 	</span>
 	
