@@ -26,12 +26,6 @@
 		{/foreach}
 		</tbody>
 		
-		
-		</foot>
-		<tr><td colspan="{$dataTableColumns|@count}">
-	
-	</td>
-	</tr>
 	</tfoot>
 	</table>
 	{/if}

@@ -43,6 +43,8 @@ class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		$view->jsInvocationTag = $this->getFlashInvocationCode($url);
 //		print($url);exit;
 		$view->urlData = $url;
+		
+		$view->formId = "formEmbed".$this->id;
 		$view->codeEmbed = $this->codeEmbed;
 		
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
@@ -98,7 +100,7 @@ class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 				<noscript>
 				';
 		}
-		$this->codeEmbed = '<embed src="'.$pathToLibraryOpenChart.'open-flash-chart.swf?data=' . $url .'" quality="high" bgcolor="#FFFFFF" width="'. $width .'" height="'. $height .'" name="open-flash-chart" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" id="'. $obj_id .'"/>';
+		$this->codeEmbed = "<embed src='".$pathToLibraryOpenChart."open-flash-chart.swf?data=" . $url ."' quality='high' bgcolor='#FFFFFF' width='". $width ."' height='". $height ."' name='open-flash-chart' align='middle' allowScriptAccess='sameDomain' type='application/x-shockwave-flash' pluginspage='http://www.macromedia.com/go/getflashplayer' id='". $obj_id ."'/>";
 		
 		$return .= '
 			<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" 

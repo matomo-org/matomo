@@ -233,7 +233,7 @@ function bindDataTableEvent( indexDiv )
 	 	
 	 	$('.exportToFormat', this).attr( 'href', function(){
 	 			var format = $(this).attr('format');
-	 			var method = $(this).attr('method');
+	 			var method = $(this).attr('methodToCall');
 	 			var filter_limit = $(this).attr('filter_limit');
 	 			
 	 			var str = '?module=API'

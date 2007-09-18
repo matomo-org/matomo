@@ -16,6 +16,8 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 set_include_path(PATH_TEST_TO_ROOT .'/'
 					. PATH_SEPARATOR . getcwd()
 					. PATH_SEPARATOR . getcwd() . '/../'
+					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2
+					. PATH_SEPARATOR . PATH_TEST_TO_ROOT
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/libs/'
 					. PATH_SEPARATOR . getcwd() . '/../../libs/'
 					. PATH_SEPARATOR . getcwd() . '/../libs/'
