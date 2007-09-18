@@ -18,13 +18,13 @@ var minDateDay = {$minDateDay};
 <script type="text/javascript" src="libs/jquery/jquery.dimensions.js"></script>
 <script type="text/javascript" src="libs/jquery/tooltip/jquery.tooltip.js"></script>
 <script type="text/javascript" src="libs/jquery/truncate/jquery.truncate.js"></script>
-<script type="text/javascript" src="plugins/UserSettings/templates/datatable.js"></script>
+<script type="text/javascript" src="plugins/Home/templates/datatable.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery-calendar.js"></script>
-<script type="text/javascript" src="plugins/UserSettings/templates/calendar.js"></script>
+<script type="text/javascript" src="plugins/Home/templates/calendar.js"></script>
 <script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
 
 <link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
-<link rel="stylesheet" href="plugins/UserSettings/templates/datatable.css">
+<link rel="stylesheet" href="plugins/Home/templates/datatable.css">
 
 
 <style type="text/css">@import url(libs/jquery/jquery-calendar.css);</style>
@@ -101,8 +101,8 @@ tr td.label img.plusMinus {
 <div>
 <p> Date = {$date}</p>
 <p>User logged = {$userLogin}</p>
-{include file="UserSettings/templates/period_select.tpl"}<br><br>
-{include file="UserSettings/templates/sites_select.tpl"}<br>
+{include file="Home/templates/period_select.tpl"}<br><br>
+{include file="Home/templates/sites_select.tpl"}<br>
 </div>
 
 <h2>Visits summary</h2>
@@ -202,6 +202,5 @@ tr td.label img.plusMinus {
 <h3>Visits per number of pages</h3>
 {$dataTableNumberOfVisitsPerPage}
 
-{**}
-
-{$totalTimeGeneration} seconds to generate the page
+<br><hr>
+<p>{$totalTimeGeneration} seconds to generate the page</p>

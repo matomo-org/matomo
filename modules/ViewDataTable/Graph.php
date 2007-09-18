@@ -11,7 +11,7 @@ class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 	{
 		parent::init($currentControllerAction, 
 						$moduleNameAndMethod );
-		$this->dataTableTemplate = 'UserSettings/templates/graph.tpl';
+		$this->dataTableTemplate = 'Home/templates/graph.tpl';
 		
 		$this->disableOffsetInformation();
 		$this->disableExcludeLowPopulation();

@@ -1,0 +1,6 @@
+
+
+Installation composed of different steps
+Plugin can add / delete steps from the installation
+The installation uses a different set of base templates
+But can use the output of some plugins
