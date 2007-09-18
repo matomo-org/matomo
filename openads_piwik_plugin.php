@@ -136,7 +136,7 @@ class Piwik_Openads_Plugin
 	 * 
 	 * @return string
 	 */
-	function getOpenadsSuperUserInformation()
+	function getOpenadsSuperUserLogin()
 	{
 		
 	}
@@ -226,10 +226,49 @@ class Piwik_Openads_Plugin
 	}
 	
 }
-
 // if we call this script directly then we call the conditional redirect method
 if( basename($_SERVER['PHP_SELF']) == basename(__FILE__))
 {
 	Piwik_Openads_Plugin::redirectToPiwikIfAvailable();
 }
 
+/* 
+ * Testing script
+ * 
+ * - Copy the following line in a testOpenadsPiwik.php
+ * - add the require "OpenadsPiwikPlugin.php" that loads Piwik_Openads_Plugin class
+ * - execute the script
+ * 
+ */
+
+/*
+
+$currentUserLogin = Piwik_Openads_Plugin::getCurrentlyAuthenticatedUserLogin();
+print("Currently logged user login");
+var_dump($currentUserLogin);
+
+$allWebsites = Piwik_Openads_Plugin::getAllOpenadsWebsitesInformation();
+print("All openads websites");
+var_dump($allWebsites);
+
+$allUsers = Piwik_Openads_Plugin::getAllOpenadsUsersInformation();
+print("All openads users + access");
+var_dump($allUsers);
+
+$superUserLogin = Piwik_Openads_Plugin::getOpenadsSuperUserLogin();
+print("Openads super user login");
+var_dump($superUserLogin);
+
+$databaseInformation = Piwik_Openads_Plugin::getOpenadsDatabaseInformation();
+print("Database information");
+var_dump($databaseInformation);
+
+Piwik_Openads_Plugin::setOpenadsConfigurationValue('pluginsToLoad', 'piwik', __FILE__);
+$value1 = Piwik_Openads_Plugin::getOpenadsConfigurationValue('piwik', 'pluginsToLoad');
+$value2 = Piwik_Openads_Plugin::getOpenadsConfigurationValue('admin', 'webpath');
+print("Try to set and get a value");
+var_dump($value1);
+print("Try get an openads existing value");
+var_dump($value2);
+
+*/
