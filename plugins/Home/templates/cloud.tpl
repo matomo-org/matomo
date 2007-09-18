@@ -58,6 +58,6 @@ span.size6, span.size6 a {
 	</span>
 	{/foreach}
 {/if}
-{include file="UserSettings/templates/datatable_footer.tpl"}
+{include file="Home/templates/datatable_footer.tpl"}
 </div>
 </div>

@@ -1,12 +1,15 @@
-Install
-=======
+	Piwik - piwik.org
+	-----------------
 
+Install 
+=======
 1 - copy paste the javascript code found in log.htm into your website
 2 - enable pdo_mysql in your php.ini
-2 - launch index.php, you should see some text without PHP warning/error message
-3 - go to ?module=SitesManager and add a website
-4 - go to misc/generateVisits.php to generate some visits
-5 - go to ?module=UserSettings&idSite=1&period=day&date=today to see the statistics
+2 - launch index.php, you should see some text (without any PHP warning/error message)	
+3 - you can log as super user login = root, password = nintendo (change them in the config/config.ini.php file)
+4 - go to ?module=SitesManager and add a website
+5 - go to misc/generateVisits.php to generate some visits
+6 - go to your piwik/ directory to see the statistics 
 
 
 Some modules
@@ -35,18 +38,16 @@ You can find the full listing of the APIs provided by the plugins on
 
 Some other stuff
 ================ 
+To generate thousands of fake visits to get some data to play with, 
+you can see the script /misc/generateVisits.php
+you can edit the number of visits to generate, the number of actions per visit, and the days
+
 To generate the API documentation
 # cd piwik
 # ./misc/generateDoc.sh
 then check the documentation at piwik/documentation/ in your browser
 
-To generate thousands of fake visits to get some data to play with
-see the script /misc/generateVisits.php
-you can edit the number of visits to generate, the number of actions per visit, and the days
-
-
-
 Contact
 =======
 Any remark, question, suggestion or critic, 
-email me at matthieu.aubry@gmail.com
+Email us at hello@piwik.org

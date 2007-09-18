@@ -1,5 +1,7 @@
 <?php
 
+require_once "API/Request.php";
+require_once "ViewDataTable.php";
 class Piwik_Home_Controller extends Piwik_Controller
 {
 	function getDefaultAction()
@@ -9,458 +11,677 @@ class Piwik_Home_Controller extends Piwik_Controller
 	
 	function homepage()
 	{
-		ob_start();
-		main();
-    	ob_end_flush();
+		$link = '?module=Home&action=index&idSite=1&period=day&date=yesterday';
+		$str = "
+		<a href='http://ns21996.ovh.net/piwik/$link'>Online demo</a> login & password <br>login = <b>demo</b> <br>password = <b>demopiwik</b>
+		<br><br><a href='$link'>See yesterday's statistics, all in one page</a>
+		
+
+		";		
+		print($str);
 	}
-}
-
-function dump($var)
-{
-	print("<pre>");
-	var_export($var);
-	print("</pre>");
-}
-
-
-function main()
-{
-	$api = Piwik_API_Proxy::getInstance();
-//	$api->SitesManager->addSite("t2site2", array("http://localhost44", "http://test123.com"));
-//	$api->SitesManager->addSite("2e site33", array("http://localhost52", "http://test123.com"));
-//	$api->SitesManager->addSite("te2 site44", array("http://localhost31231", "http://test123.com"));
-//	$api->SitesManager->addSite("test name site", array("http://localhost", "http://test.com"));
-//	$api->SitesManager->getSiteUrlsFromId(1);
-//$api->UsersManager->deleteUser("login");
-//	$api->UsersManager->addUser("login", "password", "email@geage.com");
 	
-	require_once "API/Request.php";
-	
-//	Piwik::log("getResolution");
-	$request = new Piwik_API_Request('
-			method=UserSettings.getResolution
-			&idSite=1
-			&date=2007-08-25
-			&period=week
-			&format=console
-			&filter_limit=
-			&filter_offset=
-			&filter_column=label
-			&filter_pattern=
-		');
-	print(($request->process())); 
-	
-	exit;
-	
-	Piwik::log("getOS");
-	$request = new Piwik_API_Request('method=UserSettings.getOS
-
-			&idSite=1
-			&date=2007-08-25
-			&period=week
-			&format=xml
-			&filter_limit=
-			&filter_offset=
-			&filter_column=label
-			&filter_pattern=
-	');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getConfiguration");
-	$request = new Piwik_API_Request('
-				method=UserSettings.getConfiguration
-				&idSite=1
-				&date=2007-08-25
-				&period=week
-				&format=xml
-				&filter_limit=10
-				&filter_offset=0
-				&filter_column=label
-				&filter_pattern=
-		');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getBrowser");
-	$request = new Piwik_API_Request('
-				method=UserSettings.getBrowser
-				&idSite=1
-				&date=2007-08-25
-				&period=week
-				&format=xml
-				&filter_limit=
-				&filter_offset=
-				&filter_column=label
-				&filter_pattern=
-	');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getBrowserType");
-	$request = new Piwik_API_Request('
-				method=UserSettings.getBrowserType
-				&idSite=1
-				&date=2007-08-25
-				&period=week
-				&format=xml
-				&filter_limit=
-				&filter_offset=
-				&filter_column=label
-				&filter_pattern=
-	');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getWideScreen");
-	$request = new Piwik_API_Request('
-				method=UserSettings.getWideScreen
-				&idSite=1
-				&date=2007-08-25
-				&period=week
-				&format=xml
-				&filter_limit=
-				&filter_offset=
-				&filter_column=label
-				&filter_pattern=
-	');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getPlugin");
-	$request = new Piwik_API_Request('
-				method=UserSettings.getPlugin
-				&idSite=1
-				&date=2007-08-25
-				&period=week
-				&format=xml
-				&filter_limit=
-				&filter_offset=
-				&filter_column=label
-				&filter_pattern=
-	');
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getActions");
-	$request = new Piwik_API_Request(
-		'method=Actions.getActions
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=html
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-//	echo(($request->process()));
-
-	Piwik::log("getActions EXPANDED");
-	$request = new Piwik_API_Request(
-		'method=Actions.getActions
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=html
-		&expanded=true
-		&filter_column=label
-		&filter_pattern=a
-		&filter_limit=10
-		&filter_offset=0
-		
-	'
-	);
-//	echo(($request->process()));
-	
-	Piwik::log("getActions EXPANDED SUBTABLE");
-	$request = new Piwik_API_Request(
-		'method=Actions.getActions
-		&idSubtable=5477
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=html
-		&expanded=false
-		
-	'
-	);
-//	echo(($request->process()));
-	
-	Piwik::log("getDownloads");
-	$request = new Piwik_API_Request(
-		'method=Actions.getDownloads
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-//	dump(htmlentities($request->process()));
-	Piwik::log("getOutlinks");
-	$request = new Piwik_API_Request(
-		'method=Actions.getOutlinks
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-//	dump(htmlentities($request->process()));
-	Piwik::log("getProvider");
-	$request = new Piwik_API_Request(
-		'method=Provider.getProvider
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getCountry");
-	$request = new Piwik_API_Request(
-		'method=UserCountry.getCountry
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getContinent");
-	$request = new Piwik_API_Request(
-		'method=UserCountry.getContinent
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	Piwik::log("getContinent");
-	$request = new Piwik_API_Request(
-		'method=VisitFrequency.getSummary
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getNumberOfVisitsPerVisitDuration");
-	$request = new Piwik_API_Request(
-		'method=VisitorInterest.getNumberOfVisitsPerVisitDuration
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getNumberOfVisitsPerPage");
-	$request = new Piwik_API_Request(
-		'method=VisitorInterest.getNumberOfVisitsPerPage
-		&idSite=1
-		&date=2007-08-25
-		&period=month
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	
-	Piwik::log("getVisitInformationPerServerTime");
-	$request = new Piwik_API_Request(
-		'method=VisitTime.getVisitInformationPerServerTime
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	Piwik::log("getRefererType");
-	$request = new Piwik_API_Request(
-		'method=Referers.getRefererType
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getKeywords");
-	$request = new Piwik_API_Request(
-		'method=Referers.getKeywords
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	Piwik::log("getSearchEnginesFromKeywordId");
-	$request = new Piwik_API_Request(
-		'method=Referers.getSearchEnginesFromKeywordId
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&idSubtable=1886
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getSearchEngines");
-	$request = new Piwik_API_Request(
-		'method=Referers.getSearchEngines
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	Piwik::log("getKeywordsFromSearchEngineId");
-	$request = new Piwik_API_Request(
-		'method=Referers.getKeywordsFromSearchEngineId
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-		&idSubtable=1779
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	
-	Piwik::log("getCampaigns");
-	$request = new Piwik_API_Request(
-		'method=Referers.getCampaigns
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	
-	Piwik::log("getKeywordsFromCampaignId");
-	$request = new Piwik_API_Request(
-		'method=Referers.getKeywordsFromCampaignId
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-		&idSubtable=2251
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	Piwik::log("getWebsites");
-	$request = new Piwik_API_Request(
-		'method=Referers.getWebsites
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	
-	Piwik::log("getUrlsFromWebsiteId");
-	$request = new Piwik_API_Request(
-		'method=Referers.getUrlsFromWebsiteId
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-		&idSubtable=2432
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	Piwik::log("getPartners");
-	$request = new Piwik_API_Request(
-		'method=Referers.getPartners
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-	'
-	);
-	dump(htmlentities($request->process()));
-	
-	
-	
-	Piwik::log("getUrlsFromPartnerId");
-	$request = new Piwik_API_Request(
-		'method=Referers.getUrlsFromPartnerId
-		&idSite=1
-		&date=2007-08-25
-		&period=week
-		&format=xml
-		&filter_limit=10
-		&filter_offset=0
-		&idSubtable=3090
-	');
-	dump(htmlentities($request->process()));
-	
-	
-	$referersNumeric=array(
-		'getNumberOfDistinctSearchEngines',	
-		'getNumberOfDistinctKeywords',
-		'getNumberOfDistinctCampaigns',
-		'getNumberOfDistinctWebsites',
-		'getNumberOfDistinctWebsitesUrls',
-		'getNumberOfDistinctPartners',
-		'getNumberOfDistinctPartnersUrls',
-	);
-	foreach($referersNumeric as $name)
+	function index()
 	{
-		Piwik::log("$name");
-		$request = new Piwik_API_Request(
-			"method=Referers.$name
-			&idSite=1
-			&date=2007-08-20
-			&period=day
-			&format=xml
-			&filter_limit=10
-			&filter_offset=0
-		"
-		);
-		dump(htmlentities($request->process()));
+		$view = new Piwik_View('Home/templates/index.tpl');
+
+		$oDate = Piwik_Date::factory(Piwik_Common::getRequestVar('date'));
+		$date = $oDate->toString();
+		$view->date = $date;
+		$view->period = Piwik_Common::getRequestVar('period');
+		$view->idSite = Piwik_Common::getRequestVar('idSite');
+		
+		$view->userLogin = Piwik::getCurrentUserLogin();
+		$view->sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+		$view->url = Piwik_Url::getCurrentUrl();
+		
+		$site = new Piwik_Site($view->idSite);
+		$minDate = $site->getCreationDate();
+		
+		$view->minDateYear = $minDate->toString('Y');
+		$view->minDateMonth = $minDate->toString('m');
+		$view->minDateDay = $minDate->toString('d');
+		
+		/* Actions / Downloads / Outlinks */
+		$view->dataTableActions = $this->getActions( true );
+		$view->dataTableDownloads = $this->getDownloads( true );
+		$view->dataTableOutlinks = $this->getOutlinks( true );
+		
+		/* General visits */
+		$dataTableVisit = $this->getVisitsSummary();
+		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
+		$view->nbVisits = $dataTableVisit->getColumn('nb_visits');
+		$view->nbActions = $dataTableVisit->getColumn('nb_actions');
+		$view->sumVisitLength = $dataTableVisit->getColumn('sum_visit_length');
+		$view->bounceCount = $dataTableVisit->getColumn('bounce_count');
+		$view->maxActions = $dataTableVisit->getColumn('max_actions');
+
+		
+		/* User Country */
+		$view->dataTableCountry = $this->getCountry(true);
+		$view->dataTableContinent = $this->getContinent(true);
+		
+		/* User settings */		
+		$view->dataTablePlugin = $this->getPlugin( true );
+		$view->dataTableResolution = $this->getResolution( true );
+		$view->dataTableConfiguration = $this->getConfiguration( true );
+		$view->dataTableOS = $this->getOS( true );
+		$view->dataTableBrowser = $this->getBrowser( true );
+		$view->dataTableBrowserType = $this->getBrowserType ( true );
+		$view->dataTableWideScreen = $this->getWideScreen( true );
+		
+		/* VisitorTime */
+		$view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
+		$view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
+		
+		/* VisitFrequency */
+		$dataTableFrequency = $this->getSummary(true);
+		
+		$view->nbVisitsReturning = $dataTableFrequency->getColumn('nb_visits_returning');
+		$view->nbActionsReturning = $dataTableFrequency->getColumn('nb_actions_returning');
+		$view->maxActionsReturning = $dataTableFrequency->getColumn('max_actions_returning');
+		$view->sumVisitLengthReturning = $dataTableFrequency->getColumn('sum_visit_length_returning');
+		$view->bounceCountReturning = $dataTableFrequency->getColumn('bounce_count_returning');
+		
+		/* Visitor Interest */
+		$view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
+		$view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
+		
+		/* Provider */
+		$view->dataTableProvider = $this->getProvider(true);
+		
+		
+		/* Referers */
+		$view->dataTableRefererType = $this->getRefererType(true);
+		$view->dataTableKeywords = $this->getKeywords(true);
+		$view->dataTableSearchEngines = $this->getSearchEngines(true);
+		$view->dataTableCampaigns = $this->getCampaigns(true);
+		$view->dataTableWebsites = $this->getWebsites(true);
+		$view->dataTablePartners = $this->getPartners(true);
+		
+		$view->numberDistinctSearchEngines = $this->getNumberOfDistinctSearchEngines(true);
+		$view->numberDistinctKeywords = $this->getNumberOfDistinctKeywords(true);
+		$view->numberDistinctCampaigns = $this->getNumberOfDistinctCampaigns(true);
+		$view->numberDistinctWebsites = $this->getNumberOfDistinctWebsites(true);
+		$view->numberDistinctWebsitesUrls = $this->getNumberOfDistinctWebsitesUrls(true);
+		$view->numberDistinctPartners = $this->getNumberOfDistinctPartners(true);
+		$view->numberDistinctPartnersUrls = $this->getNumberOfDistinctPartnersUrls(true);
+
+		echo $view->render();		
+	}
+		
+	protected function renderView($view, $fetch)
+	{
+		$view->main();
+		$rendered = $view->getView()->render();
+		if($fetch)
+		{
+			return $rendered;
+		}
+		echo $rendered;
+	}
+	protected function getNumericValue( $methodToCall )
+	{
+		$requestString = 'method='.$methodToCall.'&format=original';
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
+	}
+		/*
+		 * 
+
+List of the public methods for the class Piwik_Actions_API
+- getActions : [idSite, period, date, expanded = , idSubtable = ]
+- getDownloads : [idSite, period, date, expanded = , idSubtable = ]
+- getOutlinks : [idSite, period, date, expanded = , idSubtable = ]
+
+		 */
+	function getActionsView($currentMethod,
+						$methodToCall = 'Actions.getActions', 
+						$subMethod = 'getActionsSubDataTable')
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	$currentMethod, 
+						$methodToCall, 
+						$subMethod );
+		$view->setTemplate('Home/templates/datatable_actions.tpl');
+		
+		if(Piwik_Common::getRequestVar('idSubtable', -1) != -1)
+		{
+			$view->setTemplate('Home/templates/datatable_actions_subdatable.tpl');
+		}
+		$view->setSearchRecursive();
+		
+		$currentlySearching = $view->setRecursiveLoadDataTableIfSearchingForPattern();
+		if($currentlySearching)
+		{
+			$view->setTemplate('Home/templates/datatable_actions_recursive.tpl');
+		}
+		$view->disableSort();
+		$view->disableOffsetInformation();
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setDefaultLimit( 100 );
+		$view->setExcludeLowPopulation( 5 );
+		
+		$view->main();
+		// we need to rewrite the phpArray so it contains all the recursive arrays
+		if($currentlySearching)
+		{
+			$phpArrayRecursive = $this->getArrayFromRecursiveDataTable($view->dataTable);
+//			var_dump($phpArrayRecursive);exit;
+			$view->view->arrayDataTable = $phpArrayRecursive;
+		}
+		
+		return $view;
+	}
+	
+	protected function getArrayFromRecursiveDataTable( $dataTable, $depth = 0 )
+	{
+		$table = array();
+		foreach($dataTable->getRows() as $row)
+		{
+			$phpArray = array();
+			if(($idSubtable = $row->getIdSubDataTable()) !== null)
+			{
+				$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $idSubtable );
+					
+				if($subTable->getRowsCount() > 0)
+				{
+					$filter = new Piwik_DataTable_Filter_ReplaceColumnNames(
+									$subTable,
+									Piwik_Actions::getColumnsMap()
+								);				
+					$phpArray = $this->getArrayFromRecursiveDataTable( $subTable, $depth + 1 );
+				}
+			}
+			
+			$label = $row->getColumn('label');
+			$newRow = array(
+				'level' => $depth,
+				'columns' => $row->getColumns(),
+				'details' => $row->getDetails(),
+				'idsubdatatable' => $row->getIdSubDataTable()
+				);
+			$table[] = $newRow;
+			if(count($phpArray) > 0)
+			{
+				$table = array_merge( $table,  $phpArray);
+			}
+		}
+		return $table;
+	}
+	function getDownloads($fetch = false)
+	{
+		$view = $this->getActionsView( 	__FUNCTION__,
+										'Actions.getDownloads', 
+										'getDownloadsSubDataTable' );
+		
+		return $this->renderView($view, $fetch);
+	}
+	function getDownloadsSubDataTable($fetch = false)
+	{
+		$view = $this->getActionsView( 	__FUNCTION__,
+										'Actions.getDownloads', 
+										'getDownloadsSubDataTable' );
+		
+		return $this->renderView($view, $fetch);
+	}
+	function getActions($fetch = false)
+	{
+		$view = $this->getActionsView(	__FUNCTION__,
+										'Actions.getActions', 
+										'getActionsSubDataTable' );
+		
+		return $this->renderView($view, $fetch);
+	}
+	function getActionsSubDataTable($fetch = false)
+	{
+		$view = $this->getActionsView( 	__FUNCTION__,
+										'Actions.getActions', 
+										'getActionsSubDataTable'  );
+		
+		return $this->renderView($view, $fetch);
+	}
+	function getOutlinks($fetch = false)
+	{
+		$view = $this->getActionsView(	__FUNCTION__,
+										'Actions.getOutlinks', 
+										'getOutlinksSubDataTable' );
+		
+		return $this->renderView($view, $fetch);
+	}
+	function getOutlinksSubDataTable($fetch = false)
+	{
+		$view = $this->getActionsView( 	__FUNCTION__,
+										'Actions.getOutlinks', 
+										'getOutlinksSubDataTable'  );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * General visit
+	 */
+	function getVisitsSummary()
+	{
+		$requestString = 'method='."VisitsSummary.get".'&format=original';
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
+	}
+	/**
+	 * VisitFrequency
+	 */
+	function getSummary( )
+	{		
+		$requestString = 'method='."VisitFrequency.getSummary".'&format=original';
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
+	}
+	
+	/**
+	 * VisitTime
+	 */
+	function getVisitInformationPerServerTime( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  __FUNCTION__, 
+								"VisitTime.getVisitInformationPerServerTime" );
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		$view->setSortedColumn( '0', 'asc' );
+		$view->setDefaultLimit( 24 );
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->disableOffsetInformation();
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getVisitInformationPerLocalTime( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  __FUNCTION__, 
+								"VisitTime.getVisitInformationPerLocalTime" );
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		$view->setSortedColumn( '0', 'asc' );
+		$view->setDefaultLimit( 24 );
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->disableOffsetInformation();
+		
+		return $this->renderView($view, $fetch);
+	}
+	/**
+	 * VisitorInterest
+	 */
+	function getNumberOfVisitsPerVisitDuration( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  __FUNCTION__, 
+									"VisitorInterest.getNumberOfVisitsPerVisitDuration" );
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setDefaultLimit( 5 );
+		
+		$view->disableSort();
+		$view->disableExcludeLowPopulation();
+		$view->disableOffsetInformation();
+		$view->disableSearchBox();
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getNumberOfVisitsPerPage( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  __FUNCTION__, 
+									"VisitorInterest.getNumberOfVisitsPerPage" );
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 'nb_visits' );
+		$view->disableExcludeLowPopulation();
+		$view->disableOffsetInformation();
+		$view->disableSearchBox();
+		$view->disableSort();
+		$view->main();
+//		echo $view->dataTable;
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * Provider
+	 */
+	function getProvider( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  __FUNCTION__, "Provider.getProvider" );
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 1 );
+		$view->setDefaultLimit( 5 );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * User Country
+	 */
+	function getCountry( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( __FUNCTION__, "UserCountry.getCountry" );
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 1 );
+		$view->disableSearchBox();
+		
+		// sorting by label is not correct as the labels are the ISO codes before being
+		// mapped to the country names
+//		$view->disableSort();
+		$view->setDefaultLimit( 5 );
+		
+		return $this->renderView($view, $fetch);
+	}
+
+	function getContinent( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( __FUNCTION__, "UserCountry.getContinent" );
+		$view->disableExcludeLowPopulation();
+		$view->disableSearchBox();
+		$view->disableOffsetInformation();
+		$view->disableSort();
+		//TODO disable sort label column only
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 1 );
+		
+		return $this->renderView($view, $fetch);
+	}
+
+	/**
+	 * User settings
+	 */
+	function getStandardDataTableUserSettings( $currentControllerAction, 
+												$APItoCall )
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  $currentControllerAction, $APItoCall );
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 1 );
+		$view->setDefaultLimit( 5 );
+		
+		return $view;
+	}
+	
+	function getResolution( $fetch = false)
+	{
+		$view = $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getResolution'
+									);
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getConfiguration( $fetch = false)
+	{
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getConfiguration'
+									);
+		$view->setDefaultLimit( 3 );
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getOS( $fetch = false)
+	{
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getOS'
+									);
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getBrowser( $fetch = false)
+	{
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getBrowser'
+									);
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getBrowserType ( $fetch = false)
+	{
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getBrowserType'
+									);
+		$view->disableOffsetInformation();
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getWideScreen( $fetch = false)
+	{
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getWideScreen'
+									);
+		$view->disableOffsetInformation();
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getPlugin( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  __FUNCTION__, 'UserSettings.getPlugin' );
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->disableSort();
+		$view->disableOffsetInformation();
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 2 );
+		$view->setDefaultLimit( 10 );
+		
+		return $this->renderView($view, $fetch);
+	}
+
+
+
+	/**
+	 * Referers
+	 */
+	function getRefererType( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	'getRefererType', 
+											'Referers.getRefererType'
+								);
+		$view->disableSearchBox();
+		$view->disableOffsetInformation();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,1,2) );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getKeywords( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( 	'getKeywords', 
+											'Referers.getKeywords', 
+											'getSearchEnginesFromKeywordId'
+								);
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getSearchEnginesFromKeywordId( $fetch = false )
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( 	'getSearchEnginesFromKeywordId', 
+											'Referers.getSearchEnginesFromKeywordId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
+	}
+	
+	
+	function getSearchEngines( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	'getSearchEngines', 
+											'Referers.getSearchEngines', 
+											'getKeywordsFromSearchEngineId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	
+	function getKeywordsFromSearchEngineId( $fetch = false )
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( 	'getKeywordsFromSearchEngineId', 
+											'Referers.getKeywordsFromSearchEngineId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getWebsites( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	'getWebsites', 
+											'Referers.getWebsites',
+											'getUrlsFromWebsiteId'
+								);
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getCampaigns( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	'getCampaigns', 
+											'Referers.getCampaigns',
+											'getKeywordsFromCampaignId'
+								);
+
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setDefaultLimit( 5 );
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getKeywordsFromCampaignId( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( 	'getKeywordsFromCampaignId', 
+											'Referers.getKeywordsFromCampaignId'
+								);
+
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getUrlsFromWebsiteId( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( 	'getUrlsFromWebsiteId', 
+											'Referers.getUrlsFromWebsiteId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getPartners( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	'getPartners', 
+											'Referers.getPartners',
+											'getUrlsFromPartnerId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setDefaultLimit( 5 );
+		
+		$view->setColumnsToDisplay( array(0,2) );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getUrlsFromPartnerId( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( 	'getUrlsFromPartnerId', 
+											'Referers.getUrlsFromPartnerId'
+								);
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		$view->setColumnsToDisplay( array(0,2));
+
+		return $this->renderView($view, $fetch);
+	}
+	
+	
+	function getNumberOfDistinctSearchEngines( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctKeywords( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctCampaigns( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctWebsites( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctWebsitesUrls( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctPartners( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
+	}
+	function getNumberOfDistinctPartnersUrls ( $fetch = false)
+	{
+		return $this->getNumericValue('Referers.' . __FUNCTION__);
 	}
 	
 }

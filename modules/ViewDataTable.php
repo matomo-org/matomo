@@ -77,7 +77,7 @@ class Piwik_ViewDataTable
 		$this->currentControllerAction = $currentControllerAction;
 		$this->moduleNameAndMethod = $moduleNameAndMethod;
 		$this->actionToLoadTheSubTable = $actionToLoadTheSubTable;
-		$this->dataTableTemplate = 'UserSettings/templates/datatable.tpl';
+		$this->dataTableTemplate = 'Home/templates/datatable.tpl';
 		
 		$this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false,'int');
 		

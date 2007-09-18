@@ -36,7 +36,7 @@
 	</table>
 	{/if}
 
-	{include file="UserSettings/templates/datatable_footer.tpl"}
+	{include file="Home/templates/datatable_footer.tpl"}
 	
 	{/if}
 </div>

@@ -9,13 +9,8 @@ class Piwik_Login_Form extends Piwik_Form
 	
 	function init()
 	{
-		$urlToGoAfter = Piwik_Url::getReferer();
-		if($urlToGoAfter == false)
-		{
-			$urlToGoAfter = Piwik_Url::getCurrentUrl();
-			
-		}
-
+		$urlToGoAfter = Piwik_Url::getCurrentUrl();			
+		
 		$formElements = array(
 			array('text', 'form_login', 'login:'),
 			array('password', 'form_password', 'pass:'),

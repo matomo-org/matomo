@@ -26,29 +26,33 @@ class Piwik_Openads_Plugin
 	/**
 	 * Methods triggered on the Openads DLL events
 	 */
+	 
+	 /**
+	  * Website methods
+	  * 
+	  * Information necessary:
+	  * - publisher name
+	  * - publisher ID
+	  * - publisher main URL 
+	  */
 //	function insertWebsite( $parameters )
 //	function deleteWebsite( $parameters )
 //	function updateWebsite( $parameters )
+
+
+	 /**
+	  * User methods
+	  * 
+	  * Information necessary:
+	  * - user login
+	  * - user email
+	  * 
+	  * Information optional
+	  * - user real name
+	  */
 //	function insertUser( $parameters )
 //	function deleteUser( $parameters )
-//	function updateUser( $parameters )	
-	
-	/**
-	 * Function called statically by the Openads-Piwik delivery engine plugin
-	 * Returns the javascript to print in the HEAD 
-	 * 
-	 * @param int The publisher ID in openads
-	 * @return string A javascript code or the empty string
-	 */
-	function getJavascriptTag( $openadsPublisherId )
-	{
-		// reads the $piwikUrl from the Piwik Config file
-		// if not available, returns empty string as it means piwik is not installed
-		
-		// The mapping is applied as follows
-		// Piwik_SiteId from the openads PublisherId
-		
-	}
+//	function updateUser( $parameters )
 	
 	
 	/**
@@ -205,7 +209,7 @@ class Piwik_Openads_Plugin
 	 */
 	function getCurrentlyAuthenticatedUserLogin()
 	{
-		
+		phpAds_getUserID()
 	}
 	 
 	/**
