@@ -1,22 +1,23 @@
-FEATURES
-========
-- TRANSLATIONS
-	- All strings in the application
-	- JS strings to be translated
-	- Generic exception system
+SMALL FEATURES
+==============
 - when a method is called and doesn't make any access check, 
   we can throw a NoticeException and display the message 
   in debug mode in the API returned value in the field "notice" or "debug"
 - in the piwik.php process, we could do without all the information in the cookie except for the idvisitor
   we could select the information last_action_time, last_id_action, etc. assuming we have the idvisitor in the cookie
   this would allow to save the logs later by big bulk
-- Purge log_ when archiving is done
 - Provide Config file feature for plugins (works as the translation system)
 - CHANGE setColumnsToDisplay TO setColumnsIdsToDisplay
-- Limit number of rows saved in the datatable during the archiving process
+- in the config.ini.php, it is not possible to set a configuration settings without setting the whole category
+  we should have some sort of merging that would make possible to set only a sub configuration variable from the global.ini.php into the config.ini.php
+  this way, during an upgrade, we could keep only the config/config.ini.php and overwrite the other config files with the update piwik version
+  and we would keep the changes made to some configuration variables
 
 BUGS
 ====
+- The numbers in Visits summary seem wrong when compared to phpmyvisites, but the nb of actiosn under the action table for example is correct
+  http://ns21996.ovh.net/piwik/?module=Home&action=index&idSite=1&period=day&date=yesterday
+- Purge log_ when archiving is done
 - archiving is creating some wrong lines in the archive_numeric tables for future dates
 - hide the generator + phpdocumentor script from being triggered by the release
 - monthly unique visitors count is WRONG
@@ -38,8 +39,8 @@ BUGS
 - is_numeric is not valid. Replace by is_int OR is_float
 - images.google.X is not counted as a search engine. needs to read the prev variable and then the q variable.
 
-User Interface
-==============
+User Interface bugs
+===================
 - searching on countries should search on the final label and not the iso code
 - define the default output type on a per table basis
 - design a generic system to add _blocks_ in _pages_ (different from the _views_ associated to the controllers)
@@ -47,8 +48,8 @@ User Interface
 - add the columns containing the % values based on the nb_visits or nb_visitors
 - when a given output is chosen (Tag cloud) hide the icon under the datatable
 
-Browsers bugs
-==============
+Browsers specific bugs
+======================
 Opera 9.23 windows
 	- actions expanding / collapse doesnt work. always expand. multiple clicks load the content multiple times
 	- the columns width are changing when sorting the columns, annoying effect
@@ -77,8 +78,80 @@ When commenting
 
 RELEASE PROCESS
 ===============
-Delete from the release
+Delete from the SVN files export:
 - documentation/
 - libs/phpDocumentor
 - tmp
 
+
+
+           ------------------
+				Timeline
+           ------------------
+           
+
+Todo before alpha public release
+================================
+# Core
+   - Installation process so that installing Piwik only requires to upload the directory
+   - Interface architecture: widgets style page building, menu editing by plugins
+   - Fixed all known critical/important bugs
+   - Testing piwik on a > 10,000 visits per day website. Check the memory required by the archiving
+   
+# Plugins
+   - Openads integration working
+
+# Misc
+   - Launch a blog for the Piwik development and public announce
+   - Clean all the google docs piwik related and save them in the TRAC wiki + task tracker
+
+Deadline: 5 november 2007
+
+Todo before beta public release
+===============================
+# Core
+  - easy way to access historical data (eg. the last 30 days)
+  - building RSS feeds of every information
+  - Limit number of rows saved in the datatable during the archiving process
+  - Testing the piwik on some huge websites (> 50,000 visits per day) and make sure it works: Db optimization, php memory profiling
+  - Theming system so that we can create different look n feel for the piwik interface
+
+# Plugins
+  - Automatic Outlink tracking + download tracking plugin
+  - Automatically delete/keep onlyq  some parameters from the URLs before processing it during the visitor logging process
+    for example the url example.com/page/index.php?userid=8571498752487&module=homepage could be example.com/page/index.php?module=homepage after removing the userid parameter
+  - Exclude the webmaster based on a cookie. The cookie is then checked in piwik.php and the visitor is not counted in the stats
+  - Exclude the webmaster based on IP / IP range. The ip is then checked in piwik.php and the visitor is not counted in the stats
+  - Precise geolocalisation using Maxmind database (.dat file OR apache module OR php module)
+  - Last N visitors information 
+
+# Documentation
+  - All core classes phpdoc documented + documentation reviewed by 1 other developer
+  - Write simple plugins that would be useful and at the same time would help as "How to write Piwik Plugins" tutorials
+  - Document the database design and the concepts
+  - Document the Piwik architecture: API concept, Plugins concept, Logging engine, Archiving process, Reporting process, MVC model, DataTable concept
+
+Deadline: 20 december 2007
+
+Todo before stable release
+==========================
+# Core
+  - Translations framework ready (all strings translatable) + translated in french and english
+    To translate: all strings in templates, all strings in JS variables, design a generic system for the php exceptions to handle multilingual error messages
+  - Update process that makes it easy to update piwik
+  - versioning in APIs to make sure we don't break the plugins/widgets when updating the APIs
+  - complete profiling of the source and fix the easy to fix problems
+  
+# Plugins
+  - Select a logo to be displayed when calling the piwik.php 
+  	currently a 1*1 transparent Gif is displayed but we could have some nice logos
+  - Import phpmyvisites v2.x statistics into piwik easily (we have to reach the 15,000 users of phpmyvisites)
+  - Goals setup and tracking. We define a goal by a URL to reach (or a part of a url), goal conversion check, goal information (referers, countries, keywords, etc.)
+  - PDF export
+  - Email sending containing statistics inline or attached file
+
+# Documentation
+  - End user documentation that covers the main point. Not complete but it would make it easy to get started with Piwik for a non technical user.
+ 
+
+Deadline = Q1 2008

@@ -9,7 +9,7 @@ password		= nintendo
 dbname			= piwiktrunk
 adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 tables_prefix	= piwik_
-profiler 		= true
+profiler 		= false
 
 [database_tests : database]
 dbname			= piwiktests
@@ -35,20 +35,29 @@ enabled[] 		= VisitTime
 enabled[] 		= VisitorInterest
 enabled[] 		= ExamplePlugin
 
-[Debug]
-always_archive_data = false
-
 [Plugins_LogStats]
 enabled[] 		= Provider
+
+[Debug]
+; if set to true, the archiving process will always be triggered, even if the archive has already been computed
+; this is useful when making changes to the archiving code so we can 
+always_archive_data = false
 
 
 [General]
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
-time_before_archive_considered_outdated = 15
+time_before_archive_considered_outdated = 30
 
+; character used to automatically create categories in the "Action" "Downloads" reports
+; for example a URL like "example.com/blog/development/first-post" will create 
+; the page first-post in the subcategory development which belongs to the blog category
 action_category_delimiter = /
 
+; default sorting order used by all datatables (desc or asc)
+dataTable_default_sort_order = desc
+
+; default number of elements in the datatable
 dataTable_default_limit = 10
 
 
@@ -133,14 +142,23 @@ log				= tmp/logs/
 
 
 [smarty]
+; the list of directories in which to look for templates
 template_dir[]	= plugins
 template_dir[]	= themes/default
+template_dir[]	= themes
+
+; smarty provided plugins
+plugins_dir[] 	= libs/Smarty/plugins
+; smarty plugins provided by piwik 
+plugins_dir[]	= modules/SmartyPlugins
+
+; where to store the compiled smarty templates
 compile_dir		= tmp/templates_c
+
 config_dir		= tmp/configs
 cache_dir		= tmp/cache
 
-plugins_dir[] 	= libs/Smarty/plugins
-plugins_dir[]	= modules/SmartyPlugins
-        
+; error reporting inside Smarty
 error_reporting = E_ALL|E_NOTICE
-debugging		= TRUE
+; should be set to false in a piwik release
+debugging		= true

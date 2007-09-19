@@ -288,7 +288,7 @@ class Piwik_API_Request
 						),
 			'Sort' => array(
 								'filter_sort_column' 		=> array('string', Piwik_Archive::INDEX_NB_VISITS),
-								'filter_sort_order' 		=> array('string', 'desc'),
+								'filter_sort_order' 		=> array('string', Zend_Registry::get('config')->General->dataTable_default_sort_order),
 						),
 			'Limit' => array(
 								'filter_offset' 			=> array('integer', '0'),
