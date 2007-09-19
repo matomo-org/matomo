@@ -51,7 +51,7 @@ class Piwik_Config
     {
         if(null !== ($valueInUserConfig = $this->userConfig->$name))
         {
-//        	return $valueInUserConfig;
+        	return $valueInUserConfig;
         }
         if(null !== ($valueInDefaultConfig = $this->defaultConfig->$name))
         {
