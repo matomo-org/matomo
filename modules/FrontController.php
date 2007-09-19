@@ -117,15 +117,15 @@ class Piwik_FrontController
 		
 		// load plugins
 		Piwik_PluginsManager::getInstance()->setInstallPlugins(); 
+		
 		//TODO plugins install to handle in a better way
 		Piwik::loadPlugins();
-		
-		// Create auth object
-		Zend_Registry::set('auth', $authAdapter = new Piwik_Auth());
 		
 		// Setup the auth object
 		Piwik_PostEvent('FrontController.authSetCredentials');
 
+		$authAdapter = Zend_Registry::get('auth');
+		
 		// Perform the authentication query, saving the result
 		$access = new Piwik_Access($authAdapter);
 		Zend_Registry::set('access', $access);		

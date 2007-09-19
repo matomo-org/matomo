@@ -52,33 +52,36 @@ class Piwik_Login extends Piwik_Plugin
 	
 	function authSetCredentials($notification)
 	{
-		$auth = $notification->getNotificationObject();
-					
-		$authCookieName = 'piwik-auth';
-		$authCookieExpiry = time() + 3600;
-
-		$authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
+		// Create auth object
+		$authAdapter = new Piwik_Auth();
 		
-		$login = $tokenAuth = 'abc';
-		
-		if($authCookie->isCookieFound())
+		$tokenAuthAPIInUrl = Piwik_Common::getRequestVar('token', '', 'string');
+		if( !empty($tokenAuthAPIInUrl))
 		{
-			$login = $authCookie->get('login');
-			$tokenAuth =  $authCookie->get('token');
+			$authAdapter->setCredential($tokenAuthAPIInUrl);
 		}
-		
-		$this->prepareAuthObject( $login, $tokenAuth);		
-	}
+		else
+		{
+			// cookie based authentication
+			$authCookieName = 'piwik-auth';
+			$authCookieExpiry = time() + 3600;
 	
-	static function prepareAuthObject( $login, $tokenAuth )
-	{		
-		$auth = Zend_Registry::get('auth');
-		$auth->setTableName(Piwik::prefixTable('user'))
-			->setIdentityColumn('login')
-			->setCredentialColumn('token_auth')
-//			->setCredentialTreatment('MD5(?)')
-			->setIdentity($login)
-	     	->setCredential($tokenAuth);
+			$authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
+			
+			$login = $tokenAuth = 'abc';
+			
+			if($authCookie->isCookieFound())
+			{
+				$login = $authCookie->get('login');
+				$tokenAuth =  $authCookie->get('token');
+			}
+			$authAdapter->setTableName(Piwik::prefixTable('user'))
+				->setIdentityColumn('login')
+				->setCredentialColumn('token_auth')
+				->setIdentity($login)
+		     	->setCredential($tokenAuth);
+		}
+     	Zend_Registry::set('auth', $authAdapter);
 	}
 }
 
