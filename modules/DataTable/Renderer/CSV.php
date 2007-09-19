@@ -15,7 +15,7 @@
   * The record delimiter string is the carriage return and line feed (<cr><lf>).
   * The text qualifier string is a quotation mark (").
   * If the text contains an embedded delimiter string or qualifier string, the text qualifier is placed around the text, and the embedded qualifier strings are doubled.
-* Formatting and layout are ignored.
+  * Formatting and layout are ignored.
   */
 require_once "DataTable/Renderer/PHP.php";
 class Piwik_DataTable_Renderer_CSV extends Piwik_DataTable_Renderer

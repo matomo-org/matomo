@@ -1,15 +1,20 @@
 	Piwik - piwik.org
 	-----------------
+	
+Mission statement
+« To create, as a community, the leading international open source web analytics application, 
+   providing access to all functionality through open components and open APIs, 
+   while focusing on the user experience. »
 
 Install 
 =======
 1 - copy paste the javascript code found in log.htm into your website
 2 - enable pdo_mysql in your php.ini
-2 - launch index.php, you should see some text (without any PHP warning/error message)	
-3 - you can log as super user login = root, password = nintendo (change them in the config/config.ini.php file)
-4 - go to ?module=SitesManager and add a website
-5 - go to misc/generateVisits.php to generate some visits
-6 - go to your piwik/ directory to see the statistics 
+3 - launch index.php, you should see some text (without any PHP warning/error message)	
+4 - you can log as super user login = root, password = nintendo (change them in the config/config.ini.php file)
+5 - go to ?module=SitesManager and add a website
+6 - go to misc/generateVisits.php to generate some visits
+7 - go to your piwik/ directory to see the statistics 
 
 Requirements
 ============
@@ -18,15 +23,8 @@ Requirements
 - php PDO module enabled
 - OS / server independant
 
-
 Some modules
 ============
-Login
-?module=Login
-
-Logout
-?module=Logout
-
 User manager admin UI 
 ?module=UsersManager
 
@@ -42,6 +40,12 @@ or yesterday visits information in JSON
 You can find the full listing of the APIs provided by the plugins on
 ?module=API&action=listAllAPI
 
+Login
+?module=Login
+
+Logout
+?module=Logout
+
 
 Some other stuff
 ================ 
@@ -53,6 +57,9 @@ To generate the API documentation
 # cd piwik
 # ./misc/generateDoc.sh
 then check the documentation at piwik/documentation/ in your browser
+
+Want to help? The /TODO file lists all the known bugs and the features to implement.
+Feel free to have a look and send us patches. 
 
 Contact
 =======
