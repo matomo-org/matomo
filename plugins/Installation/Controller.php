@@ -41,6 +41,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
+		$this->skipThisStep( __FUNCTION__ );
 		$view->showNextStep = true;
 		
 		$_SESSION['currentStepDone'] = __FUNCTION__;		
@@ -49,12 +50,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	function systemCheck()
 	{
-		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		$view = new Piwik_Install_View(
 						$this->pathView . 'systemCheck.tpl', 
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
+		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		$this->skipThisStep( __FUNCTION__ );
 		
 		$view->infos = $this->getSystemInformation();
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
@@ -80,6 +82,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						__FUNCTION__
 					);
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		$this->skipThisStep( __FUNCTION__ );
 					
 		$view->showNextStep = false;
 		require_once "FormDatabaseSetup.php";
@@ -102,7 +105,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				Piwik::createDatabaseObject($dbInfos);
 				$_SESSION['db_infos'] = $dbInfos;
 			
-				$_SESSION['currentStepDone'] = __FUNCTION__;
 				$this->redirectToNextStep( __FUNCTION__ );
 			} catch(Exception $e) {
 				$view->errorMessage = $e->getMessage();
@@ -115,6 +117,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
+	protected function skipThisStep( $step )
+	{
+		if(isset($_SESSION['skipThisStep'][$step]))
+		{
+			$this->redirectToNextStep($step);
+		}
+	}
 	
 	function tablesCreation()
 	{
@@ -124,7 +133,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						__FUNCTION__
 					);
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
-					
+		$this->skipThisStep( __FUNCTION__ );
 		$this->createDbFromSessionInformation();
 		
 		if(Piwik_Common::getRequestVar('deleteTables', 0, 'int') == 1)
@@ -140,6 +149,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			$view->someTablesInstalled = true;
 			$view->tablesInstalled = implode(", ", $tablesInstalled);
+			
+			$_SESSION['skipThisStep']['firstWebsiteSetup'] = true;
+			$_SESSION['skipThisStep']['displayJavascriptCode'] = true;
 		}
 		else
 		{
@@ -161,6 +173,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						__FUNCTION__
 					);
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		$this->skipThisStep( __FUNCTION__ );
 		
 		require_once "FormGeneralSetup.php";
 		$form = new Piwik_Installation_FormGeneralSetup;
@@ -174,7 +187,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			);
 			
 			$_SESSION['superuser_infos'] = $superUserInfos;
-			$_SESSION['currentStepDone'] = __FUNCTION__;
 			$this->redirectToNextStep( __FUNCTION__ );
 		}
 		$view->addForm($form);
@@ -191,6 +203,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						__FUNCTION__
 					);
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		$this->skipThisStep( __FUNCTION__ );
 		
 		require_once "FormFirstWebsiteSetup.php";
 		$form = new Piwik_Installation_FormFirstWebsiteSetup;
@@ -232,8 +245,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				$_SESSION['site_idSite'] = $result;
 				$_SESSION['site_name'] = $name;
 				$_SESSION['site_url'] = $url;
-				$_SESSION['currentStepDone'] = __FUNCTION__;
-		
+				
 				$this->redirectToNextStep( __FUNCTION__ );
 			} catch(Exception $e) {
 				$view->errorMessage = $e->getMessage();
@@ -244,27 +256,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		echo $view->render();
 	}
-	protected function writeConfigFileFromSession()
-	{
-		$configFile = "; file automatically generated during the piwik installation process\n";
-		
-		// super user information
-		$configFile .= "[superuser]\n";
-		foreach( $_SESSION['superuser_infos'] as $key => $value)
-		{
-			$configFile .= "$key = $value\n";
-		}
-		$configFile .= "\n";
-		
-		// database information
-		$configFile .= "[database]\n";
-		foreach($_SESSION['db_infos'] as  $key => $value)
-		{
-			$configFile .= "$key = $value\n";
-		}
-		
-		file_put_contents(Piwik_Config::getDefaultUserConfigPath(), $configFile);
-	}
 	public function displayJavascriptCode()
 	{
 		$view = new Piwik_Install_View(
@@ -273,6 +264,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						__FUNCTION__
 					);
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		$this->skipThisStep( __FUNCTION__ );
 		
 		if( !isset($_SESSION['firstWebsiteSetupSuccessMessage']))
 		{
@@ -280,7 +272,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$_SESSION['firstWebsiteSetupSuccessMessage'] = true;
 		}
 		
-		$this->writeConfigFileFromSession();
 		
 		$view->websiteName = $_SESSION['site_name'];
 		
@@ -304,7 +295,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$view->showNextStep = true;
+		$this->writeConfigFileFromSession();
+		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		$this->skipThisStep( __FUNCTION__ );
+		
 		
 		$_SESSION['currentStepDone'] = __FUNCTION__;		
 		$view->showNextStep = false;
@@ -319,6 +313,27 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	
 	
+	protected function writeConfigFileFromSession()
+	{
+		$configFile = "; file automatically generated during the piwik installation process\n";
+		
+		// super user information
+		$configFile .= "[superuser]\n";
+		foreach( $_SESSION['superuser_infos'] as $key => $value)
+		{
+			$configFile .= "$key = $value\n";
+		}
+		$configFile .= "\n";
+		
+		// database information
+		$configFile .= "[database]\n";
+		foreach($_SESSION['db_infos'] as  $key => $value)
+		{
+			$configFile .= "$key = $value\n";
+		}
+		
+		file_put_contents(Piwik_Config::getDefaultUserConfigPath(), $configFile);
+	}
 	/**
 	 * The previous step is valid if it is either 
 	 * - any step before (OK to go back)
@@ -345,6 +360,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	protected function redirectToNextStep($currentStep)
 	{
+		$_SESSION['currentStepDone'] = $currentStep;
 		$nextStep = $this->steps[1 + array_search($currentStep, $this->steps)];
 		Piwik::redirectToModule('Installation' , $nextStep);
 	}
