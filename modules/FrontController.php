@@ -81,16 +81,16 @@ class Piwik_FrontController
 		$resultCheck = Piwik::checkDirectoriesWritable( );
 		if( array_search(false, $resultCheck) !== false )
 		{ 
-			$directoryList = '<ul>';
+			$directoryList = '';
 			foreach($resultCheck as $dir => $bool)
 			{
 				$dir = realpath($dir);
 				if($bool === false)
 				{
-					$directoryList .= "<li><code>chmod 777 $dir</code></li>";
+					$directoryList .= "<code>chmod 777 $dir</code>";
 				}
 			}
-			$directoryList .= '</ul>';
+			$directoryList .= '';
 			
 			$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your Linux server:</P>";
 			$directoryMessage .= $directoryList;
@@ -140,6 +140,7 @@ class Piwik_FrontController
 				
 				#logo { margin-bottom: 2em; }
 				
+				code { margin-left: 40px; }
 				</style>
 				</head>
 				<body>
