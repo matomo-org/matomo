@@ -78,7 +78,9 @@ class Piwik_LogStats
 
 	private function initProcess()
 	{
-		Piwik_PluginsManager::getInstance()->setPluginsToLoad( Piwik_LogStats_Config::getInstance()->Plugins_LogStats['enabled'] );
+		Piwik_PluginsManager::getInstance()->setPluginsToLoad( 
+				Piwik_LogStats_Config::getInstance()->Plugins_LogStats['enabled'] 
+			);
 		
 		$saveStats = Piwik_LogStats_Config::getInstance()->LogStats['record_statistics'];
 		

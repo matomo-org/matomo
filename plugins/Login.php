@@ -54,6 +54,7 @@ class Piwik_Login extends Piwik_Plugin
 	{
 		// Create auth object
 		$authAdapter = new Piwik_Auth();
+     	Zend_Registry::set('auth', $authAdapter);
 		
 		$tokenAuthAPIInUrl = Piwik_Common::getRequestVar('token', '', 'string');
 		if( !empty($tokenAuthAPIInUrl))
@@ -75,13 +76,18 @@ class Piwik_Login extends Piwik_Plugin
 				$login = $authCookie->get('login');
 				$tokenAuth =  $authCookie->get('token');
 			}
-			$authAdapter->setTableName(Piwik::prefixTable('user'))
-				->setIdentityColumn('login')
-				->setCredentialColumn('token_auth')
-				->setIdentity($login)
-		     	->setCredential($tokenAuth);
+			self::prepareAuthObject($login, $tokenAuth);
 		}
-     	Zend_Registry::set('auth', $authAdapter);
+	}
+	
+	static function prepareAuthObject( $login, $tokenAuth )
+	{		
+		$auth = Zend_Registry::get('auth');
+		$auth->setTableName(Piwik::prefixTable('user'))
+			->setIdentityColumn('login')
+			->setCredentialColumn('token_auth')
+			->setIdentity($login)
+	     	->setCredential($tokenAuth);
 	}
 }
 

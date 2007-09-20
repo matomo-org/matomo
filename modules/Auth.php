@@ -68,7 +68,7 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 	
 	public function getTokenAuth()
 	{
-		return $this->token;
+		return $this->_credential;
 	}
 }
 

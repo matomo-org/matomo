@@ -14,10 +14,13 @@ class Piwik_API_Controller extends Piwik_Controller
 	{
 		echo "<h1>List of all modules API</h1>";
 		$errors = '';
-		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
+		
 		$loaded = 0;
 		foreach( $plugins as $plugin )
-		{
+		{		
+			$plugin = Piwik::unprefixClass($plugin);
+				
 			try {
 				Piwik_API_Proxy::getInstance()->registerClass($plugin);
 				$loaded++;

@@ -3,6 +3,8 @@
  * PHP Configuration init
  */
 error_reporting(E_ALL|E_NOTICE);
+@ini_set('display_errors', 1);
+@ini_set('magic_quotes_runtime', 0);
 date_default_timezone_set('Europe/London');
 define('PIWIK_INCLUDE_PATH', '.');
 define('PIWIK_PLUGINS_PATH', PIWIK_INCLUDE_PATH . '/plugins');

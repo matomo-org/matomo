@@ -20,6 +20,45 @@ class Piwik
 			'year'	=>4,
 		);
 	
+	/**
+	 * ending WITHOUT slashs
+	 */
+	static public function getPathToPiwikRoot()
+	{
+		return realpath( dirname(__FILE__). "/../" );
+	}
+	
+	static public function getMemoryLimitValue()
+	{
+		if($memory = ini_get('memory_limit'))
+		{
+			return substr($memory, 0, strlen($memory) - 1);
+		}
+		return false;
+	}
+	
+	static public function setMemoryLimit($minimumMemoryLimit)
+	{
+		$currentValue = self::getMemoryLimitValue();
+		if( ($currentValue === false
+			|| $currentValue < $minimumMemoryLimit )
+			&& @ini_set('memory_limit', $minimumMemoryLimit.'M'))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	static public function raiseMemoryLimitIfNecessary()
+	{
+		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimumMemoryLimit;
+		if(self::getMemoryLimitValue() < $minimumMemoryLimit)
+		{
+			return self::setMemoryLimit($minimumMemoryLimit);
+		}
+		
+		return false;
+	}
 	
 	static public function log($message = '')
 	{
@@ -387,7 +426,37 @@ class Piwik
 		}
 		return Piwik::CLASSES_PREFIX.$class;
 	}
+	static public function unprefixClass( $class )
+	{
+		$lenPrefix = strlen(Piwik::CLASSES_PREFIX);
+		if(substr($class, 0, $lenPrefix) == Piwik::CLASSES_PREFIX)
+		{
+			return substr($class, $lenPrefix);
+		}
+		return $class;
+	}
 	
+	/**
+	 * returns false if the URL to redirect to is already this URL
+	 */
+	static public function redirectToModule( $newModule, $newAction = '' )
+	{
+		$currentModule = Piwik_Common::getRequestVar('module', '', 'string');
+		$currentAction = Piwik_Common::getRequestVar('action', '', 'string');
+	
+		if($currentModule != $newModule
+			||  $currentAction != $newAction )
+		{
+			
+			$newUrl = Piwik_URL::getCurrentUrlWithoutQueryString() 
+				. Piwik_Url::getCurrentQueryStringWithParametersModified(
+						array('module' => $newModule, 'action' => $newAction)
+				);
+	
+			Piwik_Url::redirectToUrl($newUrl);
+		}
+		return false;
+	}
 	/**
 	 * path without trailing slash
 	 */
@@ -417,6 +486,10 @@ class Piwik
 		return $prefixTables . $table;
 	}
 	
+	/**
+	 * Names of all the prefixed tables in piwik
+	 * Doesn't use the DB 
+	 */
 	static public function getTablesNames()
 	{
 		$aTables = array_keys(self::getTablesCreateSql());
@@ -458,11 +531,16 @@ class Piwik
 	}
 	
 	
-	static public function createDatabaseObject()
+	static public function createDatabaseObject( $dbInfos = null )
 	{
 		$config = Zend_Registry::get('config');
-		$dbOptions = $config->database->toArray();
-		$db = Zend_Db::factory($config->database->adapter, $dbOptions);
+		
+		if(is_null($dbInfos))
+		{
+			$dbInfos = $config->database->toArray();
+		}
+		$db = Zend_Db::factory($config->database->adapter, $dbInfos);
+		$db->getConnection();
 		Zend_Db_Table::setDefaultAdapter($db);
 		Zend_Registry::set('db', $db);
 	}
@@ -530,16 +608,20 @@ class Piwik
 		assert(count($config) != 0);
 	}
 
-	static public function dropTables( $doNotDelete)
+	static public function dropTables( $doNotDelete = array() )
 	{
 		$tablesAlreadyInstalled = self::getTablesInstalled();
 		$db = Zend_Registry::get('db');
 		
+		$doNotDeletePattern = "(".implode("|",$doNotDelete).")";
+		
 		foreach($tablesAlreadyInstalled as $tableName)
 		{
-			$doNotDeletePattern = "(".implode("|",$doNotDelete).")";
-			if(!in_array($tableName,$doNotDelete)
-				&& !ereg($doNotDeletePattern,$tableName)
+			
+			if( count($doNotDelete) == 0
+				|| (!in_array($tableName,$doNotDelete)
+					&& !ereg($doNotDeletePattern,$tableName)
+					)
 				)
 			{
 				$db->query("DROP TABLE $tableName");
@@ -547,6 +629,17 @@ class Piwik
 		}			
 	}
 	
+	/**
+	 * Returns true if the email is a valid email
+	 * 
+	 * @param string email
+	 * @return bool
+	 */
+    static public function isValidEmailString( $email ) 
+    {
+		return (preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,4}$/', $email) > 0);
+    }
+    
 	static public function createTables()
 	{
 		$db = Zend_Registry::get('db');

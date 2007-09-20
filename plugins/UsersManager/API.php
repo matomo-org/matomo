@@ -204,7 +204,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	
 	static private function checkEmail($email)
 	{
-		if(!self::isValidEmailString($email))
+		if(!Piwik::isValidEmailString($email))
 		{
 			throw new Exception("The email doesn't have a valid format.");
 		}
@@ -497,18 +497,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		return md5($userLogin . $password );
 		
 	}
-	
-	/**
-	 * Returns true if the email is a valid email
-	 * 
-	 * @param string email
-	 * @return bool
-	 */
-    static private function isValidEmailString( $email ) 
-    {
-		return (preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,4}$/', $email) > 0);
-    }
-	
+		
 	/**
 	 * Returns true if the login has a valid format : 
 	 * - only A-Z a-z and the characters _ . and -

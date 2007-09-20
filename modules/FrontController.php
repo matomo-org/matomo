@@ -80,9 +80,22 @@ class Piwik_FrontController
 	{
 		Zend_Registry::set('timer', new Piwik_Timer);
 		
-		//move into a init() method
-		Piwik::createConfigObject();
+		$exceptionToThrow = false;
 		
+		//move into a init() method
+		try {
+			Piwik::createConfigObject();
+		} catch(Exception $e) {
+			Piwik_PostEvent('FrontController.NoConfigurationFile', $e);
+			$exceptionToThrow = $e;
+		}
+		
+		Piwik::loadPlugins();
+		
+		if($exceptionToThrow)
+		{
+			throw $exceptionToThrow;
+		}
 		// database object
 		Piwik::createDatabaseObject();
 		
@@ -115,11 +128,7 @@ class Piwik_FrontController
 		Piwik::dropTables($doNotDrop);
 		Piwik::createTables();
 		
-		// load plugins
-		Piwik_PluginsManager::getInstance()->setInstallPlugins(); 
-		
-		//TODO plugins install to handle in a better way
-		Piwik::loadPlugins();
+		Piwik_PluginsManager::getInstance()->installPlugins();
 		
 		// Setup the auth object
 		Piwik_PostEvent('FrontController.authSetCredentials');

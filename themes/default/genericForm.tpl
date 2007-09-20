@@ -1,7 +1,8 @@
 
 {if $form_data.errors}
-	<div id="adminErrors">
-	<strong>Errors</strong>
+	<div class="warning">
+		<img src="themes/default/images/warning_medium.png">
+	<strong>Please fix the following errors:</strong>
 	<ul>
 	{foreach from=$form_data.errors item=data}
 	<li>{$data}</li>
@@ -46,7 +47,7 @@
 	</table>
 	</div>
 {/foreach}
-<div class="boutonsAction">
+<div class="submit">
 
 {$form_data.submit.html}
 </div>

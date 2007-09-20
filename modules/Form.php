@@ -14,6 +14,9 @@ abstract class Piwik_Form extends HTML_QuickForm
 		}
 		parent::HTML_QuickForm('form', 'POST', $action);
 		
+		$this->registerRule( 'checkEmail', 'function', 'Piwik_Form_isValidEmailString');
+		$this->registerRule( 'fieldHaveSameValue', 'function', 'Piwik_Form_fieldHaveSameValue');
+	
 		$this->init();
 	}
 	
@@ -66,4 +69,15 @@ abstract class Piwik_Form extends HTML_QuickForm
 		
 	}
 	
+}
+
+function Piwik_Form_fieldHaveSameValue($element, $value, $arg) 
+{
+	$value2 = Piwik_Common::getRequestVar( $arg, '', 'string');
+	return $value === $value2;
+}
+
+function Piwik_Form_isValidEmailString( $element, $value )
+{
+	return Piwik::isValidEmailString($value);
 }

@@ -30,7 +30,6 @@ require_once "Event/Dispatcher.php";
 class Piwik_PluginsManager
 {
 	public $dispatcher;
-	private $pluginsPath;
 	protected $pluginsToLoad = array();
 	protected $installPlugins = false;
 	protected $doLoadPlugins = true;
@@ -51,9 +50,6 @@ class Piwik_PluginsManager
 	
 	private function __construct()
 	{
-//		$this->pluginsPath = '/plugins/';
-//		$this->pluginsCategory = null;
-		
 		$this->dispatcher = Event_Dispatcher::getInstance();
 	}
 	
@@ -69,23 +65,25 @@ class Piwik_PluginsManager
 		$this->loadPlugins();
 	}
 	
-	public function setInstallPlugins()
-	{
-		$this->installPlugins = true;
-	}
-	
 	public function doNotLoadPlugins()
 	{
 		$this->doLoadPlugins = false;
-	}
-	public function doInstallPlugins()
-	{
-		return $this->installPlugins;
 	}
 	
 	protected function addLoadedPlugin($newPlugin)
 	{
 		$this->loadedPlugins[] = $newPlugin;
+	}
+	
+	public function getLoadedPluginsName()
+	{
+		$oPlugins = $this->getLoadedPlugins();
+		$pluginNames = array();
+		foreach($oPlugins as $plugin)
+		{
+			$pluginNames[] = get_class($plugin);
+		}
+		return $pluginNames;
 	}
 	
 	public function getLoadedPlugins()
@@ -98,12 +96,7 @@ class Piwik_PluginsManager
 	 * 
 	 */
 	public function loadPlugins()
-	{
-//		$defaultPlugins = array(
-//			array( 'fileName' => 'Provider', 'className' => 'Piwik_Plugin_LogStats_Provider' ),
-//		//	'Piwik_Plugin_LogStats_UserSettings',
-//		);
-		
+	{		
 		foreach($this->pluginsToLoad as $pluginName)
 		{
 			$pluginFileName = $pluginName . ".php";
@@ -111,41 +104,40 @@ class Piwik_PluginsManager
 			
 			// TODO make sure the plugin name is secure
 			// make sure thepluigin is a child of Piwik_Plugin
-			$path = 
-//					PIWIK_INCLUDE_PATH 
-//					. $this->pluginsPath 
-//					. $this->pluginsCategory
-					$pluginFileName;
-			//TODO bug here should be NOT
-			if(is_file($path))
+			$path = PIWIK_PLUGINS_PATH . '/' . $pluginFileName;
+
+			if(!is_file($path))
 			{
-				throw new Exception("The plugin file $path couldn't be found.");
+				throw new Exception("The plugin file {$path} couldn't be found.");
 			}
 			
 			require_once $path;
 			
-			//TODO bug here should be NOT
-			if($pluginClassName instanceof Piwik_Plugin)
+			$newPlugin = new $pluginClassName;
+			
+			if(!($newPlugin instanceof Piwik_Plugin))
 			{
 				throw new Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
 			}
-			$newPlugin = new $pluginClassName;
-			
-			
-			if($this->doInstallPlugins())
-			{
-				try{
-					$newPlugin->install();
-				} catch(Exception $e) {
-					//TODO Better plugin management....
-				}
-			}
 			
 			if($this->doLoadPlugins)
-			{				
+			{
 				$newPlugin->registerTranslation( $this->languageToLoad );
 				$this->addPluginObservers( $newPlugin );
-				$this->addLoadedPlugin($pluginName);
+				$this->addLoadedPlugin($newPlugin);
+			}
+		}
+	}
+	
+	public function installPlugins()
+	{
+		foreach($this->getLoadedPlugins() as $plugin)
+		{		
+//			var_dump($plugin);
+			try{
+				$plugin->install();
+			} catch(Exception $e) {
+				//TODO Better plugin management....
 			}
 		}
 	}
@@ -175,7 +167,7 @@ class Piwik_PluginsManager
  */
 function Piwik_PostEvent( $eventName, $object = null, $info = array() )
 {
-	Piwik_PluginsManager::getInstance()->dispatcher->post( $object, $eventName, $info, false, false );
+	Piwik_PluginsManager::getInstance()->dispatcher->post( $object, $eventName, $info, true, false );
 }
 
 

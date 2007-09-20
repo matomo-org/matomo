@@ -44,7 +44,7 @@ class Piwik_API_Proxy
 	 * The method will introspect the methods, their parameters, etc. 
 	 */
 	public function registerClass( $fileName )
-	{		
+	{
 		if(isset($this->alreadyRegistered[$fileName]))
 		{
 			return;
