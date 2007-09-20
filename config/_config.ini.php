@@ -4,14 +4,14 @@
 ; the config.ini.php file contains information about the super user and the database access
 
 [superuser]
-login			= root
-password		= nintendo
+login			= yourSuLogin
+password		= yourSuPassword
 email			= hello@piwik.org
 
 [database]
 host			= localhost
-username		= root
-password		= nintendo
-dbname			= piwiktrunk
+username		= databaseLogin
+password		= datatabasePassword
+dbname			= databaseName
 adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 tables_prefix	= piwik_
