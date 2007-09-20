@@ -3,13 +3,14 @@ login			= root
 password		= nintendo
 
 [database]
-host			= localhost
-username		= root
-password		= nintendo
-dbname			= piwiktrunk
+host			= 
+username		= 
+password		= 
+dbname			= 
+tables_prefix	= 
 adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
-tables_prefix	= piwik_
-profiler 		= false
+;is it used? if yes add it in the session array in the installation
+;profiler 		= false
 
 [database_tests : database]
 dbname			= piwiktests
@@ -20,6 +21,7 @@ current			= en
 default			= en
 
 [Plugins]
+enabled[] 		= Installation
 enabled[] 		= Login
 enabled[] 		= UsersManager
 enabled[] 		= SitesManager
@@ -60,6 +62,8 @@ dataTable_default_sort_order = desc
 ; default number of elements in the datatable
 dataTable_default_limit = 10
 
+minimumPhpVersion = 5.1
+minimumMemoryLimit = 128
 
 [LogStats]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.

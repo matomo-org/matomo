@@ -1,12 +1,18 @@
 <?php
-
+//TODO cache the result of each method as it is supposed to be static and not changing throughout a same page request
 class Piwik_Url 
 {
-	static function getCurrentQueryStringWithParametersModified( $params )
-	{
+	
+	static function getArrayFromCurrentQueryString()
+	{	
 		$queryString = Piwik_Url::getCurrentQueryString();
 		$queryString = htmlspecialchars($queryString);
 		$urlValues = Piwik_Common::getArrayFromQueryString($queryString);
+		return $urlValues;
+	}
+	static function getCurrentQueryStringWithParametersModified( $params )
+	{
+		$urlValues = self::getArrayFromCurrentQueryString();
 	//	var_dump($urlValues);
 		foreach($params as $key => $value)
 		{

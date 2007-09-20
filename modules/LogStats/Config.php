@@ -27,20 +27,23 @@ class Piwik_LogStats_Config
 	
 	private function __construct()
 	{
-		$pathIniFile = PIWIK_INCLUDE_PATH . '/config/config.ini.php';
-		$this->config = parse_ini_file($pathIniFile, true);
+		$pathIniFileUser = PIWIK_INCLUDE_PATH . '/config/config.ini.php';
+		$pathIniFileGlobal = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
+		$this->configUser = parse_ini_file($pathIniFileUser, true);
+		$this->configGlobal = parse_ini_file($pathIniFileGlobal, true);
 	}
 	
 	public function __get( $name )
 	{
-		if(isset($this->config[$name]))
+		if(isset($this->configUser[$name]))
 		{
-			return $this->config[$name];
+			return $this->configUser[$name];
 		}
-		else
+		if(isset($this->configGlobal[$name]))
 		{
-			throw new Exception("The config element $name is not available in the configuration (check the configuration file).");
+			return $this->configGlobal[$name];
 		}
+		throw new Exception("The config element $name is not available in the configuration (check the configuration file).");
 	}
 }
 

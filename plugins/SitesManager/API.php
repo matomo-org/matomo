@@ -195,19 +195,19 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * 
 	 * @return int the website ID created
 	 */
-	static public function addSite( $name, $aUrls )
+	static public function addSite( $name, $urls )
 	{
 		Piwik::checkUserIsSuperUser();
 		
 		self::checkName($name);
-		$aUrls = self::cleanParameterUrls($aUrls);
-		self::checkUrls($aUrls);
-		self::checkAtLeastOneUrl($aUrls);
+		$urls = self::cleanParameterUrls($urls);
+		self::checkUrls($urls);
+		self::checkAtLeastOneUrl($urls);
 		
 		$db = Zend_Registry::get('db');
 		
-		$url = $aUrls[0];
-		$aUrls = array_slice($aUrls, 1);
+		$url = $urls[0];
+		$urls = array_slice($urls, 1);
 		
 		$db->insert(Piwik::prefixTable("site"), array(
 									'name' => $name,
@@ -217,7 +217,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 									
 		$idSite = $db->lastInsertId();
 		
-		self::insertSiteUrls($idSite, $aUrls);
+		self::insertSiteUrls($idSite, $urls);
 		
 		// we reload the access list which doesn't yet take in consideration this new website
 		Zend_Registry::get('access')->loadAccess();

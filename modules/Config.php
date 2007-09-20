@@ -15,19 +15,29 @@ class Piwik_Config
 	protected $pathIniFileUserConfig 		= null;
 	protected $pathIniFileDefaultConfig 	= null;
 	
+	static public function getDefaultUserConfigPath()
+	{
+		return PIWIK_INCLUDE_PATH . '/config/config.ini.php';
+	}
 	function __construct($pathIniFileUserConfig = null)
 	{
-		if(is_null($pathIniFileUserConfig))
-		{	
-			$this->pathIniFileUserConfig = PIWIK_INCLUDE_PATH . '/config/config.ini.php';
-			$this->pathIniFileDefaultConfig = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
-		}
-		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
-		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);
-		
 		Zend_Registry::set('config', $this);
 		
+		if(is_null($pathIniFileUserConfig))
+		{	
+			$this->pathIniFileUserConfig = self::getDefaultUserConfigPath();
+			$this->pathIniFileDefaultConfig = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
+		}
+		
+		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);
+		
+		if(!is_file($this->pathIniFileUserConfig))
+		{
+			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
+		}
+		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
 		$this->setPrefixTables();
+		
 	}
 	
 	public function setTestEnvironment()
@@ -44,12 +54,20 @@ class Piwik_Config
 	
 	public function __set($name, $value)
 	{
-		$this->userConfig->$name = $value;
+		if(!is_null($this->userConfig))
+		{
+			$this->userConfig->$name = $value;
+		}
+		else
+		{
+			$this->defaultConfig->$name = $value;
+		}
 	}
 	
 	public function __get($name)
     {
-        if(null !== ($valueInUserConfig = $this->userConfig->$name))
+        if( !is_null($this->userConfig)
+        	&& null !== ($valueInUserConfig = $this->userConfig->$name))
         {
         	return $valueInUserConfig;
         }
