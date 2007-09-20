@@ -144,7 +144,7 @@ class Test_Database extends UnitTestCase
 	
 	public function setUp()
 	{
-		Piwik::createConfigObject('config.ini.php');
+		Piwik::createConfigObject();
 		
 		// setup database	
 		Piwik::createDatabaseObject();
