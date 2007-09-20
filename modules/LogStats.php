@@ -177,9 +177,12 @@ class Piwik_LogStats
 			case self::STATE_NOTHING_TO_NOTICE:
 			default:
 				printDebug("Nothing to notice => default behaviour");
-				$trans_gif_64 = "R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw==";
-				header("Content-type: image/gif");
-				print(base64_decode($trans_gif_64));
+				if( !isset($GLOBALS['DEBUGPIWIK']) || !$GLOBALS['DEBUGPIWIK'] ) 
+				{
+					$trans_gif_64 = "R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw==";
+					header("Content-type: image/gif");
+					print(base64_decode($trans_gif_64));
+				}
 			break;
 		}
 		printDebug("End of the page.");

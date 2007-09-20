@@ -79,6 +79,7 @@ When commenting
 RELEASE PROCESS
 ===============
 Delete from the SVN files export:
+- config/config.ini.php
 - documentation/
 - libs/phpDocumentor
 - tmp
