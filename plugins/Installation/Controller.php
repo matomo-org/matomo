@@ -119,7 +119,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	protected function skipThisStep( $step )
 	{
-		if(isset($_SESSION['skipThisStep'][$step]))
+		if(isset($_SESSION['skipThisStep'][$step])
+			&& $_SESSION['skipThisStep'][$step])
 		{
 			$this->redirectToNextStep($step);
 		}
@@ -140,6 +141,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			Piwik::dropTables();
 			$view->existingTablesDeleted = true;
+			
+			// when the user decides to drop the tables then we dont skip the next steps anymore
+			$_SESSION['skipThisStep']['firstWebsiteSetup'] = false;
+			$_SESSION['skipThisStep']['displayJavascriptCode'] = false;
 		}
 		
 		$tablesInstalled = Piwik::getTablesInstalled();
@@ -150,6 +155,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->someTablesInstalled = true;
 			$view->tablesInstalled = implode(", ", $tablesInstalled);
 			
+			// when the user reuses the same tables we skip the website creation step
 			$_SESSION['skipThisStep']['firstWebsiteSetup'] = true;
 			$_SESSION['skipThisStep']['displayJavascriptCode'] = true;
 		}
@@ -303,7 +309,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$_SESSION['currentStepDone'] = __FUNCTION__;		
 		$view->showNextStep = false;
 		
-//		session_destroy();
+	    setcookie(session_name(), session_id(), 1, '/');
+		session_destroy();	
 		echo $view->render();
 		
 		// cron tab help
@@ -351,9 +358,12 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		if( $currentStepId > $previousStepId + 1 )
 		{
 			//print("$currentStepId > $previousStepId");
-			print("Error: you can only go back during the installation process. 
-				<br>Make sure your cookies are enabled and go back 
-				<a href='".Piwik_Url::getCurrentUrlWithoutFileName()."'>to the first page of the installation</a>.");
+			print("
+			<div style='color:red;font-family:Georgia;font-size:120%'>
+			<img src='themes/default/images/error_medium.png' style='float:left;padding:20 20 20 20'> 
+			Error: it seems you try to skip a step of the Installation process, or your cookies are disabled. 
+			<br><b>Make sure your cookies are enabled</b> and go back 
+			<a style='color:red' href='".Piwik_Url::getCurrentUrlWithoutFileName()."'>to the first page of the installation</a>.");
 			exit;
 		}		
 	}

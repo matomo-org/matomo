@@ -8,13 +8,14 @@ Mission statement
 
 Install 
 =======
-1 - copy paste the javascript code found in log.htm into your website
-2 - enable pdo_mysql in your php.ini
-3 - launch index.php, you should see some text (without any PHP warning/error message)	
-4 - you can log as super user login = root, password = nintendo (change them in the config/config.ini.php file)
-5 - go to ?module=SitesManager and add a website
-6 - go to misc/generateVisits.php to generate some visits
-7 - go to your piwik/ directory to see the statistics 
+1 - upload piwik in your webserver and point your browser to the directory. Follow the steps.
+
+Configuration
+=============
+2 - go to ?module=SitesManager to manage your websites
+3 - go to misc/generateVisits.php to generate some visits
+4 - go to the root of your piwik/ directory and click the link at the bottom of the page 
+    to see the statistics 
 
 Requirements
 ============
