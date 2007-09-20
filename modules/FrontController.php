@@ -87,7 +87,7 @@ class Piwik_FrontController
 				$dir = realpath($dir);
 				if($bool === false)
 				{
-					$directoryList .= "<code>chmod 777 $dir</code>";
+					$directoryList .= "<code>chmod 777 $dir</code><br>";
 				}
 			}
 			$directoryList .= '';
