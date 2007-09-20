@@ -76,9 +76,91 @@ class Piwik_FrontController
 //
 	}
 	
+	protected function checkDirectoriesWritableOrDie()
+	{
+		$resultCheck = Piwik::checkDirectoriesWritable( );
+		if( array_search(false, $resultCheck) !== false )
+		{ 
+			$directoryList = '<ul>';
+			foreach($resultCheck as $dir => $bool)
+			{
+				$dir = realpath($dir);
+				if($bool === false)
+				{
+					$directoryList .= "<li><code>chmod 777 $dir</code></li>";
+				}
+			}
+			$directoryList .= '</ul>';
+			
+			$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your Linux server:</P>";
+			$directoryMessage .= $directoryList;
+			$directoryMessage .= "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 777 (with your FTP software, right click on the directories, permissions).";
+			$directoryMessage .= "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.";
+			$directoryMessage .= "<p>If you need more help, try <a href='http://piwik.org'>Piwik.org</a>.";
+			
+			
+			$html = '
+				<html>
+				<head>
+					<title>Piwik &rsaquo; Error</title>
+					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<style>
+				
+				html { background: #eee; }
+				
+				body {
+					background: #fff;
+					color: #000;
+					font-family: Georgia, "Times New Roman", Times, serif;
+					margin-left: 20%;
+					margin-top: 25px;
+					margin-right: 20%;
+					padding: .2em 2em;
+				}
+				
+				#h1 {
+					color: #006;
+					font-size: 45px;
+					font-weight: lighter;
+				}
+				
+				#subh1 {
+					color: #879DBD;
+					font-size: 25px;
+					font-weight: lighter;
+				}
+				
+				
+				p, li, dt {
+					line-height: 140%;
+					padding-bottom: 2px;
+				}
+				
+				ul, ol { padding: 5px 5px 5px 20px; }
+				
+				#logo { margin-bottom: 2em; }
+				
+				</style>
+				</head>
+				<body>
+					<span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span>
+					<p>'.$directoryMessage.'</p>
+				
+				</body>
+				</html>
+				
+				';
+		
+			print($html);
+			exit;	
+		}
+	}
+	
 	function init()
 	{
 		Zend_Registry::set('timer', new Piwik_Timer);
+		
+		$this->checkDirectoriesWritableOrDie();
 		
 		$exceptionToThrow = false;
 		

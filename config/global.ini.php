@@ -159,7 +159,6 @@ plugins_dir[]	= modules/SmartyPlugins
 ; where to store the compiled smarty templates
 compile_dir		= tmp/templates_c
 
-config_dir		= tmp/configs
 cache_dir		= tmp/cache
 
 ; error reporting inside Smarty

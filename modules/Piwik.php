@@ -28,6 +28,74 @@ class Piwik
 		return realpath( dirname(__FILE__). "/../" );
 	}
 	
+	/**
+	 * path without trailing slash
+	 */
+	static public function createHtAccess( $path )
+	{
+		@file_put_contents($path . "/.htaccess", "Deny from all");
+	}
+	
+	// path without trailing slash!!
+	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
+	{
+		$path = PIWIK_INCLUDE_PATH . '/' . $path;
+		
+		if(!is_dir($path))
+		{
+			$directoryParent = realpath(dirname($path));
+			
+			// test that the dir we are trying to write has write access
+			if( is_writable($directoryParent) )
+			{
+				mkdir($path, $mode, true);
+			}
+		}
+		
+		if($denyAccess)
+		{
+			Piwik::createHtAccess($path);
+		}
+	}
+	
+	/**
+	 * Throws an exception if the directories are not writable
+	 */
+	static public function checkDirectoriesWritable()
+	{		
+		$directoriesToCheck = array(
+			'/config',
+			'/tmp',
+			'/tmp/templates_c',
+			'/tmp/cache',
+		); 
+		
+		$resultCheck = array();
+		
+		foreach($directoriesToCheck as $name)
+		{
+			$directoryToCheck = PIWIK_INCLUDE_PATH . $name;
+			
+			$directory = realpath($directoryToCheck);
+			
+			$resultCheck[$directory] = false;
+			
+			if(!is_writable($directoryToCheck))
+			{			
+				Piwik::mkdir($directoryToCheck, 0755, false);
+			}
+			
+			
+			if(is_writable($directoryToCheck))
+			{
+				$resultCheck[$directory] = true;
+			}
+		}
+		
+		return $resultCheck;
+	}
+	
+	
 	static public function getMemoryLimitValue()
 	{
 		if($memory = ini_get('memory_limit'))
@@ -456,27 +524,6 @@ class Piwik
 			Piwik_Url::redirectToUrl($newUrl);
 		}
 		return false;
-	}
-	/**
-	 * path without trailing slash
-	 */
-	static public function createHtAccess( $path )
-	{
-		@file_put_contents($path . "/.htaccess", "Deny from all");
-	}
-	
-	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
-	{
-		$path = PIWIK_INCLUDE_PATH . '/' . $path;
-		if(!is_dir($path))
-		{
-			mkdir($path, $mode, true);
-		}
-		
-		if($denyAccess)
-		{
-			Piwik::createHtAccess($path);
-		}
 	}
 	
 	static public function prefixTable( $table )
