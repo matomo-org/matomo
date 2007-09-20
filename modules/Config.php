@@ -23,10 +23,14 @@ class Piwik_Config
 	{
 		Zend_Registry::set('config', $this);
 		
+		$this->pathIniFileDefaultConfig = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
 		if(is_null($pathIniFileUserConfig))
 		{	
 			$this->pathIniFileUserConfig = self::getDefaultUserConfigPath();
-			$this->pathIniFileDefaultConfig = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
+		}
+		else
+		{
+			$this->pathIniFileUserConfig = $pathIniFileUserConfig;
 		}
 		
 		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);

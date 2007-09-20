@@ -1,5 +1,0 @@
-&title=Tool Tip Example,{font-size: 35px; color: #738995}& &x_legend=2007,12,#000000& &x_axis_steps=1& &y_legend=Money,12,#000000& &y_ticks=5,10,2& &bar=50,#7D8E99,Earnings,10& &line_hollow_2=3,#799191,Savings,10,5& &values=5,3,3,2,5,3,4,3,3& &values_2=4,7,7,6,5,4,4,7,7& &x_labels=Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep& &y_min=0& &y_max=10& &bg_colour=#F0F0F0& &x_axis_colour=#FFFFFF& &x_grid_colour=#FFFFFF& &y_axis_colour=#FFFFFF& &y_grid_colour=#FFFFFF& &inner_background=#DDEFFA,#CBD7E6,90& &tool_tip=#key#: £#val#.00 (#x_label#, #x_legend#)
-Key: #key#
-X Label: #x_label#
-Val: £#val#.00
-X Legend: #x_legend#& 

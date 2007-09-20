@@ -12,9 +12,13 @@ adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 ;is it used? if yes add it in the session array in the installation
 ;profiler 		= false
 
-[database_tests : database]
+[database_tests]
+host = localhost
+username = root
+password = nintendo
 dbname			= piwiktests
 tables_prefix	= piwiktests_
+adapter = PDO_MYSQL
 
 [Language]
 current			= en
