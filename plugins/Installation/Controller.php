@@ -358,37 +358,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	
 	
-	protected function checkDirectoriesWritable()
-	{
-		$directoriesToCheck = array(
-			'/config',
-			'/tmp',
-			'/tmp/templates_c',
-			'/tmp/configs',
-			'/tmp/cache',
-		); 
-		
-		$resultCheck = array();
-		
-		foreach($directoriesToCheck as $name)
-		{
-			$directoryToCheck = PIWIK_INCLUDE_PATH . $name;
-			
-			$resultCheck[$name] = false;
-			
-			if(!is_writable($directoryToCheck))
-			{			
-				Piwik::mkdir($directoryToCheck);
-			}
-			
-			if(is_writable($directoryToCheck))
-			{
-				$resultCheck[$name] = true;
-			}
-		}
-		
-		return $resultCheck;
-	}
+	
 	
 	protected function getSystemInformation()
 	{
@@ -398,7 +368,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos = array();
 	
 		// directory to write
-		$infos['directories'] = $this->checkDirectoriesWritable();
+		$infos['directories'] = Piwik::checkDirectoriesWritable();
 		
 		// php version
 		$infos['phpVersion_minimum'] = $minimumPhpVersion;
