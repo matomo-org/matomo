@@ -61,15 +61,22 @@ class Piwik_Log_Formatter_Exception_ScreenFormatter implements Zend_Log_Formatte
 		$errline = $event['errline'] ;
 		$backtrace = $event['backtrace'] ;
 		
-		$strReturned = '';
-	    $strReturned .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'><b>";
-	    $strReturned .= "Exception uncaught</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
-	    $strReturned .= "<br><br>Backtrace --><DIV style='font-family:Courier;font-size:10pt'>";
-	    $strReturned .= str_replace("\n", "<br>", $backtrace);
-	    $strReturned .= "</div><br><br>";
-	    $strReturned .= "\n</pre></div><br>";
-	    
-	    return $strReturned;
+		$message = "<br> <b>Uncaught exception</b>: '". $errstr."'";
+		$message .= "<br><a onclick=\"if(document.getElementById('backtrace').style.display=='none') { document.getElementById('backtrace').style.display='inline' } else { document.getElementById('backtrace').style.display = 'none' }\" href='#'>More information</a>
+					<div style='display:inline' id='backtrace'>
+					<br>	In <b>$errfile</b> on line <b>$errline</b>
+					<br>	<small>Backtrace:<br><pre >";
+		$message .= str_replace("\n", "<br>", $backtrace);
+		$message .= "</pre>";
+		$message .= "</small></div>";
+
+		// without javascript it displays the full error message
+		// but with javascript we hide the DIV and onclick we show it  
+		$message .= "<script>document.getElementById('backtrace').style.display='none';</script>";
+		
+		$message .= "<br>You can get help from <a href='http://piwik.org'>Piwik.org</a> (give us the full error message)";
+
+	    return $message;
     }
 }
 

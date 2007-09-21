@@ -140,6 +140,21 @@ class Piwik
 		trigger_error($message, E_USER_ERROR);
 	}
 	
+	/**
+	 * Display the message in a nice red font with a nice icon
+	 * ... and dies
+	 */
+	static public function exitWithErrorMessage( $message )
+	{
+		print("<style> a { color:red } </style>
+			<div style='color:red;font-family:Georgia;font-size:120%'>
+			<img src='themes/default/images/error_medium.png' style='float:left;padding:20 20 20 20'> 
+			$message
+			</div>"
+		);
+		exit;
+	}
+	
 	//TODO TEST secureDiv
 	static public function secureDiv( $i1, $i2 )
 	{
@@ -552,15 +567,27 @@ class Piwik
 	
 	static public function getTablesInstalled()
 	{
-		$allMyTables = self::getTablesNames();
 
 		$db = Zend_Registry::get('db');
 		$config = Zend_Registry::get('config');
 		$prefixTables = $config->database->tables_prefix;
 		
-		$allTables = $db->fetchCol("SHOW TABLES LIKE '$prefixTables%'");
-				
-		return $allTables;		
+		$allTables = $db->fetchCol("SHOW TABLES");
+		
+		// all the tables to be installed
+		$allMyTables = self::getTablesNames();
+		
+		// we get the intersection between all the tables in the DB and the tables to be installed
+		$tablesInstalled = array_intersect($allMyTables, $allTables);
+		
+		// at this point we have only the piwik tables which is good
+		// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
+		$allArchiveNumeric = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
+		$allArchiveBlob = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
+		
+		$allTablesReallyInstalled = array_merge($tablesInstalled, $allArchiveNumeric, $allArchiveBlob);
+		
+		return 	$allTablesReallyInstalled;
 	}
 	
 	static public function createDatabase()

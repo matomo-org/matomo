@@ -9,29 +9,43 @@
 	<tr>
 		<td class="label">PHP version &gt; {$infos.phpVersion_minimum}</td>
 		<td>{if $infos.phpVersion_ok}{$ok}{else}{$error}{/if}</td>
-	</tr>
+	</tr><tr>
+		<td class="label">Pdo extension</td>
+		<td>{if $infos.pdo_ok}{$ok}
+		{else}{$error}{/if}	
+		</td>
+	</tr>  
 	<tr>
 		<td class="label">Pdo_Mysql extension</td>
 		<td>{if $infos.pdo_mysql_ok}{$ok}
-		
 		{else}{$error}
-		<p class="error" style="width:80%">You need to enable the <code>php_pdo</code> and <code>php_pdo_mysql</code> extensions in your 
-		php.ini file.
-		<br><br><small>On a windows server you can add the lines 
-		<code>extension=php_pdo.dll
-			extension=php_pdo_mysql.dll</code> in your php.ini 
-		</small>
-		</p>
 		{/if}
 		
-		
+		{if !$infos.pdo_mysql_ok || !$infos.pdo_ok}
+			<p class="error" style="width:80%">You need to enable the <code>php_pdo</code> and <code>php_pdo_mysql</code> extensions in your 
+			php.ini file.
+			<small>
+			<br><br>On a windows server you can add the lines 
+			<code>extension=php_pdo.dll
+				extension=php_pdo_mysql.dll</code> in your php.ini 
+			
+			<br><br>On a Linux server you can compile php with the following option
+			<code>--with-pdo-mysql </code> 
+			
+			<br><br>More information on the <a style="color:red" href='http://php.net/pdo'>PHP website</a>.
+			</small>
+			</p>
+		{/if}
 		
 		</td>
-	</tr>  
+	</tr>
+	
+	{* We don't use utf8_encode currently but I think we will soon so I leave the code here
 	<tr>
 		<td class="label">PHP-XML extension <br> (utf8_decode function)</td>
 	    <td>{if $infos.phpXml_ok}{$ok}{else}{$error}{/if}</td>
 	</tr>
+	*}
 	<tr>
 		<td valign="top">
 			Directories with write access
@@ -85,3 +99,10 @@ Legend:
 {$error} Error to be fixed<br>
 {$warning} Warning: Piwik will work normally but some features may be missing<br>
 </small></p>
+
+{if !$showNextStep}
+<p class="nextStep">
+	<a href="{url}">Refresh the page &raquo;</a>
+</p>
+
+{/if}

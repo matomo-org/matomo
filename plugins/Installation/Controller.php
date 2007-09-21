@@ -70,8 +70,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		$view->showNextStep = !$view->problemWithSomeDirectories 
 							&& $view->infos['phpVersion_ok']
+							&& $view->infos['pdo_ok']
 							&& $view->infos['pdo_mysql_ok']
-							&& $view->infos['phpXml_ok'];
+
+						;
 		$_SESSION['currentStepDone'] = __FUNCTION__;		
 
 		echo $view->render();
@@ -367,17 +369,15 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		// not OK if currentStepId > previous+1
 		if( $currentStepId > $previousStepId + 1 )
 		{
-			//print("$currentStepId > $previousStepId");
-			print("
-			<div style='color:red;font-family:Georgia;font-size:120%'>
-			<img src='themes/default/images/error_medium.png' style='float:left;padding:20 20 20 20'> 
-			Error: it seems you try to skip a step of the Installation process, or your cookies are disabled. 
-			<br><b>Make sure your cookies are enabled</b> and go back 
-			<a style='color:red' href='".Piwik_Url::getCurrentUrlWithoutFileName()."'>to the first page of the installation</a>.");
-			exit;
+			$message = "Error: it seems you try to skip a step of the Installation process, #
+						or your cookies are disabled. 
+						<br><b>Make sure your cookies are enabled</b> and go back 
+						<a href='".Piwik_Url::getCurrentUrlWithoutFileName()."'>
+						to the first page of the installation</a>.";
+			Piwik::exitWithErrorMessage( $message );
 		}		
 	}
-	
+
 	protected function redirectToNextStep($currentStep)
 	{
 		$_SESSION['currentStepDone'] = $currentStep;
@@ -413,6 +413,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		$extensions = @get_loaded_extensions();
 		
+		$infos['pdo_ok'] = false;
+		// Mysql + version
+		if (in_array('PDO', $extensions))  
+		{
+		    $infos['pdo_ok'] = true;
+		}
+				
 		$infos['pdo_mysql_ok'] = false;
 		// Mysql + version
 		if (in_array('pdo_mysql', $extensions))  
@@ -436,12 +443,12 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['setTimeLimit_ok'] = true;
 		}
 	
-		$infos['phpXml_ok'] = false;
-		if(function_exists( 'utf8_encode') 
-			&& function_exists( 'utf8_decode'))
-		{
-			$infos['phpXml_ok'] = true;
-		}
+//		$infos['phpXml_ok'] = false;
+//		if(function_exists( 'utf8_encode') 
+//			&& function_exists( 'utf8_decode'))
+//		{
+//			$infos['phpXml_ok'] = true;
+//		}
 		
 		$infos['mail_ok'] = false;
 		if(function_exists('mail'))
