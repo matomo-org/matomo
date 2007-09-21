@@ -26,7 +26,7 @@ function getAddSiteAJAX( row )
 	
  	var name = $(row).find('input[@id=siteadd_name]').val();
  	var urls =  $(row).find('textarea[@id=siteadd_urls]').val();
-	var aUrls = urls.trim().split("\n");
+	var urls = urls.trim().split("\n");
  	
 	var request = '';
 	request += '&module=API';
@@ -34,7 +34,7 @@ function getAddSiteAJAX( row )
 	request += '&method=SitesManager.addSite';
 	request += '&name='+escape(name);
 	
-	$.each(aUrls, function (key,value){ request+= '&aUrls[]='+escape(value);} );
+	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
 
 	ajaxRequest.data = request;
  	
@@ -48,7 +48,7 @@ function getUpdateSiteAJAX( row )
 	
 	var name = $(row).find('input[@id=name]').val();
 	var idSite = $(row).children('#idSite').html();
-	var aUrls = $(row).find('textarea[@id=aUrls]').val().trim().split("\n");
+	var urls = $(row).find('textarea[@id=urls]').val().trim().split("\n");
 	
 	var request = '';
 	request += '&module=API';
@@ -56,7 +56,7 @@ function getUpdateSiteAJAX( row )
 	request += '&method=SitesManager.updateSite';
 	request += '&name='+escape(name);
 	request += '&idSite='+idSite;
-	$.each(aUrls, function (key,value){ if(value.length>1) request+= '&aUrls[]='+value;} );
+	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
 
 	ajaxRequest.data = request;
 	
@@ -125,7 +125,7 @@ function getUpdateSiteAJAX( row )
 								}
 								if(idName == 'urls')
 								{
-									var contentAfter = '<textarea cols=30 rows=3 id="aUrls">'+contentBefore.replace(/<br>/gi,"\n")+'</textarea>';
+									var contentAfter = '<textarea cols=30 rows=3 id="urls">'+contentBefore.replace(/<br>/gi,"\n")+'</textarea>';
 									$(n).html(contentAfter);
 								}
 							}
