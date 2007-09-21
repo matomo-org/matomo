@@ -1,5 +1,9 @@
 
-<html><body>
+<html>
+<head>
+<title>Piwik &raquo; Installation</title>
+</head>
+<body>
 
 {literal}
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>

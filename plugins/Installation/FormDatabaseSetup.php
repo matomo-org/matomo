@@ -18,7 +18,7 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_Form
 		$formRules = array();
 		foreach($formElements as $row)
 		{
-			if($row[1] != 'password')
+			if($row[1] != 'password' && $row[1] != 'tables_prefix')
 			{
 				$formRules[] = array($row[1], sprintf('%s required', $row[2]), 'required');
 			}
