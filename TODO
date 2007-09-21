@@ -78,18 +78,10 @@ When commenting
 - check warning PHP DOC for missing @package
 - look for "[TAB]function " for missing public/private on methods
 
-RELEASE PROCESS
-===============
-Delete from the SVN files export:
-- config/config.ini.php
-- documentation/
-- libs/phpDocumentor
-- tmp
 
 WEBSITE
 =======
-- add le tracking des visites de piwik.org
-- add link to last.zip on the homepage
+- launch blog
 
            ------------------
 				Timeline

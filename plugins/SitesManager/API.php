@@ -245,10 +245,10 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * 
 	 * @exception if the parameter is not an array or if array empty 
 	 */
-	static private function checkAtLeastOneUrl( $aUrls )
+	static private function checkAtLeastOneUrl( $urls )
 	{
-		if(!is_array($aUrls)
-			|| count($aUrls) == 0)
+		if(!is_array($urls)
+			|| count($urls) == 0)
 		{
 			throw new Exception("You must specify at least one URL for the site.");
 		}
@@ -262,15 +262,15 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * 
 	 * @return int the number of inserted URLs
 	 */
-	static public function addSiteAliasUrls( $idsite,  $aUrls)
+	static public function addSiteAliasUrls( $idsite,  $urls)
 	{
 		Piwik::checkUserHasAdminAccess( $idsite );
 		
-		$aUrls = self::cleanParameterUrls($aUrls);
-		self::checkUrls($aUrls);
+		$urls = self::cleanParameterUrls($urls);
+		self::checkUrls($urls);
 		
-		$urls = self::getSiteUrlsFromId($idsite);
-		$toInsert = array_diff($aUrls, $urls);
+		$urlsInit = self::getSiteUrlsFromId($idsite);
+		$toInsert = array_diff($urls, $urlsInit);
 		self::insertSiteUrls($idsite, $toInsert);
 		
 		return count($toInsert);
@@ -288,23 +288,23 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * 
 	 * @return int the number of inserted URLs
 	 */
-	static public function replaceSiteUrls( $idSite,  $aUrls)
+	static public function replaceSiteUrls( $idSite,  $urls)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 		
-		$aUrls = self::cleanParameterUrls($aUrls);
-		self::checkUrls($aUrls);
-		self::checkAtLeastOneUrl($aUrls);
+		$urls = self::cleanParameterUrls($urls);
+		self::checkUrls($urls);
+		self::checkAtLeastOneUrl($urls);
 		
 		$site = self::getSiteFromId($idSite);
 		
-		$site['main_url'] = $aUrls[0];
+		$site['main_url'] = $urls[0];
 		self::updateSite($site['idsite'], $site['name'], $site['main_url']);
 		
-		$aUrls = array_slice($aUrls,1);
+		$urls = array_slice($urls,1);
 		self::deleteSiteAliasUrls($idSite);
 		
-		$insertedUrls = self::addSiteAliasUrls($idSite, $aUrls);
+		$insertedUrls = self::addSiteAliasUrls($idSite, $urls);
 		
 		// we have updated the main_url at least, and maybe some alias URLs
 		return 1 + $insertedUrls;
@@ -324,7 +324,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * 
 	 * @return bool true on success
 	 */
-	static public function updateSite( $idSite, $name, $aUrls = null)
+	static public function updateSite( $idSite, $name, $urls = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
@@ -333,12 +333,12 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		// SQL fields to update
 		$bind = array();
 		
-		if(!is_null($aUrls))
+		if(!is_null($urls))
 		{
-			$aUrls = self::cleanParameterUrls($aUrls);
-			self::checkUrls($aUrls);
-			self::checkAtLeastOneUrl($aUrls);
-			$url = $aUrls[0];
+			$urls = self::cleanParameterUrls($urls);
+			self::checkUrls($urls);
+			self::checkAtLeastOneUrl($urls);
+			$url = $urls[0];
 			
 			$bind['main_url'] = $url;
 		}
@@ -355,9 +355,9 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		// if there are more than 1 url for this website we need to set also the alias URLs
 		// we use the replaceSiteUrls function ; it is not great because it will update the 
 		// same row we have just updated... but it is better than duplicating the logic
-		if(count($aUrls) > 1)
+		if(count($urls) > 1)
 		{
-			self::replaceSiteUrls($idSite, $aUrls);
+			self::replaceSiteUrls($idSite, $urls);
 		}
 	}
 	
@@ -365,12 +365,12 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * Insert the list of alias URLs for the website.
 	 * The URLs must not exist already for this website!
 	 */
-	static private function insertSiteUrls($idSite, $aUrls)
+	static private function insertSiteUrls($idSite, $urls)
 	{
-		if(count($aUrls) != 0)
+		if(count($urls) != 0)
 		{
 			$db = Zend_Registry::get('db');
-			foreach($aUrls as $url)
+			foreach($urls as $url)
 			{
 				$db->insert(Piwik::prefixTable("site_url"), array(
 										'idsite' => $idSite,
@@ -436,9 +436,9 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * @exception if any of the urls is not valid
 	 * @param array
 	 */
-	static private function checkUrls($aUrls)
+	static private function checkUrls($urls)
 	{
-		foreach($aUrls as $url)
+		foreach($urls as $url)
 		{			
 			if(!self::isValidUrl($url))
 			{
@@ -455,19 +455,19 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * @param string|array urls
 	 * @return array the array of cleaned URLs
 	 */
-	static private function cleanParameterUrls( $aUrls )
+	static private function cleanParameterUrls( $urls )
 	{
-		if(!is_array($aUrls))
+		if(!is_array($urls))
 		{
-			$aUrls = array($aUrls);
+			$urls = array($urls);
 		}
-		foreach($aUrls as &$url)
+		foreach($urls as &$url)
 		{
 			$url = self::removeTrailingSlash($url);
 		}
-		$aUrls = array_unique($aUrls);
+		$urls = array_unique($urls);
 		
-		return $aUrls;
+		return $urls;
 	}
 }
 
