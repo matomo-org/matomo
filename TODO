@@ -15,6 +15,7 @@ SMALL FEATURES
 
 BUGS
 ====
+- set the root password encrypted in the configuration file
 - The numbers in Visits summary seem wrong when compared to phpmyvisites, but the nb of actiosn under the action table for example is correct
   http://ns21996.ovh.net/piwik/?module=Home&action=index&idSite=1&period=day&date=yesterday
 - Purge log_ when archiving is done
@@ -84,12 +85,19 @@ Delete from the SVN files export:
 - libs/phpDocumentor
 - tmp
 
-
+WEBSITE
+=======
+- add le tracking des visites de piwik.org
+- add link to last.zip on the homepage
 
            ------------------
 				Timeline
            ------------------
-           
+To add in some release
+- Update piwik
+- PLugin update
+- API update / backward compatibility
+- Plugins management interface
 
 Todo before alpha public release
 ================================

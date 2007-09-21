@@ -12,7 +12,21 @@
 	</tr>
 	<tr>
 		<td class="label">Pdo_Mysql extension</td>
-		<td>{if $infos.pdo_mysql_ok}{$ok}{else}{$error}{/if}</td>
+		<td>{if $infos.pdo_mysql_ok}{$ok}
+		
+		{else}{$error}
+		<p class="error" style="width:80%">You need to enable the <code>php_pdo</code> and <code>php_pdo_mysql</code> extensions in your 
+		php.ini file.
+		<br><br><small>On a windows server you can add the lines 
+		<code>extension=php_pdo.dll
+			extension=php_pdo_mysql.dll</code> in your php.ini 
+		</small>
+		</p>
+		{/if}
+		
+		
+		
+		</td>
 	</tr>  
 	<tr>
 		<td class="label">PHP-XML extension <br> (utf8_decode function)</td>

@@ -34,7 +34,6 @@ set_exception_handler('Piwik_ExceptionHandler');
 
 require_once "FrontController.php";
 
-
 $controller = new Piwik_FrontController;
 $controller->init();
 $controller->dispatch();
