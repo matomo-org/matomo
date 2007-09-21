@@ -2,9 +2,12 @@
 require_once "Installation/Controller.php";
 class Piwik_Installation extends Piwik_Plugin
 {	
+	protected $installationControllerName = 'Piwik_Installation_Controller';
+	
 	public function __construct()
 	{
 		parent::__construct();
+		
 	}
 	
 	public function getInformation()
@@ -30,12 +33,24 @@ class Piwik_Installation extends Piwik_Plugin
 		return $hooks;
 	}
 	
+	public function setControllerToLoad( $newControllerName )
+	{
+		$this->installationControllerName = $newControllerName;
+	}
+	
+	protected function getInstallationController()
+	{
+		return new $this->installationControllerName();
+	}
+	
 	function startInstallation()
 	{
+		Piwik_PostEvent('Installation.startInstallation', $this);
+		
 		//Piwik::redirectToModule('Installation', 'welcome');
 		$step = Piwik_Common::getRequestVar('action', 'welcome', 'string');
 		
-		$controller = new Piwik_Installation_Controller;
+		$controller = $this->getInstallationController();
 		if(in_array($step, $controller->getInstallationSteps()))
 		{
 			$controller->$step();
