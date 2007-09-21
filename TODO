@@ -12,6 +12,7 @@ SMALL FEATURES
   we should have some sort of merging that would make possible to set only a sub configuration variable from the global.ini.php into the config.ini.php
   this way, during an upgrade, we could keep only the config/config.ini.php and overwrite the other config files with the update piwik version
   and we would keep the changes made to some configuration variables
+- piwik could try create the database if it doesn't exist
 
 BUGS
 ====

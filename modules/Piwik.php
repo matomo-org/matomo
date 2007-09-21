@@ -164,12 +164,20 @@ class Piwik
 		}   
 		return 0;
 	}
-	
-	static public function printQueryCount()
+	static public function getQueryCount()
 	{
 		$profiler = Zend_Registry::get('db')->getProfiler();
-		$totalTime    = $profiler->getTotalElapsedSecs();
-		$queryCount   = $profiler->getTotalNumQueries();
+		return $profiler->getTotalNumQueries();
+	}
+	static public function getDbElapsedSecs()
+	{
+		$profiler = Zend_Registry::get('db')->getProfiler();
+		return $profiler->getTotalElapsedSecs();
+	}
+	static public function printQueryCount()
+	{
+		$totalTime = self::getDbElapsedSecs();
+		$queryCount = self::getQueryCount();
 		Piwik::log("Total queries = $queryCount (total sql time = ".round($totalTime,2)."s)");
 	}
 	

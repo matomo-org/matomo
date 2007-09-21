@@ -111,6 +111,7 @@ tr td.label img.plusMinus {
 	font-weight:normal;
 	margin:0pt;
 	padding:3px 5px;
+	line-height:1.8em;
 }
 
 #generatedMenu span:hover{
@@ -125,6 +126,24 @@ tr td.label img.plusMinus {
 
 .section {
 	display:hidden;
+}
+
+#stuff {
+	position:relative;
+	float:right;
+	margin-right:40%;
+	margin-top:10px;
+}
+#h1 {
+	color: #006;
+	font-size: 45px;
+	font-weight: lighter;
+}
+
+#subh1 {
+	color: #879DBD;
+	font-size: 25px;
+	font-weight: lighter;
 }
 </style>
 
@@ -166,16 +185,19 @@ $(document).ready( function(){
 });
 </script>
 {/literal}
-<h1>Piwik reports</h1>
-<div id="calendar"></div>
-<div>
-<p> Date = {$date}</p>
-<p>User logged = {$userLogin}</p>
-{include file="Home/templates/period_select.tpl"}<br><br>
-{include file="Home/templates/sites_select.tpl"}<br>
+
+<span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span><br>
+<br>
+<div id="stuff">
+	<div id="calendar"></div>
+	<div>
+		<p> Date = {$date}</p>
+		<p>User logged = {$userLogin}</p>
+		{include file="Home/templates/period_select.tpl"}<br><br>
+		{include file="Home/templates/sites_select.tpl"}<br>
+	</div>
 </div>
 
-<br><br>
 <span id="generatedMenu"></span>
 
 <div class="section" id="Visits_summary">
@@ -185,6 +207,10 @@ $(document).ready( function(){
 	<p>{$sumVisitLength|sumtime} total time spent by the visitors</p>
 	<p>{$maxActions} max actions</p>
 	<p>{$bounceCount} visitors have bounced (left the site directly)</p>
+	
+	
+	<br><br><br><hr width="300px" align="left">
+	<p><small>{$totalTimeGeneration} seconds {if $totalNumberOfQueries != 0}/ {$totalNumberOfQueries}  queries{/if} to generate the page</p>
 </div>
 
 <div class="section" id="User_Country">
@@ -281,6 +307,3 @@ $(document).ready( function(){
 	{$dataTableNumberOfVisitsPerPage}
 </div>
 
-
-<br><br><br><hr width="300px" align="left">
-<p><small>{$totalTimeGeneration} seconds to generate the page</p>
