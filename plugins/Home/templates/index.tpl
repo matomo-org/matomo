@@ -122,6 +122,10 @@ tr td.label img.plusMinus {
 	color:#00019B;
 	text-decoration:none;
 }
+
+.section {
+	display:hidden;
+}
 </style>
 
 
@@ -171,6 +175,7 @@ $(document).ready( function(){
 {include file="Home/templates/sites_select.tpl"}<br>
 </div>
 
+<br><br>
 <span id="generatedMenu"></span>
 
 <div class="section" id="Visits_summary">
