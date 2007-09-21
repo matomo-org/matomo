@@ -131,7 +131,7 @@ tr td.label img.plusMinus {
 #stuff {
 	position:relative;
 	float:right;
-	margin-right:40%;
+	margin-right:20%;
 	margin-top:10px;
 }
 #h1 {
