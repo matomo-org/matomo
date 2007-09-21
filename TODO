@@ -1,3 +1,13 @@
+TODO FIRST
+==========
+Finish the Openads plugin: 
+	- using the ../../openads_piwik_bridge class, 
+	- do the prototype to make sure we can print the piwik image with DOM from the header
+	- update the openads_piwik_bridge class comment and the specification
+	- send mail to the team to show the demo
+Classify all the below in TRAC and prioritize
+
+
 SMALL FEATURES
 ==============
 - when a method is called and doesn't make any access check, 
@@ -47,7 +57,7 @@ User Interface bugs
 - define the default output type on a per table basis
 - design a generic system to add _blocks_ in _pages_ (different from the _views_ associated to the controllers)
 - plugins can add & modify the menu
-- add the columns containing the % values based on the nb_visits or nb_visitors
+- add a column percent in all the tables, or add a new column aggregating "NB (percent%)"
 - when a given output is chosen (Tag cloud) hide the icon under the datatable
 
 Browsers specific bugs
