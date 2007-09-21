@@ -3,7 +3,8 @@ require_once "View.php";
 require_once "Installation/View.php";
 class Piwik_Installation_Controller extends Piwik_Controller
 {
-	protected $steps = array(
+	// public so plugins can modify it
+	public $steps = array(
 			'welcome',
 			'systemCheck',
 			'databaseSetup',
@@ -23,7 +24,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			$_SESSION['currentStepDone'] = '';
 		}
+		
+		Piwik_PostEvent('InstallationController.construct', $this);
 	}
+	
 	public function getInstallationSteps()
 	{
 		return $this->steps;
@@ -229,15 +233,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$name = urlencode($form->getSubmitValue('name'));
 			$url = urlencode($form->getSubmitValue('url'));
 			
-			// connect to the database using the DB infos currently in the session
-			$this->createDbFromSessionInformation();
-
-			// create the fake access to grant super user privilege
-			Zend_Registry::set('access', new Piwik_FakeAccess_SetSuperUser);
-			
-			// we need to create the logs otherwise the API request throws an exception
-			Piwik::createLogObject();
-			
+			$this->initObjectsToCallAPI();
+						
 			require_once "API/Request.php";
 			$request = new Piwik_API_Request("
 							method=SitesManager.addSite
@@ -319,6 +316,19 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	}
 	
 	
+	
+	
+	protected function initObjectsToCallAPI()
+	{
+		// connect to the database using the DB infos currently in the session
+		$this->createDbFromSessionInformation();
+
+		// create the fake access to grant super user privilege
+		Zend_Registry::set('access', new Piwik_FakeAccess_SetSuperUser);
+		
+		// we need to create the logs otherwise the API request throws an exception
+		Piwik::createLogObject();
+	}
 	
 	protected function writeConfigFileFromSession()
 	{

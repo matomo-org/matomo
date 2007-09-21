@@ -29,6 +29,7 @@ var minDateDay = {$minDateDay};
 
 <style type="text/css">@import url(libs/jquery/jquery-calendar.css);</style>
 {literal}
+
 <style>
 
 h1 {
@@ -92,9 +93,74 @@ tr td.label img.plusMinus {
 	color:#8D92AA;
 }
 
+#generatedMenu span {
+	text-decoration:underline;
+	color:blue;
+	cursor:pointer;
+}
 
+#generatedMenu span:hover {
+	background:#DDEAF4 none repeat scroll 0%;
+	color:#333333;
+}
 
+#generatedMenu span {
+	border-bottom:medium none;
+	color:#000000;
+	font-size:14px;
+	font-weight:normal;
+	margin:0pt;
+	padding:3px 5px;
+}
+
+#generatedMenu span:hover{
+	color:#006699;
+}
+
+#generatedMenu span	 {
+	border-bottom:1px solid #6699CC;
+	color:#00019B;
+	text-decoration:none;
+}
 </style>
+
+
+<script>
+$(document).ready( function(){
+	var allH2 = new Array;
+	var indexAllH2 = 0;
+	
+	// foreach each div with a class section we add this DIV ID to the menu array
+	$('.section')
+		.hide()
+		.each( function(){ 
+		$(this).prepend("<h2>"+ $(this).attr('id') +"</h2>");
+		allH2[indexAllH2++] = $(this).attr('id');
+	});
+	
+	// we generate the HTML of the menu
+	var htmlMenu = '';
+	for(i in allH2)
+	{
+		htmlMenu += " <span>"+allH2[i] +"</span> <small>#</small>";
+	}
+	
+	// we fill the span MENU with the HTML generated above
+	$('#generatedMenu')
+		.html( htmlMenu )
+		.each( function() {
+			// then for each element of this menu we add a click event 
+			// that shows the associated DIV 
+			$('span',this).click( function() {
+					$('.section').hide();
+					$('#'+$(this).text()).toggle();
+				})
+		});
+		
+	// we show the first section by default
+	$('.section').slice(0,1).show();
+});
+</script>
 {/literal}
 <h1>Piwik reports</h1>
 <div id="calendar"></div>
@@ -105,102 +171,111 @@ tr td.label img.plusMinus {
 {include file="Home/templates/sites_select.tpl"}<br>
 </div>
 
-<h2>Visits summary</h2>
-<p>{$nbUniqVisitors} unique visitors</p>
-<p>{$nbVisits} visits</p>
-<p>{$nbActions} actions (page views)</p>
-<p>{$sumVisitLength|sumtime} total time spent by the visitors</p>
-<p>{$maxActions} max actions</p>
-<p>{$bounceCount} visitors have bounced (left the site directly)</p>
+<span id="generatedMenu"></span>
 
-<h2>User Country</h2>
+<div class="section" id="Visits_summary">
+	<p>{$nbUniqVisitors} unique visitors</p>
+	<p>{$nbVisits} visits</p>
+	<p>{$nbActions} actions (page views)</p>
+	<p>{$sumVisitLength|sumtime} total time spent by the visitors</p>
+	<p>{$maxActions} max actions</p>
+	<p>{$bounceCount} visitors have bounced (left the site directly)</p>
+</div>
 
-<h3>Country</h3>
-{$dataTableCountry}
+<div class="section" id="User_Country">
+	<h3>Country</h3>
+	{$dataTableCountry}
+	<h3>Continent</h3>
+	{$dataTableContinent}
+</div>
 
-<h3>Continent</h3>
-{$dataTableContinent}
+<div class="section" id="Provider">
+	{$dataTableProvider}
+</div>
 
-<h2>Provider</h2>
-{$dataTableProvider}
+<div class="section" id="Referers">
+	<h3>Referer Type</h3>
+	{$dataTableRefererType}
+	
+	<h3>Search Engines</h3>
+	<p>{$numberDistinctSearchEngines} distinct search engines</p>
+	{$dataTableSearchEngines}
+	
+	<h3>Keywords</h3>
+	<p>{$numberDistinctKeywords} distinct keywords</p>
+	{$dataTableKeywords}
+	
+	
+	<h3>Websites</h3>
+	<p>{$numberDistinctWebsites} distinct websites</p>
+	<p>{$numberDistinctWebsitesUrls} distinct websites URLs</p>
+	{$dataTableWebsites}
+	
+	<h3>Partners</h3>
+	<p>{$numberDistinctPartners} distinct partners</p>
+	<p>{$numberDistinctPartnersUrls} distinct partners URLs</p>
+	{$dataTablePartners}
+	
+	<h3>Campaigns</h3>
+	<p>{$numberDistinctCampaigns} distinct campaigns</p>
+	{$dataTableCampaigns}
+</div>
 
-<h2>Referers</h2>
+<div class="section" id="Actions">
+	<h3>Actions</h3>
+	{$dataTableActions} 
+	<h3>Downloads</h3>
+	{$dataTableDownloads} 
+	<h3>Outlinks</h3>
+	{$dataTableOutlinks}
+</div>
 
-<h3>Referer Type</h3>
-{$dataTableRefererType}
-
-<h3>Search Engines</h3>
-<p>{$numberDistinctSearchEngines} distinct search engines</p>
-{$dataTableSearchEngines}
-
-<h3>Keywords</h3>
-<p>{$numberDistinctKeywords} distinct keywords</p>
-{$dataTableKeywords}
-
-
-<h3>Websites</h3>
-<p>{$numberDistinctWebsites} distinct websites</p>
-<p>{$numberDistinctWebsitesUrls} distinct websites URLs</p>
-{$dataTableWebsites}
-
-<h3>Partners</h3>
-<p>{$numberDistinctPartners} distinct partners</p>
-<p>{$numberDistinctPartnersUrls} distinct partners URLs</p>
-{$dataTablePartners}
-
-<h3>Campaigns</h3>
-<p>{$numberDistinctCampaigns} distinct campaigns</p>
-{$dataTableCampaigns}
-
-<h2>Actions</h2>
-<h3>Actions</h3>
-{$dataTableActions} 
-<h3>Downloads</h3>
-{$dataTableDownloads} 
-<h3>Outlinks</h3>
-{$dataTableOutlinks}
-
-<h2>User Settings</h2>
-<h3>Configurations</h3>
-{$dataTableConfiguration}
-
-<h3>Resolutions</h3>
-{$dataTableResolution}
-
-<h3>Operating systems</h3>
-{$dataTableOS}
-
-<h3>Browsers</h3>
-{$dataTableBrowser}
-
-<h3>Browser families</h3>
-{$dataTableBrowserType}
-
-<h3>Wide Screen</h3>
-{$dataTableWideScreen}
-
-<h3>Plugins</h3>
-{$dataTablePlugin}
+<div class="section" id="User_Settings">
+	<h3>Configurations</h3>
+	{$dataTableConfiguration}
+	
+	<h3>Resolutions</h3>
+	{$dataTableResolution}
+	
+	<h3>Operating systems</h3>
+	{$dataTableOS}
+	
+	<h3>Browsers</h3>
+	{$dataTableBrowser}
+	
+	<h3>Browser families</h3>
+	{$dataTableBrowserType}
+	
+	<h3>Wide Screen</h3>
+	{$dataTableWideScreen}
+	
+	<h3>Plugins</h3>
+	{$dataTablePlugin}
+</div>
 
 
-<h2>Frequency</h2>
-<p>{$nbVisitsReturning} returning visits</p>
-<p>{$nbActionsReturning} actions by the returning visits</p>
-<p>{$maxActionsReturning} maximum actions by a returning visit</p>
-<p>{$sumVisitLengthReturning|sumtime} total time spent by returning visits</p>
-<p>{$bounceCountReturning} times that a returning visit has bounced</p>
+<div class="section" id="Frequency">
+	<p>{$nbVisitsReturning} returning visits</p>
+	<p>{$nbActionsReturning} actions by the returning visits</p>
+	<p>{$maxActionsReturning} maximum actions by a returning visit</p>
+	<p>{$sumVisitLengthReturning|sumtime} total time spent by returning visits</p>
+	<p>{$bounceCountReturning} times that a returning visit has bounced</p>
+</div>
 
-<h2>Visit Time</h2>
-<h3>Visit per local time</h3>
-{$dataTableVisitInformationPerLocalTime}
-<h3>Visit per server time</h3>
-{$dataTableVisitInformationPerServerTime}
-		
-<h2>Visitor Interest</h2>
-<h3>Visits per visit duration</h3>
-{$dataTableNumberOfVisitsPerVisitDuration}
-<h3>Visits per number of pages</h3>
-{$dataTableNumberOfVisitsPerPage}
+<div class="section" id="Visit_Time">
+	<h3>Visit per local time</h3>
+	{$dataTableVisitInformationPerLocalTime}
+	<h3>Visit per server time</h3>
+	{$dataTableVisitInformationPerServerTime}
+</div>
 
-<br><hr>
-<p>{$totalTimeGeneration} seconds to generate the page</p>
+<div class="section" id="Visitor_Interest">
+	<h3>Visits per visit duration</h3>
+	{$dataTableNumberOfVisitsPerVisitDuration}
+	<h3>Visits per number of pages</h3>
+	{$dataTableNumberOfVisitsPerPage}
+</div>
+
+
+<br><br><br><hr width="300px" align="left">
+<p><small>{$totalTimeGeneration} seconds to generate the page</p>
