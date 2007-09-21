@@ -24,7 +24,7 @@ class Piwik_View implements iView
 		$this->smarty->template_dir = $smConf->template_dir->toArray();
 		$this->smarty->plugins_dir = $smConf->plugins_dir->toArray();
 		
-//		$this->smarty->load_filter('output','trimwhitespace');
+		$this->smarty->load_filter('output','trimwhitespace');
 		
 	}
 
@@ -54,6 +54,7 @@ class Piwik_View implements iView
 	public function render()
 	{
 		$this->totalTimeGeneration = Zend_Registry::get('timer')->getTime();
+		$this->totalNumberOfQueries = Piwik::getQueryCount();
 //		$this->smarty->assign('smarty', $this);
 		return $this->smarty->fetch($this->template);
 	}
@@ -68,7 +69,7 @@ class Piwik_View implements iView
 		
 		// assign array with form data
 		$this->smarty->assign('form_data', $renderer->toArray());
-		$this->smarty->assign('element_list', $form->getElementList());//$renderer->toArray());
+		$this->smarty->assign('element_list', $form->getElementList());
 	}
 	
 	public function assign($var, $value=null)
