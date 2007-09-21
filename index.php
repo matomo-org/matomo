@@ -33,7 +33,7 @@ set_error_handler('Piwik_ErrorHandler');
 set_exception_handler('Piwik_ExceptionHandler');
 
 require_once "FrontController.php";
-throw new Exception("test");
+
 
 $controller = new Piwik_FrontController;
 $controller->init();
