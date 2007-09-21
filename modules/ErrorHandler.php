@@ -6,10 +6,17 @@
 require_once "Zend/Registry.php"; 
 function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 {
+    // if the error has been suppressed by the @ we don't handle the error
+    if( error_reporting() == 0 )
+    {
+    	return;
+    }
+
     ob_start();
     debug_print_backtrace();
     $backtrace = ob_get_contents();
     ob_end_clean();
+    
     
     try {
     	Zend_Registry::get('logger_error')->log($errno, $errstr, $errfile, $errline, $backtrace);

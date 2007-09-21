@@ -517,7 +517,7 @@ class Piwik_LogStats_Visit
 			'location_continent' 	=> $continent,
 		);
 		
-		Piwik_PostEvent('LogStats.newVisitorInformation', &$informationToSave);
+		Piwik_PostEvent('LogStats.newVisitorInformation', $informationToSave);
 		
 		$fields = implode(", ", array_keys($informationToSave));
 		$values = substr(str_repeat( "?,",count($informationToSave)),0,-1);

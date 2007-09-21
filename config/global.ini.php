@@ -13,12 +13,12 @@ adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 ;profiler 		= false
 
 [database_tests]
-host = localhost
-username = root
-password = nintendo
+host 			= localhost
+username 		= root
+password 		= nintendo
 dbname			= piwiktests
 tables_prefix	= piwiktests_
-adapter = PDO_MYSQL
+adapter 		= PDO_MYSQL
 
 [Language]
 current			= en
