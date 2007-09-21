@@ -62,7 +62,7 @@ if(_pk_rtu == '') {
 }
 
 function _pk_escape(_pk_str){
-	if (typeof(encodeURIComponent) == 'function') {
+	if(typeof(encodeURIComponent) == 'function') {
 		return encodeURIComponent(_pk_str);
 	} else {
 		return escape(_pk_str);
