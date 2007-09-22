@@ -10,15 +10,10 @@ class Piwik_Home_Controller extends Piwik_Controller
 	}
 	
 	function homepage()
-	{
-		$link = '?module=Home&action=index&idSite=1&period=day&date=yesterday';
-		$str = "
-		<a href='http://ns21996.ovh.net/piwik/$link'>Online demo</a> login & password <br>login = <b>demo</b> <br>password = <b>demopiwik</b>
-		<br><br><a href='$link'>See yesterday's statistics, all in one page</a>
-		
-
-		";		
-		print($str);
+	{		
+		$view = new Piwik_View('Home/templates/homepage.tpl');
+		$view->link = '?module=Home&action=index&idSite=1&period=day&date=yesterday';
+		echo $view->render();
 	}
 	
 	function index()
