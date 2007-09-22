@@ -4,7 +4,6 @@
 </style>
 {/literal}
 
-
 <script type="text/javascript">
 var period = "{$period}";
 var currentDateStr = "{$date}";
@@ -18,10 +17,12 @@ var minDateDay = {$minDateDay};
 <script type="text/javascript" src="libs/jquery/jquery.dimensions.js"></script>
 <script type="text/javascript" src="libs/jquery/tooltip/jquery.tooltip.js"></script>
 <script type="text/javascript" src="libs/jquery/truncate/jquery.truncate.js"></script>
-<script type="text/javascript" src="plugins/Home/templates/datatable.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery-calendar.js"></script>
-<script type="text/javascript" src="plugins/Home/templates/calendar.js"></script>
 <script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
+
+<script type="text/javascript" src="plugins/Home/templates/datatable.js"></script>
+<script type="text/javascript" src="plugins/Home/templates/calendar.js"></script>
+<script type="text/javascript" src="plugins/Home/templates/mainmenu.js"></script>
 
 <link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
@@ -125,7 +126,7 @@ tr td.label img.plusMinus {
 }
 
 .section {
-	display:hidden;
+	display:none;
 }
 
 #stuff {
@@ -146,44 +147,6 @@ tr td.label img.plusMinus {
 	font-weight: lighter;
 }
 </style>
-
-
-<script>
-$(document).ready( function(){
-	var allH2 = new Array;
-	var indexAllH2 = 0;
-	
-	// foreach each div with a class section we add this DIV ID to the menu array
-	$('.section')
-		.hide()
-		.each( function(){ 
-		$(this).prepend("<h2>"+ $(this).attr('id') +"</h2>");
-		allH2[indexAllH2++] = $(this).attr('id');
-	});
-	
-	// we generate the HTML of the menu
-	var htmlMenu = '';
-	for(i in allH2)
-	{
-		htmlMenu += " <span>"+allH2[i] +"</span> <small>#</small>";
-	}
-	
-	// we fill the span MENU with the HTML generated above
-	$('#generatedMenu')
-		.html( htmlMenu )
-		.each( function() {
-			// then for each element of this menu we add a click event 
-			// that shows the associated DIV 
-			$('span',this).click( function() {
-					$('.section').hide();
-					$('#'+$(this).text()).toggle();
-				})
-		});
-		
-	// we show the first section by default
-	$('.section').slice(0,1).show();
-});
-</script>
 {/literal}
 
 <span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span><br>
@@ -197,6 +160,8 @@ $(document).ready( function(){
 		{include file="Home/templates/sites_select.tpl"}<br>
 	</div>
 </div>
+
+<span id="loadingPiwik"><img src="themes/default/loading.gif"> Loading data...</span>
 
 <span id="generatedMenu"></span>
 
