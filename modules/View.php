@@ -54,8 +54,14 @@ class Piwik_View implements iView
 	public function render()
 	{
 		$this->totalTimeGeneration = Zend_Registry::get('timer')->getTime();
-		$this->totalNumberOfQueries = Piwik::getQueryCount();
-//		$this->smarty->assign('smarty', $this);
+		
+		try {
+			$this->totalNumberOfQueries = Piwik::getQueryCount();
+		}
+		catch(Exception $e){
+			$this->totalNumberOfQueries = 0;
+		}
+		
 		return $this->smarty->fetch($this->template);
 	}
 	
