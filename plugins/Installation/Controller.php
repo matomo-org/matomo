@@ -459,11 +459,21 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		//Registre global
 		$infos['registerGlobals_ok'] = ini_get('register_globals') == 0;
 		
+		$infos['memoryMinimum'] = $minimumMemoryLimit;
+		
+		// we set true by default, in case we can't read the memory_limit value
+		// we dont want to display a warning (instead we should figure out why
+		// we can't read this value...)
+		$infos['memory_ok'] = true;
+		
+		// on windows the ini_get is not working?
+		$infos['memoryCurrent'] = '?M';
+		
+		
 		$raised = Piwik::raiseMemoryLimitIfNecessary();
 		if(	$memoryValue = Piwik::getMemoryLimitValue() )
 		{
 			$infos['memoryCurrent'] = $memoryValue."M";
-			$infos['memoryMinimum'] = $minimumMemoryLimit;
 			$infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;
 		}
 				/*
