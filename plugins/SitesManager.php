@@ -6,7 +6,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 	{
 		parent::__construct();
 	}
-	
+
 	public function getInformation()
 	{
 		$info = array(

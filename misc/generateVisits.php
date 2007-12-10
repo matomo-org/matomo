@@ -2,6 +2,7 @@
 
 error_reporting(E_ALL|E_NOTICE);
 define('PIWIK_INCLUDE_PATH', '..');
+define('PIWIK_PLUGINS_PATH', PIWIK_INCLUDE_PATH . '/plugins');
 define('PIWIK_DATAFILES_INCLUDE_PATH', PIWIK_INCLUDE_PATH . "/modules/DataFiles");
 
 ignore_user_abort(true);
