@@ -1,3 +1,4 @@
+; <?php exit; ?> DO NOT REMOVE THIS LINE
 [superuser]
 login			= root
 password		= nintendo

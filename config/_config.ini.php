@@ -1,3 +1,4 @@
+; <?php exit; ?> DO NOT REMOVE THIS LINE
 ; this file is just here for documentation purpose
 ; the config.ini.php is normally created during the installation process
 ; when this file is absent it triggers the Installation process

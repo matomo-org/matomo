@@ -334,7 +334,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	protected function writeConfigFileFromSession()
 	{
-		$configFile = "; file automatically generated during the piwik installation process\n";
+		$configFile = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
+		$configFile .= "; file automatically generated during the piwik installation process\n";
 		
 		// super user information
 		$configFile .= "[superuser]\n";
