@@ -19,18 +19,3 @@ When commenting
 
 # Documentation
   - Document the Piwik architecture: API concept, Plugins concept, Logging engine, Archiving process, Reporting process, MVC model, DataTable concept
-
-Todo before stable release
-==========================
-# Core
-  - Translations framework ready (all strings translatable) + translated in french and english
-    To translate: all strings in templates, all strings in JS variables, design a generic system for the php exceptions to handle multilingual error messages
-  
-# Plugins
-  - Clickheat heatmap 
-  - Select a logo to be displayed when calling the piwik.php 
-  	currently a 1*1 transparent Gif is displayed but we could have some nice logos
-  - Import phpmyvisites v2.x statistics into piwik easily (we have to reach the 15,000 users of phpmyvisites)
-  - Goals setup and tracking. We define a goal by a URL to reach (or a part of a url), goal conversion check, goal information (referers, countries, keywords, etc.)
-  - PDF export
-  - Email sending containing statistics inline or attached file
