@@ -1,4 +1,4 @@
-CHANGES DONE TO LIBRARIES
+testCHANGES DONE TO LIBRARIES
 =========================
 - edited zend_log and changed attr to protected
 - fixed bug fwrite in zend_log stream writer
