@@ -18,4 +18,11 @@ When commenting
 
 
 # Documentation
-  - Document the Piwik architecture: API concept, Plugins concept, Logging engine, Archiving process, Reporting process, MVC model, DataTable concept
+  - Document the Piwik architecture: 
+   API concept, 
+   Plugins concept, 
+   Logging engine,
+   Archiving process, 
+   Reporting process, 
+   MVC model, 
+   DataTable concept
