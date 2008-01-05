@@ -435,12 +435,11 @@ class Piwik
 			",
 			
 			'log_profiling' => "CREATE TABLE {$prefixTables}log_profiling (
-
-  query TEXT NOT NULL,
-  count INTEGER UNSIGNED NULL,
-  sum_time_ms FLOAT NULL,
-  UNIQUE INDEX query(query(700))
-)
+								  query TEXT NOT NULL,
+								  count INTEGER UNSIGNED NULL,
+								  sum_time_ms FLOAT NULL,
+								  UNIQUE INDEX query(query(100))
+								)
 			",
 			
 			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
