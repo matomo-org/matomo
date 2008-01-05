@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes" ?>
 <DBMODEL Version="4.0">
 <SETTINGS>
-<GLOBALSETTINGS ModelName="db-schema" IDModel="0" IDVersion="0" VersionStr="1.0.0.0" Comments="" UseVersionHistroy="1" AutoIncVersion="1" DatabaseType="MySQL" ZoomFac="89.33" XPos="0" YPos="0" DefaultDataType="5" DefaultTablePrefix="0" DefSaveDBConn="" DefSyncDBConn="" DefQueryDBConn="" Printer="" HPageCount="4.0" PageAspectRatio="1.440892512336408" PageOrientation="1" PageFormat="A4 (210x297 mm, 8.26x11.7 inches)" SelectedPages="" UsePositionGrid="0" PositionGridX="20" PositionGridY="20" TableNameInRefs="0" DefaultTableType="0" ActivateRefDefForNewRelations="1" FKPrefix="" FKPostfix="" CreateFKRefDefIndex="0" DBQuoteCharacter="`" CreateSQLforLinkedObjects="0" DefModelFont="Tahoma" CanvasWidth="4096" CanvasHeight="2842" />
+<GLOBALSETTINGS ModelName="db-schema" IDModel="0" IDVersion="0" VersionStr="1.0.0.0" Comments="" UseVersionHistroy="1" AutoIncVersion="1" DatabaseType="MySQL" ZoomFac="80.00" XPos="0" YPos="0" DefaultDataType="5" DefaultTablePrefix="0" DefSaveDBConn="" DefSyncDBConn="" DefQueryDBConn="" Printer="" HPageCount="4.0" PageAspectRatio="1.440892512336408" PageOrientation="1" PageFormat="A4 (210x297 mm, 8.26x11.7 inches)" SelectedPages="" UsePositionGrid="0" PositionGridX="20" PositionGridY="20" TableNameInRefs="0" DefaultTableType="0" ActivateRefDefForNewRelations="1" FKPrefix="" FKPostfix="" CreateFKRefDefIndex="0" DBQuoteCharacter="`" CreateSQLforLinkedObjects="0" DefModelFont="Tahoma" CanvasWidth="4096" CanvasHeight="2842" />
 <DATATYPEGROUPS>
 <DATATYPEGROUP Name="Numeric Types" Icon="1" />
 <DATATYPEGROUP Name="Date and Time Types" Icon="2" />
@@ -262,8 +262,8 @@
 <REGION ID="2955" RegionName="Statistics logger" XPos="838" YPos="25" Width="582" Height="650" RegionColor="4" TablePrefix="0" TableType="0" OverwriteTablePrefix="0" OverwriteTableType="0" Comments="" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="20" />
 <REGION ID="2954" RegionName="SQL query profiling" XPos="800" YPos="700" Width="233" Height="181" RegionColor="3" TablePrefix="0" TableType="0" OverwriteTablePrefix="0" OverwriteTableType="0" Comments="" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="19" />
 <REGION ID="2953" RegionName="Users \+ Permissions" XPos="533" YPos="33" Width="264" Height="331" RegionColor="2" TablePrefix="0" TableType="0" OverwriteTablePrefix="0" OverwriteTableType="0" Comments="" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="18" />
-<REGION ID="2952" RegionName="Archived data" XPos="25" YPos="28" Width="261" Height="557" RegionColor="1" TablePrefix="0" TableType="0" OverwriteTablePrefix="0" OverwriteTableType="0" Comments="" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="17" />
-<REGION ID="2949" RegionName="Site" XPos="368" YPos="387" Width="424" Height="151" RegionColor="0" TablePrefix="0" TableType="0" OverwriteTablePrefix="0" OverwriteTableType="0" Comments="" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="18" />
+<REGION ID="2952" RegionName="Archived data" XPos="25" YPos="28" Width="301" Height="484" RegionColor="1" TablePrefix="0" TableType="0" OverwriteTablePrefix="0" OverwriteTableType="0" Comments="" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="17" />
+<REGION ID="2949" RegionName="Site" XPos="368" YPos="387" Width="451" Height="161" RegionColor="0" TablePrefix="0" TableType="0" OverwriteTablePrefix="0" OverwriteTableType="0" Comments="" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="18" />
 </REGIONS>
 <TABLES>
 <TABLE ID="2797" Tablename="piwik_access" PrevTableName="" XPos="581" YPos="282" TableType="0" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="" TableOptions="" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="2" >
