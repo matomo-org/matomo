@@ -49,13 +49,11 @@ abstract class Piwik_Period
 		}
 	}
 
-	//TODO test getDate
-	public function getDate()
-	{
-		return $this->date;
-	}
-	
-	//TODO test getDateStart
+	/**
+	 * Returns the first day of the period
+	 *
+	 * @return Piwik_Date First day of the period
+	 */
 	public function getDateStart()
 	{
 		if(count($this->subperiods) == 0)
@@ -72,7 +70,11 @@ abstract class Piwik_Period
 		return $currentPeriod->getDate();
 	}
 	
-	//TODO test getDateEnd
+	/**
+	 * Returns the last day of the period ; can be a date in the future
+	 *
+	 * @return Piwik_Date Last day of the period 
+	 */
 	public function getDateEnd()
 	{
 		if(!$this->subperiodsProcessed)
@@ -93,16 +95,20 @@ abstract class Piwik_Period
 		return $currentPeriod->getDate();
 	}
 	
-	//TODO test getId
 	public function getId()
 	{
 		return Piwik::$idPeriods[$this->getLabel()];
 	}
-	//TODO test getLabel
+
 	public function getLabel()
 	{
 		return $this->label;
 	}
+	
+	protected function getDate()
+	{
+		return $this->date;
+	}	
 	
 	protected function checkInputDate($date)
 	{
@@ -139,7 +145,7 @@ abstract class Piwik_Period
 		}
 		return $this->subperiods;
 	}
-		
+
 	/**
 	 * Add a date to the period.
 	 * 

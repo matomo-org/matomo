@@ -7,10 +7,12 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 	public $arrayDataTable; // phpArray
 	
 	function init($currentControllerAction, 
-						$moduleNameAndMethod )
+						$moduleNameAndMethod,						
+						$actionToLoadTheSubTable = null )
 	{
 		parent::init($currentControllerAction, 
-						$moduleNameAndMethod );
+						$moduleNameAndMethod,						
+						$actionToLoadTheSubTable);
 		$this->dataTableTemplate = 'Home/templates/datatable.tpl';
 	}
 	

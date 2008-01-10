@@ -14,10 +14,10 @@ class Piwik
 	const CLASSES_PREFIX = "Piwik_";
 	
 	static $idPeriods =  array(
-			'day'	=>1,
-			'week'	=>2,
-			'month'	=>3,
-			'year'	=>4,
+			'day'	=> 1,
+			'week'	=> 2,
+			'month'	=> 3,
+			'year'	=> 4,
 		);
 	
 	/**

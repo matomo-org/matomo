@@ -27,13 +27,40 @@ class Test_Piwik_Period extends UnitTestCase
 //		echo $this->timer . "<br> ";
 	}
 	
+	public function test_getId()
+	{
+		$period = new Piwik_Period_Day( Piwik_Date::today() );
+		$this->assertTrue(  $period->getId() !== 0 );
+		$period = new Piwik_Period_Week( Piwik_Date::today() );
+		$this->assertTrue(  $period->getId() !== 0 );
+		$period = new Piwik_Period_Month( Piwik_Date::today() );
+		$this->assertTrue(  $period->getId() !== 0 );
+		$period = new Piwik_Period_Year( Piwik_Date::today() );
+		$this->assertTrue(  $period->getId() !== 0 );
+	}
+	
+	public function test_getLabel()
+	{
+		$period = new Piwik_Period_Day( Piwik_Date::today() );
+		$label = $period->getLabel();
+		$this->assertTrue(  is_string($label) && !empty($label));
+		$period = new Piwik_Period_Week( Piwik_Date::today() );
+		$label = $period->getLabel();
+		$this->assertTrue(  is_string($label) && !empty($label));
+		$period = new Piwik_Period_Month( Piwik_Date::today() );
+		$label = $period->getLabel();
+		$this->assertTrue(  is_string($label) && !empty($label));
+		$period = new Piwik_Period_Year( Piwik_Date::today() );
+		$label = $period->getLabel();
+		$this->assertTrue(  is_string($label) && !empty($label));
+	}
 	
 	/**
 	 * Testing Period_Day
 	 */
 	
 	// today is NOT finished
-	function test_isFinished_today()
+	function test_day_isFinished_today()
 	{
 		$period = new Piwik_Period_Day( Piwik_Date::today());
 		$this->assertEqual( $period->isFinished(), false);
@@ -42,7 +69,7 @@ class Test_Piwik_Period extends UnitTestCase
 		$this->assertEqual( $period->getNumberOfSubperiods(), 0);
 	}
 	// yesterday 23:59:59 is finished
-	function test_isFinished_yesterday()
+	function test_day_isFinished_yesterday()
 	{
 		
 		$period = new Piwik_Period_Day( Piwik_Date::yesterday());
@@ -53,7 +80,7 @@ class Test_Piwik_Period extends UnitTestCase
 	}
 	
 	// tomorrow is not finished
-	function test_isFinished_tomorrow()
+	function test_day_isFinished_tomorrow()
 	{	
 		$period = new Piwik_Period_Day( new Piwik_Date(date("Y-m-d",time()+86400)));
 		$this->assertEqual( $period->isFinished(), false);
@@ -62,8 +89,8 @@ class Test_Piwik_Period extends UnitTestCase
 		$this->assertEqual( $period->getNumberOfSubperiods(), 0);
 	}
 	
-	// TODO test day doesnt exist 31st feb
-	function test_isFinished_31stfeb()
+	// test day doesnt exist 31st feb
+	function test_day_isFinished_31stfeb()
 	{	
 		$period = new Piwik_Period_Day( new Piwik_Date("2007-02-31"));
 		$this->assertEqual( $period->isFinished(), true);
@@ -71,13 +98,104 @@ class Test_Piwik_Period extends UnitTestCase
 		$this->assertEqual( $period->getSubperiods(), array());
 		$this->assertEqual( $period->getNumberOfSubperiods(), 0);
 	}
+	
+	// test date that doesn't exist, should return the corresponding correct date
+	function test_day_getDateStart1()
+	{
+		// create the period
+		$period = new Piwik_Period_Day( new Piwik_Date("2007-02-31"));
 		
+		// start date
+		$startDate = $period->getDateStart();
+		
+		// expected string
+		$this->assertEqual( $startDate->toString(), "2007-03-03");
+		
+		// check that for a day, getDateStart = getStartEnd
+		$this->assertEqual($startDate, $period->getDateEnd() );		
+	}
+	
+	// test normal date
+	function test_day_getDateStart2()
+	{
+		// create the period
+		$period = new Piwik_Period_Day( new Piwik_Date("2007-01-03"));
+		
+		// start date
+		$startDate = $period->getDateStart();
+		
+		// expected string
+		$this->assertEqual( $startDate->toString(), "2007-01-03");
+		
+		// check that for a day, getDateStart = getStartEnd
+		$this->assertEqual($startDate, $period->getDateEnd() );		
+	}
+	
+	// test last day of year
+	function test_day_getDateStart3()
+	{
+		// create the period
+		$period = new Piwik_Period_Day( new Piwik_Date("2007-12-31"));
+		
+		// start date
+		$startDate = $period->getDateStart();
+		
+		// expected string
+		$this->assertEqual( $startDate->toString(), "2007-12-31");
+		
+		// check that for a day, getDateStart = getStartEnd
+		$this->assertEqual($startDate, $period->getDateEnd() );		
+	}
+	
+
+	// test date that doesn't exist, should return the corresponding correct date
+	function test_day_getDateEnd1()
+	{		
+		// create the period
+		$period = new Piwik_Period_Day( new Piwik_Date("2007-02-31"));
+		
+		// end date
+		$endDate = $period->getDateEnd();
+		
+		// expected string
+		$this->assertEqual( $endDate->toString(), "2007-03-03");
+		
+	}
+	
+	// test normal date
+	function test_day_getDateEnd2()
+	{
+		// create the period
+		$period = new Piwik_Period_Day( new Piwik_Date("2007-04-15"));
+		
+		// end date
+		$endDate = $period->getDateEnd();
+		
+		// expected string
+		$this->assertEqual( $endDate->toString(), "2007-04-15");
+	}
+	
+	// test last day of year
+	function test_day_getDateEnd3()
+	{
+		// create the period
+		$period = new Piwik_Period_Day( new Piwik_Date("2007-12-31"));
+		
+		// end date
+		$endDate = $period->getDateEnd();
+		
+		// expected string
+		$this->assertEqual( $endDate->toString(), "2007-12-31");
+	}
+	
+	// test date that doesn't exist, should return the corresponding correct date
+	
 	/**
 	 * Testing Period_Month
 	 *
 	 */
 	 // testing december
-	 function test_monthDec()
+	 function test_month_Dec()
 	 {
 	 	$month = new Piwik_Period_Month( new Piwik_Date("2006-12-31"));
 	 	$correct=array(
@@ -117,7 +235,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $month->isFinished(), true);
 	 }
 	 // testing month feb leap year
-	 function test_monthFebLeap()
+	 function test_month_FebLeap()
 	 {
 	 	$month = new Piwik_Period_Month( new Piwik_Date("2024-02-11"));
 	 	$correct=array(
@@ -155,7 +273,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $month->isFinished(), false);
 	 }
 	 // testing month feb non-leap year
-	 function test_monthFebNonLeap()
+	 function test_month_FebNonLeap()
 	 {
 	 	$month = new Piwik_Period_Month( new Piwik_Date("2023-02-11"));
 	 	$correct=array(
@@ -192,7 +310,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $month->isFinished(), false);
 	 }
 	 // testing jan
-	  function test_monthJan()
+	  function test_month_Jan()
 	 {
 	 	$month = new Piwik_Period_Month( new Piwik_Date("2007-01-01"));
 	 	$correct=array(
@@ -233,7 +351,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 }
 	 // testing month containing a time change (DST)
 	 
-	  function test_monthDSTChangeMarch()
+	  function test_month_DSTChangeMarch()
 	 {
 	 	$month = new Piwik_Period_Month( new Piwik_Date("2007-02-31"));
 	 	$correct=array(
@@ -272,7 +390,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $month->getNumberOfSubperiods(), 31);
 	 	$this->assertEqual( $month->isFinished(), true);
 	 }
-	  function test_monthDSTChangeOct()
+	  function test_month_DSTChangeOct()
 	 {
 	 	$month = new Piwik_Period_Month( new Piwik_Date("2017-10-31"));
 	 	$correct=array(
