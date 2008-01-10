@@ -89,7 +89,6 @@ class Piwik_ViewDataTable
 	
 	function getView()
 	{
-		//TODO check at some point that the class implements the interface iView
 		return $this->view;
 	}
 	
@@ -317,7 +316,7 @@ class Piwik_ViewDataTable
 					// we set the default specified column and Order to sort by
 					// when this javascript variable is not set already
 					// for example during an AJAX call this variable will be set in the URL
-					// so this will not be executed ( and the default sorted not be used as the sorted column might have changed in the meanwhile)
+					// so this will not be executed (and the default sorted not be used as the sorted column might have changed in the meanwhile)
 					if( false !== ($defaultValue = $this->getDefault($filterVariableName)))
 					{
 						$javascriptVariablesToSet[$filterVariableName] = $defaultValue;
@@ -327,7 +326,7 @@ class Piwik_ViewDataTable
 		}
 		
 //		var_dump($javascriptVariablesToSet);exit;
-		//TODO check security of printing javascript variables; inject some JS code here??
+		// See 
 		foreach($_GET as $name => $value)
 		{
 			try{

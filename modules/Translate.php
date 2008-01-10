@@ -31,17 +31,27 @@ class Piwik_Translate
 	
 	public function addTranslationArray($translation)
 	{
-		//TODO check that no string overlap?
+		// we could check that no string overlap here
 		$GLOBALS['Piwik_translations'] = array_merge($GLOBALS['Piwik_translations'], $translation);
 	}
 	
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
 	public function getLanguageToLoad()
 	{
 		$language = Zend_Registry::get('config')->Language->current;
 		
-		//TODO checker that it is safe
-		
-		return $language;
+		if( Piwik::isValidFilename($language))
+		{
+			return $language;
+		}
+		else
+		{
+			throw new Exception("The language selected ('$language') is not a valid language file ");
+		}
 	}
 }
 

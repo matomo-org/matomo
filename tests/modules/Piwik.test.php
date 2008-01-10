@@ -49,5 +49,28 @@ class Test_Piwik extends UnitTestCase
     		$this->assertFalse(Piwik::isNumeric($toTest), $toTest." valid but shouldn't!");
     	}
     }
+
+    public function test_isValidFilenameValidValues()
+    {
+    
+    	$valid = array(
+    			 "test", "test.txt","test.......", "en-ZHsimplified",
+    		);
+    	foreach($valid as $toTest)
+    	{
+    		$this->assertTrue(Piwik::isValidFilename($toTest), $toTest." not valid!");
+    	}
+    }
+    public function test_isValidFilenameNotValidValues()
+    {
+    
+    	$notvalid = array(
+    			"../test", "/etc/htpasswd", '$var', ';test', '[bizarre]', '', ".htaccess", "very long long eogaioge ageja geau ghaeihieg heiagie aiughaeui hfilename",
+    		);
+    	foreach($notvalid as $toTest)
+    	{
+    		$this->assertFalse(Piwik::isValidFilename($toTest), $toTest." valid but shouldn't!");
+    	}
+    }
 }
 
