@@ -105,6 +105,7 @@ class Piwik_Date
 		}
 		return date($part, $this->getTimestamp());
 	}
+	
     /**
      * Adds days to the existing date object.
      * Returned is the new date object

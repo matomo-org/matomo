@@ -12,7 +12,7 @@ abstract class Piwik_ViewDataTable
 	
 	protected $currentControllerAction;
 	
-	protected $actionToLoadTheSubTable;
+	protected $actionToLoadTheSubTable = null;
 	
 	public $dataTable; // data table
 	

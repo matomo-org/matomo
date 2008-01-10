@@ -59,7 +59,7 @@ class Piwik_Installation extends Piwik_Plugin
 		{
 			Piwik::exitWithErrorMessage("
 				The Piwik configuration file couldn't be found and you are trying to access a Piwik page.<br>
-				<b>&nbsp;&nbsp;Â» You can <a href='index.php'>install Piwik now</a></b>
+				<b>&nbsp;&nbsp;» You can <a href='index.php'>install Piwik now</a></b>
 				<br><small>If you installed Piwik before and have some tables in your DB, don't worry, 
 				you can reuse the same tables and keep your existing data!</small>");
 		}
