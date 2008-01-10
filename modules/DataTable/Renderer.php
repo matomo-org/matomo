@@ -50,17 +50,19 @@ abstract class Piwik_DataTable_Renderer
 	static public function factory( $name )
 	{
 		$name = ucfirst(strtolower($name));
-		$path = "DataTable/Renderer/".$name.".php";
+		$path = PIWIK_INCLUDE_PATH . "/modules/DataTable/Renderer/".$name.".php";
 		$className = 'Piwik_DataTable_Renderer_' . $name;
+		
 		if( Piwik::isValidFilename($name)
-			&& is_file($path))
+			&& is_file($path)
+		)
 		{
 			require_once $path;
 			return new $className;			
 		}
 		else
 		{
-			throw new Exception("Renderer format $name not valid!");
+			throw new Exception("Renderer format '$name' not valid.");
 		}		
 	}	
 }
