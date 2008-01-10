@@ -44,57 +44,24 @@ abstract class Piwik_DataTable_Renderer
 	
 	/**
 	 * Returns the DataTable associated to the output format $name
+	 * 
 	 * @exception If the renderer is unknown
 	 */
-	 //TODO make a generic code here
 	static public function factory( $name )
 	{
-		$name = strtolower($name);
-		switch ($name) 
+		$name = ucfirst(strtolower($name));
+		$path = "DataTable/Renderer/".$name.".php";
+		$className = 'Piwik_DataTable_Renderer_' . $name;
+		if( Piwik::isValidFilename($name)
+			&& is_file($path))
 		{
-			case 'console':
-				require_once "DataTable/Renderer/Console.php";
-				$class = 'Piwik_DataTable_Renderer_Console';
-				break;
-			
-			case 'xml':
-				require_once "DataTable/Renderer/Xml.php";
-				$class = 'Piwik_DataTable_Renderer_Xml';
-				break;
-			
-			case 'rss':
-				require_once "DataTable/Renderer/RSS.php";
-				$class = 'Piwik_DataTable_Renderer_RSS';
-				break;
-			
-			case 'php':
-				require_once "DataTable/Renderer/PHP.php";
-				$class = 'Piwik_DataTable_Renderer_PHP';
-				break;
-		
-			case 'html':
-				require_once "DataTable/Renderer/HTML.php";
-				$class = 'Piwik_DataTable_Renderer_HTML';
-				break;
-		
-			case 'json':
-				require_once "DataTable/Renderer/JSON.php";
-				$class = 'Piwik_DataTable_Renderer_JSON';
-				break;
-		
-			case 'csv':
-				require_once "DataTable/Renderer/CSV.php";
-				$class = 'Piwik_DataTable_Renderer_CSV';
-				break;
-		
-			default:
-				throw new Exception("Renderer format $name unknown!");
-				break;
+			require_once $path;
+			return new $className;			
 		}
-		
-		return new $class;
-	}
-	
-	
+		else
+		{
+			throw new Exception("Renderer format $name not valid!");
+		}		
+	}	
 }
 
