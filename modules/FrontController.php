@@ -188,11 +188,7 @@ class Piwik_FrontController
 		Piwik::install();
 		
 //		Piwik::printMemoryUsage('Start program');
-		//TODO move all DB related methods in a DB static class
-		
-		//Piwik::createDatabase();
-		//Piwik::createDatabaseObject();
-		
+
 		$doNotDrop = array(
 				Piwik::prefixTable('log_visit'),
 				Piwik::prefixTable('access'),

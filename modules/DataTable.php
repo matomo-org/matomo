@@ -1,7 +1,6 @@
 <?php
 /**
  * 
- * 
  * Initial Specification 
  * ---------------------------------------------------------
  * CAREFUL: It may be outdated as I have not reviewed it yet
@@ -425,10 +424,10 @@ class Piwik_DataTable
 		{
 			throw new Exception("Maximum recursion level of ".self::MAXIMUM_DEPTH_LEVEL_ALLOWED. " reached. You have probably set a DataTable_Row with an associated DataTable which belongs already to its parent hierarchy.");
 		}
-		// for each row, get the serialized row
-		// if it is associated to a sub table, get the serialized table recursively
-		// but returns all serialized tables and subtable in an array of 1 dimension!
 		
+		// For each row, get the serialized row
+		// If it is associated to a sub table, get the serialized table recursively ;
+		// but returns all serialized tables and subtable in an array of 1 dimension!
 		$aSerializedDataTable = array();
 		foreach($this->rows as $row)
 		{
@@ -442,12 +441,16 @@ class Piwik_DataTable
 				$aSerializedDataTable = $aSerializedDataTable + $serialized;
 			}
 		}
-		//TODO COmment
+		// we load the current Id of the DataTable
 		$forcedId = $this->getId();
+		
+		// if the datatable is the parent we force the Id at 0 (this is part of the specification)
 		if($depth==0)
 		{
 			$forcedId = 0;
-		}	
+		}
+		
+		// we then serialize the rows and store them in the serialized dataTable
 		$aSerializedDataTable[$forcedId] = serialize($this->rows);
 		
 		return $aSerializedDataTable;

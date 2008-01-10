@@ -216,7 +216,7 @@ class Piwik_API_Request
 				}
 			break;
 			default:
-				$return = 'Error:'.$message;
+				$return = 'Error: '.$message;
 			break;
 		}
 		

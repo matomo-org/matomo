@@ -388,7 +388,6 @@ List of the public methods for the class Piwik_Actions_API
 		$view->disableSearchBox();
 		$view->disableOffsetInformation();
 		$view->disableSort();
-		//TODO disable sort label column only
 		$view->setColumnsToDisplay( array(0,1) );
 		$view->setSortedColumn( 1 );
 		

@@ -50,7 +50,6 @@ abstract class Piwik_ArchiveProcessing
 	public function __construct()
 	{
 		$this->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data;
-		//TODO remove
 		
 	}
 	/**

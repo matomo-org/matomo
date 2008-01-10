@@ -34,7 +34,7 @@ ob_start();
 Piwik_PluginsManager::getInstance()->doNotLoadPlugins();	
 $generator = new Piwik_LogStats_Generator;
 $generator->setMaximumUrlDepth(4);
-//$generator->disableProfiler();
+$generator->disableProfiler();
 //$generator->emptyAllLogTables();
 $generator->init();
 
@@ -45,7 +45,7 @@ $t = new Piwik_Timer;
  */
 $daysToCompute = 1;
 $startTime = time() - ($daysToCompute-1)*86400;
-$nbActionsTotal = 0;
+$nbActionsTotal = 10;
 while($startTime <= time())
 {
 	$visits = rand(1,2);

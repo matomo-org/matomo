@@ -36,7 +36,7 @@ table.dataTable th {
 	text-transform: uppercase;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
-	background: #CAE8EA url(themes/default/images/bg_header.jpg) no-repeat;
+	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
 }
 
 table.dataTable td.label {
@@ -66,17 +66,15 @@ table.dataTable td.label {
 }
 
 table.dataTable td.labeleven {
-	background: #fff url(themes/default/images/bullet1.gif) no-repeat;
+	background: #fff url(images/bullet1.gif) no-repeat;
 }
 
 table.dataTable td.labelodd {
-	background: #f5fafa url(themes/default/images/bullet2.gif) no-repeat;
+	background: #f5fafa url(images/bullet2.gif) no-repeat;
 	color: #797268;
 }
 
-
 /* a datatable inside another datatable */
-
 table.subDataTable img {
 	border:0;
 	margin-top:.5em;

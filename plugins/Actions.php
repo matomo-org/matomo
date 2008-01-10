@@ -79,10 +79,6 @@ class Piwik_Actions extends Piwik_Plugin
 			Piwik_LogStats_Action::TYPE_OUTLINK => array(),
 		);
 		
-		$timer = new Piwik_Timer;
-				
-		
-		//TODO map nb_visits etc. with numeric indexes to save space, memor and time
 		/*
 		 * Actions global information
 		 */

@@ -1,11 +1,5 @@
 <?php
 /**
- * 
- * TODO delete logs once used for days
- *   it means that we have to keep the useful information for months/week etc.
- *   check also that the logging process doesn't use the logs we are deleting
- * 
- * 
  * Architecture
  * - *ArchiveProcessing* entity : handle all the computation on an archive / create & delete archive
  * - *Archive* entity: 

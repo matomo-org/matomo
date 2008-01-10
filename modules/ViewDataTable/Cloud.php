@@ -12,7 +12,6 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		
 		$this->disableOffsetInformation();
 		$this->disableExcludeLowPopulation();
-//		$this->disableSearchBox();
 	}
 	
 	public function main()

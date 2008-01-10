@@ -79,8 +79,7 @@ class Piwik_Cookie
 	/**
 	 * We don't use the setcookie function because it is buggy for some PHP versions.
 	 * 
-	 * Taken from http://usphp.com/manual/en/function.setcookie.php
-	 * TODO setCookie: use the other parameters of the function
+	 * Taken from http://php.net/setcookie
 	 */
 	protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false)
 	{
