@@ -58,9 +58,9 @@ class Piwik_PluginsManager
 		return in_array( $name, $this->pluginsToLoad->toArray());		
 	}
 	
-	public function setPluginsToLoad( $array )
+	public function setPluginsToLoad( $pluginsToLoad )
 	{
-		$this->pluginsToLoad = $array;
+		$this->pluginsToLoad = $pluginsToLoad;
 		
 		$this->loadPlugins();
 	}
@@ -102,8 +102,11 @@ class Piwik_PluginsManager
 			$pluginFileName = $pluginName . ".php";
 			$pluginClassName = "Piwik_".$pluginName;
 			
-			// TODO make sure the plugin name is secure
-			// make sure thepluigin is a child of Piwik_Plugin
+			if( !Piwik::isValidFilename($pluginName))
+			{
+				throw new Exception("The plugin filename '$pluginFileName' is not valid");
+			}
+			
 			$path = PIWIK_PLUGINS_PATH . '/' . $pluginFileName;
 
 			if(!is_file($path))
