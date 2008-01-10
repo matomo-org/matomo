@@ -2,10 +2,6 @@
 require_once "Visualization/Cloud.php";
 class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 {
-	function __construct($typeViewRequested)
-	{
-		parent::__construct($typeViewRequested);
-	}
 	protected $displayLogoInsteadOfLabel = false;
 	function init($currentControllerAction, 
 						$moduleNameAndMethod )
@@ -85,4 +81,3 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		$this->view = $view;
 	}
 }
-?>
