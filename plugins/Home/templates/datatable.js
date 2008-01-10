@@ -524,8 +524,10 @@ function setImagePlus( currentThis )
 {
 	$('img',currentThis).attr('src', 'themes/default/images/plus.png');
 }
-var parentId;
-var parentAttributeParent;
+
+
+var parentId = '';
+var parentAttributeParent = '';
 
 //called when the full table actions is loaded
 function actionsDataTableLoaded( response )
@@ -534,6 +536,10 @@ function actionsDataTableLoaded( response )
 	var idToReplace = $(content).attr('id');
 
 	$('#'+idToReplace).html(content);
+		
+	// reset these values when clicking low population include for example
+	parentId = '';
+	parentAttributeParent = '';
 	
 	$('#'+idToReplace).each( bindActionDataTableEvent );
 }
@@ -697,6 +703,7 @@ function onClickActionSubDataTable()
 }
 function bindActionDataTableEvent()
 {
+	
 	ActionsLoading = new Array;
 	subTableId = $(this).attr('id');
 	
@@ -757,7 +764,14 @@ function bindActionDataTableEvent()
 				var level = getNextLevelFromClass( style );
 				$(this).addClass('level'+ level);
 			}	
-			$(this).attr('parent', function(){ return parentAttributeParent + ' ' + parentId;} );
+			
+			// we add an attribute parent that contains the ID of all the parent categories
+			// this ID is used when collapsing a parent row, it searches for all children rows
+			// which 'parent' attribute's value contains the collapsed row ID 
+			$(this).attr('parent', function(){ 
+				return parentAttributeParent + ' ' + parentId;
+				}
+			);
 		
 			// Add some styles on the cells even/odd
 			// label (first column of a data row) or not
