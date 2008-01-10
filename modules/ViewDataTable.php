@@ -1,34 +1,29 @@
 <?php
-
-// TODO clean this unit should'nt read the requests parameters (via getRequestVar)
-// This unit should be some sort of configuration manager that would
-// redirect the config info on the renderer
-// currently this is ugly, YES!!!
-require_once "iView.php";
-class Piwik_ViewDataTable
+abstract class Piwik_ViewDataTable
 {
 	protected $dataTableTemplate = null;
 	
-	protected $currentControllerAction;
-	protected $moduleNameAndMethod;
-	protected $actionToLoadTheSubTable;
-	
-	public $dataTable; // data table
-	public $arrayDataTable; // phpArray
-	
-	// do we need all the children of the datatables?
-	protected $recursiveDataTableLoad   = false;
+	protected $mainAlreadyExecuted = false;
 	
 	protected $JSsearchBox 				= true;
 	protected $JSoffsetInformation 		= true;
 	protected $JSexcludeLowPopulation 	= true;
 	protected $JSsortEnabled 			= true;
 	
-	protected $mainAlreadyExecuted = false;
-	protected $columnsToDisplay = array();
+	protected $currentControllerAction;
+	
+	protected $actionToLoadTheSubTable;
+	
+	public $dataTable; // data table
+	
+	protected $moduleNameAndMethod;
+	
+	// do we need all the children of the datatables?
+	protected $recursiveDataTableLoad   = false;
+	
 	protected $variablesDefault = array();
 	
-	const DEFAULT_COLUMN_EXCLUDE_LOW_POPULATION = 2;
+	protected $idSubtable = false;
 	
 	static public function factory( $type = null )
 	{
@@ -66,11 +61,12 @@ class Piwik_ViewDataTable
 				
 			case 'table':
 			default:
-				return new Piwik_ViewDataTable();
+				require_once "ViewDataTable/Html.php";
+				return new Piwik_ViewDataTable_Html();
 			break;
 		}
 	}
-		
+	
 	function init( $currentControllerAction, 
 						$moduleNameAndMethod, 
 						$actionToLoadTheSubTable = null)
@@ -78,75 +74,34 @@ class Piwik_ViewDataTable
 		$this->currentControllerAction = $currentControllerAction;
 		$this->moduleNameAndMethod = $moduleNameAndMethod;
 		$this->actionToLoadTheSubTable = $actionToLoadTheSubTable;
-		$this->dataTableTemplate = 'Home/templates/datatable.tpl';
 		
-		$this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false,'int');
+		$this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false, 'int');
 		
 		$this->method = $moduleNameAndMethod;
 		$this->variablesDefault['filter_excludelowpop_default'] = 'false';
 		$this->variablesDefault['filter_excludelowpop_value_default'] = 'false';	
 	}
 	
-	function getView()
+	/**
+	 * For convenience, the client code can call methods that are defined in a specific children class
+	 * without testing the children class type, which would trigger an error with a different children class.
+	 * For example, ViewDataTable/Html.php defines a setColumnsToDisplay(). The client code calls this methods even if
+	 * the ViewDataTable object is a ViewDataTable_Cloud instance. But ViewDataTable_Cloud doesn't define the 
+	 * setColumnsToDisplay() method. Because we don't want to force users to test for the object type we simply catch these
+	 * calls when they are not defined in the child and do nothing.  
+	 *
+	 * @param string $function
+	 * @param array $args
+	 */
+	public function __call($function, $args)
+	{
+	}
+	
+	public function getView()
 	{
 		return $this->view;
 	}
-	
-	public function setTemplate( $tpl )
-	{
-		$this->dataTableTemplate = $tpl;
-	}
-	
-	public function main()
-	{
-		if($this->mainAlreadyExecuted)
-		{
-			return;
-		}
-		$this->mainAlreadyExecuted = true;
-		
-//		$i=0;while($i<1500000){ $j=$i*$i;$i++;}
-		
-		$this->loadDataTableFromAPI();
-	
-		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
-		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace(
-									$this->dataTable, 
-									'label', 
-									'urldecode'
-								);
-		
-		
-		$view = new Piwik_View($this->dataTableTemplate);
-		
-		$view->id 			= $this->getUniqIdTable();
-		
-		// We get the PHP array converted from the DataTable
-		$phpArray = $this->getPHPArrayFromDataTable();
-		
-		
-		$view->arrayDataTable 	= $phpArray;
-		$view->method = $this->method;
-		
-		$columns = $this->getColumnsToDisplay($phpArray);
-		$view->dataTableColumns = $columns;
-		
-		$nbColumns = count($columns);
-		// case no data in the array we use the number of columns set to be displayed 
-		if($nbColumns == 0)
-		{
-			$nbColumns = count($this->columnsToDisplay);
-		}
-		
-		$view->nbColumns = $nbColumns;
-		
-		$view->javascriptVariablesToSet 
-			= $this->getJavascriptVariablesToSet();
-		
-		
-		$this->view = $view;
-	}
-	
+
 	protected function getUniqIdTable()
 	{
 		// the $uniqIdTable variable is used as the DIV ID in the rendered HTML
@@ -160,141 +115,6 @@ class Piwik_ViewDataTable
 			$uniqIdTable = 'subDataTable_' . $this->idSubtable;
 		}
 		return $uniqIdTable;
-	}
-	
-	public function setColumnsToDisplay( $arrayIds)
-	{
-		$this->columnsToDisplay = $arrayIds;
-	}
-	
-	protected function isColumnToDisplay( $idColumn )
-	{
-		// we return true
-		// - we didn't set any column to display (means we display all the columns)
-		// - the column has been set as to display
-		if( count($this->columnsToDisplay) == 0
-			|| in_array($idColumn, $this->columnsToDisplay))
-		{
-			return true;
-		}
-		return false;
-	}
-	
-	protected function getColumnsToDisplay($phpArray)
-	{
-		
-		$dataTableColumns = array();
-		if(count($phpArray) > 0)
-		{
-			// build column information
-			$id = 0;
-			foreach($phpArray[0]['columns'] as $columnName => $row)
-			{
-				if( $this->isColumnToDisplay( $id, $columnName) )
-				{
-					$dataTableColumns[]	= array('id' => $id, 'name' => $columnName);
-				}
-				$id++;
-			}
-		}
-		return $dataTableColumns;
-	}
-	
-	protected function getDefaultOrCurrent( $nameVar )
-	{
-		if(isset($_REQUEST[$nameVar]))
-		{
-			return $_REQUEST[$nameVar];
-		}
-		$default = $this->getDefault($nameVar);
-		return $default;
-	}
-	
-	protected function getDefault($nameVar)
-	{
-		if(!isset($this->variablesDefault[$nameVar]))
-		{
-			return false;
-		}
-		return $this->variablesDefault[$nameVar];
-	}
-	
-	public function setSearchRecursive()
-	{
-		$this->variablesDefault['search_recursive'] = true;
-	}
-	public function setRecursiveLoadDataTableIfSearchingForPattern()
-	{
-		try{
-			$requestValue = Piwik_Common::getRequestVar('filter_column_recursive');
-			$requestValue = Piwik_Common::getRequestVar('filter_pattern_recursive');
-			// if the 2 variables are set we are searching for something.
-			// we have to load all the children subtables in this case
-			
-			$this->recursiveDataTableLoad = true;
-			return true;
-		}
-		catch(Exception $e) {
-			$this->recursiveDataTableLoad = false;
-			return false;
-		}
-		
-	}
-	
-	public function setExcludeLowPopulation( $value = 30 )
-	{
-		$this->variablesDefault['filter_excludelowpop_default'] = 2;
-		$this->variablesDefault['filter_excludelowpop_value_default'] = $value;	
-		$this->variablesDefault['filter_excludelowpop'] = 2;
-		$this->variablesDefault['filter_excludelowpop_value'] = $value;	
-	}
-	
-	public function setDefaultLimit( $limit )
-	{
-		$this->variablesDefault['filter_limit'] = $limit;
-	}
-	
-	public function setSortedColumn( $columnId, $order = 'desc')
-	{
-		$this->variablesDefault['filter_sort_column']= $columnId;
-		$this->variablesDefault['filter_sort_order']= $order;
-	}
-	public function disableSort()
-	{
-		$this->JSsortEnabled = 'false';		
-	}
-	public function getSort()
-	{
-		return $this->JSsortEnabled;		
-	}
-	
-	public function disableOffsetInformation()
-	{
-		$this->JSoffsetInformation = 'false';		
-	}
-	public function getOffsetInformation()
-	{
-		return $this->JSoffsetInformation;
-	}
-	
-	public function disableSearchBox()
-	{
-		$this->JSsearchBox = 'false';
-	}
-	
-	public function getSearchBox()
-	{
-		return $this->JSsearchBox;
-	}
-	
-	public function disableExcludeLowPopulation()
-	{
-		$this->JSexcludeLowPopulation = 'false';
-	}
-	
-	public function getExcludeLowPopulation()
-	{
-		return $this->JSexcludeLowPopulation;
 	}
 	
 	protected function getJavascriptVariablesToSet(	)
@@ -423,12 +243,86 @@ class Piwik_ViewDataTable
 		$this->dataTable = $dataTable;
 	}
 
-	protected function getPHPArrayFromDataTable( )
+	public function setTemplate( $tpl )
 	{
-		$renderer = Piwik_DataTable_Renderer::factory('php');
-		$renderer->setTable($this->dataTable);
-		$renderer->setSerialize( false );
-		$phpArray = $renderer->render();
-		return $phpArray;
+		$this->dataTableTemplate = $tpl;
 	}
+	
+	protected function getDefaultOrCurrent( $nameVar )
+	{
+		if(isset($_REQUEST[$nameVar]))
+		{
+			return $_REQUEST[$nameVar];
+		}
+		$default = $this->getDefault($nameVar);
+		return $default;
+	}
+
+	
+	protected function getDefault($nameVar)
+	{
+		if(!isset($this->variablesDefault[$nameVar]))
+		{
+			return false;
+		}
+		return $this->variablesDefault[$nameVar];
+	}
+	
+	
+	public function disableSort()
+	{
+		$this->JSsortEnabled = 'false';		
+	}
+	
+	public function getSort()
+	{
+		return $this->JSsortEnabled;		
+	}
+	
+	public function disableOffsetInformation()
+	{
+		$this->JSoffsetInformation = 'false';		
+	}
+	public function getOffsetInformation()
+	{
+		return $this->JSoffsetInformation;
+	}
+	
+	public function disableSearchBox()
+	{
+		$this->JSsearchBox = 'false';
+	}
+	
+	public function getSearchBox()
+	{
+		return $this->JSsearchBox;
+	}
+	
+	public function disableExcludeLowPopulation()
+	{
+		$this->JSexcludeLowPopulation = 'false';
+	}
+	
+	public function getExcludeLowPopulation()
+	{
+		return $this->JSexcludeLowPopulation;
+	}
+	
+	
+	public function setExcludeLowPopulation( $value = 30 )
+	{
+		$this->variablesDefault['filter_excludelowpop_default'] = 2;
+		$this->variablesDefault['filter_excludelowpop_value_default'] = $value;	
+		$this->variablesDefault['filter_excludelowpop'] = 2;
+		$this->variablesDefault['filter_excludelowpop_value'] = $value;	
+	}
+	
+	
+	
+	public function setDefaultLimit( $limit )
+	{
+		$this->variablesDefault['filter_limit'] = $limit;
+	}
+	
+	
 }

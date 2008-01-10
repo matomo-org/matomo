@@ -40,7 +40,6 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		$allColumns = array();
 		foreach($table->getRows() as $row)
 		{
-			//TODO put that in a Simple_PHP filter that will make it easy as well to export in CSV
 			foreach($row->getColumns() as $column => $value)
 			{
 				$allColumns[$column] = true;

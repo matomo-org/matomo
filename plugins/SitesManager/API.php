@@ -185,13 +185,15 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	}
 	
 	/**
-	 * Add a website to the database.
+	 * Add a website in the database.
 	 * 
 	 * The website is defined by a name and an array of URLs.
 	 * The name must not be empty.
 	 * The URLs array must contain at least one URL called the 'main_url' ; 
 	 * if several URLs are provided in the array, they will be recorded as Alias URLs for
 	 * this website.
+	 * 
+	 * Requires Super User access.
 	 * 
 	 * @return int the website ID created
 	 */
@@ -225,7 +227,13 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		return (int)$idSite;
 	}
 	
-	//TODO comment
+	/**
+	 * Delete a website from the database, given its Id.
+	 * 
+	 * Requires Super User access. 
+	 *
+	 * @param int $idSite
+	 */
 	static public function deleteSite( $idSite )
 	{
 		Piwik::checkUserIsSuperUser();

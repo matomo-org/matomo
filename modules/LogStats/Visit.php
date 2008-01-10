@@ -586,11 +586,8 @@ class Piwik_LogStats_Visit
 		$refererUrlParse = @parse_url($refererUrl);
 		$currentUrlParse = @parse_url($currentUrl);
 
-		//TODO remove the isset
-		if(isset($refererUrlParse['host'])
-			&& !empty($refererUrlParse['host']))
+		if( !empty($refererUrlParse['host']) )
 		{
-			
 			$refererHost = $refererUrlParse['host'];
 			$refererSH = $refererUrlParse['scheme'].'://'.$refererUrlParse['host'];
 			
@@ -674,7 +671,6 @@ class Piwik_LogStats_Visit
 			/*
 			 * Partner analysis
 			 */
-			 //TODO handle partner from a list of known partner URLs
 			if( !$refererAnalyzed )
 			{				
 				if(isset($currentUrlParse['query']))
