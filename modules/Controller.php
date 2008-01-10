@@ -6,4 +6,3 @@ abstract class Piwik_Controller
 		return 'index';
 	}
 }
-?>

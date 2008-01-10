@@ -34,4 +34,3 @@ function smarty_function_url($params, &$smarty)
 
 /* vim: set expandtab: */
 
-?>

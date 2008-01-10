@@ -636,7 +636,6 @@ class Piwik
 		$configAPI = Zend_Registry::get('config')->log;
 		
 		$aLoggers = array(
-//				'logger_query_profile' => new Piwik_Log_QueryProfile, // TODO Piwik_Log_QueryProfile
 				'logger_api_call' => new Piwik_Log_APICall,
 				'logger_exception' => new Piwik_Log_Exception,
 				'logger_error' => new Piwik_Log_Error,

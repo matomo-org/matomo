@@ -7,6 +7,7 @@ function ajaxShowError( string )
 {
 	$('#ajaxError').html(string).show();
 }
+
 function ajaxHideError()
 {
 	$('#ajaxError').hide();
@@ -16,6 +17,7 @@ function ajaxToggleLoading()
 {
 	$('#ajaxLoading').toggle();
 }
+
 function ajaxHandleResponse(response)
 {
 	if(response.result == "error") 
@@ -28,6 +30,7 @@ function ajaxHandleResponse(response)
 	}
 	ajaxToggleLoading();
 }
+
 function toggleAjaxLoading()
 {
 	$('#ajaxLoading').toggle();

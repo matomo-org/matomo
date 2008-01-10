@@ -8034,4 +8034,3 @@ $referers = array(
 "http://forum.hardware.fr/hfr/WindowsSoftware/ajout-compteur-site-sujet_172698_1.htm",
 "http://www.gougueule.com/Spongestats",
       );
-?>

@@ -156,7 +156,9 @@ class Piwik_LogStats_Db
 	{
 		if(self::$profiling)
 		{
-			self::$profiling= false;
+			// turn off the profiler so we don't profile the following queries 
+			self::$profiling = false;
+			
 			foreach($this->queriesProfiling as $query => $info)
 			{
 				$time = $info['sum_time_ms'];
@@ -167,8 +169,10 @@ class Piwik_LogStats_Db
 							ON DUPLICATE KEY 
 								UPDATE count=count+$count,sum_time_ms=sum_time_ms+$time";
 				$this->query($queryProfiling,array($query));
-			}	
-			self::$profiling= true;
+			}
+			
+			// turn back on profiling
+			self::$profiling = true;
 		}
 	}
 }

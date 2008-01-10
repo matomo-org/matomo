@@ -55,6 +55,15 @@ abstract class Piwik_Plugin
 	abstract function getInformation();
 	
 	/**
+	 * Returns the plugin name
+	 */
+	public function getName()
+	{
+		$info = $this->getInformation();
+		return $info['name'];
+	}
+	
+	/**
 	 * Returns the list of hooks registered with the methods names
 	 */
 	function getListHooksRegistered()

@@ -50,5 +50,4 @@ $userAgent = array(
 "OmniWeb/2.7-beta-3 OWF/1.0",
 "SearchExpress",
 "Microsoft URL Control - 6.00.8862",
-)
-?>
+);

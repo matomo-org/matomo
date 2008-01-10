@@ -1,9 +1,5 @@
 <?php
 /**
- * Archiving process
- *  
- * Requirements
- * 
  * 
  * TODO delete logs once used for days
  *   it means that we have to keep the useful information for months/week etc.

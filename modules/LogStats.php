@@ -194,8 +194,6 @@ class Piwik_LogStats
 	}
 }
 
-
-
 function printDebug( $info = '' )
 {
 	if(isset($GLOBALS['DEBUGPIWIK']) && $GLOBALS['DEBUGPIWIK'])
