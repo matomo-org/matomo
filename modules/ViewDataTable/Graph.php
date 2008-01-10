@@ -1,11 +1,7 @@
 <?php
-class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
-{
-	function __construct($typeViewRequested)
-	{
-		parent::__construct($typeViewRequested);
-	}
-	
+
+abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
+{	
 	function init($currentControllerAction, 
 						$moduleNameAndMethod )
 	{
@@ -25,20 +21,14 @@ class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 			return;
 		}
 		$this->mainAlreadyExecuted = true;
-	
-		
 		
 		$view = new Piwik_View($this->dataTableTemplate);
 		$this->id = $this->getUniqIdTable();
 		$view->id = $this->id;
 		$view->method = $this->method;
+
+		$parametersToModify = array( 'viewDataTable' => $this->valueParameterViewDataTable);
 		
-		$mappingTypeToGenerator = array (
-			'graphVerticalBar' 	=> 'generateDataChartVerticalBar',
-			'graphPie' 			=> 'generateDataChartPie',
-		);
-		
-		$parametersToModify = array( 'viewDataTable' => $mappingTypeToGenerator[$this->typeViewRequested]);
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($parametersToModify);
 		$view->jsInvocationTag = $this->getFlashInvocationCode($url);
 //		print($url);exit;
@@ -53,8 +43,8 @@ class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 	
 	protected function getCodeEmbed( $url )
 	{
-		
 	}
+	
 	protected function getFlashInvocationCode(
 			$url = 'libs/open-flash-chart/data-files/nodata.txt', 
 			$width = 500, 
@@ -73,8 +63,7 @@ class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		
 	    $obj_id = $this->id . "_chart";
 	    $div_name = $this->id . "_flashContent";
-	    // I think we may use swfobject for all browsers,
-	    // not JUST for IE...
+	    // I think we may use swfobject for all browsers, not JUST for IE...
 	    //
 	    //$ie = strstr(getenv('HTTP_USER_AGENT'), 'MSIE');
 	    
@@ -117,5 +106,21 @@ class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		}
 		
 		return $return;
+	}
+}
+
+class Piwik_ViewDataTable_Graph_ChartPie extends Piwik_ViewDataTable_Graph
+{
+	function __construct()
+	{
+		$this->valueParameterViewDataTable = 'generateDataChartPie';
+	}
+}
+
+class Piwik_ViewDataTable_Graph_ChartVerticalBar extends Piwik_ViewDataTable_Graph
+{
+	function __construct()
+	{
+		$this->valueParameterViewDataTable = 'generateDataChartVerticalBar';
 	}
 }

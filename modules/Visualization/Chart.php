@@ -54,4 +54,3 @@ abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashCh
 	}
 	
 }
-?>

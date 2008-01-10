@@ -1,11 +1,7 @@
 <?php
 
-class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
+abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 {
-	function __construct($typeViewRequested)
-	{
-		parent::__construct($typeViewRequested);
-	}
 	
 	function init($currentControllerAction, 
 						$moduleNameAndMethod )
@@ -26,22 +22,7 @@ class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 	
-		switch($this->typeViewRequested)
-		{
-			case 'generateDataChartPie':
-				require_once "Visualization/ChartPie.php";
-				$view = new Piwik_Visualization_ChartPie;			
-			break;
-			
-			default:
-			case 'generateDataChartVerticalBar':
-				require_once "Visualization/ChartVerticalBar.php";
-				$view = new Piwik_Visualization_ChartVerticalBar;
-			break;
-			
-		}
-
-		$this->setDefaultLimit( $view->getDefaultLimit() );		
+		$this->setDefaultLimit( $this->view->getDefaultLimit() );		
 	
 		$this->loadDataTableFromAPI();
 		
@@ -49,7 +30,7 @@ class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		
 		if(!$this->dataAvailable)
 		{
-			$view->title("No data for this graph", '{font-size: 25px;}');
+			$this->view->title("No data for this graph", '{font-size: 25px;}');
 		}
 		else
 		{
@@ -75,11 +56,25 @@ class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 					'url' 	=> $row->getDetail('url'),
 				);
 			}
-			$view->setData($data);
-			$view->customizeGraph();
+			$this->view->setData($data);
+			$this->view->customizeGraph();
 		}
-		$this->view = $view;
-		
 	}
 }
-?>
+
+class Piwik_ViewDataTable_GenerateGraphData_ChartPie extends Piwik_ViewDataTable_GenerateGraphData
+{
+	function __construct()
+	{
+		require_once "Visualization/ChartPie.php";
+		$this->view = new Piwik_Visualization_ChartPie;
+	}
+}
+class Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar extends Piwik_ViewDataTable_GenerateGraphData
+{
+	function __construct()
+	{
+		require_once "Visualization/ChartVerticalBar.php";
+		$this->view = new Piwik_Visualization_ChartVerticalBar;
+	}
+}

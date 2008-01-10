@@ -7,7 +7,6 @@
 require_once "iView.php";
 class Piwik_ViewDataTable
 {
-	protected $typeViewRequested = null;
 	protected $dataTableTemplate = null;
 	
 	protected $currentControllerAction;
@@ -47,29 +46,33 @@ class Piwik_ViewDataTable
 				return new Piwik_ViewDataTable_Cloud($type);			
 			break;
 			
-			case 'graphVerticalBar':
 			case 'graphPie':
 				require_once "ViewDataTable/Graph.php";
-				return new Piwik_ViewDataTable_Graph($type);
+				return new Piwik_ViewDataTable_Graph_ChartPie();
 			break;			
 			
+			case 'graphVerticalBar':
+				require_once "ViewDataTable/Graph.php";
+				return new Piwik_ViewDataTable_Graph_ChartVerticalBar();
+			break;	
+			
 			case 'generateDataChartVerticalBar':
-			case 'generateDataChartPie':
 				require_once "ViewDataTable/GenerateGraphData.php";
-				return new Piwik_ViewDataTable_GenerateGraphData($type);
+				return new Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar();
 			break;
 						
+			case 'generateDataChartPie':
+				require_once "ViewDataTable/GenerateGraphData.php";
+				return new Piwik_ViewDataTable_GenerateGraphData_ChartPie();
+			break;
+				
 			case 'table':
 			default:
 				return new Piwik_ViewDataTable($type);
 			break;
 		}
 	}
-	function __construct($typeView)
-	{
-		$this->typeViewRequested = $typeView;
-	}
-	
+		
 	function init( $currentControllerAction, 
 						$moduleNameAndMethod, 
 						$actionToLoadTheSubTable = null)

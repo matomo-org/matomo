@@ -109,4 +109,3 @@ class Piwik_View implements iView
 	}
 */
 }
-?>

@@ -562,4 +562,3 @@ abstract class Piwik_Visualization_OpenFlashChart implements iView
         return $tmp;
     }
 }
-?>
