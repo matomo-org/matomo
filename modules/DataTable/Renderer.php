@@ -58,8 +58,8 @@ abstract class Piwik_DataTable_Renderer
 				break;
 			
 			case 'xml':
-				require_once "DataTable/Renderer/XML.php";
-				$class = 'Piwik_DataTable_Renderer_XML';
+				require_once "DataTable/Renderer/Xml.php";
+				$class = 'Piwik_DataTable_Renderer_Xml';
 				break;
 			
 			case 'rss':
