@@ -37,13 +37,11 @@ class Piwik_ViewDataTable
 			$type = Piwik_Common::getRequestVar('viewDataTable', 'table', 'string');
 		}
 		
-		// TODO: instead of giving the parameter to the constructor we should really
-		// have only one class per type view renderer
 		switch($type)
 		{
 			case 'cloud':
 				require_once "ViewDataTable/Cloud.php";
-				return new Piwik_ViewDataTable_Cloud($type);			
+				return new Piwik_ViewDataTable_Cloud();			
 			break;
 			
 			case 'graphPie':
@@ -68,7 +66,7 @@ class Piwik_ViewDataTable
 				
 			case 'table':
 			default:
-				return new Piwik_ViewDataTable($type);
+				return new Piwik_ViewDataTable();
 			break;
 		}
 	}

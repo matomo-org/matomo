@@ -4,8 +4,6 @@
  * 
  * - after a day is archived, we delete all the useless information from the log table, keeping only the useful data for weeks/month
  *   maybe we create a new table containing only these aggregate and we can delete the rows of the day in the log table
- * - To avoid join two huge tables (log_visit, log_link_visit_action) we may have to denormalize (idsite, date)#
- * -  
  */
  
 /*

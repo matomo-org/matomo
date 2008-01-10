@@ -23,8 +23,13 @@ class Piwik_Provider extends Piwik_Plugin
 	function install()
 	{
 		// add column hostname / hostname ext in the visit table
-		$query = "ALTER TABLE `".Piwik::prefixTable('log_visit')."` ADD `location_provider` VARCHAR( 100 ) NOT NULL";
-		Zend_Registry::get('db')->query($query);
+		$query = "ALTER IGNORE TABLE `".Piwik::prefixTable('log_visit')."` ADD `location_provider` VARCHAR( 100 ) NOT NULL";
+		
+		// if the column already exist do not throw error. Could be installed twice...
+		try {
+			Zend_Registry::get('db')->query($query);
+		}
+		catch(Exception $e){}
 	}
 	
 	function uninstall()

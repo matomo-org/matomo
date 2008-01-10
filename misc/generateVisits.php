@@ -70,4 +70,3 @@ echo "<br>".$t;
 $generator->end();
 
 ob_end_flush();
-?>

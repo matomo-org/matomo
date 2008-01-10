@@ -12,4 +12,3 @@ class Piwik_Logout_Controller extends Piwik_Controller
 		Piwik_Url::redirectToUrl($baseUrl);
 	}
 }
-?>

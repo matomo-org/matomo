@@ -620,9 +620,6 @@ class Piwik_LogStats_Visit
 					{
 						$query = $refererUrlParse['query'];
 						
-						//TODO: change the search engine file and use REGEXP; performance downside?
-						//TODO: port the phpmyvisites google-images hack here
-	
 						// search for keywords now &vname=keyword
 						$key = trim(strtolower(Piwik_Common::getParameterFromQueryString($query, $variableName)));
 	

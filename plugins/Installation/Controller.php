@@ -393,10 +393,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		Piwik::createDatabaseObject($dbInfos);
 	}
 	
-	
-	
-	
-	
 	protected function getSystemInformation()
 	{
 		$minimumPhpVersion = Zend_Registry::get('config')->General->minimumPhpVersion;
@@ -426,8 +422,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		if (in_array('pdo_mysql', $extensions))  
 		{
 		    $infos['pdo_mysql_ok'] = true;
-		    //TODO add the mysql version report and check mini 4.1
-//			$infos['pdo_mysql_version'] = getMysqlVersion();
 		}
 		
 		// server version

@@ -31,4 +31,4 @@ class Piwik_Login_Form extends Piwik_Form
 	
 	
 }
-?>
+

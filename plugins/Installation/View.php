@@ -14,7 +14,6 @@ class Piwik_Install_View extends Piwik_View
 	function render()
 	{
 		// prepare the all steps templates
-		// TODO add translation here
 		$this->allStepsTitle = $this->steps;
 		$this->currentStepId = array_search($this->currentStepName, $this->steps);
 		$this->totalNumberOfSteps = count($this->steps);

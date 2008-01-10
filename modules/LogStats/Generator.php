@@ -4,7 +4,7 @@
  * Class used to generate fake visits. 
  * Useful to test performances, general functional testing, etc.
  * 
- * Requirements of the visits generator script. It is to edit * 
+ * Requirements of the visits generator script. Fields that can be edited:
  * - url => campaigns
  * 		- newsletter
  * 		- partner
@@ -37,7 +37,7 @@ class Piwik_LogStats_Generator
 	public $profiling 	= true;
 	public $reinitProfilingAtEveryRequest = true;
 	
-	//TODO also make this variable dynamic so that a visitor can make hit on several hosts and 
+	//we could make this variable dynamic so that a visitor can make hit on several hosts and 
 	// only the good ones are kept
 	public $host = 'http://localhost';
 	

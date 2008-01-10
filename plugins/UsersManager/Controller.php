@@ -52,4 +52,3 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 }
-?>

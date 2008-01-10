@@ -15,4 +15,3 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 }
-?>

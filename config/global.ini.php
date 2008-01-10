@@ -16,8 +16,8 @@ adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 [database_tests]
 host 			= localhost
 username 		= root
-password 		= nintendo
-dbname			= piwiktests
+password 		= 
+dbname			= piwik_tests2
 tables_prefix	= piwiktests_
 adapter 		= PDO_MYSQL
 

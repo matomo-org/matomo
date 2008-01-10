@@ -137,7 +137,7 @@ class Piwik_PluginsManager
 			try{
 				$plugin->install();
 			} catch(Exception $e) {
-				//TODO Better plugin management....
+				throw new Exception("There was a problem installing the plugin ". $plugin->getName() . " = " . $e->getMessage() );
 			}
 		}
 	}

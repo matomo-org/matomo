@@ -57,4 +57,4 @@ class Piwik_Login_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 }
-?>
+
