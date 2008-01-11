@@ -17,7 +17,7 @@
   * If the text contains an embedded delimiter string or qualifier string, the text qualifier is placed around the text, and the embedded qualifier strings are doubled.
   * Formatting and layout are ignored.
   */
-require_once "DataTable/Renderer/PHP.php";
+require_once "DataTable/Renderer/Php.php";
 class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 {
 	public $separator = ',';
