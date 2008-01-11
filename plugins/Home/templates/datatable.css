@@ -57,7 +57,7 @@ table.dataTable td,table.dataTable td a {
 }
 
 table.dataTable td.columneven {
-	background: #F5FAFA;
+	background: #F7FAFA;
 	color: #797268;
 }
 table.dataTable td.label {
@@ -70,7 +70,7 @@ table.dataTable td.labeleven {
 }
 
 table.dataTable td.labelodd {
-	background: #f5fafa url(images/bullet2.gif) no-repeat;
+	background: #F7FAFA url(images/bullet2.gif) no-repeat;
 	color: #797268;
 }
 
