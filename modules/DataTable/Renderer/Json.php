@@ -6,7 +6,7 @@
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer
  */
-require_once "DataTable/Renderer/PHP.php";
+require_once "DataTable/Renderer/Php.php";
 class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 {
 	function __construct($table = null)
