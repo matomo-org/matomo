@@ -2,10 +2,6 @@
 require_once "Visualization/Chart.php";
 class Piwik_Visualization_ChartPie extends Piwik_Visualization_Chart
 {
-	function getDefaultLimit()
-	{
-		return 5;
-	}
 	function customizeGraph()
 	{
 		$this->prepareData();		

@@ -2,10 +2,8 @@
 require_once "Visualization/Chart.php";
 class Piwik_Visualization_ChartVerticalBar extends Piwik_Visualization_Chart
 {
-	function getDefaultLimit()
-	{
-		return 10;
-	}
+	protected $limit = 10;
+		
 	function customizeGraph()
 	{
 		$this->prepareData();

@@ -74,6 +74,28 @@ class Piwik_DataTable_Row
 		}
 	}
 
+	public function __toString()
+	{
+		$columns=array();
+		foreach($this->getColumns() as $column => $value)
+		{
+			if(is_string($value)) $value = "'$value'";
+			$columns[] = "'$column' => $value";
+		}
+		$columns = implode(", ", $columns);
+		$details=array();
+
+		foreach($this->getDetails() as $detail => $value)
+		{
+			if(is_string($value)) $value = "'$value'";
+			$details[] = "'$detail' => $value";
+		}
+		$details = implode(", ", $details);
+		$output =  "# [".$columns."] [".$details."] [idsubtable = " 
+					. $this->getIdSubDataTable()."]<br>\n";
+		return $output;
+	}
+	
 	/**
 	 * Returns the given column
 	 * @param string Column name

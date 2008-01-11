@@ -113,11 +113,6 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		return false;
 	}
 
-	public function setSortedColumn( $columnId, $order = 'desc')
-	{
-		$this->variablesDefault['filter_sort_column']= $columnId;
-		$this->variablesDefault['filter_sort_order']= $order;
-	}
 	
 
 	public function setSearchRecursive()

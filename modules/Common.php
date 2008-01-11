@@ -361,9 +361,9 @@ class Piwik_Common
 		$p = strpos($ip, ',');
 		if($p!==false)
 		{
-			return Piwik_Common::sanitizeInputValues(substr($ip, 0, $p));
+			return trim(Piwik_Common::sanitizeInputValues(substr($ip, 0, $p)));
 		}
-		return Piwik_Common::sanitizeInputValues($ip);
+		return trim(Piwik_Common::sanitizeInputValues($ip));
 	}
 	
 		

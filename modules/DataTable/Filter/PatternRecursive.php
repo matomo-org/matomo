@@ -18,14 +18,15 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 //		echo $this->table; exit;
 	}
 	
-	protected function filter( $table = null)
+	protected function filter( $table = null )
 	{
 		if(is_null($table))
 		{
 			$table = $this->table;
 		}
-		
-		foreach($table->getRows() as $key => $row)
+		$rows = $table->getRows();
+						
+		foreach($rows as $key => $row)
 		{
 			// A row is deleted if
 			// 1 - its label doesnt contain the pattern 
