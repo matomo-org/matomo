@@ -59,9 +59,7 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		
 		$view->nbColumns = $nbColumns;
 		
-		$view->javascriptVariablesToSet 
-			= $this->getJavascriptVariablesToSet();
-		
+		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		
 		$this->view = $view;
 	}

@@ -86,9 +86,9 @@ class Test_PHP_Related extends UnitTestCase
 		usort($a, "countSort");
 		
 		// in the function used count nb of times called
-		print("called ".self::$countSort." times to sort the 1000 elements array");
+//		print("called ".self::$countSort." times to sort the 1000 elements array");
 		
-		echo $timer;
+//		echo $timer;
 	}
 	
 	/**
@@ -135,10 +135,9 @@ class Test_PHP_Related extends UnitTestCase
           
 		$xml = array_to_simplexml($test);
 		
-		print("<pre>START");print($xml);print("START2");
-		print_r($xml->asXML());
-		
-		print("</pre>");
+//		print("<pre>START");print($xml);print("START2");
+//		print_r($xml->asXML());
+//		print("</pre>");
 	}
 	/**
 	 * misc tests for performance

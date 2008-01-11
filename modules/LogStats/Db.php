@@ -4,8 +4,6 @@
  * Simple database PDO wrapper.
  * We can't afford to have a dependency with the Zend_Db module in the LogStats module.
  * 
- * TODO write the mysqli wrapper
- * 
  * @package Piwik_LogStats
  */
 
@@ -15,8 +13,8 @@ class Piwik_LogStats_Db
 	private $username;
 	private $password;
 	
-	//TODO test that in production is false
 	static private $profiling = false;
+
 	protected $queriesProfiling;
 	
 	/**
@@ -29,6 +27,18 @@ class Piwik_LogStats_Db
 		$this->password = $password;
 	}
 
+	
+	/**
+	 * Returns true if the profiler is enabled
+	 * Only used by the unit test that tests that the profiler is off on a  production server
+	 * 
+	 * @return bool 
+	 */
+	static public function isProfilingEnabled()
+	{
+		return self::$profiling;
+	}
+	
 	/**
 	 * Enables the profiling. 
 	 * For each query, saves in the DB the time spent on this query. 

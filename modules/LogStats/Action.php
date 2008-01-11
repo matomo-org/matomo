@@ -22,9 +22,7 @@
  * 
  * We make sure it is clean and displayable.
  * If the name is empty we set it to a default name.
- * 
- * TODO UTF8 handling to test
- * 
+ *  
  * Specifications
  *  
  * - Download tracking

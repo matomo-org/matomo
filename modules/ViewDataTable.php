@@ -78,6 +78,8 @@ abstract class Piwik_ViewDataTable
 		$this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false, 'int');
 		
 		$this->method = $moduleNameAndMethod;
+		
+		
 		$this->variablesDefault['filter_excludelowpop_default'] = 'false';
 		$this->variablesDefault['filter_excludelowpop_value_default'] = 'false';	
 	}
@@ -309,20 +311,27 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	
-	public function setExcludeLowPopulation( $value = 30 )
+	public function setExcludeLowPopulation( $value = null )
 	{
-		$this->variablesDefault['filter_excludelowpop_default'] = 2;
-		$this->variablesDefault['filter_excludelowpop_value_default'] = $value;	
-		$this->variablesDefault['filter_excludelowpop'] = 2;
-		$this->variablesDefault['filter_excludelowpop_value'] = $value;	
+		if( is_null( $value) ) 
+		{
+			throw new Exception("setExcludeLowPopulation() value shouldn't be null");
+		}
+		
+		// column to use to enable low population exclusion if != false
+		$this->variablesDefault['filter_excludelowpop_default'] 
+			= $this->variablesDefault['filter_excludelowpop']
+			= 2;
+		
+		// the minimum value a row must have to be returned 
+		$this->variablesDefault['filter_excludelowpop_value_default'] 
+			= $this->variablesDefault['filter_excludelowpop_value']
+			= $value;	
 	}
-	
-	
 	
 	public function setDefaultLimit( $limit )
 	{
 		$this->variablesDefault['filter_limit'] = $limit;
 	}
-	
-	
+
 }

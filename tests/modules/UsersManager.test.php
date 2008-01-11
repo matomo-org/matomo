@@ -1,10 +1,10 @@
 <?php
 if(!defined("PATH_TEST_TO_ROOT")) {
-	define('PATH_TEST_TO_ROOT', '..');
+	define('PATH_TEST_TO_ROOT', getcwd().'/../../');
 }
 if(!defined('CONFIG_TEST_INCLUDED'))
 {
-	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+	require_once PATH_TEST_TO_ROOT."tests/config_test.php";
 }
 require_once "Database.test.php";
 
@@ -32,6 +32,58 @@ class Test_Piwik_UsersManager extends Test_Database
 		Zend_Registry::set('access', $pseudoMockAccess);
 		
     }
+
+    private function _checkUserHasNotChanged($user, $newPassword, $newEmail = null, $newAlias= null)
+    {
+    	if(is_null($newEmail))
+    	{
+    		$newEmail = $user['email'];
+    	}
+    	if(is_null($newAlias))
+    	{
+    		$newAlias = $user['alias'];
+    	}
+    	$userAfter = Piwik_UsersManager_API::getUser($user["login"]);
+    	unset($userAfter['date_registered']);
+    	
+    	// we now compute what the token auth should be, it should always be a hash of the login and the current password
+    	// if the password has changed then the token_auth has changed!
+    	$user['token_auth']= Piwik_UsersManager_API::getTokenAuth($user["login"], md5($newPassword) );
+    	
+    	$user['password']=md5($newPassword);
+    	$user['email']=$newEmail;
+    	$user['alias']=$newAlias;
+    	$this->assertEqual($user,$userAfter);
+    }
+    
+    /**
+     * bad password => exception
+     */
+    function test_updateUser_badpasswd()
+    {
+    	$login="login";
+    	$user = array('login'=>$login,
+    					'password'=>"geqgeagae",
+    					'email'=>"test@test.com",
+    					'alias'=>"alias");
+    					
+    	Piwik_UsersManager_API::addUser($user['login'],$user['password'] ,$user['email'] ,$user['alias'] );
+		
+		
+    	try {
+    		Piwik_UsersManager_API::updateUser(  $login, "pas");
+    	}
+    	catch (Exception $expected) {
+    		$this->assertPattern("(password)", $expected->getMessage());
+    		
+    		$this->_checkUserHasNotChanged($user,$user['password']);
+            return;
+        }
+        $this->fail("Exception not raised.");
+        
+    }
+//} class test{
+    
     /**
      * wrong login / integer => exception
      */
@@ -278,7 +330,7 @@ class Test_Piwik_UsersManager extends Test_Database
 		$this->assertEqual(strlen($user['password']), 32);
 		
 	    // that the password has been md5
-		$this->assertEqual($user['token_auth'],  md5($login.$password));
+		$this->assertEqual($user['token_auth'],  md5($login.md5($password)));
 		
 	    // check that all fields are the same
 		$this->assertEqual($user['login'], $login);
@@ -446,6 +498,23 @@ class Test_Piwik_UsersManager extends Test_Database
     		)
     	);
     	
+    }
+    
+    /**
+     * normal case
+     */
+    function test_getUsersLogin()
+    {
+    	
+    	Piwik_UsersManager_API::addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+    	Piwik_UsersManager_API::addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
+    	Piwik_UsersManager_API::addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
+    	
+    	$logins = Piwik_UsersManager_API::getUsersLogin();
+    	
+    	$this->assertEqual($logins, 
+    		array(  "gegg4564eqgeqag", "geggeqge632ge56a4qag",  "geggeqgeqagqegg")
+    		); 
     }
     
     
@@ -715,51 +784,6 @@ class Test_Piwik_UsersManager extends Test_Database
         $this->fail("Exception not raised.");
     }
     
-    /**
-     * bad password => exception
-     */
-    function test_updateUser_badpasswd()
-    {
-    	$login="login";
-    	$user = array('login'=>$login,
-    					'password'=>"geqgeagae",
-    					'email'=>"test@test.com",
-    					'alias'=>"alias");
-    					
-    	Piwik_UsersManager_API::addUser($user['login'],$user['password'] ,$user['email'] ,$user['alias'] );
-		
-		
-    	try {
-    		Piwik_UsersManager_API::updateUser(  $login, "pas");
-    	}
-    	catch (Exception $expected) {
-    		$this->assertPattern("(password)", $expected->getMessage());
-    		
-    		$this->_checkUserHasNotChanged($user,$user['password']);
-            return;
-        }
-        $this->fail("Exception not raised.");
-    }
-    
-    private function _checkUserHasNotChanged($user, $newPassword, $newEmail = null, $newAlias= null)
-    {
-    	if(is_null($newEmail))
-    	{
-    		$newEmail = $user['email'];
-    	}
-    	if(is_null($newAlias))
-    	{
-    		$newAlias = $user['alias'];
-    	}
-    	$userAfter = Piwik_UsersManager_API::getUser($user["login"]);
-    	unset($userAfter['date_registered']);
-    	$user['token_auth']= Piwik_UsersManager_API::getTokenAuth($user["login"], $newPassword );
-    	
-    	$user['password']=md5($newPassword);
-    	$user['email']=$newEmail;
-    	$user['alias']=$newAlias;
-    	$this->assertEqual($user,$userAfter);
-    }
     
     /**
      * no email no alias => keep old ones

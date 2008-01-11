@@ -156,7 +156,12 @@ List of the public methods for the class Piwik_Actions_API
 		
 		$view->setColumnsToDisplay( array(0,1) );
 		$view->setDefaultLimit( 100 );
-		$view->setExcludeLowPopulation( 5 );
+		
+		// computing minimum value to exclude
+		$visitsInfo = $this->getVisitsSummary();
+		$nbActions = $visitsInfo->getColumn('nb_actions');
+		$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions
+		$view->setExcludeLowPopulation( $nbActionsLowPopulationThreshold );
 		
 		$view->main();
 		// we need to rewrite the phpArray so it contains all the recursive arrays
@@ -259,7 +264,7 @@ List of the public methods for the class Piwik_Actions_API
 	 */
 	function getVisitsSummary()
 	{
-		$requestString = 'method='."VisitsSummary.get".'&format=original';
+		$requestString = 'method=' . "VisitsSummary.get" . '&format=original';
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}

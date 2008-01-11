@@ -5,10 +5,11 @@
  */
 require_once "Zend/Config/Ini.php";
 require_once "Zend/Registry.php";
+
 class Piwik_Config
 {
 	protected $urlToPiwikHelpMissingValueInConfigurationFile = 
-		'http://piwik.svn.sourceforge.net/viewvc/piwik/trunk/config/global.ini.php';
+		'http://dev.piwik.org/trac/browser/trunk/config/global.ini.php?format=raw';
 		
 	protected $defaultConfig 				= null;
 	protected $userConfig 					= null;

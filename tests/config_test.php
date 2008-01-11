@@ -13,7 +13,9 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 	define('PIWIK_INCLUDE_PATH', PATH_TEST_TO_ROOT);
 }
 
-set_include_path(PATH_TEST_TO_ROOT .'/'
+set_include_path(	  PATH_TEST_TO_ROOT .'/' 
+					. PATH_SEPARATOR . PATH_TEST_TO_ROOT .'/../' 
+					. PATH_SEPARATOR . '../' . PATH_TEST_TO_ROOT
 					. PATH_SEPARATOR . getcwd()
 					. PATH_SEPARATOR . getcwd() . '/../'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2
@@ -36,7 +38,8 @@ set_include_path(PATH_TEST_TO_ROOT .'/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/plugins/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/modules/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/tests/'
-					. PATH_SEPARATOR . get_include_path()
+					. PATH_SEPARATOR . get_include_path() 
+					. PATH_SEPARATOR . get_include_path() . '../'
 			);
 					
 require_once 'simpletest/autorun.php';
