@@ -155,7 +155,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->disableOffsetInformation();
 		
 		$view->setColumnsToDisplay( array(0,1) );
-		$view->setDefaultLimit( 100 );
+		$view->setLimit( 100 );
 		
 		// computing minimum value to exclude
 		$visitsInfo = $this->getVisitsSummary();
@@ -264,7 +264,10 @@ List of the public methods for the class Piwik_Actions_API
 	 */
 	function getVisitsSummary()
 	{
-		$requestString = 'method=' . "VisitsSummary.get" . '&format=original';
+		$requestString = 'method=' . "VisitsSummary.get" . '&format=original'.
+			// we disable filters for example "search for pattern", in the case this method is called 
+			// by a method that already calls the API with some generic filters applied 
+			'&disable_generic_filters=true'; 
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}
@@ -288,8 +291,8 @@ List of the public methods for the class Piwik_Actions_API
 								"VisitTime.getVisitInformationPerServerTime" );
 		
 		$view->setColumnsToDisplay( array(0,2) );
-		$view->setSortedColumn( '0', 'asc' );
-		$view->setDefaultLimit( 24 );
+		$view->setSortedColumn( 0, 'asc' );
+		$view->setLimit( 24 );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
@@ -304,8 +307,9 @@ List of the public methods for the class Piwik_Actions_API
 								"VisitTime.getVisitInformationPerLocalTime" );
 		
 		$view->setColumnsToDisplay( array(0,2) );
-		$view->setSortedColumn( '0', 'asc' );
-		$view->setDefaultLimit( 24 );
+		$view->setSortedColumn( 0, 'asc' );
+		$view->setLimit( 24 );
+		$view->setGraphLimit( 24 );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
@@ -322,8 +326,6 @@ List of the public methods for the class Piwik_Actions_API
 									"VisitorInterest.getNumberOfVisitsPerVisitDuration" );
 		
 		$view->setColumnsToDisplay( array(0,1) );
-		$view->setDefaultLimit( 5 );
-		
 		$view->disableSort();
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
@@ -345,7 +347,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->disableSearchBox();
 		$view->disableSort();
 		$view->main();
-//		echo $view->dataTable;
+		
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -359,7 +361,7 @@ List of the public methods for the class Piwik_Actions_API
 		
 		$view->setColumnsToDisplay( array(0,1) );
 		$view->setSortedColumn( 1 );
-		$view->setDefaultLimit( 5 );
+		$view->setLimit( 5 );
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -380,7 +382,7 @@ List of the public methods for the class Piwik_Actions_API
 		// sorting by label is not correct as the labels are the ISO codes before being
 		// mapped to the country names
 //		$view->disableSort();
-		$view->setDefaultLimit( 5 );
+		$view->setLimit( 5 );
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -412,8 +414,8 @@ List of the public methods for the class Piwik_Actions_API
 		
 		$view->setColumnsToDisplay( array(0,1) );
 		$view->setSortedColumn( 1 );
-		$view->setDefaultLimit( 5 );
-		
+		$view->setLimit( 5 );
+		$view->setGraphLimit(5);
 		return $view;
 	}
 	
@@ -432,7 +434,7 @@ List of the public methods for the class Piwik_Actions_API
 										__FUNCTION__, 
 										'UserSettings.getConfiguration'
 									);
-		$view->setDefaultLimit( 3 );
+		$view->setLimit( 3 );
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -451,6 +453,7 @@ List of the public methods for the class Piwik_Actions_API
 										__FUNCTION__, 
 										'UserSettings.getBrowser'
 									);
+		$view->setGraphLimit(7);
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -485,7 +488,7 @@ List of the public methods for the class Piwik_Actions_API
 		
 		$view->setColumnsToDisplay( array(0,1) );
 		$view->setSortedColumn( 2 );
-		$view->setDefaultLimit( 10 );
+		$view->setLimit( 10 );
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -577,6 +580,9 @@ List of the public methods for the class Piwik_Actions_API
 		
 		$view->setColumnsToDisplay( array(0,2) );
 		
+		$view->setLimit(5);
+		$view->setGraphLimit(12);
+		
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -590,7 +596,7 @@ List of the public methods for the class Piwik_Actions_API
 
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->setDefaultLimit( 5 );
+		$view->setLimit( 5 );
 		
 		$view->setColumnsToDisplay( array(0,2) );
 		
@@ -633,7 +639,7 @@ List of the public methods for the class Piwik_Actions_API
 								);
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->setDefaultLimit( 5 );
+		$view->setLimit( 5 );
 		
 		$view->setColumnsToDisplay( array(0,2) );
 		

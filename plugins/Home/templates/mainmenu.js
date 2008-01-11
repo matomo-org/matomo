@@ -32,10 +32,17 @@ $(document).ready( function(){
 			// that shows the associated DIV 
 			$('span',this).click( function() {
 					$('.section').hide();
+					
+					//unbold all menus
+					$('#generatedMenu > span').each( function(){ $(this).css('font-weight',''); } );
+					
+					// bold the current menu
+					$(this).css('font-weight','bold');
 					$('#'+$(this).text()).toggle();
 				})
 		});
 		
-	// we show the first section by default
+	// we show the first section by default, bold it
 	$('.section').slice(0,1).show();
+	$('#generatedMenu > span').slice(0,1).css('font-weight','bold');
 });
