@@ -25,11 +25,10 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 	{
 	}
 	
-	//TODO test with a label in the column list that is composed of numbers only
 	function test_generateDataTable_simple()
 	{
 		$row1 = new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => 
-							array(	'label' => 'page1', 'visits' => 1, 'actions' => 2)));
+							array(	'label' => 'page1', 'visits' => 1, 'actions' => 2, '666' => 'evil' )));
 							
 		$input = array(
 			'page1' => $row1,

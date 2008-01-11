@@ -1,14 +1,14 @@
 <?php
 if(!defined("PATH_TEST_TO_ROOT")) {
-	define('PATH_TEST_TO_ROOT', '..');
+	define('PATH_TEST_TO_ROOT', getcwd().'/../../');
 }
 if(!defined('CONFIG_TEST_INCLUDED'))
 {
-	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+	require_once PATH_TEST_TO_ROOT."tests/config_test.php";
 }
 require_once "Database.test.php";
 
-Zend_Loader::loadClass('Piwik_TablePartitioning');
+require_once 'TablePartitioning.php';
 class Test_Piwik_TablePartitioning extends Test_Database
 {
     function __construct() 
@@ -37,7 +37,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
 	// test table absent  => create
     function test_noTable()
     {
-    	$tableName ='log_visit';
+    	$tableName ='archive_numeric';
     	$p = new Piwik_TablePartitioning_Monthly($tableName);
     	$timestamp = strtotime("10 September 2000");
     	$suffixShouldBe = "_2000_09";
@@ -48,7 +48,8 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$p->setTimestamp( $timestamp );
     	
     	$allTablesInstalled = Piwik::getTablesInstalled();
-    	$this->assertTrue( in_array($tablename, $allTablesInstalled));
+    	
+    	$this->assertTrue( in_array($tablename, $allTablesInstalled), "$tablename !==".var_export($allTablesInstalled,true));
     	$this->assertTrue( $tablename, $p->getTableName());
     	$this->assertEqual( $tablename, (string)$p);
     }
@@ -56,7 +57,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
 	// test table present => nothing
     function test_tablePresent()
     {
-    	$tableName ='log_visit';
+    	$tableName ='archive_numeric';
     	$p = new Piwik_TablePartitioning_Monthly($tableName);
     	$timestamp = strtotime("10 September 2000");
     	$suffixShouldBe = "_2000_09";
@@ -78,7 +79,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
     function test_monthlyPartition()
     {
     	
-    	$tableName ='log_visit';
+    	$tableName ='archive_numeric';
     	$p = new Piwik_TablePartitioning_Monthly($tableName);
     	$timestamp = strtotime("10 September 2000");
     	$suffixShouldBe = "_2000_09";
@@ -98,7 +99,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
     function test_dailyPartition()
     {
     	
-    	$tableName ='log_visit';
+    	$tableName ='archive_numeric';
     	$p = new Piwik_TablePartitioning_Daily($tableName);
     	$timestamp = strtotime("10 September 2000");
     	$suffixShouldBe = "_2000_09_10";

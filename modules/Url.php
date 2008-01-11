@@ -12,13 +12,23 @@ class Piwik_Url
 	static function getCurrentQueryStringWithParametersModified( $params )
 	{
 		$urlValues = self::getArrayFromCurrentQueryString();
+
 	//	var_dump($urlValues);
 		foreach($params as $key => $value)
 		{
 			$urlValues[$key] = $value;
 		}
 		
-		return '?' . http_build_query($urlValues);
+		$query = http_build_query($urlValues);
+		
+		if(strlen($query) > 0)
+		{
+			return '?'.$query;
+		}
+		else
+		{
+			return '';
+		}
 	}
 	
 	static public function redirectToUrl( $url )

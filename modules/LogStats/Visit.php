@@ -19,6 +19,7 @@ class Piwik_LogStats_Visit
 	protected $visitorInfo = array();
 	protected $userSettingsInformation = null;
 	
+
 	function __construct( $db )
 	{
 		$this->db = $db;
@@ -571,194 +572,195 @@ class Piwik_LogStats_Visit
 	 * - referer_url : the same for all the referer types
 	 * 
 	 */
-	 //TODO split this big method getRefererInformation into small methods
 	private function getRefererInformation()
 	{	
-		// bool that says if the referer detection is done
-		$refererAnalyzed = false;
-		$typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
-		$nameRefererAnalyzed = '';
-		$keywordRefererAnalyzed = '';	
+		// default values for the referer_* fields
+		$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
+		$this->nameRefererAnalyzed = '';
+		$this->keywordRefererAnalyzed = '';
 		
+		// get the urls and parse them
 		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string');
 		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string');
 
-		$refererUrlParse = @parse_url($refererUrl);
-		$currentUrlParse = @parse_url($currentUrl);
+		$this->refererUrlParse = @parse_url($refererUrl);
+		$this->currentUrlParse = @parse_url($currentUrl);
 
-		if( !empty($refererUrlParse['host']) )
+		// if we have a referer available we try to detect something interesting
+		// otherwise it's defaulted to "the visitor is a direct entry"
+		if( !empty($this->refererUrlParse['host']) )
 		{
-			$refererHost = $refererUrlParse['host'];
-			$refererSH = $refererUrlParse['scheme'].'://'.$refererUrlParse['host'];
+			$this->refererHost = $this->refererUrlParse['host'];
 			
-			/*
-			 * Search engine detection
-			 */
-			if( !$refererAnalyzed )
+			if( 	!$this->detectRefererSearchEngine()
+				&&	!$this->detectRefererNewsletter()
+				&&	!$this->detectRefererPartner()
+				&&	!$this->detectRefererCampaign()
+				&&	!$this->detectRefererDirectEntry()
+			)
 			{
-				/*
-				 * A referer is a search engine if the URL's host is in the SearchEngines array
-				 * and if we found the keyword in the URL.
-				 * 
-				 * For example if someone comes from http://www.google.com/partners.html this will not
-				 * be counted as a search engines, but as a website referer from google.com (because the
-				 * keyword couldn't be found in the URL) 
-				 */
-				require PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
-				
-				if(array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
-				{
-					// which search engine ?
-					$searchEngineName = $GLOBALS['Piwik_SearchEngines'][$refererHost][0];
-					$variableName = $GLOBALS['Piwik_SearchEngines'][$refererHost][1];
-					
-					// if there is a query, there may be a keyword...
-					if(isset($refererUrlParse['query']))
-					{
-						$query = $refererUrlParse['query'];
-						
-						// search for keywords now &vname=keyword
-						$key = trim(strtolower(Piwik_Common::getParameterFromQueryString($query, $variableName)));
-	
-						//TODO test the search engine non-utf8 support
-						// for search engines that don't use utf-8
-						if((function_exists('iconv')) 
-							&& (isset($GLOBALS['Piwik_SearchEngines'][$refererHost][2])))
-						{
-							$charset = trim($GLOBALS['Piwik_SearchEngines'][$refererHost][2]);
-							
-							if(!empty($charset)) 
-							{
-								$key = htmlspecialchars(
-											@iconv(	$charset, 
-													'utf-8//TRANSLIT', 
-													htmlspecialchars_decode($key, Piwik_Common::HTML_ENCODING_QUOTE_STYLE))
-											, Piwik_Common::HTML_ENCODING_QUOTE_STYLE);
-							}
-						}
-						
-						
-						if(!empty($key))
-						{
-							$refererAnalyzed = true;
-							$typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_SEARCH_ENGINE;
-							$nameRefererAnalyzed = $searchEngineName;
-							$keywordRefererAnalyzed = $key;
-						}
-					}
-				}
-			}
-			
-			/*
-			 * Newsletter analysis
-			 */
-			if( !$refererAnalyzed )
-			{
-				if(isset($currentUrlParse['query']))
-				{
-					$newsletterVariableName = Piwik_LogStats_Config::getInstance()->LogStats['newsletter_var_name'];
-					$newsletterVar = Piwik_Common::getParameterFromQueryString( $currentUrlParse['query'], $newsletterVariableName);
-		
-					if(!empty($newsletterVar))
-					{
-						$refererAnalyzed = true;
-						$typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_NEWSLETTER;
-						$nameRefererAnalyzed = $newsletterVar;
-					}
-				}
-			}
-			
-			/*
-			 * Partner analysis
-			 */
-			if( !$refererAnalyzed )
-			{				
-				if(isset($currentUrlParse['query']))
-				{		
-					$partnerVariableName = Piwik_LogStats_Config::getInstance()->LogStats['partner_var_name'];
-					$partnerVar = Piwik_Common::getParameterFromQueryString($currentUrlParse['query'], $partnerVariableName);
-									
-					if(!empty($partnerVar))
-					{
-						$refererAnalyzed = true;
-						$typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_PARTNER;
-						$nameRefererAnalyzed = $partnerVar;
-					}
-				}
-			}
-			
-			/*
-			 * Campaign analysis
-			 */
-			if( !$refererAnalyzed )
-			{				
-				if(isset($currentUrlParse['query']))
-				{		
-					$campaignVariableName = Piwik_LogStats_Config::getInstance()->LogStats['campaign_var_name'];
-					$campaignName = Piwik_Common::getParameterFromQueryString($currentUrlParse['query'], $campaignVariableName);
-					
-					if( !empty($campaignName))
-					{
-						$campaignKeywordVariableName = Piwik_LogStats_Config::getInstance()->LogStats['campaign_keyword_var_name'];
-						$campaignKeyword = Piwik_Common::getParameterFromQueryString($currentUrlParse['query'], $campaignKeywordVariableName);
-	
-						$refererAnalyzed = true;
-						$typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_CAMPAIGN;
-						$nameRefererAnalyzed = $campaignName;
-					
-						if(!empty($campaignKeyword))
-						{
-							$keywordRefererAnalyzed = $campaignKeyword;
-						}
-					}
-				}
-			}
-			
-			/*
-			 * Direct entry (referer host is similar to current host)
-			 * And we have previously tried to detect the newsletter/partner/campaign variables in the URL 
-			 * so it can only be a direct access
-			 */
-			if( !$refererAnalyzed )
-			{
-				$currentUrlParse = @parse_url($currentUrl);
-		
-				if(isset($currentUrlParse['host']))
-				{
-					$currentHost = $currentUrlParse['host'];
-					$currentSH = $currentUrlParse['scheme'].'://'.$currentUrlParse['host'];
-				
-					if($currentHost == $refererHost)
-					{
-						$refererAnalyzed = true;
-						$typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
-					}
-				}
-				
-			}
-
-			/*
-			 * Normal website referer
-			 */
-			if( !$refererAnalyzed )
-			{
-				$refererAnalyzed = true;
-				$typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_WEBSITE;
-				$nameRefererAnalyzed = $refererHost;
+				// Normal website referer
+				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_WEBSITE;
+				$this->nameRefererAnalyzed = $this->refererHost;
 			}
 		}
 
-
 		$refererInformation = array(
-			'referer_type' 		=> $typeRefererAnalyzed,
-			'referer_name' 		=> $nameRefererAnalyzed,
-			'referer_keyword' 	=> $keywordRefererAnalyzed,
+			'referer_type' 		=> $this->typeRefererAnalyzed,
+			'referer_name' 		=> $this->nameRefererAnalyzed,
+			'referer_keyword' 	=> $this->keywordRefererAnalyzed,
 			'referer_url' 		=> $refererUrl,
 		);
 		
 		return $refererInformation;
 	}
 	
+	/*
+	 * Search engine detection
+	 */
+	private function detectRefererSearchEngine()
+	{
+		/*
+		 * A referer is a search engine if the URL's host is in the SearchEngines array
+		 * and if we found the keyword in the URL.
+		 * 
+		 * For example if someone comes from http://www.google.com/partners.html this will not
+		 * be counted as a search engines, but as a website referer from google.com (because the
+		 * keyword couldn't be found in the URL) 
+		 */
+		require PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
+		
+		if(array_key_exists($this->refererHost, $GLOBALS['Piwik_SearchEngines']))
+		{
+			// which search engine ?
+			$searchEngineName = $GLOBALS['Piwik_SearchEngines'][$this->refererHost][0];
+			$variableName = $GLOBALS['Piwik_SearchEngines'][$this->refererHost][1];
+			
+			// if there is a query, there may be a keyword...
+			if(isset($this->refererUrlParse['query']))
+			{
+				$query = $this->refererUrlParse['query'];
+				
+				// search for keywords now &vname=keyword
+				$key = trim(strtolower(Piwik_Common::getParameterFromQueryString($query, $variableName)));
+
+				if((function_exists('iconv')) 
+					&& (isset($GLOBALS['Piwik_SearchEngines'][$this->refererHost][2])))
+				{
+					$charset = trim($GLOBALS['Piwik_SearchEngines'][$this->refererHost][2]);
+					
+					if(!empty($charset)) 
+					{
+						$key = htmlspecialchars(
+									@iconv(	$charset, 
+											'utf-8//TRANSLIT', 
+											htmlspecialchars_decode($key, Piwik_Common::HTML_ENCODING_QUOTE_STYLE))
+									, Piwik_Common::HTML_ENCODING_QUOTE_STYLE);
+					}
+				}
+				
+				
+				if(!empty($key))
+				{
+					$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_SEARCH_ENGINE;
+					$this->nameRefererAnalyzed = $searchEngineName;
+					$this->keywordRefererAnalyzed = $key;
+					
+					return true;
+				}
+			}
+		}
+	}
+	
+	/*
+	 * Newsletter analysis
+	 */
+	private function detectRefererNewsletter()
+	{
+		if(isset($this->currentUrlParse['query']))
+		{
+			$newsletterVariableName = Piwik_LogStats_Config::getInstance()->LogStats['newsletter_var_name'];
+			$newsletterVar = Piwik_Common::getParameterFromQueryString( $this->currentUrlParse['query'], $newsletterVariableName);
+
+			if(!empty($newsletterVar))
+			{
+				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_NEWSLETTER;
+				$this->nameRefererAnalyzed = $newsletterVar;
+				
+				return true;
+			}
+		}
+	}
+	
+	/*
+	 * Partner analysis
+	 */
+	private function detectRefererPartner()
+	{
+		if(isset($this->currentUrlParse['query']))
+		{		
+			$partnerVariableName = Piwik_LogStats_Config::getInstance()->LogStats['partner_var_name'];
+			$partnerVar = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $partnerVariableName);
+							
+			if(!empty($partnerVar))
+			{
+				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_PARTNER;
+				$this->nameRefererAnalyzed = $partnerVar;
+				
+				return true;
+			}
+		}
+	}
+	
+	/*
+	 * Campaign analysis
+	 */
+	private function detectRefererCampaign()
+	{	
+		if(isset($this->currentUrlParse['query']))
+		{		
+			$campaignVariableName = Piwik_LogStats_Config::getInstance()->LogStats['campaign_var_name'];
+			$campaignName = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignVariableName);
+			
+			if( !empty($campaignName))
+			{
+				$campaignKeywordVariableName = Piwik_LogStats_Config::getInstance()->LogStats['campaign_keyword_var_name'];
+				$campaignKeyword = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $campaignKeywordVariableName);
+
+				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_CAMPAIGN;
+				$this->nameRefererAnalyzed = $campaignName;
+			
+				if(!empty($campaignKeyword))
+				{
+					$this->keywordRefererAnalyzed = $campaignKeyword;
+				}
+				
+				return true;
+			}
+		}
+	}
+	
+	/*
+	 * Direct entry (referer host is similar to current host)
+	 * And we have previously tried to detect the newsletter/partner/campaign variables in the URL 
+	 * so it can only be a direct access
+	 */
+	
+	private function detectRefererDirectEntry()
+	{
+		if(isset($this->currentUrlParse['host']))
+		{
+			$currentHost = $this->currentUrlParse['host'];
+			
+			if($currentHost == $this->refererHost)
+			{
+				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
+				
+				return true;
+			}
+		}
+		
+	}
 	/**
 	 * Returns a MD5 of all the configuration settings
 	 * @return string

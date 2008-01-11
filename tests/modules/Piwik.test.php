@@ -72,5 +72,16 @@ class Test_Piwik extends UnitTestCase
     		$this->assertFalse(Piwik::isValidFilename($toTest), $toTest." valid but shouldn't!");
     	}
     }
+    
+    public function test_secureDiv()
+    {
+    	$this->assertTrue( Piwik::secureDiv( 9,3 ) === 3 );
+    	$this->assertTrue( Piwik::secureDiv( 9,0 ) === 0 );
+    	$this->assertTrue( Piwik::secureDiv( 10,1 ) === 10 );
+    	$this->assertTrue( Piwik::secureDiv( 10.0, 1.0 ) === 10.0 );
+    	$this->assertTrue( Piwik::secureDiv( 11.0, 2 ) === 5.5 );
+    	$this->assertTrue( Piwik::secureDiv( 11.0, 'a' ) === 0 );
+    	
+    }
 }
 

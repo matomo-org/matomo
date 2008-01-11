@@ -395,8 +395,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	protected function getSystemInformation()
 	{
-		$minimumPhpVersion = Zend_Registry::get('config')->General->minimumPhpVersion;
-		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimumMemoryLimit;
+		$minimumPhpVersion = Zend_Registry::get('config')->General->minimum_php_version;
+		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
 		
 		$infos = array();
 	

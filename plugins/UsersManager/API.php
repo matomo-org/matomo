@@ -43,7 +43,6 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	 * 
 	 * @return array the list of all the users login
 	 */
-	 //TODO test this method
 	static public function getUsersLogin()
 	{
 		Piwik::checkUserHasSomeAdminAccess();
@@ -248,8 +247,9 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		self::checkEmail($email);
 
 		$alias = self::getCleanAlias($alias,$userLogin);
-		$token_auth = self::getTokenAuth($userLogin,$password);
 		$passwordTransformed = self::getCleanPassword($password);
+		
+		$token_auth = self::getTokenAuth($userLogin, $passwordTransformed);
 		
 		$db = Zend_Registry::get('db');
 		

@@ -155,7 +155,14 @@ class Piwik
 		exit;
 	}
 	
-	//TODO TEST secureDiv
+	/**
+	 * Computes the division of i1 by i2. If either i1 or i2 are not number, or if i2 has a value of zero
+	 * we return 0 to avoid the division by zero.
+	 *
+	 * @param numeric $i1
+	 * @param numeric $i2
+	 * @return numeric The result of the division or zero 
+	 */
 	static public function secureDiv( $i1, $i2 )
 	{
 	    if ( is_numeric($i1) && is_numeric($i2) && floatval($i2) != 0)
@@ -591,7 +598,7 @@ class Piwik
 		// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
 		$allArchiveNumeric = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
 		$allArchiveBlob = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
-		
+				
 		$allTablesReallyInstalled = array_merge($tablesInstalled, $allArchiveNumeric, $allArchiveBlob);
 		
 		return 	$allTablesReallyInstalled;
