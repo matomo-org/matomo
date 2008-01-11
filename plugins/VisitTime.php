@@ -53,17 +53,32 @@ class Piwik_VisitTime extends Piwik_Plugin
 	{
 		$archiveProcessing = $notification->getNotificationObject();
 
+		$this->archiveProcessing = $archiveProcessing;
+		
 		$recordName = 'VisitTime_localTime';
 		$labelSQL = "HOUR(visitor_localtime)";
 		$tableLocalTime = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		
+		$this->makeSureAllHoursAreSet($tableLocalTime);
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableLocalTime->getSerialized());
 //		echo $tableLocalTime;
 		
 		$recordName = 'VisitTime_serverTime';
 		$labelSQL = "HOUR(visit_first_action_time)";
 		$tableServerTime = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$this->makeSureAllHoursAreSet($tableServerTime);
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableServerTime->getSerialized());
 //		echo $tableServerTime;
+	}
+	
+	private function makeSureAllHoursAreSet($table)
+	{
+		for($i=0;$i<=23;$i++)
+		{
+			if($table->getRowFromLabel($i) === false)
+			{
+				$row = $this->archiveProcessing->getEmptyInterestRow($i);
+				$table->addRow( $row );
+			}
+		}
 	}
 }

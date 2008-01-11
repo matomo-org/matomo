@@ -127,10 +127,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 				$minGap = $gap[0] * 60;
 				$maxGap = $gap[1] * 60;
 				
-				if($minGap == 0 || $minGap == 0.5)
-				{
-					$gapName = "'".$minGap."-".$maxGap."'";
-				}
+				
+				$gapName = "'".$minGap."-".$maxGap."'";
 				$select[] = "sum(case when visit_total_time between $minGap and $maxGap then 1 else 0 end) as $gapName ";
 			}
 			else
@@ -142,6 +140,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		}		
 		$toSelect = implode(" , ", $select);
 		
-		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
+		$table = $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
+//		echo $table;
+		return $table;
 	}
 }

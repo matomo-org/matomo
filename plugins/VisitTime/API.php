@@ -28,6 +28,7 @@ class Piwik_VisitTime_API extends Piwik_Apiable
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
 		
+		
 		return $dataTable;
 	}
 	

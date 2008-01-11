@@ -132,6 +132,7 @@ class Piwik_API_Request
 				$dataTable = $returnedValue;
 				
 				$this->applyDataTableGenericFilters($dataTable);
+				
 				$dataTable->applyQueuedFilters();
 				$toReturn = $this->getRenderedDataTable($dataTable);
 				
@@ -319,6 +320,12 @@ class Piwik_API_Request
 		 */
 		$genericFilters = Piwik_API_Request::getGenericFiltersInformation();
 		
+		// if the flag disable_generic_filters is defined we skip the generic filters
+		
+		if(Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->requestToUse) != 'false')
+		{
+			return;
+		}
 		foreach($genericFilters as $filterName => $parameters)
 		{
 			$filterParameters = array();

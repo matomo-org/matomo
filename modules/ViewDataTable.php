@@ -234,6 +234,7 @@ abstract class Piwik_ViewDataTable
 				$requestString .= '&'.$varToSet.'='.$value;
 			}
 		}
+//		echo $requestString;exit;
 		// We finally make the request to the API
 		$request = new Piwik_API_Request($requestString);
 		
@@ -269,7 +270,6 @@ abstract class Piwik_ViewDataTable
 		}
 		return $this->variablesDefault[$nameVar];
 	}
-	
 	
 	public function disableSort()
 	{
@@ -328,10 +328,17 @@ abstract class Piwik_ViewDataTable
 			= $this->variablesDefault['filter_excludelowpop_value']
 			= $value;	
 	}
-	
-	public function setDefaultLimit( $limit )
-	{
-		$this->variablesDefault['filter_limit'] = $limit;
-	}
 
+	public function setLimit( $limit )
+	{
+		if($limit != 0)
+		{
+			$this->variablesDefault['filter_limit'] = $limit;
+		}
+	}
+	public function setSortedColumn( $columnId, $order = 'desc')
+	{
+		$this->variablesDefault['filter_sort_column']= $columnId;
+		$this->variablesDefault['filter_sort_order']= $order;
+	}
 }

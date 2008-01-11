@@ -16,7 +16,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->disableSort();
 		$view->disableOffsetInformation();
 		
-		$view->setDefaultLimit( 10 );
+		$view->setLimit( 10 );
 		
 		return $this->renderView($view, $fetch);
 	}

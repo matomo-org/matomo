@@ -14,6 +14,18 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		$this->disableSearchBox();
 	}
 	
+	protected $graphLimit;
+	
+	function setGraphLimit( $limit )
+	{
+		$this->graphLimit = $limit;
+	}
+	
+	function getGraphLimit()
+	{
+		return $this->graphLimit;
+	}
+	
 	public function main()
 	{
 		if($this->mainAlreadyExecuted)
@@ -22,10 +34,13 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 	
-		$this->setDefaultLimit( $this->view->getDefaultLimit() );		
-	
+		
+		$this->setLimit($this->getGraphLimit());
+		
+		// we load the data with the filters applied
 		$this->loadDataTableFromAPI();
 		
+//		echo $this->dataTable;
 		$this->dataAvailable = $this->dataTable->getRowsCount() != 0;
 		
 		if(!$this->dataAvailable)
@@ -34,6 +49,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		}
 		else
 		{
+//			echo $this->dataTable;
 			// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
 			$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace(
 										$this->dataTable, 

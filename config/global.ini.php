@@ -52,11 +52,10 @@ enabled[] 		= Provider
 ; this is useful when making changes to the archiving code so we can 
 always_archive_data = false
 
-
 [General]
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
-time_before_archive_considered_outdated = 30
+time_before_archive_considered_outdated = 300
 
 ; character used to automatically create categories in the "Action" "Downloads" reports
 ; for example a URL like "example.com/blog/development/first-post" will create 

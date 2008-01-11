@@ -182,6 +182,16 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						);
 	}
 	
+	public function getEmptyInterestRow( $label )
+	{
+		return new Piwik_DataTable_Row(
+				array( 
+					Piwik_DataTable_Row::COLUMNS => 		array(	'label' => $label) 
+															+ $this->getNewInterestRow()
+					)
+				); 
+	}
+	
 	public function updateInterestStats( $newRowToAdd, &$oldRowToUpdate)
 	{		
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]	+= $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];

@@ -2,8 +2,6 @@
 require_once "Visualization/OpenFlashChart.php";
 abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashChart
 {
-	abstract function getDefaultLimit();
-	
 	function setData($data)
 	{
 		$this->dataGraph = $data;
@@ -12,6 +10,7 @@ abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashCh
 	function prepareData()
 	{		
 		$label = $data = array();
+//		var_dump($this->dataGraph);
 		foreach($this->dataGraph as $row)
 		{
 			$label[] = $row['label'];
