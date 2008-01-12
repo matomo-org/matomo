@@ -168,15 +168,16 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	 * 
 	 * @return array the user information
 	 */
-	static public function getUser( $login )
+	static public function getUser( $userLogin )
 	{
 		Piwik::checkUserIsSuperUser();
-		self::checkUserExists($login);
+		self::checkUserExists($userLogin);
 		
 		$db = Zend_Registry::get('db');
 		$user = $db->fetchRow("SELECT * 
 								FROM ".Piwik::prefixTable("user")
-								." WHERE login = ?", $login);
+								." WHERE login = ?", $userLogin);
+//		var_dump($user); exit;
 		return $user;
 	}
 	

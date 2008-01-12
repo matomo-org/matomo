@@ -79,6 +79,9 @@ class Piwik_API_Request
 	public function process()
 	{
 		try {
+			// read the format requested for the output data
+			$outputFormatRequested = Piwik_Common::getRequestVar('format', 'xml', 'string', $this->requestToUse);
+			$outputFormatRequested = strtolower($outputFormatRequested);
 			
 			// read parameters
 			$moduleMethod = Piwik_Common::getRequestVar('method', null, null, $this->requestToUse);
@@ -134,26 +137,70 @@ class Piwik_API_Request
 				$this->applyDataTableGenericFilters($dataTable);
 				
 				$dataTable->applyQueuedFilters();
+				
 				$toReturn = $this->getRenderedDataTable($dataTable);
 				
 			}
-			elseif(!is_array($toReturn) // an empty array is not considered as "nothing has been returned"
-				&& empty($toReturn))
+			
+			// Case nothing returned (really nothing was 'return'ed), 
+			// => the operation was successful
+			elseif(!isset($toReturn))
 			{
-				$format = Piwik_Common::getRequestVar('format', 'xml', 'string', $this->requestToUse);
-				$toReturn = $this->getStandardSuccessOutput($format);
+				$toReturn = $this->getStandardSuccessOutput($outputFormatRequested);
+			}
+			
+			// Case an array is returned from the API call, we convert it to the requested format
+			// - if calling from inside the application (format = original)
+			//    => the data stays unchanged (ie. a standard php array or whatever data structure)
+			// - if any other format is requested, we have to convert this data structure (which we assume 
+			//   to be an array) to a DataTable in order to apply the requested DataTable_Renderer (for example XML)
+			elseif(is_array($toReturn))
+			{
+				if($outputFormatRequested == 'original')
+				{
+					// we handle the serialization. Because some php array have a very special structure that 
+					// couldn't be converted with the automatic DataTable->loadFromSimpleArray
+					// the user may want to request the original PHP data structure serialized by the API
+					// in case he has to setup serialize=1 in the URL
+					if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
+					{
+						$toReturn = serialize($toReturn);
+					}
+				}
+				else
+				{
+//					var_dump($toReturn);exit;
+//					echo "$outputFormatRequested requested";
+					$dataTable = new Piwik_DataTable();
+					$dataTable->loadFromSimpleArray($toReturn);
+//					echo $dataTable;exit;
+					$toReturn = $this->getRenderedDataTable($dataTable);
+//					echo $toReturn;exit;
+				}
+			}
+			// bool // integer // float // anything else would'nt work and is not handled (objects!)
+			else
+			{
+				if( $toReturn === true )
+				{
+					$toReturn = 'true';
+				}
+				elseif( $toReturn === false )
+				{
+					$toReturn = 'false';
+				}
+				return $this->getStandardSuccessOutput($outputFormatRequested, $message = $toReturn);
 			}
 			
 		} catch(Exception $e ) {
-			$format = Piwik_Common::getRequestVar('format', 'xml', 'string', $this->requestToUse);
 			
 			// if it is not a direct API call, we are requesting the original data structure
 			// and we actually are handling this exception at the top level in the FrontController
-			if($format == 'original')
+			if($outputFormatRequested == 'original')
 			{
 				throw $e;
 			}
-			$toReturn =  $this->getExceptionOutput( $e->getMessage(), $format);
+			$toReturn =  $this->getExceptionOutput( $e->getMessage(), $outputFormatRequested);
 			
 		}
 		
@@ -161,9 +208,8 @@ class Piwik_API_Request
 	}
 	
 	
-	function getStandardSuccessOutput($format)
+	function getStandardSuccessOutput($format, $message = 'ok')
 	{
-		$return = 'TO OVERWRITE! getStandardSuccessOutput()';
 		switch($format)
 		{
 			case 'xml':
@@ -171,22 +217,29 @@ class Piwik_API_Request
 				$return = 
 					'<?xml version="1.0" encoding="utf-8" ?>'.
 					'<result>'.
-					'	<success message="ok" />'.
+					'	<success message="'.$message.'" />'.
 					'</result>';
 			break;
 			case 'json':
 				@header( "Content-type: application/json" );
-				$return = '{"result":"success", "message":"ok"}';
+				$return = '{"result":"success", "message":"'.$message.'"}';
 			break;
 			case 'php':
-				$return = array('result' => 'success', 'message' => 'ok');
+				$return = array('result' => 'success', 'message' => $message);
 				if($this->caseRendererPHPSerialize())
 				{
 					$return = serialize($return);
 				}
 			break;
+			
+			case 'csv':
+				header("Content-type: application/vnd.ms-excel");
+				header("Content-Disposition: attachment; filename=piwik-report-export.csv");	
+				$return = "message\n".$message;
+			break;
+			
 			default:
-				$return = 'Success:ok';
+				$return = 'Success:'.$message;
 			break;
 		}
 		
@@ -194,7 +247,6 @@ class Piwik_API_Request
 	}
 	function getExceptionOutput($message, $format)
 	{
-		$return = 'TO OVERWRITE! getExceptionOutput()';
 		switch($format)
 		{
 			case 'xml':
@@ -232,6 +284,7 @@ class Piwik_API_Request
 	{
 		// Renderer
 		$format = Piwik_Common::getRequestVar('format', 'php', 'string', $this->requestToUse);
+		$format = strtolower($format);
 		
 		// if asked for original dataStructure
 		if($format == 'original')
@@ -241,6 +294,14 @@ class Piwik_API_Request
 				&& $dataTable->getRowsCount() == 1)
 			{
 				return $dataTable->getRowFromId(0)->getColumn('value');
+			}
+			
+			// the original data structure can be asked as serialized. 
+			// but by default it's not serialized
+			if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
+			{
+//				var_export($dataTable);exit;
+				$dataTable = serialize($dataTable);
 			}
 			return $dataTable;
 		}
@@ -258,9 +319,9 @@ class Piwik_API_Request
 	}
 	
 	
-	function caseRendererPHPSerialize()
+	function caseRendererPHPSerialize($defaultSerializeValue = 1)
 	{
-		$serialize = Piwik_Common::getRequestVar('serialize', 1, 'int', $this->requestToUse);
+		$serialize = Piwik_Common::getRequestVar('serialize', $defaultSerializeValue, 'int', $this->requestToUse);
 		if($serialize)
 		{
 			return true;
