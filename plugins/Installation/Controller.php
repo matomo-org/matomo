@@ -232,7 +232,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			// API authentication process
 			Zend_Registry::get('config')->superuser = $_SESSION['superuser_infos'];
 			
-			$name = urlencode($form->getSubmitValue('name'));
+			$name = urlencode($form->getSubmitValue('siteName'));
 			$url = urlencode($form->getSubmitValue('url'));
 			
 			$this->initObjectsToCallAPI();
@@ -240,7 +240,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			require_once "API/Request.php";
 			$request = new Piwik_API_Request("
 							method=SitesManager.addSite
-							&name=$name
+							&siteName=$name
 							&urls=$url
 							&format=original
 						");

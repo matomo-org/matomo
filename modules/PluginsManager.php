@@ -102,7 +102,7 @@ class Piwik_PluginsManager
 			$pluginFileName = $pluginName . ".php";
 			$pluginClassName = "Piwik_".$pluginName;
 			
-			if( !Piwik::isValidFilename($pluginName))
+			if( !Piwik_Common::isValidFilename($pluginName))
 			{
 				throw new Exception("The plugin filename '$pluginFileName' is not valid");
 			}
