@@ -182,6 +182,12 @@ class Piwik_API_Request
 			// NB: null value is already handled by the isset() test above
 			else
 			{
+				// original data structure requested, we return without process
+				if( $outputFormatRequested == 'original' )
+				{
+					return $toReturn;
+				}
+				
 				if( $toReturn === true )
 				{
 					$toReturn = 'true';

@@ -736,20 +736,6 @@ class Piwik
 		return (preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,4}$/', $email) > 0);
     }
     
-    /**
-     * Returns true if the string is a valid filename 
-     * File names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), and dot(.) will be accepted.
-     * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).
-     * File names containing anything other than above mentioned will also be rejected (file names with spaces won't be accepted).
-     * 
-     * @param string filename
-     * @return bool
-     *
-     */
-    static public function isValidFilename($filename)
-    {
-		return (false !== ereg("(^[a-zA-Z0-9]+([a-zA-Z\_0-9\.-]*))$" , $filename));
-    }
     
 	static public function createTables()
 	{

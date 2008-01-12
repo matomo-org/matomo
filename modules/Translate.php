@@ -44,7 +44,7 @@ class Piwik_Translate
 	{
 		$language = Zend_Registry::get('config')->Language->current;
 		
-		if( Piwik::isValidFilename($language))
+		if( Piwik_Common::isValidFilename($language))
 		{
 			return $language;
 		}

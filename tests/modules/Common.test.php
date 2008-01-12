@@ -410,5 +410,30 @@ class Test_Piwik_Common extends UnitTestCase
     	$expectedResult = htmlentities($expectedResult);
     	$this->assertEqual($result, $expectedResult);
     }
+    
+    
+    public function test_isValidFilenameValidValues()
+    {
+    
+    	$valid = array(
+    			 "test", "test.txt","test.......", "en-ZHsimplified",
+    		);
+    	foreach($valid as $toTest)
+    	{
+    		$this->assertTrue(Piwik_Common::isValidFilename($toTest), $toTest." not valid!");
+    	}
+    }
+    public function test_isValidFilenameNotValidValues()
+    {
+    
+    	$notvalid = array(
+    			"../test", "/etc/htpasswd", '$var', ';test', '[bizarre]', '', ".htaccess", "very long long eogaioge ageja geau ghaeihieg heiagie aiughaeui hfilename",
+    		);
+    	foreach($notvalid as $toTest)
+    	{
+    		$this->assertFalse(Piwik_Common::isValidFilename($toTest), $toTest." valid but shouldn't!");
+    	}
+    }
+    
 }
 

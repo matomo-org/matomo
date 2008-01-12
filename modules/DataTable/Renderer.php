@@ -53,7 +53,7 @@ abstract class Piwik_DataTable_Renderer
 		$path = PIWIK_INCLUDE_PATH . "/modules/DataTable/Renderer/".$name.".php";
 		$className = 'Piwik_DataTable_Renderer_' . $name;
 		
-		if( Piwik::isValidFilename($name)
+		if( Piwik_Common::isValidFilename($name)
 			&& is_file($path)
 		)
 		{
