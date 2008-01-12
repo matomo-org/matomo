@@ -228,13 +228,13 @@ class Piwik_Access
 //		if($this->isSuperUser)
 //		{
 //			return;
-//		}
-		
+//		}		
 		if(!is_array($idSites))
 		{
 			$idSites = array($idSites);
 		}
 		$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
+//var_dump($idSitesAccessible);exit;
 		foreach($idSites as $idsite)
 		{
 			if(!in_array($idsite, $idSitesAccessible))

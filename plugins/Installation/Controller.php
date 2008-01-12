@@ -194,7 +194,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{			
 			$superUserInfos = array(
 				'login' 		=> $form->getSubmitValue('login'),
-				'password' 		=> $form->getSubmitValue('password'),
+				'password' 		=> md5( $form->getSubmitValue('password') ),
 				'email' 		=> $form->getSubmitValue('email'),
 			);
 			

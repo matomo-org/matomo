@@ -82,4 +82,4 @@
 <div id="addrow"><img src='plugins/UsersManager/images/add.png'> <a href="#">Add a new user</a></div>
 <script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>
 
-<p><a href='index.php'>Back to Piwik homepage</a></p>
+<p><a href='?module=Home&action=index&idSite=1&period=day&date=yesterday'>Back to Piwik homepage</a></p>

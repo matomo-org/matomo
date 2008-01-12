@@ -20,6 +20,8 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 		$rootPassword = Zend_Registry::get('config')->superuser->password;
 		$rootToken = Piwik_UsersManager_API::getTokenAuth($rootLogin,$rootPassword);
 		
+//		echo $rootToken;
+//		echo "<br>". $this->_credential;exit;
 		if($this->_identity == $rootLogin 
 			&& $this->_credential == $rootToken)
 		{
@@ -34,6 +36,7 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 		if(is_null($this->_identity))
 		{
 			$authenticated = false;
+			
 			if($this->_credential === $rootToken)
 			{
 				return new Piwik_Auth_Result(Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE, 

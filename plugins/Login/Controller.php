@@ -19,6 +19,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			// value submitted in form
 			$login = $form->getSubmitValue('form_login');
 			$password = $form->getSubmitValue('form_password');
+			$password = md5($password);
 			
 			$baseUrl = Piwik_Url::getCurrentUrlWithoutQueryString(); 
 			$currentUrl = Piwik_Url::getCurrentUrl();		
@@ -26,7 +27,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			
 			$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 			
-			$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login,$password);
+			$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login, $password);
 	
 			Piwik_Login::prepareAuthObject($login, $tokenAuth);
 			
@@ -39,7 +40,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 				$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
 				$cookie->set('login', $login);
 				$tokenAuth = $auth->getTokenAuth();
-				$cookie->set('token', $tokenAuth);
+				$cookie->set('token_auth', $tokenAuth);
 				$cookie->save();
 				
 				Piwik_Url::redirectToUrl($urlToRedirect);

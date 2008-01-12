@@ -178,7 +178,8 @@ class Piwik_API_Request
 //					echo $toReturn;exit;
 				}
 			}
-			// bool // integer // float // anything else would'nt work and is not handled (objects!)
+			// bool // integer // float // object is serialized
+			// NB: null value is already handled by the isset() test above
 			else
 			{
 				if( $toReturn === true )
@@ -188,6 +189,12 @@ class Piwik_API_Request
 				elseif( $toReturn === false )
 				{
 					$toReturn = 'false';
+				}
+				elseif( is_object($toReturn)
+							|| is_resource($toReturn)
+							)
+				{
+					return $this->getExceptionOutput( ' The API cannot handle this data structure. You can get the data internally by directly using the class.', $outputFormatRequested);
 				}
 				return $this->getStandardSuccessOutput($outputFormatRequested, $message = $toReturn);
 			}
