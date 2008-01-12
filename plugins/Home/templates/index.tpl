@@ -137,13 +137,15 @@ tr td.label img.plusMinus {
 #stuff {
 	position:relative;
 	float:right;
-	margin-right:20%;
+	margin-right:10%;
 	margin-top:10px;
+	font-size:0.9em;
 }
-#h1 {
+#h1, #h1 a {
 	color: #006;
 	font-size: 45px;
 	font-weight: lighter;
+	text-decoration : none;
 }
 
 #subh1 {
@@ -151,10 +153,17 @@ tr td.label img.plusMinus {
 	font-size: 25px;
 	font-weight: lighter;
 }
+
+#messageToUsers, #messageToUsers a{
+	color:red;
+	font-size:0.9em;
+	text-decoration : none;
+	width:100%;
+}
 </style>
 {/literal}
 
-<span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span><br>
+<span id="h1"><a href='http://piwik.org'>Piwik</a> </span><span id="subh1"> # open source web analytics</span><br>
 <br>
 <div id="stuff">
 	<div id="calendar"></div>
@@ -163,6 +172,12 @@ tr td.label img.plusMinus {
 		<p>User logged = {$userLogin}</p>
 		{include file="Home/templates/period_select.tpl"}<br><br>
 		{include file="Home/templates/sites_select.tpl"}<br>
+		
+	<div id="messageToUsers"><a href='http://piwik.org'>Piwik</a> is still alpha. 
+				<br>We are currently working hard on a new shiny User Interface.
+				<br>Please <a href="mailto:hello@piwik.org?subject=Feedback piwik"><u>send us</u></a> your feedback.
+				<br>
+				</div> 
 		{include file="Home/templates/links_misc_modules.tpl"}<br>
 	</div>
 </div>

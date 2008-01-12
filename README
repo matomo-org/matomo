@@ -5,13 +5,6 @@ Install
 =======
 1 - upload piwik in your webserver and point your browser to the directory. Follow the steps.
 
-Configuration
-=============
-2 - go to ?module=SitesManager to manage your websites
-3 - go to misc/generateVisits.php to generate some visits
-4 - go to the root of your piwik/ directory and click the link at the bottom of the page 
-    to see the statistics 
-
 Requirements
 ============
 - php 5.1.x minimum (x == ?)
@@ -19,14 +12,8 @@ Requirements
 - php PDO module enabled
 - OS / server independant
 
-Some modules
+Page modules
 ============
-User manager admin UI 
-?module=UsersManager
-
-Sites manager admin UI 
-?module=SitesManager
-
 All the data is available via APIs for example to get todays keywords in XML
 ?module=API&method=Referers.getKeywords&idSite=1&period=month&date=today&format=xml
 
@@ -35,13 +22,6 @@ or yesterday visits information in JSON
 
 You can find the full listing of the APIs provided by the plugins on
 ?module=API&action=listAllAPI
-
-Login
-?module=Login
-
-Logout
-?module=Logout
-
 
 Some other stuff
 ================ 
@@ -54,8 +34,7 @@ To generate the API documentation
 # ./misc/generateDoc.sh
 then check the documentation at piwik/documentation/ in your browser
 
-Want to help? The /TODO file lists all the known bugs and the features to implement.
-Feel free to have a look and send us patches. 
+Want to help? Have a look at http://piwik.org
 
 Contact
 =======

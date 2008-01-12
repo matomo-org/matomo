@@ -4,18 +4,6 @@ CHANGES DONE TO LIBRARIES
 - fixed bug fwrite in zend_log stream writer
 - fixed PEAR so that it works under PHP5 with STRICT MODE enabled
 
-COMMENT
-=======
-When commenting
-- check warning PHP DOC for missing @package
-- look for "[TAB]function " for missing public/private on methods
-
-           ------------------
-                 Timeline
-           ------------------
-
-- Plugins management interface
-
 
 # Documentation
   - Document the Piwik architecture: 
@@ -26,3 +14,7 @@ When commenting
    Reporting process, 
    MVC model, 
    DataTable concept
+
+   
+test that archive always is OFF in prod
+distinct campaign number is wrong

@@ -221,6 +221,8 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	
 	static private function getCleanPassword($password)
 	{
+		// if change here, should also edit the installation process 
+		// to change how the root pwd is saved in the config file
 		return md5($password);
 	}
 		
@@ -489,9 +491,9 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	}
 	
 	/**
-	 * Generates a unique MD5 for the given login & password
-	 * @param string login
-	 * @param string password
+	 * Generates a unique MD5 for the given login & previously 'md5'ied password
+	 * @param string Login
+	 * @param string Result of the md5 hash of the real password
 	 */
 	static public function getTokenAuth($userLogin, $password)
 	{
