@@ -12,7 +12,13 @@ class Piwik_API_Controller extends Piwik_Controller
 	
 	function listAllAPI()
 	{
-		echo "<h1>List of all modules API</h1>";
+//?module=API&method=Referers.getKeywords&idSite=1&period=month&date=today&format=xml
+//
+//or yesterday visits information in JSON
+//?module=API&method=VisitsSummary.get&idSite=1&period=month&date=yesterday&format=json
+		echo "<style>body{ font-family:georgia,arial; font-size:0.95em;} </style>";
+		echo "<h1>API quick documentation</h1>";
+		echo "<p>If you don't have data for today you can first <a href='misc/generateVisits.php' target=_blank>generate some data</a> using the Visits Generator script.</p>";
 		$errors = '';
 		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
 		

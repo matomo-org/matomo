@@ -2,7 +2,7 @@
 <script type="text/javascript" src="themes/default/common.js"></script>
 <link rel="stylesheet" href="themes/default/common-admin.css">
 
-<h2>Access</h2>
+<h2>Manage access</h2>
 
 <div id="sites">
 <form method="get" action="{$formUrl}" id="accessSites">
@@ -49,7 +49,7 @@
 <div id="accessUpdated">Done!</div>
 
 
-<h2>Users</h2>
+<h2>Manage users</h2>
 
 <div id="ajaxError" style="display:none"></div>
 <div id="ajaxLoading" style="display:none">Loading... <img src="themes/default/loading.gif"></div>
@@ -81,3 +81,5 @@
 </table>
 <div id="addrow"><img src='plugins/UsersManager/images/add.png'> <a href="#">Add a new user</a></div>
 <script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>
+
+<p><a href='index.php'>Back to Piwik homepage</a></p>

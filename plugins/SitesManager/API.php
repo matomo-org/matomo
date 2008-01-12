@@ -59,12 +59,12 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * @exception if the website ID doesn't exist or the user doesn't have access to it
 	 * @return array list of URLs
 	 */
-	static public function getSiteUrlsFromId( $idsite )
+	static public function getSiteUrlsFromId( $idSite )
 	{
-		Piwik::checkUserHasViewAccess($idsite);
+		Piwik::checkUserHasViewAccess($idSite);
 		
-		$site = self::getSiteFromId($idsite);
-		$urls = self::getAliasSiteUrlsFromId($idsite);
+		$site = self::getSiteFromId($idSite);
+		$urls = self::getAliasSiteUrlsFromId($idSite);
 		
 		return array_merge(array($site['main_url']), $urls);
 	}
@@ -197,11 +197,11 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * 
 	 * @return int the website ID created
 	 */
-	static public function addSite( $name, $urls )
+	static public function addSite( $siteName, $urls )
 	{
 		Piwik::checkUserIsSuperUser();
 		
-		self::checkName($name);
+		self::checkName($siteName);
 		$urls = self::cleanParameterUrls($urls);
 		self::checkUrls($urls);
 		self::checkAtLeastOneUrl($urls);
@@ -212,7 +212,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		$urls = array_slice($urls, 1);
 		
 		$db->insert(Piwik::prefixTable("site"), array(
-									'name' => $name,
+									'name' => $siteName,
 									'main_url' => $url,
 									)
 								);
@@ -270,16 +270,16 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * 
 	 * @return int the number of inserted URLs
 	 */
-	static public function addSiteAliasUrls( $idsite,  $urls)
+	static public function addSiteAliasUrls( $idSite,  $urls)
 	{
-		Piwik::checkUserHasAdminAccess( $idsite );
+		Piwik::checkUserHasAdminAccess( $idSite );
 		
 		$urls = self::cleanParameterUrls($urls);
 		self::checkUrls($urls);
 		
-		$urlsInit = self::getSiteUrlsFromId($idsite);
+		$urlsInit = self::getSiteUrlsFromId($idSite);
 		$toInsert = array_diff($urls, $urlsInit);
-		self::insertSiteUrls($idsite, $toInsert);
+		self::insertSiteUrls($idSite, $toInsert);
 		
 		return count($toInsert);
 	}
@@ -332,11 +332,11 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * 
 	 * @return bool true on success
 	 */
-	static public function updateSite( $idSite, $name, $urls = null)
+	static public function updateSite( $idSite, $siteName, $urls = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
-		self::checkName($name);
+		self::checkName($siteName);
 		
 		// SQL fields to update
 		$bind = array();
@@ -351,7 +351,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 			$bind['main_url'] = $url;
 		}
 		
-		$bind['name'] = $name;
+		$bind['name'] = $siteName;
 		
 		$db = Zend_Registry::get('db');
 		
@@ -367,6 +367,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		{
 			self::replaceSiteUrls($idSite, $urls);
 		}
+		
 	}
 	
 	/**
@@ -430,9 +431,9 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 * 
 	 * @exception if the website name is empty
 	 */
-	static private function checkName($name)
+	static private function checkName($siteName)
 	{
-		if(empty($name))
+		if(empty($siteName))
 		{
 			throw new Exception("The site name can't be empty.");
 		}

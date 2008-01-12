@@ -87,6 +87,11 @@ tr td.label img.plusMinus {
 	margin:10px;
 }
 
+#miscLinks{
+	font-size:small;
+	padding-right:20px;
+}
+
 #sitesSelection {
 	 
 }
@@ -158,6 +163,7 @@ tr td.label img.plusMinus {
 		<p>User logged = {$userLogin}</p>
 		{include file="Home/templates/period_select.tpl"}<br><br>
 		{include file="Home/templates/sites_select.tpl"}<br>
+		{include file="Home/templates/links_misc_modules.tpl"}<br>
 	</div>
 </div>
 

@@ -18,6 +18,7 @@
   * Formatting and layout are ignored.
   */
 require_once "DataTable/Renderer/Php.php";
+
 class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 {
 	public $separator = ',';
@@ -96,7 +97,19 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		}
 //		var_dump($csv);exit;
 		$str = '';
-		$str .= implode($this->separator, array_keys($allColumns));
+		
+		
+		// specific case, we have only one column and this column wasn't named properly (indexed by a number)
+		// we don't print anything in the CSV file => an empty line
+		if(sizeof($allColumns) == 1 && reset($allColumns) && !is_string(key($allColumns))  )
+		{
+			$str .= '';
+		}
+		else
+		{
+			$str .= implode($this->separator, array_keys($allColumns));
+		}
+		
 		// we render the CSV
 		foreach($csv as $theRow)
 		{

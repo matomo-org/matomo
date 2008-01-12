@@ -255,6 +255,28 @@ class Test_PHP_Related extends UnitTestCase
 		//echo "<br>after compression all sub arrays = ". $timer;
 	}
 	
+	function test_functionReturnNothing()
+	{
+		function givemenothing()
+		{
+			$a = 4;
+		}
+		
+		$return = givemenothing();
+		
+		$this->assertFalse(isset($return));
+		$this->assertTrue(empty($return));
+		$this->assertTrue(!is_int($return));
+		$this->assertTrue(!is_string($return));
+		$this->assertTrue(!is_bool($return));
+	}
+	
+	function test_unserializeObject()
+	{
+//		$o = new Piwik_DataTable;
+//		$o = 'O:15:"Piwik_DataTable":6:{s:7:"�*�rows";a:10:{i:0;O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:12:{s:5:"label";s:6:"/index";s:9:"nb_visits";s:2:"17";s:7:"nb_hits";s:2:"17";s:23:"entry_nb_unique_visitor";s:2:"12";s:15:"entry_nb_visits";s:2:"16";s:16:"entry_nb_actions";s:2:"19";s:22:"entry_sum_visit_length";s:4:"8102";s:18:"entry_bounce_count";s:2:"15";s:22:"exit_nb_unique_visitor";s:2:"12";s:14:"exit_nb_visits";s:2:"16";s:17:"exit_bounce_count";s:2:"15";s:14:"sum_time_spent";s:4:"3292";}i:1;a:0:{}i:3;N;}}i:1;O:36:"Piwik_DataTable_Row_DataTableSummary":1:{s:1:"c";a:3:{i:0;a:12:{s:5:"label";i:1;s:9:"nb_visits";i:7;s:7:"nb_hits";i:7;s:23:"entry_nb_unique_visitor";i:6;s:15:"entry_nb_visits";i:6;s:16:"entry_nb_actions";i:6;s:22:"entry_sum_visit_length";i:60;s:18:"entry_bounce_count";i:6;s:22:"exit_nb_unique_visitor";i:6;s:14:"exit_nb_visits";i:6;s:17:"exit_bounce_count";i:6;s:14:"sum_time_spent";i:2284;}i:1;a:1:{s:18:"databaseSubtableId";i:38;}i:3;i:193;}}i:2;O:36:"Piwik_DataTable_Row_DataTableSummary":1:{s:1:"c";a:3:{i:0;a:11:{s:5:"label";i:9;s:9:"nb_visits";i:6;s:7:"nb_hits";i:6;s:23:"entry_nb_unique_visitor";i:6;s:15:"entry_nb_visits";i:6;s:16:"entry_nb_actions";i:6;s:22:"entry_sum_visit_length";i:60;s:18:"entry_bounce_count";i:6;s:22:"exit_nb_unique_visitor";i:6;s:14:"exit_nb_visits";i:6;s:17:"exit_bounce_count";i:6;}i:1;a:1:{s:18:"databaseSubtableId";i:18;}i:3;i:173;}}i:3;O:36:"Piwik_DataTable_Row_DataTableSummary":1:{s:1:"c";a:3:{i:0;a:11:{s:5:"label";i:3;s:9:"nb_visits";i:6;s:7:"nb_hits";i:6;s:23:"entry_nb_unique_visitor";i:6;s:15:"entry_nb_visits";i:6;s:16:"entry_nb_actions";i:6;s:22:"entry_sum_visit_length";i:60;s:18:"entry_bounce_count";i:6;s:22:"exit_nb_unique_visitor";i:6;s:14:"exit_nb_visits";i:6;s:17:"exit_bounce_count";i:6;}i:1;a:1:{s:18:"databaseSubtableId";i:9;}i:3;i:164;}}i:4;O:36:"Piwik_DataTable_Row_DataTableSummary":1:{s:1:"c";a:3:{i:0;a:12:{s:5:"label";s:1:"f";s:9:"nb_visits";i:6;s:7:"nb_hits";i:6;s:23:"entry_nb_unique_visitor";i:4;s:15:"entry_nb_visits";i:4;s:16:"entry_nb_actions";i:4;s:22:"entry_sum_visit_length";i:40;s:18:"entry_bounce_count";i:4;s:22:"exit_nb_unique_visitor";i:5;s:14:"exit_nb_visits";i:5;s:17:"exit_bounce_count";i:4;s:14:"sum_time_spent";i:2623;}i:1;a:1:{s:18:"databaseSubtableId";i:31;}i:3;i:186;}}i:5;O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:11:{s:5:"label";s:2:"/9";s:9:"nb_visits";s:1:"5";s:7:"nb_hits";s:1:"5";s:23:"entry_nb_unique_visitor";s:1:"5";s:15:"entry_nb_visits";s:1:"5";s:16:"entry_nb_actions";s:1:"5";s:22:"entry_sum_visit_length";s:2:"50";s:18:"entry_bounce_count";s:1:"5";s:22:"exit_nb_unique_visitor";s:1:"5";s:14:"exit_nb_visits";s:1:"5";s:17:"exit_bounce_count";s:1:"5";}i:1;a:0:{}i:3;N;}}i:6;O:36:"Piwik_DataTable_Row_DataTableSummary":1:{s:1:"c";a:3:{i:0;a:12:{s:5:"label";s:1:"e";s:9:"nb_visits";i:5;s:7:"nb_hits";i:5;s:23:"entry_nb_unique_visitor";i:5;s:15:"entry_nb_visits";i:5;s:16:"entry_nb_actions";i:11;s:22:"entry_sum_visit_length";i:15972;s:18:"entry_bounce_count";i:3;s:22:"exit_nb_unique_visitor";i:3;s:14:"exit_nb_visits";i:3;s:17:"exit_bounce_count";i:3;s:14:"sum_time_spent";i:4711;}i:1;a:1:{s:18:"databaseSubtableId";i:22;}i:3;i:177;}}i:7;O:36:"Piwik_DataTable_Row_DataTableSummary":1:{s:1:"c";a:3:{i:0;a:12:{s:5:"label";s:1:"g";s:9:"nb_visits";i:4;s:7:"nb_hits";i:4;s:23:"entry_nb_unique_visitor";i:4;s:15:"entry_nb_visits";i:4;s:16:"entry_nb_actions";i:5;s:22:"entry_sum_visit_length";i:2267;s:18:"entry_bounce_count";i:3;s:22:"exit_nb_unique_visitor";i:3;s:14:"exit_nb_visits";i:3;s:17:"exit_bounce_count";i:3;s:14:"sum_time_spent";i:2237;}i:1;a:1:{s:18:"databaseSubtableId";i:28;}i:3;i:183;}}i:8;O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:11:{s:5:"label";s:2:"/e";s:9:"nb_visits";s:1:"4";s:7:"nb_hits";s:1:"4";s:23:"entry_nb_unique_visitor";s:1:"3";s:15:"entry_nb_visits";s:1:"3";s:16:"entry_nb_actions";s:1:"3";s:22:"entry_sum_visit_length";s:2:"30";s:18:"entry_bounce_count";s:1:"3";s:22:"exit_nb_unique_visitor";s:1:"4";s:14:"exit_nb_visits";s:1:"4";s:17:"exit_bounce_count";s:1:"3";}i:1;a:0:{}i:3;N;}}i:9;O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:11:{s:5:"label";s:2:"/f";s:9:"nb_visits";s:1:"4";s:7:"nb_hits";s:1:"4";s:23:"entry_nb_unique_visitor";s:1:"4";s:15:"entry_nb_visits";s:1:"4";s:16:"entry_nb_actions";s:1:"4";s:22:"entry_sum_visit_length";s:2:"40";s:18:"entry_bounce_count";s:1:"4";s:22:"exit_nb_unique_visitor";s:1:"4";s:14:"exit_nb_visits";s:1:"4";s:17:"exit_bounce_count";s:1:"4";}i:1;a:0:{}i:3;N;}}}s:12:"�*�currentId";i:163;s:13:"�*�depthLevel";i:0;s:19:"�*�indexNotUpToDate";b:1;s:16:"�*�queuedFilters";a:0:{}s:29:"�*�rowsCountBeforeLimitFilter";i:34;}';
+//		$o = unserialize($o);
+	}
 }
 
 

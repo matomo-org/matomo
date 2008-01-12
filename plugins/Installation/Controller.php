@@ -280,11 +280,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		$view->websiteName = $_SESSION['site_name'];
 		
-		$jsTag = file_get_contents( PIWIK_INCLUDE_PATH . "/modules/LogStats/javascriptTag.tpl");
-		$jsTag = nl2br(htmlentities($jsTag));
-		$jsTag = str_replace('{$actionName}', "''", $jsTag);
-		$jsTag = str_replace('{$idSite}', $_SESSION['site_idSite'], $jsTag);
-		$jsTag = str_replace('{$piwikUrl}', Piwik_Url::getCurrentUrlWithoutFileName(), $jsTag);
+		$jsTag = Piwik::getJavascriptCode($_SESSION['site_idSite'], Piwik_Url::getCurrentUrlWithoutFileName());
 		
 		$view->javascriptTag = $jsTag;
 		$view->showNextStep = true;

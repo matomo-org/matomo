@@ -19,16 +19,18 @@
 		<th>URLs</th>
 		<th> </th>
 		<th> </th>
+		<th> Javascript code </th>
 		</tr>
 	</thead>
 	<tbody>
 		{foreach from=$sites key=i item=site}
 		<tr id="row{$i}">
 			<td id="idSite">{$site.idsite}</td>
-			<td id="name" class="editableSite">{$site.name}</td>
+			<td id="siteName" class="editableSite">{$site.name}</td>
 			<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url}<br>{/foreach}</td>       
 			<td><img src='plugins/UsersManager/images/edit.png' class="editSite" id="row{$i}" href='#'></td>
 		    <td><img src='plugins/UsersManager/images/remove.png' class="deleteSite" id="row{$i}" value="Delete"></td>
+	        <td><a href='{url action=displayJavascriptCode idsite=$site.idsite}'>Show Code</a></td>
 		</tr>
 		{/foreach}
 		
@@ -37,3 +39,6 @@
 
 <div id="addRowSite"><img src='plugins/UsersManager/images/add.png'> <a href="#">Add a new Site</a></div>
 
+
+
+<p><a href='index.php'>Back to Piwik homepage</a></p>

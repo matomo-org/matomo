@@ -58,8 +58,7 @@ span.size6, span.size6 a {
 	{if false !== $labelDetails[$value.word].url}<a href="{$labelDetails[$value.word].url}" target="_blank">{/if}
 	{if false !== $labelDetails[$value.word].logo}<img src="{$labelDetails[$value.word].logo}" width="{$value.logoWidth}">{else}
 	
-	{$value.wordTruncated}{/if}{if false !== $labelDetails[$value.word].url}</a>{/if}
-	</span>
+	{$value.wordTruncated}{/if}{if false !== $labelDetails[$value.word].url}</a>{/if}</span>
 	{/foreach}
 {/if}
 {include file="Home/templates/datatable_footer.tpl"}

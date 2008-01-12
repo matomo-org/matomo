@@ -26,9 +26,6 @@ current			= en
 default			= en
 
 [Plugins]
-enabled[] 		= Login
-enabled[] 		= UsersManager
-enabled[] 		= SitesManager
 
 enabled[] 		= UserSettings
 enabled[] 		= VisitsSummary
@@ -40,6 +37,10 @@ enabled[] 		= VisitFrequency
 enabled[] 		= VisitTime
 enabled[] 		= VisitorInterest
 enabled[] 		= ExamplePlugin
+
+enabled[] 		= Login
+enabled[] 		= UsersManager
+enabled[] 		= SitesManager
 
 ;enabled[] 		= Openads
 enabled[] 		= Installation

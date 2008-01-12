@@ -479,11 +479,18 @@ class Piwik_DataTable
 	 * Load the data from a PHP array 
 	 * 
 	 * @param array Array with the following structure
-	 * 				array(
-	 * 					array(...), // row1
-	 * 					array(...), // row2
-	 * 						)
-	 * 				)
+	 * 			array(
+ 	 * 				// row1
+	 * 				array( 
+	 * 				Piwik_DataTable_Row::COLUMNS => array( col1_name => value1, col2_name => value2, ...),
+	 * 				Piwik_DataTable_Row::DETAILS => array( detail1_name => value1,  ...), // see Piwik_DataTable_Row
+	 * 
+	 * 				),
+	 * 					
+	 * 				// row2
+	 * 				array( ... ), 
+	 * 				
+	 * 			)
 	 * 
 	 * @see DataTable_Row::loadFromArray for the row structures
 	 */
@@ -496,6 +503,91 @@ class Piwik_DataTable
 				$row = new Piwik_DataTable_Row($row);
 			}
 			
+			$this->addRow($row);
+		}
+	}
+	
+	/**
+	 * Load the data from a simple php array.
+	 * Basically maps a simple multidimensional php php array to a DataTable.
+	 * Not recursive (if a row contains a php array itself, it won't work well...)
+	 * 
+	 * @param array Array with the simple structure:
+	 * 		array(
+	 * 			array( col1_name => valueA, col2_name => valueC, ...),
+	 * 			array( col1_name => valueB, col2_name => valueD, ...), 
+	 *		)
+	 */
+	public function loadFromSimpleArray( $array )
+	{
+//		var_dump($array);exit;
+		
+		
+		// we define an exception we may throw if at one point we notice that we cannot handle the data structure
+		$e = new Exception(" Data structure returned is not convertible in the requested format.".
+						" Try to call this method with the parameters '&format=original&serialize=1'".
+						"; you will get the original php data structure serialized.".
+						" The data structure looks like this: \n \$data = " . var_export($array, true) . "; ");
+				
+		
+		// first pass to see if the array has the structure
+		// array(col1_name => val1, col2_name => val2, etc.)
+		// with val* that are never arrays (only strings/numbers/bool/etc.)
+		// if we detect such a "simple" data structure we convert it to a row with the correct columns' names
+		$rowBuilt = array(); $thisIsNotThatSimple = false;
+		foreach($array as $columnName => $columnValue )
+		{
+			if(is_array($columnValue) || is_object($columnValue)) 
+			{
+				$thisIsNotThatSimple = true;
+				break;
+			}
+			$rowBuilt += array($columnName => $columnValue );
+		}
+		if($thisIsNotThatSimple === false)
+		{
+			$this->addRow( new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => $rowBuilt ) ) );
+			// we have converted our simple array to one single row
+			// => we exit the method as the job is now finished 
+			return;
+		}
+		
+		
+		foreach($array as $key => $row)
+		{
+			// stuff that looks like a line
+			if(is_array($row))
+			{
+				/**
+				 * We make sure we can convert this PHP array without losing information.
+				 * We are able to convert only simple php array (no strings keys, no sub arrays, etc.)
+				 * 
+				 */
+				
+				// if the key is a string it means that some information was contained in this key. 
+				// it cannot be lost during the conversion. Because we are not able to handle properly
+				// this key, we throw an explicit exception.
+				if(is_string($key))
+				{
+					throw $e;
+				}
+				// if any of the sub elements of row is an array we cannot handle this data structure...
+				foreach($row as $subRow)
+				{
+					if(is_array($subRow))
+					{
+						throw $e;						
+					}
+				}
+				
+				
+				$row = new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => $row ) );		
+			}
+			// other (string, numbers...) => we build a line from this value
+			else
+			{
+				$row = new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => array($key => $row)) );
+			}				
 			$this->addRow($row);
 		}
 	}

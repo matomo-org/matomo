@@ -22,9 +22,12 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	
 	protected function renderTable($table)
 	{
+//		echo $table;exit;
 		$renderer = new Piwik_DataTable_Renderer_Php($table, $serialize = false);
-		$array = $renderer->render();
+		$array = $renderer->flatRender();
 		
+//		var_dump($array); exit;
+
 		require_once 'XML/Serializer.php';
 		
 		$options = array(

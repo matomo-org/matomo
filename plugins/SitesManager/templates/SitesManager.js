@@ -1,5 +1,5 @@
 
-function getDeleteSiteAJAX( idsite )
+function getDeleteSiteAJAX( idSite )
 {
 	var ajaxRequest = getStandardAjaxConf();
 	toggleAjaxLoading();
@@ -9,7 +9,7 @@ function getDeleteSiteAJAX( idsite )
 	parameters.module = 'API';
 	parameters.format = 'json';
  	parameters.method =  'SitesManager.deleteSite';
- 	parameters.idSite = idsite;
+ 	parameters.idSite = idSite;
 	
 	ajaxRequest.data = parameters;
 	
@@ -24,7 +24,7 @@ function getAddSiteAJAX( row )
 	// prepare the API parameters to add the user
 	var parameters = new Object;
 	
- 	var name = $(row).find('input[@id=siteadd_name]').val();
+ 	var siteName = $(row).find('input[@id=siteadd_name]').val();
  	var urls =  $(row).find('textarea[@id=siteadd_urls]').val();
 	var urls = urls.trim().split("\n");
  	
@@ -32,7 +32,7 @@ function getAddSiteAJAX( row )
 	request += '&module=API';
 	request += '&format=json';
 	request += '&method=SitesManager.addSite';
-	request += '&name='+escape(name);
+	request += '&siteName='+escape(siteName);
 	
 	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
 
@@ -46,7 +46,7 @@ function getUpdateSiteAJAX( row )
 	var ajaxRequest = getStandardAjaxConf();
 	toggleAjaxLoading();
 	
-	var name = $(row).find('input[@id=name]').val();
+	var siteName = $(row).find('input[@id=siteName]').val();
 	var idSite = $(row).children('#idSite').html();
 	var urls = $(row).find('textarea[@id=urls]').val().trim().split("\n");
 	
@@ -54,7 +54,7 @@ function getUpdateSiteAJAX( row )
 	request += '&module=API';
 	request += '&format=json';
 	request += '&method=SitesManager.updateSite';
-	request += '&name='+escape(name);
+	request += '&siteName='+escape(siteName);
 	request += '&idSite='+idSite;
 	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
 
@@ -93,7 +93,7 @@ function getUpdateSiteAJAX( row )
 	$('.deleteSite').click( function() {
 			ajaxHideError();
 			var idRow = $(this).attr('id');
-			var nameToDelete = $(this).parent().parent().find('#name').html();
+			var nameToDelete = $(this).parent().parent().find('#siteName').html();
 			var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
 			if(confirm('Are you sure you want to delete the website "'+nameToDelete+'" (idSite = '+idsiteToDelete+')?'))
 			{
@@ -116,7 +116,7 @@ function getUpdateSiteAJAX( row )
 							function (i,n) {
 								var contentBefore = $(n).html();
 								var idName = $(n).attr('id');
-								if(idName == 'name')
+								if(idName == 'siteName')
 								{
 									var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="10">';
 									$(n)

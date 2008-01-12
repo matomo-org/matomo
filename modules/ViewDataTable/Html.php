@@ -69,7 +69,9 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		$renderer = Piwik_DataTable_Renderer::factory('php');
 		$renderer->setTable($this->dataTable);
 		$renderer->setSerialize( false );
-		$phpArray = $renderer->render();
+		// we get the php array from the datatable
+		// but conserving the original datatable format, which means rows 'columns', 'details' and 'idsubdatatable'
+		$phpArray = $renderer->originalRender();
 		return $phpArray;
 	}
 

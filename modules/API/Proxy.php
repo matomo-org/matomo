@@ -124,19 +124,95 @@ class Piwik_API_Proxy
 		$this->alreadyRegistered[$fileName] = true;
 	}
 	
+	// Piwik_moduleName_API => moduleName
+	protected function getModuleNameFromClassName( $className )
+	{
+		$start = strpos($className, '_') + 1;
+		return substr($className, $start , strrpos($className, '_') - $start);
+	}
+	// return false when not possible
+	public function getExampleUrl($class, $methodName)
+	{
+		$knowExampleDefaultParametersValues = array(
+			'access' => 'view',
+			'idSite' => '1',
+			'userLogin' => 'test',
+			'password' => 'passwordExample',
+			'email' => 'test@example.org',
+		
+			'siteName' => 'new example website',
+			'urls' => 'http://example.org', // used in addSite, updateSite
+
+			'period' => 'day',
+			'date' => 'today',
+		);
+		
+		$doNotPrintExampleForTheseMethods = array(
+			'deleteSite',
+			'deleteUser',
+		);
+		
+		if(in_array($methodName,$doNotPrintExampleForTheseMethods))
+		{
+			return false;
+		}
+		// we try to give an URL example to call the API
+		$aParameters = $this->getParametersList($class, $methodName);
+		$moduleName = $this->getModuleNameFromClassName($class);
+		$urlExample = '?module=API&method='.$moduleName.'.'.$methodName.'&';
+		foreach($aParameters as $nameVariable=> $defaultValue)
+		{
+			// there is NO default value we need an example value or we can't generate the example
+			if($defaultValue === Piwik_API_Proxy::NO_DEFAULT_VALUE)
+			{
+				if(isset($knowExampleDefaultParametersValues[$nameVariable]))
+				{
+					$exampleValue = $knowExampleDefaultParametersValues[$nameVariable];
+					$urlExample .= $nameVariable . '=' . $exampleValue . '&';
+				}
+				else
+				{
+					return false;
+				}
+			}
+			
+		}
+		
+		return substr($urlExample,0,-1);
+	}
 	public function getAllInterfaceString()
 	{
 		$str = '';
 		foreach($this->api as $class => $info)
 		{
-			$str .= "\n<br>" . "List of the public methods for the class ".$class;
+			$moduleName = $this->getModuleNameFromClassName($class);
+			$str .= "\n<h2>Module ".$moduleName."</h2>";
 			
 			foreach($info as $methodName => $infoMethod)
 			{
+
+				$exampleUrl = $this->getExampleUrl($class, $methodName);
+				
 				$params = $this->getStrListParameters($class, $methodName);
-				$str .= "\n<br>" . "- $methodName : " . $params;
+				$str .= "\n" . "- <b>$methodName " . $params . "</b>";
+				
+				$str .= '<small>';
+				if($exampleUrl !== false)
+				{
+					$str .= " [ Example in  
+								<a target=_blank href='$exampleUrl&format=xml'>XML</a>, 
+								<a target=_blank href='$exampleUrl&format=PHP'>PHP</a>, 
+								<a target=_blank href='$exampleUrl&format=JSON'>Json</a>, 
+								<a target=_blank href='$exampleUrl&format=CSV'>Csv</a>
+								]";
+				}
+				else
+				{
+					$str .= " [ No example available ]";
+				}
+				$str .= '</small>';
+				$str .= "\n<br>";
 			}
-			$str.="\n<br>";
 		}
 		return $str;
 	}
@@ -156,12 +232,12 @@ class Piwik_API_Proxy
 			$str = $nameVariable;
 			if($defaultValue !== Piwik_API_Proxy::NO_DEFAULT_VALUE)
 			{
-				$str .= " = $defaultValue";
+				$str .= " = '$defaultValue'";
 			}
 			$asParameters[] = $str;
 		}
 		$sParameters = implode(", ", $asParameters);
-		return "[$sParameters]";
+		return "($sParameters)";
 	}
 	
 	/**
@@ -268,7 +344,7 @@ class Piwik_API_Proxy
 			assert(!is_null(self::$classCalled));
 
 			$this->registerClass(self::$classCalled);
-			
+						
 			$className = $this->getClassNameFromModule(self::$classCalled);
 
 			// instanciate the object
