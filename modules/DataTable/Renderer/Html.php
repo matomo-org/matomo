@@ -28,6 +28,8 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		
 		static $depth=0;
 		$i = 1;
+		$someDetails = false;
+		$someIdSubTable = false;
 		
 		$tableStructure = array();
 		
@@ -38,6 +40,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		 * 		subtable here
 		 */
 		$allColumns = array();
+//		echo $table;
 		foreach($table->getRows() as $row)
 		{
 			foreach($row->getColumns() as $column => $value)
@@ -52,18 +55,28 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 				if(is_string($value)) $value = "'$value'";
 				$details[] = "'$detail' => $value";
 			}
-			$details = implode("<br>", $details);
 			
-			$tableStructure[$i]['_details'] = $details;
-			$tableStructure[$i]['_idSubtable'] = $row->getIdSubDataTable();
+			if(count($details) != 0)
+			{
+				$someDetails = true;
+				$details = implode("<br>", $details);
+				$tableStructure[$i]['_details'] = $details;
+			}
+			
+			$idSubtable = $row->getIdSubDataTable();
+			if(!is_null($idSubtable))
+			{
+				$someIdSubTable = true;
+				$tableStructure[$i]['_idSubtable'] = $idSubtable;
+			}
 			
 			if($row->getIdSubDataTable() !== null)
 			{
 				$depth++;
 				try{
-					$tableStructure[$i]['_subtable'] =  $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
+					$tableStructure[$i]['_subtable']['html'] =  $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
 				} catch(Exception $e) {
-					$tableStructure[$i]['_subtable'] = "-- Sub DataTable not loaded";
+					$tableStructure[$i]['_subtable']['html'] = "-- Sub DataTable not loaded";
 				}
 				$tableStructure[$i]['_subtable']['depth'] = $depth;
 				$depth--;
@@ -80,51 +93,63 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 			$allColumns = array_merge(array('label'=>true),$allColumns);
 		}
 		*/
-		$allColumns['_details'] = true;
-		$allColumns['_idSubtable'] = true;
-
-		$html = " <br><table border=1 width=70%>";
-		$html .= "<tr>";
-		foreach($allColumns as $name => $true)
+		$allColumns['_details'] = $someDetails;
+		$allColumns['_idSubtable'] = $someIdSubTable;
+		$html = "\n";
+		$html .= "<table border=1 width=70%>";
+		$html .= "\n<tr>";
+		foreach($allColumns as $name => $toDisplay)
 		{
-			$html .= "<td>$name</td>";
+			if($toDisplay !== false)
+			{
+				$html .= "\n\t<td><b>$name</b></td>";
+			}
 		}
 		$colspan = count($allColumns);
 		
 		foreach($tableStructure as $row)
 		{
-			$html .= "<tr>";
-			foreach($allColumns as $name => $true)
+			$html .= "\n\n<tr>";
+			foreach($allColumns as $name => $toDisplay)
 			{
-				$value = "-";
-				if(isset($row[$name]))
+				if($toDisplay !== false)
 				{
-					$value = $row[$name];
+					$value = "-";
+					if(isset($row[$name]))
+					{
+						$value = $row[$name];
+					}
+					
+					$html .= "\n\t<td>$value</td>";
 				}
-				
-				$html .= "<td>$value</td>";
 			}
 			$html .= "</tr>";
 			
-			$styles='<style>';
+			if(isset($row['_subtable']))
+			{
+//				echo ".".$row['_subtable'];exit;
+				$html .= "<tr>
+						<td class=l{$row['_subtable']['depth']} colspan=$colspan>{$row['_subtable']['html']}</td></tr>";
+			}
+		}
+		$html .= "\n\n</table>";
+		
+		// display styles if there is a subtable displayed
+		if($someIdSubTable)
+		{
+			$styles="\n\n<style>\n";
 			for($i=0;$i<11;$i++)
 			{
 				$padding=$i*2;
-				$styles.= "TD.l$i { padding-left:{$padding}em; } \n";
+				$styles.= "\t TD.l$i { padding-left:{$padding}em; } \n";
 			}
-			$styles.="</style>";
-			
-			if(isset($row['_subtable']))
+			$styles.="</style>\n\n";
+			if($depth == 0)
 			{
-				$html .= "<tr><td class=l{$row['_subtable']['depth']} colspan=$colspan>{$row['_subtable']}</td></tr>";
+				$html = $styles . $html;
 			}
 		}
-		$html .= "</table><br>";
-		
-		if($depth == 0)
-		{
-			$html = $styles . $html;
-		}
+//		echo "return={".$html."}";
 		return $html;
 	}	
 }

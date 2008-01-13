@@ -43,7 +43,6 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		// We get the PHP array converted from the DataTable
 		$phpArray = $this->getPHPArrayFromDataTable();
 		
-		
 		$view->arrayDataTable 	= $phpArray;
 		$view->method = $this->method;
 		
