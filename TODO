@@ -17,4 +17,4 @@ CHANGES DONE TO LIBRARIES
 
    
 test that archive always is OFF in prod
-distinct campaign number is wrong
+$GLOBALS['DEBUGPIWIK'] is false;

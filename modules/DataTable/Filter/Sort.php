@@ -84,7 +84,10 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		
 		if($value === false)
 		{
-			throw new Exception("The column to sort by '".$this->columnToSort."' is unknown in the row ". implode(array_keys($row->getColumns()), ','));
+			// we don't throw the exception because we sometimes export a DataTable without a column labelled '2'
+			// and when the generic filters tries to sort by default using this column 2, this shouldnt raise an exception...
+			//throw new Exception("The column to sort by '".$this->columnToSort."' is unknown in the row ". implode(array_keys($row->getColumns()), ','));
+			return;
 		}
 		
 		if( Piwik::isNumeric($value))

@@ -203,7 +203,8 @@ class Piwik_API_Proxy
 								<a target=_blank href='$exampleUrl&format=xml'>XML</a>, 
 								<a target=_blank href='$exampleUrl&format=PHP'>PHP</a>, 
 								<a target=_blank href='$exampleUrl&format=JSON'>Json</a>, 
-								<a target=_blank href='$exampleUrl&format=CSV'>Csv</a>
+								<a target=_blank href='$exampleUrl&format=Csv'>Csv</a>, 
+								<a target=_blank href='$exampleUrl&format=Html'>Basic html</a>
 								]";
 				}
 				else

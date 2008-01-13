@@ -67,12 +67,12 @@ function Piwik_getDurationLabel($label)
 	else
 	{
 		$time = intval($label) / 60;
-		return '+'.$time.' min';
+		return urlencode('+').$time.' min';
 	}
 }
 
 function Piwik_getPageGapLabel($label)
-{ 
+{
 	$return = false;
 	if(($pos = strpos($label,'-')) !== false)
 	{
@@ -93,5 +93,6 @@ function Piwik_getPageGapLabel($label)
 	{
 		return $return . " page";
 	}
+	
 	return $return . " pages";
 }

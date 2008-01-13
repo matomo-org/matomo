@@ -108,7 +108,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			else
 			{
 				$minGap = $gap[0];
-				$gapName = "'$minGap+'";
+				$plusEncoded = urlencode('+');
+				$gapName = "'".$minGap.$plusEncoded."'";
 				$select[] = "sum(case when visit_total_actions > $minGap then 1 else 0 end) as $gapName ";
 			}
 		}		

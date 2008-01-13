@@ -291,6 +291,14 @@ class Piwik_DataTable
 	}
 	
 	/**
+	 * You should use loadFromSimpleArray for performance!
+	 */
+	public function addRowFromSimpleArray( $row )
+	{
+		$this->loadFromSimpleArray(array($row));
+	}
+	
+	/**
 	 * Returns the array of Piwik_DataTable_Row
 	 */
 	public function getRows()

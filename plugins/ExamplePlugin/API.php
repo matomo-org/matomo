@@ -42,6 +42,22 @@ class Piwik_ExamplePlugin_API extends Piwik_Apiable
 	{
 		return null;
 	}
+	public function getDescriptionArray()
+	{
+		return array('piwik','open source','web analytics','free');
+	}
+	public function getCompetitionDatatable()
+	{
+		$dataTable = new Piwik_DataTable();
+		
+		$row1 = new Piwik_DataTable_Row;
+		$row1->setColumns( array('name' => 'piwik', 'license' => 'GPL'));
+		$dataTable->addRow($row1);
+		
+		$dataTable->addRowFromSimpleArray( array('name' => 'google analytics', 'license' => 'commercial')  );
+		
+		return $dataTable;
+	}
 	
 	public function getMoreInformationAnswerToLife()
 	{

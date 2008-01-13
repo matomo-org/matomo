@@ -154,7 +154,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->disableSort();
 		$view->disableOffsetInformation();
 		
-		$view->setColumnsToDisplay( array(0,1) );
+		$view->setColumnsToDisplay( array(0,1,2) );
 		$view->setLimit( 100 );
 		
 		// computing minimum value to exclude
