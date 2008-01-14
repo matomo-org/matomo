@@ -33,7 +33,7 @@ class Piwik_API_Controller extends Piwik_Controller
 	function listAllMethods()
 	{
 		$this->init();
-		echo Piwik_API_Proxy::getInstance()->getAllInterfaceString( $outputExampleUrls = true );
+		echo Piwik_API_Proxy::getInstance()->getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = Piwik_Common::getRequestVar('prefixUrl', '') );
 	}
 	
 	

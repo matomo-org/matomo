@@ -18,11 +18,13 @@
  *	$result = $request->process();
  *  echo $result;
  * 
+ * @see http://dev.piwik.org/trac/wiki/API for a complete documentation
  * @package Piwik_API
  */
 class Piwik_API_Request
 {
 	/**
+	 * 
 	 * @param string GET request that defines the API call (must at least contain a "method" parameter) 
 	 *  Example: method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml
 	 * 	If a request is not provided, then we use the $_REQUEST superglobal and fetch
