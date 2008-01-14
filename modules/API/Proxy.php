@@ -242,10 +242,10 @@ class Piwik_API_Proxy
 				
 				if($outputExampleUrls)
 				{
-					$exampleUrl = $prefixUrls;
-					$exampleUrl .= $this->getExampleUrl($class, $methodName);
+					$exampleUrl = $this->getExampleUrl($class, $methodName);
 					if($exampleUrl !== false)
 					{
+						$exampleUrl = $exampleUrl . $prefixUrls;
 						$str .= " [ Example in  
 									<a target=_blank href='$exampleUrl&format=xml'>XML</a>, 
 									<a target=_blank href='$exampleUrl&format=PHP'>PHP</a>, 

@@ -135,6 +135,7 @@ class Piwik_API_Request
 			// post process the data
 			$toReturn = $this->handleReturnedValue( $returnedValue );
 			
+			
 		} catch(Exception $e ) {
 			
 			// if it is not a direct API call, we are requesting the original data structure
@@ -227,6 +228,7 @@ class Piwik_API_Request
 			
 			$toReturn = $this->getRenderedDataTable($returnedValue);
 			
+			
 		}
 		
 		// Case nothing returned (really nothing was 'return'ed), 
@@ -287,6 +289,7 @@ class Piwik_API_Request
 			}
 			return $this->getStandardSuccessOutput($this->outputFormatRequested, $message = $toReturn);
 		}
+		return $toReturn;
 	}
 	
 	/**

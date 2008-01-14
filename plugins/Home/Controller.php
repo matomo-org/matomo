@@ -174,7 +174,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->setLimit( 100 );
 		
 		// computing minimum value to exclude
-		$visitsInfo = $this->getVisitsSummary();
+		$visitsInfo = $this->getVisitsSummary(); 
 		$nbActions = $visitsInfo->getColumn('nb_actions');
 		$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions
 		$view->setExcludeLowPopulation( $nbActionsLowPopulationThreshold );
