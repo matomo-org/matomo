@@ -6,7 +6,16 @@ error_reporting(E_ALL|E_NOTICE);
 @ini_set('display_errors', 1);
 @ini_set('magic_quotes_runtime', 0);
 date_default_timezone_set('Europe/London');
-define('PIWIK_INCLUDE_PATH', '.');
+if(!defined('PIWIK_INCLUDE_PATH'))
+{
+	define('PIWIK_INCLUDE_PATH', '.');
+}
+
+if(!defined('ENABLE_DISPATCH'))
+{
+	define('ENABLE_DISPATCH', true);	
+}
+
 define('PIWIK_PLUGINS_PATH', PIWIK_INCLUDE_PATH . '/plugins');
 define('PIWIK_DATAFILES_INCLUDE_PATH', PIWIK_INCLUDE_PATH . "/modules/DataFiles");
 
@@ -37,5 +46,8 @@ require_once "FrontController.php";
 
 $controller = new Piwik_FrontController;
 $controller->init();
-$controller->dispatch();
+if(ENABLE_DISPATCH)
+{
+	$controller->dispatch();
+}
 $controller->end();

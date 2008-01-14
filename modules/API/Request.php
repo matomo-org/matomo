@@ -1,8 +1,10 @@
 <?php
 /**
  * An API request is the object used to make a call to the API and get the result.
- * The request has the form of a normal GET request, ie. parameter_1=X&parameter_2=Y
+ * The request has the format of a normal GET request, ie. parameter_1=X&parameter_2=Y
  * 
+ * You can use this object from anywhere in piwik (inside plugins for example).
+ * You can even call it outside of piwik (see 
  * Example: 
  * $request = new Piwik_API_Request('
  * 				method=UserSettings.getWideScreen
@@ -41,6 +43,9 @@ class Piwik_API_Request
 			// to look for the value in the _REQUEST
 			$requestArray = array_merge( $_REQUEST, $requestArray);
 		}
+		
+		// remove all spaces from parameters values (when calling internally the API for example)
+		$requestArray = array_map('trim',$requestArray);
 		
 		$this->requestToUse = $requestArray;
 	}

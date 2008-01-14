@@ -27,8 +27,14 @@ require_once "Controller.php";
 
 class Piwik_FrontController
 {
+	static public $enableDispatch = true;
+	
 	function dispatch()
 	{
+		if( self::$enableDispatch === false)
+		{
+			return;
+		}
 		$defaultModule = 'Home';
 		
 		// load the module requested

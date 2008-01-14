@@ -21,11 +21,30 @@ class Piwik_View implements iView
 		{
 			$this->smarty->$key = $value;
 		}
-		$this->smarty->template_dir = $smConf->template_dir->toArray();
-		$this->smarty->plugins_dir = $smConf->plugins_dir->toArray();
+		
+		$this->smarty->template_dir = $this->getCorrectPath( $smConf->template_dir->toArray() );
+		$this->smarty->plugins_dir = $this->getCorrectPath( $smConf->plugins_dir->toArray() );
+		$this->smarty->compile_dir = $this->getCorrectPath( $smConf->compile_dir );
+		$this->smarty->cache_dir = $this->getCorrectPath( $smConf->cache_dir );
 		
 		$this->smarty->load_filter('output','trimwhitespace');
 		
+	}
+	
+	protected function getCorrectPath( $path )
+	{
+		if(is_array($path))
+		{
+			foreach($path as &$dir)
+			{
+				$dir = PIWIK_INCLUDE_PATH . '/' . $dir ;
+			}
+			return $path;
+		}
+		else
+		{
+			return PIWIK_INCLUDE_PATH . '/' . $path;
+		}
 	}
 
 	/**
