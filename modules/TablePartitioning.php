@@ -1,5 +1,13 @@
 <?php
 /**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ */
+
+/**
  * 
  * NB: When a new table is partitionned using this class, we have to update the method
  *     Piwik::getTablesInstalled() to add the new table to the list of tablename_* to fetch

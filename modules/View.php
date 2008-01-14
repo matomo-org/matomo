@@ -1,8 +1,16 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ */
+
 require_once 'Smarty/Smarty.class.php';
 
 require_once "iView.php";
-class Piwik_View implements iView
+class Piwik_View implements Piwik_iView
 {
 	private $template = '';
 	private $smarty = false;
