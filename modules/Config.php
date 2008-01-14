@@ -5,15 +5,17 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_Helper
  */
 
-/**
- * 
- * @package Piwik
- */
 require_once "Zend/Config/Ini.php";
 require_once "Zend/Registry.php";
 
+/**
+ * 
+ * @package Piwik_Helper
+ */
 class Piwik_Config
 {
 	protected $urlToPiwikHelpMissingValueInConfigurationFile = 

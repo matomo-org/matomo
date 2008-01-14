@@ -5,13 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_Log
+ * @subpackage Piwik_Log_Message
  */
 
 /**
  * Class used to log a standard message event.
  * 
  * @package Piwik_Log
- * @subpackage Piwik_Log_Message
  */
 class Piwik_Log_Message extends Piwik_Log
 {

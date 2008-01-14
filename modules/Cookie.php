@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_Helper
  */
 
 
@@ -18,7 +20,7 @@
  * 
  * The cookie content is saved in an optimized way.
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Helper
  */
 class Piwik_Cookie
 {

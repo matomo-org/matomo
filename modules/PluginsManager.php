@@ -5,8 +5,13 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik
  */
 
+
+require_once "Plugin.php";
+require_once "Event/Dispatcher.php";
 
 /**
  * Plugin specification for a statistics logging plugin
@@ -32,9 +37,6 @@
  * 
  * @package Piwik
  */
-require_once "Plugin.php";
-require_once "Event/Dispatcher.php";
-
 class Piwik_PluginsManager
 {
 	public $dispatcher;

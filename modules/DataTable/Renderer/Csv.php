@@ -5,26 +5,27 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_DataTable
  */
 
+require_once "DataTable/Renderer/Php.php";
 /**
  * CSV export
  * 
+ * When rendered using the default settings, a CSV report has the following characteristics:
+ * The first record contains headers for all the columns in the report.
+ * All rows have the same number of columns.
+ * The default field delimiter string is a comma (,).
+ * The record delimiter string is the carriage return and line feed (<cr><lf>).
+ * The text qualifier string is a quotation mark (").
+ * If the text contains an embedded delimiter string or qualifier string, the text qualifier is placed around the text, and the embedded qualifier strings are doubled.
+ * Formatting and layout are ignored.
+ * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer
+ * 
  */
- 
- /**
-  * When rendered using the default settings, a CSV report has the following characteristics:
-  * The first record contains headers for all the columns in the report.
-  * All rows have the same number of columns.
-  * The default field delimiter string is a comma (,).
-  * The record delimiter string is the carriage return and line feed (<cr><lf>).
-  * The text qualifier string is a quotation mark (").
-  * If the text contains an embedded delimiter string or qualifier string, the text qualifier is placed around the text, and the embedded qualifier strings are doubled.
-  * Formatting and layout are ignored.
-  */
-require_once "DataTable/Renderer/Php.php";
 
 class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 {

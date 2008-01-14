@@ -5,13 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_Log
+ * @subpackage Piwik_Log_APICall
  */
 
 /**
  * Class used to log all the API Calls information (class / method / parameters / returned value / time spent)
  * 
  * @package Piwik_Log
- * @subpackage Piwik_Log_APICall
  */
 class Piwik_Log_APICall extends Piwik_Log
 {

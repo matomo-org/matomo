@@ -5,9 +5,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_Visualization
  */
+
 require_once "iView.php";
-// Original class provided by Open Flash Chart
+
+/**
+ * Original class provided by Open Flash Chart
+ *  
+ * @package Piwik_Visualization
+ */
+
 abstract class Piwik_Visualization_OpenFlashChart implements iView
 {	
     function __construct()

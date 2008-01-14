@@ -5,15 +5,17 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_DataTable
  */
 
+require_once "DataTable/Renderer/Php.php";
 /**
  * JSON export. Using the php 5.2 feature json_encode
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer
  */
-require_once "DataTable/Renderer/Php.php";
 class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 {
 	function __construct($table = null)
