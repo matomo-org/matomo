@@ -60,6 +60,7 @@
             <th>Password</th>
             <th>Email</th>
             <th>Alias</th>
+            <th>token_auth</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -72,6 +73,7 @@
             <td id="password" class="editable">-</td>
             <td id="email" class="editable">{$user.email}</td>
             <td id="alias" class="editable">{$user.alias}</td>
+            <td id="alias">{$user.token_auth}</td>
             <td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#'></td>
             <td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete"></td>
         </tr>

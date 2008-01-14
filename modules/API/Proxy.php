@@ -212,7 +212,7 @@ class Piwik_API_Proxy
 	 *
 	 * @return string
 	 */
-	public function getAllInterfaceString( $outputExampleUrls = true )
+	public function getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = '' )
 	{
 		$str = '';
 		foreach($this->api as $class => $info)
@@ -231,7 +231,8 @@ class Piwik_API_Proxy
 				
 				if($outputExampleUrls)
 				{
-					$exampleUrl = $this->getExampleUrl($class, $methodName);
+					$exampleUrl = $prefixUrls;
+					$exampleUrl .= $this->getExampleUrl($class, $methodName);
 					if($exampleUrl !== false)
 					{
 						$str .= " [ Example in  
