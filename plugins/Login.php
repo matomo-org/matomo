@@ -11,6 +11,11 @@
 require "Login/Controller.php";
 require "Cookie.php";
 
+
+/**
+ * 
+ * @package Piwik_Login
+ */
 class Piwik_Login extends Piwik_Plugin
 {	
 	public function __construct()

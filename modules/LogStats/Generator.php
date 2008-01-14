@@ -526,6 +526,8 @@ class Piwik_LogStats_Generator
 /**
  * Fake Piwik_LogStats that simply overwrite the sendHeader method 
  * so that no headers are sent
+ * 
+ * @package Piwik_LogStats
  */
 class Piwik_LogStats_Generator_Main extends Piwik_LogStats
 {
@@ -542,6 +544,9 @@ class Piwik_LogStats_Generator_Main extends Piwik_LogStats
 /**
  * Fake Piwik_LogStats_Visit class that overwrite all the Time related method to be able
  * to setup a given timestamp for the generated visitor and actions.
+ * 
+ * 
+ * @package Piwik_LogStats
  */
 class Piwik_LogStats_Generator_Visit extends Piwik_LogStats_Visit
 {

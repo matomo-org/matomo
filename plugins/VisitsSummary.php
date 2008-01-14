@@ -9,6 +9,10 @@
  * @package Piwik_VisitsSummary
  */
 	
+/**
+ * 
+ * @package Piwik_VisitsSummary
+ */
 class Piwik_VisitsSummary extends Piwik_Plugin
 {	
 	public function __construct()

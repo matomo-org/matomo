@@ -9,6 +9,11 @@
  * @package Piwik_VisitsSummary
  */
 
+
+/**
+ * 
+ * @package Piwik_VisitsSummary
+ */
 class Piwik_VisitsSummary_API extends Piwik_Apiable
 {
 	static private $instance = null;

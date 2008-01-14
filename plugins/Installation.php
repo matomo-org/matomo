@@ -11,6 +11,11 @@
 
 
 require_once "Installation/Controller.php";
+
+/**
+ * 
+ * @package Piwik_Installation
+ */
 class Piwik_Installation extends Piwik_Plugin
 {	
 	protected $installationControllerName = 'Piwik_Installation_Controller';

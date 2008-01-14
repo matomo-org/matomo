@@ -80,6 +80,10 @@ abstract class Piwik_TablePartitioning
 	}
 }
 
+/**
+ * 
+ * @package Piwik
+ */
 class Piwik_TablePartitioning_Monthly extends Piwik_TablePartitioning
 {
 	public function __construct( $tableName )
@@ -97,6 +101,10 @@ class Piwik_TablePartitioning_Monthly extends Piwik_TablePartitioning
 	}
 		
 }
+/**
+ * 
+ * @package Piwik
+ */
 class Piwik_TablePartitioning_Daily extends Piwik_TablePartitioning
 {
 	public function __construct( $tableName )

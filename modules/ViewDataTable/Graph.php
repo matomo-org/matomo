@@ -123,6 +123,11 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 	}
 }
 
+/**
+ * 
+ * @package Piwik_ViewDataTable
+ *
+ */
 class Piwik_ViewDataTable_Graph_ChartPie extends Piwik_ViewDataTable_Graph
 {
 	function __construct()
@@ -131,6 +136,11 @@ class Piwik_ViewDataTable_Graph_ChartPie extends Piwik_ViewDataTable_Graph
 	}
 }
 
+/**
+ * 
+ * @package Piwik_ViewDataTable
+ *
+ */
 class Piwik_ViewDataTable_Graph_ChartVerticalBar extends Piwik_ViewDataTable_Graph
 {
 	function __construct()

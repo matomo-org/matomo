@@ -10,6 +10,11 @@
  */
 
 require_once "modules/Form.php";
+
+/**
+ * 
+ * @package Piwik_Installation
+ */
 class Piwik_Installation_FormDatabaseSetup extends Piwik_Form
 {
 	function init()

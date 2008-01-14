@@ -9,12 +9,12 @@
  * @package Piwik_UsersManager
  */
 
-/**
- * 
- * @package Piwik
- */
 Zend_Loader::loadClass("Piwik_Access");
 
+/**
+ * 
+ * @package Piwik_UsersManager
+ */
 class Piwik_UsersManager_API extends Piwik_Apiable
 {
 	static private $instance = null;

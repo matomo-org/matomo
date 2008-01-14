@@ -9,6 +9,10 @@
  * @package Piwik_VisitorInterest
  */
 	
+/**
+ * 
+ * @package Piwik_VisitorInterest
+ */
 class Piwik_VisitorInterest extends Piwik_Plugin
 {	
 	

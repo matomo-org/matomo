@@ -11,7 +11,7 @@
 
 /**
  * 
- * @package Piwik
+ * @package Piwik_SitesManager
  */
 class Piwik_SitesManager_API extends Piwik_Apiable
 {

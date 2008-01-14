@@ -9,6 +9,11 @@
  * @package Piwik_UsersManager
  */
 
+
+/**
+ * 
+ * @package Piwik_UsersManager
+ */
 class Piwik_UsersManager_Controller extends Piwik_Controller
 {
 	function index()

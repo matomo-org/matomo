@@ -9,6 +9,11 @@
  * @package Piwik_Openads
  */
 
+
+/**
+ * 
+ * @package Piwik_Openads
+ */
 class Piwik_Openads_Controller extends Piwik_Installation_Controller
 {
 	function __construct()

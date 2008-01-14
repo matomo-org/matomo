@@ -5,11 +5,19 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_Home
+ * 
  */
 
 
 require_once "API/Request.php";
 require_once "ViewDataTable.php";
+
+/**
+ * 
+ * @package Piwik_Home
+ */
 class Piwik_Home_Controller extends Piwik_Controller
 {
 	function getDefaultAction()

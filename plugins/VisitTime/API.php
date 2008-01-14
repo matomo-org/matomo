@@ -8,7 +8,12 @@
  * 
  * @package Piwik_VisitTime
  */
-		
+	
+
+/**
+ * 
+ * @package Piwik_VisitTime
+ */	
 class Piwik_VisitTime_API extends Piwik_Apiable
 {
 	static private $instance = null;

@@ -11,6 +11,11 @@
 
 require_once "View.php";
 require_once "Installation/View.php";
+
+/**
+ * 
+ * @package Piwik_Installation
+ */
 class Piwik_Installation_Controller extends Piwik_Controller
 {
 	// public so plugins can modify it

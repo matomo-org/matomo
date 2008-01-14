@@ -9,6 +9,11 @@
  * @package Piwik_ExamplePlugin
  */
 	
+
+/**
+ * 
+ * @package Piwik_ExamplePlugin
+ */
 class Piwik_ExamplePlugin extends Piwik_Plugin
 {	
 	public function __construct()

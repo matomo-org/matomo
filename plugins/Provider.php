@@ -9,6 +9,10 @@
  * @package Piwik_Provider
  */
 	
+/**
+ * 
+ * @package Piwik_Provider
+ */
 class Piwik_Provider extends Piwik_Plugin
 {	
 	public function __construct()
