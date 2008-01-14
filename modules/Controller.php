@@ -9,6 +9,10 @@
  * @package Piwik
  */
 
+/**
+ * 
+ * @package Piwik_
+ */
 abstract class Piwik_Controller
 {
 	function getDefaultAction()

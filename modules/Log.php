@@ -9,11 +9,6 @@
  * @package Piwik_Log
  */
 
-/**
- * 
- * 
- * @package Piwik_Log
- */
 Zend_Loader::loadClass('Zend_Log');
 Zend_Loader::loadClass('Zend_Log_Formatter_Interface');
 Zend_Loader::loadClass('Zend_Log_Writer_Stream');
@@ -21,6 +16,11 @@ Zend_Loader::loadClass('Zend_Log_Writer_Db');
 
 Zend_Loader::loadClass('Piwik_Common');
 
+/**
+ * 
+ * 
+ * @package Piwik_Log
+ */
 abstract class Piwik_Log extends Zend_Log
 {
 	private $logToDatabaseTableName = null;
@@ -117,6 +117,11 @@ abstract class Piwik_Log extends Zend_Log
 	
 }
 
+/**
+ * 
+ * 
+ * @package Piwik_Log
+ */
 class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 {
 	/**
