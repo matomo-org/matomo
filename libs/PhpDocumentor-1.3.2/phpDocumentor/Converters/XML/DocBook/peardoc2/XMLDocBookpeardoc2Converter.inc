@@ -31,7 +31,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2002-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: XMLDocBookpeardoc2Converter.inc,v 1.6 2006/10/24 04:18:14 cellog Exp $
+ * @version    CVS: $Id$
  * @filesource
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
@@ -53,7 +53,7 @@
  * @subpackage XMLDocBook
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.2
- * @version $Id: XMLDocBookpeardoc2Converter.inc,v 1.6 2006/10/24 04:18:14 cellog Exp $
+ * @version $Id$
  */
 class XMLDocBookpeardoc2Converter extends Converter
 {

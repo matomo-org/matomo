@@ -29,7 +29,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2001-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: Classes.inc,v 1.9 2006/04/30 22:18:13 cellog Exp $
+ * @version    CVS: $Id$
  * @filesource
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
@@ -56,7 +56,7 @@
  * @package phpDocumentor
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: Classes.inc,v 1.9 2006/04/30 22:18:13 cellog Exp $
+ * @version $Id$
  */
 class Classes
 {

@@ -18,7 +18,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 4697 2007-05-03 21:23:16Z bkarwin $
+ * @version    $Id$
  */
 
 

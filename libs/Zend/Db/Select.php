@@ -18,7 +18,7 @@
  * @subpackage Select
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Select.php 5308 2007-06-14 17:18:45Z bkarwin $
+ * @version    $Id$
  */
 
 

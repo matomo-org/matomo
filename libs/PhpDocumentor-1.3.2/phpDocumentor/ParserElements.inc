@@ -30,7 +30,7 @@
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  2002-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: ParserElements.inc,v 1.16.2.1 2007/04/02 18:22:51 ashnazg Exp $
+ * @version    CVS: $Id$
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
  * @see        Parser, WordParser
@@ -44,7 +44,7 @@
  * @subpackage ParserElements
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserElements.inc,v 1.16.2.1 2007/04/02 18:22:51 ashnazg Exp $
+ * @version $Id$
  */
 class parserElement extends parserBase
 {
@@ -197,7 +197,7 @@ class parserElement extends parserBase
  * @subpackage ParserElements
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserElements.inc,v 1.16.2.1 2007/04/02 18:22:51 ashnazg Exp $
+ * @version $Id$
  */
 class parserInclude extends parserElement
 {
@@ -213,7 +213,7 @@ class parserInclude extends parserElement
  * @subpackage ParserElements
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.1
- * @version $Id: ParserElements.inc,v 1.16.2.1 2007/04/02 18:22:51 ashnazg Exp $
+ * @version $Id$
  */
 class parserGlobal extends parserElement
 {
@@ -317,7 +317,7 @@ class parserGlobal extends parserElement
  * @subpackage ParserElements
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserElements.inc,v 1.16.2.1 2007/04/02 18:22:51 ashnazg Exp $
+ * @version $Id$
  */
 class parserFunction extends parserElement
 {
@@ -678,7 +678,7 @@ class parserFunction extends parserElement
  * @subpackage ParserElements
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserElements.inc,v 1.16.2.1 2007/04/02 18:22:51 ashnazg Exp $
+ * @version $Id$
  */
 class parserClass extends parserElement
 {
@@ -1410,7 +1410,7 @@ class parserClass extends parserElement
  * @subpackage ParserElements
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserElements.inc,v 1.16.2.1 2007/04/02 18:22:51 ashnazg Exp $
+ * @version $Id$
  */
 class parserVar extends parserElement
 {
@@ -1623,7 +1623,7 @@ class parserConst extends parserElement
  * @subpackage ParserElements
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserElements.inc,v 1.16.2.1 2007/04/02 18:22:51 ashnazg Exp $
+ * @version $Id$
  */
 class parserMethod extends parserFunction
 {
@@ -1978,7 +1978,7 @@ class parserMethod extends parserFunction
  * @subpackage ParserElements
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserElements.inc,v 1.16.2.1 2007/04/02 18:22:51 ashnazg Exp $
+ * @version $Id$
  */
 class parserDefine extends parserElement
 {
@@ -2022,7 +2022,7 @@ class parserDefine extends parserElement
  * @subpackage ParserElements
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserElements.inc,v 1.16.2.1 2007/04/02 18:22:51 ashnazg Exp $
+ * @version $Id$
  */
 class parserPackagePage extends parserStringWithInlineTags
 {

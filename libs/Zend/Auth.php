@@ -17,7 +17,7 @@
  * @package    Zend_Auth
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Auth.php 3467 2007-02-15 22:40:55Z darby $
+ * @version    $Id$
  */
 
 

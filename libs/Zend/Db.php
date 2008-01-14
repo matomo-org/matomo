@@ -17,7 +17,7 @@
  * @package    Zend_Db
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 5100 2007-06-04 19:02:22Z bkarwin $
+ * @version    $Id$
  */
 
 

@@ -30,7 +30,7 @@
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  2002-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: ParserDocBlock.inc,v 1.10 2007/02/09 16:51:34 ashnazg Exp $
+ * @version    CVS: $Id$
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
  * @see        Parser, WordParser
@@ -42,7 +42,7 @@
  * @subpackage ParserDocBlock
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserDocBlock.inc,v 1.10 2007/02/09 16:51:34 ashnazg Exp $
+ * @version $Id$
  */
 class parserDesc extends parserStringWithInlineTags
 {
@@ -124,7 +124,7 @@ class parserDesc extends parserStringWithInlineTags
  * @subpackage ParserDocBlock
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserDocBlock.inc,v 1.10 2007/02/09 16:51:34 ashnazg Exp $
+ * @version $Id$
  */
 class parserDocBlock
 {

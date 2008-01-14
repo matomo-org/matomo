@@ -29,7 +29,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2001-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: common.inc.php,v 1.7.2.1 2007/04/04 14:31:32 ashnazg Exp $
+ * @version    CVS: $Id$
  * @filesource
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor

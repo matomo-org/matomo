@@ -30,7 +30,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2001-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: Converter.inc,v 1.35 2007/02/16 17:28:49 ashnazg Exp $
+ * @version    CVS: $Id$
  * @filesource
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
@@ -70,7 +70,7 @@ include_once("phpDocumentor/Smarty-2.6.0/libs/Smarty.class.php");
  * @abstract
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: Converter.inc,v 1.35 2007/02/16 17:28:49 ashnazg Exp $
+ * @version $Id$
  */
 class Converter
 {

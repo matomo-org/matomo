@@ -16,7 +16,7 @@
  * @package    Zend_Session
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HttpUserAgent.php 2812 2007-01-16 01:40:54Z bkarwin $
+ * @version    $Id$
  * @since      Preview Release 0.2
  */
 

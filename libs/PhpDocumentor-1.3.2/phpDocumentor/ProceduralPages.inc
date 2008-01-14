@@ -31,7 +31,7 @@
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  2002-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: ProceduralPages.inc,v 1.4 2006/10/23 03:32:56 cellog Exp $
+ * @version    CVS: $Id$
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
  * @since      1.1
@@ -44,7 +44,7 @@
  * @package phpDocumentor
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.1
- * @version $Id: ProceduralPages.inc,v 1.4 2006/10/23 03:32:56 cellog Exp $
+ * @version $Id$
  */
 class ProceduralPages
 {

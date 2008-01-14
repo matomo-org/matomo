@@ -3,7 +3,7 @@
      *	Base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	UnitTester
-     *	@version	$Id: invoker.php,v 1.3 2006/02/06 06:13:43 lastcraft Exp $
+     *	@version	$Id$
      */
 
     /**#@+

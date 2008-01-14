@@ -28,7 +28,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2003-2006 Andrew Eddie, Greg Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: actions.php,v 1.4 2006/04/30 22:18:13 cellog Exp $
+ * @version    CVS: $Id$
  */
 $path = dirname(__FILE__);
 if ('@WEB-DIR@' != '@'.'WEB-DIR@')

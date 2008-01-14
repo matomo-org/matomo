@@ -19,7 +19,7 @@
  * @author     Stephan Schmidt <schst@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Serializer.php,v 1.47 2005/09/30 13:40:30 schst Exp $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/XML_Serializer
  * @see        XML_Unserializer
  */

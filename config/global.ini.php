@@ -27,12 +27,12 @@ default			= en
 
 [Plugins]
 
-enabled[] 		= UserSettings
-enabled[] 		= VisitsSummary
 enabled[] 		= Actions
-enabled[] 		= Provider
-enabled[] 		= UserCountry
 enabled[] 		= Referers
+enabled[] 		= UserSettings
+enabled[] 		= UserCountry
+enabled[] 		= VisitsSummary
+enabled[] 		= Provider
 enabled[] 		= VisitFrequency
 enabled[] 		= VisitTime
 enabled[] 		= VisitorInterest

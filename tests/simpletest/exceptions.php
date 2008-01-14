@@ -3,7 +3,7 @@
  *	base include file for SimpleTest
  *	@package	SimpleTest
  *	@subpackage	UnitTester
- *	@version	$Id: exceptions.php,v 1.14 2006/12/20 11:17:13 pp11 Exp $
+ *	@version	$Id$
  */
 
 /**#@+

@@ -17,7 +17,7 @@
  * @author      Alexey Borzov <avb@php.net>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: date.php,v 1.60 2007/06/04 19:22:23 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 

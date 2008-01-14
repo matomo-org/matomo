@@ -39,7 +39,7 @@
  * @package Smarty
  */
 
-/* $Id: Smarty_Compiler.class.php,v 1.1 2005/10/17 18:37:39 jeichorn Exp $ */
+/* $Id$ */
 
 /**
  * Template compiling class

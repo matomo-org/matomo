@@ -18,7 +18,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Pgsql.php 5296 2007-06-13 23:20:37Z bkarwin $
+ * @version    $Id$
  */
 
 

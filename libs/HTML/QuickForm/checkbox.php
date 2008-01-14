@@ -19,7 +19,7 @@
  * @author      Alexey Borzov <avb@php.net>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: checkbox.php,v 1.22 2007/06/03 15:25:28 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 

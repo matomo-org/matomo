@@ -33,7 +33,7 @@
 // |         Stephan Schmidt <schst@php.net>                               |
 // +-----------------------------------------------------------------------+
 //
-// $Id: Notification.php,v 1.2 2005/02/14 10:35:18 mansion Exp $
+// $Id$
 
 /**
  * Default state of the notification

@@ -29,7 +29,7 @@
  * @author     Joshua Eichorn <jeichorn@phpdoc.org>
  * @copyright  2000-2006 Joshua Eichorn
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: EventStack.inc,v 1.3 2006/04/30 22:18:13 cellog Exp $
+ * @version    CVS: $Id$
  * @filesource
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
@@ -39,7 +39,7 @@
  * An event Stack
  * 
  * @author    Joshua Eichorn <jeichorn@phpdoc.org>
- * @version    $Id: EventStack.inc,v 1.3 2006/04/30 22:18:13 cellog Exp $
+ * @version    $Id$
  * @package     phpDocumentor
  */
 class EventStack

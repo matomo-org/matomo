@@ -3,7 +3,7 @@
      *    base include file for SimpleTest
      *    @package    SimpleTest
      *    @subpackage    UnitTester
-     *    @version    $Id: expectation.php,v 1.50 2007/06/09 08:35:54 pachanga Exp $
+     *    @version    $Id$
      */
 
     /**#@+

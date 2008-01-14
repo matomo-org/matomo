@@ -17,7 +17,7 @@
  * @author      Matteo Di Giovinazzo <matteodg@infinito.it>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: autocomplete.php,v 1.7 2007/05/29 18:34:36 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 

@@ -31,7 +31,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2002-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: DocBlockTags.inc,v 1.8 2006/10/24 04:18:14 cellog Exp $
+ * @version    CVS: $Id$
  * @filesource
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
@@ -47,7 +47,7 @@
  * @subpackage DocBlockTags
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: DocBlockTags.inc,v 1.8 2006/10/24 04:18:14 cellog Exp $
+ * @version $Id$
  */
 class parserTag extends parserStringWithInlineTags
 {
@@ -273,7 +273,7 @@ class parserAccessTag extends parserTag
  * @subpackage DocBlockTags
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: DocBlockTags.inc,v 1.8 2006/10/24 04:18:14 cellog Exp $
+ * @version $Id$
  */
 class parserReturnTag extends parserTag
 {
@@ -365,7 +365,7 @@ class parserReturnTag extends parserTag
  * @subpackage DocBlockTags
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: DocBlockTags.inc,v 1.8 2006/10/24 04:18:14 cellog Exp $
+ * @version $Id$
  */
 class parserVarTag extends parserReturnTag
 {
@@ -418,7 +418,7 @@ class parserStaticvarTag extends parserParamTag
  * @subpackage DocBlockTags
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: DocBlockTags.inc,v 1.8 2006/10/24 04:18:14 cellog Exp $
+ * @version $Id$
  */
 class parserLinkTag extends parserTag
 {
@@ -454,7 +454,7 @@ class parserLinkTag extends parserTag
  * @subpackage DocBlockTags
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: DocBlockTags.inc,v 1.8 2006/10/24 04:18:14 cellog Exp $
+ * @version $Id$
  */
 class parserSeeTag extends parserLinkTag
 {

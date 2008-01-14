@@ -34,7 +34,7 @@ require_once 'Zend/XmlRpc/Request.php';
  * @package  Zend_XmlRpc
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version $Id: Http.php 3833 2007-03-09 05:01:14Z matthew $
+ * @version $Id$
  */
 class Zend_XmlRpc_Request_Http extends Zend_XmlRpc_Request
 {

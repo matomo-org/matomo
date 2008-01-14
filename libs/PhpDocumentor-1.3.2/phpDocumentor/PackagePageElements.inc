@@ -43,7 +43,7 @@
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  2002-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: PackagePageElements.inc,v 1.4 2006/05/22 01:07:28 cellog Exp $
+ * @version    CVS: $Id$
  * @tutorial tutorials.pkg
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor

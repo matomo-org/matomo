@@ -32,7 +32,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2004-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: Tokenizer.php,v 1.4 2006/10/24 04:18:14 cellog Exp $
+ * @version    CVS: $Id$
  * @filesource
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
