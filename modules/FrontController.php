@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik
  */
 
 
@@ -33,6 +35,11 @@ require_once "Translate.php";
 require_once "Url.php";
 require_once "Controller.php";
 
+/**
+ * 
+ * 
+ * @package Piwik
+ */
 class Piwik_FrontController
 {
 	static public $enableDispatch = true;

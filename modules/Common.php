@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_Helper
  */
 
 /**
@@ -15,7 +17,7 @@
  * This class should contain only the functions that are used in 
  * both the CORE and the piwik.php statistics logging engine.
  * 
- * @package Piwik
+ * @package Piwik_Helper
  */
 class Piwik_Common 
 {

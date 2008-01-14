@@ -5,11 +5,19 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_Visualization
  */
 
 require_once 'Smarty/Smarty.class.php';
 
 require_once "iView.php";
+
+/**
+ * 
+ * @package Piwik_Visualization
+ *
+ */
 class Piwik_View implements Piwik_iView
 {
 	private $template = '';

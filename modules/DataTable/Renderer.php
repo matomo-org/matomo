@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_DataTable
  */
 
 /**
@@ -12,6 +14,7 @@
  * All new Renderers must be copied in DataTable/Renderer and added to the factory() method.
  * 
  * @package Piwik_DataTable
+ * @subpackage Piwik_DataTable_Renderer
  */
 abstract class Piwik_DataTable_Renderer
 {

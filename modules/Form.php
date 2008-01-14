@@ -5,12 +5,18 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_Helper
  */
 
 
 require_once "HTML/QuickForm.php";
 require_once "HTML/QuickForm/Renderer/ArraySmarty.php";
 
+/**
+ * 
+ * @package Piwik_Helper
+ */
 abstract class Piwik_Form extends HTML_QuickForm
 {
 	private $a_formElements = array();

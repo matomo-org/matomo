@@ -5,18 +5,20 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
- */
-
-/**
  * 
  * @package Piwik
  */
+
 require_once "Config.php";
 require_once "Zend/Db.php";
 require_once "Zend/Db/Table.php";
 require_once "Log.php";
 require_once "PluginsManager.php";
 
+/**
+ * 
+ * @package Piwik
+ */
 class Piwik
 {
 	const CLASSES_PREFIX = "Piwik_";

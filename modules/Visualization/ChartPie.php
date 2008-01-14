@@ -5,8 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_Visualization
  */
 require_once "Visualization/Chart.php";
+
+/**
+ * 
+ * @package Piwik_Visualization
+ */
 class Piwik_Visualization_ChartPie extends Piwik_Visualization_Chart
 {
 	function customizeGraph()

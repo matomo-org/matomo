@@ -5,8 +5,11 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_DataTable
  */
 
+require_once "DataTable/Renderer/Php.php";
 /**
  * XML export. Using the excellent Pear::XML_Serializer.
  * We had to fix the PEAR library so that it works under PHP5 STRICT mode.
@@ -14,7 +17,6 @@
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer
  */
-require_once "DataTable/Renderer/Php.php";
 class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 {
 	function __construct($table = null)

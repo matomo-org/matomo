@@ -5,8 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_ViewDataTable
  */
 
+/**
+ * 
+ * @package Piwik_ViewDataTable
+ *
+ */
 class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 {
 	protected $columnsToDisplay = array();
