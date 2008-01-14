@@ -30,7 +30,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2002-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: PDFdefaultConverter.inc,v 1.4 2007/02/20 14:25:23 ashnazg Exp $
+ * @version    CVS: $Id$
  * @filesource
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
@@ -49,7 +49,7 @@ include_once('phpDocumentor/Converters/PDF/default/class.phpdocpdf.php');
  * @subpackage PDFdefault
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.1
- * @version $Id: PDFdefaultConverter.inc,v 1.4 2007/02/20 14:25:23 ashnazg Exp $
+ * @version $Id$
  * @todo Implement links to conflicts/inheritance
  */
 class PDFdefaultConverter extends Converter

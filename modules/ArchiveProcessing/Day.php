@@ -1,5 +1,14 @@
 <?php
 /**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ */
+
+
+/**
  * Handles the archiving process for a day.
  * The class provides generic methods to manipulate data from the DB, easily create Piwik_DataTable objects.
  * 

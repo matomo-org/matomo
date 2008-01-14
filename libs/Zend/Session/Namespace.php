@@ -16,7 +16,7 @@
  * @package    Zend_Session
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Namespace.php 4666 2007-05-02 17:12:28Z darby $
+ * @version    $Id$
  * @since      Preview Release 0.2
  */
 

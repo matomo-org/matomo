@@ -16,7 +16,7 @@
  * @package    Zend_Log
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 5112 2007-06-04 23:28:58Z mike $
+ * @version    $Id$
  */
 
 /** Zend_Log_Filter_Priority */
@@ -27,7 +27,7 @@ require_once 'Zend/Log/Filter/Priority.php';
  * @package    Zend_Log
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 5112 2007-06-04 23:28:58Z mike $
+ * @version    $Id$
  */ 
 class Zend_Log
 {

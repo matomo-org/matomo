@@ -18,7 +18,7 @@
  * @subpackage Zend_Auth_Adapter
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTable.php 4246 2007-03-27 22:35:56Z ralph $
+ * @version    $Id$
  */
 
 

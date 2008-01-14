@@ -41,7 +41,7 @@
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  2003-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: TutorialHighlightParser.inc,v 1.4 2006/05/01 04:13:51 cellog Exp $
+ * @version    CVS: $Id$
  * @tutorial   tags.example.pkg, tags.filesource.pkg
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor

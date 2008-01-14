@@ -3,7 +3,7 @@
      *	Base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	WebTester
-     *	@version	$Id: cookies.php,v 1.4 2005/12/05 04:47:03 lastcraft Exp $
+     *	@version	$Id$
      */
 
     /**#@+

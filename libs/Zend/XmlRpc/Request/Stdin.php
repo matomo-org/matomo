@@ -34,7 +34,7 @@ require_once 'Zend/XmlRpc/Request.php';
  * @package  Zend_XmlRpc
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version $Id: Stdin.php 2810 2007-01-16 01:40:21Z bkarwin $
+ * @version $Id$
  */
 class Zend_XmlRpc_Request_Stdin extends Zend_XmlRpc_Request
 {

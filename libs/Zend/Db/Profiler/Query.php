@@ -18,7 +18,7 @@
  * @subpackage Profiler
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Query.php 5401 2007-06-21 01:30:53Z bkarwin $
+ * @version    $Id$
  */
 
 

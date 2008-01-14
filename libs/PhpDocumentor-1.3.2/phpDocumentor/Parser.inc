@@ -31,7 +31,7 @@
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  2000-2006 Joshua Eichorn, Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: Parser.inc,v 1.6 2006/08/17 03:23:26 cellog Exp $
+ * @version    CVS: $Id$
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
  * @since      0.1
@@ -330,7 +330,7 @@ if (!defined('T_DOC_COMMENT'))
  * This parser is slower than the tokenizer-based parser, and is deprecated.
  * @author    Joshua Eichorn <jeichorn@phpdoc.org>
  * @author    Gregory Beaver <cellog@users.sourceforge.net>
- * @version    $Id: Parser.inc,v 1.6 2006/08/17 03:23:26 cellog Exp $
+ * @version    $Id$
  * @package     phpDocumentor
  * @subpackage Parsers
  * @deprecated in favor of {@link phpDocumentorTParser}

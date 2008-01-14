@@ -17,7 +17,7 @@
  * @package    Zend_Session
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 4773 2007-05-09 19:33:10Z darby $
+ * @version    $Id$
  * @since      Preview Release 0.2
  */
 

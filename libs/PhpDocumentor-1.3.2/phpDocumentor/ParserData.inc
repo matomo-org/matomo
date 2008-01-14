@@ -30,7 +30,7 @@
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  2002-2006 Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: ParserData.inc,v 1.6 2006/10/23 04:02:46 cellog Exp $
+ * @version    CVS: $Id$
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
  * @since      1.0rc1
@@ -42,7 +42,7 @@
  * @subpackage ParserData
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserData.inc,v 1.6 2006/10/23 04:02:46 cellog Exp $
+ * @version $Id$
  */
 class parserPage
 {
@@ -282,7 +282,7 @@ class parserPage
  * @subpackage ParserData
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserData.inc,v 1.6 2006/10/23 04:02:46 cellog Exp $
+ * @version $Id$
  */
 class parserData
 {
@@ -561,7 +561,7 @@ class parserData
  * @abstract
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserData.inc,v 1.6 2006/10/23 04:02:46 cellog Exp $
+ * @version $Id$
  */
 class parserBase
 {
@@ -610,7 +610,7 @@ class parserBase
  * @subpackage ParserData
  * @author Greg Beaver <cellog@users.sourceforge.net>
  * @since 1.0rc1
- * @version $Id: ParserData.inc,v 1.6 2006/10/23 04:02:46 cellog Exp $
+ * @version $Id$
  */
 class parserStringWithInlineTags extends parserBase
 {

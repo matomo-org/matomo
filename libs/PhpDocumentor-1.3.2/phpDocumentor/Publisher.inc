@@ -30,7 +30,7 @@
  * @author     Joshua Eichorn <jeichorn@phpdoc.org>
  * @copyright  2000-2006 Kellin, Joshua Eichorn
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: Publisher.inc,v 1.3 2006/04/30 22:18:14 cellog Exp $
+ * @version    CVS: $Id$
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
  * @since      0.1
@@ -40,7 +40,7 @@
  *
  * @author Kellin <passionplay@hotmail.com>
  * @author Joshua Eichorn <jeichorn@phpdoc.org>
- * @version	$Id: Publisher.inc,v 1.3 2006/04/30 22:18:14 cellog Exp $
+ * @version	$Id$
  * @package 	phpDocumentor
  */
 class Publisher

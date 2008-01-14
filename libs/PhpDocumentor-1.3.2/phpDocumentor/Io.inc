@@ -33,7 +33,7 @@
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  2000-2006 Joshua Eichorn, Gregory Beaver
  * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @version    CVS: $Id: Io.inc,v 1.15.2.3 2007/03/29 19:09:42 ashnazg Exp $
+ * @version    CVS: $Id$
  * @filesource
  * @link       http://www.phpdoc.org
  * @link       http://pear.php.net/PhpDocumentor
@@ -44,7 +44,7 @@
  *
  * @author    Joshua Eichorn <jeichorn@phpdoc.org>
  * @author     Gregory Beaver <cellog@php.net>
- * @version    $Id: Io.inc,v 1.15.2.3 2007/03/29 19:09:42 ashnazg Exp $
+ * @version    $Id$
  * @package     phpDocumentor
  */
 class Io 
