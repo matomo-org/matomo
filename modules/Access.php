@@ -69,7 +69,7 @@ class Piwik_Access
 		
 		// access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
         $result = $this->auth->authenticate();
-		
+        
 		if($result->isValid())
 		{
 			$this->identity = $result->getIdentity();
@@ -173,13 +173,7 @@ class Piwik_Access
 	 * @throws Exception
 	 */
 	public function checkUserHasSomeAdminAccess()
-	{
-		//commented because bug when super user method called with unknown websites
-//		if($this->isSuperUser)
-//		{
-//			return;
-//		}
-		
+	{		
 		$idSitesAccessible = $this->getSitesIdWithAdminAccess();
 		if(count($idSitesAccessible) == 0)
 		{
@@ -194,13 +188,7 @@ class Piwik_Access
 	 * @throws Exception If for any of the websites the user doesn't have an ADMIN access
 	 */
 	public function checkUserHasAdminAccess( $idSites )
-	{
-		//commented because bug when super user method called with unknown websites
-//		if($this->isSuperUser)
-//		{
-//			return;
-//		}
-		
+	{		
 		if(!is_array($idSites))
 		{
 			$idSites = array($idSites);
@@ -224,11 +212,6 @@ class Piwik_Access
 	 */
 	public function checkUserHasViewAccess( $idSites )
 	{
-		//commented because bug when super user method called with unknown websites
-//		if($this->isSuperUser)
-//		{
-//			return;
-//		}		
 		if(!is_array($idSites))
 		{
 			$idSites = array($idSites);

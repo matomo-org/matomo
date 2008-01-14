@@ -218,7 +218,12 @@ class Piwik_API_Request
 			{
 				throw $e;
 			}
-			$toReturn =  $this->getExceptionOutput( $e->getMessage(), $outputFormatRequested);
+			$message = $e->getMessage();
+			
+			// it seems that JSON doesn't like line breaks
+			$message = nl2br($message);
+			
+			$toReturn =  $this->getExceptionOutput( $message, $outputFormatRequested);
 			
 		}
 		

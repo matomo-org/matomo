@@ -281,6 +281,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	static public function updateUser(  $userLogin, $password = false, $email = false, $alias = false )
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+		self::checkUserIsNotAnonymous( $userLogin );
 		
 		$userInfo = self::getUser($userLogin);
 				
@@ -334,11 +335,14 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	static public function deleteUser( $userLogin )
 	{
 		Piwik::checkUserIsSuperUser();
+		self::checkUserIsNotAnonymous( $userLogin );
 		
 		if(!self::userExists($userLogin))
 		{
 			throw new Exception("User '$userLogin' doesn't exist therefore it can't be deleted.");
 		}
+		
+		
 		self::deleteUserOnly( $userLogin );
 		self::deleteUserAccess( $userLogin );
 	}
@@ -377,6 +381,12 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	{
 		self::checkAccessType( $access );
 		self::checkUserExists( $userLogin);
+		
+		if($userLogin == 'anonymous'
+			&& $access == 'admin')
+		{
+			throw new Exception("You cannot grant 'admin' access to the 'anonymous' user.");
+		}
 		
 		// in case idSites is null we grant access to all the websites on which the current connected user
 		// has an 'admin' access
@@ -431,6 +441,13 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		}
 	}
 	
+	static private function checkUserIsNotAnonymous( $userLogin )
+	{
+		if($userLogin == 'anonymous')
+		{
+			throw new Exception("The anonymous user cannot be edited or deleted. It is used by Piwik to define a user that has not loggued in yet. For example, you can make your statistics public by granting the 'view' access to the 'anonymous' user.");
+		}
+	}
 	
 	static private function checkAccessType($access)
 	{
@@ -498,7 +515,6 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	static public function getTokenAuth($userLogin, $password)
 	{
 		return md5($userLogin . $password );
-		
 	}
 		
 	/**

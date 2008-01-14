@@ -736,6 +736,19 @@ class Piwik
 		return (preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,4}$/', $email) > 0);
     }
     
+    /**
+     * Creates an entry in the User table for the "anonymous" user. 
+     * 
+     * @return void
+     */
+    static public function createAnonymousUser()
+    {
+    	// The anonymous user is the user that is assigned by default 
+    	// note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
+		$db = Zend_Registry::get('db');
+		$db->query("INSERT INTO ". Piwik::prefixTable("user") . " 
+					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', CURRENT_TIMESTAMP );" );
+    }
     
 	static public function createTables()
 	{
