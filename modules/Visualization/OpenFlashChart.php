@@ -17,7 +17,7 @@ require_once "iView.php";
  * @package Piwik_Visualization
  */
 
-abstract class Piwik_Visualization_OpenFlashChart implements iView
+abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 {	
     function __construct()
     {
