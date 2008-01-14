@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_API
  */
 
 
@@ -17,7 +19,6 @@
  * 
  * It can also log the performances of the API calls (time spent, parameter values, etc.)
  * 
- * @package Piwik_API
  */
 class Piwik_API_Proxy
 {
@@ -417,7 +418,7 @@ class Piwik_API_Proxy
 	 * @param string The method name
 	 * @param array The parameters
 	 * 
-	 * @throw Piwik_Access_NoAccessException 
+	 * @throws Piwik_Access_NoAccessException 
 	 */
 	public function __call($methodName, $parameterValues )
 	{
