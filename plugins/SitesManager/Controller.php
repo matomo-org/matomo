@@ -9,6 +9,11 @@
  * @package Piwik_SitesManager
  */
 
+
+/**
+ * 
+ * @package Piwik_SitesManager
+ */
 class Piwik_SitesManager_Controller extends Piwik_Controller
 {
 	function index()

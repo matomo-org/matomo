@@ -9,6 +9,10 @@
  * @package Piwik_VisitFrequency
  */
 	
+/**
+ * 
+ * @package Piwik_VisitFrequency
+ */
 class Piwik_VisitFrequency extends Piwik_Plugin
 {	
 	public function __construct()

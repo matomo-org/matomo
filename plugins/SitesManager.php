@@ -9,6 +9,10 @@
  * @package Piwik_SitesManager
  */
 	
+/**
+ * 
+ * @package Piwik_SitesManager
+ */
 class Piwik_SitesManager extends Piwik_Plugin
 {	
 	public function __construct()

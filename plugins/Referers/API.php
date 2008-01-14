@@ -14,6 +14,11 @@ require_once "DataFiles/Browsers.php";
 require_once "DataFiles/OS.php";
 require_once "Actions.php";
 		
+
+/**
+ * 
+ * @package Piwik_Referers
+ */
 class Piwik_Referers_API extends Piwik_Apiable
 {
 	static private $instance = null;

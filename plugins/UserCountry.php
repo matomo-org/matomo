@@ -9,6 +9,10 @@
  * @package Piwik_UserCountry
  */
 	
+/**
+ * 
+ * @package Piwik_UserCountry
+ */
 class Piwik_UserCountry extends Piwik_Plugin
 {	
 	public function __construct()

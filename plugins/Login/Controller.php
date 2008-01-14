@@ -13,6 +13,11 @@ require_once "UsersManager/API.php";
 require_once "Login/Form.php";
 require_once "View.php";
 
+
+/**
+ * 
+ * @package Piwik_Login
+ */
 class Piwik_Login_Controller extends Piwik_Controller
 {
 	function getDefaultAction()

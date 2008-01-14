@@ -208,6 +208,10 @@ abstract class Piwik_Period
 	}
 }
 
+/**
+ * 
+ * @package Piwik_Period
+ */
 class Piwik_Period_Day extends Piwik_Period
 {
 	protected $label = 'day';
@@ -244,6 +248,10 @@ class Piwik_Period_Day extends Piwik_Period
 	
 }
 
+/**
+ * 
+ * @package Piwik_Period
+ */
 class Piwik_Period_Week extends Piwik_Period
 {
 	protected $label = 'week';
@@ -278,6 +286,10 @@ class Piwik_Period_Week extends Piwik_Period
 
 }
 
+/**
+ * 
+ * @package Piwik_Period
+ */
 class Piwik_Period_Month extends Piwik_Period
 {
 	protected $label = 'month';
@@ -320,6 +332,10 @@ class Piwik_Period_Month extends Piwik_Period
 	}
 }
 
+/**
+ * 
+ * @package Piwik_Period
+ */
 class Piwik_Period_Year extends Piwik_Period
 {	
 	protected $label = 'year';

@@ -10,6 +10,10 @@
  * @package Piwik_VisitTime
  */
 	
+/**
+ * 
+ * @package Piwik_VisitTime
+ */
 class Piwik_VisitTime extends Piwik_Plugin
 {	
 	public function __construct()

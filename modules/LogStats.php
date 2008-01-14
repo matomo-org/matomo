@@ -39,15 +39,11 @@
  * and which prepares the file containg the rows to insert, then we load DATA INFILE 
  * 
  * 
- * @package Piwik_LogStats
- */
-
-/**
  * Configuration options for the statsLogEngine module:
  * - use_cookie  ; defines if we try to get/set a cookie to help recognize a unique visitor
+ * 
+ * @package Piwik_LogStats
  */
-
-
 class Piwik_LogStats
 {	
 	private $stateValid;

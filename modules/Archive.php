@@ -9,6 +9,11 @@
  * @package Piwik
  */
 
+ 
+require_once 'Period.php';
+require_once 'Date.php';
+require_once 'ArchiveProcessing.php';
+
 /**
  * Architecture
  * - *ArchiveProcessing* entity : handle all the computation on an archive / create & delete archive
@@ -26,10 +31,6 @@
  *  
  * @package Piwik
  */
- 
-require_once 'Period.php';
-require_once 'Date.php';
-require_once 'ArchiveProcessing.php';
 
 class Piwik_Archive
 {

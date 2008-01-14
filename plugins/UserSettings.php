@@ -9,6 +9,10 @@
  * @package Piwik_UserSettings
  */
 
+/**
+ * 
+ * @package Piwik_UserSettings
+ */
 class Piwik_UserSettings extends Piwik_Plugin
 {	
 	// source: http://en.wikipedia.org/wiki/List_of_web_browsers

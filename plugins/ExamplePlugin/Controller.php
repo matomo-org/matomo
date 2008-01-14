@@ -10,6 +10,11 @@
  */
 
 
+
+/**
+ * 
+ * @package Piwik_ExamplePlugin
+ */
 class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 {
 	function getDefaultAction()

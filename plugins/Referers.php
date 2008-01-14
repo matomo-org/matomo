@@ -9,6 +9,10 @@
  * @package Piwik_Referers
  */
 	
+/**
+ * 
+ * @package Piwik_Referers
+ */
 class Piwik_Referers extends Piwik_Plugin
 {
 	public function __construct()

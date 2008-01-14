@@ -9,6 +9,11 @@
  * @package Piwik_Logout
  */
 
+
+/**
+ * 
+ * @package Piwik_Logout
+ */
 class Piwik_Logout_Controller extends Piwik_Controller
 {
 	function index()

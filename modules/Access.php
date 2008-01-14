@@ -10,6 +10,7 @@
  * 
  */
 
+require_once 'SitesManager/API.php';
 /**
  * Class to handle User Access.
  * In Piwik there are mainly 4 access levels
@@ -31,7 +32,6 @@
  * 
  * @package Piwik
  */
-require_once 'SitesManager/API.php';
 
 class Piwik_Access
 {
@@ -239,5 +239,9 @@ class Piwik_Access
 	}
 }
 
+/**
+ * 
+ * @package Piwik
+ */
 class Piwik_Access_NoAccessException extends Exception
 {}

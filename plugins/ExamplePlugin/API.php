@@ -9,6 +9,12 @@
  * @package Piwik_ExamplePlugin
  */
 
+
+
+/**
+ * 
+ * @package Piwik_ExamplePlugin
+ */
 class MagicObject 
 {
 	function Incredible(){ return 'Incroyable'; }
@@ -16,6 +22,11 @@ class MagicObject
 	public $great = 'formidable';
 }
 
+
+/**
+ * 
+ * @package Piwik_ExamplePlugin
+ */
 class Piwik_ExamplePlugin_API extends Piwik_Apiable
 {
 	static private $instance = null;

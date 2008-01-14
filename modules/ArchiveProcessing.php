@@ -9,6 +9,9 @@
  * @package Piwik_ArchiveProcessing
  */
 
+require_once 'TablePartitioning.php';
+require_once 'ArchiveProcessing/Record.php';
+require_once 'DataTable.php';
 /**
  * The ArchiveProcessing module is a module that reads the Piwik logs from the DB and
  * compute all the reports, which are then stored in the database.
@@ -25,9 +28,6 @@
  * 
  * @package Piwik_ArchiveProcessing
  */
-require_once 'TablePartitioning.php';
-require_once 'ArchiveProcessing/Record.php';
-require_once 'DataTable.php';
 
 abstract class Piwik_ArchiveProcessing
 {

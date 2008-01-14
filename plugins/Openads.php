@@ -9,6 +9,10 @@
  * @package Piwik_Openads
  */
 	
+/**
+ * 
+ * @package Piwik_Openads
+ */
 class Piwik_Openads extends Piwik_Plugin
 {	
 	public function __construct()

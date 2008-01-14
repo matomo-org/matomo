@@ -9,6 +9,10 @@
  * @package Piwik_UsersManager
  */
 	
+/**
+ * 
+ * @package Piwik_UsersManager
+ */
 class Piwik_UsersManager extends Piwik_Plugin
 {	
 	public function __construct()

@@ -9,6 +9,11 @@
  * @package Piwik_Actions
  */
 	
+
+/**
+ * 
+ * @package Piwik_Actions
+ */
 class Piwik_Actions extends Piwik_Plugin
 {
 	static protected $actionCategoryDelimiter = null;

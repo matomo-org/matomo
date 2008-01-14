@@ -12,6 +12,11 @@
 
 require_once "DataFiles/Countries.php";
 
+
+/**
+ * 
+ * @package Piwik_UserCountry
+ */
 class Piwik_UserCountry_API extends Piwik_Apiable
 {
 	static private $instance = null;

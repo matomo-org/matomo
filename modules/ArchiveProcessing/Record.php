@@ -46,6 +46,7 @@ abstract class Piwik_ArchiveProcessing_Record
 
 /**
  * 
+ * @package Piwik_ArchiveProcessing
  * @subpackage Piwik_ArchiveProcessing_Record
  */
 class Piwik_ArchiveProcessing_Record_Manager
@@ -133,6 +134,7 @@ class Piwik_ArchiveProcessing_Record_Manager
  * Numeric record.
  * Example: $record = new Piwik_ArchiveProcessing_Record_Numeric('nb_visitors_live', 15);
  * 
+ * @package Piwik_ArchiveProcessing
  * @subpackage Piwik_ArchiveProcessing_Record
  */
 class Piwik_ArchiveProcessing_Record_Numeric extends Piwik_ArchiveProcessing_Record
@@ -152,6 +154,8 @@ class Piwik_ArchiveProcessing_Record_Numeric extends Piwik_ArchiveProcessing_Rec
  * Blob record.
  * Example: $record = new Piwik_ArchiveProcessing_Record_Blob('visitor_names', serialize(array('piwik-fan', 'php', 'stevie-vibes')));
  * The value will be compressed before being saved in the DB.
+ * 
+ * @package Piwik_ArchiveProcessing
  * @subpackage Piwik_ArchiveProcessing_Record
  */
 class Piwik_ArchiveProcessing_Record_Blob extends Piwik_ArchiveProcessing_Record
@@ -188,6 +192,7 @@ class Piwik_ArchiveProcessing_Record_Blob extends Piwik_ArchiveProcessing_Record
  * 		veryLongBook_2 => Z
  * 		veryLongBook_3 => M
  * 
+ * @package Piwik_ArchiveProcessing
  * @subpackage Piwik_ArchiveProcessing_Record
  */
 class Piwik_ArchiveProcessing_Record_Blob_Array extends Piwik_ArchiveProcessing_Record

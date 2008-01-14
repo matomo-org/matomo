@@ -5,10 +5,17 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik_API
  */
 
 require_once "API/Request.php";
 
+
+/**
+ * 
+ * @package Piwik_API
+ */
 class Piwik_API_Controller extends Piwik_Controller
 {
 	function index()

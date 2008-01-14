@@ -10,7 +10,10 @@
  */
 
 
-
+/**
+ * 
+ * @package Piwik_VisitorInterest
+ */
 class Piwik_VisitorInterest_API extends Piwik_Apiable
 {
 	static private $instance = null;
