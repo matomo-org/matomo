@@ -1,5 +1,14 @@
 <?php
 /**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ */
+
+
+/**
  * This class is the parent class of all the modules that can be called using the API Proxy. 
  * For example a plugin "Provider" can publish its API by creating a file plugins/Provider/API.php
  * that is extending this Piwik_Apiable class.

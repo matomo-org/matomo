@@ -4,9 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * 
- * $Id$
+ * @version $Id$
  */
+
 
 /**
  * An API request is the object used to make a call to the API and get the result.

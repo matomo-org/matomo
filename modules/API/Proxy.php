@@ -1,5 +1,14 @@
 <?php
 /**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ */
+
+
+/**
  * The API Proxy receives all the API calls requests and forwards them to the given module.
  *  
  * It registers all the APIable modules (@see Piwik_Apiable)
