@@ -5,12 +5,19 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * 
+ * @package Piwik_UserSettings
  */
 
 
 require_once "DataFiles/Browsers.php";
 require_once "DataFiles/OS.php";
 		
+/**
+ * 
+ * @package Piwik_UserSettings
+ */
 class Piwik_UserSettings_API extends Piwik_Apiable
 {
 	static private $instance = null;

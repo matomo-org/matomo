@@ -19,6 +19,7 @@
  * 
  * It can also log the performances of the API calls (time spent, parameter values, etc.)
  * 
+ * @package Piwik_API
  */
 class Piwik_API_Proxy
 {
