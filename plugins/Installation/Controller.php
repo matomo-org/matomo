@@ -168,6 +168,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		else
 		{
 			Piwik::createTables();
+			Piwik::createAnonymousUser();
 			
 			$view->tablesCreated = true;
 			$view->showNextStep = true;
