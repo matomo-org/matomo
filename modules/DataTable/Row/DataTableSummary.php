@@ -1,5 +1,13 @@
 <?php
 /**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ */
+
+/**
  * This class creates a row from a given DataTable. 
  * The row contains 
  * - for each numeric column, the resulting "summary" column is the sum of all the subRows

@@ -1,5 +1,13 @@
 <?php
 /**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ */
+
+/**
  * Delete all rows that have a $columnToFilter value less than the $minimumValue 
  * For example we delete from the countries report table all countries that have less than 3 visits.
  * It is very useful to exclude noise from the reports.

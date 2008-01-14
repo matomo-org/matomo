@@ -1,5 +1,13 @@
 <?php
 /**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ */
+
+/**
  * A Record is a tuple (name, value) to be saved in the database.
  * At its creation, the record registers itself to the RecordManager. 
  * The record will then be automatically saved in the DB once the Archiving process is finished. 
