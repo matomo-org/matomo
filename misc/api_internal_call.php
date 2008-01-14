@@ -1,5 +1,3 @@
-{{{
-#!php
 <?php
 define('PIWIK_INCLUDE_PATH', '..');
 define('ENABLE_DISPATCH', false);	
@@ -23,4 +21,3 @@ $result = $request->process();
 echo $result;
 
 ?>
-}}}
