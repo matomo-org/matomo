@@ -1,5 +1,3 @@
-{{{
-#!php
 <?php
 // this token is used to authenticate your API request. 
 // You can get the token on the API page inside your Piwik interface
@@ -30,4 +28,3 @@ foreach($content as $row)
 	print("<b>$keyword</b> ($hits hits)<br>");
 }
 ?>
-}}}
