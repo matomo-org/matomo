@@ -177,7 +177,6 @@ class Piwik_FrontController
 				
 				</body>
 				</html>
-				
 				';
 		
 			print($html);

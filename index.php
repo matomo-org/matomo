@@ -6,18 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  */
+
 /**
  * PHP Configuration init
  */
+
 error_reporting(E_ALL|E_NOTICE);
 @ini_set('display_errors', 1);
 @ini_set('magic_quotes_runtime', 0);
-date_default_timezone_set('Europe/London');
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', '.');
 }
 
+require_once PIWIK_INCLUDE_PATH . "/modules/testMinimumPhpVersion.php";
+
+
+date_default_timezone_set('Europe/London');
 if(!defined('ENABLE_DISPATCH'))
 {
 	define('ENABLE_DISPATCH', true);	
