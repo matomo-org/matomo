@@ -40,6 +40,10 @@ abstract class Piwik_ViewDataTable
 	
 	protected $idSubtable = false;
 	
+	/**
+	 * 
+	 * @return Piwik_ViewDataTable Data table
+	 */
 	static public function factory( $type = null )
 	{
 		if(is_null($type))

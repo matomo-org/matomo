@@ -69,12 +69,19 @@ class Piwik_FrontController
 				$defaultAction = $controller->getDefaultAction();
 				$action = Piwik_Common::getRequestVar('action', $defaultAction, 'string');
 				
-				try{
-					$controller->$action();
-				} catch(Piwik_Access_NoAccessException $e) {
-//					Piwik::log("NO ACCESS EXCEPTION =>");
-					
-					Piwik_PostEvent('FrontController.NoAccessException', $e);					
+				if(method_exists($controller, $action))
+				{
+					try{
+						$controller->$action();
+					} catch(Piwik_Access_NoAccessException $e) {
+	//					Piwik::log("NO ACCESS EXCEPTION =>");
+						
+						Piwik_PostEvent('FrontController.NoAccessException', $e);					
+					}
+				}
+				else
+				{
+					throw new Exception("Action $action not found in the controller $controllerClassName.");				
 				}
 			}
 			else
