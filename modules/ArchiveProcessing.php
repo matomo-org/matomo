@@ -37,20 +37,45 @@ abstract class Piwik_ArchiveProcessing
 
 	protected $idArchive;
 	protected $periodId;
+	
+	
+	/**
+	 * @var Piwik_Date
+	 */
 	protected $dateStart;
+	/**
+	 * @var Piwik_Date
+	 */
 	protected $dateEnd;
+	
+	/**
+	 * @var Piwik_TablePartitioning
+	 */
 	protected $tableArchiveNumeric;
+	/**
+	 * @var Piwik_TablePartitioning
+	 */
 	protected $tableArchiveBlob;
+	
 	protected $maxTimestampArchive;
 	
 	// Attributes that can be accessed by plugins (that is why they are public)
 	public $idsite	= null;
+	
+	/**
+	 * @var Piwik_Period
+	 */
 	public $period 	= null;
+	
+	/**
+	 * @var Piwik_Site
+	 */
 	public $site 	= null;
 	
+	
+	// strings
 	public $strDateStart;
 	public $strDateEnd;
-	
 	public $logTable;
 	public $logVisitActionTable;
 	public $logActionTable;
@@ -60,10 +85,43 @@ abstract class Piwik_ArchiveProcessing
 	public function __construct()
 	{
 		$this->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data;
-		
 	}
+	
+	
 	/**
+	 * Returns the Piwik_ArchiveProcessing_Day or Piwik_ArchiveProcessing_Period object
+	 * depending on $name period string
+	 *
+	 * @param string $name day|week|month|year
+	 * @return Piwik_ArchiveProcessing Piwik_ArchiveProcessing_Day|Piwik_ArchiveProcessing_Period
+	 */
+	static function factory($name )
+	{
+		switch($name)
+		{
+			case 'day':
+				require_once 'ArchiveProcessing/Day.php';			
+				$process = new Piwik_ArchiveProcessing_Day;
+			break;
+			
+			case 'week':
+			case 'month':
+			case 'year':
+				require_once 'ArchiveProcessing/Period.php';	
+				$process = new Piwik_ArchiveProcessing_Period;
+			break;
+			
+			default:
+				throw new Exception("Unknown period specified $name");
+			break;
+		}
+		return $process;
+	}
+	
+	/**
+	 * Assign helper variables // init the object
 	 * 
+	 * @return void
 	 */
 	protected function loadArchiveProperties()
 	{		
@@ -82,6 +140,8 @@ abstract class Piwik_ArchiveProcessing
 		$this->strDateStart = $this->dateStart->toString();
 		$this->strDateEnd = $this->dateEnd->toString();
 		
+		// if the current archive is a DAY and if it's today,
+		// we set this maxTimestampArchive that defines the lifetime value of today's archive
 		$this->maxTimestampArchive = 0;
 		if( $this->period->getNumberOfSubperiods() == 0
 			&& $this->period->toString() == date("Y-m-d")
@@ -91,30 +151,56 @@ abstract class Piwik_ArchiveProcessing
 		}
 	}
 	
-	
+	/**
+	 * Returns the name of the numeric table where the archive numeric values are stored
+	 *
+	 * @return Piwik_TablePartitioning 
+	 */
 	public function getTableArchiveNumericName()
 	{
 		return $this->tableArchiveNumeric;
 	}
 	
+	/**
+	 * Returns the name of the blob table where the archive blob values are stored
+	 *
+	 * @return Piwik_TablePartitioning 
+	 */
 	public function getTableArchiveBlobName()
 	{
 		return $this->tableArchiveBlob;
 	}
 	
 	
-	// to be used only once
+	/**
+	 * Set the period
+	 *
+	 * @param Piwik_Period $period
+	 */
 	public function setPeriod( Piwik_Period $period ) 
 	{
 		$this->period = $period;
 	}
 	
-	
+	/**
+	 * Set the site
+	 *
+	 * @param Piwik_Site $site
+	 */
 	public function setSite( Piwik_Site $site )
 	{
 		$this->site = $site;
 	}
 	
+	/**
+	 * This method returns the idArchive ; if necessary, it triggers the archiving process.
+	 * 
+	 * If the archive was not processed yet, it will launch the archiving process.
+	 * If the current archive needs sub-archives (eg. a month archive needs all the days archive)
+	 *  it will recursively launch the archiving (using this loadArchive() on the sub-periods)
+	 *
+	 * @return int The idarchive of the archive
+	 */
 	public function loadArchive()
 	{
 		$this->loadArchiveProperties();
@@ -147,6 +233,11 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	abstract protected function compute();
 	
+	/**
+	 * Init the object before launching the real archive processing
+	 * 
+	 * @return void
+	 */
 	protected function initCompute()
 	{
 		$this->loadNextIdarchive();
@@ -160,9 +251,17 @@ abstract class Piwik_ArchiveProcessing
 		$this->logActionTable	 	= Piwik::prefixTable('log_action');
 	}
 	
+	/**
+	 * Post processing called at the end of the main archive processing.
+	 * Makes sure the new archive is marked as "successful" in the DB
+	 * 
+	 * We also try to delete some stuff from memory but really there is still a lot...
+	 * 
+	 * @return void
+	 *
+	 */
 	protected function postCompute()
 	{
-		
 //		echo "<br>".Piwik_ArchiveProcessing_Record_Manager::getInstance()->toString();
 		
 		// delete the first done = ERROR 
@@ -194,7 +293,11 @@ abstract class Piwik_ArchiveProcessing
 		
 	} 
 	
-	
+	/**
+	 * Returns the idArchive we will use for the current archive
+	 *
+	 * @return int IdArchive to use when saving the current Archive
+	 */
 	protected function loadNextIdarchive()
 	{
 		$db = Zend_Registry::get('db');
@@ -206,6 +309,12 @@ abstract class Piwik_ArchiveProcessing
 		$this->idArchive = $id + 1;
 		
 	}
+	
+	/**
+	 * Inserts a record in the good table (either NUMERIC or BLOB)
+	 *
+	 * @param unknown_type $record
+	 */
 	protected function insertRecord($record)
 	{
 		// table to use to save the data
@@ -235,6 +344,8 @@ abstract class Piwik_ArchiveProcessing
 	
 	/**
 	 * Returns the ID of the archived subperiods.
+	 * 
+	 * @return array Array of the idArchive of the subperiods
 	 */
 	protected function loadSubperiodsArchive()
 	{
@@ -254,6 +365,12 @@ abstract class Piwik_ArchiveProcessing
 		return $periods;
 	}
 	
+	/**
+	 * Returns the idArchive if the archive is available in the database.
+	 * Returns false if the archive needs to be computed.
+	 *
+	 * @return int|false
+	 */
 	protected function isArchived()
 	{
 		if($this->debugAlwaysArchive)
@@ -295,29 +412,5 @@ abstract class Piwik_ArchiveProcessing
 			return false;
 		}
 	}
-	
-	static function factory($name )
-	{
-		switch($name)
-		{
-			case 'day':
-				require_once 'ArchiveProcessing/Day.php';			
-				$process = new Piwik_ArchiveProcessing_Day;
-			break;
-			
-			case 'week':
-			case 'month':
-			case 'year':
-				require_once 'ArchiveProcessing/Period.php';	
-				$process = new Piwik_ArchiveProcessing_Period;
-			break;
-			
-			default:
-				throw new Exception("Unknown period specified $name");
-			break;
-		}
-		return $process;
-	}
-	
 }
 

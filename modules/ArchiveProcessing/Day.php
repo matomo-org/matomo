@@ -21,7 +21,9 @@
  */
 class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 {
-	
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
 		parent::__construct();
@@ -29,15 +31,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	}
 	
 	/**
-	 * Reads the log and compute the essential reports.
-	 * All the non essential reports are computed inside plugins.
+	 * Main method to process logs for a day. The only logic done here is computing the number of visits, actions, etc.
+	 * All the otherreports are computed inside plugins listening to the event 'ArchiveProcessing_Day.compute'.
+	 * See some of the plugins for example.
 	 * 
-	 * One record is either a numeric value or a BLOB which is 
-	 * usually a compressed serialized DataTable.
-	 *  
-	 * At the end of the process we add a fake record called 'done' that flags
-	 * the archive as being valid.
-	 * 
+	 * @return void
 	 */
 	protected function compute()
 	{
@@ -68,6 +66,23 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
 	}
 	
+	/**
+	 * Helper function that returns a DataTable containing the $select fields / value pairs.
+	 * IMPORTANT: The $select must return only one row!!
+	 * 
+	 * Example $select = "count(distinct( config_os )) as countDistinctOs, 
+	 * 						sum( config_flash ) / count(distinct(idvisit)) as percentFlash "
+	 * 		   $labelCount = "test_column_name"
+	 * will return a dataTable that looks like
+	 * 		label  				test_column_name  	
+	 * 		CountDistinctOs 	9 	
+	 * 		PercentFlash 		0.5676
+	 * 						
+	 *
+	 * @param string $select 
+	 * @param string $labelCount
+	 * @return Piwik_DataTable
+	 */
 	public function getSimpleDataTableFromSelect($select, $labelCount)
 	{
 		$query = "SELECT $select 
@@ -82,12 +97,32 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		}
 		$table = new Piwik_DataTable;
 		$table->loadFromArrayLabelIsKey($data);
-//		echo $table;
-//		exit;
 		return $table;
 	}
 	
-	
+	/**
+	 * Helper function that returns common statistics for a given database field distinct values.
+	 * 
+	 * The statistics returned are:
+	 *  - number of unique visitors
+	 *  - number of visits
+	 *  - number of actions
+	 *  - maximum number of action for a visit
+	 *  - sum of the visits' length in sec
+	 *  - count of bouncing visits (visits with one page view)
+	 * 
+	 * For example if $label = 'config_os' it will return the statistics for every distinct Operating systems
+	 * The returned DataTable will have a row per distinct operating systems, 
+	 *  and a column per stat (nb of visits, max  actions, etc)
+	 * 
+	 * label	nb_unique_visitors	nb_visits	nb_actions	max_actions	sum_visit_length	bounce_count	
+	 * Linux	27	66	66	1	660	66	
+	 * Windows XP	12	39	39	1	390	39	
+	 * Mac OS	15	36	36	1	360	36	
+	 * 
+	 * @param string $label Table log_visit field name to be use to compute common stats
+	 * @return Piwik_DataTable
+	 */
 	public function getDataTableInterestForLabel( $label )
 	{
 		$query = "SELECT 	$label as label,
@@ -126,6 +161,14 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		return $table;
 	}
 	
+	/**
+	 * Generates a dataTable given a multidimensional PHP array that associates LABELS to Piwik_DataTableRows
+	 * This is used for the "Actions" DataTable, where a line is the aggregate of all the subtables
+	 * Example: the category /blog has 3 visits because it has /blog/index (2 visits) + /blog/about (1 visit) 
+	 *
+	 * @param array $table
+	 * @return Piwik_DataTable
+	 */
 	static public function generateDataTable( $table )
 	{
 		$dataTableToReturn = new Piwik_DataTable;
@@ -154,6 +197,17 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		return $dataTableToReturn;
 	}
 	
+	/**
+	 * Helper function that returns the serialized DataTable of the given PHP array.
+	 * The array must have the format of Piwik_DataTable::loadFromArrayLabelIsKey()
+	 * Example: 	array (
+	 * 	 				LABEL => array(col1 => X, col2 => Y),
+	 * 	 				LABEL2 => array(col1 => X, col2 => Y),
+	 * 				)
+	 * 
+	 * @param array $array at the given format
+	 * @return array Array with one element: the serialized data table string
+	 */
 	public function getDataTableSerialized( $arrayLevel0 )
 	{
 		$table = new Piwik_DataTable;
@@ -163,6 +217,29 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	}
 	
 	
+	/**
+	 * Helper function that returns the multiple serialized DataTable of the given PHP array.
+	 * The DataTable here associates a subtable to every row of the level 0 array.
+	 * This is used for example for search engines. Every search engine (level 0) has a subtable containing the
+	 * keywords.
+	 * 
+	 * The $arrayLevel0 must have the format 
+	 * Example: 	array (
+	 * 	 				LABEL => array(col1 => X, col2 => Y),
+	 * 	 				LABEL2 => array(col1 => X, col2 => Y),
+	 * 				)
+	 * 
+	 * The $subArrayLevel1ByKey must have the format
+	 * Example: 	array(
+	 * 					LABEL => #Piwik_DataTable_ForLABEL,
+	 * 					LABEL2 => #Piwik_DataTable_ForLABEL2,
+	 * 				)
+	 * 
+	 * 
+	 * @param array $arrayLevel0 
+	 * @param array of Piwik_DataTable $subArrayLevel1ByKey 
+	 * @return array Array with N elements: the strings of the datatable serialized 
+	 */
 	public function getDataTablesSerialized( $arrayLevel0, $subArrayLevel1ByKey)
 	{
 		$tablesByLabel = array();
@@ -182,6 +259,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		return $toReturn;
 	}
 	
+	/**
+	 * Returns an empty row containing default values for the common stat
+	 *
+	 * @return array
+	 */
 	public function getNewInterestRow()
 	{
 		return array(	Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 0, 
@@ -193,7 +275,15 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						);
 	}
 	
-	public function getEmptyInterestRow( $label )
+	
+	/**
+	 * Returns a Piwik_DataTable_Row containing default values for common stat, 
+	 * plus a column 'label' with the value $label
+	 *
+	 * @param string $label
+	 * @return Piwik_DataTable_Row
+	 */
+	public function getNewInterestRowLabeled( $label )
 	{
 		return new Piwik_DataTable_Row(
 				array( 
@@ -203,6 +293,14 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				); 
 	}
 	
+	/**
+	 * Adds the given row $newRowToAdd to the existing  $oldRowToUpdate passed by reference
+	 *
+	 * The rows are php arrays Name => value
+	 * 
+	 * @param array $newRowToAdd
+	 * @param array $oldRowToUpdate
+	 */
 	public function updateInterestStats( $newRowToAdd, &$oldRowToUpdate)
 	{		
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]	+= $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
