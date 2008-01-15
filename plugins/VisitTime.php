@@ -90,7 +90,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 		{
 			if($table->getRowFromLabel($i) === false)
 			{
-				$row = $this->archiveProcessing->getEmptyInterestRow($i);
+				$row = $this->archiveProcessing->getNewInterestRowLabeled($i);
 				$table->addRow( $row );
 			}
 		}

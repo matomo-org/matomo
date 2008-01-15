@@ -21,7 +21,7 @@
  * in the plugins/Referers/images/SearchEngines directory 
  * using the format "mainSearchEngineUrl.png". Example: www.google.com.png
  *  
- * Post your new search engines and logos in the forum, thank you for your help!
+ * Post your new search engines by email at hello@piwik.org ; thanks!
  * 
  */
 if(!isset($GLOBALS['Piwik_SearchEngines'] ))

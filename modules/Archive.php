@@ -46,6 +46,7 @@ class Piwik_Archive
 	protected $isThereSomeVisits = false;
 	protected $alreadyChecked = false;
 	protected $archiveProcessing = null;
+	protected $blobCached = array();
 	
 	protected $cacheEnabledForNumeric = true;
 	
@@ -55,6 +56,14 @@ class Piwik_Archive
 	
 	static protected $alreadyBuilt = array();
 	
+	/**
+	 * Builds an Archive object or returns the same archive if previously built.
+	 *
+	 * @param int $idSite
+	 * @param string $date 'YYYY-MM-DD' or magic keywords 'today' See Piwik_Date::factory
+	 * @param string $period 'week' 'day' etc.
+	 * @return Piwik_Archive
+	 */
 	static public function build($idSite, $date, $period )
 	{
 		$oDate = Piwik_Date::factory($date);
@@ -75,48 +84,130 @@ class Piwik_Archive
 		return $archive;
 	}
 	
-	// to be used only once
-	public function setPeriod( Piwik_Period $period )
+	/**
+	 * Returns the value of the element $name from the current archive 
+	 * The value to be returned is a numeric value and is stored in the archive_numeric_* tables
+	 *
+	 * @param string $name For example Referers_distinctKeywords 
+	 * @return float|int|false False if no value with the given name
+	 */
+	public function getNumeric( $name )
 	{
-		$this->period = $period;
+		// we cast the result as float because returns false when no visitors
+		return (float)$this->get($name, 'numeric');
 	}
 	
-	function setSite( Piwik_Site $site )
+	/**
+	 * Returns the value of the element $name from the current archive
+	 * 
+	 * The value to be returned is a blob value and is stored in the archive_numeric_* tables
+	 * 
+	 * It can return anything from strings, to serialized PHP arrays or PHP objects, etc.
+	 *
+	 * @param string $name For example Referers_distinctKeywords 
+	 * @return mixed False if no value with the given name
+	 */
+	public function getBlob( $name )
 	{
-		$this->site = $site;
-	}
-	function getIdSite()
-	{
-		return $this->site->getId();
+		return $this->get($name, 'blob');		
 	}
 	
-	public function prepareArchive()
+	/**
+	 * Given a list of fields defining numeric values, it will return a Piwik_DataTable_Simple 
+	 * containing one row per value.
+	 * 
+	 * For example $fields = array( 	'max_actions',
+	 *						'nb_uniq_visitors', 
+	 *						'nb_visits',
+	 *						'nb_actions', 
+	 *						'sum_visit_length',
+	 *						'bounce_count',
+	 *					); 
+	 *
+	 * @param array $fields array( fieldName1, fieldName2, ...)
+	 * @return Piwik_DataTable_Simple
+	 */
+	public function getDataTableFromNumeric( $fields )
 	{
-		if(!$this->alreadyChecked)
+		require_once "DataTable/Simple.php";
+		if(!is_array($fields))
 		{
-			// we make sure the archive is available for the given date
-			$periodLabel = $this->period->getLabel();
-			$archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
-			$archiveProcessing->setSite($this->site);
-			$archiveProcessing->setPeriod($this->period);
-			$IdArchive = $archiveProcessing->loadArchive();
-			
-			$this->archiveProcessing = $archiveProcessing;
-			$isThereSomeVisits = Zend_Registry::get('db')->fetchOne(
-					'SELECT value 
-					FROM '.$archiveProcessing->getTableArchiveNumericName().
-					' WHERE name = ? AND idarchive = ?', array('nb_visits',$IdArchive));
-					
-			if($isThereSomeVisits!==false)
-			{
-				$this->isThereSomeVisits = true;
-			}
-			$this->idArchive = $IdArchive;
-			$this->alreadyChecked = true;
+			$fields = array($fields);
 		}
+		
+		$values = array();
+		foreach($fields as $field)
+		{
+			$values[$field] = $this->getNumeric($field);
+		}
+		
+		$table = new Piwik_DataTable_Simple;
+		$table->loadFromArray($values);
+		return $table;
+	}
+
+	/**
+	 * This method will build a dataTable from the blob value $name in the current archive.
+	 * 
+	 * For example $name = 'Referers_searchEngineByKeyword' will return a  Piwik_DataTable containing all the keywords
+	 * If a idSubTable is given, the method will return the subTable of $name 
+	 * 
+	 * @param string $name
+	 * @param int $idSubTable
+	 * @return Piwik_DataTable
+	 * @throws exception If the value cannot be found
+	 */
+	public function getDataTable( $name, $idSubTable = null )
+	{
+		if(!is_null($idSubTable))
+		{
+			$name .= "_$idSubTable";
+		}
+		
+		$data = $this->get($name, 'blob');
+		
+		$table = new Piwik_DataTable;
+		
+		if($data !== false)
+		{
+			$table->loadFromSerialized($data);
+		}
+		
+		if($data === false 
+			&& $idSubTable !== null)
+		{
+			throw new Exception("You are requesting a precise subTable but there is not such data in the Archive.");
+		}
+	
+		return $table;
+	}
+
+	/**
+	 * Same as getDataTable() except that it will also load in memory
+	 * all the subtables for the DataTable $name. 
+	 * You can then access the subtables by using the Piwik_DataTable_Manager getTable() 
+	 *
+	 * @param string $name
+	 * @param int $idSubTable
+	 * @return Piwik_DataTable
+	 */
+	public function getDataTableExpanded($name, $idSubTable = null)
+	{
+		$this->preFetchBlob($name);
+		$dataTableToLoad = $this->getDataTable($name, $idSubTable);
+		$this->loadSubDataTables($name, $dataTableToLoad, $addDetailSubtableId = true);
+		return $dataTableToLoad;		
 	}
 	
-	public function get( $name, $typeValue = 'numeric' )
+	/**
+	 * Returns a value from the current archive with the name = $name 
+	 * Method used by getNumeric or getBlob
+	 *
+	 * @param string $name
+	 * @param string $typeValue numeric|blob
+	 * @return mixed|false if no result
+	 */
+	protected function get( $name, $typeValue = 'numeric' )
 	{
 		// values previously "get" and now cached
 		if($typeValue == 'numeric'
@@ -127,7 +218,8 @@ class Piwik_Archive
 			return $this->numericCached[$name];
 		}
 		
-		// Values prefetched
+		// During archiving we prefetch the blobs recursively
+		// and we get them faster from memory after
 		if($typeValue == 'blob'
 			&& isset($this->blobCached[$name]))
 		{
@@ -197,7 +289,82 @@ class Piwik_Archive
 		return $value;
 	}
 	
+	/**
+	 * Set the period 
+	 *
+	 * @param Piwik_Period $period
+	 */
+	public function setPeriod( Piwik_Period $period )
+	{
+		$this->period = $period;
+	}
 	
+	/**
+	 * Set the site
+	 *
+	 * @param Piwik_Site $site
+	 */
+	public function setSite( Piwik_Site $site )
+	{
+		$this->site = $site;
+	}
+
+	/**
+	 * Returns the Id site associated with this archive
+	 *
+	 * @return int
+	 */
+	public function getIdSite()
+	{
+		return $this->site->getId();
+	}
+	
+	/**
+	 * Prepares the archive. Gets the idarchive from the ArchiveProcessing.
+	 * 
+	 * This will possibly launch the archiving process if the archive was not available.
+	 * 
+	 * @return void
+	 */
+	public function prepareArchive()
+	{
+		if(!$this->alreadyChecked)
+		{
+			// we make sure the archive is available for the given date
+			$periodLabel = $this->period->getLabel();
+			$archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
+			$archiveProcessing->setSite($this->site);
+			$archiveProcessing->setPeriod($this->period);
+			$IdArchive = $archiveProcessing->loadArchive();
+			
+			$this->archiveProcessing = $archiveProcessing;
+			$isThereSomeVisits = Zend_Registry::get('db')->fetchOne(
+					'SELECT value 
+					FROM '.$archiveProcessing->getTableArchiveNumericName().
+					' WHERE name = ? AND idarchive = ?', array('nb_visits',$IdArchive));
+					
+			if($isThereSomeVisits!==false)
+			{
+				$this->isThereSomeVisits = true;
+			}
+			$this->idArchive = $IdArchive;
+			$this->alreadyChecked = true;
+		}
+	}
+	
+	/**
+	 * This method loads in memory all the subtables for the main table called $name.
+	 * You have to give it the parent table $dataTableToLoad so we can lookup the sub tables ids to load.
+	 * 
+	 * If $addDetailSubtableId set to true, it will add for each row a 'detail' called 'databaseSubtableId' 
+	 *  containing the child ID of the subtable  associated to this row.
+	 *
+	 * @param string $name
+	 * @param Piwik_DataTable $dataTableToLoad
+	 * @param bool $addDetailSubtableId
+	 * 
+	 * @return void
+	 */
 	public function loadSubDataTables($name, Piwik_DataTable $dataTableToLoad, $addDetailSubtableId = false)
 	{
 		// we have to recursively load all the subtables associated to this table's rows
@@ -225,76 +392,25 @@ class Piwik_Archive
 		}
 	}
 	
-	public function getDataTableExpanded($name, $idSubTable = null)
-	{
-		$this->preFetchBlob($name);
-		$dataTableToLoad = $this->getDataTable($name, $idSubTable);
-		$this->loadSubDataTables($name, $dataTableToLoad, $addDetailSubtableId = true);
-		return $dataTableToLoad;		
-	}
-	
-	public function getDataTable( $name, $idSubTable = null )
-	{
-		if(!is_null($idSubTable))
-		{
-			$name .= "_$idSubTable";
-		}
-		
-		$data = $this->get($name, 'blob');
-		
-		$table = new Piwik_DataTable;
-		
-		if($data !== false)
-		{
-			$table->loadFromSerialized($data);
-		}
-		
-		if($data === false 
-			&& $idSubTable !== null)
-		{
-			throw new Exception("You are requesting a precise subTable but there is not such data in the Archive.");
-		}
-	
-		return $table;
-	}
-	
-	public function getDataTableFromNumeric( $fields )
-	{
-		require_once "DataTable/Simple.php";
-		if(!is_array($fields))
-		{
-			$fields = array($fields);
-		}
-		
-		$values = array();
-		foreach($fields as $field)
-		{
-			$values[$field] = $this->getNumeric($field);
-		}
-		
-		$table = new Piwik_DataTable_Simple;
-		$table->loadFromArray($values);
-		return $table;
-	}
 	
 	
-	public function getNumeric( $name )
-	{
-		// we caste the result as float because returns false when no visitors
-		return (float)$this->get($name, 'numeric');
-	}
-	
-	public function getBlob( $name )
-	{
-		return $this->get($name, 'blob');		
-	}
-	
+	/**
+	 * Free the blob cache memory array
+	 *
+	 * @return void
+	 */
 	public function freeBlob( $name )
 	{
-		
+		// we delete the blob
+		$this->blobCached = null; 
+		$this->blobCached = array(); 
 	}
 	
-	// fetches all blob fields name_* at once for performance
+	/**
+	 * Fetches all blob fields name_* at once for the current archive for performance reasons.
+	 * 
+	 * @return void
+	 */
 	public function preFetchBlob( $name )
 	{
 //		Piwik::log("-- prefetch blob ".$name."_*");
