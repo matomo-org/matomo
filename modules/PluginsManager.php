@@ -173,6 +173,24 @@ class Piwik_PluginsManager
 		}
 	}
 	
+	public function unloadPlugins()
+	{
+		$pluginsLoaded = $this->getLoadedPlugins();
+		foreach($pluginsLoaded as $plugin)
+		{
+			$hooks = $plugin->getListHooksRegistered();
+			
+			foreach($hooks as $hookName => $methodToCall)
+			{
+				$success = $this->dispatcher->removeObserver( array( $plugin, $methodToCall), $hookName );
+				if($success !== true)
+				{
+					throw new Exception("Error unloading plugin for method = $methodToCall // hook = $hookName ");
+				}
+			}			
+		}
+		$this->loadedPlugins = array();
+	}
 }
 
 /**

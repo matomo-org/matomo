@@ -707,6 +707,8 @@ class Piwik
 			Zend_Registry::set($loggerType, $logger);
 		}
 	}
+	
+	
 	static public function createConfigObject( $pathConfigFile = null )
 	{
 		$config = new Piwik_Config($pathConfigFile);

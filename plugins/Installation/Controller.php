@@ -499,6 +499,12 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		return $infos;
 	}
 }
+
+
+/**
+ * 
+ * @package Piwik_Installation
+ */
 class Piwik_FakeAccess_SetSuperUser {
 	function checkUserIsSuperUser()
 	{
