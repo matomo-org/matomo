@@ -22,9 +22,13 @@ class Piwik_Home_Controller extends Piwik_Controller
 {
 	function getDefaultAction()
 	{
-		return 'homepage';
+		return 'redirectToIndex';
 	}
 	
+	function redirectToIndex()
+	{
+		header("Location:?module=Home&action=index&idSite=1&period=day&date=yesterday");
+	}
 	function homepage()
 	{		
 		$view = new Piwik_View('Home/templates/homepage.tpl');
