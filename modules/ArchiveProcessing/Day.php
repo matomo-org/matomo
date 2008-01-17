@@ -33,7 +33,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	/**
 	 * Main method to process logs for a day. The only logic done here is computing the number of visits, actions, etc.
 	 * All the otherreports are computed inside plugins listening to the event 'ArchiveProcessing_Day.compute'.
-	 * See some of the plugins for example.
+	 * See some of the plugins for an example.
 	 * 
 	 * @return void
 	 */

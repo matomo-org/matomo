@@ -17,9 +17,6 @@ require_once "DataTable/Renderer/Php.php";
  * The first record contains headers for all the columns in the report.
  * All rows have the same number of columns.
  * The default field delimiter string is a comma (,).
- * The record delimiter string is the carriage return and line feed (<cr><lf>).
- * The text qualifier string is a quotation mark (").
- * If the text contains an embedded delimiter string or qualifier string, the text qualifier is placed around the text, and the embedded qualifier strings are doubled.
  * Formatting and layout are ignored.
  * 
  * @package Piwik_DataTable
@@ -115,7 +112,12 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		}
 		else
 		{
-			$str .= implode($this->separator, array_keys($allColumns));
+			$keys = array_keys($allColumns);
+//			foreach($keys as &$key)
+//			{
+//				$key = '"' . $key . '"';
+//			}
+			$str .= implode($this->separator, $keys);
 		}
 		
 		// we render the CSV
@@ -131,8 +133,10 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			
 			$str .= $rowStr;
 		}
-		header("Content-type: application/vnd.ms-excel");
-		header("Content-Disposition: attachment; filename=piwik-report-export.csv");			
+		
+		// silent fail otherwise unit tests fail
+		@header("Content-type: application/vnd.ms-excel");
+		@header("Content-Disposition: attachment; filename=piwik-report-export.csv");			
 		return $str;
 	}
 }

@@ -10,6 +10,7 @@
  */
 
 require_once "DataTable/Renderer/Php.php";
+require_once "XML/Serializer.php";
 /**
  * XML export. Using the excellent Pear::XML_Serializer.
  * We had to fix the PEAR library so that it works under PHP5 STRICT mode.
@@ -37,7 +38,6 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		
 //		var_dump($array); exit;
 
-		require_once 'XML/Serializer.php';
 		
 		$options = array(
             XML_SERIALIZER_OPTION_INDENT       => '	',
@@ -63,7 +63,9 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			$xmlStr = str_replace(">\n", ">\n\t",$xmlStr);
 			$xmlStr = str_replace("\t</result>", "</result>",$xmlStr);
 		}
-		header('Content-type: text/xml');		
+		
+		// silent fail because otherwise it throws an exception in the unit tests
+		@header('Content-type: text/xml');		
 		return $xmlStr;
 	}
 }

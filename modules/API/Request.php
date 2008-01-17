@@ -379,7 +379,7 @@ class Piwik_API_Request
 	 * Apply the specified renderer to the DataTable
 	 * 
 	 * @param Piwik_DataTable
-	 * @return Piwik_DataTable
+	 * @return string
 	 */
 	protected function getRenderedDataTable($dataTable)
 	{
