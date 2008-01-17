@@ -35,7 +35,7 @@ class Piwik_VisitFrequency_API extends Piwik_Apiable
 	public function getSummary( $idSite, $period, $date )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $date, $period );
+		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$toFetch = array( 	
 							'nb_visits_returning',
 							'nb_actions_returning',
