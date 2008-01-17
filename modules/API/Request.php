@@ -63,7 +63,14 @@ class Piwik_API_Request
 		}
 		
 		// remove all spaces from parameters values (when calling internally the API for example)
-		$requestArray = array_map('trim',$requestArray);
+		foreach($requestArray as &$element)
+		{
+			// sometimes GET parameters can be arrays but we assume module accepting arrays are correctly handling spaces
+			if(!is_array($element))
+			{
+				$element = trim($element);
+			}			
+		}
 		
 		$this->requestToUse = $requestArray;
 	}
@@ -220,14 +227,25 @@ class Piwik_API_Request
 		// If the returned value is an object DataTable we
 		// apply the set of generic filters if asked in the URL
 		// and we render the DataTable according to the format specified in the URL
-		if($returnedValue instanceof Piwik_DataTable)
-		{			
-			$this->applyDataTableGenericFilters($returnedValue);
+		if($returnedValue instanceof Piwik_DataTable
+			|| $returnedValue instanceof Piwik_DataTable_Array)
+		{
+			if($returnedValue instanceof Piwik_DataTable)
+			{
+				$this->applyDataTableGenericFilters($returnedValue);
+			}
+			elseif($returnedValue instanceof Piwik_DataTable_Array)
+			{
+				$tables = $returnedValue->getArray();
+				foreach($tables as $table)
+				{
+					$this->applyDataTableGenericFilters($table);
+				}
+			}
 			
 			$returnedValue->applyQueuedFilters();
 			
 			$toReturn = $this->getRenderedDataTable($returnedValue);
-			
 			
 		}
 		

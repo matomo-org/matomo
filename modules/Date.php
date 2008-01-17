@@ -46,11 +46,16 @@ class Piwik_Date
 		return date($part, $this->getTimestamp());
 	}
 	
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
     /**
      * Sets a new day
      * Returned is the new date object
      * 
-     * @return   new date
+     * @return Piwik_Date  new date
      */
 	public function setDay( $day )
 	{
@@ -62,6 +67,26 @@ class Piwik_Date
 						date('n', $ts),
 						1,
 						date('Y', $ts)
+					);
+		return new Piwik_Date( $result );
+	}
+    /**
+     * Sets a new year
+     * Returned is the new date object
+     * 
+     * @param int 2010
+     * @return Piwik_Date  new date
+     */
+	public function setYear( $year )
+	{
+		$ts = $this->getTimestamp();
+		$result = mktime( 
+						date('H', $ts),
+						date('i', $ts),
+						date('s', $ts),
+						date('n', $ts),
+						date('j', $ts),
+						$year
 					);
 		return new Piwik_Date( $result );
 	}
@@ -89,12 +114,12 @@ class Piwik_Date
 		return 1;
     }
 
-	
+
     /**
      * Subtracts days from the existing date object.
 
      * Returned is the new date object
-     * @return Zend_Date  new date
+     * @return Piwik_Date  new date
      */
     public function subDay( $n )
     {
@@ -103,9 +128,21 @@ class Piwik_Date
     }
     
     /**
+     * Subtracts month from the existing date object.
+     * Returned is the new date object
+     * 
+     * @return Piwik_Date  new date
+     */
+    public function subMonth( $n )
+    {
+    	$ts = strtotime("-$n months", $this->getTimestamp());
+		return new Piwik_Date( $ts );
+    }
+    
+    /**
      * Returns a representation of a date or datepart
      *
-     * @param  string              $part    OPTIONAL Part of the date to return, if null the timestamp is returned
+     * @param  string  $part    OPTIONAL Part of the date to return, if null the timestamp is returned
      * @return integer|string  date or datepart
      */
 	public function get($part = null)
@@ -120,7 +157,7 @@ class Piwik_Date
     /**
      * Adds days to the existing date object.
      * Returned is the new date object
-     * @return   new date
+     * @return  Piwik_Date new date
      */
 	public function addDay( $n )
 	{

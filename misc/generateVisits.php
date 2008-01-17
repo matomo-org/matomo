@@ -52,7 +52,7 @@ $t = new Piwik_Timer;
  * Generate visits / actions for the last 31 days
  */
 
-$daysToCompute = 1;
+$daysToCompute = 50;
 
 // do NOT edit this line
 $startTime = time() - ($daysToCompute-1)*86400;

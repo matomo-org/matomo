@@ -18,6 +18,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
     public function setUp()
 	{
 		parent::setUp();
+		Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
 	}
 	
     // test no timestamp  => exception
@@ -47,34 +48,13 @@ class Test_Piwik_TablePartitioning extends Test_Database
 		
     	$p->setTimestamp( $timestamp );
     	
-    	$allTablesInstalled = Piwik::getTablesInstalled();
+    	$allTablesInstalled = Piwik::getTablesInstalled($forceReload = true);
     	
     	$this->assertTrue( in_array($tablename, $allTablesInstalled), "$tablename !==".var_export($allTablesInstalled,true));
     	$this->assertTrue( $tablename, $p->getTableName());
     	$this->assertEqual( $tablename, (string)$p);
     }
 	
-	// test table present => nothing
-    function test_tablePresent()
-    {
-    	$tableName ='archive_numeric';
-    	$p = new Piwik_TablePartitioning_Monthly($tableName);
-    	$timestamp = strtotime("10 September 2000");
-    	$suffixShouldBe = "_2000_09";
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
-		$tablename = $prefixTables.$tableName.$suffixShouldBe;
-		
-		Zend_Registry::get('db')->query("CREATE TABLE $tablename (`test` VARCHAR( 255 ) NOT NULL)");
-
-		$p->setTimestamp( $timestamp );
-    	
-    	$allTablesInstalled = Piwik::getTablesInstalled();
-    	$this->assertTrue( in_array($tablename, $allTablesInstalled));
-    	$this->assertTrue( $tablename, $p->getTableName());
-    	$this->assertEqual( $tablename, (string)$p);
-    }
-    
 	// test monthly
     function test_monthlyPartition()
     {
@@ -89,7 +69,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
 		
     	$p->setTimestamp( $timestamp );
     	
-    	$allTablesInstalled = Piwik::getTablesInstalled();
+    	$allTablesInstalled = Piwik::getTablesInstalled( $forceReload = true );
     	$this->assertTrue( in_array($tablename, $allTablesInstalled));
     	$this->assertTrue( $tablename, $p->getTableName());
     	$this->assertEqual( $tablename, (string)$p);

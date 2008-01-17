@@ -36,6 +36,19 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 	
 	protected function renderTable($table)
 	{
+		if($table instanceof Piwik_DataTable_Array)
+		{
+			$output = '';
+			$output .= "Piwik_DataTable_Array<hr>";
+			foreach($table->getArray() as $descTable => $table)
+			{
+				$output .="<b>". $descTable. "</b><br>";
+				$output .= $table;
+				$output .= "<hr>";
+			}
+			return $output;
+		}
+		
 		if($table->getRowsCount() == 0)
 		{
 			return "Empty table <br>\n";

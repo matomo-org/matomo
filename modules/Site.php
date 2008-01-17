@@ -16,12 +16,17 @@
 class Piwik_Site
 {
 	protected $id = null;
+	
+	protected static $infoSites = array();
 
 	function __construct($idsite)
 	{
 		$this->id = $idsite;
 		
-		$this->info = Piwik_SitesManager_API::getSiteFromId($idsite);
+		if(!isset(self::$infoSites[$this->id]))
+		{
+			self::$infoSites[$this->id] = Piwik_SitesManager_API::getSiteFromId($idsite);
+		}
 	}
 	
 	function getId()
@@ -31,7 +36,7 @@ class Piwik_Site
 	
 	function getCreationDate()
 	{
-		$date = $this->info['ts_created'];
+		$date = self::$infoSites[$this->id]['ts_created'];
 		return new Piwik_Date($date);
 	}
 	

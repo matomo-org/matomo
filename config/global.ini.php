@@ -10,14 +10,12 @@ password		=
 dbname			= 
 tables_prefix	= 
 adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
-;is it used? if yes add it in the session array in the installation
-;profiler 		= false
 
 [database_tests]
 host 			= localhost
 username 		= root
 password 		= 
-dbname			= piwik_tests5
+dbname			= piwik_tests6
 tables_prefix	= piwiktests_
 adapter 		= PDO_MYSQL
 
@@ -51,12 +49,12 @@ enabled[] 		= Provider
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can 
-always_archive_data = true
+always_archive_data = false
 
 [General]
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
-time_before_archive_considered_outdated = 300
+time_before_archive_considered_outdated = 600
 
 ; character used to automatically create categories in the "Action" "Downloads" reports
 ; for example a URL like "example.com/blog/development/first-post" will create 

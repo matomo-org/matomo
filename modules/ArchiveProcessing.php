@@ -154,21 +154,21 @@ abstract class Piwik_ArchiveProcessing
 	/**
 	 * Returns the name of the numeric table where the archive numeric values are stored
 	 *
-	 * @return Piwik_TablePartitioning 
+	 * @return string 
 	 */
 	public function getTableArchiveNumericName()
 	{
-		return $this->tableArchiveNumeric;
+		return (string)$this->tableArchiveNumeric;
 	}
 	
 	/**
 	 * Returns the name of the blob table where the archive blob values are stored
 	 *
-	 * @return Piwik_TablePartitioning 
+	 * @return string 
 	 */
 	public function getTableArchiveBlobName()
 	{
-		return $this->tableArchiveBlob;
+		return (string)$this->tableArchiveBlob;
 	}
 	
 	
@@ -354,7 +354,7 @@ abstract class Piwik_ArchiveProcessing
 		// we first compute every subperiod of the archive
 		foreach($this->period->getSubperiods() as $period)
 		{
-			$archivePeriod = new Piwik_Archive;
+			$archivePeriod = new Piwik_Archive_Single;
 			$archivePeriod->setSite( $this->site );
 			$archivePeriod->setPeriod( $period );
 			$archivePeriod->prepareArchive();

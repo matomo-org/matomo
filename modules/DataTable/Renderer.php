@@ -46,9 +46,10 @@ abstract class Piwik_DataTable_Renderer
 	 */
 	public function setTable($table)
 	{
-		if(!($table instanceof Piwik_DataTable))
+		if(!($table instanceof Piwik_DataTable)
+			&& !($table instanceof Piwik_DataTable_Array))
 		{
-			throw new Exception("The renderer accepts only a Piwik_DataTable object.");
+			throw new Exception("The renderer accepts only a Piwik_DataTable or an array of DataTable (Piwik_DataTable_Array) object.");
 		}
 		$this->table = $table;
 	}

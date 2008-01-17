@@ -22,7 +22,7 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 require_once PIWIK_INCLUDE_PATH . "/modules/testMinimumPhpVersion.php";
 
 
-date_default_timezone_set('Europe/London');
+//date_default_timezone_set('Europe/London');
 if(!defined('ENABLE_DISPATCH'))
 {
 	define('ENABLE_DISPATCH', true);	

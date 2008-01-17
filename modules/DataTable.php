@@ -171,7 +171,6 @@ class Piwik_DataTable
 		$this->queuedFilters[] = array('className' => $className, 'parameters' => $parameters);
 	}
 	
-	
 	public function applyQueuedFilters()
 	{
 		foreach($this->queuedFilters as $filter)
