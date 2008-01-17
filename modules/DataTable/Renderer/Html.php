@@ -34,6 +34,11 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		{
 			return "<b><i>Empty table</i></b> <br>\n";
 		}
+		if($table instanceof Piwik_DataTable_Simple 
+			&& $table->getRowsCount() ==1)
+		{
+			$table->deleteColumn('label');
+		}
 		
 		static $depth=0;
 		$i = 1;

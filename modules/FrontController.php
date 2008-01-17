@@ -102,8 +102,8 @@ class Piwik_FrontController
 			Piwik::printQueryCount();
 		}catch(Exception $e) {}
 		
-		Piwik::printMemoryUsage();
-		Piwik::printTimer();
+//		Piwik::printMemoryUsage();
+//		Piwik::printTimer();
 //		Piwik::uninstall();
 //
 	}
@@ -220,22 +220,26 @@ class Piwik_FrontController
 		
 //		Piwik::printMemoryUsage('Start program');
 
+		// can be used for debug purpose
 		$doNotDrop = array(
-				Piwik::prefixTable('log_visit'),
 				Piwik::prefixTable('access'),
 				Piwik::prefixTable('user'),
 				Piwik::prefixTable('site'),
-				Piwik::prefixTable('log_link_visit_action'),
-				Piwik::prefixTable('log_action'),
-				Piwik::prefixTable('log_profiling'),
 				Piwik::prefixTable('archive'),
+				
 				Piwik::prefixTable('logger_api_call'),
 				Piwik::prefixTable('logger_error'),
 				Piwik::prefixTable('logger_exception'),
 				Piwik::prefixTable('logger_message'),
+				
+				Piwik::prefixTable('log_visit'),
+				Piwik::prefixTable('log_link_visit_action'),
+				Piwik::prefixTable('log_action'),
+				Piwik::prefixTable('log_profiling'),
 		);
 		
-		Piwik::dropTables($doNotDrop);
+//		Piwik::dropTables($doNotDrop);
+
 		Piwik::createTables();
 		
 		Piwik_PluginsManager::getInstance()->installPlugins();

@@ -54,7 +54,7 @@ always_archive_data = false
 [General]
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
-time_before_archive_considered_outdated = 600
+time_before_archive_considered_outdated = 6000
 
 ; character used to automatically create categories in the "Action" "Downloads" reports
 ; for example a URL like "example.com/blog/development/first-post" will create 

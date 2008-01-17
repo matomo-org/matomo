@@ -211,7 +211,9 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			'sum_visit_length',
 			'bounce_count',
 		);
-		$this->archiveNumericValuesSum($toSum);
+		$record = $this->archiveNumericValuesSum($toSum);
+		
+		$this->isThereSomeVisits = ($record['nb_visits']->value != 0);
 		
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
 	}

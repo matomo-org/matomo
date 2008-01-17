@@ -107,6 +107,10 @@ class Piwik_DataTable_Row
 		return $output;
 	}
 	
+	public function deleteColumn( $name )
+	{
+		unset($this->c[self::COLUMNS][$name]);
+	}
 	/**
 	 * Returns the given column
 	 * @param string Column name

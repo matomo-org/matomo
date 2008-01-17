@@ -57,6 +57,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		{
 			return;
 		}
+		
+		$this->isThereSomeVisits = true;
 	
 		foreach($row as $name => $value)
 		{

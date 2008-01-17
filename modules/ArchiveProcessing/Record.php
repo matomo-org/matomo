@@ -35,6 +35,7 @@ abstract class Piwik_ArchiveProcessing_Record
 		$this->value = $value;
 		Piwik_ArchiveProcessing_Record_Manager::getInstance()->registerRecord($this);
 	}
+	
 	public function delete()
 	{
 		Piwik_ArchiveProcessing_Record_Manager::getInstance()->unregister($this);
