@@ -205,6 +205,7 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->loadArchiveProperties();
 		$this->idArchive = $this->isArchived();
+		
 		if(!$this->idArchive)
 		{
 //			Piwik::printMemoryUsage('Before loading subperiods');
@@ -222,6 +223,7 @@ abstract class Piwik_ArchiveProcessing
 		else
 		{
 			//Piwik::log("Archive already available, id = {$this->idArchive}");
+			$this->isThereSomeVisits = true;
 		}
 		
 		return $this->idArchive;
@@ -390,21 +392,42 @@ abstract class Piwik_ArchiveProcessing
 			$bindSQL[] = $this->maxTimestampArchive;
 		}
 			
-		$idarchive = Zend_Registry::get('db')->fetchOne("
-						SELECT idarchive
+		$results = Zend_Registry::get('db')->fetchAll("
+						SELECT idarchive, value, name
 						FROM ".$this->tableArchiveNumeric."
 						WHERE idsite = ?
 							AND date1 = ?
 							AND date2 = ?
 							AND period = ?
-							AND name = 'done'
-							AND value = ".Piwik_ArchiveProcessing::DONE_OK."
+							AND ( (name = 'done' AND value = ".Piwik_ArchiveProcessing::DONE_OK.")
+									OR name = 'nb_visits')
 							$timeStampWhere
 						ORDER BY ts_archived DESC",
 						$bindSQL
 					);
-		if(!empty($idarchive))
+		// the archive exists in the table
+		if(!empty($results))
 		{
+
+			// let's look for the more recent idarchive
+			foreach($results as $result)
+			{
+				if($result['name'] == 'done')
+				{
+					$idarchive = $result['idarchive'];
+					break;
+				}
+			}
+			// let's look for the nb_visits result for this more recent archive
+			foreach($results as $result)
+			{
+				if($result['name'] == 'nb_visits' 
+					&& $result['idarchive'] == $idarchive)
+				{
+					$this->isThereSomeVisits = ($result['value'] != 0);
+					break;
+				}
+			}
 			return $idarchive;
 		}
 		else

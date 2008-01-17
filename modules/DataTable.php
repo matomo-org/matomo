@@ -343,7 +343,13 @@ class Piwik_DataTable
 		$totalCount += $this->getRowsCount();
 		return $totalCount;
 	}
-	
+	public function deleteColumn( $name )
+	{
+		foreach($this->getRows() as $row)
+		{
+			$row->deleteColumn($name);
+		}
+	}
 	public function deleteRow( $key )
 	{
 		if(!isset($this->rows[$key]))

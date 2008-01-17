@@ -31,8 +31,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 	protected function renderTable($table)
 	{
 		$renderer = new Piwik_DataTable_Renderer_Php($table, $serialize = false);
-		$array = $renderer->flatRender();
-		
+		$array = $renderer->flatRender();		
 		$str = json_encode($array);
 		return $str;
 	}

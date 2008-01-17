@@ -29,10 +29,13 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	public $separator = ',';
 	public $exportDetail = true;
 	public $exportIdSubtable = true;
-
+	public $lineEnd = "\n";
+	
 	function __construct($table = null)
 	{
 		parent::__construct($table);
+		
+		
 	}
 	
 	function render()
@@ -46,6 +49,13 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 
 		// keep track of all the existing columns in the csv file
 		$allColumns = array();
+		
+		if($table instanceof Piwik_DataTable_Simple 
+			&& $table->getRowsCount() ==1)
+		{
+			$str = 'value' . $this->lineEnd . $table->getRowFromId(0)->getColumn('value');
+			return $this->output($str);
+		}
 		
 		foreach($table->getRows() as $row)
 		{
@@ -106,7 +116,9 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		
 		// specific case, we have only one column and this column wasn't named properly (indexed by a number)
 		// we don't print anything in the CSV file => an empty line
-		if(sizeof($allColumns) == 1 && reset($allColumns) && !is_string(key($allColumns))  )
+		if(sizeof($allColumns) == 1 
+			&& reset($allColumns) 
+			&& !is_string(key($allColumns))  )
 		{
 			$str .= '';
 		}
@@ -123,7 +135,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		// we render the CSV
 		foreach($csv as $theRow)
 		{
-			$rowStr = "\n";
+			$rowStr = $this->lineEnd;
 			foreach($allColumns as $columnName => $true)
 			{
 				$rowStr .= $theRow[$columnName] . $this->separator;
@@ -134,6 +146,11 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			$str .= $rowStr;
 		}
 		
+		return $this->output($str);
+	}
+	
+	protected function output( $str )
+	{
 		// silent fail otherwise unit tests fail
 		@header("Content-type: application/vnd.ms-excel");
 		@header("Content-Disposition: attachment; filename=piwik-report-export.csv");			

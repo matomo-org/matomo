@@ -51,16 +51,17 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$archiveProcessing->setPeriod($this->period);
 			$IdArchive = $archiveProcessing->loadArchive();
 			
-			$this->archiveProcessing = $archiveProcessing;
-			$isThereSomeVisits = Zend_Registry::get('db')->fetchOne(
-					'SELECT value 
-					FROM '.$archiveProcessing->getTableArchiveNumericName().
-					' WHERE name = ? AND idarchive = ?', array('nb_visits',$IdArchive));
-					
-			if($isThereSomeVisits!==false)
-			{
-				$this->isThereSomeVisits = true;
-			}
+			$this->archiveProcessing = $archiveProcessing; 
+//			$isThereSomeVisits = Zend_Registry::get('db')->fetchOne(
+//					'SELECT value 
+//					FROM '.$archiveProcessing->getTableArchiveNumericName().
+//					' WHERE name = ? AND idarchive = ?', array('nb_visits',$IdArchive));
+//					
+//			if($isThereSomeVisits!==false)
+//			{
+//				$this->isThereSomeVisits = true;
+//			}
+			$this->isThereSomeVisits = $this->archiveProcessing->isThereSomeVisits;
 			$this->idArchive = $IdArchive;
 			$this->alreadyChecked = true;
 		}

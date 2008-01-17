@@ -5,6 +5,8 @@ require_once "DataTable/Array.php";
 class Piwik_Archive_Array extends Piwik_Archive
 {	
 	protected $archives = array();
+	protected $idArchiveToTimestamp = array();
+	protected $idArchives = array();
 	
 	
 	function __construct(Piwik_Site $oSite, $strPeriod, $strDate)
@@ -13,16 +15,32 @@ class Piwik_Archive_Array extends Piwik_Archive
 		
 		foreach($rangePeriod->getSubperiods() as $subPeriod)
 		{
-			$archive = Piwik_Archive::build($oSite->getId(), $strPeriod, $subPeriod->getDateStart() );
+			$startDate = $subPeriod->getDateStart();
+			
+			$archive = Piwik_Archive::build($oSite->getId(), $strPeriod, $startDate );
 			$archive->prepareArchive();
 		
 			$this->archives[$archive->getIdArchive()] = $archive;
 			$this->idArchives[] = $archive->getIdArchive();
+			$this->idArchiveToTimestamp[$archive->getIdArchive()] = $startDate->getTimestamp();
 		}
 		
 		$this->inIdArchives = implode("",$this->idArchives);
+		uksort( $this->archives, array($this, 'sortArchiveByTimestamp') );
 	}
 	
+
+	protected function sortArchiveByTimestamp($a, $b)
+	{
+		return $this->idArchiveToTimestamp[$a] > $this->idArchiveToTimestamp[$b];  
+	}
+	
+	protected function getNewDataTableArray()
+	{
+		$table = new Piwik_DataTable_Array;
+		$table->setNameKey('date');
+		return $table;
+	}
 	
 	/**
 	 * Returns the value of the element $name from the current archive 
@@ -33,7 +51,16 @@ class Piwik_Archive_Array extends Piwik_Archive
 	 */
 	public function getNumeric( $name )
 	{
-		$table = new Piwik_DataTable_Array;
+		require_once "DataTable/Simple.php";
+		$table = $this->getNewDataTableArray();
+		
+		foreach($this->archives as $archive)
+		{
+			$numeric = $archive->getNumeric( $name ) ;
+			$subTable = new Piwik_DataTable_Simple();
+			$subTable->loadFromArray( array( $numeric ) );
+			$table->addTable($subTable, $archive->getPrettyDate());
+		}
 		return $table;
 	}
 	
@@ -49,24 +76,25 @@ class Piwik_Archive_Array extends Piwik_Archive
 	 */
 	public function getBlob( $name )
 	{
-		$table = new Piwik_DataTable_Array;
+		require_once "DataTable/Simple.php";
+		$table = $this->getNewDataTableArray();
+		
+		foreach($this->archives as $archive)
+		{
+			$blob = $archive->getBlob( $name ) ;
+			$subTable = new Piwik_DataTable_Simple();
+			$subTable->loadFromArray( array('blob' => $blob));
+			$table->addTable($subTable, $archive->getPrettyDate());
+		}
 		return $table;
 	}
 	
 	/**
-	 * Given a list of fields defining numeric values, it will return a Piwik_DataTable_Simple 
-	 * containing one row per value.
-	 * 
-	 * For example $fields = array( 	'max_actions',
-	 *						'nb_uniq_visitors', 
-	 *						'nb_visits',
-	 *						'nb_actions', 
-	 *						'sum_visit_length',
-	 *						'bounce_count',
-	 *					); 
+	 * Given a list of fields defining numeric values, it will return a Piwik_DataTable_Array
+	 * which is an array of Piwik_DataTable_Simple, ordered by chronological order
 	 *
 	 * @param array $fields array( fieldName1, fieldName2, ...)
-	 * @return Piwik_DataTable_Simple
+	 * @return Piwik_DataTable_Array
 	 */
 	public function getDataTableFromNumeric( $fields )
 	{
@@ -109,10 +137,9 @@ class Piwik_Archive_Array extends Piwik_Archive
 		$db = Zend_Registry::get('db');
 		
 		// date => array( 'field1' =>X, 'field2'=>Y)
-		// date2 => array( 'field1' =>X2, 'field2'=>Y2)
+		// date2 => array( 'field1' =>X2, 'field2'=>Y2)		
 		
-		$tableArray = new Piwik_DataTable_Array;
-		
+		$idarchiveToName = array();
 		foreach($queries as $table => $aIds)
 		{
 			$inIds = implode(', ', $aIds);
@@ -123,33 +150,33 @@ class Piwik_Archive_Array extends Piwik_Archive
 
 			$values = $db->fetchAll($sql);
 			
-			$idarchiveToName = array();
 			foreach($values as $value)
 			{
 				$idarchiveToName[$value['idarchive']][$value['name']] = $value['value'];
-			}
-//			var_dump($idarchiveToName);exit;
-			
-			foreach($idarchiveToName as $id => $aNameValues)
-			{
-				$strDate = $this->archives[$id]->getPrettyDate();
-				
-				$table = new Piwik_DataTable_Simple;
-				$table->loadFromArray($aNameValues);
-				
-//				echo $table; echo $strDate;exit;
-				$tableArray->addTable($table, $strDate);
-			}
+			}			
 		}
-				
+		
+		// we need to take the Archives in chronological order 
+		uksort( $idarchiveToName, array($this, 'sortArchiveByTimestamp') );
+		
+//		var_dump($idarchiveToName);exit;
+		
+		$tableArray = $this->getNewDataTableArray();
+		foreach($idarchiveToName as $id => $aNameValues)
+		{
+			$strDate = $this->archives[$id]->getPrettyDate();
+			
+			$table = new Piwik_DataTable_Simple;
+			$table->loadFromArray($aNameValues);
+			
+			$tableArray->addTable($table, $strDate);
+		}
 		return $tableArray;
 	}
 
 	/**
-	 * This method will build a dataTable from the blob value $name in the current archive.
-	 * 
-	 * For example $name = 'Referers_searchEngineByKeyword' will return a  Piwik_DataTable containing all the keywords
-	 * If a idSubTable is given, the method will return the subTable of $name 
+	 * Given a BLOB field name (eg. 'Referers_searchEngineByKeyword'), it will return a Piwik_DataTable_Array
+	 * which is an array of Piwik_DataTable, ordered by chronological order
 	 * 
 	 * @param string $name
 	 * @param int $idSubTable
@@ -158,7 +185,12 @@ class Piwik_Archive_Array extends Piwik_Archive
 	 */
 	public function getDataTable( $name, $idSubTable = null )
 	{		
-		$table = new Piwik_DataTable_Array;
+		$table = $this->getNewDataTableArray();		
+		foreach($this->archives as $archive)
+		{
+			$subTable =  $archive->getDataTable( $name, $idSubTable ) ;
+			$table->addTable($subTable, $archive->getPrettyDate());
+		}
 		return $table;
 	}
 	
@@ -174,7 +206,12 @@ class Piwik_Archive_Array extends Piwik_Archive
 	 */
 	public function getDataTableExpanded($name, $idSubTable = null)
 	{
-		$table = new Piwik_DataTable_Array;
+		$table = $this->getNewDataTableArray();
+		foreach($this->archives as $archive)
+		{
+			$subTable =  $archive->getDataTableExpanded( $name, $idSubTable ) ;
+			$table->addTable($subTable, $archive->getPrettyDate());
+		}
 		return $table;
 	}
 }

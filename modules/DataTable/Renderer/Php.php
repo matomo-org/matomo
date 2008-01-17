@@ -56,17 +56,40 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	 * @return array Php array representing the 'flat' version of the datatable
 	 *
 	 */
-	public function flatRender()
+	public function flatRender( $dataTable = null )
 	{
-		// A DataTable_Simple is already flattened so no need to do some crazy stuff to convert it
-		if($this->table instanceof Piwik_DataTable_Simple)
+		if(is_null($dataTable))
 		{
-			$flatArray = $this->renderSimpleTable($this->table);
+			$dataTable = $this->table;
+		}
+		
+		if($dataTable instanceof Piwik_DataTable_Array)
+		{
+			$flatArray = array();
+			foreach($dataTable->getArray() as $keyName => $table)
+			{
+				$flatArray[$keyName] = $this->flatRender($table);
+			}
+			return $flatArray;
+		}
+		
+		// A DataTable_Simple is already flattened so no need to do some crazy stuff to convert it
+		else if($dataTable instanceof Piwik_DataTable_Simple)
+		{
+			$flatArray = $this->renderSimpleTable($dataTable);
+			
+			// if we return only one numeric value then we print out the result in a simple <result> tag
+			// keep it simple!
+			if(count($flatArray) == 1)
+			{
+				$flatArray = current($flatArray);
+			}
+			
 		}
 		// A normal DataTable needs to be handled specifically
 		else
 		{
-			$array = $this->renderTable($this->table);
+			$array = $this->renderTable($dataTable);
 			$flatArray = array();
 			foreach($array as $row)
 			{
@@ -87,9 +110,13 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		return $flatArray;
 	}
 	
-	public function render()
+	public function render( $dataTable = null)
 	{
-		$toReturn = $this->flatRender();
+		if(is_null($dataTable))
+		{
+			$dataTable = $this->table;
+		}
+		$toReturn = $this->flatRender( $dataTable );
 		return $toReturn;
 	}
 	
