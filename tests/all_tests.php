@@ -10,7 +10,7 @@ $databaseTestName = Zend_Registry::get('config')->database_tests->dbname;
 <p>Some of the tests require a database access. The database used for tests is different from your normal Piwik database. 
 You may need to create this database ; you can edit the settings for the unit tests database access in your config file 
 /config/global.ini.php</p>
-<p><b>The database used in your test is called "<?php echo $databaseTestName; ?>". Create it if necessary.</b></p>
+<p><b>The database used in your tests is called "<?php echo $databaseTestName; ?>". Create it if necessary.</b></p>
 <p><a href='modules'>Run the tests by module</a></p>
 <hr>
 
