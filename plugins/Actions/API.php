@@ -39,7 +39,7 @@ class Piwik_Actions_API extends Piwik_Apiable
 	protected function getDataTable($name, $idSite, $period, $date, $expanded, $idSubtable )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $date, $period );
+		$archive = Piwik_Archive::build($idSite, $period, $date );
 		
 		if($idSubtable === false)
 		{

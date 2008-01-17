@@ -36,7 +36,7 @@ class Piwik_VisitorInterest_API extends Piwik_Apiable
 	public function getNumberOfVisitsPerVisitDuration( $idSite, $period, $date )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $date, $period );
+		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('VisitorInterest_timeGap');
 		
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
@@ -50,7 +50,7 @@ class Piwik_VisitorInterest_API extends Piwik_Apiable
 	public function getNumberOfVisitsPerPage( $idSite, $period, $date )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $date, $period );
+		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('VisitorInterest_pageGap');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_Sort', array('label', 'asc', true));

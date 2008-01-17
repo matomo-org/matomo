@@ -64,8 +64,10 @@ class Piwik_Archive
 	 * @param string $period 'week' 'day' etc.
 	 * @return Piwik_Archive
 	 */
-	static public function build($idSite, $date, $period )
+	static public function build($idSite, $period, $date )
 	{
+//		$archive = new Piwik_Archive_Single($date,);
+		
 		$oDate = Piwik_Date::factory($date);
 		$date = $oDate->toString();
 		if(isset(self::$alreadyBuilt[$idSite][$date][$period]))
@@ -75,6 +77,7 @@ class Piwik_Archive
 		
 		$oPeriod = Piwik_Period::factory($period, $oDate);
 		$oSite = new Piwik_Site($idSite);
+		
 		
 		$archive = new Piwik_Archive;
 		$archive->setPeriod($oPeriod);

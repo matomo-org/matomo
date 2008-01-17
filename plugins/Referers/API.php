@@ -40,7 +40,7 @@ class Piwik_Referers_API extends Piwik_Apiable
 	private function getDataTable($name, $idSite, $period, $date, $idSubtable = null)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $date, $period );
+		$archive = Piwik_Archive::build($idSite, $period, $date );
 		
 		$dataTable = $archive->getDataTable($name, $idSubtable);
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
@@ -124,7 +124,7 @@ class Piwik_Referers_API extends Piwik_Apiable
 	private function getNumeric($name, $idSite, $period, $date)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $date, $period );
+		$archive = Piwik_Archive::build($idSite, $period, $date );
 		return $archive->getDataTableFromNumeric($name);
 	}
 	
