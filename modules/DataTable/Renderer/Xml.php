@@ -32,116 +32,153 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	
 	protected function renderTable($table)
 	{
-//		echo $table;exit;
 		$renderer = new Piwik_DataTable_Renderer_Php($table, $serialize = false);
+		
 		$array = $renderer->flatRender();
-		
-//		var_dump($array); exit;
-		
-		$options = array(
-            XML_SERIALIZER_OPTION_INDENT       => '	',
-            XML_SERIALIZER_OPTION_LINEBREAKS   => "\n",
-			XML_SERIALIZER_OPTION_ROOT_NAME    => 'row',
-            XML_SERIALIZER_OPTION_MODE         => XML_SERIALIZER_MODE_SIMPLEXML
-        );
-        $rootName = 'result';
-        
+				
 		// case DataTable_Array
 		if($table instanceof Piwik_DataTable_Array)
 		{
-			
-			// CASE 1
-			//array
-	  		//  'day1' => string '14' (length=2)
-	  		//  'day2' => string '6' (length=1)
-			$firstTable = current($array);
-			if(!is_array( $firstTable ))
-			{
-		  		$xml = "<results>\n";
-		  		$nameDescriptionAttribute = $table->getNameKey();
-		  		foreach($array as $valueAttribute => $value)
-		  		{
-		  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">$value</result>\n";
-		  		}
-		  		$xml .= "</results>";
-		  		return $this->output($xml);
-			}
-			
-			$subTables = $table->getArray();
-			$firstTable = current($subTables);
-			
-			// CASE 2
-			//array
-	  		//  'day1' => 
-	  		//    array
-	  		//      'nb_uniq_visitors' => string '18'
-	  		//      'nb_visits' => string '101' 
-	  		//  'day2' => 
-	  		//    array
-	  		//      'nb_uniq_visitors' => string '28' 
-	  		//      'nb_visits' => string '11' 
-			if( $firstTable instanceof Piwik_DataTable_Simple)
-			{
-		  		$xml = "<results>\n";
-				$nameDescriptionAttribute = $table->getNameKey();
-		  		foreach($array as $valueAttribute => $value)
-		  		{
-		  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">".''."</result>\n";
-		  		}
-		  		$xml .= "</results>";
-		  		return $this->output($xml);
-			}
-			
-			// CASE 3
-			//array
-			//  'day1' => 
-			//    array
-			//      0 => 
-			//        array
-			//          'label' => string 'phpmyvisites'
-			//          'nb_unique_visitors' => int 11
-			//          'nb_visits' => int 13
-			//      1 => 
-			//        array
-			//          'label' => string 'phpmyvisits'
-			//          'nb_unique_visitors' => int 2
-			//          'nb_visits' => int 2
-			//  'day2' => 
-			//    array
-			//      0 => 
-			//        array
-			//          'label' => string 'piwik'
-			//          'nb_unique_visitors' => int 121
-			//          'nb_visits' => int 130
-			//      1 => 
-			//        array
-			//          'label' => string 'piwik bis'
-			//          'nb_unique_visitors' => int 20
-			//          'nb_visits' => int 120
+			return $this->renderDataTableArray($table, $array);
 		}
-		
-		    
-		$serializer = new XML_Serializer($options);
 		
 		if($table instanceof Piwik_DataTable_Simple)
 		{
-			$serializer->setOption(XML_SERIALIZER_OPTION_ROOT_NAME, 'result');
+			if(is_array($array))
+			{
+				$out = $this->renderDataTableSimple($array);
+				$out = "<result>\n".$out."</result>";
+				return $this->output($out);
+			}
+			else
+			{
+				$out = "<result>".$array."</result>";
+				return $this->output($out);
+			}
 		}
 		
-		$result = $serializer->serialize($array);
-
-		$xmlStr = $serializer->getSerializedData();
-		
-		if($table instanceof Piwik_DataTable
-			|| $table instanceof Piwik_DataTable_Array)
+		if($table instanceof Piwik_DataTable)
 		{
-			$xmlStr = "<$rootName>\n".$xmlStr."\n</$rootName>";
-			$xmlStr = str_replace(">\n", ">\n\t",$xmlStr);
-			$xmlStr = str_replace("\t</$rootName>", "</$rootName>",$xmlStr);
+			$out = $this->renderDataTable($array);
+			$out = "<result>\n$out</result>";
+			return $this->output($out);
 		}
-		return $this->output($xmlStr);
+		
+		
 	}
 	
+	protected function renderDataTableArray($table, $array)
+	{
+		// CASE 1
+		//array
+  		//  'day1' => string '14' (length=2)
+  		//  'day2' => string '6' (length=1)
+		$firstTable = current($array);
+		if(!is_array( $firstTable ))
+		{
+	  		$xml = "<results>\n";
+	  		$nameDescriptionAttribute = $table->getNameKey();
+	  		foreach($array as $valueAttribute => $value)
+	  		{
+	  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">$value</result>\n";
+	  		}
+	  		$xml .= "</results>";
+	  		return $this->output($xml);
+		}
+		
+		$subTables = $table->getArray();
+		$firstTable = current($subTables);
+		
+		// CASE 2
+		//array
+  		//  'day1' => 
+  		//    array
+  		//      'nb_uniq_visitors' => string '18'
+  		//      'nb_visits' => string '101' 
+  		//  'day2' => 
+  		//    array
+  		//      'nb_uniq_visitors' => string '28' 
+  		//      'nb_visits' => string '11' 
+		if( $firstTable instanceof Piwik_DataTable_Simple)
+		{
+	  		$xml = "<results>\n";
+			$nameDescriptionAttribute = $table->getNameKey();
+	  		foreach($array as $valueAttribute => $dataTableSimple)
+	  		{
+	  			$dataTableSimple = $this->renderDataTableSimple($dataTableSimple, "\t");
+	  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">\n".$dataTableSimple."\t</result>\n";
+	  		}
+	  		$xml .= "</results>";
+	  		return $this->output($xml);
+		}
+		
+		// CASE 3
+		//array
+		//  'day1' => 
+		//    array
+		//      0 => 
+		//        array
+		//          'label' => string 'phpmyvisites'
+		//          'nb_unique_visitors' => int 11
+		//          'nb_visits' => int 13
+		//      1 => 
+		//        array
+		//          'label' => string 'phpmyvisits'
+		//          'nb_unique_visitors' => int 2
+		//          'nb_visits' => int 2
+		//  'day2' => 
+		//    array
+		//      0 => 
+		//        array
+		//          'label' => string 'piwik'
+		//          'nb_unique_visitors' => int 121
+		//          'nb_visits' => int 130
+		//      1 => 
+		//        array
+		//          'label' => string 'piwik bis'
+		//          'nb_unique_visitors' => int 20
+		//          'nb_visits' => int 120
+		if($firstTable instanceof Piwik_DataTable)
+		{
+			$out = "<results>\n";
+			$nameDescriptionAttribute = $table->getNameKey();
+			foreach($array as $keyName => $arrayForSingleDate)
+			{
+				$out .= "\t<result $nameDescriptionAttribute=\"$keyName\">\n";
+				
+				$out .= $this->renderDataTable( $arrayForSingleDate, "\t" );
+				$out .= "\t</result>\n";
+			}
+			$out .= "</results>";
+			return $this->output($out);
+		}
+	}
+	
+	protected function renderDataTable( $array, $prefixLine = "" )
+	{
+//		var_dump($array);exit;
+		
+		$out = '';
+		foreach($array as $row)
+		{
+			$out .= $prefixLine."\t<row>\n";
+			foreach($row as $name => $value)
+			{
+				$out .= $prefixLine."\t\t<$name>$value</$name>\n";
+			} 
+			$out .= $prefixLine."\t</row>\n";
+		}
+		return $out;
+	}
+	protected function renderDataTableSimple( $array, $prefixLine = "")
+	{
+		$out = '';
+		foreach($array as $keyName => $value)
+		{
+			$out .= $prefixLine."\t<$keyName>$value</$keyName>\n"; 
+		}
+		return $out;
+	}
 	protected function output( $xml )
 	{
 		// silent fail because otherwise it throws an exception in the unit tests

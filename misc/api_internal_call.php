@@ -14,7 +14,7 @@ $request = new Piwik_API_Request('
 			&idSite=1
 			&date=yesterday
 			&period=week
-			&format=JSON
+			&format=XML
 			&filter_limit=5
 ');
 $result = $request->process();

@@ -118,7 +118,6 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	 */
 	static public function getUsersAccessFromSite( $idSite )
 	{
-		
 		Piwik::checkUserHasAdminAccess( $idSite );
 		
 		$db = Zend_Registry::get('db');

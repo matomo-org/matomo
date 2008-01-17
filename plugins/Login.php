@@ -89,6 +89,7 @@ class Piwik_Login extends Piwik_Plugin
 			// Note that the user created in the DB has a token_auth value of anonymous
 			$tokenAuth = 'anonymous';
 			
+//			echo $authCookie; exit;
 			if($authCookie->isCookieFound())
 			{
 				$login = $authCookie->get('login');
