@@ -68,9 +68,11 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			$flatArray = array();
 			foreach($dataTable->getArray() as $keyName => $table)
 			{
+				$serializeSave = $this->serialize;
+				$this->serialize = false;
 				$flatArray[$keyName] = $this->flatRender($table);
+				$this->serialize = $serializeSave;
 			}
-			return $flatArray;
 		}
 		
 		// A DataTable_Simple is already flattened so no need to do some crazy stuff to convert it

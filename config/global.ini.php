@@ -15,7 +15,7 @@ adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 host 			= localhost
 username 		= root
 password 		= 
-dbname			= piwik_tests6
+dbname			= piwik_tests7
 tables_prefix	= piwiktests_
 adapter 		= PDO_MYSQL
 
@@ -54,7 +54,7 @@ always_archive_data = false
 [General]
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
-time_before_archive_considered_outdated = 6000
+time_before_archive_considered_outdated = 600
 
 ; character used to automatically create categories in the "Action" "Downloads" reports
 ; for example a URL like "example.com/blog/development/first-post" will create 

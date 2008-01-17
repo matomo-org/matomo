@@ -21,6 +21,7 @@
  */
 class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 {
+	public $isThereSomeVisits = false;
 	/**
 	 * Constructor
 	 */
