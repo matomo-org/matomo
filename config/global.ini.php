@@ -15,7 +15,7 @@ adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 host 			= localhost
 username 		= root
 password 		= 
-dbname			= piwik_tests7
+dbname			= piwik_tests
 tables_prefix	= piwiktests_
 adapter 		= PDO_MYSQL
 
