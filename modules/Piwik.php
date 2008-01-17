@@ -23,7 +23,7 @@ class Piwik
 {
 	const CLASSES_PREFIX = "Piwik_";
 	
-	static $idPeriods =  array(
+	public static $idPeriods =  array(
 			'day'	=> 1,
 			'week'	=> 2,
 			'month'	=> 3,
@@ -241,7 +241,11 @@ class Piwik
 	static function printZendProfiler()
 	{
 		$profiler = Zend_Registry::get('db')->getProfiler();
-	
+		
+		if(!$profiler->getEnabled())
+		{
+			throw new Exception("To display the profiler you should turn on profiling on your config/config.ini.php file");
+		}
 		$totalTime    = $profiler->getTotalElapsedSecs();
 		$queryCount   = $profiler->getTotalNumQueries();
 		$longestTime  = 0;
@@ -261,6 +265,34 @@ class Piwik
 		$str .= '<br>Longest query: <br>' . $longestQuery . "\n";
 		
 		Piwik::log($str);
+		
+		foreach($profiler->getQueryProfiles() as $query)
+		{
+			if(isset($indexByQuery[$query->getQuery()]))
+			{
+				$existing =  $indexByQuery[$query->getQuery()];
+			}
+			else
+			{
+				$existing = array( 'count' => 0, 'sumTimeSeconds' => 0);
+			}
+			$new = array( 'count' => $existing['count'] + 1,
+							'sumTimeSeconds' =>  $existing['count'] + $query->getElapsedSecs()
+				);
+			$indexByQuery[$query->getQuery()] = $new;
+		}
+		function sortTimeDesc($a,$b)
+		{
+			return $a['sumTimeSeconds'] < $b['sumTimeSeconds'];
+		}
+		uasort( $indexByQuery, 'sortTimeDesc');
+		var_dump($indexByQuery);
+		
+	}
+	
+	static public function printTimer()
+	{
+		echo Zend_Registry::get('timer');
 	}
 	
 	static public function printMemoryUsage( $prefixString = null )
@@ -598,29 +630,37 @@ class Piwik
 		return $return;
 	}
 	
-	static public function getTablesInstalled()
+	static $tablesInstalled = null;
+	
+	static public function getTablesInstalled( $forceReload = true )
 	{
-
-		$db = Zend_Registry::get('db');
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
-		
-		$allTables = $db->fetchCol("SHOW TABLES");
-		
-		// all the tables to be installed
-		$allMyTables = self::getTablesNames();
-		
-		// we get the intersection between all the tables in the DB and the tables to be installed
-		$tablesInstalled = array_intersect($allMyTables, $allTables);
-		
-		// at this point we have only the piwik tables which is good
-		// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
-		$allArchiveNumeric = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
-		$allArchiveBlob = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
-				
-		$allTablesReallyInstalled = array_merge($tablesInstalled, $allArchiveNumeric, $allArchiveBlob);
-		
-		return 	$allTablesReallyInstalled;
+		if(is_null(self::$tablesInstalled) 
+			|| $forceReload === true)
+		{
+			
+			$db = Zend_Registry::get('db');
+			$config = Zend_Registry::get('config');
+			$prefixTables = $config->database->tables_prefix;
+			
+			$allTables = $db->fetchCol("SHOW TABLES");
+			
+			// all the tables to be installed
+			$allMyTables = self::getTablesNames();
+			
+			// we get the intersection between all the tables in the DB and the tables to be installed
+			$tablesInstalled = array_intersect($allMyTables, $allTables);
+			
+			// at this point we have only the piwik tables which is good
+			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
+			
+			$allArchiveNumeric = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
+			$allArchiveBlob = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
+					
+			$allTablesReallyInstalled = array_merge($tablesInstalled, $allArchiveNumeric, $allArchiveBlob);
+			
+			self::$tablesInstalled = $allTablesReallyInstalled;
+		}
+		return 	self::$tablesInstalled;
 	}
 	
 	static public function createDatabase()
@@ -650,6 +690,7 @@ class Piwik
 		$db->getConnection();
 		Zend_Db_Table::setDefaultAdapter($db);
 		Zend_Registry::set('db', $db);
+		
 	}
 
 	static public function createLogObject()

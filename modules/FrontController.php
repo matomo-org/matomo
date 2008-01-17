@@ -97,9 +97,13 @@ class Piwik_FrontController
 	
 	function end()
 	{
-//		Piwik::printZendProfiler();
-//		Piwik::printMemoryUsage();
-//		Piwik::printQueryCount();
+		try {
+			Piwik::printZendProfiler();
+			Piwik::printQueryCount();
+		}catch(Exception $e) {}
+		
+		Piwik::printMemoryUsage();
+		Piwik::printTimer();
 //		Piwik::uninstall();
 //
 	}

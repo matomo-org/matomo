@@ -188,6 +188,13 @@ abstract class Piwik_Period
 		return true;
 	}
 	
+	public function getPrettyString()
+	{
+		$temp = $this->toString();
+		$out = $this->getLabel() . " from " . $temp[0] . " to " . end($temp);
+		return $out;
+	}
+	
 	public function toString()
 	{
 		if(!$this->subperiodsProcessed)
@@ -208,6 +215,90 @@ abstract class Piwik_Period
 	}
 }
 
+/**
+ * from a starting date to an ending date
+ *
+ */
+class Piwik_Period_Range extends Piwik_Period
+{
+	public function __construct( $strPeriod, $strDate )
+	{
+		$this->strPeriod = $strPeriod;
+		$this->strDate = $strDate;
+		
+	}
+	protected function removePeriod( $date, $n )
+	{
+		switch($this->strPeriod)
+		{
+			case 'day':	
+				$startDate = $date->subDay( $n );
+			break;
+			
+			case 'week':
+				$startDate = $date->subDay( $n * 7 );					
+			break;
+			
+			case 'month':
+				$startDate = $date->subMonth( $n );					
+			break;
+			
+			case 'year':
+				$startDate = $date->subMonth( 12 * $n );					
+			break;
+		}
+		return $startDate;
+	}
+	protected function generate()
+	{
+		if($this->subperiodsProcessed)
+		{
+			return;
+		}
+		$this->subperiodsProcessed = true;
+		
+		if(ereg('last([0-9]*)', $this->strDate, $regs))
+		{
+			$lastN = $regs[1];
+			
+			// last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
+			$lastN--;
+			
+			$endDate = Piwik_Date::today();
+			$startDate = $this->removePeriod($endDate, $lastN);
+		}
+		else
+		{
+			throw new Exception("The date $strDate seems incorrect");
+		}
+		//TODO handle previous
+		
+		$endSubperiod = Piwik_Period::factory($this->strPeriod, $endDate);
+		$this->addSubperiod($endSubperiod);
+		
+		for($i = $lastN; $i > 0 ; $i--)
+		{
+			$endDate = $this->removePeriod($endDate, 1);
+			$subPeriod = Piwik_Period::factory($this->strPeriod, $endDate);
+			$this->addSubperiod( $subPeriod );
+		}
+	}
+	
+	function toString()
+	{
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
+		$range = array();
+		foreach($this->subperiods as $element)
+		{
+			$range[] = $element->toString();
+		}
+		return $range;
+	}
+}
+	
 /**
  * 
  * @package Piwik_Period

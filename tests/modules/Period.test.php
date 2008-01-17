@@ -436,7 +436,7 @@ class Test_Piwik_Period extends UnitTestCase
 	/* //http://framework.zend.com/issues/browse/ZF-1832
 	 function test_week_zendsetweekday()
 	 {
-	 	$date = new Zend_Date('2006-01-01','YYYY-MM-dd', 'en');
+	 	$date = new Piwik_Date('2006-01-01','YYYY-MM-dd', 'en');
 	 	$date->setWeekday(1);	 	
 	 	$this->assertEqual('2005-12-26', $date->toString("Y-m-d"));
 	 }*/
@@ -554,11 +554,11 @@ class Test_Piwik_Period extends UnitTestCase
 			'2024-11-01',
 			'2024-12-01',);
 		
-	 	$week = new Piwik_Period_Year( new Piwik_Date('2024-10-09'));
-	 	$this->assertEqual( $week->getNumberOfSubperiods(), 12);
-	 	$this->assertEqual( $week->isFinished(), false);
-	 	$this->assertEqual( $week->toString(), $correct);
-
+	 	$year = new Piwik_Period_Year( new Piwik_Date('2024-10-09'));
+	 	$this->assertEqual( $year->getNumberOfSubperiods(), 12);
+	 	$this->assertEqual( $year->isFinished(), false);
+	 	$this->assertEqual( $year->toString(), $correct);
+	 	
 	 }
 	 
 	// test past
@@ -583,6 +583,117 @@ class Test_Piwik_Period extends UnitTestCase
 //	 	$this->assertEqual( $week->getNumberOfSubperiods(), 12);
 //	 	$this->assertEqual( $week->isFinished(), true);
 //	 	$this->assertEqual( $week->toString(), $correct);
+	 }
+	 
+
+	// test range 1
+	function test_range_today()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'day', 'last1' );
+	 	$today = Piwik_Date::today();
+	 	
+	 	$correct=array(
+			$today->toString(),
+		);
+			
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
+	 	$this->assertEqual( $range->isFinished(), false);
+	 	$this->assertEqual( $range->toString(), $correct);
+	}
+	// test range 2
+	function test_range_2days()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'day', 'last2' );
+	 	$today = Piwik_Date::today();
+	 	
+	 	$correct=array(
+			$today->toString(),
+			$today->subDay(1)->toString()
+		);
+			
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 2);
+	 	$this->assertEqual( $range->isFinished(), false);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+	// test range 3
+	function test_range_5days()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'day', 'last50' );
+	 	$today = Piwik_Date::today();
+	 	
+	 	$correct = array();
+	 	for($i=0;$i<50;$i++)
+	 	{
+	 		$correct[]=$today->subDay($i)->toString();
+	 	}
+			
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 50);
+	 	$this->assertEqual( $range->isFinished(), false);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+	// test range WEEK
+	function test_range_week()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'week', 'last50' );
+	 	$today = Piwik_Date::today();
+	 	
+	 	$correct = array();
+	 	for($i=0;$i<50;$i++)
+	 	{
+	 		$date = $today->subDay($i*7);
+	 		$week = new Piwik_Period_Week($date);
+	 		
+	 		$correct[]= $week->toString();
+	 	}
+			
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 50);
+	 	$this->assertEqual( $range->isFinished(), false);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+	// test range MONTH
+	function test_range_month()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'month', 'last20' );
+	 	$today = Piwik_Date::today();
+	 	
+	 	$correct = array();
+	 	for($i=0;$i<20;$i++)
+	 	{
+	 		$date = $today->subMonth($i);
+	 		$week = new Piwik_Period_Month($date);
+	 		
+	 		$correct[]= $week->toString();
+	 	}
+			
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 20);
+	 	$this->assertEqual( $range->isFinished(), false);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+	 
+	// test range YEAR
+	function test_range_year()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'year', 'last20' );
+	 	$today = Piwik_Date::today();
+	 	
+	 	$correct = array();
+	 	for($i=0;$i<20;$i++)
+	 	{
+	 		$date = $today->subMonth(12*$i);
+	 		$week = new Piwik_Period_Year($date);
+	 		
+	 		$correct[]= $week->toString();
+	 	}
+	 	
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 20);
+	 	$this->assertEqual( $range->isFinished(), false);
+	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 }
 

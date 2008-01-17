@@ -22,6 +22,8 @@ abstract class Piwik_TablePartitioning
 	protected $generatedTableName = null;
 	protected $timestamp = null;
 	
+	static public $tablesAlreadyInstalled = null;
+	
 	public function __construct( $tableName )
 	{
 		$this->tableName = $tableName;
@@ -59,9 +61,12 @@ abstract class Piwik_TablePartitioning
 	
 	protected function checkTableExists()
 	{
-		$tablesAlreadyInstalled = Piwik::getTablesInstalled();
+		if(is_null(self::$tablesAlreadyInstalled))
+		{
+			self::$tablesAlreadyInstalled = Piwik::getTablesInstalled( $forceReload = false );
+		}
 		
-		if(!in_array($this->generatedTableName, $tablesAlreadyInstalled))
+		if(!in_array($this->generatedTableName, self::$tablesAlreadyInstalled))
 		{
 			$db = Zend_Registry::get('db');
 			$sql = Piwik::getTableCreateSql($this->tableName);
@@ -71,6 +76,8 @@ abstract class Piwik_TablePartitioning
 			$sql = str_replace( $prefixTables . $this->tableName, $this->generatedTableName, $sql);
 			
 			$db->query( $sql );
+			
+			self::$tablesAlreadyInstalled[] = $this->generatedTableName;
 		}
 	}
 	
