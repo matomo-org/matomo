@@ -153,7 +153,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		}
 		else
 		{
-			$array = $this->renderTable($this->table);
+			$array = $this->renderTable($this->table, $doRenderSubTablesIfAvailable = false);
 		}
 				
 		if($this->serialize)
@@ -167,7 +167,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	protected $serialize;
 	
 	
-	protected function renderTable($table)
+	protected function renderTable($table, $doRenderSubTablesIfAvailable = false)
 	{
 		$array = array();
 
@@ -179,7 +179,8 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 				'idsubdatatable' => $row->getIdSubDataTable(),
 				);
 			
-			if($row->getIdSubDataTable() !== null)
+			if($doRenderSubTablesIfAvailable
+				&& $row->getIdSubDataTable() !== null)
 			{
 				try{
 					$subTable =  $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
