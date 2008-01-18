@@ -48,7 +48,7 @@ enabled[] 		= Provider
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can 
-always_archive_data = false
+always_archive_data = true
 
 [General]
 ; Time in seconds after which an archive will be computed again. 

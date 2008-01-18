@@ -207,10 +207,10 @@ List of the public methods for the class Piwik_Actions_API
 					
 				if($subTable->getRowsCount() > 0)
 				{
-					$filter = new Piwik_DataTable_Filter_ReplaceColumnNames(
-									$subTable,
-									Piwik_Actions::getColumnsMap()
-								);				
+//					$filter = new Piwik_DataTable_Filter_ReplaceColumnNames(
+//									$subTable,
+//									Piwik_Actions::getColumnsMap()
+//								);				
 					$phpArray = $this->getArrayFromRecursiveDataTable( $subTable, $depth + 1 );
 				}
 			}
