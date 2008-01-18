@@ -24,12 +24,12 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	{
 		parent::__construct($table);
 		
-		
 		// hack... But I can't see how to do properly
-		if($columnToSort == 0)
+		if($columnToSort == '0')
 		{
 			$columnToSort = 'label';
 		}
+		
 		$this->columnToSort = $columnToSort;
 		$this->naturalSort = $naturalSort;
 		$this->setOrder($order);

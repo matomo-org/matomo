@@ -79,6 +79,7 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 
 	protected function getPHPArrayFromDataTable( )
 	{
+		
 		$renderer = Piwik_DataTable_Renderer::factory('php');
 		$renderer->setTable($this->dataTable);
 		$renderer->setSerialize( false );
