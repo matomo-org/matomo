@@ -48,7 +48,7 @@ enabled[] 		= Provider
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can 
-always_archive_data = false
+always_archive_data = true
 
 [General]
 ; Time in seconds after which an archive will be computed again. 
@@ -66,7 +66,8 @@ dataTable_default_sort_order = desc
 ; default number of elements in the datatable
 dataTable_default_limit = 10
 
-minimum_php_version = 5.1
+; minimum required version (minimum requirement know to date = ->newInstanceArgs)
+minimum_php_version = 5.1.3
 
 minimum_memory_limit = 128
 

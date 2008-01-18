@@ -172,6 +172,9 @@ List of the public methods for the class Piwik_Actions_API
 			$view->setTemplate('Home/templates/datatable_actions_recursive.tpl');
 		}
 		$view->disableSort();
+		
+		$view->setSortedColumn( 'nb_hits', 'desc' );
+		
 		$view->disableOffsetInformation();
 		
 		$view->setColumnsToDisplay( array(0,1,2) );
@@ -184,6 +187,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->setExcludeLowPopulation( $nbActionsLowPopulationThreshold );
 		
 		$view->main();
+		
 		// we need to rewrite the phpArray so it contains all the recursive arrays
 		if($currentlySearching)
 		{

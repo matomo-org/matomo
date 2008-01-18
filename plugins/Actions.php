@@ -105,7 +105,7 @@ class Piwik_Actions extends Piwik_Plugin
 							LEFT JOIN ".$archiveProcessing->logActionTable." USING (idaction)
 				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
-				 	GROUP BY idaction ";
+				 	GROUP BY idaction";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);

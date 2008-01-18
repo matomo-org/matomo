@@ -29,6 +29,14 @@ class Test_PHP_Related extends UnitTestCase
 		echo md5('root'.md5('nintendo'));
 	}
 	
+	public function testStringEqualszero()
+	{
+		$columnToSort = 'nb_hits';
+		// it might seem strange. This was the reason of a bug I searched 1 hour for!!
+		$this->assertTrue( $columnToSort == 0);
+		
+	}
+	
 	public function testMergeArray()
 	{
 		$a = array('label' => 'test');
