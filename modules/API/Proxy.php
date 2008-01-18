@@ -247,18 +247,20 @@ class Piwik_API_Proxy
 				
 				if($outputExampleUrls)
 				{
+					// we prefix all URLs with $prefixUrls
+					// used when we include this output in the Piwik official documentation for example
 					$exampleUrl = $this->getExampleUrl($class, $methodName);
 					if($exampleUrl !== false)
 					{
 						$lastNUrls = '';
 						if( ereg('(date)',$exampleUrl))
 						{
-							$exampleUrlRss1 = $this->getExampleUrl($class, $methodName, array('date' => 'last10')) . $prefixUrls;
-							$exampleUrlRss2 = $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',)) . $prefixUrls;
+							$exampleUrlRss1 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10')) ;
+							$exampleUrlRss2 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',));
 							$lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss1&format=rss'>10 days</a>, <a target=_blank href='$exampleUrlRss2&format=Rss'>5 weeks</a>,
 									XML of the <a target=_blank href='$exampleUrlRss1&format=xml'>last 10 days</a>";
 						}
-						$exampleUrl = $exampleUrl . $prefixUrls;
+						$exampleUrl = $prefixUrls . $exampleUrl ;
 						$str .= " [ Example in  
 									<a target=_blank href='$exampleUrl&format=xml'>XML</a>, 
 									<a target=_blank href='$exampleUrl&format=PHP&prettyDisplay=true'>PHP</a>, 
