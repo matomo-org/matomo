@@ -61,7 +61,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		<author>http://piwik.org</author>
 		<description>";	
 			
-			$out .= htmlentities( $this->renderDataTable($subtable) );
+			$out .= htmlspecialchars( $this->renderDataTable($subtable) );
 			$out .= "</description>\n\t</item>\n";
 		}
 		
@@ -161,7 +161,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 					$value = "-";
 					if(isset($row[$name]))
 					{
-						$value = $row[$name];
+						$value = urldecode($row[$name]);
 					}
 					
 					$html .= "\n\t<td>$value</td>";
