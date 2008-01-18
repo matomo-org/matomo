@@ -93,7 +93,8 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	{
 		$dataTable = $this->getDataTableTest();
 	  	$render = new Piwik_DataTable_Renderer_Xml($dataTable);
-		$expected = '<result>
+		$expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
 	<row>
 		<label>Google</label>
 		<nb_unique_visitors>11</nb_unique_visitors>
@@ -124,7 +125,8 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	{
 		$dataTable = $this->getDataTableSimpleTest();
 	  	$render = new Piwik_DataTable_Renderer_Xml($dataTable);
-		$expected = '<result>
+		$expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
 	<max_actions>14</max_actions>
 	<nb_uniq_visitors>57</nb_uniq_visitors>
 	<nb_visits>66</nb_visits>
@@ -138,14 +140,16 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	{
 		$dataTable = $this->getDataTableSimpleOneRowTest();
 	  	$render = new Piwik_DataTable_Renderer_Xml($dataTable);
-		$expected = '<result>14</result>';
+		$expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>14</result>';
 		$this->assertEqual( $expected,$render->render());
 	}
 	function test_XML_test4()
 	{
 		$dataTable = $this->getDataTableEmpty();
 	  	$render = new Piwik_DataTable_Renderer_Xml($dataTable);
-		$expected = '<result />';
+		$expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result />';
 		$this->assertEqual( $expected,$render->render());
 	}
 	
@@ -153,7 +157,8 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	{
 		$dataTable = $this->getDataTableSimpleOneZeroRowTest();
 	  	$render = new Piwik_DataTable_Renderer_Xml($dataTable);
-		$expected = '<result>0</result>';
+		$expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>0</result>';
 		$this->assertEqual( $expected,$render->render());
 	}
 	
@@ -420,7 +425,8 @@ bounce_count,44';
 	{
 		$dataTable = $this->getDataTableArrayTest();
 	  	$render = new Piwik_DataTable_Renderer_Xml($dataTable);
-		$expected = '<results>
+		$expected = '<?xml version="1.0" encoding="utf-8" ?>
+<results>
 	<result testKey="date1">
 		<row>
 			<label>Google</label>
@@ -463,7 +469,8 @@ bounce_count,44';
 	{
 		$dataTable = $this->getDataTableSimpleArrayTest();
 	  	$render = new Piwik_DataTable_Renderer_Xml($dataTable);
-		$expected = '<results>
+		$expected = '<?xml version="1.0" encoding="utf-8" ?>
+<results>
 	<result testKey="row1">
 		<max_actions>14</max_actions>
 		<nb_uniq_visitors>57</nb_uniq_visitors>
@@ -480,7 +487,8 @@ bounce_count,44';
 	{
 		$dataTable = $this->getDataTableSimpleOneRowArrayTest();
 	  	$render = new Piwik_DataTable_Renderer_Xml($dataTable);
-		$expected = '<results>
+		$expected = '<?xml version="1.0" encoding="utf-8" ?>
+<results>
 	<result testKey="row1">14</result>
 	<result testKey="row2">15</result>
 	<result testKey="row3" />

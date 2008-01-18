@@ -36,45 +36,45 @@ class Piwik_VisitsSummary_API extends Piwik_Apiable
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		
-		if(empty($toFetch))
-		{
-			$toFetch = array( 	'max_actions',
-							'nb_uniq_visitors', 
-							'nb_visits',
-							'nb_actions', 
-							'sum_visit_length',
-							'bounce_count',
-						);
-		}
-		else
-		{
-			$toFetch = array($toFetch);
-		}
+	
+		$toFetch = array( 	'max_actions',
+						'nb_uniq_visitors', 
+						'nb_visits',
+						'nb_actions', 
+						'sum_visit_length',
+						'bounce_count',
+					);
 		$dataTable = $archive->getDataTableFromNumeric($toFetch);
 
 		return $dataTable;
 	}
+	protected function getNumeric( $idSite, $period, $date, $toFetch )
+	{
+		Piwik::checkUserHasViewAccess( $idSite );
+		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$dataTable = $archive->getNumeric($toFetch);
+		return $dataTable;		
+	}
 
 	public function getVisits( $idSite, $period, $date )
 	{
-		return $this->get( $idSite, $period, $date, 'nb_visits');
+		return $this->getNumeric( $idSite, $period, $date, 'nb_visits');
 	}
-	public function getUniqueVisitors( $idSite, $period, $date )
+	public function getUniquesVisitors( $idSite, $period, $date )
 	{
-		return $this->get( $idSite, $period, $date, 'nb_uniq_visitors');
+		return $this->getNumeric( $idSite, $period, $date, 'nb_uniq_visitors');
 	}
 	public function getMaxActions( $idSite, $period, $date )
 	{
-		return $this->get( $idSite, $period, $date, 'max_actions');
+		return $this->getNumeric( $idSite, $period, $date, 'max_actions');
 	}
 	public function getSumVisitsLength( $idSite, $period, $date )
 	{
-		return $this->get( $idSite, $period, $date, 'sum_visit_length');
+		return $this->getNumeric( $idSite, $period, $date, 'sum_visit_length');
 	}
 	public function getBounceCount( $idSite, $period, $date )
 	{
-		return $this->get( $idSite, $period, $date, 'bounce_count');
+		return $this->getNumeric( $idSite, $period, $date, 'bounce_count');
 	}
 	
 }
