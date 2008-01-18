@@ -250,16 +250,22 @@ class Piwik_API_Proxy
 					$exampleUrl = $this->getExampleUrl($class, $methodName);
 					if($exampleUrl !== false)
 					{
-						$exampleUrlRss1 = $this->getExampleUrl($class, $methodName, array('date' => 'last10')) . $prefixUrls;
-						$exampleUrlRss2 = $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',)) . $prefixUrls;
+						$lastNUrls = '';
+						if( ereg('(date)',$exampleUrl))
+						{
+							$exampleUrlRss1 = $this->getExampleUrl($class, $methodName, array('date' => 'last10')) . $prefixUrls;
+							$exampleUrlRss2 = $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',)) . $prefixUrls;
+							$lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss1&format=rss'>10 days</a>, <a target=_blank href='$exampleUrlRss2&format=Rss'>5 weeks</a>,
+									XML of the <a target=_blank href='$exampleUrlRss1&format=xml'>last 10 days</a>";
+						}
 						$exampleUrl = $exampleUrl . $prefixUrls;
 						$str .= " [ Example in  
 									<a target=_blank href='$exampleUrl&format=xml'>XML</a>, 
 									<a target=_blank href='$exampleUrl&format=PHP&prettyDisplay=true'>PHP</a>, 
 									<a target=_blank href='$exampleUrl&format=JSON'>Json</a>, 
 									<a target=_blank href='$exampleUrl&format=Csv'>Csv</a>, 
-									<a target=_blank href='$exampleUrl&format=Html'>Basic html</a>, 
-									RSS of the last <a target=_blank href='$exampleUrlRss1&format=Rss'>10 days</a>, <a target=_blank href='$exampleUrlRss2&format=Rss'>5 weeks</a>
+									<a target=_blank href='$exampleUrl&format=Html'>Basic html</a> 
+									$lastNUrls
 									]";
 					}
 					else
