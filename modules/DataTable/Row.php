@@ -247,7 +247,16 @@ class Piwik_DataTable_Row
 	 */
 	public function setColumn($name, $value)
 	{
-		$this->c[self::COLUMNS][$name] = $value;
+		if(isset($this->c[self::COLUMNS][$name])
+			|| $name != 'label')
+		{
+			$this->c[self::COLUMNS][$name] = $value;
+		}
+		// we make sure when adding the label it goes first in the table
+		else
+		{
+			$this->c[self::COLUMNS] = array($name => $value) + $this->c[self::COLUMNS];
+		}
 	}
 	
 	/**

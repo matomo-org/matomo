@@ -97,20 +97,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		else
 		{
 			$array = $this->renderTable($dataTable);
-			$flatArray = array();
-			foreach($array as $row)
-			{
-				$newRow = $row['columns'] + $row['details'];
-				if(isset($row['idsubdatatable']))
-				{
-					$newRow += array('idsubdatatable' => $row['idsubdatatable']);
-					if(isset($row['subtable']))
-					{
-						$newRow += array('subtable' => $row['subtable']);
-					}
-				}
-				$flatArray[] = $newRow;
-			}		
+			$flatArray = $this->flattenArray($array);
 		}
 		
 		if($this->serialize)
@@ -121,6 +108,24 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		return $flatArray;
 	}
 	
+	protected function flattenArray($array)
+	{
+		$flatArray = array();
+		foreach($array as $row)
+		{
+			$newRow = $row['columns'] + $row['details'];
+			if(isset($row['idsubdatatable']))
+			{
+				$newRow += array('idsubdatatable' => $row['idsubdatatable']);
+				if(isset($row['subtable']))
+				{
+					$newRow += array('subtable' => $this->flattenArray($row['subtable']) );
+				}
+			}
+			$flatArray[] = $newRow;
+		}		
+		return $flatArray;
+	}
 	public function render( $dataTable = null)
 	{
 		if(is_null($dataTable))

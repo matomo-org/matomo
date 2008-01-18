@@ -253,7 +253,7 @@ class Piwik_Actions extends Piwik_Plugin
 				// type is used to partition the different actions type in different table. Adding the info to the row would be a duplicate. 
 				if($name != 'name' && $name != 'type')
 				{
-					$name = $this->getIdColumn($name);
+//					$name = $this->getIdColumn($name);
 					$currentTable->addColumn($name, $value);
 				}
 			}
