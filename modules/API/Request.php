@@ -186,7 +186,7 @@ class Piwik_API_Request
 					$requestValue = Piwik_Common::getRequestVar($name, null, null, $this->requestToUse);				
 				}
 			} catch(Exception $e) {
-				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request.");
+				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request. Add the parameter '&$name=' (with a value) in the URL.");
 			}			
 			$finalParameters[] = $requestValue;
 		}

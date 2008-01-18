@@ -28,6 +28,15 @@ class Piwik_DataTable_Array
 		$this->nameKey = $name;
 	}
 	
+	public $metaData = array();
+	public function setMetaData( $mixed )
+	{
+		$this->metaData[] = $mixed;
+	}
+	public function getMetaData( $mixed )
+	{
+		return $this->metaData;
+	}
 	public function queueFilter( $className, $parameters = array() )
 	{
 		foreach($this->array as $table)

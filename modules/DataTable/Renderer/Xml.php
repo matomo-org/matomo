@@ -10,10 +10,8 @@
  */
 
 require_once "DataTable/Renderer/Php.php";
-require_once "XML/Serializer.php";
 /**
- * XML export. Using the excellent Pear::XML_Serializer.
- * We had to fix the PEAR library so that it works under PHP5 STRICT mode.
+ * XML export
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer
@@ -35,26 +33,31 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		$renderer = new Piwik_DataTable_Renderer_Php($table, $serialize = false);
 		
 		$array = $renderer->flatRender();
-				
+		
 		// case DataTable_Array
 		if($table instanceof Piwik_DataTable_Array)
 		{
 			return $this->renderDataTableArray($table, $array);
 		}
-		
+	
+		// integer value of ZERO is a value we want to display
+		if($array != 0 && empty($array))
+		{
+			$out = "<result />";
+			return $this->output($out);
+		}
 		if($table instanceof Piwik_DataTable_Simple)
 		{
 			if(is_array($array))
 			{
 				$out = $this->renderDataTableSimple($array);
 				$out = "<result>\n".$out."</result>";
-				return $this->output($out);
 			}
 			else
 			{
 				$out = "<result>".$array."</result>";
-				return $this->output($out);
 			}
+			return $this->output($out);
 		}
 		
 		if($table instanceof Piwik_DataTable)
@@ -80,7 +83,14 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	  		$nameDescriptionAttribute = $table->getNameKey();
 	  		foreach($array as $valueAttribute => $value)
 	  		{
-	  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">$value</result>\n";
+	  			if(!empty($value))
+	  			{
+		  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">$value</result>\n";
+	  			}
+	  			else
+	  			{
+		  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\" />\n";	  				
+	  			}
 	  		}
 	  		$xml .= "</results>";
 	  		return $this->output($xml);
@@ -105,8 +115,19 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			$nameDescriptionAttribute = $table->getNameKey();
 	  		foreach($array as $valueAttribute => $dataTableSimple)
 	  		{
-	  			$dataTableSimple = $this->renderDataTableSimple($dataTableSimple, "\t");
-	  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">\n".$dataTableSimple."\t</result>\n";
+	  			
+	  			if(count($dataTableSimple) == 0)
+				{
+					$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\" />\n";
+				}
+	  			else
+	  			{
+		  			if(is_array($dataTableSimple))
+		  			{
+			  			$dataTableSimple = "\n" . $this->renderDataTableSimple($dataTableSimple, "\t") . "\t" ;
+		  			}
+		  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">".$dataTableSimple."</result>\n";
+	  			}
 	  		}
 	  		$xml .= "</results>";
 	  		return $this->output($xml);
@@ -144,10 +165,18 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			$nameDescriptionAttribute = $table->getNameKey();
 			foreach($array as $keyName => $arrayForSingleDate)
 			{
-				$out .= "\t<result $nameDescriptionAttribute=\"$keyName\">\n";
+				$dataTableOut = $this->renderDataTable( $arrayForSingleDate, "\t" );
 				
-				$out .= $this->renderDataTable( $arrayForSingleDate, "\t" );
-				$out .= "\t</result>\n";
+				if(empty($dataTableOut))
+				{
+					$out .= "\t<result $nameDescriptionAttribute=\"$keyName\" />\n";
+				}
+				else
+				{
+					$out .= "\t<result $nameDescriptionAttribute=\"$keyName\">\n";
+					$out .= $dataTableOut;
+					$out .= "\t</result>\n";
+				}
 			}
 			$out .= "</results>";
 			return $this->output($out);

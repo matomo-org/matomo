@@ -161,7 +161,7 @@ class Piwik_API_Proxy
 	 * @param methodName the method
 	 * @return string|false when not possible
 	 */
-	public function getExampleUrl($class, $methodName)
+	public function getExampleUrl($class, $methodName, $parametersToSet = array())
 	{
 		$knowExampleDefaultParametersValues = array(
 			'access' => 'view',
@@ -176,6 +176,11 @@ class Piwik_API_Proxy
 			'period' => 'day',
 			'date' => 'today',
 		);
+		
+		foreach($parametersToSet as $name => $value)
+		{
+			$knowExampleDefaultParametersValues[$name] = $value;
+		}
 		
 		// no links for these method names
 		$doNotPrintExampleForTheseMethods = array(
@@ -245,13 +250,16 @@ class Piwik_API_Proxy
 					$exampleUrl = $this->getExampleUrl($class, $methodName);
 					if($exampleUrl !== false)
 					{
+						$exampleUrlRss1 = $this->getExampleUrl($class, $methodName, array('date' => 'last10')) . $prefixUrls;
+						$exampleUrlRss2 = $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',)) . $prefixUrls;
 						$exampleUrl = $exampleUrl . $prefixUrls;
 						$str .= " [ Example in  
 									<a target=_blank href='$exampleUrl&format=xml'>XML</a>, 
-									<a target=_blank href='$exampleUrl&format=PHP'>PHP</a>, 
+									<a target=_blank href='$exampleUrl&format=PHP&prettyDisplay=true'>PHP</a>, 
 									<a target=_blank href='$exampleUrl&format=JSON'>Json</a>, 
 									<a target=_blank href='$exampleUrl&format=Csv'>Csv</a>, 
-									<a target=_blank href='$exampleUrl&format=Html'>Basic html</a>
+									<a target=_blank href='$exampleUrl&format=Html'>Basic html</a>, 
+									RSS of the last <a target=_blank href='$exampleUrlRss1&format=Rss'>10 days</a>, <a target=_blank href='$exampleUrlRss2&format=Rss'>5 weeks</a>
 									]";
 					}
 					else

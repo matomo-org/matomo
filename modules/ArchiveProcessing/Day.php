@@ -65,7 +65,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		{
 			$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
 		}
-
+		
 		Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
 	}
 	
@@ -309,7 +309,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]	+= $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 		+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS];
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 		+= $newRowToAdd[Piwik_Archive::INDEX_NB_ACTIONS];
-		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 = max($newRowToAdd[Piwik_Archive::INDEX_MAX_ACTIONS], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
+		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 = (float)max($newRowToAdd[Piwik_Archive::INDEX_MAX_ACTIONS], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
 		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]	+= $newRowToAdd[Piwik_Archive::INDEX_SUM_VISIT_LENGTH];
 		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 		+= $newRowToAdd[Piwik_Archive::INDEX_BOUNCE_COUNT];
 	}

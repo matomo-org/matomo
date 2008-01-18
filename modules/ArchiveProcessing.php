@@ -37,7 +37,7 @@ abstract class Piwik_ArchiveProcessing
 
 	protected $idArchive;
 	protected $periodId;
-	
+	protected $timestampDateStart = null;
 	
 	/**
 	 * @var Piwik_Date
@@ -206,7 +206,8 @@ abstract class Piwik_ArchiveProcessing
 		$this->loadArchiveProperties();
 		$this->idArchive = $this->isArchived();
 		
-		if(!$this->idArchive)
+		if($this->idArchive === false
+			|| $this->debugAlwaysArchive)
 		{
 //			Piwik::printMemoryUsage('Before loading subperiods');
 			$this->archivesSubperiods = $this->loadSubperiodsArchive();
@@ -217,6 +218,9 @@ abstract class Piwik_ArchiveProcessing
 //			Piwik::printMemoryUsage('After compute');
 			$this->postCompute();
 //			Piwik::printMemoryUsage('After post compute');
+
+			// we execute again the isArchived that does some initialization work
+			$this->idArchive = $this->isArchived();
 			
 //			Piwik::log("New archive computed, id = {$this->idArchive}");
 		}
@@ -375,10 +379,6 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function isArchived()
 	{
-		if($this->debugAlwaysArchive)
-		{
-			return false;
-		}
 //		Piwik::log("Is archive site=$idsite for period = ".$this->period->getLabel()." for date_start = $strDateStart ?");
 		$bindSQL = array(	$this->idsite, 
 								$this->strDateStart, 
@@ -392,8 +392,7 @@ abstract class Piwik_ArchiveProcessing
 			$bindSQL[] = $this->maxTimestampArchive;
 		}
 			
-		$results = Zend_Registry::get('db')->fetchAll("
-						SELECT idarchive, value, name
+		$sqlQuery = "	SELECT idarchive, value, name, UNIX_TIMESTAMP(date1) as timestamp
 						FROM ".$this->tableArchiveNumeric."
 						WHERE idsite = ?
 							AND date1 = ?
@@ -402,9 +401,9 @@ abstract class Piwik_ArchiveProcessing
 							AND ( (name = 'done' AND value = ".Piwik_ArchiveProcessing::DONE_OK.")
 									OR name = 'nb_visits')
 							$timeStampWhere
-						ORDER BY ts_archived DESC",
-						$bindSQL
-					);
+						ORDER BY ts_archived DESC";
+		
+		$results = Zend_Registry::get('db')->fetchAll($sqlQuery, $bindSQL );
 		// the archive exists in the table
 		if(!empty($results))
 		{
@@ -415,9 +414,11 @@ abstract class Piwik_ArchiveProcessing
 				if($result['name'] == 'done')
 				{
 					$idarchive = $result['idarchive'];
+					$this->timestampDateStart = $result['timestamp'];
 					break;
 				}
 			}
+			
 			// let's look for the nb_visits result for this more recent archive
 			foreach($results as $result)
 			{
@@ -434,6 +435,16 @@ abstract class Piwik_ArchiveProcessing
 		{
 			return false;
 		}
+	}
+	
+	public function getTimestampStartDate()
+	{
+		// debug
+		if(is_null($this->timestampDateStart))
+		{
+			throw new Exception("The starting date timestamp has not been set!");
+		}
+		return $this->timestampDateStart;
 	}
 }
 

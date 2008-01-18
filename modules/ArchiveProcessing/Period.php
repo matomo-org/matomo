@@ -215,6 +215,11 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		
 		$this->isThereSomeVisits = ($record['nb_visits']->value != 0);
 		
+		if($this->isThereSomeVisits === false)
+		{
+			return;
+		}
+		
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
 	}
 }

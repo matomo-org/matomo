@@ -198,6 +198,7 @@ $(document).ready( function() {
 				<td><input id="useradd_password" value="password" size=10></td>\
 				<td><input id="useradd_email" value="email@domain.com" size=15></td>\
 				<td><input id="useradd_alias" value="alias" size=15></td>\
+				<td>-</td>\
 				<td><img src="plugins/UsersManager/images/ok.png" id="adduser" href="#"></td>\
 	  			<td><img src="plugins/UsersManager/images/remove.png" id="cancel"></td>\
 	 		</tr>')

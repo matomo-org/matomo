@@ -43,6 +43,7 @@ abstract class Piwik_Archive
 	const INDEX_BOUNCE_COUNT = 6;
 
 	protected $alreadyChecked = false;
+	protected $site = null;
 		
 	static protected $alreadyBuilt = array();
 	
@@ -59,7 +60,7 @@ abstract class Piwik_Archive
 		$oSite = new Piwik_Site($idSite);
 			
 		if(is_string($oDate) 
-			&& ereg('last([0-9]*)', $oDate, $regs))
+			&& ereg('^(last|previous){1}([0-9]*)$', $oDate, $regs))
 		{
 			require_once 'Archive/Array.php';
 			
@@ -67,8 +68,7 @@ abstract class Piwik_Archive
 			
 		}
 		else
-		{			
-		
+		{
 			if(is_string($oDate))
 			{
 				$oDate = Piwik_Date::factory($oDate);
@@ -163,7 +163,17 @@ abstract class Piwik_Archive
 	{
 		$this->site = $site;
 	}
-
+	
+	/**
+	 * Get the site
+	 *
+	 * @param Piwik_Site $site
+	 */
+	public function getSite( )
+	{
+		return $this->site;
+	}
+	
 	/**
 	 * Returns the Id site associated with this archive
 	 *

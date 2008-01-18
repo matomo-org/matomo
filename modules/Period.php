@@ -29,6 +29,7 @@ abstract class Piwik_Period
 	protected $subperiodsProcessed = false;
 	protected $label = null;
 	
+	protected static $unknowPeriodException = "The period '%s' is not supported. Try 'day' or 'week' or 'month' or 'year'";
 	public function __construct( $date )
 	{	
 		$this->checkInputDate( $date );
@@ -55,7 +56,7 @@ abstract class Piwik_Period
 				break;
 				
 			default:
-				throw new Exception("Unknown period!");
+				throw new Exception(sprintf(self::$unknowPeriodException, $strPeriod));
 				break;
 		}
 	}
@@ -187,14 +188,7 @@ abstract class Piwik_Period
 		}
 		return true;
 	}
-	
-	public function getPrettyString()
-	{
-		$temp = $this->toString();
-		$out = $this->getLabel() . " from " . $temp[0] . " to " . end($temp);
-		return $out;
-	}
-	
+		
 	public function toString()
 	{
 		if(!$this->subperiodsProcessed)
@@ -213,6 +207,8 @@ abstract class Piwik_Period
 	{
 		return $this->date->get($part);
 	}
+	
+	abstract public function getPrettyString();
 }
 
 /**
@@ -227,6 +223,13 @@ class Piwik_Period_Range extends Piwik_Period
 		$this->strDate = $strDate;
 		
 	}
+	
+	public function getPrettyString()
+	{
+		$out = "From ".$this->getDateStart()->toString() . " to " . $this->getDateEnd()->toString();
+		return $out;
+	}
+	
 	protected function removePeriod( $date, $n )
 	{
 		switch($this->strPeriod)
@@ -246,8 +249,35 @@ class Piwik_Period_Range extends Piwik_Period
 			case 'year':
 				$startDate = $date->subMonth( 12 * $n );					
 			break;
+			
+			default:
+				throw new Exception(sprintf(self::$unknowPeriodException, $this->strPeriod));
+			break;
 		}
 		return $startDate;
+	}
+	
+	protected function getMaxN($lastN)
+	{	
+		switch($this->strPeriod)
+		{
+			case 'day':	
+				$lastN = min( $lastN, 5*365 );
+			break;
+			
+			case 'week':
+				$lastN = min( $lastN, 5*52 );				
+			break;
+			
+			case 'month':
+				$lastN = min( $lastN, 5*12 );			
+			break;
+			
+			case 'year':
+				$lastN = min( $lastN, 10 );					
+			break;
+		}
+		return $lastN;
 	}
 	protected function generate()
 	{
@@ -257,21 +287,33 @@ class Piwik_Period_Range extends Piwik_Period
 		}
 		$this->subperiodsProcessed = true;
 		
-		if(ereg('last([0-9]*)', $this->strDate, $regs))
+		if(ereg('(last|previous)([0-9]*)', $this->strDate, $regs))
 		{
-			$lastN = $regs[1];
+			$lastN = $regs[2];
+			
+			$lastOrPrevious = $regs[1];
+			
+			if($lastOrPrevious == 'last')
+			{
+				$endDate = Piwik_Date::today();
+			}
+			elseif($lastOrPrevious == 'previous')
+			{
+				$endDate = $this->removePeriod(Piwik_Date::today(), 1);
+			}		
 			
 			// last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
 			$lastN--;
+			$lastN = abs($lastN);
 			
-			$endDate = Piwik_Date::today();
+			$lastN = $this->getMaxN($lastN);
+			
 			$startDate = $this->removePeriod($endDate, $lastN);
 		}
 		else
 		{
 			throw new Exception("The date $strDate seems incorrect");
 		}
-		//TODO handle previous
 		
 		$endSubperiod = Piwik_Period::factory($this->strPeriod, $endDate);
 		$this->addSubperiod($endSubperiod);
@@ -282,6 +324,7 @@ class Piwik_Period_Range extends Piwik_Period
 			$subPeriod = Piwik_Period::factory($this->strPeriod, $endDate);
 			$this->addSubperiod( $subPeriod );
 		}
+//		var_dump($this->toString());exit;
 	}
 	
 	function toString()
@@ -312,7 +355,12 @@ class Piwik_Period_Day extends Piwik_Period
 	{
 		parent::__construct($date);		
 	}
-			
+
+	public function getPrettyString()
+	{
+		$out = $this->getDateStart()->toString() ;
+		return $out;
+	}
 	public function isFinished()
 	{
 		$todayMidnight = Piwik_Date::today();
@@ -350,7 +398,12 @@ class Piwik_Period_Week extends Piwik_Period
 	{
 		parent::__construct($date);
 	}
-	
+
+	public function getPrettyString()
+	{
+		$out = $this->getDateStart()->toString() . " to " . $this->getDateEnd()->toString();
+		return $out;
+	}
 	protected function generate()
 	{
 		if($this->subperiodsProcessed)
@@ -388,7 +441,12 @@ class Piwik_Period_Month extends Piwik_Period
 	{
 		parent::__construct($date);
 	}
-	
+
+	public function getPrettyString()
+	{
+		$out = $this->getDateStart()->toString('Y-m');
+		return $out;
+	}
 	protected function generate()
 	{
 		if($this->subperiodsProcessed)
@@ -434,7 +492,12 @@ class Piwik_Period_Year extends Piwik_Period
 	{
 		parent::__construct($date);
 	}
-	
+
+	public function getPrettyString()
+	{
+		$out = $this->getDateStart()->toString('Y');
+		return $out;
+	}
 	protected function generate()
 	{
 		if($this->subperiodsProcessed)
