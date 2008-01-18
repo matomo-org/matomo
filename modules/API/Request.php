@@ -305,7 +305,11 @@ class Piwik_API_Request
 			{
 				return $this->getExceptionOutput( ' The API cannot handle this data structure. You can get the data internally by directly using the class.', $this->outputFormatRequested);
 			}
-			return $this->getStandardSuccessOutput($this->outputFormatRequested, $message = $toReturn);
+			
+			require_once "DataTable/Simple.php";
+			$dataTable = new Piwik_DataTable_Simple();
+			$dataTable->loadFromArray( array($toReturn) );
+			$toReturn = $this->getRenderedDataTable($dataTable);
 		}
 		return $toReturn;
 	}
@@ -323,6 +327,7 @@ class Piwik_API_Request
 		{
 			case 'xml':
 				@header('Content-type: text/xml');
+				
 				$return = 
 					'<?xml version="1.0" encoding="utf-8" ?>'.
 					'<result>'.
