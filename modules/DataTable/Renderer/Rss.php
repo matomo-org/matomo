@@ -42,7 +42,8 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		$piwikUrl = $currentUrl . "?module=Home&action=index&idSite=" . $idSite . "&period=" . $period;
 		
 		$out = "";
-		foreach($table->getArray() as $date => $subtable )
+		$moreRecentFirst = array_reverse($table->getArray(), true);
+		foreach($moreRecentFirst as $date => $subtable )
 		{
 			$timestamp = $table->metaData[$date]['timestamp'];
 			$site = $table->metaData[$date]['site'];
