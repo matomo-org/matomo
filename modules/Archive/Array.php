@@ -13,20 +13,18 @@ class Piwik_Archive_Array extends Piwik_Archive
 	{
 		$rangePeriod = new Piwik_Period_Range($strPeriod, $strDate);
 		
+		// CAREFUL this class wouldnt work as is if handling archives from multiple websites
+		// works only when managing archives from multiples dates/periods
 		foreach($rangePeriod->getSubperiods() as $subPeriod)
 		{
 			$startDate = $subPeriod->getDateStart();
-			
 			$archive = Piwik_Archive::build($oSite->getId(), $strPeriod, $startDate );
 			$archive->prepareArchive();
 		
-			$this->archives[$archive->getIdArchive()] = $archive;
-			$this->idArchives[] = $archive->getIdArchive();
-			$this->idArchiveToTimestamp[$archive->getIdArchive()] = $startDate->getTimestamp();
+			$timestamp = $archive->getTimestampStartDate();
+			$this->archives[$timestamp] = $archive;
 		}
-		
-		$this->inIdArchives = implode("",$this->idArchives);
-		uksort( $this->archives, array($this, 'sortArchiveByTimestamp') );
+		ksort( $this->archives );
 	}
 	
 
@@ -40,6 +38,14 @@ class Piwik_Archive_Array extends Piwik_Archive
 		$table = new Piwik_DataTable_Array;
 		$table->setNameKey('date');
 		return $table;
+	}
+
+	protected function loadMetaData($table, $archive)
+	{
+		$table->metaData[$archive->getPrettyDate()] = array( 
+				'timestamp' => $archive->getTimestampStartDate(),
+				'site' => $archive->getSite(),
+			);
 	}
 	
 	/**
@@ -60,7 +66,10 @@ class Piwik_Archive_Array extends Piwik_Archive
 			$subTable = new Piwik_DataTable_Simple();
 			$subTable->loadFromArray( array( $numeric ) );
 			$table->addTable($subTable, $archive->getPrettyDate());
+			
+			$this->loadMetaData($table, $archive);
 		}
+		
 		return $table;
 	}
 	
@@ -85,6 +94,8 @@ class Piwik_Archive_Array extends Piwik_Archive
 			$subTable = new Piwik_DataTable_Simple();
 			$subTable->loadFromArray( array('blob' => $blob));
 			$table->addTable($subTable, $archive->getPrettyDate());
+			
+			$this->loadMetaData($table, $archive);
 		}
 		return $table;
 	}
@@ -143,7 +154,7 @@ class Piwik_Archive_Array extends Piwik_Archive
 		foreach($queries as $table => $aIds)
 		{
 			$inIds = implode(', ', $aIds);
-			$sql = "SELECT value, name, idarchive
+			$sql = "SELECT value, name, idarchive, UNIX_TIMESTAMP(date1) as timestamp
 									FROM $table
 									WHERE idarchive IN ( $inIds )
 										AND name IN ( $inName )";
@@ -152,25 +163,36 @@ class Piwik_Archive_Array extends Piwik_Archive
 			
 			foreach($values as $value)
 			{
-				$idarchiveToName[$value['idarchive']][$value['name']] = $value['value'];
+				$idarchiveToName[$value['timestamp']][$value['name']] = $value['value'];
 			}			
 		}
 		
-		// we need to take the Archives in chronological order 
-		uksort( $idarchiveToName, array($this, 'sortArchiveByTimestamp') );
-		
-//		var_dump($idarchiveToName);exit;
-		
-		$tableArray = $this->getNewDataTableArray();
-		foreach($idarchiveToName as $id => $aNameValues)
+		// we add empty tables so that every requested date has an entry, even if there is nothing
+		// example: <result date="2007-01-01" />
+		$emptyTable = new Piwik_DataTable_Simple;
+		foreach($this->archives as $timestamp => $archive)
 		{
-			$strDate = $this->archives[$id]->getPrettyDate();
-			
-			$table = new Piwik_DataTable_Simple;
-			$table->loadFromArray($aNameValues);
-			
-			$tableArray->addTable($table, $strDate);
+			$strDate = $this->archives[$timestamp]->getPrettyDate();
+			$contentArray[$timestamp]['table'] = clone $emptyTable;
+			$contentArray[$timestamp]['prettyDate'] = $strDate;
 		}
+		
+		foreach($idarchiveToName as $timestamp => $aNameValues)
+		{
+			$contentArray[$timestamp]['table']->loadFromArray($aNameValues);
+		}
+		
+		ksort( $contentArray );
+				
+		$tableArray = $this->getNewDataTableArray();
+		foreach($contentArray as $timestamp => $aData)
+		{
+			$tableArray->addTable($aData['table'], $aData['prettyDate']);
+			
+			$this->loadMetaData($tableArray, $this->archives[$timestamp]);
+		}
+		
+//		echo $tableArray;exit;
 		return $tableArray;
 	}
 
@@ -190,6 +212,8 @@ class Piwik_Archive_Array extends Piwik_Archive
 		{
 			$subTable =  $archive->getDataTable( $name, $idSubTable ) ;
 			$table->addTable($subTable, $archive->getPrettyDate());
+			
+			$this->loadMetaData($table, $archive);
 		}
 		return $table;
 	}
@@ -211,6 +235,8 @@ class Piwik_Archive_Array extends Piwik_Archive
 		{
 			$subTable =  $archive->getDataTableExpanded( $name, $idSubTable ) ;
 			$table->addTable($subTable, $archive->getPrettyDate());
+			
+			$this->loadMetaData($table, $archive);
 		}
 		return $table;
 	}

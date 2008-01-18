@@ -18,3 +18,5 @@ CHANGES DONE TO LIBRARIES
    
 test that archive always is OFF in prod
 $GLOBALS['DEBUGPIWIK'] is false;
+
+optimize getdateStart / getdateEnd in *Period

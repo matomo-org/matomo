@@ -30,6 +30,29 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 	
 	protected function renderTable($table)
 	{
+		if($table instanceof Piwik_DataTable_Array)
+		{
+			$columnPrefixToAdd = $table->getNameKey();
+			$out = "<table border=1>";
+			foreach($table->getArray() as $date => $subtable )
+			{
+				$out .= "<tr><td><h2>$columnPrefixToAdd = $date</h2>";
+				$out .= $this->renderDataTable($subtable);
+				$out .= "</td></tr>";
+			}
+			$out .= "</table>";
+		}
+		else
+		{
+			$out = $this->renderDataTable($table);
+		}
+		
+		return $out;
+	}	
+	
+	protected function renderDataTable($table)
+	{
+	
 		if($table->getRowsCount() == 0)
 		{
 			return "<b><i>Empty table</i></b> <br>\n";
@@ -163,9 +186,8 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 				$html = $styles . $html;
 			}
 		}
-//		echo "return={".$html."}";
 		return $html;
-	}	
+	}
 }
 
 

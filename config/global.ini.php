@@ -24,7 +24,6 @@ current			= en
 default			= en
 
 [Plugins]
-
 enabled[] 		= Actions
 enabled[] 		= Referers
 enabled[] 		= UserSettings

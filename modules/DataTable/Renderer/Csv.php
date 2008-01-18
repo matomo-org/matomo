@@ -59,20 +59,22 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 					$header = $returned[0];
 				}
 				$returned = array_slice($returned,1);
-				foreach($returned as &$row)
+				
+				// case empty datatable we dont print anything in the CSV export
+				// when in xml we would output <result date="2008-01-15" />
+				if(!empty($returned))
 				{
-					$row = $currentLinePrefix . $this->separator . $row;
+					foreach($returned as &$row)
+					{
+						$row = $currentLinePrefix . $this->separator . $row;
+					}
+					$str .= "\n" .  implode("\n", $returned);
 				}
-				$str .= "\n" .  implode("\n", $returned);
 			}
 //				var_dump($header);exit;
 			if(!empty($header))
 			{
 				$str = $prefixColumns . $header . $str;
-			}
-			else
-			{
-				$str = 'No data available';
 			}
 		}
 		else
@@ -184,9 +186,13 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	}
 	protected function output( $str )
 	{
+		if(empty($str))
+		{
+			return 'No data available';
+		}
 		// silent fail otherwise unit tests fail
-//		@header("Content-type: application/vnd.ms-excel");
-//		@header("Content-Disposition: attachment; filename=piwik-report-export.csv");			
+		@header("Content-type: application/vnd.ms-excel");
+		@header("Content-Disposition: attachment; filename=piwik-report-export.csv");
 		return $str;
 	}
 }

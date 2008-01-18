@@ -74,7 +74,7 @@ abstract class Piwik_DataTable_Renderer
 		}
 		else
 		{
-			throw new Exception("Renderer format '$name' not valid.");
+			throw new Exception("Renderer format '$name' not valid. Try 'xml' or 'json' or 'csv' or 'html' or 'php' or 'original' instead.");
 		}		
 	}	
 }

@@ -13,8 +13,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	
 	public function getPrettyDate()
 	{
-		$str = $this->period->getLabel() . " from " . $this->period->getDateStart()->toString() . " to " . $this->period->getDateEnd()->toString();
-		return $str;
+		return $this->period->getPrettyString();
 	}
 	
 	public function getIdArchive()
@@ -32,6 +31,16 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$this->period = $period;
 	}
 	
+	public function getTimestampStartDate()
+	{
+		if(!is_null($this->archiveProcessing))
+		{
+//			var_dump($this->archiveProcessing->period->getPrettyString());
+			return $this->archiveProcessing->getTimestampStartDate();
+		}
+		
+		return $this->period->getDateStart()->getTimestamp();
+	}
 		
 	/**
 	 * Prepares the archive. Gets the idarchive from the ArchiveProcessing.
@@ -44,24 +53,35 @@ class Piwik_Archive_Single extends Piwik_Archive
 	{
 		if(!$this->alreadyChecked)
 		{
+			// if the END of the period is BEFORE the website creation date
+			// we already know there are no stats for this period
+			// we add one day to make sure we don't miss the day of the website creation
+			if( $this->period->getDateEnd()->addDay(2)->isEarlier( $this->site->getCreationDate() ) )
+			{
+				$this->isThereSomeVisits = false;
+				$this->alreadyChecked = true;
+				return;				
+			}
+			
+			// if the starting date is in the future we know there is no visit
+			if( $this->period->getDateStart()->subDay(1)->isLater( Piwik_Date::today() ) )
+			{
+				$this->isThereSomeVisits = false;
+				$this->alreadyChecked = true;
+				return;
+			}
+			
 			// we make sure the archive is available for the given date
 			$periodLabel = $this->period->getLabel();
 			$archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
 			$archiveProcessing->setSite($this->site);
 			$archiveProcessing->setPeriod($this->period);
+			
 			$IdArchive = $archiveProcessing->loadArchive();
+			$this->isThereSomeVisits = $archiveProcessing->isThereSomeVisits;
 			
 			$this->archiveProcessing = $archiveProcessing; 
-//			$isThereSomeVisits = Zend_Registry::get('db')->fetchOne(
-//					'SELECT value 
-//					FROM '.$archiveProcessing->getTableArchiveNumericName().
-//					' WHERE name = ? AND idarchive = ?', array('nb_visits',$IdArchive));
-//					
-//			if($isThereSomeVisits!==false)
-//			{
-//				$this->isThereSomeVisits = true;
-//			}
-			$this->isThereSomeVisits = $this->archiveProcessing->isThereSomeVisits;
+
 			$this->idArchive = $IdArchive;
 			$this->alreadyChecked = true;
 		}

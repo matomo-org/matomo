@@ -73,6 +73,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 				$flatArray[$keyName] = $this->flatRender($table);
 				$this->serialize = $serializeSave;
 			}
+//			var_dump($flatArray);
 		}
 		
 		// A DataTable_Simple is already flattened so no need to do some crazy stuff to convert it
@@ -86,6 +87,10 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			{
 				$flatArray = current($flatArray);
 			}
+//			elseif(count($flatArray) == 0)
+//			{
+//				$flatArray = null;
+//			}
 			
 		}
 		// A normal DataTable needs to be handled specifically
@@ -119,6 +124,15 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			$dataTable = $this->table;
 		}
 		$toReturn = $this->flatRender( $dataTable );
+		
+		if( false !== Piwik_Common::getRequestVar('prettyDisplay', false) )
+		{
+			if(!is_array($toReturn))
+			{
+				$toReturn = unserialize($toReturn);
+			}
+			$toReturn =  "<pre>" . var_export($toReturn, true ) . "</pre>";
+		}
 		return $toReturn;
 	}
 	
@@ -168,6 +182,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		{
 			$array[$row->getColumn('label')] = $row->getColumn('value');
 		}
+		
 		return $array;
 	}
 }

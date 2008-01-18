@@ -27,7 +27,11 @@ class Piwik_Date
 		}
 		else
 		{
-			$this->timestamp = strtotime( $date );
+			if (($timestamp = strtotime($date)) === false) 
+			{
+				throw new Exception("The date '$date' is not correct. The date format is YYYY-MM-DD or you can also use magic keywords such as 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
+			}
+			$this->timestamp = $timestamp;
 		}
 	}
 	
@@ -36,6 +40,10 @@ class Piwik_Date
 		return $this->timestamp;
 	}
 	
+	public function isLater( Piwik_Date $date)
+	{
+		return $this->getTimestamp() > $date->getTimestamp();
+	}
 	public function isEarlier(Piwik_Date $date)
 	{
 		return $this->getTimestamp() < $date->getTimestamp();

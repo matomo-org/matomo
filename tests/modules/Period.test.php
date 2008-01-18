@@ -634,6 +634,24 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
+	// test range 4
+	function test_range_previous3days()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'day', 'previous3' );
+	 	$yesterday = Piwik_Date::yesterday();
+	 	
+	 	$correct = array();
+	 	for($i=0;$i<3;$i++)
+	 	{
+	 		$correct[]=$yesterday->subDay($i)->toString();
+	 	}
+			
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 3);
+	 	$this->assertEqual( $range->isFinished(), true);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+	 
 	// test range WEEK
 	function test_range_week()
 	{
@@ -674,16 +692,37 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
+	// test range PREVIOUS MONTH
+	function test_range_previousmonth()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'month', 'previous10' );
+	 	$end = Piwik_Date::today();
+	 	$end = $end->subMonth(1);
+	 	
+	 	$correct = array();
+	 	for($i=0;$i<10;$i++)
+	 	{
+	 		$date = $end->subMonth($i);
+	 		$week = new Piwik_Period_Month($date);
+	 		
+	 		$correct[]= $week->toString();
+	 	}
+			
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 10);
+	 	$this->assertEqual( $range->isFinished(), true);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
 	 
 	// test range YEAR
 	function test_range_year()
 	{
 		
-	 	$range = new Piwik_Period_Range( 'year', 'last20' );
+	 	$range = new Piwik_Period_Range( 'year', 'last10' );
 	 	$today = Piwik_Date::today();
 	 	
 	 	$correct = array();
-	 	for($i=0;$i<20;$i++)
+	 	for($i=0;$i<10;$i++)
 	 	{
 	 		$date = $today->subMonth(12*$i);
 	 		$week = new Piwik_Period_Year($date);
@@ -691,7 +730,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 		$correct[]= $week->toString();
 	 	}
 	 	
-	 	$this->assertEqual( $range->getNumberOfSubperiods(), 20);
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 10);
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
