@@ -181,9 +181,12 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			
 			if($row->getIdSubDataTable() !== null)
 			{
-				$subTable =  $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
-				
-				$newRow['subtable'] = $subTable;
+				try{
+					$subTable =  $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
+					$newRow['subtable'] = $subTable;
+				} catch (Exception $e) {
+					// the subtables are not loaded we dont do anything 
+				}
 			}
 			
 			$array[] = $newRow;
