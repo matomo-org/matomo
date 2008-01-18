@@ -211,7 +211,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	protected function output( $xml )
 	{
 		// silent fail because otherwise it throws an exception in the unit tests
-		@header('Content-type: text/xml');
+		@header("Content-Type: text/xml;charset=utf-8");
 		$xml = '<?xml version="1.0" encoding="utf-8" ?>' .  "\n" . $xml;
 		return $xml;
 	}
