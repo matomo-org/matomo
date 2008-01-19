@@ -16,6 +16,9 @@
  */
 abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 {	
+	protected $width = 400; 
+	protected $height = 250; 
+	
 	function init($currentControllerAction, 
 						$moduleNameAndMethod )
 	{
@@ -26,6 +29,7 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		$this->disableOffsetInformation();
 		$this->disableExcludeLowPopulation();
 		$this->disableSearchBox();
+		$this->parametersToModify = array( 'viewDataTable' => $this->valueParameterViewDataTable);
 	}
 	
 	public function main()
@@ -41,9 +45,8 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		$view->id = $this->id;
 		$view->method = $this->method;
 
-		$parametersToModify = array( 'viewDataTable' => $this->valueParameterViewDataTable);
-		
-		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($parametersToModify);
+		$this->parametersToModify['action'] = $this->currentControllerAction;
+		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($this->parametersToModify);
 		$view->jsInvocationTag = $this->getFlashInvocationCode($url);
 //		print($url);exit;
 		$view->urlData = $url;
@@ -52,39 +55,32 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		$view->codeEmbed = $this->codeEmbed;
 		
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
+		$view->showFooter = $this->showFooter;
 		$this->view = $view;
 	}
 	
-	protected function getCodeEmbed( $url )
-	{
-	}
-	
-	protected function getFlashInvocationCode(
-			$url = 'libs/open-flash-chart/data-files/nodata.txt', 
-			$width = 500, 
-			$height = 250, 
-			$use_swfobject = true  )
-	{
+	//TODO change $use_swfobject = true
+	public function getFlashInvocationCode(
+			$url = 'libs/open-flash-chart/data-files/nodata.txt',
+			$use_swfobject = false  )
+	{ 
+		$width = $this->width; 
+		$height = $this->height; 
+
 		$libPathInPiwik = 'libs/open-flash-chart/';
-		
 		$currentPath = Piwik_Url::getCurrentUrlWithoutFileName();
-		
 		$pathToLibraryOpenChart = $currentPath . $libPathInPiwik;
 		
 		$url = $currentPath . $url;
+	    // escape the & and stuff:
+	    $url = urlencode($url);
 		
-		$div_name = $this->id;
-		
-	    $obj_id = $this->id . "_chart";
-	    $div_name = $this->id . "_flashContent";
+		$obj_id = $this->id . "Chart";
+	    $div_name = $this->id . "FlashContent";
 	    // I think we may use swfobject for all browsers, not JUST for IE...
 	    //
 	    //$ie = strstr(getenv('HTTP_USER_AGENT'), 'MSIE');
 	    
-	    //
-	    // escape the & and stuff:
-	    //
-	    $url = urlencode($url);
 	   
 	    $return = ''; 
 	    if( $use_swfobject )
@@ -93,9 +89,7 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		    $return .=  '
 				<div id="'. $div_name .'"></div>
 				<script type="text/javascript">
-				var so = new SWFObject("'.$pathToLibraryOpenChart.'open-flash-chart.swf", "ofc", "'. $width . '", "' . $height . '", "9", "#FFFFFF");
-				so.addVariable("width", "' . $width . '");
-				so.addVariable("height", "' . $height . '");
+				var so = new SWFObject("'.$pathToLibraryOpenChart.'open-flash-chart.swf", "chart", "'. $width . '", "' . $height . '", "9", "#FFFFFF");
 				so.addVariable("data", "'. $url . '");
 				so.addParam("allowScriptAccess", "sameDomain");
 				so.write("'. $div_name .'");
@@ -107,7 +101,7 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		
 		$return .= '
 			<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" 
-			width="' . $width . '" height="' . $height . '" id="ie_'. $obj_id .'" align="middle">
+			width="' . $width . '" height="' . $height . '" id="'. $obj_id .'" align="middle">
 			<param name="allowScriptAccess" value="sameDomain" />
 			<param name="movie" value="'.$pathToLibraryOpenChart.'open-flash-chart.swf?width='. $width .'&height='. $height . '&data='. $url .'" />
 			<param name="quality" value="high" />
@@ -119,10 +113,37 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 			$return .= '</noscript>';
 		}
 		
+		// doesn't work embed because needs to be in BODY
+//		$return = '<script type="text/javascript" src="libs/swfobject/swfobject.js"></script> ' . $return;
 		return $return;
 	}
 }
 
+/**
+ * 
+ * @package Piwik_ViewDataTable
+ *
+ */
+class Piwik_ViewDataTable_Graph_ChartEvolution extends Piwik_ViewDataTable_Graph
+{
+	function __construct()
+	{
+		$this->valueParameterViewDataTable = 'generateDataChartEvolution';
+		$this->width=700;
+		$this->height=150;
+		
+	}
+	
+	function init($currentControllerAction, 
+						$moduleNameAndMethod )
+	{
+		parent::init($currentControllerAction, 
+						$moduleNameAndMethod );
+		
+		$this->parametersToModify['date'] = 'last30';
+		$this->doNotShowFooter();
+	}
+}
 /**
  * 
  * @package Piwik_ViewDataTable

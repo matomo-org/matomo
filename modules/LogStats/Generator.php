@@ -181,6 +181,7 @@ class Piwik_LogStats_Generator
 		  return (float) $sec + ((float) $usec * 100000);
 		}
 		mt_srand(make_seed());
+		
 		$common = array(
 			'res' => array('1289x800','1024x768','800x600','564x644','200x100','50x2000',),
 			'col' => array(24,32,16),
@@ -268,7 +269,7 @@ class Piwik_LogStats_Generator
 	 * 
 	 * We even set the _SERVER values
 	 */
-	private function generateNewVisit()
+	protected function generateNewVisit()
 	{
 		$this->setCurrentRequest( 'urlref' , $this->getRandom('urlref'));
 		$this->setCurrentRequest( 'idsite', $this->getRandom('idsite'));
@@ -297,7 +298,7 @@ class Piwik_LogStats_Generator
 	 * download or outlink clicks, etc.
 	 * 
 	 */
-	private function generateActionVisit()
+	protected function generateActionVisit()
 	{		
 		// we don't keep the previous action values 
 		// reinit them to empty string
@@ -372,7 +373,7 @@ class Piwik_LogStats_Generator
 	 * Returns a random URL using the $host as the URL host.
 	 * Depth level depends on @see setMaximumUrlDepth()
 	 */
-	private function getRandomUrlFromHost( $host )
+	protected function getRandomUrlFromHost( $host )
 	{
 		$url = $host;
 		
@@ -398,7 +399,7 @@ class Piwik_LogStats_Generator
 	 * 
 	 * @return string The generated random string
 	 */
-	private function getRandomString($maxLength = 15, $minLength = 5, $type = 'ALL')
+	protected function getRandomString($maxLength = 15, $minLength = 5, $type = 'ALL')
 	{
 		$len = mt_rand($minLength, $maxLength);
 		
@@ -463,7 +464,7 @@ class Piwik_LogStats_Generator
 	/**
 	 * Set the _GET and _REQUEST superglobal to the current generated array of values
 	 */
-	private function setFakeRequest()
+	protected function setFakeRequest()
 	{
 		$_REQUEST = $_GET = $this->currentget;
 	}
@@ -474,7 +475,7 @@ class Piwik_LogStats_Generator
 	 * @param string Name of the parameter to set
 	 * @param string Value of the parameter
 	 */
-	private function setCurrentRequest($name,$value)
+	protected function setCurrentRequest($name,$value)
 	{
 		$this->currentget[$name] = $value;
 	}
@@ -486,7 +487,7 @@ class Piwik_LogStats_Generator
 	 * 
 	 * @return mixed Random value for the parameter named $name
 	 */
-	private function getRandom( $name )
+	protected function getRandom( $name )
 	{		
 		if(!isset($this->allget[$name]))
 		{
@@ -504,7 +505,7 @@ class Piwik_LogStats_Generator
 	 * Returns either 0 or 1
 	 * @return int
 	 */	
-	private function getRandom01()
+	protected function getRandom01()
 	{
 		return mt_rand(0,1);
 	}
@@ -514,7 +515,7 @@ class Piwik_LogStats_Generator
 	 * - set the fake request 
 	 * - load the LogStats class and call the method to launch the recording
 	 */
-	private function saveVisit()
+	protected function saveVisit()
 	{
 		$this->setFakeRequest();
 		$process = new Piwik_LogStats_Generator_Main;

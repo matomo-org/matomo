@@ -28,6 +28,10 @@ class Piwik_DataTable_Array
 		$this->nameKey = $name;
 	}
 	
+	public function getRowsCount()
+	{
+		return count($this->array);
+	}
 	public $metaData = array();
 	public function setMetaData( $mixed )
 	{

@@ -74,6 +74,8 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		
+		$view->showFooter = $this->showFooter;
+		
 		$this->view = $view;
 	}
 

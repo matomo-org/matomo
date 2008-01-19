@@ -154,11 +154,21 @@ tr td.label img.plusMinus {
 	font-weight: lighter;
 }
 
-#messageToUsers, #messageToUsers a{
+#messageToUsers, #messageToUsers a {
 	color:red;
 	font-size:0.9em;
 	text-decoration : none;
 	width:100%;
+}
+
+
+.formEmbedCode, .formEmbedCode a {
+	font-size: 10px;
+	text-decoration : none;
+}
+.formEmbedCode input {
+	background-color: #FBFDFF;
+	border: 1px solid #ECECEC; 
 }
 </style>
 {/literal}
@@ -187,6 +197,10 @@ tr td.label img.plusMinus {
 <span id="generatedMenu"></span>
 
 <div class="section" id="Visits_summary">
+	<h3>Visits</h3>
+	{$graphLastVisits}
+	
+	<h3>Report</h3>
 	<p>{$nbUniqVisitors} unique visitors</p>
 	<p>{$nbVisits} visits</p>
 	<p>{$nbActions} actions (page views)</p>
@@ -211,6 +225,10 @@ tr td.label img.plusMinus {
 </div>
 
 <div class="section" id="Referers">
+
+	<h3>Number of distinct keywords</h3>
+	{$graphLastDistinctKeywords}
+	
 	<h3>Referer Type</h3>
 	{$dataTableRefererType}
 	

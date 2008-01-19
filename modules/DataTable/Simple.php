@@ -38,7 +38,7 @@ class Piwik_DataTable_Simple extends Piwik_DataTable
 	 * 			'Label row 1' => Value row 1,
 	 * 			'Label row 2' => Value row 2,
 	 * 	)
-	 */	
+	 */
 	function loadFromArray($array)
 	{
 		foreach($array as $label => $value)
@@ -50,9 +50,15 @@ class Piwik_DataTable_Simple extends Piwik_DataTable
 		}
 	}
 	
+		
 	function getColumn( $label )
 	{
-		return $this->getRowFromLabel($label)->getColumn('value');
+		$row = $this->getRowFromLabel($label);
+		if($row === false)
+		{
+			return false;
+		}
+		return $row->getColumn('value');
 	}
 }
 
