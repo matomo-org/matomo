@@ -62,7 +62,7 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	function archiveMonth( $notification )
 	{
-		$this->archiveProcessing = $notification->getNotificationObject();
+		$archiveProcessing = $notification->getNotificationObject();
 		
 		$dataTableToSum = array( 
 				'Actions_actions',
@@ -70,7 +70,7 @@ class Piwik_Actions extends Piwik_Plugin
 				'Actions_outlink',
 		);
 		
-		$this->archiveProcessing->archiveDataTable($dataTableToSum);
+		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
 	
 	/**

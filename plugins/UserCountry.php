@@ -56,28 +56,28 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	function archiveMonth( $notification )
 	{
-		$this->archiveProcessing = $notification->getNotificationObject();
+		$archiveProcessing = $notification->getNotificationObject();
 		
 		$dataTableToSum = array( 
 				'UserCountry_country',
 				'UserCountry_continent',
 		);
 		
-		$this->archiveProcessing->archiveDataTable($dataTableToSum);
+		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
 	function archiveDay($notification)
 	{
-		$this->ArchiveProcessing = $notification->getNotificationObject();
+		$archiveProcessing = $notification->getNotificationObject();
 		
 		$recordName = 'UserCountry_country';
 		$labelSQL = "location_country";
-		$tableCountry = $this->ArchiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$tableCountry = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableCountry->getSerialized());
 //		echo $tableCountry;
 		
 		$recordName = 'UserCountry_continent';
 		$labelSQL = "location_continent";
-		$tableContinent = $this->ArchiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$tableContinent = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableContinent->getSerialized());
 //		echo $tableContinent;
 //		Piwik::printMemoryUsage("End of ".get_class($this)." "); 

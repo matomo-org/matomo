@@ -65,13 +65,13 @@ class Piwik_Provider extends Piwik_Plugin
 	
 	function archiveMonth( $notification )
 	{
-		$this->archiveProcessing = $notification->getNotificationObject();
+		$archiveProcessing = $notification->getNotificationObject();
 		
 		$dataTableToSum = array( 
 				'Provider_hostnameExt',
 		);
 		
-		$this->archiveProcessing->archiveDataTable($dataTableToSum);
+		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
 		
 	/**
@@ -79,11 +79,11 @@ class Piwik_Provider extends Piwik_Plugin
 	 */
 	function archiveDay($notification)
 	{
-		$this->ArchiveProcessing = $notification->getNotificationObject();
+		$archiveProcessing = $notification->getNotificationObject();
 		
 		$recordName = 'Provider_hostnameExt';
 		$labelSQL = "location_provider";
-		$tableProvider = $this->ArchiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$tableProvider = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableProvider->getSerialized());
 //		echo $tableProvider;
 //		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
