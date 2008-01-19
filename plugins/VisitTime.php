@@ -54,14 +54,14 @@ class Piwik_VisitTime extends Piwik_Plugin
 
 	function archiveMonth( $notification )
 	{
-		$this->archiveProcessing = $notification->getNotificationObject();
+		$archiveProcessing = $notification->getNotificationObject();
 
 		$dataTableToSum = array( 
 				'VisitTime_localTime',
 				'VisitTime_serverTime',
 		);
 
-		$this->archiveProcessing->archiveDataTable($dataTableToSum);
+		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
 	public function archiveDay( $notification )
 	{

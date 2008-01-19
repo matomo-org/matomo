@@ -60,7 +60,7 @@ class Piwik_Referers extends Piwik_Plugin
 	
 	function archiveMonth( $notification )
 	{
-		$this->archiveProcessing = $notification->getNotificationObject();
+		$archiveProcessing = $notification->getNotificationObject();
 		
 		$dataTableToSum = array( 
 				'Referers_type',
@@ -71,7 +71,7 @@ class Piwik_Referers extends Piwik_Plugin
 				'Referers_urlByPartner',
 		);
 		
-		$nameToCount = $this->archiveProcessing->archiveDataTable($dataTableToSum);
+		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum);
 		
 		$mappingFromArchiveName = array(
 			'Referers_distinctSearchEngines' => 

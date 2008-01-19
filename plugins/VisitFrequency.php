@@ -53,7 +53,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	
 	function archiveMonth( $notification )
 	{
-		$this->archiveProcessing = $notification->getNotificationObject();
+		$archiveProcessing = $notification->getNotificationObject();
 		
 		$numericToSum = array( 
 				'nb_visits_returning',
@@ -62,14 +62,14 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 				'bounce_count_returning',
 		);
 		
-		$this->archiveProcessing->archiveNumericValuesSum($numericToSum);
+		$archiveProcessing->archiveNumericValuesSum($numericToSum);
 		
-		$this->archiveProcessing->archiveNumericValuesMax('max_actions_returning');
+		$archiveProcessing->archiveNumericValuesMax('max_actions_returning');
 	}
 	
 	function archiveDay($notification)
 	{
-		$this->ArchiveProcessing = $notification->getNotificationObject();
+		$archiveProcessing = $notification->getNotificationObject();
 		
 		$query = "SELECT 	count(distinct visitor_idcookie) as nb_uniq_visitors_returning,
 							count(*) as nb_visits_returning, 
@@ -77,12 +77,12 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 							max(visit_total_actions) as max_actions_returning, 
 							sum(visit_total_time) as sum_visit_length_returning,							
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count_returning
-				 	FROM ".$this->ArchiveProcessing->logTable."
+				 	FROM ".$archiveProcessing->logTable."
 				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
 				 		AND visitor_returning = 1
 				 	GROUP BY visitor_returning";
-		$row = $this->ArchiveProcessing->db->fetchRow($query, array( $this->ArchiveProcessing->strDateStart, $this->ArchiveProcessing->idsite ) );
+		$row = $archiveProcessing->db->fetchRow($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ) );
 		
 		if($row==false)
 		{

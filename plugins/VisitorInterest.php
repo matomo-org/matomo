@@ -80,17 +80,18 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	
 	function archiveMonth( $notification )
 	{
-		$this->archiveProcessing = $notification->getNotificationObject();
+		$archiveProcessing = $notification->getNotificationObject();
 		
 		$dataTableToSum = array( 
 				'VisitorInterest_timeGap',
 				'VisitorInterest_pageGap',
 		);
 		
-		$this->archiveProcessing->archiveDataTable($dataTableToSum);
+		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
 	public function archiveDay( $notification )
 	{
+		// used in protected methods
 		$this->archiveProcessing = $notification->getNotificationObject();
 
 		$recordName = 'VisitorInterest_timeGap';
