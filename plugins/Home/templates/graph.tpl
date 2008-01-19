@@ -12,4 +12,5 @@ Embed <input name="embed_code" value="{$codeEmbed}" onclick="javascript:document
 	{include file="Home/templates/datatable_footer.tpl"}
 {/if}
 
+{include file="Home/templates/datatable_js.tpl"}
 </div>

@@ -33,6 +33,7 @@
 	{if $showFooter}
 		{include file="Home/templates/datatable_footer.tpl"}
 	{/if}
+	{include file="Home/templates/datatable_actions_js.tpl"}
 	
 	{/if}
 </div>
