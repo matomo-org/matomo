@@ -318,7 +318,7 @@ dataTable.prototype =
 		{
 			$('#dataTableSearchPattern', domElem)
 				.css('display','block')
-				.each(function(){			
+				.each(function(){
 					// when enter is pressed in the input field we submit the form
 					$('#keyword', domElem).not(':submit')
 						.keypress( 
@@ -333,16 +333,18 @@ dataTable.prototype =
 						.val(
 							function()
 							{
-								/*var currentPattern = self.param.filter_pattern;
-								if(typeof currentPattern == "undefined" && currentPattern.length > 0)
+								var currentPattern = self.param.filter_pattern;
+								if(typeof currentPattern != "undefined"
+								&& currentPattern.length > 0)
 								{
 									return currentPattern;
 								}
-								var currentPattern = self.param.filter_pattern_recursive;
-								if(typeof currentPattern == "undefined" && currentPattern.length > 0)
+								currentPattern = self.param.filter_pattern_recursive
+								if(typeof currentPattern != "undefined"
+								&& currentPattern.length > 0)
 								{
 									return currentPattern;
-								}*/
+								}
 								return '';
 							}
 						)
