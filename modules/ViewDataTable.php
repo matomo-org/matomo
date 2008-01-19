@@ -355,17 +355,22 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	
-	public function setExcludeLowPopulation( $value = null )
+	public function setExcludeLowPopulation( $value = null, $columnId = null )
 	{
 		if( is_null( $value) ) 
 		{
 			throw new Exception("setExcludeLowPopulation() value shouldn't be null");
 		}
 		
+		if(is_null($columnId))
+		{
+			$columnId = Piwik_Archive::INDEX_NB_VISITS;
+		}
+		
 		// column to use to enable low population exclusion if != false
 		$this->variablesDefault['filter_excludelowpop_default'] 
 			= $this->variablesDefault['filter_excludelowpop']
-			= 2;
+			= $columnId;
 		
 		// the minimum value a row must have to be returned 
 		$this->variablesDefault['filter_excludelowpop_value_default'] 

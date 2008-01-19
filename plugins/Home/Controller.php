@@ -188,7 +188,7 @@ List of the public methods for the class Piwik_Actions_API
 		$visitsInfo = $this->getVisitsSummary(); 
 		$nbActions = $visitsInfo->getColumn('nb_actions');
 		$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions
-		$view->setExcludeLowPopulation( $nbActionsLowPopulationThreshold );
+		$view->setExcludeLowPopulation( $nbActionsLowPopulationThreshold, 'nb_hits' );
 		
 		$view->main();
 		
@@ -199,7 +199,7 @@ List of the public methods for the class Piwik_Actions_API
 //			var_dump($phpArrayRecursive);exit;
 			$view->view->arrayDataTable = $phpArrayRecursive;
 		}
-		
+//		var_dump( $view->view->arrayDataTable);exit;
 		return $view;
 	}
 	
