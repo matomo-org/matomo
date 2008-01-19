@@ -266,14 +266,14 @@ dataTable.prototype =
 		var self = this;
 		
 		// Showing the link "Exclude low population" for this DIV
-		if( self.param.show_exclude_low_population )
+		if(self.param.show_exclude_low_population)
 		{
 			// Set the string for the DIV, either "Exclude low pop" or "Include all"
 			$('#dataTableExcludeLowPopulation', domElem)
 				.each(
 					function()
 					{
-						if(self.param.filter_excludelowpop)
+						if(Number(self.param.filter_excludelowpop) != 0)
 						{
 							string = 'Include all population';
 						}
@@ -288,7 +288,7 @@ dataTable.prototype =
 				.click(
 					function()
 					{
-						if(self.param.filter_excludelowpop)
+						if(Number(self.param.filter_excludelowpop) != 0)
 						{
 							self.param.filter_excludelowpop = 0;
 							self.param.filter_excludelowpop_value = 0;
