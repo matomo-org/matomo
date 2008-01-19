@@ -31,11 +31,3 @@
 	<a class="viewDataTable" format="graphVerticalBar"><img width="16" height="16" src="themes/default/images/chart_bar.png" title="Vertical bar graph"></a>
 	<a class="viewDataTable" format="graphPie"><img width="16" height="16" src="themes/default/images/chart_pie.png" title="Pie chart"></a>
 </span>
-
-
-<script type="text/javascript" defer="defer">
-{foreach from=$javascriptVariablesToSet key=name item=value}
-setDivVariable( '{$id}', '{$name}', '{$value}');
-{/foreach}
-
-</script>
