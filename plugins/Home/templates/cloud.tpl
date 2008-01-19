@@ -61,6 +61,8 @@ span.size6, span.size6 a {
 	{$value.wordTruncated}{/if}{if false !== $labelDetails[$value.word].url}</a>{/if}</span>
 	{/foreach}
 {/if}
-{include file="Home/templates/datatable_footer.tpl"}
+{if $showFooter}
+	{include file="Home/templates/datatable_footer.tpl"}
+{/if}
 </div>
 </div>

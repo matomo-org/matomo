@@ -64,34 +64,75 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		else
 		{
 //			echo $this->dataTable;
-			// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
-			$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace(
-										$this->dataTable, 
-										'label', 
-										'urldecode'
-									);
-			$data = array();
-			foreach($this->dataTable->getRows() as $row)
-			{
-				$label = $row->getColumn('label');
-				$value = $row->getColumn('nb_unique_visitors');
-				// case no unique visitors
-				if($value === false)
-				{
-					$value = $row->getColumn('nb_visits');
-				}
-				$data[] = array(
-					'label' => $label,
-					'value' => $value,
-					'url' 	=> $row->getDetail('url'),
-				);
-			}
+			$data = $this->generateDataFromDataTable();
 			$this->view->setData($data);
 			$this->view->customizeGraph();
 		}
 	}
+	
+	protected function generateDataFromDataTable()
+	{
+		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
+		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace(
+									$this->dataTable, 
+									'label', 
+									'urldecode'
+								);
+		$data = array();
+		foreach($this->dataTable->getRows() as $row)
+		{
+			$label = $row->getColumn('label');
+			$value = $row->getColumn('nb_unique_visitors');
+			// case no unique visitors
+			if($value === false)
+			{
+				$value = $row->getColumn('nb_visits');
+			}
+			$data[] = array(
+				'label' => $label,
+				'value' => $value,
+				'url' 	=> $row->getDetail('url'),
+			);
+		}
+		return $data;
+	}
 }
 
+class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphData
+{
+	function __construct()
+	{
+		require_once "Visualization/ChartEvolution.php";
+		$this->view = new Piwik_Visualization_ChartEvolution;
+	}
+	
+	protected function generateDataFromDataTable()
+	{
+		// we have to fill a $data array with each row = array('label' => X, 'value' => y)
+	
+		$data = array();
+		foreach($this->dataTable->getArray() as $keyName => $table)
+		{
+			$value = false;
+			
+			$onlyRow = $table->getRowFromId(0);
+			if($onlyRow !== false)
+			{
+				$value = $onlyRow->getColumn('value');
+			}
+		
+			if($value === false)
+			{
+				$value = 0;
+			}
+			$data[] = array(
+					'label' => $keyName,
+					'value' => $value
+				);
+		}
+		return $data;
+	}
+}
 /**
  * 
  * @package Piwik_ViewDataTable

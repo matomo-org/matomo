@@ -24,6 +24,7 @@ abstract class Piwik_ViewDataTable
 	protected $JSoffsetInformation 		= true;
 	protected $JSexcludeLowPopulation 	= true;
 	protected $JSsortEnabled 			= true;
+	protected $showFooter				= true;
 	
 	protected $currentControllerAction;
 	
@@ -44,11 +45,11 @@ abstract class Piwik_ViewDataTable
 	 * 
 	 * @return Piwik_ViewDataTable Data table
 	 */
-	static public function factory( $type = null )
+	static public function factory( $type = null, $defaultType = 'table')
 	{
 		if(is_null($type))
 		{
-			$type = Piwik_Common::getRequestVar('viewDataTable', 'table', 'string');
+			$type = Piwik_Common::getRequestVar('viewDataTable', $defaultType, 'string');
 		}
 		
 		switch($type)
@@ -68,6 +69,11 @@ abstract class Piwik_ViewDataTable
 				return new Piwik_ViewDataTable_Graph_ChartVerticalBar();
 			break;	
 			
+			case 'graphEvolution':
+				require_once "ViewDataTable/Graph.php";
+				return new Piwik_ViewDataTable_Graph_ChartEvolution();
+			break;	
+			
 			case 'generateDataChartVerticalBar':
 				require_once "ViewDataTable/GenerateGraphData.php";
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar();
@@ -76,6 +82,12 @@ abstract class Piwik_ViewDataTable
 			case 'generateDataChartPie':
 				require_once "ViewDataTable/GenerateGraphData.php";
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartPie();
+			break;
+			
+			case 'generateDataChartEvolution':
+				require_once "ViewDataTable/GenerateGraphData.php";
+				return new Piwik_ViewDataTable_GenerateGraphData_ChartEvolution();
+				
 			break;
 				
 			case 'table':
@@ -102,6 +114,9 @@ abstract class Piwik_ViewDataTable
 		$this->variablesDefault['filter_excludelowpop_default'] = 'false';
 		$this->variablesDefault['filter_excludelowpop_value_default'] = 'false';	
 	}
+	
+	
+	abstract public function main();
 	
 	/**
 	 * For convenience, the client code can call methods that are defined in a specific children class
@@ -138,7 +153,7 @@ abstract class Piwik_ViewDataTable
 		return $uniqIdTable;
 	}
 	
-	protected function getJavascriptVariablesToSet(	)
+	protected function getJavascriptVariablesToSet()
 	{
 		// build javascript variables to set
 		$javascriptVariablesToSet = array();
@@ -317,6 +332,16 @@ abstract class Piwik_ViewDataTable
 	public function getSearchBox()
 	{
 		return $this->JSsearchBox;
+	}
+	
+	/**
+	 * When this method is called, the output will not contain the template datatable_footer.tpl
+	 *
+	 * @return void
+	 */
+	public function doNotShowFooter()
+	{
+		$this->showFooter = false;
 	}
 	
 	public function disableExcludeLowPopulation()

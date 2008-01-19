@@ -52,13 +52,13 @@ $t = new Piwik_Timer;
  * Generate visits / actions for the last 31 days
  */
 
-$daysToCompute = 10;
+$daysToCompute = 1;
 
 // do NOT edit this line
 $startTime = time() - ($daysToCompute-1)*86400;
 while($startTime <= time())
 {
-	$visits = rand(1,20);
+	$visits = rand(10,20);
 	$actions=10;
 //	$actions = 10;
 //	$visits = rand(10,30);

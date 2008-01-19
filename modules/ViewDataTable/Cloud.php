@@ -93,6 +93,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		$view->labelDetails = $labelDetails;
 		$view->cloudValues = $cloudValues;
 		
+		$view->showFooter = $this->showFooter;
 		$this->view = $view;
 	}
 }

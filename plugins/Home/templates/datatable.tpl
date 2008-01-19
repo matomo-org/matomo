@@ -30,6 +30,8 @@
 		</tbody>
 		</table>
 	{/if}
-	{include file="Home/templates/datatable_footer.tpl"}
+	{if $showFooter}
+		{include file="Home/templates/datatable_footer.tpl"}
+	{/if}
 {/if}
 </div>

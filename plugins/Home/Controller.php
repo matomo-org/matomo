@@ -63,6 +63,8 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view->dataTableOutlinks = $this->getOutlinks( true );
 		
 		/* General visits */
+		$view->graphLastVisits = $this->getLastVisitsGraph( true );
+		
 		$dataTableVisit = $this->getVisitsSummary();
 		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
 		$view->nbVisits = $dataTableVisit->getColumn('nb_visits');
@@ -107,6 +109,8 @@ class Piwik_Home_Controller extends Piwik_Controller
 		
 		
 		/* Referers */
+		$view->graphLastDistinctKeywords = $this->getLastDistinctKeywordsGraph(true);
+		
 		$view->dataTableRefererType = $this->getRefererType(true);
 		$view->dataTableKeywords = $this->getKeywords(true);
 		$view->dataTableSearchEngines = $this->getSearchEngines(true);
@@ -295,6 +299,22 @@ List of the public methods for the class Piwik_Actions_API
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}
+
+	function getLastVisitsGraph( $fetch = false )
+	{
+		require_once "ViewDataTable/Graph.php";
+		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
+		$view->init( __FUNCTION__, "VisitsSummary.getVisits" );
+		return $this->renderView($view, $fetch);
+	}
+	function getLastDistinctKeywordsGraph( $fetch = false )
+	{
+		require_once "ViewDataTable/Graph.php";
+		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
+		$view->init( __FUNCTION__, "Referers.getNumberOfDistinctKeywords" );
+		return $this->renderView($view, $fetch);
+	}
+	
 	/**
 	 * VisitFrequency
 	 */
