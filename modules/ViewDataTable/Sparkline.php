@@ -85,13 +85,13 @@ class Piwik_Sparkline_Graph
 			
 			$i++;			
 		}
-		
+//		echo imagefontwidth(FONT_2);exit;
 		// set y-bound, min and max extent lines
 		//
 		$sparkline->SetYMin(0);
 		$sparkline->SetPadding(2); // setpadding is additive
-		$sparkline->SetPadding(imagefontheight(FONT_2), 
-					imagefontwidth(FONT_2) * strlen(" $last[1]"), 
+		$sparkline->SetPadding(13, 
+					6 * strlen(" $last[1]"), 
 					0, //imagefontheight(FONT_2), 
 					0);
 		$sparkline->SetFeaturePoint($min[0]-1,$min[1]+2,'red', 5, $min[1], TEXT_TOP,FONT_2);
