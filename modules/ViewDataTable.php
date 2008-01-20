@@ -74,6 +74,11 @@ abstract class Piwik_ViewDataTable
 				return new Piwik_ViewDataTable_Graph_ChartEvolution();
 			break;	
 			
+			case 'sparkline':
+				require_once "ViewDataTable/Sparkline.php";
+				return new Piwik_ViewDataTable_Sparkline();
+			break;	
+			
 			case 'generateDataChartVerticalBar':
 				require_once "ViewDataTable/GenerateGraphData.php";
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar();
@@ -133,6 +138,36 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function __call($function, $args)
 	{
+	}
+	
+	
+	
+	// given a DataTable_Array made of DataTable_Simple
+	// returns PHP array containing rows of array( label => X, value => Y)
+	protected function generateDataFromDataTableArray( $dataTableArray)
+	{
+		// we have to fill a $data array with each row = array('label' => X, 'value' => y)
+		$data = array();
+		foreach($dataTableArray->getArray() as $keyName => $table)
+		{
+			$value = false;
+			
+			$onlyRow = $table->getRowFromId(0);
+			if($onlyRow !== false)
+			{
+				$value = $onlyRow->getColumn('value');
+			}
+		
+			if($value === false)
+			{
+				$value = 0;
+			}
+			$data[] = array(
+					'label' => $keyName,
+					'value' => $value
+				);
+		}
+		return $data;
 	}
 	
 	public function getView()

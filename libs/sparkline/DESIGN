@@ -1,0 +1,27 @@
+#
+# Sparkline PHP Graphing Library
+# Copyright 2004 James Byers <jbyers@users.sf.net>
+# http://sparkline.org
+#
+# Sparkline is distributed under a BSD License.  See LICENSE for details.
+#
+# $Id: DESIGN,v 1.3 2004/11/09 07:10:42 jbyers Exp $
+#
+
+Not much to see.  It's 0.1, after all.
+
+Flow
+------------------------------------------------------------------------------
+
+Instantiate appropriate Sparkline subclass
+Load data, set parameters, all Set* calls
+Render
+  convert coordinates
+  calculate image size
+  create image handle
+  set colors
+  fill background
+  draw graph
+  draw features
+Optionally call Draw* functions
+Output / OutputFile

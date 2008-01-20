@@ -1,0 +1,22 @@
+#
+# Sparkline PHP Graphing Library
+# Copyright 2004 James Byers <jbyers@users.sf.net>
+# http://sparkline.org
+#
+# Sparkline is distributed under a BSD License.  See LICENSE for details.
+#
+# $Id: CHANGES,v 1.2 2005/06/02 20:57:51 jbyers Exp $
+#
+
+2005-06-02  James Byers  <jbyers@users.sf.net>
+
+        * Version 0.2  released
+	* Corrected line chart behavior for small data sets [1096890]
+	* Library will create log file if possible [1163412]
+	* Fixed error message on bad log file [1096895]
+	* Corrected bitmask on DEBUG_ALL
+	* Revised structure of SetFeature
+
+2004-11-08  James Byers  <jbyers@users.sf.net>
+
+        * Version 0.1 released

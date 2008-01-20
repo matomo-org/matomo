@@ -60,9 +60,13 @@ class Piwik_VisitsSummary_API extends Piwik_Apiable
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_visits');
 	}
-	public function getUniquesVisitors( $idSite, $period, $date )
+	public function getUniqueVisitors( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_uniq_visitors');
+	}
+	public function getActions( $idSite, $period, $date )
+	{
+		return $this->getNumeric( $idSite, $period, $date, 'nb_actions');
 	}
 	public function getMaxActions( $idSite, $period, $date )
 	{
