@@ -508,8 +508,8 @@ dataTable.prototype =
 		var self = this;
 		
 		// we truncate the labels columns from the second row
-		$("table tr td:first-child", this).truncate(30);
-	    $('.truncated', this).Tooltip();
+		$("table tr td:first-child", domElem).truncate(30);
+	    $('.truncated', domElem).Tooltip();
 		
 		var imageLinkWidth = 10;
 		var imageLinkHeight = 9;
