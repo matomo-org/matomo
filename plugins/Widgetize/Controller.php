@@ -31,11 +31,18 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		
 		echo $view->render();
 	}
+
 	
-	
-	function testJsInclude()
+	function testJsInclude1()
 	{
 		$view = new Piwik_View('Widgetize/templates/test_jsinclude.tpl');
+		$view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
+		echo $view->render();
+	}
+	
+	function testJsInclude2()
+	{
+		$view = new Piwik_View('Widgetize/templates/test_jsinclude2.tpl');
 		$view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
 		$view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getCountry&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=0';
 		echo $view->render();

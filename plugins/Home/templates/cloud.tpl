@@ -1,7 +1,7 @@
 <div id="{$id}" class="parentDiv">
 {literal}
 <style>
-<!--
+
 #tagCloud{
 	width:500px;
 }
@@ -45,7 +45,6 @@ span.size6, span.size6 a {
 	color: #A3A8B6;
 	font-size: 11px;
 }
-//-->
 </style>
 {/literal}
 
