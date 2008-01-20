@@ -318,13 +318,31 @@ dataTable.prototype =
 		// Showing the search box for dom element DIV and binding the event
 		// - on the keyword DIV anywhere, if the ENTER key is pressed
 		// - if
+		
 		if(self.param.show_search)
 		{
+			var currentPattern = self.param.filter_pattern;
+			if(typeof self.param.filter_pattern != "undefined"
+			&& self.param.filter_pattern.length > 0)
+			{
+				currentPattern = self.param.filter_pattern;
+			}
+			else if(typeof self.param.filter_pattern_recursive != "undefined"
+			&& self.param.filter_pattern_recursive.length > 0)
+			{
+				currentPattern = self.param.filter_pattern_recursive;
+			}
+			else
+			{
+				currentPattern = '';
+			}
+			
+							
 			$('#dataTableSearchPattern', domElem)
 				.css('display','block')
 				.each(function(){
 					// when enter is pressed in the input field we submit the form
-					$('#keyword', domElem).not(':submit')
+					$('#keyword', this)
 						.keypress( 
 							function(e)
 							{ 
@@ -334,27 +352,10 @@ dataTable.prototype =
 								} 
 							} 
 						)
-						.val(
-							function()
-							{
-								var currentPattern = self.param.filter_pattern;
-								if(typeof currentPattern != "undefined"
-								&& currentPattern.length > 0)
-								{
-									return currentPattern;
-								}
-								currentPattern = self.param.filter_pattern_recursive
-								if(typeof currentPattern != "undefined"
-								&& currentPattern.length > 0)
-								{
-									return currentPattern;
-								}
-								return '';
-							}
-						)
+						.val(currentPattern)
 					;
 					
-					$(':submit', domElem).submit( 
+					$(':submit', this).submit( 
 						function()
 						{
 							var keyword = $(this).siblings('#keyword').val();
@@ -374,7 +375,7 @@ dataTable.prototype =
 						}
 					);
 					
-					$(':submit', domElem)
+					$(':submit', this)
 						.click( function(){ $(this).submit(); })
 					;
 				}
@@ -827,12 +828,42 @@ actionDataTable.prototype =
 		var content = $(response);
 		var idToReplace = $(content).attr('id');		
 		
+		//reset parents id
 		self.parentAttributeParent = '';
 		self.parentId = '';
 	
-		$('#'+idToReplace).html(content);
+		$('#'+idToReplace).html($(content).html());
 		actionDataTables[idToReplace].init(idToReplace, $('#'+idToReplace))
 	},
+	/*
+		// Function called when the AJAX request is successful
+	// it looks for the ID of the response and replace the very same ID 
+	// in the current page with the AJAX response
+	dataTableLoaded: function(response)
+	{
+		var content = $(response);
+		var idToReplace = $(content).attr('id');
+	
+		// if the current dataTable is situated inside another datatable
+		table = $(content).parents('table.dataTable');
+		if($('#'+idToReplace).parents('.dataTable').is('table'))
+		{
+			// we add class to the table so that we can give a different style to the subtable
+			$(content).children('table.dataTable').addClass('subDataTable');
+			$(content).children('#dataTableFeatures').addClass('subDataTable');
+		}
+		
+		
+		$('#'+idToReplace).html( $(content).html());
+		
+		// we execute the init function for the new DIV datatable
+		dataTables[idToReplace].init( idToReplace, $('#'+idToReplace))
+		
+		// and we hide the loading DIV
+		//$('#loadingDataTable', this).fadeOut("slow");
+	},	
+	
+	*/
 	
 	// Called when a set of rows for a category of actions is loaded
 	actionsSubDataTableLoaded: function(response)
