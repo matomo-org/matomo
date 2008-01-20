@@ -59,6 +59,15 @@ class Piwik_UserCountry_API extends Piwik_Apiable
 		return $dataTable;
 	}
 	
+	
+	function getNumberOfDistinctCountries($idSite, $period, $date)
+	{
+		Piwik::checkUserHasViewAccess( $idSite );
+		$archive = Piwik_Archive::build($idSite, $period, $date );
+		return $archive->getDataTableFromNumeric('UserCountry_distinctCountries');
+	}
+	
+	
 }
 
 function Piwik_getFlagFromCode($code)

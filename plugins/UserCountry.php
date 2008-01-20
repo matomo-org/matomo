@@ -63,7 +63,11 @@ class Piwik_UserCountry extends Piwik_Plugin
 				'UserCountry_continent',
 		);
 		
-		$archiveProcessing->archiveDataTable($dataTableToSum);
+		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum);
+		$record = new Piwik_ArchiveProcessing_Record_Numeric(
+												'UserCountry_distinctCountries', 
+												$nameToCount['UserCountry_country']['level0']
+												);
 	}
 	function archiveDay($notification)
 	{
@@ -72,7 +76,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$recordName = 'UserCountry_country';
 		$labelSQL = "location_country";
 		$tableCountry = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$record = new Piwik_ArchiveProcessing_Record_Numeric('UserCountry_distinctCountries', $tableCountry->getRowsCount());
 		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableCountry->getSerialized());
+
 //		echo $tableCountry;
 		
 		$recordName = 'UserCountry_continent';
