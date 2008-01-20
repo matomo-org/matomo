@@ -850,7 +850,7 @@ actionDataTable.prototype =
 		
 		// we execute the bindDataTableEvent function for the new DIV
 		self.init(self.workingDivId, $('#'+idToReplace));
-	},
+	}
 };
 
 //helper function for actionDataTable
