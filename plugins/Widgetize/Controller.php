@@ -36,10 +36,35 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 	function testJsInclude()
 	{
 		$view = new Piwik_View('Widgetize/templates/test_jsinclude.tpl');
+		$view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
+		$view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=0';
 		echo $view->render();
 	}
 	
-	// the code inside the IFRAME
+	
+	// the code loaded by the script src=
+	function js()
+	{
+		$controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
+		$actionName = Piwik_Common::getRequestVar('actionToWidgetize');
+		$parameters = array ( $fetch = true );
+		$outputDataTable='';
+		
+		$outputDataTable = Piwik_FrontController::getInstance()->dispatch( $controllerName, $actionName, $parameters);
+		
+		$view = new Piwik_View('Widgetize/templates/js.tpl');
+		$content = $outputDataTable;
+//		$content = str_replace(
+//								array( "<script",    "</script",   "'", "\n", "\t"), 
+//								array( "<scr'+'ipt", "<\/scr'+'ipt",  "\'", '', ''), 
+//								$outputDataTable
+//							);
+		
+//		echo $content;exit;
+		$view->content = $content;
+		echo $view->render();
+	}
+	// the code loaded by the frame src=
 	function iframe()
 	{		
 		$controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
