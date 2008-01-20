@@ -61,7 +61,7 @@ class Piwik_Sparkline_Graph
 		$sparkline->SetColorHtml('blue', '#55AAFF');
 		$sparkline->SetColorHtml('green', '#75BF7C');
 //		$sparkline->SetDebugLevel(DEBUG_NONE);
-		$sparkline->SetDebugLevel(DEBUG_ERROR | DEBUG_WARNING | DEBUG_STATS | DEBUG_CALLS | DEBUG_DRAW, 'log.txt');
+//		$sparkline->SetDebugLevel(DEBUG_ERROR | DEBUG_WARNING | DEBUG_STATS | DEBUG_CALLS | DEBUG_DRAW, 'log.txt');
 		
 		$data = array_reverse($data);
 		$min = $max= $last = null;
