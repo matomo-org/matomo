@@ -25,7 +25,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		parent::__construct();
 		$this->currentControllerName = 'Home';
 
-		$this->strDate = Piwik_Common::getRequestVar('date');
+		$this->strDate = Piwik_Common::getRequestVar('date', 'yesterday','string');
 		
 		// the date looks like YYYY-MM-DD we can build it
 		try{
