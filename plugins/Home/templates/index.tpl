@@ -24,6 +24,8 @@ var minDateDay = {$minDateDay};
 <script type="text/javascript" src="plugins/Home/templates/calendar.js"></script>
 <script type="text/javascript" src="plugins/Home/templates/mainmenu.js"></script>
 
+<script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
+
 <link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
 
@@ -187,16 +189,16 @@ tr td.label img.plusMinus {
 {literal}
 <script type="text/javascript">
 	
-function findSWF(movieName) {
+function findSWFGraph(name) {
   if (navigator.appName.indexOf("Microsoft")!= -1) {
-    return window[movieName];
+    return window[name];
   } else {
-    return document[movieName];
+    return document[name];
   }
 }
 function reload()
 {
-  tmp = findSWF("getLastVisitsGraphChart_swf");
+  tmp = findSWFGraph("getLastVisitsGraphChart_swf");
   x = tmp.reload();
 }
 
