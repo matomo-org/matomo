@@ -160,6 +160,18 @@ class Piwik_Home_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
+	function getLastDistinctCountriesGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "UserCountry.getNumberOfDistinctCountries");
+		return $this->renderView($view, $fetch);
+	}
+
+	function getLastDistinctKeywordsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "Referers.getNumberOfDistinctKeywords");
+		return $this->renderView($view, $fetch);
+	}
+	
 	function index()
 	{
 		$view = new Piwik_View('Home/templates/index.tpl');
@@ -205,6 +217,9 @@ class Piwik_Home_Controller extends Piwik_Controller
 
 		
 		/* User Country */
+		$view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
+		$view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
+		
 		$view->dataTableCountry = $this->getCountry(true);
 		$view->dataTableContinent = $this->getContinent(true);
 		
@@ -438,11 +453,6 @@ List of the public methods for the class Piwik_Actions_API
 		return $request->process();
 	}
 	
-	function getLastDistinctKeywordsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "Referers.getNumberOfDistinctKeywords");
-		return $this->renderView($view, $fetch);
-	}
 	
 	/**
 	 * VisitFrequency
@@ -832,7 +842,11 @@ List of the public methods for the class Piwik_Actions_API
 		return $this->renderView($view, $fetch);
 	}
 	
-	
+
+	function getNumberOfDistinctCountries( $fetch = false)
+	{
+		return $this->getNumericValue('UserCountry.' . __FUNCTION__);
+	}
 	function getNumberOfDistinctSearchEngines( $fetch = false)
 	{
 		return $this->getNumericValue('Referers.' . __FUNCTION__);

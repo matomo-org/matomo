@@ -52,6 +52,15 @@ h3 {
 	margin-top:2em;
 	color:#1D3256;
 }
+
+#loadingPiwik {
+	font-weight:bold;
+	font-size: 1.1em;
+	color:#193B6C;
+	padding:0.5em;
+	margin-left:30%;
+}
+
 /* Actions table */
 /* levels higher than 4 have a default padding left */
 tr.subActionsDataTable td.label{
@@ -220,14 +229,14 @@ function findSWFGraph(name) {
 	</div>
 </div>
 
-<span id="loadingPiwik"><img src="themes/default/loading-blue.gif"> Loading data...</span>
+<span id="loadingPiwik"><img src="themes/default/images/loading-blue.gif"> Loading data...</span>
 
 <span id="generatedMenu"></span>
 
 <div class="section" id="Visits_summary">
 
-	<h3>Visits</h3>
-	<a name="evolutionGraph"\>
+	<a name="evolutionGraph" ></a>
+	<h3>Evolution on the last 30 {$period}</h3>
 	{$graphLastVisits}
 	
 	<h3>Report</h3>
@@ -245,7 +254,9 @@ function findSWFGraph(name) {
 </div>
 
 <div class="section" id="User_Country">
-	<h3>Country</h3>
+	<h3>Country</h3>	
+	<p><img class="sparkline" src="{$urlSparklineCountries}" /> <span><strong>{$numberDistinctCountries} </strong> distinct countries</span></p>
+	
 	{$dataTableCountry}
 	<h3>Continent</h3>
 	{$dataTableContinent}
