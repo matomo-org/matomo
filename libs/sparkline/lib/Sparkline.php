@@ -192,10 +192,19 @@ class Sparkline extends Object {
   //
   function CreateImageHandle($x, $y) {
     $this->Debug("Sparkline :: CreateImageHandle($x, $y)", DEBUG_CALLS);
-
-    $handle = imagecreatetruecolor($x, $y);
-    if (!is_resource($handle)) {
+	if(function_exists('imagecreatetruecolor'))
+	{
+	    $handle = imagecreatetruecolor($x, $y);
+	}
+	elseif(function_exists('imagecreate'))
+	{		
       $handle = imagecreate($x, $y);
+	}
+	else
+	{
+		echo "You need at least imagecreate()";exit;
+	}
+    if (!is_resource($handle)) {
       $this->Debug('imagecreatetruecolor unavailable', DEBUG_WARNING);
     }
 
