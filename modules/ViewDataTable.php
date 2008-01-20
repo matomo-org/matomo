@@ -98,10 +98,12 @@ abstract class Piwik_ViewDataTable
 		}
 	}
 	
-	function init( $currentControllerAction, 
+	function init( $currentControllerName,
+						$currentControllerAction, 
 						$moduleNameAndMethod, 
 						$actionToLoadTheSubTable = null)
 	{
+		$this->currentControllerName = $currentControllerName;
 		$this->currentControllerAction = $currentControllerAction;
 		$this->moduleNameAndMethod = $moduleNameAndMethod;
 		$this->actionToLoadTheSubTable = $actionToLoadTheSubTable;
@@ -110,7 +112,7 @@ abstract class Piwik_ViewDataTable
 		
 		$this->method = $moduleNameAndMethod;
 		
-		
+		$this->showFooter = Piwik_Common::getRequestVar('showDataTableFooter', true);
 		$this->variablesDefault['filter_excludelowpop_default'] = 'false';
 		$this->variablesDefault['filter_excludelowpop_value_default'] = 'false';	
 	}
@@ -207,6 +209,7 @@ abstract class Piwik_ViewDataTable
 		}
 		
 		
+		$javascriptVariablesToSet['module'] = $this->currentControllerName;
 		$javascriptVariablesToSet['action'] = $this->currentControllerAction;
 		
 		if(!is_null($this->actionToLoadTheSubTable))

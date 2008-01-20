@@ -20,6 +20,11 @@ require_once "ViewDataTable.php";
  */
 class Piwik_Home_Controller extends Piwik_Controller
 {
+	function __construct()
+	{
+		parent::__construct();
+		$this->currentControllerName = 'Home';
+	}
 	function getDefaultAction()
 	{
 		return 'redirectToIndex';
@@ -154,12 +159,14 @@ List of the public methods for the class Piwik_Actions_API
 - getOutlinks : [idSite, period, date, expanded = , idSubtable = ]
 
 		 */
-	function getActionsView($currentMethod,
+	function getActionsView($currentControllerName,
+						$currentMethod,
 						$methodToCall = 'Actions.getActions', 
 						$subMethod = 'getActionsSubDataTable')
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	$currentMethod, 
+		$view->init(  	$currentControllerName,
+						$currentMethod, 
 						$methodToCall, 
 						$subMethod );
 		$view->setTemplate('Home/templates/datatable_actions.tpl');
@@ -240,7 +247,8 @@ List of the public methods for the class Piwik_Actions_API
 	}
 	function getDownloads($fetch = false)
 	{
-		$view = $this->getActionsView( 	__FUNCTION__,
+		$view = $this->getActionsView( 	$this->currentControllerName, 
+										__FUNCTION__,
 										'Actions.getDownloads', 
 										'getDownloadsSubDataTable' );
 		
@@ -248,7 +256,8 @@ List of the public methods for the class Piwik_Actions_API
 	}
 	function getDownloadsSubDataTable($fetch = false)
 	{
-		$view = $this->getActionsView( 	__FUNCTION__,
+		$view = $this->getActionsView( 	$this->currentControllerName, 
+										__FUNCTION__,
 										'Actions.getDownloads', 
 										'getDownloadsSubDataTable' );
 		
@@ -256,7 +265,8 @@ List of the public methods for the class Piwik_Actions_API
 	}
 	function getActions($fetch = false)
 	{
-		$view = $this->getActionsView(	__FUNCTION__,
+		$view = $this->getActionsView(	$this->currentControllerName, 
+										__FUNCTION__,
 										'Actions.getActions', 
 										'getActionsSubDataTable' );
 		
@@ -264,7 +274,8 @@ List of the public methods for the class Piwik_Actions_API
 	}
 	function getActionsSubDataTable($fetch = false)
 	{
-		$view = $this->getActionsView( 	__FUNCTION__,
+		$view = $this->getActionsView( 	$this->currentControllerName, 
+										__FUNCTION__,
 										'Actions.getActions', 
 										'getActionsSubDataTable'  );
 		
@@ -272,7 +283,8 @@ List of the public methods for the class Piwik_Actions_API
 	}
 	function getOutlinks($fetch = false)
 	{
-		$view = $this->getActionsView(	__FUNCTION__,
+		$view = $this->getActionsView(	$this->currentControllerName, 
+										__FUNCTION__,
 										'Actions.getOutlinks', 
 										'getOutlinksSubDataTable' );
 		
@@ -280,7 +292,8 @@ List of the public methods for the class Piwik_Actions_API
 	}
 	function getOutlinksSubDataTable($fetch = false)
 	{
-		$view = $this->getActionsView( 	__FUNCTION__,
+		$view = $this->getActionsView( 	$this->currentControllerName, 
+										__FUNCTION__,
 										'Actions.getOutlinks', 
 										'getOutlinksSubDataTable'  );
 		
@@ -304,14 +317,14 @@ List of the public methods for the class Piwik_Actions_API
 	{
 		require_once "ViewDataTable/Graph.php";
 		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
-		$view->init( __FUNCTION__, "VisitsSummary.getVisits" );
+		$view->init( $this->currentControllerName, __FUNCTION__, "VisitsSummary.getVisits" );
 		return $this->renderView($view, $fetch);
 	}
 	function getLastDistinctKeywordsGraph( $fetch = false )
 	{
 		require_once "ViewDataTable/Graph.php";
 		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
-		$view->init( __FUNCTION__, "Referers.getNumberOfDistinctKeywords" );
+		$view->init( $this->currentControllerName, __FUNCTION__, "Referers.getNumberOfDistinctKeywords" );
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -331,7 +344,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getVisitInformationPerServerTime( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  __FUNCTION__, 
+		$view->init( $this->currentControllerName,  __FUNCTION__, 
 								"VisitTime.getVisitInformationPerServerTime" );
 		
 		$view->setColumnsToDisplay( array(0,2) );
@@ -347,7 +360,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getVisitInformationPerLocalTime( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  __FUNCTION__, 
+		$view->init( $this->currentControllerName,  __FUNCTION__, 
 								"VisitTime.getVisitInformationPerLocalTime" );
 		
 		$view->setColumnsToDisplay( array(0,2) );
@@ -366,7 +379,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getNumberOfVisitsPerVisitDuration( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  __FUNCTION__, 
+		$view->init( $this->currentControllerName,  __FUNCTION__, 
 									"VisitorInterest.getNumberOfVisitsPerVisitDuration" );
 		
 		$view->setColumnsToDisplay( array(0,1) );
@@ -381,7 +394,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getNumberOfVisitsPerPage( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  __FUNCTION__, 
+		$view->init( $this->currentControllerName,  __FUNCTION__, 
 									"VisitorInterest.getNumberOfVisitsPerPage" );
 		
 		$view->setColumnsToDisplay( array(0,1) );
@@ -401,7 +414,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getProvider( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  __FUNCTION__, "Provider.getProvider" );
+		$view->init( $this->currentControllerName,  __FUNCTION__, "Provider.getProvider" );
 		
 		$view->setColumnsToDisplay( array(0,1) );
 		$view->setSortedColumn( 1 );
@@ -416,7 +429,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getCountry( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( __FUNCTION__, "UserCountry.getCountry" );
+		$view->init( $this->currentControllerName, __FUNCTION__, "UserCountry.getCountry" );
 		$view->disableExcludeLowPopulation();
 		
 		$view->setColumnsToDisplay( array(0,1) );
@@ -434,7 +447,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getContinent( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( __FUNCTION__, "UserCountry.getContinent" );
+		$view->init( $this->currentControllerName, __FUNCTION__, "UserCountry.getContinent" );
 		$view->disableExcludeLowPopulation();
 		$view->disableSearchBox();
 		$view->disableOffsetInformation();
@@ -452,7 +465,7 @@ List of the public methods for the class Piwik_Actions_API
 												$APItoCall )
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  $currentControllerAction, $APItoCall );
+		$view->init( $this->currentControllerName,  $currentControllerAction, $APItoCall );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		
@@ -524,7 +537,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getPlugin( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  __FUNCTION__, 'UserSettings.getPlugin' );
+		$view->init( $this->currentControllerName,  __FUNCTION__, 'UserSettings.getPlugin' );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->disableSort();
@@ -545,7 +558,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getRefererType( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	'getRefererType', 
+		$view->init( $this->currentControllerName,  	'getRefererType', 
 											'Referers.getRefererType'
 								);
 		$view->disableSearchBox();
@@ -560,7 +573,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getKeywords( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( 	'getKeywords', 
+		$view->init( $this->currentControllerName, 	'getKeywords', 
 											'Referers.getKeywords', 
 											'getSearchEnginesFromKeywordId'
 								);
@@ -573,7 +586,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getSearchEnginesFromKeywordId( $fetch = false )
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( 	'getSearchEnginesFromKeywordId', 
+		$view->init( $this->currentControllerName, 	'getSearchEnginesFromKeywordId', 
 											'Referers.getSearchEnginesFromKeywordId'
 								);
 		$view->disableSearchBox();
@@ -587,7 +600,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getSearchEngines( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	'getSearchEngines', 
+		$view->init( $this->currentControllerName,  	'getSearchEngines', 
 											'Referers.getSearchEngines', 
 											'getKeywordsFromSearchEngineId'
 								);
@@ -603,7 +616,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getKeywordsFromSearchEngineId( $fetch = false )
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( 	'getKeywordsFromSearchEngineId', 
+		$view->init( $this->currentControllerName, 	'getKeywordsFromSearchEngineId', 
 											'Referers.getKeywordsFromSearchEngineId'
 								);
 		$view->disableSearchBox();
@@ -616,7 +629,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getWebsites( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	'getWebsites', 
+		$view->init( $this->currentControllerName,  	'getWebsites', 
 											'Referers.getWebsites',
 											'getUrlsFromWebsiteId'
 								);
@@ -633,7 +646,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getCampaigns( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	'getCampaigns', 
+		$view->init( $this->currentControllerName,  	'getCampaigns', 
 											'Referers.getCampaigns',
 											'getKeywordsFromCampaignId'
 								);
@@ -650,7 +663,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getKeywordsFromCampaignId( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( 	'getKeywordsFromCampaignId', 
+		$view->init( $this->currentControllerName, 	'getKeywordsFromCampaignId', 
 											'Referers.getKeywordsFromCampaignId'
 								);
 
@@ -664,7 +677,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getUrlsFromWebsiteId( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( 	'getUrlsFromWebsiteId', 
+		$view->init( $this->currentControllerName, 	'getUrlsFromWebsiteId', 
 											'Referers.getUrlsFromWebsiteId'
 								);
 		$view->disableSearchBox();
@@ -677,7 +690,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getPartners( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	'getPartners', 
+		$view->init( $this->currentControllerName,  	'getPartners', 
 											'Referers.getPartners',
 											'getUrlsFromPartnerId'
 								);
@@ -693,7 +706,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getUrlsFromPartnerId( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( 	'getUrlsFromPartnerId', 
+		$view->init( $this->currentControllerName, 	'getUrlsFromPartnerId', 
 											'Referers.getUrlsFromPartnerId'
 								);
 		$view->disableSearchBox();

@@ -20,11 +20,13 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 	
 	public $arrayDataTable; // phpArray
 	
-	function init($currentControllerAction, 
+	function init($currentControllerName,
+						$currentControllerAction, 
 						$moduleNameAndMethod,						
 						$actionToLoadTheSubTable = null )
 	{
-		parent::init($currentControllerAction, 
+		parent::init($currentControllerName,
+						$currentControllerAction, 
 						$moduleNameAndMethod,						
 						$actionToLoadTheSubTable);
 		$this->dataTableTemplate = 'Home/templates/datatable.tpl';

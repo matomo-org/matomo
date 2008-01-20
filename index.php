@@ -57,10 +57,9 @@ set_exception_handler('Piwik_ExceptionHandler');
 require_once "FrontController.php";
 
 
-$controller = new Piwik_FrontController;
+Piwik_FrontController::$enableDispatch = ENABLE_DISPATCH;
+
+$controller = Piwik_FrontController::getInstance();
 $controller->init();
-if(ENABLE_DISPATCH)
-{
-	$controller->dispatch();
-}
+$controller->dispatch();
 $controller->end();

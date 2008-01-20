@@ -15,6 +15,10 @@
  */
 abstract class Piwik_Controller
 {
+	function __construct()
+	{
+	}
+	
 	function getDefaultAction()
 	{
 		return 'index';
