@@ -19,10 +19,12 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 	protected $width = 400; 
 	protected $height = 250; 
 	
-	function init($currentControllerAction, 
+	function init($currentControllerName,
+						$currentControllerAction, 
 						$moduleNameAndMethod )
 	{
-		parent::init($currentControllerAction, 
+		parent::init($currentControllerName,
+						$currentControllerAction, 
 						$moduleNameAndMethod );
 		$this->dataTableTemplate = 'Home/templates/graph.tpl';
 		
@@ -134,10 +136,12 @@ class Piwik_ViewDataTable_Graph_ChartEvolution extends Piwik_ViewDataTable_Graph
 		
 	}
 	
-	function init($currentControllerAction, 
+	function init($currentControllerName,
+						$currentControllerAction, 
 						$moduleNameAndMethod )
 	{
-		parent::init($currentControllerAction, 
+		parent::init($currentControllerName,
+						$currentControllerAction, 
 						$moduleNameAndMethod );
 		
 		$this->parametersToModify['date'] = 'last30';

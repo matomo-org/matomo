@@ -17,10 +17,12 @@
 abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 {
 	
-	function init($currentControllerAction, 
+	function init($currentControllerName,
+						$currentControllerAction, 
 						$moduleNameAndMethod )
 	{
-		parent::init($currentControllerAction, 
+		parent::init($currentControllerName, 
+						$currentControllerAction, 
 						$moduleNameAndMethod );
 		
 		$this->disableOffsetInformation();

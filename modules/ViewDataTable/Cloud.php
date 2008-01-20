@@ -19,10 +19,12 @@ require_once "Visualization/Cloud.php";
 class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 {
 	protected $displayLogoInsteadOfLabel = false;
-	function init($currentControllerAction, 
+	function init($currentControllerName,
+						$currentControllerAction, 
 						$moduleNameAndMethod )
 	{
-		parent::init($currentControllerAction, 
+		parent::init($currentControllerName,
+						$currentControllerAction, 
 						$moduleNameAndMethod );
 		$this->dataTableTemplate = 'Home/templates/cloud.tpl';
 		

@@ -44,16 +44,40 @@ class Piwik_FrontController
 {
 	static public $enableDispatch = true;
 	
-	function dispatch()
+	static private $instance = null;	
+	static public function getInstance()
+	{
+		if (self::$instance == null)
+		{			
+			$c = __CLASS__;
+			self::$instance = new $c();
+		}
+		return self::$instance;
+	}
+	
+	function dispatch( $module = null, $action = null, $parameters = null)
 	{
 		if( self::$enableDispatch === false)
 		{
 			return;
 		}
-		$defaultModule = 'Home';
 		
-		// load the module requested
-		$module = Piwik_Common::getRequestVar('module', $defaultModule, 'string');
+		if(is_null($module))
+		{
+			$defaultModule = 'Home';
+			// load the module requested
+			$module = Piwik_Common::getRequestVar('module', $defaultModule, 'string');
+		}
+		
+		if(is_null($action))
+		{
+			$action = Piwik_Common::getRequestVar('action', false);
+		}
+		
+		if(is_null($parameters))
+		{
+			$parameters = array();
+		}
 		
 		if(ctype_alnum($module))
 		{
@@ -66,16 +90,16 @@ class Piwik_FrontController
 				
 				$controller = new $controllerClassName;
 				
-				$defaultAction = $controller->getDefaultAction();
-				$action = Piwik_Common::getRequestVar('action', $defaultAction, 'string');
 				
+				if($action === false)
+				{
+					$action = $controller->getDefaultAction();
+				}
 				if(method_exists($controller, $action))
 				{
 					try{
-						$controller->$action();
+						return call_user_func_array( array($controller, $action ), $parameters);
 					} catch(Piwik_Access_NoAccessException $e) {
-	//					Piwik::log("NO ACCESS EXCEPTION =>");
-						
 						Piwik_PostEvent('FrontController.NoAccessException', $e);					
 					}
 				}

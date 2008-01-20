@@ -29,7 +29,7 @@ class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
 		$this->bg_colour = '#ffffff';
 		$this->set_data( $this->arrayData );
 		$this->set_x_labels( $this->arrayLabel );
-		$this->area_hollow( 2, 4, 15,'0x3357A0',  ' visits', 10 );
+		$this->area_hollow( 1, 3, 10,'0x3357A0',  ' visits', 10 );
 		
 		$this->set_tool_tip( '#x_label# <br>#val# #key# ' );
 		
