@@ -45,7 +45,10 @@ abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashCh
 		$stepsY = ceil($this->getCount() / 4);
 		$this->y_label_steps( $stepsY / 3 );
 		
+		$this->bg_colour = '#ffffff';
+		$this->set_inner_background('#ffffff');
 		
+		$this->set_tool_tip( '#x_label# <br>#val# #key# ' );
 		
 	}
 	
