@@ -19,6 +19,7 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 	protected $width = 400; 
 	protected $height = 250; 
 	
+	
 	function init($currentControllerName,
 						$currentControllerAction, 
 						$moduleNameAndMethod )
@@ -32,6 +33,11 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		$this->disableExcludeLowPopulation();
 		$this->disableSearchBox();
 		$this->parametersToModify = array( 'viewDataTable' => $this->valueParameterViewDataTable);
+	}
+	
+	public function setParametersToModify($array)
+	{
+		$this->parametersToModify = array_merge($this->parametersToModify, $array);
 	}
 	
 	public function main()

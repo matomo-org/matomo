@@ -596,7 +596,8 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$correct=array(
 			$today->toString(),
 		);
-			
+		$correct = array_reverse($correct);
+	 		
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
@@ -612,7 +613,8 @@ class Test_Piwik_Period extends UnitTestCase
 			$today->toString(),
 			$today->subDay(1)->toString()
 		);
-			
+		$correct = array_reverse($correct);
+	 		
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 2);
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
@@ -629,7 +631,8 @@ class Test_Piwik_Period extends UnitTestCase
 	 	{
 	 		$correct[]=$today->subDay($i)->toString();
 	 	}
-			
+		$correct = array_reverse($correct);
+	 		
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 50);
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
@@ -646,8 +649,215 @@ class Test_Piwik_Period extends UnitTestCase
 	 	{
 	 		$correct[]=$yesterday->subDay($i)->toString();
 	 	}
-			
+		$correct = array_reverse($correct);
+	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 3);
+	 	$this->assertEqual( $range->isFinished(), true);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+	 
+	// test range date1,date2
+	function test_range_comma1()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'day', '2008-01-01,2008-01-03' );
+	 	
+	 	$correct = array(
+	 				'2008-01-01',
+	 				'2008-01-02',
+	 				'2008-01-03',
+ 				);
+	 	
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
+	 	$this->assertEqual( $range->isFinished(), true);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+
+	// test range date1,date2
+	function test_range_comma2()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'day', '2007-12-22,2008-01-03' );
+	 	
+	 	$correct = array(
+	 				'2007-12-22',
+	 				'2007-12-23',
+	 				'2007-12-24',
+	 				'2007-12-25',
+	 				'2007-12-26',
+	 				'2007-12-27',
+	 				'2007-12-28',
+	 				'2007-12-29',
+	 				'2007-12-30',
+	 				'2007-12-31',
+	 				'2008-01-01',
+	 				'2008-01-02',
+	 				'2008-01-03',
+ 				);
+	 	
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
+	 	$this->assertEqual( $range->isFinished(), true);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+	// test range date1,date2
+	function test_range_weekcomma1()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'week', '2007-12-22,2008-01-03' );
+	 	
+	 	$correct = array(
+	 		array(
+	 				
+	 				'2007-12-17',
+	 				'2007-12-18',
+	 				'2007-12-19',
+	 				'2007-12-20',
+	 				'2007-12-21',
+	 				'2007-12-22',
+	 				'2007-12-23',
+	 		),
+	 		array(
+	 				'2007-12-24',
+	 				'2007-12-25',
+	 				'2007-12-26',
+	 				'2007-12-27',
+	 				'2007-12-28',
+	 				'2007-12-29',
+	 				'2007-12-30',
+	 		),
+	 		array(
+	 				'2007-12-31',
+	 				'2008-01-01',
+	 				'2008-01-02',
+	 				'2008-01-03',
+	 				'2008-01-04',
+	 				'2008-01-05',
+	 				'2008-01-06',
+	 		)
+ 		);
+	 	
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
+	 	$this->assertEqual( $range->isFinished(), true);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+	// test range date1,date2
+	function test_range_yearcomma1()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'year', '2006-12-22,2007-01-03' );
+	 	
+	 	$correct = array(
+			  array (
+			    0 => '2006-01-01',
+			    1 => '2006-02-01',
+			    2 => '2006-03-01',
+			    3 => '2006-04-01',
+			    4 => '2006-05-01',
+			    5 => '2006-06-01',
+			    6 => '2006-07-01',
+			    7 => '2006-08-01',
+			    8 => '2006-09-01',
+			    9 => '2006-10-01',
+			    10 => '2006-11-01',
+			    11 => '2006-12-01',
+			  ),
+			  1 => 
+			  array (
+			    0 => '2007-01-01',
+			    1 => '2007-02-01',
+			    2 => '2007-03-01',
+			    3 => '2007-04-01',
+			    4 => '2007-05-01',
+			    5 => '2007-06-01',
+			    6 => '2007-07-01',
+			    7 => '2007-08-01',
+			    8 => '2007-09-01',
+			    9 => '2007-10-01',
+			    10 => '2007-11-01',
+			    11 => '2007-12-01',
+			  ),
+ 		);
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
+	 	$this->assertEqual( $range->isFinished(), true);
+	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+	// test range date1,date2
+	function test_range_monthcomma1()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'month', '2006-12-22,2007-01-03' );
+	 	
+	 	$correct = array(
+	 		array(
+	 				'2006-12-01',
+	 				'2006-12-02',
+	 				'2006-12-03',
+	 				'2006-12-04',
+	 				'2006-12-05',
+	 				'2006-12-06',
+	 				'2006-12-07',
+	 				'2006-12-08',
+	 				'2006-12-09',
+	 				'2006-12-10',
+	 				'2006-12-11',
+	 				'2006-12-12',
+	 				'2006-12-13',
+	 				'2006-12-14',
+	 				'2006-12-15',
+	 				'2006-12-16',
+	 				'2006-12-17',
+	 				'2006-12-18',
+	 				'2006-12-19',
+	 				'2006-12-20',
+	 				'2006-12-21',
+	 				'2006-12-22',
+	 				'2006-12-23',
+	 				'2006-12-24',
+	 				'2006-12-25',
+	 				'2006-12-26',
+	 				'2006-12-27',
+	 				'2006-12-28',
+	 				'2006-12-29',
+	 				'2006-12-30',
+	 				'2006-12-31',
+	 		),
+	 		array(
+	 				
+	 				'2007-01-01',
+	 				'2007-01-02',
+	 				'2007-01-03',
+	 				'2007-01-04',
+	 				'2007-01-05',
+	 				'2007-01-06',
+	 				'2007-01-07',
+	 				'2007-01-08',
+	 				'2007-01-09',
+	 				'2007-01-10',
+	 				'2007-01-11',
+	 				'2007-01-12',
+	 				'2007-01-13',
+	 				'2007-01-14',
+	 				'2007-01-15',
+	 				'2007-01-16',
+	 				'2007-01-17',
+	 				'2007-01-18',
+	 				'2007-01-19',
+	 				'2007-01-20',
+	 				'2007-01-21',
+	 				'2007-01-22',
+	 				'2007-01-23',
+	 				'2007-01-24',
+	 				'2007-01-25',
+	 				'2007-01-26',
+	 				'2007-01-27',
+	 				'2007-01-28',
+	 				'2007-01-29',
+	 				'2007-01-30',
+	 				'2007-01-31',
+	 		),
+ 		);
+	 	
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
 	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
@@ -667,7 +877,9 @@ class Test_Piwik_Period extends UnitTestCase
 	 		
 	 		$correct[]= $week->toString();
 	 	}
-			
+	 	$correct = array_reverse($correct);
+	 	
+	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 50);
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
@@ -687,6 +899,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 		
 	 		$correct[]= $week->toString();
 	 	}
+	 	$correct = array_reverse($correct);
 			
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 20);
 	 	$this->assertEqual( $range->isFinished(), false);
@@ -708,7 +921,9 @@ class Test_Piwik_Period extends UnitTestCase
 	 		
 	 		$correct[]= $week->toString();
 	 	}
-			
+		$correct = array_reverse($correct);
+	 	
+	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 10);
 	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
@@ -729,6 +944,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 		
 	 		$correct[]= $week->toString();
 	 	}
+	 	$correct = array_reverse($correct);
 	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 10);
 	 	$this->assertEqual( $range->isFinished(), false);

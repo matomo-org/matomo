@@ -1,8 +1,3 @@
-* {
-	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	font-size:1em;
-}
-
 /* main data table */
 
 table.dataTable th.columnSorted {
@@ -50,7 +45,7 @@ table.dataTable td {
 	background: #fff;
 }
 
-table.dataTable td,table.dataTable td a {
+table.dataTable td, table.dataTable td a {
 	margin:0;
 	text-decoration:none;
 	color: #4f6b72;
@@ -72,6 +67,10 @@ table.dataTable td.labeleven {
 table.dataTable td.labelodd {
 	background: #F7FAFA url(images/bullet2.gif) no-repeat;
 	color: #797268;
+}
+/* A link in a column in the DataTable */
+table.dataTable td #urlLink {
+	display:none;
 }
 
 /* a datatable inside another datatable */
@@ -132,12 +131,6 @@ table.subDataTable thead th {
 }
 
 /* misc SPAN and DIV */
-
-/* A link in a column in the DataTable */
-table td #urlLink {
-	display:none;
-}
-
 #dataTablePages {
 	color:grey;
 	font-weight:bold;
@@ -178,9 +171,6 @@ table td #urlLink {
 	font-size:0.8em;
 	color:#C3C6D8;
 }
-div.subDataTable {
-	font-size:0.8em;
-}
 
 #dataTableNext, #dataTablePrevious, #dataTableSearchPattern, #loadingDataTable   {
 	display:none;
@@ -193,7 +183,6 @@ div.subDataTable {
 
 #loadingDataTable {
 	font-size: 1em;
-	font-weight:bold;
 	color:#193B6C;
 	padding:0.5em;
 }
