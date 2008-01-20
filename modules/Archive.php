@@ -60,12 +60,14 @@ abstract class Piwik_Archive
 		$oSite = new Piwik_Site($idSite);
 			
 		if(is_string($oDate) 
-			&& ereg('^(last|previous){1}([0-9]*)$', $oDate, $regs))
+			&& (
+				ereg('^(last|previous){1}([0-9]*)$', $oDate, $regs)
+				|| ereg('^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$', $oDate, $regs)
+				)
+			)
 		{
 			require_once 'Archive/Array.php';
-			
 			$archive = new Piwik_Archive_Array($oSite, $period, $oDate);
-			
 		}
 		else
 		{

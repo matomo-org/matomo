@@ -56,7 +56,8 @@ class Piwik_Sparkline_Graph
 		$sparkline = new Sparkline_Line();
 		
 //		$sparkline->SetColorHtml('lineColor', '000000');
-		$sparkline->SetColor('lineColor', 0,0,0);
+		$sparkline->SetColor('lineColor', 22,44,74); // dark blue
+//		$sparkline->SetColor('lineColor', 0,119,204);
 		$sparkline->SetColorHtml('red', '#FF7F7F');
 		$sparkline->SetColorHtml('blue', '#55AAFF');
 		$sparkline->SetColorHtml('green', '#75BF7C');
@@ -90,16 +91,17 @@ class Piwik_Sparkline_Graph
 		//
 		$sparkline->SetYMin(0);
 		$sparkline->SetPadding(2); // setpadding is additive
-		$sparkline->SetPadding(13, 
-					6 * strlen(" $last[1]"), 
+		$sparkline->SetPadding(13,//font height 
+					3,//4 * (strlen("$last[1]")), 
 					0, //imagefontheight(FONT_2), 
 					0);
-		$sparkline->SetFeaturePoint($min[0]-1,$min[1]+2,'red', 5, $min[1], TEXT_TOP,FONT_2);
-		$sparkline->SetFeaturePoint($max[0]-1,$max[1],'green', 5, $max[1], TEXT_TOP,FONT_2);
-		$sparkline->SetFeaturePoint($last[0]-1, $last[1], 'blue',5, " $last[1]", TEXT_RIGHT,FONT_2);
+		$font = FONT_2;
+		$sparkline->SetFeaturePoint($min[0]-1,$min[1]+2,'red', 5, $min[1], TEXT_TOP,$font);
+		$sparkline->SetFeaturePoint($max[0]-1,$max[1],  'green', 5, $max[1], TEXT_TOP,$font);
+		$sparkline->SetFeaturePoint($last[0]-1, $last[1], 'blue',5);//, " $last[1]", TEXT_RIGHT,$font);
 		
 		$sparkline->SetLineSize(3); // for renderresampled, linesize is on virtual image
-		$sparkline->RenderResampled(130, 30, 'black');
+		$sparkline->RenderResampled(100, 30, 'lineColor');
 		
 		$this->sparkline = $sparkline;
 	}

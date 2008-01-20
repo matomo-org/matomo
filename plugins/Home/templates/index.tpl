@@ -32,7 +32,10 @@ var minDateDay = {$minDateDay};
 {literal}
 
 <style>
-
+* {
+	font-family: Georgia,"Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size:1em;
+}
 h1 {
 	font-size:2em;
 	color:#0F1B2E;
@@ -166,17 +169,40 @@ tr td.label img.plusMinus {
 	width:100%;
 }
 
-
-.formEmbedCode, .formEmbedCode a {
-	font-size: 10px;
+.formEmbedCode, .formEmbedCode input, .formEmbedCode a {
+	font-size: 11px;
 	text-decoration : none;
 }
 .formEmbedCode input {
 	background-color: #FBFDFF;
 	border: 1px solid #ECECEC; 
 }
+.sparkline {
+	vertical-align: middle;
+	padding-right:10px;
+}
 </style>
 {/literal}
+
+{literal}
+<script type="text/javascript">
+	
+function findSWF(movieName) {
+  if (navigator.appName.indexOf("Microsoft")!= -1) {
+    return window[movieName];
+  } else {
+    return document[movieName];
+  }
+}
+function reload()
+{
+  tmp = findSWF("getLastVisitsGraphChart_swf");
+  x = tmp.reload();
+}
+
+</script>
+{/literal}
+
 
 <span id="h1"><a href='http://piwik.org'>Piwik</a> </span><span id="subh1"> # open source web analytics</span><br>
 <br>
@@ -197,7 +223,7 @@ tr td.label img.plusMinus {
 	</div>
 </div>
 
-<span id="loadingPiwik"><img src="themes/default/loading.gif"> Loading data...</span>
+<span id="loadingPiwik"><img src="themes/default/loading-blue.gif"> Loading data...</span>
 
 <span id="generatedMenu"></span>
 
@@ -207,32 +233,13 @@ tr td.label img.plusMinus {
 	
 	<h3>Report</h3>
 	
-	{literal}
-<script type="text/javascript">
-	
-	function findSWF(movieName) {
-  if (navigator.appName.indexOf("Microsoft")!= -1) {
-    return window[movieName];
-  } else {
-    return document[movieName];
-  }
-}
-function reload()
-{
-  tmp = findSWF("getLastVisitsGraphChart_swf");
-  x = tmp.reload();
-}
-
-</script>
-	{/literal}
-	
 	<p><a href="javascript:reload();">test</a>
-	<p><img align="absmiddle" src="{$urlSparklineNbVisits}" /><strong>{$nbVisits} </strong>visits</p>
-	<p><img align="absmiddle" src="{$urlSparklineNbUniqVisitors}" /> <strong>{$nbUniqVisitors}</strong> unique visitors</p>
-	<p><img align="absmiddle" src="{$urlSparklineNbActions}" /> <strong>{$nbActions}</strong> actions (page views)</p>
-	<p><img align="absmiddle" src="{$urlSparklineSumVisitLength}" /> <strong>{$sumVisitLength|sumtime}</strong> total time spent by the visitors</p>
-	<p><img align="absmiddle" src="{$urlSparklineMaxActions}" /> <strong>{$maxActions}</strong> max actions</p>
-	<p><img align="absmiddle" src="{$urlSparklineBounceCount}" /> <strong>{$bounceCount} </strong>visitors have bounced (left the site directly)</p>
+	<p><img class="sparkline" src="{$urlSparklineNbVisits}" /> <strong>{$nbVisits} </strong>visits</p>
+	<p><img class="sparkline" src="{$urlSparklineNbUniqVisitors}" /> <strong>{$nbUniqVisitors}</strong> unique visitors</p>
+	<p><img class="sparkline" src="{$urlSparklineNbActions}" /> <strong>{$nbActions}</strong> actions (page views)</p>
+	<p><img class="sparkline" src="{$urlSparklineSumVisitLength}" /> <strong>{$sumVisitLength|sumtime}</strong> total time spent by the visitors</p>
+	<p><img class="sparkline" src="{$urlSparklineMaxActions}" /> <strong>{$maxActions}</strong> max actions</p>
+	<p><img class="sparkline" src="{$urlSparklineBounceCount}" /> <strong>{$bounceCount} </strong>visitors have bounced (left the site directly)</p>
 	
 	
 	<br><br><br><hr width="300px" align="left">

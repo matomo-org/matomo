@@ -24,6 +24,18 @@ class Piwik_Home_Controller extends Piwik_Controller
 	{
 		parent::__construct();
 		$this->currentControllerName = 'Home';
+
+		$this->strDate = Piwik_Common::getRequestVar('date');
+		
+		// the date looks like YYYY-MM-DD we can build it
+		try{
+			$this->date = Piwik_Date::factory($this->strDate);
+			$this->strDate = $this->date->toString();
+		} catch(Exception $e){
+		// the date looks like YYYY-MM-DD,YYYY-MM-DD or other format
+			// case the date looks like a range
+			$this->date = null;
+		}
 	}
 	function getDefaultAction()
 	{
@@ -41,9 +53,56 @@ class Piwik_Home_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
+	/**
+	 * 
+	 * @param array  paramsToSet = array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
+	 */
+	function getGraphParamsModified($paramsToSet = array())
+	{
+		if(!isset($paramsToSet['range']))
+		{
+			$range = 'last30';
+		}
+		else
+		{
+			$range = $paramsToSet['range'];
+		}
+		
+		if(!isset($paramsToSet['date']))
+		{
+			$endDate = $this->strDate;
+		}
+		else
+		{
+			$endDate = $paramsToSet['date'];
+		}
+		
+		if(!isset($paramsToSet['period']))
+		{
+			$period = Piwik_Common::getRequestVar('period');
+		}
+		else
+		{
+			$period = $paramsToSet['period'];
+		}
+		
+		$last30Relative = new Piwik_Period_Range($period, $range );
+		
+		$last30Relative->setDefaultEndDate(new Piwik_Date($endDate));
+		
+		$paramDate = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
+		
+		$params = array_merge($paramsToSet , array(	'date' => $paramDate ) );
+		
+		return $params;
+	}
+	
 	function getUrlSparkline( $action )
 	{
-		$params = array('action' => $action, 'date' => 'last30', 'viewDataTable' => 'sparkline');
+		$params = $this->getGraphParamsModified( 
+					array(	'viewDataTable' => 'sparkline', 
+							'action' => $action)
+				);
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
 		return $url;
 	}
@@ -53,6 +112,15 @@ class Piwik_Home_Controller extends Piwik_Controller
 		require_once "ViewDataTable/Graph.php";
 		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
 		$view->init( $this->currentControllerName, $currentControllerAction, $apiMethod );
+		
+		// if the date is not yet a nicely formatted date range ie. YYYY-MM-DD,YYYY-MM-DD we build it
+		// otherwise the current controller action is being called with the good date format already so it's fine
+		// see constructor
+		if( !is_null($this->date))
+		{
+			$view->setParametersToModify( $this->getGraphParamsModified( array('date'=>$this->strDate)));
+		}
+		
 		return $view;
 	}
 	
@@ -95,10 +163,8 @@ class Piwik_Home_Controller extends Piwik_Controller
 	function index()
 	{
 		$view = new Piwik_View('Home/templates/index.tpl');
-
-		$oDate = Piwik_Date::factory(Piwik_Common::getRequestVar('date'));
-		$date = $oDate->toString();
-		$view->date = $date;
+		
+		$view->date = $this->strDate;
 		$view->period = Piwik_Common::getRequestVar('period');
 		$view->idSite = Piwik_Common::getRequestVar('idSite');
 		
@@ -374,9 +440,7 @@ List of the public methods for the class Piwik_Actions_API
 	
 	function getLastDistinctKeywordsGraph( $fetch = false )
 	{
-		require_once "ViewDataTable/Graph.php";
-		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
-		$view->init( $this->currentControllerName, __FUNCTION__, "Referers.getNumberOfDistinctKeywords" );
+		$view = $this->getLastUnitGraph(__FUNCTION__, "Referers.getNumberOfDistinctKeywords");
 		return $this->renderView($view, $fetch);
 	}
 	
