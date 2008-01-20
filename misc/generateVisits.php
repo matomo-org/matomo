@@ -38,7 +38,7 @@ Piwik_PluginsManager::getInstance()->unloadPlugins();
 
 Piwik_PluginsManager::getInstance()->doNotLoadPlugins();	
 $generator = new Piwik_LogStats_Generator;
-$generator->setMaximumUrlDepth(4);
+$generator->setMaximumUrlDepth(12);
 $generator->disableProfiler();
 $nbActionsTotal = 0;
 

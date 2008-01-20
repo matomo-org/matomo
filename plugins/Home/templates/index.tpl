@@ -48,6 +48,10 @@ h3 {
 	color:#1D3256;
 }
 /* Actions table */
+/* levels higher than 4 have a default padding left */
+tr.subActionsDataTable td.label{
+	padding-left:7em;
+}
 tr.level0 td.label{
 	padding-left:+1.5em;
 }
@@ -63,6 +67,7 @@ tr.level3 td.label{
 tr.level4 td.label{
 	padding-left:+7em;
 }
+
 tr td.label img.plusMinus {
 	margin-left:-1em;
 	position:absolute;
