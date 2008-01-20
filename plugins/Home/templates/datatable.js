@@ -257,7 +257,7 @@ dataTable.prototype =
 			// adding an image and the class columnSorted to the TD
 			$(".sortable[@id='"+self.param.filter_sort_column+"']", domElem)
 				.addClass('columnSorted')
-				.append('<img width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+ self.param.filter_sort_order+'.png">');
+				.append('<img width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+ self.param.filter_sort_order+'.png" />');
 		}
 	},
 	
@@ -567,7 +567,7 @@ dataTable.prototype =
 					<tr>\
 						<td colspan="'+numberOfColumns+'">\
 							<div id="'+divIdToReplaceWithSubTable+'">\
-								<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif"> Loading...</span>\
+								<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
 							</div>\
 						</td>\
 					</tr>\
@@ -765,7 +765,7 @@ actionDataTable.prototype =
 			$(domElem).after( '\
 			<tr id="'+divIdToReplaceWithSubTable+'">\
 				<td colspan="'+numberOfColumns+'">\
-						<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif"> Loading...</span>\
+						<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
 				</td>\
 			</tr>\
 			');
