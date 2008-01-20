@@ -537,17 +537,22 @@ dataTable.prototype =
 		$("td:first-child:even", domElem).addClass('label labeleven');
 		$("tr:odd td", domElem).slice(1).addClass('columnodd');
 		$("tr:even td", domElem).slice(1).addClass('columneven');
-		$("th", domElem).hover(
-			function()
-			{  
-		 		$(this).css({ cursor: "pointer"}); 
-		  	},
-		  	function()
-		  	{  
-		 		$(this).css({ cursor: "auto"}); 
-		  	}
-	 	);
- 	},
+		
+		// Change cursor on mouse hover if sort is enabled
+		if( self.param.enable_sort )
+		{
+			$("th.sortable", domElem).hover(
+				function()
+				{
+					$(this).css({ cursor: "pointer"}); 
+				},
+				function()
+				{  
+					$(this).css({ cursor: "auto"}); 
+				}
+			);
+		}
+	},
  	
  	handleSubDataTable: function(domElem)
 	{
@@ -835,35 +840,6 @@ actionDataTable.prototype =
 		$('#'+idToReplace).html($(content).html());
 		actionDataTables[idToReplace].init(idToReplace, $('#'+idToReplace))
 	},
-	/*
-		// Function called when the AJAX request is successful
-	// it looks for the ID of the response and replace the very same ID 
-	// in the current page with the AJAX response
-	dataTableLoaded: function(response)
-	{
-		var content = $(response);
-		var idToReplace = $(content).attr('id');
-	
-		// if the current dataTable is situated inside another datatable
-		table = $(content).parents('table.dataTable');
-		if($('#'+idToReplace).parents('.dataTable').is('table'))
-		{
-			// we add class to the table so that we can give a different style to the subtable
-			$(content).children('table.dataTable').addClass('subDataTable');
-			$(content).children('#dataTableFeatures').addClass('subDataTable');
-		}
-		
-		
-		$('#'+idToReplace).html( $(content).html());
-		
-		// we execute the init function for the new DIV datatable
-		dataTables[idToReplace].init( idToReplace, $('#'+idToReplace))
-		
-		// and we hide the loading DIV
-		//$('#loadingDataTable', this).fadeOut("slow");
-	},	
-	
-	*/
 	
 	// Called when a set of rows for a category of actions is loaded
 	actionsSubDataTableLoaded: function(response)
