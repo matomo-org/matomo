@@ -196,11 +196,6 @@ function findSWFGraph(name) {
     return document[name];
   }
 }
-function reload()
-{
-  tmp = findSWFGraph("getLastVisitsGraphChart_swf");
-  x = tmp.reload();
-}
 
 </script>
 {/literal}
@@ -230,18 +225,19 @@ function reload()
 <span id="generatedMenu"></span>
 
 <div class="section" id="Visits_summary">
+
 	<h3>Visits</h3>
+	<a name="evolutionGraph"\>
 	{$graphLastVisits}
 	
 	<h3>Report</h3>
 	
-	<p><a href="javascript:reload();">test</a>
-	<p><img class="sparkline" src="{$urlSparklineNbVisits}" /> <strong>{$nbVisits} </strong>visits</p>
-	<p><img class="sparkline" src="{$urlSparklineNbUniqVisitors}" /> <strong>{$nbUniqVisitors}</strong> unique visitors</p>
-	<p><img class="sparkline" src="{$urlSparklineNbActions}" /> <strong>{$nbActions}</strong> actions (page views)</p>
-	<p><img class="sparkline" src="{$urlSparklineSumVisitLength}" /> <strong>{$sumVisitLength|sumtime}</strong> total time spent by the visitors</p>
-	<p><img class="sparkline" src="{$urlSparklineMaxActions}" /> <strong>{$maxActions}</strong> max actions</p>
-	<p><img class="sparkline" src="{$urlSparklineBounceCount}" /> <strong>{$bounceCount} </strong>visitors have bounced (left the site directly)</p>
+	<p><img class="sparkline" src="{$urlSparklineNbVisits}" /> <span><strong>{$nbVisits} </strong>visits</span></p>
+	<p><img class="sparkline" src="{$urlSparklineNbUniqVisitors}" /> <span><strong>{$nbUniqVisitors}</strong> unique visitors</span></p>
+	<p><img class="sparkline" src="{$urlSparklineNbActions}" /> <span><strong>{$nbActions}</strong> actions (page views)</span></p>
+	<p><img class="sparkline" src="{$urlSparklineSumVisitLength}" /> <span><strong>{$sumVisitLength|sumtime}</strong> total time spent by the visitors</span></p>
+	<p><img class="sparkline" src="{$urlSparklineMaxActions}" /> <span><strong>{$maxActions}</strong> max actions</span></p>
+	<p><img class="sparkline" src="{$urlSparklineBounceCount}" /> <span><strong>{$bounceCount} </strong>visitors have bounced (left the site directly)</span></p>
 	
 	
 	<br><br><br><hr width="300px" align="left">
