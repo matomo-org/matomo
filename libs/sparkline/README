@@ -1,0 +1,37 @@
+#
+# Sparkline PHP Graphing Library
+# Copyright 2004 James Byers <jbyers@users.sf.net>
+# http://sparkline.org
+#
+# Sparkline is distributed under a BSD License.  See LICENSE for details.
+#
+# $Id: README,v 1.2 2004/11/09 07:10:42 jbyers Exp $
+#
+
+Installation:
+-------------
+
+Sparkline does not have any installation requirements.  See the
+samples directory for usage ideas.
+
+Requirements:
+-------------
+
+Sparkline requires PHP 4.0.6 or newer and GD 2.0 built as a PHP
+module.
+
+Troubleshooting and Support:
+----------------------------
+
+See http://sparkline.org for troubleshooting advice and support.
+
+Bugs, Features:
+---------------
+
+Please submit bugs to the bug tracker:
+
+  http://sourceforge.net/tracker/?group_id=122936&atid=694962
+
+Please submit feature requests to the RFE tracker:
+
+  http://sourceforge.net/tracker/?group_id=122936&atid=694965

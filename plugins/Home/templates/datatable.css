@@ -193,7 +193,7 @@ div.subDataTable {
 
 #loadingDataTable {
 	font-size: 1em;
-	font-decoration:bold;
+	font-weight:bold;
 	color:#193B6C;
 	padding:0.5em;
 }

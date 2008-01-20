@@ -41,6 +41,57 @@ class Piwik_Home_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
+	function getUrlSparkline( $action )
+	{
+		$params = array('action' => $action, 'date' => 'last30', 'viewDataTable' => 'sparkline');
+		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+		return $url;
+	}
+	
+	function getLastUnitGraph($currentControllerAction, $apiMethod)
+	{
+		require_once "ViewDataTable/Graph.php";
+		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
+		$view->init( $this->currentControllerName, $currentControllerAction, $apiMethod );
+		return $view;
+	}
+	
+	function getLastVisitsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getVisits");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastUniqueVisitorsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getUniqueVisitors");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastActionsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getActions");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastSumVisitsLengthGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getSumVisitsLength");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastMaxActionsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getMaxActions");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastBounceCountGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getBounceCount");
+		return $this->renderView($view, $fetch);
+	}
+	
 	function index()
 	{
 		$view = new Piwik_View('Home/templates/index.tpl');
@@ -70,6 +121,14 @@ class Piwik_Home_Controller extends Piwik_Controller
 		/* General visits */
 		$view->graphLastVisits = $this->getLastVisitsGraph( true );
 		
+		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getLastVisitsGraph');
+		$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getLastUniqueVisitorsGraph');
+		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getLastActionsGraph');
+		$view->urlSparklineSumVisitLength 	= $this->getUrlSparkline( 'getLastSumVisitsLengthGraph');
+		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getLastMaxActionsGraph');
+		$view->urlSparklineBounceCount 		= $this->getUrlSparkline( 'getLastBounceCountGraph');
+	
+	
 		$dataTableVisit = $this->getVisitsSummary();
 		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
 		$view->nbVisits = $dataTableVisit->getColumn('nb_visits');
@@ -312,14 +371,7 @@ List of the public methods for the class Piwik_Actions_API
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}
-
-	function getLastVisitsGraph( $fetch = false )
-	{
-		require_once "ViewDataTable/Graph.php";
-		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
-		$view->init( $this->currentControllerName, __FUNCTION__, "VisitsSummary.getVisits" );
-		return $this->renderView($view, $fetch);
-	}
+	
 	function getLastDistinctKeywordsGraph( $fetch = false )
 	{
 		require_once "ViewDataTable/Graph.php";

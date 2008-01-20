@@ -110,29 +110,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	
 	protected function generateDataFromDataTable()
 	{
-		// we have to fill a $data array with each row = array('label' => X, 'value' => y)
-	
-		$data = array();
-		foreach($this->dataTable->getArray() as $keyName => $table)
-		{
-			$value = false;
-			
-			$onlyRow = $table->getRowFromId(0);
-			if($onlyRow !== false)
-			{
-				$value = $onlyRow->getColumn('value');
-			}
-		
-			if($value === false)
-			{
-				$value = 0;
-			}
-			$data[] = array(
-					'label' => $keyName,
-					'value' => $value
-				);
-		}
-		return $data;
+		return $this->generateDataFromDataTableArray($this->dataTable);
 	}
 }
 /**

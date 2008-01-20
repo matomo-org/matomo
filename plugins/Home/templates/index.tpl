@@ -206,12 +206,33 @@ tr td.label img.plusMinus {
 	{$graphLastVisits}
 	
 	<h3>Report</h3>
-	<p>{$nbUniqVisitors} unique visitors</p>
-	<p>{$nbVisits} visits</p>
-	<p>{$nbActions} actions (page views)</p>
-	<p>{$sumVisitLength|sumtime} total time spent by the visitors</p>
-	<p>{$maxActions} max actions</p>
-	<p>{$bounceCount} visitors have bounced (left the site directly)</p>
+	
+	{literal}
+<script type="text/javascript">
+	
+	function findSWF(movieName) {
+  if (navigator.appName.indexOf("Microsoft")!= -1) {
+    return window[movieName];
+  } else {
+    return document[movieName];
+  }
+}
+function reload()
+{
+  tmp = findSWF("getLastVisitsGraphChart_swf");
+  x = tmp.reload();
+}
+
+</script>
+	{/literal}
+	
+	<p><a href="javascript:reload();">test</a>
+	<p><img align="absmiddle" src="{$urlSparklineNbVisits}" /><strong>{$nbVisits} </strong>visits</p>
+	<p><img align="absmiddle" src="{$urlSparklineNbUniqVisitors}" /> <strong>{$nbUniqVisitors}</strong> unique visitors</p>
+	<p><img align="absmiddle" src="{$urlSparklineNbActions}" /> <strong>{$nbActions}</strong> actions (page views)</p>
+	<p><img align="absmiddle" src="{$urlSparklineSumVisitLength}" /> <strong>{$sumVisitLength|sumtime}</strong> total time spent by the visitors</p>
+	<p><img align="absmiddle" src="{$urlSparklineMaxActions}" /> <strong>{$maxActions}</strong> max actions</p>
+	<p><img align="absmiddle" src="{$urlSparklineBounceCount}" /> <strong>{$bounceCount} </strong>visitors have bounced (left the site directly)</p>
 	
 	
 	<br><br><br><hr width="300px" align="left">

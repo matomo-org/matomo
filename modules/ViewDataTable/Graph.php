@@ -64,7 +64,7 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 	//TODO change $use_swfobject = true
 	public function getFlashInvocationCode(
 			$url = 'libs/open-flash-chart/data-files/nodata.txt',
-			$use_swfobject = false  )
+			$use_swfobject = true  )
 	{ 
 		$width = $this->width; 
 		$height = $this->height; 
@@ -82,8 +82,7 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 	    // I think we may use swfobject for all browsers, not JUST for IE...
 	    //
 	    //$ie = strstr(getenv('HTTP_USER_AGENT'), 'MSIE');
-	    
-	   
+	    	   
 	    $return = ''; 
 	    if( $use_swfobject )
 	    {
@@ -91,7 +90,7 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		    $return .=  '
 				<div id="'. $div_name .'"></div>
 				<script type="text/javascript">
-				var so = new SWFObject("'.$pathToLibraryOpenChart.'open-flash-chart.swf", "chart", "'. $width . '", "' . $height . '", "9", "#FFFFFF");
+				var so = new SWFObject("'.$pathToLibraryOpenChart.'open-flash-chart.swf", "'.$obj_id.'_swf", "'. $width . '", "' . $height . '", "9", "#FFFFFF");
 				so.addVariable("data", "'. $url . '");
 				so.addParam("allowScriptAccess", "sameDomain");
 				so.write("'. $div_name .'");
