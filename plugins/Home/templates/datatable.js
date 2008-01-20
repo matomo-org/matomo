@@ -2,7 +2,9 @@
 //								Data Table
 //-----------------------------------------------------------------------------
 //A list of all our datatables
-var dataTables = new Object;
+//Test if the object have already been initialized (multiple includes)
+if(typeof dataTables == "undefined")
+	var dataTables = new Object;
 
 //On document ready we create a JS object for every datatable in the page
 $(document).ready( createAllDataTableObjects );
@@ -18,7 +20,8 @@ function createAllDataTableObjects()
 			// ID of the DIV containing the DataTable we are currently working on
 			var workingDivId = $(this).attr('id');
 			var self = dataTables[workingDivId];
-			self.init(workingDivId, this);
+			if(!self.initialized)
+				self.init(workingDivId, this);
 		}
 	);
 	
@@ -28,7 +31,8 @@ function createAllDataTableObjects()
 		{
 			var workingDivId = $(this).attr('id');
 			var self = actionDataTables[workingDivId];
-			self.init(workingDivId, this);
+			if(!self.initialized)
+				self.init(workingDivId, this);
 		}
 	);
 }
@@ -48,6 +52,7 @@ dataTable.prototype =
 			this.workingDivId = workingDivId;
 			this.loadedSubDataTable = new Object;
 			this.bindEvent(domElem);
+			this.initialized = true;
 	},
 			
 	onClickSort: function(domElem)
@@ -621,7 +626,9 @@ actionDataTable.prototype.constructor = actionDataTable;
 
 
 //A list of all our actionDataTables
-var actionDataTables = new Object;
+//Test if the object have already been initialized (multiple includes)
+if(typeof actionDataTables == "undefined")
+	var actionDataTables = new Object;
 
 //actionDataTable constructor
 function actionDataTable()
@@ -645,6 +652,7 @@ actionDataTable.prototype =
 	{
 			this.workingDivId = workingDivId;
 			this.bindEvent(domElem);
+			this.initialized = true;
 	},
 
 	bindEvent: function(domElem)
