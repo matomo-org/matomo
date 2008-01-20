@@ -4,7 +4,6 @@
 //A list of all our datatables
 var dataTables = new Object;
 
-
 //On document ready we create a JS object for every datatable in the page
 $(document).ready( createAllDataTableObjects );
 
