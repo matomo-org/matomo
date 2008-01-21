@@ -162,16 +162,12 @@ class Piwik_Home_Controller extends Piwik_Controller
 		// building the referers summary report 
 		$view->dataTableRefererType = $this->getRefererType(true);
 		
-		// this is raw data (no filters applied, on purpose) so we select the data using the magic integers ID 
-		$dataTableReferersType = $this->getReferersType(true);
-//		echo $dataTableReferersType;exit;
-		$view->visitorsFromSearchEngines	= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
-		$view->visitorsFromDirectEntry 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
-		$view->visitorsFromWebsites 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_WEBSITE)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
-		$view->visitorsFromCampaigns 		= (false !== ($row = $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_CAMPAIGN))) ? $row->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS) : 0;
-		$view->visitorsFromNewsletters		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_NEWSLETTER)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
-		$view->visitorsFromPartners 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_PARTNER)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
 		
+		$nameValues = $this->getReferersVisitorsByType();
+		foreach($nameValues as $name => $value)
+		{
+			$view->$name = $value;
+		}
 		// sparkline for the historical data of the above values
 		$view->urlSparklineSearchEngines	= $this->getUrlSparkline('getLastSearchEnginesGraph');
 		$view->urlSparklineDirectEntry 		= $this->getUrlSparkline('getLastDirectEntryGraph');
@@ -922,7 +918,34 @@ List of the public methods for the class Piwik_Actions_API
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}
-
+	
+	protected function getReferersVisitorsByType()
+	{
+		// this is raw data (no filters applied, on purpose) so we select the data using the magic integers ID 
+		$dataTableReferersType = $this->getReferersType(true);
+		
+		$nameToColumnId = array(
+			'visitorsFromSearchEngines' => Piwik_Common::REFERER_TYPE_SEARCH_ENGINE,
+			'visitorsFromDirectEntry' =>  Piwik_Common::REFERER_TYPE_DIRECT_ENTRY,
+			'visitorsFromWebsites'  => Piwik_Common::REFERER_TYPE_WEBSITE,
+			'visitorsFromCampaigns' =>  Piwik_Common::REFERER_TYPE_CAMPAIGN,
+			'visitorsFromNewsletters' =>  Piwik_Common::REFERER_TYPE_NEWSLETTER,
+			'visitorsFromPartners' =>  Piwik_Common::REFERER_TYPE_PARTNER,
+		);
+		$return = array();
+		foreach($nameToColumnId as $nameVar => $columnId)
+		{
+			$value = 0;
+			$row = $dataTableReferersType->getRowFromLabel($columnId);
+			if($row !== false)
+			{
+				$value = $row->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
+			}
+			$return[$nameVar] = $value;
+		}
+		
+		return $return;
+	}
 	function getLastSearchEnginesGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph(__FUNCTION__, 'Referers.getRefererType');
