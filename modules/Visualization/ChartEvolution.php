@@ -23,7 +23,7 @@ class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
 	{
 		//TODO add this call in other child
 		parent::customizeGraph();
-		$this->prepareData();		
+		$this->prepareData();
 		$this->set_y_max( $this->maxData );
 		$this->set_data( $this->arrayData );
 		$this->set_x_labels( $this->arrayLabel );

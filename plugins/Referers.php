@@ -125,8 +125,7 @@ class Piwik_Referers extends Piwik_Plugin
 													$countValue
 												);
 		}
-	}
-	
+	}	
 	
 	/** 
 	 * 

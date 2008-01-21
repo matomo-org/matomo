@@ -458,8 +458,15 @@ dataTable.prototype =
 		var self = this; 
 		if( !self.param.idSubtable )
 		{
-			$('#exportDataTable', domElem)
+			$('#exportDataTableShow', domElem)
 				.show()
+				.click( function() { 
+					$('#exportToFormat', domElem).show();
+					$(this).hide();
+					}
+			);
+				
+			$('#exportDataTable', domElem)
 				.hover( function() {  
 				 	 $(this).css({ cursor: "pointer"}); 
 				  	},

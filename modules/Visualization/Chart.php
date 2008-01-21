@@ -44,6 +44,7 @@ abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashCh
 		
 		$stepsY = ceil($this->getCount() / 4);
 		$this->y_label_steps( $stepsY / 3 );
+		$this->y_label_steps( 4 );
 		
 		$this->bg_colour = '#ffffff';
 		$this->set_inner_background('#ffffff');
@@ -55,26 +56,26 @@ abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashCh
 	function prepareData()
 	{		
 		$label = $data = array();
-//		var_dump($this->dataGraph);
+//		var_dump($this->dataGraph); exit;
+		$max = 0;
 		foreach($this->dataGraph as $row)
 		{
 			$label[] = $row['label'];
 			$data[] = $row['value'];
+			
+			if($row['value'] > $max) 
+			{
+				$max = $row['value'];
+			}
 		}
-		
-		// case no data
-		if(count($data) == 0)
-		{
-			$max = 0;
-		}
-		else
-		{
-			$max = max($data);
-		}
-		
 		$this->arrayData = $data;
 		$this->arrayLabel = $label;
-		$this->maxData = $max + 10 - $max % 10;
+		$this->maxData = $max;
+		if($this->maxData > 10)
+		{
+			$this->maxData = $max + 10 - $max % 10;
+		}
+		
 //		var_dump($label);var_dump($data);
 	}
 	
