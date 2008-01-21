@@ -168,7 +168,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view->visitorsFromSearchEngines	= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
 		$view->visitorsFromDirectEntry 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
 		$view->visitorsFromWebsites 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_WEBSITE)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
-		$view->visitorsFromCampaigns 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_CAMPAIGN)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
+		$view->visitorsFromCampaigns 		= (false !== ($row = $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_CAMPAIGN))) ? $row->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS) : 0;
 		$view->visitorsFromNewsletters		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_NEWSLETTER)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
 		$view->visitorsFromPartners 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_PARTNER)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
 		
