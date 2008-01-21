@@ -223,7 +223,6 @@ class Piwik_API_Request
 	protected function handleReturnedValue( $returnedValue ) 
 	{
 		$toReturn = $returnedValue;
-		
 		// If the returned value is an object DataTable we
 		// apply the set of generic filters if asked in the URL
 		// and we render the DataTable according to the format specified in the URL
@@ -241,12 +240,17 @@ class Piwik_API_Request
 				{
 					$this->applyDataTableGenericFilters($table);
 				}
-			}
-			
-			$returnedValue->applyQueuedFilters();
+			}			
+//			echo($returnedValue);exit;
+		
+			// if the flag disable_queued_filters is defined we skip the filters that were queued
+			// useful in some very rare cases but better to use this than a bad hack on the data returned...
+			if(Piwik_Common::getRequestVar('disable_queued_filters', 'false', 'string', $this->requestToUse) == 'false')
+			{
+				$returnedValue->applyQueuedFilters();
+			}			
 			
 			$toReturn = $this->getRenderedDataTable($returnedValue);
-			
 		}
 		
 		// Case nothing returned (really nothing was 'return'ed), 

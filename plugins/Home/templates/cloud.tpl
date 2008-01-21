@@ -3,7 +3,7 @@
 <style>
 
 #tagCloud{
-	width:500px;
+	width:380px;
 }
 img {
 	border:0;

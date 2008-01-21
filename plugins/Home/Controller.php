@@ -53,11 +53,165 @@ class Piwik_Home_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
+	
+	public function index()
+	{
+		$view = new Piwik_View('Home/templates/index.tpl');
+		
+		$view->date = $this->strDate;
+		$view->period = Piwik_Common::getRequestVar('period');
+		$view->idSite = Piwik_Common::getRequestVar('idSite');
+		
+		$view->userLogin = Piwik::getCurrentUserLogin();
+		$view->sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+		$view->url = Piwik_Url::getCurrentUrl();
+		
+		$site = new Piwik_Site($view->idSite);
+		$minDate = $site->getCreationDate();
+		
+		$view->minDateYear = $minDate->toString('Y');
+		$view->minDateMonth = $minDate->toString('m');
+		$view->minDateDay = $minDate->toString('d');
+		
+		/* Actions / Downloads / Outlinks */
+		$view->dataTableActions = $this->getActions( true );
+		$view->dataTableDownloads = $this->getDownloads( true );
+		$view->dataTableOutlinks = $this->getOutlinks( true );
+		
+		/* General visits */
+		$view->graphEvolutionVisitsSummary = $this->getLastVisitsGraph( true );
+		
+		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getLastVisitsGraph');
+		$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getLastUniqueVisitorsGraph');
+		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getLastActionsGraph');
+		$view->urlSparklineSumVisitLength 	= $this->getUrlSparkline( 'getLastSumVisitsLengthGraph');
+		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getLastMaxActionsGraph');
+		$view->urlSparklineBounceCount 		= $this->getUrlSparkline( 'getLastBounceCountGraph');
+		
+		$dataTableVisit = $this->getVisitsSummary();
+		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
+		$view->nbVisits = $dataTableVisit->getColumn('nb_visits');
+		$view->nbActions = $dataTableVisit->getColumn('nb_actions');
+		$view->sumVisitLength = $dataTableVisit->getColumn('sum_visit_length');
+		$view->bounceCount = $dataTableVisit->getColumn('bounce_count');
+		$view->maxActions = $dataTableVisit->getColumn('max_actions');
+
+		
+		/* User Country */
+		$view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
+		$view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
+		
+		$view->dataTableCountry = $this->getCountry(true);
+		$view->dataTableContinent = $this->getContinent(true);
+		
+		/* User settings */		
+		$view->dataTablePlugin = $this->getPlugin( true );
+		$view->dataTableResolution = $this->getResolution( true );
+		$view->dataTableConfiguration = $this->getConfiguration( true );
+		$view->dataTableOS = $this->getOS( true );
+		$view->dataTableBrowser = $this->getBrowser( true );
+		$view->dataTableBrowserType = $this->getBrowserType ( true );
+		$view->dataTableWideScreen = $this->getWideScreen( true );
+		
+		/* VisitorTime */
+		$view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
+		$view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
+		
+		/* VisitFrequency */
+//		$view->graphEvolutionVisitFrequency = $this->getLastVisitsGraph( true );
+		
+		$view->urlSparklineNbVisitsReturning 		= $this->getUrlSparkline( 'getLastVisitsReturningGraph');
+		$view->urlSparklineNbActionsReturning 		= $this->getUrlSparkline( 'getLastActionsReturningGraph');
+		$view->urlSparklineSumVisitLengthReturning 	= $this->getUrlSparkline( 'getLastSumVisitsLengthReturningGraph');
+		$view->urlSparklineMaxActionsReturning 		= $this->getUrlSparkline( 'getLastMaxActionsReturningGraph');
+		$view->urlSparklineBounceCountReturning 	= $this->getUrlSparkline( 'getLastBounceCountReturningGraph');
+		
+		$dataTableFrequency = $this->getSummary(true);
+		
+		$view->nbVisitsReturning = $dataTableFrequency->getColumn('nb_visits_returning');
+		$view->nbActionsReturning = $dataTableFrequency->getColumn('nb_actions_returning');
+		$view->maxActionsReturning = $dataTableFrequency->getColumn('max_actions_returning');
+		$view->sumVisitLengthReturning = $dataTableFrequency->getColumn('sum_visit_length_returning');
+		$view->bounceCountReturning = $dataTableFrequency->getColumn('bounce_count_returning');
+		
+		/* Visitor Interest */
+		$view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
+		$view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
+		
+		/* Provider */
+		$view->dataTableProvider = $this->getProvider(true);
+		
+		
+		/* Referers */
+		$view->graphEvolutionReferers = $this->getLastDistinctKeywordsGraph(true);
+			
+		$view->dataTableKeywords = $this->getKeywords(true);
+		$view->dataTableSearchEngines = $this->getSearchEngines(true);
+		$view->dataTableWebsites = $this->getWebsites(true);
+		$view->dataTablePartners = $this->getPartners(true);
+		$view->dataTableCampaigns = $this->getCampaigns(true);
+		
+		$view->numberDistinctSearchEngines 	= $this->getNumberOfDistinctSearchEngines(true);
+		$view->numberDistinctKeywords 		= $this->getNumberOfDistinctKeywords(true);
+		$view->numberDistinctWebsites 		= $this->getNumberOfDistinctWebsites(true);
+		$view->numberDistinctWebsitesUrls 	= $this->getNumberOfDistinctWebsitesUrls(true);
+		$view->numberDistinctPartners 		= $this->getNumberOfDistinctPartners(true);
+		$view->numberDistinctPartnersUrls 	= $this->getNumberOfDistinctPartnersUrls(true);
+		$view->numberDistinctCampaigns 		= $this->getNumberOfDistinctCampaigns(true);
+		
+		// building the referers summary report 
+		$view->dataTableRefererType = $this->getRefererType(true);
+		
+		// this is raw data (no filters applied, on purpose) so we select the data using the magic integers ID 
+		$dataTableReferersType = $this->getReferersType(true);
+//		echo $dataTableReferersType;exit;
+		$view->visitorsFromSearchEngines	= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
+		$view->visitorsFromDirectEntry 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
+		$view->visitorsFromWebsites 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_WEBSITE)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
+		$view->visitorsFromCampaigns 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_CAMPAIGN)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
+		$view->visitorsFromNewsletters		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_NEWSLETTER)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
+		$view->visitorsFromPartners 		= $dataTableReferersType->getRowFromLabel(Piwik_Common::REFERER_TYPE_PARTNER)->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
+		
+		// sparkline for the historical data of the above values
+		$view->urlSparklineSearchEngines	= $this->getUrlSparkline('getLastSearchEnginesGraph');
+		$view->urlSparklineDirectEntry 		= $this->getUrlSparkline('getLastDirectEntryGraph');
+		$view->urlSparklineWebsites 		= $this->getUrlSparkline('getLastWebsitesGraph');
+		$view->urlSparklineCampaigns 		= $this->getUrlSparkline('getLastCampaignsGraph');
+		$view->urlSparklineNewsletters 		= $this->getUrlSparkline('getLastNewslettersGraph');
+		$view->urlSparklinePartners 		= $this->getUrlSparkline('getLastPartnersGraph');
+		
+		// sparklines for the evolution of the distinct keywords count/websites count/ etc
+		$view->urlSparklineDistinctSearchEngines 	= $this->getUrlSparkline('getLastDistinctSearchEnginesGraph');
+		$view->urlSparklineDistinctKeywords 		= $this->getUrlSparkline('getLastDistinctKeywordsGraph');
+		$view->urlSparklineDistinctWebsites 		= $this->getUrlSparkline('getLastDistinctWebsitesGraph');
+		$view->urlSparklineDistinctPartners 		= $this->getUrlSparkline('getLastDistinctPartnersGraph');
+		$view->urlSparklineDistinctCampaigns 		= $this->getUrlSparkline('getLastDistinctCampaignsGraph');
+		
+		echo $view->render();		
+	}
+
+	protected function renderView($view, $fetch)
+	{
+		$view->main();
+		$rendered = $view->getView()->render();
+		if($fetch)
+		{
+			return $rendered;
+		}
+		echo $rendered;
+	}
+	protected function getNumericValue( $methodToCall )
+	{
+		$requestString = 'method='.$methodToCall.'&format=original';
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
+	}
+	
 	/**
 	 * 
 	 * @param array  paramsToSet = array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
 	 */
-	function getGraphParamsModified($paramsToSet = array())
+	protected function getGraphParamsModified($paramsToSet = array())
 	{
 		if(!isset($paramsToSet['range']))
 		{
@@ -97,7 +251,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		return $params;
 	}
 	
-	function getUrlSparkline( $action )
+	protected function getUrlSparkline( $action )
 	{
 		$params = $this->getGraphParamsModified( 
 					array(	'viewDataTable' => 'sparkline', 
@@ -107,7 +261,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		return $url;
 	}
 	
-	function getLastUnitGraph($currentControllerAction, $apiMethod)
+	protected function getLastUnitGraph($currentControllerAction, $apiMethod)
 	{
 		require_once "ViewDataTable/Graph.php";
 		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
@@ -124,172 +278,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		return $view;
 	}
 	
-	function getLastVisitsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getVisits");
-		return $this->renderView($view, $fetch);
-	}
 	
-	function getLastUniqueVisitorsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getUniqueVisitors");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastActionsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getActions");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastSumVisitsLengthGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getSumVisitsLength");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastMaxActionsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getMaxActions");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastBounceCountGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getBounceCount");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastDistinctCountriesGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "UserCountry.getNumberOfDistinctCountries");
-		return $this->renderView($view, $fetch);
-	}
-
-	function getLastDistinctKeywordsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "Referers.getNumberOfDistinctKeywords");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function index()
-	{
-		$view = new Piwik_View('Home/templates/index.tpl');
-		
-		$view->date = $this->strDate;
-		$view->period = Piwik_Common::getRequestVar('period');
-		$view->idSite = Piwik_Common::getRequestVar('idSite');
-		
-		$view->userLogin = Piwik::getCurrentUserLogin();
-		$view->sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
-		$view->url = Piwik_Url::getCurrentUrl();
-		
-		$site = new Piwik_Site($view->idSite);
-		$minDate = $site->getCreationDate();
-		
-		$view->minDateYear = $minDate->toString('Y');
-		$view->minDateMonth = $minDate->toString('m');
-		$view->minDateDay = $minDate->toString('d');
-		
-		/* Actions / Downloads / Outlinks */
-		$view->dataTableActions = $this->getActions( true );
-		$view->dataTableDownloads = $this->getDownloads( true );
-		$view->dataTableOutlinks = $this->getOutlinks( true );
-		
-		/* General visits */
-		$view->graphLastVisits = $this->getLastVisitsGraph( true );
-		
-		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getLastVisitsGraph');
-		$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getLastUniqueVisitorsGraph');
-		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getLastActionsGraph');
-		$view->urlSparklineSumVisitLength 	= $this->getUrlSparkline( 'getLastSumVisitsLengthGraph');
-		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getLastMaxActionsGraph');
-		$view->urlSparklineBounceCount 		= $this->getUrlSparkline( 'getLastBounceCountGraph');
-	
-	
-		$dataTableVisit = $this->getVisitsSummary();
-		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
-		$view->nbVisits = $dataTableVisit->getColumn('nb_visits');
-		$view->nbActions = $dataTableVisit->getColumn('nb_actions');
-		$view->sumVisitLength = $dataTableVisit->getColumn('sum_visit_length');
-		$view->bounceCount = $dataTableVisit->getColumn('bounce_count');
-		$view->maxActions = $dataTableVisit->getColumn('max_actions');
-
-		
-		/* User Country */
-		$view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
-		$view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
-		
-		$view->dataTableCountry = $this->getCountry(true);
-		$view->dataTableContinent = $this->getContinent(true);
-		
-		/* User settings */		
-		$view->dataTablePlugin = $this->getPlugin( true );
-		$view->dataTableResolution = $this->getResolution( true );
-		$view->dataTableConfiguration = $this->getConfiguration( true );
-		$view->dataTableOS = $this->getOS( true );
-		$view->dataTableBrowser = $this->getBrowser( true );
-		$view->dataTableBrowserType = $this->getBrowserType ( true );
-		$view->dataTableWideScreen = $this->getWideScreen( true );
-		
-		/* VisitorTime */
-		$view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
-		$view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
-		
-		/* VisitFrequency */
-		$dataTableFrequency = $this->getSummary(true);
-		
-		$view->nbVisitsReturning = $dataTableFrequency->getColumn('nb_visits_returning');
-		$view->nbActionsReturning = $dataTableFrequency->getColumn('nb_actions_returning');
-		$view->maxActionsReturning = $dataTableFrequency->getColumn('max_actions_returning');
-		$view->sumVisitLengthReturning = $dataTableFrequency->getColumn('sum_visit_length_returning');
-		$view->bounceCountReturning = $dataTableFrequency->getColumn('bounce_count_returning');
-		
-		/* Visitor Interest */
-		$view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
-		$view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
-		
-		/* Provider */
-		$view->dataTableProvider = $this->getProvider(true);
-		
-		
-		/* Referers */
-		$view->graphLastDistinctKeywords = $this->getLastDistinctKeywordsGraph(true);
-		
-		$view->dataTableRefererType = $this->getRefererType(true);
-		$view->dataTableKeywords = $this->getKeywords(true);
-		$view->dataTableSearchEngines = $this->getSearchEngines(true);
-		$view->dataTableCampaigns = $this->getCampaigns(true);
-		$view->dataTableWebsites = $this->getWebsites(true);
-		$view->dataTablePartners = $this->getPartners(true);
-		
-		$view->numberDistinctSearchEngines = $this->getNumberOfDistinctSearchEngines(true);
-		$view->numberDistinctKeywords = $this->getNumberOfDistinctKeywords(true);
-		$view->numberDistinctCampaigns = $this->getNumberOfDistinctCampaigns(true);
-		$view->numberDistinctWebsites = $this->getNumberOfDistinctWebsites(true);
-		$view->numberDistinctWebsitesUrls = $this->getNumberOfDistinctWebsitesUrls(true);
-		$view->numberDistinctPartners = $this->getNumberOfDistinctPartners(true);
-		$view->numberDistinctPartnersUrls = $this->getNumberOfDistinctPartnersUrls(true);
-
-		echo $view->render();		
-	}
-		
-	protected function renderView($view, $fetch)
-	{
-		$view->main();
-		$rendered = $view->getView()->render();
-		if($fetch)
-		{
-			return $rendered;
-		}
-		echo $rendered;
-	}
-	protected function getNumericValue( $methodToCall )
-	{
-		$requestString = 'method='.$methodToCall.'&format=original';
-		$request = new Piwik_API_Request($requestString);
-		return $request->process();
-	}
 		/*
 		 * 
 
@@ -299,7 +288,7 @@ List of the public methods for the class Piwik_Actions_API
 - getOutlinks : [idSite, period, date, expanded = , idSubtable = ]
 
 		 */
-	function getActionsView($currentControllerName,
+	protected function getActionsView($currentControllerName,
 						$currentMethod,
 						$methodToCall = 'Actions.getActions', 
 						$subMethod = 'getActionsSubDataTable')
@@ -385,6 +374,8 @@ List of the public methods for the class Piwik_Actions_API
 		}
 		return $table;
 	}
+	
+	
 	function getDownloads($fetch = false)
 	{
 		$view = $this->getActionsView( 	$this->currentControllerName, 
@@ -452,7 +443,42 @@ List of the public methods for the class Piwik_Actions_API
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}
+
+	function getLastVisitsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getVisits");
+		return $this->renderView($view, $fetch);
+	}
 	
+	function getLastUniqueVisitorsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getUniqueVisitors");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastActionsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getActions");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastSumVisitsLengthGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getSumVisitsLength");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastMaxActionsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getMaxActions");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastBounceCountGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getBounceCount");
+		return $this->renderView($view, $fetch);
+	}
 	
 	/**
 	 * VisitFrequency
@@ -464,12 +490,43 @@ List of the public methods for the class Piwik_Actions_API
 		return $request->process();
 	}
 	
+	function getLastVisitsReturningGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitFrequency.getVisitsReturning");
+		return $this->renderView($view, $fetch);
+	}
+		
+	function getLastActionsReturningGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitFrequency.getActionsReturning");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastSumVisitsLengthReturningGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitFrequency.getSumVisitsLengthReturning");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastMaxActionsReturningGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitFrequency.getMaxActionsReturning");
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastBounceCountReturningGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitFrequency.getBounceCountReturning");
+		return $this->renderView($view, $fetch);
+	}
+	
+	
 	/**
 	 * VisitTime
 	 */
 	function getVisitInformationPerServerTime( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory();
+		$view = Piwik_ViewDataTable::factory(null, 'graphVerticalBar');
 		$view->init( $this->currentControllerName,  __FUNCTION__, 
 								"VisitTime.getVisitInformationPerServerTime" );
 		
@@ -485,7 +542,7 @@ List of the public methods for the class Piwik_Actions_API
 	
 	function getVisitInformationPerLocalTime( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory();
+		$view = Piwik_ViewDataTable::factory(null, 'graphVerticalBar');
 		$view->init( $this->currentControllerName,  __FUNCTION__, 
 								"VisitTime.getVisitInformationPerLocalTime" );
 		
@@ -504,7 +561,7 @@ List of the public methods for the class Piwik_Actions_API
 	 */
 	function getNumberOfVisitsPerVisitDuration( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory();
+		$view = Piwik_ViewDataTable::factory( null, 'cloud' );
 		$view->init( $this->currentControllerName,  __FUNCTION__, 
 									"VisitorInterest.getNumberOfVisitsPerVisitDuration" );
 		
@@ -570,6 +627,17 @@ List of the public methods for the class Piwik_Actions_API
 		return $this->renderView($view, $fetch);
 	}
 
+	function getNumberOfDistinctCountries( $fetch = false)
+	{
+		return $this->getNumericValue('UserCountry.getNumberOfDistinctCountries');
+	}
+
+	function getLastDistinctCountriesGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "UserCountry.getNumberOfDistinctCountries");
+		return $this->renderView($view, $fetch);
+	}
+	
 	function getContinent( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
@@ -595,7 +663,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		
-		$view->setColumnsToDisplay( array(0,1) );
+		$view->setColumnsToDisplay( array(0,2) );
 		$view->setSortedColumn( 1 );
 		$view->setLimit( 5 );
 		$view->setGraphLimit(5);
@@ -683,19 +751,21 @@ List of the public methods for the class Piwik_Actions_API
 	 */
 	function getRefererType( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->currentControllerName,  	'getRefererType', 
-											'Referers.getRefererType'
+		$view = Piwik_ViewDataTable::factory(null, 'cloud');
+		$view->init( $this->currentControllerName,  	
+									'getRefererType', 
+									'Referers.getRefererType'
 								);
 		$view->disableSearchBox();
 		$view->disableOffsetInformation();
 		$view->disableExcludeLowPopulation();
+		$view->doNotShowFooter();
 		
 		$view->setColumnsToDisplay( array(0,1,2) );
 		
 		return $this->renderView($view, $fetch);
 	}
-	
+
 	function getKeywords( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
@@ -842,15 +912,85 @@ List of the public methods for the class Piwik_Actions_API
 		return $this->renderView($view, $fetch);
 	}
 	
-
-	function getNumberOfDistinctCountries( $fetch = false)
+	
+	function getReferersType()
 	{
-		return $this->getNumericValue('UserCountry.' . __FUNCTION__);
+		// we disable the queued filters because here we want to get the visits coming from search engines
+		// if the filters were applied we would have to look up for a label looking like "Search Engines" 
+		// which is not good when we have translations
+		$requestString = 'method='."Referers.getRefererType".'&format=original'.'&disable_queued_filters=1';
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
 	}
+
+	function getLastSearchEnginesGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, 'Referers.getRefererType');
+		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE, 'label');
+		return $this->renderView($view, $fetch);
+	}
+	function getLastDirectEntryGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, 'Referers.getRefererType');
+		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY, 'label');
+		return $this->renderView($view, $fetch);
+	}
+	function getLastWebsitesGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, 'Referers.getRefererType');
+		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_WEBSITE, 'label');
+		return $this->renderView($view, $fetch);
+	}
+	function getLastCampaignsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, 'Referers.getRefererType');
+		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_CAMPAIGN, 'label');
+		return $this->renderView($view, $fetch);
+	}
+	function getLastNewslettersGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, 'Referers.getRefererType');
+		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_NEWSLETTER, 'label');
+		return $this->renderView($view, $fetch);
+	}
+	function getLastPartnersGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, 'Referers.getRefererType');
+		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_PARTNER, 'label');
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getLastDistinctSearchEnginesGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "Referers.getNumberOfDistinctSearchEngines");
+		return $this->renderView($view, $fetch);
+	}
+	function getLastDistinctKeywordsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "Referers.getNumberOfDistinctKeywords");
+		return $this->renderView($view, $fetch);
+	}
+	function getLastDistinctWebsitesGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "Referers.getNumberOfDistinctWebsites");
+		return $this->renderView($view, $fetch);
+	}
+	function getLastDistinctPartnersGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "Referers.getNumberOfDistinctPartners");
+		return $this->renderView($view, $fetch);
+	}
+	function getLastDistinctCampaignsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph(__FUNCTION__, "Referers.getNumberOfDistinctCampaigns");
+		return $this->renderView($view, $fetch);
+	}
+
 	function getNumberOfDistinctSearchEngines( $fetch = false)
 	{
 		return $this->getNumericValue('Referers.' . __FUNCTION__);
 	}
+
 	function getNumberOfDistinctKeywords( $fetch = false)
 	{
 		return $this->getNumericValue('Referers.' . __FUNCTION__);

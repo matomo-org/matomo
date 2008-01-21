@@ -322,6 +322,16 @@ class Piwik_DataTable
 		return count($this->rows);
 	}
 	
+	public function getFirstRow()
+	{
+		if(count($this->rows) == 0)
+		{
+			return false;
+		}
+		$row = array_slice($this->rows,0,1);
+		return $row[0];
+	}
+	
 	/**
 	 * Returns the sum of the number of rows of all the subtables 
 	 * 		+ the number of rows in the parent table

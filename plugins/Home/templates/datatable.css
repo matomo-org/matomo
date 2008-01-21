@@ -1,10 +1,15 @@
-/* main data table */
 
+/* container of each table */
+.parentDiv {
+	width: 400px;
+}
+
+/* main data table */
 table.dataTable th.columnSorted {
 	font-weight:bold;
 }
 table.dataTable {
-	width: 500px;
+	width: 400px;
 	padding: 0;
 	border-spacing:0;
 	margin: 0;
@@ -27,8 +32,7 @@ table.dataTable th {
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
 	border-top: 1px solid #C1DAD7;
-	letter-spacing: 2px;
-	text-transform: uppercase;
+	text-transform: capitalize;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
 	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
@@ -171,11 +175,14 @@ table.subDataTable thead th {
 	font-size:0.8em;
 	color:#C3C6D8;
 }
-
 #dataTableNext, #dataTablePrevious, #dataTableSearchPattern, #loadingDataTable   {
 	display:none;
 }
 
+
+#exportDataTable {
+   float: right;
+}
 #exportDataTable,#exportDataTable a{
 	text-decoration:none;
 	color:#8894B1;

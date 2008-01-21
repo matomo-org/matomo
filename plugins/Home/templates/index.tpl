@@ -237,7 +237,7 @@ function findSWFGraph(name) {
 
 	<a name="evolutionGraph" ></a>
 	<h3>Evolution on the last 30 {$period}</h3>
-	{$graphLastVisits}
+	{$graphEvolutionVisitsSummary}
 	
 	<h3>Report</h3>
 	
@@ -245,8 +245,8 @@ function findSWFGraph(name) {
 	<p><img class="sparkline" src="{$urlSparklineNbUniqVisitors}" /> <span><strong>{$nbUniqVisitors}</strong> unique visitors</span></p>
 	<p><img class="sparkline" src="{$urlSparklineNbActions}" /> <span><strong>{$nbActions}</strong> actions (page views)</span></p>
 	<p><img class="sparkline" src="{$urlSparklineSumVisitLength}" /> <span><strong>{$sumVisitLength|sumtime}</strong> total time spent by the visitors</span></p>
-	<p><img class="sparkline" src="{$urlSparklineMaxActions}" /> <span><strong>{$maxActions}</strong> max actions</span></p>
-	<p><img class="sparkline" src="{$urlSparklineBounceCount}" /> <span><strong>{$bounceCount} </strong>visitors have bounced (left the site directly)</span></p>
+	<p><img class="sparkline" src="{$urlSparklineMaxActions}" /> <span><strong>{$maxActions}</strong> max actions in one visit</span></p>
+	<p><img class="sparkline" src="{$urlSparklineBounceCount}" /> <span><strong>{$bounceCount} </strong>visitors have bounced (left the site after one page)</span></p>
 	
 	
 	<br><br><br><hr width="300px" align="left">
@@ -254,48 +254,66 @@ function findSWFGraph(name) {
 </div>
 
 <div class="section" id="User_Country">
-	<h3>Country</h3>	
-	<p><img class="sparkline" src="{$urlSparklineCountries}" /> <span><strong>{$numberDistinctCountries} </strong> distinct countries</span></p>
-	
+	<h3>Country</h3>
 	{$dataTableCountry}
+	
 	<h3>Continent</h3>
 	{$dataTableContinent}
+	
+	<p><img class="sparkline" src="{$urlSparklineCountries}" /> <span><strong>{$numberDistinctCountries} </strong> distinct countries</span></p>
+	
 </div>
 
-<div class="section" id="Provider">
-	{$dataTableProvider}
-</div>
 
 <div class="section" id="Referers">
 
-	<h3>Number of distinct keywords</h3>
-	{$graphLastDistinctKeywords}
+	<a name="evolutionGraph" ></a>
+	<h3>Evolution over the period</h3>
+	{$graphEvolutionReferers}
 	
 	<h3>Referer Type</h3>
-	{$dataTableRefererType}
+	<table>
+		<tr><td>
+			<p><img class="sparkline" src="{$urlSparklineDirectEntry}" /> <span><strong>{$visitorsFromDirectEntry} </strong> direct entries</span></p>
+			<p><img class="sparkline" src="{$urlSparklineSearchEngines}" /> <span><strong>{$visitorsFromSearchEngines} </strong>  from search engines</span></p>
+			<p><img class="sparkline" src="{$urlSparklinePartners}" /> <span><strong>{$visitorsFromPartners} </strong> from partners</span></p>
+		</td><td>
+			<p><img class="sparkline" src="{$urlSparklineWebsites}" /> <span><strong>{$visitorsFromWebsites} </strong> from websites</span></p>
+			<p><img class="sparkline" src="{$urlSparklineNewsletters}" /> <span><strong>{$visitorsFromNewsletters} </strong>  from newsletters</span></p>
+			<p><img class="sparkline" src="{$urlSparklineCampaigns}" /> <span><strong>{$visitorsFromCampaigns} </strong>  from campaigns</span></p>
+		</td></tr>
+	</table>
 	
 	<h3>Search Engines</h3>
-	<p>{$numberDistinctSearchEngines} distinct search engines</p>
 	{$dataTableSearchEngines}
 	
 	<h3>Keywords</h3>
-	<p>{$numberDistinctKeywords} distinct keywords</p>
 	{$dataTableKeywords}
 	
-	
 	<h3>Websites</h3>
-	<p>{$numberDistinctWebsites} distinct websites</p>
-	<p>{$numberDistinctWebsitesUrls} distinct websites URLs</p>
 	{$dataTableWebsites}
 	
 	<h3>Partners</h3>
-	<p>{$numberDistinctPartners} distinct partners</p>
-	<p>{$numberDistinctPartnersUrls} distinct partners URLs</p>
 	{$dataTablePartners}
 	
 	<h3>Campaigns</h3>
-	<p>{$numberDistinctCampaigns} distinct campaigns</p>
 	{$dataTableCampaigns}
+	
+	
+	<h3>Other</h3>
+	<table>
+		<tr><td>
+			<p><img class="sparkline" src="{$urlSparklineDistinctSearchEngines}" /> <span><strong>{$numberDistinctSearchEngines} </strong>  distinct search engines</span></p>
+			<p><img class="sparkline" src="{$urlSparklineDistinctKeywords}" /> <span><strong>{$numberDistinctKeywords} </strong> distinct keywords</span></p>
+		</td><td>
+			<p><img class="sparkline" src="{$urlSparklineDistinctWebsites}" /> <span><strong>{$numberDistinctWebsites} </strong>  distinct websites (using <strong>{$numberDistinctWebsitesUrls}</strong> distinct urls)</span></p>
+			<p><img class="sparkline" src="{$urlSparklineDistinctPartners}" /> <span><strong>{$numberDistinctPartners} </strong>   distinct partners (using <strong>{$numberDistinctPartnersUrls}</strong> distinct urls)</span></p>
+			<p><img class="sparkline" src="{$urlSparklineDistinctCampaigns}" /> <span><strong>{$numberDistinctCampaigns} </strong>  distinct campaigns</span></p>
+			</td></tr>
+	</table>
+	
+	<p>Tag cloud output</p>
+	{$dataTableRefererType}
 </div>
 
 <div class="section" id="Actions">
@@ -332,11 +350,11 @@ function findSWFGraph(name) {
 
 
 <div class="section" id="Frequency">
-	<p>{$nbVisitsReturning} returning visits</p>
-	<p>{$nbActionsReturning} actions by the returning visits</p>
-	<p>{$maxActionsReturning} maximum actions by a returning visit</p>
-	<p>{$sumVisitLengthReturning|sumtime} total time spent by returning visits</p>
-	<p>{$bounceCountReturning} times that a returning visit has bounced</p>
+	<p><img class="sparkline" src="{$urlSparklineNbVisitsReturning}" /> <span><strong>{$nbVisitsReturning} </strong> returning visits</span></p>
+	<p><img class="sparkline" src="{$urlSparklineNbActionsReturning}" /> <span><strong>{$nbActionsReturning} </strong> actions by the returning visits</span></p>
+	<p><img class="sparkline" src="{$urlSparklineMaxActionsReturning}" /> <span><strong>{$maxActionsReturning} </strong> maximum actions by a returning visit</span></p>
+	<p><img class="sparkline" src="{$urlSparklineSumVisitLengthReturning}" /> <span><strong>{$sumVisitLengthReturning|sumtime} </strong> total time spent by returning visits</span></p>
+	<p><img class="sparkline" src="{$urlSparklineBounceCountReturning}" /> <span><strong>{$bounceCountReturning} </strong> times that a returning visit has bounced (left the site after one page) </span></p>
 </div>
 
 <div class="section" id="Visit_Time">
@@ -344,6 +362,10 @@ function findSWFGraph(name) {
 	{$dataTableVisitInformationPerLocalTime}
 	<h3>Visit per server time</h3>
 	{$dataTableVisitInformationPerServerTime}
+</div>
+
+<div class="section" id="Provider">
+	{$dataTableProvider}
 </div>
 
 <div class="section" id="Visitor_Interest">

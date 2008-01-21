@@ -21,11 +21,12 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		// we load the data with the filters applied
 		$this->loadDataTableFromAPI();
 		
+//		echo $this->dataTable; exit;
 		$this->dataAvailable = $this->dataTable->getRowsCount() != 0;
 		
 		if(!$this->dataAvailable)
 		{
-			$this->view->title("No data for this graph", '{font-size: 25px;}');
+			throw new Exception( "No data for this graph" );
 		}
 		else
 		{
@@ -34,7 +35,7 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 			$graph = new Piwik_Sparkline_Graph;
 			$graph->setData($data);
 			$graph->main();
-//			var_dump($data);
+//			var_dump($data);exit;
 			$this->view = $graph;
 		}
 	}
@@ -90,8 +91,9 @@ class Piwik_Sparkline_Graph
 		// set y-bound, min and max extent lines
 		//
 		$sparkline->SetYMin(0);
+//		$sparkline->SetYMax($max);
 		$sparkline->SetPadding(2); // setpadding is additive
-		$sparkline->SetPadding(13,//font height 
+		$sparkline->SetPadding(0,//13,//font height 
 					3,//4 * (strlen("$last[1]")), 
 					0, //imagefontheight(FONT_2), 
 					0);
@@ -101,7 +103,7 @@ class Piwik_Sparkline_Graph
 		$sparkline->SetFeaturePoint($last[0]-1, $last[1], 'blue',5);//, " $last[1]", TEXT_RIGHT,$font);
 		
 		$sparkline->SetLineSize(3); // for renderresampled, linesize is on virtual image
-		$sparkline->RenderResampled(100, 30, 'lineColor');
+		$sparkline->RenderResampled(100, 20, 'lineColor');
 		
 		$this->sparkline = $sparkline;
 	}

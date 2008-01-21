@@ -32,8 +32,10 @@ class Piwik_Visualization_ChartVerticalBar extends Piwik_Visualization_Chart
 		$this->set_x_label_style( 12, $this->x_axis_colour, 0, 2, $this->bg_colour );
 		
 		$this->set_x_axis_steps( 2 );
+		
 		$this->set_y_max( $this->maxData );
-		$this->y_label_steps( 3 );
+		
+		$this->y_label_steps( 2 );
 		
 		$this->bar_filled( 50, '#3B5AA9', '#063E7E', 'visits', 10 );
 //		$this->set_y_legend( 'Open Flash Chart', 12, '#736AFF' );

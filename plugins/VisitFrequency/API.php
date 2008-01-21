@@ -36,7 +36,7 @@ class Piwik_VisitFrequency_API extends Piwik_Apiable
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		$toFetch = array( 	
+		$toFetch = array( 	'nb_uniq_visitors_returning',
 							'nb_visits_returning',
 							'nb_actions_returning',
 							'max_actions_returning',
@@ -47,6 +47,34 @@ class Piwik_VisitFrequency_API extends Piwik_Apiable
 
 		return $dataTable;
 	}
-	
+
+	protected function getNumeric( $idSite, $period, $date, $toFetch )
+	{
+		Piwik::checkUserHasViewAccess( $idSite );
+		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$dataTable = $archive->getNumeric($toFetch);
+		return $dataTable;		
+	}
+
+	public function getVisitsReturning( $idSite, $period, $date )
+	{
+		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_returning');
+	}
+	public function getActionsReturning( $idSite, $period, $date )
+	{
+		return $this->getNumeric( $idSite, $period, $date, 'nb_actions_returning');
+	}
+	public function getMaxActionsReturning( $idSite, $period, $date )
+	{
+		return $this->getNumeric( $idSite, $period, $date, 'max_actions_returning');
+	}
+	public function getSumVisitsLengthReturning( $idSite, $period, $date )
+	{
+		return $this->getNumeric( $idSite, $period, $date, 'sum_visit_length_returning');
+	}
+	public function getBounceCountReturning( $idSite, $period, $date )
+	{
+		return $this->getNumeric( $idSite, $period, $date, 'bounce_count_returning');
+	}
 }
 

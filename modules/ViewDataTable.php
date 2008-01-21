@@ -152,10 +152,27 @@ abstract class Piwik_ViewDataTable
 		{
 			$value = false;
 			
-			$onlyRow = $table->getRowFromId(0);
+			$onlyRow = $table->getFirstRow();
 			if($onlyRow !== false)
 			{
 				$value = $onlyRow->getColumn('value');
+				if($value == false)
+				{
+					// TEMP
+					// quite a hack, useful in the case at this point we do have a normal row with nb_visits, nb_actions, nb_uniq_visitors, etc.
+					// instead of the dataTable_Simple row (label, value) 
+					// to do it properly we'd need to
+					// - create a filter that removes columns
+					// - apply this filter to keep only the column called nb_unique_visitors
+					// - rename this column as 'value'
+					// and at this point the getcolumn('value') would have worked
+					// this code is executed eg. when displaying a sparkline for the last 30 days displaying the number of unique visitors coming from search engines
+					
+					// another solution would be to add a method to the Referers API giving directly the integer 'visits from search engines'
+					// and we would build automatically the dataTable_array of datatatble_simple from these integers
+					// but we'd have to add this integer to be recorded during archiving etc.
+					$value = $onlyRow->getColumn('nb_unique_visitors');
+				}
 			}
 		
 			if($value === false)
@@ -297,6 +314,8 @@ abstract class Piwik_ViewDataTable
 			'filter_sort_order',
 			'filter_excludelowpop',
 			'filter_excludelowpop_value',
+			'filter_column', 
+			'filter_pattern' 
 		);
 		foreach($toSetEventually as $varToSet)
 		{
@@ -414,6 +433,12 @@ abstract class Piwik_ViewDataTable
 		$this->variablesDefault['filter_excludelowpop_value_default'] 
 			= $this->variablesDefault['filter_excludelowpop_value']
 			= $value;	
+	}
+	
+	public function setSearchPattern($pattern, $column)
+	{
+		$this->variablesDefault['filter_pattern'] = $pattern;
+		$this->variablesDefault['filter_column'] = $column;
 	}
 
 	public function setLimit( $limit )
