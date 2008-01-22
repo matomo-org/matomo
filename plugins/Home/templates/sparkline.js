@@ -36,12 +36,17 @@ $(document).ready( function(){
 										function()
 										{	
 											//get the main page graph and reload with new data
-											var test = graph.attr('graphId')+"Chart_swf";
 											findSWFGraph(graph.attr('graphId')+"Chart_swf").reload(url);
-	
-											//scroll the page smoothly to the graph
-											//TODO: don't move the page if the graph was already completely visible
-											$.scrollTo(graph[0], 400);
+											
+											var graphTop = $(graph[0]).offset().top;
+											
+											//only scroll the page if the graph is not visible 
+											if(graphTop < $(window).scrollTop()
+											|| graphTop > $(window).scrollTop()+$(window).height())
+											{
+												//scroll the page smoothly to the graph
+												$.scrollTo(graph[0], 400);
+											}
 										}
 									);
 									
