@@ -37,6 +37,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('Widgetize/templates/test_jsinclude.tpl');
 		$view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
+		$view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=API&actionToWidgetize=index&method=ExamplePlugin.getGoldenRatio';
 		echo $view->render();
 	}
 	

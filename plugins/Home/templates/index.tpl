@@ -259,6 +259,7 @@ function findSWFGraph(name) {
 	<p><small>{$totalTimeGeneration} seconds {if $totalNumberOfQueries != 0}/ {$totalNumberOfQueries}  queries{/if} to generate the page</p>
 </div>
 
+
 <div class="section" id="User_Country">
 	<h3>Country</h3>
 	{$dataTableCountry}

@@ -46,13 +46,13 @@ class Piwik_Home_Controller extends Piwik_Controller
 	{
 		header("Location:?module=Home&action=index&idSite=1&period=day&date=yesterday");
 	}
+	
 	function homepage()
 	{		
 		$view = new Piwik_View('Home/templates/homepage.tpl');
 		$view->link = '?module=Home&action=index&idSite=1&period=day&date=yesterday';
 		echo $view->render();
 	}
-	
 	
 	public function index()
 	{
@@ -765,6 +765,7 @@ List of the public methods for the class Piwik_Actions_API
 	function getKeywords( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
+		
 		$view->init( $this->currentControllerName, 	'getKeywords', 
 											'Referers.getKeywords', 
 											'getSearchEnginesFromKeywordId'
