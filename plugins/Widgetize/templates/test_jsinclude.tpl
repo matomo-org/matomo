@@ -10,5 +10,7 @@
 
 <p>This text is after the JS INCLUDE</p>
 
+<script type="text/javascript" src="{$url2}"></script>
+<noscript>Powered by <a href="http://piwik.org">Piwik</a></div></noscript>
 </body>
 </html>

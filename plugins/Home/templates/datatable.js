@@ -187,6 +187,7 @@ dataTable.prototype =
 	{
 		var content = $(response);
 		var idToReplace = $(content).attr('id');
+		
 	
 		// if the current dataTable is situated inside another datatable
 		table = $(content).parents('table.dataTable');
@@ -196,12 +197,11 @@ dataTable.prototype =
 			$(content).children('table.dataTable').addClass('subDataTable');
 			$(content).children('#dataTableFeatures').addClass('subDataTable');
 		}
-		
-		
-		$('#'+idToReplace).html( $(content).html());
-		
+				
+		$('#'+idToReplace).html( $(content).html() );
+
 		// we execute the init function for the new DIV datatable
-		dataTables[idToReplace].init( idToReplace, $('#'+idToReplace))
+		dataTables[idToReplace].init( idToReplace, $('#'+idToReplace) );
 		
 		// and we hide the loading DIV
 		//$('#loadingDataTable', this).fadeOut("slow");
@@ -458,11 +458,12 @@ dataTable.prototype =
 		var self = this; 
 		if( !self.param.idSubtable )
 		{
+			// the + image, when clicked displays all the other icons 
 			$('#exportDataTableShow', domElem)
 				.show()
 				.click( function() { 
-					$('#exportToFormat', domElem).show();
-					$(this).hide();
+					$(this).fadeOut('slow');
+					$('#exportToFormat', domElem).show('slow');
 					}
 			);
 				

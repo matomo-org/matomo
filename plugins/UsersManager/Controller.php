@@ -33,7 +33,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		if($idSiteSelected==-1)
 		{
 			$usersAccessByWebsite = array();
-		}		
+		}
 		else
 		{
 			$usersAccessByWebsite = Piwik_UsersManager_API::getUsersAccessFromSite( $idSiteSelected );
