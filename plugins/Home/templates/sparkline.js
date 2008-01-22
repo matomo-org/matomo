@@ -1,49 +1,64 @@
 
 $(document).ready( function(){
 
-	//find paragraph in the div 'Visits_summary'
-	$("#Visits_summary p").each(
+	
+	//for every section
+	$(".section").each(
 		function()
 		{
-			var url = "";
-			//find the sparkline and get it's src attribute
-			$(".sparkline", this).each(
-				function()
-				{
-					//search viewDataTable parameter and replace it with value for chart
-					var reg = new RegExp("(viewDataTable=sparkline)", "g");
-					url = this.src.replace(reg,'viewDataTable=generateDataChartEvolution');
-				}
-			);
-			
-			if(url != "")
+			//try to find the graph			
+			var graph = $("a[name='evolutionGraph']", this);
+		
+			if(graph && graph.size() > 0)
 			{
-				$("*", this).each(
+				//try to find sparklines and add them clickable behaviour
+				$("p", this).each(
 					function()
 					{
-						//on click, reload the graph with the new url
-						$(this).click(
+						var url = "";
+						//find the sparkline and get it's src attribute
+						$(".sparkline", this).each(
 							function()
-							{	
-								//get the main page graph and reload with new data
-								findSWFGraph("getLastVisitsGraphChart_swf").reload(url);
-								//slowly scroll the page to the graph
-								var targetOffset = $("#Visits_summary a[name='evolutionGraph']").offset().top;
-								$('html,body').animate({scrollTop: targetOffset}, 500);					
+							{
+								//search viewDataTable parameter and replace it with value for chart
+								var reg = new RegExp("(viewDataTable=sparkline)", "g");
+								url = this.src.replace(reg,'viewDataTable=generateDataChartEvolution');
 							}
 						);
 						
-						//on hover, change cursor to indicate clickable item
-						$(this).hover(
-							function()
-							{  
-						 		$(this).css({ cursor: "pointer"}); 
-						  	},
-						  	function()
-						  	{  
-						 		$(this).css({ cursor: "auto"}); 
-						  	}
-						);
+						if(url != "")
+						{
+							$("*", this).each(
+								function()
+								{
+									//on click, reload the graph with the new url
+									$(this).click(
+										function()
+										{	
+											//get the main page graph and reload with new data
+											var test = graph.attr('graphId')+"Chart_swf";
+											findSWFGraph(graph.attr('graphId')+"Chart_swf").reload(url);
+	
+											//scroll the page smoothly to the graph
+											//TODO: don't move the page if the graph was already completely visible
+											$.scrollTo(graph[0], 400);
+										}
+									);
+									
+									//on hover, change cursor to indicate clickable item
+									$(this).hover(
+										function()
+										{  
+									 		$(this).css({ cursor: "pointer"}); 
+									  	},
+									  	function()
+									  	{  
+									 		$(this).css({ cursor: "auto"}); 
+									  	}
+									);
+								}
+							);
+						}
 					}
 				);
 			}
