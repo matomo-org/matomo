@@ -356,6 +356,11 @@ function findSWFGraph(name) {
 
 
 <div class="section" id="Frequency">
+
+	<a name="evolutionGraph" graphId="getLastVisitsReturningGraph"></a>
+	<h3>Evolution over the period</h3>
+	{$graphEvolutionVisitFrequency}
+
 	<p><img class="sparkline" src="{$urlSparklineNbVisitsReturning}" /> <span><strong>{$nbVisitsReturning} </strong> returning visits</span></p>
 	<p><img class="sparkline" src="{$urlSparklineNbActionsReturning}" /> <span><strong>{$nbActionsReturning} </strong> actions by the returning visits</span></p>
 	<p><img class="sparkline" src="{$urlSparklineMaxActionsReturning}" /> <span><strong>{$maxActionsReturning} </strong> maximum actions by a returning visit</span></p>

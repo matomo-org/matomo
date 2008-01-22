@@ -118,7 +118,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
 		
 		/* VisitFrequency */
-//		$view->graphEvolutionVisitFrequency = $this->getLastVisitsGraph( true );
+		$view->graphEvolutionVisitFrequency = $this->getLastVisitsReturningGraph( true );
 		
 		$view->urlSparklineNbVisitsReturning 		= $this->getUrlSparkline( 'getLastVisitsReturningGraph');
 		$view->urlSparklineNbActionsReturning 		= $this->getUrlSparkline( 'getLastActionsReturningGraph');
