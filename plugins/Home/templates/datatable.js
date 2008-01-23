@@ -455,24 +455,43 @@ dataTable.prototype =
 	
 	handleExportBox: function(domElem)
 	{
-		var self = this; 
+		var self = this;
 		if( !self.param.idSubtable )
-		{
-			// the + image, when clicked displays all the other icons 
+		{			
+			// When the (+) image is hovered, the export buttons are displayed 
 			$('#exportDataTableShow', domElem)
 				.show()
-				.click( function() { 
-					$(this).fadeOut('slow');
-					$('#exportToFormat', domElem).show('slow');
-					}
+				.hover( function() {
+						$(this).fadeOut('slow');
+						$('#exportToFormat', domElem).show('slow');
+					}, function(){}
 			);
-				
+			
+			//timeout object used to hide the datatable export buttons
+			var timeout = null;
+			
 			$('#exportDataTable', domElem)
-				.hover( function() {  
-				 	 $(this).css({ cursor: "pointer"}); 
+				.hover( function() {
+						//display 'hand' cursor
+						$(this).css({ cursor: "pointer"});
+						
+						//cancel timeout if necessary
+						if(timeout != null)
+						{
+							clearTimeout(timeout);
+							timeout = null;
+						}
 				  	},
-				  	function() {  
-				 	 $(this).css({ cursor: "auto"}); 
+				  	function() {
+				  		//display standard cursor
+						$(this).css({ cursor: "auto"});
+						
+						//set a timeout that will hide export buttons after a few moments
+				  		var dom = this;
+						timeout = setTimeout(function(){
+							$('#exportToFormat', dom).fadeOut('slow', function(){	//queue the two actions
+							$('#exportDataTableShow', dom).show('normal');});
+						}, 1000);
 				  	}
 		 	);
 		 	
