@@ -489,8 +489,8 @@ dataTable.prototype =
 						//set a timeout that will hide export buttons after a few moments
 				  		var dom = this;
 						timeout = setTimeout(function(){
-							$('#exportToFormat', dom).fadeOut('slow', function(){	//queue the two actions
-							$('#exportDataTableShow', dom).show('normal');});
+							$('#exportToFormat', dom).fadeOut('fast', function(){	//queue the two actions
+							$('#exportDataTableShow', dom).show('fast');});
 						}, 1000);
 				  	}
 		 	);
