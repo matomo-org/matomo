@@ -560,8 +560,8 @@ dataTable.prototype =
 	
 		// Add some styles on the cells even/odd
 		// label (first column of a data row) or not
-		$("td:first-child:odd", domElem).addClass('label labelodd');
-		$("td:first-child:even", domElem).addClass('label labeleven');
+		$("td:first-child:odd", domElem).addClass('label labeleven');
+		$("td:first-child:even", domElem).addClass('label labelodd');
 		$("tr:odd td", domElem).slice(1).addClass('columnodd');
 		$("tr:even td", domElem).slice(1).addClass('columneven');
 		
@@ -760,8 +760,8 @@ actionDataTable.prototype =
 			
 				// Add some styles on the cells even/odd
 				// label (first column of a data row) or not
-				$("td:first-child:odd", this).addClass('label labelodd');
-				$("td:first-child:even", this).addClass('label labeleven');
+				$("td:first-child:odd", this).addClass('label labeleven');
+				$("td:first-child:even", this).addClass('label labelodd');
 				// we truncate the labels columns from the second row
 				$("td:first-child", this).truncate(30);
 			    $('.truncated', this).Tooltip();
