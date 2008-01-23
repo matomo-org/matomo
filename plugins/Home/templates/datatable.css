@@ -1,13 +1,9 @@
-
 /* container of each table */
 .parentDiv {
 	width: 400px;
 }
 
 /* main data table */
-table.dataTable th.columnSorted {
-	font-weight:bold;
-}
 table.dataTable {
 	width: 400px;
 	padding: 0;
@@ -16,12 +12,14 @@ table.dataTable {
 	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	font-size:0.9em;
 }
-
+table.dataTable img {
+	vertical-align: middle;
+}
 table.dataTable img {
 	border:0;
 	margin-right:1em;
 	margin-left:0.5em;
-}	
+}
 table.dataTable tr.subDataTable{
 	cursor:pointer;
 }
@@ -35,8 +33,12 @@ table.dataTable th {
 	text-transform: capitalize;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
-	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+	background: #D4E3ED url(images/bg_header.jpg) no-repeat;
 }
+table.dataTable th.columnSorted {
+	font-weight:bold;
+}
+
 
 table.dataTable td.label {
 	width:80%;
@@ -55,22 +57,28 @@ table.dataTable td, table.dataTable td a {
 	color: #4f6b72;
 }
 
+table.dataTable td.labeleven, table.dataTable td.columneven {
+	background: #F9FAFA;
+}
+
 table.dataTable td.columneven {
-	background: #F7FAFA;
+	
 	color: #797268;
 }
+
+table.dataTable td.labeleven {
+	background-image: url(images/bullet2.gif);
+	background-repeat: no-repeat;
+	color: #797268;
+}
+
 table.dataTable td.label {
 	border-top: 0;
 	border-left: 1px solid #C1DAD7;
 }
 
-table.dataTable td.labeleven {
-	background: #fff url(images/bullet1.gif) no-repeat;
-}
-
 table.dataTable td.labelodd {
-	background: #F7FAFA url(images/bullet2.gif) no-repeat;
-	color: #797268;
+	background: #fff url(images/bullet1.gif) no-repeat;
 }
 /* A link in a column in the DataTable */
 table.dataTable td #urlLink {
@@ -78,11 +86,6 @@ table.dataTable td #urlLink {
 }
 
 /* a datatable inside another datatable */
-table.subDataTable img {
-	border:0;
-	margin-top:.5em;
-}	
-
 table.subDataTable {
 	background:#FFFFFF;
 	color: #678197;
@@ -110,12 +113,12 @@ table.subDataTable td, table.subDataTable td a {
 }
 
 table.subDataTable td.label, table.subDataTable td.label a	{
-	background:#ffffff;
+	background:#f4f9fe;
 	width:80%;
 }
 
 table.subDataTable td.labelodd, table.subDataTable td.labelodd a{
-	background:#f4f9fe;
+	background:#ffffff;
 }
 				
 table.subDataTable th {
@@ -130,13 +133,13 @@ table.subDataTable th {
 table.subDataTable thead th {
 	background:#f4f9fe;
 	text-align:center;
-	font: 0.8em "Century Gothic","Trebuchet MS",Arial,Helvetica,sans-serif;
+	font: 0.9em "Century Gothic","Trebuchet MS",Arial,Helvetica,sans-serif;
 	color:#66a3d3
 }
 
 /* misc SPAN and DIV */
 #dataTablePages {
-	color:grey;
+	color:#E1E1E1;
 	font-weight:bold;
 	margin:10px;
 	font-size:0.9em;
