@@ -14,7 +14,7 @@
 </div>
 
 <script type="text/javascript">
-$Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "facebook", "live", "spaces", "netvibes", "email", "yahoowidgets", "dashboard", "vista", "jscode", "objectcode"], customCSS: "http://cdn.clearspring.com/launchpad/skins/white.css", widgetName: "Piwik test_widget", source: "PiwikWidgetTest"});
+$Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "facebook", "live", "spaces", "netvibes", "email", "yahoowidgets", "dashboard", "vista", "jscode", "objectcode"], customCSS: "http://cdn.clearspring.com/launchpad/skins/white.css", widgetName: "Piwik example", source: "PiwikWidgetTest"});
 </script>
 
 <h2>Test flash graph </h2>
@@ -27,7 +27,7 @@ $Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "
 </div>
 
 <script type="text/javascript">
-$Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "facebook", "live", "spaces", "netvibes", "email", "yahoowidgets", "dashboard", "vista", "jscode", "objectcode"], customCSS: "http://cdn.clearspring.com/launchpad/skins/white.css", widgetName: "Piwik test_widgetJs", source: "PiwikWidgetTestJs"});
+$Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "facebook", "live", "spaces", "netvibes", "email", "yahoowidgets", "dashboard", "vista", "jscode", "objectcode"], customCSS: "http://cdn.clearspring.com/launchpad/skins/white.css", widgetName: "Piwik example", source: "PiwikWidgetTestJs"});
 </script>
 
 <h2>Test tag cloud </h2>
@@ -40,6 +40,6 @@ $Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "
 </div>
 
 <script type="text/javascript">
-$Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "facebook", "live", "spaces", "netvibes", "email", "yahoowidgets", "dashboard", "vista", "jscode", "objectcode"], customCSS: "http://cdn.clearspring.com/launchpad/skins/white.css", widgetName: "Piwik test_widgetJs", source: "PiwikWidgetTestJs"});
+$Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "facebook", "live", "spaces", "netvibes", "email", "yahoowidgets", "dashboard", "vista", "jscode", "objectcode"], customCSS: "http://cdn.clearspring.com/launchpad/skins/white.css", widgetName: "Piwik example", source: "PiwikWidgetTestJs"});
 </script>
 {/literal}
