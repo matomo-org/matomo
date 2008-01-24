@@ -117,6 +117,7 @@ abstract class Piwik_ViewDataTable
 		
 		$this->method = $moduleNameAndMethod;
 		
+		$this->JSsearchBox = Piwik_Common::getRequestVar('show_search', true);
 		$this->showFooter = Piwik_Common::getRequestVar('showDataTableFooter', true);
 		$this->variablesDefault['filter_excludelowpop_default'] = 'false';
 		$this->variablesDefault['filter_excludelowpop_value_default'] = 'false';	

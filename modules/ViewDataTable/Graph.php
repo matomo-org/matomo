@@ -28,11 +28,19 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 						$currentControllerAction, 
 						$moduleNameAndMethod );
 		$this->dataTableTemplate = 'Home/templates/graph.tpl';
-		
+//		var_dump($currentControllerName);
+//		var_dump($currentControllerAction);
 		$this->disableOffsetInformation();
 		$this->disableExcludeLowPopulation();
 		$this->disableSearchBox();
-		$this->parametersToModify = array( 'viewDataTable' => $this->valueParameterViewDataTable);
+		$this->parametersToModify = array( 
+						'viewDataTable' => $this->valueParameterViewDataTable,
+						// in the case this controller is being executed by another controller
+						// eg. when being widgetized in an IFRAME
+						// we need to put in the URL of the graph data the real module and action
+						'module' => $currentControllerName, 
+						'action' => $currentControllerAction,
+		);
 	}
 	
 	public function setParametersToModify($array)
