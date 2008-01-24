@@ -24,10 +24,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		parent::init($currentControllerName, 
 						$currentControllerAction, 
 						$moduleNameAndMethod );
-		
-		$this->disableOffsetInformation();
-		$this->disableExcludeLowPopulation();
-		$this->disableSearchBox();
 	}
 	
 	protected $graphLimit;
