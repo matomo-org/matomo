@@ -68,12 +68,13 @@ class Piwik_Sparkline_Graph
 		$data = array_reverse($data);
 		$min = $max= $last = null;
 		$i = 0;
+		
 		foreach($this->data as $row)
 		{
-		
 			$value = $row['value'];
+					
 			$sparkline->SetData($i, $value);
-			if(	null == $min || $value <= $min[1]) 
+			if(	null == $min || $value <= $min[1])
 			{
 				$min = array($i, $value);
 			}
@@ -98,7 +99,7 @@ class Piwik_Sparkline_Graph
 					0, //imagefontheight(FONT_2), 
 					0);
 		$font = FONT_2;
-		$sparkline->SetFeaturePoint($min[0]-1,$min[1]+2,'red', 5);//, $min[1], TEXT_TOP,$font);
+		$sparkline->SetFeaturePoint($min[0]-1,$min[1],'red', 5);//, $min[1], TEXT_TOP,$font);
 		$sparkline->SetFeaturePoint($max[0]-1,$max[1],  'green', 5);//, $max[1], TEXT_TOP,$font);
 		$sparkline->SetFeaturePoint($last[0]-1, $last[1], 'blue',5);//, " $last[1]", TEXT_RIGHT,$font);
 		
