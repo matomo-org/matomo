@@ -196,7 +196,7 @@ class Piwik_PluginsManager
 /**
  * Post an event to the dispatcher which will notice the observers
  */
-function Piwik_PostEvent( $eventName, $object = null, $info = array() )
+function Piwik_PostEvent( $eventName,  &$object = null, $info = array() )
 {
 	Piwik_PluginsManager::getInstance()->dispatcher->post( $object, $eventName, $info, true, false );
 }

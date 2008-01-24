@@ -51,6 +51,16 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 	}
 	
 	
+	// display code calling the IFRAME
+	function testClearspring()
+	{
+		$view = new Piwik_View('Widgetize/templates/test_widget.tpl');
+		$view->url1 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Home&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday';
+		$view->url2 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=1';
+		
+		echo $view->render();
+	}
+	
 	// the code loaded by the script src=
 	function js()
 	{
