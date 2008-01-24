@@ -73,5 +73,17 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
 	}
+	
+	function logout()
+	{		
+		$authCookieName = 'piwik-auth';
+		$cookie = new Piwik_Cookie($authCookieName);
+		$cookie->delete();
+		
+		$baseUrl = Piwik_Url::getCurrentUrlWithoutQueryString();
+	
+		Piwik_Url::redirectToUrl($baseUrl);
+	}
+	
 }
 

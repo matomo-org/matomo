@@ -9,7 +9,6 @@ table.dataTable {
 	padding: 0;
 	border-spacing:0;
 	margin: 0;
-	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	font-size:0.9em;
 }
 table.dataTable img {
@@ -113,7 +112,6 @@ table.subDataTable td, table.subDataTable td a {
 }
 
 table.subDataTable td.label, table.subDataTable td.label a	{
-	background:#f4f9fe;
 	width:80%;
 }
 
@@ -133,7 +131,6 @@ table.subDataTable th {
 table.subDataTable thead th {
 	background:#f4f9fe;
 	text-align:center;
-	font: 0.9em "Century Gothic","Trebuchet MS",Arial,Helvetica,sans-serif;
 	color:#66a3d3
 }
 
