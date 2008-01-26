@@ -61,7 +61,6 @@ table.dataTable td.labeleven, table.dataTable td.columneven {
 }
 
 table.dataTable td.columneven {
-	
 	color: #797268;
 }
 
@@ -116,7 +115,7 @@ table.subDataTable td.label, table.subDataTable td.label a	{
 }
 
 table.subDataTable td.labelodd, table.subDataTable td.labelodd a{
-	background:#ffffff;
+	background-color:#ffffff;
 }
 				
 table.subDataTable th {

@@ -1,11 +1,13 @@
 <span id="miscLinks">
 	<p>Links to other modules:</p>
 	<ul>
-		<li>Manage: <a href='?module=SitesManager'>Sites</a> - <a href='?module=UsersManager'>Users</a></li>
-		<li><a href='?module=SitesManager'>Display the javascript code to insert</a></li>
-		<li><a href='?module=Login'>Login</a> - <a href='?module=Login&action=logout'>Logout</a></a></li>
-		<li>Discover the power of the Piwik API!!! <br><a href='?module=API&action=listAllAPI'>API methods list</a></li>
-		<li>View examples of how to embed graphs/tables as widgets<br>
-			<a href='?module=Widgetize'>Widgetize!</a></li>
+		<li>Try the power of the Piwik API! <br>
+		<a href='?module=API&action=listAllAPI'>API examples</a></li>
+		<li>View examples of how to embed graphs/tables as widgets
+		<br><a href='?module=Widgetize'>Widgetize!</a></li>
+		<li><a href='?module=SitesManager'>Admin websites</a></li>
+		<li><a href='?module=UsersManager'>Admin users</a></li>
+		<li><a href='?module=SitesManager&action=displayJavascriptCode&idsite={$idSite}'>Show the javascript code to insert</a></li>
+		
 	</ul>
-</div>
+</span>

@@ -463,7 +463,7 @@ dataTable.prototype =
 				.show()
 				.hover( function() {
 						$(this).fadeOut('slow');
-						$('#exportToFormat', domElem).show('slow');
+						$('#exportToFormat', $(this).parent()).show('slow');
 					}, function(){}
 			);
 			

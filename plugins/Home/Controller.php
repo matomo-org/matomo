@@ -54,17 +54,38 @@ class Piwik_Home_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
-	public function index()
+	protected function setGeneralVariablesView($view)
 	{
-		$view = new Piwik_View('Home/templates/index.tpl');
-		
+		// date
 		$view->date = $this->strDate;
-		$view->period = Piwik_Common::getRequestVar('period');
+		$oDate = new Piwik_Date($this->strDate);
+		$view->prettyDate = $oDate->get("l jS F Y");
+		
+		// period
+		$currentPeriod = Piwik_Common::getRequestVar('period');
+		$otherPeriodsAvailable = array('day','week','month','year');
+		
+		$found = array_search($currentPeriod,$otherPeriodsAvailable);
+		if($found !== false)
+		{
+			unset($otherPeriodsAvailable[$found]);
+		}
+		
+		$view->period = $currentPeriod;
+		$view->otherPeriods = $otherPeriodsAvailable;
+		
+		// other
 		$view->idSite = Piwik_Common::getRequestVar('idSite');
 		
 		$view->userLogin = Piwik::getCurrentUserLogin();
 		$view->sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
 		$view->url = Piwik_Url::getCurrentUrl();
+		
+	}
+	public function index()
+	{
+		$view = new Piwik_View('Home/templates/index.tpl');
+		$this->setGeneralVariablesView($view);
 		
 		$site = new Piwik_Site($view->idSite);
 		$minDate = $site->getCreationDate();
