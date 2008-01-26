@@ -1,4 +1,4 @@
-<div id="periodString">
+<div id="periodString" style="display:none">
 	<span id="date"><img src='plugins/Home/templates/images/more_date.gif' style="vertical-align:middle"> {$prettyDate}</span> -&nbsp;
 	<span id="periods"> 
 		<span id="currentPeriod">{$period|ucfirst}</span> 

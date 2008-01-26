@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	$("#otherPeriods").hide();
 	$("#calendar").hide();
+	$("#periodString").show();
 	
 	// we get the content of the div before modifying it (append image, etc.)
 	// so we can restore its value when we want
