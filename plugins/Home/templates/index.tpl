@@ -31,6 +31,7 @@ var minDateDay = {$minDateDay};
 
 
 <script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
+<script type="text/javascript" src="plugins/Home/templates/date.js"></script>
 
 <link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
@@ -38,6 +39,56 @@ var minDateDay = {$minDateDay};
 
 <style type="text/css">@import url(libs/jquery/jquery-calendar.css);</style>
 {literal}
+
+<style>
+
+/* Calendar */
+#calendar {
+	position: relative;
+	margin-left:350px;
+	display:block;
+}
+.calendar td.dateToday, .calendar td.dateToday a{
+	font-weight:bold;
+}
+
+.calendar td.dateUsedStats, .calendar td.dateUsedStats a{
+	color:#2E85FF;
+	border-color:#2E85FF ;
+}
+
+.calendar td.calendar_unselectable {
+	color:#F2F7FF;
+}
+
+/* style for the date picking */
+#periodString {
+	margin-left:350px;
+	position: relative;
+	display:inline;
+}
+
+#periodString, #periodString a  {
+	color:#520202;
+	font-size:15pt;
+}
+#otherPeriods a{
+	 text-decoration:none;
+}
+#otherPeriods a:hover{
+	 text-decoration:underline;
+}
+#currentPeriod {
+	border-bottom:1px dotted #520202;
+}
+.hoverPeriod {
+	cursor: pointer;
+	font-weight:bold;
+	border-bottom:1px solid #520202;
+}
+
+
+</style>
 
 <style>
 * {
@@ -50,7 +101,6 @@ h1 {
 }
 h2 {
 	font-size:1.6em;
-	margin-top:2em;
 	color:#1D3256;
 }
 h3 {
@@ -93,79 +143,45 @@ tr td.label img.plusMinus {
 	position:absolute;
 }
 
-/* Calendar */
-.calendar td.dateToday, .calendar td.dateToday a{
-	font-weight:bold;
-
-}
-.calendar td.dateUsedStats, .calendar td.dateUsedStats a{
-	color:#2E85FF;
-	border-color:#2E85FF ;
-}
-
-.calendar td.calendar_unselectable {
-	color:#F2F7FF;
-}
-
-#calendar{
-	float:left;
-	margin:10px;
-}
-
 #miscLinks{
 	font-size:small;
 	padding-right:20px;
 }
 
 #sitesSelection {
-	 
 }
-#periodSelection,#periodSelection a {
+#periodSelection, #periodSelection a {
 	color:#8D92AA;
 }
-
+#generatedMenu {
+	width:70%;
+	positioning:relative;
+	display:block;
+}
 #generatedMenu span {
-	text-decoration:underline;
-	color:blue;
 	cursor:pointer;
+	font-size:14px;
+	margin:0pt;
+	padding:3px 5px;
+	line-height:1.8em;
+	border-bottom:1px solid #6699CC;
+	color:#00019B;
+	text-decoration:none;
 }
 
 #generatedMenu span:hover {
 	background:#DDEAF4 none repeat scroll 0%;
-	color:#333333;
-}
-
-#generatedMenu span {
-	border-bottom:medium none;
-	color:#000000;
-	font-size:14px;
-	font-weight:normal;
-	margin:0pt;
-	padding:3px 5px;
-	line-height:1.8em;
-}
-
-#generatedMenu span:hover{
 	color:#006699;
 }
 
-#generatedMenu span	 {
-	border-bottom:1px solid #6699CC;
-	color:#00019B;
-	text-decoration:none;
+#generatedMenu span:hover{
 }
 
 .section {
 	display:none;
 }
 
-#stuff {
-	position:relative;
-	float:right;
-	margin-right:10%;
-	margin-top:10px;
-	font-size:0.9em;
-}
+
 #h1, #h1 a {
 	color: #006;
 	font-size: 45px;
@@ -198,6 +214,32 @@ tr td.label img.plusMinus {
 	vertical-align: middle;
 	padding-right:10px;
 }
+
+
+#stuff {
+	position: absolute;
+	display: inline;
+	margin-left:70%;
+	margin-top:10px;
+	font-size:0.9em;
+	width:20%;
+}
+
+
+/* top right bar */
+#loggued {
+	font-size:small;
+	float:right;
+	text-align:right;
+	margin-right: 20px;
+	padding-bottom:5px;
+	padding-left:5px;
+	border-bottom:1px dotted #E2E3FE;
+	border-left:1px dotted #E2E3FE;
+}
+#loggued form {
+	display:inline;
+}
 </style>
 {/literal}
 
@@ -215,22 +257,33 @@ function findSWFGraph(name) {
 </script>
 {/literal}
 
+<span id="loggued">
+<form action="{$url}" method="post">
+<small>
+	<strong>{$userLogin}</strong>
+	| 
+<span id="sitesSelection">
+Site <select name="idSite" onchange="javascript:this.form.submit()">
+	<optgroup label="Sites">
+	   {foreach from=$sites item=info}
+	   		<option label="{$info.name}" value="{$info.idsite}" {if $idSite==$info.idsite} selected="selected"{/if}>{$info.name}</option>
+	   {/foreach}
+	</optgroup>
+</select>
+</span> | {if $userLogin=='anonymous'}<a href='?module=Login'>Login</a>{else}<a href='?module=Login&action=logout'>Logout</a>{/if}</a>
+</small>
+</form>
+</span>
 
 <span id="h1"><a href='http://piwik.org'>Piwik</a> </span><span id="subh1"> # open source web analytics</span><br>
 <br>
 <div id="stuff">
-	<div id="calendar"></div>
 	<div>
-		<p> Date = {$date}</p>
-		<p>User logged = {$userLogin}</p>
-		{include file="Home/templates/period_select.tpl"}<br><br>
-		{include file="Home/templates/sites_select.tpl"}<br>
-		
-	<div id="messageToUsers"><a href='http://piwik.org'>Piwik</a> is still alpha. 
-				<br>We are currently working hard on a new shiny User Interface.
-				<br>Please <a href="mailto:hello@piwik.org?subject=Feedback piwik"><u>send us</u></a> your feedback.
-				<br>
-				</div> 
+		<div id="messageToUsers"><a href='http://piwik.org'>Piwik</a> is still alpha. 
+					<br>We are currently working hard on a new shiny User Interface.
+					<br>Please <a href="mailto:hello@piwik.org?subject=Feedback piwik"><u>send us</u></a> your feedback.
+					<br>
+		</div> 
 		{include file="Home/templates/links_misc_modules.tpl"}<br>
 	</div>
 </div>
@@ -239,10 +292,13 @@ function findSWFGraph(name) {
 
 <span id="generatedMenu"></span>
 
+<br><br>
+{include file="Home/templates/period_select.tpl"}
+
 <div class="section" id="Visits_summary">
 
 	<a name="evolutionGraph" graphId="getLastVisitsGraph"></a>
-	<h3>Evolution on the last 30 {$period}</h3>
+	<h3>Evolution on the last 30 {$period}s</h3>
 	{$graphEvolutionVisitsSummary}
 	
 	<h3>Report</h3>
@@ -258,7 +314,8 @@ function findSWFGraph(name) {
 	<br><br><br><hr width="300px" align="left">
 	<p><small>{$totalTimeGeneration} seconds {if $totalNumberOfQueries != 0}/ {$totalNumberOfQueries}  queries{/if} to generate the page</p>
 </div>
-
+{* useful when working on the UI, the page generation is faster to skip other reports...
+{php}exit;{/php}*}
 
 <div class="section" id="User_Country">
 	<h3>Country</h3>
