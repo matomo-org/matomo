@@ -36,6 +36,7 @@ class Piwik_Visualization_ChartVerticalBar extends Piwik_Visualization_Chart
 		$this->set_y_max( $this->maxData );
 		
 		$this->y_label_steps( 2 );
+		//$this->set_links( array('http://piwik.org','http://piwik.org','http://piwik.org','http://piwik.org','http://piwik.org'));
 		
 		$this->bar_filled( 50, '#3B5AA9', '#063E7E', 'visits', 10 );
 //		$this->set_y_legend( 'Open Flash Chart', 12, '#736AFF' );

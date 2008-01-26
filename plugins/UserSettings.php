@@ -50,12 +50,10 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	function install()
 	{
-		// add column hostname / hostname ext in the visit table
 	}
 	
 	function uninstall()
 	{
-		// add column hostname / hostname ext in the visit table
 	}
 	
 	function getListHooksRegistered()
