@@ -60,17 +60,13 @@ class Piwik_API_Controller extends Piwik_Controller
 		echo "<p>If you don't have data for today you can first <a href='misc/generateVisits.php' target=_blank>generate some data</a> using the Visits Generator script.</p>";
 		echo "<p>You can try the different formats available for every method. It is very easy to extract any data you want from piwik!</p>";
 		echo "<p>If you want to <b>request the data without being logged in to Piwik</b> you need to add the parameter <code><u>&token_auth=$token_auth</u></code> to the API calls URLs that require authentication.</p>";
-		$errors = '';
-		
+		echo "<p><b>For more information have a look at the <a href='http://dev.piwik.org/trac/wiki/API'>official API Documentation</a>.</b></P>";
+
 		$loaded = $this->init();
 		echo "<p><i> Loaded successfully $loaded APIs</i></p>\n";
 		
 		echo Piwik_API_Proxy::getInstance()->getAllInterfaceString();
-		
-		echo "<p>Notice = " . $errors . "</p>\n";
-		
 		echo "<p><a href='?module=Home&action=index&idSite=1&period=day&date=yesterday'>Back to Piwik homepage</a></p>";
-		
 	}
 	
 }

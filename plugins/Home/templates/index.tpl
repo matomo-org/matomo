@@ -258,12 +258,13 @@ function findSWFGraph(name) {
 {/literal}
 
 <span id="loggued">
-<form action="{$url}" method="post">
+<form action="{url idSite=null}" method="GET" id="siteSelection">
 <small>
 	<strong>{$userLogin}</strong>
 	| 
 <span id="sitesSelection">
-Site <select name="idSite" onchange="javascript:this.form.submit()">
+{hiddenurl idSite=null}
+Site <select name="idSite" onchange='javascript:this.form.submit()'>
 	<optgroup label="Sites">
 	   {foreach from=$sites item=info}
 	   		<option label="{$info.name}" value="{$info.idsite}" {if $idSite==$info.idsite} selected="selected"{/if}>{$info.name}</option>

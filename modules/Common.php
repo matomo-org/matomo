@@ -527,7 +527,8 @@ class Piwik_Common
 	
 	/**
 	 * Returns an URL query string in an array format
-	 * 
+	 * The input query string should be htmlspecialchar
+	 *  
 	 * @param string urlQuery
 	 * @return array array( param1=> value1, param2=>value2)
 	 */

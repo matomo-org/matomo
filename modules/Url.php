@@ -27,7 +27,6 @@ class Piwik_Url
 	{
 		$urlValues = self::getArrayFromCurrentQueryString();
 
-	//	var_dump($urlValues);
 		foreach($params as $key => $value)
 		{
 			$urlValues[$key] = $value;

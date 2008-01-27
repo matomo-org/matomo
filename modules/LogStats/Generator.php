@@ -50,6 +50,9 @@ class Piwik_LogStats_Generator
 	// only the good ones are kept
 	public $host = 'http://localhost';
 	
+	public $idSite = 1;
+	
+	
 	public function __construct()
 	{
 		$_COOKIE = $_GET = $_REQUEST = $_POST = array();
@@ -99,6 +102,17 @@ class Piwik_LogStats_Generator
 	public function getTimestampToUse()
 	{
 		return $this->timestampToUse;
+	}
+
+	/**
+	 * Set the idsite to generate the visits for
+	 * To be called before init()
+	 * 
+	 * @param int idSite
+	 */
+	public function setIdSite($idSite)
+	{
+		$this->idSite = $idSite;
 	}
 	
 	/**
@@ -185,7 +199,7 @@ class Piwik_LogStats_Generator
 		$common = array(
 			'res' => array('1289x800','1024x768','800x600','564x644','200x100','50x2000',),
 			'col' => array(24,32,16),
-			'idsite'=> 1,
+			'idsite'=> $this->idSite,
 			'h' => range(0,23),
 			'm' => range(0,59),
 			's' => range(0,59),
