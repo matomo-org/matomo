@@ -97,13 +97,21 @@ function updateDate()
 {
 	var date = formatDate(popUpCal.getDateFor($('#calendar')[0]));
 
+	// available in global scope
 	var currentUrl = window.location.href;
 	if((startStrDate = currentUrl.indexOf("date")) >= 0)
 	{
+		// look for the & after the date
+		var endStrDate = currentUrl.indexOf("&", startStrDate);
+		if(endStrDate == -1)
+		{
+			endStrDate = currentUrl.length;
+		}
+
 		var dateToReplace = currentUrl.substring( 
 							startStrDate + 4+1, 
-							startStrDate + 4+1 +4+1+2+1+2 
-									);
+							endStrDate
+						);
 		regDateToReplace = new RegExp(dateToReplace, 'ig');
 		currentUrl = currentUrl.replace( regDateToReplace, date );		
 	}
