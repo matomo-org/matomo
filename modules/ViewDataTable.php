@@ -103,6 +103,7 @@ abstract class Piwik_ViewDataTable
 		}
 	}
 	
+	//TODO comment
 	function init( $currentControllerName,
 						$currentControllerAction, 
 						$moduleNameAndMethod, 

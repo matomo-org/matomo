@@ -19,4 +19,28 @@ CHANGES DONE TO LIBRARIES
 test that archive always is OFF in prod
 $GLOBALS['DEBUGPIWIK'] is false;
 
+bugs
+===
+edit the hack get(nb_visitors) and instead use a filter rename column etc.
+
+hide export in datatable footer (eg pie chart for plugins)
+fix pie charts (sum != 100%)
+fix bar charts legends in some cases
+admin site > add new site row count is wrong
+when no site > should display nice message
+users > when mod rights failed should'nt display the green tick
+
+proper date handling
+- in graphs (titles/legends/x-y labels)
+- in UI
+- in tables
+
+Translation 
+- columns labels
+- section titles
+
+tpl: add flag isAdmin isSuperUser isAnonymous isView
+
+optimization
+===
 optimize getdateStart / getdateEnd in *Period

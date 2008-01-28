@@ -177,11 +177,6 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 */
 	static private function getSitesFromIds( $idSites )
 	{
-//		assert(is_array($idSites));
-		foreach($idSites as $idsite)
-		{
-//			assert(is_int($idsite));
-		}
 		if(count($idSites) === 0)
 		{
 			return array();

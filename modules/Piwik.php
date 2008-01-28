@@ -755,8 +755,6 @@ class Piwik
 	static public function createConfigObject( $pathConfigFile = null )
 	{
 		$config = new Piwik_Config($pathConfigFile);
-		
-		assert(count($config) != 0);
 	}
 
 	static public function dropTables( $doNotDelete = array() )

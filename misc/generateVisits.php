@@ -40,7 +40,7 @@ Piwik_PluginsManager::getInstance()->doNotLoadPlugins();
 $generator = new Piwik_LogStats_Generator;
 $generator->setMaximumUrlDepth(12);
 $generator->disableProfiler();
-$generator->setIdSite( $idSite = 2 );
+$generator->setIdSite( $idSite = 1 );
 $nbActionsTotal = 0;
 
 //$generator->emptyAllLogTables();

@@ -442,8 +442,6 @@ class Piwik_API_Proxy
 		$returnedValue = null;
 		
 		try {
-			assert(!is_null(self::$classCalled));
-
 			$this->registerClass(self::$classCalled);
 						
 			$className = $this->getClassNameFromModule(self::$classCalled);
