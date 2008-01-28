@@ -556,10 +556,7 @@ class Piwik_API_Request
 			}
 			
 			if(!$exceptionRaised)
-			{
-//				var_dump($filterParameters);
-				assert(count($filterParameters)==count($parameters));
-				
+			{				
 				// a generic filter class name must follow this pattern
 				$class = "Piwik_DataTable_Filter_".$filterName;
 				
