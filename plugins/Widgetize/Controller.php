@@ -81,6 +81,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 //							);
 		
 //		echo $content;exit;
+		$view->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		$view->content = $content;
 		echo $view->render();
 	}
