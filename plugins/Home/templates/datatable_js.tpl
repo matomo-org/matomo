@@ -6,4 +6,5 @@ dataTables['{$id}'].param = {literal}{{/literal}
 	{$name}: '{$value}'{if !$smarty.foreach.loop.last},{/if}
 {/foreach}
 {literal}};{/literal}
+dataTables['{$id}'].init('{$id}');
 </script>

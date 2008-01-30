@@ -1,3 +1,4 @@
+
 //-----------------------------------------------------------------------------
 //								Data Table
 //-----------------------------------------------------------------------------
@@ -6,53 +7,26 @@
 if(typeof dataTables == "undefined")
 	var dataTables = new Object;
 
-//On document ready we create a JS object for every datatable in the page
-$(document).ready( createAllDataTableObjects );
-
-//Function launched when the document is ready :
-//search the html for dataTable object and initialize them
-function createAllDataTableObjects()
-{
-	// foreach parentDiv which means for each DataTable
-	$('.parentDiv').each(
-		function(indexDiv)
-		{
-			// ID of the DIV containing the DataTable we are currently working on
-			var workingDivId = $(this).attr('id');
-			var self = dataTables[workingDivId];
-			if(!self.initialized)
-				self.init(workingDivId, this);
-		}
-	);
-	
-	// and foreach parentDivActions which means for each ActionDataTable
-	$('.parentDivActions').each(
-		function(indexDiv)
-		{
-			var workingDivId = $(this).attr('id');
-			var self = actionDataTables[workingDivId];
-			if(!self.initialized)
-				self.init(workingDivId, this);
-		}
-	);
-}
-
-
 //DataTable constructor
 function dataTable()
 {
 	this.param = new Object;
 }
-
+	
 //Prototype of the DataTable object
 dataTable.prototype =
 {
 	init: function(workingDivId, domElem)
 	{
-			this.workingDivId = workingDivId;
-			this.loadedSubDataTable = new Object;
-			this.bindEvent(domElem);
-			this.initialized = true;
+		if(typeof domElem == "undefined")
+		{
+			domElem = $('.parentDiv#'+workingDivId);
+		}
+		
+		this.workingDivId = workingDivId;
+		this.loadedSubDataTable = new Object;
+		this.bindEvent(domElem);
+		this.initialized = true;
 	},
 			
 	onClickSort: function(domElem)
@@ -187,24 +161,25 @@ dataTable.prototype =
 	{
 		var content = $(response);
 		var idToReplace = $(content).attr('id');
-		
+		var dataTableSel = $('#'+idToReplace);
 	
 		// if the current dataTable is situated inside another datatable
 		table = $(content).parents('table.dataTable');
-		if($('#'+idToReplace).parents('.dataTable').is('table'))
+		if(dataTableSel.parents('.dataTable').is('table'))
 		{
 			// we add class to the table so that we can give a different style to the subtable
 			$(content).children('table.dataTable').addClass('subDataTable');
 			$(content).children('#dataTableFeatures').addClass('subDataTable');
+			
+			//we force the initialisation of subdatatables
+			dataTableSel.html( $(content).html() );
+			dataTables[idToReplace].init( idToReplace, $('#'+idToReplace) );
 		}
-				
-		$('#'+idToReplace).html( $(content).html() );
-
-		// we execute the init function for the new DIV datatable
-		dataTables[idToReplace].init( idToReplace, $('#'+idToReplace) );
-		
-		// and we hide the loading DIV
-		//$('#loadingDataTable', this).fadeOut("slow");
+		else
+		{
+			dataTableSel.html( $(content).html() );
+			lazyScrollTo(dataTableSel[0], 400);
+		}
 	},	
 		
 			
@@ -683,9 +658,13 @@ actionDataTable.prototype =
 	
 	init: function(workingDivId, domElem)
 	{
-			this.workingDivId = workingDivId;
-			this.bindEvent(domElem);
-			this.initialized = true;
+		if(typeof domElem == "undefined")
+		{
+			domElem = $('.parentDivActions#'+workingDivId);
+		}
+		this.workingDivId = workingDivId;
+		this.bindEvent(domElem);
+		this.initialized = true;
 	},
 
 	bindEvent: function(domElem)
@@ -864,8 +843,9 @@ actionDataTable.prototype =
 		self.parentAttributeParent = '';
 		self.parentId = '';
 	
-		$('#'+idToReplace).html($(content).html());
-		actionDataTables[idToReplace].init(idToReplace, $('#'+idToReplace))
+		var dataTableSel = $('#'+idToReplace);
+		dataTableSel.html($(content).html());
+		lazyScrollTo(dataTableSel[0], 400);
 	},
 	
 	// Called when a set of rows for a category of actions is loaded

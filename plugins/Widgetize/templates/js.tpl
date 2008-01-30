@@ -5,8 +5,13 @@ document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/too
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/truncate/jquery.truncate.js"><\/scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/swfobject/swfobject.js"><\/scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}plugins/Home/templates/datatable.js"><\/scr'+'ipt>');
+
+document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/ui.mouse.js"><\/scr'+'ipt>');
+document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/ui.sortable.js"><\/scr'+'ipt>');
+
 document.write('<link rel="stylesheet" href="{$piwikUrl}libs/jquery/tooltip/jquery.tooltip.css">');
 document.write('<link rel="stylesheet" href="{$piwikUrl}plugins/Home/templates/datatable.css">');
+
 
 var content = '{$content|escape:'javascript'}';
 document.write(content);

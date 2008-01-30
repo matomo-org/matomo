@@ -53,3 +53,17 @@ function getStandardAjaxConf()
 
 	return ajaxRequest;
 }
+
+//scroll the window to the jquery element 'elem' if necessary
+//time specify the duration of the animation in ms
+function lazyScrollTo(elem, time)
+{
+	var elemTop = $(elem).offset().top;
+	//only scroll the page if the graph is not visible 
+	if(elemTop < $(window).scrollTop()
+	|| elemTop > $(window).scrollTop()+$(window).height())
+	{
+		//scroll the page smoothly to the graph
+		$.scrollTo(elem, time);
+	}
+}
