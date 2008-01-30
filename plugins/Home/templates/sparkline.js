@@ -37,16 +37,7 @@ $(document).ready( function(){
 										{	
 											//get the main page graph and reload with new data
 											findSWFGraph(graph.attr('graphId')+"Chart_swf").reload(url);
-											
-											var graphTop = $(graph[0]).offset().top;
-											
-											//only scroll the page if the graph is not visible 
-											if(graphTop < $(window).scrollTop()
-											|| graphTop > $(window).scrollTop()+$(window).height())
-											{
-												//scroll the page smoothly to the graph
-												$.scrollTo(graph[0], 400);
-											}
+											lazyScrollTo(graph[0], 400);
 										}
 									);
 									
