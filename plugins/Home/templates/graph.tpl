@@ -10,7 +10,7 @@
 	</form>
 	
 	{include file="Home/templates/datatable_footer.tpl"}
+	{include file="Home/templates/datatable_js.tpl"}
 {/if}
 
-{include file="Home/templates/datatable_js.tpl"}
 </div>

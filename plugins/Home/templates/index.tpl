@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd ">
-
+<html><body>
 {literal}
 <style>
 
@@ -380,7 +380,6 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 	<p>Tag cloud output</p>
 	{$dataTableRefererType}
 </div>
-
 <div class="section" id="Actions">
 	<h3>Actions</h3>
 	{$dataTableActions} 
