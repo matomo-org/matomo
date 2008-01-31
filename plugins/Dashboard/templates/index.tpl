@@ -12,7 +12,7 @@
 <script type="text/javascript" src="plugins/Home/templates/datatable.js"></script>
 
 <script type="text/javascript" src="libs/jquery/ui.mouse.js"></script>
-<script type="text/javascript" src="libs/jquery/ui.sortable.js"></script>
+<script type="text/javascript" src="libs/jquery/ui.sortable_modif.js"></script>
 
 <script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
 
@@ -23,6 +23,7 @@
 	 $(document).ready(
 			function()
 			{
+				//load every parentDiv with asynchronous ajax
 				$('.parentDiv').each(
 					function()
 					{
@@ -30,23 +31,61 @@
 						ajaxLoading($(this).attr('id'));
 					});
 					
+				//add an handle to each items
 				$('.items:not(.dummyItem)').each(
 					function()
 					{
 						$(this).prepend('<div class="handle"></div>');
 					});
 					
+				//add a dummy item on each columns
+				$('.col').each(
+					function()
+					{
+  						$(this).append('<div class="items dummyItem"><div class="handle dummyHandle"></div></div>');
+  					});
+  	
 				$(".sortDiv").sortable({
 				 	items:".items",
 				 	hoverClass: "hover",
-				 	handle: ".handle"
-				 	//helper: function(){return $(this).css('width', '33%').html();},
+				 	handle: ".handle",
+				 	start: onStart,
+				 	stop: onStop,
+				 	update: updated
 				 	});
-			 	
-
 			}
 		);
+	
+	function onStart()
+	{
+		$('.dummyItem').css('display', 'block');
+	}
+	
+	function onStop()
+	{
+		$('.dummyItem').each(function(){
+			$(this).appendTo($(this).parent());
+			if($(this).siblings().size() > 0)
+				$(this).css('display', 'none');
+		});
 		
+	}
+	
+	function updated()
+	{
+		//console.log('Updated');
+		
+		//parse the dom to see how our div are sorted
+		/*$('.sortDiv .col').each(function() {
+			var items = $('.items:not(.dummyItem) .parentDiv', this);
+			console.log('In column %s :', $(this).attr('id'));
+			for(var i=0; i<items.size(); i++)
+			{
+				console.log('\t%s', $(items[i]).attr('id'));
+			}
+		});*/
+	}	
+	
 	function ajaxLoading(divId)
 	{		
 		// When ajax replied, we replace the right div with the response
@@ -100,10 +139,11 @@
 .dummyItem {
 	width: 100%;
 	height: 1px;
+	display: none;
 }
 
 .dummyHandle {
-	visibility: hidden;
+	display: none;
 }
 
 </style>
@@ -112,19 +152,16 @@
 
 
 <div class="sortDiv">
-  <div class="col">
-  	<div class="items dummyItem"><div class="handle dummyHandle"></div></div>
+  <div class="col" id="1">
     <div class="items"><div id="getLastVisitsGraph" class="parentDiv"></div></div>
   </div>
       
-  <div class="col">
-  	<div class="items dummyItem"><div class="handle dummyHandle"></div></div>
+  <div class="col" id="2">
     <div class="items"><div id="getCountry" class="parentDiv"></div></div>
     <div class="items"><div id="getKeywords" class="parentDiv"></div></div>
   </div>
     
-  <div class="col">
-  	<div class="items dummyItem"><div class="handle dummyHandle"></div></div>
+  <div class="col" id="3">
     <div class="items"><div id="getPlugin" class="parentDiv"></div>Lorem ipsum dolor sit amet, consectetuer adipisci elit. Electram quicquid historiae, iracundiae est in conversam ac sine, non veri natura infantes vera amori placet, grata latine, recte pertineant statue suum ea, esse sunt tuo faciant mea physicis centurionum.. Extremum.</div>
     <div class="items">Lorem ipsum dolor sit amet, consectetuer adipisci elit. Electram quicquid historiae, iracundiae est in conversam ac sine, non veri natura infantes vera amori placet, grata latine, recte pertineant statue suum ea, esse sunt tuo faciant mea physicis centurionum.. Extremum.</div>
   </div>
