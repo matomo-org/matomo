@@ -219,4 +219,4 @@ class Piwik_Provider_Controller extends Piwik_Controller
 
 Piwik_AddWidget( 'Provider', 'getProvider', 'Providers');
 
-Piwik_AddMenu('User Country', 'Provider', array('module' => 'Provider', 'action'=> 'getProvider'));
+Piwik_AddMenu('Visitors', 'Provider', array('module' => 'Provider', 'action'=> 'getProvider'));

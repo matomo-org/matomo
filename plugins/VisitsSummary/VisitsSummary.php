@@ -122,4 +122,4 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 Piwik_AddWidget( 'VisitsSummary', 'getLastVisitsGraph', 'Last visits graph');
 Piwik_AddWidget( 'VisitsSummary', 'getLastUniqueVisitorsGraph', 'Last unique visitors graph');
 
-Piwik_AddMenu('Visits Summary', 'Overview', array('module' => 'VisitsSummary'));
+Piwik_AddMenu('General', 'Overview', array('module' => 'VisitsSummary'));
