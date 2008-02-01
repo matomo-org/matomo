@@ -258,6 +258,17 @@
 	width: 33%;
 }
 
+/*Overriding some dataTable css for better dashboard display*/
+.parentDiv {
+	width: 95%;
+}
+table.dataTable {
+	width: 100%;
+}	
+#dataTableFeatures {
+	width: 100%;
+}
+
 .hover {
 	border: 2px dashed;
 }
