@@ -32,3 +32,5 @@
 		<img src="plugins/Home/templates/images/more.png" />
 	</span>
 </span>
+
+<div class="dataTableSpacer" />

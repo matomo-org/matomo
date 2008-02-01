@@ -187,6 +187,10 @@ table.subDataTable thead th {
 	color:#8894B1;
 }
 
+.dataTableSpacer {
+	clear: both;	
+}
+	
 #loadingDataTable {
 	font-size: 1em;
 	color:#193B6C;

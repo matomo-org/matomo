@@ -11,6 +11,8 @@
 <script type="text/javascript" src="themes/default/common.js"></script>
 <script type="text/javascript" src="plugins/Home/templates/datatable.js"></script>
 
+<script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
+
 <script type="text/javascript" src="libs/jquery/ui.mouse.js"></script>
 <script type="text/javascript" src="libs/jquery/ui.sortable_modif.js"></script>
 
@@ -20,22 +22,41 @@
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
 
 <script type="text/javascript">
+
 	 $(document).ready(
 			function()
 			{
-				//load every parentDiv with asynchronous ajax
-				$('.parentDiv').each(
-					function()
+				//get layout
+				var piwik_DashboardLayout = '';
+				{/literal}
+					{if isset($layout) }
+						piwik_DashboardLayout = '{$layout}';
+					{else}
+						//Load default layout...
+						piwik_DashboardLayout = 'getCountry~getKeywords|getPlugin|getSearchEngines';
+					{/if}
+				{literal}
+				
+				//generate dashboard layout
+				var col = piwik_DashboardLayout.split('|');
+				
+				for(var i=0; i<col.length; i++)
+				{
+					if(col[i] != '')
 					{
-						// get the ID of the div and load with ajax						
-						ajaxLoading($(this).attr('id'));
-					});
-					
+						var widgets = col[i].split('~');
+						for(var j=0; j<widgets.length; j++)
+						{
+	    					$('.col#'+(i+1)).append('<div class="items"><div id="'+widgets[j]+'" class="parentDiv"></div></div>');
+	    				}
+	    			}
+				}
+				
 				//add an handle to each items
 				$('.items:not(.dummyItem)').each(
 					function()
 					{
-						$(this).prepend('<div class="handle"></div>');
+						$(this).prepend('<div class="handle"><div class="button" id="close"><img src="themes/default/images/close.png" /></div></div>');
 					});
 					
 				//add a dummy item on each columns
@@ -44,46 +65,116 @@
 					{
   						$(this).append('<div class="items dummyItem"><div class="handle dummyHandle"></div></div>');
   					});
-  	
-				$(".sortDiv").sortable({
-				 	items:".items",
-				 	hoverClass: "hover",
-				 	handle: ".handle",
+  					
+  				//load every parentDiv with asynchronous ajax
+				$('.parentDiv').each(
+					function()
+					{
+						// get the ID of the div and load with ajax						
+						ajaxLoading($(this).attr('id'));
+					});
+					
+				//launch 'sortable' property on every dashboard widgets
+				$('.sortDiv').sortable({
+				 	items:'.items',
+				 	hoverClass: 'hover',
+				 	handle: '.handle',
+				 	helper: getHelper,
 				 	start: onStart,
-				 	stop: onStop,
-				 	update: updated
+				 	stop: onStop
 				 	});
+				 	
+				 //Bind click event on close button
+				 $('.button#close').click(onDeleteItem);
+				 				 
+				 hideUnnecessaryDummies();
 			}
 		);
+		
+	function getHelper()
+	{
+		return $(this).clone().addClass('helper');
+	}
 	
 	function onStart()
+	{
+		showDummies();
+	}
+	
+	function onStop()
+	{
+		hideUnnecessaryDummies();
+		saveLayout();
+	}
+	
+	function onDeleteItem(ev)
+	{
+		var target = this;       
+		//ask confirmation and delete item
+		var question = $('.dialog#confirm').clone();
+		$('#yes', question).click(function()
+		{
+			$(target).parents('.items').remove();
+			ShowNecessaryDummies();
+			saveLayout();
+			$.unblockUI(); 
+		});
+		$('#no', question).click($.unblockUI);
+		$.blockUI(question, { width: '300px' }); 
+	}
+	
+	function showDummies()
 	{
 		$('.dummyItem').css('display', 'block');
 	}
 	
-	function onStop()
+	function ShowNecessaryDummies()
+	{
+		showDummies();
+		hideUnnecessaryDummies();
+	}
+	
+	function hideUnnecessaryDummies()
 	{
 		$('.dummyItem').each(function(){
 			$(this).appendTo($(this).parent());
 			if($(this).siblings().size() > 0)
 				$(this).css('display', 'none');
 		});
-		
 	}
-	
-	function updated()
-	{
-		//console.log('Updated');
 		
+	function saveLayout()
+	{
+		var column = new Array;
 		//parse the dom to see how our div are sorted
-		/*$('.sortDiv .col').each(function() {
+		$('.sortDiv .col').each(function() {
 			var items = $('.items:not(.dummyItem) .parentDiv', this);
-			console.log('In column %s :', $(this).attr('id'));
+			var widgets = new Array;
 			for(var i=0; i<items.size(); i++)
 			{
-				console.log('\t%s', $(items[i]).attr('id'));
+				widgets.push($(items[i]).attr('id'));
 			}
-		});*/
+			column.push(widgets);
+		});
+		
+		var ajaxRequest = 
+		{
+			type: 'GET',
+			url: 'index.php',
+			dataType: 'html',
+			async: true,
+			error: ajaxHandleError,		// Callback when the request fails
+			data: {	module: 'Dashboard',
+					action: 'saveLayout' }
+		};
+		var layout = '';
+		for(var i=0; i<column.length; i++)
+		{
+			layout += column[i].join('~');
+			layout += '|';
+		}
+		ajaxRequest.data['layout'] = layout;
+		$.ajax(ajaxRequest);
 	}	
 	
 	function ajaxLoading(divId)
@@ -139,7 +230,25 @@
 .dummyItem {
 	width: 100%;
 	height: 1px;
+	display: block;
+}
+
+.button {
+	cursor: pointer;
+}
+
+#close.button {
+	float: right;
+}
+
+.dialog {
 	display: none;
+}
+
+.helper {
+	width: 33%;
+	opacity: .6;
+	filter : alpha(opacity=60); /*for IE*/
 }
 
 .dummyHandle {
@@ -152,17 +261,20 @@
 
 
 <div class="sortDiv">
-  <div class="col" id="1">
-    <div class="items"><div id="getLastVisitsGraph" class="parentDiv"></div></div>
-  </div>
-      
-  <div class="col" id="2">
-    <div class="items"><div id="getCountry" class="parentDiv"></div></div>
-    <div class="items"><div id="getKeywords" class="parentDiv"></div></div>
-  </div>
-    
-  <div class="col" id="3">
-    <div class="items"><div id="getPlugin" class="parentDiv"></div>Lorem ipsum dolor sit amet, consectetuer adipisci elit. Electram quicquid historiae, iracundiae est in conversam ac sine, non veri natura infantes vera amori placet, grata latine, recte pertineant statue suum ea, esse sunt tuo faciant mea physicis centurionum.. Extremum.</div>
-    <div class="items">Lorem ipsum dolor sit amet, consectetuer adipisci elit. Electram quicquid historiae, iracundiae est in conversam ac sine, non veri natura infantes vera amori placet, grata latine, recte pertineant statue suum ea, esse sunt tuo faciant mea physicis centurionum.. Extremum.</div>
-  </div>
+ 
+	<div class="dialog" id="confirm"> 
+	        <h2>Are you sure you want to delete this widget from your dashboard ?</h2> 
+	        <input type="button" id="yes" value="Yes" /> 
+	        <input type="button" id="no" value="No" /> 
+	</div> 
+
+
+	<div class="col" id="1">
+	</div>
+  
+	<div class="col" id="2">
+	</div>
+	
+	<div class="col" id="3">
+	</div>
 </div>
