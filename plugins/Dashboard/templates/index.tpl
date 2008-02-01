@@ -33,13 +33,12 @@
 						piwik_DashboardLayout = '{$layout}';
 					{else}
 						//Load default layout...
-						piwik_DashboardLayout = 'Home.getCountry~Home.getKeywords|Home.getPlugin|Home.getSearchEngines';
+						piwik_DashboardLayout = 'Actions.getActions~Actions.getDownloads|UserCountry.getCountry~UserSettings.getPlugin|Referers.getSearchEngines~Referers.getKeywords';
 					{/if}
 				{literal}
 				
 				//generate dashboard layout
 				var col = piwik_DashboardLayout.split('|');
-				
 				for(var i in col)
 				{
 					if(col[i] != '')
@@ -53,15 +52,14 @@
 	    			}
 				}
 				
-				//UI : adding widgets to dashboard
+				//menu show button
 				$('.button#addWidget').click(function(){
 					$(this).hide();
 					$('.menu#widgetChooser').show('slow');
 				});
 				
-				//load widgets list
-{/literal}
-				var availableWidgets = {$availableWidgets};
+				//load menu widgets list
+{/literal}		var availableWidgets = {$availableWidgets};
 {literal}
 				var menu = $('.menu#widgetChooser');
 				for(var plugin in availableWidgets)
@@ -72,51 +70,30 @@
 						menu.append('<div class="button menuItem" pluginToLoad="'+plugin+'" actionToLoad="'+widgets[i][1]+'">'+widgets[i][0] + ' => (' + plugin +'.'+ widgets[i][1] + ')</div>');
 					}
 				}
+				
+				//bind menu ui events
 				$('.menuItem', menu).click(function(){
 					menu.hide('slow');
 					var plugin = $(this).attr('pluginToLoad');
 					var action = $(this).attr('actionToLoad');
 					addWidget(1, plugin, action);
-					ajaxLoading(plugin, action);
+					saveLayout();
 					$('.button#addWidget').show();
 				});
-				
-				//add an handle to each items
-				$('.items:not(.dummyItem)').each(
-					function()
-					{
-						$(this).prepend('<div class="handle"><div class="button" id="close"><img src="themes/default/images/close.png" /></div></div>');
-					});
 					
+				//load every widgets
+				//$('.items').each(function(){loadItem(this)});
+		
 				//add a dummy item on each columns
 				$('.col').each(
 					function()
 					{
   						$(this).append('<div class="items dummyItem"><div class="handle dummyHandle"></div></div>');
   					});
-  					
-  				//load every parentDiv with asynchronous ajax
-				$('.parentDiv').each(
-					function()
-					{
-						// get the ID of the div and load with ajax						
-						ajaxLoading($(this).attr('plugin'), $(this).attr('id'));
-					});
-					
-				//launch 'sortable' property on every dashboard widgets
-				$('.sortDiv').sortable({
-				 	items:'.items',
-				 	hoverClass: 'hover',
-				 	handle: '.handle',
-				 	helper: getHelper,
-				 	start: onStart,
-				 	stop: onStop
-				 	});
-				 	
-				 //Bind click event on close button
-				 $('.button#close').click(onDeleteItem);
 				 				 
 				 hideUnnecessaryDummies();
+				 
+				 makeSortable();
 			}
 		);
 		
@@ -124,8 +101,41 @@
 	{
 		var item = '<div class="items"><div plugin="'+plugin+'"'+' id="'+action+'" class="parentDiv"></div></div>';
 	    $('.col#'+colNumber).append(item);
+	    loadItem($('.items #'+action).parents('.items'));
+		makeSortable();
 	}
-		
+
+	function loadItem(domElem)
+	{		
+		//load every parentDiv with asynchronous ajax
+		$('.parentDiv', domElem).each(
+			function()
+			{
+				// get the ID of the div and load with ajax						
+				ajaxLoading($(this).attr('plugin'), $(this).attr('id'));
+			});
+			
+		//add an handle to each items
+		$(domElem).prepend('<div class="handle"><div class="button" id="close"><img src="themes/default/images/close.png" /></div></div>');
+			
+		//Bind click event on close button
+		$('.button#close', domElem).click(onDeleteItem);
+	}
+	
+	function makeSortable()
+	{
+		//launch 'sortable' property on every dashboard widgets
+		$('.sortDiv').sortableDestroy()
+		.sortable({
+		 	items:'.items',
+		 	hoverClass: 'hover',
+		 	handle: '.handle',
+		 	helper: getHelper,
+		 	start: onStart,
+		 	stop: onStop
+		 	});
+	}
+
 	function getHelper()
 	{
 		return $(this).clone().addClass('helper');
@@ -152,6 +162,7 @@
 			$(target).parents('.items').remove();
 			ShowNecessaryDummies();
 			saveLayout();
+			makeSortable();
 			$.unblockUI(); 
 		});
 		$('#no', question).click($.unblockUI);
@@ -248,7 +259,7 @@
 }
 
 .hover {
-	border: 1px dashed;
+	border: 2px dashed;
 }
 
 .items {
