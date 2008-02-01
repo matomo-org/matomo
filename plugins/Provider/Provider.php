@@ -196,27 +196,12 @@ class Piwik_Provider extends Piwik_Plugin
 }
 
 
-require_once "ViewDataTable.php";
-class Piwik_Provider_Controller extends Piwik_Controller 
-{	
-	/**
-	 * Provider
-	 */
-	function getProvider()
-	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init( 'Provider',  __FUNCTION__, "Provider.getProvider" );
-		
-		$view->setColumnsToDisplay( array(0,1) );
-		$view->setSortedColumn( 1 );
-		$view->setLimit( 5 );
-		
-		$view->main();
-		echo $view->render();
-	}
-	
+// when the plugin is loaded during LogStats these functions are not defined
+if(function_exists('Piwik_AddWidget'))
+{
+	Piwik_AddWidget( 'Provider', 'getProvider', 'Providers');
 }
-
-Piwik_AddWidget( 'Provider', 'getProvider', 'Providers');
-
-Piwik_AddMenu('Visitors', 'Provider', array('module' => 'Provider', 'action'=> 'getProvider'));
+if(function_exists('Piwik_AddMenu'))
+{
+	Piwik_AddMenu('Visitors', 'Provider', array('module' => 'Provider', 'action'=> 'getProvider'));
+}

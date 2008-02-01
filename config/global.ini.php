@@ -15,7 +15,7 @@ adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 host 			= localhost
 username 		= root
 password 		= 
-dbname			= piwik_tests
+dbname			= piwik_tests2
 tables_prefix	= piwiktests_
 adapter 		= PDO_MYSQL
 
@@ -45,7 +45,6 @@ Plugins[] 		= Login
 Plugins[] 		= UsersManager
 Plugins[] 		= SitesManager
 
-Plugins[] 		= Openads
 Plugins[] 		= Installation
 
 [Plugins_LogStats]

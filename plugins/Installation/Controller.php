@@ -34,7 +34,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	public function __construct()
 	{
-		session_start();
 		if(!isset($_SESSION['currentStepDone'])) 
 		{
 			$_SESSION['currentStepDone'] = '';

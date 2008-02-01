@@ -281,5 +281,21 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 
 </div>
 
+{if ereg('http://127.0.0.1|http://localhost|http://piwik.org', $url)}
+<!-- Piwik -->
+<a href="http://piwik.org" title="Web analytics" onclick="window.open(this.href);return(false);">
+<script language="javascript" src="piwik.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = 'piwik.php';
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+//-->
+</script><object>
+<noscript><p>Web analytics<img src="piwik.php" style="border:0" alt="piwik"/></p>
+</noscript></object></a>
+<!-- /Piwik -->
+{/if}
 {* useful when working on the UI, the page generation is faster to skip other reports...
 {php}exit;{/php}*}

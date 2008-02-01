@@ -150,6 +150,7 @@ class Test_Database extends UnitTestCase
 		Piwik::createDatabaseObject();
 		
 		Zend_Registry::get('config')->setTestEnvironment();	
+		Zend_Registry::get('config')->doWriteFileWhenUpdated = false;
 		
 		Piwik::createLogObject();
 		
