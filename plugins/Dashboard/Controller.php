@@ -61,7 +61,15 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('Dashboard/templates/index.tpl');
 		$this->setGeneralVariablesView($view);
+		if(isset($_SESSION['layout']))
+			$view->layout = $_SESSION['layout'];
 		echo $view->render();
+	}
+	
+	public function saveLayout()
+	{
+		$layout = Piwik_Common::getRequestVar('layout');
+		$_SESSION['layout'] = $layout;
 	}
 	
 	//FIXME: copy paste of Home controller => should be refactored

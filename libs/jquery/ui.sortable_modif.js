@@ -42,7 +42,7 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 		$.extend(options, {
 			items: options.items || '> li',
 			smooth: options.smooth != undefined ? options.smooth : true,
-			helper: 'clone',
+			helper: options.helper || 'clone',
 			containment: options.containment ? (options.containment == 'sortable' ? el : options.containment) : null,
 			zIndex: options.zIndex || 1000,
 			_start: function(h,p,c,t,e) {

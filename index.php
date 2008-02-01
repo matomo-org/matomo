@@ -50,6 +50,8 @@ require_once PIWIK_INCLUDE_PATH . "/modules/ExceptionHandler.php";
 set_error_handler('Piwik_ErrorHandler');
 set_exception_handler('Piwik_ExceptionHandler');
 
+session_start();
+
 require_once "FrontController.php";
 
 
