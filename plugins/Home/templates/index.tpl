@@ -270,127 +270,16 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 
 <span id="loadingPiwik"><img src="themes/default/images/loading-blue.gif"> Loading data...</span>
 
-{include file="Home/templates/menu.tpl"}
+{include file="Home/templates/period_select.tpl"}
 
 <br><br>
+{include file="Home/templates/menu.tpl"}
+
 <div style='clear:both'></div>
-{include file="Home/templates/period_select.tpl"}
 
 <div id='content'>
 
 </div>
 
-{php}exit;{/php}
 {* useful when working on the UI, the page generation is faster to skip other reports...
 {php}exit;{/php}*}
-
-<div class="section" id="Referers">
-
-	<a name="evolutionGraph" graphId="getLastDistinctKeywordsGraph"></a>
-	<h3>Evolution over the period</h3>
-	{$graphEvolutionReferers}
-	
-	<h3>Referer Type</h3>
-	<table>
-		<tr><td>
-			<p><img class="sparkline" src="{$urlSparklineDirectEntry}" /> <span><strong>{$visitorsFromDirectEntry} </strong> direct entries</span></p>
-			<p><img class="sparkline" src="{$urlSparklineSearchEngines}" /> <span><strong>{$visitorsFromSearchEngines} </strong>  from search engines</span></p>
-			<p><img class="sparkline" src="{$urlSparklinePartners}" /> <span><strong>{$visitorsFromPartners} </strong> from partners</span></p>
-		</td><td>
-			<p><img class="sparkline" src="{$urlSparklineWebsites}" /> <span><strong>{$visitorsFromWebsites} </strong> from websites</span></p>
-			<p><img class="sparkline" src="{$urlSparklineNewsletters}" /> <span><strong>{$visitorsFromNewsletters} </strong>  from newsletters</span></p>
-			<p><img class="sparkline" src="{$urlSparklineCampaigns}" /> <span><strong>{$visitorsFromCampaigns} </strong>  from campaigns</span></p>
-		</td></tr>
-	</table>
-	
-	<h3>Search Engines</h3>
-	{$dataTableSearchEngines}
-	
-	<h3>Keywords</h3>
-	{$dataTableKeywords}
-	
-	<h3>Websites</h3>
-	{$dataTableWebsites}
-	
-	<h3>Partners</h3>
-	{$dataTablePartners}
-	
-	<h3>Campaigns</h3>
-	{$dataTableCampaigns}
-	
-	
-	<h3>Other</h3>
-	<table>
-		<tr><td>
-			<p><img class="sparkline" src="{$urlSparklineDistinctSearchEngines}" /> <span><strong>{$numberDistinctSearchEngines} </strong>  distinct search engines</span></p>
-			<p><img class="sparkline" src="{$urlSparklineDistinctKeywords}" /> <span><strong>{$numberDistinctKeywords} </strong> distinct keywords</span></p>
-		</td><td>
-			<p><img class="sparkline" src="{$urlSparklineDistinctWebsites}" /> <span><strong>{$numberDistinctWebsites} </strong>  distinct websites (using <strong>{$numberDistinctWebsitesUrls}</strong> distinct urls)</span></p>
-			<p><img class="sparkline" src="{$urlSparklineDistinctPartners}" /> <span><strong>{$numberDistinctPartners} </strong>   distinct partners (using <strong>{$numberDistinctPartnersUrls}</strong> distinct urls)</span></p>
-			<p><img class="sparkline" src="{$urlSparklineDistinctCampaigns}" /> <span><strong>{$numberDistinctCampaigns} </strong>  distinct campaigns</span></p>
-			</td></tr>
-	</table>
-	
-	<p>Tag cloud output</p>
-	{$dataTableRefererType}
-</div>
-<div class="section" id="Actions">
-	<h3>Actions</h3>
-	{$dataTableActions} 
-	<h3>Downloads</h3>
-	{$dataTableDownloads} 
-	<h3>Outlinks</h3>
-	{$dataTableOutlinks}
-</div>
-
-<div class="section" id="User_Settings">
-	<h3>Configurations</h3>
-	{$dataTableConfiguration}
-	
-	<h3>Resolutions</h3>
-	{$dataTableResolution}
-	
-	<h3>Operating systems</h3>
-	{$dataTableOS}
-	
-	<h3>Browsers</h3>
-	{$dataTableBrowser}
-	
-	<h3>Browser families</h3>
-	{$dataTableBrowserType}
-	
-	<h3>Wide Screen</h3>
-	{$dataTableWideScreen}
-	
-	<h3>Plugins</h3>
-	{$dataTablePlugin}
-</div>
-
-
-<div class="section" id="Frequency">
-
-	<a name="evolutionGraph" graphId="getLastVisitsReturningGraph"></a>
-	<h3>Evolution over the period</h3>
-	{$graphEvolutionVisitFrequency}
-
-	<p><img class="sparkline" src="{$urlSparklineNbVisitsReturning}" /> <span><strong>{$nbVisitsReturning} </strong> returning visits</span></p>
-	<p><img class="sparkline" src="{$urlSparklineNbActionsReturning}" /> <span><strong>{$nbActionsReturning} </strong> actions by the returning visits</span></p>
-	<p><img class="sparkline" src="{$urlSparklineMaxActionsReturning}" /> <span><strong>{$maxActionsReturning} </strong> maximum actions by a returning visit</span></p>
-	<p><img class="sparkline" src="{$urlSparklineSumVisitLengthReturning}" /> <span><strong>{$sumVisitLengthReturning|sumtime} </strong> total time spent by returning visits</span></p>
-	<p><img class="sparkline" src="{$urlSparklineBounceCountReturning}" /> <span><strong>{$bounceCountReturning} </strong> times that a returning visit has bounced (left the site after one page) </span></p>
-</div>
-
-<div class="section" id="Visit_Time">
-	<h3>Visit per local time</h3>
-	{$dataTableVisitInformationPerLocalTime}
-	<h3>Visit per server time</h3>
-	{$dataTableVisitInformationPerServerTime}
-</div>
-
-<div class="section" id="Visitor_Interest">
-	<h3>Visits per visit duration</h3>
-	{$dataTableNumberOfVisitsPerVisitDuration}
-	<h3>Visits per number of pages</h3>
-	{$dataTableNumberOfVisitsPerPage}
-</div>
-

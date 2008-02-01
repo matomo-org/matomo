@@ -100,3 +100,16 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		
 	}
 }
+
+
+Piwik_AddWidget( 'VisitFrequency', 'getSummary', 'Visitor frequency');
+Piwik_AddWidget( 'VisitFrequency', 'getLastVisitsReturningGraph', 'Graph returning visits');
+Piwik_AddWidget( 'VisitFrequency', 'getLastActionsReturningGraph', 'Graph returning actions');
+Piwik_AddWidget( 'VisitFrequency', 'getLastSumVisitsLengthReturningGraph', 'Graph duration returning visits');
+Piwik_AddWidget( 'VisitFrequency', 'getLastMaxActionsReturningGraph', 'Graph max actions for returning visits');
+Piwik_AddWidget( 'VisitFrequency', 'getLastBounceCountReturningGraph', 'Graph boucing returning visits');
+
+Piwik_AddMenu('General', 'Frequency', array('module' => 'VisitFrequency'));
+
+
+

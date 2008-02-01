@@ -293,3 +293,12 @@ class Piwik_Actions extends Piwik_Plugin
 	}
 }
 
+
+Piwik_AddWidget( 'Actions', 'getDownloads', 'Downloads');
+Piwik_AddWidget( 'Actions', 'getOutlinks', 'Outlinks');
+Piwik_AddWidget( 'Actions', 'getActions', 'Pages');
+
+Piwik_AddMenu('Actions', 'Pages', array('module' => 'Actions', 'action' => 'getActions'));
+Piwik_AddMenu('Actions', 'Outlinks', array('module' => 'Actions', 'action' => 'getOutlinks'));
+Piwik_AddMenu('Actions', 'Downloads', array('module' => 'Actions', 'action' => 'getDownloads'));
+

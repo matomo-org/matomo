@@ -158,5 +158,5 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 Piwik_AddWidget( 'UserCountry', 'getContinent', 'Visitor continents');
 Piwik_AddWidget( 'UserCountry', 'getCountry', 'Visitor countries');
 
-Piwik_AddMenu('User Country', 'Overview', array('module' => 'UserCountry'));
+Piwik_AddMenu('Visitors', 'Locations', array('module' => 'UserCountry'));
 

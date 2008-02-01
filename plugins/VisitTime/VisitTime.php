@@ -96,3 +96,10 @@ class Piwik_VisitTime extends Piwik_Plugin
 		}
 	}
 }
+
+
+Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerLocalTime', 'Visits by local time');
+Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerServerTime', 'Visits by server time');
+
+Piwik_AddMenu('General', 'Time', array('module' => 'VisitTime'));
+

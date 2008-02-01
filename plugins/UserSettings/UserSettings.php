@@ -218,3 +218,7 @@ function Piwik_UserSettings_keepStrlenGreater($value)
 }
 
 
+Piwik_AddWidget( 'UserSettings', 'getResolution', 'Screen resolutions');
+Piwik_AddWidget( 'UserSettings', 'getBrowser', 'Visitor browsers');
+
+Piwik_AddMenu('Visitors', 'Settings', array('module' => 'UserSettings'));

@@ -23,7 +23,6 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->currentControllerName = 'Dashboard';
 		
 		//FIXME: copy paste of Home controller => should be refactored
 		//in a 'master' controller for statistics (tracs #91)

@@ -314,3 +314,15 @@ class Piwik_Referers extends Piwik_Plugin
 //		echo "after serialization = ". $timer;
 	}
 }
+
+
+
+Piwik_AddWidget( 'Referers', 'getKeywords', 'Keywords');
+Piwik_AddWidget( 'Referers', 'getLastDistinctWebsitesGraph', 'Distinct websites graph');
+
+Piwik_AddMenu('Referers', 'Evolution', array('module' => 'Referers'));
+Piwik_AddMenu('Referers', 'Search engines & keywords', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));
+Piwik_AddMenu('Referers', 'Websites', array('module' => 'Referers', 'action' => 'getWebsites'));
+Piwik_AddMenu('Referers', 'Campaigns', array('module' => 'Referers', 'action' => 'getCampaigns'));
+Piwik_AddMenu('Referers', 'Partners', array('module' => 'Referers', 'action' => 'getPartners'));
+

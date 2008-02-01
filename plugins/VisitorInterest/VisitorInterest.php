@@ -160,3 +160,12 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		return $table;
 	}
 }
+
+
+
+Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration', 'Visits lengths');
+Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerPage', 'Pages per visit');
+
+Piwik_AddMenu('General', 'Loyalty', array('module' => 'VisitorInterest'));
+
+
