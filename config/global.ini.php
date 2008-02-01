@@ -1,7 +1,7 @@
 ; <?php exit; ?> DO NOT REMOVE THIS LINE
 [superuser]
 login			= root
-password		= nintendo
+password		= 
 
 [database]
 host			= 
@@ -24,26 +24,31 @@ current			= en
 default			= en
 
 [Plugins]
-enabled[] 		= Actions
-enabled[] 		= Referers
-enabled[] 		= UserSettings
-enabled[] 		= UserCountry
-enabled[] 		= VisitsSummary
-enabled[] 		= Provider
-enabled[] 		= VisitFrequency
-enabled[] 		= VisitTime
-enabled[] 		= VisitorInterest
-enabled[] 		= ExamplePlugin
+Plugins[] 		= PluginsAdmin
 
-enabled[] 		= Login
-enabled[] 		= UsersManager
-enabled[] 		= SitesManager
+;Plugins[] 		= API
+;Plugins[] 		= Widgetize
+Plugins[] 		= Home
+Plugins[] 		= Actions
+Plugins[] 		= Referers
+Plugins[] 		= UserSettings
+Plugins[] 		= UserCountry
+Plugins[] 		= VisitsSummary
+Plugins[] 		= Provider
+Plugins[] 		= VisitFrequency
+Plugins[] 		= VisitTime
+Plugins[] 		= VisitorInterest
+Plugins[] 		= ExamplePlugin
 
-;enabled[] 		= Openads
-enabled[] 		= Installation
+Plugins[] 		= Login
+Plugins[] 		= UsersManager
+Plugins[] 		= SitesManager
+
+Plugins[] 		= Openads
+Plugins[] 		= Installation
 
 [Plugins_LogStats]
-enabled[] 		= Provider
+Plugins[] 		= Provider
 
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed

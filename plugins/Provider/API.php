@@ -9,12 +9,6 @@
  * @package Piwik_Provider
  */
 
-
-require_once "DataFiles/Browsers.php";
-require_once "DataFiles/OS.php";
-require_once "Actions.php";
-		
-
 /**
  * 
  * @package Piwik_Provider

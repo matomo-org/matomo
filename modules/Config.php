@@ -20,18 +20,24 @@ class Piwik_Config
 {
 	protected $urlToPiwikHelpMissingValueInConfigurationFile = 
 		'http://dev.piwik.org/trac/browser/trunk/config/global.ini.php?format=raw';
-		
+
 	protected $defaultConfig 				= null;
 	protected $userConfig 					= null;
 	protected $pathIniFileUserConfig 		= null;
 	protected $pathIniFileDefaultConfig 	= null;
+	protected $configFileUpdated 			= false;
+	
+	// see http://bugs.php.net/bug.php?id=34206
+	protected $correctCwd;
 	
 	static public function getDefaultUserConfigPath()
 	{
 		return PIWIK_INCLUDE_PATH . '/config/config.ini.php';
 	}
+
 	function __construct($pathIniFileUserConfig = null)
 	{
+
 		Zend_Registry::set('config', $this);
 		
 		$this->pathIniFileDefaultConfig = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
@@ -53,6 +59,41 @@ class Piwik_Config
 		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
 		$this->setPrefixTables();
 		
+		// see http://bugs.php.net/bug.php?id=34206
+		$this->correctCwd = getcwd();
+	}
+	function __destruct()
+	{
+		// saves the config file if changed
+		if($this->configFileUpdated === true)
+		{
+			print("write ini file changed");
+			
+			$configFile = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
+			$configFile .= "; file automatically generated during the piwik installation process (and updated later by some other modules)\n";
+			
+			foreach($this->userConfig as $section => $arraySection)
+			{
+				$arraySection = $arraySection->toArray();
+//				print("<pre>saving $section => ".var_export($arraySection,true)." <br>");
+				
+				$configFile .= "[$section]\n";
+				foreach($arraySection as $name => $value)
+				{
+					// kind of hack 
+					// if the value is a simple array
+					if(is_numeric($name))
+					{
+						$name = $section."[]";
+					}
+					$configFile .= "$name = $value\n";
+				}
+				$configFile .= "\n";
+			}
+			chdir($this->correctCwd);
+			file_put_contents($this->getDefaultUserConfigPath(), $configFile );
+			
+		}
 	}
 	
 	public function setTestEnvironment()
@@ -71,6 +112,10 @@ class Piwik_Config
 	{
 		if(!is_null($this->userConfig))
 		{
+			if($this->userConfig->$name != $value)
+			{
+				$this->configFileUpdated = true;
+			}
 			$this->userConfig->$name = $value;
 		}
 		else

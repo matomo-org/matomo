@@ -23,9 +23,7 @@ require_once "Zend/Auth/Adapter/DbTable.php";
  * Piwik classes
  */
 require_once "Timer.php";
-
 require_once "modules/Piwik.php";
-
 require_once "API/APIable.php";
 require_once "Access.php";
 require_once "Auth.php";
@@ -34,6 +32,9 @@ require_once "Site.php";
 require_once "Translate.php";
 require_once "Url.php";
 require_once "Controller.php";
+
+require_once "Menu.php";
+require_once "Widget.php";
 
 /**
  * 
@@ -79,43 +80,46 @@ class Piwik_FrontController
 			$parameters = array();
 		}
 		
-		if(ctype_alnum($module))
-		{
-			$moduleController = PIWIK_PLUGINS_PATH . "/" . $module . "/Controller.php";
-			if(is_readable($moduleController))
-			{
-				require_once $moduleController;
-				
-				$controllerClassName = "Piwik_".$module."_Controller";
-				
-				$controller = new $controllerClassName;
-				
-				
-				if($action === false)
-				{
-					$action = $controller->getDefaultAction();
-				}
-				if(method_exists($controller, $action))
-				{
-					try{
-						return call_user_func_array( array($controller, $action ), $parameters);
-					} catch(Piwik_Access_NoAccessException $e) {
-						Piwik_PostEvent('FrontController.NoAccessException', $e);					
-					}
-				}
-				else
-				{
-					throw new Exception("Action $action not found in the controller $controllerClassName.");				
-				}
-			}
-			else
-			{
-				throw new Exception("Module controller $moduleController not found!");
-			}			
-		}
-		else
+		if(!ctype_alnum($module))
 		{
 			throw new Exception("Invalid module name '$module'");
+		}
+		
+		$controllerClassName = "Piwik_".$module."_Controller";
+		
+		if(!class_exists($controllerClassName))
+		{
+			$moduleController = PIWIK_PLUGINS_PATH . "/" . $module . "/Controller.php";
+			
+			if( !is_readable($moduleController))
+			{
+				throw new Exception("Module controller $moduleController not found!");
+			}
+			require_once $moduleController;
+		}
+		
+		// check that the plugin is enabled
+		if( ! Piwik_PluginsManager::getInstance()->isPluginEnabled( $module )) 
+		{
+			throw new Exception("The plugin $module is not enabled.");
+		}
+				
+		$controller = new $controllerClassName;
+		
+		if($action === false)
+		{
+			$action = $controller->getDefaultAction();
+		}
+		
+		if( !is_callable(array($controller, $action)))
+		{
+			throw new Exception("Action $action not found in the controller $controllerClassName.");				
+		}
+		
+		try {
+			return call_user_func_array( array($controller, $action ), $parameters);
+		} catch(Piwik_Access_NoAccessException $e) {
+			Piwik_PostEvent('FrontController.NoAccessException', $e);					
 		}
 	}
 	
@@ -124,12 +128,12 @@ class Piwik_FrontController
 		try {
 			Piwik::printZendProfiler();
 			Piwik::printQueryCount();
-		}catch(Exception $e) {}
+		} catch(Exception $e) {}
 		
 //		Piwik::printMemoryUsage();
 //		Piwik::printTimer();
 //		Piwik::uninstall();
-//
+
 	}
 	
 	protected function checkDirectoriesWritableOrDie()
@@ -271,7 +275,12 @@ class Piwik_FrontController
 		// Setup the auth object
 		Piwik_PostEvent('FrontController.authSetCredentials');
 
-		$authAdapter = Zend_Registry::get('auth');
+		try {
+			$authAdapter = Zend_Registry::get('auth');
+		}
+		catch(Exception $e){
+			throw new Exception("Object 'auth' cannot be found in the Registry. Maybe the Login plugin is not available?");
+		}
 		
 		// Perform the authentication query, saving the result
 		$access = new Piwik_Access($authAdapter);

@@ -9,11 +9,14 @@
  * @package Piwik_ViewDataTable
  */
 
+
+require_once "API/Request.php";
 /**
  * 
  * @package Piwik_Visualization
  *
  */
+
 abstract class Piwik_ViewDataTable
 {
 	protected $dataTableTemplate = null;
@@ -126,6 +129,11 @@ abstract class Piwik_ViewDataTable
 	
 	
 	abstract public function main();
+	
+	public function render()
+	{
+		return $this->getView()->render();
+	}
 	
 	/**
 	 * For convenience, the client code can call methods that are defined in a specific children class

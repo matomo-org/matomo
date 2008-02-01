@@ -28,10 +28,49 @@ class Piwik_Provider extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+	//		'widgets' => 'providerWidget'
 		);
 		
 		return $info;
 	}
+	
+	
+	/*function __get($name)
+	{
+		if $name is Piwik_Widget
+		return new $name
+	}
+	function getWidgets
+	{
+		
+	}
+	
+	module=Provider & action=providerWidget
+	
+	class providerWidget extends widget
+	{
+		public title =
+		public menu = 'Provider>test'
+		public help = 'blabla'
+		public getHtml()
+		{
+			
+		}
+	}
+	
+	class widget
+	{
+		abstract function getHtml();
+		function __toString()
+		{
+			return this->getHtml()
+		}
+	}
+	function getKeywords()
+	{
+		w = new getKeywordsWidget
+		return w;
+	}*/
 	
 	function install()
 	{
@@ -156,3 +195,28 @@ class Piwik_Provider extends Piwik_Plugin
 	
 }
 
+
+require_once "ViewDataTable.php";
+class Piwik_Provider_Controller extends Piwik_Controller 
+{	
+	/**
+	 * Provider
+	 */
+	function getProvider()
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( 'Provider',  __FUNCTION__, "Provider.getProvider" );
+		
+		$view->setColumnsToDisplay( array(0,1) );
+		$view->setSortedColumn( 1 );
+		$view->setLimit( 5 );
+		
+		$view->main();
+		echo $view->render();
+	}
+	
+}
+
+Piwik_AddWidget( 'Provider', 'getProvider', 'Providers');
+
+Piwik_AddMenu('User Country', 'Provider', array('module' => 'Provider', 'action'=> 'getProvider'));

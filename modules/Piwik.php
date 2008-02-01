@@ -167,9 +167,9 @@ class Piwik
 	{
 		print("<style> a { color:red } </style>
 			<div style='color:red;font-family:Georgia;font-size:120%'>
-			<img src='themes/default/images/error_medium.png' style='float:left;padding:20 20 20 20'> 
+			<p><img src='themes/default/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20'> 
 			$message
-			</div>"
+			</p></div>"
 		);
 		exit;
 	}
@@ -331,7 +331,7 @@ class Piwik
 	static public function loadPlugins()
 	{
 		Piwik_PluginsManager::getInstance()->setLanguageToLoad(  Piwik_Translate::getInstance()->getLanguageToLoad() );
-		Piwik_PluginsManager::getInstance()->setPluginsToLoad( Zend_Registry::get('config')->Plugins->enabled );
+		Piwik_PluginsManager::getInstance()->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 	}
 	
 	static public function getTableCreateSql( $tableName )

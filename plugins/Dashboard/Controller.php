@@ -40,6 +40,13 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		}
 	}
 	
+	function getListWidgets()
+	{
+		$widgets = Piwik_GetListWidgets();
+		$json = json_encode($widgets);
+		return $json;
+	}
+	
 	function getDefaultAction()
 	{
 		return 'redirectToIndex';

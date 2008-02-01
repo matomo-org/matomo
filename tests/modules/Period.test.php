@@ -900,7 +900,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 		$correct[]= $week->toString();
 	 	}
 	 	$correct = array_reverse($correct);
-			
+		
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 20);
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);

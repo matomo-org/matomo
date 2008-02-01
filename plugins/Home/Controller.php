@@ -25,17 +25,6 @@ class Piwik_Home_Controller extends Piwik_Controller
 		parent::__construct();
 		$this->currentControllerName = 'Home';
 
-		$this->strDate = Piwik_Common::getRequestVar('date', 'yesterday','string');
-		
-		// the date looks like YYYY-MM-DD we can build it
-		try{
-			$this->date = Piwik_Date::factory($this->strDate);
-			$this->strDate = $this->date->toString();
-		} catch(Exception $e){
-		// the date looks like YYYY-MM-DD,YYYY-MM-DD or other format
-			// case the date looks like a range
-			$this->date = null;
-		}
 	}
 	function getDefaultAction()
 	{
@@ -53,7 +42,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view->link = '?module=Home&action=index&idSite=1&period=day&date=yesterday';
 		echo $view->render();
 	}
-	
+
 	protected function setGeneralVariablesView($view)
 	{
 		// date
@@ -81,7 +70,11 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view->sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
 		$view->url = Piwik_Url::getCurrentUrl();
 		
+		$view->menu = Piwik_GetMenu();
+		$view->menuJson = json_encode($view->menu);
+		//var_dump($view->menuJson);
 	}
+	
 	public function index()
 	{
 		$view = new Piwik_View('Home/templates/index.tpl');
@@ -99,31 +92,8 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view->dataTableDownloads = $this->getDownloads( true );
 		$view->dataTableOutlinks = $this->getOutlinks( true );
 		
-		/* General visits */
-		$view->graphEvolutionVisitsSummary = $this->getLastVisitsGraph( true );
-		
-		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getLastVisitsGraph');
-		$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getLastUniqueVisitorsGraph');
-		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getLastActionsGraph');
-		$view->urlSparklineSumVisitLength 	= $this->getUrlSparkline( 'getLastSumVisitsLengthGraph');
-		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getLastMaxActionsGraph');
-		$view->urlSparklineBounceCount 		= $this->getUrlSparkline( 'getLastBounceCountGraph');
-		
-		$dataTableVisit = $this->getVisitsSummary();
-		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
-		$view->nbVisits = $dataTableVisit->getColumn('nb_visits');
-		$view->nbActions = $dataTableVisit->getColumn('nb_actions');
-		$view->sumVisitLength = $dataTableVisit->getColumn('sum_visit_length');
-		$view->bounceCount = $dataTableVisit->getColumn('bounce_count');
-		$view->maxActions = $dataTableVisit->getColumn('max_actions');
 
 		
-		/* User Country */
-		$view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
-		$view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
-		
-		$view->dataTableCountry = $this->getCountry(true);
-		$view->dataTableContinent = $this->getContinent(true);
 		
 		/* User settings */		
 		$view->dataTablePlugin = $this->getPlugin( true );
@@ -139,7 +109,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
 		
 		/* VisitFrequency */
-		$view->graphEvolutionVisitFrequency = $this->getLastVisitsReturningGraph( true );
+		//$view->graphEvolutionVisitFrequency = $this->getLastVisitsReturningGraph( true );
 		
 		$view->urlSparklineNbVisitsReturning 		= $this->getUrlSparkline( 'getLastVisitsReturningGraph');
 		$view->urlSparklineNbActionsReturning 		= $this->getUrlSparkline( 'getLastActionsReturningGraph');
@@ -158,13 +128,9 @@ class Piwik_Home_Controller extends Piwik_Controller
 		/* Visitor Interest */
 		$view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
 		$view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
-		
-		/* Provider */
-		$view->dataTableProvider = $this->getProvider(true);
-		
-		
+				
 		/* Referers */
-		$view->graphEvolutionReferers = $this->getLastDistinctKeywordsGraph(true);
+		//$view->graphEvolutionReferers = $this->getLastDistinctKeywordsGraph(true);
 			
 		$view->dataTableKeywords = $this->getKeywords(true);
 		$view->dataTableSearchEngines = $this->getSearchEngines(true);
@@ -207,94 +173,6 @@ class Piwik_Home_Controller extends Piwik_Controller
 		echo $view->render();		
 	}
 
-	protected function renderView($view, $fetch)
-	{
-		$view->main();
-		$rendered = $view->getView()->render();
-		if($fetch)
-		{
-			return $rendered;
-		}
-		echo $rendered;
-	}
-	protected function getNumericValue( $methodToCall )
-	{
-		$requestString = 'method='.$methodToCall.'&format=original';
-		$request = new Piwik_API_Request($requestString);
-		return $request->process();
-	}
-	
-	/**
-	 * 
-	 * @param array  paramsToSet = array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
-	 */
-	protected function getGraphParamsModified($paramsToSet = array())
-	{
-		if(!isset($paramsToSet['range']))
-		{
-			$range = 'last30';
-		}
-		else
-		{
-			$range = $paramsToSet['range'];
-		}
-		
-		if(!isset($paramsToSet['date']))
-		{
-			$endDate = $this->strDate;
-		}
-		else
-		{
-			$endDate = $paramsToSet['date'];
-		}
-		
-		if(!isset($paramsToSet['period']))
-		{
-			$period = Piwik_Common::getRequestVar('period');
-		}
-		else
-		{
-			$period = $paramsToSet['period'];
-		}
-		
-		$last30Relative = new Piwik_Period_Range($period, $range );
-		
-		$last30Relative->setDefaultEndDate(new Piwik_Date($endDate));
-		
-		$paramDate = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
-		
-		$params = array_merge($paramsToSet , array(	'date' => $paramDate ) );
-		
-		return $params;
-	}
-	
-	protected function getUrlSparkline( $action )
-	{
-		$params = $this->getGraphParamsModified( 
-					array(	'viewDataTable' => 'sparkline', 
-							'action' => $action)
-				);
-		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
-		return $url;
-	}
-	
-	protected function getLastUnitGraph($currentControllerAction, $apiMethod)
-	{
-		require_once "ViewDataTable/Graph.php";
-		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
-		$view->init( $this->currentControllerName, $currentControllerAction, $apiMethod );
-		
-		// if the date is not yet a nicely formatted date range ie. YYYY-MM-DD,YYYY-MM-DD we build it
-		// otherwise the current controller action is being called with the good date format already so it's fine
-		// see constructor
-		if( !is_null($this->date))
-		{
-			$view->setParametersToModify( $this->getGraphParamsModified( array('date'=>$this->strDate)));
-		}
-		
-		return $view;
-	}
-	
 	
 		/*
 		 * 
@@ -338,7 +216,8 @@ List of the public methods for the class Piwik_Actions_API
 		$view->setLimit( 100 );
 		
 		// computing minimum value to exclude
-		$visitsInfo = $this->getVisitsSummary(); 
+		
+		$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary(); 
 		$nbActions = $visitsInfo->getColumn('nb_actions');
 		$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions
 		$view->setExcludeLowPopulation( $nbActionsLowPopulationThreshold, 'nb_hits' );
@@ -445,55 +324,6 @@ List of the public methods for the class Piwik_Actions_API
 										'Actions.getOutlinks', 
 										'getOutlinksSubDataTable'  );
 		
-		return $this->renderView($view, $fetch);
-	}
-	
-	/**
-	 * General visit
-	 */
-	function getVisitsSummary()
-	{
-		$requestString = 'method=' . "VisitsSummary.get" . '&format=original'.
-			// we disable filters for example "search for pattern", in the case this method is called 
-			// by a method that already calls the API with some generic filters applied 
-			'&disable_generic_filters=true'; 
-		$request = new Piwik_API_Request($requestString);
-		return $request->process();
-	}
-
-	function getLastVisitsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getVisits");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastUniqueVisitorsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getUniqueVisitors");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastActionsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getActions");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastSumVisitsLengthGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getSumVisitsLength");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastMaxActionsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getMaxActions");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastBounceCountGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "VisitsSummary.getBounceCount");
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -608,67 +438,6 @@ List of the public methods for the class Piwik_Actions_API
 		return $this->renderView($view, $fetch);
 	}
 	
-	/**
-	 * Provider
-	 */
-	function getProvider( $fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->currentControllerName,  __FUNCTION__, "Provider.getProvider" );
-		
-		$view->setColumnsToDisplay( array(0,1) );
-		$view->setSortedColumn( 1 );
-		$view->setLimit( 5 );
-		
-		return $this->renderView($view, $fetch);
-	}
-	
-	/**
-	 * User Country
-	 */
-	function getCountry( $fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->currentControllerName, __FUNCTION__, "UserCountry.getCountry" );
-		$view->disableExcludeLowPopulation();
-		
-		$view->setColumnsToDisplay( array(0,1) );
-		$view->setSortedColumn( 1 );
-		$view->disableSearchBox();
-		
-		// sorting by label is not correct as the labels are the ISO codes before being
-		// mapped to the country names
-//		$view->disableSort();
-		$view->setLimit( 5 );
-		
-		return $this->renderView($view, $fetch);
-	}
-
-	function getNumberOfDistinctCountries( $fetch = false)
-	{
-		return $this->getNumericValue('UserCountry.getNumberOfDistinctCountries');
-	}
-
-	function getLastDistinctCountriesGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph(__FUNCTION__, "UserCountry.getNumberOfDistinctCountries");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getContinent( $fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->currentControllerName, __FUNCTION__, "UserCountry.getContinent" );
-		$view->disableExcludeLowPopulation();
-		$view->disableSearchBox();
-		$view->disableOffsetInformation();
-		$view->disableSort();
-		$view->setColumnsToDisplay( array(0,1) );
-		$view->setSortedColumn( 1 );
-		
-		return $this->renderView($view, $fetch);
-	}
-
 	/**
 	 * User settings
 	 */

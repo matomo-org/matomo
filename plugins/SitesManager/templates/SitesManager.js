@@ -71,7 +71,7 @@ function getUpdateSiteAJAX( row )
 		$(this).toggle();
 		
 		var numberOfRows = $('table#editSites')[0].rows.length;
-		var newRowIdNumeric = numberOfRows + 1;
+		var newRowIdNumeric = numberOfRows ;
 		var newRowId = 'row' + newRowIdNumeric;
 	
 		$(' <tr id="'+newRowId+'">\

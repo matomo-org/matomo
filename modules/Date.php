@@ -136,15 +136,24 @@ class Piwik_Date
     }
     
     /**
-     * Subtracts month from the existing date object.
+     * Subtracts a month from the existing date object.
      * Returned is the new date object
      * 
      * @return Piwik_Date  new date
      */
     public function subMonth( $n )
     {
-    	$ts = strtotime("-$n months", $this->getTimestamp());
-		return new Piwik_Date( $ts );
+//    	$ts = strtotime("-$n months", $this->getTimestamp());
+		$ts = $this->getTimestamp();
+		$result = mktime( 
+						date('H', $ts),
+						date('i', $ts),
+						date('s', $ts),
+						date('n', $ts) - $n,
+						1, // we set the day to 1
+						date('Y', $ts)
+					);
+		return new Piwik_Date( $result );
     }
     
     /**

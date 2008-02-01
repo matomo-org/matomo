@@ -1,18 +1,18 @@
 
 $(document).ready( function(){
 
-	
 	//for every section
-	$(".section").each(
+	$("a[name='evolutionGraph']").each(
 		function()
 		{
 			//try to find the graph			
-			var graph = $("a[name='evolutionGraph']", this);
+			var graph = $(this);
 		
 			if(graph && graph.size() > 0)
 			{
+				console.log($(this).parent());
 				//try to find sparklines and add them clickable behaviour
-				$("p", this).each(
+				$(this).parent().find('p').each(
 					function()
 					{
 						var url = "";
@@ -46,11 +46,7 @@ $(document).ready( function(){
 										function()
 										{  
 									 		$(this).css({ cursor: "pointer"}); 
-									  	},
-									  	function()
-									  	{  
-									 		$(this).css({ cursor: "auto"}); 
-									  	}
+									  	}, function (){}
 									);
 								}
 							);

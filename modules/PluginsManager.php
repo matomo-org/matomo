@@ -45,9 +45,14 @@ class Piwik_PluginsManager
 	protected $doLoadPlugins = true;
 	protected $languageToLoad = null;
 	protected $loadedPlugins = array();
-	
+		
 	static private $instance = null;
 	
+	/**
+	 * Returns the singleton Piwik_PluginsManager
+	 *
+	 * @return Piwik_PluginsManager
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
@@ -63,13 +68,57 @@ class Piwik_PluginsManager
 		$this->dispatcher = Event_Dispatcher::getInstance();
 	}
 	
-	public function isPluginEnabled($name)
+	public function isPluginEnabled( $name )
 	{
-		return in_array( $name, $this->pluginsToLoad->toArray());		
+		return in_array( $name, $this->pluginsToLoad);		
 	}
 	
-	public function setPluginsToLoad( $pluginsToLoad )
+	/**
+	 * Reads the directories inside the plugins/ directory and returns their names in an array
+	 *
+	 * @return array
+	 */
+	public function readPluginsDirectory()
 	{
+		$pluginsName = glob(PIWIK_PLUGINS_PATH . "/*",GLOB_ONLYDIR);
+		$pluginsName = array_map('basename', $pluginsName);
+		return $pluginsName;
+	}
+
+	public function deactivatePlugin($pluginName)
+	{
+		$plugins = $this->pluginsToLoad;
+		
+		$key = array_search($pluginName,$plugins);
+		if($key !== false)
+		{
+			unset($plugins[$key]);
+			Zend_Registry::get('config')->Plugins = $plugins;
+		}
+	}
+	public function activatePlugin($pluginName)
+	{
+		$existingPlugins = $this->readPluginsDirectory();
+		
+		if( array_search($pluginName,$existingPlugins) !== false)
+		{
+			$plugins = Zend_Registry::get('config')->Plugins->Plugins->toArray();
+			
+			$plugins[] = $pluginName;
+			
+			$plugins = array_unique($plugins);
+//			var_dump($plugins);exit;
+			Zend_Registry::get('config')->Plugins = $plugins;
+		}
+	}
+	
+	public function setPluginsToLoad( array $pluginsToLoad )
+	{
+		// case no plugins to load
+		if(is_null($pluginsToLoad))
+		{
+			$pluginsToLoad = array();
+		}
 		$this->pluginsToLoad = $pluginsToLoad;
 		
 		$this->loadPlugins();
@@ -80,66 +129,102 @@ class Piwik_PluginsManager
 		$this->doLoadPlugins = false;
 	}
 	
-	protected function addLoadedPlugin($newPlugin)
+	/**
+	 * Add a plugin in the loaded plugins array
+	 *
+	 * @param Piwik_Plugin $newPlugin
+	 * @param string plugin name without prefix (eg. 'UserCountry')
+	 */
+	protected function addLoadedPlugin( $pluginName, Piwik_Plugin $newPlugin )
 	{
-		$this->loadedPlugins[] = $newPlugin;
+		$this->loadedPlugins[$pluginName] = $newPlugin;
 	}
 	
+	/**
+	 * Returns an array containing the plugins class names (eg. 'Piwik_UserCountry' and NOT 'UserCountry')
+	 *
+	 * @return array
+	 */
 	public function getLoadedPluginsName()
 	{
 		$oPlugins = $this->getLoadedPlugins();
-		$pluginNames = array();
-		foreach($oPlugins as $plugin)
-		{
-			$pluginNames[] = get_class($plugin);
-		}
+		$pluginNames = array_map('get_class',$oPlugins);
 		return $pluginNames;
 	}
 	
+	/**
+	 * Returns an array of key,value with the following format: array(
+	 * 		'UserCountry' => Piwik_Plugin $pluginObject,
+	 * 		'UserSettings' => Piwik_Plugin $pluginObject,
+	 * 	);
+	 *
+	 * @return array 
+	 */
 	public function getLoadedPlugins()
 	{
 		return $this->loadedPlugins;
 	}
+
 	/**
 	 * Load the plugins classes installed.
 	 * Register the observers for every plugin.
 	 * 
 	 */
 	public function loadPlugins()
-	{		
+	{
 		foreach($this->pluginsToLoad as $pluginName)
 		{
-			$pluginFileName = $pluginName . ".php";
-			$pluginClassName = "Piwik_".$pluginName;
+			$newPlugin = $this->loadPlugin($pluginName);
 			
-			if( !Piwik_Common::isValidFilename($pluginName))
-			{
-				throw new Exception("The plugin filename '$pluginFileName' is not valid");
-			}
+			// if we have to load the plugins
+			// and if this plugin is activated
 			
-			$path = PIWIK_PLUGINS_PATH . '/' . $pluginFileName;
-
-			if(!is_file($path))
-			{
-				throw new Exception("The plugin file {$path} couldn't be found.");
-			}
-			
-			require_once $path;
-			
-			$newPlugin = new $pluginClassName;
-			
-			if(!($newPlugin instanceof Piwik_Plugin))
-			{
-				throw new Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
-			}
-			
-			if($this->doLoadPlugins)
+			if($this->doLoadPlugins
+				&& $this->isPluginEnabled($pluginName))
 			{
 				$newPlugin->registerTranslation( $this->languageToLoad );
 				$this->addPluginObservers( $newPlugin );
-				$this->addLoadedPlugin($newPlugin);
+				$this->addLoadedPlugin( $pluginName, $newPlugin);
 			}
 		}
+	}
+	
+	/**
+	 * Loads the plugin filename and instanciates the plugin with the given name, eg. UserCountry
+	 * Do NOT give the class name ie. Piwik_UserCountry, but give the plugin name ie. UserCountry 
+	 *
+	 * @param Piwik_Plugin $pluginName
+	 */
+	public function loadPlugin( $pluginName )
+	{
+		$pluginFileName = $pluginName . '/' . $pluginName . ".php";
+		$pluginClassName = "Piwik_".$pluginName;
+		
+		if( !Piwik_Common::isValidFilename($pluginName))
+		{
+			throw new Exception("The plugin filename '$pluginFileName' is not valid");
+		}
+		
+		$path = PIWIK_PLUGINS_PATH . '/' . $pluginFileName;
+
+		if(!is_file($path))
+		{
+			throw new Exception("The plugin file {$path} couldn't be found.");
+		}
+		
+		require_once $path;
+		
+		if(!class_exists($pluginClassName))
+		{
+			throw new Exception("The class $pluginClassName couldn't be found in the file '$path'");
+		}
+		$newPlugin = new $pluginClassName;
+		
+		if(!($newPlugin instanceof Piwik_Plugin))
+		{
+			throw new Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
+		}
+		return $newPlugin;
 	}
 	
 	public function installPlugins()
@@ -172,7 +257,7 @@ class Piwik_PluginsManager
 			$this->dispatcher->addObserver( array( $plugin, $methodToCall), $hookName );
 		}
 	}
-	
+		
 	public function unloadPlugins()
 	{
 		$pluginsLoaded = $this->getLoadedPlugins();
@@ -199,6 +284,14 @@ class Piwik_PluginsManager
 function Piwik_PostEvent( $eventName,  &$object = null, $info = array() )
 {
 	Piwik_PluginsManager::getInstance()->dispatcher->post( $object, $eventName, $info, true, false );
+}
+
+/**
+ * Register an action to execute for a given event
+ */
+function Piwik_AddAction( $hookName, $function )
+{
+	Piwik_PluginsManager::getInstance()->dispatcher->addObserver( $function, $hookName );
 }
 
 

@@ -26,7 +26,6 @@ edit the hack get(nb_visitors) and instead use a filter rename column etc.
 hide export in datatable footer (eg pie chart for plugins)
 fix pie charts (sum != 100%)
 fix bar charts legends in some cases
-admin site > add new site row count is wrong
 when no site > should display nice message
 users > when mod rights failed should'nt display the green tick
 
