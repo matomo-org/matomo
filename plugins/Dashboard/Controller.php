@@ -43,7 +43,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	{
 		$widgets = Piwik_GetListWidgets();
 		$json = json_encode($widgets);
-		echo $json;
+		return $json;
 	}
 	
 	function getDefaultAction()
@@ -62,6 +62,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$this->setGeneralVariablesView($view);
 		if(isset($_SESSION['layout']))
 			$view->layout = $_SESSION['layout'];
+		$view->availableWidgets = $this->getListWidgets();
 		echo $view->render();
 	}
 	

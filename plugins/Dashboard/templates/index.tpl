@@ -33,24 +33,53 @@
 						piwik_DashboardLayout = '{$layout}';
 					{else}
 						//Load default layout...
-						piwik_DashboardLayout = 'getCountry~getKeywords|getPlugin|getSearchEngines';
+						piwik_DashboardLayout = 'Home.getCountry~Home.getKeywords|Home.getPlugin|Home.getSearchEngines';
 					{/if}
 				{literal}
 				
 				//generate dashboard layout
 				var col = piwik_DashboardLayout.split('|');
 				
-				for(var i=0; i<col.length; i++)
+				for(var i in col)
 				{
 					if(col[i] != '')
 					{
 						var widgets = col[i].split('~');
-						for(var j=0; j<widgets.length; j++)
+						for(var j in widgets)
 						{
-	    					$('.col#'+(i+1)).append('<div class="items"><div id="'+widgets[j]+'" class="parentDiv"></div></div>');
+							var wid = widgets[j].split('.');
+							addWidget(Number(i)+1, wid[0], wid[1]);
 	    				}
 	    			}
 				}
+				
+				//UI : adding widgets to dashboard
+				$('.button#addWidget').click(function(){
+					$(this).hide();
+					$('.menu#widgetChooser').show('slow');
+				});
+				
+				//load widgets list
+{/literal}
+				var availableWidgets = {$availableWidgets};
+{literal}
+				var menu = $('.menu#widgetChooser');
+				for(var plugin in availableWidgets)
+				{
+					var widgets = availableWidgets[plugin];
+					for(var i in widgets)
+					{
+						menu.append('<div class="button menuItem" pluginToLoad="'+plugin+'" actionToLoad="'+widgets[i][1]+'">'+widgets[i][0] + ' => (' + plugin +'.'+ widgets[i][1] + ')</div>');
+					}
+				}
+				$('.menuItem', menu).click(function(){
+					menu.hide('slow');
+					var plugin = $(this).attr('pluginToLoad');
+					var action = $(this).attr('actionToLoad');
+					addWidget(1, plugin, action);
+					ajaxLoading(plugin, action);
+					$('.button#addWidget').show();
+				});
 				
 				//add an handle to each items
 				$('.items:not(.dummyItem)').each(
@@ -71,7 +100,7 @@
 					function()
 					{
 						// get the ID of the div and load with ajax						
-						ajaxLoading($(this).attr('id'));
+						ajaxLoading($(this).attr('plugin'), $(this).attr('id'));
 					});
 					
 				//launch 'sortable' property on every dashboard widgets
@@ -90,6 +119,12 @@
 				 hideUnnecessaryDummies();
 			}
 		);
+		
+	function addWidget(colNumber, plugin, action)
+	{
+		var item = '<div class="items"><div plugin="'+plugin+'"'+' id="'+action+'" class="parentDiv"></div></div>';
+	    $('.col#'+colNumber).append(item);
+	}
 		
 	function getHelper()
 	{
@@ -152,7 +187,7 @@
 			var widgets = new Array;
 			for(var i=0; i<items.size(); i++)
 			{
-				widgets.push($(items[i]).attr('id'));
+				widgets.push($(items[i]).attr('plugin')+'.'+$(items[i]).attr('id'));
 			}
 			column.push(widgets);
 		});
@@ -177,13 +212,13 @@
 		$.ajax(ajaxRequest);
 	}	
 	
-	function ajaxLoading(divId)
+	function ajaxLoading(pluginId, actionId)
 	{		
 		// When ajax replied, we replace the right div with the response
 		function onLoaded(response)
 		{
 			var content = $(response);
-			$('#'+divId).html( $(content).html() );
+			$('#'+actionId).html( $(content).html() );
 		}
 		//prepare and launch the ajax request
 		var ajaxRequest = 
@@ -194,8 +229,8 @@
 			async: true,
 			error: ajaxHandleError,		// Callback when the request fails
 			success: onLoaded,			// Callback when the request succeeds
-			data: {	module: 'Home',
-					action: divId,
+			data: {	module: pluginId,
+					action: actionId,
 {/literal}			idSite: {$idSite},
 					period: '{$period}',
 					date: '{$date}'					
@@ -245,6 +280,10 @@
 	display: none;
 }
 
+.menu {
+	display: none;
+}
+
 .helper {
 	width: 33%;
 	opacity: .6;
@@ -268,6 +307,12 @@
 	        <input type="button" id="no" value="No" /> 
 	</div> 
 
+	<div class="button" id="addWidget">
+		Add a widget...
+	</div>
+	
+	<div class="menu" id="widgetChooser">
+	</div>
 
 	<div class="col" id="1">
 	</div>
