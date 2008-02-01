@@ -1,10 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd ">
-<html><body>
-{literal}
-<style>
+<html>
+<body>
 
-</style>
-{/literal}
 
 <script type="text/javascript">
 var period = "{$period}";
@@ -12,6 +9,7 @@ var currentDateStr = "{$date}";
 var minDateYear = {$minDateYear};
 var minDateMonth = {$minDateMonth};
 var minDateDay = {$minDateDay};
+
 </script>
 
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
@@ -30,7 +28,6 @@ var minDateDay = {$minDateDay};
 <script type="text/javascript" src="plugins/Home/templates/mainmenu.js"></script>
 
 
-<script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
 <script type="text/javascript" src="plugins/Home/templates/date.js"></script>
 
 <link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
@@ -38,6 +35,12 @@ var minDateDay = {$minDateDay};
 
 
 <style type="text/css">@import url(libs/jquery/jquery-calendar.css);</style>
+
+
+<script type="text/javascript" src="libs/jquery/superfish.js"></script>
+<script type="text/javascript" src="plugins/Home/templates/menu.js"></script>
+<link rel="stylesheet" type="text/css" href="plugins/Home/templates/menu.css" media="screen">
+
 {literal}
 
 <style>
@@ -153,29 +156,6 @@ tr td.label img.plusMinus {
 #periodSelection, #periodSelection a {
 	color:#8D92AA;
 }
-#generatedMenu {
-	width:70%;
-	positioning:relative;
-	display:block;
-}
-#generatedMenu span {
-	cursor:pointer;
-	font-size:14px;
-	margin:0pt;
-	padding:3px 5px;
-	line-height:1.8em;
-	border-bottom:1px solid #6699CC;
-	color:#00019B;
-	text-decoration:none;
-}
-
-#generatedMenu span:hover {
-	background:#DDEAF4 none repeat scroll 0%;
-	color:#006699;
-}
-
-#generatedMenu span:hover{
-}
 
 .section {
 	display:none;
@@ -218,7 +198,6 @@ tr td.label img.plusMinus {
 
 #stuff {
 	position: absolute;
-	display: inline;
 	margin-left:70%;
 	margin-top:10px;
 	font-size:0.9em;
@@ -291,44 +270,19 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 
 <span id="loadingPiwik"><img src="themes/default/images/loading-blue.gif"> Loading data...</span>
 
-<span id="generatedMenu"></span>
+{include file="Home/templates/menu.tpl"}
 
 <br><br>
+<div style='clear:both'></div>
 {include file="Home/templates/period_select.tpl"}
 
-<div class="section" id="Visits_summary">
+<div id='content'>
 
-	<a name="evolutionGraph" graphId="getLastVisitsGraph"></a>
-	<h3>Evolution on the last 30 {$period}s</h3>
-	{$graphEvolutionVisitsSummary}
-	
-	<h3>Report</h3>
-	
-	<p><img class="sparkline" src="{$urlSparklineNbVisits}" /> <span><strong>{$nbVisits} </strong>visits</span></p>
-	<p><img class="sparkline" src="{$urlSparklineNbUniqVisitors}" /> <span><strong>{$nbUniqVisitors}</strong> unique visitors</span></p>
-	<p><img class="sparkline" src="{$urlSparklineNbActions}" /> <span><strong>{$nbActions}</strong> actions (page views)</span></p>
-	<p><img class="sparkline" src="{$urlSparklineSumVisitLength}" /> <span><strong>{$sumVisitLength|sumtime}</strong> total time spent by the visitors</span></p>
-	<p><img class="sparkline" src="{$urlSparklineMaxActions}" /> <span><strong>{$maxActions}</strong> max actions in one visit</span></p>
-	<p><img class="sparkline" src="{$urlSparklineBounceCount}" /> <span><strong>{$bounceCount} </strong>visitors have bounced (left the site after one page)</span></p>
-	
-	
-	<br><br><br><hr width="300px" align="left">
-	<p><small>{$totalTimeGeneration} seconds {if $totalNumberOfQueries != 0}/ {$totalNumberOfQueries}  queries{/if} to generate the page</p>
 </div>
+
+{php}exit;{/php}
 {* useful when working on the UI, the page generation is faster to skip other reports...
 {php}exit;{/php}*}
-
-<div class="section" id="User_Country">
-	<h3>Country</h3>
-	{$dataTableCountry}
-	
-	<h3>Continent</h3>
-	{$dataTableContinent}
-	
-	<p><img class="sparkline" src="{$urlSparklineCountries}" /> <span><strong>{$numberDistinctCountries} </strong> distinct countries</span></p>
-	
-</div>
-
 
 <div class="section" id="Referers">
 
@@ -431,10 +385,6 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 	{$dataTableVisitInformationPerLocalTime}
 	<h3>Visit per server time</h3>
 	{$dataTableVisitInformationPerServerTime}
-</div>
-
-<div class="section" id="Provider">
-	{$dataTableProvider}
 </div>
 
 <div class="section" id="Visitor_Interest">

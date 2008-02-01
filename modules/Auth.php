@@ -43,6 +43,9 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 	
 		// we then look if the user is API authenticated
 		// API authentication works without login name, but only with the token
+		// TODO the logic (sql select) should be in the Login plugin, not here
+		// this class should stay simple. Another Login plugin should only have to create an auth entry
+		// of this class in the zend_registry and it should work
 		if(is_null($this->_identity))
 		{
 			$authenticated = false;

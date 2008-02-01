@@ -190,7 +190,7 @@ class Piwik_Referers extends Piwik_Plugin
 					if(!isset($interestByKeyword[$row['referer_keyword']])) $interestByKeyword[$row['referer_keyword']]= $archiveProcessing->getNewInterestRow();
 					if(!isset($keywordBySearchEngine[$row['referer_name']][$row['referer_keyword']])) $keywordBySearchEngine[$row['referer_name']][$row['referer_keyword']]= $archiveProcessing->getNewInterestRow();
 					if(!isset($searchEngineByKeyword[$row['referer_keyword']][$row['referer_name']])) $searchEngineByKeyword[$row['referer_keyword']][$row['referer_name']]= $archiveProcessing->getNewInterestRow();
-					
+				
 					$archiveProcessing->updateInterestStats( $row, $interestBySearchEngine[$row['referer_name']]);
 					$archiveProcessing->updateInterestStats( $row, $interestByKeyword[$row['referer_keyword']]);
 					$archiveProcessing->updateInterestStats( $row, $keywordBySearchEngine[$row['referer_name']][$row['referer_keyword']]);

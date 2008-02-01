@@ -98,7 +98,7 @@ class Piwik_Log_Formatter_Error_ScreenFormatter implements Zend_Log_Formatter_In
 	    }
 	    $strReturned .= ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
 	    $strReturned .= "<br><br>Backtrace --><DIV style='font-family:Courier;font-size:10pt'>";
-	    $strReturned .= str_replace("\n", "<br>", $backtrace);
+	    $strReturned .= str_replace("\n", "<br>\n", $backtrace);
 	    $strReturned .= "</div><br><br>";
 	    $strReturned .= "\n</pre></div><br>";
 	    

@@ -74,17 +74,12 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		
 		$view = new Piwik_View('Widgetize/templates/js.tpl');
 		$content = $outputDataTable;
-//		$content = str_replace(
-//								array( "<script",    "</script",   "'", "\n", "\t"), 
-//								array( "<scr'+'ipt", "<\/scr'+'ipt",  "\'", '', ''), 
-//								$outputDataTable
-//							);
-		
-//		echo $content;exit;
+
 		$view->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		$view->content = $content;
 		echo $view->render();
 	}
+
 	// the code loaded by the frame src=
 	function iframe()
 	{		

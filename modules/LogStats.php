@@ -85,7 +85,7 @@ class Piwik_LogStats
 	private function initProcess()
 	{
 		Piwik_PluginsManager::getInstance()->setPluginsToLoad( 
-				Piwik_LogStats_Config::getInstance()->Plugins_LogStats['enabled'] 
+				Piwik_LogStats_Config::getInstance()->Plugins_LogStats['Plugins']->toArray()
 			);
 		
 		$saveStats = Piwik_LogStats_Config::getInstance()->LogStats['record_statistics'];
@@ -160,7 +160,7 @@ class Piwik_LogStats
 
 	// display the logo or pixel 1*1 GIF
 	// or a marketing page if no parameters in the url
-	// or redirect to a url (transmit the cookie as well)
+	// or redirect to a url
 	// or load a URL (rss feed) (transmit the cookie as well)
 	protected function endProcess()
 	{

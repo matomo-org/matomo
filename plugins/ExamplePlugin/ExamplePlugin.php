@@ -8,22 +8,12 @@
  * 
  * @package Piwik_ExamplePlugin
  */
-	
 
-/**
- * 
- * @package Piwik_ExamplePlugin
- */
 class Piwik_ExamplePlugin extends Piwik_Plugin
-{	
-	public function __construct()
-	{
-		parent::__construct();
-	}
-	
+{
 	public function getInformation()
 	{
-		$info = array(
+		return array(
 			// name must be the className prefix!
 			'name' => 'ExamplePlugin',
 			'description' => 'Description',
@@ -32,29 +22,6 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 			'version' => '0.1',
 			'translationAvailable' => false,
 		);
-		
-		return $info;
-	}
-	
-	function install()
-	{
-	}
-	
-	function uninstall()
-	{
-	}
-	
-	function getListHooksRegistered()
-	{
-		$hooks = array(
-			'ArchiveProcessing_Day.compute' => 'myMethod'
-		);
-		return $hooks;
-	}
-	
-	function myMethod($notification)
-	{
-		$objectPassed = $notification->getNotificationObject();
 	}
 }
 
