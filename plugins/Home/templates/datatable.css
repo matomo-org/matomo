@@ -180,8 +180,18 @@ table.subDataTable thead th {
 
 
 #exportDataTable {
-   float: right;
+	float: right;
+	height: 18px;
 }
+
+#exportToFormat {
+	float: right;
+}
+
+#exportDataTableShow {
+	float: right;
+}
+	
 #exportDataTable,#exportDataTable a{
 	text-decoration:none;
 	color:#8894B1;
