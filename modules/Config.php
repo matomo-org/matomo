@@ -26,6 +26,7 @@ class Piwik_Config
 	protected $pathIniFileUserConfig 		= null;
 	protected $pathIniFileDefaultConfig 	= null;
 	protected $configFileUpdated 			= false;
+	public    $doWriteFileWhenUpdated		= true;
 	
 	// see http://bugs.php.net/bug.php?id=34206
 	protected $correctCwd;
@@ -65,7 +66,8 @@ class Piwik_Config
 	function __destruct()
 	{
 		// saves the config file if changed
-		if($this->configFileUpdated === true)
+		if($this->configFileUpdated === true 
+			&& $this->doWriteFileWhenUpdated === true)
 		{
 			print("write ini file changed");
 			

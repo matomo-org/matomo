@@ -62,6 +62,7 @@ class Piwik_LogStats_Generator
 		
 		require_once "modules/Piwik.php";
 		Piwik::createConfigObject('../config/config.ini.php');
+		Zend_Registry::get('config')->doWriteFileWhenUpdated = false;
 		
 		// setup database	
 		Piwik::createDatabaseObject();
