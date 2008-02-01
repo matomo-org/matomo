@@ -30,6 +30,7 @@ Plugins[] 		= PluginsAdmin
 ;Plugins[] 		= Widgetize
 Plugins[] 		= Home
 Plugins[] 		= Actions
+Plugins[] 		= Dashboard
 Plugins[] 		= Referers
 Plugins[] 		= UserSettings
 Plugins[] 		= UserCountry

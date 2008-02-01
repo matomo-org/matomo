@@ -44,7 +44,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	{
 		$widgets = Piwik_GetListWidgets();
 		$json = json_encode($widgets);
-		return $json;
+		echo $json;
 	}
 	
 	function getDefaultAction()
