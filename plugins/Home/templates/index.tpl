@@ -259,12 +259,8 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 <br>
 <div id="stuff">
 	<div>
-		<div id="messageToUsers"><a href='http://piwik.org'>Piwik</a> is still alpha. 
-					<br>We are currently working hard on a new shiny User Interface.
-					<br>Please <a href="mailto:hello@piwik.org?subject=Feedback piwik"><u>send us</u></a> your feedback.
-					<br>
-		</div> 
-		{include file="Home/templates/links_misc_modules.tpl"}<br>
+		<span id="messageToUsers"><a href='http://piwik.org'>Piwik</a> is still alpha. You can <a href="mailto:hello@piwik.org?subject=Feedback piwik"><u>send us</u></a> your feedback.</span> 
+		{include file="Home/templates/links_misc_modules.tpl"}
 	</div>
 </div>
 
