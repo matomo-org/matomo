@@ -24,4 +24,3 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 		);
 	}
 }
-

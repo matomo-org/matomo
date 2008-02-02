@@ -59,8 +59,10 @@ ul.nav li:hover ul {
 }
 /* LEVEL2 HOVER */
 .nav li li:hover,
+.nav li li.sfHover,
 .nav li li a:focus, .nav li li a:hover, .nav li li a:active {
 	background:#C9F6FF;
+	font-weight: bold;
 }
 .nav li.sfHover a,
 .nav li.current a,
