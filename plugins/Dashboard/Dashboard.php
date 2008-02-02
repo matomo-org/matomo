@@ -23,3 +23,5 @@ class Piwik_Dashboard extends Piwik_Plugin
 		);
 	}
 }
+
+Piwik_AddMenu('Dashboard', '1', array('module' => 'Dashboard', 'action' => 'embeddedIndex'));

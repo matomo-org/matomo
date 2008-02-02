@@ -24,7 +24,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	{
 		parent::__construct();
 		
-		//FIXME: copy paste of Home controller => should be refactored
+		//TODO: copy paste of Home controller => should be refactored
 		//in a 'master' controller for statistics (tracs #91)
 		$this->strDate = Piwik_Common::getRequestVar('date', 'yesterday','string');
 		
@@ -56,8 +56,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		header("Location:?module=Dashboard&action=index&idSite=1&period=day&date=yesterday");
 	}
 	
-	public function index()
-	{
+	public function embeddedIndex()
+	{		
 		$view = new Piwik_View('Dashboard/templates/index.tpl');
 		$this->setGeneralVariablesView($view);
 		if(isset($_SESSION['layout']))
@@ -66,13 +66,21 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
+	public function index()
+	{
+		//add the header for stand-alone mode
+		$view = new Piwik_View('Dashboard/templates/header.tpl');
+		echo $view->render();
+		$this->embeddedIndex();
+	}
+	
 	public function saveLayout()
 	{
 		$layout = Piwik_Common::getRequestVar('layout');
 		$_SESSION['layout'] = $layout;
 	}
 	
-	//FIXME: copy paste of Home controller => should be refactored
+	//TODO: copy paste of Home controller => should be refactored
 	//in a 'master' controller for statistics (tracs #91)
 	protected function setGeneralVariablesView($view)
 	{
@@ -102,3 +110,4 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view->url = Piwik_Url::getCurrentUrl();
 	}
 }
+
