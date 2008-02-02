@@ -16,7 +16,7 @@
  */
 abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 {	
-	protected $width = 400; 
+	protected $width = '100%'; 
 	protected $height = 250; 
 	
 	
@@ -144,8 +144,8 @@ class Piwik_ViewDataTable_Graph_ChartEvolution extends Piwik_ViewDataTable_Graph
 	function __construct()
 	{
 		$this->valueParameterViewDataTable = 'generateDataChartEvolution';
-		$this->width=700;
-		$this->height=150;
+		$this->width='100%';
+		$this->height=250;
 		
 	}
 	
