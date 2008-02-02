@@ -10,7 +10,7 @@ $(document).ready( function(){
 		
 			if(graph && graph.size() > 0)
 			{
-				console.log($(this).parent());
+				//console.log($(this).parent());
 				//try to find sparklines and add them clickable behaviour
 				$(this).parent().find('p').each(
 					function()

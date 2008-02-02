@@ -125,6 +125,7 @@
 			var o = $.superfish.op,
 				$ul = this.addClass(o.hoverClass)
 					.find('>ul:hidden').css('visibility','visible');
+			//console.log(this.html());
 			o.onBeforeShow.call($ul);
 			$ul.animate(o.animation,o.speed,function(){ o.onShow.call(this); });
 			return this;
