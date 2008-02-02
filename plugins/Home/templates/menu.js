@@ -61,25 +61,35 @@ menu.prototype =
 	init: function()
 	{
 		var self = this;
-
-		var superfish = $('.nav')
+		this.param.superfish = $('.nav')
 			.superfish({
 				pathClass : 'current',
 				animation : {opacity:'show'},
 				delay : 1000
 			});
-		superfish.find("li")
+		this.param.superfish.find("li")
 			.click( self.onClickLI )
 			;
 			
-		superfish
+		this.param.superfish
 			.find("li:has(ul)")
 			.hover(self.overMainLI, self.outMainLI)
 			;
+	},
+	
+	loadFirstSection: function()
+	{
+		var self=this;
+		$('li:first', self.param.superfish)
+			.click()
+			.each(function(){
+				$(this).showSuperfishUl(); 
+		});
 	}
 }
 
 $(document).ready( function(){
 	piwikMenu = new menu();
 	piwikMenu.init();
+	piwikMenu.loadFirstSection();
 });
