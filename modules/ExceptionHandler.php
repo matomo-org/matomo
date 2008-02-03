@@ -9,6 +9,7 @@
  * @package Piwik_Helper
  */
 
+require_once "modules/Piwik.php";
 /**
  * 
  * 
