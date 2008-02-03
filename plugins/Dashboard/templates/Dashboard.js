@@ -108,7 +108,7 @@ function bindMenuEvents(menu)
 		var plugin = $(this).attr('pluginToLoad');
 		var action = $(this).attr('actionToLoad');
 
-		var exists = $('.parentDiv#'+action);
+		var exists = $('.widgetDiv#'+action);
 		
 		if(exists.size()>0)
 		{
@@ -117,7 +117,7 @@ function bindMenuEvents(menu)
 		else
 		{
 			menu.hide('slow');
-			addWidget(1, plugin, action);
+			addWidget(1, plugin, action, true);
 			saveLayout();
 			$('.button#addWidget').show();
 		}
@@ -126,7 +126,7 @@ function bindMenuEvents(menu)
 
 function getWidgetInDom(domElem)
 {
-	var items = $('.items:not(.dummyItem) .parentDiv', domElem);
+	var items = $('.items:not(.dummyItem) .widgetDiv', domElem);
 	var widgets = new Array;
 	for(var i=0; i<items.size(); i++)
 	{
@@ -171,10 +171,22 @@ function generateLayout()
 	}
 }
 
-function addWidget(colNumber, plugin, action)
+function addWidget(colNumber, plugin, action, onTop)
 {
-	var item = '<div class="items"><div class="widget"><div plugin="'+plugin+'"'+' id="'+action+'" class="parentDiv"></div></div></div>';
-    $('.col#'+colNumber).append(item);
+	if(typeof onTop == "undefined")
+		onTop = false;
+	
+	var item = '<div class="items"><div class="widget"><div class="widgetLoading">Loading widget, please wait...</div><div plugin="'+plugin+'"'+' id="'+action+'" class="widgetDiv"></div></div></div>';
+    
+    if(onTop)
+    {
+   		$('.col#'+colNumber).prepend(item);
+    }
+    else
+    {
+   		$('.col#'+colNumber).append(item);
+   	}
+    
     loadItem($('.items #'+action).parents('.items'));
 	makeSortable();
 }
@@ -183,9 +195,9 @@ function loadItem(domElem)
 {	
 	var plugin;
 	var action;
-	var title;
-	//load every parentDiv with asynchronous ajax
-	$('.parentDiv', domElem).each(
+	var title = 'Widget not found';
+	//load every widgetDiv with asynchronous ajax
+	$('.widgetDiv', domElem).each(
 		function()
 		{
 			plugin = $(this).attr('plugin');
@@ -265,11 +277,21 @@ function onDeleteItem(ev)
 	var question = $('.dialog#confirm').clone();
 	$('#yes', question).click(function()
 	{
-		$(target).parents('.items').fadeOut(500, function(){$(this).remove()});
-		showNecessaryDummies();
-		saveLayout();
-		makeSortable();
-		$.unblockUI(); 
+		var item = $(target).parents('.items');
+		var plugin = $('.widgetDiv', item).attr('plugin');
+		var action = $('.widgetDiv', item).attr('id');
+		
+		//the item disapear slowly and is removed from the DOM
+		item.fadeOut(500, function()
+			{
+				$(this).remove(); showNecessaryDummies();
+				saveLayout();
+				makeSortable();
+				$.unblockUI();
+			});
+		
+		//show menu item
+		$('.menu#widgetChooser .menuItem[pluginToLoad='+plugin+'][actionToLoad='+action+']').show();
 	});
 	$('#no', question).click($.unblockUI);
 	$.blockUI(question, { width: '300px' }); 
@@ -328,8 +350,9 @@ function ajaxLoading(pluginId, actionId)
 	// When ajax replied, we replace the right div with the response
 	function onLoaded(response)
 	{
-		var content = $(response);
-		$('#'+actionId).html( $(content).html() );
+		var parDiv = $('.widgetDiv#'+actionId);
+		parDiv.siblings('.widgetLoading').hide();
+		parDiv.html( $(response)).show();
 	}
 	//prepare and launch the ajax request
 	var ajaxRequest = 
@@ -338,8 +361,8 @@ function ajaxLoading(pluginId, actionId)
 		url: 'index.php',
 		dataType: 'html',
 		async: true,
-		error: ajaxHandleError,		// Callback when the request fails
-		success: onLoaded,			// Callback when the request succeeds
+		error: ajaxHandleError,		// on request fails
+		success: onLoaded,			// on request succeeds
 		data: {	module: pluginId,
 				action: actionId,
 				idSite: piwik.idSite,
