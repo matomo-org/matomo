@@ -30,6 +30,7 @@ abstract class Piwik_ViewDataTable
 	protected $showFooter				= true;
 	
 	protected $currentControllerAction;
+	protected $currentControllerName;
 	
 	protected $actionToLoadTheSubTable = null;
 	
@@ -214,6 +215,8 @@ abstract class Piwik_ViewDataTable
 		{			
 			$uniqIdTable = 'subDataTable_' . $this->idSubtable;
 		}
+		
+		$uniqIdTable = $this->currentControllerName . $uniqIdTable;
 		return $uniqIdTable;
 	}
 	
