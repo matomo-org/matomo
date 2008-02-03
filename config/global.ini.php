@@ -25,9 +25,8 @@ default			= en
 
 [Plugins]
 Plugins[] 		= PluginsAdmin
-
-;Plugins[] 		= API
-;Plugins[] 		= Widgetize
+Plugins[] 		= API
+Plugins[] 		= Widgetize
 Plugins[] 		= Home
 Plugins[] 		= Actions
 Plugins[] 		= Dashboard
@@ -44,11 +43,13 @@ Plugins[] 		= ExamplePlugin
 Plugins[] 		= Login
 Plugins[] 		= UsersManager
 Plugins[] 		= SitesManager
-
 Plugins[] 		= Installation
 
-[Plugins_LogStats]
-Plugins[] 		= Provider
+[PluginsInstalled]
+PluginsInstalled[] = Login
+PluginsInstalled[] = UsersManager
+PluginsInstalled[] = SitesManager
+PluginsInstalled[] = Installation
 
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed

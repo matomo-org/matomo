@@ -84,9 +84,12 @@ class Piwik_LogStats
 
 	private function initProcess()
 	{
-		Piwik_PluginsManager::getInstance()->setPluginsToLoad( 
-				Piwik_LogStats_Config::getInstance()->Plugins_LogStats['Plugins']
-			);
+		$pluginsLogStats = Piwik_LogStats_Config::getInstance()->Plugins_LogStats;
+		if(is_array($pluginsLogStats)
+			&& count($pluginsLogStats) != 0)
+		{
+			Piwik_PluginsManager::getInstance()->setPluginsToLoad( $pluginsLogStats['Plugins_LogStats'] );
+		}
 		
 		$saveStats = Piwik_LogStats_Config::getInstance()->LogStats['record_statistics'];
 		

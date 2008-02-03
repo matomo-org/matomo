@@ -23,6 +23,7 @@ class Piwik_Provider extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'LogStatsPlugin' => true, // this plugin must be loaded during the stats logging
 		);
 		
 		return $info;
@@ -150,7 +151,6 @@ class Piwik_Provider extends Piwik_Plugin
 	}
 	
 }
-
 
 // when the plugin is loaded during LogStats these functions are not defined
 if(function_exists('Piwik_AddWidget'))

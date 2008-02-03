@@ -36,7 +36,16 @@
 				if($(this).find('ul li').size() == 0)
 				{
 					//console.log('clicked sub menu');
+					
+					// case we clicked the submenu
 					$.superfish.currentActiveMenu = $(this).parents('li');
+					
+					// case we clicked the main menu with NO submenu
+					if($.superfish.currentActiveMenu.size() == 0)
+					{
+						//console.log('clicked main menu with no submenu');
+						$.superfish.currentActiveMenu = $(this);
+					}
 				}
 				else
 				{
@@ -63,12 +72,12 @@
 				if (!$$.is('.'+bcClass) ) {
 					menu.sfTimer=setTimeout(function(){
 						
+						// if there is an active menu (a clicked menu)
 						if($.superfish.currentActiveMenu != 'init')
 						{
 							//console.log('showing '); console.log($.superfish.currentActiveMenu.html());
 							$.superfish.currentActiveMenu.siblings('.sfHover').removeClass('sfHover');
 							$.superfish.currentActiveMenu.showSuperfishUl().siblings().hideSuperfishUl();
-							
 						}
 						else
 						{
