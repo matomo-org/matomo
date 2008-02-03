@@ -1,0 +1,130 @@
+*{
+	font-family: Georgia;
+}
+
+/*Overriding some dataTable css for better dashboard display*/
+#dashboard .parentDiv {
+	width: 100%;
+}
+
+#dashboard .parentDivActions {
+	width: 100%;
+}
+
+#dashboard table.dataTable {
+	width: 100%;
+}	
+#dashboard #dataTableFeatures {
+	width: 100%;
+}
+/*--- end of dataTable.css modif*/
+
+.col {
+	float:left;
+	width: 33%;
+}
+
+.hover {
+	border: 2px dashed rgb(200,200,200);
+}
+
+.items {
+    background: white;
+}
+
+.widget {
+    border: 1px solid rgb(230,230,230);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.widgetHover {
+	border: 1px solid rgb(200, 200, 200);
+}
+
+.handle {
+	background: rgb(240,240,250);
+	width: 100%;
+	height: 20px;
+	cursor: move;
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+.widgetTitle {
+	width: 80%;
+	float: left;
+}
+
+.handleHover {
+	background: rgb(200,200,230);
+}
+
+.widgetDiv {
+	display: none;
+}
+
+.dummyItem {
+	width: 100%;
+	height: 1px;
+	display: block;
+}
+
+.button {
+	cursor: pointer;
+}
+
+#close.button {
+	float: right;
+	display: none;
+}
+
+.dialog {
+	display: none;
+}
+
+.menu {
+	display: none;    
+	border: 3px solid rgb(230,230,230);
+}
+
+.helper {
+	width: 33%;
+	opacity: .6;
+	filter : alpha(opacity=60); /*for IE*/
+}
+
+.dummyHandle {
+	display: none;
+}
+
+.menuItem {
+}
+
+.menuSelected {
+	border: 1px dotted;
+	background: rgb(200,200,230);
+}
+
+.widgetLoading {
+	cursor: wait;
+	
+}
+
+
+.subMenu1 {
+	float:left;
+	width: 15%;
+	cursor: pointer;
+}
+.subMenu2 {
+	float:left;
+	width: 40%;
+	cursor: pointer;
+}
+.subMenu3 {
+	float:left;
+	clear: both;
+}
