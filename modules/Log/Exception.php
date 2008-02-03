@@ -71,9 +71,11 @@ class Piwik_Log_Formatter_Exception_ScreenFormatter implements Zend_Log_Formatte
 		$errline = $event['errline'] ;
 		$backtrace = $event['backtrace'] ;
 		
-		$message = "<br> <b>Uncaught exception</b>: '". $errstr."'";
-		$message .= "<br><a onclick=\"if(document.getElementById('backtrace').style.display=='none') { document.getElementById('backtrace').style.display='inline' } else { document.getElementById('backtrace').style.display = 'none' }\" href='#'>More information</a>
-					<div style='display:inline' id='backtrace'>
+		$divId = 'div'.$errline.$errno.rand(1,2000);
+		
+		$message = "<b>Uncaught exception</b>: '". $errstr."'";
+		$message .= "<br><a onclick=\"if(document.getElementById('$divId').style.display=='none') { document.getElementById('$divId').style.display='inline' } else { document.getElementById('$divId').style.display = 'none' }\" href='#'>More information</a>
+					<div style='display:inline' id='$divId'>
 					<br>	In <b>$errfile</b> on line <b>$errline</b>
 					<br>	<small>Backtrace:<br><pre >";
 		$message .= str_replace("\n", "<br>", $backtrace);
@@ -82,7 +84,7 @@ class Piwik_Log_Formatter_Exception_ScreenFormatter implements Zend_Log_Formatte
 
 		// without javascript it displays the full error message
 		// but with javascript we hide the DIV and onclick we show it  
-		$message .= "<script>document.getElementById('backtrace').style.display='none';</script>";
+		$message .= "<script>document.getElementById('$divId').style.display='none';</script>";
 		
 		$message .= "<br>You can get help from <a href='http://piwik.org'>Piwik.org</a> (give us the full error message)";
 

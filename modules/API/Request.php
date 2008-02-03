@@ -118,7 +118,7 @@ class Piwik_API_Request
 			
 			if(!Piwik_PluginsManager::getInstance()->isPluginEnabled($module))
 			{
-				throw new Exception("The plugin '$module' is not enabled. You can activate the plugin on the <a href='?module=PluginsAdmin'>Plugins admin page</a>.");
+				throw new Exception_PluginDeactivated($module);
 			}
 			// call the method via the PublicAPI class
 			$api = Piwik_Api_Proxy::getInstance();

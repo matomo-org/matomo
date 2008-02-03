@@ -80,7 +80,7 @@ class Piwik_Config
 //				print("<pre>saving $section => ".var_export($arraySection,true)." <br>");
 				
 				$configFile .= "[$section]\n";
-				echo "array section"; var_dump($arraySection);
+				//echo "array section"; var_dump($arraySection);
 
 				foreach($arraySection as $name => $value)
 				{

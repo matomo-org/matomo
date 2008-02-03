@@ -54,7 +54,6 @@ session_start();
 
 require_once "FrontController.php";
 
-
 Piwik_FrontController::$enableDispatch = ENABLE_DISPATCH;
 
 $controller = Piwik_FrontController::getInstance();

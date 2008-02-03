@@ -60,12 +60,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	{		
 		$view = new Piwik_View('Dashboard/templates/index.tpl');
 		$this->setGeneralVariablesView($view);
-		if(isset($_SESSION['layout']))
-			$view->layout = $_SESSION['layout'];
+		$view->layout = $this->getLayout();
 		$view->availableWidgets = $this->getListWidgets();
 		echo $view->render();
 	}
-	
 	public function index()
 	{
 		//add the header for stand-alone mode
@@ -74,10 +72,87 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$this->embeddedIndex();
 	}
 	
+	/**
+	 * Records the layout in the DB for the given user.
+	 * Parameters must be checked BEFORE this function call
+	 *
+	 * @param string $login
+	 * @param int $idDashboard
+	 * @param string $layout
+	 */
+	protected function saveLayoutForUser( $login, $idDashboard, $layout)
+	{
+		$paramsBind = array($login, $idDashboard, $layout, $layout);
+		Piwik_Query('INSERT INTO '.Piwik::prefixTable('user_dashboard') .
+					' (login, iddashboard, layout)
+						VALUES (?,?,?)
+					ON DUPLICATE KEY UPDATE layout=?',
+					$paramsBind);
+	}
+	
+	/**
+	 * Returns the layout in the DB for the given user, or false if the layout has not been set yet.
+	 * Parameters must be checked BEFORE this function call
+	 *
+	 * @param string $login
+	 * @param int $idDashboard
+	 * @param string|false $layout
+	 */
+	protected function getLayoutForUser( $login, $idDashboard)
+	{
+		$paramsBind = array($login, $idDashboard);
+		$return = Piwik_Fetch('SELECT layout FROM '.Piwik::prefixTable('user_dashboard') .
+					' WHERE login = ? AND iddashboard = ?', $paramsBind);
+		if(count($return) == 0)
+		{
+			return false;
+		}
+		return $return[0]['layout'];
+	}
+	
+	/**
+	 * Saves the layout for the current user
+	 * anonymous = in the session
+	 * authenticated user = in the DB
+	 */
 	public function saveLayout()
 	{
 		$layout = Piwik_Common::getRequestVar('layout');
-		$_SESSION['layout'] = $layout;
+		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
+		$currentUser = Piwik::getCurrentUserLogin();
+
+		if($currentUser == 'anonymous')
+		{
+			$_SESSION['layout'][$idDashboard] = $layout;
+		}
+		else
+		{
+			$this->saveLayoutForUser($currentUser,$idDashboard, $layout);
+		}
+	}
+	
+	/**
+	 * Get the dashboard layout for the current user (anonymous or loggued user) 
+	 *
+	 * @return string $layout
+	 */
+	protected function getLayout()
+	{
+		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
+		$currentUser = Piwik::getCurrentUserLogin();
+
+		if($currentUser == 'anonymous')
+		{
+			if(!isset($_SESSION['layout'][$idDashboard]))
+			{
+				return false;
+			}
+			return $_SESSION['layout'][$idDashboard];
+		}
+		else
+		{
+			return $this->getLayoutForUser($currentUser,$idDashboard);
+		}		
 	}
 	
 	//TODO: copy paste of Home controller => should be refactored
