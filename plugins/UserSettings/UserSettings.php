@@ -30,11 +30,6 @@ class Piwik_UserSettings extends Piwik_Plugin
 		'opera' => 'Opera'
 	);
 	
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	public function getInformation()
 	{
 		$info = array(
@@ -46,14 +41,6 @@ class Piwik_UserSettings extends Piwik_Plugin
 		);
 		
 		return $info;
-	}
-	
-	function install()
-	{
-	}
-	
-	function uninstall()
-	{
 	}
 	
 	function getListHooksRegistered()
@@ -220,5 +207,11 @@ function Piwik_UserSettings_keepStrlenGreater($value)
 
 Piwik_AddWidget( 'UserSettings', 'getResolution', 'Screen resolutions');
 Piwik_AddWidget( 'UserSettings', 'getBrowser', 'Visitor browsers');
+Piwik_AddWidget( 'UserSettings', 'getPlugin', 'List of Plugins');
+Piwik_AddWidget( 'UserSettings', 'getWideScreen', ' Normal / Widescreen');
+Piwik_AddWidget( 'UserSettings', 'getBrowserType', 'Browsers by family');
+Piwik_AddWidget( 'UserSettings', 'getOS', 'Operating systems');
+Piwik_AddWidget( 'UserSettings', 'getConfiguration', 'Global visitors configuration');
+
 
 Piwik_AddMenu('Visitors', 'Settings', array('module' => 'UserSettings'));

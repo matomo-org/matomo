@@ -34,15 +34,6 @@ class Piwik_VisitTime extends Piwik_Plugin
 		return $info;
 	}
 	
-	function install()
-	{
-	}
-	
-	function uninstall()
-	{
-	}
-	
-	
 	function getListHooksRegistered()
 	{
 		$hooks = array(

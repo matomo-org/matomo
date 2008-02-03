@@ -324,7 +324,7 @@ function saveLayout()
 }	
 
 function ajaxLoading(pluginId, actionId)
-{		
+{
 	// When ajax replied, we replace the right div with the response
 	function onLoaded(response)
 	{

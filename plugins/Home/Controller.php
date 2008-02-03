@@ -24,19 +24,11 @@ class Piwik_Home_Controller extends Piwik_Controller
 	{
 		return 'redirectToIndex';
 	}
-	
 	function redirectToIndex()
 	{
 		header("Location:?module=Home&action=index&idSite=1&period=day&date=yesterday");
 	}
 	
-	function homepage()
-	{		
-		$view = new Piwik_View('Home/templates/homepage.tpl');
-		$view->link = '?module=Home&action=index&idSite=1&period=day&date=yesterday';
-		echo $view->render();
-	}
-
 	protected function setGeneralVariablesView($view)
 	{
 		// date
@@ -68,7 +60,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view->menuJson = json_encode($view->menu);
 		//var_dump($view->menuJson);
 	}
-	
+
 	public function index()
 	{
 		$view = new Piwik_View('Home/templates/index.tpl');
@@ -80,9 +72,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view->minDateYear = $minDate->toString('Y');
 		$view->minDateMonth = $minDate->toString('m');
 		$view->minDateDay = $minDate->toString('d');
-		
-
-	
+			
 		echo $view->render();		
 	}
 

@@ -57,6 +57,12 @@ ul.nav li:hover ul {
 .nav a:focus, .nav a:hover, .nav a:active {
 	background:#C9D5FF;
 }
+.nav li {
+	font-weight: normal;	
+}
+.nav li.sfHover {
+	font-weight: bold;	
+}
 /* LEVEL2 HOVER */
 .nav li li:hover,
 .nav li li.sfHover,

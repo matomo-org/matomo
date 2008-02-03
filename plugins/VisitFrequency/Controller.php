@@ -8,6 +8,12 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 		$view = new Piwik_View('VisitFrequency/index.tpl');
 		/* VisitFrequency */
 		$view->graphEvolutionVisitFrequency = $this->getLastVisitsReturningGraph( true );
+		$this->setSparklinesAndNumbers($view);
+		echo $view->render();
+	}
+	
+	protected function setSparklinesAndNumbers($view)
+	{
 		
 		$view->urlSparklineNbVisitsReturning 		= $this->getUrlSparkline( 'getLastVisitsReturningGraph');
 		$view->urlSparklineNbActionsReturning 		= $this->getUrlSparkline( 'getLastActionsReturningGraph');
@@ -23,14 +29,18 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 		$view->sumVisitLengthReturning = $dataTableFrequency->getColumn('sum_visit_length_returning');
 		$view->bounceCountReturning = $dataTableFrequency->getColumn('bounce_count_returning');
 		
+	}
+
+	function getSparklines()
+	{
+		$view = new Piwik_View('VisitFrequency/sparklines.tpl');
+		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();
 	}
-	
-	
 	/**
 	 * VisitFrequency
 	 */
-	function getSummary( )
+	protected function getSummary()
 	{		
 		$requestString = 'method='."VisitFrequency.getSummary".'&format=original';
 		$request = new Piwik_API_Request($requestString);

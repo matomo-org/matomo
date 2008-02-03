@@ -7,7 +7,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('Referers/index.tpl');
 		
-		$view->graphEvolutionReferers = $this->getLastDistinctKeywordsGraph(true);
+		$view->graphEvolutionReferers = $this->getLastDirectEntryGraph(true);
+		$view->nameGraphEvolutionReferers = 'getLastDirectEntryGraph'; // must be the function name used above
 		
 		$view->numberDistinctSearchEngines 	= $this->getNumberOfDistinctSearchEngines(true);
 		$view->numberDistinctKeywords 		= $this->getNumberOfDistinctKeywords(true);

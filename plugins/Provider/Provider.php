@@ -14,12 +14,7 @@
  * @package Piwik_Provider
  */
 class Piwik_Provider extends Piwik_Plugin
-{	
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
+{
 	public function getInformation()
 	{
 		$info = array(
@@ -28,49 +23,10 @@ class Piwik_Provider extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
-	//		'widgets' => 'providerWidget'
 		);
 		
 		return $info;
 	}
-	
-	
-	/*function __get($name)
-	{
-		if $name is Piwik_Widget
-		return new $name
-	}
-	function getWidgets
-	{
-		
-	}
-	
-	module=Provider & action=providerWidget
-	
-	class providerWidget extends widget
-	{
-		public title =
-		public menu = 'Provider>test'
-		public help = 'blabla'
-		public getHtml()
-		{
-			
-		}
-	}
-	
-	class widget
-	{
-		abstract function getHtml();
-		function __toString()
-		{
-			return this->getHtml()
-		}
-	}
-	function getKeywords()
-	{
-		w = new getKeywordsWidget
-		return w;
-	}*/
 	
 	function install()
 	{

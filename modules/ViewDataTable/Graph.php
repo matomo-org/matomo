@@ -145,7 +145,7 @@ class Piwik_ViewDataTable_Graph_ChartEvolution extends Piwik_ViewDataTable_Graph
 	{
 		$this->valueParameterViewDataTable = 'generateDataChartEvolution';
 		$this->width='100%';
-		$this->height=250;
+		$this->height=150;
 		
 	}
 	

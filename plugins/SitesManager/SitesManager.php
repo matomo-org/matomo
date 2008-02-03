@@ -15,11 +15,6 @@
  */
 class Piwik_SitesManager extends Piwik_Plugin
 {	
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	public function getInformation()
 	{
 		$info = array(

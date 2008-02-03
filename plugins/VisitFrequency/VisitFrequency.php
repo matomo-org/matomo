@@ -15,11 +15,6 @@
  */
 class Piwik_VisitFrequency extends Piwik_Plugin
 {	
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	public function getInformation()
 	{
 		$info = array(
@@ -31,14 +26,6 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		);
 		
 		return $info;
-	}
-	
-	function install()
-	{
-	}
-	
-	function uninstall()
-	{
 	}
 	
 	function getListHooksRegistered()
@@ -97,17 +84,13 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		{
 			$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
 		}
-		
 	}
 }
 
 
-Piwik_AddWidget( 'VisitFrequency', 'getSummary', 'Visitor frequency');
+Piwik_AddWidget( 'VisitFrequency', 'getSparklines', 'Frequency overview');
+Piwik_AddWidget( 'VisitFrequency', 'index', 'Overview with graph');
 Piwik_AddWidget( 'VisitFrequency', 'getLastVisitsReturningGraph', 'Graph returning visits');
-Piwik_AddWidget( 'VisitFrequency', 'getLastActionsReturningGraph', 'Graph returning actions');
-Piwik_AddWidget( 'VisitFrequency', 'getLastSumVisitsLengthReturningGraph', 'Graph duration returning visits');
-Piwik_AddWidget( 'VisitFrequency', 'getLastMaxActionsReturningGraph', 'Graph max actions for returning visits');
-Piwik_AddWidget( 'VisitFrequency', 'getLastBounceCountReturningGraph', 'Graph boucing returning visits');
 
 Piwik_AddMenu('General', 'Frequency', array('module' => 'VisitFrequency'));
 

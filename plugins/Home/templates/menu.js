@@ -6,14 +6,26 @@ function menu()
 
 // this should be in the menu prototype but I couldn't figure out 
 // how to use it as a callback in the jquery ajax request
-function menuSectionLoaded(content)
-{
-	$('#content').html( content );
-}
+
 
 //Prototype of the DataTable object
 menu.prototype =
 {	
+	menuSectionLoaded: function (content, urlLoaded)
+	{
+		if(urlLoaded == menu.prototype.lastUrlRequested)
+		{
+			$('#content').html( content ).show();
+			$('#loadingPiwik').hide();
+			menu.prototype.lastUrlRequested = null;
+			//console.log('display '+urlLoaded);
+		}
+		else
+		{
+			//console.log('loaded '+urlLoaded+' but expecting to display '+menu.prototype.lastUrlRequested);
+		}
+	},
+	
 	overMainLI: function ()
 	{
 		$(this).siblings().removeClass('sfHover');
@@ -25,6 +37,23 @@ menu.prototype =
 	
 	onClickLI: function ()
 	{
+		var self = this;
+		var urlAjax = $('a',this).attr('href');
+		function menuSectionLoaded(content)
+		{
+			menu.prototype.menuSectionLoaded(content, urlAjax);
+		}
+		
+		// showing loading...
+		$('#loadingPiwik').show();
+		$('#content').hide();
+		
+		if(menu.prototype.lastUrlRequested == urlAjax)
+		{
+			return false;
+		}
+		menu.prototype.lastUrlRequested = urlAjax;
+		
 		// we are in the SUB UL LI
 		if($(this).find('ul li').size() == 0)
 		{
@@ -37,12 +66,8 @@ menu.prototype =
 			$(this).find('>ul li:first').addClass('sfHover');
 		}
 		
-		var urlAjax = $('a',this).attr('href');
-	
-		var self = this;
-		
 		//prepare the ajax request
-		var ajaxRequest = 
+		ajaxRequest = 
 		{
 			type: 'GET',
 			url: urlAjax,
@@ -53,7 +78,7 @@ menu.prototype =
 			data: new Object
 		};
 		$.ajax(ajaxRequest);
-		
+	
 		return false;
 		
 	},

@@ -168,10 +168,12 @@ class Piwik_LogStats
 		{
 			case self::STATE_LOGGING_DISABLE:
 				printDebug("Logging disabled, display transparent logo");
+				$this->outputTransparentGif();
 			break;
 			
 			case self::STATE_NO_GET_VARIABLE:
 				printDebug("No get variables => piwik page");
+				echo "Piwik is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
 			break;
 			
 			
@@ -183,17 +185,21 @@ class Piwik_LogStats
 			case self::STATE_NOTHING_TO_NOTICE:
 			default:
 				printDebug("Nothing to notice => default behaviour");
-				if( !isset($GLOBALS['DEBUGPIWIK']) || !$GLOBALS['DEBUGPIWIK'] ) 
-				{
-					$trans_gif_64 = "R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw==";
-					header("Content-type: image/gif");
-					print(base64_decode($trans_gif_64));
-				}
+				$this->outputTransparentGif();
 			break;
 		}
 		printDebug("End of the page.");
 	}
 	
+	protected function outputTransparentGif()
+	{
+		if( !isset($GLOBALS['DEBUGPIWIK']) || !$GLOBALS['DEBUGPIWIK'] ) 
+		{
+			$trans_gif_64 = "R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw==";
+			header("Content-type: image/gif");
+			print(base64_decode($trans_gif_64));
+		}
+	}
 	protected function sendHeader($header)
 	{
 		header($header);

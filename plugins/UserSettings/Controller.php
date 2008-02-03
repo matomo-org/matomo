@@ -23,7 +23,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	/**
 	 * User settings
 	 */
-	function getStandardDataTableUserSettings( $currentControllerAction, 
+	protected function getStandardDataTableUserSettings( $currentControllerAction, 
 												$APItoCall )
 	{
 		$view = Piwik_ViewDataTable::factory();

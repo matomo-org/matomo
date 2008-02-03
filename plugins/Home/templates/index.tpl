@@ -111,7 +111,14 @@ h3 {
 	margin-top:2em;
 	color:#1D3256;
 }
-
+#loadingError {
+	font-weight:bold;
+	font-size: 1.1em;
+	color:#F88D22;
+	padding:0.5em;
+	margin-left:30%;
+	display:none;
+}
 #loadingPiwik {
 	font-weight:bold;
 	font-size: 1.1em;
@@ -264,7 +271,6 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 	</div>
 </div>
 
-<span id="loadingPiwik"><img src="themes/default/images/loading-blue.gif"> Loading data...</span>
 
 {include file="Home/templates/period_select.tpl"}
 
@@ -273,6 +279,8 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 
 <div style='clear:both'></div>
 
+<div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif"> Loading data...</div>
+<div id="loadingError">Oops&hellip; problem during the request, please try again.</div>
 <div id='content'>
 
 </div>
@@ -289,7 +297,7 @@ piwik_url = 'piwik.php';
 piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 //-->
 </script><object>
-<noscript><p>Web analytics<img src="piwik.php" style="border:0" alt="piwik"/></p>
+<noscript><p>Web analytics <img src="piwik.php" style="border:0" alt="piwik"/></p>
 </noscript></object></a>
 <!-- /Piwik -->
 {/if}

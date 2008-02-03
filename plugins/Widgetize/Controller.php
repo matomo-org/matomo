@@ -26,8 +26,8 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 	function testIframe()
 	{
 		$view = new Piwik_View('Widgetize/templates/test_iframe.tpl');
-		$view->url1 = '?module=Widgetize&action=iframe&moduleToWidgetize=Home&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
-		$view->url2 = '?module=Widgetize&action=iframe&moduleToWidgetize=Home&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=0';
+		$view->url1 = '?module=Widgetize&action=iframe&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
+		$view->url2 = '?module=Widgetize&action=iframe&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=0';
 		
 		echo $view->render();
 	}
@@ -36,17 +36,17 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 	function testJsInclude1()
 	{
 		$view = new Piwik_View('Widgetize/templates/test_jsinclude.tpl');
-		$view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
-		$view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=API&actionToWidgetize=index&method=ExamplePlugin.getGoldenRatio';
+		$view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
+		$view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=API&actionToWidgetize=index&method=ExamplePlugin.getGoldenRatio&format=original';
 		echo $view->render();
 	}
 	
 	function testJsInclude2()
 	{
 		$view = new Piwik_View('Widgetize/templates/test_jsinclude2.tpl');
-		$view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
-		$view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getCountry&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=0';
-		$view->url3 = '?module=Widgetize&action=js&moduleToWidgetize=Home&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=table&showDataTableFooter=0';
+		$view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
+		$view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=0';
+		$view->url3 = '?module=Widgetize&action=js&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=table&showDataTableFooter=0';
 		echo $view->render();
 	}
 	
@@ -55,9 +55,9 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 	function testClearspring()
 	{
 		$view = new Piwik_View('Widgetize/templates/test_widget.tpl');
-		$view->url1 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Home&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&filter_limit=5';
-		$view->url2 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Home&actionToWidgetize=getVisitInformationPerServerTime&idSite=1&period=day&date=yesterday&viewDataTable=graphVerticalBar&showDataTableFooter=0';
-		$view->url3 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Home&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=1&filter_limit=15&show_search=false';
+		$view->url1 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&filter_limit=5';
+		$view->url2 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=VisitTime&actionToWidgetize=getVisitInformationPerServerTime&idSite=1&period=day&date=yesterday&viewDataTable=graphVerticalBar&showDataTableFooter=0';
+		$view->url3 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=1&filter_limit=15&show_search=false';
 		
 		echo $view->render();
 	}
@@ -70,9 +70,16 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		$parameters = array ( $fetch = true );
 		$outputDataTable='';
 		
+		ob_start();
 		$outputDataTable = Piwik_FrontController::getInstance()->dispatch( $controllerName, $actionName, $parameters);
+		// if nothing returned we try to load something that was printed on the screen
+		if(empty($outputDataTable))
+		{
+			$outputDataTable = ob_get_contents();
+		}
+	    ob_end_clean();
 		
-		$view = new Piwik_View('Widgetize/templates/js.tpl');
+	    $view = new Piwik_View('Widgetize/templates/js.tpl');
 		$content = $outputDataTable;
 
 		$view->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();

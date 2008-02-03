@@ -1,6 +1,9 @@
 function ajaxHandleError()
 {
-	alert('Transfer error, please reload the page or try again later.');
+	$('#loadingError').show();
+	setTimeout( function(){ 
+		$('#loadingError').fadeOut('slow');
+		}, 2000);
 }
 
 function ajaxShowError( string )
@@ -13,11 +16,6 @@ function ajaxHideError()
 	$('#ajaxError').hide();
 }
 
-function ajaxToggleLoading()
-{
-	$('#ajaxLoading').toggle();
-}
-
 function ajaxHandleResponse(response)
 {
 	if(response.result == "error") 
@@ -28,7 +26,7 @@ function ajaxHandleResponse(response)
 	{
 		window.location.reload();
 	}
-	ajaxToggleLoading();
+	toggleAjaxLoading();
 }
 
 function toggleAjaxLoading()
