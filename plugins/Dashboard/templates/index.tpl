@@ -2,7 +2,7 @@
 	{* define some global constants for the following javascript includes *}
 	var piwik = new Object;
 	
-	{if isset($layout) }
+	{if !empty($layout) }
 		piwik.dashboardLayout = '{$layout}';
 	{else}
 		//Load default layout...

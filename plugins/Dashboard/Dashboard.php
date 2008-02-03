@@ -22,6 +22,24 @@ class Piwik_Dashboard extends Piwik_Plugin
 			'version' => '0.1',
 		);
 	}
+
+	public function install()
+	{
+		$sql = "CREATE TABLE ". Piwik::prefixTable('user_dashboard')." (
+				login VARCHAR( 20 ) NOT NULL ,
+				iddashboard INT NOT NULL ,
+				layout TINYTEXT NOT NULL,
+				PRIMARY KEY ( login , iddashboard )
+				) " ;
+		Piwik_Query($sql);
+	}
+	
+	public function uninstall()
+	{
+		$sql = "DROP TABLE ". Piwik::prefixTable('user_dashboard') ;
+		Piwik_Query($sql);		
+	}
+	
 }
 
 Piwik_AddMenu('Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex'));

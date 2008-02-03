@@ -101,7 +101,7 @@ class Piwik_FrontController
 		// check that the plugin is enabled
 		if( ! Piwik_PluginsManager::getInstance()->isPluginEnabled( $module )) 
 		{
-			throw new Exception("The plugin '$module' is not enabled. You can activate the plugin on the <a href='?module=PluginsAdmin'>Plugins admin page</a>.");
+			throw new Exception_PluginDeactivated($module);
 		}
 				
 		$controller = new $controllerClassName;
@@ -287,3 +287,11 @@ class Piwik_FrontController
 	}
 }
 
+// TODO organize exceptions
+class Exception_PluginDeactivated extends Exception
+{
+	function __construct($module)
+	{
+		parent::__construct("The plugin '$module' is not enabled. You can activate the plugin on the <a href='?module=PluginsAdmin'>Plugins admin page</a>.");
+	}
+}
