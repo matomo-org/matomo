@@ -34,6 +34,7 @@ var minDateDay = {$minDateDay};
 
 <link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
+<link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css">
 
 
 <style type="text/css">@import url(libs/jquery/jquery-calendar.css);</style>
