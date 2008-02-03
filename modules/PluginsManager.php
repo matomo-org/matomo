@@ -88,28 +88,78 @@ class Piwik_PluginsManager
 	public function deactivatePlugin($pluginName)
 	{
 		$plugins = $this->pluginsToLoad;
-		
+	
 		$key = array_search($pluginName,$plugins);
 		if($key !== false)
 		{
 			unset($plugins[$key]);
 			Zend_Registry::get('config')->Plugins = $plugins;
 		}
+		
+		$pluginsLogStats = Zend_Registry::get('config')->Plugins_LogStats->Plugins_LogStats;
+		if(!is_null($pluginsLogStats))
+		{
+			$pluginsLogStats = $pluginsLogStats->toArray();
+			$key = array_search($pluginName,$pluginsLogStats);
+			if($key !== false)
+			{
+				unset($pluginsLogStats[$key]);
+				Zend_Registry::get('config')->Plugins_LogStats = $pluginsLogStats;
+			}
+		}
 	}
 	public function activatePlugin($pluginName)
 	{
-		$existingPlugins = $this->readPluginsDirectory();
-		
-		if( array_search($pluginName,$existingPlugins) !== false)
+		$plugins = Zend_Registry::get('config')->Plugins->Plugins->toArray();
+		if(in_array($pluginName,$plugins))
 		{
-			$plugins = Zend_Registry::get('config')->Plugins->Plugins->toArray();
-			
-			$plugins[] = $pluginName;
-			
-			$plugins = array_unique($plugins);
-//			var_dump($plugins);exit;
-			Zend_Registry::get('config')->Plugins = $plugins;
+			throw new Exception("Plugin '$pluginName' already activated.");
 		}
+		
+		$existingPlugins = $this->readPluginsDirectory();
+		if( array_search($pluginName,$existingPlugins) === false)
+		{
+			throw new Exception("Unable to find the plugin '$pluginName'.");
+		}
+		
+		$plugin = $this->loadPlugin($pluginName);
+		
+		// is the plugin already installed or is it the first time we activate it?
+		$pluginsInstalled = Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled->toArray();
+		if(!in_array($pluginName,$pluginsInstalled))
+		{
+			$this->installPlugin($plugin);
+			$pluginsInstalled[] = $pluginName;
+			Zend_Registry::get('config')->PluginsInstalled = $pluginsInstalled;	
+		}
+		
+		$information = $plugin->getInformation();
+		
+		// if the plugin is to be loaded during the statistics logging
+		if(isset($information['LogStatsPlugin'])
+			&& $information['LogStatsPlugin'] === true)
+		{
+			$pluginsLogStats = Zend_Registry::get('config')->Plugins_LogStats->Plugins_LogStats;
+			if(is_null($pluginsLogStats))
+			{
+				$pluginsLogStats = array();
+			}
+			else
+			{
+				$pluginsLogStats = $pluginsLogStats->toArray();
+			}
+			$pluginsLogStats[] = $pluginName;
+
+			// the config file will automatically be saved with the new plugin
+			Zend_Registry::get('config')->Plugins_LogStats = $pluginsLogStats;
+			
+		}
+		
+		// we add the plugin to the list of activated plugins
+		$plugins[] = $pluginName;
+
+		// the config file will automatically be saved with the new plugin
+		Zend_Registry::get('config')->Plugins = $plugins;
 	}
 	
 	public function setPluginsToLoad( array $pluginsToLoad )
@@ -172,6 +222,7 @@ class Piwik_PluginsManager
 	 */
 	public function loadPlugins()
 	{
+		$this->pluginsToLoad = array_unique($this->pluginsToLoad);
 		foreach($this->pluginsToLoad as $pluginName)
 		{
 			$newPlugin = $this->loadPlugin($pluginName);
@@ -225,6 +276,15 @@ class Piwik_PluginsManager
 			throw new Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
 		}
 		return $newPlugin;
+	}
+
+	public function installPlugin( Piwik_Plugin $plugin )
+	{
+		try{
+			$plugin->install();
+		} catch(Exception $e) {
+			throw new Exception("There was a problem installing the plugin ". $plugin->getName() . " = " . $e->getMessage() );
+		}	
 	}
 	
 	public function installPlugins()

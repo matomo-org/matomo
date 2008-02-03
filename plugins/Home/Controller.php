@@ -34,7 +34,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		// date
 		$view->date = $this->strDate;
 		$oDate = new Piwik_Date($this->strDate);
-		$view->prettyDate = $oDate->get("l jS F Y");
+		$view->prettyDate = $oDate->get("l j\<\s\u\p\>S\<\/\s\u\p\> F Y");
 		
 		// period
 		$currentPeriod = Piwik_Common::getRequestVar('period');

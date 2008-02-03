@@ -266,11 +266,9 @@ class Piwik_FrontController
 				Piwik::prefixTable('log_profiling'),
 		);
 		
-//		Piwik::dropTables($doNotDrop);
-
-		Piwik::createTables();
-		
-		Piwik_PluginsManager::getInstance()->installPlugins();
+		//Piwik::dropTables($doNotDrop);
+		//Piwik::createTables();
+		//Piwik_PluginsManager::getInstance()->installPlugins();
 		
 		// Setup the auth object
 		Piwik_PostEvent('FrontController.authSetCredentials');
@@ -279,7 +277,7 @@ class Piwik_FrontController
 			$authAdapter = Zend_Registry::get('auth');
 		}
 		catch(Exception $e){
-			throw new Exception("Object 'auth' cannot be found in the Registry. Maybe the Login plugin is not available?");
+			throw new Exception("Object 'auth' cannot be found in the Registry. Maybe the Login plugin is not enabled?");
 		}
 		
 		// Perform the authentication query, saving the result

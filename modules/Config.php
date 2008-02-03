@@ -80,18 +80,31 @@ class Piwik_Config
 //				print("<pre>saving $section => ".var_export($arraySection,true)." <br>");
 				
 				$configFile .= "[$section]\n";
+				echo "array section"; var_dump($arraySection);
+
 				foreach($arraySection as $name => $value)
 				{
-					// kind of hack 
-					// if the value is a simple array
 					if(is_numeric($name))
 					{
-						$name = $section."[]";
+						$name = $section;
+						$value = array($value);
 					}
-					$configFile .= "$name = $value\n";
+					
+					if(is_array($value))
+					{
+						foreach($value as $currentValue)
+						{
+							$configFile .= $name."[] = $currentValue\n";
+						}
+					}
+					else
+					{
+						$configFile .= $name." = $value\n";						
+					}
 				}
 				$configFile .= "\n";
 			}
+
 			chdir($this->correctCwd);
 			file_put_contents($this->getDefaultUserConfigPath(), $configFile );
 			
