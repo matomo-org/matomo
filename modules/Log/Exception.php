@@ -9,6 +9,7 @@
  * @package Piwik_Log
  * @subpackage Piwik_Log_Exception
  */
+require_once "Log.php";
 
 /**
  * Class used to log an exception event.
