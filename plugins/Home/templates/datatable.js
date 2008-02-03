@@ -20,7 +20,7 @@ dataTable.prototype =
 	{
 		if(typeof domElem == "undefined")
 		{
-			domElem = $('.parentDiv#'+workingDivId);
+			domElem = $('#'+workingDivId);
 		}
 		
 		this.workingDivId = workingDivId;
@@ -173,7 +173,7 @@ dataTable.prototype =
 			
 			//we force the initialisation of subdatatables
 			dataTableSel.html( $(content).html() );
-			dataTables[idToReplace].init( idToReplace, $('#'+idToReplace) );
+			//dataTables[idToReplace].init( idToReplace, $('#'+idToReplace) );
 		}
 		else
 		{
@@ -234,7 +234,7 @@ dataTable.prototype =
 			var imageSortHeight = 16;
 			// we change the style of the column currently used as sort column
 			// adding an image and the class columnSorted to the TD
-			$(".sortable[@id='"+self.param.filter_sort_column+"']", domElem)
+			$(".sortable#"+self.param.filter_sort_column, domElem)
 				.addClass('columnSorted')
 				.append('<img width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+ self.param.filter_sort_order+'.png" />');
 		}
@@ -660,7 +660,7 @@ actionDataTable.prototype =
 	{
 		if(typeof domElem == "undefined")
 		{
-			domElem = $('.parentDivActions#'+workingDivId);
+			domElem = $('#'+workingDivId);
 		}
 		this.workingDivId = workingDivId;
 		this.bindEvent(domElem);

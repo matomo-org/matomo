@@ -37,8 +37,13 @@
 
 /*Overriding some dataTable css for better dashboard display*/
 .parentDiv {
-	width: 100%
+	width: 100%;
 }
+
+.parentDivActions {
+	width: 100%;
+}
+
 table.dataTable {
 	width: 100%;
 }	
@@ -90,6 +95,10 @@ table.dataTable {
 	background: rgb(200,200,230);
 }
 
+.widgetDiv {
+	display: none;
+}
+
 .dummyItem {
 	width: 100%;
 	height: 1px;
@@ -110,7 +119,8 @@ table.dataTable {
 }
 
 .menu {
-	display: none;
+	display: none;    
+	border: 3px solid rgb(230,230,230);
 }
 
 .helper {
@@ -127,8 +137,15 @@ table.dataTable {
 }
 
 .menuSelected {
-	border: 1px dashed;
+	border: 1px dotted;
+	background: rgb(200,200,230);
 }
+
+.widgetLoading {
+	cursor: wait;
+	
+}
+
 
 .subMenu1 {
 	float:left;
