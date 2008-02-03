@@ -1,6 +1,6 @@
 <script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
 
-	<a name="evolutionGraph" graphId="getLastDistinctKeywordsGraph"></a>
+	<a name="evolutionGraph" graphId="{$nameGraphEvolutionReferers}"></a>
 	<h3>Evolution over the period</h3>
 	{$graphEvolutionReferers}
 	

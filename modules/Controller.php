@@ -49,8 +49,6 @@ abstract class Piwik_Controller
 		echo $rendered;
 	}
 	
-
-	
 	protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
 	{
 		require_once "ViewDataTable/Graph.php";

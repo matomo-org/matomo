@@ -49,6 +49,12 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		
 		$view->graphEvolutionVisitsSummary = $this->getLastVisitsGraph( true );
 		
+		$this->setSparklinesAndNumbers($view);		
+		echo $view->render();
+	}
+	
+	protected function setSparklinesAndNumbers($view)
+	{
 		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getLastVisitsGraph');
 		$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getLastUniqueVisitorsGraph');
 		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getLastActionsGraph');
@@ -64,10 +70,14 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$view->bounceCount = $dataTableVisit->getColumn('bounce_count');
 		$view->maxActions = $dataTableVisit->getColumn('max_actions');
 		
-		echo $view->render();
 	}
 	
-	
+	function getSparklines()
+	{
+		$view = new Piwik_View('VisitsSummary/sparklines.tpl');
+		$this->setSparklinesAndNumbers($view);		
+		echo $view->render();
+	}
 	/**
 	 * General visit
 	 */
@@ -120,6 +130,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 }		
 
 Piwik_AddWidget( 'VisitsSummary', 'getLastVisitsGraph', 'Last visits graph');
+Piwik_AddWidget( 'VisitsSummary', 'getSparklines', 'Visits overview');
 Piwik_AddWidget( 'VisitsSummary', 'getLastUniqueVisitorsGraph', 'Last unique visitors graph');
 
 Piwik_AddMenu('General', 'Overview', array('module' => 'VisitsSummary'), true);

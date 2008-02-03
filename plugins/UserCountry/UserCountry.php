@@ -15,10 +15,6 @@
  */
 class Piwik_UserCountry extends Piwik_Plugin
 {	
-	public function __construct()
-	{
-		parent::__construct();
-	}
 
 	public function getInformation()
 	{
@@ -34,16 +30,6 @@ class Piwik_UserCountry extends Piwik_Plugin
 		return $info;
 	}
 	
-	function install()
-	{
-		// add column hostname / hostname ext in the visit table
-	}
-	
-	function uninstall()
-	{
-		// add column hostname / hostname ext in the visit table
-	}
-	
 	function getListHooksRegistered()
 	{
 		$hooks = array(
@@ -51,8 +37,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archiveMonth',
 		);
 		return $hooks;
-	}
-	
+	}	
 	
 	function archiveMonth( $notification )
 	{

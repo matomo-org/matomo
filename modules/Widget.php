@@ -10,9 +10,9 @@ function Piwik_GetListWidgets()
 	return $widgets;
 }
 
-function Piwik_AddWidget( $pluginName, $action, $widgetTitle )
+function Piwik_AddWidget( $pluginName, $controllerMethodToCall, $widgetTitle )
 {
 	global $widgets;	
 	// get the plugin name from controller
-	$widgets[$pluginName][] = array( $widgetTitle, $action );
+	$widgets[$pluginName][] = array( $widgetTitle, $controllerMethodToCall );
 }

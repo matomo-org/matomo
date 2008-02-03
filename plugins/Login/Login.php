@@ -18,11 +18,6 @@ require "Cookie.php";
  */
 class Piwik_Login extends Piwik_Plugin
 {	
-	public function __construct()
-	{
-		parent::__construct();
-	}
-	
 	public function getInformation()
 	{
 		$info = array(
@@ -36,14 +31,6 @@ class Piwik_Login extends Piwik_Plugin
 		);
 		
 		return $info;
-	}
-	
-	function install()
-	{
-	}
-	
-	function uninstall()
-	{
 	}
 	
 	function getListHooksRegistered()

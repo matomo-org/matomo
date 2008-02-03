@@ -19,13 +19,7 @@ require_once "Installation/Controller.php";
 class Piwik_Installation extends Piwik_Plugin
 {	
 	protected $installationControllerName = 'Piwik_Installation_Controller';
-	
-	public function __construct()
-	{
-		parent::__construct();
 		
-	}
-	
 	public function getInformation()
 	{
 		$info = array(
@@ -82,4 +76,3 @@ class Piwik_Installation extends Piwik_Plugin
 		exit;
 	}	
 }
-

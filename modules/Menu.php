@@ -22,26 +22,27 @@ function Piwik_GetMenu()
 		else
 		{
 			uksort($element, 'Piwik_sortSubMenu');
-		}	
+			$element['_url'] = current($element);
+		}
+		
 	}
 	return $mainMenu;
 }
 
 
-function Piwik_AddMenu( $mainMenuName, $subMenuName, $url, $setUrlMainMenu = false )
+function Piwik_AddMenu( $mainMenuName, $subMenuName, $url )
 {
 	global $mainMenu;
 	
+	if(!isset($mainMenu[$mainMenuName]))
+	{
+		$mainMenu[$mainMenuName]['_url'] = $url;
+	}
 	if(!empty($subMenuName))
 	{
 		$mainMenu[$mainMenuName][$subMenuName] = $url;
 	}
 	
-	if($setUrlMainMenu 
-		|| !isset($mainMenu[$mainMenuName]['_url']))
-	{
-		$mainMenu[$mainMenuName]['_url'] = $url;
-	}
 }
 
 function Piwik_sortSubMenu( $sub1, $sub2 )

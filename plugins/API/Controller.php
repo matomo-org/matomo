@@ -25,7 +25,7 @@ class Piwik_API_Controller extends Piwik_Controller
 		echo $request->process();
 	}
 	
-	function init()
+	protected function init()
 	{
 		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
 		

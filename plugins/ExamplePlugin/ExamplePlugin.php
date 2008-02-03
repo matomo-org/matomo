@@ -24,3 +24,22 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 		);
 	}
 }
+
+class Piwik_ExamplePlugin_Controller extends Piwik_Controller
+{	
+	function index()
+	{
+		// invoke view
+		// render view
+		// do stuff...
+	}
+	function exampleWidget()
+	{
+		echo "Hello world! <br> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
+		<br>Widgets can include graphs, tables, flash, text, images, etc.
+		<br>It's very easy to create a new plugin and widgets in Piwik. Have a look at this example file (/plugins/ExamplePlugin/ExamplePlugin.php).
+		<br><i>Happy coding!</i>";
+	}
+}
+
+Piwik_AddWidget('ExamplePlugin', 'exampleWidget', 'Example widget');

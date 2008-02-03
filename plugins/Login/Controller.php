@@ -26,7 +26,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	}
 	
 	function login( $messageNoAccess = null )
-	{		
+	{
 		$form = new Piwik_Login_Form;
 		$AccessErrorString = false;
 		

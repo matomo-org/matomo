@@ -14,12 +14,7 @@
  * @package Piwik_Referers
  */
 class Piwik_Referers extends Piwik_Plugin
-{
-	public function __construct()
-	{
-		parent::__construct();
-	}
-	
+{	
 	public function setCategoryDelimiter($delimiter)
 	{
 		self::$actionCategoryDelimiter = $delimiter;
@@ -39,15 +34,7 @@ class Piwik_Referers extends Piwik_Plugin
 		
 		return $info;
 	}
-	
-	function install()
-	{
-	}
-	
-	function uninstall()
-	{
-	}
-	
+		
 	function getListHooksRegistered()
 	{
 		$hooks = array(
@@ -317,8 +304,12 @@ class Piwik_Referers extends Piwik_Plugin
 
 
 
-Piwik_AddWidget( 'Referers', 'getKeywords', 'Keywords');
-Piwik_AddWidget( 'Referers', 'getLastDistinctWebsitesGraph', 'Distinct websites graph');
+Piwik_AddWidget( 'Referers', 'getKeywords', 'List of Keywords');
+Piwik_AddWidget( 'Referers', 'getPartners', 'List of Partners');
+Piwik_AddWidget( 'Referers', 'getCampaigns', 'List of Campaigns');
+Piwik_AddWidget( 'Referers', 'getWebsites', 'List of external Websites');
+Piwik_AddWidget( 'Referers', 'getSearchEngines', 'Best search engines');
+Piwik_AddWidget( 'Referers', 'getRefererType', 'Overview');
 
 Piwik_AddMenu('Referers', 'Evolution', array('module' => 'Referers'));
 Piwik_AddMenu('Referers', 'Search engines & keywords', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));

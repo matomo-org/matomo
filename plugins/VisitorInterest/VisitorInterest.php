@@ -40,11 +40,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			array(15, 20),
 			array(20)
 		);
-		
-	public function __construct()
-	{
-		parent::__construct();
-	}
 
 	public function getInformation()
 	{
@@ -58,16 +53,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		
 		return $info;
 	}
-	
-	function install()
-	{
-	}
-	
-	function uninstall()
-	{
-	}
-	
-	
 	function getListHooksRegistered()
 	{
 		$hooks = array(
