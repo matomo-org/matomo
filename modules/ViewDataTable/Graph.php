@@ -17,7 +17,8 @@
 abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 {	
 	protected $width = '100%'; 
-	protected $height = 250; 
+	protected $height = 250;
+	protected $graphType = 'standard';
 	
 	
 	function init($currentControllerName,
@@ -60,6 +61,7 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		$this->id = $this->getUniqIdTable();
 		$view->id = $this->id;
 		$view->method = $this->method;
+		$view->graphType = $this->graphType;
 
 		$this->parametersToModify['action'] = $this->currentControllerAction;
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($this->parametersToModify);
@@ -93,9 +95,6 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		
 		$obj_id = $this->id . "Chart";
 	    $div_name = $this->id . "FlashContent";
-	    // I think we may use swfobject for all browsers, not JUST for IE...
-	    //
-	    //$ie = strstr(getenv('HTTP_USER_AGENT'), 'MSIE');
 	    	   
 	    $return = ''; 
 	    if( $use_swfobject )
@@ -128,8 +127,6 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 			$return .= '</noscript>';
 		}
 		
-		// doesn't work embed because needs to be in BODY
-//		$return = '<script type="text/javascript" src="libs/swfobject/swfobject.js"></script> ' . $return;
 		return $return;
 	}
 }
@@ -146,7 +143,8 @@ class Piwik_ViewDataTable_Graph_ChartEvolution extends Piwik_ViewDataTable_Graph
 		$this->valueParameterViewDataTable = 'generateDataChartEvolution';
 		$this->width='100%';
 		$this->height=150;
-		
+		// used for the CSS class to apply to the DIV containing the graph
+		$this->graphType = 'evolution';		
 	}
 	
 	function init($currentControllerName,

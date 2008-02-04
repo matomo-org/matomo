@@ -10,7 +10,6 @@
 <script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
 
 <script type="text/javascript" src="plugins/Home/templates/datatable.js"></script>
-<link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
 
 
