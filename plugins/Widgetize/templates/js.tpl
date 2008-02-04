@@ -8,7 +8,6 @@ document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}plugins/Home/te
 
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/ui.mouse.js"><\/scr'+'ipt>');
 
-document.write('<link rel="stylesheet" href="{$piwikUrl}libs/jquery/tooltip/jquery.tooltip.css">');
 document.write('<link rel="stylesheet" href="{$piwikUrl}plugins/Home/templates/datatable.css">');
 
 var content = '{$content|escape:'javascript'}';

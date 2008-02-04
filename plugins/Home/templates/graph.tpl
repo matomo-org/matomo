@@ -1,4 +1,4 @@
-<div id="{$id}" class="parentDiv">
+<div id="{$id}" class="{if $graphType=='evolution'}parentDivGraphEvolution{else}parentDivGraph{/if}">
 {$jsInvocationTag}
 <br/><br/>
 {if $showFooter}

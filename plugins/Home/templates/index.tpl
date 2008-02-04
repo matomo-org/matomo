@@ -32,7 +32,6 @@ var minDateDay = {$minDateDay};
 
 <script type="text/javascript" src="plugins/Home/templates/date.js"></script>
 
-<link rel="stylesheet" href="libs/jquery/tooltip/jquery.tooltip.css">
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
 <link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css">
 
