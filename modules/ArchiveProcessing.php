@@ -374,6 +374,11 @@ abstract class Piwik_ArchiveProcessing
 	/**
 	 * Returns the idArchive if the archive is available in the database.
 	 * Returns false if the archive needs to be computed.
+	 * 
+	 * An archive is available if
+	 * - for today, the archive was computed less than maxTimestampArchive seconds ago
+	 * - for any other day, if the archive was computed once this day was finished
+	 * - for other periods, if the archive was computed once the period was finished
 	 *
 	 * @return int|false
 	 */
@@ -391,6 +396,10 @@ abstract class Piwik_ArchiveProcessing
 			$timeStampWhere = " AND UNIX_TIMESTAMP(ts_archived) >= ? ";
 			$bindSQL[] = $this->maxTimestampArchive;
 		}
+		else
+		{
+			$timeStampWhere = " AND UNIX_TIMESTAMP(ts_archived) > UNIX_TIMESTAMP(CONCAT(date2, ' 23:59:59')) ";
+		}
 			
 		$sqlQuery = "	SELECT idarchive, value, name, UNIX_TIMESTAMP(date1) as timestamp
 						FROM ".$this->tableArchiveNumeric."
@@ -407,8 +416,9 @@ abstract class Piwik_ArchiveProcessing
 		// the archive exists in the table
 		if(!empty($results))
 		{
-			echo $this->strDateStart . " " . $this->strDateEnd;
-			var_dump($results);
+//			echo $this->strDateStart . " " . $this->strDateEnd;
+//			var_dump($results);
+			
 			$idarchive = false;
 			// let's look for the more recent idarchive
 			foreach($results as $result)
@@ -440,6 +450,7 @@ abstract class Piwik_ArchiveProcessing
 		}
 		else
 		{
+//			echo "no archive for ".$this->strDateStart . " " . $this->strDateEnd; exit;
 			return false;
 		}
 	}

@@ -26,6 +26,9 @@ si je regardes hier en day je vois une centaine de page vues, si je regardes hie
 http://piwik.org/demo/?module=Home&action=index&idSite=1&period=day&date=yesterday
 http://piwik.org/demo/?module=Home&action=index&idSite=1&period=week&date=yesterday
 
+
+make sure ALL TIMESTAMP are using mysql TIMESTAMP and not the php server timestamp!!!
+
 edit the hack get(nb_visitors) and instead use a filter rename column etc.
 
 hide export in datatable footer (eg pie chart for plugins)
