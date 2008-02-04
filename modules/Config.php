@@ -107,7 +107,6 @@ class Piwik_Config
 
 			chdir($this->correctCwd);
 			file_put_contents($this->getDefaultUserConfigPath(), $configFile );
-			
 		}
 	}
 	

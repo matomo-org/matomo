@@ -382,4 +382,8 @@ function Piwik_Fetch( $sqlQuery, $parameters = array())
 {
 	return Zend_Registry::get('db')->fetchAll( $sqlQuery, $parameters );
 }
+function Piwik_FetchOne( $sqlQuery, $parameters = array())
+{
+	return Zend_Registry::get('db')->fetchOne( $sqlQuery, $parameters );
+}
 
