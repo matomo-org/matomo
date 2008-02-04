@@ -407,7 +407,8 @@ abstract class Piwik_ArchiveProcessing
 		// the archive exists in the table
 		if(!empty($results))
 		{
-
+			var_dump($results);
+			$idarchive = false;
 			// let's look for the more recent idarchive
 			foreach($results as $result)
 			{
@@ -417,6 +418,11 @@ abstract class Piwik_ArchiveProcessing
 					$this->timestampDateStart = $result['timestamp'];
 					break;
 				}
+			}
+			
+			if($idarchive === false)
+			{
+				throw new Exception("Error during the archiving process: ". var_export($results,true));
 			}
 			
 			// let's look for the nb_visits result for this more recent archive
