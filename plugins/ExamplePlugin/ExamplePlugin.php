@@ -77,10 +77,14 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$view->feedburnerFeedName = $feedburnerFeedName;
 		echo $view->render();
 	}
+	
 	function saveFeedburnerName()
 	{
-		Piwik_Query('UPDATE '.Piwik::prefixTable('site').' SET feedburnerName = ?',
+		if(Piwik::getCurrentUserLogin() != 'anonymous')
+		{
+			Piwik_Query('UPDATE '.Piwik::prefixTable('site').' SET feedburnerName = ?',
 							Piwik_Common::getRequestVar('name','','string'));
+		}
 	}
 }
 
