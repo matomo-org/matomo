@@ -123,6 +123,19 @@ class Piwik_FrontController
 		}
 	}
 	
+	function fetchDispatch( $controllerName = null, $actionName = null, $parameters = null)
+	{
+		ob_start();
+		$output = $this->dispatch( $controllerName, $actionName, $parameters);
+		// if nothing returned we try to load something that was printed on the screen
+		if(empty($output))
+		{
+			$output = ob_get_contents();
+		}
+	    ob_end_clean();
+	    return $output;
+	}
+	
 	function end()
 	{
 		try {

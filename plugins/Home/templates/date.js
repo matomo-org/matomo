@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	$("#periodString").hide();
 	$("#otherPeriods").hide();
 	$("#calendar").hide();
 	$("#periodString").show();

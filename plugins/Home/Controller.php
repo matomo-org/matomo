@@ -61,8 +61,20 @@ class Piwik_Home_Controller extends Piwik_Controller
 		//var_dump($view->menuJson);
 	}
 
-	public function index()
+	public function showInContext()
 	{
+		$controllerName = Piwik_Common::getRequestVar('moduleToLoad');
+		$actionName = Piwik_Common::getRequestVar('actionToLoad', 'index');
+				
+		$view = $this->getDefaultIndexView();
+		$view->basicHtmlView = true;
+		$view->content = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName );
+		echo $view->render();	
+	}
+	
+	protected function getDefaultIndexView()
+	{
+		
 		$view = new Piwik_View('Home/templates/index.tpl');
 		$this->setGeneralVariablesView($view);
 		
@@ -72,7 +84,14 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view->minDateYear = $minDate->toString('Y');
 		$view->minDateMonth = $minDate->toString('m');
 		$view->minDateDay = $minDate->toString('d');
-			
+		
+		$view->basicHtmlView = false;
+		$view->content = '';
+		return $view;
+	}
+	public function index()
+	{
+		$view = $this->getDefaultIndexView();
 		echo $view->render();		
 	}
 

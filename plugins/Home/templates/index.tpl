@@ -229,6 +229,12 @@ tr td.label img.plusMinus {
 #loggued form {
 	display:inline;
 }
+
+
+#javascriptDisable, #javascriptDisable a {
+	font-weight:bold;
+	color:#F88D22;
+}
 </style>
 {/literal}
 
@@ -245,6 +251,7 @@ function findSWFGraph(name) {
 
 </script>
 {/literal}
+
 
 <span id="loggued">
 <form action="{url idSite=null}" method="GET" id="siteSelection">
@@ -275,6 +282,13 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 </div>
 
 
+<noscript>
+<span id="javascriptDisable">
+JavaScript must be enabled in order for you to use Piwik in standard view.<br> 
+However, it seems JavaScript is either disabled or not supported by your browser.<br> 
+To use standard view, enable JavaScript by changing your browser options, then <a href=''>try again</a>.<br>
+</span>
+</noscript>
 {include file="Home/templates/period_select.tpl"}
 
 <br><br>
@@ -282,10 +296,10 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 
 <div style='clear:both'></div>
 
-<div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif"> Loading data...</div>
+<div id="loadingPiwik" {if $basicHtmlView}style="display:none"{/if}><img src="themes/default/images/loading-blue.gif"> Loading data...</div>
 <div id="loadingError">Oops&hellip; problem during the request, please try again.</div>
 <div id='content'>
-
+{if $content}{$content}{/if}
 </div>
 
 {if ereg('http://127.0.0.1|http://localhost|http://piwik.org', $url)}

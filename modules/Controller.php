@@ -77,7 +77,8 @@ abstract class Piwik_Controller
 	{
 		$params = $this->getGraphParamsModified( 
 					array(	'viewDataTable' => 'sparkline', 
-							'action' => $action)
+							'action' => $action,
+							'module' => $this->pluginName)
 				);
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
 		return $url;
