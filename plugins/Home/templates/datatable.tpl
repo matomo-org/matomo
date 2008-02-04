@@ -29,9 +29,10 @@
 			{/foreach}
 			</tbody>
 			</table>
-			{if $showFooter}
-				{include file="Home/templates/datatable_footer.tpl"}
-			{/if}
+		{/if}
+		
+		{if $showFooter}
+			{include file="Home/templates/datatable_footer.tpl"}
 		{/if}
 		{include file="Home/templates/datatable_js.tpl"}
 	{/if}
