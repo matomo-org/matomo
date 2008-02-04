@@ -11,12 +11,6 @@
 	width: 100%;
 }
 
-#dashboard table.dataTable {
-	width: 100%;
-}	
-#dashboard #dataTableFeatures {
-	width: 100%;
-}
 /*--- end of dataTable.css modif*/
 
 .col {
@@ -38,6 +32,7 @@
     margin-bottom: 10px;
     margin-right: 5px;
     margin-left: 5px;
+    overflow: hidden;
 }
 
 .widgetHover {
@@ -47,15 +42,15 @@
 .handle {
 	background: rgb(240,240,250);
 	width: 100%;
-	height: 20px;
 	cursor: move;
 	font-size: 10pt;
 	font-weight: bold;
+	padding-bottom: 4px;
 }
 
 .widgetTitle {
-	width: 80%;
-	float: left;
+	font-size: 14pt;
+	margin-left: 25px;
 }
 
 .handleHover {
@@ -79,6 +74,7 @@
 #close.button {
 	float: right;
 	display: none;
+	margin: 5px;
 }
 
 .dialog {
@@ -113,15 +109,14 @@
 	
 }
 
-
 .subMenu1 {
 	float:left;
-	width: 15%;
+	width: 20%;
 	cursor: pointer;
 }
 .subMenu2 {
 	float:left;
-	width: 40%;
+	width: 30%;
 	cursor: pointer;
 }
 .subMenu3 {

@@ -5,7 +5,7 @@ $(document).ready( function(){
 	$("a[name='evolutionGraph']").each(
 		function()
 		{
-			//try to find the graph			
+			//try to find the graph
 			var graph = $(this);
 		
 			if(graph && graph.size() > 0)

@@ -10,7 +10,7 @@
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column}
-				<th class="sortable" id="{$column.id}">{$column.name}</th>
+				<th class="sortable" id="{$column.id}"><div id="thDIV">{$column.name}</div></th>
 			{/foreach}
 			</tr>
 			</thead>

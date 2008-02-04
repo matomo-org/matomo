@@ -1,11 +1,11 @@
 /* container of each table */
 .parentDiv {
-	
+	width:500px;
 }
 
 /* main data table */
 table.dataTable {
-	width: 400px;
+	width: 100%;
 	padding: 0;
 	border-spacing:0;
 	margin: 0;
@@ -36,9 +36,10 @@ table.dataTable th {
 }
 table.dataTable th.columnSorted {
 	font-weight:bold;
+	padding-right:20px;
+	position:relative;
 }
-
-
+	
 table.dataTable td.label {
 	width:80%;
 }
@@ -46,7 +47,7 @@ table.dataTable td.label {
 table.dataTable td {
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
-	padding: 6px 6px 6px 12px;
+	padding: 5px 5px 5px 12px;
 	background: #fff;
 }
 
@@ -87,10 +88,11 @@ table.dataTable td #urlLink {
 table.subDataTable {
 	background:#FFFFFF;
 	color: #678197;
-	width:80%;
+	width:100%;
 	border-top:1px solid #e5eff8;
 	border-right:1px solid #e5eff8;
-	margin:1em auto;
+	margin: 0px;
+	padding: 0px;
 	border-collapse:collapse;
 }
 
@@ -130,10 +132,22 @@ table.subDataTable th {
 table.subDataTable thead th {
 	background:#f4f9fe;
 	text-align:center;
-	color:#66a3d3
+	color:#66a3d3;
 }
 
 /* misc SPAN and DIV */
+
+table thead div {
+	position: relative;
+	margin-right: 10px;
+}
+
+#sortIcon {
+	position: absolute;
+	right: -15px;
+	margin: 0px;
+}
+
 #dataTablePages {
 	color:#E1E1E1;
 	font-weight:bold;
@@ -159,25 +173,32 @@ table.subDataTable thead th {
 	cursor:pointer;
 }
 
+.subDataTable#dataTableFeatures {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	width:100%;
+}
+
 #dataTableFeatures {
 	padding-top:10px;
 	padding-bottom:10px;
-	width:400px;
+	width:100%;
 	text-align:center;
 }
 
 #dataTableExcludeLowPopulation{
-	position:absolute;
-	float:left;
-	margin-top:2em;
-	margin-left:350px;
+	float:right;
 	font-size:0.8em;
 	color:#C3C6D8;
+	text-align:right;
 }
 #dataTableNext, #dataTablePrevious, #dataTableSearchPattern, #loadingDataTable   {
 	display:none;
 }
 
+.subDataTable #exportDataTable {
+	height: 0px;
+}
 
 #exportDataTable {
 	float: right;

@@ -51,7 +51,7 @@ function buildWidgetChooserMenu()
 			}
 			
 			var sm2Div = $('.subMenuItem#'+plugin, subMenu2);
-			sm2Div.append('<div class="button menuItem" pluginToLoad="'+plugin+'" actionToLoad="'+widgets[i][1]+'">'+widgets[i][0] + ' => (' + plugin +'.'+ widgets[i][1] + ')</div>');
+			sm2Div.append('<div class="button menuItem" pluginToLoad="'+plugin+'" actionToLoad="'+widgets[i][1]+'">'+widgets[i][0] + '</div>');
 		}
 	}
 	$('.subMenuItem', subMenu2).hide();
@@ -93,18 +93,21 @@ function bindMenuEvents(menu)
 		$(this).hover(
 			function()
 			{
+				$('.menuItem', menu).removeClass('menuSelected');
 				$('.subMenu1 .subMenuItem', menu).removeClass('menuSelected');
 				$('.subMenu2 .subMenuItem', menu).hide();
 				$(this).addClass('menuSelected');
 				item.show();
-			},
-			
-			function()
-			{
-			});
+			},function(){});
 	});
 
-	$('.menuItem', menu).click(function(){
+	$('.menuItem', menu).hover(
+	function()
+	{
+		$('.menuItem', menu).removeClass('menuSelected');
+		$(this).addClass('menuSelected');
+	},function(){})
+	.click(function(){
 		var plugin = $(this).attr('pluginToLoad');
 		var action = $(this).attr('actionToLoad');
 
@@ -216,22 +219,22 @@ function loadItem(domElem)
 	}
 	
 	//add an handle to each items
-	$('.widget', domElem).prepend('<div class="handle"><div class="widgetTitle">'+title+'</div><div class="button" id="close"><img src="themes/default/images/close.png" /></div></div>');
+	$('.widget', domElem).prepend('<div class="handle"><div class="button" id="close"><img src="themes/default/images/close.png" /></div><div class="widgetTitle">'+title+'</div></div>');
 	
 	var button = $('.button#close', domElem);
 	
 	//Only show handle buttons on mouse hover
-	$('.handle', domElem).hover(
+	$('.widget', domElem).hover(
 		function()
 		{
-			$(this).parent().addClass('widgetHover');
-			$(this).addClass('handleHover');
+			$(this).addClass('widgetHover');
+			$('.handle',this).addClass('handleHover');
 			button.fadeIn(100);
 		},
 		function()
 		{
-			$(this).parent().removeClass('widgetHover');
-			$(this).removeClass('handleHover');
+			$(this).removeClass('widgetHover');
+			$('.handle',this).removeClass('handleHover');
 			button.fadeOut(200);
 		}
 	);
