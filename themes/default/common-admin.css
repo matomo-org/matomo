@@ -32,6 +32,17 @@ textarea{
 	padding: 10px;
 }
 
+#accessUpdated{
+	color:red;
+	text-align:center;
+	font-weight:bold;
+	width:350px;
+	margin: 10px;	
+	padding: 10px;
+	display:none;
+	border:3px solid green;
+	color:green;
+}
 #addrow img {
 	 vertical-align:middle;
 }
@@ -39,13 +50,6 @@ textarea{
 	 text-decoration:none;
 }
 
-#accessUpdated{
-	display:none;
-	border:2px solid green;
-	color:green;
-	width:100px;
-	text-align:center;
-}
 table {
  font-size:0.9em;
  font-family: Arial, Helvetica, verdana sans-serif;

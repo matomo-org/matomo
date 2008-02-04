@@ -59,16 +59,15 @@ function getAddUserAJAX( row )
 	return ajaxRequest;
 }
 
-function getUpdateUserAccess(login, access)
+function getIdSites()
+{
+	return $('#selectIdsite option:selected').val();
+}
+function getUpdateUserAccess(login, access, successCallback)
 {
 	var ajaxRequest = getStandardAjaxConf();
 	
-	ajaxRequest.success = function (response){
-							if(response.result == "error") 
-							{
-								ajaxShowError(response.message);
-							}
-						}
+	ajaxRequest.success = successCallback;
 	ajaxRequest.async = false;
 	
 	// prepare the API parameters to add the user
@@ -79,7 +78,7 @@ function getUpdateUserAccess(login, access)
  	parameters.userLogin = login;
  	parameters.access = access;
  	
- 	var idSites = $('#selectIdsite option:selected').val();
+ 	var idSites = getIdSites();
  	if(idSites != -1)
  	{
 	 	parameters.idSites = idSites;
@@ -100,29 +99,73 @@ function submitOnEnter(e)
 	}
 }
 
+
+function launchAjaxRequest(self, successCallback)
+{
+	//launching AJAX request
+	$.ajax( getUpdateUserAccess( 
+					$(self).parent().parent().find('#login').html(),//if changed change also the modal
+					$(self).parent().attr('id'),
+					successCallback
+				) 
+			);	
+}
+
 function bindUpdateAccess()
 {
 	$('#accessUpdated').hide();
+	var self = this;
 	
-	//launching AJAX request
-	$.ajax( getUpdateUserAccess( 
-					$(this).parent().parent().find('#login').html(),
-					$(this).parent().attr('id')
-				) 
-			);
+	// callback called when the ajax request Update the user permissions is successful
+	function successCallback (response)
+	{
+		// if the permission couldn't be granted
+		if(response.result == "error") 
+		{
+			ajaxShowError(response.message);
+		}
+		// if the permission change was successful
+		else
+		{
+			ajaxHideError();
+			
+			//once successful
+			$(self).parent().parent().find('.accessGranted')
+				.attr("src","plugins/UsersManager/images/no-access.png" )
+				.attr("class","updateAccess" )
+				.click(bindUpdateAccess)
+				;
+			$(self)
+				.attr('src',"plugins/UsersManager/images/ok.png" )
+				.attr('class',"accessGranted" )
+				;
+			$('#accessUpdated').show();
+			$('#accessUpdated').fadeOut(1500);
+		}
+	}
 	
-	//once successful
-	$(this).parent().parent().find('.accessGranted')
-		.attr("src","plugins/UsersManager/images/no-access.png" )
-		.attr("class","updateAccess" )
-		.click(bindUpdateAccess)
-		;
-	$(this)
-		.attr('src',"plugins/UsersManager/images/ok.png" )
-		.attr('class',"accessGranted" )
-		;
-	$('#accessUpdated').show();
-	$('#accessUpdated').fadeOut(1500);
+	var idSite = getIdSites();
+	if(idSite == -1)
+	{
+		var target = this;       
+		
+		//ask confirmation
+		var userLogin = $(this).parent().parent().find('#login').html();
+		$('.dialog#confirm #login').text( userLogin ); // if changed here change also the launchAjaxRequest
+		var question = $('.dialog#confirm').clone();
+		$('#yes', question).click(function()
+		{
+			launchAjaxRequest(target, successCallback);	
+			$.unblockUI();
+		});
+		
+		$('#no', question).click($.unblockUI);
+		$.blockUI(question, { width: '300px' });
+	}
+	else
+	{
+		launchAjaxRequest(this, successCallback);
+	}
 }
 
 $(document).ready( function() {
