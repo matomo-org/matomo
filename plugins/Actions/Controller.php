@@ -55,12 +55,15 @@ List of the public methods for the class Piwik_Actions_API
 		
 		$view->setColumnsToDisplay( array(0,1,2) );
 		$view->setLimit( 100 );
-		
 		// computing minimum value to exclude
-		
 		$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary(); 
 		$nbActions = $visitsInfo->getColumn('nb_actions');
 		$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions
+		
+		// we remove 1 to make sure some actions/downloads are displayed in the case we have a very few of them
+		// and each of them has 1 or 2 hits...
+		$nbActionsLowPopulationThreshold = min($visitsInfo->getColumn('max_actions')-1, $nbActionsLowPopulationThreshold-1);
+		
 		$view->setExcludeLowPopulation( $nbActionsLowPopulationThreshold, 'nb_hits' );
 		
 		$view->main();

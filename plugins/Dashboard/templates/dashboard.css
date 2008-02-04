@@ -1,7 +1,3 @@
-*{
-	font-family: Georgia;
-}
-
 /*Overriding some dataTable css for better dashboard display*/
 #dashboard .parentDiv {
 	width: 100%;
@@ -18,16 +14,16 @@
 	width: 33%;
 }
 
-.hover {
-	border: 2px dashed rgb(200,200,200);
-}
-
 .items {
     background: white;
 }
 
+.hover {
+	border: 2px dashed #E3E3E3;
+}
+
 .widget {
-    border: 1px solid rgb(230,230,230);
+    border: 1px solid #D2D9EB;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-right: 5px;
@@ -36,25 +32,25 @@
 }
 
 .widgetHover {
-	border: 1px solid rgb(200, 200, 200);
+	border: 1px solid #CBD3E7;
 }
 
 .handle {
-	background: rgb(240,240,250);
+	background: #F0F0FA;
 	width: 100%;
 	cursor: move;
 	font-size: 10pt;
 	font-weight: bold;
 	padding-bottom: 4px;
 }
+.handleHover {
+	background: #E6E6F5;
+}
+
 
 .widgetTitle {
 	font-size: 14pt;
 	margin-left: 25px;
-}
-
-.handleHover {
-	background: rgb(200,200,230);
 }
 
 .widgetDiv {
@@ -79,6 +75,12 @@
 
 .dialog {
 	display: none;
+	padding:20px 10px;
+	color:#7A0101;
+	cursor:wait;
+	font-size:1.2em;
+	font-weight:bold;
+	text-align:center;
 }
 
 .menu {

@@ -7,7 +7,7 @@
 <h2>Test table Iframe</h2>
 <div id="PiwikWidgetTest1">
 <iframe 
- width="400" height="270" 
+ width="500" height="270" 
  src="{/literal}{$url1}{literal}" 
  scrolling="no" frameborder="0" marginheight="0" marginwidth="0">
 </iframe>
@@ -21,7 +21,7 @@ $Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "
 <h2>Test flash graph </h2>
 <div id="PiwikWidgetTest2">
 <iframe 
- width="400" height="260" 
+ width="500" height="260" 
  src="{/literal}{$url2}{literal}" 
  scrolling="no" frameborder="0" marginheight="0" marginwidth="0">
 </iframe>
@@ -34,7 +34,7 @@ $Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "
 <h2>Test tag cloud </h2>
 <div id="PiwikWidgetTest3">
 <iframe 
- width="400" height="150" 
+ width="500" height="150" 
  src="{/literal}{$url3}{literal}" 
  scrolling="no" frameborder="0" marginheight="0" marginwidth="0">
 </iframe>

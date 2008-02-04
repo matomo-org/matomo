@@ -110,6 +110,9 @@ h3 {
 	margin-top:2em;
 	color:#1D3256;
 }
+a {
+	color:#0F1B2E;
+}
 #loadingError {
 	font-weight:bold;
 	font-size: 1.1em;
@@ -128,7 +131,7 @@ h3 {
 
 /* Actions table */
 /* levels higher than 4 have a default padding left */
-tr.subActionsDataTable td.label{
+tr.subActionsDataTable td.label, tr.actionsDataTable td.label{
 	padding-left:7em;
 }
 tr.level0 td.label{
