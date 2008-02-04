@@ -3,7 +3,7 @@
 <h2>Test datatable in a IFRAME</h2>
 
 <iframe 
- width="400" height="350" 
+ width="500" height="350" 
  src="{$url1}" 
  scrolling="no" frameborder="0" marginheight="0" marginwidth="0">
 </iframe>

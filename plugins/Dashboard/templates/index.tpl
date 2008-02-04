@@ -27,9 +27,10 @@
 <div class="sortDiv" id="dashboard">
  
 	<div class="dialog" id="confirm"> 
-	        <h2>Are you sure you want to delete this widget from your dashboard ?</h2> 
-	        <input type="button" id="yes" value="Yes" /> 
-	        <input type="button" id="no" value="No" /> 
+	        <img src="themes/default/images/delete.png" style="padding: 10px; position: relative; margin-top: 10%; float: left;"/>
+	        <p>Are you sure you want to delete this widget from your dashboard ?</p>
+			<input id="yes" type="button" value="Yes"/>
+			<input id="no" type="button" value="No"/>
 	</div> 
 
 	<div class="button" id="addWidget">

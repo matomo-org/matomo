@@ -6,7 +6,7 @@
 	<tr><td colspan="{$nbColumns}">No data in this category. Try to "Include all population".</td></tr>
 	{else}
 		{foreach from=$arrayDataTable item=row}
-		<tr {if $row.idsubdatatable}class="subActionsDataTable" id="{$row.idsubdatatable}"{/if}>
+		<tr {if $row.idsubdatatable}class="subActionsDataTable" id="{$row.idsubdatatable}"{else}class="actionsDataTable"{/if}>
 			{foreach from=$dataTableColumns key=idColumn item=column}
 			<td>
 				{$row.columns[$column.name]}

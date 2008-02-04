@@ -81,7 +81,6 @@ table.dataTable td.labeleven {
 
 table.dataTable td.label {
 	border-top: 0;
-	border-left: 1px solid #C1DAD7;
 }
 
 table.dataTable td.labelodd {
@@ -99,13 +98,32 @@ table.subDataTable {
 	width:100%;
 	border-top:1px solid #e5eff8;
 	border-right:1px solid #e5eff8;
-	margin: 0px;
-	padding: 0px;
+	margin: 10px;
 	border-collapse:collapse;
+}
+				
+table.subDataTable th {
+	font-weight:normal;
+	color: #678197;
+	text-align:left;
+	border-bottom: 1px solid #e5eff8;
+	border-left:1px solid #e5eff8;
+	padding:.3em 1em;
+}
+					
+table.subDataTable thead th {
+	color:#333333;
+	background: #FFE9C6;
 }
 
 table.subDataTable tr.columnodd td	{
-	background:#f7fbff
+	background:#FBFDFF;
+}
+
+
+table.subDataTable td.labeleven,
+table.subDataTable td.labelodd {
+	background-image:none;
 }
 
 table.subDataTable td {
@@ -125,24 +143,8 @@ table.subDataTable td.label, table.subDataTable td.label a	{
 }
 
 table.subDataTable td.labelodd, table.subDataTable td.labelodd a{
-	background-color:#ffffff;
+	background:#ffffff;
 }
-				
-table.subDataTable th {
-	font-weight:normal;
-	color: #678197;
-	text-align:left;
-	border-bottom: 1px solid #e5eff8;
-	border-left:1px solid #e5eff8;
-	padding:.3em 1em;
-}
-					
-table.subDataTable thead th {
-	background:#f4f9fe;
-	text-align:center;
-	color:#66a3d3;
-}
-
 /* misc SPAN and DIV */
 
 table thead div {
@@ -183,7 +185,7 @@ table thead div {
 
 .subDataTable#dataTableFeatures {
 	padding-top: 0px;
-	padding-bottom: 0px;
+	padding-bottom: 5px;
 	width:100%;
 }
 
