@@ -1,8 +1,8 @@
 <div id="{$id}" class="{if $graphType=='evolution'}parentDivGraphEvolution{else}parentDivGraph{/if}">
 {$jsInvocationTag}
-<br/><br/>
-{if $showFooter}
 
+{if $showFooter}
+	<br/><br/>
 	<form class="formEmbedCode" id="{$formId}">
 	Embed <input name="embed_code" value="{$codeEmbed}" onclick="javascript:document.getElementById('{$formId}').embed_code.focus();document.getElementById('{$formId}').embed_code.select();" readonly="true" type="text">
 	
