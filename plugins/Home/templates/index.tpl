@@ -97,6 +97,19 @@ var minDateDay = {$minDateDay};
 	font-family: Georgia,"Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	font-size:1em;
 }
+
+#h1, #h1 a {
+	color: #006;
+	font-size: 45px;
+	font-weight: lighter;
+	text-decoration : none;
+}
+
+#subh1 {
+	color: #879DBD;
+	font-size: 25px;
+	font-weight: lighter;
+}
 h1 {
 	font-size:2em;
 	color:#0F1B2E;
@@ -129,32 +142,6 @@ a {
 	margin-left:30%;
 }
 
-/* Actions table */
-/* levels higher than 4 have a default padding left */
-tr.subActionsDataTable td.label, tr.actionsDataTable td.label{
-	padding-left:7em;
-}
-tr.level0 td.label{
-	padding-left:+1.5em;
-}
-tr.level1 td.label{
-	padding-left:+3.5em;
-}
-tr.level2 td.label{
-	padding-left:+5.5em;
-}
-tr.level3 td.label{
-	padding-left:+6.5em;
-}
-tr.level4 td.label{
-	padding-left:+7em;
-}
-
-tr td.label img.plusMinus {
-	margin-left:-1em;
-	position:absolute;
-}
-
 #miscLinks{
 	font-size:small;
 	padding-right:20px;
@@ -171,18 +158,6 @@ tr td.label img.plusMinus {
 }
 
 
-#h1, #h1 a {
-	color: #006;
-	font-size: 45px;
-	font-weight: lighter;
-	text-decoration : none;
-}
-
-#subh1 {
-	color: #879DBD;
-	font-size: 25px;
-	font-weight: lighter;
-}
 
 #messageToUsers, #messageToUsers a {
 	color:red;
@@ -191,14 +166,6 @@ tr td.label img.plusMinus {
 	width:100%;
 }
 
-.formEmbedCode, .formEmbedCode input, .formEmbedCode a {
-	font-size: 11px;
-	text-decoration : none;
-}
-.formEmbedCode input {
-	background-color: #FBFDFF;
-	border: 1px solid #ECECEC; 
-}
 .sparkline {
 	vertical-align: middle;
 	padding-right:10px;
@@ -235,20 +202,6 @@ tr td.label img.plusMinus {
 	color:#F88D22;
 }
 </style>
-{/literal}
-
-{literal}
-<script type="text/javascript">
-	
-function findSWFGraph(name) {
-  if (navigator.appName.indexOf("Microsoft")!= -1) {
-    return window[name];
-  } else {
-    return document[name];
-  }
-}
-
-</script>
 {/literal}
 
 

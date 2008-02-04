@@ -1,3 +1,12 @@
+
+function findSWFGraph(name) {
+  if (navigator.appName.indexOf("Microsoft")!= -1) {
+    return window[name];
+  } else {
+    return document[name];
+  }
+}
+
 function ajaxHandleError()
 {
 	$('#loadingError').show();

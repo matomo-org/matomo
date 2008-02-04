@@ -5,7 +5,7 @@
 	{if count($arrayDataTable) == 0}
 	No data for this table.
 	{else}
-		<table class="dataTable"> 
+		<table class="dataTable dataTableActions"> 
 		<thead>
 		<tr>
 		{foreach from=$dataTableColumns item=column}
@@ -16,7 +16,7 @@
 		
 		<tbody>
 		{foreach from=$arrayDataTable item=row}
-		<tr {if $row.idsubdatatable}class="rowToProcess subActionsDataTable" id="{$row.idsubdatatable}"{else} class="rowToProcess"{/if}>
+		<tr {if $row.idsubdatatable}class="rowToProcess subActionsDataTable" id="{$row.idsubdatatable}"{else} class="actionsDataTable rowToProcess"{/if}>
 			{foreach from=$dataTableColumns key=idColumn item=column}
 			<td>
 				{$row.columns[$column.name]}

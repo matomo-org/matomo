@@ -81,6 +81,7 @@ table.dataTable td.labeleven {
 
 table.dataTable td.label {
 	border-top: 0;
+	border-left:1px solid #C1DAD7;
 }
 
 table.dataTable td.labelodd {
@@ -247,4 +248,48 @@ table thead div {
 	padding-right: 5px;
 	opacity: 0.85;
 	font-size: 0.7em;
+}
+
+
+/* Actions table */
+
+table.dataTableActions tr td.labelodd {
+	background-image:none;
+}
+
+/* levels higher than 4 have a default padding left */
+tr.subActionsDataTable td.label, tr.actionsDataTable td.label{
+	padding-left:7em;
+}
+tr.level0 td.label{
+	padding-left:+1.5em;
+}
+tr.level1 td.label{
+	padding-left:+3.5em;
+}
+tr.level2 td.label{
+	padding-left:+5.5em;
+}
+tr.level3 td.label{
+	padding-left:+6.5em;
+}
+tr.level4 td.label{
+	padding-left:+7em;
+}
+
+tr td.label img.plusMinus {
+	margin-left:-1em;
+	position:absolute;
+}
+
+
+
+/* graph form containing embed code */
+.formEmbedCode, .formEmbedCode input, .formEmbedCode a {
+	font-size: 11px;
+	text-decoration : none;
+}
+.formEmbedCode input {
+	background-color: #FBFDFF;
+	border: 1px solid #ECECEC; 
 }
