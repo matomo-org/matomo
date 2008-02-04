@@ -3,6 +3,10 @@
 	width:500px;
 }
 
+.parentDivActions {
+	width:500px;
+}
+
 /* main data table */
 table.dataTable {
 	width: 100%;
