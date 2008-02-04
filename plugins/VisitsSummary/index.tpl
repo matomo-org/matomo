@@ -1,7 +1,7 @@
 
 <script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
 
-<a name="evolutionGraph" graphId="getLastVisitsGraph"></a>
+<a name="evolutionGraph" graphId="VisitsSummarygetLastVisitsGraph"></a>
 <h3>Evolution on the last 30 {$period}s</h3>
 {$graphEvolutionVisitsSummary}
 
