@@ -52,7 +52,6 @@ var minDateDay = {$minDateDay};
 #calendar {
 	position: relative;
 	margin-left:350px;
-	display:block;
 }
 .calendar td.dateToday, .calendar td.dateToday a{
 	font-weight:bold;
@@ -70,8 +69,6 @@ var minDateDay = {$minDateDay};
 /* style for the date picking */
 #periodString {
 	margin-left:350px;
-	position: relative;
-	display:inline;
 }
 
 #periodString, #periodString a  {
