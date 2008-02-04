@@ -407,6 +407,7 @@ abstract class Piwik_ArchiveProcessing
 		// the archive exists in the table
 		if(!empty($results))
 		{
+			echo $this->strDateStart . " " . $this->strDateEnd;
 			var_dump($results);
 			$idarchive = false;
 			// let's look for the more recent idarchive
