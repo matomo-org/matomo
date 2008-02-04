@@ -2,6 +2,22 @@
 <script type="text/javascript" src="themes/default/common.js"></script>
 <link rel="stylesheet" href="themes/default/common-admin.css">
 
+<script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
+
+{literal}
+<style>
+.dialog {
+	display: none;
+	padding:20px 10px;
+	color:#7A0101;
+	cursor:wait;
+	font-size:1.2em;
+	font-weight:bold;
+	text-align:center;
+}
+</style>
+{/literal}
+
 <h2>Manage access</h2>
 
 <div id="sites">
@@ -48,6 +64,11 @@
 
 <div id="accessUpdated">Done!</div>
 
+<div class="dialog" id="confirm"> 
+        <p>Are you sure you want to change '<span id='login'></span>' permissions on all the websites?</p>
+		<input id="yes" type="button" value="Yes"/>
+		<input id="no" type="button" value="No"/>
+</div> 
 
 <h2>Manage users</h2>
 
@@ -68,15 +89,17 @@
 	
 	<tbody>
         {foreach from=$users item=user key=i}
-        <tr class="editable" id="row{$i}">
-            <td id="userLogin" class="editable">{$user.login}</td>
-            <td id="password" class="editable">-</td>
-            <td id="email" class="editable">{$user.email}</td>
-            <td id="alias" class="editable">{$user.alias}</td>
-            <td id="alias">{$user.token_auth}</td>
-            <td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#'></td>
-            <td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete"></td>
-        </tr>
+        {if $user.login != 'anonymous'}
+	        <tr class="editable" id="row{$i}">
+	            <td id="userLogin" class="editable">{$user.login}</td>
+	            <td id="password" class="editable">-</td>
+	            <td id="email" class="editable">{$user.email}</td>
+	            <td id="alias" class="editable">{$user.alias}</td>
+	            <td id="alias">{$user.token_auth}</td>
+	            <td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#'></td>
+	            <td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete"></td>
+	        </tr>
+	    {/if}
         {/foreach}
 	</tbody>
     

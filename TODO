@@ -21,21 +21,12 @@ $GLOBALS['DEBUGPIWIK'] is false;
 
 bugs
 ===
-
-si je regardes hier en day je vois une centaine de page vues, si je regardes hier en week je vois 2 pages vues
-http://piwik.org/demo/?module=Home&action=index&idSite=1&period=day&date=yesterday
-http://piwik.org/demo/?module=Home&action=index&idSite=1&period=week&date=yesterday
-
-
-make sure ALL TIMESTAMP are using mysql TIMESTAMP and not the php server timestamp!!!
-
 edit the hack get(nb_visitors) and instead use a filter rename column etc.
 
 hide export in datatable footer (eg pie chart for plugins)
 fix pie charts (sum != 100%)
 fix bar charts legends in some cases
 when no site > should display nice message
-users > when mod rights failed should'nt display the green tick
 
 proper date handling
 - in graphs (titles/legends/x-y labels)
