@@ -70,18 +70,9 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		$parameters = array ( $fetch = true );
 		$outputDataTable='';
 		
-		ob_start();
-		$outputDataTable = Piwik_FrontController::getInstance()->dispatch( $controllerName, $actionName, $parameters);
-		// if nothing returned we try to load something that was printed on the screen
-		if(empty($outputDataTable))
-		{
-			$outputDataTable = ob_get_contents();
-		}
-	    ob_end_clean();
-		
+		$content = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName, $parameters);
+				
 	    $view = new Piwik_View('Widgetize/templates/js.tpl');
-		$content = $outputDataTable;
-
 		$view->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		$view->content = $content;
 		echo $view->render();

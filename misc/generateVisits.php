@@ -34,8 +34,6 @@ require_once "LogStats/Visit.php";
 require_once "LogStats/Generator.php";
 
 Piwik_PluginsManager::getInstance()->unloadPlugins();
-
-
 Piwik_PluginsManager::getInstance()->doNotLoadPlugins();	
 $generator = new Piwik_LogStats_Generator;
 $generator->setMaximumUrlDepth(12);

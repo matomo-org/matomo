@@ -34,11 +34,19 @@ proper date handling
 - in UI
 - in tables
 
+plugins easy to register a new hook
+
 Translation 
 - columns labels
 - section titles
 
 tpl: add flag isAdmin isSuperUser isAnonymous isView
+
+mode degrade when no JS l'appli marche encore
+
+generateVisits working with plugins
+
+menu for the admin section
 
 optimization
 ===

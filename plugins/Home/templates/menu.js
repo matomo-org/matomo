@@ -38,7 +38,7 @@ menu.prototype =
 	onClickLI: function ()
 	{
 		var self = this;
-		var urlAjax = $('a',this).attr('href');
+		var urlAjax = $('a',this).attr('name');
 		function menuSectionLoaded(content)
 		{
 			menu.prototype.menuSectionLoaded(content, urlAjax);
