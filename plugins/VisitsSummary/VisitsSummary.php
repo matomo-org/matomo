@@ -14,12 +14,7 @@
  * @package Piwik_VisitsSummary
  */
 class Piwik_VisitsSummary extends Piwik_Plugin
-{	
-	public function __construct()
-	{
-		parent::__construct();
-	}
-	
+{
 	public function getInformation()
 	{
 		$info = array(
