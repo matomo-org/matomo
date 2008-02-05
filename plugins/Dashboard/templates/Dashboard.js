@@ -83,32 +83,28 @@ function filterOutAlreadyLoadedWidget()
 	});
 }
 
-function toggleMenu()
+function hideMenu()
 {
-	//visible
-	if($('.menu#widgetChooser:visible').length > 0)
-	{
-		$('.menu#widgetChooser').fadeOut('normal');
-		$('.button#addWidget').removeClass('buttonToggled');
-	}
-	//not visible
-	else
-	{
-		filterOutAlreadyLoadedWidget();
-		$('.menu#widgetChooser').fadeIn('fast');
-		$('.button#addWidget').addClass('buttonToggled');
-	}
+	$.unblockUI();
+}
+	
+function showMenu()
+{		
+	filterOutAlreadyLoadedWidget();
+	var menu = $('.menu#widgetChooser').clone();
+	bindMenuEvents(menu);
+	$.blockUI(menu, {width:"100%", top: "20%",left:"0px", margin:"0px", textAlign:''}); 
 }
 
 function bindMenuEvents(menu)
 {
 	//menu show button
-	$('.button#addWidget').click(toggleMenu);
-	$('.button#hideMenu').click(toggleMenu);
+	$('.button#addWidget').click(showMenu);
+	$('.button#hideMenu', menu).click(hideMenu);
 	
 	$('.subMenu1 .subMenuItem', menu).each(function(){
 		var plugin = $(this).attr('id');
-		var item = $('.subMenu2 .subMenuItem#'+plugin);
+		var item = $('.subMenu2 .subMenuItem#'+plugin, menu);
 		
 		$(this).hover(
 			function()
@@ -130,12 +126,16 @@ function bindMenuEvents(menu)
 		$('.menuItem', menu).removeClass('menuSelected');
 		$(this).addClass('menuSelected');
 		
-		$('.widgetDiv.previewDiv').each(function(){
-			//format the div for upcomming ajax loading and set a temporary content
-			$(this)	.attr('plugin', plugin)
-					.attr('id', action)
-					.html('<div id="previewLoading"><img src="themes/default/loading.gif" /> Loading preview, please wait...</div>').show();
-			ajaxLoading(plugin, action);
+		$('.widgetDiv.previewDiv', menu).each(function(){
+			//only reload preview if necessary
+			if($(this).attr('plugin')!=plugin || $(this).attr('id')!=action)
+			{
+				//format the div for upcomming ajax loading and set a temporary content
+				$(this)	.attr('plugin', plugin)
+						.attr('id', action)
+						.html('<div id="previewLoading"><img src="themes/default/loading.gif" /> Loading preview, please wait...</div>').show();
+				ajaxLoading(plugin, action);
+			}
 		});
 		
 	},function(){})
@@ -143,17 +143,17 @@ function bindMenuEvents(menu)
 		var plugin = $(this).attr('pluginToLoad');
 		var action = $(this).attr('actionToLoad');
 
-		movePreviewToDashboard();
-		toggleMenu();
+		movePreviewToDashboard(menu);
+		hideMenu();
 		clearPreviewDiv();
 		saveLayout();
-		$('.button#addWidget').show();
+		$('.button#addWidget', menu).show();
 	});
 }
 
-function movePreviewToDashboard()
+function movePreviewToDashboard(menu)
 {
-	$('.widgetDiv.previewDiv').each(function(){
+	$('.widgetDiv.previewDiv', menu).each(function(){
 		var plugin = $(this).attr('plugin');
 		var action = $(this).attr('id');
 		var htmlContent = $(this).html()
