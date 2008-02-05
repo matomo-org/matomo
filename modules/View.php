@@ -101,6 +101,7 @@ class Piwik_View implements Piwik_iView
 		}
 		
 		return $this->smarty->fetch($this->template);
+		
 	}
 	
 	public function addForm( $form )

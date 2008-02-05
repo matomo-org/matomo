@@ -90,9 +90,6 @@ var minDateDay = {$minDateDay};
 }
 
 
-</style>
-
-<style>
 * {
 	font-family: Georgia,"Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	font-size:1em;
@@ -126,6 +123,20 @@ h3 {
 a {
 	color:#0F1B2E;
 }
+
+/* 2 columns reports */
+#leftcolumn {
+	float:left;
+	width:45%;
+	padding-left:10px;
+	padding-right:20px;
+}
+#rightcolumn {
+	float: right;
+	width:45%;
+	padding-left:20px;
+}
+
 #loadingError {
 	font-weight:bold;
 	font-size: 1.1em;

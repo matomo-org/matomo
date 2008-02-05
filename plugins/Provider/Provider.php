@@ -149,15 +149,28 @@ class Piwik_Provider extends Piwik_Plugin
 	{
 		return trim(strtolower(@gethostbyaddr(long2ip($ip))));
 	}
-	
+
+	public function headerUserCountry($notification)
+	{
+		$out =& $notification->getNotificationObject();
+		$out = '<div id="leftcolumn">';
+	}
+	public function footerUserCountry($notification)
+	{
+		$out =& $notification->getNotificationObject();
+		$out = '</div>
+			<div id="rightcolumn">
+			<h2>Providers</h2>';
+		$out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider','getProvider');
+		$out .= '</div>';
+	}
 }
 
 // when the plugin is loaded during LogStats these functions are not defined
 if(function_exists('Piwik_AddWidget'))
 {
 	Piwik_AddWidget( 'Provider', 'getProvider', 'Providers');
-}
-if(function_exists('Piwik_AddMenu'))
-{
-	Piwik_AddMenu('Visitors', 'Provider', array('module' => 'Provider', 'action'=> 'getProvider'));
+	Piwik_RenameMenuEntry('Visitors', 'Locations', 'Visitors', 'Locations & provider' );
+	Piwik_AddAction('template_headerUserCountry', array('Piwik_Provider','headerUserCountry'));
+	Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider','footerUserCountry'));
 }

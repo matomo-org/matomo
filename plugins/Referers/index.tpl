@@ -1,10 +1,10 @@
 <script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
 
 	<a name="evolutionGraph" graphId="{$nameGraphEvolutionReferers}"></a>
-	<h3>Evolution over the period</h3>
+	<h2>Evolution over the period</h2>
 	{$graphEvolutionReferers}
 	
-	<h3>Referer Type</h3>
+	<h2>Referer Type</h2>
 	<table>
 		<tr><td>
 			<p><img class="sparkline" src="{$urlSparklineDirectEntry}" /> <span><strong>{$visitorsFromDirectEntry} </strong> direct entries</span></p>
@@ -17,7 +17,7 @@
 		</td></tr>
 	</table>
 	
-	<h3>Other</h3>
+	<h2>Other</h2>
 	<table>
 		<tr><td>
 			<p><img class="sparkline" src="{$urlSparklineDistinctSearchEngines}" /> <span><strong>{$numberDistinctSearchEngines} </strong>  distinct search engines</span></p>

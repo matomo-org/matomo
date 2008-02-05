@@ -1,10 +1,10 @@
-<div id='parentDiv'>
+{postEvent name="template_headerVisitsFrequency"}
 <script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
 
-	<a name="evolutionGraph" graphId="VisitFrequencygetLastVisitsReturningGraph"></a>
-	<h3>Evolution over the period</h3>
-	{$graphEvolutionVisitFrequency}
+<a name="evolutionGraph" graphId="VisitFrequencygetLastVisitsReturningGraph"></a>
+<h2>Evolution over the period</h2>
+{$graphEvolutionVisitFrequency}
 
-	{include file=VisitFrequency/sparklines.tpl}
+{include file=VisitFrequency/sparklines.tpl}
 	
-</div>
+{postEvent name="template_footerVisitsFrequency"}

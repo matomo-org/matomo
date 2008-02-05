@@ -144,6 +144,22 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 //		echo $table;
 		return $table;
 	}
+	
+
+	public function headerVisitsFrequency($notification)
+	{
+		$out =& $notification->getNotificationObject();
+		$out = '<div id="leftcolumn">';
+	}
+	public function footerVisitsFrequency($notification)
+	{
+		$out =& $notification->getNotificationObject();
+		$out = '</div>
+			<div id="rightcolumn">
+			';
+		$out .= Piwik_FrontController::getInstance()->fetchDispatch('VisitorInterest','index');
+		$out .= '</div>';
+	}
 }
 
 
@@ -151,6 +167,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration', 'Visits lengths');
 Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerPage', 'Pages per visit');
 
-Piwik_AddMenu('General', 'Loyalty', array('module' => 'VisitorInterest'));
+Piwik_RenameMenuEntry('Visitors', 'Frequency', 'Visitors', 'Frequency & Loyalty' );
+Piwik_AddAction('template_headerVisitsFrequency', array('Piwik_VisitorInterest','headerVisitsFrequency'));
+Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest','footerVisitsFrequency'));
 
 

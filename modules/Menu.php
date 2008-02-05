@@ -20,11 +20,20 @@ function Piwik_GetMenu()
 			unset($mainMenu[$key]);
 		}
 		else
-		{
-			uksort($element, 'Piwik_sortSubMenu');
+		{			
+			// we want to move some submenus in the first position
+			$priority = array('Overview','Evolution');
+			foreach($priority as $name)
+			{
+				if(isset($element[$name]))
+				{
+					$newElement = array($name => $element[$name]);
+					unset($element[$name]);
+					$element = $newElement + $element;
+				}
+			}
 			$element['_url'] = current($element);
 		}
-		
 	}
 	return $mainMenu;
 }
@@ -45,11 +54,11 @@ function Piwik_AddMenu( $mainMenuName, $subMenuName, $url )
 	
 }
 
-function Piwik_sortSubMenu( $sub1, $sub2 )
+function Piwik_RenameMenuEntry($mainMenuOriginal, $subMenuOriginal, 
+								$mainMenuRenamed, $subMenuRenamed)
 {
-	if(in_array(strtolower($sub2), array('overview','evolution')))
-	{
-		return 1;
-	}
-	return -1;
+	global $mainMenu;
+	$save = $mainMenu[$mainMenuOriginal][$subMenuOriginal];
+	unset($mainMenu[$mainMenuOriginal][$subMenuOriginal]);
+	$mainMenu[$mainMenuRenamed][$subMenuRenamed] = $save;
 }

@@ -51,6 +51,9 @@ PluginsInstalled[] = UsersManager
 PluginsInstalled[] = SitesManager
 PluginsInstalled[] = Installation
 
+[Plugins_LogStats]
+
+
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can 
