@@ -11,15 +11,27 @@
 .parentDivGraphEvolution {
 	width:100%;
 }
+
+
 /* main data table */
 table.dataTable {
 	width: 100%;
 	padding: 0;
 	border-spacing:0;
+	border-collapse:collapse;
 	margin: 0;
 	font-size:0.9em;
 }
-table.dataTable img {
+
+table.dataTable td.label,
+table.subDataTable td.label,
+table.dataTableActions td.label {
+	width:100%;
+}
+
+table.dataTable img,
+table.subDataTable img,
+table.dataTableActions img {
 	vertical-align: middle;
 }
 table.dataTable img {
@@ -29,6 +41,10 @@ table.dataTable img {
 }
 table.dataTable tr.subDataTable{
 	cursor:pointer;
+}
+
+table.dataTable th.label {
+	border-left:1px solid #C1DAD7;
 }
 
 table.dataTable th {
@@ -47,16 +63,17 @@ table.dataTable th.columnSorted {
 	padding-right:20px;
 	position:relative;
 }
-	
-table.dataTable td.label {
-	width:80%;
-}
 
 table.dataTable td {
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
+	border-left:0;
 	padding: 5px 5px 5px 12px;
 	background: #fff;
+}
+
+table.dataTable td.label{
+	border-left: 1px solid #C1DAD7;	
 }
 
 table.dataTable td, table.dataTable td a {
@@ -79,46 +96,51 @@ table.dataTable td.labeleven {
 	color: #797268;
 }
 
+table.dataTable td.labelodd {
+	background: #fff url(images/bullet1.gif) no-repeat;
+}
+
 table.dataTable td.label {
 	border-top: 0;
 	border-left:1px solid #C1DAD7;
 }
 
-table.dataTable td.labelodd {
-	background: #fff url(images/bullet1.gif) no-repeat;
+/* the cell containing the subdatatable */
+table.dataTable .cellSubDataTable {
+	border-left:1px solid #C1DAD7;
+	padding:0;
+	margin:0;	
 }
+
+
 /* A link in a column in the DataTable */
 table.dataTable td #urlLink {
 	display:none;
 }
 
+/* SUBDATATABLE */
 /* a datatable inside another datatable */
 table.subDataTable {
 	background:#FFFFFF;
-	color: #678197;
-	width:100%;
+	width:95%;
 	border-top:1px solid #e5eff8;
 	border-right:1px solid #e5eff8;
 	margin: 10px;
-	border-collapse:collapse;
-}
-				
-table.subDataTable th {
-	font-weight:normal;
-	color: #678197;
-	text-align:left;
-	border-bottom: 1px solid #e5eff8;
-	border-left:1px solid #e5eff8;
-	padding:.3em 1em;
-}
-					
-table.subDataTable thead th {
-	color:#333333;
-	background: #FFE9C6;
 }
 
-table.subDataTable tr.columnodd td	{
-	background:#FBFDFF;
+table.subDataTable td {
+	border:0;
+}
+table.subDataTable thead th {
+	
+	font-weight:normal;
+	font-size:1.1em;
+	text-align:left;
+	border:0;
+	border:1px solid #D1D1D1;
+	padding:.3em 1em;
+	color:#333333;
+	background: #FFE9C6;
 }
 
 
@@ -126,28 +148,28 @@ table.subDataTable td.labeleven,
 table.subDataTable td.labelodd {
 	background-image:none;
 }
-
 table.subDataTable td {
-	border-bottom:1px solid #e5eff8;
-	border-left:1px solid #e5eff8;
-	padding:.3em 1em;
+	border-bottom:1px solid #E5E5E5;
+	border-left:1px solid #E5E5E5;
 }
-
 table.subDataTable td, table.subDataTable td a {
-	text-decoration:none;
-	color:#678197;
-	text-align:left;
+	padding:0.3em 1em;
+	color:#615B53;
 }
 
-table.subDataTable td.label, table.subDataTable td.label a	{
+table.subDataTable td.labeleven, table.subDataTable td.columneven {
+	color:#2D2A27;
+}
+
+table.subDataTable td.label {
 	width:80%;
 }
 
 table.subDataTable td.labelodd, table.subDataTable td.labelodd a{
 	background:#ffffff;
 }
-/* misc SPAN and DIV */
 
+/* misc SPAN and DIV */
 table thead div {
 	position: relative;
 	margin-right: 10px;
@@ -167,7 +189,6 @@ table thead div {
 }
 #dataTableSearchPattern {
 	display:inline;
-	margin-left:1ex;
 	white-space:nowrap;
 	position: relative;
 }
@@ -185,7 +206,7 @@ table thead div {
 	padding:3px 3px 3px 20px;
 }
 #dataTableExcludeLowPopulation, #dataTableNext, #dataTablePrevious {
-	font-size: 1em;
+	font-size: 0.9em;
 	color: #184A83;
 	text-decoration:underline;
 	cursor:pointer;
@@ -259,7 +280,6 @@ table thead div {
 
 
 /* Actions table */
-
 table.dataTableActions tr td.labelodd {
 	background-image:none;
 }
@@ -286,9 +306,8 @@ tr.level4 td.label{
 
 tr td.label img.plusMinus {
 	margin-left:-1em;
-	position:absolute;
+	margin-right:0em;
 }
-
 
 
 /* graph form containing embed code */
@@ -299,4 +318,11 @@ tr td.label img.plusMinus {
 .formEmbedCode input {
 	background-color: #FBFDFF;
 	border: 1px solid #ECECEC; 
+}
+#emptyDatatable {
+	padding-top:20px;
+	padding-bottom:10px;
+	text-align:center;
+	font-size:0.9em;
+	font-style: italic;
 }

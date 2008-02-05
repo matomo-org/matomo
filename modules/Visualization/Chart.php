@@ -17,6 +17,8 @@ require_once "Visualization/OpenFlashChart.php";
  */
 abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashChart
 {
+	protected $dataGraph = array();
+	
 	function setData($data)
 	{
 		$this->dataGraph = $data;

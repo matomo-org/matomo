@@ -263,13 +263,11 @@ function addEmptyWidget(colNumber, plugin, action, onTop)
 	$(widget).hover(
 		function()
 		{
-			$(this).addClass('widgetHover');
 			$('.handle',this).addClass('handleHover');
 			button.show();
 		},
 		function()
 		{
-			$(this).removeClass('widgetHover');
 			$('.handle',this).removeClass('handleHover');
 			button.hide();
 		}

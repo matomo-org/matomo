@@ -3,7 +3,7 @@
 		{$arrayDataTable.message} 
 	{else}
 		{if count($arrayDataTable) == 0}
-		No data for this table.
+		<div id="emptyDatatable">No data for this table.</div>
 		{else}
 			<a name="{$id}"></a>
 			<table class="dataTable"> 

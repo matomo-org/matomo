@@ -230,13 +230,21 @@ dataTable.prototype =
 				}
 			);
 		
+			// are we in a subdatatable?
+			var currentIsSubDataTable = $(domElem).parent().hasClass('cellSubDataTable');
+			
+			var prefixSortIcon = ''; 
+			if(currentIsSubDataTable)
+			{
+				prefixSortIcon = '_subtable_';
+			}
 			var imageSortWidth = 16;
 			var imageSortHeight = 16;
 			// we change the style of the column currently used as sort column
 			// adding an image and the class columnSorted to the TD
 			$(".sortable#"+self.param.filter_sort_column+' #thDIV', domElem)
 				.addClass('columnSorted')
-				.prepend('<img id="sortIcon" width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+ self.param.filter_sort_order+'.png" />');
+				.prepend('<img id="sortIcon" width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+prefixSortIcon+ self.param.filter_sort_order+'.png" />');
 		}
 	},
 	
@@ -314,7 +322,7 @@ dataTable.prototype =
 			
 							
 			$('#dataTableSearchPattern', domElem)
-				.css('display','block')
+				.show()
 				.each(function(){
 					// when enter is pressed in the input field we submit the form
 					$('#keyword', this)
@@ -553,8 +561,10 @@ dataTable.prototype =
 			);
 		});
 	
+		
 		// Add some styles on the cells even/odd
 		// label (first column of a data row) or not
+		$("th:first-child", domElem).addClass('label');
 		$("td:first-child:odd", domElem).addClass('label labeleven');
 		$("td:first-child:even", domElem).addClass('label labelodd');
 		$("tr:odd td", domElem).slice(1).addClass('columnodd');
@@ -597,7 +607,7 @@ dataTable.prototype =
 					// we need to create this ID first
 					$(this).after( '\
 					<tr>\
-						<td colspan="'+numberOfColumns+'">\
+						<td colspan="'+numberOfColumns+'" class="cellSubDataTable">\
 							<div id="'+divIdToReplaceWithSubTable+'">\
 								<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
 							</div>\
@@ -697,6 +707,9 @@ actionDataTable.prototype =
 		
 		$('tr.subActionsDataTable.rowToProcess')
 			.css('font-weight','bold');
+			
+			
+		$("th:first-child", domElem).addClass('label');
 	
 		// we dont display the link on the row with subDataTable when we are already
 		// printing all the subTables (case of recursive search when the content is
