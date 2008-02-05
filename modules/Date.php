@@ -35,6 +35,17 @@ class Piwik_Date
 		}
 	}
 	
+	/**
+	 * 
+	 *
+	 * @param string $time HH:MM:SS
+	 */
+	//TODO test this method
+	public function setTime($time)
+	{
+		return new Piwik_Date( strtotime( $this->get("j F Y") . " $time"));
+	}
+	
 	public function getTimestamp()
 	{
 		return $this->timestamp;
@@ -210,7 +221,7 @@ class Piwik_Date
 	 */
 	static public function today()
 	{
-		$date = new Piwik_Date(date("Y-m-d"));
+		$date = new Piwik_Date(date("Y-m-d 00:00:00"));
 		return $date;
 	}
 	/**
@@ -218,7 +229,7 @@ class Piwik_Date
 	 */
 	static public function yesterday()
 	{
-		$date = new Piwik_Date(date("Y-m-d", strtotime("yesterday")));
+		$date = new Piwik_Date(date("Y-m-d 00:00:00", strtotime("yesterday")));
 		return $date;
 	}
 	

@@ -147,7 +147,27 @@ abstract class Piwik_ArchiveProcessing
 			&& $this->period->toString() == date("Y-m-d")
 			)
 		{
+			//TODO this TIMESTAMP should be a mysql NOW()!!!!
 			$this->maxTimestampArchive = time() - Zend_Registry::get('config')->General->time_before_archive_considered_outdated;
+		}
+		// either
+		// - if the period we're looking for is finished, we look for a ts_archived that 
+		//   is greater than the last day of the archive 
+		// - if the period we're looking for is not finished, we look for a recent enough archive
+		//   recent enough means maxTimestampArchive = 00:00:01 this morning
+		else
+		{
+			if($this->period->isFinished())
+			{
+//				echo "<br>date end = ".$this->period->getDateEnd();
+				$this->maxTimestampArchive = $this->period->getDateEnd()->setTime('00:00:00')->addDay(1)->getTimestamp();
+//				echo "<br>max = ". date("Y-m-d H:i:s",$this->maxTimestampArchive);
+			}
+			else
+			{
+				$this->maxTimestampArchive = Piwik_Date::today()->getTimestamp();
+			}
+	//		$timeStampWhere = " AND (UNIX_TIMESTAMP(ts_archived) > UNIX_TIMESTAMP(CONCAT(date2, ' 23:59:59')) ";
 		}
 	}
 	
@@ -390,16 +410,10 @@ abstract class Piwik_ArchiveProcessing
 								$this->strDateEnd, 
 								$this->periodId, 
 								);
-		$timeStampWhere = '';
-		if( $this->maxTimestampArchive != 0)
-		{
-			$timeStampWhere = " AND UNIX_TIMESTAMP(ts_archived) >= ? ";
-			$bindSQL[] = $this->maxTimestampArchive;
-		}
-		else
-		{
-			$timeStampWhere = " AND UNIX_TIMESTAMP(ts_archived) > UNIX_TIMESTAMP(CONCAT(date2, ' 23:59:59')) ";
-		}
+//		echo " p = ".$this->periodId." d = ".$this->strDateStart ."," . $this->strDateEnd;		
+		
+		$timeStampWhere = " AND UNIX_TIMESTAMP(ts_archived) >= ? ";
+		$bindSQL[] = $this->maxTimestampArchive;
 			
 		$sqlQuery = "	SELECT idarchive, value, name, UNIX_TIMESTAMP(date1) as timestamp
 						FROM ".$this->tableArchiveNumeric."
@@ -461,6 +475,7 @@ abstract class Piwik_ArchiveProcessing
 		if(is_null($this->timestampDateStart))
 		{
 			return Piwik_Date::factory($this->strDateStart)->getTimestamp();
+//			throw new Exception("Starting date has not been set");
 		}
 		return $this->timestampDateStart;
 	}

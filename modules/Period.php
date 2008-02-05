@@ -121,6 +121,10 @@ abstract class Piwik_Period
 		return $this->label;
 	}
 	
+	/**
+	 *
+	 * @return Piwik_Date
+	 */
 	protected function getDate()
 	{
 		return $this->date;
