@@ -55,25 +55,29 @@ abstract class Piwik_Archive
 	 * @param string $period 'week' 'day' etc.
 	 * @return Piwik_Archive
 	 */
-	static public function build($idSite, $period, $oDate )
+	static public function build($idSite, $period, $strDate )
 	{
 		$oSite = new Piwik_Site($idSite);
 			
-		if(is_string($oDate) 
+		if(is_string($strDate) 
 			&& (
-				ereg('^(last|previous){1}([0-9]*)$', $oDate, $regs)
-				|| ereg('^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$', $oDate, $regs)
+				ereg('^(last|previous){1}([0-9]*)$', $strDate, $regs)
+				|| ereg('^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$', $strDate, $regs)
 				)
 			)
 		{
 			require_once 'Archive/Array.php';
-			$archive = new Piwik_Archive_Array($oSite, $period, $oDate);
+			$archive = new Piwik_Archive_Array($oSite, $period, $strDate);
 		}
 		else
 		{
-			if(is_string($oDate))
+			if(is_string($strDate))
 			{
-				$oDate = Piwik_Date::factory($oDate);
+				$oDate = Piwik_Date::factory($strDate);
+			}
+			else
+			{
+				$oDate = $strDate;
 			}
 			$date = $oDate->toString();
 			

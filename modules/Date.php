@@ -11,7 +11,7 @@
 
 /**
  * 
- * 
+ * //TODO remove factory OR constructor! cant have both
  * @package Piwik_Helper
  */
 class Piwik_Date
