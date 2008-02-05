@@ -353,6 +353,21 @@ dataTable.prototype =
 					$(':submit', this)
 						.click( function(){ $(this).submit(); })
 					;
+
+					// in the case there is a searched keyword we display the RESET image
+					if(currentPattern)
+					{
+						var target = this;
+						var clearImg = $('<span style="position: relative;">\
+								<img src="plugins/Home/templates/images/reset_search.png" style="position: absolute; top: 4px; left: -15px; cursor: pointer; display: inline;" title="Clear"/>\
+								</span>')
+							.click( function() {
+								$('#keyword', target).val('');
+								$(':submit', target).submit();
+							});
+						$('#keyword',this).after(clearImg);
+						
+					}
 				}
 			);
 				
@@ -377,8 +392,13 @@ dataTable.prototype =
 					offsetEndDisp = offsetEnd;
 	
 					if(offsetEnd > totalRows) offsetEndDisp = totalRows;
-					var str = offset + '-' + offsetEndDisp + ' of ' + totalRows;
-					$(this).text(str);
+					
+					// only show this string if there is some rows in the datatable
+					if(totalRows != 0)
+					{
+						var str = offset + '-' + offsetEndDisp + ' of ' + totalRows;
+						$(this).text(str);
+					}
 				}
 			);
 			

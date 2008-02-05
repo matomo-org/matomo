@@ -3,6 +3,63 @@
 require_once "ViewDataTable.php";
 class Piwik_Actions_Controller extends Piwik_Controller 
 {
+	
+	function getDownloads($fetch = false)
+	{
+		$view = $this->getActionsView( 	$this->pluginName, 
+										__FUNCTION__,
+										'Actions.getDownloads', 
+										'getDownloadsSubDataTable' );
+		
+		return $this->renderView($view, $fetch);
+	}
+	function getDownloadsSubDataTable($fetch = false)
+	{
+		$view = $this->getActionsView( 	$this->pluginName, 
+										__FUNCTION__,
+										'Actions.getDownloads', 
+										'getDownloadsSubDataTable' );
+		
+		return $this->renderView($view, $fetch);
+	}
+	function getActions($fetch = false)
+	{
+		$view = $this->getActionsView(	$this->pluginName, 
+										__FUNCTION__,
+										'Actions.getActions', 
+										'getActionsSubDataTable' );
+		
+		return $this->renderView($view, $fetch);
+	}
+	function getActionsSubDataTable($fetch = false)
+	{
+		$view = $this->getActionsView( 	$this->pluginName, 
+										__FUNCTION__,
+										'Actions.getActions', 
+										'getActionsSubDataTable'  );
+		
+		return $this->renderView($view, $fetch);
+	}
+	function getOutlinks($fetch = false)
+	{
+		$view = $this->getActionsView(	$this->pluginName, 
+										__FUNCTION__,
+										'Actions.getOutlinks', 
+										'getOutlinksSubDataTable' );
+		
+		return $this->renderView($view, $fetch);
+	}
+	function getOutlinksSubDataTable($fetch = false)
+	{
+		$view = $this->getActionsView( 	$this->pluginName, 
+										__FUNCTION__,
+										'Actions.getOutlinks', 
+										'getOutlinksSubDataTable'  );
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	
 	function index()
 	{
 		$view = new Piwik_View('Actions/index.tpl');
@@ -15,15 +72,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
-		/*
-		 * 
-
-List of the public methods for the class Piwik_Actions_API
-- getActions : [idSite, period, date, expanded = , idSubtable = ]
-- getDownloads : [idSite, period, date, expanded = , idSubtable = ]
-- getOutlinks : [idSite, period, date, expanded = , idSubtable = ]
-
-		 */
 	protected function getActionsView($currentControllerName,
 						$currentMethod,
 						$methodToCall = 'Actions.getActions', 
@@ -56,7 +104,7 @@ List of the public methods for the class Piwik_Actions_API
 		$view->setColumnsToDisplay( array(0,1,2) );
 		$view->setLimit( 100 );
 		// computing minimum value to exclude
-		$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary(); 
+		$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary();
 		$nbActions = $visitsInfo->getColumn('nb_actions');
 		$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions
 		
@@ -115,61 +163,6 @@ List of the public methods for the class Piwik_Actions_API
 		return $table;
 	}
 	
-	
-	function getDownloads($fetch = false)
-	{
-		$view = $this->getActionsView( 	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getDownloads', 
-										'getDownloadsSubDataTable' );
-		
-		return $this->renderView($view, $fetch);
-	}
-	function getDownloadsSubDataTable($fetch = false)
-	{
-		$view = $this->getActionsView( 	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getDownloads', 
-										'getDownloadsSubDataTable' );
-		
-		return $this->renderView($view, $fetch);
-	}
-	function getActions($fetch = false)
-	{
-		$view = $this->getActionsView(	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getActions', 
-										'getActionsSubDataTable' );
-		
-		return $this->renderView($view, $fetch);
-	}
-	function getActionsSubDataTable($fetch = false)
-	{
-		$view = $this->getActionsView( 	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getActions', 
-										'getActionsSubDataTable'  );
-		
-		return $this->renderView($view, $fetch);
-	}
-	function getOutlinks($fetch = false)
-	{
-		$view = $this->getActionsView(	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getOutlinks', 
-										'getOutlinksSubDataTable' );
-		
-		return $this->renderView($view, $fetch);
-	}
-	function getOutlinksSubDataTable($fetch = false)
-	{
-		$view = $this->getActionsView( 	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getOutlinks', 
-										'getOutlinksSubDataTable'  );
-		
-		return $this->renderView($view, $fetch);
-	}
 	
 	
 }
