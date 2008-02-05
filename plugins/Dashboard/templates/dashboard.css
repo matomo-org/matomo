@@ -3,7 +3,15 @@
 	width: 100%;
 }
 
+#dashboard .parentDivGraph {
+	width: 100%;
+}
+
 #dashboard .parentDivActions {
+	width: 100%;
+}
+
+#dashboard .parentDivGraphEvolution {
 	width: 100%;
 }
 
@@ -108,7 +116,6 @@
 
 .widgetLoading {
 	cursor: wait;
-	
 }
 
 .subMenu1 {
@@ -123,7 +130,18 @@
 }
 .subMenu3 {
 	float:left;
+	width: 33%
+}
+
+.menuClear {
 	clear: both;
+}
+
+.helperPreview{
+	position: absolute;
+	z-index: 1000;
+	left: 0px;
+	top: 0px;
 }
 
 .widget input{

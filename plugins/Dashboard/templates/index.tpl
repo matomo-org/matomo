@@ -45,8 +45,17 @@
 		</div>
 		
 		<div class="subMenu3">
+			<div class="widgetDiv previewDiv"></div>
 		</div>
+		
+		<div class="menuClear"> </div>
+	</div>	
+	
+	<div class="button" id="hideMenu">
+		Hide menu...
 	</div>
+	
+	<div class="helperPreview"></div>
 
 	<div class="col" id="1">
 	</div>

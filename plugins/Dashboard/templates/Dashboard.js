@@ -26,13 +26,6 @@ function contains(array, searchElem) {
 
 function buildWidgetChooserMenu()
 {
-	//menu show button
-	$('.button#addWidget').click(function(){
-		$(this).hide();
-		filterOutAlreadyLoadedWidget();
-		$('.menu#widgetChooser').show('slow');
-	});
-	
 	//load menu widgets list
 	var menu = $('.menu#widgetChooser');
 	for(var plugin in piwik.availableWidgets)
@@ -55,6 +48,7 @@ function buildWidgetChooserMenu()
 		}
 	}
 	$('.subMenuItem', subMenu2).hide();
+	$('.button#hideMenu').hide();
 	bindMenuEvents(menu);
 }
 
@@ -84,8 +78,27 @@ function filterOutAlreadyLoadedWidget()
 	});
 }
 
+function showMenu()
+{
+	$('.button#addWidget').hide();
+	filterOutAlreadyLoadedWidget();
+	$('.menu#widgetChooser').fadeIn('fast',function(){
+	$('.button#hideMenu').show();});//queue event	
+}
+
+function hideMenu()
+{
+	$('.button#hideMenu').hide();
+	$('.menu#widgetChooser').fadeOut('fast',function(){
+	$('.button#addWidget').show();});//queue event
+}
+
 function bindMenuEvents(menu)
 {
+	//menu show button
+	$('.button#addWidget').click(showMenu);
+	$('.button#hideMenu').click(hideMenu);
+	
 	$('.subMenu1 .subMenuItem', menu).each(function(){
 		var plugin = $(this).attr('id');
 		var item = $('.subMenu2 .subMenuItem#'+plugin);
@@ -104,27 +117,60 @@ function bindMenuEvents(menu)
 	$('.menuItem', menu).hover(
 	function()
 	{
+		var plugin = $(this).attr('pluginToLoad');
+		var action = $(this).attr('actionToLoad');
+		
 		$('.menuItem', menu).removeClass('menuSelected');
 		$(this).addClass('menuSelected');
+		
+		$('.widgetDiv.previewDiv').each(function(){
+			$(this)	.attr('plugin', plugin)
+					.attr('id', action);
+			
+			ajaxLoading(plugin, action);
+		});
+		
 	},function(){})
 	.click(function(){
 		var plugin = $(this).attr('pluginToLoad');
 		var action = $(this).attr('actionToLoad');
 
-		var exists = $('.widgetDiv#'+action);
-		
-		if(exists.size()>0)
-		{
-			alert('Widget already in dashboard');
-		}
-		else
-		{
-			menu.hide('slow');
-			addWidget(1, plugin, action, true);
-			saveLayout();
-			$('.button#addWidget').show();
-		}
+		movePreviewToDashboard();
+		hideMenu();
+		clearPreviewDiv();
+		saveLayout();
+		$('.button#addWidget').show();
 	});
+}
+
+function movePreviewToDashboard()
+{
+	$('.widgetDiv.previewDiv').each(function(){
+		var plugin = $(this).attr('plugin');
+		var action = $(this).attr('id');
+		var htmlContent = $(this).html()
+		
+		addEmptyWidget(1, plugin, action, true);
+		
+		var parDiv = $('.widgetDiv#'+action);
+		parDiv.show();
+		parDiv.siblings('.widgetLoading').hide();
+		
+		//var helper = $('.helperPreview');
+		//helper.css({left: '400px', top: '200px'});
+		//helper.animate({left: '10px', top: '250px'}, 5000, 'linear', function(){});
+		//helper.html(htmlContent);
+		//helper.empty();
+		
+		parDiv.html(htmlContent);
+	});
+}
+
+function clearPreviewDiv()
+{		
+	$('.widgetDiv.previewDiv').empty()
+		.attr('id', '')
+		.attr('plugin', '');
 }
 
 function getWidgetInDom(domElem)
@@ -168,14 +214,15 @@ function generateLayout()
 			for(var j=0; j<widgets.length; j++)
 			{
 				var wid = widgets[j].split('.');
-				addWidget(i+1, wid[0], wid[1]);
+				addWidgetAndLoad(i+1, wid[0], wid[1]);
   			}
   		}
 	}
 }
 
-function addWidget(colNumber, plugin, action, onTop)
-{
+
+function addEmptyWidget(colNumber, plugin, action, onTop)
+{	
 	if(typeof onTop == "undefined")
 		onTop = false;
 	
@@ -189,16 +236,53 @@ function addWidget(colNumber, plugin, action, onTop)
     {
    		$('.col#'+colNumber).append(item);
    	}
-    
-    loadItem($('.items #'+action).parents('.items'));
+   	
+   	//find the title of the widget
+	var title = 'Widget not found';
+	var widgets = piwik.availableWidgets[plugin];
+	for(var i in widgets)
+	{
+		if(action == widgets[i][1])
+			title = widgets[i][0];
+	}
+	
+	//add an handle to each items
+	var widget = $('.widgetDiv#'+action).parents('.widget');
+	widget.prepend('<div class="handle"><div class="button" id="close"><img src="themes/default/images/close.png" /></div><div class="widgetTitle">'+title+'</div></div>');
+    var button = $('.button#close', widget);
+	
+	//Only show handle buttons on mouse hover
+	$(widget).hover(
+		function()
+		{
+			$(this).addClass('widgetHover');
+			$('.handle',this).addClass('handleHover');
+			button.show();
+		},
+		function()
+		{
+			$(this).removeClass('widgetHover');
+			$('.handle',this).removeClass('handleHover');
+			button.hide();
+		}
+	);
+	
+	//Bind click event on close button
+	button.click(onDeleteItem);
+	
 	makeSortable();
+}
+
+function addWidgetAndLoad(colNumber, plugin, action, onTop)
+{
+	addEmptyWidget(colNumber, plugin, action, onTop);
+    loadItem($('.items #'+action).parents('.items'));
 }
 
 function loadItem(domElem)
 {	
 	var plugin;
 	var action;
-	var title = 'Widget not found';
 	//load every widgetDiv with asynchronous ajax
 	$('.widgetDiv', domElem).each(
 		function()
@@ -209,38 +293,6 @@ function loadItem(domElem)
 			// get the ID of the div and load with ajax						
 			ajaxLoading(plugin, action);
 		});
-		
-	//find the title of the widget
-	var widgets = piwik.availableWidgets[plugin];
-	for(var i in widgets)
-	{
-		if(action == widgets[i][1])
-			title = widgets[i][0]
-	}
-	
-	//add an handle to each items
-	$('.widget', domElem).prepend('<div class="handle"><div class="button" id="close"><img src="themes/default/images/close.png" /></div><div class="widgetTitle">'+title+'</div></div>');
-	
-	var button = $('.button#close', domElem);
-	
-	//Only show handle buttons on mouse hover
-	$('.widget', domElem).hover(
-		function()
-		{
-			$(this).addClass('widgetHover');
-			$('.handle',this).addClass('handleHover');
-			button.fadeIn(100);
-		},
-		function()
-		{
-			$(this).removeClass('widgetHover');
-			$('.handle',this).removeClass('handleHover');
-			button.fadeOut(200);
-		}
-	);
-	
-	//Bind click event on close button
-	button.click(onDeleteItem);
 }
 
 function makeSortable()
