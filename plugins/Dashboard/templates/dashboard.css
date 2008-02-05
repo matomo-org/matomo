@@ -144,6 +144,14 @@
 	height: 30px;
 }
 
+#addWidget {
+	font-weight: bold;
+}
+
+.buttonToggled {
+	color: grey;
+}
+
 #previewLoading {
 	font-size: 14pt;
 	font-weight: bold;

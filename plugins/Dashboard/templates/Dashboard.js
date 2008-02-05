@@ -83,24 +83,28 @@ function filterOutAlreadyLoadedWidget()
 	});
 }
 
-function showMenu()
+function toggleMenu()
 {
-	$('.button#addWidget').hide();
-	filterOutAlreadyLoadedWidget();
-	$('.menu#widgetChooser').fadeIn('fast');	
-}
-
-function hideMenu()
-{
-	$('.menu#widgetChooser').fadeOut('fast',function(){
-	$('.button#addWidget').show();});
+	//visible
+	if($('.menu#widgetChooser:visible').length > 0)
+	{
+		$('.menu#widgetChooser').fadeOut('normal');
+		$('.button#addWidget').removeClass('buttonToggled');
+	}
+	//not visible
+	else
+	{
+		filterOutAlreadyLoadedWidget();
+		$('.menu#widgetChooser').fadeIn('fast');
+		$('.button#addWidget').addClass('buttonToggled');
+	}
 }
 
 function bindMenuEvents(menu)
 {
 	//menu show button
-	$('.button#addWidget').click(showMenu);
-	$('.button#hideMenu').click(hideMenu);
+	$('.button#addWidget').click(toggleMenu);
+	$('.button#hideMenu').click(toggleMenu);
 	
 	$('.subMenu1 .subMenuItem', menu).each(function(){
 		var plugin = $(this).attr('id');
@@ -140,7 +144,7 @@ function bindMenuEvents(menu)
 		var action = $(this).attr('actionToLoad');
 
 		movePreviewToDashboard();
-		hideMenu();
+		toggleMenu();
 		clearPreviewDiv();
 		saveLayout();
 		$('.button#addWidget').show();
