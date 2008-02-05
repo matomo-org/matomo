@@ -457,10 +457,10 @@ abstract class Piwik_ArchiveProcessing
 	
 	public function getTimestampStartDate()
 	{
-		// debug
+		// case when archive processing is in the past or the future, the starting date has not been set or processed yet
 		if(is_null($this->timestampDateStart))
 		{
-			throw new Exception("The starting date timestamp has not been set!");
+			return Piwik_Date::factory($this->strDateStart)->getTimestamp();
 		}
 		return $this->timestampDateStart;
 	}
