@@ -50,7 +50,7 @@ span.size6, span.size6 a {
 
 <div id="tagCloud">
 {if count($cloudValues) == 0}
-	No data for this tag cloud
+	<div id="emptyDatatable">No data for this tag cloud.</div>
 {else}
 	{foreach from=$cloudValues key=word item=value}
 	<span title="{$value.word} ({$labelDetails[$value.word].hits} hits)" class="word size{$value.size} {* we strike tags with 0 hits *} {if $labelDetails[$value.word].hits == 0}valueIsZero{/if}">

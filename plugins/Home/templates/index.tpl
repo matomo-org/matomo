@@ -27,9 +27,6 @@ var minDateDay = {$minDateDay};
 <script type="text/javascript" src="plugins/Home/templates/datatable.js"></script>
 <script type="text/javascript" src="plugins/Home/templates/calendar.js"></script>
 
-<script type="text/javascript" src="plugins/Home/templates/mainmenu.js"></script>
-
-
 <script type="text/javascript" src="plugins/Home/templates/date.js"></script>
 
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
@@ -90,7 +87,7 @@ var minDateDay = {$minDateDay};
 }
 
 
-* {
+body {
 	font-family: Georgia,"Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	font-size:1em;
 }
@@ -154,7 +151,6 @@ a {
 }
 
 #miscLinks{
-	font-size:small;
 	padding-right:20px;
 }
 
@@ -194,7 +190,6 @@ a {
 
 /* top right bar */
 #loggued {
-	font-size:small;
 	float:right;
 	text-align:right;
 	margin-right: 20px;
