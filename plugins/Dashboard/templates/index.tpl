@@ -28,7 +28,7 @@
  
 	<div class="dialog" id="confirm"> 
 	        <img src="themes/default/images/delete.png" style="padding: 10px; position: relative; margin-top: 10%; float: left;"/>
-	        <p>Are you sure you want to delete this widget from your dashboard ?</p>
+	        <p>Are you sure you want to delete this widget from the dashboard ?</p>
 			<input id="yes" type="button" value="Yes"/>
 			<input id="no" type="button" value="No"/>
 	</div> 
@@ -39,7 +39,7 @@
 	
 	<div class="menu" id="widgetChooser">
 		<div id="closeMenuIcon"><img src="themes/default/images/error_medium.png" /></div>
-		<div id="menuTitleBar">Select a widget...</div>
+		<div id="menuTitleBar">Select the widget to add in the dashboard</div>
 		<div class="subMenu" id="sub1">
 		</div>
 		
@@ -48,7 +48,7 @@
 		
 		<div class="subMenu" id="sub3">
 			<div class="widget">
-				<div class="handle">
+				<div class="handle" title="Add previewed widget to the dashboard">
 					<div class="button" id="close">
 						<img src="themes/default/images/close.png" />
 					</div>

@@ -15,6 +15,17 @@ function contains(array, searchElem) {
 	{
 		//set default value for blockUI
 		$.extend($.blockUI.defaults.overlayCSS, { backgroundColor: '#000000', opacity: '0.4'});
+		$.extend($.blockUI.defaults,{ fadeIn: 0, fadeOut: 0 });
+
+		//unblock UI on escape pressed...
+		$(window).keydown(
+			function(e)
+			{
+				var key = e.keyCode || e.which;
+				if(key == 27) //escape key ascii code
+					$.unblockUI();
+			}
+		);
 	
 		//generate dashboard layout and load every displayed widgets
 		generateLayout();
@@ -112,6 +123,8 @@ function bindMenuEvents(menu)
 	$('.button#addWidget').click(showMenu);
 	$('.button#hideMenu', menu).click(hideMenu);
 	$('#closeMenuIcon', menu).click(hideMenu);
+	$('.subMenu#sub3 .widget .handle', menu).css('cursor', 'pointer')
+			.click(function(){movePreviewToDashboard(menu);});
 	
 	$('.subMenu#sub1 .subMenuItem', menu).each(function(){
 		var plugin = $(this).attr('id');
@@ -151,14 +164,7 @@ function bindMenuEvents(menu)
 		
 	},function(){})
 	.click(function(){
-		var plugin = $(this).attr('pluginToLoad');
-		var action = $(this).attr('actionToLoad');
-
 		movePreviewToDashboard(menu);
-		hideMenu();
-		clearPreviewDiv();
-		saveLayout();
-		$('.button#addWidget', menu).show();
 	});
 }
 
@@ -167,21 +173,24 @@ function movePreviewToDashboard(menu)
 	$('.widgetDiv.previewDiv', menu).each(function(){
 		var plugin = $(this).attr('plugin');
 		var action = $(this).attr('id');
-		var htmlContent = $(this).html()
 		
 		addEmptyWidget(1, plugin, action, true);
 		
-		var parDiv = $('.widgetDiv#'+action);
+		var parDiv = $('.col#1 .widgetDiv#'+action);
 		parDiv.show();
 		parDiv.siblings('.widgetLoading').hide();
 		
-		parDiv.html(htmlContent);
+		$(this).children().clone(true).appendTo(parDiv);
 	});
+	
+	hideMenu();
+	clearPreviewDiv();
+	saveLayout();
 }
 
 function clearPreviewDiv()
 {		
-	$('.widgetDiv.previewDiv').empty()
+	$('.subMenu .widgetDiv.previewDiv').empty()
 		.attr('id', '')
 		.attr('plugin', '');
 }
@@ -254,7 +263,7 @@ function addEmptyWidget(colNumber, plugin, action, onTop)
 	var title = getWidgetTitle(plugin, action);
 	
 	//add an handle to each items
-	var widget = $('.widgetDiv#'+action).parents('.widget');
+	var widget = $('.col#'+colNumber+' .widgetDiv#'+action).parents('.widget');
 	addHandleToWidget(widget, title);
 	
     var button = $('.button#close', widget);
@@ -364,13 +373,16 @@ function onDeleteItem(ev)
 		var plugin = $('.widgetDiv', item).attr('plugin');
 		var action = $('.widgetDiv', item).attr('id');
 		
+		//hide confirmation dialog
+		$.unblockUI();
+		
 		//the item disapear slowly and is removed from the DOM
-		item.fadeOut(500, function()
+		item.fadeOut(200, function()
 			{
-				$(this).remove(); showNecessaryDummies();
+				$(this).remove();
+				showNecessaryDummies();
 				saveLayout();
 				makeSortable();
-				$.unblockUI();
 			});
 		
 		//show menu item

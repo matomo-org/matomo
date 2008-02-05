@@ -146,6 +146,7 @@ ol#menuList {
 }
 
 ul#widgetList {
+	list-style-type: none;
 	line-height: 25px;
 }
 	
