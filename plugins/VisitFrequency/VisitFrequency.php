@@ -89,10 +89,9 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 
 
 Piwik_AddWidget( 'VisitFrequency', 'getSparklines', 'Frequency overview');
-Piwik_AddWidget( 'VisitFrequency', 'index', 'Overview with graph');
 Piwik_AddWidget( 'VisitFrequency', 'getLastVisitsReturningGraph', 'Graph returning visits');
 
-Piwik_AddMenu('General', 'Frequency', array('module' => 'VisitFrequency'));
+Piwik_AddMenu('Visitors', 'Frequency', array('module' => 'VisitFrequency'));
 
 
 

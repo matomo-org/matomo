@@ -1,21 +1,21 @@
 
-	<h3>Configurations</h3>
+	<h2>Configurations</h2>
 	{$dataTableConfiguration}
 	
-	<h3>Resolutions</h3>
+	<h2>Resolutions</h2>
 	{$dataTableResolution}
 	
-	<h3>Operating systems</h3>
+	<h2>Operating systems</h2>
 	{$dataTableOS}
 	
-	<h3>Browsers</h3>
+	<h2>Browsers</h2>
 	{$dataTableBrowser}
 	
-	<h3>Browser families</h3>
+	<h2>Browser families</h2>
 	{$dataTableBrowserType}
 	
-	<h3>Wide Screen</h3>
+	<h2>Wide Screen</h2>
 	{$dataTableWideScreen}
 	
-	<h3>Plugins</h3>
+	<h2>Plugins</h2>
 	{$dataTablePlugin}

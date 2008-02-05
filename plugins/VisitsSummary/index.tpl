@@ -2,10 +2,10 @@
 <script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
 
 <a name="evolutionGraph" graphId="VisitsSummarygetLastVisitsGraph"></a>
-<h3>Evolution on the last 30 {$period}s</h3>
+<h2>Evolution on the last 30 {$period}s</h2>
 {$graphEvolutionVisitsSummary}
 
-<h3>Report</h3>
+<h2>Report</h2>
 {include file=VisitsSummary/sparklines.tpl}
 
 

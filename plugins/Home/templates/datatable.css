@@ -1,6 +1,6 @@
 /* container of each table */
 .parentDiv {
-	width:500px;
+	width:450px; /* not more than 450px to make sure 2 of them can fit horizontally on a 1024 screen */
 }
 .parentDivActions {
 	width:500px;

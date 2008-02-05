@@ -1,5 +1,5 @@
 
-	<h3>Visits per visit duration</h3>
+	<h2>Visits per visit duration</h2>
 	{$dataTableNumberOfVisitsPerVisitDuration}
-	<h3>Visits per number of pages</h3>
+	<h2>Visits per number of pages</h2>
 	{$dataTableNumberOfVisitsPerPage}

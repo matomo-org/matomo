@@ -1,6 +1,6 @@
 
-<h3>Search engines</h3>
+<h2>Search engines</h2>
 {$searchEngines}
 
-<h3>Keywords</h3>
+<h2>Keywords</h2>
 {$keywords}

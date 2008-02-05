@@ -1,5 +1,5 @@
 
-	<h3>Visit per local time</h3>
+	<h2>Visit per local time</h2>
 	{$dataTableVisitInformationPerLocalTime}
-	<h3>Visit per server time</h3>
+	<h2>Visit per server time</h2>
 	{$dataTableVisitInformationPerServerTime}
