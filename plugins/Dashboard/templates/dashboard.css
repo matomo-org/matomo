@@ -96,6 +96,12 @@
 	border: 3px solid rgb(230,230,230);
 }
 
+#widgetChooser.menu {
+	position: absolute;
+	background-color: white;
+	opacity: 0.9;
+}
+
 .helper {
 	width: 33%;
 	opacity: .6;
@@ -137,11 +143,9 @@
 	clear: both;
 }
 
-.helperPreview{
-	position: absolute;
-	z-index: 1000;
-	left: 0px;
-	top: 0px;
+#previewLoading {
+	font-size: 14pt;
+	font-weight: bold;
 }
 
 .widget input{

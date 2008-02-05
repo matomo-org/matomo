@@ -45,6 +45,7 @@ function buildWidgetChooserMenu()
 			}
 			
 			//var sm1Div = $('.subMenuItem#'+plugin, subMenu1);
+			//console.log('%d', $(sm1Div).outerHeight());
 			
 			var sm2Div = $('.subMenuItem#'+plugin, subMenu2);
 			sm2Div.append('<div class="button menuItem" pluginToLoad="'+plugin+'" actionToLoad="'+widgets[i][1]+'">'+widgets[i][0] + '</div>');
@@ -129,9 +130,10 @@ function bindMenuEvents(menu)
 		$(this).addClass('menuSelected');
 		
 		$('.widgetDiv.previewDiv').each(function(){
+			//format the div for upcomming ajax loading and set a temporary content
 			$(this)	.attr('plugin', plugin)
-					.attr('id', action);
-			
+					.attr('id', action)
+					.html('<div id="previewLoading"><img src="themes/default/loading.gif" /> Loading preview, please wait...</div>').show();
 			ajaxLoading(plugin, action);
 		});
 		
