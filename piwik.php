@@ -49,7 +49,7 @@ require_once "Cookie.php";
 require_once "LogStats/Db.php";
 require_once "LogStats/Visit.php";
 
-$GLOBALS['DEBUGPIWIK'] = false;
+$GLOBALS['DEBUGPIWIK'] =  false;
 
 
 if($GLOBALS['DEBUGPIWIK'] === true)

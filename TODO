@@ -1,26 +1,12 @@
-CHANGES DONE TO LIBRARIES
-=========================
-- edited zend_log and changed attr to protected
-- fixed bug fwrite in zend_log stream writer
-- fixed PEAR so that it works under PHP5 with STRICT MODE enabled
+changer ordres des sous menus
 
+menu lateral plus discret
+ajouter titres a tous les rappports
+valid INDEX html css
+remove effect on the cross to delete a widget; should appear directly
 
-# Documentation
-  - Document the Piwik architecture: 
-   API concept, 
-   Plugins concept, 
-   Logging engine,
-   Archiving process, 
-   Reporting process, 
-   MVC model, 
-   DataTable concept
+add a cross to reset the search like on netvibes see the search box = http://www.netvibes.com/
 
-   
-test that archive always is OFF in prod
-$GLOBALS['DEBUGPIWIK'] is false;
-
-bugs
-===
 edit the hack get(nb_visitors) and instead use a filter rename column etc.
 
 admin plugin interface
@@ -51,3 +37,21 @@ menu for the admin section
 optimization
 ===
 optimize getdateStart / getdateEnd in *Period
+
+
+CHANGES DONE TO LIBRARIES
+=========================
+- edited zend_log and changed attr to protected
+- fixed bug fwrite in zend_log stream writer
+- fixed PEAR so that it works under PHP5 with STRICT MODE enabled
+
+
+# Documentation
+  - Document the Piwik architecture: 
+   API concept, 
+   Plugins concept, 
+   Logging engine,
+   Archiving process, 
+   Reporting process, 
+   MVC model, 
+   DataTable concept
