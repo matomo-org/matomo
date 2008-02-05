@@ -54,11 +54,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				 ";
 		$row = $this->db->fetchRow($query, array($this->strDateStart,$this->idsite ) );
 		
+//		echo " archiving ".$this->strDateStart;
 		if($row === false)
 		{
 			return;
 		}
-		
 		$this->isThereSomeVisits = true;
 	
 		foreach($row as $name => $value)

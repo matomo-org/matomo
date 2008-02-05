@@ -20,7 +20,6 @@ class Piwik_Archive_Array extends Piwik_Archive
 			$startDate = $subPeriod->getDateStart();
 			$archive = Piwik_Archive::build($oSite->getId(), $strPeriod, $startDate );
 			$archive->prepareArchive();
-		
 			$timestamp = $archive->getTimestampStartDate();
 			$this->archives[$timestamp] = $archive;
 		}
@@ -132,7 +131,7 @@ class Piwik_Archive_Array extends Piwik_Archive
 		// one per distinct table (case we select last 300 days, maybe we will  select from 10 different tables)
 		$queries = array();
 		foreach($this->archives as $archive) 
-		{		
+		{
 			if(!$archive->isThereSomeVisits)
 			{
 				continue;
@@ -143,6 +142,7 @@ class Piwik_Archive_Array extends Piwik_Archive
 			// for every query store IDs
 			$queries[$table][] = $archive->getIdArchive();
 		}
+//		var_dump($queries);
 
 		// we select the requested value
 		$db = Zend_Registry::get('db');
