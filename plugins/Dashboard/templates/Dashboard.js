@@ -54,7 +54,6 @@ function buildWidgetChooserMenu()
 		count++;
 	}
 	$('.subMenuItem', subMenu2).hide();
-	$('.button#hideMenu').hide();
 	bindMenuEvents(menu);
 }
 
@@ -88,15 +87,13 @@ function showMenu()
 {
 	$('.button#addWidget').hide();
 	filterOutAlreadyLoadedWidget();
-	$('.menu#widgetChooser').fadeIn('fast',function(){
-	$('.button#hideMenu').show();});//queue event	
+	$('.menu#widgetChooser').fadeIn('fast');	
 }
 
 function hideMenu()
 {
-	$('.button#hideMenu').hide();
 	$('.menu#widgetChooser').fadeOut('fast',function(){
-	$('.button#addWidget').show();});//queue event
+	$('.button#addWidget').show();});
 }
 
 function bindMenuEvents(menu)

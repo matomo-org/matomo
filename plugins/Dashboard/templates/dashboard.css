@@ -141,6 +141,7 @@
 
 .menuClear {
 	clear: both;
+	height: 30px;
 }
 
 #previewLoading {
