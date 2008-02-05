@@ -28,6 +28,7 @@ function buildWidgetChooserMenu()
 {
 	//load menu widgets list
 	var menu = $('.menu#widgetChooser');
+	var count=0;
 	for(var plugin in piwik.availableWidgets)
 	{
 		var widgets = piwik.availableWidgets[plugin];
@@ -43,9 +44,13 @@ function buildWidgetChooserMenu()
 				subMenu2.append('<div class="subMenuItem" id="'+plugin+'"><div>');
 			}
 			
+			//var sm1Div = $('.subMenuItem#'+plugin, subMenu1);
+			
 			var sm2Div = $('.subMenuItem#'+plugin, subMenu2);
 			sm2Div.append('<div class="button menuItem" pluginToLoad="'+plugin+'" actionToLoad="'+widgets[i][1]+'">'+widgets[i][0] + '</div>');
+			sm2Div.css('padding-top', count*18+'px');
 		}
+		count++;
 	}
 	$('.subMenuItem', subMenu2).hide();
 	$('.button#hideMenu').hide();
