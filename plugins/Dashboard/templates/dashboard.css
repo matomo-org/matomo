@@ -1,17 +1,8 @@
 /*Overriding some dataTable css for better dashboard display*/
-#dashboard .parentDiv {
-	width: 100%;
-}
-
-#dashboard .parentDivGraph {
-	width: 100%;
-}
-
-#dashboard .parentDivActions {
-	width: 100%;
-}
-
-#dashboard .parentDivGraphEvolution {
+.widgetDiv .parentDiv,
+.widgetDiv .parentDivGraph,
+.widgetDiv .parentDivActions,
+.widgetDiv .parentDivGraphEvolution {
 	width: 100%;
 }
 
@@ -93,7 +84,8 @@
 
 .menu {
 	display: none;    
-	border: 3px solid rgb(230,230,230);
+	border: 2px solid #FCB842;
+	background: white;
 }
 
 .helper {
@@ -110,27 +102,55 @@
 }
 
 .menuSelected {
-	border: 1px dotted;
-	background: rgb(200,200,230);
+	border-bottom: 2px dotted #CCCCCC;
+	margin-bottom: -2px;
 }
 
 .widgetLoading {
 	cursor: wait;
 }
 
-.subMenu1 {
+#menuTitleBar {
+	background: #FFC35C;
+	font-size: 14pt;
+	font-weight: bold;
+	padding: 2px 20px 6px 20px;
+	border-bottom: 2px solid #FCB842;
+}
+
+#closeMenuIcon {
+	float: right;
+	margin-right: 2px;
+}
+
+.subMenu {
 	float:left;
-	width: 20%;
+	margin: 20px;
+}
+
+#sub1.subMenu {
+	cursor: normal;
+}
+#sub2.subMenu {
+	width: 25%;
 	cursor: pointer;
 }
-.subMenu2 {
-	float:left;
-	width: 30%;
-	cursor: pointer;
+#sub3.subMenu {
+	width: 40%
 }
-.subMenu3 {
-	float:left;
-	width: 33%
+
+ol#menuList {
+	color: #CCCCCC;
+	list-style-type: lower-roman;
+	line-height: 25px;
+}
+
+ul#widgetList {
+	line-height: 25px;
+}
+	
+.subMenuItem span {
+	color: black;
 }
 
 .menuClear {
@@ -138,10 +158,18 @@
 	height: 30px;
 }
 
+#closeMenuIcon {
+	cursor: pointer;
+}
+
 #addWidget {
 	font-weight: bold;
 }
 
+.previewDiv {
+	height: 200px;
+}
+	
 #previewLoading {
 	font-size: 14pt;
 	font-weight: bold;

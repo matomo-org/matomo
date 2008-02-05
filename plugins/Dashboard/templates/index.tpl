@@ -38,14 +38,24 @@
 	</div>
 	
 	<div class="menu" id="widgetChooser">
-		<div class="subMenu1">
+		<div id="closeMenuIcon"><img src="themes/default/images/error_medium.png" /></div>
+		<div id="menuTitleBar">Select a widget...</div>
+		<div class="subMenu" id="sub1">
 		</div>
 		
-		<div class="subMenu2">
+		<div class="subMenu" id="sub2">
 		</div>
 		
-		<div class="subMenu3">
-			<div class="widgetDiv previewDiv"></div>
+		<div class="subMenu" id="sub3">
+			<div class="widget">
+				<div class="handle">
+					<div class="button" id="close">
+						<img src="themes/default/images/close.png" />
+					</div>
+					<div class="widgetTitle">Widget preview</div>
+				</div>
+				<div class="widgetDiv previewDiv"></div>
+			</div>
 		</div>
 		
 		<div class="menuClear"> </div>		
@@ -54,8 +64,6 @@
 			Hide menu...
 		</div>
 	</div>	
-	
-	<div class="helperPreview"></div>
 
 	<div class="col" id="1">
 	</div>

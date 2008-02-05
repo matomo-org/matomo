@@ -13,6 +13,9 @@ function contains(array, searchElem) {
  $(document).ready(
 	function()
 	{
+		//set default value for blockUI
+		$.extend($.blockUI.defaults.overlayCSS, { backgroundColor: '#000000', opacity: '0.4'});
+	
 		//generate dashboard layout and load every displayed widgets
 		generateLayout();
 
@@ -27,21 +30,27 @@ function contains(array, searchElem) {
 function buildWidgetChooserMenu()
 {
 	//load menu widgets list
-	var menu = $('.menu#widgetChooser');
+	var menu = $('.menu#widgetChooser');		
+	var subMenu1 = $('.subMenu#sub1', menu);
+	var subMenu2 = $('.subMenu#sub2', menu);
+	
+	subMenu1.append('<ol id="menuList"></ol>');
+	subMenu2.append('<ul id="widgetList"></ul>');
+	var lineHeight = $('ol', subMenu1).css('line-height');
+	lineHeight = Number(lineHeight.substring(0, lineHeight.length-2));
+
 	var count=0;
 	for(var plugin in piwik.availableWidgets)
 	{
 		var widgets = piwik.availableWidgets[plugin];
+
 		for(var i in widgets)
 		{
-			var subMenu1 = $('.subMenu1', menu);
-			var subMenu2 = $('.subMenu2', menu);
-		
 			var exist = $('.subMenuItem#'+plugin, subMenu1);
 			if(exist.size()==0)
 			{
-				subMenu1.append('<div class="subMenuItem" id="'+plugin+'">'+plugin+'<div>');
-				subMenu2.append('<div class="subMenuItem" id="'+plugin+'"><div>');
+				$('ol', subMenu1).append('<li class="subMenuItem" id="'+plugin+'"><span>'+plugin+'</span></li>');
+				$('ul', subMenu2).append('<li class="subMenuItem" id="'+plugin+'"></li>');
 			}
 			
 			//var sm1Div = $('.subMenuItem#'+plugin, subMenu1);
@@ -49,10 +58,11 @@ function buildWidgetChooserMenu()
 			
 			var sm2Div = $('.subMenuItem#'+plugin, subMenu2);
 			sm2Div.append('<div class="button menuItem" pluginToLoad="'+plugin+'" actionToLoad="'+widgets[i][1]+'">'+widgets[i][0] + '</div>');
-			sm2Div.css('padding-top', count*18+'px');
+			sm2Div.css('padding-top', count*lineHeight+'px');
 		}
 		count++;
 	}
+	
 	$('.subMenuItem', subMenu2).hide();
 	bindMenuEvents(menu);
 }
@@ -93,7 +103,7 @@ function showMenu()
 	filterOutAlreadyLoadedWidget();
 	var menu = $('.menu#widgetChooser').clone();
 	bindMenuEvents(menu);
-	$.blockUI(menu, {width:"100%", top: "20%",left:"0px", margin:"0px", textAlign:''}); 
+	$.blockUI(menu, {width:'', top: '5%',left:'10%', right:'10%', margin:"0px", textAlign:'', cursor:'', border:'0px'}); 
 }
 
 function bindMenuEvents(menu)
@@ -101,17 +111,18 @@ function bindMenuEvents(menu)
 	//menu show button
 	$('.button#addWidget').click(showMenu);
 	$('.button#hideMenu', menu).click(hideMenu);
+	$('#closeMenuIcon', menu).click(hideMenu);
 	
-	$('.subMenu1 .subMenuItem', menu).each(function(){
+	$('.subMenu#sub1 .subMenuItem', menu).each(function(){
 		var plugin = $(this).attr('id');
-		var item = $('.subMenu2 .subMenuItem#'+plugin, menu);
+		var item = $('.subMenu#sub2 .subMenuItem#'+plugin, menu);
 		
 		$(this).hover(
 			function()
 			{
 				$('.menuItem', menu).removeClass('menuSelected');
-				$('.subMenu1 .subMenuItem', menu).removeClass('menuSelected');
-				$('.subMenu2 .subMenuItem', menu).hide();
+				$('.subMenu#sub1 .subMenuItem', menu).removeClass('menuSelected');
+				$('.subMenu#sub2 .subMenuItem', menu).hide();
 				$(this).addClass('menuSelected');
 				item.show();
 			},function(){});
@@ -164,12 +175,6 @@ function movePreviewToDashboard(menu)
 		parDiv.show();
 		parDiv.siblings('.widgetLoading').hide();
 		
-		//var helper = $('.helperPreview');
-		//helper.css({left: '400px', top: '200px'});
-		//helper.animate({left: '10px', top: '250px'}, 5000, 'linear', function(){});
-		//helper.html(htmlContent);
-		//helper.empty();
-		
 		parDiv.html(htmlContent);
 	});
 }
@@ -208,7 +213,7 @@ function setupWidgetSortable()
 
 function generateLayout()
 {
-	//dashboardLayout look like :
+	//dashboardLayout looks like :
 	//'Actions.getActions~Actions.getDownloads|UserCountry.getCountry|Referers.getSearchEngines';
 	//'|' separate columns
 	//'~' separate widgets
@@ -246,17 +251,12 @@ function addEmptyWidget(colNumber, plugin, action, onTop)
    	}
    	
    	//find the title of the widget
-	var title = 'Widget not found';
-	var widgets = piwik.availableWidgets[plugin];
-	for(var i in widgets)
-	{
-		if(action == widgets[i][1])
-			title = widgets[i][0];
-	}
+	var title = getWidgetTitle(plugin, action);
 	
 	//add an handle to each items
 	var widget = $('.widgetDiv#'+action).parents('.widget');
-	widget.prepend('<div class="handle"><div class="button" id="close"><img src="themes/default/images/close.png" /></div><div class="widgetTitle">'+title+'</div></div>');
+	addHandleToWidget(widget, title);
+	
     var button = $('.button#close', widget);
 	
 	//Only show handle buttons on mouse hover
@@ -277,6 +277,28 @@ function addEmptyWidget(colNumber, plugin, action, onTop)
 	button.click(onDeleteItem);
 	
 	makeSortable();
+}
+
+function getWidgetTitle(plugin, action)
+{
+	var title = 'Widget not found';
+	var widgets = piwik.availableWidgets[plugin];
+	for(var i in widgets)
+	{
+		if(action == widgets[i][1])
+			title = widgets[i][0];
+	}
+	return title;
+}
+
+function addHandleToWidget(widget, title)
+{
+	widget.prepend('<div class="handle">\
+						<div class="button" id="close">\
+							<img src="themes/default/images/close.png" />\
+						</div>\
+						<div class="widgetTitle">'+title+'</div>\
+					</div>');
 }
 
 function addWidgetAndLoad(colNumber, plugin, action, onTop)
@@ -355,7 +377,7 @@ function onDeleteItem(ev)
 		$('.menu#widgetChooser .menuItem[pluginToLoad='+plugin+'][actionToLoad='+action+']').show();
 	});
 	$('#no', question).click($.unblockUI);
-	$.blockUI(question, { width: '300px' }); 
+	$.blockUI(question, { width: '300px', border:'1px solid black' }); 
 }
 
 function showDummies()
@@ -406,14 +428,18 @@ function saveLayout()
 	$.ajax(ajaxRequest);
 }	
 
-function ajaxLoading(pluginId, actionId)
+function ajaxLoading(pluginId, actionId, callbackAfterLoaded)
 {
 	// When ajax replied, we replace the right div with the response
 	function onLoaded(response)
 	{
 		var parDiv = $('.widgetDiv#'+actionId);
 		parDiv.siblings('.widgetLoading').hide();
-		parDiv.html( $(response)).show();
+		parDiv.html($(response)).show();
+		if(typeof callbackAfterLoaded != 'undefined')
+		{
+			callbackAfterLoaded(parDiv);
+		}
 	}
 	//prepare and launch the ajax request
 	var ajaxRequest = 
