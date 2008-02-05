@@ -48,12 +48,12 @@
 			<div class="widgetDiv previewDiv"></div>
 		</div>
 		
-		<div class="menuClear"> </div>
+		<div class="menuClear"> </div>		
+		
+		<div class="button" id="hideMenu">
+			Hide menu...
+		</div>
 	</div>	
-	
-	<div class="button" id="hideMenu">
-		Hide menu...
-	</div>
 	
 	<div class="helperPreview"></div>
 
