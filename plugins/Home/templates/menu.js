@@ -26,6 +26,12 @@ menu.prototype =
 		}
 	},
 	
+	customAjaxHandleError: function ()
+	{
+		menu.prototype.lastUrlRequested = null;
+		ajaxHandleError();		
+	},
+	
 	overMainLI: function ()
 	{
 		$(this).siblings().removeClass('sfHover');
@@ -73,7 +79,7 @@ menu.prototype =
 			url: urlAjax,
 			dataType: 'html',
 			async: true,
-			error: ajaxHandleError,	// Callback when the request fails
+			error: menu.prototype.customAjaxHandleError,	// Callback when the request fails
 			success: menuSectionLoaded, // Callback when the request succeeds
 			data: new Object
 		};

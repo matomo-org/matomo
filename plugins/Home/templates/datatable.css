@@ -165,18 +165,25 @@ table thead div {
 	margin:10px;
 	font-size:0.9em;
 }
-
+#dataTableSearchPattern {
+	display:inline;
+	margin-left:1ex;
+	white-space:nowrap;
+	position: relative;
+}
 #dataTableSearchPattern input {
 	font-size: 0.7em;
 	padding:2px;
-	background:#FBFBFF none repeat scroll 0%;
 	border:1px solid #B3B3B3;
 	color:#0C183A;
 }
 #dataTableSearchPattern input:hover{
 	background:#F7F7FF none repeat scroll 0%;
 }
-
+#dataTableSearchPattern #keyword {
+	background:transparent url(images/search.png) no-repeat scroll 4px center;
+	padding:3px 3px 3px 20px;
+}
 #dataTableExcludeLowPopulation, #dataTableNext, #dataTablePrevious {
 	font-size: 1em;
 	color: #184A83;

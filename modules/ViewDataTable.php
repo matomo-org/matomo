@@ -49,8 +49,12 @@ abstract class Piwik_ViewDataTable
 	 * 
 	 * @return Piwik_ViewDataTable Data table
 	 */
-	static public function factory( $type = null, $defaultType = 'table')
+	static public function factory( $type = null, $defaultType = null)
 	{
+		if(is_null($defaultType))
+		{
+			$defaultType = 'table';	
+		}
 		if(is_null($type))
 		{
 			$type = Piwik_Common::getRequestVar('viewDataTable', $defaultType, 'string');
@@ -178,6 +182,8 @@ abstract class Piwik_ViewDataTable
 					// - rename this column as 'value'
 					// and at this point the getcolumn('value') would have worked
 					// this code is executed eg. when displaying a sparkline for the last 30 days displaying the number of unique visitors coming from search engines
+					
+					//TODO solution: use a filter rename column etc.
 					
 					// another solution would be to add a method to the Referers API giving directly the integer 'visits from search engines'
 					// and we would build automatically the dataTable_array of datatatble_simple from these integers

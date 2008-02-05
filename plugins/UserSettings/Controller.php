@@ -24,9 +24,10 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	 * User settings
 	 */
 	protected function getStandardDataTableUserSettings( $currentControllerAction, 
-												$APItoCall )
+												$APItoCall,
+												$defaultDatatableType = null )
 	{
-		$view = Piwik_ViewDataTable::factory();
+		$view = Piwik_ViewDataTable::factory( null, $defaultDatatableType);
 		$view->init( $this->pluginName,  $currentControllerAction, $APItoCall );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
@@ -80,7 +81,8 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	{
 		$view =  $this->getStandardDataTableUserSettings(
 										__FUNCTION__, 
-										'UserSettings.getBrowserType'
+										'UserSettings.getBrowserType',
+										'graphPie'
 									);
 		$view->disableOffsetInformation();
 		return $this->renderView($view, $fetch);
