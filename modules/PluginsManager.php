@@ -250,6 +250,10 @@ class Piwik_PluginsManager
 	 */
 	public function loadPlugin( $pluginName )
 	{
+		if(isset($this->loadedPlugins[$pluginName]))
+		{
+			return $this->loadedPlugins[$pluginName];
+		}
 		$pluginFileName = $pluginName . '/' . $pluginName . ".php";
 		$pluginClassName = "Piwik_".$pluginName;
 		
@@ -319,24 +323,31 @@ class Piwik_PluginsManager
 			$this->dispatcher->addObserver( array( $plugin, $methodToCall), $hookName );
 		}
 	}
-		
+	public function unloadPlugin( $plugin )
+	{
+		if(!($plugin instanceof Piwik_Plugin ))
+		{
+			$plugin = $this->loadPlugin( $plugin );
+		}
+		$hooks = $plugin->getListHooksRegistered();
+			
+		foreach($hooks as $hookName => $methodToCall)
+		{
+			$success = $this->dispatcher->removeObserver( array( $plugin, $methodToCall), $hookName );
+			if($success !== true)
+			{
+				throw new Exception("Error unloading plugin for method = $methodToCall // hook = $hookName ");
+			}
+		}
+		unset($this->loadedPlugins[$plugin->getName()]);
+	}
 	public function unloadPlugins()
 	{
 		$pluginsLoaded = $this->getLoadedPlugins();
 		foreach($pluginsLoaded as $plugin)
 		{
-			$hooks = $plugin->getListHooksRegistered();
-			
-			foreach($hooks as $hookName => $methodToCall)
-			{
-				$success = $this->dispatcher->removeObserver( array( $plugin, $methodToCall), $hookName );
-				if($success !== true)
-				{
-					throw new Exception("Error unloading plugin for method = $methodToCall // hook = $hookName ");
-				}
-			}			
+			$this->unloadPlugin($plugin);
 		}
-		$this->loadedPlugins = array();
 	}
 }
 
