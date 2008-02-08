@@ -18,7 +18,7 @@
  */
 
 // we prefix the global variables
-$piwik_minimumPhpVersion = '5.1';
+$piwik_minimumPhpVersion = '5.1.3';
 $piwik_currentVersion = phpversion();
 
 if( version_compare($piwik_minimumPhpVersion , $piwik_currentVersion ) >= 0 )
@@ -72,3 +72,7 @@ if( version_compare($piwik_minimumPhpVersion , $piwik_currentVersion ) >= 0 )
 	echo $html;
 	exit;
 }
+
+// we now include the upgradephp package to define some functions used in piwik 
+// that may not be defined in the current php version
+require_once PIWIK_INCLUDE_PATH . "/libs/upgradephp/upgrade.php";
