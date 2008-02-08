@@ -33,8 +33,17 @@ require_once "LogStats/Db.php";
 require_once "LogStats/Visit.php";
 require_once "LogStats/Generator.php";
 
-Piwik_PluginsManager::getInstance()->unloadPlugins();
-Piwik_PluginsManager::getInstance()->doNotLoadPlugins();	
+// unload all loaded plugins
+//Piwik_PluginsManager::getInstance()->unloadPlugins();
+
+// we unload the Provider plugin otherwise it tries to lookup the IP for ahostname, and there is no dns server here
+Piwik_PluginsManager::getInstance()->unloadPlugin('Provider');
+
+// we set the DO NOT load plugins so that the LogStats generator doesn't load the plugins we've just disabled.
+// if for some reasons you want to load the plugins, comment this line, and disable the plugin Provider in the plugins interface
+// (see explanation above)
+Piwik_PluginsManager::getInstance()->doNotLoadPlugins();
+
 $generator = new Piwik_LogStats_Generator;
 $generator->setMaximumUrlDepth(12);
 $generator->disableProfiler();
@@ -44,20 +53,19 @@ $nbActionsTotal = 0;
 //$generator->emptyAllLogTables();
 $generator->init();
 
-
 $t = new Piwik_Timer;
 
 /*
  * Generate visits / actions for the last 31 days
  */
 
-$daysToCompute = 3;
+$daysToCompute = 1;
 
 // do NOT edit this line
 $startTime = time() - ($daysToCompute-1)*86400;
 while($startTime <= time())
 {
-	$visits = rand(5,50);
+	$visits = rand(5,6);
 	$actions=10;
 //	$actions = 10;
 //	$visits = rand(10,30);

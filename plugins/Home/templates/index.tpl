@@ -36,7 +36,7 @@ var minDateDay = {$minDateDay};
 <style type="text/css">@import url(libs/jquery/jquery-calendar.css);</style>
 
 
-<script type="text/javascript" src="libs/jquery/superfish.js"></script>
+<script type="text/javascript" src="libs/jquery/superfish_modified.js"></script>
 <script type="text/javascript" src="plugins/Home/templates/menu.js"></script>
 <link rel="stylesheet" type="text/css" href="plugins/Home/templates/menu.css" media="screen">
 

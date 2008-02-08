@@ -13,10 +13,6 @@
 
 <script type="text/javascript" src="plugins/Home/templates/datatable.js"></script>
 <script type="text/javascript" src="plugins/Home/templates/calendar.js"></script>
-
-<script type="text/javascript" src="plugins/Home/templates/mainmenu.js"></script>
-
-
 <script type="text/javascript" src="plugins/Home/templates/date.js"></script>
 
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
