@@ -664,6 +664,7 @@ class Piwik_LogStats_Visit
 						$key = htmlspecialchars(
 									@iconv(	$charset, 
 											'utf-8//TRANSLIT', 
+											//TODO testthis fnction exists!! use upgrade.php
 											htmlspecialchars_decode($key, Piwik_Common::HTML_ENCODING_QUOTE_STYLE))
 									, Piwik_Common::HTML_ENCODING_QUOTE_STYLE);
 					}
