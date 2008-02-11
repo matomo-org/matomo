@@ -5,7 +5,7 @@
 	{if count($arrayDataTable) == 0}
 		<div id="emptyDatatable">No data for this table.</div>
 	{else}
-		<table class="dataTable dataTableActions"> 
+		<table cellspacing="0" class="dataTable dataTableActions"> 
 		<thead>
 		<tr>
 		{foreach from=$dataTableColumns item=column}

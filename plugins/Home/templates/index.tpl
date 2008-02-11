@@ -43,6 +43,113 @@ var minDateDay = {$minDateDay};
 {literal}
 
 <style>
+/* reset style */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1.33;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* start piwik styles */
+body {
+	font-family: Georgia,"Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size:1em;
+}
+
+#h1, #h1 a {
+	color: #006;
+	font-size: 45px;
+	font-weight: lighter;
+	text-decoration : none;
+}
+
+#subh1 {
+	color: #879DBD;
+	font-size: 25px;
+	font-weight: lighter;
+}
+h1 {
+	font-size:2em;
+	color:#0F1B2E;
+	padding-bottom:1em;
+}
+h2 {
+	font-size:1.6em;
+	color:#1D3256;	
+	padding-bottom:0.5em;
+	
+}
+h3 {
+	font-size:1.3em;
+	margin-top:2em;
+	color:#1D3256;
+}
+a {
+	color:#0F1B2E;
+}
+p { 
+	padding-bottom:1em;
+	margin-right:1em;
+}
+
+/* Content */
+#content {
+	margin-left:10px;
+}
+/* 2 columns reports */
+#leftcolumn {
+	float:left;
+	width:45%;
+	padding-left:10px;
+	padding-right:20px;
+}
+#rightcolumn {
+	float: right;
+	width:45%;
+	padding-left:20px;
+}
+
+
 
 /* Calendar */
 #calendar {
@@ -67,7 +174,8 @@ var minDateDay = {$minDateDay};
 	margin-left:350px;
 }
 
-#periodString, #periodString a  {
+#periodString #date, #periodString #periods, 
+#periodString #date a, #periodString #periods a  {
 	color:#520202;
 	font-size:15pt;
 }
@@ -87,53 +195,7 @@ var minDateDay = {$minDateDay};
 }
 
 
-body {
-	font-family: Georgia,"Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	font-size:1em;
-}
-
-#h1, #h1 a {
-	color: #006;
-	font-size: 45px;
-	font-weight: lighter;
-	text-decoration : none;
-}
-
-#subh1 {
-	color: #879DBD;
-	font-size: 25px;
-	font-weight: lighter;
-}
-h1 {
-	font-size:2em;
-	color:#0F1B2E;
-}
-h2 {
-	font-size:1.6em;
-	color:#1D3256;
-}
-h3 {
-	font-size:1.3em;
-	margin-top:2em;
-	color:#1D3256;
-}
-a {
-	color:#0F1B2E;
-}
-
-/* 2 columns reports */
-#leftcolumn {
-	float:left;
-	width:45%;
-	padding-left:10px;
-	padding-right:20px;
-}
-#rightcolumn {
-	float: right;
-	width:45%;
-	padding-left:20px;
-}
-
+/* OTHER */
 #loadingError {
 	font-weight:bold;
 	font-size: 1.1em;
@@ -154,17 +216,9 @@ a {
 	padding-right:20px;
 }
 
-#sitesSelection {
-}
 #periodSelection, #periodSelection a {
 	color:#8D92AA;
 }
-
-.section {
-	display:none;
-}
-
-
 
 #messageToUsers, #messageToUsers a {
 	color:red;
