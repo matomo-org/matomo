@@ -131,17 +131,18 @@
 
 .subMenu {
 	float:left;
-	margin: 20px;
+	margin: 30px;
 }
 
 #sub1.subMenu {
 	cursor: default;
+	margin-left: 50px;
 }
 #sub2.subMenu {
-	width: 25%;
 	cursor: pointer;
 }
 #sub3.subMenu {
+	float: right;
 	width: 40%
 }
 

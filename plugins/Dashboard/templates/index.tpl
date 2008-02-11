@@ -38,7 +38,7 @@
 	</div>
 	
 	<div class="menu" id="widgetChooser">
-		<div id="closeMenuIcon"><img src="themes/default/images/close_medium.png" /></div>
+		<div id="closeMenuIcon"><img src="themes/default/images/close_medium.png" title="Close this menu"/></div>
 		<div id="menuTitleBar">Select the widget to add in the dashboard</div>
 		<div class="subMenu" id="sub1">
 		</div>
