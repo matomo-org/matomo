@@ -58,11 +58,7 @@
 			</div>
 		</div>
 		
-		<div class="menuClear"> </div>		
-		
-		<div class="button" id="hideMenu">
-			Hide menu...
-		</div>
+		<div class="menuClear"> </div>
 	</div>	
 
 	<div class="col" id="1">

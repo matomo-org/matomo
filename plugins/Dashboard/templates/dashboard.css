@@ -36,6 +36,7 @@
 
 .handle {
 	background: #F0F0FA;
+	border-bottom: 1px solid #D2D9EB;
 	width: 100%;
 	cursor: move;
 	font-size: 10pt;
@@ -106,6 +107,11 @@
 	margin-bottom: -2px;
 }
 
+.menuDisabled {
+	color: lightgrey;
+	cursor: default;
+}
+
 .widgetLoading {
 	cursor: wait;
 }
@@ -129,7 +135,7 @@
 }
 
 #sub1.subMenu {
-	cursor: normal;
+	cursor: default;
 }
 #sub2.subMenu {
 	width: 25%;
