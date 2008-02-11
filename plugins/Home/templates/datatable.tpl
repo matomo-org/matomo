@@ -6,7 +6,7 @@
 		<div id="emptyDatatable">No data for this table.</div>
 		{else}
 			<a name="{$id}"></a>
-			<table class="dataTable"> 
+			<table cellspacing="0" class="dataTable"> 
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column}

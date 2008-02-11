@@ -1,7 +1,7 @@
 simple fix
 ====
 next previous should be after a line break
-table dont have left borders for labels
+table dont have left borders for labels // idem for actions when just loaded
 
 error RSS Feed only used on DataTable_Array http://piwik.org/demo/?module=API&method=Referers.getKeywords&idSite=1&period=week&date=yesterday&format=rss&filter_limit=30&filter_sort_column=3 
 NOT CLEAR MESSAGE
