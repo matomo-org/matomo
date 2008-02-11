@@ -95,11 +95,13 @@ function filterOutAlreadyLoadedWidget()
 		var action = $(this).attr('actionToLoad');
 		if(contains(widgets, plugin+'.'+action))
 		{
-			$(this).hide();
+			$(this).addClass('menuDisabled');
+			$(this).attr('title', 'Widget already in dashboard');
 		}
 		else
 		{
-			$(this).show();
+			$(this).removeClass('menuDisabled');
+			$(this).attr('title', 'Click to add to dashboard');
 		}
 	});
 }
@@ -133,6 +135,9 @@ function bindMenuEvents(menu)
 		$(this).hover(
 			function()
 			{
+				$('.widgetDiv.previewDiv', menu).empty()
+												.attr('plugin', '')
+												.attr('id', '');
 				$('.menuItem', menu).removeClass('menuSelected');
 				$('.subMenu#sub1 .subMenuItem', menu).removeClass('menuSelected');
 				$('.subMenu#sub2 .subMenuItem', menu).hide();
@@ -144,23 +149,26 @@ function bindMenuEvents(menu)
 	$('.menuItem', menu).hover(
 	function()
 	{
-		var plugin = $(this).attr('pluginToLoad');
-		var action = $(this).attr('actionToLoad');
-		
-		$('.menuItem', menu).removeClass('menuSelected');
-		$(this).addClass('menuSelected');
-		
-		$('.widgetDiv.previewDiv', menu).each(function(){
-			//only reload preview if necessary
-			if($(this).attr('plugin')!=plugin || $(this).attr('id')!=action)
-			{
-				//format the div for upcomming ajax loading and set a temporary content
-				$(this)	.attr('plugin', plugin)
-						.attr('id', action)
-						.html('<div id="previewLoading"><img src="themes/default/loading.gif" /> Loading preview, please wait...</div>').show();
-				ajaxLoading(plugin, action);
-			}
-		});
+		if(!$(this).hasClass('menuDisabled'))
+		{
+			var plugin = $(this).attr('pluginToLoad');
+			var action = $(this).attr('actionToLoad');
+			
+			$('.menuSelected', menu).removeClass('menuSelected');
+			$(this).addClass('menuSelected');
+			
+			$('.widgetDiv.previewDiv', menu).each(function(){
+				//only reload preview if necessary
+				if($(this).attr('plugin')!=plugin || $(this).attr('id')!=action)
+				{
+					//format the div for upcomming ajax loading and set a temporary content
+					$(this)	.attr('plugin', plugin)
+							.attr('id', action)
+							.html('<div id="previewLoading"><img src="themes/default/loading.gif" /> Loading preview, please wait...</div>').show();
+					ajaxLoading(plugin, action);
+				}
+			});
+		}
 		
 	},function(){})
 	.click(function(){
