@@ -280,11 +280,13 @@ function addEmptyWidget(colNumber, plugin, action, onTop)
 	$(widget).hover(
 		function()
 		{
+			$(this).addClass('widgetHover');
 			$('.handle',this).addClass('handleHover');
 			button.show();
 		},
 		function()
 		{
+			$(this).removeClass('widgetHover');
 			$('.handle',this).removeClass('handleHover');
 			button.hide();
 		}
@@ -368,6 +370,10 @@ function onStop()
 {
 	hideUnnecessaryDummies();
 	saveLayout();
+	
+	$('.widgetHover', this).removeClass('widgetHover');
+	$('.handleHover', this).removeClass('handleHover');
+	$('.button#close', this).hide();
 }
 
 function onDeleteItem(ev)
