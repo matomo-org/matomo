@@ -96,6 +96,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	function databaseSetup()
 	{
+		// case the user hits the back button
+		$_SESSION['skipThisStep']['firstWebsiteSetup'] = false;
+		$_SESSION['skipThisStep']['displayJavascriptCode'] = false;
+		
 		$view = new Piwik_Install_View(
 						$this->pathView . 'databaseSetup.tpl', 
 						$this->getInstallationSteps(),

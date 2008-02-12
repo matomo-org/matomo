@@ -328,10 +328,16 @@ class Piwik
 		return !is_array($value) && ereg('^([-]{0,1}[0-9]{1,}[.]{0,1}[0-9]*)$', $value);
 	}
 	
+	
 	static public function loadPlugins()
 	{
 		Piwik_PluginsManager::getInstance()->setLanguageToLoad(  Piwik_Translate::getInstance()->getLanguageToLoad() );
 		Piwik_PluginsManager::getInstance()->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+	}
+	
+	static public function terminateLoadPlugins()
+	{
+		Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 	}
 	
 	static public function getTableCreateSql( $tableName )

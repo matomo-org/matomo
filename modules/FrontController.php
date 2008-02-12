@@ -257,6 +257,9 @@ class Piwik_FrontController
 		// Create the log objects
 		Piwik::createLogObject();
 		
+		
+		Piwik::terminateLoadPlugins();
+		
 		Piwik::install();
 		
 //		Piwik::printMemoryUsage('Start program');
