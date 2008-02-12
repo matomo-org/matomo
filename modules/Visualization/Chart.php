@@ -73,7 +73,7 @@ abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashCh
 		$this->arrayData = $data;
 		$this->arrayLabel = $label;
 		
-		$this->arrayLabel = str_replace(",",urlencode(';'),$this->arrayLabel);
+		$this->arrayLabel = str_replace(","," -",$this->arrayLabel);
 		
 		$this->maxData = $max;
 		if($this->maxData > 10)
