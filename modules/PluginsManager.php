@@ -110,6 +110,61 @@ class Piwik_PluginsManager
 			}
 		} catch(Exception $e) {}
 	}
+	
+	/**
+	 * TODO horrible dirty hack because the Config class is not clean enough. Needs to rewrite the Config
+	 * __set and __get in a cleaner way, also see the __destruct which writes the configuration file.
+	 *
+	 * @return array
+	 */
+	protected function getInstalledPlugins()
+	{
+//		var_dump(Zend_Registry::get('config')->PluginsInstalled);
+		if(!class_exists('Zend_Registry'))
+		{
+			throw new Exception("Not possible to list installed plugins (case LogStats module)");
+		}
+		if(!is_null(Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled))
+		{
+			return Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled->toArray();
+		}
+		elseif(is_array(Zend_Registry::get('config')->PluginsInstalled))
+		{
+			return Zend_Registry::get('config')->PluginsInstalled;
+		}
+		else
+		{
+			return Zend_Registry::get('config')->PluginsInstalled->toArray();
+		}
+	}
+	
+	public function installLoadedPlugins()
+	{
+		foreach($this->getLoadedPlugins() as $plugin)
+		{
+			try {
+				$this->installPluginIfNecessary( $plugin );
+			}catch(Exception $e){
+				echo $e->getMessage();
+			}				
+		}
+	}
+	
+	protected function installPluginIfNecessary( Piwik_Plugin $plugin )
+	{
+		$pluginName = $plugin->getName();
+		
+		// is the plugin already installed or is it the first time we activate it?
+		$pluginsInstalled = $this->getInstalledPlugins();
+//			echo "$pluginName before=".var_dump($pluginsInstalled);
+		if(!in_array($pluginName,$pluginsInstalled))
+		{
+			$this->installPlugin($plugin);
+			$pluginsInstalled[] = $pluginName;
+//			var_dump($pluginsInstalled);
+			Zend_Registry::get('config')->PluginsInstalled = $pluginsInstalled;	
+		}
+	}
 	public function activatePlugin($pluginName)
 	{
 		$plugins = Zend_Registry::get('config')->Plugins->Plugins->toArray();
@@ -126,14 +181,7 @@ class Piwik_PluginsManager
 		
 		$plugin = $this->loadPlugin($pluginName);
 		
-		// is the plugin already installed or is it the first time we activate it?
-		$pluginsInstalled = Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled->toArray();
-		if(!in_array($pluginName,$pluginsInstalled))
-		{
-			$this->installPlugin($plugin);
-			$pluginsInstalled[] = $pluginName;
-			Zend_Registry::get('config')->PluginsInstalled = $pluginsInstalled;	
-		}
+		$this->installPluginIfNecessary($plugin);
 		
 		$information = $plugin->getInformation();
 		
@@ -228,10 +276,9 @@ class Piwik_PluginsManager
 		foreach($this->pluginsToLoad as $pluginName)
 		{
 			$newPlugin = $this->loadPlugin($pluginName);
-			
+
 			// if we have to load the plugins
-			// and if this plugin is activated
-			
+			// and if this plugin is activated			
 			if($this->doLoadPlugins
 				&& $this->isPluginEnabled($pluginName))
 			{
@@ -289,8 +336,7 @@ class Piwik_PluginsManager
 		try{
 			$plugin->install();
 		} catch(Exception $e) {
-			throw new Exception("There was a problem installing the plugin ". $plugin->getName() . " = " . $e->getMessage() );
-		}	
+			throw new Piwik_Plugin_Exception($plugin->getName(), $e->getMessage());		}	
 	}
 	
 	public function installPlugins()
@@ -301,11 +347,10 @@ class Piwik_PluginsManager
 			try{
 				$plugin->install();
 			} catch(Exception $e) {
-				throw new Exception("There was a problem installing the plugin ". $plugin->getName() . " = " . $e->getMessage() );
+				throw new Piwik_Plugin_Exception($plugin->getName(), $e->getMessage());
 			}
 		}
 	}
-	
 	public function setLanguageToLoad( $code )
 	{
 		$this->languageToLoad = $code;
@@ -350,6 +395,19 @@ class Piwik_PluginsManager
 		}
 	}
 }
+
+
+class Piwik_Plugin_Exception extends Exception 
+{
+	function __construct($name, $message)
+	{
+		parent::__construct("There was a problem installing the plugin ". $name . " = " . $message.
+				"<br><b>If this plugin has already been installed, and if you want to hide this message</b>, you must add the following line under the 
+				<code>[PluginsInstalled]</code> entry in your config/config.ini.php file:<br>
+				<code>PluginsInstalled[] = $name</code><br><br>" );
+	}
+}
+
 
 /**
  * Post an event to the dispatcher which will notice the observers

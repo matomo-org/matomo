@@ -13,6 +13,11 @@ require_once "Zend/Config/Ini.php";
 require_once "Zend/Registry.php";
 
 /**
+ * TODO rewrite__set __get __destruct
+ * tests: install 
+ * test dashboard has been installed (means config file written dashboard in PluginsInstalled
+ * test activate/deactivate plugins
+ * rewrite logic behind saving arrays, very bad at the moment
  * 
  * @package Piwik_Helper
  */
