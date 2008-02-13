@@ -1,5 +1,8 @@
 simple fix
 ====
+PPT= TRY PIWIK instead of onlin demo + screenshot piiwk
+add links back admin plugins + generate visits
+
 next previous should be after a line break
 table dont have left borders for labels // idem for actions when just loaded
 when no website => installation, explain delete config file etc
@@ -8,7 +11,6 @@ deleting the last website should not be possible or then we must create a new on
 error RSS Feed only used on DataTable_Array http://piwik.org/demo/?module=API&method=Referers.getKeywords&idSite=1&period=week&date=yesterday&format=rss&filter_limit=30&filter_sort_column=3 
 NOT CLEAR MESSAGE
 review the loading widget style
-prob on browsers family graphs comma not escaped http://piwik.org/demo/?module=UserSettings&action=getBrowserType&idSite=1&period=day&date=2008-02-06&filter_excludelowpop_default=false&filter_excludelowpop_value_default=false&show_search=false&show_offset_information=false&show_exclude_low_population=false&enable_sort=1&viewDataTable=generateDataChartPie&totalRows=4
 getProviderBlob public api??
 
 menu lateral plus discret
@@ -19,14 +21,10 @@ user tracking
 
 label th not posiionned properly on IE6
 plugins easy to register a new hook
-fix pie chart long labels
 
 tasks documentation effort precise tickets
 
 loading widget... padding+style
-
-EREG break on 
-http://127.0.0.1/svn-dev/trunk/index.php?filter_sort_column=nb_hits&filter_sort_order=desc&filter_offset=0&filter_limit=100&module=Actions&action=getActions&idSite=1&period=day&date=2008-02-04&filter_excludelowpop_default=nb_hits&filter_excludelowpop_value_default=10&search_recursive=1&filter_excludelowpop=nb_hits&filter_excludelowpop_value=10&actionToLoadTheSubTable=getActionsSubDataTable&totalRows=12&show_search=1&show_offset_information=false&show_exclude_low_population=1&enable_sort=false&filter_column_recursive=label&filter_pattern_recursive=*
 
 hide export in datatable footer (eg pie chart for plugins)
 
