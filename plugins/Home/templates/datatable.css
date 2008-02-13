@@ -43,9 +43,6 @@ table.dataTable tr.subDataTable{
 	cursor:pointer;
 }
 
-table.dataTable th.label {
-	border-left:1px solid #C1DAD7;
-}
 
 table.dataTable th {
 	margin:0;
@@ -71,11 +68,6 @@ table.dataTable td {
 	padding: 5px 5px 5px 12px;
 	background: #fff;
 }
-
-table.dataTable td.label{
-	border-left: 1px solid #C1DAD7;	
-}
-
 table.dataTable td, table.dataTable td a {
 	margin:0;
 	text-decoration:none;
@@ -100,10 +92,16 @@ table.dataTable td.labelodd {
 	background: #fff url(images/bullet1.gif) no-repeat;
 }
 
-table.dataTable td.label {
+table.dataTable td.label,
+table.subActionsDataTable td.label,
+table.actionsDataTable td.label {
 	border-top: 0;
 	border-left:1px solid #C1DAD7;
 }
+table.dataTable th.label {
+	border-left:1px solid #C1DAD7;
+}
+
 
 /* the cell containing the subdatatable */
 table.dataTable .cellSubDataTable {

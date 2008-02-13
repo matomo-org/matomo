@@ -815,7 +815,7 @@ actionDataTable.prototype =
 			self.loading = true;*/
 			var numberOfColumns = $(domElem).children().length;
 			$(domElem).after( '\
-			<tr id="'+divIdToReplaceWithSubTable+'">\
+			<tr id="'+divIdToReplaceWithSubTable+'" class="cellSubDataTable">\
 				<td colspan="'+numberOfColumns+'">\
 						<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
 				</td>\
