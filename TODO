@@ -1,56 +1,18 @@
 simple fix
 ====
-PPT= TRY PIWIK instead of onlin demo + screenshot piiwk
-add links back admin plugins + generate visits
+plugins easy to register a new hook
 
-next previous should be after a line break
-table dont have left borders for labels // idem for actions when just loaded
-when no website => installation, explain delete config file etc
-deleting the last website should not be possible or then we must create a new one
+PPT= TRY PIWIK instead of onlin demo + screenshot piiwk
 
 error RSS Feed only used on DataTable_Array http://piwik.org/demo/?module=API&method=Referers.getKeywords&idSite=1&period=week&date=yesterday&format=rss&filter_limit=30&filter_sort_column=3 
 NOT CLEAR MESSAGE
-review the loading widget style
-getProviderBlob public api??
-
-menu lateral plus discret
-valid INDEX html css
-footer api home devzone feedback seo
-
-user tracking
 
 label th not posiionned properly on IE6
-plugins easy to register a new hook
 
-tasks documentation effort precise tickets
-
-loading widget... padding+style
-
-hide export in datatable footer (eg pie chart for plugins)
-
-proper date handling
-- in graphs (titles/legends/x-y labels)
-- in UI
-- in tables
-
-Translation 
-- columns labels
-- section titles
-
+documenter 	const VISIT_STANDARD_LENGTH = 1800; when writing plugin and need to test stats log
 
 CHANGES DONE TO LIBRARIES
 =========================
 - edited zend_log and changed attr to protected
 - fixed bug fwrite in zend_log stream writer
 - fixed PEAR so that it works under PHP5 with STRICT MODE enabled
-
-
-# Documentation
-  - Document the Piwik architecture: 
-   API concept, 
-   Plugins concept, 
-   Logging engine,
-   Archiving process, 
-   Reporting process, 
-   MVC model, 
-   DataTable concept

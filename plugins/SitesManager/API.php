@@ -243,6 +243,14 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	{
 		Piwik::checkUserIsSuperUser();
 		
+		$nbSites = count(Piwik_SitesManager_API::getAllSitesId());
+
+		if($nbSites == 1)
+		{
+			throw new Exception("It is not possible to delete this website as it is the only registered website. 
+			Add a new website first, then delete this one.");
+		}
+		
 		$db = Zend_Registry::get('db');
 		
 		$db->query("DELETE FROM ".Piwik::prefixTable("site")." 
@@ -250,6 +258,9 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		
 		$db->query("DELETE FROM ".Piwik::prefixTable("site_url")." 
 					WHERE idsite = ?", $idSite);
+		
+		// TODO we should also delete all the data relative to this website...
+		// post an event here that will be catched by the core and plugins to clean the data
 	}
 	
 	
