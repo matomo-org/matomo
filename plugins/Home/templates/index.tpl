@@ -84,11 +84,6 @@ del {
 	text-decoration: line-through;
 }
 
-/* tables still need 'cellspacing="0"' in the markup */
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
 
 /* start piwik styles */
 body {

@@ -152,10 +152,7 @@ class Piwik_API_Request
 				throw $e;
 			}
 			$message = $e->getMessage();
-			
-			// it seems that JSON doesn't like line breaks
-			$message = nl2br($message);
-			
+						
 			$toReturn =  $this->getExceptionOutput( $message, $this->outputFormatRequested);
 			
 		}
@@ -384,6 +381,8 @@ class Piwik_API_Request
 			break;
 			case 'json':
 				@header( "Content-type: application/json" );
+				// we remove the \n from the resulting string as this is not allowed in json
+				$message = str_replace("\n","",$message);
 				$return = '{"result":"error", "message":"'.htmlentities($message).'"}';
 			break;
 			case 'php':
