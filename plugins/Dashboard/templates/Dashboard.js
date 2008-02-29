@@ -1,5 +1,6 @@
 
-//there is a problem with loop when we extends javascript Array
+//there is a problem with loop for-in when we extends javascript Array
+//so I prefer using a separate function to do this
 function contains(array, searchElem) {
 	for(var i=0; i<array.length; i++) {
 		if (array[i]==searchElem) {

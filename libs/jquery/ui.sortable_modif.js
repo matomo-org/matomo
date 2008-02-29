@@ -30,9 +30,9 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 	};
 	
 	$.ui.sortable = function(el,o) {
-	
 		this.element = el;
 		this.set = [];
+		this.offset = [];
 		var options = {};
 		var self = this;
 		$.data(this.element, "ui-sortable", this);
@@ -42,7 +42,7 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 		$.extend(options, {
 			items: options.items || '> li',
 			smooth: options.smooth != undefined ? options.smooth : true,
-			helper: options.helper || 'clone',
+			helper: options.helper || 'clone', //JU: modified this line from the original file (helper:'clone')
 			containment: options.containment ? (options.containment == 'sortable' ? el : options.containment) : null,
 			zIndex: options.zIndex || 1000,
 			_start: function(h,p,c,t,e) {
@@ -76,6 +76,7 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 		//Add current items to the set
 		items.each(function() {
 			self.set.push([this,null]);
+			self.offset.push($(this).offset());
 		});
 		
 		this.options = options;
@@ -134,7 +135,7 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 			this.disabled = true;
 		},
 		start: function(that, e) {
-			
+		
 			var o = this.options;
 
 			if(o.hoverClass) {
@@ -155,6 +156,16 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 			$(this.element).css('visibility', 'hidden');
 			$(this.element).triggerHandler("sortstart", [e, that.prepareCallbackObj(this)], o.start);
 			
+			//JU: added a variable for a ugly hack
+			this.occurCount = 0;
+			
+			//JU: reset offset cache
+			that.offset = [];
+			for(var i=0;i<that.set.length;i++)
+			{
+				that.offset.push($(that.set[i][0]).offset());
+			}
+			
 			return false;
 						
 		},
@@ -166,7 +177,7 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 
 			if(o.smooth) {
 				var os = $(this.element).offset();
-				$(this.helper).animate({ left: os.left - o.po.left, top: os.top - o.po.top }, 500, stopIt);
+				$(this.helper).animate({ left: os.left - o.po.left, top: os.top - o.po.top }, 200, stopIt);
 			} else {
 				stopIt();
 			}
@@ -198,61 +209,53 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 			var o = this.options;
 
 			this.pos = [this.pos[0]-(o.cursorAt.left ? o.cursorAt.left : 0), this.pos[1]-(o.cursorAt.top ? o.cursorAt.top : 0)];
-			var nv =  $(this.element).triggerHandler("sort", [e, that.prepareCallbackObj(this)], o.sort);
-			var nl = (nv && nv.left) ? nv.left :  this.pos[0];
-			var nt = (nv && nv.top) ? nv.top :  this.pos[1];
+			var nl = this.pos[0];
+			var nt = this.pos[1];
 			
-
-			var m = that.set;
-			var p = this.pos[1];
+			var widX = this.pos[0]+(this.options.po ? this.options.po.left:0);
+			var widY = this.pos[1]+(this.options.po ? this.options.po.top:0);
 			
-			for(var i=0;i<m.length;i++) {
+			if(this.occurCount++ >= 5)
+			{
+				this.occurCount = 0;
+				var moved = false;
+				var m = that.set;
+				var p = this.pos[1];
 				
-				var ci = $(m[i][0]); var cio = m[i][0];
-				if(this.element.contains(cio)) continue;
-				var cO = ci.offset(); //TODO: Caching
-				cO = { top: cO.top, left: cO.left };
-				
-				var mb = function(e) { if(true || o.lba != cio) { ci.before(e); o.lba = cio; } }
-				var ma = function(e) { if(true || o.laa != cio) { ci.after(e); o.laa = cio; } }
-				
-				if(o.floating) {
-					var overlap = ((cO.left - (this.pos[0]+(this.options.po ? this.options.po.left : 0)))/this.helper.offsetWidth);
-					//console.log('po.left=%d, offWidth=%d, overlap=%d', this.options.po.left, this.helper.offsetWidth, overlap);
-					if(!(cO.top < this.pos[1]+(this.options.po ? this.options.po.top : 0) + cio.offsetHeight/2 && cO.top + cio.offsetHeight > this.pos[1]+(this.options.po ? this.options.po.top : 0) + cio.offsetHeight/2)) continue;
-				} else {
-					var overlap = ((cO.top - (this.pos[1]+(this.options.po ? this.options.po.top : 0)))/this.helper.offsetHeight);
-					//console.log('po.top=%d, offHeight=%d, overlap=%d', this.options.po.top, this.helper.offsetHeight, overlap);
-					if(!(cO.left < this.pos[0]+(this.options.po ? this.options.po.left : 0) + cio.offsetWidth/2 && cO.left + cio.offsetWidth > this.pos[0]+(this.options.po ? this.options.po.left : 0) + cio.offsetWidth/2)) continue;
-				}
-				
-				if(overlap >= 0 && overlap <= 0.5) { //Overlapping at top
-					ci.prev().length ? ma(this.element) : mb(this.element); break;
-				}
+				for(var i=0;i<m.length;i++)
+				{	
+					var cio = m[i][0];
+					if(this.element.contains(cio)) continue;
+					var cO = that.offset[i];
 
-				if(overlap < 0 && overlap > -0.5) { //Overlapping at bottom
-					ci.next()[0] == this.element ? mb(this.element) : ma(this.element); break;
+					//verify cursor is within target width
+					if(cO.left < widX+cio.offsetWidth/2
+					&& cO.left > widX-cio.offsetWidth/2)
+					{
+						//above
+						if(cO.top < widY+cio.offsetHeight/2
+						&& cO.top > widY-cio.offsetHeight/2)
+						{
+							$(cio).before(this.element);
+							o.lba = cio;
+							moved = true;
+						}					
+					}	
 				}
-
+	
+				//reposition helper if needed
+				if(moved && that.helper)
+				{
+					var to = $(this.element).offset();
+					that.helper.css({
+						top: to.top+'px',
+						left: to.left+'px'	
+					});
+				}
 			}
-			
-			//Let's see if the position in DOM has changed
-			if($(this.element).prev()[0] != that.lastSibling) {
-				$(this.element).triggerHandler("sortchange", [e, that.prepareCallbackObj(this, that)], this.options.change);
-				that.lastSibling = $(this.element).prev()[0];	
-			}
-
-			if(that.helper) { //reposition helper if available
-				var to = $(this.element).offset();
-				that.helper.css({
-					top: to.top+'px',
-					left: to.left+'px'	
-				});
-			}	
 			
 			$(this.helper).css('left', nl+'px').css('top', nt+'px'); // Stick the helper to the cursor
 			return false;
-			
 		}
 	});
 
