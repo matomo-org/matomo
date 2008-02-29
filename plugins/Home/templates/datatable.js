@@ -674,6 +674,7 @@ function actionDataTable()
 	dataTable.call(this);
 	this.parentAttributeParent = '';
 	this.parentId = '';
+	this.disabledRowDom = new Object;	//to handle double click on '+' row
 }
 
 //Prototype of the actionDataTable object
@@ -808,11 +809,10 @@ actionDataTable.prototype =
 		// because when we click a row the level of the next rows is higher (level2 row gives level3 rows)
 		if(currentRowLevel >= nextRowLevel)
 		{
-			/*if(self.loading)
-			{
-				return;
-			}
-			self.loading = true;*/
+			//unbind click to avoid double click problem
+			$(domElem).unbind('click');
+			self.disabledRowDom = $(domElem);
+			
 			var numberOfColumns = $(domElem).children().length;
 			$(domElem).after( '\
 			<tr id="'+divIdToReplaceWithSubTable+'" class="cellSubDataTable">\
@@ -846,9 +846,24 @@ actionDataTable.prototype =
 					if(parents.indexOf(idSubTable) >= 0 || parents.indexOf('subDataTable_'+idSubTable) >= 0)
 					{
 						if(plusDetected)
+						{
 							$(this).css('display','');
+								
+							//unroll everything and display '-' sign
+							//if the row is already opened	
+							var NextStyle = $(this).next().attr('class');
+							var CurrentStyle = $(this).attr('class');
+		
+							var currentRowLevel = getLevelFromClass(CurrentStyle);
+							var nextRowLevel = getLevelFromClass(NextStyle);
+
+							if(currentRowLevel < nextRowLevel)
+								setImageMinus(this);
+						}
 						else
+						{
 							$(this).css('display','none');
+						}
 					}
 				}
 			});
@@ -904,6 +919,13 @@ actionDataTable.prototype =
 		
 		// we execute the bindDataTableEvent function for the new DIV
 		self.init(self.workingDivId, $('#'+idToReplace));
+		
+		//bind back the click event (disabled to avoid double-click problem)
+		self.disabledRowDom.click(
+			function()
+			{
+				self.onClickActionSubDataTable(this)
+			});
 	}
 };
 
