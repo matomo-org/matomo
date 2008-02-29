@@ -200,7 +200,6 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 
 			}
 			
-
 			return false;
 			
 		},
@@ -215,42 +214,49 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 			var widX = this.pos[0]+(this.options.po ? this.options.po.left:0);
 			var widY = this.pos[1]+(this.options.po ? this.options.po.top:0);
 			
-			if(this.occurCount++ >= 5)
-			{
-				this.occurCount = 0;
-				var moved = false;
-				var m = that.set;
-				var p = this.pos[1];
-				
-				for(var i=0;i<m.length;i++)
-				{	
-					var cio = m[i][0];
-					if(this.element.contains(cio)) continue;
-					var cO = that.offset[i];
+			this.occurCount = 0;
+			var moved = false;
+			var m = that.set;
+			var p = this.pos[1];
+			
+			for(var i=0;i<m.length;i++)
+			{	
+				var cio = m[i][0];
+				if(this.element.contains(cio)) continue;
+				var cO = that.offset[i];
 
-					//verify cursor is within target width
-					if(cO.left < widX+cio.offsetWidth/2
-					&& cO.left > widX-cio.offsetWidth/2)
+				//verify cursor is within target width
+				if(cO.left < widX+cio.offsetWidth/2
+				&& cO.left > widX-cio.offsetWidth/2)
+				{
+					//above
+					if(cO.top < widY+cio.offsetHeight/2
+					&& cO.top > widY-cio.offsetHeight/2)
 					{
-						//above
-						if(cO.top < widY+cio.offsetHeight/2
-						&& cO.top > widY-cio.offsetHeight/2)
+						if(o.lba != cio)
 						{
 							$(cio).before(this.element);
 							o.lba = cio;
 							moved = true;
-						}					
-					}	
-				}
+						}
+					}					
+				}	
+			}
 	
-				//reposition helper if needed
-				if(moved && that.helper)
+			//reposition helper if needed
+			if(moved && that.helper)
+			{
+				var to = $(this.element).offset();
+				that.helper.css({
+					top: to.top+'px',
+					left: to.left+'px'	
+				});
+							
+				//JU: reset offset cache
+				that.offset = [];
+				for(var i=0;i<that.set.length;i++)
 				{
-					var to = $(this.element).offset();
-					that.helper.css({
-						top: to.top+'px',
-						left: to.left+'px'	
-					});
+					that.offset.push($(that.set[i][0]).offset());
 				}
 			}
 			
