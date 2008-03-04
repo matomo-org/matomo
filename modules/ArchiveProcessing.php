@@ -178,7 +178,7 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function getTableArchiveNumericName()
 	{
-		return (string)$this->tableArchiveNumeric;
+		return $this->tableArchiveNumeric->getTableName();
 	}
 	
 	/**
@@ -188,7 +188,7 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function getTableArchiveBlobName()
 	{
-		return (string)$this->tableArchiveBlob;
+		return $this->tableArchiveBlob->getTableName();
 	}
 	
 	
@@ -292,7 +292,7 @@ abstract class Piwik_ArchiveProcessing
 		
 		// delete the first done = ERROR 
 		Zend_Registry::get('db')->query("
-							DELETE FROM ".$this->tableArchiveNumeric." 
+							DELETE FROM ".$this->tableArchiveNumeric->getTableName()." 
 							WHERE idarchive = ? AND name = 'done'",
 					array($this->idArchive)
 				);
@@ -327,7 +327,7 @@ abstract class Piwik_ArchiveProcessing
 	protected function loadNextIdarchive()
 	{
 		$db = Zend_Registry::get('db');
-		$id = $db->fetchOne("SELECT max(idarchive) FROM ".$this->tableArchiveNumeric);
+		$id = $db->fetchOne("SELECT max(idarchive) FROM ".$this->tableArchiveNumeric->getTableName());
 		if(empty($id))
 		{
 			$id = 0;
@@ -353,7 +353,7 @@ abstract class Piwik_ArchiveProcessing
 			$table = $this->tableArchiveBlob;
 		}
 		
-		$query = "INSERT INTO ".$table." (idarchive, idsite, date1, date2, period, ts_archived, name, value)
+		$query = "INSERT INTO ".$table->getTableName()." (idarchive, idsite, date1, date2, period, ts_archived, name, value)
 					VALUES (?,?,?,?,?,?,?,?)";
 		Zend_Registry::get('db')->query($query, 
 							array(	$this->idArchive,
@@ -416,7 +416,7 @@ abstract class Piwik_ArchiveProcessing
 		$bindSQL[] = $this->maxTimestampArchive;
 			
 		$sqlQuery = "	SELECT idarchive, value, name, UNIX_TIMESTAMP(date1) as timestamp
-						FROM ".$this->tableArchiveNumeric."
+						FROM ".$this->tableArchiveNumeric->getTableName()."
 						WHERE idsite = ?
 							AND date1 = ?
 							AND date2 = ?
