@@ -185,7 +185,7 @@ function movePreviewToDashboard(menu)
 		
 		addEmptyWidget(1, plugin, action, true);
 		
-		var parDiv = $('.col#1 .widgetDiv#'+action);
+		var parDiv = $('.col#1 .widgetDiv[plugin='+plugin+']'+'#'+action);
 		parDiv.show();
 		parDiv.siblings('.widgetLoading').hide();
 		
@@ -272,7 +272,7 @@ function addEmptyWidget(colNumber, plugin, action, onTop)
 	var title = getWidgetTitle(plugin, action);
 	
 	//add an handle to each items
-	var widget = $('.col#'+colNumber+' .widgetDiv#'+action).parents('.widget');
+	var widget = $('.col#'+colNumber+' .widgetDiv#'+action+'[plugin='+plugin+']').parents('.widget');
 	addHandleToWidget(widget, title);
 	
     var button = $('.button#close', widget);
@@ -324,7 +324,7 @@ function addHandleToWidget(widget, title)
 function addWidgetAndLoad(colNumber, plugin, action, onTop)
 {
 	addEmptyWidget(colNumber, plugin, action, onTop);
-    loadItem($('.items #'+action).parents('.items'));
+    loadItem($('.items [plugin='+plugin+']#'+action).parents('.items'));
 }
 
 function loadItem(domElem)
@@ -460,7 +460,7 @@ function ajaxLoading(pluginId, actionId, callbackAfterLoaded)
 	// When ajax replied, we replace the right div with the response
 	function onLoaded(response)
 	{
-		var parDiv = $('.widgetDiv#'+actionId);
+		var parDiv = $('.widgetDiv#'+actionId+'[plugin='+pluginId+']');
 		parDiv.siblings('.widgetLoading').hide();
 		parDiv.html($(response)).show();
 		if(typeof callbackAfterLoaded != 'undefined')

@@ -159,7 +159,7 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 			//JU: added a variable for a ugly hack
 			this.occurCount = 0;
 			
-			//JU: reset offset cache
+			//JU: reset offset cache (that's the time consumming operation under opera)
 			that.offset = [];
 			for(var i=0;i<that.set.length;i++)
 			{
