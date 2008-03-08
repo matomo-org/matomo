@@ -310,6 +310,7 @@ To use standard view, enable JavaScript by changing your browser options, then <
 </div>
 
 {if ereg('http://127.0.0.1|http://localhost|http://piwik.org', $url)}
+{literal}
 <!-- Piwik -->
 <a href="http://piwik.org" title="Web analytics" onclick="window.open(this.href);return(false);">
 <script language="javascript" src="piwik.js" type="text/javascript"></script>
@@ -318,12 +319,12 @@ To use standard view, enable JavaScript by changing your browser options, then <
 piwik_action_name = '';
 piwik_idsite = 1;
 piwik_url = 'piwik.php';
-piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+piwik_vars = { 'video_play':1, 'video_finished':0 };
+piwik_log(piwik_action_name, piwik_idsite, piwik_url, piwik_vars);
 //-->
 </script><object>
 <noscript><p>Web analytics <img src="piwik.php" style="border:0" alt="piwik"/></p>
 </noscript></object></a>
 <!-- /Piwik -->
+{/literal}
 {/if}
-{* useful when working on the UI, the page generation is faster to skip other reports...
-{php}exit;{/php}*}
