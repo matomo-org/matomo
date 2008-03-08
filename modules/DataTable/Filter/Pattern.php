@@ -25,7 +25,9 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	public function __construct( $table, $columnToFilter, $patternToSearch )
 	{
 		parent::__construct($table);
-		$this->patternToSearch = preg_quote($patternToSearch);
+//		$patternToSearch = preg_quote($patternToSearch, '/');
+//		$patternToSearch = str_replace('*','\*',$patternToSearch);
+		$this->patternToSearch = $patternToSearch;
 		$this->columnToFilter = $columnToFilter;
 		$this->filter();
 	}
@@ -34,7 +36,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	{
 		foreach($this->table->getRows() as $key => $row)
 		{
-			if( !eregi($this->patternToSearch, $row->getColumn($this->columnToFilter)))
+			if( stripos($row->getColumn($this->columnToFilter), $this->patternToSearch) === false)
 			{
 				$this->table->deleteRow($key);
 			}
