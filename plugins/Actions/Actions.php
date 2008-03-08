@@ -9,7 +9,6 @@
  * @package Piwik_Actions
  */
 	
-
 /**
  * 
  * @package Piwik_Actions
@@ -98,10 +97,10 @@ class Piwik_Actions extends Piwik_Plugin
 		 */
 		$query = "SELECT 	name,
 							type,
-							count(distinct idvisit) as nb_visits, 
+							count(distinct t1.idvisit) as nb_visits, 
 							count(*) as nb_hits							
-				 	FROM (".$archiveProcessing->logTable." 
-						LEFT JOIN ".$archiveProcessing->logVisitActionTable." USING (idvisit))
+				 	FROM (".$archiveProcessing->logTable." as t1
+						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
 							LEFT JOIN ".$archiveProcessing->logActionTable." USING (idaction)
 				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
