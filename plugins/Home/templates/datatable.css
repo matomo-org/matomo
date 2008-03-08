@@ -188,7 +188,6 @@ table thead div {
 #dataTableSearchPattern {
 	display:inline;
 	white-space:nowrap;
-	position: relative;
 }
 #dataTableSearchPattern input {
 	font-size: 0.7em;
