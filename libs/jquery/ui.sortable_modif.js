@@ -1,10 +1,11 @@
-if (window.Node && Node.prototype && !Node.prototype.contains) {
-	Node.prototype.contains = function (arg) {
-		return !!(this.compareDocumentPosition(arg) & 16)
-	}
-}
 
 (function($) {
+
+	if (window.Node && Node.prototype && !Node.prototype.contains) {
+		Node.prototype.contains = function (arg) {
+			return !!(this.compareDocumentPosition(arg) & 16)
+		}
+	}
 
 	//Make nodes selectable by expression
 	$.extend($.expr[':'], { sortable: "(' '+a.className+' ').indexOf(' ui-sortable ')" });
@@ -266,3 +267,4 @@ if (window.Node && Node.prototype && !Node.prototype.contains) {
 	});
 
 })(jQuery);
+

@@ -15,13 +15,7 @@
 	piwik.currentDateStr = "{$date}";
 </script>
 
-<script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
-
-<script type="text/javascript" src="libs/jquery/ui.mouse.js"></script>
-<script type="text/javascript" src="libs/jquery/ui.sortable_modif.js"></script>
-
 <script type="text/javascript" src="plugins/Dashboard/templates/Dashboard.js"></script>
-
 
 
 <div class="sortDiv" id="dashboard">
