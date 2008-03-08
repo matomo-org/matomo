@@ -1,8 +1,20 @@
 
+//label and string used in the javascript
+//overide this object for dataTable_translation
+if(typeof dataTable_translation == "undefined")
+{
+	var dataTable_translation = {
+		includeLowPop: 		'Include all population',
+		excludeLowPop: 		'Exclude low population',
+		pageOf: 			' of ',	//1-10 _of_ 42
+		loading: 			'Loading...'
+	};
+}
+
 //-----------------------------------------------------------------------------
 //								Data Table
 //-----------------------------------------------------------------------------
-//A list of all our datatables
+//A list of all our DataTables
 //Test if the object have already been initialized (multiple includes)
 if(typeof dataTables == "undefined")
 	var dataTables = new Object;
@@ -16,6 +28,7 @@ function dataTable()
 //Prototype of the DataTable object
 dataTable.prototype =
 {
+	//initialisation function
 	init: function(workingDivId, domElem)
 	{
 		if(typeof domElem == "undefined")
@@ -25,10 +38,11 @@ dataTable.prototype =
 		
 		this.workingDivId = workingDivId;
 		this.loadedSubDataTable = new Object;
-		this.bindEvent(domElem);
+		this.bindEventsAndApplyStyle(domElem);
 		this.initialized = true;
 	},
-			
+	
+	//function triggered when user click on column sort
 	onClickSort: function(domElem)
 	{
 		var self = this;
@@ -52,6 +66,7 @@ dataTable.prototype =
 		self.reloadAjaxDataTable();
 	},
 	
+	//Reset DataTable filters (used before a reload or view change)
 	resetAllFilters: function()
 	{
 		var self = this;
@@ -80,7 +95,7 @@ dataTable.prototype =
 		return FiltersToRestore;
 	},
 	
-	// Restores the filters to the values given in the array in parameters
+	//Restores the filters to the values given in the array in parameters
 	restoreAllFilters: function(FiltersToRestore)
 	{
 		var self = this;
@@ -90,7 +105,9 @@ dataTable.prototype =
 		}
 	},
 	
-	//translate string parameters to javascript builtins
+	//Translate string parameters to javascript builtins
+	//'true' -> true, 'false' -> false
+	//it simplifies condition tests in the code
 	cleanParams: function()
 	{
 		var self = this;
@@ -195,7 +212,7 @@ dataTable.prototype =
 	   - bind new events onclick / hover / etc. to trigger AJAX requests, 
 	     nice hovertip boxes for truncated cells
 	*/
-	bindEvent: function(domElem)
+	bindEventsAndApplyStyle: function(domElem)
 	{
 		var self = this;
 		
@@ -248,6 +265,7 @@ dataTable.prototype =
 		}
 	},
 	
+	// Add behaviour to the low population link
 	handleLowPopulationLink: function(domElem, callbackSuccess)
 	{
 		var self = this;
@@ -262,11 +280,11 @@ dataTable.prototype =
 					{
 						if(Number(self.param.filter_excludelowpop) != 0)
 						{
-							string = 'Include all population';
+							string = dataTable_translation.includeLowPop;
 						}
 						else
 						{
-							string = 'Exclude low population';
+							string = dataTable_translation.excludeLowPop;
 						}
 						$(this).html(string);
 					} 
@@ -294,13 +312,13 @@ dataTable.prototype =
 		
 	},
 	
+	//behaviour for the DataTable 'search box'
 	handleSearchBox: function(domElem, callbackSuccess)
 	{
 		var self = this;
 		
 		// Showing the search box for dom element DIV and binding the event
 		// - on the keyword DIV anywhere, if the ENTER key is pressed
-		// - if
 		
 		if(self.param.show_search)
 		{
@@ -382,6 +400,7 @@ dataTable.prototype =
 		}
 	},
 	
+	//behaviour for '< prev' 'next >' links and page count
 	handleOffsetInformation: function(domElem)
 	{
 		var self = this;
@@ -404,7 +423,7 @@ dataTable.prototype =
 					// only show this string if there is some rows in the datatable
 					if(totalRows != 0)
 					{
-						var str = offset + '-' + offsetEndDisp + ' of ' + totalRows;
+						var str = offset + '-' + offsetEndDisp + dataTable_translation.pageOf + totalRows;
 						$(this).text(str);
 					}
 				}
@@ -456,6 +475,7 @@ dataTable.prototype =
 		}
 	},
 	
+	//behaviour for DataTable view box (data, table, cloud, graph, ...)
 	handleExportBox: function(domElem)
 	{
 		var self = this;
@@ -533,6 +553,7 @@ dataTable.prototype =
 		}
 	},
 			
+	//Apply some miscelleaneous style to the DataTable
 	applyCosmetics: function(domElem)
 	{
 		var self = this;
@@ -586,6 +607,7 @@ dataTable.prototype =
 		}
 	},
  	
+ 	//behaviour for 'nested DataTable' (DataTable loaded on a click on a row)
  	handleSubDataTable: function(domElem)
 	{
 		var self = this;
@@ -609,7 +631,7 @@ dataTable.prototype =
 					<tr>\
 						<td colspan="'+numberOfColumns+'" class="cellSubDataTable">\
 							<div id="'+divIdToReplaceWithSubTable+'">\
-								<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
+								<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ dataTable_translation.loading +'</span>\
 							</div>\
 						</td>\
 					</tr>\
@@ -659,6 +681,7 @@ function submitOnEnter(e)
 //-----------------------------------------------------------------------------
 
 //inheritance declaration
+//actionDataTable is a child of dataTable
 actionDataTable.prototype = new dataTable;
 actionDataTable.prototype.constructor = actionDataTable;
 
@@ -694,24 +717,16 @@ actionDataTable.prototype =
 			domElem = $('#'+workingDivId);
 		}
 		this.workingDivId = workingDivId;
-		this.bindEvent(domElem);
+		this.bindEventsAndApplyStyle(domElem);
 		this.initialized = true;
 	},
 
-	bindEvent: function(domElem)
+	bindEventsAndApplyStyle: function(domElem)
 	{
 		var self = this;
 		
 		self.cleanParams();
 		
-		subTableId = $(domElem).attr('id');
-		
-		$('tr.subActionsDataTable.rowToProcess')
-			.css('font-weight','bold');
-			
-			
-		$("th:first-child", domElem).addClass('label');
-	
 		// we dont display the link on the row with subDataTable when we are already
 		// printing all the subTables (case of recursive search when the content is
 		// including recursively all the subtables
@@ -730,6 +745,24 @@ actionDataTable.prototype =
 				  	}
 		 		);
 		}
+		
+		self.applyCosmetics(domElem);
+		
+		if( self.workingDivId != undefined)
+		{
+			self.handleSearchBox(domElem, self.actionsDataTableLoaded );
+			self.handleLowPopulationLink(domElem, self.actionsDataTableLoaded );
+		}
+	},
+	
+	applyCosmetics: function(domElem)
+	{
+		var self = this;
+		
+		$('tr.subActionsDataTable.rowToProcess')
+		.css('font-weight','bold');			
+			
+		$("th:first-child", domElem).addClass('label');
 		
 		var imagePlusMinusWidth = 12;
 		var imagePlusMinusHeight = 12;
@@ -780,12 +813,6 @@ actionDataTable.prototype =
 			    $('.truncated', this).Tooltip();
 			})
 			.removeClass('rowToProcess');
-		
-		if( self.workingDivId != undefined)
-		{
-			self.handleSearchBox(domElem, self.actionsDataTableLoaded );
-			self.handleLowPopulationLink(domElem, self.actionsDataTableLoaded );
-		}
 	},
 	
 	// Called when the user click on an actionDataTable row
