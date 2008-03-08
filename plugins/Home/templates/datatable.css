@@ -58,7 +58,6 @@ table.dataTable th {
 table.dataTable th.columnSorted {
 	font-weight:bold;
 	padding-right:20px;
-	position:relative;
 }
 
 table.dataTable td {
@@ -169,14 +168,15 @@ table.subDataTable td.labelodd, table.subDataTable td.labelodd a{
 
 /* misc SPAN and DIV */
 table thead div {
-	position: relative;
-	margin-right: 10px;
+}
+
+#sortIconContainer {
+	float: right;
 }
 
 #sortIcon {
-	position: absolute;
-	right: -15px;
 	margin: 0px;
+	position: absolute;
 }
 
 #dataTablePages {
@@ -306,7 +306,6 @@ tr td.label img.plusMinus {
 	margin-left:-1em;
 	margin-right:0em;
 }
-
 
 /* graph form containing embed code */
 .formEmbedCode, .formEmbedCode input, .formEmbedCode a {
