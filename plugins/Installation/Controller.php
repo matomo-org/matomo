@@ -114,7 +114,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		if($form->validate())
 		{
-//			var_dump(Zend_Registry::get('config')->database);
 			$dbInfos = array(
 				'host' 			=> $form->getSubmitValue('host'),
 				'username' 		=> $form->getSubmitValue('username'),
@@ -127,9 +126,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			
 			// we test the DB connection with these settings
 			try{ 
+//				var_dump($dbInfos);exit;
+				$dbInfos['password'] = '"'.htmlspecialchars($form->getSubmitValue('password')).'"';
+				
 				Piwik::createDatabaseObject($dbInfos);
+				
 				$_SESSION['db_infos'] = $dbInfos;
-			
+				
 				$this->redirectToNextStep( __FUNCTION__ );
 			} catch(Exception $e) {
 				$view->errorMessage = $e->getMessage();
@@ -404,7 +407,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	protected function createDbFromSessionInformation()
 	{
-		$dbInfos = $_SESSION['db_infos'];		
+		$dbInfos = $_SESSION['db_infos'];
+		
 		Zend_Registry::get('config')->database = $dbInfos;
 		Piwik::createDatabaseObject($dbInfos);
 	}

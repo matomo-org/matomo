@@ -102,7 +102,16 @@ class Piwik_Config
 						}
 					}
 					else
-					{
+					{	
+						// hack 
+						// we add " " around the password because when requesting this data using Zend_Config
+						// the toArray removes the " around the value
+						if( ($section == 'database' || $section == 'database_tests')
+							&& $name == 'password')
+						{
+							$value = '"'.$value.'"';	
+						}
+						
 						$configFile .= $name." = $value\n";						
 					}
 				}

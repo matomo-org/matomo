@@ -692,6 +692,17 @@ class Piwik
 		{
 			$dbInfos = $config->database->toArray();
 		}
+		
+//		var_dump($dbInfos);
+		if(substr($dbInfos['password'],0,1) == '"'
+			&& substr($dbInfos['password'],-1,1) == '"'
+			&& strlen($dbInfos['password']) >= 2 )
+		{
+			$dbInfos['password'] = substr($dbInfos['password'], 1, -1);
+		}
+		$dbInfos['password'] = htmlspecialchars_decode($dbInfos['password']);
+//		var_dump($dbInfos);exit;// we remove the slashes
+		
 		$db = Zend_Db::factory($config->database->adapter, $dbInfos);
 		$db->getConnection();
 		// see http://framework.zend.com/issues/browse/ZF-1398

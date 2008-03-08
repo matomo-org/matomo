@@ -39,6 +39,11 @@ require_once "Event/Dispatcher.php";
  */
 class Piwik_PluginsManager
 {
+	/**
+	 * Dispatcher
+	 *
+	 * @var Event_Dispatcher
+	 */
 	public $dispatcher;
 	protected $pluginsToLoad = array();
 	protected $installPlugins = false;

@@ -74,6 +74,10 @@ class Piwik_LogStats
 	function connectDatabase()
 	{
 		$configDb = Piwik_LogStats_Config::getInstance()->database;
+		
+		// we decode the password. Password is html encoded because it's enclosed between " double quotes
+		$configDb['password'] = htmlspecialchars_decode($configDb['password']);
+		
 		$this->db = new Piwik_LogStats_Db( 	$configDb['host'], 
 										$configDb['username'], 
 										$configDb['password'], 
