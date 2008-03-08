@@ -1,5 +1,9 @@
 simple fix
 ====
+
+added index _visit server_date
+added index _log_link_action idvisit
+
 plugins easy to register a new hook
 
 PPT= TRY PIWIK instead of onlin demo + screenshot piiwk

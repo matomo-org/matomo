@@ -33,7 +33,7 @@ $(document).ready( function(){
 {/if}
 <h1>Javascript tag</h1>
 <p>To count all visitors, you must insert the javascript code on all of your pages.</p>
-<p>Your pages do not have to be made with PHP, phpMyVisites will work on all kinds of pages (whether it is HTML, ASP, Perl or any other languages).</p>
+<p>Your pages do not have to be made with PHP, Piwik will work on all kinds of pages (whether it is HTML, ASP, Perl or any other languages).</p>
 <p>Here is the code you have to insert: (copy and paste on all your pages) </P>
 <code>
 {$javascriptTag}
