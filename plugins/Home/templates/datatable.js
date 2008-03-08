@@ -259,9 +259,9 @@ dataTable.prototype =
 			var imageSortHeight = 16;
 			// we change the style of the column currently used as sort column
 			// adding an image and the class columnSorted to the TD
-			$(".sortable#"+self.param.filter_sort_column+' #thDIV', domElem)
+			$(".sortable#"+self.param.filter_sort_column+' #thDIV', domElem).parent()
 				.addClass('columnSorted')
-				.prepend('<img id="sortIcon" width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+prefixSortIcon+ self.param.filter_sort_order+'.png" />');
+				.prepend('<div id="sortIconContainer"><img id="sortIcon" width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+prefixSortIcon+ self.param.filter_sort_order+'.png" /></div>');
 		}
 	},
 	
