@@ -23,14 +23,23 @@ $piwik_currentVersion = phpversion();
 
 if( version_compare($piwik_minimumPhpVersion , $piwik_currentVersion ) >= 0 )
 {
-	$message = "<p><b>To run Piwik you need at least PHP version $piwik_minimumPhpVersion </b></p> 
+	$piwik_errorMessage = "<p><b>To run Piwik you need at least PHP version $piwik_minimumPhpVersion </b></p> 
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentVersion. </p>
 				<p>Please try to update your PHP version, Piwik is really worth it! Nowadays most web hosts 
-				support PHP $piwik_minimumPhpVersion. </p>
-				
-				<ul><li><a href='http://piwik.org'>Piwik homepage</a></li>
-					<li><a href='http://piwik.org/demo'>Piwik demo</a></li></ul>
-					 ";
+				support PHP $piwik_minimumPhpVersion. </p>";
+}					
+
+$piwik_zend_compatibility_mode = ini_get("zend.ze1_compatibility_mode");
+
+if($piwik_zend_compatibility_mode == 1)
+{
+	$piwik_errorMessage = "<p><b>Piwik is not compatible with the directive <code>zend.ze1_compatibility_mode = On</code></b></p> 
+				<p>It seems your php.ini file has <pre>zend.ze1_compatibility_mode = On</pre>It makes PHP5 behave like PHP4.
+				If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file. You may have to ask your system administrator.</p>";
+}
+
+if(isset($piwik_errorMessage))
+{
 	$html = '<html>
 				<head>
 					<title>Piwik &rsaquo; Error</title>
@@ -66,12 +75,17 @@ if( version_compare($piwik_minimumPhpVersion , $piwik_currentVersion ) >= 0 )
 				</head>
 				<body>
 					<span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span>
-					<p>'.$message.'</p>
+					<p>'.$piwik_errorMessage.'</p>				
+					<ul>
+						<li><a href="http://piwik.org">Piwik homepage</a></li>
+						<li><a href="http://piwik.org/demo">Piwik demo</a></li>
+					</ul>
 				</body>
 				</html>';
 	echo $html;
 	exit;
 }
+
 
 // we now include the upgradephp package to define some functions used in piwik 
 // that may not be defined in the current php version
