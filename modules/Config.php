@@ -74,8 +74,7 @@ class Piwik_Config
 		if($this->configFileUpdated === true 
 			&& $this->doWriteFileWhenUpdated === true)
 		{
-			print("write ini file changed");
-			
+		
 			$configFile = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
 			$configFile .= "; file automatically generated during the piwik installation process (and updated later by some other modules)\n";
 			
