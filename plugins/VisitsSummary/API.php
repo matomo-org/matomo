@@ -32,7 +32,7 @@ class Piwik_VisitsSummary_API extends Piwik_Apiable
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date, $toFetch = '' )
+	public function get( $idSite, $period, $date )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );

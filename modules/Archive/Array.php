@@ -207,7 +207,7 @@ class Piwik_Archive_Array extends Piwik_Archive
 	 */
 	public function getDataTable( $name, $idSubTable = null )
 	{		
-		$table = $this->getNewDataTableArray();		
+		$table = $this->getNewDataTableArray();
 		foreach($this->archives as $archive)
 		{
 			$subTable =  $archive->getDataTable( $name, $idSubTable ) ;
