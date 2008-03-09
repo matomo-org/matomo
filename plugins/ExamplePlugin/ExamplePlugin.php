@@ -72,7 +72,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 								' WHERE idsite = ?', Piwik_Common::getRequestVar('idSite',1,'int') );
 		if(empty($feedburnerFeedName))
 		{
-			$feedburnerFeedName = 'BlogGiik';
+			$feedburnerFeedName = 'Piwik';
 		}
 		$view->feedburnerFeedName = $feedburnerFeedName;
 		echo $view->render();

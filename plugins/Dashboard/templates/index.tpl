@@ -6,7 +6,7 @@
 		piwik.dashboardLayout = '{$layout}';
 	{else}
 		//Load default layout...
-		piwik.dashboardLayout = 'Actions.getActions~Actions.getDownloads|UserCountry.getCountry~UserSettings.getPlugin|Referers.getSearchEngines~Referers.getKeywords';
+		piwik.dashboardLayout = 'VisitsSummary.getLastVisitsGraph~VisitorInterest.getNumberOfVisitsPerVisitDuration~UserSettings.getBrowser|Referers.getKeywords|Referers.getSearchEngines~VisitTime.getVisitInformationPerServerTime~ExamplePlugin.feedburner|';
 	{/if}
 	
 	piwik.availableWidgets = {$availableWidgets};

@@ -133,9 +133,6 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		
 	}
 
-//  id1 => view, id2 =>admin
-//	getSiteAccessFromUser( $userLogin )
-
 	/**
 	 * For each website ID, returns the access level of the given $userLogin.
 	 * If the user doesn't have any access to a website ('noaccess'), 
