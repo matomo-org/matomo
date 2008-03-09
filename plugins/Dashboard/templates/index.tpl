@@ -18,7 +18,7 @@
 <script type="text/javascript" src="plugins/Dashboard/templates/Dashboard.js"></script>
 
 
-<div class="sortDiv" id="dashboard">
+<div id="dashboard">
  
 	<div class="dialog" id="confirm"> 
 	        <img src="themes/default/images/delete.png" style="padding: 10px; position: relative; margin-top: 10%; float: left;"/>
@@ -55,12 +55,14 @@
 		<div class="menuClear"> </div>
 	</div>	
 
-	<div class="col" id="1">
-	</div>
-  
-	<div class="col" id="2">
-	</div>
-	
-	<div class="col" id="3">
+	<div id="dashboardWidgetsArea">
+		<div class="col" id="1">
+		</div>
+	  
+		<div class="col" id="2">
+		</div>
+		
+		<div class="col" id="3">
+		</div>
 	</div>
 </div>

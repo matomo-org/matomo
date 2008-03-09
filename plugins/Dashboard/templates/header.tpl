@@ -15,5 +15,9 @@
 <script type="text/javascript" src="plugins/Home/templates/calendar.js"></script>
 <script type="text/javascript" src="plugins/Home/templates/date.js"></script>
 
+<script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
+<script type="text/javascript" src="libs/jquery/ui.mouse.js"></script>
+<script type="text/javascript" src="libs/jquery/ui.sortable_modif.js"></script>
+
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
 <link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css">
