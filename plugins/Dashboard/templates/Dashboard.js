@@ -5,11 +5,11 @@
 if(typeof dashboard_translation == "undefined")
 {
 	var dashboard_translation = {
-		titleWidgetInDashboard: 'Widget already in dashboard',
-		titleClickToAdd: 'Click to add to dashboard',
-		loadingPreview: 'Loading preview, please wait...',
-		loadingWidget: 'Loading widget, please wait...',
-		widgetNotFound: 'Widget not found'
+		titleWidgetInDashboard: 	'Widget already in dashboard',
+		titleClickToAdd: 			'Click to add to dashboard',
+		loadingPreview: 			'Loading preview, please wait...',
+		loadingWidget: 				'Loading widget, please wait...',
+		widgetNotFound: 			'Widget not found'
 	};
 }
 
@@ -91,8 +91,8 @@ widgetMenu.prototype =
 				var exist = $('.subMenuItem#'+plugin, subMenu1);
 				if(exist.size()==0)
 				{
-					$('ol', self.subMenu1).append('<li class="subMenuItem" id="'+plugin+'"><span>'+plugin+'</span></li>');
-					$('ul', self.subMenu2).append('<li class="subMenuItem" id="'+plugin+'"></li>');
+					$('ol', subMenu1).append('<li class="subMenuItem" id="'+plugin+'"><span>'+plugin+'</span></li>');
+					$('ul', subMenu2).append('<li class="subMenuItem" id="'+plugin+'"></li>');
 				}
 				
 				var sm2Div = $('.subMenuItem#'+plugin, subMenu2);
@@ -183,7 +183,7 @@ widgetMenu.prototype =
 		
 		//list loaded widget:
 		var widgets = new Array;	
-		$('.col').each(
+		self.dashboard.getColumns().each(
 			function()
 			{
 				widgets = widgets.concat(getWidgetInDom(this));
@@ -216,7 +216,7 @@ widgetMenu.prototype =
 			
 			self.dashboard.addEmptyWidget(1, plugin, action, true);
 			
-			var parDiv = $('.col#1 .widgetDiv[plugin='+plugin+']'+'#'+action);
+			var parDiv = $('.widgetDiv[plugin='+plugin+']'+'#'+action, self.dashboard.getColumns()[0]);
 			parDiv.show();
 			parDiv.siblings('.widgetLoading').hide();
 			
@@ -242,14 +242,21 @@ widgetMenu.prototype =
 function dashboard()
 {
 	this.test = new Object;
+	this.dashArea = new Object;
+	this.dashColumns = new Object;
+	this.layout = '';
 }
 	
 //Prototype of the dashboard object
 dashboard.prototype =
 {
-	init: function()
+	init: function(layout)
 	{
 		var self = this;
+		
+		self.dashArea = $('#dashboardWidgetsArea');
+		self.dashColumns = $('.col', self.dashDom);
+		self.layout = layout;
 		
 		//generate dashboard layout and load every displayed widgets
 		self.generateLayout();
@@ -257,13 +264,18 @@ dashboard.prototype =
 		//setup widget dynamic behaviour
 		self.setupWidgetSortable();
 	},
-		
+	
+	getColumns: function()
+	{
+		return this.dashColumns;
+	},
+	
 	setupWidgetSortable: function()
 	{
 		var self = this;
 		
 		//add a dummy item on each columns
-		$('.col').each(
+		self.dashColumns.each(
 			function()
 			{
 				$(this).append('<div class="items dummyItem"><div class="handle dummyHandle"></div></div>');
@@ -283,7 +295,7 @@ dashboard.prototype =
 		//'|' separate columns
 		//'~' separate widgets
 		//'.' separate plugin name from action name
-		var col = piwik.dashboardLayout.split('|');
+		var col = self.layout.split('|');
 		for(var i=0; i<col.length; i++)
 		{
 			if(col[i] != '')
@@ -309,18 +321,18 @@ dashboard.prototype =
 	    
 	    if(onTop)
 	    {
-	   		$('.col#'+colNumber).prepend(item);
+	   		$(self.dashColumns[colNumber-1]).prepend(item);
 	    }
 	    else
 	    {
-	   		$('.col#'+colNumber).append(item);
+	   		$(self.dashColumns[colNumber-1]).append(item);
 	   	}
 	   	
 	   	//find the title of the widget
 		var title = self.getWidgetTitle(plugin, action);
 		
 		//add an handle to each items
-		var widget = $('.col#'+colNumber+' .widgetDiv#'+action+'[plugin='+plugin+']').parents('.widget');
+		var widget = $('.widgetDiv#'+action+'[plugin='+plugin+']', self.dashColumns[colNumber-1]).parents('.widget');
 		self.addHandleToWidget(widget, title);
 		
 	    var button = $('.button#close', widget);
@@ -366,7 +378,7 @@ dashboard.prototype =
 		var self = this;
 		
 		self.addEmptyWidget(colNumber, plugin, action, onTop);
-	    self.loadItem($('.items [plugin='+plugin+']#'+action).parents('.items'));
+	    self.loadItem($('.items [plugin='+plugin+']#'+action, self.dashArea).parents('.items'));
 	},
 	
 	addHandleToWidget: function(widget, title)
@@ -417,15 +429,15 @@ dashboard.prototype =
 		}
 	
 		//launch 'sortable' property on every dashboard widgets
-		$('.sortDiv').sortableDestroy()
-		.sortable({
-		 	items:'.items',
-		 	hoverClass: 'hover',
-		 	handle: '.handle',
-		 	helper: getHelper,
-		 	start: onStart,
-		 	stop: onStop
-		 	});
+		self.dashArea.sortableDestroy()
+					 .sortable({
+					 	items:'.items',
+					 	hoverClass: 'hover',
+					 	handle: '.handle',
+					 	helper: getHelper,
+					 	start: onStart,
+					 	stop: onStop
+					 	});
 	},
 
 	onDeleteItem: function(target, ev)
@@ -480,7 +492,7 @@ dashboard.prototype =
 		var self = this;
 		var column = new Array;
 		//parse the dom to see how our div are sorted
-		$('.sortDiv .col').each(function() {
+		self.dashColumns.each(function() {
 			column.push(getWidgetInDom(this));
 		});
 		
@@ -500,8 +512,12 @@ dashboard.prototype =
 			layout += column[i].join('~');
 			layout += '|';
 		}
-		ajaxRequest.data['layout'] = layout;
-		$.ajax(ajaxRequest);
+		if(layout != self.layout)
+		{
+			self.layout = layout;
+			ajaxRequest.data['layout'] = layout;
+			$.ajax(ajaxRequest);
+		}
 	},
 	
 	ajaxLoading: function(pluginId, actionId, callbackAfterLoaded)
@@ -560,7 +576,7 @@ $(document).ready(
 		blockUIConfig();
 	
 		//build the dashboard...
-		dash.init();
+		dash.init(piwik.dashboardLayout);
 		//...and the menu
 		menu.init();		
 	}

@@ -6,7 +6,7 @@ if(typeof dataTable_translation == "undefined")
 	var dataTable_translation = {
 		includeLowPop: 		'Include all population',
 		excludeLowPop: 		'Exclude low population',
-		pageOf: 			' of ',	//1-10 _of_ 42
+		pageOf: 			' of ',						//like in 1-10 _of_ 42
 		loading: 			'Loading...'
 	};
 }
