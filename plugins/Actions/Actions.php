@@ -101,10 +101,10 @@ class Piwik_Actions extends Piwik_Plugin
 							count(*) as nb_hits							
 				 	FROM (".$archiveProcessing->logTable." as t1
 						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
-							LEFT JOIN ".$archiveProcessing->logActionTable." USING (idaction)
+							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 USING (idaction)
 				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
-				 	GROUP BY idaction";
+				 	GROUP BY t3.idaction";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);
