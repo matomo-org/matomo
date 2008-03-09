@@ -694,6 +694,7 @@ class Piwik
 		}
 		
 //		var_dump($dbInfos);
+		// test with the password ='][{}!3456&&^#gegq"eQ for example
 		if(substr($dbInfos['password'],0,1) == '"'
 			&& substr($dbInfos['password'],-1,1) == '"'
 			&& strlen($dbInfos['password']) >= 2 )

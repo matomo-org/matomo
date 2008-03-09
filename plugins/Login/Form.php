@@ -26,6 +26,12 @@ class Piwik_Login_Form extends Piwik_Form
 	{
 		$urlToGoAfter = Piwik_Url::getCurrentUrl();			
 		
+		// if the current url to redirect contains module=login we insteaed redirect to the referer url
+		if(stripos($urlToGoAfter,'module=login') !== false)
+		{
+			$urlToGoAfter = Piwik_Url::getReferer();
+		}
+		
 		$formElements = array(
 			array('text', 'form_login', 'login:'),
 			array('password', 'form_password', 'pass:'),
