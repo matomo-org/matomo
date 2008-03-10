@@ -98,6 +98,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$query = "SELECT 	name,
 							type,
 							count(distinct t1.idvisit) as nb_visits, 
+							count(distinct visitor_idcookie) as nb_uniq_visitors,
 							count(*) as nb_hits							
 				 	FROM (".$archiveProcessing->logTable." as t1
 						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
