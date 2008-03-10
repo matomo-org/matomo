@@ -22,7 +22,8 @@
 				<td>
 					{if $idColumn==0 && isset($row.details.url)}<span id="urlLink">{$row.details.url}</span>{/if}
 					{if $idColumn==0 && isset($row.details.logo)}<img {if isset($row.details.logoWidth)}width="{$row.details.logoWidth}"{/if} {if isset($row.details.logoHeight)}height="{$row.details.logoHeight}"{/if} src="{$row.details.logo}" />{/if}
-					{$row.columns[$column.name]}
+					{* sometimes all columns are not set in the datatable, we assume the value 0 *}
+					{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}0{/if}
 				</td>
 				{/foreach}
 			</tr>
