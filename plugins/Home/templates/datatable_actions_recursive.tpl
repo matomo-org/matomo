@@ -19,6 +19,7 @@
 		<tr {if $row.idsubdatatable}class="level{$row.level} rowToProcess subActionsDataTable" id="{$row.idsubdatatable}"{else}class="actionsDataTable rowToProcess level{$row.level}"{/if}>
 			{foreach from=$dataTableColumns key=idColumn item=column}
 			<td>
+				{* sometimes all columns are not set in the datatable, we assume the value 0 *}
 				{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}0{/if}
 			</td>
 			{/foreach}
