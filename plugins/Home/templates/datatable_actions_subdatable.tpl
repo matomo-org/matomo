@@ -9,7 +9,8 @@
 		<tr {if $row.idsubdatatable}class="subActionsDataTable" id="{$row.idsubdatatable}"{else}class="actionsDataTable"{/if}>
 			{foreach from=$dataTableColumns key=idColumn item=column}
 			<td>
-				{$row.columns[$column.name]}
+				{* sometimes all columns are not set in the datatable, we assume the value 0 *}
+				{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}0{/if}
 			</td>
 			{/foreach}
 		</tr>
