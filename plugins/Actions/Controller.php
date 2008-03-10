@@ -101,7 +101,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		$view->disableOffsetInformation();
 		
-		$view->setColumnsToDisplay( array(0,1,2) );
+		$view->setColumnsToDisplay( array(0,2,3) );
 		$view->setLimit( 100 );
 		// computing minimum value to exclude
 		$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary();
