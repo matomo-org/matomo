@@ -34,6 +34,25 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	static public $methodsNotToPublish = array();
 	
 	/**
+	 * Returns the javascript tag for the given idSite.
+	 * This tag must be included on every page to be tracked by Piwik
+	 *
+	 * @param int $idSite
+	 * @return string The Javascript tag ready to be included on the HTML pages
+	 */
+	static public function getJavascriptTag( $idSite, $piwikUrl = '', $actionName = '')
+	{
+		$actionName = "'$actionName'";
+		if(empty($piwikUrl))
+		{
+			$piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
+		}
+		$htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl, $actionName);
+		$htmlEncoded = str_replace(array('<br>','<br />','<br/>'), '', $htmlEncoded);
+		return html_entity_decode($htmlEncoded);
+	}
+	
+	/**
 	 * Returns the website information : name, main_url
 	 * 
 	 * @exception if the site ID doesn't exist or the user doesn't have access to it
