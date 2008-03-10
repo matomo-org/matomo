@@ -42,11 +42,15 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 */
 	static public function getJavascriptTag( $idSite, $piwikUrl = '', $actionName = '')
 	{
-		$actionName = "'$actionName'";
+		Piwik::checkUserHasViewAccess($idSite);
+		
+		$actionName = "'".addslashes(Piwik_Common::sanitizeInputValues($actionName))."'";
 		if(empty($piwikUrl))
 		{
 			$piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		}
+		$piwikUrl = addslashes(Piwik_Common::sanitizeInputValues($piwikUrl));
+		
 		$htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl, $actionName);
 		$htmlEncoded = str_replace(array('<br>','<br />','<br/>'), '', $htmlEncoded);
 		return html_entity_decode($htmlEncoded);
