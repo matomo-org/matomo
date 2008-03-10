@@ -384,7 +384,7 @@ class Piwik_Common
 	* 
 	* @return string Continent (3 letters code : afr, asi, eur, amn, ams, oce)
 	*/
-	function getContinent($country)
+	static function getContinent($country)
 	{
 		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/Countries.php";
 		
@@ -407,7 +407,7 @@ class Piwik_Common
 	* 
 	* @return string 
 	*/
-	function getCountry( $lang )
+	static function getCountry( $lang )
 	{
 		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/Countries.php";
 		
