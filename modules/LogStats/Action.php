@@ -120,6 +120,11 @@ class Piwik_LogStats_Action
 		{
 			$this->actionType = self::TYPE_OUTLINK;
 			$url = $this->outlinkUrl;
+			//remove the last '/' character if it's present
+			if(substr($url,-1) == '/')
+			{
+				$url = substr($url,0,-1);
+			}
 			$actionName = $this->nameDownloadOutlink;
 			if( empty($actionName) )
 			{

@@ -1,6 +1,9 @@
 // Web analytics by Piwik - http://piwik.org
 // Copyleft 2007, All rights reversed.
 var _pk_use_title_as_name = 0;
+var _pk_install_tracker = 1;
+var _pk_tracker_pause = 250;
+var _pk_download_extensions = "7z|aac|avi|csv|doc|exe|flv|gif|gz|jpe?g|js|mp(3|4|e?g)|mov|pdf|phps|png|ppt|rar|sit|tar|torrent|txt|wma|wmv|xls|xml|zip";
 
 // Beginning script
 function _pk_plug_normal(_pk_pl) {
@@ -108,4 +111,79 @@ function piwik_log( _pk_action_name, _pk_site, _pk_pkurl, _pk_custom_vars )
 	var _pk_src = _pk_getUrlLog(_pk_action_name, _pk_site, _pk_pkurl, _pk_custom_vars );
 	document.writeln('<img src="'+_pk_src+'" alt="Piwik" style="border:0" />');
 	if(!_pk_action_name || _pk_action_name=="") _pk_called=1;
+	
+	if(_pk_install_tracker) _pk_init_tracker(_pk_site, _pk_pkurl);
+}
+
+
+function _pk_add_event(elm, evType, fn, useCapture) 
+{
+	if (elm.addEventListener) { 
+		elm.addEventListener(evType, fn, useCapture); 
+		return true; 
+	} else if (elm.attachEvent) { 
+		var r = elm.attachEvent('on' + evType, fn); 
+		return r; 
+	} else {
+		elm['on' + evType] = fn;
+	}
+}
+
+var _pk_tracker_site, _pk_tracker_url;
+
+function _pk_init_tracker(_pk_site, _pk_pkurl) 
+{
+	_pk_tracker_site = _pk_site;
+	_pk_tracker_url = _pk_pkurl;
+
+	if (document.getElementsByTagName) {
+		linksElements = document.getElementsByTagName('a')
+		for (var i = 0; i < linksElements.length; i++) {
+			_pk_add_event(linksElements[i], 'mousedown', _pk_click, false);
+		}
+	}
+}
+
+function _pk_dummy() { return true; }
+
+function _pk_pause(_pk_time_msec) {
+	var _pk_now = new Date();
+	var _pk_expire = _pk_now.getTime() + _pk_time_msec;
+	while(_pk_now.getTime() < _pk_expire)
+		_pk_now = new Date();
+}
+
+// _pk_type only 'download' and 'link' types supported
+function piwik_track(url, _pk_site, _pk_url, _pk_type) 
+{
+	var _pk_image = new Image();
+	_pk_image.onLoad = function() { _pk_dummy(); };
+	_pk_image.src = _pk_url + '?idsite=' + _pk_site + '&' + _pk_type + '=' + url + '&rand=' + Math.random();
+	_pk_pause(_pk_tracker_pause);
+}
+
+function _pk_click(e)
+{
+	var source;
+
+	if (typeof e == 'undefined')
+		var e = window.event;
+
+	if (typeof e.target != 'undefined') 
+		source = e.target;
+	else if (typeof e.srcElement != 'undefined')
+		source = e.srcElement;
+	else return true;
+
+	var target = new String(source.getAttribute('href'));
+	//var title = source.childNodes[0].nodeValue;
+
+	var _pk_download = new RegExp('\\.(' + _pk_download_extensions + ')$', 'i');
+	var _pk_link_type = (_pk_download.test(target) ? 'download' : 'link');
+
+	if( target != 'null' && (source.hostname != window.location.hostname || _pk_link_type == 'download') ) {
+		piwik_track(target, _pk_tracker_site, _pk_tracker_url, _pk_link_type);
+	}
+
+	return true;
 }
