@@ -9,7 +9,10 @@
  * @package Piwik_ExamplePlugin
  */
 
-
+/**
+ * Go to the API page in the Piwik Interface
+ * And try the API of the plugin ExamplePlugin
+ */
 
 /**
  * 

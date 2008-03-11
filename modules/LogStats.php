@@ -115,7 +115,10 @@ class Piwik_LogStats
 		
 		if( !empty($urlDownload) )
 		{
-			$this->setState( self::STATE_TO_REDIRECT_URL );
+			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int') == 1)
+			{
+				$this->setState( self::STATE_TO_REDIRECT_URL );
+			}
 			$this->setUrlToRedirect ( $urlDownload);
 		}
 		
@@ -124,7 +127,10 @@ class Piwik_LogStats
 		
 		if( !empty($urlOutlink) )
 		{
-			$this->setState( self::STATE_TO_REDIRECT_URL );
+			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int') == 1)
+			{
+				$this->setState( self::STATE_TO_REDIRECT_URL );
+			}
 			$this->setUrlToRedirect ( $urlOutlink);
 		}
 	}
