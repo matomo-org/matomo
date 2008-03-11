@@ -115,7 +115,8 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		
 		$this->codeEmbed .= "<div><object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' codebase='http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='" . $width . "' height='" . $height . "' id='". $obj_id ."' >".
 							"<param name='movie' value='".$urlGraph."' />".
-							"<embed src='$urlGraph' quality='high' bgcolor='#FFFFFF' width='". $width ."' height='". $height ."' name='open-flash-chart' type='application/x-shockwave-flash' id='". $obj_id ."' />".
+							"<param name='allowScriptAccess' value='sameDomain' /> ".
+							"<embed src='$urlGraph' allowScriptAccess='sameDomain' quality='high' bgcolor='#FFFFFF' width='". $width ."' height='". $height ."' name='open-flash-chart' type='application/x-shockwave-flash' id='". $obj_id ."' />".
 							"</object></div>";
 		$return .= $this->codeEmbed;
 		
