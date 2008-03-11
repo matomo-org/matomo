@@ -158,7 +158,7 @@ function piwik_track(url, _pk_site, _pk_url, _pk_type)
 {
 	var _pk_image = new Image();
 	_pk_image.onLoad = function() { _pk_dummy(); };
-	_pk_image.src = _pk_url + '?idsite=' + _pk_site + '&' + _pk_type + '=' + url + '&rand=' + Math.random();
+	_pk_image.src = _pk_url + '?idsite=' + _pk_site + '&' + _pk_type + '=' + url + '&rand=' + Math.random() + '&redirect=0';
 	_pk_pause(_pk_tracker_pause);
 }
 

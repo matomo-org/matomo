@@ -15,7 +15,6 @@
  */
 require_once "Zend/Exception.php";
 require_once "Zend/Loader.php";
-require_once "Zend/Debug.php";
 require_once "Zend/Auth.php";
 require_once "Zend/Auth/Adapter/DbTable.php";
 
