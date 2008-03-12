@@ -71,7 +71,6 @@ require_once 'Zend/Config/Ini.php';
 require_once 'Zend/Config.php';
 require_once 'Zend/Db.php';
 require_once 'Zend/Db/Table.php';
-require_once 'Zend/Debug.php';
 require_once 'Config.php';
 require_once 'Timer.php';
 require_once 'API/APIable.php';

@@ -24,6 +24,15 @@ class Test_PHP_Related extends UnitTestCase
 	public function tearDown()
 	{
 	}
+	
+	function test_listEach()
+	{
+		$array = array('key' => 'elem2');
+		list($elem1,$elem2) = each($array);
+		
+		$this->assertEqual($elem1, 'key');
+		$this->assertEqual($elem2, 'elem2');
+	}
 	function test_TMP()
 	{
 		echo md5('root'.md5('nintendo'));

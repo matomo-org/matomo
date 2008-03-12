@@ -40,13 +40,22 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
+	
 	function getOutlinks($fetch = false)
 	{
-		$view = $this->getActionsView(	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getOutlinks', 
-										'getOutlinksSubDataTable' );
 		
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	$this->pluginName, 
+						__FUNCTION__,
+						'Actions.getOutlinks' );
+		
+		$view->setColumnsToDisplay( array(0,2,3) );
+		$view->setSortedColumn( 'nb_hits', 'desc' );
+		$view->setSortedColumn( 1 );
+		$view->disableExcludeLowPopulation();
+		$view->setLimit( 15 );
+		
+		$view->main();
 		return $this->renderView($view, $fetch);
 	}
 	function getOutlinksSubDataTable($fetch = false)

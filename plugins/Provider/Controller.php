@@ -7,7 +7,7 @@ class Piwik_Provider_Controller extends Piwik_Controller
 	/**
 	 * Provider
 	 */
-	function getProvider()
+	function getProvider($fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
 		$view->init( 'Provider',  __FUNCTION__, "Provider.getProvider" );
@@ -17,7 +17,7 @@ class Piwik_Provider_Controller extends Piwik_Controller
 		$view->setLimit( 5 );
 		
 		$view->main();
-		echo $view->render();
+		return $this->renderView($view, $fetch);
 	}
 	
 }
