@@ -50,8 +50,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getOutlinks' );
 		
 		$view->setColumnsToDisplay( array(0,2,3) );
-		$view->setSortedColumn( 'nb_hits', 'desc' );
-		$view->setSortedColumn( 1 );
+		$view->setSortedColumn( 2 );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
 		
