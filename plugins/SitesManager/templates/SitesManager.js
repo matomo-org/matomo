@@ -1,4 +1,15 @@
 
+function getEncoded(siteName)
+{
+	// compatible with old browsers but wouldnt work for UTF8 strings
+	if (encodeURIComponent) {
+   		siteName = encodeURIComponent(siteName);
+	} else {
+	    siteName = escape(siteName);
+	}
+	return siteName;
+}
+
 function getDeleteSiteAJAX( idSite )
 {
 	var ajaxRequest = getStandardAjaxConf();
@@ -32,7 +43,9 @@ function getAddSiteAJAX( row )
 	request += '&module=API';
 	request += '&format=json';
 	request += '&method=SitesManager.addSite';
-	request += '&siteName='+escape(siteName);
+	
+	siteName = getEncoded(siteName);
+	request += '&siteName='+siteName;
 	
 	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
 
@@ -40,7 +53,6 @@ function getAddSiteAJAX( row )
  	
 	return ajaxRequest;
 }
-
 function getUpdateSiteAJAX( row )
 {
 	var ajaxRequest = getStandardAjaxConf();
@@ -54,7 +66,8 @@ function getUpdateSiteAJAX( row )
 	request += '&module=API';
 	request += '&format=json';
 	request += '&method=SitesManager.updateSite';
-	request += '&siteName='+escape(siteName);
+	siteName = getEncoded(siteName);
+	request += '&siteName='+siteName;
 	request += '&idSite='+idSite;
 	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
 

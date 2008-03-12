@@ -1,4 +1,6 @@
 
+
+
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="themes/default/common.js"></script>
 
@@ -43,4 +45,6 @@
 {/if}
 
 
-<p><a href='?module=Home&action=index&idSite=1&period=day&date=yesterday'>Back to Piwik homepage</a></p>
+<p><a href='?module=Home'>Back to Piwik homepage</a></p>
+
+

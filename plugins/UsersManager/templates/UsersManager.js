@@ -63,6 +63,7 @@ function getIdSites()
 {
 	return $('#selectIdsite option:selected').val();
 }
+
 function getUpdateUserAccess(login, access, successCallback)
 {
 	var ajaxRequest = getStandardAjaxConf();
