@@ -46,16 +46,6 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		return $json;
 	}
 	
-	function getDefaultAction()
-	{
-		return 'redirectToIndex';
-	}
-	
-	function redirectToIndex()
-	{
-		header("Location:?module=Dashboard&action=index&idSite=1&period=day&date=yesterday");
-	}
-	
 	public function embeddedIndex()
 	{		
 		$view = new Piwik_View('Dashboard/templates/index.tpl');

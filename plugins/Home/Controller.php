@@ -26,7 +26,26 @@ class Piwik_Home_Controller extends Piwik_Controller
 	}
 	function redirectToIndex()
 	{
-		header("Location:?module=Home&action=index&idSite=1&period=day&date=yesterday");
+		$sitesId = Piwik_SitesManager_API::getSitesIdWithAtLeastViewAccess();
+		if(!empty($sitesId))
+		{
+			$firstSiteId = $sitesId[0];
+			header("Location:?module=Home&action=index&idSite=$firstSiteId&period=day&date=yesterday");
+		}
+		else
+		{
+			if(($currentLogin = Piwik::getCurrentUserLogin()) != 'anonymous')
+			{
+				Piwik_ExitWithMessage( "You are logged in as '$currentLogin' but it seems you don't have any permission set in Piwik.
+				<br />Ask your Piwik administrator to give you 'view' access to a website.
+				<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='?module=Login&action=logout'>&rsaquo; Logout from Piwik</a></b><br />");
+			}
+			else
+			{
+				Piwik_FrontController::dispatch('Login');
+			}
+		}
+		exit;
 	}
 	
 	protected function setGeneralVariablesView($view)

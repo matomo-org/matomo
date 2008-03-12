@@ -80,9 +80,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$cookie = new Piwik_Cookie($authCookieName);
 		$cookie->delete();
 		
-		$baseUrl = Piwik_Url::getReferer();
-	
-		Piwik_Url::redirectToUrl($baseUrl);
+		// after logout we redirect to the Homepage instead of the referer
+		Piwik::redirectToModule('Home');
 	}
 	
 }
