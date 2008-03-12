@@ -38,8 +38,9 @@ if($piwik_zend_compatibility_mode == 1)
 				If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file. You may have to ask your system administrator.</p>";
 }
 
-if(isset($piwik_errorMessage))
+function Piwik_ExitWithMessage($message)
 {
+	
 	$html = '<html>
 				<head>
 					<title>Piwik &rsaquo; Error</title>
@@ -75,7 +76,7 @@ if(isset($piwik_errorMessage))
 				</head>
 				<body>
 					<span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span>
-					<p>'.$piwik_errorMessage.'</p>				
+					<p>'.$message.'</p>				
 					<ul>
 						<li><a href="http://piwik.org">Piwik homepage</a></li>
 						<li><a href="http://piwik.org/demo">Piwik demo</a></li>
@@ -84,6 +85,11 @@ if(isset($piwik_errorMessage))
 				</html>';
 	echo $html;
 	exit;
+}
+
+if(isset($piwik_errorMessage))
+{
+	Piwik_ExitWithMessage($piwik_errorMessage);
 }
 
 

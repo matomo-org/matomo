@@ -282,6 +282,9 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		$db->query("DELETE FROM ".Piwik::prefixTable("site_url")." 
 					WHERE idsite = ?", $idSite);
 		
+		$db->query("DELETE FROM ".Piwik::prefixTable("access")." 
+					WHERE idsite = ?", $idSite);
+		
 		// TODO we should also delete all the data relative to this website...
 		// post an event here that will be catched by the core and plugins to clean the data
 	}
