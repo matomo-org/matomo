@@ -189,16 +189,18 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	static public function getActionCategoryFromName($name)
 	{
+		$isUrl = false; 
 		// case the name is an URL we dont clean the name the same way
 		if(Piwik_Common::isUrl($name))
 		{
 			$split = array($name);
+			$isUrl = true;
 		}
 		else
 		{
 			$split = explode(self::$actionCategoryDelimiter, $name);
 		}
-		return $split;
+		return array( $isUrl, $split);
 	}
 	
 	
@@ -209,7 +211,9 @@ class Piwik_Actions extends Piwik_Plugin
 		while( $row = $query->fetch() )
 		{
 			// split the actions by category
-			$aActions = $this->getActionCategoryFromName($row['name']);
+			$returned = $this->getActionCategoryFromName($row['name']);
+			$aActions = $returned[1];
+			$isUrl = $returned[0];
 			
 			// we work on the root table of the given TYPE (either ACTION or DOWNLOAD or OUTLINK etc.)
 			$currentTable =& $this->actionsTablesByType[$row['type']];
@@ -221,16 +225,20 @@ class Piwik_Actions extends Piwik_Plugin
 				$actionCategory = $aActions[$level];
 				$currentTable =& $currentTable[$actionCategory];
 			}
-			$actionNameBefore = $aActions[$end];
+			$actionName = $aActions[$end];
 			
 			// create a new element in the array for the page
 			// we are careful to prefix the pageName with some value so that if a page has the same name
 			// as a category we don't overwrite or do other silly things
 			
-			// we know that the concatenation of a space and the name of the action
-			// will always be unique as all the action names have been trimmed before reaching this point
-			$actionName = '/' . $actionNameBefore;
-			
+			// if the page name is not a URL we add a / before
+			if( !$isUrl )
+			{
+				// we know that the concatenation of a space and the name of the action
+				// will always be unique as all the action names have been trimmed before reaching this point
+				$actionName = '/' . $actionName;
+			}
+						
 			// currentTable is now the array element corresponding the the action
 			// at this point we may be for example at the 4th level of depth in the hierarchy
 			$currentTable =& $currentTable[$actionName];

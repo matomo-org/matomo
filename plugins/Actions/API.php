@@ -72,8 +72,10 @@ class Piwik_Actions_API extends Piwik_Apiable
 	}
 
 	public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
-	{
-		return $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
+	{		
+		$dataTable = $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'url', create_function('$url', 'return $url;')));
+		return $dataTable;
 	}
 }
 
