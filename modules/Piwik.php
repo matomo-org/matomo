@@ -109,7 +109,7 @@ class Piwik
 	{	
 		$jsTag = file_get_contents( PIWIK_INCLUDE_PATH . "/modules/LogStats/javascriptTag.tpl");
 		$jsTag = nl2br(htmlentities($jsTag));
-		$jsTag = str_replace('{$actionName}', "''", $jsTag);
+		$jsTag = str_replace('{$actionName}', $actionName, $jsTag);
 		$jsTag = str_replace('{$idSite}', $idSite, $jsTag);
 		$jsTag = str_replace('{$piwikUrl}', $piwikUrl, $jsTag);
 		return $jsTag;
