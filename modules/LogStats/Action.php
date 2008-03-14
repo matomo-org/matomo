@@ -163,7 +163,7 @@ class Piwik_LogStats_Action
 		$actionCategoryDelimiter = Piwik_LogStats_Config::getInstance()->General['action_category_delimiter'];
 		
 		// case the name is an URL we dont clean the name the same way
-		if(Piwik_Common::isUrl($actionName))
+		if(Piwik_Common::isLookLikeUrl($actionName))
 		{
 			$actionName = trim($actionName);
 		}

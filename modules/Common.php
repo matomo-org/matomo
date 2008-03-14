@@ -50,9 +50,17 @@ class Piwik_Common
 		return $result;
 	}
 	
-	static function isUrl( $url )
+	/**
+	 * Returns true if the string passed may be a URL.
+	 * We don't need a precise test here as the value comes from the website 
+	 * tracked source code and the URLs may look very strange.
+	 *
+	 * @param string $url
+	 * @return bool
+	 */
+	static function isLookLikeUrl( $url )
 	{
-		return ereg('^http[s]?://[A-Za-z0-9\/_.-]', $url);
+		return ereg('^(ftp|news|http|https)?://[A-Za-z0-9\/_.-?&]*', $url);
 	}
 	
 	/**
