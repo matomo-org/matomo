@@ -39,11 +39,76 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 {	
 	function index()
 	{
-		// invoke view
-		// render view
-		// do stuff...
+		$out = '';
+		// get the date
+		// get the period
+		// get the idSite
+		// execute SQL query FetchAll
+		// execute SQL query FetchOne
+
+		$out .= '<i>This page aims to list the different functions you can use when programming plugins for Piwik.</i><br>';
+		$out .= '<b>Be careful, the following APIs may change in the near future as Piwik is still in development.</b><br>';
+		
+		$out .= '<h2>General</h2>';
+		$out .= '<h3>Accessible from your plugin controller</h3>';
+		
+		$out .= '<code>$this->date</code> = current selected <b>Piwik_Date</b> object (<a href="http://piwik.org/documentation/Piwik_Helper/Piwik_Date.html">documentation</a>)<br/>';
+		$out .= '<code>$period = Piwik_Common::getRequestVar("period");</code> - Get the current selected period<br/>';
+		$out .= '<code>$idSite = Piwik_Common::getRequestVar("idSite");</code> - Get the selected idSite<br/>';
+		$out .= '<code>$site = new Piwik_Site($idSite);</code> - Build the Piwik_Site object (<a href="http://piwik.org/documentation/Piwik_Site/Piwik_Site.html">documentation</a>)<br/>';
+		$out .= '<code>$this->str_date</code> = current selected date in YYYY-MM-DD format<br/>';
+		
+		$out .= '<h3>Misc</h3>';
+		$out .= '<code>Piwik_AddMenu( $mainMenuName, $subMenuName, $url );</code> - Adds an entry to the menu in the Piwik interface (See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L146">UserCountry Plugin file</a>)<br/>';
+		$out .= '<code>Piwik_AddWidget( $pluginName, $controllerMethodToCall, $widgetTitle );</code> - Adds an entry to the menu in the Piwik interface (See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L143">UserCountry Plugin file</a>)<br/>';
+		$out .= '<code>Piwik::prefixTable("site")</code> = <b>' . Piwik::prefixTable("site") . '</b><br/>';
+		
+		
+		$out .= '<h2>User access</h2>';
+		$out .= '<code>Piwik::getCurrentUserLogin()</code> = <b>' . Piwik::getCurrentUserLogin() . '</b><br/>';
+		$out .= '<code>Piwik::isUserHasSomeAdminAccess()</code> = <b>' . self::boolToString(Piwik::isUserHasSomeAdminAccess()) . '</b><br/>';
+		$out .= '<code>Piwik::isUserHasAdminAccess( array $idSites = array(1,2) )</code> = <b>' . self::boolToString(Piwik::isUserHasAdminAccess(array(1,2) )) . '</b><br/>';
+		$out .= '<code>Piwik::isUserHasViewAccess( array $idSites = array(1) ) </code> = <b>' . self::boolToString(Piwik::isUserHasSomeAdminAccess(array(1))) . '</b><br/>';
+		$out .= '<code>Piwik::isUserIsSuperUser()</code> = <b>' . self::boolToString(Piwik::isUserHasSomeAdminAccess()) . '</b><br/>';
+		
+		$out .= '<h2>Execute SQL queries</h2>';
+		$query = "SELECT token_auth FROM ".Piwik::prefixTable('user')." WHERE login = ?";
+		$result = Piwik_FetchOne($query, array('anonymous'));
+		$out .= '<code>Piwik_FetchOne("'.$query.'", array("anonymous"))</code> = <b>' . var_export($result,true) . '</b><br/>';
+		
+		$out .= '<h2>Example Sites information API</h2>';
+		$out .= '<code>Piwik_SitesManager_API::getSitesWithViewAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getSitesWithViewAccess(),true) . '</pre></b><br/>';
+		$out .= '<code>Piwik_SitesManager_API::getSitesWithAdminAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getSitesWithAdminAccess(),true) . '</pre></b><br/>';
+
+		$out .= '<h2>Example API  Users information</h2>';
+		$out .= 'View the list of API methods you can call on <a href="http://dev.piwik.org/trac/wiki/API/Reference#Methods">API reference</a><br/>';
+		$out .= 'For example you can try <code>Piwik_UsersManager_API::getUsersSitesFromAccess("view");</code> or <code>Piwik_UsersManager_API::deleteUser("userToDelete");</code><br/>';
+		
+		$out .= '<h2>Smarty plugins</h2>';
+		$out .= 'There are some builtin plugins for Smarty especially developped for Piwik. <br>
+				You can find them on the <a href="http://dev.piwik.org/trac/browser/trunk/modules/SmartyPlugins">SVN at /trunk/modules/SmartyPlugins</a>. <br>
+				More documentation to come about smarty plugins.<br/>';
+		
+		echo $out;
+	}
+	
+	static private function boolToString($bool)
+	{
+		if($bool)
+		{
+			return "true";
+		}
+		else
+		{
+			return "false";
+		}
 	}
 
+	/**
+	 * See the result on piwik/?module=ExamplePlugin&action=exampleWidget
+	 * or in the dashboard > Add a new widget 
+	 *
+	 */
 	function exampleWidget()
 	{
 		echo "Hello world! <br> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
@@ -52,6 +117,10 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		<br><i>Happy coding!</i>";
 	}
 	
+	/**
+	 * Embed Matthieu's blog using widgetbox.com widget code
+	 *
+	 */
 	function blogMatthieu()
 	{
 		echo '
@@ -65,6 +134,10 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		';
 	}
 	
+	/**
+	 * Simple feedburner statistics output
+	 *
+	 */
 	function feedburner()
 	{
 		$view = new Piwik_View('ExamplePlugin/feedburner.tpl');
@@ -78,8 +151,13 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
+	/**
+	 * Function called to save the Feedburner ID entered in the form
+	 *
+	 */
 	function saveFeedburnerName()
 	{
+		// we save the value in the DB for an authenticated user
 		if(Piwik::getCurrentUserLogin() != 'anonymous')
 		{
 			Piwik_Query('UPDATE '.Piwik::prefixTable('site').' SET feedburnerName = ?',
@@ -88,6 +166,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	}
 }
 
+// we register the widgets so they appear in the "Add a new widget" window in the dashboard
 Piwik_AddWidget('ExamplePlugin', 'exampleWidget', 'Example widget');
 Piwik_AddWidget('ExamplePlugin', 'feedburner', 'Feedburner statistics');
 Piwik_AddWidget('ExamplePlugin', 'blogMatthieu', 'Blog matthieu RSS');

@@ -30,6 +30,8 @@ require_once 'SitesManager/API.php';
  * There is only one Super User ; he has ADMIN access to all the websites 
  * and he only can change the main configuration settings.
  * 
+ * TODO This class should be in the Login plugin
+ * This class should instead be an interface to be implemented by a Login plugin for other types of authentication (ldpa,openid,etc.)
  * @package Piwik
  */
 
@@ -232,7 +234,7 @@ class Piwik_Access
 			$idSites = array($idSites);
 		}
 		$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
-//var_dump($idSitesAccessible);exit;
+
 		foreach($idSites as $idsite)
 		{
 			if(!in_array($idsite, $idSitesAccessible))

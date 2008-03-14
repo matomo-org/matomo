@@ -539,6 +539,16 @@ class Piwik
 		return Zend_Registry::get('access')->getIdentity();
 	}
 	
+	static public function isUserIsSuperUserOrTheUser( $theUser )
+	{
+		try{
+			self::checkUserIsSuperUserOrTheUser( $theUser );
+			return true;
+		} catch( Exception $e){
+			return false;
+		}
+	}
+	
 	// Accessible either to the user itself
 	static public function checkUserIsSuperUserOrTheUser( $theUser )
 	{
@@ -548,8 +558,18 @@ class Piwik
 				// or to the super user
 				Piwik::checkUserIsSuperUser();
 			}
+		} catch( Piwik_Access_NoAccessException $e){
+			throw new Piwik_Access_NoAccessException("The user has to be either the Super User or the user '$theUser' itself.");
+		}
+	}
+	
+	static public function isUserIsSuperUser()
+	{
+		try{
+			self::checkUserIsSuperUser();
+			return true;
 		} catch( Exception $e){
-			throw new Exception("The user has to be either the Super User or the user '$theUser' itself.");
+			return false;
 		}
 	}
 	
@@ -558,13 +578,44 @@ class Piwik
 		Zend_Registry::get('access')->checkUserIsSuperUser();
 	}
 	
+	static public function isUserHasAdminAccess( $idSites )
+	{
+		try{
+			self::checkUserHasAdminAccess( $idSites );
+			return true;
+		} catch( Exception $e){
+			return false;
+		}
+	}
+	
 	static public function checkUserHasAdminAccess( $idSites )
 	{
 		Zend_Registry::get('access')->checkUserHasAdminAccess( $idSites );
 	}
+	
+	static public function isUserHasSomeAdminAccess()
+	{
+		try{
+			self::checkUserHasSomeAdminAccess();
+			return true;
+		} catch( Exception $e){
+			return false;
+		}
+	}
+	
 	static public function checkUserHasSomeAdminAccess()
 	{
 		Zend_Registry::get('access')->checkUserHasSomeAdminAccess();
+	}
+	
+	static public function isUserHasViewAccess( $idSites )
+	{
+		try{
+			self::checkUserHasViewAccess( $idSites );
+			return true;
+		} catch( Exception $e){
+			return false;
+		}
 	}
 	
 	static public function checkUserHasViewAccess( $idSites )
