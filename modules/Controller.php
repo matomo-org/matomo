@@ -26,7 +26,7 @@ abstract class Piwik_Controller
 			$this->date = Piwik_Date::factory($this->strDate);
 			$this->strDate = $this->date->toString();
 		} catch(Exception $e){
-		// the date looks like YYYY-MM-DD,YYYY-MM-DD or other format
+			// the date looks like YYYY-MM-DD,YYYY-MM-DD or other format
 			// case the date looks like a range
 			$this->date = null;
 		}

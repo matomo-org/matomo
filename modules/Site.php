@@ -6,12 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik
+ * @package Piwik_Site
  */
 
 /**
  * 
- * @package Piwik
+ * @package Piwik_Site
  */
 class Piwik_Site
 {
