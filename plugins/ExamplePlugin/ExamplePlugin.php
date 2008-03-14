@@ -37,15 +37,24 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 
 class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 {	
+	/**
+	 * Go to /piwik/?module=ExamplePlugin&action=helloWorld to execute this method
+	 *
+	 */
+	function helloWorld()
+	{
+		echo "Hello world! <br />";
+		echo "Happy coding with Piwik :)";
+	}
+	
+	/**
+	 * This method displays a text containing an help about "How to build plugins for Piwik".
+	 * This help is then used on http://dev.piwik.org
+	 *
+	 */
 	function index()
 	{
 		$out = '';
-		// get the date
-		// get the period
-		// get the idSite
-		// execute SQL query FetchAll
-		// execute SQL query FetchOne
-
 		$out .= '<i>This page aims to list the different functions you can use when programming plugins for Piwik.</i><br>';
 		$out .= '<b>Be careful, the following APIs may change in the near future as Piwik is still in development.</b><br>';
 		
@@ -68,8 +77,8 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out .= '<code>Piwik::getCurrentUserLogin()</code> = <b>' . Piwik::getCurrentUserLogin() . '</b><br/>';
 		$out .= '<code>Piwik::isUserHasSomeAdminAccess()</code> = <b>' . self::boolToString(Piwik::isUserHasSomeAdminAccess()) . '</b><br/>';
 		$out .= '<code>Piwik::isUserHasAdminAccess( array $idSites = array(1,2) )</code> = <b>' . self::boolToString(Piwik::isUserHasAdminAccess(array(1,2) )) . '</b><br/>';
-		$out .= '<code>Piwik::isUserHasViewAccess( array $idSites = array(1) ) </code> = <b>' . self::boolToString(Piwik::isUserHasSomeAdminAccess(array(1))) . '</b><br/>';
-		$out .= '<code>Piwik::isUserIsSuperUser()</code> = <b>' . self::boolToString(Piwik::isUserHasSomeAdminAccess()) . '</b><br/>';
+		$out .= '<code>Piwik::isUserHasViewAccess( array $idSites = array(1) ) </code> = <b>' . self::boolToString(Piwik::isUserHasViewAccess(array(1))) . '</b><br/>';
+		$out .= '<code>Piwik::isUserIsSuperUser()</code> = <b>' . self::boolToString(Piwik::isUserIsSuperUser()) . '</b><br/>';
 		
 		$out .= '<h2>Execute SQL queries</h2>';
 		$query = "SELECT token_auth FROM ".Piwik::prefixTable('user')." WHERE login = ?";
@@ -103,7 +112,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 			return "false";
 		}
 	}
-
+	
 	/**
 	 * See the result on piwik/?module=ExamplePlugin&action=exampleWidget
 	 * or in the dashboard > Add a new widget 
