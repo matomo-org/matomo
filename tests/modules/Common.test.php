@@ -23,6 +23,37 @@ class Test_Piwik_Common extends UnitTestCase
 	public function tearDown()
 	{
 	}
+
+	function test_isUrl()
+	{
+		$valid = array(
+			'http://piwik.org',
+			'http://www.piwik.org',
+			'https://piwik.org',
+			'https://piwik.org/dir/dir2/?oeajkgea7aega=&ge=a',
+			'ftp://www.pi-wik.org',
+			'news://www.pi-wik.org',
+		);
+		
+		foreach($valid as $url)
+		{
+			$this->assertTrue(Piwik_Common::isLookLikeUrl($url), "$url not validated");
+		}
+	}
+	function test_isUrl_notvalid()
+	{
+		$notValid = array(
+			'it doesnt look like url',
+			'/index?page=test',
+			'test.html',
+			
+		);
+		
+		foreach($notValid as $url)
+		{
+			$this->assertTrue(!Piwik_Common::isLookLikeUrl($url), "$url validated");
+		}
+	}
 	
 	// sanitize an array OK
 	function test_sanitizeInputValues_array1()

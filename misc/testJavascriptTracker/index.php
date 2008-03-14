@@ -3,6 +3,7 @@
 require_once '../../modules/Url.php';
 $url = Piwik_Url::getCurrentUrlWithoutFileName();
 $urlPiwik = join("/", array_slice(split("/", $url), 0, -3));
+
 ?>
 
 <div>
@@ -11,16 +12,20 @@ And test the tracker by clicking all the links below, with several browsers...<b
 <br />
 </div>
 
-<a href="http://www.google.fr"> Site web de google france </a> <br />
-<a href="http://www.yahoo.fr"> Site web de yahoo france </a> <br />
-<a href="http://www.google.com"> Site web de google monde </a> <br />
-<a href="http://maps.google.fr"> Site web de google maps </a> <br />
-<a href="http://piwik.org"> Site web de piwik </a> <br />
-<a href="http://piwik.org/blog"> Site web de piwik </a> <br />
+<a href="http://www.yahoo.fr"> yahoo france website</a> <br />
+<a href="http://www.google.com"> google world website </a> <br />
+<a href="ftp://parcftp.xerox.com"> FTP xerox</a> <br />
+<a href="news://news.eclipse.org"> News::eclipse</a> <br />
+<a href="http://piwik.org"> piwik website </a> <br />
+
 <br />
+<a class="piwik_ignore" href="./THIS_PDF_SHOULD_NOT_BE_COUNTED.pdf"> PDF wthdownload pdf </a> <br />
 <a href="./test.pdf"> download pdf (rel) </a> <br />
+<a href="./dir_test/test.pdf"> download pdf + directory (rel) </a> <br />
+<a href="../testJavascriptTracker/dir_test/test.pdf"> download pdf + parent directory (rel) </a> <br />
 <a href="./test.jpg"> download jpg (rel) </a> <br />
 <a href="./test.zip"> download zip (rel) </a> <br />
+<a href="./test.php?fileToDownload=test.zip"> download strange URL ?file=test.zip</a> <br />
 <a href="
 <?php echo $url; ?>
 test.rar"> download rar (abs) </a> <br />
