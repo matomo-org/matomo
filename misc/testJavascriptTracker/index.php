@@ -18,6 +18,8 @@ And test the tracker by clicking all the links below, with several browsers...<b
 <a href="ftp://parcftp.xerox.com"> FTP xerox</a> <br />
 <a href="news://news.eclipse.org"> News::eclipse</a> <br />
 <a href="http://piwik.org"> piwik website </a> <br />
+<a href="http://www.testWithImageAndText.com"><img border=0 src="../../plugins/UserCountry/flags/fr.png"> Test with image + text </a> <br />
+<a href="http://www.testWithImageOnly.com"><img border=0 src="../../plugins/UserCountry/flags/pl.png"></a> <br />
 
 <br />
 <a class="piwik_ignore" href="./THIS_PDF_SHOULD_NOT_BE_COUNTED.pdf"> PDF wthdownload pdf </a> <br />
