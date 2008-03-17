@@ -40,16 +40,16 @@ class Piwik_DataTable_Row
 	 * 
 	 * @param array The row array has the structure
 	 * 					array( 
-	 * 						DataTable_Row::COLUMNS => array( 
+	 * 						Piwik_DataTable_Row::COLUMNS => array( 
 	 * 										0 => 1554,
 	 * 										1 => 42,
 	 * 										2 => 657,
 	 * 										3 => 155744,	
 	 * 									),
-	 * 						DataTable_Row::DETAILS => array(
+	 * 						Piwik_DataTable_Row::DETAILS => array(
 	 * 										'logo' => 'test.png'
 	 * 									),
-	 * 						DataTable_Row::DATATABLE_ASSOCIATED => #DataTable object // numeric idDataTable
+	 * 						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => #DataTable object // numeric idDataTable
 	 * 					)
 	 */
 	public function __construct( $row = array() )
