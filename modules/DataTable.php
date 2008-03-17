@@ -162,6 +162,13 @@ class Piwik_DataTable
 		$this->rowsCountBeforeLimitFilter = $this->getRowsCount();
 	}
 	
+	/**
+	 * Queue a DataTable_Filter that will be applied at the end of the process 
+	 * (just before sending the datatable back to the browser (or API, etc.)
+	 *
+	 * @param string $className The class name of the filter, eg. Piwik_DataTable_Filter_Limit
+	 * @param array $parameters The parameters to give to the filter, eg. array( $offset, $limit) for the filter Piwik_DataTable_Filter_Limit
+	 */
 	public function queueFilter( $className, $parameters = array() )
 	{
 		if(!is_array($parameters))

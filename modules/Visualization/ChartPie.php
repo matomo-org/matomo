@@ -22,7 +22,14 @@ class Piwik_Visualization_ChartPie extends Piwik_Visualization_Chart
 		
 		$this->prepareData();		
 //		$this->title( 'PIE Chart', '{font-size: 20px;}' );
-		
+	
+	    // strip labels
+	    for($i = 0, $cnt = count($this->arrayLabel); $i < $cnt; $i++) 
+	    {
+	    	$label = $this->arrayLabel[$i];
+			$this->arrayLabel[$i] = (strlen($label) > 20 ? substr($label, 0, 20).'...' : $label);
+	    }
+	    
 		//
 		$this->pie(60,'#505050','#142448', true);
 		//

@@ -237,9 +237,8 @@ class Piwik_API_Request
 				{
 					$this->applyDataTableGenericFilters($table);
 				}
-			}			
-//			echo($returnedValue);exit;
-		
+			}
+			
 			// if the flag disable_queued_filters is defined we skip the filters that were queued
 			// useful in some very rare cases but better to use this than a bad hack on the data returned...
 			if(Piwik_Common::getRequestVar('disable_queued_filters', 'false', 'string', $this->requestToUse) == 'false')

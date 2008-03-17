@@ -51,3 +51,4 @@ require_once "DataTable/Filter/Pattern.php";
 require_once "DataTable/Filter/PatternRecursive.php";
 require_once "DataTable/Filter/ReplaceColumnNames.php";
 require_once "DataTable/Filter/Sort.php";
+require_once "DataTable/Filter/AddSummaryRow.php";
