@@ -86,7 +86,7 @@ class Piwik_Log_Formatter_Exception_ScreenFormatter implements Zend_Log_Formatte
 		// but with javascript we hide the DIV and onclick we show it  
 		$message .= "<script>document.getElementById('$divId').style.display='none';</script>";
 		
-		$message .= "<br>You can get help from <a href='http://piwik.org'>Piwik.org</a> (give us the full error message + your PHP and Mysql version)";
+		$message .= "<br>You can get help from http://piwik.org (give us the full error message + your PHP and Mysql version)";
 
 	    return $message;
     }
