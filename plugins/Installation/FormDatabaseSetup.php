@@ -18,9 +18,7 @@ require_once "modules/Form.php";
 class Piwik_Installation_FormDatabaseSetup extends Piwik_Form
 {
 	function init()
-	{
-		$urlToGoAfter = Piwik_Url::getCurrentUrl();			
-		
+	{		
 		$formElements = array(
 			array('text', 'host', 'mysql server', 'value='.'localhost'),
 			array('text', 'username', 'login'),
