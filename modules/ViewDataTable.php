@@ -303,6 +303,14 @@ abstract class Piwik_ViewDataTable
 		$javascriptVariablesToSet['show_exclude_low_population'] = $this->getExcludeLowPopulation();
 		$javascriptVariablesToSet['enable_sort'] = $this->getSort();
 		
+		// we escape the values that will be displayed in the javascript footer of each datatable
+		// to make sure there is malicious code injected (the value are already htmlspecialchar'ed as they
+		// are loaded with Piwik_Common::getRequestVar()
+		foreach($javascriptVariablesToSet as &$value)
+		{
+			$value = addslashes($value);
+		}
+		
 		return $javascriptVariablesToSet;
 	}
 	
