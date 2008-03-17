@@ -503,6 +503,46 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	
 	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()));
 	 }
+	 
+
+	/**
+	 * Test to summarize a given datatable's rows from N to M
+	 * Keep the row 0 to N-1
+	 * Add a new row summarizing the others
+	 */
+	 function test_filter_AddSummaryRow()
+	 {
+	 	$table = new Piwik_DataTable;
+	 	$idcol = Piwik_DataTable_Row::COLUMNS;
+	  	$rows = array(
+	  		array( $idcol => array('label'=>'google', 'hits' => 100000)),//0
+	  		array( $idcol => array('label'=>'ask', 'hits' => 10000)),//1
+	  		array( $idcol => array('label'=>'piwik', 'hits' => 1000)),//2
+	  		array( $idcol => array('label'=>'yahoo', 'hits' => 100)),//3
+	  		array( $idcol => array('label'=>'amazon', 'hits' => 10)),//4
+	  		array( $idcol => array('label'=>'238975247578949', 'hits' => 1)),//5
+	  		);
+	  	$table->loadFromArray( $rows );
+	  	
+  		$startRow = 3;
+  		
+	  	$expected = array(
+	  		array( $idcol => array('label'=>'google', 'hits' => 100000)),//0
+	  		array( $idcol => array('label'=>'ask', 'hits' => 10000)),//1
+	  		array( $idcol => array('label'=>'piwik', 'hits' => 1000)),//2
+	  		array( $idcol => array('label'=>'other', 'hits' => 111)),//3
+	  		);
+	  	
+		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table, $startRow);
+
+	  	$tableExpected = new Piwik_DataTable;
+	  	$tableExpected->loadFromArray( $expected );
+//	  	echo $table;
+//	  	echo $tableExpected;
+	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
+	}
+	
+	
 	/**
 	 * Test to sort by label
 	 */
@@ -674,9 +714,6 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	
 	 	$filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'nb_visits', 1.4);
 
-//	  	echo $table;
-//	  	echo $expectedtable;
-//	  	dump($table);
 	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtable));
 	 }
 	

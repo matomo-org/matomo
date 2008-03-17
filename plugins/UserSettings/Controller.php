@@ -32,7 +32,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		
-		$view->setColumnsToDisplay( array(0,2) );
+		$view->setColumnsToDisplay( array(0,1) );
 		$view->setSortedColumn( 1 );
 		$view->setLimit( 5 );
 		$view->setGraphLimit(5);

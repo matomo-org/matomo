@@ -34,6 +34,9 @@ abstract class Piwik_ViewDataTable
 	
 	protected $actionToLoadTheSubTable = null;
 	
+	/**
+	 * @var Piwik_DataTable
+	 */
 	public $dataTable; // data table
 	
 	protected $moduleNameAndMethod;
@@ -334,7 +337,9 @@ abstract class Piwik_ViewDataTable
 			'filter_excludelowpop',
 			'filter_excludelowpop_value',
 			'filter_column', 
-			'filter_pattern' 
+			'filter_pattern',
+			'disable_generic_filters',
+			'disable_queued_filters',
 		);
 		foreach($toSetEventually as $varToSet)
 		{
@@ -390,7 +395,11 @@ abstract class Piwik_ViewDataTable
 	{
 		return $this->JSsortEnabled;		
 	}
-	
+
+	public function disableGenericFilters()
+	{
+		$this->variablesDefault['disable_generic_filters'] = true;
+	}
 	public function disableOffsetInformation()
 	{
 		$this->JSoffsetInformation = 'false';		
