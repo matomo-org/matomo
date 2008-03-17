@@ -92,6 +92,16 @@ class Piwik_Actions extends Piwik_Plugin
 			Piwik_LogStats_Action::TYPE_OUTLINK => array(),
 		);
 		
+		// This row is used in the case where an action is know as an exit_action
+		// but this action was not properly recorded when it was hit in the first place
+		// so we add this fake row information to make sure there is a nb_hits, etc. column for every action
+		$this->defaultRow = new Piwik_DataTable_Row(array( 
+	  						Piwik_DataTable_Row::COLUMNS => array( 
+	  										'nb_visits' => 1,
+	  										'nb_uniq_visitors' => 1,
+	  										'nb_hits' => 1,	
+	  									)));
+
 		/*
 		 * Actions global information
 		 */
@@ -107,7 +117,7 @@ class Piwik_Actions extends Piwik_Plugin
 				 		AND idsite = ?
 				 	GROUP BY t3.idaction";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-				
+		
 		$modified = $this->updateActionsTableWithRowQuery($query);
 
 		
@@ -149,7 +159,7 @@ class Piwik_Actions extends Piwik_Plugin
 				 	GROUP BY visit_exit_idaction
 					";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-				
+		
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 		/*
@@ -256,16 +266,27 @@ class Piwik_Actions extends Piwik_Plugin
 			
 			foreach($row as $name => $value)
 			{
-				// we don't add this information as it not pertinent
+				// we don't add this information as itnot pertinent
 				// name is already set as the label // and it has been cleaned from the categories and extracted from the initial string
 				// type is used to partition the different actions type in different table. Adding the info to the row would be a duplicate. 
 				if($name != 'name' && $name != 'type')
 				{
-//					$name = $this->getIdColumn($name);
 					$currentTable->addColumn($name, $value);
 				}
 			}
-
+			
+			// if the exit_action was not recorded properly in the log_link_visit_action
+			// there would be an error message when getting the nb_hits column
+			// we must fake the record and add the columns
+			if($currentTable->getColumn('nb_hits') === false)
+			{
+				// to test this code: delete the entries in log_link_action_visit for
+				//  a given exit_idaction 
+				foreach($this->defaultRow->getColumns() as $name => $value)
+				{
+					$currentTable->addColumn($name, $value);
+				}
+			}
 			// simple count 
 			$rowsProcessed++;
 		}
