@@ -117,7 +117,7 @@ class Piwik_Url
 	static public function getCurrentHost()
 	{
 		if(isset($_SERVER['HTTPS'])
-			&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == true)
+			&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)
 			)
 		{
 			$url = 'https';

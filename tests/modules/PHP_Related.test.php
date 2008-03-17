@@ -25,6 +25,11 @@ class Test_PHP_Related extends UnitTestCase
 	{
 	}
 	
+	function test_equal()
+	{
+		//aaaaaaaaaaaahhhhhhhhhhhh
+		$this->assertTrue( "off" == true);
+	}
 	function test_listEach()
 	{
 		$array = array('key' => 'elem2');
