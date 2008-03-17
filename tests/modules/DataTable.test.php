@@ -524,15 +524,20 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		);
 	  	$table->loadFromArray( $rows );
 	  	
-  		$startRow = 3;
+	  	$startRow = 5;
+		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table, $startRow);
+	  	$tableExpected = clone $table;
+	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
+//	  	echo $table;
+//	  	echo $tableExpected;
   		
+  		$startRow = 3;
 	  	$expected = array(
 	  		array( $idcol => array('label'=>'google', 'hits' => 100000)),//0
 	  		array( $idcol => array('label'=>'ask', 'hits' => 10000)),//1
 	  		array( $idcol => array('label'=>'piwik', 'hits' => 1000)),//2
-	  		array( $idcol => array('label'=>'other', 'hits' => 111)),//3
-	  		);
-	  	
+	  		array( $idcol => array('label'=>'Others', 'hits' => 111)),//3
+	  		);	  	
 		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table, $startRow);
 
 	  	$tableExpected = new Piwik_DataTable;
@@ -540,6 +545,8 @@ class Test_Piwik_DataTable extends UnitTestCase
 //	  	echo $table;
 //	  	echo $tableExpected;
 	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
+	  	
+	  	
 	}
 	
 	
