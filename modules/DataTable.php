@@ -255,6 +255,12 @@ class Piwik_DataTable
 		}
 	}
 	
+	/**
+	 * Returns the Piwik_DataTable_Row that has a column 'label' with the value $label
+	 *
+	 * @param string $label
+	 * @return Piwik_DataTable_Row|false The row
+	 */
 	public function getRowFromLabel( $label )
 	{
 		if($this->indexNotUpToDate)
@@ -418,7 +424,11 @@ class Piwik_DataTable
 		
 		foreach($rows1 as $row1)
 		{
-			$row2 = $table2->getRowFromLabel($row1->getColumn('label'));	
+			$row2 = $table2->getRowFromLabel($row1->getColumn('label'));
+			if($row2 === false)
+			{
+				return false;
+			}
 			if( !Piwik_DataTable_Row::isEqual($row1,$row2) )
 			{
 				return false;

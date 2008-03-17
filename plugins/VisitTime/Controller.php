@@ -26,6 +26,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array(0,2) );
 		$view->setSortedColumn( 0, 'asc' );
 		$view->setLimit( 24 );
+		$view->setGraphLimit( 24 );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
