@@ -317,6 +317,7 @@ abstract class Piwik_ArchiveProcessing
 		// we delete all tables from the table register
 		Piwik_ArchiveProcessing_Record_Manager::getInstance()->deleteAll();
 		
+		
 	} 
 	
 	/**

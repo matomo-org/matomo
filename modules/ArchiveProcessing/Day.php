@@ -70,6 +70,30 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	}
 	
 	/**
+	 * Called at the end of the archiving process
+	 *
+	 */
+	protected function postCompute()
+	{
+		parent::postCompute();
+		
+		// we delete out of date records
+		// = archives that for day N computed on day N (means they are only partial)
+		$blobTable = $this->tableArchiveBlob->getTableName();
+		$numericTable = $this->tableArchiveNumeric->getTableName();
+		
+		$query = "	DELETE 
+					FROM %s
+					WHERE period = ? 
+						AND date1 = DATE(ts_archived)
+						AND DATE(ts_archived) <> CURRENT_DATE()
+					";
+		
+		Zend_Registry::get('db')->query(sprintf($query, $blobTable), $this->periodId);
+		Zend_Registry::get('db')->query(sprintf($query, $numericTable), $this->periodId);
+	}
+	
+	/**
 	 * Helper function that returns a DataTable containing the $select fields / value pairs.
 	 * IMPORTANT: The $select must return only one row!!
 	 * 
