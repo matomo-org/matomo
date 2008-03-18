@@ -30,7 +30,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		if(!empty($sitesId))
 		{
 			$firstSiteId = $sitesId[0];
-			header("Location:?module=Home&action=index&idSite=$firstSiteId&period=day&date=yesterday");
+			header("Location:index.php?module=Home&action=index&idSite=$firstSiteId&period=day&date=yesterday");
 		}
 		else
 		{
