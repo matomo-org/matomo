@@ -21,11 +21,6 @@
  */
 class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 {
-	function __construct()
-	{
-		parent::__construct();
-	}
-
 	/**
 	 * Sums all values for the given field names $aNames over the period
 	 * See @archiveNumericValuesGeneral for more information
@@ -192,7 +187,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	}
 	
 	/**
-	 * Main method to process logs for a period. The only logic done here is computing the number of visits, actions, etc.
+	 * Main method to process logs for a period. 
+	 * The only logic done here is computing the number of visits, actions, etc.
 	 * 
 	 * All the other reports are computed inside plugins listening to the event 'ArchiveProcessing_Period.compute'.
 	 * See some of the plugins for an example.
@@ -222,4 +218,30 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
 	}
+	
+	/**
+	 * Called at the end of the archiving process
+	 *
+	 */
+	protected function postCompute()
+	{
+		parent::postCompute();
+		
+		// we delete records that are now out of date
+		// in the case of a period we delete archives that were archived before the end of the period
+		// and only if they are at least 1 day old (so we don't delete archives computed today that may be stil valid) 
+		$blobTable = $this->tableArchiveBlob->getTableName();
+		$numericTable = $this->tableArchiveNumeric->getTableName();
+		
+		$query = "	DELETE 
+					FROM %s
+					WHERE period > ? 
+						AND DATE(ts_archived) <= date2
+						AND date(ts_archived) < date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
+					";
+		
+		Zend_Registry::get('db')->query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
+		Zend_Registry::get('db')->query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
+	}
+	
 }
