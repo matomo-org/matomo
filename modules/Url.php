@@ -61,7 +61,7 @@ class Piwik_Url
 
 	static public function getCurrentUrl()
 	{
-		return    self::getCurrentHost()
+		return	self::getCurrentHost()
 				. self::getCurrentScriptName() 
 				. self::getCurrentQueryString();
 	}
@@ -69,7 +69,7 @@ class Piwik_Url
 	static public function getCurrentUrlWithoutQueryString()
 	{
 		
-		return    self::getCurrentHost()
+		return	self::getCurrentHost()
 				. self::getCurrentScriptName() ;
 	}
 	

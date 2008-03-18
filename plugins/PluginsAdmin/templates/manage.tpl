@@ -1,24 +1,31 @@
-Test
+<link rel="stylesheet" href="themes/default/common-admin.css">
 
-<table border=1 cellpadding=5>
+<h2>Plugins</h2>
 
-<tr>
+<table id="plugins">
+
+<thead>
 	<th>Name</th>
 	<th>Description</th>
 	<th>Author</th>
 	<th>Version</th>
 	<th>Action</th>
-</tr>
-{foreach from=$pluginsName key=name item=plugin}
+</thead>
 
-<tr>
+<tbody>
+	{foreach from=$pluginsName key=name item=plugin}
+
+{if $plugin.activated}<tr class="activate">{else}<tr class="deactivate">{/if}
 	<td><b>{$name}</b></td>
 	<td>{$plugin.info.description}&nbsp;</td>
-	<td><a href="{$plugin.info.homepage}">{$plugin.info.author}</a></td>
+	<td class="center"><a href="{$plugin.info.homepage}">{$plugin.info.author}</a></td>
 	<td>{$plugin.info.version}</td>
-	<td>{if $plugin.activated}<a href=?module=PluginsAdmin&action=deactivate&pluginName={$name}>Deactivate</a>
-	{else}<a href=?module=PluginsAdmin&action=activate&pluginName={$name}>Activate</a>{/if}</td>
-</tr>
+	<td class="switch">{if $plugin.activated}<a href=?module=PluginsAdmin&action=deactivate&pluginName={$name}>Deactivate</a>
+{else}<a href=?module=PluginsAdmin&action=activate&pluginName={$name}>Activate</a>{/if}</td>
+	</tr>
 {/foreach}
 
+</tbody>
 </table>
+
+<p><a href='?module=Home'>Back to Piwik homepage</a></p>

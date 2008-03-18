@@ -114,7 +114,8 @@ class Piwik_LogStats_Action
 		{
 			$this->actionType = self::TYPE_DOWNLOAD;
 			$url = $this->downloadUrl;
-			$actionName = $this->nameDownloadOutlink;
+			//$actionName = $this->nameDownloadOutlink;
+			$actionName = $url;
 		}
 		elseif(!empty($this->outlinkUrl))
 		{
@@ -255,5 +256,4 @@ class Piwik_LogStats_Action
 					);
 	 }
 }
-
 
