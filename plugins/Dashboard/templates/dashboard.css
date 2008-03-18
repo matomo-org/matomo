@@ -1,20 +1,17 @@
 /*Overriding some dataTable css for better dashboard display*/
-.widgetDiv .parentDiv,
-.widgetDiv .parentDivGraph,
-.widgetDiv .parentDivActions,
-.widgetDiv .parentDivGraphEvolution {
+.widgetDiv .parentDiv,.widgetDiv .parentDivGraph,.widgetDiv .parentDivActions,.widgetDiv .parentDivGraphEvolution
+	{
 	width: 100%;
 }
 
 /*--- end of dataTable.css modif*/
-
 .col {
-	float:left;
+	float: left;
 	width: 33%;
 }
 
 .items {
-    background: white;
+	background: white;
 }
 
 .hover {
@@ -22,12 +19,12 @@
 }
 
 .widget {
-    border: 1px solid #D2D9EB;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-right: 5px;
-    margin-left: 5px;
-    overflow: hidden;
+	border: 1px solid #D2D9EB;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: 5px;
+	margin-left: 5px;
+	overflow: hidden;
 }
 
 .widgetHover {
@@ -43,10 +40,10 @@
 	font-weight: bold;
 	padding-bottom: 4px;
 }
+
 .handleHover {
 	background: #E6E6F5;
 }
-
 
 .widgetTitle {
 	font-size: 14pt;
@@ -75,16 +72,16 @@
 
 .dialog {
 	display: none;
-	padding:20px 10px;
-	color:#7A0101;
-	cursor:wait;
-	font-size:1.2em;
-	font-weight:bold;
-	text-align:center;
+	padding: 20px 10px;
+	color: #7A0101;
+	cursor: wait;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align: center;
 }
 
 .menu {
-	display: none;    
+	display: none;
 	border: 2px solid #FCB842;
 	background: white;
 }
@@ -92,7 +89,7 @@
 .helper {
 	width: 33%;
 	opacity: .6;
-	filter : alpha(opacity=60); /*for IE*/
+	filter: alpha(opacity =   60); /*for IE*/
 }
 
 .dummyHandle {
@@ -100,6 +97,7 @@
 }
 
 .menuItem {
+	
 }
 
 .menuSelected {
@@ -114,9 +112,9 @@
 
 .widgetLoading {
 	cursor: wait;
-	padding:10px;
-	text-align:center;
-	font-size:10pt;
+	padding: 10px;
+	text-align: center;
+	font-size: 10pt;
 }
 
 #menuTitleBar {
@@ -133,7 +131,7 @@
 }
 
 .subMenu {
-	float:left;
+	float: left;
 	margin: 30px;
 }
 
@@ -141,9 +139,11 @@
 	cursor: default;
 	margin-left: 50px;
 }
+
 #sub2.subMenu {
 	cursor: pointer;
 }
+
 #sub3.subMenu {
 	float: right;
 	width: 40%
@@ -159,7 +159,7 @@ ul#widgetList {
 	list-style-type: none;
 	line-height: 25px;
 }
-	
+
 .subMenuItem span {
 	color: black;
 }
@@ -180,16 +180,16 @@ ul#widgetList {
 .previewDiv {
 	height: 200px;
 }
-	
+
 #previewLoading {
 	font-size: 14pt;
 	font-weight: bold;
 }
 
-.widget input{
-	background:#F7F7FF none repeat scroll 0% 50%;
-	border:1px solid #B3B3B3;
-	color:#0C183A;
-	font-size:0.7em;
-	padding:2px;
+.widget input {
+	background: #F7F7FF none repeat scroll 0% 50%;
+	border: 1px solid #B3B3B3;
+	color: #0C183A;
+	font-size: 0.7em;
+	padding: 2px;
 }

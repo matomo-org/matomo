@@ -152,21 +152,21 @@ class Piwik_Config
 	}
 	
 	public function __get($name)
-    {
-        if( !is_null($this->userConfig)
-        	&& null !== ($valueInUserConfig = $this->userConfig->$name))
-        {
-        	return $valueInUserConfig;
-        }
-        if(null !== ($valueInDefaultConfig = $this->defaultConfig->$name))
-        {
-        	return $valueInDefaultConfig;
-        }
-        
-        throw new Exception("The configuration parameter $name couldn't be found in your configuration file.
+	{
+		if( !is_null($this->userConfig)
+		&& null !== ($valueInUserConfig = $this->userConfig->$name))
+		{
+			return $valueInUserConfig;
+		}
+		if(null !== ($valueInDefaultConfig = $this->defaultConfig->$name))
+		{
+			return $valueInDefaultConfig;
+		}
+
+		throw new Exception("The configuration parameter $name couldn't be found in your configuration file.
 						<br>Try to replace your default configuration file ({$this->pathIniFileDefaultConfig}) with 
 					the <a href='".$this->urlToPiwikHelpMissingValueInConfigurationFile."'>default piwik configuration file</a> ");
-    }
+	}
 	
 }
 

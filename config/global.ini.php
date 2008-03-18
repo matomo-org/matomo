@@ -25,6 +25,7 @@ default			= en
 
 [Plugins]
 Plugins[] 		= PluginsAdmin
+Plugins[] 		= AdminHome
 Plugins[] 		= API
 Plugins[] 		= Widgetize
 Plugins[] 		= Home
@@ -48,6 +49,7 @@ Plugins[] 		= Installation
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
+PluginsInstalled[] = AdminHome
 PluginsInstalled[] = UsersManager
 PluginsInstalled[] = SitesManager
 PluginsInstalled[] = Installation

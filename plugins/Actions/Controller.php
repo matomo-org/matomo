@@ -6,20 +6,37 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	function getDownloads($fetch = false)
 	{
-		$view = $this->getActionsView( 	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getDownloads', 
-										'getDownloadsSubDataTable' );
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	$this->pluginName, 
+						__FUNCTION__,
+						'Actions.getDownloads',
+						'getDownloadsSubDataTable' );
 		
+		$view->setColumnsToDisplay( array(0,2,3) );
+		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
+		$view->setSortedColumn( 1 );
+		$view->disableExcludeLowPopulation();
+		$view->setLimit( 15 );
+		
+		$view->main();
 		return $this->renderView($view, $fetch);
 	}
 	function getDownloadsSubDataTable($fetch = false)
 	{
-		$view = $this->getActionsView( 	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getDownloads', 
-										'getDownloadsSubDataTable' );
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	$this->pluginName, 
+						__FUNCTION__,
+						'Actions.getDownloads',
+						'getDownloadsSubDataTable');
 		
+		$view->setColumnsToDisplay( array(0,2,3) );
+		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
+		$view->setSortedColumn( 1 );
+		$view->disableExcludeLowPopulation();
+		$view->disableSearchBox();
+		$view->setLimit( 15 );
+		
+		$view->main();
 		return $this->renderView($view, $fetch);
 	}
 	function getActions($fetch = false)
@@ -43,14 +60,15 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	function getOutlinks($fetch = false)
 	{
-		
 		$view = Piwik_ViewDataTable::factory();
 		$view->init(  	$this->pluginName, 
 						__FUNCTION__,
-						'Actions.getOutlinks' );
+						'Actions.getOutlinks',
+						'getOutlinksSubDataTable' );
 		
 		$view->setColumnsToDisplay( array(0,2,3) );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
+		$view->setSortedColumn( 1 );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
 		
@@ -59,11 +77,20 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	}
 	function getOutlinksSubDataTable($fetch = false)
 	{
-		$view = $this->getActionsView( 	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getOutlinks', 
-										'getOutlinksSubDataTable'  );
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(	$this->pluginName, 
+						__FUNCTION__,
+						'Actions.getOutlinks',
+						'getOutlinksSubDataTable');
 		
+		$view->setColumnsToDisplay( array(0,2,3) );
+		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
+		$view->setSortedColumn( 1 );
+		$view->disableExcludeLowPopulation();
+		$view->disableSearchBox();
+		$view->setLimit( 15 );
+		
+		$view->main();
 		return $this->renderView($view, $fetch);
 	}
 	

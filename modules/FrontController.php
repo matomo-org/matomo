@@ -33,6 +33,7 @@ require_once "Url.php";
 require_once "Controller.php";
 
 require_once "Menu.php";
+require_once "AdminMenu.php";
 require_once "Widget.php";
 
 /**
@@ -307,6 +308,6 @@ class Exception_PluginDeactivated extends Exception
 {
 	function __construct($module)
 	{
-		parent::__construct("The plugin '$module' is not enabled. You can activate the plugin on the <a href='?module=PluginsAdmin'>Plugins admin page</a>.");
+		parent::__construct("The plugin '$module' is not enabled. You can activate the plugin on the <a href='?module=AdminHome&action=showInContext&moduleToLoad=PluginsAdmin'>Plugins admin page</a>.");
 	}
 }

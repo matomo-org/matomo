@@ -112,9 +112,8 @@ function piwik_log( _pk_action_name, _pk_site, _pk_pkurl, _pk_custom_vars )
 	document.writeln('<img src="'+_pk_src+'" alt="Piwik" style="border:0" />');
 	if(!_pk_action_name || _pk_action_name=="") _pk_called=1;
 	
-	if(_pk_install_tracker) _pk_init_tracker(_pk_site, _pk_pkurl);
+  _pk_init_tracker(_pk_site, _pk_pkurl);
 }
-
 
 function _pk_add_event(elm, evType, fn, useCapture) 
 {
@@ -133,12 +132,26 @@ var _pk_tracker_site, _pk_tracker_url;
 
 function _pk_init_tracker(_pk_site, _pk_pkurl) 
 {
+	if( typeof(piwik_install_tracker) != "undefined" )
+		_pk_install_tracker = piwik_install_tracker;
+	if( typeof(piwik_tracker_pause) != "undefined" )
+		_pk_tracker_pause = piwik_tracker_pause;
+	if( typeof(piwik_download_extensions) != "undefined" )
+		_pk_download_extensions = piwik_download_extensions;
+
+	_pk_hosts_alias = ( typeof(piwik_hosts_alias) != "undefined" ? piwik_hosts_alias : new Array())
+	_pk_hosts_alias.push(window.location.hostname);
+
+	if( !_pk_install_tracker )
+		return;
+
 	_pk_tracker_site = _pk_site;
 	_pk_tracker_url = _pk_pkurl;
 
 	if (document.getElementsByTagName) {
 		linksElements = document.getElementsByTagName('a')
 		for (var i = 0; i < linksElements.length; i++) {
+		if( linksElements[i].className != 'piwik_ignore' )
 			_pk_add_event(linksElements[i], 'mousedown', _pk_click, false);
 		}
 	}
@@ -158,8 +171,15 @@ function piwik_track(url, _pk_site, _pk_url, _pk_type)
 {
 	var _pk_image = new Image();
 	_pk_image.onLoad = function() { _pk_dummy(); };
-	_pk_image.src = _pk_url + '?idsite=' + _pk_site + '&' + _pk_type + '=' + url + '&rand=' + Math.random() + '&redirect=0';
+	_pk_image.src = _pk_url + '?idsite=' + _pk_site + '&' + _pk_type + '=' + escape(url) + '&rand=' + Math.random() + '&redirect=0';
 	_pk_pause(_pk_tracker_pause);
+}
+
+function _pk_is_site_hostname(_pk_hostname) {
+	for(i = 0; i < _pk_hosts_alias.length; i++)
+		if( _pk_hostname == _pk_hosts_alias[i] ) 
+			return true;
+	return false;
 }
 
 function _pk_click(e)
@@ -175,15 +195,26 @@ function _pk_click(e)
 		source = e.srcElement;
 	else return true;
 
-	var target = new String(source.getAttribute('href'));
-	//var title = source.childNodes[0].nodeValue;
+	while( source.tagName != "A" )
+		source = source.parentNode;
+
+	if( typeof source.href == 'undefined' )
+		return true;
 
 	var _pk_download = new RegExp('\\.(' + _pk_download_extensions + ')$', 'i');
-	var _pk_link_type = (_pk_download.test(target) ? 'download' : 'link');
+	var _pk_link_type;
+	var _pk_not_site_hostname = !_pk_is_site_hostname(source.hostname);
 
-	if( target != 'null' && (source.hostname != window.location.hostname || _pk_link_type == 'download') ) {
-		piwik_track(target, _pk_tracker_site, _pk_tracker_url, _pk_link_type);
+	if( source.className == "piwik_download" )
+		_pk_link_type = 'download';
+	else if( source.className == "piwik_link" ) {
+		_pk_link_type = 'link';
+		_pk_not_site_hostname = 1;
 	}
+	else _pk_link_type = (_pk_download.test(source.href) ? 'download' : 'link');
+
+	if( _pk_not_site_hostname || _pk_link_type == 'download' ) 
+		piwik_track(source.href, _pk_tracker_site, _pk_tracker_url, _pk_link_type);
 
 	return true;
 }

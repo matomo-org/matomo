@@ -1,91 +1,180 @@
-
 * {
-font-family:Trebuchet MS,arial,sans-serif;
+	font-family: Trebuchet MS, arial, sans-serif;
 }
 
-textarea{
+textarea {
 	font-family: Trebuchet MS, Verdana;
-	font-size:0.85em;
-	
+	font-size: 0.85em;
 }
 
-#editSites{
-	valign:top;
+#editSites {
+	valign: top;
 }
 
-#access td, #users td
-{ 
+#access td,#users td {
 	spacing: 0px;
-	padding: 2px 5px 5px 4px; 
-	border: 1px solid #660000; 
-	width:100px;
+	padding: 2px 5px 5px 4px;
+	border: 1px solid #660000;
+	width: 100px;
 }
 
+#plugins td {
+	spacing: 0px;
+	padding: 5px 5px 5px 4px;
+	border: 1px solid #660000;
+	width: 100px;
+}
 
-#ajaxError{
-	color:red;
-	text-align:center;
-	font-weight:bold;
-	width:550px;
+#ajaxError {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+	width: 550px;
 	border: 3px solid red;
-	margin: 10px;	
+	margin: 10px;
 	padding: 10px;
 }
 
-#accessUpdated{
-	color:red;
-	text-align:center;
-	font-weight:bold;
-	width:350px;
-	margin: 10px;	
+#accessUpdated {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+	width: 350px;
+	margin: 10px;
 	padding: 10px;
-	display:none;
-	border:3px solid green;
-	color:green;
+	display: none;
+	border: 3px solid green;
+	color: green;
 }
+
 #addrow img {
-	 vertical-align:middle;
+	vertical-align: middle;
 }
+
 #addrow a {
-	 text-decoration:none;
+	text-decoration: none;
+}
+
+#logo h1 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: normal;
+	color: #136F8B;
+	font-size: 48px;
+	text-transform: none;
+}
+
+#logo .description {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: normal;
+	color: #879dbd;
+	font-size: 25px;
 }
 
 table {
- font-size:0.9em;
- font-family: Arial, Helvetica, verdana sans-serif;
- background-color:#fff;
- border-collapse: collapse;
+	font-size: 0.9em;
+	font-family: Arial, Helvetica, verdana sans-serif;
+	background-color: #fff;
+	border-collapse: collapse;
 }
+
 thead th {
- border-right: 1px solid #fff;
- color:#fff;
- text-align:center;
- padding:2px;
- text-transform:uppercase;
- height:25px;
- background-color: #a3c159;
- font-weight: normal;
+	border-right: 1px solid #fff;
+	color: #fff;
+	text-align: center;
+	padding: 2px;
+	text-transform: uppercase;
+	height: 25px;
+	background-color: #a3c159;
+	font-weight: normal;
 }
+
 tbody tr {
- background-color:#fff;
- border-bottom: 1px solid #f0f0f0;
+	background-color: #fff;
+	border-bottom: 1px solid #f0f0f0;
 }
+
 tbody td {
- color:#414141;
- padding:5px;
- text-align:left;
+	color: #414141;
+	padding: 5px;
+	text-align: left;
 }
+
 tbody th {
- text-align:left;
- padding:2px;
+	text-align: left;
+	padding: 2px;
 }
-tbody td, tbody th{
- color:#6C8C37;
- text-decoration:none;
- font-weight:normal;
- padding-left:15px;
+
+tbody td,tbody th {
+	color: #6C8C37;
+	text-decoration: none;
+	font-weight: normal;
+	padding-left: 15px;
 }
-tbody td:hover, tbody th:hover {
- color:#009193;
- text-decoration:none;
+
+tbody td:hover,tbody th:hover {
+	color: #009193;
+	text-decoration: none;
+}
+
+.activate {
+	background-color: #fefefe;
+}
+
+.deactivate {
+	background-color: #ddd;
+}
+
+.activate .switch,.deactivate .switch,.center {
+	text-align: center;
+}
+
+.activate .switch a,.deactivate .switch a {
+	padding: 2px;
+	text-decoration: none;
+	color: #2f381a;
+	font-weight: bold;
+}
+
+.activate .switch a:hover {
+	padding: 2px;
+	background-color: red;
+	color: #fff;
+	text-decoration: none;
+}
+
+.deactivate .switch a:hover {
+	padding: 2px;
+	background-color: #666;
+	color: #fff;
+	text-decoration: none;
+}
+
+#submit input {
+	font-size: 2em;
+	border-top: 2px solid #8cb648;
+	border-left: 2px solid #8cb648;
+	border-bottom: 2px solid #4a6026;
+	border-right: 2px solid #4a6026;
+	background-color: #6c8c37;
+	color: #fff;
+}
+
+#submit {
+	padding-top: 10px;
+	padding-left: 70px;
+}
+
+.warning {
+	border: 1px dotted gray;
+	padding: 15px;
+	font-size: .8em;
+}
+
+.warning ul {
+	margin-left: 50px;
+}
+
+.access_error {
+	font-size: .7em;
+	padding: 15px;
 }

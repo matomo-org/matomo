@@ -29,7 +29,7 @@ class Piwik_Actions_API extends Piwik_Apiable
 	static public function getInstance()
 	{
 		if (self::$instance == null)
-		{            
+		{
 			$c = __CLASS__;
 			self::$instance = new $c();
 		}
@@ -68,14 +68,17 @@ class Piwik_Actions_API extends Piwik_Apiable
 
 	public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-		return $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'url', create_function('$url', 'return $url;')));
+		return $dataTable;
 	}
 
 	public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
-	{		
+	{
 		$dataTable = $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'url', create_function('$url', 'return $url;')));
 		return $dataTable;
 	}
 }
+
 

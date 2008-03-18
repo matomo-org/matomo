@@ -96,11 +96,11 @@ class Piwik_Actions extends Piwik_Plugin
 		// but this action was not properly recorded when it was hit in the first place
 		// so we add this fake row information to make sure there is a nb_hits, etc. column for every action
 		$this->defaultRow = new Piwik_DataTable_Row(array( 
-	  						Piwik_DataTable_Row::COLUMNS => array( 
-	  										'nb_visits' => 1,
-	  										'nb_uniq_visitors' => 1,
-	  										'nb_hits' => 1,	
-	  									)));
+							Piwik_DataTable_Row::COLUMNS => array( 
+											'nb_visits' => 1,
+											'nb_uniq_visitors' => 1,
+											'nb_hits' => 1,	
+										)));
 
 		/*
 		 * Actions global information
@@ -110,12 +110,12 @@ class Piwik_Actions extends Piwik_Plugin
 							count(distinct t1.idvisit) as nb_visits, 
 							count(distinct visitor_idcookie) as nb_uniq_visitors,
 							count(*) as nb_hits							
-				 	FROM (".$archiveProcessing->logTable." as t1
+					FROM (".$archiveProcessing->logTable." as t1
 						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
 							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 USING (idaction)
-				 	WHERE visit_server_date = ?
-				 		AND idsite = ?
-				 	GROUP BY t3.idaction";
+					WHERE visit_server_date = ?
+					AND idsite = ?
+					GROUP BY t3.idaction";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 		
 		$modified = $this->updateActionsTableWithRowQuery($query);
@@ -132,11 +132,11 @@ class Piwik_Actions extends Piwik_Plugin
 							sum(visit_total_time) as entry_sum_visit_length,							
 							sum(case visit_total_actions when 1 then 1 else 0 end) as entry_bounce_count
 							
-				 	FROM ".$archiveProcessing->logTable." 
+					FROM ".$archiveProcessing->logTable." 
 						JOIN ".$archiveProcessing->logActionTable." ON (visit_entry_idaction = idaction)
-				 	WHERE visit_server_date = ?
-				 		AND idsite = ?
-				 	GROUP BY visit_entry_idaction
+					WHERE visit_server_date = ?
+					AND idsite = ?
+					GROUP BY visit_entry_idaction
 					";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 				
@@ -196,6 +196,21 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		unset($this->actionsTablesByType);
 	}
+
+	static public function splitUrl($url)
+	{
+		$matches = array();
+		$split_arr = array();
+		$n = preg_match("#://[^/]+(/)#",$url, $matches, PREG_OFFSET_CAPTURE);
+		if( $n )
+		{
+			$split_arr = array(substr($url, 0, $matches[1][1]), substr($url, $matches[1][1]));
+		}
+		else
+			$split_arr = array($url);
+			
+		return $split_arr;
+	}
 	
 	static public function getActionCategoryFromName($name)
 	{
@@ -203,7 +218,7 @@ class Piwik_Actions extends Piwik_Plugin
 		// case the name is an URL we dont clean the name the same way
 		if(Piwik_Common::isLookLikeUrl($name))
 		{
-			$split = array($name);
+			$split = self::splitUrl($name);
 			$isUrl = true;
 		}
 		else
@@ -247,6 +262,10 @@ class Piwik_Actions extends Piwik_Plugin
 				// we know that the concatenation of a space and the name of the action
 				// will always be unique as all the action names have been trimmed before reaching this point
 				$actionName = '/' . $actionName;
+			}
+			else
+			{
+				$actionName = ' ' . $actionName;
 			}
 						
 			// currentTable is now the array element corresponding the the action
@@ -330,4 +349,5 @@ Piwik_AddWidget( 'Actions', 'getOutlinks', 'Outlinks');
 Piwik_AddMenu('Actions', 'Pages', array('module' => 'Actions', 'action' => 'getActions'));
 Piwik_AddMenu('Actions', 'Outlinks', array('module' => 'Actions', 'action' => 'getOutlinks'));
 Piwik_AddMenu('Actions', 'Downloads', array('module' => 'Actions', 'action' => 'getDownloads'));
+
 

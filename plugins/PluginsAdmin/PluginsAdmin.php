@@ -25,3 +25,6 @@ class Piwik_PluginsAdmin extends Piwik_Plugin
 	}
 }
 
+
+Piwik_AddAdminMenu('Plugins', array('module' => 'PluginsAdmin'));
+

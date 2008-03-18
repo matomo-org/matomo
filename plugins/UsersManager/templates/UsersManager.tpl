@@ -21,17 +21,16 @@
 <h2>Manage access</h2>
 
 <div id="sites">
-<form method="get" action="{$formUrl}" id="accessSites">
-	<input type="hidden" name="module" value="UsersManager">
+<form method="post" action="{url actionToLoad=index}" id="accessSites">
 	<p>Sites: <select id="selectIdsite" name="idsite" onchange="this.form.submit()">
 	
 	<optgroup label="All websites">
-	   	<option label="All websites" value="-1" {if $idSiteSelected==-1} selected="selected"{/if}>Apply to all websites</option>
+		<option label="All websites" value="-1" {if $idSiteSelected==-1} selected="selected"{/if}>Apply to all websites</option>
 	</optgroup>
 	<optgroup label="Sites">
-	   {foreach from=$websites item=info}
-	   		<option value="{$info.idsite}" {if $idSiteSelected==$info.idsite} selected="selected"{/if}>{$info.name}</option>
-	   {/foreach}
+		{foreach from=$websites item=info}
+			<option value="{$info.idsite}" {if $idSiteSelected==$info.idsite} selected="selected"{/if}>{$info.name}</option>
+		{/foreach}
 	</optgroup>
 	
 	</select></p>
@@ -65,9 +64,9 @@
 <div id="accessUpdated">Done!</div>
 
 <div class="dialog" id="confirm"> 
-        <p>Are you sure you want to change '<span id='login'></span>' permissions on all the websites?</p>
-		<input id="yes" type="button" value="Yes"/>
-		<input id="no" type="button" value="No"/>
+	<p>Are you sure you want to change '<span id='login'></span>' permissions on all the websites?</p>
+	<input id="yes" type="button" value="Yes"/>
+	<input id="no" type="button" value="No"/>
 </div> 
 
 <h2>Manage users</h2>
@@ -76,34 +75,34 @@
 <div id="ajaxLoading" style="display:none">Loading... <img src="themes/default/loading.gif"></div>
 <table id="users">
 	<thead>
-        <tr>
-            <th>Login</th>
-            <th>Password</th>
-            <th>Email</th>
-            <th>Alias</th>
-            <th>token_auth</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
+		<tr>
+			<th>Login</th>
+			<th>Password</th>
+			<th>Email</th>
+			<th>Alias</th>
+			<th>token_auth</th>
+			<th>Edit</th>
+			<th>Delete</th>
+		</tr>
 	</thead>
 	
 	<tbody>
-        {foreach from=$users item=user key=i}
-        {if $user.login != 'anonymous'}
-	        <tr class="editable" id="row{$i}">
-	            <td id="userLogin" class="editable">{$user.login}</td>
-	            <td id="password" class="editable">-</td>
-	            <td id="email" class="editable">{$user.email}</td>
-	            <td id="alias" class="editable">{$user.alias}</td>
-	            <td id="alias">{$user.token_auth}</td>
-	            <td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#'></td>
-	            <td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete"></td>
-	        </tr>
-	    {/if}
-        {/foreach}
+		{foreach from=$users item=user key=i}
+			{if $user.login != 'anonymous'}
+			<tr class="editable" id="row{$i}">
+				<td id="userLogin" class="editable">{$user.login}</td>
+				<td id="password" class="editable">-</td>
+				<td id="email" class="editable">{$user.email}</td>
+				<td id="alias" class="editable">{$user.alias}</td>
+				<td id="alias">{$user.token_auth}</td>
+				<td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#'></td>
+				<td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete"></td>
+			</tr>
+			{/if}
+		{/foreach}
 	</tbody>
-    
 </table>
+
 <div id="addrow"><img src='plugins/UsersManager/images/add.png'> <a href="#">Add a new user</a></div>
 <script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>
 

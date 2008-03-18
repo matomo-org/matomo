@@ -32,3 +32,5 @@ class Piwik_SitesManager extends Piwik_Plugin
 	
 }
 
+Piwik_AddAdminMenu('Sites', array('module' => 'SitesManager'));
+

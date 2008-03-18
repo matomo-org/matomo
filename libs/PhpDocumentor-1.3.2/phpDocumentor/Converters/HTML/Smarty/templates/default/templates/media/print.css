@@ -1,25 +1,33 @@
 BODY {
-	margin:		1em;
+	margin: 1em;
 }
+
 #header {
+	
 }
+
 #nav {
-	display:	none;
+	display: none;
 }
+
 #packagePosition {
-	text-align:	right;
+	text-align: right;
 }
+
 #packageTitle {
-	display:	inline;
-	margin:		5px;
+	display: inline;
+	margin: 5px;
 }
+
 #packageTitle2 {
-	display:	none;
+	display: none;
 }
+
 #elementPath {
-	display:	inline;
-	margin:		5px;
+	display: inline;
+	margin: 5px;
 }
+
 #navLinks {
-	display:	none;
+	display: none;
 }
