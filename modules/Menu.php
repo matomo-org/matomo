@@ -58,7 +58,10 @@ function Piwik_RenameMenuEntry($mainMenuOriginal, $subMenuOriginal,
 								$mainMenuRenamed, $subMenuRenamed)
 {
 	global $mainMenu;
-	$save = $mainMenu[$mainMenuOriginal][$subMenuOriginal];
-	unset($mainMenu[$mainMenuOriginal][$subMenuOriginal]);
-	$mainMenu[$mainMenuRenamed][$subMenuRenamed] = $save;
+	if(isset($mainMenu[$mainMenuOriginal][$subMenuOriginal]))
+	{
+		$save = $mainMenu[$mainMenuOriginal][$subMenuOriginal];
+		unset($mainMenu[$mainMenuOriginal][$subMenuOriginal]);
+		$mainMenu[$mainMenuRenamed][$subMenuRenamed] = $save;
+	}
 }

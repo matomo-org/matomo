@@ -85,6 +85,14 @@ class Piwik_FrontController
 			throw new Exception("Invalid module name '$module'");
 		}
 		
+		
+		// check that the plugin is enabled
+		if( ! Piwik_PluginsManager::getInstance()->isPluginEnabled( $module )) 
+		{
+			throw new Exception_PluginDeactivated($module);
+		}
+				
+		
 		$controllerClassName = "Piwik_".$module."_Controller";
 		
 		if(!class_exists($controllerClassName))
@@ -98,12 +106,6 @@ class Piwik_FrontController
 			require_once $moduleController;
 		}
 		
-		// check that the plugin is enabled
-		if( ! Piwik_PluginsManager::getInstance()->isPluginEnabled( $module )) 
-		{
-			throw new Exception_PluginDeactivated($module);
-		}
-				
 		$controller = new $controllerClassName;
 		
 		if($action === false)
@@ -282,10 +284,6 @@ class Piwik_FrontController
 				Piwik::prefixTable('log_profiling'),
 		);
 		
-		//Piwik::dropTables($doNotDrop);
-		//Piwik::createTables();
-		//Piwik_PluginsManager::getInstance()->installPlugins();
-		
 		// Setup the auth object
 		Piwik_PostEvent('FrontController.authSetCredentials');
 
@@ -293,7 +291,10 @@ class Piwik_FrontController
 			$authAdapter = Zend_Registry::get('auth');
 		}
 		catch(Exception $e){
-			throw new Exception("Object 'auth' cannot be found in the Registry. Maybe the Login plugin is not enabled?");
+			throw new Exception("Object 'auth' cannot be found in the Registry. Maybe the Login plugin is not enabled?
+								<br>You can enable the plugin by adding:<br>
+								<code>Plugins[] = Login</code><br>
+								under the <code>[Plugins]</code> section in your config/config.inc.php");
 		}
 		
 		// Perform the authentication query, saving the result

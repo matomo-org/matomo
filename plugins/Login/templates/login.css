@@ -1,0 +1,124 @@
+
+* { margin: 0; padding: 0; }
+
+body {
+	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+}
+
+form {
+	margin-left: 8px;
+	padding: 16px 16px 40px 16px;
+	font-weight: bold;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0;}
+
+#login form .submit input {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: 3px 5px;
+	border: none;
+	font-size: 13px;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	cursor: default;
+	text-decoration: none;	
+	margin-top: -6px;
+}
+
+form .submit { float: right; }
+
+form p { margin-bottom: 24px; }
+
+#login { width: 292px; margin: 7em auto; margin-top: 20px; }
+
+#login_error {
+	margin: 0 0 16px 8px;
+	border-width: 1px;
+	border-style: solid;
+	padding: 12px;
+}
+
+#nav { margin: 0 0 0 8px; padding: 16px; }
+
+#form_password, #form_login, #user_email {
+	font-size: 20px;
+	width: 97%;
+	padding: 3px;
+	margin-right: 6px;
+}
+
+#login form input {
+	color: #555;
+}
+
+.login form {
+	background-color: #eaf3fa;
+}
+
+#login form .submit input {
+	background-color: #cee1ef !important;
+}
+
+#login #login_error {
+	background-color: #ffebe8;
+	border-color: #c00;
+}
+
+#login form .submit input {
+	background-color: #e5e5e5;
+	color: #246;
+	border-color: #80b5d0;
+}
+
+#login form .submit input:hover {
+	color: #d54e21;
+}
+
+ #login form .submit input:hover {
+	border-color: #328ab2;
+}
+
+.login #login_error {
+	background-color: #ffffe0;
+	border-color: #e6db55;
+}
+
+.login #nav a {
+	color: #777;
+}
+body.login {
+	border-top-color: #464646;
+}
+#login form input {
+	color: #555;
+}
+
+
+
+#logo {
+	margin-left: 38%;
+	margin-top:100px;
+}
+
+#logo h1 { 
+font-family: Georgia, "Times New Roman", Times, serif; 
+font-weight: normal; 
+color: #136F8B; 
+font-size: 48px; 
+text-transform: none; 
+} 
+
+#logo .description { 
+font-family: Georgia, "Times New Roman", Times, serif; 
+font-weight: normal; 
+color: #879dbd; 
+font-size: 25px; 
+}

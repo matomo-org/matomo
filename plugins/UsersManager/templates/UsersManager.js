@@ -229,7 +229,14 @@ $(document).ready( function() {
 		}
 	);
 	
-	$('#addrow').click( function() {
+	$('#addrow').hover( function() {  
+		 	 $(this).css({ cursor: "pointer"}); 
+		  	},
+		  	function() {  
+		 	 $(this).css({ cursor: "auto"}); 
+		  	}
+	 	)
+	 		.click( function() {
 		ajaxHideError();
 		$(this).toggle();
 		
@@ -243,7 +250,7 @@ $(document).ready( function() {
 				<td><input id="useradd_email" value="email@domain.com" size=15></td>\
 				<td><input id="useradd_alias" value="alias" size=15></td>\
 				<td>-</td>\
-				<td><img src="plugins/UsersManager/images/ok.png" id="adduser" href="#"></td>\
+				<td><img src="plugins/UsersManager/images/ok.png" id="adduser"></td>\
 	  			<td><img src="plugins/UsersManager/images/remove.png" id="cancel"></td>\
 	 		</tr>')
 	  			.appendTo('#users')

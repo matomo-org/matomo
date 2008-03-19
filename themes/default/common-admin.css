@@ -1,9 +1,15 @@
 * {
-	font-family: Trebuchet MS, arial, sans-serif;
+	font-family: Georgia, Trebuchet MS, arial, sans-serif;
 }
-
+img {
+	vertical-align: baseline;
+}
+a {
+	font-size:12px;
+	
+	color:black;
+}
 textarea {
-	font-family: Trebuchet MS, Verdana;
 	font-size: 0.85em;
 }
 
@@ -53,21 +59,6 @@ textarea {
 
 #addrow a {
 	text-decoration: none;
-}
-
-#logo h1 {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-weight: normal;
-	color: #136F8B;
-	font-size: 48px;
-	text-transform: none;
-}
-
-#logo .description {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-weight: normal;
-	color: #879dbd;
-	font-size: 25px;
 }
 
 table {

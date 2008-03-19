@@ -17,6 +17,11 @@ class Piwik_Translate
 {
 	static private $instance = null;
 	
+	/**
+	 * Returns singleton
+	 *
+	 * @return Piwik_Translate
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
@@ -48,7 +53,8 @@ class Piwik_Translate
 	/**
 	 * Enter description here...
 	 *
-	 * @return unknown
+	 * @return string the language filename prefix, eg "en" for english
+	 * @throws exception if the language set in the config file is not a valid filename
 	 */
 	public function getLanguageToLoad()
 	{
@@ -72,5 +78,13 @@ function Piwik_Translate($index)
 		return $GLOBALS['Piwik_translations'][$index];
 	}
 	throw new Exception("Translation string '$index' not available.");
+}
+
+if(!function_exists('_'))
+{
+	function _($translationIndex)
+	{
+		return Piwik_Translate($translationIndex);
+	}
 }
 
