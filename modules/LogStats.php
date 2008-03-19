@@ -93,6 +93,7 @@ class Piwik_LogStats
 			if(is_array($pluginsLogStats)
 				&& count($pluginsLogStats) != 0)
 			{
+				Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 				Piwik_PluginsManager::getInstance()->setPluginsToLoad( $pluginsLogStats['Plugins_LogStats'] );
 			}
 		} catch(Exception $e) {		

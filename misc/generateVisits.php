@@ -45,9 +45,14 @@ Piwik_PluginsManager::getInstance()->unloadPlugin('Provider');
 Piwik_PluginsManager::getInstance()->doNotLoadPlugins();
 
 $generator = new Piwik_LogStats_Generator;
-$generator->setMaximumUrlDepth(12);
-$generator->disableProfiler();
+$generator->setMaximumUrlDepth(3);
+//$generator->disableProfiler();
 $generator->setIdSite( $idSite = 1 );
+$minVisits = 8;
+$maxVisits = 9;
+$nbActions = 15;
+$daysToCompute = 1;
+
 $nbActionsTotal = 0;
 
 //$generator->emptyAllLogTables();
@@ -59,17 +64,12 @@ $t = new Piwik_Timer;
  * Generate visits / actions for the last 31 days
  */
 
-$daysToCompute = 1;
-
 // do NOT edit this line
 $startTime = time() - ($daysToCompute-1)*86400;
 while($startTime <= time())
 {
-	$visits = rand(5,6);
-	$actions=10;
-//	$actions = 10;
-//	$visits = rand(10,30);
-//	$actions = 5;
+	$visits = rand($minVisits,$maxVisits);
+	$actions=$nbActions;
 	
 	$generator->setTimestampToUse($startTime);
 	
@@ -82,6 +82,7 @@ while($startTime <= time())
 	print("Generated $visits visits and $actionsPerVisit actions per visit for the ".date("Y-m-d", $startTime)."<br>\n");
 	$startTime+=86400;
 	$nbActionsTotal+=$nbActionsTotalThisDay;
+	flush();
 }
 
 

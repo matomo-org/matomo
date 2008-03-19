@@ -50,6 +50,12 @@ class Piwik_PluginsManager
 	protected $doLoadPlugins = true;
 	protected $languageToLoad = null;
 	protected $loadedPlugins = array();
+	
+	protected $doLoadAlwaysActivatedPlugins = true;
+	protected $pluginToAlwaysEnable = array(	'Home', 
+												'AdminHome',
+												'PluginsAdmin'
+											);
 		
 	static private $instance = null;
 	
@@ -73,9 +79,14 @@ class Piwik_PluginsManager
 		$this->dispatcher = Event_Dispatcher::getInstance();
 	}
 	
+	public function isPluginAlwaysActivated( $name )
+	{
+		return in_array( $name, $this->pluginToAlwaysEnable);
+	}
 	public function isPluginEnabled( $name )
 	{
-		return in_array( $name, $this->pluginsToLoad);		
+		return in_array( $name, $this->pluginsToLoad)
+			|| $this->isPluginAlwaysActivated( $name );		
 	}
 	
 	/**
@@ -233,7 +244,11 @@ class Piwik_PluginsManager
 	{
 		$this->doLoadPlugins = false;
 	}
-	
+
+	public function doNotLoadAlwaysActivatedPlugins()
+	{
+		$this->doLoadAlwaysActivatedPlugins = false;
+	}
 	/**
 	 * Add a plugin in the loaded plugins array
 	 *
@@ -278,7 +293,15 @@ class Piwik_PluginsManager
 	public function loadPlugins()
 	{
 		$this->pluginsToLoad = array_unique($this->pluginsToLoad);
-		foreach($this->pluginsToLoad as $pluginName)
+		
+		$pluginsToLoad = $this->pluginsToLoad;
+		
+		if($this->doLoadAlwaysActivatedPlugins)
+		{
+			$pluginsToLoad = array_merge($this->pluginsToLoad, $this->pluginToAlwaysEnable);
+		}
+		
+		foreach($pluginsToLoad as $pluginName)
 		{
 			$newPlugin = $this->loadPlugin($pluginName);
 

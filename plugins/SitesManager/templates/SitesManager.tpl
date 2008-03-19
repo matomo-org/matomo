@@ -1,13 +1,4 @@
-
-
-
-<script type="text/javascript" src="libs/jquery/jquery.js"></script>
-<script type="text/javascript" src="themes/default/common.js"></script>
-
-<script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>
 <script type="text/javascript" src="plugins/SitesManager/templates/SitesManager.js"></script>
-
-<link rel="stylesheet" href="themes/default/common-admin.css">
 
 <h2>Sites</h2>
 <div id="ajaxError" style="display:none"></div>
@@ -43,9 +34,4 @@
 	</table>
 	<div id="addRowSite"><img src='plugins/UsersManager/images/add.png'> <a href="#">Add a new Site</a></div>
 {/if}
-
-
-<p><a href='?module=Home'>Back to Piwik homepage</a></p>
-
-
 

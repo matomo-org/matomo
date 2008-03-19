@@ -29,8 +29,9 @@ class Piwik_PluginsAdmin_Controller extends Piwik_Controller
 		foreach($listPlugins as $pluginName)
 		{
 			$oPlugin = Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);
-			$plugins[$pluginName]= array( 'activated' => Piwik_PluginsManager::getInstance()->isPluginEnabled($pluginName),
-										'info' => $oPlugin->getInformation()
+			$plugins[$pluginName]= array( 	'activated' => Piwik_PluginsManager::getInstance()->isPluginEnabled($pluginName),
+											'alwaysActivated' => Piwik_PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
+											'info' => $oPlugin->getInformation()
 									);
 		}
 		

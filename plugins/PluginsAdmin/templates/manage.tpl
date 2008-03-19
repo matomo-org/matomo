@@ -5,8 +5,8 @@
 <table id="plugins">
 
 <thead>
-	<th>Name</th>
-	<th>Description</th>
+	<th width="150px">Name</th>
+	<th width="400px">Description</th>
 	<th>Author</th>
 	<th>Version</th>
 	<th>Action</th>
@@ -20,12 +20,10 @@
 	<td>{$plugin.info.description}&nbsp;</td>
 	<td class="center"><a href="{$plugin.info.homepage}">{$plugin.info.author}</a></td>
 	<td>{$plugin.info.version}</td>
-	<td class="switch">{if $plugin.activated}<a href=?module=PluginsAdmin&action=deactivate&pluginName={$name}>Deactivate</a>
+	<td class="switch">{if $plugin.alwaysActivated}<span title="This plugin cannot be deactivated">Activated</span>{elseif $plugin.activated}<a href=?module=PluginsAdmin&action=deactivate&pluginName={$name}>Deactivate</a>
 {else}<a href=?module=PluginsAdmin&action=activate&pluginName={$name}>Activate</a>{/if}</td>
 	</tr>
 {/foreach}
 
 </tbody>
 </table>
-
-<p><a href='?module=Home'>Back to Piwik homepage</a></p>

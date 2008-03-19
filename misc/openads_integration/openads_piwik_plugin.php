@@ -209,7 +209,8 @@ class Piwik_Openads_Plugin
 	 */
 	function getCurrentlyAuthenticatedUserLogin()
 	{
-		phpAds_getUserID()
+		//TODO
+		phpAds_getUserID();
 	}
 	 
 	/**

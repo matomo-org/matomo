@@ -103,7 +103,5 @@
 	</tbody>
 </table>
 
-<div id="addrow"><img src='plugins/UsersManager/images/add.png'> <a href="#">Add a new user</a></div>
+<div id="addrow"><img src='plugins/UsersManager/images/add.png'> Add a new user</div>
 <script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>
-
-<p><a href='?module=Home'>Back to Piwik homepage</a></p>

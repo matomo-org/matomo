@@ -3,5 +3,3 @@
 <code>
 {$jsTag}
 </code>
-
-<p><a href='?module=Home'>Back to Piwik homepage</a></p>
