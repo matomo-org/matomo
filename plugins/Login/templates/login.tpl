@@ -15,7 +15,7 @@
 </head>
 
 <body class="login">
-
+<!-- shamelessly taken from wordpress 2.5 - thank you guys!!! -->
 
 <div id="logo">
 	<a href="http://piwik.org"><h1 title="Web analytics">Piwik <span class="description"># open source web analytics</span></h1></a>
