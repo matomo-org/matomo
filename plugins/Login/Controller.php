@@ -63,7 +63,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			}
 			else
 			{
-				$messageNoAccess = _('Login_LoginPasswordNotCorrect');
+				$messageNoAccess = Piwik_Translate('Login_LoginPasswordNotCorrect');
 			}
 		}
 		$view = new Piwik_View('Login/templates/login.tpl');	
