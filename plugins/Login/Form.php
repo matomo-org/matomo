@@ -35,19 +35,19 @@ class Piwik_Login_Form extends Piwik_Form
 		}
 		
 		$formElements = array(
-			array('text', 'form_login', Piwik_Translate('Login_login')),
-			array('password', 'form_password', Piwik_Translate('Login_password')),
+			array('text', 'form_login'),
+			array('password', 'form_password'),
 			array('hidden', 'form_url', $urlToGoAfter),
 		);
 		$this->addElements( $formElements );
 		
 		$formRules = array(
-			array('form_login', sprintf(Piwik_Translate('General_Required'), 'login'), 'required'),
-			array('form_password', sprintf(Piwik_Translate('General_Required'), 'password'), 'required'),
+			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Login')), 'required'),
+			array('form_password', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Password')), 'required'),
 		);
 		$this->addRules( $formRules );	
 		
-		$this->addElement('submit', 'submit', Piwik_Translate('Login_Go'));
+		$this->addElement('submit', 'submit');
 	
 	}
 	

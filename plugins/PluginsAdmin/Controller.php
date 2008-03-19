@@ -49,7 +49,7 @@ class Piwik_PluginsAdmin_Controller extends Piwik_Controller
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
 		
-		Piwik_Url::redirectToUrl('?module=AdminHome&action=showInContext&moduleToLoad=PluginsAdmin');
+		Piwik_Url::redirectToUrl('index.php?module=AdminHome&action=showInContext&moduleToLoad=PluginsAdmin');
 		
 	}
 	function activate()
@@ -59,7 +59,7 @@ class Piwik_PluginsAdmin_Controller extends Piwik_Controller
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
 
-		Piwik_Url::redirectToUrl('?module=AdminHome&action=showInContext&moduleToLoad=PluginsAdmin');
+		Piwik_Url::redirectToUrl('index.php?module=AdminHome&action=showInContext&moduleToLoad=PluginsAdmin');
 		
 	}
 }

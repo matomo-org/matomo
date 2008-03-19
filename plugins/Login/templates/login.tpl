@@ -4,13 +4,14 @@
 	<title>Piwik &rsaquo; Login</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	
-{literal}<script type="text/javascript">
+	{literal}
+	<script type="text/javascript">
 		function focusit() {
 			document.getElementById('form_login').focus();
 		}
 		window.onload = focusit;
 	</script>
-{/literal}
+	{/literal}
 <link rel="stylesheet" href="plugins/Login/templates/login.css">
 </head>
 
@@ -22,7 +23,6 @@
 </div>
 
 <div id="login">
-
 
 {if $form_data.errors}
 <div id="login_error">	
@@ -38,12 +38,12 @@
 
 <form {$form_data.attributes}>
 	<p>
-		<label>Username<br />
+		<label>{'Login_Login'|translate}<br />
 		<input type="text" name="form_login" id="form_login" class="input" value="" size="20" tabindex="10" /></label>
 	</p>
 
 	<p>
-		<label>Password<br />
+		<label>{'Login_Password'|translate}<br />
 		<input type="password" name="form_password" id="form_password" class="input" value="" size="20" tabindex="20" /></label>
 	</p>
 	{*
@@ -51,14 +51,13 @@
 	*}
 	{$form_data.form_url.html}
 	<p class="submit">
-		<input type="submit" name="wp-submit" id="wp-submit" value="Log In" tabindex="100" />
+		<input type="submit" value="{'Login_LogIn'|translate}" tabindex="100" />
 	</p>
 </form>
 
 {*
 <p id="nav">
-<a href="http://wp.chrisjohnston.org/wp-login.php?action=register">Register</a> |
-<a href="http://wp.chrisjohnston.org/wp-login.php?action=lostpassword" title="Password Lost and Found">Lost your password?</a>
+<a href="" title="Password Lost and Found">Lost your password?</a>
 </p>
 *}
 </div>
