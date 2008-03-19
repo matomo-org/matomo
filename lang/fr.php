@@ -9,4 +9,3 @@ $translations = array(
 	'Login_password' => 'pass:',
 	
 );
-?>
