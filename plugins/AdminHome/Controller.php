@@ -25,7 +25,7 @@ class Piwik_AdminHome_Controller extends Piwik_Controller
 	}
 	function redirectToIndex()
 	{
-		header("Location:?module=AdminHome&action=showInContext&moduleToLoad=PluginsAdmin");
+		header("Location:index.php?module=AdminHome&action=showInContext&moduleToLoad=PluginsAdmin");
 	}
 
 	public function showInContext()

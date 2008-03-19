@@ -17,8 +17,6 @@
  * 
  * {'General_Unknown'|translate} will be translated as 'Unknown' (see the entry in /lang/en.php)
  * 
- * 
- * 
  */
 function smarty_modifier_translate($string, $aValues = null)
 {
@@ -30,5 +28,5 @@ function smarty_modifier_translate($string, $aValues = null)
 	{
 		$aValues = array( $aValues);
 	}
-	return vsprintf($translations[$string], $aValues);
+	return vsprintf(Piwik_Translate($string), $aValues);
 }

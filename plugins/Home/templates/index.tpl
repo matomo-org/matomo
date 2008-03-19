@@ -98,14 +98,15 @@ body {
 }
 
 #h1, #h1 a {
-	color: #006;
+	color: #136F8B;
 	font-size: 45px;
 	font-weight: lighter;
 	text-decoration : none;
+	margin:5px;
 }
 
 #subh1 {
-	color: #879DBD;
+	color: #879dbd;
 	font-size: 25px;
 	font-weight: lighter;
 }

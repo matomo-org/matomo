@@ -80,12 +80,22 @@
 		<td class="label">Memory limit</td>
 		<td>
 			{$infos.memoryCurrent}
-			{if $infos.memory_ok}{$ok}{else}{$warning}{/if}	
+			{if $infos.memory_ok}{$ok}{else}{$warning} 
+				<br><i>On a high traffic website, the archiving process may require more memory than currently allowed.
+				<br>See the directive memory_limit in your php.ini file if necessary.</i>{/if}	
+		</td>
+	</tr>
+	<tr>
+		<td class="label">GD &gt; 2.x (graphics)</td>
+		<td>
+			{if $infos.gd_ok}{$ok}{else}{$warning} <br><i>The sparklines (small graphs) will not work.</i>{/if}
 		</td>
 	</tr>
 	<tr>
 		<td class="label">set_time_limit() allowed</td>
-		<td>{if $infos.setTimeLimit_ok}{$ok}{else}{$warning}{/if}</td>
+		<td>{if $infos.setTimeLimit_ok}{$ok}{else}{$warning}
+			<br><i>On a high traffic website, executing the archiving process may require more time than currently allowed.
+				<br>See the directive max_execution_time  in your php.ini file if necessary.</i>{/if}</td>
 	</tr>
 	<tr>
 		<td class="label">mail() allowed</td>

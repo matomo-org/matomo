@@ -101,7 +101,9 @@ body.login {
 	color: #555;
 }
 
-
+a{
+	text-decoration:none;
+}
 
 #logo {
 	margin-left: 38%;

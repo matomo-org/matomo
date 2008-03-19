@@ -3,9 +3,9 @@ $translations = array(
 	'General_Unknown' => 'Inconnu',
 	'General_Required' => '%s requis',
 
-	'Login_LoginPasswordNotCorrect' => 'login & mot de passe non valides',
-	'Login_Go' => 'Go!',
-	'Login_login' => 'login:',
-	'Login_password' => 'pass:',
+	'Login_LoginPasswordNotCorrect' => 'Utilisateur & Mot de passe not correct',
+	'Login_Login' => 'Utilisateur',
+	'Login_Password' => 'Mot de passe',
+	'Login_LogIn' => 'Log in',
 	
 );
