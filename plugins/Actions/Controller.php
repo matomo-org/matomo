@@ -14,7 +14,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		$view->setColumnsToDisplay( array(0,2,3) );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
-		$view->setSortedColumn( 1 );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
 		
@@ -31,7 +30,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		$view->setColumnsToDisplay( array(0,2,3) );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
-		$view->setSortedColumn( 1 );
 		$view->disableExcludeLowPopulation();
 		$view->disableSearchBox();
 		$view->setLimit( 15 );
@@ -68,7 +66,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		$view->setColumnsToDisplay( array(0,2,3) );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
-		$view->setSortedColumn( 1 );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
 		
@@ -85,7 +82,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		$view->setColumnsToDisplay( array(0,2,3) );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
-		$view->setSortedColumn( 1 );
 		$view->disableExcludeLowPopulation();
 		$view->disableSearchBox();
 		$view->setLimit( 15 );
