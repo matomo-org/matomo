@@ -112,6 +112,8 @@ class Piwik
 		$jsTag = str_replace('{$actionName}', $actionName, $jsTag);
 		$jsTag = str_replace('{$idSite}', $idSite, $jsTag);
 		$jsTag = str_replace('{$piwikUrl}', $piwikUrl, $jsTag);
+		$jsTag = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsTag);
+		
 		return $jsTag;
 	}
 	
@@ -328,6 +330,29 @@ class Piwik
 		return !is_array($value) && ereg('^([-]{0,1}[0-9]{1,}[.]{0,1}[0-9]*)$', $value);
 	}
 	
+	static public function getRandomTitle()
+	{
+		$titles = array( 'Web analytics',
+						'Website analytics',
+						'Analytics',
+						'Web analytics api',
+						'Open source analytics',
+						'Open source web analytics',
+						'Free analytics',
+						'Analytics software',
+						'Free web analytics',
+						'Free web statistics',
+						'Web 2.0 analytics',
+						'Web analytic',
+						'Web statistics',
+						'Web stats',
+						'Web 2.0 stats',
+						'Statistics web 2.0',
+				);
+		$id = abs(intval(md5(substr(Piwik_Url::getCurrentHost(),7))));
+		$title = $titles[ $id % count($titles)];
+		return $title;
+	}
 	
 	static public function loadPlugins()
 	{
