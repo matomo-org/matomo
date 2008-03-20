@@ -68,6 +68,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 		$view = new Piwik_View('Login/templates/login.tpl');	
 		$view->AccessErrorString = $messageNoAccess;
+		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
 		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
