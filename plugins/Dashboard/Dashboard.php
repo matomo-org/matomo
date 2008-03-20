@@ -25,13 +25,27 @@ class Piwik_Dashboard extends Piwik_Plugin
 
 	public function install()
 	{
-		$sql = "CREATE TABLE ". Piwik::prefixTable('user_dashboard')." (
-				login VARCHAR( 20 ) NOT NULL ,
-				iddashboard INT NOT NULL ,
-				layout TINYTEXT NOT NULL,
-				PRIMARY KEY ( login , iddashboard )
-				) " ;
-		Piwik_Query($sql);
+		// we catch the exception
+		try{
+			$sql = "CREATE TABLE ". Piwik::prefixTable('user_dashboard')." (
+					login VARCHAR( 20 ) NOT NULL ,
+					iddashboard INT NOT NULL ,
+					layout TINYTEXT NOT NULL,
+					PRIMARY KEY ( login , iddashboard )
+					) " ;
+			Piwik_Query($sql);
+		} catch(Zend_Db_Statement_Exception $e){
+			// mysql code error 1050:table already exists
+			// see bug #153 http://dev.piwik.org/trac/ticket/153
+			if(ereg('1050',$e->getMessage()))
+			{
+				return;
+			}
+			else
+			{
+				throw $e;
+			}
+		}
 	}
 	
 	public function uninstall()
