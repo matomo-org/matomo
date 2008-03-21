@@ -25,8 +25,6 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	public function __construct( $table, $columnToFilter, $patternToSearch )
 	{
 		parent::__construct($table);
-//		$patternToSearch = preg_quote($patternToSearch, '/');
-//		$patternToSearch = str_replace('*','\*',$patternToSearch);
 		$this->patternToSearch = $patternToSearch;
 		$this->columnToFilter = $columnToFilter;
 		$this->filter();

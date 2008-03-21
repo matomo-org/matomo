@@ -21,7 +21,13 @@
  */
 class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 {
+	/**
+	 * If the archive has at least 1 visit, this is set to true.
+	 *
+	 * @var bool
+	 */
 	public $isThereSomeVisits = false;
+	
 	/**
 	 * Constructor
 	 */
@@ -33,8 +39,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	
 	/**
 	 * Main method to process logs for a day. The only logic done here is computing the number of visits, actions, etc.
-	 * All the otherreports are computed inside plugins listening to the event 'ArchiveProcessing_Day.compute'.
-	 * See some of the plugins for an example.
+	 * All the other reports are computed inside plugins listening to the event 'ArchiveProcessing_Day.compute'.
+	 * See some of the plugins for an example eg. 'Provider'
 	 * 
 	 * @return void
 	 */
@@ -70,8 +76,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	}
 	
 	/**
-	 * Called at the end of the archiving process
-	 *
+	 * Called at the end of the archiving process.
+	 * Does some cleaning job in the database.
+	 * 
+	 * @return void
 	 */
 	protected function postCompute()
 	{
@@ -142,7 +150,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * The returned DataTable will have a row per distinct operating systems, 
 	 *  and a column per stat (nb of visits, max  actions, etc)
 	 * 
-	 * label	nb_unique_visitors	nb_visits	nb_actions	max_actions	sum_visit_length	bounce_count	
+	 * label	nb_uniq_visitors	nb_visits	nb_actions	max_actions	sum_visit_length	bounce_count	
 	 * Linux	27	66	66	1	660	66	
 	 * Windows XP	12	39	39	1	390	39	
 	 * Mac OS	15	36	36	1	360	36	

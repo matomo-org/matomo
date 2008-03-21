@@ -131,7 +131,7 @@ abstract class Piwik_Archive
 	 *						'bounce_count',
 	 *					); 
 	 *
-	 * @param array $fields array( fieldName1, fieldName2, ...)
+	 * @param array|string $fields array( fieldName1, fieldName2, ...)
 	 * @return Piwik_DataTable_Simple
 	 */
 	abstract public function getDataTableFromNumeric( $fields );

@@ -80,7 +80,7 @@ class Piwik_Provider extends Piwik_Plugin
 		$recordName = 'Provider_hostnameExt';
 		$labelSQL = "location_provider";
 		$tableProvider = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableProvider->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableProvider->getSerialized());
 //		echo $tableProvider;
 //		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
 	}

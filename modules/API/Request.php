@@ -18,7 +18,7 @@
  * You can use this object from anywhere in piwik (inside plugins for example).
  * You can even call it outside of piwik  using the REST API over http
  * or in a php script on the same server as piwik, by including piwik/index.php
- * (see the documentation http://dev.piwik.org/trac/wiki/API)
+ * (see examples in the documentation http://dev.piwik.org/trac/wiki/API)
  * 
  * Example: 
  * $request = new Piwik_API_Request('
@@ -37,7 +37,9 @@
  * @package Piwik_API
  */
 class Piwik_API_Request
-{
+{	
+	protected $outputFormatRequested;
+	
 	/**
 	 * Constructs the request to the API, given the request url
 	 * 
@@ -90,8 +92,7 @@ class Piwik_API_Request
 		}
 		return $a;
 	}
-	
-	protected $outputFormatRequested;
+
 	
 	/**
 	 * Handles the request to the API.
@@ -120,7 +121,7 @@ class Piwik_API_Request
 			{
 				throw new Exception_PluginDeactivated($module);
 			}
-			// call the method via the PublicAPI class
+			// call the method via the API_Proxy class
 			$api = Piwik_Api_Proxy::getInstance();
 			$api->registerClass($module);
 			
@@ -193,12 +194,12 @@ class Piwik_API_Request
 	/**
 	 * This method post processes the data resulting from the API call.
 	 * 
-	 *
 	 * - If the data resulted from the API call is a Piwik_DataTable then 
 	 * 		- we apply the standard filters if the parameters have been found
 	 * 		  in the URL. For example to offset,limit the Table you can add the following parameters to any API
 	 *  	  call that returns a DataTable: filter_limit=10&filter_offset=20
 	 * 		- we apply the filters that have been previously queued on the DataTable
+	 *        @see Piwik_DataTable::queueFilter()
 	 * 		- we apply the renderer that generate the DataTable in a given format (XML, PHP, HTML, JSON, etc.) 
 	 * 		  the format can be changed using the 'format' parameter in the request.
 	 *        Example: format=xml
@@ -220,6 +221,7 @@ class Piwik_API_Request
 	protected function handleReturnedValue( $returnedValue ) 
 	{
 		$toReturn = $returnedValue;
+		
 		// If the returned value is an object DataTable we
 		// apply the set of generic filters if asked in the URL
 		// and we render the DataTable according to the format specified in the URL

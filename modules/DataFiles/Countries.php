@@ -10,7 +10,8 @@
  */
 
 /**
- * Country code and continent database
+ * Country code and continent database.
+ * If you want to add a new entry, please email us at hello at piwik.org
  * 
  */
 if(!isset($GLOBALS['Piwik_CountryList']))

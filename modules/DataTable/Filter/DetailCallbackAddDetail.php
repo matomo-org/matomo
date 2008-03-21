@@ -16,7 +16,7 @@
  * For example for the searchEngine we have a "details" information that gives 
  * the URL of the search engine. We use this URL to add a new "details" that gives 
  * the path of the logo for this search engine URL (which has the format URL.png). 
-
+ * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Filter 
  */
