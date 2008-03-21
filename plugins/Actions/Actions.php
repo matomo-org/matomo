@@ -182,17 +182,17 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_ACTION]);
 		$s = $dataTable->getSerialized();
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_actions', $s);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_actions', $s);
 		
 		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_DOWNLOAD]);
 		$s = $dataTable->getSerialized();
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_downloads', $s);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_downloads', $s);
 		
 		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_OUTLINK]);
 		$s = $dataTable->getSerialized();
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Actions_outlink', $s);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_outlink', $s);
 		
 		unset($this->actionsTablesByType);
 	}
@@ -207,8 +207,9 @@ class Piwik_Actions extends Piwik_Plugin
 			$split_arr = array(substr($url, 0, $matches[1][1]), substr($url, $matches[1][1]));
 		}
 		else
+		{
 			$split_arr = array($url);
-			
+		}	
 		return $split_arr;
 	}
 	
@@ -290,7 +291,18 @@ class Piwik_Actions extends Piwik_Plugin
 				// type is used to partition the different actions type in different table. Adding the info to the row would be a duplicate. 
 				if($name != 'name' && $name != 'type')
 				{
-					$currentTable->addColumn($name, $value);
+					// in some very rare case, we actually have twice the same action name with 2 different idaction
+					// this happens when 2 visitors visit the same new page at the same time, there is a SELECT and an INSERT for each new page, 
+					// and in between the two the other visitor comes. 
+					// here we handle the case where there is already a row for this action name, if this is the case we add the value
+					if(($alreadyValue = $currentTable->getColumn($name)) !== false)
+					{
+						$currentTable->setColumn($name, $alreadyValue+$value);
+					}
+					else
+					{
+						$currentTable->addColumn($name, $value);
+					}
 				}
 			}
 			
@@ -316,29 +328,6 @@ class Piwik_Actions extends Piwik_Plugin
 		return $rowsProcessed;
 	}
 
-	static protected $nameToIdMapping = array(
-			'nb_visits'	 				=> 1,
-			'nb_hits'					=> 2,
-			'entry_nb_unique_visitor'	=> 3,
-			'entry_nb_visits'			=> 4,
-			'entry_nb_actions'			=> 5,
-			'entry_sum_visit_length'	=> 6,
-			'entry_bounce_count'		=> 7,
-			'exit_nb_unique_visitor'	=> 8,
-			'exit_nb_visits'			=> 9,
-			'exit_bounce_count'			=> 10,
-			'sum_time_spent'			=> 11,
-			
-		);
-	static public function getColumnsMap()
-	{
-		return array_flip(self::$nameToIdMapping);
-	}
-	
-	protected function getIdColumn( $name )
-	{
-		return self::$nameToIdMapping[$name];
-	}
 }
 
 

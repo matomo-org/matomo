@@ -62,14 +62,14 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$labelSQL = "location_country";
 		$tableCountry = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_ArchiveProcessing_Record_Numeric('UserCountry_distinctCountries', $tableCountry->getRowsCount());
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableCountry->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableCountry->getSerialized());
 
 //		echo $tableCountry;
 		
 		$recordName = 'UserCountry_continent';
 		$labelSQL = "location_continent";
 		$tableContinent = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableContinent->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableContinent->getSerialized());
 //		echo $tableContinent;
 //		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
 	}
@@ -101,7 +101,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->init( 'UserCountry', __FUNCTION__, "UserCountry.getCountry" );
 		$view->disableExcludeLowPopulation();
 		
-		$view->setColumnsToDisplay( array(0,1) );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
 		$view->setSortedColumn( 1 );
 		$view->disableSearchBox();
 		

@@ -11,8 +11,6 @@ PPT= TRY PIWIK instead of onlin demo + screenshot piiwk
 error RSS Feed only used on DataTable_Array http://piwik.org/demo/?module=API&method=Referers.getKeywords&idSite=1&period=week&date=yesterday&format=rss&filter_limit=30&filter_sort_column=3 
 NOT CLEAR MESSAGE
 
-label th not posiionned properly on IE6
-
 documenter 	const VISIT_STANDARD_LENGTH = 1800; when writing plugin and need to test stats log
 
 CHANGES DONE TO LIBRARIES

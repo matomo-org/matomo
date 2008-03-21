@@ -120,11 +120,11 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	
 	/**
 	 * This powerful method will compute the sum of DataTables over the period for the given fields $aRecordName.
+	 * The resulting DataTable will be then added to queue of data to be recorded in the database.
 	 * It will usually be called in a plugin that listens to the hook 'ArchiveProcessing_Period.compute'
 	 * 
-	 * 
 	 * For example if $aRecordName = 'UserCountry_country' the method will select all UserCountry_country DataTable for the period
-	 * (eg. the 31 dataTable of the last month), sum them, and create the Piwik_ArchiveProcessing_Record_Blob_Array so that
+	 * (eg. the 31 dataTable of the last month), sum them, and create the Piwik_ArchiveProcessing_Record_BlobArray so that
 	 * the resulting dataTable is AUTOMATICALLY recorded in the database.
 	 * 
 	 * 
@@ -155,7 +155,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$nameToCount[$recordName]['level0'] =  $table->getRowsCount();
 			$nameToCount[$recordName]['recursive'] =  $table->getRowsCountRecursive();
 			
-			$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $table->getSerialized());
+			$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $table->getSerialized());
 		}
 		return $nameToCount;
 	}
@@ -220,8 +220,10 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	}
 	
 	/**
-	 * Called at the end of the archiving process
-	 *
+	 * Called at the end of the archiving process.
+	 * Does some cleaning job in the database.
+	 * 
+	 * @return void
 	 */
 	protected function postCompute()
 	{

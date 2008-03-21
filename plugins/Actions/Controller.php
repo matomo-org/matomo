@@ -170,10 +170,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 					
 				if($subTable->getRowsCount() > 0)
 				{
-//					$filter = new Piwik_DataTable_Filter_ReplaceColumnNames(
-//									$subTable,
-//									Piwik_Actions::getColumnsMap()
-//								);				
 					$phpArray = $this->getArrayFromRecursiveDataTable( $subTable, $depth + 1 );
 				}
 			}

@@ -14,7 +14,7 @@
  * 
  * Why this filter?
  * For saving bytes in the database, you can change all the columns labels by an integer value.
- * Exemple instead of saving 10000 rows with the column name 'nb_unique_visitors' which would cost a lot of memory,
+ * Exemple instead of saving 10000 rows with the column name 'nb_uniq_visitors' which would cost a lot of memory,
  * we map it to the integer 1 before saving in the DB.
  * After selecting the DataTable from the DB though, you need to restore back the real names so that
  * it shows nicely in the report (XML for example).
@@ -30,7 +30,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 	 * old column name => new column name
 	 */
 	protected $mappingToApply = array(
-				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 'nb_unique_visitors',
+				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 'nb_uniq_visitors',
 				Piwik_Archive::INDEX_NB_VISITS			=> 'nb_visits',
 				Piwik_Archive::INDEX_NB_ACTIONS			=> 'nb_actions',
 				Piwik_Archive::INDEX_MAX_ACTIONS		=> 'max_actions',

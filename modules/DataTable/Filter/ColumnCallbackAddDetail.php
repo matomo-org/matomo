@@ -11,12 +11,11 @@
 
 
 /**
- * Add a new column to the table based on the value resulting 
+ * Add a new 'detail' column to the table based on the value resulting 
  * from a callback function with the parameter being another column's value
  * 
- * For example from the "label" column we can to create a "short label" column
- * that is a shorter version of the label.
- * 
+ * For example from the "label" column we can to create an "icon" 'detail' column 
+ * with the icon URI built from the label (LINUX => UserSettings/icons/linux.png)
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Filter 

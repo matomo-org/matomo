@@ -24,7 +24,10 @@
 class Piwik_API_Proxy
 {
 	static $classCalled = null;
+	
+	// array of already registered modules names
 	protected $alreadyRegistered = array();
+	
 	private $api = array();
 	
 	// when a parameter doesn't have a default value we use this constant
@@ -60,7 +63,7 @@ class Piwik_API_Proxy
 	 * 
 	 * The method will introspect the methods, their parameters, etc. 
 	 * 
-	 * @param string ModuleName
+	 * @param string ModuleName eg. "UserSettings"
 	 */
 	public function registerClass( $fileName )
 	{
@@ -155,7 +158,7 @@ class Piwik_API_Proxy
 	/**
 	 * Returns a string containing links to examples on how to call a given method on a given API
 	 * It will export links to XML, CSV, HTML, JSON, PHP, etc.
-	 * It will not export links for method such as deleteSite or deleteUser
+	 * It will not export links for methods such as deleteSite or deleteUser 
 	 *
 	 * @param string the class 
 	 * @param methodName the method
@@ -283,8 +286,7 @@ class Piwik_API_Proxy
 	}
 	
 	/**
-	 * Returns the methods $class.$name parameters (and default value if provided)
-	 * as a string.
+	 * Returns the methods $class.$name parameters (and default value if provided) as a string.
 	 * 
 	 * @param string The class name
 	 * @param string The method name
@@ -337,8 +339,7 @@ class Piwik_API_Proxy
 	}
 	
 	/**
-	 * Returns true if the method is found in the API
-	 * 
+	 * Returns true if the method is found in the API of the given class name. 
 	 * 
 	 * @param string The class name
 	 * @param string The method name
@@ -355,7 +356,7 @@ class Piwik_API_Proxy
 	 * 
 	 * @param string The class name
 	 * @param string The method name
-	 * @param array
+	 * @param array 
 	 * @throws exception If less parameters than required were given
 	 */
 	private function checkNumberOfParametersMatch($className, $methodName, $parameters)

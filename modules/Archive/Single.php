@@ -1,21 +1,85 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: Request.php 380 2008-03-17 14:59:24Z matt $
+ * 
+ * 
+ * @package Piwik_Archive
+ */
+
+/**
+ * This class is used to store the data of a given archive.
+ *
+ */
 class Piwik_Archive_Single extends Piwik_Archive
 {
+	/**
+	 * The Piwik_ArchiveProcessing object used to check that the archive is available
+	 * and launch the processing if the archive was not yet processed
+	 * 
+	 * @var Piwik_ArchiveProcessing
+	 */
 	public $archiveProcessing = null;
+	
+	/**
+	 * @var bool Set to true if the archive has at least 1 visit
+	 */
 	public $isThereSomeVisits = false;
 
+	/**
+	 * Period of this Archive
+	 *
+	 * @var Piwik_Period
+	 */
 	protected $period = null;
 	
-	protected $blobCached = array();
+	/**
+	 * Set to true will activate numeric value caching for this archive.
+	 *
+	 * @var bool
+	 */
 	protected $cacheEnabledForNumeric = true;
+	
+	/**
+	 * Array of cached numeric values, used to make requests faster 
+	 * when requesting the same value again and again
+	 *
+	 * @var array of numeric
+	 */
 	protected $numericCached = array();
+	
+/**
+	 * Array of cached blob, used to make requests faster when requesting the same blob again and again
+	 *
+	 * @var array of mixed
+	 */
+	protected $blobCached = array();
+	
+	/**
+	 * idarchive of this Archive in the database
+	 *
+	 * @var int
+	 */
 	protected $idArchive = null;
 	
+	/**
+	 * Returns the pretty date of this Archive, eg. 'Thursday 20th March 2008'
+	 *
+	 * @return string
+	 */
 	public function getPrettyDate()
 	{
 		return $this->period->getPrettyString();
 	}
 	
+	/**
+	 * Returns the idarchive of this Archive used to index this archive in the DB
+	 *
+	 * @return int
+	 */
 	public function getIdArchive()
 	{
 		return $this->idArchive;
@@ -31,6 +95,12 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$this->period = $period;
 	}
 	
+	/**
+	 * Returns the timestamp of the first date in the period for this Archive.
+	 * This is used to sort archives by date when working on a Archive_Array
+	 *
+	 * @return int Unix timestamp
+	 */
 	public function getTimestampStartDate()
 	{
 		if(!is_null($this->archiveProcessing))
@@ -208,7 +278,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 				// we edit the subtable ID so that it matches the newly table created in memory
 				// NB:
 				// we dont do that in the case we are displaying the table expanded.
-				// in this case we wan't the user to see the REAL dataId in the database
+				// in this case we want the user to see the REAL dataId in the database
 				if($addDetailSubtableId)
 				{
 					$row->addDetail('databaseSubtableId', $row->getIdSubDataTable());
@@ -265,18 +335,38 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 	}
 	
-	
+	/**
+	 * Returns a numeric value from this Archive, with the name '$name'
+	 *
+	 * @param string $name
+	 * @return int|float
+	 */
 	public function getNumeric( $name )
 	{
 		// we cast the result as float because returns false when no visitors
 		return (float)$this->get($name, 'numeric');
 	}
 
+	
+	/**
+	 * Returns a blob value from this Archive, with the name '$name'
+	 * Blob values are all values except int and float.
+	 *
+	 * @param string $name
+	 * @return mixed
+	 */
 	public function getBlob( $name )
 	{
 		return $this->get($name, 'blob');		
 	}
 	
+	/**
+	 * Returns a DataTable_Simple with one row per field from $fields array names.
+	 *
+	 * @param string|array $fields Name or array of names of Archive fields 
+	 * 
+	 * @return Piwik_DataTable_Simple
+	 */
 	public function getDataTableFromNumeric( $fields )
 	{
 		require_once "DataTable/Simple.php";
@@ -296,6 +386,14 @@ class Piwik_Archive_Single extends Piwik_Archive
 		return $table;
 	}
 	
+	/**
+	 * Returns a DataTable that has the name '$name' from the current Archive.
+	 * If $idSubTable is specified, returns the subDataTable called '$name_$idSubTable'
+	 *
+	 * @param string $name
+	 * @param int $idSubTable optional id SubDataTable
+	 * @return Piwik_DataTable
+	 */
 	public function getDataTable( $name, $idSubTable = null )
 	{
 		if(!is_null($idSubTable))
@@ -321,6 +419,22 @@ class Piwik_Archive_Single extends Piwik_Archive
 		return $table;
 	}
 	
+	/**
+	 * Returns a DataTable that has the name '$name' from the current Archive.
+	 * Also loads in memory all subDataTable for this DataTable.
+	 * 
+	 * For example, if $name = 'Referers_keywordBySearchEngine' it will load all DataTable
+	 *  named 'Referers_keywordBySearchEngine_*' and they will be set as subDataTable to the
+	 *  rows. You can then go through the rows 
+	 * 		$rows = DataTable->getRows();
+	 *  and for each row request the subDataTable (in this case the DataTable of the keywords for each search engines)
+	 * 		$idSubTable = $row->getIdSubDataTable();
+	 * 		$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
+	 *  
+	 * @param string $name
+	 * @param int $idSubTable Optional subDataTable to load instead of loading the parent DataTable
+	 * @return Piwik_DataTable
+	 */
 	public function getDataTableExpanded($name, $idSubTable = null)
 	{
 		$this->preFetchBlob($name);

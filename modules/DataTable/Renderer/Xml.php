@@ -140,24 +140,24 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		//      0 => 
 		//        array
 		//          'label' => string 'phpmyvisites'
-		//          'nb_unique_visitors' => int 11
+		//          'nb_uniq_visitors' => int 11
 		//          'nb_visits' => int 13
 		//      1 => 
 		//        array
 		//          'label' => string 'phpmyvisits'
-		//          'nb_unique_visitors' => int 2
+		//          'nb_uniq_visitors' => int 2
 		//          'nb_visits' => int 2
 		//  'day2' => 
 		//    array
 		//      0 => 
 		//        array
 		//          'label' => string 'piwik'
-		//          'nb_unique_visitors' => int 121
+		//          'nb_uniq_visitors' => int 121
 		//          'nb_visits' => int 130
 		//      1 => 
 		//        array
 		//          'label' => string 'piwik bis'
-		//          'nb_unique_visitors' => int 20
+		//          'nb_uniq_visitors' => int 20
 		//          'nb_visits' => int 120
 		if($firstTable instanceof Piwik_DataTable)
 		{

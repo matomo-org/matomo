@@ -278,24 +278,24 @@ class Piwik_Referers extends Piwik_Plugin
 //		Piwik::printMemoryUsage("Middle of ".get_class($this)." "); 
 
 		$data = $archiveProcessing->getDataTableSerialized($interestByType);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_type', $data);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_type', $data);
 		
 		$data = $archiveProcessing->getDataTablesSerialized($keywordBySearchEngine, $interestBySearchEngine);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_keywordBySearchEngine', $data);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_keywordBySearchEngine', $data);
 		
 //		var_export($data);
 		
 		$data = $archiveProcessing->getDataTablesSerialized($searchEngineByKeyword, $interestByKeyword);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_searchEngineByKeyword', $data);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_searchEngineByKeyword', $data);
 		
 		$data = $archiveProcessing->getDataTablesSerialized($keywordByCampaign, $interestByCampaign);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_keywordByCampaign', $data);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_keywordByCampaign', $data);
 		
 		$data = $archiveProcessing->getDataTablesSerialized($urlByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE], $interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE]);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_urlByWebsite', $data);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_urlByWebsite', $data);
 		
 		$data = $archiveProcessing->getDataTablesSerialized($urlByWebsite[Piwik_Common::REFERER_TYPE_PARTNER], $interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array('Referers_urlByPartner', $data);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_urlByPartner', $data);
 			
 //		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
 //		echo "after serialization = ". $timer;

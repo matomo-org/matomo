@@ -102,7 +102,6 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 	
 	protected function getColumnsToDisplay($phpArray)
 	{
-		
 		$dataTableColumns = array();
 		if(count($phpArray) > 0)
 		{
@@ -120,13 +119,14 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		return $dataTableColumns;
 	}
 
-	protected function isColumnToDisplay( $idColumn )
+	protected function isColumnToDisplay( $idColumn, $nameColumn )
 	{
 		// we return true
 		// - we didn't set any column to display (means we display all the columns)
 		// - the column has been set as to display
 		if( count($this->columnsToDisplay) == 0
-			|| in_array($idColumn, $this->columnsToDisplay))
+			|| in_array($idColumn, $this->columnsToDisplay)
+			|| in_array($nameColumn, $this->columnsToDisplay))
 		{
 			return true;
 		}

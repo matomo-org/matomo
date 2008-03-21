@@ -19,8 +19,8 @@
 class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 {	
 	/**
+	 * Filter constructor.
 	 * 
-	 *
 	 * @param Piwik_DataTable $table
 	 * @param int $offset Starting row 
 	 * @param int $limit Number of rows to keep (specify -1 to keep all rows)
@@ -37,7 +37,7 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 		$this->limit = $limit;
 		
 		$this->filter();
-	}
+	}	
 	
 	protected function filter()
 	{

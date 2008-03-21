@@ -10,7 +10,8 @@
  */
 
 /**
- * Operating systems database
+ * Operating systems database.
+ * If you want to add a new entry, please email us at hello at piwik.org
  * 
  */
 if(!isset($GLOBALS['Piwik_Oslist']))

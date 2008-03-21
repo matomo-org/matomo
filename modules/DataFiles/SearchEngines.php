@@ -8,9 +8,13 @@
  * 
  * @package Piwik_Referers
  */
-
 /**
  * Search Engine database
+ * 
+ * ======================================
+ * HOW TO ADD A SEARCH ENGINE TO THE LIST
+ * ======================================
+ * If you want to add a new entry, please email us the information + icon at hello at piwik.org
  * 
  * Detail of a line:
  * Url => array( SearchEngineName, VariableKeyword, [charset used by the search engine])
@@ -21,7 +25,6 @@
  * in the plugins/Referers/images/SearchEngines directory 
  * using the format "mainSearchEngineUrl.png". Example: www.google.com.png
  *  
- * Post your new search engines by email at hello@piwik.org ; thanks!
  * 
  */
 if(!isset($GLOBALS['Piwik_SearchEngines'] ))

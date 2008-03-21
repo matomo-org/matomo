@@ -80,7 +80,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		foreach($this->dataTable->getRows() as $row)
 		{
 			$label = $row->getColumn('label');
-			$value = $row->getColumn('nb_unique_visitors');
+			$value = $row->getColumn('nb_uniq_visitors');
 			// case no unique visitors
 			if($value === false)
 			{

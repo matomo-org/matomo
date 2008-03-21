@@ -132,35 +132,35 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$recordName = 'UserSettings_configuration';
 		$labelSQL = "CONCAT(config_os, ';', config_browser_name, ';', config_resolution)";
 		$tableConfiguration = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableConfiguration->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableConfiguration->getSerialized());
 		
 		$recordName = 'UserSettings_os';
 		$labelSQL = "config_os";
 		$tableOs = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableOs->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableOs->getSerialized());
 		
 		$recordName = 'UserSettings_browser';
 		$labelSQL = "CONCAT(config_browser_name, ';', config_browser_version)";
 		$tableBrowser = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableBrowser->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableBrowser->getSerialized());
 		
 		$recordName = 'UserSettings_browserType';
 		$tableBrowserType = $this->getTableBrowserByType($tableBrowser);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableBrowserType->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableBrowserType->getSerialized());
 		
 		$recordName = 'UserSettings_resolution';
 		$labelSQL = "config_resolution";
 		$tableResolution = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$filter = new Piwik_DataTable_Filter_ColumnCallback($tableResolution, 'label', 'Piwik_UserSettings_keepStrlenGreater');
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableResolution->getSerialized());
+		$filter = new Piwik_DataTable_Filter_ColumnCallbackDeleteRow($tableResolution, 'label', 'Piwik_UserSettings_keepStrlenGreater');
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableResolution->getSerialized());
 		
 		$recordName = 'UserSettings_wideScreen';
 		$tableWideScreen = $this->getTableWideScreen($tableResolution);
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableWideScreen->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableWideScreen->getSerialized());
 		
 		$recordName = 'UserSettings_plugin';
 		$tablePlugin = $this->getDataTablePlugin();
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tablePlugin->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tablePlugin->getSerialized());
 		
 //		echo $tableResolution;
 //		echo $tableWideScreen;

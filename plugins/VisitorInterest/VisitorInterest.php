@@ -81,11 +81,11 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 
 		$recordName = 'VisitorInterest_timeGap';
 		$tableTimegap = $this->getTableTimeGap();
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tableTimegap->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableTimegap->getSerialized());
 		
 		$recordName = 'VisitorInterest_pageGap';
 		$tablePagegap = $this->getTablePageGap();
-		$record = new Piwik_ArchiveProcessing_Record_Blob_Array($recordName, $tablePagegap->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tablePagegap->getSerialized());
 		
 //		echo $tableTimegap;
 //		echo $tablePagegap;

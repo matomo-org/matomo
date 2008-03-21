@@ -10,7 +10,8 @@
  */
 
 /**
- * Empty filter template.
+ * Filter template.
+ * You can use it if you want to create a new filter.
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Filter 
