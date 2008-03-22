@@ -23,7 +23,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		$view->init( $this->pluginName,  __FUNCTION__, 
 								"VisitTime.getVisitInformationPerServerTime" );
 		
-		$view->setColumnsToDisplay( array(0,2) );
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setSortedColumn( 0, 'asc' );
 		$view->setLimit( 24 );
 		$view->setGraphLimit( 24 );
@@ -40,7 +40,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		$view->init( $this->pluginName,  __FUNCTION__, 
 								"VisitTime.getVisitInformationPerLocalTime" );
 		
-		$view->setColumnsToDisplay( array(0,2) );
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setSortedColumn( 0, 'asc' );
 		$view->setLimit( 24 );
 		$view->setGraphLimit( 24 );

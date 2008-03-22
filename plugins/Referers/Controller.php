@@ -67,7 +67,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		$view->doNotShowFooter();
 		
-		$view->setColumnsToDisplay( array(0,1,2) );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors', 'nb_visits') );
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -81,7 +81,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 											'getSearchEnginesFromKeywordId'
 								);
 		$view->disableExcludeLowPopulation();
-		$view->setColumnsToDisplay( array(0,2));
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 
 		return $this->renderView($view, $fetch);
 	}
@@ -94,7 +94,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 								);
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->setColumnsToDisplay( array(0,2));
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 
 		return $this->renderView($view, $fetch);
 	}
@@ -110,7 +110,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		
-		$view->setColumnsToDisplay( array(0,2) );
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -124,7 +124,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 								);
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->setColumnsToDisplay( array(0,2));
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 
 		return $this->renderView($view, $fetch);
 	}
@@ -138,7 +138,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 								);
 		$view->disableExcludeLowPopulation();
 		
-		$view->setColumnsToDisplay( array(0,2) );
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 		
 		$view->setLimit(5);
 		$view->setGraphLimit(12);
@@ -158,7 +158,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 5 );
 		
-		$view->setColumnsToDisplay( array(0,2) );
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -172,7 +172,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->setColumnsToDisplay( array(0,2));
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 
 		return $this->renderView($view, $fetch);
 	}
@@ -185,7 +185,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 								);
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->setColumnsToDisplay( array(0,2));
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 
 		return $this->renderView($view, $fetch);
 	}
@@ -201,7 +201,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 5 );
 		
-		$view->setColumnsToDisplay( array(0,2) );
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -214,7 +214,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 								);
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->setColumnsToDisplay( array(0,2));
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 
 		return $this->renderView($view, $fetch);
 	}

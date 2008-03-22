@@ -768,6 +768,10 @@ class Piwik
 		{
 			$dbInfos = $config->database->toArray();
 		}
+		if(!isset($dbInfos['password']))
+		{
+			$dbInfos['password'] = '';
+		}
 		
 //		var_dump($dbInfos);
 		// test with the password ='][{}!3456&&^#gegq"eQ for example
