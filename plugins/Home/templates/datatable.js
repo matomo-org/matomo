@@ -155,13 +155,13 @@ dataTable.prototype =
 		
 		if (typeof displayLoading == "undefined") 
 		{
-	    	displayLoading = true;
-	  	}
-	  	if (typeof callbackSuccess == "undefined") 
-	  	{
-	  		callbackSuccess = self.dataTableLoaded;
-	  	}
-	  	
+			displayLoading = true;
+		}
+		if (typeof callbackSuccess == "undefined") 
+		{
+			callbackSuccess = self.dataTableLoaded;
+		}
+		
 		if(displayLoading)
 		{
 			$('#'+self.workingDivId+' #loadingDataTable').css('display','block');
@@ -201,16 +201,16 @@ dataTable.prototype =
 		
 			
 	/* This method is triggered when a new DIV is loaded, which happens
-	   - at the first loading of the page
-	   - after any AJAX loading of a DataTable
-	   
-	   This method basically add features to the DataTable, 
-	   - such as column sorting, searching in the rows, displaying Next / Previous links, etc.
-	   - add styles to the cells and rows (odd / even styles)
-	   - modify some rows to add images if a span img is found, or add a link if a span urlLink is found
-	     or truncate the labels when they are too big
-	   - bind new events onclick / hover / etc. to trigger AJAX requests, 
-	     nice hovertip boxes for truncated cells
+		- at the first loading of the page
+		- after any AJAX loading of a DataTable
+		
+	This method basically add features to the DataTable, 
+		- such as column sorting, searching in the rows, displaying Next / Previous links, etc.
+		- add styles to the cells and rows (odd / even styles)
+		- modify some rows to add images if a span img is found, or add a link if a span urlLink is found
+			or truncate the labels when they are too big
+		- bind new events onclick / hover / etc. to trigger AJAX requests, 
+			nice hovertip boxes for truncated cells
 	*/
 	bindEventsAndApplyStyle: function(domElem)
 	{
@@ -319,7 +319,6 @@ dataTable.prototype =
 		
 		// Showing the search box for dom element DIV and binding the event
 		// - on the keyword DIV anywhere, if the ENTER key is pressed
-		
 		if(self.param.show_search)
 		{
 			var currentPattern = self.param.filter_pattern;
@@ -338,7 +337,7 @@ dataTable.prototype =
 				currentPattern = '';
 			}
 			
-							
+			
 			$('#dataTableSearchPattern', domElem)
 				.show()
 				.each(function(){
@@ -504,20 +503,20 @@ dataTable.prototype =
 							clearTimeout(timeout);
 							timeout = null;
 						}
-				  	},
-				  	function() {
-				  		//display standard cursor
+					},
+					function() {
+						//display standard cursor
 						$(this).css({ cursor: "auto"});
 						
 						//set a timeout that will hide export buttons after a few moments
-				  		var dom = this;
+						var dom = this;
 						timeout = setTimeout(function(){
 							$('#exportToFormat', dom).fadeOut('fast', function(){	//queue the two actions
 							$('#exportDataTableShow', dom).show('fast');});
 						}, 1000);
-				  	}
-		 	);
-		 	
+					}
+			);
+			
 			$('.viewDataTable', domElem).click(
 				function(){
 						var viewDataTable = $(this).attr('format');
@@ -528,28 +527,28 @@ dataTable.prototype =
 					}
 			);
 			
-		 	$('#exportToFormat img', domElem).click(function(){
-		 		$(this).siblings('#linksExportToFormat').toggle();
-		 	});
-		 	
-		 	$('.exportToFormat', domElem).attr( 'href', function(){
-		 			var format = $(this).attr('format');
-		 			var method = $(this).attr('methodToCall');
-		 			var filter_limit = $(this).attr('filter_limit');
-		 			
-		 			var str = '?module=API'
+			$('#exportToFormat img', domElem).click(function(){
+				$(this).siblings('#linksExportToFormat').toggle();
+			});
+			
+			$('.exportToFormat', domElem).attr( 'href', function(){
+					var format = $(this).attr('format');
+					var method = $(this).attr('methodToCall');
+					var filter_limit = $(this).attr('filter_limit');
+					
+					var str = '?module=API'
 							+'&method='+method
-		 					+'&format='+format
-		 					+'&idSite='+self.param.idSite
-		 					+'&period='+self.param.period
-		 					+'&date='+self.param.date;
-		 			if( filter_limit )
-		 			{
-		 				str += '&filter_limit=' + filter_limit;
-		 			}
-		 			return str;
-		 		}
-		 	);
+							+'&format='+format
+							+'&idSite='+self.param.idSite
+							+'&period='+self.param.period
+							+'&date='+self.param.date;
+					if( filter_limit )
+					{
+						str += '&filter_limit=' + filter_limit;
+					}
+					return str;
+				}
+			);
 		}
 	},
 			
@@ -560,7 +559,7 @@ dataTable.prototype =
 		
 		// we truncate the labels columns from the second row
 		$("table tr td:first-child", domElem).truncate(30);
-	    $('.truncated', domElem).Tooltip();
+		$('.truncated', domElem).Tooltip();
 		
 		var imageLinkWidth = 10;
 		var imageLinkHeight = 9;
@@ -710,6 +709,7 @@ actionDataTable.prototype =
 	handleLowPopulationLink: dataTable.prototype.handleLowPopulationLink,
 	handleSearchBox: dataTable.prototype.handleSearchBox,
 	
+	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
 	{
 		if(typeof domElem == "undefined")
@@ -721,6 +721,7 @@ actionDataTable.prototype =
 		this.initialized = true;
 	},
 
+	//see dataTable::bindEventsAndApplyStyle
 	bindEventsAndApplyStyle: function(domElem)
 	{
 		var self = this;
@@ -755,6 +756,7 @@ actionDataTable.prototype =
 		}
 	},
 	
+	//see dataTable::applyCosmetics
 	applyCosmetics: function(domElem)
 	{
 		var self = this;
@@ -896,7 +898,7 @@ actionDataTable.prototype =
 			});
 		}
 		
-		// toggle the image
+		// toggle the +/- image
 		var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
 		if(plusDetected)
 		{
