@@ -12,10 +12,11 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getDownloads',
 						'getDownloadsSubDataTable' );
 		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
+		$view->disableSort();
 		
 		$view->main();
 		return $this->renderView($view, $fetch);
@@ -28,15 +29,18 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getDownloads',
 						'getDownloadsSubDataTable');
 		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->disableSearchBox();
 		$view->setLimit( 15 );
+		$view->disableSort();
 		
 		$view->main();
 		return $this->renderView($view, $fetch);
 	}
+	
+	
 	function getActions($fetch = false)
 	{
 		$view = $this->getActionsView(	$this->pluginName, 
@@ -56,6 +60,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
+	
 	function getOutlinks($fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
@@ -64,10 +69,11 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getOutlinks',
 						'getOutlinksSubDataTable' );
 		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
+		$view->disableSort();
 		
 		$view->main();
 		return $this->renderView($view, $fetch);
@@ -80,11 +86,12 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getOutlinks',
 						'getOutlinksSubDataTable');
 		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->disableSearchBox();
 		$view->setLimit( 15 );
+		$view->disableSort();
 		
 		$view->main();
 		return $this->renderView($view, $fetch);
