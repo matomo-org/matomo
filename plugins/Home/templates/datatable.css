@@ -267,6 +267,7 @@ table thead div {
 }
 
 #loadingDataTable {
+	float: left;
 	font-size: 1em;
 	color: #193B6C;
 	padding: 0.5em;
