@@ -82,6 +82,7 @@ dataTable.prototype =
 			'filter_limit',
 			'filter_sort_column',
 			'filter_sort_order',
+			'show_search'
 		];
 		
 		for(var key in filters)
