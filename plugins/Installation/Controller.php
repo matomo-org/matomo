@@ -301,7 +301,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 		
 		
-		$view->websiteName = $_SESSION['site_name'];
+		$view->websiteName = urldecode($_SESSION['site_name']);
 		
 		$jsTag = Piwik::getJavascriptCode($_SESSION['site_idSite'], Piwik_Url::getCurrentUrlWithoutFileName());
 		
