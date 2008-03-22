@@ -89,7 +89,7 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		$currentPath = Piwik_Url::getCurrentUrlWithoutFileName();
 		$pathToLibraryOpenChart = $currentPath . $libPathInPiwik;
 		
-		$url = $currentPath . $url;
+		$url = Piwik_Url::getCurrentUrlWithoutQueryString() . $url;
 	    // escape the & and stuff:
 	    $url = urlencode($url);
 		
