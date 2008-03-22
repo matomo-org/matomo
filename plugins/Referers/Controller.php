@@ -140,7 +140,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		
-		$view->setLimit(5);
+		$view->setLimit(10);
 		$view->setGraphLimit(12);
 		
 		return $this->renderView($view, $fetch);

@@ -34,7 +34,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 	
 	function getNumberOfVisitsPerPage( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory();
+		$view = Piwik_ViewDataTable::factory( null, 'cloud' );
 		$view->init( $this->pluginName,  __FUNCTION__, 
 									"VisitorInterest.getNumberOfVisitsPerPage" );
 		

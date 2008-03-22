@@ -100,7 +100,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	
 	function getPlugin( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory();
+		$view = Piwik_ViewDataTable::factory( null, 'graphVerticalBar');
 		$view->init( $this->pluginName,  __FUNCTION__, 'UserSettings.getPlugin' );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
@@ -109,6 +109,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setSortedColumn( 2 );
+		$view->setGraphLimit( 10 );
 		$view->setLimit( 10 );
 		
 		return $this->renderView($view, $fetch);

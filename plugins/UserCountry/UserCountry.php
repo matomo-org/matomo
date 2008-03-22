@@ -126,7 +126,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 	
 	function getContinent( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory();
+		$view = Piwik_ViewDataTable::factory( null, 'graphVerticalBar' );
 		$view->init( 'UserCountry', __FUNCTION__, "UserCountry.getContinent" );
 		$view->disableExcludeLowPopulation();
 		$view->disableSearchBox();
