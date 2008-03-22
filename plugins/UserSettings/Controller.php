@@ -32,7 +32,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		
-		$view->setColumnsToDisplay( array(0,1) );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
 		$view->setSortedColumn( 1 );
 		$view->setLimit( 5 );
 		$view->setGraphLimit(5);
@@ -107,7 +107,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->disableSort();
 		$view->disableOffsetInformation();
 		
-		$view->setColumnsToDisplay( array(0,1) );
+		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setSortedColumn( 2 );
 		$view->setLimit( 10 );
 		

@@ -132,7 +132,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableOffsetInformation();
 		$view->disableSort();
-		$view->setColumnsToDisplay( array(0,1) );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
 		$view->setSortedColumn( 1 );
 		
 		return $this->renderView($view, $fetch);

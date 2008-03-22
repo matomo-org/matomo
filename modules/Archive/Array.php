@@ -11,6 +11,7 @@
  */
 
 require_once "DataTable/Simple.php";
+require_once "DataTable/Array.php";
 
 /**
  * This class is used to store multiple archives, when the user requests a period's archive.

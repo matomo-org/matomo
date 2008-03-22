@@ -12,7 +12,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getDownloads',
 						'getDownloadsSubDataTable' );
 		
-		$view->setColumnsToDisplay( array(0,2,3) );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
@@ -28,7 +28,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getDownloads',
 						'getDownloadsSubDataTable');
 		
-		$view->setColumnsToDisplay( array(0,2,3) );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->disableSearchBox();
@@ -64,7 +64,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getOutlinks',
 						'getOutlinksSubDataTable' );
 		
-		$view->setColumnsToDisplay( array(0,2,3) );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
@@ -80,7 +80,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getOutlinks',
 						'getOutlinksSubDataTable');
 		
-		$view->setColumnsToDisplay( array(0,2,3) );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
 		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->disableSearchBox();
@@ -132,7 +132,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		$view->disableOffsetInformation();
 		
-		$view->setColumnsToDisplay( array(0,2,3) );
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
 		$view->setLimit( 100 );
 		// computing minimum value to exclude
 		$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary();
