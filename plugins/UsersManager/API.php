@@ -515,12 +515,13 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	
 	/**
 	 * Generates a unique MD5 for the given login & previously 'md5'ied password
+	 * 
 	 * @param string Login
 	 * @param string Result of the md5 hash of the real password
 	 */
-	static public function getTokenAuth($userLogin, $password)
+	static public function getTokenAuth($userLogin, $passwordMd5ied)
 	{
-		return md5($userLogin . $password );
+		return md5($userLogin . $passwordMd5ied );
 	}
 		
 	/**

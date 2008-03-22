@@ -171,6 +171,7 @@ class Piwik_API_Proxy
 			'idSite' => '1',
 			'userLogin' => 'test',
 			'password' => 'passwordExample',
+			'passwordMd5ied' => 'passwordExample',
 			'email' => 'test@example.org',
 		
 			'siteName' => 'new example website',
