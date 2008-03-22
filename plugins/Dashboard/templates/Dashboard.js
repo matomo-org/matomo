@@ -24,11 +24,12 @@ function contains(array, searchElem) {
 	return false;
 }
 
-
+//Default configuration of the blockUI jquery plugin
 function blockUIConfig()
 {
-	//set default value for blockUI
+	//set default style value for blockUI
 	$.extend($.blockUI.defaults.overlayCSS, { backgroundColor: '#000000', opacity: '0.4'});
+	//disable animation effect
 	$.extend($.blockUI.defaults,{ fadeIn: 0, fadeOut: 0 });
 
 	//unblock UI on 'escape' key pressed...
@@ -41,18 +42,19 @@ function blockUIConfig()
 		}
 	);
 }
-		
-		
+
+
 //widgetMenu constructor
 function widgetMenu(dash)
 {
 	this.menu = new Object;
 	this.dashboard = dash;
 }
-	
+
 //Prototype of the widgetMenu object
 widgetMenu.prototype =
 {
+	//function called when the menu is built for the first time
 	init: function()
 	{
 		var self = this;
@@ -60,6 +62,7 @@ widgetMenu.prototype =
 		$('.button#addWidget').click(function(){self.show();});
 	},
 	
+	//function called when a clone of an existing menu is built
 	initBuilt: function(menuDom)
 	{
 		var self = this;
@@ -67,6 +70,7 @@ widgetMenu.prototype =
 		self.bindEvents();
 	},
 	
+	//create DOM elements of the menu
 	buildMenu: function()
 	{
 		var self = this;
@@ -105,6 +109,7 @@ widgetMenu.prototype =
 		$('.subMenuItem', subMenu2).hide();
 	},
 	
+	//bind events (click/hover/...) of the menu to appropriate callback
 	bindEvents: function()
 	{
 		var self = this;
@@ -115,6 +120,7 @@ widgetMenu.prototype =
 		$('.subMenu#sub3 .widget .handle', self.menu).css('cursor', 'pointer')
 				.click(function(){self.movePreviewToDashboard();});
 		
+		//update widget list on submenu#1 mouse over
 		$('.subMenu#sub1 .subMenuItem', self.menu).each(function(){
 			var plugin = $(this).attr('id');
 			var item = $('.subMenu#sub2 .subMenuItem#'+plugin, self.menu);
@@ -133,6 +139,7 @@ widgetMenu.prototype =
 				},function(){});
 		});
 	
+		//update widget preview on submenu#2 mouse over
 		$('.menuItem', self.menu).hover(
 		function()
 		{
@@ -160,11 +167,14 @@ widgetMenu.prototype =
 		.click(function(){	self.movePreviewToDashboard(); });
 	},
 	
+	//hide the menu
 	hide: function()
 	{
+		//simply disable modal dialog box
 		$.unblockUI();
 	},
 	
+	//show the menu
 	show: function()
 	{
 		var self = this;
@@ -181,7 +191,7 @@ widgetMenu.prototype =
 	{
 		var self = this;
 		
-		//list loaded widget:
+		//build a list of loaded widget, parse the dashboard column
 		var widgets = new Array;	
 		self.dashboard.getColumns().each(
 			function()
@@ -190,6 +200,8 @@ widgetMenu.prototype =
 			}
 		);
 		
+		//find widget from the loaded list in the menu, and apply
+		//appropriate style and behaviour
 		$('.menuItem', self.menu).each(function(){
 			var plugin = $(this).attr('pluginToLoad');
 			var action = $(this).attr('actionToLoad');
@@ -206,6 +218,7 @@ widgetMenu.prototype =
 		});
 	},
 	
+	//move the widget in the preview box to the dashboard, without reloading it
 	movePreviewToDashboard: function()
 	{
 		var self = this;
@@ -228,6 +241,7 @@ widgetMenu.prototype =
 		self.dashboard.saveLayout();
 	},
 	
+	//clear the widget preview box
 	clearPreviewDiv: function()
 	{
 		var self = this;
@@ -250,12 +264,16 @@ function dashboard()
 //Prototype of the dashboard object
 dashboard.prototype =
 {
+	//function called on dashboard initialisation
 	init: function(layout)
 	{
 		var self = this;
 		
+		//save some often used DOM objects
 		self.dashArea = $('#dashboardWidgetsArea');
 		self.dashColumns = $('.col', self.dashDom);
+		
+		//dashboard layout
 		self.layout = layout;
 		
 		//generate dashboard layout and load every displayed widgets
@@ -265,11 +283,14 @@ dashboard.prototype =
 		self.setupWidgetSortable();
 	},
 	
+	//return the DOM corresponding to the dashboard columns
 	getColumns: function()
 	{
 		return this.dashColumns;
 	},
 	
+	//'widgetize' every created widgets:
+	//add an handle bar and apply 'sortable' drag&drop effect
 	setupWidgetSortable: function()
 	{
 		var self = this;
@@ -286,6 +307,7 @@ dashboard.prototype =
 		self.makeSortable();
 	},
 	
+	//generate dashboard DOM corresponding to the initial layout
 	generateLayout: function()
 	{
 		var self = this;
@@ -310,6 +332,10 @@ dashboard.prototype =
 		}
 	},
 	
+	//add a new widget to the dashboard
+	//colnumber is the column in wich you want to add the widget
+	//plugin/action is the widget to load
+	//onTop: boolean specifying if the widget should be added on top of the column
 	addEmptyWidget: function(colNumber, plugin, action, onTop)
 	{
 		var self = this;
@@ -318,24 +344,24 @@ dashboard.prototype =
 			onTop = false;
 		
 		var item = '<div class="items"><div class="widget"><div class="widgetLoading">'+dashboard_translation.loadingWidget+'</div><div plugin="'+plugin+'"'+' id="'+action+'" class="widgetDiv"></div></div></div>';
-	    
-	    if(onTop)
-	    {
-	   		$(self.dashColumns[colNumber-1]).prepend(item);
-	    }
-	    else
-	    {
-	   		$(self.dashColumns[colNumber-1]).append(item);
-	   	}
-	   	
-	   	//find the title of the widget
+	
+		if(onTop)
+		{
+			$(self.dashColumns[colNumber-1]).prepend(item);
+		}
+		else
+		{
+			$(self.dashColumns[colNumber-1]).append(item);
+		}
+	
+		//find the title of the widget
 		var title = self.getWidgetTitle(plugin, action);
 		
 		//add an handle to each items
 		var widget = $('.widgetDiv#'+action+'[plugin='+plugin+']', self.dashColumns[colNumber-1]).parents('.widget');
 		self.addHandleToWidget(widget, title);
 		
-	    var button = $('.button#close', widget);
+		var button = $('.button#close', widget);
 		
 		//Only show handle buttons on mouse hover
 		$(widget).hover(
@@ -359,6 +385,7 @@ dashboard.prototype =
 		self.makeSortable();
 	},
 	
+	//return widget title designated by its plugin/action couple
 	getWidgetTitle: function(plugin, action)
 	{
 		var self = this;
@@ -373,14 +400,16 @@ dashboard.prototype =
 		return title;
 	},
 	
+	//add the widget and load it
 	addWidgetAndLoad: function(colNumber, plugin, action, onTop)
 	{
 		var self = this;
 		
 		self.addEmptyWidget(colNumber, plugin, action, onTop);
-	    self.loadItem($('.items [plugin='+plugin+']#'+action, self.dashArea).parents('.items'));
+		self.loadItem($('.items [plugin='+plugin+']#'+action, self.dashArea).parents('.items'));
 	},
 	
+	//add an handle bar to a given widget with a particular title
 	addHandleToWidget: function(widget, title)
 	{
 		widget.prepend('<div class="handle">\
@@ -391,6 +420,7 @@ dashboard.prototype =
 						</div>');
 	},
 
+	//auxiliary function calling ajax loading procedure for a given DOM element
 	loadItem: function(domElem)
 	{	
 		var self = this;
@@ -404,6 +434,7 @@ dashboard.prototype =
 			});
 	},
 	
+	//apply jquery sortable plugin to the dashboard layout
 	makeSortable: function()
 	{
 		var self = this;
@@ -440,6 +471,8 @@ dashboard.prototype =
 					 	});
 	},
 
+	//on mouse click on close widget button
+	//we ask for confirmation and we delete the widget from the dashboard
 	onDeleteItem: function(target, ev)
 	{
 		var self = this;
@@ -471,12 +504,16 @@ dashboard.prototype =
 		$.blockUI(question, { width: '300px', border:'1px solid black' }); 
 	},
 	
+	//dummies are invisible item that help for widget positionning
+	//and keep the column visible even when there aren't widget anymore in it
 	showDummies: function()
 	{
 		var self = this;
 		$('.dummyItem').css('display', 'block');
 	},
 	
+	//see showDummies
+	//hide dummies that are not needed for column consistency
 	hideUnnecessaryDummies: function()
 	{
 		var self = this;
@@ -487,11 +524,15 @@ dashboard.prototype =
 		});
 	},
 	
+	//save the layout in the database/cookie so the user can
+	//retrieve it the next time he load the dashboard
 	saveLayout: function()
 	{
 		var self = this;
 		var column = new Array;
-		//parse the dom to see how our div are sorted
+		
+		//parse the dom to see how our div are organized
+		//build a list of widget sorted by columns
 		self.dashColumns.each(function() {
 			column.push(getWidgetInDom(this));
 		});
@@ -506,12 +547,18 @@ dashboard.prototype =
 			data: {	module: 'Dashboard',
 					action: 'saveLayout' }
 		};
+		
+		//write layout in a string
+		//using '|' as column separator
+		// and '~' as widget separator
 		var layout = '';
 		for(var i=0; i<column.length; i++)
 		{
 			layout += column[i].join('~');
 			layout += '|';
 		}
+		
+		//only save layout if it has changed
 		if(layout != self.layout)
 		{
 			self.layout = layout;
@@ -520,6 +567,7 @@ dashboard.prototype =
 		}
 	},
 	
+	//load widget with an ajax request
 	ajaxLoading: function(pluginId, actionId, callbackAfterLoaded)
 	{
 		var self = this;
@@ -547,14 +595,14 @@ dashboard.prototype =
 					action: actionId,
 					idSite: piwik.idSite,
 					period: piwik.period,
-					date: piwik.currentDateStr					
+					date: piwik.currentDateStr
 	 			}
 		};
 		$.ajax(ajaxRequest);
 	}
 };
 
-
+//auxiliary function: list widgets available in a DOM tree
 function getWidgetInDom(domElem)
 {
 	var items = $('.items:not(.dummyItem) .widgetDiv', domElem);
@@ -566,10 +614,10 @@ function getWidgetInDom(domElem)
 	return widgets;
 }
 
-//fire-up everything on DOM ready event
+//build everything when DOM is ready
 $(document).ready(
 	function()
-	{		
+	{
 		var dash = new dashboard();
 		var menu = new widgetMenu(dash);
 		
