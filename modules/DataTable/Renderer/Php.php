@@ -164,7 +164,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	}
 	
 	
-	protected function renderTable($table, $doRenderSubTablesIfAvailable = false)
+	protected function renderTable($table, $doRenderSubTablesIfAvailable = true)
 	{
 		$array = array();
 
