@@ -333,11 +333,6 @@ abstract class Piwik_ViewDataTable
 			$requestString .= '&expanded=1';
 		}
 		
-		if( $this->idSubtable !== false)
-		{
-			$requestString .= '&idSubtable='.$this->idSubtable;
-		}
-		
 		$toSetEventually = array(
 			'filter_limit',
 			'filter_sort_column',
