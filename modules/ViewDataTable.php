@@ -214,13 +214,13 @@ abstract class Piwik_ViewDataTable
 
 	protected function getUniqIdTable()
 	{
-		
+		$uniqIdTable = '';
 		// if we request a subDataTable the $this->currentControllerAction DIV ID is already there in the page
 		// we make the DIV ID really unique by appending the ID of the subtable requested
-		if( $this->idSubtable !== false
-			&& $this->idSubtable != 0)
+		if( $this->idSubtable != false)
 		{
-			$uniqIdTable .=  'subTable_' . $this->idSubtable;
+			// see also datatable.js (the ID has to match with the html ID created to be replaced by the result of the ajax call)
+			$uniqIdTable = 'subDataTable_' . $this->idSubtable;
 		}
 		else
 		{
