@@ -133,8 +133,6 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		return false;
 	}
 
-	
-
 	public function setSearchRecursive()
 	{
 		$this->variablesDefault['search_recursive'] = true;

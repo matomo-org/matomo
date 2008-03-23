@@ -1,4 +1,4 @@
-<?php
+<?php	
 /**
  * Piwik - Open source web analytics
  * 
@@ -51,20 +51,17 @@ require_once "LogStats/Visit.php";
 
 $GLOBALS['DEBUGPIWIK'] =  false;
 
-
 if($GLOBALS['DEBUGPIWIK'] === true)
 {	
 	date_default_timezone_set(date_default_timezone_get());
-	/**
-	 * Error / exception handling functions
-	 */
 	require_once PIWIK_INCLUDE_PATH . "/modules/ErrorHandler.php";
 	require_once PIWIK_INCLUDE_PATH . "/modules/ExceptionHandler.php";
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
+	printDebug($_GET);
 }
+
 ob_start();
-printDebug($_GET);
 $process = new Piwik_LogStats;
 $process->main();
 ob_end_flush();

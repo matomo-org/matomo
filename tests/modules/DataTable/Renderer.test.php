@@ -40,12 +40,21 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	 */
 	protected function getDataTableTest()
 	{
+		$arraySubTableForRow2 = array ( 
+			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'sub1', 'count' => 1) ), 
+			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'sub2', 'count' => 2) ), 
+		);
+		$subDataTableForRow2 = new Piwik_DataTable();
+		$subDataTableForRow2->loadFromArray($arraySubTableForRow2);
+		
+		$subtable = 
 		$array = array ( 
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11, 'nb_actions' => 17, 'max_actions' => '5', 'sum_visit_length' => 517, 'bounce_count' => 9), 
 						Piwik_DataTable_Row::DETAILS => array('url' => 'http://www.google.com', 'logo' => './plugins/Referers/images/searchEngines/www.google.com.png'), 
 					 ), 
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151, 'nb_actions' => 147, 'max_actions' => '50', 'sum_visit_length' => 517, 'bounce_count' => 90), 
-						Piwik_DataTable_Row::DETAILS => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png'), 
+						Piwik_DataTable_Row::DETAILS => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png'),
+						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subDataTableForRow2,
 					 )
 			);
 		$dataTable = new Piwik_DataTable();
@@ -116,9 +125,22 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 		<bounce_count>90</bounce_count>
 		<url>http://www.yahoo.com</url>
 		<logo>./plugins/Referers/images/searchEngines/www.yahoo.com.png</logo>
+		<idsubdatatable>1</idsubdatatable>
+		<subtable>
+			<row>
+				<label>sub1</label>
+				<count>1</count>
+			</row>
+			<row>
+				<label>sub2</label>
+				<count>2</count>
+			</row>
+		</subtable>
 	</row>
 </result>';
-		$this->assertEqual( $expected,$render->render());
+		$rendered = $render->render();
+		
+		$this->assertEqual( $expected,$rendered);
 	}
 
 	function test_XML_test2()
@@ -216,9 +238,11 @@ bounce_count,44';
 	{
 		$dataTable = $this->getDataTableTest();
 	  	$render = new Piwik_DataTable_Renderer_Json($dataTable);
-		$expected = '[{"label":"Google","nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9,"url":"http:\/\/www.google.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.google.com.png"},{"label":"Yahoo!","nb_uniq_visitors":15,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"url":"http:\/\/www.yahoo.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.yahoo.com.png"}]';
+		$expected = '[{"label":"Google","nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9,"url":"http:\/\/www.google.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.google.com.png"},{"label":"Yahoo!","nb_uniq_visitors":15,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"url":"http:\/\/www.yahoo.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.yahoo.com.png","idsubdatatable":13,"subtable":[{"label":"sub1","count":1},{"label":"sub2","count":2}]}]';
 
-		$this->assertEqual( $expected,$render->render());
+		$rendered = $render->render();
+		
+		$this->assertEqual( $expected,$rendered);
 	}
 	function test_JSON_test2()
 	{
@@ -281,9 +305,25 @@ bounce_count,44';
 					    'bounce_count' => 90,
 					    'url' => 'http://www.yahoo.com',
 					    'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png',
+					  	'idsubdatatable' => 19,
+					    'subtable' => 
+						    array (
+						      0 => 
+						      array (
+						        'label' => 'sub1',
+						        'count' => 1,
+						      ),
+						      1 => 
+						      array (
+						        'label' => 'sub2',
+						        'count' => 2,
+						      ),
+					    ),
 					  ),
 					));
-		$this->assertEqual( $expected,$render->render());
+		$rendered = $render->render();
+//		var_export(unserialize($rendered));
+		$this->assertEqual( $expected,$rendered);
 	}
 	function test_PHP_test2()
 	{

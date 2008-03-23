@@ -48,7 +48,8 @@ class Piwik_Actions_API extends Piwik_Apiable
 		
 		if($expanded)
 		{
-			$dataTable = $archive->getDataTableExpanded($name, $idSubtable);			
+			$dataTable = $archive->getDataTableExpanded($name, $idSubtable);
+			$dataTable->enableRecursiveSort();
 		}
 		else
 		{

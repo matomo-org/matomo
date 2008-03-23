@@ -13,8 +13,10 @@ require_once "Log.php";
 
 /**
  * Class used to log an exception event.
+ * Displays the exception with a user friendly error message, suggests to get support from piwik.org
  * 
  * @package Piwik_Log
+ * @subpackage Piwik_Log_Exception
  */
 class Piwik_Log_Exception extends Piwik_Log
 {

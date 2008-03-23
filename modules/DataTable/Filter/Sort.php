@@ -11,7 +11,7 @@
 
 /**
  * Sort the DataTable based on the value of column $columnToSort ordered by $order.
- * 
+ * Possible to specify a natural sorting (see php.net/natsort for details)
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Filter 
  */

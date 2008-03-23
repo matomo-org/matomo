@@ -12,6 +12,9 @@
 /**
  * A DataTable Renderer can produce an output given a DataTable object.
  * All new Renderers must be copied in DataTable/Renderer and added to the factory() method.
+ * To use a renderer, simply do:
+ *  $render = new Piwik_DataTable_Renderer_Xml( $myTable );
+ *  echo $render;
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer
@@ -20,6 +23,12 @@ abstract class Piwik_DataTable_Renderer
 {
 	protected $table;
 	
+	/**
+	 * Builds the renderer.
+	 * Works with any kind of DataTable if the renderer used handles this DataTable.
+	 *
+	 * @param Piwik_DataTable|Piwik_DataTable_Simple|Piwik_DataTable_Array $table to be rendered
+	 */
 	function __construct($table = null)
 	{
 		if(!is_null($table))
@@ -29,12 +38,15 @@ abstract class Piwik_DataTable_Renderer
 	}
 	
 	/**
-	 * Computes the output and returns the string/binary
+	 * Computes the dataTable output and returns the string/binary
+	 * 
+	 * @return string
 	 */
 	abstract public function render();
 	
 	/**
 	 * @see render()
+	 * @return string
 	 */
 	public function __toString()
 	{
@@ -43,6 +55,8 @@ abstract class Piwik_DataTable_Renderer
 	
 	/**
 	 * Set the DataTable to be rendered
+	 * 
+	 * @param Piwik_DataTable|Piwik_DataTable_Simple|Piwik_DataTable_Array $table to be rendered
 	 */
 	public function setTable($table)
 	{
@@ -57,7 +71,8 @@ abstract class Piwik_DataTable_Renderer
 	/**
 	 * Returns the DataTable associated to the output format $name
 	 * 
-	 * @exception If the renderer is unknown
+	 * @throws exception If the renderer is unknown
+	 * @return Piwik_DataTable_Renderer
 	 */
 	static public function factory( $name )
 	{

@@ -143,7 +143,7 @@ abstract class Piwik_Archive
 	 * If a idSubTable is given, the method will return the subTable of $name 
 	 * 
 	 * @param string $name
-	 * @param int $idSubTable
+	 * @param int $idSubTable or null if requesting the parent table
 	 * @return Piwik_DataTable
 	 * @throws exception If the value cannot be found
 	 */
@@ -155,7 +155,7 @@ abstract class Piwik_Archive
 	 * You can then access the subtables by using the Piwik_DataTable_Manager getTable() 
 	 *
 	 * @param string $name
-	 * @param int $idSubTable
+	 * @param int $idSubTable or null if requesting the parent table
 	 * @return Piwik_DataTable
 	 */
 	abstract public function getDataTableExpanded($name, $idSubTable = null);

@@ -14,6 +14,7 @@
  * Class used to log a standard message event.
  * 
  * @package Piwik_Log
+ * @subpackage Piwik_Log_Message
  */
 class Piwik_Log_Message extends Piwik_Log
 {

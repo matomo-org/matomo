@@ -12,9 +12,12 @@
 /**
  * Simple class to access the configuration file
  * 
- * This is essentially a very simple version of Zend_Config that we wrote 
- * because of performance concerns. 
+ * This is essentially a simple version of Zend_Config that we wrote 
+ * because of performance reasons. 
  * The LogStats module can't afford a dependency with the Zend_Framework.
+ * 
+ * It's using the php.net/parse_ini_file function to parse the configuration files.
+ * It can be used to access both user config.ini.php and piwik global.ini.php config file.
  * 
  * @package Piwik_LogStats
  */
@@ -22,6 +25,11 @@ class Piwik_LogStats_Config
 {
 	static private $instance = null;
 	
+	/**
+	 * Returns singleton
+	 *
+	 * @return Piwik_LogStats_Config
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
@@ -32,6 +40,11 @@ class Piwik_LogStats_Config
 		return self::$instance;
 	}
 	
+	/**
+	 * Contains configuration files values
+	 *
+	 * @var array
+	 */
 	public $config = array();
 	
 	private function __construct()
@@ -42,6 +55,14 @@ class Piwik_LogStats_Config
 		$this->configGlobal = parse_ini_file($pathIniFileGlobal, true);
 	}
 	
+	/**
+	 * Magic get methods catching calls to $config->var_name
+	 * Returns the value if found in the 
+	 *
+	 * @param string $name
+	 * @return mixed The value requested, usually a string
+	 * @throws exception if the value requested not found in both files
+	 */
 	public function __get( $name )
 	{
 		if(isset($this->configUser[$name]))

@@ -19,6 +19,8 @@ require_once "DataTable/Renderer/Php.php";
  * The default field delimiter string is a comma (,).
  * Formatting and layout are ignored.
  * 
+ * Note that CSV output doesn't handle recursive dataTable. It will output only the first parent level of the tables.
+ * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer
  * 
@@ -26,10 +28,34 @@ require_once "DataTable/Renderer/Php.php";
 
 class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 {
+	/**
+	 * Column separator
+	 *
+	 * @var string
+	 */
 	public $separator = ',';
-	public $exportDetail = true;
-	public $exportIdSubtable = true;
+	
+	/**
+	 * Line end 
+	 *
+	 * @var string
+	 */
 	public $lineEnd = "\n";
+	
+	/**
+	 * 'details' columns will be exported, prefixed by 'detail_'
+	 *
+	 * @var bool
+	 */
+	public $exportDetail = true;
+	
+	/**
+	 * idSubtable will be exported in a column called 'idsubdatatable'
+	 *
+	 * @var bool
+	 */
+	public $exportIdSubtable = true;
+	
 	
 	function __construct($table = null)
 	{

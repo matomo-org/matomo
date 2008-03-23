@@ -29,6 +29,9 @@ abstract class Piwik_ViewDataTable
 	protected $JSsortEnabled 			= true;
 	protected $showFooter				= true;
 	
+	
+	protected $recursiveDataTableLoad   = false;
+	
 	protected $currentControllerAction;
 	protected $currentControllerName;
 	
@@ -40,10 +43,7 @@ abstract class Piwik_ViewDataTable
 	public $dataTable; // data table
 	
 	protected $moduleNameAndMethod;
-	
-	// do we need all the children of the datatables?
-	protected $recursiveDataTableLoad   = false;
-	
+		
 	protected $variablesDefault = array();
 	
 	protected $idSubtable = false;
@@ -216,7 +216,7 @@ abstract class Piwik_ViewDataTable
 	{
 		// if we request a subDataTable the $this->currentControllerAction DIV ID is already there in the page
 		// we make the DIV ID really unique by appending the ID of the subtable requested
-		if( $this->idSubtable != false)
+		if( $this->idSubtable !== false)
 		{			
 			$uniqIdTable = 'subDataTable_' . $this->idSubtable;
 		}
@@ -314,12 +314,14 @@ abstract class Piwik_ViewDataTable
 		return $javascriptVariablesToSet;
 	}
 	
-	protected function loadDataTableFromAPI( $idSubtable = false)
-	{
-		if($idSubtable === false)
-		{
-			$idSubtable = $this->idSubtable;
-		}
+	/**
+	 * Function called by the ViewDataTable objects in order to fetch data from the API.
+	 * They must set $this->moduleNameAndMethod before (using the $this->init() method).
+	 * 
+	 *
+	 */
+	protected function loadDataTableFromAPI()
+	{		
 		// we prepare the string to give to the API Request
 		// we setup the method and format variable
 		// - we request the method to call to get this specific DataTable
@@ -330,12 +332,6 @@ abstract class Piwik_ViewDataTable
 		if( $this->recursiveDataTableLoad )
 		{
 			$requestString .= '&expanded=1';
-		}
-		
-		// if a subDataTable is requested we add the variable to the API request string
-		if( $idSubtable != false)
-		{
-			$requestString .= '&this->idSubtable='.$idSubtable;
 		}
 		
 		$toSetEventually = array(
@@ -357,14 +353,12 @@ abstract class Piwik_ViewDataTable
 				$requestString .= '&'.$varToSet.'='.$value;
 			}
 		}
-//		echo $requestString;exit;
+		
 		// We finally make the request to the API
 		$request = new Piwik_API_Request($requestString);
 		
 		// and get the DataTable structure
 		$dataTable = $request->process();
-
-//		echo $dataTable;exit;
 
 		$this->dataTable = $dataTable;
 	}

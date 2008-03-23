@@ -10,7 +10,8 @@
  */
 
 /**
- * The DataTable_Array is a way to store an array of dataTable
+ * The DataTable_Array is a way to store an array of dataTable.
+ * The Piwik_DataTable_Array implements some of the features of the Piwik_DataTable such as queueFilter, getRowsCount.
  * 
  * @package Piwik_DataTable
  */

@@ -14,6 +14,7 @@
  * Class used to log an error event.
  * 
  * @package Piwik_Log
+ * @subpackage Piwik_Log_Error
  */
 class Piwik_Log_Error extends Piwik_Log
 {

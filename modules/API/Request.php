@@ -427,7 +427,6 @@ class Piwik_API_Request
 			// but by default it's not serialized
 			if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
 			{
-//				var_export($dataTable);exit;
 				$dataTable = serialize($dataTable);
 			}
 			return $dataTable;

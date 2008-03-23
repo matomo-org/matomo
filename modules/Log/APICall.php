@@ -14,6 +14,7 @@
  * Class used to log all the API Calls information (class / method / parameters / returned value / time spent)
  * 
  * @package Piwik_Log
+ * @subpackage Piwik_Log_APICall
  */
 class Piwik_Log_APICall extends Piwik_Log
 {
