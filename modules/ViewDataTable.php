@@ -214,18 +214,17 @@ abstract class Piwik_ViewDataTable
 
 	protected function getUniqIdTable()
 	{
+		// the $uniqIdTable variable is used as the DIV ID in the rendered HTML
+		// we use the current Controller action name as it is supposed to be unique in the rendered page 
+		$uniqIdTable = $this->currentControllerName . $this->currentControllerAction;
+		
 		// if we request a subDataTable the $this->currentControllerAction DIV ID is already there in the page
 		// we make the DIV ID really unique by appending the ID of the subtable requested
 		if( $this->idSubtable !== false)
-		{			
-			$uniqIdTable = 'subDataTable_' . $this->idSubtable;
-		}
-		else
 		{
-			// the $uniqIdTable variable is used as the DIV ID in the rendered HTML
-			// we use the current Controller action name as it is supposed to be unique in the rendered page 
-			$uniqIdTable = $this->currentControllerName . $this->currentControllerAction;
+			$uniqIdTable .=  '_' . $this->idSubtable;
 		}
+		
 		return $uniqIdTable;
 	}
 	
@@ -332,6 +331,11 @@ abstract class Piwik_ViewDataTable
 		if( $this->recursiveDataTableLoad )
 		{
 			$requestString .= '&expanded=1';
+		}
+		
+		if( $this->idSubtable !== false)
+		{
+			$requestString .= '&idSubtable='.$this->idSubtable;
 		}
 		
 		$toSetEventually = array(
