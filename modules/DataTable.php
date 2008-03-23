@@ -121,6 +121,8 @@ require_once "DataTable/Manager.php";
  * $XMLstring = $xmlOutput->getOutput();
  * 
  * 
+ * @see Piwik_DataTable_Row A Piwik_DataTable is composed of Piwik_DataTable_Row
+ * 
  * @package Piwik
  * @subpackage Piwik_DataTable
  * 
@@ -134,6 +136,14 @@ class Piwik_DataTable
 	protected $indexNotUpToDate = false;
 	protected $queuedFilters = array();
 	protected $rowsCountBeforeLimitFilter = 0;
+	
+	/**
+	 * Defaults to false for performance reasons (most of the time we don't need recursive sorting so we save a looping over the dataTable)
+	 *
+	 * @var bool
+	 */
+	protected $enableRecursiveSort = false;
+	
 	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 20;
 	
 	public function __construct()
@@ -145,6 +155,24 @@ class Piwik_DataTable
 	{
 		$this->indexNotUpToDate = true;
 		usort( $this->rows, $functionCallback );
+		
+		if($this->enableRecursiveSort === true)
+		{
+			foreach($this->getRows() as $row)
+			{
+				if(($idSubtable = $row->getIdSubDataTable()) !== null)
+				{
+					$table = Piwik_DataTable_Manager::getInstance()->getTable($idSubtable);
+					$table->enableRecursiveSort();
+					$table->sort($functionCallback);
+				}
+			}
+		}
+	}
+	
+	public function enableRecursiveSort()
+	{
+		$this->enableRecursiveSort = true;
 	}
 	
 	public function getRowsCountBeforeLimitFilter()
@@ -322,6 +350,8 @@ class Piwik_DataTable
 	
 	/**
 	 * Returns the array of Piwik_DataTable_Row
+	 * 
+	 * @return array of Piwik_DataTable_Row
 	 */
 	public function getRows()
 	{

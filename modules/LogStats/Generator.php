@@ -13,6 +13,10 @@
  * Class used to generate fake visits. 
  * Useful to test performances, general functional testing, etc.
  * 
+ * Objective:
+ * Generate thousands of visits / actions per visitor using 
+ *  a single request to misc/generateVisits.php
+ * 
  * Requirements of the visits generator script. Fields that can be edited:
  * - url => campaigns
  * 		- newsletter
@@ -28,12 +32,11 @@
  * - action_name 
  * - HTML title
  * 
- * Objective:
- * Generate thousands of visits / actions per visitor 
  *  
  * @package Piwik_LogStats
  * 
- * 													"Le Generator, il est trop Fort!"
+ * 											"Le Generator, il est trop Fort!"
+ * 											- Random fan
  */
 
 class Piwik_LogStats_Generator

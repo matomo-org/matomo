@@ -10,16 +10,20 @@
  */
 
 /**
- * Returns the equivalent PHP array of the DataTable.
+ * Returns the equivalent PHP array for a given DataTable.
  * You can specify in the constructor if you want the serialized version.
  * Please note that by default it will produce a flat version of the array.
- * See the method flatRender() for details.
+ * See the method flatRender() for details. @see flatRender();
+ * 
+ * Works with recursive DataTable (when a row can be associated with a subDataTable).
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer
  */
 class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 {
+	protected $serialize;
+	
 	public function __construct($table = null, $serialize = true)
 	{
 		parent::__construct($table);
@@ -56,7 +60,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	 * @return array Php array representing the 'flat' version of the datatable
 	 *
 	 */
-	public function flatRender( $dataTable = null )
+	public function flatRender( $dataTable = null, $doRenderSubTablesIfAvailable = true )
 	{
 		if(is_null($dataTable))
 		{
@@ -73,7 +77,6 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 				$flatArray[$keyName] = $this->flatRender($table);
 				$this->serialize = $serializeSave;
 			}
-//			var_dump($flatArray);
 		}
 		
 		// A DataTable_Simple is already flattened so no need to do some crazy stuff to convert it
@@ -87,16 +90,12 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			{
 				$flatArray = current($flatArray);
 			}
-//			elseif(count($flatArray) == 0)
-//			{
-//				$flatArray = null;
-//			}
 			
 		}
 		// A normal DataTable needs to be handled specifically
 		else
 		{
-			$array = $this->renderTable($dataTable);
+			$array = $this->renderTable($dataTable, $doRenderSubTablesIfAvailable);
 			$flatArray = $this->flattenArray($array);
 		}
 		
@@ -163,8 +162,6 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		
 		return $array;
 	}
-	
-	protected $serialize;
 	
 	
 	protected function renderTable($table, $doRenderSubTablesIfAvailable = false)

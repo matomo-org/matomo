@@ -10,7 +10,9 @@
  */
 
 /**
- * RSS Feed
+ * RSS Feed. 
+ * The RSS renderer can be used only on Piwik_DataTable_Array that are arrays of Piwik_DataTable.
+ * A RSS feed contains one dataTable per element in the Piwik_DataTable_Array.
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer

@@ -11,7 +11,11 @@
 
 require_once "DataTable/Renderer/Php.php";
 /**
- * XML export
+ * XML export of a given DataTable.
+ * See the tests cases for more information about the XML format (/tests/modules/DataTable/Renderer.test.php)
+ * Or have a look at the API calls examples.
+ * 
+ * Works with recursive DataTable (when a row can be associated with a subDataTable).
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer
@@ -193,6 +197,12 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			$out .= $prefixLine."\t<row>\n";
 			foreach($row as $name => $value)
 			{
+				// handle the recursive dataTable case by XML outputting the recursive table
+				if(is_array($value))
+				{
+					$value = "\n".$this->renderDataTable($value, $prefixLine."\t\t");
+					$value .= $prefixLine."\t\t"; 
+				}
 				$out .= $prefixLine."\t\t<$name>$value</$name>\n";
 			} 
 			$out .= $prefixLine."\t</row>\n";

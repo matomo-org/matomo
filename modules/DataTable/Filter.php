@@ -12,10 +12,10 @@
 /**
  * A filter is applied instantly to a given DataTable and can 
  * - remove rows 
- * - change columns values
- * - add/remove columns or details
+ * - change columns values (lowercase the strings, truncate, etc.)
+ * - add/remove columns or details (compute percentage values, add an 'icon' detail based on the label, etc.)
  * - add/remove/edit sub DataTable associated to some rows
- * - whatever your imagination wants :)
+ * - whatever you can imagine
  * 
  * The concept is very simple: the filter is given the DataTable 
  * and can do whatever is necessary on the data (in the filter() method).

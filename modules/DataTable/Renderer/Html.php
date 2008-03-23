@@ -11,6 +11,7 @@
 
 /**
  * Simple HTML output
+ * Works with recursive DataTable (when a row can be associated with a subDataTable).
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Renderer

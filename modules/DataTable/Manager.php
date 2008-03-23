@@ -11,7 +11,8 @@
 
 /**
  * The DataTable_Manager registers all the instanciated DataTable and provides an 
- * easy way to access them.
+ * easy way to access them. This is used to store all the DataTable during the archiving process.
+ * At the end of archiving, the ArchiveProcessing will read the stored datatable and record them in the DB.
  * 
  * @package Piwik_DataTable
  */
@@ -21,6 +22,11 @@ class Piwik_DataTable_Manager
 	protected function __construct()
 	{}
 	
+	/**
+	 * Returns instance
+	 *
+	 * @return Piwik_DataTable_Manager
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
@@ -30,12 +36,25 @@ class Piwik_DataTable_Manager
 		}
 		return self::$instance;
 	}
-	
+	/**
+	 * Array used to store the DataTable
+	 *
+	 * @var array
+	 */
 	protected $tables = array();
+	
+	/**
+	 * Number of datatable currently stored in the array
+	 *
+	 * @var int
+	 */
 	protected $count = 0;
 	
 	/**
 	 * Add a DataTable to the registry
+	 * 
+	 * @param Piwik_DataTable
+	 * @return int Number of tables registered in the manager (including the one just added)
 	 */
 	public function addTable( $table )
 	{
@@ -50,6 +69,7 @@ class Piwik_DataTable_Manager
 	 * This method will not fetch the DataTable from the DB.
 	 * 
 	 * @exception If the table can't be found
+	 * @return Piwik_DataTable The table 
 	 */
 	public function getTable( $idTable )
 	{
@@ -66,7 +86,19 @@ class Piwik_DataTable_Manager
 	}
 	
 	/**
-	 * Delete all the registered DataTables
+	 * Returns all the dataTable registered in the manager
+	 * 
+	 * @return array of Piwik_DataTable
+	 */
+	public function getTables()
+	{
+		return $this->tables;
+	}
+	
+	/**
+	 * Delete all the registered DataTables from the manager
+	 * 
+	 * @return void
 	 */
 	public function deleteAll()
 	{
@@ -75,8 +107,10 @@ class Piwik_DataTable_Manager
 	
 	/**
 	 * Returns the number of DataTable currently registered.
+	 * 
+	 * @return int
 	 */
-	function count()
+	public function count()
 	{
 		return count($this->tables);
 	}

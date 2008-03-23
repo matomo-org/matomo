@@ -15,7 +15,7 @@
  * - for each numeric column, the returned "summary" column is the sum of all the subRows
  * - for every other column, it is ignored and will not be in the "summary row"
  * 
- * @see Piwik_DataTable_Row::sumRow() for more information on the algorith
+ * @see Piwik_DataTable_Row::sumRow() for more information on the algorithm
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Row

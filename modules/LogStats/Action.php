@@ -16,55 +16,18 @@
  * This class is used to build the Action Name (which can be built from the URL, 
  * or can be directly specified in the JS code, etc.).
  * It also saves the Action when necessary in the DB. 
- * 
- * 
- * About the Action concept
- * ------------------------------------
+ *  
+ * About the Action concept:
  * - An action is defined by a name.
  * - The name can be specified in the JS Code in the variable 'action_name'
+ *    For example you can decide to use the javascript value document.title as an action_name
+ * - If the name is not specified, we use the URL(path+query) to build a default name.
+ *    For example for "http://piwik.org/test/my_page/test.html" 
+ *    the name would be "test/my_page/test.html"
+ * - If the name is empty we set it to default_action_name found in global.ini.php
  * - Handling UTF8 in the action name
- * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the interface
- * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action
- * 
- * + If the name is not specified, we use the URL(path+query) to build a default name.
- *   For example for "http://piwik.org/test/my_page/test.html" 
- *   the name would be "test/my_page/test.html"
- * 
- * We make sure it is clean and displayable.
- * If the name is empty we set it to a default name.
- *  
- * Specifications
- *  
- * - Download tracking
- * 
- *   * MANUAL Download tracking 
- *      download = http://piwik.org/hellokity.zip
- * 	(name = dir1/file alias name)
- *
- *   * AUTOMATIC Download tracking for a known list of file extensions. 
- *    Make a hit to the piwik.php with the parameter: 
- *      download = http://piwik.org/hellokity.zip
- *  
- *   When 'name' is not specified, 
- * 	if AUTOMATIC and if anchor not empty => name = link title anchor
- * 	else name = path+query of the URL
- *   Ex: myfiles/beta.zip
- *
- * - External link tracking
- * 
- *   * MANUAL External link tracking
- * 	 outlink = http://amazon.org/test
- * 	(name = the big partners / amazon)
- * 
- *   * AUTOMATIC External link tracking
- *      When a link is not detected as being part of the same website 
- *     AND when the url extension is not detected as being a file download
- * 	 outlink = http://amazon.org/test
- * 
- *  When 'name' is not specified, 
- * 	if AUTOMATIC and if anchor not empty => name = link title anchor
- * 	else name = URL
- *   Ex: http://amazon.org/test
+ * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the reports (currently actions do not link to the url of the pages)
+ * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action and this HTML title is displayed in the interface
  * 
  * 
  * @package Piwik_LogStats
@@ -84,7 +47,7 @@ class Piwik_LogStats_Action
 	const TYPE_OUTLINK  = 2;
 	
 	/**
-	 * @param Piwik_LogStats_Db object
+	 * @param Piwik_LogStats_Db Database object to be used
 	 */
 	function __construct( $db )
 	{
@@ -105,11 +68,14 @@ class Piwik_LogStats_Action
 	}
 	
 	/**
-	 * Generate the name of the action from the URL or the specified name.
-	 * See the class description for more information.
+	 * Generates the name of the action from the URL or the specified name.
+	 * Sets the name as $this->finalActionName
+	 * 
+	 * @return void
 	 */
 	private function generateInfo()
 	{
+		$actionName = '';
 		if(!empty($this->downloadUrl))
 		{
 			$this->actionType = self::TYPE_DOWNLOAD;
@@ -212,6 +178,8 @@ class Piwik_LogStats_Action
 	}
 	
 	/**
+	 * Sets the attribute $idAction based on $finalActionName and $actionType.
+	 * 
 	 * @see getActionId()
 	 */
 	private function loadActionId()
@@ -223,7 +191,9 @@ class Piwik_LogStats_Action
 		
 		$idAction = $this->db->fetch("	SELECT idaction 
 							FROM ".$this->db->prefixTable('log_action')
-						."  WHERE name = ? AND type = ?", array($name, $type) );
+						."  WHERE name = ? AND type = ?", 
+						array($name, $type) 
+					);
 		
 		// the action name has not been found, create it
 		if($idAction === false)

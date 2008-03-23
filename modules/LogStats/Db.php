@@ -11,7 +11,8 @@
 
 /**
  * Simple database PDO wrapper.
- * We can't afford to have a dependency with the Zend_Db module in the LogStats module.
+ * We can't afford to have a dependency with the Zend_Db module in LogStats.
+ * We wrote this simple class 
  * 
  * @package Piwik_LogStats
  */
@@ -29,16 +30,16 @@ class Piwik_LogStats_Db
 	/**
 	 * Builds the DB object
 	 */
-	public function __construct( $host, $username, $password, $dbname) 
+	public function __construct( $host, $username, $password, $dbname, $driverName = 'mysql') 
 	{
-		$this->dsn = "mysql:dbname=$dbname;host=$host";
+		$this->dsn = $driverName.":dbname=$dbname;host=$host";
 		$this->username = $username;
 		$this->password = $password;
 	}
 
 	
 	/**
-	 * Returns true if the profiler is enabled
+	 * Returns true if the SQL profiler is enabled
 	 * Only used by the unit test that tests that the profiler is off on a  production server
 	 * 
 	 * @return bool 
@@ -49,7 +50,7 @@ class Piwik_LogStats_Db
 	}
 	
 	/**
-	 * Enables the profiling. 
+	 * Enables the SQL profiling. 
 	 * For each query, saves in the DB the time spent on this query. 
 	 * Very useful to see the slow query under heavy load.
 	 * You can then use Piwik::printLogStatsSQLProfiling(); 
@@ -59,8 +60,9 @@ class Piwik_LogStats_Db
 	{
 		self::$profiling = true;
 	}
+	
 	/** 
-	 * Disables the profiling logging.
+	 * Disables the SQL profiling logging.
 	 */
 	static public function disableProfiling()
 	{
@@ -69,6 +71,8 @@ class Piwik_LogStats_Db
 	
 	/**
 	 * Connects to the DB
+	 * 
+	 * @throws Exception if there was an error connecting the DB
 	 */
 	public function connect() 
 	{
@@ -76,7 +80,15 @@ class Piwik_LogStats_Db
 			$pdoConnect = new PDO($this->dsn, $this->username, $this->password);
 			$pdoConnect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->connection = $pdoConnect;
+
+			// we erase the password from this object "just in case" it could be printed 
+			$this->password = '';
 		} catch (PDOException $e) {
+			
+			// we erase the password from this object "just in case" it could be printed 
+			$this->password = '';
+			
+			// we don't throw the PDO Exception directly as it may contain sensitive information
 			throw new Exception("Error connecting database: ".$e->getMessage());
 		}
 	}
@@ -97,10 +109,14 @@ class Piwik_LogStats_Db
 	}
 	
 	/**
-	 * Returns an array containing all the rows of a query result.
+	 * Returns an array containing all the rows of a query result, using optional bound parameters.
+	 * 
+	 * @param string Query 
+	 * @param array Parameters to bind
 	 * @see also query()
+	 * @throws Exception if an exception occured
 	 */
-	public function fetchAll( $query, $parameters )
+	public function fetchAll( $query, $parameters = array() )
 	{
 		try {
 			$sth = $this->query( $query, $parameters );
@@ -111,10 +127,15 @@ class Piwik_LogStats_Db
 	}
 	
 	/**
-	 * Returns the first row of a query result.
-	 * @see query()
+	 * Returns the first row of a query result, using optional bound parameters.
+	 * 
+	 * @param string Query 
+	 * @param array Parameters to bind
+	 * @see also query()
+	 * 
+	 * @throws Exception if an exception occured
 	 */
-	public function fetch( $query, $parameters )
+	public function fetch( $query, $parameters = array() )
 	{
 		try {
 			$sth = $this->query( $query, $parameters );
@@ -125,10 +146,12 @@ class Piwik_LogStats_Db
 	}
 	
 	/**
-	 * Executes a query with bind parameters
+	 * Executes a query, using optional bound parameters.
 	 * 
 	 * @param string Query 
 	 * @param array Parameters to bind
+	 * 
+	 * @throw Exception if an exception occured
 	 */
 	public function query($query, $parameters = array()) 
 	{
@@ -161,6 +184,7 @@ class Piwik_LogStats_Db
 	/**
 	 * Returns the last inserted ID in the DB
 	 * Wrapper of PDO::lastInsertId()
+	 * 
 	 * @return int
 	 */
 	public function lastInsertId()
@@ -169,7 +193,7 @@ class Piwik_LogStats_Db
 	}
 	
 	/**
-	 * When destroyed, log the SQL profiling information
+	 * When destroyed, if SQL profiled enabled, logs the SQL profiling information
 	 */
 	public function __destruct()
 	{
