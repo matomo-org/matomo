@@ -34,6 +34,7 @@
  * 
  *  
  * @package Piwik_LogStats
+ * @subpackage Piwik_LogStats_Generator
  * 
  * 											"Le Generator, il est trop Fort!"
  * 											- Random fan
@@ -41,21 +42,76 @@
 
 class Piwik_LogStats_Generator
 {
+	/**
+	 * GET parameters array of values to be used for the current visit
+	 *
+	 * @var array ('res' => '1024x768', 'urlref' => 'http://google.com/search?q=piwik', ...)
+	 */
 	protected $currentget	=	array();
+	
+	/**
+	 * Array of all the potential values for the visit parameters
+	 * Values of 'resolution', 'urlref', etc. will be randomly read from this array
+	 *
+	 * @var array ( 
+	 * 			'res' => array('1024x768','800x600'), 
+	 * 			'urlref' => array('google.com','intel.com','amazon.com'),
+	 * 			....)
+	 */
 	protected $allget		=	array();
+	
+	/**
+	 * See @see setMaximumUrlDepth
+	 *
+	 * @var int
+	 */
 	protected $maximumUrlDepth = 1;
+	
+	/**
+	 * Unix timestamp to use for the generated visitor 
+	 *
+	 * @var int Unix timestamp
+	 */
 	protected $timestampToUse;
 	
-	public $profiling 	= true;
+	/**
+	 * See @see disableProfiler()
+	 * The profiler is enabled by default
+	 *
+	 * @var bool
+	 */
+	protected $profiling 	= true;
+	
+	/**
+	 * If set to true, this will TRUNCATE the profiling tables at every new generated visit 
+	 * @see initProfiler()
+	 * 
+	 * @var bool
+	 */
 	public $reinitProfilingAtEveryRequest = true;
 	
-	//we could make this variable dynamic so that a visitor can make hit on several hosts and 
-	// only the good ones are kept
+	/**
+	 * Hostname used to prefix all the generated URLs
+	 * we could make this variable dynamic so that a visitor can make hit on several hosts and
+	 * only the good ones should be kept (feature not yet implemented in piwik)
+	 * 
+	 * @var string
+	 */
 	public $host = 'http://localhost';
 	
+	/**
+	 * IdSite to generate visits for (@see setIdSite())
+	 *
+	 * @var int
+	 */
 	public $idSite = 1;
 	
-	
+	/**
+	 * Overwrite the global GET/POST/COOKIE variables and set the fake ones @see setFakeRequest()
+	 * Reads the configuration file but disables write to this file
+	 * Creates the database object & enable profiling by default (@see disableProfiler())
+	 *
+	 */
 	public function __construct()
 	{
 		$_COOKIE = $_GET = $_REQUEST = $_POST = array();
@@ -89,7 +145,7 @@ class Piwik_LogStats_Generator
 	
 	/**
 	 * Set the timestamp to use as the starting time for the visitors times
-	 * To be set with every day value
+	 * You have to call this method for every day you want to generate data
 	 * 
 	 * @param int Unix timestamp
 	 */
@@ -101,7 +157,7 @@ class Piwik_LogStats_Generator
 	/**
 	 * Returns the timestamp to be used as the visitor timestamp
 	 * 
-	 * @return int
+	 * @return int Unix timestamp
 	 */
 	public function getTimestampToUse()
 	{
@@ -120,12 +176,14 @@ class Piwik_LogStats_Generator
 	}
 	
 	/**
-	 * Add a parameter to the GET global array
-	 * We set an array value to the GET global array when we want to random select
-	 * a value for a given name. 
+	 * Add a value to the GET global array.
+	 * The generator script will then randomly read a value from this array.
+	 * 
+	 * For example, $name = 'res' $aValue = '1024x768' 
 	 * 
 	 * @param string Name of the parameter _GET[$name]
 	 * @param array|mixed Value of the parameter
+	 * @return void
 	 */
 	protected function addParam( $name, $aValue)
 	{
@@ -141,7 +199,10 @@ class Piwik_LogStats_Generator
 	}
 	
 	/**
-	 * TRUNCATE all logs related tables to start a fresh logging database
+	 * TRUNCATE all logs related tables to start a fresh logging database.
+	 * Be careful, any data deleted this way is deleted forever
+	 * 
+	 * @return void
 	 */
 	public function emptyAllLogTables()
 	{
@@ -161,8 +222,10 @@ class Piwik_LogStats_Generator
 	}
 	
 	/**
-	 * This marks the end of the Generator script 
-	 * and calls the Profiler output if the profiler is enabled
+	 * This is called at the end of the Generator script.
+	 * Calls the Profiler output if the profiler is enabled.
+	 * 
+	 * @return void
 	 */
 	public function end()
 	{
@@ -178,21 +241,20 @@ class Piwik_LogStats_Generator
 	 * - init the random generator
 	 * - setup the different possible values for parameters such as 'resolution',
 	 * 		'color', 'hour', 'minute', etc.
-	 * - load and setup values for the other parameters
+	 * - load from DataFiles and setup values for the other parameters such as UserAgent, Referers, AcceptedLanguages, etc.
+	 *  @see /misc/generateVisitsData/
+	 * 
+	 * @return void
 	 */
 	public function init()
 	{
 		Piwik::createLogObject();
-		if($this->profiling)
-		{
-			if($this->reinitProfilingAtEveryRequest)
-			{
-				$db = Zend_Registry::get('db');
-				$all = $db->query('TRUNCATE TABLE '.Piwik::prefixTable('log_profiling').'' );
-			}
-		}
 		
-		// seed with microseconds
+		$this->initProfiler();
+		
+		/*
+		 * Init the random number generator 
+		 */ 
 		function make_seed()
 		{
 		  list($usec, $sec) = explode(' ', microtime());
@@ -200,6 +262,9 @@ class Piwik_LogStats_Generator
 		}
 		mt_srand(make_seed());
 		
+		/*
+		 * Sets values for: resolutions, colors, idSite, times
+		 */
 		$common = array(
 			'res' => array('1289x800','1024x768','800x600','564x644','200x100','50x2000',),
 			'col' => array(24,32,16),
@@ -207,13 +272,16 @@ class Piwik_LogStats_Generator
 			'h' => range(0,23),
 			'm' => range(0,59),
 			's' => range(0,59),
-			
 		);
+		
 		foreach($common as $label => $values)
 		{
 			$this->addParam($label,$values);
 		}
 		
+		/*
+		 * Sets values for: outlinks, downloads, campaigns
+		 */
 		// we get the name of the Download/outlink variables
 		$downloadOrOutlink = array(
 						Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'],
@@ -233,6 +301,10 @@ class Piwik_LogStats_Generator
 		$this->addParam('piwik_vars_campaign', $campaigns);
 		$this->addParam('piwik_vars_campaign', array_fill(0,15,''));
 		
+		
+		/*
+		 * Sets values for: Referers, user agents, accepted languages
+		 */
 		// we load some real referers to be used by the generator
 		$referers = array();
 		require_once "misc/generateVisitsData/Referers.php";
@@ -251,9 +323,33 @@ class Piwik_LogStats_Generator
 	}
 	
 	/**
+	 * If the SQL profiler is enabled and if the reinit at every request is set to true,
+	 * then we TRUNCATE the profiling information so that we only profile one visitor at a time
+	 * 
+	 * @return void
+	 */
+	protected function initProfiler()
+	{
+		/*
+		 * Inits the profiler
+		 */
+		if($this->profiling)
+		{
+			if($this->reinitProfilingAtEveryRequest)
+			{
+				$db = Zend_Registry::get('db');
+				$all = $db->query('TRUNCATE TABLE '.Piwik::prefixTable('log_profiling').'' );
+			}
+		}
+	}
+	/**
 	 * Launches the process and generates an exact number of nbVisits
 	 * For each visit, we setup the timestamp to the common timestamp
 	 * Then we generate between 1 and nbActionsMaxPerVisit actions for this visit
+	 * The generated actions will have a growing timestamp so it looks like a real visit
+	 * 
+	 * @param int The number of visits to generate
+	 * @param int The maximum number of actions to generate per visit
 	 * 
 	 * @return int The number of total actions generated
 	 */
@@ -282,10 +378,13 @@ class Piwik_LogStats_Generator
 	}
 	
 	/**
-	 * Generate a new visit. Load a random value for 
-	 * all the parameters that are read by the piwik logging engine.
+	 * Generates a new visitor. 
+	 * Loads random values for all the necessary parameters (resolution, local time, referers, etc.) from the fake GET array.
+	 * Also generates a random IP.
 	 * 
-	 * We even set the _SERVER values
+	 * We change the superglobal values of HTTP_USER_AGENT, HTTP_CLIENT_IP, HTTP_ACCEPT_LANGUAGE to the generated value.
+	 * 
+	 * @return void
 	 */
 	protected function generateNewVisit()
 	{
@@ -312,8 +411,12 @@ class Piwik_LogStats_Generator
 	
 	/**
 	 * Generates a new action for the current visitor.
-	 * We random generate some campaigns, action names, 
-	 * download or outlink clicks, etc.
+	 * We random generate some campaigns, action names, download or outlink clicks, etc.
+	 * We generate a new Referer, that would be read in the case the visit last page is older than 30 minutes.
+	 * 
+	 * This function tries to generate actions that use the features of Piwik (campaigns, downloads, outlinks, action_name set in the JS tag, etc.)
+	 * 
+	 * @return void
 	 * 
 	 */
 	protected function generateActionVisit()
@@ -390,6 +493,10 @@ class Piwik_LogStats_Generator
 	/**
 	 * Returns a random URL using the $host as the URL host.
 	 * Depth level depends on @see setMaximumUrlDepth()
+	 * 
+	 * @param string Hostname of the URL to generate, eg. http://example.com/
+	 * 
+	 * @return string The generated URL
 	 */
 	protected function getRandomUrlFromHost( $host )
 	{
@@ -406,14 +513,13 @@ class Piwik_LogStats_Generator
 	}
 	
 	/**
-	 * Generates a random string from minLength to maxLenght 
-	 * using a specified set of characters
+	 * Generates a random string from minLength to maxLength using a specified set of characters
 	 * 
-	 * From php.net and then badly hacked by myself
+	 * Taken from php.net and then badly hacked by some unknown monkey
 	 * 
-	 * @param int Maximum length
-	 * @param int Minimum length
-	 * @param string Characters set to use, ALL or lower or upper or numeric or ALPHA or ALNUM
+	 * @param int (optional) Maximum length of the string to generate
+	 * @param int (optional) Minimum length of the string to generate
+	 * @param string (optional) Characters set to use, 'ALL' or 'lower' or 'upper' or 'numeric' or 'ALPHA' or 'ALNUM'
 	 * 
 	 * @return string The generated random string
 	 */
@@ -480,7 +586,12 @@ class Piwik_LogStats_Generator
 	}
 
 	/**
-	 * Set the _GET and _REQUEST superglobal to the current generated array of values
+	 * Sets the _GET and _REQUEST superglobal to the current generated array of values.
+	 * @see setCurrentRequest()
+	 * This method is called once the current action parameters array has been generated from 
+	 * the global parameters array
+	 * 
+	 * @return void
 	 */
 	protected function setFakeRequest()
 	{
@@ -488,7 +599,7 @@ class Piwik_LogStats_Generator
 	}
 	
 	/**
-	 * Set a value in the current request
+	 * Sets a value in the current action request array.
 	 * 
 	 * @param string Name of the parameter to set
 	 * @param string Value of the parameter
@@ -499,11 +610,13 @@ class Piwik_LogStats_Generator
 	}
 	
 	/**
-	 * Returns a value for the given parameter $name
+	 * Returns a value for the given parameter $name read randomly from the global parameter array.
+	 * @see init()
 	 * 
+	 * @param string Name of the parameter value to randomly load and return
+	 * @return mixed Random value for the parameter named $name
 	 * @throws Exception if the parameter asked for has never been set
 	 * 
-	 * @return mixed Random value for the parameter named $name
 	 */
 	protected function getRandom( $name )
 	{		
@@ -521,7 +634,8 @@ class Piwik_LogStats_Generator
 
 	/**
 	 * Returns either 0 or 1
-	 * @return int
+	 * 
+	 * @return int 0 or 1
 	 */	
 	protected function getRandom01()
 	{
@@ -530,72 +644,20 @@ class Piwik_LogStats_Generator
 	
 	/**
 	 * Saves the visit 
-	 * - set the fake request 
+	 * - replaces GET and REQUEST by the fake generated request
 	 * - load the LogStats class and call the method to launch the recording
+	 * 
+	 * This will save the visit in the database
+	 * 
+	 * @return void
 	 */
 	protected function saveVisit()
 	{
 		$this->setFakeRequest();
-		$process = new Piwik_LogStats_Generator_Main;
-		$process->main('Piwik_LogStats_Generator_Visit');
+		$process = new Piwik_LogStats_Generator_LogStats;
+		$process->main();
 	}
 	
 }
-
-/**
- * Fake Piwik_LogStats that simply overwrite the sendHeader method 
- * so that no headers are sent
- * 
- * @package Piwik_LogStats
- */
-class Piwik_LogStats_Generator_Main extends Piwik_LogStats
-{
-	protected function sendHeader($header)
-	{
-	//	header($header);
-	}
-	
-	protected function endProcess()
-	{
-	}
-}
-
-/**
- * Fake Piwik_LogStats_Visit class that overwrite all the Time related method to be able
- * to setup a given timestamp for the generated visitor and actions.
- * 
- * 
- * @package Piwik_LogStats
- */
-class Piwik_LogStats_Generator_Visit extends Piwik_LogStats_Visit
-{
-	static protected $timestampToUse;
-	
-	function __construct( $db )
-	{
-		parent::__construct($db);
-	}
-	
-	static public function setTimestampToUse($time)
-	{
-		self::$timestampToUse = $time;
-	}
-	protected function getCurrentDate( $format = "Y-m-d")
-	{
-		return date($format, $this->getCurrentTimestamp() );
-	}
-	
-	protected function getCurrentTimestamp()
-	{
-		self::$timestampToUse = max(@$this->visitorInfo['visit_last_action_time'],self::$timestampToUse);
-		self::$timestampToUse += mt_rand(4,1840);
-		return self::$timestampToUse;
-	}
-		
-	protected function getDatetimeFromTimestamp($timestamp)
-	{
-		return date("Y-m-d H:i:s",$timestamp);
-	}
-	
-}
-
+require_once "Generator/LogStats.php";
+require_once "Generator/Visit.php";

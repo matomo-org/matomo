@@ -27,7 +27,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 												$APItoCall,
 												$defaultDatatableType = null )
 	{
-		$view = Piwik_ViewDataTable::factory( null, $defaultDatatableType);
+		$view = Piwik_ViewDataTable::factory( $defaultDatatableType);
 		$view->init( $this->pluginName,  $currentControllerAction, $APItoCall );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
@@ -100,7 +100,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	
 	function getPlugin( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory( null, 'graphVerticalBar');
+		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
 		$view->init( $this->pluginName,  __FUNCTION__, 'UserSettings.getPlugin' );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
@@ -108,7 +108,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->disableOffsetInformation();
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
-		$view->setSortedColumn( 2 );
+		$view->setSortedColumn( 'nb_visits' );
 		$view->setGraphLimit( 10 );
 		$view->setLimit( 10 );
 		

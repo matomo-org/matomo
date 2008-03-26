@@ -46,11 +46,11 @@
  */
 class Piwik_LogStats
 {	
-	private $stateValid;
+	protected $stateValid;
 	
-	private $urlToRedirect;
+	protected $urlToRedirect;
 	
-	private $db = null;
+	protected $db = null;
 	
 	const STATE_NOTHING_TO_NOTICE = 1;
 	const STATE_TO_REDIRECT_URL = 2;
@@ -159,17 +159,28 @@ class Piwik_LogStats
 		$this->stateValid = $value;
 	}
 	
+	/**
+	 * Returns the LogStats_Visit object.
+	 * This method can be overwritten so that we use a different LogStats_Visit object
+	 *
+	 * @return LogStats_Visit
+	 */
+	protected function getNewVisitObject()
+	{
+		return new Piwik_LogStats_Visit($this->db);
+	}
+	
 	// main algorithm 
 	// => input : variables filtered
 	// => action : read cookie, read database, database logging, cookie writing
-	function main( $class_LogStats_Visit = "Piwik_LogStats_Visit")
+	function main()
 	{
 		$this->initProcess();
 		
 		if( $this->processVisit() )
 		{
 			$this->connectDatabase();
-			$visit = new $class_LogStats_Visit( $this->db );
+			$visit = $this->getNewVisitObject();
 			$visit->handle();
 		}
 		$this->endProcess();

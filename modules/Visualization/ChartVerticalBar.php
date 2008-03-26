@@ -13,6 +13,8 @@ require_once "Visualization/Chart.php";
 
 /**
  * 
+ * Customize the Vertical bar chart style for the flash graph
+ * 
  * @package Piwik_Visualization
  *
  */

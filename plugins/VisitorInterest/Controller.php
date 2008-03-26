@@ -19,7 +19,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 	 */
 	function getNumberOfVisitsPerVisitDuration( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory( null, 'cloud' );
+		$view = Piwik_ViewDataTable::factory( 'cloud' );
 		$view->init( $this->pluginName,  __FUNCTION__, 
 									"VisitorInterest.getNumberOfVisitsPerVisitDuration" );
 		
@@ -34,12 +34,12 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 	
 	function getNumberOfVisitsPerPage( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory( null, 'cloud' );
+		$view = Piwik_ViewDataTable::factory( 'cloud' );
 		$view->init( $this->pluginName,  __FUNCTION__, 
 									"VisitorInterest.getNumberOfVisitsPerPage" );
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
-		$view->setSortedColumn( 'nb_visits' );
+		$view->setSortedColumn( 'nb_visits', 'asc' );
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
 		$view->disableSearchBox();

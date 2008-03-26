@@ -7,28 +7,31 @@
  * @version $Id$
  *
  * @package Piwik_Visualization
+ * @subpackage OFC
  */
 
 require_once "iView.php";
+
 
 /**
  * Original class provided by Open Flash Chart
  *
  * @package Piwik_Visualization
  */
-
 abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 {
 	function __construct()
 	{
+
 		$this->data_sets = array();
-
-
+		
+		
 		$this->data = array();
 		$this->links = array();
 		$this->width = 250;
 		$this->height = 200;
-		$this->base = 'js/';
+		$this->js_path = 'js/';
+		$this->swf_path = '';
 		$this->x_labels = array();
 		$this->y_min = '';
 		$this->y_max = '';
@@ -38,7 +41,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		$this->title = '';
 		$this->title_style = '';
 		$this->occurence = 0;
-
+		
 		$this->x_offset = '';
 
 		$this->x_tick_size = -1;
@@ -54,54 +57,56 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		$this->y_axis_colour = '';
 		$this->y_grid_colour = '';
 		$this->y2_axis_colour = '';
-
-		// AXIS LABEL styles:
+		
+		// AXIS LABEL styles:         
 		$this->x_label_style = '';
 		$this->y_label_style = '';
 		$this->y_label_style_right = '';
-
-
+	
+	
 		// AXIS LEGEND styles:
 		$this->x_legend = '';
 		$this->x_legend_size = 20;
 		$this->x_legend_colour = '#000000';
-
+	
 		$this->y_legend = '';
 		$this->y_legend_right = '';
 		//$this->y_legend_size = 20;
 		//$this->y_legend_colour = '#000000';
-
+	
 		$this->lines = array();
 		$this->line_default['type'] = 'line';
 		$this->line_default['values'] = '3,#87421F';
 		$this->js_line_default = 'so.addVariable("line","3,#87421F");';
-
+		
 		$this->bg_colour = '';
 		$this->bg_image = '';
-
+	
 		$this->inner_bg_colour = '';
 		$this->inner_bg_colour_2 = '';
 		$this->inner_bg_angle = '';
-
+		
 		// PIE chart ------------
 		$this->pie = '';
 		$this->pie_values = '';
 		$this->pie_colours = '';
 		$this->pie_labels = '';
-
+		
 		$this->tool_tip = '';
-
+		
 		// which data lines are attached to the
 		// right Y axis?
 		$this->y2_lines = array();
-
+		
 		// Number formatting:
 		$this->y_format='';
 		$this->num_decimals='';
 		$this->is_fixed_num_decimals_forced='';
 		$this->is_decimal_separator_comma='';
 		$this->is_thousand_separator_disabled='';
-
+		
+		$this->output_type = '';
+		
 		//
 		// set some default value incase the user forgets
 		// to set them, so at least they see *something*
@@ -114,72 +119,66 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	}
 
 	/**
-	 * Set the unique_id to use for the flash object id.
-	 */
+	* Set the unique_id to use for the flash object id.
+	*/
 	function set_unique_id()
 	{
-		$this->unique_id = uniqid();
+		$this->unique_id = uniqid(rand(), true);
 	}
-
+	
 	/**
-	 * Get the flash object ID for the last rendered object.
-	 */
+	* Get the flash object ID for the last rendered object.
+	*/
 	function get_unique_id()
 	{
 		return ($this->unique_id);
 	}
-
+	
 	/**
-	 * Set the base path for the swfobject.js
-	 *
-	 * @param base_path a string argument.
-	 *   The path to the swfobject.js file
-	 */
+	* Set the base path for the swfobject.js
+	*
+	* @param base_path a string argument.
+	*   The path to the swfobject.js file
+	*/
 	function set_js_path($path)
 	{
 		$this->js_path = $path;
 	}
-
+	
 	/**
-	 * Set the base path for the open-flash-chart.swf
-	 *
-	 * @param path a string argument.
-	 *   The path to the open-flash-chart.swf file
-	 */
+	* Set the base path for the open-flash-chart.swf
+	*
+	* @param path a string argument.
+	*   The path to the open-flash-chart.swf file
+	*/
 	function set_swf_path($path)
 	{
 		$this->swf_path = $path;
 	}
 
 	/**
-	 * Set the type of output data.
-	 *
-	 * @param type a string argument.
-	 *   The type of data.  Currently only type is js, or nothing.
-	 */
+	* Set the type of output data.
+	*
+	* @param type a string argument.
+	*   The type of data.  Currently only type is js, or nothing.
+	*/
 	function set_output_type($type)
 	{
 		$this->output_type = $type;
 	}
 
-	// is this needed now?
-	function increment_occurence()
-	{
-		$this->occurence++;
-	}
-
 	/**
-	 * returns the next line label for multiple lines.
-	 */
+	* returns the next line label for multiple lines.
+	*/
 	function next_line()
 	{
 		$line_num = '';
 		if( count( $this->lines ) > 0 )
-		$line_num = '_'. (count( $this->lines )+1);
+			$line_num = '_'. (count( $this->lines )+1);
 
 		return $line_num;
 	}
-
+	
 	// escape commas (,)
 	function esc( $text )
 	{
@@ -188,16 +187,17 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		// which is no good if we are splitting the
 		// string on commas.
 		$tmp = str_replace( ',', '#comma#', $text );
+		//$tmp = utf8_encode( $tmp );
 		// now we urlescape all dodgy characters (like & % $ etc..)
 		return urlencode( $tmp );
 	}
 
 	/**
-	 * Format the text to the type of output.
-	 */
-	function format_output($output_type,$function,$values)
+	* Format the text to the type of output.
+	*/
+	function format_output($function,$values)
 	{
-		if($output_type == 'js')
+		if($this->output_type == 'js')
 		{
 			$tmp = 'so.addVariable("'. $function .'","'. $values . '");';
 		}
@@ -210,18 +210,18 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	}
 
 	/**
-	 * Set the text and style of the title.
-	 *
-	 * @param title a string argument.
-	 *   The text of the title.
-	 * @param style a string.
-	 *   CSS styling of the title.
-	 */
+	* Set the text and style of the title.
+	*
+	* @param title a string argument.
+	*   The text of the title.
+	* @param style a string.
+	*   CSS styling of the title.
+	*/
 	function set_title( $title, $style='' )
 	{
-		$this->title = $title;
+		$this->title = $this->esc( $title );
 		if( strlen( $style ) > 0 )
-		$this->title_style = $style;
+			$this->title_style = $style;
 	}
 
 	/**
@@ -234,7 +234,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	{
 		$this->width = $width;
 	}
-
+	
 	/**
 	 * Set the height of the chart.
 	 *
@@ -256,28 +256,28 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	{
 		$this->base = $base;
 	}
-
+	
 	// Number formatting:
 	function set_y_format( $val )
 	{
-		$this->y_format = $val;
+		$this->y_format = $val;	
 	}
-
+	
 	function set_num_decimals( $val )
 	{
 		$this->num_decimals = $val;
 	}
-
+	
 	function set_is_fixed_num_decimals_forced( $val )
 	{
 		$this->is_fixed_num_decimals_forced = $val?'true':'false';
 	}
-
+	
 	function set_is_decimal_separator_comma( $val )
 	{
 		$this->is_decimal_separator_comma = $val?'true':'false';
 	}
-
+	
 	function set_is_thousand_separator_disabled( $val )
 	{
 		$this->is_thousand_separator_disabled = $val?'true':'false';
@@ -292,13 +292,14 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	{
 		$this->data[] = implode(',',$a);
 	}
-
+	
 	// UGH, these evil functions are making me fell ill
-	function set_links( $a )
+	function set_links( $links )
 	{
-		$this->links[] = implode(',',$a);
+		// TO DO escape commas:
+		$this->links[] = implode(',',$links);
 	}
-
+	
 	// $val is a boolean
 	function set_x_offset( $val )
 	{
@@ -315,7 +316,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	 * #x_label# - The X label string. \n
 	 * #x_legend# - The X axis legend text. \n
 	 * Default string is: "#x_label#<br>#val#" \n
-	 *
+	 * 
 	 * @param tip a string argument.
 	 *   A formatted string to show as the tooltip.
 	 */
@@ -332,7 +333,10 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	 */
 	function set_x_labels( $a )
 	{
-		$this->x_labels = $a;
+		$tmp = array();
+		foreach( $a as $item )
+			$tmp[] = $this->esc( $item );
+		$this->x_labels = $tmp;
 	}
 
 	/**
@@ -354,18 +358,18 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	function set_x_label_style( $size, $colour='', $orientation=0, $step=-1, $grid_colour='' )
 	{
 		$this->x_label_style = $size;
-
+		
 		if( strlen( $colour ) > 0 )
-		$this->x_label_style .= ','. $colour;
+			$this->x_label_style .= ','. $colour;
 
 		if( $orientation > -1 )
-		$this->x_label_style .= ','. $orientation;
+			$this->x_label_style .= ','. $orientation;
 
 		if( $step > 0 )
-		$this->x_label_style .= ','. $step;
+			$this->x_label_style .= ','. $step;
 
 		if( strlen( $grid_colour ) > 0 )
-		$this->x_label_style .= ','. $grid_colour;
+			$this->x_label_style .= ','. $grid_colour;
 	}
 
 	/**
@@ -405,7 +409,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	}
 
 	/**
-	 * Set the background colour of the grid portion of the chart.
+ 	 * Set the background colour of the grid portion of the chart.
 	 * @param col a string argument.
 	 *   The hex colour value of the background.
 	 * @param col2 a string argument.
@@ -416,12 +420,12 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	function set_inner_background( $col, $col2='', $angle=-1 )
 	{
 		$this->inner_bg_colour = $col;
-
+		
 		if( strlen($col2) > 0 )
-		$this->inner_bg_colour_2 = $col2;
-
+			$this->inner_bg_colour_2 = $col2;
+		
 		if( $angle != -1 )
-		$this->inner_bg_angle = $angle;
+			$this->inner_bg_angle = $angle;
 	}
 
 	/**
@@ -430,9 +434,9 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	function _set_y_label_style( $size, $colour )
 	{
 		$tmp = $size;
-
+		
 		if( strlen( $colour ) > 0 )
-		$tmp .= ','. $colour;
+			$tmp .= ','. $colour;
 		return $tmp;
 	}
 
@@ -464,56 +468,56 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 
 	function set_x_max( $max )
 	{
-		$this->x_max = intval( $max );
+		$this->x_max = floatval( $max );
 	}
 
 	function set_x_min( $min )
 	{
-		$this->x_min = intval( $min );
+		$this->x_min = floatval( $min );
 	}
 
 	/**
 	 * Set the maximum value of the y axis.
 	 *
-	 * @param max an int argument.
+	 * @param max an float argument.
 	 *   The maximum value.
 	 */
 	function set_y_max( $max )
 	{
-		$this->y_max = intval( $max );
+		$this->y_max = floatval( $max );
 	}
 
 	/**
 	 * Set the minimum value of the y axis.
 	 *
-	 * @param min an int argument.
+	 * @param min an float argument.
 	 *   The minimum value.
 	 */
 	function set_y_min( $min )
 	{
-		$this->y_min = intval( $min );
+		$this->y_min = floatval( $min );
 	}
 
 	/**
 	 * Set the maximum value of the right y axis.
 	 *
-	 * @param max an int argument.
+	 * @param max an float argument.
 	 *   The maximum value.
-	 */
+	 */  
 	function set_y_right_max( $max )
 	{
-		$this->y2_max = intval($max);
+		$this->y2_max = floatval($max);
 	}
 
 	/**
 	 * Set the minimum value of the right y axis.
 	 *
-	 * @param min an int argument.
+	 * @param min an float argument.
 	 *   The minimum value.
 	 */
 	function set_y_right_min( $min )
 	{
-		$this->y2_min = intval($min);
+		$this->y2_min = floatval($min);
 	}
 
 	/**
@@ -524,14 +528,14 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	 */
 	function y_label_steps( $val )
 	{
-		$this->y_steps = intval( $val );
+		 $this->y_steps = intval( $val );
 	}
-
+	
 	function title( $title, $style='' )
 	{
-		$this->title = $this->esc( $title );
-		if( strlen( $style ) > 0 )
-		$this->title_style = $style;
+		 $this->title = $this->esc( $title );
+		 if( strlen( $style ) > 0 )
+				 $this->title_style = $style;
 	}
 
 	/**
@@ -542,16 +546,16 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	 * @param font_size an int argument.
 	 *   The font size of the x legend text.
 	 * @param colour a string argument
-	 *   The hex value of the font colour.
+	 *   The hex value of the font colour. 
 	 */
 	function set_x_legend( $text, $size=-1, $colour='' )
 	{
 		$this->x_legend = $this->esc( $text );
 		if( $size > -1 )
-		$this->x_legend_size = $size;
-
+			$this->x_legend_size = $size;
+		
 		if( strlen( $colour )>0 )
-		$this->x_legend_colour = $colour;
+			$this->x_legend_colour = $colour;
 	}
 
 	/**
@@ -563,7 +567,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	function set_x_tick_size( $size )
 	{
 		if( $size > 0 )
-		$this->x_tick_size = $size;
+				$this->x_tick_size = $size;
 	}
 
 	/**
@@ -575,7 +579,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	function set_x_axis_steps( $steps )
 	{
 		if ( $steps > 0 )
-		$this->x_axis_steps = $steps;
+			$this->x_axis_steps = $steps;
 	}
 
 	/**
@@ -587,24 +591,24 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	function set_x_axis_3d( $size )
 	{
 		if( $size > 0 )
-		$this->x_axis_3d = intval($size);
+			$this->x_axis_3d = intval($size);
 	}
-
+	
 	/**
 	 * The private method of building the y legend output.
 	 */
 	function _set_y_legend( $text, $size, $colour )
 	{
 		$tmp = $text;
-
+	
 		if( $size > -1 )
-		$tmp .= ','. $size;
+			$tmp .= ','. $size;
 
 		if( strlen( $colour )>0 )
-		$tmp .= ','. $colour;
+			$tmp .= ','. $colour;
 
 		return $tmp;
-	}
+		}
 
 	/**
 	 * Set the parameters of the y legend.
@@ -614,7 +618,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	 * @param font_size an int argument.
 	 *   The font size of the y legend text.
 	 * @param colour a string argument
-	 *   The hex colour value of the font colour.
+	 *   The hex colour value of the font colour. 
 	 */
 	function set_y_legend( $text, $size=-1, $colour='' )
 	{
@@ -629,20 +633,20 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	 * @param font_size an int argument.
 	 *   The font size of the right y legend text.
 	 * @param colour a string argument
-	 *   The hex value of the font colour.
+	 *   The hex value of the font colour. 
 	 */
 	function set_y_right_legend( $text, $size=-1, $colour='' )
 	{
 		$this->y_legend_right = $this->_set_y_legend( $text, $size, $colour );
 	}
-
+	
 	/**
 	 * Set the colour of the x axis line and grid.
 	 *
 	 * @param axis a string argument.
 	 *   The hex colour value of the x axis line.
 	 * @param grid a string argument.
-	 *   The hex colour value of the x axis grid.
+	 *   The hex colour value of the x axis grid. 
 	 */
 	function x_axis_colour( $axis, $grid='' )
 	{
@@ -656,14 +660,14 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	 * @param axis a string argument.
 	 *   The hex colour value of the y axis line.
 	 * @param grid a string argument.
-	 *   The hex colour value of the y axis grid.
+	 *   The hex colour value of the y axis grid. 
 	 */
 	function y_axis_colour( $axis, $grid='' )
 	{
 		$this->y_axis_colour = $axis;
 
 		if( strlen( $grid ) > 0 )
-		$this->y_grid_colour = $grid;
+			$this->y_grid_colour = $grid;
 	}
 
 	/**
@@ -674,7 +678,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	 */
 	function y_right_axis_colour( $colour )
 	{
-		$this->y2_axis_colour = $colour;
+		 $this->y2_axis_colour = $colour;
 	}
 
 	/**
@@ -708,8 +712,8 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 			$description .= ','. $size;
 		}
 
-		if( $circles > 0 )
-		$description .= ','. $circles;
+		if( $circles > 0 ) 
+			$description .= ','. $circles;
 
 		$this->lines[$type] = $description;
 	}
@@ -735,7 +739,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		$description = "$width,$colour,$text";
 
 		if( strlen( $font_size ) > 0 )
-		$description .= ",$font_size,$dot_size";
+			$description .= ",$font_size,$dot_size";
 
 		$this->lines[$type] = $description;
 	}
@@ -761,7 +765,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		$description = "$width,$colour,$text";
 
 		if( strlen( $font_size ) > 0 )
-		$description .= ",$font_size,$dot_size";
+			$description .= ",$font_size,$dot_size";
 
 		$this->lines[$type] = $description;
 	}
@@ -791,10 +795,10 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		$description = "$width,$dot_size,$colour,$alpha";
 
 		if( strlen( $text ) > 0 )
-		$description .= ",$text,$font_size";
-
+			$description .= ",$text,$font_size";
+	
 		if( strlen( $fill_colour ) > 0 )
-		$description .= ','. $fill_colour;
+			$description .= ','. $fill_colour;
 
 		$this->lines[$type] = $description;
 	}
@@ -916,7 +920,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 
 		$this->lines[$type] = $description;
 	}
-
+	
 	function candle( $data, $alpha, $line_width, $colour, $text='', $size=-1 )
 	{
 		$type = 'candle'. $this->next_line();
@@ -924,14 +928,14 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		$description = $alpha .','. $line_width .','. $colour .','. $text .','. $size;
 
 		$this->lines[$type] = $description;
-
+		
 		$a = array();
 		foreach( $data as $can )
-		$a[] = $can->toString();
+			$a[] = $can->toString();
 			
 		$this->data[] = implode(',',$a);
 	}
-
+	
 	function hlc( $data, $alpha, $line_width, $colour, $text='', $size=-1 )
 	{
 		$type = 'hlc'. $this->next_line();
@@ -939,10 +943,10 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		$description = $alpha .','. $line_width .','. $colour .','. $text .','. $size;
 
 		$this->lines[$type] = $description;
-
+		
 		$a = array();
 		foreach( $data as $can )
-		$a[] = $can->toString();
+			$a[] = $can->toString();
 			
 		$this->data[] = implode(',',$a);
 	}
@@ -954,10 +958,10 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		$description = $line_width .','. $colour .','. $text .','. $size;
 
 		$this->lines[$type] = $description;
-
+		
 		$a = array();
 		foreach( $data as $can )
-		$a[] = $can->toString();
+			$a[] = $can->toString();
 			
 		$this->data[] = implode(',',$a);
 	}
@@ -967,22 +971,22 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	// Patch by, Jeremy Miller (14th Nov, 2007)
 	//
 	/**
-	* Draw a pie chart.
-	*
-	* @param alpha an int argument.
-	*   The percentage of transparency of the pie colour.
-	* @param line_colour a string argument.
-	*   The hex colour value of the outline.
-	* @param label_colour a string argument.
-	*   The hex colour value of the label.
-	* @param gradient a boolean argument.
-	*   Use a gradient true or false.
-	* @param border_size an int argument.
-	*   Size of the border in pixels.
-	*/
-	function pie( $alpha, $line_colour, $label_colour, $gradient = true, $border_size = false )
+	 * Draw a pie chart.
+	 *
+	 * @param alpha an int argument.
+	 *   The percentage of transparency of the pie colour.
+	 * @param $style a string argument.
+	 *   CSS style string
+	 * @param label_colour a string argument.
+	 *   The hex colour value of the label.
+	 * @param gradient a boolean argument.
+	 *   Use a gradient true or false.
+	 * @param border_size an int argument.
+	 *   Size of the border in pixels.
+	 */
+	function pie( $alpha, $line_colour, $style, $gradient = true, $border_size = false )
 	{
-		$this->pie = $alpha.','.$line_colour.','.$label_colour;
+		$this->pie = $alpha.','.$line_colour.','.$style;
 		if( !$gradient )
 		{
 			$this->pie .= ','.!$gradient;
@@ -1006,7 +1010,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	 *   An array of the labels for the pie pieces.
 	 * @param links an array argument.
 	 *   An array of the links to the pie pieces.
-	 */
+	 */	
 	function pie_values( $values, $labels=array(), $links=array() )
 	{
 		$this->pie_values = implode(',',$values);
@@ -1024,23 +1028,27 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	{
 		$this->pie_colours = implode(',',$colours);
 	}
-
+	
 
 	/**
 	 * Render the output.
 	 */
-	function render($output_type = '')
+	function render()
 	{
 		$tmp = array();
+		
+		//echo headers_sent() ?'yes':'no';
+		if( !headers_sent() )
+			header('content-type: text; charset: utf-8');
 
-		if($output_type == 'js')
+		if($this->output_type == 'js')
 		{
-			$this->increment_occurence();
-
-			$tmp[] = '<div id="my_chart' . $this->occurence . '"></div>';
-			$tmp[] = '<script type="text/javascript" src="' . $this->base . 'swfobject.js"></script>';
+			$this->set_unique_id();
+		
+			$tmp[] = '<div id="' . $this->unique_id . '"></div>';
+			$tmp[] = '<script type="text/javascript" src="' . $this->js_path . 'swfobject.js"></script>';
 			$tmp[] = '<script type="text/javascript">';
-			$tmp[] = 'var so = new SWFObject("open-flash-chart.swf", "ofc", "'. $this->width . '", "' . $this->height . '", "9", "#FFFFFF");';
+			$tmp[] = 'var so = new SWFObject("' . $this->swf_path . 'open-flash-chart.swf", "ofc", "'. $this->width . '", "' . $this->height . '", "9", "#FFFFFF");';
 			$tmp[] = 'so.addVariable("variables","true");';
 		}
 
@@ -1048,7 +1056,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		{
 			$values = $this->title;
 			$values .= ','. $this->title_style;
-			$tmp[] = $this->format_output($output_type,'title',$values);
+			$tmp[] = $this->format_output('title',$values);
 		}
 
 		if( strlen( $this->x_legend ) > 0 )
@@ -1056,129 +1064,129 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 			$values = $this->x_legend;
 			$values .= ','. $this->x_legend_size;
 			$values .= ','. $this->x_legend_colour;
-			$tmp[] = $this->format_output($output_type,'x_legend',$values);
+			$tmp[] = $this->format_output('x_legend',$values);
 		}
-
+	
 		if( strlen( $this->x_label_style ) > 0 )
-		$tmp[] = $this->format_output($output_type,'x_label_style',$this->x_label_style);
-
+			$tmp[] = $this->format_output('x_label_style',$this->x_label_style);
+	
 		if( $this->x_tick_size > 0 )
-		$tmp[] = $this->format_output($output_type,'x_ticks',$this->x_tick_size);
+			$tmp[] = $this->format_output('x_ticks',$this->x_tick_size);
 
 		if( $this->x_axis_steps > 0 )
-		$tmp[] = $this->format_output($output_type,'x_axis_steps',$this->x_axis_steps);
+			$tmp[] = $this->format_output('x_axis_steps',$this->x_axis_steps);
 
 		if( strlen( $this->x_axis_3d ) > 0 )
-		$tmp[] = $this->format_output($output_type,'x_axis_3d',$this->x_axis_3d);
-
+			$tmp[] = $this->format_output('x_axis_3d',$this->x_axis_3d);
+		
 		if( strlen( $this->y_legend ) > 0 )
-		$tmp[] = $this->format_output($output_type,'y_legend',$this->y_legend);
-
+			$tmp[] = $this->format_output('y_legend',$this->y_legend);
+		
 		if( strlen( $this->y_legend_right ) > 0 )
-		$tmp[] = $this->format_output($output_type,'y2_legend',$this->y_legend_right);
+			$tmp[] = $this->format_output('y2_legend',$this->y_legend_right);
 
 		if( strlen( $this->y_label_style ) > 0 )
-		$tmp[] = $this->format_output($output_type,'y_label_style',$this->y_label_style);
+			$tmp[] = $this->format_output('y_label_style',$this->y_label_style);
 
 		$values = '5,10,'. $this->y_steps;
-		$tmp[] = $this->format_output($output_type,'y_ticks',$values);
+		$tmp[] = $this->format_output('y_ticks',$values);
 
 		if( count( $this->lines ) == 0 && count($this->data_sets)==0 )
 		{
-			$tmp[] = $this->format_output($output_type,$this->line_default['type'],$this->line_default['values']);
+			$tmp[] = $this->format_output($this->line_default['type'],$this->line_default['values']);	
 		}
 		else
 		{
 			foreach( $this->lines as $type=>$description )
-			$tmp[] = $this->format_output($output_type,$type,$description);
+				$tmp[] = $this->format_output($type,$description);	
 		}
-
+	
 		$num = 1;
 		foreach( $this->data as $data )
 		{
 			if( $num==1 )
 			{
-				$tmp[] = $this->format_output($output_type, 'values', $data);
+				$tmp[] = $this->format_output( 'values', $data);
 			}
 			else
 			{
-				$tmp[] = $this->format_output($output_type,'values_'. $num, $data);
+				$tmp[] = $this->format_output('values_'. $num, $data);
 			}
-
+		
 			$num++;
 		}
-
+		
 		$num = 1;
 		foreach( $this->links as $link )
 		{
 			if( $num==1 )
 			{
-				$tmp[] = $this->format_output($output_type, 'links', $link);
+				$tmp[] = $this->format_output( 'links', $link);
 			}
 			else
 			{
-				$tmp[] = $this->format_output($output_type,'links_'. $num, $link);
+				$tmp[] = $this->format_output('links_'. $num, $link);
 			}
-
+		
 			$num++;
 		}
 
 		if( count( $this->y2_lines ) > 0 )
 		{
-			$tmp[] = $this->format_output($output_type,'y2_lines',implode( ',', $this->y2_lines ));
+			$tmp[] = $this->format_output('y2_lines',implode( ',', $this->y2_lines ));
 			//
 			// Should this be an option? I think so...
 			//
-			$tmp[] = $this->format_output($output_type,'show_y2','true');
+			$tmp[] = $this->format_output('show_y2','true');
 		}
 
 		if( count( $this->x_labels ) > 0 )
-		$tmp[] = $this->format_output($output_type,'x_labels',implode(',',$this->x_labels));
+			$tmp[] = $this->format_output('x_labels',implode(',',$this->x_labels));
 		else
 		{
 			if( strlen($this->x_min) > 0 )
-			$tmp[] = $this->format_output($output_type,'x_min',$this->x_min);
-
+				$tmp[] = $this->format_output('x_min',$this->x_min);
+				
 			if( strlen($this->x_max) > 0 )
-			$tmp[] = $this->format_output($output_type,'x_max',$this->x_max);
+				$tmp[] = $this->format_output('x_max',$this->x_max);			
 		}
-
-		$tmp[] = $this->format_output($output_type,'y_min',$this->y_min);
-		$tmp[] = $this->format_output($output_type,'y_max',$this->y_max);
+		
+		$tmp[] = $this->format_output('y_min',$this->y_min);
+		$tmp[] = $this->format_output('y_max',$this->y_max);
 
 		if( strlen($this->y2_min) > 0 )
-		$tmp[] = $this->format_output($output_type,'y2_min',$this->y2_min);
+			$tmp[] = $this->format_output('y2_min',$this->y2_min);
 			
 		if( strlen($this->y2_max) > 0 )
-		$tmp[] = $this->format_output($output_type,'y2_max',$this->y2_max);
-
+			$tmp[] = $this->format_output('y2_max',$this->y2_max);
+		
 		if( strlen( $this->bg_colour ) > 0 )
-		$tmp[] = $this->format_output($output_type,'bg_colour',$this->bg_colour);
+			$tmp[] = $this->format_output('bg_colour',$this->bg_colour);
 
 		if( strlen( $this->bg_image ) > 0 )
 		{
-			$tmp[] = $this->format_output($output_type,'bg_image',$this->bg_image);
-			$tmp[] = $this->format_output($output_type,'bg_image_x',$this->bg_image_x);
-			$tmp[] = $this->format_output($output_type,'bg_image_y',$this->bg_image_y);
+			$tmp[] = $this->format_output('bg_image',$this->bg_image);
+			$tmp[] = $this->format_output('bg_image_x',$this->bg_image_x);
+			$tmp[] = $this->format_output('bg_image_y',$this->bg_image_y);
 		}
 
 		if( strlen( $this->x_axis_colour ) > 0 )
 		{
-			$tmp[] = $this->format_output($output_type,'x_axis_colour',$this->x_axis_colour);
-			$tmp[] = $this->format_output($output_type,'x_grid_colour',$this->x_grid_colour);
+			$tmp[] = $this->format_output('x_axis_colour',$this->x_axis_colour);
+			$tmp[] = $this->format_output('x_grid_colour',$this->x_grid_colour);
 		}
 
 		if( strlen( $this->y_axis_colour ) > 0 )
-		$tmp[] = $this->format_output($output_type,'y_axis_colour',$this->y_axis_colour);
+			$tmp[] = $this->format_output('y_axis_colour',$this->y_axis_colour);
 
 		if( strlen( $this->y_grid_colour ) > 0 )
-		$tmp[] = $this->format_output($output_type,'y_grid_colour',$this->y_grid_colour);
-
+			$tmp[] = $this->format_output('y_grid_colour',$this->y_grid_colour);
+  
 		if( strlen( $this->y2_axis_colour ) > 0 )
-		$tmp[] = $this->format_output($output_type,'y2_axis_colour',$this->y2_axis_colour);
-
+			$tmp[] = $this->format_output('y2_axis_colour',$this->y2_axis_colour);
+		
 		if( strlen( $this->x_offset ) > 0 )
-		$tmp[] = $this->format_output($output_type,'x_offset',$this->x_offset);
+			$tmp[] = $this->format_output('x_offset',$this->x_offset);
 
 		if( strlen( $this->inner_bg_colour ) > 0 )
 		{
@@ -1188,53 +1196,203 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 				$values .= ','. $this->inner_bg_colour_2;
 				$values .= ','. $this->inner_bg_angle;
 			}
-			$tmp[] = $this->format_output($output_type,'inner_background',$values);
+			$tmp[] = $this->format_output('inner_background',$values);
 		}
-
+	
 		if( strlen( $this->pie ) > 0 )
 		{
-			$tmp[] = $this->format_output($output_type,'pie',$this->pie);
-			$tmp[] = $this->format_output($output_type,'values',$this->pie_values);
-			$tmp[] = $this->format_output($output_type,'pie_labels',$this->pie_labels);
-			$tmp[] = $this->format_output($output_type,'colours',$this->pie_colours);
-			$tmp[] = $this->format_output($output_type,'links',$this->pie_links);
+			$tmp[] = $this->format_output('pie',$this->pie);
+			$tmp[] = $this->format_output('values',$this->pie_values);
+			$tmp[] = $this->format_output('pie_labels',$this->pie_labels);
+			$tmp[] = $this->format_output('colours',$this->pie_colours);
+			$tmp[] = $this->format_output('links',$this->pie_links);
 		}
 
 		if( strlen( $this->tool_tip ) > 0 )
-		$tmp[] = $this->format_output($output_type,'tool_tip',$this->tool_tip);
+			$tmp[] = $this->format_output('tool_tip',$this->tool_tip);
 			
 			
-
+		
 		if( strlen( $this->y_format ) > 0 )
-		$tmp[] = $this->format_output($output_type,'y_format',$this->y_format);
+			$tmp[] = $this->format_output('y_format',$this->y_format);
 			
 		if( strlen( $this->num_decimals ) > 0 )
-		$tmp[] = $this->format_output($output_type,'num_decimals',$this->num_decimals);
+			$tmp[] = $this->format_output('num_decimals',$this->num_decimals);
 			
 		if( strlen( $this->is_fixed_num_decimals_forced ) > 0 )
-		$tmp[] = $this->format_output($output_type,'is_fixed_num_decimals_forced',$this->is_fixed_num_decimals_forced);
+			$tmp[] = $this->format_output('is_fixed_num_decimals_forced',$this->is_fixed_num_decimals_forced);
 			
 		if( strlen( $this->is_decimal_separator_comma ) > 0 )
-		$tmp[] = $this->format_output($output_type,'is_decimal_separator_comma',$this->is_decimal_separator_comma);
+			$tmp[] = $this->format_output('is_decimal_separator_comma',$this->is_decimal_separator_comma);
 			
 		if( strlen( $this->is_thousand_separator_disabled ) > 0 )
-		$tmp[] = $this->format_output($output_type,'is_thousand_separator_disabled',$this->is_thousand_separator_disabled);
+			$tmp[] = $this->format_output('is_thousand_separator_disabled',$this->is_thousand_separator_disabled);
 
 
 		$count = 1;
 		foreach( $this->data_sets as $set )
 		{
-			$tmp[] = $set->toString( $output_type, $count>1?'_'.$count:'' );
+			$tmp[] = $set->toString( $this->output_type, $count>1?'_'.$count:'' );
 			$count++;
 		}
-
-		if($output_type == 'js')
+		
+		if($this->output_type == 'js')
 		{
-			$tmp[] = 'so.write("my_chart' . $this->occurence . '");';
+			$tmp[] = 'so.write("' . $this->unique_id . '");';
 			$tmp[] = '</script>';
 		}
-
+		
 		return implode("\r\n",$tmp);
+	}
+}
+
+class line
+{
+	var $line_width;
+	var $colour;
+	var $_key;
+	var $key;
+	var $key_size;
+	// hold the data
+	var $data;
+	// extra tool tip info:
+	var $tips;
+	
+	function line( $line_width, $colour )
+	{
+		$this->var = 'line';
+		
+		$this->line_width = $line_width;
+		$this->colour = $colour;
+		$this->data = array();
+		$this->links = array();
+		$this->tips = array();
+		$this->_key = false;
+	}
+
+
+	function key( $key, $size )
+	{
+		$this->_key = true;
+		$this->key = graph::esc( $key );
+		$this->key_size = $size;
+	}
+	
+	function add( $data )
+	{
+		$this->data[] = $data;
+	}
+	
+	function add_link( $data, $link )
+	{
+		$this->data[] = $data;
+		$this->links[] = graph::esc( $link );
+	}
+	
+	function add_data_tip( $data, $tip )
+	{
+		$this->data[] = $data;
+		$this->tips[] = graph::esc( $tip );
+	}
+	
+	function add_data_link_tip( $data, $link, $tip )
+	{
+		$this->data[] = $data;
+		$this->links[] = graph::esc( $link );
+		$this->tips[] = graph::esc( $tip );
+	}
+	
+	// return the variables for this chart
+	function _get_variable_list()
+	{
+		$values = array();
+		$values[] = $this->line_width;
+		$values[] = $this->colour;
+		
+		if( $this->_key )
+		{
+			$values[] = $this->key;
+			$values[] = $this->key_size;
+		}
+		
+		return $values;
+	}
+	
+	function toString( $output_type, $set_num )
+	{
+		$values = implode( ',', $this->_get_variable_list() );
+		
+		$tmp = array();
+		
+		if( $output_type == 'js' )
+		{
+			$tmp[] = 'so.addVariable("'. $this->var.$set_num .'","'. $values . '");'; 
+
+			$tmp[] = 'so.addVariable("values'. $set_num .'","'. implode( ',', $this->data ) .'");';
+			
+			if( count( $this->links ) > 0 )
+				$tmp[] = 'so.addVariable("links'. $set_num .'","'. implode( ',', $this->links ) .'");';
+				
+			if( count( $this->tips ) > 0 )
+				$tmp[] = 'so.addVariable("tool_tips_set'. $set_num .'","'. implode( ',', $this->tips ) .'");';
+
+		}
+		else
+		{
+			$tmp[]  = '&'. $this->var. $set_num .'='. $values .'&';
+			$tmp[] = '&values'. $set_num .'='. implode( ',', $this->data ) .'&';
+			
+			if( count( $this->links ) > 0 )
+				$tmp[] = '&links'. $set_num .'='. implode( ',', $this->links ) .'&';
+				
+			if( count( $this->tips ) > 0 )
+				$tmp[] = '&tool_tips_set'. $set_num .'='. implode( ',', $this->tips ) .'&';	
+		}
+
+		return implode( "\r\n", $tmp );
+	}
+}
+
+class line_hollow extends line
+{
+	var $dot_size;
+	
+	function line_hollow( $line_width, $dot_size, $colour )
+	{
+		parent::line( $line_width, $colour );
+		$this->var = 'line_hollow';
+		$this->dot_size = $dot_size;
+	}
+	
+	// return the variables for this chart
+	function _get_variable_list()
+	{
+		$values = array();
+		$values[] = $this->line_width;
+		$values[] = $this->colour;
+		
+		if( $this->_key )
+		{
+			$values[] = $this->key;
+			$values[] = $this->key_size;
+		}
+		else
+		{
+			$values[] = '';
+			$values[] = '';
+		}
+		$values[] = $this->dot_size;
+		
+		return $values;
+	}
+}
+
+class line_dot extends line_hollow
+{
+	function line_dot( $line_width, $dot_size, $colour )
+	{
+		parent::line_hollow( $line_width, $dot_size,$colour );
+		$this->var = 'line_dot';
 	}
 }
 
@@ -1248,15 +1406,18 @@ class bar
 	var $key;
 	var $key_size;
 	var $var;
-
+	// extra tool tip info:
+	var $tips;
+	
 	function bar( $alpha, $colour )
 	{
 		$this->var = 'bar';
-
+		
 		$this->alpha = $alpha;
 		$this->colour = $colour;
 		$this->data = array();
 		$this->links = array();
+		$this->tips = array();
 		$this->_key = false;
 	}
 
@@ -1266,13 +1427,24 @@ class bar
 		$this->key = graph::esc( $key );
 		$this->key_size = $size;
 	}
-
-	function add( $data, $link )
+	
+	function add( $data )
 	{
 		$this->data[] = $data;
-		$this->links[] = $link;
 	}
 
+	function add_link( $data, $link )
+	{
+		$this->data[] = $data;
+		$this->links[] = graph::esc( $link );
+	}
+	
+	function add_data_tip( $data, $tip )
+	{
+		$this->data[] = $data;
+		$this->tips[] = graph::esc( $tip );
+	}
+	
 	// return the variables for this
 	// bar chart
 	function _get_variable_list()
@@ -1280,44 +1452,50 @@ class bar
 		$values = array();
 		$values[] = $this->alpha;
 		$values[] = $this->colour;
-
+		
 		if( $this->_key )
 		{
 			$values[] = $this->key;
 			$values[] = $this->key_size;
 		}
-
+		
 		return $values;
 	}
-
+	
 	function toString( $output_type, $set_num )
 	{
 		$values = implode( ',', $this->_get_variable_list() );
-
+		
 		$tmp = array();
-
+		
 		if( $output_type == 'js' )
 		{
-			$tmp[] = 'so.addVariable("'. $this->var .'","'. $values . '");';
+			$tmp[] = 'so.addVariable("'. $this->var.$set_num .'","'. $values . '");'; 
 
 			$tmp[] = 'so.addVariable("values'. $set_num .'","'. implode( ',', $this->data ) .'");';
-				
+			
 			if( count( $this->links ) > 0 )
-			$tmp[] = 'so.addVariable("values'. $set_num .'","'. implode( ',', $this->links ) .'");';
+				$tmp[] = 'so.addVariable("links'. $set_num .'","'. implode( ',', $this->links ) .'");';
+				
+			if( count( $this->tips ) > 0 )
+				$tmp[] = 'so.addVariable("tool_tips_set'. $set_num .'","'. implode( ',', $this->tips ) .'");';
 
 		}
 		else
 		{
 			$tmp[]  = '&'. $this->var. $set_num .'='. $values .'&';
 			$tmp[] = '&values'. $set_num .'='. implode( ',', $this->data ) .'&';
-				
+			
 			if( count( $this->links ) > 0 )
-			$tmp[] = '&links'. $set_num .'='. implode( ',', $this->links ) .'&';
+				$tmp[] = '&links'. $set_num .'='. implode( ',', $this->links ) .'&';
+				
+			if( count( $this->tips ) > 0 )
+				$tmp[] = '&tool_tips_set'. $set_num .'='. implode( ',', $this->tips ) .'&';	
 		}
 
 		return implode( "\r\n", $tmp );
 	}
-
+	
 }
 
 class bar_3d extends bar
@@ -1341,14 +1519,14 @@ class bar_fade extends bar
 class bar_outline extends bar
 {
 	var $outline_colour;
-
+	
 	function bar_outline( $alpha, $colour, $outline_colour )
 	{
 		parent::bar( $alpha, $colour );
 		$this->var = 'filled_bar';
 		$this->outline_colour = $outline_colour;
 	}
-
+	
 	// override the base method
 	function _get_variable_list()
 	{
@@ -1356,13 +1534,13 @@ class bar_outline extends bar
 		$values[] = $this->alpha;
 		$values[] = $this->colour;
 		$values[] = $this->outline_colour;
-
+		
 		if( $this->_key )
 		{
 			$values[] = $this->key;
 			$values[] = $this->key_size;
 		}
-
+		
 		return $values;
 	}
 }
@@ -1383,14 +1561,14 @@ class bar_glass extends bar_outline
 class bar_sketch extends bar_outline
 {
 	var $offset;
-
+	
 	function bar_sketch( $alpha, $offset, $colour, $outline_colour )
 	{
 		parent::bar_outline( $alpha, $colour, $outline_colour );
 		$this->var = 'bar_sketch';
 		$this->offset = $offset;
 	}
-
+	
 	// override the base method
 	function _get_variable_list()
 	{
@@ -1399,13 +1577,13 @@ class bar_sketch extends bar_outline
 		$values[] = $this->offset;
 		$values[] = $this->colour;
 		$values[] = $this->outline_colour;
-
+		
 		if( $this->_key )
 		{
 			$values[] = $this->key;
 			$values[] = $this->key_size;
 		}
-
+		
 		return $values;
 	}
 }
@@ -1413,7 +1591,7 @@ class bar_sketch extends bar_outline
 class candle
 {
 	var $out;
-
+	
 	function candle( $high, $open, $close, $low )
 	{
 		$this->out = array();
@@ -1422,7 +1600,7 @@ class candle
 		$this->out[] = $close;
 		$this->out[] = $low;
 	}
-
+	
 	function toString()
 	{
 		return '['. implode( ',', $this->out ) .']';
@@ -1432,7 +1610,7 @@ class candle
 class hlc
 {
 	var $out;
-
+	
 	function hlc( $high, $low, $close )
 	{
 		$this->out = array();
@@ -1440,7 +1618,7 @@ class hlc
 		$this->out[] = $low;
 		$this->out[] = $close;
 	}
-
+	
 	function toString()
 	{
 		return '['. implode( ',', $this->out ) .']';
@@ -1450,7 +1628,7 @@ class hlc
 class point
 {
 	var $out;
-
+	
 	function point( $x, $y, $size_px )
 	{
 		$this->out = array();
@@ -1458,10 +1636,12 @@ class point
 		$this->out[] = $y;
 		$this->out[] = $size_px;
 	}
-
+	
 	function toString()
 	{
 		return '['. implode( ',', $this->out ) .']';
 	}
 }
- 
+
+// PIWIK SPECIAL ALIAS HACK - when updating Open Flash Chart, leave this line unchanged
+class graph extends Piwik_Visualization_OpenFlashChart {}

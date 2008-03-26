@@ -52,7 +52,7 @@ abstract class Piwik_Controller
 	protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
 	{
 		require_once "ViewDataTable/Graph.php";
-		$view = Piwik_ViewDataTable::factory(null, 'graphEvolution');
+		$view = Piwik_ViewDataTable::factory('graphEvolution');
 		$view->init( $currentModuleName, $currentControllerAction, $apiMethod );
 		
 		// if the date is not yet a nicely formatted date range ie. YYYY-MM-DD,YYYY-MM-DD we build it

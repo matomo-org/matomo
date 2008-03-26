@@ -9,16 +9,21 @@
  * @package Piwik_Visualization
  */
 
-// inspired from Derek Harvey (www.derekharvey.co.uk)
 
 /**
+ * Generates a tag cloud from a given data array.
+ * The generated tag cloud can be in PHP format, or in HTML. 
  *
+ * Inspired from Derek Harvey (www.derekharvey.co.uk)
+ * 
  * @package Piwik_Visualization
  */
 class Piwik_Visualization_Cloud
 {
 	protected $wordsArray = array();
+	
 	public $truncatingLimit = 30;
+	
 	/**
 	 * @param array array( word => 10, word2 => 50, word3 => 1)
 	 */
@@ -83,8 +88,7 @@ class Piwik_Visualization_Cloud
 	 * Get the class range using a percentage
 	 *
 	 * @returns int $class
-	 */
-	 
+	 */	 
 	function getClassFromPercent($percent)
 	{
 		$mapping = array(

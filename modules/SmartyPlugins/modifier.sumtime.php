@@ -6,17 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Visualization
+ * @package SmartyPlugins
  */
 
 /**
- * Returns a string stating the number of days and hours from a number of seconds
+ * Returns a string that displays the number of days and hours from a number of seconds
  * 
- * Example
+ * How to use:
+ * {4200|sumtime} will display '1h 10min'
+ * 
+ * Examples:
  * - 10 gives "10s"
  * - 4200 gives "1h 10min"
  * - 86400 gives "1 day"
  * - 90600 gives "1 day 1h" (it is exactly 1day 1h 10min but we truncate)
+ * 
+ * @return string
+ * 
  */
 function smarty_modifier_sumtime($string)
 {

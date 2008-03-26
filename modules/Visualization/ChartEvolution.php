@@ -12,6 +12,7 @@
 require_once "Visualization/Chart.php";
 
 /**
+ * Customize the Evolution chart style for the flash graph
  * 
  * @package Piwik_Visualization
  *
@@ -21,11 +22,41 @@ class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
 	
 	function customizeGraph()
 	{
-		//TODO add this call in other child
 		parent::customizeGraph();
 		$this->prepareData();
 		$this->set_y_max( $this->maxData );
-		$this->set_data( $this->arrayData );
+		
+		$line_1 = new line_hollow( 1, 3, '0x3357A0' );
+		$line_1->key( 'visits', 10 );
+		
+		$i = 0;
+		foreach($this->arrayData as $value)
+		{
+			// hack until we have proper date handling
+			$spacePosition = strpos($this->arrayLabel[$i],' ');
+			if($spacePosition === false)
+			{
+				$spacePosition = strlen($this->arrayLabel[$i]);
+			}
+			
+			// generate the link on the dot
+			// links to the given day statistics
+			$link = Piwik_Url::getCurrentScriptName() 
+							. Piwik_Url::getCurrentQueryStringWithParametersModified( array(
+										'date' => substr($this->arrayLabel[$i],0,$spacePosition),
+										'module' => 'Home',
+										'action' => 'index',
+										'viewDataTable' => null// we reset the viewDataTable parameter (useless in the link)
+										));
+										
+//			$link = 'http://piwik.org';
+			
+			$line_1->add_link($value, $link );
+			$i++;
+		}
+		$this->data_sets[] = $line_1;
+		
+		
 		$this->set_x_labels( $this->arrayLabel );
 		$this->area_hollow( 1, 3, 4,'0x3357A0',  ' visits', 10 );	
 	}

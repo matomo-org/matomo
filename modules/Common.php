@@ -239,7 +239,6 @@ class Piwik_Common
 	}
 
 	/**
-	 * get the visitor os
 	 *
 	 * @param string $userAgent
 	 * @param array $osList
@@ -263,7 +262,6 @@ class Piwik_Common
 	}
 
 	/**
-	 * get visitor browser
 	 *
 	 * @param string $userAgent
 	 * @return array array(  'name' 			=> '',

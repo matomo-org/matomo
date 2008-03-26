@@ -41,7 +41,7 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 			$table = $this->table;
 		}
 		$rows = $table->getRows();
-						
+		
 		foreach($rows as $key => $row)
 		{
 			// A row is deleted if
