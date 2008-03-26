@@ -10,6 +10,8 @@
  */
 
 /**
+ * This class generates the HTML code to embed to flash graphs in the page.
+ * It doesn't call the API but simply prints the html snippet.
  * 
  * @package Piwik_ViewDataTable
  *
@@ -20,7 +22,10 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 	protected $height = 250;
 	protected $graphType = 'standard';
 	
-	
+	/**
+	 * @see Piwik_ViewDataTable::init()
+	 *
+	 */
 	function init($currentControllerName,
 						$currentControllerAction, 
 						$moduleNameAndMethod )
@@ -29,8 +34,7 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 						$currentControllerAction, 
 						$moduleNameAndMethod );
 		$this->dataTableTemplate = 'Home/templates/graph.tpl';
-//		var_dump($currentControllerName);
-//		var_dump($currentControllerAction);
+		
 		$this->disableOffsetInformation();
 		$this->disableExcludeLowPopulation();
 		$this->disableSearchBox();
@@ -44,11 +48,20 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		);
 	}
 	
+	/**
+	 * Sets parameters to modify in the future generated URL
+	 *
+	 * @param array $array array('nameParameter' => $newValue, ...)
+	 */
 	public function setParametersToModify($array)
 	{
 		$this->parametersToModify = array_merge($this->parametersToModify, $array);
 	}
 	
+	/**
+	 * @see Piwik_ViewDataTable::main()
+	 *
+	 */
 	public function main()
 	{
 		if($this->mainAlreadyExecuted)
@@ -59,28 +72,24 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 		
 		$view = new Piwik_View($this->dataTableTemplate);
 		$this->id = $this->getUniqIdTable();
-		$view->id = $this->id;
-		$view->method = $this->method;
 		$view->graphType = $this->graphType;
 
 		$this->parametersToModify['action'] = $this->currentControllerAction;
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($this->parametersToModify);
 		$view->jsInvocationTag = $this->getFlashInvocationCode($url);
-//		print($url);exit;
 		$view->urlData = $url;
 		
 		$view->formId = "formEmbed".$this->id;
 		$view->codeEmbed = $this->codeEmbed;
 		
+		$view->id = $this->id;
+		$view->method = $this->method;
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-		$view->showFooter = $this->showFooter;
+		$view->showFooter = $this->getShowFooter();
 		$this->view = $view;
 	}
 	
-	//TODO change $use_swfobject = true
-	public function getFlashInvocationCode(
-			$url = 'libs/open-flash-chart/data-files/nodata.txt',
-			$use_swfobject = true  )
+	protected function getFlashInvocationCode( $url = 'libs/open-flash-chart/data-files/nodata.txt', $use_swfobject = true  )
 	{ 
 		$width = $this->width; 
 		$height = $this->height; 
@@ -129,7 +138,8 @@ abstract class Piwik_ViewDataTable_Graph extends Piwik_ViewDataTable
 }
 
 /**
- * 
+ * Generates HTML embed for the Evolution graph
+ *  
  * @package Piwik_ViewDataTable
  *
  */
@@ -152,11 +162,12 @@ class Piwik_ViewDataTable_Graph_ChartEvolution extends Piwik_ViewDataTable_Graph
 						$currentControllerAction, 
 						$moduleNameAndMethod );
 		
-		$this->parametersToModify['date'] = 'last30';
+		$this->setParametersToModify(array('date' => 'last30'));
 		$this->doNotShowFooter();
 	}
 }
 /**
+ * Generates HTML embed for the Pie chart
  * 
  * @package Piwik_ViewDataTable
  *
@@ -170,6 +181,8 @@ class Piwik_ViewDataTable_Graph_ChartPie extends Piwik_ViewDataTable_Graph
 }
 
 /**
+ * 
+ * Generates HTML embed for the vertical bar chart
  * 
  * @package Piwik_ViewDataTable
  *

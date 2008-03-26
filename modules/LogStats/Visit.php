@@ -17,8 +17,8 @@
  * - If a visit is KNOWN then we update the visit row in the log_visit table, updating the number of pages
  * views, time spent, etc.
  * 
- * Whether a visit is NEW or KNOWN we also save the action in the DB. One request to the piwik.php script
- * is associated to one action.
+ * Whether a visit is NEW or KNOWN we also save the action in the DB. 
+ * One request to the piwik.php script is associated to one action.
  * 
  * @package Piwik_LogStats
  */

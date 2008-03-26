@@ -11,6 +11,7 @@
  */
 
 require_once 'SitesManager/API.php';
+
 /**
  * Class to handle User Access.
  * In Piwik there are mainly 4 access levels
@@ -30,8 +31,6 @@ require_once 'SitesManager/API.php';
  * There is only one Super User ; he has ADMIN access to all the websites
  * and he only can change the main configuration settings.
  *
- * TODO This class should be in the Login plugin
- * This class should instead be an interface to be implemented by a Login plugin for other types of authentication (ldpa,openid,etc.)
  * @package Piwik
  */
 

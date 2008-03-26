@@ -12,11 +12,14 @@
 require_once "Visualization/OpenFlashChart.php";
 
 /**
+ * Generates the data in the Open Flash Chart format, from the given data.
+ * Uses Open flash chart PHP library @see Piwik_Visualization_OpenFlashChart
  * 
  * @package Piwik_Visualization
  */
 abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashChart
 {
+	
 	protected $dataGraph = array();
 	
 	function setData($data)

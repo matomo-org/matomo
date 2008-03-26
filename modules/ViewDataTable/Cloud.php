@@ -11,14 +11,21 @@
 
 require_once "Visualization/Cloud.php";
 
-/**
+/** 
+ * Reads the requested DataTable from the API, and prepares the data to give 
+ * to Piwik_Visualization_Cloud that will display the tag cloud (via the template cloud.tpl).
  * 
  * @package Piwik_ViewDataTable
  *
  */
 class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 {
+	//TODO test this
 	protected $displayLogoInsteadOfLabel = false;
+	
+	/**
+	 * @see Piwik_ViewDataTable::init()
+	 */
 	function init($currentControllerName,
 						$currentControllerAction, 
 						$moduleNameAndMethod )
@@ -32,6 +39,10 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		$this->disableExcludeLowPopulation();
 	}
 	
+	/**
+	 * @see Piwik_ViewDataTable::main()
+	 *
+	 */
 	public function main()
 	{
 		$this->setLimit( 30 );
@@ -52,18 +63,13 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		
 		
 		$view = new Piwik_View($this->dataTableTemplate);
-		$view->method = $this->method;
 		
-		$view->id 			= $this->getUniqIdTable();
-		
-		
-		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-//		echo $this->dataTable; exit;
 		$words = $labelDetails = array();
 		foreach($this->dataTable->getRows() as $row)
 		{
 			$label = $row->getColumn('label');
 			$value = $row->getColumn('nb_uniq_visitors');
+			
 			// case no unique visitors
 			if($value === false)
 			{
@@ -95,7 +101,10 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		$view->labelDetails = $labelDetails;
 		$view->cloudValues = $cloudValues;
 		
-		$view->showFooter = $this->showFooter;
+		$view->method = $this->method;
+		$view->id = $this->getUniqIdTable();
+		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
+		$view->showFooter = $this->getShowFooter();
 		$this->view = $view;
 	}
 }

@@ -12,6 +12,8 @@ require_once "Visualization/Chart.php";
 
 /**
  * 
+ * Customize the Pie chart style for the flash graph
+ * 
  * @package Piwik_Visualization
  */
 class Piwik_Visualization_ChartPie extends Piwik_Visualization_Chart

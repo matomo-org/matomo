@@ -18,7 +18,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setLimit( 15 );
 		$view->disableSort();
 		
-		$view->main();
 		return $this->renderView($view, $fetch);
 	}
 	function getDownloadsSubDataTable($fetch = false)
@@ -75,7 +74,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setLimit( 15 );
 		$view->disableSort();
 		
-		$view->main();
 		return $this->renderView($view, $fetch);
 	}
 	function getOutlinksSubDataTable($fetch = false)
@@ -93,7 +91,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setLimit( 15 );
 		$view->disableSort();
 		
-		$view->main();
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -126,9 +123,8 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		{
 			$view->setTemplate('Home/templates/datatable_actions_subdatable.tpl');
 		}
-		$view->setSearchRecursive();
+		$currentlySearching = $view->setSearchRecursive();
 		
-		$currentlySearching = $view->setRecursiveLoadDataTableIfSearchingForPattern();
 		if($currentlySearching)
 		{
 			$view->setTemplate('Home/templates/datatable_actions_recursive.tpl');

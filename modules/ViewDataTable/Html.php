@@ -11,15 +11,32 @@
 
 /**
  * 
+ * Outputs an AJAX Table for a given DataTable.
+ * 
+ * Reads the requested DataTable from the API.
+ * 
  * @package Piwik_ViewDataTable
  *
  */
 class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 {
+	/**
+	 * Array of columns names to display
+	 *
+	 * @var array
+	 */
 	protected $columnsToDisplay = array();
 	
+	/**
+	 * PHP array conversion of the Piwik_DataTable 
+	 *
+	 * @var array
+	 */
 	public $arrayDataTable; // phpArray
 	
+	/**
+	 * @see Piwik_ViewDataTable::init()
+	 */
 	function init($currentControllerName,
 						$currentControllerAction, 
 						$moduleNameAndMethod,						
@@ -30,8 +47,14 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 						$moduleNameAndMethod,						
 						$actionToLoadTheSubTable);
 		$this->dataTableTemplate = 'Home/templates/datatable.tpl';
+		
+		$this->variablesDefault['enable_sort'] = true;
 	}
 	
+	/**
+	 * @see Piwik_ViewDataTable::main()
+	 *
+	 */
 	public function main()
 	{
 		if($this->mainAlreadyExecuted)
@@ -54,7 +77,6 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		
 		$view = new Piwik_View($this->dataTableTemplate);
 		
-		$view->id 			= $this->getUniqIdTable();
 		
 		// We get the PHP array converted from the DataTable
 		$phpArray = $this->getPHPArrayFromDataTable();
@@ -74,16 +96,19 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		
 		$view->nbColumns = $nbColumns;
 		
+		$view->id = $this->getUniqIdTable();
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-		
-		$view->showFooter = $this->showFooter;
-		
+		$view->showFooter = $this->getShowFooter();
 		$this->view = $view;
 	}
 
-	protected function getPHPArrayFromDataTable( )
-	{
-		
+	/**
+	 * Returns friendly php array from the Piwik_DataTable
+	 * @see Piwik_DataTable_Renderer_Php
+	 * @return array
+	 */
+	protected function getPHPArrayFromDataTable()
+	{		
 		$renderer = Piwik_DataTable_Renderer::factory('php');
 		$renderer->setTable($this->dataTable);
 		$renderer->setSerialize( false );
@@ -91,15 +116,27 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		// but conserving the original datatable format, which means rows 'columns', 'details' and 'idsubdatatable'
 		$phpArray = $renderer->originalRender();
 		return $phpArray;
-	}
-
+	}	
 	
-	
-	public function setColumnsToDisplay( $arrayIds)
+	/**
+	 * Sets the columns that will be displayed in the HTML output
+	 * By default all columns are displayed ($columnsNames = array() will display all columns)
+	 * 
+	 * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
+	 */
+	public function setColumnsToDisplay( $columnsNames)
 	{
-		$this->columnsToDisplay = $arrayIds;
+		$this->columnsToDisplay = $columnsNames;
 	}
 	
+	/**
+	 * Returns array(
+	 * 				array('id' => 1, 'name' => 'nb_visits'),
+	 * 				array('id' => 3, 'name' => 'nb_uniq_visitors'),
+	 *
+	 * @param array PHP array conversion of the data table
+	 * @return array
+	 */
 	protected function getColumnsToDisplay($phpArray)
 	{
 		$dataTableColumns = array();
@@ -119,6 +156,13 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		return $dataTableColumns;
 	}
 
+	/**
+	 * Returns true if the given column (id = $idColumn or name = $nameColumn) is set to be displayed.
+	 *
+	 * @param int $idColumn
+	 * @param string $nameColumn
+	 * @return bool
+	 */
 	protected function isColumnToDisplay( $idColumn, $nameColumn )
 	{
 		// we return true
@@ -133,13 +177,34 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		return false;
 	}
 
+	/**
+	 * Sets the columns in the HTML table as not sortable (they are not clickable) 
+	 *
+	 * @return void
+	 */
+	public function disableSort()
+	{
+		$this->variablesDefault['enable_sort'] = 'false';		
+	}
+		
+	/**
+	 * Sets the search on a table to be recursive (also searches in subtables)
+	 * Works only on Actions/Downloads/Outlinks tables.
+	 *
+	 * @return bool If the pattern for a recursive search was set in the URL
+	 */
 	public function setSearchRecursive()
 	{
 		$this->variablesDefault['search_recursive'] = true;
+		return $this->setRecursiveLoadDataTableIfSearchingForPattern();
 	}
 	
-	
-	public function setRecursiveLoadDataTableIfSearchingForPattern()
+	/**
+	 * Set the flag to load the datatable recursively so we can search on subtables as well
+	 *
+	 * @return bool if recursive search is enabled
+	 */
+	protected function setRecursiveLoadDataTableIfSearchingForPattern()
 	{
 		try{
 			$requestValue = Piwik_Common::getRequestVar('filter_column_recursive');

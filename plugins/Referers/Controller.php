@@ -57,7 +57,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	 */
 	function getRefererType( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory(null, 'cloud');
+		$view = Piwik_ViewDataTable::factory('cloud');
 		$view->init( $this->pluginName,  	
 									'getRefererType', 
 									'Referers.getRefererType'
@@ -81,6 +81,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 											'getSearchEnginesFromKeywordId'
 								);
 		$view->disableExcludeLowPopulation();
+		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 
 		return $this->renderView($view, $fetch);

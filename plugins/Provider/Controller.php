@@ -16,7 +16,6 @@ class Piwik_Provider_Controller extends Piwik_Controller
 		$view->setSortedColumn( 1 );
 		$view->setLimit( 5 );
 		
-		$view->main();
 		return $this->renderView($view, $fetch);
 	}
 	
