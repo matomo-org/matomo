@@ -60,4 +60,3 @@ Piwik_FrontController::$enableDispatch = ENABLE_DISPATCH;
 $controller = Piwik_FrontController::getInstance();
 $controller->init();
 $controller->dispatch();
-$controller->end();

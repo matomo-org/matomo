@@ -13,19 +13,27 @@ require_once "Zend/Config/Ini.php";
 require_once "Zend/Registry.php";
 
 /**
- * TODO rewrite__set __get __destruct
- * tests: install 
- * test dashboard has been installed (means config file written dashboard in PluginsInstalled
- * test activate/deactivate plugins
- * rewrite logic behind saving arrays, very bad at the moment
+ * This class is used to access configuration files values.
+ * You can also set these values, the updated configuration files will be written at the end of the script execution.
+ * 
+ * Example reading a value from the configuration file:
+ * 	$minValue = Zend_Registry::get('config')->General->minimumMemoryLimit;
+ * 
+ * will read the value minimumMemoryLimit under the [General] section of the config file
  * 
  * @package Piwik_Helper
  */
 class Piwik_Config
 {
+	/**
+	 * When the user modifies the configuration file and there is one value missing, we suggest the default config file
+	 *
+	 * @var string
+	 */
 	protected $urlToPiwikHelpMissingValueInConfigurationFile = 
 		'http://dev.piwik.org/trac/browser/trunk/config/global.ini.php?format=raw';
 
+	
 	protected $defaultConfig 				= null;
 	protected $userConfig 					= null;
 	protected $pathIniFileUserConfig 		= null;
@@ -33,17 +41,32 @@ class Piwik_Config
 	protected $configFileUpdated 			= false;
 	public    $doWriteFileWhenUpdated		= true;
 	
-	// see http://bugs.php.net/bug.php?id=34206
+	/**
+	 * Storing the correct cwd() because the value is not correct in the destructor
+	 * "The working directory in the script shutdown phase can be different with some SAPIs (e.g. Apache)."
+	 * 
+	 * @see http://bugs.php.net/bug.php?id=34206
+	 */
 	protected $correctCwd;
 	
+	/**
+	 * Returns default relative path for configuration file
+	 *
+	 * @return string
+	 */
 	static public function getDefaultUserConfigPath()
 	{
 		return PIWIK_INCLUDE_PATH . '/config/config.ini.php';
 	}
 
+	/**
+	 * Builds the Config object, given the optional path for the user INI file
+	 * If not specified, it will use the default path
+	 *
+	 * @param string $pathIniFileUserConfig
+	 */
 	function __construct($pathIniFileUserConfig = null)
 	{
-
 		Zend_Registry::set('config', $this);
 		
 		$this->pathIniFileDefaultConfig = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
@@ -63,11 +86,15 @@ class Piwik_Config
 			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
 		}
 		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
-		$this->setPrefixTables();
 		
 		// see http://bugs.php.net/bug.php?id=34206
 		$this->correctCwd = getcwd();
 	}
+	
+	/**
+	 * At the script shutdown, we save the new configuration file, if the user has set some values 
+	 *
+	 */
 	function __destruct()
 	{
 		// saves the config file if changed
@@ -123,18 +150,28 @@ class Piwik_Config
 		}
 	}
 	
+	/**
+	 * If called, we use the "testing" environment, which means using the database_tests and log_tests sections 
+	 * for DB & Log configuration.
+	 * 
+	 * @return void
+	 *
+	 */
 	public function setTestEnvironment()
 	{
 		$this->database = $this->database_tests;
 		$this->log = $this->log_tests;
-		$this->setPrefixTables();
 	}
 	
-	private function setPrefixTables()
-	{		
-		Zend_Registry::set('tablesPrefix', $this->database->tables_prefix);
-	}
-	
+	/**
+	 * Called when setting configuration values eg. 
+	 * 	Zend_Registry::get('config')->superuser = $_SESSION['superuser_infos'];
+	 *
+	 * The values will be saved in the configuration file at the end of the script @see __destruct()
+	 * 
+	 * @param string $name
+	 * @param mixed $value
+	 */
 	public function __set($name, $value)
 	{
 		if(!is_null($this->userConfig))
@@ -151,6 +188,14 @@ class Piwik_Config
 		}
 	}
 	
+	/**
+	 * Called when getting a configuration value, eg. 	Zend_Registry::get('config')->superuser->login
+	 *
+	 * @param string $name
+	 * @return mixed value 
+	 * 
+	 * @throws exception if the value was not found in the configuration file
+	 */
 	public function __get($name)
 	{
 		if( !is_null($this->userConfig)

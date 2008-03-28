@@ -11,14 +11,10 @@
 
 
 /**
- * Simple class to handle the cookies.
- * Its features are:
- * 
+ * Simple class to handle the cookies:
  * - read a cookie values
  * - edit an existing cookie and save it
  * - create a new cookie, set values, expiration date, etc. and save it
- * 
- * The cookie content is saved in an optimized way.
  * 
  * @package Piwik_Helper
  */
@@ -117,6 +113,8 @@ class Piwik_Cookie
 	
 	/**
 	 * We set the privacy policy header
+	 * 
+	 * @return void
 	 */
 	protected function setP3PHeader()
 	{
@@ -125,6 +123,8 @@ class Piwik_Cookie
 	
 	/**
 	 * Delete the cookie
+	 * 
+	 * @return void
 	 */
 	public function delete()
 	{
@@ -148,6 +148,8 @@ class Piwik_Cookie
 	 * Parses the cookie string to extract the different variables.
 	 * Unserialize the array when necessary.
 	 * Decode the non numeric values that were base64 encoded.
+	 * 
+	 * @return void
 	 */
 	protected function loadContentFromCookie()
 	{
@@ -181,8 +183,8 @@ class Piwik_Cookie
 	
 	/**
 	 * Returns the string to save in the cookie from the $this->value array of values.
-	 * It goes through the array and generate the cookie content string.
-	 * @return string Cookie string
+	 * It goes through the array and generates the cookie content string.
+	 * @return string Cookie content
 	 */
 	protected function generateContentString()
 	{

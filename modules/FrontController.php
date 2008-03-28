@@ -14,7 +14,6 @@
  * Zend classes
  */
 require_once "Zend/Exception.php";
-require_once "Zend/Loader.php";
 require_once "Zend/Auth.php";
 require_once "Zend/Auth/Adapter/DbTable.php";
 
@@ -32,20 +31,36 @@ require_once "Translate.php";
 require_once "Url.php";
 require_once "Controller.php";
 
-require_once "Menu.php";
-require_once "AdminMenu.php";
-require_once "Widget.php";
+require_once "PluginsFunctions/Menu.php";
+require_once "PluginsFunctions/AdminMenu.php";
+require_once "PluginsFunctions/Widget.php";
+require_once "PluginsFunctions/Sql.php";
 
 /**
+ * Front controller.
+ * This is the class hit in the first place.
+ * It dispatches the request to the right controller.
  * 
+ * For a detailed explanation, see the documentation on http://dev.piwik.org/trac/wiki/MainSequenceDiagram
  * 
  * @package Piwik
  */
 class Piwik_FrontController
 {
+	/**
+	 * Set to false and the Front Controller will not dispatch the request
+	 *
+	 * @var bool
+	 */
 	static public $enableDispatch = true;
 	
-	static private $instance = null;	
+	static private $instance = null;
+	
+	/**
+	 * returns singleton
+	 * 
+	 * @return Piwik_FrontController
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
@@ -56,6 +71,17 @@ class Piwik_FrontController
 		return self::$instance;
 	}
 	
+	/**
+	 * Dispatches the request to the right plugin and executes the requested action on the plugin controller.
+	 * 
+	 * @throws Exception in case the plugin doesn't exist, the action doesn't exist, there is not enough permission, etc.
+	 *
+	 * @param string $module
+	 * @param string $action
+	 * @param array $parameters
+	 * @return mixed The returned value of the calls, often nothing as the module print but don't return data
+	 * @see fetchDispatch() 
+	 */
 	function dispatch( $module = null, $action = null, $parameters = null)
 	{
 		if( self::$enableDispatch === false)
@@ -125,6 +151,15 @@ class Piwik_FrontController
 		}
 	}
 	
+	/**
+	 * Often plugins controller display stuff using echo/print.
+	 * Using this function instead of dispath() returns the output form the actions calls.
+	 *
+	 * @param string $controllerName
+	 * @param string $actionName
+	 * @param array $parameters
+	 * @return string
+	 */
 	function fetchDispatch( $controllerName = null, $actionName = null, $parameters = null)
 	{
 		ob_start();
@@ -138,7 +173,11 @@ class Piwik_FrontController
 	    return $output;
 	}
 	
-	function end()
+	/**
+	 * Called at the end of the page generation
+	 *
+	 */
+	function __destruct()
 	{
 		try {
 			Piwik::printZendProfiler();
@@ -148,9 +187,14 @@ class Piwik_FrontController
 //		Piwik::printMemoryUsage();
 //		Piwik::printTimer();
 //		Piwik::uninstall();
-
 	}
 	
+	/**
+	 * Checks that the directories Piwik needs write access are actually writable
+	 * Displays a nice error page if permissions are missing on some directories
+	 * 
+	 * @return void
+	 */
 	protected function checkDirectoriesWritableOrDie()
 	{
 		$resultCheck = Piwik::checkDirectoriesWritable( );
@@ -231,6 +275,16 @@ class Piwik_FrontController
 		}
 	}
 	
+	/**
+	 * Must be called before dispatch()
+	 * - checks that directories are writable,
+	 * - loads the configuration file,
+	 * - loads the plugin, 
+	 * - inits the DB connection,
+	 * - etc.
+	 * 
+	 * @return void 
+	 */
 	function init()
 	{
 		Zend_Registry::set('timer', new Piwik_Timer);
@@ -303,7 +357,11 @@ class Piwik_FrontController
 		Zend_Registry::get('access')->loadAccess();					
 	}
 }
-
+/**
+ * Exception thrown when the requested plugin is not activated in the config file
+ *
+ * @package Piwik
+ */
 // TODO organize exceptions
 class Exception_PluginDeactivated extends Exception
 {

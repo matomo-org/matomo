@@ -10,6 +10,9 @@
  */
 
 /**
+ * Class used by the logging script piwik.php called by the javascript tag.
+ * Handles the visitor & his/her actions on the website, saves the data in the DB, saves information in the cookie, etc.
+ * 
  * To maximise the performance of the logging module, we use different techniques.
  * 
  * On the PHP-only side:
@@ -31,9 +34,6 @@
  * [ - use a partitionning by date for the tables ]
  *   
  * - handle the timezone settings??
- * 
- * [ - country detection plugin => ip lookup ]
- * [ - precise country detection plugin ]
  * 
  * We could also imagine a batch system that would read a log file every 5min,
  * and which prepares the file containg the rows to insert, then we load DATA INFILE 

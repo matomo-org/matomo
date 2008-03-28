@@ -130,11 +130,47 @@ require_once "DataTable/Manager.php";
 
 class Piwik_DataTable
 {	
+	/**
+	 * Array of Piwik_DataTable_Row
+	 *
+	 * @var array
+	 */
 	protected $rows = array();
+	
+	/**
+	 * Id assigned to the DataTable, used to lookup the table using the DataTable_Manager
+	 *
+	 * @var int
+	 */
 	protected $currentId;
+	
+	/**
+	 * Current depth level of this data table
+	 * 0 is the parent data table
+	 * 
+	 * @var int
+	 */
 	protected $depthLevel = 0;
+	
+	/**
+	 * This flag is set to false once we modify the table in a way that outdates the index 
+	 * 
+	 * @var bool
+	 */
 	protected $indexNotUpToDate = false;
+	
+	/**
+	 * List of Piwik_DataTable_Filter queued to this table
+	 *
+	 * @var array
+	 */
 	protected $queuedFilters = array();
+	
+	/**
+	 * We keep track of the number of rows before applying the LIMIT filter that deletes some rows
+	 *
+	 * @var int
+	 */
 	protected $rowsCountBeforeLimitFilter = 0;
 	
 	/**
@@ -144,13 +180,27 @@ class Piwik_DataTable
 	 */
 	protected $enableRecursiveSort = false;
 	
+	/**
+	 * Maximum nesting level
+	 * 
+	 * @var int
+	 */
 	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 20;
 	
+	/**
+	 * Builds the DataTable, registers itself to the manager
+	 *
+	 */
 	public function __construct()
 	{
 		$this->currentId = Piwik_DataTable_Manager::getInstance()->addTable($this);
 	}
 	
+	/**
+	 * Sort the dataTable rows using the php callback function 
+	 *
+	 * @param string $functionCallback
+	 */
 	public function sort( $functionCallback )
 	{
 		$this->indexNotUpToDate = true;
@@ -170,11 +220,22 @@ class Piwik_DataTable
 		}
 	}
 	
+	/**
+	 * Enables the recursive sort. Means that when using $table->sort() 
+	 * it will also sort all subtables using the same callback
+	 * 
+	 * @return void
+	 */
 	public function enableRecursiveSort()
 	{
 		$this->enableRecursiveSort = true;
 	}
 	
+	/**
+	 * Returns the number of rows before we applied the limit filter
+	 *
+	 * @return int
+	 */
 	public function getRowsCountBeforeLimitFilter()
 	{
 		$toReturn = $this->rowsCountBeforeLimitFilter;
@@ -185,6 +246,12 @@ class Piwik_DataTable
 		return $toReturn;
 	}
 	
+	/**
+	 * Saves the current number of rows
+	 * 
+	 * @return void
+	 *
+	 */
 	function setRowsCountBeforeLimitFilter()
 	{
 		$this->rowsCountBeforeLimitFilter = $this->getRowsCount();
@@ -206,6 +273,11 @@ class Piwik_DataTable
 		$this->queuedFilters[] = array('className' => $className, 'parameters' => $parameters);
 	}
 	
+	/**
+	 * Apply all filters that were previously queued to this table
+	 * @see queueFilter()
+	 * @return void
+	 */
 	public function applyQueuedFilters()
 	{
 		foreach($this->queuedFilters as $filter)
@@ -225,28 +297,12 @@ class Piwik_DataTable
 		}
 		$this->queuedFilters = array();
 	}
-	
-	public function rebuildIndex()
-	{
-		foreach($this->getRows() as $id => $row)
-		{
-			$label = $row->getColumn('label');
 		
-			if($label !== false)
-			{
-				$this->rowsIndexByLabel[$label] = $id;
-			}
-		}
-		
-		$this->indexNotUpToDate = false;
-	}
-	
-	
 	/**
-	 * Add a new DataTable to this DataTable
+	 * Adds a new DataTable to this DataTable
 	 * Go through all the rows of the new DataTable and applies the algorithm:
-	 * - if a row in $table doesnt exist in $this we add the row to $this
-	 * - if a row exists in both $table and $this we add the columns values into $this
+	 * - if a row in $table doesnt exist in $this we add the new row to $this
+	 * - if a row exists in both $table and $this we sum the columns values into $this
 	 * 
 	 * A common row to 2 DataTable is defined by the same label
 	 * 
@@ -262,7 +318,7 @@ class Piwik_DataTable
 			$labelToLookFor = $row->getColumn('label');
 			$rowFound = $this->getRowFromLabel( $labelToLookFor );
 			
-			// the row with this label already exists
+			// the row with this label not found
 			if($rowFound === false)
 			{
 				$this->addRow( $row );
@@ -286,8 +342,8 @@ class Piwik_DataTable
 	/**
 	 * Returns the Piwik_DataTable_Row that has a column 'label' with the value $label
 	 *
-	 * @param string $label
-	 * @return Piwik_DataTable_Row|false The row
+	 * @param string $label Value of the column 'label' of the row to return
+	 * @return Piwik_DataTable_Row|false The row if found, false otherwise
 	 */
 	public function getRowFromLabel( $label )
 	{
@@ -304,6 +360,12 @@ class Piwik_DataTable
 		return $this->rows[$this->rowsIndexByLabel[$label]];
 	}
 	
+	/**
+	 * Returns the ith row in the array
+	 *
+	 * @param int $id
+	 * @return Piwik_DataTable_Row or false if not found
+	 */
 	public function getRowFromId($id)
 	{
 		if(!isset($this->rows[$id]))
@@ -313,27 +375,32 @@ class Piwik_DataTable
 		return $this->rows[$id];
 	}
 
-	public function __destruct()
-	{
-		unset($this->rows);
-	}
-
 	/**
 	 * Shortcut function used for performance reasons
+	 * 
+	 * @param Piwik_DataTable_Row $row to add at the end of the array
 	 */
-	public function addRow( $row )
+	public function addRow( Piwik_DataTable_Row $row )
 	{
 		$this->rows[] = $row;	
 		$this->indexNotUpToDate = true;
 	}
 	
+	/**
+	 * Returns the dataTable ID
+	 *
+	 * @return int
+	 */
 	public function getId()
 	{
 		return $this->currentId;
 	}
 		
 	/**
+	 * Adds a new row from a PHP array data structure
 	 * You should use loadFromArray for performance!
+	 * 
+	 * @param array $row, eg. array(Piwik_DataTable_Row::COLUMNS => array( 'visits' => 13, 'test' => 'toto'),)
 	 */
 	public function addRowFromArray( $row )
 	{
@@ -341,7 +408,10 @@ class Piwik_DataTable
 	}
 	
 	/**
+	 * Adds a new row a PHP array data structure
 	 * You should use loadFromSimpleArray for performance!
+	 * 
+	 * @param array $row, eg.  array('name' => 'google analytics', 'license' => 'commercial')
 	 */
 	public function addRowFromSimpleArray( $row )
 	{
@@ -357,14 +427,22 @@ class Piwik_DataTable
 	{
 		return $this->rows;
 	}
+	
 	/**
-	 * Returns the number of rows 
+	 * Returns the number of rows in the table
+	 * 
+	 * @return int
 	 */
 	public function getRowsCount()
 	{
 		return count($this->rows);
 	}
 	
+	/**
+	 * Returns the first row of the DataTable
+	 *
+	 * @return Piwik_DataTable_Row
+	 */
 	public function getFirstRow()
 	{
 		if(count($this->rows) == 0)
@@ -378,6 +456,8 @@ class Piwik_DataTable
 	/**
 	 * Returns the sum of the number of rows of all the subtables 
 	 * 		+ the number of rows in the parent table
+	 * 
+	 * @return int
 	 */
 	public function getRowsCountRecursive()
 	{
@@ -386,7 +466,6 @@ class Piwik_DataTable
 		{
 			if(($idSubTable = $row->getIdSubDataTable()) !== null)
 			{
-				
 				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
 				$count = $subTable->getRowsCountRecursive();
 				$totalCount+=$count;
@@ -396,6 +475,12 @@ class Piwik_DataTable
 		$totalCount += $this->getRowsCount();
 		return $totalCount;
 	}
+	
+	/**
+	 * Delete a given column $name in all the rows
+	 *
+	 * @param string $name
+	 */
 	public function deleteColumn( $name )
 	{
 		foreach($this->getRows() as $row)
@@ -403,15 +488,29 @@ class Piwik_DataTable
 			$row->deleteColumn($name);
 		}
 	}
-	public function deleteRow( $key )
+	
+	/**
+	 * Deletes the ith row 
+	 *
+	 * @param int $key
+	 * @throws Exception if the row $id cannot be found
+	 */
+	public function deleteRow( $id )
 	{
-		if(!isset($this->rows[$key]))
+		if(!isset($this->rows[$id]))
 		{
-			throw new Exception("Trying to delete unknown row with idkey = $key");
+			throw new Exception("Trying to delete unknown row with idkey = $id");
 		}
-		unset($this->rows[$key]);
+		unset($this->rows[$id]);
 	}
 	
+	/**
+	 * Deletes all row from offset, offset + limit.
+	 * If limit is null then limit = $table->getRowsCount()
+	 *
+	 * @param int $offset
+	 * @param int $limit
+	 */
 	public function deleteRowsOffset( $offset, $limit = null )
 	{
 		if(is_null($limit))
@@ -421,6 +520,12 @@ class Piwik_DataTable
 		array_splice($this->rows, $offset, $limit);
 	}
 	
+	/**
+	 * Deletes the rows from the list of rows ID 
+	 *
+	 * @param array $aKeys ID of the rows to delete
+	 * @throws Exception if any of the row to delete couldn't be found
+	 */
 	public function deleteRows( array $aKeys )
 	{
 		foreach($aKeys as $key)
@@ -429,14 +534,27 @@ class Piwik_DataTable
 		}
 	}
 	
+	/**
+	 * Returns a simple output of the DataTable for easy visualization
+	 * Example: echo $datatable;
+	 *
+	 * @return string
+	 */
 	public function __toString()
 	{
 		$renderer = new Piwik_DataTable_Renderer_Console($this);
 		return (string)$renderer;
 	}
 	
-	
-	static public function isEqual($table1, $table2)
+	/**
+	 * Returns true if both DataTable are exactly the same.
+	 * Used in unit tests.
+	 * 
+	 * @param Piwik_DataTable $table1
+	 * @param Piwik_DataTable $table2
+	 * @return bool
+	 */
+	static public function isEqual(Piwik_DataTable $table1, Piwik_DataTable $table2)
 	{
 		$rows1 = $table1->getRows();
 		$rows2 = $table2->getRows();
@@ -471,16 +589,18 @@ class Piwik_DataTable
 	/**
 	 * The serialization returns a one dimension array containing all the 
 	 * serialized DataTable contained in this DataTable.
+	 * We save DataTable in serialized format in the Database.
+	 * Each row of this returned PHP array will be a row in the DB table.
 	 * 
 	 * The keys of the array are very important as they are used to define the DataTable
-	 * For the example the key 3 is used in the array corresponding to the key 2 
-	 * because the key 3 is the array which is a child of the array corresponding to the key 2
 	 * 
 	 * IMPORTANT: The main table (level 0, parent of all tables) will always be indexed by 0
 	 * 	even it was created after some other tables.
 	 * 	It also means that all the parent tables (level 0) will be indexed with 0 in their respective 
 	 *  serialized arrays. You should never lookup a parent table using the getTable( $id = 0) as it 
 	 *  won't work.
+	 * 
+	 * @throws Exception if an infinite recursion is found (a table row's has a subtable that is one of its parent table)
 	 * 
 	 * @return array Serialized arrays	
 	 * 			array( 	// Datatable level0
@@ -537,18 +657,20 @@ class Piwik_DataTable
 	}
 	 
 	 /**
-	  * Load a serialized string.
+	  * Load a serialized string of a datatable.
 	  * 
 	  * Does not load recursively all the sub DataTable.
 	  * They will be loaded only when requesting them specifically.
 	  * 
-	  * The function creates the DataTable_Row
+	  * The function creates all the necessary DataTable_Row
 	  * 
+	  * @param string Serialized string of a datatable
+	  * @return void
 	  */
 	public function loadFromSerialized( $stringSerialized )
 	{
 		$serialized = unserialize($stringSerialized);
-		if($serialized===false)
+		if($serialized === false)
 		{
 			throw new Exception("The unserialization has failed!");
 		}
@@ -556,7 +678,7 @@ class Piwik_DataTable
 	}
 		 
 	/**
-	 * Load the data from a PHP array 
+	 * Loads the DataTable from a PHP array data structure
 	 * 
 	 * @param array Array with the following structure
 	 * 			array(
@@ -571,8 +693,7 @@ class Piwik_DataTable
 	 * 				array( ... ), 
 	 * 				
 	 * 			)
-	 * 
-	 * @see DataTable_Row::loadFromArray for the row structures
+	 * @return void
 	 */
 	public function loadFromArray( $array )
 	{
@@ -588,9 +709,9 @@ class Piwik_DataTable
 	}
 	
 	/**
-	 * Load the data from a simple php array.
-	 * Basically maps a simple multidimensional php php array to a DataTable.
-	 * Not recursive (if a row contains a php array itself, it won't work well...)
+	 * Loads the data from a simple php array.
+	 * Basically maps a simple multidimensional php array to a DataTable.
+	 * Not recursive (if a row contains a php array itself, it won't be loaded)
 	 * 
 	 * @param array Array with the simple structure:
 	 * 		array(
@@ -599,10 +720,7 @@ class Piwik_DataTable
 	 *		)
 	 */
 	public function loadFromSimpleArray( $array )
-	{
-//		var_dump($array);exit;
-		
-		
+	{		
 		// we define an exception we may throw if at one point we notice that we cannot handle the data structure
 		$e = new Exception(" Data structure returned is not convertible in the requested format.".
 						" Try to call this method with the parameters '&format=original&serialize=1'".
@@ -615,6 +733,7 @@ class Piwik_DataTable
 		// with val* that are never arrays (only strings/numbers/bool/etc.)
 		// if we detect such a "simple" data structure we convert it to a row with the correct columns' names
 		$rowBuilt = array(); $thisIsNotThatSimple = false;
+		
 		foreach($array as $columnName => $columnValue )
 		{
 			if(is_array($columnValue) || is_object($columnValue)) 
@@ -624,6 +743,7 @@ class Piwik_DataTable
 			}
 			$rowBuilt += array($columnName => $columnValue );
 		}
+		
 		if($thisIsNotThatSimple === false)
 		{
 			$this->addRow( new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => $rowBuilt ) ) );
@@ -673,7 +793,7 @@ class Piwik_DataTable
 	}
 	
 	/**
-	 * Rewrite the input $array 
+	 * Rewrites the input $array 
 	 * array (
 	 * 	 LABEL => array(col1 => X, col2 => Y),
 	 * 	 LABEL2 => array(col1 => X, col2 => Y),
@@ -702,6 +822,10 @@ class Piwik_DataTable
 	 * 		),
 	 * )
 	 * 
+	 * @param array $array See method description
+	 * @param array|null $subtablePerLabel see method description
+	 * 
+	 * @return void
 	 */
 	public function loadFromArrayLabelIsKey( $array, $subtablePerLabel = null)
 	{
@@ -725,12 +849,37 @@ class Piwik_DataTable
 			$this->addRow( new Piwik_DataTable_Row($cleanRow) );
 		}
 	}
-}
+	
 
-
-function Piwik_DataTable_orderRowByLabel($o1,$o2)
-{
-	return strcmp($o1->getColumn('label'), $o2->getColumn('label'));
+	/**
+	 * Rebuilds the index used to lookup a row by label
+	 *
+	 * @return void
+	 */
+	protected function rebuildIndex()
+	{
+		foreach($this->getRows() as $id => $row)
+		{
+			$label = $row->getColumn('label');
+		
+			if($label !== false)
+			{
+				$this->rowsIndexByLabel[$label] = $id;
+			}
+		}
+		
+		$this->indexNotUpToDate = false;
+	}
+	
+	/**
+	 * At destruction we try to free memory
+	 * But php doesn't give us much control on this
+	 */
+	public function __destruct()
+	{
+		unset($this->rows);
+	}
+	
 }
 
 /**

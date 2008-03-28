@@ -10,10 +10,18 @@
  */
 
 /**
+ * Piwik_ViewDataTable must create a $view attribute which implements this interface.
  * 
  * @package Piwik_Visualization
  */
 interface Piwik_iView
 {
+	/**
+	 * Outputs the data.
+	 * Either outputs html, xml, an image, nothing, etc.
+	 * 
+	 * @return mixed
+	 *
+	 */
 	function render();
 }

@@ -16,25 +16,36 @@ require_once 'ArchiveProcessing.php';
 require_once 'Archive/Single.php';
 
 /**
- * Architecture
- * - *ArchiveProcessing* entity : handle all the computation on an archive / create & delete archive
- * - *Archive* entity: 
- * 		contains the information on an archive, 
- * 		uses the ArchiveProcessing if necessary
- * 		small overhead so we can instanciate many objects of this class for example one for each day 
- * 			of the month
- * - *Website* entity: getId, getUrls, getFirstDay, etc.
- * + *Period* entity: composed of *Date* objects
- * + *Table* entity: serialize, unserialize, sort elements, limit number of elements
- * 		contains all the logic, data structure, etc.
- * 		receives data directly from the sql query via a known API
- * - The *ArchiveProcessing* saves in the DB *numbers* or *Table* objects
- *  
+ * The archive object is used to query specific data for a day or a period of statistics for a given website.
+ * 
+ * Example:
+ * <pre>
+ * 		$archive = Piwik_Archive::build($idSite = 1, $period = 'week', '2008-03-08' );
+ * 		$dataTable = $archive->getDataTable('Provider_hostnameExt');
+ * 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
+ * 		return $dataTable;
+ * </pre>
+ * 
+ * Example bis:
+ * <pre>
+ * 		$archive = Piwik_Archive::build($idSite = 3, $period = 'day', $date = 'today' );
+ * 		$nbVisits = $archive->getNumeric('nb_visits');
+ * 		return $nbVisits;		
+ * </pre>
+ * 
+ * If the requested statistics are not yet processed, Archive uses ArchiveProcessing to archive the statistics.
+ * 
  * @package Piwik
+ * @subpackage Piwik_Archive
  */
-
 abstract class Piwik_Archive
 {
+	/**
+	 * When saving DataTables in the DB, we sometimes replace the columns name by these IDs so we save up lots of bytes
+	 * Eg. INDEX_NB_UNIQ_VISITORS is an integer: 4 bytes, but 'nb_uniq_visitors' is 16 bytes at least
+	 * (in php it's actually even much more) 
+	 *
+	 */
 	const INDEX_NB_UNIQ_VISITORS = 1;
 	const INDEX_NB_VISITS = 2;
 	const INDEX_NB_ACTIONS = 3;
@@ -42,23 +53,35 @@ abstract class Piwik_Archive
 	const INDEX_SUM_VISIT_LENGTH = 5;
 	const INDEX_BOUNCE_COUNT = 6;
 
-	protected $alreadyChecked = false;
+	/**
+	 * Website Piwik_Site
+	 *
+	 * @var Piwik_Site
+	 */
 	protected $site = null;
-		
+	
+	/**
+	 * Stores the already built archives.
+	 * Act as a big caching array
+	 *
+	 * @var array of Piwik_Archive
+	 */
 	static protected $alreadyBuilt = array();
 	
 	/**
 	 * Builds an Archive object or returns the same archive if previously built.
 	 *
 	 * @param int $idSite
-	 * @param string|Piwik_Date $date 'YYYY-MM-DD' or magic keywords 'today' See Piwik_Date::factory
+	 * @param string|Piwik_Date $date 'YYYY-MM-DD' or magic keywords 'today' @see Piwik_Date::factory()
 	 * @param string $period 'week' 'day' etc.
+	 * 
 	 * @return Piwik_Archive
 	 */
 	static public function build($idSite, $period, $strDate )
 	{
 		$oSite = new Piwik_Site($idSite);
-			
+		
+		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
 		if(is_string($strDate) 
 			&& (
 				ereg('^(last|previous){1}([0-9]*)$', $strDate, $regs)
@@ -69,6 +92,7 @@ abstract class Piwik_Archive
 			require_once 'Archive/Array.php';
 			$archive = new Piwik_Archive_Array($oSite, $period, $strDate);
 		}
+		// case we request a single archive
 		else
 		{
 			if(is_string($strDate))
@@ -161,7 +185,7 @@ abstract class Piwik_Archive
 	abstract public function getDataTableExpanded($name, $idSubTable = null);
 
 	/**
-	 * Set the site
+	 * Sets the site
 	 *
 	 * @param Piwik_Site $site
 	 */
@@ -171,7 +195,7 @@ abstract class Piwik_Archive
 	}
 	
 	/**
-	 * Get the site
+	 * Gets the site
 	 *
 	 * @param Piwik_Site $site
 	 */

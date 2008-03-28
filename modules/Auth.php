@@ -10,7 +10,11 @@
  */
 
 /**
- *
+ * Authentication object.
+ * Should be reviewed and refactor to allow simple plugin overwrite
+ * See OpenId authentication plugin, using Zend_Auth_OpenId on http://dev.piwik.org/trac/ticket/160
+ * See Review the Login plugin to make it really modular  http://dev.piwik.org/trac/ticket/144
+ * 
  * @package Piwik
  */
 class Piwik_Auth extends Zend_Auth_Adapter_DbTable

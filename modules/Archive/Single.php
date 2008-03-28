@@ -11,7 +11,8 @@
  */
 
 /**
- * This class is used to store the data of a given archive.
+ * This class is used to store the data of a single archive, 
+ * for example the statistics for the 'day' '2008-02-21' for the website idSite '2' 
  *
  */
 class Piwik_Archive_Single extends Piwik_Archive
@@ -51,7 +52,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	protected $numericCached = array();
 	
-/**
+	/**
 	 * Array of cached blob, used to make requests faster when requesting the same blob again and again
 	 *
 	 * @var array of mixed
@@ -64,6 +65,13 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * @var int
 	 */
 	protected $idArchive = null;
+	
+	/**
+	 * Flag set to true once the archive has been checked (when we make sure it is archived)
+	 *
+	 * @var bool
+	 */
+	protected $alreadyChecked = false;
 	
 	/**
 	 * Returns the pretty date of this Archive, eg. 'Thursday 20th March 2008'
