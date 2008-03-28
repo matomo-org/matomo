@@ -20,25 +20,6 @@ require_once "ViewDataTable.php";
  */
 class Piwik_Dashboard_Controller extends Piwik_Controller
 {
-	function __construct()
-	{
-		parent::__construct();
-		
-		//TODO: copy paste of Home controller => should be refactored
-		//in a 'master' controller for statistics (tracs #91)
-		$this->strDate = Piwik_Common::getRequestVar('date', 'yesterday','string');
-		
-		// the date looks like YYYY-MM-DD we can build it
-		try{
-			$this->date = Piwik_Date::factory($this->strDate);
-			$this->strDate = $this->date->toString();
-		} catch(Exception $e){
-		// the date looks like YYYY-MM-DD,YYYY-MM-DD or other format
-			// case the date looks like a range
-			$this->date = null;
-		}
-	}
-	
 	function getListWidgets()
 	{
 		$widgets = Piwik_GetListWidgets();
