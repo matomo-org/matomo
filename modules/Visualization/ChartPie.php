@@ -31,9 +31,10 @@ class Piwik_Visualization_ChartPie extends Piwik_Visualization_Chart
 	    	$label = $this->arrayLabel[$i];
 			$this->arrayLabel[$i] = (strlen($label) > 20 ? substr($label, 0, 20).'...' : $label);
 	    }
-	    
+	    $this->set_x_label_style( 12, $this->x_axis_colour, 0, 2, $this->bg_colour );
+		
 		//
-		$this->pie(60,'#505050','#142448', true);
+		$this->pie(60,'#505050','{font-size: 12px; color: #142448}', true);
 		//
 		// pass in two arrays, one of data, the other data labels
 		//
