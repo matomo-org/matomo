@@ -68,6 +68,7 @@ class Piwik_Actions_API extends Piwik_Apiable
 		$dataTable = $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'url', create_function('$url', 'return $url;')));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromActionsUrl'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_truncateActionsPath'));
 		
 		return $dataTable;
 	}
@@ -77,6 +78,7 @@ class Piwik_Actions_API extends Piwik_Apiable
 		$dataTable = $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'url', create_function('$url', 'return $url;')));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromActionsUrl'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_truncateActionsPath'));
 		return $dataTable;
 	}
 }
@@ -99,7 +101,7 @@ function Piwik_getPathFromActionsUrl($url)
 	return $url;
 }
 
-function Piwik_truncatePath( $path )
+function Piwik_truncateActionsPath( $path )
 {
 	$limit = 27;
 	$path = htmlspecialchars_decode($path);
