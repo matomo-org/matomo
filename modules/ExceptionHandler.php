@@ -10,8 +10,9 @@
  */
 
 require_once "modules/Piwik.php";
+
 /**
- * 
+ * Exception handler used to display nicely exceptions in Piwik
  * 
  * @package Piwik_Helper
  */

@@ -19,13 +19,25 @@ require_once "DataTable/Array.php";
  */
 class Piwik_Archive_Array extends Piwik_Archive
 {	
-	// this array contains one Piwik_Archive per entry in the period
+	/**
+	 * This array contains one Piwik_Archive per entry in the period
+	 * 
+	 * @var array
+	 */
 	protected $archives = array();
 	
-	// stores the timestamp of each archive, used to sort the archives by date
+	/**
+	 * Stores the timestamp of each archive, this is used for sorting the archives by date
+	 * 
+	 * @var array pairs(id,timestamp)
+	 */
 	protected $idArchiveToTimestamp = array();
 	
-	// array containing the id of the archives stored in this object
+	/**
+	 * Array containing the id of the archives stored in this object
+	 * 
+	 * @var array
+	 */
 	protected $idArchives = array();
 	
 	/**

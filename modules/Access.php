@@ -13,7 +13,10 @@
 require_once 'SitesManager/API.php';
 
 /**
- * Class to handle User Access.
+ * Class to handle User Access:
+ * - loads user access from the DB
+ * - make it easy to check that the current user has specific permissions (see check* methods)
+ * 
  * In Piwik there are mainly 4 access levels
  * - no access
  * - VIEW access
@@ -36,16 +39,42 @@ require_once 'SitesManager/API.php';
 
 class Piwik_Access
 {
-	private $accesssByIdsite = null;
-	private $idsitesByAccess = null;
-	private $identity = null; //login
-	private $isSuperUser = false;
+	/**
+	 * Array of pairs (idsite => accessLevel) for each site available to this user
+	 *
+	 * @var array
+	 */
+	protected $accessByIdsite = null;
+	
+	/**
+	 * Array of idsites available to the current user, indexed by permission level
+	 * @see getSitesIdWith*()
+	 *
+	 * @var array
+	 */
+	protected $idsitesByAccess = null;
+	
+	/**
+	 * Login of the current user
+	 *
+	 * @var string
+	 */
+	protected $identity = null;
+	
+	/**
+	 * Defines if the current user is the super user
+	 * @see isSuperUser()
+	 * 
+	 * @var bool
+	 */
+	protected $isSuperUser = false;
 
-	public function isSuperUser()
-	{
-		return $this->isSuperUser;
-	}
-
+	
+	/**
+	 * List of available permissions in Piwik
+	 *
+	 * @var array
+	 */
 	static private $availableAccess = array('noaccess', 'view', 'admin', 'superuser');
 
 	/**
@@ -61,18 +90,19 @@ class Piwik_Access
 	/**
 	 * @param Piwik_Auth The authentification object
 	 */
-	public function __construct( $auth )
+	public function __construct( Piwik_Auth $auth )
 	{
 		$this->auth = $auth;
 	}
 
 	/**
-	 * Load the access levels for the current user.
+	 * Loads the access levels for the current user.
 	 *
-	 * First call the authentication method to try to log the user in the system.
+	 * Calls the authentication method to try to log the user in the system.
 	 * If the user credentials are not correct we don't load anything.
 	 * If the login/password is correct the user is either the SuperUser or a normal user.
 	 * We load the access levels for this user for all the websites.
+	 * 
 	 */
 	public function loadAccess()
 	{
@@ -120,9 +150,19 @@ class Piwik_Access
 		$this->accessByIdsite = $accessByIdsite;
 		$this->idsitesByAccess = $idsitesByAccess;
 	}
-
+	
 	/**
-	 * Returns the user login
+	 * Returns true if the current user is logged in as the super user
+	 *
+	 * @return bool
+	 */
+	public function isSuperUser()
+	{
+		return $this->isSuperUser;
+	}
+	
+	/**
+	 * Returns the current user login
 	 * @return string
 	 */
 	public function getIdentity()
@@ -173,7 +213,8 @@ class Piwik_Access
 	}
 
 	/**
-	 * Throws an exception if the user is  not the SuperUser
+	 * Throws an exception if the user is not the SuperUser
+	 * 
 	 * @throws Exception
 	 */
 	public function checkUserIsSuperUser()
@@ -186,6 +227,7 @@ class Piwik_Access
 
 	/**
 	 * If the user doesn't have an ADMIN access for at least one website, throws an exception
+	 * 
 	 * @throws Exception
 	 */
 	public function checkUserHasSomeAdminAccess()
@@ -200,6 +242,7 @@ class Piwik_Access
 	/**
 	 * This method checks that the user has ADMIN access for the given list of websites.
 	 * If the user doesn't have ADMIN access for at least one website of the list, we throw an exception.
+	 * 
 	 * @param int|arrayOfIntegers List of ID sites to check
 	 * @throws Exception If for any of the websites the user doesn't have an ADMIN access
 	 */
@@ -223,6 +266,7 @@ class Piwik_Access
 	/**
 	 * This method checks that the user has VIEW or ADMIN access for the given list of websites.
 	 * If the user doesn't have VIEW or ADMIN access for at least one website of the list, we throw an exception.
+	 * 
 	 * @param int|arrayOfIntegers List of ID sites to check
 	 * @throws Exception If for any of the websites the user doesn't have an VIEW or ADMIN access
 	 */
@@ -246,6 +290,8 @@ class Piwik_Access
 
 /**
  *
+ * Exception thrown when a user doesn't  have sufficient access.
+ * 
  * @package Piwik
  */
 class Piwik_Access_NoAccessException extends Exception

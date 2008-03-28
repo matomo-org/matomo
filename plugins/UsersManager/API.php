@@ -9,8 +9,6 @@
  * @package Piwik_UsersManager
  */
 
-Zend_Loader::loadClass("Piwik_Access");
-
 /**
  * 
  * @package Piwik_UsersManager

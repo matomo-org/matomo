@@ -10,10 +10,9 @@
  */
 
 /**
- * Static class providing functions used by both the CORE of Piwik and the
- * visitor logging engine.
+ * Static class providing functions used by both the CORE of Piwik and the visitor logging engine.
  *
- * This is the only external class loaded by the Piwik.php file.
+ * This is the only external class loaded by the /piwik.php file.
  * This class should contain only the functions that are used in
  * both the CORE and the piwik.php statistics logging engine.
  *
@@ -21,6 +20,10 @@
  */
 class Piwik_Common
 {
+	/**
+	 * Const used to map the referer type to an integer in the log_visit table
+	 *
+	 */
 	const REFERER_TYPE_DIRECT_ENTRY		= 1;
 	const REFERER_TYPE_SEARCH_ENGINE	= 2;
 	const REFERER_TYPE_WEBSITE			= 3;
@@ -28,9 +31,21 @@ class Piwik_Common
 	const REFERER_TYPE_NEWSLETTER		= 5;
 	const REFERER_TYPE_CAMPAIGN			= 6;
 
+	/**
+	 * Flag used with htmlspecialchar
+	 * See php.net/htmlspecialchars
+	 *
+	 */
 	const HTML_ENCODING_QUOTE_STYLE		= ENT_COMPAT;
 
 
+	/**
+	 * Returns the path and query part from a URL.
+	 * Eg. http://piwik.org/test/index.php?module=Home will return /test/index.php?module=Home
+	 *
+	 * @param string $url either http://piwik.org/test or /
+	 * @return string
+	 */
 	static function getPathAndQueryFromUrl($url)
 	{
 		$parsedUrl = parse_url( $url );
@@ -51,8 +66,80 @@ class Piwik_Common
 	}
 
 	/**
+	 * Returns the value of a GET parameter $parameter in an URL query $urlQuery
+	 *
+	 * @param string $urlQuery result of parse_url()['query'] and htmlentitied (& is &amp;) eg. module=test&amp;action=toto or ?page=test
+	 * @param string $param
+	 *
+	 * @return string|bool Parameter value if found (can be the empty string!), false if not found
+	 */
+	static public function getParameterFromQueryString( $urlQuery, $parameter)
+	{
+		$nameToValue = self::getArrayFromQueryString($urlQuery);
+
+		if(isset($nameToValue[$parameter]))
+		{
+			return $nameToValue[$parameter];
+		}
+		return false;
+	}
+
+	/**
+	 * Returns an URL query string in an array format
+	 * The input query string should be htmlspecialchar'ed
+	 *
+	 * @param string urlQuery
+	 * @return array array( param1=> value1, param2=>value2)
+	 */
+	static public function getArrayFromQueryString( $urlQuery )
+	{
+		if(strlen($urlQuery) == 0)
+		{
+			return array();
+		}
+		if($urlQuery[0] == '?')
+		{
+			$urlQuery = substr($urlQuery, 1);
+		}
+
+		$separator = '&amp;';
+
+		$urlQuery = $separator . $urlQuery;
+		//		$urlQuery = str_replace(array('%20'), ' ', $urlQuery);
+		$refererQuery = trim($urlQuery);
+
+		$values = explode($separator, $refererQuery);
+
+		$nameToValue = array();
+
+		foreach($values as $value)
+		{
+			if( false !== strpos($value, '='))
+			{
+				$exploded = explode('=',$value);
+				$nameToValue[$exploded[0]] = $exploded[1];
+			}
+		}
+		return $nameToValue;
+	}
+
+	/**
+	 * Returns true if the string is a valid filename
+	 * File names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), and dot(.) will be accepted.
+	 * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).
+	 * File names containing anything other than above mentioned will also be rejected (file names with spaces won't be accepted).
+	 *
+	 * @param string filename
+	 * @return bool
+	 *
+	 */
+	static public function isValidFilename($filename)
+	{
+		return (false !== ereg("(^[a-zA-Z0-9]+([a-zA-Z\_0-9\.-]*))$" , $filename));
+	}
+	/**
 	 * Returns true if the string passed may be a URL.
-	 * We don't need a precise test here as the value comes from the website
+	 * We don't need a precise test here because the value comes from the website
 	 * tracked source code and the URLs may look very strange.
 	 *
 	 * @param string $url
@@ -232,17 +319,23 @@ class Piwik_Common
 		return $value;
 	}
 
-
+	/**
+	 * Returns a 32 characters long uniq ID
+	 *
+	 * @return string 32 chars
+	 */
 	static public function generateUniqId()
 	{
 		return md5(uniqid(rand(), true));
 	}
 
 	/**
-	 *
+	 * Returns a 3 letters ID for the operating system part, given a user agent string.
+	 * @see modules/DataFiles/OS.php for the list of OS (also available in $GLOBALS['Piwik_Oslist'])
+	 * If the OS cannot be identified in the user agent, returns 'UNK'
+	 * 
 	 * @param string $userAgent
-	 * @param array $osList
-	 *
+	 * 
 	 * @return string
 	 */
 	static public function getOs($userAgent)
@@ -262,13 +355,16 @@ class Piwik_Common
 	}
 
 	/**
-	 *
+	 * Returns the browser information from the user agent string.
+	 * 
+	 * @see modules/DataFiles/Browsers.php for the list of OS (also available in $GLOBALS['Piwik_BrowserList'])
+	 * 
 	 * @param string $userAgent
-	 * @return array array(  'name' 			=> '',
-	 'major_number' 	=> '',
-	 'minor_number' 	=> '',
-	 'version' 		=> '' // major_number.minor_number
-	 );
+	 * @return array array(		'name' 			=> '', // 2 letters ID or 'UNK' for an unknown browser
+	 * 							'major_number' 	=> '', // 2 in firefox 2.0.12
+	 * 							'minor_number' 	=> '', // 0 in firefox 2.0.12
+	 * 							'version' 		=> ''  // major_number.minor_number
+	 * 				);
 	 */
 	static public function getBrowserInfo($userAgent)
 	{
@@ -328,7 +424,7 @@ class Piwik_Common
 
 
 	/**
-	 * Returns the best possible IP in the format A.B.C.D
+	 * Returns the best possible IP of the current user, in the format A.B.C.D
 	 *
 	 * @return string ip
 	 */
@@ -390,7 +486,7 @@ class Piwik_Common
 	 *
 	 * @return string Continent (3 letters code : afr, asi, eur, amn, ams, oce)
 	 */
-	static function getContinent($country)
+	static public function getContinent($country)
 	{
 		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/Countries.php";
 
@@ -407,13 +503,13 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns the visitor country based only on the Browser Lang information
+	 * Returns the visitor country based only on the Browser 'accepted language' information
 	 *
 	 * @param string $lang browser lang
 	 *
-	 * @return string
+	 * @return string 2 letters ISO code 
 	 */
-	static function getCountry( $lang )
+	static public function getCountry( $lang )
 	{
 		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/Countries.php";
 
@@ -512,78 +608,6 @@ class Piwik_Common
 		return 'xx';
 	}
 
-	/**
-	 * Returns the value of a GET parameter $parameter in an URL query $urlQuery
-	 *
-	 * @param string $urlQuery result of parse_url()['query'] and htmlentitied (& is &amp;)
-	 * @param string $param
-	 *
-	 * @return string|bool Parameter value if found (can be the empty string!), false if not found
-	 */
-	static public function getParameterFromQueryString( $urlQuery, $parameter)
-	{
-		$nameToValue = self::getArrayFromQueryString($urlQuery);
-
-		if(isset($nameToValue[$parameter]))
-		{
-			return $nameToValue[$parameter];
-		}
-		return false;
-	}
-
-	/**
-	 * Returns an URL query string in an array format
-	 * The input query string should be htmlspecialchar
-	 *
-	 * @param string urlQuery
-	 * @return array array( param1=> value1, param2=>value2)
-	 */
-	static public function getArrayFromQueryString( $urlQuery )
-	{
-		if(strlen($urlQuery) == 0)
-		{
-			return array();
-		}
-		if($urlQuery[0] == '?')
-		{
-			$urlQuery = substr($urlQuery, 1);
-		}
-
-		$separator = '&amp;';
-
-		$urlQuery = $separator . $urlQuery;
-		//		$urlQuery = str_replace(array('%20'), ' ', $urlQuery);
-		$refererQuery = trim($urlQuery);
-
-		$values = explode($separator, $refererQuery);
-
-		$nameToValue = array();
-
-		foreach($values as $value)
-		{
-			if( false !== strpos($value, '='))
-			{
-				$exploded = explode('=',$value);
-				$nameToValue[$exploded[0]] = $exploded[1];
-			}
-		}
-		return $nameToValue;
-	}
-
-	/**
-	 * Returns true if the string is a valid filename
-	 * File names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), and dot(.) will be accepted.
-	 * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).
-	 * File names containing anything other than above mentioned will also be rejected (file names with spaces won't be accepted).
-	 *
-	 * @param string filename
-	 * @return bool
-	 *
-	 */
-	static public function isValidFilename($filename)
-	{
-		return (false !== ereg("(^[a-zA-Z0-9]+([a-zA-Z\_0-9\.-]*))$" , $filename));
-	}
 }
 
 

@@ -9,12 +9,13 @@
  * @package Piwik_Helper
  */
 
+require_once "Zend/Registry.php"; 
+
 /**
- * 
+ * Error handler used to display nicely errors in Piwik
  * 
  * @package Piwik_Helper
  */
-require_once "Zend/Registry.php"; 
 function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 {
 	// if the error has been suppressed by the @ we don't handle the error

@@ -10,11 +10,37 @@
  */
 
 /**
+ * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
+ * It defines some helper functions controllers can use.
  * 
- * @package Piwik_
+ * @package Piwik
  */
 abstract class Piwik_Controller
 {
+	/**
+	 * Plugin name, eg. Referers
+	 * @var string
+	 */
+	protected $pluginName;
+	
+	/**
+	 * Date string
+	 * 
+	 * @var string
+	 */
+	protected $strDate;
+	
+	/**
+	 * Piwik_Date object or null if the requested date is a range
+	 * 
+	 * @var Piwik_Date|null 
+	 */
+	protected $date;
+	
+	/**
+	 * Builds the controller object, reads the date from the request, extracts plugin name from 
+	 *
+	 */
 	function __construct()
 	{
 		$aPluginName = explode('_', get_class($this));
@@ -32,13 +58,27 @@ abstract class Piwik_Controller
 		}
 	}
 	
+	/**
+	 * Returns the name of the default method that will be called 
+	 * when visiting: index.php?module=PluginName without the action parameter
+	 * 
+	 * @return string
+	 */
 	function getDefaultAction()
 	{
 		return 'index';
 	}
 	
-	/* FACTORING // COPIED FROM Home_Controller */
-	protected function renderView($view, $fetch)
+	/**
+	 * Given an Object implementing Piwik_iView interface, we either:
+	 * - echo the output of the rendering if fetch = false
+	 * - returns the output of the rendering if fetch = true
+	 *
+	 * @param Piwik_ViewDataTable $view
+	 * @param bool $fetch
+	 * @return string|void
+	 */
+	protected function renderView( Piwik_ViewDataTable $view, $fetch)
 	{
 		$view->main();
 		$rendered = $view->getView()->render();
@@ -49,6 +89,15 @@ abstract class Piwik_Controller
 		echo $rendered;
 	}
 	
+	/**
+	 * Returns a ViewDataTable object of an Evolution graph 
+	 * for the last30 days/weeks/etc. of the current period, relative to the current date.
+	 *
+	 * @param string $currentModuleName
+	 * @param string $currentControllerAction
+	 * @param string $apiMethod
+	 * @return Piwik_ViewDataTable_Graph_ChartEvolution
+	 */
 	protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
 	{
 		require_once "ViewDataTable/Graph.php";
@@ -60,33 +109,24 @@ abstract class Piwik_Controller
 		// see constructor
 		if( !is_null($this->date))
 		{
-			$view->setParametersToModify( $this->getGraphParamsModified( array('date'=>$this->strDate)));
+			$view->setParametersToModify( 
+				$this->getGraphParamsModified( array('date'=>$this->strDate))
+				);
 		}
 		
 		return $view;
 	}
 	
-	protected function getNumericValue( $methodToCall )
-	{
-		$requestString = 'method='.$methodToCall.'&format=original';
-		$request = new Piwik_API_Request($requestString);
-		return $request->process();
-	}
-
-	protected function getUrlSparkline( $action )
-	{
-		$params = $this->getGraphParamsModified( 
-					array(	'viewDataTable' => 'sparkline', 
-							'action' => $action,
-							'module' => $this->pluginName)
-				);
-		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
-		return $url;
-	}
-	
-	
 	
 	/**
+	 * Returns the array of new processed parameters once the parameters are applied.
+	 * For example: if you set range=last30 and date=2008-03-10, 
+	 *  the date element of the returned array will be "2008-02-10,2008-03-10"
+	 * 
+	 * Parameters you can set:
+	 * - range: last30, previous10, etc.
+	 * - date: YYYY-MM-DD, today, yesterday
+	 * - period: day, week, month, year
 	 * 
 	 * @param array  paramsToSet = array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
 	 */
@@ -129,5 +169,40 @@ abstract class Piwik_Controller
 		
 		return $params;
 	}
+	
+	/**
+	 * Returns a numeric value from the API.
+	 * Works only for API methods that originally returns numeric values (there is no cast here)
+	 *
+	 * @param string $methodToCall, eg. Referers.getNumberOfDistinctSearchEngines
+	 * @return int|float
+	 */
+	protected function getNumericValue( $methodToCall )
+	{
+		$requestString = 'method='.$methodToCall.'&format=original';
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
+	}
+
+	/**
+	 * Returns the current URL to use in a <img src=X> to display a sparkline.
+	 * $action must be the name of a Controller method that requests data using the Piwik_ViewDataTable::factory
+	 * It will automatically build a sparkline by setting the viewDataTable=sparkline parameter in the URL.
+	 * It will also computes automatically the 'date' for the 'last30' days/weeks/etc. 
+	 *
+	 * @param string $action, eg. method name of the controller to call in the img src
+	 * @return string the generated URL
+	 */
+	protected function getUrlSparkline( $action )
+	{
+		$params = $this->getGraphParamsModified( 
+					array(	'viewDataTable' => 'sparkline', 
+							'action' => $action,
+							'module' => $this->pluginName)
+				);
+		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+		return $url;
+	}
+	
 	
 }

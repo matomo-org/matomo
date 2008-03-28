@@ -14,12 +14,16 @@ require_once "HTML/QuickForm.php";
 require_once "HTML/QuickForm/Renderer/ArraySmarty.php";
 
 /**
+ * Parent class for forms to be included in Smarty
+ * 
+ * For an example, @see Piwik_Login_Form
  * 
  * @package Piwik_Helper
  */
 abstract class Piwik_Form extends HTML_QuickForm
 {
-	private $a_formElements = array();
+	protected $a_formElements = array();
+	
 	function __construct( $action = '' )
 	{
 		if(empty($action))

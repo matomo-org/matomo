@@ -12,9 +12,12 @@
 require_once 'TablePartitioning.php';
 require_once 'ArchiveProcessing/Record.php';
 require_once 'DataTable.php';
+
 /**
  * The ArchiveProcessing module is a module that reads the Piwik logs from the DB and
  * compute all the reports, which are then stored in the database.
+ * 
+ * The ArchiveProcessing class is used by the Archive object to make sure the given Archive is processed and available in the DB.
  * 
  * A record in the Database for a given report is defined by
  * - idarchive	= unique ID that is associated to all the data of this archive (idsite+period+date)
@@ -31,57 +34,148 @@ require_once 'DataTable.php';
 
 abstract class Piwik_ArchiveProcessing
 {
+	/**
+	 * Flag stored at the end of the archiving
+	 *
+	 * @var int
+	 */
 	const DONE_OK = 1;
+	
+	/**
+	 * Flag stored at the start of the archiving
+	 * When requesting an Archive, we make sure that non-finished archive are not considered valid
+	 *
+	 * @var int
+	 */
 	const DONE_ERROR = 2;
 
-
+	/**
+	 * Idarchive in the DB for the requested archive
+	 *
+	 * @var int
+	 */
 	protected $idArchive;
+	
+	/**
+	 * Period id @see Piwik_Period::getId()
+	 *
+	 * @var int
+	 */
 	protected $periodId;
+	
+	/**
+	 * Timestamp for the first date of the period
+	 *
+	 * @var int unix timestamp
+	 */
 	protected $timestampDateStart = null;
 	
 	/**
+	 * Starting date of the archive
+	 * 
 	 * @var Piwik_Date
 	 */
 	protected $dateStart;
 	/**
+	 * Ending date of the archive
+	 * 
 	 * @var Piwik_Date
 	 */
 	protected $dateEnd;
 	
 	/**
+	 * Object used to generate (depending on the $dateStart) the name of the DB table to use to store numeric values
+	 * 
 	 * @var Piwik_TablePartitioning
 	 */
 	protected $tableArchiveNumeric;
 	/**
+	 * Object used to generate (depending on the $dateStart)  the name of the DB table to use to store numeric values
+	 * 
 	 * @var Piwik_TablePartitioning
 	 */
 	protected $tableArchiveBlob;
 	
+	/**
+	 * Maximum timestamp above which a given archive is considered out of date 
+	 *
+	 * @var int
+	 */
 	protected $maxTimestampArchive;
 	
-	// Attributes that can be accessed by plugins (that is why they are public)
+	/**
+	 * Id of the current site
+	 * Can be accessed by plugins (that is why it's public)
+	 * 
+	 * @var int
+	 */
 	public $idsite	= null;
 	
 	/**
+	 * Period of the current archive
+	 * Can be accessed by plugins (that is why it's public)
+	 * 
 	 * @var Piwik_Period
 	 */
 	public $period 	= null;
 	
 	/**
+	 * Site of the current archive
+	 * Can be accessed by plugins (that is why it's public)
+	 * 
 	 * @var Piwik_Site
 	 */
 	public $site 	= null;
 	
 	
-	// strings
+	/**
+	 * Starting date @see Piwik_Date::toString()
+	 *
+	 * @var string
+	 */
 	public $strDateStart;
+	
+	/**
+	 * Ending date @see Piwik_Date::toString()
+	 *
+	 * @var string
+	 */
 	public $strDateEnd;
+	
+	/**
+	 * Name of the DB table _log_visit
+	 *
+	 * @var string
+	 */
 	public $logTable;
+	
+	/**
+	 * Name of the DB table _log_link_visit_action
+	 *
+	 * @var string
+	 */
 	public $logVisitActionTable;
+	
+	/**
+	 * Name of the DB table _log_action
+	 *
+	 * @var string
+	 */
 	public $logActionTable;
 	
+	/**
+	 * When set to true, we always archive, even if the archive is already available.
+	 * You can change this settings automatically in the config/global.ini.php always_archive_data under the [Debug] section
+	 *
+	 * @var bool
+	 */
 	protected $debugAlwaysArchive = false;
 	
+	/**
+	 * Builds the archive processing object, 
+	 * Reads some configuration value from the config file
+	 *
+	 */
 	public function __construct()
 	{
 		$this->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data;
@@ -119,7 +213,7 @@ abstract class Piwik_ArchiveProcessing
 	}
 	
 	/**
-	 * Assign helper variables // init the object
+	 * Inits the object
 	 * 
 	 * @return void
 	 */
@@ -167,49 +261,7 @@ abstract class Piwik_ArchiveProcessing
 			{
 				$this->maxTimestampArchive = Piwik_Date::today()->getTimestamp();
 			}
-	//		$timeStampWhere = " AND (UNIX_TIMESTAMP(ts_archived) > UNIX_TIMESTAMP(CONCAT(date2, ' 23:59:59')) ";
 		}
-	}
-	
-	/**
-	 * Returns the name of the numeric table where the archive numeric values are stored
-	 *
-	 * @return string 
-	 */
-	public function getTableArchiveNumericName()
-	{
-		return $this->tableArchiveNumeric->getTableName();
-	}
-	
-	/**
-	 * Returns the name of the blob table where the archive blob values are stored
-	 *
-	 * @return string 
-	 */
-	public function getTableArchiveBlobName()
-	{
-		return $this->tableArchiveBlob->getTableName();
-	}
-	
-	
-	/**
-	 * Set the period
-	 *
-	 * @param Piwik_Period $period
-	 */
-	public function setPeriod( Piwik_Period $period ) 
-	{
-		$this->period = $period;
-	}
-	
-	/**
-	 * Set the site
-	 *
-	 * @param Piwik_Site $site
-	 */
-	public function setSite( Piwik_Site $site )
-	{
-		$this->site = $site;
 	}
 	
 	/**
@@ -284,7 +336,6 @@ abstract class Piwik_ArchiveProcessing
 	 * We also try to delete some stuff from memory but really there is still a lot...
 	 * 
 	 * @return void
-	 *
 	 */
 	protected function postCompute()
 	{
@@ -319,6 +370,62 @@ abstract class Piwik_ArchiveProcessing
 		
 		
 	} 
+	
+	/**
+	 * Returns the name of the numeric table where the archive numeric values are stored
+	 *
+	 * @return string 
+	 */
+	public function getTableArchiveNumericName()
+	{
+		return $this->tableArchiveNumeric->getTableName();
+	}
+	
+	/**
+	 * Returns the name of the blob table where the archive blob values are stored
+	 *
+	 * @return string 
+	 */
+	public function getTableArchiveBlobName()
+	{
+		return $this->tableArchiveBlob->getTableName();
+	}
+	
+	
+	/**
+	 * Set the period
+	 *
+	 * @param Piwik_Period $period
+	 */
+	public function setPeriod( Piwik_Period $period ) 
+	{
+		$this->period = $period;
+	}
+	
+	/**
+	 * Set the site
+	 *
+	 * @param Piwik_Site $site
+	 */
+	public function setSite( Piwik_Site $site )
+	{
+		$this->site = $site;
+	}
+	
+	/**
+	 * Returns the timestamp of the first date of the period
+	 *
+	 * @return int
+	 */
+	public function getTimestampStartDate()
+	{
+		// case when archive processing is in the past or the future, the starting date has not been set or processed yet
+		if(is_null($this->timestampDateStart))
+		{
+			return Piwik_Date::factory($this->strDateStart)->getTimestamp();
+		}
+		return $this->timestampDateStart;
+	}
 	
 	/**
 	 * Returns the idArchive we will use for the current archive
@@ -470,15 +577,5 @@ abstract class Piwik_ArchiveProcessing
 		}
 	}
 	
-	public function getTimestampStartDate()
-	{
-		// case when archive processing is in the past or the future, the starting date has not been set or processed yet
-		if(is_null($this->timestampDateStart))
-		{
-			return Piwik_Date::factory($this->strDateStart)->getTimestamp();
-//			throw new Exception("Starting date has not been set");
-		}
-		return $this->timestampDateStart;
-	}
 }
 

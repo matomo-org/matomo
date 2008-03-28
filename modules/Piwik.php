@@ -16,6 +16,8 @@ require_once "Log.php";
 require_once "PluginsManager.php";
 
 /**
+ * Main piwik helper class.
+ * Contains static functions you can call from the plugins.
  * 
  * @package Piwik
  */

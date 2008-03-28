@@ -10,6 +10,7 @@
  */
 
 /**
+ * Date object widely used in Piwik.
  * 
  * //TODO remove factory OR constructor! cant have both
  * @package Piwik_Helper
@@ -17,6 +18,25 @@
 class Piwik_Date
 {
 	/**
+	 * Returns a Piwik_Date objects. 
+	 * Accepts strings 'today' 'yesterday' or any YYYY-MM-DD or timestamp
+	 *
+	 * @param string $strDate
+	 * @return Piwik_Date
+	 */
+	static public function factory($strDate)
+	{
+		switch($strDate)
+		{
+			case 'today': return self::today(); break;
+			case 'yesterday': return self::yesterday(); break;
+			default: return new Piwik_Date($strDate); break;
+		}
+	}
+	
+	/**
+	 * Builds a Piwik_Date object
+	 * 
 	 * @param Timestamp date OR string format 2007-01-31
 	 */
 	public function __construct(  $date  )
@@ -36,9 +56,11 @@ class Piwik_Date
 	}
 	
 	/**
-	 * 
-	 *
+	 * Sets the time part of the date
+	 * Doesn't modify $this
+     * 
 	 * @param string $time HH:MM:SS
+	 * @return Piwik_Date The new date with the time part set
 	 */
 	//TODO test this method
 	public function setTime($time)
@@ -46,25 +68,55 @@ class Piwik_Date
 		return new Piwik_Date( strtotime( $this->get("j F Y") . " $time"));
 	}
 	
+	/**
+	 * Returns the unix timestamp of the date
+	 *
+	 * @return int
+	 */
 	public function getTimestamp()
 	{
 		return $this->timestamp;
 	}
 	
+	/**
+	 * Returns true if the current date is older than the given $date
+	 *
+	 * @param Piwik_Date $date
+	 * @return bool
+	 */
 	public function isLater( Piwik_Date $date)
 	{
 		return $this->getTimestamp() > $date->getTimestamp();
 	}
+	
+	/**
+	 * Returns true if the current date is earlier than the given $date
+	 *
+	 * @param Piwik_Date $date
+	 * @return bool
+	 */
 	public function isEarlier(Piwik_Date $date)
 	{
 		return $this->getTimestamp() < $date->getTimestamp();
 	}
 	
+	/**
+	 * Returns the Y-m-d representation of the string.
+	 * You can specify the output, see the list on php.net/date
+	 *
+	 * @param string $part
+	 * @return string
+	 */
 	public function toString($part = 'Y-m-d')
 	{
 		return date($part, $this->getTimestamp());
 	}
 	
+	/**
+	 * @see toString()
+	 *
+	 * @return string
+	 */
 	public function __toString()
 	{
 		return $this->toString();
@@ -73,7 +125,9 @@ class Piwik_Date
     /**
      * Sets a new day
      * Returned is the new date object
+     * Doesn't modify $this
      * 
+     * @param int Day eg. 31
      * @return Piwik_Date  new date
      */
 	public function setDay( $day )
@@ -89,9 +143,11 @@ class Piwik_Date
 					);
 		return new Piwik_Date( $result );
 	}
+	
     /**
      * Sets a new year
      * Returned is the new date object
+     * Doesn't modify $this
      * 
      * @param int 2010
      * @return Piwik_Date  new date
@@ -110,12 +166,77 @@ class Piwik_Date
 		return new Piwik_Date( $result );
 	}
 	
+
+
     /**
-     * Compares only the week part, returning the difference
+     * Subtracts days from the existing date object and returns a new Piwik_Date object
+     * Doesn't modify $this
+     * 
      * Returned is the new date object
-     * Returns if equal, earlier or later
+     * @return Piwik_Date  new date
+     */
+    public function subDay( $n )
+    {
+    	$ts = strtotime("-$n day", $this->getTimestamp());
+		return new Piwik_Date( $ts );
+    }
+    
+    /**
+     * Subtracts a month from the existing date object.
+     * Returned is the new date object
+     * Doesn't modify $this
+     * 
+     * @return Piwik_Date  new date
+     */
+    public function subMonth( $n )
+    {
+		$ts = $this->getTimestamp();
+		$result = mktime( 
+						date('H', $ts),
+						date('i', $ts),
+						date('s', $ts),
+						date('n', $ts) - $n,
+						1, // we set the day to 1
+						date('Y', $ts)
+					);
+		return new Piwik_Date( $result );
+    }
+    
+    /**
+     * Returns a representation of a date or datepart
+     *
+     * @param  string  OPTIONAL Part of the date to return, if null the timestamp is returned
+     * @return integer|string  date or datepart
+     */
+	public function get($part = null)
+	{
+		if(is_null($part))
+		{
+			return $this->getTimestamp();
+		}
+		return date($part, $this->getTimestamp());
+	}
+	
+    /**
+     * Adds days to the existing date object.
+     * Returned is the new date object
+     * Doesn't modify $this
+     * 
+     * @param int Number of days to add
+     * @return  Piwik_Date new date
+     */
+	public function addDay( $n )
+	{
+		$ts = strtotime("+$n day", $this->getTimestamp());
+		return new Piwik_Date( $ts );
+	}
+
+    /**
+     * Compares the week of the current date against the given $date
+     * Returns 0 if equal, -1 if current week is earlier or 1 if current week is later
      * Example: 09.Jan.2007 13:07:25 -> compareWeek(2); -> 0
      *
+     * @param Piwik_Date $date
      * @return integer  0 = equal, 1 = later, -1 = earlier
      */
     public function compareWeek(Piwik_Date $date)
@@ -132,71 +253,10 @@ class Piwik_Date
 		}
 		return 1;
     }
-
-
     /**
-     * Subtracts days from the existing date object.
-
-     * Returned is the new date object
-     * @return Piwik_Date  new date
-     */
-    public function subDay( $n )
-    {
-    	$ts = strtotime("-$n day", $this->getTimestamp());
-		return new Piwik_Date( $ts );
-    }
-    
-    /**
-     * Subtracts a month from the existing date object.
-     * Returned is the new date object
-     * 
-     * @return Piwik_Date  new date
-     */
-    public function subMonth( $n )
-    {
-//    	$ts = strtotime("-$n months", $this->getTimestamp());
-		$ts = $this->getTimestamp();
-		$result = mktime( 
-						date('H', $ts),
-						date('i', $ts),
-						date('s', $ts),
-						date('n', $ts) - $n,
-						1, // we set the day to 1
-						date('Y', $ts)
-					);
-		return new Piwik_Date( $result );
-    }
-    
-    /**
-     * Returns a representation of a date or datepart
-     *
-     * @param  string  $part    OPTIONAL Part of the date to return, if null the timestamp is returned
-     * @return integer|string  date or datepart
-     */
-	public function get($part = null)
-	{
-		if(is_null($part))
-		{
-			return $this->getTimestamp();
-		}
-		return date($part, $this->getTimestamp());
-	}
-	
-    /**
-     * Adds days to the existing date object.
-     * Returned is the new date object
-     * @return  Piwik_Date new date
-     */
-	public function addDay( $n )
-	{
-		$ts = strtotime("+$n day", $this->getTimestamp());
-		return new Piwik_Date( $ts );
-	}
-	
-    /**
-     * Compares the month with the existing date object, ignoring other date parts.
-     * For example: 10.03.2000 -> 15.03.1950 -> true
-     * Returns if equal, earlier or later
+     * Compares the month of the current date against the given $date month
+     * Returns 0 if equal, -1 if current month is earlier or 1 if current month is later
+     * For example: 10.03.2000 -> 15.03.1950 -> 0
      *
      * @param  Piwik_Date  $month   Month to compare
      * @return integer  0 = equal, 1 = later, -1 = earlier
@@ -218,6 +278,8 @@ class Piwik_Date
 	
 	/**
 	 * Returns a date object set to today midnight
+	 * 
+	 * @return Piwik_Date
 	 */
 	static public function today()
 	{
@@ -226,6 +288,7 @@ class Piwik_Date
 	}
 	/**
 	 * Returns a date object set to yesterday midnight
+	 * @return Piwik_Date
 	 */
 	static public function yesterday()
 	{
@@ -233,14 +296,5 @@ class Piwik_Date
 		return $date;
 	}
 	
-	static public function factory($strDate)
-	{
-		switch($strDate)
-		{
-			case 'today': return self::today(); break;
-			case 'yesterday': return self::yesterday(); break;
-			default: return new Piwik_Date($strDate); break;
-		}
-	}
 }
 
