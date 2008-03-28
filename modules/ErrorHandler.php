@@ -11,6 +11,10 @@
 
 require_once "Zend/Registry.php"; 
 
+if(!defined('E_STRICT'))            define('E_STRICT', 2048);
+if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
+if(!defined('E_EXCEPTION')) 		define('E_EXCEPTION', 8192);
+
 /**
  * Error handler used to display nicely errors in Piwik
  * 

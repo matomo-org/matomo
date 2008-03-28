@@ -24,7 +24,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		
 		$nameValues = $this->getReferersVisitorsByType();
 		foreach($nameValues as $name => $value)
-		{
+		{	
 			$view->$name = $value;
 		}
 		// sparkline for the historical data of the above values
