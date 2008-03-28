@@ -67,6 +67,8 @@ class Piwik_Actions_API extends Piwik_Apiable
 	{
 		$dataTable = $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'url', create_function('$url', 'return $url;')));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromActionsUrl'));
+		
 		return $dataTable;
 	}
 
@@ -74,8 +76,37 @@ class Piwik_Actions_API extends Piwik_Apiable
 	{
 		$dataTable = $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'url', create_function('$url', 'return $url;')));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromActionsUrl'));
 		return $dataTable;
 	}
 }
 
+/**
+ * returns /Y in http://X/Y
+ *
+ * @param string $url
+ * @return string
+ */
+function Piwik_getPathFromActionsUrl($url)
+{
+	$n = preg_match("#://[^/]+(/)#",$url, $matches, PREG_OFFSET_CAPTURE);
+	if($n)
+	{
+		$returned = substr($url, $matches[1][1]);
+		return $returned;
+	}
+	
+	return $url;
+}
 
+function Piwik_truncatePath( $path )
+{
+	$limit = 27;
+	$path = htmlspecialchars_decode($path);
+	$len = strlen($path);
+	if($len > $limit)
+	{
+		$path = substr($path, 0, $limit-3) . "...";
+	}
+	return htmlspecialchars($path);
+}
