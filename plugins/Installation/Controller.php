@@ -191,6 +191,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			Piwik::createTables();
 			Piwik::createAnonymousUser();
+			Piwik::createTablesIndex();
 			
 			$view->tablesCreated = true;
 			$view->showNextStep = true;
@@ -328,7 +329,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$view->showNextStep = false;
 		
 	    setcookie(session_name(), session_id(), 1, '/');
-		session_destroy();	
+		@session_destroy();	
 		echo $view->render();
 		
 		// cron tab help

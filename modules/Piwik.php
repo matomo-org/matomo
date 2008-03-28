@@ -903,7 +903,18 @@ class Piwik
 					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', CURRENT_TIMESTAMP );" );
     }
     
-	static public function createTables()
+    static public function createTablesIndex()
+    {
+    	$db = Zend_Registry::get('db');
+		$prefixTables = Zend_Registry::get('config')->database->tables_prefix;
+		
+		$db->query('CREATE INDEX index_idvisit  ON '.$prefixTables.'log_link_visit_action (idvisit)');
+		$db->query('CREATE INDEX index_idaction ON '.$prefixTables.'log_action (idaction)');
+		$db->query('CREATE INDEX index_idsite ON '.$prefixTables.'log_visit (idsite)');
+		$db->query('CREATE INDEX index_visit_server_date ON '.$prefixTables.'log_visit (visit_server_date);');
+    }
+	
+    static public function createTables()
 	{
 		$db = Zend_Registry::get('db');
 		
