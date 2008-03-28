@@ -2,7 +2,7 @@
 // Copyleft 2007, All rights reversed.
 var _pk_use_title_as_name = 0;
 var _pk_install_tracker = 1;
-var _pk_tracker_pause = 250;
+var _pk_tracker_pause = 500;
 var _pk_download_extensions = "7z|aac|avi|csv|doc|exe|flv|gif|gz|jpe?g|js|mp(3|4|e?g)|mov|pdf|phps|png|ppt|rar|sit|tar|torrent|txt|wma|wmv|xls|xml|zip";
 
 // Beginning script

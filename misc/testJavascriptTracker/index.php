@@ -12,6 +12,7 @@ And test the tracker by clicking all the links below, with several browsers...<b
 <br />
 </div>
 
+<a href="mailto:test@test.com"> mailto test@test.com</a> <br />
 <a href="http://www.yahoo.fr"> yahoo france website</a> <br />
 <a href="http://www.yahoo.fr/index?test=test2&p_______=idugiduagi8*&*$&%(*^"> yahoo france website</a> <br />
 <a href="http://www.google.com"> google world website </a> <br />

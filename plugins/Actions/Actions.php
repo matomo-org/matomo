@@ -219,7 +219,8 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		$isUrl = false; 
 		// case the name is an URL we dont clean the name the same way
-		if(Piwik_Common::isLookLikeUrl($name))
+		if(Piwik_Common::isLookLikeUrl($name)
+			|| preg_match('#^mailto:#',$name))
 		{
 			$split = self::splitUrl($name);
 			$isUrl = true;

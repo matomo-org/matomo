@@ -67,6 +67,10 @@ always_archive_data = false
 ; This setting is used only for today's statistics.
 time_before_archive_considered_outdated = 600
 
+; When loading piwik interface, we redirect the user to 'yesterday' statistics by default
+; Possible values: yesterday, today, or any YYYY-MM-DD
+default_day = yesterday
+
 ; character used to automatically create categories in the "Action" "Downloads" reports
 ; for example a URL like "example.com/blog/development/first-post" will create 
 ; the page first-post in the subcategory development which belongs to the blog category
