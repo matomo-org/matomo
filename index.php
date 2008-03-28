@@ -5,12 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
+ * 
+ * @package Piwik
  */
- 
-/**
- * PHP Configuration init
- */
-
 
 error_reporting(E_ALL|E_NOTICE);
 @ini_set('display_errors', 1);
