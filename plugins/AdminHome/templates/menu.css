@@ -3,7 +3,6 @@
 	margin-left: 0;
 	margin-bottom: 0;
 	margin-top: 0.1em;
-	font: bold 12px Verdana;
 	border-bottom: 1px solid gray;
 }
 
@@ -20,6 +19,7 @@
 	border: 1px solid #778;
 	border-bottom: none;
 	background: white;
+	font: bold 16px Georgia;
 }
 
 #tablist li a:link,#tablist li a:visited {

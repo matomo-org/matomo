@@ -250,6 +250,7 @@ p {
 	text-align:right;
 	margin-right: 20px;
 	padding-bottom:5px;
+	padding-top:5px;
 	padding-left:5px;
 	border-bottom:1px dotted #E2E3FE;
 	border-left:1px dotted #E2E3FE;
