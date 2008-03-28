@@ -193,7 +193,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_OUTLINK]);
 		$s = $dataTable->getSerialized();
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_outlink', $s);
-		
+//		echo $dataTable;
 		unset($this->actionsTablesByType);
 	}
 
@@ -204,7 +204,9 @@ class Piwik_Actions extends Piwik_Plugin
 		$n = preg_match("#://[^/]+(/)#",$url, $matches, PREG_OFFSET_CAPTURE);
 		if( $n )
 		{
-			$split_arr = array(substr($url, 0, $matches[1][1]), substr($url, $matches[1][1]));
+			$host = substr($url, 0, $matches[1][1]);
+			
+			$split_arr = array($host, $url);
 		}
 		else
 		{

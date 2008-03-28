@@ -36,9 +36,6 @@ set_include_path(PIWIK_INCLUDE_PATH
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/modules/'
 					. PATH_SEPARATOR . get_include_path());
 
-if(!defined('E_STRICT'))            define('E_STRICT', 2048);
-if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
-if(!defined('E_EXCEPTION')) 		define('E_EXCEPTION', 8192);
 
 /**
  * Error / exception handling functions
