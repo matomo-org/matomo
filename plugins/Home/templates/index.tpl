@@ -291,7 +291,7 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 <br>
 <div id="stuff">
 	<div>
-		<span id="messageToUsers"><a href='http://piwik.org'>Piwik</a> is still alpha. You can <a href="mailto:hello@piwik.org?subject=Feedback piwik"><u>send us</u></a> your feedback.</span> 
+		<span id="messageToUsers"><a href='http://piwik.org'>Piwik</a> is a collaborative project and still Beta. If you want to help, please <u><a href="mailto:hello@piwik.org?subject=Piwik">contact us</a></u>.</span> 
 		{include file="Home/templates/links_misc_modules.tpl"}
 	</div>
 </div>

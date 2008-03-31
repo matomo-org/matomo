@@ -28,7 +28,7 @@
 
 <span id="h1">Piwik admin</span> &nbsp;
 <span><a href='index.php'>Back to Piwik</a></span>
-<br><br>
+<br><br>	
 
 <div id="menu">
 {include file="AdminHome/templates/menu.tpl"}
