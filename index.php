@@ -51,6 +51,9 @@ require_once "FrontController.php";
 
 Piwik_FrontController::$enableDispatch = ENABLE_DISPATCH;
 
-$controller = Piwik_FrontController::getInstance();
-$controller->init();
-$controller->dispatch();
+if(ENABLE_DISPATCH)
+{
+	$controller = Piwik_FrontController::getInstance();
+	$controller->init();
+	$controller->dispatch();
+}
