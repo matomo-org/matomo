@@ -9,6 +9,7 @@
  * @package Piwik
  */
 
+// NOTE: This file should be PHP4 compatible
 error_reporting(E_ALL|E_NOTICE);
 @ini_set('display_errors', 1);
 @ini_set('magic_quotes_runtime', 0);
@@ -48,8 +49,6 @@ set_exception_handler('Piwik_ExceptionHandler');
 session_start();
 
 require_once "FrontController.php";
-
-Piwik_FrontController::$enableDispatch = ENABLE_DISPATCH;
 
 if(ENABLE_DISPATCH)
 {
