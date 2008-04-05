@@ -462,8 +462,12 @@ class Piwik_LogStats_Generator
 			$GETParamToAdd = $this->getRandom('piwik_downloadOrOutlink');
 			if(!empty($GETParamToAdd))
 			{
-				// download / outlink url
-				$urlValue = $this->getRandomUrlFromHost($this->host);
+				
+				$possibleDownloadHosts = array('http://piwik.org/',$this->host);
+				$nameDownload = $this->getRandomUrlFromHost($possibleDownloadHosts[mt_rand(0,1)]);
+				$extensions = array('.zip','.tar.gz');
+				$nameDownload .= $extensions[mt_rand(0,1)];
+				$urlValue = $nameDownload;
 				
 				// add the parameter to the url
 				$this->setCurrentRequest( $GETParamToAdd , $urlValue);
@@ -471,18 +475,8 @@ class Piwik_LogStats_Generator
 				// in 50% we give a special name to the download/outlink 
 				if(mt_rand(0,1)==0)
 				{
-					// normal name
-					if(mt_rand(0,1)==0)
-					{
-						$nameDownload = $this->getRandomString(6,3,'ALL');
-					}
-					// name is the URL
-					else
-					{
-//						$nameDownload = $this->;
-//						$nameDownload = $this->getRandomUrlFromHost('http://');
-						$nameDownload = 'http://piwik.org/last.zip';
-					}
+					$nameDownload = $this->getRandomString(6,3,'ALL');
+					
 					$this->setCurrentRequest( Piwik_LogStats_Config::getInstance()->LogStats['download_outlink_name_var'] 
 											, $nameDownload);
 				}
