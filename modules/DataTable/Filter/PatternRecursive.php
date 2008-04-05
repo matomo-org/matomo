@@ -28,7 +28,7 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 	public function __construct( $table, $columnToFilter, $patternToSearch )
 	{
 		parent::__construct($table);
-		$this->patternToSearch = preg_quote($patternToSearch);
+		$this->patternToSearch = $patternToSearch;//preg_quote($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
 		$this->filter();
 //		echo $this->table; exit;
