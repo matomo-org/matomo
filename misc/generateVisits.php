@@ -20,6 +20,10 @@ ob_start();
 define('ENABLE_DISPATCH', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once "FrontController.php";
+
+$controller = Piwik_FrontController::getInstance();
+$controller->init();
+
 Piwik::checkUserIsSuperUser();
 // end check that user was super user
 

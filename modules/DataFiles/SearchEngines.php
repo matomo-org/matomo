@@ -888,9 +888,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.searchy.co.uk"		=> array("Searchy", "search_term"),
 		
 		// Seznam
-		"search1.seznam.cz" 		=> array("Seznam", "w"),
-		"search2.seznam.cz" 		=> array("Seznam", "w"),
-		"search.seznam.cz" 		=> array("Seznam", "w"),
+		"search1.seznam.cz" 		=> array("Seznam", "q"),
+		"search2.seznam.cz" 		=> array("Seznam", "q"),
+		"search.seznam.cz" 		=> array("Seznam", "q"),
 		
 		// Sharelook
 		"www.sharelook.fr"		=> array("Sharelook", "keyword"),

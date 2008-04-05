@@ -471,8 +471,20 @@ class Piwik_LogStats_Generator
 				// in 50% we give a special name to the download/outlink 
 				if(mt_rand(0,1)==0)
 				{
+					// normal name
+					if(mt_rand(0,1)==0)
+					{
+						$nameDownload = $this->getRandomString(6,3,'ALL');
+					}
+					// name is the URL
+					else
+					{
+//						$nameDownload = $this->;
+//						$nameDownload = $this->getRandomUrlFromHost('http://');
+						$nameDownload = 'http://piwik.org/last.zip';
+					}
 					$this->setCurrentRequest( Piwik_LogStats_Config::getInstance()->LogStats['download_outlink_name_var'] 
-											, $this->getRandomString(6,3,'ALL'));
+											, $nameDownload);
 				}
 			}
 			
