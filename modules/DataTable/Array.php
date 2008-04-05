@@ -136,7 +136,17 @@ class Piwik_DataTable_Array
 		$renderer = new Piwik_DataTable_Renderer_Console($this);
 		return (string)$renderer;
 	}
-	
+
+	/**
+	 * @see Piwik_DataTable::enableRecursiveSort()
+	 */
+	public function enableRecursiveSort()
+	{
+		foreach($this->array as $table)
+		{
+			$table->enableRecursiveSort();
+		}
+	}
 }
 
 
