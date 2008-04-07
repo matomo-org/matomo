@@ -292,6 +292,8 @@ class Piwik_FrontController
 		
 		$this->checkDirectoriesWritableOrDie();
 		
+		$this->assignCliParametersToRequest();
+		
 		$exceptionToThrow = false;
 		
 		//move into a init() method
@@ -356,6 +358,27 @@ class Piwik_FrontController
 		$access = new Piwik_Access($authAdapter);
 		Zend_Registry::set('access', $access);		
 		Zend_Registry::get('access')->loadAccess();					
+	}
+	
+	/**
+	 * Assign CLI parameters as if they were REQUEST or GET parameters.
+	 * You can trigger Piwik from the command line by
+	 * # /usr/bin/php5 /path/to/piwik/index.php -- "module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php"
+	 *
+	 * @return void
+	 */
+	protected function assignCliParametersToRequest()
+	{
+		if(isset($_SERVER['argc'])
+			&& $_SERVER['argc'] > 0)
+		{
+			for ($i=1; $i < $_SERVER['argc']; $i++)
+			{
+				parse_str($_SERVER['argv'][$i],$tmp);
+				$_REQUEST = array_merge($_REQUEST, $tmp);
+				$_GET = array_merge($_GET, $tmp);
+			}
+		}				
 	}
 }
 /**

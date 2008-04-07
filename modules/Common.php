@@ -454,9 +454,13 @@ class Piwik_Common
 		{
 			return $ip;
 		}
+		elseif(isset($_SERVER['REMOTE_ADDR']))
+		{
+			return Piwik_Common::getFirstIpFromList($_SERVER['REMOTE_ADDR']);	
+		}
 		else
 		{
-			return Piwik_Common::getFirstIpFromList($_SERVER['REMOTE_ADDR']);
+			return '0.0.0.0';	
 		}
 	}
 
