@@ -80,6 +80,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 											'Referers.getKeywords', 
 											'getSearchEnginesFromKeywordId'
 								);
+
 		$view->disableExcludeLowPopulation();
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
