@@ -90,11 +90,21 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out .= '<code>Piwik::isUserIsSuperUser()</code> = <b>' . self::boolToString(Piwik::isUserIsSuperUser()) . '</b><br/>';
 		
 		$out .= '<h2>Execute SQL queries</h2>';
-		$query = "SELECT token_auth FROM ".Piwik::prefixTable('user')." WHERE login = ?";
-		$result = Piwik_FetchOne($query, array('anonymous'));
-		$out .= '<code>Piwik_FetchOne("'.$query.'", array("anonymous"))</code> = <b>' . var_export($result,true) . '</b><br/>';
+		$txtQuery = "SELECT token_auth FROM ".Piwik::prefixTable('user')." WHERE login = ?";
+		$result = Piwik_FetchOne($txtQuery, array('anonymous'));
+		$out .= '<code>Piwik_FetchOne("'.$txtQuery.'", array("anonymous"))</code> = <b>' . var_export($result,true) . '</b><br/>';
+		$out .= '<br>';
 		
-		$out .= '<h2>Example Sites information API</h2>';
+		$query = Piwik_Query($txtQuery, array('anonymous'));
+		$fetched = $query->fetch();
+		$token_auth = $fetched['token_auth'];
+		
+		$out .= '<code>$query = Piwik_Query("'.$txtQuery.'", array("anonymous"))</code><br>';
+		$out .= '<code>$fetched = $query->fetch();</code><br>';
+		$out .= 'At this point, we have: <code>$fetched[\'token_auth\'] == <b>'.var_export($token_auth,true) . '</b></code><br/>';
+		
+//    * function Piwik_FetchAll( $sqlQuery, $parameters = array())
+  		$out .= '<h2>Example Sites information API</h2>';
 		$out .= '<code>Piwik_SitesManager_API::getSitesWithViewAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getSitesWithViewAccess(),true) . '</pre></b><br/>';
 		$out .= '<code>Piwik_SitesManager_API::getSitesWithAdminAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getSitesWithAdminAccess(),true) . '</pre></b><br/>';
 
