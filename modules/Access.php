@@ -38,14 +38,7 @@ require_once 'SitesManager/API.php';
  */
 
 class Piwik_Access
-{
-	/**
-	 * Array of pairs (idsite => accessLevel) for each site available to this user
-	 *
-	 * @var array
-	 */
-	protected $accessByIdsite = null;
-	
+{	
 	/**
 	 * Array of idsites available to the current user, indexed by permission level
 	 * @see getSitesIdWith*()
@@ -106,7 +99,6 @@ class Piwik_Access
 	 */
 	public function loadAccess()
 	{
-		$accessByIdsite = array();
 		$idsitesByAccess = array( 'view' => array(), 'admin'  => array(), 'superuser'  => array());
 
 		// access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
@@ -120,12 +112,7 @@ class Piwik_Access
 			if($result->getCode() == Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE)
 			{
 				$this->isSuperUser = true;
-				$sitesId = Piwik_SitesManager_API::getAllSitesId();
-				foreach($sitesId as $idSite)
-				{
-					$accessByIdsite[$idSite] = 'superuser';
-					$idsitesByAccess['superuser'][] = $idSite;
-				}
+				$idsitesByAccess['superuser'] = Piwik_SitesManager_API::getAllSitesId();
 			}
 			// valid authentification (normal user logged in)
 			else
@@ -141,14 +128,24 @@ class Piwik_Access
 
 				foreach($accessRaw as $access)
 				{
-					$accessByIdsite[$access['idsite']] = $access['access'];
 					$idsitesByAccess[$access['access']][] = $access['idsite'];
 				}
 			}
 		}
 
-		$this->accessByIdsite = $accessByIdsite;
 		$this->idsitesByAccess = $idsitesByAccess;
+	}
+	
+	/**
+	 * We bypass the normal auth method and give the current user Super User rights.
+	 * This should be very carefully used.
+	 * 
+	 * @return void
+	 */
+	public function setSuperUser()
+	{
+		$this->isSuperUser = true;
+		$this->idsitesByAccess['superuser'] = Piwik_SitesManager_API::getAllSitesId();
 	}
 	
 	/**
