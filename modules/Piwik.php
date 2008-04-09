@@ -600,6 +600,11 @@ class Piwik
 		}
 	}
 	
+	static public function setUserIsSuperUser()
+	{
+		Zend_Registry::get('access')->setSuperUser();
+	}
+	
 	static public function checkUserIsSuperUser()
 	{
 		Zend_Registry::get('access')->checkUserIsSuperUser();
