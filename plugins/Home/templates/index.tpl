@@ -174,6 +174,7 @@ p {
 /* style for the date picking */
 #periodString {
 	margin-left:350px;
+	margin-top:10px;
 }
 
 #periodString #date, #periodString #periods, 
@@ -264,6 +265,43 @@ p {
 	font-weight:bold;
 	color:#F88D22;
 }
+
+
+
+#downloadButton .download-button {
+	display: block;
+	text-align: center;
+	line-height: 1.4em;
+	padding: 10px;
+}
+
+#downloadButton  .download-button strong {
+	font-size: 13px;
+	color: #fff;
+}
+
+#downloadButton .download-button, #downloadButton .download-button:hover {
+	cursor: pointer;
+	background: #E75454;
+	padding: 8px 10px;
+	color: #fff;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;	
+	-webkit-border-radius: 3px;
+	border-radius: 4px;
+       width:180px;
+}
+
+#downloadButton a.download-button span {
+	color: #ffac90;
+}
+
+#downloadButton .download-tar {
+	font-size: 10px;
+	margin-top: -1px !important;
+	text-align: center;
+	margin-bottom: 13px !important;
+}
 </style>
 {/literal}
 
@@ -288,10 +326,13 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 </span>
 
 <span id="h1"><a href='http://piwik.org'>Piwik</a> </span><span id="subh1"> # open source web analytics</span><br>
-<br>
+
 <div id="stuff">
 	<div>
-		<span id="messageToUsers"><a href='http://piwik.org'>Piwik</a> is a collaborative project and still Beta. If you want to help, please <u><a href="mailto:hello@piwik.org?subject=Piwik">contact us</a></u>.</span> 
+		<span id="messageToUsers">
+		<a href='http://piwik.org'>Piwik</a> is a collaborative project and still Beta. If you want to help, please <u><a href="mailto:hello@piwik.org?subject=Piwik">contact us</a></u>.
+		<span id='downloadButton'><a class="download-button" href="http://piwik.org/blog/2008/04/piwik-jobs/"><strong>Want to be paid to work on Piwik?</strong></a><br></span>
+		</span> 
 		{include file="Home/templates/links_misc_modules.tpl"}
 	</div>
 </div>
@@ -306,7 +347,7 @@ To use standard view, enable JavaScript by changing your browser options, then <
 </noscript>
 {include file="Home/templates/period_select.tpl"}
 
-<br><br>
+<br>
 {include file="Home/templates/menu.tpl"}
 
 <div style='clear:both'></div>
