@@ -655,7 +655,7 @@ class Test_Piwik_SitesManager extends Test_Database
 	        $this->fail("Exception not raised.");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(at least one URL)", $expected->getMessage());
+    		$this->assertPattern("(SitesManager_ExceptionNoUrl)", $expected->getMessage());
         }
     }
     

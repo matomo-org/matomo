@@ -611,7 +611,32 @@ class Piwik_Common
 		// at this point we really can't guess the country
 		return 'xx';
 	}
+	
+	
+	/**
+	 * Generate random string 
+	 *
+	 * @param string $length string length
+	 * @param string $alphabet characters allowed in random string
+	 *
+	 * @return string random string with given length
+	 */	
+	public static function getRandomString($length = 16, $alphabet = "abcdefghijklmnoprstuvwxyz0123456789")
+	{
+		$chars = $alphabet;
+		$str = '';
 
+		list($usec, $sec) = explode(" ", microtime());
+		$seed = ((float)$sec+(float)$usec)*100000;
+		mt_srand($seed);
+		
+		for($i = 0; $i < $length; $i++)
+		{
+			$rand_key = mt_rand(0, strlen($chars)-1);
+			$str  .= substr($chars, $rand_key, 1);
+		}
+		return str_shuffle($str);
+	}
 }
 
 

@@ -56,7 +56,11 @@ abstract class Piwik_Plugin
 			throw new Exception("The language file couldn't be find for this plugin '$name'.");
 		}
 		
-		Piwik_Translate::getInstance()->addTranslationArray($translations);
+		// when in mode LogStat, we don't load the translation class
+		if(class_exists('Piwik_Translate'))
+		{
+			Piwik_Translate::getInstance()->addTranslationArray($translations);
+		}
 	}
 	
 	/**
@@ -88,7 +92,16 @@ abstract class Piwik_Plugin
 	{
 		return array();
 	}
-	 
+	
+	/**
+	 * Executed after loading plugin and registering translations
+	 * Useful for code that uses translated strings from the plugin.
+	 */
+	public function postLoad()
+	{
+		return;
+	}
+	
 	/**
 	 * Install the plugin
 	 * - create tables

@@ -270,8 +270,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 
 		if($nbSites == 1)
 		{
-			throw new Exception("It is not possible to delete this website as it is the only registered website. 
-			Add a new website first, then delete this one.");
+			throw new Exception(Piwik_TranslateException("SitesManager_ExceptionDeleteSite"));
 		}
 		
 		$db = Zend_Registry::get('db');
@@ -300,7 +299,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		if(!is_array($urls)
 			|| count($urls) == 0)
 		{
-			throw new Exception("You must specify at least one URL for the site.");
+			throw new Exception(Piwik_TranslateException("SitesManager_ExceptionNoUrl"));
 		}
 	}
 
@@ -477,7 +476,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	{
 		if(empty($siteName))
 		{
-			throw new Exception("The site name can't be empty.");
+			throw new Exception(Piwik_TranslateException("SitesManager_ExceptionEmptyName"));
 		}
 	}
 
@@ -493,7 +492,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		{			
 			if(!self::isValidUrl($url))
 			{
-				throw new Exception("The url '$url' is not a valid URL.");
+				throw new Exception(sprintf(Piwik_TranslateException("SitesManager_ExceptionInvalidUrl"),$url));
 			}
 		}
 	}

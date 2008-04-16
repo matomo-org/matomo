@@ -144,7 +144,28 @@ $(document).ready(function(){
 			prevText: "",
 			nextText: "",
 			currentText: "",
-			customDate: isDateSelected
+			customDate: isDateSelected,
+			dayNames: [
+				_pk_translate('Home_DaySu'),
+				_pk_translate('Home_DayMo'),
+				_pk_translate('Home_DayTu'),
+				_pk_translate('Home_DayWe'),
+				_pk_translate('Home_DayTh'),
+				_pk_translate('Home_DayFr'),
+				_pk_translate('Home_DaySa')],
+			monthNames: [
+				_pk_translate('Home_MonthJanuary'),
+				_pk_translate('Home_MonthFebruary'),
+				_pk_translate('Home_MonthMarch'),
+				_pk_translate('Home_MonthApril'),
+				_pk_translate('Home_MonthMay'),
+				_pk_translate('Home_MonthJune'),
+				_pk_translate('Home_MonthJuly'),
+				_pk_translate('Home_MonthAugust'),
+				_pk_translate('Home_MonthSeptember'),
+				_pk_translate('Home_MonthOctober'),
+				_pk_translate('Home_MonthNovember'),
+				_pk_translate('Home_MonthDecemeber')],
 			},
 			currentDate);
 	}

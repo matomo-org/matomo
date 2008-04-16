@@ -11,6 +11,7 @@
 
 require_once "UsersManager/API.php";
 require_once "Login/Form.php";
+require_once "Login/PasswordForm.php";
 require_once "View.php";
 
 
@@ -29,19 +30,17 @@ class Piwik_Login_Controller extends Piwik_Controller
 	{
 		$form = new Piwik_Login_Form;
 		$AccessErrorString = false;
-		
+
+		$currentUrl = Piwik_Url::getCurrentUrl();
+		// get url from POSTed form or GET parameter (getting back from password remind form)
+		$urlToRedirect = Piwik_Common::getRequestVar('form_url', htmlspecialchars($currentUrl), 'string');
+					
 		if($form->validate())
 		{
 			// value submitted in form
 			$login = $form->getSubmitValue('form_login');
 			$password = $form->getSubmitValue('form_password');
 			$password = md5($password);
-			
-			$baseUrl = Piwik_Url::getCurrentUrlWithoutQueryString(); 
-			$currentUrl = Piwik_Url::getCurrentUrl();		
-			$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string', $_POST);
-			
-			$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 			
 			$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login, $password);
 	
@@ -59,6 +58,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 				$cookie->set('token_auth', $tokenAuth);
 				$cookie->save();
 				
+				$urlToRedirect = htmlspecialchars_decode($urlToRedirect);				
 				Piwik_Url::redirectToUrl($urlToRedirect);
 			}
 			else
@@ -66,12 +66,83 @@ class Piwik_Login_Controller extends Piwik_Controller
 				$messageNoAccess = Piwik_Translate('Login_LoginPasswordNotCorrect');
 			}
 		}
-		$view = new Piwik_View('Login/templates/login.tpl');	
+		$view = new Piwik_View('Login/templates/login.tpl');
+		// make navigation login form -> reset password -> login form remember your first url
+		$view->urlToRedirect = $urlToRedirect;
 		$view->AccessErrorString = $messageNoAccess;
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
 		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
+	}
+	
+	function lostpassword($messageNoAccess = null)
+	{
+		$form = new Piwik_Login_PasswordForm;
+		$AccessErrorString = false;
+		
+		$currentUrl = Piwik_Url::getCurrentUrlWithoutQueryString();	
+		$urlToRedirect = Piwik_Common::getRequestVar('form_url', htmlspecialchars($currentUrl), 'string');
+		
+		if($form->validate())
+		{
+			// value submitted in form (login or email)
+			$loginMail = $form->getSubmitValue('form_login');
+
+			// get admin privileges before calling API
+			Piwik::setUserIsSuperUser();
+			
+			$user = null;
+			
+			// determine if given value is login or email
+			if( Piwik_UsersManager_API::userExists($loginMail) )
+			{
+				$user = Piwik_UsersManager_API::getUser($loginMail);
+			}
+			else if( Piwik_UsersManager_API::userEmailExists($loginMail) )
+			{
+				$user = Piwik_UsersManager_API::getUserByEmail($loginMail);
+
+			}
+			
+			// if user exists
+			if( $user != null )
+			{
+				$login = $user['login'];
+				$email = $user['email'];
+							
+				$randomPassword = Piwik_Common::getRandomString(8);
+				
+				Piwik_UsersManager_API::updateUser($login, $randomPassword);
+
+				// send email with new password
+				$mail = new Piwik_Mail();				
+				$mail->addTo($email, $login);
+				$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));				
+				$mail->setBodyText(sprintf(Piwik_Translate('Login_MailBodyPasswordRecovery'),
+					$login, $randomPassword, Piwik_Url::getCurrentUrlWithoutQueryString()));				
+				$mail->send();
+						
+				$view = new Piwik_View('Login/templates/passwordsent.tpl');
+				$view->linkTitle = Piwik::getRandomTitle();
+				$view->urlToRedirect = $urlToRedirect;
+				echo $view->render();
+
+				return;
+			}
+			else
+			{
+				$messageNoAccess = Piwik_Translate('Login_InvalidUsernameEmail');
+			}
+		}	
+		$view = new Piwik_View('Login/templates/lostpassword.tpl');	
+		$view->AccessErrorString = $messageNoAccess;
+		// make navigation login form -> reset password -> login form remember your first url		
+		$view->urlToRedirect = $urlToRedirect;
+		$view->linkTitle = Piwik::getRandomTitle();
+		$view->addForm( $form );
+		$view->subTemplate = 'genericForm.tpl';
+		echo $view->render();		
 	}
 	
 	function logout()

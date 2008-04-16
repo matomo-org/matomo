@@ -153,9 +153,9 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		// we need to rewrite the phpArray so it contains all the recursive arrays
 		if($currentlySearching)
 		{
-			$phpArrayRecursive = $this->getArrayFromRecursiveDataTable($view->dataTable);
+			$phpArrayRecursive = $this->getArrayFromRecursiveDataTable($view->getDataTable());
 //			var_dump($phpArrayRecursive);exit;
-			$view->view->arrayDataTable = $phpArrayRecursive;
+			$view->getView()->arrayDataTable = $phpArrayRecursive;
 		}
 //		var_dump( $view->view->arrayDataTable);exit;
 		return $view;

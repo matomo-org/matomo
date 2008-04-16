@@ -1,25 +1,25 @@
 <div id='leftcolumn'>
-	<h2>Browser families</h2>
+	<h2>{'UserSettings_BrowserFamilies'|translate}</h2>
 	{$dataTableBrowserType}
 	
-	<h2>Browsers</h2>
+	<h2>{'UserSettings_Browsers'|translate}</h2>
 	{$dataTableBrowser}
 	
-	<h2>Plugins</h2>
+	<h2>{'UserSettings_Plugins'|translate}</h2>
 	{$dataTablePlugin}
 </div>
 
 <div id='rightcolumn'>
-	<h2>Configurations</h2>
+	<h2>{'UserSettings_Configurations'|translate}</h2>
 	{$dataTableConfiguration}
 	
-	<h2>Operating systems</h2>
+	<h2>{'UserSettings_OperatinsSystems'|translate}</h2>
 	{$dataTableOS}
 	
-	<h2>Resolutions</h2>
+	<h2>{'UserSettings_Resolutions'|translate}</h2>
 	{$dataTableResolution}
 	
-	<h2>Wide Screen</h2>
+	<h2>{'UserSettings_WideScreen'|translate}</h2>
 	{$dataTableWideScreen}
 </div>	
 

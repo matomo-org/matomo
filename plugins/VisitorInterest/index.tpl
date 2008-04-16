@@ -1,5 +1,6 @@
 
-	<h2>Visits per visit duration</h2>
+	<h2>{'VisitorInterest_VisitsPerDuration'|translate}</h2>
 	{$dataTableNumberOfVisitsPerVisitDuration}
-	<h2>Visits per number of pages</h2>
+
+	<h2>{'VisitorInterest_VisitsPerNbOfPages'|translate}</h2>
 	{$dataTableNumberOfVisitsPerPage}

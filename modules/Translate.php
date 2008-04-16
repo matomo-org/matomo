@@ -69,6 +69,51 @@ class Piwik_Translate
 			throw new Exception("The language selected ('$language') is not a valid language file ");
 		}
 	}
+	
+	/**
+	 * Generate javascript translations array
+	 * 
+	 * @return string containing javascript code with translations array (including <script> tag)
+	 *
+	 */
+	public function getJavascriptTranslations($moduleList)
+	{
+		if( !$moduleList )
+		{
+			return '';
+		}
+		
+		$js = 'var translations = {';
+					
+		$moduleRegex = '#^(';
+		foreach($moduleList as $module)
+		{
+			$moduleRegex .= $module.'|'; 
+		}
+		$moduleRegex = substr($moduleRegex, 0, -1);
+		$moduleRegex .= ')_([^_]+)_js$#i';
+		
+		foreach($GLOBALS['Piwik_translations'] as $key => $value)
+		{
+			$matches = array();
+			
+			if( preg_match($moduleRegex,$key,$matches) ) {
+				$varName = $matches[1].'_'.$matches[2];
+				$varValue = $value;
+				
+				$js .= "'".$varName."': '".str_replace("'","\\'",$varValue)."',";
+			}
+			
+			$matches = null;
+		}
+		
+		$js .= '};';
+		$js .= 'function _pk_translate(tvar, str) { '.
+			'var s = str; if( typeof(translations[tvar]) != \'undefined\' ) s = translations[tvar];'.
+			'return s;}';
+		
+		return $js;
+	}
 }
 
 function Piwik_Translate($index)
@@ -80,5 +125,22 @@ function Piwik_Translate($index)
 	throw new Exception("Translation string '$index' not available.");
 }
 
+
+/**
+ * Returns translated string or given message if translation is not found.
+ * This function does not throw any exception. Use it to translate exceptions.
+ *
+ * @param string Translation string index
+ * @return string
+ */
+function Piwik_TranslateException($message)
+{
+	try {
+		return Piwik_Translate($message);		
+	}
+	catch(Exception $e) {
+		return $message;
+	}
+}
 
 

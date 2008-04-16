@@ -19,19 +19,20 @@ class Piwik_UsersManager extends Piwik_Plugin
 	{
 		$info = array(
 			// name must be the className prefix!
-			'name' => 'UserManager',
+			'name' => 'UsersManager',
 			'description' => 'Description',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
-			'translationAvailable' => false,
+			'translationAvailable' => true,
 		);
 		
 		return $info;
 	}
 	
+	function postLoad()
+	{
+		Piwik_AddAdminMenu(Piwik_Translate('UsersManager_MenuUsers'), array('module' => 'UsersManager'));		
+	}
 }
-
-Piwik_AddAdminMenu('Users', array('module' => 'UsersManager'));
-
 

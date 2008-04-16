@@ -1,11 +1,8 @@
-<h1>Congratulations</h1>
+<h1>{'Installation_Congratulations'|translate}</h1>
 
-<p>Congratulations! Your Piwik installation is complete.</p>
-
-<p>Make sure your javascript code is entered on your pages, 
-and wait for your first visitors!</p>
+{'Installation_ContratulationsHelp'|translate}
 
 
 <p class="nextStep">
-	<a href="{url module='' action=''}">Go to Piwik &raquo;</a>
+	<a href="{url module='' action=''}">{'Installation_GoToPiwik'|translate} &raquo;</a>
 </p>

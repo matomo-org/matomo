@@ -37,9 +37,8 @@ class Piwik_Home_Controller extends Piwik_Controller
 		{
 			if(($currentLogin = Piwik::getCurrentUserLogin()) != 'anonymous')
 			{
-				Piwik_ExitWithMessage( "You are logged in as '$currentLogin' but it seems you don't have any permission set in Piwik.
-				<br />Ask your Piwik administrator to give you 'view' access to a website.
-				<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='?module=Login&action=logout'>&rsaquo; Logout from Piwik</a></b><br />");
+				Piwik_ExitWithMessage( sprintf(Piwik_Translate('Home_NoPrivileges'),$currentLogin).
+				"<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='?module=Login&action=logout'>&rsaquo; ".Piwik_Translate('General_Logout')."</a></b><br />");
 			}
 			else
 			{
@@ -54,11 +53,18 @@ class Piwik_Home_Controller extends Piwik_Controller
 		// date
 		$view->date = $this->strDate;
 		$oDate = new Piwik_Date($this->strDate);
-		$view->prettyDate = $oDate->get("l j\<\s\u\p\>S\<\/\s\u\p\> F Y");
+		$view->prettyDate = $oDate->getLocalized(Piwik_Translate('Home_LocalizedDateFormat'));
 		
 		// period
 		$currentPeriod = Piwik_Common::getRequestVar('period');
-		$otherPeriodsAvailable = array('day','week','month','year');
+		$otherPeriodsAvailable = array('day', 'week', 'month', 'year');
+
+		$otherPeriodsNames = array(
+			'day' => Piwik_Translate('Home_PeriodDay'),
+			'week' => Piwik_Translate('Home_PeriodWeek'),
+			'month' => Piwik_Translate('Home_PeriodMonth'),
+			'year' => Piwik_Translate('Home_PeriodYear')
+			);
 		
 		$found = array_search($currentPeriod,$otherPeriodsAvailable);
 		if($found !== false)
@@ -68,6 +74,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 		
 		$view->period = $currentPeriod;
 		$view->otherPeriods = $otherPeriodsAvailable;
+		$view->periodsNames = $otherPeriodsNames;
 		
 		// other
 		$view->idSite = Piwik_Common::getRequestVar('idSite');
@@ -114,7 +121,5 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$view = $this->getDefaultIndexView();
 		echo $view->render();		
 	}
-
-	
-
 }
+	

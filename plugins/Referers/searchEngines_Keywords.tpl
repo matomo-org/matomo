@@ -1,9 +1,9 @@
 <div id='leftcolumn'>
-	<h2>Search engines</h2>
+	<h2>{'Referers_SearchEngines'|translate}</h2>
 	{$searchEngines}
 </div>
 
 <div id='rightcolumn'>
-	<h2>Keywords</h2>
+	<h2>{'Referers_Keywords'|translate}</h2>
 	{$keywords}
 </div>

@@ -1,6 +1,8 @@
 <html>
 <body>
 
+{loadJavascriptTranslations modules='Home'}
+
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="themes/default/common.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.dimensions.js"></script>
@@ -16,4 +18,3 @@
 {$content}
 
 </body>
-</html>

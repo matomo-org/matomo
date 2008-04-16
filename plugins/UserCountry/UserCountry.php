@@ -30,6 +30,14 @@ class Piwik_UserCountry extends Piwik_Plugin
 		return $info;
 	}
 	
+	public function postLoad()
+	{
+		Piwik_AddWidget( 'UserCountry', 'getContinent', Piwik_Translate('UserCountry_WidgetContinents'));
+		Piwik_AddWidget( 'UserCountry', 'getCountry', Piwik_Translate('UserCountry_WidgetCountries'));
+
+		Piwik_AddMenu('Visitors', Piwik_Translate('UserCountry_SubmenuLocations'), array('module' => 'UserCountry'));
+	}
+	
 	function getListHooksRegistered()
 	{
 		$hooks = array(
@@ -139,9 +147,4 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 	}
 	
 }
-
-Piwik_AddWidget( 'UserCountry', 'getContinent', 'Visitor continents');
-Piwik_AddWidget( 'UserCountry', 'getCountry', 'Visitor countries');
-
-Piwik_AddMenu('Visitors', 'Locations', array('module' => 'UserCountry'));
 

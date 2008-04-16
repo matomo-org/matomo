@@ -24,13 +24,15 @@ class Piwik_SitesManager extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
-			'translationAvailable' => false,
+			'translationAvailable' => true,
 		);
 		
 		return $info;
 	}
 	
+	function postLoad()
+	{
+		Piwik_AddAdminMenu(Piwik_Translate('SitesManager_MenuSites'), array('module' => 'SitesManager'));		
+	}
 }
-
-Piwik_AddAdminMenu('Sites', array('module' => 'SitesManager'));
 

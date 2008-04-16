@@ -24,15 +24,15 @@
 	border-left: 1px solid #fff;
 	float: left;
 	list-style: none;
-	z-index: 999;
+	z-index: 49;
 }
 
 .nav li.current ul {
-	z-index: 999;
+	z-index: 49;
 }
 
 .nav li.sfHover ul,ul.nav li:hover ul {
-	z-index: 1000;
+	z-index: 50;
 }
 
 /* LEVEL2 NORMAL */

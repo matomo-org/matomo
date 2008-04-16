@@ -34,6 +34,22 @@ class Piwik_Referers extends Piwik_Plugin
 		
 		return $info;
 	}
+	
+	function postLoad()
+	{
+		Piwik_AddWidget( 'Referers', 'getKeywords', Piwik_Translate('Referers_WidgetKeywords'));
+		Piwik_AddWidget( 'Referers', 'getPartners', Piwik_Translate('Referers_WidgetPartners'));
+		Piwik_AddWidget( 'Referers', 'getCampaigns', Piwik_Translate('Referers_WidgetCampaigns'));
+		Piwik_AddWidget( 'Referers', 'getWebsites', Piwik_Translate('Referers_WidgetExternalWebsites'));
+		Piwik_AddWidget( 'Referers', 'getSearchEngines', Piwik_Translate('Referers_WidgetSearchEngines'));
+		Piwik_AddWidget( 'Referers', 'getRefererType', Piwik_Translate('Referers_WidgetOverview'));
+
+		Piwik_AddMenu('Referers', Piwik_Translate('Referers_SubmenuEvolution'), array('module' => 'Referers'));
+		Piwik_AddMenu('Referers', Piwik_Translate('Referers_SubmenuSearchEngines'), array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));
+		Piwik_AddMenu('Referers', Piwik_Translate('Referers_SubmenuWebsites'), array('module' => 'Referers', 'action' => 'getWebsites'));
+		Piwik_AddMenu('Referers', Piwik_Translate('Referers_SubmenuCampaigns'), array('module' => 'Referers', 'action' => 'getCampaigns'));
+		Piwik_AddMenu('Referers', Piwik_Translate('Referers_SubmenuPartners'), array('module' => 'Referers', 'action' => 'getPartners'));	
+	}
 		
 	function getListHooksRegistered()
 	{
@@ -301,19 +317,4 @@ class Piwik_Referers extends Piwik_Plugin
 //		echo "after serialization = ". $timer;
 	}
 }
-
-
-
-Piwik_AddWidget( 'Referers', 'getKeywords', 'List of Keywords');
-Piwik_AddWidget( 'Referers', 'getPartners', 'List of Partners');
-Piwik_AddWidget( 'Referers', 'getCampaigns', 'List of Campaigns');
-Piwik_AddWidget( 'Referers', 'getWebsites', 'List of external Websites');
-Piwik_AddWidget( 'Referers', 'getSearchEngines', 'Best search engines');
-Piwik_AddWidget( 'Referers', 'getRefererType', 'Overview');
-
-Piwik_AddMenu('Referers', 'Evolution', array('module' => 'Referers'));
-Piwik_AddMenu('Referers', 'Search engines & keywords', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));
-Piwik_AddMenu('Referers', 'Websites', array('module' => 'Referers', 'action' => 'getWebsites'));
-Piwik_AddMenu('Referers', 'Campaigns', array('module' => 'Referers', 'action' => 'getCampaigns'));
-Piwik_AddMenu('Referers', 'Partners', array('module' => 'Referers', 'action' => 'getPartners'));
 

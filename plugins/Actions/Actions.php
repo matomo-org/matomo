@@ -37,6 +37,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'translationAvailable' => true
 		);
 		
 		return $info;
@@ -49,7 +50,18 @@ class Piwik_Actions extends Piwik_Plugin
 	function uninstall()
 	{
 	}
-	
+
+	function postLoad()
+	{
+		Piwik_AddWidget( 'Actions', 'getActions', Piwik_Translate('Actions_SubmenuPages'));
+		Piwik_AddWidget( 'Actions', 'getDownloads', Piwik_Translate('Actions_SubmenuDownloads'));
+		Piwik_AddWidget( 'Actions', 'getOutlinks', Piwik_Translate('Actions_SubmenuOutlinks'));
+
+		Piwik_AddMenu('Actions', Piwik_Translate('Actions_SubmenuPages'), array('module' => 'Actions', 'action' => 'getActions'));
+		Piwik_AddMenu('Actions', Piwik_Translate('Actions_SubmenuOutlinks'), array('module' => 'Actions', 'action' => 'getOutlinks'));
+		Piwik_AddMenu('Actions', Piwik_Translate('Actions_SubmenuDownloads'), array('module' => 'Actions', 'action' => 'getDownloads'));		
+	}
+		
 	function getListHooksRegistered()
 	{
 		$hooks = array(
@@ -282,6 +294,7 @@ class Piwik_Actions extends Piwik_Plugin
 				$currentTable = new Piwik_DataTable_Row(
 					array(	Piwik_DataTable_Row::COLUMNS => 
 							array(	'label' => (string)$actionName,
+									'full_url' => (string)$row['name'],
 								)
 						)
 					);
@@ -330,16 +343,5 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		return $rowsProcessed;
 	}
-
 }
-
-
-Piwik_AddWidget( 'Actions', 'getActions', 'Pages');
-Piwik_AddWidget( 'Actions', 'getDownloads', 'Downloads');
-Piwik_AddWidget( 'Actions', 'getOutlinks', 'Outlinks');
-
-Piwik_AddMenu('Actions', 'Pages', array('module' => 'Actions', 'action' => 'getActions'));
-Piwik_AddMenu('Actions', 'Outlinks', array('module' => 'Actions', 'action' => 'getOutlinks'));
-Piwik_AddMenu('Actions', 'Downloads', array('module' => 'Actions', 'action' => 'getDownloads'));
-
 

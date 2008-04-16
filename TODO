@@ -1,6 +1,11 @@
 simple fix
 ====
-   
+todo: when adding a user, should test that email is unique
+   piwik.php link to /piwik
+editing site web with single quote bugs in siteAdmin
+something is wrong in JS calendar when year selected
+
+
 added index _visit server_date
 added index _log_link_action idvisit
 

@@ -74,7 +74,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		Piwik_UsersManager_API::updateUser(  $login, "pas");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(password)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionInvalidPassword)", $expected->getMessage());
     		
     		$this->_checkUserHasNotChanged($user,$user['password']);
             return;
@@ -93,8 +93,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		Piwik_UsersManager_API::addUser(12, "password", "email@email.com", "alias");
     	}
     	catch (Exception $expected) {
-    		$this->assertNoPattern("(already exist)", $expected->getMessage());
-    		$this->assertPattern("(login)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionInvalidLogin)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -109,8 +108,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		Piwik_UsersManager_API::addUser("gegag'ggea'", "password", "email@email.com", "alias");
     	}
     	catch (Exception $expected) {
-    		$this->assertNoPattern("(already exist)", $expected->getMessage());
-    		$this->assertPattern("(login)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionInvalidLogin)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -124,8 +122,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		Piwik_UsersManager_API::addUser("gegag11gge@", "password", "email@email.com", "alias");
     	}
     	catch (Exception $expected) {
-    		$this->assertNoPattern("(already exist)", $expected->getMessage());
-    		$this->assertPattern("(login)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionInvalidLogin)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -140,8 +137,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		Piwik_UsersManager_API::addUser("geg'ag11gge@", "password", "email@email.com", "alias");
     	}
     	catch (Exception $expected) {
-    		$this->assertNoPattern("(already exist)", $expected->getMessage());
-    		$this->assertPattern("(login)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionInvalidLogin)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -157,7 +153,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		Piwik_UsersManager_API::addUser("test", "password2", "em2ail@email.com", "al2ias");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(already exist)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionLoginExists)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -173,7 +169,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		Piwik_UsersManager_API::addUser("geggeqgeqag", "pas", "email@email.com", "alias");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(password)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionInvalidPassword)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -187,7 +183,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		Piwik_UsersManager_API::addUser("ghqgeggg", "gegageqqqqqqqgeqgqeg84897897897897g122", "email@email.com", "alias");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(password)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionInvalidPassword)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -202,7 +198,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		Piwik_UsersManager_API::addUser("geggeqgeqag", "", "email@email.com", "alias");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(password)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionInvalidPassword)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -351,7 +347,7 @@ class Test_Piwik_UsersManager extends Test_Database
 			Piwik_UsersManager_API::deleteUser("geggeqggnew");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(doesn't exist)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionDeleteDoesNotExist)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -366,7 +362,7 @@ class Test_Piwik_UsersManager extends Test_Database
 			Piwik_UsersManager_API::deleteUser("");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(doesn't exist)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionDeleteDoesNotExist)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -381,14 +377,14 @@ class Test_Piwik_UsersManager extends Test_Database
 			Piwik_UsersManager_API::deleteUser(null);
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(doesn't exist)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionDeleteDoesNotExist)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
     }
     
     /**
-     * normal case,user deleted
+     * normal case, user deleted
      */
     function test_deleteUser()
     {
@@ -415,7 +411,7 @@ class Test_Piwik_UsersManager extends Test_Database
 	        $this->fail("Exception not raised.");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(doesn't exist)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
         }
         // add the same user
         Piwik_UsersManager_API::addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
@@ -438,7 +434,7 @@ class Test_Piwik_UsersManager extends Test_Database
 	        $this->fail("Exception not raised.");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(doesn't exist)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
         }
     }
 	
@@ -529,7 +525,7 @@ class Test_Piwik_UsersManager extends Test_Database
 	        $this->fail("Exception not raised.");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(doesn't exist)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
         }
     	
     }
@@ -547,7 +543,7 @@ class Test_Piwik_UsersManager extends Test_Database
 	        $this->fail("Exception not raised.");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(access)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionAccessValues)", $expected->getMessage());
         }
     }
     
@@ -733,7 +729,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		$access1 = Piwik_UsersManager_API::getSitesAccessFromUser("user1");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(user)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -762,7 +758,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		$access1 = Piwik_UsersManager_API::getUsersSitesFromAccess('unknown');
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(access)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionAccessValues)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");
@@ -778,7 +774,7 @@ class Test_Piwik_UsersManager extends Test_Database
     		Piwik_UsersManager_API::updateUser(  "lolgin", "password");
     	}
     	catch (Exception $expected) {
-    		$this->assertPattern("(doesn't exist)", $expected->getMessage());
+    		$this->assertPattern("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
             return;
         }
         $this->fail("Exception not raised.");

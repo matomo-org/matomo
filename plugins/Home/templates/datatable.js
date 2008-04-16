@@ -1,16 +1,3 @@
-
-//label and string used in the javascript
-//overide this object for dataTable_translation
-if(typeof dataTable_translation == "undefined")
-{
-	var dataTable_translation = {
-		includeLowPop: 		'Include all population',
-		excludeLowPop: 		'Exclude low population',
-		pageOf: 			' of ',						//like in 1-10 _of_ 42
-		loading: 			'Loading...'
-	};
-}
-
 //-----------------------------------------------------------------------------
 //								Data Table
 //-----------------------------------------------------------------------------
@@ -281,11 +268,11 @@ dataTable.prototype =
 					{
 						if(Number(self.param.filter_excludelowpop) != 0)
 						{
-							string = dataTable_translation.includeLowPop;
+							string = _pk_translate('Home_IncludeAllPopulation','Include all population');
 						}
 						else
 						{
-							string = dataTable_translation.excludeLowPop;
+							string = _pk_translate('Home_ExcludeLowPopulation','Exclude low population');
 						}
 						$(this).html(string);
 					} 
@@ -423,7 +410,7 @@ dataTable.prototype =
 					// only show this string if there is some rows in the datatable
 					if(totalRows != 0)
 					{
-						var str = offset + '-' + offsetEndDisp + dataTable_translation.pageOf + totalRows;
+						var str = sprintf(_pk_translate('Home_PageOf','%s of %s'),offset + '-' + offsetEndDisp,totalRows);
 						$(this).text(str);
 					}
 				}
@@ -631,7 +618,7 @@ dataTable.prototype =
 					<tr>\
 						<td colspan="'+numberOfColumns+'" class="cellSubDataTable">\
 							<div id="'+divIdToReplaceWithSubTable+'">\
-								<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ dataTable_translation.loading +'</span>\
+								<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('Home_Loading','Loading...') +'</span>\
 							</div>\
 						</td>\
 					</tr>\
@@ -999,4 +986,3 @@ function setImagePlus( domElem )
 	$('img',domElem).attr('src', 'themes/default/images/plus.png');
 }
 
-	

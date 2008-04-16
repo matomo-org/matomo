@@ -28,6 +28,13 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 	protected $columnsToDisplay = array();
 	
 	/**
+	 * Array of columns names translations
+	 *
+	 * @var array
+	 */
+	protected $columnsTranslations = array();
+
+	/**
 	 * PHP array conversion of the Piwik_DataTable 
 	 *
 	 * @var array
@@ -49,6 +56,11 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		$this->dataTableTemplate = 'Home/templates/datatable.tpl';
 		
 		$this->variablesDefault['enable_sort'] = true;
+	
+		// load general columns translations
+		$this->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnNbVisits'));
+		$this->setColumnTranslation('label', Piwik_Translate('General_ColumnLabel'));
+		$this->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnNbUniqVisitors'));	
 	}
 	
 	/**
@@ -130,6 +142,44 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Sets translation string for given column
+	 *
+	 * @param string $columnName column name
+	 * @param string $columnTranslation column name translation
+	 */
+	public function setColumnTranslation( $columnName, $columnTranslation )
+	{
+		$this->columnsTranslations[$columnName] = $columnTranslation;
+	}
+	
+	/**
+	 * Returns column translation if available, in other case given column name
+	 *
+	 * @param string $columnName column name
+	 */
+	public function getColumnTranslation( $columnName )
+	{
+		if( isset($this->columnsTranslations[$columnName]) )
+		{
+			return $this->columnsTranslations[$columnName];
+		}
+		else
+		{
+			return $columnName;
+		}
+	}
+	
+	/**
+	 * Sets columns translations array.
+	 *
+	 * @param array $columnsTranslations An associative array indexed by column names, eg. array('nb_visit'=>"Numer of visits")
+	 */
+	public function setColumnsTranslations( $columnsTranslations )
+	{
+		$this->columnsTranslations = $columnsTranslations;
+	}
+	
+	/**
 	 * Returns array(
 	 * 				array('id' => 1, 'name' => 'nb_visits'),
 	 * 				array('id' => 3, 'name' => 'nb_uniq_visitors'),
@@ -148,7 +198,7 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 			{
 				if( $this->isColumnToDisplay( $id, $columnName) )
 				{
-					$dataTableColumns[]	= array('id' => $id, 'name' => $columnName);
+					$dataTableColumns[]	= array('id' => $id, 'name' => $columnName, 'displayName' => $this->getColumnTranslation($columnName) );
 				}
 				$id++;
 			}

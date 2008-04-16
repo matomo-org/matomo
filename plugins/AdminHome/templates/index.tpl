@@ -42,6 +42,6 @@
 </div>
 
 <div id="footer" style="border-top:1px solid gray; margin-top:20px;padding-top:10px;">
-<a href='?module=Home'>Back to Piwik homepage</a>
+<a href='?module=Home'>{'General_BackToHomepage'|translate}</a>
 
 </div>

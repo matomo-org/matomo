@@ -351,5 +351,4 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	{
 		return $this->getNumericValue('Referers.' . __FUNCTION__);
 	}
-	
 }

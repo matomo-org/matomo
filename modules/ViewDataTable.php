@@ -124,7 +124,7 @@ abstract class Piwik_ViewDataTable
 	 *  
 	 * @var Piwik_DataTable
 	 */
-	protected $dataTable; 
+	protected $dataTable = null; 
 		
 	/**
 	 * @see init()
@@ -320,6 +320,20 @@ abstract class Piwik_ViewDataTable
 		return $this->view;
 	}
 
+	/**
+	 * Returns the DataTable loaded from the API
+	 *
+	 * @return Piwik_DataTable
+	 * @throws exception if not yet defined
+	 */
+	public function getDataTable()
+	{
+		if(is_null($this->dataTable))
+		{
+			throw new Exception("The DataTable requested has not been loaded yet.");
+		}
+		return $this->dataTable;
+	}
 	/**
 	 * Function called by the ViewDataTable objects in order to fetch data from the API.
 	 * The function init() must have been called before, so that the object knows which API module and action to call.

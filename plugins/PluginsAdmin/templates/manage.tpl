@@ -20,8 +20,8 @@
 	<td>{$plugin.info.description}&nbsp;</td>
 	<td class="center"><a href="{$plugin.info.homepage}">{$plugin.info.author}</a></td>
 	<td>{$plugin.info.version}</td>
-	<td class="switch">{if $plugin.alwaysActivated}<span title="This plugin cannot be deactivated">Activated</span>{elseif $plugin.activated}<a href=?module=PluginsAdmin&action=deactivate&pluginName={$name}>Deactivate</a>
-{else}<a href=?module=PluginsAdmin&action=activate&pluginName={$name}>Activate</a>{/if}</td>
+	<td class="switch">{if $plugin.alwaysActivated}<span title="{'PluginsAdmin_ActivatedHelp'|translate}">{'PluginsAdmin_Activated'|translate}</span>{elseif $plugin.activated}<a href=?module=PluginsAdmin&action=deactivate&pluginName={$name}>{'PluginsAdmin_Deactivate'|translate}</a>
+{else}<a href=?module=PluginsAdmin&action=activate&pluginName={$name}>{'PluginsAdmin_Activate'|translate}</a>{/if}</td>
 	</tr>
 {/foreach}
 

@@ -29,9 +29,18 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'translationAvailable' => true
 		);
 		
 		return $info;
+	}
+	
+	function postLoad()
+	{
+		Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerLocalTime', Piwik_Translate('VisitTime_WidgetLocalTime'));
+		Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerServerTime', Piwik_Translate('VisitTime_WidgetServerTime'));
+
+		Piwik_AddMenu('Visitors', Piwik_Translate('VisitTime_SubmenuTimes'), array('module' => 'VisitTime'));
 	}
 	
 	function getListHooksRegistered()
@@ -87,10 +96,4 @@ class Piwik_VisitTime extends Piwik_Plugin
 		}
 	}
 }
-
-
-Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerLocalTime', 'Visits by local time');
-Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerServerTime', 'Visits by server time');
-
-Piwik_AddMenu('Visitors', 'Times', array('module' => 'VisitTime'));
 

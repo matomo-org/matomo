@@ -19,17 +19,26 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	{
 		$info = array(
 			// name must be the className prefix!
-			'name' => 'Piwik_VisitsSummary',
+			'name' => 'VisitsSummary',
 			'description' => 'Description',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
-			'translationAvailable' => false,
+			'translationAvailable' => true,
 		);
 		
 		return $info;
 	}
 	
+	function postLoad()
+	{
+		Piwik_AddWidget( 'VisitsSummary', 'getLastVisitsGraph', Piwik_Translate('VisitsSummary_WidgetLastVisits'));
+		Piwik_AddWidget( 'VisitsSummary', 'getSparklines', Piwik_Translate('VisitsSummary_WidgetVisits'));
+		Piwik_AddWidget( 'VisitsSummary', 'getLastUniqueVisitorsGraph', Piwik_Translate('VisitsSummary_WidgetLastVisitors'));
+		Piwik_AddWidget( 'VisitsSummary', 'index', Piwik_Translate('VisitsSummary_WidgetOverviewGraph'));
+
+		Piwik_AddMenu('Visitors', Piwik_Translate('VisitsSummary_SubmenuOverview'), array('module' => 'VisitsSummary'), true);
+	}
 }
 
 require_once "ViewDataTable.php";
@@ -122,11 +131,5 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
-}		
+}
 
-Piwik_AddWidget( 'VisitsSummary', 'getLastVisitsGraph', 'Last visits graph');
-Piwik_AddWidget( 'VisitsSummary', 'getSparklines', 'Visits overview');
-Piwik_AddWidget( 'VisitsSummary', 'getLastUniqueVisitorsGraph', 'Last unique visitors graph');
-Piwik_AddWidget( 'VisitsSummary', 'index', 'Overview with graph');
-
-Piwik_AddMenu('Visitors', 'Overview', array('module' => 'VisitsSummary'), true);

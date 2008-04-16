@@ -31,10 +31,8 @@ $(document).ready( function(){
 	<img src="themes/default/images/success_medium.png">
 </span>
 {/if}
-<h1>Javascript tag</h1>
-<p>To count all visitors, you must insert the javascript code on all of your pages.</p>
-<p>Your pages do not have to be made with PHP, Piwik will work on all kinds of pages (whether it is HTML, ASP, Perl or any other languages).</p>
-<p>Here is the code you have to insert: (copy and paste on all your pages) </P>
+<h1>{'Installation_JsTag'|translate}</h1>
+{'Installation_JsTagHelp'|translate}
 <code>
 {$javascriptTag}
 </code>

@@ -42,14 +42,7 @@ class Piwik_DataTable_Manager
 	 * @var array
 	 */
 	protected $tables = array();
-	
-	/**
-	 * Number of datatable currently stored in the array
-	 *
-	 * @var int
-	 */
-	protected $count = 0;
-	
+		
 	/**
 	 * Add a DataTable to the registry
 	 * 
@@ -59,8 +52,7 @@ class Piwik_DataTable_Manager
 	public function addTable( $table )
 	{
 		$this->tables[] = $table;
-		$this->count++;
-		return $this->count;
+		return count($this->tables);
 	}
 	
 	/**

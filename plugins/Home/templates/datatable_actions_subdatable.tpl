@@ -3,7 +3,7 @@
 	{$arrayDataTable.message} 
 {else}
 	{if count($arrayDataTable) == 0}
-	<tr><td colspan="{$nbColumns}">No data in this category. Try to "Include all population".</td></tr>
+	<tr><td colspan="{$nbColumns}">{'Home_CategoryNoData'|translate}</td></tr>
 	{else}
 		{foreach from=$arrayDataTable item=row}
 		<tr {if $row.idsubdatatable}class="subActionsDataTable" id="{$row.idsubdatatable}"{else}class="actionsDataTable"{/if}>
