@@ -392,7 +392,7 @@ class Piwik_LogStats_Visit
 		/**
 		 * Init the action
 		 */
-		$action = new Piwik_LogStats_Action( $this->db );
+		$action = $this->getActionObject();
 		
 		$actionId = $action->getActionId();
 		
@@ -481,8 +481,7 @@ class Piwik_LogStats_Visit
 		/**
 		 * Init the action
 		 */
-		$action = new Piwik_LogStats_Action( $this->db );
-		
+		$action = $this->getActionObject();
 		$actionId = $action->getActionId();
 		
 		printDebug("idAction = $actionId");		
@@ -551,6 +550,29 @@ class Piwik_LogStats_Visit
 		 */
 		$action->record( $idVisit, 0, 0 );
 		
+	}
+	
+	/**
+	 * Returns an object able to handle the current action
+	 * Plugins can return an override Action that for example, does not record the action in the DB
+	 *
+	 * @return Piwik_LogStats_Action child or fake but with same public interface
+	 */
+	private function getActionObject()
+	{
+		$action = null;
+		Piwik_PostEvent('LogStats.newAction', $action);
+	
+		if(is_null($action))
+		{
+			$action = new Piwik_LogStats_Action( $this->db );
+		}
+		elseif(!($action instanceof Piwik_LogStats_Action_Interface))
+		{
+			throw new Exception("The Action object set in the plugin must implement the interface Piwik_LogStats_Action_Interface");
+		}
+		
+		return $action;
 	}
 	
 	/**
