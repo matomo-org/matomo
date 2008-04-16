@@ -9,6 +9,16 @@
  * @package Piwik_LogStats
  */
 
+/**
+ * Interface of the Action object.
+ * New Action classes can be defined in plugins and used instead of the default one.
+ * 
+ * @package Piwik_LogStats
+ */
+interface Piwik_LogStats_Action_Interface {
+	public function getActionId();
+	public function record( $idVisit, $idRefererAction, $timeSpentRefererAction );
+}
 
 /**
  * Handles an action by the visitor.
@@ -32,7 +42,7 @@
  * 
  * @package Piwik_LogStats
  */
-class Piwik_LogStats_Action
+class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
 {
 	private $actionName;
 	private $url;
@@ -67,7 +77,43 @@ class Piwik_LogStats_Action
 		$this->defaultActionName = Piwik_LogStats_Config::getInstance()->LogStats['default_action_name'];
 	}
 	
+	
+	
 	/**
+	 * Returns the idaction of the current action name.
+	 * This idaction is used in the visitor logging table to link the visit information 
+	 * (entry action, exit action) to the actions.
+	 * This idaction is also used in the table that links the visits and their actions.
+	 * 
+	 * The methods takes care of creating a new record in the action table if the existing 
+	 * action name doesn't exist yet.
+	 * 
+	 * @return int Id action that is associated to this action name in the Actions table lookup
+	 */
+	function getActionId()
+	{
+		$this->loadActionId();
+		return $this->idAction;
+	}
+	
+	
+	/**
+	 * Records in the DB the association between the visit and this action.
+	 * 
+	 * @param int idVisit is the ID of the current visit in the DB table log_visit
+	 * @param int idRefererAction is the ID of the last action done by the current visit. 
+	 * @param int timeSpentRefererAction is the number of seconds since the last action was done. 
+	 * 				It is directly related to idRefererAction.
+	 */
+	 public function record( $idVisit, $idRefererAction, $timeSpentRefererAction)
+	 {
+	 	$this->db->query("INSERT INTO ".$this->db->prefixTable('log_link_visit_action')
+						." (idvisit, idaction, idaction_ref, time_spent_ref_action) VALUES (?,?,?,?)",
+					array($idVisit, $this->idAction, $idRefererAction, $timeSpentRefererAction)
+					);
+	 }
+	 
+	 /**
 	 * Generates the name of the action from the URL or the specified name.
 	 * Sets the name as $this->finalActionName
 	 * 
@@ -159,24 +205,6 @@ class Piwik_LogStats_Action
 		
 		$this->finalActionName = $actionName;
 	}
-	
-	/**
-	 * Returns the idaction of the current action name.
-	 * This idaction is used in the visitor logging table to link the visit information 
-	 * (entry action, exit action) to the actions.
-	 * This idaction is also used in the table that links the visits and their actions.
-	 * 
-	 * The methods takes care of creating a new record in the action table if the existing 
-	 * action name doesn't exist yet.
-	 * 
-	 * @return int Id action that is associated to this action name in the Actions table lookup
-	 */
-	function getActionId()
-	{
-		$this->loadActionId();
-		return $this->idAction;
-	}
-	
 	/**
 	 * Sets the attribute $idAction based on $finalActionName and $actionType.
 	 * 
@@ -210,20 +238,5 @@ class Piwik_LogStats_Action
 		$this->idAction = $idAction;
 	}
 	
-	/**
-	 * Records in the DB the association between the visit and this action.
-	 * 
-	 * @param int idVisit is the ID of the current visit in the DB table log_visit
-	 * @param int idRefererAction is the ID of the last action done by the current visit. 
-	 * @param int timeSpentRefererAction is the number of seconds since the last action was done. 
-	 * 				It is directly related to idRefererAction.
-	 */
-	 public function record( $idVisit, $idRefererAction, $timeSpentRefererAction)
-	 {
-	 	$this->db->query("INSERT INTO ".$this->db->prefixTable('log_link_visit_action')
-						." (idvisit, idaction, idaction_ref, time_spent_ref_action) VALUES (?,?,?,?)",
-					array($idVisit, $this->idAction, $idRefererAction, $timeSpentRefererAction)
-					);
-	 }
 }
 
