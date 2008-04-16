@@ -1,21 +1,23 @@
+{loadJavascriptTranslations modules='SitesManager'}
+
 <script type="text/javascript" src="plugins/SitesManager/templates/SitesManager.js"></script>
 
-<h2>Sites</h2>
+<h2>{'SitesManager_Sites'|translate}</h2>
 <div id="ajaxError" style="display:none"></div>
-<div id="ajaxLoading" style="display:none">Loading... <img src="themes/default/loading.gif"></div>
+<div id="ajaxLoading" style="display:none">{'General_LoadingData'|translate} <img src="themes/default/loading.gif"></div>
 
 {if $sites|@count == 0}
-	You don't have any website to administrate.
+	{'SitesManager_NoWebsites'|translate}
 {else}
 	<table id="editSites" border=1 cellpadding="10">
 		<thead>
 			<tr>
-			<th>Id</th>
-			<th>Name</th>
-			<th>URLs</th>
+			<th>{'SitesManager_Id'|translate}</th>
+			<th>{'SitesManager_Name'|translate}</th>
+			<th>{'SitesManager_Urls'|translate}</th>
 			<th> </th>
 			<th> </th>
-			<th> Javascript code </th>
+			<th> {'SitesManager_JsCode'|translate} </th>
 			</tr>
 		</thead>
 		<tbody>
@@ -25,13 +27,13 @@
 				<td id="siteName" class="editableSite">{$site.name}</td>
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url}<br>{/foreach}</td>       
 				<td><img src='plugins/UsersManager/images/edit.png' class="editSite" id="row{$i}" href='#'></td>
-				<td><img src='plugins/UsersManager/images/remove.png' class="deleteSite" id="row{$i}" value="Delete"></td>
-				<td><a href='{url actionToLoad=displayJavascriptCode idsite=$site.idsite}'>Show Code</a></td>
+				<td><img src='plugins/UsersManager/images/remove.png' class="deleteSite" id="row{$i}" value="{'General_Delete'|translate}"></td>
+				<td><a href='{url actionToLoad=displayJavascriptCode idsite=$site.idsite}'>{'SitesManager_ShowJsCode'|translate}</a></td>
 			</tr>
 			{/foreach}
 			
 		</tbody>
 	</table>
-	<div id="addRowSite"><img src='plugins/UsersManager/images/add.png'> <a href="#">Add a new Site</a></div>
+	<div id="addRowSite"><img src='plugins/UsersManager/images/add.png'> <a href="#">{'SitesManager_AddSite'|translate}</a></div>
 {/if}
 

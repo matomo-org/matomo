@@ -217,6 +217,21 @@ class Piwik_Date
 		return date($part, $this->getTimestamp());
 	}
 	
+	/**
+	 * Returns a localized representation of a date or datepart
+	 *
+	 * @param string OPTIONAL Part of the date to return (in strftime format), if null timestamp is returned
+	 * @return integer|string date or datepart
+	 */
+	public function getLocalized($part = null)
+	{
+		if(is_null($part))
+		{
+			return $this->getTimestamp();
+		}
+		return strftime($part, $this->getTimestamp());
+	}
+	
     /**
      * Adds days to the existing date object.
      * Returned is the new date object

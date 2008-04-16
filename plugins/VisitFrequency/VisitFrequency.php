@@ -18,14 +18,23 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'VisitorFrequency',
+			'name' => 'VisitFrequency',
 			'description' => 'VisitorFrequency',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'translationAvailable' => true
 		);
 		
 		return $info;
+	}
+	
+	function postLoad()
+	{
+		Piwik_AddWidget( 'VisitFrequency', 'getSparklines', Piwik_Translate('VisitFrequency_WidgetOverview'));
+		Piwik_AddWidget( 'VisitFrequency', 'getLastVisitsReturningGraph', Piwik_Translate('VisitFrequency_WidgetGraphReturning'));
+
+		Piwik_AddMenu('Visitors', Piwik_Translate('VisitFrequency_SubmenuFrequency'), array('module' => 'VisitFrequency'));
 	}
 	
 	function getListHooksRegistered()
@@ -86,12 +95,4 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		}
 	}
 }
-
-
-Piwik_AddWidget( 'VisitFrequency', 'getSparklines', 'Frequency overview');
-Piwik_AddWidget( 'VisitFrequency', 'getLastVisitsReturningGraph', 'Graph returning visits');
-
-Piwik_AddMenu('Visitors', 'Frequency', array('module' => 'VisitFrequency'));
-
-
 

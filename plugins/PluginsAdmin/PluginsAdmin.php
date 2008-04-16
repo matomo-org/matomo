@@ -15,16 +15,19 @@ class Piwik_PluginsAdmin extends Piwik_Plugin
 	{
 		return array(
 			// name must be the className prefix!
-			'name' => 'Plugins administration',
+			'name' => 'PluginsAdmin',
 			'description' => '',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
-			'translationAvailable' => false,
+			'translationAvailable' => true,
 		);
+	}
+	
+	function postLoad()
+	{
+		Piwik_AddAdminMenu(Piwik_Translate('PluginsAdmin_MenuPlugins'), array('module' => 'PluginsAdmin'));		
 	}
 }
 
-
-Piwik_AddAdminMenu('Plugins', array('module' => 'PluginsAdmin'));
 

@@ -20,7 +20,7 @@ class Piwik_API extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
-			'translationAvailable' => false,
+			'translationAvailable' => true,
 		);
 	}
 }

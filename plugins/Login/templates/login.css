@@ -37,9 +37,14 @@ form .submit { float: right; }
 
 form p { margin-bottom: 24px; }
 
+.updated, .login #login_error, .login .message {
+	background-color: #ffffe0;
+	border-color: #e6db55;
+}
+
 #login { width: 292px; margin: 7em auto; margin-top: 20px; }
 
-#login_error {
+#login_error, .message {
 	margin: 0 0 16px 8px;
 	border-width: 1px;
 	border-style: solid;

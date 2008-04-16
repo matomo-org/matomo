@@ -1,18 +1,3 @@
-
-
-//label and string used in the javascript
-//overide this object for dataTable_translation
-if(typeof dashboard_translation == "undefined")
-{
-	var dashboard_translation = {
-		titleWidgetInDashboard: 	'Widget already in dashboard',
-		titleClickToAdd: 			'Click to add to dashboard',
-		loadingPreview: 			'Loading preview, please wait...',
-		loadingWidget: 				'Loading widget, please wait...',
-		widgetNotFound: 			'Widget not found'
-	};
-}
-
 //there is a problem with loop for-in when we extends javascript Array
 //so I prefer using a separate function to do this
 function contains(array, searchElem) {
@@ -158,7 +143,7 @@ widgetMenu.prototype =
 						//format the div for upcomming ajax loading and set a temporary content
 						$(this)	.attr('plugin', plugin)
 								.attr('id', action)
-								.html('<div id="previewLoading"><img src="themes/default/loading.gif" />'+ dashboard_translation.loadingPreview +'</div>').show();
+								.html('<div id="previewLoading"><img src="themes/default/loading.gif" />'+ _pk_translate('Dashboard_LoadingPreview','Loading preview, please wait...') +'</div>').show();
 						self.dashboard.ajaxLoading(plugin, action);
 					}
 				});
@@ -208,12 +193,12 @@ widgetMenu.prototype =
 			if(contains(widgets, plugin+'.'+action))
 			{
 				$(this).addClass('menuDisabled');
-				$(this).attr('title', dashboard_translation.titleWidgetInDashboard);
+				$(this).attr('title', _pk_translate('Dashboard_TitleWidgetInDashboard','Widget already in dashboard'));
 			}
 			else
 			{
 				$(this).removeClass('menuDisabled');
-				$(this).attr('title', dashboard_translation.titleClickToAdd);
+				$(this).attr('title', _pk_translate('Dashboard_TitleClickToAdd','Click to add to dashboard'));
 			}
 		});
 	},
@@ -343,7 +328,7 @@ dashboard.prototype =
 		if(typeof onTop == "undefined")
 			onTop = false;
 		
-		var item = '<div class="items"><div class="widget"><div class="widgetLoading">'+dashboard_translation.loadingWidget+'</div><div plugin="'+plugin+'"'+' id="'+action+'" class="widgetDiv"></div></div></div>';
+		var item = '<div class="items"><div class="widget"><div class="widgetLoading">'+ _pk_translate('Dashboard_LoadingWidget','Loading widget, please wait...') +'</div><div plugin="'+plugin+'"'+' id="'+action+'" class="widgetDiv"></div></div></div>';
 	
 		if(onTop)
 		{
@@ -390,7 +375,7 @@ dashboard.prototype =
 	{
 		var self = this;
 		
-		var title = dashboard_translation.widgetNotFound;
+		var title = _pk_translate('Dashboard_WidgetNotFound','Widget not found');
 		var widgets = piwik.availableWidgets[plugin];
 		for(var i in widgets)
 		{

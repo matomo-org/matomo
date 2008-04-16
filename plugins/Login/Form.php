@@ -26,7 +26,8 @@ class Piwik_Login_Form extends Piwik_Form
 	
 	function init()
 	{
-		$urlToGoAfter = Piwik_Url::getCurrentUrl();			
+		// if form_url is not defined go to current url
+		$urlToGoAfter = Piwik_Common::getRequestVar('form_url', Piwik_Url::getCurrentUrl(), 'string');
 		
 		// if the current url to redirect contains module=login we insteaed redirect to the referer url
 		if(stripos($urlToGoAfter,'module=login') !== false)

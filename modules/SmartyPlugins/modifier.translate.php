@@ -18,15 +18,16 @@
  * 
  * @return string The translated string
  */
-function smarty_modifier_translate($string, $aValues = null)
+function smarty_modifier_translate($string)
 {
-	if(is_null($aValues))
+	if(func_num_args() <= 1)
 	{
 		$aValues = array();
 	}
-	if(!is_array($aValues))
+	else
 	{
-		$aValues = array( $aValues);
+		$aValues = func_get_args();
+		array_shift($aValues);
 	}
 	return vsprintf(Piwik_Translate($string), $aValues);
 }

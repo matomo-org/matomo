@@ -24,6 +24,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	
 	public function setUp()
 	{
+		Piwik_DataTable_Manager::getInstance()->deleteAll();
 	}
 	
 	public function tearDown()
@@ -238,7 +239,7 @@ bounce_count,44';
 	{
 		$dataTable = $this->getDataTableTest();
 	  	$render = new Piwik_DataTable_Renderer_Json($dataTable);
-		$expected = '[{"label":"Google","nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9,"url":"http:\/\/www.google.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.google.com.png"},{"label":"Yahoo!","nb_uniq_visitors":15,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"url":"http:\/\/www.yahoo.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.yahoo.com.png","idsubdatatable":13,"subtable":[{"label":"sub1","count":1},{"label":"sub2","count":2}]}]';
+		$expected = '[{"label":"Google","nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9,"url":"http:\/\/www.google.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.google.com.png"},{"label":"Yahoo!","nb_uniq_visitors":15,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"url":"http:\/\/www.yahoo.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.yahoo.com.png","idsubdatatable":1,"subtable":[{"label":"sub1","count":1},{"label":"sub2","count":2}]}]';
 
 		$rendered = $render->render();
 		
@@ -305,7 +306,7 @@ bounce_count,44';
 					    'bounce_count' => 90,
 					    'url' => 'http://www.yahoo.com',
 					    'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png',
-					  	'idsubdatatable' => 19,
+					  	'idsubdatatable' => 1,
 					    'subtable' => 
 						    array (
 						      0 => 

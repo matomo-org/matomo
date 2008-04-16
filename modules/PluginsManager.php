@@ -313,6 +313,8 @@ class Piwik_PluginsManager
 				$newPlugin->registerTranslation( $this->languageToLoad );
 				$this->addPluginObservers( $newPlugin );
 				$this->addLoadedPlugin( $pluginName, $newPlugin);
+				
+				$newPlugin->postLoad();
 			}
 		}
 	}

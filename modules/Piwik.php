@@ -14,6 +14,7 @@ require_once "Zend/Db.php";
 require_once "Zend/Db/Table.php";
 require_once "Log.php";
 require_once "PluginsManager.php";
+require_once "Translate.php";
 
 /**
  * Main piwik helper class.

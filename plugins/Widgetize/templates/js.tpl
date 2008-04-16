@@ -1,3 +1,5 @@
+{loadJavascriptTranslations noHtml=1 modules='Home'}
+
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/jquery.js"><\/scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}themes/default/common.js"><\/scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/jquery.dimensions.js"><\/scr'+'ipt>');

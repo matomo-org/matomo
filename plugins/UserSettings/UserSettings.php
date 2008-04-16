@@ -38,9 +38,23 @@ class Piwik_UserSettings extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'translationAvailable' => true,
 		);
 		
 		return $info;
+	}
+	
+	function postLoad()
+	{
+		Piwik_AddWidget( 'UserSettings', 'getResolution', Piwik_Translate('UserSettings_WidgetResolutions'));
+		Piwik_AddWidget( 'UserSettings', 'getBrowser', Piwik_Translate('UserSettings_WidgetBrowsers'));
+		Piwik_AddWidget( 'UserSettings', 'getPlugin', Piwik_Translate('UserSettings_WidgetPlugins'));
+		Piwik_AddWidget( 'UserSettings', 'getWideScreen', Piwik_Translate('UserSettings_WidgetWidescreen'));
+		Piwik_AddWidget( 'UserSettings', 'getBrowserType', Piwik_Translate('UserSettings_WidgetBrowserFamilies'));
+		Piwik_AddWidget( 'UserSettings', 'getOS', Piwik_Translate('UserSettings_WidgetOperatingSystems'));
+		Piwik_AddWidget( 'UserSettings', 'getConfiguration', Piwik_Translate('UserSettings_WidgetGlobalVisitors'));
+
+		Piwik_AddMenu('Visitors', Piwik_Translate('UserSettings_SubmenuSettings'), array('module' => 'UserSettings'));
 	}
 	
 	function getListHooksRegistered()
@@ -204,14 +218,3 @@ function Piwik_UserSettings_keepStrlenGreater($value)
 	return strlen($value) > 5;
 }
 
-
-Piwik_AddWidget( 'UserSettings', 'getResolution', 'Screen resolutions');
-Piwik_AddWidget( 'UserSettings', 'getBrowser', 'Visitor browsers');
-Piwik_AddWidget( 'UserSettings', 'getPlugin', 'List of Plugins');
-Piwik_AddWidget( 'UserSettings', 'getWideScreen', ' Normal / Widescreen');
-Piwik_AddWidget( 'UserSettings', 'getBrowserType', 'Browsers by family');
-Piwik_AddWidget( 'UserSettings', 'getOS', 'Operating systems');
-Piwik_AddWidget( 'UserSettings', 'getConfiguration', 'Global visitors configuration');
-
-
-Piwik_AddMenu('Visitors', 'Settings', array('module' => 'UserSettings'));

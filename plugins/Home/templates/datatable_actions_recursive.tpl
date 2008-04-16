@@ -3,13 +3,13 @@
 	{$arrayDataTable.message} 
 {else}
 	{if count($arrayDataTable) == 0}
-		<div id="emptyDatatable">No data for this table.</div>
+		<div id="emptyDatatable">{'Home_TableNoData'|translate}</div>
 	{else}
 		<table cellspacing="0" class="dataTable dataTableActions"> 
 		<thead>
 		<tr>
 		{foreach from=$dataTableColumns item=column}
-			<th class="sortable" id="{$column.id}">{$column.name}</td>
+			<th class="sortable" id="{$column.id}">{$column.displayName}</td>
 		{/foreach}
 		</tr>
 		</thead>
@@ -41,4 +41,3 @@
 	{include file="Home/templates/datatable_actions_js.tpl"}
 	
 	{/if}
-</div>

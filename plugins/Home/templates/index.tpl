@@ -4,6 +4,7 @@
 </head>
 <body>
 
+{loadJavascriptTranslations modules='Home'}
 
 <script type="text/javascript">
 var period = "{$period}";
@@ -174,7 +175,6 @@ p {
 /* style for the date picking */
 #periodString {
 	margin-left:350px;
-	margin-top:10px;
 }
 
 #periodString #date, #periodString #periods, 
@@ -265,43 +265,6 @@ p {
 	font-weight:bold;
 	color:#F88D22;
 }
-
-
-
-#downloadButton .download-button {
-	display: block;
-	text-align: center;
-	line-height: 1.4em;
-	padding: 10px;
-}
-
-#downloadButton  .download-button strong {
-	font-size: 13px;
-	color: #fff;
-}
-
-#downloadButton .download-button, #downloadButton .download-button:hover {
-	cursor: pointer;
-	background: #E75454;
-	padding: 8px 10px;
-	color: #fff;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;	
-	-webkit-border-radius: 3px;
-	border-radius: 4px;
-       width:180px;
-}
-
-#downloadButton a.download-button span {
-	color: #ffac90;
-}
-
-#downloadButton .download-tar {
-	font-size: 10px;
-	margin-top: -1px !important;
-	text-align: center;
-	margin-bottom: 13px !important;
-}
 </style>
 {/literal}
 
@@ -320,19 +283,16 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 	   {/foreach}
 	</optgroup>
 </select>
-</span> | {if $userLogin=='anonymous'}<a href='?module=Login'>Login</a>{else}<a href='?module=Login&action=logout'>Logout</a>{/if}</a>
+</span> | {if $userLogin=='anonymous'}<a href='?module=Login'>{'Login_LogIn'|translate}</a>{else}<a href='?module=Login&action=logout'>{'Login_Logout'|translate}</a>{/if}</a>
 </small>
 </form>
 </span>
 
 <span id="h1"><a href='http://piwik.org'>Piwik</a> </span><span id="subh1"> # open source web analytics</span><br>
-
+<br>
 <div id="stuff">
 	<div>
-		<span id="messageToUsers">
-		<a href='http://piwik.org'>Piwik</a> is a collaborative project and still Beta. If you want to help, please <u><a href="mailto:hello@piwik.org?subject=Piwik">contact us</a></u>.
-		<span id='downloadButton'><a class="download-button" href="http://piwik.org/blog/2008/04/piwik-jobs/"><strong>Want to be paid to work on Piwik?</strong></a><br></span>
-		</span> 
+		<span id="messageToUsers"><a href='http://piwik.org'>Piwik</a> is a collaborative project and still Beta. If you want to help, please <u><a href="mailto:hello@piwik.org?subject=Piwik">contact us</a></u>.</span> 
 		{include file="Home/templates/links_misc_modules.tpl"}
 	</div>
 </div>
@@ -340,40 +300,20 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 
 <noscript>
 <span id="javascriptDisable">
-JavaScript must be enabled in order for you to use Piwik in standard view.<br> 
-However, it seems JavaScript is either disabled or not supported by your browser.<br> 
-To use standard view, enable JavaScript by changing your browser options, then <a href=''>try again</a>.<br>
+{'Home_JavascriptDisabled'|translate:'<a href="">':'</a>'}
 </span>
 </noscript>
 {include file="Home/templates/period_select.tpl"}
 
-<br>
+<br><br>
 {include file="Home/templates/menu.tpl"}
 
 <div style='clear:both'></div>
 
-<div id="loadingPiwik" {if $basicHtmlView}style="display:none"{/if}><img src="themes/default/images/loading-blue.gif"> Loading data...</div>
-<div id="loadingError">Oops&hellip; problem during the request, please try again.</div>
+<div id="loadingPiwik" {if $basicHtmlView}style="display:none"{/if}><img src="themes/default/images/loading-blue.gif"> {'General_LoadingData'|translate}</div>
+<div id="loadingError">{'General_ErrorRequest'|translate}</div>
 <div id='content'>
 {if $content}{$content}{/if}
 </div>
 
-{if ereg('http://127.0.0.1|http://localhost|http://piwik.org', $url)}
-{literal}
-<!-- Piwik -->
-<a href="http://piwik.org" title="Web analytics" onclick="window.open(this.href);return(false);">
-<script language="javascript" src="piwik.js" type="text/javascript"></script>
-<script type="text/javascript">
-<!--
-piwik_action_name = '';
-piwik_idsite = 1;
-piwik_url = 'piwik.php';
-piwik_vars = { 'video_play':1, 'video_finished':0 };
-piwik_log(piwik_action_name, piwik_idsite, piwik_url, piwik_vars);
-//-->
-</script><object>
-<noscript><p>Web analytics <img src="piwik.php" style="border:0" alt="piwik"/></p>
-</noscript></object></a>
-<!-- /Piwik -->
-{/literal}
-{/if}
+{include file="Home/templates/piwik_tag.tpl"}

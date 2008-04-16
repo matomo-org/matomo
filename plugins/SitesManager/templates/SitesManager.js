@@ -108,7 +108,7 @@ function getUpdateSiteAJAX( row )
 			var idRow = $(this).attr('id');
 			var nameToDelete = $(this).parent().parent().find('#siteName').html();
 			var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
-			if(confirm('Are you sure you want to delete the website "'+nameToDelete+'" (idSite = '+idsiteToDelete+')?'))
+			if(confirm(sprintf(_pk_translate('SitesManager_DeleteConfirm','Are you sure you want to delete the website %s'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')')) )
 			{
 				$.ajax( getDeleteSiteAJAX( idsiteToDelete ) );
 			}

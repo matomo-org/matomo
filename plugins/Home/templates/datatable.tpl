@@ -3,14 +3,14 @@
 		{$arrayDataTable.message} 
 	{else}
 		{if count($arrayDataTable) == 0}
-		<div id="emptyDatatable">No data for this table.</div>
+		<div id="emptyDatatable">{'Home_TableNoData'|translate}</div>
 		{else}
 			<a name="{$id}"></a>
 			<table cellspacing="0" class="dataTable"> 
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column}
-				<th class="sortable" id="{$column.id}"><div id="thDIV">{$column.name}</div></th>
+				<th class="sortable" id="{$column.id}"><div id="thDIV">{$column.displayName}</div></th>
 			{/foreach}
 			</tr>
 			</thead>

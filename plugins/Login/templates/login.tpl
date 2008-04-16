@@ -27,23 +27,23 @@
 {if $form_data.errors}
 <div id="login_error">	
 	{foreach from=$form_data.errors item=data}
-		<strong>ERROR</strong>: {$data}<br />
+		<strong>{'General_Error'|translate}</strong>: {$data}<br />
 	{/foreach}
 </div>
 {/if}
 
 {if $AccessErrorString}
-<div id="login_error"><strong>ERROR</strong>: {$AccessErrorString}<br /></div>
+<div id="login_error"><strong>{'General_Error'|translate}</strong>: {$AccessErrorString}<br /></div>
 {/if}
 
 <form {$form_data.attributes}>
 	<p>
-		<label>{'Login_Login'|translate}<br />
+		<label>{'Login_Login'|translate}:<br />
 		<input type="text" name="form_login" id="form_login" class="input" value="" size="20" tabindex="10" /></label>
 	</p>
 
 	<p>
-		<label>{'Login_Password'|translate}<br />
+		<label>{'Login_Password'|translate}:<br />
 		<input type="password" name="form_password" id="form_password" class="input" value="" size="20" tabindex="20" /></label>
 	</p>
 	{*
@@ -55,11 +55,11 @@
 	</p>
 </form>
 
-{*
+
 <p id="nav">
-<a href="" title="Password Lost and Found">Lost your password?</a>
+<a href="?module=Login&action=lostpassword&form_url={$urlToRedirect}" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
 </p>
-*}
+
 </div>
 
 </body>

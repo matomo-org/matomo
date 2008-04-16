@@ -1,6 +1,13 @@
 <?php
 $translations = array (
 
+	'UserCountry_Country' => 'Country',
+	'UserCountry_Continent' => 'Continent',
+	'UserCountry_DistinctCountries' => '%s distinct countries',
+	'UserCountry_SubmenuLocations' => 'Locations',
+	'UserCountry_WidgetContinents' => 'Visitor continents',
+	'UserCountry_WidgetCountries' => 'Visitor countries',
+	
 	// Countries
 	'country_ac' => 'Ascension Islands',
 	'country_ad' => 'Andorra',

@@ -1,4 +1,4 @@
-<p>Here is the javascript code to include on all your pages:</p>
+<p>{'SitesManager_JsCodeHelp'|translate}:</p>
 
 <code>
 {$jsTag}

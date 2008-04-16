@@ -2,37 +2,30 @@
 {assign var=error value="<img src='themes/default/images/error.png' />"}
 {assign var=warning value="<img src='themes/default/images/warning.png' />"}
 
-<h1>System check</h1>
+<h1>{'Installation_SystemCheck'|translate}</h1>
 
 
 <table class="infosServer">
 	<tr>
-		<td class="label">PHP version &gt; {$infos.phpVersion_minimum}</td>
+		<td class="label">{'Installation_SystemCheckPhp'|translate} &gt; {$infos.phpVersion_minimum}</td>
 		<td>{if $infos.phpVersion_ok}{$ok}{else}{$error}{/if}</td>
 	</tr><tr>
-		<td class="label">Pdo extension</td>
+		<td class="label">{'Installation_SystemCheckPdo'|translate}</td>
 		<td>{if $infos.pdo_ok}{$ok}
 		{else}{$error}{/if}	
 		</td>
 	</tr>  
 	<tr>
-		<td class="label">Pdo_Mysql extension</td>
+		<td class="label">{'Installation_SystemCheckPdoMysql'|translate}</td>
 		<td>{if $infos.pdo_mysql_ok}{$ok}
 		{else}{$error}
 		{/if}
 		
 		{if !$infos.pdo_mysql_ok || !$infos.pdo_ok}
-			<p class="error" style="width:80%">You need to enable the <code>php_pdo</code> and <code>php_pdo_mysql</code> extensions in your 
-			php.ini file.
+			<p class="error" style="width:80%">{'Installation_SystemCheckPdoError'|translate}
 			<small>
-			<br><br>On a windows server you can add the lines 
-			<code>extension=php_pdo.dll
-				extension=php_pdo_mysql.dll</code> in your php.ini 
-			
-			<br><br>On a Linux server you can compile php with the following option
-			<code>--with-pdo-mysql </code> 
-			
-			<br><br>More information on the <a style="color:red" href='http://php.net/pdo'>PHP website</a>.
+			<br><br>
+			{'Installation_SystemCheckPdoErrorHelp'|translate}
 			</small>
 			</p>
 		{/if}
@@ -42,13 +35,13 @@
 	
 	{* We don't use utf8_encode currently but I think we will soon so I leave the code here
 	<tr>
-		<td class="label">PHP-XML extension <br> (utf8_decode function)</td>
+		<td class="label">{'Installation_SystemCheckPhpXml'|translate} <br> (utf8_decode function)</td>
 	    <td>{if $infos.phpXml_ok}{$ok}{else}{$error}{/if}</td>
 	</tr>
 	*}
 	<tr>
 		<td valign="top">
-			Directories with write access
+			{'Installation_SystemCheckWriteDirs'|translate}
 		</td>
 		<td>
 			{foreach from=$infos.directories key=dir item=bool}
@@ -64,7 +57,7 @@
 {if $problemWithSomeDirectories}
 	<br>
 	<div class="error">
-		To fix this error on your Linux system, try typing in the following command(s):
+			{'Installation_SystemCheckWriteDirsHelp'|translate}:
 	{foreach from=$infos.directories key=dir item=bool}
 		<ul>{if !$bool}
 			<li>chmod a+w {$basePath}{$dir}</li>
@@ -77,42 +70,40 @@
 <h1>Optional</h1>
 <table class="infos">
 	<tr>
-		<td class="label">Memory limit</td>
+		<td class="label">{'Installation_SystemCheckMemoryLimit'|translate}</td>
 		<td>
 			{$infos.memoryCurrent}
 			{if $infos.memory_ok}{$ok}{else}{$warning} 
-				<br><i>On a high traffic website, the archiving process may require more memory than currently allowed.
-				<br>See the directive memory_limit in your php.ini file if necessary.</i>{/if}	
+				<br><i>{'Installation_SystemCheckMemoryLimitHelp'|translate}</i>{/if}	
 		</td>
 	</tr>
 	<tr>
-		<td class="label">GD &gt; 2.x (graphics)</td>
+		<td class="label">{'Installation_SystemCheckGD'|translate}</td>
 		<td>
-			{if $infos.gd_ok}{$ok}{else}{$warning} <br><i>The sparklines (small graphs) will not work.</i>{/if}
+			{if $infos.gd_ok}{$ok}{else}{$warning} <br><i>{'Installation_SystemCheckGDHelp'|translate}</i>{/if}
 		</td>
 	</tr>
 	<tr>
-		<td class="label">set_time_limit() allowed</td>
+		<td class="label">{'Installation_SystemCheckTimeLimit'|translate}</td>
 		<td>{if $infos.setTimeLimit_ok}{$ok}{else}{$warning}
-			<br><i>On a high traffic website, executing the archiving process may require more time than currently allowed.
-				<br>See the directive max_execution_time  in your php.ini file if necessary.</i>{/if}</td>
+			<br><i>{'Installation_SystemCheckTimeLimitHelp'|translate}</i>{/if}</td>
 	</tr>
 	<tr>
-		<td class="label">mail() allowed</td>
+		<td class="label">{'Installation_SystemCheckMail'|translate}</td>
 		<td>{if $infos.mail_ok}{$ok}{else}{$warning}{/if}</td>
 	</tr>
 </table>
 <p><small>
 Legend:
 <br>
-{$ok} Ok<br>
-{$error} Error to be fixed<br>
-{$warning} Warning: Piwik will work normally but some features may be missing<br>
+{$ok} {'General_Ok'|translate}<br>
+{$error} {'General_Error'|translate}: {'Installation_SystemCheckError'|translate} <br>
+{$warning} {'General_Warning'|translate}: {'Installation_SystemCheckWarning'|translate} <br>
 </small></p>
 
 {if !$showNextStep}
 <p class="nextStep">
-	<a href="{url}">Refresh the page &raquo;</a>
+	<a href="{url}">{'General_Refresh'|translate} &raquo;</a>
 </p>
 
 {/if}

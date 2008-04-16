@@ -49,10 +49,24 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'translationAvailable' => true
 		);
 		
 		return $info;
 	}
+	
+	function postLoad()
+	{
+		Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration', Piwik_Translate('VisitorInterest_WidgetLengths'));
+		Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerPage', Piwik_Translate('VisitorInterest_WidgetPages'));
+		
+		Piwik_RenameMenuEntry('Visitors', Piwik_Translate('VisitFrequency_SubmenuFrequency'), 
+								'Visitors', Piwik_Translate('VisitorInterest_SubmenuFrequencyLoyalty') );
+		
+		Piwik_AddAction('template_headerVisitsFrequency', array('Piwik_VisitorInterest','headerVisitsFrequency'));
+		Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest','footerVisitsFrequency'));
+	}
+	
 	function getListHooksRegistered()
 	{
 		$hooks = array(
@@ -161,14 +175,4 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$out .= '</div>';
 	}
 }
-
-
-
-Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration', 'Visits lengths');
-Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerPage', 'Pages per visit');
-
-Piwik_RenameMenuEntry('Visitors', 'Frequency', 'Visitors', 'Frequency & Loyalty' );
-Piwik_AddAction('template_headerVisitsFrequency', array('Piwik_VisitorInterest','headerVisitsFrequency'));
-Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest','footerVisitsFrequency'));
-
 

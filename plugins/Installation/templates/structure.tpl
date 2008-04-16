@@ -1,7 +1,7 @@
 
 <html>
 <head>
-<title>Piwik &raquo; Installation</title>
+<title>Piwik &raquo; {'Installation_Installation'|translate}</title>
 </head>
 <body>
 
@@ -194,18 +194,18 @@ input {
 			{include file="$subTemplateToLoad"}
 			{if $showNextStep}
 				<p class="nextStep">
-					<a href="{url action=$nextModuleName}">Next &raquo;</a>
+					<a href="{url action=$nextModuleName}">{'General_Next'|translate} &raquo;</a>
 				</p>
 			{/if}
 		</div>
 		
 		<div class="both"></div>
 		
-		<h3>Installation status</h3>
+		<h3>{'Installation_InstallationStatus'|translate}</h3>
 		
 		<div id="installPercent">
 		<p style="width: {$percentDone}%;"></p>
 	</div>
 	
-	{$percentDone}% Done
+	{'Installation_PercentDone'|translate:$percentDone} 
 </div>

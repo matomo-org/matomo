@@ -2,7 +2,7 @@
 <script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
 
 <a name="evolutionGraph" graphId="VisitFrequencygetLastVisitsReturningGraph"></a>
-<h2>Evolution over the period</h2>
+<h2>{'VisitFrequency_Evolution'|translate}</h2>
 {$graphEvolutionVisitFrequency}
 
 {include file=VisitFrequency/sparklines.tpl}

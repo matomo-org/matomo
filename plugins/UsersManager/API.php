@@ -185,16 +185,35 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		return $user;
 	}
 	
+	/**
+	 * Returns the user information (login, password md5, alias, email, date_registered, etc.)
+	 * 
+	 * @param string the user email
+	 * 
+	 * @return array the user information
+	 */
+	static public function getUserByEmail( $userEmail )
+	{
+		Piwik::checkUserIsSuperUser();
+		self::checkUserEmailExists($userEmail);
+		
+		$db = Zend_Registry::get('db');
+		$user = $db->fetchRow("SELECT * 
+								FROM ".Piwik::prefixTable("user")
+								." WHERE email = ?", $userEmail);
+		return $user;
+	}
+	
 	static private function checkLogin($userLogin)
 	{
 		if(self::userExists($userLogin))
 		{
-			throw new Exception("Login $userLogin already exists.");
+			throw new Exception(sprintf(Piwik_TranslateException('UsersManager_ExceptionLoginExists'),$userLogin));
 		}
 		
 		if(!self::isValidLoginString($userLogin))
 		{
-			throw new Exception("The login must contain only letters, numbers, or the characters '_' or '-' or '.'");
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLogin'));
 		}
 	}
 		
@@ -202,7 +221,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	{
 		if(!self::isValidPasswordString($password))
 		{
-			throw new Exception("The password length must be between 6 and 26 characters.");
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidPassword'));
 		}
 	}
 	
@@ -210,7 +229,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	{
 		if(!Piwik::isValidEmailString($email))
 		{
-			throw new Exception("The email doesn't have a valid format.");
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidEmail'));
 		}
 	}
 		
@@ -343,7 +362,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		
 		if(!self::userExists($userLogin))
 		{
-			throw new Exception("User '$userLogin' doesn't exist therefore it can't be deleted.");
+			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionDeleteDoesNotExist"),$userLogin));
 		}
 		
 		
@@ -363,6 +382,21 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE login = ?", $userLogin);
 		return $count != 0;
+	}
+	
+	/**
+	 * Returns true if user with given email (userEmail) is known in the database
+	 *
+	 * @return bool true if the user is known
+	 */
+	 
+	static public function userEmailExists( $userEmail )
+	{
+		Piwik::checkUserHasSomeAdminAccess();	
+		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
+													FROM ".Piwik::prefixTable("user"). " 
+													WHERE email = ?", $userEmail);
+		return $count != 0;	
 	}
 
 	/**
@@ -389,7 +423,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		if($userLogin == 'anonymous'
 			&& $access == 'admin')
 		{
-			throw new Exception("You cannot grant 'admin' access to the 'anonymous' user.");
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionAdminAnonymous"));
 		}
 		
 		// in case idSites is null we grant access to all the websites on which the current connected user
@@ -441,7 +475,21 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	{
 		if(!self::userExists($userLogin))
 		{
-			throw new Exception("User '$userLogin' doesn't exist.");
+			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionUserDoesNotExist"),$userLogin));
+		}
+	}
+	
+	/**
+	 * Throws an exception is the user email cannot be found
+	 * 
+	 * @param string user email
+	 * @exception if the user doesn't exist
+	 */
+	static private function checkUserEmailExists( $userEmail )
+	{
+		if(!self::userEmailExists($userEmail))
+		{
+			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionUserDoesNotExist"),$userEmail));
 		}
 	}
 	
@@ -449,7 +497,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	{
 		if($userLogin == 'anonymous')
 		{
-			throw new Exception("The anonymous user cannot be edited or deleted. It is used by Piwik to define a user that has not loggued in yet. For example, you can make your statistics public by granting the 'view' access to the 'anonymous' user.");
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionEditAnonymous"));
 		}
 	}
 	
@@ -462,7 +510,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		
 		if(!in_array($access,$accessList))
 		{
-			throw new Exception("The parameter access must have one of the following values : [ ". implode(", ", $accessList)." ]");
+			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionAccessValues"),implode(", ", $accessList)));
 		}
 	}
 	
@@ -549,5 +597,4 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		$l = strlen($input);
 		return $l >= 6 && $l <= 26;
 	}
-
 }

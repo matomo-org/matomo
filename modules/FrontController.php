@@ -29,6 +29,7 @@ require_once "Auth.php";
 require_once "API/Proxy.php";
 require_once "Site.php";
 require_once "Translate.php";
+require_once "Mail.php";
 require_once "Url.php";
 require_once "Controller.php";
 

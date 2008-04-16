@@ -23,6 +23,7 @@ class Piwik_Provider extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'translationAvailable' => true,
 			'LogStatsPlugin' => true, // this plugin must be loaded during the stats logging
 		);
 		
@@ -46,6 +47,20 @@ class Piwik_Provider extends Piwik_Plugin
 		// add column hostname / hostname ext in the visit table
 		$query = "ALTER TABLE `".Piwik::prefixTable('log_visit')."` DROP `location_provider`";
 		Zend_Registry::get('db')->query($query);
+	}
+	
+	function postLoad()
+	{
+		// when the plugin is loaded during LogStats these functions are not defined
+		if(function_exists('Piwik_AddWidget'))
+		{
+			Piwik_AddWidget( 'Provider', 'getProvider', Piwik_Translate('Provider_WidgetProviders'));
+			Piwik_RenameMenuEntry('Visitors', Piwik_Translate('UserCountry_SubmenuLocations'), 
+									'Visitors', Piwik_Translate('Provider_SubmenuLocationsProvider'));
+			
+			Piwik_AddAction('template_headerUserCountry', array('Piwik_Provider','headerUserCountry'));
+			Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider','footerUserCountry'));
+		}		
 	}
 	
 	function getListHooksRegistered()
@@ -166,11 +181,3 @@ class Piwik_Provider extends Piwik_Plugin
 	}
 }
 
-// when the plugin is loaded during LogStats these functions are not defined
-if(function_exists('Piwik_AddWidget'))
-{
-	Piwik_AddWidget( 'Provider', 'getProvider', 'Providers');
-	Piwik_RenameMenuEntry('Visitors', 'Locations', 'Visitors', 'Locations & provider' );
-	Piwik_AddAction('template_headerUserCountry', array('Piwik_Provider','headerUserCountry'));
-	Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider','footerUserCountry'));
-}
