@@ -40,3 +40,6 @@
 			</td></tr>
 	</table>
 	
+       <p>{'Referers_TagCloud'|translate}</p>
+       {$dataTableRefererType}
+

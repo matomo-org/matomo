@@ -10,4 +10,5 @@
 	</span>
 	<span id="calendar"></span>
 </div>
+<div style="clear:both"></div>
 

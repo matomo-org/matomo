@@ -18,3 +18,4 @@
 {$content}
 
 </body>
+</html>

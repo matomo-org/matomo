@@ -6,3 +6,4 @@
 <div id='rightcolumn'>
 <h2>{'VisitTime_ServerTime'|translate}</h2>
 {$dataTableVisitInformationPerServerTime}
+</div>
