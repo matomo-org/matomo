@@ -22,3 +22,4 @@
 <script type="text/javascript" src="libs/jquery/ui.sortable_modif.js"></script>
 
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css">
+<link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css">
