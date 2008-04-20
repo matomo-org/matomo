@@ -49,8 +49,8 @@ class Piwik_LogStats_Config
 	
 	private function __construct()
 	{
-		$pathIniFileUser = PIWIK_INCLUDE_PATH . '/config/config.ini.php';
-		$pathIniFileGlobal = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
+		$pathIniFileUser = 'config/config.ini.php';
+		$pathIniFileGlobal = 'config/global.ini.php';
 		$this->configUser = parse_ini_file($pathIniFileUser, true);
 		$this->configGlobal = parse_ini_file($pathIniFileGlobal, true);
 	}

@@ -96,7 +96,7 @@ class Piwik_PluginsManager
 	 */
 	public function readPluginsDirectory()
 	{
-		$pluginsName = glob(PIWIK_PLUGINS_PATH . "/*",GLOB_ONLYDIR);
+		$pluginsName = glob( "plugins/*",GLOB_ONLYDIR);
 		$pluginsName = array_map('basename', $pluginsName);
 		return $pluginsName;
 	}
@@ -336,12 +336,14 @@ class Piwik_PluginsManager
 		
 		if( !Piwik_Common::isValidFilename($pluginName))
 		{
-			throw new Exception("The plugin filename '$pluginFileName' is not valid");
+			throw new Exception("The plugin filename '$pluginFileName' is not a valid filename");
 		}
 		
-		$path = PIWIK_PLUGINS_PATH . '/' . $pluginFileName;
+		$path = 'plugins/' . $pluginFileName;
 
-		if(!is_file($path))
+		// case LogStats, we don't throw the exception, we don't want to add the Zend overhead
+		if(class_exists('Zend_Loader') 
+			&& !Zend_Loader::isReadable($path))
 		{
 			throw new Exception("The plugin file {$path} couldn't be found.");
 		}

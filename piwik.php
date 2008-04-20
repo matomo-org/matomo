@@ -28,9 +28,6 @@
  */
 error_reporting(E_ALL|E_NOTICE);
 define('PIWIK_INCLUDE_PATH', '.');
-define('PIWIK_PLUGINS_PATH', PIWIK_INCLUDE_PATH . '/plugins');
-define('PIWIK_DATAFILES_INCLUDE_PATH', PIWIK_INCLUDE_PATH . "/modules/DataFiles");
-
 @ignore_user_abort(true);
 @set_time_limit(0);
 
@@ -54,8 +51,8 @@ $GLOBALS['DEBUGPIWIK'] =  false;
 if($GLOBALS['DEBUGPIWIK'] === true)
 {	
 	date_default_timezone_set(date_default_timezone_get());
-	require_once PIWIK_INCLUDE_PATH . "/modules/ErrorHandler.php";
-	require_once PIWIK_INCLUDE_PATH . "/modules/ExceptionHandler.php";
+	require_once "modules/ErrorHandler.php";
+	require_once "modules/ExceptionHandler.php";
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
 	printDebug($_GET);

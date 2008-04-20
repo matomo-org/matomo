@@ -56,7 +56,7 @@ class Piwik_Config
 	 */
 	static public function getDefaultUserConfigPath()
 	{
-		return PIWIK_INCLUDE_PATH . '/config/config.ini.php';
+		return 'config/config.ini.php';
 	}
 
 	/**
@@ -69,7 +69,7 @@ class Piwik_Config
 	{
 		Zend_Registry::set('config', $this);
 		
-		$this->pathIniFileDefaultConfig = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
+		$this->pathIniFileDefaultConfig = 'config/global.ini.php';
 		if(is_null($pathIniFileUserConfig))
 		{	
 			$this->pathIniFileUserConfig = self::getDefaultUserConfigPath();
@@ -81,7 +81,7 @@ class Piwik_Config
 		
 		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);
 		
-		if(!is_file($this->pathIniFileUserConfig))
+		if(!Zend_Loader::isReadable($this->pathIniFileUserConfig))
 		{
 			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
 		}

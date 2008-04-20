@@ -39,7 +39,7 @@ class Piwik_Translate
 		$language = $this->getLanguageToLoad();
 		
 		$translations = array();
-		require_once PIWIK_INCLUDE_PATH . "/lang/" . $language .".php";
+		require_once "lang/" . $language .".php";
 		
 		$this->addTranslationArray($translations);
 	}

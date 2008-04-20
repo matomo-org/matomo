@@ -115,7 +115,7 @@ class Piwik_UserSettings_API extends Piwik_Apiable
 
 function Piwik_getPluginsLogo( $oldLabel )
 {
-	return  PIWIK_PLUGINS_PATH . "/UserSettings/images/plugins/". $oldLabel . ".gif";
+	return  "plugins/UserSettings/images/plugins/". $oldLabel . ".gif";
 }
 
 function Piwik_getOSLabel($oldLabel)
@@ -199,17 +199,17 @@ function Piwik_getBrowserVersion($str)
 function Piwik_getBrowsersLogo($label)
 {
 	$id = Piwik_getBrowserId($label);
-	return  PIWIK_PLUGINS_PATH . "/UserSettings/images/browsers/". $id . ".gif";
+	return  "plugins/UserSettings/images/browsers/". $id . ".gif";
 }
 
 function Piwik_getOSLogo($label)
 {
-	$path = PIWIK_PLUGINS_PATH . "/UserSettings/images/os/". $label . ".gif";
+	$path = "plugins/UserSettings/images/os/". $label . ".gif";
 //	echo $path;exit;
 	return $path;
 }
 
 function Piwik_getScreensLogo($label)
 {
-	return PIWIK_PLUGINS_PATH . "/UserSettings/images/screens/" . $label . ".gif";
+	return "plugins/UserSettings/images/screens/" . $label . ".gif";
 }

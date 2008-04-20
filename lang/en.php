@@ -31,4 +31,3 @@ $translations = array(
 	'General_ColumnNbVisits' => 'Visits',
 	'General_ColumnLabel' => 'Label',
 );
-

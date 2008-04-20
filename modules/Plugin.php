@@ -37,17 +37,23 @@ abstract class Piwik_Plugin
 		}
 		
 		$name = $infos['name'];
-		$path = PIWIK_INCLUDE_PATH . "/plugins/" . $name ."/lang/%s.php";
+		$path = "plugins/" . $name ."/lang/%s.php";
 		
 		$defaultLangPath = sprintf($path, $langCode);
 		$defaultEnglishLangPath = sprintf($path, 'en');
 		
 		$translations = array();
-		if(is_readable($defaultLangPath))
+		
+		if(!class_exists('Zend_Loader'))
+		{
+			throw new Exception("Zend_Loader not defined. It is not possible to load plugins translation files in LogStats mode.");
+		}
+		
+		if(Zend_Loader::isReadable($defaultLangPath))
 		{
 			require $defaultLangPath;
 		}
-		elseif(is_readable($defaultEnglishLangPath))
+		elseif(Zend_Loader::isReadable($defaultEnglishLangPath))
 		{
 			require $defaultEnglishLangPath;
 		}
@@ -56,11 +62,7 @@ abstract class Piwik_Plugin
 			throw new Exception("The language file couldn't be find for this plugin '$name'.");
 		}
 		
-		// when in mode LogStat, we don't load the translation class
-		if(class_exists('Piwik_Translate'))
-		{
-			Piwik_Translate::getInstance()->addTranslationArray($translations);
-		}
+		Piwik_Translate::getInstance()->addTranslationArray($translations);
 	}
 	
 	/**

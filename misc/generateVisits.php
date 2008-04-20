@@ -18,11 +18,10 @@ ob_start();
 
 // first check that user has privileges to create some random data in the DB -> he must be super user
 define('ENABLE_DISPATCH', false);
-require_once PIWIK_INCLUDE_PATH . "/index.php";
+require_once "index.php";
 require_once "FrontController.php";
 
-$controller = Piwik_FrontController::getInstance();
-$controller->init();
+Piwik_FrontController::getInstance()->init();
 
 Piwik::checkUserIsSuperUser();
 // end check that user was super user

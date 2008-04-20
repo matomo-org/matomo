@@ -1,6 +1,13 @@
 Count the download for 'last.zip' on the 20th March
 
-/var/log/apache2$ cat access.log | grep "20/Mar" | grep "last.zip" | awk '{print $1}' | sort | uniq | wc -l
+# cat access.log | grep "20/Mar" | grep "last.zip" | awk '{print $1}' | sort | uniq | wc -l
 
 
 Value to be compared with the one given by Piwik in Actions > Downloads
+
+
+Count the no of hits by referers, excluding piwik.org as a referer
+# cat /var/log/apache2/access.log | awk '{print $11}' | grep -vE "(^"-"$|/dev.piwik.org|/piwik.org)" | sort | uniq -c | sort -rn | head -n20
+
+Count the no of hits by referers
+# cat /var/log/apache2/access.log | awk '{print $11}' | sort | uniq -c | sort -rn | head -n20

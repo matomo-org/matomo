@@ -72,14 +72,12 @@ class Piwik_API_Proxy
 			return;
 		}
 		
-		$potentialPaths = array(
-			 PIWIK_INCLUDE_PATH . "/plugins/". $fileName ."/API.php",
-	  	);
+		$potentialPaths = array( "plugins/". $fileName ."/API.php", );
 		
 		$found = false;
 		foreach($potentialPaths as $path)
 		{
-			if(is_file($path))
+			if(Zend_Loader::isReadable($path))
 			{
 				require_once $path;
 				$found = true;
