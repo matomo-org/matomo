@@ -125,9 +125,9 @@ class Piwik_FrontController
 		
 		if(!class_exists($controllerClassName))
 		{
-			$moduleController = PIWIK_PLUGINS_PATH . "/" . $module . "/Controller.php";
+			$moduleController = "plugins/" . $module . "/Controller.php";
 			
-			if( !is_readable($moduleController))
+			if( !Zend_Loader::isReadable($moduleController))
 			{
 				throw new Exception("Module controller $moduleController not found!");
 			}

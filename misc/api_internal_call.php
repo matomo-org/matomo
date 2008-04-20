@@ -4,6 +4,9 @@ define('ENABLE_DISPATCH', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/modules/API/Request.php";
 
+
+Piwik_FrontController::getInstance()->init();
+
 // We call the API from a php code
 // it will check that you have the necessary rights
 // - either you are loggued in piwik and have a cookie in your browser

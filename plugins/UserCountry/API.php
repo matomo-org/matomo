@@ -72,7 +72,7 @@ class Piwik_UserCountry_API extends Piwik_Apiable
 
 function Piwik_getFlagFromCode($code)
 {
-	$path = PIWIK_PLUGINS_PATH . '/UserCountry/flags/%s.png';
+	$path = 'plugins/UserCountry/flags/%s.png';
 	
 	$normalPath = sprintf($path,$code);
 	

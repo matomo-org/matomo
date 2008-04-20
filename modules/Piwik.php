@@ -52,7 +52,7 @@ class Piwik
 	// path without trailing slash!!
 	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
 	{
-		$path = PIWIK_INCLUDE_PATH . '/' . $path;
+		$path = '/' . $path;
 		
 		if(!is_dir($path))
 		{
@@ -110,7 +110,7 @@ class Piwik
 	
 	static public function getJavascriptCode($idSite, $piwikUrl, $actionName = "''")
 	{	
-		$jsTag = file_get_contents( PIWIK_INCLUDE_PATH . "/modules/LogStats/javascriptTag.tpl");
+		$jsTag = file_get_contents( "modules/LogStats/javascriptTag.tpl");
 		$jsTag = nl2br(htmlentities($jsTag));
 		$jsTag = str_replace('{$actionName}', $actionName, $jsTag);
 		$jsTag = str_replace('{$idSite}', $idSite, $jsTag);

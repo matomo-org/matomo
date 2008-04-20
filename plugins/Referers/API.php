@@ -178,7 +178,7 @@ function Piwik_truncatePath( $path )
 
 function Piwik_getSearchEngineUrlFromName($name)
 {
-	require_once PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
+	require_once "modules/DataFiles/SearchEngines.php";
 	if(isset($GLOBALS['Piwik_SearchEngines_NameToUrl'][$name]))
 	{
 		$url = 'http://'.$GLOBALS['Piwik_SearchEngines_NameToUrl'][$name];
@@ -193,8 +193,8 @@ function Piwik_getSearchEngineUrlFromName($name)
 
 function Piwik_getSearchEngineLogoFromName($url)
 {
-	require_once PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
-	$path = PIWIK_PLUGINS_PATH . '/Referers/images/searchEngines/%s.png';
+	require_once "modules/DataFiles/SearchEngines.php";
+	$path = 'plugins/Referers/images/searchEngines/%s.png';
 	$beginningUrl = strpos($url,'//') + 2;
 	$normalPath = sprintf($path, substr($url,$beginningUrl));
 	
