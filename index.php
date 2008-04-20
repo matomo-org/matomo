@@ -18,16 +18,6 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 	define('PIWIK_INCLUDE_PATH', '.');
 }
 
-require_once PIWIK_INCLUDE_PATH . "/modules/testMinimumPhpVersion.php";
-
-
-date_default_timezone_set(date_default_timezone_get());
-
-if(!defined('ENABLE_DISPATCH'))
-{
-	define('ENABLE_DISPATCH', true);	
-}
-
 define('PIWIK_PLUGINS_PATH', PIWIK_INCLUDE_PATH . '/plugins');
 define('PIWIK_DATAFILES_INCLUDE_PATH', PIWIK_INCLUDE_PATH . "/modules/DataFiles");
 
@@ -37,6 +27,14 @@ set_include_path(PIWIK_INCLUDE_PATH
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/modules/'
 					. PATH_SEPARATOR . get_include_path());
 
+require_once PIWIK_INCLUDE_PATH . "/modules/testMinimumPhpVersion.php";
+
+date_default_timezone_set(date_default_timezone_get());
+
+if(!defined('ENABLE_DISPATCH'))
+{
+	define('ENABLE_DISPATCH', true);	
+}
 
 /**
  * Error / exception handling functions
