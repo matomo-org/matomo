@@ -341,7 +341,7 @@ class Piwik_Common
 	static public function getOs($userAgent)
 	{
 
-		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/OS.php";
+		require_once "modules/DataFiles/OS.php";
 		$osNameToId = $GLOBALS['Piwik_Oslist'];
 
 		foreach($osNameToId as $key => $value)
@@ -369,7 +369,7 @@ class Piwik_Common
 	static public function getBrowserInfo($userAgent)
 	{
 
-		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/Browsers.php";
+		require_once "modules/DataFiles/Browsers.php";
 
 		$browsers = $GLOBALS['Piwik_BrowserList'];
 
@@ -492,7 +492,7 @@ class Piwik_Common
 	 */
 	static public function getContinent($country)
 	{
-		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/Countries.php";
+		require_once "modules/DataFiles/Countries.php";
 
 		$countryList = $GLOBALS['Piwik_CountryList'];
 
@@ -515,7 +515,7 @@ class Piwik_Common
 	 */
 	static public function getCountry( $lang )
 	{
-		require_once PIWIK_DATAFILES_INCLUDE_PATH . "/Countries.php";
+		require_once "modules/DataFiles/Countries.php";
 
 		$countryList = $GLOBALS['Piwik_CountryList'];
 
