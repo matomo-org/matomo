@@ -15,7 +15,7 @@ error_reporting(E_ALL|E_NOTICE);
 @ini_set('magic_quotes_runtime', 0);
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
-	define('PIWIK_INCLUDE_PATH', '.');
+	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
 }
 
 set_include_path(PIWIK_INCLUDE_PATH 
