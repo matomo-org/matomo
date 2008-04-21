@@ -660,7 +660,7 @@ class Piwik_LogStats_Visit
 		 * be counted as a search engines, but as a website referer from google.com (because the
 		 * keyword couldn't be found in the URL) 
 		 */
-		require PIWIK_DATAFILES_INCLUDE_PATH . "/SearchEngines.php";
+		require "modules/DataFiles/SearchEngines.php";
 		
 		if(array_key_exists($this->refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
