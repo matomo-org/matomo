@@ -101,12 +101,12 @@ class Piwik_Translate
 				$varName = $matches[1].'_'.$matches[2];
 				$varValue = $value;
 				
-				$js .= "'".$varName."': '".str_replace("'","\\'",$varValue)."',";
+				$js .= "".$varName.": '".str_replace("'","\\'",$varValue)."',";
 			}
 			
 			$matches = null;
 		}
-		
+		$js = substr($js,0,-1);
 		$js .= '};';
 		$js .= 'function _pk_translate(tvar, str) { '.
 			'var s = str; if( typeof(translations[tvar]) != \'undefined\' ) s = translations[tvar];'.
