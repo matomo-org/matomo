@@ -165,7 +165,7 @@ $(document).ready(function(){
 				_pk_translate('Home_MonthSeptember'),
 				_pk_translate('Home_MonthOctober'),
 				_pk_translate('Home_MonthNovember'),
-				_pk_translate('Home_MonthDecemeber')],
+				_pk_translate('Home_MonthDecemeber')]
 			},
 			currentDate);
 	}
