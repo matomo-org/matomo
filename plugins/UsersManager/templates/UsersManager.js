@@ -222,7 +222,7 @@ $(document).ready( function() {
 			ajaxHideError();
 			var idRow = $(this).attr('id');
 			var loginToDelete = $(this).parent().parent().find('#userLogin').html();
-			if( confirm(sprintf(_pk_translate('UsersManager_DeleteConfirm','Are you sure you want to delete the user %s'),'"'+loginToDelete+'"')) )
+			if( confirm(sprintf(_pk_translate('UsersManager_DeleteConfirm'),'"'+loginToDelete+'"')) )
 			{
 				$.ajax( getDeleteUserAJAX( loginToDelete ) );
 			}

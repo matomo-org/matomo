@@ -268,11 +268,11 @@ dataTable.prototype =
 					{
 						if(Number(self.param.filter_excludelowpop) != 0)
 						{
-							string = _pk_translate('Home_IncludeAllPopulation','Include all population');
+							string = _pk_translate('Home_IncludeAllPopulation');
 						}
 						else
 						{
-							string = _pk_translate('Home_ExcludeLowPopulation','Exclude low population');
+							string = _pk_translate('Home_ExcludeLowPopulation');
 						}
 						$(this).html(string);
 					} 
@@ -410,7 +410,7 @@ dataTable.prototype =
 					// only show this string if there is some rows in the datatable
 					if(totalRows != 0)
 					{
-						var str = sprintf(_pk_translate('Home_PageOf','%s of %s'),offset + '-' + offsetEndDisp,totalRows);
+						var str = sprintf(_pk_translate('Home_PageOf'),offset + '-' + offsetEndDisp,totalRows);
 						$(this).text(str);
 					}
 				}
@@ -618,7 +618,7 @@ dataTable.prototype =
 					<tr>\
 						<td colspan="'+numberOfColumns+'" class="cellSubDataTable">\
 							<div id="'+divIdToReplaceWithSubTable+'">\
-								<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('Home_Loading','Loading...') +'</span>\
+								<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('Home_Loading') +'</span>\
 							</div>\
 						</td>\
 					</tr>\

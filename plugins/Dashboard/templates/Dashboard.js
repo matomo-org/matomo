@@ -143,7 +143,7 @@ widgetMenu.prototype =
 						//format the div for upcomming ajax loading and set a temporary content
 						$(this)	.attr('plugin', plugin)
 								.attr('id', action)
-								.html('<div id="previewLoading"><img src="themes/default/loading.gif" />'+ _pk_translate('Dashboard_LoadingPreview','Loading preview, please wait...') +'</div>').show();
+								.html('<div id="previewLoading"><img src="themes/default/loading.gif" />'+ _pk_translate('Dashboard_LoadingPreview') +'</div>').show();
 						self.dashboard.ajaxLoading(plugin, action);
 					}
 				});
@@ -193,12 +193,12 @@ widgetMenu.prototype =
 			if(contains(widgets, plugin+'.'+action))
 			{
 				$(this).addClass('menuDisabled');
-				$(this).attr('title', _pk_translate('Dashboard_TitleWidgetInDashboard','Widget already in dashboard'));
+				$(this).attr('title', _pk_translate('Dashboard_TitleWidgetInDashboard'));
 			}
 			else
 			{
 				$(this).removeClass('menuDisabled');
-				$(this).attr('title', _pk_translate('Dashboard_TitleClickToAdd','Click to add to dashboard'));
+				$(this).attr('title', _pk_translate('Dashboard_TitleClickToAdd'));
 			}
 		});
 	},
@@ -328,7 +328,7 @@ dashboard.prototype =
 		if(typeof onTop == "undefined")
 			onTop = false;
 		
-		var item = '<div class="items"><div class="widget"><div class="widgetLoading">'+ _pk_translate('Dashboard_LoadingWidget','Loading widget, please wait...') +'</div><div plugin="'+plugin+'"'+' id="'+action+'" class="widgetDiv"></div></div></div>';
+		var item = '<div class="items"><div class="widget"><div class="widgetLoading">'+ _pk_translate('Dashboard_LoadingWidget') +'</div><div plugin="'+plugin+'"'+' id="'+action+'" class="widgetDiv"></div></div></div>';
 	
 		if(onTop)
 		{
@@ -375,7 +375,7 @@ dashboard.prototype =
 	{
 		var self = this;
 		
-		var title = _pk_translate('Dashboard_WidgetNotFound','Widget not found');
+		var title = _pk_translate('Dashboard_WidgetNotFound');
 		var widgets = piwik.availableWidgets[plugin];
 		for(var i in widgets)
 		{
