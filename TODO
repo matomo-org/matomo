@@ -1,10 +1,11 @@
 simple fix
 ====
+Review all english strings, make them more explicit
+make API token easily available in admin UI
 
-
-En fait, j'ai affiché le lien complet dans ma page, et j'ai cliqué dessus pour voir ce qu'il disait, et j'ai reçu deux erreurs un peu plus claire, la première, c'est qu'il a réclamé sur la première visite que la colonne LOCATION_PROVIDER (piwik_log_visit) n'avait pas de default value, j'en ai mis une avec '$' et c'est passé.
+En fait, j'ai affichï¿½ le lien complet dans ma page, et j'ai cliquï¿½ dessus pour voir ce qu'il disait, et j'ai reï¿½u deux erreurs un peu plus claire, la premiï¿½re, c'est qu'il a rï¿½clamï¿½ sur la premiï¿½re visite que la colonne LOCATION_PROVIDER (piwik_log_visit) n'avait pas de default value, j'en ai mis une avec '$' et c'est passï¿½.
  
-La seconde était que la longueur de la colonne LOCATION_BROWSER_LANG (piwik_log_visit toujours) était trop courte, je l'ai rallongée à 100 pour voir ce qu'il voulait y mettre et j'y ai trouvé après : "fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3".
+La seconde ï¿½tait que la longueur de la colonne LOCATION_BROWSER_LANG (piwik_log_visit toujours) ï¿½tait trop courte, je l'ai rallongï¿½e ï¿½ 100 pour voir ce qu'il voulait y mettre et j'y ai trouvï¿½ aprï¿½s : "fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3".
 
 todo: when adding a user, should test that email is unique
    piwik.php link to /piwik

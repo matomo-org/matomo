@@ -108,6 +108,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 			// if user exists
 			if( $user != null )
 			{
+				$view = new Piwik_View('Login/templates/passwordsent.tpl');
+							
 				$login = $user['login'];
 				$email = $user['email'];
 							
@@ -116,14 +118,20 @@ class Piwik_Login_Controller extends Piwik_Controller
 				Piwik_UsersManager_API::updateUser($login, $randomPassword);
 
 				// send email with new password
-				$mail = new Piwik_Mail();				
-				$mail->addTo($email, $login);
-				$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));				
-				$mail->setBodyText(sprintf(Piwik_Translate('Login_MailBodyPasswordRecovery'),
-					$login, $randomPassword, Piwik_Url::getCurrentUrlWithoutQueryString()));				
-				$mail->send();
-						
-				$view = new Piwik_View('Login/templates/passwordsent.tpl');
+				try 
+				{
+					$mail = new Piwik_Mail();				
+					$mail->addTo($email, $login);
+					$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));				
+					$mail->setBodyText(sprintf(Piwik_Translate('Login_MailBodyPasswordRecovery'),
+						$login, $randomPassword, Piwik_Url::getCurrentUrlWithoutQueryString()));				
+					@$mail->send();
+				}
+				catch(Exception $e)
+				{
+					$view->ErrorString = $e->getMessage();
+				}
+
 				$view->linkTitle = Piwik::getRandomTitle();
 				$view->urlToRedirect = $urlToRedirect;
 				echo $view->render();

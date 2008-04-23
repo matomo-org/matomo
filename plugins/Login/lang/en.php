@@ -14,5 +14,6 @@ $translations = array(
 	
 	'Login_MailTopicPasswordRecovery' => 'Password recovery',
 	'Login_MailBodyPasswordRecovery' => "Hi %1s,\n\nYour new password is: %2s\n\nYou can login now at: %3s",
-	'Login_PasswordSent' => 'Password has been just sent. Check your e-mail.'
+	'Login_PasswordSent' => 'Password has been just sent. Check your e-mail.',
+	'Login_ContactAdmin' => 'Possible reason: your host may have disabled the mail() function. <br>Please contact your Piwik administrator.'
 );

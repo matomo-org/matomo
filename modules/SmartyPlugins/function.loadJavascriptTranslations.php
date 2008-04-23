@@ -20,15 +20,16 @@
  *  (it is always loaded with translations):
  *
  *  <script type="text/javascript">
- *     alert(_pk_translate('MY_TRANSLATION_STRING','Default string in English'))
+ *     alert(_pk_translate('MY_TRANSLATION_STRING'))
  *  </script>
  *
  *  Note: Use translation string from your translation file WITHOUT '_js' suffix.
  * 
  * _pk_translate DOES NOT support printf() arguments, but you can call:
  *
- *   sprintf(_pk_translate('_NB_OF_EGGS','There is %s eggs on the table'),'ten')
- *
+ *   sprintf(_pk_translate('_NB_OF_EGGS'),'ten')
+ *   (where _NB_OF_EGGS is defined in translation file as i.e. 'There is %s eggs on the table')
+ * 
  * sprintf() function is by default included when loading translations
  */
 
