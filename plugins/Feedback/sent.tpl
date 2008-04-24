@@ -1,4 +1,4 @@
-{if $ErrorString}
+{if isset($ErrorString)}
 	<strong>{'General_Error'|translate}</strong>: {$ErrorString}<br />
 	Please send your message at <a href='mailto:hello@piwik.org'>hello@piwik.org</a>:
 	<br>{$message}
