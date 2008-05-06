@@ -95,8 +95,8 @@ function submitOnEnter(e)
 	var key=e.keyCode || e.which;
 	if (key==13)
 	{
-		$(this).find('#adduser').click();
-		$(this).find('#updateuser').click();
+		$(this).find('.adduser').click();
+		$(this).find('.updateuser').click();
 	}
 }
 
@@ -196,7 +196,7 @@ $(document).ready( function() {
 				$(this)
 					.toggle()
 					.parent()
-					.prepend( $('<img src="plugins/UsersManager/images/ok.png" id="updateuser">')
+					.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateuser">')
 								.click( function(){ $.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); } ) 
 						);
 				
@@ -207,18 +207,12 @@ $(document).ready( function() {
 	$('.editable').keypress( submitOnEnter );
 	
 	$('td.editable')
-		.hover( function() {  
-		 	 $(this).css({ cursor: "pointer"}); 
-		  	},
-		  	function() {  
-		 	 $(this).css({ cursor: "auto"}); 
-		  	}
-	 	)
 	 	.click( function(){ $(this).parent().find('.edituser').click(); } )
 	 ;
 	
 	// when click on deleteuser, the we ask for confirmation and then delete the user
-	$('.deleteuser').click( function() {
+	$('.deleteuser')
+		.click( function() {
 			ajaxHideError();
 			var idRow = $(this).attr('id');
 			var loginToDelete = $(this).parent().parent().find('#userLogin').html();
@@ -229,14 +223,7 @@ $(document).ready( function() {
 		}
 	);
 	
-	$('#addrow').hover( function() {  
-		 	 $(this).css({ cursor: "pointer"}); 
-		  	},
-		  	function() {  
-		 	 $(this).css({ cursor: "auto"}); 
-		  	}
-	 	)
-	 		.click( function() {
+	$('.addrow').click( function() {
 		ajaxHideError();
 		$(this).toggle();
 		
@@ -250,16 +237,18 @@ $(document).ready( function() {
 				<td><input id="useradd_email" value="email@domain.com" size=15></td>\
 				<td><input id="useradd_alias" value="alias" size=15></td>\
 				<td>-</td>\
-				<td><img src="plugins/UsersManager/images/ok.png" id="adduser"></td>\
-	  			<td><img src="plugins/UsersManager/images/remove.png" id="cancel"></td>\
+				<td><img src="plugins/UsersManager/images/ok.png" class="adduser"></td>\
+	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel"></td>\
 	 		</tr>')
 	  			.appendTo('#users')
 		;
 		$('#'+newRowId).keypress( submitOnEnter );
-		$('#adduser').click( function(){ $.ajax( getAddUserAJAX($('tr#'+newRowId)) ); } );
-		$('#cancel').click(function() { ajaxHideError(); $(this).parents('tr').remove();  $('#addrow').toggle(); });
+		$('.adduser').click( function(){ $.ajax( getAddUserAJAX($('tr#'+newRowId)) ); } );
+		$('.cancel').click(function() { ajaxHideError(); $(this).parents('tr').remove();  $('.addrow').toggle(); });
 	
 	 } );
-	$('.updateAccess').click( bindUpdateAccess );
+	$('.updateAccess')
+		.click( bindUpdateAccess )
+		;
 });	
 

@@ -1,7 +1,19 @@
 {loadJavascriptTranslations modules='SitesManager'}
 
 <script type="text/javascript" src="plugins/SitesManager/templates/SitesManager.js"></script>
+{literal}
+<style>
+.addRowSite:hover, .editableSite:hover, .addsite:hover, .cancel:hover, .deleteSite:hover, .editSite:hover, .updateSite:hover{
+	cursor: pointer;
+}
 
+.addRowSite {
+	font-color:#3A477B;
+	padding:1em;
+	font-weight:bold;
+}
+</style>
+{/literal}
 <h2>{'SitesManager_Sites'|translate}</h2>
 <div id="ajaxError" style="display:none"></div>
 <div id="ajaxLoading" style="display:none">{'General_LoadingData'|translate} <img src="themes/default/loading.gif"></div>
@@ -34,6 +46,6 @@
 			
 		</tbody>
 	</table>
-	<div id="addRowSite"><img src='plugins/UsersManager/images/add.png'> <a href="#">{'SitesManager_AddSite'|translate}</a></div>
+	<div class="addRowSite"><img src='plugins/UsersManager/images/add.png'>{'SitesManager_AddSite'|translate}</div>
 {/if}
 
