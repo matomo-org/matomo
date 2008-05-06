@@ -2,7 +2,7 @@
 
 <div id="login">
 
-{if $ErrorString}
+{if isset($ErrorString)}
 	<div id="login_error"><strong>{'General_Error'|translate}</strong>: {$ErrorString}<br />
 	{'Login_ContactAdmin'|translate}
 	</div>
