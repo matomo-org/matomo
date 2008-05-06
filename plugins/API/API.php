@@ -25,3 +25,4 @@ class Piwik_API extends Piwik_Plugin
 	}
 }
 
+Piwik_AddAdminMenu('API', array('module' => 'API', 'action' => 'listAllAPI'));

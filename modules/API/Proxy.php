@@ -236,7 +236,7 @@ class Piwik_API_Proxy
 		foreach($this->api as $class => $info)
 		{
 			$moduleName = $this->getModuleNameFromClassName($class);
-			$str .= "\n<h3>Module ".$moduleName."</h3>";
+			$str .= "\n<h2>Module ".$moduleName."</h2>";
 			
 			foreach($info as $methodName => $infoMethod)
 			{
