@@ -253,9 +253,7 @@ abstract class Piwik_ArchiveProcessing
 		{
 			if($this->period->isFinished())
 			{
-//				echo "<br>date end = ".$this->period->getDateEnd();
 				$this->maxTimestampArchive = $this->period->getDateEnd()->setTime('00:00:00')->addDay(1)->getTimestamp();
-//				echo "<br>max = ". date("Y-m-d H:i:s",$this->maxTimestampArchive);
 			}
 			else
 			{
@@ -281,24 +279,15 @@ abstract class Piwik_ArchiveProcessing
 		if($this->idArchive === false
 			|| $this->debugAlwaysArchive)
 		{
-//			Piwik::printMemoryUsage('Before loading subperiods');
 			$this->archivesSubperiods = $this->loadSubperiodsArchive();
-//			Piwik::printMemoryUsage('After loading subperiods');
 			$this->initCompute();
-//			Piwik::printMemoryUsage('After init compute');
 			$this->compute();
-//			Piwik::printMemoryUsage('After compute');
 			$this->postCompute();
-//			Piwik::printMemoryUsage('After post compute');
-
 			// we execute again the isArchived that does some initialization work
 			$this->idArchive = $this->isArchived();
-			
-//			Piwik::log("New archive computed, id = {$this->idArchive}");
 		}
 		else
 		{
-			//Piwik::log("Archive already available, id = {$this->idArchive}");
 			$this->isThereSomeVisits = true;
 		}
 		

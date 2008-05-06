@@ -46,7 +46,7 @@ require_once "Cookie.php";
 require_once "LogStats/Db.php";
 require_once "LogStats/Visit.php";
 
-$GLOBALS['DEBUGPIWIK'] =  false;
+$GLOBALS['DEBUGPIWIK'] = false;
 
 if($GLOBALS['DEBUGPIWIK'] === true)
 {	
@@ -56,11 +56,15 @@ if($GLOBALS['DEBUGPIWIK'] === true)
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
 	printDebug($_GET);
+	Piwik_LogStats_Db::enableProfiling();
+	Piwik::createConfigObject();
+	Piwik::createLogObject();
 }
 
 ob_start();
 $process = new Piwik_LogStats;
 $process->main();
 ob_end_flush();
+
 printDebug($_COOKIE);
 

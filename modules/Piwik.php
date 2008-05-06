@@ -212,17 +212,28 @@ class Piwik
 		Piwik::log("Total queries = $queryCount (total sql time = ".round($totalTime,2)."s)");
 	}
 	
-	static public function printLogStatsSQLProfiling()
+	static public function printLogStatsSQLProfiling( $db = null )
 	{
 		function maxSumMsFirst($a,$b)
 		{
 			return $a['sum_time_ms'] < $b['sum_time_ms'];
 		}
 		
-		$db = Zend_Registry::get('db');
+		if(is_null($db))
+		{
+			$db = Zend_Registry::get('db');
+			$tableName = Piwik::prefixTable('log_profiling');
+		}
+		else
+		{
+			$tableName = $db->prefixTable('log_profiling');
+		}
 		$all = $db->fetchAll('	SELECT *, sum_time_ms / count as avg_time_ms 
-								FROM '.Piwik::prefixTable('log_profiling') 
-						);
+								FROM '.$tableName );
+		if($all === false) 
+		{
+			return;
+		}
 		usort($all, 'maxSumMsFirst');
 		
 		$str='<br><br>Query Profiling<br>----------------------<br>';

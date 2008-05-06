@@ -50,6 +50,10 @@ class Piwik_LogStats
 	
 	protected $urlToRedirect;
 	
+	/**
+	 *
+	 * @var Piwik_LogStats_Db
+	 */
 	protected $db = null;
 	
 	const STATE_NOTHING_TO_NOTICE = 1;
@@ -82,7 +86,8 @@ class Piwik_LogStats
 										$configDb['username'], 
 										$configDb['password'], 
 										$configDb['dbname']
-							);  
+							);
+							  
 		$this->db->connect();
 	}
 
@@ -179,9 +184,13 @@ class Piwik_LogStats
 		
 		if( $this->processVisit() )
 		{
-			$this->connectDatabase();
-			$visit = $this->getNewVisitObject();
-			$visit->handle();
+			try {
+				$this->connectDatabase();
+				$visit = $this->getNewVisitObject();
+				$visit->handle();
+			} catch (PDOException $e) {
+				$this->setState(self::STATE_LOGGING_DISABLE);
+			}				
 		}
 		$this->endProcess();
 	}	
@@ -217,6 +226,16 @@ class Piwik_LogStats
 			break;
 		}
 		printDebug("End of the page.");
+		
+		if($GLOBALS['DEBUGPIWIK'] === true)
+		{
+			Piwik::printLogStatsSQLProfiling($this->db);
+		}
+		
+		if(isset($this->db))
+		{
+			$this->db->disconnect();
+		}
 	}
 	
 	protected function outputTransparentGif()

@@ -19,13 +19,13 @@
 
 class Piwik_LogStats_Db 
 {
-	private $connection;
+	private $connection = null;
 	private $username;
 	private $password;
 	
 	static private $profiling = false;
 
-	protected $queriesProfiling;
+	protected $queriesProfiling = array();
 	
 	/**
 	 * Builds the DB object
@@ -76,21 +76,23 @@ class Piwik_LogStats_Db
 	 */
 	public function connect() 
 	{
-		try {
-			$pdoConnect = new PDO($this->dsn, $this->username, $this->password);
-			$pdoConnect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$this->connection = $pdoConnect;
+		$pdoConnect = new PDO($this->dsn, $this->username, $this->password);
+		$pdoConnect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$this->connection = $pdoConnect;
 
-			// we erase the password from this object "just in case" it could be printed 
-			$this->password = '';
-		} catch (PDOException $e) {
-			
-			// we erase the password from this object "just in case" it could be printed 
-			$this->password = '';
-			
-			// we don't throw the PDO Exception directly as it may contain sensitive information
-			throw new Exception("Error connecting database: ".$e->getMessage());
-		}
+		// we delete the password from this object "just in case" it could be printed 
+		$this->password = '';
+	}
+	
+	/**
+	 * Disconnects from the Mysql server
+	 *
+	 * @return void
+	 */
+	public function disconnect()
+	{
+		$this->recordProfiling();
+		$this->connection = null;
 	}
 
 	/**
@@ -120,6 +122,10 @@ class Piwik_LogStats_Db
 	{
 		try {
 			$sth = $this->query( $query, $parameters );
+			if($sth === false)
+			{
+				return false;
+			}
 			return $sth->fetchAll(PDO::FETCH_ASSOC);
 		} catch (PDOException $e) {
 			throw new Exception("Error query: ".$e->getMessage());
@@ -139,7 +145,11 @@ class Piwik_LogStats_Db
 	{
 		try {
 			$sth = $this->query( $query, $parameters );
-			return $sth->fetch(PDO::FETCH_ASSOC);
+			if($sth === false)
+			{
+				return false;
+			}
+			return $sth->fetch(PDO::FETCH_ASSOC);			
 		} catch (PDOException $e) {
 			throw new Exception("Error query: ".$e->getMessage());
 		}
@@ -151,12 +161,16 @@ class Piwik_LogStats_Db
 	 * @param string Query 
 	 * @param array Parameters to bind
 	 * 
+	 * @return PDOStatement or false if failed
 	 * @throw Exception if an exception occured
 	 */
 	public function query($query, $parameters = array()) 
 	{
-		try {
-			
+		if(is_null($this->connection))
+		{
+			return false;
+		}
+		try {			
 			if(self::$profiling)
 			{
 				require_once "Timer.php";
@@ -189,16 +203,21 @@ class Piwik_LogStats_Db
 	 */
 	public function lastInsertId()
 	{
-		return  $this->connection->lastInsertId();
+		return $this->connection->lastInsertId();
 	}
 	
 	/**
 	 * When destroyed, if SQL profiled enabled, logs the SQL profiling information
 	 */
-	public function __destruct()
+	public function recordProfiling()
 	{
 		if(self::$profiling)
 		{
+			if(is_null($this->connection)) 
+			{
+				return;
+			}
+		
 			// turn off the profiler so we don't profile the following queries 
 			self::$profiling = false;
 			
