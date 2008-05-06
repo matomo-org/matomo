@@ -1,7 +1,46 @@
+commenting remaining core files 6 hours
+review all TODO from code + create tickets OR fix
+
+comparer avant update et apres update
+bien tester les recherches recursives
+loading recursive
+appels call API examples 
+
+execute unit tests
+
+tickets next roadmap 
+- INTEGRATION (subtickets)
+- OPTIMIZATION
+- SECURITE 
+- DOCUMENTATION: 
+http://producingoss.com/en/getting-started.html#documentation
+page: comment aider piwik ? mail sending, outlink/download tracking documentation,
+voir la page thought about dev process et creer la liste de documentations
+see marketing last.zip
+
+
+http://producingoss.com/en/share-management.html
+http://producingoss.com/en/getting-started.html#starting-a-faq
+FAQ manager
+
+translation manager
+issues manager
+
+features
+screenshots
+
+Usability 
+Documentation
+- write beginners tutorials medium level user http://producingoss.com/en/funding-non-programming.html
+
+
+
 simple fix
 ====
+
+regarder pour error_reporting
+admin sites css overwrite
 Review all english strings, make them more explicit
-make API token easily available in admin UI
 
 En fait, j'ai affich� le lien complet dans ma page, et j'ai cliqu� dessus pour voir ce qu'il disait, et j'ai re�u deux erreurs un peu plus claire, la premi�re, c'est qu'il a r�clam� sur la premi�re visite que la colonne LOCATION_PROVIDER (piwik_log_visit) n'avait pas de default value, j'en ai mis une avec '$' et c'est pass�.
  

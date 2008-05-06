@@ -16,6 +16,15 @@
 	font-weight:bold;
 	text-align:center;
 }
+.editable:hover, .addrow:hover, .updateAccess:hover, .accessGranted:hover, .adduser:hover, .edituser:hover, .deleteuser:hover, .updateuser:hover, .cancel:hover{
+	cursor: pointer;
+}
+
+.addrow {
+	font-color:#3A477B;
+	padding:1em;
+	font-weight:bold;
+}
 </style>
 {/literal}
 
@@ -104,5 +113,5 @@
 	</tbody>
 </table>
 
-<div id="addrow"><img src='plugins/UsersManager/images/add.png'> {'UsersManager_AddUser'|translate}</div>
+<div class="addrow"><img src='plugins/UsersManager/images/add.png'> {'UsersManager_AddUser'|translate}</div>
 <script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>

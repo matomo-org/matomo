@@ -83,7 +83,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		// we load the data with the filters applied
 		$this->loadDataTableFromAPI();
 		$this->dataTable->queueFilter('Piwik_DataTable_Filter_AddSummaryRow',array($this->getGraphLimit()));
-//		echo $this->dataTable;
 		$this->dataAvailable = $this->dataTable->getRowsCount() != 0;
 		
 		if(!$this->dataAvailable)
@@ -119,18 +118,20 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		{
 			$label = $row->getColumn('label');
 			$value = $row->getColumn('nb_uniq_visitors');
+			
 			// case no unique visitors
 			if($value === false)
 			{
 				$value = $row->getColumn('nb_visits');
 			}
+			
 			$data[] = array(
 				'label' => $label,
 				'value' => $value,
 				'url' 	=> $row->getDetail('url'),
 			);
 		}
-//		var_dump($data);exit;
+		
 		return $data;
 	}
 }

@@ -79,26 +79,25 @@ function getUpdateSiteAJAX( row )
 
 
 	$(document).ready( function() {
-	$('#addRowSite').click( function() {
+	$('.addRowSite').click( function() {
 		ajaxHideError();
 		$(this).toggle();
 		
 		var numberOfRows = $('table#editSites')[0].rows.length;
-		var newRowIdNumeric = numberOfRows ;
-		var newRowId = 'row' + newRowIdNumeric;
+		var newRowId = 'row' + numberOfRows;
 	
 		$(' <tr id="'+newRowId+'">\
-				<td>'+newRowIdNumeric+'</td>\
+				<td>&nbsp;</td>\
 				<td><input id="siteadd_name" value="Name" size=10></td>\
 				<td><textarea cols=30 rows=3 id="siteadd_urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea></td>\
-				<td><img src="plugins/UsersManager/images/ok.png" id="addsite" href="#"></td>\
-	  			<td><img src="plugins/UsersManager/images/remove.png" id="cancel"></td>\
+				<td><img src="plugins/UsersManager/images/ok.png" class="addsite" href="#"></td>\
+	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel"></td>\
 	 		</tr>')
 	  			.appendTo('#editSites')
 		;
 		$('#'+newRowId).keypress( submitSiteOnEnter );
-		$('#addsite').click( function(){ $.ajax( getAddSiteAJAX($('tr#'+newRowId)) ); } );
-		$('#cancel').click(function() { ajaxHideError(); $(this).parents('tr').remove();  $('#addRowSite').toggle(); });
+		$('.addsite').click( function(){ $.ajax( getAddSiteAJAX($('tr#'+newRowId)) ); } );
+		$('.cancel').click(function() { ajaxHideError(); $(this).parents('tr').remove();  $('.addRowSite').toggle(); });
 	
 	 } );
 	
@@ -116,7 +115,6 @@ function getUpdateSiteAJAX( row )
 	);
 	
 	var alreadyEdited = new Array;
-	// when click on edituser, the cells become editable
 	$('.editSite')
 		.click( function() {
 				ajaxHideError();
@@ -147,7 +145,7 @@ function getUpdateSiteAJAX( row )
 				$(this)
 					.toggle()
 					.parent()
-					.prepend( $('<img src="plugins/UsersManager/images/ok.png" id="updateSite">')
+					.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateSite">')
 								.click( function(){ $.ajax( getUpdateSiteAJAX( $('tr#'+idRow) ) ); } ) 
 						);
 				
@@ -156,17 +154,7 @@ function getUpdateSiteAJAX( row )
 			}
 	);
 	
-	
-	$('td.editableSite')
-		.hover( function() {  
-		 	 $(this).css({ cursor: "pointer"}); 
-		  	},
-		  	function() {  
-		 	 $(this).css({ cursor: "auto"}); 
-		  	}
-	 	)
-	 	.click( function(){ $(this).parent().find('.editSite').click(); } )
-	 ;
+	$('td.editableSite').click( function(){ $(this).parent().find('.editSite').click(); } );
 });
  
 function submitSiteOnEnter(e)
@@ -174,7 +162,7 @@ function submitSiteOnEnter(e)
 	var key=e.keyCode || e.which;
 	if (key==13)
 	{
-		$(this).parent().find('#updateSite').click();
-		$(this).find('#addsite').click();
+		$(this).parent().find('.updateSite').click();
+		$(this).find('.addsite').click();
 	}
 }

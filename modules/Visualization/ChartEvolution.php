@@ -19,7 +19,6 @@ require_once "Visualization/Chart.php";
  */
 class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
 {		
-	
 	function customizeGraph()
 	{
 		parent::customizeGraph();
@@ -39,8 +38,7 @@ class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
 				$spacePosition = strlen($this->arrayLabel[$i]);
 			}
 			
-			// generate the link on the dot
-			// links to the given day statistics
+			// generate the link on the dot, to the given day' statistics
 			$link = Piwik_Url::getCurrentScriptName() 
 							. Piwik_Url::getCurrentQueryStringWithParametersModified( array(
 										'date' => substr($this->arrayLabel[$i],0,$spacePosition),
@@ -48,17 +46,13 @@ class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
 										'action' => 'index',
 										'viewDataTable' => null// we reset the viewDataTable parameter (useless in the link)
 										));
-										
-//			$link = 'http://piwik.org';
 			
 			$line_1->add_link($value, $link );
 			$i++;
 		}
 		$this->data_sets[] = $line_1;
 		
-		
 		$this->set_x_labels( $this->arrayLabel );
 		$this->area_hollow( 1, 3, 4,'0x3357A0',  ' visits', 10 );	
 	}
-	
 }
