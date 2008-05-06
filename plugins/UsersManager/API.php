@@ -332,8 +332,10 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		{
 			$email = $userInfo['email'];
 		}
-		
-		self::checkEmail($email);
+		else
+		{
+			self::checkEmail($email);
+		}
 		
 		$alias = self::getCleanAlias($alias,$userLogin);
 		$token_auth = self::getTokenAuth($userLogin,$password);
