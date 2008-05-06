@@ -227,6 +227,11 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	
 	static private function checkEmail($email)
 	{
+		if(self::userEmailExists($email))
+		{
+			throw new Exception(sprintf(Piwik_TranslateException('UsersManager_ExceptionEmailExists'),$email));
+		}
+		
 		if(!Piwik::isValidEmailString($email))
 		{
 			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidEmail'));

@@ -22,6 +22,7 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Are you sure you want to delete the user %s?',
 	
 	'UsersManager_ExceptionLoginExists' => "Login '%s' already exists.",
+	'UsersManager_ExceptionEmailExists' => "User with email '%s' already exists.",
 	'UsersManager_ExceptionInvalidLogin' => "The login must contain only letters, numbers, or the characters '_' or '-' or '.'",
 	'UsersManager_ExceptionInvalidPassword' => "The password length must be between 6 and 26 characters.",
 	'UsersManager_ExceptionInvalidEmail' => "The email doesn't have a valid format.",

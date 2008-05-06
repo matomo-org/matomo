@@ -241,7 +241,7 @@ class Piwik_LogStats_Visit
 		$ip				= Piwik_Common::getIp();
 		$ip 			= ip2long($ip);
 
-		$browserLang	= Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		$browserLang	= substr(Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']), 0, 20);
 		if(is_null($browserLang))
 		{
 			$browserLang = '';
