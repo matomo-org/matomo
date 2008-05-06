@@ -120,11 +120,12 @@ class Piwik_Login_Controller extends Piwik_Controller
 				// send email with new password
 				try 
 				{
-					$mail = new Piwik_Mail();				
+					$mail = new Piwik_Mail();
 					$mail->addTo($email, $login);
 					$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));				
 					$mail->setBodyText(sprintf(Piwik_Translate('Login_MailBodyPasswordRecovery'),
-						$login, $randomPassword, Piwik_Url::getCurrentUrlWithoutQueryString()));				
+						$login, $randomPassword, Piwik_Url::getCurrentUrlWithoutQueryString()));	
+					$mail->setFrom('password-recovery@'.Piwik_Url::getCurrentHost(), 'Piwik');
 					@$mail->send();
 				}
 				catch(Exception $e)
