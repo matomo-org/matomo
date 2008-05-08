@@ -49,7 +49,14 @@ require_once 'Zend/Db/Select.php';
  */
 abstract class Zend_Db_Adapter_Abstract
 {
-
+	/**
+	 * Added by Piwik
+	 */
+	public function resetConfigArray()
+	{
+		$this->_config = array();
+	}
+	
     /**
      * User-provided configuration
      *

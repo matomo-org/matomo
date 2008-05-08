@@ -49,7 +49,6 @@ class Piwik
 		@file_put_contents($path . "/.htaccess", "Deny from all");
 	}
 	
-	// path without trailing slash!!
 	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
 	{
 		if(!is_dir($path))
@@ -90,7 +89,6 @@ class Piwik
 		}
 		
 		$resultCheck = array();
-		
 		foreach($directoriesToCheck as $directoryToCheck)
 		{
 			if( !ereg('^'.preg_quote(PIWIK_INCLUDE_PATH), $directoryToCheck) )
@@ -98,14 +96,12 @@ class Piwik
 				$directoryToCheck = PIWIK_INCLUDE_PATH . $directoryToCheck;
 			}
 			
-			$directory = realpath($directoryToCheck);
-			
-			
 			if(!file_exists($directoryToCheck))
 			{			
 				Piwik::mkdir($directoryToCheck, 0755, false);
 			}
 			
+			$directory = realpath($directoryToCheck);
 			$resultCheck[$directory] = false;
 			if(is_writable($directoryToCheck))
 			{
@@ -800,7 +796,6 @@ class Piwik
 			$dbInfos['password'] = '';
 		}
 		
-//		var_dump($dbInfos);
 		// test with the password ='][{}!3456&&^#gegq"eQ for example
 		if(substr($dbInfos['password'],0,1) == '"'
 			&& substr($dbInfos['password'],-1,1) == '"'
@@ -809,7 +804,6 @@ class Piwik
 			$dbInfos['password'] = substr($dbInfos['password'], 1, -1);
 		}
 		$dbInfos['password'] = htmlspecialchars_decode($dbInfos['password']);
-//		var_dump($dbInfos);exit;// we remove the slashes
 		
 		$db = Zend_Db::factory($config->database->adapter, $dbInfos);
 		$db->getConnection();
@@ -817,8 +811,8 @@ class Piwik
 		$db->getConnection()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 		$db->getConnection()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);		
 		Zend_Db_Table::setDefaultAdapter($db);
+		$db->resetConfigArray(); // we don't want this information to appear in the logs
 		Zend_Registry::set('db', $db);
-		
 	}
 
 	static public function createLogObject()
@@ -966,10 +960,6 @@ class Piwik
 				$db->query( $tableSql );
 			}
 		}
-		
-		$queries = array(
-			
-		);
 	}
 	
 	static public function install()
