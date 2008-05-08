@@ -52,8 +52,6 @@ class Piwik
 	// path without trailing slash!!
 	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
 	{
-		$path = '/' . $path;
-		
 		if(!is_dir($path))
 		{
 			$directoryParent = realpath(dirname($path));
@@ -72,33 +70,43 @@ class Piwik
 	}
 	
 	/**
-	 * Throws an exception if the directories are not writable
+	 * Checks if directories are writable and create them if they do not exist.
+	 * 
+	 * @param array $directoriesToCheck array of directories to check - if not given default Piwik directories that needs write permission are checked
+	 *
+	 * @return array direcory name => true|false (is writable)
 	 */
-	static public function checkDirectoriesWritable()
-	{		
-		$directoriesToCheck = array(
-			'/config',
-			'/tmp',
-			'/tmp/templates_c',
-			'/tmp/cache',
-		); 
+	static public function checkDirectoriesWritable($directoriesToCheck = null)
+	{
+		if( $directoriesToCheck == null )		
+		{
+			$directoriesToCheck = array(
+				'/',
+				'/config',
+				'/tmp',
+				'/tmp/templates_c',
+				'/tmp/cache',
+			); 
+		}
 		
 		$resultCheck = array();
 		
-		foreach($directoriesToCheck as $name)
+		foreach($directoriesToCheck as $directoryToCheck)
 		{
-			$directoryToCheck = PIWIK_INCLUDE_PATH . $name;
+			if( !ereg('^'.preg_quote(PIWIK_INCLUDE_PATH), $directoryToCheck) )
+			{
+				$directoryToCheck = PIWIK_INCLUDE_PATH . $directoryToCheck;
+			}
 			
 			$directory = realpath($directoryToCheck);
 			
-			$resultCheck[$directory] = false;
 			
-			if(!is_writable($directoryToCheck))
+			if(!file_exists($directoryToCheck))
 			{			
 				Piwik::mkdir($directoryToCheck, 0755, false);
 			}
 			
-			
+			$resultCheck[$directory] = false;
 			if(is_writable($directoryToCheck))
 			{
 				$resultCheck[$directory] = true;
@@ -107,7 +115,7 @@ class Piwik
 		
 		return $resultCheck;
 	}
-	
+		
 	static public function getJavascriptCode($idSite, $piwikUrl, $actionName = "''")
 	{	
 		$jsTag = file_get_contents( "modules/LogStats/javascriptTag.tpl");
