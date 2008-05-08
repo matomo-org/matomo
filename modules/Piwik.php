@@ -440,7 +440,7 @@ class Piwik
 			'logger_message' => "CREATE TABLE {$prefixTables}logger_message (
 									  idlogger_message INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 									  timestamp TIMESTAMP NULL,
-									  message TINYTEXT NULL,
+									  message TEXT NULL,
 									  PRIMARY KEY(idlogger_message)
 									)
 			",
@@ -449,12 +449,12 @@ class Piwik
 									  idlogger_api_call INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 									  class_name VARCHAR(255) NULL,
 									  method_name VARCHAR(255) NULL,
-									  parameter_names_default_values TINYTEXT NULL,
-									  parameter_values TINYTEXT NULL,
+									  parameter_names_default_values TEXT NULL,
+									  parameter_values TEXT NULL,
 									  execution_time FLOAT NULL,
 									  caller_ip BIGINT NULL,
 									  timestamp TIMESTAMP NULL,
-									  returned_value TINYTEXT NULL,
+									  returned_value TEXT NULL,
 									  PRIMARY KEY(idlogger_api_call)
 									) 
 			",
@@ -462,7 +462,7 @@ class Piwik
 			'logger_error' => "CREATE TABLE {$prefixTables}logger_error (
 									  idlogger_error INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 									  timestamp TIMESTAMP NULL,
-									  message TINYTEXT NULL,
+									  message TEXT NULL,
 									  errno INTEGER UNSIGNED NULL,
 									  errline INTEGER UNSIGNED NULL,
 									  errfile VARCHAR(255) NULL,
@@ -474,7 +474,7 @@ class Piwik
 			'logger_exception' => "CREATE TABLE {$prefixTables}logger_exception (
 									  idlogger_exception INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 									  timestamp TIMESTAMP NULL,
-									  message TINYTEXT NULL,
+									  message TEXT NULL,
 									  errno INTEGER UNSIGNED NULL,
 									  errline INTEGER UNSIGNED NULL,
 									  errfile VARCHAR(255) NULL,
@@ -569,7 +569,7 @@ class Piwik
 									  date2 DATE NULL,
 									  period TINYINT UNSIGNED NULL,
 									  ts_archived DATETIME NULL,
-									  value BLOB NULL,
+									  value MEDIUMBLOB NULL,
 									  PRIMARY KEY(idarchive, name)
 									)
 			",
