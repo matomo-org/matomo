@@ -140,6 +140,10 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		{
 			if($toDisplay !== false)
 			{
+				if($name === 0)
+				{
+					$name = 'value';
+				}
 				$html .= "\n\t<td><b>$name</b></td>";
 			}
 		}

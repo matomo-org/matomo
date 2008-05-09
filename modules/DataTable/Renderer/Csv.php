@@ -114,7 +114,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	protected function renderDataTable( $table )
 	{	
 		if($table instanceof Piwik_DataTable_Simple 
-			&& $table->getRowsCount() ==1)
+			&& $table->getRowsCount() == 1)
 		{
 			$str = 'value' . $this->lineEnd . $table->getRowFromId(0)->getColumn('value');
 			return $str;
@@ -122,14 +122,11 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		
 		$csv = array();		
 
-		// keep track of all the existing columns in the csv file
 		$allColumns = array();
-		
 		foreach($table->getRows() as $row)
 		{
 			$csvRow = array();
 			
-			// COLUMNS
 			$columns = $row->getColumns();
 			foreach($columns as $name => $value)
 			{
@@ -142,7 +139,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			
 			if($this->exportDetail)
 			{
-				// DETAILS
 				$details = $row->getDetails();
 				foreach($details as $name => $value)
 				{
@@ -156,7 +152,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			
 			if($this->exportIdSubtable)
 			{
-				// ID SUB DATATABLE
 				$idsubdatatable = $row->getIdSubDataTable();
 				if($idsubdatatable !== false)
 				{
@@ -178,7 +173,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 				}
 			}
 		}
-//		var_dump($csv);exit;
 		$str = '';		
 		
 		// specific case, we have only one column and this column wasn't named properly (indexed by a number)
@@ -193,6 +187,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		{
 			$keys = array_keys($allColumns);
 			$str .= implode($this->separator, $keys);
+			$str .= $this->lineEnd;
 		}
 		
 		// we render the CSV
@@ -205,11 +200,12 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			}
 			// remove the last separator
 			$rowStr = substr_replace($rowStr,"",-strlen($this->separator));
-			
-			$str .= $this->lineEnd . $rowStr;
+			$str .= $rowStr . $this->lineEnd;
 		}
+		$str = substr($str, 0, -strlen($this->lineEnd));
 		return $str;
 	}
+	
 	protected function output( $str )
 	{
 		if(empty($str))
