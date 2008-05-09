@@ -1,8 +1,4 @@
-<?php
-
-// sets locale for dates, always use UTF-8!
-setlocale(LC_TIME, 'en_US.UTF-8');
-
+<?php 
 $translations = array(
 	'General_Unknown' => 'Unknown',
 	'General_Required' => '%s required',
@@ -30,4 +26,5 @@ $translations = array(
 	'General_ColumnNbUniqVisitors' => 'Unique visitors',
 	'General_ColumnNbVisits' => 'Visits',
 	'General_ColumnLabel' => 'Label',
+	'General_Save' => 'Save',
 );

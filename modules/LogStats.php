@@ -210,7 +210,7 @@ class Piwik_LogStats
 			
 			case self::STATE_NO_GET_VARIABLE:
 				printDebug("No get variables => piwik page");
-				echo "Piwik is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
+				echo "<a href='index.php'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
 			break;
 			
 			

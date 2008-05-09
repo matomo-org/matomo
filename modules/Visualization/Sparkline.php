@@ -66,21 +66,16 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 			
 			$i++;			
 		}
-//		echo imagefontwidth(FONT_2);exit;
-		// set y-bound, min and max extent lines
-		//
 		$sparkline->SetYMin(0);
-//		$sparkline->SetYMax($max);
 		$sparkline->SetPadding(2); // setpadding is additive
 		$sparkline->SetPadding(0,//13,//font height 
-					3,//4 * (strlen("$last[1]")), 
+					3, //4 * (strlen("$last[1]")), 
 					0, //imagefontheight(FONT_2), 
 					0);
 		$font = FONT_2;
-		$sparkline->SetFeaturePoint($min[0]-1,$min[1],'red', 5);//, $min[1], TEXT_TOP,$font);
-		$sparkline->SetFeaturePoint($max[0]-1,$max[1],  'green', 5);//, $max[1], TEXT_TOP,$font);
-		$sparkline->SetFeaturePoint($last[0]-1, $last[1], 'blue',5);//, " $last[1]", TEXT_RIGHT,$font);
-		
+		$sparkline->SetFeaturePoint($min[0]-1,$min[1],'red', 5);
+		$sparkline->SetFeaturePoint($max[0]-1,$max[1],  'green', 5);
+		$sparkline->SetFeaturePoint($last[0]-1, $last[1], 'blue',5);
 		$sparkline->SetLineSize(3); // for renderresampled, linesize is on virtual image
 		$sparkline->RenderResampled(100, 20, 'lineColor');
 		

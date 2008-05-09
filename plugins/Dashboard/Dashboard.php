@@ -31,7 +31,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 			$sql = "CREATE TABLE ". Piwik::prefixTable('user_dashboard')." (
 					login VARCHAR( 20 ) NOT NULL ,
 					iddashboard INT NOT NULL ,
-					layout TINYTEXT NOT NULL,
+					layout TEXT NOT NULL,
 					PRIMARY KEY ( login , iddashboard )
 					) " ;
 			Piwik_Query($sql);
