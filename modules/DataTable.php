@@ -732,7 +732,7 @@ class Piwik_DataTable
 		// array(col1_name => val1, col2_name => val2, etc.)
 		// with val* that are never arrays (only strings/numbers/bool/etc.)
 		// if we detect such a "simple" data structure we convert it to a row with the correct columns' names
-		$rowBuilt = array(); $thisIsNotThatSimple = false;
+		$thisIsNotThatSimple = false;
 		
 		foreach($array as $columnName => $columnValue )
 		{
@@ -741,12 +741,21 @@ class Piwik_DataTable
 				$thisIsNotThatSimple = true;
 				break;
 			}
-			$rowBuilt += array($columnName => $columnValue );
 		}
-		
 		if($thisIsNotThatSimple === false)
 		{
-			$this->addRow( new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => $rowBuilt ) ) );
+			// case when the array is indexed by the default numeric index
+			if( array_keys($array) == array_keys(array_fill(0, count($array), true)) )
+			{
+				foreach($array as $row)
+				{
+					$this->addRow( new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => array($row) ) ) );					
+				}
+			}
+			else
+			{
+				$this->addRow( new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => $array ) ) );
+			}
 			// we have converted our simple array to one single row
 			// => we exit the method as the job is now finished 
 			return;
@@ -779,8 +788,6 @@ class Piwik_DataTable
 						throw $e;						
 					}
 				}
-				
-				
 				$row = new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => $row ) );		
 			}
 			// other (string, numbers...) => we build a line from this value

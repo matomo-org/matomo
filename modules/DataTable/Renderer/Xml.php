@@ -189,26 +189,37 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	
 	protected function renderDataTable( $array, $prefixLine = "" )
 	{
-//		var_dump($array);exit;
-		
 		$out = '';
 		foreach($array as $row)
 		{
-			$out .= $prefixLine."\t<row>\n";
-			foreach($row as $name => $value)
+			$out .= $prefixLine."\t<row>";
+			
+			if(count($row) === 1
+				&& key($row) === 0)
 			{
-				// handle the recursive dataTable case by XML outputting the recursive table
-				if(is_array($value))
+				$value = current($row);
+				$out .= $prefixLine . $value;				
+			}
+			else
+			{
+				$out .= "\n";
+				foreach($row as $name => $value)
 				{
-					$value = "\n".$this->renderDataTable($value, $prefixLine."\t\t");
-					$value .= $prefixLine."\t\t"; 
-				}
-				$out .= $prefixLine."\t\t<$name>$value</$name>\n";
-			} 
-			$out .= $prefixLine."\t</row>\n";
+					// handle the recursive dataTable case by XML outputting the recursive table
+					if(is_array($value))
+					{
+						$value = "\n".$this->renderDataTable($value, $prefixLine."\t\t");
+						$value .= $prefixLine."\t\t"; 
+					}
+					$out .= $prefixLine."\t\t<$name>$value</$name>\n";
+				} 
+				$out .= "\t";
+			}
+			$out .= $prefixLine."</row>\n";
 		}
 		return $out;
 	}
+	
 	protected function renderDataTableSimple( $array, $prefixLine = "")
 	{
 		$out = '';
@@ -218,6 +229,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		}
 		return $out;
 	}
+	
 	protected function output( $xml )
 	{
 		// silent fail because otherwise it throws an exception in the unit tests
