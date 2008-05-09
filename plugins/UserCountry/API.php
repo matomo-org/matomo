@@ -8,10 +8,7 @@
  * 
  * @package Piwik_UserCountry
  */
-
-
 require_once "DataFiles/Countries.php";
-
 
 /**
  * 
@@ -91,7 +88,7 @@ function Piwik_ContinentTranslate($label)
 		return Piwik_Translate('General_Unknown');
 	}
 	
-	return Piwik_Translate('continent_'. $label);
+	return Piwik_Translate('UserCountry_continent_'. $label);
 }
 function Piwik_CountryTranslate($label)
 {
@@ -100,5 +97,5 @@ function Piwik_CountryTranslate($label)
 		return Piwik_Translate('General_Unknown');
 	}
 	
-	return Piwik_Translate('country_'. $label);
+	return Piwik_Translate('UserCountry_country_'. $label);
 }

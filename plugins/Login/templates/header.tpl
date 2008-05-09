@@ -7,7 +7,11 @@
 	{literal}
 	<script type="text/javascript">
 		function focusit() {
-			document.getElementById('form_login').focus();
+			var formLogin = document.getElementById('form_login');
+			if(formLogin)
+			{
+				formLogin.focus();
+			}
 		}
 		window.onload = focusit;
 	</script>

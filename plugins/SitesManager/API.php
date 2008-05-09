@@ -65,9 +65,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	static public function getSiteFromId( $idSite )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		
-		$db = Zend_Registry::get('db');
-		$site = $db->fetchRow("SELECT * FROM ".Piwik::prefixTable("site")." WHERE idsite = ?", $idSite);
+		$site = Zend_Registry::get('db')->fetchRow("SELECT * FROM ".Piwik::prefixTable("site")." WHERE idsite = ?", $idSite);
 		return $site;
 	}
 	
@@ -95,10 +93,8 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	static public function getSiteUrlsFromId( $idSite )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		
 		$site = self::getSiteFromId($idSite);
 		$urls = self::getAliasSiteUrlsFromId($idSite);
-		
 		return array_merge(array($site['main_url']), $urls);
 	}
 	
@@ -110,10 +106,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	static public function getAllSitesId()
 	{
 		Piwik::checkUserIsSuperUser();
-		
-		$db = Zend_Registry::get('db');
-		$idSites = $db->fetchCol("SELECT idsite FROM ".Piwik::prefixTable('site'));
-		return $idSites;
+		return Zend_Registry::get('db')->fetchCol("SELECT idsite FROM ".Piwik::prefixTable('site'));
 	}
 	
 	
@@ -126,7 +119,6 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	static public function getSitesWithAdminAccess()
 	{
 		$sitesId = self::getSitesIdWithAdminAccess();
-		
 		return self::getSitesFromIds($sitesId);
 	}
 	
@@ -139,7 +131,6 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	static public function getSitesWithViewAccess()
 	{
 		$sitesId = self::getSitesIdWithViewAccess();
-		
 		return self::getSitesFromIds($sitesId);
 	}
 	
@@ -152,7 +143,6 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	static public function getSitesWithAtLeastViewAccess()
 	{
 		$sitesId = self::getSitesIdWithAtLeastViewAccess();
-		
 		return self::getSitesFromIds($sitesId);
 	}
 	
@@ -176,8 +166,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 */
 	static public function getSitesIdWithViewAccess()
 	{
-		$sitesId = Zend_Registry::get('access')->getSitesIdWithViewAccess();
-		return $sitesId;
+		return Zend_Registry::get('access')->getSitesIdWithViewAccess();
 	}
 	
 	/**
@@ -188,8 +177,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 */
 	static public function getSitesIdWithAtLeastViewAccess()
 	{
-		$sitesId = Zend_Registry::get('access')->getSitesIdWithAtLeastViewAccess();
-		return $sitesId;
+		return Zend_Registry::get('access')->getSitesIdWithAtLeastViewAccess();
 	}
 
 	/**
