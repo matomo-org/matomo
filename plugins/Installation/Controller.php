@@ -121,7 +121,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				'dbname' 		=> $form->getSubmitValue('dbname'),
 				'tables_prefix' => $form->getSubmitValue('tables_prefix'),
 				'adapter' 		=> Zend_Registry::get('config')->database->adapter,
-				'profiler' 		=> 'false',
 			);
 			
 			// we test the DB connection with these settings

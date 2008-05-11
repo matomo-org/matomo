@@ -23,11 +23,11 @@ Zend_Loader::loadClass('Piwik_Common');
  */
 abstract class Piwik_Log extends Zend_Log
 {
-	private $logToDatabaseTableName = null;
-	private $logToDatabaseColumnMapping = null;
-	private $logToFileFilename = null;
-	private $fileFormatter = null;
-	private $screenFormatter = null;
+	protected $logToDatabaseTableName = null;
+	protected $logToDatabaseColumnMapping = null;
+	protected $logToFileFilename = null;
+	protected $fileFormatter = null;
+	protected $screenFormatter = null;
 	
 	function __construct( 	$logToFileFilename, 
 							$fileFormatter,
@@ -88,7 +88,7 @@ abstract class Piwik_Log extends Zend_Log
 
 	/**
 	 * Log an event
-	 * Overload Zend_log::log cos its too weak for our requirements
+	 * Overload Zend_log::log
 	 */
 	public function log($event)
 	{
