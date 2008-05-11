@@ -53,7 +53,7 @@ class Piwik_LogStats_Db
 	 * Enables the SQL profiling. 
 	 * For each query, saves in the DB the time spent on this query. 
 	 * Very useful to see the slow query under heavy load.
-	 * You can then use Piwik::printLogStatsSQLProfiling(); 
+	 * You can then use Piwik::printSqlProfilingReportLogStats(); 
 	 * to display the SQLProfiling report and see which queries take time, etc.
 	 */
 	static public function enableProfiling()
@@ -76,12 +76,20 @@ class Piwik_LogStats_Db
 	 */
 	public function connect() 
 	{
+		if(self::$profiling)
+		{
+			$timer = $this->initProfiler();
+		}
 		$pdoConnect = new PDO($this->dsn, $this->username, $this->password);
 		$pdoConnect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection = $pdoConnect;
-
 		// we delete the password from this object "just in case" it could be printed 
 		$this->password = '';
+		
+		if(self::$profiling)
+		{
+			$this->recordQueryProfile('connect', $timer);
+		}
 	}
 	
 	/**
@@ -91,7 +99,10 @@ class Piwik_LogStats_Db
 	 */
 	public function disconnect()
 	{
-		$this->recordProfiling();
+		if(self::$profiling)
+		{
+			$this->recordProfiling();
+		}
 		$this->connection = null;
 	}
 
@@ -170,11 +181,10 @@ class Piwik_LogStats_Db
 		{
 			return false;
 		}
-		try {			
+		try {
 			if(self::$profiling)
 			{
-				require_once "Timer.php";
-				$t = new Piwik_Timer;
+				$timer = $this->initProfiler();
 			}
 			
 			$sth = $this->connection->prepare($query);
@@ -182,17 +192,27 @@ class Piwik_LogStats_Db
 			
 			if(self::$profiling)
 			{
-				if(!isset($this->queriesProfiling[$query])) $this->queriesProfiling[$query] = array('sum_time_ms' => 0, 'count' => 0);
-				$time = $t->getTimeMs(2);
-				$time += $this->queriesProfiling[$query]['sum_time_ms'];
-				$count = $this->queriesProfiling[$query]['count'] + 1;
-				$this->queriesProfiling[$query]	= array('sum_time_ms' => $time, 'count' => $count);
+				$this->recordQueryProfile($query, $timer);
 			}
-			
 			return $sth;
 		} catch (PDOException $e) {
 			throw new Exception("Error query: ".$e->getMessage());
 		}
+	}
+	
+	protected function initProfiler()
+	{
+		require_once "Timer.php";
+		return new Piwik_Timer;
+	}
+	
+	protected function recordQueryProfile( $query, $timer )
+	{
+		if(!isset($this->queriesProfiling[$query])) $this->queriesProfiling[$query] = array('sum_time_ms' => 0, 'count' => 0);
+		$time = $timer->getTimeMs(2);
+		$time += $this->queriesProfiling[$query]['sum_time_ms'];
+		$count = $this->queriesProfiling[$query]['count'] + 1;
+		$this->queriesProfiling[$query]	= array('sum_time_ms' => $time, 'count' => $count);
 	}
 	
 	/**
@@ -211,31 +231,28 @@ class Piwik_LogStats_Db
 	 */
 	public function recordProfiling()
 	{
-		if(self::$profiling)
+		if(is_null($this->connection)) 
 		{
-			if(is_null($this->connection)) 
-			{
-				return;
-			}
-		
-			// turn off the profiler so we don't profile the following queries 
-			self::$profiling = false;
-			
-			foreach($this->queriesProfiling as $query => $info)
-			{
-				$time = $info['sum_time_ms'];
-				$count = $info['count'];
-
-				$queryProfiling = "INSERT INTO ".$this->prefixTable('log_profiling')."
-							(query,count,sum_time_ms) VALUES (?,$count,$time)
-							ON DUPLICATE KEY 
-								UPDATE count=count+$count,sum_time_ms=sum_time_ms+$time";
-				$this->query($queryProfiling,array($query));
-			}
-			
-			// turn back on profiling
-			self::$profiling = true;
+			return;
 		}
+	
+		// turn off the profiler so we don't profile the following queries 
+		self::$profiling = false;
+		
+		foreach($this->queriesProfiling as $query => $info)
+		{
+			$time = $info['sum_time_ms'];
+			$count = $info['count'];
+
+			$queryProfiling = "INSERT INTO ".$this->prefixTable('log_profiling')."
+						(query,count,sum_time_ms) VALUES (?,$count,$time)
+						ON DUPLICATE KEY 
+							UPDATE count=count+$count,sum_time_ms=sum_time_ms+$time";
+			$this->query($queryProfiling,array($query));
+		}
+		
+		// turn back on profiling
+		self::$profiling = true;
 	}
 }
 

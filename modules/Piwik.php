@@ -216,7 +216,7 @@ class Piwik
 		Piwik::log("Total queries = $queryCount (total sql time = ".round($totalTime,2)."s)");
 	}
 	
-	static public function printLogStatsSQLProfiling( $db = null )
+	static public function printSqlProfilingReportLogStats( $db = null )
 	{
 		function maxSumMsFirst($a,$b)
 		{
@@ -240,25 +240,23 @@ class Piwik
 		}
 		usort($all, 'maxSumMsFirst');
 		
-		$str='<br><br>Query Profiling<br>----------------------<br>';
+		$infoIndexedByQuery = array();
 		foreach($all as $infoQuery)
 		{
 			$query = $infoQuery['query'];
 			$count = $infoQuery['count'];
 			$sum_time_ms = $infoQuery['sum_time_ms'];
-			$avg_time_ms = round($infoQuery['avg_time_ms'],1);
-			$query = str_replace("\t", "", $query);
-			
-			$str .= "	$query <br>
-						$count times, <b>$sum_time_ms ms total</b><br>
-						$avg_time_ms ms average<br>
-						<br>";
+			$infoIndexedByQuery[$query] = array('count' => $count, 'sumTimeMs' => $sum_time_ms);
 		}		
-		
-		Piwik::log($str);
+		Piwik::getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery);
 	}
 
-	static function printZendProfiler()
+	/**
+	 * Outputs SQL Profiling reports 
+	 * It is automatically called when enabling the SQL profiling in the config file enable_sql_profiler
+	 *
+	 */
+	static function printSqlProfilingReportZend()
 	{
 		$profiler = Zend_Registry::get('db')->getProfiler();
 		
@@ -267,27 +265,26 @@ class Piwik
 			throw new Exception("To display the profiler you should enable enable_sql_profiler on your config/config.ini.php file");
 		}
 		
-		$indexByQuery = array();
+		$infoIndexedByQuery = array();
 		foreach($profiler->getQueryProfiles() as $query)
 		{
-			if(isset($indexByQuery[$query->getQuery()]))
+			if(isset($infoIndexedByQuery[$query->getQuery()]))
 			{
 				$existing =  $indexByQuery[$query->getQuery()];
 			}
 			else
 			{
-				$existing = array( 'count' => 0, 'sumTimeSeconds' => 0);
+				$existing = array( 'count' => 0, 'sumTimeMs' => 0);
 			}
 			$new = array( 'count' => $existing['count'] + 1,
-							'sumTimeSeconds' =>  $existing['count'] + $query->getElapsedSecs()
-				);
-			$indexByQuery[$query->getQuery()] = $new;
+							'sumTimeMs' =>  $existing['count'] + $query->getElapsedSecs() * 1000);
+			$infoIndexedByQuery[$query->getQuery()] = $new;
 		}
 		function sortTimeDesc($a,$b)
 		{
-			return $a['sumTimeSeconds'] < $b['sumTimeSeconds'];
+			return $a['sumTimeMs'] < $b['sumTimeMs'];
 		}
-		uasort( $indexByQuery, 'sortTimeDesc');
+		uasort( $infoIndexedByQuery, 'sortTimeDesc');
 		
 		Piwik::log('<hr><b>SQL Profiler</b>');
 		Piwik::log('<hr><b>Summary</b>');
@@ -306,14 +303,27 @@ class Piwik
 		$str .= '<br>Queries per second: ' . round($queryCount / $totalTime,1) . "\n";
 		$str .= '<br>Longest query length: ' . round($longestTime,3) . " seconds (<code>$longestQuery</code>) \n";
 		Piwik::log($str);
-		
+		Piwik::getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery);
+	}
+	
+	static private function getSqlProfilingQueryBreakdownOutput( $infoIndexedByQuery )
+	{
 		Piwik::log('<hr><b>Breakdown by query</b>');
-		foreach($indexByQuery as $query => $queryInfo) 
+		$output = '';
+		foreach($infoIndexedByQuery as $query => $queryInfo) 
 		{
-			$timeMs = round($queryInfo['sumTimeSeconds'] * 1000,1);
+			$timeMs = round($queryInfo['sumTimeMs'],1);
 			$count = $queryInfo['count'];
-			Piwik::log("Executed <b>$count</b> time". ($count==1?'':'s') ." in <b>".$timeMs."ms</b> total = <code>$query</code>");
+			$avgTimeString = '';
+			if($count > 1) 
+			{
+				$avgTimeMs = $timeMs / $count;
+				$avgTimeString = " (average = <b>". round($avgTimeMs,1) . "ms</b>)"; 
+			}
+			$query = str_replace(array("\t","\n"), "", $query);
+			$output .= "Executed <b>$count</b> time". ($count==1?'':'s') ." in <b>".$timeMs."ms</b> $avgTimeString <pre>\t$query</pre>";
 		}
+		Piwik::log($output);
 	}
 	
 	static public function printTimer()

@@ -48,4 +48,9 @@ class Piwik_LogStats_Generator_Visit extends Piwik_LogStats_Visit
 		return date("Y-m-d H:i:s",$timestamp);
 	}
 	
+	protected function updateCookie()
+	{
+		@parent::updateCookie();
+	}
+	
 }

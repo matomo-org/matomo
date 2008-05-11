@@ -38,6 +38,7 @@ class Piwik_LogStats_Generator_LogStats extends Piwik_LogStats
 	 */
 	protected function endProcess()
 	{
+		$this->disconnectDb();
 	}
 	
 	/**
@@ -48,6 +49,5 @@ class Piwik_LogStats_Generator_LogStats extends Piwik_LogStats
 	protected function getNewVisitObject()
 	{
 		return new Piwik_LogStats_Generator_Visit($this->db);
-	}
-	
+	}	
 }

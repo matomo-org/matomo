@@ -350,7 +350,7 @@ class Piwik_LogStats_Visit
 	/**
 	 * Update the cookie information.
 	 */
-	private function updateCookie()
+	protected function updateCookie()
 	{
 		printDebug("We manage the cookie...");
 		
