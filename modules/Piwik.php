@@ -270,7 +270,7 @@ class Piwik
 		{
 			if(isset($infoIndexedByQuery[$query->getQuery()]))
 			{
-				$existing =  $indexByQuery[$query->getQuery()];
+				$existing =  $infoIndexedByQuery[$query->getQuery()];
 			}
 			else
 			{
@@ -320,7 +320,9 @@ class Piwik
 				$avgTimeMs = $timeMs / $count;
 				$avgTimeString = " (average = <b>". round($avgTimeMs,1) . "ms</b>)"; 
 			}
-			$query = str_replace(array("\t","\n"), "", $query);
+			$query = str_replace(array("\t","\n","\r\n","\r"), "_toberemoved_", $query);
+			$query = str_replace('_toberemoved__toberemoved_','',$query);
+			$query = str_replace('_toberemoved_', ' ',$query);
 			$output .= "Executed <b>$count</b> time". ($count==1?'':'s') ." in <b>".$timeMs."ms</b> $avgTimeString <pre>\t$query</pre>";
 		}
 		Piwik::log($output);
