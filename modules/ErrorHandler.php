@@ -27,7 +27,7 @@ function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 	{
 		return;
 	}
-
+	
 	ob_start();
 	debug_print_backtrace();
 	$backtrace = ob_get_contents();

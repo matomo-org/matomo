@@ -51,8 +51,8 @@ $generator = new Piwik_LogStats_Generator;
 $generator->setMaximumUrlDepth(3);
 //$generator->disableProfiler();
 $generator->setIdSite( $idSite = 1 );
-$minVisits = 8;
-$maxVisits = 9;
+$minVisits = 5;
+$maxVisits = 15;
 $nbActions = 15;
 $daysToCompute = 1;
 
@@ -79,7 +79,7 @@ while($startTime <= time())
 	// we add silent fail because of headers already sent error.
 	// although this should'nt happen because we use a OB_START at the top of this page...
 	// but I couldnt find where those headers were sent...
-	$nbActionsTotalThisDay = @$generator->generate($visits,$actions);
+	$nbActionsTotalThisDay = $generator->generate($visits,$actions);
 	
 	$actionsPerVisit = round($nbActionsTotalThisDay / $visits);
 	print("Generated $visits visits and $actionsPerVisit actions per visit for the ".date("Y-m-d", $startTime)."<br>\n");
@@ -87,7 +87,6 @@ while($startTime <= time())
 	$nbActionsTotal+=$nbActionsTotalThisDay;
 	flush();
 }
-
 
 echo "<br>Total actions: $nbActionsTotal";
 echo "<br>Total requests per sec: ". round($nbActionsTotal / $t->getTime(),0);

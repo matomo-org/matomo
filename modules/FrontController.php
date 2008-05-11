@@ -182,7 +182,7 @@ class Piwik_FrontController
 	function __destruct()
 	{
 		try {
-			Piwik::printZendProfiler();
+			Piwik::printSqlProfilingReportZend();
 			Piwik::printQueryCount();
 		} catch(Exception $e) {}
 		

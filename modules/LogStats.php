@@ -229,9 +229,14 @@ class Piwik_LogStats
 		
 		if($GLOBALS['DEBUGPIWIK'] === true)
 		{
-			Piwik::printLogStatsSQLProfiling($this->db);
+			Piwik::printSqlProfilingReportLogStats($this->db);
 		}
 		
+		$this->disconnectDb();
+	}
+	
+	protected function disconnectDb() 
+	{
 		if(isset($this->db))
 		{
 			$this->db->disconnect();

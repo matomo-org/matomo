@@ -231,7 +231,7 @@ class Piwik_LogStats_Generator
 	{
 		if($this->profiling)
 		{
-			Piwik::printLogStatsSQLProfiling();
+			Piwik::printSqlProfilingReportLogStats();
 		}
 	}
 	
@@ -337,8 +337,7 @@ class Piwik_LogStats_Generator
 		{
 			if($this->reinitProfilingAtEveryRequest)
 			{
-				$db = Zend_Registry::get('db');
-				$all = $db->query('TRUNCATE TABLE '.Piwik::prefixTable('log_profiling').'' );
+				$all = Zend_Registry::get('db')->query('TRUNCATE TABLE '.Piwik::prefixTable('log_profiling').'' );
 			}
 		}
 	}
@@ -371,9 +370,6 @@ class Piwik_LogStats_Generator
 			
 			$nbActionsTotal += $nbActions;
 		}
-//		print("<br> Generated $nbVisits visits.");
-//		print("<br> Generated $nbActionsTotal actions.");
-		
 		return $nbActionsTotal;
 	}
 	
