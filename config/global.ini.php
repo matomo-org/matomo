@@ -75,6 +75,12 @@ time_before_archive_considered_outdated = 20
 ; Possible values: yesterday, today, or any YYYY-MM-DD
 default_day = yesterday
 
+; When loading the piwik interface in the browser (as opposed to from the PHP-CLI client)
+; should we launch the archiving process if the archives have not yet been processed?
+; You want to set it to false when triggering the archiving through a crontab, 
+; so that your users do not trigger archiving in their browser when this is not expected
+enable_browser_archiving_triggering = true
+
 ; character used to automatically create categories in the "Action" "Downloads" reports
 ; for example a URL like "example.com/blog/development/first-post" will create 
 ; the page first-post in the subcategory development which belongs to the blog category
@@ -134,42 +140,23 @@ cookie_name	= piwik_visitor
 
 [log]
 
+;possible values for log: screen, database, file
 ; normal messages
 logger_message[]		= screen
-;logger_message[]		= database
-;logger_message[]		= file
+logger_error[]			= screen
+logger_exception[]		= screen
 
 ; all calls to the API (method name, parameters, execution time, caller IP, etc.)
-;logger_api_call[]		= screen
-;logger_api_call[]		= database
 ;logger_api_call[]		= file
-
-; error intercepted
-logger_error[]			= screen
-;logger_error[]			= database
-;logger_error[]			= file
-
-; exception raised
-logger_exception[]		= screen
-;logger_exception[]		= database
-;logger_exception[]		= file
-
-; query profiling information (SQL, avg execution time, etc.)
-logger_query_profile[]	= screen
-;logger_query_profile[]	= database
-;logger_query_profile[]	= file
 
 [log_tests]
 logger_message[]		= screen
 logger_api_call[]		= screen
 logger_error[]			= screen
 logger_exception[]		= screen
-logger_query_profile[]	= screen
-
 
 [path]
 log				= tmp/logs/
-
 
 [smarty]
 ; the list of directories in which to look for templates
@@ -177,18 +164,14 @@ template_dir[]	= plugins
 template_dir[]	= themes/default
 template_dir[]	= themes
 
-; smarty provided plugins
 plugins_dir[] 	= libs/Smarty/plugins
-; smarty plugins provided by piwik 
 plugins_dir[]	= modules/SmartyPlugins
 
-; where to store the compiled smarty templates
 compile_dir		= tmp/templates_c
-
 cache_dir		= tmp/cache
 
 ; error reporting inside Smarty
 error_reporting = E_ALL|E_NOTICE
 
-; should be set to false in a piwik release
+; allow smarty debugging using {debug}
 debugging		= true
