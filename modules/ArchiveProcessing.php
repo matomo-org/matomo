@@ -275,16 +275,15 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->loadArchiveProperties();
 		$this->idArchive = $this->isArchived();
-		
-		if($this->idArchive === false
-			|| $this->debugAlwaysArchive)
+	
+		if($this->isArchivingDisabled())
 		{
-			$this->archivesSubperiods = $this->loadSubperiodsArchive();
-			$this->initCompute();
-			$this->compute();
-			$this->postCompute();
-			// we execute again the isArchived that does some initialization work
-			$this->idArchive = $this->isArchived();
+			$this->isThereSomeVisits = false;
+		}
+		elseif($this->idArchive === false
+				||	$this->debugAlwaysArchive)
+		{
+			$this->launchArchiving();
 		}
 		else
 		{
@@ -292,6 +291,20 @@ abstract class Piwik_ArchiveProcessing
 		}
 		
 		return $this->idArchive;
+	}
+	
+	/**
+	 * @see loadArchive()
+	 *
+	 */
+	protected function launchArchiving()
+	{
+		$this->archivesSubperiods = $this->loadSubperiodsArchive();
+		$this->initCompute();
+		$this->compute();
+		$this->postCompute();
+		// we execute again the isArchived that does some initialization work
+		$this->idArchive = $this->isArchived();
 	}
 	
 	/**
@@ -525,46 +538,66 @@ abstract class Piwik_ArchiveProcessing
 		
 		$results = Zend_Registry::get('db')->fetchAll($sqlQuery, $bindSQL );
 		// the archive exists in the table
-		if(!empty($results))
+		if(empty($results))
 		{
-//			echo $this->strDateStart . " " . $this->strDateEnd;
-//			var_dump($results);
-			
-			$idarchive = false;
-			// let's look for the more recent idarchive
-			foreach($results as $result)
-			{
-				if($result['name'] == 'done')
-				{
-					$idarchive = $result['idarchive'];
-					$this->timestampDateStart = $result['timestamp'];
-					break;
-				}
-			}
-			
-			if($idarchive === false)
-			{
-				throw new Exception("Error during the archiving process: ". var_export($results,true));
-			}
-			
-			// let's look for the nb_visits result for this more recent archive
-			foreach($results as $result)
-			{
-				if($result['name'] == 'nb_visits' 
-					&& $result['idarchive'] == $idarchive)
-				{
-					$this->isThereSomeVisits = ($result['value'] != 0);
-					break;
-				}
-			}
-			return $idarchive;
-		}
-		else
-		{
-//			echo "no archive for ".$this->strDateStart . " " . $this->strDateEnd; exit;
 			return false;
 		}
+		
+		$idarchive = false;
+		// let's look for the more recent idarchive
+		foreach($results as $result)
+		{
+			if($result['name'] == 'done')
+			{
+				$idarchive = $result['idarchive'];
+				$this->timestampDateStart = $result['timestamp'];
+				break;
+			}
+		}
+		
+		if($idarchive === false)
+		{
+			throw new Exception("Error during the archiving process: ". var_export($results,true));
+		}
+		
+		// let's look for the nb_visits result for this more recent archive
+		foreach($results as $result)
+		{
+			if($result['name'] == 'nb_visits' 
+				&& $result['idarchive'] == $idarchive)
+			{
+				$this->isThereSomeVisits = ($result['value'] != 0);
+				break;
+			}
+		}
+		return $idarchive;
 	}
 	
+	/**
+	 * Returns true if, for various reasons, archiving is disabled.
+	 *
+	 * @return bool
+	 */
+	protected function isArchivingDisabled()
+	{
+		static $archivingIsDisabled = null;
+		
+		if(is_null($archivingIsDisabled))
+		{
+			$archivingIsDisabled = false;
+			
+			$enableBrowserArchivingTriggering = (bool)Zend_Registry::get('config')->General->enable_browser_archiving_triggering;
+			if($enableBrowserArchivingTriggering == false)
+			{
+				$sapi_type = php_sapi_name();
+				if( !in_array(substr($sapi_type, 0, 3), array('cgi', 'cli')))
+				{
+					$archivingIsDisabled = true;
+				}
+			}
+		}
+		
+		return $archivingIsDisabled;
+	}
 }
 

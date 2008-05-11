@@ -90,6 +90,10 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	public function getIdArchive()
 	{
+		if(is_null($this->idArchive))
+		{
+			throw new Exception("idArchive is null");
+		}
 		return $this->idArchive;
 	}
 	
@@ -131,21 +135,20 @@ class Piwik_Archive_Single extends Piwik_Archive
 	{
 		if(!$this->alreadyChecked)
 		{
+			$this->isThereSomeVisits = false;
+			$this->alreadyChecked = true;
+			
 			// if the END of the period is BEFORE the website creation date
 			// we already know there are no stats for this period
 			// we add one day to make sure we don't miss the day of the website creation
 			if( $this->period->getDateEnd()->addDay(2)->isEarlier( $this->site->getCreationDate() ) )
 			{
-				$this->isThereSomeVisits = false;
-				$this->alreadyChecked = true;
 				return;				
 			}
 			
 			// if the starting date is in the future we know there is no visit
 			if( $this->period->getDateStart()->subDay(1)->isLater( Piwik_Date::today() ) )
 			{
-				$this->isThereSomeVisits = false;
-				$this->alreadyChecked = true;
 				return;
 			}
 			
@@ -155,12 +158,12 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$archiveProcessing->setSite($this->site);
 			$archiveProcessing->setPeriod($this->period);
 			
-			$IdArchive = $archiveProcessing->loadArchive();
+			$idArchive = $archiveProcessing->loadArchive();
 			$this->isThereSomeVisits = $archiveProcessing->isThereSomeVisits;
 			
 			$this->archiveProcessing = $archiveProcessing; 
 
-			$this->idArchive = $IdArchive;
+			$this->idArchive = $idArchive;
 			$this->alreadyChecked = true;
 		}
 	}
@@ -316,8 +319,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	public function preFetchBlob( $name )
 	{
-//		Piwik::log("-- prefetch blob ".$name."_*");
-		
 		if(!$this->isThereSomeVisits)
 		{
 			return false;
