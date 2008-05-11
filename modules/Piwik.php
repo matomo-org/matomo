@@ -264,28 +264,10 @@ class Piwik
 		
 		if(!$profiler->getEnabled())
 		{
-			throw new Exception("To display the profiler you should turn on profiling on your config/config.ini.php file");
+			throw new Exception("To display the profiler you should enable enable_sql_profiler on your config/config.ini.php file");
 		}
-		$totalTime    = $profiler->getTotalElapsedSecs();
-		$queryCount   = $profiler->getTotalNumQueries();
-		$longestTime  = 0;
-		$longestQuery = null;
 		
-		foreach ($profiler->getQueryProfiles() as $query) {
-		    if ($query->getElapsedSecs() > $longestTime) {
-		        $longestTime  = $query->getElapsedSecs();
-		        $longestQuery = $query->getQuery();
-		    }
-		}
-		$str = '';
-		$str .= '<br>Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "\n";
-		$str .= '<br>Average query length: ' . $totalTime / $queryCount . ' seconds' . "\n";
-		$str .= '<br>Queries per second: ' . $queryCount / $totalTime . "\n";
-		$str .= '<br>Longest query length: ' . $longestTime . "\n";
-		$str .= '<br>Longest query: <br>' . $longestQuery . "\n";
-		
-		Piwik::log($str);
-		
+		$indexByQuery = array();
 		foreach($profiler->getQueryProfiles() as $query)
 		{
 			if(isset($indexByQuery[$query->getQuery()]))
@@ -306,8 +288,32 @@ class Piwik
 			return $a['sumTimeSeconds'] < $b['sumTimeSeconds'];
 		}
 		uasort( $indexByQuery, 'sortTimeDesc');
-		var_dump($indexByQuery);
 		
+		Piwik::log('<hr><b>SQL Profiler</b>');
+		Piwik::log('<hr><b>Summary</b>');
+		$totalTime    = $profiler->getTotalElapsedSecs();
+		$queryCount   = $profiler->getTotalNumQueries();
+		$longestTime  = 0;
+		$longestQuery = null;
+		foreach ($profiler->getQueryProfiles() as $query) {
+		    if ($query->getElapsedSecs() > $longestTime) {
+		        $longestTime  = $query->getElapsedSecs();
+		        $longestQuery = $query->getQuery();
+		    }
+		}
+		$str = 'Executed ' . $queryCount . ' queries in ' . round($totalTime,3) . ' seconds' . "\n";
+		$str .= '(Average query length: ' . round($totalTime / $queryCount,3) . ' seconds)' . "\n";
+		$str .= '<br>Queries per second: ' . round($queryCount / $totalTime,1) . "\n";
+		$str .= '<br>Longest query length: ' . round($longestTime,3) . " seconds (<code>$longestQuery</code>) \n";
+		Piwik::log($str);
+		
+		Piwik::log('<hr><b>Breakdown by query</b>');
+		foreach($indexByQuery as $query => $queryInfo) 
+		{
+			$timeMs = round($queryInfo['sumTimeSeconds'] * 1000,1);
+			$count = $queryInfo['count'];
+			Piwik::log("Executed <b>$count</b> time". ($count==1?'':'s') ." in <b>".$timeMs."ms</b> total = <code>$query</code>");
+		}
 	}
 	
 	static public function printTimer()
@@ -805,6 +811,8 @@ class Piwik
 		}
 		$dbInfos['password'] = htmlspecialchars_decode($dbInfos['password']);
 		
+		$dbInfos['profiler'] = $config->Debug->enable_sql_profiler;
+		 
 		$db = Zend_Db::factory($config->database->adapter, $dbInfos);
 		$db->getConnection();
 		// see http://framework.zend.com/issues/browse/ZF-1398

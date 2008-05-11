@@ -29,9 +29,9 @@ class Test_Piwik_LogStats_Db extends UnitTestCase
     /**
      * test that the profiler is disabled (mandatory on a production server)
      */
-    public function test_profilingDisabledProduction()
+    public function test_profilingDisabledInProduction()
     {
-    	$this->assertTrue(Piwik_LogStats_Db::isProfilingEnabled() === false, 'PROFILER SHOULD BE DISABLED IN PRODUCTION!! See Piwik_LogStats_Db::$profiling');
+    	$this->assertTrue(Piwik_LogStats_Db::isProfilingEnabled() === false, 'SQL profiler should be disabled in production! See Piwik_LogStats_Db::$profiling');
     }
 }
 

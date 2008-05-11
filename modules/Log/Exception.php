@@ -35,6 +35,14 @@ class Piwik_Log_Exception extends Piwik_Log
 							$logToDatabaseTableName, 
 							$logToDatabaseColumnMapping );
 	}
+
+	function addWriteToScreen()
+	{
+		parent::addWriteToScreen();
+		$writerScreen = new Zend_Log_Writer_Stream('php://stderr');
+		$writerScreen->setFormatter( $this->screenFormatter );
+		$this->addWriter($writerScreen);
+	}
 	
 	public function log($exception)
 	{
