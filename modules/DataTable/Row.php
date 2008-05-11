@@ -88,8 +88,8 @@ class Piwik_DataTable_Row
 	 */
 	public function __destruct()
 	{
-		$idSubtable = $this->getIdSubDataTable();
-		if(!is_null($idSubtable))
+		$idSubtable = $this->c[self::DATATABLE_ASSOCIATED];
+		if($idSubtable !== null)
 		{
 			unset($idSubtable);
 		}
