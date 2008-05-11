@@ -276,7 +276,8 @@ abstract class Piwik_ArchiveProcessing
 		$this->loadArchiveProperties();
 		$this->idArchive = $this->isArchived();
 	
-		if($this->isArchivingDisabled())
+		if($this->idArchive === false
+			&& $this->isArchivingDisabled())
 		{
 			$this->isThereSomeVisits = false;
 		}
