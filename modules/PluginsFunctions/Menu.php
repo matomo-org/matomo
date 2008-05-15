@@ -103,4 +103,4 @@ function Piwik_EditMenuUrl( $mainMenuToEdit, $subMenuToEdit, $newUrl )
 {
 	global $menuEditsToApply;
 	$menuEditsToApply[] = array($mainMenuToEdit, $subMenuToEdit, $newUrl);
-}
+} 

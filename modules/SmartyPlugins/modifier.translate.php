@@ -31,3 +31,4 @@ function smarty_modifier_translate($string)
 	}
 	return vsprintf(Piwik_Translate($string), $aValues);
 }
+ 
