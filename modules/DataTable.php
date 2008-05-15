@@ -720,7 +720,12 @@ class Piwik_DataTable
 	 *		)
 	 */
 	public function loadFromSimpleArray( $array )
-	{		
+	{
+		if(count($array) === 0)
+		{
+			return;
+		}
+		
 		// we define an exception we may throw if at one point we notice that we cannot handle the data structure
 		$e = new Exception(" Data structure returned is not convertible in the requested format.".
 						" Try to call this method with the parameters '&format=original&serialize=1'".

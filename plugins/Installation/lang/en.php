@@ -19,7 +19,7 @@ $translations = array(
 	'Installation_SystemCheckPhp' => 'PHP version',
 	'Installation_SystemCheckPdo' => 'Pdo extension',
 	'Installation_SystemCheckPdoMysql' => 'Pdo_Mysql extension',
-	'Installation_SystemCheckPdoError' => 'You need to enable the <code>php_pdo</code> and <code>php_pdo_mysql</code> extensions in your php.ini file.',
+	'Installation_SystemCheckPdoError' => 'You need to enable the PDO and PDO_MYSQL extensions in your php.ini file.',
 	'Installation_SystemCheckPdoHelp' => 'On a windows server you can add the following lines in your php.ini %s <br><br>On a Linux server you can compile php with the following option %s In your php.ini, add the following lines %s<br><br>More information on the <a style="color:red" href="http://php.net/pdo">PHP website</a>.',
 	'Installation_SystemCheckPhpXml' => 'PHP-XML extension',
 	'Installation_SystemCheckWriteDirs' => 'Directories with write access',
