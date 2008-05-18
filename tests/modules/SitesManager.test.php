@@ -12,11 +12,6 @@ require_once 'SitesManager/API.php';
 
 class Test_Piwik_SitesManager extends Test_Database
 {
-    function __construct() 
-    {
-        parent::__construct();
-    }
-    
     public function setUp()
     {
     	parent::setUp();

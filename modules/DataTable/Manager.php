@@ -71,7 +71,7 @@ class Piwik_DataTable_Manager
 		
 		if(!isset($this->tables[$idTable]))
 		{
-			throw new Exception("The request table $idTable couldn't be found.");
+			throw new Exception("The requested table id=$idTable couldn't be found in the DataTable Manager");
 		}
 		
 		return $this->tables[$idTable];

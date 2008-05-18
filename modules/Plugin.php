@@ -18,9 +18,10 @@
  */
 abstract class Piwik_Plugin
 {
-	function __construct()
-	{
-	}
+	/**
+	 * Returns the plugin details
+	 */
+	abstract function getInformation();
 	
 	public function registerTranslation( $langCode )
 	{
@@ -59,16 +60,11 @@ abstract class Piwik_Plugin
 		}
 		else
 		{
-			throw new Exception("The language file couldn't be find for this plugin '$name'.");
+			throw new Exception("Language file not found for the plugin '$name'.");
 		}
 		
 		Piwik_Translate::getInstance()->addTranslationArray($translations);
 	}
-	
-	/**
-	 * Returns the plugin details
-	 */
-	abstract function getInformation();
 	
 	/**
 	 * Returns the plugin name

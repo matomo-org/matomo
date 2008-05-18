@@ -16,11 +16,6 @@
 class Piwik_SitesManager_API extends Piwik_Apiable
 {
 	static private $instance = null;
-	protected function __construct()
-	{
-		parent::__construct();
-	}
-	
 	static public function getInstance()
 	{
 		if (self::$instance == null)

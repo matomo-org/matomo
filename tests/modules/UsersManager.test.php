@@ -13,11 +13,6 @@ require 'UsersManager/API.php';
 
 class Test_Piwik_UsersManager extends Test_Database
 {
-    function __construct() 
-    {
-        parent::__construct();
-    }
-    
     function setUp()
     {
     	parent::setUp();

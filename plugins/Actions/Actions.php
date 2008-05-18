@@ -19,7 +19,6 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	public function __construct()
 	{
-		parent::__construct();
 		$this->setCategoryDelimiter( Zend_Registry::get('config')->General->action_category_delimiter);
 	}
 
