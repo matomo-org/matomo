@@ -74,7 +74,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			{
 				$serializeSave = $this->serialize;
 				$this->serialize = false;
-				$flatArray[$keyName] = $this->flatRender($table);
+				$flatArray[$keyName] = $this->flatRender($table, $doRenderSubTablesIfAvailable);
 				$this->serialize = $serializeSave;
 			}
 		}
@@ -125,6 +125,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		}		
 		return $flatArray;
 	}
+	
 	public function render( $dataTable = null)
 	{
 		if(is_null($dataTable))

@@ -36,7 +36,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	{
 		$renderer = new Piwik_DataTable_Renderer_Php($table, $serialize = false);
 		
-		$array = $renderer->flatRender();
+		$array = $renderer->flatRender(null, (bool)Piwik_Common::getRequestVar('expanded', false));
 		
 		// case DataTable_Array
 		if($table instanceof Piwik_DataTable_Array)

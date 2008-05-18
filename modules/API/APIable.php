@@ -40,10 +40,6 @@ abstract class Piwik_Apiable
 	 */
 	static public $methodsNotToPublish = array();
 	
-	protected function __construct()
-	{
-	}
-
 	/**
 	 * @see self::$methodsNotToPublish
 	 * @param string Method name not to be published

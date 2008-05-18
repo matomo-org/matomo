@@ -37,6 +37,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 				Piwik_Archive::INDEX_SUM_VISIT_LENGTH	=> 'sum_visit_length',
 				Piwik_Archive::INDEX_BOUNCE_COUNT		=> 'bounce_count',
 			);
+	
 	/**
 	 * @param DataTable Table
 	 * @param array Mapping to apply. Must have the format 	
@@ -57,22 +58,36 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 	
 	protected function filter()
 	{
-		foreach($this->table->getRows() as $key => $row)
+		$this->filterTable($this->table);
+	}
+	
+	protected function filterTable($table)
+	{
+		foreach($table->getRows() as $key => $row)
 		{
-			$columns = $row->getColumns();
+			$this->renameColumns($row);
 			
-			foreach($this->mappingToApply as $oldName => $newName)
-			{
-				// if the old column is there
-				if(isset($columns[$oldName]))
-				{
-					$columns[$newName] = $columns[$oldName];
-					unset($columns[$oldName]);
-				}
+			try {
+				$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $row->getIdSubDataTable() );
+				$this->filterTable($subTable);
+			} catch(Exception $e){
+				// case idSubTable == null, or if the table is not loaded in memory
 			}
-			
-			$row->setColumns($columns);
 		}
+	}
+	
+	protected function renameColumns($row) 
+	{
+		$columns = $row->getColumns();
+		foreach($this->mappingToApply as $oldName => $newName)
+		{
+			if(isset($columns[$oldName]))
+			{
+				$columns[$newName] = $columns[$oldName];
+				unset($columns[$oldName]);
+			}
+		}
+		$row->setColumns($columns);
 	}
 }
 

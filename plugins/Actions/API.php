@@ -21,10 +21,6 @@ require_once "Actions.php";
 class Piwik_Actions_API extends Piwik_Apiable
 {
 	static private $instance = null;
-	protected function __construct()
-	{
-		parent::__construct();
-	}
 	
 	static public function getInstance()
 	{
@@ -40,7 +36,6 @@ class Piwik_Actions_API extends Piwik_Apiable
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		
 		if($idSubtable === false)
 		{
 			$idSubtable = null;
