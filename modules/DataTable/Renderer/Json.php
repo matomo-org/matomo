@@ -39,6 +39,14 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 			$array = array('value' => $array);
 		}
 		$str = json_encode($array);
+		
+		if(($jsonCallback = Piwik_Common::getRequestVar('jsoncallback', false)) !== false)
+		{
+			if(preg_match('/^[0-9a-zA-Z]*$/', $jsonCallback) > 0)
+			{
+				$str = $jsonCallback . "(" . $str . ")";
+			}
+		}
 		return $str;
 	}
 }
