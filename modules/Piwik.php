@@ -174,12 +174,12 @@ class Piwik
 	 */
 	static public function exitWithErrorMessage( $message )
 	{
-		print("<style> a { color:red } </style>
-			<div style='color:red;font-family:Georgia;font-size:120%'>
-			<p><img src='themes/default/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20'> 
-			$message
-			</p></div>"
-		);
+		$output = "<style>a{color:red;}</style>\n".
+			"<div style='color:red;font-family:Georgia;font-size:120%'>".
+			"<p><img src='themes/default/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20'>".
+			$message.
+			"</p></div>";
+		print(Piwik_Log_Formatter_ScreenFormatter::getFormattedString($output));
 		exit;
 	}
 	
@@ -359,6 +359,11 @@ class Piwik
 		{
 			Piwik::log("Memory usage function not found.");
 		}
+	}
+	
+	static public function isPhpCliMode()
+	{
+		return in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'));
 	}
 	
 	static public function isNumeric($value)

@@ -590,8 +590,7 @@ abstract class Piwik_ArchiveProcessing
 			$enableBrowserArchivingTriggering = (bool)Zend_Registry::get('config')->General->enable_browser_archiving_triggering;
 			if($enableBrowserArchivingTriggering == false)
 			{
-				$sapi_type = php_sapi_name();
-				if( !in_array(substr($sapi_type, 0, 3), array('cgi', 'cli')))
+				if( !Piwik::isPhpCliMode())
 				{
 					$archivingIsDisabled = true;
 				}
