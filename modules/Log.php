@@ -142,4 +142,22 @@ class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 	}
 }
 
+class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interface
+{
+	function format($string)
+	{
+		$string = self::getFormattedString($string);
+		return $string;
+	}
+	
+	static public function getFormattedString($string)
+	{
+		if(Piwik::isPhpCliMode())
+		{
+			$string = str_replace(array('<br>','<br />','<br/>'), "\n", $string);
+			$string = strip_tags($string);
+		}
+		return $string;
+	}
+}
 

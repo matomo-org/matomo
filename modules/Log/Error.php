@@ -63,7 +63,7 @@ class Piwik_Log_Error extends Piwik_Log
  * @package Piwik_Log
  * @subpackage Piwik_Log_Error
  */
-class Piwik_Log_Formatter_Error_ScreenFormatter implements Zend_Log_Formatter_Interface
+class Piwik_Log_Formatter_Error_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter
 {
 	/**
      * Formats data into a single line to be written by the writer.
@@ -111,7 +111,7 @@ class Piwik_Log_Formatter_Error_ScreenFormatter implements Zend_Log_Formatter_In
 	    $strReturned .= "</div><br><br>";
 	    $strReturned .= "\n</pre></div><br>";
 	    
-	    return $strReturned;
+	    return parent::format($strReturned);
     }
 }
 
