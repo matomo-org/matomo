@@ -1,5 +1,10 @@
-<?php 
+<?php
 $translations = array(
+	'General_Locale' => 'en_EN.UTF-8',
+	'General_TranslatorName' => 'Piwik team',
+	'General_TranslatorEmail' => 'hello@piwik.org',
+	'General_EnglishLanguageName' => 'English',
+	'General_OriginalLanguageName' => 'English',
 	'General_Unknown' => 'Unknown',
 	'General_Required' => '%s required',
 	'General_Error' => 'Error',
