@@ -27,7 +27,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 	function install()
 	{
 		try{
-			Piwik_Query('ALTER TABLE '.Piwik::prefixTable('site'). " ADD `feedburnerName` VARCHAR( 100 ) NOT NULL ;");
+			Piwik_Query('ALTER TABLE '.Piwik::prefixTable('site'). " ADD `feedburnerName` VARCHAR( 100 ) DEFAULT NULL");
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1060: column already exists
 			// if there is another error we throw the exception, otherwise it is OK as we are simply reinstalling the plugin
@@ -188,8 +188,9 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		// we save the value in the DB for an authenticated user
 		if(Piwik::getCurrentUserLogin() != 'anonymous')
 		{
-			Piwik_Query('UPDATE '.Piwik::prefixTable('site').' SET feedburnerName = ?',
-							Piwik_Common::getRequestVar('name','','string'));
+			Piwik_Query('UPDATE '.Piwik::prefixTable('site').' SET feedburnerName = ? WHERE idsite = ?', 
+				array(Piwik_Common::getRequestVar('name','','string'), Piwik_Common::getRequestVar('idSite',1,'int'))
+				);
 		}
 	}
 }
