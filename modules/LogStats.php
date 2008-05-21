@@ -168,7 +168,7 @@ class Piwik_LogStats
 	 * Returns the LogStats_Visit object.
 	 * This method can be overwritten so that we use a different LogStats_Visit object
 	 *
-	 * @return LogStats_Visit
+	 * @return Piwik_LogStats_Visit
 	 */
 	protected function getNewVisitObject()
 	{

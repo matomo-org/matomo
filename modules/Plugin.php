@@ -25,7 +25,13 @@ abstract class Piwik_Plugin
 	
 	public function registerTranslation( $langCode )
 	{
-		$infos = $this->getInformation();
+		// we are certainly in LogStats mode, Zend is not loaded
+		if(!class_exists('Zend_Loader'))
+		{
+			return ;
+		}
+		
+		$infos = $this->getInformation();		
 		if(!isset($infos['translationAvailable']))
 		{
 			$infos['translationAvailable'] = false;
@@ -44,12 +50,7 @@ abstract class Piwik_Plugin
 		$defaultEnglishLangPath = sprintf($path, 'en');
 		
 		$translations = array();
-		
-		if(!class_exists('Zend_Loader'))
-		{
-			throw new Exception("Zend_Loader not defined. It is not possible to load plugins translation files in LogStats mode.");
-		}
-		
+				
 		if(Zend_Loader::isReadable($defaultLangPath))
 		{
 			require $defaultLangPath;
