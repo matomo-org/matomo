@@ -131,7 +131,16 @@ class Piwik_Url
 			$url = 'http';
 		}
 		
-		$url .= '://' . $_SERVER['HTTP_HOST'];
+		$url .= '://';
+		
+		if(isset($_SERVER['HTTP_HOST']))
+		{
+			$url .= $_SERVER['HTTP_HOST'];
+		}
+		else
+		{
+			$url .= 'unknown';
+		}
 		return $url;
 	}
 		
