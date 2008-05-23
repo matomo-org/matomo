@@ -54,7 +54,7 @@ class Piwik_LogStats
 	 *
 	 * @var Piwik_LogStats_Db
 	 */
-	protected $db = null;
+	static protected $db = null;
 	
 	const STATE_NOTHING_TO_NOTICE = 1;
 	const STATE_TO_REDIRECT_URL = 2;
@@ -75,22 +75,35 @@ class Piwik_LogStats
 	}
 	
 	// create the database object
-	function connectDatabase()
+	static function connectDatabase()
 	{
+		if( !is_null(self::$db))
+		{
+			return;
+		}
+		
 		$configDb = Piwik_LogStats_Config::getInstance()->database;
 		
 		// we decode the password. Password is html encoded because it's enclosed between " double quotes
 		$configDb['password'] = htmlspecialchars_decode($configDb['password']);
 		
-		$this->db = new Piwik_LogStats_Db( 	$configDb['host'], 
+		self::$db = new Piwik_LogStats_Db( 	$configDb['host'], 
 										$configDb['username'], 
 										$configDb['password'], 
 										$configDb['dbname']
 							);
 							  
-		$this->db->connect();
+		self::$db->connect();
 	}
 
+	static function disconnectDb()
+	{
+		if(isset(self::$db))
+		{
+			self::$db->disconnect();
+		}
+	}
+	
 	private function initProcess()
 	{
 		try{
@@ -172,7 +185,7 @@ class Piwik_LogStats
 	 */
 	protected function getNewVisitObject()
 	{
-		return new Piwik_LogStats_Visit($this->db);
+		return new Piwik_LogStats_Visit(self::$db);
 	}
 	
 	// main algorithm 
@@ -185,7 +198,7 @@ class Piwik_LogStats
 		if( $this->processVisit() )
 		{
 			try {
-				$this->connectDatabase();
+				self::connectDatabase();
 				$visit = $this->getNewVisitObject();
 				$visit->handle();
 			} catch (PDOException $e) {
@@ -229,18 +242,10 @@ class Piwik_LogStats
 		
 		if($GLOBALS['DEBUGPIWIK'] === true)
 		{
-			Piwik::printSqlProfilingReportLogStats($this->db);
+			Piwik::printSqlProfilingReportLogStats(self::$db);
 		}
 		
-		$this->disconnectDb();
-	}
-	
-	protected function disconnectDb() 
-	{
-		if(isset($this->db))
-		{
-			$this->db->disconnect();
-		}
+		self::disconnectDb();
 	}
 	
 	protected function outputTransparentGif()

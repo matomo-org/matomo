@@ -229,6 +229,7 @@ class Piwik_LogStats_Generator
 	 */
 	public function end()
 	{
+		Piwik_LogStats::disconnectDb();
 		if($this->profiling)
 		{
 			Piwik::printSqlProfilingReportLogStats();

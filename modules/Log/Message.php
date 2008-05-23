@@ -51,7 +51,7 @@ class Piwik_Log_Message extends Piwik_Log
  * @package Piwik_Log
  * @subpackage Piwik_Log_Message
  */
-class Piwik_Log_Formatter_Message_ScreenFormatter implements Zend_Log_Formatter_Interface
+class Piwik_Log_Formatter_Message_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter 
 {
 	/**
      * Formats data into a single line to be written by the writer.

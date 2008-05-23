@@ -80,9 +80,9 @@ class Piwik_LogStats_Db
 		{
 			$timer = $this->initProfiler();
 		}
-		$pdoConnect = new PDO($this->dsn, $this->username, $this->password);
-		$pdoConnect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$this->connection = $pdoConnect;
+		
+		$this->connection = new PDO($this->dsn, $this->username, $this->password);
+		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		// we delete the password from this object "just in case" it could be printed 
 		$this->password = '';
 		
