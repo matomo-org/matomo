@@ -29,7 +29,6 @@
 error_reporting(E_ALL|E_NOTICE);
 define('PIWIK_INCLUDE_PATH', '.');
 @ignore_user_abort(true);
-@set_time_limit(0);
 
 set_include_path(PIWIK_INCLUDE_PATH 
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
