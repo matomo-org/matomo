@@ -182,8 +182,9 @@ class Piwik_Common
 		{
 			$value = htmlspecialchars($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
-			/* Undo the damage caused by magic_quotes */
-			if (get_magic_quotes_gpc())
+			// Undo the damage caused by magic_quotes -- only before php 5.3 as it is now deprecated
+			if ( version_compare(phpversion(), '5.3') === -1 
+				&& get_magic_quotes_gpc())
 			{
 				$value = stripslashes($value);
 			}
