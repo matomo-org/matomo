@@ -148,7 +148,9 @@ class Piwik
 	static public function raiseMemoryLimitIfNecessary()
 	{
 		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimumMemoryLimit;
-		if(self::getMemoryLimitValue() < $minimumMemoryLimit)
+		$memoryLimit = self::getMemoryLimitValue();
+		if($memoryLimit === false
+			|| $memoryLimit < $minimumMemoryLimit)
 		{
 			return self::setMemoryLimit($minimumMemoryLimit);
 		}
@@ -710,14 +712,33 @@ class Piwik
 		}
 		return $class;
 	}
+
+	/**
+	 * Returns the current module read from the URL (eg. 'API', 'UserSettings', etc.)
+	 *
+	 * @return string
+	 */
+	static public function getModule()
+	{
+		return Piwik_Common::getRequestVar('module', '', 'string');
+	}
+	/**
+	 * Returns the current action read from the URL
+	 *
+	 * @return string
+	 */
+	static public function getAction()
+	{
+		return Piwik_Common::getRequestVar('action', '', 'string');
+	}
 	
 	/**
 	 * returns false if the URL to redirect to is already this URL
 	 */
 	static public function redirectToModule( $newModule, $newAction = '' )
 	{
-		$currentModule = Piwik_Common::getRequestVar('module', '', 'string');
-		$currentAction = Piwik_Common::getRequestVar('action', '', 'string');
+		$currentModule = self::getModule();
+		$currentAction = self::getAction();
 	
 		if($currentModule != $newModule
 			||  $currentAction != $newAction )
