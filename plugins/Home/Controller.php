@@ -29,8 +29,16 @@ class Piwik_Home_Controller extends Piwik_Controller
 		$sitesId = Piwik_SitesManager_API::getSitesIdWithAtLeastViewAccess();
 		if(!empty($sitesId))
 		{
-			$defaultDate = Zend_Registry::get('config')->General->default_day;
 			$firstSiteId = $sitesId[0];
+			$firstSite = new Piwik_Site($firstSiteId);
+			if ($firstSite->getCreationDate()->isToday()) 
+			{
+				$defaultDate = 'today';
+			}
+			else
+			{
+				$defaultDate = Zend_Registry::get('config')->General->default_day;
+			}
 			header("Location:index.php?module=Home&action=index&idSite=$firstSiteId&period=day&date=$defaultDate");
 		}
 		else

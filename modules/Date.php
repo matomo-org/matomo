@@ -292,6 +292,16 @@ class Piwik_Date
 	}
 	
 	/**
+	 * Returns true if current date is today
+	 * 
+	 * @return bool
+	 */
+	public function isToday()
+	{
+		return $this->get('Y-m-d') === date('Y-m-d', time());
+	}
+	
+	/**
 	 * Returns a date object set to today midnight
 	 * 
 	 * @return Piwik_Date
@@ -301,6 +311,7 @@ class Piwik_Date
 		$date = new Piwik_Date(date("Y-m-d 00:00:00"));
 		return $date;
 	}
+	
 	/**
 	 * Returns a date object set to yesterday midnight
 	 * @return Piwik_Date
