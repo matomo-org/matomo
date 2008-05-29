@@ -17,7 +17,7 @@ require_once "Zend/Registry.php";
  * You can also set these values, the updated configuration files will be written at the end of the script execution.
  * 
  * Example reading a value from the configuration file:
- * 	$minValue = Zend_Registry::get('config')->General->minimumMemoryLimit;
+ * 	$minValue = Zend_Registry::get('config')->General->minimum_memory_limit;
  * 
  * will read the value minimumMemoryLimit under the [General] section of the config file
  * 
