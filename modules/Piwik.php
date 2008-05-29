@@ -353,7 +353,6 @@ class Piwik
 				Piwik::log($prefixString);
 			}
 			Piwik::log("Memory usage = $usage Mb");
-			Piwik::log();
 		}
 		else
 		{
