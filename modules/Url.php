@@ -32,7 +32,7 @@ class Piwik_Url
 			$urlValues[$key] = $value;
 		}
 		
-		$query = http_build_query($urlValues);
+		$query = http_build_query($urlValues, "", "&");
 		
 		if(strlen($query) > 0)
 		{
