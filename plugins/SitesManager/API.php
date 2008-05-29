@@ -447,7 +447,7 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	 */
 	static private function isValidUrl( $url )
 	{
-		return ereg('^http[s]?://([A-Za-z0-9\/_.-])*$', $url);
+		return ereg('^http[s]?://([A-Za-z0-9\/_.-:])*$', $url);
 	}
 	
 	/**
