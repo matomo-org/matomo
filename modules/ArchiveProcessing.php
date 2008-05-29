@@ -31,7 +31,6 @@ require_once 'DataTable.php';
  * 
  * @package Piwik_ArchiveProcessing
  */
-
 abstract class Piwik_ArchiveProcessing
 {
 	/**
@@ -76,6 +75,7 @@ abstract class Piwik_ArchiveProcessing
 	 * @var Piwik_Date
 	 */
 	protected $dateStart;
+	
 	/**
 	 * Ending date of the archive
 	 * 
@@ -89,6 +89,7 @@ abstract class Piwik_ArchiveProcessing
 	 * @var Piwik_TablePartitioning
 	 */
 	protected $tableArchiveNumeric;
+	
 	/**
 	 * Object used to generate (depending on the $dateStart)  the name of the DB table to use to store numeric values
 	 * 
@@ -126,7 +127,6 @@ abstract class Piwik_ArchiveProcessing
 	 * @var Piwik_Site
 	 */
 	public $site 	= null;
-	
 	
 	/**
 	 * Starting date @see Piwik_Date::toString()
@@ -180,7 +180,6 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data;
 	}
-	
 	
 	/**
 	 * Returns the Piwik_ArchiveProcessing_Day or Piwik_ArchiveProcessing_Period object
@@ -300,8 +299,8 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function launchArchiving()
 	{
-		$this->archivesSubperiods = $this->loadSubperiodsArchive();
 		$this->initCompute();
+		$this->archivesSubperiods = $this->loadSubperiodsArchive();
 		$this->compute();
 		$this->postCompute();
 		// we execute again the isArchived that does some initialization work
@@ -324,7 +323,7 @@ abstract class Piwik_ArchiveProcessing
 		$this->loadNextIdarchive();
 		
 		$record = new Piwik_ArchiveProcessing_Record_Numeric('done', Piwik_ArchiveProcessing::DONE_ERROR);
-		$this->insertRecord( $record);
+		$this->insertRecord($record);
 		$record->delete();
 		
 		$this->logTable 			= Piwik::prefixTable('log_visit');
@@ -342,8 +341,6 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function postCompute()
 	{
-//		echo "<br>".Piwik_ArchiveProcessing_Record_Manager::getInstance()->toString();
-		
 		// delete the first done = ERROR 
 		Zend_Registry::get('db')->query("
 							DELETE FROM ".$this->tableArchiveNumeric->getTableName()." 
@@ -370,8 +367,6 @@ abstract class Piwik_ArchiveProcessing
 		
 		// we delete all tables from the table register
 		Piwik_ArchiveProcessing_Record_Manager::getInstance()->deleteAll();
-		
-		
 	} 
 	
 	/**
@@ -393,7 +388,6 @@ abstract class Piwik_ArchiveProcessing
 	{
 		return $this->tableArchiveBlob->getTableName();
 	}
-	
 	
 	/**
 	 * Set the period
@@ -448,9 +442,9 @@ abstract class Piwik_ArchiveProcessing
 	}
 	
 	/**
-	 * Inserts a record in the good table (either NUMERIC or BLOB)
+	 * Inserts a record in the right table (either NUMERIC or BLOB)
 	 *
-	 * @param unknown_type $record
+	 * @param Piwik_ArchiveProcessing_Record $record
 	 */
 	protected function insertRecord($record)
 	{
@@ -498,7 +492,6 @@ abstract class Piwik_ArchiveProcessing
 			
 			$periods[] = $archivePeriod;
 		}
-		
 		return $periods;
 	}
 	
@@ -515,14 +508,11 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function isArchived()
 	{
-//		Piwik::log("Is archive site=$idsite for period = ".$this->period->getLabel()." for date_start = $strDateStart ?");
 		$bindSQL = array(	$this->idsite, 
 								$this->strDateStart, 
 								$this->strDateEnd, 
 								$this->periodId, 
 								);
-//		echo " p = ".$this->periodId." d = ".$this->strDateStart ."," . $this->strDateEnd;		
-		
 		$timeStampWhere = " AND UNIX_TIMESTAMP(ts_archived) >= ? ";
 		$bindSQL[] = $this->maxTimestampArchive;
 			
@@ -538,14 +528,13 @@ abstract class Piwik_ArchiveProcessing
 						ORDER BY ts_archived DESC";
 		
 		$results = Zend_Registry::get('db')->fetchAll($sqlQuery, $bindSQL );
-		// the archive exists in the table
 		if(empty($results))
 		{
 			return false;
 		}
 		
 		$idarchive = false;
-		// let's look for the more recent idarchive
+		// we look for the more recent idarchive
 		foreach($results as $result)
 		{
 			if($result['name'] == 'done')
@@ -561,7 +550,7 @@ abstract class Piwik_ArchiveProcessing
 			throw new Exception("Error during the archiving process: ". var_export($results,true));
 		}
 		
-		// let's look for the nb_visits result for this more recent archive
+		// we look for the nb_visits result for this more recent archive
 		foreach($results as $result)
 		{
 			if($result['name'] == 'nb_visits' 
@@ -575,7 +564,7 @@ abstract class Piwik_ArchiveProcessing
 	}
 	
 	/**
-	 * Returns true if, for various reasons, archiving is disabled.
+	 * Returns true if, for some reasons, triggering the archiving is disabled.
 	 *
 	 * @return bool
 	 */
@@ -600,4 +589,3 @@ abstract class Piwik_ArchiveProcessing
 		return $archivingIsDisabled;
 	}
 }
-
