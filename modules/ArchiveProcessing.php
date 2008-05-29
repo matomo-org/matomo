@@ -545,9 +545,11 @@ abstract class Piwik_ArchiveProcessing
 			}
 		}
 		
+		// case when we have a nb_visits entry in the archive, but the process is not finished yet or failed to finish
+		// therefore we don't have the done=OK
 		if($idarchive === false)
 		{
-			throw new Exception("Error during the archiving process: ". var_export($results,true));
+			return false;
 		}
 		
 		// we look for the nb_visits result for this more recent archive
