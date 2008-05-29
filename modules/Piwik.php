@@ -147,7 +147,7 @@ class Piwik
 	
 	static public function raiseMemoryLimitIfNecessary()
 	{
-		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimumMemoryLimit;
+		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
 		$memoryLimit = self::getMemoryLimitValue();
 		if($memoryLimit === false
 			|| $memoryLimit < $minimumMemoryLimit)
