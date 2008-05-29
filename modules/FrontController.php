@@ -186,9 +186,11 @@ class Piwik_FrontController
 			Piwik::printQueryCount();
 		} catch(Exception $e) {}
 		
-//		Piwik::printMemoryUsage();
-//		Piwik::printTimer();
-//		Piwik::uninstall();
+		if(Piwik::getModule() !== 'API')
+		{
+//			Piwik::printMemoryUsage();
+//			Piwik::printTimer();
+		}
 	}
 	
 	/**
@@ -358,7 +360,9 @@ class Piwik_FrontController
 		// Perform the authentication query, saving the result
 		$access = new Piwik_Access($authAdapter);
 		Zend_Registry::set('access', $access);		
-		Zend_Registry::get('access')->loadAccess();					
+		Zend_Registry::get('access')->loadAccess();
+
+		Piwik::raiseMemoryLimitIfNecessary();
 	}
 	
 	/**
