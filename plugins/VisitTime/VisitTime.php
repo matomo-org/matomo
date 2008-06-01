@@ -69,14 +69,12 @@ class Piwik_VisitTime extends Piwik_Plugin
 		$tableLocalTime = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$this->makeSureAllHoursAreSet($tableLocalTime);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableLocalTime->getSerialized());
-//		echo $tableLocalTime;
 		
 		$recordName = 'VisitTime_serverTime';
 		$labelSQL = "HOUR(visit_first_action_time)";
 		$tableServerTime = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$this->makeSureAllHoursAreSet($tableServerTime);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableServerTime->getSerialized());
-//		echo $tableServerTime;
 	}
 	
 	private function makeSureAllHoursAreSet($table)

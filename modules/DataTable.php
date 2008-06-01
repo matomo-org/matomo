@@ -180,6 +180,14 @@ class Piwik_DataTable
 	 */
 	protected $enableRecursiveSort = false;
 	
+	/*
+	 * @var Piwik_DataTable_Row
+	 */
+	protected $summaryRow = null;
+	
+	const ID_SUMMARY_ROW = -1; //TODO check that not possible adding a row with this ID normally
+	const LABEL_SUMMARY_ROW = -1;
+	
 	/**
 	 * Maximum nesting level
 	 * 
@@ -352,12 +360,38 @@ class Piwik_DataTable
 			$this->rebuildIndex();
 		}
 		
+		if($label === self::LABEL_SUMMARY_ROW
+			&& !is_null($this->summaryRow))
+		{
+			return $this->summaryRow;
+		}
+		
 		$label = (string)$label;
 		if(!isset($this->rowsIndexByLabel[$label]))
 		{
 			return false;
 		}
 		return $this->rows[$this->rowsIndexByLabel[$label]];
+	}
+
+	/**
+	 * Rebuilds the index used to lookup a row by label
+	 *
+	 * @return void
+	 */
+	private function rebuildIndex()
+	{
+		foreach($this->rows as $id => $row)
+		{
+			$label = $row->getColumn('label');
+		
+			if($label !== false)
+			{
+				$this->rowsIndexByLabel[$label] = $id;
+			}
+		}
+		
+		$this->indexNotUpToDate = false;
 	}
 	
 	/**
@@ -370,6 +404,11 @@ class Piwik_DataTable
 	{
 		if(!isset($this->rows[$id]))
 		{
+			if($id == self::ID_SUMMARY_ROW
+				&& !is_null($this->summaryRow))
+			{
+				return $this->summaryRow;
+			}
 			return false;
 		}
 		return $this->rows[$id];
@@ -384,6 +423,11 @@ class Piwik_DataTable
 	{
 		$this->rows[] = $row;	
 		$this->indexNotUpToDate = true;
+	}
+	
+	public function addSummaryRow( Piwik_DataTable_Row $row )
+	{
+		$this->summaryRow = $row;
 	}
 	
 	/**
@@ -425,7 +469,14 @@ class Piwik_DataTable
 	 */
 	public function getRows()
 	{
-		return $this->rows;
+		if(is_null($this->summaryRow))
+		{
+			return $this->rows;
+		}
+		else
+		{
+			return $this->rows + array(self::ID_SUMMARY_ROW => $this->summaryRow);
+		}
 	}
 	
 	/**
@@ -435,9 +486,17 @@ class Piwik_DataTable
 	 */
 	public function getRowsCount()
 	{
-		return count($this->rows);
+		$count = count($this->rows);
+		if(is_null($this->summaryRow))
+		{
+			return $count;
+		}
+		else
+		{
+			return $count + 1;
+		}
 	}
-	
+
 	/**
 	 * Returns the first row of the DataTable
 	 *
@@ -447,9 +506,34 @@ class Piwik_DataTable
 	{
 		if(count($this->rows) == 0)
 		{
+			if(!is_null($this->summaryRow))
+			{
+				return $this->summaryRow;
+			}
 			return false;
 		}
-		$row = array_slice($this->rows,0,1);
+		// TODO possible improvement => reset() and value()
+		$row = array_slice($this->rows, 0, 1);
+		return $row[0];
+	}
+	
+	/**
+	 * Returns the last row of the DataTable
+	 *
+	 * @return Piwik_DataTable_Row
+	 */
+	public function getLastRow()
+	{
+		if(!is_null($this->summaryRow))
+		{
+			return $this->summaryRow;
+		}
+		
+		if(count($this->rows) == 0)
+		{
+			return false;
+		}
+		$row = array_slice($this->rows, -1);
 		return $row[0];
 	}
 	
@@ -468,7 +552,7 @@ class Piwik_DataTable
 			{
 				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
 				$count = $subTable->getRowsCountRecursive();
-				$totalCount+=$count;
+				$totalCount += $count;
 			}
 		}
 		
@@ -487,6 +571,10 @@ class Piwik_DataTable
 		{
 			$row->deleteColumn($name);
 		}
+		if(!is_null($this->summaryRow))
+		{
+			$this->summaryRow->deleteColumn($name);
+		}
 	}
 	
 	/**
@@ -497,6 +585,11 @@ class Piwik_DataTable
 	 */
 	public function deleteRow( $id )
 	{
+		if($id === self::ID_SUMMARY_ROW)
+		{
+			$this->summaryRow = null;
+			return;
+		}
 		if(!isset($this->rows[$id]))
 		{
 			throw new Exception("Trying to delete unknown row with idkey = $id");
@@ -513,13 +606,34 @@ class Piwik_DataTable
 	 */
 	public function deleteRowsOffset( $offset, $limit = null )
 	{
+		if($limit === 0)
+		{
+			return;
+		}
+
+		$count = $this->getRowsCount();
+		if($offset >= $count)
+		{
+			return;
+		}
+
+		// if we delete until the end, we delete the summary row as well
+		if( is_null($limit)
+			|| $limit >= $count )
+		{
+			$this->summaryRow = null;
+		}
+
 		if(is_null($limit))
 		{
-			$limit = count($this->rows);
+			array_splice($this->rows, $offset);
 		}
-		array_splice($this->rows, $offset, $limit);
+		else
+		{
+			array_splice($this->rows, $offset, $limit);
+		}
 	}
-	
+
 	/**
 	 * Deletes the rows from the list of rows ID 
 	 *
@@ -562,8 +676,8 @@ class Piwik_DataTable
 		$table1->rebuildIndex();
 		$table2->rebuildIndex();
 		
-		$countrows1 = count($rows1);
-		$countrows2 = count($rows2);
+		$countrows1 = $table1->getRowsCount();
+		$countrows2 = $table2->getRowsCount();
 		
 		if($countrows1 != $countrows2)
 		{
@@ -635,27 +749,28 @@ class Piwik_DataTable
 			{
 				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
 				$depth++;
-				$serialized = $subTable->getSerialized();
+				$aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized();
 				$depth--;
-				
-				$aSerializedDataTable = $aSerializedDataTable + $serialized;
 			}
 		}
 		// we load the current Id of the DataTable
 		$forcedId = $this->getId();
 		
 		// if the datatable is the parent we force the Id at 0 (this is part of the specification)
-		if($depth==0)
+		if($depth == 0)
 		{
 			$forcedId = 0;
 		}
 		
+		//TODO limit temporary here, will be set on a per plugin basis
+		$filter = new Piwik_DataTable_Filter_AddSummaryRow($this, 500);
+		
 		// we then serialize the rows and store them in the serialized dataTable
-		$aSerializedDataTable[$forcedId] = serialize($this->rows);
+		$aSerializedDataTable[$forcedId] = serialize($this->rows + array( self::ID_SUMMARY_ROW => $this->summaryRow));
 		
 		return $aSerializedDataTable;
 	}
-	 
+	
 	 /**
 	  * Load a serialized string of a datatable.
 	  * 
@@ -697,14 +812,20 @@ class Piwik_DataTable
 	 */
 	public function loadFromArray( $array )
 	{
-		foreach($array as $row)
+		foreach($array as $id => $row)
 		{
 			if(is_array($row))
 			{
 				$row = new Piwik_DataTable_Row($row);
 			}
-			
-			$this->addRow($row);
+			if($id == self::ID_SUMMARY_ROW)
+			{
+				$this->summaryRow = $row;
+			}
+			else 
+			{
+				$this->addRow($row);
+			}
 		}
 	}
 	
@@ -863,25 +984,6 @@ class Piwik_DataTable
 	}
 	
 
-	/**
-	 * Rebuilds the index used to lookup a row by label
-	 *
-	 * @return void
-	 */
-	protected function rebuildIndex()
-	{
-		foreach($this->getRows() as $id => $row)
-		{
-			$label = $row->getColumn('label');
-		
-			if($label !== false)
-			{
-				$this->rowsIndexByLabel[$label] = $id;
-			}
-		}
-		
-		$this->indexNotUpToDate = false;
-	}
 	
 	/**
 	 * At destruction we try to free memory

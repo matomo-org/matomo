@@ -655,7 +655,7 @@ class Test_Piwik_UsersManager extends Test_Database
     function test_setUserAccess_multipleCallDistinctAccessMultipleUser()
     {
     	Piwik_UsersManager_API::addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
-    	Piwik_UsersManager_API::addUser("user2", "geqgegagae", "tegst@tesgt.com", "alias");
+    	Piwik_UsersManager_API::addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
     	$id1=Piwik_SitesManager_API::addSite("test1",array("http://piwik.net","http://piwik.com/test/"));
 		$id2=Piwik_SitesManager_API::addSite("test2",array("http://piwik.net","http://piwik.com/test/"));
 		$id3=Piwik_SitesManager_API::addSite("test2",array("http://piwik.net","http://piwik.com/test/"));

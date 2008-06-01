@@ -106,7 +106,7 @@ class Piwik_Referers extends Piwik_Plugin
 								'nameTableToUse' => 'Referers_urlByPartner',
 							),
 		);
-//		var_dump($nameToCount);exit;
+
 		foreach($mappingFromArchiveName as $name => $infoMapping)
 		{
 			$typeCountToUse = $infoMapping['typeCountToUse'];
@@ -128,8 +128,8 @@ class Piwik_Referers extends Piwik_Plugin
 													$countValue
 												);
 		}
-	}	
-	
+	}
+
 	/** 
 	 * 
 	 */
@@ -270,7 +270,6 @@ class Piwik_Referers extends Piwik_Plugin
 		$numberOfDistinctSearchEngines = count($keywordBySearchEngine);
 		$numberOfDistinctKeywords = count($searchEngineByKeyword);
 		
-//		var_dump($interestByCampaign);exit;
 		$numberOfDistinctCampaigns = count($interestByCampaign); //TODO bug here
 		$numberOfDistinctWebsites = count($interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE]);
 		$numberOfDistinctWebsitesUrls = count($distinctUrls[Piwik_Common::REFERER_TYPE_WEBSITE]);

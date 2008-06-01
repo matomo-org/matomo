@@ -28,7 +28,6 @@ class Piwik_LogStats_Generator_LogStats extends Piwik_LogStats
 	 */
 	protected function sendHeader($header)
 	{
-	//	header($header);
 	}
 	
 	/**
@@ -38,7 +37,6 @@ class Piwik_LogStats_Generator_LogStats extends Piwik_LogStats
 	 */
 	protected function endProcess()
 	{
-		self::disconnectDb();
 	}
 	
 	/**
