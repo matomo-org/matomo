@@ -154,24 +154,12 @@ class Piwik_Archive_Array extends Piwik_Archive
 	 */
 	public function getDataTableFromNumeric( $fields )
 	{
-		// Simple algorithm not efficient that does the same as the following code
-		/*
-		$table = new Piwik_DataTable_Array;
-		foreach($this->archives as $archive)
-		{
-			$subTable =  $archive->getDataTableFromNumeric( $fields ) ;
-			$table->addTable($subTable, $archive->getPrettyDate());
-		}
-		return $table;
-		*/
-
 		if(!is_array($fields))
 		{
 			$fields = array($fields);
 		}
 		
 		$inName = "'" . implode("', '",$fields) . "'";
-		
 		
 		// we select in different shots
 		// one per distinct table (case we select last 300 days, maybe we will  select from 10 different tables)
@@ -188,8 +176,6 @@ class Piwik_Archive_Array extends Piwik_Archive
 			// for every query store IDs
 			$queries[$table][] = $archive->getIdArchive();
 		}
-//		var_dump($queries);
-
 		// we select the requested value
 		$db = Zend_Registry::get('db');
 		
@@ -237,8 +223,6 @@ class Piwik_Archive_Array extends Piwik_Archive
 			
 			$this->loadMetaData($tableArray, $this->archives[$timestamp]);
 		}
-		
-//		echo $tableArray;exit;
 		return $tableArray;
 	}
 
