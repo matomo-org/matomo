@@ -189,22 +189,18 @@ class Piwik_Actions extends Piwik_Plugin
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 				
 		$modified = $this->updateActionsTableWithRowQuery($query);
-		
-		
+
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_ACTION]);
 		$s = $dataTable->getSerialized();
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_actions', $s);
-		
 		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_DOWNLOAD]);
 		$s = $dataTable->getSerialized();
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_downloads', $s);
 		
-		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_OUTLINK]);
 		$s = $dataTable->getSerialized();
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_outlink', $s);
-//		echo $dataTable;
 		unset($this->actionsTablesByType);
 	}
 

@@ -22,7 +22,7 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 	 * Filter constructor.
 	 * 
 	 * @param Piwik_DataTable $table
-	 * @param int $offset Starting row 
+	 * @param int $offset Starting row (indexed from 0)
 	 * @param int $limit Number of rows to keep (specify -1 to keep all rows)
 	 */
 	public function __construct( $table, $offset, $limit = null )
@@ -42,16 +42,13 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 	protected function filter()
 	{
 		$table = $this->table;
-		
 		$rowsCount = $table->getRowsCount();
 		
-		// we have to delete
-		// - from 0 to offset
-		
-		// at this point the array has offset less elements
-		// - from limit to the end
+		// we delete from 0 to offset
 		$table->deleteRowsOffset( 0, $this->offset );
-		if( $this->limit > 0 )
+		
+		// at this point the array has offset less elements. We delete from limit to the end
+		if( $this->limit >= 0 )
 		{
 			$table->deleteRowsOffset( $this->limit );
 		}

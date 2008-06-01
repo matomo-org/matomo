@@ -22,6 +22,7 @@ $translations = array(
 	'General_ErrorRequest' => 'Oops&hellip; problem during the request, please try again.',
 	'General_Next' => 'Next',
 	'General_Previous' => 'Previous',
+	'General_Others' => 'Others',
 	'General_Table' => 'Table',
 	'General_Piechart' => 'Piechart',
 	'General_TagCloud' => 'Tag Cloud',

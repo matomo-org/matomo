@@ -82,7 +82,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		
 		// we load the data with the filters applied
 		$this->loadDataTableFromAPI();
-		$this->dataTable->queueFilter('Piwik_DataTable_Filter_AddSummaryRow',array($this->getGraphLimit()));
+		$offsetStartSummary = $this->getGraphLimit() - 1;
+		$this->dataTable->queueFilter('Piwik_DataTable_Filter_AddSummaryRow',array($offsetStartSummary));
 		$this->dataAvailable = $this->dataTable->getRowsCount() != 0;
 		
 		if(!$this->dataAvailable)

@@ -60,7 +60,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				 ";
 		$row = $this->db->fetchRow($query, array($this->strDateStart,$this->idsite ) );
 		
-//		echo " archiving ".$this->strDateStart;
 		if($row === false)
 		{
 			return;
@@ -244,10 +243,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param array $array at the given format
 	 * @return array Array with one element: the serialized data table string
 	 */
-	public function getDataTableSerialized( $arrayLevel0 )
+	public function getDataTableSerialized( $array )
 	{
 		$table = new Piwik_DataTable;
-		$table->loadFromArrayLabelIsKey($arrayLevel0);
+		$table->loadFromArrayLabelIsKey($array );
 		$toReturn = $table->getSerialized();
 		return $toReturn;
 	}
@@ -289,9 +288,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$parentTableLevel0 = new Piwik_DataTable;
 		$parentTableLevel0->loadFromArrayLabelIsKey($subArrayLevel1ByKey, $tablesByLabel);
 
-//		echo $parentTableLevel0;
 		$toReturn = $parentTableLevel0->getSerialized();
-
 		return $toReturn;
 	}
 	

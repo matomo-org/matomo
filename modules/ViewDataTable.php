@@ -477,8 +477,6 @@ abstract class Piwik_ViewDataTable
 			}
 		}
 		
-//		var_dump($javascriptVariablesToSet);exit;
-		// See 
 		foreach($_GET as $name => $value)
 		{
 			try{
@@ -501,8 +499,7 @@ abstract class Piwik_ViewDataTable
 				$javascriptVariablesToSet[$name] = $value;
 			}
 		}
-		
-		
+				
 		$javascriptVariablesToSet['module'] = $this->currentControllerName;
 		$javascriptVariablesToSet['action'] = $this->currentControllerAction;
 		
