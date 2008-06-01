@@ -743,6 +743,11 @@ class Piwik_DataTable
 			throw new Exception("Maximum recursion level of ".self::MAXIMUM_DEPTH_LEVEL_ALLOWED. " reached. You have probably set a DataTable_Row with an associated DataTable which belongs already to its parent hierarchy.");
 		}
 		
+		if( !is_null($maximumRowsInDataTable) )
+		{
+			$filter = new Piwik_DataTable_Filter_AddSummaryRow($this, $maximumRowsInDataTable - 1);
+		}
+		
 		// For each row, get the serialized row
 		// If it is associated to a sub table, get the serialized table recursively ;
 		// but returns all serialized tables and subtable in an array of 1 dimension!
@@ -764,11 +769,6 @@ class Piwik_DataTable
 		if($depth == 0)
 		{
 			$forcedId = 0;
-		}
-		
-		if( !is_null($maximumRowsInDataTable) )
-		{
-			$filter = new Piwik_DataTable_Filter_AddSummaryRow($this, $maximumRowsInDataTable - 1);
 		}
 		
 		// we then serialize the rows and store them in the serialized dataTable
@@ -997,6 +997,9 @@ class Piwik_DataTable
 	 */
 	public function __destruct()
 	{
+//		static $c = 0;
+//		$c++;
+//		echo " k ".$this->getId();
 		unset($this->rows);
 	}
 	

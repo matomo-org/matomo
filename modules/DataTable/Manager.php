@@ -52,7 +52,7 @@ class Piwik_DataTable_Manager
 	public function addTable( $table )
 	{
 		$this->tables[] = $table;
-		return count($this->tables);
+		return count($this->tables) - 1;
 	}
 	
 	/**
@@ -65,26 +65,11 @@ class Piwik_DataTable_Manager
 	 */
 	public function getTable( $idTable )
 	{
-		// the array tables is indexed at 0 
-		// but the index is computed as the count() of the array after inserting the table
-		$idTable -= 1;
-		
 		if(!isset($this->tables[$idTable]))
 		{
-			throw new Exception("The requested table id=$idTable couldn't be found in the DataTable Manager");
+			throw new Exception(sprintf("The requested table (id = %d) couldn't be found in the DataTable Manager", $idTable));
 		}
-		
 		return $this->tables[$idTable];
-	}
-	
-	/**
-	 * Returns all the dataTable registered in the manager
-	 * 
-	 * @return array of Piwik_DataTable
-	 */
-	public function getTables()
-	{
-		return $this->tables;
 	}
 	
 	/**
@@ -95,6 +80,15 @@ class Piwik_DataTable_Manager
 	public function deleteAll()
 	{
 		$this->tables = array();
+	}
+	
+	public function deleteTable( $id )
+	{
+//		echo "d $id ; ";
+		if(isset($this->tables[$id]))
+		{
+			$this->tables[$id] = null;
+		}
 	}
 	
 	/**

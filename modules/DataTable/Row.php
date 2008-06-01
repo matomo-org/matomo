@@ -91,7 +91,8 @@ class Piwik_DataTable_Row
 		$idSubtable = $this->c[self::DATATABLE_ASSOCIATED];
 		if($idSubtable !== null)
 		{
-			unset($idSubtable);
+			Piwik_DataTable_Manager::getInstance()->deleteTable($idSubtable);
+			$idSubtable = null;
 		}
 	}
 
