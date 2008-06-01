@@ -140,7 +140,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 *  				nameTable2 => number of rows,
 	 * 				)
 	 */
-	public function archiveDataTable( $aRecordName )
+	public function archiveDataTable( $aRecordName, $maximumRowsInDataTableLevelZero = null, $maximumRowsInSubDataTable = null )
 	{
 		if(!is_array($aRecordName))
 		{
@@ -155,7 +155,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$nameToCount[$recordName]['level0'] =  $table->getRowsCount();
 			$nameToCount[$recordName]['recursive'] =  $table->getRowsCountRecursive();
 			
-			$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $table->getSerialized());
+			$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $table->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable ));
 		}
 		return $nameToCount;
 	}

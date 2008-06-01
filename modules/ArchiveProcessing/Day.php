@@ -275,7 +275,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param array of Piwik_DataTable $subArrayLevel1ByKey 
 	 * @return array Array with N elements: the strings of the datatable serialized 
 	 */
-	public function getDataTablesSerialized( $arrayLevel0, $subArrayLevel1ByKey)
+	public function getDataTablesSerialized( $arrayLevel0, $subArrayLevel1ByKey, $maximumRowsInDataTableLevelZero = null, $maximumRowsInSubDataTable = null)
 	{
 		$tablesByLabel = array();
 
@@ -288,7 +288,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$parentTableLevel0 = new Piwik_DataTable;
 		$parentTableLevel0->loadFromArrayLabelIsKey($subArrayLevel1ByKey, $tablesByLabel);
 
-		$toReturn = $parentTableLevel0->getSerialized();
+		$toReturn = $parentTableLevel0->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
 		return $toReturn;
 	}
 	

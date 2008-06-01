@@ -715,6 +715,9 @@ class Piwik_DataTable
 	 *  won't work.
 	 * 
 	 * @throws Exception if an infinite recursion is found (a table row's has a subtable that is one of its parent table)
+	 * @param int If not null, defines the number of rows maximum of the serialized dataTable
+	 * 	          If $addSummaryRowAfterNRows is less than the size of the table, a SummaryRow will be added at the end of the table, that
+	 *            is the sum of the values of all the rows after the Nth row. All the rows after the Nth row will be deleted.
 	 * 
 	 * @return array Serialized arrays	
 	 * 			array( 	// Datatable level0
@@ -729,8 +732,9 @@ class Piwik_DataTable
 	 * 					//first Datatable level3 (child of second Datatable level1 for example)
  	 *					3 => 'eghuighahgaueytae78yaet7yaetaeGRQWUBGUIQGH&QE',
 	 * 					);
+	 * 
 	 */
-	public function getSerialized()
+	public function getSerialized( $maximumRowsInDataTable = null, $maximumRowsInSubDataTable = null )
 	{
 		static $depth = 0;
 		
@@ -749,7 +753,7 @@ class Piwik_DataTable
 			{
 				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
 				$depth++;
-				$aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized();
+				$aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized( $maximumRowsInSubDataTable, $maximumRowsInSubDataTable );
 				$depth--;
 			}
 		}
@@ -762,8 +766,10 @@ class Piwik_DataTable
 			$forcedId = 0;
 		}
 		
-		//TODO limit temporary here, will be set on a per plugin basis
-		$filter = new Piwik_DataTable_Filter_AddSummaryRow($this, 500);
+		if( !is_null($maximumRowsInDataTable) )
+		{
+			$filter = new Piwik_DataTable_Filter_AddSummaryRow($this, $maximumRowsInDataTable - 1);
+		}
 		
 		// we then serialize the rows and store them in the serialized dataTable
 		$aSerializedDataTable[$forcedId] = serialize($this->rows + array( self::ID_SUMMARY_ROW => $this->summaryRow));
