@@ -46,8 +46,8 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array {
 		}
 		$inName = "'" . implode("', '",$fields) . "'";
 		
-		
 		$numericTable = null;
+		$aIds = array();
 		foreach($this->archives as $archive)
 		{
 			if(is_null($numericTable))
@@ -58,8 +58,8 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array {
 			{
 				throw new Exception("Piwik_Archive_Array_IndexedBySite::getDataTableFromNumeric() algorithm won't work if data is stored in different tables");
 			}
+			$aIds[] = $archive->getIdSite();
 		}
-		
 		
 		$inIds = implode(', ', $aIds);
 		$sql = "SELECT value, name, idarchive, idsite
