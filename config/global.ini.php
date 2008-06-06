@@ -15,7 +15,7 @@ adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 host 			= localhost
 username 		= root
 password 		= 
-dbname			= piwik_tests
+dbname			= piwik_tests8
 tables_prefix	= piwiktests_
 adapter 		= PDO_MYSQL
 
@@ -77,7 +77,7 @@ default_day = yesterday
 
 ; When loading the piwik interface in the browser (as opposed to from the PHP-CLI client)
 ; should we launch the archiving process if the archives have not yet been processed?
-; You want to set it to false when triggering the archiving through a crontab, 
+; You want to set it to false when triggering the archiving is done through a crontab, 
 ; so that your users do not trigger archiving in their browser when this is not expected
 enable_browser_archiving_triggering = true
 
