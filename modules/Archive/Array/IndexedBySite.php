@@ -58,7 +58,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array {
 			{
 				throw new Exception("Piwik_Archive_Array_IndexedBySite::getDataTableFromNumeric() algorithm won't work if data is stored in different tables");
 			}
-			$aIds[] = $archive->getIdSite();
+			$aIds[] = $archive->getIdArchive();
 		}
 		
 		$inIds = implode(', ', $aIds);
