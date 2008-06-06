@@ -9,7 +9,6 @@
  * @package Piwik_VisitFrequency
  */
 
-
 /**
  * 
  * @package Piwik_VisitFrequency
@@ -39,7 +38,6 @@ class Piwik_VisitFrequency_API extends Piwik_Apiable
 							'bounce_count_returning',
 				);
 		$dataTable = $archive->getDataTableFromNumeric($toFetch);
-
 		return $dataTable;
 	}
 
@@ -55,21 +53,24 @@ class Piwik_VisitFrequency_API extends Piwik_Apiable
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_returning');
 	}
+	
 	public function getActionsReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_actions_returning');
 	}
+	
 	public function getMaxActionsReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'max_actions_returning');
 	}
+	
 	public function getSumVisitsLengthReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'sum_visit_length_returning');
 	}
+	
 	public function getBounceCountReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'bounce_count_returning');
 	}
 }
-

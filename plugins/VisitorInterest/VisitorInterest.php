@@ -76,7 +76,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		return $hooks;
 	}
 	
-	
 	function archiveMonth( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -85,12 +84,11 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 				'VisitorInterest_timeGap',
 				'VisitorInterest_pageGap',
 		);
-		
 		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
+	
 	public function archiveDay( $notification )
 	{
-		// used in protected methods
 		$this->archiveProcessing = $notification->getNotificationObject();
 
 		$recordName = 'VisitorInterest_timeGap';
@@ -100,10 +98,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$recordName = 'VisitorInterest_pageGap';
 		$tablePagegap = $this->getTablePageGap();
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tablePagegap->getSerialized());
-		
-//		echo $tableTimegap;
-//		echo $tablePagegap;
-		
 	}
 	
 	protected function getTablePageGap()
@@ -155,16 +149,15 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$toSelect = implode(" , ", $select);
 		
 		$table = $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
-//		echo $table;
 		return $table;
 	}
 	
-
 	public function headerVisitsFrequency($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '<div id="leftcolumn">';
 	}
+	
 	public function footerVisitsFrequency($notification)
 	{
 		$out =& $notification->getNotificationObject();

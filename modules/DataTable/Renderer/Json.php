@@ -19,9 +19,9 @@ require_once "DataTable/Renderer/Php.php";
  */
 class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 {
-	function __construct($table = null)
+	function __construct($table = null, $renderExpanded = null)
 	{
-		parent::__construct($table);
+		parent::__construct($table, $renderExpanded);
 	}
 	
 	function render()
@@ -31,8 +31,8 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 
 	protected function renderTable($table)
 	{
-		$renderer = new Piwik_DataTable_Renderer_Php($table, $serialize = false);
-		$array = $renderer->flatRender(null, (bool)Piwik_Common::getRequestVar('expanded', false));
+		$renderer = new Piwik_DataTable_Renderer_Php($table, $this->renderExpanded, $serialize = false);
+		$array = $renderer->flatRender();
 		
 		if(!is_array($array))
 		{

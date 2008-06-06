@@ -1,12 +1,11 @@
 <?php
-
 require_once "ViewDataTable.php";
+
 class Piwik_VisitFrequency_Controller extends Piwik_Controller 
 {
 	function index()
 	{
 		$view = new Piwik_View('VisitFrequency/index.tpl');
-		/* VisitFrequency */
 		$view->graphEvolutionVisitFrequency = $this->getLastVisitsReturningGraph( true );
 		$this->setSparklinesAndNumbers($view);
 		echo $view->render();
@@ -21,14 +20,12 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 		$view->urlSparklineMaxActionsReturning 		= $this->getUrlSparkline( 'getLastMaxActionsReturningGraph');
 		$view->urlSparklineBounceCountReturning 	= $this->getUrlSparkline( 'getLastBounceCountReturningGraph');
 		
-		$dataTableFrequency = $this->getSummary(true);
-		
+		$dataTableFrequency = $this->getSummary();
 		$view->nbVisitsReturning = $dataTableFrequency->getColumn('nb_visits_returning');
 		$view->nbActionsReturning = $dataTableFrequency->getColumn('nb_actions_returning');
 		$view->maxActionsReturning = $dataTableFrequency->getColumn('max_actions_returning');
 		$view->sumVisitLengthReturning = $dataTableFrequency->getColumn('sum_visit_length_returning');
 		$view->bounceCountReturning = $dataTableFrequency->getColumn('bounce_count_returning');
-		
 	}
 
 	function getSparklines()
@@ -37,9 +34,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();
 	}
-	/**
-	 * VisitFrequency
-	 */
+
 	protected function getSummary()
 	{		
 		$requestString = 'method='."VisitFrequency.getSummary".'&format=original';
@@ -76,5 +71,4 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "VisitFrequency.getBounceCountReturning");
 		return $this->renderView($view, $fetch);
 	}
-	
 }

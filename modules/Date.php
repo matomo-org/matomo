@@ -39,7 +39,7 @@ class Piwik_Date
 	 * 
 	 * @param Timestamp date OR string format 2007-01-31
 	 */
-	public function __construct(  $date  )
+	public function __construct( $date )
 	{
 		if(is_int( $date ))
 		{

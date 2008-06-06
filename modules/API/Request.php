@@ -508,6 +508,16 @@ class Piwik_API_Request
 	 */
 	protected function applyDataTableGenericFilters($dataTable)
 	{
+		if($dataTable instanceof Piwik_DataTable_Array )
+		{
+			$tables = $dataTable->getArray();
+			foreach($tables as $table)
+			{
+				$this->applyDataTableGenericFilters($table);
+			}
+			return;
+		}
+		
 		// Generic filters
 		// PatternFileName => Parameter names to match to constructor parameters
 		/*
@@ -548,7 +558,6 @@ class Piwik_API_Request
 				}
 				catch(Exception $e)
 				{
-//					print($e->getMessage());
 					$exceptionRaised = true;
 					break;
 				}

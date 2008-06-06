@@ -75,7 +75,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		if($table instanceof Piwik_DataTable_Array)
 		{
 			$str = $header = '';
-			$prefixColumns = $table->getNameKey() . $this->separator;
+			$prefixColumns = $table->getKeyName() . $this->separator;
 			foreach($table->getArray() as $currentLinePrefix => $dataTable)
 			{
 				$returned = explode("\n",$this->renderTable($dataTable));

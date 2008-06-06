@@ -27,7 +27,6 @@ class Piwik_VisitorInterest_API extends Piwik_Apiable
 		return self::$instance;
 	}
 
-
 	public function getNumberOfVisitsPerVisitDuration( $idSite, $period, $date )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
@@ -40,7 +39,6 @@ class Piwik_VisitorInterest_API extends Piwik_Apiable
 	
 		return $dataTable;
 	}
-
 
 	public function getNumberOfVisitsPerPage( $idSite, $period, $date )
 	{
@@ -55,6 +53,7 @@ class Piwik_VisitorInterest_API extends Piwik_Apiable
 	}
 }
 
+//TODO i18n
 function Piwik_getDurationLabel($label)
 { 
 	if(($pos = strpos($label,'-')) !== false)
@@ -80,6 +79,7 @@ function Piwik_getDurationLabel($label)
 	}
 }
 
+//TODO i18n
 function Piwik_getPageGapLabel($label)
 {
 	$return = false;

@@ -1,3 +1,13 @@
+ECLIPSE WINDOWS LINE BREAKS
+rename $renderExpanded name
+test that fresh archive doesn't show expanding when not requested
+
+see if can remove translationAvailable in all plugins
+
+deactivate online logs
+ARCHIVE ALL SITES
+http://piwik.org/demo/?module=API&method=SitesManager.getAllSitesId&format=csv&token_auth=0b809661490d605bfd77f57ed11f0b14
+
 commenting remaining core files 6 hours
 review all TODO from code + create tickets OR fix
 
@@ -5,6 +15,9 @@ comparer avant update et apres update
 bien tester les recherches recursives
 loading recursive
 appels call API examples 
+
+
+api examples strings in light grey
 
 execute unit tests
 
@@ -34,41 +47,52 @@ Documentation
 - write beginners tutorials medium level user http://producingoss.com/en/funding-non-programming.html
 
 
+http://piwik.org/demo/?module=API&method=VisitsSummary.getVisits&idSite=1&period=week&date=last2&format=xml
+add xml dateFrom dateTo to result to pragmatically useful
+
 
 simple fix
 ====
+Ouais ca serait mieux, mais ca me parait toujours pas logique... En gros le mode "donner les accès à tous" sera utilisé pour créer un compte "super user" dans la majorité des cas. Je trouve ca plus logique de donner les accès par défaut. Et pourquoi pas plutot un message "Vos chagements affecteront les sites enregistrés ultérieurement ?" :) 
+
+johan> Est ce que tu pourrais faire en sorte que le piwik.php fonctionne toujours si le serveur sql derrière déconne ? (genre mettre un timeout de 2 sec sur la cxion sql ?)
+
+make sure with token auth no DB access
+
+First, knowing that I run "Piwik  # open source analytics" is great the first time, but the next ones it's just loosing space. I would replace that by the name of the website and a little something that would let me choose another website.
+I would also split the "Admin | API | Widget | send us feedback" bar. Moving the admin link to the user bar at the top, and the rest at the very bottom of the page, with a link to piwik.org.
+
+
+config file defined:
+when archiving from CLI ==> @set_time_limit(0); 
+==> set memory_limit high from config file
+
 
 regarder pour error_reporting
 admin sites css overwrite
 Review all english strings, make them more explicit
-
-En fait, j'ai affich� le lien complet dans ma page, et j'ai cliqu� dessus pour voir ce qu'il disait, et j'ai re�u deux erreurs un peu plus claire, la premi�re, c'est qu'il a r�clam� sur la premi�re visite que la colonne LOCATION_PROVIDER (piwik_log_visit) n'avait pas de default value, j'en ai mis une avec '$' et c'est pass�.
  
-La seconde �tait que la longueur de la colonne LOCATION_BROWSER_LANG (piwik_log_visit toujours) �tait trop courte, je l'ai rallong�e � 100 pour voir ce qu'il voulait y mettre et j'y ai trouv� apr�s : "fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3".
-
-todo: when adding a user, should test that email is unique
-   piwik.php link to /piwik
 editing site web with single quote bugs in siteAdmin
 something is wrong in JS calendar when year selected
 
-
-added index _visit server_date
-added index _log_link_action idvisit
-
 plugins easy to register a new hook
-
-PPT= TRY PIWIK instead of onlin demo + screenshot piiwk
 
 error RSS Feed only used on DataTable_Array http://piwik.org/demo/?module=API&method=Referers.getKeywords&idSite=1&period=week&date=yesterday&format=rss&filter_limit=30&filter_sort_column=3 
 NOT CLEAR MESSAGE
 
 documenter 	const VISIT_STANDARD_LENGTH = 1800; when writing plugin and need to test stats log
 
+Pour la home de Piwik, on aurait en + du contenu piwik proprement dit :
+- un extrait du  blog
+- le nombre d�install piwik ( le compteur )
+- la possibilit� de s�abonner a une newsletter
+- Les news Piwik...
+
+
 CHANGES DONE TO LIBRARIES
 =========================
+- edited Zend/Db/Adapter/Abstract.php added resetConfigArray()
 - edited zend_log and changed attr to protected
 - fixed bug fwrite in zend_log stream writer
 - fixed PEAR so that it works under PHP5 with STRICT MODE enabled
 - edited line 145 registry.php from require_once 'Zend/Exception.php'; to require_once 'Exception.php';
-
-

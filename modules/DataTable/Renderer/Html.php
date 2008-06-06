@@ -33,7 +33,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 	{
 		if($table instanceof Piwik_DataTable_Array)
 		{
-			$columnPrefixToAdd = $table->getNameKey();
+			$columnPrefixToAdd = $table->getKeyName();
 			$out = "<table border=1>";
 			foreach($table->getArray() as $date => $subtable )
 			{

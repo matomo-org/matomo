@@ -50,7 +50,7 @@ class FakeAccess
 		
 		if(!is_array($idSites))
 		{
-			$idSites=array($idSites);
+			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		}
 		foreach($idSites as $idsite)
 		{

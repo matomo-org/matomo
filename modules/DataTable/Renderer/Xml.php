@@ -22,9 +22,9 @@ require_once "DataTable/Renderer/Php.php";
  */
 class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 {
-	function __construct($table = null)
+	function __construct($table = null, $renderExpanded = null)
 	{
-		parent::__construct($table);
+		parent::__construct($table, $renderExpanded);
 	}
 	
 	function render()
@@ -32,21 +32,36 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		return $this->renderTable($this->table);
 	}
 	
-	protected function renderTable($table)
+	protected function getArrayFromDataTable($table)
 	{
-		$renderer = new Piwik_DataTable_Renderer_Php($table, $serialize = false);
-		
-		$array = $renderer->flatRender(null, (bool)Piwik_Common::getRequestVar('expanded', false));
+		$renderer = new Piwik_DataTable_Renderer_Php($table, $this->renderExpanded, $serialize = false);
+		return $renderer->flatRender();
+	}
+	
+	protected function renderTable($table, $returnOnlyDataTableXml = false, $prefixLines = '')
+	{
+		$array = $this->getArrayFromDataTable($table);
 		
 		// case DataTable_Array
 		if($table instanceof Piwik_DataTable_Array)
 		{
-			return $this->renderDataTableArray($table, $array);
+			$out = $this->renderDataTableArray($table, $array, $prefixLines);
+			
+			if($returnOnlyDataTableXml)
+			{
+				return $out;
+			}
+			$out = "<results>\n$out</results>";
+			return $this->output($out);
 		}
 	
 		// integer value of ZERO is a value we want to display
 		if($array != 0 && empty($array))
 		{
+			if($returnOnlyDataTableXml)
+			{
+				throw new Exception("Illegal state, what xml shall we return?");
+			}
 			$out = "<result />";
 			return $this->output($out);
 		}
@@ -55,11 +70,24 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			if(is_array($array))
 			{
 				$out = $this->renderDataTableSimple($array);
+			}
+			else
+			{
+				$out = $array;
+			}
+		
+			if($returnOnlyDataTableXml)
+			{
+				return $out;
+			}
+			
+			if(is_array($array))
+			{
 				$out = "<result>\n".$out."</result>";
 			}
 			else
 			{
-				$out = "<result>".$array."</result>";
+				$out = "<result>".$out."</result>";
 			}
 			return $this->output($out);
 		}
@@ -67,6 +95,10 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		if($table instanceof Piwik_DataTable)
 		{
 			$out = $this->renderDataTable($array);
+			if($returnOnlyDataTableXml)
+			{
+				return $out;
+			}
 			$out = "<result>\n$out</result>";
 			return $this->output($out);
 		}
@@ -74,7 +106,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		
 	}
 	
-	protected function renderDataTableArray($table, $array)
+	protected function renderDataTableArray($table, $array, $prefixLines = "")
 	{
 		// CASE 1
 		//array
@@ -83,23 +115,28 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		$firstTable = current($array);
 		if(!is_array( $firstTable ))
 		{
-	  		$xml = "<results>\n";
-	  		$nameDescriptionAttribute = $table->getNameKey();
+			$xml = '';
+	  		$nameDescriptionAttribute = $table->getKeyName();
 	  		foreach($array as $valueAttribute => $value)
 	  		{
-	  			if(!empty($value))
+	  			if(empty($value))
 	  			{
-		  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">$value</result>\n";
+		  			$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\" />\n";	  				
+	  			}
+	  			elseif($value instanceof Piwik_DataTable_Array )
+	  			{
+	  				$out = $this->renderTable($value, true);
+		  			//TODO somehow this code is not tested, cover this case
+	  				$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">\n$out</result>\n";
 	  			}
 	  			else
 	  			{
-		  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\" />\n";	  				
+		  			$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">$value</result>\n";	  				
 	  			}
 	  		}
-	  		$xml .= "</results>";
-	  		return $this->output($xml);
+	  		return $xml;
 		}
-		
+	
 		$subTables = $table->getArray();
 		$firstTable = current($subTables);
 		
@@ -115,26 +152,25 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
   		//      'nb_visits' => string '11' 
 		if( $firstTable instanceof Piwik_DataTable_Simple)
 		{
-	  		$xml = "<results>\n";
-			$nameDescriptionAttribute = $table->getNameKey();
+			$xml = '';
+			$nameDescriptionAttribute = $table->getKeyName();
 	  		foreach($array as $valueAttribute => $dataTableSimple)
 	  		{
-	  			
+//	  			var_dump($dataTableSimple);exit;
 	  			if(count($dataTableSimple) == 0)
 				{
-					$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\" />\n";
+					$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\" />\n";
 				}
 	  			else
 	  			{
 		  			if(is_array($dataTableSimple))
 		  			{
-			  			$dataTableSimple = "\n" . $this->renderDataTableSimple($dataTableSimple, "\t") . "\t" ;
+			  			$dataTableSimple = "\n" . $this->renderDataTableSimple($dataTableSimple, $prefixLines . "\t") . "\t" ;
 		  			}
-		  			$xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">".$dataTableSimple."</result>\n";
+		  			$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">".$dataTableSimple. $prefixLines . "</result>\n";
 	  			}
 	  		}
-	  		$xml .= "</results>";
-	  		return $this->output($xml);
+	  		return $xml;
 		}
 		
 		// CASE 3
@@ -165,25 +201,38 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		//          'nb_visits' => int 120
 		if($firstTable instanceof Piwik_DataTable)
 		{
-			$out = "<results>\n";
-			$nameDescriptionAttribute = $table->getNameKey();
+			$xml = '';
+			$nameDescriptionAttribute = $table->getKeyName();
 			foreach($array as $keyName => $arrayForSingleDate)
 			{
-				$dataTableOut = $this->renderDataTable( $arrayForSingleDate, "\t" );
-				
+//				var_dump($arrayForSingleDate);exit;
+				$dataTableOut = $this->renderDataTable( $arrayForSingleDate, $prefixLines . "\t" );
 				if(empty($dataTableOut))
 				{
-					$out .= "\t<result $nameDescriptionAttribute=\"$keyName\" />\n";
+					$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$keyName\" />\n";
 				}
 				else
 				{
-					$out .= "\t<result $nameDescriptionAttribute=\"$keyName\">\n";
-					$out .= $dataTableOut;
-					$out .= "\t</result>\n";
+					$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$keyName\">\n";
+					$xml .= $dataTableOut;
+					$xml .= $prefixLines . "\t</result>\n";
 				}
 			}
-			$out .= "</results>";
-			return $this->output($out);
+			return $xml;
+		}
+		
+		if($firstTable instanceof Piwik_DataTable_Array)
+		{
+			$xml = '';
+			$tables = $table->getArray();
+			$nameDescriptionAttribute = $table->getKeyName();
+			foreach( $tables as $valueAttribute => $tableInArray)
+			{
+				$out = $this->renderTable($tableInArray, true, $prefixLines . "\t");
+				$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">\n".$out.$prefixLines."\t</result>\n";
+	  			
+			}
+			return $xml;
 		}
 	}
 	

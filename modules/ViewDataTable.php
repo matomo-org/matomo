@@ -753,6 +753,10 @@ abstract class Piwik_ViewDataTable
 		$data = array();
 		foreach($dataTableArray->getArray() as $keyName => $table)
 		{
+			if($table instanceof Piwik_DataTable_Array)
+			{
+				throw new Exception("Operation not supported (yet)");
+			}
 			$value = false;
 			
 			$onlyRow = $table->getFirstRow();
