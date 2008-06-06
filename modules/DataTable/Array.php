@@ -37,32 +37,32 @@ class Piwik_DataTable_Array
 	 * This is the label used to index the tables.
 	 * For example if the tables are indexed using the timestamp of each period
 	 * eg. $this->array[1045886960] = new Piwik_DataTable;
-	 * the nameKey would be 'timestamp'.
+	 * the keyName would be 'timestamp'.
 	 * 
 	 * This label is used in the Renderer (it becomes a column name or the XML description tag)
 	 *
 	 * @var string
 	 */
-	protected $nameKey = 'defaultKeyName';
+	protected $keyName = 'defaultKeyName';
 	
 	/**
-	 * Returns the nameKey string @see self::$nameKey
+	 * Returns the keyName string @see self::$keyName
 	 *
 	 * @return string
 	 */
-	public function getNameKey()
+	public function getKeyName()
 	{
-		return $this->nameKey;
+		return $this->keyName;
 	}
 	
 	/**
-	 * Set the nameKey @see self::$nameKey
+	 * Set the keyName @see self::$keyName
 	 *
 	 * @param string $name
 	 */
-	public function setNameKey($name)
+	public function setKeyName($name)
 	{
-		$this->nameKey = $name;
+		$this->keyName = $name;
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class Piwik_DataTable_Array
 	 * @param Piwik_DataTable $table
 	 * @param string $label Label used to index this table in the array
 	 */
-	public function addTable( Piwik_DataTable $table, $label )
+	public function addTable( $table, $label )
 	{
 		$this->array[$label] = $table;
 	}

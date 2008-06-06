@@ -24,9 +24,9 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 {
 	protected $serialize;
 	
-	public function __construct($table = null, $serialize = true)
+	public function __construct($table = null, $renderExpanded = null, $serialize = true)
 	{
-		parent::__construct($table);
+		parent::__construct($table, $renderExpanded);
 		$this->setSerialize($serialize);
 	}
 	
@@ -44,6 +44,25 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		}
 		return $data;
 	}
+
+	public function render( $dataTable = null )
+	{
+		if(is_null($dataTable))
+		{
+			$dataTable = $this->table;
+		}
+		$toReturn = $this->flatRender( $dataTable );
+		
+		if( false !== Piwik_Common::getRequestVar('prettyDisplay', false) )
+		{
+			if(!is_array($toReturn))
+			{
+				$toReturn = unserialize($toReturn);
+			}
+			$toReturn =  "<pre>" . var_export($toReturn, true ) . "</pre>";
+		}
+		return $toReturn;
+	}
 	
 	/**
 	 * Produces a flat php array from the DataTable, putting "columns" and "details" on the same level.
@@ -60,7 +79,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	 * @return array Php array representing the 'flat' version of the datatable
 	 *
 	 */
-	public function flatRender( $dataTable = null, $doRenderSubTablesIfAvailable = true )
+	public function flatRender( $dataTable = null )
 	{
 		if(is_null($dataTable))
 		{
@@ -74,7 +93,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			{
 				$serializeSave = $this->serialize;
 				$this->serialize = false;
-				$flatArray[$keyName] = $this->flatRender($table, $doRenderSubTablesIfAvailable);
+				$flatArray[$keyName] = $this->flatRender($table);
 				$this->serialize = $serializeSave;
 			}
 		}
@@ -95,7 +114,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		// A normal DataTable needs to be handled specifically
 		else
 		{
-			$array = $this->renderTable($dataTable, $doRenderSubTablesIfAvailable);
+			$array = $this->renderTable($dataTable);
 			$flatArray = $this->flattenArray($array);
 		}
 		
@@ -126,25 +145,6 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		return $flatArray;
 	}
 	
-	public function render( $dataTable = null)
-	{
-		if(is_null($dataTable))
-		{
-			$dataTable = $this->table;
-		}
-		$toReturn = $this->flatRender( $dataTable );
-		
-		if( false !== Piwik_Common::getRequestVar('prettyDisplay', false) )
-		{
-			if(!is_array($toReturn))
-			{
-				$toReturn = unserialize($toReturn);
-			}
-			$toReturn =  "<pre>" . var_export($toReturn, true ) . "</pre>";
-		}
-		return $toReturn;
-	}
-	
 	public function originalRender()
 	{
 		if($this->table instanceof Piwik_DataTable_Simple)
@@ -153,7 +153,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		}
 		else
 		{
-			$array = $this->renderTable($this->table, $doRenderSubTablesIfAvailable = false);
+			$array = $this->renderTable($this->table);
 		}
 				
 		if($this->serialize)
@@ -164,8 +164,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		return $array;
 	}
 	
-	
-	protected function renderTable($table, $doRenderSubTablesIfAvailable = true)
+	protected function renderTable($table)
 	{
 		$array = array();
 
@@ -177,7 +176,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 				'idsubdatatable' => $row->getIdSubDataTable(),
 				);
 			
-			if($doRenderSubTablesIfAvailable
+			if($this->renderExpanded
 				&& $row->getIdSubDataTable() !== null)
 			{
 				try{

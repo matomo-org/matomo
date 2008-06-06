@@ -6,17 +6,11 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 	function index()
 	{
 		$view = new Piwik_View('VisitorInterest/index.tpl');
-		
-		/* Visitor Interest */
 		$view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
 		$view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
-				
 		echo $view->render();
 	}
 	
-	/**
-	 * VisitorInterest
-	 */
 	function getNumberOfVisitsPerVisitDuration( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory( 'cloud' );
@@ -48,6 +42,4 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
-	
-	
 }

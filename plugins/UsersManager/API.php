@@ -41,6 +41,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		$users = $db->fetchAll("SELECT * FROM ".Piwik::prefixTable("user")." ORDER BY login ASC");
 		return $users;
 	}
+	
 	/**
 	 * Returns the list of all the users login
 	 * 
@@ -176,7 +177,6 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		$user = $db->fetchRow("SELECT * 
 								FROM ".Piwik::prefixTable("user")
 								." WHERE login = ?", $userLogin);
-//		var_dump($user); exit;
 		return $user;
 	}
 	
@@ -437,7 +437,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		// in case the idSites is an integer we build an array		
 		elseif(!is_array($idSites))
 		{
-			$idSites = array($idSites);
+			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		}
 		
 		// it is possible to set user access on websites only for the websites admin

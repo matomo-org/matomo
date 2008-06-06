@@ -31,11 +31,11 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 	
 	protected function renderTable($table)
 	{
-		if(!($table instanceof Piwik_DataTable_Array))
+		if(!($table instanceof Piwik_DataTable_Array)
+			|| $table->getKeyName() != 'date')
 		{
-			throw new Exception("RSS Feed only used on DataTable_Array");
+			throw new Exception("RSS Feed only used on Piwik_DataTable_Array with keyName = 'date'");
 		}
-		
 		
 		$idSite = Piwik_Common::getRequestVar('idSite', 1);
 		$period = Piwik_Common::getRequestVar('period');

@@ -71,7 +71,7 @@ abstract class Piwik_Archive
 	/**
 	 * Builds an Archive object or returns the same archive if previously built.
 	 *
-	 * @param int $idSite
+	 * @param string|int idSite integer, or comma separated list of integer
 	 * @param string|Piwik_Date $date 'YYYY-MM-DD' or magic keywords 'today' @see Piwik_Date::factory()
 	 * @param string $period 'week' 'day' etc.
 	 * 
@@ -79,18 +79,33 @@ abstract class Piwik_Archive
 	 */
 	static public function build($idSite, $period, $strDate )
 	{
-		$oSite = new Piwik_Site($idSite);
+		//TODO clean this method
 		
+		if($idSite === 'all')
+		{
+			$sites = Piwik_SitesManager_API::getSitesIdWithAtLeastViewAccess();
+		}
+		else
+		{
+			$sites = Piwik_Site::getIdSitesFromIdSitesString($idSite);
+		}
+		// if we have multiple idSite comma separated
+		if( count($sites) > 1 )
+		{
+			require_once 'Archive/Array/IndexedBySite.php';
+			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate);
+		}
 		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
-		if(is_string($strDate) 
+		elseif(is_string($strDate) 
 			&& (
 				ereg('^(last|previous){1}([0-9]*)$', $strDate, $regs)
 				|| ereg('^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$', $strDate, $regs)
 				)
 			)
 		{
-			require_once 'Archive/Array.php';
-			$archive = new Piwik_Archive_Array($oSite, $period, $strDate);
+			$oSite = new Piwik_Site($idSite);
+			require_once 'Archive/Array/IndexedByDate.php';
+			$archive = new Piwik_Archive_Array_IndexedByDate($oSite, $period, $strDate);
 		}
 		// case we request a single archive
 		else
@@ -114,13 +129,15 @@ abstract class Piwik_Archive
 			
 			$archive = new Piwik_Archive_Single;
 			$archive->setPeriod($oPeriod);
-			$archive->setSite($oSite);
+			$archive->setSite(new Piwik_Site($idSite));
 			
 			self::$alreadyBuilt[$idSite][$date][$period] = $archive;
 		}
 		
 		return $archive;
 	}
+	
+	abstract public function prepareArchive();
 	
 	/**
 	 * Returns the value of the element $name from the current archive 
@@ -143,21 +160,6 @@ abstract class Piwik_Archive
 	 */
 	abstract public function getBlob( $name );
 	
-	/**
-	 * Given a list of fields defining numeric values, it will return a Piwik_DataTable_Simple 
-	 * containing one row per value.
-	 * 
-	 * For example $fields = array( 	'max_actions',
-	 *						'nb_uniq_visitors', 
-	 *						'nb_visits',
-	 *						'nb_actions', 
-	 *						'sum_visit_length',
-	 *						'bounce_count',
-	 *					); 
-	 *
-	 * @param array|string $fields array( fieldName1, fieldName2, ...)
-	 * @return Piwik_DataTable_Simple
-	 */
 	abstract public function getDataTableFromNumeric( $fields );
 
 	/**
@@ -199,7 +201,7 @@ abstract class Piwik_Archive
 	 *
 	 * @param Piwik_Site $site
 	 */
-	public function getSite( )
+	public function getSite()
 	{
 		return $this->site;
 	}

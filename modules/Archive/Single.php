@@ -117,7 +117,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	{
 		if(!is_null($this->archiveProcessing))
 		{
-//			var_dump($this->archiveProcessing->period->getPrettyString());
 			return $this->archiveProcessing->getTimestampStartDate();
 		}
 		
@@ -370,7 +369,16 @@ class Piwik_Archive_Single extends Piwik_Archive
 	}
 	
 	/**
-	 * Returns a DataTable_Simple with one row per field from $fields array names.
+	 * Given a list of fields defining numeric values, it will return a Piwik_DataTable_Simple 
+	 * containing one row per field name.
+	 * 
+	 * For example $fields = array( 	'max_actions',
+	 *						'nb_uniq_visitors', 
+	 *						'nb_visits',
+	 *						'nb_actions', 
+	 *						'sum_visit_length',
+	 *						'bounce_count',
+	 *					); 
 	 *
 	 * @param string|array $fields Name or array of names of Archive fields 
 	 * 

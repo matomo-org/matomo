@@ -48,5 +48,20 @@ class Piwik_Site
 		return new Piwik_Date($date);
 	}
 	
+	/**
+	 * @param string comma separated idSite list
+	 * @return array of valid integer
+	 */
+	static public function getIdSitesFromIdSitesString( $string )
+	{
+		$ids = explode(',', $string);
+		$validIds = array();
+		foreach($ids as $id)
+		{
+			$id = trim($id);
+			$validIds[] = $id;
+		}
+		return $validIds;
+	}
 }
 

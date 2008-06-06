@@ -33,7 +33,6 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	{
 		Piwik_AddWidget( 'VisitFrequency', 'getSparklines', Piwik_Translate('VisitFrequency_WidgetOverview'));
 		Piwik_AddWidget( 'VisitFrequency', 'getLastVisitsReturningGraph', Piwik_Translate('VisitFrequency_WidgetGraphReturning'));
-
 		Piwik_AddMenu('Visitors', Piwik_Translate('VisitFrequency_SubmenuFrequency'), array('module' => 'VisitFrequency'));
 	}
 	
@@ -46,7 +45,6 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		return $hooks;
 	}
 	
-	
 	function archiveMonth( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -57,9 +55,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 				'sum_visit_length_returning',
 				'bounce_count_returning',
 		);
-		
 		$archiveProcessing->archiveNumericValuesSum($numericToSum);
-		
 		$archiveProcessing->archiveNumericValuesMax('max_actions_returning');
 	}
 	

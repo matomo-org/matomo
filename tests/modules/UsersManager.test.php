@@ -10,6 +10,7 @@ require_once "Database.test.php";
 
 
 require 'UsersManager/API.php';
+require_once 'modules/Site.php';
 
 class Test_Piwik_UsersManager extends Test_Database
 {
@@ -614,7 +615,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
     	$this->assertEqual( array(1), array_keys($access));
     }
-    
+
     /**
      * normal case, access set for multiple sites
      */
@@ -627,6 +628,22 @@ class Test_Piwik_UsersManager extends Test_Database
 		$id3=Piwik_SitesManager_API::addSite("test",array("http://piwik.net","http://piwik.com/test/"));
 		
     	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view", array($id1,$id3));
+    	
+    	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
+    	$this->assertEqual( array($id1,$id3), array_keys($access));
+    }
+    /**
+     * normal case, string idSites comma separated access set for multiple sites
+     */
+    function test_setUserAccess_withIdSitesIsStringCommaSeparated()
+    {
+    	
+    	Piwik_UsersManager_API::addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+    	$id1=Piwik_SitesManager_API::addSite("test",array("http://piwik.net","http://piwik.com/test/"));
+		$id2=Piwik_SitesManager_API::addSite("test",array("http://piwik.net","http://piwik.com/test/"));
+		$id3=Piwik_SitesManager_API::addSite("test",array("http://piwik.net","http://piwik.com/test/"));
+		
+    	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view", "1,3");
     	
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
     	$this->assertEqual( array($id1,$id3), array_keys($access));

@@ -245,9 +245,13 @@ class Piwik_Access
 	 */
 	public function checkUserHasAdminAccess( $idSites )
 	{
+		if($idSites === 'all')
+		{
+			$idSites = $this->getSitesIdWithAtLeastViewAccess();
+		}
 		if(!is_array($idSites))
 		{
-			$idSites = array($idSites);
+			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		}
 		$idSitesAccessible = $this->getSitesIdWithAdminAccess();
 		foreach($idSites as $idsite)
@@ -264,14 +268,19 @@ class Piwik_Access
 	 * This method checks that the user has VIEW or ADMIN access for the given list of websites.
 	 * If the user doesn't have VIEW or ADMIN access for at least one website of the list, we throw an exception.
 	 * 
-	 * @param int|arrayOfIntegers List of ID sites to check
+	 * @param int|arrayOfIntegers|string List of ID sites to check (integer, array of integers, string comma separated list of integers)
 	 * @throws Exception If for any of the websites the user doesn't have an VIEW or ADMIN access
 	 */
 	public function checkUserHasViewAccess( $idSites )
 	{
+		if($idSites === 'all')
+		{
+			$idSites = $this->getSitesIdWithAtLeastViewAccess();
+		}
+		
 		if(!is_array($idSites))
 		{
-			$idSites = array($idSites);
+			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		}
 		$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
 

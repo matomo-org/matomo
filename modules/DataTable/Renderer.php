@@ -22,6 +22,7 @@
 abstract class Piwik_DataTable_Renderer
 {
 	protected $table;
+	protected $renderExpanded;
 	
 	/**
 	 * Builds the renderer.
@@ -29,11 +30,19 @@ abstract class Piwik_DataTable_Renderer
 	 *
 	 * @param Piwik_DataTable|Piwik_DataTable_Simple|Piwik_DataTable_Array $table to be rendered
 	 */
-	function __construct($table = null)
+	function __construct($table = null, $renderExpanded = null)
 	{
 		if(!is_null($table))
 		{
 			$this->setTable($table);
+		}
+		if(is_null($renderExpanded))
+		{
+			$this->renderExpanded = (bool)Piwik_Common::getRequestVar('expanded', false);
+		}
+		else
+		{
+			$this->renderExpanded = $renderExpanded; 
 		}
 	}
 	
