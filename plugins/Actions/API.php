@@ -61,7 +61,7 @@ class Piwik_Actions_API extends Piwik_Apiable
 	public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('full_url', 'url', create_function('$url', 'return $url;')));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('full_url', 'url', create_function('$url', 'return $url;')));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromActionsUrl'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_truncateActionsPath'));
 		
@@ -71,7 +71,7 @@ class Piwik_Actions_API extends Piwik_Apiable
 	public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('full_url', 'url', create_function('$url', 'return $url;')));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('full_url', 'url', create_function('$url', 'return $url;')));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromActionsUrl'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_truncateActionsPath'));
 		return $dataTable;

@@ -51,13 +51,13 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 	
 	
 	/**
-	 * Adds metaData information to the Piwik_DataTable_Array 
+	 * Adds metadata information to the Piwik_DataTable_Array 
 	 * using the information given by the Archive
 	 *
 	 * @param Piwik_DataTable_Array $table
 	 * @param unknown_type $archive
 	 */
-	protected function loadMetaData(Piwik_DataTable_Array $table, $archive)
+	protected function loadMetadata(Piwik_DataTable_Array $table, $archive)
 	{
 	}
 	
@@ -80,7 +80,7 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 			$subTable->loadFromArray( array( $numeric ) );
 			$table->addTable($subTable, $this->getDataTableLabelValue($archive));
 			
-			$this->loadMetaData($table, $archive);
+			$this->loadMetadata($table, $archive);
 		}
 		
 		return $table;
@@ -109,7 +109,7 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 			$subTable->loadFromArray( array('blob' => $blob));
 			$table->addTable($subTable, $this->getDataTableLabelValue($archive));
 			
-			$this->loadMetaData($table, $archive);
+			$this->loadMetadata($table, $archive);
 		}
 		return $table;
 	}
@@ -131,7 +131,7 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 			$subTable =  $archive->getDataTable( $name, $idSubTable ) ;
 			$table->addTable($subTable, $this->getDataTableLabelValue($archive));
 			
-			$this->loadMetaData($table, $archive);
+			$this->loadMetadata($table, $archive);
 		}
 		return $table;
 	}
@@ -154,7 +154,7 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 			$subTable =  $archive->getDataTableExpanded( $name, $idSubTable ) ;
 			$table->addTable($subTable, $this->getDataTableLabelValue($archive));
 			
-			$this->loadMetaData($table, $archive);
+			$this->loadMetadata($table, $archive);
 		}
 		return $table;
 	}

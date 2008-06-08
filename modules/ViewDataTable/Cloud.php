@@ -64,7 +64,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		
 		$view = new Piwik_View($this->dataTableTemplate);
 		
-		$words = $labelDetails = array();
+		$words = $labelMetadata = array();
 		foreach($this->dataTable->getRows() as $row)
 		{
 			$label = $row->getColumn('label');
@@ -80,12 +80,12 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 			$logo = false;
 			if($this->displayLogoInsteadOfLabel)
 			{
-				$logo =  $row->getDetail('logo');
+				$logo =  $row->getMetadata('logo');
 			}
 			
-			$labelDetails[$label] = array( 
+			$labelMetadata[$label] = array( 
 				'logo' => $logo,
-				'url' => $row->getDetail('url'),
+				'url' => $row->getMetadata('url'),
 				'hits' => $value
 				);
 		}
@@ -96,9 +96,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		{
 			$value['logoWidth'] = round(max(16, $value['percent']));
 		}
-//		var_dump($cloudValues);exit;
-//		var_dump($labelDetails);exit;
-		$view->labelDetails = $labelDetails;
+		$view->labelMetadata = $labelMetadata;
 		$view->cloudValues = $cloudValues;
 		
 		$view->method = $this->method;

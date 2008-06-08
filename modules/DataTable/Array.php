@@ -24,7 +24,7 @@ class Piwik_DataTable_Array
 	 *
 	 * @var array of mixed
 	 */
-	public $metaData = array();
+	public $metadata = array();
 	
 	/**
 	 * Array containing the DataTable withing this Piwik_DataTable_Array

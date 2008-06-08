@@ -67,15 +67,15 @@ class Test_Piwik_DataTable extends UnitTestCase
 		 */
 		
 		$row = array(Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,	1 => 42,	2 => 657,3 => 155744,),
-	  				Piwik_DataTable_Row::DETAILS => array('logo' => 'test.png'));
+	  				Piwik_DataTable_Row::METADATA => array('logo' => 'test.png'));
 	  	$row = new Piwik_DataTable_Row($row);
 	  	
 	  	$table->addRow($row);
 	  	$table->addRowFromArray(array( Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,1 => 42,),
-	  						Piwik_DataTable_Row::DETAILS => array('url' => 'piwik.org')));
+	  						Piwik_DataTable_Row::METADATA => array('url' => 'piwik.org')));
 		
 	  	$table->addRowFromArray(array( Piwik_DataTable_Row::COLUMNS => array( 0 => 787877888787,),
-	  						Piwik_DataTable_Row::DETAILS => array('url' => 'OUPLA ADDED'),
+	  						Piwik_DataTable_Row::METADATA => array('url' => 'OUPLA ADDED'),
 	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtable));
 		  	
 		/*
@@ -84,16 +84,16 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  									
 		
 		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,),
-	  						Piwik_DataTable_Row::DETAILS => array('searchengine' => 'google'),
+	  						Piwik_DataTable_Row::METADATA => array('searchengine' => 'google'),
 	  					);
 	  	$subtable->addRowFromArray($row);
 	  	
 		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 84894,),
-	  						Piwik_DataTable_Row::DETAILS => array('searchengine' => 'yahoo'),
+	  						Piwik_DataTable_Row::METADATA => array('searchengine' => 'yahoo'),
 	  					);
 	  	$subtable->addRowFromArray($row);
 		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 4898978989,),
-	  						Piwik_DataTable_Row::DETAILS => array('searchengine' => 'ask'),
+	  						Piwik_DataTable_Row::METADATA => array('searchengine' => 'ask'),
 	  					);	  	
 	  	$subtable->addRowFromArray($row);
 	  	
@@ -103,15 +103,15 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	 */
 	  	$subsubtable = new Piwik_DataTable;
 	  	$subsubtable->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 245),
-	  						Piwik_DataTable_Row::DETAILS => array('yes' => 'subsubdetail1'),)
+	  						Piwik_DataTable_Row::METADATA => array('yes' => 'subsubmetadata1'),)
 	  						);  	
 	  						
 	  	$subsubtable->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 13,),
-	  						Piwik_DataTable_Row::DETAILS => array('yes' => 'subsubdetail2'),)
+	  						Piwik_DataTable_Row::METADATA => array('yes' => 'subsubmetadata2'),)
 	  						);
 	  						
 		$row = array( 	Piwik_DataTable_Row::COLUMNS => array( 0 => 666666666666666,),
-	  						Piwik_DataTable_Row::DETAILS => array('url' => 'NEW ROW ADDED'),
+	  						Piwik_DataTable_Row::METADATA => array('url' => 'NEW ROW ADDED'),
 	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subsubtable);
 	  	
 	  	$subtable->addRowFromArray($row);
@@ -233,17 +233,17 @@ class Test_Piwik_DataTable extends UnitTestCase
 		$columns = array('test_column'=> 145,
 						092582495 => new Piwik_Timer,
 						'super'=>array('this column has an array value, amazing'));
-		$details = array('logo'=> 'piwik.png',
+		$metadata = array('logo'=> 'piwik.png',
 						'super'=>array('this column has an array value, amazing'));
 		$arrayRow = array(
 			Piwik_DataTable_Row::COLUMNS => $columns,
-	  		Piwik_DataTable_Row::DETAILS => $details,
+	  		Piwik_DataTable_Row::METADATA => $metadata,
 	  		'fake useless key'=>38959,
 	  		43905724897=>'value');
 		$row = new Piwik_DataTable_Row($arrayRow);
 		
 		$this->assertEqual($row->getColumns(), $columns);
-		$this->assertEqual($row->getDetails(), $details);
+		$this->assertEqual($row->getMetadata(), $metadata);
 		$this->assertEqual($row->getIdSubDataTable(), null);
 		
 	}
@@ -260,11 +260,11 @@ class Test_Piwik_DataTable extends UnitTestCase
 						"test" => 'string fake',
 						'super'=>array('this column has an array value, amazing')
 						);
-		$details = array('logo'=> 'piwik.png',
+		$metadata = array('logo'=> 'piwik.png',
 						'super'=>array('this column has an array value, amazing'));
 		$arrayRow = array(
 			Piwik_DataTable_Row::COLUMNS => $columns,
-	  		Piwik_DataTable_Row::DETAILS => $details,
+	  		Piwik_DataTable_Row::METADATA => $metadata,
 	  		'fake useless key'=>38959,
 	  		43905724897=>'value');
 		$row1 = new Piwik_DataTable_Row($arrayRow);
@@ -683,7 +683,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	 * for all datatable->addDatatable tests we check that
 	 * - row uniqueness is based on the label + presence of the SUBTABLE id
 	 * 		=> the label is the criteria used to match 2 rows in 2 datatable
-	 * - no details are lost in the first datatable rows that have been changed
+	 * - no metadata are lost in the first datatable rows that have been changed
 	 * - when a subtable
 	 */
 	 

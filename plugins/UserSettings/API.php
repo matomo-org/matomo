@@ -56,8 +56,8 @@ class Piwik_UserSettings_API extends Piwik_Apiable
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('UserSettings_os');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'logo', 'Piwik_getOSLogo'));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array( 'label', 'shortLabel', 'Piwik_getOSShortLabel') );
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getOSLogo'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array( 'label', 'shortLabel', 'Piwik_getOSShortLabel') );
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array( 'label', 'Piwik_getOSLabel') );
 		return $dataTable;
 	}
@@ -68,8 +68,8 @@ class Piwik_UserSettings_API extends Piwik_Apiable
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('UserSettings_browser');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'logo', 'Piwik_getBrowsersLogo'));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'shortLabel', 'Piwik_getBrowserShortLabel'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowsersLogo'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'shortLabel', 'Piwik_getBrowserShortLabel'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getBrowserLabel'));
 		return $dataTable;
 	}
@@ -80,7 +80,7 @@ class Piwik_UserSettings_API extends Piwik_Apiable
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('UserSettings_browserType');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'shortLabel', 'ucfirst'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'shortLabel', 'ucfirst'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getBrowserTypeLabel'));
 		return $dataTable;
 	}
@@ -91,7 +91,7 @@ class Piwik_UserSettings_API extends Piwik_Apiable
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('UserSettings_wideScreen');	
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');		
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'logo', 'Piwik_getScreensLogo'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getScreensLogo'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'ucfirst'));
 		return $dataTable;
 	}
@@ -102,7 +102,7 @@ class Piwik_UserSettings_API extends Piwik_Apiable
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('UserSettings_plugin');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');		
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'logo', 'Piwik_getPluginsLogo'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getPluginsLogo'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'ucfirst'));
 		return $dataTable;
 	}	

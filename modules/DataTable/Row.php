@@ -15,7 +15,7 @@
  * A row is composed of:
  * - columns often at least a 'label' column containing the description 
  * 		of the row, and some numeric values ('nb_visits', etc.)
- * - details: other information never to be shown as 'columns'
+ * - metadata: other information never to be shown as 'columns'
  * - idSubtable: a row can be linked to a SubTable
  * 
  * IMPORTANT: Make sure that the column named 'label' contains at least one non-numeric character.
@@ -31,7 +31,7 @@ class Piwik_DataTable_Row
 	/**
 	 * This array contains the row information:
 	 * - array indexed by self::COLUMNS contains the columns, pairs of (column names, value) 
-	 * - (optional) array indexed by self::DETAILS contains the details,  pairs of (detail names, value)
+	 * - (optional) array indexed by self::METADATA contains the metadata,  pairs of (metadata name, value)
 	 * - (optional) integer indexed by self::DATATABLE_ASSOCIATED contains the ID of the Piwik_DataTable associated to this row. 
 	 *   This ID can be used to read the DataTable from the DataTable_Manager.
 	 * 
@@ -41,7 +41,7 @@ class Piwik_DataTable_Row
 	public $c = array();
 	
 	const COLUMNS = 0;
-	const DETAILS = 1;
+	const METADATA = 1;
 	const DATATABLE_ASSOCIATED = 3;
 
 
@@ -56,7 +56,7 @@ class Piwik_DataTable_Row
 	 * 										'visits' => 657,
 	 * 										'time_spent' => 155744,	
 	 * 									),
-	 * 						Piwik_DataTable_Row::DETAILS => array(
+	 * 						Piwik_DataTable_Row::METADATA => array(
 	 * 										'logo' => 'test.png'
 	 * 									),
 	 * 						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => #Piwik_DataTable object (but in the row only the ID will be stored)
@@ -65,16 +65,16 @@ class Piwik_DataTable_Row
 	public function __construct( $row = array() )
 	{
 		$this->c[self::COLUMNS] = array();
-		$this->c[self::DETAILS] = array();
+		$this->c[self::METADATA] = array();
 		$this->c[self::DATATABLE_ASSOCIATED] = null;
 		
 		if(isset($row[self::COLUMNS]))
 		{
 			$this->c[self::COLUMNS] = $row[self::COLUMNS];
 		}
-		if(isset($row[self::DETAILS]))
+		if(isset($row[self::METADATA]))
 		{
-			$this->c[self::DETAILS] = $row[self::DETAILS];
+			$this->c[self::METADATA] = $row[self::METADATA];
 		}
 		if(isset($row[self::DATATABLE_ASSOCIATED])
 			&& $row[self::DATATABLE_ASSOCIATED] instanceof Piwik_DataTable)
@@ -110,16 +110,17 @@ class Piwik_DataTable_Row
 			$columns[] = "'$column' => $value";
 		}
 		$columns = implode(", ", $columns);
-		$details=array();
-
-		foreach($this->getDetails() as $detail => $value)
+		$metadata = array();
+		foreach($this->getMetadata() as $name => $value)
 		{
-			if(is_string($value)) $value = "'$value'";
-			$details[] = "'$detail' => $value";
+			if(is_string($value))
+			{
+				$name = "'$value'";
+			}
+			$metadata[] = "'$name' => $value";
 		}
-		$details = implode(", ", $details);
-		$output =  "# [".$columns."] [".$details."] [idsubtable = " 
-					. $this->getIdSubDataTable()."]<br>\n";
+		$metadata = implode(", ", $metadata);
+		$output = "# [".$columns."] [".$metadata."] [idsubtable = " . $this->getIdSubDataTable()."]<br>\n";
 		return $output;
 	}
 	
@@ -155,18 +156,23 @@ class Piwik_DataTable_Row
 	}
 	
 	/**
-	 * Returns the given detail
+	 * Returns the array of all metadata,
+	 * or the specified metadata  
 	 * 
-	 * @param string Detail name
-	 * @return mixed|false The detail value  
+	 * @param string Metadata name
+	 * @return mixed|array|false 
 	 */
-	public function getDetail( $name )
+	public function getMetadata( $name = null )
 	{
-		if(!isset($this->c[self::DETAILS][$name]))
+		if(is_null($name))
+		{
+			return $this->c[self::METADATA];
+		}
+		if(!isset($this->c[self::METADATA][$name]))
 		{
 			return false;
 		}
-		return $this->c[self::DETAILS][$name];
+		return $this->c[self::METADATA][$name];
 	}
 	
 	/**
@@ -181,19 +187,6 @@ class Piwik_DataTable_Row
 	public function getColumns()
 	{
 		return $this->c[self::COLUMNS];
-	}
-	
-	/**
-	 * Returns the array containing all the details
-	 * 
-	 * @return array Example: array( 
-	 * 					'logo' 	=> 'images/logo/www.google.png',
-	 * 					'url'	=> 'www.google.com'
-	 * 			)
-	 */
-	public function getDetails()
-	{	
-		return $this->c[self::DETAILS];
 	}
 	
 	/**
@@ -311,19 +304,19 @@ class Piwik_DataTable_Row
 	
 	
 	/**
-	 * Add a new detail to the row. If the column already exists, throws an exception.
+	 * Add a new metadata to the row. If the column already exists, throws an exception.
 	 * 
-	 * @param string $name of the detail to add
-	 * @param mixed $value of the detail to set
+	 * @param string $name of the metadata to add
+	 * @param mixed $value of the metadata to set
 	 * @throws Exception
 	 */
-	public function addDetail($name, $value)
+	public function addMetadata($name, $value)
 	{
-		if(isset($this->c[self::DETAILS][$name]))
+		if(isset($this->c[self::METADATA][$name]))
 		{
-			throw new Exception("Detail $name already in the array!");
+			throw new Exception("Metadata $name already in the array!");
 		}
-		$this->c[self::DETAILS][$name] = $value;
+		$this->c[self::METADATA][$name] = $value;
 	}
 	
 	/**
@@ -357,7 +350,7 @@ class Piwik_DataTable_Row
 	 * Helper function to test if two rows are equal.
 	 * 
 	 * Two rows are equal 
-	 * - if they have exactly the same columns / details
+	 * - if they have exactly the same columns / metadata
 	 * - if they have a subDataTable associated, then we check that both of them are the same.
 	 * 
 	 * @param Piwik_DataTable_Row row1 to compare
@@ -379,13 +372,12 @@ class Piwik_DataTable_Row
 			return false;
 		}
 		
-		$dets1 = $row1->getDetails();
-		$dets2 = $row2->getDetails();
+		$dets1 = $row1->getMetadata();
+		$dets2 = $row2->getMetadata();
 		
 		ksort($dets1);
 		ksort($dets2);
 		
-		// same details
 		if($dets1 != $dets2)
 		{
 			return false;

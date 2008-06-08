@@ -32,12 +32,12 @@ class Piwik_UserCountry_API extends Piwik_Apiable
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('UserCountry_country');
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'code', create_function('$label', 'return $label;')));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'logo', 'Piwik_getFlagFromCode'));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getFlagFromCode'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_CountryTranslate'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
-		$dataTable->queueFilter('Piwik_DataTable_Filter_AddConstantDetail', array('logoWidth', 18));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_AddConstantDetail', array('logoHeight', 12));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_AddConstantMetadata', array('logoWidth', 18));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_AddConstantMetadata', array('logoHeight', 12));
 		return $dataTable;
 	}
 	public function getContinent( $idSite, $period, $date )
@@ -45,7 +45,7 @@ class Piwik_UserCountry_API extends Piwik_Apiable
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('UserCountry_continent');
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddDetail', array('label', 'code', create_function('$label', 'return $label;')));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
 		return $dataTable;

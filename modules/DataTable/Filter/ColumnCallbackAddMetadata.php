@@ -11,28 +11,28 @@
 
 
 /**
- * Add a new 'detail' column to the table based on the value resulting 
+ * Add a new 'metadata' column to the table based on the value resulting 
  * from a callback function with the parameter being another column's value
  * 
- * For example from the "label" column we can to create an "icon" 'detail' column 
+ * For example from the "label" column we can to create an "icon" 'metadata' column 
  * with the icon URI built from the label (LINUX => UserSettings/icons/linux.png)
  * 
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Filter 
  */
 
-class Piwik_DataTable_Filter_ColumnCallbackAddDetail extends Piwik_DataTable_Filter
+class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_Filter
 {
 	private $columnToRead;
 	private $functionToApply;
-	private $detailToAdd;
+	private $metadataToAdd;
 	
-	public function __construct( $table, $columnToRead, $detailToAdd, $functionToApply )
+	public function __construct( $table, $columnToRead, $metadataToAdd, $functionToApply )
 	{
 		parent::__construct($table);
 		$this->functionToApply = $functionToApply;
 		$this->columnToRead = $columnToRead;
-		$this->detailToAdd = $detailToAdd;
+		$this->metadataToAdd = $metadataToAdd;
 		$this->filter();
 	}
 	
@@ -42,7 +42,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddDetail extends Piwik_DataTable_Fil
 		{
 			$oldValue = $row->getColumn($this->columnToRead);
 			$newValue = call_user_func( $this->functionToApply, $oldValue);
-			$row->addDetail($this->detailToAdd, $newValue);
+			$row->addMetadata($this->metadataToAdd, $newValue);
 		}
 	}
 }

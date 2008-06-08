@@ -36,8 +36,8 @@ require_once "DataTable/Manager.php";
  * 
  * ---- DataTable_Row
  * A DataTableRow in the table is defined by
- * - multiple column (a label, multiple values, ...)
- * - details
+ * - multiple columns (a label, multiple values, ...)
+ * - metadata
  * - [a sub DataTable associated to this row]
  * 
  * Simple row example:
@@ -45,7 +45,7 @@ require_once "DataTable/Manager.php";
  * 						'visitors' => 155, 
  * 						'pages' => 214, 
  * 						'bounce_rate' => 67)
- * - details = array('logo' => '/img/browsers/FF.png')
+ * - metadata = array('logo' => '/img/browsers/FF.png')
  * - no sub DataTable
  * 
  * A more complex example would be a DataTable_Row that is associated to a sub DataTable.
@@ -55,7 +55,7 @@ require_once "DataTable/Manager.php";
  * 						'visits' => 1550, 
  * 						'visits_length' => 514214, 
  * 						'returning_visits' => 77)
- * - details = array(	'logo' => '/img/search/google.png', 
+ * - metadata = array(	'logo' => '/img/search/google.png', 
  * 						'url' => 'http://google.com')
  * - DataTable = DataTable containing several DataTable_Row containing the keywords information for this search engine
  * 			Example of one DataTable_Row
@@ -64,7 +64,7 @@ require_once "DataTable/Manager.php";
  * 							'visitors' => 155,  // Piwik has been searched on Google by 155 visitors
  * 							'pages' => 214 // Visitors coming from Google with the kwd Piwik have seen 214 pages
  * 					)
- * 			- the keyword details = array() // nothing here, but we could imagining storing the URL of the search in Google for example
+ * 			- the keyword metadata = array() // nothing here, but we could imagining storing the URL of the search in Google for example
  * 			- no subTable
  *  
  * 
@@ -80,7 +80,7 @@ require_once "DataTable/Manager.php";
  * 		for example a function that apply a limit: $offset, $limit
  * - add / remove columns
  * 		for example adding a column that gives the percentage of a given value
- * - add some details
+ * - add some metadata
  * 		for example the 'logo' path if the filter detects the logo
  * - edit the value, the label
  * - change the rows order
@@ -311,11 +311,9 @@ class Piwik_DataTable
 	 * Go through all the rows of the new DataTable and applies the algorithm:
 	 * - if a row in $table doesnt exist in $this we add the new row to $this
 	 * - if a row exists in both $table and $this we sum the columns values into $this
+	 * - if a row in $this doesnt exist in $table we keep the row of $this without modification
 	 * 
 	 * A common row to 2 DataTable is defined by the same label
-	 * 
-	 * Details: 
-	 * - if a row in $this doesnt exist in $table we simply keep the row of $this without modification
 	 * 	
 	 * @example @see tests/modules/DataTable.test.php
 	 */
@@ -806,7 +804,7 @@ class Piwik_DataTable
  	 * 				// row1
 	 * 				array( 
 	 * 				Piwik_DataTable_Row::COLUMNS => array( col1_name => value1, col2_name => value2, ...),
-	 * 				Piwik_DataTable_Row::DETAILS => array( detail1_name => value1,  ...), // see Piwik_DataTable_Row
+	 * 				Piwik_DataTable_Row::METADATA => array( metadata1_name => value1,  ...), // see Piwik_DataTable_Row
 	 * 
 	 * 				),
 	 * 					

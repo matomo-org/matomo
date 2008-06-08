@@ -40,9 +40,9 @@ class Piwik_Auth extends Zend_Auth_Adapter_DbTable
 		&& $this->_credential == $rootToken)
 		{
 			return new Piwik_Auth_Result(Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE,
-			$this->_identity,
-			array() // message empty
-			);
+										$this->_identity,
+										array() // message empty
+				);
 		}
 
 		// we then look if the user is API authenticated

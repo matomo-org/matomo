@@ -262,16 +262,16 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * This method loads in memory all the subtables for the main table called $name.
 	 * You have to give it the parent table $dataTableToLoad so we can lookup the sub tables ids to load.
 	 * 
-	 * If $addDetailSubtableId set to true, it will add for each row a 'detail' called 'databaseSubtableId' 
+	 * If $addMetadataSubtableId set to true, it will add for each row a 'metadata' called 'databaseSubtableId' 
 	 *  containing the child ID of the subtable  associated to this row.
 	 *
 	 * @param string $name
 	 * @param Piwik_DataTable $dataTableToLoad
-	 * @param bool $addDetailSubtableId
+	 * @param bool $addMetadataSubtableId
 	 * 
 	 * @return void
 	 */
-	public function loadSubDataTables($name, Piwik_DataTable $dataTableToLoad, $addDetailSubtableId = false)
+	public function loadSubDataTables($name, Piwik_DataTable $dataTableToLoad, $addMetadataSubtableId = false)
 	{
 		// we have to recursively load all the subtables associated to this table's rows
 		// and update the subtableID so that it matches the newly instanciated table 
@@ -289,9 +289,9 @@ class Piwik_Archive_Single extends Piwik_Archive
 				// NB:
 				// we dont do that in the case we are displaying the table expanded.
 				// in this case we want the user to see the REAL dataId in the database
-				if($addDetailSubtableId)
+				if($addMetadataSubtableId)
 				{
-					$row->addDetail('databaseSubtableId', $row->getIdSubDataTable());
+					$row->addMetadata('databaseSubtableId', $row->getIdSubDataTable());
 				}
 				$row->setSubtable( $subDataTableLoaded );
 			}
@@ -456,7 +456,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	{
 		$this->preFetchBlob($name);
 		$dataTableToLoad = $this->getDataTable($name, $idSubTable);
-		$this->loadSubDataTables($name, $dataTableToLoad, $addDetailSubtableId = true);
+		$this->loadSubDataTables($name, $dataTableToLoad, $addMetadataSubtableId = true);
 		return $dataTableToLoad;		
 	}
 }

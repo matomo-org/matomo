@@ -43,11 +43,11 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	public $lineEnd = "\n";
 	
 	/**
-	 * 'details' columns will be exported, prefixed by 'detail_'
+	 * 'metadata' columns will be exported, prefixed by 'metadata_'
 	 *
 	 * @var bool
 	 */
-	public $exportDetail = true;
+	public $exportMetadata = true;
 	
 	/**
 	 * idSubtable will be exported in a column called 'idsubdatatable'
@@ -137,13 +137,13 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 				$csvRow[$name] = $value;
 			}
 			
-			if($this->exportDetail)
+			if($this->exportMetadata)
 			{
-				$details = $row->getDetails();
-				foreach($details as $name => $value)
+				$metadata = $row->getMetadata();
+				foreach($metadata as $name => $value)
 				{
-					//if a detail and a column have the same name make sure they dont overwrite
-					$name = 'detail_'.$name;
+					//if a metadata and a column have the same name make sure they dont overwrite
+					$name = 'metadata_'.$name;
 					
 					$allColumns[$name] = true;
 					$csvRow[$name] = $value;
