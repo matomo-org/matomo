@@ -22,7 +22,7 @@
 abstract class Piwik_DataTable_Renderer
 {
 	protected $table;
-	protected $renderExpanded;
+	protected $renderSubTables;
 	
 	/**
 	 * Builds the renderer.
@@ -30,19 +30,19 @@ abstract class Piwik_DataTable_Renderer
 	 *
 	 * @param Piwik_DataTable|Piwik_DataTable_Simple|Piwik_DataTable_Array $table to be rendered
 	 */
-	function __construct($table = null, $renderExpanded = null)
+	function __construct($table = null, $renderSubTables = null)
 	{
 		if(!is_null($table))
 		{
 			$this->setTable($table);
 		}
-		if(is_null($renderExpanded))
+		if(is_null($renderSubTables))
 		{
-			$this->renderExpanded = (bool)Piwik_Common::getRequestVar('expanded', false);
+			$this->renderSubTables = (bool)Piwik_Common::getRequestVar('expanded', false);
 		}
 		else
 		{
-			$this->renderExpanded = $renderExpanded; 
+			$this->renderSubTables = $renderSubTables; 
 		}
 	}
 	
