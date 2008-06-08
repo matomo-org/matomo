@@ -24,9 +24,9 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 {
 	protected $serialize;
 	
-	public function __construct($table = null, $renderExpanded = null, $serialize = true)
+	public function __construct($table = null, $renderSubTables = null, $serialize = true)
 	{
-		parent::__construct($table, $renderExpanded);
+		parent::__construct($table, $renderSubTables);
 		$this->setSerialize($serialize);
 	}
 	
@@ -176,7 +176,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 				'idsubdatatable' => $row->getIdSubDataTable(),
 				);
 			
-			if($this->renderExpanded
+			if($this->renderSubTables
 				&& $row->getIdSubDataTable() !== null)
 			{
 				try{

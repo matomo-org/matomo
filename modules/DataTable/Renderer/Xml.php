@@ -22,9 +22,9 @@ require_once "DataTable/Renderer/Php.php";
  */
 class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 {
-	function __construct($table = null, $renderExpanded = null)
+	function __construct($table = null, $renderSubTables = null)
 	{
-		parent::__construct($table, $renderExpanded);
+		parent::__construct($table, $renderSubTables);
 	}
 	
 	function render()
@@ -34,7 +34,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	
 	protected function getArrayFromDataTable($table)
 	{
-		$renderer = new Piwik_DataTable_Renderer_Php($table, $this->renderExpanded, $serialize = false);
+		$renderer = new Piwik_DataTable_Renderer_Php($table, $this->renderSubTables, $serialize = false);
 		return $renderer->flatRender();
 	}
 	
