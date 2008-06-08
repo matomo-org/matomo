@@ -1,42 +1,49 @@
 	Piwik - piwik.org
 	-----------------
 
+Description 
+===========	
+Piwik is an open source web analytics software. 
+It gives interesting reports on your website visitors, your popular pages, 
+the search engines keywords they used, the language they speak… and so much more.
+
+Piwik aims to be an open source alternative to Google Analytics.
+
+License
+=======
+Piwik is released under the GPL v3 license, see misc/license.txt
+
 Install 
 =======
-1 - upload piwik in your webserver and point your browser to the directory. Follow the steps.
+- Upload piwik in your webserver 
+- Point your browser to the directory
+- Follow the steps
+- Add the given javascript code to your pages
 
 Requirements
 ============
-- php 5.1.x minimum (x == ?)
+- php 5.1.3 minimum
 - mysql 4.1
 - php PDO module enabled
 - OS / server independant
 
-Page modules
-============
+API
+===
 All the data is available via APIs for example to get todays keywords in XML
 ?module=API&method=Referers.getKeywords&idSite=1&period=month&date=today&format=xml
 
 or yesterday visits information in JSON
 ?module=API&method=VisitsSummary.get&idSite=1&period=month&date=yesterday&format=json
 
-You can find the full listing of the APIs provided by the plugins on
-?module=API&action=listAllAPI
+Check the full documentation on http://dev.piwik.org/trac/wiki/API/Reference
 
-Some other stuff
-================ 
+Generate fake data
+==================
 To generate thousands of fake visits to get some data to play with, 
 you can see the script /misc/generateVisits.php
 you can edit the number of visits to generate, the number of actions per visit, and the days
 
-To generate the API documentation
-# cd piwik
-# ./misc/generateDoc.sh
-then check the documentation at piwik/documentation/ in your browser
-
-Want to help? Have a look at http://piwik.org
-
 Contact
 =======
-Any remark, question, suggestion or critic, 
-Email us at hello@piwik.org
+http://piwik.org
+hello@piwik.org
