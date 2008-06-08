@@ -137,52 +137,5 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	}
 }
 
-/**
- * Piwik_ViewDataTable_GenerateGraphData for the Evolution graph (eg. Last 30 days visits) using Piwik_Visualization_ChartEvolution
- * 
- * @package Piwik_ViewDataTable
- *
- */
-class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphData
-{
-	function __construct()
-	{
-		require_once "Visualization/ChartEvolution.php";
-		$this->view = new Piwik_Visualization_ChartEvolution;
-	}
-	
-	protected function generateDataFromDataTable()
-	{
-		return $this->generateDataFromDataTableArray($this->dataTable);
-	}
-}
 
 
-/**
- * Piwik_ViewDataTable_GenerateGraphData for the pie chart, using Piwik_Visualization_ChartPie
- * 
- * @package Piwik_ViewDataTable
- *
- */
-class Piwik_ViewDataTable_GenerateGraphData_ChartPie extends Piwik_ViewDataTable_GenerateGraphData
-{
-	function __construct()
-	{
-		require_once "Visualization/ChartPie.php";
-		$this->view = new Piwik_Visualization_ChartPie;
-	}
-}
-/**
- * Piwik_ViewDataTable_GenerateGraphData for the vertical bar graph, using Piwik_Visualization_ChartVerticalBar
- * 
- * @package Piwik_ViewDataTable
- *
- */
-class Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar extends Piwik_ViewDataTable_GenerateGraphData
-{
-	function __construct()
-	{
-		require_once "Visualization/ChartVerticalBar.php";
-		$this->view = new Piwik_Visualization_ChartVerticalBar;
-	}
-}

@@ -206,18 +206,18 @@ abstract class Piwik_ViewDataTable
 			break;
 			
 			case 'graphPie':
-				require_once "ViewDataTable/Graph.php";
-				return new Piwik_ViewDataTable_Graph_ChartPie();
+				require_once "ViewDataTable/GenerateGraphHTML/ChartPie.php";
+				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartPie();
 			break;			
 			
 			case 'graphVerticalBar':
-				require_once "ViewDataTable/Graph.php";
-				return new Piwik_ViewDataTable_Graph_ChartVerticalBar();
+				require_once "ViewDataTable/GenerateGraphHTML/ChartVerticalBar.php";
+				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar();
 			break;	
 			
 			case 'graphEvolution':
-				require_once "ViewDataTable/Graph.php";
-				return new Piwik_ViewDataTable_Graph_ChartEvolution();
+				require_once "ViewDataTable/GenerateGraphHTML/ChartEvolution.php";
+				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution();
 			break;	
 			
 			case 'sparkline':
@@ -226,17 +226,17 @@ abstract class Piwik_ViewDataTable
 			break;	
 			
 			case 'generateDataChartVerticalBar':
-				require_once "ViewDataTable/GenerateGraphData.php";
+				require_once "ViewDataTable/GenerateGraphData/ChartVerticalBar.php";
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar();
 			break;
 						
 			case 'generateDataChartPie':
-				require_once "ViewDataTable/GenerateGraphData.php";
+				require_once "ViewDataTable/GenerateGraphData/ChartPie.php";
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartPie();
 			break;
 			
 			case 'generateDataChartEvolution':
-				require_once "ViewDataTable/GenerateGraphData.php";
+				require_once "ViewDataTable/GenerateGraphData/ChartEvolution.php";
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartEvolution();
 				
 			break;

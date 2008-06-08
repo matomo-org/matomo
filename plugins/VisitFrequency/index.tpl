@@ -4,6 +4,7 @@
 <a name="evolutionGraph" graphId="VisitFrequencygetLastVisitsReturningGraph"></a>
 <h2>{'VisitFrequency_Evolution'|translate}</h2>
 {$graphEvolutionVisitFrequency}
+<br>
 
 {include file=VisitFrequency/sparklines.tpl}
 	
