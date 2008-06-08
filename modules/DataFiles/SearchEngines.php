@@ -115,6 +115,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"aolrecherche.aol.fr"		=> array("AOL", "q"),
 		"sucheaol.aol.de"		=> array("AOL", "q"),
 		"suche.aol.de"			=> array("AOL", "q"),
+		"suche.aolsvc.de"		=> array("AOL", "q"),
 		
 		"aolbusqueda.aol.com.mx"	=> array("AOL", "query"),
 		
@@ -203,6 +204,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Copernic
 		"metaresults.copernic.com"	=> array("Copernic", " "),
 		
+		// Crossbot
+		"www.crossbot.de"		=> array("Crossbot", "q"),
+	
 		// DasOertliche
 		"www.dasoertliche.de"	        => array("DasOertliche", "kw"),
 		
@@ -625,6 +629,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// ICQ
 		"www.icq.com"			=> array("ICQ", "q"),
+		"search.icq.com"		=> array("ICQ", "q"),
 		
 		// Ilse
 		"spsearch.ilse.nl" 		=> array("Startpagina", "search_for"),
@@ -709,6 +714,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Metager
 		"mserv.rrzn.uni-hannover.de"	=> array("Metager", "eingabe"),
+		"www.metager.de"		=> array("Metager", "eingabe"),
 		
 		// Metager2
 		"www.metager2.de"	        => array("Metager2", "q"),
@@ -985,6 +991,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"search.yahoo.fr"		=> array("Yahoo!", "p"),
 		"ar.search.yahoo.com" 		=> array("Yahoo!", "p"),
 		"br.search.yahoo.com" 		=> array("Yahoo!", "p"),
+		"ch.search.yahoo.com" 		=> array("Yahoo!", "p"),
 		"de.search.yahoo.com"		=> array("Yahoo!", "p"),
 		"ca.search.yahoo.com"		=> array("Yahoo!", "p"),
 		"cf.search.yahoo.com"		=> array("Yahoo!", "p"),
