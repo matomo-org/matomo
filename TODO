@@ -1,3 +1,5 @@
+UPDATE README  (license, etc.)
+rename Details > MetaData
 ECLIPSE WINDOWS LINE BREAKS
 rename $renderExpanded name
 test that fresh archive doesn't show expanding when not requested

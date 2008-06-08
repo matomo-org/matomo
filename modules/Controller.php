@@ -96,11 +96,11 @@ abstract class Piwik_Controller
 	 * @param string $currentModuleName
 	 * @param string $currentControllerAction
 	 * @param string $apiMethod
-	 * @return Piwik_ViewDataTable_Graph_ChartEvolution
+	 * @return Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution
 	 */
 	protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
 	{
-		require_once "ViewDataTable/Graph.php";
+		require_once "ViewDataTable/GenerateGraphHTML.php";
 		$view = Piwik_ViewDataTable::factory('graphEvolution');
 		$view->init( $currentModuleName, $currentControllerAction, $apiMethod );
 		
