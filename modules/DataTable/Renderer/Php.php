@@ -65,16 +65,16 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	}
 	
 	/**
-	 * Produces a flat php array from the DataTable, putting "columns" and "details" on the same level.
+	 * Produces a flat php array from the DataTable, putting "columns" and "metadata" on the same level.
 	 * 
 	 * For example, when  a originalRender() would be 
 	 * 	array( 'columns' => array( 'col1_name' => value1, 'col2_name' => value2 ),
-	 * 	       'details' => array( 'detail1_name' => value_detail) )
+	 * 	       'metadata' => array( 'metadata1_name' => value_metadata) )
 	 * 
 	 * a flatRender() is
 	 * 	array( 'col1_name' => value1, 
 	 * 	       'col2_name' => value2,
-	 * 	       'detail1_name' => value_detail )
+	 * 	       'metadata1_name' => value_metadata )
 	 *  
 	 * @return array Php array representing the 'flat' version of the datatable
 	 *
@@ -131,7 +131,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		$flatArray = array();
 		foreach($array as $row)
 		{
-			$newRow = $row['columns'] + $row['details'];
+			$newRow = $row['columns'] + $row['metadata'];
 			if(isset($row['idsubdatatable']))
 			{
 				$newRow += array('idsubdatatable' => $row['idsubdatatable']);
@@ -172,7 +172,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		{
 			$newRow = array(
 				'columns' => $row->getColumns(),
-				'details' => $row->getDetails(),
+				'metadata' => $row->getMetadata(),
 				'idsubdatatable' => $row->getIdSubDataTable(),
 				);
 			

@@ -66,15 +66,15 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		
 		static $depth=0;
 		$i = 1;
-		$someDetails = false;
+		$someMetadata = false;
 		$someIdSubTable = false;
 		
 		$tableStructure = array();
 		
 		/*
 		 * table = array
-		 * ROW1 = col1 | col2 | col3 | details | idSubTable
-		 * ROW2 = col1 | col2 (no value but appears) | col3 | details | idSubTable
+		 * ROW1 = col1 | col2 | col3 | metadata | idSubTable
+		 * ROW2 = col1 | col2 (no value but appears) | col3 | metadata | idSubTable
 		 * 		subtable here
 		 */
 		$allColumns = array();
@@ -87,18 +87,18 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 				$tableStructure[$i][$column] = $value;
 			}
 
-			$details=array();
-			foreach($row->getDetails() as $detail => $value)
+			$metadata=array();
+			foreach($row->getMetadata() as $name => $value)
 			{
 				if(is_string($value)) $value = "'$value'";
-				$details[] = "'$detail' => $value";
+				$metadata[] = "'$name' => $value";
 			}
 			
-			if(count($details) != 0)
+			if(count($metadata) != 0)
 			{
-				$someDetails = true;
-				$details = implode("<br>", $details);
-				$tableStructure[$i]['_details'] = $details;
+				$someMetadata = true;
+				$metadata = implode("<br>", $metadata);
+				$tableStructure[$i]['_metadata'] = $metadata;
 			}
 			
 			$idSubtable = $row->getIdSubDataTable();
@@ -131,7 +131,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 			$allColumns = array_merge(array('label'=>true),$allColumns);
 		}
 		*/
-		$allColumns['_details'] = $someDetails;
+		$allColumns['_metadata'] = $someMetadata;
 		$allColumns['_idSubtable'] = $someIdSubTable;
 		$html = "\n";
 		$html .= "<table border=1 width=70%>";

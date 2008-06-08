@@ -47,8 +47,8 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		$moreRecentFirst = array_reverse($table->getArray(), true);
 		foreach($moreRecentFirst as $date => $subtable )
 		{
-			$timestamp = $table->metaData[$date]['timestamp'];
-			$site = $table->metaData[$date]['site'];
+			$timestamp = $table->metadata[$date]['timestamp'];
+			$site = $table->metadata[$date]['site'];
 	
 			$pudDate = date('r', $timestamp);
 			$dateUrl = date('Y-m-d', $timestamp);
@@ -116,8 +116,8 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		
 		/*
 		 * table = array
-		 * ROW1 = col1 | col2 | col3 | details | idSubTable
-		 * ROW2 = col1 | col2 (no value but appears) | col3 | details | idSubTable
+		 * ROW1 = col1 | col2 | col3 | metadata | idSubTable
+		 * ROW2 = col1 | col2 (no value but appears) | col3 | metadata | idSubTable
 		 * 		subtable here
 		 */
 		$allColumns = array();

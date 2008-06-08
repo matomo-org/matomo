@@ -66,15 +66,18 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 				$columns[] = "'$column' => $value";
 			}
 			$columns = implode(", ", $columns);
-			$details=array();
-			foreach($row->getDetails() as $detail => $value)
+			$metadata = array();
+			foreach($row->getMetadata() as $name => $value)
 			{
-				if(is_string($value)) $value = "'$value'";
-				$details[] = "'$detail' => $value";
+				if(is_string($value))
+				{
+					$value = "'$value'";
+				}
+				$metadata[] = "'$name' => $value";
 			}
-			$details = implode(", ", $details);
+			$metadata = implode(", ", $metadata);
 			$output.= str_repeat($this->prefixRows, $depth) 
-						. "- $i [".$columns."] [".$details."] [idsubtable = " 
+						. "- $i [".$columns."] [".$metadata."] [idsubtable = " 
 						. $row->getIdSubDataTable()."]<br>\n";
 			
 			if($row->getIdSubDataTable() !== null)

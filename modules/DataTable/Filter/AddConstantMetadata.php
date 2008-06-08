@@ -10,7 +10,7 @@
  */
 
 /**
- * Add a new detail column to the table.
+ * Add a new metadata column to the table.
  * 
  * This is used to add a column containing the logo width and height of the countries flag icons.
  * This value is fixed for all icons so we simply add the same value for all rows.
@@ -18,18 +18,18 @@
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Filter 
  */
-class Piwik_DataTable_Filter_AddConstantDetail extends Piwik_DataTable_Filter
+class Piwik_DataTable_Filter_AddConstantMetadata extends Piwik_DataTable_Filter
 {
-	private $detailToRead;
+	private $metadataToRead;
 	private $functionToApply;
-	private $detailToAdd;
+	private $metadataToAdd;
 	
 	
-	public function __construct( $table, $detailName, $detailValue )
+	public function __construct( $table, $metadataName, $metadataValue )
 	{
 		parent::__construct($table);
-		$this->name = $detailName;
-		$this->value = $detailValue;
+		$this->name = $metadataName;
+		$this->value = $metadataValue;
 		$this->filter();
 	}
 	
@@ -37,7 +37,7 @@ class Piwik_DataTable_Filter_AddConstantDetail extends Piwik_DataTable_Filter
 	{
 		foreach($this->table->getRows() as $row)
 		{
-			$row->addDetail($this->name, $this->value);
+			$row->addMetadata($this->name, $this->value);
 		}
 	}
 }

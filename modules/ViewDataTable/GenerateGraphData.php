@@ -129,7 +129,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 			$data[] = array(
 				'label' => $label,
 				'value' => $value,
-				'url' 	=> $row->getDetail('url'),
+				'url' 	=> $row->getMetadata('url'),
 			);
 		}
 		

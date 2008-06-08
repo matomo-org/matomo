@@ -37,7 +37,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	 * -----------------------
 	 * for each renderer we test the case
 	 * - datatableSimple
-	 * - normal datatable  with 2 row (including columns and details)	 *
+	 * - normal datatable  with 2 row (including columns and metadata)	 *
 	 */
 	protected function getDataTableTest()
 	{
@@ -51,10 +51,10 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 		$subtable = 
 		$array = array ( 
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11, 'nb_actions' => 17, 'max_actions' => '5', 'sum_visit_length' => 517, 'bounce_count' => 9), 
-						Piwik_DataTable_Row::DETAILS => array('url' => 'http://www.google.com', 'logo' => './plugins/Referers/images/searchEngines/www.google.com.png'), 
+						Piwik_DataTable_Row::METADATA => array('url' => 'http://www.google.com', 'logo' => './plugins/Referers/images/searchEngines/www.google.com.png'), 
 					 ), 
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151, 'nb_actions' => 147, 'max_actions' => '50', 'sum_visit_length' => 517, 'bounce_count' => 90), 
-						Piwik_DataTable_Row::DETAILS => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png'),
+						Piwik_DataTable_Row::METADATA => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png'),
 						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subDataTableForRow2,
 					 )
 			);
@@ -189,7 +189,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	{
 		$dataTable = $this->getDataTableTest();
 	  	$render = new Piwik_DataTable_Renderer_Csv($dataTable);
-		$expected = 'label,nb_uniq_visitors,nb_visits,nb_actions,max_actions,sum_visit_length,bounce_count,detail_url,detail_logo
+		$expected = 'label,nb_uniq_visitors,nb_visits,nb_actions,max_actions,sum_visit_length,bounce_count,metadata_url,metadata_logo
 Google,11,11,17,5,517,9,http://www.google.com,./plugins/Referers/images/searchEngines/www.google.com.png
 Yahoo!,15,151,147,50,517,90,http://www.yahoo.com,./plugins/Referers/images/searchEngines/www.yahoo.com.png';
 
@@ -373,10 +373,10 @@ bounce_count,44';
 	{
 		$array1 = array ( 
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11, ), 
-						Piwik_DataTable_Row::DETAILS => array('url' => 'http://www.google.com', 'logo' => './plugins/Referers/images/searchEngines/www.google.com.png'), 
+						Piwik_DataTable_Row::METADATA => array('url' => 'http://www.google.com', 'logo' => './plugins/Referers/images/searchEngines/www.google.com.png'), 
 					 ), 
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151, ), 
-						Piwik_DataTable_Row::DETAILS => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png'), 
+						Piwik_DataTable_Row::METADATA => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png'), 
 					 )
 			);
 		$table1 = new Piwik_DataTable();
@@ -385,10 +385,10 @@ bounce_count,44';
 		
 		$array2 = array ( 
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Google1', 'nb_uniq_visitors' => 110, 'nb_visits' => 110,), 
-						Piwik_DataTable_Row::DETAILS => array('url' => 'http://www.google.com1', 'logo' => './plugins/Referers/images/searchEngines/www.google.com.png1'), 
+						Piwik_DataTable_Row::METADATA => array('url' => 'http://www.google.com1', 'logo' => './plugins/Referers/images/searchEngines/www.google.com.png1'), 
 					 ), 
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Yahoo!1', 'nb_uniq_visitors' => 150, 'nb_visits' => 1510,), 
-						Piwik_DataTable_Row::DETAILS => array('url' => 'http://www.yahoo.com1', 'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png1'), 
+						Piwik_DataTable_Row::METADATA => array('url' => 'http://www.yahoo.com1', 'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png1'), 
 					 )
 			);
 		$table2 = new Piwik_DataTable();
@@ -889,7 +889,7 @@ bounce_count,44';
 	{
 		$dataTable = $this->getDataTableArrayTest();
 	  	$render = new Piwik_DataTable_Renderer_Csv($dataTable);
-		$expected = 'testKey,label,nb_uniq_visitors,nb_visits,detail_url,detail_logo
+		$expected = 'testKey,label,nb_uniq_visitors,nb_visits,metadata_url,metadata_logo
 date1,Google,11,11,http://www.google.com,./plugins/Referers/images/searchEngines/www.google.com.png
 date1,Yahoo!,15,151,http://www.yahoo.com,./plugins/Referers/images/searchEngines/www.yahoo.com.png
 date2,Google1,110,110,http://www.google.com1,./plugins/Referers/images/searchEngines/www.google.com.png1
@@ -925,7 +925,7 @@ row2,15";
 	{
 		$dataTable = $this->getDataTableArray_containsDataTableArray_normal();
 	  	$render = new Piwik_DataTable_Renderer_Csv($dataTable);
-		$expected = 'parentArrayKey,testKey,label,nb_uniq_visitors,nb_visits,detail_url,detail_logo
+		$expected = 'parentArrayKey,testKey,label,nb_uniq_visitors,nb_visits,metadata_url,metadata_logo
 idSite,date1,Google,11,11,http://www.google.com,./plugins/Referers/images/searchEngines/www.google.com.png
 idSite,date1,Yahoo!,15,151,http://www.yahoo.com,./plugins/Referers/images/searchEngines/www.yahoo.com.png
 idSite,date2,Google1,110,110,http://www.google.com1,./plugins/Referers/images/searchEngines/www.google.com.png1
@@ -971,7 +971,7 @@ idSite,row2,15";
 	  	$table = new Piwik_DataTable;
 	  	$idtable = $table->getId();
 	  	$table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
-	  						Piwik_DataTable_Row::DETAILS => array('logo' => 'test.png'),)
+	  						Piwik_DataTable_Row::METADATA => array('logo' => 'test.png'),)
 	  	
 	  	);  
 	  	
@@ -1021,7 +1021,7 @@ idSite,row2,15";
 		
 	  	$table = new Piwik_DataTable;
 	  	$table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
-	  						Piwik_DataTable_Row::DETAILS => array('logo' => 'test.png'),)
+	  						Piwik_DataTable_Row::METADATA => array('logo' => 'test.png'),)
 	  	
 	  	);  	
 	  	

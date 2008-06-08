@@ -181,7 +181,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 			$newRow = array(
 				'level' => $depth,
 				'columns' => $row->getColumns(),
-				'details' => $row->getDetails(),
+				'metadata' => $row->getMetadata(),
 				'idsubdatatable' => $row->getIdSubDataTable()
 				);
 			$table[] = $newRow;
