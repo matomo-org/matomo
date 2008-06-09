@@ -10,7 +10,6 @@
  */
 
 /**
- * 
  * @package Piwik
  */
 class Piwik_Translate
@@ -34,25 +33,30 @@ class Piwik_Translate
 	
 	private function __construct()
 	{
-		$GLOBALS['Piwik_translations'] = array();
+		$translations = array();
+		
+		$language = $this->getFallbackLanguageToLoad();
+		require_once "lang/" . $language .".php";
+		$this->addTranslationArray($translations);
 		
 		$language = $this->getLanguageToLoad();
-		
-		$translations = array();
 		require_once "lang/" . $language .".php";
-		
 		$this->addTranslationArray($translations);
+		
+		setlocale(LC_ALL, $GLOBALS['Piwik_translations']['General_Locale']);
 	}
 	
 	public function addTranslationArray($translation)
 	{
+		if(!isset($GLOBALS['Piwik_translations']))
+		{
+			$GLOBALS['Piwik_translations'] = array();
+		}
 		// we could check that no string overlap here
 		$GLOBALS['Piwik_translations'] = array_merge($GLOBALS['Piwik_translations'], $translation);
 	}
 	
 	/**
-	 * Enter description here...
-	 *
 	 * @return string the language filename prefix, eg "en" for english
 	 * @throws exception if the language set in the config file is not a valid filename
 	 */
@@ -68,6 +72,11 @@ class Piwik_Translate
 		{
 			throw new Exception("The language selected ('$language') is not a valid language file ");
 		}
+	}
+	
+	protected function getFallbackLanguageToLoad()
+	{
+		return Zend_Registry::get('config')->Language->fallback;
 	}
 	
 	/**

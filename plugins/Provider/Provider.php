@@ -23,7 +23,6 @@ class Piwik_Provider extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
-			'translationAvailable' => true,
 			'LogStatsPlugin' => true, // this plugin must be loaded during the stats logging
 		);
 		

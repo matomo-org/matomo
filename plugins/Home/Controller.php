@@ -61,7 +61,8 @@ class Piwik_Home_Controller extends Piwik_Controller
 		// date
 		$view->date = $this->strDate;
 		$oDate = new Piwik_Date($this->strDate);
-		$view->prettyDate = $oDate->getLocalized(Piwik_Translate('Home_LocalizedDateFormat'));
+		$localizedDateFormat = Piwik_Translate('Home_LocalizedDateFormat');
+		$view->prettyDate = $oDate->getLocalized($localizedDateFormat);
 		
 		// period
 		$currentPeriod = Piwik_Common::getRequestVar('period');
