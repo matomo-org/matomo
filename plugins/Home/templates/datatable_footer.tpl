@@ -3,7 +3,7 @@
 	
 	<span id="dataTableSearchPattern">
 		<input id="keyword" type="text" length="15" />
-		<input type="submit" value="Search" />
+		<input type="submit" value="{'General_Search'|translate}" />
 	</span>
 	
 	<span id="dataTablePages"></span>

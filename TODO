@@ -1,3 +1,4 @@
+merge config file instead of annoying file selection?
 see if can remove translationAvailable in all plugins
 ECLIPSE WINDOWS LINE BREAKS
 
@@ -34,14 +35,13 @@ http://piwik.org/demo/?module=API&method=VisitsSummary.getVisits&idSite=1&period
 add xml dateFrom dateTo to result to pragmatically useful
 
 
-====
-johan> Est ce que tu pourrais faire en sorte que le piwik.php fonctionne toujours si le serveur sql 
-derrière déconne ? (genre mettre un timeout de 2 sec sur la cxion sql ?)
-
 make sure with token auth no DB access
 
-First, knowing that I run "Piwik  # open source analytics" is great the first time, but the next ones it's just loosing space. I would replace that by the name of the website and a little something that would let me choose another website.
-I would also split the "Admin | API | Widget | send us feedback" bar. Moving the admin link to the user bar at the top, and the rest at the very bottom of the page, with a link to piwik.org.
+First, knowing that I run "Piwik  # open source analytics" is great the first time, 
+but the next ones it's just loosing space. I would replace that by the name of the website and a little 
+something that would let me choose another website.
+I would also split the "Admin | API | Widget | send us feedback" bar. Moving the admin link to the user bar
+ at the top, and the rest at the very bottom of the page, with a link to piwik.org.
 
 
 config file defined:

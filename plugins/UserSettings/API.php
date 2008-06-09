@@ -138,7 +138,7 @@ function Piwik_getBrowserTypeLabel($oldLabel)
 	{
 		return Piwik_UserSettings::$browserType_display[$oldLabel];
 	}
-	return 'Unknown';
+	return Piwik_Translate('General_Unknown');
 }
 
 
@@ -200,7 +200,6 @@ function Piwik_getBrowsersLogo($label)
 function Piwik_getOSLogo($label)
 {
 	$path = "plugins/UserSettings/images/os/". $label . ".gif";
-//	echo $path;exit;
 	return $path;
 }
 

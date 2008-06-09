@@ -62,6 +62,10 @@ class Piwik_API_Controller extends Piwik_Controller
 			margin: 0pt 0pt 16px 8px;
 			padding: 12px;			
 			line-height:4em;
+			}
+		.example, .example A {
+			color:#9E9E9E;
+		}
 		</style>";
 		echo sprintf(Piwik_Translate('API_QuickDocumentation'),$token_auth);
 		echo "<span id='token_auth'>token_auth = <b>$token_auth</b></span>";
@@ -70,7 +74,6 @@ class Piwik_API_Controller extends Piwik_Controller
 		echo "<p><i> ".sprintf(Piwik_Translate('API_LoadedAPIs'),$loaded)."</i></p>\n";
 		
 		echo Piwik_API_Proxy::getInstance()->getAllInterfaceString();
-		echo "<p><a href='?module=Home'>".Piwik_Translate('General_BackToHomepage')."</a></p>";
 	}
 	
 }

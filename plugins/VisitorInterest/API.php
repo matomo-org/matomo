@@ -53,7 +53,6 @@ class Piwik_VisitorInterest_API extends Piwik_Apiable
 	}
 }
 
-//TODO i18n
 function Piwik_getDurationLabel($label)
 { 
 	if(($pos = strpos($label,'-')) !== false)
@@ -63,19 +62,22 @@ function Piwik_getDurationLabel($label)
 		
 		if($min == 0 || $min == 30)
 		{
-			return $min.'-'.$max.'s';
+			$XYSeconds = Piwik_Translate('VisitorInterest_BetweenXYSeconds');
+			return sprintf($XYSeconds, $min, $max);
 		}
 		else
 		{
 			$min = $min / 60;
 			$max = $max / 60;
-			return $min.'-'.$max.' min';
+			$XYMin = Piwik_Translate('VisitorInterest_BetweenXYMinutes');
+			return sprintf($XYMin, $min, $max);
 		}
 	}
 	else
 	{
 		$time = intval($label) / 60;
-		return urlencode('+').$time.' min';
+		$plusXMin = Piwik_Translate('VisitorInterest_PlusXMin');
+		return sprintf($plusXMin, urlencode('+').$time);
 	}
 }
 
@@ -100,8 +102,7 @@ function Piwik_getPageGapLabel($label)
 	
 	if($return == 1)
 	{
-		return $return . " page";
+		return Piwik_Translate('VisitorInterest_OnePage');
 	}
-	
-	return $return . " pages";
+	return sprintf(Piwik_Translate('VisitorInterest_NPages'), $return);
 }

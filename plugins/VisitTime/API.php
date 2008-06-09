@@ -53,5 +53,5 @@ class Piwik_VisitTime_API extends Piwik_Apiable
 
 function Piwik_getTimeLabel($label)
 {
-	return $label . "h";
+	return sprintf(Piwik_Translate('VisitTime_NHour'), $label);
 }

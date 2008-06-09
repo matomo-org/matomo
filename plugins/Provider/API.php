@@ -57,7 +57,7 @@ function Piwik_getHostnameName($in)
 {
 	if(empty($in))
 	{
-		return "Unknown";
+		return Piwik_Translate('General_Unknown');
 	}
 	elseif(strtolower($in) === 'ip')
 	{

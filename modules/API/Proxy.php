@@ -263,14 +263,14 @@ class Piwik_API_Proxy
 									XML of the <a target=_blank href='$exampleUrlRss1&format=xml'>last 10 days</a>";
 						}
 						$exampleUrl = $prefixUrls . $exampleUrl ;
-						$str .= " [ Example in  
+						$str .= " <span class=\"example\">[ Example in  
 									<a target=_blank href='$exampleUrl&format=xml'>XML</a>, 
 									<a target=_blank href='$exampleUrl&format=PHP&prettyDisplay=true'>PHP</a>, 
 									<a target=_blank href='$exampleUrl&format=JSON'>Json</a>, 
 									<a target=_blank href='$exampleUrl&format=Csv'>Csv</a>, 
 									<a target=_blank href='$exampleUrl&format=Html'>Basic html</a> 
 									$lastNUrls
-									]";
+									]</span>";
 					}
 					else
 					{
