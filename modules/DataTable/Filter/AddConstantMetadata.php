@@ -24,7 +24,6 @@ class Piwik_DataTable_Filter_AddConstantMetadata extends Piwik_DataTable_Filter
 	private $functionToApply;
 	private $metadataToAdd;
 	
-	
 	public function __construct( $table, $metadataName, $metadataValue )
 	{
 		parent::__construct($table);

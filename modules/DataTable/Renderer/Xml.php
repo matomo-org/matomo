@@ -42,7 +42,6 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	{
 		$array = $this->getArrayFromDataTable($table);
 		
-		// case DataTable_Array
 		if($table instanceof Piwik_DataTable_Array)
 		{
 			$out = $this->renderDataTableArray($table, $array, $prefixLines);
@@ -75,7 +74,6 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			{
 				$out = $array;
 			}
-		
 			if($returnOnlyDataTableXml)
 			{
 				return $out;
@@ -156,7 +154,6 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			$nameDescriptionAttribute = $table->getKeyName();
 	  		foreach($array as $valueAttribute => $dataTableSimple)
 	  		{
-//	  			var_dump($dataTableSimple);exit;
 	  			if(count($dataTableSimple) == 0)
 				{
 					$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\" />\n";
@@ -205,7 +202,6 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			$nameDescriptionAttribute = $table->getKeyName();
 			foreach($array as $keyName => $arrayForSingleDate)
 			{
-//				var_dump($arrayForSingleDate);exit;
 				$dataTableOut = $this->renderDataTable( $arrayForSingleDate, $prefixLines . "\t" );
 				if(empty($dataTableOut))
 				{

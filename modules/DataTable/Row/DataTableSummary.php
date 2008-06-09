@@ -31,4 +31,3 @@ class Piwik_DataTable_Row_DataTableSummary extends Piwik_DataTable_Row
 		}
 	}
 }
-

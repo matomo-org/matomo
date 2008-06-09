@@ -40,7 +40,6 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
 												$this->columnToFilter, 
 												$function
 											);
-		
 	}
 	
 	static public function excludeLowPopulation($value)

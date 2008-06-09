@@ -47,13 +47,11 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		{
 			$out = $this->renderDataTable($table);
 		}
-		
 		return $out;
 	}	
 	
 	protected function renderDataTable($table)
 	{
-	
 		if($table->getRowsCount() == 0)
 		{
 			return "<b><i>Empty table</i></b> <br>\n";
@@ -78,7 +76,6 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		 * 		subtable here
 		 */
 		$allColumns = array();
-//		echo $table;
 		foreach($table->getRows() as $row)
 		{
 			foreach($row->getColumns() as $column => $value)
@@ -122,15 +119,6 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 			$i++;
 		}
 		
-		/*
-		// to keep the same columns order as the columns labelled with strings
-		ksort($allColumns);
-		//replace the label first
-		if(isset($allColumns['label']))
-		{
-			$allColumns = array_merge(array('label'=>true),$allColumns);
-		}
-		*/
 		$allColumns['_metadata'] = $someMetadata;
 		$allColumns['_idSubtable'] = $someIdSubTable;
 		$html = "\n";
@@ -169,7 +157,6 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 			
 			if(isset($row['_subtable']))
 			{
-//				echo ".".$row['_subtable'];exit;
 				$html .= "<tr>
 						<td class=l{$row['_subtable']['depth']} colspan=$colspan>{$row['_subtable']['html']}</td></tr>";
 			}

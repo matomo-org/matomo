@@ -27,7 +27,7 @@
 class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 {
 	/*
-	 * old column name => new column name
+	 * Old column name => new column name
 	 */
 	protected $mappingToApply = array(
 				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 'nb_uniq_visitors',

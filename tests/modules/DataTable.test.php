@@ -729,48 +729,6 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	$this->assertTrue( Piwik_DataTable::isEqual($table1, $tableExpected) );
 	}
 	
-	protected function getDataTable1ForTest()
-	{
-		$idcol = Piwik_DataTable_Row::COLUMNS;
-		
-		$rows = array(
-	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
-	  		array( $idcol => array('label'=>'ask', 'visits' => 2)),
-	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
-  		);	  	
-	 	$table = new Piwik_DataTable;
-	  	$table->loadFromArray( $rows );
-	  	return $table;
-	}
-
-	protected function getDataTable2ForTest()
-	{
-		$rows = $this->getRowsDataTable2ForTest();	
-	 	$table = new Piwik_DataTable;
-	  	$table->loadFromArray( $rows );
-	  	return $table;
-	}
-
-	protected function getRowsDataTable2ForTest()
-	{
-		$rows = array(
-	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>'test', 'visits' => 1)),
-	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>' google ', 'visits' => 3)),
-	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>'123a', 'visits' => 2)),
-  		);
-  		return $rows;	  	
-	}
-	
-	protected function getRowsDataTable1ForTest()
-	{
-		$rows = array(
-	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>'google', 'visits' => 1)),
-	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>'ask', 'visits' => 2)),
-	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>'123', 'visits' => 2)),
-  		);
-  		return $rows;	  	
-	}
-	
 	/**
      * add 2 datatable with some common rows 
      */
@@ -783,6 +741,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
 	  		array( $idcol => array('label'=>'ask', 'visits' => 2)),
 	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
   		);	  	
 	 	$table = new Piwik_DataTable;
 	  	$table->loadFromArray( $rows );
@@ -805,6 +764,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'123', 'visits' => 4)),
 	  		array( $idcol => array('label'=>'test', 'visits' => 1)),
 	  		array( $idcol => array('label'=>' google ', 'visits' => 5)),
+	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
   		);	  	
 	  	$tableExpected = new Piwik_DataTable;
 	  	$tableExpected->loadFromArray( $rowsExpected );
@@ -823,6 +783,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
 	  		array( $idcol => array('label'=>'ask', 'visits' => 2)),
 	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
   		);	  	
 	 	$table = new Piwik_DataTable;
 	  	$table->loadFromArray( $rows );
@@ -832,6 +793,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'google', 'visits' => -1)),
 	  		array( $idcol => array('label'=>'ask', 'visits' => 0)),
 	  		array( $idcol => array('label'=>'123', 'visits' => 1.5)),
+	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 8))
   		);	  	
 	 	$table2 = new Piwik_DataTable;
 	  	$table2->loadFromArray( $rows2 );
@@ -842,6 +804,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'google', 'visits' => 0)),
 	  		array( $idcol => array('label'=>'ask', 'visits' => 2)),
 	  		array( $idcol => array('label'=>'123', 'visits' => 3.5)),
+	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 15))
   		);	  	
 	  	$tableExpected = new Piwik_DataTable;
 	  	$tableExpected->loadFromArray( $rowsExpected );
@@ -852,7 +815,6 @@ class Test_Piwik_DataTable extends UnitTestCase
 	/**
 	 * test add 2 different tables to the same table
 	 */
-	 
     public function test_addDataTable2times()
 	{
 	 
@@ -862,6 +824,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'google', 'visits' => 1)),
 	  		array( $idcol => array('label'=>'ask', 'visits' => 0)),
 	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
+	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 1))
   		);	  	
 	 	$table = new Piwik_DataTable;
 	  	$table->loadFromArray( $rows );
@@ -880,6 +843,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'google2', 'visits' => -1)),
 	  		array( $idcol => array('label'=>'ask', 'visits' => -10)),
 	  		array( $idcol => array('label'=>'123ab', 'visits' => 1.5)),
+	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 3))
   		);	  	
 	 	$table3 = new Piwik_DataTable;
 	  	$table3->loadFromArray( $rows3 );
@@ -895,11 +859,50 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'google2', 'visits' => -2)),
 	  		array( $idcol => array('label'=>'123456', 'visits' => 1.5)),
 	  		array( $idcol => array('label'=>'123ab', 'visits' => 1.5)),
+	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 4))
   		);
 	  	$tableExpected = new Piwik_DataTable;
 	  	$tableExpected->loadFromArray( $rowsExpected );
 	  	
 	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
+	}
+	
+	protected function getDataTable1ForTest()
+	{
+		$rows = $this->getRowsDataTable1ForTest();
+	 	$table = new Piwik_DataTable;
+	  	$table->loadFromArray( $rows );
+	  	return $table;
+	}
+
+	protected function getDataTable2ForTest()
+	{
+		$rows = $this->getRowsDataTable2ForTest();	
+	 	$table = new Piwik_DataTable;
+	  	$table->loadFromArray( $rows );
+	  	return $table;
+	}
+	
+	protected function getRowsDataTable1ForTest()
+	{
+		$rows = array(
+	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>'google', 'visits' => 1)),
+	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>'ask', 'visits' => 2)),
+	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>'123', 'visits' => 2)),
+	  		Piwik_DataTable::ID_SUMMARY_ROW => array( Piwik_DataTable_Row::COLUMNS  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 4))
+	  		
+  		);
+  		return $rows;	  	
+	}
+
+	protected function getRowsDataTable2ForTest()
+	{
+		$rows = array(
+	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>'test', 'visits' => 1)),
+	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>' google ', 'visits' => 3)),
+	  		array( Piwik_DataTable_Row::COLUMNS => array('label'=>'123a', 'visits' => 2)),
+  		);
+  		return $rows;	  	
 	}
 	
 

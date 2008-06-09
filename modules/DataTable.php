@@ -14,12 +14,8 @@ require_once "DataTable/Renderer/Console.php";
 require_once "DataTable/Filter.php";
 require_once "DataTable/Row.php";
 require_once "DataTable/Manager.php";
+
 /**
- * 
- * Initial Specification 
- * ---------------------------------------------------------
- * CAREFUL: It may be outdated as I have not reviewed it yet
- * ---------------------------------------------------------
  * 
  * ---- DataTable
  * A DataTable is a data structure used to store complex tables of data.
@@ -37,8 +33,8 @@ require_once "DataTable/Manager.php";
  * ---- DataTable_Row
  * A DataTableRow in the table is defined by
  * - multiple columns (a label, multiple values, ...)
- * - metadata
- * - [a sub DataTable associated to this row]
+ * - optional metadata
+ * - optional - a sub DataTable associated to this row
  * 
  * Simple row example:
  * - columns = array(   'label' => 'Firefox', 
@@ -120,6 +116,20 @@ require_once "DataTable/Manager.php";
  * $xmlOutput->setColumnsToExport( array('visits', 'visits_percent', 'label') );
  * $XMLstring = $xmlOutput->getOutput();
  * 
+ * 
+ * ---- Other (ideas)
+ * We can also imagine building a DataTable_Compare which would take 2 DataTable that have the same
+ * structure and would compare them, by computing the percentages of differences, etc.
+ * 
+ * For example 
+ * DataTable1 = [ keyword1, 1550 visits]
+ * 				[ keyword2, 154 visits ]
+ * DataTable2 = [ keyword1, 1004 visits ]
+ * 				[ keyword3, 659 visits ]
+ * DataTable_Compare = result of comparison of table1 with table2
+ * 						[ keyword1, +154% ]
+ * 						[ keyword2, +1000% ]
+ * 						[ keyword3, -430% ]
  * 
  * @see Piwik_DataTable_Row A Piwik_DataTable is composed of Piwik_DataTable_Row
  * 
@@ -323,11 +333,16 @@ class Piwik_DataTable
 		{
 			$labelToLookFor = $row->getColumn('label');
 			$rowFound = $this->getRowFromLabel( $labelToLookFor );
-			
-			// the row with this label not found
 			if($rowFound === false)
 			{
-				$this->addRow( $row );
+				if( $labelToLookFor === self::LABEL_SUMMARY_ROW )
+				{
+					$this->addSummaryRow($row );
+				}
+				else
+				{
+					$this->addRow( $row );
+				}
 			}
 			else
 			{
@@ -388,7 +403,6 @@ class Piwik_DataTable
 				$this->rowsIndexByLabel[$label] = $id;
 			}
 		}
-		
 		$this->indexNotUpToDate = false;
 	}
 	
@@ -423,6 +437,11 @@ class Piwik_DataTable
 		$this->indexNotUpToDate = true;
 	}
 	
+	/**
+	 * Sets the summary row (a dataTable can have only one summary row)
+	 *
+	 * @param Piwik_DataTable_Row $row
+	 */
 	public function addSummaryRow( Piwik_DataTable_Row $row )
 	{
 		$this->summaryRow = $row;
@@ -982,12 +1001,9 @@ class Piwik_DataTable
 			{
 				$cleanRow[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $subtablePerLabel[$label];
 			}
-			
 			$this->addRow( new Piwik_DataTable_Row($cleanRow) );
 		}
 	}
-	
-
 	
 	/**
 	 * At destruction we try to free memory
@@ -995,26 +1011,7 @@ class Piwik_DataTable
 	 */
 	public function __destruct()
 	{
-//		static $c = 0;
-//		$c++;
-//		echo " k ".$this->getId();
 		unset($this->rows);
 	}
 	
 }
-
-/**
- * ---- Other
- * We can also imagine building a DataTable_Compare which would take 2 DataTable that have the same
- * structure and would compare them, by computing the percentages of differences, etc.
- * 
- * For example 
- * DataTable1 = [ keyword1, 1550 visits]
- * 				[ keyword2, 154 visits ]
- * DataTable2 = [ keyword1, 1004 visits ]
- * 				[ keyword3, 659 visits ]
- * DataTable_Compare = result of comparison of table1 with table2
- * 						[ keyword1, +154% ]
- * 						[ keyword2, +1000% ]
- * 						[ keyword3, -430% ]
- */

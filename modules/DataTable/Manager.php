@@ -19,9 +19,6 @@
 class Piwik_DataTable_Manager
 {
 	static private $instance = null;
-	protected function __construct()
-	{}
-	
 	/**
 	 * Returns instance
 	 *
@@ -36,6 +33,7 @@ class Piwik_DataTable_Manager
 		}
 		return self::$instance;
 	}
+	
 	/**
 	 * Array used to store the DataTable
 	 *
@@ -84,7 +82,6 @@ class Piwik_DataTable_Manager
 	
 	public function deleteTable( $id )
 	{
-//		echo "d $id ; ";
 		if(isset($this->tables[$id]))
 		{
 			$this->tables[$id] = null;

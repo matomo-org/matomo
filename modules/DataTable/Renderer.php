@@ -90,8 +90,7 @@ abstract class Piwik_DataTable_Renderer
 		$className = 'Piwik_DataTable_Renderer_' . $name;
 		
 		if( Piwik_Common::isValidFilename($name)
-			&& Zend_Loader::isReadable($path)
-		)
+			&& Zend_Loader::isReadable($path) )
 		{
 			require_once $path;
 			return new $className;			
