@@ -56,12 +56,9 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	 */
 	public $exportIdSubtable = true;
 	
-	
 	function __construct($table = null)
 	{
 		parent::__construct($table);
-		
-		
 	}
 	
 	function render()
@@ -71,7 +68,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	
 	protected function renderTable($table)
 	{
-		
 		if($table instanceof Piwik_DataTable_Array)
 		{
 			$str = $header = '';
@@ -97,7 +93,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 					$str .= "\n" .  implode("\n", $returned);
 				}
 			}
-//				var_dump($header);exit;
 			if(!empty($header))
 			{
 				$str = $prefixColumns . $header . $str;

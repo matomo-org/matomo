@@ -59,5 +59,3 @@ class Piwik_DataTable_Simple extends Piwik_DataTable
 		return $row->getColumn('value');
 	}
 }
-
-

@@ -106,7 +106,6 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		}
 		else
 		{
-			
 			if($this->naturalSort)
 			{
 				$methodToUse = "naturalSort";
@@ -115,9 +114,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 			{
 				$methodToUse = "sortString";
 			}
-
 		}
-		
 		$this->table->sort( array($this,$methodToUse) );
 	}
 }

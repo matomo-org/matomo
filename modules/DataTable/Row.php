@@ -402,4 +402,3 @@ class Piwik_DataTable_Row
 }
 
 require_once "Row/DataTableSummary.php";
-

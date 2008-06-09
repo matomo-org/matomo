@@ -121,7 +121,6 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		 * 		subtable here
 		 */
 		$allColumns = array();
-//		echo $table;
 		foreach($table->getRows() as $row)
 		{
 			foreach($row->getColumns() as $column => $value)
@@ -131,16 +130,6 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 			}
 			$i++;
 		}
-		
-		/*
-		// to keep the same columns order as the columns labelled with strings
-		ksort($allColumns);
-		//replace the label first
-		if(isset($allColumns['label']))
-		{
-			$allColumns = array_merge(array('label'=>true),$allColumns);
-		}
-		*/
 		$html = "\n";
 		$html .= "<table border=1 width=70%>";
 		$html .= "\n<tr>";
@@ -174,10 +163,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 			
 		}
 		$html .= "\n\n</table>";
-		
 		return $html;
 	}
 }
-
-
 

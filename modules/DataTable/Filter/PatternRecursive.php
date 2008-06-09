@@ -31,7 +31,6 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 		$this->patternToSearch = $patternToSearch;//preg_quote($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
 		$this->filter();
-//		echo $this->table; exit;
 	}
 	
 	protected function filter( $table = null )

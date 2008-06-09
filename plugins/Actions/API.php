@@ -50,6 +50,7 @@ class Piwik_Actions_API extends Piwik_Apiable
 		{
 			$dataTable = $archive->getDataTable($name, $idSubtable);
 		}
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
 	

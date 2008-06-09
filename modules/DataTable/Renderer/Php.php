@@ -160,7 +160,6 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		{
 			$array = serialize($array);
 		}
-		
 		return $array;
 	}
 	
@@ -195,12 +194,10 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	protected function renderSimpleTable($table)
 	{
 		$array = array();
-
 		foreach($table->getRows() as $row)
 		{
 			$array[$row->getColumn('label')] = $row->getColumn('value');
 		}
-		
 		return $array;
 	}
 }
