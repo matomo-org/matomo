@@ -9,6 +9,7 @@ username		=
 password		= 
 dbname			= 
 tables_prefix	= 
+port			= 3306
 adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 
 [database_tests]
@@ -17,6 +18,7 @@ username 		= root
 password 		= 
 dbname			= piwik_tests
 tables_prefix	= piwiktests_
+port			= 3306
 adapter 		= PDO_MYSQL
 
 [Language]

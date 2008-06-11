@@ -121,13 +121,17 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				'dbname' 		=> $form->getSubmitValue('dbname'),
 				'tables_prefix' => $form->getSubmitValue('tables_prefix'),
 				'adapter' 		=> Zend_Registry::get('config')->database->adapter,
+				'port'			=> Zend_Registry::get('config')->database->port,
 			);
 			
-			// we test the DB connection with these settings
 			try{ 
-//				var_dump($dbInfos);exit;
 				$dbInfos['password'] = '"'.htmlspecialchars($form->getSubmitValue('password')).'"';
 				
+				if(($portIndex = strpos($dbInfos['host'],':')) !== false)
+				{
+					$dbInfos['port'] = substr($dbInfos['host'], $portIndex + 1 );
+					$dbInfos['host'] = substr($dbInfos['host'], 0, $portIndex);
+				}
 				Piwik::createDatabaseObject($dbInfos);
 				
 				$_SESSION['db_infos'] = $dbInfos;

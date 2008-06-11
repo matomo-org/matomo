@@ -87,11 +87,16 @@ class Piwik_LogStats
 		// we decode the password. Password is html encoded because it's enclosed between " double quotes
 		$configDb['password'] = htmlspecialchars_decode($configDb['password']);
 		
+		if(!isset($configDb['port']))
+		{
+			// before 0.2.4 there is no port specified in config file
+			$configDb['port'] = '3306';  
+		}
 		self::$db = new Piwik_LogStats_Db( 	$configDb['host'], 
 										$configDb['username'], 
 										$configDb['password'], 
-										$configDb['dbname']
-							);
+										$configDb['dbname'],
+										$configDb['port'] );
 							  
 		self::$db->connect();
 	}

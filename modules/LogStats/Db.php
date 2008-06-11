@@ -30,9 +30,9 @@ class Piwik_LogStats_Db
 	/**
 	 * Builds the DB object
 	 */
-	public function __construct( $host, $username, $password, $dbname, $driverName = 'mysql') 
+	public function __construct( $host, $username, $password, $dbname, $port, $driverName = 'mysql') 
 	{
-		$this->dsn = $driverName.":dbname=$dbname;host=$host";
+		$this->dsn = $driverName.":dbname=$dbname;host=$host;port=$port";
 		$this->username = $username;
 		$this->password = $password;
 	}
