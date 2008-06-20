@@ -424,10 +424,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		$infos = array();
 	
-		// directory to write
 		$infos['directories'] = Piwik::checkDirectoriesWritable();
-		
-		// php version
 		$infos['phpVersion_minimum'] = $minimumPhpVersion;
 		$infos['phpVersion'] = phpversion();
 		$infos['phpVersion_ok'] = version_compare( $minimumPhpVersion, $infos['phpVersion']) === -1;
@@ -435,27 +432,22 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$extensions = @get_loaded_extensions();
 		
 		$infos['pdo_ok'] = false;
-		// Mysql + version
 		if (in_array('PDO', $extensions))  
 		{
 		    $infos['pdo_ok'] = true;
 		}
 				
 		$infos['pdo_mysql_ok'] = false;
-		// Mysql + version
 		if (in_array('pdo_mysql', $extensions))  
 		{
 		    $infos['pdo_mysql_ok'] = true;
 		}
 		
 		$infos['gd_ok'] = false;
-		// Gd version
 		if (in_array('gd', $extensions)) 
 		{
 		    $gdInfo = gd_info();
-		
 			$infos['gd_version'] = $gdInfo['GD Version'];
-			
 		    ereg ("([0-9]{1})", $gdInfo['GD Version'], $gdVersion);
 		    if($gdVersion[0] >= 2) 
 		    {
@@ -463,65 +455,35 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		    }
 		}
 			
-		// server version
 		$infos['serverVersion'] = addslashes($_SERVER['SERVER_SOFTWARE']);
-	
-		// server os (linux)
 		$infos['serverOs'] = @php_uname();
-		
-		// server time
 		$infos['serverTime'] = date('H:i:s');
-				
+
+		$infos['setTimeLimit_ok'] = false;
 		if(function_exists( 'set_time_limit'))
 		{
 			$infos['setTimeLimit_ok'] = true;
 		}
-	
-//		$infos['phpXml_ok'] = false;
-//		if(function_exists( 'utf8_encode') 
-//			&& function_exists( 'utf8_decode'))
-//		{
-//			$infos['phpXml_ok'] = true;
-//		}
-		
+
 		$infos['mail_ok'] = false;
 		if(function_exists('mail'))
 		{
 			$infos['mail_ok'] = true;
 		}
 		
-		//Registre global
 		$infos['registerGlobals_ok'] = ini_get('register_globals') == 0;
-		
 		$infos['memoryMinimum'] = $minimumMemoryLimit;
 		
-		// we set true by default, in case we can't read the memory_limit value
-		// we dont want to display a warning (instead we should figure out why
-		// we can't read this value...)
 		$infos['memory_ok'] = true;
-		
 		// on windows the ini_get is not working?
 		$infos['memoryCurrent'] = '?M';
-		
-		
+
 		$raised = Piwik::raiseMemoryLimitIfNecessary();
 		if(	$memoryValue = Piwik::getMemoryLimitValue() )
 		{
 			$infos['memoryCurrent'] = $memoryValue."M";
 			$infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;
 		}
-				/*
-		// server uptime from mysql uptime
-		$res = query('SHOW STATUS');
-		if($res)
-		{
-			while ($row = mysql_fetch_array($res)) 
-			{
-			   $serverStatus[$row[0]] = $row[1];
-			}
-	
-			$infos['server_uptime'] = date("r",time() - $serverStatus['Uptime']); 		
-		}*/
 		
 		return $infos;
 	}
