@@ -46,7 +46,9 @@ class Piwik_LogStats_Generator_LogStats extends Piwik_LogStats
 	 */
 	protected function getNewVisitObject()
 	{
-		return new Piwik_LogStats_Generator_Visit(self::$db);
+		$visit = new Piwik_LogStats_Generator_Visit();
+		$visit->setDb(self::$db);
+		return $visit;
 	}	
 	
 	static function disconnectDb()

@@ -1,3 +1,22 @@
+delete ALL useless comments WAY TOO RISKY!!!!!!!!!!!
+review all hooks + generate auto documentation + choose good naming convention
+
+add clearpsring all widgets (create plugin)
+graph pie chart : others is -1
+check that when online archiving disabled, take the last valid archiving
+
+admin login screen should be ful screen not in ajax frame
+piwik logo should be colored logo
+text top shoudl be smaller (login, root)
+
+API request shouldnt be SO DataTable aware
+the logic of printing out nice datatable should be in some datattable class
+
+
+ACTIONS limit seem not right, seem limited to 50 instead of 200 for root
+put limit configuration in config files
+rename "Others" on a per API method basis "Other keywords" "Other websites" otherwise it's not clear at all 
+
 merge config file instead of annoying file selection?
 see if can remove translationAvailable in all plugins
 ECLIPSE WINDOWS LINE BREAKS

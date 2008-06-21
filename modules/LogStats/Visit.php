@@ -9,6 +9,12 @@
  * @package Piwik_LogStats
  */
 
+
+interface Piwik_LogStats_Visit_Interface {
+	function handle();
+	function setDb($db);
+}
+
 /**
  * Class used to handle a Visit.
  * A visit is either NEW or KNOWN.
@@ -23,17 +29,15 @@
  * @package Piwik_LogStats
  */
 
-class Piwik_LogStats_Visit
+class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 {
 	protected $cookieLog = null;
 	protected $visitorInfo = array();
 	protected $userSettingsInformation = null;
-	
+	protected $db = null;
 
-	function __construct( $db )
+	function __construct()
 	{
-		$this->db = $db;
-				
 		$idsite = Piwik_Common::getRequestVar('idsite', 0, 'int');
 		if($idsite <= 0)
 		{
@@ -41,6 +45,11 @@ class Piwik_LogStats_Visit
 		}
 		
 		$this->idsite = $idsite;
+	}
+	
+	public function setDb($db)
+	{
+		$this->db = $db;
 	}
 	
 	/**
@@ -67,9 +76,9 @@ class Piwik_LogStats_Visit
 	 */
 	protected function getDatetimeFromTimestamp($timestamp)
 	{
-		return date("Y-m-d H:i:s",$timestamp);
+		return date("Y-m-d H:i:s", $timestamp);
 	}
-		
+
 	/**
 	 * Test if the current visitor is excluded from the statistics.
 	 * 
@@ -79,10 +88,10 @@ class Piwik_LogStats_Visit
 	 * 
 	 * @return bool True if the visit must not be saved, false otherwise
 	 */
-	private function isExcluded()
+	protected function isExcluded()
 	{
 		$excluded = 0;
-		
+		Piwik_PostEvent('LogStats.Visit.isExcluded', $excluded);
 		if($excluded)
 		{
 			printDebug("Visitor excluded.");
@@ -96,7 +105,7 @@ class Piwik_LogStats_Visit
 	 * Returns the cookie name used for the Piwik LogStats cookie
 	 * @return string
 	 */
-	private function getCookieName()
+	protected function getCookieName()
 	{
 		return Piwik_LogStats_Config::getInstance()->LogStats['cookie_name'] . $this->idsite;
 	}
@@ -131,7 +140,7 @@ class Piwik_LogStats_Visit
 	 * 2) If the visitor doesn't have a cookie, we try to look for a similar visitor configuration.
 	 * 	  We search for a visitor with the same plugins/OS/Browser/Resolution for today for this website.
 	 */
-	private function recognizeTheVisitor()
+	protected function recognizeTheVisitor()
 	{
 		$this->visitorKnown = false;
 		
@@ -209,7 +218,7 @@ class Piwik_LogStats_Visit
 	 * 
 	 * @return array
 	 */
-	private function getUserSettingsInformation()
+	protected function getUserSettingsInformation()
 	{
 		// we already called this method before, simply returns the result
 		if(is_array($this->userSettingsInformation))
@@ -290,7 +299,7 @@ class Piwik_LogStats_Visit
 	 * Returns true if the last action was done during the last 30 minutes
 	 * @return bool
 	 */
-	private function isLastActionInTheSameVisit()
+	protected function isLastActionInTheSameVisit()
 	{
 		return $this->visitorInfo['visit_last_action_time'] 
 					>= ($this->getCurrentTimestamp() - Piwik_LogStats::VISIT_STANDARD_LENGTH);
@@ -299,7 +308,7 @@ class Piwik_LogStats_Visit
 	/**
 	 * Returns true if the recognizeTheVisitor() method did recognize the visitor
 	 */
-	private function isVisitorKnown()
+	protected function isVisitorKnown()
 	{
 		return $this->visitorKnown === true;
 	}
@@ -332,7 +341,6 @@ class Piwik_LogStats_Visit
 		}
 		
 		$this->recognizeTheVisitor();
-		
 		if( $this->isVisitorKnown() 
 			&& $this->isLastActionInTheSameVisit())
 		{
@@ -385,7 +393,7 @@ class Piwik_LogStats_Visit
 	 * 
 	 * 2) Update the visit information
 	 */
-	private function handleKnownVisit()
+	protected function handleKnownVisit()
 	{
 		printDebug("Visit known.");		
 		
@@ -393,9 +401,7 @@ class Piwik_LogStats_Visit
 		 * Init the action
 		 */
 		$action = $this->getActionObject();
-		
 		$actionId = $action->getActionId();
-		
 		printDebug("idAction = $actionId");
 				
 		$serverTime 	= $this->getCurrentTimestamp();
@@ -439,7 +445,7 @@ class Piwik_LogStats_Visit
 	 * 
 	 * 2) Insert the visit information
 	 */
-	private function handleNewVisit()
+	protected function handleNewVisit()
 	{
 		printDebug("New Visit.");
 		
@@ -558,7 +564,7 @@ class Piwik_LogStats_Visit
 	 *
 	 * @return Piwik_LogStats_Action child or fake but with same public interface
 	 */
-	private function getActionObject()
+	protected function getActionObject()
 	{
 		$action = null;
 		Piwik_PostEvent('LogStats.newAction', $action);
@@ -604,7 +610,7 @@ class Piwik_LogStats_Visit
 	 * - referer_url : the same for all the referer types
 	 * 
 	 */
-	private function getRefererInformation()
+	protected function getRefererInformation()
 	{	
 		// default values for the referer_* fields
 		$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
@@ -650,7 +656,7 @@ class Piwik_LogStats_Visit
 	/*
 	 * Search engine detection
 	 */
-	private function detectRefererSearchEngine()
+	protected function detectRefererSearchEngine()
 	{
 		/*
 		 * A referer is a search engine if the URL's host is in the SearchEngines array
@@ -708,7 +714,7 @@ class Piwik_LogStats_Visit
 	/*
 	 * Newsletter analysis
 	 */
-	private function detectRefererNewsletter()
+	protected function detectRefererNewsletter()
 	{
 		if(isset($this->currentUrlParse['query']))
 		{
@@ -728,7 +734,7 @@ class Piwik_LogStats_Visit
 	/*
 	 * Partner analysis
 	 */
-	private function detectRefererPartner()
+	protected function detectRefererPartner()
 	{
 		if(isset($this->currentUrlParse['query']))
 		{		
@@ -748,7 +754,7 @@ class Piwik_LogStats_Visit
 	/*
 	 * Campaign analysis
 	 */
-	private function detectRefererCampaign()
+	protected function detectRefererCampaign()
 	{	
 		if(isset($this->currentUrlParse['query']))
 		{		
@@ -779,7 +785,7 @@ class Piwik_LogStats_Visit
 	 * so it can only be a direct access
 	 */
 	
-	private function detectRefererDirectEntry()
+	protected function detectRefererDirectEntry()
 	{
 		if(isset($this->currentUrlParse['host']))
 		{
@@ -798,7 +804,7 @@ class Piwik_LogStats_Visit
 	 * Returns a MD5 of all the configuration settings
 	 * @return string
 	 */
-	private function getConfigHash( $os, $browserName, $browserVersion, $resolution, $colorDepth, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Java, $plugin_Cookie, $ip, $browserLang)
+	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $colorDepth, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Java, $plugin_Cookie, $ip, $browserLang)
 	{
 		return md5( $os . $browserName . $browserVersion . $resolution . $colorDepth . $plugin_Flash . $plugin_Director . $plugin_RealPlayer . $plugin_Pdf . $plugin_WindowsMedia . $plugin_Java . $plugin_Cookie . $ip . $browserLang );
 	}
@@ -808,7 +814,7 @@ class Piwik_LogStats_Visit
 	 * - "-1" for a known visitor
 	 * - a unique 32 char identifier @see Piwik_Common::generateUniqId()
 	 */
-	private function getVisitorUniqueId()
+	protected function getVisitorUniqueId()
 	{
 		if($this->isVisitorKnown())
 		{

@@ -190,7 +190,20 @@ class Piwik_LogStats
 	 */
 	protected function getNewVisitObject()
 	{
-		return new Piwik_LogStats_Visit(self::$db);
+		$visit = null;
+		Piwik_PostEvent('LogStats.getNewVisitObject', $visit);
+	
+		if(is_null($visit))
+		{
+			$visit = new Piwik_LogStats_Visit();
+		}
+		elseif(!($visit instanceof Piwik_LogStats_Visit_Interface ))
+		{
+			throw new Exception("The Visit object set in the plugin must implement Piwik_LogStats_Visit_Interface");
+		}
+		
+		$visit->setDb(self::$db);
+		return $visit;
 	}
 	
 	// main algorithm 
