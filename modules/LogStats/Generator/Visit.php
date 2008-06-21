@@ -22,11 +22,6 @@ class Piwik_LogStats_Generator_Visit extends Piwik_LogStats_Visit
 {
 	static protected $timestampToUse;
 	
-	function __construct( $db )
-	{
-		parent::__construct($db);
-	}
-	
 	static public function setTimestampToUse($time)
 	{
 		self::$timestampToUse = $time;
