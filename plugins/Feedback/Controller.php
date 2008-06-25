@@ -30,7 +30,8 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 		// TODO: require user login or captcha if anonymous		
 		
 		$body = Piwik_Common::getRequestVar('body', '', 'string');
-		$email = Piwik_Common::getRequestVar('email', '', 'string');
+		$email = Piwik_Common::getRequestVar('email', '', 'string');
+
 		$view = new Piwik_View('Feedback/sent.tpl');
 		
 		try 
