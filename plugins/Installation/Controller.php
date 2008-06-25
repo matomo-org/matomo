@@ -395,7 +395,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			$message = "Error: it seems you try to skip a step of the Installation process, #
 						or your cookies are disabled. 
-						<br><b>Make sure your cookies are enabled</b> and go back 
+						<br /><b>Make sure your cookies are enabled</b> and go back 
 						<a href='".Piwik_Url::getCurrentUrlWithoutFileName()."'>
 						to the first page of the installation</a>.";
 			Piwik::exitWithErrorMessage( $message );

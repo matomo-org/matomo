@@ -15,7 +15,7 @@
 	<div class="error">
 		<img src="themes/default/images/error_medium.png">
 		{'Installation_SetupWebsiteError'|translate}:
-		<br>- {$errorMessage}
+		<br />- {$errorMessage}
 		
 	</div>
 {/if}

@@ -4,7 +4,7 @@
 	<img src="themes/default/images/warning_medium.png">
 	</div>
 	<div id="toggle" style="display:none;color:#4F2410"><small><i>{'Installation_TablesFound'|translate}:
-		<br>{$tablesInstalled} </i></small></div>
+		<br />{$tablesInstalled} </i></small></div>
 
 	<p>{'Installation_TablesWarningHelp'|translate}</p>
 	

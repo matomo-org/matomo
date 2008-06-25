@@ -1,5 +1,5 @@
 <div id="periodString">
-	<span id="date"><img src='plugins/Home/templates/images/more_date.gif' style="vertical-align:middle"> {$prettyDate}</span> -&nbsp;
+	<span id="date"><img src='plugins/Home/templates/images/more_date.gif' style="vertical-align:middle" alt="" /> {$prettyDate}</span> -&nbsp;
 	<span id="periods"> 
 		<span id="currentPeriod">{$periodsNames.$period}</span> 
 		<span id="otherPeriods">

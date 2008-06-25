@@ -1,8 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd ">
 <html>
 <head>
-</head>
-<body>
 {literal}
 <style>
 #h1, #h1 a {
@@ -26,9 +24,11 @@
 <link rel="stylesheet" type="text/css" href="plugins/AdminHome/templates/menu.css">
 <link rel="stylesheet" href="themes/default/common-admin.css">
 
+</head>
+<body>
 <span id="h1">Piwik admin</span> &nbsp;
 <span><a href='index.php'>Back to Piwik</a></span>
-<br><br>	
+<br /><br />	
 
 <div id="menu">
 {include file="AdminHome/templates/menu.tpl"}

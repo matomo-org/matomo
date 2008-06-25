@@ -35,7 +35,7 @@
 
 
 <p id="nav">
-<a href="?module=Login&action=lostpassword&form_url={$urlToRedirect}" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
+<a href="?module=Login&amp;action=lostpassword&amp;form_url={$urlToRedirect}" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
 </p>
 
 </div>

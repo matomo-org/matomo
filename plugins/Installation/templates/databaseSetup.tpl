@@ -4,7 +4,7 @@
 	<div class="error">
 		<img src="themes/default/images/error_medium.png">
 		{'Installation_MysqlErrorConnect'|translate}:
-		<br>{$errorMessage}
+		<br />{$errorMessage}
 		
 	</div>
 {/if}

@@ -16,8 +16,8 @@
 <script type="text/javascript">
 $Launchpad.ShowButton({userId: "4797da88692e4fe9", servicesInclude: ["google", "facebook", "live", "spaces", "netvibes", "email", "yahoowidgets", "dashboard", "vista", "jscode", "objectcode"], customCSS: "http://cdn.clearspring.com/launchpad/skins/white.css", widgetName: "Piwik example", source: "PiwikWidgetTest1"});
 </script>
-<br><br><br>
-<br><br><br>
+<br /><br /><br />
+<br /><br /><br />
 <h2>Test flash graph </h2>
 <div id="PiwikWidgetTest2">
 <iframe 

@@ -132,7 +132,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 				'url' 	=> $row->getMetadata('url'),
 			);
 		}
-		
 		return $data;
 	}
 }

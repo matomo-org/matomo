@@ -46,7 +46,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 			if(($currentLogin = Piwik::getCurrentUserLogin()) != 'anonymous')
 			{
 				Piwik_ExitWithMessage( sprintf(Piwik_Translate('Home_NoPrivileges'),$currentLogin).
-				"<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='?module=Login&action=logout'>&rsaquo; ".Piwik_Translate('General_Logout')."</a></b><br />");
+				"<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='?module=Login&amp;action=logout'>&rsaquo; ".Piwik_Translate('General_Logout')."</a></b><br />");
 			}
 			else
 			{

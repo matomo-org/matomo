@@ -136,7 +136,7 @@ function getUpdateSiteAJAX( row )
 								}
 								if(idName == 'urls')
 								{
-									var contentAfter = '<textarea cols=30 rows=3 id="urls">'+contentBefore.replace(/<br>/gi,"\n")+'</textarea>';
+									var contentAfter = '<textarea cols=30 rows=3 id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
 									$(n).html(contentAfter);
 								}
 							}

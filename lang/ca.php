@@ -509,7 +509,6 @@ $translations = array(
 	'Installation_SystemCheckPdoMysql' => 'Extensió Pdo_Mysql',
 	'Installation_SystemCheckPdoError' => 'Necessiteu activar les extensions PDO i PDO_MYSQL al vostre fitxer php.ini',
 	'Installation_SystemCheckPdoHelp' => 'Si teniu un servidor Windows, podeu afegir les línies següents al vostre php.ini %s<br /><br />Si teniu un servidor Linux, podeu compilar el PHP amb les opcions següents %s<br /><br />Podeu trobar més informació al <a style="color:red" href="http://php.net/pdo"lloc web de PHP</a>.',
-	'Installation_SystemCheckPhpXml' => 'Extensió PHP-XML',
 	'Installation_SystemCheckWriteDirs' => 'Directoris amb permisos d\'escriptura',
 	'Installation_SystemCheckWriteDirsHelp' => 'Per a arreglar aquest error al vostre sistema Linux, proveu d\'entrar les ordres següents',
 	'Installation_SystemCheckMemoryLimit' => 'Límit de memòria',

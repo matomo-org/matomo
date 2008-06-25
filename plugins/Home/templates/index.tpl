@@ -1,9 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd ">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Piwik - Your Web Analytics Reports</title>
-</head>
-<body>
 
 {loadJavascriptTranslations modules='Home'}
 
@@ -34,18 +32,23 @@ var minDateDay = {$minDateDay};
 <script type="text/javascript" src="libs/jquery/ui.mouse.js"></script>
 <script type="text/javascript" src="libs/jquery/ui.sortable_modif.js"></script>
 
-<link rel="stylesheet" href="plugins/Home/templates/datatable.css">
-<link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css">
+<link rel="stylesheet" href="plugins/Home/templates/datatable.css" />
+<link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css" />
 
 <style type="text/css">@import url(libs/jquery/jquery-calendar.css);</style>
 
 <script type="text/javascript" src="libs/jquery/superfish_modified.js"></script>
 <script type="text/javascript" src="plugins/Home/templates/menu.js"></script>
-<link rel="stylesheet" type="text/css" href="plugins/Home/templates/menu.css" media="screen">
-<link rel="stylesheet" type="text/css" href="plugins/Home/templates/style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="plugins/Home/templates/menu.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="plugins/Home/templates/style.css" media="screen" />
 
-<span id="loggued">
-<form action="{url idSite=null}" method="GET" id="siteSelection">
+<script type="text/javascript" src="libs/jquery/thickbox.js"></script>
+<link rel="stylesheet" href="libs/jquery/thickbox.css" />
+</head>
+<body>
+
+<div id="loggued">
+<form action="{url idSite=null}" method="get" id="siteSelection">
 <small>
 	<strong>{$userLogin}</strong>
 	| 
@@ -58,12 +61,12 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 	   {/foreach}
 	</optgroup>
 </select>
-</span> | {if $userLogin=='anonymous'}<a href='?module=Login'>{'Login_LogIn'|translate}</a>{else}<a href='?module=Login&action=logout'>{'Login_Logout'|translate}</a>{/if}</a>
+</span> | {if $userLogin=='anonymous'}<a href='?module=Login'>{'Login_LogIn'|translate}</a>{else}<a href='?module=Login&amp;action=logout'>{'Login_Logout'|translate}</a>{/if}
 </small>
 </form>
-</span>
+</div>
 
-<span id="h1"><a href='http://piwik.org'>Piwik</a> </span><span id="subh1"> # open source web analytics</span><br>
+<span id="h1"><a href='http://piwik.org'>Piwik</a> </span><span id="subh1"> # open source web analytics</span><br />
 
 <div id="stuff" style="width:350; text-align:left;">
 	<div>
@@ -71,7 +74,7 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 		{include file="Home/templates/links_misc_modules.tpl"}
 	</div>
 </div>
-<br>
+<br />
 
 <noscript>
 <span id="javascriptDisable">
@@ -80,15 +83,17 @@ Site <select name="idSite" onchange='javascript:this.form.submit()'>
 </noscript>
 {include file="Home/templates/period_select.tpl"}
 
-<br><br>
+<br /><br />
 {include file="Home/templates/menu.tpl"}
 
 <div style='clear:both'></div>
 
-<div id="loadingPiwik" {if $basicHtmlView}style="display:none"{/if}><img src="themes/default/images/loading-blue.gif"> {'General_LoadingData'|translate}</div>
+<div id="loadingPiwik" {if $basicHtmlView}style="display:none"{/if}><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate}</div>
 <div id="loadingError">{'General_ErrorRequest'|translate}</div>
 <div id='content'>
 {if $content}{$content}{/if}
 </div>
 
 {include file="Home/templates/piwik_tag.tpl"}
+</body>
+</html>

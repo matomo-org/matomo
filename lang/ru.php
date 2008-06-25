@@ -509,7 +509,6 @@ $translations = array(
 	'Installation_SystemCheckPdoMysql' => 'Модуль Pdo_Mysql',
 	'Installation_SystemCheckPdoError' => 'Вам необходимо активизировать модули PDO и PDO_MYSQL в настройках php.ini.',
 	'Installation_SystemCheckPdoHelp' => 'На Windows-сервере  вам необходимо добавить следующие линии в php.ini %s <br><br>на Linux-сервере вы должны откомпилировать PHP со следующими значениями %s В php.ini добавьте следующее %s<br><br>Больше информации вы найдете на <a style="color:red" href="http://php.net/pdo">ресурсе PHP.net</a>.',
-	'Installation_SystemCheckPhpXml' => 'Расширение PHP-XML',
 	'Installation_SystemCheckWriteDirs' => 'Папки с правами записи',
 	'Installation_SystemCheckWriteDirsHelp' => 'Для исправления этой ошибки в ОС  Linux, попробуйте ввести следущие команды',
 	'Installation_SystemCheckMemoryLimit' => 'Ограничение памяти',
