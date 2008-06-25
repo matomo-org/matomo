@@ -16,6 +16,7 @@
 class Piwik_Actions extends Piwik_Plugin
 {
 	static protected $actionCategoryDelimiter = null;
+	static protected $limitLevelSubCategory = 10;
 	
 	public function __construct()
 	{
@@ -211,13 +212,11 @@ class Piwik_Actions extends Piwik_Plugin
 
 	static public function splitUrl($url)
 	{
-		$matches = array();
-		$split_arr = array();
+		$matches = $split_arr = array();
 		$n = preg_match("#://[^/]+(/)#",$url, $matches, PREG_OFFSET_CAPTURE);
 		if( $n )
 		{
 			$host = substr($url, 0, $matches[1][1]);
-			
 			$split_arr = array($host, $url);
 		}
 		else
@@ -239,7 +238,7 @@ class Piwik_Actions extends Piwik_Plugin
 		}
 		else
 		{
-			$split = explode(self::$actionCategoryDelimiter, $name);
+			$split = explode(self::$actionCategoryDelimiter, $name, self::$limitLevelSubCategory);
 		}
 		return array( $isUrl, $split);
 	}

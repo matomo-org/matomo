@@ -33,4 +33,3 @@
 <input id="feedburnerSubmit" type="submit" value="ok">
 </center>
 
-<br>

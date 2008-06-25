@@ -16,7 +16,7 @@
 		window.onload = focusit;
 	</script>
 	{/literal}
-<link rel="stylesheet" href="plugins/Login/templates/login.css">
+	<link rel="stylesheet" href="plugins/Login/templates/login.css" type="text/css" media="screen" />
 </head>
 
 <body class="login">

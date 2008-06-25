@@ -510,7 +510,6 @@ $translations = array(
 	'Installation_SystemCheckPdoMysql' => 'Розширення Pd_Mysql',
 	'Installation_SystemCheckPdoError' => 'Необхідно активувати PDO та PDO_MYSQL розширення в Вашому файлы php.ini.',
 	'Installation_SystemCheckPdoHelp' => 'На сервері Windows Ви можете добавити наступні строки у Ваш файл php.ini: %s <br><br>На сервері Linux необхідно скомпілювати php з наступними опціями: %s У вашому php.ini, добавте наступні строки: %s<br><br>Докладніше на  <a style="color:red" href="http://php.net/pdo">сайті PHP</a>.',
-	'Installation_SystemCheckPhpXml' => 'Розширення PHP-XML',
 	'Installation_SystemCheckWriteDirs' => 'Директорії з доступом запису',
 	'Installation_SystemCheckWriteDirsHelp' => 'Щоб вирішити цю проблему на вашій Linux системі, спробуйте ввести наступні команди',
 	'Installation_SystemCheckMemoryLimit' => 'Обмеження пам\'яті',

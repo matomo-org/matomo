@@ -32,7 +32,7 @@
 
 
 <p id="nav">
-<a href="?module=Login&form_url={$urlToRedirect}" title="{'Login_LogIn'|translate}">{'Login_LogIn'|translate}</a>
+<a href="?module=Login&amp;form_url={$urlToRedirect}" title="{'Login_LogIn'|translate}">{'Login_LogIn'|translate}</a>
 </p>
 
 </div>

@@ -34,19 +34,24 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 		$this->prefixRows = $str;
 	}
 	
-	protected function renderTable($table)
+	protected function renderDataTableArray(Piwik_DataTable_Array $table, $prefix )
+	{
+		$output = "Piwik_DataTable_Array<hr>";
+		$prefix = $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		foreach($table->getArray() as $descTable => $table)
+		{
+			$output .= $prefix . "<b>". $descTable. "</b><br>";
+			$output .= $prefix . $this->renderTable($table, $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+			$output .= "<hr>";
+		}
+		return $output;
+	}
+	
+	protected function renderTable($table, $prefix = "")
 	{
 		if($table instanceof Piwik_DataTable_Array)
 		{
-			$output = '';
-			$output .= "Piwik_DataTable_Array<hr>";
-			foreach($table->getArray() as $descTable => $table)
-			{
-				$output .="<b>". $descTable. "</b><br>";
-				$output .= $table;
-				$output .= "<hr>";
-			}
-			return $output;
+			return $this->renderDataTableArray($table, $prefix);
 		}
 		
 		if($table->getRowsCount() == 0)
@@ -59,13 +64,26 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 		$i = 1;
 		foreach($table->getRows() as $row)
 		{
+			$dataTableArrayBreak = false;
 			$columns=array();
 			foreach($row->getColumns() as $column => $value)
 			{
+				if($value instanceof Piwik_DataTable_Array )
+				{
+					$output .= $this->renderDataTableArray($value, $prefix);
+					$dataTableArrayBreak = true;
+					break;
+				}
 				if(is_string($value)) $value = "'$value'";
+				
 				$columns[] = "'$column' => $value";
 			}
+			if($dataTableArrayBreak === true)
+			{
+				continue;
+			}
 			$columns = implode(", ", $columns);
+			
 			$metadata = array();
 			foreach($row->getMetadata() as $name => $value)
 			{
@@ -76,6 +94,7 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 				$metadata[] = "'$name' => $value";
 			}
 			$metadata = implode(", ", $metadata);
+			
 			$output.= str_repeat($this->prefixRows, $depth) 
 						. "- $i [".$columns."] [".$metadata."] [idsubtable = " 
 						. $row->getIdSubDataTable()."]<br>\n";
@@ -87,7 +106,8 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 					$output.= $this->renderTable( 
 									Piwik_DataTable_Manager::getInstance()->getTable(
 												$row->getIdSubDataTable()
-											)
+											),
+											$prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 										);
 				} catch(Exception $e) {
 					$output.= "-- Sub DataTable not loaded<br>\n";

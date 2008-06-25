@@ -18,6 +18,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 body {
 	line-height: 1.33;
+	background-color: white;
+	color: black;
 }
 ol, ul {
 	list-style: none;

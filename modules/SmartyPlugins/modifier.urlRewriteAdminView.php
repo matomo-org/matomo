@@ -39,7 +39,7 @@ function smarty_modifier_urlRewriteAdminView($parameters)
 	$url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
 	
 	// add module=Home&action=showInContext
-	$url = $url . '&module=AdminHome&action=showInContext';
+	$url = $url . '&amp;module=AdminHome&amp;action=showInContext';
 	return $url;
 }
 

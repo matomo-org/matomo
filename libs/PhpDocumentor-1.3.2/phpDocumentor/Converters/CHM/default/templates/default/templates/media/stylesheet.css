@@ -73,7 +73,8 @@ HR {
 	background-color: #336699;
 	border-width: 0px;
 	height: 1px;
-	filter: Alpha (   opacity =   100, finishopacity =   0, style =   1 );
+	filter: Alpha (     opacity =     100, finishopacity =     0, style =
+		    1 );
 }
 
 DIV.sdesc {

@@ -749,7 +749,6 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected function generateDataFromDataTableArray( Piwik_DataTable_Array $dataTableArray)
 	{
-		// we have to fill a $data array with each row = array('label' => X, 'value' => y)
 		$data = array();
 		foreach($dataTableArray->getArray() as $keyName => $table)
 		{

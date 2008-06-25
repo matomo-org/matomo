@@ -24,21 +24,14 @@
 		{if !$infos.pdo_mysql_ok || !$infos.pdo_ok}
 			<p class="error" style="width:80%">{'Installation_SystemCheckPdoError'|translate}
 			<small>
-			<br><br>
-			{'Installation_SystemCheckPdoErrorHelp'|translate:"<br/><code>extension=php_pdo.dll</code><br><code>extension=php_pdo_mysql.dll</code><br>":"<code>--with-pdo-mysql </code>":"<br/><code>extension=pdo.so</code><br><code>extension=pdo_mysql.so</code><br>"}
+			<br /><br />
+			{'Installation_SystemCheckPdoErrorHelp'|translate:"<br/><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />":"<code>--with-pdo-mysql </code>":"<br/><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />"}
 			</small>
 			</p>
 		{/if}
 		
 		</td>
 	</tr>
-	
-	{* We don't use utf8_encode currently but I think we will soon so I leave the code here
-	<tr>
-		<td class="label">{'Installation_SystemCheckPhpXml'|translate} <br> (utf8_decode function)</td>
-	    <td>{if $infos.phpXml_ok}{$ok}{else}{$error}{/if}</td>
-	</tr>
-	*}
 	<tr>
 		<td valign="top">
 			{'Installation_SystemCheckWriteDirs'|translate}
@@ -48,14 +41,14 @@
 				{if $bool}{$ok}{else}
 				<span style="color:red">{$error}</span>{/if} 
 				{$dir}
-				<br>				
+				<br />				
 			{/foreach}
 		</td>
 	</tr>
 </table>
 
 {if $problemWithSomeDirectories}
-	<br>
+	<br />
 	<div class="error">
 			{'Installation_SystemCheckWriteDirsHelp'|translate}:
 	{foreach from=$infos.directories key=dir item=bool}
@@ -65,7 +58,7 @@
 		</ul>
 	{/foreach}
 	</div>
-	<br>
+	<br />
 {/if}
 <h1>Optional</h1>
 <table class="infos">
@@ -74,19 +67,19 @@
 		<td>
 			{$infos.memoryCurrent}
 			{if $infos.memory_ok}{$ok}{else}{$warning} 
-				<br><i>{'Installation_SystemCheckMemoryLimitHelp'|translate}</i>{/if}	
+				<br /><i>{'Installation_SystemCheckMemoryLimitHelp'|translate}</i>{/if}	
 		</td>
 	</tr>
 	<tr>
 		<td class="label">{'Installation_SystemCheckGD'|translate}</td>
 		<td>
-			{if $infos.gd_ok}{$ok}{else}{$warning} <br><i>{'Installation_SystemCheckGDHelp'|translate}</i>{/if}
+			{if $infos.gd_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckGDHelp'|translate}</i>{/if}
 		</td>
 	</tr>
 	<tr>
 		<td class="label">{'Installation_SystemCheckTimeLimit'|translate}</td>
 		<td>{if $infos.setTimeLimit_ok}{$ok}{else}{$warning}
-			<br><i>{'Installation_SystemCheckTimeLimitHelp'|translate}</i>{/if}</td>
+			<br /><i>{'Installation_SystemCheckTimeLimitHelp'|translate}</i>{/if}</td>
 	</tr>
 	<tr>
 		<td class="label">{'Installation_SystemCheckMail'|translate}</td>
@@ -95,10 +88,10 @@
 </table>
 <p><small>
 Legend:
-<br>
-{$ok} {'General_Ok'|translate}<br>
-{$error} {'General_Error'|translate}: {'Installation_SystemCheckError'|translate} <br>
-{$warning} {'General_Warning'|translate}: {'Installation_SystemCheckWarning'|translate} <br>
+<br />
+{$ok} {'General_Ok'|translate}<br />
+{$error} {'General_Error'|translate}: {'Installation_SystemCheckError'|translate} <br />
+{$warning} {'General_Warning'|translate}: {'Installation_SystemCheckWarning'|translate} <br />
 </small></p>
 
 {if !$showNextStep}

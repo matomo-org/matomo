@@ -8,7 +8,7 @@
 {include file=VisitsSummary/sparklines.tpl}
 
 
-<br><br><br>
+<br /><br /><br />
 <p style='color:lightgrey; size:0.8em;'>
 {'VisitsSummary_GenerateTime'|translate:$totalTimeGeneration:$totalNumberOfQueries}
 {if $totalNumberOfQueries != 0}, {'VisitsSummary_GenerateQueries'|translate:$totalNumberOfQueries}{/if}
