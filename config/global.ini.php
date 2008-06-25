@@ -20,7 +20,7 @@ dbname			= piwik_tests
 tables_prefix	= piwiktests_
 port			= 3306
 adapter 		= PDO_MYSQL
-
+ 
 [Language]
 current			= en
 fallback		= en

@@ -285,8 +285,7 @@ $translations = array(
 	'UserCountry_country_mn' => 'Mongolia',
 	'UserCountry_country_mo' => 'Macao',
 	'UserCountry_country_mp' => 'Islas Marianas del Norte',
-	'UserCountry_country_mq' => '	
-Martinica',
+	'UserCountry_country_mq' => 'Martinica',
 	'UserCountry_country_mr' => 'Mauritania',
 	'UserCountry_country_ms' => 'Monserrat',
 	'UserCountry_country_mt' => 'Malta',
