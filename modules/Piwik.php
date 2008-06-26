@@ -108,10 +108,9 @@ class Piwik
 				$resultCheck[$directory] = true;
 			}
 		}
-		
 		return $resultCheck;
 	}
-		
+	
 	static public function getJavascriptCode($idSite, $piwikUrl, $actionName = "''")
 	{	
 		$jsTag = file_get_contents( "modules/LogStats/javascriptTag.tpl");

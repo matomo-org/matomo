@@ -33,7 +33,6 @@ class Piwik_Config
 	protected $urlToPiwikHelpMissingValueInConfigurationFile = 
 		'http://dev.piwik.org/trac/browser/trunk/config/global.ini.php?format=raw';
 
-	
 	protected $defaultConfig 				= null;
 	protected $userConfig 					= null;
 	protected $pathIniFileUserConfig 		= null;
@@ -97,22 +96,16 @@ class Piwik_Config
 	 */
 	function __destruct()
 	{
-		// saves the config file if changed
 		if($this->configFileUpdated === true 
 			&& $this->doWriteFileWhenUpdated === true)
 		{
-		
 			$configFile = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
 			$configFile .= "; file automatically generated during the piwik installation process (and updated later by some other modules)\n";
 			
 			foreach($this->userConfig as $section => $arraySection)
 			{
 				$arraySection = $arraySection->toArray();
-//				print("<pre>saving $section => ".var_export($arraySection,true)." <br>");
-				
 				$configFile .= "[$section]\n";
-				//echo "array section"; var_dump($arraySection);
-
 				foreach($arraySection as $name => $value)
 				{
 					if(is_numeric($name))
@@ -130,8 +123,7 @@ class Piwik_Config
 					}
 					else
 					{	
-						// hack 
-						// we add " " around the password because when requesting this data using Zend_Config
+						// hack: we add " " around the password because when requesting this data using Zend_Config
 						// the toArray removes the " around the value
 						if( ($section == 'database' || $section == 'database_tests')
 							&& $name == 'password')
@@ -174,6 +166,7 @@ class Piwik_Config
 	 */
 	public function __set($name, $value)
 	{
+		$this->checkWritePermissionOnFile();
 		if(!is_null($this->userConfig))
 		{
 			if($this->userConfig->$name != $value)
@@ -186,6 +179,21 @@ class Piwik_Config
 		{
 			$this->defaultConfig->$name = $value;
 		}
+	}
+	
+	protected function checkWritePermissionOnFile() 
+	{
+		static $enoughPermission = null;
+		
+		if(is_null($enoughPermission))
+		{
+			if($this->doWriteFileWhenUpdated)
+			{
+				Piwik_FrontController::checkDirectoriesWritableOrDie(array( $this->getDefaultUserConfigPath()) );
+			}
+			$enoughPermission = true;
+		}
+		return $enoughPermission;
 	}
 	
 	/**
@@ -212,6 +220,4 @@ class Piwik_Config
 						<br>Try to replace your default configuration file ({$this->pathIniFileDefaultConfig}) with 
 					the <a href='".$this->urlToPiwikHelpMissingValueInConfigurationFile."'>default piwik configuration file</a> ");
 	}
-	
 }
-
