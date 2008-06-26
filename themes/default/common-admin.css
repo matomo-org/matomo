@@ -1,14 +1,16 @@
 * {
 	font-family: Georgia, Trebuchet MS, arial, sans-serif;
 }
+
 img {
 	vertical-align: baseline;
 }
+
 a {
-	font-size:12px;
-	
-	color:black;
+	font-size: 12px;
+	color: black;
 }
+
 textarea {
 	font-size: 0.85em;
 }

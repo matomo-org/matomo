@@ -1,8 +1,12 @@
 /* shamelessly taken from wordpress 2.5 - thank you guys!!! */
-* { margin: 0; padding: 0; }
+* {
+	margin: 0;
+	padding: 0;
+}
 
 body {
-	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana,
+		sans-serif;
 }
 
 form {
@@ -15,10 +19,15 @@ form {
 	border-radius: 5px;
 }
 
-form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0;}
+form .forgetmenot {
+	font-weight: normal;
+	float: left;
+	margin-bottom: 0;
+}
 
 #login form .submit input {
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana,
+		sans-serif;
 	padding: 3px 5px;
 	border: none;
 	font-size: 13px;
@@ -29,31 +38,42 @@ form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0;}
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	cursor: default;
-	text-decoration: none;	
+	text-decoration: none;
 	margin-top: -6px;
 }
 
-form .submit { float: right; }
+form .submit {
+	float: right;
+}
 
-form p { margin-bottom: 24px; }
+form p {
+	margin-bottom: 24px;
+}
 
-.updated, .login #login_error, .login .message {
+.updated,.login #login_error,.login .message {
 	background-color: #ffffe0;
 	border-color: #e6db55;
 }
 
-#login { width: 292px; margin: 7em auto; margin-top: 20px; }
+#login {
+	width: 292px;
+	margin: 7em auto;
+	margin-top: 20px;
+}
 
-#login_error, .message {
+#login_error,.message {
 	margin: 0 0 16px 8px;
 	border-width: 1px;
 	border-style: solid;
 	padding: 12px;
 }
 
-#nav { margin: 0 0 0 8px; padding: 16px; }
+#nav {
+	margin: 0 0 0 8px;
+	padding: 16px;
+}
 
-#form_password, #form_login, #user_email {
+#form_password,#form_login,#user_email {
 	font-size: 20px;
 	width: 97%;
 	padding: 3px;
@@ -87,7 +107,7 @@ form p { margin-bottom: 24px; }
 	color: #d54e21;
 }
 
- #login form .submit input:hover {
+#login form .submit input:hover {
 	border-color: #328ab2;
 }
 
@@ -99,33 +119,35 @@ form p { margin-bottom: 24px; }
 .login #nav a {
 	color: #777;
 }
+
 body.login {
 	border-top-color: #464646;
 }
+
 #login form input {
 	color: #555;
 }
 
-a{
-	text-decoration:none;
+a {
+	text-decoration: none;
 }
 
 #logo {
 	margin-left: 38%;
-	margin-top:100px;
+	margin-top: 100px;
 }
 
-#logo .h1 { 
-font-family: Georgia, "Times New Roman", Times, serif; 
-font-weight: normal; 
-color: #136F8B; 
-font-size: 48px; 
-text-transform: none; 
-} 
+#logo .h1 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: normal;
+	color: #136F8B;
+	font-size: 48px;
+	text-transform: none;
+}
 
-#logo .description { 
-font-family: Georgia, "Times New Roman", Times, serif; 
-font-weight: normal; 
-color: #879dbd; 
-font-size: 25px; 
+#logo .description {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: normal;
+	color: #879dbd;
+	font-size: 25px;
 }
