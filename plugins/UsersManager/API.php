@@ -409,7 +409,8 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	 *  
 	 * @param string Access to grant. Must have one of the following value : noaccess, view, admin
 	 * @param string The user login 
-	 * @param int|array The array of idSites on which to apply the access level for the user. If the parameter is null then we apply the access level to all the websites ID for which the current authentificated user has an 'admin' access.
+	 * @param int|array The array of idSites on which to apply the access level for the user. 
+	 *       If the value is "all" then we apply the access level to all the websites ID for which the current authentificated user has an 'admin' access.
 	 * 
 	 * @exception if the user doesn't exist
 	 * @exception if the access parameter doesn't have a correct value
