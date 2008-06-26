@@ -245,10 +245,10 @@ class Piwik_Common
 
 		// there is no value $varName in the REQUEST so we try to use the default value
 		if(empty($varName)
-		|| !isset($requestArrayToUse[$varName])
-		|| (	!is_array($requestArrayToUse[$varName])
-		&& strlen($requestArrayToUse[$varName]) === 0
-		)
+			|| !isset($requestArrayToUse[$varName])
+			|| (	!is_array($requestArrayToUse[$varName])
+				&& strlen($requestArrayToUse[$varName]) === 0
+				)
 		)
 		{
 			if( is_null($varDefault))
@@ -259,7 +259,7 @@ class Piwik_Common
 			else
 			{
 				if( !is_null($varType)
-				&& in_array($varType, array('string', 'integer', 'array'))
+					&& in_array($varType, array('string', 'integer', 'array'))
 				)
 				{
 					settype($varDefault, $varType);

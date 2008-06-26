@@ -35,7 +35,7 @@
 	<p>{'UsersManager_Sites'|translate}: <select id="selectIdsite" name="idsite" onchange="this.form.submit()">
 	
 	<optgroup label="{'UsersManager_AllWebsites'|translate}">
-		<option label="{'UsersManager_AllWebsites'|translate}" value="-1" {if $idSiteSelected==-1} selected="selected"{/if}>{'UsersManager_ApplyToAllWebsites'|translate}</option>
+		<option label="{'UsersManager_AllWebsites'|translate}" value="all" {if $idSiteSelected=='all'} selected="selected"{/if}>{'UsersManager_ApplyToAllWebsites'|translate}</option>
 	</optgroup>
 	<optgroup label="{'UsersManager_Sites'|translate}">
 		{foreach from=$websites item=info}
@@ -63,9 +63,9 @@
 {assign var=accesInvalid value="<img src='plugins/UsersManager/images/no-access.png' class='updateAccess'>"}
 <tr>
 	<td id='login'>{$login}</td>
-	<td id='noaccess'>{if $access=='noaccess' and $idSiteSelected!=-1}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
-	<td id='view'>{if $access=='view' and $idSiteSelected!=-1}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
-	<td id='admin'>{if $access=='admin' and $idSiteSelected!=-1}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
+	<td id='noaccess'>{if $access=='noaccess' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
+	<td id='view'>{if $access=='view' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
+	<td id='admin'>{if $access=='admin' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
 </tr>
 {/foreach}
 </tbody>

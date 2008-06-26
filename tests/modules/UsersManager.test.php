@@ -517,7 +517,7 @@ class Test_Piwik_UsersManager extends Test_Database
     {
     	// try to get it, it should raise an exception
 		try {
-    		Piwik_UsersManager_API::setUserAccess("nologin", "view");
+    		Piwik_UsersManager_API::setUserAccess("nologin", "view", 1);
 	        $this->fail("Exception not raised.");
     	}
     	catch (Exception $expected) {
@@ -535,7 +535,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	
     	// try to get it, it should raise an exception
 		try {
-    		Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "viewnotknown");
+    		Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
 	        $this->fail("Exception not raised.");
     	}
     	catch (Exception $expected) {
@@ -544,15 +544,15 @@ class Test_Piwik_UsersManager extends Test_Database
     }
     
     /**
-     * idsitesNull => apply access to all websites with admin access
+     * idsites = all => apply access to all websites with admin access
      */
-    function test_setUserAccess_idsitesNull()
+    function test_setUserAccess_idsitesIsAll()
     {
     	Piwik_UsersManager_API::addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
     	
     	FakeAccess::$superUser = false;
     	
-    	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view");
+    	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view", "all");
     	
     	FakeAccess::$superUser = true;
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
@@ -567,9 +567,9 @@ class Test_Piwik_UsersManager extends Test_Database
     }
     
     /**
-     * idsitesNull AND user is superuser=> apply access to all websites
+     * idsites = all AND user is superuser=> apply access to all websites
      */
-    function test_setUserAccess_idsitesNullSuperuser()
+    function test_setUserAccess_idsitesIsAllSuperuser()
     {
     	FakeAccess::$superUser = true;
     	
@@ -580,8 +580,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	$id5=Piwik_SitesManager_API::addSite("test5",array("http://piwik.net","http://piwik.com/test/"));
     	
 		Piwik_UsersManager_API::addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-    	
-    	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view");
+    	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view", "all");
     	
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
     	$this->assertEqual( array($id1,$id2,$id3,$id4,$id5), array_keys($access));
