@@ -89,7 +89,7 @@
 .helper {
 	width: 33%;
 	opacity: .6;
-	filter: alpha(opacity =   60); /*for IE*/
+	filter: alpha(opacity =     60); /*for IE*/
 }
 
 .dummyHandle {
