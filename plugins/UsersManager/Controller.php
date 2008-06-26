@@ -21,16 +21,15 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$view = new Piwik_View('UsersManager/templates/UsersManager.tpl');
 		
 		$IdSitesAdmin = Piwik_SitesManager_API::getSitesIdWithAdminAccess();
-		
 		$idSiteSelected = 1;
 		
 		if(count($IdSitesAdmin) > 0)
 		{
 			$defaultWebsiteId = $IdSitesAdmin[0];
-			$idSiteSelected = Piwik_Common::getRequestVar('idsite', $defaultWebsiteId, 'integer');
+			$idSiteSelected = Piwik_Common::getRequestVar('idsite', $defaultWebsiteId);
 		}
 		
-		if($idSiteSelected==-1)
+		if($idSiteSelected==='all')
 		{
 			$usersAccessByWebsite = array();
 		}
@@ -53,10 +52,12 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 				$usersAccessByWebsite[$login] = 'noaccess';
 			}
 		}
+		ksort($usersAccessByWebsite);
+		
 		$users = array();
 		if(Zend_Registry::get('access')->isSuperUser())
 		{
-			$users =  Piwik_UsersManager_API::getUsers();
+			$users = Piwik_UsersManager_API::getUsers();
 		}
 		
 		$view->idSiteSelected = $idSiteSelected;

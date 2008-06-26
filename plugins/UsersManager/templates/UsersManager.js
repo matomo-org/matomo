@@ -78,13 +78,8 @@ function getUpdateUserAccess(login, access, successCallback)
  	parameters.method =  'UsersManager.setUserAccess';
  	parameters.userLogin = login;
  	parameters.access = access;
- 	
- 	var idSites = getIdSites();
- 	if(idSites != -1)
- 	{
-	 	parameters.idSites = idSites;
- 	}
- 	
+ 	parameters.idSites = getIdSites();
+
 	ajaxRequest.data = parameters;
  	
 	return ajaxRequest;
@@ -146,7 +141,7 @@ function bindUpdateAccess()
 	}
 	
 	var idSite = getIdSites();
-	if(idSite == -1)
+	if(idSite == 'all')
 	{
 		var target = this;       
 		

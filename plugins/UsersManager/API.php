@@ -417,7 +417,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	 * 
 	 * @return bool true on success
 	 */
-	static public function setUserAccess( $userLogin, $access, $idSites = false)
+	static public function setUserAccess( $userLogin, $access, $idSites)
 	{
 		self::checkAccessType( $access );
 		self::checkUserExists( $userLogin);
@@ -430,7 +430,7 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		
 		// in case idSites is null we grant access to all the websites on which the current connected user
 		// has an 'admin' access
-		if(empty($idSites))
+		if($idSites === 'all')
 		{
 			$idSites = Piwik_SitesManager_API::getSitesIdWithAdminAccess();
 		}
