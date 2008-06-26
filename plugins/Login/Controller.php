@@ -68,7 +68,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 	
 	protected function authenticateAndRedirect($login, $password, $urlToRedirect)
 	{
-		$password = md5($password);
+		if(strlen($password) != 32) 
+		{
+			$password = md5($password);
+		}
 		$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login, $password);
 		Piwik_Login::prepareAuthObject($login, $tokenAuth);
 		
