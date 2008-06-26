@@ -199,9 +199,9 @@ class Piwik_FrontController
 	 * 
 	 * @return void
 	 */
-	protected function checkDirectoriesWritableOrDie()
+	static public function checkDirectoriesWritableOrDie( $directoriesToCheck = null )
 	{
-		$resultCheck = Piwik::checkDirectoriesWritable( );
+		$resultCheck = Piwik::checkDirectoriesWritable( $directoriesToCheck );
 		if( array_search(false, $resultCheck) !== false )
 		{ 
 			$directoryList = '';
@@ -293,9 +293,14 @@ class Piwik_FrontController
 	{
 		Zend_Registry::set('timer', new Piwik_Timer);
 		
-		$this->checkDirectoriesWritableOrDie();
+		$directoriesToCheck = array(
+				'/tmp', 
+				'/tmp/templates_c',
+				'/tmp/cache',
+		);
 		
-		$this->assignCliParametersToRequest();
+		self::checkDirectoriesWritableOrDie($directoriesToCheck);
+		self::assignCliParametersToRequest();
 		
 		$exceptionToThrow = false;
 		
@@ -313,19 +318,11 @@ class Piwik_FrontController
 		{
 			throw $exceptionToThrow;
 		}
-		// database object
 		Piwik::createDatabaseObject();
-		
-		// Create the log objects
 		Piwik::createLogObject();
-		
-		
 		Piwik::terminateLoadPlugins();
-		
 		Piwik::install();
 		
-//		Piwik::printMemoryUsage('Start program');
-
 		// can be used for debug purpose
 		$doNotDrop = array(
 				Piwik::prefixTable('access'),
@@ -372,7 +369,7 @@ class Piwik_FrontController
 	 *
 	 * @return void
 	 */
-	protected function assignCliParametersToRequest()
+	static protected function assignCliParametersToRequest()
 	{
 		if(isset($_SERVER['argc'])
 			&& $_SERVER['argc'] > 0)
