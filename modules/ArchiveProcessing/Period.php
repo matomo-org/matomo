@@ -174,16 +174,40 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		foreach($this->archives as $archive)
 		{
 			$archive->preFetchBlob($name);
-					
 			$datatableToSum = $archive->getDataTable($name);
-			
 			$archive->loadSubDataTables($name, $datatableToSum);
-			
 			$table->addDataTable($datatableToSum);
-			
 			$archive->freeBlob($name);
 		}
 		return $table;
+	}
+	
+	protected function initCompute()
+	{
+		parent::initCompute();
+		$this->archives = $this->loadSubperiodsArchive();
+	}
+
+	/**
+	 * Returns the ID of the archived subperiods.
+	 * 
+	 * @return array Array of the idArchive of the subperiods
+	 */
+	protected function loadSubperiodsArchive()
+	{
+		$periods = array();
+		
+		// we first compute every subperiod of the archive
+		foreach($this->period->getSubperiods() as $period)
+		{
+			$archivePeriod = new Piwik_Archive_Single;
+			$archivePeriod->setSite( $this->site );
+			$archivePeriod->setPeriod( $period );
+			$archivePeriod->prepareArchive();
+			
+			$periods[] = $archivePeriod;
+		}
+		return $periods;
 	}
 	
 	/**
@@ -197,8 +221,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 */
 	protected function compute()
 	{		
-		$this->archives = $this->archivesSubperiods;
-		
 		$this->archiveNumericValuesMax( 'max_actions' ); 
 		$toSum = array(
 			'nb_uniq_visitors', 
@@ -210,7 +232,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		$record = $this->archiveNumericValuesSum($toSum);
 		
 		$this->isThereSomeVisits = ($record['nb_visits']->value != 0);
-		
 		if($this->isThereSomeVisits === false)
 		{
 			return;
