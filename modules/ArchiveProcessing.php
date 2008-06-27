@@ -300,7 +300,6 @@ abstract class Piwik_ArchiveProcessing
 	protected function launchArchiving()
 	{
 		$this->initCompute();
-		$this->archivesSubperiods = $this->loadSubperiodsArchive();
 		$this->compute();
 		$this->postCompute();
 		// we execute again the isArchived that does some initialization work
@@ -471,28 +470,6 @@ abstract class Piwik_ArchiveProcessing
 									$record->value,
 							)
 					);
-	}
-	
-	/**
-	 * Returns the ID of the archived subperiods.
-	 * 
-	 * @return array Array of the idArchive of the subperiods
-	 */
-	protected function loadSubperiodsArchive()
-	{
-		$periods = array();
-		
-		// we first compute every subperiod of the archive
-		foreach($this->period->getSubperiods() as $period)
-		{
-			$archivePeriod = new Piwik_Archive_Single;
-			$archivePeriod->setSite( $this->site );
-			$archivePeriod->setPeriod( $period );
-			$archivePeriod->prepareArchive();
-			
-			$periods[] = $archivePeriod;
-		}
-		return $periods;
 	}
 	
 	/**
