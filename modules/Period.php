@@ -10,6 +10,7 @@
  */
 
 require_once "Period/Day.php";
+require_once "Period/Range.php";
 /**
  * Creating a new Piwik_Period subclass: 
  * 
