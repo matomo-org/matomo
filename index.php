@@ -41,7 +41,10 @@ require_once "modules/ExceptionHandler.php";
 set_error_handler('Piwik_ErrorHandler');
 set_exception_handler('Piwik_ExceptionHandler');
 
-session_start();
+if(strlen(session_id()) === 0)
+{
+	session_start();
+}
 
 require_once "FrontController.php";
 
