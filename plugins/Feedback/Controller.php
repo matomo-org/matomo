@@ -28,18 +28,26 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 	function sendFeedback()
 	{
 		// TODO: require user login or captcha if anonymous		
-		
 		$body = Piwik_Common::getRequestVar('body', '', 'string');
 		$email = Piwik_Common::getRequestVar('email', '', 'string');
 
 		$view = new Piwik_View('Feedback/sent.tpl');
-		
 		try 
 		{
+			$minimumBodyLength = 10;
+			if(strlen($body) < $minimumBodyLength)
+			{
+				throw new Exception(sprintf("Message must be at least %s characters long.", $minimumBodyLength));
+			}
+			if(!Piwik::isValidEmailString($email))
+			{
+				throw new Exception(Piwik_Translate('UsersManager_ExceptionInvalidEmail'));
+			}
+			
 			$mail = new Piwik_Mail();
 			$mail->setFrom($email);
 			$mail->addTo('hello@piwik.org','Piwik Team');
-			$mail->setSubject('[ Feedback form ]');
+			$mail->setSubject('[ Feedback form - Piwik ]');
 			$mail->setBodyText($body);
 			@$mail->send();
 		}
