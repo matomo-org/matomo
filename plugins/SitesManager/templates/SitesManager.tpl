@@ -46,6 +46,6 @@
 			
 		</tbody>
 	</table>
-	<div class="addRowSite"><img src='plugins/UsersManager/images/add.png' alt="" />{'SitesManager_AddSite'|translate}</div>
+	<span class="addRowSite"><img src='plugins/UsersManager/images/add.png' alt="" />{'SitesManager_AddSite'|translate}</span>
 {/if}
 
