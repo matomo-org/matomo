@@ -25,7 +25,7 @@
 			<p class="error" style="width:80%">{'Installation_SystemCheckPdoError'|translate}
 			<small>
 			<br /><br />
-			{'Installation_SystemCheckPdoErrorHelp'|translate:"<br/><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />":"<code>--with-pdo-mysql </code>":"<br/><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />"}
+			{'Installation_SystemCheckPdoHelp'|translate:"<br/><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />":"<code>--with-pdo-mysql </code>":"<br/><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />"}
 			</small>
 			</p>
 		{/if}
