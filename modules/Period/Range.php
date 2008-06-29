@@ -19,6 +19,12 @@ class Piwik_Period_Range extends Piwik_Period
 		return $out;
 	}
 
+	/**
+	 *
+	 * @param Piwik_Date $date
+	 * @param int $n
+	 * @return Piwik_Date
+	 */
 	protected function removePeriod( $date, $n )
 	{
 		switch($this->strPeriod)
@@ -68,6 +74,7 @@ class Piwik_Period_Range extends Piwik_Period
 		}
 		return $lastN;
 	}
+	
 	public function setDefaultEndDate( Piwik_Date $oDate)
 	{
 		$this->defaultEndDate = $oDate;
@@ -129,7 +136,7 @@ class Piwik_Period_Range extends Piwik_Period
 		
 		$arrayPeriods= array();
 		$arrayPeriods[] = $endSubperiod;
-		while($endDate->isLater($startDate))
+		while($endDate->isLater($startDate) )
 		{
 			$endDate = $this->removePeriod($endDate, 1);
 			$subPeriod = Piwik_Period::factory($this->strPeriod, $endDate);
