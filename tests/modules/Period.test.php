@@ -7,24 +7,16 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
 }
 
-Zend_Loader::loadClass('Piwik_Period');
-Zend_Loader::loadClass('Piwik_Date');
-
+require_once 'Period.php';
+require_once 'Period/Week.php';
+require_once 'Period/Month.php';
+require_once 'Period/Year.php';
+require_once 'Date.php';
 class Test_Piwik_Period extends UnitTestCase
 {
 	function __construct( $title = '')
 	{
 		parent::__construct( $title );
-	}
-	
-	public function setUp()
-	{
-		$this->timer = new Piwik_Timer;
-	}
-	
-	public function tearDown()
-	{
-//		echo $this->timer . "<br> ";
 	}
 	
 	public function test_getId()
@@ -579,10 +571,10 @@ class Test_Piwik_Period extends UnitTestCase
 			'2000-12-01',
 		);
 			
-//	 	$week = new Piwik_Period_Year( new Piwik_Date('2000-02-15'));
-//	 	$this->assertEqual( $week->getNumberOfSubperiods(), 12);
-//	 	$this->assertEqual( $week->isFinished(), true);
-//	 	$this->assertEqual( $week->toString(), $correct);
+	 	$week = new Piwik_Period_Year( new Piwik_Date('2000-02-15'));
+	 	$this->assertEqual( $week->getNumberOfSubperiods(), 12);
+	 	$this->assertEqual( $week->isFinished(), true);
+	 	$this->assertEqual( $week->toString(), $correct);
 	 }
 	 
 
@@ -602,6 +594,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	}
+	
 	// test range 2
 	function test_range_2days()
 	{
@@ -861,7 +854,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
-	 
+
 	// test range WEEK
 	function test_range_week()
 	{
@@ -884,6 +877,17 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
+	 
+	// test range WEEK last1
+	function test_range_week_last1()
+	{
+	 	$range = new Piwik_Period_Range( 'week', 'last1' );
+	 	$currentWeek = new Piwik_Period_Week(Piwik_Date::today());
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
+	 	$this->assertEqual( $range->isFinished(), false);
+	 	$this->assertEqual( $range->toString(), array($currentWeek->toString()));
+	 }
+	 
 	// test range MONTH
 	function test_range_month()
 	{
@@ -905,6 +909,17 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
+	 
+	// test range MONTH last1
+	function test_range_month_last1()
+	{
+	 	$range = new Piwik_Period_Range( 'month', 'last1' );
+ 		$month = new Piwik_Period_Month(Piwik_Date::today());
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
+	 	$this->assertEqual( $range->isFinished(), false);
+	 	$this->assertEqual( $range->toString(), array($month->toString()));
+	 }
+	 
 	// test range PREVIOUS MONTH
 	function test_range_previousmonth()
 	{
@@ -928,7 +943,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
-	 
+
 	// test range YEAR
 	function test_range_year()
 	{
@@ -949,6 +964,17 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 10);
 	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
+	 }
+	 
+	// test range YEAR last1
+	function test_range_year_last1()
+	{
+		
+	 	$range = new Piwik_Period_Range( 'year', 'last1' );
+	 	$currentYear = new Piwik_Period_Year(Piwik_Date::today());
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
+	 	$this->assertEqual( $range->isFinished(), false);
+	 	$this->assertEqual( $range->toString(), array($currentYear->toString()));
 	 }
 }
 
