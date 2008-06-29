@@ -34,7 +34,7 @@ abstract class Piwik_Period
 	
 	protected static $unknowPeriodException = "The period '%s' is not supported. Try 'day' or 'week' or 'month' or 'year'";
 	
-	protected function __construct( $date )
+	public function __construct( $date )
 	{	
 		$this->checkInputDate( $date );
 		$this->date = clone $date;

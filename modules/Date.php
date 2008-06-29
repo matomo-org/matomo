@@ -177,6 +177,10 @@ class Piwik_Date
      */
     public function subDay( $n )
     {
+    	if($n === 0) 
+    	{
+    		return clone $this;
+    	}
     	$ts = strtotime("-$n day", $this->getTimestamp());
 		return new Piwik_Date( $ts );
     }
@@ -190,6 +194,10 @@ class Piwik_Date
      */
     public function subMonth( $n )
     {
+    	if($n === 0) 
+    	{
+    		return clone $this;
+    	}
 		$ts = $this->getTimestamp();
 		$result = mktime( 
 						date('H', $ts),
