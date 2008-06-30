@@ -1,90 +1,14 @@
-delete ALL useless comments WAY TOO RISKY!!!!!!!!!!!
-review all hooks + generate auto documentation + choose good naming convention
-
-add clearpsring all widgets (create plugin)
-graph pie chart : others is -1
+to check
+========
 check that when online archiving disabled, take the last valid archiving
-
-admin login screen should be ful screen not in ajax frame
-piwik logo should be colored logo
-text top shoudl be smaller (login, root)
-
-API request shouldnt be SO DataTable aware
-the logic of printing out nice datatable should be in some datattable class
-
 ACTIONS limit seem not right, seem limited to 50 instead of 200 for root
-put limit configuration in config files
-rename "Others" on a per API method basis "Other keywords" "Other websites" otherwise it's not clear at all 
-
-merge config file instead of annoying file selection?
-
-deactivate online logs
-
-commenting remaining core files 6 hours
-review all TODO from code + create tickets OR fix
-
-tickets next roadmap 
-- INTEGRATION (subtickets)
-- OPTIMIZATION
-- SECURITE 
-- DOCUMENTATION: 
-http://producingoss.com/en/getting-started.html#documentation
-page: comment aider piwik ? mail sending, outlink/download tracking documentation,
-voir la page thought about dev process et creer la liste de documentations
-see marketing last.zip
-
-
-http://producingoss.com/en/share-management.html
-http://producingoss.com/en/getting-started.html#starting-a-faq
-FAQ manager
-issues manager
-
-features
-screenshots
-
-Usability 
-Documentation
-- write beginners tutorials medium level user http://producingoss.com/en/funding-non-programming.html
-
-
-http://piwik.org/demo/?module=API&method=VisitsSummary.getVisits&idSite=1&period=week&date=last2&format=xml
-add xml dateFrom dateTo to result to pragmatically useful
-
-
-make sure with token auth no DB access
-
-First, knowing that I run "Piwik  # open source analytics" is great the first time, 
-but the next ones it's just loosing space. I would replace that by the name of the website and a little 
-something that would let me choose another website.
-I would also split the "Admin | API | Widget | send us feedback" bar. Moving the admin link to the user bar
- at the top, and the rest at the very bottom of the page, with a link to piwik.org.
-
-
-config file defined:
-when archiving from CLI ==> @set_time_limit(0); 
-==> set memory_limit high from config file
-
-
-regarder pour error_reporting
-admin sites css overwrite
-Review all english strings, make them more explicit
- 
-editing site web with single quote bugs in siteAdmin
+editing site web with single quote bugs in siteAdmin???
 something is wrong in JS calendar when year selected
 
-plugins easy to register a new hook
-
-error RSS Feed only used on DataTable_Array http://piwik.org/demo/?module=API&method=Referers.getKeywords&idSite=1&period=week&date=yesterday&format=rss&filter_limit=30&filter_sort_column=3 
-NOT CLEAR MESSAGE
-
-documenter 	const VISIT_STANDARD_LENGTH = 1800; when writing plugin and need to test stats log
-
-Pour la home de Piwik, on aurait en + du contenu piwik proprement dit :
-- un extrait du  blog
-- le nombre d�install piwik ( le compteur )
-- la possibilit� de s�abonner a une newsletter
-- Les news Piwik...
-
+design notes
+============
+API request shouldnt be SO DataTable aware
+merge config file instead of annoying file selection?
 
 CHANGES DONE TO LIBRARIES
 =========================
