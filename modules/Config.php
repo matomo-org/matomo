@@ -189,7 +189,7 @@ class Piwik_Config
 		{
 			if($this->doWriteFileWhenUpdated)
 			{
-				Piwik_FrontController::checkDirectoriesWritableOrDie(array( '/'.$this->getDefaultUserConfigPath()) );
+				Piwik_FrontController::checkDirectoriesWritableOrDie( array('/config') );
 			}
 			$enoughPermission = true;
 		}
