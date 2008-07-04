@@ -576,12 +576,7 @@ dashboard.prototype =
 			async: true,
 			error: ajaxHandleError,		// on request fails
 			success: onLoaded,			// on request succeeds
-			data: {	module: pluginId,
-					action: actionId,
-					idSite: piwik.idSite,
-					period: piwik.period,
-					date: piwik.currentDateStr
-	 			}
+			data: "module="+pluginId+"&action="+actionId+"&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+piwik.currentDateStr
 		};
 		$.ajax(ajaxRequest);
 	}

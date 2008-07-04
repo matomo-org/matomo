@@ -12,9 +12,9 @@
 	{/if}
 	
 	piwik.availableWidgets = {$availableWidgets};
-	piwik.idSite = decodeURIComponent("{$idSite}");
-	piwik.period = decodeURIComponent("{$period}");
-	piwik.currentDateStr = decodeURIComponent("{$date}");
+	piwik.idSite = "{$idSite}";
+	piwik.period = "{$period}";
+	piwik.currentDateStr = "{$date}";
 </script>
 
 <script type="text/javascript" src="plugins/Dashboard/templates/Dashboard.js"></script>
