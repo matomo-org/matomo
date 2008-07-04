@@ -97,7 +97,7 @@ class Piwik
 			}
 			
 			if(!file_exists($directoryToCheck))
-			{			
+			{
 				Piwik::mkdir($directoryToCheck, 0755, false);
 			}
 			
@@ -981,24 +981,17 @@ class Piwik
     static public function createTables()
 	{
 		$db = Zend_Registry::get('db');
-		
 		$config = Zend_Registry::get('config');
 		$prefixTables = $config->database->tables_prefix;
-		
-		//Piwik::log("Creating ". implode(", ", self::getTablesNames()));
-		
+
+		$tablesAlreadyInstalled = self::getTablesInstalled();
 		$tablesToCreate = self::getTablesCreateSql();
-		
 		unset($tablesToCreate['archive_blob']);
 		unset($tablesToCreate['archive_numeric']);
-		
-		$tablesAlreadyInstalled = self::getTablesInstalled();
-		
+
 		foreach($tablesToCreate as $tableName => $tableSql)
 		{
 			$tableName = $prefixTables . $tableName;
-
-			// if the table doesn't exist already
 			if(!in_array($tableName, $tablesAlreadyInstalled))
 			{
 				$db->query( $tableSql );
@@ -1008,14 +1001,12 @@ class Piwik
 	
 	static public function install()
 	{
-		// create directories
 		Piwik::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
 		Piwik::mkdir(Zend_Registry::get('config')->smarty->cache_dir);
 	}
 	
 	static public function uninstall()
 	{
-		// delete tables
 		$db = Zend_Registry::get('db');
 		$db->query( "DROP TABLE IF EXISTS ". implode(", ", self::getTablesNames()) );
 	}

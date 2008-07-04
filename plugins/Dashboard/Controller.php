@@ -130,12 +130,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	//in a 'master' controller for statistics (tracs #91)
 	protected function setGeneralVariablesView($view)
 	{
-		// date
 		$view->date = $this->strDate;
 		$oDate = new Piwik_Date($this->strDate);
 		$view->prettyDate = $oDate->get("l jS F Y");
 		
-		// period
 		$currentPeriod = Piwik_Common::getRequestVar('period');
 		$otherPeriodsAvailable = array('day','week','month','year');
 		
@@ -147,10 +145,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		
 		$view->period = $currentPeriod;
 		$view->otherPeriods = $otherPeriodsAvailable;
-		
-		// other
 		$view->idSite = Piwik_Common::getRequestVar('idSite');
-		
 		$view->userLogin = Piwik::getCurrentUserLogin();
 		$view->sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
 		$view->url = Piwik_Url::getCurrentUrl();
