@@ -9,8 +9,8 @@
  * @package Piwik_Login
  */
 require "Login/Controller.php";
+require "Login/Auth.php";
 require "Cookie.php";
-
 
 /**
  * 
@@ -21,22 +21,20 @@ class Piwik_Login extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			// name must be the className prefix!
 			'name' => 'Login',
 			'description' => 'Description',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
-		
 		return $info;
 	}
 	
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'FrontController.authSetCredentials' 		=> 'authSetCredentials',
-			'FrontController.NoAccessException'			=> 'noAccess',
+			'FrontController.authSetCredentials'	=> 'authSetCredentials',
+			'FrontController.NoAccessException'		=> 'noAccess',
 		);
 		return $hooks;
 	}
@@ -45,15 +43,14 @@ class Piwik_Login extends Piwik_Plugin
 	{
 		$exception  = $notification->getNotificationObject();
 		$exceptionMessage = $exception->getMessage(); 
-		
+
 		$controller = new Piwik_Login_Controller;
 		$controller->login($exceptionMessage);
 	}
 	
 	function authSetCredentials($notification)
 	{
-		// Create auth object
-		$authAdapter = new Piwik_Auth();
+		$authAdapter = new Piwik_Login_Auth();
      	Zend_Registry::set('auth', $authAdapter);
 		
 		$tokenAuthAPIInUrl = Piwik_Common::getRequestVar('token_auth', '', 'string');
@@ -63,24 +60,17 @@ class Piwik_Login extends Piwik_Plugin
 		}
 		else
 		{
-			// cookie based authentication
 			$authCookieName = 'piwik-auth';
 			$authCookieExpiry = time() + 3600;
-	
 			$authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
-			
-			// by defaul the login is anonymous
-			$login = 'anonymous';
-			// and the token_auth anonymous. 
-			// Note that the user created in the DB has a token_auth value of anonymous
-			$tokenAuth = 'anonymous';
-			
+			$defaultLogin = 'anonymous';
+			$defaultTokenAuth = 'anonymous';
 			if($authCookie->isCookieFound())
 			{
-				$login = $authCookie->get('login');
-				$tokenAuth =  $authCookie->get('token_auth');
+				$defaultLogin = $authCookie->get('login');
+				$defaultTokenAuth = $authCookie->get('token_auth');
 			}
-			self::prepareAuthObject($login, $tokenAuth);
+			self::prepareAuthObject($defaultLogin, $defaultTokenAuth);
 		}
 	}
 	
@@ -94,4 +84,3 @@ class Piwik_Login extends Piwik_Plugin
 	     	->setCredential($tokenAuth);
 	}
 }
-
