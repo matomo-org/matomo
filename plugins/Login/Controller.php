@@ -37,7 +37,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$login = $form->getSubmitValue('form_login');
 			$password = $form->getSubmitValue('form_password');
 			$authenticated = $this->authenticateAndRedirect($login, $password, $urlToRedirect);
-
 			if($authenticated === false)
 			{
 				$messageNoAccess = Piwik_Translate('Login_LoginPasswordNotCorrect');
@@ -82,8 +81,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$authCookieExpiry = time() + 3600;
 			$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
 			$cookie->set('login', $login);
-			$tokenAuth = $auth->getTokenAuth();
-			$cookie->set('token_auth', $tokenAuth);
+			$cookie->set('token_auth', $auth->getTokenAuth());
 			$cookie->save();
 
 			$urlToRedirect = htmlspecialchars_decode($urlToRedirect);

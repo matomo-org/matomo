@@ -47,11 +47,7 @@ class Piwik_Login_Form extends Piwik_Form
 			array('form_password', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Password')), 'required'),
 		);
 		$this->addRules( $formRules );	
-		
 		$this->addElement('submit', 'submit');
-	
 	}
-	
-	
 }
 

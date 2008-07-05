@@ -94,7 +94,6 @@ class Piwik_FrontController
 		if(is_null($module))
 		{
 			$defaultModule = 'Home';
-			// load the module requested
 			$module = Piwik_Common::getRequestVar('module', $defaultModule, 'string');
 		}
 		
@@ -113,20 +112,15 @@ class Piwik_FrontController
 			throw new Exception("Invalid module name '$module'");
 		}
 		
-		
-		// check that the plugin is enabled
 		if( ! Piwik_PluginsManager::getInstance()->isPluginEnabled( $module )) 
 		{
 			throw new Exception_PluginDeactivated($module);
 		}
 				
-		
 		$controllerClassName = "Piwik_".$module."_Controller";
-		
 		if(!class_exists($controllerClassName))
 		{
 			$moduleController = "plugins/" . $module . "/Controller.php";
-			
 			if( !Zend_Loader::isReadable($moduleController))
 			{
 				throw new Exception("Module controller $moduleController not found!");
@@ -135,7 +129,6 @@ class Piwik_FrontController
 		}
 		
 		$controller = new $controllerClassName;
-		
 		if($action === false)
 		{
 			$action = $controller->getDefaultAction();
@@ -214,13 +207,11 @@ class Piwik_FrontController
 				}
 			}
 			$directoryList .= '';
-			
 			$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your Linux server:</P>";
 			$directoryMessage .= $directoryList;
 			$directoryMessage .= "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 777 (with your FTP software, right click on the directories, permissions).";
 			$directoryMessage .= "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.";
 			$directoryMessage .= "<p>If you need more help, try <a href='http://piwik.org'>Piwik.org</a>.";
-			
 			
 			$html = '
 				<html>
@@ -304,7 +295,6 @@ class Piwik_FrontController
 		
 		$exceptionToThrow = false;
 		
-		//move into a init() method
 		try {
 			Piwik::createConfigObject();
 		} catch(Exception $e) {
@@ -313,7 +303,6 @@ class Piwik_FrontController
 		}
 		
 		Piwik::loadPlugins();
-		
 		if($exceptionToThrow)
 		{
 			throw $exceptionToThrow;
@@ -323,38 +312,16 @@ class Piwik_FrontController
 		Piwik::terminateLoadPlugins();
 		Piwik::install();
 		
-		// can be used for debug purpose
-		$doNotDrop = array(
-				Piwik::prefixTable('access'),
-				Piwik::prefixTable('user'),
-				Piwik::prefixTable('site'),
-				Piwik::prefixTable('archive'),
-				
-				Piwik::prefixTable('logger_api_call'),
-				Piwik::prefixTable('logger_error'),
-				Piwik::prefixTable('logger_exception'),
-				Piwik::prefixTable('logger_message'),
-				
-				Piwik::prefixTable('log_visit'),
-				Piwik::prefixTable('log_link_visit_action'),
-				Piwik::prefixTable('log_action'),
-				Piwik::prefixTable('log_profiling'),
-		);
-		
-		// Setup the auth object
 		Piwik_PostEvent('FrontController.authSetCredentials');
-
 		try {
 			$authAdapter = Zend_Registry::get('auth');
-		}
-		catch(Exception $e){
+		} catch(Exception $e){
 			throw new Exception("Object 'auth' cannot be found in the Registry. Maybe the Login plugin is not enabled?
 								<br>You can enable the plugin by adding:<br>
 								<code>Plugins[] = Login</code><br>
 								under the <code>[Plugins]</code> section in your config/config.inc.php");
 		}
 		
-		// Perform the authentication query, saving the result
 		$access = new Piwik_Access($authAdapter);
 		Zend_Registry::set('access', $access);		
 		Zend_Registry::get('access')->loadAccess();
@@ -383,6 +350,7 @@ class Piwik_FrontController
 		}				
 	}
 }
+
 /**
  * Exception thrown when the requested plugin is not activated in the config file
  *
