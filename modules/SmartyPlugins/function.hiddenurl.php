@@ -40,7 +40,7 @@ function smarty_function_hiddenurl($params, &$smarty)
 	$out = '';
 	foreach($urlValues as $name => $value)
 	{
-		$out .= '<input type="hidden" name="'.$name.'" value="'.$value.'" />'."\n";
+		$out .= '<input type="hidden" name="'.$name.'" value="'.$value.'" />';
 	}
 	return $out;
 }
