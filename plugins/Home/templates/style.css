@@ -45,18 +45,8 @@ body {
 	font-size: 1em;
 }
 
-#h1,#h1 a {
-	color: #136F8B;
-	font-size: 45px;
-	font-weight: lighter;
-	text-decoration: none;
-	margin: 5px;
-}
-
-#subh1 {
-	color: #879dbd;
-	font-size: 25px;
-	font-weight: lighter;
+#title {
+	align: left;
 }
 
 h1 {
@@ -105,12 +95,45 @@ p {
 	padding-left: 20px;
 }
 
-/* Calendar */
-#calendar {
-	position: relative;
-	margin-left: 350px;
+#header {
+	line-height: 1;
 }
 
+#logo {
+	float: left;
+	display: inline;
+	font-size: 45pt;
+	padding-left: 15px;
+	padding-left: 15px;
+}
+
+#righttext {
+	position: relative;
+	text-align: left;
+	float: right;
+	margin-top: 10px;
+	font-size: 1em;
+	width: 300px;
+	line-height: 1.33;
+}
+
+#calendar {
+	display: block;
+}
+
+#periodString #date,#periodString #periods,#periodString #date a,#periodString #periods a
+	{
+	color: #520202;
+	font-size: 15pt;
+}
+
+#periodString {
+	padding-top: 2em;
+	margin-left: 350px;
+	display: block;
+}
+
+/* Calendar*/
 .calendar td.dateToday,.calendar td.dateToday a {
 	font-weight: bold;
 }
@@ -124,15 +147,8 @@ p {
 	color: #F2F7FF;
 }
 
-/* style for the date picking */
-#periodString {
-	margin-left: 350px;
-}
-
-#periodString #date,#periodString #periods,#periodString #date a,#periodString #periods a
-	{
-	color: #520202;
-	font-size: 15pt;
+.calendar {
+	line-height: 1.33;
 }
 
 #otherPeriods a {
@@ -171,8 +187,37 @@ p {
 	margin-left: 30%;
 }
 
-#miscLinks {
-	padding-right: 20px;
+#bar,#user {
+	font-family: arial, sans-serif !important;
+	height: 20px;
+	padding: 4px 10px 0px !important;
+	background-color: #FFFFFF;
+	font-size: 13px;
+	padding-top: 4px !important;
+}
+
+#bar {
+	float: left;
+	height: 22px;
+	padding-left: 10px;
+}
+
+.bar-elem {
+	height: 22px;
+	margin-right: 0.73em;
+	vertical-align: top;
+	color: #000000;
+	margin-bottom: 0px;
+}
+
+.line {
+	left: 0pt;
+	position: absolute;
+	top: 30px;
+	width: 100%;
+	border-top: 1px solid #C9D7F1;
+	font-size: 0pt;
+	height: 0pt;
 }
 
 #periodSelection,#periodSelection a {
@@ -189,14 +234,6 @@ p {
 .sparkline {
 	vertical-align: middle;
 	padding-right: 10px;
-}
-
-#stuff {
-	position: absolute;
-	margin-left: 70%;
-	margin-top: 10px;
-	font-size: 0.9em;
-	width: 20%;
 }
 
 /* top right bar */

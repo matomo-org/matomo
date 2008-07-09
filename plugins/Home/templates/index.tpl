@@ -47,49 +47,28 @@ var minDateDay = {$minDateDay};
 </head>
 <body>
 
-<div id="loggued">
-<form action="{url idSite=null}" method="get" id="siteSelection">
-<small>
-	<strong>{$userLogin}</strong>
-	| 
-<span id="sitesSelection">
-{hiddenurl idSite=null}
-Site <select name="idSite" onchange='javascript:this.form.submit()'>
-	<optgroup label="Sites">
-	   {foreach from=$sites item=info}
-	   		<option label="{$info.name}" value="{$info.idsite}" {if $idSite==$info.idsite} selected="selected"{/if}>{$info.name}</option>
-	   {/foreach}
-	</optgroup>
-</select>
-</span> | {if $userLogin=='anonymous'}<a href='?module=Login'>{'Login_LogIn'|translate}</a>{else}<a href='?module=Login&amp;action=logout'>{'Login_Logout'|translate}</a>{/if}
-</small>
-</form>
-</div>
+{include file="Home/templates/top_bar.tpl"}
 
-<span id="h1"><a href='http://piwik.org'>Piwik</a> </span><span id="subh1"> # open source web analytics</span><br />
+<br clear="all" />
 
-<div id="stuff" style="width:350; text-align:left;">
-	<div>
-		<span id="messageToUsers"><a href='http://piwik.org'>Piwik</a> is a collaborative project and still Beta. If you want to help, please <u><a href="mailto:hello@piwik.org?subject=Piwik">contact us</a></u>.</span> 
-		{include file="Home/templates/links_misc_modules.tpl"}
-	</div>
+<div id="header">
+{include file="Home/templates/header.tpl"}
 </div>
-<br />
 
 <noscript>
 <span id="javascriptDisable">
 {'Home_JavascriptDisabled'|translate:'<a href="">':'</a>'}
 </span>
 </noscript>
-{include file="Home/templates/period_select.tpl"}
 
-<br /><br />
+<br />
 {include file="Home/templates/menu.tpl"}
 
 <div style='clear:both'></div>
 
 <div id="loadingPiwik" {if $basicHtmlView}style="display:none"{/if}><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate}</div>
 <div id="loadingError">{'General_ErrorRequest'|translate}</div>
+
 <div id='content'>
 {if $content}{$content}{/if}
 </div>
