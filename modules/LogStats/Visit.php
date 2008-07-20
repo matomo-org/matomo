@@ -452,11 +452,6 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		/**
 		 * Get the variables from the REQUEST 
 		 */
-
-		// Configuration settings
-		$userInfo = $this->getUserSettingsInformation();
-
-		// General information
 		$localTime				= Piwik_Common::getRequestVar( 'h', $this->getCurrentDate("H"), 'numeric')
 							.':'. Piwik_Common::getRequestVar( 'm', $this->getCurrentDate("i"), 'numeric')
 							.':'. Piwik_Common::getRequestVar( 's', $this->getCurrentDate("s"), 'numeric');
@@ -477,11 +472,10 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		
 		$defaultTimeOnePageVisit = Piwik_LogStats_Config::getInstance()->LogStats['default_time_one_page_visit'];
 		
-		// Location information
+		$userInfo = $this->getUserSettingsInformation();
 		$country 		= Piwik_Common::getCountry($userInfo['location_browser_lang']);				
 		$continent		= Piwik_Common::getContinent( $country );
 														
-		//Referer information
 		$refererInfo = $this->getRefererInformation();
 		
 		/**
@@ -497,7 +491,6 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		 * Save the visitor
 		 */
 		$informationToSave = array(
-			//'idvisit' => ,
 			'idsite' 				=> $this->idsite,
 			'visitor_localtime' 	=> $localTime,
 			'visitor_idcookie' 		=> $idcookie,
@@ -551,9 +544,7 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		$this->visitorInfo['visit_first_action_time'] = $serverTime;
 		$this->visitorInfo['visit_last_action_time'] = $serverTime;
 		
-		/**
-		 * Save the action
-		 */
+		// saves the action
 		$action->record( $idVisit, 0, 0 );
 		
 	}
@@ -624,16 +615,23 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		$this->refererUrlParse = @parse_url($refererUrl);
 		$this->currentUrlParse = @parse_url($currentUrl);
 
-		// if we have a referer available we try to detect something interesting
-		// otherwise it's defaulted to "the visitor is a direct entry"
-		if( !empty($this->refererUrlParse['host']) )
+		$refererDetected = false;
+		if( !empty($this->currentUrlParse['host']))
+		{
+			if(		!$this->detectRefererNewsletter()
+				&&	!$this->detectRefererPartner()
+				&&	!$this->detectRefererCampaign() )
+			{
+				$refererDetected = true;
+			}
+		}
+		
+		if(!$refererDetected
+			&& !empty($this->refererUrlParse['host']) )
 		{
 			$this->refererHost = $this->refererUrlParse['host'];
 			
 			if( 	!$this->detectRefererSearchEngine()
-				&&	!$this->detectRefererNewsletter()
-				&&	!$this->detectRefererPartner()
-				&&	!$this->detectRefererCampaign()
 				&&	!$this->detectRefererDirectEntry()
 			)
 			{
@@ -642,7 +640,7 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 				$this->nameRefererAnalyzed = $this->refererHost;
 			}
 		}
-
+		
 		$refererInformation = array(
 			'referer_type' 		=> $this->typeRefererAnalyzed,
 			'referer_name' 		=> $this->nameRefererAnalyzed,
@@ -776,6 +774,7 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 			}
 		}
 	}
+	
 	
 	/*
 	 * Direct entry (referer host is similar to current host)
