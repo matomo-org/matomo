@@ -436,7 +436,6 @@ $translations = array(
 	'VisitorInterest_OnePage' => '1 strona',
 	'VisitorInterest_NPages' => '%s stron',
 	'VisitorInterest_BetweenXYSeconds' => '%1s-%2ss',
-	'Login_PluginDescription' => 'Ekran logowania, dane uwierzytelniające użytkownika',
 	'Login_LoginPasswordNotCorrect' => 'Nazwa użytkownika i hasło niepoprawne',
 	'Login_Login' => 'Nazwa użytkownika',
 	'Login_Password' => 'Hasło',
