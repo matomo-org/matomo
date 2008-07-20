@@ -8,7 +8,6 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 }
 
 require 'LogStats/Db.php';
-//Zend_Loader::loadClass('Piwik_');
 
 class Test_Piwik_LogStats_Db extends UnitTestCase
 {

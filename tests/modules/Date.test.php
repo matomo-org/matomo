@@ -7,7 +7,8 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
 }
 
-Zend_Loader::loadClass('Piwik_Date');
+
+require_once 'Date.php';
 
 class Test_Piwik_Date extends UnitTestCase
 {

@@ -7,9 +7,8 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
 }
 
-Zend_Loader::loadClass('Piwik_Timer');
 
-		
+require_once 'Timer.php';		
 class Test_PHP_Related extends UnitTestCase
 {
 	function __construct( $title = '')

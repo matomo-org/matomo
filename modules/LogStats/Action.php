@@ -78,7 +78,6 @@ class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
 	}
 	
 	
-	
 	/**
 	 * Returns the idaction of the current action name.
 	 * This idaction is used in the visitor logging table to link the visit information 
@@ -205,6 +204,7 @@ class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
 		
 		$this->finalActionName = $actionName;
 	}
+	
 	/**
 	 * Sets the attribute $idAction based on $finalActionName and $actionType.
 	 * 

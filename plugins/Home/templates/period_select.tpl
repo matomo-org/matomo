@@ -3,7 +3,7 @@
 	<span id="periods"> 
 		<span id="currentPeriod">{$periodsNames.$period}</span> 
 		<span id="otherPeriods">
-			{foreach from=$otherPeriods item=thisPeriod}| <a href='{url period=$thisPeriod}'>{$periodsNames.$thisPeriod}</a>{/foreach}
+			{foreach from=$otherPeriods item=thisPeriod} | <a href='{url period=$thisPeriod}'>{$periodsNames.$thisPeriod}</a>{/foreach}
 		</span>
 	</span>
 	<br/>

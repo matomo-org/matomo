@@ -340,9 +340,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		// giving good names to pages
 	}
 	
-	
-	
-	
 	protected function initObjectsToCallAPI()
 	{
 		// connect to the database using the DB infos currently in the session

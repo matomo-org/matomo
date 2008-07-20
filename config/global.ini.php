@@ -22,7 +22,7 @@ port			= 3306
 adapter 		= PDO_MYSQL
  
 [Language]
-current			= en
+current			= fr
 fallback		= en
 
 [Plugins]
@@ -71,7 +71,7 @@ enable_sql_profiler = false
 [General]
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
-time_before_archive_considered_outdated = 20
+time_before_archive_considered_outdated = 2
 
 ; When loading piwik interface, we redirect the user to 'yesterday' statistics by default
 ; Possible values: yesterday, today, or any YYYY-MM-DD

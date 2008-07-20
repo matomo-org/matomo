@@ -118,7 +118,7 @@ require_once "DataTable/Manager.php";
  * 
  * 
  * ---- Other (ideas)
- * We can also imagine building a DataTable_Compare which would take 2 DataTable that have the same
+ * We can also imagine building a DataTable_Compare which would take N DataTable that have the same
  * structure and would compare them, by computing the percentages of differences, etc.
  * 
  * For example 
@@ -189,22 +189,22 @@ class Piwik_DataTable
 	 * @var bool
 	 */
 	protected $enableRecursiveSort = false;
-	
+
 	/*
 	 * @var Piwik_DataTable_Row
 	 */
 	protected $summaryRow = null;
-	
+
 	const ID_SUMMARY_ROW = -1; //TODO check that not possible adding a row with this ID normally
 	const LABEL_SUMMARY_ROW = -1;
-	
+
 	/**
 	 * Maximum nesting level
 	 * 
 	 * @var int
 	 */
 	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 20;
-	
+
 	/**
 	 * Builds the DataTable, registers itself to the manager
 	 *
@@ -213,7 +213,7 @@ class Piwik_DataTable
 	{
 		$this->currentId = Piwik_DataTable_Manager::getInstance()->addTable($this);
 	}
-	
+
 	/**
 	 * Sort the dataTable rows using the php callback function 
 	 *
@@ -237,7 +237,7 @@ class Piwik_DataTable
 			}
 		}
 	}
-	
+
 	/**
 	 * Enables the recursive sort. Means that when using $table->sort() 
 	 * it will also sort all subtables using the same callback
@@ -248,7 +248,7 @@ class Piwik_DataTable
 	{
 		$this->enableRecursiveSort = true;
 	}
-	
+
 	/**
 	 * Returns the number of rows before we applied the limit filter
 	 *
@@ -263,7 +263,7 @@ class Piwik_DataTable
 		}
 		return $toReturn;
 	}
-	
+
 	/**
 	 * Saves the current number of rows
 	 * 
@@ -274,7 +274,7 @@ class Piwik_DataTable
 	{
 		$this->rowsCountBeforeLimitFilter = $this->getRowsCount();
 	}
-	
+
 	/**
 	 * Queue a DataTable_Filter that will be applied at the end of the process 
 	 * (just before sending the datatable back to the browser (or API, etc.)
@@ -290,7 +290,7 @@ class Piwik_DataTable
 		}
 		$this->queuedFilters[] = array('className' => $className, 'parameters' => $parameters);
 	}
-	
+
 	/**
 	 * Apply all filters that were previously queued to this table
 	 * @see queueFilter()
@@ -315,7 +315,7 @@ class Piwik_DataTable
 		}
 		$this->queuedFilters = array();
 	}
-		
+
 	/**
 	 * Adds a new DataTable to this DataTable
 	 * Go through all the rows of the new DataTable and applies the algorithm:
@@ -359,7 +359,7 @@ class Piwik_DataTable
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the Piwik_DataTable_Row that has a column 'label' with the value $label
 	 *
@@ -405,7 +405,7 @@ class Piwik_DataTable
 		}
 		$this->indexNotUpToDate = false;
 	}
-	
+
 	/**
 	 * Returns the ith row in the array
 	 *
@@ -436,7 +436,7 @@ class Piwik_DataTable
 		$this->rows[] = $row;	
 		$this->indexNotUpToDate = true;
 	}
-	
+
 	/**
 	 * Sets the summary row (a dataTable can have only one summary row)
 	 *
@@ -446,7 +446,7 @@ class Piwik_DataTable
 	{
 		$this->summaryRow = $row;
 	}
-	
+
 	/**
 	 * Returns the dataTable ID
 	 *
@@ -456,7 +456,7 @@ class Piwik_DataTable
 	{
 		return $this->currentId;
 	}
-		
+
 	/**
 	 * Adds a new row from a PHP array data structure
 	 * You should use loadFromArray for performance!
@@ -467,7 +467,7 @@ class Piwik_DataTable
 	{
 		$this->loadFromArray(array($row));
 	}
-	
+
 	/**
 	 * Adds a new row a PHP array data structure
 	 * You should use loadFromSimpleArray for performance!
@@ -478,7 +478,7 @@ class Piwik_DataTable
 	{
 		$this->loadFromSimpleArray(array($row));
 	}
-	
+
 	/**
 	 * Returns the array of Piwik_DataTable_Row
 	 * 
@@ -495,7 +495,7 @@ class Piwik_DataTable
 			return $this->rows + array(self::ID_SUMMARY_ROW => $this->summaryRow);
 		}
 	}
-	
+
 	/**
 	 * Returns the number of rows in the table
 	 * 
@@ -533,7 +533,7 @@ class Piwik_DataTable
 		$row = array_slice($this->rows, 0, 1);
 		return $row[0];
 	}
-	
+
 	/**
 	 * Returns the last row of the DataTable
 	 *
@@ -553,7 +553,7 @@ class Piwik_DataTable
 		$row = array_slice($this->rows, -1);
 		return $row[0];
 	}
-	
+
 	/**
 	 * Returns the sum of the number of rows of all the subtables 
 	 * 		+ the number of rows in the parent table
@@ -576,7 +576,7 @@ class Piwik_DataTable
 		$totalCount += $this->getRowsCount();
 		return $totalCount;
 	}
-	
+
 	/**
 	 * Delete a given column $name in all the rows
 	 *
@@ -593,7 +593,7 @@ class Piwik_DataTable
 			$this->summaryRow->deleteColumn($name);
 		}
 	}
-	
+
 	/**
 	 * Deletes the ith row 
 	 *
@@ -613,7 +613,7 @@ class Piwik_DataTable
 		}
 		unset($this->rows[$id]);
 	}
-	
+
 	/**
 	 * Deletes all row from offset, offset + limit.
 	 * If limit is null then limit = $table->getRowsCount()
@@ -664,7 +664,7 @@ class Piwik_DataTable
 			$this->deleteRow($key);
 		}
 	}
-	
+
 	/**
 	 * Returns a simple output of the DataTable for easy visualization
 	 * Example: echo $datatable;
@@ -676,7 +676,7 @@ class Piwik_DataTable
 		$renderer = new Piwik_DataTable_Renderer_Console($this);
 		return (string)$renderer;
 	}
-	
+
 	/**
 	 * Returns true if both DataTable are exactly the same.
 	 * Used in unit tests.
@@ -716,7 +716,7 @@ class Piwik_DataTable
 		
 		return true;
 	}
-	
+
 	/**
 	 * The serialization returns a one dimension array containing all the 
 	 * serialized DataTable contained in this DataTable.
@@ -793,7 +793,7 @@ class Piwik_DataTable
 		
 		return $aSerializedDataTable;
 	}
-	
+
 	 /**
 	  * Load a serialized string of a datatable.
 	  * 
@@ -814,7 +814,7 @@ class Piwik_DataTable
 		}
 		$this->loadFromArray($serialized);
 	}
-		 
+
 	/**
 	 * Loads the DataTable from a PHP array data structure
 	 * 
@@ -851,7 +851,7 @@ class Piwik_DataTable
 			}
 		}
 	}
-	
+
 	/**
 	 * Loads the data from a simple php array.
 	 * Basically maps a simple multidimensional php array to a DataTable.
@@ -947,7 +947,7 @@ class Piwik_DataTable
 			$this->addRow($row);
 		}
 	}
-	
+
 	/**
 	 * Rewrites the input $array 
 	 * array (
@@ -1004,7 +1004,7 @@ class Piwik_DataTable
 			$this->addRow( new Piwik_DataTable_Row($cleanRow) );
 		}
 	}
-	
+
 	/**
 	 * At destruction we try to free memory
 	 * But php doesn't give us much control on this

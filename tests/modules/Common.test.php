@@ -7,7 +7,7 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
 }
 
-Zend_Loader::loadClass('Piwik_Common');
+require_once 'Common.php';
 class Test_Piwik_Common extends UnitTestCase
 {
 	function __construct( $title = '')

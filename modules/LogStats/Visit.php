@@ -692,12 +692,10 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 						$key = htmlspecialchars(
 									@iconv(	$charset, 
 											'utf-8//TRANSLIT', 
-											//TODO testthis fnction exists!! use upgrade.php
 											htmlspecialchars_decode($key, Piwik_Common::HTML_ENCODING_QUOTE_STYLE))
 									, Piwik_Common::HTML_ENCODING_QUOTE_STYLE);
 					}
 				}
-				
 				
 				if(!empty($key))
 				{
@@ -800,6 +798,7 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		}
 		
 	}
+	
 	/**
 	 * Returns a MD5 of all the configuration settings
 	 * @return string
@@ -825,6 +824,4 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 			return Piwik_Common::generateUniqId();
 		}
 	}
-
 }
-
