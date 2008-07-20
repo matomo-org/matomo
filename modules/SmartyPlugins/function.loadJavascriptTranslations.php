@@ -46,13 +46,11 @@ function smarty_function_loadJavascriptTranslations($params, &$smarty)
 	
 	if( isset($params['noHtml']) )
 	{
-		// TODO: add {$PiwikUrl} to the following js include:
 		$jsCode .= "document.write('<scr'+'ipt language=\"javascript\" src=\"libs/javascript/sprintf.js\"><\/scr'+'ipt>');\n";
 		$jsCode .= $jsTranslations;
 	}
 	else
 	{
-		// TODO: add {$PiwikUrl} to the following js include:
 		$jsCode .= '<script type="text/javascript" src="libs/javascript/sprintf.js"></script>';	
 		$jsCode .= '<script type="text/javascript">';
 		$jsCode .= $jsTranslations;
