@@ -382,7 +382,6 @@ $translations = array(
 	'VisitorInterest_SubmenuFrequencyLoyalty' => 'Frequenz & Lojalität',
 	'Provider_WidgetProviders' => 'Provider',
 	'Provider_SubmenuLocationsProvider' => 'Standort & Provider',
-	'Login_PluginDescription' => 'Anmeldeseite, stellt  Benutzerdaten dar',
 	'Login_LoginPasswordNotCorrect' => 'Benutzername & Passwort sind nicht korrekt',
 	'Login_Login' => 'Benutzername',
 	'Login_Password' => 'Passwort',

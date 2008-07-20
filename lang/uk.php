@@ -431,7 +431,6 @@ $translations = array(
 	'VisitorInterest_SubmenuFrequencyLoyalty' => 'Частота та Лояльність',
 	'Provider_WidgetProviders' => 'Провайдери',
 	'Provider_SubmenuLocationsProvider' => 'Місцезнаходження та провайдери',
-	'Login_PluginDescription' => 'Сторінка представлення системі, надає облікові записи користувачам',
 	'Login_LoginPasswordNotCorrect' => 'Ім\'я користувача та Пароль невірні',
 	'Login_Login' => 'Ім\'я користувача',
 	'Login_Password' => 'Пароль',

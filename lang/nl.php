@@ -433,7 +433,6 @@ $translations = array(
 	'VisitorInterest_SubmenuFrequencyLoyalty' => 'Frequentie &amp; Loyaliteit',
 	'Provider_WidgetProviders' => 'Providers',
 	'Provider_SubmenuLocationsProvider' => 'Lokatie & provider',
-	'Login_PluginDescription' => 'Login scherm',
 	'Login_LoginPasswordNotCorrect' => 'Login & Password niet correct',
 	'Login_Login' => 'Login',
 	'Login_Password' => 'Password',
