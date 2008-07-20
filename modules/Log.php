@@ -9,15 +9,14 @@
  * @package Piwik_Log
  */
 
-Zend_Loader::loadClass('Zend_Log');
-Zend_Loader::loadClass('Zend_Log_Formatter_Interface');
-Zend_Loader::loadClass('Zend_Log_Writer_Stream');
-Zend_Loader::loadClass('Zend_Log_Writer_Db');
+require_once "Zend/Log.php";
+require_once "Zend/Log/Formatter/Interface.php";
+require_once "Zend/Log/Writer/Stream.php";
+require_once "Zend/Log/Writer/Db.php";
 
-Zend_Loader::loadClass('Piwik_Common');
+require_once "Common.php";
 
 /**
- * 
  * 
  * @package Piwik_Log
  */

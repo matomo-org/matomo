@@ -1,11 +1,6 @@
 <?php
 
 /**
- * Authentication object.
- * Should be reviewed and refactor to allow simple plugin overwrite
- * See OpenId authentication plugin, using Zend_Auth_OpenId on http://dev.piwik.org/trac/ticket/160
- * See Review the Login plugin to make it really modular  http://dev.piwik.org/trac/ticket/144
- * 
  * @package Piwik
  */
 class Piwik_Login_Auth extends Zend_Auth_Adapter_DbTable implements Piwik_Auth
@@ -33,9 +28,6 @@ class Piwik_Login_Auth extends Zend_Auth_Adapter_DbTable implements Piwik_Auth
 
 		// we then look if the user is API authenticated
 		// API authentication works without login name, but only with the token
-		// TODO the logic (sql select) should be in the Login plugin, not here
-		// this class should stay simple. Another Login plugin should only have to create an auth entry
-		// of this class in the zend_registry and it should work
 		if(is_null($this->_identity))
 		{
 			$authenticated = false;

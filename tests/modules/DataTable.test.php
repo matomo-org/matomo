@@ -229,7 +229,6 @@ class Test_Piwik_DataTable extends UnitTestCase
 	 */
 	function test_Row()
 	{
-		Zend_Loader::loadClass('Piwik_Timer');
 		$columns = array('test_column'=> 145,
 						092582495 => new Piwik_Timer,
 						'super'=>array('this column has an array value, amazing'));
@@ -252,7 +251,6 @@ class Test_Piwik_DataTable extends UnitTestCase
 	 */
 	function test_sumRow()
 	{
-		Zend_Loader::loadClass('Piwik_Timer');
 		$columns = array('test_int'=> 145,
 						'test_float'=> 145.5,
 						'test_float3'=> 1.5,
@@ -291,10 +289,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 		
 		$rowWanted = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columnsWanted));
 
-//		dump($rowWanted);
-//		dump($finalRow);
 		$this->assertTrue( Piwik_DataTable_Row::isEqual($rowWanted, $finalRow));
-				
 	}
 	
 	/**

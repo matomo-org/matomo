@@ -256,7 +256,11 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 						$value = "\n".$this->renderDataTable($value, $prefixLine."\t\t");
 						$value .= $prefixLine."\t\t"; 
 					}
-					$out .= $prefixLine."\t\t<$name>$value</$name>\n";
+					else
+					{
+						$value = $this->formatValue($value);
+					}
+					$out .= $prefixLine."\t\t<$name>".$value."</$name>\n";
 				} 
 				$out .= "\t";
 			}
@@ -270,9 +274,20 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		$out = '';
 		foreach($array as $keyName => $value)
 		{
-			$out .= $prefixLine."\t<$keyName>$value</$keyName>\n"; 
+			$out .= $prefixLine."\t<$keyName>".$this->formatValue($value)."</$keyName>\n"; 
 		}
 		return $out;
+	}
+	
+	protected function formatValue($value)
+	{
+		if(is_string($value)
+			&& !is_numeric($value)) 
+		{
+			$value = html_entity_decode($value, ENT_COMPAT, 'UTF-8');
+			$value = htmlspecialchars($value);
+		}
+		return $value;
 	}
 	
 	protected function output( $xml )

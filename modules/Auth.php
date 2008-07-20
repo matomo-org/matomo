@@ -31,6 +31,7 @@ class Piwik_Auth_Result extends Zend_Auth_Result
 {
 	public function __construct($code, $identity, array $messages = array())
 	{
+		// Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE, Zend_Auth_Result::SUCCESS, Zend_Auth_Result::FAILURE  
 		$this->_code		= (int)$code;
 		$this->_identity	= $identity;
 		$this->_messages	= $messages;

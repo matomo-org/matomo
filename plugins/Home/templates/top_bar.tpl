@@ -29,4 +29,3 @@
 </div>
 </div>
 
-<div class="line"></div>

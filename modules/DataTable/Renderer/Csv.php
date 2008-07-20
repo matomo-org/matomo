@@ -50,6 +50,13 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	public $exportMetadata = true;
 	
 	/**
+	 * Converts the content to unicode so that UTF8 characters (eg. chinese) can be imported in Excel
+	 *
+	 * @var bool
+	 */
+	public $convertToUnicode = true;
+	
+	/**
 	 * idSubtable will be exported in a column called 'idsubdatatable'
 	 *
 	 * @var bool
@@ -191,7 +198,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			$rowStr = '';
 			foreach($allColumns as $columnName => $true)
 			{
-				$rowStr .= $theRow[$columnName] . $this->separator;
+				$rowStr .= $this->formatValue($theRow[$columnName]) . $this->separator;
 			}
 			// remove the last separator
 			$rowStr = substr_replace($rowStr,"",-strlen($this->separator));
@@ -199,6 +206,16 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		}
 		$str = substr($str, 0, -strlen($this->lineEnd));
 		return $str;
+	}
+
+	protected function formatValue($value)
+	{
+		if(is_string($value)
+			&& !is_numeric($value)) 
+		{
+			$value = html_entity_decode($value, ENT_COMPAT, 'UTF-8');
+		}
+		return $value;
 	}
 	
 	protected function output( $str )
@@ -208,9 +225,10 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			return 'No data available';
 		}
 		// silent fail otherwise unit tests fail
-		@header("Content-type: application/vnd.ms-excel;charset=utf-8");
+		@header("Content-type: application/vnd.ms-excel");
 		@header("Content-Disposition: attachment; filename=piwik-report-export.csv");
-		if(function_exists('mb_convert_encoding'))
+		if($this->convertToUnicode 
+			&& function_exists('mb_convert_encoding'))
 		{
 			$str = chr(255) . chr(254) . mb_convert_encoding($str, 'UTF-16LE', 'UTF-8');
 		}
