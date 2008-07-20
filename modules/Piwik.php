@@ -438,7 +438,7 @@ class Piwik
 						  alias VARCHAR(45) NOT NULL,
 						  email VARCHAR(100) NOT NULL,
 						  token_auth CHAR(32) NOT NULL,
-						  date_registered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+						  date_registered TIMESTAMP NOT NULL,
 						  PRIMARY KEY(login),
 						  UNIQUE INDEX uniq_keytoken(token_auth)
 						)
@@ -456,7 +456,7 @@ class Piwik
 						  idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 						  name VARCHAR(90) NOT NULL,
 						  main_url VARCHAR(255) NOT NULL,
-  						  ts_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  						  ts_created TIMESTAMP NOT NULL,
 						  PRIMARY KEY(idsite)
 						)
 			",
