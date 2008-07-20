@@ -111,15 +111,24 @@ class Piwik
 		return $resultCheck;
 	}
 	
+	/**
+	 * Returns the Javascript code to be inserted on every page to track
+	 *
+	 * @param int $idSite
+	 * @param string $piwikUrl http://path/to/piwik/directory/ 
+	 * @param string $actionName
+	 * @return string
+	 */
 	static public function getJavascriptCode($idSite, $piwikUrl, $actionName = "''")
 	{	
 		$jsTag = file_get_contents( "modules/LogStats/javascriptTag.tpl");
 		$jsTag = nl2br(htmlentities($jsTag));
+		$piwikUrl = preg_match('/^(http|https):\/\/(.*)$/', $piwikUrl, $matches);
+		$piwikUrl = $matches[2];
 		$jsTag = str_replace('{$actionName}', $actionName, $jsTag);
 		$jsTag = str_replace('{$idSite}', $idSite, $jsTag);
 		$jsTag = str_replace('{$piwikUrl}', $piwikUrl, $jsTag);
 		$jsTag = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsTag);
-		
 		return $jsTag;
 	}
 	
