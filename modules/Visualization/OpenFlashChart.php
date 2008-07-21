@@ -180,7 +180,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	}
 	
 	// escape commas (,)
-	function esc( $text )
+	static function esc( $text )
 	{
 		// we replace the comma so it is not URL escaped
 		// if it is, flash just thinks it is a comma
