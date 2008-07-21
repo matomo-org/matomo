@@ -79,9 +79,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$view->infos = $this->getSystemInformation();
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
 		
-		$pathToMainPiwik = Piwik::getPathToPiwikRoot();
-		$view->basePath = $pathToMainPiwik; 
-		
 		$view->showNextStep = !$view->problemWithSomeDirectories 
 							&& $view->infos['phpVersion_ok']
 							&& $view->infos['pdo_ok']
