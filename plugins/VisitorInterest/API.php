@@ -81,7 +81,6 @@ function Piwik_getDurationLabel($label)
 	}
 }
 
-//TODO i18n
 function Piwik_getPageGapLabel($label)
 {
 	$return = false;

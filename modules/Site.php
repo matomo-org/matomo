@@ -45,7 +45,7 @@ class Piwik_Site
 	function getCreationDate()
 	{
 		$date = self::$infoSites[$this->id]['ts_created'];
-		return new Piwik_Date($date);
+		return Piwik_Date::factory($date);
 	}
 	
 	/**

@@ -195,7 +195,7 @@ class Piwik_DataTable
 	 */
 	protected $summaryRow = null;
 
-	const ID_SUMMARY_ROW = -1; //TODO check that not possible adding a row with this ID normally
+	const ID_SUMMARY_ROW = -1;
 	const LABEL_SUMMARY_ROW = -1;
 
 	/**
@@ -529,7 +529,6 @@ class Piwik_DataTable
 			}
 			return false;
 		}
-		// TODO possible improvement => reset() and value()
 		$row = array_slice($this->rows, 0, 1);
 		return $row[0];
 	}

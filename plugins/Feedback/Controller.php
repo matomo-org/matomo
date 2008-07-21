@@ -27,7 +27,6 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 	 */
 	function sendFeedback()
 	{
-		// TODO: require user login or captcha if anonymous		
 		$body = Piwik_Common::getRequestVar('body', '', 'string');
 		$email = Piwik_Common::getRequestVar('email', '', 'string');
 

@@ -356,7 +356,6 @@ class Piwik_FrontController
  *
  * @package Piwik
  */
-// TODO organize exceptions
 class Exception_PluginDeactivated extends Exception
 {
 	function __construct($module)

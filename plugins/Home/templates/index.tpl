@@ -1,8 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd ">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
 <title>Piwik - Your Web Analytics Reports</title>
-
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 {loadJavascriptTranslations modules='Home'}
 
 <script type="text/javascript">
@@ -25,7 +26,6 @@ var minDateDay = {$minDateDay};
 
 <script type="text/javascript" src="plugins/Home/templates/datatable.js"></script>
 <script type="text/javascript" src="plugins/Home/templates/calendar.js"></script>
-
 <script type="text/javascript" src="plugins/Home/templates/date.js"></script>
 
 <script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
@@ -34,7 +34,6 @@ var minDateDay = {$minDateDay};
 
 <link rel="stylesheet" href="plugins/Home/templates/datatable.css" />
 <link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css" />
-
 <style type="text/css">@import url(libs/jquery/jquery-calendar.css);</style>
 
 <script type="text/javascript" src="libs/jquery/superfish_modified.js"></script>

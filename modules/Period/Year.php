@@ -27,7 +27,7 @@ class Piwik_Period_Year extends Piwik_Period
 		for($i=1; $i<=12; $i++)
 		{
 			$this->addSubperiod( new Piwik_Period_Month(
-									new Piwik_Date("$year-$i-01")
+									Piwik_Date::factory("$year-$i-01")
 								)
 							);
 		}
