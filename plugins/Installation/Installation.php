@@ -55,10 +55,8 @@ class Piwik_Installation extends Piwik_Plugin
 	function startInstallation()
 	{
 		Piwik_PostEvent('Installation.startInstallation', $this);
-		
-		//Piwik::redirectToModule('Installation', 'welcome');
+
 		$step = Piwik_Common::getRequestVar('action', 'welcome', 'string');
-		
 		$controller = $this->getInstallationController();
 		if(in_array($step, $controller->getInstallationSteps()))
 		{
