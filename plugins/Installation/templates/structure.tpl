@@ -51,7 +51,7 @@ h3 {
 
 .error {
 	color:red;
-	font-size:130%;
+	font-size:100%;
 	font-weight:bold;
 	border: 1px solid red;
 	width: 550px;
