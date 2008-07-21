@@ -124,8 +124,8 @@ class Piwik_Period_Range extends Piwik_Period
 			$strDateStart = $regs[1];
 			$strDateEnd = $regs[2];
 
-			$startDate = new Piwik_Date($strDateStart);
-			$endDate   = new Piwik_Date($strDateEnd);
+			$startDate = Piwik_Date::factory($strDateStart);
+			$endDate   = Piwik_Date::factory($strDateEnd);
 		}
 		else
 		{

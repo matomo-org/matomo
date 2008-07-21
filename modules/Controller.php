@@ -161,7 +161,7 @@ abstract class Piwik_Controller
 		
 		$last30Relative = new Piwik_Period_Range($period, $range );
 		
-		$last30Relative->setDefaultEndDate(new Piwik_Date($endDate));
+		$last30Relative->setDefaultEndDate(Piwik_Date::factory($endDate));
 		
 		$paramDate = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
 		

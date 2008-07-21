@@ -126,12 +126,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		}		
 	}
 	
-	//TODO: copy paste of Home controller => should be refactored
-	//in a 'master' controller for statistics (tracs #91)
 	protected function setGeneralVariablesView($view)
 	{
 		$view->date = $this->strDate;
-		$oDate = new Piwik_Date($this->strDate);
+		$oDate = Piwik_Date::factory($this->strDate);
 		$view->prettyDate = $oDate->get("l jS F Y");
 		
 		$currentPeriod = Piwik_Common::getRequestVar('period');

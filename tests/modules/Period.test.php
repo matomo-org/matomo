@@ -74,7 +74,7 @@ class Test_Piwik_Period extends UnitTestCase
 	// tomorrow is not finished
 	function test_day_isFinished_tomorrow()
 	{	
-		$period = new Piwik_Period_Day( new Piwik_Date(date("Y-m-d",time()+86400)));
+		$period = new Piwik_Period_Day( Piwik_Date::factory(date("Y-m-d",time()+86400)));
 		$this->assertEqual( $period->isFinished(), false);
 		$this->assertEqual( $period->toString(), date("Y-m-d", time()+86400));
 		$this->assertEqual( $period->getSubperiods(), array());
@@ -84,7 +84,7 @@ class Test_Piwik_Period extends UnitTestCase
 	// test day doesnt exist 31st feb
 	function test_day_isFinished_31stfeb()
 	{	
-		$period = new Piwik_Period_Day( new Piwik_Date("2007-02-31"));
+		$period = new Piwik_Period_Day( Piwik_Date::factory("2007-02-31"));
 		$this->assertEqual( $period->isFinished(), true);
 		$this->assertEqual( $period->toString(), "2007-03-03");
 		$this->assertEqual( $period->getSubperiods(), array());
@@ -95,7 +95,7 @@ class Test_Piwik_Period extends UnitTestCase
 	function test_day_getDateStart1()
 	{
 		// create the period
-		$period = new Piwik_Period_Day( new Piwik_Date("2007-02-31"));
+		$period = new Piwik_Period_Day( Piwik_Date::factory("2007-02-31"));
 		
 		// start date
 		$startDate = $period->getDateStart();
@@ -111,7 +111,7 @@ class Test_Piwik_Period extends UnitTestCase
 	function test_day_getDateStart2()
 	{
 		// create the period
-		$period = new Piwik_Period_Day( new Piwik_Date("2007-01-03"));
+		$period = new Piwik_Period_Day( Piwik_Date::factory("2007-01-03"));
 		
 		// start date
 		$startDate = $period->getDateStart();
@@ -127,7 +127,7 @@ class Test_Piwik_Period extends UnitTestCase
 	function test_day_getDateStart3()
 	{
 		// create the period
-		$period = new Piwik_Period_Day( new Piwik_Date("2007-12-31"));
+		$period = new Piwik_Period_Day( Piwik_Date::factory("2007-12-31"));
 		
 		// start date
 		$startDate = $period->getDateStart();
@@ -144,7 +144,7 @@ class Test_Piwik_Period extends UnitTestCase
 	function test_day_getDateEnd1()
 	{		
 		// create the period
-		$period = new Piwik_Period_Day( new Piwik_Date("2007-02-31"));
+		$period = new Piwik_Period_Day( Piwik_Date::factory("2007-02-31"));
 		
 		// end date
 		$endDate = $period->getDateEnd();
@@ -158,7 +158,7 @@ class Test_Piwik_Period extends UnitTestCase
 	function test_day_getDateEnd2()
 	{
 		// create the period
-		$period = new Piwik_Period_Day( new Piwik_Date("2007-04-15"));
+		$period = new Piwik_Period_Day( Piwik_Date::factory("2007-04-15"));
 		
 		// end date
 		$endDate = $period->getDateEnd();
@@ -171,7 +171,7 @@ class Test_Piwik_Period extends UnitTestCase
 	function test_day_getDateEnd3()
 	{
 		// create the period
-		$period = new Piwik_Period_Day( new Piwik_Date("2007-12-31"));
+		$period = new Piwik_Period_Day( Piwik_Date::factory("2007-12-31"));
 		
 		// end date
 		$endDate = $period->getDateEnd();
@@ -189,7 +189,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 // testing december
 	 function test_month_Dec()
 	 {
-	 	$month = new Piwik_Period_Month( new Piwik_Date("2006-12-31"));
+	 	$month = new Piwik_Period_Month( Piwik_Date::factory("2006-12-31"));
 	 	$correct=array(
 			"2006-12-01",
 			"2006-12-02",
@@ -229,7 +229,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 // testing month feb leap year
 	 function test_month_FebLeap()
 	 {
-	 	$month = new Piwik_Period_Month( new Piwik_Date("2024-02-11"));
+	 	$month = new Piwik_Period_Month( Piwik_Date::factory("2024-02-11"));
 	 	$correct=array(
 			"2024-02-01",
 			"2024-02-02",
@@ -267,7 +267,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 // testing month feb non-leap year
 	 function test_month_FebNonLeap()
 	 {
-	 	$month = new Piwik_Period_Month( new Piwik_Date("2023-02-11"));
+	 	$month = new Piwik_Period_Month( Piwik_Date::factory("2023-02-11"));
 	 	$correct=array(
 			"2023-02-01",
 			"2023-02-02",
@@ -304,7 +304,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 // testing jan
 	  function test_month_Jan()
 	 {
-	 	$month = new Piwik_Period_Month( new Piwik_Date("2007-01-01"));
+	 	$month = new Piwik_Period_Month( Piwik_Date::factory("2007-01-01"));
 	 	$correct=array(
 			"2007-01-01",
 			"2007-01-02",
@@ -345,7 +345,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 
 	  function test_month_DSTChangeMarch()
 	 {
-	 	$month = new Piwik_Period_Month( new Piwik_Date("2007-02-31"));
+	 	$month = new Piwik_Period_Month( Piwik_Date::factory("2007-02-31"));
 	 	$correct=array(
 			"2007-03-01",
 			"2007-03-02",
@@ -384,7 +384,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 }
 	  function test_month_DSTChangeOct()
 	 {
-	 	$month = new Piwik_Period_Month( new Piwik_Date("2017-10-31"));
+	 	$month = new Piwik_Period_Month( Piwik_Date::factory("2017-10-31"));
 	 	$correct=array(
 			"2017-10-01",
 			"2017-10-02",
@@ -428,14 +428,14 @@ class Test_Piwik_Period extends UnitTestCase
 	/* //http://framework.zend.com/issues/browse/ZF-1832
 	 function test_week_zendsetweekday()
 	 {
-	 	$date = new Piwik_Date('2006-01-01','YYYY-MM-dd', 'en');
+	 	$date = Piwik_Date::factory('2006-01-01','YYYY-MM-dd', 'en');
 	 	$date->setWeekday(1);	 	
 	 	$this->assertEqual('2005-12-26', $date->toString("Y-m-d"));
 	 }*/
 	// test week between 2 years
 	function test_week_Between2years()
 	 {
-	 	$week = new Piwik_Period_Week( new Piwik_Date("2006-01-01"));
+	 	$week = new Piwik_Period_Week( Piwik_Date::factory("2006-01-01"));
 	 	$correct=array(
 			"2005-12-26",
 			"2005-12-27",
@@ -451,7 +451,7 @@ class Test_Piwik_Period extends UnitTestCase
 	// test week between 2 months Week Mai 29 To Mai 31 2006
 	function test_week_Between2month()
 	 {
-	 	$week = new Piwik_Period_Week( new Piwik_Date("2006-05-29"));
+	 	$week = new Piwik_Period_Week( Piwik_Date::factory("2006-05-29"));
 	 	$correct=array(
 			"2006-05-29",
 			"2006-05-30",
@@ -476,11 +476,11 @@ class Test_Piwik_Period extends UnitTestCase
 			'2023-03-04',
 			'2023-03-05',);
 			
-	 	$week = new Piwik_Period_Week( new Piwik_Date('2023-02-27'));
+	 	$week = new Piwik_Period_Week( Piwik_Date::factory('2023-02-27'));
 	 	$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
 	 	$this->assertEqual( $week->isFinished(), false);
-	 	$week = new Piwik_Period_Week( new Piwik_Date('2023-03-01'));
+	 	$week = new Piwik_Period_Week( Piwik_Date::factory('2023-03-01'));
 	 	$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
 	 	$this->assertEqual( $week->isFinished(), false);
@@ -497,11 +497,11 @@ class Test_Piwik_Period extends UnitTestCase
 			'2024-03-02',
 			'2024-03-03',);
 			
-	 	$week = new Piwik_Period_Week( new Piwik_Date('2024-02-27'));
+	 	$week = new Piwik_Period_Week( Piwik_Date::factory('2024-02-27'));
 	 	$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
 	 	$this->assertEqual( $week->isFinished(), false);
-	 	$week = new Piwik_Period_Week( new Piwik_Date('2024-03-01'));
+	 	$week = new Piwik_Period_Week( Piwik_Date::factory('2024-03-01'));
 	 	$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
 	 	$this->assertEqual( $week->isFinished(), false);
@@ -518,7 +518,7 @@ class Test_Piwik_Period extends UnitTestCase
 			'2024-10-12',
 			'2024-10-13',);
 			
-	 	$week = new Piwik_Period_Week( new Piwik_Date('2024-10-09'));
+	 	$week = new Piwik_Period_Week( Piwik_Date::factory('2024-10-09'));
 	 	$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
 	 	$this->assertEqual( $week->isFinished(), false);
@@ -546,7 +546,7 @@ class Test_Piwik_Period extends UnitTestCase
 			'2024-11-01',
 			'2024-12-01',);
 		
-	 	$year = new Piwik_Period_Year( new Piwik_Date('2024-10-09'));
+	 	$year = new Piwik_Period_Year( Piwik_Date::factory('2024-10-09'));
 	 	$this->assertEqual( $year->getNumberOfSubperiods(), 12);
 	 	$this->assertEqual( $year->isFinished(), false);
 	 	$this->assertEqual( $year->toString(), $correct);
@@ -571,7 +571,7 @@ class Test_Piwik_Period extends UnitTestCase
 			'2000-12-01',
 		);
 			
-	 	$week = new Piwik_Period_Year( new Piwik_Date('2000-02-15'));
+	 	$week = new Piwik_Period_Year( Piwik_Date::factory('2000-02-15'));
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 12);
 	 	$this->assertEqual( $week->isFinished(), true);
 	 	$this->assertEqual( $week->toString(), $correct);

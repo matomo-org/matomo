@@ -238,7 +238,7 @@ class Piwik_Referers extends Piwik_Plugin
 		$numberOfDistinctSearchEngines = count($keywordBySearchEngine);
 		$numberOfDistinctKeywords = count($searchEngineByKeyword);
 		
-		$numberOfDistinctCampaigns = count($interestByCampaign); //TODO bug here
+		$numberOfDistinctCampaigns = count($interestByCampaign);
 		$numberOfDistinctWebsites = count($interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE]);
 		$numberOfDistinctWebsitesUrls = count($distinctUrls[Piwik_Common::REFERER_TYPE_WEBSITE]);
 		$numberOfDistinctPartners = count($interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);

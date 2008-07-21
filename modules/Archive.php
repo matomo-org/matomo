@@ -79,8 +79,6 @@ abstract class Piwik_Archive
 	 */
 	static public function build($idSite, $period, $strDate )
 	{
-		//TODO clean this method
-		
 		if($idSite === 'all')
 		{
 			$sites = Piwik_SitesManager_API::getSitesIdWithAtLeastViewAccess();

@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Piwik &raquo; {'Installation_Installation'|translate}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 </head>
 <body>
 

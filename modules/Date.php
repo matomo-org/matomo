@@ -12,7 +12,6 @@
 /**
  * Date object widely used in Piwik.
  * 
- * //TODO remove factory OR constructor! cant have both
  * @package Piwik_Helper
  */
 class Piwik_Date
@@ -26,33 +25,43 @@ class Piwik_Date
 	 */
 	static public function factory($strDate)
 	{
-		switch($strDate)
+		if(is_int($strDate)) 
 		{
-			case 'today': return self::today(); break;
-			case 'yesterday': return self::yesterday(); break;
-			default: return new Piwik_Date($strDate); break;
+			return new Date($strDate);
+		}
+		if(is_string($strDate))
+		{
+			if($strDate == 'today') 
+			{
+				return self::today();
+			}
+			elseif($strDate == 'yesterday')
+			{
+				return self::yesterday();
+			}
+			else
+			{
+				if (($timestamp = strtotime($strDate)) === false) 
+				{
+					throw new Exception("The date '$strDate' is not correct. The date format is YYYY-MM-DD or you can also use magic keywords such as 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
+				}
+				return new Piwik_Date($timestamp);
+			}
 		}
 	}
 	
 	/**
 	 * Builds a Piwik_Date object
 	 * 
-	 * @param Timestamp date OR string format 2007-01-31
+	 * @param int timestamp
 	 */
 	public function __construct( $date )
 	{
-		if(is_int( $date ))
+		if(!is_int( $date ))
 		{
-			$this->timestamp =  $date ;
+			throw new Exception("Piwik_Date is expecting a unix timestamp");
 		}
-		else
-		{
-			if (($timestamp = strtotime($date)) === false) 
-			{
-				throw new Exception("The date '$date' is not correct. The date format is YYYY-MM-DD or you can also use magic keywords such as 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
-			}
-			$this->timestamp = $timestamp;
-		}
+		$this->timestamp =  $date ;
 	}
 	
 	/**
@@ -316,8 +325,7 @@ class Piwik_Date
 	 */
 	static public function today()
 	{
-		$date = new Piwik_Date(date("Y-m-d 00:00:00"));
-		return $date;
+		return new Piwik_Date(strtotime(date("Y-m-d 00:00:00")));
 	}
 	
 	/**
@@ -326,8 +334,7 @@ class Piwik_Date
 	 */
 	static public function yesterday()
 	{
-		$date = new Piwik_Date(date("Y-m-d 00:00:00", strtotime("yesterday")));
-		return $date;
+		return new Piwik_Date(strtotime("yesterday"));
 	}
 	
 }

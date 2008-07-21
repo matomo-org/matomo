@@ -13,10 +13,6 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array {
 	function __construct(Piwik_Site $oSite, $strPeriod, $strDate)
 	{
 		$rangePeriod = new Piwik_Period_Range($strPeriod, $strDate);
-		
-		// TODO fix this when aggregating data from multiple websites
-		// CAREFUL this class wouldnt work as is if handling archives from multiple websites
-		// works only when managing archives from multiples dates/periods
 		foreach($rangePeriod->getSubperiods() as $subPeriod)
 		{
 			$startDate = $subPeriod->getDateStart();

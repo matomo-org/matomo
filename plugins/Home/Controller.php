@@ -60,7 +60,7 @@ class Piwik_Home_Controller extends Piwik_Controller
 	{
 		// date
 		$view->date = $this->strDate;
-		$oDate = new Piwik_Date($this->strDate);
+		$oDate = Piwik_Date::factory($this->strDate);
 		$localizedDateFormat = Piwik_Translate('Home_LocalizedDateFormat');
 		$view->prettyDate = $oDate->getLocalized($localizedDateFormat);
 		
