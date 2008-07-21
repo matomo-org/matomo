@@ -53,7 +53,7 @@
 			{'Installation_SystemCheckWriteDirsHelp'|translate}:
 	{foreach from=$infos.directories key=dir item=bool}
 		<ul>{if !$bool}
-			<li>chmod a+w {$basePath}{$dir}</li>
+			<li><pre>chmod a+w {$basePath}{$dir}</pre></li>
 		{/if}
 		</ul>
 	{/foreach}
