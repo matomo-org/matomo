@@ -100,6 +100,11 @@ class Piwik_LogStats
 							  
 		self::$db->connect();
 	}
+	
+	public static function getDb()
+	{
+		return self::$db;
+	}
 
 	static function disconnectDb()
 	{
@@ -279,6 +284,8 @@ class Piwik_LogStats
 	{
 		header($header);
 	}
+	
+	
 }
 
 function printDebug( $info = '' )

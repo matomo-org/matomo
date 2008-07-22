@@ -45,6 +45,5 @@ ob_start();
 $process = new Piwik_LogStats;
 $process->main();
 ob_end_flush();
-
 printDebug($_COOKIE);
 
