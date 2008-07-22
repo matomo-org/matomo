@@ -614,13 +614,14 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 
 		$this->refererUrlParse = @parse_url($refererUrl);
 		$this->currentUrlParse = @parse_url($currentUrl);
+		$this->refererHost = $this->refererUrlParse['host'];
 
 		$refererDetected = false;
 		if( !empty($this->currentUrlParse['host']))
 		{
-			if(		!$this->detectRefererNewsletter()
-				&&	!$this->detectRefererPartner()
-				&&	!$this->detectRefererCampaign() )
+			if(	$this->detectRefererNewsletter()
+				||	$this->detectRefererPartner()
+				||	$this->detectRefererCampaign() )
 			{
 				$refererDetected = true;
 			}
@@ -629,16 +630,17 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		if(!$refererDetected
 			&& !empty($this->refererUrlParse['host']) )
 		{
-			$this->refererHost = $this->refererUrlParse['host'];
-			
-			if( 	!$this->detectRefererSearchEngine()
-				&&	!$this->detectRefererDirectEntry()
-			)
+			if( $this->detectRefererSearchEngine()
+				||	$this->detectRefererDirectEntry() )
 			{
-				// Normal website referer
-				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_WEBSITE;
-				$this->nameRefererAnalyzed = $this->refererHost;
+				$refererDetected = true;
 			}
+		}
+		
+		if(!$refererDetected)
+		{
+			$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_WEBSITE;
+			$this->nameRefererAnalyzed = $this->refererHost;
 		}
 		
 		$refererInformation = array(
@@ -668,20 +670,25 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		
 		if(array_key_exists($this->refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
-			// which search engine ?
 			$searchEngineName = $GLOBALS['Piwik_SearchEngines'][$this->refererHost][0];
 			$variableName = $GLOBALS['Piwik_SearchEngines'][$this->refererHost][1];
 			
-			// if there is a query, there may be a keyword...
 			if(isset($this->refererUrlParse['query']))
 			{
 				$query = $this->refererUrlParse['query'];
+
+				if($searchEngineName == 'Google Images')
+				{
+					$query = urldecode(trim(strtolower(Piwik_Common::getParameterFromQueryString($query, 'prev'))));
+					$query = str_replace('&', '&amp;', strstr($query, '?'));
+				}
 				
 				// search for keywords now &vname=keyword
 				$key = trim(strtolower(Piwik_Common::getParameterFromQueryString($query, $variableName)));
-
-				if((function_exists('iconv')) 
-					&& (isset($GLOBALS['Piwik_SearchEngines'][$this->refererHost][2])))
+				
+				if(!empty($key)
+					&& function_exists('iconv') 
+					&& isset($GLOBALS['Piwik_SearchEngines'][$this->refererHost][2]))
 				{
 					$charset = trim($GLOBALS['Piwik_SearchEngines'][$this->refererHost][2]);
 					

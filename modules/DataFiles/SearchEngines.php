@@ -572,6 +572,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"images.google.ru"		=> array("Google Images", "q"),
 		"images.google.se"		=> array("Google Images", "q"),
 		"images.google.sk"		=> array("Google Images", "q"),
+		"images.google.com"		=> array("Google Images", "q"),
 		
 		// Google News
 		"news.google.com" 		=> array("Google News", "q"),
