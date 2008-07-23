@@ -309,7 +309,7 @@ class Piwik_FrontController
 		}
 		Piwik::createDatabaseObject();
 		Piwik::createLogObject();
-		Piwik::terminateLoadPlugins();
+		Piwik::installLoadedPlugins();
 		Piwik::install();
 		
 		Piwik_PostEvent('FrontController.authSetCredentials');

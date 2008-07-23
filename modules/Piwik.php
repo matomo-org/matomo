@@ -410,7 +410,7 @@ class Piwik
 		Piwik_PluginsManager::getInstance()->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 	}
 	
-	static public function terminateLoadPlugins()
+	static public function installLoadedPlugins()
 	{
 		Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 	}
