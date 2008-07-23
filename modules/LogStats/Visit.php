@@ -607,6 +607,7 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
 		$this->nameRefererAnalyzed = '';
 		$this->keywordRefererAnalyzed = '';
+		$this->refererHost = '';
 		
 		// get the urls and parse them
 		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string');
@@ -614,7 +615,10 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 
 		$this->refererUrlParse = @parse_url($refererUrl);
 		$this->currentUrlParse = @parse_url($currentUrl);
-		$this->refererHost = $this->refererUrlParse['host'];
+		if(isset($this->refererUrlParse['host']))
+		{
+			$this->refererHost = $this->refererUrlParse['host'];
+		}
 
 		$refererDetected = false;
 		if( !empty($this->currentUrlParse['host']))
@@ -637,7 +641,8 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 			}
 		}
 		
-		if(!$refererDetected)
+		if(!empty($this->refererHost) 
+			&& !$refererDetected)
 		{
 			$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_WEBSITE;
 			$this->nameRefererAnalyzed = $this->refererHost;
@@ -794,11 +799,10 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		if(isset($this->currentUrlParse['host']))
 		{
 			$currentHost = $this->currentUrlParse['host'];
-			
+					
 			if($currentHost == $this->refererHost)
 			{
 				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
-				
 				return true;
 			}
 		}
