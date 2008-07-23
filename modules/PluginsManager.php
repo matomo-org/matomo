@@ -135,7 +135,6 @@ class Piwik_PluginsManager
 	 */
 	protected function getInstalledPlugins()
 	{
-//		var_dump(Zend_Registry::get('config')->PluginsInstalled);
 		if(!class_exists('Zend_Registry'))
 		{
 			throw new Exception("Not possible to list installed plugins (case LogStats module)");
@@ -172,15 +171,36 @@ class Piwik_PluginsManager
 		
 		// is the plugin already installed or is it the first time we activate it?
 		$pluginsInstalled = $this->getInstalledPlugins();
-//			echo "$pluginName before=".var_dump($pluginsInstalled);
 		if(!in_array($pluginName,$pluginsInstalled))
 		{
 			$this->installPlugin($plugin);
 			$pluginsInstalled[] = $pluginName;
-//			var_dump($pluginsInstalled);
 			Zend_Registry::get('config')->PluginsInstalled = $pluginsInstalled;	
 		}
+		
+		$information = $plugin->getInformation();
+		
+		// if the plugin is to be loaded during the statistics logging
+		if(isset($information['LogStatsPlugin'])
+			&& $information['LogStatsPlugin'] === true)
+		{
+			$pluginsLogStats = Zend_Registry::get('config')->Plugins_LogStats->Plugins_LogStats;
+			if(is_null($pluginsLogStats))
+			{
+				$pluginsLogStats = array();
+			}
+			else
+			{
+				$pluginsLogStats = $pluginsLogStats->toArray();
+			}
+			if(!in_array($pluginName, $pluginsLogStats))
+			{
+				$pluginsLogStats[] = $pluginName;
+				Zend_Registry::get('config')->Plugins_LogStats = $pluginsLogStats;
+			}
+		}
 	}
+	
 	public function activatePlugin($pluginName)
 	{
 		$plugins = Zend_Registry::get('config')->Plugins->Plugins->toArray();
@@ -198,28 +218,6 @@ class Piwik_PluginsManager
 		$plugin = $this->loadPlugin($pluginName);
 		
 		$this->installPluginIfNecessary($plugin);
-		
-		$information = $plugin->getInformation();
-		
-		// if the plugin is to be loaded during the statistics logging
-		if(isset($information['LogStatsPlugin'])
-			&& $information['LogStatsPlugin'] === true)
-		{
-			$pluginsLogStats = Zend_Registry::get('config')->Plugins_LogStats->Plugins_LogStats;
-			if(is_null($pluginsLogStats))
-			{
-				$pluginsLogStats = array();
-			}
-			else
-			{
-				$pluginsLogStats = $pluginsLogStats->toArray();
-			}
-			$pluginsLogStats[] = $pluginName;
-
-			// the config file will automatically be saved with the new plugin
-			Zend_Registry::get('config')->Plugins_LogStats = $pluginsLogStats;
-			
-		}
 		
 		// we add the plugin to the list of activated plugins
 		$plugins[] = $pluginName;
@@ -375,7 +373,6 @@ class Piwik_PluginsManager
 	{
 		foreach($this->getLoadedPlugins() as $plugin)
 		{		
-//			var_dump($plugin);
 			try{
 				$plugin->install();
 			} catch(Exception $e) {
