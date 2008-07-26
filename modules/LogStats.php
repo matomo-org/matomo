@@ -67,14 +67,11 @@ class Piwik_LogStats
 	const COOKIE_INDEX_ID_VISIT 				= 4;
 	const COOKIE_INDEX_ID_LAST_ACTION 			= 5;
 	
-	const VISIT_STANDARD_LENGTH = 1800;
-	
 	public function __construct()
 	{
 		$this->stateValid = self::STATE_NOTHING_TO_NOTICE;
 	}
 	
-	// create the database object
 	static function connectDatabase()
 	{
 		if( !is_null(self::$db))
@@ -86,7 +83,6 @@ class Piwik_LogStats
 		
 		// we decode the password. Password is html encoded because it's enclosed between " double quotes
 		$configDb['password'] = htmlspecialchars_decode($configDb['password']);
-		
 		if(!isset($configDb['port']))
 		{
 			// before 0.2.4 there is no port specified in config file
@@ -97,7 +93,6 @@ class Piwik_LogStats
 										$configDb['password'], 
 										$configDb['dbname'],
 										$configDb['port'] );
-							  
 		self::$db->connect();
 	}
 	
@@ -128,20 +123,20 @@ class Piwik_LogStats
 		}
 		
 		$saveStats = Piwik_LogStats_Config::getInstance()->LogStats['record_statistics'];
-		
+
 		if($saveStats == 0)
 		{
 			$this->setState(self::STATE_LOGGING_DISABLE);
 		}
-		
+
 		if( count($_GET) == 0)
 		{
 			$this->setState(self::STATE_NO_GET_VARIABLE);			
 		}
-		
+
 		$downloadVariableName = Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'];
 		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string');
-		
+
 		if( !empty($urlDownload) )
 		{
 			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int') == 1)
@@ -169,6 +164,7 @@ class Piwik_LogStats
 		return $this->stateValid !== self::STATE_LOGGING_DISABLE
 				&&  $this->stateValid !== self::STATE_NO_GET_VARIABLE;
 	}
+	
 	private function getState()
 	{
 		return $this->stateValid;
@@ -178,10 +174,12 @@ class Piwik_LogStats
 	{
 		$this->urlToRedirect = $url;
 	}
+	
 	private function getUrlToRedirect()
 	{
 		return $this->urlToRedirect;
 	}
+	
 	private function setState( $value )
 	{
 		$this->stateValid = $value;
@@ -280,12 +278,11 @@ class Piwik_LogStats
 			print(base64_decode($trans_gif_64));
 		}
 	}
+	
 	protected function sendHeader($header)
 	{
 		header($header);
-	}
-	
-	
+	}	
 }
 
 function printDebug( $info = '' )
@@ -304,4 +301,3 @@ function printDebug( $info = '' )
 		}
 	}
 }
-

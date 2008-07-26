@@ -302,7 +302,7 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 	protected function isLastActionInTheSameVisit()
 	{
 		return $this->visitorInfo['visit_last_action_time'] 
-					>= ($this->getCurrentTimestamp() - Piwik_LogStats::VISIT_STANDARD_LENGTH);
+					>= ($this->getCurrentTimestamp() - Piwik_LogStats_Config::getInstance()->LogStats['visit_standard_length']);
 	}
 
 	/**
