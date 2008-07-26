@@ -106,6 +106,9 @@ record_statistics			= 1
 ; this action name is used when the javascript variable piwik_action_name is not specified in the piwik javascript code, and when the URL has no path.
 default_action_name 		= index
 
+; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds after his last page view, it will be recorded as a new visit  
+visit_standard_length       = 1800
+
 ; visitors that stay on the website and view only one page will be considered staying 10 seconds
 default_time_one_page_visit = 10
 
