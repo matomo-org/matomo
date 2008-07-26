@@ -53,9 +53,7 @@ class Piwik
 	{
 		if(!is_dir($path))
 		{
-			$directoryParent = realpath(dirname($path));
-			
-			// test that the dir we are trying to write has write access
+			$directoryParent = Piwik::realpath(dirname($path));
 			if( is_writable($directoryParent) )
 			{
 				mkdir($path, $mode, true);
@@ -72,7 +70,6 @@ class Piwik
 	 * Checks if directories are writable and create them if they do not exist.
 	 * 
 	 * @param array $directoriesToCheck array of directories to check - if not given default Piwik directories that needs write permission are checked
-	 *
 	 * @return array direcory name => true|false (is writable)
 	 */
 	static public function checkDirectoriesWritable($directoriesToCheck = null)
@@ -101,7 +98,7 @@ class Piwik
 				Piwik::mkdir($directoryToCheck, 0755, false);
 			}
 			
-			$directory = realpath($directoryToCheck);
+			$directory = Piwik::realpath($directoryToCheck);
 			$resultCheck[$directory] = false;
 			if(is_writable($directoryToCheck))
 			{
@@ -109,6 +106,15 @@ class Piwik
 			}
 		}
 		return $resultCheck;
+	}
+	
+	static public function realpath($path)
+	{
+		if (file_exists($path)) 
+		{
+		    return realpath($path);
+		} 
+	    return $path;
 	}
 	
 	/**

@@ -148,7 +148,7 @@ class Piwik_FrontController
 	
 	/**
 	 * Often plugins controller display stuff using echo/print.
-	 * Using this function instead of dispath() returns the output form the actions calls.
+	 * Using this function instead of dispath() returns the output string form the actions calls.
 	 *
 	 * @param string $controllerName
 	 * @param string $actionName
@@ -200,10 +200,10 @@ class Piwik_FrontController
 			$directoryList = '';
 			foreach($resultCheck as $dir => $bool)
 			{
-				$dir = realpath($dir);
-				if(!empty($dir) && $bool === false)
+				$realpath = Piwik::realpath($dir);
+				if(!empty($realpath) && $bool === false)
 				{
-					$directoryList .= "<code>chmod 777 $dir</code><br>";
+					$directoryList .= "<code>chmod 777 $realpath</code><br>";
 				}
 			}
 			$directoryList .= '';
