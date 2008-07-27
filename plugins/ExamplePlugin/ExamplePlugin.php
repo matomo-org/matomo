@@ -16,32 +16,17 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 		return array(
 			// name must be the className prefix!
 			'name' => 'ExamplePlugin',
-			'description' => 'Description',
+			'description' => 'Example Plugin: This plugin shows how to create a very simple plugin, that exports two widgets in the Dashboard.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}
-	
-	function install()
-	{
-		try{
-			Piwik_Query('ALTER TABLE '.Piwik::prefixTable('site'). " ADD `feedburnerName` VARCHAR( 100 ) DEFAULT NULL");
-		} catch(Zend_Db_Statement_Exception $e){
-			// mysql code error 1060: column already exists
-			// if there is another error we throw the exception, otherwise it is OK as we are simply reinstalling the plugin
-			if(!ereg('1060',$e->getMessage()))
-			{
-				throw $e;
-			}
-		}
-	}
-	function uninstall()
-	{
-		Piwik_Query('ALTER TABLE '.Piwik::prefixTable('site'). " DROP `feedburnerName`");
-	}
-	
 }
+
+// we register the widgets so they appear in the "Add a new widget" window in the dashboard
+Piwik_AddWidget('ExamplePlugin', 'exampleWidget', 'Example widget');
+Piwik_AddWidget('ExamplePlugin', 'blogMatthieu', 'Blog matthieu RSS');
 
 class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 {	
@@ -53,6 +38,35 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	{
 		echo "Hello world! <br />";
 		echo "Happy coding with Piwik :)";
+	}
+	
+	/**
+	 * See the result on piwik/?module=ExamplePlugin&action=exampleWidget
+	 * or in the dashboard > Add a new widget 
+	 *
+	 */
+	function exampleWidget()
+	{
+		echo "Hello world! <br> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
+		<br>Widgets can include graphs, tables, flash, text, images, etc.
+		<br>It's very easy to create a new plugin and widgets in Piwik. Have a look at this example file (/plugins/ExamplePlugin/ExamplePlugin.php).
+		<br><i>Happy coding!</i>";
+	}
+
+	/**
+	 * Embed Matt's blog using widgetbox.com widget code
+	 */
+	function blogMatthieu()
+	{
+		echo '
+		<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" type="application/x-shockwave-flash" width="400px" height="338px" id="InsertWidget_3fe0d93d-bae5-42f9-bec4-4235cb6285a8" align="middle">
+			<param name="movie" value="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf?appId=3fe0d93d-bae5-42f9-bec4-4235cb6285a8"/>
+			<param name="quality" value="high" />
+			<param name="wmode" value="transparent" />
+			<param name="menu" value="false" />
+		<embed src="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf?appId=3fe0d93d-bae5-42f9-bec4-4235cb6285a8"  name="InsertWidget_3fe0d93d-bae5-42f9-bec4-4235cb6285a8"  width="400px" height="338px" quality="high" menu="false" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" align="middle" /> </object>
+		<img style="visibility:hidden;width:0px;height:0px;" border="0" width="0" height="0" src="http://runtime.widgetbox.com/syndication/track/3fe0d93d-bae5-42f9-bec4-4235cb6285a8.gif" />
+		';
 	}
 	
 	/**
@@ -130,71 +144,4 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 			return "false";
 		}
 	}
-	
-	/**
-	 * See the result on piwik/?module=ExamplePlugin&action=exampleWidget
-	 * or in the dashboard > Add a new widget 
-	 *
-	 */
-	function exampleWidget()
-	{
-		echo "Hello world! <br> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
-		<br>Widgets can include graphs, tables, flash, text, images, etc.
-		<br>It's very easy to create a new plugin and widgets in Piwik. Have a look at this example file (/plugins/ExamplePlugin/ExamplePlugin.php).
-		<br><i>Happy coding!</i>";
-	}
-	
-	/**
-	 * Embed Matthieu's blog using widgetbox.com widget code
-	 *
-	 */
-	function blogMatthieu()
-	{
-		echo '
-		<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" type="application/x-shockwave-flash" width="400px" height="338px" id="InsertWidget_3fe0d93d-bae5-42f9-bec4-4235cb6285a8" align="middle">
-			<param name="movie" value="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf?appId=3fe0d93d-bae5-42f9-bec4-4235cb6285a8"/>
-			<param name="quality" value="high" />
-			<param name="wmode" value="transparent" />
-			<param name="menu" value="false" />
-		<embed src="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf?appId=3fe0d93d-bae5-42f9-bec4-4235cb6285a8"  name="InsertWidget_3fe0d93d-bae5-42f9-bec4-4235cb6285a8"  width="400px" height="338px" quality="high" menu="false" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" align="middle" /> </object>
-		<img style="visibility:hidden;width:0px;height:0px;" border="0" width="0" height="0" src="http://runtime.widgetbox.com/syndication/track/3fe0d93d-bae5-42f9-bec4-4235cb6285a8.gif" />
-		';
-	}
-	
-	/**
-	 * Simple feedburner statistics output
-	 *
-	 */
-	function feedburner()
-	{
-		$view = new Piwik_View('ExamplePlugin/feedburner.tpl');
-		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName FROM '.Piwik::prefixTable('site').
-								' WHERE idsite = ?', Piwik_Common::getRequestVar('idSite',1,'int') );
-		if(empty($feedburnerFeedName))
-		{
-			$feedburnerFeedName = 'Piwik';
-		}
-		$view->feedburnerFeedName = $feedburnerFeedName;
-		echo $view->render();
-	}
-	
-	/**
-	 * Function called to save the Feedburner ID entered in the form
-	 *
-	 */
-	function saveFeedburnerName()
-	{
-		// we save the value in the DB for an authenticated user
-		if(Piwik::getCurrentUserLogin() != 'anonymous')
-		{
-			Piwik_Query('UPDATE '.Piwik::prefixTable('site').' SET feedburnerName = ? WHERE idsite = ?', 
-				array(Piwik_Common::getRequestVar('name','','string'), Piwik_Common::getRequestVar('idSite',1,'int'))
-				);
-		}
-	}
 }
-
-// we register the widgets so they appear in the "Add a new widget" window in the dashboard
-Piwik_AddWidget('ExamplePlugin', 'exampleWidget', 'Example widget');
-Piwik_AddWidget('ExamplePlugin', 'feedburner', 'Feedburner statistics');
-Piwik_AddWidget('ExamplePlugin', 'blogMatthieu', 'Blog matthieu RSS');

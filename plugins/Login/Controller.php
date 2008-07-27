@@ -75,13 +75,14 @@ class Piwik_Login_Controller extends Piwik_Controller
 		Piwik_Login::prepareAuthObject($login, $tokenAuth);
 		
 		$auth = Zend_Registry::get('auth');
-		if($auth->authenticate()->isValid())
+		$authResult = $auth->authenticate();
+		if($authResult->isValid())
 		{
 			$authCookieName = 'piwik-auth';
 			$authCookieExpiry = time() + 3600;
 			$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
 			$cookie->set('login', $login);
-			$cookie->set('token_auth', $auth->getTokenAuth());
+			$cookie->set('token_auth', $authResult->getTokenAuth());
 			$cookie->save();
 
 			$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
@@ -168,6 +169,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$authCookieName = 'piwik-auth';
 		$cookie = new Piwik_Cookie($authCookieName);
 		$cookie->delete();
-		Piwik::redirectToModule('Home');
+		Piwik::redirectToModule('CoreHome');
 	}
 }

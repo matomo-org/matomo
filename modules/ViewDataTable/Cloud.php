@@ -33,7 +33,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		parent::init($currentControllerName,
 						$currentControllerAction, 
 						$moduleNameAndMethod );
-		$this->dataTableTemplate = 'Home/templates/cloud.tpl';
+		$this->dataTableTemplate = 'CoreHome/templates/cloud.tpl';
 		
 		$this->disableOffsetInformation();
 		$this->disableExcludeLowPopulation();

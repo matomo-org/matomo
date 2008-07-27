@@ -93,7 +93,7 @@ class Piwik_FrontController
 		
 		if(is_null($module))
 		{
-			$defaultModule = 'Home';
+			$defaultModule = 'CoreHome';
 			$module = Piwik_Common::getRequestVar('module', $defaultModule, 'string');
 		}
 		
@@ -312,7 +312,7 @@ class Piwik_FrontController
 		Piwik::installLoadedPlugins();
 		Piwik::install();
 		
-		Piwik_PostEvent('FrontController.authSetCredentials');
+		Piwik_PostEvent('FrontController.initAuthenticationObject');
 		try {
 			$authAdapter = Zend_Registry::get('auth');
 		} catch(Exception $e){
@@ -360,6 +360,6 @@ class Exception_PluginDeactivated extends Exception
 {
 	function __construct($module)
 	{
-		parent::__construct("The plugin '$module' is not enabled. You can activate the plugin on the <a href='?module=AdminHome&action=showInContext&moduleToLoad=PluginsAdmin'>Plugins admin page</a>.");
+		parent::__construct("The plugin '$module' is not enabled. You can activate the plugin on the <a href='?module=CoreAdminHome&action=showInContext&moduleToLoad=CorePluginsAdmin'>Plugins admin page</a>.");
 	}
 }

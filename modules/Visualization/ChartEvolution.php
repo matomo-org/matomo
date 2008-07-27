@@ -42,7 +42,7 @@ class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
 			$link = Piwik_Url::getCurrentScriptName() 
 							. Piwik_Url::getCurrentQueryStringWithParametersModified( array(
 										'date' => substr($this->arrayLabel[$i],0,$spacePosition),
-										'module' => 'Home',
+										'module' => 'CoreHome',
 										'action' => 'index',
 										'viewDataTable' => null// we reset the viewDataTable parameter (useless in the link)
 										));

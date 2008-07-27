@@ -26,11 +26,11 @@ current			= en
 fallback		= en
 
 [Plugins]
-Plugins[] 		= PluginsAdmin
-Plugins[] 		= AdminHome
+Plugins[] 		= CorePluginsAdmin
+Plugins[] 		= CoreAdminHome
+Plugins[] 		= CoreHome
 Plugins[] 		= API
 Plugins[] 		= Widgetize
-Plugins[] 		= Home
 Plugins[] 		= Actions
 Plugins[] 		= Dashboard
 Plugins[] 		= Referers
@@ -41,9 +41,13 @@ Plugins[] 		= VisitsSummary
 Plugins[] 		= VisitFrequency
 Plugins[] 		= VisitTime
 Plugins[] 		= VisitorInterest
+Plugins[] 		= ExampleAPI
 Plugins[] 		= ExamplePlugin
+Plugins[]		= ExampleRssWidget
+Plugins[] 		= ExampleFeedburner
 Plugins[] 		= ExampleRssWidget
 Plugins[] 		= Provider
+Plugins[]		= Feedback
 
 Plugins[] 		= Login
 Plugins[] 		= UsersManager
@@ -52,7 +56,7 @@ Plugins[] 		= Installation
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
-PluginsInstalled[] = AdminHome
+PluginsInstalled[] = CoreAdminHome
 PluginsInstalled[] = UsersManager
 PluginsInstalled[] = SitesManager
 PluginsInstalled[] = Installation
@@ -72,7 +76,8 @@ enable_sql_profiler = false
 [General]
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
-time_before_archive_considered_outdated = 20
+; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
+time_before_archive_considered_outdated = 10
 
 ; When loading piwik interface, we redirect the user to 'yesterday' statistics by default
 ; Possible values: yesterday, today, or any YYYY-MM-DD

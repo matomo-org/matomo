@@ -25,7 +25,7 @@ class Piwik_Installation extends Piwik_Plugin
 		$info = array(
 			// name must be the className prefix!
 			'name' => 'Installation',
-			'description' => 'Description',
+			'description' => 'Installation process of Piwik. The Installation is usually done once only. If the configuration file config/config.inc.php is deleted, the installation will start again.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',

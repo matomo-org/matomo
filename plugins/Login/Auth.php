@@ -1,52 +1,51 @@
 <?php
-
 /**
  * @package Piwik
  */
-class Piwik_Login_Auth extends Zend_Auth_Adapter_DbTable implements Piwik_Auth
+class Piwik_Login_Auth implements Piwik_Auth
 {
-	public function __construct()
-	{
-		$db = Zend_Registry::get('db');
-		parent::__construct($db);
-	}
-
+	protected $login = null;
+	protected $token_auth = null;
+	
 	public function authenticate()
 	{
 		$rootLogin = Zend_Registry::get('config')->superuser->login;
 		$rootPassword = Zend_Registry::get('config')->superuser->password;
-		$rootToken = Piwik_UsersManager_API::getTokenAuth($rootLogin,$rootPassword);
+		$rootToken = Piwik_UsersManager_API::getTokenAuth($rootLogin, $rootPassword);
 
-		if($this->_identity == $rootLogin
-			&& $this->_credential == $rootToken)
+		if($this->login == $rootLogin
+			&& $this->token_auth == $rootToken)
 		{
-			return new Piwik_Auth_Result(Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE, $this->_identity );
+			return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $this->login, $this->token_auth );
 		}
 
-		if(is_null($this->_identity))
+		if($this->token_auth === $rootToken)
 		{
-			if($this->_credential === $rootToken)
-			{
-				return new Piwik_Auth_Result(Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin );
-			}
-
-			$login = Zend_Registry::get('db')->fetchOne(
-						'SELECT login FROM '.Piwik::prefixTable('user').' WHERE token_auth = ?',
-						array($this->_credential)
-			);
-			if($login !== false)
-			{
-				return new Piwik_Auth_Result(Zend_Auth_Result::SUCCESS, $login );
-			}
-			return new Piwik_Auth_Result( Zend_Auth_Result::FAILURE, $this->_identity );
+			return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $rootToken );
 		}
 
-		// if not then we return the result of the database authentification provided by zend
-		return parent::authenticate();
+		$login = Zend_Registry::get('db')->fetchOne(
+					'SELECT login FROM '.Piwik::prefixTable('user').' WHERE token_auth = ?',
+					array($this->token_auth)
+		);
+		if($login !== false)
+		{
+			if(is_null($this->login)
+				|| $this->login == $login)
+			{
+				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, $login, $this->token_auth );
+			}
+		}
+		return new Piwik_Auth_Result( Piwik_Auth_Result::FAILURE, $this->login, $this->token_auth );
 	}
 
-	public function getTokenAuth()
+	public function setLogin($login)
 	{
-		return $this->_credential;
+		$this->login = $login;
+	}
+	
+	public function setTokenAuth($token_auth)
+	{
+		$this->token_auth = $token_auth;
 	}
 }

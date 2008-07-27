@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id$
+ * @version $Id: API.php 482 2008-05-18 17:22:35Z matt $
  * 
  * @package Piwik_ExamplePlugin
  */
@@ -20,19 +20,7 @@
  * 
  * @package Piwik_ExamplePlugin
  */
-class MagicObject 
-{
-	function Incredible(){ return 'Incroyable'; }
-	protected $wonderful = 'magnifique';
-	public $great = 'formidable';
-}
-
-
-/**
- * 
- * @package Piwik_ExamplePlugin
- */
-class Piwik_ExamplePlugin_API extends Piwik_Apiable
+class Piwik_ExampleAPI_API extends Piwik_Apiable
 {
 	static private $instance = null;
 	static public function getInstance()
@@ -55,18 +43,22 @@ class Piwik_ExamplePlugin_API extends Piwik_Apiable
 		//http://en.wikipedia.org/wiki/Golden_ratio
 		return 1.618033988749894848204586834365;
 	}
+	
 	public function getObject()
 	{
 		return new MagicObject();
 	}
+	
 	public function getNull()
 	{
 		return null;
 	}
+	
 	public function getDescriptionArray()
 	{
 		return array('piwik','open source','web analytics','free');
 	}
+	
 	public function getCompetitionDatatable()
 	{
 		$dataTable = new Piwik_DataTable();
@@ -87,3 +79,14 @@ class Piwik_ExamplePlugin_API extends Piwik_Apiable
 	
 }
 
+
+/**
+ * 
+ * @package Piwik_ExamplePlugin
+ */
+class MagicObject 
+{
+	function Incredible(){ return 'Incroyable'; }
+	protected $wonderful = 'magnifique';
+	public $great = 'formidable';
+}

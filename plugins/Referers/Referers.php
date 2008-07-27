@@ -25,7 +25,7 @@ class Piwik_Referers extends Piwik_Plugin
 	{
 		$info = array(
 			'name' => 'Referers',
-			'description' => 'Computes all reports about the referers',
+			'description' => 'Reports the Referers data: Search Engines, Keywords, Websites, Newsletters tracking, Campaign Tracking, Direct Entry. ',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',

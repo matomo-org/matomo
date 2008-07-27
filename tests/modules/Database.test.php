@@ -35,8 +35,10 @@ class FakeAccess
 			throw new Exception("checkUserIsSuperUser Fake exception // string not to be tested");
 		}
 	}
+	
 	static public function loadAccess()
 	{}
+	
 	static public function checkUserHasAdminAccess( $idSites )
 	{
 		if(!self::$superUser)
@@ -99,10 +101,9 @@ class FakeAccess
 		{
 			return; //super user has some admin rights
 		}
-		
-		
 	}
-	static public function getIdentity()
+	
+	static public function getLogin()
 	{
 		return self::$identity;
 	}

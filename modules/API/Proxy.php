@@ -233,18 +233,16 @@ class Piwik_API_Proxy
 	public function getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = '' )
 	{
 		$str = '';
+		$token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth();
 		foreach($this->api as $class => $info)
 		{
 			$moduleName = $this->getModuleNameFromClassName($class);
-			$str .= "\n<h2>Module ".$moduleName."</h2>";
+			$str .= "\n<h2 id='$moduleName'>Module ".$moduleName."</h2>";
 			
 			foreach($info as $methodName => $infoMethod)
 			{
-
-				
 				$params = $this->getStrListParameters($class, $methodName);
 				$str .= "\n" . "- <b>$moduleName.$methodName " . $params . "</b>";
-				
 				$str .= '<small>';
 				
 				if($outputExampleUrls)
@@ -259,16 +257,16 @@ class Piwik_API_Proxy
 						{
 							$exampleUrlRss1 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10')) ;
 							$exampleUrlRss2 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',));
-							$lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss1&format=rss'>10 days</a>, <a target=_blank href='$exampleUrlRss2&format=Rss'>5 weeks</a>,
-									XML of the <a target=_blank href='$exampleUrlRss1&format=xml'>last 10 days</a>";
+							$lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss1&format=rss$token_auth'>10 days</a>, <a target=_blank href='$exampleUrlRss2&format=Rss'>5 weeks</a>,
+									XML of the <a target=_blank href='$exampleUrlRss1&format=xml$token_auth'>last 10 days</a>";
 						}
 						$exampleUrl = $prefixUrls . $exampleUrl ;
 						$str .= " <span class=\"example\">[ Example in  
-									<a target=_blank href='$exampleUrl&format=xml'>XML</a>, 
-									<a target=_blank href='$exampleUrl&format=PHP&prettyDisplay=true'>PHP</a>, 
-									<a target=_blank href='$exampleUrl&format=JSON'>Json</a>, 
-									<a target=_blank href='$exampleUrl&format=Csv'>Csv</a>, 
-									<a target=_blank href='$exampleUrl&format=Html'>Basic html</a> 
+									<a target=_blank href='$exampleUrl&format=xml$token_auth'>XML</a>, 
+									<a target=_blank href='$exampleUrl&format=PHP&prettyDisplay=true$token_auth'>PHP</a>, 
+									<a target=_blank href='$exampleUrl&format=JSON$token_auth'>Json</a>, 
+									<a target=_blank href='$exampleUrl&format=Csv$token_auth'>Csv</a>, 
+									<a target=_blank href='$exampleUrl&format=Html$token_auth'>Basic html</a> 
 									$lastNUrls
 									]</span>";
 					}

@@ -14,8 +14,8 @@ require_once 'SitesManager/API.php';
 
 /**
  * Class to handle User Access:
- * - loads user access from the DB
- * - make it easy to check that the current user has specific permissions (see check* methods)
+ * - loads user access from the Piwik_Auth_Result object 
+ * - provides easy to use API to check the permissions for the current (check* methods)
  * 
  * In Piwik there are mainly 4 access levels
  * - no access
@@ -31,7 +31,7 @@ require_once 'SitesManager/API.php';
  *  - ADMIN on the website 2 and 4, and
  *  - NO access on the website 3 and 5
  *
- * There is only one Super User ; he has ADMIN access to all the websites
+ * There is only one Super User. He has ADMIN access to all the websites 
  * and he only can change the main configuration settings.
  *
  * @package Piwik
@@ -52,7 +52,14 @@ class Piwik_Access
 	 *
 	 * @var string
 	 */
-	protected $identity = null;
+	protected $login = null;
+	
+	/**
+	 * token_auth of the current user
+	 *
+	 * @var string
+	 */
+	protected $token_auth = null;
 	
 	/**
 	 * Defines if the current user is the super user
@@ -62,7 +69,6 @@ class Piwik_Access
 	 */
 	protected $isSuperUser = false;
 
-	
 	/**
 	 * List of available permissions in Piwik
 	 *
@@ -70,6 +76,13 @@ class Piwik_Access
 	 */
 	static private $availableAccess = array('noaccess', 'view', 'admin', 'superuser');
 
+	/**
+	 * Authentification object (see Piwik_Auth)
+	 *
+	 * @var Piwik_Auth
+	 */
+	private $auth;
+	
 	/**
 	 * Returns the list of the existing Access level.
 	 * Useful when a given API method requests a given acccess Level.
@@ -106,10 +119,11 @@ class Piwik_Access
 
 		if($result->isValid())
 		{
-			$this->identity = $result->getIdentity();
+			$this->login = $result->getIdentity();
+			$this->token_auth = $result->getTokenAuth();
 				
 			// case the superUser is logged in
-			if($result->getCode() == Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE)
+			if($result->getCode() == Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE)
 			{
 				$this->isSuperUser = true;
 				$idsitesByAccess['superuser'] = Piwik_SitesManager_API::getAllSitesId();
@@ -124,7 +138,7 @@ class Piwik_Access
 				$accessRaw = $db->fetchAll("SELECT access, t2.idsite
 								  FROM ".Piwik::prefixTable('access'). " as t1 
 									JOIN ".Piwik::prefixTable('site')." as t2 USING (idsite) ".
-								" WHERE login=?", $this->identity);
+								" WHERE login=?", $this->login);
 
 				foreach($accessRaw as $access)
 				{
@@ -162,11 +176,20 @@ class Piwik_Access
 	 * Returns the current user login
 	 * @return string
 	 */
-	public function getIdentity()
+	public function getLogin()
 	{
-		return $this->identity;
+		return $this->login;
 	}
 
+	/**
+	 * Returns the token_auth used to authenticate this user in the API
+	 * @return string  
+	 */
+	public function getTokenAuth()
+	{
+		return $this->token_auth;
+	}
+	
 	/**
 	 * Returns an array of ID sites for which the user has at least a VIEW access.
 	 * Which means VIEW or ADMIN or SUPERUSER.
@@ -262,7 +285,6 @@ class Piwik_Access
 			}
 		}
 	}
-
 
 	/**
 	 * This method checks that the user has VIEW or ADMIN access for the given list of websites.

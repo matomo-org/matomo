@@ -15,6 +15,18 @@
  */
 class Piwik_VisitorInterest extends Piwik_Plugin
 {	
+	public function getInformation()
+	{
+		$info = array(
+			'name' => 'VisitorInterest',
+			'description' => 'Reports about the Visitor Interest: number of pages viewed, time spent on the Website.',
+			'author' => 'Piwik',
+			'homepage' => 'http://piwik.org/',
+			'version' => '0.1',
+		);
+		
+		return $info;
+	}
 	
 	protected $timeGap = array(
 			array(0, 0.5),
@@ -41,18 +53,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			array(20)
 		);
 
-	public function getInformation()
-	{
-		$info = array(
-			'name' => 'VisitorInterest',
-			'description' => 'Several stats related to the visitor interest',
-			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
-		);
-		
-		return $info;
-	}
 	
 	function postLoad()
 	{

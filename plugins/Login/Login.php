@@ -22,7 +22,7 @@ class Piwik_Login extends Piwik_Plugin
 	{
 		$info = array(
 			'name' => 'Login',
-			'description' => 'Description',
+			'description' => 'Login Authentication plugin, reading the credentials from the config/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
@@ -33,7 +33,7 @@ class Piwik_Login extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'FrontController.authSetCredentials'	=> 'authSetCredentials',
+			'FrontController.initAuthenticationObject'	=> 'initAuthenticationObject',
 			'FrontController.NoAccessException'		=> 'noAccess',
 		);
 		return $hooks;
@@ -48,17 +48,17 @@ class Piwik_Login extends Piwik_Plugin
 		$controller->login($exceptionMessage);
 	}
 	
-	function authSetCredentials($notification)
+	function initAuthenticationObject($notification)
 	{
 		$authAdapter = new Piwik_Login_Auth();
      	Zend_Registry::set('auth', $authAdapter);
 		
      	if(Piwik::getModule() === 'API')
      	{
-			$tokenAuthAPIInUrl = Piwik_Common::getRequestVar('token_auth', '', 'string');
+			$tokenAuthAPIInUrl = Piwik_Common::getRequestVar('token_auth', 'anonymous', 'string');
 			if( !empty($tokenAuthAPIInUrl))
 			{
-				$authAdapter->setCredential($tokenAuthAPIInUrl);
+				$authAdapter->setTokenAuth($tokenAuthAPIInUrl);
 			}
      	}
 		else
@@ -80,10 +80,7 @@ class Piwik_Login extends Piwik_Plugin
 	static function prepareAuthObject( $login, $tokenAuth )
 	{		
 		$auth = Zend_Registry::get('auth');
-		$auth->setTableName(Piwik::prefixTable('user'))
-			->setIdentityColumn('login')
-			->setCredentialColumn('token_auth')
-			->setIdentity($login)
-	     	->setCredential($tokenAuth);
+		$auth->setLogin($login);
+		$auth->setTokenAuth($tokenAuth);
 	}
 }

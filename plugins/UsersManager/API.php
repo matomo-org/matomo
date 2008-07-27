@@ -327,7 +327,8 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		{
 			$email = $userInfo['email'];
 		}
-		else
+
+		if($email != $userInfo['email'])
 		{
 			self::checkEmail($email);
 		}
@@ -391,16 +392,15 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 	 *
 	 * @return bool true if the user is known
 	 */
-	 
 	static public function userEmailExists( $userEmail )
 	{
-		Piwik::checkUserHasSomeAdminAccess();	
+		Piwik::checkUserHasSomeAdminAccess();
 		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE email = ?", $userEmail);
 		return $count != 0;	
 	}
-
+	
 	/**
 	 * Set an access level to a given user for a list of websites ID.
 	 * 

@@ -117,17 +117,17 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						$currentMethod, 
 						$methodToCall, 
 						$subMethod );
-		$view->setTemplate('Home/templates/datatable_actions.tpl');
+		$view->setTemplate('CoreHome/templates/datatable_actions.tpl');
 		
 		if(Piwik_Common::getRequestVar('idSubtable', -1) != -1)
 		{
-			$view->setTemplate('Home/templates/datatable_actions_subdatable.tpl');
+			$view->setTemplate('CoreHome/templates/datatable_actions_subdatable.tpl');
 		}
 		$currentlySearching = $view->setSearchRecursive();
 		
 		if($currentlySearching)
 		{
-			$view->setTemplate('Home/templates/datatable_actions_recursive.tpl');
+			$view->setTemplate('CoreHome/templates/datatable_actions_recursive.tpl');
 		}
 		$view->disableSort();
 		

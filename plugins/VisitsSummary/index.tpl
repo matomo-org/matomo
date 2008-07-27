@@ -1,4 +1,4 @@
-<script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
+<script type="text/javascript" src="plugins/CoreHome/templates/sparkline.js"></script>
 
 <a name="evolutionGraph" graphId="VisitsSummarygetLastVisitsGraph"></a>
 <h2>{'VisitsSummary_Evolution'|translate:$period}</h2>
