@@ -1,0 +1,37 @@
+#tablist {
+	padding: 3px 0;
+	margin-left: 0;
+	margin-bottom: 0;
+	margin-top: 0.1em;
+	border-bottom: 1px solid gray;
+}
+
+#tablist li {
+	list-style: none;
+	display: inline;
+	margin: 0;
+}
+
+#tablist li a {
+	text-decoration: none;
+	padding: 3px 0.5em;
+	margin-right: 3px;
+	border: 1px solid #778;
+	border-bottom: none;
+	background: white;
+	font: bold 16px Georgia;
+}
+
+#tablist li a:link,#tablist li a:visited {
+	color: black;
+}
+
+#tablist li a:hover {
+	color: black;
+	background: #defdbb;
+	border-color: black;
+}
+
+#tablist li a.current {
+	background: #defdbb;
+}
