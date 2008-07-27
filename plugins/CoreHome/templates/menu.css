@@ -1,0 +1,111 @@
+.nav,.nav * {
+	margin: 0;
+	padding: 0;
+}
+
+.nav {
+	padding-bottom: 2.5em;
+	height: 2.5em;
+	float: left;
+	line-height: 1.0;
+	margin-bottom: 1.5em;
+	position: relative;
+}
+
+.nav ul {
+	background: #fff; /*IE6 needs this*/
+	float: left;
+	position: relative;
+}
+
+/* LEVEL1 NORMAL */
+.nav li {
+	background: #DFE6FF;
+	border-left: 1px solid #fff;
+	float: left;
+	list-style: none;
+	z-index: 49;
+}
+
+.nav li.current ul {
+	z-index: 49;
+}
+
+.nav li.sfHover ul,ul.nav li:hover ul {
+	z-index: 50;
+}
+
+/* LEVEL2 NORMAL */
+.nav li li {
+	background: #FBFFFF;
+	border-left-color: #AABDE6;
+}
+
+.nav a {
+	border-bottom: 1px solid #CFDEFF;
+	color: #13a;
+	display: block;
+	float: left;
+	padding: .75em 0 .75em 1em;
+	text-decoration: none;
+	width: 8em;
+}
+
+.nav li ul {
+	left: 0;
+	top: -999em;
+	position: absolute;
+	width: 48em;
+}
+
+/* LEVEL1 HOVER */
+.nav li:hover,.nav li.sfHover,.nav li.current,.nav a:focus,.nav a:hover,.nav a:active
+	{
+	background: #C9D5FF;
+}
+
+.nav li {
+	font-weight: normal;
+}
+
+.nav li.sfHover {
+	font-weight: bold;
+}
+
+/* LEVEL2 HOVER */
+.nav li li:hover,.nav li li.sfHover,.nav li li a:focus,.nav li li a:hover,.nav li li a:active
+	{
+	background: #C9F6FF;
+	font-weight: bold;
+}
+
+.nav li.sfHover a,.nav li.current a,.nav a:focus,.nav a:hover,.nav a:active
+	{
+	border-bottom: none;
+}
+
+.nav li li.current a {
+	font-weight: bold;
+}
+
+.nav li:hover ul, /* pure CSS hover is removed below */ body .nav li.current ul,
+	/* this must be more specific than the .superfish override below */ ul.nav li.sfHover ul
+	{
+	top: 2.5em;
+}
+
+.nav li:hover li ul,.nav li.sfHover li ul {
+	top: -999em;
+}
+
+.nav li li:hover ul, /* pure CSS hover is removed below */ ul.nav li li.sfHover ul
+	{
+	top: 2.5em;
+}
+
+/*following rule negates pure CSS hovers
+so submenu remains hidden and JS controls
+when and how it appears*/
+.superfish li:hover ul,.superfish li li:hover ul {
+	top: -999em;
+}
