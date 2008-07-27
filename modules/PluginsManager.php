@@ -52,9 +52,9 @@ class Piwik_PluginsManager
 	protected $loadedPlugins = array();
 	
 	protected $doLoadAlwaysActivatedPlugins = true;
-	protected $pluginToAlwaysEnable = array(	'Home', 
-												'AdminHome',
-												'PluginsAdmin'
+	protected $pluginToAlwaysEnable = array(	'CoreHome', 
+												'CoreAdminHome',
+												'CorePluginsAdmin'
 											);
 		
 	static private $instance = null;

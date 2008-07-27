@@ -20,7 +20,7 @@ require_once "Url.php";
  * 
  * Examples:
  * <pre>
- * {hiddenurl module="API"} with a URL 'index.php?action=test&module=Home' will output
+ * {hiddenurl module="API"} with a URL 'index.php?action=test&module=CoreHome' will output
  *  <input type=hidden name=action value=test>
  *  <input type=hidden name=module value=API>
  * </pre>

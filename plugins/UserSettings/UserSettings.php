@@ -15,6 +15,20 @@
  */
 class Piwik_UserSettings extends Piwik_Plugin
 {	
+	
+	public function getInformation()
+	{
+		$info = array(
+			'name' => 'UserSettings',
+			'description' => 'Reports various User Settings: Browser, Browser Family, Operating System, Plugins, Resolution, Global Settings.',
+			'author' => 'Piwik',
+			'homepage' => 'http://piwik.org/',
+			'version' => '0.1',
+		);
+		
+		return $info;
+	}
+
 	// source: http://en.wikipedia.org/wiki/List_of_web_browsers
 	static public $browserType = array(
 		"ie"	=> array("IE"),
@@ -29,19 +43,6 @@ class Piwik_UserSettings extends Piwik_Plugin
 		'khtml' => 'Khtml (Konqueror, Safari)',
 		'opera' => 'Opera'
 	);
-	
-	public function getInformation()
-	{
-		$info = array(
-			'name' => 'UserSettings',
-			'description' => 'UserSettings',
-			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
-		);
-		
-		return $info;
-	}
 	
 	function postLoad()
 	{

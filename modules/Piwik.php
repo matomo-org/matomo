@@ -617,7 +617,12 @@ class Piwik
 	
 	static public function getCurrentUserLogin()
 	{
-		return Zend_Registry::get('access')->getIdentity();
+		return Zend_Registry::get('access')->getLogin();
+	}
+	
+	static public function getCurrentUserTokenAuth()
+	{
+		return Zend_Registry::get('access')->getTokenAuth();
 	}
 	
 	static public function isUserIsSuperUserOrTheUser( $theUser )

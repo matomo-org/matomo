@@ -14,7 +14,7 @@ input, textarea, p {
 <br /><input type="text" name="email" size="40" /></p> 
 
 <p><strong>Body:</strong>
-<br /><textarea name="body" cols="40" rows="15"></textarea></p>
+<br /><textarea name="body" cols="40" rows="13"></textarea></p>
 
 <p><input type="submit" value="Send feedback" />
 

@@ -1,5 +1,5 @@
 {postEvent name="template_headerVisitsFrequency"}
-<script type="text/javascript" src="plugins/Home/templates/sparkline.js"></script>
+<script type="text/javascript" src="plugins/CoreHome/templates/sparkline.js"></script>
 
 <a name="evolutionGraph" graphId="VisitFrequencygetLastVisitsReturningGraph"></a>
 <h2>{'VisitFrequency_Evolution'|translate}</h2>

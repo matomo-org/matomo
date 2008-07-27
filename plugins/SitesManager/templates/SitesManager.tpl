@@ -12,16 +12,22 @@
 	padding:1em;
 	font-weight:bold;
 }
+
+#editSites {
+	valign: top;
+}
 </style>
 {/literal}
-<h2>{'SitesManager_Sites'|translate}</h2>
+<h2>Websites Management</h2>
+<p>Your Web Analytics reports need Websites! Add, update, delete Websites, and show the Javascript to insert in your pages.</p>
+
 <div id="ajaxError" style="display:none"></div>
 <div id="ajaxLoading" style="display:none">{'General_LoadingData'|translate} <img src="themes/default/loading.gif" alt="" /></div>
 
 {if $sites|@count == 0}
 	{'SitesManager_NoWebsites'|translate}
 {else}
-	<table id="editSites" border=1 cellpadding="10">
+	<table class="admin" id="editSites" border=1 cellpadding="10">
 		<thead>
 			<tr>
 			<th>{'SitesManager_Id'|translate}</th>

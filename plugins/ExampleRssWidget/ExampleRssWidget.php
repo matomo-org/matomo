@@ -6,8 +6,8 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 	{
 		return array(
 			// name must be the className prefix!
-			'name' => 'Example RSS Widget',
-			'description' => 'Simple example on how to create a new widget that reads a RSS feed',
+			'name' => 'ExampleRssWidget',
+			'description' => 'Example Plugin: How to create a new widget that reads a RSS feed?',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',

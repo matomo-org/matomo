@@ -53,7 +53,7 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 						$currentControllerAction, 
 						$moduleNameAndMethod,						
 						$actionToLoadTheSubTable);
-		$this->dataTableTemplate = 'Home/templates/datatable.tpl';
+		$this->dataTableTemplate = 'CoreHome/templates/datatable.tpl';
 		
 		$this->variablesDefault['enable_sort'] = true;
 	

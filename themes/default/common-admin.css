@@ -15,24 +15,6 @@ textarea {
 	font-size: 0.85em;
 }
 
-#editSites {
-	valign: top;
-}
-
-#access td,#users td {
-	spacing: 0px;
-	padding: 2px 5px 5px 4px;
-	border: 1px solid #660000;
-	width: 100px;
-}
-
-#plugins td {
-	spacing: 0px;
-	padding: 5px 5px 5px 4px;
-	border: 1px solid #660000;
-	width: 100px;
-}
-
 #ajaxError {
 	color: red;
 	text-align: center;
@@ -43,34 +25,15 @@ textarea {
 	padding: 10px;
 }
 
-#accessUpdated {
-	color: red;
-	text-align: center;
-	font-weight: bold;
-	width: 350px;
-	margin: 10px;
-	padding: 10px;
-	display: none;
-	border: 3px solid green;
-	color: green;
-}
 
-#addrow img {
-	vertical-align: middle;
-}
-
-#addrow a {
-	text-decoration: none;
-}
-
-table {
+table.admin {
 	font-size: 0.9em;
 	font-family: Arial, Helvetica, verdana sans-serif;
 	background-color: #fff;
 	border-collapse: collapse;
 }
 
-thead th {
+table.admin thead th {
 	border-right: 1px solid #fff;
 	color: #fff;
 	text-align: center;
@@ -81,64 +44,31 @@ thead th {
 	font-weight: normal;
 }
 
-tbody tr {
+table.admin tbody tr {
 	background-color: #fff;
 	border-bottom: 1px solid #f0f0f0;
 }
 
-tbody td {
+table.admin tbody td {
 	color: #414141;
 	padding: 5px;
 	text-align: left;
 }
 
-tbody th {
+table.admin tbody th {
 	text-align: left;
 	padding: 2px;
 }
 
-tbody td,tbody th {
-	color: #6C8C37;
+table.admin tbody td, table.admin tbody th {
+	color: #536C2A;
 	text-decoration: none;
 	font-weight: normal;
 	padding-left: 15px;
 }
 
-tbody td:hover,tbody th:hover {
+table.admin  tbody td:hover, table.admin  tbody th:hover {
 	color: #009193;
-	text-decoration: none;
-}
-
-.activate {
-	background-color: #fefefe;
-}
-
-.deactivate {
-	background-color: #ddd;
-}
-
-.activate .switch,.deactivate .switch,.center {
-	text-align: center;
-}
-
-.activate .switch a,.deactivate .switch a {
-	padding: 2px;
-	text-decoration: none;
-	color: #2f381a;
-	font-weight: bold;
-}
-
-.activate .switch a:hover {
-	padding: 2px;
-	background-color: red;
-	color: #fff;
-	text-decoration: none;
-}
-
-.deactivate .switch a:hover {
-	padding: 2px;
-	background-color: #666;
-	color: #fff;
 	text-decoration: none;
 }
 
@@ -170,4 +100,27 @@ tbody td:hover,tbody th:hover {
 .access_error {
 	font-size: .7em;
 	padding: 15px;
+}
+
+#content h2 {
+border-bottom-color:#DADADA;
+color:#666666;
+-x-system-font:none;
+border-bottom-style:solid;
+border-bottom-width:1px;
+clear:both;
+font-family:Georgia,"Times New Roman",Times,serif;
+font-size:24px;
+font-size-adjust:none;
+font-stretch:normal;
+font-style:normal;
+font-variant:normal;
+font-weight:normal;
+line-height:normal;
+margin:5px 0pt 0pt -4px;
+padding:0pt 280px 7px 0pt;
+}
+#content {
+margin:0pt 15px;
+padding:0pt;
 }

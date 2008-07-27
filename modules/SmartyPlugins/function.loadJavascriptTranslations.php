@@ -7,10 +7,10 @@
  *
  *  Example (use in template):
  *
- *  {loadJavascriptTranslations modules='SitesManager Home General'}
+ *  {loadJavascriptTranslations modules='SitesManager CoreHome General'}
  *
  *  loads javascript array translations from main translation file ('General')
- *  and both 'Home' and 'SitesManager' plugins translations
+ *  and both 'CoreHome' and 'SitesManager' plugins translations
  *
  *  Note: You can put noHtml=1 option in order to output pure JS code
  * 

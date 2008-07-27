@@ -98,7 +98,7 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 		$table->addRow( $this->getRow1() );
 		$table->addRow( $this->getRow0() );
 		
-		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table, 2, $columnToSortBy = 'nb');
+		$filter = new Piwik_DataTable_Filter_AddSummaryRow($table, 2, Piwik_DataTable::LABEL_SUMMARY_ROW, $columnToSortBy = 'nb');
 		$this->assertEqual($table->getRowsCount(), 3);
 		$expectedRow = new Piwik_DataTable_Row(array( Piwik_DataTable_Row::COLUMNS => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'nb' => 111)));
 		$this->assertTrue(Piwik_DataTable_Row::isEqual($table->getLastRow(), $expectedRow));

@@ -43,7 +43,7 @@ abstract class Piwik_ViewDataTable
 	 * Template file that will be loaded for this view.
 	 * Usually set in the Piwik_ViewDataTable_*
 	 *
-	 * @var string eg. 'Home/templates/cloud.tpl'
+	 * @var string eg. 'CoreHome/templates/cloud.tpl'
 	 */
 	protected $dataTableTemplate = null;
 	
@@ -292,7 +292,7 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Forces the View to use a given template.
 	 * Usually the template to use is set in the specific ViewDataTable_* 
-	 * eg. 'Home/templates/cloud.tpl'
+	 * eg. 'CoreHome/templates/cloud.tpl'
 	 *
 	 * But some users may want to force this template to some other value
 	 * 

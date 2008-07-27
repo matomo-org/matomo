@@ -41,7 +41,7 @@ class Piwik_Common
 
 	/**
 	 * Returns the path and query part from a URL.
-	 * Eg. http://piwik.org/test/index.php?module=Home will return /test/index.php?module=Home
+	 * Eg. http://piwik.org/test/index.php?module=CoreHome will return /test/index.php?module=CoreHome
 	 *
 	 * @param string $url either http://piwik.org/test or /
 	 * @return string

@@ -20,6 +20,13 @@ abstract class Piwik_Plugin
 {
 	/**
 	 * Returns the plugin details
+	 * 	'name' => string             // plugin name
+	 * 	'description' => string      // 1/2 sentences description of the plugin 
+	 * 	'author' => string           // plugin author 
+	 * 	'author_homepage' => string  // author homepage (or email "mailto:youremail@example.org")
+	 * 	'homepage' => string         // plugin homepage
+	 * 	'version' => string          // plugin version number
+	 * 	'LogStatsPlugin' => bool     // should we load this plugin during the stats logging process?
 	 */
 	abstract function getInformation();
 	

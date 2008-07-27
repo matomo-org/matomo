@@ -1,4 +1,4 @@
-{loadJavascriptTranslations modules='Home Dashboard'}
+{loadJavascriptTranslations modules='CoreHome Dashboard'}
 
 <script type="text/javascript">
 	{* define some global constants for the following javascript includes *}
@@ -8,7 +8,7 @@
 		piwik.dashboardLayout = '{$layout}';
 	{else}
 		// Load default layout...
-		piwik.dashboardLayout = 'VisitsSummary.getLastVisitsGraph~VisitorInterest.getNumberOfVisitsPerVisitDuration~UserSettings.getBrowser~ExamplePlugin.feedburner|Referers.getKeywords~Referers.getWebsites|Referers.getSearchEngines~VisitTime.getVisitInformationPerServerTime~ExampleRssWidget.rssPiwik|';
+		piwik.dashboardLayout = 'VisitsSummary.getLastVisitsGraph~VisitorInterest.getNumberOfVisitsPerVisitDuration~UserSettings.getBrowser~ExampleFeedburner.feedburner|Referers.getKeywords~Referers.getWebsites|Referers.getSearchEngines~VisitTime.getVisitInformationPerServerTime~ExampleRssWidget.rssPiwik|';
 	{/if}
 	
 	piwik.availableWidgets = {$availableWidgets};

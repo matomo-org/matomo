@@ -10,13 +10,6 @@
  */
 
 interface Piwik_Auth {
-	const SUCCESS_SUPERUSER_AUTH_CODE = 42;
-	
-	/**
-	 * @return string
-	 */
-	public function getTokenAuth();
-	
 	/**
 	 * @return Piwik_Auth_Result
 	 */
@@ -29,11 +22,31 @@ interface Piwik_Auth {
  */
 class Piwik_Auth_Result extends Zend_Auth_Result
 {
-	public function __construct($code, $identity, array $messages = array())
+	/**
+	 * token_auth parameter used to authenticate in the API
+	 *
+	 * @var string
+	 */
+	protected $_token_auth = null;
+	
+	const SUCCESS_SUPERUSER_AUTH_CODE = 42;
+	
+	public function __construct($code, $login, $token_auth, array $messages = array())
 	{
-		// Piwik_Auth::SUCCESS_SUPERUSER_AUTH_CODE, Zend_Auth_Result::SUCCESS, Zend_Auth_Result::FAILURE  
+		// Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, Piwik_Auth_Result::SUCCESS, Piwik_Auth_Result::FAILURE  
 		$this->_code		= (int)$code;
-		$this->_identity	= $identity;
+		$this->_identity	= $login;
 		$this->_messages	= $messages;
+		$this->_token_auth	= $token_auth;
 	}
+	
+    /**
+     * Returns the token_auth to authenticate the current user in the API
+     *
+     * @return string
+     */
+    public function getTokenAuth()
+    {
+    	return $this->_token_auth;
+    }
 }

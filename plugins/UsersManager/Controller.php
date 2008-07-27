@@ -42,7 +42,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$usersLogin = Piwik_UsersManager_API::getUsersLogin();
 		
 		// we dont want to display the user currently logged so that the user can't change his settings from admin to view...
-		$currentlyLogged = Zend_Registry::get('access')->getIdentity();
+		$currentlyLogged = Piwik::getCurrentUserLogin();
 	
 		foreach($usersLogin as $login)
 		{

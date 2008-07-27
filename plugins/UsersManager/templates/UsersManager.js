@@ -1,11 +1,8 @@
-
-
 function getUpdateUserAJAX( row )
 {
 	var ajaxRequest = getStandardAjaxConf();
 	toggleAjaxLoading();
 	
-	// prepare the API parameters to update the user
 	var parameters = new Object;
 	parameters.module = 'API';
 	parameters.format = 'json';
@@ -15,11 +12,11 @@ function getUpdateUserAJAX( row )
  	if(password != '-') parameters.password = password;
  	parameters.email = $(row).find('input[@id=email]').val();
  	parameters.alias = $(row).find('input[@id=alias]').val();
+ 	parameters.token_auth = piwik_token_auth;
 	
 	ajaxRequest.data = parameters;
 	
 	return ajaxRequest;
-
 }
 
 function getDeleteUserAJAX( login )
@@ -27,12 +24,12 @@ function getDeleteUserAJAX( login )
 	var ajaxRequest = getStandardAjaxConf();
 	toggleAjaxLoading();
 		
-	// prepare the API parameters to update the user
 	var parameters = new Object;
 	parameters.module = 'API';
 	parameters.format = 'json';
  	parameters.method =  'UsersManager.deleteUser';
  	parameters.userLogin = login;
+ 	parameters.token_auth = piwik_token_auth;
 	
 	ajaxRequest.data = parameters;
 	
@@ -44,7 +41,6 @@ function getAddUserAJAX( row )
 	var ajaxRequest = getStandardAjaxConf();
 	toggleAjaxLoading();
 	
-	// prepare the API parameters to add the user
 	var parameters = new Object;
 	parameters.module = 'API';
 	parameters.format = 'json';
@@ -53,6 +49,7 @@ function getAddUserAJAX( row )
  	parameters.password =  $(row).find('input[@id=useradd_password]').val();
  	parameters.email = $(row).find('input[@id=useradd_email]').val();
  	parameters.alias = $(row).find('input[@id=useradd_alias]').val();
+ 	parameters.token_auth = piwik_token_auth;
  	
 	ajaxRequest.data = parameters;
  	
@@ -71,7 +68,6 @@ function getUpdateUserAccess(login, access, successCallback)
 	ajaxRequest.success = successCallback;
 	ajaxRequest.async = false;
 	
-	// prepare the API parameters to add the user
 	var parameters = new Object;
 	parameters.module = 'API';
 	parameters.format = 'json';
@@ -79,6 +75,7 @@ function getUpdateUserAccess(login, access, successCallback)
  	parameters.userLogin = login;
  	parameters.access = access;
  	parameters.idSites = getIdSites();
+ 	parameters.token_auth = piwik_token_auth;
 
 	ajaxRequest.data = parameters;
  	
@@ -95,10 +92,8 @@ function submitOnEnter(e)
 	}
 }
 
-
 function launchAjaxRequest(self, successCallback)
 {
-	//launching AJAX request
 	$.ajax( getUpdateUserAccess( 
 					$(self).parent().parent().find('#login').html(),//if changed change also the modal
 					$(self).parent().attr('id'),
@@ -125,7 +120,6 @@ function bindUpdateAccess()
 		{
 			ajaxHideError();
 			
-			//once successful
 			$(self).parent().parent().find('.accessGranted')
 				.attr("src","plugins/UsersManager/images/no-access.png" )
 				.attr("class","updateAccess" )
@@ -182,7 +176,7 @@ $(document).ready( function() {
 								var idName = $(n).attr('id');
 								if(idName != 'userLogin')
 								{
-									var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="10">';
+									var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25">';
 									$(n).html(contentAfter);
 								}
 							}
@@ -246,4 +240,3 @@ $(document).ready( function() {
 		.click( bindUpdateAccess )
 		;
 });	
-

@@ -34,8 +34,8 @@ function smarty_modifier_urlRewriteBasicView($parameters)
 	}
 	$url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
 	
-	// add module=Home&action=showInContext
-	$url = $url . '&amp;module=Home&amp;action=showInContext';
+	// add module=CoreHome&action=showInContext
+	$url = $url . '&amp;module=CoreHome&amp;action=showInContext';
 	return htmlspecialchars($url);
 }
 

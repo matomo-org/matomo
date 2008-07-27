@@ -52,7 +52,7 @@ class Piwik_API_Controller extends Piwik_Controller
 	
 	function listAllAPI()
 	{
-		$token_auth = Zend_Registry::get('auth')->getTokenAuth();
+		$token_auth = Piwik::getCurrentUserTokenAuth();
 		echo "<style>body{ font-family:georgia,arial; font-size:0.95em;} 
 		#token_auth { 
 			background-color:#E8FFE9; 

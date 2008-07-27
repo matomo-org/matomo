@@ -21,6 +21,7 @@ function getDeleteSiteAJAX( idSite )
 	parameters.format = 'json';
  	parameters.method =  'SitesManager.deleteSite';
  	parameters.idSite = idSite;
+ 	parameters.token_auth = piwik_token_auth;
 	
 	ajaxRequest.data = parameters;
 	
@@ -43,16 +44,16 @@ function getAddSiteAJAX( row )
 	request += '&module=API';
 	request += '&format=json';
 	request += '&method=SitesManager.addSite';
-	
 	siteName = getEncoded(siteName);
 	request += '&siteName='+siteName;
-	
 	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
-
+ 	request += '&token_auth='+piwik_token_auth;
+ 	
 	ajaxRequest.data = request;
  	
 	return ajaxRequest;
 }
+
 function getUpdateSiteAJAX( row )
 {
 	var ajaxRequest = getStandardAjaxConf();
@@ -70,15 +71,14 @@ function getUpdateSiteAJAX( row )
 	request += '&siteName='+siteName;
 	request += '&idSite='+idSite;
 	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
-
+ 	request += '&token_auth='+piwik_token_auth;
+ 	
 	ajaxRequest.data = request;
 	
 	return ajaxRequest;
-
 }
 
-
-	$(document).ready( function() {
+$(document).ready( function() {
 	$('.addRowSite').click( function() {
 		ajaxHideError();
 		$(this).toggle();
@@ -148,9 +148,6 @@ function getUpdateSiteAJAX( row )
 					.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateSite">')
 								.click( function(){ $.ajax( getUpdateSiteAJAX( $('tr#'+idRow) ) ); } ) 
 						);
-				
-				
-				
 			}
 	);
 	

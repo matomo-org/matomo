@@ -16,6 +16,32 @@
 	font-weight:bold;
 	text-align:center;
 }
+
+#addrow img {
+	vertical-align: middle;
+}
+
+#addrow a {
+	text-decoration: none;
+}
+
+#accessUpdated {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+	width: 350px;
+	margin: 10px;
+	padding: 10px;
+	display: none;
+	border: 3px solid green;
+	color: green;
+}
+#access td, #users td {
+	spacing: 0px;
+	padding: 2px 5px 5px 4px;
+	border: 1px solid #660000;
+	width: 100px;
+}
 .editable:hover, .addrow:hover, .updateAccess:hover, .accessGranted:hover, .adduser:hover, .edituser:hover, .deleteuser:hover, .updateuser:hover, .cancel:hover{
 	cursor: pointer;
 }
@@ -29,7 +55,7 @@
 {/literal}
 
 <h2>{'UsersManager_ManageAccess'|translate}</h2>
-
+<p>Decide which users have which Piwik access on your Websites. You can also set the permissions on all the Websites at once.</p>
 <div id="sites">
 <form method="post" action="{url actionToLoad=index}" id="accessSites">
 	<p>{'UsersManager_Sites'|translate}: <select id="selectIdsite" name="idsite" onchange="this.form.submit()">
@@ -47,7 +73,7 @@
 </form>
 </div>
 
-<table id="access">
+<table class="admin" id="access">
 <thead>
 <tr>
 	<th>{'UsersManager_User'|translate}</th>
@@ -79,11 +105,12 @@
 	<input id="no" type="button" value="{'General_No'|translate}"/>
 </div> 
 
-<h2>Manage users</h2>
-
+<br/>
+<h2>Users Management</h2>
+<p>Create new users or update the existing users. You can then set their permissions above.</p>
 <div id="ajaxError" style="display:none"></div>
 <div id="ajaxLoading" style="display:none">{'General_LoadingData'|translate} <img src="themes/default/loading.gif"></div>
-<table id="users">
+<table class="admin" id="users">
 	<thead>
 		<tr>
 			<th>{'UsersManager_Login'|translate}</th>

@@ -18,7 +18,6 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 	function index()
 	{		
 		$view = new Piwik_View('Feedback/index.tpl');
-				
 		echo $view->render();
 	}
 

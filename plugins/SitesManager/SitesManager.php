@@ -18,9 +18,8 @@ class Piwik_SitesManager extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			// name must be the className prefix!
 			'name' => 'SitesManager',
-			'description' => 'Description',
+			'description' => 'Websites Management in Piwik: Add a new Website, Edit an existing one, Show the Javascript code to include on your pages. All the actions are also available through the API.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',

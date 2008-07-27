@@ -41,7 +41,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		$period = Piwik_Common::getRequestVar('period');
 		$currentUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		
-		$piwikUrl = $currentUrl . "?module=Home&action=index&idSite=" . $idSite . "&period=" . $period;
+		$piwikUrl = $currentUrl . "?module=CoreHome&action=index&idSite=" . $idSite . "&period=" . $period;
 		
 		$out = "";
 		$moreRecentFirst = array_reverse($table->getArray(), true);

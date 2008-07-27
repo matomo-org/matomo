@@ -1,4 +1,4 @@
-Home TEMPLATE SMARTY
+CoreHome TEMPLATE SMARTY
 
 
 {debug}

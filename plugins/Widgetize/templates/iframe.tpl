@@ -1,7 +1,7 @@
 <html>
 <body>
 
-{loadJavascriptTranslations modules='Home'}
+{loadJavascriptTranslations modules='CoreHome'}
 
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="themes/default/common.js"></script>
@@ -11,8 +11,8 @@
 
 <script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
 
-<script type="text/javascript" src="plugins/Home/templates/datatable.js"></script>
-<link rel="stylesheet" href="plugins/Home/templates/datatable.css">
+<script type="text/javascript" src="plugins/CoreHome/templates/datatable.js"></script>
+<link rel="stylesheet" href="plugins/CoreHome/templates/datatable.css">
 
 
 {$content}
