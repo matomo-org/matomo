@@ -18,6 +18,8 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 {
 	function index()
 	{
+		// same presentation as widget selector
+		// export each widget to igoogle, netvibes
 		$view = new Piwik_View('Widgetize/templates/index.tpl');
 		echo $view->render();
 	}

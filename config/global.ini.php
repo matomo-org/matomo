@@ -42,6 +42,7 @@ Plugins[] 		= VisitFrequency
 Plugins[] 		= VisitTime
 Plugins[] 		= VisitorInterest
 Plugins[] 		= ExamplePlugin
+Plugins[] 		= ExampleRssWidget
 Plugins[] 		= Provider
 
 Plugins[] 		= Login

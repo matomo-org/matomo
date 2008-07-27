@@ -459,7 +459,6 @@ class Piwik_DataTable
 
 	/**
 	 * Adds a new row from a PHP array data structure
-	 * You should use loadFromArray for performance!
 	 * 
 	 * @param array $row, eg. array(Piwik_DataTable_Row::COLUMNS => array( 'visits' => 13, 'test' => 'toto'),)
 	 */
@@ -470,7 +469,6 @@ class Piwik_DataTable
 
 	/**
 	 * Adds a new row a PHP array data structure
-	 * You should use loadFromSimpleArray for performance!
 	 * 
 	 * @param array $row, eg.  array('name' => 'google analytics', 'license' => 'commercial')
 	 */
