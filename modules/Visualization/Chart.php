@@ -26,10 +26,12 @@ abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashCh
 	{
 		$this->dataGraph = $data;
 	}
+	
 	function getCount()
 	{
 		return count($this->dataGraph);
 	}
+	
 	function customizeGraph()
 	{
 		$this->set_num_decimals ( 0 );
@@ -81,11 +83,6 @@ abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashCh
 		{
 			$this->maxData = $max + 10 - $max % 10;
 		}
-	}
-	
-	function render()
-	{
-		return parent::render();
 	}
 	
 }
