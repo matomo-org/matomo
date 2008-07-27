@@ -7,8 +7,8 @@
 	{if !empty($layout) }
 		piwik.dashboardLayout = '{$layout}';
 	{else}
-		//Load default layout...
-		piwik.dashboardLayout = 'VisitsSummary.getLastVisitsGraph~VisitorInterest.getNumberOfVisitsPerVisitDuration~UserSettings.getBrowser|Referers.getKeywords~Referers.getWebsites|Referers.getSearchEngines~VisitTime.getVisitInformationPerServerTime~ExamplePlugin.feedburner|';
+		// Load default layout...
+		piwik.dashboardLayout = 'VisitsSummary.getLastVisitsGraph~VisitorInterest.getNumberOfVisitsPerVisitDuration~UserSettings.getBrowser~ExamplePlugin.feedburner|Referers.getKeywords~Referers.getWebsites|Referers.getSearchEngines~VisitTime.getVisitInformationPerServerTime~ExampleRssWidget.rssPiwik|';
 	{/if}
 	
 	piwik.availableWidgets = {$availableWidgets};
