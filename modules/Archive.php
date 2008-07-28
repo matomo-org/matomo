@@ -103,7 +103,7 @@ abstract class Piwik_Archive
 				)
 			)
 		{
-			$oSite = new Piwik_Site($sites[0]);
+			$oSite = new Piwik_Site($idSite);
 			require_once 'Archive/Array/IndexedByDate.php';
 			$archive = new Piwik_Archive_Array_IndexedByDate($oSite, $period, $strDate);
 		}
