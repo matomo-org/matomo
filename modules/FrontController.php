@@ -211,62 +211,9 @@ class Piwik_FrontController
 			$directoryMessage .= $directoryList;
 			$directoryMessage .= "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 777 (with your FTP software, right click on the directories, permissions).";
 			$directoryMessage .= "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.";
-			$directoryMessage .= "<p>If you need more help, try <a href='http://piwik.org'>Piwik.org</a>.";
+			$directoryMessage .= "<p>If you need more help, try <a href='misc/redirectToUrl.php?url=http://piwik.org'>Piwik.org</a>.";
 			
-			$html = '
-				<html>
-				<head>
-					<title>Piwik &rsaquo; Error</title>
-					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-				<style>
-				
-				html { background: #eee; }
-				
-				body {
-					background: #fff;
-					color: #000;
-					font-family: Georgia, "Times New Roman", Times, serif;
-					margin-left: 20%;
-					margin-top: 25px;
-					margin-right: 20%;
-					padding: .2em 2em;
-				}
-				
-				#h1 {
-					color: #006;
-					font-size: 45px;
-					font-weight: lighter;
-				}
-				
-				#subh1 {
-					color: #879DBD;
-					font-size: 25px;
-					font-weight: lighter;
-				}
-				
-				
-				p, li, dt {
-					line-height: 140%;
-					padding-bottom: 2px;
-				}
-				
-				ul, ol { padding: 5px 5px 5px 20px; }
-				
-				#logo { margin-bottom: 2em; }
-				
-				code { margin-left: 40px; }
-				</style>
-				</head>
-				<body>
-					<span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span>
-					<p>'.$directoryMessage.'</p>
-				
-				</body>
-				</html>
-				';
-		
-			print($html);
-			exit;	
+			Piwik_ExitWithMessage($directoryMessage);
 		}
 	}
 	
@@ -282,51 +229,55 @@ class Piwik_FrontController
 	 */
 	function init()
 	{
-		Zend_Registry::set('timer', new Piwik_Timer);
-		
-		$directoriesToCheck = array(
-				'/tmp', 
-				'/tmp/templates_c',
-				'/tmp/cache',
-		);
-		
-		self::checkDirectoriesWritableOrDie($directoriesToCheck);
-		self::assignCliParametersToRequest();
-		
-		$exceptionToThrow = false;
-		
 		try {
-			Piwik::createConfigObject();
+			Zend_Registry::set('timer', new Piwik_Timer);
+			
+			$directoriesToCheck = array(
+					'/tmp', 
+					'/tmp/templates_c',
+					'/tmp/cache',
+			);
+			
+			self::checkDirectoriesWritableOrDie($directoriesToCheck);
+			self::assignCliParametersToRequest();
+			
+			$exceptionToThrow = false;
+			
+			try {
+				Piwik::createConfigObject();
+			} catch(Exception $e) {
+				Piwik_PostEvent('FrontController.NoConfigurationFile', $e);
+				$exceptionToThrow = $e;
+			}
+			
+			Piwik::loadPlugins();
+			if($exceptionToThrow)
+			{
+				throw $exceptionToThrow;
+			}
+			Piwik::createDatabaseObject();
+			Piwik::createLogObject();
+			Piwik::installLoadedPlugins();
+			Piwik::install();
+			
+			Piwik_PostEvent('FrontController.initAuthenticationObject');
+			try {
+				$authAdapter = Zend_Registry::get('auth');
+			} catch(Exception $e){
+				throw new Exception("Object 'auth' cannot be found in the Registry. Maybe the Login plugin is not enabled?
+									<br>You can enable the plugin by adding:<br>
+									<code>Plugins[] = Login</code><br>
+									under the <code>[Plugins]</code> section in your config/config.inc.php");
+			}
+			
+			$access = new Piwik_Access($authAdapter);
+			Zend_Registry::set('access', $access);		
+			Zend_Registry::get('access')->loadAccess();
+	
+			Piwik::raiseMemoryLimitIfNecessary();
 		} catch(Exception $e) {
-			Piwik_PostEvent('FrontController.NoConfigurationFile', $e);
-			$exceptionToThrow = $e;
+			Piwik_ExitWithMessage($e->getMessage());
 		}
-		
-		Piwik::loadPlugins();
-		if($exceptionToThrow)
-		{
-			throw $exceptionToThrow;
-		}
-		Piwik::createDatabaseObject();
-		Piwik::createLogObject();
-		Piwik::installLoadedPlugins();
-		Piwik::install();
-		
-		Piwik_PostEvent('FrontController.initAuthenticationObject');
-		try {
-			$authAdapter = Zend_Registry::get('auth');
-		} catch(Exception $e){
-			throw new Exception("Object 'auth' cannot be found in the Registry. Maybe the Login plugin is not enabled?
-								<br>You can enable the plugin by adding:<br>
-								<code>Plugins[] = Login</code><br>
-								under the <code>[Plugins]</code> section in your config/config.inc.php");
-		}
-		
-		$access = new Piwik_Access($authAdapter);
-		Zend_Registry::set('access', $access);		
-		Zend_Registry::get('access')->loadAccess();
-
-		Piwik::raiseMemoryLimitIfNecessary();
 	}
 	
 	/**

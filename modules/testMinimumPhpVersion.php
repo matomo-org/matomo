@@ -40,7 +40,6 @@ if($piwik_zend_compatibility_mode == 1)
 
 function Piwik_ExitWithMessage($message)
 {
-	
 	$html = '<html>
 				<head>
 					<title>Piwik &rsaquo; Error</title>
@@ -56,7 +55,6 @@ function Piwik_ExitWithMessage($message)
 					margin-right: 20%;
 					padding: .2em 2em;
 				}
-				a { color: #006; }
 				#h1 {
 					color: #006;
 					font-size: 45px;
@@ -71,15 +69,18 @@ function Piwik_ExitWithMessage($message)
 					line-height: 140%;
 					padding-bottom: 2px;
 				}
+				a { color: #006; }
 				ul, ol { padding: 5px 5px 5px 20px; }
+				#logo { margin-bottom: 2em; }
+				code { margin-left: 40px; }
 				</style>
 				</head>
 				<body>
 					<span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span>
 					<p>'.$message.'</p>				
 					<ul>
-						<li><a href="http://piwik.org">Piwik homepage</a></li>
-						<li><a href="http://piwik.org/demo">Piwik demo</a></li>
+						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org">Piwik homepage</a></li>
+						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/demo">Piwik demo</a></li>
 					</ul>
 				</body>
 				</html>';
@@ -91,7 +92,6 @@ if(isset($piwik_errorMessage))
 {
 	Piwik_ExitWithMessage($piwik_errorMessage);
 }
-
 
 // we now include the upgradephp package to define some functions used in piwik 
 // that may not be defined in the current php version
