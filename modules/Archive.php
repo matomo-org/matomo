@@ -87,8 +87,10 @@ abstract class Piwik_Archive
 		{
 			$sites = Piwik_Site::getIdSitesFromIdSitesString($idSite);
 		}
-		// if we have multiple idSite comma separated
-		if( count($sites) > 1 )
+		
+		// idSite=1,3 or idSite=all
+		if( count($sites) > 1 
+			|| $idSite === 'all' )
 		{
 			require_once 'Archive/Array/IndexedBySite.php';
 			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate);
@@ -101,7 +103,7 @@ abstract class Piwik_Archive
 				)
 			)
 		{
-			$oSite = new Piwik_Site($idSite);
+			$oSite = new Piwik_Site($sites[0]);
 			require_once 'Archive/Array/IndexedByDate.php';
 			$archive = new Piwik_Archive_Array_IndexedByDate($oSite, $period, $strDate);
 		}
