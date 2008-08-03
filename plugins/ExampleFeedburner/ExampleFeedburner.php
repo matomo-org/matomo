@@ -5,8 +5,7 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			// name must be the className prefix!
-			'name' => 'ExampleFeedburner',
+			'name' => 'Example Feedburner',
 			'description' => 'Example Plugin: How to display your Feedburner subscriber in a Widget in the Dashboard?',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',

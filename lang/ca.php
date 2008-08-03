@@ -28,7 +28,6 @@ $translations = array(
 	'General_Piechart' => 'Gràfic de sectors',
 	'General_TagCloud' => 'Núvol d\'etiquetes',
 	'General_VBarGraph' => 'Gràfic de barres',
-	'General_GraphData' => 'Dades del gràfic',
 	'General_Refresh' => 'Actualitza la pàgina',
 	'General_ColumnNbUniqVisitors' => 'Visitants únics',
 	'General_ColumnNbVisits' => 'Visites',

@@ -14,7 +14,7 @@ define('PIWIK_INCLUDE_PATH', '.');
 set_include_path(PIWIK_INCLUDE_PATH 
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/modules'
+					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
 					. PATH_SEPARATOR . get_include_path() );
 
 require_once "Common.php";
@@ -31,8 +31,8 @@ $GLOBALS['DEBUGPIWIK'] = false;
 if($GLOBALS['DEBUGPIWIK'] === true)
 {	
 	date_default_timezone_set(date_default_timezone_get());
-	require_once "modules/ErrorHandler.php";
-	require_once "modules/ExceptionHandler.php";
+	require_once "core/ErrorHandler.php";
+	require_once "core/ExceptionHandler.php";
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
 	printDebug($_GET);

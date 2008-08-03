@@ -1,47 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd ">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-{literal}
-<style>
-#h1, #h1 a {
-	color: #136F8B;
-	font-size: 45px;
-	font-weight: lighter;
-	text-decoration : none;
-	margin:5px;
-}
+{assign var=showSitesSelection value=false}
+{assign var=showPeriodSelection value=false}
+{include file="CoreAdminHome/templates/header.tpl"}
 
-#subh1 {
-	color: #879dbd;
-	font-size: 25px;
-	font-weight: lighter;
-}
-</style>
-{/literal}
-
-<script type="text/javascript">
-var piwik_token_auth = "{$token_auth}";
-</script>
-
-<script type="text/javascript" src="libs/jquery/jquery.js"></script>
-<script type="text/javascript" src="themes/default/common.js"></script>
-
-<link rel="stylesheet" type="text/css" href="plugins/CoreAdminHome/templates/menu.css">
-<link rel="stylesheet" href="themes/default/common-admin.css">
-
-</head>
-<body>
-<span id="h1">Piwik admin</span> &nbsp;
-<span><a href='index.php'>Back to Piwik</a></span>
-<br /><br />	
-
-<div id="menu">
 {include file="CoreAdminHome/templates/menu.tpl"}
-</div>
 
 <div style="clear:both;">
-</div>
 
 <div id='content'>
 {if $content}{$content}{/if}

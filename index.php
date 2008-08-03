@@ -9,7 +9,6 @@
  * @package Piwik
  */
 
-// NOTE: This file should be PHP4 compatible
 error_reporting(E_ALL|E_NOTICE);
 @ini_set('display_errors', 1);
 @ini_set('magic_quotes_runtime', 0);
@@ -21,11 +20,12 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 set_include_path(PIWIK_INCLUDE_PATH 
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/modules/'
+					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core/'
 					. PATH_SEPARATOR . get_include_path());
 
-require_once "modules/testMinimumPhpVersion.php";
+require_once "core/testMinimumPhpVersion.php";
 
+// NOTE: the code above this comment must be PHP4 compatible
 date_default_timezone_set(date_default_timezone_get());
 
 if(!defined('ENABLE_DISPATCH'))
@@ -36,8 +36,8 @@ if(!defined('ENABLE_DISPATCH'))
 /**
  * Error / exception handling functions
  */
-require_once "modules/ErrorHandler.php";
-require_once "modules/ExceptionHandler.php";
+require_once "core/ErrorHandler.php";
+require_once "core/ExceptionHandler.php";
 set_error_handler('Piwik_ErrorHandler');
 set_exception_handler('Piwik_ExceptionHandler');
 

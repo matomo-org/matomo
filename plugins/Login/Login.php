@@ -53,7 +53,7 @@ class Piwik_Login extends Piwik_Plugin
 		$authAdapter = new Piwik_Login_Auth();
      	Zend_Registry::set('auth', $authAdapter);
 		
-     	if(Piwik::getModule() === 'API')
+     	if(Piwik::getModule() === 'API' && Piwik::getAction() != 'listAllAPI')
      	{
 			$tokenAuthAPIInUrl = Piwik_Common::getRequestVar('token_auth', 'anonymous', 'string');
 			if( !empty($tokenAuthAPIInUrl))

@@ -1,0 +1,91 @@
+#title {
+	align: left;
+}
+
+h1 {
+	font-size: 2em;
+	color: #0F1B2E;
+	padding-bottom: 1em;
+}
+
+h2 {
+	font-size: 1.6em;
+	color: #1D3256;
+	padding-bottom: 0.5em;
+}
+
+h3 {
+	font-size: 1.3em;
+	margin-top: 2em;
+	color: #1D3256;
+}
+
+p {
+	padding-bottom: 1em;
+	margin-right: 1em;
+}
+
+/* Content */
+#content {
+	margin-left: 10px;
+}
+
+/* 2 columns reports */
+#leftcolumn {
+	float: left;
+	width: 45%;
+	padding-left: 10px;
+	padding-right: 20px;
+}
+
+#rightcolumn {
+	float: right;
+	width: 45%;
+	padding-left: 20px;
+}
+
+#calendar {
+	display: block;
+}
+
+/* Calendar*/
+.calendar td.dateToday,.calendar td.dateToday a {
+	font-weight: bold;
+}
+
+.calendar td.dateUsedStats,.calendar td.dateUsedStats a {
+	color: #2E85FF;
+	border-color: #2E85FF;
+}
+
+.calendar td.calendar_unselectable {
+	color: #F2F7FF;
+}
+
+.calendar {
+	line-height: 1.33;
+}
+
+#otherPeriods a {
+	text-decoration: none;
+}
+
+#otherPeriods a:hover {
+	text-decoration: underline;
+}
+
+#currentPeriod {
+	border-bottom: 1px dotted #520202;
+}
+
+.hoverPeriod {
+	cursor: pointer;
+	font-weight: bold;
+	border-bottom: 1px solid #520202;
+}
+
+.sparkline {
+	vertical-align: middle;
+	padding-right: 10px;
+}
+

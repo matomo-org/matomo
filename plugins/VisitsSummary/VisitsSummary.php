@@ -18,8 +18,7 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			// name must be the className prefix!
-			'name' => 'VisitsSummary',
+			'name' => 'Visits Summary',
 			'description' => 'Reports the general Analytics numbers: visits, unique visitors, number of actions, Bounce Rate, etc.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
@@ -46,7 +45,6 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	function index()
 	{
 		$view = new Piwik_View('VisitsSummary/index.tpl');
-		// period
 		$currentPeriod = Piwik_Common::getRequestVar('period');
 		$view->period = $currentPeriod;
 		
@@ -81,9 +79,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();
 	}
-	/**
-	 * General visit
-	 */
+
 	static public function getVisitsSummary()
 	{
 		$requestString = 'method=' . "VisitsSummary.get" . '&format=original'.

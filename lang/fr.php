@@ -28,7 +28,6 @@ $translations = array(
 	'General_Piechart' => 'Camembert', //////
 	'General_TagCloud' => 'Nuage de tags',
 	'General_VBarGraph' => 'Histogramme vertical',
-	'General_GraphData' => 'Donn&eacute;es du graphique',
 	'General_Refresh' => 'Rafraichissez la page',
 	'General_ColumnNbUniqVisitors' => 'Visiteurs uniques',
 	'General_ColumnNbVisits' => 'Visites',

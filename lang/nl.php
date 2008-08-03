@@ -26,7 +26,6 @@ $translations = array(
 	'General_Piechart' => 'Taart diagram',
 	'General_TagCloud' => 'Tag wolk',
 	'General_VBarGraph' => 'Verticaal staaf diagram',
-	'General_GraphData' => 'Tabel data',
 	'General_Refresh' => 'Ververs de pagina',
 	'General_ColumnNbUniqVisitors' => 'Unieke bezoekers',
 	'General_ColumnNbVisits' => 'Bezoeken',

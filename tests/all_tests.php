@@ -12,7 +12,7 @@ Zend_Registry::get('config')->doWriteFileWhenUpdated = false;
 You may need to create this database ; you can edit the settings for the unit tests database access in your config file 
 /config/global.ini.php</p>
 <p><b>The database used in your tests is called "<?php echo $databaseTestName; ?>". Create it if necessary.</b></p>
-<p><a href='modules'>Run the tests by module</a></p>
+<p><a href='core'>Run the tests by module</a></p>
 <hr>
 
 <?php
@@ -67,7 +67,7 @@ function globr($sDir, $sPattern, $nFlags = NULL)
 
   return $aFiles;
 } 
-foreach(globr('./modules/',"*.php") as $file)
+foreach(globr('./core/',"*.php") as $file)
 {
 	if(!ereg("simpletest/",$file))
 	{

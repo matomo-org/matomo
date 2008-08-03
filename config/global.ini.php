@@ -66,7 +66,7 @@ PluginsInstalled[] = Installation
 
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
-; this is useful when making changes to the archiving code so we can 
+; this is useful when making changes to the archiving code so we can force the archiving process
 always_archive_data = false
 
 ; if set to true, all the SQL queries will be recorded by the profiler 
@@ -176,7 +176,7 @@ template_dir[]	= themes/default
 template_dir[]	= themes
 
 plugins_dir[] 	= libs/Smarty/plugins
-plugins_dir[]	= modules/SmartyPlugins
+plugins_dir[]	= core/SmartyPlugins
 
 compile_dir		= tmp/templates_c
 cache_dir		= tmp/cache

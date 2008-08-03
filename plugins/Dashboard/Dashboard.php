@@ -14,7 +14,6 @@ class Piwik_Dashboard extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			// name must be the className prefix!
 			'name' => 'Dashboard',
 			'description' => 'Your Web Analytics Dashboard. You can customize Your Dashboard: add new widgets, change the order of your widgets. Each user can access his own custom Dashboard.',
 			'author' => 'Piwik',

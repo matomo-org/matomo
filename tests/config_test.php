@@ -25,20 +25,20 @@ set_include_path(	  PATH_TEST_TO_ROOT .'/'
 					. PATH_SEPARATOR . getcwd() . '/../libs/'
 					. PATH_SEPARATOR . getcwd() . '/../../config/'
 					. PATH_SEPARATOR . getcwd() . '/../config/'
-					. PATH_SEPARATOR . getcwd() . '/../../modules/'
-					. PATH_SEPARATOR . getcwd() . '/../modules/'
+					. PATH_SEPARATOR . getcwd() . '/../../core/'
+					. PATH_SEPARATOR . getcwd() . '/../core/'
 					. PATH_SEPARATOR . getcwd() . '/../../tests/'
 					. PATH_SEPARATOR . getcwd() . '/../tests/'
 					. PATH_SEPARATOR . getcwd() . '/../'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/plugins/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/config/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/modules/'
+					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/core/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/tests/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/libs/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/config/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/plugins/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/modules/'
+					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/core/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/tests/'
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/'
 					. PATH_SEPARATOR . get_include_path() 
@@ -77,7 +77,7 @@ require_once 'Timer.php';
 require_once 'API/APIable.php';
 require_once 'Access.php';
 require_once 'Log.php';
-require_once 'modules/Piwik.php';
+require_once 'core/Piwik.php';
 
 assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);

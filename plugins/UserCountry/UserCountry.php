@@ -19,7 +19,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'UserCountry',
+			'name' => 'Visitors Country',
 			'description' => 'Reports the Country of the visitors.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',

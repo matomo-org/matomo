@@ -9,7 +9,6 @@
  * @package Piwik_Installation
  */
 
-
 /**
  * 
  * @package Piwik_Installation
@@ -17,6 +16,7 @@
 class Piwik_Install_View extends Piwik_View
 {
 	protected $mainTemplate = 'Installation/templates/structure.tpl';
+	
 	function __construct($subtemplatePath, $installationSteps, $currentStepName)
 	{
 		parent::__construct($this->mainTemplate);

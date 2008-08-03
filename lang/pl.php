@@ -28,7 +28,6 @@ $translations = array(
 	'General_Piechart' => 'Wykres kołowy',
 	'General_TagCloud' => 'Chmurka tagów',
 	'General_VBarGraph' => 'Poziomy wykres słupkowy',
-	'General_GraphData' => 'Wykres danych',
 	'General_Refresh' => 'Odśwież stronę',
 	'General_ColumnNbUniqVisitors' => 'Unikalni użytkownicy',
 	'General_ColumnNbVisits' => 'Wizyty',

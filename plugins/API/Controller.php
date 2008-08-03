@@ -49,31 +49,13 @@ class Piwik_API_Controller extends Piwik_Controller
 		echo Piwik_API_Proxy::getInstance()->getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = Piwik_Common::getRequestVar('prefixUrl', '') );
 	}
 	
-	
 	function listAllAPI()
 	{
-		$token_auth = Piwik::getCurrentUserTokenAuth();
-		echo "<style>body{ font-family:georgia,arial; font-size:0.95em;} 
-		#token_auth { 
-			background-color:#E8FFE9; 
-			border-color:#00CC3A; 
-			border-style: solid;
-			border-width: 1px;
-			margin: 0pt 0pt 16px 8px;
-			padding: 12px;			
-			line-height:4em;
-			}
-		.example, .example A {
-			color:#9E9E9E;
-		}
-		</style>";
-		echo sprintf(Piwik_Translate('API_QuickDocumentation'),$token_auth);
-		echo "<span id='token_auth'>token_auth = <b>$token_auth</b></span>";
-
-		$loaded = $this->init();
-		echo "<p><i> ".sprintf(Piwik_Translate('API_LoadedAPIs'),$loaded)."</i></p>\n";
-		
-		echo Piwik_API_Proxy::getInstance()->getAllInterfaceString();
+		$view = new Piwik_View("API/templates/listAllAPI.tpl");
+		$this->setGeneralVariablesView($view);
+		$view->countLoadedAPI = $this->init();
+		$view->list_api_methods_with_links = Piwik_API_Proxy::getInstance()->getAllInterfaceString();
+		echo $view->render();
 	}
 	
 }

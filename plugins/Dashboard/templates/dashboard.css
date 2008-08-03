@@ -52,6 +52,7 @@
 
 .widgetDiv {
 	display: none;
+	z-index:1;
 }
 
 .dummyItem {
@@ -80,12 +81,6 @@
 	text-align: center;
 }
 
-.menu {
-	display: none;
-	border: 2px solid #FCB842;
-	background: white;
-}
-
 .helper {
 	width: 33%;
 	opacity: .6;
@@ -96,8 +91,13 @@
 	display: none;
 }
 
+.menu {
+	display: none;
+	border: 2px solid #FCB842;
+	background: white;
+}
+
 .menuItem {
-	
 }
 
 .menuSelected {
@@ -181,15 +181,14 @@ ul#widgetList {
 	height: 200px;
 }
 
-#previewLoading {
-	font-size: 14pt;
-	font-weight: bold;
-}
-
 .widget input {
 	background: #F7F7FF none repeat scroll 0% 50%;
 	border: 1px solid #B3B3B3;
 	color: #0C183A;
 	font-size: 0.7em;
 	padding: 2px;
+}
+
+#widgetChooser {
+	z-index:100;
 }

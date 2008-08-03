@@ -41,6 +41,10 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 			{
 				throw new Exception(Piwik_Translate('UsersManager_ExceptionInvalidEmail'));
 			}
+			if(strpos($body, 'http://') !== false)
+			{
+				throw new Exception("The message cannot contain a URL, to avoid spams messages.");
+			}
 			
 			$mail = new Piwik_Mail();
 			$mail->setFrom($email);

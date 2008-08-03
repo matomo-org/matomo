@@ -65,6 +65,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
 		$view->formUrl = Piwik_Url::getCurrentUrl();
 		$view->websites = Piwik_SitesManager_API::getSitesWithAdminAccess();
+		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}
 }

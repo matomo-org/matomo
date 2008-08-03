@@ -26,7 +26,6 @@ $translations = array(
 	'General_Piechart' => 'Кругова Діаграма',
 	'General_TagCloud' => 'Всі ярлики',
 	'General_VBarGraph' => 'Гістограма',
-	'General_GraphData' => 'Дані графіку',
 	'General_Refresh' => 'Оновити сторінку',
 	'General_ColumnNbUniqVisitors' => 'Унікальні відвідувачі',
 	'General_ColumnNbVisits' => 'Відвідування',

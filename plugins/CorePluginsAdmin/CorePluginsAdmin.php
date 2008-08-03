@@ -14,8 +14,7 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			// name must be the className prefix!
-			'name' => 'CorePluginsAdmin',
+			'name' => 'Plugins Management',
 			'description' => 'Plugins Administration Interface.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
@@ -25,7 +24,7 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 	
 	function postLoad()
 	{
-		Piwik_AddAdminMenu(Piwik_Translate('CorePluginsAdmin_MenuPlugins'), array('module' => 'CorePluginsAdmin'));		
+		Piwik_AddAdminMenu(Piwik_Translate('CorePluginsAdmin_MenuPlugins'), array('module' => 'CorePluginsAdmin', 'action' => 'index'));		
 	}
 }
 

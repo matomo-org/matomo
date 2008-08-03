@@ -26,7 +26,6 @@ $translations = array(
 	'General_Piechart' => 'Kreisdiagramm',
 	'General_TagCloud' => 'Schlagwortwolke',
 	'General_VBarGraph' => 'S&auml;ulendiagramm',
-	'General_GraphData' => 'Diagrammdaten',
 	'General_Refresh' => 'Aktualisiere die Seite',
 	'General_ColumnNbUniqVisitors' => 'Individuelle Besucher',
 	'General_ColumnNbVisits' => 'Besucher',
