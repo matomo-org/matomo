@@ -9,7 +9,7 @@ set_time_limit(0);
 set_include_path(PIWIK_INCLUDE_PATH 
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/modules'
+					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
 					. PATH_SEPARATOR . get_include_path() );
 					
 $GLOBALS['DEBUGPIWIK'] = false;

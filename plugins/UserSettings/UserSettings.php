@@ -19,7 +19,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'UserSettings',
+			'name' => 'Visitors Settings',
 			'description' => 'Reports various User Settings: Browser, Browser Family, Operating System, Plugins, Resolution, Global Settings.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',

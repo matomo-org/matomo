@@ -18,7 +18,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'SitesManager',
+			'name' => 'Sites Management',
 			'description' => 'Websites Management in Piwik: Add a new Website, Edit an existing one, Show the Javascript code to include on your pages. All the actions are also available through the API.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
@@ -29,7 +29,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 	
 	function postLoad()
 	{
-		Piwik_AddAdminMenu(Piwik_Translate('SitesManager_MenuSites'), array('module' => 'SitesManager'));		
+		Piwik_AddAdminMenu(Piwik_Translate('SitesManager_MenuSites'), array('module' => 'SitesManager', 'action' => 'index'));		
 	}
 }
 

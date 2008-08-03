@@ -14,8 +14,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			// name must be the className prefix!
-			'name' => 'ExamplePlugin',
+			'name' => 'Example Plugin',
 			'description' => 'Example Plugin: This plugin shows how to create a very simple plugin, that exports two widgets in the Dashboard.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
@@ -127,7 +126,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		
 		$out .= '<h2>Smarty plugins</h2>';
 		$out .= 'There are some builtin plugins for Smarty especially developped for Piwik. <br>
-				You can find them on the <a href="http://dev.piwik.org/trac/browser/trunk/modules/SmartyPlugins">SVN at /trunk/modules/SmartyPlugins</a>. <br>
+				You can find them on the <a href="http://dev.piwik.org/trac/browser/trunk/core/SmartyPlugins">SVN at /trunk/core/SmartyPlugins</a>. <br>
 				More documentation to come about smarty plugins.<br/>';
 		
 		echo $out;

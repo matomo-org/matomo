@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../modules/Url.php';
+require_once '../../core/Url.php';
 $url = Piwik_Url::getCurrentUrlWithoutFileName();
 $urlPiwik = join("/", array_slice(split("/", $url), 0, -3));
 

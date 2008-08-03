@@ -1,4 +1,7 @@
-
+{assign var=showSitesSelection value=false}
+{assign var=showPeriodSelection value=false}
+{include file="CoreAdminHome/templates/header.tpl"}
+{include file="CoreAdminHome/templates/menu.tpl"}
 {literal}
 <style>
 .widefat {
@@ -67,18 +70,19 @@
 	color: #d7d7d7;
 }
 
-td.action-links, th.action-links {
+.widefat td.action-links, .widefat th.action-links {
 	text-align: right;
 }
 
-#plugins .name {
+.widefat .name {
 	font-weight: bold;
 }
 
-a {
-color:#2583AD;
+.widefat a {
+	color:#2583AD;
 }
-#plugins .active {
+
+.widefat  .active {
 	background-color: #ECF9DD;
 }
 

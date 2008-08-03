@@ -26,7 +26,6 @@ $translations = array(
 	'General_Piechart' => 'Gráfico circular',
 	'General_TagCloud' => 'Nube de etiquetas',
 	'General_VBarGraph' => 'Gráfico de barras',
-	'General_GraphData' => 'Datos del gráfico',
 	'General_Refresh' => 'Actualizar página',
 	'General_ColumnNbUniqVisitors' => 'Visitantes únicos',
 	'General_ColumnNbVisits' => 'Visitas',

@@ -26,7 +26,6 @@ $translations = array(
 	'General_Piechart' => 'Grafico a torta',
 	'General_TagCloud' => 'Nuvola di Tag',
 	'General_VBarGraph' => 'Istogramma',
-	'General_GraphData' => 'Dati del grafico',
 	'General_Refresh' => 'Aggiorna la pagina',
 	'General_ColumnNbUniqVisitors' => 'Visitatori unici',
 	'General_ColumnNbVisits' => 'Visite',

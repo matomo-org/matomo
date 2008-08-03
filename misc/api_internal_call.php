@@ -2,7 +2,7 @@
 define('PIWIK_INCLUDE_PATH', '..');
 define('ENABLE_DISPATCH', false);	
 require_once PIWIK_INCLUDE_PATH . "/index.php";
-require_once PIWIK_INCLUDE_PATH . "/modules/API/Request.php";
+require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 
 
 Piwik_FrontController::getInstance()->init();

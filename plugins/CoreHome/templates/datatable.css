@@ -319,17 +319,6 @@ tr td.label img.plusMinus {
 	margin-right: 0em;
 }
 
-/* graph form containing embed code */
-.formEmbedCode,.formEmbedCode input,.formEmbedCode a {
-	font-size: 11px;
-	text-decoration: none;
-}
-
-.formEmbedCode input {
-	background-color: #FBFDFF;
-	border: 1px solid #ECECEC;
-}
-
 #emptyDatatable {
 	padding-top: 20px;
 	padding-bottom: 10px;

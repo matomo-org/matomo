@@ -1,4 +1,4 @@
-{loadJavascriptTranslations modules='CoreHome Dashboard'}
+{loadJavascriptTranslations plugins='CoreHome Dashboard'}
 
 <script type="text/javascript">
 	{* define some global constants for the following javascript includes *}
@@ -17,9 +17,21 @@
 	piwik.currentDateStr = "{$date}";
 </script>
 
+<script type="text/javascript" src="plugins/Dashboard/templates/AddWidget.js"></script>
 <script type="text/javascript" src="plugins/Dashboard/templates/Dashboard.js"></script>
 
-
+{literal}
+<script type="text/javascript">
+$(document).ready( function() {
+		var dash = new dashboard();
+		var menu = new widgetMenu(dash);
+		blockUIConfig();
+		dash.init(piwik.dashboardLayout);
+		menu.init();
+		$('.button#addWidget').click(function(){menu.show();});
+});
+</script>
+{/literal}
 <div id="dashboard">
  
 	<div class="dialog" id="confirm"> 

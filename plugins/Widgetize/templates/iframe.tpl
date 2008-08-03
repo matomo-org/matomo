@@ -1,7 +1,7 @@
 <html>
 <body>
 
-{loadJavascriptTranslations modules='CoreHome'}
+{loadJavascriptTranslations plugins='CoreHome'}
 
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="themes/default/common.js"></script>

@@ -18,8 +18,7 @@ class Piwik_UsersManager extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			// name must be the className prefix!
-			'name' => 'UsersManager',
+			'name' => 'Users Management',
 			'description' => 'Users Management in Piwik: add a new User, edit an existing one, update the permissions. All the actions are also available through the API.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
@@ -31,7 +30,7 @@ class Piwik_UsersManager extends Piwik_Plugin
 	
 	function postLoad()
 	{
-		Piwik_AddAdminMenu(Piwik_Translate('UsersManager_MenuUsers'), array('module' => 'UsersManager'));		
+		Piwik_AddAdminMenu(Piwik_Translate('UsersManager_MenuUsers'), array('module' => 'UsersManager', 'action' => 'index'));		
 	}
 }
 

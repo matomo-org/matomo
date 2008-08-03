@@ -14,8 +14,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			// name must be the className prefix!
-			'name' => 'CoreHome',
+			'name' => 'Homepage',
 			'description' => 'Web Analytics Reports Structure.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',

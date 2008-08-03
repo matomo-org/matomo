@@ -1,9 +1,8 @@
-{loadJavascriptTranslations modules='UsersManager'}
-<script type="text/javascript" src="libs/jquery/jquery.js"></script>
-<script type="text/javascript" src="themes/default/common.js"></script>
-<link rel="stylesheet" href="themes/default/common-admin.css">
-
-<script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
+{loadJavascriptTranslations plugins='UsersManager'}
+{assign var=showSitesSelection value=false}
+{assign var=showPeriodSelection value=false}
+{include file="CoreAdminHome/templates/header.tpl"}
+{include file="CoreAdminHome/templates/menu.tpl"}
 
 {literal}
 <style>
@@ -57,7 +56,7 @@
 <h2>{'UsersManager_ManageAccess'|translate}</h2>
 <p>Decide which users have which Piwik access on your Websites. You can also set the permissions on all the Websites at once.</p>
 <div id="sites">
-<form method="post" action="{url actionToLoad=index}" id="accessSites">
+<form method="post" action="{url action=index}" id="accessSites">
 	<p>{'UsersManager_Sites'|translate}: <select id="selectIdsite" name="idsite" onchange="this.form.submit()">
 	
 	<optgroup label="{'UsersManager_AllWebsites'|translate}">
@@ -109,7 +108,7 @@
 <h2>Users Management</h2>
 <p>Create new users or update the existing users. You can then set their permissions above.</p>
 <div id="ajaxError" style="display:none"></div>
-<div id="ajaxLoading" style="display:none">{'General_LoadingData'|translate} <img src="themes/default/loading.gif"></div>
+<div id="ajaxLoading" style="display:none"><div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate}</div></div>
 <table class="admin" id="users">
 	<thead>
 		<tr>

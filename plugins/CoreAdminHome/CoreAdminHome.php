@@ -15,8 +15,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			// name must be the className prefix!
-			'name' => 'CoreAdminHome',
+			'name' => 'Administration area',
 			'description' => 'Administration area of Piwik.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',

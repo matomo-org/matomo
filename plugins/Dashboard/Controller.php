@@ -9,13 +9,10 @@
  * @package Piwik_CoreHome
  * 
  */
-
-
 require_once "API/Request.php";
 require_once "ViewDataTable.php";
 
 /**
- * 
  * @package Piwik_Dashboard
  */
 class Piwik_Dashboard_Controller extends Piwik_Controller
@@ -125,28 +122,30 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 			return $this->getLayoutForUser($currentUser,$idDashboard);
 		}		
 	}
-	
-	protected function setGeneralVariablesView($view)
-	{
-		$view->date = $this->strDate;
-		$oDate = Piwik_Date::factory($this->strDate);
-		$view->prettyDate = $oDate->get("l jS F Y");
-		
-		$currentPeriod = Piwik_Common::getRequestVar('period');
-		$otherPeriodsAvailable = array('day','week','month','year');
-		
-		$found = array_search($currentPeriod,$otherPeriodsAvailable);
-		if($found !== false)
-		{
-			unset($otherPeriodsAvailable[$found]);
-		}
-		
-		$view->period = $currentPeriod;
-		$view->otherPeriods = $otherPeriodsAvailable;
-		$view->idSite = Piwik_Common::getRequestVar('idSite');
-		$view->userLogin = Piwik::getCurrentUserLogin();
-		$view->sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
-		$view->url = Piwik_Url::getCurrentUrl();
-	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

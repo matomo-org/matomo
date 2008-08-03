@@ -1,4 +1,3 @@
-
 <ul class="nav">
 {foreach from=$menu key=level1 item=level2 name=menu}
 <li>
@@ -13,4 +12,3 @@
 </li>
 {/foreach}
 </ul>
-
