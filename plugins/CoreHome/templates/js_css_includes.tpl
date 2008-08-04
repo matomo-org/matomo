@@ -12,6 +12,7 @@
 <script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
 <script type="text/javascript" src="libs/jquery/ui.mouse.js"></script>
 <script type="text/javascript" src="libs/jquery/ui.sortable_modif.js"></script>
+<script type="text/javascript" src="libs/javascript/sprintf.js"></script>
 
 <script type="text/javascript" src="libs/jquery/superfish_modified.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/menu.js"></script>
