@@ -65,12 +65,12 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		$hooks = array(
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
-			'ArchiveProcessing_Period.compute' => 'archiveMonth',
+			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 		);
 		return $hooks;
 	}
 	
-	function archiveMonth( $notification )
+	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
 		
