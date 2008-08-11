@@ -42,7 +42,6 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	
 	/**
 	 * Records the layout in the DB for the given user.
-	 * Parameters must be checked BEFORE this function call
 	 *
 	 * @param string $login
 	 * @param int $idDashboard

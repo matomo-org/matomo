@@ -877,16 +877,20 @@ class Piwik
 			$dbInfos['password'] = substr($dbInfos['password'], 1, -1);
 		}
 		$dbInfos['password'] = htmlspecialchars_decode($dbInfos['password']);
-		
 		$dbInfos['profiler'] = $config->Debug->enable_sql_profiler;
-		 
-		$db = Zend_Db::factory($config->database->adapter, $dbInfos);
-		$db->getConnection();
-		// see http://framework.zend.com/issues/browse/ZF-1398
-		$db->getConnection()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-		$db->getConnection()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);		
-		Zend_Db_Table::setDefaultAdapter($db);
-		$db->resetConfigArray(); // we don't want this information to appear in the logs
+		
+		$db = null;
+		Piwik_PostEvent('Reporting.createDatabase', $db);
+		if(is_null($db))
+		{
+			$db = Zend_Db::factory($config->database->adapter, $dbInfos);
+			$db->getConnection();
+			// see http://framework.zend.com/issues/browse/ZF-1398
+			$db->getConnection()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+			$db->getConnection()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);		
+			Zend_Db_Table::setDefaultAdapter($db);
+			$db->resetConfigArray(); // we don't want this information to appear in the logs
+		}
 		Zend_Registry::set('db', $db);
 	}
 

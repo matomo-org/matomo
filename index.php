@@ -33,9 +33,6 @@ if(!defined('ENABLE_DISPATCH'))
 	define('ENABLE_DISPATCH', true);	
 }
 
-/**
- * Error / exception handling functions
- */
 require_once "core/ErrorHandler.php";
 require_once "core/ExceptionHandler.php";
 set_error_handler('Piwik_ErrorHandler');
