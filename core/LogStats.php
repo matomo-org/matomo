@@ -98,7 +98,7 @@ class Piwik_LogStats
 												$configDb['password'], 
 												$configDb['dbname'],
 												$configDb['port'] );
-			self::$db->connect();
+			$db->connect();
 		}
 		self::$db = $db;
 	}
