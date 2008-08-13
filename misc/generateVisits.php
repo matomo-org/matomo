@@ -24,7 +24,6 @@ require_once "FrontController.php";
 Piwik_FrontController::getInstance()->init();
 
 Piwik::checkUserIsSuperUser();
-// end check that user was super user
 
 require_once "PluginsManager.php";
 require_once "Timer.php";
@@ -50,7 +49,8 @@ Piwik_PluginsManager::getInstance()->doNotLoadPlugins();
 $generator = new Piwik_LogStats_Generator;
 $generator->setMaximumUrlDepth(3);
 //$generator->disableProfiler();
-$generator->setIdSite( $idSite = 1 );
+$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
+$generator->setIdSite( $idSite );
 $minVisits = 5;
 $maxVisits = 15;
 $nbActions = 15;
