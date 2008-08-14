@@ -9,7 +9,6 @@
  * @package Piwik
  */
 
-
 require_once "Plugin.php";
 require_once "Event/Dispatcher.php";
 
@@ -106,32 +105,6 @@ class Piwik_PluginsManager
 		} catch(Exception $e) {}
 	}
 	
-	/**
-	 * TODO horrible dirty hack because the Config class is not clean enough. Needs to rewrite the Config
-	 * __set and __get in a cleaner way, also see the __destruct which writes the configuration file.
-	 *
-	 * @return array
-	 */
-	protected function getInstalledPlugins()
-	{
-		if(!class_exists('Zend_Registry'))
-		{
-			throw new Exception("Not possible to list installed plugins (case LogStats module)");
-		}
-		if(!is_null(Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled))
-		{
-			return Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled->toArray();
-		}
-		elseif(is_array(Zend_Registry::get('config')->PluginsInstalled))
-		{
-			return Zend_Registry::get('config')->PluginsInstalled;
-		}
-		else
-		{
-			return Zend_Registry::get('config')->PluginsInstalled->toArray();
-		}
-	}
-	
 	public function installLoadedPlugins()
 	{
 		foreach($this->getLoadedPlugins() as $plugin)
@@ -141,42 +114,6 @@ class Piwik_PluginsManager
 			}catch(Exception $e){
 				echo $e->getMessage();
 			}				
-		}
-	}
-	
-	protected function installPluginIfNecessary( Piwik_Plugin $plugin )
-	{
-		$pluginName = $plugin->getClassName();
-		
-		// is the plugin already installed or is it the first time we activate it?
-		$pluginsInstalled = $this->getInstalledPlugins();
-		if(!in_array($pluginName,$pluginsInstalled))
-		{
-			$this->installPlugin($plugin);
-			$pluginsInstalled[] = $pluginName;
-			Zend_Registry::get('config')->PluginsInstalled = $pluginsInstalled;	
-		}
-		
-		$information = $plugin->getInformation();
-		
-		// if the plugin is to be loaded during the statistics logging
-		if(isset($information['LogStatsPlugin'])
-			&& $information['LogStatsPlugin'] === true)
-		{
-			$pluginsLogStats = Zend_Registry::get('config')->Plugins_LogStats->Plugins_LogStats;
-			if(is_null($pluginsLogStats))
-			{
-				$pluginsLogStats = array();
-			}
-			else
-			{
-				$pluginsLogStats = $pluginsLogStats->toArray();
-			}
-			if(!in_array($pluginName, $pluginsLogStats))
-			{
-				$pluginsLogStats[] = $pluginName;
-				Zend_Registry::get('config')->Plugins_LogStats = $pluginsLogStats;
-			}
 		}
 	}
 	
@@ -227,15 +164,14 @@ class Piwik_PluginsManager
 		$this->doLoadAlwaysActivatedPlugins = false;
 	}
 	
-	/**
-	 * Add a plugin in the loaded plugins array
-	 *
-	 * @param string plugin name without prefix (eg. 'UserCountry')
-	 * @param Piwik_Plugin $newPlugin
-	 */
-	protected function addLoadedPlugin( $pluginName, Piwik_Plugin $newPlugin )
+	public function postLoadPlugins()
 	{
-		$this->loadedPlugins[$pluginName] = $newPlugin;
+		$plugins = $this->getLoadedPlugins();
+		foreach($plugins as $plugin)
+		{
+			$this->loadTranslation( $plugin, $this->languageToLoad );
+			$plugin->postLoad();
+		}
 	}
 	
 	/**
@@ -285,15 +221,13 @@ class Piwik_PluginsManager
 	public function loadPlugins()
 	{
 		$this->pluginsToLoad = array_unique($this->pluginsToLoad);
-		
-		$pluginsToLoad = $this->pluginsToLoad;
-		
+
 		if($this->doLoadAlwaysActivatedPlugins)
 		{
-			$pluginsToLoad = array_merge($this->pluginsToLoad, $this->pluginToAlwaysActivate);
+			$this->pluginsToLoad = array_merge($this->pluginsToLoad, $this->pluginToAlwaysActivate);
 		}
 		
-		foreach($pluginsToLoad as $pluginName)
+		foreach($this->pluginsToLoad as $pluginName)
 		{
 			$newPlugin = $this->loadPlugin($pluginName);
 
@@ -302,11 +236,8 @@ class Piwik_PluginsManager
 			if($this->doLoadPlugins
 				&& $this->isPluginActivated($pluginName))
 			{
-				$this->registerTranslation( $newPlugin, $this->languageToLoad );
 				$this->addPluginObservers( $newPlugin );
 				$this->addLoadedPlugin( $pluginName, $newPlugin);
-				
-				$newPlugin->postLoad();
 			}
 		}
 	}
@@ -356,43 +287,12 @@ class Piwik_PluginsManager
 		}
 		return $newPlugin;
 	}
-
-	public function installPlugin( Piwik_Plugin $plugin )
-	{
-		try{
-			$plugin->install();
-		} catch(Exception $e) {
-			throw new Piwik_Plugin_Exception($plugin->getName(), $e->getMessage());		}	
-	}
 	
-	public function installPlugins()
-	{
-		foreach($this->getLoadedPlugins() as $plugin)
-		{		
-			try{
-				$plugin->install();
-			} catch(Exception $e) {
-				throw new Piwik_Plugin_Exception($plugin->getName(), $e->getMessage());
-			}
-		}
-	}
 	public function setLanguageToLoad( $code )
 	{
 		$this->languageToLoad = $code;
 	}
-	
-	/**
-	 * For the given plugin, add all the observers of this plugin.
-	 */
-	private function addPluginObservers( Piwik_Plugin $plugin )
-	{
-		$hooks = $plugin->getListHooksRegistered();
-		
-		foreach($hooks as $hookName => $methodToCall)
-		{
-			$this->dispatcher->addObserver( array( $plugin, $methodToCall), $hookName );
-		}
-	}
+
 	public function unloadPlugin( $plugin )
 	{
 		if(!($plugin instanceof Piwik_Plugin ))
@@ -420,12 +320,48 @@ class Piwik_PluginsManager
 			$this->unloadPlugin($plugin);
 		}
 	}
+
+	private function installPlugins()
+	{
+		foreach($this->getLoadedPlugins() as $plugin)
+		{		
+			try{
+				$plugin->install();
+			} catch(Exception $e) {
+				throw new Piwik_Plugin_Exception($plugin->getName(), $e->getMessage());
+			}
+		}
+	}
+	
+	/**
+	 * For the given plugin, add all the observers of this plugin.
+	 */
+	private function addPluginObservers( Piwik_Plugin $plugin )
+	{
+		$hooks = $plugin->getListHooksRegistered();
+		
+		foreach($hooks as $hookName => $methodToCall)
+		{
+			$this->dispatcher->addObserver( array( $plugin, $methodToCall), $hookName );
+		}
+	}
+	
+	/**
+	 * Add a plugin in the loaded plugins array
+	 *
+	 * @param string plugin name without prefix (eg. 'UserCountry')
+	 * @param Piwik_Plugin $newPlugin
+	 */
+	private function addLoadedPlugin( $pluginName, Piwik_Plugin $newPlugin )
+	{
+		$this->loadedPlugins[$pluginName] = $newPlugin;
+	}
 	
 	/**
 	 * @param Piwik_Plugin $plugin
 	 * @param string $langCode
 	 */
-	protected function registerTranslation( $plugin, $langCode )
+	private function loadTranslation( $plugin, $langCode )
 	{
 		// we are certainly in LogStats mode, Zend is not loaded
 		if(!class_exists('Zend_Loader'))
@@ -470,8 +406,76 @@ class Piwik_PluginsManager
 		Piwik_Translate::getInstance()->addTranslationArray($translations);
 	}
 	
-}
+	private function installPlugin( Piwik_Plugin $plugin )
+	{
+		try{
+			$plugin->install();
+		} catch(Exception $e) {
+			throw new Piwik_Plugin_Exception($plugin->getName(), $e->getMessage());		}	
+	}
+	
+	/**
+	 * TODO horrible dirty hack because the Config class is not clean enough. Needs to rewrite the Config
+	 * __set and __get in a cleaner way, also see the __destruct which writes the configuration file.
+	 *
+	 * @return array
+	 */
+	private function getInstalledPlugins()
+	{
+		if(!class_exists('Zend_Registry'))
+		{
+			throw new Exception("Not possible to list installed plugins (case LogStats module)");
+		}
+		if(!is_null(Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled))
+		{
+			return Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled->toArray();
+		}
+		elseif(is_array(Zend_Registry::get('config')->PluginsInstalled))
+		{
+			return Zend_Registry::get('config')->PluginsInstalled;
+		}
+		else
+		{
+			return Zend_Registry::get('config')->PluginsInstalled->toArray();
+		}
+	}
 
+	private function installPluginIfNecessary( Piwik_Plugin $plugin )
+	{
+		$pluginName = $plugin->getClassName();
+		
+		// is the plugin already installed or is it the first time we activate it?
+		$pluginsInstalled = $this->getInstalledPlugins();
+		if(!in_array($pluginName,$pluginsInstalled))
+		{
+			$this->installPlugin($plugin);
+			$pluginsInstalled[] = $pluginName;
+			Zend_Registry::get('config')->PluginsInstalled = $pluginsInstalled;	
+		}
+		
+		$information = $plugin->getInformation();
+		
+		// if the plugin is to be loaded during the statistics logging
+		if(isset($information['LogStatsPlugin'])
+			&& $information['LogStatsPlugin'] === true)
+		{
+			$pluginsLogStats = Zend_Registry::get('config')->Plugins_LogStats->Plugins_LogStats;
+			if(is_null($pluginsLogStats))
+			{
+				$pluginsLogStats = array();
+			}
+			else
+			{
+				$pluginsLogStats = $pluginsLogStats->toArray();
+			}
+			if(!in_array($pluginName, $pluginsLogStats))
+			{
+				$pluginsLogStats[] = $pluginName;
+				Zend_Registry::get('config')->Plugins_LogStats = $pluginsLogStats;
+			}
+		}
+	}
+}
 
 class Piwik_Plugin_Exception extends Exception 
 {
@@ -483,7 +487,6 @@ class Piwik_Plugin_Exception extends Exception
 				<code>PluginsInstalled[] = $name</code><br><br>" );
 	}
 }
-
 
 /**
  * Post an event to the dispatcher which will notice the observers

@@ -205,8 +205,7 @@ class Piwik_Common
 			}
 		}
 		elseif( !is_null($value)
-		&& !is_bool($value)
-		)
+			&& !is_bool($value))
 		{
 			throw new Exception("The value to escape has not a supported type. Value = ".var_export($value, true));
 		}
@@ -508,6 +507,21 @@ class Piwik_Common
 	}
 
 	/**
+	 * Returns the browser language code, eg. "en-gb,en;q=0.5"
+	 *
+	 * @return string
+	 */
+	static public function getBrowserLanguage()
+	{
+		$browserLang = Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		if(is_null($browserLang))
+		{
+			$browserLang = '';
+		}
+		return $browserLang;
+	}
+	
+	/**
 	 * Returns the visitor country based only on the Browser 'accepted language' information
 	 *
 	 * @param string $lang browser lang
@@ -539,72 +553,74 @@ class Piwik_Common
 			'gb' => 'uk',
 		);
 
-
 		if(empty($lang) || strlen($lang) < 2)
 		{
 			return 'xx';
 		}
 
-		$lang = str_replace(	array_keys($replaceLangCodeByCountryCode),
-		array_values($replaceLangCodeByCountryCode),
-		$lang
-		);
-
+		$browserLanguage = str_replace(
+					array_keys($replaceLangCodeByCountryCode),
+					array_values($replaceLangCodeByCountryCode),
+					$lang
+				);
+		$validLanguages = array_keys($countryList);
+		return Piwik_Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages);
+	}
+	
+	static public function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
+	{
 		// Ex: "fr"
-		if(strlen($lang) == 2)
+		if(strlen($browserLanguage) == 2)
 		{
-			if(isset($countryList[$lang]))
+			if(in_array($browserLanguage, $validLanguages))
 			{
-				return $lang;
+				return $browserLanguage;
 			}
 		}
 
 		// when comma
-		$offcomma = strpos($lang, ',');
-
+		$offcomma = strpos($browserLanguage, ',');
 		if($offcomma == 2)
 		{
 			// in 'fr,en-us', keep first two chars
-			$domain = substr($lang, 0, 2);
-			if(isset($countryList[$domain]))
+			$domain = substr($browserLanguage, 0, 2);
+			if(in_array($domain, $validLanguages))
 			{
 				return $domain;
 			}
 
 			// catch the second language Ex: "fr" in "en,fr"
-			$domain = substr($lang, 3, 2);
-			if(isset($countryList[$domain]))
+			$domain = substr($browserLanguage, 3, 2);
+			if(in_array($domain, $validLanguages))
 			{
 				return $domain;
 			}
 		}
 
 		// detect second code Ex: "be" in "fr-be"
-		$off = strpos($lang, '-');
-		if($off!==false)
+		$off = strpos($browserLanguage, '-');
+		if($off !== false)
 		{
-			$domain = substr($lang, $off+1, 2);
-				
-			if(isset($countryList[$domain]))
+			$domain = substr($browserLanguage, $off + 1, 2);
+			if(in_array($domain, $validLanguages))
 			{
 				return $domain;
 			}
 		}
 
 		// catch the second language Ex: "fr" in "en;q=1.0,fr;q=0.9"
-		if(preg_match("/^[a-z]{2};q=[01]\.[0-9],(?P<domain>[a-z]{2});/", $lang, $parts))
+		if(preg_match("/^[a-z]{2};q=[01]\.[0-9],(?P<domain>[a-z]{2});/", $browserLanguage, $parts))
 		{
 			$domain = $parts['domain'];
-
-			if(isset($GLOBALS['countryList'][$domain][0]))
+			if(in_array($domain, $validLanguages))
 			{
 				return $domain;
 			}
 		}
 
 		// finally try with the first ever langage code
-		$domain = substr($lang, 0, 2);
-		if(isset($countryList[$domain]))
+		$domain = substr($browserLanguage, 0, 2);
+		if(in_array($domain, $validLanguages))
 		{
 			return $domain;
 		}
@@ -612,7 +628,6 @@ class Piwik_Common
 		// at this point we really can't guess the country
 		return 'xx';
 	}
-	
 	
 	/**
 	 * Generate random string 

@@ -167,6 +167,7 @@ class Piwik_Provider extends Piwik_Plugin
 		$out =& $notification->getNotificationObject();
 		$out = '<div id="leftcolumn">';
 	}
+	
 	public function footerUserCountry($notification)
 	{
 		$out =& $notification->getNotificationObject();
@@ -177,4 +178,3 @@ class Piwik_Provider extends Piwik_Plugin
 		$out .= '</div>';
 	}
 }
-

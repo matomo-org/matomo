@@ -28,10 +28,12 @@ class Piwik_Site
 			self::$infoSites[$this->id] = Piwik_SitesManager_API::getSiteFromId($idsite);
 		}
 	}
+	
 	function getName()
 	{
 		return self::$infoSites[$this->id]['name'];
 	}
+	
 	function getMainUrl()
 	{
 		return self::$infoSites[$this->id]['main_url'];

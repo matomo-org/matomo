@@ -410,17 +410,6 @@ class Piwik
 		return $title;
 	}
 	
-	static public function loadPlugins()
-	{
-		Piwik_PluginsManager::getInstance()->setLanguageToLoad(  Piwik_Translate::getInstance()->getLanguageToLoad() );
-		Piwik_PluginsManager::getInstance()->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
-	}
-	
-	static public function installLoadedPlugins()
-	{
-		Piwik_PluginsManager::getInstance()->installLoadedPlugins();
-	}
-	
 	static public function getTableCreateSql( $tableName )
 	{
 		$tables = Piwik::getTablesCreateSql();
@@ -812,10 +801,9 @@ class Piwik
 	
 	static public function getTablesInstalled( $forceReload = true )
 	{
-		if(is_null(self::$tablesInstalled) 
+		if(is_null(self::$tablesInstalled)
 			|| $forceReload === true)
 		{
-			
 			$db = Zend_Registry::get('db');
 			$config = Zend_Registry::get('config');
 			$prefixTables = $config->database->tables_prefix;
@@ -830,7 +818,6 @@ class Piwik
 			
 			// at this point we have only the piwik tables which is good
 			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
-			
 			$allArchiveNumeric = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
 			$allArchiveBlob = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
 					

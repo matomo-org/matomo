@@ -250,13 +250,8 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		$ip				= Piwik_Common::getIp();
 		$ip 			= ip2long($ip);
 
-		$browserLang	= substr(Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']), 0, 20);
-		if(is_null($browserLang))
-		{
-			$browserLang = '';
-		}
+		$browserLang	= substr(Piwik_Common::getBrowserLanguage(), 0, 20);
 		
-
 		$configurationHash = $this->getConfigHash( 
 												$os,
 												$browserName,

@@ -12,6 +12,16 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 			'version' => '0.1',
 		);
 	}
+	
+	public function getListHooksRegistered()
+	{
+		return array( 'template_css_import' => 'css');
+	}
+
+	function css()
+	{
+		echo '<link rel="stylesheet" type="text/css" href="plugins/ExampleRssWidget/styles.css" />';
+	}
 }
 
 Piwik_AddWidget('ExampleRssWidget', 'rssPiwik', 'Piwik.org Blog');
@@ -28,7 +38,6 @@ class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 		    exit;
 		}
 		
-		echo $this->css();
 		echo '<div style="padding:10px 15px;"><ul class="rss">';
 		
 		$i = 0;
@@ -50,40 +59,4 @@ class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 		echo '</ul></div>';
 	}
 	
-	function css()
-	{
-		return "<style>
-		.rss ul {
-			list-style-image:none;
-			list-style-position:outside;
-			list-style-type:none;
-			padding:0pt;
-		}
-		.rss li {
-			line-height:140%;
-			margin-bottom:6px;
-			margin:0.5em 0pt 1em;
-		}			
-		.rss-title, .rss-date {	
-			float:left;
-			font-size:14px;
-			line-height:140%;
-		}
-		.rss-title{
-			color:#2583AD;
-			margin:0pt 0.5em 0.2em 0pt;
-			font-weight:bold;
-		}	
-		.rss-date {
-			color:#999999;
-			margin:0pt;
-		}
-		.rss-description {
-			clear:both;
-			line-height:1.5em;
-			font-size:11px;
-			color:#333333;
-		}
-		</style>";
-	}
 }

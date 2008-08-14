@@ -29,27 +29,7 @@ abstract class Piwik_Plugin
 	 * 	'LogStatsPlugin' => bool     // should we load this plugin during the stats logging process?
 	 */
 	abstract function getInformation();
-	
-	/**
-	 * Returns the plugin name
-	 * @var string
-	 */
-	public function getName()
-	{
-		$info = $this->getInformation();
-		return $info['name'];
-	}
-	
-	/**
-	 * Returns the UserCountry part when the plugin class is Piwik_UserCountry
-	 *
-	 * @return string
-	 */
-	public function getClassName()
-	{
-		return substr(get_class($this), strlen("Piwik_"));
-	}
-	
+
 	/**
 	 * Returns the list of hooks registered with the methods names
 	 * @var array
@@ -58,16 +38,7 @@ abstract class Piwik_Plugin
 	{
 		return array();
 	}
-	
-	/**
-	 * Returns the names of the required plugins
-	 * @var array
-	 */
-	public function getListRequiredPlugins()
-	{
-		return array();
-	}
-	
+
 	/**
 	 * Executed after loading plugin and registering translations
 	 * Useful for code that uses translated strings from the plugin.
@@ -98,5 +69,35 @@ abstract class Piwik_Plugin
 	{
 		return;
 	}
+	
+	/**
+	 * Returns the names of the required plugins
+	 * @var array
+	 */
+	public function getListRequiredPlugins()
+	{
+		return array();
+	}
+	
+	/**
+	 * Returns the plugin name
+	 * @var string
+	 */
+	public function getName()
+	{
+		$info = $this->getInformation();
+		return $info['name'];
+	}
+	
+	/**
+	 * Returns the UserCountry part when the plugin class is Piwik_UserCountry
+	 *
+	 * @return string
+	 */
+	public function getClassName()
+	{
+		return substr(get_class($this), strlen("Piwik_"));
+	}
+
 }
 

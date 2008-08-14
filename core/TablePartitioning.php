@@ -31,14 +31,13 @@ abstract class Piwik_TablePartitioning
 	
 	abstract protected function generateTableName() ;
 	
-	
 	public function setTimestamp( $timestamp )
 	{
 		$this->timestamp = $timestamp;
 		$this->generatedTableName = null;
 		$this->getTableName();
 	}
-		
+	
 	public function getTableName()
 	{
 		// table name already processed

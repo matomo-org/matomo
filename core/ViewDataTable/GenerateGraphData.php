@@ -48,7 +48,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	 *
 	 * @var int
 	 */
-	protected $graphLimit = 5;
+	protected $graphLimit = 6;
 	
 	/**
 	 * Sets the number max of elements to display (number of pie slice, vertical bars, etc.)

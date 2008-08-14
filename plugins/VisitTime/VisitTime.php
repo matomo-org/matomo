@@ -57,6 +57,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 
 		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
+	
 	public function archiveDay( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();

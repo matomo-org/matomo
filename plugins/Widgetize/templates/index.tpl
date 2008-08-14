@@ -30,9 +30,6 @@
 .menu {
 	display: inline;
 }
-.previewDiv {
-	height: auto;
-}
 .formEmbedCode{
 	font-size: 11px;
 	text-decoration: none;
@@ -72,7 +69,7 @@ If you want your widgets to be viewable by everybody, you first have to set the 
 	</div>
 	<div class="subMenu" id="sub3">
 		<div class="widget">
-			<div class="widgetDiv previewDiv" id="widgetId">Widget here
+			<div class="widgetDiv previewDiv">Widget here
 			</div>
 		</div>
 		<div id='embedThisWidget'></div>
