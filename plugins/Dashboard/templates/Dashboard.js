@@ -342,10 +342,7 @@ dashboard.prototype =
 			ajaxRequest.data['layout'] = layout;
 			$.ajax(ajaxRequest);
 		}
-	},
-	
-	//load widget with an ajax request
-	
+	}
 };
 
 //auxiliary function: list widgets available in a DOM tree
