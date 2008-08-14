@@ -1,0 +1,59 @@
+.formDiv{
+	position:relative;
+	color:#0066FF;
+	text-align:left;
+	z-index:100;
+}
+
+.formDiv_main_link{
+	color:#000000;
+	outline:none;
+	text-decoration:none;
+	padding:2px 4px 2px 4px;
+}
+.formDiv ul li a{
+	color:#1F447F;
+	text-decoration:none;
+	padding:2px 4px 2px 4px;
+}
+.formDiv ul li a:hover{
+}
+.formDiv ul li a:visited{
+}
+
+.formDiv a.collapsed{
+	background:#ffffff url('collapsed_arrows.gif') no-repeat right center;
+	padding-right:16px;
+	color:#000000;
+	text-decoration:none;
+}
+.formDiv a.expanded{
+	background:#176999 url('expanded_arrows.gif') no-repeat right center;
+	padding-right:16px;
+	color:#ffffff;
+	text-decoration:none;
+}
+.formDiv a:hover{
+	text-decoration:underline;
+}
+
+.formDiv_ul_list{
+	list-style:none;
+	background:#Ffffff;
+	border: 1px solid #1F447F;
+}
+
+.formDiv_ul_list li {
+	padding:0px;
+}
+
+.formDiv_ul_list li a{
+	height:auto;
+	display:block;
+}
+
+.formDiv_ul_list li a:hover{
+	background:#176999;
+	color:#ffffff;
+	text-decoration:none;
+}
