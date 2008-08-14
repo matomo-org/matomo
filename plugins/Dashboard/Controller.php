@@ -15,136 +15,39 @@ require_once "ViewDataTable.php";
 /**
  * @package Piwik_Dashboard
  */
-class Piwik_Dashboard_Controller extends Piwik_Controller
+class Piwik_LanguagesManager_Controller extends Piwik_Controller
 {
-	function getListWidgets()
-	{
-		$widgets = Piwik_GetListWidgets();
-		$json = json_encode($widgets);
-		return $json;
-	}
-	
-	public function embeddedIndex()
-	{		
-		$view = new Piwik_View('Dashboard/templates/index.tpl');
-		$this->setGeneralVariablesView($view);
-		$view->layout = $this->getLayout();
-		$view->availableWidgets = $this->getListWidgets();
-		echo $view->render();
-	}
-	public function index()
-	{
-		//add the header for stand-alone mode
-		$view = new Piwik_View('Dashboard/templates/header.tpl');
-		echo $view->render();
-		$this->embeddedIndex();
-	}
-	
 	/**
-	 * Records the layout in the DB for the given user.
-	 *
-	 * @param string $login
-	 * @param int $idDashboard
-	 * @param string $layout
-	 */
-	protected function saveLayoutForUser( $login, $idDashboard, $layout)
-	{
-		$paramsBind = array($login, $idDashboard, $layout, $layout);
-		Piwik_Query('INSERT INTO '.Piwik::prefixTable('user_dashboard') .
-					' (login, iddashboard, layout)
-						VALUES (?,?,?)
-					ON DUPLICATE KEY UPDATE layout=?',
-					$paramsBind);
-	}
-	
-	/**
-	 * Returns the layout in the DB for the given user, or false if the layout has not been set yet.
-	 * Parameters must be checked BEFORE this function call
-	 *
-	 * @param string $login
-	 * @param int $idDashboard
-	 * @param string|false $layout
-	 */
-	protected function getLayoutForUser( $login, $idDashboard)
-	{
-		$paramsBind = array($login, $idDashboard);
-		$return = Piwik_FetchAll('SELECT layout FROM '.Piwik::prefixTable('user_dashboard') .
-					' WHERE login = ? AND iddashboard = ?', $paramsBind);
-		if(count($return) == 0)
-		{
-			return false;
-		}
-		return $return[0]['layout'];
-	}
-	
-	/**
-	 * Saves the layout for the current user
 	 * anonymous = in the session
 	 * authenticated user = in the DB
 	 */
-	public function saveLayout()
+	public function saveLanguage()
 	{
-		$layout = Piwik_Common::getRequestVar('layout');
-		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
+		$language = Piwik_Common::getRequestVar('language');
 		$currentUser = Piwik::getCurrentUserLogin();
 
 		if($currentUser == 'anonymous')
 		{
-			$_SESSION['layout'][$idDashboard] = $layout;
+			$_SESSION['language'] = $language;
 		}
 		else
 		{
-			$this->saveLayoutForUser($currentUser,$idDashboard, $layout);
+			$this->saveLanguageForUser($currentUser, $language);
 		}
+		Piwik_Url::redirectToReferer();
 	}
 	
 	/**
-	 * Get the dashboard layout for the current user (anonymous or loggued user) 
-	 *
-	 * @return string $layout
+	 * @param string
+	 * @param string
 	 */
-	protected function getLayout()
+	protected function saveLanguageForUser( $login, $language )
 	{
-		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
-		$currentUser = Piwik::getCurrentUserLogin();
-
-		if($currentUser == 'anonymous')
-		{
-			if(!isset($_SESSION['layout'][$idDashboard]))
-			{
-				return false;
-			}
-			return $_SESSION['layout'][$idDashboard];
-		}
-		else
-		{
-			return $this->getLayoutForUser($currentUser,$idDashboard);
-		}		
+		$paramsBind = array($login, $language, $language);
+		Piwik_Query('INSERT INTO '.Piwik::prefixTable('user_language') .
+					' (login, language)
+						VALUES (?,?)
+					ON DUPLICATE KEY UPDATE language=?',
+					$paramsBind);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
