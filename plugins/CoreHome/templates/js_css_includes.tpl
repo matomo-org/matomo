@@ -26,3 +26,5 @@
 <link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
 <link rel="stylesheet" type="text/css" href="libs/jquery/jquery-calendar.css" />
 
+{postEvent name="template_js_import"}
+{postEvent name="template_css_import"}

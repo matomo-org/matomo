@@ -213,7 +213,10 @@ abstract class Piwik_Controller
 		
 		try {
 			$currentPeriod = Piwik_Common::getRequestVar('period');
-			$view->idSite = Piwik_Common::getRequestVar('idSite');
+			$idSite = Piwik_Common::getRequestVar('idSite');
+			$view->idSite = $idSite;
+			$site = new Piwik_Site($idSite);
+			$view->siteName = $site->getName();
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
 		}

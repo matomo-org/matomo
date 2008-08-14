@@ -86,17 +86,29 @@
 		<td>{if $infos.mail_ok}{$ok}{else}{$warning}{/if}</td>
 	</tr>
 </table>
-<p><small>
-Legend:
+
+
+{if !$showNextStep}
+{literal}
+<style>
+#legend {
+	border:1px solid #A5A5A5;
+	padding:5px;
+	color:#727272;
+	margin-top:30px;
+}
+</style>
+{/literal}
+<div id="legend"><small>
+<b>Legend</b>
 <br />
 {$ok} {'General_Ok'|translate}<br />
 {$error} {'General_Error'|translate}: {'Installation_SystemCheckError'|translate} <br />
 {$warning} {'General_Warning'|translate}: {'Installation_SystemCheckWarning'|translate} <br />
-</small></p>
+</small></div>
 
-{if !$showNextStep}
+
 <p class="nextStep">
 	<a href="{url}">{'General_Refresh'|translate} &raquo;</a>
 </p>
-
 {/if}

@@ -15,10 +15,9 @@
 class Piwik_Translate
 {
 	static private $instance = null;
+	private $englishLanguageLoaded = false;
 	
 	/**
-	 * Returns singleton
-	 *
 	 * @return Piwik_Translate
 	 */
 	static public function getInstance()
@@ -30,20 +29,27 @@ class Piwik_Translate
 		}
 		return self::$instance;
 	}
-	
-	private function __construct()
+
+	public function loadEnglishTranslation()
 	{
-		$translations = array();
-		
-		$language = $this->getFallbackLanguageToLoad();
-		require_once "lang/" . $language .".php";
+		require "lang/en.php";
 		$this->addTranslationArray($translations);
-		
+		$this->setLocale();
+		$this->englishLanguageLoaded = true;
+	}
+
+	public function loadUserTranslation()
+	{
 		$language = $this->getLanguageToLoad();
-		require_once "lang/" . $language .".php";
-		$this->addTranslationArray($translations);
+		if($language === 'en' 
+			&& $this->englishLanguageLoaded)
+		{
+			return;
+		}
 		
-		setlocale(LC_ALL, $GLOBALS['Piwik_translations']['General_Locale']);
+		require "lang/" . $language . ".php";
+		$this->addTranslationArray($translations);
+		$this->setLocale();
 	}
 	
 	public function addTranslationArray($translation)
@@ -57,13 +63,18 @@ class Piwik_Translate
 	}
 	
 	/**
-	 * @return string the language filename prefix, eg "en" for english
-	 * @throws exception if the language set in the config file is not a valid filename
+	 * @return string the language filename prefix, eg 'en' for english
+	 * @throws exception if the language set is not a valid filename
 	 */
 	public function getLanguageToLoad()
 	{
-		$language = Zend_Registry::get('config')->Language->current;
+		$language = null;
+		Piwik_PostEvent('Translate.getLanguageToLoad', $language);
 		
+		if(is_null($language))
+		{
+			$language = Zend_Registry::get('config')->General->default_language;
+		}
 		if( Piwik_Common::isValidFilename($language))
 		{
 			return $language;
@@ -74,20 +85,14 @@ class Piwik_Translate
 		}
 	}
 	
-	protected function getFallbackLanguageToLoad()
-	{
-		return Zend_Registry::get('config')->Language->fallback;
-	}
-	
 	/**
 	 * Generate javascript translations array
 	 * 
 	 * @return string containing javascript code with translations array (including <script> tag)
-	 *
 	 */
-	public function getJavascriptTranslations($moduleList)
+	public function getJavascriptTranslations(array $moduleList)
 	{
-		if( !$moduleList )
+		if( empty($moduleList) )
 		{
 			return '';
 		}
@@ -122,6 +127,11 @@ class Piwik_Translate
 			'return s;}';
 		
 		return $js;
+	}
+
+	private function setLocale()
+	{
+		setlocale(LC_ALL, $GLOBALS['Piwik_translations']['General_Locale']);
 	}
 }
 

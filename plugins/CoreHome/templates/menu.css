@@ -4,6 +4,7 @@
 }
 
 .nav {
+	z-index:10;
 	padding-bottom: 2.5em;
 	height: 2.5em;
 	float: left;

@@ -1,15 +1,25 @@
+language selection
 test set wrong permission and trigger frontController:checkDir
+
 why widgetize inherits Piwik_Widgetize_Controller
 we should call login->logout in installation->welcome instead of duplicating code
 fix images in sub tables
 change the loading widget red button with the standard blue loading
 widgetize should export the same format as currently seen: the callback to generate the embed code should be called when user clicks on icon below graph
 widgetize should work with clearspring: create a new iframe with an iframe + clearspring button
-language selection
 separate all Core doc to Plugins and Users doc
 create ticket for wrong display seconds
 rss cache + user agent piwik
+rename LogStats in Tracker
+remove all instances of insert() and delete() and update()
 
+postEvent smarty doc is not clear, + feature we're not using (filter but what we need is simply way to print out html in templates from plugins)
+
+1. The UI could be "security trimmed". So a normal user (a customer
+   in this case) should not see the "admin", "API" links ...
+2. If the user is only allowed to see one website to analyze the
+   dropdown-control for other sites could be hidden.
+   
 to check
 ========
 check that when online archiving disabled, take the last valid archiving

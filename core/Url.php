@@ -44,6 +44,16 @@ class Piwik_Url
 		}
 	}
 	
+	static public function redirectToReferer()
+	{
+		$referer = self::getReferer();
+		if($referer !== false)
+		{	
+			self::redirectToUrl($referer);
+		}
+		self::redirectToUrl(Piwik_URL::getCurrentUrlWithoutQueryString());
+	}
+	
 	static public function redirectToUrl( $url )
 	{
 		header("Location: $url");

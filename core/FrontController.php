@@ -250,14 +250,17 @@ class Piwik_FrontController
 				$exceptionToThrow = $e;
 			}
 			
-			Piwik::loadPlugins();
+			Piwik_Translate::getInstance()->loadEnglishTranslation();
+			$pluginsManager = Piwik_PluginsManager::getInstance();
+			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+			
 			if($exceptionToThrow)
 			{
 				throw $exceptionToThrow;
 			}
 			Piwik::createDatabaseObject();
 			Piwik::createLogObject();
-			Piwik::installLoadedPlugins();
+			Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 			Piwik::install();
 			
 			Piwik_PostEvent('FrontController.initAuthenticationObject');
@@ -274,6 +277,10 @@ class Piwik_FrontController
 			Zend_Registry::set('access', $access);		
 			Zend_Registry::get('access')->loadAccess();
 	
+			Piwik_Translate::getInstance()->loadUserTranslation();
+			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
+			$pluginsManager->postLoadPlugins();
+
 			Piwik::raiseMemoryLimitIfNecessary();
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage());

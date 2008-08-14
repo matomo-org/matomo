@@ -10,11 +10,15 @@
 <script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
 <script type="text/javascript" src="themes/default/common.js"></script>
 <script type="text/javascript" src="libs/jquery/thickbox.js"></script>
+<script type="text/javascript" src="libs/javascript/sprintf.js"></script>
 <link rel="stylesheet" type="text/css" href="libs/jquery/thickbox.css" />
 
 <link rel="stylesheet" type="text/css" href="themes/default/common.css" />
 <link rel="stylesheet" type="text/css" href="themes/default/styles.css">
 <link rel="stylesheet" type="text/css" href="plugins/CoreAdminHome/templates/styles.css" />
+
+{postEvent name="template_js_import"}
+{postEvent name="template_css_import"}
 
 {include file="CoreHome/templates/top_bar.tpl"}
 

@@ -16,14 +16,11 @@ adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 host 			= localhost
 username 		= root
 password 		= 
-dbname			= piwik_tests
+dbname			= piwik_tests11
 tables_prefix	= piwiktests_
 port			= 3306
 adapter 		= PDO_MYSQL
  
-[Language]
-current			= en
-fallback		= en
 
 [Plugins]
 Plugins[] 		= CorePluginsAdmin
@@ -31,6 +28,7 @@ Plugins[] 		= CoreAdminHome
 Plugins[] 		= CoreHome
 Plugins[] 		= API
 Plugins[] 		= Widgetize
+Plugins[] 		= LanguagesManager
 Plugins[] 		= Actions
 Plugins[] 		= Dashboard
 Plugins[] 		= Referers
@@ -93,6 +91,10 @@ enable_browser_archiving_triggering = true
 ; for example a URL like "example.com/blog/development/first-post" will create 
 ; the page first-post in the subcategory development which belongs to the blog category
 action_category_delimiter = /
+
+; if you want all your users to use Piwik in only one language, disable the LanguagesManager
+; plugin, and set this default_language (users won't see the language drop down) 
+default_language = en
 
 ; default sorting order used by all datatables (desc or asc)
 dataTable_default_sort_order = desc
