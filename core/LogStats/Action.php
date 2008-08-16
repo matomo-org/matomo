@@ -18,6 +18,7 @@
 interface Piwik_LogStats_Action_Interface {
 	public function getActionId();
 	public function record( $idVisit, $idRefererAction, $timeSpentRefererAction );
+	public function setIdSite( $idSite );
 }
 
 /**
@@ -48,6 +49,7 @@ class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
 	private $url;
 	private $defaultActionName;
 	private $nameDownloadOutlink;
+	private $idSite;
 	
 	/**
 	 * 3 types of action, Standard action / Download / Outlink click
@@ -95,6 +97,14 @@ class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
 		return $this->idAction;
 	}
 	
+	/**
+	 * @param int $idSite
+	 */
+	function setIdSite($idSite)
+	{
+		$this->idSite = $idSite;
+	}
+	
 	
 	/**
 	 * Records in the DB the association between the visit and this action.
@@ -106,7 +116,7 @@ class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
 	 */
 	 public function record( $idVisit, $idRefererAction, $timeSpentRefererAction)
 	 {
-	 	$this->db->query("INSERT INTO ".$this->db->prefixTable('log_link_visit_action')
+	 	$this->db->query("/* SHARDING_ID_SITE = ".$this->idSite." */ INSERT INTO ".$this->db->prefixTable('log_link_visit_action')
 						." (idvisit, idaction, idaction_ref, time_spent_ref_action) VALUES (?,?,?,?)",
 					array($idVisit, $this->idAction, $idRefererAction, $timeSpentRefererAction)
 					);
@@ -217,7 +227,7 @@ class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
 		$name = $this->finalActionName;
 		$type = $this->actionType;
 		
-		$idAction = $this->db->fetch("	SELECT idaction 
+		$idAction = $this->db->fetch("/* SHARDING_ID_SITE = ".$this->idSite." */ 	SELECT idaction 
 							FROM ".$this->db->prefixTable('log_action')
 						."  WHERE name = ? AND type = ?", 
 						array($name, $type) 
@@ -226,7 +236,7 @@ class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
 		// the action name has not been found, create it
 		if($idAction === false)
 		{
-			$this->db->query("INSERT INTO ". $this->db->prefixTable('log_action'). "( name, type ) 
+			$this->db->query("/* SHARDING_ID_SITE = ".$this->idSite." */ INSERT INTO ". $this->db->prefixTable('log_action'). "( name, type ) 
 								VALUES (?,?)",array($name,$type) );
 			$idAction = $this->db->lastInsertId();
 		}

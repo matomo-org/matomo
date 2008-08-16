@@ -799,7 +799,7 @@ class Piwik
 	
 	static $tablesInstalled = null;
 	
-	static public function getTablesInstalled( $forceReload = true )
+	static public function getTablesInstalled($forceReload = true,  $idSite = null)
 	{
 		if(is_null(self::$tablesInstalled)
 			|| $forceReload === true)
@@ -817,9 +817,16 @@ class Piwik
 			$tablesInstalled = array_intersect($allMyTables, $allTables);
 			
 			// at this point we have only the piwik tables which is good
-			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
-			$allArchiveNumeric = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
-			$allArchiveBlob = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
+			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)`
+			$idSiteInSql = "no";
+			if(!is_null($idSite))
+			{
+				$idSiteInSql = $idSite;
+			}
+			$allArchiveNumeric = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */ 
+												SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
+			$allArchiveBlob = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */ 
+												SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
 					
 			$allTablesReallyInstalled = array_merge($tablesInstalled, $allArchiveNumeric, $allArchiveBlob);
 			

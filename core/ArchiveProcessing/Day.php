@@ -89,7 +89,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$blobTable = $this->tableArchiveBlob->getTableName();
 		$numericTable = $this->tableArchiveNumeric->getTableName();
 		
-		$query = "	DELETE 
+		$query = "/* SHARDING_ID_SITE = ".$this->idsite." */ 	DELETE 
 					FROM %s
 					WHERE period = ? 
 						AND date1 = DATE(ts_archived)
