@@ -28,6 +28,7 @@ class Piwik_DBStats_API extends Piwik_Apiable
 
  	static public function getDBStatus()
 	{
+		Piwik::isUserIsSuperUser();
 		$configDb = Piwik_Config::getInstance()->database;
 		
 		// we decode the password. Password is html encoded because it's enclosed between " double quotes
@@ -44,7 +45,7 @@ class Piwik_DBStats_API extends Piwik_Apiable
 		return $status;
 	}
 	
-	static function get_size($size) {
+	static private function get_size($size) {
 	$bytes = array('B','KB','MB','GB','TB');
 	  foreach($bytes as $val) {
 	   if($size > 1024){
@@ -58,6 +59,7 @@ class Piwik_DBStats_API extends Piwik_Apiable
 	
 	static public function getTableStatus($table, $field = '') 
 	{
+		Piwik::isUserIsSuperUser();
 		$db = Zend_Registry::get('db');
 		// http://dev.mysql.com/doc/refman/5.1/en/show-table-status.html
 		$tables = $db->fetchAll("SHOW TABLE STATUS LIKE ?", $table);
@@ -74,6 +76,7 @@ class Piwik_DBStats_API extends Piwik_Apiable
 
 	static public function getAllTablesStatus() 
 	{
+		Piwik::isUserIsSuperUser();
 		$db = Zend_Registry::get('db');
 		// http://dev.mysql.com/doc/refman/5.1/en/show-table-status.html
 		$tablesPiwik =  Piwik::getTablesInstalled();
