@@ -35,6 +35,7 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 	protected $visitorInfo = array();
 	protected $userSettingsInformation = null;
 	protected $db = null;
+	protected $idsite;
 
 	function __construct()
 	{
@@ -402,7 +403,8 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		$serverTime 	= $this->getCurrentTimestamp();
 		$datetimeServer = $this->getDatetimeFromTimestamp($serverTime);
 	
-		$this->db->query("UPDATE ". $this->db->prefixTable('log_visit')." 
+		$this->db->query("/* SHARDING_ID_SITE = ". $this->idsite ." */
+							UPDATE ". $this->db->prefixTable('log_visit')." 
 							SET visit_last_action_time = ?,
 								visit_exit_idaction = ?,
 								visit_total_actions = visit_total_actions + 1,
@@ -563,6 +565,7 @@ class Piwik_LogStats_Visit implements Piwik_LogStats_Visit_Interface
 		{
 			throw new Exception("The Action object set in the plugin must implement the interface Piwik_LogStats_Action_Interface");
 		}
+		$action->setIdSite($this->idsite);
 		
 		return $action;
 	}

@@ -127,7 +127,7 @@ abstract class Piwik_Archive
 			
 			$oPeriod = Piwik_Period::factory($period, $oDate);
 			
-			$archive = new Piwik_Archive_Single;
+			$archive = new Piwik_Archive_Single();
 			$archive->setPeriod($oPeriod);
 			$archive->setSite(new Piwik_Site($idSite));
 			

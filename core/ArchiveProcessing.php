@@ -194,14 +194,14 @@ abstract class Piwik_ArchiveProcessing
 		{
 			case 'day':
 				require_once 'ArchiveProcessing/Day.php';			
-				$process = new Piwik_ArchiveProcessing_Day;
+				$process = new Piwik_ArchiveProcessing_Day();
 			break;
 			
 			case 'week':
 			case 'month':
 			case 'year':
 				require_once 'ArchiveProcessing/Period.php';	
-				$process = new Piwik_ArchiveProcessing_Period;
+				$process = new Piwik_ArchiveProcessing_Period();
 			break;
 			
 			default:
@@ -226,8 +226,10 @@ abstract class Piwik_ArchiveProcessing
 		$this->dateEnd = $this->period->getDateEnd();
 		
 		$this->tableArchiveNumeric = new Piwik_TablePartitioning_Monthly('archive_numeric');
+		$this->tableArchiveNumeric->setIdSite($this->idsite);
 		$this->tableArchiveNumeric->setTimestamp($this->dateStart->get());
 		$this->tableArchiveBlob = new Piwik_TablePartitioning_Monthly('archive_blob');
+		$this->tableArchiveBlob->setIdSite($this->idsite);	
 		$this->tableArchiveBlob->setTimestamp($this->dateStart->get());
 
 		$this->strDateStart = $this->dateStart->toString();
@@ -341,7 +343,7 @@ abstract class Piwik_ArchiveProcessing
 	protected function postCompute()
 	{
 		// delete the first done = ERROR 
-		Zend_Registry::get('db')->query("
+		Zend_Registry::get('db')->query("/* SHARDING_ID_SITE = ".$this->idsite." */ 
 							DELETE FROM ".$this->tableArchiveNumeric->getTableName()." 
 							WHERE idarchive = ? AND name = 'done'",
 					array($this->idArchive)
@@ -431,7 +433,7 @@ abstract class Piwik_ArchiveProcessing
 	protected function loadNextIdarchive()
 	{
 		$db = Zend_Registry::get('db');
-		$id = $db->fetchOne("SELECT max(idarchive) FROM ".$this->tableArchiveNumeric->getTableName());
+		$id = $db->fetchOne("/* SHARDING_ID_SITE = ".$this->idsite." */ SELECT max(idarchive) FROM ".$this->tableArchiveNumeric->getTableName());
 		if(empty($id))
 		{
 			$id = 0;
