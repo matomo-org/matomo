@@ -84,7 +84,6 @@ class Piwik_DBStats_API extends Piwik_Apiable
 			$t = self::getTableStatus($table);
 			$t['Data_length'] = self::get_size($t['Data_length']);
 			$t['Index_length'] = self::get_size($t['Index_length']);
-			$t['Index_length'] = self::get_size($t['Index_length']);
 			$t['Rows'] = self::get_size($t['Rows']);
 			$tables[] = $t;
 		}
