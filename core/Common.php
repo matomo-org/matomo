@@ -64,6 +64,15 @@ class Piwik_Common
 
 		return $result;
 	}
+	
+	/**
+	 * ending WITHOUT slashs
+	 */
+	static public function getPathToPiwikRoot()
+	{
+		return realpath( dirname(__FILE__). "/../" );
+	}
+	
 
 	/**
 	 * Returns the value of a GET parameter $parameter in an URL query $urlQuery
