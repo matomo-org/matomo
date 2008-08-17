@@ -7,7 +7,7 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
 }
 
-require 'LogStats/Db.php';
+require_once 'LogStats/Db.php';
 
 class Test_Piwik_LogStats_Db extends UnitTestCase
 {
