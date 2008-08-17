@@ -34,14 +34,6 @@ class Piwik
 		);
 	
 	/**
-	 * ending WITHOUT slashs
-	 */
-	static public function getPathToPiwikRoot()
-	{
-		return realpath( dirname(__FILE__). "/../" );
-	}
-	
-	/**
 	 * path without trailing slash
 	 */
 	static public function createHtAccess( $path )
