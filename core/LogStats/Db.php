@@ -114,7 +114,7 @@ class Piwik_LogStats_Db
 	 * @param string The table name to prefix, ie "log_visit"
 	 * @return string The table name prefixed, ie "piwik-production_log_visit"
 	 */
-	public function prefixTable( $suffix )
+	static public function prefixTable( $suffix )
 	{
 		static $prefix;
 		if (!isset($prefix)) {
