@@ -18,15 +18,16 @@ class Piwik_DBStats extends Piwik_Plugin
 	{
 		return array(
 			'name' => 'Databases statistics',
-			'description' => 'DBStats Plugin: This plugin returns database usage statistics.',
+			'description' => 'This plugin reports the database usage by Piwik tables.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}
+	
 	function postLoad()
 	{
-		Piwik_AddAdminMenu("Db", array('module' => 'DBStats', 'action' => 'index'));		
+		Piwik_AddAdminMenu("Database usage", array('module' => 'DBStats', 'action' => 'index'));		
 	}
 }
 	
