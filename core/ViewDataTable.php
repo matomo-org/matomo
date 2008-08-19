@@ -734,6 +734,20 @@ abstract class Piwik_ViewDataTable
 		$this->variablesDefault['filter_sort_order']= $order;
 	}
 	
+	/**
+	 * Sets a custom parameter, that will be printed in the javascript array associated with each datatable
+	 *
+	 * @param string parameter name
+	 * @param mixed $value
+	 */
+	public function setCustomParameter($parameter, $value)
+	{
+		if(isset($this->variablesDefault[$parameter]))
+		{
+			throw new Exception("$parameter is already defined for this DataTable.");
+		}
+		$this->variablesDefault[$parameter] = $value;
+	}
 	
 	/**
 	 * Given a Piwik_DataTable_Array made of DataTable_Simple rows, returns a php array with the structure:
