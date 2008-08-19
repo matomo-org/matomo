@@ -88,12 +88,12 @@ class Piwik_Url
 	 */
 	static public function getCurrentUrlWithoutFileName()
 	{
-		
 		$host = self::getCurrentHost();
 		$queryString = self::getCurrentScriptName() ;
 		
 		//add a fake letter case /test/test2/ returns /test which is not expected
 		$urlDir = dirname ($queryString . 'x');
+		$urlDir = str_replace('\\', '/', $urlDir);
 		// if we are in a subpath we add a trailing slash
 		if(strlen($urlDir) > 1)
 		{
