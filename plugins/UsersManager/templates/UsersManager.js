@@ -159,45 +159,40 @@ function bindUpdateAccess()
 }
 
 $(document).ready( function() {
-
 	var alreadyEdited = new Array;
 	// when click on edituser, the cells become editable
 	$('.edituser')
 		.click( function() {
-				ajaxHideError();
-				var idRow = $(this).attr('id');
-				if(alreadyEdited[idRow]==1) return;
-				alreadyEdited[idRow] = 1;
-				$('tr#'+idRow+' .editable').each(
-							// make the fields editable
-							// change the EDIT button to VALID button
-							function (i,n) {
-								var contentBefore = $(n).html();
-								var idName = $(n).attr('id');
-								if(idName != 'userLogin')
-								{
-									var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25">';
-									$(n).html(contentAfter);
-								}
-							}
-						);
-						
-				$(this)
-					.toggle()
-					.parent()
-					.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateuser">')
-								.click( function(){ $.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); } ) 
-						);
-				
-				
-				
-			}
-	);
+			ajaxHideError();
+			var idRow = $(this).attr('id');
+			if(alreadyEdited[idRow]==1) return;
+			alreadyEdited[idRow] = 1;
+			$('tr#'+idRow+' .editable').each(
+				// make the fields editable
+				// change the EDIT button to VALID button
+				function (i,n) {
+					var contentBefore = $(n).html();
+					var idName = $(n).attr('id');
+					if(idName != 'userLogin')
+					{
+						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25">';
+						$(n).html(contentAfter);
+					}
+				}
+			);
+					
+			$(this)
+				.toggle()
+				.parent()
+				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateuser">')
+							.click( function(){ $.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); } ) 
+			);
+		});
+		
 	$('.editable').keypress( submitOnEnter );
 	
 	$('td.editable')
-	 	.click( function(){ $(this).parent().find('.edituser').click(); } )
-	 ;
+	 	.click( function(){ $(this).parent().find('.edituser').click(); } );
 	
 	// when click on deleteuser, the we ask for confirmation and then delete the user
 	$('.deleteuser')
@@ -234,9 +229,8 @@ $(document).ready( function() {
 		$('#'+newRowId).keypress( submitOnEnter );
 		$('.adduser').click( function(){ $.ajax( getAddUserAJAX($('tr#'+newRowId)) ); } );
 		$('.cancel').click(function() { ajaxHideError(); $(this).parents('tr').remove();  $('.addrow').toggle(); });
-	
-	 } );
+	});
+
 	$('.updateAccess')
-		.click( bindUpdateAccess )
-		;
+		.click( bindUpdateAccess );
 });	

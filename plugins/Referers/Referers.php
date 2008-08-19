@@ -43,11 +43,11 @@ class Piwik_Referers extends Piwik_Plugin
 		Piwik_AddWidget( 'Referers', 'getSearchEngines', Piwik_Translate('Referers_WidgetSearchEngines'));
 		Piwik_AddWidget( 'Referers', 'getRefererType', Piwik_Translate('Referers_WidgetOverview'));
 
-		Piwik_AddMenu('Referers', Piwik_Translate('Referers_SubmenuEvolution'), array('module' => 'Referers'));
-		Piwik_AddMenu('Referers', Piwik_Translate('Referers_SubmenuSearchEngines'), array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));
-		Piwik_AddMenu('Referers', Piwik_Translate('Referers_SubmenuWebsites'), array('module' => 'Referers', 'action' => 'getWebsites'));
-		Piwik_AddMenu('Referers', Piwik_Translate('Referers_SubmenuCampaigns'), array('module' => 'Referers', 'action' => 'getCampaigns'));
-		Piwik_AddMenu('Referers', Piwik_Translate('Referers_SubmenuPartners'), array('module' => 'Referers', 'action' => 'getPartners'));	
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers'));
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuSearchEngines', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'getWebsites'));
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'getCampaigns'));
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuPartners', array('module' => 'Referers', 'action' => 'getPartners'));	
 	}
 		
 	function getListHooksRegistered()

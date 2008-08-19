@@ -4,13 +4,10 @@ static $menuEditsToApply = array();
 static $menuRenameToApply = array();
 
 // we setup the main categories in a specific order
-$mainMenu['Dashboard'] = null;
-$mainMenu['General'] = null;
-$mainMenu['Visitors'] = null;
-$mainMenu['Actions'] = null;
-$mainMenu['Referers'] = null;
-$mainMenu['Live!'] = null;
-
+$mainMenu['Dashboard_Dashboard'] = null;
+$mainMenu['General_Visitors'] = null;
+$mainMenu['Actions_Actions'] = null;
+$mainMenu['Referers_Referers'] = null;
 
 function Piwik_GetMenu()
 {
@@ -59,17 +56,18 @@ function Piwik_GetMenu()
 		else
 		{			
 			// we want to move some submenus in the first position
-			$priority = array('Overview','Evolution');
-			foreach($priority as $name)
+			foreach($element as $nameSubmenu => $submenu)
 			{
-				if(isset($element[$name]))
+				if(ereg('Evolution', $nameSubmenu) !== false
+					|| ereg('Overview', $nameSubmenu) !== false)
 				{
-					$newElement = array($name => $element[$name]);
-					unset($element[$name]);
+					$newElement = array($nameSubmenu => $submenu);
+					unset($element[$nameSubmenu]);
 					$element = $newElement + $element;
+					break;
 				}
 			}
-			$element['_url'] = current($element);
+			$element['_url'] = reset($element);
 		}
 	}
 	return $mainMenu;

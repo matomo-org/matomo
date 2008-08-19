@@ -76,4 +76,4 @@ class Piwik_Dashboard extends Piwik_Plugin
 	
 }
 
-Piwik_AddMenu('Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex'));
+Piwik_AddMenu('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex'));

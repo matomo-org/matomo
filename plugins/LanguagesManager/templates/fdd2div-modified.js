@@ -138,7 +138,7 @@
 					$(child_options).slideUp(1);
 					$(main_option).attr("class", MianCssClassName+"_main_link collapsed");
 					return false;
-				}, 100);
+				}, 150);
 			}
 		}
 		

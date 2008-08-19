@@ -12,7 +12,7 @@
 	<div>
 		<span id="exportDataTable">
 			<span id="exportToFormat" style="display:none">
-				<img width="16" height="16" src="{$piwikUrl}themes/default/images/export.png" />
+				<img width="16" height="16" src="{$piwikUrl}themes/default/images/export.png" title="{'General_Export'|translate}" />
 				<span id="linksExportToFormat" style="display:none"> 
 					<a target="_blank" class="exportToFormat" methodToCall="{$method}" format="CSV" filter_limit="100">CSV</a> | 
 					<a target="_blank" class="exportToFormat" methodToCall="{$method}" format="XML" filter_limit="100">XML</a> |

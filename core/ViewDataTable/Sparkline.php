@@ -51,7 +51,7 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		
 		if(!$this->dataAvailable)
 		{
-			throw new Exception( "No data for this graph" );
+			throw new Exception(Piwik_Translate('General_NoDataForGraph'));
 		}
 		else
 		{

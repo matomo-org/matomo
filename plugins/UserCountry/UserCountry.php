@@ -34,7 +34,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		Piwik_AddWidget( 'UserCountry', 'getContinent', Piwik_Translate('UserCountry_WidgetContinents'));
 		Piwik_AddWidget( 'UserCountry', 'getCountry', Piwik_Translate('UserCountry_WidgetCountries'));
 
-		Piwik_AddMenu('Visitors', Piwik_Translate('UserCountry_SubmenuLocations'), array('module' => 'UserCountry'));
+		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry'));
 	}
 	
 	function getListHooksRegistered()

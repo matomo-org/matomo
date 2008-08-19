@@ -54,7 +54,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		Piwik_AddWidget( 'UserSettings', 'getOS', Piwik_Translate('UserSettings_WidgetOperatingSystems'));
 		Piwik_AddWidget( 'UserSettings', 'getConfiguration', Piwik_Translate('UserSettings_WidgetGlobalVisitors'));
 
-		Piwik_AddMenu('Visitors', Piwik_Translate('UserSettings_SubmenuSettings'), array('module' => 'UserSettings'));
+		Piwik_AddMenu('General_Visitors', 'UserSettings_SubmenuSettings', array('module' => 'UserSettings'));
 	}
 	
 	function getListHooksRegistered()

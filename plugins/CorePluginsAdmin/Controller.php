@@ -9,8 +9,6 @@
  * @package Piwik_ExamplePlugin
  */
 
-
-
 /**
  * 
  * @package Piwik_ExamplePlugin
@@ -22,10 +20,8 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		Piwik::checkUserIsSuperUser();
 		
 		$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
-		
 		$loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
 		$plugins = array();
-
 		foreach($listPlugins as $pluginName)
 		{
 			$oPlugin = Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);

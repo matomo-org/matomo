@@ -24,6 +24,4 @@ code {
 
 <p>{'SitesManager_JsCodeHelp'|translate}:</p>
 
-<code>
-{$jsTag}
-</code>
+<code>{$jsTag}</code>

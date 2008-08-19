@@ -15,7 +15,6 @@ function getDeleteSiteAJAX( idSite )
 	var ajaxRequest = getStandardAjaxConf();
 	toggleAjaxLoading();
 		
-	// prepare the API parameters to update the user
 	var parameters = new Object;
 	parameters.module = 'API';
 	parameters.format = 'json';
@@ -33,9 +32,7 @@ function getAddSiteAJAX( row )
 	var ajaxRequest = getStandardAjaxConf();
 	toggleAjaxLoading();
 	
-	// prepare the API parameters to add the user
 	var parameters = new Object;
-	
  	var siteName = $(row).find('input[@id=siteadd_name]').val();
  	var urls =  $(row).find('textarea[@id=siteadd_urls]').val();
 	var urls = urls.trim().split("\n");

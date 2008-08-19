@@ -35,7 +35,7 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 		Piwik_AddWidget( 'VisitsSummary', 'getLastUniqueVisitorsGraph', Piwik_Translate('VisitsSummary_WidgetLastVisitors'));
 		Piwik_AddWidget( 'VisitsSummary', 'index', Piwik_Translate('VisitsSummary_WidgetOverviewGraph'));
 
-		Piwik_AddMenu('Visitors', Piwik_Translate('VisitsSummary_SubmenuOverview'), array('module' => 'VisitsSummary'), true);
+		Piwik_AddMenu('General_Visitors', 'VisitsSummary_SubmenuOverview', array('module' => 'VisitsSummary'), true);
 	}
 }
 

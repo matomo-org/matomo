@@ -11,11 +11,9 @@
 <script type="text/javascript" src="libs/jquery/tooltip/jquery.tooltip.js"></script>
 <script type="text/javascript" src="libs/jquery/truncate/jquery.truncate.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.scrollTo.js"></script>
-<script type="text/javascript" src="libs/jquery/jquery-calendar.js"></script>
 <script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
 
 <script type="text/javascript" src="plugins/CoreHome/templates/datatable.js"></script>
-<script type="text/javascript" src="plugins/CoreHome/templates/date.js"></script>
 
 <script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
 <script type="text/javascript" src="libs/jquery/ui.mouse.js"></script>

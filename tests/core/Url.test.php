@@ -16,15 +16,6 @@ class Test_Piwik_Url extends UnitTestCase
 		parent::__construct( $title );
 	}
 	
-	public function setUp()
-	{
-	}
-	
-	public function tearDown()
-	{
-	}
-	
-    
     /**
      * display output of all methods
      */

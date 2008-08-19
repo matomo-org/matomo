@@ -5,7 +5,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
-
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
 <script type="text/javascript" src="themes/default/common.js"></script>
@@ -14,7 +13,6 @@
 <link rel="stylesheet" type="text/css" href="libs/jquery/thickbox.css" />
 
 <link rel="stylesheet" type="text/css" href="themes/default/common.css" />
-<link rel="stylesheet" type="text/css" href="themes/default/styles.css">
 <link rel="stylesheet" type="text/css" href="plugins/CoreAdminHome/templates/styles.css" />
 
 {postEvent name="template_js_import"}
