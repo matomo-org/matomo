@@ -16,7 +16,6 @@
  * 
  * @package Piwik_LogStats
  */
-
 class Piwik_LogStats_Db 
 {
 	private $connection = null;
@@ -37,7 +36,11 @@ class Piwik_LogStats_Db
 		$this->password = $password;
 	}
 
-	
+	public function __destruct() 
+	{
+		$this->connection = null;
+	}
+
 	/**
 	 * Returns true if the SQL profiler is enabled
 	 * Only used by the unit test that tests that the profiler is off on a  production server
@@ -119,7 +122,7 @@ class Piwik_LogStats_Db
 		static $prefix;
 		if (!isset($prefix)) {
 			$prefix = Piwik_LogStats_Config::getInstance()->database['tables_prefix'];
-		}		
+		}
 		return $prefix . $suffix;
 	}
 	

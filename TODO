@@ -1,4 +1,7 @@
-language selection
+MAILING LIST SESSION!!!!!!!!!!!!!!!!!!!!!!!!
+PLUGINS HAVE THEIR OWN TESTS
+
+embed widgets codes above widget?
 test set wrong permission and trigger frontController:checkDir
 
 why widgetize inherits Piwik_Widgetize_Controller
@@ -12,6 +15,11 @@ create ticket for wrong display seconds
 rss cache + user agent piwik
 rename LogStats in Tracker
 remove all instances of insert() and delete() and update()
+numbers below datatable should be darker grey
+
+test_whenWhiteListedTable_butNoIdsite_throwsException()
+{}
+
 
 postEvent smarty doc is not clear, + feature we're not using (filter but what we need is simply way to print out html in templates from plugins)
 

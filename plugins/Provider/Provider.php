@@ -54,8 +54,8 @@ class Piwik_Provider extends Piwik_Plugin
 		if(function_exists('Piwik_AddWidget'))
 		{
 			Piwik_AddWidget( 'Provider', 'getProvider', Piwik_Translate('Provider_WidgetProviders'));
-			Piwik_RenameMenuEntry('Visitors', Piwik_Translate('UserCountry_SubmenuLocations'), 
-									'Visitors', Piwik_Translate('Provider_SubmenuLocationsProvider'));
+			Piwik_RenameMenuEntry('General_Visitors', 'UserCountry_SubmenuLocations', 
+									'General_Visitors', 'Provider_SubmenuLocationsProvider');
 			
 			Piwik_AddAction('template_headerUserCountry', array('Piwik_Provider','headerUserCountry'));
 			Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider','footerUserCountry'));

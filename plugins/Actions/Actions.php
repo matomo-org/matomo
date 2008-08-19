@@ -56,9 +56,9 @@ class Piwik_Actions extends Piwik_Plugin
 		Piwik_AddWidget( 'Actions', 'getDownloads', Piwik_Translate('Actions_SubmenuDownloads'));
 		Piwik_AddWidget( 'Actions', 'getOutlinks', Piwik_Translate('Actions_SubmenuOutlinks'));
 
-		Piwik_AddMenu('Actions', Piwik_Translate('Actions_SubmenuPages'), array('module' => 'Actions', 'action' => 'getActions'));
-		Piwik_AddMenu('Actions', Piwik_Translate('Actions_SubmenuOutlinks'), array('module' => 'Actions', 'action' => 'getOutlinks'));
-		Piwik_AddMenu('Actions', Piwik_Translate('Actions_SubmenuDownloads'), array('module' => 'Actions', 'action' => 'getDownloads'));		
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPages', array('module' => 'Actions', 'action' => 'getActions'));
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'getOutlinks'));
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'getDownloads'));		
 	}
 		
 	function getListHooksRegistered()

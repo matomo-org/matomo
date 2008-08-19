@@ -302,10 +302,9 @@ class Piwik_API_Request
 				$toReturn = 'false';
 			}
 			elseif( is_object($toReturn)
-						|| is_resource($toReturn)
-						)
+					|| is_resource($toReturn))
 			{
-				return $this->getExceptionOutput( ' The API cannot handle this data structure. You can get the data internally by directly using the class.', $this->outputFormatRequested);
+				return $this->getExceptionOutput('The API cannot handle this data structure.', $this->outputFormatRequested);
 			}
 			
 			require_once "DataTable/Simple.php";
@@ -368,8 +367,9 @@ class Piwik_API_Request
 	 * @param string $message
 	 * @return string
 	 */
-	function getExceptionOutput($message, $format)
+	protected function getExceptionOutput($message, $format)
 	{
+		$message = htmlentities($message, ENT_COMPAT, "UTF-8");
 		switch($format)
 		{
 			case 'xml':
@@ -377,14 +377,14 @@ class Piwik_API_Request
 				$return = 
 					'<?xml version="1.0" encoding="utf-8" ?>'.
 					'<result>'.
-					'	<error message="'.htmlentities($message).'" />'.
+					'	<error message="'.$message.'" />'.
 					'</result>';
 			break;
 			case 'json':
 				@header( "Content-type: application/json" );
 				// we remove the \n from the resulting string as this is not allowed in json
 				$message = str_replace("\n","",$message);
-				$return = '{"result":"error", "message":"'.htmlentities($message).'"}';
+				$return = '{"result":"error", "message":"'.$message.'"}';
 			break;
 			case 'php':
 				$return = array('result' => 'error', 'message' => $message);
@@ -397,7 +397,6 @@ class Piwik_API_Request
 				$return = 'Error: '.$message;
 			break;
 		}
-		
 		return $return;
 	}
 

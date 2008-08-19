@@ -10,20 +10,22 @@
 .addRowSite:hover, .editableSite:hover, .addsite:hover, .cancel:hover, .deleteSite:hover, .editSite:hover, .updateSite:hover{
 	cursor: pointer;
 }
-
+.addRowSite a {
+	text-decoration: none;
+}
 .addRowSite {
+	padding:1em;
 	font-color:#3A477B;
 	padding:1em;
 	font-weight:bold;
 }
-
 #editSites {
 	valign: top;
 }
 </style>
 {/literal}
-<h2>Websites Management</h2>
-<p>Your Web Analytics reports need Websites! Add, update, delete Websites, and show the Javascript to insert in your pages.</p>
+<h2>{'SitesManager_WebsitesManagement'|translate}</h2>
+<p>{'SitesManager_MainDescription'|translate}</p>
 
 <div id="ajaxError" style="display:none"></div>
 <div id="ajaxLoading" style="display:none"><div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate} </div></div>
@@ -56,6 +58,6 @@
 			
 		</tbody>
 	</table>
-	<span class="addRowSite"><img src='plugins/UsersManager/images/add.png' alt="" />{'SitesManager_AddSite'|translate}</span>
+	<div class="addRowSite"><a href="#"><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</a></div>
 {/if}
 

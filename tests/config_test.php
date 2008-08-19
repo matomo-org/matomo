@@ -7,12 +7,10 @@ if(!defined("PATH_TEST_TO_ROOT2"))
 {
 	define('PATH_TEST_TO_ROOT2', '../..');
 }
-
 if(!defined('PIWIK_INCLUDE_PATH')) 
 {
 	define('PIWIK_INCLUDE_PATH', PATH_TEST_TO_ROOT);
 }
-
 set_include_path(	  PATH_TEST_TO_ROOT .'/' 
 					. PATH_SEPARATOR . PATH_TEST_TO_ROOT .'/../' 
 					. PATH_SEPARATOR . '../' . PATH_TEST_TO_ROOT

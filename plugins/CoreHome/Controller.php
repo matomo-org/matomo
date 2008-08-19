@@ -44,15 +44,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('CoreHome/templates/index.tpl');
 		$this->setGeneralVariablesView($view);
-		
-		$site = new Piwik_Site($view->idSite);
-		$minDate = $site->getCreationDate();
-		
-		$view->minDateYear = $minDate->toString('Y');
-		$view->minDateMonth = $minDate->toString('m');
-		$view->minDateDay = $minDate->toString('d');
 		$view->content = '';
-		
 		return $view;
 	}
 	

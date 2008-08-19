@@ -16,14 +16,6 @@
 	text-align:center;
 }
 
-#addrow img {
-	vertical-align: middle;
-}
-
-#addrow a {
-	text-decoration: none;
-}
-
 #accessUpdated {
 	color: red;
 	text-align: center;
@@ -50,11 +42,17 @@
 	padding:1em;
 	font-weight:bold;
 }
+.addrow a {
+	text-decoration: none;
+}
+.addrow img {
+	vertical-align: middle;
+}
 </style>
 {/literal}
 
 <h2>{'UsersManager_ManageAccess'|translate}</h2>
-<p>Decide which users have which Piwik access on your Websites. You can also set the permissions on all the Websites at once.</p>
+<p>{'UsersManager_MainDescription'|translate}</p>
 <div id="sites">
 <form method="post" action="{url action=index}" id="accessSites">
 	<p>{'UsersManager_Sites'|translate}: <select id="selectIdsite" name="idsite" onchange="this.form.submit()">
@@ -62,6 +60,7 @@
 	<optgroup label="{'UsersManager_AllWebsites'|translate}">
 		<option label="{'UsersManager_AllWebsites'|translate}" value="all" {if $idSiteSelected=='all'} selected="selected"{/if}>{'UsersManager_ApplyToAllWebsites'|translate}</option>
 	</optgroup>
+	
 	<optgroup label="{'UsersManager_Sites'|translate}">
 		{foreach from=$websites item=info}
 			<option value="{$info.idsite}" {if $idSiteSelected==$info.idsite} selected="selected"{/if}>{$info.name}</option>
@@ -105,8 +104,8 @@
 </div> 
 
 <br/>
-<h2>Users Management</h2>
-<p>Create new users or update the existing users. You can then set their permissions above.</p>
+<h2>{'UsersManager_UsersManagement'|translate}</h2>
+<p>{'UsersManager_UsersManagementMainDescription'|translate}</p>
 <div id="ajaxError" style="display:none"></div>
 <div id="ajaxLoading" style="display:none"><div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate}</div></div>
 <table class="admin" id="users">
@@ -139,5 +138,5 @@
 	</tbody>
 </table>
 
-<div class="addrow"><img src='plugins/UsersManager/images/add.png'> {'UsersManager_AddUser'|translate}</div>
+<div class="addrow"><a href="#"><img src='plugins/UsersManager/images/add.png'> {'UsersManager_AddUser'|translate}</a></div>
 <script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>

@@ -162,6 +162,11 @@ class Test_Database extends UnitTestCase
 		Piwik::createTables();
 	}
 	
+	public function testHelloWorld()
+	{
+		$this->assertTrue(true);
+	}
+	
 	public function tearDown()
 	{
 		Piwik::dropDatabase();

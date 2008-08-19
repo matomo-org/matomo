@@ -34,7 +34,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 		Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerLocalTime', Piwik_Translate('VisitTime_WidgetLocalTime'));
 		Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerServerTime', Piwik_Translate('VisitTime_WidgetServerTime'));
 
-		Piwik_AddMenu('Visitors', Piwik_Translate('VisitTime_SubmenuTimes'), array('module' => 'VisitTime'));
+		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime'));
 	}
 	
 	function getListHooksRegistered()

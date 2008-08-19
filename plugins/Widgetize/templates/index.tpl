@@ -10,12 +10,9 @@
 <script type="text/javascript" src="libs/jquery/tooltip/jquery.tooltip.js"></script>
 <script type="text/javascript" src="libs/jquery/truncate/jquery.truncate.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.scrollTo.js"></script>
-<script type="text/javascript" src="libs/jquery/jquery-calendar.js"></script>
 <script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
 
 <script type="text/javascript" src="plugins/CoreHome/templates/datatable.js"></script>
-<script type="text/javascript" src="plugins/CoreHome/templates/date.js"></script>
-
 <script type="text/javascript" src="libs/jquery/ui.mouse.js"></script>
 <script type="text/javascript" src="libs/jquery/ui.sortable_modif.js"></script>
 
@@ -23,8 +20,8 @@
 <link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css">
 <script type="text/javascript" src="plugins/Widgetize/templates/widgetize.js"></script>
 
-<script type="text/javascript" src="http://widgets.clearspring.com/launchpad/include.js"></script>
-
+{*<script type="text/javascript" src="http://widgets.clearspring.com/launchpad/include.js"></script>
+*}
 {literal}
 <style>
 .menu {

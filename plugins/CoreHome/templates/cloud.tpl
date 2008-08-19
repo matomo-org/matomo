@@ -50,7 +50,7 @@ span.size6, span.size6 a {
 
 <div id="tagCloud">
 {if count($cloudValues) == 0}
-	<div id="emptyDatatable">No data for this tag cloud.</div>
+	<div id="emptyDatatable">{'General_NoDataForTagCloud'|translate}</div>
 {else}
 	{foreach from=$cloudValues key=word item=value}
 	<span title="{$value.word} ({$labelMetadata[$value.word].hits} hits)" class="word size{$value.size} {* we strike tags with 0 hits *} {if $labelMetadata[$value.word].hits == 0}valueIsZero{/if}">
