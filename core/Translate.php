@@ -123,7 +123,7 @@ class Piwik_Translate
 		$js = substr($js,0,-1);
 		$js .= '};';
 		$js .=	'if(typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }'.
-				'jQuery.each(translations, function(i, val) { console.log(val);piwik_translations[i] = val; } );';
+				'jQuery.each(translations, function(i, val) { piwik_translations[i] = val; } );';
 		$js .= 'function _pk_translate(tvar, str) { '.
 			'var s = str; if( typeof(piwik_translations[tvar]) != \'undefined\' ){  s = piwik_translations[tvar]; }'.
 			'return s;}';
