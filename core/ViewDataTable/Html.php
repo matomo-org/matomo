@@ -75,8 +75,6 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 		
-//		$i=0;while($i<1500000){ $j=$i*$i;$i++;}
-		
 		$this->loadDataTableFromAPI();
 	
 		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)

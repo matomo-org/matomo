@@ -52,7 +52,7 @@ if(!isset($GLOBALS['Piwik_Oslist']))
 						'HP-UX'          => 'HPX', 
 						'OS/2'           => 'OS2', 
 						'NetBSD'         => 'NBS',
-						'Unknown'        => 'XXX' 
+						'Unknown'        => 'UNK' 
 		);
 		
 		
@@ -81,6 +81,6 @@ if(!isset($GLOBALS['Piwik_Oslist']))
 		'HPX' => 'HPX', 
 		'OS2' => 'OS/2', 
 		'NBS' => 'NetBSD',
-		'XXX' => 'Unknown',
+		'UNK' => 'Unknown',
 		);
 }

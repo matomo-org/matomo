@@ -27,6 +27,17 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		
 		return $info;
 	}
+
+	function getListHooksRegistered()
+	{
+		$hooks = array(
+			'ArchiveProcessing_Day.compute' => 'archiveDay',
+			'ArchiveProcessing_Period.compute' => 'archivePeriod',
+			'WidgetsList.add' => 'addWidgets',
+			'Menu.add' => 'addMenu',
+		);
+		return $hooks;
+	}
 	
 	protected $timeGap = array(
 			array(0, 0.5),
@@ -53,27 +64,23 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			array(20)
 		);
 
-	
-	function postLoad()
+	function addWidgets()
 	{
 		Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration', Piwik_Translate('VisitorInterest_WidgetLengths'));
 		Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerPage', Piwik_Translate('VisitorInterest_WidgetPages'));
-		
+	}
+	function addMenu()
+	{
 		Piwik_RenameMenuEntry('General_Visitors', 'VisitFrequency_SubmenuFrequency', 
 							  'General_Visitors', 'VisitorInterest_SubmenuFrequencyLoyalty' );
-		
+	}
+
+	function postLoad()
+	{
 		Piwik_AddAction('template_headerVisitsFrequency', array('Piwik_VisitorInterest','headerVisitsFrequency'));
 		Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest','footerVisitsFrequency'));
 	}
 	
-	function getListHooksRegistered()
-	{
-		$hooks = array(
-			'ArchiveProcessing_Day.compute' => 'archiveDay',
-			'ArchiveProcessing_Period.compute' => 'archivePeriod',
-		);
-		return $hooks;
-	}
 	
 	function archivePeriod( $notification )
 	{

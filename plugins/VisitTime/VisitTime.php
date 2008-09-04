@@ -11,7 +11,6 @@
  */
 	
 /**
- * 
  * @package Piwik_VisitTime
  */
 class Piwik_VisitTime extends Piwik_Plugin
@@ -25,25 +24,29 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
-		
 		return $info;
 	}
-	
-	function postLoad()
-	{
-		Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerLocalTime', Piwik_Translate('VisitTime_WidgetLocalTime'));
-		Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerServerTime', Piwik_Translate('VisitTime_WidgetServerTime'));
 
-		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime'));
-	}
-	
 	function getListHooksRegistered()
 	{
 		$hooks = array(
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
+			'WidgetsList.add' => 'addWidgets',
+			'Menu.add' => 'addMenu',
 		);
 		return $hooks;
+	}
+	
+	function addWidgets()
+	{
+		Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerLocalTime', Piwik_Translate('VisitTime_WidgetLocalTime'));
+		Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerServerTime', Piwik_Translate('VisitTime_WidgetServerTime'));
+	}
+	
+	function addMenu()
+	{
+		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime'));
 	}
 
 	function archivePeriod( $notification )

@@ -1,7 +1,23 @@
+
 MAILING LIST SESSION!!!!!!!!!!!!!!!!!!!!!!!!
+handle google chrome
 PLUGINS HAVE THEIR OWN TESTS
 
+
+fdd2div clean in /libs
+thank you page for translators loaded on wiki
+api for setLanguage/getLanguage
+site selector is hidden first, then shown
+
+remove cookie detection as it is completely wrong
+remove color_depth field
+plugins should listen to user delete/ site delete and delete their own user/site related data
+
+in API request, menu/widget hooks should not be triggered
+
+//WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
 embed widgets codes above widget?
+Undefined text for "loading data..." on piwik.org demo!
 test set wrong permission and trigger frontController:checkDir
 
 why widgetize inherits Piwik_Widgetize_Controller
@@ -28,6 +44,15 @@ postEvent smarty doc is not clear, + feature we're not using (filter but what we
 2. If the user is only allowed to see one website to analyze the
    dropdown-control for other sites could be hidden.
    
+Live!
+====
+- api propre
+- html
+- jquery spy
+- simple stats above in TEXT
+- Security review
+- blog post, push version
+
 to check
 ========
 check that when online archiving disabled, take the last valid archiving

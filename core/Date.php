@@ -23,31 +23,22 @@ class Piwik_Date
 	 * @param string $strDate
 	 * @return Piwik_Date
 	 */
-	static public function factory($strDate)
+	static public function factory($dateString)
 	{
-		if(is_int($strDate)) 
+		if($dateString == 'today') 
 		{
-			return new Date($strDate);
+			return self::today();
 		}
-		if(is_string($strDate))
+		if($dateString == 'yesterday')
 		{
-			if($strDate == 'today') 
-			{
-				return self::today();
-			}
-			elseif($strDate == 'yesterday')
-			{
-				return self::yesterday();
-			}
-			else
-			{
-				if (($timestamp = strtotime($strDate)) === false) 
-				{
-					throw new Exception("The date '$strDate' is not correct. The date format is YYYY-MM-DD or you can also use magic keywords such as 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
-				}
-				return new Piwik_Date($timestamp);
-			}
+			return self::yesterday();
 		}
+		if (!is_int($dateString)
+			&& ($dateString = strtotime($dateString)) === false) 
+		{
+			throw new Exception("The date '$dateString' is not correct. The date format is YYYY-MM-DD or you can also use magic keywords such as 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
+		}
+		return new Piwik_Date($dateString);
 	}
 	
 	/**
@@ -55,13 +46,23 @@ class Piwik_Date
 	 * 
 	 * @param int timestamp
 	 */
-	public function __construct( $date )
+	protected function __construct( $date )
 	{
 		if(!is_int( $date ))
 		{
 			throw new Exception("Piwik_Date is expecting a unix timestamp");
 		}
 		$this->timestamp =  $date ;
+	}
+	
+	/*
+	 * @param int Timestamp
+	 * @return string Pretty date in the current locale
+	 */
+	static public function getPrettyDateFromTimestamp($timestamp)
+	{
+		$date = Piwik_Date::factory($timestamp);
+		return $date->getLocalized(Piwik_Translate('CoreHome_LocalizedDateFormat'));
 	}
 	
 	/**
@@ -237,6 +238,7 @@ class Piwik_Date
 	/**
 	 * Returns a localized representation of a date or datepart
 	 *
+	 * @see Windows compatible arguments http://msdn.microsoft.com/en-us/library/fe06s4ak(VS.71).aspx
 	 * @param string OPTIONAL Part of the date to return (in strftime format), if null timestamp is returned
 	 * @return integer|string date or datepart
 	 */
@@ -336,6 +338,4 @@ class Piwik_Date
 	{
 		return new Piwik_Date(strtotime("yesterday"));
 	}
-	
 }
-

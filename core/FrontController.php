@@ -35,7 +35,7 @@ require_once "Controller.php";
 
 require_once "PluginsFunctions/Menu.php";
 require_once "PluginsFunctions/AdminMenu.php";
-require_once "PluginsFunctions/Widget.php";
+require_once "PluginsFunctions/WidgetsList.php";
 require_once "PluginsFunctions/Sql.php";
 
 /**

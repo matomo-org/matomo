@@ -11,7 +11,8 @@
 
 class Piwik_LanguagesManager extends Piwik_Plugin
 {
-	static protected $languagesAvailable = null;
+	static protected $availableLanguageNames = null;
+	static protected $languageNames = null;
 	
 	public function getInformation()
 	{
@@ -47,7 +48,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	function showLanguagesSelector()
 	{
 		$view = new Piwik_View("LanguagesManager/templates/languages.tpl");
-		$view->languages = self::getListAvailableLanguages();
+		$view->languages = self::getAvailableLanguageNames();
 		$view->currentLanguage = self::getLanguageForCurrentUser();
 		echo $view ->render();
 	}
@@ -66,7 +67,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$languageCode = self::getLanguageFromPreferences();
 		if(!self::isLanguageAvailable($languageCode))
 		{
-			$languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), array_keys(self::getListAvailableLanguages()));
+			$languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), array_keys(self::getAvailableLanguages()));
 		}
 		if(!self::isLanguageAvailable($languageCode))
 		{
@@ -78,28 +79,41 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	static public function isLanguageAvailable($languageCode)
 	{
 		return $languageCode !== false
-			&& in_array($languageCode, array_keys(self::getListAvailableLanguages()));
+			&& in_array($languageCode, array_keys(self::getAvailableLanguages()));
 	}
 	
-	static public function getListAvailableLanguages()
+	static public function getAvailableLanguages()
 	{
-		if(!is_null(self::$languagesAvailable))
+		if(!is_null(self::$languageNames))
 		{
-			return self::$languagesAvailable;
+			return self::$languageNames;
 		}
-		
-		$pathToLang = 'lang/';
-		$languages = glob( $pathToLang . "*");
-		$languagesInfo = array();
+		$languages = glob( "lang/*");
+		$languageNames = array();
 		foreach($languages as $language) 
 		{
-			require $language;
-			$languagePrefix = substr($language, strlen($pathToLang), -strlen('.php'));
-			$languagesInfo[$languagePrefix] = $translations['General_OriginalLanguageName'];
+			$languageNames[] = substr($language, strlen("lang/"), -strlen('.php'));
+		}
+		self::$languageNames = $languageNames;
+		return $languageNames;
+	}
+	
+	static public function getAvailableLanguageNames()
+	{
+		if(!is_null(self::$availableLanguageNames))
+		{
+			return self::$availableLanguageNames;
+		}
+		
+		$filenames = self::getAvailableLanguages();
+		foreach($filenames as $filename) 
+		{
+			require "lang/$filename.php";
+			$languagesInfo[$filename] = $translations['General_OriginalLanguageName'];
 		}
 		asort($languagesInfo);
-		self::$languagesAvailable = $languagesInfo;
-		return self::$languagesAvailable;
+		self::$availableLanguageNames = $languagesInfo;
+		return self::$availableLanguageNames;
 	}
 	
 	static protected function getLanguageFromPreferences()

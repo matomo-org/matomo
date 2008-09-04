@@ -10,6 +10,7 @@
  * @package Piwik_API
  */
 
+require_once "API/ResponseBuilder.php";
 
 /**
  * An API request is the object used to make a call to the API and get the result.
@@ -38,7 +39,7 @@
  */
 class Piwik_API_Request
 {	
-	protected $outputFormatRequested;
+	protected $request = null;
 	
 	/**
 	 * Constructs the request to the API, given the request url
@@ -64,35 +65,16 @@ class Piwik_API_Request
 			$requestArray = array_merge( $_REQUEST, $requestArray);
 		}
 		
-		// remove all spaces from parameters values (when calling internally the API for example)
 		foreach($requestArray as &$element)
 		{
-			// sometimes GET parameters can be arrays but we assume module accepting arrays are correctly handling spaces
 			if(!is_array($element))
 			{
 				$element = trim($element);
 			}			
 		}
 		
-		$this->requestToUse = $requestArray;
+		$this->request = $requestArray;
 	}
-	
-	/**
-	 * Returns array( $class, $method) from the given string $class.$method
-	 * 
-	 * @return array
-	 * @throws exception if the name is invalid
-	 */
-	private function extractModuleAndMethod($parameter)
-	{
-		$a = explode('.',$parameter);
-		if(count($a) != 2)
-		{
-			throw new Exception("The method name is invalid. Must be on the form 'module.methodName'");
-		}
-		return $a;
-	}
-
 	
 	/**
 	 * Handles the request to the API.
@@ -106,14 +88,16 @@ class Piwik_API_Request
 	 */
 	public function process()
 	{
+		// read the format requested for the output data
+		$outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'xml', 'string', $this->request));
+		
+		// create the response
+		$response = new Piwik_API_ResponseBuilder($this->request, $outputFormat);
+		
 		try {
-			
-			// read the format requested for the output data
-			$this->outputFormatRequested = Piwik_Common::getRequestVar('format', 'xml', 'string', $this->requestToUse);
-			$this->outputFormatRequested = strtolower($this->outputFormatRequested);
 		
 			// read parameters
-			$moduleMethod = Piwik_Common::getRequestVar('method', null, null, $this->requestToUse);
+			$moduleMethod = Piwik_Common::getRequestVar('method', null, null, $this->request);
 			
 			list($module, $method) = $this->extractModuleAndMethod($moduleMethod); 
 			
@@ -133,333 +117,19 @@ class Piwik_API_Request
 			
 			// get the list of parameters required by the method
 			$parameters = $api->getParametersList($className, $method);
-			
+
 			// load the parameters from the request URL
 			$finalParameters = $this->getRequestParametersArray( $parameters );
 			
 			// call the method 
 			$returnedValue = call_user_func_array( array( $api->$module, $method), $finalParameters );
 			
-			// post process the data
-			$toReturn = $this->handleReturnedValue( $returnedValue );
-			
+			$toReturn = $response->getResponse($returnedValue);
 			
 		} catch(Exception $e ) {
-			
-			// if it is not a direct API call, we are requesting the original data structure
-			// and we actually are handling this exception at the top level in the FrontController
-			if($this->outputFormatRequested == 'original')
-			{
-				throw $e;
-			}
-			$message = $e->getMessage();
-						
-			$toReturn =  $this->getExceptionOutput( $message, $this->outputFormatRequested);
-			
-		}
-		
-		return $toReturn;
-	}
-	
-	/**
-	 * Returns the values of the current request
-	 *
-	 * @param array Parameters array of the method called. Contains name and default values of the required parameters
-	 * @return array Values of the given parameters
-	 * @throws exception If there is a missing parameter
-	 */
-	protected function getRequestParametersArray( $parameters )
-	{
-		$finalParameters = array();
-		foreach($parameters as $name => $defaultValue)
-		{
-			try{
-				// there is a default value specified
-				if($defaultValue !== Piwik_API_Proxy::NO_DEFAULT_VALUE)
-				{
-					$requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $this->requestToUse);
-				}
-				else
-				{
-					$requestValue = Piwik_Common::getRequestVar($name, null, null, $this->requestToUse);				
-				}
-			} catch(Exception $e) {
-				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request. Add the parameter '&$name=' (with a value) in the URL.");
-			}			
-			$finalParameters[] = $requestValue;
-		}
-		return $finalParameters;
-	}
-	
-	/**
-	 * This method post processes the data resulting from the API call.
-	 * 
-	 * - If the data resulted from the API call is a Piwik_DataTable then 
-	 * 		- we apply the standard filters if the parameters have been found
-	 * 		  in the URL. For example to offset,limit the Table you can add the following parameters to any API
-	 *  	  call that returns a DataTable: filter_limit=10&filter_offset=20
-	 * 		- we apply the filters that have been previously queued on the DataTable
-	 *        @see Piwik_DataTable::queueFilter()
-	 * 		- we apply the renderer that generate the DataTable in a given format (XML, PHP, HTML, JSON, etc.) 
-	 * 		  the format can be changed using the 'format' parameter in the request.
-	 *        Example: format=xml
-	 * 
-	 * - If there is nothing returned (void) we display a standard success message
-	 * 
-	 * - If there is a PHP array returned, we try to convert it to a dataTable 
-	 *   It is then possible to convert this datatable to any requested format (xml/etc)
-	 * 
-	 * - If a bool is returned we convert to a string (true is displayed as 'true' false as 'false')
-	 * 
-	 * - If an integer / float is returned, we simply return it
-	 * 
-	 * @throws Exception If an object/resource is returned, if any of conversion fails, etc. 
-	 * 
-	 * @param mixed The initial returned value, before post process
-	 * @return mixed Usually a string, but can still be a PHP data structure if the format requested is 'original'
-	 */
-	protected function handleReturnedValue( $returnedValue ) 
-	{
-		$toReturn = $returnedValue;
-		
-		// If the returned value is an object DataTable we
-		// apply the set of generic filters if asked in the URL
-		// and we render the DataTable according to the format specified in the URL
-		if($returnedValue instanceof Piwik_DataTable
-			|| $returnedValue instanceof Piwik_DataTable_Array)
-		{
-			if($returnedValue instanceof Piwik_DataTable)
-			{
-				$this->applyDataTableGenericFilters($returnedValue);
-			}
-			elseif($returnedValue instanceof Piwik_DataTable_Array)
-			{
-				$tables = $returnedValue->getArray();
-				foreach($tables as $table)
-				{
-					$this->applyDataTableGenericFilters($table);
-				}
-			}
-			
-			// if the flag disable_queued_filters is defined we skip the filters that were queued
-			// useful in some very rare cases but better to use this than a bad hack on the data returned...
-			if(Piwik_Common::getRequestVar('disable_queued_filters', 'false', 'string', $this->requestToUse) == 'false')
-			{
-				$returnedValue->applyQueuedFilters();
-			}			
-			
-			$toReturn = $this->getRenderedDataTable($returnedValue);
-		}
-		
-		// Case nothing returned (really nothing was 'return'ed), 
-		// => the operation was successful
-		elseif(!isset($toReturn))
-		{
-			$toReturn = $this->getStandardSuccessOutput($this->outputFormatRequested);
-		}
-		
-		// Case an array is returned from the API call, we convert it to the requested format
-		// - if calling from inside the application (format = original)
-		//    => the data stays unchanged (ie. a standard php array or whatever data structure)
-		// - if any other format is requested, we have to convert this data structure (which we assume 
-		//   to be an array) to a DataTable in order to apply the requested DataTable_Renderer (for example XML)
-		elseif(is_array($toReturn))
-		{
-			if($this->outputFormatRequested == 'original')
-			{
-				// we handle the serialization. Because some php array have a very special structure that 
-				// couldn't be converted with the automatic DataTable->loadFromSimpleArray
-				// the user may want to request the original PHP data structure serialized by the API
-				// in case he has to setup serialize=1 in the URL
-				if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
-				{
-					$toReturn = serialize($toReturn);
-				}
-			}
-			else
-			{
-				$dataTable = new Piwik_DataTable();
-				$dataTable->loadFromSimpleArray($toReturn);
-				$toReturn = $this->getRenderedDataTable($dataTable);
-			}
-		}
-		// bool // integer // float // object is serialized
-		// NB: null value is already handled by the isset() test above
-		else
-		{
-			// original data structure requested, we return without process
-			if( $this->outputFormatRequested == 'original' )
-			{
-				return $toReturn;
-			}
-			
-			if( $toReturn === true )
-			{
-				$toReturn = 'true';
-			}
-			elseif( $toReturn === false )
-			{
-				$toReturn = 'false';
-			}
-			elseif( is_object($toReturn)
-					|| is_resource($toReturn))
-			{
-				return $this->getExceptionOutput('The API cannot handle this data structure.', $this->outputFormatRequested);
-			}
-			
-			require_once "DataTable/Simple.php";
-			$dataTable = new Piwik_DataTable_Simple();
-			$dataTable->loadFromArray( array($toReturn) );
-			$toReturn = $this->getRenderedDataTable($dataTable);
+			return $response->getResponseException( $e );
 		}
 		return $toReturn;
-	}
-	
-	/**
-	 * Returns a success $message in the requested $format 
-	 *
-	 * @param string $format xml/json/php/csv
-	 * @param string $message
-	 * @return string
-	 */
-	protected function getStandardSuccessOutput($format, $message = 'ok')
-	{
-		switch($format)
-		{
-			case 'xml':
-				@header("Content-Type: text/xml;charset=utf-8");
-				$return = 
-					'<?xml version="1.0" encoding="utf-8" ?>'.
-					'<result>'.
-					'	<success message="'.$message.'" />'.
-					'</result>';
-			break;
-			case 'json':
-				@header( "Content-type: application/json" );
-				$return = '{"result":"success", "message":"'.$message.'"}';
-			break;
-			case 'php':
-				$return = array('result' => 'success', 'message' => $message);
-				if($this->caseRendererPHPSerialize())
-				{
-					$return = serialize($return);
-				}
-			break;
-			
-			case 'csv':
-				header("Content-type: application/vnd.ms-excel");
-				header("Content-Disposition: attachment; filename=piwik-report-export.csv");	
-				$return = "message\n".$message;
-			break;
-			
-			default:
-				$return = 'Success:'.$message;
-			break;
-		}
-		
-		return $return;
-	}
-	
-	/**
-	 * Returns an error $message in the requested $format 
-	 *
-	 * @param string $format xml/json/php/csv
-	 * @param string $message
-	 * @return string
-	 */
-	protected function getExceptionOutput($message, $format)
-	{
-		$message = htmlentities($message, ENT_COMPAT, "UTF-8");
-		switch($format)
-		{
-			case 'xml':
-				@header("Content-Type: text/xml;charset=utf-8");
-				$return = 
-					'<?xml version="1.0" encoding="utf-8" ?>'.
-					'<result>'.
-					'	<error message="'.$message.'" />'.
-					'</result>';
-			break;
-			case 'json':
-				@header( "Content-type: application/json" );
-				// we remove the \n from the resulting string as this is not allowed in json
-				$message = str_replace("\n","",$message);
-				$return = '{"result":"error", "message":"'.$message.'"}';
-			break;
-			case 'php':
-				$return = array('result' => 'error', 'message' => $message);
-				if($this->caseRendererPHPSerialize())
-				{
-					$return = serialize($return);
-				}
-			break;
-			default:
-				$return = 'Error: '.$message;
-			break;
-		}
-		return $return;
-	}
-
-	/**
-	 * Apply the specified renderer to the DataTable
-	 * 
-	 * @param Piwik_DataTable
-	 * @return string
-	 */
-	protected function getRenderedDataTable($dataTable)
-	{
-		// Renderer
-		$format = Piwik_Common::getRequestVar('format', 'php', 'string', $this->requestToUse);
-		$format = strtolower($format);
-		
-		// if asked for original dataStructure
-		if($format == 'original')
-		{
-			// if the original dataStructure is a simpleDataTable and has only one row, we return the value
-			if($dataTable instanceof Piwik_DataTable_Simple
-				&& $dataTable->getRowsCount() == 1)
-			{
-				return $dataTable->getRowFromId(0)->getColumn('value');
-			}
-			
-			// the original data structure can be asked as serialized. 
-			// but by default it's not serialized
-			if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
-			{
-				$dataTable = serialize($dataTable);
-			}
-			return $dataTable;
-		}
-		
-		$renderer = Piwik_DataTable_Renderer::factory($format);
-		$renderer->setTable($dataTable);
-		
-		if($format == 'php')
-		{
-			$renderer->setSerialize( $this->caseRendererPHPSerialize());
-		}
-		
-		$toReturn = $renderer->render();
-		return $toReturn;
-	}
-	
-	/**
-	 * Returns true if the user requested to serialize the output data (&serialize=1 in the request)
-	 *
-	 * @param $defaultSerializeValue Default value in case the user hasn't specified a value
-	 * @return bool
-	 */	
-	protected function caseRendererPHPSerialize($defaultSerializeValue = 1)
-	{
-		$serialize = Piwik_Common::getRequestVar('serialize', $defaultSerializeValue, 'int', $this->requestToUse);
-		if($serialize)
-		{
-			return true;
-		}
-		else
-		{
-			return false;		
-		}
 	}
 	
 	/**
@@ -492,96 +162,62 @@ class Piwik_API_Request
 								'filter_offset' 			=> array('integer', '0'),
 								'filter_limit' 				=> array('integer', Zend_Registry::get('config')->General->dataTable_default_limit),
 						),
+			'ExactMatch' => array(
+								'filter_exact_column'		=> array('string'),
+								'filter_exact_pattern'		=> array('array'),
+						),
 		);
 		
 		return $genericFilters;
 	}
 	
-	
 	/**
-	 * Apply generic filters to the DataTable object resulting from the API Call.
-	 * Disable this feature by setting the parameter disable_generic_filters to 1 in the API call request.
-	 * 
-	 * @param Piwik_DataTable
-	 * @return void
+	 * Returns an array containing the values of the parameters to pass to the method to call
+	 *
+	 * @param array array of (parameter name, default value)
+	 * @return array values to pass to the function call
+	 * @throws exception If there is a parameter missing from the required function parameters
 	 */
-	protected function applyDataTableGenericFilters($dataTable)
+	protected function getRequestParametersArray( $parameters )
 	{
-		if($dataTable instanceof Piwik_DataTable_Array )
+		$finalParameters = array();
+		foreach($parameters as $name => $defaultValue)
 		{
-			$tables = $dataTable->getArray();
-			foreach($tables as $table)
-			{
-				$this->applyDataTableGenericFilters($table);
-			}
-			return;
+			try{
+				if($defaultValue === Piwik_API_Proxy::NO_DEFAULT_VALUE)
+				{
+					try {
+						$requestValue = Piwik_Common::getRequestVar($name, null, null, $this->request);
+					} catch(Exception $e) {
+						$requestValue = null;
+					}
+				}
+				else
+				{
+					$requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $this->request);
+				}
+			} catch(Exception $e) {
+				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request. Add the parameter '&$name=' (with a value) in the URL.");
+			}			
+			$finalParameters[] = $requestValue;
 		}
-		
-		// Generic filters
-		// PatternFileName => Parameter names to match to constructor parameters
-		/*
-		 * Order to apply the filters:
-		 * 1 - Filter that remove filtered rows
-		 * 2 - Filter that sort the remaining rows
-		 * 3 - Filter that keep only a subset of the results
-		 */
-		$genericFilters = Piwik_API_Request::getGenericFiltersInformation();
-		
-		// if the flag disable_generic_filters is defined we skip the generic filters
-		if(Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->requestToUse) != 'false')
-		{
-			return;
-		}
-		
-		foreach($genericFilters as $filterName => $parameters)
-		{
-			$filterParameters = array();
-			$exceptionRaised = false;
-			
-			foreach($parameters as $name => $info)
-			{
-				// parameter type to cast to
-				$type = $info[0];
-				
-				// default value if specified, when the parameter doesn't have a value
-				$defaultValue = null;
-				if(isset($info[1]))
-				{
-					$defaultValue = $info[1];
-				}
-				
-				try {
-					$value = Piwik_Common::getRequestVar($name, $defaultValue, $type, $this->requestToUse);
-					settype($value, $type);
-					$filterParameters[] = $value;
-				}
-				catch(Exception $e)
-				{
-					$exceptionRaised = true;
-					break;
-				}
-			}
-			
-			if(!$exceptionRaised)
-			{				
-				// a generic filter class name must follow this pattern
-				$class = "Piwik_DataTable_Filter_".$filterName;
-				
-				if($filterName == 'Limit')
-				{
-					$dataTable->setRowsCountBeforeLimitFilter();
-				}
-				
-				// build the set of parameters for the filter					
-				$filterParameters = array_merge(array($dataTable), $filterParameters);
+		return $finalParameters;
+	}
 
-				// make a reflection object
-				$reflectionObj = new ReflectionClass($class);
-				
-				// use Reflection to create a new instance, using the $args
-				$filter = $reflectionObj->newInstanceArgs($filterParameters); 
-			}
+	/**
+	 * Returns array( $class, $method) from the given string $class.$method
+	 * 
+	 * @return array
+	 * @throws exception if the name is invalid
+	 */
+	private function extractModuleAndMethod($parameter)
+	{
+		$a = explode('.',$parameter);
+		if(count($a) != 2)
+		{
+			throw new Exception("The method name is invalid. Must be on the form 'module.methodName'");
 		}
+		return $a;
 	}
 
 }

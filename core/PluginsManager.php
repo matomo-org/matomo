@@ -29,10 +29,7 @@ class Piwik_PluginsManager
 	protected $loadedPlugins = array();
 	
 	protected $doLoadAlwaysActivatedPlugins = true;
-	protected $pluginToAlwaysActivate = array(	'CoreHome', 
-												'CoreAdminHome',
-												'CorePluginsAdmin'
-											);
+	protected $pluginToAlwaysActivate = array( 'CoreHome', 'CoreAdminHome', 'CorePluginsAdmin' );
 
 	static private $instance = null;
 	
@@ -403,7 +400,7 @@ class Piwik_PluginsManager
 			throw new Exception("Language file not found for the plugin '$pluginName'.");
 		}
 		
-		Piwik_Translate::getInstance()->addTranslationArray($translations);
+		Piwik_Translate::getInstance()->mergeTranslationArray($translations);
 	}
 	
 	private function installPlugin( Piwik_Plugin $plugin )

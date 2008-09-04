@@ -15,7 +15,6 @@
  */
 class Piwik_UserCountry extends Piwik_Plugin
 {	
-
 	public function getInformation()
 	{
 		$info = array(
@@ -25,16 +24,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
-		
 		return $info;
-	}
-	
-	public function postLoad()
-	{
-		Piwik_AddWidget( 'UserCountry', 'getContinent', Piwik_Translate('UserCountry_WidgetContinents'));
-		Piwik_AddWidget( 'UserCountry', 'getCountry', Piwik_Translate('UserCountry_WidgetCountries'));
-
-		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry'));
 	}
 	
 	function getListHooksRegistered()
@@ -42,9 +32,22 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$hooks = array(
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
+			'WidgetsList.add' => 'addWidgets',
+			'Menu.add' => 'addMenu',
 		);
 		return $hooks;
 	}	
+	
+	function addWidgets()
+	{
+		Piwik_AddWidget( 'UserCountry', 'getContinent', Piwik_Translate('UserCountry_WidgetContinents'));
+		Piwik_AddWidget( 'UserCountry', 'getCountry', Piwik_Translate('UserCountry_WidgetCountries'));
+	}
+	
+	function addMenu()
+	{
+		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry'));
+	}
 	
 	function archivePeriod( $notification )
 	{
@@ -59,8 +62,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$record = new Piwik_ArchiveProcessing_Record_Numeric(
 												'UserCountry_distinctCountries', 
 												$nameToCount['UserCountry_country']['level0']
-												);
+											);
 	}
+	
 	function archiveDay($notification)
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -71,25 +75,21 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$record = new Piwik_ArchiveProcessing_Record_Numeric('UserCountry_distinctCountries', $tableCountry->getRowsCount());
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableCountry->getSerialized());
 
-//		echo $tableCountry;
-		
 		$recordName = 'UserCountry_continent';
 		$labelSQL = "location_continent";
 		$tableContinent = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableContinent->getSerialized());
-//		echo $tableContinent;
-//		Piwik::printMemoryUsage("End of ".get_class($this)." "); 
 	}
 }
 
 require_once "ViewDataTable.php";
+
 class Piwik_UserCountry_Controller extends Piwik_Controller 
 {
 	function index()
 	{
 		$view = new Piwik_View('UserCountry/index.tpl');
 		
-		/* User Country */
 		$view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
 		$view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
 		
@@ -99,9 +99,6 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
-	/**
-	 * User Country
-	 */
 	function getCountry( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
@@ -111,10 +108,6 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
 		$view->setSortedColumn( 1 );
 		$view->disableSearchBox();
-		
-		// sorting by label is not correct as the labels are the ISO codes before being
-		// mapped to the country names
-//		$view->disableSort();
 		$view->setLimit( 5 );
 		
 		return $this->renderView($view, $fetch);
@@ -144,6 +137,38 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
-	
 }
 
+
+function Piwik_getFlagFromCode($code)
+{
+	$path = 'plugins/UserCountry/flags/%s.png';
+	
+	$normalPath = sprintf($path,$code);
+	
+	// flags not in the package !
+	if(!file_exists($normalPath))
+	{
+		return sprintf($path, 'xx');			
+	}
+	return $normalPath;
+}
+
+function Piwik_ContinentTranslate($label)
+{
+	if($label == 'unk')
+	{
+		return Piwik_Translate('General_Unknown');
+	}
+	
+	return Piwik_Translate('UserCountry_continent_'. $label);
+}
+
+function Piwik_CountryTranslate($label)
+{
+	if($label == 'xx')
+	{
+		return Piwik_Translate('General_Unknown');
+	}
+	return Piwik_Translate('UserCountry_country_'. $label);
+}

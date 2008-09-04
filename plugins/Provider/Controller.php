@@ -1,7 +1,6 @@
 <?php
-
-
 require_once "ViewDataTable.php";
+
 class Piwik_Provider_Controller extends Piwik_Controller 
 {	
 	/**

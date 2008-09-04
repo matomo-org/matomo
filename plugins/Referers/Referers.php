@@ -10,17 +10,10 @@
  */
 	
 /**
- * 
  * @package Piwik_Referers
  */
 class Piwik_Referers extends Piwik_Plugin
 {	
-	public function setCategoryDelimiter($delimiter)
-	{
-		self::$actionCategoryDelimiter = $delimiter;
-	}
-	
-
 	public function getInformation()
 	{
 		$info = array(
@@ -34,7 +27,23 @@ class Piwik_Referers extends Piwik_Plugin
 		return $info;
 	}
 	
-	function postLoad()
+	function getListHooksRegistered()
+	{
+		$hooks = array(
+			'ArchiveProcessing_Day.compute' => 'archiveDay',
+			'ArchiveProcessing_Period.compute' => 'archivePeriod',
+			'WidgetsList.add' => 'addWidgets',
+			'Menu.add' => 'addMenus',
+		);
+		return $hooks;
+	}
+
+	public function setCategoryDelimiter($delimiter)
+	{
+		self::$actionCategoryDelimiter = $delimiter;
+	}
+	
+	function addWidgets()
 	{
 		Piwik_AddWidget( 'Referers', 'getKeywords', Piwik_Translate('Referers_WidgetKeywords'));
 		Piwik_AddWidget( 'Referers', 'getPartners', Piwik_Translate('Referers_WidgetPartners'));
@@ -42,35 +51,29 @@ class Piwik_Referers extends Piwik_Plugin
 		Piwik_AddWidget( 'Referers', 'getWebsites', Piwik_Translate('Referers_WidgetExternalWebsites'));
 		Piwik_AddWidget( 'Referers', 'getSearchEngines', Piwik_Translate('Referers_WidgetSearchEngines'));
 		Piwik_AddWidget( 'Referers', 'getRefererType', Piwik_Translate('Referers_WidgetOverview'));
-
+	}
+	
+	function addMenus()
+	{
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuSearchEngines', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'getWebsites'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'getCampaigns'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuPartners', array('module' => 'Referers', 'action' => 'getPartners'));	
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers', 'action' => 'getSearchEnginesEvolution'));
 	}
-		
-	function getListHooksRegistered()
-	{
-		$hooks = array(
-			'ArchiveProcessing_Day.compute' => 'archiveDay',
-			'ArchiveProcessing_Period.compute' => 'archivePeriod',
-		);
-		return $hooks;
-	}
-	
 	
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		$dataTableToSum = array( 
-				'Referers_type',
-				'Referers_keywordBySearchEngine',
-				'Referers_searchEngineByKeyword',
-				'Referers_keywordByCampaign',
-				'Referers_urlByWebsite',
-				'Referers_urlByPartner',
+			'Referers_type',
+			'Referers_keywordBySearchEngine',
+			'Referers_searchEngineByKeyword',
+			'Referers_keywordByCampaign',
+			'Referers_urlByWebsite',
+			'Referers_urlByPartner',
 		);
 		
 		$maximumRowsInDataTableLevelZero = 500;
@@ -149,10 +152,7 @@ class Piwik_Referers extends Piwik_Plugin
 				 		AND idsite = ?
 				 	GROUP BY referer_type, referer_name, referer_keyword";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-		
-		$timer = new Piwik_Timer;
-		
-		
+
 		$interestBySearchEngine =
 			$interestByKeyword =
 			$keywordBySearchEngine =
@@ -280,4 +280,3 @@ class Piwik_Referers extends Piwik_Plugin
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_urlByPartner', $data);
 	}
 }
-

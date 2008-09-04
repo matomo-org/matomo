@@ -22,7 +22,12 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 		);
 	}
 	
-	function postLoad()
+	function getListHooksRegistered()
+	{
+		return array('AdminMenu.add' => 'addMenu');
+	}
+	
+	function addMenu()
 	{
 		Piwik_AddAdminMenu(Piwik_Translate('CorePluginsAdmin_MenuPlugins'), array('module' => 'CorePluginsAdmin', 'action' => 'index'));		
 	}

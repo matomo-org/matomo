@@ -24,8 +24,13 @@ class Piwik_DBStats extends Piwik_Plugin
 			'version' => '0.1',
 		);
 	}
+
+	function getListHooksRegistered()
+	{
+		return array('AdminMenu.add' => 'addMenu');
+	}
 	
-	function postLoad()
+	function addMenu()
 	{
 		Piwik_AddAdminMenu("Database usage", array('module' => 'DBStats', 'action' => 'index'));		
 	}

@@ -27,7 +27,12 @@ class Piwik_SitesManager extends Piwik_Plugin
 		return $info;
 	}
 	
-	function postLoad()
+	function getListHooksRegistered()
+	{
+		return array('AdminMenu.add' => 'addMenu');
+	}
+	
+	function addMenu()
 	{
 		Piwik_AddAdminMenu(Piwik_Translate('SitesManager_MenuSites'), array('module' => 'SitesManager', 'action' => 'index'));		
 	}

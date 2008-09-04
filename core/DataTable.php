@@ -830,6 +830,7 @@ class Piwik_DataTable
 	 * 			)
 	 * @return void
 	 */
+	//TODO rename addRowsFromArray
 	public function loadFromArray( $array )
 	{
 		foreach($array as $id => $row)
