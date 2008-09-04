@@ -364,6 +364,8 @@ abstract class Piwik_ViewDataTable
 			'filter_excludelowpop_value',
 			'filter_column', 
 			'filter_pattern',
+			'filter_exact_pattern',
+			'filter_exact_column',
 			'disable_generic_filters',
 			'disable_queued_filters',
 		);
@@ -372,7 +374,17 @@ abstract class Piwik_ViewDataTable
 			$value = $this->getDefaultOrCurrent($varToSet);
 			if( false !== $value )
 			{
-				$requestString .= '&'.$varToSet.'='.$value;
+				if( is_array($value) )
+				{
+					foreach($value as $v)
+					{
+						$requestString .= "&".$varToSet.'[]='.$v;
+					}
+				}
+				else
+				{
+					$requestString .= '&'.$varToSet.'='.$value;
+				}
 			}
 		}
 		
@@ -525,7 +537,14 @@ abstract class Piwik_ViewDataTable
 		// are loaded with Piwik_Common::getRequestVar()
 		foreach($javascriptVariablesToSet as &$value)
 		{
-			$value = addslashes($value);
+			if(is_array($value))
+			{
+				$value = array_map('addslashes',$value);
+			}
+			else
+			{
+				$value = addslashes($value);
+			}
 		}
 		
 		return $javascriptVariablesToSet;
@@ -659,6 +678,19 @@ abstract class Piwik_ViewDataTable
 		return $this->JSexcludeLowPopulation;
 	}
 	
+	/**
+	 * Sets the pattern to look for in the table (only rows with column equal to the pattern will be kept)
+	 *
+	 * @param array $pattern arrays of patterns to look for
+	 * @param string $column to compare the pattern to
+	 * 
+	 * @return void
+	 */
+	public function setExactPattern($pattern, $column)
+	{
+		$this->variablesDefault['filter_exact_pattern'] = $pattern;
+		$this->variablesDefault['filter_exact_column'] = $column;
+	}
 	
 	/**
 	 * Sets the value to use for the Exclude low population filter.

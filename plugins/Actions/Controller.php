@@ -138,6 +138,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
 		$view->setLimit( 100 );
 		// computing minimum value to exclude
+		require_once "VisitsSummary/Controller.php";
 		$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary();
 		$nbActions = $visitsInfo->getColumn('nb_actions');
 		$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions

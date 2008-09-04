@@ -126,7 +126,22 @@ class Piwik_Common
 			if( false !== strpos($value, '='))
 			{
 				$exploded = explode('=',$value);
-				$nameToValue[$exploded[0]] = $exploded[1];
+				$name = $exploded[0];
+				
+				// if array without indexes
+				if( substr($name,-2,2) == '[]' )
+				{
+					$name = substr($name, 0, -2);
+					if( isset($nameToValue[$name]) == false || is_array($nameToValue[$name]) == false )
+					{
+						$nameToValue[$name] = array();
+					}
+					array_push($nameToValue[$name],$exploded[1]);
+				}
+				else
+				{
+					$nameToValue[$name] = $exploded[1];
+				}
 			}
 		}
 		return $nameToValue;

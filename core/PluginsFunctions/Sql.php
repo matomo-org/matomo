@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Executes a SQL query on the DB and returns the Zend_Db_Statement object
  * If you want to fetch data from the DB you should use the function Piwik_FetchAll()

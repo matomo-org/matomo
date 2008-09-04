@@ -1,6 +1,5 @@
 <?php
 require_once "ViewDataTable.php";
-
 class Piwik_UserSettings_Controller extends Piwik_Controller 
 {
 	function index()
@@ -18,27 +17,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		
 		echo $view->render();
 	}
-	
 
-	/**
-	 * User settings
-	 */
-	protected function getStandardDataTableUserSettings( $currentControllerAction, 
-												$APItoCall,
-												$defaultDatatableType = null )
-	{
-		$view = Piwik_ViewDataTable::factory( $defaultDatatableType);
-		$view->init( $this->pluginName,  $currentControllerAction, $APItoCall );
-		$view->disableSearchBox();
-		$view->disableExcludeLowPopulation();
-		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
-		$view->setSortedColumn( 1 );
-		$view->setLimit( 5 );
-		$view->setGraphLimit(5);
-		return $view;
-	}
-	
 	function getResolution( $fetch = false)
 	{
 		$view = $this->getStandardDataTableUserSettings(
@@ -113,5 +92,21 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->setLimit( 10 );
 		
 		return $this->renderView($view, $fetch);
+	}
+	
+	protected function getStandardDataTableUserSettings( $currentControllerAction, 
+												$APItoCall,
+												$defaultDatatableType = null )
+	{
+		$view = Piwik_ViewDataTable::factory( $defaultDatatableType);
+		$view->init( $this->pluginName,  $currentControllerAction, $APItoCall );
+		$view->disableSearchBox();
+		$view->disableExcludeLowPopulation();
+		
+		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
+		$view->setSortedColumn( 1 );
+		$view->setLimit( 5 );
+		$view->setGraphLimit(5);
+		return $view;
 	}
 }

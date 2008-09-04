@@ -1,6 +1,5 @@
 <?php
 require_once "ViewDataTable.php";
-
 class Piwik_Referers_Controller extends Piwik_Controller 
 {
 	function index()
@@ -20,8 +19,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		
 		// building the referers summary report 
 		$view->dataTableRefererType = $this->getRefererType(true);
-		
-		
+				
 		$nameValues = $this->getReferersVisitorsByType();
 		foreach($nameValues as $name => $value)
 		{	
@@ -117,6 +115,17 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
+	public function getSearchEnginesEvolution($fetch = false)
+	{		
+		$view = Piwik_ViewDataTable::factory('graphEvolution');
+		$view->init( 'Referers', __FUNCTION__, 'Referers.getSearchEngines' );
+		
+		$view->setColumnsToDisplay( 'nb_uniq_visitors' );
+		$view->setExactPattern( array('Google','Yahoo!'), 'label');
+		//$view->setExactPattern( array('Google'), 'label');
+		
+		return $this->renderView($view, $fetch);
+	}	
 	
 	function getKeywordsFromSearchEngineId( $fetch = false )
 	{

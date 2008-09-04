@@ -20,7 +20,7 @@ class Piwik_Widgetize_Controller extends Piwik_Dashboard_Controller
 	function index()
 	{
 		$view = new Piwik_View('Widgetize/templates/index.tpl');
-		$view->availableWidgets = json_encode(Piwik_GetListWidgets());
+		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
 		$this->setGeneralVariablesView($view);
 		echo $view->render();
 	}

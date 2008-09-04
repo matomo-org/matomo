@@ -1,5 +1,5 @@
 <span class="topBarElem" style="padding-right:70px">
-	<span id="languageSelection" style="position:absolute">
+	<span id="languageSelection" style="display:none;position:absolute">
 		<form action="index.php?module=LanguagesManager&action=saveLanguage" method="get">
 		<select name="language">
 			<option value="{$currentLanguage}">{$languages.$currentLanguage}</option>
@@ -14,6 +14,7 @@
 	{literal}<script language="javascript">
 	$(document).ready(function() {
 		$("#languageSelection").fdd2div({CssClassName:"formDiv"});
+		$("#languageSelection").show();
 	});</script>
 	{/literal}
 </span>

@@ -24,24 +24,29 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
-		
 		return $info;
 	}
-	
-	function postLoad()
-	{
-		Piwik_AddWidget( 'VisitFrequency', 'getSparklines', Piwik_Translate('VisitFrequency_WidgetOverview'));
-		Piwik_AddWidget( 'VisitFrequency', 'getLastVisitsReturningGraph', Piwik_Translate('VisitFrequency_WidgetGraphReturning'));
-		Piwik_AddMenu('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency'));
-	}
-	
+
 	function getListHooksRegistered()
 	{
 		$hooks = array(
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
+			'WidgetsList.add' => 'addWidgets',
+			'Menu.add' => 'addMenu',
 		);
 		return $hooks;
+	}
+	
+	function addWidgets()
+	{
+		Piwik_AddWidget( 'VisitFrequency', 'getSparklines', Piwik_Translate('VisitFrequency_WidgetOverview'));
+		Piwik_AddWidget( 'VisitFrequency', 'getLastVisitsReturningGraph', Piwik_Translate('VisitFrequency_WidgetGraphReturning'));
+	}
+	
+	function addMenu()
+	{
+		Piwik_AddMenu('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency'));
 	}
 	
 	function archivePeriod( $notification )

@@ -74,8 +74,7 @@ $(document).ready(function(){
 				// appearance!
 				$("#otherPeriods").fadeIn();
 
-			}
-	);
+			});
 
 	$("#periodString #date")
 		.hover( function(){

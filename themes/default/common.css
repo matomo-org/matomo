@@ -63,9 +63,16 @@ a {
 	display: none;
 }
 
+#otherPeriods {
+	display:none;
+}	
 #periodString #date, #periodString #periods, #periodString #date a, #periodString #periods a {
 	color: #520202;
 	font-size: 15pt;
+	text-decoration:none;
+}
+#periodString #periods a:hover {
+	text-decoration:underline;
 }
 #periodString {
 	padding-top: 2em;
@@ -114,6 +121,7 @@ a {
 	font-weight: bold;
 	color: #F88D22;
 	padding-left:1em;
+	clear:both;
 }
 .topBarElem {
 	height: 22px;

@@ -33,7 +33,7 @@ class Piwik_Translate
 	public function loadEnglishTranslation()
 	{
 		require "lang/en.php";
-		$this->addTranslationArray($translations);
+		$this->mergeTranslationArray($translations);
 		$this->setLocale();
 		$this->englishLanguageLoaded = true;
 	}
@@ -48,11 +48,11 @@ class Piwik_Translate
 		}
 		
 		require "lang/" . $language . ".php";
-		$this->addTranslationArray($translations);
+		$this->mergeTranslationArray($translations);
 		$this->setLocale();
 	}
 	
-	public function addTranslationArray($translation)
+	public function mergeTranslationArray($translation)
 	{
 		if(!isset($GLOBALS['Piwik_translations']))
 		{

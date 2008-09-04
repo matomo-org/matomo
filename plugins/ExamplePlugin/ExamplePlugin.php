@@ -70,7 +70,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	
 	/**
 	 * This method displays a text containing an help about "How to build plugins for Piwik".
-	 * This help is then used on http://dev.piwik.org
+	 * This help is then used on http://dev.piwik.org/trac/wiki/Plugins/GlobalFunctions
 	 *
 	 */
 	function index()
@@ -115,7 +115,6 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out .= '<code>$fetched = $query->fetch();</code><br>';
 		$out .= 'At this point, we have: <code>$fetched[\'token_auth\'] == <b>'.var_export($token_auth,true) . '</b></code><br/>';
 		
-//    * function Piwik_FetchAll( $sqlQuery, $parameters = array())
   		$out .= '<h2>Example Sites information API</h2>';
 		$out .= '<code>Piwik_SitesManager_API::getSitesWithViewAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getSitesWithViewAccess(),true) . '</pre></b><br/>';
 		$out .= '<code>Piwik_SitesManager_API::getSitesWithAdminAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getSitesWithAdminAccess(),true) . '</pre></b><br/>';
@@ -134,13 +133,6 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	
 	static private function boolToString($bool)
 	{
-		if($bool)
-		{
-			return "true";
-		}
-		else
-		{
-			return "false";
-		}
+		return $bool ? "true" : "false";
 	}
 }

@@ -29,6 +29,18 @@ class Piwik_Provider extends Piwik_Plugin
 		return $info;
 	}
 	
+	function getListHooksRegistered()
+	{
+		$hooks = array(
+			'ArchiveProcessing_Day.compute' => 'archiveDay',
+			'ArchiveProcessing_Period.compute' => 'archivePeriod',
+			'LogStats.newVisitorInformation' => 'logProviderInfo',
+			'WidgetsList.add' => 'addWidget',
+			'Menu.add' => 'addMenu',
+		);
+		return $hooks;
+	}
+	
 	function install()
 	{
 		// add column hostname / hostname ext in the visit table
@@ -48,31 +60,23 @@ class Piwik_Provider extends Piwik_Plugin
 		Zend_Registry::get('db')->query($query);
 	}
 	
+	function addWidget()
+	{
+		Piwik_AddWidget( 'Provider', 'getProvider', Piwik_Translate('Provider_WidgetProviders'));
+	}
+	
+	function addMenu()
+	{
+		Piwik_RenameMenuEntry(	'General_Visitors', 'UserCountry_SubmenuLocations', 
+								'General_Visitors', 'Provider_SubmenuLocationsProvider');
+	}
+	
 	function postLoad()
 	{
-		// when the plugin is loaded during LogStats these functions are not defined
-		if(function_exists('Piwik_AddWidget'))
-		{
-			Piwik_AddWidget( 'Provider', 'getProvider', Piwik_Translate('Provider_WidgetProviders'));
-			Piwik_RenameMenuEntry('General_Visitors', 'UserCountry_SubmenuLocations', 
-									'General_Visitors', 'Provider_SubmenuLocationsProvider');
-			
-			Piwik_AddAction('template_headerUserCountry', array('Piwik_Provider','headerUserCountry'));
-			Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider','footerUserCountry'));
-		}		
+		Piwik_AddAction('template_headerUserCountry', array('Piwik_Provider','headerUserCountry'));
+		Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider','footerUserCountry'));
 	}
-	
-	function getListHooksRegistered()
-	{
-		$hooks = array(
-			'ArchiveProcessing_Day.compute' => 'archiveDay',
-			'ArchiveProcessing_Period.compute' => 'archivePeriod',
-			'LogStats.newVisitorInformation' => 'logProviderInfo',
-		);
-		return $hooks;
-	}
-	
-	
+
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();

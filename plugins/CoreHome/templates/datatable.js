@@ -564,9 +564,14 @@ dataTable.prototype =
 			}
 			var urlToLink = $('#urlLink',this).text();		
 			
-			$(this).html( 
-				'<a target="_blank" href="' + urlToLink + '">' + imgToPrepend + $(this).html() + '</a>'
-			);
+			if( urlToLink.match("javascript:") )
+			{
+				$(this).html( '<a href="#" onClick="' + urlToLink.replace("javascript:","") + '">' + imgToPrepend + $(this).html() + '</a>');				
+			}
+			else
+			{
+				$(this).html( '<a target="_blank" href="' + urlToLink + '">' + imgToPrepend + $(this).html() + '</a>');				
+			}
 		});
 	
 		

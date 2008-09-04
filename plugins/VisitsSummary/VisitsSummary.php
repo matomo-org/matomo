@@ -10,7 +10,6 @@
  */
 	
 /**
- * 
  * @package Piwik_VisitsSummary
  */
 class Piwik_VisitsSummary extends Piwik_Plugin
@@ -24,107 +23,56 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
-		
 		return $info;
 	}
 	
-	function postLoad()
+	function getListHooksRegistered()
+	{
+		return array(
+			'WidgetsList.add' => 'addWidgets',
+			'Menu.add' => 'addMenu',
+		);
+	}
+	
+	function addWidgets()
 	{
 		Piwik_AddWidget( 'VisitsSummary', 'getLastVisitsGraph', Piwik_Translate('VisitsSummary_WidgetLastVisits'));
 		Piwik_AddWidget( 'VisitsSummary', 'getSparklines', Piwik_Translate('VisitsSummary_WidgetVisits'));
 		Piwik_AddWidget( 'VisitsSummary', 'getLastUniqueVisitorsGraph', Piwik_Translate('VisitsSummary_WidgetLastVisitors'));
 		Piwik_AddWidget( 'VisitsSummary', 'index', Piwik_Translate('VisitsSummary_WidgetOverviewGraph'));
-
+	}
+	
+	function addMenu()
+	{
 		Piwik_AddMenu('General_Visitors', 'VisitsSummary_SubmenuOverview', array('module' => 'VisitsSummary'), true);
 	}
 }
 
-require_once "ViewDataTable.php";
-class Piwik_VisitsSummary_Controller extends Piwik_Controller 
+
+function Piwik_getPrettyTimeFromSeconds($numberOfSeconds)
 {
-	function index()
-	{
-		$view = new Piwik_View('VisitsSummary/index.tpl');
-		$currentPeriod = Piwik_Common::getRequestVar('period');
-		$view->period = $currentPeriod;
-		
-		$view->graphEvolutionVisitsSummary = $this->getLastVisitsGraph( true );
-		
-		$this->setSparklinesAndNumbers($view);		
-		echo $view->render();
-	}
+	$numberOfSeconds = (double)$numberOfSeconds;
+	$days = floor($numberOfSeconds / 86400);
 	
-	protected function setSparklinesAndNumbers($view)
-	{
-		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getLastVisitsGraph');
-		$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getLastUniqueVisitorsGraph');
-		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getLastActionsGraph');
-		$view->urlSparklineSumVisitLength 	= $this->getUrlSparkline( 'getLastSumVisitsLengthGraph');
-		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getLastMaxActionsGraph');
-		$view->urlSparklineBounceCount 		= $this->getUrlSparkline( 'getLastBounceCountGraph');
-		
-		$dataTableVisit = self::getVisitsSummary();
-		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
-		$view->nbVisits = $dataTableVisit->getColumn('nb_visits');
-		$view->nbActions = $dataTableVisit->getColumn('nb_actions');
-		$view->sumVisitLength = $dataTableVisit->getColumn('sum_visit_length');
-		$view->bounceCount = $dataTableVisit->getColumn('bounce_count');
-		$view->maxActions = $dataTableVisit->getColumn('max_actions');
-		
-	}
+	$minusDays = $numberOfSeconds - $days * 86400;
+	$hours = floor($minusDays / 3600);
 	
-	function getSparklines()
-	{
-		$view = new Piwik_View('VisitsSummary/sparklines.tpl');
-		$this->setSparklinesAndNumbers($view);		
-		echo $view->render();
-	}
-
-	static public function getVisitsSummary()
-	{
-		$requestString = 'method=' . "VisitsSummary.get" . '&format=original'.
-			// we disable filters for example "search for pattern", in the case this method is called 
-			// by a method that already calls the API with some generic filters applied 
-			'&disable_generic_filters=true'; 
-		$request = new Piwik_API_Request($requestString);
-		return $request->process();
-	}
-
-	function getLastVisitsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getVisits");
-		return $this->renderView($view, $fetch);
-	}
+	$minusDaysAndHours = $minusDays - $hours * 3600;
+	$minutes = floor($minusDaysAndHours / 60 );
 	
-	function getLastUniqueVisitorsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getUniqueVisitors");
-		return $this->renderView($view, $fetch);
-	}
+	$minusDaysAndHoursAndMinutes = $minusDaysAndHours - $minutes * 60;
+	$secondsMod = $minusDaysAndHoursAndMinutes; // should be same as $numberOfSeconds % 60 
 	
-	function getLastActionsGraph( $fetch = false )
+	if($days > 0)
 	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getActions");
-		return $this->renderView($view, $fetch);
+		return sprintf("%d days %d hours", $days, $hours);
 	}
-	
-	function getLastSumVisitsLengthGraph( $fetch = false )
+	elseif($hours > 0)
 	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getSumVisitsLength");
-		return $this->renderView($view, $fetch);
+		return sprintf("%d hours %d min", $hours, $minutes);
 	}
-	
-	function getLastMaxActionsGraph( $fetch = false )
+	else
 	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getMaxActions");
-		return $this->renderView($view, $fetch);
+		return sprintf("%d min %d s", $minutes, $numberOfSeconds);		
 	}
-	
-	function getLastBounceCountGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getBounceCount");
-		return $this->renderView($view, $fetch);
-	}
-	
 }
-

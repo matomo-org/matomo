@@ -28,4 +28,15 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 		$this->setParametersToModify(array('date' => 'last30'));
 		$this->doNotShowFooter();
 	}
+	
+	/**
+	 * Sets the columns that will be displayed on output evolution chart
+	 * By default all columns are displayed ($columnsNames = array() will display all columns)
+	 * 
+	 * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
+	 */
+	public function setColumnsToDisplay( $columnsNames)
+	{
+		$this->setParametersToModify( array('columns' => $columnsNames) );
+	}
 }

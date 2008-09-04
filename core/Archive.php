@@ -160,6 +160,10 @@ abstract class Piwik_Archive
 	 */
 	abstract public function getBlob( $name );
 	
+	/**
+	 * 
+	 * @return Piwik_DataTable
+	 */
 	abstract public function getDataTableFromNumeric( $fields );
 
 	/**

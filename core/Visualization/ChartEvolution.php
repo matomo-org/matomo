@@ -15,44 +15,78 @@ require_once "Visualization/Chart.php";
  * Customize the Evolution chart style for the flash graph
  * 
  * @package Piwik_Visualization
- *
  */
 class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
 {		
 	function customizeGraph()
 	{
 		parent::customizeGraph();
-		$this->prepareData();
-		$this->set_y_max( $this->maxData );
-		
-		$line_1 = new line_hollow( 1, 3, '0x3357A0' );
-		$line_1->key( 'visits', 10 );
-		
-		$i = 0;
-		foreach($this->arrayData as $value)
+		//$this->prepareData();
+
+		$colors = array(
+			"0x3357A0",
+			"0x9933CC",
+			"0xCC3399",			
+			"0x80a033",
+			"0xFD9816",
+			"0x246AD2",
+			"0xFD16EA",
+			"0x49C100",
+			);
+
+		// first row in array contains line labels (legend)		
+		$legendLabels = array_shift($this->dataGraph);
+
+		$line = array();
+
+		// define labels
+		foreach($legendLabels as $nbLabel => $labelName)
 		{
-			// hack until we have proper date handling
-			$spacePosition = strpos($this->arrayLabel[$i],' ');
-			if($spacePosition === false)
-			{
-				$spacePosition = strlen($this->arrayLabel[$i]);
-			}
-			
-			// generate the link on the dot, to the given day' statistics
-			$link = Piwik_Url::getCurrentScriptName() 
-							. Piwik_Url::getCurrentQueryStringWithParametersModified( array(
-										'date' => substr($this->arrayLabel[$i],0,$spacePosition),
-										'module' => 'CoreHome',
-										'action' => 'index',
-										'viewDataTable' => null// we reset the viewDataTable parameter (useless in the link)
-										));
-			
-			$line_1->add_link($value, $link );
-			$i++;
+			$line[$nbLabel] = new line_hollow( 1, 3, $colors[$nbLabel] );
+			$line[$nbLabel]->key( $labelName, 10 );
 		}
-		$this->data_sets[] = $line_1;
 		
-		$this->set_x_labels( $this->arrayLabel );
-		$this->area_hollow( 1, 3, 4,'0x3357A0',  ' visits', 10 );	
+		$maxData = 0;		
+		$xLabels = array();		
+		$cnt = count($this->dataGraph);
+		
+		// loop over data
+		foreach($this->dataGraph as $values)
+		{
+			// add x axis value (label)
+			array_push($xLabels, $values['label']);
+			
+			// loop over values for all lines (y axis values)		
+			for($j = 0; $j < count($legendLabels); $j++)
+			{
+				// get the y axis value for line $j
+				$dotValue = $values['value'.$j];
+				
+				// find maximum y axis value 
+				if(  $dotValue > $maxData )
+				{
+					$maxData = $dotValue;
+				}
+								
+				$spacePosition = strpos($values['label'],' ');
+				if($spacePosition === false)
+				{
+					$spacePosition = strlen($values['label']);
+				}				
+				$link = Piwik_Url::getCurrentScriptName() . 
+						Piwik_Url::getCurrentQueryStringWithParametersModified( array(
+							'date' => substr($values['label'],0,$spacePosition),
+							'module' => 'CoreHome',
+							'action' => 'index',
+							'viewDataTable' => null// we reset the viewDataTable parameter (useless in the link)
+					));
+				
+				// add the dot on the chart and link it
+				$line[$j]->add_link($dotValue, $link);
+			}
+		}
+		$this->data_sets = $line;		
+		$this->set_y_max( $maxData );
+		$this->set_x_labels( $xLabels );
 	}
 }
