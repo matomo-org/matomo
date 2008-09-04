@@ -67,7 +67,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$languageCode = self::getLanguageFromPreferences();
 		if(!self::isLanguageAvailable($languageCode))
 		{
-			$languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), array_keys(self::getAvailableLanguages()));
+			$languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), self::getAvailableLanguages());
 		}
 		if(!self::isLanguageAvailable($languageCode))
 		{
@@ -79,7 +79,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	static public function isLanguageAvailable($languageCode)
 	{
 		return $languageCode !== false
-			&& in_array($languageCode, array_keys(self::getAvailableLanguages()));
+			&& in_array($languageCode, self::getAvailableLanguages());
 	}
 	
 	static public function getAvailableLanguages()
