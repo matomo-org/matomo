@@ -109,7 +109,7 @@ function piwik_log( _pk_action_name, _pk_site, _pk_pkurl, _pk_custom_vars )
 {
 	if(_pk_called && (!_pk_action_name || _pk_action_name=="")) return;
 	var _pk_src = _pk_getUrlLog(_pk_action_name, _pk_site, _pk_pkurl, _pk_custom_vars );
-	document.writeln('<img src="'+_pk_src+'" alt="Piwik" style="border:0" />');
+	document.writeln('<img src="'+_pk_src+'" alt="" style="border:0" />');
 	if(!_pk_action_name || _pk_action_name=="") _pk_called=1;
 	
   _pk_init_tracker(_pk_site, _pk_pkurl);
