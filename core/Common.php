@@ -404,22 +404,28 @@ class Piwik_Common
 			'version' 		=> ''
 			);
 
-			$browser = '';
-			foreach($browsers as $key => $value)
-			{
-				if(!empty($browser)) $browser .= "|";
-				$browser .= $key;
-			}
+		$browser = '';
+		foreach($browsers as $key => $value)
+		{
+			if(!empty($browser)) $browser .= "|";
+			$browser .= $key;
+		}
 
-			$results = array();
+		$results = array();
 
-			// added fix for Mozilla Suite detection
-			if ((preg_match_all("/(mozilla)[\/\sa-z;.0-9-(]+rv:([0-9]+)([.0-9a-z]+)\) gecko\/[0-9]{8}$/i", $userAgent, $results))
+		// added fix for Mozilla Suite detection
+		if ((preg_match_all("/(mozilla)[\/\sa-z;.0-9-(]+rv:([0-9]+)([.0-9a-z]+)\) gecko\/[0-9]{8}$/i", $userAgent, $results))
 			||	(preg_match_all("/($browser)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
 			)
 		 {
 		 	$count = count($results[0])-1;
-		 		
+		 	
+		 	// because google chrome is Mozilla/Chrome/Safari at the same time, we force Chrome
+		 	if(($chrome = array_search('Chrome', $results[1])) !== false)
+		 	{
+		 		$count = $chrome;
+		 	}
+		 	
 		 	// browser code
 		 	$info['name'] = $browsers[strtolower($results[1][$count])];
 		 		

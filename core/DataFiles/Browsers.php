@@ -28,9 +28,9 @@ if(!isset($GLOBALS['Piwik_BrowserList'] ))
 					'mozilla firebird'				=> 'FB',
 					'firebird'						=> 'FB',
 					'seamonkey'						=> 'SM',
-					'chimera'						=> 'CH',
 					'camino'						=> 'CA',
 					'safari'						=> 'SF',
+					'chrome'						=> 'CH',
 					'k-meleon'						=> 'KM',
 					'mozilla'						=> 'MO',
 					'opera'							=> 'OP',
@@ -52,6 +52,7 @@ if(!isset($GLOBALS['Piwik_BrowserList'] ))
 			
 	$GLOBALS['Piwik_BrowserList_IdToLabel'] 
 		= array_map('ucwords',array_flip($GLOBALS['Piwik_BrowserList']));
+	$GLOBALS['Piwik_BrowserList_IdToLabel']['CH'] = "Google Chrome";
 	
 	$GLOBALS['Piwik_BrowserList_IdToShortLabel'] = $GLOBALS['Piwik_BrowserList_IdToLabel'];
 	$GLOBALS['Piwik_BrowserList_IdToShortLabel']['IE'] = "IE";
