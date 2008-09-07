@@ -322,13 +322,18 @@ class Piwik_PluginsManager
 	{
 		foreach($this->getLoadedPlugins() as $plugin)
 		{		
-			try{
-				$plugin->install();
-			} catch(Exception $e) {
-				throw new Piwik_Plugin_Exception($plugin->getName(), $e->getMessage());
-			}
+			$this->installPlugin($plugin);
 		}
 	}
+	
+	private function installPlugin( Piwik_Plugin $plugin )
+	{
+		try{
+			$plugin->install();
+		} catch(Exception $e) {
+			throw new Piwik_Plugin_Exception($plugin->getName(), $e->getMessage());		}	
+	}
+	
 	
 	/**
 	 * For the given plugin, add all the observers of this plugin.
@@ -401,14 +406,6 @@ class Piwik_PluginsManager
 		}
 		
 		Piwik_Translate::getInstance()->mergeTranslationArray($translations);
-	}
-	
-	private function installPlugin( Piwik_Plugin $plugin )
-	{
-		try{
-			$plugin->install();
-		} catch(Exception $e) {
-			throw new Piwik_Plugin_Exception($plugin->getName(), $e->getMessage());		}	
 	}
 	
 	/**
