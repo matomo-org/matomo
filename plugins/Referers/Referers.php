@@ -60,7 +60,7 @@ class Piwik_Referers extends Piwik_Plugin
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'getWebsites'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'getCampaigns'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuPartners', array('module' => 'Referers', 'action' => 'getPartners'));	
-		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers', 'action' => 'getSearchEnginesEvolution'));
+		//Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers', 'action' => 'getSearchEnginesEvolution'));
 	}
 	
 	function archivePeriod( $notification )
