@@ -3,6 +3,7 @@
 <head>
 <title>Piwik &rsaquo; Web Analytics Reports</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico"> 
 {loadJavascriptTranslations plugins='CoreHome'}
 {include file="CoreHome/templates/js_css_includes.tpl"}
 </head>
