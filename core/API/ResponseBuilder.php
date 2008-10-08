@@ -38,15 +38,15 @@ class Piwik_API_ResponseBuilder
 	 * @param mixed The initial returned value, before post process
 	 * @return mixed Usually a string, but can still be a PHP data structure if the format requested is 'original'
 	 */
-	public function getResponse($returnedValue)
+	public function getResponse($value)
 	{ 
 		// If the returned value is an object DataTable we
 		// apply the set of generic filters if asked in the URL
 		// and we render the DataTable according to the format specified in the URL
-		if($returnedValue instanceof Piwik_DataTable
-			|| $returnedValue instanceof Piwik_DataTable_Array)
+		if($value instanceof Piwik_DataTable
+			|| $value instanceof Piwik_DataTable_Array)
 		{
-			return $this->handleDataTable($returnedValue);
+			return $this->handleDataTable($value);
 		}
 		
 		// Case an array is returned from the API call, we convert it to the requested format
@@ -54,13 +54,13 @@ class Piwik_API_ResponseBuilder
 		//    => the data stays unchanged (ie. a standard php array or whatever data structure)
 		// - if any other format is requested, we have to convert this data structure (which we assume 
 		//   to be an array) to a DataTable in order to apply the requested DataTable_Renderer (for example XML)
-		if(is_array($returnedValue))
+		if(is_array($value))
 		{
-			return $this->handleArray($returnedValue);
+			return $this->handleArray($value);
 		}
 		
 		// when null or void is returned from the api call, we handle it as a successful operation 
-		if(!isset($returnedValue))
+		if(!isset($value))
 		{
 			return $this->handleSuccess();
 		}
@@ -68,17 +68,17 @@ class Piwik_API_ResponseBuilder
 		// original data structure requested, we return without process
 		if( $this->outputFormat == 'original' )
 		{
-			return $toReturn;
+			return $value;
 		}
 	
-		if( is_object($toReturn)
-				|| is_resource($toReturn))
+		if( is_object($value)
+				|| is_resource($value))
 		{
 			return $this->getResponseException(new Exception('The API cannot handle this data structure.'));
 		}
 		
 		// bool // integer // float // serialized object 
-		return $this->handleScalar($response);
+		return $this->handleScalar($value);
 	}
 	
 	/**
@@ -137,10 +137,7 @@ class Piwik_API_ResponseBuilder
 		{
 			return true;
 		}
-		else
-		{
-			return false;		
-		}
+		return false;	
 	}
 	
 	/**
@@ -182,8 +179,7 @@ class Piwik_API_ResponseBuilder
 			$renderer->setSerialize( $this->caseRendererPHPSerialize());
 		}
 		
-		$toReturn = $renderer->render();
-		return $toReturn;
+		return $renderer->render();
 	}
 	
 	
@@ -283,13 +279,13 @@ class Piwik_API_ResponseBuilder
 			// in case he has to setup serialize=1 in the URL
 			if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
 			{
-				return serialize($toReturn);
+				return serialize($array);
 			}
 		}
 		else
 		{
 			$dataTable = new Piwik_DataTable();
-			$dataTable->loadFromSimpleArray($toReturn);
+			$dataTable->loadFromSimpleArray($array);
 			return $this->getRenderedDataTable($dataTable);
 		}
 	}
