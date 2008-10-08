@@ -8,9 +8,8 @@
  * 
  * @package Piwik_API
  */
+require_once 'Archive.php';
 
-
-require_once "Archive.php";
 /**
  * This class is the parent class of all the plugins that can be called using the API Proxy. 
  * For example a plugin "Provider" can publish its API by creating a file plugins/Provider/API.php

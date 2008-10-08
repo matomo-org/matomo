@@ -9,7 +9,6 @@
  * @package Piwik
  */
 
- 
 require_once 'Period.php';
 require_once 'Date.php';
 require_once 'ArchiveProcessing.php';
