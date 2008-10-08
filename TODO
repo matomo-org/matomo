@@ -1,51 +1,44 @@
-
-MAILING LIST SESSION!!!!!!!!!!!!!!!!!!!!!!!!
-handle google chrome
 PLUGINS HAVE THEIR OWN TESTS
 
+Bugs
+- google chrome/safari bug with calendar + language dropdown
+- api for setLanguage/getLanguage
+- site selector is hidden first, then shown
+- WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
+- Undefined text for "loading data..." on piwik.org demo!
+- we should call login->logout in installation->welcome instead of duplicating code
+- fix images in sub tables when JS loaded
+- create ticket for wrong display seconds
 
-fdd2div clean in /libs
-thank you page for translators loaded on wiki
-api for setLanguage/getLanguage
-site selector is hidden first, then shown
+To clean
+- rename LogStats in Tracker
+- The UI could be "security trimmed". So a normal user (a customer in this case) should not see the "admin", "API" links ...
+- If the user is only allowed to see one website to analyze the dropdown-control for other sites could be hidden.
+- numbers below datatable should be darker grey
+- test set wrong permission and trigger frontController:checkDir
+- fdd2div clean in /libs
+- plugins should listen to user delete/ site delete and delete their own user/site related data
+- in API request, menu/widget hooks should not be triggered
+- embed widgets codes above widget?
+- why widgetize inherits Piwik_Widgetize_Controller
+- rss cache + user agent piwik
 
-remove cookie detection as it is completely wrong
-remove color_depth field
-plugins should listen to user delete/ site delete and delete their own user/site related data
+Features
+- thank you page for translators loaded on wiki
+- widgetize should export the same format as currently seen: the callback to generate the embed code should be called when user clicks on icon below graph
+- widgetize should work with clearspring: create a new iframe with an iframe + clearspring button
 
-in API request, menu/widget hooks should not be triggered
+Update system. when updating from previous to first version with update system we need to:
+- create indices now created at install
+- purge old archive tables containing temporary archive data
+- remove cookie detection as it is completely wrong
+- remove color_depth field
 
-//WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
-embed widgets codes above widget?
-Undefined text for "loading data..." on piwik.org demo!
-test set wrong permission and trigger frontController:checkDir
+Documentation
+- separate all Core doc to Plugins and Users doc
+- postEvent smarty doc is not clear, + feature we're not using (filter but what we need is simply way to print out html in templates from plugins)
 
-why widgetize inherits Piwik_Widgetize_Controller
-we should call login->logout in installation->welcome instead of duplicating code
-fix images in sub tables
-change the loading widget red button with the standard blue loading
-widgetize should export the same format as currently seen: the callback to generate the embed code should be called when user clicks on icon below graph
-widgetize should work with clearspring: create a new iframe with an iframe + clearspring button
-separate all Core doc to Plugins and Users doc
-create ticket for wrong display seconds
-rss cache + user agent piwik
-rename LogStats in Tracker
-remove all instances of insert() and delete() and update()
-numbers below datatable should be darker grey
-
-test_whenWhiteListedTable_butNoIdsite_throwsException()
-{}
-
-
-postEvent smarty doc is not clear, + feature we're not using (filter but what we need is simply way to print out html in templates from plugins)
-
-1. The UI could be "security trimmed". So a normal user (a customer
-   in this case) should not see the "admin", "API" links ...
-2. If the user is only allowed to see one website to analyze the
-   dropdown-control for other sites could be hidden.
-   
-Live!
-====
+Live! plugin
 - api propre
 - html
 - jquery spy

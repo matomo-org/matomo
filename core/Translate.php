@@ -158,7 +158,7 @@ function Piwik_TranslateException($message)
 {
 	try {
 		return Piwik_Translate($message);		
-	}
+	} 
 	catch(Exception $e) {
 		return $message;
 	}

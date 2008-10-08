@@ -378,8 +378,6 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		$bind['name'] = $siteName;
 		
 		$db = Zend_Registry::get('db');
-		
-		
 		$db->update(Piwik::prefixTable("site"), 
 							$bind,
 							"idsite = $idSite"
