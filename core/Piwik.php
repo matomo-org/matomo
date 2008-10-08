@@ -92,7 +92,8 @@ class Piwik
 			
 			$directory = Piwik::realpath($directoryToCheck);
 			$resultCheck[$directory] = false;
-			if(is_writable($directoryToCheck))
+			if($directory !== false // realpath() returns FALSE on failure
+				&& is_writable($directoryToCheck))
 			{
 				$resultCheck[$directory] = true;
 			}
