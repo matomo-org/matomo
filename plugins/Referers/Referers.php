@@ -150,7 +150,8 @@ class Piwik_Referers extends Piwik_Plugin
 				 	FROM ".$archiveProcessing->logTable."
 				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
-				 	GROUP BY referer_type, referer_name, referer_keyword";
+				 	GROUP BY referer_type, referer_name, referer_keyword
+				 	ORDER BY nb_visits DESC";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 
 		$interestBySearchEngine =
