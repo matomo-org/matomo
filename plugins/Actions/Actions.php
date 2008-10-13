@@ -124,7 +124,8 @@ class Piwik_Actions extends Piwik_Plugin
 							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 USING (idaction)
 					WHERE visit_server_date = ?
 					AND idsite = ?
-					GROUP BY t3.idaction";
+					GROUP BY t3.idaction
+					ORDER BY nb_hits DESC";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 		
 		$modified = $this->updateActionsTableWithRowQuery($query);
@@ -140,7 +141,6 @@ class Piwik_Actions extends Piwik_Plugin
 							sum(visit_total_actions) as entry_nb_actions,
 							sum(visit_total_time) as entry_sum_visit_length,							
 							sum(case visit_total_actions when 1 then 1 else 0 end) as entry_bounce_count
-							
 					FROM ".$archiveProcessing->logTable." 
 						JOIN ".$archiveProcessing->logActionTable." ON (visit_entry_idaction = idaction)
 					WHERE visit_server_date = ?
