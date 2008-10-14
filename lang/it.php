@@ -440,11 +440,7 @@ $translations = array(
 	'Login_PasswordReminder' => 'Inserire il nome utente o l\'indirizzo di posta elettronica. Verrà spedita una nuova password via email.',
 	'Login_InvalidUsernameEmail' => 'Nome utente e/o indirizzo email non valido',
 	'Login_MailTopicPasswordRecovery' => 'Recupero Password',
-	'Login_MailBodyPasswordRecovery' => 'Ciao %1s,
-
-La tua nuova password è: %2s
-
-Adesso puoi accedere a: %3s',
+	'Login_MailPasswordRecoveryBody' => 'Ciao %1s, \n\nLa tua nuova password è: %2s \n\n Adesso puoi accedere a: %3s',
 	'Login_PasswordSent' => 'La password è stata inviata. Controllare la propria email.',
 	'Login_ContactAdmin' => 'Motivi possibili: il server potrebbe avere la funzione mail() disabilitata. <br>Contattare l\'amministratore.',
 	'UsersManager_ManageAccess' => 'Gestione degli accessi',
