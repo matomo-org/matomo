@@ -124,14 +124,12 @@ widgetMenu.prototype =
 		.click(function(){	self.movePreviewToDashboard(); });
 	},
 	
-	//hide the menu
 	hide: function()
 	{
 		//simply disable modal dialog box
 		$.unblockUI();
 	},
 	
-	//show the menu
 	show: function()
 	{
 		var self = this;
@@ -150,7 +148,6 @@ widgetMenu.prototype =
 		dispMenuObject.initBuilt(menuDom, self.onWidgetLoad); 
 	},
 
-	//disable widgets that are already in the dashboard
 	filterOutAlreadyLoadedWidget: function()
 	{
 		var self = this;
@@ -182,7 +179,6 @@ widgetMenu.prototype =
 		});
 	},
 	
-	//move the widget in the preview box to the dashboard, without reloading it
 	movePreviewToDashboard: function()
 	{
 		var self = this;
@@ -218,7 +214,6 @@ widgetMenu.prototype =
 
 function loadWidgetInDiv(pluginId, actionId, onWidgetLoad)
 {
-	// When ajax replied, we replace the right div with the response
 	function onLoaded(response)
 	{
 		var parDiv = $('.widgetDiv#'+actionId+'[plugin='+pluginId+']');
@@ -237,8 +232,8 @@ function loadWidgetInDiv(pluginId, actionId, onWidgetLoad)
 		url: 'index.php',
 		dataType: 'html',
 		async: true,
-		error: ajaxHandleError,		// on request fails
-		success: onLoaded,			// on request succeeds
+		error: ajaxHandleError,		
+		success: onLoaded,
 		data: "module="+pluginId+"&action="+actionId+"&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+piwik.currentDateStr
 	};
 	$.ajax(ajaxRequest);

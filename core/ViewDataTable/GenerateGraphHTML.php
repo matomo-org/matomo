@@ -123,6 +123,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		}
 		$urlGraph = $pathToLibraryOpenChart."open-flash-chart.swf?data=" . $url;
 		
+		// when the object/embed is changed, see also widgetize.js; it may require a logic update
 		$this->graphCodeEmbed .= "<div><object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' codebase='http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='" . $width . "' height='" . $height . "' id='". $obj_id ."' >".
 							"<param name='movie' value='".$urlGraph."' />".
 							"<param name='wmode' value='transparent' />".

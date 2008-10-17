@@ -17,7 +17,7 @@ require_once "Visualization/Chart.php";
  * @package Piwik_Visualization
  */
 class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
-{		
+{
 	function customizeGraph()
 	{
 		parent::customizeGraph();
@@ -67,26 +67,43 @@ class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
 				{
 					$maxData = $dotValue;
 				}
-								
-				$spacePosition = strpos($values['label'],' ');
-				if($spacePosition === false)
+
+				$link = null;
+				if($this->isLinkEnabled())
 				{
-					$spacePosition = strlen($values['label']);
-				}				
-				$link = Piwik_Url::getCurrentScriptName() . 
-						Piwik_Url::getCurrentQueryStringWithParametersModified( array(
-							'date' => substr($values['label'],0,$spacePosition),
-							'module' => 'CoreHome',
-							'action' => 'index',
-							'viewDataTable' => null// we reset the viewDataTable parameter (useless in the link)
-					));
-				
-				// add the dot on the chart and link it
-				$line[$j]->add_link($dotValue, $link);
+					$spacePosition = strpos($values['label'],' ');
+					if($spacePosition === false)
+					{
+						$spacePosition = strlen($values['label']);
+					}				
+					$link = Piwik_Url::getCurrentScriptName() . 
+							Piwik_Url::getCurrentQueryStringWithParametersModified( array(
+								'date' => substr($values['label'],0,$spacePosition),
+								'module' => 'CoreHome',
+								'action' => 'index',
+								'viewDataTable' => null// we reset the viewDataTable parameter (useless in the link)
+						));
+					// add the dot on the chart and link it
+					$line[$j]->add_link($dotValue, $link);
+				}
+				else
+				{
+					$line[$j]->add($dotValue);
+				}
 			}
 		}
 		$this->data_sets = $line;		
 		$this->set_y_max( $maxData );
 		$this->set_x_labels( $xLabels );
+	}
+	
+	private function isLinkEnabled() 
+	{
+		static $linkEnabled;
+		if(!isset($linkEnabled)) 
+		{
+			$linkEnabled = !Piwik_Common::getRequestVar('disableLink', 0, 'int');
+		}
+		return $linkEnabled;
 	}
 }

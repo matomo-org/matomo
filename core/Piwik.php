@@ -920,7 +920,7 @@ class Piwik
 						break;
 						
 						default:
-							throw new Exception("TODO");
+							throw new Exception("'$recordTo' is not a valid Log type. Valid logger types are: screen, database, file.");
 						break;
 					}
 				}

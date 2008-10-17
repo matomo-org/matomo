@@ -709,7 +709,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Mediaset
 		"servizi.mediaset.it" 		=> array("Mediaset", "searchword"),
-		
+
+		// Meta
+		"meta.ua"				=> array("Meta.ua", "q"),
+	
 		// Metacrawler
 		"search.metacrawler.com"	=> array("Metacrawler", "general"),
 		

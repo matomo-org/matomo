@@ -1,17 +1,25 @@
-PLUGINS HAVE THEIR OWN TESTS
-
 Bugs
+- PLUGINS HAVE THEIR OWN TESTS
+- add width+height to sparklines
 - google chrome/safari bug with calendar + language dropdown
+http://4.bp.blogspot.com/_B0Ay-jl4bcM/SLRqaqKz7jI/AAAAAAAAD-U/GfMiqCImtD8/s1600-h/piwik.png
 - api for setLanguage/getLanguage
 - site selector is hidden first, then shown
 - WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
 - Undefined text for "loading data..." on piwik.org demo!
 - we should call login->logout in installation->welcome instead of duplicating code
 - fix images in sub tables when JS loaded
-- create ticket for wrong display seconds
+- wrong display seconds 42 min 2563 s total time spent by the visitors
+- check that when online archiving disabled, take the last valid archiving
+- ACTIONS limit seem not right, seem limited to 50 instead of 200 for root
+- editing site web with single quote bugs in siteAdmin???
+- something is wrong in JS calendar when year selected
+- API request shouldnt be SO DataTable aware (fixed with ResponseBuilder??)
 
 To clean
 - rename LogStats in Tracker
+- widgetMenu but object called AddMenu 
+- some JS start with capital letter, others with normal letters
 - The UI could be "security trimmed". So a normal user (a customer in this case) should not see the "admin", "API" links ...
 - If the user is only allowed to see one website to analyze the dropdown-control for other sites could be hidden.
 - numbers below datatable should be darker grey
@@ -23,19 +31,7 @@ To clean
 - why widgetize inherits Piwik_Widgetize_Controller
 - rss cache + user agent piwik
 
-Features
-- thank you page for translators loaded on wiki
-- widgetize should export the same format as currently seen: the callback to generate the embed code should be called when user clicks on icon below graph
-- widgetize should work with clearspring: create a new iframe with an iframe + clearspring button
-
-Update system. when updating from previous to first version with update system we need to:
-- create indices now created at install
-- purge old archive tables containing temporary archive data
-- remove cookie detection as it is completely wrong
-- remove color_depth field
-
 Documentation
-- separate all Core doc to Plugins and Users doc
 - postEvent smarty doc is not clear, + feature we're not using (filter but what we need is simply way to print out html in templates from plugins)
 
 Live! plugin
@@ -45,18 +41,6 @@ Live! plugin
 - simple stats above in TEXT
 - Security review
 - blog post, push version
-
-to check
-========
-check that when online archiving disabled, take the last valid archiving
-ACTIONS limit seem not right, seem limited to 50 instead of 200 for root
-editing site web with single quote bugs in siteAdmin???
-something is wrong in JS calendar when year selected
-
-design notes
-============
-API request shouldnt be SO DataTable aware
-merge config file instead of annoying file selection?
 
 CHANGES DONE TO LIBRARIES
 =========================
