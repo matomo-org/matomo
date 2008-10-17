@@ -1,14 +1,8 @@
-// menu constructor
 function menu()
 {
 	this.param = new Object;
 }
 
-// this should be in the menu prototype but I couldn't figure out 
-// how to use it as a callback in the jquery ajax request
-
-
-//Prototype of the DataTable object
 menu.prototype =
 {	
 	menuSectionLoaded: function (content, urlLoaded)
@@ -18,11 +12,6 @@ menu.prototype =
 			$('#content').html( content ).show();
 			$('#loadingPiwik').hide();
 			menu.prototype.lastUrlRequested = null;
-			//console.log('display '+urlLoaded);
-		}
-		else
-		{
-			//console.log('loaded '+urlLoaded+' but expecting to display '+menu.prototype.lastUrlRequested);
 		}
 	},
 	
@@ -63,7 +52,6 @@ menu.prototype =
 		// we are in the SUB UL LI
 		if($(this).find('ul li').size() == 0)
 		{
-		//	console.log('clicked SUB LI');
 			$(this).addClass('sfHover');
 		}
 		// we clicked on a MAIN LI
@@ -72,7 +60,6 @@ menu.prototype =
 			$(this).find('>ul li:first').addClass('sfHover');
 		}
 		
-		//prepare the ajax request
 		ajaxRequest = 
 		{
 			type: 'GET',

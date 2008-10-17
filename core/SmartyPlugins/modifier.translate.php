@@ -18,7 +18,7 @@
  * 
  * @return string The translated string
  */
-function smarty_modifier_translate($string)
+function smarty_modifier_translate($stringToken)
 {
 	if(func_num_args() <= 1)
 	{
@@ -29,6 +29,12 @@ function smarty_modifier_translate($string)
 		$aValues = func_get_args();
 		array_shift($aValues);
 	}
-	return vsprintf(Piwik_Translate($string), $aValues);
+	
+	try {
+		$stringTranslated = Piwik_Translate($stringToken);
+	} catch( Exception $e) {
+		$stringTranslated = $stringToken; 
+	}
+	return vsprintf($stringTranslated, $aValues);
 }
  

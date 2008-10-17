@@ -1,5 +1,3 @@
-//there is a problem with loop for-in when we extends javascript Array
-//so I prefer using a separate function to do this
 function contains(array, searchElem) {
 	for(var i=0; i<array.length; i++) {
 		if (array[i]==searchElem) {
@@ -16,7 +14,6 @@ function blockUIConfig()
 	$.extend($.blockUI.defaults.overlayCSS, { backgroundColor: '#000000', opacity: '0.4'});
 	//disable animation effect
 	$.extend($.blockUI.defaults,{ fadeIn: 0, fadeOut: 0 });
-
 	//unblock UI on 'escape' key pressed...
 	$(window).keydown(
 		function(e)
@@ -28,8 +25,6 @@ function blockUIConfig()
 	);
 }
 
-
-//dashboard constructor
 function dashboard()
 {
 	this.test = new Object;
@@ -38,7 +33,6 @@ function dashboard()
 	this.layout = '';
 }
 	
-//Prototype of the dashboard object
 dashboard.prototype =
 {
 	//function called on dashboard initialisation
