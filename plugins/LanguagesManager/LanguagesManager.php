@@ -98,7 +98,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$languageCode = self::getLanguageFromPreferences();
 		if(!Piwik_LanguagesManager_API::isLanguageAvailable($languageCode))
 		{
-			$languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), self::getAvailableLanguages());
+			$languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), Piwik_LanguagesManager_API::getAvailableLanguages());
 		}
 		if(!Piwik_LanguagesManager_API::isLanguageAvailable($languageCode))
 		{

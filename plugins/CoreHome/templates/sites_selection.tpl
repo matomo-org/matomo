@@ -1,4 +1,4 @@
-<span id="sitesSelectionWrapper" >
+<span id="sitesSelectionWrapper" style="display:none;" >
 	<span id="selectedSiteName" style="display:none">{$siteName}</span>
 	<span id="sitesSelection" style="position:absolute">Site 
 		<form action="{url idSite=null}" method="get">
@@ -20,6 +20,7 @@
 		{
 			extraPadding = 21;
 		}
+		$("#sitesSelectionWrapper").show();
 		var widthSitesSelection = $("#selectedSiteName").width() + 4 + extraPadding;
 		$("#sitesSelectionWrapper").css('padding-right', widthSitesSelection);
 		$("#sitesSelection").fdd2div({CssClassName:"formDiv"});
