@@ -2,9 +2,9 @@
 	<span id="languageSelection" style="display:none;position:absolute">
 		<form action="index.php?module=LanguagesManager&action=saveLanguage" method="get">
 		<select name="language">
-			<option value="{$currentLanguage}">{$languages.$currentLanguage}</option>
-			{foreach from=$languages key=languageCode item=languageName}
-			<option value="{$languageCode}">{$languageName}</option>
+			<option value="{$currentLanguageCode}">{$currentLanguageName}</option>
+			{foreach from=$languages item=language}
+			<option value="{$language.code}">{$language.name}</option>
 			{/foreach}
 		</select>
 		<input type="submit" value="go"/>

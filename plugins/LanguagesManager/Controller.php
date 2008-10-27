@@ -32,22 +32,9 @@ class Piwik_LanguagesManager_Controller extends Piwik_Controller
 		}
 		else
 		{
-			$this->saveLanguageForUser($currentUser, $language);
+			Piwik_LanguagesManager_API::setLanguageForUser($currentUser, $language);
 		}
 		Piwik_Url::redirectToReferer();
 	}
 	
-	/**
-	 * @param string
-	 * @param string
-	 */
-	protected function saveLanguageForUser( $login, $language )
-	{
-		$paramsBind = array($login, $language, $language);
-		Piwik_Query('INSERT INTO '.Piwik::prefixTable('user_language') .
-					' (login, language)
-						VALUES (?,?)
-					ON DUPLICATE KEY UPDATE language=?',
-					$paramsBind);
-	}
 }
