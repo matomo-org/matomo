@@ -9,18 +9,15 @@
  * @package Piwik_ViewDataTable
  */
 
-
 require_once "Visualization/Sparkline.php";
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.
  * 
  * @package Piwik_ViewDataTable
- *
  */
 class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 {
-	
 	/**
 	 * @see Piwik_ViewDataTable::init()
 	 */
@@ -48,20 +45,15 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		$this->loadDataTableFromAPI();
 		
 		$this->dataAvailable = $this->dataTable->getRowsCount() != 0;
-		
 		if(!$this->dataAvailable)
 		{
 			throw new Exception(Piwik_Translate('General_NoDataForGraph'));
 		}
-		else
-		{
-			$data = $this->generateDataFromDataTableArray($this->dataTable);
-			
-			$graph = new Piwik_Visualization_Sparkline;
-			$graph->setData($data);
-			$graph->main();
-//			var_dump($data);exit;
-			$this->view = $graph;
-		}
+		$data = $this->generateDataFromDataTableArray($this->dataTable);
+		
+		$graph = new Piwik_Visualization_Sparkline;
+		$graph->setData($data);
+		$graph->main();
+		$this->view = $graph;
 	}
 }
