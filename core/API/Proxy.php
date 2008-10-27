@@ -173,6 +173,8 @@ class Piwik_API_Proxy
 		
 			'siteName' => 'new example website',
 			'urls' => 'http://example.org', // used in addSite, updateSite
+		
+			'languageCode' => 'fr',
 		);
 		
 		foreach($parametersToSet as $name => $value)

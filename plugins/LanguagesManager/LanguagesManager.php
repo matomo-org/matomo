@@ -9,11 +9,10 @@
  * @package Piwik_LanguageManager
  */
 
+require_once "LanguagesManager/API.php";
+
 class Piwik_LanguagesManager extends Piwik_Plugin
 {
-	static protected $availableLanguageNames = null;
-	static protected $languageNames = null;
-	
 	public function getInformation()
 	{
 		return array(
@@ -48,99 +47,16 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	function showLanguagesSelector()
 	{
 		$view = new Piwik_View("LanguagesManager/templates/languages.tpl");
-		$view->languages = self::getAvailableLanguageNames();
-		$view->currentLanguage = self::getLanguageForCurrentUser();
+		$view->languages = Piwik_LanguagesManager_API::getAvailableLanguageNames();
+		$view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
+		$view->currentLanguageName = self::getLanguageNameForCurrentUser();
 		echo $view ->render();
 	}
 	
 	function getLanguageToLoad($notification)
 	{
 		$language =& $notification->getNotificationObject();
-		$language = self::getLanguageForCurrentUser();
-	}
-	
-	/**
-	 * @return string $language
-	 */
-	static public function getLanguageForCurrentUser()
-	{
-		$languageCode = self::getLanguageFromPreferences();
-		if(!self::isLanguageAvailable($languageCode))
-		{
-			$languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), self::getAvailableLanguages());
-		}
-		if(!self::isLanguageAvailable($languageCode))
-		{
-			$languageCode = 'en';
-		}
-		return $languageCode;
-	}
-
-	static public function isLanguageAvailable($languageCode)
-	{
-		return $languageCode !== false
-			&& in_array($languageCode, self::getAvailableLanguages());
-	}
-	
-	static public function getAvailableLanguages()
-	{
-		if(!is_null(self::$languageNames))
-		{
-			return self::$languageNames;
-		}
-		$languages = glob( "lang/*");
-		$languageNames = array();
-		foreach($languages as $language) 
-		{
-			$languageNames[] = substr($language, strlen("lang/"), -strlen('.php'));
-		}
-		self::$languageNames = $languageNames;
-		return $languageNames;
-	}
-	
-	static public function getAvailableLanguageNames()
-	{
-		if(!is_null(self::$availableLanguageNames))
-		{
-			return self::$availableLanguageNames;
-		}
-		
-		$filenames = self::getAvailableLanguages();
-		foreach($filenames as $filename) 
-		{
-			require "lang/$filename.php";
-			$languagesInfo[$filename] = $translations['General_OriginalLanguageName'];
-		}
-		asort($languagesInfo);
-		self::$availableLanguageNames = $languagesInfo;
-		return self::$availableLanguageNames;
-	}
-	
-	static protected function getLanguageFromPreferences()
-	{
-		$currentUser = Piwik::getCurrentUserLogin();
-		if($currentUser == 'anonymous')
-		{
-			if(!isset($_SESSION['language']))
-			{
-				return false;
-			}
-			return $_SESSION['language'];
-		}
-		else
-		{
-			return self::getLanguageForUser($currentUser);
-		}
-	}
-	
-	/**
-	 * @param string $login
-	 * @param string|false $layout
-	 */
-	static protected function getLanguageForUser( $login )
-	{
-		return Piwik_FetchOne('SELECT language FROM '.Piwik::prefixTable('user_language') .
-					' WHERE login = ? ', array($login ));
+		$language = self::getLanguageCodeForCurrentUser();
 	}
 	
 	public function install()
@@ -172,6 +88,56 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$sql = "DROP TABLE ". Piwik::prefixTable('user_language') ;
 		Piwik_Query($sql);		
 	}
+	
+	
+	/**
+	 * @return string Two letters language code, eg. "fr"
+	 */
+	static public function getLanguageCodeForCurrentUser()
+	{
+		$languageCode = self::getLanguageFromPreferences();
+		if(!Piwik_LanguagesManager_API::isLanguageAvailable($languageCode))
+		{
+			$languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), self::getAvailableLanguages());
+		}
+		if(!Piwik_LanguagesManager_API::isLanguageAvailable($languageCode))
+		{
+			$languageCode = 'en';
+		}
+		return $languageCode;
+	}
+	
+	/**
+	 * @return string Full english language string, eg. "French"
+	 */
+	static public function getLanguageNameForCurrentUser()
+	{
+		$languageCode = self::getLanguageCodeForCurrentUser();
+		$languages = Piwik_LanguagesManager_API::getAvailableLanguageNames();
+		foreach($languages as $language)
+		{
+			if($language['code'] === $languageCode) 
+			{
+				return $language['name'];
+			}
+		}
+	}
+
+	static protected function getLanguageFromPreferences()
+	{
+		$currentUser = Piwik::getCurrentUserLogin();
+		if($currentUser == 'anonymous')
+		{
+			if(!isset($_SESSION['language']))
+			{
+				return false;
+			}
+			return $_SESSION['language'];
+		}
+		return Piwik_LanguagesManager_API::getLanguageForUser($currentUser);
+	}
+	
+	
 	
 }
 

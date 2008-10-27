@@ -10,7 +10,7 @@
  * 
  */
 
-require_once("DBStats/API.php");
+require_once "DBStats/API.php" ;
 
 class Piwik_DBStats extends Piwik_Plugin
 {
