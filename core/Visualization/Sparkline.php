@@ -28,29 +28,36 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 	function setData($data)
 	{
 		$this->data = $data;
+		$this->width = self::getWidth();
+		$this->height = self::getHeight();
 	}
 	
+	static public function getWidth()
+	{
+		return 100;
+	}
+	
+	static public function getHeight()
+	{
+		return 20;
+	}
 	
 	function main()
 	{
 		$data = $this->data;
 		$sparkline = new Sparkline_Line();
-		
 		$sparkline->SetColor('lineColor', 22,44,74); // dark blue
 		$sparkline->SetColorHtml('red', '#FF7F7F');
 		$sparkline->SetColorHtml('blue', '#55AAFF');
 		$sparkline->SetColorHtml('green', '#75BF7C');
-//		$sparkline->SetDebugLevel(DEBUG_NONE);
-//		$sparkline->SetDebugLevel(DEBUG_ERROR | DEBUG_WARNING | DEBUG_STATS | DEBUG_CALLS | DEBUG_DRAW, 'log.txt');
 		
 		$data = array_reverse($data);
-		$min = $max= $last = null;
+		$min = $max = $last = null;
 		$i = 0;
 		
 		foreach($this->data as $row)
 		{
 			$value = $row['value'];
-					
 			$sparkline->SetData($i, $value);
 			if(	null == $min || $value <= $min[1])
 			{
@@ -63,21 +70,21 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 			}
 		
 			$last = array($i, $value);
-			
 			$i++;			
 		}
+		
 		$sparkline->SetYMin(0);
 		$sparkline->SetPadding(2); // setpadding is additive
-		$sparkline->SetPadding(0,//13,//font height 
+		$sparkline->SetPadding(0,//13 font height 
 					3, //4 * (strlen("$last[1]")), 
 					0, //imagefontheight(FONT_2), 
 					0);
 		$font = FONT_2;
-		$sparkline->SetFeaturePoint($min[0]-1,$min[1],'red', 5);
-		$sparkline->SetFeaturePoint($max[0]-1,$max[1],  'green', 5);
+		$sparkline->SetFeaturePoint($min[0]-1,  $min[1],  'red', 5);
+		$sparkline->SetFeaturePoint($max[0]-1,  $max[1],  'green', 5);
 		$sparkline->SetFeaturePoint($last[0]-1, $last[1], 'blue',5);
 		$sparkline->SetLineSize(3); // for renderresampled, linesize is on virtual image
-		$sparkline->RenderResampled(100, 20, 'lineColor');
+		$sparkline->RenderResampled($this->width, $this->height, 'lineColor');
 		
 		$this->sparkline = $sparkline;
 	}

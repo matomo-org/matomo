@@ -1,5 +1,4 @@
 Bugs
-- PLUGINS HAVE THEIR OWN TESTS
 - add width+height to sparklines
 - google chrome/safari bug with calendar + language dropdown
 http://4.bp.blogspot.com/_B0Ay-jl4bcM/SLRqaqKz7jI/AAAAAAAAD-U/GfMiqCImtD8/s1600-h/piwik.png
@@ -30,6 +29,7 @@ To clean
 - embed widgets codes above widget?
 - why widgetize inherits Piwik_Widgetize_Controller
 - rss cache + user agent piwik
+- PLUGINS HAVE THEIR OWN TESTS
 
 Documentation
 - postEvent smarty doc is not clear, + feature we're not using (filter but what we need is simply way to print out html in templates from plugins)

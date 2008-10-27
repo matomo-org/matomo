@@ -7,18 +7,18 @@
 	<h2>{'Referers_Type'|translate}</h2>
 	<table>
 		<tr><td>
-			<p><img class="sparkline" src="{$urlSparklineDirectEntry}" /> <span>
+			<p>{sparkline src=$urlSparklineDirectEntry}<span>
 			{'Referers_TypeDirectEntries'|translate:"<strong>$visitorsFromDirectEntry</strong>"}</span></p>
-			<p><img class="sparkline" src="{$urlSparklineSearchEngines}" /> <span>
+			<p>{sparkline src=$urlSparklineSearchEngines}<span>
 			{'Referers_TypeSearchEngines'|translate:"<strong>$visitorsFromSearchEngines</strong>"}</span></p>
-			<p><img class="sparkline" src="{$urlSparklinePartners}" /> <span>
+			<p>{sparkline src=$urlSparklinePartners}<span>
 			{'Referers_TypePartners'|translate:"<strong>$visitorsFromPartners</strong>"}</span></p>
 		</td><td>
-			<p><img class="sparkline" src="{$urlSparklineWebsites}" /> <span>
+			<p>{sparkline src=$urlSparklineWebsites}<span>
 			{'Referers_TypeWebsites'|translate:"<strong>$visitorsFromWebsites</strong>"}</span></p>
-			<p><img class="sparkline" src="{$urlSparklineNewsletters}" /> <span>
+			<p>{sparkline src=$urlSparklineNewsletters}<span>
 			{'Referers_TypeNewsletters'|translate:"<strong>$visitorsFromNewsletters</strong>"}</span></p>
-			<p><img class="sparkline" src="{$urlSparklineCampaigns}" /> <span>
+			<p>{sparkline src=$urlSparklineCampaigns}<span>
 			{'Referers_TypeCampaigns'|translate:"<strong>$visitorsFromCampaigns</strong>"}</span></p>
 		</td></tr>
 	</table>
@@ -26,16 +26,16 @@
 	<h2>{'Referers_Other'|translate}</h2>
 	<table>
 		<tr><td>
-			<p><img class="sparkline" src="{$urlSparklineDistinctSearchEngines}" /> <span>
+			<p>{sparkline src=$urlSparklineDistinctSearchEngines}<span>
 			{'Referers_OtherDistinctSearchEngines'|translate:"<strong>$numberDistinctSearchEngines</strong>"}</span></p>
-			<p><img class="sparkline" src="{$urlSparklineDistinctKeywords}" /> <span>
+			<p>{sparkline src=$urlSparklineDistinctKeywords}<span>
 			{'Referers_OtherDistinctKeywords'|translate:"<strong>$numberDistinctKeywords</strong>"}</span></p>
 		</td><td>
-			<p><img class="sparkline" src="{$urlSparklineDistinctWebsites}" /> <span>
+			<p>{sparkline src=$urlSparklineDistinctWebsites}<span>
 			{'Referers_OtherDistinctWebsites'|translate:"<strong>$numberDistinctWebsites</strong>":"<strong>$numberDistinctWebsitesUrls</strong>"}</span></p>
-			<p><img class="sparkline" src="{$urlSparklineDistinctPartners}" /> <span>
+			<p>{sparkline src=$urlSparklineDistinctPartners}<span>
 			{'Referers_OtherDistinctPartners'|translate:"<strong>$numberDistinctPartners</strong>":"<strong>$numberDistinctPartnersUrls</strong>"}</span></p>
-			<p><img class="sparkline" src="{$urlSparklineDistinctCampaigns}" /> <span> 
+			<p>{sparkline src=$urlSparklineDistinctCampaigns}<span> 
 			{'Referers_OtherDistinctCampaigns'|translate:"<strong>$numberDistinctCampaigns</strong>"}</span></p>
 			</td></tr>
 	</table>
