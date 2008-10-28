@@ -102,8 +102,11 @@ dataTable_default_sort_order = desc
 ; default number of elements in the datatable
 dataTable_default_limit = 10
 
-; minimum required version (minimum requirement know to date = ->newInstanceArgs)
+; PHP minimum required version (minimum requirement known to date = ->newInstanceArgs)
 minimum_php_version = 5.1.3
+
+; MySQL minimum required version
+minimum_mysql_version = 4.1
 
 minimum_memory_limit = 128
 

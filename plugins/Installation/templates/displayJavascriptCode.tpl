@@ -41,5 +41,6 @@ $(document).ready( function(){
 <ul>
 <li>Link to help with the main blog engines wordpress/drupal/myspace/blogspot</li>
 <li>Concept of footer</li>
+<li>Help -> How to setup a crontab?</li>
 <li>How to use the piwik_action_name variable in the JS tag? for example replace by <pre> piwik_action_name = document.title;</pre> </li>	
 </ul>

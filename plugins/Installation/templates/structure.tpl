@@ -41,6 +41,9 @@ body {
 
 h1 {
 	font-size:20px;
+	color:#666666;
+	border-bottom:1px solid #DADADA;
+	padding:0 0 7px;
 }
 
 h3 {
