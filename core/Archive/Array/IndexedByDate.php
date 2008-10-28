@@ -1,8 +1,8 @@
 <?php
 require_once "Archive/Array.php";
 
-class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array {
-	
+class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array 
+{
 	/**
 	 * Builds an array of Piwik_Archive of a given date range
 	 *
@@ -36,6 +36,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array {
 				'site' => $archive->getSite(),
 			);
 	}
+	
 	protected function getDataTableLabelValue( $archive )
 	{
 		return $archive->getPrettyDate();
@@ -50,12 +51,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array {
 	 */
 	public function getDataTableFromNumeric( $fields )
 	{
-		if(!is_array($fields))
-		{
-			$fields = array($fields);
-		}
-		
-		$inName = "'" . implode("', '",$fields) . "'";
+		$inNames = $this->getSqlStringFieldsArray($fields);
 		
 		// we select in different shots
 		// one per distinct table (case we select last 300 days, maybe we will  select from 10 different tables)
@@ -85,7 +81,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array {
 			$sql = "SELECT value, name, idarchive, UNIX_TIMESTAMP(date1) as timestamp
 									FROM $table
 									WHERE idarchive IN ( $inIds )
-										AND name IN ( $inName )";
+										AND name IN ( $inNames )";
 
 			$values = $db->fetchAll($sql);
 			

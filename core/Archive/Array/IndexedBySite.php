@@ -1,10 +1,9 @@
 <?php
 require_once "Archive/Array.php";
 
-class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array {
-	
+class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array 
+{
 	/**
-	 *
 	 * @param Piwik_Site $oSite 
 	 * @param string $strPeriod eg. 'day' 'week' etc.
 	 * @param string $strDate A date range, eg. 'last10', 'previous5' or 'YYYY-MM-DD,YYYY-MM-DD'
@@ -33,66 +32,77 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array {
 	
 	/**
 	 * Given a list of fields defining numeric values, it will return a Piwik_DataTable_Array
-	 * which is an array of Piwik_DataTable_Simple, ordered by chronological order
+	 * ordered by idsite
 	 *
 	 * @param array|string $fields array( fieldName1, fieldName2, ...)  Names of the mysql table fields to load
 	 * @return Piwik_DataTable_Array
 	 */
 	public function getDataTableFromNumeric( $fields )
 	{
-		if(!is_array($fields))
+		$tableArray = $this->getNewDataTableArray();
+		if ($this->getFirstArchive() instanceof Piwik_Archive_Single)
 		{
-			$fields = array($fields);
-		}
-		$inName = "'" . implode("', '",$fields) . "'";
-		
-		$numericTable = null;
-		$aIds = array();
-		foreach($this->archives as $archive)
-		{
-			if(is_null($numericTable))
+			$values = $this->getValues($fields);
+			foreach($this->archives as $idSite => $archive)
 			{
-				$numericTable = $archive->archiveProcessing->getTableArchiveNumericName();
+				$table = new Piwik_DataTable_Simple();
+				if (array_key_exists($idSite, $values))
+				{
+					$table->loadFromArray($values[$idSite]);
+				}
+				$tableArray->addTable($table, $idSite);
 			}
-			else if( $numericTable != $archive->archiveProcessing->getTableArchiveNumericName())
+		}
+		elseif ($this->getFirstArchive() instanceof Piwik_Archive_Array)
+		{
+			foreach($this->archives as $idSite => $archive)
+			{
+				$tableArray->addTable($archive->getDataTableFromNumeric($fields), $idSite);
+			}
+		}
+		
+		return $tableArray;
+	}
+
+	private function getValues($fields)
+	{
+		foreach($this->loadValuesFromDB($fields) as $value)
+ 		{
+			$arrayValues[$value['idsite']][$value['name']] = $value['value'];
+ 		}
+		return $arrayValues;
+	}
+	
+	private function loadValuesFromDB($fields)
+	{
+ 		$sql = "SELECT value, name, idarchive, idsite
+								FROM {$this->getNumericTableName()}
+								WHERE idarchive IN ( {$this->getArchiveIds()} )
+									AND name IN ( {$this->getSqlStringFieldsArray($fields)} )";
+		return Zend_Registry::get('db')->fetchAll($sql);
+	}
+
+	private function getFirstArchive()
+	{
+		reset($this->archives);
+		return current($this->archives);
+	}
+
+	private function getArchiveIds()
+	{
+		foreach($this->archives as $archive)
+ 		{
+ 			if( $this->getNumericTableName() != $archive->archiveProcessing->getTableArchiveNumericName())
 			{
 				throw new Exception("Piwik_Archive_Array_IndexedBySite::getDataTableFromNumeric() algorithm won't work if data is stored in different tables");
 			}
-			$aIds[] = $archive->getIdArchive();
-		}
-		
-		$inIds = implode(', ', $aIds);
-		$sql = "SELECT value, name, idarchive, idsite
-								FROM $numericTable
-								WHERE idarchive IN ( $inIds )
-									AND name IN ( $inName )";
-		$values = Zend_Registry::get('db')->fetchAll($sql);
-			
-		$arrayValues = array();
-		foreach($values as $value)
-		{
-			$arrayValues[$value['idsite']][$value['name']] = $value['value'];
-		}			
-		
-		// we add empty tables so that every requested date has an entry, even if there is nothing
-		// example: <result idSite="159" />
-		$contentArray = array();
-		foreach($this->archives as $idSite => $archive)
-		{
-			$contentArray[$idSite]['table'] = new Piwik_DataTable_Simple();
-		}
-		
-		foreach($arrayValues as $idSite => $aNameValues)
-		{
-			$contentArray[$idSite]['table']->loadFromArray($aNameValues);
-		}
-		ksort( $contentArray );
-				
-		$tableArray = $this->getNewDataTableArray();
-		foreach($contentArray as $idSite => $aData)
-		{
-			$tableArray->addTable($aData['table'], $idSite);
-		}
-		return $tableArray;
+			$archiveIds[] = $archive->getIdArchive();
+ 		}
+		return implode(', ', $archiveIds);
+	}
+	
+	private function getNumericTableName()
+	{
+		return $this->getFirstArchive()->archiveProcessing->getTableArchiveNumericName();
 	}
 }
