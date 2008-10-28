@@ -25,7 +25,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 						$currentControllerAction, 
 						$moduleNameAndMethod );
 		
-		$this->setParametersToModify(array('date' => 'last30'));
+		$this->setParametersToModify(array('date' => Piwik_Common::getRequestVar('date', 'last30', 'string')));
 		$this->doNotShowFooter();
 	}
 	
