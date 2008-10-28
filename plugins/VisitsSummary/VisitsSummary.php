@@ -60,8 +60,7 @@ function Piwik_getPrettyTimeFromSeconds($numberOfSeconds)
 	$minusDaysAndHours = $minusDays - $hours * 3600;
 	$minutes = floor($minusDaysAndHours / 60 );
 	
-	$minusDaysAndHoursAndMinutes = $minusDaysAndHours - $minutes * 60;
-	$secondsMod = $minusDaysAndHoursAndMinutes; // should be same as $numberOfSeconds % 60 
+	$seconds = $minusDaysAndHours - $minutes * 60;
 	
 	if($days > 0)
 	{
@@ -73,6 +72,6 @@ function Piwik_getPrettyTimeFromSeconds($numberOfSeconds)
 	}
 	else
 	{
-		return sprintf("%d min %d s", $minutes, $numberOfSeconds);		
+		return sprintf("%d min %d s", $minutes, $seconds);		
 	}
 }
