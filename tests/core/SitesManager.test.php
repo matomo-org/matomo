@@ -622,75 +622,6 @@ class Test_Piwik_SitesManager extends Test_Database
         $this->fail("Exception not raised.");
     }
     
-    
-    
-    /**
-     * wrong id=> exception
-     */
-    function test_replaceSiteUrls_wrongIdsite()
-    {
-    	
-    	try {
-    		Piwik_SitesManager_API::replaceSiteUrls(-1, array("http://piwik.net"));
-    	}
-    	catch (Exception $expected) {
-            return;
-        }
-        $this->fail("Exception not raised.");
-    }
-    
-    /**
-     * no urls => exception
-     */
-    function test_replaceSiteUrls_noUrls()
-    {
-    	$idsite = Piwik_SitesManager_API::addSite("site1","http://test.com");
-    	try {
-    		Piwik_SitesManager_API::replaceSiteUrls($idsite, array());
-	        $this->fail("Exception not raised.");
-    	}
-    	catch (Exception $expected) {
-    		$this->assertPattern("(SitesManager_ExceptionNoUrl)", $expected->getMessage());
-        }
-    }
-    
-    /**
-     * normal case -> main_url replaced
-     */
-    function test_replaceSiteUrls_oneUrls()
-    {
-    	$idsite = Piwik_SitesManager_API::addSite("site1","http://test.com");
-    	$this->assertEqual(
-    				Piwik_SitesManager_API::replaceSiteUrls($idsite, array("http://piwiknew.com")),
-    				1);
-    	$site = Piwik_SitesManager_API::getSiteFromId($idsite);
-    	$this->assertEqual($site['main_url'], "http://piwiknew.com");
-    }
-    
-    /**
-     * normal case => main_url replaced and alias urls inserted
-     */
-    function test_replaceSiteUrls_severalUrls()
-    {
-    	$urls = array("http://piwiknew.com",
-						"http://piwiknew.net",
-						"http://piwiknew.org",
-						"http://piwiknew.fr");
-    	$idsite = Piwik_SitesManager_API::addSite("site1","http://test.com");
-    	$this->assertEqual(
-    				Piwik_SitesManager_API::replaceSiteUrls($idsite, 
-    							$urls),
-    				4);
-
-    	$all = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
-    	$this->assertEqual($all[0], $urls[0]);
-    	sort($all);
-    	sort($urls);
-
-    	$this->assertEqual($all, $urls);
-    }
-    
-    
     /**
      * one url => no change to alias urls
      */
@@ -703,14 +634,13 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::addSite("site1",$urls);
     	
     	$newMainUrl = "http://main.url";
-    	Piwik_SitesManager_API::updateSite($idsite, "test toto@{}",$newMainUrl );
+    	Piwik_SitesManager_API::updateSite($idsite, "test toto@{}", $newMainUrl );
     	
     	$allUrls = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	$this->assertEqual($allUrls[0], $newMainUrl);
-    	$a1 = array_slice($allUrls,1); sort($a1);
-    	$a2 = array_slice($urls,1); sort($a2);
-    	$this->assertEqual($a1,$a2);
+    	$aliasUrls = array_slice($allUrls,1);
+    	$this->assertEqual($aliasUrls,array());
     }
     
     /**

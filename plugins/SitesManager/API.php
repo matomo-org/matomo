@@ -309,41 +309,6 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 	}
 	
 	/**
-	 * Replaces the list of URLs (main_url and alias URLs) for the given idSite. 
-	 *   
-	 * @param int the website ID
-	 * @param array the array of URLs; The first URL is the main_url and is mandatory. 
-	 * 
-	 * @exception if the website ID doesn't exist or the user doesn't have access to it
-	 * @exception if there is no URL
-	 * @exception if any of the URLs has not a correct format
-	 * 
-	 * @return int the number of inserted URLs
-	 */
-	static public function replaceSiteUrls( $idSite,  $urls)
-	{
-		Piwik::checkUserHasAdminAccess($idSite);
-		
-		$urls = self::cleanParameterUrls($urls);
-		self::checkUrls($urls);
-		self::checkAtLeastOneUrl($urls);
-		
-		$site = self::getSiteFromId($idSite);
-		
-		$site['main_url'] = $urls[0];
-		self::updateSite($site['idsite'], $site['name'], $site['main_url']);
-		
-		$urls = array_slice($urls,1);
-		self::deleteSiteAliasUrls($idSite);
-		
-		$insertedUrls = self::addSiteAliasUrls($idSite, $urls);
-		
-		// we have updated the main_url at least, and maybe some alias URLs
-		return 1 + $insertedUrls;
-	}
-	
-	
-	/**
 	 * Update an existing website.
 	 * If only one URL is specified then only the main url will be updated.
 	 * If several URLs are specified, both the main URL and the alias URLs will be updated.
@@ -382,14 +347,13 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 							$bind,
 							"idsite = $idSite"
 								);
-		// if there are more than 1 url for this website we need to set also the alias URLs
-		// we use the replaceSiteUrls function ; it is not great because it will update the 
-		// same row we have just updated... but it is better than duplicating the logic
+								
+		// we now update the main + alias URLs
+		self::deleteSiteAliasUrls($idSite);
 		if(count($urls) > 1)
 		{
-			self::replaceSiteUrls($idSite, $urls);
+			$insertedUrls = self::addSiteAliasUrls($idSite, array_slice($urls,1));
 		}
-		
 	}
 	
 	/**
