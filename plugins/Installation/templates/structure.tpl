@@ -99,6 +99,10 @@ h3 {
 	margin: auto;
 	background: #FFFFFF;
 	padding: 0.2em 2em 2em 2em;
+	
+					-moz-border-radius: 8px;
+					-khtml-border-radius: 8px;
+					-webkit-border-radius: 8px;
 }
 /* form errors */
 #adminErrors {

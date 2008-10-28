@@ -123,18 +123,29 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				'port'			=> Zend_Registry::get('config')->database->port,
 			);
 			
-			try{ 
-				$dbInfos['password'] = '"'.htmlspecialchars($form->getSubmitValue('password')).'"';
+			$dbInfos['password'] = '"'.htmlspecialchars($form->getSubmitValue('password')).'"';
+			
+			if(($portIndex = strpos($dbInfos['host'],':')) !== false)
+			{
+				$dbInfos['port'] = substr($dbInfos['host'], $portIndex + 1 );
+				$dbInfos['host'] = substr($dbInfos['host'], 0, $portIndex);
+			}
 				
-				if(($portIndex = strpos($dbInfos['host'],':')) !== false)
-				{
-					$dbInfos['port'] = substr($dbInfos['host'], $portIndex + 1 );
-					$dbInfos['host'] = substr($dbInfos['host'], 0, $portIndex);
+			try{ 
+				try {
+					Piwik::createDatabaseObject($dbInfos);
+				} catch (Zend_Db_Adapter_Exception $e) {
+					// database not found, we try to create  it
+					if(ereg('[1049]',$e->getMessage() ))
+					{
+						$dbInfosConnectOnly = $dbInfos;
+						$dbInfosConnectOnly['dbname'] = null;
+						Piwik::createDatabaseObject($dbInfosConnectOnly);
+						Piwik::createDatabase($dbInfos['dbname']);
+					}
 				}
-				Piwik::createDatabaseObject($dbInfos);
 				
 				$_SESSION['db_infos'] = $dbInfos;
-				
 				$this->redirectToNextStep( __FUNCTION__ );
 			} catch(Exception $e) {
 				$view->errorMessage = $e->getMessage();
