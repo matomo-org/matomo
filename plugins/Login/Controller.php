@@ -91,7 +91,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		return false;
 	}
 	
-	function lostpassword($messageNoAccess = null)
+	function lostPassword($messageNoAccess = null)
 	{
 		$form = new Piwik_Login_PasswordForm;
 		$currentUrl = Piwik_Url::getCurrentUrlWithoutQueryString();
@@ -154,7 +154,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 				return;
 			}
 		}
-		$view = new Piwik_View('Login/templates/lostpassword.tpl');
+		$view = new Piwik_View('Login/templates/lostPassword.tpl');
 		$view->AccessErrorString = $messageNoAccess;
 		// make navigation login form -> reset password -> login form remember your first url
 		$view->urlToRedirect = $urlToRedirect;
@@ -164,11 +164,16 @@ class Piwik_Login_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
-	function logout()
+	static public function clearSession()
 	{
 		$authCookieName = 'piwik-auth';
 		$cookie = new Piwik_Cookie($authCookieName);
-		$cookie->delete();
+		$cookie->delete();	
+	}
+	
+	public function logout()
+	{
+		self::clearSession();
 		Piwik::redirectToModule('CoreHome');
 	}
 }
