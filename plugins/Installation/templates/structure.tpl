@@ -10,14 +10,18 @@
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script>
 $(document).ready( function(){
-	$('#toFade').fadeOut(4000, function(){ $(this).css('display', 'hidden'); } ); 
-});
+	$('#toFade').fadeOut(4000, function(){ $(this).css('display', 'hidden'); } );
+	$('input:first').focus();
+	});
 </script>
+{/literal}
 
+{literal}
 <style>
-DIV.both {
-clear: both;
+div.both {
+	clear: both;
 }
+
 body {
 	background-color: #F9F9F9;
 	text-align: center;
@@ -78,14 +82,17 @@ h3 {
 	padding:10;	
 	border: 1px solid #ff5502;
 }
+
 .success img, .warning img {
 	border:0;
 	vertical-align:bottom;
 }
+
 #detailInstall {
 	width:70%;
 	float: right;
 }
+
 /* Cadre general */
 #main {
 	margin: 5px;

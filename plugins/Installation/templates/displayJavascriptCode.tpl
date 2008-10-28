@@ -1,5 +1,4 @@
 
-
 {literal}
 <style>
 code {
@@ -37,10 +36,10 @@ $(document).ready( function(){
 {$javascriptTag}
 </code>
 
-<p>Help todo</p>
+<h1>Quick help:</h1>
 <ul>
-<li>Link to help with the main blog engines wordpress/drupal/myspace/blogspot</li>
-<li>Concept of footer</li>
-<li>Help -> How to setup a crontab?</li>
-<li>How to use the piwik_action_name variable in the JS tag? for example replace by <pre> piwik_action_name = document.title;</pre> </li>	
+<li>You can generally edit your website templates and add this code in a "footer" file</li>
+<li><a target="_blank" href="http://piwik.org/javascript-tag-documentation/">More information about the javascript</a></li>
+<li>Suggested: <a target="_blank" href="http://dev.piwik.org/trac/wiki/Crontab">How to setup a crontab to automatically archive overnight?</a></li>
+<!-- <li>Link to help with the main blog engines wordpress/drupal/myspace/blogspot</li> -->
 </ul>
