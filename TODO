@@ -5,7 +5,6 @@ http://4.bp.blogspot.com/_B0Ay-jl4bcM/SLRqaqKz7jI/AAAAAAAAD-U/GfMiqCImtD8/s1600-
 - something is wrong in JS calendar when year selected
 
 To clean
-- numbers below datatable should be darker grey
 - test set wrong permission and trigger frontController:checkDir
 - fdd2div clean in /libs
 - plugins should listen to user delete/ site delete and delete their own user/site related data
