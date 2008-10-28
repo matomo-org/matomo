@@ -126,7 +126,12 @@ class Piwik_Access
 			if($result->getCode() == Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE)
 			{
 				$this->isSuperUser = true;
-				$idsitesByAccess['superuser'] = Piwik_SitesManager_API::getAllSitesId();
+				$allSitesId = Piwik_SitesManager_API::getAllSitesId();
+				if(count($allSitesId) === 0) 
+				{
+					throw new Exception("Piwik could not find any website in the database.");
+				}
+				$idsitesByAccess['superuser'] = $allSitesId;
 			}
 			// valid authentification (normal user logged in)
 			else
@@ -138,8 +143,7 @@ class Piwik_Access
 				$accessRaw = $db->fetchAll("SELECT access, t2.idsite
 								  FROM ".Piwik::prefixTable('access'). " as t1 
 									JOIN ".Piwik::prefixTable('site')." as t2 USING (idsite) ".
-								" WHERE login=?", $this->login);
-
+								" WHERE login = ?", $this->login);
 				foreach($accessRaw as $access)
 				{
 					$idsitesByAccess[$access['access']][] = $access['idsite'];
@@ -200,9 +204,10 @@ class Piwik_Access
 	public function getSitesIdWithAtLeastViewAccess()
 	{
 		return array_unique(array_merge(
-		$this->idsitesByAccess['view'],
-		$this->idsitesByAccess['admin'],
-		$this->idsitesByAccess['superuser']));
+			$this->idsitesByAccess['view'],
+			$this->idsitesByAccess['admin'],
+			$this->idsitesByAccess['superuser'])
+		);
 	}
 
 
@@ -215,8 +220,9 @@ class Piwik_Access
 	public function getSitesIdWithAdminAccess()
 	{
 		return array_unique(array_merge(
-		$this->idsitesByAccess['admin'],
-		$this->idsitesByAccess['superuser']));
+			$this->idsitesByAccess['admin'],
+			$this->idsitesByAccess['superuser'])
+		);
 	}
 
 
@@ -229,7 +235,7 @@ class Piwik_Access
 	 */
 	public function getSitesIdWithViewAccess()
 	{
-		return 	$this->idsitesByAccess['view'];
+		return $this->idsitesByAccess['view'];
 	}
 
 	/**

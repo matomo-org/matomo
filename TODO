@@ -5,10 +5,6 @@ http://4.bp.blogspot.com/_B0Ay-jl4bcM/SLRqaqKz7jI/AAAAAAAAD-U/GfMiqCImtD8/s1600-
 - something is wrong in JS calendar when year selected
 
 To clean
-- widgetMenu but object called AddMenu 
-- some JS start with capital letter, others with normal letters
-- The UI could be "security trimmed". So a normal user (a customer in this case) should not see the "admin", "API" links ...
-- If the user is only allowed to see one website to analyze the dropdown-control for other sites could be hidden.
 - numbers below datatable should be darker grey
 - test set wrong permission and trigger frontController:checkDir
 - fdd2div clean in /libs
