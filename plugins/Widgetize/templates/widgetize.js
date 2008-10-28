@@ -4,22 +4,24 @@ function callbackAddExportButtonsUnderWidget(widget, pluginId, actionId)
 	divEmbedThisWidget.empty();
 		
 	var html = widget.html();
+	var widgetIframe = '<div id="widgetIframe"><iframe width="500" height="350" src="'+ getEmbedUrl(pluginId, actionId, "iframe") +'" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>';
+	divEmbedThisWidget.append('<br/><b>Embed Iframe:</b> '+ getInputFormWithHtml('iframeEmbed', widgetIframe));
+
 	widget.find('embed').each(function() {
 		var htmlEmbed = $(this).parent().html();
 		console.log($(htmlEmbed).attr('src'));
-		var htmlEmbed = 'Embed Flash: ' + getInputFormWithHtml('flashEmbed', htmlEmbed);
+		var htmlEmbed = '<br/> Embed Flash: ' + getInputFormWithHtml('flashEmbed', htmlEmbed);
 		divEmbedThisWidget.append(htmlEmbed);
 	});
 	
-	//TODO
+	// TODO: clearspring is not possible due to current limitation in clearspring API
+	// JS is buggy at least on IE
 /*	var clearspringHtml = '<script type="text/javascript">\
 			$Launchpad.ShowButton({targetElement: "clearspringButton", userId: "4797da88692e4fe9", servicesInclude: ["google", "facebook", "live", "spaces", "netvibes", "email", "yahoowidgets", "dashboard", "vista", "jscode", "objectcode"], customCSS: "http://cdn.clearspring.com/launchpad/skins/white.css", widgetName: "Piwik example", source: "widgetIframe"});\
 			</script>';
 	var widgetJS = '<script type="text/javascript" src="'+ getEmbedUrl(pluginId, actionId, "js") +'"></scr'+'ipt>';
 	divEmbedThisWidget.append('<br/>Embed JS: '+ getInputFormWithHtml('javascriptEmbed', widgetJS));
 */
-	var widgetIframe = '<div id="widgetIframe"><iframe width="500" height="350" src="'+ getEmbedUrl(pluginId, actionId, "iframe") +'" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>';
-	divEmbedThisWidget.append('<br/>Embed Iframe: '+ getInputFormWithHtml('iframeEmbed', widgetIframe));
 
 }
 
