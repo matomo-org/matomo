@@ -15,6 +15,8 @@
 <link rel="stylesheet" type="text/css" href="themes/default/common.css" />
 <link rel="stylesheet" type="text/css" href="plugins/CoreAdminHome/templates/styles.css" />
 
+<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico"> 
+
 {postEvent name="template_js_import"}
 {postEvent name="template_css_import"}
 

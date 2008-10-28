@@ -837,10 +837,10 @@ class Piwik
 		Zend_Registry::get('db')->query("CREATE DATABASE IF NOT EXISTS ".$dbName);
 	}
 	
-	static public function dropDatabase()
+	static public function dropTestDatabase()
 	{
-		$dbName = Zend_Registry::get('config')->database->dbname;
-		Zend_Registry::get('db')->query("DROP DATABASE IF EXISTS ".$dbName);
+		$dbName = Zend_Registry::get('config')->database_tests->dbname;
+		Zend_Registry::get('db')->query("DROP DATABASE IF EXISTS " . $dbName);
 	}
 	
 	static public function createDatabaseObject( $dbInfos = null )

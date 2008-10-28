@@ -3,10 +3,10 @@
  * The script can be used to generate huge number of visits and actions
  * for a given number of days.
  */
-$minVisits = 5;
-$maxVisits = 15;
-$nbActions = 10;
-$daysToCompute = 2;
+$minVisitors = 3;
+$maxVisitors = 7;
+$nbActions = 2;
+$daysToCompute = 70;
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
@@ -65,12 +65,12 @@ $t = new Piwik_Timer;
 $startTime = time() - ($daysToCompute-1)*86400;
 while($startTime <= time())
 {
-	$visits = rand($minVisits,$maxVisits);
-	$actions=$nbActions;
+	$visitors = rand($minVisitors, $maxVisitors);
+	$actions = $nbActions;
 	$generator->setTimestampToUse($startTime);
-	$nbActionsTotalThisDay = $generator->generate($visits,$actions);
-	$actionsPerVisit = round($nbActionsTotalThisDay / $visits);
-	print("Generated $visits visits and $actionsPerVisit actions per visit for the ".date("Y-m-d", $startTime)."<br>\n");
+	$nbActionsTotalThisDay = $generator->generate($visitors, $actions);
+	$actionsPerVisit = round($nbActionsTotalThisDay / $visitors);
+	print("Generated $visitors unique visitors and $actionsPerVisit actions per visit for the ".date("Y-m-d", $startTime)."<br>\n");
 	$startTime+=86400;
 	$nbActionsTotal+=$nbActionsTotalThisDay;
 	flush();

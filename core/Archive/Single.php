@@ -201,8 +201,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 			return $this->idArchive;
 		}
 		
-//		Piwik::log("-- get '$name'");
-		
 		if(!$this->isThereSomeVisits)
 		{
 			return false;
@@ -221,7 +219,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 			break;
 		}
 
-		// we select the requested value
 		$db = Zend_Registry::get('db');
 		$value = $db->fetchOne("/* SHARDING_ID_SITE = ".$this->site->getId()." */  SELECT value 
 								FROM $table
@@ -230,13 +227,11 @@ class Piwik_Archive_Single extends Piwik_Archive
 								array( $this->idArchive , $name) 
 							);
 
-		// no result, returns false
 		if($value === false)
 		{
 			if($typeValue == 'numeric' 
 				&& $this->cacheEnabledForNumeric)
 			{
-				// we cache the results
 				$this->numericCached[$name] = false;
 			}	
 			return $value;
@@ -251,7 +246,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 		if($typeValue == 'numeric' 
 			&& $this->cacheEnabledForNumeric)
 		{
-			// we cache the results
 			$this->numericCached[$name] = $value;
 		}
 		return $value;
@@ -306,7 +300,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	public function freeBlob( $name )
 	{
-		// we delete the blob
 		$this->blobCached = null; 
 		$this->blobCached = array(); 
 	}
@@ -325,7 +318,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 
 		$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
 
-		// we select the requested value
 		$db = Zend_Registry::get('db');
 		$query = $db->query("SELECT value, name
 								FROM $tableBlob

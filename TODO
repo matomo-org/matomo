@@ -3,6 +3,8 @@ Bugs
 http://4.bp.blogspot.com/_B0Ay-jl4bcM/SLRqaqKz7jI/AAAAAAAAD-U/GfMiqCImtD8/s1600-h/piwik.png
 - WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
 - something is wrong in JS calendar when year selected
+- disable db plugin default
+- order list of sites alphabetically
 
 To clean
 - test set wrong permission and trigger frontController:checkDir
