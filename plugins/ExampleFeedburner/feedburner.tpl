@@ -1,6 +1,8 @@
 
-{literal}
 <script type="text/javascript">
+	var idSite = {$idSite};
+
+{literal}
 	$(document).ready(function(){ 
 	
 	function getName()
@@ -17,7 +19,7 @@
 	
 	$("#feedburnerSubmit").click( function(){
 		var feedburnerName = getName();
-		$.get('?module=ExamplePlugin&action=saveFeedburnerName&name='+feedburnerName);
+		$.get('?module=ExampleFeedburner&action=saveFeedburnerName&idSite='+idSite+'&name='+feedburnerName);
 		loadIframe();
 		
 	});

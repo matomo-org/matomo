@@ -343,7 +343,7 @@ class Piwik_Tracker_Generator
 		}
 	}
 	/**
-	 * Launches the process and generates an exact number of nbVisits
+	 * Launches the process and generates an exact number of nbVisitors
 	 * For each visit, we setup the timestamp to the common timestamp
 	 * Then we generate between 1 and nbActionsMaxPerVisit actions for this visit
 	 * The generated actions will have a growing timestamp so it looks like a real visit
@@ -353,10 +353,10 @@ class Piwik_Tracker_Generator
 	 * 
 	 * @return int The number of total actions generated
 	 */
-	public function generate( $nbVisits, $nbActionsMaxPerVisit )
+	public function generate( $nbVisitors, $nbActionsMaxPerVisit )
 	{
 		$nbActionsTotal = 0;
-		for($i = 0; $i < $nbVisits; $i++)
+		for($i = 0; $i < $nbVisitors; $i++)
 		{
 			$nbActions = mt_rand(1, $nbActionsMaxPerVisit);
 			

@@ -1,12 +1,11 @@
 <?php
 if(!defined("PATH_TEST_TO_ROOT")) {
-	define('PATH_TEST_TO_ROOT', '..');
+	define('PATH_TEST_TO_ROOT', getcwd().'/../../');
 }
 if(!defined('CONFIG_TEST_INCLUDED'))
 {
-	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+	require_once PATH_TEST_TO_ROOT."tests/config_test.php";
 }
-
 Mock::generate('Piwik_Access');
 
 
@@ -146,8 +145,6 @@ class Test_Database extends UnitTestCase
 	public function setUp()
 	{
 		Piwik::createConfigObject();
-		
-		// setup database	
 		Piwik::createDatabaseObject();
 		
 		Zend_Registry::get('config')->setTestEnvironment();	
@@ -155,10 +152,9 @@ class Test_Database extends UnitTestCase
 		
 		Piwik::createLogObject();
 		
-		Piwik::dropDatabase();
+		Piwik::dropTestDatabase();
 		Piwik::createDatabase();
 		Piwik::createDatabaseObject();
-		
 		Piwik::createTables();
 	}
 	
@@ -169,7 +165,7 @@ class Test_Database extends UnitTestCase
 	
 	public function tearDown()
 	{
-		Piwik::dropDatabase();
+		Piwik::dropTestDatabase();
 	}
 }
 

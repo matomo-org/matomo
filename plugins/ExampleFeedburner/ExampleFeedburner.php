@@ -45,13 +45,15 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 	function feedburner()
 	{
 		$view = new Piwik_View('ExampleFeedburner/feedburner.tpl');
+		$idSite = Piwik_Common::getRequestVar('idSite',1,'int');
 		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName FROM '.Piwik::prefixTable('site').
-								' WHERE idsite = ?', Piwik_Common::getRequestVar('idSite',1,'int') );
+								' WHERE idsite = ?', $idSite );
 		if(empty($feedburnerFeedName))
 		{
 			$feedburnerFeedName = 'Piwik';
 		}
 		$view->feedburnerFeedName = $feedburnerFeedName;
+		$view->idSite = $idSite;
 		echo $view->render();
 	}
 	
@@ -64,7 +66,8 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 		// we save the value in the DB for an authenticated user
 		if(Piwik::getCurrentUserLogin() != 'anonymous')
 		{
-			Piwik_Query('UPDATE '.Piwik::prefixTable('site').' SET feedburnerName = ? WHERE idsite = ?', 
+			Piwik_Query('UPDATE '.Piwik::prefixTable('site').' 
+						 SET feedburnerName = ? WHERE idsite = ?', 
 				array(Piwik_Common::getRequestVar('name','','string'), Piwik_Common::getRequestVar('idSite',1,'int'))
 				);
 		}
