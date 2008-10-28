@@ -283,7 +283,7 @@ class Piwik_FrontController
 
 			Piwik::raiseMemoryLimitIfNecessary();
 		} catch(Exception $e) {
-			Piwik_ExitWithMessage($e->getMessage());
+			Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString());
 		}
 	}
 	

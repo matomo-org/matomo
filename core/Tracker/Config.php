@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id: Config.php 450 2008-04-20 22:33:27Z matt $
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
 
 /**
@@ -14,21 +14,21 @@
  * 
  * This is essentially a simple version of Zend_Config that we wrote 
  * because of performance reasons. 
- * The LogStats module can't afford a dependency with the Zend_Framework.
+ * The Tracker module can't afford a dependency with the Zend_Framework.
  * 
  * It's using the php.net/parse_ini_file function to parse the configuration files.
  * It can be used to access both user config.ini.php and piwik global.ini.php config file.
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
-class Piwik_LogStats_Config
+class Piwik_Tracker_Config
 {
 	static private $instance = null;
 	
 	/**
 	 * Returns singleton
 	 *
-	 * @return Piwik_LogStats_Config
+	 * @return Piwik_Tracker_Config
 	 */
 	static public function getInstance()
 	{

@@ -6,19 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id: Generator.php 404 2008-03-23 01:09:59Z matt $
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
 
 
 /**
- * Fake Piwik_LogStats_Visit class that overwrite all the Time related method to be able
+ * Fake Piwik_Tracker_Visit class that overwrite all the Time related method to be able
  * to setup a given timestamp for the generated visitor and actions.
  * 
  * 
- * @package Piwik_LogStats
- * @subpackage Piwik_LogStats_Generator
+ * @package Piwik_Tracker
+ * @subpackage Piwik_Tracker_Generator
  */
-class Piwik_LogStats_Generator_Visit extends Piwik_LogStats_Visit
+class Piwik_Tracker_Generator_Visit extends Piwik_Tracker_Visit
 {
 	static protected $timestampToUse;
 	

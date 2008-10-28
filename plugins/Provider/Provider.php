@@ -23,7 +23,7 @@ class Piwik_Provider extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
-			'LogStatsPlugin' => true, // this plugin must be loaded during the stats logging
+			'TrackerPlugin' => true, // this plugin must be loaded during the stats logging
 		);
 		
 		return $info;
@@ -34,7 +34,7 @@ class Piwik_Provider extends Piwik_Plugin
 		$hooks = array(
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
-			'LogStats.newVisitorInformation' => 'logProviderInfo',
+			'Tracker.newVisitorInformation' => 'logProviderInfo',
 			'WidgetsList.add' => 'addWidget',
 			'Menu.add' => 'addMenu',
 		);

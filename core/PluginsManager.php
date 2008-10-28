@@ -88,15 +88,15 @@ class Piwik_PluginsManager
 		}
 		
 		try{
-			$pluginsLogStats = Zend_Registry::get('config')->Plugins_LogStats->Plugins_LogStats;
-			if(!is_null($pluginsLogStats))
+			$pluginsTracker = Zend_Registry::get('config')->Plugins_Tracker->Plugins_Tracker;
+			if(!is_null($pluginsTracker))
 			{
-				$pluginsLogStats = $pluginsLogStats->toArray();
-				$key = array_search($pluginName,$pluginsLogStats);
+				$pluginsTracker = $pluginsTracker->toArray();
+				$key = array_search($pluginName,$pluginsTracker);
 				if($key !== false)
 				{
-					unset($pluginsLogStats[$key]);
-					Zend_Registry::get('config')->Plugins_LogStats = $pluginsLogStats;
+					unset($pluginsTracker[$key]);
+					Zend_Registry::get('config')->Plugins_Tracker = $pluginsTracker;
 				}
 			}
 		} catch(Exception $e) {}
@@ -261,7 +261,7 @@ class Piwik_PluginsManager
 		
 		$path = 'plugins/' . $pluginFileName;
 
-		// case LogStats, we don't throw the exception, we don't want to add the Zend overhead
+		// case Tracker, we don't throw the exception, we don't want to add the Zend overhead
 		if(class_exists('Zend_Loader') 
 			&& !Zend_Loader::isReadable($path))
 		{
@@ -365,7 +365,7 @@ class Piwik_PluginsManager
 	 */
 	private function loadTranslation( $plugin, $langCode )
 	{
-		// we are certainly in LogStats mode, Zend is not loaded
+		// we are certainly in Tracker mode, Zend is not loaded
 		if(!class_exists('Zend_Loader'))
 		{
 			return ;
@@ -418,7 +418,7 @@ class Piwik_PluginsManager
 	{
 		if(!class_exists('Zend_Registry'))
 		{
-			throw new Exception("Not possible to list installed plugins (case LogStats module)");
+			throw new Exception("Not possible to list installed plugins (case Tracker module)");
 		}
 		if(!is_null(Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled))
 		{
@@ -450,22 +450,22 @@ class Piwik_PluginsManager
 		$information = $plugin->getInformation();
 		
 		// if the plugin is to be loaded during the statistics logging
-		if(isset($information['LogStatsPlugin'])
-			&& $information['LogStatsPlugin'] === true)
+		if(isset($information['TrackerPlugin'])
+			&& $information['TrackerPlugin'] === true)
 		{
-			$pluginsLogStats = Zend_Registry::get('config')->Plugins_LogStats->Plugins_LogStats;
-			if(is_null($pluginsLogStats))
+			$pluginsTracker = Zend_Registry::get('config')->Plugins_Tracker->Plugins_Tracker;
+			if(is_null($pluginsTracker))
 			{
-				$pluginsLogStats = array();
+				$pluginsTracker = array();
 			}
 			else
 			{
-				$pluginsLogStats = $pluginsLogStats->toArray();
+				$pluginsTracker = $pluginsTracker->toArray();
 			}
-			if(!in_array($pluginName, $pluginsLogStats))
+			if(!in_array($pluginName, $pluginsTracker))
 			{
-				$pluginsLogStats[] = $pluginName;
-				Zend_Registry::get('config')->Plugins_LogStats = $pluginsLogStats;
+				$pluginsTracker[] = $pluginName;
+				Zend_Registry::get('config')->Plugins_Tracker = $pluginsTracker;
 			}
 		}
 	}
