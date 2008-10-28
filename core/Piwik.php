@@ -120,7 +120,7 @@ class Piwik
 	 */
 	static public function getJavascriptCode($idSite, $piwikUrl, $actionName = "''")
 	{	
-		$jsTag = file_get_contents( "core/LogStats/javascriptTag.tpl");
+		$jsTag = file_get_contents( "core/Tracker/javascriptTag.tpl");
 		$jsTag = nl2br(htmlentities($jsTag));
 		$piwikUrl = preg_match('/^(http|https):\/\/(.*)$/', $piwikUrl, $matches);
 		$piwikUrl = $matches[2];
@@ -225,7 +225,7 @@ class Piwik
 		Piwik::log("Total queries = $queryCount (total sql time = ".round($totalTime,2)."s)");
 	}
 	
-	static public function printSqlProfilingReportLogStats( $db = null )
+	static public function printSqlProfilingReportTracker( $db = null )
 	{
 		function maxSumMsFirst($a,$b)
 		{
@@ -828,11 +828,13 @@ class Piwik
 		return 	self::$tablesInstalled;
 	}
 	
-	static public function createDatabase()
+	static public function createDatabase( $dbName = null )
 	{
-		$db = Zend_Registry::get('db');
-		$dbName = Zend_Registry::get('config')->database->dbname;
-		$db->query("CREATE DATABASE IF NOT EXISTS ".$dbName);
+		if(is_null($dbName))
+		{
+			$dbName = Zend_Registry::get('config')->database->dbname;
+		}
+		Zend_Registry::get('db')->query("CREATE DATABASE IF NOT EXISTS ".$dbName);
 	}
 	
 	static public function dropDatabase()
@@ -841,7 +843,6 @@ class Piwik
 		$dbName = Zend_Registry::get('config')->database->dbname;
 		$db->query("DROP DATABASE IF EXISTS ".$dbName);
 	}
-	
 	
 	static public function createDatabaseObject( $dbInfos = null )
 	{
