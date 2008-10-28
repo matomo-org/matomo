@@ -53,15 +53,12 @@ class Piwik_API_Request
 	{
 		$requestArray = $_REQUEST;
 		
-		// If an array is specified we use it
 		if(!is_null($request))
 		{
 			$request = trim($request);
 			$request = str_replace(array("\n","\t"),'', $request);
 			parse_str($request, $requestArray);
 				
-			// but we handle the case when an array is specified but we also want
-			// to look for the value in the _REQUEST
 			$requestArray = array_merge( $_REQUEST, $requestArray);
 		}
 		
@@ -109,9 +106,8 @@ class Piwik_API_Request
 			$api = Piwik_Api_Proxy::getInstance();
 			$api->registerClass($module);
 			
-			// read method to call meta information
 			$className = "Piwik_" . $module . "_API";
-			
+
 			// check method exists
 			$api->checkMethodExists($className, $method);
 			
@@ -130,45 +126,6 @@ class Piwik_API_Request
 			return $response->getResponseException( $e );
 		}
 		return $toReturn;
-	}
-	
-	/**
-	 * Returns an array containing the information of the generic Piwik_DataTable_Filter 
-	 * to be applied automatically to the data resulting from the API calls.
-	 *
-	 * @return array See the code for spec
-	 */
-	public static function getGenericFiltersInformation()
-	{
-		$genericFilters = array(
-			
-			'Pattern' => array(
-								'filter_column' 			=> array('string'), 
-								'filter_pattern' 			=> array('string'),
-						),
-			'PatternRecursive' => array(
-								'filter_column_recursive' 	=> array('string'), 
-								'filter_pattern_recursive' 	=> array('string'),
-						),
-			'ExcludeLowPopulation'	=> array(
-								'filter_excludelowpop' 		=> array('string'), 
-								'filter_excludelowpop_value'=> array('float'),
-						),
-			'Sort' => array(
-								'filter_sort_column' 		=> array('string', Piwik_Archive::INDEX_NB_VISITS),
-								'filter_sort_order' 		=> array('string', Zend_Registry::get('config')->General->dataTable_default_sort_order),
-						),
-			'Limit' => array(
-								'filter_offset' 			=> array('integer', '0'),
-								'filter_limit' 				=> array('integer', Zend_Registry::get('config')->General->dataTable_default_limit),
-						),
-			'ExactMatch' => array(
-								'filter_exact_column'		=> array('string'),
-								'filter_exact_pattern'		=> array('array'),
-						),
-		);
-		
-		return $genericFilters;
 	}
 	
 	/**
@@ -215,7 +172,7 @@ class Piwik_API_Request
 		$a = explode('.',$parameter);
 		if(count($a) != 2)
 		{
-			throw new Exception("The method name is invalid. Must be on the form 'module.methodName'");
+			throw new Exception("The method name is invalid. Expected 'module.methodName'");
 		}
 		return $a;
 	}

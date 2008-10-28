@@ -124,6 +124,46 @@ class Piwik_API_ResponseBuilder
 		return $return;
 	}
 	
+	
+	/**
+	 * Returns an array containing the information of the generic Piwik_DataTable_Filter 
+	 * to be applied automatically to the data resulting from the API calls.
+	 *
+	 * @return array See the code for spec
+	 */
+	public static function getGenericFiltersInformation()
+	{
+		$genericFilters = array(
+			
+			'Pattern' => array(
+								'filter_column' 			=> array('string'), 
+								'filter_pattern' 			=> array('string'),
+						),
+			'PatternRecursive' => array(
+								'filter_column_recursive' 	=> array('string'), 
+								'filter_pattern_recursive' 	=> array('string'),
+						),
+			'ExcludeLowPopulation'	=> array(
+								'filter_excludelowpop' 		=> array('string'), 
+								'filter_excludelowpop_value'=> array('float'),
+						),
+			'Sort' => array(
+								'filter_sort_column' 		=> array('string', Piwik_Archive::INDEX_NB_VISITS),
+								'filter_sort_order' 		=> array('string', Zend_Registry::get('config')->General->dataTable_default_sort_order),
+						),
+			'Limit' => array(
+								'filter_offset' 			=> array('integer', '0'),
+								'filter_limit' 				=> array('integer', Zend_Registry::get('config')->General->dataTable_default_limit),
+						),
+			'ExactMatch' => array(
+								'filter_exact_column'		=> array('string'),
+								'filter_exact_pattern'		=> array('array'),
+						),
+		);
+		
+		return $genericFilters;
+	}
+	
 	/**
 	 * Returns true if the user requested to serialize the output data (&serialize=1 in the request)
 	 *
@@ -148,7 +188,6 @@ class Piwik_API_ResponseBuilder
 	 */
 	protected function getRenderedDataTable($dataTable)
 	{
-		// Renderer
 		$format = Piwik_Common::getRequestVar('format', 'php', 'string', $this->request);
 		$format = strtolower($format);
 		
@@ -162,8 +201,7 @@ class Piwik_API_ResponseBuilder
 				return $dataTable->getRowFromId(0)->getColumn('value');
 			}
 			
-			// the original data structure can be asked as serialized. 
-			// but by default it's not serialized
+			// by default "original" data is not serialized
 			if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
 			{
 				$dataTable = serialize($dataTable);
@@ -317,7 +355,7 @@ class Piwik_API_ResponseBuilder
 		 * 2 - Filter that sort the remaining rows
 		 * 3 - Filter that keep only a subset of the results
 		 */
-		$genericFilters = Piwik_API_Request::getGenericFiltersInformation();
+		$genericFilters = self::getGenericFiltersInformation();
 		
 		// if the flag disable_generic_filters is defined we skip the generic filters
 		if(Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->request) != 'false')
