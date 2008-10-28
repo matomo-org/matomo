@@ -54,9 +54,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	function welcome()
 	{
-		// first we clear the existing session, in case it's a reinstall, you were already loggued in, but you're changing your password during the install
-		$cookie = new Piwik_Cookie($authCookieName = 'piwik-auth');
-		$cookie->delete();
+		Piwik_Login_Controller::clearSession();
 		
 		$view = new Piwik_Install_View(
 						$this->pathView . 'welcome.tpl', 
