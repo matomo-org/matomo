@@ -11,7 +11,7 @@
  */
 
 /**
- * This class is used to store the data of a single archive, 
+ * Piwik_Archive_Single is used to store the data of a single archive, 
  * for example the statistics for the 'day' '2008-02-21' for the website idSite '2' 
  *
  */

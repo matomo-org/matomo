@@ -13,7 +13,8 @@
 require_once "DataTable/Simple.php";
 require_once "DataTable/Array.php";
 /**
- * This class is used to store multiple archives, when the user requests a period's archive.
+ * Piwik_Archive_Array is used to store multiple archives, 
+ * for example one archive for a given day for each Piwik website
  *
  */
 abstract class Piwik_Archive_Array extends Piwik_Archive
@@ -157,5 +158,21 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 			$this->loadMetadata($table, $archive);
 		}
 		return $table;
+	}
+	
+	/**
+	 * Takes a list of fields defining numeric values and returns a quoted string 
+	 * of the field names fit to be used in the where clause of a SQL Query
+	 *
+	 * @param array|string $fields array( fieldName1, fieldName2, ...)  Names of the mysql table fields to load
+	 * @return String
+	 */
+	public static function getSqlStringFieldsArray( $fields )
+	{
+		if(!is_array($fields))
+		{
+			return "'$fields'";
+		}
+		return "'" . implode("', '",$fields) . "'";
 	}
 }

@@ -24,7 +24,7 @@
 class Piwik_DataTable_Simple extends Piwik_DataTable
 {
 	/**
-	 * Loads in the DataTable the array information
+	 * Loads (append) in the DataTable the array information
 	 * @param array Array containing the rows information
 	 * 		array(
 	 * 			'Label row 1' => Value row 1,
