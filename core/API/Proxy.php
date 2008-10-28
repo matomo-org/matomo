@@ -65,13 +65,116 @@ class Piwik_API_Proxy
 	 * 
 	 * @param string ModuleName eg. "UserSettings"
 	 */
-	public function registerClass( $fileName )
+	public function registerClass( $moduleName )
 	{
-		if(isset($this->alreadyRegistered[$fileName]))
+		if(isset($this->alreadyRegistered[$moduleName]))
 		{
 			return;
 		}
+
+		$this->includeApiFile($moduleName);
+		$class = $this->getClassNameFromModule($moduleName);
+			
+		$rClass = new ReflectionClass($class);
+		if(!$rClass->isSubclassOf(new ReflectionClass("Piwik_Apiable")))
+		{
+			throw new Exception("To publish its public methods in the API, the class '$class' must be a subclass of 'Piwik_Apiable'.");
+		}
 		
+		$this->checkClassIsSingleton($class);
+		
+		foreach($rClass->getMethods() as $method)
+		{
+			$this->loadMethodMetadata($class, $method);
+		}
+		
+		$this->alreadyRegistered[$moduleName] = true;
+	}
+	
+
+	/**
+	 * Checks that the method exists in the class 
+	 * 
+	 * @param string The class name
+	 * @param string The method name
+	 * @throws exception If the method is not found
+	 */	
+	public function checkMethodExists($className, $methodName)
+	{
+		if(!$this->isMethodAvailable($className, $methodName))
+		{
+			throw new Exception("The method '$methodName' does not exist or is not available in the module '".$className."'.");
+		}
+	}
+
+	/**
+	 * Magic method used to set a flag telling the module named currently being called
+	 *
+	 */
+	public function __get($name)
+	{
+		self::$classCalled = $name;
+		return $this;
+	}	
+
+	/**
+	 * Method always called when making an API request.
+	 * It checks several things before actually calling the real method on the given module.
+	 * 
+	 * It also logs the API calls, with the parameters values, the returned value, the performance, etc.
+	 * You can enable logging in config/global.ini.php (log_api_call)
+	 * 
+	 * @param string The method name
+	 * @param array The parameters
+	 * 
+	 * @throws Piwik_Access_NoAccessException 
+	 */
+	public function __call($methodName, $parameterValues )
+	{
+		$returnedValue = null;
+		
+		try {
+			$this->registerClass(self::$classCalled);
+						
+			$className = $this->getClassNameFromModule(self::$classCalled);
+
+			// instanciate the object
+			$object = call_user_func(array($className, "getInstance"));
+
+			// check method exists
+			$this->checkMethodExists($className, $methodName);
+			
+			// first check number of parameters do match
+			$this->checkNumberOfParametersMatch($className, $methodName, $parameterValues);
+			
+			// start the timer
+			$timer = new Piwik_Timer;
+			
+			// call the method
+			$returnedValue = call_user_func_array(array($object, $methodName), $parameterValues);
+			
+			// log the API Call
+			$parameterNamesDefaultValues  = $this->getParametersList($className, $methodName);
+			Zend_Registry::get('logger_api_call')->log(
+								self::$classCalled,
+								$methodName,
+								$parameterNamesDefaultValues,
+								$parameterValues,
+								$timer->getTimeMs(),
+								$returnedValue
+							);
+		}
+		catch( Piwik_Access_NoAccessException $e) {
+			throw $e;
+		}
+
+		self::$classCalled = null;
+		
+		return $returnedValue;
+	}
+	
+	protected function includeApiFile($fileName)
+	{
 		$potentialPaths = array( "plugins/". $fileName ."/API.php", );
 		
 		$found = false;
@@ -89,56 +192,39 @@ class Piwik_API_Proxy
 		{
 			throw new Exception("API module $fileName not found.");
 		}
+	}
+	
+	protected function loadMethodMetadata($class, $method)
+	{
+		// use this trick to read the static attribute of the class
+		// $class::$methodsNotToPublish doesn't work
+		$variablesClass = get_class_vars($class);
+		$variablesClass['methodsNotToPublish'][] = 'getInstance';
 
-		$class= $this->getClassNameFromModule($fileName);
+		if($method->isPublic() 
+			&& !$method->isConstructor()
+			&& !in_array($method->getName(), $variablesClass['methodsNotToPublish'] )
+		)
+		{
+			$name = $method->getName();
+			$parameters = $method->getParameters();
 			
-		$rClass = new ReflectionClass($class);
-		
-		// check that it is a subclass of Piwik_APIable
-		if(!$rClass->isSubclassOf(new ReflectionClass("Piwik_Apiable")))
-		{
-			throw new Exception("To publish its public methods in the API, the class '$class' must be a subclass of 'Piwik_Apiable'.");
-		}
-		
-		// check that is is singleton
-		$this->checkClassIsSingleton($class);
-		
-		$rMethods = $rClass->getMethods();
-		foreach($rMethods as $method)
-		{
-			// use this trick to read the static attribute of the class
-			// $class::$methodsNotToPublish doesn't work
-			$variablesClass = get_class_vars($class);
-			$variablesClass['methodsNotToPublish'][] = 'getInstance';
-
-			if($method->isPublic() 
-				&& !$method->isConstructor()
-				&& !in_array($method->getName(), $variablesClass['methodsNotToPublish'] )
-			)
+			$aParameters = array();
+			foreach($parameters as $parameter)
 			{
-				$name = $method->getName();
+				$nameVariable = $parameter->getName();
 				
-				$parameters = $method->getParameters();
-				
-				$aParameters = array();
-				foreach($parameters as $parameter)
+				$defaultValue = Piwik_API_Proxy::NO_DEFAULT_VALUE;
+				if($parameter->isDefaultValueAvailable())
 				{
-					$nameVariable = $parameter->getName();
-					
-					$defaultValue = Piwik_API_Proxy::NO_DEFAULT_VALUE;
-					if($parameter->isDefaultValueAvailable())
-					{
-						$defaultValue = $parameter->getDefaultValue();
-					}
-					
-					$aParameters[$nameVariable] = $defaultValue;
+					$defaultValue = $parameter->getDefaultValue();
 				}
-				$this->api[$class][$name]['parameters'] = $aParameters;
-				$this->api[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
+				
+				$aParameters[$nameVariable] = $defaultValue;
 			}
+			$this->api[$class][$name]['parameters'] = $aParameters;
+			$this->api[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
 		}
-		
-		$this->alreadyRegistered[$fileName] = true;
 	}
 	
 	/**
@@ -222,8 +308,7 @@ class Piwik_API_Proxy
 	
 	/**
 	 * Returns a HTML page containing help for all the successfully loaded APIs.
-	 * 
-	 * For each module it will return a mini help with the method names, parameters to give, 
+	 *  For each module it will return a mini help with the method names, parameters to give, 
 	 * links to get the result in Xml/Csv/etc
 	 *
 	 * @return string
@@ -389,21 +474,6 @@ class Piwik_API_Proxy
 	}
 	
 	/**
-	 * Checks that the method exists in the class 
-	 * 
-	 * @param string The class name
-	 * @param string The method name
-	 * @throws exception If the method is not found
-	 */	
-	public function checkMethodExists($className, $methodName)
-	{
-		if(!$this->isMethodAvailable($className, $methodName))
-		{
-			throw new Exception("The method '$methodName' does not exist or is not available in the module '".$className."'.");
-		}
-	}
-	
-	/**
 	 * Returns the API class name given the module name.
 	 * 
 	 * For exemple for $module = 'Referers' it returns 'Piwik_Referers_API' 
@@ -417,71 +487,5 @@ class Piwik_API_Proxy
 	{
 		$class = Piwik::prefixClass($module ."_API");
 		return $class;
-	}
-	
-	/**
-	 * Magic method used to set a flag telling the module named currently being called
-	 *
-	 */
-	public function __get($name)
-	{
-		self::$classCalled = $name;
-		return $this;
-	}	
-
-	/**
-	 * Method always called when making an API request.
-	 * It checks several things before actually calling the real method on the given module.
-	 * 
-	 * It also logs the API calls, with the parameters values, the returned value, the performance, etc.
-	 * You can enable logging in config/global.ini.php (log_api_call)
-	 * 
-	 * @param string The method name
-	 * @param array The parameters
-	 * 
-	 * @throws Piwik_Access_NoAccessException 
-	 */
-	public function __call($methodName, $parameterValues )
-	{
-		$returnedValue = null;
-		
-		try {
-			$this->registerClass(self::$classCalled);
-						
-			$className = $this->getClassNameFromModule(self::$classCalled);
-
-			// instanciate the object
-			$object = call_user_func(array($className, "getInstance"));
-
-			// check method exists
-			$this->checkMethodExists($className, $methodName);
-			
-			// first check number of parameters do match
-			$this->checkNumberOfParametersMatch($className, $methodName, $parameterValues);
-			
-			// start the timer
-			$timer = new Piwik_Timer;
-			
-			// call the method
-			$returnedValue = call_user_func_array(array($object, $methodName), $parameterValues);
-			
-			// log the API Call
-			$parameterNamesDefaultValues  = $this->getParametersList($className, $methodName);
-			Zend_Registry::get('logger_api_call')->log(
-								self::$classCalled,
-								$methodName,
-								$parameterNamesDefaultValues,
-								$parameterValues,
-								$timer->getTimeMs(),
-								$returnedValue
-							);
-		}
-		catch( Piwik_Access_NoAccessException $e) {
-			throw $e;
-		}
-
-		self::$classCalled = null;
-		
-		return $returnedValue;
 	}
 }
