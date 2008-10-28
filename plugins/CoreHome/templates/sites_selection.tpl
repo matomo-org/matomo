@@ -1,5 +1,5 @@
 <span id="sitesSelectionWrapper" style="display:none;" >
-	<span id="selectedSiteName" style="display:none">{$siteName}</span>
+	{'General_Website'|translate} <span id="selectedSiteName" style="display:none">{$siteName}</span>
 	<span id="sitesSelection" style="position:absolute">Site 
 		<form action="{url idSite=null}" method="get">
 		<select name="idSite">

@@ -19,6 +19,11 @@
 {/if}
 
 
+{if isset($databaseCreated)}
+	<div class="success"> {'Installation_DatabaseCreatedSuccess'|translate:"'$databaseName'"} 
+	<img src="themes/default/images/success_medium.png"></div>
+{/if}
+
 {if isset($tablesCreated)}
 	<div class="success"> {'Installation_TablesCreatedSuccess'|translate} 
 	<img src="themes/default/images/success_medium.png"></div>

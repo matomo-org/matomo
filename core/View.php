@@ -82,6 +82,7 @@ class Piwik_View implements Piwik_iView
 			$this->sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
 			$this->url = Piwik_Url::getCurrentUrl();
 			$this->token_auth = Piwik::getCurrentUserTokenAuth();
+			$this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
 		} catch(Exception $e) {
 			// can fail, for example at installation (no plugin loaded yet)		
 		}

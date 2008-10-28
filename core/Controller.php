@@ -225,6 +225,7 @@ abstract class Piwik_Controller
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
 		}
+		
 		$otherPeriodsAvailable = array('day', 'week', 'month', 'year');
 		$otherPeriodsNames = array(
 			'day' => Piwik_Translate('CoreHome_PeriodDay'),

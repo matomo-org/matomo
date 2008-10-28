@@ -142,6 +142,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						$dbInfosConnectOnly['dbname'] = null;
 						Piwik::createDatabaseObject($dbInfosConnectOnly);
 						Piwik::createDatabase($dbInfos['dbname']);
+						$_SESSION['databaseCreated'] = true;
 					}
 				}
 				
@@ -156,15 +157,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$view->infos = $this->getSystemInformation();
 			
 		echo $view->render();
-	}
-	
-	protected function skipThisStep( $step )
-	{
-		if(isset($_SESSION['skipThisStep'][$step])
-			&& $_SESSION['skipThisStep'][$step])
-		{
-			$this->redirectToNextStep($step);
-		}
 	}
 	
 	function tablesCreation()
@@ -208,6 +200,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			
 			$view->tablesCreated = true;
 			$view->showNextStep = true;
+		}
+		
+		if($_SESSION['databaseCreated'] === true)
+		{
+			$view->databaseName = $_SESSION['db_infos']['dbname'];
+			$view->databaseCreated = true;
+			$_SESSION['databaseCreated'] = null;
 		}
 		
 		$_SESSION['currentStepDone'] = __FUNCTION__;
@@ -493,6 +492,16 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 		
 		return $infos;
+	}
+
+	
+	protected function skipThisStep( $step )
+	{
+		if(isset($_SESSION['skipThisStep'][$step])
+			&& $_SESSION['skipThisStep'][$step])
+		{
+			$this->redirectToNextStep($step);
+		}
 	}
 }
 
