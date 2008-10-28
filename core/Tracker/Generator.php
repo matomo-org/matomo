@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id: Generator.php 492 2008-05-23 01:08:12Z matt $
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
 
 /**
@@ -33,14 +33,14 @@
  * - HTML title
  * 
  *  
- * @package Piwik_LogStats
- * @subpackage Piwik_LogStats_Generator
+ * @package Piwik_Tracker
+ * @subpackage Piwik_Tracker_Generator
  * 
  * 											"Le Generator, il est trop Fort!"
  * 											- Random fan
  */
 
-class Piwik_LogStats_Generator
+class Piwik_Tracker_Generator
 {
 	/**
 	 * GET parameters array of values to be used for the current visit
@@ -126,7 +126,7 @@ class Piwik_LogStats_Generator
 		// setup database	
 		Piwik::createDatabaseObject();
 		
-		Piwik_LogStats_Db::enableProfiling();
+		Piwik_Tracker_Db::enableProfiling();
 		
 		$this->timestampToUse = time();
 	}
@@ -218,7 +218,7 @@ class Piwik_LogStats_Generator
 	public function disableProfiler()
 	{
 		$this->profiling = false;
-		Piwik_LogStats_Db::disableProfiling();
+		Piwik_Tracker_Db::disableProfiling();
 	}
 	
 	/**
@@ -229,10 +229,10 @@ class Piwik_LogStats_Generator
 	 */
 	public function end()
 	{
-		Piwik_LogStats::disconnectDb();
+		Piwik_Tracker::disconnectDb();
 		if($this->profiling)
 		{
-			Piwik::printSqlProfilingReportLogStats();
+			Piwik::printSqlProfilingReportTracker();
 		}
 	}
 	
@@ -285,8 +285,8 @@ class Piwik_LogStats_Generator
 		 */
 		// we get the name of the Download/outlink variables
 		$downloadOrOutlink = array(
-						Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'],
-						Piwik_LogStats_Config::getInstance()->LogStats['outlink_url_var_name'],
+						Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'],
+						Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'],
 		);
 		// we have a 20% chance to add a download or outlink variable to the URL 
 		$this->addParam('piwik_downloadOrOutlink', $downloadOrOutlink);
@@ -294,9 +294,9 @@ class Piwik_LogStats_Generator
 		
 		// we get the variables name for the campaign parameters
 		$campaigns = array(
-						Piwik_LogStats_Config::getInstance()->LogStats['campaign_var_name'],
-						Piwik_LogStats_Config::getInstance()->LogStats['newsletter_var_name'],
-						Piwik_LogStats_Config::getInstance()->LogStats['partner_var_name'],
+						Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name'],
+						Piwik_Tracker_Config::getInstance()->Tracker['newsletter_var_name'],
+						Piwik_Tracker_Config::getInstance()->Tracker['partner_var_name'],
 		);
 		// we generate a campaign in the URL in 3/18 % of the generated URls
 		$this->addParam('piwik_vars_campaign', $campaigns);
@@ -360,7 +360,7 @@ class Piwik_LogStats_Generator
 		{
 			$nbActions = mt_rand(1, $nbActionsMaxPerVisit);
 			
-			Piwik_LogStats_Generator_Visit::setTimestampToUse($this->getTimestampToUse());
+			Piwik_Tracker_Generator_Visit::setTimestampToUse($this->getTimestampToUse());
 						
 			$this->generateNewVisit();
 			for($j = 1; $j <= $nbActions; $j++)
@@ -420,9 +420,9 @@ class Piwik_LogStats_Generator
 	{		
 		// we don't keep the previous action values 
 		// reinit them to empty string
-		$this->setCurrentRequest( Piwik_LogStats_Config::getInstance()->LogStats['download_outlink_name_var'],'');
-		$this->setCurrentRequest( Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'],'');
-		$this->setCurrentRequest( Piwik_LogStats_Config::getInstance()->LogStats['outlink_url_var_name'],'');
+		$this->setCurrentRequest( Piwik_Tracker_Config::getInstance()->Tracker['download_outlink_name_var'],'');
+		$this->setCurrentRequest( Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'],'');
+		$this->setCurrentRequest( Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'],'');
 		$this->setCurrentRequest( 'action_name', '');
 
 		// generate new url referer ; case the visitor stays more than 30min
@@ -445,10 +445,10 @@ class Piwik_LogStats_Generator
 			$url .= '?'. $urlVars . '=' . $urlValue;
 			
 			// for a campaign of the CPC kind, we sometimes generate a keyword 
-			if($urlVars == Piwik_LogStats_Config::getInstance()->LogStats['campaign_var_name']
+			if($urlVars == Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name']
 				&& mt_rand(0,1)==0)
 			{
-				$url .= '&'. Piwik_LogStats_Config::getInstance()->LogStats['campaign_keyword_var_name'] 
+				$url .= '&'. Piwik_Tracker_Config::getInstance()->Tracker['campaign_keyword_var_name'] 
 							. '=' . $this->getRandomString(6,3,'ALL');;
 			}
 		}
@@ -474,7 +474,7 @@ class Piwik_LogStats_Generator
 				{
 					$nameDownload = $this->getRandomString(6,3,'ALL');
 					
-					$this->setCurrentRequest( Piwik_LogStats_Config::getInstance()->LogStats['download_outlink_name_var'] 
+					$this->setCurrentRequest( Piwik_Tracker_Config::getInstance()->Tracker['download_outlink_name_var'] 
 											, $nameDownload);
 				}
 			}
@@ -648,7 +648,7 @@ class Piwik_LogStats_Generator
 	/**
 	 * Saves the visit 
 	 * - replaces GET and REQUEST by the fake generated request
-	 * - load the LogStats class and call the method to launch the recording
+	 * - load the Tracker class and call the method to launch the recording
 	 * 
 	 * This will save the visit in the database
 	 * 
@@ -657,10 +657,10 @@ class Piwik_LogStats_Generator
 	protected function saveVisit()
 	{
 		$this->setFakeRequest();
-		$process = new Piwik_LogStats_Generator_LogStats;
+		$process = new Piwik_Tracker_Generator_Tracker;
 		$process->main();
 	}
 	
 }
-require_once "Generator/LogStats.php";
+require_once "Generator/Tracker.php";
 require_once "Generator/Visit.php";

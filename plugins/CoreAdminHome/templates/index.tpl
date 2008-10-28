@@ -14,3 +14,5 @@
 <a href='?module=CoreHome'>{'General_BackToHomepage'|translate}</a>
 
 </div>
+
+{include file="CoreAdminHome/templates/footer.tpl"}

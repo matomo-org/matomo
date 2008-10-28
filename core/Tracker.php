@@ -4,9 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: LogStats.php 575 2008-07-26 23:08:32Z matt $
+ * @version $Id: Tracker.php 575 2008-07-26 23:08:32Z matt $
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
 
 /**
@@ -42,9 +42,9 @@
  * Configuration options for the statsLogEngine module:
  * - use_cookie  ; defines if we try to get/set a cookie to help recognize a unique visitor
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
-class Piwik_LogStats
+class Piwik_Tracker
 {	
 	protected $stateValid;
 	
@@ -52,7 +52,7 @@ class Piwik_LogStats
 	
 	/**
 	 *
-	 * @var Piwik_LogStats_Db
+	 * @var Piwik_Tracker_Db
 	 */
 	static protected $db = null;
 	
@@ -83,7 +83,7 @@ class Piwik_LogStats
 		Piwik_PostEvent('Tracker.createDatabase', $db);
 		if(is_null($db))
 		{
-			$configDb = Piwik_LogStats_Config::getInstance()->database;
+			$configDb = Piwik_Tracker_Config::getInstance()->database;
 			
 			// we decode the password. Password is html encoded because it's enclosed between " double quotes
 			$configDb['password'] = htmlspecialchars_decode($configDb['password']);
@@ -93,7 +93,7 @@ class Piwik_LogStats
 				$configDb['port'] = '3306';  
 			}
 			
-			$db = new Piwik_LogStats_Db( 	$configDb['host'], 
+			$db = new Piwik_Tracker_Db( 	$configDb['host'], 
 												$configDb['username'], 
 												$configDb['password'], 
 												$configDb['dbname'],
@@ -119,17 +119,17 @@ class Piwik_LogStats
 	private function initProcess()
 	{
 		try{
-			$pluginsLogStats = Piwik_LogStats_Config::getInstance()->Plugins_LogStats;
-			if(is_array($pluginsLogStats)
-				&& count($pluginsLogStats) != 0)
+			$pluginsTracker = Piwik_Tracker_Config::getInstance()->Plugins_Tracker;
+			if(is_array($pluginsTracker)
+				&& count($pluginsTracker) != 0)
 			{
 				Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
-				Piwik_PluginsManager::getInstance()->setPluginsToLoad( $pluginsLogStats['Plugins_LogStats'] );
+				Piwik_PluginsManager::getInstance()->setPluginsToLoad( $pluginsTracker['Plugins_Tracker'] );
 			}
 		} catch(Exception $e) {		
 		}
 		
-		$saveStats = Piwik_LogStats_Config::getInstance()->LogStats['record_statistics'];
+		$saveStats = Piwik_Tracker_Config::getInstance()->Tracker['record_statistics'];
 
 		if($saveStats == 0)
 		{
@@ -141,7 +141,7 @@ class Piwik_LogStats
 			$this->setState(self::STATE_NO_GET_VARIABLE);			
 		}
 
-		$downloadVariableName = Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'];
+		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
 		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string');
 
 		if( !empty($urlDownload) )
@@ -153,7 +153,7 @@ class Piwik_LogStats
 			$this->setUrlToRedirect ( $urlDownload);
 		}
 		
-		$outlinkVariableName = Piwik_LogStats_Config::getInstance()->LogStats['outlink_url_var_name'];
+		$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
 		$urlOutlink = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string');
 		
 		if( !empty($urlOutlink) )
@@ -193,23 +193,23 @@ class Piwik_LogStats
 	}
 	
 	/**
-	 * Returns the LogStats_Visit object.
-	 * This method can be overwritten so that we use a different LogStats_Visit object
+	 * Returns the Tracker_Visit object.
+	 * This method can be overwritten so that we use a different Tracker_Visit object
 	 *
-	 * @return Piwik_LogStats_Visit
+	 * @return Piwik_Tracker_Visit
 	 */
 	protected function getNewVisitObject()
 	{
 		$visit = null;
-		Piwik_PostEvent('LogStats.getNewVisitObject', $visit);
+		Piwik_PostEvent('Tracker.getNewVisitObject', $visit);
 	
 		if(is_null($visit))
 		{
-			$visit = new Piwik_LogStats_Visit();
+			$visit = new Piwik_Tracker_Visit();
 		}
-		elseif(!($visit instanceof Piwik_LogStats_Visit_Interface ))
+		elseif(!($visit instanceof Piwik_Tracker_Visit_Interface ))
 		{
-			throw new Exception("The Visit object set in the plugin must implement Piwik_LogStats_Visit_Interface");
+			throw new Exception("The Visit object set in the plugin must implement Piwik_Tracker_Visit_Interface");
 		}
 		
 		$visit->setDb(self::$db);
@@ -270,7 +270,7 @@ class Piwik_LogStats
 		
 		if($GLOBALS['DEBUGPIWIK'] === true)
 		{
-			Piwik::printSqlProfilingReportLogStats(self::$db);
+			Piwik::printSqlProfilingReportTracker(self::$db);
 		}
 		
 		self::disconnectDb();

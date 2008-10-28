@@ -61,3 +61,4 @@
 	<div class="addRowSite"><a href="#"><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</a></div>
 {/if}
 
+{include file="CoreAdminHome/templates/footer.tpl"}

@@ -455,7 +455,7 @@ abstract class Piwik_ViewDataTable
 	 * - etc.
 	 *
 	 * The values are loaded:
-	 * - from the generic filters that are applied by default @see Piwik_API_Request::getGenericFiltersInformation()
+	 * - from the generic filters that are applied by default @see Piwik_API_ResponseBuilder::getGenericFiltersInformation()
 	 * - from the values already available in the GET array
 	 * - from the values set using methods from this class (eg. setSearchPattern(), setLimit(), etc.)
 	 * 
@@ -466,7 +466,7 @@ abstract class Piwik_ViewDataTable
 		// build javascript variables to set
 		$javascriptVariablesToSet = array();
 		
-		$genericFilters = Piwik_API_Request::getGenericFiltersInformation();
+		$genericFilters = Piwik_API_ResponseBuilder::getGenericFiltersInformation();
 		foreach($genericFilters as $filter)
 		{
 			foreach($filter as $filterVariableName => $filterInfo)

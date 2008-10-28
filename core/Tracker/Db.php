@@ -6,17 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id: Db.php 522 2008-06-11 00:31:03Z matt $
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
 
 /**
  * Simple database PDO wrapper.
- * We can't afford to have a dependency with the Zend_Db module in LogStats.
+ * We can't afford to have a dependency with the Zend_Db module in Tracker.
  * We wrote this simple class 
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
-class Piwik_LogStats_Db 
+class Piwik_Tracker_Db 
 {
 	private $connection = null;
 	private $username;
@@ -56,7 +56,7 @@ class Piwik_LogStats_Db
 	 * Enables the SQL profiling. 
 	 * For each query, saves in the DB the time spent on this query. 
 	 * Very useful to see the slow query under heavy load.
-	 * You can then use Piwik::printSqlProfilingReportLogStats(); 
+	 * You can then use Piwik::printSqlProfilingReportTracker(); 
 	 * to display the SQLProfiling report and see which queries take time, etc.
 	 */
 	static public function enableProfiling()
@@ -121,7 +121,7 @@ class Piwik_LogStats_Db
 	{
 		static $prefix;
 		if (!isset($prefix)) {
-			$prefix = Piwik_LogStats_Config::getInstance()->database['tables_prefix'];
+			$prefix = Piwik_Tracker_Config::getInstance()->database['tables_prefix'];
 		}
 		return $prefix . $suffix;
 	}

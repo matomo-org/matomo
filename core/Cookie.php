@@ -264,7 +264,7 @@ class Piwik_Cookie
 }
 
 
-//$c = new Piwik_Cookie( 'piwik_logstats', 86400);
+//$c = new Piwik_Cookie( 'piwik_Tracker', 86400);
 //echo $c;
 //$c->set(1,1);
 //$c->set('test',1);

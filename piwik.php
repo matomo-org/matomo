@@ -19,12 +19,12 @@ set_include_path(PIWIK_INCLUDE_PATH
 
 require_once "Common.php";
 require_once "PluginsManager.php";
-require_once "LogStats.php";
-require_once "LogStats/Config.php";
-require_once "LogStats/Action.php";
+require_once "Tracker.php";
+require_once "Tracker/Config.php";
+require_once "Tracker/Action.php";
 require_once "Cookie.php";
-require_once "LogStats/Db.php";
-require_once "LogStats/Visit.php";
+require_once "Tracker/Db.php";
+require_once "Tracker/Visit.php";
 
 $GLOBALS['DEBUGPIWIK'] = false;
 
@@ -36,13 +36,13 @@ if($GLOBALS['DEBUGPIWIK'] === true)
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
 	printDebug($_GET);
-	Piwik_LogStats_Db::enableProfiling();
+	Piwik_Tracker_Db::enableProfiling();
 	Piwik::createConfigObject();
 	Piwik::createLogObject();
 }
 
 ob_start();
-$process = new Piwik_LogStats;
+$process = new Piwik_Tracker;
 $process->main();
 ob_end_flush();
 printDebug($_COOKIE);

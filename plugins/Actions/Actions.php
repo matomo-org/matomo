@@ -93,12 +93,12 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		$archiveProcessing = $notification->getNotificationObject();
 		
-		require_once "LogStats/Action.php";
+		require_once "Tracker/Action.php";
 		
 		$this->actionsTablesByType = array(
-			Piwik_LogStats_Action::TYPE_ACTION => array(),
-			Piwik_LogStats_Action::TYPE_DOWNLOAD => array(),
-			Piwik_LogStats_Action::TYPE_OUTLINK => array(),
+			Piwik_Tracker_Action::TYPE_ACTION => array(),
+			Piwik_Tracker_Action::TYPE_DOWNLOAD => array(),
+			Piwik_Tracker_Action::TYPE_OUTLINK => array(),
 		);
 		
 		// This row is used in the case where an action is know as an exit_action
@@ -191,15 +191,15 @@ class Piwik_Actions extends Piwik_Plugin
 		$maximumRowsInDataTableLevelZero = 200;
 		$maximumRowsInSubDataTable = 50;
 		
-		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_ACTION]);
+		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION]);
 		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_actions', $s);
 		
-		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_DOWNLOAD]);
+		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD]);
 		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_downloads', $s);
 		
-		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_LogStats_Action::TYPE_OUTLINK]);
+		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_OUTLINK]);
 		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_outlink', $s);
 		

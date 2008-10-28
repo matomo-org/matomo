@@ -6,16 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id: Action.php 558 2008-07-20 23:10:38Z matt $
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
 
 /**
  * Interface of the Action object.
  * New Action classes can be defined in plugins and used instead of the default one.
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
-interface Piwik_LogStats_Action_Interface {
+interface Piwik_Tracker_Action_Interface {
 	public function getActionId();
 	public function record( $idVisit, $idRefererAction, $timeSpentRefererAction );
 	public function setIdSite( $idSite );
@@ -41,9 +41,9 @@ interface Piwik_LogStats_Action_Interface {
  * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action and this HTML title is displayed in the interface
  * 
  * 
- * @package Piwik_LogStats
+ * @package Piwik_Tracker
  */
-class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
+class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 {
 	private $actionName;
 	private $url;
@@ -59,24 +59,24 @@ class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
 	const TYPE_OUTLINK  = 2;
 	
 	/**
-	 * @param Piwik_LogStats_Db Database object to be used
+	 * @param Piwik_Tracker_Db Database object to be used
 	 */
 	function __construct( $db )
 	{
 		$this->actionName = Piwik_Common::getRequestVar( 'action_name', '', 'string');
 		
-		$downloadVariableName = Piwik_LogStats_Config::getInstance()->LogStats['download_url_var_name'];
+		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
 		$this->downloadUrl = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string');
 		
-		$outlinkVariableName = Piwik_LogStats_Config::getInstance()->LogStats['outlink_url_var_name'];
+		$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
 		$this->outlinkUrl = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string');
 		
-		$nameVariableName = Piwik_LogStats_Config::getInstance()->LogStats['download_outlink_name_var'];
+		$nameVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_outlink_name_var'];
 		$this->nameDownloadOutlink = Piwik_Common::getRequestVar( $nameVariableName, '', 'string');
 		
 		$this->url = Piwik_Common::getRequestVar( 'url', '', 'string');
 		$this->db = $db;
-		$this->defaultActionName = Piwik_LogStats_Config::getInstance()->LogStats['default_action_name'];
+		$this->defaultActionName = Piwik_Tracker_Config::getInstance()->Tracker['default_action_name'];
 	}
 	
 	
@@ -182,7 +182,7 @@ class Piwik_LogStats_Action implements Piwik_LogStats_Action_Interface
 		 */
 		 
 		// get the delimiter, by default '/'
-		$actionCategoryDelimiter = Piwik_LogStats_Config::getInstance()->General['action_category_delimiter'];
+		$actionCategoryDelimiter = Piwik_Tracker_Config::getInstance()->General['action_category_delimiter'];
 		
 		// case the name is an URL we dont clean the name the same way
 		if(Piwik_Common::isLookLikeUrl($actionName))

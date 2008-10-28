@@ -140,3 +140,5 @@
 
 <div class="addrow"><a href="#"><img src='plugins/UsersManager/images/add.png'> {'UsersManager_AddUser'|translate}</a></div>
 <script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>
+
+{include file="CoreAdminHome/templates/footer.tpl"}

@@ -38,8 +38,12 @@ if($piwik_zend_compatibility_mode == 1)
 				If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file. You may have to ask your system administrator.</p>";
 }
 
-function Piwik_ExitWithMessage($message)
+function Piwik_ExitWithMessage($message, $optionalTrace)
 {
+	if($optionalTrace)
+	{
+		$optionalTrace = '<font color="#888888">Backtrace:<br/><pre>'.$optionalTrace.'</pre></font>';
+	}
 	$html = '<html>
 				<head>
 					<title>Piwik &rsaquo; Error</title>
@@ -51,9 +55,12 @@ function Piwik_ExitWithMessage($message)
 					color: #000;
 					font-family: Georgia, "Times New Roman", Times, serif;
 					margin-left: 20%;
-					margin-top: 25px;
+					margin-top: 50px;
 					margin-right: 20%;
-					padding: .2em 2em;
+					padding: 1em 2em;
+					-moz-border-radius: 12px;
+					-khtml-border-radius: 12px;
+					-webkit-border-radius: 12px;
 				}
 				#h1 {
 					color: #006;
@@ -77,7 +84,8 @@ function Piwik_ExitWithMessage($message)
 				</head>
 				<body>
 					<span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span>
-					<p>'.$message.'</p>				
+					<p>'.$message.'</p>
+					'. $optionalTrace .'
 					<ul>
 						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org">Piwik homepage</a></li>
 						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/demo">Piwik demo</a></li>

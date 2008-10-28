@@ -1,18 +1,8 @@
 Bugs
-- add width+height to sparklines
 - google chrome/safari bug with calendar + language dropdown
 http://4.bp.blogspot.com/_B0Ay-jl4bcM/SLRqaqKz7jI/AAAAAAAAD-U/GfMiqCImtD8/s1600-h/piwik.png
-- site selector is hidden first, then shown
 - WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
-- Undefined text for "loading data..." on piwik.org demo!
-- we should call login->logout in installation->welcome instead of duplicating code
-- fix images in sub tables when JS loaded
-- wrong display seconds 42 min 2563 s total time spent by the visitors
-- check that when online archiving disabled, take the last valid archiving
-- ACTIONS limit seem not right, seem limited to 50 instead of 200 for root
-- editing site web with single quote bugs in siteAdmin???
 - something is wrong in JS calendar when year selected
-- API request shouldnt be SO DataTable aware (fixed with ResponseBuilder??)
 
 To clean
 - rename LogStats in Tracker

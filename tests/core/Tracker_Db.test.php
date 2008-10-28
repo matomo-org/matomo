@@ -7,9 +7,9 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
 }
 
-require_once 'LogStats/Db.php';
+require_once 'Tracker/Db.php';
 
-class Test_Piwik_LogStats_Db extends UnitTestCase
+class Test_Piwik_Tracker_Db extends UnitTestCase
 {
 	function __construct( $title = '')
 	{
@@ -30,7 +30,7 @@ class Test_Piwik_LogStats_Db extends UnitTestCase
      */
     public function test_profilingDisabledInProduction()
     {
-    	$this->assertTrue(Piwik_LogStats_Db::isProfilingEnabled() === false, 'SQL profiler should be disabled in production! See Piwik_LogStats_Db::$profiling');
+    	$this->assertTrue(Piwik_Tracker_Db::isProfilingEnabled() === false, 'SQL profiler should be disabled in production! See Piwik_Tracker_Db::$profiling');
     }
 }
 

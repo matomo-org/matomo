@@ -5,9 +5,8 @@
  */
 $minVisits = 5;
 $maxVisits = 15;
-$nbActions = 15;
-$daysToCompute = 1;
-$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
+$nbActions = 10;
+$daysToCompute = 2;
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
@@ -28,29 +27,30 @@ define('ENABLE_DISPATCH', false);
 require_once "index.php";
 require_once "FrontController.php";
 
+$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
 Piwik_FrontController::getInstance()->init();
 Piwik::checkUserIsSuperUser();
 
 require_once "PluginsManager.php";
 require_once "Timer.php";
 require_once "Cookie.php";
-require_once "LogStats.php";
-require_once "LogStats/Config.php";
-require_once "LogStats/Action.php";
-require_once "LogStats/Db.php";
-require_once "LogStats/Visit.php";
-require_once "LogStats/Generator.php";
+require_once "Tracker.php";
+require_once "Tracker/Config.php";
+require_once "Tracker/Action.php";
+require_once "Tracker/Db.php";
+require_once "Tracker/Visit.php";
+require_once "Tracker/Generator.php";
 
 //Piwik_PluginsManager::getInstance()->unloadPlugins();
 
 // we have to unload the Provider plugin otherwise it tries to lookup the IP for ahostname, and there is no dns server here
 Piwik_PluginsManager::getInstance()->unloadPlugin('Provider');
 
-// we set the DO NOT load plugins so that the LogStats generator doesn't load the plugins we've just disabled.
+// we set the DO NOT load plugins so that the Tracker generator doesn't load the plugins we've just disabled.
 // if for some reasons you want to load the plugins, comment this line, and disable the plugin Provider in the plugins interface
 Piwik_PluginsManager::getInstance()->doNotLoadPlugins();
 
-$generator = new Piwik_LogStats_Generator;
+$generator = new Piwik_Tracker_Generator;
 $generator->setMaximumUrlDepth(3);
 //$generator->disableProfiler();
 $generator->setIdSite( $idSite );
@@ -74,6 +74,7 @@ while($startTime <= time())
 	$startTime+=86400;
 	$nbActionsTotal+=$nbActionsTotalThisDay;
 	flush();
+	sleep(1);
 }
 
 echo "<br>Total actions: $nbActionsTotal";

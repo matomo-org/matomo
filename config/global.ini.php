@@ -16,7 +16,7 @@ adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 host 			= localhost
 username 		= root
 password 		= 
-dbname			= piwik_tests11
+dbname			= piwik_tests
 tables_prefix	= piwiktests_
 port			= 3306
 adapter 		= PDO_MYSQL
@@ -59,7 +59,7 @@ PluginsInstalled[] = UsersManager
 PluginsInstalled[] = SitesManager
 PluginsInstalled[] = Installation
 
-[Plugins_LogStats]
+[Plugins_Tracker]
 
 
 [Debug]
@@ -75,7 +75,7 @@ enable_sql_profiler = false
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
 ; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
-time_before_archive_considered_outdated = 10
+time_before_archive_considered_outdated = 3600
 
 ; When loading piwik interface, we redirect the user to 'yesterday' statistics by default
 ; Possible values: yesterday, today, or any YYYY-MM-DD
@@ -107,7 +107,7 @@ minimum_php_version = 5.1.3
 
 minimum_memory_limit = 128
 
-[LogStats]
+[Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
 
