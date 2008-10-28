@@ -839,9 +839,8 @@ class Piwik
 	
 	static public function dropDatabase()
 	{
-		$db = Zend_Registry::get('db');
 		$dbName = Zend_Registry::get('config')->database->dbname;
-		$db->query("DROP DATABASE IF EXISTS ".$dbName);
+		Zend_Registry::get('db')->query("DROP DATABASE IF EXISTS ".$dbName);
 	}
 	
 	static public function createDatabaseObject( $dbInfos = null )
@@ -880,6 +879,11 @@ class Piwik
 			$db->resetConfigArray(); // we don't want this information to appear in the logs
 		}
 		Zend_Registry::set('db', $db);
+	}
+	
+	static public function getMysqlVersion()
+	{
+		return Zend_Registry::get('db')->fetchOne("SELECT VERSION()");
 	}
 
 	static public function createLogObject()

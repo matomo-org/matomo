@@ -18,7 +18,7 @@ require_once "Installation/View.php";
  */
 class Piwik_Installation_Controller extends Piwik_Controller
 {
-	// public so plugins can modify it
+	// public so plugins can add/delete installation steps
 	public $steps = array(
 			'welcome',
 			'systemCheck',
@@ -146,6 +146,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					}
 				}
 				
+				$mysqlVersion = Piwik::getMysqlVersion();
+				$minimumMysqlVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
+				if(version_compare($mysqlVersion, $minimumMysqlVersion) === -1) 
+				{
+					throw new Exception(vsprintf("Your MySQL version is %s but Piwik requires at least %s.", array($mysqlVersion, $minimumMysqlVersion)));
+				}
+				
 				$_SESSION['db_infos'] = $dbInfos;
 				$this->redirectToNextStep( __FUNCTION__ );
 			} catch(Exception $e) {
@@ -202,7 +209,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->showNextStep = true;
 		}
 		
-		if($_SESSION['databaseCreated'] === true)
+		if(isset($_SESSION['databaseCreated'])
+			&& $_SESSION['databaseCreated'] === true)
 		{
 			$view->databaseName = $_SESSION['db_infos']['dbname'];
 			$view->databaseCreated = true;
@@ -294,9 +302,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		}
 		$view->addForm($form);
-		
 		echo $view->render();
 	}
+	
 	public function displayJavascriptCode()
 	{
 		$view = new Piwik_Install_View(
@@ -332,10 +340,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$this->writeConfigFileFromSession();
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		$this->skipThisStep( __FUNCTION__ );
-		
+		$this->writeConfigFileFromSession();
 		
 		$_SESSION['currentStepDone'] = __FUNCTION__;		
 		$view->showNextStep = false;
@@ -343,10 +350,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	    setcookie(session_name(), session_id(), 1, '/');
 		@session_destroy();	
 		echo $view->render();
-		
-		// cron tab help
-		// javascript reminder
-		// giving good names to pages
 	}
 	
 	protected function initObjectsToCallAPI()
@@ -363,6 +366,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	protected function writeConfigFileFromSession()
 	{
+		if(!isset($_SESSION['superuser_infos'])
+			|| !isset($_SESSION['db_infos']))
+		{
+			return;
+		}
 		$configFile = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
 		$configFile .= "; file automatically generated during the piwik installation process\n";
 		
@@ -390,16 +398,20 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 */
 	function checkPreviousStepIsValid( $currentStep )
 	{
+		if(empty($_SESSION['currentStepDone']))
+		{
+			return;
+		}
 		// the currentStep
 		$currentStepId = array_search($currentStep, $this->steps);
 		
 		// the step before
 		$previousStepId = array_search($_SESSION['currentStepDone'], $this->steps);
-		
+
 		// not OK if currentStepId > previous+1
 		if( $currentStepId > $previousStepId + 1 )
 		{
-			$message = "Error: it seems you try to skip a step of the Installation process, #
+			$message = "Error: it seems you try to skip a step of the Installation process, 
 						or your cookies are disabled. 
 						<br /><b>Make sure your cookies are enabled</b> and go back 
 						<a href='".Piwik_Url::getCurrentUrlWithoutFileName()."'>

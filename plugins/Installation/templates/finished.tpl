@@ -1,6 +1,6 @@
 <h1>{'Installation_Congratulations'|translate}</h1>
 
-{'Installation_ContratulationsHelp'|translate}
+{'Installation_CongratulationsHelp'|translate}
 
 
 <p class="nextStep">
