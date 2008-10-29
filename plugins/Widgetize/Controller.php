@@ -77,7 +77,7 @@ class Piwik_Widgetize_Controller extends Piwik_Dashboard_Controller
 		$controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
 		$actionName = Piwik_Common::getRequestVar('actionToWidgetize');
 		$parameters = array ( $fetch = true );
-		$outputDataTable = Piwik_FrontController::getInstance()->dispatch( $controllerName, $actionName, $parameters);
+		$outputDataTable = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName, $parameters);
 		$view = new Piwik_View('Widgetize/templates/iframe.tpl');
 		$view->content = $outputDataTable;
 		echo $view->render();

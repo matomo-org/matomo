@@ -4,7 +4,7 @@
 {foreach from=$topBarElements item=element}
 	<span class="topBarElem">{if $element.0 == $currentModule}<b>{else}<a href="{$element.2|@urlRewriteWithParameters}" {if isset($element.3)}{$element.3}{/if}>{/if}{$element.1}{if $element.0 == $currentModule}</b>{else}</a>{/if}</span>
 {/foreach}
-{postEvent name="template_topBar"}
+{postEvent name="template_topBar"} 
 </div>
 
 <div id="topRightBar">

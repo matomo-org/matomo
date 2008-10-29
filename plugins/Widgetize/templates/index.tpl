@@ -40,12 +40,7 @@
 </style>
 {/literal}
 <script type="text/javascript">
-	var piwik = new Object;
 	piwik.availableWidgets = {$availableWidgets};
-	piwik.idSite = "{$idSite}";
-	piwik.period = "{$period}";
-	piwik.currentDateStr = "{$date}";
-	
 {literal}
 $(document).ready( function() {
 	var menu = new widgetMenu();

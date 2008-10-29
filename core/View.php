@@ -94,6 +94,7 @@ class Piwik_View implements Piwik_iView
 		catch(Exception $e){
 			$this->totalNumberOfQueries = 0;
 		}
+ 
 		header('Content-Type: text/html; charset=utf-8');
 		return $this->smarty->fetch($this->template);
 	}
