@@ -5,6 +5,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
+{include file="CoreHome/templates/js_global_variables.tpl"}
+
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
 <script type="text/javascript" src="themes/default/common.js"></script>
@@ -30,9 +32,5 @@
 </div>
 
 <br clear="all"/>
-
-<script type="text/javascript">
-var piwik_token_auth = "{$token_auth}";
-</script>
 
 <div id="content">

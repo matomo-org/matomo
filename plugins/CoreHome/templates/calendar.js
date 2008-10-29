@@ -4,7 +4,7 @@ var onejan = new Date(this.getFullYear(),0,1);
 return Math.ceil((((this - onejan) / 86400000) + onejan.getDay())/7);
 }
 
-var splitDate = currentDateStr.split("-");
+var splitDate = piwik.currentDateString.split("-");
 
 var currentYear = splitDate[0];
 var currentMonth = splitDate[1] - 1;
@@ -40,13 +40,13 @@ function isDateSelected( date )
 	}
 	
 	// we dont color dates before the minimum date
-	if( dateYear < minDateYear
-		|| ( dateYear == minDateYear
+	if( dateYear < piwik.minDateYear
+		|| ( dateYear == piwik.minDateYear
 				&& 
 					(
-						(dateMonth == minDateMonth - 1
-						&& dateDay < minDateDay)
-					||  (dateMonth < minDateMonth - 1)
+						(dateMonth == piwik.minDateMonth - 1
+						&& dateDay < piwik.minDateDay)
+					||  (dateMonth < piwik.minDateMonth - 1)
 				)
 			)
 	)
@@ -55,7 +55,7 @@ function isDateSelected( date )
 	}
 	
 	// we color all day of the month for the same year for the month period
-	if(period == "month"
+	if(piwik.period == "month"
 		&& dateMonth == currentMonth
 		&& dateYear == currentYear
 	)
@@ -63,20 +63,20 @@ function isDateSelected( date )
 		valid = true;
 	}
 	// we color all day of the year for the year period
-	else if(period == "year"
+	else if(piwik.period == "year"
 			&& dateYear == currentYear
 	)
 	{
 		valid = true;
 	}
-	else if(period == "week"
+	else if(piwik.period == "week"
 			&& date.getWeek() == currentDate.getWeek()
 			&& dateYear == currentYear
 	)
 	{
 		valid = true;
 	}
-	else if( period == "day"  
+	else if( piwik.period == "day"  
 				&& dateDay == currentDay
 				&& dateMonth == currentMonth
 				&& dateYear == currentYear
@@ -138,7 +138,7 @@ $(document).ready(function(){
 			showOtherMonths: true,
 			dateFormat: 'DMY-',
 			firstDay: 1,
-			minDate: new Date(minDateYear, minDateMonth - 1, minDateDay),
+			minDate: new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
 			maxDate: new Date(),
 			changeFirstDay: false,
 			prevText: "",

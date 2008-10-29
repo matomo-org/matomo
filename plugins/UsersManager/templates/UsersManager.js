@@ -12,7 +12,7 @@ function getUpdateUserAJAX( row )
  	if(password != '-') parameters.password = password;
  	parameters.email = $(row).find('input[@id=email]').val();
  	parameters.alias = $(row).find('input[@id=alias]').val();
- 	parameters.token_auth = piwik_token_auth;
+ 	parameters.token_auth = piwik.token_auth;
 	
 	ajaxRequest.data = parameters;
 	
@@ -29,7 +29,7 @@ function getDeleteUserAJAX( login )
 	parameters.format = 'json';
  	parameters.method =  'UsersManager.deleteUser';
  	parameters.userLogin = login;
- 	parameters.token_auth = piwik_token_auth;
+ 	parameters.token_auth = piwik.token_auth;
 	
 	ajaxRequest.data = parameters;
 	
@@ -49,7 +49,7 @@ function getAddUserAJAX( row )
  	parameters.password =  $(row).find('input[@id=useradd_password]').val();
  	parameters.email = $(row).find('input[@id=useradd_email]').val();
  	parameters.alias = $(row).find('input[@id=useradd_alias]').val();
- 	parameters.token_auth = piwik_token_auth;
+ 	parameters.token_auth = piwik.token_auth;
  	
 	ajaxRequest.data = parameters;
  	
@@ -75,7 +75,7 @@ function getUpdateUserAccess(login, access, successCallback)
  	parameters.userLogin = login;
  	parameters.access = access;
  	parameters.idSites = getIdSites();
- 	parameters.token_auth = piwik_token_auth;
+ 	parameters.token_auth = piwik.token_auth;
 
 	ajaxRequest.data = parameters;
  	

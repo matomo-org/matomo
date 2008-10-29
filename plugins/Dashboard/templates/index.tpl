@@ -1,9 +1,6 @@
 {loadJavascriptTranslations plugins='CoreHome Dashboard'}
 
 <script type="text/javascript">
-	{* define some global constants for the following javascript includes *}
-	var piwik = new Object;
-	
 	{if !empty($layout) }
 		piwik.dashboardLayout = '{$layout}';
 	{else}
@@ -12,9 +9,6 @@
 	{/if}
 	
 	piwik.availableWidgets = {$availableWidgets};
-	piwik.idSite = "{$idSite}";
-	piwik.period = "{$period}";
-	piwik.currentDateStr = "{$date}";
 </script>
 
 {literal}

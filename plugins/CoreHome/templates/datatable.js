@@ -11,7 +11,7 @@ function dataTable()
 {
 	this.param = new Object;
 }
-	
+
 //Prototype of the DataTable object
 dataTable.prototype =
 {
@@ -203,18 +203,13 @@ dataTable.prototype =
 	bindEventsAndApplyStyle: function(domElem)
 	{
 		var self = this;
-		
 		self.cleanParams();
-		
 		self.handleSort(domElem);
-		
 		self.handleSearchBox(domElem);
 		self.handleLowPopulationLink(domElem);
 		self.handleOffsetInformation(domElem);
 		self.handleExportBox(domElem);
-
 		self.applyCosmetics(domElem);
-		
 		self.handleSubDataTable(domElem);
 	},
 	
@@ -529,7 +524,8 @@ dataTable.prototype =
 							+'&format='+format
 							+'&idSite='+self.param.idSite
 							+'&period='+self.param.period
-							+'&date='+self.param.date;
+							+'&date='+self.param.date
+							+'&token_auth='+piwik.token_auth;
 					if( filter_limit )
 					{
 						str += '&filter_limit=' + filter_limit;

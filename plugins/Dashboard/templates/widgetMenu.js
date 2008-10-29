@@ -234,7 +234,7 @@ function loadWidgetInDiv(pluginId, actionId, onWidgetLoad)
 		async: true,
 		error: ajaxHandleError,		
 		success: onLoaded,
-		data: "module="+pluginId+"&action="+actionId+"&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+piwik.currentDateStr
+		data: "module="+pluginId+"&action="+actionId+"&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+piwik.currentDateString
 	};
 	$.ajax(ajaxRequest);
 }

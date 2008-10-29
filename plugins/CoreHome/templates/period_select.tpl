@@ -1,11 +1,3 @@
-<script type="text/javascript">
-var period = "{$period}";
-var currentDateStr = "{$date}";
-var minDateYear = {$minDateYear};
-var minDateMonth = {$minDateMonth};
-var minDateDay = {$minDateDay};
-</script>
-
 {loadJavascriptTranslations plugins='CoreHome'}
 <script type="text/javascript" src="libs/jquery/jquery-calendar.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/calendar.js"></script>
