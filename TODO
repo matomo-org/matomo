@@ -1,4 +1,6 @@
 update mechanism? port modification to TIMESTAMP fields in site/user
+error message ugly in IE, wrong in chrome
+make sure deployement don't include logger in file/db/etc
 
 Bugs
 - google chrome/safari bug with calendar + language dropdown

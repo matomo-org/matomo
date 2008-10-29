@@ -249,7 +249,7 @@ class Piwik_Tracker
 		}
 	}
 	
-	private function handleDownload()
+	private function handleDownloadRedirect()
 	{
 		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
 		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string');

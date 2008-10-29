@@ -30,7 +30,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 		// get url from POSTed form or GET parameter (getting back from password remind form)
 		$urlToRedirect = Piwik_Common::getRequestVar('form_url', htmlspecialchars(Piwik_Url::getCurrentUrl()), 'string');
-
+		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 		if($form->validate())
 		{
 			$login = $form->getSubmitValue('form_login');
@@ -71,9 +71,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$password = md5($password);
 		}
 		$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login, $password);
-		Piwik_Login::prepareAuthObject($login, $tokenAuth);
 		
 		$auth = Zend_Registry::get('auth');
+		$auth->setLogin($login);
+		$auth->setTokenAuth($tokenAuth);
 		$authResult = $auth->authenticate();
 		if($authResult->isValid())
 		{

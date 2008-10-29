@@ -35,6 +35,7 @@ class Piwik_Login extends Piwik_Plugin
 		$hooks = array(
 			'FrontController.initAuthenticationObject'	=> 'initAuthenticationObject',
 			'FrontController.NoAccessException'		=> 'noAccess',
+			'API.Request.authenticate' => 'ApiRequestAuthenticate',
 		);
 		return $hooks;
 	}
@@ -48,39 +49,35 @@ class Piwik_Login extends Piwik_Plugin
 		$controller->login($exceptionMessage);
 	}
 	
-	function initAuthenticationObject($notification)
+	function ApiRequestAuthenticate($notification)
 	{
-		$authAdapter = new Piwik_Login_Auth();
-     	Zend_Registry::set('auth', $authAdapter);
-		
-     	if(Piwik::getModule() === 'API' && Piwik::getAction() != 'listAllAPI')
-     	{
-			$tokenAuthAPIInUrl = Piwik_Common::getRequestVar('token_auth', 'anonymous', 'string');
-			if( !empty($tokenAuthAPIInUrl))
-			{
-				$authAdapter->setTokenAuth($tokenAuthAPIInUrl);
-			}
-     	}
-		else
-		{
-			$authCookieName = 'piwik-auth';
-			$authCookieExpiry = time() + 3600;
-			$authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
-			$defaultLogin = 'anonymous';
-			$defaultTokenAuth = 'anonymous';
-			if($authCookie->isCookieFound())
-			{
-				$defaultLogin = $authCookie->get('login');
-				$defaultTokenAuth = $authCookie->get('token_auth');
-			}
-			self::prepareAuthObject($defaultLogin, $defaultTokenAuth);
-		}
+		$tokenAuth = $notification->getNotificationObject();
+		Zend_Registry::get('auth')->setTokenAuth($tokenAuth);
 	}
 	
-	static function prepareAuthObject( $login, $tokenAuth )
-	{		
-		$auth = Zend_Registry::get('auth');
-		$auth->setLogin($login);
-		$auth->setTokenAuth($tokenAuth);
+	function initAuthenticationObject($notification)
+	{
+		$auth = new Piwik_Login_Auth();
+     	Zend_Registry::set('auth', $auth);
+		
+     	$action = Piwik::getAction();
+     	if(Piwik::getModule() === 'API' 
+     		&& (empty($action) || $action == 'index'))
+     	{
+     		return;
+     	}
+     		
+		$authCookieName = 'piwik-auth';
+		$authCookieExpiry = time() + 3600;
+		$authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
+		$defaultLogin = 'anonymous';
+		$defaultTokenAuth = 'anonymous';
+		if($authCookie->isCookieFound())
+		{
+			$defaultLogin = $authCookie->get('login');
+			$defaultTokenAuth = $authCookie->get('token_auth');
+		}
+		$auth->setLogin($defaultLogin);
+		$auth->setTokenAuth($defaultTokenAuth);
 	}
 }

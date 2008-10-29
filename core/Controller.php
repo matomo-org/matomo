@@ -264,14 +264,16 @@ abstract class Piwik_Controller
 		}
 		else
 		{
-			if(($currentLogin = Piwik::getCurrentUserLogin()) != 'anonymous')
+			$currentLogin = Piwik::getCurrentUserLogin();
+			if(!empty($currentLogin)
+				&& $currentLogin != 'anonymous')
 			{
 				Piwik_ExitWithMessage( sprintf(Piwik_Translate('CoreHome_NoPrivileges'),$currentLogin).
 				"<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='?module=Login&amp;action=logout'>&rsaquo; ".Piwik_Translate('General_Logout')."</a></b><br />");
 			}
 			else
 			{
-				Piwik_FrontController::dispatch('Login');
+				Piwik_FrontController::dispatch('Login', false);
 			}
 		}
 		exit;

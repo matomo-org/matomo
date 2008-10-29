@@ -236,7 +236,9 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		// we disable the queued filters because here we want to get the visits coming from search engines
 		// if the filters were applied we would have to look up for a label looking like "Search Engines" 
 		// which is not good when we have translations
-		$requestString = 'method='."Referers.getRefererType".'&format=original'.'&disable_queued_filters=1';
+		$requestString = "method=Referers.getRefererType
+						&format=original
+						&disable_queued_filters=1";
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}
