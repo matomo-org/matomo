@@ -18,5 +18,6 @@ input {
 <p><strong>your feedback:</strong><br/>
 <i>please be precise if you request for a feature or report a bug</i></p>
 <textarea name="body" cols="37" rows="10"></textarea>
+<br/>
 <input type="submit" value="Send feedback" />
 </form>

@@ -37,8 +37,7 @@
 		var MianCssClassName="";
 
 		var defaults = { 
-			CssClassName: "fdd2div_default",
-			OpenStatus: "0"
+			CssClassName: "fdd2div_default"
 		}
 		var options = $.extend(defaults, options);
 		
@@ -104,12 +103,9 @@
 			
 			var child_options = "#" + unique_id + " ul";
 			var main_option = "#" + unique_id + " a."+MianCssClassName+"_main_link";
-			
-			if(defaults.OpenStatus==0) {
-				$(child_options).hide();
-			} else {
-				$(main_option).attr("class", MianCssClassName+"_main_link expanded");
-			}
+
+			// hide by default			
+			$(child_options).hide();
 						
 			$(main_option).click(function () {
 				if( $(this).attr("class") == MianCssClassName+"_main_link collapsed" ) {
