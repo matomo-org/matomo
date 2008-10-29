@@ -15,7 +15,6 @@ require_once "Login/PasswordForm.php";
 require_once "View.php";
 
 /**
- *
  * @package Piwik_Login
  */
 class Piwik_Login_Controller extends Piwik_Controller

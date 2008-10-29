@@ -10,7 +10,7 @@
 <div id="topRightBar">
 <nobr>
 <small>
-<strong>{$userLogin}</strong>
+Hello, <strong>{$userLogin}</strong>!
 {if isset($userHasSomeAdminAccess) && $userHasSomeAdminAccess}| <a href='?module=CoreAdminHome'>Admin</a>{/if} 
  {if $showSitesSelection}| {include file=CoreHome/templates/sites_selection.tpl}{/if}
 | {if $userLogin == 'anonymous'}<a href='?module=Login'>{'Login_LogIn'|translate}</a>{else}<a href='?module=Login&amp;action=logout'>{'Login_Logout'|translate}</a>{/if}
