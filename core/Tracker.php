@@ -25,20 +25,13 @@
  *   that would merge all this simple code into a big piwik.php file.
  * 
  * On the Database-related side:
- * - write all the SQL queries without using any DB abstraction layer.
- * 	 Of course we carefully filter all input values.
+ * - write all the SQL queries without using any DB abstraction layer. Manual filtering of input values.
  * - minimize the number of SQL queries necessary to complete the algorithm.
  * - carefully index the tables used
  * - try to have fixed length rows
  * 
  * [ - use a partitionning by date for the tables ]
  *   
- * - handle the timezone settings??
- * 
- * We could also imagine a batch system that would read a log file every 5min,
- * and which prepares the file containg the rows to insert, then we load DATA INFILE 
- * 
- * 
  * Configuration options for the statsLogEngine module:
  * - use_cookie  ; defines if we try to get/set a cookie to help recognize a unique visitor
  * 
@@ -46,12 +39,10 @@
  */
 class Piwik_Tracker
 {	
-	protected $stateValid;
-	
+	protected $stateValid = self::STATE_NOTHING_TO_NOTICE;
 	protected $urlToRedirect;
 	
 	/**
-	 *
 	 * @var Piwik_Tracker_Db
 	 */
 	static protected $db = null;
@@ -67,12 +58,73 @@ class Piwik_Tracker
 	const COOKIE_INDEX_ID_VISIT 				= 4;
 	const COOKIE_INDEX_ID_LAST_ACTION 			= 5;
 	
-	public function __construct()
+	public function __construct() {}
+
+	public function main()
 	{
-		$this->stateValid = self::STATE_NOTHING_TO_NOTICE;
+		$this->init();
+		
+		if( $this->isVisitValid() )
+		{
+			try {
+				self::connectDatabase();
+				$visit = $this->getNewVisitObject();
+				$visit->handle();
+			} catch (PDOException $e) {
+				$this->setState(self::STATE_LOGGING_DISABLE);
+			}				
+		}
+		$this->end();
+	}	
+	
+	protected function init()
+	{
+		$this->loadTrackerPlugins();
+		$this->handleDisabledTracker();
+		$this->handleEmptyGetVariable();
+		$this->handleDownloadRedirect();
+		$this->handleOutlinkRedirect();
+	}
+
+	// display the logo or pixel 1*1 GIF
+	// or a marketing page if no parameters in the url
+	// or redirect to a url
+	// or load a URL (rss feed) (forward the cookie as well)
+	protected function end()
+	{
+		switch($this->getState())
+		{
+			case self::STATE_LOGGING_DISABLE:
+				printDebug("Logging disabled, display transparent logo");
+				$this->outputTransparentGif();
+			break;
+			
+			case self::STATE_NO_GET_VARIABLE:
+				printDebug("No get variables => Piwik page");
+				echo "<a href='index.php'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
+			break;
+			
+			case self::STATE_TO_REDIRECT_URL:
+				$this->sendHeader('Location: ' . $this->getUrlToRedirect());
+			break;
+			
+			case self::STATE_NOTHING_TO_NOTICE:
+			default:
+				printDebug("Nothing to notice => default behaviour");
+				$this->outputTransparentGif();
+			break;
+		}
+		printDebug("End of the page.");
+		
+		if($GLOBALS['DEBUGPIWIK'] === true)
+		{
+			Piwik::printSqlProfilingReportTracker(self::$db);
+		}
+		
+		self::disconnectDb();
 	}
 	
-	static function connectDatabase()
+	public static function connectDatabase()
 	{
 		if( !is_null(self::$db))
 		{
@@ -94,10 +146,10 @@ class Piwik_Tracker
 			}
 			
 			$db = new Piwik_Tracker_Db( 	$configDb['host'], 
-												$configDb['username'], 
-												$configDb['password'], 
-												$configDb['dbname'],
-												$configDb['port'] );
+											$configDb['username'], 
+											$configDb['password'], 
+											$configDb['dbname'],
+											$configDb['port'] );
 			$db->connect();
 		}
 		self::$db = $db;
@@ -108,65 +160,54 @@ class Piwik_Tracker
 		return self::$db;
 	}
 
-	static function disconnectDb()
+	public static function disconnectDb()
 	{
 		if(isset(self::$db))
 		{
 			self::$db->disconnect();
 		}
 	}
-	
-	private function initProcess()
+
+	/**
+	 * Returns the Tracker_Visit object.
+	 * This method can be overwritten to use a different Tracker_Visit object
+	 *
+	 * @return Piwik_Tracker_Visit
+	 */
+	protected function getNewVisitObject()
 	{
-		try{
-			$pluginsTracker = Piwik_Tracker_Config::getInstance()->Plugins_Tracker;
-			if(is_array($pluginsTracker)
-				&& count($pluginsTracker) != 0)
-			{
-				Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
-				Piwik_PluginsManager::getInstance()->setPluginsToLoad( $pluginsTracker['Plugins_Tracker'] );
-			}
-		} catch(Exception $e) {		
+		$visit = null;
+		Piwik_PostEvent('Tracker.getNewVisitObject', $visit);
+	
+		if(is_null($visit))
+		{
+			$visit = new Piwik_Tracker_Visit();
+		}
+		elseif(!($visit instanceof Piwik_Tracker_Visit_Interface ))
+		{
+			throw new Exception("The Visit object set in the plugin must implement Piwik_Tracker_Visit_Interface");
 		}
 		
-		$saveStats = Piwik_Tracker_Config::getInstance()->Tracker['record_statistics'];
-
-		if($saveStats == 0)
+		$visit->setDb(self::$db);
+		return $visit;
+	}
+	
+	protected function outputTransparentGif()
+	{
+		if( !isset($GLOBALS['DEBUGPIWIK']) || !$GLOBALS['DEBUGPIWIK'] ) 
 		{
-			$this->setState(self::STATE_LOGGING_DISABLE);
-		}
-
-		if( count($_GET) == 0)
-		{
-			$this->setState(self::STATE_NO_GET_VARIABLE);			
-		}
-
-		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
-		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string');
-
-		if( !empty($urlDownload) )
-		{
-			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int') == 1)
-			{
-				$this->setState( self::STATE_TO_REDIRECT_URL );
-			}
-			$this->setUrlToRedirect ( $urlDownload);
-		}
-		
-		$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
-		$urlOutlink = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string');
-		
-		if( !empty($urlOutlink) )
-		{
-			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int') == 1)
-			{
-				$this->setState( self::STATE_TO_REDIRECT_URL );
-			}
-			$this->setUrlToRedirect ( $urlOutlink);
+			$trans_gif_64 = "R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw==";
+			header("Content-type: image/gif");
+			print(base64_decode($trans_gif_64));
 		}
 	}
 	
-	private function processVisit()
+	protected function sendHeader($header)
+	{
+		header($header);
+	}
+	
+	private function isVisitValid()
 	{
 		return $this->stateValid !== self::STATE_LOGGING_DISABLE
 				&&  $this->stateValid !== self::STATE_NO_GET_VARIABLE;
@@ -191,105 +232,69 @@ class Piwik_Tracker
 	{
 		$this->stateValid = $value;
 	}
-	
-	/**
-	 * Returns the Tracker_Visit object.
-	 * This method can be overwritten so that we use a different Tracker_Visit object
-	 *
-	 * @return Piwik_Tracker_Visit
-	 */
-	protected function getNewVisitObject()
-	{
-		$visit = null;
-		Piwik_PostEvent('Tracker.getNewVisitObject', $visit);
-	
-		if(is_null($visit))
-		{
-			$visit = new Piwik_Tracker_Visit();
-		}
-		elseif(!($visit instanceof Piwik_Tracker_Visit_Interface ))
-		{
-			throw new Exception("The Visit object set in the plugin must implement Piwik_Tracker_Visit_Interface");
-		}
-		
-		$visit->setDb(self::$db);
-		return $visit;
-	}
-	
-	// main algorithm 
-	// => input : variables filtered
-	// => action : read cookie, read database, database logging, cookie writing
-	function main()
-	{
-		$this->initProcess();
-		
-		if( $this->processVisit() )
-		{
-			try {
-				self::connectDatabase();
-				$visit = $this->getNewVisitObject();
-				$visit->handle();
-			} catch (PDOException $e) {
-				$this->setState(self::STATE_LOGGING_DISABLE);
-			}				
-		}
-		$this->endProcess();
-	}	
 
-	// display the logo or pixel 1*1 GIF
-	// or a marketing page if no parameters in the url
-	// or redirect to a url
-	// or load a URL (rss feed) (transmit the cookie as well)
-	protected function endProcess()
+	private function loadTrackerPlugins()
 	{
-		switch($this->getState())
-		{
-			case self::STATE_LOGGING_DISABLE:
-				printDebug("Logging disabled, display transparent logo");
-				$this->outputTransparentGif();
-			break;
-			
-			case self::STATE_NO_GET_VARIABLE:
-				printDebug("No get variables => piwik page");
-				echo "<a href='index.php'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
-			break;
-			
-			
-			case self::STATE_TO_REDIRECT_URL:
-				$this->sendHeader('Location: ' . $this->getUrlToRedirect());
-			break;
-			
-			
-			case self::STATE_NOTHING_TO_NOTICE:
-			default:
-				printDebug("Nothing to notice => default behaviour");
-				$this->outputTransparentGif();
-			break;
-		}
-		printDebug("End of the page.");
-		
-		if($GLOBALS['DEBUGPIWIK'] === true)
-		{
-			Piwik::printSqlProfilingReportTracker(self::$db);
-		}
-		
-		self::disconnectDb();
-	}
-	
-	protected function outputTransparentGif()
-	{
-		if( !isset($GLOBALS['DEBUGPIWIK']) || !$GLOBALS['DEBUGPIWIK'] ) 
-		{
-			$trans_gif_64 = "R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw==";
-			header("Content-type: image/gif");
-			print(base64_decode($trans_gif_64));
+		try{
+			$pluginsTracker = Piwik_Tracker_Config::getInstance()->Plugins_Tracker;
+			if(is_array($pluginsTracker)
+				&& count($pluginsTracker) != 0)
+			{
+				Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
+				Piwik_PluginsManager::getInstance()->setPluginsToLoad( $pluginsTracker['Plugins_Tracker'] );
+				
+				printDebug("Loading plugins: { ". implode(",", $pluginsTracker['Plugins_Tracker']) . "}");
+			}
+		} catch(Exception $e) {		
 		}
 	}
 	
-	protected function sendHeader($header)
+	private function handleDownload()
 	{
-		header($header);
-	}	
+		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
+		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string');
+
+		if( !empty($urlDownload) )
+		{
+			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int') == 1)
+			{
+				$this->setState( self::STATE_TO_REDIRECT_URL );
+			}
+			$this->setUrlToRedirect ( $urlDownload );
+		}
+	}
+	
+	private function handleOutlinkRedirect()
+	{
+		$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
+		$urlOutlink = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string');
+		
+		if( !empty($urlOutlink) )
+		{
+			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int') == 1)
+			{
+				$this->setState( self::STATE_TO_REDIRECT_URL );
+			}
+			$this->setUrlToRedirect ( $urlOutlink);
+		}
+	}
+	
+	private function handleEmptyGetVariable()
+	{
+		if( count($_GET) == 0)
+		{
+			$this->setState(self::STATE_NO_GET_VARIABLE);			
+		}
+	}
+	
+	private function handleDisabledTracker()
+	{
+		$saveStats = Piwik_Tracker_Config::getInstance()->Tracker['record_statistics'];
+		if($saveStats == 0)
+		{
+			$this->setState(self::STATE_LOGGING_DISABLE);
+		}
+	}
 }
 
 function printDebug( $info = '' )

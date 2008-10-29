@@ -26,8 +26,9 @@ require_once "Cookie.php";
 require_once "Tracker/Db.php";
 require_once "Tracker/Visit.php";
 
-$GLOBALS['DEBUGPIWIK'] = false;
+$GLOBALS['DEBUGPIWIK'] = true;
 
+ob_start();
 if($GLOBALS['DEBUGPIWIK'] === true)
 {	
 	date_default_timezone_set(date_default_timezone_get());
@@ -41,7 +42,6 @@ if($GLOBALS['DEBUGPIWIK'] === true)
 	Piwik::createLogObject();
 }
 
-ob_start();
 $process = new Piwik_Tracker;
 $process->main();
 ob_end_flush();
