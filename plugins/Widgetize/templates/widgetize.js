@@ -9,7 +9,6 @@ function callbackAddExportButtonsUnderWidget(widget, pluginId, actionId)
 
 	widget.find('embed').each(function() {
 		var htmlEmbed = $(this).parent().html();
-		console.log($(htmlEmbed).attr('src'));
 		var htmlEmbed = '<br/> Embed Flash: ' + getInputFormWithHtml('flashEmbed', htmlEmbed);
 		divEmbedThisWidget.append(htmlEmbed);
 	});
@@ -29,7 +28,7 @@ function getEmbedUrl( pluginId, actionId, exportFormat )
 {
 	var sourceUrl;
 	sourceUrl = document.location.protocol + '//' + document.location.hostname + document.location.pathname + '?';
-	sourceUrl += "module=Widgetize&action="+exportFormat+"&moduleToWidgetize="+pluginId+"&actionToWidgetize="+actionId+"&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+piwik.currentDateStr;
+	sourceUrl += "module=Widgetize&action="+exportFormat+"&moduleToWidgetize="+pluginId+"&actionToWidgetize="+actionId+"&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+piwik.currentDateString;
 	sourceUrl += "&disableLink=1";
 	return sourceUrl;
 }

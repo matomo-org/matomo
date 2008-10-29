@@ -20,7 +20,7 @@ function getDeleteSiteAJAX( idSite )
 	parameters.format = 'json';
  	parameters.method =  'SitesManager.deleteSite';
  	parameters.idSite = idSite;
- 	parameters.token_auth = piwik_token_auth;
+ 	parameters.token_auth = piwik.token_auth;
 	
 	ajaxRequest.data = parameters;
 	
@@ -44,7 +44,7 @@ function getAddSiteAJAX( row )
 	siteName = getEncoded(siteName);
 	request += '&siteName='+siteName;
 	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
- 	request += '&token_auth='+piwik_token_auth;
+ 	request += '&token_auth=' + piwik.token_auth;
  	
 	ajaxRequest.data = request;
  	
@@ -68,7 +68,7 @@ function getUpdateSiteAJAX( row )
 	request += '&siteName='+siteName;
 	request += '&idSite='+idSite;
 	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
- 	request += '&token_auth='+piwik_token_auth;
+ 	request += '&token_auth=' + piwik.token_auth;
  	
 	ajaxRequest.data = request;
 	

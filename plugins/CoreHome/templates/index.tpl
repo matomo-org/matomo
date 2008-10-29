@@ -10,6 +10,7 @@
 
 <body>
 {assign var=showSitesSelection value=true}
+{include file="CoreHome/templates/js_global_variables.tpl"}
 {include file="CoreHome/templates/top_bar.tpl"}
 {include file="CoreHome/templates/header.tpl"}
 {include file="CoreHome/templates/menu.tpl"}
