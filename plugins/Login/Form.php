@@ -34,14 +34,12 @@ class Piwik_Login_Form extends Piwik_Form
 		{
 			$urlToGoAfter = Piwik_Url::getReferer();
 		}
-		
 		$formElements = array(
 			array('text', 'form_login'),
 			array('password', 'form_password'),
-			array('hidden', 'form_url', $urlToGoAfter),
+			array('hidden', 'form_url', $urlToGoAfter)
 		);
 		$this->addElements( $formElements );
-		
 		$formRules = array(
 			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Login')), 'required'),
 			array('form_password', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Password')), 'required'),

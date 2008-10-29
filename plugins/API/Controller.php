@@ -20,8 +20,23 @@ class Piwik_API_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$request = new Piwik_API_Request();
+		$request = new Piwik_API_Request('token_auth='.Piwik_Common::getRequestVar('token_auth', 'anonymous', 'string'));
 		echo $request->process();
+	}
+
+	public function listAllMethods()
+	{
+		$this->init();
+		echo Piwik_API_Proxy::getInstance()->getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = Piwik_Common::getRequestVar('prefixUrl', '') );
+	}
+	
+	public function listAllAPI()
+	{
+		$view = new Piwik_View("API/templates/listAllAPI.tpl");
+		$this->setGeneralVariablesView($view);
+		$view->countLoadedAPI = $this->init();
+		$view->list_api_methods_with_links = Piwik_API_Proxy::getInstance()->getAllInterfaceString();
+		echo $view->render();
 	}
 	
 	protected function init()
@@ -43,20 +58,6 @@ class Piwik_API_Controller extends Piwik_Controller
 		return $loaded;
 	}
 	
-	function listAllMethods()
-	{
-		$this->init();
-		echo Piwik_API_Proxy::getInstance()->getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = Piwik_Common::getRequestVar('prefixUrl', '') );
-	}
-	
-	function listAllAPI()
-	{
-		$view = new Piwik_View("API/templates/listAllAPI.tpl");
-		$this->setGeneralVariablesView($view);
-		$view->countLoadedAPI = $this->init();
-		$view->list_api_methods_with_links = Piwik_API_Proxy::getInstance()->getAllInterfaceString();
-		echo $view->render();
-	}
 	
 }
 

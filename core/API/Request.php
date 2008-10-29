@@ -58,8 +58,15 @@ class Piwik_API_Request
 			$request = trim($request);
 			$request = str_replace(array("\n","\t"),'', $request);
 			parse_str($request, $requestArray);
-				
-			$requestArray = array_merge( $_REQUEST, $requestArray);
+
+			// if a token_auth is specified in the API request, we load the right permissions
+			if(isset($requestArray['token_auth']))
+			{
+				Piwik_PostEvent('API.Request.authenticate', $requestArray['token_auth']);
+				Zend_Registry::get('access')->loadAccess();
+			}
+						
+			$requestArray = array_merge($_REQUEST, $requestArray);
 		}
 		
 		foreach($requestArray as &$element)
@@ -92,7 +99,6 @@ class Piwik_API_Request
 		$response = new Piwik_API_ResponseBuilder($this->request, $outputFormat);
 		
 		try {
-		
 			// read parameters
 			$moduleMethod = Piwik_Common::getRequestVar('method', null, null, $this->request);
 			
@@ -102,11 +108,11 @@ class Piwik_API_Request
 			{
 				throw new Exception_PluginDeactivated($module);
 			}
+			$className = "Piwik_" . $module . "_API";
+
 			// call the method via the API_Proxy class
 			$api = Piwik_Api_Proxy::getInstance();
 			$api->registerClass($module);
-			
-			$className = "Piwik_" . $module . "_API";
 
 			// check method exists
 			$api->checkMethodExists($className, $method);
@@ -121,7 +127,6 @@ class Piwik_API_Request
 			$returnedValue = call_user_func_array( array( $api->$module, $method), $finalParameters );
 			
 			$toReturn = $response->getResponse($returnedValue);
-			
 		} catch(Exception $e ) {
 			return $response->getResponseException( $e );
 		}

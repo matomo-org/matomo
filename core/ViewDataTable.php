@@ -348,9 +348,7 @@ abstract class Piwik_ViewDataTable
 		// we setup the method and format variable
 		// - we request the method to call to get this specific DataTable
 		// - the format = original specifies that we want to get the original DataTable structure itself, not rendered
-		$requestString = 'method='.$this->moduleNameAndMethod
-						.'&format=original'
-					;
+		$requestString = 'method='.$this->moduleNameAndMethod.'&format=original';
 		if( $this->recursiveDataTableLoad )
 		{
 			$requestString .= '&expanded=1';

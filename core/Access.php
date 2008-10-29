@@ -178,7 +178,7 @@ class Piwik_Access
 	
 	/**
 	 * Returns the current user login
-	 * @return string
+	 * @return string|null
 	 */
 	public function getLogin()
 	{
@@ -187,7 +187,7 @@ class Piwik_Access
 
 	/**
 	 * Returns the token_auth used to authenticate this user in the API
-	 * @return string  
+	 * @return string|null
 	 */
 	public function getTokenAuth()
 	{
