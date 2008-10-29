@@ -26,7 +26,7 @@ require_once "Cookie.php";
 require_once "Tracker/Db.php";
 require_once "Tracker/Visit.php";
 
-$GLOBALS['DEBUGPIWIK'] = true;
+$GLOBALS['DEBUGPIWIK'] = false;
 
 ob_start();
 if($GLOBALS['DEBUGPIWIK'] === true)

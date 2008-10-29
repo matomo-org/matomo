@@ -1,7 +1,7 @@
-{loadJavascriptTranslations plugins='UsersManager'}
 {assign var=showSitesSelection value=false}
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
+{loadJavascriptTranslations plugins='UsersManager'}
 {include file="CoreAdminHome/templates/menu.tpl"}
 
 {literal}
