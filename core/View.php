@@ -79,7 +79,9 @@ class Piwik_View implements Piwik_iView
 			$this->currentModule = Piwik::getModule();
 			$this->currentPluginName = Piwik::getCurrentPlugin()->getName();
 			$this->userLogin = Piwik::getCurrentUserLogin();
-			$this->sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+			$sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+			usort($sites, create_function('$site1, $site2', 'return strtolower($site1["name"]) > strtolower($site2["name"]);'));
+			$this->sites = $sites;
 			$this->url = Piwik_Url::getCurrentUrl();
 			$this->token_auth = Piwik::getCurrentUserTokenAuth();
 			$this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
