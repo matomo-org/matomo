@@ -59,6 +59,9 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$language = self::getLanguageCodeForCurrentUser();
 	}
 	
+	/**
+	 * @return void|Exception
+	 */
 	public function install()
 	{
 		// we catch the exception
@@ -83,6 +86,9 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		}
 	}
 	
+	/**
+	 * @return void|Exception
+	 */
 	public function uninstall()
 	{
 		$sql = "DROP TABLE ". Piwik::prefixTable('user_language') ;
@@ -123,18 +129,22 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		}
 	}
 
+	/**
+	 * @return string|false if language preference could not be loaded
+	 */
 	static protected function getLanguageFromPreferences()
 	{
-		$currentUser = Piwik::getCurrentUserLogin();
-		if($currentUser == 'anonymous')
+		if(isset($_SESSION['language']))
 		{
-			if(!isset($_SESSION['language']))
-			{
-				return false;
-			}
 			return $_SESSION['language'];
 		}
-		return Piwik_LanguagesManager_API::getLanguageForUser($currentUser);
+		
+		try {
+			$currentUser = Piwik::getCurrentUserLogin();
+			return Piwik_LanguagesManager_API::getLanguageForUser($currentUser);
+		} catch(Exception $e) {
+			return false;
+		}
 	}
 	
 	

@@ -229,7 +229,7 @@ class Piwik_Tracker_Generator
 	 */
 	public function end()
 	{
-		Piwik_Tracker::disconnectDb();
+		Piwik_Tracker::disconnectDatabase();
 		if($this->profiling)
 		{
 			Piwik::printSqlProfilingReportTracker();

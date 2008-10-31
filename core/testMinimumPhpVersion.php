@@ -38,19 +38,33 @@ if($piwik_zend_compatibility_mode == 1)
 				If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file. You may have to ask your system administrator.</p>";
 }
 
-function Piwik_ExitWithMessage($message, $optionalTrace = null)
+/**
+ * Displays info/warning/error message in a friendly UI and exits.
+ *
+ * @param string $message Main message
+ * @param string|false $optionalTrace Backtrace; will be displayed in lighter color
+ * @param bool $optionalLinks If true, will show links to the Piwik website for help
+ */
+function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false)
 {
-	if(!is_null($optionalTrace))
+	if($optionalTrace)
 	{
 		$optionalTrace = '<font color="#888888">Backtrace:<br/><pre>'.$optionalTrace.'</pre></font>';
+	}
+	if($optionalLinks)
+	{
+		$optionalLinks = '<ul>
+						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org">Piwik homepage</a></li>
+						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/demo">Piwik demo</a></li>
+						</ul>';
 	}
 	$html = '<html>
 				<head>
 					<title>Piwik &rsaquo; Error</title>
 					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 				<style>				
-				html { background: #eee; }				
-				body {
+				html { background: #eee; }
+				#content {
 					background: #fff;
 					color: #000;
 					font-family: Georgia, "Times New Roman", Times, serif;
@@ -80,16 +94,30 @@ function Piwik_ExitWithMessage($message, $optionalTrace = null)
 				ul, ol { padding: 5px 5px 5px 20px; }
 				#logo { margin-bottom: 2em; }
 				code { margin-left: 40px; }
+				.submit {
+					font-size:18pt;
+					padding: 5px 7px 7px;
+					border: 1px solid #a3a3a3;
+					-moz-border-radius: 3px;
+					-khtml-border-radius: 3px;
+					-webkit-border-radius: 3px;
+					border-radius: 3px;
+					color: #246;
+					background: #e5e5e5;
+				}
+				.submit:hover {
+					color: #d54e21;
+					border-color: #535353;
+				}
 				</style>
 				</head>
 				<body>
+				<div id="content">
 					<span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span>
 					<p>'.$message.'</p>
 					'. $optionalTrace .'
-					<ul>
-						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org">Piwik homepage</a></li>
-						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/demo">Piwik demo</a></li>
-					</ul>
+					'. $optionalLinks .'
+				</div>
 				</body>
 				</html>';
 	echo $html;
@@ -98,7 +126,7 @@ function Piwik_ExitWithMessage($message, $optionalTrace = null)
 
 if(isset($piwik_errorMessage))
 {
-	Piwik_ExitWithMessage($piwik_errorMessage);
+	Piwik_ExitWithMessage($piwik_errorMessage, false, true);
 }
 
 // we now include the upgradephp package to define some functions used in piwik 

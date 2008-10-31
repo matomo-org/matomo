@@ -19,18 +19,14 @@ class Piwik_LanguagesManager_Controller extends Piwik_Controller
 {
 	/**
 	 * anonymous = in the session
-	 * authenticated user = in the DB
+	 * authenticated user = in the session and in DB
 	 */
 	public function saveLanguage()
 	{
 		$language = Piwik_Common::getRequestVar('language');
 		$currentUser = Piwik::getCurrentUserLogin();
-
-		if($currentUser == 'anonymous')
-		{
-			$_SESSION['language'] = $language;
-		}
-		else
+		$_SESSION['language'] = $language;
+		if($currentUser !== 'anonymous')
 		{
 			Piwik_LanguagesManager_API::setLanguageForUser($currentUser, $language);
 		}

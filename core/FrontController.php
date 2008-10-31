@@ -213,7 +213,7 @@ class Piwik_FrontController
 			$directoryMessage .= "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.";
 			$directoryMessage .= "<p>If you need more help, try <a href='misc/redirectToUrl.php?url=http://piwik.org'>Piwik.org</a>.";
 			
-			Piwik_ExitWithMessage($directoryMessage);
+			Piwik_ExitWithMessage($directoryMessage, false, true);
 		}
 	}
 	
@@ -249,8 +249,8 @@ class Piwik_FrontController
 				Piwik_PostEvent('FrontController.NoConfigurationFile', $e);
 				$exceptionToThrow = $e;
 			}
-			
 			Piwik_Translate::getInstance()->loadEnglishTranslation();
+			
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 			
@@ -260,6 +260,13 @@ class Piwik_FrontController
 			}
 			Piwik::createDatabaseObject();
 			Piwik::createLogObject();
+			
+			Piwik_Translate::getInstance()->loadUserTranslation();
+			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
+			$pluginsManager->postLoadPlugins();
+			
+			$this->checkForCoreAndPluginsUpdates();
+			
 			Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 			Piwik::install();
 			
@@ -276,14 +283,49 @@ class Piwik_FrontController
 			$access = new Piwik_Access($authAdapter);
 			Zend_Registry::set('access', $access);		
 			Zend_Registry::get('access')->loadAccess();
-	
-			Piwik_Translate::getInstance()->loadUserTranslation();
-			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
-			$pluginsManager->postLoadPlugins();
-
+			
 			Piwik::raiseMemoryLimitIfNecessary();
 		} catch(Exception $e) {
-			Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString());
+			Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString(), true);
+		}
+	}
+	
+	//update trigger
+	//lookup core version, version.php
+	//lookup plugins versions, read from plugin metadata
+	//if updates > 0, fetch Update module content (view showing nice message)
+	protected function checkForCoreAndPluginsUpdates()
+	{
+		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+		return;
+		$updater = new Piwik_Updater();
+		$updater->loadPreviousVersion( 'core'); //from database
+		$updater->setCurrentVersion( $piwik_version );
+		
+		foreach($plugins as $pluginName -> $plugin)
+		{
+			$updater->loadPreviousVersion($pluginName);
+			$updater->setCurrentVersion($plugin->getVersion());
+		}
+		
+		if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'int') === 1)
+		{
+			// loop through all updates and execute them
+			// set new value in DB on success
+			
+			// saves the new name/version option in the DB
+			$updater->setSuccess($name);
+			
+			// if error in core update, show message + support + rollback to previous version + EXIT
+			// if errors in plugins, show them on screen, disable plugins that errored + CONTINUE
+			// if warning in core or plugins , show message + CONTINUE
+			// if no error or warning, success message + CONTINUE
+		}
+		else
+		{
+			// show update screen to prompt user to valid upgrade
+			$text = '<br><input type="submit" class="submit" value="Upgrade Piwik" name="Submit"/>';
+			Piwik_ExitWithMessage('error ' . $text, false, false);
 		}
 	}
 	

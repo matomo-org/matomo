@@ -35,7 +35,7 @@ class Piwik_Tracker_Generator_Tracker extends Piwik_Tracker
 	 *
 	 * @return void
 	 */
-	protected function endProcess()
+	protected function end()
 	{
 	}
 	
@@ -51,7 +51,7 @@ class Piwik_Tracker_Generator_Tracker extends Piwik_Tracker
 		return $visit;
 	}	
 	
-	static function disconnectDb()
+	static function disconnectDatabase()
 	{
 		return;
 	}

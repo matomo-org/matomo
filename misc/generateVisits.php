@@ -61,7 +61,6 @@ $generator->init();
 
 $t = new Piwik_Timer;
 
-// do NOT edit this line
 $startTime = time() - ($daysToCompute-1)*86400;
 while($startTime <= time())
 {
@@ -73,7 +72,6 @@ while($startTime <= time())
 	print("Generated $visitors unique visitors and $actionsPerVisit actions per visit for the ".date("Y-m-d", $startTime)."<br>\n");
 	$startTime+=86400;
 	$nbActionsTotal+=$nbActionsTotalThisDay;
-	flush();
 	sleep(1);
 }
 

@@ -3,7 +3,6 @@ update mechanism? port modification to TIMESTAMP fields in site/user
 Bugs
 - WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
 - something is wrong in JS calendar when year selected
-- order list of sites alphabetically
 - error message ugly in IE, wrong in chrome
 - make sure deployement don't include logger in file/db/etc
 - disable db plugin default

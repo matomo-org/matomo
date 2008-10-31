@@ -78,7 +78,7 @@ abstract class Piwik_Plugin
 	{
 		return array();
 	}
-	
+
 	/**
 	 * Returns the plugin name
 	 * @var string
@@ -87,6 +87,16 @@ abstract class Piwik_Plugin
 	{
 		$info = $this->getInformation();
 		return $info['name'];
+	}
+
+	/**
+	 * Returns the plugin version number
+	 * @var string
+	 */
+	public function getVersion()
+	{
+		$info = $this->getInformation();
+		return $info['version'];
 	}
 	
 	/**
