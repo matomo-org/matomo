@@ -45,6 +45,7 @@ abstract class Piwik_DataTable_Filter
 require_once "DataTable/Filter/ColumnCallbackDeleteRow.php";
 require_once "DataTable/Filter/ColumnCallbackAddMetadata.php";
 require_once "DataTable/Filter/ColumnCallbackReplace.php";
+require_once "DataTable/Filter/ColumnCallbackAddColumnPercentage.php";
 require_once "DataTable/Filter/MetadataCallbackAddMetadata.php";
 require_once "DataTable/Filter/AddConstantMetadata.php";
 require_once "DataTable/Filter/Null.php";

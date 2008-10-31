@@ -121,7 +121,7 @@ class Piwik_Tracker
 			Piwik::printSqlProfilingReportTracker(self::$db);
 		}
 		
-		self::disconnectDb();
+		self::disconnectDatabase();
 	}
 	
 	public static function connectDatabase()
@@ -160,7 +160,7 @@ class Piwik_Tracker
 		return self::$db;
 	}
 
-	public static function disconnectDb()
+	public static function disconnectDatabase()
 	{
 		if(isset(self::$db))
 		{

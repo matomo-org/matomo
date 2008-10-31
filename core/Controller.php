@@ -268,8 +268,9 @@ abstract class Piwik_Controller
 			if(!empty($currentLogin)
 				&& $currentLogin != 'anonymous')
 			{
-				Piwik_ExitWithMessage( sprintf(Piwik_Translate('CoreHome_NoPrivileges'),$currentLogin).
-				"<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='?module=Login&amp;action=logout'>&rsaquo; ".Piwik_Translate('General_Logout')."</a></b><br />");
+				$errorMessage = sprintf(Piwik_Translate('CoreHome_NoPrivileges'),$currentLogin);
+				$errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='?module=Login&amp;action=logout'>&rsaquo; ". Piwik_Translate('General_Logout'). "</a></b><br />";
+				Piwik_ExitWithMessage($errorMessage, false, true);
 			}
 			else
 			{
