@@ -204,7 +204,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			Piwik::createTables();
 			Piwik::createAnonymousUser();
 			Piwik::createTablesIndex();
-			
+			require_once "Version.php";
+			require_once "Updater.php";
+			$updater = new Piwik_Updater();
+			$updater->recordComponentSuccessfullyUpdated('core', Piwik_Version::VERSION);
 			$view->tablesCreated = true;
 			$view->showNextStep = true;
 		}

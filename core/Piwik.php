@@ -601,10 +601,9 @@ class Piwik
 			",
 			
 			'option' => "CREATE TABLE {$prefixTables}option (
-								idoption BIGINT NOT NULL AUTO_INCREMENT ,
 								option_name VARCHAR( 64 ) NOT NULL ,
 								option_value LONGTEXT NOT NULL ,
-								PRIMARY KEY ( idoption , option_name )
+								PRIMARY KEY ( option_name )
 								)
 			",
 								

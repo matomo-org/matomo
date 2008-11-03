@@ -142,7 +142,7 @@ class Piwik_Updater
 				}
 				else
 				{
-					$currentVersion = '0.01';
+					$currentVersion = '0.0.1';
 				}
 				$this->recordComponentSuccessfullyUpdated($name, $currentVersion);
 			}
