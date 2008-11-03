@@ -6,18 +6,26 @@
 // - design Options, how WP plugins make use of it, reuse same pattern
 function Piwik_GetOption($name)
 {
-	return Piwik_FetchOne( 'SELECT option_value 
+	try {
+		return Piwik_FetchOne( 'SELECT option_value 
 							FROM ' . Piwik::prefixTable('option') . ' 
 							WHERE option_name = ?', 
-							$name);
+							$name); 
+	} catch(Exception $e) {
+		return false;
+	}
 }
 
 function Piwik_UpdateOption($name, $value)
 {
-	return Piwik_Query('INSERT INTO '. Piwik::prefixTable('option') . ' (option_name, option_value) 
+	try {
+		return Piwik_Query('INSERT INTO '. Piwik::prefixTable('option') . ' (option_name, option_value) 
 						VALUES (?, ?) 
 						ON DUPLICATE KEY UPDATE option_value = ?', 
 						array($name, $value, $value));
+	} catch(Exception $e) {
+		return false;
+	}
 }
 
 /**

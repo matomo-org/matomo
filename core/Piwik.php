@@ -600,6 +600,14 @@ class Piwik
 								)
 			",
 			
+			'option' => "CREATE TABLE {$prefixTables}option (
+								idoption BIGINT NOT NULL AUTO_INCREMENT ,
+								option_name VARCHAR( 64 ) NOT NULL ,
+								option_value LONGTEXT NOT NULL ,
+								PRIMARY KEY ( idoption , option_name )
+								)
+			",
+								
 			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
 										idarchive INTEGER UNSIGNED NOT NULL,
 										name VARCHAR(255) NOT NULL,
