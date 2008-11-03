@@ -1,6 +1,4 @@
 <?php
-
-
 //TODO 
 // - design Caching, in terms of API, piwik.php loading data for a given website (from one file)
 // - design Options, how WP plugins make use of it, reuse same pattern
@@ -28,13 +26,3 @@ function Piwik_UpdateOption($name, $value)
 	}
 }
 
-/**
- * 
- CREATE TABLE `piwik_trunk`.`option` (
-`idoption` BIGINT NOT NULL AUTO_INCREMENT ,
-`option_name` VARCHAR( 64 ) NOT NULL ,
-`option_value` LONGTEXT NOT NULL ,
-PRIMARY KEY ( `idoption` , `option_name` )
-) ENGINE = MYISAM 
- *
- */

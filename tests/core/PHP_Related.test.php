@@ -24,6 +24,11 @@ class Test_PHP_Related extends UnitTestCase
 	{
 	}
 	
+	function test_versionTrailingZero()
+	{
+		$this->assertTrue(version_compare('0.1','0.01') == 0);
+	}
+	
 	function test_equal()
 	{
 		//aaaaaaaaaaaahhhhhhhhhhhh
