@@ -59,6 +59,37 @@ class Piwik
 	}
 	
 	/**
+	 * Checks that the directories Piwik needs write access are actually writable
+	 * Displays a nice error page if permissions are missing on some directories
+	 * 
+	 * @return void
+	 */
+	static public function checkDirectoriesWritableOrDie( $directoriesToCheck = null )
+	{
+		$resultCheck = Piwik::checkDirectoriesWritable( $directoriesToCheck );
+		if( array_search(false, $resultCheck) !== false )
+		{ 
+			$directoryList = '';
+			foreach($resultCheck as $dir => $bool)
+			{
+				$realpath = Piwik::realpath($dir);
+				if(!empty($realpath) && $bool === false)
+				{
+					$directoryList .= "<code>chmod 777 $realpath</code><br>";
+				}
+			}
+			$directoryList .= '';
+			$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your Linux server:</P>";
+			$directoryMessage .= $directoryList;
+			$directoryMessage .= "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 777 (with your FTP software, right click on the directories, permissions).";
+			$directoryMessage .= "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.";
+			$directoryMessage .= "<p>If you need more help, try <a href='misc/redirectToUrl.php?url=http://piwik.org'>Piwik.org</a>.";
+			
+			Piwik_ExitWithMessage($directoryMessage, false, true);
+		}
+	}
+	
+	/**
 	 * Checks if directories are writable and create them if they do not exist.
 	 * 
 	 * @param array $directoriesToCheck array of directories to check - if not given default Piwik directories that needs write permission are checked

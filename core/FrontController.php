@@ -187,37 +187,6 @@ class Piwik_FrontController
 	}
 	
 	/**
-	 * Checks that the directories Piwik needs write access are actually writable
-	 * Displays a nice error page if permissions are missing on some directories
-	 * 
-	 * @return void
-	 */
-	static public function checkDirectoriesWritableOrDie( $directoriesToCheck = null )
-	{
-		$resultCheck = Piwik::checkDirectoriesWritable( $directoriesToCheck );
-		if( array_search(false, $resultCheck) !== false )
-		{ 
-			$directoryList = '';
-			foreach($resultCheck as $dir => $bool)
-			{
-				$realpath = Piwik::realpath($dir);
-				if(!empty($realpath) && $bool === false)
-				{
-					$directoryList .= "<code>chmod 777 $realpath</code><br>";
-				}
-			}
-			$directoryList .= '';
-			$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your Linux server:</P>";
-			$directoryMessage .= $directoryList;
-			$directoryMessage .= "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 777 (with your FTP software, right click on the directories, permissions).";
-			$directoryMessage .= "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.";
-			$directoryMessage .= "<p>If you need more help, try <a href='misc/redirectToUrl.php?url=http://piwik.org'>Piwik.org</a>.";
-			
-			Piwik_ExitWithMessage($directoryMessage, false, true);
-		}
-	}
-	
-	/**
 	 * Must be called before dispatch()
 	 * - checks that directories are writable,
 	 * - loads the configuration file,
@@ -238,7 +207,7 @@ class Piwik_FrontController
 					'/tmp/cache',
 			);
 			
-			self::checkDirectoriesWritableOrDie($directoriesToCheck);
+			Piwik::checkDirectoriesWritableOrDie($directoriesToCheck);
 			self::assignCliParametersToRequest();
 			
 			$exceptionToThrow = false;
@@ -265,7 +234,9 @@ class Piwik_FrontController
 			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
 			$pluginsManager->postLoadPlugins();
 			
-			$this->checkForCoreAndPluginsUpdates();
+			require_once "CoreUpdater/Controller.php";
+			$updaterController = new Piwik_CoreUpdater_Controller();
+			$updaterController->checkForCoreAndPluginsUpdates();
 			
 			Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 			Piwik::install();
@@ -274,7 +245,7 @@ class Piwik_FrontController
 			try {
 				$authAdapter = Zend_Registry::get('auth');
 			} catch(Exception $e){
-				throw new Exception("Object 'auth' cannot be found in the Registry. Maybe the Login plugin is not activated?
+				throw new Exception("Authentication object 'auth' cannot be found in the Registry. Maybe the Login plugin is not activated?
 									<br>You can activate the plugin by adding:<br>
 									<code>Plugins[] = Login</code><br>
 									under the <code>[Plugins]</code> section in your config/config.inc.php");
@@ -287,45 +258,6 @@ class Piwik_FrontController
 			Piwik::raiseMemoryLimitIfNecessary();
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString(), true);
-		}
-	}
-	
-	//update trigger
-	//lookup core version, version.php
-	//lookup plugins versions, read from plugin metadata
-	//if updates > 0, fetch Update module content (view showing nice message)
-	protected function checkForCoreAndPluginsUpdates()
-	{
-		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
-		return;
-		$updater = new Piwik_Updater();
-		$updater->loadPreviousVersion( 'core'); //from database
-		$updater->setCurrentVersion( $piwik_version );
-		
-		foreach($plugins as $pluginName -> $plugin)
-		{
-			$updater->loadPreviousVersion($pluginName);
-			$updater->setCurrentVersion($plugin->getVersion());
-		}
-		
-		if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'int') === 1)
-		{
-			// loop through all updates and execute them
-			// set new value in DB on success
-			
-			// saves the new name/version option in the DB
-			$updater->setSuccess($name);
-			
-			// if error in core update, show message + support + rollback to previous version + EXIT
-			// if errors in plugins, show them on screen, disable plugins that errored + CONTINUE
-			// if warning in core or plugins , show message + CONTINUE
-			// if no error or warning, success message + CONTINUE
-		}
-		else
-		{
-			// show update screen to prompt user to valid upgrade
-			$text = '<br><input type="submit" class="submit" value="Upgrade Piwik" name="Submit"/>';
-			Piwik_ExitWithMessage('error ' . $text, false, false);
 		}
 	}
 	

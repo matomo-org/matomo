@@ -28,6 +28,9 @@ class Piwik_Referers_API extends Piwik_Apiable
 		return self::$instance;
 	}
 
+	/**
+	 * @return Piwik_DataTable
+	 */
 	private function getDataTable($name, $idSite, $period, $date, $expanded, $idSubtable = null)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );

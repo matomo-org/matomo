@@ -29,7 +29,7 @@ class Piwik_PluginsManager
 	protected $loadedPlugins = array();
 	
 	protected $doLoadAlwaysActivatedPlugins = true;
-	protected $pluginToAlwaysActivate = array( 'CoreHome', 'CoreAdminHome', 'CorePluginsAdmin' );
+	protected $pluginToAlwaysActivate = array( 'CoreHome', 'CoreUpdater', 'CoreAdminHome', 'CorePluginsAdmin' );
 
 	static private $instance = null;
 	
@@ -210,6 +210,7 @@ class Piwik_PluginsManager
 		}
 		return $this->loadedPlugins[$name];
 	}
+	
 	/**
 	 * Load the plugins classes installed.
 	 * Register the observers for every plugin.
@@ -414,7 +415,7 @@ class Piwik_PluginsManager
 	 *
 	 * @return array
 	 */
-	private function getInstalledPlugins()
+	public function getInstalledPluginsName()
 	{
 		if(!class_exists('Zend_Registry'))
 		{
@@ -433,13 +434,20 @@ class Piwik_PluginsManager
 			return Zend_Registry::get('config')->PluginsInstalled->toArray();
 		}
 	}
+	
+	public function getInstalledPlugins()
+	{
+		$plugins = $this->getLoadedPlugins();
+		$installed = $this->getInstalledPluginsName();
+		return array_intersect_key($plugins, array_fill_keys($installed, 1));
+	}
 
 	private function installPluginIfNecessary( Piwik_Plugin $plugin )
 	{
 		$pluginName = $plugin->getClassName();
 		
 		// is the plugin already installed or is it the first time we activate it?
-		$pluginsInstalled = $this->getInstalledPlugins();
+		$pluginsInstalled = $this->getInstalledPluginsName();
 		if(!in_array($pluginName,$pluginsInstalled))
 		{
 			$this->installPlugin($plugin);
