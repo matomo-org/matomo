@@ -133,6 +133,7 @@ function formatDate(date)
 }
 
 $(document).ready(function(){
+
 	$("#calendar").calendar({
 			onSelect: updateDate,
 			showOtherMonths: true,
@@ -168,5 +169,7 @@ $(document).ready(function(){
 				_pk_translate('CoreHome_MonthDecemeber')]
 			},
 			currentDate);
+			
+		$("#calendar").hide();
 	}
 );
