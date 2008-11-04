@@ -34,7 +34,7 @@ class Piwik_Updater
 	 */
 	public function recordComponentSuccessfullyUpdated($name, $version)
 	{
-		Piwik_UpdateOption('version_'.$name, $version);
+		Piwik_UpdateOption('version_'.$name, $version, $autoload = 1);
 	}
 	
 	/**

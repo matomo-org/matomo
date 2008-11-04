@@ -32,6 +32,7 @@ require_once "Translate.php";
 require_once "Mail.php";
 require_once "Url.php";
 require_once "Controller.php";
+require_once "Option.php";
 
 require_once "PluginsFunctions/Menu.php";
 require_once "PluginsFunctions/AdminMenu.php";
@@ -229,6 +230,8 @@ class Piwik_FrontController
 			}
 			Piwik::createDatabaseObject();
 			Piwik::createLogObject();
+			
+			Zend_Registry::set('option', new Piwik_Option());
 			
 			Piwik_Translate::getInstance()->loadUserTranslation();
 			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );

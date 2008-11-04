@@ -605,6 +605,7 @@ class Piwik
 			'option' => "CREATE TABLE {$prefixTables}option (
 								option_name VARCHAR( 64 ) NOT NULL ,
 								option_value LONGTEXT NOT NULL ,
+								autoload TINYINT NOT NULL DEFAULT '1',
 								PRIMARY KEY ( option_name )
 								)
 			",
