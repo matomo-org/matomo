@@ -439,7 +439,7 @@ class Piwik_PluginsManager
 	{
 		$plugins = $this->getLoadedPlugins();
 		$installed = $this->getInstalledPluginsName();
-		return array_intersect_key($plugins, array_fill_keys($installed, 1));
+		return array_intersect_key($plugins, array_combine($installed, array_fill(0, count($installed), 1)));
 	}
 
 	private function installPluginIfNecessary( Piwik_Plugin $plugin )
