@@ -245,8 +245,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$os				= Piwik_Common::getOs($userAgent);
 		
 		$resolution		= Piwik_Common::getRequestVar('res', 'unknown', 'string');
-		$colorDepth		= Piwik_Common::getRequestVar('col', 32, 'numeric');
-		
 
 		$ip				= Piwik_Common::getIp();
 		$ip 			= ip2long($ip);
@@ -258,7 +256,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 												$browserName,
 												$browserVersion,
 												$resolution,
-												$colorDepth,
 												$plugin_Flash,
 												$plugin_Director,
 												$plugin_RealPlayer,
@@ -275,7 +272,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_browser_name' 	=> $browserName,
 			'config_browser_version' => $browserVersion,
 			'config_resolution' 	=> $resolution,
-			'config_color_depth' 	=> $colorDepth,
 			'config_pdf' 			=> $plugin_Pdf,
 			'config_flash' 			=> $plugin_Flash,
 			'config_java' 			=> $plugin_Java,
@@ -283,7 +279,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_quicktime' 		=> $plugin_Quicktime,
 			'config_realplayer' 	=> $plugin_RealPlayer,
 			'config_windowsmedia' 	=> $plugin_WindowsMedia,
-			'config_cookie' 		=> $plugin_RealPlayer,
+			'config_cookie' 		=> $plugin_Cookie,
 			'location_ip' 			=> $ip,
 			'location_browser_lang' => $browserLang,			
 		);
@@ -508,7 +504,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_browser_name' 	=> $userInfo['config_browser_name'],
 			'config_browser_version' => $userInfo['config_browser_version'],
 			'config_resolution' 	=> $userInfo['config_resolution'],
-			'config_color_depth' 	=> $userInfo['config_color_depth'],
 			'config_pdf' 			=> $userInfo['config_pdf'],
 			'config_flash' 			=> $userInfo['config_flash'],
 			'config_java' 			=> $userInfo['config_java'],
@@ -811,9 +806,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * Returns a MD5 of all the configuration settings
 	 * @return string
 	 */
-	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $colorDepth, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Java, $plugin_Cookie, $ip, $browserLang)
+	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Java, $plugin_Cookie, $ip, $browserLang)
 	{
-		return md5( $os . $browserName . $browserVersion . $resolution . $colorDepth . $plugin_Flash . $plugin_Director . $plugin_RealPlayer . $plugin_Pdf . $plugin_WindowsMedia . $plugin_Java . $plugin_Cookie . $ip . $browserLang );
+		return md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Director . $plugin_RealPlayer . $plugin_Pdf . $plugin_WindowsMedia . $plugin_Java . $plugin_Cookie . $ip . $browserLang );
 	}
 	
 	/**
