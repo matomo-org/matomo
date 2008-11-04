@@ -34,7 +34,11 @@ class Piwik_Updater
 	 */
 	public function recordComponentSuccessfullyUpdated($name, $version)
 	{
-		Piwik_UpdateOption('version_'.$name, $version, $autoload = 1);
+		try {
+			Piwik_UpdateOption('version_'.$name, $version, $autoload = 1);
+		} catch(Exception $e) {
+			// case when the option table is not yet created (before 0.2.10)
+		}
 	}
 	
 	/**
@@ -132,8 +136,12 @@ class Piwik_Updater
 		
 		foreach($this->componentsToCheck as $name => $version)
 		{
-			$currentVersion = Piwik_GetOption('version_'.$name);
-
+			try {
+				$currentVersion = Piwik_GetOption('version_'.$name);
+			} catch( Exception $e) {
+				// case when the option table is not yet created (before 0.2.10)
+				$currentVersion = false;
+			}
 			if($currentVersion === false)
 			{
 				if($name === 'core')
@@ -144,7 +152,9 @@ class Piwik_Updater
 				{
 					$currentVersion = '0.0.1';
 				}
+				
 				$this->recordComponentSuccessfullyUpdated($name, $currentVersion);
+				
 			}
 
 			$versionCompare = version_compare($currentVersion, $version);
