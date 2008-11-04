@@ -15,6 +15,7 @@
 	$(document).ready(function() {
 		$("#languageSelection").fdd2div({CssClassName:"formDiv"});
 		$("#languageSelection").show();
+		$("#languageSelection ul").hide();
 	});</script>
 	{/literal}
 </span>

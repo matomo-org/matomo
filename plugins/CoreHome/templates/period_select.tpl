@@ -2,7 +2,6 @@
 <script type="text/javascript" src="libs/jquery/jquery-calendar.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/calendar.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/date.js"></script>
-<link rel="stylesheet" type="text/css" href="libs/jquery/jquery-calendar.css" />
 
 <span id="periodString">
 	<span id="date"><img src='plugins/CoreHome/templates/images/more_date.gif' style="vertical-align:middle" alt="" /> {$prettyDate}</span> -&nbsp;
