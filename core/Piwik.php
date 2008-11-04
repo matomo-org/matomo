@@ -542,7 +542,7 @@ class Piwik
 									  PRIMARY KEY(idaction)
 						)
 			",
-			
+					
 			'log_visit' => "CREATE TABLE {$prefixTables}log_visit (
 							  idvisit INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 							  idsite INTEGER(10) UNSIGNED NOT NULL,
@@ -565,7 +565,6 @@ class Piwik
 							  config_browser_name VARCHAR(10) NOT NULL,
 							  config_browser_version VARCHAR(20) NOT NULL,
 							  config_resolution VARCHAR(9) NOT NULL,
-							  config_color_depth TINYINT(2) UNSIGNED NOT NULL,
 							  config_pdf TINYINT(1) NOT NULL,
 							  config_flash TINYINT(1) NOT NULL,
 							  config_java TINYINT(1) NOT NULL,
@@ -578,9 +577,11 @@ class Piwik
 							  location_browser_lang VARCHAR(20) NOT NULL,
 							  location_country CHAR(3) NOT NULL,
 							  location_continent CHAR(3) NOT NULL,
-							  PRIMARY KEY(idvisit)
+							  PRIMARY KEY(idvisit),
+							  INDEX index_idsite(idsite),
+							  INDEX index_visit_server_date (visit_server_date)
 							)
-			",
+			",		
 			
 			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
 											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
@@ -588,10 +589,11 @@ class Piwik
 											  idaction INTEGER(10) UNSIGNED NOT NULL,
 											  idaction_ref INTEGER(11) UNSIGNED NOT NULL,
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
-											  PRIMARY KEY(idlink_va)
+											  PRIMARY KEY(idlink_va),
+											  INDEX index_idvisit(idvisit)
 											)
 			",
-			
+		
 			'log_profiling' => "CREATE TABLE {$prefixTables}log_profiling (
 								  query TEXT NOT NULL,
 								  count INTEGER UNSIGNED NULL,
@@ -1032,17 +1034,6 @@ class Piwik
 					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', CURRENT_TIMESTAMP );" );
     }
     
-    static public function createTablesIndex()
-    {
-    	$db = Zend_Registry::get('db');
-		$prefixTables = Zend_Registry::get('config')->database->tables_prefix;
-		
-		$db->query('CREATE INDEX index_idvisit  ON '.$prefixTables.'log_link_visit_action (idvisit)');
-		$db->query('CREATE INDEX index_idaction ON '.$prefixTables.'log_action (idaction)');
-		$db->query('CREATE INDEX index_idsite ON '.$prefixTables.'log_visit (idsite)');
-		$db->query('CREATE INDEX index_visit_server_date ON '.$prefixTables.'log_visit (visit_server_date);');
-    }
-	
     static public function createTables()
 	{
 		$db = Zend_Registry::get('db');

@@ -1,10 +1,9 @@
-update mechanism? port modification to TIMESTAMP fields in site/user
-
 Bugs
+- show version number in UI
 - WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
 - something is wrong in JS calendar when year selected
 - error message ugly in IE, wrong in chrome
-- make sure deployement don't include logger in file/db/etc
+- write test to make sure deployement don't include logger in file/db/etc
 - disable db plugin default
 
 To clean

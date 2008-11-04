@@ -95,7 +95,7 @@ function _pk_getUrlLog( _pk_action_name, _pk_site, _pk_pkurl, _pk_custom_vars )
 		+'?url='+_pk_escape(document.location.href)
 		+'&action_name='+_pk_escape(_pk_action_name)
 		+'&idsite='+_pk_site
-		+'&res='+screen.width+'x'+screen.height	+'&col='+screen.colorDepth
+		+'&res='+screen.width+'x'+screen.height
 		+'&h='+_pk_da.getHours()+'&m='+_pk_da.getMinutes()+'&s='+_pk_da.getSeconds()
 		+'&fla='+_pk_fla+'&dir='+_pk_dir+'&qt='+_pk_qt+'&realp='+_pk_rea+'&pdf='+_pk_pdf
 		+'&wma='+_pk_wma+'&java='+_pk_jav+'&cookie='+_pk_cookie
