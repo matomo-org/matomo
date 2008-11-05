@@ -231,8 +231,6 @@ class Piwik_FrontController
 			Piwik::createDatabaseObject();
 			Piwik::createLogObject();
 			
-			Zend_Registry::set('option', new Piwik_Option());
-			
 			Piwik_Translate::getInstance()->loadUserTranslation();
 			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
 			$pluginsManager->postLoadPlugins();

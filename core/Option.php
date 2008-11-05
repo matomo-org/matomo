@@ -3,7 +3,21 @@ class Piwik_Option
 {
 	private $all = array();
 
-	public function __construct()
+	static private $instance = null;
+	/**
+	 * @return Piwik_Option
+	 */
+	static public function getInstance()
+	{
+		if (self::$instance == null)
+		{			
+			$c = __CLASS__;
+			self::$instance = new $c();
+		}
+		return self::$instance;
+	}
+	
+	private function __construct() 
 	{
 	}
 
@@ -59,10 +73,10 @@ class Piwik_Option
 
 function Piwik_GetOption($name)
 {
-	return Zend_Registry::get('option')->get($name);
+	return Piwik_Option::getInstance()->get($name);
 }
 
 function Piwik_UpdateOption($name, $value, $autoload = 0)
 {
-	Zend_Registry::get('option')->set($name, $value, $autoload);
+	Piwik_Option::getInstance()->set($name, $value, $autoload);
 }
