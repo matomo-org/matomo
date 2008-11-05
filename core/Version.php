@@ -1,6 +1,5 @@
 <?php
 
 final class Piwik_Version {
-	const VERSION = '0.2.16';
+	const VERSION = '0.2.17';
 }
-
