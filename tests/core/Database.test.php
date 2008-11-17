@@ -8,6 +8,41 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 }
 Mock::generate('Piwik_Access');
 
+class Test_Database extends UnitTestCase
+{
+	function __construct( $title = '')
+	{
+		parent::__construct( $title );
+		print("For EACH TEST the Database is created before and dropped at the end of the test method.<br>");
+	}
+	
+	public function setUp()
+	{
+		Piwik::createConfigObject();
+		Piwik::createDatabaseObject();
+		
+		Zend_Registry::get('config')->setTestEnvironment();	
+		Zend_Registry::get('config')->doWriteFileWhenUpdated = false;
+		
+		Piwik::createLogObject();
+		
+		Piwik::dropTestDatabase();
+		Piwik::createDatabase();
+		Piwik::createDatabaseObject();
+		Piwik::createTables();
+	}
+	
+	public function testHelloWorld()
+	{
+		$this->assertTrue(true);
+	}
+	
+	public function tearDown()
+	{
+		Piwik::dropTestDatabase();
+	}
+}
+
 
 class FakeAccess
 {
@@ -131,41 +166,6 @@ class FakeAccess
 			return Piwik_SitesManager_API::getAllSitesId();
 		}
 		return  array_merge(self::$idSitesView,self::$idSitesAdmin);
-	}
-}
-
-class Test_Database extends UnitTestCase
-{
-	function __construct( $title = '')
-	{
-		parent::__construct( $title );
-		print("For EACH TEST the Database is created before and dropped at the end of the test method.<br>");
-	}
-	
-	public function setUp()
-	{
-		Piwik::createConfigObject();
-		Piwik::createDatabaseObject();
-		
-		Zend_Registry::get('config')->setTestEnvironment();	
-		Zend_Registry::get('config')->doWriteFileWhenUpdated = false;
-		
-		Piwik::createLogObject();
-		
-		Piwik::dropTestDatabase();
-		Piwik::createDatabase();
-		Piwik::createDatabaseObject();
-		Piwik::createTables();
-	}
-	
-	public function testHelloWorld()
-	{
-		$this->assertTrue(true);
-	}
-	
-	public function tearDown()
-	{
-		Piwik::dropTestDatabase();
 	}
 }
 
