@@ -1,6 +1,9 @@
 <?php 
+
+setlocale(LC_TIME, 'ca_ES.UTF-8');
+
 $translations = array(
-	'General_Locale' => 'ca.UTF-8',
+	'General_Locale' => 'ca_ES.UTF-8',
 	'General_TranslatorName' => 'Isaac Sánchez Barrera',
 	'General_TranslatorEmail' => 'isb1009@astronomipedia.es',
 	'General_EnglishLanguageName' => 'Catalan',
@@ -99,7 +102,7 @@ $translations = array(
 	'Installation_GeneralSetupSuccess' => 'La configuració general ha estat un èxit',
 	'Installation_SystemCheck' => 'Comprovació del sistema',
 	'Installation_SystemCheckPhp' => 'Versió del PHP',
-	'Installation_SystemCheckPdo' => 'Extensí Pdo',
+	'Installation_SystemCheckPdo' => 'Extensió Pdo',
 	'Installation_SystemCheckPdoMysql' => 'Extensió Pdo_Mysql',
 	'Installation_SystemCheckPdoError' => 'Necessiteu activar les extensions PDO i PDO_MYSQL al vostre fitxer php.ini',
 	'Installation_SystemCheckPdoHelp' => 'Si teniu un servidor Windows, podeu afegir les línies següents al vostre php.ini %s<br /><br />Si teniu un servidor Linux, podeu compilar el PHP amb les opcions següents %s<br /><br />Podeu trobar més informació al <a style="color:red" href="http://php.net/pdo"lloc web de PHP</a>.',
@@ -554,4 +557,33 @@ $translations = array(
 	'VisitsSummary_WidgetLastVisitors' => 'Gràfic dels darrers visitants únics',
 	'VisitsSummary_WidgetOverviewGraph' => 'Resum amb gràfic',
 	'VisitsSummary_SubmenuOverview' => 'Resum',
+	'General_Export' => 'Exporta',
+	'General_Visitors' => 'Visitants',
+	'General_NoDataForTagCloud' => 'No hi ha dades...',
+	'General_PiwikIsACollaborativeProject' => '%s El Piwik %s és un projecte col&middot;laboratiu que encara està en fase Beta. %s Si voleu ajudar, si us plau %s contacteu-nos!%s.',
+	'CorePluginsAdmin_PluginsManagement' => 'Gestina els connectors',
+	'CorePluginsAdmin_MainDescription' => 'Els connectors augmenten la funcionalitat del Piwik. Un cop hi ha un connector instal&middot;lat, podeu activar-lo i desactivar-lo aquí.',
+	'CorePluginsAdmin_Plugin' => 'Connector',
+	'CorePluginsAdmin_Version' => 'Versió',
+	'CorePluginsAdmin_Description' => 'Descripció',
+	'CorePluginsAdmin_Status' => 'Estat',
+	'CorePluginsAdmin_Action' => 'Acció',
+	'CorePluginsAdmin_PluginHomepage' => 'Pàgina web',
+	'CorePluginsAdmin_Active' => 'Actiu',
+	'CorePluginsAdmin_Inactive' => 'Inactiu',
+	'Actions_Actions' => 'Accions',
+	'Dashboard_Dashboard' => 'Tauler',
+	'Referers_Referers' => 'Referents',
+	'UsersManager_UsersManagement' => 'Gestiona els usuaris',
+	'UsersManager_UsersManagementMainDescription' => 'Creeu nous usuaris o actualitzeu els existents.
+Podeu configurar els seus permisos a dalt.',
+	'UsersManager_MainDescription' => 'Decidiu quin tipus d\'accés té cada usuari al Piwik. També podeu configurar tots els llocs web de cop.',
+	'SitesManager_WebsitesManagement' => 'Gestiona els llocs',
+	'SitesManager_MainDescription' => 'Els informes d\'anàlisi web necessiten llocs web! Afegiu, actualitzeu i esborreu-ne. Veieu també el codi JavaScript que heu d\'inserir a les pàgines',
+	'DBStats_DatabaseUsage' => 'Ús de la base de dades',
+	'DBStats_MainDescription' => 'El Piwik desa totes les anàlisis web la base de dades MySQL. Ara per ara, les taules del Piwik fan servir %s.',
+	'DBStats_Table' => 'Taula',
+	'DBStats_RowNumber' => 'Núm. fila',
+	'DBStats_DataSize' => 'Grandària de les dades',
+	'DBStats_IndexSize' => 'Grandària del l\'índex',
 );
