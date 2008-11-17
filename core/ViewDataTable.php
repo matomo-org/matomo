@@ -287,6 +287,7 @@ abstract class Piwik_ViewDataTable
 		$this->showFooter = Piwik_Common::getRequestVar('showDataTableFooter', true);
 		$this->variablesDefault['filter_excludelowpop_default'] = 'false';
 		$this->variablesDefault['filter_excludelowpop_value_default'] = 'false';	
+		$this->setSafeDecodeLabel();
 	}
 	
 	/**
@@ -366,6 +367,7 @@ abstract class Piwik_ViewDataTable
 			'filter_exact_column',
 			'disable_generic_filters',
 			'disable_queued_filters',
+			'filter_safe_decode_label'
 		);
 		foreach($toSetEventually as $varToSet)
 		{
@@ -762,6 +764,16 @@ abstract class Piwik_ViewDataTable
 	{
 		$this->variablesDefault['filter_sort_column']= $columnId;
 		$this->variablesDefault['filter_sort_order']= $order;
+	}
+	
+	/**
+	 * The 'label' column in the datatable will be safely url decoded. 
+	 *
+	 * @return void
+	 */
+	public function setSafeDecodeLabel()
+	{
+		$this->variablesDefault['filter_safe_decode_label'] = '1';
 	}
 	
 	/**
