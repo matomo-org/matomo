@@ -566,7 +566,7 @@ dataTable.prototype =
 			}
 			else
 			{
-				$(this).html( '<a target="_blank" href="' + urlToLink + '">' + imgToPrepend + $(this).html() + '</a>');				
+				$(this).html( '<a target="_blank" href="' + urlToLink + '">' + imgToPrepend + $(this).html() + '</a>');
 			}
 		});
 	
