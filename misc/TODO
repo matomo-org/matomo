@@ -1,13 +1,18 @@
+todo
+- after download redirect to install guide
+
 Bugs
+- provider is unknown for some users?
+- search inside datatable doesnt really work eg. "web analytics" restore regex search
 - show version number in UI
 - WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
 - something is wrong in JS calendar when year selected
 - error message ugly in IE, wrong in chrome
 - write test to make sure deployement don't include logger in file/db/etc
 - disable db plugin default
+- I had to chmod 777 tmp/ to pass install
 
 To clean
-- test set wrong permission and trigger frontController:checkDir
 - fdd2div clean in /libs
 - plugins should listen to user delete/ site delete and delete their own user/site related data
 - in API request, menu/widget hooks should not be triggered
