@@ -30,10 +30,10 @@ class Piwik_Log_Exception extends Piwik_Log
 		$fileFormatter = new Piwik_Log_Formatter_FileFormatter;
 
 		parent::__construct($logToFileFilename,
-		$fileFormatter,
-		$screenFormatter,
-		$logToDatabaseTableName,
-		$logToDatabaseColumnMapping );
+							$fileFormatter,
+							$screenFormatter,
+							$logToDatabaseTableName,
+							$logToDatabaseColumnMapping );
 	}
 
 	function addWriteToScreen()
@@ -46,14 +46,12 @@ class Piwik_Log_Exception extends Piwik_Log
 
 	public function log($exception)
 	{
-
 		$event = array();
 		$event['errno'] 	= $exception->getCode();
 		$event['message'] 	= $exception->getMessage();
 		$event['errfile'] 	= $exception->getFile();
 		$event['errline'] 	= $exception->getLine();
 		$event['backtrace'] = $exception->getTraceAsString();
-
 		parent::log($event);
 	}
 }
@@ -81,23 +79,9 @@ class Piwik_Log_Formatter_Exception_ScreenFormatter extends Piwik_Log_Formatter_
 		$errline = $event['errline'] ;
 		$backtrace = $event['backtrace'] ;
 
-		$divId = 'div'.$errline.$errno.rand(1,2000);
-
-		$message = "<b>Uncaught exception</b>: '". $errstr."'";
-		$message .= "<br><a onclick=\"if(document.getElementById('$divId').style.display=='none') { document.getElementById('$divId').style.display='inline' } else { document.getElementById('$divId').style.display = 'none' }\" href='#'>".
-					"\nMore information</a>".
-					"<div style='display:inline' id='$divId'>".
-					"<br>In <b>$errfile</b> on line <b>$errline</b>".
-					"<br><small>Backtrace:<br><pre>";
-		$message .= str_replace("\n", "<br>", $backtrace);
-		$message .= "</pre>";
-		$message .= "</small></div>";
-
-		// without javascript it displays the full error message
-		// but with javascript we hide the DIV and onclick we show it
-		$message .= "<script>document.getElementById('$divId').style.display='none';</script>";
-
-		$message .= "<br>You can get help from <a href='misc/redirectToUrl.php?url=http://piwik.org'>Piwik.org</a> (give us the full error message + your PHP and Mysql version)";
+		$outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'html', 'string'));
+		$response = new Piwik_API_ResponseBuilder(null, $outputFormat);
+		$message = $response->getResponseException(new Exception($errstr));
 
 		return parent::format($message);
 	}
