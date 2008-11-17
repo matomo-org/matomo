@@ -9,5 +9,5 @@ piwik_idsite = {$idSite};
 piwik_url = pkBaseURL + "piwik.php";
 piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 </script>
-<object><noscript><p>{$hrefTitle} <img src="http://{$piwikUrl}piwik.php" style="border:0" alt="piwik"/></p></noscript></object></a>
+<object><noscript><p>{$hrefTitle} <img src="http://{$piwikUrl}piwik.php" style="border:0" alt=""/></p></noscript></object></a>
 <!-- End Piwik Tag -->
