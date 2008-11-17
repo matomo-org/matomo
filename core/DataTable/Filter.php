@@ -58,3 +58,4 @@ require_once "DataTable/Filter/Sort.php";
 require_once "DataTable/Filter/AddSummaryRow.php";
 require_once "DataTable/Filter/ReplaceSummaryRowLabel.php";
 require_once "DataTable/Filter/ExactMatch.php";
+require_once "DataTable/Filter/SafeDecodeLabel.php";

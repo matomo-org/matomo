@@ -76,18 +76,9 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		$this->mainAlreadyExecuted = true;
 		
 		$this->loadDataTableFromAPI();
-	
-		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
-		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace(
-									$this->dataTable, 
-									'label', 
-									create_function('$txt', 'return htmlspecialchars(urldecode($txt));')
-								);
-		
+
 		$view = new Piwik_View($this->dataTableTemplate);
 		
-		
-		// We get the PHP array converted from the DataTable
 		$phpArray = $this->getPHPArrayFromDataTable();
 		
 		$view->arrayDataTable 	= $phpArray;

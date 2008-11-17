@@ -129,12 +129,17 @@ class Piwik_API_ResponseBuilder
 	 * Returns an array containing the information of the generic Piwik_DataTable_Filter 
 	 * to be applied automatically to the data resulting from the API calls.
 	 *
+	 * Order to apply the filters:
+	 * 1 - Filter that remove filtered rows
+	 * 2 - Filter that sort the remaining rows
+	 * 3 - Filter that keep only a subset of the results
+	 * 4 - Presentation filters
+	 * 
 	 * @return array See the code for spec
 	 */
 	public static function getGenericFiltersInformation()
 	{
 		$genericFilters = array(
-			
 			'Pattern' => array(
 								'filter_column' 			=> array('string'), 
 								'filter_pattern' 			=> array('string'),
@@ -142,6 +147,10 @@ class Piwik_API_ResponseBuilder
 			'PatternRecursive' => array(
 								'filter_column_recursive' 	=> array('string'), 
 								'filter_pattern_recursive' 	=> array('string'),
+						),
+			'ExactMatch' => array(
+								'filter_exact_column'		=> array('string'),
+								'filter_exact_pattern'		=> array('array'),
 						),
 			'ExcludeLowPopulation'	=> array(
 								'filter_excludelowpop' 		=> array('string'), 
@@ -155,9 +164,8 @@ class Piwik_API_ResponseBuilder
 								'filter_offset' 			=> array('integer', '0'),
 								'filter_limit' 				=> array('integer', Zend_Registry::get('config')->General->dataTable_default_limit),
 						),
-			'ExactMatch' => array(
-								'filter_exact_column'		=> array('string'),
-								'filter_exact_pattern'		=> array('array'),
+			'SafeDecodeLabel' => array(
+								'filter_safe_decode_label'	=> array('integer')
 						),
 		);
 		
@@ -337,6 +345,12 @@ class Piwik_API_ResponseBuilder
 	 */
 	protected function applyDataTableGenericFilters($dataTable)
 	{
+		// if the flag disable_generic_filters is defined we skip the generic filters
+		if(Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->request) != 'false')
+		{
+			return;
+		}
+		
 		if($dataTable instanceof Piwik_DataTable_Array )
 		{
 			$tables = $dataTable->getArray();
@@ -347,21 +361,7 @@ class Piwik_API_ResponseBuilder
 			return;
 		}
 		
-		// Generic filters
-		// PatternFileName => Parameter names to match to constructor parameters
-		/*
-		 * Order to apply the filters:
-		 * 1 - Filter that remove filtered rows
-		 * 2 - Filter that sort the remaining rows
-		 * 3 - Filter that keep only a subset of the results
-		 */
 		$genericFilters = self::getGenericFiltersInformation();
-		
-		// if the flag disable_generic_filters is defined we skip the generic filters
-		if(Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->request) != 'false')
-		{
-			return;
-		}
 		
 		foreach($genericFilters as $filterName => $parameters)
 		{
@@ -405,10 +405,8 @@ class Piwik_API_ResponseBuilder
 				// build the set of parameters for the filter					
 				$filterParameters = array_merge(array($dataTable), $filterParameters);
 
-				// make a reflection object
+				// use Reflection to create a new instance of the filter, given parameters $filterParameters
 				$reflectionObj = new ReflectionClass($class);
-				
-				// use Reflection to create a new instance, using the $args
 				$filter = $reflectionObj->newInstanceArgs($filterParameters); 
 			}
 		}
