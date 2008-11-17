@@ -293,6 +293,6 @@ class Exception_PluginDeactivated extends Exception
 {
 	function __construct($module)
 	{
-		parent::__construct("The plugin '$module' is not activated. You can activate the plugin on the <a href='?module=CorePluginsAdmin'>Plugins admin page</a>.");
+		parent::__construct("The plugin '$module' is not activated. You can activate the plugin on the 'Plugins admin' page.");
 	}
 }
