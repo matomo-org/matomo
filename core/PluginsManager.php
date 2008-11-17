@@ -267,7 +267,7 @@ class Piwik_PluginsManager
 			&& !Zend_Loader::isReadable($path))
 		{
 			throw new Exception("<b>The plugin file {$path} couldn't be found. </b><br> 
-			If you are updating from a 0.2.x version, please <a target=_blank href='http://dev.piwik.org/trac/wiki/FAQ#HowdoIupdatefrom0.2.xtothe0.3'>read the FAQ</a>!<br>
+			If you are updating from a 0.2.x version, please <a target=_blank href='http://piwik.org/faq/update/#faq_6'>read the FAQ</a>!<br>
 			Found in your config/config.ini.php file:<br><code>[Plugins]</code><br><code>Plugins[] = $pluginName;</code>");
 		}
 		
