@@ -10,7 +10,7 @@
 <script type="text/javascript" src="libs/jquery/ui.mouse.js"></script>
 <script type="text/javascript" src="libs/jquery/ui.sortable_modif.js"></script>
 <script type="text/javascript" src="libs/javascript/sprintf.js"></script>
-
+<script type="text/javascript" src="libs/jquery/fdd2div-modified.js"></script>
 <script type="text/javascript" src="libs/jquery/superfish_modified.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/menu.js"></script>
 <script type="text/javascript" src="libs/jquery/thickbox.js"></script>
