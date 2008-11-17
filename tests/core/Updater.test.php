@@ -1,16 +1,16 @@
 <?php
 if(!defined("PATH_TEST_TO_ROOT")) {
-	define('PATH_TEST_TO_ROOT', getcwd().'/../../');
+	define('PATH_TEST_TO_ROOT', getcwd().'/../..');
 }
 if(!defined('CONFIG_TEST_INCLUDED'))
 {
-	require_once PATH_TEST_TO_ROOT."tests/config_test.php";
+	require_once PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
 
 //Zend_Loader::loadClass('Piwik_');
 require_once "Updater.php";
 require_once "Database.test.php";
-class Test_Piwik_Blank extends Test_Database 
+class Test_Piwik_Updater extends Test_Database 
 {
 	function __construct( $title = '')
 	{
