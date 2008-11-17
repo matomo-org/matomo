@@ -1,12 +1,11 @@
 <?php
 if(!defined("PATH_TEST_TO_ROOT")) {
-	define('PATH_TEST_TO_ROOT', '..');
+	define('PATH_TEST_TO_ROOT', getcwd().'/../..');
 }
 if(!defined('CONFIG_TEST_INCLUDED'))
 {
-	require_once PATH_TEST_TO_ROOT ."/../tests/config_test.php";
+	require_once PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
-
 require_once 'DataTable.php';
 
 class Test_Piwik_DataTable extends UnitTestCase

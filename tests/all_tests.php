@@ -3,7 +3,6 @@ flush();
 require_once  "config_test.php";
 Piwik::createConfigObject();
 $databaseTestName = Zend_Registry::get('config')->database_tests->dbname;
-
 Zend_Registry::get('config')->doWriteFileWhenUpdated = false;
 ?>
 
@@ -79,14 +78,18 @@ foreach($toInclude as $file)
 {
 	if(substr_count($file,"test.php")==0)
 	{
+		// Updater test files can be 0.2.php
+		if( ereg('Updater', $file) ) 
+		{
+			continue;
+		}
 		print("The file $file doesn't end with the '.test.php' extension. \n<br>");
 	}
-	
 	$test->addFile($file);
 }
+
 $timer = new Piwik_Timer;
 $test->run(new HtmlReporter());
 echo $timer."<br>";
 //Piwik::printMemoryUsage();
-
 

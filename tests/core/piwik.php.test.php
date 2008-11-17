@@ -28,8 +28,7 @@ class Test_PiwikPhp extends UnitTestCase
 		// catch that the string GLOBALS['DEBUGPIWIK'] = false
 		$ereg = "(GLOBALS\['DEBUGPIWIK'\])([ ])*=([ ])*(false;)";
 	
-		// first we test the ereg :)
-		
+		// first we test the regular expression
 		$good = array(
 			'$GLOBALS[\'DEBUGPIWIK\'] = false;',
 			'$GLOBALS[\'DEBUGPIWIK\']   =    false;',
@@ -50,7 +49,6 @@ class Test_PiwikPhp extends UnitTestCase
 		{
 			$this->assertTrue( ereg($ereg,$test) === false); 
 		}
-		
 		
 		// then we check that the piwik.php content does have the DEBUG variable set to off
 		$this->assertTrue( ereg($ereg, $GLOBALS['content']) !== false,
