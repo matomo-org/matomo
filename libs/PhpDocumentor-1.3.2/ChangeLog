@@ -1,9 +1,0 @@
-$Id$
-
-See package.xml for changelogs for all releases.
-
-Release details are under the <package><changelog> section, 
-in the various <release> tags.  Specific changelog info for 
-each release is under each <release><notes> tag.
-
-vim: set expandtab:

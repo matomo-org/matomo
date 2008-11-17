@@ -1,7 +1,0 @@
-Smarty is supported only in PHP 4.0.6 or later.
-
-Smarty versions previous to 2.0 require the PEAR libraries. Be sure to include
-the path to the PEAR libraries in your php include_path. Config_file.class.php
-uses the PEAR library for its error handling routines. PEAR comes with the PHP
-distribution. Unix users check /usr/local/lib/php, windows users check
-C:/php/pear.
