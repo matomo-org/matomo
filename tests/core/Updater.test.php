@@ -17,13 +17,6 @@ class Test_Piwik_Updater extends Test_Database
 		parent::__construct( $title );
 	}
 	
-	public function setUp()
-	{
-		parent::setUp();
-		Piwik::createConfigObject();
-		Piwik::createDatabaseObject();
-	}
-	
     public function test_updaterChecksCoreVersion_andDetectsUpdateFile()
     {
     	$updater = new Piwik_Updater();
