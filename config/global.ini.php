@@ -75,7 +75,7 @@ enable_sql_profiler = false
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
 ; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
-time_before_archive_considered_outdated = 3600
+time_before_archive_considered_outdated = 10
 
 ; When loading piwik interface, we redirect the user to 'yesterday' statistics by default
 ; Possible values: yesterday, today, or any YYYY-MM-DD
