@@ -27,16 +27,10 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	public function getListHooksRegistered()
 	{
 		return array( 
-			'template_js_import' => 'js',
 			'template_css_import' => 'css',
 			'template_topBar' => 'showLanguagesSelector',
 			'Translate.getLanguageToLoad' => 'getLanguageToLoad',
 		);
-	}
-
-	function js()
-	{
-		echo '<script type="text/javascript" src="plugins/LanguagesManager/templates/fdd2div-modified.js"></script>';
 	}
 
 	function css()
