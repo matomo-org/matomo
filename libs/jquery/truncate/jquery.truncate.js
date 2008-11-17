@@ -19,9 +19,6 @@ jQuery.fn.truncate = function(max) {
 		 										.replace(/</g, '&lt;')
 		 										.replace(/>/g, '&gt;');
  				html='<span class="truncated" title="'+vCleaned+'">'+newStringTruncated+'</span>';
- 				console.log(vCleaned);
- 				console.log(newStringTruncated);
- 				console.log(html);
  				jQuery(this).html(html);
  				break;
  				max--;
