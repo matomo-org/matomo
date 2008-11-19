@@ -1,7 +1,13 @@
 todo
 - after download redirect to install guide
+- 404 more useful
 
 Bugs
+- add icon calendar http://developer.yahoo.com/ypatterns/pattern.php?pattern=calendar#Solution
+- calendar CSS on API page
+- finding JS code should be more obvious
+- super user pwd reminder should work
+- should we make it clear that piwik is beta?
 - provider is unknown for some users?
 - search inside datatable doesnt really work eg. "web analytics" restore regex search
 - show version number in UI
@@ -11,9 +17,11 @@ Bugs
 - write test to make sure deployement don't include logger in file/db/etc
 - disable db plugin default
 - I had to chmod 777 tmp/ to pass install
+all graphic showing data evolution are labelled with the text &quot;nb_uniq_visitors&quot; no matter if youre watching last visits graph, global visits graph or any other. Its happening in every graph under Visitors subpages and in the Dashboard.
+In Referers-&gt;Evolution page, in addition, I think its melting titles because I read in spanish &quot;Entrada directa nb_uniq_visitors&quot; for the first graph, &quot;Paginas web nb_uniq_visitors&quot; for the second and so on.
+
 
 To clean
-- fdd2div clean in /libs
 - plugins should listen to user delete/ site delete and delete their own user/site related data
 - in API request, menu/widget hooks should not be triggered
 - embed widgets codes above widget?
