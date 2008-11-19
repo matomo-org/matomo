@@ -76,7 +76,7 @@ class Piwik_VisitsSummary_API extends Piwik_Apiable
 	
 	public function getSumVisitsLengthPretty( $idSite, $period, $date )
 	{
-		return Piwik_getPrettyTimeFromSeconds(self::getSumVisitsLength( $idSite, $period, $date ));
+		return Piwik::getPrettyTimeFromSeconds(self::getSumVisitsLength( $idSite, $period, $date ));
 	}
 	
 	public function getBounceCount( $idSite, $period, $date )

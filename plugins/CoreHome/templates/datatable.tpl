@@ -1,4 +1,5 @@
-<div id="{$id}" class="parentDiv">
+<div id="{$id}">
+	<div class="{if $javascriptVariablesToSet.showAllColumns}dataTableAllColumnsWrapper{else}dataTableWrapper{/if}">
 	{if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message} 
 	{else}
@@ -10,7 +11,7 @@
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column}
-				<th class="sortable" id="{$column.id}"><div id="thDIV">{$column.displayName}</div></th>
+				<th class="sortable" id="{$column.name}"><div id="thDIV">{$column.displayName}</div></th>
 			{/foreach}
 			</tr>
 			</thead>
@@ -18,12 +19,12 @@
 			<tbody>
 			{foreach from=$arrayDataTable item=row}
 			<tr {if $row.idsubdatatable}class="subDataTable" id="{$row.idsubdatatable}"{/if}>
-				{foreach from=$dataTableColumns key=idColumn item=column}
+				{foreach from=$dataTableColumns item=column}
 				<td>
-					{if $idColumn==0 && isset($row.metadata.url)}<span id="urlLink">{$row.metadata.url}</span>{/if}
-					{if $idColumn==0 && isset($row.metadata.logo)}<img {if isset($row.metadata.logoWidth)}width="{$row.metadata.logoWidth}"{/if} {if isset($row.metadata.logoHeight)}height="{$row.metadata.logoHeight}"{/if} src="{$row.metadata.logo}" />{/if}
-					{* sometimes all columns are not set in the datatable, we assume the value 0 *}
-					{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}0{/if}
+				{if $column.name=='label' && isset($row.metadata.url)}<span id="urlLink">{$row.metadata.url}</span>{/if}
+				{if $column.name=='label' && isset($row.metadata.logo)}<img {if isset($row.metadata.logoWidth)}width="{$row.metadata.logoWidth}"{/if} {if isset($row.metadata.logoHeight)}height="{$row.metadata.logoHeight}"{/if} src="{$row.metadata.logo}" />{/if}
+				{* sometimes all columns are not set in the datatable, we assume the value 0 *}
+				{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}0{/if}
 				</td>
 				{/foreach}
 			</tr>
@@ -37,4 +38,5 @@
 		{/if}
 		{include file="CoreHome/templates/datatable_js.tpl"}
 	{/if}
+	</div>
 </div>

@@ -1,4 +1,4 @@
-<div id="to remove this div" class="parentDiv">
+<div>
 <p>{sparkline src=$urlSparklineNbVisits} <span>{'VisitsSummary_NbVisits'|translate:"<strong>$nbVisits</strong>"}</span></p>
 <p>{sparkline src=$urlSparklineNbUniqVisitors} <span>{'VisitsSummary_NbUniqueVisitors'|translate:"<strong>$nbUniqVisitors</strong>"}</span></p>
 <p>{sparkline src=$urlSparklineNbActions} <span>{'VisitsSummary_NbActions'|translate:"<strong>$nbActions</strong>"}</span></p>

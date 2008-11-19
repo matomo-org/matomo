@@ -26,6 +26,6 @@
  */
 function smarty_modifier_sumtime($numberOfSeconds)
 {
-	return Piwik_getPrettyTimeFromSeconds($numberOfSeconds);
+	return Piwik::getPrettyTimeFromSeconds($numberOfSeconds);
 }
 

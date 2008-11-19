@@ -55,12 +55,17 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 						$actionToLoadTheSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/datatable.tpl';
 		
-		$this->variablesDefault['enable_sort'] = true;
-	
+		$this->variablesDefault['enable_sort'] = '1';
+		$this->variablesDefault['showAllColumns'] = '0';
+		if(Piwik_Common::getRequestVar('showAllColumns', '0', 'string') == '1')
+		{
+			$this->setShowAllColumns();
+		}
+		
 		// load general columns translations
 		$this->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnNbVisits'));
 		$this->setColumnTranslation('label', Piwik_Translate('General_ColumnLabel'));
-		$this->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnNbUniqVisitors'));	
+		$this->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnNbUniqVisitors'));
 	}
 	
 	/**
@@ -76,7 +81,30 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		$this->mainAlreadyExecuted = true;
 		
 		$this->loadDataTableFromAPI();
+		
+		if($this->getShowAllColumns())
+		{
+			$this->setColumnsToDisplay(array('label', 
+											'nb_visits', 
+											'nb_uniq_visitors', 
+											'nb_actions_per_visit', 
+											'avg_time_on_site', 
+											'bounce_rate'));
+			$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace($this->dataTable, 'avg_time_on_site', create_function('$averageTimeOnSite', 'return Piwik::getPrettyTimeFromSeconds($averageTimeOnSite);'));
+			$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace($this->dataTable, 'bounce_rate', create_function('$bounceRate', 'return $bounceRate."%";'));
+			$this->setColumnTranslation('nb_actions_per_visit', Piwik_Translate('General_ColumnActionsPerVisit'));
+			$this->setColumnTranslation('avg_time_on_site', Piwik_Translate('General_ColumnAvgTimeOnSite'));
+			$this->setColumnTranslation('bounce_rate', Piwik_Translate('General_ColumnBounceRate'));
+		}
+		
+		$this->view = $this->buildView();
+	}
 
+	/**
+	 * @return Piwik_View with all data set
+	 */
+	protected function buildView()
+	{
 		$view = new Piwik_View($this->dataTableTemplate);
 		
 		$phpArray = $this->getPHPArrayFromDataTable();
@@ -99,9 +127,9 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		$view->id = $this->getUniqIdTable();
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->showFooter = $this->getShowFooter();
-		$this->view = $view;
+		return $view;
 	}
-
+	
 	/**
 	 * Returns friendly php array from the Piwik_DataTable
 	 * @see Piwik_DataTable_Renderer_Php
@@ -112,8 +140,8 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		$renderer = Piwik_DataTable_Renderer::factory('php');
 		$renderer->setTable($this->dataTable);
 		$renderer->setSerialize( false );
-		// we get the php array from the datatable
-		// but conserving the original datatable format, which means rows 'columns', 'metadata' and 'idsubdatatable'
+		// we get the php array from the datatable but conserving the original datatable format, 
+		// ie. rows 'columns', 'metadata' and 'idsubdatatable'
 		$phpArray = $renderer->originalRender();
 		return $phpArray;
 	}	
@@ -177,42 +205,32 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 	 */
 	protected function getColumnsToDisplay($phpArray)
 	{
-		$dataTableColumns = array();
+		$metadataColumnToDisplay = array();
 		if(count($phpArray) > 0)
 		{
-			// build column information
-			$id = 0;
-			foreach($phpArray[0]['columns'] as $columnName => $row)
+			// we show the columns in order specified in the setColumnsToDisplay
+			// each column has a string name; 
+			// this name will for example be used to specify the sorting column 
+			$columnsInDataTable = array_keys($phpArray[0]['columns']);
+			$columnsToDisplay = $this->columnsToDisplay;
+		
+			if(count($columnsToDisplay) == 0)
 			{
-				if( $this->isColumnToDisplay( $id, $columnName) )
+				$columnsToDisplay = $columnsInDataTable;
+			}
+			
+			foreach($columnsToDisplay as $columnToDisplay)
+			{
+				if(in_array($columnToDisplay, $columnsInDataTable))
 				{
-					$dataTableColumns[]	= array('id' => $id, 'name' => $columnName, 'displayName' => $this->getColumnTranslation($columnName) );
+					$metadataColumnToDisplay[]	= array(
+										'name' => $columnToDisplay, 
+										'displayName' => $this->getColumnTranslation($columnToDisplay) 
+									);
 				}
-				$id++;
 			}
 		}
-		return $dataTableColumns;
-	}
-
-	/**
-	 * Returns true if the given column (id = $idColumn or name = $nameColumn) is set to be displayed.
-	 *
-	 * @param int $idColumn
-	 * @param string $nameColumn
-	 * @return bool
-	 */
-	protected function isColumnToDisplay( $idColumn, $nameColumn )
-	{
-		// we return true
-		// - we didn't set any column to display (means we display all the columns)
-		// - the column has been set as to display
-		if( count($this->columnsToDisplay) == 0
-			|| in_array($idColumn, $this->columnsToDisplay)
-			|| in_array($nameColumn, $this->columnsToDisplay))
-		{
-			return true;
-		}
-		return false;
+		return $metadataColumnToDisplay	;
 	}
 
 	/**
@@ -222,9 +240,9 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 	 */
 	public function disableSort()
 	{
-		$this->variablesDefault['enable_sort'] = 'false';		
+		$this->variablesDefault['enable_sort'] = 'false';
 	}
-		
+
 	/**
 	 * Sets the search on a table to be recursive (also searches in subtables)
 	 * Works only on Actions/Downloads/Outlinks tables.
@@ -235,6 +253,17 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 	{
 		$this->variablesDefault['search_recursive'] = true;
 		return $this->setRecursiveLoadDataTableIfSearchingForPattern();
+	}
+	
+	protected function setShowAllColumns()
+	{
+		$this->variablesDefault['filter_add_columns_when_show_all_columns'] = '1';
+		$this->variablesDefault['showAllColumns'] = '1';
+	}
+	
+	protected function getShowAllColumns()
+	{
+		return $this->variablesDefault['showAllColumns'];
 	}
 	
 	/**

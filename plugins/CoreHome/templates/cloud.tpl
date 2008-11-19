@@ -1,4 +1,4 @@
-<div id="{$id}" class="parentDiv">
+<div id="{$id}">
 {literal}
 <style>
 
