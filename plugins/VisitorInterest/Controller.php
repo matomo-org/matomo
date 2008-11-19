@@ -38,7 +38,6 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->disableOffsetInformation();
 		$view->disableSearchBox();
 		$view->disableSort();
-		$view->main();
 		
 		return $this->renderView($view, $fetch);
 	}

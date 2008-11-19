@@ -345,11 +345,29 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected function loadDataTableFromAPI()
 	{		
+		// we build the request string (URL) to call the API
+		$requestString = $this->getRequestString();
+		
+		// we make the request to the API
+		$request = new Piwik_API_Request($requestString);
+		
+		// and get the DataTable structure
+		$dataTable = $request->process();
+
+		$this->dataTable = $dataTable;
+	}
+	
+	/**
+	 * @return string URL to call the API, eg. "method=Referers.getKeywords&period=day&date=yesterday"...
+	 */
+	protected function getRequestString()
+	{
 		// we prepare the string to give to the API Request
 		// we setup the method and format variable
 		// - we request the method to call to get this specific DataTable
 		// - the format = original specifies that we want to get the original DataTable structure itself, not rendered
-		$requestString = 'method='.$this->moduleNameAndMethod.'&format=original';
+		$requestString  = 'method='.$this->moduleNameAndMethod;
+		$requestString .= '&format=original';
 		if( $this->recursiveDataTableLoad )
 		{
 			$requestString .= '&expanded=1';
@@ -367,7 +385,8 @@ abstract class Piwik_ViewDataTable
 			'filter_exact_column',
 			'disable_generic_filters',
 			'disable_queued_filters',
-			'filter_safe_decode_label'
+			'filter_safe_decode_label',
+			'filter_add_columns_when_show_all_columns',
 		);
 		foreach($toSetEventually as $varToSet)
 		{
@@ -387,16 +406,8 @@ abstract class Piwik_ViewDataTable
 				}
 			}
 		}
-		
-		// We finally make the request to the API
-		$request = new Piwik_API_Request($requestString);
-		
-		// and get the DataTable structure
-		$dataTable = $request->process();
-
-		$this->dataTable = $dataTable;
+		return $requestString;
 	}
-	
 	
 	/**
 	 * For convenience, the client code can call methods that are defined in a specific children class
@@ -459,7 +470,7 @@ abstract class Piwik_ViewDataTable
 	 * - from the values already available in the GET array
 	 * - from the values set using methods from this class (eg. setSearchPattern(), setLimit(), etc.)
 	 * 
-	 * @return array eg. array('show_offset_information' => 0, 'show_
+	 * @return array eg. array('show_offset_information' => 0, 'show_...
 	 */
 	protected function getJavascriptVariablesToSet()
 	{
@@ -531,6 +542,7 @@ abstract class Piwik_ViewDataTable
 		$javascriptVariablesToSet['show_search'] = $this->getSearchBox();
 		$javascriptVariablesToSet['show_offset_information'] = $this->getOffsetInformation();
 		$javascriptVariablesToSet['show_exclude_low_population'] = $this->getExcludeLowPopulation();
+		$javascriptVariablesToSet['showAllColumns'] = $this->getShowAllColumns();
 		
 		// we escape the values that will be displayed in the javascript footer of each datatable
 		// to make sure there is malicious code injected (the value are already htmlspecialchar'ed as they

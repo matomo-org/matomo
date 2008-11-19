@@ -410,6 +410,37 @@ class Piwik
 		return !is_array($value) && ereg('^([-]{0,1}[0-9]{1,}[.]{0,1}[0-9]*)$', $value);
 	}
 	
+	static public function getPrettyTimeFromSeconds($numberOfSeconds)
+	{
+		$numberOfSeconds = (double)$numberOfSeconds;
+		$days = floor($numberOfSeconds / 86400);
+		
+		$minusDays = $numberOfSeconds - $days * 86400;
+		$hours = floor($minusDays / 3600);
+		
+		$minusDaysAndHours = $minusDays - $hours * 3600;
+		$minutes = floor($minusDaysAndHours / 60 );
+		
+		$seconds = $minusDaysAndHours - $minutes * 60;
+		
+		if($days > 0)
+		{
+			return sprintf("%d days %d hours", $days, $hours);
+		}
+		elseif($hours > 0)
+		{
+			return sprintf("%d hours %d min", $hours, $minutes);
+		}
+		elseif($minutes > 0)
+		{
+			return sprintf("%d&nbsp;min&nbsp;%ds", $minutes, $seconds);		
+		}
+		else
+		{
+			return sprintf("%ds", $seconds);		
+		}
+	}
+	
 	static public function getRandomTitle()
 	{
 		$titles = array( 'Web analytics',

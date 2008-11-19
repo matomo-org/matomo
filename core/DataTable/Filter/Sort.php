@@ -23,13 +23,6 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	public function __construct( $table, $columnToSort, $order = 'desc', $naturalSort = false )
 	{
 		parent::__construct($table);
-		
-		// hack... But I can't see how to do properly
-		if($columnToSort == '0')
-		{
-			$columnToSort = 'label';
-		}
-		
 		$this->columnToSort = $columnToSort;
 		$this->naturalSort = $naturalSort;
 		$this->setOrder($order);
@@ -68,7 +61,6 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 			);
 	}
 	
-	
 	function sortString($a, $b)
 	{
 		return $this->sign * 
@@ -84,7 +76,6 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 			return;
 		}
 		$rows = $this->table->getRows();
-		
 		if(count($rows) == 0)
 		{
 			return;
@@ -94,10 +85,20 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		
 		if($value === false)
 		{
-			// we don't throw the exception because we sometimes export a DataTable without a column labelled '2'
-			// and when the generic filters tries to sort by default using this column 2, this shouldnt raise an exception...
-			//throw new Exception("The column to sort by '".$this->columnToSort."' is unknown in the row ". implode(array_keys($row->getColumns()), ','));
-			return;
+			if(!isset(Piwik_Archive::$mappingFromNameToId[$this->columnToSort]))
+			{
+				// we don't throw the exception because we sometimes export a DataTable without a column labelled '2'
+				// and when the generic filters tries to sort by default using this column 2, this shouldnt raise an exception...
+				//throw new Exception("The column to sort by '".$this->columnToSort."' is unknown in the row ". implode(array_keys($row->getColumns()), ','));
+				return;
+			}
+			// case we are sorting by "nb_visits" but the column is still integer indexed
+			$this->columnToSort = Piwik_Archive::$mappingFromNameToId[$this->columnToSort];
+			$value = $row->getColumn($this->columnToSort);
+			if($value === false)
+			{
+				return;
+			}
 		}
 		
 		if( Piwik::isNumeric($value))

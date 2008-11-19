@@ -49,29 +49,3 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 }
 
 
-function Piwik_getPrettyTimeFromSeconds($numberOfSeconds)
-{
-	$numberOfSeconds = (double)$numberOfSeconds;
-	$days = floor($numberOfSeconds / 86400);
-	
-	$minusDays = $numberOfSeconds - $days * 86400;
-	$hours = floor($minusDays / 3600);
-	
-	$minusDaysAndHours = $minusDays - $hours * 3600;
-	$minutes = floor($minusDaysAndHours / 60 );
-	
-	$seconds = $minusDaysAndHours - $minutes * 60;
-	
-	if($days > 0)
-	{
-		return sprintf("%d days %d hours", $days, $hours);
-	}
-	elseif($hours > 0)
-	{
-		return sprintf("%d hours %d min", $hours, $minutes);
-	}
-	else
-	{
-		return sprintf("%d min %d s", $minutes, $seconds);		
-	}
-}

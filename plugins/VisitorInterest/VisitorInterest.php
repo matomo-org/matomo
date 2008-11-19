@@ -105,7 +105,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$tablePagegap = $this->getTablePageGap();
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tablePagegap->getSerialized());
 	}
-	
+
 	protected function getTablePageGap()
 	{
 		$select = array();
@@ -130,7 +130,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		
 		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
 	}
-	
+
 	protected function getTableTimeGap()
 	{
 		$select = array();
@@ -140,7 +140,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			{
 				$minGap = $gap[0] * 60;
 				$maxGap = $gap[1] * 60;
-				
 				
 				$gapName = "'".$minGap."-".$maxGap."'";
 				$select[] = "sum(case when visit_total_time between $minGap and $maxGap then 1 else 0 end) as $gapName ";

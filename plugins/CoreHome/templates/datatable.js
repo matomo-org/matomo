@@ -167,18 +167,17 @@ dataTable.prototype =
 		var content = $(response);
 		var idToReplace = $(content).attr('id');
 		var dataTableSel = $('#'+idToReplace);
-	
+		
 		// if the current dataTable is situated inside another datatable
 		table = $(content).parents('table.dataTable');
 		if(dataTableSel.parents('.dataTable').is('table'))
 		{
 			// we add class to the table so that we can give a different style to the subtable
-			$(content).children('table.dataTable').addClass('subDataTable');
-			$(content).children('#dataTableFeatures').addClass('subDataTable');
+			$(content).find('table.dataTable').addClass('subDataTable');
+			$(content).find('#dataTableFeatures').addClass('subDataTable');
 			
 			//we force the initialisation of subdatatables
 			dataTableSel.html( $(content).html() );
-			//dataTables[idToReplace].init( idToReplace, $('#'+idToReplace) );
 		}
 		else
 		{
@@ -461,79 +460,89 @@ dataTable.prototype =
 	handleExportBox: function(domElem)
 	{
 		var self = this;
-		if( !self.param.idSubtable )
-		{			
-			// When the (+) image is hovered, the export buttons are displayed 
-			$('#exportDataTableShow', domElem)
-				.show()
-				.hover( function() {
-						$(this).fadeOut('slow');
-						$('#exportToFormat', $(this).parent()).show('slow');
-					}, function(){}
-			);
-			
-			//timeout object used to hide the datatable export buttons
-			var timeout = null;
-			
-			$('#exportDataTable', domElem)
-				.hover( function() {
-						//display 'hand' cursor
-						$(this).css({ cursor: "pointer"});
-						
-						//cancel timeout if necessary
-						if(timeout != null)
-						{
-							clearTimeout(timeout);
-							timeout = null;
-						}
-					},
-					function() {
-						//display standard cursor
-						$(this).css({ cursor: "auto"});
-						
-						//set a timeout that will hide export buttons after a few moments
-						var dom = this;
-						timeout = setTimeout(function(){
-							$('#exportToFormat', dom).fadeOut('fast', function(){	//queue the two actions
-							$('#exportDataTableShow', dom).show('fast');});
-						}, 1000);
-					}
-			);
-			
-			$('.viewDataTable', domElem).click(
-				function(){
-						var viewDataTable = $(this).attr('format');
-						self.resetAllFilters();
-						self.param.viewDataTable = viewDataTable;
-						
-						self.reloadAjaxDataTable();
-					}
-			);
-			
-			$('#exportToFormat img', domElem).click(function(){
-				$(this).siblings('#linksExportToFormat').toggle();
-			});
-			
-			$('.exportToFormat', domElem).attr( 'href', function(){
-					var format = $(this).attr('format');
-					var method = $(this).attr('methodToCall');
-					var filter_limit = $(this).attr('filter_limit');
-					
-					var str = '?module=API'
-							+'&method='+method
-							+'&format='+format
-							+'&idSite='+self.param.idSite
-							+'&period='+self.param.period
-							+'&date='+self.param.date
-							+'&token_auth='+piwik.token_auth;
-					if( filter_limit )
-					{
-						str += '&filter_limit=' + filter_limit;
-					}
-					return str;
-				}
-			);
+		if( self.param.idSubtable )
+		{	
+			return;
 		}
+		// When the (+) image is hovered, the export buttons are displayed 
+		$('#exportDataTableShow', domElem)
+			.show()
+			.hover( function() {
+					$(this).fadeOut('slow');
+					$('#exportToFormat', $(this).parent()).show('slow');
+				}, function(){}
+		);
+		
+		//timeout object used to hide the datatable export buttons
+		var timeout = null;
+		
+		$('#exportDataTable', domElem)
+			.hover( function() {
+					//display 'hand' cursor
+					$(this).css({ cursor: "pointer"});
+					
+					//cancel timeout if necessary
+					if(timeout != null)
+					{
+						clearTimeout(timeout);
+						timeout = null;
+					}
+				},
+				function() {
+					//display standard cursor
+					$(this).css({ cursor: "auto"});
+					
+					//set a timeout that will hide export buttons after a few moments
+					var dom = this;
+					timeout = setTimeout(function(){
+						$('#exportToFormat', dom).fadeOut('fast', function(){	//queue the two actions
+						$('#exportDataTableShow', dom).show('fast');});
+					}, 1000);
+				}
+		);
+		
+		$('.viewDataTable', domElem).click(
+			function(){
+					var viewDataTable = $(this).attr('format');
+					self.resetAllFilters();
+					self.param.viewDataTable = viewDataTable;
+					self.reloadAjaxDataTable();
+				}
+		);
+		
+		$('#showAllColumns', domElem)
+			.show()
+			.click(
+				function(){
+					self.param.viewDataTable = 'table';
+					self.param.showAllColumns = $('img', this).attr('id') == 'showAllColumns' ? '1' : '0';
+					self.reloadAjaxDataTable();
+				}
+		);
+		
+		$('#exportToFormat img', domElem).click(function(){
+			$(this).siblings('#linksExportToFormat').toggle();
+		});
+		
+		$('.exportToFormat', domElem).attr( 'href', function(){
+				var format = $(this).attr('format');
+				var method = $(this).attr('methodToCall');
+				var filter_limit = $(this).attr('filter_limit');
+				
+				var str = '?module=API'
+						+'&method='+method
+						+'&format='+format
+						+'&idSite='+self.param.idSite
+						+'&period='+self.param.period
+						+'&date='+self.param.date
+						+'&token_auth='+piwik.token_auth;
+				if( filter_limit )
+				{
+					str += '&filter_limit=' + filter_limit;
+				}
+				return str;
+			}
+		);
 	},
 			
 	//Apply some miscelleaneous style to the DataTable
@@ -928,7 +937,6 @@ actionDataTable.prototype =
 		self.parentId = idToReplace;
 		
 		$('tr#'+idToReplace).after( response ).remove();
-
 			
 		var re = /subDataTable_(\d+)/;
 		ok = re.exec(self.parentId);

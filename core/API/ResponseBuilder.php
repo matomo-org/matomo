@@ -156,6 +156,9 @@ class Piwik_API_ResponseBuilder
 								'filter_excludelowpop' 		=> array('string'), 
 								'filter_excludelowpop_value'=> array('float'),
 						),
+			'AddColumnsWhenShowAllColumns'	=> array(
+								'filter_add_columns_when_show_all_columns'	=> array('integer')
+						),
 			'Sort' => array(
 								'filter_sort_column' 		=> array('string', Piwik_Archive::INDEX_NB_VISITS),
 								'filter_sort_order' 		=> array('string', Zend_Registry::get('config')->General->dataTable_default_sort_order),
@@ -170,6 +173,23 @@ class Piwik_API_ResponseBuilder
 		);
 		
 		return $genericFilters;
+	}
+
+	protected function handleDataTableGenericFilters($datatable)
+	{
+		if($datatable instanceof Piwik_DataTable)
+		{
+			$this->applyDataTableGenericFilters($datatable);
+		}
+		elseif($datatable instanceof Piwik_DataTable_Array)
+		{
+			$tables = $datatable->getArray();
+			foreach($tables as $table)
+			{
+				$this->applyDataTableGenericFilters($table);
+			}
+		}
+		return $datatable;
 	}
 	
 	/**
@@ -292,26 +312,17 @@ class Piwik_API_ResponseBuilder
 
 	protected function handleDataTable($datatable)
 	{
-		if($datatable instanceof Piwik_DataTable)
+		// if the flag disable_generic_filters is defined we skip the generic filters
+		if(Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->request) == 'false')
 		{
-			$this->applyDataTableGenericFilters($datatable);
-		}
-		elseif($datatable instanceof Piwik_DataTable_Array)
-		{
-			$tables = $datatable->getArray();
-			foreach($tables as $table)
-			{
-				$this->applyDataTableGenericFilters($table);
-			}
+			$datatable = $this->handleDataTableGenericFilters($datatable);
 		}
 		
 		// if the flag disable_queued_filters is defined we skip the filters that were queued
-		// useful in some very rare cases but better to use this than a bad hack on the data returned...
 		if(Piwik_Common::getRequestVar('disable_queued_filters', 'false', 'string', $this->request) == 'false')
 		{
 			$datatable->applyQueuedFilters();
-		}			
-		
+		}
 		return $this->getRenderedDataTable($datatable);
 	}
 	
@@ -345,12 +356,6 @@ class Piwik_API_ResponseBuilder
 	 */
 	protected function applyDataTableGenericFilters($dataTable)
 	{
-		// if the flag disable_generic_filters is defined we skip the generic filters
-		if(Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->request) != 'false')
-		{
-			return;
-		}
-		
 		if($dataTable instanceof Piwik_DataTable_Array )
 		{
 			$tables = $dataTable->getArray();

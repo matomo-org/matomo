@@ -52,6 +52,29 @@ abstract class Piwik_Archive
 	const INDEX_SUM_VISIT_LENGTH = 5;
 	const INDEX_BOUNCE_COUNT = 6;
 
+	/*
+	 * Integer indexed column name => string indexed column name
+	 */
+	public static $mappingFromIdToName = array(
+				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 'nb_uniq_visitors',
+				Piwik_Archive::INDEX_NB_VISITS			=> 'nb_visits',
+				Piwik_Archive::INDEX_NB_ACTIONS			=> 'nb_actions',
+				Piwik_Archive::INDEX_MAX_ACTIONS		=> 'max_actions',
+				Piwik_Archive::INDEX_SUM_VISIT_LENGTH	=> 'sum_visit_length',
+				Piwik_Archive::INDEX_BOUNCE_COUNT		=> 'bounce_count',
+			);
+	/*
+	 * string indexed column name => Integer indexed column name 
+	 */
+	public static $mappingFromNameToId = array(
+				'nb_uniq_visitors'	=> Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
+				'nb_visits'			=> Piwik_Archive::INDEX_NB_VISITS,
+				'nb_actions'		=> Piwik_Archive::INDEX_NB_ACTIONS,
+				'max_actions'		=> Piwik_Archive::INDEX_MAX_ACTIONS,
+				'sum_visit_length'	=> Piwik_Archive::INDEX_SUM_VISIT_LENGTH,
+				'bounce_count'		=> Piwik_Archive::INDEX_BOUNCE_COUNT,
+			);
+			
 	/**
 	 * Website Piwik_Site
 	 *

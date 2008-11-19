@@ -35,7 +35,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setLimit( 15 );
 		$view->disableSort();
 		
-		$view->main();
 		return $this->renderView($view, $fetch);
 	}
 	

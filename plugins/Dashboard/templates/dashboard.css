@@ -1,5 +1,9 @@
 /*Overriding some dataTable css for better dashboard display*/
-.widgetDiv .parentDiv,.widgetDiv .parentDivGraph,.widgetDiv .parentDivActions,.widgetDiv .parentDivGraphEvolution {
+.widgetDiv .dataTableWrapper, 
+.widgetDiv .dataTableAllColumnsWrapper,
+.widgetDiv .dataTableGraphWrapper,
+.widgetDiv .dataTableActionsWrapper,
+.widgetDiv .dataTableGraphEvolutionWrapper {
 	width: 100%;
 }
 

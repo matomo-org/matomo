@@ -1,18 +1,21 @@
 /* container of each table */
-.parentDiv {
+.dataTableWrapper {
 	width: 450px;
-	/* not more than 450px to make sure 2 of them can fit horizontally on a 1024 screen */
+	/* not more than 450px to make sure 2 tables can fit horizontally on a 1024 screen */
+}
+.dataTableAllColumnsWrapper {
+	width: 535px;
 }
 
-.parentDivActions {
+.dataTableActionsWrapper {
 	width: 500px;
 }
 
-.parentDivGraph {
+.dataTableGraphWrapper {
 	width: 500px;
 }
 
-.parentDivGraphEvolution {
+.dataTableGraphEvolutionWrapper {
 	width: 100%;
 }
 
@@ -25,12 +28,15 @@ table.dataTable {
 	font-size: 0.9em;
 }
 
-table.dataTable td.label,table.subDataTable td.label,table.dataTableActions td.label
-	{
+table.dataTable td.label,
+table.subDataTable td.label,
+table.dataTableActions td.label {
 	width: 100%;
 }
 
-table.dataTable img,table.subDataTable img,table.dataTableActions img {
+table.dataTable img,
+table.subDataTable img,
+table.dataTableActions img {
 	vertical-align: middle;
 }
 
@@ -50,7 +56,6 @@ table.dataTable th {
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
 	border-top: 1px solid #C1DAD7;
-	text-transform: capitalize;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
 	background: #D4E3ED url(images/bg_header.jpg) no-repeat;
@@ -119,8 +124,6 @@ table.dataTable td #urlLink {
 table.subDataTable {
 	background: #FFFFFF;
 	width: 95%;
-	border-top: 1px solid #e5eff8;
-	border-right: 1px solid #e5eff8;
 	margin: 10px;
 }
 
@@ -133,7 +136,9 @@ table.subDataTable thead th {
 	font-size: 1.1em;
 	text-align: left;
 	border: 0;
-	border: 1px solid #D1D1D1;
+	border-bottom:1px solid #D1D1D1;
+	border-right:1px solid #D1D1D1;
+	border-top:1px solid #D1D1D1;
 	padding: .3em 1em;
 	color: #333333;
 	background: #FFE9C6;
@@ -144,8 +149,9 @@ table.subDataTable td.labeleven,table.subDataTable td.labelodd {
 }
 
 table.subDataTable td {
+	border-right: 1px solid #E5E5E5;
 	border-bottom: 1px solid #E5E5E5;
-	border-left: 1px solid #E5E5E5;
+	border-left: 0;
 }
 
 table.subDataTable td,table.subDataTable td a {
@@ -260,6 +266,7 @@ table thead div {
 #exportDataTable,#exportDataTable a {
 	text-decoration: none;
 	color: #8894B1;
+	font-size:0.9em;
 }
 
 .dataTableSpacer {

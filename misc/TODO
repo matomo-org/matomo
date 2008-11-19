@@ -1,3 +1,11 @@
+current
+- do proper CSS factoring
+- when default is pie chart (visitors > settings), then shows advanced table icon
+- i18n on title on datatable footer
+- rename exportDataTable div in footerDataTableIcons or similar
+- convert all JS datatable footer parameter values to '1' or '0'
+- check state of javascript footer (should not have safe_decode and filter_add_columns blah)
+
 todo
 - after download redirect to install guide
 - 404 more useful

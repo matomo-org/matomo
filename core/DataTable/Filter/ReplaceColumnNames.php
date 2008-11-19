@@ -26,17 +26,7 @@
  */
 class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 {
-	/*
-	 * Old column name => new column name
-	 */
-	protected $mappingToApply = array(
-				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 'nb_uniq_visitors',
-				Piwik_Archive::INDEX_NB_VISITS			=> 'nb_visits',
-				Piwik_Archive::INDEX_NB_ACTIONS			=> 'nb_actions',
-				Piwik_Archive::INDEX_MAX_ACTIONS		=> 'max_actions',
-				Piwik_Archive::INDEX_SUM_VISIT_LENGTH	=> 'sum_visit_length',
-				Piwik_Archive::INDEX_BOUNCE_COUNT		=> 'bounce_count',
-			);
+	protected $mappingToApply;
 	
 	/**
 	 * @param DataTable Table
@@ -48,6 +38,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 	public function __construct( $table, $mappingToApply = null )
 	{
 		parent::__construct($table);
+		$this->mappingToApply = Piwik_Archive::$mappingFromIdToName;
 		if(!is_null($mappingToApply))
 		{
 			$this->mappingToApply = $mappingToApply;
