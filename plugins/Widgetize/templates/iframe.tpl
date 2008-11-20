@@ -17,8 +17,9 @@
 <script type="text/javascript" src="plugins/CoreHome/templates/datatable.js"></script>
 <link rel="stylesheet" href="plugins/CoreHome/templates/datatable.css">
 
-
+<div class="widgetDiv">
 {$content}
+</div>
 
 </body>
 </html>

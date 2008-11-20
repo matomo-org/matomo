@@ -27,7 +27,6 @@ function blockUIConfig()
 
 function dashboard()
 {
-	this.test = new Object;
 	this.dashArea = new Object;
 	this.dashColumns = new Object;
 	this.layout = '';

@@ -34,6 +34,10 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	{
 		foreach($this->table->getRows() as $key => $row)
 		{
+			//instead search must handle
+			// - negative search with -piwik
+			// - exact match with ""
+			// see (?!pattern) 	A subexpression that performs a negative lookahead search, which matches the search string at any point where a string not matching pattern begins. 
 			if( stripos($row->getColumn($this->columnToFilter), $this->patternToSearch) === false)
 			{
 				$this->table->deleteRow($key);

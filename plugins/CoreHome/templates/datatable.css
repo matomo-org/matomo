@@ -1,3 +1,16 @@
+/*Overriding some dataTable css for better dashboard display*/
+.widgetDiv .dataTableWrapper, 
+.widgetDiv .dataTableAllColumnsWrapper,
+.widgetDiv .dataTableGraphWrapper,
+.widgetDiv .dataTableActionsWrapper,
+.widgetDiv .dataTableGraphEvolutionWrapper {
+	width: 100%;
+}
+
+.widgetDiv {
+	z-index:1;
+}
+
 /* container of each table */
 .dataTableWrapper {
 	width: 450px;

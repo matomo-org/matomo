@@ -9,18 +9,31 @@ function widgetMenu(dash)
 widgetMenu.prototype =
 {
 	//function called when the menu is built for the first time
-	init: function(onWidgetLoadCallback)
+	init: function()
 	{
-		this.onWidgetLoad = onWidgetLoadCallback;
 		var self = this;
 		self.buildMenu();
 	},
 	
+	registerCallbackOnWidgetLoad: function( callbackOnWidgetLoad )
+	{
+		this.onWidgetLoad = callbackOnWidgetLoad;
+	},
+	
+	registerCallbackOnMainMenuHover: function( callbackOnMainMenuHover )
+	{
+		this.onMainMenuHover = callbackOnMainMenuHover;
+	},
+	
+	registerCallbackOnSubMenuHover:  function( callbackOnSubMenuHover )
+	{
+		this.onSubMenuHover = callbackOnSubMenuHover;
+	},
+	
 	//function called when a clone of an existing menu is built
-	initBuilt: function(menuDom, onWidgetLoadCallback)
+	initBuilt: function(menuDom)
 	{
 		var self = this;
-		self.onWidgetLoad = onWidgetLoadCallback;
 		self.menu = menuDom;
 		self.bindEvents();
 	},
@@ -72,17 +85,22 @@ widgetMenu.prototype =
 		//menu buttons
 		$('.button#hideMenu', self.menu).click(function(){self.hide();});
 		$('#closeMenuIcon', self.menu).click(function(){self.hide();});
-		$('.subMenu#sub3 .widget .handle', self.menu).css('cursor', 'pointer')
+		$('.subMenu#sub3 .widget .handle', self.menu)
+				.css('cursor', 'pointer')
 				.click(function(){self.movePreviewToDashboard();});
 		
 		//update widget list on submenu#1 mouse over
 		$('.subMenu#sub1 .subMenuItem', self.menu).each(function(){
 			var plugin = $(this).attr('id');
-			var item = $('.subMenu#sub2 .subMenuItem#'+plugin, self.menu);
+			var item = $('.subMenu#sub2 .subMenuItem#' + plugin, self.menu);
 			
 			$(this).hover(
 				function()
 				{
+					if(typeof self.onMainMenuHover != 'undefined')
+					{
+						self.onMainMenuHover();
+					}
 					$('#embedThisWidget').empty();
 					$('.widgetDiv.previewDiv', self.menu).empty()
 													.attr('plugin', '')
@@ -94,34 +112,41 @@ widgetMenu.prototype =
 					item.show();
 				},function(){});
 		});
-	
+
 		//update widget preview on submenu#2 mouse over
-		$('.menuItem', self.menu).hover(
-		function()
+		$('.menuItem', self.menu)
+		.click(function(){	self.movePreviewToDashboard(); })
+		.hover( function() 
 		{
-			if(!$(this).hasClass('menuDisabled'))
+			if($(this).hasClass('menuDisabled'))
 			{
-				var plugin = $(this).attr('pluginToLoad');
-				var action = $(this).attr('actionToLoad');
-				
-				$('.menuSelected', self.menu).removeClass('menuSelected');
-				$(this).addClass('menuSelected');
-				
-				$('.widgetDiv.previewDiv', self.menu).each(function(){
-					//only reload preview if necessary
-					if($(this).attr('plugin')!=plugin || $(this).attr('id')!=action)
-					{
-						//format the div for upcomming ajax loading and set a temporary content
-						$(this)	.attr('plugin', plugin)
-								.attr('id', action)
-								.html('<div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" /> '+ _pk_translate('Dashboard_LoadingPreview') +'</div>').show();
-						$('#embedThisWidget').empty();
-						loadWidgetInDiv(plugin, action, self.onWidgetLoad);
-					}
-				});
+				return;
 			}
-		},function(){})
-		.click(function(){	self.movePreviewToDashboard(); });
+			var plugin = $(this).attr('pluginToLoad');
+			var action = $(this).attr('actionToLoad');
+			var widgetName = $(this).text();
+			
+			if(typeof self.onSubMenuHover != 'undefined')
+			{
+				self.onSubMenuHover(plugin, action, widgetName);
+			}
+			
+			$('.subMenu#sub2 .menuSelected').removeClass('menuSelected');
+			$(this).addClass('menuSelected');
+			
+			$('.widgetDiv.previewDiv', self.menu).each(function(){
+				//only reload preview if necessary
+				if($(this).attr('plugin')!=plugin || $(this).attr('id')!=action)
+				{
+					//format the div for upcomming ajax loading and set a temporary content
+					$(this)	.attr('plugin', plugin)
+							.attr('id', action)
+							.html('<div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" /> '+ _pk_translate('Dashboard_LoadingPreview') +'</div>').show();
+					$('#embedThisWidget').empty();
+					loadWidgetInDiv(plugin, action, self.onWidgetLoad);
+				}
+			});
+		},function(){});
 	},
 	
 	hide: function()
@@ -145,7 +170,10 @@ widgetMenu.prototype =
 			menuDom = $('#widgetChooser');
 		}		
 		var dispMenuObject = new widgetMenu(self.dashboard);
-		dispMenuObject.initBuilt(menuDom, self.onWidgetLoad); 
+		dispMenuObject.initBuilt(menuDom);
+		dispMenuObject.registerCallbackOnWidgetLoad(self.onWidgetLoad);
+		dispMenuObject.registerCallbackOnMainMenuHover(self.onMainMenuHover);
+		dispMenuObject.registerCallbackOnSubMenuHover(self.onSubMenuHover);
 	},
 
 	filterOutAlreadyLoadedWidget: function()
@@ -212,7 +240,7 @@ widgetMenu.prototype =
 	}
 };
 
-function loadWidgetInDiv(pluginId, actionId, onWidgetLoad)
+function loadWidgetInDiv(pluginId, actionId, callbackOnWidgetLoad)
 {
 	function onLoaded(response)
 	{
@@ -221,9 +249,9 @@ function loadWidgetInDiv(pluginId, actionId, onWidgetLoad)
 		parDiv.html($(response));
 		parDiv.show();
 		
-		if(typeof onWidgetLoad != 'undefined')
+		if(typeof callbackOnWidgetLoad != 'undefined')
 		{
-			onWidgetLoad(parDiv, pluginId, actionId);
+			callbackOnWidgetLoad(parDiv, pluginId, actionId);
 		}
 	}
 	var ajaxRequest = 

@@ -22,6 +22,7 @@
 
 {*<script type="text/javascript" src="http://widgets.clearspring.com/launchpad/include.js"></script>
 *}
+<script src="http://cdn.clearspring.com/launchpad/v2/standalone.js" type="text/javascript"></script>
 {literal}
 <style>
 .menu {
@@ -32,10 +33,29 @@
 	text-decoration: none;
 	background-color: #FBFDFF;
 	border: 1px solid #ECECEC;
+	width:220px;
 }
 
 #periodString {
 	margin-left:500px;
+}
+
+label {
+	color:#666666;
+	line-height:18px;
+	margin-right:5px;
+	font-weight:bold;
+	padding-bottom:100px;
+}
+
+#embedThisWidgetIframe,
+#embedThisWidgetFlash,
+#embedThisWidgetEverywhere {
+	margin-top:5px;
+}
+
+.menuSelected{
+	font-weight:bold;
 }
 </style>
 {/literal}
@@ -44,7 +64,12 @@
 {literal}
 $(document).ready( function() {
 	var menu = new widgetMenu();
-	menu.init( callbackAddExportButtonsUnderWidget );
+	var widgetized = new widgetize();
+	widgetized.callbackHideButtons();
+	menu.init();
+	menu.registerCallbackOnWidgetLoad( widgetized.callbackAddExportButtonsUnderWidget );
+	menu.registerCallbackOnMainMenuHover( widgetized.callbackHideButtons );
+	menu.registerCallbackOnSubMenuHover( widgetized.callbackSavePluginName );
 	menu.show();
 });
 
@@ -53,7 +78,7 @@ $(document).ready( function() {
 
 <div style="max-width:980px;">
 <p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
-If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions to the anonymous user in the <a href='?module=UsersManager'>Users Management section</a>.</p>  
+If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions to the anonymous user in the <a href='?module=UsersManager'>Users Management section</a>.</p>
 <div id="widgetChooser">
 	<div class="subMenu" id="sub1">
 	</div>
@@ -61,15 +86,32 @@ If you want your widgets to be viewable by everybody, you first have to set the 
 	</div>
 	<div class="subMenu" id="sub3">
 		<div class="widget">
-			<div class="widgetDiv previewDiv">Widget here
+			<div class="widgetDiv previewDiv"></div>
+		</div>
+
+		<div id="embedThisWidgetIframe">
+			<label for="embedThisWidgetIframeInput">&rsaquo; Embed Iframe</label>
+			<span id="embedThisWidgetIframeInput"></span>
+		</div>
+		
+		<div id="embedThisWidgetFlash">
+			<label for="embedThisWidgetFlashInput">&rsaquo; Embed Flash</label>
+			<span id="embedThisWidgetFlashInput"></span>
+		</div>
+		
+		<div id="embedThisWidgetEverywhere">
+			<div id="exportThisWidget">
+				<label for="flashEmbed">&rsaquo; Export anywhere!</label>
+				<img src='http://cdn.clearspring.com/launchpad/static/cs_button_share1.gif'>
+			</div>
+			<div id="exportThisWidgettest"></div>
+			<div id="exportThisWidgetMenu">
+				<span style="display:none"><img src="{$piwikUrl}themes/default/images/loading-blue.gif" /></span>
 			</div>
 		</div>
-		<div id='embedThisWidget'></div>
 	</div>
 	
 	<div class="menuClear"> </div>
 </div>
-
-See also <a href='?module=Widgetize&action=testClearspring'>test to <b>embed the widget on netvibes/ igoogle / apple dashboard / etc.</b></a></li>
-
+<div id='iframeDivToExport' style='display:none;'></div>
 </div>

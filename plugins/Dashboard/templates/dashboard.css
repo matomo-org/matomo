@@ -1,10 +1,5 @@
-/*Overriding some dataTable css for better dashboard display*/
-.widgetDiv .dataTableWrapper, 
-.widgetDiv .dataTableAllColumnsWrapper,
-.widgetDiv .dataTableGraphWrapper,
-.widgetDiv .dataTableActionsWrapper,
-.widgetDiv .dataTableGraphEvolutionWrapper {
-	width: 100%;
+.widgetDiv {
+	display: none;
 }
 
 /*--- end of dataTable.css modif*/
@@ -51,11 +46,6 @@
 .widgetTitle {
 	font-size: 14pt;
 	margin-left: 25px;
-}
-
-.widgetDiv {
-	display: none;
-	z-index:1;
 }
 
 .dummyItem {
@@ -148,7 +138,7 @@
 }
 
 #sub3.subMenu {
-	float: right;
+	float: left;
 	width: 40%
 }
 
