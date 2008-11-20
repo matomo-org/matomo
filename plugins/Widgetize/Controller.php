@@ -25,14 +25,6 @@ class Piwik_Widgetize_Controller extends Piwik_Dashboard_Controller
 		echo $view->render();
 	}
 
-	function testIframe()
-	{
-		$view = new Piwik_View('Widgetize/templates/test_iframe.tpl');
-		$view->url1 = '?module=Widgetize&action=iframe&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
-		$view->url2 = '?module=Widgetize&action=iframe&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=0';
-		echo $view->render();
-	}
-
 	function testJsInclude1()
 	{
 		$view = new Piwik_View('Widgetize/templates/test_jsinclude.tpl');
@@ -53,9 +45,9 @@ class Piwik_Widgetize_Controller extends Piwik_Dashboard_Controller
 	function testClearspring()
 	{
 		$view = new Piwik_View('Widgetize/templates/test_widget.tpl');
-		$view->url1 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&filter_limit=5';
-		$view->url2 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=VisitTime&actionToWidgetize=getVisitInformationPerServerTime&idSite=1&period=day&date=yesterday&viewDataTable=graphVerticalBar&showDataTableFooter=0';
-		$view->url3 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=1&filter_limit=15&show_search=false';
+		$view->url1 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&filter_limit=5&token_auth='.Piwik::getCurrentUserTokenAuth();
+		$view->url2 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=VisitTime&actionToWidgetize=getVisitInformationPerServerTime&idSite=1&period=day&date=yesterday&viewDataTable=graphVerticalBar&showDataTableFooter=0&token_auth='.Piwik::getCurrentUserTokenAuth();
+		$view->url3 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=cloud&showDataTableFooter=1&filter_limit=15&show_search=false&token_auth='.Piwik::getCurrentUserTokenAuth();
 		echo $view->render();
 	}
 	
