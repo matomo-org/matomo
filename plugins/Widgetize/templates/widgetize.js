@@ -64,6 +64,7 @@ function widgetize()
 		$('#iframeDivToExport')
 			.html(widgetIframe);
 
+		$('#exportThisWidgetMenu').empty();
 		$('#embedThisWidgetEverywhere').show();
 		$Launchpad.ShowButton({
 								actionElement : "exportThisWidget",
