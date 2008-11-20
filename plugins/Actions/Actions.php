@@ -234,7 +234,14 @@ class Piwik_Actions extends Piwik_Plugin
 		}
 		else
 		{
-			$split = explode(self::$actionCategoryDelimiter, $name, self::$limitLevelSubCategory);
+			if(empty(self::$actionCategoryDelimiter))
+			{
+				$split = array($name);
+			}
+			else
+			{
+				$split = explode(self::$actionCategoryDelimiter, $name, self::$limitLevelSubCategory);
+			}
 		}
 		return array( $isUrl, $split);
 	}
