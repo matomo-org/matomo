@@ -2,12 +2,6 @@ xss
 ====
 escaping wrong %2B15 min in visit lengths
 
-clean piwik files from releases to make release smaller
-====
-- clean /misc files (generatevisits data), db-schema, etc. put a file that links on the TRAC SVN
-  delete tests/* but put message tests/README.txt that explains that we have tests
-- add tmp/cache etc.
-  
 UI fixes + adjustements
 ====
 - rss user agent piwik Piwik (version)

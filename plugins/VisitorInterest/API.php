@@ -77,7 +77,7 @@ function Piwik_getDurationLabel($label)
 	{
 		$time = intval($label) / 60;
 		$plusXMin = Piwik_Translate('VisitorInterest_PlusXMin');
-		return sprintf($plusXMin, urlencode('+').$time);
+		return sprintf($plusXMin, '+' . $time);
 	}
 }
 
