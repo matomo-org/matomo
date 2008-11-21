@@ -197,7 +197,7 @@ input {
 <div id="main">
 	<div id="content">
 		<div id="logo">
-			<span id="title">Piwik</span> &nbsp;&nbsp;&nbsp;<span id="subtitle"># open source web analytics</span>
+			<span id="title">Piwik</span> &nbsp;&nbsp;&nbsp;<span id="subtitle"># {'General_OpenSourceWebAnalytics'|translate}</span>
 		</div>
 		<div class="both"></div>
 

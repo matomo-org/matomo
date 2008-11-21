@@ -444,20 +444,17 @@ class Piwik
 	static public function getRandomTitle()
 	{
 		$titles = array( 'Web analytics',
-						'Website analytics',
 						'Analytics',
 						'Web analytics api',
 						'Open source analytics',
 						'Open source web analytics',
+						'Google Analytics alternative',
+						'open source Google Analytics',
 						'Free analytics',
 						'Analytics software',
 						'Free web analytics',
 						'Free web statistics',
 						'Web 2.0 analytics',
-						'Web analytic',
-						'Web statistics',
-						'Web stats',
-						'Web 2.0 stats',
 						'Statistics web 2.0',
 				);
 		$id = abs(intval(md5(substr(Piwik_Url::getCurrentHost(),7))));
