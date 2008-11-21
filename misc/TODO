@@ -12,7 +12,7 @@ UI fixes + adjustements
 
 Following up show all columns new UI element
 ====
-- disable show icon all columns for some reports, ie. Visits per visit duration, and downloads/outlinks
+- there should be 2 different things: enable a datatable feature, and whether or not it's currently used (filters)
 - disable show icon in some iframes and/or dashboard 
 - exclude low population broken!
 - default sorting order icon is not shown anymore

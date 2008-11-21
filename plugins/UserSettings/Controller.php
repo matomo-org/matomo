@@ -85,6 +85,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		$view->disableSort();
 		$view->disableOffsetInformation();
+		$view->disableShowAllColumns();
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setSortedColumn( 'nb_visits' );

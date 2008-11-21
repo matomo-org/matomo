@@ -84,6 +84,14 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected $JSexcludeLowPopulation 	= true;
 	
+	
+	/**
+	 * Defines if we show the "Show all columns" icon under the table
+	 * 
+	 * @var bool
+	 */
+	protected $JSshowAllColumns = true;
+
 	/**
 	 * Defines if we include the footer after the dataTable output.
 	 * The footer contains all the extra features like the search box, the links Next/Previous, the icons to export in several formats, etc.
@@ -287,7 +295,6 @@ abstract class Piwik_ViewDataTable
 		$this->showFooter = Piwik_Common::getRequestVar('showDataTableFooter', true);
 		$this->variablesDefault['filter_excludelowpop_default'] = 'false';
 		$this->variablesDefault['filter_excludelowpop_value_default'] = 'false';	
-		$this->setSafeDecodeLabel();
 	}
 	
 	/**
@@ -385,7 +392,6 @@ abstract class Piwik_ViewDataTable
 			'filter_exact_column',
 			'disable_generic_filters',
 			'disable_queued_filters',
-			'filter_safe_decode_label',
 			'filter_add_columns_when_show_all_columns',
 		);
 		foreach($toSetEventually as $varToSet)
@@ -542,7 +548,8 @@ abstract class Piwik_ViewDataTable
 		$javascriptVariablesToSet['show_search'] = $this->getSearchBox();
 		$javascriptVariablesToSet['show_offset_information'] = $this->getOffsetInformation();
 		$javascriptVariablesToSet['show_exclude_low_population'] = $this->getExcludeLowPopulation();
-		$javascriptVariablesToSet['showAllColumns'] = $this->getShowAllColumns();
+		$javascriptVariablesToSet['showingAllColumns'] = $this->getShowingAllColumns();
+		$javascriptVariablesToSet['show_show_all_columns'] = $this->getShowAllColumns();
 		
 		// we escape the values that will be displayed in the javascript footer of each datatable
 		// to make sure there is malicious code injected (the value are already htmlspecialchar'ed as they
@@ -680,6 +687,22 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Whether or not to show the "View more data" icon
+	 * 
+	 * @return void
+	 */
+	public function disableShowAllColumns()
+	{
+		$this->JSshowAllColumns = false;
+	}
+	
+	public function getShowAllColumns()
+	{
+		return $this->JSshowAllColumns;
+	}
+	
+	
+	/**
 	 * @see disableExcludeLowPopulation()
 	 * 
 	 * @return bool|string If this parameter is enabled or not
@@ -776,16 +799,6 @@ abstract class Piwik_ViewDataTable
 	{
 		$this->variablesDefault['filter_sort_column']= $columnId;
 		$this->variablesDefault['filter_sort_order']= $order;
-	}
-	
-	/**
-	 * The 'label' column in the datatable will be safely url decoded. 
-	 *
-	 * @return void
-	 */
-	public function setSafeDecodeLabel()
-	{
-		$this->variablesDefault['filter_safe_decode_label'] = '1';
 	}
 	
 	/**

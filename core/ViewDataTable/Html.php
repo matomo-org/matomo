@@ -56,10 +56,10 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		$this->dataTableTemplate = 'CoreHome/templates/datatable.tpl';
 		
 		$this->variablesDefault['enable_sort'] = '1';
-		$this->variablesDefault['showAllColumns'] = '0';
-		if(Piwik_Common::getRequestVar('showAllColumns', '0', 'string') == '1')
+		$this->variablesDefault['showingAllColumns'] = '0';
+		if(Piwik_Common::getRequestVar('showingAllColumns', '0', 'string') == '1')
 		{
-			$this->setShowAllColumns();
+			$this->setShowingAllColumns();
 		}
 		
 		// load general columns translations
@@ -82,7 +82,7 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		
 		$this->loadDataTableFromAPI();
 		
-		if($this->getShowAllColumns())
+		if($this->getShowingAllColumns())
 		{
 			$this->setColumnsToDisplay(array('label', 
 											'nb_visits', 
@@ -121,7 +121,6 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		{
 			$nbColumns = count($this->columnsToDisplay);
 		}
-		
 		$view->nbColumns = $nbColumns;
 		
 		$view->id = $this->getUniqIdTable();
@@ -255,15 +254,15 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		return $this->setRecursiveLoadDataTableIfSearchingForPattern();
 	}
 	
-	protected function setShowAllColumns()
+	protected function setShowingAllColumns()
 	{
 		$this->variablesDefault['filter_add_columns_when_show_all_columns'] = '1';
-		$this->variablesDefault['showAllColumns'] = '1';
+		$this->variablesDefault['showingAllColumns'] = '1';
 	}
 	
-	protected function getShowAllColumns()
+	protected function getShowingAllColumns()
 	{
-		return $this->variablesDefault['showAllColumns'];
+		return $this->variablesDefault['showingAllColumns'];
 	}
 	
 	/**

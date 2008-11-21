@@ -22,6 +22,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
 		$view->disableSearchBox();
+		$view->disableShowAllColumns();
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -38,6 +39,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->disableOffsetInformation();
 		$view->disableSearchBox();
 		$view->disableSort();
+		$view->disableShowAllColumns();
 		
 		return $this->renderView($view, $fetch);
 	}
