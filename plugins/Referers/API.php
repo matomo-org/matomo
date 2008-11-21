@@ -111,20 +111,6 @@ class Piwik_Referers_API extends Piwik_Apiable
 		return $dataTable;
 	}
 
-	function getPartners($idSite, $period, $date, $expanded = false)
-	{
-		$dataTable = $this->getDataTable('Referers_urlByPartner',$idSite, $period, $date, $expanded);
-		return $dataTable;
-	}
-
-	function getUrlsFromPartnerId($idSite, $period, $date, $idSubtable)
-	{
-		$dataTable = $this->getDataTable('Referers_urlByPartner',$idSite, $period, $date, $expanded = false, $idSubtable);
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array( 'label', 'url', create_function('$label', 'return $label;')) );
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
-		return $dataTable;
-	}
-
 	function getNumberOfDistinctSearchEngines($idSite, $period, $date)
 	{
 		return $this->getNumeric('Referers_distinctSearchEngines', $idSite, $period, $date);
@@ -148,16 +134,6 @@ class Piwik_Referers_API extends Piwik_Apiable
 	function getNumberOfDistinctWebsitesUrls($idSite, $period, $date)
 	{
 		return $this->getNumeric('Referers_distinctWebsitesUrls', $idSite, $period, $date);
-	}
-
-	function getNumberOfDistinctPartners($idSite, $period, $date)
-	{
-		return $this->getNumeric('Referers_distinctPartners', $idSite, $period, $date);
-	}
-
-	function getNumberOfDistinctPartnersUrls($idSite, $period, $date)
-	{
-		return $this->getNumeric('Referers_distinctPartnersUrls', $idSite, $period, $date);
 	}
 
 	private function getNumeric($name, $idSite, $period, $date)

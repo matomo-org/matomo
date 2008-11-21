@@ -3,10 +3,10 @@
  * The script can be used to generate huge number of visits and actions
  * for a given number of days.
  */
-$minVisitors = 3;
-$maxVisitors = 7;
-$nbActions = 2;
-$daysToCompute = 70;
+$minVisitors = 300;
+$maxVisitors = 700;
+$nbActions = 3;
+$daysToCompute = 1;
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
