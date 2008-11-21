@@ -510,12 +510,12 @@ dataTable.prototype =
 				}
 		);
 		
-		$('#showAllColumns', domElem)
+		$('#showingAllColumns', domElem)
 			.show()
 			.click(
 				function(){
 					self.param.viewDataTable = 'table';
-					self.param.showAllColumns = $('img', this).attr('id') == 'showAllColumns' ? '1' : '0';
+					self.param.showingAllColumns = $('img', this).attr('id') == 'showingAllColumns' ? '1' : '0';
 					self.reloadAjaxDataTable();
 				}
 		);

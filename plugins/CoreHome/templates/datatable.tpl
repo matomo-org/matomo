@@ -1,5 +1,5 @@
 <div id="{$id}">
-	<div class="{if $javascriptVariablesToSet.showAllColumns}dataTableAllColumnsWrapper{else}dataTableWrapper{/if}">
+	<div class="{if $javascriptVariablesToSet.showingAllColumns}dataTableAllColumnsWrapper{else}dataTableWrapper{/if}">
 	{if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message} 
 	{else}

@@ -167,9 +167,7 @@ class Piwik_API_ResponseBuilder
 								'filter_offset' 			=> array('integer', '0'),
 								'filter_limit' 				=> array('integer', Zend_Registry::get('config')->General->dataTable_default_limit),
 						),
-			'SafeDecodeLabel' => array(
-								'filter_safe_decode_label'	=> array('integer')
-						),
+			'SafeDecodeLabel' => array(),
 		);
 		
 		return $genericFilters;

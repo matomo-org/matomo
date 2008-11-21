@@ -17,6 +17,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
 		$view->disableSort();
+		$view->disableShowAllColumns();
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -72,6 +73,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
 		$view->disableSort();
+		$view->disableShowAllColumns();
 		
 		return $this->renderView($view, $fetch);
 	}

@@ -1,4 +1,4 @@
-{if $javascriptVariablesToSet.showAllColumns 
+{if $javascriptVariablesToSet.showingAllColumns 
 	|| (isset($javascriptVariablesToSet.viewDataTable) && $javascriptVariablesToSet.viewDataTable != 'table')}
 {assign var=showSimpleTableIcon value=true}
 {/if}		
@@ -30,14 +30,15 @@
 			<span id="exportDataTableShow" style="display:none;padding-left:4px;">
 				<img src="{$piwikUrl}plugins/CoreHome/templates/images/more.png" />
 			</span>
-			
-			<span id="showAllColumns" style="display:none;float:right;padding-right:4px;border-right:1px solid #82A1D2;">
-			{if isset($showSimpleTableIcon)}
-				<img id="hideAllColumns" title="Display normal table" src="{$piwikUrl}themes/default/images/table.png" />
-			{else}
-				<img id="showAllColumns" title="Display more data" src="{$piwikUrl}themes/default/images/table_more.png" />
+			{if $javascriptVariablesToSet.show_show_all_columns}
+				<span id="showingAllColumns" style="display:none;float:right;padding-right:4px;border-right:1px solid #82A1D2;">
+				{if isset($showSimpleTableIcon)}
+					<img id="hidingAllColumns" title="Display normal table" src="{$piwikUrl}themes/default/images/table.png" />
+				{else}
+					<img id="showingAllColumns" title="Display more data" src="{$piwikUrl}themes/default/images/table_more.png" />
+				{/if}
+				</span>
 			{/if}
-			</span>
 		</span>
 
 		<span id="loadingDataTable"><img src="{$piwikUrl}themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
