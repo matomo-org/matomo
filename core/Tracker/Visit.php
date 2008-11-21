@@ -573,7 +573,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 *		- search_engine		-- based on the referer URL
 	 *		- campaign			-- based on campaign URL parameter
 	 *		- newsletter		-- based on newsletter URL parameter
-	 *		- partner			-- based on partner URL parameter
 	 *
 	 * - referer_name
 	 * 		- ()
@@ -581,7 +580,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * 		- google.fr			-- search engine host name
 	 * 		- adwords-search	-- campaign name
 	 * 		- beta-release		-- newsletter name
-	 * 		- my-nice-partner	-- partner name
 	 * 		
 	 * - referer_keyword
 	 * 		- ()
@@ -617,7 +615,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if( !empty($this->currentUrlParse['host']))
 		{
 			if(	$this->detectRefererNewsletter()
-				||	$this->detectRefererPartner()
 				||	$this->detectRefererCampaign() )
 			{
 				$refererDetected = true;
@@ -733,26 +730,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	}
 	
 	/*
-	 * Partner analysis
-	 */
-	protected function detectRefererPartner()
-	{
-		if(isset($this->currentUrlParse['query']))
-		{		
-			$partnerVariableName = Piwik_Tracker_Config::getInstance()->Tracker['partner_var_name'];
-			$partnerVar = Piwik_Common::getParameterFromQueryString($this->currentUrlParse['query'], $partnerVariableName);
-							
-			if(!empty($partnerVar))
-			{
-				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_PARTNER;
-				$this->nameRefererAnalyzed = $partnerVar;
-				
-				return true;
-			}
-		}
-	}
-	
-	/*
 	 * Campaign analysis
 	 */
 	protected function detectRefererCampaign()
@@ -783,7 +760,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	/*
 	 * Direct entry (referer host is similar to current host)
-	 * And we have previously tried to detect the newsletter/partner/campaign variables in the URL 
+	 * And we have previously tried to detect the newsletter/campaign variables in the URL 
 	 * so it can only be a direct access
 	 */
 	

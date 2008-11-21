@@ -46,7 +46,6 @@ class Piwik_Referers extends Piwik_Plugin
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'Referers', 'getKeywords', Piwik_Translate('Referers_WidgetKeywords'));
-		Piwik_AddWidget( 'Referers', 'getPartners', Piwik_Translate('Referers_WidgetPartners'));
 		Piwik_AddWidget( 'Referers', 'getCampaigns', Piwik_Translate('Referers_WidgetCampaigns'));
 		Piwik_AddWidget( 'Referers', 'getWebsites', Piwik_Translate('Referers_WidgetExternalWebsites'));
 		Piwik_AddWidget( 'Referers', 'getSearchEngines', Piwik_Translate('Referers_WidgetSearchEngines'));
@@ -59,7 +58,6 @@ class Piwik_Referers extends Piwik_Plugin
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuSearchEngines', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'getWebsites'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'getCampaigns'));
-		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuPartners', array('module' => 'Referers', 'action' => 'getPartners'));	
 		//Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers', 'action' => 'getSearchEnginesEvolution'));
 	}
 	
@@ -73,7 +71,6 @@ class Piwik_Referers extends Piwik_Plugin
 			'Referers_searchEngineByKeyword',
 			'Referers_keywordByCampaign',
 			'Referers_urlByWebsite',
-			'Referers_urlByPartner',
 		);
 		
 		$maximumRowsInDataTableLevelZero = 500;
@@ -100,14 +97,6 @@ class Piwik_Referers extends Piwik_Plugin
 			'Referers_distinctWebsitesUrls' => 
 						array( 	'typeCountToUse' => 'recursive',
 								'nameTableToUse' => 'Referers_urlByWebsite',
-							),
-			'Referers_distinctPartners' => 
-						array( 	'typeCountToUse' => 'level0',
-								'nameTableToUse' => 'Referers_urlByPartner',
-							),
-			'Referers_distinctPartnersUrls' => 
-						array( 	'typeCountToUse' => 'recursive',
-								'nameTableToUse' => 'Referers_urlByPartner',
 							),
 		);
 
@@ -159,15 +148,12 @@ class Piwik_Referers extends Piwik_Plugin
 			$keywordBySearchEngine =
 			$searchEngineByKeyword =
 			$interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE] =
-			$interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER] =
 			$urlByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE] =
-			$urlByWebsite[Piwik_Common::REFERER_TYPE_PARTNER] =
 			$interestByNewsletter =
 			$keywordByCampaign =
 			$interestByCampaign =
 			$interestByType = 
-			$distinctUrls[Piwik_Common::REFERER_TYPE_WEBSITE] =
-			$distinctUrls[Piwik_Common::REFERER_TYPE_PARTNER] = array();
+			$distinctUrls[Piwik_Common::REFERER_TYPE_WEBSITE] = array();
 		
 		while($rowBefore = $query->fetch() )
 		{
@@ -200,7 +186,6 @@ class Piwik_Referers extends Piwik_Plugin
 				break;
 				
 				case Piwik_Common::REFERER_TYPE_WEBSITE:
-				case Piwik_Common::REFERER_TYPE_PARTNER:
 					
 					if(!isset($interestByWebsite[$row['referer_type']][$row['referer_name']])) $interestByWebsite[$row['referer_type']][$row['referer_name']]= $archiveProcessing->getNewInterestRow();
 					$archiveProcessing->updateInterestStats( $row, $interestByWebsite[$row['referer_type']][$row['referer_name']]);
@@ -242,8 +227,6 @@ class Piwik_Referers extends Piwik_Plugin
 		$numberOfDistinctCampaigns = count($interestByCampaign);
 		$numberOfDistinctWebsites = count($interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE]);
 		$numberOfDistinctWebsitesUrls = count($distinctUrls[Piwik_Common::REFERER_TYPE_WEBSITE]);
-		$numberOfDistinctPartners = count($interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER]);
-		$numberOfDistinctPartnersUrls = count($distinctUrls[Piwik_Common::REFERER_TYPE_PARTNER]);
 		
 		$numericRecords = array(
 			'Referers_distinctSearchEngines'	=> $numberOfDistinctSearchEngines,
@@ -251,8 +234,6 @@ class Piwik_Referers extends Piwik_Plugin
 			'Referers_distinctCampaigns'		=> $numberOfDistinctCampaigns,
 			'Referers_distinctWebsites'			=> $numberOfDistinctWebsites,
 			'Referers_distinctWebsitesUrls'		=> $numberOfDistinctWebsitesUrls,
-			'Referers_distinctPartners'			=> $numberOfDistinctPartners,
-			'Referers_distinctPartnersUrls'		=> $numberOfDistinctPartnersUrls,
 		);
 		foreach($numericRecords as $name => $value)
 		{
@@ -276,8 +257,5 @@ class Piwik_Referers extends Piwik_Plugin
 		
 		$data = $archiveProcessing->getDataTablesSerialized($urlByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE], $interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE], $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_urlByWebsite', $data);
-		
-		$data = $archiveProcessing->getDataTablesSerialized($urlByWebsite[Piwik_Common::REFERER_TYPE_PARTNER], $interestByWebsite[Piwik_Common::REFERER_TYPE_PARTNER], $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_urlByPartner', $data);
 	}
 }
