@@ -567,8 +567,8 @@ dataTable.prototype =
 			{
 				imgToPrepend = '<img width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="'+self.param.pathToPiwik+'themes/default/images/link.gif" /> ';
 			}
-			var urlToLink = $('#urlLink',this).text();		
-			
+			var urlToLink = $('#urlLink',this).html();
+
 			if( urlToLink.match("javascript:") )
 			{
 				$(this).html( '<a href="#" onClick="' + urlToLink.replace("javascript:","") + '">' + imgToPrepend + $(this).html() + '</a>');				
