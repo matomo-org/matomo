@@ -78,7 +78,7 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 		{
 			$numeric = $archive->getNumeric( $name ) ;
 			$subTable = new Piwik_DataTable_Simple();
-			$subTable->loadFromArray( array( $numeric ) );
+			$subTable->addRowsFromArray( array( $numeric ) );
 			$table->addTable($subTable, $this->getDataTableLabelValue($archive));
 			
 			$this->loadMetadata($table, $archive);
@@ -107,7 +107,7 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 		{
 			$blob = $archive->getBlob( $name ) ;
 			$subTable = new Piwik_DataTable_Simple();
-			$subTable->loadFromArray( array('blob' => $blob));
+			$subTable->addRowsFromArray( array('blob' => $blob));
 			$table->addTable($subTable, $this->getDataTableLabelValue($archive));
 			
 			$this->loadMetadata($table, $archive);

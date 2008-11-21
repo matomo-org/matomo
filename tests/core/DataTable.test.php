@@ -121,11 +121,11 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  	
 		$this->assertEqual(array_keys($serialized), array($idsubsubtable,$idsubtable,0));
 		$tableAfter = new Piwik_DataTable;
-		$tableAfter->loadFromSerialized($serialized[0]);
+		$tableAfter->addRowsFromSerializedArray($serialized[0]);
 		$this->assertEqual($table->getRows(),$tableAfter->getRows());
 
 		$subsubtableAfter = new Piwik_DataTable;
-		$subsubtableAfter->loadFromSerialized($serialized[$idsubsubtable]);
+		$subsubtableAfter->addRowsFromSerializedArray($serialized[$idsubsubtable]);
 		$this->assertEqual($subsubtable->getRows(),$subsubtableAfter->getRows());
 		
 		
@@ -154,7 +154,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'238975247578949')),
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')));
 	  	
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	
 	  	$this->assertEqual( $table->getRowsCount(), count($rows));
 	  	$this->assertEqual( $table->getRowsCountRecursive(), count($rows));
@@ -184,7 +184,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'ask')),
 	  		array( $idcol => array('label'=>'238975247578949')),
 	  	);
-	  	$tableSubOfSubOfRow1->loadFromArray( $rows1sub );
+	  	$tableSubOfSubOfRow1->addRowsFromArray( $rows1sub );
 	  	
 		// table to go in row1
 	 	$tableSubOfRow1 = new Piwik_DataTable;
@@ -193,7 +193,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'ask')),
 	  		array( $idcol => array('label'=>'238975247578949')),
 	  	);
-	  	$tableSubOfRow1->loadFromArray( $rows1 );
+	  	$tableSubOfRow1->addRowsFromArray( $rows1 );
 	  	
 		// table to go in row2
 	 	$tableSubOfRow2 = new Piwik_DataTable;
@@ -204,7 +204,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'agaegaesk')),
 	  		array( $idcol => array('label'=>'23g  8975247578949')),
 	  	);
-	  	$tableSubOfRow2->loadFromArray( $rows2 );
+	  	$tableSubOfRow2->addRowsFromArray( $rows2 );
 	  	
 	 	// main parent table
 	 	$table = new Piwik_DataTable;
@@ -215,7 +215,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'row3'), 
 	  					$idsubtable => $tableSubOfRow2),
 	  	);
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 		
 	  	
 	  	$this->assertEqual( $table->getRowsCount(), count($rows));
@@ -330,7 +330,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'238975247578949')),
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')));
 	  	
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	
 	  	
 	 	$expectedtable = clone $table;
@@ -358,7 +358,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'238975247578949')),
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')));
 	  	
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	
 	  	
 	 	$expectedtable = clone $table;
@@ -387,7 +387,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
 	  		);
 	  	
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  		  	
 	 	$expectedtable = clone $table;
 	 	$expectedtable->deleteRows(array(0,1,6));
@@ -420,7 +420,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
 	  		);
 	  	
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  		  	
 	 	$expectedtable = clone $table;
 	 	$expectedtable->deleteRows(array(0,1,3,4,5,6));
@@ -452,7 +452,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
 	  		);
 	  	
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  		  	
 	 	$expectedtable = clone $table;
 	  	
@@ -484,7 +484,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
 	  		);
 	  	
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  		  	
 	 	$expectedtable = new Piwik_DataTable;
 	  	
@@ -516,7 +516,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'238975247578949')),//5
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
 	  		);
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	
 	  	$expectedtable = new Piwik_DataTable;
 	 	$rows = array(
@@ -528,10 +528,10 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')),//6
 	  		array( $idcol => array('label'=>'yahoo')),//3
 	  		);
-	  	$expectedtable->loadFromArray( $rows );
+	  	$expectedtable->addRowsFromArray( $rows );
 	  	
 	  	$expectedtableReverse = new Piwik_DataTable;
-	  	$expectedtableReverse->loadFromArray(array_reverse($rows));
+	  	$expectedtableReverse->addRowsFromArray(array_reverse($rows));
 	  		  	
 	 	$filter = new Piwik_DataTable_Filter_Sort($table, 'label', 'asc');
 	 	$this->assertTrue(Piwik_DataTable::isEqual($expectedtable,$table));
@@ -555,7 +555,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'tsk')),//1
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')),//2
 	  		);
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	
 	  	$expectedtable = new Piwik_DataTable;
 	 	$rows = array(
@@ -563,10 +563,10 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')),//2
 	  		array( $idcol => array('label'=>'tsk')),//1
 	  		);
-	  	$expectedtable->loadFromArray( $rows );
+	  	$expectedtable->addRowsFromArray( $rows );
 	  	
 	  	$expectedtableReverse = new Piwik_DataTable;
-	  	$expectedtableReverse->loadFromArray(array_reverse($rows));
+	  	$expectedtableReverse->addRowsFromArray(array_reverse($rows));
 	  	
 		$tableCopy = clone $table;
 		$this->assertTrue(Piwik_DataTable::isEqual($tableCopy, $table));
@@ -610,7 +610,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'238949', 	'nb_visits' => 0)),//5
 	  		array( $idcol => array('label'=>'Q*(%&*', 	'nb_visits' => 1)),//6
 	  		);
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	
 	  	$expectedtable = new Piwik_DataTable;
 	 	$rows = array(
@@ -622,10 +622,10 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'yahoo', 	'nb_visits' => 154)),//3
 	  		array( $idcol => array('label'=>'google', 	'nb_visits' => 897)),//0
 	  		);
-	  	$expectedtable->loadFromArray( $rows );
+	  	$expectedtable->addRowsFromArray( $rows );
 	  	
 	  	$expectedtableReverse = new Piwik_DataTable;
-	  	$expectedtableReverse->loadFromArray(array_reverse($rows));
+	  	$expectedtableReverse->addRowsFromArray(array_reverse($rows));
 	  		  	
 	 	$filter = new Piwik_DataTable_Filter_Sort($table, 'nb_visits', 'asc');
 	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtable));
@@ -655,7 +655,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'Q*(%&*', 	'nb_visits' => 1)),//6
 	  		array( $idcol => array('label'=>'Q*(%&*2', 	'nb_visits' => -1.5)),//6
 	  		);
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	
 	  	$expectedtable = new Piwik_DataTable;
 	 	$rows = array(
@@ -665,7 +665,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'yahoo', 	'nb_visits' => 154)),//3
 	  		array( $idcol => array('label'=>'amazon', 	'nb_visits' => 30)),//4
 		);
-	  	$expectedtable->loadFromArray( $rows );
+	  	$expectedtable->addRowsFromArray( $rows );
 	  	
 	 	$filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'nb_visits', 1.4);
 
@@ -718,7 +718,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  
 	  	$rowsExpected = array_merge($this->getRowsDataTable1ForTest(),$this->getRowsDataTable2ForTest());
 	  	$tableExpected = new Piwik_DataTable;
-	  	$tableExpected->loadFromArray( $rowsExpected );
+	  	$tableExpected->addRowsFromArray( $rowsExpected );
 	  	
 	  	$this->assertTrue( Piwik_DataTable::isEqual($table1, $tableExpected) );
 	}
@@ -738,7 +738,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
   		);	  	
 	 	$table = new Piwik_DataTable;
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	
 	  	
 		$rows2 = array(
@@ -748,7 +748,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'123', 'visits' => 2)),
   		);	  	
 	 	$table2 = new Piwik_DataTable;
-	  	$table2->loadFromArray( $rows2 );
+	  	$table2->addRowsFromArray( $rows2 );
 	  
 	  	$table->addDataTable($table2);
 	  
@@ -761,7 +761,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
   		);	  	
 	  	$tableExpected = new Piwik_DataTable;
-	  	$tableExpected->loadFromArray( $rowsExpected );
+	  	$tableExpected->addRowsFromArray( $rowsExpected );
 	  	
 	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
 	}
@@ -780,7 +780,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
   		);	  	
 	 	$table = new Piwik_DataTable;
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	
 	  	
 		$rows2 = array(
@@ -790,7 +790,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 8))
   		);	  	
 	 	$table2 = new Piwik_DataTable;
-	  	$table2->loadFromArray( $rows2 );
+	  	$table2->addRowsFromArray( $rows2 );
 	  
 	  	$table->addDataTable($table2);
 	  
@@ -801,7 +801,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 15))
   		);	  	
 	  	$tableExpected = new Piwik_DataTable;
-	  	$tableExpected->loadFromArray( $rowsExpected );
+	  	$tableExpected->addRowsFromArray( $rowsExpected );
 	  	
 	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
 	}
@@ -821,7 +821,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 1))
   		);	  	
 	 	$table = new Piwik_DataTable;
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	
 	  	
 		$rows2 = array(
@@ -830,7 +830,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		array( $idcol => array('label'=>'123456', 'visits' => 1.5)),
   		);	  	
 	 	$table2 = new Piwik_DataTable;
-	  	$table2->loadFromArray( $rows2 );
+	  	$table2->addRowsFromArray( $rows2 );
 	  
 	  	
 		$rows3 = array(
@@ -840,7 +840,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 3))
   		);	  	
 	 	$table3 = new Piwik_DataTable;
-	  	$table3->loadFromArray( $rows3 );
+	  	$table3->addRowsFromArray( $rows3 );
 	  	
 		// add the 2 tables
 	  	$table->addDataTable($table2);
@@ -856,7 +856,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol  => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'visits' => 4))
   		);
 	  	$tableExpected = new Piwik_DataTable;
-	  	$tableExpected->loadFromArray( $rowsExpected );
+	  	$tableExpected->addRowsFromArray( $rowsExpected );
 	  	
 	  	$this->assertTrue( Piwik_DataTable::isEqual($table, $tableExpected) );
 	}
@@ -865,7 +865,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	{
 		$rows = $this->getRowsDataTable1ForTest();
 	 	$table = new Piwik_DataTable;
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	return $table;
 	}
 
@@ -873,7 +873,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	{
 		$rows = $this->getRowsDataTable2ForTest();	
 	 	$table = new Piwik_DataTable;
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	return $table;
 	}
 	

@@ -31,7 +31,7 @@ class Test_Piwik_DataTable_Filter_Limit extends UnitTestCase
 	  		array( $idcol => array('label'=>'great', 	'idRow' => 8)),
 	  		Piwik_DataTable::ID_SUMMARY_ROW => array( $idcol => array('label'=>'summary row',	'idRow' => 9)),
 	  		);
-	  	$table->loadFromArray( $rows );
+	  	$table->addRowsFromArray( $rows );
 	  	return $table;
 	}
 	

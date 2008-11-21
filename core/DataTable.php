@@ -91,7 +91,7 @@ require_once "DataTable/Manager.php";
  * ---- Code example
  * 
  * $table = new DataTable;
- * $table->loadFromArray( array(...) );
+ * $table->addRowsFromArray( array(...) );
  * 
  * # sort the table by visits asc
  * $filter = new DataTable_Filter_Sort( $table, 'visits', 'asc');
@@ -464,7 +464,7 @@ class Piwik_DataTable
 	 */
 	public function addRowFromArray( $row )
 	{
-		$this->loadFromArray(array($row));
+		$this->addRowsFromArray(array($row));
 	}
 
 	/**
@@ -474,7 +474,7 @@ class Piwik_DataTable
 	 */
 	public function addRowFromSimpleArray( $row )
 	{
-		$this->loadFromSimpleArray(array($row));
+		$this->addRowsFromSimpleArray(array($row));
 	}
 
 	/**
@@ -494,6 +494,21 @@ class Piwik_DataTable
 		}
 	}
 
+	/**
+	 * Returns the array containing all rows values for the requested column
+	 *
+	 * @return array 
+	 */
+	public function getColumn( $name )
+	{
+		$columnValues = array();
+		foreach($this->getRows() as $row)
+		{
+			$columnValues[] = $row->getColumn($name);
+		}
+		return $columnValues;
+	}
+	
 	/**
 	 * Returns the number of rows in the table
 	 * 
@@ -802,14 +817,14 @@ class Piwik_DataTable
 	  * @param string Serialized string of a datatable
 	  * @return void
 	  */
-	public function loadFromSerialized( $stringSerialized )
+	public function addRowsFromSerializedArray( $stringSerialized )
 	{
 		$serialized = unserialize($stringSerialized);
 		if($serialized === false)
 		{
 			throw new Exception("The unserialization has failed!");
 		}
-		$this->loadFromArray($serialized);
+		$this->addRowsFromArray($serialized);
 	}
 
 	/**
@@ -830,8 +845,7 @@ class Piwik_DataTable
 	 * 			)
 	 * @return void
 	 */
-	//TODO rename addRowsFromArray
-	public function loadFromArray( $array )
+	public function addRowsFromArray( $array )
 	{
 		foreach($array as $id => $row)
 		{
@@ -861,7 +875,7 @@ class Piwik_DataTable
 	 * 			array( col1_name => valueB, col2_name => valueD, ...), 
 	 *		)
 	 */
-	public function loadFromSimpleArray( $array )
+	public function addRowsFromSimpleArray( $array )
 	{
 		if(count($array) === 0)
 		{
@@ -981,7 +995,7 @@ class Piwik_DataTable
 	 * 
 	 * @return void
 	 */
-	public function loadFromArrayLabelIsKey( $array, $subtablePerLabel = null)
+	public function addRowsFromArrayWithIndexLabel( $array, $subtablePerLabel = null)
 	{
 		$cleanRow = array();
 		foreach($array as $label => $row)

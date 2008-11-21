@@ -32,7 +32,7 @@ class Piwik_DataTable_Simple extends Piwik_DataTable
 	 * 	)
 	 * @return void
 	 */
-	function loadFromArray($array)
+	function addRowsFromArray($array)
 	{
 		foreach($array as $label => $value)
 		{

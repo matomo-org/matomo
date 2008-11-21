@@ -45,14 +45,28 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	
 	function sort($a, $b)
 	{
-		return isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
-				&& isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] )
-				&& $this->sign * 
-					($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
-						< $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
-				? -1 
-				: 1
-			);
+		return 
+					(
+						(!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+							&&  !isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+						)
+						? 0 
+						: (
+							!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+							? 1
+							:(
+							 	!isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+								? -1
+								: $this->sign * ( 
+									$a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
+										< $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
+									? -1 
+									: 1
+								)
+							)
+						)
+					)
+				;
 	}
 	
 	function naturalSort($a, $b)
