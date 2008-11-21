@@ -189,7 +189,7 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 			're' => array('afr'),
 			'ro' => array('eur'),
 			'ru' => array('asi'),
-			'rs' => array('asi'),
+			'rs' => array('eur'),
 			'rw' => array('afr'),
 			'sa' => array('asi'),
 			'sb' => array('oce'),

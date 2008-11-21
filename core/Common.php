@@ -562,6 +562,8 @@ class Piwik_Common
 		$replaceLangCodeByCountryCode = array(
 		// replace cs language (Serbia Montenegro country code) with czech country code
 			'cs' => 'cz',
+		// replace sr language (Surinam country code) with serbia country code
+			'sr' => 'rs',
 		// replace sv language (El Salvador country code) with sweden country code
 			'sv' => 'se',
 		// replace fa language (Unknown country code) with Iran country code
