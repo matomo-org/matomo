@@ -77,7 +77,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
-
+		
 		return $this->renderView($view, $fetch);
 	}
 	
