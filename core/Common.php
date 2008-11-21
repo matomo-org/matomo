@@ -10,7 +10,7 @@
  */
 
 /**
- * Static class providing functions used by both the CORE of Piwik and the visitor logging engine.
+ * Static class providing functions used by both the CORE of Piwik and the visitor Tracking engine.
  *
  * This is the only external class loaded by the /piwik.php file.
  * This class should contain only the functions that are used in
@@ -392,7 +392,6 @@ class Piwik_Common
 	 */
 	static public function getBrowserInfo($userAgent)
 	{
-
 		require_once "core/DataFiles/Browsers.php";
 
 		$browsers = $GLOBALS['Piwik_BrowserList'];
@@ -560,10 +559,6 @@ class Piwik_Common
 	 */
 	static public function getCountry( $lang )
 	{
-		require_once "core/DataFiles/Countries.php";
-
-		$countryList = $GLOBALS['Piwik_CountryList'];
-
 		$replaceLangCodeByCountryCode = array(
 		// replace cs language (Serbia Montenegro country code) with czech country code
 			'cs' => 'cz',
@@ -593,16 +588,23 @@ class Piwik_Common
 					array_values($replaceLangCodeByCountryCode),
 					$lang
 				);
-		$validLanguages = array_keys($countryList);
-		return Piwik_Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages);
+		
+		$validCountries = self::getCountriesList();
+		return Piwik_Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validCountries);
 	}
 	
-	static public function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
+	static public function getCountriesList()
+	{
+		require_once "core/DataFiles/Countries.php";
+		return array_keys($GLOBALS['Piwik_CountryList']);
+	}
+	
+	static public function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validCountries)
 	{
 		// Ex: "fr"
 		if(strlen($browserLanguage) == 2)
 		{
-			if(in_array($browserLanguage, $validLanguages))
+			if(in_array($browserLanguage, $validCountries))
 			{
 				return $browserLanguage;
 			}
@@ -614,14 +616,14 @@ class Piwik_Common
 		{
 			// in 'fr,en-us', keep first two chars
 			$domain = substr($browserLanguage, 0, 2);
-			if(in_array($domain, $validLanguages))
+			if(in_array($domain, $validCountries))
 			{
 				return $domain;
 			}
 
 			// catch the second language Ex: "fr" in "en,fr"
 			$domain = substr($browserLanguage, 3, 2);
-			if(in_array($domain, $validLanguages))
+			if(in_array($domain, $validCountries))
 			{
 				return $domain;
 			}
@@ -632,7 +634,7 @@ class Piwik_Common
 		if($off !== false)
 		{
 			$domain = substr($browserLanguage, $off + 1, 2);
-			if(in_array($domain, $validLanguages))
+			if(in_array($domain, $validCountries))
 			{
 				return $domain;
 			}
@@ -642,7 +644,7 @@ class Piwik_Common
 		if(preg_match("/^[a-z]{2};q=[01]\.[0-9],(?P<domain>[a-z]{2});/", $browserLanguage, $parts))
 		{
 			$domain = $parts['domain'];
-			if(in_array($domain, $validLanguages))
+			if(in_array($domain, $validCountries))
 			{
 				return $domain;
 			}
@@ -650,7 +652,7 @@ class Piwik_Common
 
 		// finally try with the first ever langage code
 		$domain = substr($browserLanguage, 0, 2);
-		if(in_array($domain, $validLanguages))
+		if(in_array($domain, $validCountries))
 		{
 			return $domain;
 		}

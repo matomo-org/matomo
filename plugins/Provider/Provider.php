@@ -109,10 +109,17 @@ class Piwik_Provider extends Piwik_Plugin
 		$visitorInfo =& $notification->getNotificationObject();
 		
 		$hostname = $this->getHost($visitorInfo['location_ip']);
-		$hostnameExtension = $this->getHostnameExt($hostname);
+		$hostnameExtension = $this->getCleanHostname($hostname);
 		
-		// add the value to save in the table log_visit
+		// add the provider value in the table log_visit
 		$visitorInfo['location_provider'] = $hostnameExtension;
+
+		// improve the country using the provider extension if valid
+		$hostnameDomain = substr($hostnameExtension, 1 + strrpos($hostnameExtension, '.'));
+		if(in_array($hostnameDomain, Piwik_Common::getCountriesList()))
+		{
+			$visitorInfo['location_country'] = $hostnameDomain;
+		}
 	}
 	
 	/**
@@ -123,7 +130,7 @@ class Piwik_Provider extends Piwik_Plugin
 	 * 
 	 * @return string
 	 */
-	private function getHostnameExt($hostname)
+	private function getCleanHostname($hostname)
 	{
 		$extToExclude = array(
 			'com', 'net', 'org', 'co'
