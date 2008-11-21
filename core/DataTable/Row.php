@@ -115,7 +115,7 @@ class Piwik_DataTable_Row
 		{
 			if(is_string($value))
 			{
-				$name = "'$value'";
+				$value = "'$value'";
 			}
 			$metadata[] = "'$name' => $value";
 		}
