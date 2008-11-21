@@ -18,14 +18,14 @@ UI fixes + adjustements
 - bounce count should be bounce rate
 - idem in 222 times that a returning visit has bounced (left the site after one page) 
 - show new vs returning more clearly in UI
+- calendar CSS on API page
+- WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
 - see also #421
 
 Following up show all columns new UI element
 ====
-- WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
-- calendar CSS on API page
+- disable show icon all columns for some reports, ie. Visits per visit duration, and downloads/outlinks
 - disable show icon in some iframes and/or dashboard 
-- disable show icon all columns for some reports, ie. Visits per visit duration
 - exclude low population broken!
 - default sorting order icon is not shown anymore
 - labels for datatable actions are ugly
