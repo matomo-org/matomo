@@ -1,9 +1,9 @@
 UI fixes + adjustements
 ====
+- kill partner
 - rss user agent piwik Piwik (version)
 - write test to make sure deployement don't include logger in file/db/etc
 - write test to check disabled db plugin default
-- show version number in UI in the red text
 - search inside datatable doesnt really work eg. "web analytics" restore regex search
 - bounce count should be bounce rate
 - idem in 222 times that a returning visit has bounced (left the site after one page) 
