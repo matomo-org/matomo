@@ -139,10 +139,6 @@ download_outlink_name_var   = name
 ; Example: If a visitor first visits 'index.php?piwik_nl=Great offer' then it will be counted as a newsletter referer for the newsletter 'Great offer'  
 newsletter_var_name			= piwik_nl
 
-; variable name to track a referer coming from a partner website. 
-; Example: If a visitor first visits 'index.php?piwik_partner=Amazon' then it will be counted as a partner referer with the name 'Amazon'  
-partner_var_name			= piwik_partner
-
 ; variable name to track any campaign, for example CPC campaign
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referer named 'Adwords-CPC'
 campaign_var_name			= piwik_campaign

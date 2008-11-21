@@ -209,7 +209,6 @@ $translations = array(
 	'Referers_OtherDistinctSearchEngines' => '%s eindeutige Suchmaschinen',
 	'Referers_OtherDistinctKeywords' => '%s eindeutige Suchbegriffe',
 	'Referers_OtherDistinctWebsites' => '%1s eindeutige Webseiten (bei %2s eindeutigen URLs)',
-	'Referers_OtherDistinctPartners' => '%1s eindeutige Partner (bei %2s eindeutigen URLs)',
 	'Referers_OtherDistinctCampaigns' => '%s eindeutige Kampagnen',
 	'Referers_TagCloud' => 'Ausgabe als Schlagwortwolke',
 	'Referers_SubmenuEvolution' => 'Entwicklung',

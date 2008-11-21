@@ -158,7 +158,6 @@ $translations = array(
 	'Referers_SubmenuWebsites' => 'Websites',
 	'Referers_SubmenuCampaigns' => 'Campaigns',
 	'Referers_WidgetKeywords' => 'List of Keywords',
-	'Referers_WidgetPartners' => 'List of Partners',
 	'Referers_WidgetCampaigns' => 'List of Campaigns',
 	'Referers_WidgetExternalWebsites' => 'List of external Websites',
 	'Referers_WidgetSearchEngines' => 'Best search engines',
