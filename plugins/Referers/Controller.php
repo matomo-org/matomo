@@ -13,8 +13,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->numberDistinctKeywords 		= $this->getNumberOfDistinctKeywords(true);
 		$view->numberDistinctWebsites 		= $this->getNumberOfDistinctWebsites(true);
 		$view->numberDistinctWebsitesUrls 	= $this->getNumberOfDistinctWebsitesUrls(true);
-		$view->numberDistinctPartners 		= $this->getNumberOfDistinctPartners(true);
-		$view->numberDistinctPartnersUrls 	= $this->getNumberOfDistinctPartnersUrls(true);
 		$view->numberDistinctCampaigns 		= $this->getNumberOfDistinctCampaigns(true);
 		
 		// building the referers summary report 
@@ -31,13 +29,11 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->urlSparklineWebsites 		= $this->getUrlSparkline('getLastWebsitesGraph');
 		$view->urlSparklineCampaigns 		= $this->getUrlSparkline('getLastCampaignsGraph');
 		$view->urlSparklineNewsletters 		= $this->getUrlSparkline('getLastNewslettersGraph');
-		$view->urlSparklinePartners 		= $this->getUrlSparkline('getLastPartnersGraph');
 		
 		// sparklines for the evolution of the distinct keywords count/websites count/ etc
 		$view->urlSparklineDistinctSearchEngines 	= $this->getUrlSparkline('getLastDistinctSearchEnginesGraph');
 		$view->urlSparklineDistinctKeywords 		= $this->getUrlSparkline('getLastDistinctKeywordsGraph');
 		$view->urlSparklineDistinctWebsites 		= $this->getUrlSparkline('getLastDistinctWebsitesGraph');
-		$view->urlSparklineDistinctPartners 		= $this->getUrlSparkline('getLastDistinctPartnersGraph');
 		$view->urlSparklineDistinctCampaigns 		= $this->getUrlSparkline('getLastDistinctCampaignsGraph');
 		
 		echo $view->render();
@@ -199,36 +195,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
-	function getPartners( $fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName,  	'getPartners', 
-											'Referers.getPartners',
-											'getUrlsFromPartnerId'
-								);
-		$view->disableSearchBox();
-		$view->disableExcludeLowPopulation();
-		$view->setLimit( 5 );
-		
-		$view->setColumnsToDisplay( array('label','nb_visits') );
-		
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getUrlsFromPartnerId( $fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, 	'getUrlsFromPartnerId', 
-											'Referers.getUrlsFromPartnerId'
-								);
-		$view->disableSearchBox();
-		$view->disableExcludeLowPopulation();
-		$view->setColumnsToDisplay( array('label','nb_visits') );
-
-		return $this->renderView($view, $fetch);
-	}
-	
-	
 	function getReferersType()
 	{
 		// we disable the queued filters because here we want to get the visits coming from search engines
@@ -252,7 +218,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 			'visitorsFromWebsites'  => Piwik_Common::REFERER_TYPE_WEBSITE,
 			'visitorsFromCampaigns' =>  Piwik_Common::REFERER_TYPE_CAMPAIGN,
 			'visitorsFromNewsletters' =>  Piwik_Common::REFERER_TYPE_NEWSLETTER,
-			'visitorsFromPartners' =>  Piwik_Common::REFERER_TYPE_PARTNER,
 		);
 		$return = array();
 		foreach($nameToColumnId as $nameVar => $columnId)
@@ -298,13 +263,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_NEWSLETTER, 'label');
 		return $this->renderView($view, $fetch);
 	}
-	function getLastPartnersGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, 'Referers.getRefererType');
-		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_PARTNER, 'label');
-		return $this->renderView($view, $fetch);
-	}
-	
 	function getLastDistinctSearchEnginesGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, "Referers.getNumberOfDistinctSearchEngines");
@@ -320,22 +278,15 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, "Referers.getNumberOfDistinctWebsites");
 		return $this->renderView($view, $fetch);
 	}
-	function getLastDistinctPartnersGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, "Referers.getNumberOfDistinctPartners");
-		return $this->renderView($view, $fetch);
-	}
 	function getLastDistinctCampaignsGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, "Referers.getNumberOfDistinctCampaigns");
 		return $this->renderView($view, $fetch);
 	}
-
 	function getNumberOfDistinctSearchEngines( $fetch = false)
 	{
 		return $this->getNumericValue('Referers.' . __FUNCTION__);
 	}
-
 	function getNumberOfDistinctKeywords( $fetch = false)
 	{
 		return $this->getNumericValue('Referers.' . __FUNCTION__);
@@ -349,14 +300,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->getNumericValue('Referers.' . __FUNCTION__);
 	}
 	function getNumberOfDistinctWebsitesUrls( $fetch = false)
-	{
-		return $this->getNumericValue('Referers.' . __FUNCTION__);
-	}
-	function getNumberOfDistinctPartners( $fetch = false)
-	{
-		return $this->getNumericValue('Referers.' . __FUNCTION__);
-	}
-	function getNumberOfDistinctPartnersUrls ( $fetch = false)
 	{
 		return $this->getNumericValue('Referers.' . __FUNCTION__);
 	}

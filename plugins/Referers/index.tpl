@@ -11,8 +11,6 @@
 			{'Referers_TypeDirectEntries'|translate:"<strong>$visitorsFromDirectEntry</strong>"}</span></p>
 			<p>{sparkline src=$urlSparklineSearchEngines}<span>
 			{'Referers_TypeSearchEngines'|translate:"<strong>$visitorsFromSearchEngines</strong>"}</span></p>
-			<p>{sparkline src=$urlSparklinePartners}<span>
-			{'Referers_TypePartners'|translate:"<strong>$visitorsFromPartners</strong>"}</span></p>
 		</td><td>
 			<p>{sparkline src=$urlSparklineWebsites}<span>
 			{'Referers_TypeWebsites'|translate:"<strong>$visitorsFromWebsites</strong>"}</span></p>
@@ -33,8 +31,6 @@
 		</td><td>
 			<p>{sparkline src=$urlSparklineDistinctWebsites}<span>
 			{'Referers_OtherDistinctWebsites'|translate:"<strong>$numberDistinctWebsites</strong>":"<strong>$numberDistinctWebsitesUrls</strong>"}</span></p>
-			<p>{sparkline src=$urlSparklineDistinctPartners}<span>
-			{'Referers_OtherDistinctPartners'|translate:"<strong>$numberDistinctPartners</strong>":"<strong>$numberDistinctPartnersUrls</strong>"}</span></p>
 			<p>{sparkline src=$urlSparklineDistinctCampaigns}<span> 
 			{'Referers_OtherDistinctCampaigns'|translate:"<strong>$numberDistinctCampaigns</strong>"}</span></p>
 			</td></tr>

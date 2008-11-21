@@ -66,9 +66,6 @@ function Piwik_getRefererTypeLabel($label)
 		case Piwik_Common::REFERER_TYPE_WEBSITE:
 			$indexTranslation = 'Referers_Websites';
 			break;
-		case Piwik_Common::REFERER_TYPE_PARTNER:
-			$indexTranslation = 'Referers_Partners';
-			break;
 		case Piwik_Common::REFERER_TYPE_NEWSLETTER:
 			$indexTranslation = 'Referers_Newsletters';
 			break;
