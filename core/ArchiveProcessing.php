@@ -297,7 +297,6 @@ abstract class Piwik_ArchiveProcessing
 	
 	/**
 	 * @see loadArchive()
-	 *
 	 */
 	protected function launchArchiving()
 	{
