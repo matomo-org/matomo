@@ -48,7 +48,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 				$table = new Piwik_DataTable_Simple();
 				if (array_key_exists($idSite, $values))
 				{
-					$table->loadFromArray($values[$idSite]);
+					$table->addRowsFromArray($values[$idSite]);
 				}
 				$tableArray->addTable($table, $idSite);
 			}

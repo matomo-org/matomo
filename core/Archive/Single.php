@@ -391,7 +391,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 		
 		$table = new Piwik_DataTable_Simple;
-		$table->loadFromArray($values);
+		$table->addRowsFromArray($values);
 		return $table;
 	}
 	
@@ -416,7 +416,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		
 		if($data !== false)
 		{
-			$table->loadFromSerialized($data);
+			$table->addRowsFromSerializedArray($data);
 		}
 		
 		if($data === false 

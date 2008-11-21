@@ -130,7 +130,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			$count = array($labelCount => $count);
 		}
 		$table = new Piwik_DataTable;
-		$table->loadFromArrayLabelIsKey($data);
+		$table->addRowsFromArrayWithIndexLabel($data);
 		return $table;
 	}
 	
@@ -191,7 +191,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		}
 
 		$table = new Piwik_DataTable;
-		$table->loadFromArrayLabelIsKey($interest);
+		$table->addRowsFromArrayWithIndexLabel($interest);
 		return $table;
 	}
 	
@@ -234,7 +234,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	
 	/**
 	 * Helper function that returns the serialized DataTable of the given PHP array.
-	 * The array must have the format of Piwik_DataTable::loadFromArrayLabelIsKey()
+	 * The array must have the format of Piwik_DataTable::addRowsFromArrayWithIndexLabel()
 	 * Example: 	array (
 	 * 	 				LABEL => array(col1 => X, col2 => Y),
 	 * 	 				LABEL2 => array(col1 => X, col2 => Y),
@@ -246,7 +246,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	public function getDataTableSerialized( $array )
 	{
 		$table = new Piwik_DataTable;
-		$table->loadFromArrayLabelIsKey($array );
+		$table->addRowsFromArrayWithIndexLabel($array );
 		$toReturn = $table->getSerialized();
 		return $toReturn;
 	}
@@ -282,11 +282,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		foreach($arrayLevel0 as $label => $aAllRowsForThisLabel)
 		{
 			$table = new Piwik_DataTable;
-			$table->loadFromArrayLabelIsKey($aAllRowsForThisLabel);
+			$table->addRowsFromArrayWithIndexLabel($aAllRowsForThisLabel);
 			$tablesByLabel[$label] = $table;
 		}
 		$parentTableLevel0 = new Piwik_DataTable;
-		$parentTableLevel0->loadFromArrayLabelIsKey($subArrayLevel1ByKey, $tablesByLabel);
+		$parentTableLevel0->addRowsFromArrayWithIndexLabel($subArrayLevel1ByKey, $tablesByLabel);
 
 		$toReturn = $parentTableLevel0->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
 		return $toReturn;

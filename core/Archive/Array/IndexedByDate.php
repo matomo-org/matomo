@@ -103,7 +103,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 
 		foreach($arrayValues as $timestamp => $aNameValues)
 		{
-			$contentArray[$timestamp]['table']->loadFromArray($aNameValues);
+			$contentArray[$timestamp]['table']->addRowsFromArray($aNameValues);
 		}
 		ksort( $contentArray );
 				

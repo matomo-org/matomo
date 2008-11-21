@@ -143,7 +143,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 			$nameToRow[$name]->sumRow( $row );
 		}
 		$tableWideScreen = new Piwik_DataTable;
-		$tableWideScreen->loadFromArray($nameToRow);
+		$tableWideScreen->addRowsFromArray($nameToRow);
 		
 		return $tableWideScreen;
 	}
@@ -164,7 +164,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		}
 		
 		$tableBrowserType = new Piwik_DataTable;
-		$tableBrowserType->loadFromArray($nameToRow);
+		$tableBrowserType->addRowsFromArray($nameToRow);
 		return $tableBrowserType;
 	}
 	

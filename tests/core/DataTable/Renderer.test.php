@@ -46,7 +46,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'sub2', 'count' => 2) ), 
 		);
 		$subDataTableForRow2 = new Piwik_DataTable();
-		$subDataTableForRow2->loadFromArray($arraySubTableForRow2);
+		$subDataTableForRow2->addRowsFromArray($arraySubTableForRow2);
 		
 		$subtable = 
 		$array = array ( 
@@ -59,7 +59,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 					 )
 			);
 		$dataTable = new Piwik_DataTable();
-		$dataTable->loadFromArray($array);
+		$dataTable->addRowsFromArray($array);
 		return $dataTable;
 	}
 	protected function getDataTableSimpleTest()
@@ -67,7 +67,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 		$array = array ( 'max_actions' => 14.0, 'nb_uniq_visitors' => 57.0, 'nb_visits' => 66.0, 'nb_actions' => 151.0, 'sum_visit_length' => 5118.0, 'bounce_count' => 44.0, );
 		
 		$table = new Piwik_DataTable_Simple;
-		$table->loadFromArray($array);
+		$table->addRowsFromArray($array);
 		return $table;
 	}
 	protected function getDataTableSimpleOneRowTest()
@@ -75,7 +75,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 		$array = array ( 'nb_visits' => 14.0 );
 		
 		$table = new Piwik_DataTable_Simple;
-		$table->loadFromArray($array);
+		$table->addRowsFromArray($array);
 		return $table;
 	}
 	protected function getDataTableEmpty()
@@ -88,7 +88,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 		$array = array ( 'nb_visits' => 0 );
 		
 		$table = new Piwik_DataTable_Simple;
-		$table->loadFromArray($array);
+		$table->addRowsFromArray($array);
 		return $table;
 	}
 	
@@ -385,7 +385,7 @@ bounce_count,44';
 					 )
 			);
 		$table1 = new Piwik_DataTable();
-		$table1->loadFromArray($array1);
+		$table1->addRowsFromArray($array1);
 		
 		
 		$array2 = array ( 
@@ -397,7 +397,7 @@ bounce_count,44';
 					 )
 			);
 		$table2 = new Piwik_DataTable();
-		$table2->loadFromArray($array2);
+		$table2->addRowsFromArray($array2);
 		
 		$table3 = new Piwik_DataTable();
 		
@@ -415,11 +415,11 @@ bounce_count,44';
 	{
 		$array1 = array ( 'max_actions' => 14.0, 'nb_uniq_visitors' => 57.0,  );
 		$table1 = new Piwik_DataTable_Simple;
-		$table1->loadFromArray($array1);
+		$table1->addRowsFromArray($array1);
 				
 		$array2 = array ( 'max_actions' => 140.0, 'nb_uniq_visitors' => 570.0,  );
 		$table2 = new Piwik_DataTable_Simple;
-		$table2->loadFromArray($array2);
+		$table2->addRowsFromArray($array2);
 		
 		$table3 = new Piwik_DataTable_Simple;
 		
@@ -436,10 +436,10 @@ bounce_count,44';
 	{
 		$array1 = array ( 'nb_visits' => 14.0 );
 		$table1 = new Piwik_DataTable_Simple;
-		$table1->loadFromArray($array1);
+		$table1->addRowsFromArray($array1);
 		$array2 = array ( 'nb_visits' => 15.0 );
 		$table2 = new Piwik_DataTable_Simple;
-		$table2->loadFromArray($array2);
+		$table2->addRowsFromArray($array2);
 		
 		$table3 = new Piwik_DataTable_Simple;
 		

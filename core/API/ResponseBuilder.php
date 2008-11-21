@@ -306,7 +306,7 @@ class Piwik_API_ResponseBuilder
 		
 		require_once "DataTable/Simple.php";
 		$dataTable = new Piwik_DataTable_Simple();
-		$dataTable->loadFromArray( array($scalar) );
+		$dataTable->addRowsFromArray( array($scalar) );
 		return $this->getRenderedDataTable($dataTable);
 	}
 
@@ -331,7 +331,7 @@ class Piwik_API_ResponseBuilder
 		if($this->outputFormat == 'original')
 		{
 			// we handle the serialization. Because some php array have a very special structure that 
-			// couldn't be converted with the automatic DataTable->loadFromSimpleArray
+			// couldn't be converted with the automatic DataTable->addRowsFromSimpleArray
 			// the user may want to request the original PHP data structure serialized by the API
 			// in case he has to setup serialize=1 in the URL
 			if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
@@ -342,7 +342,7 @@ class Piwik_API_ResponseBuilder
 		else
 		{
 			$dataTable = new Piwik_DataTable();
-			$dataTable->loadFromSimpleArray($array);
+			$dataTable->addRowsFromSimpleArray($array);
 			return $this->getRenderedDataTable($dataTable);
 		}
 	}
