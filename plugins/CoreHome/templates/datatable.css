@@ -71,7 +71,7 @@ table.dataTable th {
 	border-top: 1px solid #C1DAD7;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
-	background: #D4E3ED url(images/bg_header.jpg) no-repeat;
+	background: #D4E3ED url(images/bg_header.jpg) repeat-x;
 }
 
 table.dataTable th.columnSorted {
