@@ -950,6 +950,11 @@ class Piwik
 		Zend_Registry::set('db', $db);
 	}
 	
+	static public function disconnectDatabase()
+	{
+		Zend_Registry::get('db')->closeConnection();
+	}
+	
 	static public function getMysqlVersion()
 	{
 		return Zend_Registry::get('db')->fetchOne("SELECT VERSION()");

@@ -6,7 +6,6 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('UserSettings/index.tpl');
 		
-		/* User settings */		
 		$view->dataTablePlugin = $this->getPlugin( true );
 		$view->dataTableResolution = $this->getResolution( true );
 		$view->dataTableConfiguration = $this->getConfiguration( true );

@@ -20,14 +20,13 @@ class Test_Database extends UnitTestCase
 	{
 		Piwik::createConfigObject();
 		Piwik::createDatabaseObject();
-		
 		Zend_Registry::get('config')->setTestEnvironment();	
 		Zend_Registry::get('config')->doWriteFileWhenUpdated = false;
-		
 		Piwik::createLogObject();
-		
+
 		Piwik::dropTestDatabase();
 		Piwik::createDatabase();
+		Piwik::disconnectDatabase();
 		Piwik::createDatabaseObject();
 		Piwik::createTables();
 	}
@@ -37,9 +36,15 @@ class Test_Database extends UnitTestCase
 		$this->assertTrue(true);
 	}
 	
+	public function testHelloWorld2()
+	{
+		$this->assertTrue(true);
+	}
+	
 	public function tearDown()
 	{
 		Piwik::dropTestDatabase();
+		Piwik::disconnectDatabase();
 	}
 }
 
