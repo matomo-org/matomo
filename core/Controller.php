@@ -45,7 +45,7 @@ abstract class Piwik_Controller
 	{
 		$aPluginName = explode('_', get_class($this));
 		$this->pluginName = $aPluginName[1];
-		$this->strDate = Piwik_Common::getRequestVar('date', 'yesterday','string');
+		$this->strDate = Piwik_Common::getRequestVar('date', 'yesterday', 'string');
 		try{
 			// the date looks like YYYY-MM-DD we can build it
 			$this->date = Piwik_Date::factory($this->strDate);
