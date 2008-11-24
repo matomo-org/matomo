@@ -1,0 +1,47 @@
+<project name="piwik" default="all" basedir=".">
+
+	<property file="build.properties" />
+
+	<target name="clean">
+		<delete dir="${basedir}/../build" />
+	</target>
+
+	<target name="prepare-build-filesystem" depends="clean">
+		<mkdir dir="${basedir}/../build" />
+		<copy todir="${basedir}/../build">
+			<fileset dir="${basedir}/..">
+				<include name="config/**" />
+				<include name="core/**" />
+				<include name="lang/**" />
+				<include name="libs/**" />
+				<include name="misc/**" />
+				<include name="plugins/**" />
+				<include name="tests/**" />
+				<include name="themes/**" />
+				<include name="tmp/**" />
+				<include name="*.*" />
+				<include name="*" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="process-build-resources" depends="prepare-build-filesystem">
+		<copy file="${basedir}/config.ini.template.php" tofile="${basedir}/../build/config/config.ini.php" overwrite="true">
+			<filterset>
+				<filtersfile file="${basedir}/build.properties"/>
+			</filterset>
+		</copy>	
+	</target>
+	
+	<target name="test" depends="process-build-resources">
+		<mkdir dir="${basedir}/../build/test-results"/>
+		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="true" failifexecutionfails="true">		
+			<arg value="all_tests.php" />
+		</exec>
+	</target>
+
+	<target name="all">
+		<antcall target="test"/>
+	</target>
+	
+</project>
