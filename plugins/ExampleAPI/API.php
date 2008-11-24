@@ -33,6 +33,11 @@ class Piwik_ExampleAPI_API extends Piwik_Apiable
 		return self::$instance;
 	}
 
+	public function getPiwikVersion()
+	{
+		return Piwik_Version::VERSION;
+	}
+
 	public function getAnswerToLife()
 	{
 		return 42;
