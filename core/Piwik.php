@@ -567,7 +567,8 @@ class Piwik
 									  idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 									  name VARCHAR(255) NOT NULL,
   									  type TINYINT UNSIGNED NULL,
-									  PRIMARY KEY(idaction)
+									  PRIMARY KEY(idaction),
+									  INDEX index_type_name (type, name(15))
 						)
 			",
 					
@@ -606,8 +607,7 @@ class Piwik
 							  location_country CHAR(3) NOT NULL,
 							  location_continent CHAR(3) NOT NULL,
 							  PRIMARY KEY(idvisit),
-							  INDEX index_idsite(idsite),
-							  INDEX index_visit_server_date (visit_server_date)
+							  INDEX index_idsite_date (idsite, visit_server_date)
 							)
 			",		
 			
@@ -639,8 +639,8 @@ class Piwik
 			",
 								
 			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
-										idarchive INTEGER UNSIGNED NOT NULL,
-										name VARCHAR(255) NOT NULL,
+									  idarchive INTEGER UNSIGNED NOT NULL,
+									  name VARCHAR(255) NOT NULL,
 									  idsite INTEGER UNSIGNED NULL,
 									  date1 DATE NULL,
 								  	  date2 DATE NULL,
