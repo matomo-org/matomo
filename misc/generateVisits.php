@@ -3,10 +3,10 @@
  * The script can be used to generate huge number of visits and actions
  * for a given number of days.
  */
-$minVisitors = 300;
-$maxVisitors = 700;
+$minVisitors = 500;
+$maxVisitors = 1000;
 $nbActions = 3;
-$daysToCompute = 1;
+$daysToCompute = 20;
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
@@ -28,7 +28,13 @@ require_once "index.php";
 require_once "FrontController.php";
 
 $idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
-Piwik_FrontController::getInstance()->init();
+
+try {
+	Piwik_FrontController::getInstance()->init();
+} catch( Exception $e) {
+	echo $e->getMessage();
+	exit;
+}
 Piwik::checkUserIsSuperUser();
 
 require_once "PluginsManager.php";

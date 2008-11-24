@@ -9,8 +9,7 @@
  * @package Piwik_Visualization
  */
 
-require_once 'Smarty/Smarty.class.php';
-
+require_once "Smarty.php";
 require_once "iView.php";
 
 /**
@@ -27,7 +26,7 @@ class Piwik_View implements Piwik_iView
 	public function __construct( $templateFile, $smConf = array())
 	{
 		$this->template = $templateFile;
-		$this->smarty = new Smarty();
+		$this->smarty = new Piwik_Smarty();
 
 		if(count($smConf) == 0)
 		{

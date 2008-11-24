@@ -55,8 +55,8 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/demo">Piwik demo</a></li>
 						</ul>';
 	}
-	$headerPage = file_get_contents('themes/default/simple_structure_header.tpl');
-	$footerPage = file_get_contents('themes/default/simple_structure_footer.tpl');
+	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
+	$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
 	$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
 	$content = '<p>'.$message.'</p>'. $optionalTrace .' '. $optionalLinks;
 	

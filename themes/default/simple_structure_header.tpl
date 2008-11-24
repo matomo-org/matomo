@@ -6,5 +6,5 @@
 </head>
 <body>
 <div id="content">
-	<div id="title"><span id="h1">Piwik </span><span id="subh1"> # {'General_OpenSourceWebAnalytics'|translate}</span></div>
+	<div id="title"><span id="h1">Piwik </span><span id="subh1"> # open source web analytics</span></div>
 	
