@@ -46,14 +46,12 @@ abstract class Piwik_Controller
 		$aPluginName = explode('_', get_class($this));
 		$this->pluginName = $aPluginName[1];
 		$this->strDate = Piwik_Common::getRequestVar('date', 'yesterday','string');
-		
-		// the date looks like YYYY-MM-DD we can build it
 		try{
+			// the date looks like YYYY-MM-DD we can build it
 			$this->date = Piwik_Date::factory($this->strDate);
 			$this->strDate = $this->date->toString();
 		} catch(Exception $e){
 			// the date looks like YYYY-MM-DD,YYYY-MM-DD or other format
-			// case the date looks like a range
 			$this->date = null;
 		}
 	}
