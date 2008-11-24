@@ -134,7 +134,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		/* 
 		* send the Action object ($this)  and the list of ids ($info) as arguments to the event 
 		*/ 
-		Piwik_PostEvent('Tracker.Action.record', $this, $info); 
+		Piwik_PostEvent('Tracker.Action.record', $this, $info);
 	 }
 	 
 	 /**
