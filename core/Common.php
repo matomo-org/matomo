@@ -596,8 +596,13 @@ class Piwik_Common
 	
 	static public function getCountriesList()
 	{
-		require_once "core/DataFiles/Countries.php";
-		return array_keys($GLOBALS['Piwik_CountryList']);
+		static $countriesList = null;
+		if(is_null($countriesList))
+		{
+			require_once "core/DataFiles/Countries.php";
+			$countriesList = array_keys($GLOBALS['Piwik_CountryList']);
+		}
+		return $countriesList;
 	}
 	
 	static public function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validCountries)
