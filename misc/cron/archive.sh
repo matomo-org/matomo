@@ -1,12 +1,14 @@
 #!/bin/bash -e
 
-# run this cron for example every hour, content of your /etc/cron.d/piwik-archive
+# HOW TO SETUP THE CRONTAB JOB
+# Add the following lines in your crontab file, eg. /etc/cron.d/piwik-archive
 #MAILTO="youremail@example.com"
 #1 * * * * www-data /path/to/piwik/misc/cron/archive.sh > /dev/null
 
-# for high traffic websites, in config/global.ini.php
-# * time_before_archive_considered_outdated = 3600
-# * enable_browser_archiving_triggering = false
+# OPTIMIZATION FOR HIGH TRAFFIC WEBSITE
+# Please change the following settings in config/global.ini.php
+#  time_before_archive_considered_outdated = 3600
+#  enable_browser_archiving_triggering = false
 
 TOKEN_AUTH="" #you can get the token_auth from the Piwik admin UI (section Users, or section API)
 
