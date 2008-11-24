@@ -7,7 +7,7 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 	require_once PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
 
-require_once "core/Url.php";
+require_once "Url.php";
 
 class Test_Piwik_Url extends UnitTestCase
 {

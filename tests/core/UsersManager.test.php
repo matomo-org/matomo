@@ -10,7 +10,7 @@ require_once "Database.test.php";
 
 
 require 'UsersManager/API.php';
-require_once 'core/Site.php';
+require_once 'Site.php';
 
 class Test_Piwik_UsersManager extends Test_Database
 {

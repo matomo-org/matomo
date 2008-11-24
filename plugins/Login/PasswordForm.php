@@ -9,7 +9,7 @@
  * @package Piwik_Login
  */
 
-require_once "core/Form.php";
+require_once "Form.php";
 
 /**
  * 
