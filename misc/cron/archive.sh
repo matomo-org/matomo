@@ -3,7 +3,7 @@
 # HOW TO SETUP THE CRONTAB JOB
 # Add the following lines in your crontab file, eg. /etc/cron.d/piwik-archive
 #MAILTO="youremail@example.com"
-#1 * * * * www-data /path/to/piwik/misc/cron/archive.sh > /dev/null
+#5 0 * * * www-data /path/to/piwik/misc/cron/archive.sh > /dev/null
 
 # OPTIMIZATION FOR HIGH TRAFFIC WEBSITE
 # Please change the following settings in config/global.ini.php
