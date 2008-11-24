@@ -144,8 +144,8 @@ class Piwik_API_Proxy
 			// check method exists
 			$this->checkMethodExists($className, $methodName);
 			
-			// first check number of parameters do match
-			$this->checkNumberOfParametersMatch($className, $methodName, $parameterValues);
+			// all parameters to the function call must be non null
+			$this->checkParametersAreNotNull($className, $methodName, $parameterValues);
 			
 			// start the timer
 			$timer = new Piwik_Timer;
@@ -437,25 +437,22 @@ class Piwik_API_Proxy
 	{
 		return isset($this->api[$className][$methodName]);
 	}
-	
-	
-	/**
-	 * Checks that the count of the given parameters do match with the count of the required ones
-	 * 
-	 * @param string The class name
-	 * @param string The method name
-	 * @param array 
-	 * @throws exception If less parameters than required were given
-	 */
-	private function checkNumberOfParametersMatch($className, $methodName, $parameters)
-	{
-		$nbParamsGiven = count($parameters);
-		$nbParamsRequired = $this->getNumberOfRequiredParameters($className, $methodName);
 		
-		if($nbParamsGiven < $nbParamsRequired)
+	/**
+	 * Checks that all given parameters are not null
+	 * 
+	 * @param array of values
+	 * @throws exception If any parameter value is null
+	 */
+	private function checkParametersAreNotNull($className, $methodName, $parametersValues)
+	{
+		foreach($parametersValues as $value)
 		{
-			throw new Exception("The number of parameters provided ($nbParamsGiven) is less than the number of required parameters ($nbParamsRequired) for this method.
-							Please check the method API.");
+			if(is_null($value))
+			{
+				$nbParamsRequired = $this->getNumberOfRequiredParameters($className, $methodName);
+				throw new Exception("The parameters are not valid. The method called requires $nbParamsRequired parameters. Please check your URL and the method API.");
+			}
 		}
 	}
 	

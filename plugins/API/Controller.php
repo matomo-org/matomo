@@ -57,7 +57,5 @@ class Piwik_API_Controller extends Piwik_Controller
 		}
 		return $loaded;
 	}
-	
-	
 }
 
