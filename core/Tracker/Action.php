@@ -120,6 +120,21 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 						." (idvisit, idaction, idaction_ref, time_spent_ref_action) VALUES (?,?,?,?)",
 					array($idVisit, $this->idAction, $idRefererAction, $timeSpentRefererAction)
 					);
+		
+		$idLinkVisitAction = $this->db->lastInsertId(); 
+		
+		$info = array( 
+			'idSite' => $this->idSite, 
+			'idLinkVistAction' => $idLinkVisitAction, 
+			'idVisit' => $idVisit, 
+			'idRefererAction' => $idRefererAction, 
+			'timeSpentRefererAction' => $timeSpentRefererAction, 
+		); 
+		
+		/* 
+		* send the Action object ($this)  and the list of ids ($info) as arguments to the event 
+		*/ 
+		Piwik_PostEvent('Tracker.Action.record', $this, $info); 
 	 }
 	 
 	 /**
