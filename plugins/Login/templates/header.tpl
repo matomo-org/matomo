@@ -16,6 +16,7 @@
 		window.onload = focusit;
 	</script>
 	{/literal}
+	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico">
 	<link rel="stylesheet" href="plugins/Login/templates/login.css" type="text/css" media="screen" />
 </head>
 
