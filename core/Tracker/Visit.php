@@ -466,8 +466,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$defaultTimeOnePageVisit = Piwik_Tracker_Config::getInstance()->Tracker['default_time_one_page_visit'];
 		
 		$userInfo = $this->getUserSettingsInformation();
-		$country 		= Piwik_Common::getCountry($userInfo['location_browser_lang']);				
-		$continent		= Piwik_Common::getContinent( $country );
+		$country 		= Piwik_Common::getCountry($userInfo['location_browser_lang']);	
 														
 		$refererInfo = $this->getRefererInformation();
 		
@@ -514,11 +513,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_cookie' 		=> $userInfo['config_cookie'],
 			'location_ip' 			=> $userInfo['location_ip'],
 			'location_browser_lang' => $userInfo['location_browser_lang'],
-			'location_country' 		=> $country,
-			'location_continent' 	=> $continent,
+			'location_country' 		=> $country
 		);
 		
 		Piwik_PostEvent('Tracker.newVisitorInformation', $informationToSave);
+		$informationToSave['location_continent'] = Piwik_Common::getContinent( $informationToSave['location_country'] );		
 		
 		$fields = implode(", ", array_keys($informationToSave));
 		$values = substr(str_repeat( "?,",count($informationToSave)),0,-1);
