@@ -96,7 +96,12 @@ class Piwik_Updater
 				$pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*';
 			}
 			
-			foreach( glob( $pathToUpdates ) as $file)
+			$files = glob( $pathToUpdates );
+			if($files === false)
+			{
+				continue;
+			}
+			foreach( $files as $file)
 			{
 				$fileVersion = basename($file, '.php');
 				if(version_compare($currentVersion, $fileVersion) == -1)
