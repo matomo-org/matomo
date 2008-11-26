@@ -71,7 +71,7 @@ table.dataTable th {
 	border-top: 1px solid #C1DAD7;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
-	background: #D4E3ED url(images/bg_header.jpg) repeat-x;
+	background: #D4E3ED url(images/bg_header.jpg) no-repeat;
 }
 
 table.dataTable th.columnSorted {
@@ -255,7 +255,7 @@ table thead div {
 }
 
 #dataTableNext,#dataTablePrevious,#dataTableSearchPattern,#loadingDataTable
-	{
+{
 	display: none;
 }
 
@@ -288,7 +288,7 @@ table thead div {
 
 #loadingDataTable {
 	float: left;
-	font-size: 1em;
+	font-size: 0.9em;
 	color: #193B6C;
 	padding: 0.5em;
 }

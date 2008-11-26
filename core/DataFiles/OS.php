@@ -19,7 +19,7 @@ if(!isset($GLOBALS['Piwik_Oslist']))
 	$GLOBALS['Piwik_Oslist'] = array(
 						'Nintendo Wii'	 => 'WII',
 						'PlayStation Portable' => 'PSP',
-						'PLAYSTATION 3'  => 'PS3',
+						'PlayStation 3'  => 'PS3',
 						'Windows NT 6.0' => 'WVI',
 						'Windows Vista'  => 'WVI',
 						'Windows NT 5.2' => 'WS3',

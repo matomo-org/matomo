@@ -8,6 +8,11 @@ require_once "ViewDataTable/GenerateGraphData.php";
  */
 class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphData
 {
+	protected function getViewDataTableId()
+	{
+		return 'generateDataChartEvolution';
+	}
+	
 	function __construct()
 	{
 		require_once "Visualization/ChartEvolution.php";

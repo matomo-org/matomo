@@ -42,122 +42,62 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Template file that will be loaded for this view.
 	 * Usually set in the Piwik_ViewDataTable_*
-	 *
 	 * @var string eg. 'CoreHome/templates/cloud.tpl'
 	 */
 	protected $dataTableTemplate = null;
 	
 	/**
 	 * Flag used to make sure the main() is only executed once
-	 *
 	 * @var bool
 	 */
 	protected $mainAlreadyExecuted = false;
 	
 	/**
-	 * Defines if we display the search box under the table
-	 * 
-	 * @see disableSearchBox()
-	 * @see getSearchBox()
-	 *
-	 * @var bool
-	 */
-	protected $JSsearchBox 				= true;
-	
-	/**
-	 * Defines if we display the "X-Y of Z" under the table
-	 * 
-	 * @see disableOffsetInformation()
-	 * @see getOffsetInformation()
-	 *
-	 * @var bool
-	 */
-	protected $JSoffsetInformation 		= true;
-	
-	/**
-	 * Defines if we display the "Include all population" link under the table
-	 * 
-	 * @see disableExcludeLowPopulation()
-	 * @see getExcludeLowPopulation() 
-	 *
-	 * @var bool
-	 */
-	protected $JSexcludeLowPopulation 	= true;
-	
-	
-	/**
-	 * Defines if we show the "Show all columns" icon under the table
-	 * 
-	 * @var bool
-	 */
-	protected $JSshowAllColumns = true;
-
-	/**
-	 * Defines if we include the footer after the dataTable output.
-	 * The footer contains all the extra features like the search box, the links Next/Previous, the icons to export in several formats, etc.
-	 * Not showing the footer is useful for example when you want to only display a graph without anything else.
-	 * 
-	 * @see doNotShowFooter()
-	 * @see getShowFooter() 
-	 *
-	 * @var bool
-	 */
-	protected $showFooter				= true;
-	
-	/**
 	 * Contains the values set for the parameters
 	 * @see getJavascriptVariablesToSet()
-	 *
 	 * @var array
 	 */
 	protected $variablesDefault = array();
 	
 	/**
+	 * Array of properties that are available in the view (from smarty)
+	 * Used to store UI properties, eg. "show_footer", "show_search", etc.
+	 * @var array
+	 */
+	protected $viewProperties = array();
+	
+	/**
 	 * If the current dataTable refers to a subDataTable (eg. keywordsBySearchEngineId for id=X) this variable is set to the Id
-	 *
 	 * @var bool|int
 	 */
 	protected $idSubtable = false;
 	
 	/**
-	 * Set to true when the DataTable must be loaded along with all its children subtables
-	 * Useful when searching for a pattern in the DataTable Actions (we display the full hierarchy)
-	 * 
-	 * @var bool
-	 */
-	protected $recursiveDataTableLoad   = false;
-	
-	/**
 	 * DataTable loaded from the API for this ViewDataTable.
-	 *  
 	 * @var Piwik_DataTable
 	 */
 	protected $dataTable = null; 
 		
 	/**
 	 * @see init()
-	 *
 	 * @var string
 	 */
 	protected $currentControllerAction;
 	
 	/**
 	 * @see init()
-	 *
 	 * @var string
 	 */
 	protected $currentControllerName;
 	
 	/**
 	 * @see init()
-	 *
 	 * @var string
 	 */
 	protected $actionToLoadTheSubTable = null;
 	
 	/**
 	 * @see init()
-	 *
 	 * @var string
 	 */
 	protected $moduleNameAndMethod;
@@ -173,10 +113,15 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Method to be implemented by the ViewDataTable_*.
 	 * This method should create and initialize a $this->view object @see Piwik_iView
-	 * 
 	 * @return mixed either prints the result or returns the output string
 	 */
 	abstract public function main();
+	
+	/**
+	 * Unique string ID that defines the format of the dataTable, eg. "pieChart", "table", etc.
+	 * @return string
+	 */
+	abstract protected function getViewDataTableId();
 	
 	/**
 	 * Returns a Piwik_ViewDataTable_* object.
@@ -186,8 +131,7 @@ abstract class Piwik_ViewDataTable
 	 * If force is set to true, a ViewDataTable of the $defaultType will be returned in all cases.
 	 * 
 	 * @param string defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart* 
-	 * @force bool If set to true, returns a ViewDataTable of the $defaultType
-	 * 
+	 * @param bool force If set to true, returns a ViewDataTable of the $defaultType
 	 * @return Piwik_ViewDataTable 
 	 */
 	static public function factory( $defaultType = null, $force = false)
@@ -210,7 +154,7 @@ abstract class Piwik_ViewDataTable
 		{
 			case 'cloud':
 				require_once "ViewDataTable/Cloud.php";
-				return new Piwik_ViewDataTable_Cloud();			
+				return new Piwik_ViewDataTable_Cloud();
 			break;
 			
 			case 'graphPie':
@@ -249,10 +193,15 @@ abstract class Piwik_ViewDataTable
 				
 			break;
 				
+			case 'tableAllColumns':
+				require_once "ViewDataTable/HtmlTable/AllColumns.php";
+				return new Piwik_ViewDataTable_HtmlTable_AllColumns();
+			break;
+			
 			case 'table':
 			default:
-				require_once "ViewDataTable/Html.php";
-				return new Piwik_ViewDataTable_Html();
+				require_once "ViewDataTable/HtmlTable.php";
+				return new Piwik_ViewDataTable_HtmlTable();
 			break;
 		}
 	}
@@ -274,7 +223,6 @@ abstract class Piwik_ViewDataTable
 	 * @param string $currentControllerAction eg. 'getKeywords'
 	 * @param string $moduleNameAndMethod eg. 'Referers.getKeywords'
 	 * @param string $actionToLoadTheSubTable eg. 'getSearchEnginesFromKeywordId'
-	 * 
 	 * @return void
 	 */
 	public function init( $currentControllerName,
@@ -286,22 +234,21 @@ abstract class Piwik_ViewDataTable
 		$this->currentControllerAction = $currentControllerAction;
 		$this->moduleNameAndMethod = $moduleNameAndMethod;
 		$this->actionToLoadTheSubTable = $actionToLoadTheSubTable;
-		
-		$this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false, 'int');
-		
 		$this->method = $moduleNameAndMethod;
-		
-		$this->JSsearchBox = Piwik_Common::getRequestVar('show_search', true);
-		$this->showFooter = Piwik_Common::getRequestVar('showDataTableFooter', true);
-		$this->variablesDefault['filter_excludelowpop_default'] = 'false';
-		$this->variablesDefault['filter_excludelowpop_value_default'] = 'false';	
+		$this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false, 'int');
+
+		$this->viewProperties['show_search'] = Piwik_Common::getRequestVar('show_search', true);
+		$this->viewProperties['show_table_all_columns'] = Piwik_Common::getRequestVar('show_table_all_columns', true);
+		$this->viewProperties['show_exclude_low_population'] = Piwik_Common::getRequestVar('show_exclude_low_population', true);
+		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);;
+		$this->viewProperties['show_footer'] = Piwik_Common::getRequestVar('show_footer', true);
+		$this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
 	}
 	
 	/**
 	 * Forces the View to use a given template.
 	 * Usually the template to use is set in the specific ViewDataTable_* 
 	 * eg. 'CoreHome/templates/cloud.tpl'
-	 *
 	 * But some users may want to force this template to some other value
 	 * 
 	 * @param string $tpl eg .'MyPlugin/templates/templateToUse.tpl'
@@ -342,12 +289,12 @@ abstract class Piwik_ViewDataTable
 		}
 		return $this->dataTable;
 	}
+	
 	/**
 	 * Function called by the ViewDataTable objects in order to fetch data from the API.
 	 * The function init() must have been called before, so that the object knows which API module and action to call.
 	 * It builds the API request string and uses Piwik_API_Request to call the API.
 	 * The requested Piwik_DataTable object is stored in $this->dataTable.
-	 * 
 	 * @return void
 	 */
 	protected function loadDataTableFromAPI()
@@ -375,10 +322,6 @@ abstract class Piwik_ViewDataTable
 		// - the format = original specifies that we want to get the original DataTable structure itself, not rendered
 		$requestString  = 'method='.$this->moduleNameAndMethod;
 		$requestString .= '&format=original';
-		if( $this->recursiveDataTableLoad )
-		{
-			$requestString .= '&expanded=1';
-		}
 		
 		$toSetEventually = array(
 			'filter_limit',
@@ -391,9 +334,9 @@ abstract class Piwik_ViewDataTable
 			'filter_exact_pattern',
 			'filter_exact_column',
 			'disable_generic_filters',
-			'disable_queued_filters',
-			'filter_add_columns_when_show_all_columns',
+			'disable_queued_filters'
 		);
+
 		foreach($toSetEventually as $varToSet)
 		{
 			$value = $this->getDefaultOrCurrent($varToSet);
@@ -463,11 +406,18 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Returns array of properties, eg. "show_footer", "show_search", etc.
+	 * @return array of boolean
+	 */
+	protected function getViewProperties()
+	{
+		return $this->viewProperties;
+	}
+	
+	/**
 	 * This functions reads the customization values for the DataTable and returns an array (name,value) to be printed in Javascript.
 	 * This array defines things such as:
 	 * - name of the module & action to call to request data for this table
-	 * - display the search box under the table
-	 * - display the links Next & Previous under the table
 	 * - optional filters information, eg. filter_limit and filter_offset
 	 * - etc.
 	 *
@@ -531,8 +481,7 @@ abstract class Piwik_ViewDataTable
 				
 		$javascriptVariablesToSet['module'] = $this->currentControllerName;
 		$javascriptVariablesToSet['action'] = $this->currentControllerAction;
-		$javascriptVariablesToSet['pathToPiwik'] = Piwik_Url::getCurrentUrlWithoutFileName();
-		
+		$javascriptVariablesToSet['viewDataTable'] = $this->getViewDataTableId();
 		if(!is_null($this->actionToLoadTheSubTable))
 		{
 			$javascriptVariablesToSet['actionToLoadTheSubTable'] = $this->actionToLoadTheSubTable;
@@ -545,11 +494,6 @@ abstract class Piwik_ViewDataTable
 		{
 			$javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
 		}
-		$javascriptVariablesToSet['show_search'] = $this->getSearchBox();
-		$javascriptVariablesToSet['show_offset_information'] = $this->getOffsetInformation();
-		$javascriptVariablesToSet['show_exclude_low_population'] = $this->getExcludeLowPopulation();
-		$javascriptVariablesToSet['showingAllColumns'] = $this->getShowingAllColumns();
-		$javascriptVariablesToSet['show_show_all_columns'] = $this->getShowAllColumns();
 		
 		// we escape the values that will be displayed in the javascript footer of each datatable
 		// to make sure there is malicious code injected (the value are already htmlspecialchar'ed as they
@@ -580,7 +524,7 @@ abstract class Piwik_ViewDataTable
 	{
 		if(isset($_REQUEST[$nameVar]))
 		{
-			return $_REQUEST[$nameVar];
+			return htmlspecialchars($_REQUEST[$nameVar]);
 		}
 		$default = $this->getDefault($nameVar);
 		return $default;
@@ -604,113 +548,65 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * The generic filters (limit, offset, sort by visit desc) will not be applied to this datatable.
-	 * 
 	 * @return void
-	 *
 	 */
 	public function disableGenericFilters()
 	{
 		$this->variablesDefault['disable_generic_filters'] = true;
 	}
+	
 	/**
 	 * The "X-Y of Z" won't be displayed under this table
-	 * 
 	 * @return void
-	 *
 	 */
 	public function disableOffsetInformation()
 	{
-		$this->JSoffsetInformation = 'false';		
-	}
-	
-	/**
-	 * @see disableOffsetInformation()
-	 * 
-	 * @return bool|string If this parameter is enabled or not
-	 *
-	 */
-	protected function getOffsetInformation()
-	{
-		return $this->JSoffsetInformation;
+		$this->viewProperties['show_offset_information'] = false;
 	}
 	
 	/**
 	 * The search box won't be displayed under this table
-	 *
 	 * @return void
 	 */
 	public function disableSearchBox()
 	{
-		$this->JSsearchBox = 'false';
+		$this->viewProperties['show_search'] = false;
 	}
-	
+
 	/**
-	 * @see disableSearchBox()
-	 * 
-	 * @return bool|string If this parameter is enabled or not
-	 *
+	 * Do not show the footer icons (show all columns icon, "plus" icon)
+	 * @return void
 	 */
-	protected function getSearchBox()
+	public function disableFooterIcons()
 	{
-		return $this->JSsearchBox;
+		$this->viewProperties['show_footer_icons'] = false;
 	}
 	
 	/**
 	 * When this method is called, the output will not contain the template datatable_footer.tpl
-	 *
 	 * @return void
 	 */
 	public function doNotShowFooter()
 	{
-		$this->showFooter = false;
-	}
-	
-	/**
-	 * Returns true if the footer should be included in the template 
-	 * 
-	 * @return bool
-	 *
-	 */
-	protected function getShowFooter()
-	{
-		return $this->showFooter;
+		$this->viewProperties['show_footer'] = false;
 	}
 	
 	/**
 	 * The "Include low population" link won't be displayed under this table
-	 *
 	 * @return void
 	 */
 	public function disableExcludeLowPopulation()
 	{
-		$this->JSexcludeLowPopulation = 'false';
+		$this->viewProperties['show_exclude_low_population'] = false;
 	}
 	
 	/**
 	 * Whether or not to show the "View more data" icon
-	 * 
 	 * @return void
 	 */
 	public function disableShowAllColumns()
 	{
-		$this->JSshowAllColumns = false;
-	}
-	
-	public function getShowAllColumns()
-	{
-		return $this->JSshowAllColumns;
-	}
-	
-	
-	/**
-	 * @see disableExcludeLowPopulation()
-	 * 
-	 * @return bool|string If this parameter is enabled or not
-	 *
-	 */
-	protected function getExcludeLowPopulation()
-	{
-		return $this->JSexcludeLowPopulation;
+		$this->viewProperties['show_table_all_columns'] = false;
 	}
 	
 	/**
@@ -718,7 +614,6 @@ abstract class Piwik_ViewDataTable
 	 *
 	 * @param array $pattern arrays of patterns to look for
 	 * @param string $column to compare the pattern to
-	 * 
 	 * @return void
 	 */
 	public function setExactPattern($pattern, $column)
@@ -732,7 +627,6 @@ abstract class Piwik_ViewDataTable
 	 * 
 	 * @param int|float If a row value is less than this value, it will be removed from the dataTable
 	 * @param string The name of the column for which we compare the value to $minValue
-	 *
 	 * @return void
 	 */
 	public function setExcludeLowPopulation( $minValue = null, $columnName = null )
@@ -741,21 +635,21 @@ abstract class Piwik_ViewDataTable
 		{
 			throw new Exception("setExcludeLowPopulation() value shouldn't be null");
 		}
-		
+
 		if(is_null($columnName))
 		{
 			$columnName = Piwik_Archive::INDEX_NB_VISITS;
 		}
-		
+
 		// column to use to enable low population exclusion if != false
 		$this->variablesDefault['filter_excludelowpop_default'] 
 			= $this->variablesDefault['filter_excludelowpop']
 			= $columnName;
-		
+
 		// the minimum value a row must have to be returned 
 		$this->variablesDefault['filter_excludelowpop_value_default'] 
 			= $this->variablesDefault['filter_excludelowpop_value']
-			= $minValue;	
+			= $minValue;
 	}
 	
 	/**
@@ -763,7 +657,6 @@ abstract class Piwik_ViewDataTable
 	 *
 	 * @param string $pattern to look for
 	 * @param string $column to compare the pattern to
-	 * 
 	 * @return void
 	 */
 	public function setSearchPattern($pattern, $column)
@@ -776,7 +669,6 @@ abstract class Piwik_ViewDataTable
 	 * Sets the maximum number of rows of the table
 	 *
 	 * @param int $limit
-	 * 
 	 * @return void
 	 */
 	public function setLimit( $limit )
@@ -792,7 +684,6 @@ abstract class Piwik_ViewDataTable
 	 *
 	 * @param int|string $columnId eg. 'nb_visits' for some tables, or Piwik_Archive::INDEX_NB_VISITS for others
 	 * @param string $order desc or asc
-	 * 
 	 * @return void
 	 */
 	public function setSortedColumn( $columnId, $order = 'desc')
@@ -806,6 +697,7 @@ abstract class Piwik_ViewDataTable
 	 *
 	 * @param string parameter name
 	 * @param mixed $value
+	 * @return void
 	 */
 	public function setCustomParameter($parameter, $value)
 	{
@@ -815,66 +707,4 @@ abstract class Piwik_ViewDataTable
 		}
 		$this->variablesDefault[$parameter] = $value;
 	}
-	
-	/**
-	 * Given a Piwik_DataTable_Array made of DataTable_Simple rows, returns a php array with the structure:
-	 * array(
-	 * 	array( label => X, value => Y),
-	 * 	array( label => A, value => B),
-	 * ...
-	 * )
-	 *
-	 * This is used for example for the evolution graph (last 30 days visits) or the sparklines.
-	 * 
-	 * @param Piwik_DataTable_Array $dataTableArray
-	 * @return array
-	 */
-	protected function generateDataFromDataTableArray( Piwik_DataTable_Array $dataTableArray)
-	{
-		$data = array();
-		foreach($dataTableArray->getArray() as $keyName => $table)
-		{
-			if($table instanceof Piwik_DataTable_Array)
-			{
-				throw new Exception("Operation not supported (yet)");
-			}
-			$value = false;
-			
-			$onlyRow = $table->getFirstRow();
-			if($onlyRow !== false)
-			{
-				$value = $onlyRow->getColumn('value');
-				if($value == false)
-				{
-					// TEMP
-					// quite a hack, useful in the case at this point we do have a normal row with nb_visits, nb_actions, nb_uniq_visitors, etc.
-					// instead of the dataTable_Simple row (label, value) 
-					// to do it properly we'd need to
-					// - create a filter that removes columns
-					// - apply this filter to keep only the column called nb_uniq_visitors
-					// - rename this column as 'value'
-					// and at this point the getcolumn('value') would have worked
-					// this code is executed eg. when displaying a sparkline for the last 30 days displaying the number of unique visitors coming from search engines
-					
-					//TODO solution: use a filter rename column etc.
-					
-					// another solution would be to add a method to the Referers API giving directly the integer 'visits from search engines'
-					// and we would build automatically the dataTable_array of datatatble_simple from these integers
-					// but we'd have to add this integer to be recorded during archiving etc.
-					$value = $onlyRow->getColumn('nb_uniq_visitors');
-				}
-			}
-		
-			if($value === false)
-			{
-				$value = 0;
-			}
-			$data[] = array(
-					'label' => $keyName,
-					'value' => $value
-				);
-		}
-		return $data;
-	}
-	
 }

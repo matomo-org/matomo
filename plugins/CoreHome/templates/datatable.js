@@ -68,8 +68,7 @@ dataTable.prototype =
 			'filter_offset',
 			'filter_limit',
 			'filter_sort_column',
-			'filter_sort_order',
-			'show_search'
+			'filter_sort_order'
 		];
 		
 		for(var key in filters)
@@ -78,7 +77,6 @@ dataTable.prototype =
 			FiltersToRestore[value] = self.param[value];
 			delete self.param[value];
 		}
-		
 		
 		return FiltersToRestore;
 	},
@@ -115,7 +113,7 @@ dataTable.prototype =
 		var ajaxRequest = 
 		{
 			type: 'GET',
-			url: self.param.pathToPiwik + 'index.php',
+			url: piwik.piwik_url + 'index.php',
 			dataType: 'html',
 			async: true,
 			error: ajaxHandleError,		// Callback when the request fails
@@ -168,7 +166,7 @@ dataTable.prototype =
 		var idToReplace = $(content).attr('id');
 		var dataTableSel = $('#'+idToReplace);
 		
-		// if the current dataTable is situated inside another datatable
+		// if the current dataTable is located inside another datatable
 		table = $(content).parents('table.dataTable');
 		if(dataTableSel.parents('.dataTable').is('table'))
 		{
@@ -243,7 +241,7 @@ dataTable.prototype =
 			// adding an image and the class columnSorted to the TD
 			$(".sortable#"+self.param.filter_sort_column+' #thDIV', domElem).parent()
 				.addClass('columnSorted')
-				.prepend('<div id="sortIconContainer"><img id="sortIcon" width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="'+self.param.pathToPiwik+'themes/default/images/sort'+prefixSortIcon+ self.param.filter_sort_order+'.png" /></div>');
+				.prepend('<div id="sortIconContainer"><img id="sortIcon" width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="'+piwik.piwik_url+'themes/default/images/sort'+prefixSortIcon+ self.param.filter_sort_order+'.png" /></div>');
 		}
 	},
 	
@@ -252,133 +250,121 @@ dataTable.prototype =
 	{
 		var self = this;
 		
-		// Showing the link "Exclude low population" for this DIV
-		if(self.param.show_exclude_low_population)
-		{
-			// Set the string for the DIV, either "Exclude low pop" or "Include all"
-			$('#dataTableExcludeLowPopulation', domElem)
-				.each(
-					function()
+		// Set the string for the DIV, either "Exclude low pop" or "Include all"
+		$('#dataTableExcludeLowPopulation', domElem)
+			.each(
+				function()
+				{
+					if(Number(self.param.filter_excludelowpop) != 0)
 					{
-						if(Number(self.param.filter_excludelowpop) != 0)
-						{
-							string = _pk_translate('CoreHome_IncludeAllPopulation');
-						}
-						else
-						{
-							string = _pk_translate('CoreHome_ExcludeLowPopulation');
-						}
-						$(this).html(string);
-					} 
-				)
-				// Bind a click event to the DIV that triggers the ajax request
-				.click(
-					function()
-					{
-						if(Number(self.param.filter_excludelowpop) != 0)
-						{
-							self.param.filter_excludelowpop = 0;
-							self.param.filter_excludelowpop_value = 0;
-						}
-						else
-						{
-							self.param.filter_excludelowpop = self.param.filter_excludelowpop_default;
-							self.param.filter_excludelowpop_value = self.param.filter_excludelowpop_value_default;		
-						}
-						self.param.filter_offset = 0;
-		
-						self.reloadAjaxDataTable(true, callbackSuccess);
+						string = _pk_translate('CoreHome_IncludeAllPopulation');
 					}
-				);
-		}
-		
+					else
+					{
+						string = _pk_translate('CoreHome_ExcludeLowPopulation');
+					}
+					$(this).html(string);
+				} 
+			)
+			// Bind a click event to the DIV that triggers the ajax request
+			.click(
+				function()
+				{
+					if(Number(self.param.filter_excludelowpop) != 0)
+					{
+						self.param.filter_excludelowpop = 0;
+						self.param.filter_excludelowpop_value = 0;
+					}
+					else
+					{
+						self.param.filter_excludelowpop = self.param.filter_excludelowpop_default;
+						self.param.filter_excludelowpop_value = self.param.filter_excludelowpop_value_default;		
+					}
+					self.param.filter_offset = 0;
+	
+					self.reloadAjaxDataTable(true, callbackSuccess);
+				}
+			);
 	},
 	
 	//behaviour for the DataTable 'search box'
 	handleSearchBox: function(domElem, callbackSuccess)
 	{
 		var self = this;
-		
-		// Showing the search box for dom element DIV and binding the event
-		// - on the keyword DIV anywhere, if the ENTER key is pressed
-		if(self.param.show_search)
-		{
-			var currentPattern = self.param.filter_pattern;
-			if(typeof self.param.filter_pattern != "undefined"
+	
+		var currentPattern = self.param.filter_pattern;
+		if(typeof self.param.filter_pattern != "undefined"
 			&& self.param.filter_pattern.length > 0)
-			{
-				currentPattern = self.param.filter_pattern;
-			}
-			else if(typeof self.param.filter_pattern_recursive != "undefined"
-			&& self.param.filter_pattern_recursive.length > 0)
-			{
-				currentPattern = self.param.filter_pattern_recursive;
-			}
-			else
-			{
-				currentPattern = '';
-			}
-			
-			
-			$('#dataTableSearchPattern', domElem)
-				.show()
-				.each(function(){
-					// when enter is pressed in the input field we submit the form
-					$('#keyword', this)
-						.keypress( 
-							function(e)
-							{ 
-								if(submitOnEnter(e))
-								{ 
-									$(this).siblings(':submit').submit(); 
-								} 
-							} 
-						)
-						.val(currentPattern)
-					;
-					
-					$(':submit', this).submit( 
-						function()
-						{
-							var keyword = $(this).siblings('#keyword').val();
-							self.param.filter_offset = 0; 
-							
-							if(self.param.search_recursive)
-							{
-								self.param.filter_column_recursive = 'label';
-								self.param.filter_pattern_recursive = keyword;
-							}
-							else
-							{
-								self.param.filter_column = 'label';
-								self.param.filter_pattern = keyword;
-							}
-							self.reloadAjaxDataTable(true, callbackSuccess);
-						}
-					);
-					
-					$(':submit', this)
-						.click( function(){ $(this).submit(); })
-					;
-
-					// in the case there is a searched keyword we display the RESET image
-					if(currentPattern)
-					{
-						var target = this;
-						var clearImg = $('<span style="position: relative;">\
-								<img src="'+self.param.pathToPiwik+'plugins/CoreHome/templates/images/reset_search.png" style="position: absolute; top: 4px; left: -15px; cursor: pointer; display: inline;" title="Clear"/>\
-								</span>')
-							.click( function() {
-								$('#keyword', target).val('');
-								$(':submit', target).submit();
-							});
-						$('#keyword',this).after(clearImg);
-						
-					}
-				}
-			);
-				
+		{
+			currentPattern = self.param.filter_pattern;
 		}
+		else if(typeof self.param.filter_pattern_recursive != "undefined"
+			&& self.param.filter_pattern_recursive.length > 0)
+		{
+			currentPattern = self.param.filter_pattern_recursive;
+		}
+		else
+		{
+			currentPattern = '';
+		}
+		
+		$('#dataTableSearchPattern', domElem)
+			.show()
+			.each(function(){
+				// when enter is pressed in the input field we submit the form
+				$('#keyword', this)
+					.keypress( 
+						function(e)
+						{ 
+							if(submitOnEnter(e))
+							{ 
+								$(this).siblings(':submit').submit(); 
+							} 
+						} 
+					)
+					.val(currentPattern)
+				;
+				
+				$(':submit', this).submit( 
+					function()
+					{
+						var keyword = $(this).siblings('#keyword').val();
+						self.param.filter_offset = 0; 
+						
+						if(self.param.search_recursive)
+						{
+							self.param.filter_column_recursive = 'label';
+							self.param.filter_pattern_recursive = keyword;
+						}
+						else
+						{
+							self.param.filter_column = 'label';
+							self.param.filter_pattern = keyword;
+						}
+						self.reloadAjaxDataTable(true, callbackSuccess);
+					}
+				);
+				
+				$(':submit', this)
+					.click( function(){ $(this).submit(); })
+				;
+
+				// in the case there is a searched keyword we display the RESET image
+				if(currentPattern)
+				{
+					var target = this;
+					var clearImg = $('<span style="position: relative;">\
+							<img src="'+piwik.piwik_url+'plugins/CoreHome/templates/images/reset_search.png" style="position: absolute; top: 4px; left: -15px; cursor: pointer; display: inline;" title="Clear"/>\
+							</span>')
+						.click( function() {
+							$('#keyword', target).val('');
+							$(':submit', target).submit();
+						});
+					$('#keyword',this).after(clearImg);
+					
+				}
+			}
+		);
 	},
 	
 	//behaviour for '< prev' 'next >' links and page count
@@ -386,84 +372,76 @@ dataTable.prototype =
 	{
 		var self = this;
 		
-		// Showing the offset information (1 - 10 of 42) for this DIV
-		if( self.param.show_offset_information
-			// fix konqueror that doesnt recognize the show_offset_information false for the tag cloud
-			// and we really dont want to print Next/Previous for tag clouds
-			&& self.param.viewDataTable != 'cloud' )
-		{
-			$('#dataTablePages', domElem).each(
-				function(){
-					var offset = 1+Number(self.param.filter_offset);
-					var offsetEnd = Number(self.param.filter_offset) + Number(self.param.filter_limit);
-					var totalRows = Number(self.param.totalRows);
-					offsetEndDisp = offsetEnd;
-	
-					if(offsetEnd > totalRows) offsetEndDisp = totalRows;
-					
-					// only show this string if there is some rows in the datatable
-					if(totalRows != 0)
-					{
-						var str = sprintf(_pk_translate('CoreHome_PageOf'),offset + '-' + offsetEndDisp,totalRows);
-						$(this).text(str);
-					}
+		$('#dataTablePages', domElem).each(
+			function(){
+				var offset = 1+Number(self.param.filter_offset);
+				var offsetEnd = Number(self.param.filter_offset) + Number(self.param.filter_limit);
+				var totalRows = Number(self.param.totalRows);
+				offsetEndDisp = offsetEnd;
+
+				if(offsetEnd > totalRows) offsetEndDisp = totalRows;
+				
+				// only show this string if there is some rows in the datatable
+				if(totalRows != 0)
+				{
+					var str = sprintf(_pk_translate('CoreHome_PageOf'),offset + '-' + offsetEndDisp,totalRows);
+					$(this).text(str);
 				}
-			);
-			
-			
-			// Display the next link if the total Rows is greater than the current end row
-			$('#dataTableNext', domElem)
-				.each(function(){
-					var offsetEnd = Number(self.param.filter_offset) 
-										+ Number(self.param.filter_limit);
-					var totalRows = Number(self.param.totalRows);
-					if(offsetEnd < totalRows)
+			}
+		);
+		
+		// Display the next link if the total Rows is greater than the current end row
+		$('#dataTableNext', domElem)
+			.each(function(){
+				var offsetEnd = Number(self.param.filter_offset) 
+									+ Number(self.param.filter_limit);
+				var totalRows = Number(self.param.totalRows);
+				if(offsetEnd < totalRows)
+				{
+					$(this).css('display','inline');
+				}
+			})
+			// bind the click event to trigger the ajax request with the new offset
+			.click(function(){
+				$(this).unbind('click');
+				self.param.filter_offset = Number(self.param.filter_offset) + Number(self.param.filter_limit); 
+				self.reloadAjaxDataTable();
+			})
+		;
+		
+		// Display the previous link if the current offset is not zero
+		$('#dataTablePrevious', domElem)
+			.each(function(){
+					var offset = 1+Number(self.param.filter_offset);
+					if(offset != 1)
 					{
 						$(this).css('display','inline');
 					}
-				})
-				// bind the click event to trigger the ajax request with the new offset
-				.click(function(){
+				}
+			)
+			// bind the click event to trigger the ajax request with the new offset
+			// take care of the negative offset, we setup 0 
+			.click(
+				function(){
 					$(this).unbind('click');
-					self.param.filter_offset = Number(self.param.filter_offset) + Number(self.param.filter_limit); 
+					var offset = Number(self.param.filter_offset) - Number(self.param.filter_limit);
+					if(offset < 0) { offset = 0; }
+					self.param.filter_offset = offset; 
 					self.reloadAjaxDataTable();
-				})
-			;
-			
-			// Display the previous link if the current offset is not zero
-			$('#dataTablePrevious', domElem)
-				.each(function(){
-						var offset = 1+Number(self.param.filter_offset);
-						if(offset != 1)
-						{
-							$(this).css('display','inline');
-						}
-					}
-				)
-				// bind the click event to trigger the ajax request with the new offset
-				// take care of the negative offset, we setup 0 
-				.click(
-					function(){
-						$(this).unbind('click');
-						var offset = Number(self.param.filter_offset) - Number(self.param.filter_limit);
-						if(offset < 0) { offset = 0; }
-						self.param.filter_offset = offset; 
-						self.reloadAjaxDataTable();
-					}
-				)
-			;	
-			
-		}
+				}
+			);
 	},
 	
-	//behaviour for DataTable view box (data, table, cloud, graph, ...)
+	// DataTable view box (data, table, cloud, graph, ...)
 	handleExportBox: function(domElem)
 	{
 		var self = this;
 		if( self.param.idSubtable )
-		{	
+		{
+			// no view box for subtables
 			return;
 		}
+		
 		// When the (+) image is hovered, the export buttons are displayed 
 		$('#exportDataTableShow', domElem)
 			.show()
@@ -510,12 +488,11 @@ dataTable.prototype =
 				}
 		);
 		
-		$('#showingAllColumns', domElem)
+		$('#tableAllColumnsSwitch', domElem)
 			.show()
 			.click(
 				function(){
-					self.param.viewDataTable = 'table';
-					self.param.showingAllColumns = $('img', this).attr('id') == 'showingAllColumns' ? '1' : '0';
+					self.param.viewDataTable = self.param.viewDataTable == 'table' ? 'tableAllColumns' : 'table';
 					self.reloadAjaxDataTable();
 				}
 		);
@@ -565,7 +542,7 @@ dataTable.prototype =
 			var imgToPrepend = '';
 			if( $(this).find('img').length == 0 )
 			{
-				imgToPrepend = '<img width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="'+self.param.pathToPiwik+'themes/default/images/link.gif" /> ';
+				imgToPrepend = '<img width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="'+piwik.piwik_url+'themes/default/images/link.gif" /> ';
 			}
 			var urlToLink = $('#urlLink',this).html();
 			if( urlToLink.match("javascript:") )
@@ -627,7 +604,7 @@ dataTable.prototype =
 					<tr>\
 						<td colspan="'+numberOfColumns+'" class="cellSubDataTable">\
 							<div id="'+divIdToReplaceWithSubTable+'">\
-								<span id="loadingDataTable" style="display:inline"><img src="'+self.param.pathToPiwik+'themes/default/images/loading-blue.gif" />'+ _pk_translate('CoreHome_Loading') +'</span>\
+								<span id="loadingDataTable" style="display:inline"><img src="'+piwik.piwik_url+'themes/default/images/loading-blue.gif" />'+ _pk_translate('CoreHome_Loading') +'</span>\
 							</div>\
 						</td>\
 					</tr>\
@@ -772,11 +749,11 @@ actionDataTable.prototype =
 						$(this).prepend('<img width="'+imagePlusMinusWidth+'" height="'+imagePlusMinusHeight+'" class="plusMinus" src="" />');
 						if(self.param.filter_pattern_recursive)
 						{					
-							setImageMinus(this, self.param.pathToPiwik);
+							setImageMinus(this, piwik.piwik_url);
 						}
 						else
 						{
-							setImagePlus(this, self.param.pathToPiwik);
+							setImagePlus(this, piwik.piwik_url);
 						}
 					});
 		
@@ -845,7 +822,7 @@ actionDataTable.prototype =
 			$(domElem).after( '\
 			<tr id="'+divIdToReplaceWithSubTable+'" class="cellSubDataTable">\
 				<td colspan="'+numberOfColumns+'">\
-						<span id="loadingDataTable" style="display:inline"><img src="'+self.param.pathToPiwik+'themes/default/images/loading-blue.gif" /> Loading...</span>\
+						<span id="loadingDataTable" style="display:inline"><img src="'+piwik.piwik_url+'themes/default/images/loading-blue.gif" /> Loading...</span>\
 				</td>\
 			</tr>\
 			');
@@ -886,7 +863,7 @@ actionDataTable.prototype =
 							var nextRowLevel = getLevelFromClass(NextStyle);
 
 							if(currentRowLevel < nextRowLevel)
-								setImageMinus(this, self.param.pathToPiwik);
+								setImageMinus(this, piwik.piwik_url);
 						}
 						else
 						{
@@ -901,11 +878,11 @@ actionDataTable.prototype =
 		var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
 		if(plusDetected)
 		{
-			setImageMinus(domElem, self.param.pathToPiwik);
+			setImageMinus(domElem, piwik.piwik_url);
 		}
 		else
 		{
-			setImagePlus(domElem, self.param.pathToPiwik);
+			setImagePlus(domElem, piwik.piwik_url);
 		}
 	},
 	
@@ -987,12 +964,12 @@ function getNextLevelFromClass( style )
 //helper function for actionDataTable
 function setImageMinus( domElem, pathToPiwik )
 {
-	$('img',domElem).attr('src', pathToPiwik+'themes/default/images/minus.png');
+	$('img',domElem).attr('src', pathToPiwik + 'themes/default/images/minus.png');
 }
 
 //helper function for actionDataTable
 function setImagePlus( domElem, pathToPiwik )
 {
-	$('img',domElem).attr('src', pathToPiwik+'themes/default/images/plus.png');
+	$('img',domElem).attr('src', pathToPiwik + 'themes/default/images/plus.png');
 }
 

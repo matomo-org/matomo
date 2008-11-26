@@ -32,7 +32,7 @@
 		</table>
 		{/if}
 	
-		{if $showFooter}
+		{if $properties.show_footer}
 			{include file="CoreHome/templates/datatable_footer.tpl"}
 		{/if}
 		{include file="CoreHome/templates/datatable_actions_js.tpl"}

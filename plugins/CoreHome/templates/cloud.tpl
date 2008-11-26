@@ -60,7 +60,7 @@ span.size6, span.size6 a {
 	{$value.wordTruncated}{/if}{if false !== $labelMetadata[$value.word].url}</a>{/if}</span>
 	{/foreach}
 {/if}
-{if $showFooter}
+{if $properties.show_footer}
 	{include file="CoreHome/templates/datatable_footer.tpl"}
 {/if}
 {include file="CoreHome/templates/datatable_js.tpl"}

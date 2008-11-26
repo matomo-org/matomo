@@ -30,19 +30,7 @@
  *
  */
 abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
-{
-	/**
-	 * @see Piwik_ViewDataTable::init()
-	 */
-	function init($currentControllerName,
-						$currentControllerAction, 
-						$moduleNameAndMethod )
-	{
-		parent::init($currentControllerName, 
-						$currentControllerAction, 
-						$moduleNameAndMethod );
-	}
-	
+{	
 	/**
 	 * Number of elements to display in the graph.
 	 *
@@ -60,6 +48,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	{
 		$this->graphLimit = $limit;
 	}
+	
 	/**
 	 * Returns numbers of elemnts to display in the graph
 	 *

@@ -8,8 +8,13 @@ require_once "ViewDataTable/GenerateGraphHTML.php";
  */
 class Piwik_ViewDataTable_GenerateGraphHTML_ChartPie extends Piwik_ViewDataTable_GenerateGraphHTML
 {
-	function __construct()
+	protected function getViewDataTableId()
 	{
-		$this->valueParameterViewDataTable = 'generateDataChartPie';
+		return 'graphPie';
+	}
+	
+	protected function getViewDataTableIdToLoad()
+	{
+		return 'generateDataChartPie';
 	}
 }
