@@ -38,10 +38,19 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	static public function getVisits()
+	{
+		$requestString = 	"method=VisitsSummary.getVisits".
+							"&format=original".
+							"&disable_generic_filters=true"; 
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
+	}
+	
 	static public function getVisitsSummary()
 	{
-		$requestString = "method=VisitsSummary.get
-							&format=original".
+		$requestString =	"method=VisitsSummary.get".
+							"&format=original".
 							// we disable filters for example "search for pattern", in the case this method is called 
 							// by a method that already calls the API with some generic filters applied 
 							"&disable_generic_filters=true"; 

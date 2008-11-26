@@ -24,7 +24,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	/**
 	 * @see Piwik_ViewDataTable::init()
-	 *
 	 */
 	function init($currentControllerName,
 						$currentControllerAction, 
@@ -33,13 +32,14 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		parent::init($currentControllerName,
 						$currentControllerAction, 
 						$moduleNameAndMethod );
+
 		$this->dataTableTemplate = 'CoreHome/templates/graph.tpl';
 		
 		$this->disableOffsetInformation();
 		$this->disableExcludeLowPopulation();
 		$this->disableSearchBox();
 		$this->parametersToModify = array( 
-						'viewDataTable' => $this->valueParameterViewDataTable,
+						'viewDataTable' => $this->getViewDataTableIdToLoad(),
 						// in the case this controller is being executed by another controller
 						// eg. when being widgetized in an IFRAME
 						// we need to put in the URL of the graph data the real module and action
@@ -50,7 +50,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	/**
 	 * Sets parameters to modify in the future generated URL
-	 *
 	 * @param array $array array('nameParameter' => $newValue, ...)
 	 */
 	public function setParametersToModify($array)
@@ -60,7 +59,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	/**
 	 * @see Piwik_ViewDataTable::main()
-	 *
 	 */
 	public function main()
 	{
@@ -70,6 +68,11 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 		
+		$this->view = $this->buildView();
+	}
+	
+	protected function buildView()
+	{
 		$view = new Piwik_View($this->dataTableTemplate);
 		$this->id = $this->getUniqIdTable();
 		$view->graphType = $this->graphType;
@@ -85,8 +88,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$view->id = $this->id;
 		$view->method = $this->method;
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-		$view->showFooter = $this->getShowFooter();
-		$this->view = $view;
+		$view->properties = $this->getViewProperties();
+		return $view;
 	}
 	
 	protected function getFlashInvocationCode( $url = 'libs/open-flash-chart/data-files/nodata.txt', $use_swfobject = true  )

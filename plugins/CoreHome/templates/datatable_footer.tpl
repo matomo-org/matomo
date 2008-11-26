@@ -1,18 +1,23 @@
-{if $javascriptVariablesToSet.showingAllColumns 
-	|| (isset($javascriptVariablesToSet.viewDataTable) && $javascriptVariablesToSet.viewDataTable != 'table')}
-{assign var=showSimpleTableIcon value=true}
-{/if}		
 <div id="dataTableFeatures">
+
+{if $properties.show_exclude_low_population}
 	<span id="dataTableExcludeLowPopulation"></span>
-	
-	<span id="dataTableSearchPattern">
-		<input id="keyword" type="text" length="15" />
-		<input type="submit" value="{'General_Search'|translate}" />
-	</span>
-	
+{/if}
+
+{if $properties.show_search}
+<span id="dataTableSearchPattern">
+	<input id="keyword" type="text" length="15" />
+	<input type="submit" value="{'General_Search'|translate}" />
+</span>
+{/if}
+
+{if $properties.show_offset_information}
 	<span id="dataTablePages"></span>
 	<span id="dataTablePrevious">&lsaquo; {'General_Previous'|translate}</span>
 	<span id="dataTableNext">{'General_Next'|translate} &rsaquo;</span>
+{/if}
+
+{if $properties.show_footer_icons}
 	<div>
 		<span id="exportDataTable">
 			<span id="exportToFormat" style="display:none;padding-left:4px;">
@@ -30,19 +35,20 @@
 			<span id="exportDataTableShow" style="display:none;padding-left:4px;">
 				<img src="{$piwikUrl}plugins/CoreHome/templates/images/more.png" />
 			</span>
-			{if $javascriptVariablesToSet.show_show_all_columns}
-				<span id="showingAllColumns" style="display:none;float:right;padding-right:4px;border-right:1px solid #82A1D2;">
-				{if isset($showSimpleTableIcon)}
-					<img id="hidingAllColumns" title="Display normal table" src="{$piwikUrl}themes/default/images/table.png" />
+			{if $properties.show_table_all_columns}
+				<span id="tableAllColumnsSwitch" style="display:none;float:right;padding-right:4px;border-right:1px solid #82A1D2;">
+				{if $javascriptVariablesToSet.viewDataTable != 'table'}
+					<img title="Display normal table" src="{$piwikUrl}themes/default/images/table.png" />
 				{else}
-					<img id="showingAllColumns" title="Display more data" src="{$piwikUrl}themes/default/images/table_more.png" />
+					<img title="Display more data" src="{$piwikUrl}themes/default/images/table_more.png" />
 				{/if}
 				</span>
 			{/if}
 		</span>
-
-		<span id="loadingDataTable"><img src="{$piwikUrl}themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
 	</div>
+{/if}
+
+<span id="loadingDataTable"><img src="{$piwikUrl}themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
 </div>
 
 <div class="dataTableSpacer" />

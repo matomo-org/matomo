@@ -9,8 +9,13 @@ require_once "ViewDataTable/GenerateGraphHTML.php";
  */
 class Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar extends Piwik_ViewDataTable_GenerateGraphHTML
 {
-	function __construct()
+	protected function getViewDataTableId()
 	{
-		$this->valueParameterViewDataTable = 'generateDataChartVerticalBar';
+		return 'graphVerticalBar';
+	}
+	
+	protected function getViewDataTableIdToLoad()
+	{
+		return 'generateDataChartVerticalBar';
 	}
 }

@@ -10,7 +10,6 @@
  */
 
 /**
- * 
  * Outputs an AJAX Table for a given DataTable.
  * 
  * Reads the requested DataTable from the API.
@@ -18,7 +17,7 @@
  * @package Piwik_ViewDataTable
  *
  */
-class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
+class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 {
 	/**
 	 * Array of columns names to display
@@ -34,6 +33,14 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 	 */
 	protected $columnsTranslations = array();
 
+	/**
+	 * Set to true when the DataTable must be loaded along with all its children subtables
+	 * Useful when searching for a pattern in the DataTable Actions (we display the full hierarchy)
+	 * 
+	 * @var bool
+	 */
+	protected $recursiveDataTableLoad   = false;
+	
 	/**
 	 * PHP array conversion of the Piwik_DataTable 
 	 *
@@ -56,21 +63,20 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		$this->dataTableTemplate = 'CoreHome/templates/datatable.tpl';
 		
 		$this->variablesDefault['enable_sort'] = '1';
-		$this->variablesDefault['showingAllColumns'] = '0';
-		if(Piwik_Common::getRequestVar('showingAllColumns', '0', 'string') == '1')
-		{
-			$this->setShowingAllColumns();
-		}
 		
 		// load general columns translations
 		$this->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnNbVisits'));
 		$this->setColumnTranslation('label', Piwik_Translate('General_ColumnLabel'));
 		$this->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnNbUniqVisitors'));
 	}
+
+	protected function getViewDataTableId()
+	{
+		return 'table';
+	}
 	
 	/**
 	 * @see Piwik_ViewDataTable::main()
-	 *
 	 */
 	public function main()
 	{
@@ -81,23 +87,16 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		$this->mainAlreadyExecuted = true;
 		
 		$this->loadDataTableFromAPI();
-		
-		if($this->getShowingAllColumns())
-		{
-			$this->setColumnsToDisplay(array('label', 
-											'nb_visits', 
-											'nb_uniq_visitors', 
-											'nb_actions_per_visit', 
-											'avg_time_on_site', 
-											'bounce_rate'));
-			$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace($this->dataTable, 'avg_time_on_site', create_function('$averageTimeOnSite', 'return Piwik::getPrettyTimeFromSeconds($averageTimeOnSite);'));
-			$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace($this->dataTable, 'bounce_rate', create_function('$bounceRate', 'return $bounceRate."%";'));
-			$this->setColumnTranslation('nb_actions_per_visit', Piwik_Translate('General_ColumnActionsPerVisit'));
-			$this->setColumnTranslation('avg_time_on_site', Piwik_Translate('General_ColumnAvgTimeOnSite'));
-			$this->setColumnTranslation('bounce_rate', Piwik_Translate('General_ColumnBounceRate'));
-		}
-		
+		$this->postDataTableLoadedFromAPI();
 		$this->view = $this->buildView();
+	}
+
+	/**
+	 * Hook called after the dataTable has been loaded from the API
+	 * Can be used to add, delete or modify the data freshly loaded
+	 */
+	protected function postDataTableLoadedFromAPI()
+	{
 	}
 
 	/**
@@ -125,7 +124,7 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		
 		$view->id = $this->getUniqIdTable();
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-		$view->showFooter = $this->getShowFooter();
+		$view->properties = $this->getViewProperties();
 		return $view;
 	}
 	
@@ -254,17 +253,15 @@ class Piwik_ViewDataTable_Html extends Piwik_ViewDataTable
 		return $this->setRecursiveLoadDataTableIfSearchingForPattern();
 	}
 	
-	protected function setShowingAllColumns()
+	protected function getRequestString()
 	{
-		$this->variablesDefault['filter_add_columns_when_show_all_columns'] = '1';
-		$this->variablesDefault['showingAllColumns'] = '1';
+		$requestString = parent::getRequestString();
+		if($this->recursiveDataTableLoad)
+		{
+			$requestString .= '&expanded=1';
+		}
+		return $requestString;
 	}
-	
-	protected function getShowingAllColumns()
-	{
-		return $this->variablesDefault['showingAllColumns'];
-	}
-	
 	/**
 	 * Set the flag to load the datatable recursively so we can search on subtables as well
 	 *

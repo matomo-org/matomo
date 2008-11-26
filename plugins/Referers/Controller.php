@@ -142,7 +142,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 											'getUrlsFromWebsiteId'
 								);
 		$view->disableExcludeLowPopulation();
-		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setLimit(10);
 		$view->setGraphLimit(12);

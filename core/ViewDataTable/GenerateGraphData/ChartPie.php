@@ -8,6 +8,13 @@ require_once "ViewDataTable/GenerateGraphData.php";
  */
 class Piwik_ViewDataTable_GenerateGraphData_ChartPie extends Piwik_ViewDataTable_GenerateGraphData
 {
+	protected $graphLimit = 4;
+	
+	protected function getViewDataTableId()
+	{
+		return 'generateDataChartPie';
+	}
+	
 	function __construct()
 	{
 		require_once "Visualization/ChartPie.php";

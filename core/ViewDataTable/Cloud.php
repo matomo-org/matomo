@@ -22,7 +22,12 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 {
 	//TODO test this
 	protected $displayLogoInsteadOfLabel = false;
-	
+
+	protected function getViewDataTableId()
+	{
+		return 'cloud';
+	}
+		
 	/**
 	 * @see Piwik_ViewDataTable::init()
 	 */
@@ -34,7 +39,6 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 						$currentControllerAction, 
 						$moduleNameAndMethod );
 		$this->dataTableTemplate = 'CoreHome/templates/cloud.tpl';
-		
 		$this->disableOffsetInformation();
 		$this->disableExcludeLowPopulation();
 	}
@@ -51,17 +55,13 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 			return;
 		}
 		$this->mainAlreadyExecuted = true;
-	
+
 		$this->loadDataTableFromAPI();
+		$this->view = $this->buildView();
+	}
 	
-		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
-		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace(
-									$this->dataTable, 
-									'label', 
-									'urldecode'
-								);
-		
-		
+	protected function buildView()
+	{
 		$view = new Piwik_View($this->dataTableTemplate);
 		
 		$words = $labelMetadata = array();
@@ -102,7 +102,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		$view->method = $this->method;
 		$view->id = $this->getUniqIdTable();
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-		$view->showFooter = $this->getShowFooter();
-		$this->view = $view;
+		$view->properties = $this->getViewProperties();
+		return $view;
 	}
 }

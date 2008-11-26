@@ -12,23 +12,17 @@ UI fixes + adjustements
 
 Following up show all columns new UI element
 ====
-- there should be 2 different things: enable a datatable feature, and whether or not it's currently used (filters)
+- ADD forward of non true show_values to forward when specified from URL to ajax
 - disable show icon in some iframes and/or dashboard 
-- exclude low population broken!
-- default sorting order icon is not shown anymore
-- labels for datatable actions are ugly
-
-Fixing show all columns table view
-====
-- exclude low population should be displayed when viewing advanced table
-- set custom truncation limit per datatable type (simple VS allColumns)
-- bug display subtable icon is cut (see truncation limit)
-- do proper CSS factoring
+- when default is not table, the table icon is not shown below tables (eg. plugins)
 - when default is pie chart (visitors > settings), then shows advanced table icon
+- labels for datatable actions are ugly
 - i18n on title on datatable footer
+- do proper CSS factoring
 - rename exportDataTable div in footerDataTableIcons or similar
-- convert all JS datatable footer parameter values to '1' or '0'
+- clarify 'false' '0' values etc. //convert all JS datatable footer parameter values to '1' or '0'
 - check state of javascript footer (should not have safe_decode and filter_add_columns blah)
+- set custom truncation limit per datatable type (simple VS allColumns, and subtable) ->bug display subtable icon is cut (see truncation limit)
 - Blog post!
 
 high priority features
@@ -78,6 +72,9 @@ Live! plugin
 - simple stats above in TEXT
 - Security review
 - blog post, push version
+
+changes between 2 versions
+http://dev.piwik.org/trac/changeset?old_path=tags%2F0.2.23&old=&new_path=tags%2F0.2.24&new=
 
 CHANGES DONE TO LIBRARIES
 =========================

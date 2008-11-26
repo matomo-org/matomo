@@ -10,11 +10,20 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 {
 	function __construct()
 	{
-		$this->valueParameterViewDataTable = 'generateDataChartEvolution';
 		$this->width='100%';
 		$this->height=150;
 		// used for the CSS class to apply to the DIV containing the graph
 		$this->graphType = 'evolution';		
+	}
+
+	protected function getViewDataTableId()
+	{
+		return 'graphEvolution';
+	}
+	
+	protected function getViewDataTableIdToLoad()
+	{
+		return 'generateDataChartEvolution';
 	}
 	
 	function init($currentControllerName,
