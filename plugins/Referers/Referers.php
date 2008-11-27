@@ -18,7 +18,7 @@ class Piwik_Referers extends Piwik_Plugin
 	{
 		$info = array(
 			'name' => 'Referers',
-			'description' => 'Reports the Referers data: Search Engines, Keywords, Websites, Newsletters tracking, Campaign Tracking, Direct Entry. ',
+			'description' => 'Reports the Referers data: Search Engines, Keywords, Websites, Campaign Tracking, Direct Entry. ',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
@@ -149,7 +149,6 @@ class Piwik_Referers extends Piwik_Plugin
 			$searchEngineByKeyword =
 			$interestByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE] =
 			$urlByWebsite[Piwik_Common::REFERER_TYPE_WEBSITE] =
-			$interestByNewsletter =
 			$keywordByCampaign =
 			$interestByCampaign =
 			$interestByType = 
@@ -199,13 +198,7 @@ class Piwik_Referers extends Piwik_Plugin
 					}
 					
 				break;
-				
-				case Piwik_Common::REFERER_TYPE_NEWSLETTER:
-					if(!isset($interestByNewsletter[$row['referer_name']])) $interestByNewsletter[$row['referer_name']]= $archiveProcessing->getNewInterestRow();
-					$archiveProcessing->updateInterestStats( $row, $interestByNewsletter[$row['referer_name']]);
-					
-				break;
-				
+
 				case Piwik_Common::REFERER_TYPE_CAMPAIGN:
 					if(!empty($row['referer_keyword']))
 					{

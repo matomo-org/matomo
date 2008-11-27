@@ -14,8 +14,6 @@
 		</td><td>
 			<p>{sparkline src=$urlSparklineWebsites}<span>
 			{'Referers_TypeWebsites'|translate:"<strong>$visitorsFromWebsites</strong>"}</span></p>
-			<p>{sparkline src=$urlSparklineNewsletters}<span>
-			{'Referers_TypeNewsletters'|translate:"<strong>$visitorsFromNewsletters</strong>"}</span></p>
 			<p>{sparkline src=$urlSparklineCampaigns}<span>
 			{'Referers_TypeCampaigns'|translate:"<strong>$visitorsFromCampaigns</strong>"}</span></p>
 		</td></tr>
