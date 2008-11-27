@@ -33,6 +33,7 @@ require_once "Mail.php";
 require_once "Url.php";
 require_once "Controller.php";
 require_once "Option.php";
+require_once "View.php";
 
 require_once "PluginsFunctions/Menu.php";
 require_once "PluginsFunctions/AdminMenu.php";
