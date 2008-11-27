@@ -1,6 +1,6 @@
 <?php
 try {
-	Piwik_Query('DROP TABLE IF EXISTS '. Piwik::prefixTable('option'));
+	Piwik_Query('DROP TABLE IF EXISTS `'. Piwik::prefixTable('option') . '`');
 	$tables = Piwik::getTablesCreateSql();
 	$optionTable = $tables['option'];
 	Piwik_Query( $optionTable );

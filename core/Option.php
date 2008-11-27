@@ -29,7 +29,7 @@ class Piwik_Option
 			return $this->all[$name];
 		}
 		$value = Piwik_FetchOne( 'SELECT option_value 
-							FROM ' . Piwik::prefixTable('option') . ' 
+							FROM `' . Piwik::prefixTable('option') . '`
 							WHERE option_name = ?', $name);
 		if($value === false)
 		{
@@ -42,7 +42,7 @@ class Piwik_Option
 	public function set($name, $value, $autoload = 0)
 	{
 		$autoload = (int)$autoload;
-		Piwik_Query('INSERT INTO '. Piwik::prefixTable('option') . ' (option_name, option_value, autoload) '.
+		Piwik_Query('INSERT INTO `'. Piwik::prefixTable('option') . '` (option_name, option_value, autoload) '.
 					' VALUES (?, ?, ?) '.
 					' ON DUPLICATE KEY UPDATE option_value = ?', 
 					array($name, $value, $autoload, $value));
@@ -56,10 +56,11 @@ class Piwik_Option
 		{
 			return;
 		}
+		$all = array();
 		try {
-			$all = Piwik_FetchAll('SELECT option_value, option_name ' .
-									' FROM '. Piwik::prefixTable('option') . 
-									' WHERE autoload = 1');
+			$all = Piwik_FetchAll('SELECT option_value, option_name
+									FROM `'. Piwik::prefixTable('option') . '` 
+									WHERE autoload = 1');
 		} catch(Exception $e) {
 			// this would fail for users who upgraded between 0.2.10 and 0.2.13 where option table didn't have the autoload field yet
 		}
