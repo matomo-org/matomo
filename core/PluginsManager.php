@@ -262,15 +262,6 @@ class Piwik_PluginsManager
 		
 		$path = 'plugins/' . $pluginFileName;
 
-		// case Tracker, we don't throw the exception, we don't want to add the Zend overhead
-		if(class_exists('Zend_Loader') 
-			&& !Zend_Loader::isReadable($path))
-		{
-			throw new Exception("<b>The plugin file {$path} couldn't be found. </b><br> 
-			If you are updating from a 0.2.x version, please <a target=_blank href='http://piwik.org/faq/update/#faq_6'>read the FAQ</a>!<br>
-			Found in your config/config.ini.php file:<br><code>[Plugins]</code><br><code>Plugins[] = $pluginName;</code>");
-		}
-		
 		require_once $path;
 		
 		if(!class_exists($pluginClassName))

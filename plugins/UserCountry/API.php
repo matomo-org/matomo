@@ -9,6 +9,7 @@
  * @package Piwik_UserCountry
  */
 require_once "DataFiles/Countries.php";
+require_once "UserCountry/functions.php";
 
 /**
  * 

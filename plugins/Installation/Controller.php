@@ -9,7 +9,6 @@
  * @package Piwik_Installation
  */
 
-require_once "View.php";
 require_once "Installation/View.php";
 
 /**

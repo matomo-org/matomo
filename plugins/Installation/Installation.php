@@ -10,8 +10,6 @@
  */
 
 
-require_once "Installation/Controller.php";
-
 /**
  * 
  * @package Piwik_Installation
@@ -48,6 +46,7 @@ class Piwik_Installation extends Piwik_Plugin
 	
 	protected function getInstallationController()
 	{
+		require_once "Installation/Controller.php";
 		return new $this->installationControllerName();
 	}
 	

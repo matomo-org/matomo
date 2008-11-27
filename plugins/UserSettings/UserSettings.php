@@ -9,8 +9,6 @@
  * @package Piwik_UserSettings
  */
 
-require_once "UserSettings/functions.php";
-
 /**
  * @package Piwik_UserSettings
  */
@@ -73,6 +71,8 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	function archiveDay( $notification )
 	{
+		require_once "UserSettings/functions.php";
+		
 		$archiveProcessing = $notification->getNotificationObject();
 		$this->archiveProcessing = $archiveProcessing;
 			

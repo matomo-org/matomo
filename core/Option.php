@@ -63,7 +63,7 @@ class Piwik_Option
 		} catch(Exception $e) {
 			// this would fail for users who upgraded between 0.2.10 and 0.2.13 where option table didn't have the autoload field yet
 		}
-		foreach($this->all as $option)
+		foreach($all as $option)
 		{
 			$this->all[$option['option_name']] = $option['option_value'];
 		}

@@ -157,8 +157,9 @@ class Piwik_Common
 	 */
 	static public function isValidFilename($filename)
 	{
-		return (false !== ereg("(^[a-zA-Z0-9]+([a-zA-Z\_0-9\.-]*))$" , $filename));
+		return (0 !== preg_match("/(^[a-zA-Z0-9]+([a-zA-Z\_0-9\.-]*))$/" , $filename));
 	}
+	
 	/**
 	 * Returns true if the string passed may be a URL.
 	 * We don't need a precise test here because the value comes from the website
