@@ -1038,7 +1038,7 @@ class Piwik
 					)
 				)
 			{
-				$db->query("DROP TABLE $tableName");
+				$db->query("DROP TABLE `$tableName`");
 			}
 		}			
 	}
