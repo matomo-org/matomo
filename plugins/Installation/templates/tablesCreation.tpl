@@ -10,7 +10,6 @@
 	
 	<p class="nextStep"><a href="{url action=$nextModuleName}">{'Installation_TablesReuse'|translate} &raquo;</a></p>
 	<p class="nextStep" id="eraseAllTables"><a href="{url deleteTables=1}">{'Installation_TablesDelete'|translate} &raquo;</a></p>
-				
 {/if}
 
 {if isset($existingTablesDeleted)}
@@ -28,9 +27,6 @@
 	<div class="success"> {'Installation_TablesCreatedSuccess'|translate} 
 	<img src="themes/default/images/success_medium.png"></div>
 {/if}
-
-
-
 
 
 {literal}
