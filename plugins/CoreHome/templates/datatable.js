@@ -255,13 +255,19 @@ dataTable.prototype =
 			.each(
 				function()
 				{
+					if(typeof self.param.filter_excludelowpop == 'undefined')
+					{
+						self.param.filter_excludelowpop = 0;
+					}
 					if(Number(self.param.filter_excludelowpop) != 0)
 					{
 						string = _pk_translate('CoreHome_IncludeAllPopulation');
+						self.param.filter_excludelowpop = 1;
 					}
 					else
 					{
 						string = _pk_translate('CoreHome_ExcludeLowPopulation');
+						self.param.filter_excludelowpop = 0;
 					}
 					$(this).html(string);
 				} 
@@ -270,18 +276,8 @@ dataTable.prototype =
 			.click(
 				function()
 				{
-					if(Number(self.param.filter_excludelowpop) != 0)
-					{
-						self.param.filter_excludelowpop = 0;
-						self.param.filter_excludelowpop_value = 0;
-					}
-					else
-					{
-						self.param.filter_excludelowpop = self.param.filter_excludelowpop_default;
-						self.param.filter_excludelowpop_value = self.param.filter_excludelowpop_value_default;		
-					}
+					self.param.filter_excludelowpop = 1 - self.param.filter_excludelowpop;
 					self.param.filter_offset = 0;
-	
 					self.reloadAjaxDataTable(true, callbackSuccess);
 				}
 			);
@@ -443,7 +439,7 @@ dataTable.prototype =
 		}
 		
 		// When the (+) image is hovered, the export buttons are displayed 
-		$('#exportDataTableShow', domElem)
+		$('#dataTableFooterIconsShow', domElem)
 			.show()
 			.hover( function() {
 					$(this).fadeOut('slow');
@@ -454,7 +450,7 @@ dataTable.prototype =
 		//timeout object used to hide the datatable export buttons
 		var timeout = null;
 		
-		$('#exportDataTable', domElem)
+		$('#dataTableFooterIcons', domElem)
 			.hover( function() {
 					//display 'hand' cursor
 					$(this).css({ cursor: "pointer"});
@@ -474,7 +470,7 @@ dataTable.prototype =
 					var dom = this;
 					timeout = setTimeout(function(){
 						$('#exportToFormat', dom).fadeOut('fast', function(){	//queue the two actions
-						$('#exportDataTableShow', dom).show('fast');});
+						$('#dataTableFooterIconsShow', dom).show('fast');});
 					}, 1000);
 				}
 		);
@@ -492,6 +488,9 @@ dataTable.prototype =
 			.show()
 			.click(
 				function(){
+					// we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
+					// this value is stored in config file General->dataTable_default_limit but this is more an edge case so ok to set it to 10
+					delete self.param.filter_limit;
 					self.param.viewDataTable = self.param.viewDataTable == 'table' ? 'tableAllColumns' : 'table';
 					self.reloadAjaxDataTable();
 				}
@@ -521,39 +520,79 @@ dataTable.prototype =
 			}
 		);
 	},
-			
+
+	truncate: function(domElemToTruncate, truncationOffset)
+	{
+		var self = this;
+		
+		if(typeof truncationOffset == 'undefined') {
+			truncationOffset = 0;
+		}
+		var truncationLimit = 30;
+		// in a subtable
+		if(typeof self.param.idSubtable != 'undefined')
+		{
+			truncationLimit = 25;
+		}
+		// when showing all columns
+		if(typeof self.param.idSubtable == 'undefined'
+			&& self.param.viewDataTable == 'tableAllColumns')
+		{
+			truncationLimit = 15;
+		}
+		// when showing all columns in a subtable, space is restricted
+		if(self.param.viewDataTable == 'tableAllColumns')
+		{
+			truncationLimit = 10;
+		}
+		
+		truncationLimit += truncationOffset;
+
+		$(domElemToTruncate).truncate(truncationLimit);
+		$('.truncated', domElemToTruncate)
+			.Tooltip();
+	},
+
 	//Apply some miscelleaneous style to the DataTable
 	applyCosmetics: function(domElem)
 	{
 		var self = this;
 		
-		// we truncate the labels columns from the second row
-		$("table tr td:first-child", domElem).truncate(30);
-		$('.truncated', domElem).Tooltip();
-		
-		var imageLinkWidth = 10;
-		var imageLinkHeight = 9;
-		
-		// we add a link based on the <span id="urlLink"> present in the column label (the first column)
-		// if this span is there, we add the link around the HTML in the TD
-		// but we add this link only for the rows that are not clickable already (subDataTable)
-		$("tr:not('.subDataTable') td:first-child:has('#urlLink')", domElem).each( function(){
-			
-			var imgToPrepend = '';
-			if( $(this).find('img').length == 0 )
-			{
-				imgToPrepend = '<img width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="'+piwik.piwik_url+'themes/default/images/link.gif" /> ';
-			}
-			var urlToLink = $('#urlLink',this).html();
-			if( urlToLink.match("javascript:") )
-			{
-				$(this).html( '<a href="#" onClick="' + urlToLink.replace("javascript:","") + '">' + imgToPrepend + $(this).html() + '</a>');				
-			}
-			else
-			{
-				$(this).html( '<a target="_blank" href="' + urlToLink + '">' + imgToPrepend + $(this).html() + '</a>');
-			}
-		});
+		var urlLinkFoundDom = $("tr:not('.subDataTable') td:first-child:has('#urlLink')", domElem);
+		if(urlLinkFoundDom.length == 0)
+		{
+			self.truncate( $("table tr td:first-child", domElem) );
+		}
+		else
+		{
+			var imageLinkWidth = 10;
+			var imageLinkHeight = 9;
+			urlLinkFoundDom.each( function(){
+				// we add a link based on the <span id="urlLink"> present in the column label (the first column)
+				// if this span is there, we add the link around the HTML in the TD
+				// but we add this link only for the rows that are not clickable already (subDataTable)
+				var imgToPrepend = '';
+				if( $(this).find('img').length == 0 )
+				{
+					imgToPrepend = '<img width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="'+piwik.piwik_url+'themes/default/images/link.gif" /> ';
+				}
+				var urlLinkDom = $('#urlLink',this);
+				var urlToLink = $(urlLinkDom).html();
+				$(urlLinkDom).remove();
+				
+				var truncationOffsetBecauseImageIsPrepend = -2;
+				self.truncate( $(this), truncationOffsetBecauseImageIsPrepend );
+				
+				if( urlToLink.match("javascript:") )
+				{
+					$(this).html( '<a href="#" onClick="' + urlToLink.replace("javascript:","") + '">' + imgToPrepend + $(this).html() + '</a>');				
+				}
+				else
+				{
+					$(this).html( '<a target="_blank" href="' + urlToLink + '">' + imgToPrepend + $(this).html() + '</a>');
+				}
+			});
+		}
 	
 		
 		// Add some styles on the cells even/odd
@@ -565,18 +604,12 @@ dataTable.prototype =
 		$("tr:even td", domElem).slice(1).addClass('columneven');
 		
 		// Change cursor on mouse hover if sort is enabled
-		if( self.param.enable_sort )
+		if( self.param.enable_sort ) 
 		{
-			$("th.sortable", domElem).hover(
-				function()
-				{
-					$(this).css({ cursor: "pointer"}); 
-				},
-				function()
-				{  
-					$(this).css({ cursor: "auto"}); 
-				}
-			);
+			$("th.sortable", domElem)
+				.hover( function() { $(this).css({ cursor: "pointer"}); }, 
+						function() { $(this).css({ cursor: "auto"});
+				});
 		}
 	},
  	
@@ -714,12 +747,8 @@ actionDataTable.prototype =
 				{
 					self.onClickActionSubDataTable(this)
 				})
-				.hover(function() {  
-				 	 $(this).css({ cursor: "pointer"}); 
-				  	},
-				  	function() {  
-				 	 $(this).css({ cursor: "auto"}); 
-				  	}
+				.hover(	function() { $(this).css({ cursor: "pointer"});	},
+						function() { $(this).css({ cursor: "auto"}); }
 		 		);
 		}
 		

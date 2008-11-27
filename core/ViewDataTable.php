@@ -487,9 +487,6 @@ abstract class Piwik_ViewDataTable
 			$javascriptVariablesToSet['actionToLoadTheSubTable'] = $this->actionToLoadTheSubTable;
 		}
 		
-//		var_dump($this->variablesDefault);
-//		var_dump($javascriptVariablesToSet); exit;
-		
 		if($this->dataTable)
 		{
 			$javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
@@ -641,15 +638,8 @@ abstract class Piwik_ViewDataTable
 			$columnName = Piwik_Archive::INDEX_NB_VISITS;
 		}
 
-		// column to use to enable low population exclusion if != false
-		$this->variablesDefault['filter_excludelowpop_default'] 
-			= $this->variablesDefault['filter_excludelowpop']
-			= $columnName;
-
-		// the minimum value a row must have to be returned 
-		$this->variablesDefault['filter_excludelowpop_value_default'] 
-			= $this->variablesDefault['filter_excludelowpop_value']
-			= $minValue;
+		$this->variablesDefault['filter_excludelowpop'] = $columnName;
+		$this->variablesDefault['filter_excludelowpop_value'] = $minValue;
 	}
 	
 	/**

@@ -21,10 +21,11 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 	private $columnToFilter;
 	private $functionToApply;
 	
-	public function __construct( $table, $columnToFilter, $functionToApply )
+	public function __construct( $table, $columnToFilter, $functionToApply, $functionParameters = null )
 	{
 		parent::__construct($table);
 		$this->functionToApply = $functionToApply;
+		$this->functionParameters = $functionParameters;
 		$this->columnToFilter = $columnToFilter;
 		$this->filter();
 	}
@@ -33,8 +34,12 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 	{
 		foreach($this->table->getRows() as $key => $row)
 		{
-			$oldValue = $row->getColumn($this->columnToFilter);
-			$newValue = call_user_func( $this->functionToApply, $oldValue);
+			$parameters = array($row->getColumn($this->columnToFilter));
+			if(!is_null($this->functionParameters))
+			{
+				$parameters = array_merge($parameters, $this->functionParameters);
+			}
+			$newValue = call_user_func_array( $this->functionToApply, $parameters);
 			$row->setColumn($this->columnToFilter, $newValue);
 		}
 	}

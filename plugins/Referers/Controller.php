@@ -144,7 +144,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setLimit(10);
-		$view->setGraphLimit(12);
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -188,7 +187,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->setColumnsToDisplay( array('label','nb_visits') );
-
 		return $this->renderView($view, $fetch);
 	}
 	

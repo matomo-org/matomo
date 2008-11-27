@@ -1,7 +1,29 @@
+Following up show all columns new UI element
+====
+- ADD forward of non true show_values to forward when specified from URL to ajax
+- disable show icon in some iframes and/or dashboard 
+- do proper CSS factoring
+- clarify 'false' '0' values etc. //convert all JS datatable footer parameter values to '1' or '0'
+- check state of javascript footer (should not have safe_decode and filter_add_columns blah)
+- set custom truncation limit per datatable type (simple VS allColumns, and subtable) ->bug display subtable icon is cut (see truncation limit)
+- Blog post!
+
+Test page
+==========
+- prepare a page with all use cases in iframes?
+- test the actions datatable in this page?
+- test datatable with search disabled
+- test datatable with low population disabled
+- without footer
+- without all columns icon
+
 UI fixes + adjustements
 ====
+- orange box top right
+- keep referers logs lines used for XSXS referer injection attack
 - write test to make sure deployement don't include logger in file/db/etc
 - write test to check disabled db plugin default
+- show total size in MB in db plugin
 - search inside datatable doesnt really work eg. "web analytics" restore regex search
 - bounce count should be bounce rate
 - idem in 222 times that a returning visit has bounced (left the site after one page) 
@@ -10,20 +32,8 @@ UI fixes + adjustements
 - WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
 - see also #421
 
-Following up show all columns new UI element
-====
-- ADD forward of non true show_values to forward when specified from URL to ajax
-- disable show icon in some iframes and/or dashboard 
-- when default is not table, the table icon is not shown below tables (eg. plugins)
-- when default is pie chart (visitors > settings), then shows advanced table icon
-- labels for datatable actions are ugly
-- i18n on title on datatable footer
-- do proper CSS factoring
-- rename exportDataTable div in footerDataTableIcons or similar
-- clarify 'false' '0' values etc. //convert all JS datatable footer parameter values to '1' or '0'
-- check state of javascript footer (should not have safe_decode and filter_add_columns blah)
-- set custom truncation limit per datatable type (simple VS allColumns, and subtable) ->bug display subtable icon is cut (see truncation limit)
-- Blog post!
+check phpmyvisites piwik analytics sur delicious
+check analytics books
 
 high priority features
 ====
@@ -45,7 +55,6 @@ UI elements:
 
 website
 ====
-- after download redirect to install guide
 - 404 more useful
 - provide changelog + rss feed for new versions
 - www.piwik.org/demo/ is 404

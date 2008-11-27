@@ -20,6 +20,13 @@
 	width: 535px;
 }
 
+.subdataTableWrapper{
+	width: 95%;
+}
+.subdataTableAllColumnsWrapper {
+	width: 95%;
+}
+
 .dataTableActionsWrapper {
 	width: 500px;
 }
@@ -71,7 +78,7 @@ table.dataTable th {
 	border-top: 1px solid #C1DAD7;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
-	background: #D4E3ED url(images/bg_header.jpg) no-repeat;
+	background: #D4E3ED url(images/bg_header.jpg) repeat-x;
 }
 
 table.dataTable th.columnSorted {
@@ -136,7 +143,6 @@ table.dataTable td #urlLink {
 /* SUBDATATABLE */ /* a datatable inside another datatable */
 table.subDataTable {
 	background: #FFFFFF;
-	width: 95%;
 	margin: 10px;
 }
 
@@ -168,7 +174,6 @@ table.subDataTable td {
 }
 
 table.subDataTable td,table.subDataTable td a {
-	padding: 0.3em 1em;
 	color: #615B53;
 }
 
@@ -182,6 +187,9 @@ table.subDataTable td.label {
 
 table.subDataTable td.labelodd,table.subDataTable td.labelodd a {
 	background: #ffffff;
+}
+table.subDataTable td.label {
+	padding: 1px;
 }
 
 /* misc SPAN and DIV */
@@ -259,11 +267,11 @@ table thead div {
 	display: none;
 }
 
-.subDataTable #exportDataTable {
+.subDataTable #dataTableFooterIcons {
 	height: 0px;
 }
 
-#exportDataTable {
+#dataTableFooterIcons {
 	float: right;
 	height: 18px;
 }
@@ -272,11 +280,11 @@ table thead div {
 	float: right;
 }
 
-#exportDataTableShow {
+#dataTableFooterIconsShow {
 	float: right;
 }
 
-#exportDataTable,#exportDataTable a {
+#dataTableFooterIcons,#dataTableFooterIcons a {
 	text-decoration: none;
 	color: #8894B1;
 	font-size:0.9em;
@@ -293,15 +301,18 @@ table thead div {
 	padding: 0.5em;
 }
 
+#tooltip h3 {
+	margin:0;
+	padding:0;
+}
 #tooltip {
 	position: absolute;
 	z-index: 3000;
 	border: 1px solid #111;
 	background-color: #eee;
-	padding-left: 5px;
-	padding-right: 5px;
 	opacity: 0.85;
 	font-size: 0.7em;
+	padding:7px;
 }
 
 /* Actions table */

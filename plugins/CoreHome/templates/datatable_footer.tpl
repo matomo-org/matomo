@@ -19,7 +19,7 @@
 
 {if $properties.show_footer_icons}
 	<div>
-		<span id="exportDataTable">
+		<span id="dataTableFooterIcons">
 			<span id="exportToFormat" style="display:none;padding-left:4px;">
 				<img width="16" height="16" src="{$piwikUrl}themes/default/images/export.png" title="{'General_Export'|translate}" />
 				<span id="linksExportToFormat" style="display:none;"> 
@@ -32,15 +32,15 @@
 				<a class="viewDataTable" format="graphVerticalBar"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_bar.png" title="{'General_VBarGraph'|translate}" /></a>
 				<a class="viewDataTable" format="graphPie"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_pie.png" title="{'General_Piechart'|translate}" /></a>
 			</span>
-			<span id="exportDataTableShow" style="display:none;padding-left:4px;">
+			<span id="dataTableFooterIconsShow" style="display:none;padding-left:4px;">
 				<img src="{$piwikUrl}plugins/CoreHome/templates/images/more.png" />
 			</span>
 			{if $properties.show_table_all_columns}
 				<span id="tableAllColumnsSwitch" style="display:none;float:right;padding-right:4px;border-right:1px solid #82A1D2;">
 				{if $javascriptVariablesToSet.viewDataTable != 'table'}
-					<img title="Display normal table" src="{$piwikUrl}themes/default/images/table.png" />
+					<img title="{'General_DisplayNormalTable'|translate}" src="{$piwikUrl}themes/default/images/table.png" />
 				{else}
-					<img title="Display more data" src="{$piwikUrl}themes/default/images/table_more.png" />
+					<img title="{'General_DisplayMoreData'|translate}" src="{$piwikUrl}themes/default/images/table_more.png" />
 				{/if}
 				</span>
 			{/if}
