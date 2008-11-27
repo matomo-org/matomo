@@ -367,7 +367,8 @@ abstract class Piwik_ArchiveProcessing
 		
 		// we delete all tables from the table register
 		Piwik_ArchiveProcessing_Record_Manager::getInstance()->deleteAll();
-	} 
+		Piwik_DataTable_Manager::getInstance()->deleteAll();
+	}
 	
 	/**
 	 * Returns the name of the numeric table where the archive numeric values are stored
