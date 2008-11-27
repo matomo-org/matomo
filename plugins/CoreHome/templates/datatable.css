@@ -189,9 +189,11 @@ table.subDataTable td.labelodd,table.subDataTable td.labelodd a {
 	background: #ffffff;
 }
 table.subDataTable td.label {
-	padding: 1px;
+	padding: 5px;
 }
-
+table.dataTable img {
+	margin-left:0;
+}
 /* misc SPAN and DIV */
 table thead div {
 	
