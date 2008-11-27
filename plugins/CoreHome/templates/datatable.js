@@ -538,10 +538,10 @@ dataTable.prototype =
 		if(typeof self.param.idSubtable == 'undefined'
 			&& self.param.viewDataTable == 'tableAllColumns')
 		{
-			truncationLimit = 15;
+			truncationLimit = 17;
 		}
 		// when showing all columns in a subtable, space is restricted
-		if(self.param.viewDataTable == 'tableAllColumns')
+		else if(self.param.viewDataTable == 'tableAllColumns')
 		{
 			truncationLimit = 10;
 		}
