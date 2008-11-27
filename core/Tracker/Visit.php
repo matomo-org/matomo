@@ -571,14 +571,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 *		- site				-- based on the referer URL
 	 *		- search_engine		-- based on the referer URL
 	 *		- campaign			-- based on campaign URL parameter
-	 *		- newsletter		-- based on newsletter URL parameter
 	 *
 	 * - referer_name
 	 * 		- ()
 	 * 		- piwik.net			-- site host name
 	 * 		- google.fr			-- search engine host name
 	 * 		- adwords-search	-- campaign name
-	 * 		- beta-release		-- newsletter name
 	 * 		
 	 * - referer_keyword
 	 * 		- ()
@@ -613,8 +611,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$refererDetected = false;
 		if( !empty($this->currentUrlParse['host']))
 		{
-			if(	$this->detectRefererNewsletter()
-				||	$this->detectRefererCampaign() )
+			if(	$this->detectRefererCampaign() )
 			{
 				$refererDetected = true;
 			}
@@ -709,26 +706,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	}
 	
 	/*
-	 * Newsletter analysis
-	 */
-	protected function detectRefererNewsletter()
-	{
-		if(isset($this->currentUrlParse['query']))
-		{
-			$newsletterVariableName = Piwik_Tracker_Config::getInstance()->Tracker['newsletter_var_name'];
-			$newsletterVar = Piwik_Common::getParameterFromQueryString( $this->currentUrlParse['query'], $newsletterVariableName);
-
-			if(!empty($newsletterVar))
-			{
-				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_NEWSLETTER;
-				$this->nameRefererAnalyzed = $newsletterVar;
-				
-				return true;
-			}
-		}
-	}
-	
-	/*
 	 * Campaign analysis
 	 */
 	protected function detectRefererCampaign()
@@ -759,10 +736,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	/*
 	 * Direct entry (referer host is similar to current host)
-	 * And we have previously tried to detect the newsletter/campaign variables in the URL 
+	 * And we have previously tried to detect the campaign variables in the URL 
 	 * so it can only be a direct access
 	 */
-	
 	protected function detectRefererDirectEntry()
 	{
 		if(isset($this->currentUrlParse['host']))

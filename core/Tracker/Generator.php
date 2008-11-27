@@ -19,7 +19,6 @@
  * 
  * Requirements of the visits generator script. Fields that can be edited:
  * - url => campaigns
- * 		- newsletter
  * 		- campaign CPC
  * - referer
  * 		- search engine
@@ -293,8 +292,7 @@ class Piwik_Tracker_Generator
 		
 		// we get the variables name for the campaign parameters
 		$campaigns = array(
-						Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name'],
-						Piwik_Tracker_Config::getInstance()->Tracker['newsletter_var_name'],
+						Piwik_Tracker_Config::getInstance()->Tracker['campaign_var_name']
 		);
 		// we generate a campaign in the URL in 3/18 % of the generated URls
 		$this->addParam('piwik_vars_campaign', $campaigns);
@@ -430,7 +428,7 @@ class Piwik_Tracker_Generator
 		// generates the current URL 
 		$url = $this->getRandomUrlFromHost($this->host);
 		
-		// we generate a campaign (newsletter or campaign)
+		// we generate a campaign
 		$urlVars = $this->getRandom('piwik_vars_campaign');
 		
 		// if we actually generated a campaign

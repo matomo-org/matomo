@@ -54,11 +54,12 @@ function Piwik_getRefererTypeLabel($label)
 		case Piwik_Common::REFERER_TYPE_WEBSITE:
 			$indexTranslation = 'Referers_Websites';
 			break;
-		case Piwik_Common::REFERER_TYPE_NEWSLETTER:
-			$indexTranslation = 'Referers_Newsletters';
-			break;
 		case Piwik_Common::REFERER_TYPE_CAMPAIGN:
 			$indexTranslation = 'Referers_Campaigns';
+			break;
+		default:
+			// case of newsletter, partners, before Piwik 0.2.25
+			$indexTranslation = 'General_Others';
 			break;
 	}
 	return Piwik_Translate($indexTranslation);

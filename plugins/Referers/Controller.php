@@ -28,7 +28,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->urlSparklineDirectEntry 		= $this->getUrlSparkline('getLastDirectEntryGraph');
 		$view->urlSparklineWebsites 		= $this->getUrlSparkline('getLastWebsitesGraph');
 		$view->urlSparklineCampaigns 		= $this->getUrlSparkline('getLastCampaignsGraph');
-		$view->urlSparklineNewsletters 		= $this->getUrlSparkline('getLastNewslettersGraph');
 		
 		// sparklines for the evolution of the distinct keywords count/websites count/ etc
 		$view->urlSparklineDistinctSearchEngines 	= $this->getUrlSparkline('getLastDistinctSearchEnginesGraph');
@@ -212,7 +211,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 			'visitorsFromDirectEntry' =>  Piwik_Common::REFERER_TYPE_DIRECT_ENTRY,
 			'visitorsFromWebsites'  => Piwik_Common::REFERER_TYPE_WEBSITE,
 			'visitorsFromCampaigns' =>  Piwik_Common::REFERER_TYPE_CAMPAIGN,
-			'visitorsFromNewsletters' =>  Piwik_Common::REFERER_TYPE_NEWSLETTER,
 		);
 		$return = array();
 		foreach($nameToColumnId as $nameVar => $columnId)
@@ -250,12 +248,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	{
 		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, 'Referers.getRefererType');
 		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_CAMPAIGN, 'label');
-		return $this->renderView($view, $fetch);
-	}
-	function getLastNewslettersGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, 'Referers.getRefererType');
-		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_NEWSLETTER, 'label');
 		return $this->renderView($view, $fetch);
 	}
 	function getLastDistinctSearchEnginesGraph( $fetch = false )
