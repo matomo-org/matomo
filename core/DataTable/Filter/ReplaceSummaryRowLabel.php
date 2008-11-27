@@ -29,9 +29,10 @@ class Piwik_DataTable_Filter_ReplaceSummaryRowLabel extends Piwik_DataTable_Filt
 	
 	protected function filter()
 	{
-		foreach($this->table->getRows() as $row)
+		$rows = $this->table->getRows();
+		foreach($rows as $row)
 		{
-			if($row->getColumn('label') === Piwik_DataTable::LABEL_SUMMARY_ROW)
+			if($row->getColumn('label') == Piwik_DataTable::LABEL_SUMMARY_ROW)
 			{
 				$row->setColumn('label', $this->newLabel);
 				break;

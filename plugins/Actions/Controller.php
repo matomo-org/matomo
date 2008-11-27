@@ -1,9 +1,8 @@
 <?php
-
 require_once "ViewDataTable.php";
+
 class Piwik_Actions_Controller extends Piwik_Controller 
 {
-	
 	function getDownloads($fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
@@ -21,6 +20,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
+	
 	function getDownloadsSubDataTable($fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
@@ -39,7 +39,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
-	
 	function getActions($fetch = false)
 	{
 		$view = $this->getActionsView(	$this->pluginName, 
@@ -49,6 +48,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
+	
 	function getActionsSubDataTable($fetch = false)
 	{
 		$view = $this->getActionsView( 	$this->pluginName, 
@@ -58,7 +58,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
-	
 	
 	function getOutlinks($fetch = false)
 	{
@@ -77,6 +76,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
+	
 	function getOutlinksSubDataTable($fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
@@ -94,7 +94,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
-	
 	
 	function index()
 	{
@@ -118,6 +117,8 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						$currentMethod, 
 						$methodToCall, 
 						$subMethod );
+		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
+		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnUniquePageviews'));
 		$view->setTemplate('CoreHome/templates/datatable_actions.tpl');
 		
 		if(Piwik_Common::getRequestVar('idSubtable', -1) != -1)
@@ -156,10 +157,8 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		if($currentlySearching)
 		{
 			$phpArrayRecursive = $this->getArrayFromRecursiveDataTable($view->getDataTable());
-//			var_dump($phpArrayRecursive);exit;
 			$view->getView()->arrayDataTable = $phpArrayRecursive;
 		}
-//		var_dump( $view->view->arrayDataTable);exit;
 		return $view;
 	}
 	
@@ -194,7 +193,4 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		}
 		return $table;
 	}
-	
-	
-	
 }

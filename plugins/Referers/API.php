@@ -102,12 +102,12 @@ class Piwik_Referers_API extends Piwik_Apiable
 		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date, $expanded);
 		return $dataTable;
 	}
+	
 	function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date, $expanded = false, $idSubtable);
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array( 'label', 'url', create_function('$label', 'return $label;')) );
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_truncatePath'));
 		return $dataTable;
 	}
 

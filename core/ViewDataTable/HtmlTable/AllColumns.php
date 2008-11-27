@@ -20,6 +20,11 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 	
 	protected function handleLowPopulation()
 	{
+		if(Piwik_Common::getRequestVar('filter_excludelowpop', '0', 'string' ) == '0')
+		{
+			return;
+		}
+		
 		require_once "VisitsSummary/Controller.php";
 		$visits = Piwik_VisitsSummary_Controller::getVisits();
 		$visitsThreshold = floor( self::LOW_POPULATION_THRESHOLD_PERCENTAGE_VISIT * $visits); 

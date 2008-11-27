@@ -210,7 +210,7 @@
 			tID = setTimeout(show, this.tSettings.delay);
 		else
 			show();
-		
+
 		// if selected, update the helper position when the mouse moves
 		track = !!this.tSettings.track;
 		$('body').bind('mousemove', update);
@@ -277,8 +277,7 @@
 	 */
 	function update(event)	{
 		if($.Tooltip.blocked)
-			return;
-		
+			return true;
 		// stop updating when tracking is disabled and the tooltip is visible
 		if ( !track && helper.parent.is(":visible")) {
 			$('body').unbind('mousemove', update)

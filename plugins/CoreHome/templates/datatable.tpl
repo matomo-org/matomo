@@ -1,5 +1,5 @@
 <div id="{$id}">
-	<div class="{if $javascriptVariablesToSet.viewDataTable=='tableAllColumns'}dataTableAllColumnsWrapper{else}dataTableWrapper{/if}">
+	<div class="{if isset($javascriptVariablesToSet.idSubtable)&& $javascriptVariablesToSet.idSubtable!=0}sub{/if}{if $javascriptVariablesToSet.viewDataTable=='tableAllColumns'}dataTableAllColumnsWrapper{else}dataTableWrapper{/if}">
 	{if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message} 
 	{else}
@@ -21,7 +21,7 @@
 			<tr {if $row.idsubdatatable}class="subDataTable" id="{$row.idsubdatatable}"{/if}>
 {foreach from=$dataTableColumns item=column}
 <td>
-{if $column.name=='label' && isset($row.metadata.url)}<span id="urlLink">{$row.metadata.url}</span>{/if}
+{if !$row.idsubdatatable && $column.name=='label' && isset($row.metadata.url)}<span id="urlLink">{$row.metadata.url}</span>{/if}
 {if $column.name=='label' && isset($row.metadata.logo)}<img {if isset($row.metadata.logoWidth)}width="{$row.metadata.logoWidth}"{/if} {if isset($row.metadata.logoHeight)}height="{$row.metadata.logoHeight}"{/if} src="{$row.metadata.logo}" />{/if}
 {* sometimes all columns are not set in the datatable, we assume the value 0 *}
 {if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}0{/if}

@@ -10,7 +10,7 @@
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column}
-				<th class="sortable" id="{$column.name}">{$column.name}</td>
+				<th class="sortable" id="{$column.name}">{$column.displayName}</td>
 			{/foreach}
 			</tr>
 			</thead>
@@ -27,8 +27,6 @@
 			</tr>
 			{/foreach}
 			</tbody>
-			
-		</tfoot>
 		</table>
 		{/if}
 	

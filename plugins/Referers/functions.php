@@ -9,18 +9,6 @@ function Piwik_getPathFromUrl($url)
 	return $path;
 }
 
-function Piwik_truncatePath( $path )
-{
-	$limit = 27;
-	$path = htmlspecialchars_decode($path);
-	$len = strlen($path);
-	if($len > $limit)
-	{
-		$path = substr($path, 0, $limit-3) . "...";
-	}
-	return htmlspecialchars($path);
-}
-
 function Piwik_getSearchEngineUrlFromName($name)
 {
 	require_once "DataFiles/SearchEngines.php";
