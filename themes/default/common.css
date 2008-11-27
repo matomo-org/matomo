@@ -86,12 +86,16 @@ a {
 	margin-top: 10px;
 	width: 300px;
 	line-height: 1.33;
-}
-#header_message, #header_message a {
-	color: red;
+	border: 1px solid #FF7F00 ;	
 	font-size: 0.9em;
-	text-decoration: none;
+	padding:5px;
+	font-weight:bold; 
+	right:10px;
 }
+#header_message, #header_message a { 
+	color:#FF7F00; 
+}
+
 #topRightBar {
 	padding: 0pt 0pt 4px; 
 	font-size: 84%;

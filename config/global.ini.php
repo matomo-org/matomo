@@ -135,10 +135,6 @@ outlink_url_var_name		= link
 ; Example: '/piwik.php?idsite=1&download=http://piwik.org/piwik.zip&name=Piwik last version'
 download_outlink_name_var   = name
 
-; variable name to track a newsletter campaign. 
-; Example: If a visitor first visits 'index.php?piwik_nl=Great offer' then it will be counted as a newsletter referer for the newsletter 'Great offer'  
-newsletter_var_name			= piwik_nl
-
 ; variable name to track any campaign, for example CPC campaign
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referer named 'Adwords-CPC'
 campaign_var_name			= piwik_campaign

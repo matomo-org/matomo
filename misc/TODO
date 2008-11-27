@@ -19,7 +19,6 @@ Test page
 
 UI fixes + adjustements
 ====
-- orange box top right
 - keep referers logs lines used for XSXS referer injection attack
 - write test to make sure deployement don't include logger in file/db/etc
 - write test to check disabled db plugin default
