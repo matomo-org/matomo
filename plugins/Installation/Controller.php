@@ -53,6 +53,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	function welcome()
 	{
+		require_once "Login/Controller.php";
 		Piwik_Login_Controller::clearSession();
 		
 		$view = new Piwik_Install_View(
