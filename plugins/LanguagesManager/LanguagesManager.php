@@ -9,8 +9,6 @@
  * @package Piwik_LanguageManager
  */
 
-require_once "LanguagesManager/API.php";
-
 class Piwik_LanguagesManager extends Piwik_Plugin
 {
 	public function getInformation()
@@ -49,6 +47,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	
 	function getLanguageToLoad($notification)
 	{
+		require_once "LanguagesManager/API.php";
 		$language =& $notification->getNotificationObject();
 		$language = self::getLanguageCodeForCurrentUser();
 	}

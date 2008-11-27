@@ -1,4 +1,5 @@
 <?php
+require_once "UsersManager/API.php";
 /**
  * @package Piwik
  */

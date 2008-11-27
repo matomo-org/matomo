@@ -8,7 +8,6 @@
  * 
  * @package Piwik_Login
  */
-require "Login/Controller.php";
 require "Login/Auth.php";
 require "Cookie.php";
 
@@ -45,6 +44,7 @@ class Piwik_Login extends Piwik_Plugin
 		$exception  = $notification->getNotificationObject();
 		$exceptionMessage = $exception->getMessage(); 
 
+		require "Login/Controller.php";
 		$controller = new Piwik_Login_Controller;
 		$controller->login($exceptionMessage);
 	}
