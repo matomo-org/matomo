@@ -165,9 +165,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 				$mail->addTo($email, $login);
 				$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));
 				$mail->setBodyText(
-					sprintf(Piwik_Translate('Login_MailPasswordRecoveryBody'), $login, $randomPassword, Piwik_Url::getCurrentUrlWithoutQueryString()),
-					null,
-					Zend_Mime::TYPE_TEXT
+					str_replace(
+						'\n',
+						"\n",
+						sprintf(Piwik_Translate('Login_MailPasswordRecoveryBody'), $login, $randomPassword, Piwik_Url::getCurrentUrlWithoutQueryString())
+					)
 				);
 
 				$host = $_SERVER['HTTP_HOST'];
