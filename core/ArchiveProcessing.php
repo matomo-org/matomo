@@ -290,7 +290,7 @@ abstract class Piwik_ArchiveProcessing
 		elseif($this->idArchive === false
 				||	$this->debugAlwaysArchive)
 		{
-			return false;
+			return null;
 		}
 		else
 		{
