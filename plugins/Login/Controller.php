@@ -100,59 +100,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 		if($form->validate())
 		{
 			$loginMail = $form->getSubmitValue('form_login');
-			Piwik::setUserIsSuperUser();
-
-			$user = null;
-
-			if( Piwik_UsersManager_API::userExists($loginMail) )
-			{
-				$user = Piwik_UsersManager_API::getUser($loginMail);
-			}
-			else if( Piwik_UsersManager_API::userEmailExists($loginMail) )
-			{
-				$user = Piwik_UsersManager_API::getUserByEmail($loginMail);
-			}
-
-			if( $user === null )
-			{
-				$messageNoAccess = Piwik_Translate('Login_InvalidUsernameEmail');
-			}
-			else
-			{
-				$view = new Piwik_View('Login/templates/passwordsent.tpl');
-					
-				$login = $user['login'];
-				$email = $user['email'];
-				$randomPassword = Piwik_Common::getRandomString(8);
-				Piwik_UsersManager_API::updateUser($login, $randomPassword);
-
-				// send email with new password
-				try
-				{
-					$mail = new Piwik_Mail();
-					$mail->addTo($email, $login);
-					$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));
-					$mail->setBodyText(sprintf(Piwik_Translate('Login_MailPasswordRecoveryBody'),
-					$login, $randomPassword, Piwik_Url::getCurrentUrlWithoutQueryString()));
-
-					$host = $_SERVER['HTTP_HOST'];
-					if(strlen($host) == 0)
-					{
-						$host = 'piwik.org';
-					}
-					$mail->setFrom('password-recovery@'.$host, 'Piwik');
-					@$mail->send();
-				}
-				catch(Exception $e)
-				{
-					$view->ErrorString = $e->getMessage();
-				}
-
-				$view->linkTitle = Piwik::getRandomTitle();
-				$view->urlToRedirect = $urlToRedirect;
-				echo $view->render();
-				return;
-			}
+			$this->lostPasswordFormValidated($loginMail, $urlToRedirect);
+			return;
 		}
 		$view = new Piwik_View('Login/templates/lostPassword.tpl');
 		$view->AccessErrorString = $messageNoAccess;
@@ -163,7 +112,80 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
 	}
+	
+	protected function lostPasswordFormValidated($loginMail, $urlToRedirect)
+	{
+		Piwik::setUserIsSuperUser();
+		$user = null;
+		$isSuperUser = false;
+		
+		if( $loginMail == Zend_Registry::get('config')->superuser->email
+			|| $loginMail == Zend_Registry::get('config')->superuser->login )
+		{
+			$isSuperUser = true;
+			$user = array( 
+					'login' => Zend_Registry::get('config')->superuser->login,
+					'email' => Zend_Registry::get('config')->superuser->email);
+		}
+		else if( Piwik_UsersManager_API::userExists($loginMail) )
+		{
+			$user = Piwik_UsersManager_API::getUser($loginMail);
+		}
+		else if( Piwik_UsersManager_API::userEmailExists($loginMail) )
+		{
+			$user = Piwik_UsersManager_API::getUserByEmail($loginMail);
+		}
 
+		if( $user === null )
+		{
+			$messageNoAccess = Piwik_Translate('Login_InvalidUsernameEmail');
+		}
+		else
+		{
+			$view = new Piwik_View('Login/templates/passwordsent.tpl');
+				
+			$login = $user['login'];
+			$email = $user['email'];
+			$randomPassword = Piwik_Common::getRandomString(8);
+			
+			if($isSuperUser)
+			{
+				$user['password'] = md5($randomPassword);
+				Zend_Registry::get('config')->superuser = $user;
+			}
+			else
+			{
+				Piwik_UsersManager_API::updateUser($login, $randomPassword);
+			}
+
+			// send email with new password
+			try
+			{
+				$mail = new Piwik_Mail();
+				$mail->addTo($email, $login);
+				$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));
+				$mail->setBodyText(sprintf(Piwik_Translate('Login_MailPasswordRecoveryBody'),
+				$login, $randomPassword, Piwik_Url::getCurrentUrlWithoutQueryString()));
+
+				$host = $_SERVER['HTTP_HOST'];
+				if(strlen($host) == 0)
+				{
+					$host = 'piwik.org';
+				}
+				$mail->setFrom('password-recovery@'.$host, 'Piwik');
+				@$mail->send();
+			}
+			catch(Exception $e)
+			{
+				$view->ErrorString = $e->getMessage();
+			}
+
+			$view->linkTitle = Piwik::getRandomTitle();
+			$view->urlToRedirect = $urlToRedirect;
+			echo $view->render();
+		}
+	}
+	
 	static public function clearSession()
 	{
 		$authCookieName = 'piwik-auth';
