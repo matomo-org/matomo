@@ -158,7 +158,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$archiveProcessing->setSite($this->site);
 			$archiveProcessing->setPeriod($this->period);
 			$idArchive = $archiveProcessing->loadArchive();
-			if($idArchive === false)
+			if($idArchive === null)
 			{
 				$archiveJustProcessed = true;
 				$archiveProcessing->launchArchiving();
