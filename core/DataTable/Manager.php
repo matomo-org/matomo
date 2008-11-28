@@ -80,6 +80,11 @@ class Piwik_DataTable_Manager
 		$this->tables = array();
 	}
 	
+	/**
+	 * Deletes the datatable given its id
+	 *
+	 * @param int $id
+	 */
 	public function deleteTable( $id )
 	{
 		if(isset($this->tables[$id]))

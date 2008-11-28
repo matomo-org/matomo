@@ -79,6 +79,7 @@ class Piwik_Log_Formatter_Exception_ScreenFormatter extends Piwik_Log_Formatter_
 		$errline = $event['errline'] ;
 		$backtrace = $event['backtrace'] ;
 
+		require_once "API/ResponseBuilder.php";
 		$outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'html', 'string'));
 		$response = new Piwik_API_ResponseBuilder(null, $outputFormat);
 		$message = $response->getResponseException(new Exception($errstr));

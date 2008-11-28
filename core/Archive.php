@@ -152,8 +152,13 @@ abstract class Piwik_Archive
 			$archive = new Piwik_Archive_Single();
 			$archive->setPeriod($oPeriod);
 			$archive->setSite(new Piwik_Site($idSite));
+			$archiveJustProcessed = $archive->prepareArchive();
 			
-			self::$alreadyBuilt[$idSite][$date][$period] = $archive;
+			//we don't cache the archives just processed, the datatable were freed from memory 
+			if(!$archiveJustProcessed)
+			{
+				self::$alreadyBuilt[$idSite][$date][$period] = $archive;
+			}
 		}
 		
 		return $archive;
