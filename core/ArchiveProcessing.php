@@ -211,6 +211,11 @@ abstract class Piwik_ArchiveProcessing
 		return $process;
 	}
 	
+	public function getIdArchive()
+	{
+		return $this->idArchive;
+	}
+	
 	/**
 	 * Inits the object
 	 * 
@@ -270,7 +275,7 @@ abstract class Piwik_ArchiveProcessing
 	 * If the current archive needs sub-archives (eg. a month archive needs all the days archive)
 	 *  it will recursively launch the archiving (using this loadArchive() on the sub-periods)
 	 *
-	 * @return int The idarchive of the archive
+	 * @return int|false The idarchive of the archive, false if the archive is not archived yet
 	 */
 	public function loadArchive()
 	{
@@ -285,7 +290,7 @@ abstract class Piwik_ArchiveProcessing
 		elseif($this->idArchive === false
 				||	$this->debugAlwaysArchive)
 		{
-			$this->launchArchiving();
+			return false;
 		}
 		else
 		{
@@ -298,7 +303,7 @@ abstract class Piwik_ArchiveProcessing
 	/**
 	 * @see loadArchive()
 	 */
-	protected function launchArchiving()
+	public function launchArchiving()
 	{
 		$this->initCompute();
 		$this->compute();

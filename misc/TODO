@@ -1,5 +1,13 @@
 Following up show all columns new UI element
 ====
+$("td img", domElem).attr("src") is undefined
+[Break on this error] var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
+datatable.js (line 907)
+$("td img", domElem).attr("src") is undefined
+[Break on this error] var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
+when clicking MINUS on actions
+- icons disappear when showing all columns for browsers
+- exclude low population doesn't work for providers
 - ADD forward of non true show_values to forward when specified from URL to ajax
 - disable show icon in some iframes and/or dashboard 
 - do proper CSS factoring

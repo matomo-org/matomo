@@ -6,7 +6,7 @@
 $minVisitors = 500;
 $maxVisitors = 1000;
 $nbActions = 3;
-$daysToCompute = 20;
+$daysToCompute = 1;
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);

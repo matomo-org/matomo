@@ -132,6 +132,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	public function prepareArchive()
 	{
+		$archiveJustProcessed = false;
 		if(!$this->alreadyChecked)
 		{
 			$this->isThereSomeVisits = false;
@@ -156,15 +157,18 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$archiveProcessing = Piwik_ArchiveProcessing::factory($periodLabel);
 			$archiveProcessing->setSite($this->site);
 			$archiveProcessing->setPeriod($this->period);
-			
 			$idArchive = $archiveProcessing->loadArchive();
+			if($idArchive === false)
+			{
+				$archiveJustProcessed = true;
+				$archiveProcessing->launchArchiving();
+				$idArchive = $archiveProcessing->getIdArchive();
+			}
 			$this->isThereSomeVisits = $archiveProcessing->isThereSomeVisits;
-			
-			$this->archiveProcessing = $archiveProcessing; 
-
 			$this->idArchive = $idArchive;
-			$this->alreadyChecked = true;
+			$this->archiveProcessing = $archiveProcessing;
 		}
+		return $archiveJustProcessed;
 	}
 	
 	/**
@@ -194,8 +198,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 			return $this->blobCached[$name];
 		}
 		
-		$this->prepareArchive();
-				
 		if($name == 'idarchive')
 		{
 			return $this->idArchive;
@@ -300,8 +302,8 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	public function freeBlob( $name )
 	{
-		$this->blobCached = null; 
-		$this->blobCached = array(); 
+		$this->blobCached[$name] = null; 
+//		$this->blobCached = array(); 
 	}
 	
 	/**

@@ -43,7 +43,6 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 		{
 			$this->mappingToApply = $mappingToApply;
 		}
-		
 		$this->filter();
 	}
 	
@@ -57,7 +56,6 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 		foreach($table->getRows() as $key => $row)
 		{
 			$this->renameColumns($row);
-			
 			try {
 				$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $row->getIdSubDataTable() );
 				$this->filterTable($subTable);
