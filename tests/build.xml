@@ -27,6 +27,7 @@
 		<mkdir dir="${basedir}/../build/tmp/cache"/>
 		<chmod perm="a+rw">
 			<dirset dir="${basedir}/../build">
+				<include name="config" />
 				<include name="tmp" />
 				<include name="tmp/templates_c" />
 				<include name="tmp/cache" />
