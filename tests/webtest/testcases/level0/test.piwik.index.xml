@@ -8,11 +8,11 @@
 ]>
 
 <project name="Smoke test level0 - deploy test" basedir="."	default="webtest">
-
 		&time;
 		<target name="webtest">
-			<webtest name="account index">
+			<webtest name="install index">
 	            <steps>
+	            
 	                <invoke description="get account index" url="/" />
 	                <verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
 	                <verifytext description="check page text" text="Piwik" />
@@ -20,6 +20,9 @@
 	                <verifytext description="check page text" text="This process is split up into 8 easy steps and will take around 5 minutes" />
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
+	            
+	            	<clickLink description="click Next" label="Next &raquo;" />	
+	            	
 	            </steps>
 	        </webtest>
 	</target>
