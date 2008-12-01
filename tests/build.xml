@@ -23,6 +23,8 @@
 				<include name="*" />
 			</fileset>
 		</copy>
+		<mkdir dir="${basedir}/../build/tmp/templates_c"/>
+		<mkdir dir="${basedir}/../build/tmp/cache"/>
 		<chmod perm="a+rw">
 			<dirset dir="${basedir}/../build">
 				<include name="tmp" />
