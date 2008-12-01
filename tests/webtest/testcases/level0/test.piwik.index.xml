@@ -94,6 +94,9 @@
 					<verifyText description="check page text" text="Tables created with success!" />
 					<verifyXPath description="looking for success image" xpath="//img[@src='themes/default/images/success_medium.png']"/>
 					
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+					
 					<clickLink description="click 'Next'" label="Next &raquo;" />
 					
 					<!-- 5. generalSetup -->
@@ -101,6 +104,9 @@
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
 					<verifyText description="check page text" text="General Setup" />
+					
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
 					
 					<setInputField description="set Piwik login" name="login" value="piwik_login" />
 					<setInputField description="set Piwik password" name="password" value="piwik_password" />
@@ -123,6 +129,30 @@
 					<verifyText description="check page text" text="Piwik" />
 					<verifyText description="check page text" text="Setup a website" />
 					
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+					
+					<setInputField description="set Piwik site name" name="siteName" value="Dummy Site Name" />
+					<setInputField description="set Piwik URL" name="url" value="${wt.config.protocol}://${wt.config.host}:${wt.config.port}${wt.config.basepath}" />
+
+					<clickButton description="click 'Go!' button" label="Go!"/>
+					
+					<!-- 7. displayJavascriptCode -->
+					
+	            	<not description="check if no error">
+	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
+	            	</not>
+					
+	            	<not description="check if no warning">
+	            		<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
+	            	</not>
+
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="Javascript tag" />
+
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
 					
 	            </steps>
 	        </webtest>
