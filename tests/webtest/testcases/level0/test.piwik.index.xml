@@ -5,6 +5,7 @@
   <!ENTITY checkForErrors SYSTEM "../modules/errors.xml">
   <!ENTITY verifyLinksAndImages SYSTEM "../modules/common_pages.xml">
   <!ENTITY raquo "&#187;">
+  <!ENTITY rsaquo "&#8250;" >
 ]>
 
 <project name="Smoke test level0 - deploy test" basedir="."	default="webtest">
@@ -165,8 +166,28 @@
 					&checkForErrors;
 	            	&verifyLinksAndImages;
 					
+					<clickLink description="click 'Continue to Piwik'" label="Continue to Piwik &raquo;" />
 	            	
+	            	<!-- logging in -->
+	            	
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Login" />
+					<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="Lost your password?" />
 					
+					&checkForErrors;
+	            	&verifyLinksAndImages;
+					
+					<setInputField description="set Piwik login" htmlId="form_login" value="piwik_login" />
+					<setInputField description="set Piwik password" htmlId="form_password" value="piwik_password" />
+					<clickButton description="click 'Sign in' button" label="Sign in"/>
+					
+					<!-- logged in -->
+					
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports" />
+	            	<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="Your Dashboard" />
+					<verifyText description="check page text" text="Hello" />
+
 	            </steps>
 	        </webtest>
 	</target>
