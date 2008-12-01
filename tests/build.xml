@@ -39,9 +39,30 @@
 			<arg value="all_tests.php" />
 		</exec>
 	</target>
+	
+	<target name="phpdoc">
+		
+		<echo>phpDocumentor started</echo>
+
+		<delete dir="${basedir}/build/phpdocumentor-report"/>
+		<mkdir dir="${basedir}/build/phpdocumentor-report"/>
+		<exec executable="${php.executable}" dir="${basedir}/../build" failonerror="true" failifexecutionfails="true">
+			<arg value="${phpdocumentor.home}/phpDocumentor/phpdoc.inc" />
+			<arg value="--useconfig"/>
+			<arg path="${basedir}/../misc/phpdoc-config.ini"/>
+		</exec>
+		
+		<copy todir="${phpdocumentor.report.dir}" overwrite="true" failonerror="true" verbose="true">
+			<fileset dir="${basedir}/../build/documentation"/>
+		</copy>
+		
+		<echo>phpDocumentor finished</echo>		
+
+	</target>
 
 	<target name="all">
 		<antcall target="test"/>
+		<antcall target="phpdoc"/>
 	</target>
 	
 </project>
