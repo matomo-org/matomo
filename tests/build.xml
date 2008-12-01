@@ -69,6 +69,10 @@
 		<echo>phpDocumentor finished</echo>		
 
 	</target>
+	
+	<target name="webtest">
+		<delete file="${basedir}/../build/config/config.ini.php"/>
+	</target>
 
 	<target name="all">
 		<antcall target="test"/>
