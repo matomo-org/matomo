@@ -18,20 +18,23 @@
 	                <!-- 1. welcome -->
 	                
 	                <verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
-	                <verifytext description="check page text" text="Piwik" />
-	                <verifytext description="check page text" text="Welcome!" />
-	                <verifytext description="check page text" text="This process is split up into 8 easy steps and will take around 5 minutes" />
+	                <verifyText description="check page text" text="Piwik" />
+	                <verifyText description="check page text" text="Welcome!" />
+	                <verifyText description="check page text" text="This process is split up into 8 easy steps and will take around 5 minutes" />
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
 	            
-	            	<clickLink description="click Next" label="Next &raquo;" />
+	            	<clickLink description="click 'Next'" label="Next &raquo;" />
 	            	
 	            	<!-- 2. systemCheck -->
 	            	
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
-					<verifytext description="check page text" text="Piwik" />
-	                <verifytext description="check page text" text="System check" />
-	                <verifytext description="check page text" text="Optional" />	            	
+					<verifyText description="check page text" text="Piwik" />
+	                <verifyText description="check page text" text="System check" />
+	                <verifyText description="check page text" text="Optional" />
+	                
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
 	            	
 	            	<not description="check if system check passed">
 	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error.png']"/>
@@ -39,16 +42,33 @@
 	            	
 	            	<verifyXPath description="looking for ok image" xpath="//img[@src='themes/default/images/ok.png']"/>
 	            	
-	            	<clickLink description="click Next" label="Next &raquo;" />
+	            	<clickLink description="click 'Next'" label="Next &raquo;" />
 	            	
 	            	<!-- 3. databaseSetup -->
 
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
-					<verifytext description="check page text" text="Piwik" />
-	                <verifytext description="check page text" text="Mysql database setup" />
-	            	
-	            	
-	            	
+					<verifyText description="check page text" text="Piwik" />
+	                <verifyText description="check page text" text="Mysql database setup" />
+	                
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+					
+					<setInputField description="set database host (and port)" name="host" value="${db.host}:${db.port}" />
+	                <setInputField description="set database username" name="username" value="${db.username}" />
+					<setInputField description="set database password" name="password" value="${db.password}" />
+					<setInputField description="set database name" name="dbname" value="${db.name}" />
+					<setInputField description="set database port" name="tables_prefix" value="canoo_" />
+					
+					<clickButton description="click 'Go!' button" label="Go!"/>
+					
+	            	<not description="check if no error">
+	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
+	            	</not>
+					
+	            	<not description="check if no warning">
+	            		<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
+	            	</not>
+					
 	            </steps>
 	        </webtest>
 	</target>
