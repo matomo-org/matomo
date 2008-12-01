@@ -14,6 +14,9 @@
 	            <steps>
 	            
 	                <invoke description="get account index" url="/" />
+	                
+	                <!-- 1. welcome -->
+	                
 	                <verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
 	                <verifytext description="check page text" text="Piwik" />
 	                <verifytext description="check page text" text="Welcome!" />
@@ -21,7 +24,30 @@
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
 	            
-	            	<clickLink description="click Next" label="Next &raquo;" />	
+	            	<clickLink description="click Next" label="Next &raquo;" />
+	            	
+	            	<!-- 2. systemCheck -->
+	            	
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifytext description="check page text" text="Piwik" />
+	                <verifytext description="check page text" text="System check" />
+	                <verifytext description="check page text" text="Optional" />	            	
+	            	
+	            	<not description="check if system check passed">
+	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error.png']"/>
+	            	</not>
+	            	
+	            	<verifyXPath description="looking for ok image" xpath="//img[@src='themes/default/images/ok.png']"/>
+	            	
+	            	<clickLink description="click Next" label="Next &raquo;" />
+	            	
+	            	<!-- 3. databaseSetup -->
+
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifytext description="check page text" text="Piwik" />
+	                <verifytext description="check page text" text="Mysql database setup" />
+	            	
+	            	
 	            	
 	            </steps>
 	        </webtest>
