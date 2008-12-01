@@ -13,6 +13,24 @@
 			<webtest name="install index">
 	            <steps>
 	            
+	            	<echo>Piwik install - dbsetup: db.name: ${db.name}</echo>
+					<sql
+						    driver="com.mysql.jdbc.Driver"
+						    url="jdbc:mysql://${db.host}:${db.port}/"
+						    userid="${db.username}"
+						    password="${db.password}"
+						    >
+						   	<classpath>
+						    	<pathelement location="${basedir}/../lib/java/mysql-connector-java-5.1.7.jar" />
+					    	</classpath>		
+							<transaction>
+								DROP DATABASE IF EXISTS ${db.name};
+							</transaction>
+							<transaction>
+								CREATE DATABASE IF NOT EXISTS ${db.name};
+							</transaction>
+					</sql>	            
+	            
 	                <invoke description="get account index" url="/" />
 	                
 	                <!-- 1. welcome -->
