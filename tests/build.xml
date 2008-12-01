@@ -23,6 +23,13 @@
 				<include name="*" />
 			</fileset>
 		</copy>
+		<chmod perm="a+rw">
+			<dirset dir="${basedir}/../build">
+				<include name="tmp" />
+				<include name="tmp/templates_c" />
+				<include name="tmp/cache" />
+			</dirset>
+		</chmod>
 	</target>
 	
 	<target name="process-build-resources" depends="prepare-build-filesystem">
