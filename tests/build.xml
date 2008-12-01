@@ -72,6 +72,7 @@
 	
 	<target name="webtest">
 		<delete file="${basedir}/../build/config/config.ini.php"/>
+		<ant antfile="${basedir}/build-canoo.xml"/>
 	</target>
 
 	<target name="all">
