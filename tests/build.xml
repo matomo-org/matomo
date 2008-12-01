@@ -4,6 +4,7 @@
 
 	<target name="clean">
 		<delete dir="${basedir}/../build" />
+		<delete dir="${basedir}/results" />
 	</target>
 
 	<target name="prepare-build-filesystem" depends="clean">
