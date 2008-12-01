@@ -153,6 +153,19 @@
 
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
+	            	
+	            	<clickLink description="click 'Next'" label="Next &raquo;" />
+	            	
+	            	<!-- 8. finished -->
+	            	
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="Congratulations" />
+					
+					&checkForErrors;
+	            	&verifyLinksAndImages;
+					
+	            	
 					
 	            </steps>
 	        </webtest>
