@@ -85,7 +85,7 @@ default_day = yesterday
 ; You can override the setting to force the user to login. 
 ; This is useful when you have some websites view "anonymous" access but you want to 
 ; force users to login instead of viewing the first anonymous website available 
-default_module_login = true
+default_module_login = false
 
 ; When loading the piwik interface in the browser (as opposed to from the PHP-CLI client)
 ; should we launch the archiving process if the archives have not yet been processed?
