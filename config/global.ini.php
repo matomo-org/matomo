@@ -81,6 +81,12 @@ time_before_archive_considered_outdated = 10
 ; Possible values: yesterday, today, or any YYYY-MM-DD
 default_day = yesterday
 
+; When loading piwik interface, Piwik will load by default the CoreHome module
+; You can override the setting to force the user to login. 
+; This is useful when you have some websites view "anonymous" access but you want to 
+; force users to login instead of viewing the first anonymous website available 
+default_module_login = true
+
 ; When loading the piwik interface in the browser (as opposed to from the PHP-CLI client)
 ; should we launch the archiving process if the archives have not yet been processed?
 ; You want to set it to false when triggering the archiving is done through a crontab, 
