@@ -1,6 +1,7 @@
 <project name="piwik" default="all" basedir=".">
 
 	<property file="build.properties" />
+	<property file="defaults.properties" />
 
 	<target name="clean">
 		<delete dir="${basedir}/../build" />
@@ -75,11 +76,46 @@
 		<delete file="${basedir}/../build/config/config.ini.php"/>
 		<ant antfile="${basedir}/build-canoo.xml"/>
 	</target>
+	
+	<target name="schemaspy">
+			
+		<echo>SchemaSpy started</echo>
+		
+		<delete dir="${basedir}/build/schemaspy-report"/>
+		<mkdir dir="${basedir}/build/schemaspy-report"/>
+		
+		<echo message="Generating schema for MySql" />
+		<java jar="${basedir}/lib/java/schemaSpy_3.1.1.jar" fork="true"  failonerror="true" maxmemory="256m" dir="${basedir}">
+			<arg value="-t"/>
+			<arg value="mysql"/>
+			<arg value="-host"/>
+			<arg value="${database.main.host}:${database.main.port}"/>
+			<arg value="-db"/>
+			<arg value="${database.main.name}"/>
+			<arg value="-cp"/>
+			<arg path="${basedir}/lib/java/mysql-connector-java-5.1.7.jar"/>
+			<arg value="-u"/>
+			<arg value="${database.main.username}"/>
+			<arg value="-o"/>
+			<arg path="${basedir}/build/schemaspy-report"/>
+			<arg value="-p"/>
+			<arg value="${database.main.password}"/>
+		</java>
+		
+		<copy todir="${schemaspy.report.dir}" overwrite="true" failonerror="true" verbose="true">
+			<fileset dir="${basedir}/build/schemaspy-report"/>
+		</copy>
+		
+		<echo>SchemaSpy finished</echo>
+
+	</target>
+	
 
 	<target name="all">
 		<antcall target="test"/>
 		<antcall target="webtest"/>
 		<antcall target="phpdoc"/>
+		<antcall target="schemaspy"/>
 	</target>
 	
 </project>
