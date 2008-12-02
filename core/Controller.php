@@ -223,7 +223,6 @@ abstract class Piwik_Controller
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
 		}
-		
 		$otherPeriodsAvailable = array('day', 'week', 'month', 'year');
 		$otherPeriodsNames = array(
 			'day' => Piwik_Translate('CoreHome_PeriodDay'),
@@ -243,7 +242,7 @@ abstract class Piwik_Controller
 		$view->periodsNames = $otherPeriodsNames;
 	}
 	
-	function redirectToIndex($moduleToRedirect = 'CoreHome', $actionToRedirect = 'index')
+	function redirectToIndex($moduleToRedirect, $actionToRedirect)
 	{
 		$sitesId = Piwik_SitesManager_API::getSitesIdWithAtLeastViewAccess();
 		if(!empty($sitesId))

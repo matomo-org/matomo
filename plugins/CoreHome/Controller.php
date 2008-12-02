@@ -23,6 +23,17 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		return 'redirectToIndex';
 	}
 	
+	function redirectToIndex()
+	{
+		// redirect to Login only for anonymous user
+		if((bool)Zend_Registry::get('config')->General->default_module_login == true
+			&& Piwik::getCurrentUserLogin() == 'anonymous')
+		{
+			return Piwik_FrontController::dispatch('Login', false);
+		}
+		parent::redirectToIndex('CoreHome', 'index');
+	}
+	
 	protected function setGeneralVariablesView($view)
 	{
 		parent::setGeneralVariablesView($view);
