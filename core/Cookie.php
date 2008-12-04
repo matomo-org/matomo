@@ -79,7 +79,7 @@ class Piwik_Cookie
 	 */
 	protected function getDefaultExpire()
 	{
-		return time() + 86400*365*10;
+		return time() + 86400*365*2;
 	}	
 	
 	/**
@@ -154,7 +154,6 @@ class Piwik_Cookie
 	protected function loadContentFromCookie()
 	{
 		$cookieStr = $_COOKIE[$this->name];
-		
 		$values = explode( self::VALUE_SEPARATOR, $cookieStr);
 		foreach($values as $nameValue)
 		{
