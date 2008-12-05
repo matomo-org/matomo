@@ -40,7 +40,14 @@ class Piwik_DataTable_Manager
 	 * @var array
 	 */
 	protected $tables = array();
-		
+	
+	/**
+	 * Id of the last inserted table in the Manager
+	 *
+	 * @var int
+	 */
+	protected $lastTableid = 0;
+	
 	/**
 	 * Add a DataTable to the registry
 	 * 
@@ -50,7 +57,8 @@ class Piwik_DataTable_Manager
 	public function addTable( $table )
 	{
 		$this->tables[] = $table;
-		return count($this->tables) - 1;
+		$this->lastTableId++;
+		return $this->lastTableId - 1;
 	}
 	
 	/**
@@ -78,6 +86,7 @@ class Piwik_DataTable_Manager
 	public function deleteAll()
 	{
 		$this->tables = array();
+		$this->lastTableId = 0;
 	}
 	
 	/**
@@ -94,13 +103,29 @@ class Piwik_DataTable_Manager
 	}
 	
 	/**
-	 * Returns the number of DataTable currently registered.
-	 * 
-	 * @return int
+	 * Debug only. Dumps all tables currently registered in the Manager
+	 *
+	 * @return void
 	 */
-	public function count()
+	public function dumpAllTables()
 	{
-		return count($this->tables);
+		echo "<hr>Piwik_DataTable_Manager->dumpAllTables()<br>";
+		foreach($this->tables as $id => $table)
+		{
+			if(!($table instanceof Piwik_DataTable ))
+			{
+				echo "Error table $id is not instance of datatable<br>";
+				var_dump($table);
+			}
+			else
+			{
+				echo "<hr>";
+				echo "Table (index=$id) TableId = ". $table->getId() . "<br>";
+				echo $table;
+				echo "<br>";
+			}
+		}
+		echo "<br>-- End Piwik_DataTable_Manager->dumpAllTables()<hr>";
 	}
 }
 
