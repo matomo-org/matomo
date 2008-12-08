@@ -35,29 +35,11 @@ class Piwik_API_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View("API/templates/listAllAPI.tpl");
 		$this->setGeneralVariablesView($view);
-		$view->countLoadedAPI = $this->init();
+		
 		$ApiDocumentation = new Piwik_API_DocumentationGenerator();
+		$view->countLoadedAPI = Piwik_API_Proxy::getInstance()->getCountRegisteredClasses();
 		$view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
 		echo $view->render();
-	}
-	
-	protected function init()
-	{
-		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
-		
-		$loaded = 0;
-		foreach( $plugins as $plugin )
-		{		
-			$plugin = Piwik::unprefixClass($plugin);
-				
-			try {
-				Piwik_API_Proxy::getInstance()->registerClass($plugin);
-				$loaded++;
-			}
-			catch(Exception $e){
-			}
-		}
-		return $loaded;
 	}
 }
 
