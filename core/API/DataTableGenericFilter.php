@@ -72,7 +72,7 @@ class Piwik_API_DataTableGenericFilter
 	{
 		if($datatable instanceof Piwik_DataTable_Array )
 		{
-			$tables = $dataTable->getArray();
+			$tables = $datatable->getArray();
 			foreach($tables as $table)
 			{
 				$this->applyDataTableGenericFilters($table);
