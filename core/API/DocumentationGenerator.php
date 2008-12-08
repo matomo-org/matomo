@@ -2,6 +2,25 @@
 
 class Piwik_API_DocumentationGenerator
 {
+	protected $countPluginsLoaded = 0;
+
+	/**
+	 * trigger loading all plugins with an API.php file in the Proxy 
+	 */
+	public function __construct()
+	{
+		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
+		foreach( $plugins as $plugin )
+		{		
+			$plugin = Piwik::unprefixClass($plugin);
+			try {
+				Piwik_API_Proxy::getInstance()->registerClass("Piwik_".$plugin."_API");
+			}
+			catch(Exception $e){
+			}
+		}
+	}
+	
 	/**
 	 * Returns a HTML page containing help for all the successfully loaded APIs.
 	 *  For each module it will return a mini help with the method names, parameters to give, 
@@ -69,7 +88,6 @@ class Piwik_API_DocumentationGenerator
 		return $str;
 	}
 	
-
 	/**
 	 * Returns a string containing links to examples on how to call a given method on a given API
 	 * It will export links to XML, CSV, HTML, JSON, PHP, etc.
@@ -159,4 +177,5 @@ class Piwik_API_DocumentationGenerator
 		$sParameters = implode(", ", $asParameters);
 		return "($sParameters)";
 	}
+	
 }

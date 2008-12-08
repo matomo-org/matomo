@@ -10,6 +10,7 @@
  */
 
 require_once "API/Request.php";
+require_once "API/FilterDataTable.php";
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -36,7 +37,6 @@ require_once "API/Request.php";
  * @package Piwik_ViewDataTable
  *
  */
-
 abstract class Piwik_ViewDataTable
 {
 	/**
@@ -422,7 +422,7 @@ abstract class Piwik_ViewDataTable
 	 * - etc.
 	 *
 	 * The values are loaded:
-	 * - from the generic filters that are applied by default @see Piwik_API_ResponseBuilder::getGenericFiltersInformation()
+	 * - from the generic filters that are applied by default @see Piwik_API_DataTableGenericFilter.php::getGenericFiltersInformation()
 	 * - from the values already available in the GET array
 	 * - from the values set using methods from this class (eg. setSearchPattern(), setLimit(), etc.)
 	 * 
@@ -433,7 +433,7 @@ abstract class Piwik_ViewDataTable
 		// build javascript variables to set
 		$javascriptVariablesToSet = array();
 		
-		$genericFilters = Piwik_API_ResponseBuilder::getGenericFiltersInformation();
+		$genericFilters = Piwik_API_DataTableGenericFilter::getGenericFiltersInformation();
 		foreach($genericFilters as $filter)
 		{
 			foreach($filter as $filterVariableName => $filterInfo)
