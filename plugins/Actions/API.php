@@ -18,7 +18,7 @@ require_once "Actions.php";
  * 
  * @package Piwik_Actions
  */
-class Piwik_Actions_API extends Piwik_Apiable
+class Piwik_Actions_API
 {
 	static private $instance = null;
 	

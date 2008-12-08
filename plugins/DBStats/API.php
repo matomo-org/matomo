@@ -13,7 +13,7 @@
  * 
  * @package Piwik_DBStats_API
  */
-class Piwik_DBStats_API extends Piwik_Apiable
+class Piwik_DBStats_API
 {
 	static private $instance = null;
 	static public function getInstance()
@@ -42,23 +42,6 @@ class Piwik_DBStats_API extends Piwik_Apiable
 		$status = mysql_stat($link);
 		mysql_close($link);
 		return $status;
-	}
-	
-	static private function get_size($size)
-	{
-		$bytes = array('','K','M','G','T');
-		foreach($bytes as $val) 
-		{
-			if($size > 1024)
-			{
-				$size = $size / 1024;
-			}
-			else
-			{
-	    		break;
-			}
-		}
-		return round($size, 1)." ".$val;
 	}
 	
 	static public function getTableStatus($table, $field = '') 
@@ -92,16 +75,16 @@ class Piwik_DBStats_API extends Piwik_Apiable
 			$total['Index_length'] += $t['Index_length'];
 			$total['Rows'] += $t['Rows'];
 			
-			$t['Total_length'] = self::get_size($t['Index_length']+$t['Data_length']);
-			$t['Data_length'] = self::get_size($t['Data_length']);
-			$t['Index_length'] = self::get_size($t['Index_length']);
-			$t['Rows'] = self::get_size($t['Rows']);
+			$t['Total_length'] = Piwik::getPrettySizeFromBytes($t['Index_length']+$t['Data_length']);
+			$t['Data_length'] = Piwik::getPrettySizeFromBytes($t['Data_length']);
+			$t['Index_length'] = Piwik::getPrettySizeFromBytes($t['Index_length']);
+			$t['Rows'] = Piwik::getPrettySizeFromBytes($t['Rows']);
 			$tables[] = $t;
 		}
-		$total['Total_length'] = self::get_size($total['Data_length']+$total['Index_length']);
-		$total['Data_length'] = self::get_size($total['Data_length']);
-		$total['Index_length'] = self::get_size($total['Index_length']);
-		$total['TotalRows'] = self::get_size($total['Rows']);
+		$total['Total_length'] = Piwik::getPrettySizeFromBytes($total['Data_length']+$total['Index_length']);
+		$total['Data_length'] = Piwik::getPrettySizeFromBytes($total['Data_length']);
+		$total['Index_length'] = Piwik::getPrettySizeFromBytes($total['Index_length']);
+		$total['TotalRows'] = Piwik::getPrettySizeFromBytes($total['Rows']);
 		$tables['Total'] = $total;
 		
 		return $tables;

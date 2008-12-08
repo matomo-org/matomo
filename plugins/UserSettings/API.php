@@ -16,7 +16,7 @@ require_once "UserSettings/functions.php";
 /**
  * @package Piwik_UserSettings
  */
-class Piwik_UserSettings_API extends Piwik_Apiable
+class Piwik_UserSettings_API 
 {
 	static private $instance = null;
 	static public function getInstance()

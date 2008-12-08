@@ -13,7 +13,7 @@
  * 
  * @package Piwik_SitesManager
  */
-class Piwik_SitesManager_API extends Piwik_Apiable
+class Piwik_SitesManager_API 
 {
 	static private $instance = null;
 	static public function getInstance()
@@ -25,8 +25,6 @@ class Piwik_SitesManager_API extends Piwik_Apiable
 		}
 		return self::$instance;
 	}
-	
-	static public $methodsNotToPublish = array();
 	
 	/**
 	 * Returns the javascript tag for the given idSite.

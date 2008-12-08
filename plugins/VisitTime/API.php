@@ -14,7 +14,7 @@
  * 
  * @package Piwik_VisitTime
  */	
-class Piwik_VisitTime_API extends Piwik_Apiable
+class Piwik_VisitTime_API
 {
 	static private $instance = null;
 	static public function getInstance()

@@ -10,7 +10,7 @@
  */
 
 require_once "API/Request.php";
-
+require_once "API/DocumentationGenerator.php";
 
 /**
  * 
@@ -27,7 +27,8 @@ class Piwik_API_Controller extends Piwik_Controller
 	public function listAllMethods()
 	{
 		$this->init();
-		echo Piwik_API_Proxy::getInstance()->getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = Piwik_Common::getRequestVar('prefixUrl', '') );
+		$ApiDocumentation = new Piwik_API_DocumentationGenerator();
+		echo $ApiDocumentation->getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = Piwik_Common::getRequestVar('prefixUrl', '') );
 	}
 	
 	public function listAllAPI()
@@ -35,7 +36,8 @@ class Piwik_API_Controller extends Piwik_Controller
 		$view = new Piwik_View("API/templates/listAllAPI.tpl");
 		$this->setGeneralVariablesView($view);
 		$view->countLoadedAPI = $this->init();
-		$view->list_api_methods_with_links = Piwik_API_Proxy::getInstance()->getAllInterfaceString();
+		$ApiDocumentation = new Piwik_API_DocumentationGenerator();
+		$view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
 		echo $view->render();
 	}
 	

@@ -57,7 +57,7 @@ class Piwik
 			Piwik::createHtAccess($path);
 		}
 	}
-	
+
 	/**
 	 * Checks that the directories Piwik needs write access are actually writable
 	 * Displays a nice error page if permissions are missing on some directories
@@ -399,6 +399,23 @@ class Piwik
 		}
 	}
 	
+	static public function getPrettySizeFromBytes($size)
+	{
+		$bytes = array('','K','M','G','T');
+		foreach($bytes as $val) 
+		{
+			if($size > 1024)
+			{
+				$size = $size / 1024;
+			}
+			else
+			{
+	    		break;
+			}
+		}
+		return round($size, 1)." ".$val;
+	}
+	
 	static public function isPhpCliMode()
 	{
 		return in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'));
@@ -584,6 +601,7 @@ class Piwik
 							  visit_entry_idaction INTEGER(11) NOT NULL,
 							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
+							  visit_goal_converted TINYINT(1) NOT NULL,
 							  referer_type INTEGER UNSIGNED NULL,
 							  referer_name VARCHAR(70) NULL,
 							  referer_url TEXT NOT NULL,
