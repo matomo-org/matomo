@@ -23,11 +23,12 @@ require_once "Zend/Auth/Adapter/DbTable.php";
  */
 require_once "Timer.php";
 require_once "core/Piwik.php";
-require_once "API/APIable.php";
 require_once "Access.php";
 require_once "Auth.php";
 require_once "API/Proxy.php";
 require_once "Site.php";
+require_once "Date.php";
+require_once "DataTable.php";
 require_once "Translate.php";
 require_once "Mail.php";
 require_once "Url.php";

@@ -14,7 +14,7 @@
  * 
  * @package Piwik_VisitorInterest
  */
-class Piwik_VisitorInterest_API extends Piwik_Apiable
+class Piwik_VisitorInterest_API 
 {
 	static private $instance = null;
 	static public function getInstance()

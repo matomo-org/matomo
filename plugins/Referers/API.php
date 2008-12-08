@@ -15,7 +15,7 @@ require_once "Referers/functions.php";
  *
  * @package Piwik_Referers
  */
-class Piwik_Referers_API extends Piwik_Apiable
+class Piwik_Referers_API 
 {
 	static private $instance = null;
 	static public function getInstance()

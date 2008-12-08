@@ -128,7 +128,7 @@ class Piwik_API_Request
 			
 			$toReturn = $response->getResponse($returnedValue);
 		} catch(Exception $e ) {
-			return $response->getResponseException( $e );
+			$toReturn = $response->getResponseException( $e );
 		}
 		return $toReturn;
 	}

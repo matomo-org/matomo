@@ -13,7 +13,7 @@
  * 
  * @package Piwik_VisitFrequency
  */
-class Piwik_VisitFrequency_API extends Piwik_Apiable
+class Piwik_VisitFrequency_API 
 {
 	static private $instance = null;
 	static public function getInstance()

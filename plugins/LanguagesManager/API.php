@@ -2,7 +2,7 @@
 /**
  * @package Piwik_LanguagesManager
  */
-class Piwik_LanguagesManager_API extends Piwik_Apiable
+class Piwik_LanguagesManager_API 
 {
 	static private $instance = null;
 	static public function getInstance()

@@ -1,5 +1,9 @@
 Following up show all columns new UI element
 ====
+- pages columns: first should be unique page views, sorted by unique pageviews
+- exclude all population doesn't work for actions
+- post 29 There seems not to be a way to export the pages information widget. I wanted to download the entry pages to see where my visitors entered my site from, but there is no option to do so.
+
 $("td img", domElem).attr("src") is undefined
 [Break on this error] var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
 datatable.js (line 907)
@@ -15,6 +19,8 @@ when clicking MINUS on actions
 - check state of javascript footer (should not have safe_decode and filter_add_columns blah)
 - set custom truncation limit per datatable type (simple VS allColumns, and subtable) ->bug display subtable icon is cut (see truncation limit)
 - Blog post!
+
+- cron should return errors when token doesn't have any website
 
 Test page
 ==========
@@ -39,7 +45,6 @@ UI fixes + adjustements
 - WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
 - see also #421
 
-check phpmyvisites piwik analytics sur delicious
 check analytics books
 
 high priority features

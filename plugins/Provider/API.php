@@ -14,7 +14,7 @@ require_once "Provider/functions.php";
  * 
  * @package Piwik_Provider
  */
-class Piwik_Provider_API extends Piwik_Apiable
+class Piwik_Provider_API 
 {
 	static private $instance = null;
 	

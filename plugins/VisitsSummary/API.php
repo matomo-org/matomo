@@ -12,7 +12,7 @@
 /**
  * @package Piwik_VisitsSummary
  */
-class Piwik_VisitsSummary_API extends Piwik_Apiable
+class Piwik_VisitsSummary_API 
 {
 	static private $instance = null;
 	static public function getInstance()

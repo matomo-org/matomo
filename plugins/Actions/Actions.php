@@ -190,13 +190,13 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		$maximumRowsInDataTableLevelZero = 200;
 		$maximumRowsInSubDataTable = 50;
-		
+
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION]);
 		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_actions', $s);
-		
+
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD]);
-		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
+		$s = $dataTable->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_downloads', $s);
 		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_OUTLINK]);

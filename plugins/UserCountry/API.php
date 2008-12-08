@@ -15,7 +15,7 @@ require_once "UserCountry/functions.php";
  * 
  * @package Piwik_UserCountry
  */
-class Piwik_UserCountry_API extends Piwik_Apiable
+class Piwik_UserCountry_API 
 {
 	static private $instance = null;
 	static public function getInstance()
