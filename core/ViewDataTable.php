@@ -10,7 +10,6 @@
  */
 
 require_once "API/Request.php";
-require_once "API/FilterDataTable.php";
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
