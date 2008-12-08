@@ -26,6 +26,7 @@ require_once "core/Piwik.php";
 require_once "Access.php";
 require_once "Auth.php";
 require_once "API/Proxy.php";
+require_once "Archive.php";
 require_once "Site.php";
 require_once "Date.php";
 require_once "DataTable.php";
