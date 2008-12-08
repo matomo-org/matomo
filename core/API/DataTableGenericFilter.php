@@ -75,7 +75,7 @@ class Piwik_API_DataTableGenericFilter
 			$tables = $datatable->getArray();
 			foreach($tables as $table)
 			{
-				$this->applyDataTableGenericFilters($table);
+				$this->applyGenericFilters($table);
 			}
 			return;
 		}
