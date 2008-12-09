@@ -31,7 +31,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	static public $browserType = array(
 		"ie"	=> array("IE"),
 		"gecko" => array("NS", "PX", "FF", "FB", "CA", "CH", "GA", "KM", "MO", "SM"),
-		"khtml" => array("SF", "KO", "OW"),
+		"khtml" => array("SF", "KO", "OW", "CH"),
 		"opera" => array("OP")
 	);
 
