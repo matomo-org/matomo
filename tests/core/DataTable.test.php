@@ -255,7 +255,8 @@ class Test_Piwik_DataTable extends UnitTestCase
 						'test_float3'=> 1.5,
 						'test_stringint'=> "145",
 						"test" => 'string fake',
-						'super'=>array('this column has an array value, amazing')
+						'super'=>array('this column has an array string that will be 0 when algorithm sums the value'),
+						'integerArrayToSum'=>array( 1=>1, 2=>10.0),
 						);
 		$metadata = array('logo'=> 'piwik.png',
 						'super'=>array('this column has an array value, amazing'));
@@ -271,23 +272,22 @@ class Test_Piwik_DataTable extends UnitTestCase
 						'test_float2'=> 14.5,
 						'test_stringint'=> "5",
 						0925824 => 'toto',
-						'super'=>array('this column has geagaean array value, amazing'));
+						'super'=>array('this column has geagaean array value, amazing'),
+						'integerArrayToSum'=>array( 1=> 5, 2=>5.5),
+					);
 		$finalRow = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columns2));
-
 		$finalRow->sumRow($row1);
-
-
 		$columnsWanted = array('test_int'=> 150,
 						'test_float'=> 150.0,
 						'test_float2'=> 14.5,
 						'test_float3'=> 1.5,
-						'test_stringint'=> "150", //add also strings!!
-						'super'=>array('this column has geagaean array value, amazing'),
+						'test_stringint'=> 150, //add also strings!!
+						'super'=>array(0),
+						'integerArrayToSum' => array( 1=> 6, 2=>15.5),
 						0925824 => 'toto',
 				);
 		
 		$rowWanted = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columnsWanted));
-
 		$this->assertTrue( Piwik_DataTable_Row::isEqual($rowWanted, $finalRow));
 	}
 	

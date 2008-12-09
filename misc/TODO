@@ -1,5 +1,6 @@
 Following up show all columns new UI element
 ====
+- passe en année, actions puis pages => c'est vide !!!
 - pages columns: first should be unique page views, sorted by unique pageviews
 - exclude all population doesn't work for actions
 - post 29 There seems not to be a way to export the pages information widget. I wanted to download the entry pages to see where my visitors entered my site from, but there is no option to do so.
