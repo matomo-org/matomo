@@ -75,6 +75,7 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 					break;
 				}
 				if(is_string($value)) $value = "'$value'";
+				elseif(is_array($value)) $value = var_export($value, true);
 				
 				$columns[] = "'$column' => $value";
 			}
@@ -87,10 +88,8 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 			$metadata = array();
 			foreach($row->getMetadata() as $name => $value)
 			{
-				if(is_string($value))
-				{
-					$value = "'$value'";
-				}
+				if(is_string($value)) $value = "'$value'";
+				elseif(is_array($value)) $value = var_export($value, true);
 				$metadata[] = "'$name' => $value";
 			}
 			$metadata = implode(", ", $metadata);
