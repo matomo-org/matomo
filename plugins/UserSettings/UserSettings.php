@@ -78,20 +78,17 @@ class Piwik_UserSettings extends Piwik_Plugin
 			
 		$recordName = 'UserSettings_configuration';
 		$labelSQL = "CONCAT(config_os, ';', config_browser_name, ';', config_resolution)";
-		$interestByConfiguration = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-		$tableConfiguration = $archiveProcessing->getDataTableFromArray($interestByConfiguration);
+		$tableConfiguration = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableConfiguration->getSerialized());
 		
 		$recordName = 'UserSettings_os';
 		$labelSQL = "config_os";
-		$interestByOs = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-		$tableOs = $archiveProcessing->getDataTableFromArray($interestByOs);
+		$tableOs = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableOs->getSerialized());
 		
 		$recordName = 'UserSettings_browser';
 		$labelSQL = "CONCAT(config_browser_name, ';', config_browser_version)";
-		$interestByBrowser = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-		$tableBrowser = $archiveProcessing->getDataTableFromArray($interestByBrowser);
+		$tableBrowser = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableBrowser->getSerialized());
 		
 		$recordName = 'UserSettings_browserType';
@@ -100,8 +97,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		
 		$recordName = 'UserSettings_resolution';
 		$labelSQL = "config_resolution";
-		$interestByResolution = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-		$tableResolution = $archiveProcessing->getDataTableFromArray($interestByResolution);
+		$tableResolution = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
 		$filter = new Piwik_DataTable_Filter_ColumnCallbackDeleteRow($tableResolution, 'label', 'Piwik_UserSettings_keepStrlenGreater');
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableResolution->getSerialized());
 		
