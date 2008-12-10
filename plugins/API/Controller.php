@@ -26,7 +26,6 @@ class Piwik_API_Controller extends Piwik_Controller
 
 	public function listAllMethods()
 	{
-		$this->init();
 		$ApiDocumentation = new Piwik_API_DocumentationGenerator();
 		echo $ApiDocumentation->getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = Piwik_Common::getRequestVar('prefixUrl', '') );
 	}
