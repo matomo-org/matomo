@@ -30,7 +30,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	// source: http://en.wikipedia.org/wiki/List_of_web_browsers
 	static public $browserType = array(
 		"ie"	=> array("IE"),
-		"gecko" => array("NS", "PX", "FF", "FB", "CA", "CH", "GA", "KM", "MO", "SM"),
+		"gecko" => array("NS", "PX", "FF", "FB", "CA", "GA", "KM", "MO", "SM"),
 		"khtml" => array("SF", "KO", "OW", "CH"),
 		"opera" => array("OP")
 	);
@@ -78,17 +78,20 @@ class Piwik_UserSettings extends Piwik_Plugin
 			
 		$recordName = 'UserSettings_configuration';
 		$labelSQL = "CONCAT(config_os, ';', config_browser_name, ';', config_resolution)";
-		$tableConfiguration = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$interestByConfiguration = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+		$tableConfiguration = $archiveProcessing->getDataTableFromArray($interestByConfiguration);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableConfiguration->getSerialized());
 		
 		$recordName = 'UserSettings_os';
 		$labelSQL = "config_os";
-		$tableOs = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$interestByOs = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+		$tableOs = $archiveProcessing->getDataTableFromArray($interestByOs);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableOs->getSerialized());
 		
 		$recordName = 'UserSettings_browser';
 		$labelSQL = "CONCAT(config_browser_name, ';', config_browser_version)";
-		$tableBrowser = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$interestByBrowser = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+		$tableBrowser = $archiveProcessing->getDataTableFromArray($interestByBrowser);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableBrowser->getSerialized());
 		
 		$recordName = 'UserSettings_browserType';
@@ -97,7 +100,8 @@ class Piwik_UserSettings extends Piwik_Plugin
 		
 		$recordName = 'UserSettings_resolution';
 		$labelSQL = "config_resolution";
-		$tableResolution = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
+		$interestByResolution = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+		$tableResolution = $archiveProcessing->getDataTableFromArray($interestByResolution);
 		$filter = new Piwik_DataTable_Filter_ColumnCallbackDeleteRow($tableResolution, 'label', 'Piwik_UserSettings_keepStrlenGreater');
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableResolution->getSerialized());
 		
