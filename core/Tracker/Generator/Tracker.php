@@ -47,7 +47,6 @@ class Piwik_Tracker_Generator_Tracker extends Piwik_Tracker
 	protected function getNewVisitObject()
 	{
 		$visit = new Piwik_Tracker_Generator_Visit();
-		$visit->setDb(self::$db);
 		return $visit;
 	}	
 	

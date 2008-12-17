@@ -56,10 +56,10 @@ class Piwik_Referers_API
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
 		return $dataTable;
 	}
-
+	
 	function getKeywords($idSite, $period, $date, $expanded = false)
 	{
-		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword',$idSite, $period, $date, $expanded);
+		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword', $idSite, $period, $date, $expanded);
 		return $dataTable;
 	}
 

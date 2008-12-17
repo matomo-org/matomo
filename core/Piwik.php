@@ -423,7 +423,23 @@ class Piwik
 	
 	static public function isNumeric($value)
 	{
-		return !is_array($value) && ereg('^([-]{0,1}[0-9]{1,}[.]{0,1}[0-9]*)$', $value);
+		return is_numeric($value);
+	}
+	
+	static public function getCurrency()
+	{
+		static $symbol = null;
+		if(is_null($symbol))
+		{
+			$symbol = Zend_Registry::get('config')->General->default_currency;
+		}
+		return $symbol;
+	}
+
+	static public function getPrettyMoney($value)
+	{
+		$symbol = self::getCurrency();
+		return sprintf("$symbol%.2f", $value);
 	}
 	
 	static public function getPrettyTimeFromSeconds($numberOfSeconds)
@@ -664,7 +680,8 @@ class Piwik
 									  period TINYINT UNSIGNED NULL,
 								  	  ts_archived DATETIME NULL,
 								  	  value FLOAT NULL,
-									  PRIMARY KEY(idarchive, name)
+									  PRIMARY KEY(idarchive, name),
+									  KEY `index_all` (`idsite`,`date1`,`date2`,`name`,`ts_archived`)
 									)
 			",
 			'archive_blob'	=> "CREATE TABLE {$prefixTables}archive_blob (
@@ -676,7 +693,8 @@ class Piwik
 									  period TINYINT UNSIGNED NULL,
 									  ts_archived DATETIME NULL,
 									  value MEDIUMBLOB NULL,
-									  PRIMARY KEY(idarchive, name)
+									  PRIMARY KEY(idarchive, name),
+									  KEY `index_all` (`idsite`,`date1`,`date2`,`name`,`ts_archived`)
 									)
 			",
 		);
@@ -775,6 +793,11 @@ class Piwik
 	static public function checkUserHasSomeAdminAccess()
 	{
 		Zend_Registry::get('access')->checkUserHasSomeAdminAccess();
+	}
+	
+	static public function checkUserHasSomeViewAccess()
+	{
+		Zend_Registry::get('access')->checkUserHasSomeViewAccess();
 	}
 	
 	static public function isUserHasViewAccess( $idSites )

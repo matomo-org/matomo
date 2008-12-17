@@ -149,7 +149,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		// and each of them has 1 or 2 hits...
 		$nbActionsLowPopulationThreshold = min($visitsInfo->getColumn('max_actions')-1, $nbActionsLowPopulationThreshold-1);
 		
-		$view->setExcludeLowPopulation( $nbActionsLowPopulationThreshold, 'nb_hits' );
+		$view->setExcludeLowPopulation( 'nb_hits', $nbActionsLowPopulationThreshold );
 		
 		$view->main();
 		

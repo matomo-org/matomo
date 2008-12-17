@@ -11,8 +11,9 @@
 
 
 /**
- * Handles the archiving process for a day.
- * The class provides generic methods to manipulate data from the DB, easily create Piwik_DataTable objects.
+ * Handles the archiving process for a day. 
+ * The class provides generic helper methods to manipulate data from the DB, 
+ * easily create Piwik_DataTable objects from running SELECT ... GROUP BY on the log_visit table.
  * 
  * All the logic of the archiving is done inside the plugins listening to the event 'ArchiveProcessing_Day.compute'
  * 
@@ -51,7 +52,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 							sum(visit_total_actions) as nb_actions, 
 							max(visit_total_actions) as max_actions, 
 							sum(visit_total_time) as sum_visit_length,
-							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count 
+							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
+							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
 					FROM ".$this->logTable."
 					WHERE visit_server_date = ?
 						AND idsite = ?
@@ -70,7 +72,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		{
 			$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
 		}
-		
+		$this->setNumberOfVisits($row['nb_visits']);
+		$this->setNumberOfVisitsConverted($row['nb_visits_converted']);
 		Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
 	}
 	
@@ -138,8 +141,26 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		return $table;
 	}
 	
+	public function getDataTableFromArray( $array )
+	{
+		$table = new Piwik_DataTable;
+		$table->addRowsFromArrayWithIndexLabel($array);
+		return $table;
+	}
+	
 	/**
-	 * Helper function that returns common statistics for a given database field distinct values.
+	 * Output:
+	 * 		array(
+	 * 			LABEL => array(
+	 * 						Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 0, 
+	 *						Piwik_Archive::INDEX_NB_VISITS 			=> 0
+	 *					),
+	 *			LABEL2 => array(
+	 *					[...]
+	 *					)
+	 * 		)
+ 	 *
+	 * Helper function that returns an array with common statistics for a given database field distinct values.
 	 * 
 	 * The statistics returned are:
 	 *  - number of unique visitors
@@ -150,18 +171,18 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 *  - count of bouncing visits (visits with one page view)
 	 * 
 	 * For example if $label = 'config_os' it will return the statistics for every distinct Operating systems
-	 * The returned DataTable will have a row per distinct operating systems, 
-	 *  and a column per stat (nb of visits, max  actions, etc)
+	 * The returned array will have a row per distinct operating systems, 
+	 * and a column per stat (nb of visits, max  actions, etc)
 	 * 
-	 * label	nb_uniq_visitors	nb_visits	nb_actions	max_actions	sum_visit_length	bounce_count	
-	 * Linux	27	66	66	1	660	66	
-	 * Windows XP	12	39	39	1	390	39	
-	 * Mac OS	15	36	36	1	360	36	
+	 * 'label'	Piwik_Archive::INDEX_NB_UNIQ_VISITORS	Piwik_Archive::INDEX_NB_VISITS	etc.	
+	 * Linux	27	66	...
+	 * Windows XP	12	...	
+	 * Mac OS	15	36	...
 	 * 
 	 * @param string $label Table log_visit field name to be use to compute common stats
-	 * @return Piwik_DataTable
+	 * @return array
 	 */
-	public function getDataTableInterestForLabel( $label )
+	public function getArrayInterestForLabel($label)
 	{
 		$query = "SELECT 	$label as label,
 							count(distinct visitor_idcookie) as nb_uniq_visitors, 
@@ -169,34 +190,21 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 							sum(visit_total_actions) as nb_actions, 
 							max(visit_total_actions) as max_actions, 
 							sum(visit_total_time) as sum_visit_length,
-							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count
+							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
+							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
 				FROM ".$this->logTable."
 				WHERE visit_server_date = ?
 					AND idsite = ?
 				GROUP BY label";
-
 		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ) );
 
 		$interest = array();
-		while($rowBefore = $query->fetch())
+		while($row = $query->fetch())
 		{
-			$row = array(
-				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> $rowBefore['nb_uniq_visitors'], 
-				Piwik_Archive::INDEX_NB_VISITS 			=> $rowBefore['nb_visits'], 
-				Piwik_Archive::INDEX_NB_ACTIONS 		=> $rowBefore['nb_actions'], 
-				Piwik_Archive::INDEX_MAX_ACTIONS 		=> $rowBefore['max_actions'], 
-				Piwik_Archive::INDEX_SUM_VISIT_LENGTH 	=> $rowBefore['sum_visit_length'], 
-				Piwik_Archive::INDEX_BOUNCE_COUNT 		=> $rowBefore['bounce_count'],
-				'label'									=> $rowBefore['label']
-				);
-				
 			if(!isset($interest[$row['label']])) $interest[$row['label']]= $this->getNewInterestRow();
 			$this->updateInterestStats( $row, $interest[$row['label']]);
 		}
-
-		$table = new Piwik_DataTable;
-		$table->addRowsFromArrayWithIndexLabel($interest);
-		return $table;
+		return $interest;
 	}
 	
 	/**
@@ -259,17 +267,19 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	/**
 	 * Helper function that returns the multiple serialized DataTable of the given PHP array.
 	 * The DataTable here associates a subtable to every row of the level 0 array.
-	 * This is used for example for search engines. Every search engine (level 0) has a subtable containing the
-	 * keywords.
+	 * This is used for example for search engines. 
+	 * Every search engine (level 0) has a subtable containing the keywords.
 	 * 
 	 * The $arrayLevel0 must have the format 
 	 * Example: 	array (
+	 * 					// Yahoo.com => array( kwd1 => stats, kwd2 => stats )
 	 * 	 				LABEL => array(col1 => X, col2 => Y),
 	 * 	 				LABEL2 => array(col1 => X, col2 => Y),
 	 * 				)
 	 * 
 	 * The $subArrayLevel1ByKey must have the format
 	 * Example: 	array(
+	 * 					// Yahoo.com => array( stats )
 	 * 					LABEL => #Piwik_DataTable_ForLABEL,
 	 * 					LABEL2 => #Piwik_DataTable_ForLABEL2,
 	 * 				)
@@ -279,10 +289,9 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param array of Piwik_DataTable $subArrayLevel1ByKey 
 	 * @return array Array with N elements: the strings of the datatable serialized 
 	 */
-	public function getDataTablesSerialized( $arrayLevel0, $subArrayLevel1ByKey, $maximumRowsInDataTableLevelZero = null, $maximumRowsInSubDataTable = null)
+	public function getDataTableWithSubtablesFromArraysIndexedByLabel( $arrayLevel0, $subArrayLevel1ByKey )
 	{
 		$tablesByLabel = array();
-
 		foreach($arrayLevel0 as $label => $aAllRowsForThisLabel)
 		{
 			$table = new Piwik_DataTable;
@@ -292,8 +301,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$parentTableLevel0 = new Piwik_DataTable;
 		$parentTableLevel0->addRowsFromArrayWithIndexLabel($subArrayLevel1ByKey, $tablesByLabel);
 
-		$toReturn = $parentTableLevel0->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
-		return $toReturn;
+		return $parentTableLevel0;
 	}
 	
 	/**
@@ -308,7 +316,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						Piwik_Archive::INDEX_NB_ACTIONS 		=> 0, 
 						Piwik_Archive::INDEX_MAX_ACTIONS 		=> 0, 
 						Piwik_Archive::INDEX_SUM_VISIT_LENGTH 	=> 0, 
-						Piwik_Archive::INDEX_BOUNCE_COUNT 		=> 0
+						Piwik_Archive::INDEX_BOUNCE_COUNT 		=> 0,
+						Piwik_Archive::INDEX_NB_VISITS_CONVERTED=> 0,
 						);
 	}
 	
@@ -339,13 +348,124 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param array $oldRowToUpdate
 	 */
 	public function updateInterestStats( $newRowToAdd, &$oldRowToUpdate)
-	{		
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]	+= $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 		+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS];
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 		+= $newRowToAdd[Piwik_Archive::INDEX_NB_ACTIONS];
-		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 = (float)max($newRowToAdd[Piwik_Archive::INDEX_MAX_ACTIONS], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
-		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]	+= $newRowToAdd[Piwik_Archive::INDEX_SUM_VISIT_LENGTH];
-		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 		+= $newRowToAdd[Piwik_Archive::INDEX_BOUNCE_COUNT];
+	{
+		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd['nb_uniq_visitors'];
+		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd['nb_visits'];
+		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd['nb_actions'];
+		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 	= (float)max($newRowToAdd['max_actions'], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
+		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]		+= $newRowToAdd['sum_visit_length'];
+		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 			+= $newRowToAdd['bounce_count'];
+		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd['nb_visits_converted'];
+	}
+	
+	//TODO comment
+	public function queryConversionsBySegment($segments = '')
+	{
+		if(!empty($segments))
+		{
+			$segments = ", ". $segments;
+		}
+		$query = "SELECT idgoal,
+						count(*) as nb_conversions,
+						sum(revenue) as revenue
+						$segments
+			 	FROM ".$this->logConversionTable."
+			 	WHERE visit_server_date = ?
+			 		AND idsite = ?
+			 	GROUP BY idgoal $segments";
+		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ));
+		return $query;
+	}
+	
+	public function queryConversionsBySingleSegment($segment)
+	{
+		$query = "SELECT idgoal,
+						count(*) as nb_conversions,
+						sum(revenue) as revenue,
+						$segment as label
+			 	FROM ".$this->logConversionTable."
+			 	WHERE visit_server_date = ?
+			 		AND idsite = ?
+			 	GROUP BY idgoal, label";
+		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ));
+		return $query;
+	}
+	
+	/**
+	 * Input: 
+	 * 		array( 
+	 * 			LABEL  => array( Piwik_Archive::INDEX_NB_VISITS => X, 
+	 * 							 Piwik_Archive::INDEX_GOALS => array(
+	 * 								idgoal1 => array( [...] ), 
+	 * 								idgoal2 => array( [...] ),
+	 * 							),
+	 * 							[...] ),
+	 * 			LABEL2 => array( Piwik_Archive::INDEX_NB_VISITS => Y, [...] )
+	 * 			);
+	 * 
+	 * Output:
+	 * 		array(
+	 * 			LABEL  => array( Piwik_Archive::INDEX_NB_VISITS => X, 
+	 * 							 
+	 * 							 Piwik_Archive::INDEX_GOALS => array(
+	 * 								idgoal1 => array( [...] ), 
+	 * 								idgoal2 => array( [...] ),
+	 * 							),
+	 * 							[...] ),
+	 * 			LABEL2 => array( Piwik_Archive::INDEX_NB_VISITS => Y, [...] )
+	 * 			);
+	 * 		)
+	 * @param array by reference, will be modified
+	 * @return void (array by reference is modified)
+	 */
+	function enrichConversionsByLabelArray(&$interestByLabel)
+	{
+		foreach($interestByLabel as $label => &$values)
+		{
+			if(isset($values[Piwik_Archive::INDEX_GOALS]))
+			{
+				$revenue = $conversions = 0;
+				foreach($values[Piwik_Archive::INDEX_GOALS] as $idgoal => $goalValues)
+				{
+					$revenue += $goalValues[Piwik_Archive::INDEX_GOAL_REVENUE];
+					$conversions += $goalValues[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
+				}
+				$values[Piwik_Archive::INDEX_NB_CONVERSIONS] = $conversions;
+				$values[Piwik_Archive::INDEX_REVENUE] = $revenue;
+			}
+		}
+	}
+
+	/**
+	 * @param array $interestByLabelAndSubLabel
+	 * @return void (array by reference is modified)
+	 */
+	function enrichConversionsByLabelArrayHasTwoLevels(&$interestByLabelAndSubLabel)
+	{
+		foreach($interestByLabelAndSubLabel as $mainLabel => &$interestBySubLabel)
+		{
+			$this->enrichConversionsByLabelArray($interestBySubLabel);
+		}
+	}
+
+	function updateGoalStats($newRowToAdd, &$oldRowToUpdate)
+	{
+		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS]	+= $newRowToAdd['nb_conversions'];
+		$oldRowToUpdate[Piwik_Archive::INDEX_GOAL_REVENUE] 			+= $newRowToAdd['revenue'];
+	}
+	
+	function getNewGoalRow()
+	{
+		return array(	Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> 0, 
+						Piwik_Archive::INDEX_GOAL_REVENUE 			=> 0, 
+					);
+	}
+	
+	function getGoalRowFromQueryRow($queryRow)
+	{
+		return array(	Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> $queryRow['nb_conversions'], 
+						Piwik_Archive::INDEX_GOAL_REVENUE 			=> $queryRow['revenue'], 
+					);
 	}
 }
 

@@ -1,10 +1,9 @@
 <?php
-require_once "ViewDataTable.php";
 class Piwik_Referers_Controller extends Piwik_Controller 
 {
 	function index()
 	{
-		$view = new Piwik_View('Referers/index.tpl');
+		$view = new Piwik_View('Referers/templates/index.tpl');
 		
 		$view->graphEvolutionReferers = $this->getLastDirectEntryGraph(true);
 		$view->nameGraphEvolutionReferers = 'ReferersgetLastDirectEntryGraph'; // must be the function name used above
@@ -40,19 +39,17 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	
 	function getSearchEnginesAndKeywords()
 	{
-		$view = new Piwik_View('Referers/searchEngines_Keywords.tpl');
+		$view = new Piwik_View('Referers/templates/searchEngines_Keywords.tpl');
 		$view->searchEngines = $this->getSearchEngines(true) ;
 		$view->keywords = $this->getKeywords(true);
 		echo $view->render();
 	}
-	/**
-	 * Referers
-	 */
+	
 	function getRefererType( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory('cloud');
 		$view->init( $this->pluginName,  	
-									'getRefererType', 
+									__FUNCTION__, 
 									'Referers.getRefererType'
 								);
 		$view->disableSearchBox();
@@ -68,21 +65,21 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getKeywords( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		
-		$view->init( $this->pluginName, 	'getKeywords', 
+		$view->init( $this->pluginName, 	__FUNCTION__, 
 											'Referers.getKeywords', 
 											'getSearchEnginesFromKeywordId'
 								);
 		$view->disableExcludeLowPopulation();
 		$view->setColumnsToDisplay( array('label','nb_visits') );
-		
+		$view->enableShowGoals();
+		$view->disableSubTableWhenShowGoals();
 		return $this->renderView($view, $fetch);
 	}
 	
 	function getSearchEnginesFromKeywordId( $fetch = false )
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, 	'getSearchEnginesFromKeywordId', 
+		$view->init( $this->pluginName, 	__FUNCTION__, 
 											'Referers.getSearchEnginesFromKeywordId'
 								);
 		$view->disableSearchBox();
@@ -96,12 +93,14 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getSearchEngines( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName,  	'getSearchEngines', 
+		$view->init( $this->pluginName,  	__FUNCTION__, 
 											'Referers.getSearchEngines', 
 											'getKeywordsFromSearchEngineId'
 								);
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
+		$view->enableShowGoals();
+		$view->disableSubTableWhenShowGoals();
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		
@@ -111,7 +110,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	public function getSearchEnginesEvolution($fetch = false)
 	{		
 		$view = Piwik_ViewDataTable::factory('graphEvolution');
-		$view->init( 'Referers', __FUNCTION__, 'Referers.getSearchEngines' );
+		$view->init( $this->pluginName, __FUNCTION__, 'Referers.getSearchEngines' );
 		
 		$view->setColumnsToDisplay( 'nb_uniq_visitors' );
 		$view->setExactPattern( array('Google','Yahoo!'), 'label');
@@ -123,7 +122,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getKeywordsFromSearchEngineId( $fetch = false )
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, 	'getKeywordsFromSearchEngineId', 
+		$view->init( $this->pluginName, 	__FUNCTION__, 
 											'Referers.getKeywordsFromSearchEngineId'
 								);
 		$view->disableSearchBox();
@@ -136,20 +135,23 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getWebsites( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName,  	'getWebsites', 
+		$view->init( $this->pluginName,  	__FUNCTION__, 
 											'Referers.getWebsites',
 											'getUrlsFromWebsiteId'
 								);
 		$view->disableExcludeLowPopulation();
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setLimit(10);
+		$view->enableShowGoals();
+		$view->disableSubTableWhenShowGoals();
+		
 		return $this->renderView($view, $fetch);
 	}
 	
 	function getCampaigns( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName,  	'getCampaigns', 
+		$view->init( $this->pluginName,  	__FUNCTION__, 
 											'Referers.getCampaigns',
 											'getKeywordsFromCampaignId'
 								);
@@ -157,16 +159,15 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 5 );
-		
+		$view->enableShowGoals();
 		$view->setColumnsToDisplay( array('label','nb_visits') );
-		
 		return $this->renderView($view, $fetch);
 	}
 	
 	function getKeywordsFromCampaignId( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, 	'getKeywordsFromCampaignId', 
+		$view->init( $this->pluginName, 	__FUNCTION__, 
 											'Referers.getKeywordsFromCampaignId'
 								);
 
@@ -180,7 +181,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	function getUrlsFromWebsiteId( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, 	'getUrlsFromWebsiteId', 
+		$view->init( $this->pluginName, 	__FUNCTION__, 
 											'Referers.getUrlsFromWebsiteId'
 								);
 		$view->disableSearchBox();
@@ -198,6 +199,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 						&format=original
 						&disable_queued_filters=1";
 		$request = new Piwik_API_Request($requestString);
+		$view->enableShowGoals();
 		return $request->process();
 	}
 	

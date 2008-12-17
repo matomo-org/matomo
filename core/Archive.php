@@ -51,30 +51,48 @@ abstract class Piwik_Archive
 	const INDEX_MAX_ACTIONS = 4;
 	const INDEX_SUM_VISIT_LENGTH = 5;
 	const INDEX_BOUNCE_COUNT = 6;
+	const INDEX_NB_VISITS_CONVERTED = 7;
+	const INDEX_NB_CONVERSIONS = 8;
+	const INDEX_REVENUE = 9;
+	const INDEX_GOALS = 10;
+	
+	const INDEX_GOAL_NB_CONVERSIONS = 1;
+	const INDEX_GOAL_REVENUE = 2;
 
-	/*
-	 * Integer indexed column name => string indexed column name
-	 */
 	public static $mappingFromIdToName = array(
-				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 	=> 'nb_uniq_visitors',
-				Piwik_Archive::INDEX_NB_VISITS			=> 'nb_visits',
-				Piwik_Archive::INDEX_NB_ACTIONS			=> 'nb_actions',
-				Piwik_Archive::INDEX_MAX_ACTIONS		=> 'max_actions',
-				Piwik_Archive::INDEX_SUM_VISIT_LENGTH	=> 'sum_visit_length',
-				Piwik_Archive::INDEX_BOUNCE_COUNT		=> 'bounce_count',
+				Piwik_Archive::INDEX_NB_UNIQ_VISITORS 		=> 'nb_uniq_visitors',
+				Piwik_Archive::INDEX_NB_VISITS				=> 'nb_visits',
+				Piwik_Archive::INDEX_NB_ACTIONS				=> 'nb_actions',
+				Piwik_Archive::INDEX_MAX_ACTIONS			=> 'max_actions',
+				Piwik_Archive::INDEX_SUM_VISIT_LENGTH		=> 'sum_visit_length',
+				Piwik_Archive::INDEX_BOUNCE_COUNT			=> 'bounce_count',
+				Piwik_Archive::INDEX_NB_VISITS_CONVERTED 	=> 'nb_visits_converted',
+				Piwik_Archive::INDEX_NB_CONVERSIONS 		=> 'nb_conversions',
+				Piwik_Archive::INDEX_REVENUE				=> 'revenue',
+				Piwik_Archive::INDEX_GOALS					=> 'goals',
 			);
+
+	public static $mappingFromIdToNameGoal = array(
+				Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS 	=> 'nb_conversions',
+				Piwik_Archive::INDEX_GOAL_REVENUE 			=> 'revenue',
+	);
+
 	/*
 	 * string indexed column name => Integer indexed column name 
 	 */
 	public static $mappingFromNameToId = array(
-				'nb_uniq_visitors'	=> Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
-				'nb_visits'			=> Piwik_Archive::INDEX_NB_VISITS,
-				'nb_actions'		=> Piwik_Archive::INDEX_NB_ACTIONS,
-				'max_actions'		=> Piwik_Archive::INDEX_MAX_ACTIONS,
-				'sum_visit_length'	=> Piwik_Archive::INDEX_SUM_VISIT_LENGTH,
-				'bounce_count'		=> Piwik_Archive::INDEX_BOUNCE_COUNT,
-			);
-			
+				'nb_uniq_visitors'			=> Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
+				'nb_visits'					=> Piwik_Archive::INDEX_NB_VISITS,
+				'nb_actions'				=> Piwik_Archive::INDEX_NB_ACTIONS,
+				'max_actions'				=> Piwik_Archive::INDEX_MAX_ACTIONS,
+				'sum_visit_length'			=> Piwik_Archive::INDEX_SUM_VISIT_LENGTH,
+				'bounce_count'				=> Piwik_Archive::INDEX_BOUNCE_COUNT,
+				'nb_visits_converted'		=> Piwik_Archive::INDEX_NB_VISITS_CONVERTED,
+				'nb_conversions' 			=> Piwik_Archive::INDEX_NB_CONVERSIONS,
+				'revenue' 					=> Piwik_Archive::INDEX_REVENUE,
+				'goals'						=> Piwik_Archive::INDEX_GOALS,
+	);
+	
 	/**
 	 * Website Piwik_Site
 	 *

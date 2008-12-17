@@ -29,17 +29,18 @@ class Test_Piwik extends UnitTestCase
     			(float)-1, (float)0 , (float)1, (float)1.5, (float)-1.5, (float)21111, (float)89898, (float)99999999999, (float)-4565656,
     			(int)-1, (int)0 , (int)1, (int)1.5, (int)-1.5, (int)21111, (int)89898, (int)99999999999, (int)-4565656,
     			'-1', '0' , '1', '1.5', '-1.5', '21111', '89898', '99999999999', '-4565656',
+    			'1e3','0x123', "-1e-2",
     		);
     	foreach($valid as $toTest)
     	{
-    		$this->assertTrue(Piwik::isNumeric($toTest), $toTest." not valid!");
+    		$this->assertTrue(Piwik::isNumeric($toTest), $toTest." not valid but should!");
     	}
     }
     
     public function test_isNumericNotValid()
     {
     	$notvalid = array(
-    			'-1.0.0', '1e3','1,2',  '0x123', '--1', '-.',  "-1e-2",  '- 1', '1-', 
+    			'-1.0.0', '1,2',   '--1', '-.',   '- 1', '1-', 
     		);
     	foreach($notvalid as $toTest)
     	{

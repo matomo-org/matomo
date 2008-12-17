@@ -329,39 +329,49 @@ class Piwik_DataTable_Row
 	 */
 	public function sumRow( Piwik_DataTable_Row $rowToSum )
 	{
-		foreach($rowToSum->getColumns() as $name => $value)
+		foreach($rowToSum->getColumns() as $columnToSumName => $columnToSumValue)
 		{
-			if($name != 'label')
+			if($columnToSumName != 'label')
 			{
-				if(Piwik::isNumeric($value))
+				$thisColumnValue = $this->getColumn($columnToSumName);
+				$newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
+				$this->setColumn( $columnToSumName, $newValue);
+			}
+		}
+	}
+	
+	protected function sumRowArray( $thisColumnValue, $columnToSumValue )
+	{
+		$newValue = 0;
+		if(Piwik::isNumeric($columnToSumValue))
+		{
+			if($thisColumnValue === false)
+			{
+				$thisColumnValue = 0;
+			}
+			$newValue = $thisColumnValue + $columnToSumValue;
+		}
+		elseif(is_array($columnToSumValue))
+		{
+			$newValue = array();
+			if($thisColumnValue == false)
+			{
+				$newValue = $columnToSumValue;
+			}
+			else
+			{
+				$newValue = $thisColumnValue;
+				foreach($columnToSumValue as $arrayIndex => $arrayValue)
 				{
-					$current = $this->getColumn($name);
-					if($current === false)
+					if(!isset($newValue[$arrayIndex])) 
 					{
-						$current = 0;
+						$newValue[$arrayIndex] = false;
 					}
-					$this->setColumn( $name, $current + $value);
-				}
-				elseif(is_array($value))
-				{
-					$current = $this->getColumn($name);
-					$newValue = array();
-					if($current == false)
-					{
-						$newValue = $value;
-					}
-					else
-					{
-						$newValue = $current;
-						foreach($value as $arrayIndex => $arrayValue)
-						{
-							$newValue[$arrayIndex] += $arrayValue;
-						}
-					}
-					$this->setColumn($name, $newValue);
+					$newValue[$arrayIndex] = $this->sumRowArray($newValue[$arrayIndex], $arrayValue);
 				}
 			}
 		}
+		return $newValue;
 	}
 	
 	/**
@@ -381,10 +391,7 @@ class Piwik_DataTable_Row
 		//same columns
 		$cols1 = $row1->getColumns();
 		$cols2 = $row2->getColumns();
-		
-		uksort($cols1, 'strnatcasecmp');
-		uksort($cols2, 'strnatcasecmp');
-		if($cols1 != $cols2)
+		if(array_diff($cols1, $cols2) !== array_diff($cols2, $cols1))
 		{
 			return false;
 		}

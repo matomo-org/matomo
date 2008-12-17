@@ -253,7 +253,6 @@ class Piwik_Access
 
 	/**
 	 * If the user doesn't have an ADMIN access for at least one website, throws an exception
-	 * 
 	 * @throws Exception
 	 */
 	public function checkUserHasSomeAdminAccess()
@@ -262,6 +261,19 @@ class Piwik_Access
 		if(count($idSitesAccessible) == 0)
 		{
 			throw new Piwik_Access_NoAccessException("You can't access this resource as it requires an 'admin' access for at least one website.");
+		}
+	}
+	
+	/**
+	 * If the user doesn't have any view permission, throw exception
+	 * @throws Exception
+	 */
+	public function checkUserHasSomeViewAccess()
+	{
+		$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
+		if(count($idSitesAccessible) == 0)
+		{
+			throw new Piwik_Access_NoAccessException("You can't access this resource as it requires a 'view' access for at least one website.");
 		}
 	}
 

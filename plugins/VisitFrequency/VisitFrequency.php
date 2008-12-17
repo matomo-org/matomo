@@ -58,6 +58,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 				'nb_actions_returning',
 				'sum_visit_length_returning',
 				'bounce_count_returning',
+				'nb_visits_converted_returning',
 		);
 		$archiveProcessing->archiveNumericValuesSum($numericToSum);
 		$archiveProcessing->archiveNumericValuesMax('max_actions_returning');
@@ -72,7 +73,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 							sum(visit_total_actions) as nb_actions_returning,
 							max(visit_total_actions) as max_actions_returning, 
 							sum(visit_total_time) as sum_visit_length_returning,							
-							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count_returning
+							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count_returning,
+							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted_returning
 				 	FROM ".$archiveProcessing->logTable."
 				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
@@ -87,6 +89,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 			$row['max_actions_returning'] = 0;
 			$row['sum_visit_length_returning'] = 0;
 			$row['bounce_count_returning'] = 0;
+			$row['nb_visits_converted_returning'] = 0;
 		}
 		
 		foreach($row as $name => $value)

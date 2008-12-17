@@ -42,13 +42,16 @@ class Piwik_API_DataTableGenericFilter
 						),
 			'ExcludeLowPopulation'	=> array(
 								'filter_excludelowpop' 		=> array('string'), 
-								'filter_excludelowpop_value'=> array('float'),
+								'filter_excludelowpop_value'=> array('float', '0'),
 						),
 			'AddColumnsWhenShowAllColumns'	=> array(
 								'filter_add_columns_when_show_all_columns'	=> array('integer')
 						),
+			'UpdateColumnsWhenShowAllGoals'	=> array(
+								'filter_update_columns_when_show_all_goals'	=> array('integer')
+						),
 			'Sort' => array(
-								'filter_sort_column' 		=> array('string', 'nb_visits'),
+								'filter_sort_column' 		=> array('string', Piwik_Archive::INDEX_NB_VISITS),
 								'filter_sort_order' 		=> array('string', Zend_Registry::get('config')->General->dataTable_default_sort_order),
 						),
 			'Limit' => array(
@@ -110,7 +113,7 @@ class Piwik_API_DataTableGenericFilter
 					break;
 				}
 			}
-			
+
 			if(!$exceptionRaised)
 			{				
 				// a generic filter class name must follow this pattern

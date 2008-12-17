@@ -131,7 +131,6 @@ class Piwik_Period_Range extends Piwik_Period
 		{
 			throw new Exception("The date '$this->strDate' is not a date range. Should have the following format: 'lastN' or 'previousN' or 'YYYY-MM-DD,YYYY-MM-DD'.");
 		}
-		
 		$endSubperiod = Piwik_Period::factory($this->strPeriod, $endDate);
 		
 		$arrayPeriods= array();

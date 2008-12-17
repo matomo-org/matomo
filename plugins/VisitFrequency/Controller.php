@@ -37,8 +37,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 
 	protected function getSummary()
 	{		
-		$requestString = "method=VisitFrequency.getSummary
-							&format=original";
+		$requestString = "method=VisitFrequency.getSummary&format=original";
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
 	}

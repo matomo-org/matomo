@@ -97,7 +97,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
     <lastBuildDate>$generationDate</lastBuildDate>";
     	return $header;
 	}
-	
+		
 	protected function renderDataTable($table)
 	{
 	
@@ -110,7 +110,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		{
 			$table->deleteColumn('label');
 		}
-		
+
 		$i = 1;		
 		$tableStructure = array();
 		
@@ -125,6 +125,12 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		{
 			foreach($row->getColumns() as $column => $value)
 			{
+				// for example, goals data is array: not supported in export RSS
+				// in the future we shall reuse ViewDataTable for html exports in RSS anyway
+				if(is_array($value))
+				{
+					continue;
+				}
 				$allColumns[$column] = true;
 				$tableStructure[$i][$column] = $value;
 			}
@@ -146,14 +152,14 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		foreach($tableStructure as $row)
 		{
 			$html .= "\n\n<tr>";
-			foreach($allColumns as $name => $toDisplay)
+			foreach($allColumns as $columnName => $toDisplay)
 			{
 				if($toDisplay !== false)
 				{
 					$value = "-";
-					if(isset($row[$name]))
+					if(isset($row[$columnName]))
 					{
-						$value = urldecode($row[$name]);
+						$value = urldecode($row[$columnName]);
 					}
 					
 					$html .= "\n\t<td>$value</td>";

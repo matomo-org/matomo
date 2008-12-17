@@ -38,18 +38,5 @@ class Piwik_Provider_API
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
 		return $dataTable;
 	}
-	
-	/**
-	 * Example of getting a RAW BLOB
-	 *
-	 * @return blob
-	 */
-	public function getProviderBlob( $idSite, $period, $date )
-	{
-		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
-		$dataTable = $archive->getBlob('Provider_hostnameExt');
-		return $dataTable;
-	}
 }
 

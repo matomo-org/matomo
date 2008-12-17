@@ -11,29 +11,10 @@
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
- * Handles the visitor & his/her actions on the website, saves the data in the DB, saves information in the cookie, etc.
+ * Handles the visitor & his/her actions on the website, saves the data in the DB, 
+ * saves information in the cookie, etc.
  * 
- * To maximise the performance of the logging module, we use different techniques.
- * 
- * On the PHP-only side:
- * - minimize the number of external files included. 
- * 	 Ideally only one (the configuration file) in all the normal cases.
- *   We load the Loggers only when an error occurs ; this error is logged in the DB/File/etc
- *   depending on the loggers settings in the configuration file.
- * - we may have to include external classes but we try to include only very 
- *   simple code without any dependency, so that we could simply write a script
- *   that would merge all this simple code into a big piwik.php file.
- * 
- * On the Database-related side:
- * - write all the SQL queries without using any DB abstraction layer. Manual filtering of input values.
- * - minimize the number of SQL queries necessary to complete the algorithm.
- * - carefully index the tables used
- * - try to have fixed length rows
- * 
- * [ - use a partitionning by date for the tables ]
- *   
- * Configuration options for the statsLogEngine module:
- * - use_cookie  ; defines if we try to get/set a cookie to help recognize a unique visitor
+ * We try to include as little files as possible (no dependency on 3rd party modules).
  * 
  * @package Piwik_Tracker
  */
@@ -57,6 +38,12 @@ class Piwik_Tracker
 	const COOKIE_INDEX_TIMESTAMP_FIRST_ACTION 	= 3;
 	const COOKIE_INDEX_ID_VISIT 				= 4;
 	const COOKIE_INDEX_ID_LAST_ACTION 			= 5;
+	const COOKIE_INDEX_REFERER_ID_VISIT			= 6;
+	const COOKIE_INDEX_REFERER_TIMESTAMP		= 7;
+	const COOKIE_INDEX_REFERER_TYPE				= 8;
+	const COOKIE_INDEX_REFERER_NAME				= 9;
+	const COOKIE_INDEX_REFERER_KEYWORD			= 10;
+	const COOKIE_INDEX_VISITOR_RETURNING		= 11;
 	
 	public function __construct() {}
 
@@ -68,14 +55,26 @@ class Piwik_Tracker
 		{
 			try {
 				self::connectDatabase();
+				
 				$visit = $this->getNewVisitObject();
 				$visit->handle();
+				unset($visit);
 			} catch (PDOException $e) {
 				$this->setState(self::STATE_LOGGING_DISABLE);
-			}				
+			}
 		}
 		$this->end();
 	}	
+	
+	/**
+	 * Returns the date in the "Y-m-d H:i:s" PHP format
+	 * @return string
+	 */
+	public static function getDatetimeFromTimestamp($timestamp)
+	{
+		return date("Y-m-d H:i:s", $timestamp);
+	}
+	
 	
 	protected function init()
 	{
@@ -155,7 +154,10 @@ class Piwik_Tracker
 		self::$db = $db;
 	}
 	
-	public static function getDb()
+	/**
+	 * @return Piwik_Tracker_Db
+	 */
+	public static function getDatabase()
 	{
 		return self::$db;
 	}
@@ -188,7 +190,6 @@ class Piwik_Tracker
 			throw new Exception("The Visit object set in the plugin must implement Piwik_Tracker_Visit_Interface");
 		}
 		
-		$visit->setDb(self::$db);
 		return $visit;
 	}
 	

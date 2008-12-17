@@ -3,10 +3,10 @@
  * The script can be used to generate huge number of visits and actions
  * for a given number of days.
  */
-$minVisitors = 500;
-$maxVisitors = 1000;
+$minVisitors = 200;
+$maxVisitors = 200;
 $nbActions = 3;
-$daysToCompute = 1;
+$daysToCompute = 10;
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
@@ -46,6 +46,7 @@ require_once "Tracker/Action.php";
 require_once "Tracker/Db.php";
 require_once "Tracker/Visit.php";
 require_once "Tracker/Generator.php";
+require_once "Tracker/GoalManager.php";
 
 //Piwik_PluginsManager::getInstance()->unloadPlugins();
 
@@ -73,6 +74,7 @@ while($startTime <= time())
 	$visitors = rand($minVisitors, $maxVisitors);
 	$actions = $nbActions;
 	$generator->setTimestampToUse($startTime);
+	
 	$nbActionsTotalThisDay = $generator->generate($visitors, $actions);
 	$actionsPerVisit = round($nbActionsTotalThisDay / $visitors);
 	print("Generated $visitors unique visitors and $actionsPerVisit actions per visit for the ".date("Y-m-d", $startTime)."<br>\n");

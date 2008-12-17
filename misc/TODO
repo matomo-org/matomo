@@ -3,18 +3,21 @@ Following up show all columns new UI element
 - passe en année, actions puis pages => c'est vide !!!
 - pages columns: first should be unique page views, sorted by unique pageviews
 - exclude all population doesn't work for actions
+- when used with visitsGenerator, in dowloads export XML, full_url and url is 0
+- add new column "overall visits with conversion"
 - post 29 There seems not to be a way to export the pages information widget. I wanted to download the entry pages to see where my visitors entered my site from, but there is no option to do so.
-
-$("td img", domElem).attr("src") is undefined
-[Break on this error] var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
-datatable.js (line 907)
-$("td img", domElem).attr("src") is undefined
-[Break on this error] var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
-when clicking MINUS on actions
+    $("td img", domElem).attr("src") is undefined
+    [Break on this error] var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
+    datatable.js (line 907)
+    $("td img", domElem).attr("src") is undefined
+    [Break on this error] var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
+    when clicking MINUS on actions
 - icons disappear when showing all columns for browsers
 - exclude low population doesn't work for providers
 - ADD forward of non true show_values to forward when specified from URL to ajax
 - disable show icon in some iframes and/or dashboard 
+- when exclude low, switch back to normal table, include all is not avail and low are still excluded
+  ->when switch back to simple table, reset exclude
 - do proper CSS factoring
 - clarify 'false' '0' values etc. //convert all JS datatable footer parameter values to '1' or '0'
 - check state of javascript footer (should not have safe_decode and filter_add_columns blah)
@@ -39,26 +42,31 @@ UI fixes + adjustements
 - write test to check disabled db plugin default
 - show total size in MB in db plugin
 - search inside datatable doesnt really work eg. "web analytics" restore regex search
+  can we find a "binary operator string -> regex" conversion function?
 - bounce count should be bounce rate
 - idem in 222 times that a returning visit has bounced (left the site after one page) 
 - show new vs returning more clearly in UI
 - calendar CSS on API page
 - WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
 - see also #421
+- add "days since last visit"
+- add "visit count until conversion"
 
 check analytics books
 
 high priority features
 ====
-- tester clickheat http://www.labsmedia.com/clickheat/piwik-clickheat.tar.gz + add FAQ
-- sync update + email install
 - Goal tracking
+- tester clickheat http://www.labsmedia.com/clickheat/piwik-clickheat.tar.gz + add FAQ
+- sync update + email install + automatic update
 - Live!
 - simple MultiSites report plugin.
 - new JS tagging API
 - Exclude webmaster
 - Loyalty (Most people visited: 1 times) and Recency (Most people last visited: X days ago)
-
+  http://en.wikipedia.org/wiki/RFM
+  
+  
 UI elements:
 ====
 - add link under widgets to report (optional display)
@@ -75,9 +83,12 @@ website
 Bugs
 - add icon calendar http://developer.yahoo.com/ypatterns/pattern.php?pattern=calendar#Solution
 - something is wrong in JS calendar when year selected
-- I had to chmod 777 tmp/ to pass install
-all graphic showing data evolution are labelled with the text &quot;nb_uniq_visitors&quot; no matter if youre watching last visits graph, global visits graph or any other. Its happening in every graph under Visitors subpages and in the Dashboard.
-In Referers-&gt;Evolution page, in addition, I think its melting titles because I read in spanish &quot;Entrada directa nb_uniq_visitors&quot; for the first graph, &quot;Paginas web nb_uniq_visitors&quot; for the second and so on.
+- all graphic showing data evolution are labelled with the text &quot;nb_uniq_visitors&quot; 
+  no matter if youre watching last visits graph, global visits graph or any other. 
+  Its happening in every graph under Visitors subpages and in the Dashboard.
+- In Referers-&gt;Evolution page, in addition, I think its melting titles because I read 
+  in spanish &quot;Entrada directa nb_uniq_visitors&quot; for the first graph, 
+  &quot;Paginas web nb_uniq_visitors&quot; for the second and so on.
 
 To clean
 - plugins should listen to user delete/ site delete and delete their own user/site related data

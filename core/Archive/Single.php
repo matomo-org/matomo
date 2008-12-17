@@ -372,6 +372,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 *						'nb_actions', 
 	 *						'sum_visit_length',
 	 *						'bounce_count',
+	 * 						'nb_visits_converted'
 	 *					); 
 	 *
 	 * @param string|array $fields Name or array of names of Archive fields 

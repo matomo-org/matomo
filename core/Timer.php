@@ -29,12 +29,12 @@ class Piwik_Timer
 		$this->memoryStart = $this->getMemoryUsage();
 	}
 
-	public function getTime($decimals = 2)
+	public function getTime($decimals = 3)
 	{
 		return number_format($this->getMicrotime() - $this->timerStart, $decimals, '.', '');
 	}
 	
-	public function getTimeMs($decimals = 2)
+	public function getTimeMs($decimals = 3)
 	{
 		return number_format(1000*($this->getMicrotime() - $this->timerStart), $decimals, '.', '');
 	}

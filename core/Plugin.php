@@ -71,15 +71,6 @@ abstract class Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the names of the required plugins
-	 * @var array
-	 */
-	public function getListRequiredPlugins()
-	{
-		return array();
-	}
-
-	/**
 	 * Returns the plugin name
 	 * @var string
 	 */

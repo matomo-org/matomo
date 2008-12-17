@@ -52,41 +52,58 @@ class Piwik_VisitTime extends Piwik_Plugin
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
-
 		$dataTableToSum = array( 
 				'VisitTime_localTime',
 				'VisitTime_serverTime',
 		);
-
 		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
 	
 	public function archiveDay( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
-
-		$this->archiveProcessing = $archiveProcessing;
-		
-		$recordName = 'VisitTime_localTime';
-		$labelSQL = "HOUR(visitor_localtime)";
-		$tableLocalTime = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$this->makeSureAllHoursAreSet($tableLocalTime);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableLocalTime->getSerialized());
-		
-		$recordName = 'VisitTime_serverTime';
-		$labelSQL = "HOUR(visit_first_action_time)";
-		$tableServerTime = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$this->makeSureAllHoursAreSet($tableServerTime);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableServerTime->getSerialized());
+		$this->archiveDayAggregateVisits($archiveProcessing);
+		$this->archiveDayAggregateGoals($archiveProcessing);
+		$this->archiveDayRecordInDatabase($archiveProcessing);
 	}
 	
-	private function makeSureAllHoursAreSet($table)
+	protected function archiveDayAggregateVisits($archiveProcessing)
+	{
+		$labelSQL = "HOUR(visitor_localtime)";
+		$this->interestByLocalTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+		
+		$labelSQL = "HOUR(visit_first_action_time)";
+		$this->interestByServerTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+	}
+	
+	protected function archiveDayAggregateGoals($archiveProcessing)
+	{
+		$query = $archiveProcessing->queryConversionsBySingleSegment("HOUR(server_time)");
+		while($row = $query->fetch())
+		{
+			$this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+		}
+		$archiveProcessing->enrichConversionsByLabelArray($this->interestByServerTime);
+	}
+	
+	protected function archiveDayRecordInDatabase($archiveProcessing)
+	{
+		$tableLocalTime = $archiveProcessing->getDataTableFromArray($this->interestByLocalTime);
+		$this->makeSureAllHoursAreSet($tableLocalTime, $archiveProcessing);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('VisitTime_localTime', $tableLocalTime->getSerialized());
+		
+		$tableServerTime = $archiveProcessing->getDataTableFromArray($this->interestByServerTime);
+		$this->makeSureAllHoursAreSet($tableServerTime, $archiveProcessing);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('VisitTime_serverTime', $tableServerTime->getSerialized());
+	}
+
+	private function makeSureAllHoursAreSet($table, $archiveProcessing)
 	{
 		for($i=0;$i<=23;$i++)
 		{
 			if($table->getRowFromLabel($i) === false)
 			{
-				$row = $this->archiveProcessing->getNewInterestRowLabeled($i);
+				$row = $archiveProcessing->getNewInterestRowLabeled($i);
 				$table->addRow( $row );
 			}
 		}

@@ -23,10 +23,11 @@
 			<span id="exportToFormat" style="display:none;padding-left:4px;">
 				<img width="16" height="16" src="{$piwikUrl}themes/default/images/export.png" title="{'General_Export'|translate}" />
 				<span id="linksExportToFormat" style="display:none;"> 
-					<a target="_blank" class="exportToFormat" methodToCall="{$method}" format="CSV" filter_limit="100">CSV</a> | 
-					<a target="_blank" class="exportToFormat" methodToCall="{$method}" format="XML" filter_limit="100">XML</a> |
-					<a target="_blank" class="exportToFormat" methodToCall="{$method}" format="JSON" filter_limit="100">Json</a> |
-					<a target="_blank" class="exportToFormat" methodToCall="{$method}" format="PHP" filter_limit="100">Php</a>
+					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="CSV" filter_limit="100">CSV</a> | 
+					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="XML" filter_limit="100">XML</a> |
+					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="JSON" filter_limit="100">Json</a> |
+					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="PHP" filter_limit="100">Php</a> | 
+					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="RSS" filter_limit="100" date="last10"><img border="0" src="{$piwikUrl}themes/default/images/feed.png"></a>
 				</span>
 				<a class="viewDataTable" format="cloud"><img width="16" height="16" src="{$piwikUrl}themes/default/images/tagcloud.png" title="{'General_TagCloud'|translate}" /></a>
 				<a class="viewDataTable" format="graphVerticalBar"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_bar.png" title="{'General_VBarGraph'|translate}" /></a>
@@ -43,6 +44,13 @@
 					<img title="{'General_DisplayMoreData'|translate}" src="{$piwikUrl}themes/default/images/table_more.png" />
 				{/if}
 				</span>
+			{/if}
+			{if $properties.show_goals}
+			<span id="tableGoals" style="display:none;float:right;padding-right:4px;">
+				{if $javascriptVariablesToSet.viewDataTable != 'tableGoals'}
+					<img title="View Goals" src="{$piwikUrl}themes/default/images/goal.png" />
+				{/if}
+			</span>
 			{/if}
 		</span>
 	</div>

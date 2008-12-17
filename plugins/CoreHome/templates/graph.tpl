@@ -1,4 +1,4 @@
-<div id="{$id}">
+<div id="{$properties.uniqueId}">
 	<div class="{if $graphType=='evolution'}dataTableGraphEvolutionWrapper{else}dataTableGraphWrapper{/if}">
 	{$jsInvocationTag}
 	
