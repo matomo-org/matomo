@@ -21,6 +21,24 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 			'version' => '0.1',
 		);
 	}
+	
+	public function getListHooksRegistered()
+	{
+		return array(
+//			'Controller.renderView' => 'addUniqueVisitorsColumnToGivenReport',
+		);
+	}
+	
+	function addUniqueVisitorsColumnToGivenReport($notification)
+	{
+		$view = $notification->getNotificationInfo();
+		$view = $view['view'];
+		if($view->getCurrentControllerName() == 'Referers'
+			&& $view->getCurrentControllerAction() == 'getWebsites')
+		{
+			$view->addColumnToDisplay('nb_uniq_visitors');
+		}
+	}
 }
 
 // we register the widgets so they appear in the "Add a new widget" window in the dashboard

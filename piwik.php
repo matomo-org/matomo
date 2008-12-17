@@ -25,6 +25,7 @@ require_once "Tracker/Action.php";
 require_once "Cookie.php";
 require_once "Tracker/Db.php";
 require_once "Tracker/Visit.php";
+require_once "Tracker/GoalManager.php";
 
 $GLOBALS['DEBUGPIWIK'] = false;
 

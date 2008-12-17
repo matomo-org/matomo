@@ -1,4 +1,4 @@
-<div id="{$id}">
+<div id="{$properties.uniqueId}">
 	<div class="dataTableActionsWrapper">
 	{if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message} 

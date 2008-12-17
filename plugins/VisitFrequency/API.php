@@ -36,6 +36,7 @@ class Piwik_VisitFrequency_API
 							'max_actions_returning',
 							'sum_visit_length_returning',
 							'bounce_count_returning',
+							'nb_visits_converted_returning',
 				);
 		$dataTable = $archive->getDataTableFromNumeric($toFetch);
 		return $dataTable;
@@ -72,5 +73,10 @@ class Piwik_VisitFrequency_API
 	public function getBounceCountReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'bounce_count_returning');
+	}
+	
+	public function getConvertedVisitsReturning( $idSite, $period, $date )
+	{
+		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_converted_returning');
 	}
 }

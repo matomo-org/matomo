@@ -170,6 +170,13 @@ class Piwik_DataTable
 	protected $indexNotUpToDate = false;
 	
 	/**
+	 * Column name of last time the table was sorted
+	 *
+	 * @var string
+	 */
+	protected $tableSortedBy = false;
+	
+	/**
 	 * List of Piwik_DataTable_Filter queued to this table
 	 *
 	 * @var array
@@ -218,10 +225,12 @@ class Piwik_DataTable
 	 * Sort the dataTable rows using the php callback function 
 	 *
 	 * @param string $functionCallback
+	 * @param string $columnSortedBy The column name. Used to then ask the datatable what column are you sorted by
 	 */
-	public function sort( $functionCallback )
+	public function sort( $functionCallback, $columnSortedBy )
 	{
 		$this->indexNotUpToDate = true;
+		$this->tableSortedBy = $columnSortedBy;
 		usort( $this->rows, $functionCallback );
 		
 		if($this->enableRecursiveSort === true)
@@ -232,12 +241,17 @@ class Piwik_DataTable
 				{
 					$table = Piwik_DataTable_Manager::getInstance()->getTable($idSubtable);
 					$table->enableRecursiveSort();
-					$table->sort($functionCallback);
+					$table->sort($functionCallback, $columnSortedBy);
 				}
 			}
 		}
 	}
 
+	public function getSortedByColumnName()
+	{
+		return $this->tableSortedBy;
+	}
+	
 	/**
 	 * Enables the recursive sort. Means that when using $table->sort() 
 	 * it will also sort all subtables using the same callback

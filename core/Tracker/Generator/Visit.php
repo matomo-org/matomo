@@ -37,11 +37,6 @@ class Piwik_Tracker_Generator_Visit extends Piwik_Tracker_Visit
 		self::$timestampToUse += mt_rand(4,1840);
 		return self::$timestampToUse;
 	}
-		
-	protected function getDatetimeFromTimestamp($timestamp)
-	{
-		return date("Y-m-d H:i:s",$timestamp);
-	}
 	
 	protected function updateCookie()
 	{
@@ -49,3 +44,4 @@ class Piwik_Tracker_Generator_Visit extends Piwik_Tracker_Visit
 	}
 	
 }
+

@@ -41,6 +41,18 @@ class Piwik_Date
 		return new Piwik_Date($dateString);
 	}
 	
+	protected $timestamp = null;
+
+	/**
+	 * Returns the unix timestamp of the date
+	 *
+	 * @return int
+	 */
+	public function getTimestamp()
+	{
+		return $this->timestamp;
+	}
+	
 	/**
 	 * Builds a Piwik_Date object
 	 * 
@@ -76,16 +88,6 @@ class Piwik_Date
 	public function setTime($time)
 	{
 		return new Piwik_Date( strtotime( $this->get("j F Y") . " $time"));
-	}
-	
-	/**
-	 * Returns the unix timestamp of the date
-	 *
-	 * @return int
-	 */
-	public function getTimestamp()
-	{
-		return $this->timestamp;
 	}
 	
 	/**

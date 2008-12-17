@@ -68,17 +68,42 @@ class Piwik_UserCountry extends Piwik_Plugin
 	function archiveDay($notification)
 	{
 		$archiveProcessing = $notification->getNotificationObject();
-		
-		$recordName = 'UserCountry_country';
+		$this->archiveDayAggregateVisits($archiveProcessing);
+		$this->archiveDayAggregateGoals($archiveProcessing);
+		$this->archiveDayRecordInDatabase($archiveProcessing);
+	}
+	
+	protected function archiveDayAggregateVisits($archiveProcessing)
+	{
 		$labelSQL = "location_country";
-		$tableCountry = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_ArchiveProcessing_Record_Numeric('UserCountry_distinctCountries', $tableCountry->getRowsCount());
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableCountry->getSerialized());
-
-		$recordName = 'UserCountry_continent';
+		$this->interestByCountry = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+		
 		$labelSQL = "location_continent";
-		$tableContinent = $archiveProcessing->getDataTableInterestForLabel($labelSQL);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableContinent->getSerialized());
+		$this->interestByContinent = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+	}
+	
+	protected function archiveDayAggregateGoals($archiveProcessing)
+	{
+		$query = $archiveProcessing->queryConversionsBySegment("location_continent,location_country");
+		while($row = $query->fetch() )
+		{
+			if(!isset($this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+			if(!isset($this->interestByContinent[$row['location_continent']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByContinent[$row['location_continent']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+			$archiveProcessing->updateGoalStats($row, $this->interestByCountry[$row['location_country']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
+			$archiveProcessing->updateGoalStats($row, $this->interestByContinent[$row['location_continent']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
+		}
+		$archiveProcessing->enrichConversionsByLabelArray($this->interestByCountry);
+		$archiveProcessing->enrichConversionsByLabelArray($this->interestByContinent);
+	}
+	
+	protected function archiveDayRecordInDatabase($archiveProcessing)
+	{
+		$tableCountry = $archiveProcessing->getDataTableFromArray($this->interestByCountry);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('UserCountry_country', $tableCountry->getSerialized());
+		$record = new Piwik_ArchiveProcessing_Record_Numeric('UserCountry_distinctCountries', $tableCountry->getRowsCount());
+		
+		$tableContinent = $archiveProcessing->getDataTableFromArray($this->interestByContinent);
+		$record = new Piwik_ArchiveProcessing_Record_BlobArray('UserCountry_continent', $tableContinent->getSerialized());
 	}
 }
 

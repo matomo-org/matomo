@@ -85,6 +85,40 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 			);
 	}
 	
+	/**
+	 * @param Piwik_DataTable_Row
+	 */
+	protected function selectColumnToSort($row)
+	{
+		$value = $row->getColumn($this->columnToSort);
+		if($value !== false)
+		{
+			return $this->columnToSort;
+		}
+		
+		// sorting by "nb_visits" but the index is Piwik_Archive::INDEX_NB_VISITS in the table
+		if(isset(Piwik_Archive::$mappingFromNameToId[$this->columnToSort]))
+		{
+			$column = Piwik_Archive::$mappingFromNameToId[$this->columnToSort];
+			$value = $row->getColumn($column);
+
+			if($value !== false)
+			{
+				return $column;
+			}
+		}
+		
+		// eg. was previously sorted by revenue_per_visit, but this table 
+		// doesn't have this column; defaults with nb_visits
+		$column = Piwik_Archive::INDEX_NB_VISITS;
+		$value = $row->getColumn($column);
+		if($value !== false)
+		{
+			return $column;
+		}
+		
+		return false;
+	}
 	protected function filter()
 	{
 		if($this->table instanceof Piwik_DataTable_Simple)
@@ -97,26 +131,14 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 			return;
 		}
 		$row = current($rows);
-		$value = $row->getColumn($this->columnToSort);
+		$this->columnToSort = $this->selectColumnToSort($row);
 		
-		if($value === false)
+		if($this->columnToSort === false)
 		{
-			if(!isset(Piwik_Archive::$mappingFromNameToId[$this->columnToSort]))
-			{
-				// we don't throw the exception because we sometimes export a DataTable without a column labelled '2'
-				// and when the generic filters tries to sort by default using this column 2, this shouldnt raise an exception...
-				//throw new Exception("The column to sort by '".$this->columnToSort."' is unknown in the row ". implode(array_keys($row->getColumns()), ','));
-				return;
-			}
-			// case we are sorting by "nb_visits" but the column is still integer indexed
-			$this->columnToSort = Piwik_Archive::$mappingFromNameToId[$this->columnToSort];
-			$value = $row->getColumn($this->columnToSort);
-			if($value === false)
-			{
-				return;
-			}
+			return;
 		}
 		
+		$value = $row->getColumn($this->columnToSort);
 		if( Piwik::isNumeric($value))
 		{
 			$methodToUse = "sort";
@@ -132,7 +154,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 				$methodToUse = "sortString";
 			}
 		}
-		$this->table->sort( array($this,$methodToUse) );
+		$this->table->sort( array($this,$methodToUse), $this->columnToSort );
 	}
 }
 

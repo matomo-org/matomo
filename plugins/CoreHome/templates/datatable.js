@@ -63,8 +63,7 @@ dataTable.prototype =
 			'filter_pattern', 
 			'filter_column_recursive', 
 			'filter_pattern_recursive', 
-			'filter_excludelowpop',
-			'filter_excludelowpop_value',
+			'enable_filter_excludelowpop',
 			'filter_offset',
 			'filter_limit',
 			'filter_sort_column',
@@ -255,19 +254,19 @@ dataTable.prototype =
 			.each(
 				function()
 				{
-					if(typeof self.param.filter_excludelowpop == 'undefined')
+					if(typeof self.param.enable_filter_excludelowpop == 'undefined')
 					{
-						self.param.filter_excludelowpop = 0;
+						self.param.enable_filter_excludelowpop = 0;
 					}
-					if(Number(self.param.filter_excludelowpop) != 0)
+					if(Number(self.param.enable_filter_excludelowpop) != 0)
 					{
 						string = _pk_translate('CoreHome_IncludeAllPopulation');
-						self.param.filter_excludelowpop = 1;
+						self.param.enable_filter_excludelowpop = 1;
 					}
 					else
 					{
 						string = _pk_translate('CoreHome_ExcludeLowPopulation');
-						self.param.filter_excludelowpop = 0;
+						self.param.enable_filter_excludelowpop = 0;
 					}
 					$(this).html(string);
 				} 
@@ -276,7 +275,7 @@ dataTable.prototype =
 			.click(
 				function()
 				{
-					self.param.filter_excludelowpop = 1 - self.param.filter_excludelowpop;
+					self.param.enable_filter_excludelowpop = 1 - self.param.enable_filter_excludelowpop;
 					self.param.filter_offset = 0;
 					self.reloadAjaxDataTable(true, callbackSuccess);
 				}
@@ -484,6 +483,19 @@ dataTable.prototype =
 				}
 		);
 		
+		$('#tableGoals', domElem)
+			.show()
+			.click(
+				function(){
+					// we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
+					// this value is stored in config file General->dataTable_default_limit but this is more an edge case so ok to set it to 10
+					delete self.param.filter_limit;
+					delete self.param.enable_filter_excludelowpop;
+					self.param.viewDataTable = 'tableGoals';
+					self.reloadAjaxDataTable();
+				}
+		);
+		
 		$('#tableAllColumnsSwitch', domElem)
 			.show()
 			.click(
@@ -505,12 +517,17 @@ dataTable.prototype =
 				var method = $(this).attr('methodToCall');
 				var filter_limit = $(this).attr('filter_limit');
 				
+				var param_date = self.param.date;
+				var date = $(this).attr('date');
+				if(typeof date != 'undefined') {
+					param_date = date; 
+				}
 				var str = '?module=API'
 						+'&method='+method
 						+'&format='+format
 						+'&idSite='+self.param.idSite
 						+'&period='+self.param.period
-						+'&date='+self.param.date
+						+'&date='+param_date
 						+'&token_auth='+piwik.token_auth;
 				if( filter_limit )
 				{
@@ -649,7 +666,7 @@ dataTable.prototype =
 					var filtersToRestore = self.resetAllFilters();
 					
 					self.param.idSubtable = idSubTable;
-					self.param.action = self.param.actionToLoadTheSubTable;
+					self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
 					self.reloadAjaxDataTable(false);
 					
 					self.param.action = savedActionVariable;
@@ -862,7 +879,7 @@ actionDataTable.prototype =
 			delete self.param.filter_pattern;
 			
 			self.param.idSubtable = idSubTable;
-			self.param.action = self.param.actionToLoadTheSubTable;
+			self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
 			
 			self.reloadAjaxDataTable(false, function(resp){self.actionsSubDataTableLoaded(resp)});
 			self.param.action = savedActionVariable;

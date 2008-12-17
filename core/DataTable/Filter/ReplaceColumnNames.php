@@ -55,7 +55,9 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 	{
 		foreach($table->getRows() as $key => $row)
 		{
-			$this->renameColumns($row);
+			$oldColumns = $row->getColumns();
+			$newColumns = $this->getRenamedColumns($oldColumns);
+			$row->setColumns( $newColumns );
 			try {
 				$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $row->getIdSubDataTable() );
 				$this->filterTable($subTable);
@@ -65,18 +67,31 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 		}
 	}
 	
-	protected function renameColumns($row) 
+	protected function getRenamedColumns($columns) 
 	{
-		$columns = $row->getColumns();
-		foreach($this->mappingToApply as $oldName => $newName)
+		$newColumns = array();
+		foreach($columns as $columnName => $columnValue)
 		{
-			if(isset($columns[$oldName]))
+			if(isset(Piwik_Archive::$mappingFromIdToName[$columnName]))
 			{
-				$columns[$newName] = $columns[$oldName];
-				unset($columns[$oldName]);
+				$columnName = Piwik_Archive::$mappingFromIdToName[$columnName];
+				if($columnName == 'goals')
+				{
+					$newSubColumns = array();
+					foreach($columnValue as $idGoal => $goalValues)
+					{
+						foreach($goalValues as $id => $goalValue)
+						{
+							$subColumnName = Piwik_Archive::$mappingFromIdToNameGoal[$id];
+							$newSubColumns['idgoal='.$idGoal][$subColumnName] = $goalValue;
+						}
+					}
+					$columnValue = $newSubColumns;
+				}
 			}
+			$newColumns[$columnName] = $columnValue;
 		}
-		$row->setColumns($columns);
+		return $newColumns;
 	}
 }
 

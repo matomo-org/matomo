@@ -127,7 +127,6 @@ class Piwik_Actions extends Piwik_Plugin
 					GROUP BY t3.idaction
 					ORDER BY nb_hits DESC";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-		
 		$modified = $this->updateActionsTableWithRowQuery($query);
 
 		
@@ -148,7 +147,6 @@ class Piwik_Actions extends Piwik_Plugin
 					GROUP BY visit_entry_idaction
 					";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 
@@ -168,7 +166,6 @@ class Piwik_Actions extends Piwik_Plugin
 				 	GROUP BY visit_exit_idaction
 					";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-		
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 		/*
@@ -185,9 +182,13 @@ class Piwik_Actions extends Piwik_Plugin
 				 	GROUP BY idaction_ref
 				";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
+		$this->archiveDayRecordInDatabase();
+	}
+
+	protected function archiveDayRecordInDatabase()
+	{
 		$maximumRowsInDataTableLevelZero = 200;
 		$maximumRowsInSubDataTable = 50;
 
@@ -205,7 +206,7 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		unset($this->actionsTablesByType);
 	}
-
+	
 	static public function splitUrl($url)
 	{
 		$matches = $split_arr = array();

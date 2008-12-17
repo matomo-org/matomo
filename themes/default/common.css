@@ -135,3 +135,19 @@ a {
 	color: #000000;
 	margin-bottom: 0px;
 }
+#tooltip h3 {
+	font-weight:none;
+	font-size:1em;
+	color:#162540;
+	margin:0;
+	padding:0;
+}
+#tooltip {
+	position: absolute;
+	z-index: 3000;
+	border: 1px solid #111;
+	padding:7px;
+	background-color:#F5F7FF;
+	opacity:0.95;
+}
+

@@ -23,6 +23,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
+		$view->enableShowGoals();
 		
 		return $this->renderView($view, $fetch);
 	}

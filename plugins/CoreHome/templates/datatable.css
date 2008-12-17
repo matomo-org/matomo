@@ -303,20 +303,6 @@ table thead div {
 	padding: 0.5em;
 }
 
-#tooltip h3 {
-	margin:0;
-	padding:0;
-}
-#tooltip {
-	position: absolute;
-	z-index: 3000;
-	border: 1px solid #111;
-	background-color: #eee;
-	opacity: 0.85;
-	font-size: 0.7em;
-	padding:7px;
-}
-
 /* Actions table */
 table.dataTableActions tr td.labelodd {
 	background-image: none;

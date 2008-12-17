@@ -142,7 +142,6 @@ class Piwik_FrontController
 		{
 			throw new Exception("Action $action not found in the controller $controllerClassName.");				
 		}
-		
 		try {
 			return call_user_func_array( array($controller, $action ), $parameters);
 		} catch(Piwik_Access_NoAccessException $e) {
