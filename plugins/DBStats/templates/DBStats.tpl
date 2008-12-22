@@ -13,10 +13,11 @@
 		<th>{'DBStats_RowNumber'|translate}</th>
 		<th>{'DBStats_DataSize'|translate}</th>
 		<th>{'DBStats_IndexSize'|translate}</th>
+		<th>{'DBStats_TotalSize'|translate}</th>
 	</thead>
 	<tbody id="tables">
 		{foreach from=$tablesStatus key=index item=table}
-		<tr {if $table.Name == 'Total'}class="active"{/if}>
+		<tr {if $table.Name == 'Total'}class="active" style="font-weight:bold;"{/if}>
 			<td>
 				{$table.Name}
 			</td> 
@@ -28,6 +29,9 @@
 			</td> 
 			<td>
 				{$table.Index_length}b
+			</td> 
+			<td>
+				{$table.Total_length}b
 			</td> 
 		</tr>
 		{/foreach}

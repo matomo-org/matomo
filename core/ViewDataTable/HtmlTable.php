@@ -62,6 +62,13 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 						$controllerActionCalledWhenRequestSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/datatable.tpl';
 		$this->variablesDefault['enable_sort'] = '1';
+		
+		// load general columns translations
+		$this->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnNbVisits'));
+		$this->setColumnTranslation('label', Piwik_Translate('General_ColumnLabel'));
+		$this->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnNbUniqVisitors'));
+		
+		$this->handleLowPopulation();
 	}
 
 	protected function getViewDataTableId()
@@ -91,10 +98,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	 */
 	protected function postDataTableLoadedFromAPI()
 	{
-		// load general columns translations
-		$this->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnNbVisits'));
-		$this->setColumnTranslation('label', Piwik_Translate('General_ColumnLabel'));
-		$this->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnNbUniqVisitors'));
 	}
 
 	/**
@@ -130,7 +133,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		{
 			return;
 		}
-		
 		if(is_null($columnToApplyFilter))
 		{
 			$columnToApplyFilter = Piwik_Archive::INDEX_NB_VISITS;

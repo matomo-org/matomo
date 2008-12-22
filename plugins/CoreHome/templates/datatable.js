@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-//								Data Table
+//								DataTable
 //-----------------------------------------------------------------------------
 //A list of all our DataTables
 //Test if the object have already been initialized (multiple includes)
@@ -215,7 +215,6 @@ dataTable.prototype =
 	handleSort: function(domElem)
 	{
 		var self = this;
-		
 		if( self.param.enable_sort )
 		{
 			$('.sortable', domElem).click( 
@@ -504,6 +503,11 @@ dataTable.prototype =
 					// this value is stored in config file General->dataTable_default_limit but this is more an edge case so ok to set it to 10
 					delete self.param.filter_limit;
 					self.param.viewDataTable = self.param.viewDataTable == 'table' ? 'tableAllColumns' : 'table';
+					// when switching to display simple table, do not exclude low pop by default
+					if(self.param.viewDataTable == 'table')
+					{
+						self.param.enable_filter_excludelowpop = 0; 
+					}
 					self.reloadAjaxDataTable();
 				}
 		);
@@ -597,7 +601,7 @@ dataTable.prototype =
 				var urlToLink = $(urlLinkDom).html();
 				$(urlLinkDom).remove();
 				
-				var truncationOffsetBecauseImageIsPrepend = -2;
+				var truncationOffsetBecauseImageIsPrepend = -2; //website subtable needs -9. 
 				self.truncate( $(this), truncationOffsetBecauseImageIsPrepend );
 				
 				if( urlToLink.match("javascript:") )

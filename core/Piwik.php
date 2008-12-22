@@ -721,6 +721,13 @@ class Piwik
 		return Piwik_PluginsManager::getInstance()->getLoadedPlugin(Piwik::getModule());
 	}
 	
+	/**
+	 * Returns true if the current user is either the super user, or the user $theUser
+	 * Used when modifying user preference: this usually requires super user or being the user itself.
+	 * 
+	 * @param string $theUser
+	 * @return bool
+	 */
 	static public function isUserIsSuperUserOrTheUser( $theUser )
 	{
 		try{
@@ -731,7 +738,10 @@ class Piwik
 		}
 	}
 	
-	// Accessible either to the user itself
+	/**
+	 * @param string $theUser
+	 * @throws exception if the user is neither the super user nor the user $theUser
+	 */
 	static public function checkUserIsSuperUserOrTheUser( $theUser )
 	{
 		try{
@@ -745,6 +755,10 @@ class Piwik
 		}
 	}
 	
+	/**
+	 * Returns true if the current user is the Super User
+	 * @return bool
+	 */
 	static public function isUserIsSuperUser()
 	{
 		try{
@@ -755,6 +769,10 @@ class Piwik
 		}
 	}
 	
+	/**
+	 * Helper method user to set the current as Super User.
+	 * This should be used with great care as this gives the user all permissions.
+	 */
 	static public function setUserIsSuperUser()
 	{
 		Zend_Registry::get('access')->setSuperUser();

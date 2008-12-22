@@ -18,6 +18,7 @@
 
 <link rel="stylesheet" type="text/css" href="themes/default/common.css" />
 <link rel="stylesheet" type="text/css" href="plugins/CoreAdminHome/templates/styles.css" />
+<link rel="stylesheet" type="text/css" href="libs/jquery/jquery-calendar.css" />
 
 <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico"> 
 

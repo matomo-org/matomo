@@ -189,8 +189,8 @@ class Piwik_Actions extends Piwik_Plugin
 
 	protected function archiveDayRecordInDatabase()
 	{
-		$maximumRowsInDataTableLevelZero = 200;
-		$maximumRowsInSubDataTable = 50;
+		$maximumRowsInDataTableLevelZero = 1000;
+		$maximumRowsInSubDataTable = 200;
 
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION]);
 		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );

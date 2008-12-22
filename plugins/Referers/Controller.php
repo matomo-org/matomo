@@ -56,6 +56,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableOffsetInformation();
 		$view->disableExcludeLowPopulation();
 		$view->doNotShowFooter();
+		$view->enableShowGoals();
 		
 		$view->setColumnsToDisplay( array('label','nb_uniq_visitors', 'nb_visits') );
 		
@@ -190,7 +191,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
-	function getReferersType()
+	protected function getReferersVisitorsByType()
 	{
 		// we disable the queued filters because here we want to get the visits coming from search engines
 		// if the filters were applied we would have to look up for a label looking like "Search Engines" 
@@ -199,14 +200,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 						&format=original
 						&disable_queued_filters=1";
 		$request = new Piwik_API_Request($requestString);
-		$view->enableShowGoals();
-		return $request->process();
-	}
-	
-	protected function getReferersVisitorsByType()
-	{
-		// this is raw data (no filters applied, on purpose) so we select the data using the magic integers ID 
-		$dataTableReferersType = $this->getReferersType(true);
+		$dataTableReferersType =  $request->process();
 		
 		$nameToColumnId = array(
 			'visitorsFromSearchEngines' => Piwik_Common::REFERER_TYPE_SEARCH_ENGINE,

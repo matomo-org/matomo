@@ -45,7 +45,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 										__FUNCTION__,
 										'Actions.getActions', 
 										'getActionsSubDataTable' );
-		
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -117,8 +116,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						$currentMethod, 
 						$methodToCall, 
 						$subMethod );
-		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
-		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnUniquePageviews'));
 		$view->setTemplate('CoreHome/templates/datatable_actions.tpl');
 		
 		if(Piwik_Common::getRequestVar('idSubtable', -1) != -1)
@@ -132,25 +129,24 @@ class Piwik_Actions_Controller extends Piwik_Controller
 			$view->setTemplate('CoreHome/templates/datatable_actions_recursive.tpl');
 		}
 		$view->disableSort();
-		
-		$view->setSortedColumn( 'nb_hits', 'desc' );
-		
 		$view->disableOffsetInformation();
+		$view->setLimit( 100 );
 		
 		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
-		$view->setLimit( 100 );
+		$view->setSortedColumn( 'nb_uniq_visitors', 'desc' );
+		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
+		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnUniquePageviews'));
+		
 		// computing minimum value to exclude
 		require_once "VisitsSummary/Controller.php";
 		$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary();
 		$nbActions = $visitsInfo->getColumn('nb_actions');
 		$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions
-		
 		// we remove 1 to make sure some actions/downloads are displayed in the case we have a very few of them
 		// and each of them has 1 or 2 hits...
 		$nbActionsLowPopulationThreshold = min($visitsInfo->getColumn('max_actions')-1, $nbActionsLowPopulationThreshold-1);
 		
 		$view->setExcludeLowPopulation( 'nb_hits', $nbActionsLowPopulationThreshold );
-		
 		$view->main();
 		
 		// we need to rewrite the phpArray so it contains all the recursive arrays
