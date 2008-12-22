@@ -63,14 +63,15 @@ class Piwik_DBStats_API
 
 	static public function getAllTablesStatus() 
 	{
-		Piwik::isUserIsSuperUser();
+		Piwik::checkUserIsSuperUser();
 		$db = Zend_Registry::get('db');
 		// http://dev.mysql.com/doc/refman/5.1/en/show-table-status.html
 		$tablesPiwik =  Piwik::getTablesInstalled();
 		$total = array('Name' => 'Total', 'Data_length' => 0, 'Index_length' => 0, 'Rows' => 0);
-		foreach($tablesPiwik as $table) 
+		$table = array();
+		foreach($tablesPiwik as $tableName) 
 		{
-			$t = self::getTableStatus($table);
+			$t = self::getTableStatus($tableName);
 			$total['Data_length'] += $t['Data_length'];
 			$total['Index_length'] += $t['Index_length'];
 			$total['Rows'] += $t['Rows'];
@@ -79,14 +80,14 @@ class Piwik_DBStats_API
 			$t['Data_length'] = Piwik::getPrettySizeFromBytes($t['Data_length']);
 			$t['Index_length'] = Piwik::getPrettySizeFromBytes($t['Index_length']);
 			$t['Rows'] = Piwik::getPrettySizeFromBytes($t['Rows']);
-			$tables[] = $t;
+			$table[] = $t;
 		}
 		$total['Total_length'] = Piwik::getPrettySizeFromBytes($total['Data_length']+$total['Index_length']);
 		$total['Data_length'] = Piwik::getPrettySizeFromBytes($total['Data_length']);
 		$total['Index_length'] = Piwik::getPrettySizeFromBytes($total['Index_length']);
 		$total['TotalRows'] = Piwik::getPrettySizeFromBytes($total['Rows']);
-		$tables['Total'] = $total;
+		$table['Total'] = $total;
 		
-		return $tables;
+		return $table;
 	}
 }

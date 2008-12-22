@@ -12,7 +12,6 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 	{
 		//TODO should be cached at least statically?
 		$this->viewProperties['show_exclude_low_population'] = true;
-		$this->handleLowPopulation();
 		parent::main();
 	}
 	

@@ -89,7 +89,6 @@ class Piwik_API_DataTableGenericFilter
 		{
 			$filterParameters = array();
 			$exceptionRaised = false;
-			
 			foreach($parameters as $name => $info)
 			{
 				// parameter type to cast to
@@ -115,7 +114,7 @@ class Piwik_API_DataTableGenericFilter
 			}
 
 			if(!$exceptionRaised)
-			{				
+			{
 				// a generic filter class name must follow this pattern
 				$class = "Piwik_DataTable_Filter_".$filterName;
 				if($filterName == 'Limit')

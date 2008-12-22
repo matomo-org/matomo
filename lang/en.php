@@ -593,6 +593,7 @@ $translations = array(
 	'DBStats_RowNumber' => 'Row number',
 	'DBStats_DataSize' => 'Data size',
 	'DBStats_IndexSize' => 'Index size',
+	'DBStats_TotalSize' => 'Total size',
 	'TranslationsAdmin_MenuTranslations' => 'Translations',
 	'TranslationsAdmin_MenuLanguages' => 'Languages',
 	'TranslationsAdmin_Plugin' => 'Plugin',
