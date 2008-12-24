@@ -27,28 +27,19 @@ class Piwik_Tracker_GoalManager
 
 	//TODO goalid should be incrementing on a website basis
 	// load goal definitions from file
-	static public function getGoalDefinitions()
+	static public function getGoalDefinitions( $idSite )
 	{
-		return array(
-			0 => array(	'id' => 1,
-						'name' => 'Downloads',
-						'default_revenue' => '3',
-						'pattern' => '/e/' 
-			),
-			1 => array(	'id' => 5,
-						'name' => 'hosted signups',
-						'default_revenue' => false,
-						'pattern' => '//' 
-			),
-		);
+		$websiteAttributes = Piwik_Common::getCacheWebsiteAttributes( $idSite );
+		$goals = $websiteAttributes['goals'];
+		return $goals;
 	}
 	
-	static public function getGoalDefinition( $idGoal )
+	static public function getGoalDefinition( $idSite, $idGoal )
 	{
-		$goals = self::getGoalDefinitions();
+		$goals = self::getGoalDefinitions( $idSite );
 		foreach($goals as $goal)
 		{
-			if($goal['id'] == $idGoal)
+			if($goal['idgoal'] == $idGoal)
 			{
 				return $goal;
 			}
@@ -56,13 +47,13 @@ class Piwik_Tracker_GoalManager
 		throw new Exception("The goal id = $idGoal couldn't be found.");
 	}
 	
-	static public function getGoalIds()
+	static public function getGoalIds( $idSite )
 	{
-		$goals = self::getGoalDefinitions();
+		$goals = self::getGoalDefinitions( $idSite );
 		$goalIds = array();
 		foreach($goals as $goal)
 		{
-			$goalIds[] = $goal['id'];
+			$goalIds[] = $goal['idgoal'];
 		}
 		return $goalIds;
 	}
@@ -71,15 +62,45 @@ class Piwik_Tracker_GoalManager
 	function detectGoals($idSite)
 	{
 		$url = $this->action->getUrl();
+		$actionType = $this->action->getActionType();
 		$goals = $this->getGoalDefinitions($idSite);
 		foreach($goals as $goal)
 		{
-			$match = preg_match($goal['pattern'], $url);
-			if($match === 1)
+			$attribute = $goal['match_attribute'];
+			// if the attribute to match is not the type of the current action
+			if(		($actionType == Piwik_Tracker_Action::TYPE_ACTION && $attribute != 'url')
+				||	($actionType == Piwik_Tracker_Action::TYPE_DOWNLOAD && $attribute != 'file')
+				||	($actionType == Piwik_Tracker_Action::TYPE_OUTLINK && $attribute != 'external_website')
+				)
+			{
+				continue;
+			}
+			
+			//TODO: outlink trailing slash is automatically deleted, problem when trying to match?
+			$pattern_type = $goal['pattern_type'];
+			
+			switch($pattern_type)
+			{
+				case 'regex':
+					$match = (preg_match('/' . $goal['pattern'] . '/', $url) == 1);
+					break;
+				case 'contains':
+					$match = (strpos($url, $goal['pattern']) !== false);
+					break;
+				case 'exact':
+					$match = ($goal['pattern'] == $url);
+					break;
+				default:
+					throw new Exception("Pattern type $pattern_type not valid.");
+					break;
+			}
+			
+			if($match)
 			{
 				$this->matchedGoals[] = $goal;
 			}
 		}
+//		var_dump($this->matchedGoals);exit;
 		return count($this->matchedGoals) > 0;
 	}
 	
@@ -116,10 +137,10 @@ class Piwik_Tracker_GoalManager
 
 		foreach($this->matchedGoals as $matchedGoal)
 		{
-			printDebug("- Goal ".$matchedGoal['id'] ." matched. Recording...");
+			printDebug("- Goal ".$matchedGoal['idgoal'] ." matched. Recording...");
 			$newGoal = $goal;
-			$newGoal['idgoal'] = $matchedGoal['id'];
-			$newGoal['revenue'] = $matchedGoal['default_revenue'];
+			$newGoal['idgoal'] = $matchedGoal['idgoal'];
+			$newGoal['revenue'] = $matchedGoal['revenue'];
 			printDebug($newGoal);
 			
 			$fields = implode(", ", array_keys($newGoal));
@@ -127,7 +148,7 @@ class Piwik_Tracker_GoalManager
 			
 			try {
 				Piwik_Tracker::getDatabase()->query(
-					"INSERT INTO " . Piwik_Tracker::getDatabase()->prefixTable('log_conversion') . "	($fields) 
+					"INSERT INTO " . Piwik_Common::prefixTable('log_conversion') . "	($fields) 
 					VALUES ($bindFields) ", array_values($newGoal) 
 				);
 			} catch( Exception $e) {

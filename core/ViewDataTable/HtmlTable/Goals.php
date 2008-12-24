@@ -34,6 +34,11 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	
 	protected $columnsToPercentageFilter = array();
 
+	private function getIdSite()
+	{
+		return Piwik_Common::getRequestVar('idSite', null, 'int');
+	}
+	
 	public function setColumnsToDisplay($columnsNames)
 	{
 		$newColumnsNames = array();
@@ -42,10 +47,10 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			if($columnName == 'goal_%s_conversion_rate')
 			{
 				require_once "core/Tracker/GoalManager.php";
-				$goals = Piwik_Tracker_GoalManager::getGoalDefinitions();
+				$goals = Piwik_Goals_API::getGoals( $this->getIdSite() );
 				foreach($goals as $goal)
 				{
-					$idgoal = $goal['id'];
+					$idgoal = $goal['idgoal'];
 					$name = $goal['name'];
 					$columnName = 'goal_'.$idgoal.'_conversion_rate';
 					$newColumnsNames[] = $columnName;

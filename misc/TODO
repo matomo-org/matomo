@@ -1,10 +1,39 @@
+Before Alpha
+------------
+small
+- no goals: no graph, form opened by default, easy to 
+- h3 should not be bold
+- test [.*] pattern
+- clarify that pattern need to be escaped
+
+- display table by search engines, coutry, kwd, etc.
+- update _visit schema + prepare update files >> 
+- test on piwik.org for one day, performance
+
+- test cacheFile code
+- plugify all Goal related code 
+
+Goal beta release Todo list
+---------------------------
+- click on (more) leads to right sub report (start implementing #state)
+- i18n
+- documentation, screenshots, blog post
+
+
+1h - new translations + updates
+3h - small bugs report in robotrock, new search engines, etc.
+1h - release
+
+friday:
+8h of work free to fix
+
 Following up show all columns new UI element
 ====
 - when used with visitsGenerator, in dowloads export XML, full_url and url is 0
 - add new column "overall visits with conversion"
 - post 29 There seems not to be a way to export the pages information widget. 
-I wanted to download the entry pages to see where my visitors entered my site from,
- but there is no option to do so.
+  I wanted to download the entry pages to see where my visitors entered my site from,
+  but there is no option to do so.
 - ADD forward of non true show_values to forward when specified from URL to ajax
 - disable show icon in some iframes and/or dashboard 
 - do proper CSS factoring
@@ -35,6 +64,7 @@ Reports improvements
 - see also #421
 - add "days since last visit"
 - add "visit count until conversion"
+- add best search engines, keywords, campaigns, websites in referers overview
 
 Test page
 ==========

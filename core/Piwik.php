@@ -893,11 +893,13 @@ class Piwik
 		return false;
 	}
 	
+	/**
+	 * API was simplified in 0.2.27, but we maintain backward compatibility 
+	 * when calling Piwik::prefixTable
+	 */
 	static public function prefixTable( $table )
 	{
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
-		return $prefixTables . $table;
+		return Piwik_Common::prefixTable($table);
 	}
 	
 	/**

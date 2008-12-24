@@ -24,10 +24,13 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 {
 	private $columnToFilter;
 	private $patternToSearch;
+	private $patternToSearchQuoted;
 	
 	public function __construct( $table, $columnToFilter, $patternToSearch )
 	{
 		parent::__construct($table);
+		$this->patternToSearch = $patternToSearch;
+		$this->patternToSearchQuoted = Piwik_DataTable_Filter_Pattern::getPatternQuoted($patternToSearch);
 		$this->patternToSearch = $patternToSearch;//preg_quote($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
 		$this->filter();
@@ -64,7 +67,7 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 			}
 
 			if( $patternNotFoundInChildren
-				&& (stripos($row->getColumn($this->columnToFilter), $this->patternToSearch) === false)	
+				&& !Piwik_DataTable_Filter_Pattern::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter))	
 			)
 			{
 				$table->deleteRow($key);
