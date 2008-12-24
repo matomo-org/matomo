@@ -21,11 +21,12 @@ class Piwik_Goals extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Goal Tracking',
+			'name' => '(ALPHA) Goal Tracking',
 			'description' => 'Create Goals and see reports about your goal conversions: evolution over time, revenue per visit, conversions per referer, per keyword, etc.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'TrackerPlugin' => true
 		);
 		
 		return $info;
@@ -34,6 +35,7 @@ class Piwik_Goals extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
+			'Common.fetchWebsiteAttributes' => 'fetchGoalsFromDb',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
@@ -42,6 +44,17 @@ class Piwik_Goals extends Piwik_Plugin
 		return $hooks;
 	}
 
+	function fetchGoalsFromDb($notification)
+	{
+		require_once "Goals/API.php";
+		$info = $notification->getNotificationInfo();
+		$idsite = $info['idsite'];
+		
+		// add the 'goal' entry in the website array
+		$array =& $notification->getNotificationObject();
+		$array['goals'] = Piwik_Goals_API::getGoals($idsite);
+	}
+	
 	function addWidgets()
 	{
 //		Piwik_AddWidget( 'Referers', 'getKeywords', Piwik_Translate('Referers_WidgetKeywords'));
@@ -50,10 +63,10 @@ class Piwik_Goals extends Piwik_Plugin
 	function addMenus()
 	{
 		Piwik_AddMenu('Goals', 'Overview', array('module' => 'Goals'));
-		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions();
+		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
 		foreach($goals as $goal) 
 		{
-			Piwik_AddMenu('Goals', $goal['name'], array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['id']));
+			Piwik_AddMenu('Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
 		}
 	}
 	
@@ -85,7 +98,7 @@ class Piwik_Goals extends Piwik_Plugin
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		$metricsToSum = array( 'nb_conversions', 'revenue');
-		$goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds();
+		$goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds($archiveProcessing->idsite);
 		
 		$fieldsToSum = array();
 		foreach($metricsToSum as $metricName)

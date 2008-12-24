@@ -8,7 +8,7 @@
  */
 
 error_reporting(E_ALL|E_NOTICE);
-define('PIWIK_INCLUDE_PATH', '.');
+define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
 @ignore_user_abort(true);
 
 set_include_path(PIWIK_INCLUDE_PATH 

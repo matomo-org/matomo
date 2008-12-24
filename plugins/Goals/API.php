@@ -25,6 +25,80 @@ class Piwik_Goals_API
 		return self::$instance;
 	}
 	
+	static public function getGoals( $idSite )
+	{
+		$goals = Zend_Registry::get('db')->fetchAll("SELECT * 
+											FROM ".Piwik_Common::prefixTable('goal')." 
+											WHERE idsite = ?
+												AND deleted = 0", $idSite);
+		$cleanedGoals = array();
+		foreach($goals as &$goal)
+		{
+			unset($goal['idsite']);
+			$cleanedGoals[$goal['idgoal']] = $goal;
+		}
+		return $cleanedGoals;
+	}
+
+	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $revenue )
+	{
+		Piwik::checkUserHasAdminAccess($idSite);
+		// save in db
+		$db = Zend_Registry::get('db');
+		$idGoal = $db->fetchOne("SELECT max(idgoal) + 1 
+								FROM ".Piwik::prefixTable('goal')." 
+								WHERE idsite = ?", $idSite);
+		if($idGoal == false)
+		{
+			$idGoal = 1;
+		}
+		$name = urldecode($name);
+		$pattern = urldecode($pattern);
+		$db->insert(Piwik::prefixTable('goal'),
+					array( 
+						'idsite' => $idSite,
+						'idgoal' => $idGoal,
+						'name' => $name,
+						'match_attribute' => $matchAttribute,
+						'pattern' => $pattern,
+						'pattern_type' => $patternType,
+						'revenue' => $revenue,
+						'deleted' => 0,
+					));
+		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
+		return $idGoal;
+	}
+	
+	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $revenue )
+	{
+		Piwik::checkUserHasAdminAccess($idSite);
+		$name = urldecode($name);
+		$pattern = urldecode($pattern);
+		Zend_Registry::get('db')->update( Piwik::prefixTable('goal'), 
+					array(
+						'name' => $name,
+						'match_attribute' => $matchAttribute,
+						'pattern' => $pattern,
+						'pattern_type' => $patternType,
+						'revenue' => $revenue,
+						),
+					"idsite = '$idSite' AND idgoal = '$idGoal'"
+			);	
+		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
+	}
+	
+	public function deleteGoal( $idSite, $idGoal )
+	{
+		Piwik::checkUserHasAdminAccess($idSite);
+		Zend_Registry::get('db')->query("UPDATE ".Piwik::prefixTable('goal')."
+										SET deleted = 1
+										WHERE idsite = ? 
+											AND idgoal = ?",
+									array($idSite, $idGoal));
+		$db->query("DELETE FROM ".Piwik::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
+		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
+	}
+	
 	public function getConversionsReturningVisitors( $idSite, $period, $date, $idGoal = false )
 	{
 		

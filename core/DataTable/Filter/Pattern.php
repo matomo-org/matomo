@@ -21,13 +21,26 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 {
 	private $columnToFilter;
 	private $patternToSearch;
+	private $patternToSearchQuoted;
 	
 	public function __construct( $table, $columnToFilter, $patternToSearch )
 	{
 		parent::__construct($table);
 		$this->patternToSearch = $patternToSearch;
+		$this->patternToSearchQuoted = self::getPatternQuoted($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
 		$this->filter();
+	}
+	
+	static public function getPatternQuoted( $pattern )
+	{
+		return "/". preg_quote($pattern, '/') ."/";
+	}
+	
+	static public function match($pattern, $patternQuoted, $string)
+	{
+		return preg_match($patternQuoted,  $string) == 1
+				&& stripos($string, $pattern) !== false;
 	}
 	
 	protected function filter()
@@ -38,7 +51,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 			// - negative search with -piwik
 			// - exact match with ""
 			// see (?!pattern) 	A subexpression that performs a negative lookahead search, which matches the search string at any point where a string not matching pattern begins. 
-			if( stripos($row->getColumn($this->columnToFilter), $this->patternToSearch) === false)
+			if( !self::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter)))
 			{
 				$this->table->deleteRow($key);
 			}

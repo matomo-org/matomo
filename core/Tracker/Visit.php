@@ -140,7 +140,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		
 		Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ". $this->idsite ." */
-							UPDATE ". Piwik_Tracker::getDatabase()->prefixTable('log_visit')." 
+							UPDATE ". Piwik_Common::prefixTable('log_visit')." 
 							SET visit_last_action_time = ?,
 								visit_exit_idaction = ?,
 								visit_total_actions = visit_total_actions + 1,
@@ -239,7 +239,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$fields = implode(", ", array_keys($this->visitorInfo));
 		$values = substr(str_repeat( "?,",count($this->visitorInfo)),0,-1);
 		
-		Piwik_Tracker::getDatabase()->query( "INSERT INTO ".Piwik_Tracker::getDatabase()->prefixTable('log_visit').
+		Piwik_Tracker::getDatabase()->query( "INSERT INTO ".Piwik_Common::prefixTable('log_visit').
 						" ($fields) VALUES ($values)", array_values($this->visitorInfo));
 						
 		$idVisit = Piwik_Tracker::getDatabase()->lastInsertId();
@@ -378,7 +378,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 													UNIX_TIMESTAMP(visit_first_action_time) as visit_first_action_time,
 													idvisit,
 													visit_exit_idaction 
-										FROM ".Piwik_Tracker::getDatabase()->prefixTable('log_visit').
+										FROM ".Piwik_Common::prefixTable('log_visit').
 										" WHERE visit_server_date = ?
 											AND idsite = ?
 											AND config_md5config = ?

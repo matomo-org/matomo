@@ -36,6 +36,77 @@ class Piwik_Common
 	 */
 	const HTML_ENCODING_QUOTE_STYLE		= ENT_COMPAT;
 
+	
+	/**
+	 * Returns the table name prefixed by the table prefix.
+	 * Works in both Tracker and UI mode.
+	 * 
+	 * @param string The table name to prefix, ie "log_visit"
+	 * @return string The table name prefixed, ie "piwik-production_log_visit"
+	 */
+	static public function prefixTable($table)
+	{
+		$prefixTable = false;
+		if(class_exists('Piwik_Tracker_Config'))
+		{
+			$prefixTable = Piwik_Tracker_Config::getInstance()->database['tables_prefix'];
+		}
+		else
+		{
+			$config = Zend_Registry::get('config');
+			if($config !== false)
+			{
+				$prefixTable = $config->database->tables_prefix;
+			}
+		}
+		return $prefixTable . $table;
+	}
+	
+	/**
+	 * Returns array containing data about the website: goals, URLs, etc.
+	 *
+	 * @param int $idSite
+	 * @return array
+	 */
+	static function getCacheWebsiteAttributes( $idSite )
+	{
+		static $cache = null;
+		if(is_null($cache))
+		{
+			require_once "CacheFile.php";
+			$cache = new Piwik_CacheFile('tracker');
+		}
+		$filename = $idSite;
+		$cacheContent = $cache->get($filename);
+		if($cacheContent !== false)
+		{
+			return $cacheContent;
+		}
+
+		if(!class_exists('Zend_Registry'))
+		{
+			require_once "Zend/Registry.php";
+			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
+		}
+		$content = array();
+		Piwik_PostEvent('Common.fetchWebsiteAttributes', &$content, $idSite);
+		$cache->set($filename, $content);
+		return $content;
+	}
+	
+	static public function regenerateCacheWebsiteAttributes($idSite)
+	{
+		self::deleteCacheWebsiteAttributes($idSite);
+		self::getCacheWebsiteAttributes($idSite);
+	}
+	
+	static public function deleteCacheWebsiteAttributes( $idSite )
+	{
+		require_once "CacheFile.php";
+		$cache = new Piwik_CacheFile('tracker');
+		$filename = $idSite;
+		$cache->delete($filename);
+	}
 
 	/**
 	 * Returns the path and query part from a URL.

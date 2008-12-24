@@ -56,8 +56,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 * 3 types of action, Standard action / Download / Outlink click
 	 */
 	const TYPE_ACTION   = 1;
-	const TYPE_DOWNLOAD = 3;
 	const TYPE_OUTLINK  = 2;
+	const TYPE_DOWNLOAD = 3;
 	
 	protected function getDefaultActionName()
 	{
@@ -73,6 +73,10 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		return $this->url;
 	}
 	
+	public function getActionType()
+	{
+		return $this->actionType;
+	}
 	/**
 	 * Returns the idaction of the current action name.
 	 * This idaction is used in the visitor logging table to link the visit information 
@@ -112,7 +116,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 */
 	 public function record( $idVisit, $idRefererAction, $timeSpentRefererAction)
 	 {
-	 	Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */ INSERT INTO ".Piwik_Tracker::getDatabase()->prefixTable('log_link_visit_action')
+	 	Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */ INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
 						." (idvisit, idaction, idaction_ref, time_spent_ref_action) VALUES (?,?,?,?)",
 					array($idVisit, $this->getIdAction(), $idRefererAction, $timeSpentRefererAction)
 					);
@@ -259,7 +263,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$type = $this->actionType;
 		
 		$idAction = Piwik_Tracker::getDatabase()->fetch("/* SHARDING_ID_SITE = ".$this->idSite." */ 	SELECT idaction 
-							FROM ".Piwik_Tracker::getDatabase()->prefixTable('log_action')
+							FROM ".Piwik_Common::prefixTable('log_action')
 						."  WHERE name = ? AND type = ?", 
 						array($name, $type) 
 					);
@@ -268,7 +272,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		if($idAction === false)
 		{
 			Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */
-							INSERT INTO ". Piwik_Tracker::getDatabase()->prefixTable('log_action'). "( name, type ) 
+							INSERT INTO ". Piwik_Common::prefixTable('log_action'). "( name, type ) 
 							VALUES (?,?)",
 						array($name,$type)
 					);

@@ -151,3 +151,44 @@ a {
 	opacity:0.95;
 }
 
+
+.tableForm {
+	cellspacing:0;
+}
+.tableForm td {
+	border-color:#FFFFFF rgb(198, 205, 216)  rgb(198, 205, 216) rgb(198, 205, 216) ;
+	border-style:solid;
+	padding:0.5em 0.5em 0.5em 0.8em;
+	border-width:10px 1px 1px 1px;
+	color:#203276;
+}
+.tableForm input {
+	font-size:1.1em;
+	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
+	border-width:1px;
+	color:#3A2B16;
+	padding:0.15em;
+}
+.tableForm .submit {
+	text-align:center;
+}
+.submit input{
+	margin-top:15px;
+	background:transparent url(./images/background-submit.png) repeat scroll 0%;
+	font-size:1.4em;
+	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
+	border-style:double;
+	border-width:3px;
+	color:#333333;
+	padding:0.15em;
+}
+
+#ajaxError {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+	width: 550px;
+	border: 3px solid red;
+	margin: 10px;
+	padding: 10px;
+}

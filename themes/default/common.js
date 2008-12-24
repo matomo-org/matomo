@@ -1,4 +1,3 @@
-
 function findSWFGraph(name) {
   if (navigator.appName.indexOf("Microsoft")!= -1) {
     return window[name];

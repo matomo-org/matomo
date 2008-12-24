@@ -1,11 +1,19 @@
 <?php
+require_once "Goals/API.php";
+
 class Piwik_Goals_Controller extends Piwik_Controller 
 {
 	const CONVERSION_RATE_PRECISION = 1;
 	function goalReport()
 	{
 		$idGoal = Piwik_Common::getRequestVar('idGoal', null, 'int');
-		$goalDefinition = Piwik_Tracker_GoalManager::getGoalDefinition($idGoal);
+		$idSite = Piwik_Common::getRequestVar('idSite');
+		$goals = Piwik_Goals_API::getGoals($idSite);
+		if(!isset($goals[$idGoal]))
+		{
+			throw new Exception("idgoal $idGoal not valid.");
+		}
+		$goalDefinition = $goals[$idGoal];
 		
 		$view = new Piwik_View('Goals/templates/single_goal.tpl');
 		$view->currency = Piwik::getCurrency();
@@ -99,15 +107,18 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		
 		$goalMetrics = array();
 		
-		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions();
-		foreach($goals as $goal)
+		$idSite = Piwik_Common::getRequestVar('idSite');
+		$goals = Piwik_Goals_API::getGoals($idSite);
+		foreach($goals as $idGoal => $goal)
 		{
-			$goalId = $goal['id'];
-			$goalMetrics[$goalId] = $this->getMetricsForGoal($goalId);
-			$goalMetrics[$goalId]['name'] = $goal['name'];
+			$goalMetrics[$idGoal] = $this->getMetricsForGoal($idGoal);
+			$goalMetrics[$idGoal]['name'] = $goal['name'];
 		}
 		
 		$view->goalMetrics = $goalMetrics;
+		$view->goals = $goals;
+		$view->goalsJSON = json_encode($goals);
+		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($idSite);
 		echo $view->render();
 	}
 
