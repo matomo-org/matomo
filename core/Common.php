@@ -89,7 +89,7 @@ class Piwik_Common
 			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
 		}
 		$content = array();
-		Piwik_PostEvent('Common.fetchWebsiteAttributes', &$content, $idSite);
+		Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
 		$cache->set($filename, $content);
 		return $content;
 	}
