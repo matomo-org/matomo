@@ -45,6 +45,8 @@ body {
 }
 a {
 	color: #0F1B2E;
+	text-decoration:underline;
+	cursor:pointer;
 }
 
 #loadingPiwik {

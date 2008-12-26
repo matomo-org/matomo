@@ -121,6 +121,16 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($idSite);
 		echo $view->render();
 	}
+	
+	function addNewGoal()
+	{
+		$view = new Piwik_View('Goals/templates/add_new_goal.tpl');
+		$idSite = Piwik_Common::getRequestVar('idSite');
+		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($idSite);
+		$view->currency = Piwik::getCurrency();
+		$view->onlyShowAddNewGoal = true;
+		echo $view->render();
+	}
 
 	function getLastNbConversionsGraph( $fetch = false )
 	{

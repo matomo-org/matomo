@@ -29,7 +29,6 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$view->sumVisitLength = $dataTableVisit->getColumn('sum_visit_length');
 		$view->bounceCount = $dataTableVisit->getColumn('bounce_count');
 		$view->maxActions = $dataTableVisit->getColumn('max_actions');
-		//TODO visits with conversion 
 	}
 	
 	function getSparklines()

@@ -25,8 +25,6 @@ class Piwik_Tracker_GoalManager
 		$this->cookie = $cookie;
 	}
 
-	//TODO goalid should be incrementing on a website basis
-	// load goal definitions from file
 	static public function getGoalDefinitions( $idSite )
 	{
 		$websiteAttributes = Piwik_Common::getCacheWebsiteAttributes( $idSite );
@@ -61,6 +59,10 @@ class Piwik_Tracker_GoalManager
 	//TODO does this code work for manually triggered goals, with custom revenue? 
 	function detectGoals($idSite)
 	{
+		if(!Piwik_PluginsManager::getInstance()->isPluginActivated('Goals'))
+		{
+			return false;
+		}
 		$url = $this->action->getUrl();
 		$actionType = $this->action->getActionType();
 		$goals = $this->getGoalDefinitions($idSite);
@@ -76,25 +78,44 @@ class Piwik_Tracker_GoalManager
 				continue;
 			}
 			
-			//TODO: outlink trailing slash is automatically deleted, problem when trying to match?
 			$pattern_type = $goal['pattern_type'];
 			
 			switch($pattern_type)
 			{
 				case 'regex':
-					$match = (preg_match('/' . $goal['pattern'] . '/', $url) == 1);
+					$pattern = '/' . $goal['pattern'] . '/';
+					if(!$goal['case_sensitive'])
+					{
+						$pattern .= 'i';
+					}
+					$match = (preg_match($pattern, $url) == 1);
 					break;
 				case 'contains':
-					$match = (strpos($url, $goal['pattern']) !== false);
+					if($goal['case_sensitive'])
+					{
+						$matched = strpos($url, $goal['pattern']);
+					}
+					else
+					{
+						$matched = stripos($url, $goal['pattern']);
+					}
+					$match = ($matched !== false);
 					break;
 				case 'exact':
-					$match = ($goal['pattern'] == $url);
+					if($goal['case_sensitive'])
+					{
+						$matched = strcmp($goal['pattern'], $url);
+					}
+					else
+					{
+						$matched = strcasecmp($goal['pattern'], $url);
+					}
+					$match = ($matched == 0);
 					break;
 				default:
 					throw new Exception("Pattern type $pattern_type not valid.");
 					break;
 			}
-			
 			if($match)
 			{
 				$this->matchedGoals[] = $goal;

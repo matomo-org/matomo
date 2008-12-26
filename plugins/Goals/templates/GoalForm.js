@@ -3,7 +3,7 @@ function showAddNewGoal()
 {
 	$("#GoalForm").show();
 	$("#EditGoals").hide();
-	lazyScrollTo("#bottom", 100);
+	$.scrollTo("#AddEditGoals", 400);
 	return false;
 }
 
@@ -11,12 +11,12 @@ function showEditGoals()
 {
 	$("#EditGoals").show();
 	$("#GoalForm").hide();
-	lazyScrollTo("#bottom", 100);
+	$.scrollTo("#AddEditGoals", 400);
 	return false;
 }
 
 // init the goal form with existing goal value, if any
-function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, pattern, patternType, revenue, goalId)
+function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, pattern, patternType, caseSensitive, revenue, goalId)
 {
 	$('#goal_name').val(goalName);
 	$('input[@name=match_attribute][value='+matchAttribute+']').attr('checked', true);
@@ -24,6 +24,7 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
 	$('#examples_pattern').html(mappingMatchTypeExamples[matchAttribute]);
 	$('option[value='+patternType+']').attr('selected', true);
 	$('input[name=pattern]').val(pattern);
+	$('#case_sensitive').attr('checked', caseSensitive);
 	$('input[name=revenue]').val(revenue);
 	$('input[name=methodGoalAPI]').val(goalMethodAPI);
 	$('#goal_submit').val(submitText);
@@ -32,6 +33,11 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
 	}
 }
 
+function initAndShowAddGoalForm()
+{
+	initGoalForm('Goals.addGoal', 'Add Goal', '', 'url', '', 'contains', false, '0');
+	return showAddNewGoal(); 
+}
 function bindGoalForm()
 {
 	$('input[@name=match_attribute]').click( function() {
@@ -46,8 +52,36 @@ function bindGoalForm()
 		$.ajax( ajaxRequestAddGoal );
 		return false;
 	});
+	
+	$('a[name=linkAddNewGoal]').click( function(){ 
+		initAndShowAddGoalForm();
+	} );
 }
 
+function bindListGoalEdit()
+{
+	$('a[name=linkEditGoal]').click( function() {
+		var goalId = $(this).attr('id');
+		var goal = piwik.goals[goalId];
+		initGoalForm("Goals.updateGoal", "Update Goal", goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive=='0' ? false : true), goal.revenue, goalId);
+		showAddNewGoal();
+		return false;
+	});
+	
+	$('a[name=linkDeleteGoal]').click( function() {
+		var goalId = $(this).attr('id');
+		var goalName = 'test goal';//piwik.goals[goalId][name]
+		if(confirm(sprintf('Are you sure you want to delete the Goal %s?','"'+goalName+'"')))
+		{
+			$.ajax( getAjaxDeleteGoal( goalId ) );
+			return false;
+		}
+	});
+
+	$('a[name=linkEditGoals]').click( function(){ 
+		return showEditGoals(); 
+	} );
+}
 function getAjaxDeleteGoal(idGoal)
 {
 	var ajaxRequest = getStandardAjaxConf();
@@ -76,6 +110,7 @@ function getAjaxAddGoal()
 	parameters.matchAttribute = $('input[name=match_attribute][checked]').val();
 	parameters.patternType = $('[name=pattern_type]').val();
 	parameters.pattern = encodeURIComponent( $('input[name=pattern]').val() );
+	parameters.caseSensitive = $('#case_sensitive').attr('checked') == true ? 1: 0;
 	parameters.revenue = $('input[name=revenue]').val();
 	
  	parameters.idGoal =  $('input[name=goalIdUpdate]').val();

@@ -18,4 +18,3 @@
 	</td></tr>
 </table>
 
-<div style="clear:both">

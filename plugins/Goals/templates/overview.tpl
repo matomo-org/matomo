@@ -1,12 +1,10 @@
 
 {include file="Goals/templates/title_and_evolution_graph.tpl"}
 
-
-
 {foreach from=$goalMetrics item=goal}
 {assign var=nb_conversions value=$goal.nb_conversions}
 {assign var=conversion_rate value=$goal.conversion_rate}
-<h3 style="text-decoration:underline;padding-top:20px">{$goal.name} (goal)</h3>
+<h2 style="padding-top: 30px;">{$goal.name} (goal)</h3>
 <table width=700px>
 	<tr><td>
 		<p>{sparkline src=$goal.urlSparklineConversions}<span>
@@ -22,5 +20,8 @@
 {/foreach}
 
 {if $userCanEditGoals}
+	<hr style="margin:30px 0px">
 	{include file=Goals/templates/add_edit_goal.tpl}
 {/if}
+
+{include file="Goals/templates/release_notes.tpl}

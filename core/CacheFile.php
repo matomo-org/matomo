@@ -58,12 +58,16 @@ class Piwik_CacheFile
 	 * @return bool True if the entry was succesfully stored
 	 */
 	function set($id, $content)
-	{    
+	{
+		if( !is_dir($this->cachePath))
+		{
+			Piwik_Common::mkdir($this->cachePath);
+		}
 	    if (!is_writable($this->cachePath)) {
 	        return false;
 	    }
 	
-	    $id = $this->cachePath . $id;
+	    $id = $this->cachePath . $id . ".php";
 	
 	    $cache_literal  = "<"."?php\n\n";
 	    $cache_literal .= "$"."content   = ".var_export($content, true).";\n\n";

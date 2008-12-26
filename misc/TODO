@@ -1,45 +1,19 @@
 Before Alpha
 ------------
-small
-- no goals: no graph, form opened by default, easy to 
-- h3 should not be bold
-- test [.*] pattern
-- clarify that pattern need to be escaped
 
-- display table by search engines, coutry, kwd, etc.
-- update _visit schema + prepare update files >> 
-- test on piwik.org for one day, performance
-
-- test cacheFile code
-- plugify all Goal related code 
-
-Goal beta release Todo list
----------------------------
-- click on (more) leads to right sub report (start implementing #state)
-- i18n
-- documentation, screenshots, blog post
-
-
-1h - new translations + updates
 3h - small bugs report in robotrock, new search engines, etc.
 1h - release
 
-friday:
-8h of work free to fix
-
-Following up show all columns new UI element
-====
+To fix
+======
+- <idsubdatatable>1</idsubdatatable> shouldnt be in api response
 - when used with visitsGenerator, in dowloads export XML, full_url and url is 0
-- add new column "overall visits with conversion"
 - post 29 There seems not to be a way to export the pages information widget. 
   I wanted to download the entry pages to see where my visitors entered my site from,
   but there is no option to do so.
 - ADD forward of non true show_values to forward when specified from URL to ajax
 - disable show icon in some iframes and/or dashboard 
-- do proper CSS factoring
 - clarify 'false' '0' values etc. //convert all JS datatable footer parameter values to '1' or '0'
-- documentation + Blog post
-- exclude all population doesn't work for actions
 - cron should return errors when token doesn't have any website
 
 Bugs
@@ -51,9 +25,12 @@ Bugs
 - In Referers-&gt;Evolution page, in addition, I think its melting titles because I read 
   in spanish &quot;Entrada directa nb_uniq_visitors&quot; for the first graph, 
   &quot;Paginas web nb_uniq_visitors&quot; for the second and so on.
-  
+- exclude all population doesn't work for actions
+
 Reports improvements
 ====================
+- add new column "overall visits with conversion"
+- add visits with conversion sparkline in VisitsSummary overview
 - add link under widgets to report (optional display)
 - link under goal conversion to full goal reports (optional display)
 - think of ways to show entry / exit pages and bounce rate.
@@ -87,10 +64,6 @@ high priority features
 - Loyalty (Most people visited: 1 times) and Recency (Most people last visited: X days ago)
   http://en.wikipedia.org/wiki/RFM
   
-Small features
-==============
-- can we find a "binary operator string -> regex" conversion function?
-  
 User Interface improvements
 ===========================
 - add icon calendar http://developer.yahoo.com/ypatterns/pattern.php?pattern=calendar#Solution
@@ -106,7 +79,7 @@ Code improvements
 =================
 - plugins should listen to user delete/ site delete and delete their own user/site related data
 - why widgetize inherits Piwik_Widgetize_Controller
-- PLUGINS HAVE THEIR OWN TESTS
+- plugins could have their own tests, read automatically from the test suite
 
 Documentation
 =============

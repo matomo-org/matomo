@@ -62,11 +62,18 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	function addMenus()
 	{
-		Piwik_AddMenu('Goals', 'Overview', array('module' => 'Goals'));
 		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
-		foreach($goals as $goal) 
+		if(count($goals)==0)
 		{
-			Piwik_AddMenu('Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+			Piwik_AddMenu('Goals', 'Add a new Goal', array('module' => 'Goals', 'action' => 'addNewGoal'));
+		}
+		else
+		{
+			Piwik_AddMenu('Goals', 'Overview', array('module' => 'Goals'));
+			foreach($goals as $goal) 
+			{
+				Piwik_AddMenu('Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+			}
 		}
 	}
 	
