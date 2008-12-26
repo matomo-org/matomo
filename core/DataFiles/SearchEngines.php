@@ -66,8 +66,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		//Alice Adsl
 		"rechercher.aliceadsl.fr"	=> array("Alice Adsl", "qs"),
-		"search.alice.it"		      => array("Alice (Virgilio)", "qt"),
-		
+		"search.alice.it"		      => array("Alice (powered by Virgilio)", "qt"),
+		"ricerca.alice.it" 		=> array("Alice (powered by Virgilio)", "qs"),
+	
 		//Allesklar
 		"www.allesklar.de"		=> array("Allesklar", "words"),
 		

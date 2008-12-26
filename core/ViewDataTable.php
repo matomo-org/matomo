@@ -662,7 +662,10 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function enableShowGoals()
 	{
-		$this->viewProperties['show_goals'] = true;
+		if(Piwik_PluginsManager::getInstance()->isPluginActivated('Goals'))
+		{
+			$this->viewProperties['show_goals'] = true;
+		}
 	}
 	
 	/**

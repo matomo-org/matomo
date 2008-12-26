@@ -34,31 +34,6 @@ class Piwik
 		);
 	
 	/**
-	 * path without trailing slash
-	 */
-	static public function createHtAccess( $path )
-	{
-		@file_put_contents($path . "/.htaccess", "Deny from all");
-	}
-	
-	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
-	{
-		if(!is_dir($path))
-		{
-			$directoryParent = Piwik::realpath(dirname($path));
-			if( is_writable($directoryParent) )
-			{
-				mkdir($path, $mode, true);
-			}
-		}
-		
-		if($denyAccess)
-		{
-			Piwik::createHtAccess($path);
-		}
-	}
-
-	/**
 	 * Checks that the directories Piwik needs write access are actually writable
 	 * Displays a nice error page if permissions are missing on some directories
 	 * 
@@ -72,7 +47,7 @@ class Piwik
 			$directoryList = '';
 			foreach($resultCheck as $dir => $bool)
 			{
-				$realpath = Piwik::realpath($dir);
+				$realpath = Piwik_Common::realpath($dir);
 				if(!empty($realpath) && $bool === false)
 				{
 					$directoryList .= "<code>chmod 777 $realpath</code><br>";
@@ -117,10 +92,10 @@ class Piwik
 			
 			if(!file_exists($directoryToCheck))
 			{
-				Piwik::mkdir($directoryToCheck, 0755, false);
+				Piwik_Common::mkdir($directoryToCheck, 0755, false);
 			}
 			
-			$directory = Piwik::realpath($directoryToCheck);
+			$directory = Piwik_Common::realpath($directoryToCheck);
 			$resultCheck[$directory] = false;
 			if($directory !== false // realpath() returns FALSE on failure
 				&& is_writable($directoryToCheck))
@@ -129,15 +104,6 @@ class Piwik
 			}
 		}
 		return $resultCheck;
-	}
-	
-	static public function realpath($path)
-	{
-		if (file_exists($path)) 
-		{
-		    return realpath($path);
-		} 
-	    return $path;
 	}
 	
 	/**
@@ -547,6 +513,19 @@ class Piwik
 						)
 			",
 			
+			'goal' => "	CREATE TABLE `{$prefixTables}goal` (
+							  `idsite` int(11) NOT NULL,
+							  `idgoal` int(11) NOT NULL,
+							  `name` varchar(50) NOT NULL,
+							  `match_attribute` varchar(20) NOT NULL,
+							  `pattern` varchar(255) NOT NULL,
+							  `pattern_type` varchar(10) NOT NULL,
+							  `case_sensitive` tinyint(4) NOT NULL,
+							  `revenue` float NOT NULL,
+							  `deleted` tinyint(4) NOT NULL default '0',
+							  PRIMARY KEY  (`idsite`,`idgoal`)
+							) 
+			",
 			
 			'logger_message' => "CREATE TABLE {$prefixTables}logger_message (
 									  idlogger_message INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -644,6 +623,30 @@ class Piwik
 							)
 			",		
 			
+			'log_conversion' => "CREATE TABLE `{$prefixTables}log_conversion` (
+									  `idvisit` int(10) unsigned NOT NULL,
+									  `idsite` int(10) unsigned NOT NULL,
+									  `visitor_idcookie` char(32) NOT NULL,
+									  `server_time` datetime NOT NULL,
+									  `visit_server_date` date NOT NULL,
+									  `idaction` int(11) NOT NULL,
+									  `idlink_va` int(11) NOT NULL,
+									  `referer_idvisit` int(10) unsigned default NULL,
+									  `referer_visit_server_date` date default NULL,
+									  `referer_type` int(10) unsigned default NULL,
+									  `referer_name` varchar(70) default NULL,
+									  `referer_keyword` varchar(255) default NULL,
+									  `visitor_returning` tinyint(1) NOT NULL,
+									  `location_country` char(3) NOT NULL,
+									  `location_continent` char(3) NOT NULL,
+									  `url` text NOT NULL,
+									  `idgoal` int(10) unsigned NOT NULL,
+									  `revenue` float default NULL,
+									  PRIMARY KEY  (`idvisit`,`idgoal`),
+									  KEY `index_idsite_date` (`idsite`,`visit_server_date`)
+									) 
+			",
+							
 			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
 											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
 											  idvisit INTEGER(10) UNSIGNED NOT NULL,
@@ -1151,8 +1154,8 @@ class Piwik
 	
 	static public function install()
 	{
-		Piwik::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
-		Piwik::mkdir(Zend_Registry::get('config')->smarty->cache_dir);
+		Piwik_Common::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
+		Piwik_Common::mkdir(Zend_Registry::get('config')->smarty->cache_dir);
 	}
 	
 	static public function uninstall()

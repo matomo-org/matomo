@@ -216,6 +216,40 @@ class Piwik_Common
 		return $nameToValue;
 	}
 
+	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
+	{
+		if(!is_dir($path))
+		{
+			$directoryParent = Piwik_Common::realpath(dirname($path));
+			if( is_writable($directoryParent) )
+			{
+				mkdir($path, $mode, true);
+			}
+		}
+		
+		if($denyAccess)
+		{
+			self::createHtAccess($path);
+		}
+	}
+
+	/**
+	 * path without trailing slash
+	 */
+	static public function createHtAccess( $path )
+	{
+		@file_put_contents($path . "/.htaccess", "Deny from all");
+	}
+	
+	static public function realpath($path)
+	{
+		if (file_exists($path)) 
+		{
+		    return realpath($path);
+		} 
+	    return $path;
+	}
+	
 	/**
 	 * Returns true if the string is a valid filename
 	 * File names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), and dot(.) will be accepted.

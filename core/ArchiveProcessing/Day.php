@@ -358,7 +358,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd['nb_visits_converted'];
 	}
 	
-	//TODO comment
 	public function queryConversionsBySegment($segments = '')
 	{
 		if(!empty($segments))

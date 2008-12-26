@@ -4,8 +4,8 @@
 	<h2>Conversions Overview</h2>
 	<ul class="ulGoalTopElements">
 	<li>Your best converting countries are: {include file='Goals/templates/list_top_segment.tpl' topSegment=$topSegments.country}</li>
-	<li>Your top converting keywords are: {include file='Goals/templates/list_top_segment.tpl' topSegment=$topSegments.keyword}</li>
-	<li>Your best converting websites referers are: {include file='Goals/templates/list_top_segment.tpl' topSegment=$topSegments.website}</li>
+	{if count($topSegments.keyword)>0}<li>Your top converting keywords are: {include file='Goals/templates/list_top_segment.tpl' topSegment=$topSegments.keyword}</li>{/if}
+	{if count($topSegments.website)>0}<li>Your best converting websites referers are: {include file='Goals/templates/list_top_segment.tpl' topSegment=$topSegments.website}</li>{/if}
 	<li>Returning visitors conversion rate is <b>{$conversion_rate_returning}%</b>, New Visitors conversion rate is <b>{$conversion_rate_new}%</b></li>
 	</ul>
 {/if}

@@ -40,7 +40,7 @@ class Piwik_Goals_API
 		return $cleanedGoals;
 	}
 
-	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $revenue )
+	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 		// save in db
@@ -52,8 +52,9 @@ class Piwik_Goals_API
 		{
 			$idGoal = 1;
 		}
-		$name = urldecode($name);
-		$pattern = urldecode($pattern);
+		self::checkPatternIsValid($patternType, $pattern);
+		$name = self::checkName($name);
+		$pattern = self::checkPattern($pattern);
 		$db->insert(Piwik::prefixTable('goal'),
 					array( 
 						'idsite' => $idSite,
@@ -62,6 +63,7 @@ class Piwik_Goals_API
 						'match_attribute' => $matchAttribute,
 						'pattern' => $pattern,
 						'pattern_type' => $patternType,
+						'case_sensitive' => $caseSensitive,
 						'revenue' => $revenue,
 						'deleted' => 0,
 					));
@@ -69,22 +71,44 @@ class Piwik_Goals_API
 		return $idGoal;
 	}
 	
-	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $revenue )
+	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
-		$name = urldecode($name);
-		$pattern = urldecode($pattern);
+		$name = self::checkName($name);
+		$pattern = self::checkPattern($pattern);
+		self::checkPatternIsValid($patternType, $pattern);
 		Zend_Registry::get('db')->update( Piwik::prefixTable('goal'), 
 					array(
 						'name' => $name,
 						'match_attribute' => $matchAttribute,
 						'pattern' => $pattern,
 						'pattern_type' => $patternType,
+						'case_sensitive' => $caseSensitive,
 						'revenue' => $revenue,
 						),
 					"idsite = '$idSite' AND idgoal = '$idGoal'"
 			);	
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
+	}
+
+	private function checkPatternIsValid($patternType, $pattern)
+	{
+		if($patternType == 'exact' 
+			&& substr($pattern, 0, 4) != 'http')
+		{
+			throw new Exception("If you choose 'exact match', the matching string must be a 
+				URL starting with http:// or https://. For example, 'http://www.yourwebsite.com/newsletter/subscribed.html'.");
+		}
+	}
+	
+	private function checkName($name)
+	{
+		return urldecode($name);
+	}
+	
+	private function checkPattern($pattern)
+	{
+		return urldecode($pattern);
 	}
 	
 	public function deleteGoal( $idSite, $idGoal )
@@ -99,15 +123,15 @@ class Piwik_Goals_API
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
 	
-	public function getConversionsReturningVisitors( $idSite, $period, $date, $idGoal = false )
-	{
-		
-	}
-	
-	public function getConversionsNewVisitors( $idSite, $period, $date, $idGoal = false )
-	{
-		
-	}
+//	public function getConversionsReturningVisitors( $idSite, $period, $date, $idGoal = false )
+//	{
+//		
+//	}
+//	
+//	public function getConversionsNewVisitors( $idSite, $period, $date, $idGoal = false )
+//	{
+//		
+//	}
 	
 	// TODO
 	public function getConversionRateReturningVisitors( $idSite, $period, $date, $idGoal = false )
