@@ -22,7 +22,6 @@ class Piwik_Site
 	function __construct($idsite)
 	{
 		$this->id = $idsite;
-		
 		if(!isset(self::$infoSites[$this->id]))
 		{
 			self::$infoSites[$this->id] = Piwik_SitesManager_API::getSiteFromId($idsite);
