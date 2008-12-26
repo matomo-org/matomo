@@ -2,6 +2,7 @@
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 
+<h1> Plugin Development version </h1>
 
 {literal}
 <script type="text/javascript" src="plugins/Live/templates/scripts/spy.js"></script>
@@ -47,7 +48,7 @@
 	max-width:700px;
 }
 #visits .datetime {
-	width:80px;
+	width:110px;
 }
 #visits .country {
 	width:30px;

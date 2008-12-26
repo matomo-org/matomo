@@ -47,7 +47,7 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	public function getLastVisits( $idSite = null, $limit = 10, $minIdVisit = null )
+	public function getLastVisits( $idSite = false, $limit = 10, $minIdVisit = false )
 	{
 		if(is_null($idSite))
 		{
@@ -84,7 +84,7 @@ class Piwik_Live_API
 	/*
 	 * @return array
 	 */
-	private function loadLastVisitorDetailsFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = null )
+	private function loadLastVisitorDetailsFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = false )
 	{
 		$where = $whereBind = array();
 		
@@ -100,7 +100,7 @@ class Piwik_Live_API
 			$whereBind[] = $visitorId;
 		}
 		
-		if(!is_null($minIdVisit))
+		if(!$minIdVisit)
 		{
 			$where[] = " idvisit > ? ";
 			$whereBind[] = $minIdVisit;

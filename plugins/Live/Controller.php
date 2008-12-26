@@ -1,7 +1,6 @@
 <?php
 require_once 'Live/API.php';
 
-//TODO
 Piwik_AddWidget('Live', 'widget', 'Live Visitors!');
 
 class Piwik_Live_Controller extends Piwik_Controller
@@ -13,10 +12,11 @@ class Piwik_Live_Controller extends Piwik_Controller
 	
 	function getLastVisits($fetch = false)
 	{
-		$view = new Piwik_View('Live/templates/lastVisits.tpl');
 		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
 		$limit = 10;
 		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$idSite&limit=$limit&format=php&serialize=0&disable_generic_filters=1");
+		
+		$view = new Piwik_View('Live/templates/lastVisits.tpl');
 		$view->visitors = $api->process();
 		$rendered = $view->render($fetch);
 		
