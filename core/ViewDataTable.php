@@ -36,7 +36,6 @@ require_once "API/Request.php";
  * @package Piwik_ViewDataTable
  *
  */
-
 abstract class Piwik_ViewDataTable
 {
 	/**
@@ -94,13 +93,13 @@ abstract class Piwik_ViewDataTable
 	 * @see init()
 	 * @var string
 	 */
-	protected $actionToLoadTheSubTable = null;
+	protected $controllerActionCalledWhenRequestSubTable = null;
 	
 	/**
 	 * @see init()
 	 * @var string
 	 */
-	protected $moduleNameAndMethod;
+	protected $apiMethodToRequestDataTable;
 	
 	/**
 	 * This view should be an implementation of the Interface Piwik_iView
@@ -198,6 +197,11 @@ abstract class Piwik_ViewDataTable
 				return new Piwik_ViewDataTable_HtmlTable_AllColumns();
 			break;
 			
+			case 'tableGoals':
+				require_once "ViewDataTable/HtmlTable/Goals.php";
+				return new Piwik_ViewDataTable_HtmlTable_Goals();
+			break;
+			
 			case 'table':
 			default:
 				require_once "ViewDataTable/HtmlTable.php";
@@ -209,41 +213,44 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Inits the object given the $currentControllerName, $currentControllerAction of 
 	 * the calling controller action, eg. 'Referers' 'getLongListOfKeywords'.
-	 * The initialization also requires the $moduleNameAndMethod of the API method 
+	 * The initialization also requires the $apiMethodToRequestDataTable of the API method 
 	 * to call in order to get the DataTable, eg. 'Referers.getKeywords'.
-	 * The optional $actionToLoadTheSubTable defines the method name of the API to call when there is a idSubtable.
+	 * The optional $controllerActionCalledWhenRequestSubTable defines the method name of the API to call when there is a idSubtable.
 	 * This value would be used by the javascript code building the GET request to the API.
 	 * 
 	 * Example: 
 	 * 	For the keywords listing, a click on the row loads the subTable of the Search Engines for this row.
-	 *  In this case $actionToLoadTheSubTable = 'getSearchEnginesFromKeywordId'.
+	 *  In this case $controllerActionCalledWhenRequestSubTable = 'getSearchEnginesFromKeywordId'.
 	 *  The GET request will hit 'Referers.getSearchEnginesFromKeywordId'.
 	 *
 	 * @param string $currentControllerName eg. 'Referers'
 	 * @param string $currentControllerAction eg. 'getKeywords'
-	 * @param string $moduleNameAndMethod eg. 'Referers.getKeywords'
-	 * @param string $actionToLoadTheSubTable eg. 'getSearchEnginesFromKeywordId'
+	 * @param string $apiMethodToRequestDataTable eg. 'Referers.getKeywords'
+	 * @param string $controllerActionCalledWhenRequestSubTable eg. 'getSearchEnginesFromKeywordId'
 	 * @return void
 	 */
 	public function init( $currentControllerName,
 						$currentControllerAction, 
-						$moduleNameAndMethod, 
-						$actionToLoadTheSubTable = null)
+						$apiMethodToRequestDataTable, 
+						$controllerActionCalledWhenRequestSubTable = null)
 	{
 		$this->currentControllerName = $currentControllerName;
 		$this->currentControllerAction = $currentControllerAction;
-		$this->moduleNameAndMethod = $moduleNameAndMethod;
-		$this->actionToLoadTheSubTable = $actionToLoadTheSubTable;
-		$this->method = $moduleNameAndMethod;
+		$this->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
+		$this->controllerActionCalledWhenRequestSubTable = $controllerActionCalledWhenRequestSubTable;
 		$this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false, 'int');
 
+		$this->viewProperties['show_goals'] = false;
 		$this->viewProperties['show_search'] = Piwik_Common::getRequestVar('show_search', true);
 		$this->viewProperties['show_table_all_columns'] = Piwik_Common::getRequestVar('show_table_all_columns', true);
 		$this->viewProperties['show_exclude_low_population'] = Piwik_Common::getRequestVar('show_exclude_low_population', true);
 		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);;
 		$this->viewProperties['show_footer'] = Piwik_Common::getRequestVar('show_footer', true);
 		$this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
+		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
+		$this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
 	}
+	
 	
 	/**
 	 * Forces the View to use a given template.
@@ -275,6 +282,26 @@ abstract class Piwik_ViewDataTable
 		return $this->view;
 	}
 
+	public function getCurrentControllerAction()
+	{
+		return $this->currentControllerAction;
+	}
+	
+	public function getCurrentControllerName()
+	{
+		return $this->currentControllerName;
+	}
+	
+	public function getApiMethodToRequestDataTable()
+	{
+		return $this->apiMethodToRequestDataTable;
+	}
+
+	public function getControllerActionCalledWhenRequestSubTable()
+	{
+		return $this->controllerActionCalledWhenRequestSubTable;
+	}
+	
 	/**
 	 * Returns the DataTable loaded from the API
 	 *
@@ -320,7 +347,7 @@ abstract class Piwik_ViewDataTable
 		// we setup the method and format variable
 		// - we request the method to call to get this specific DataTable
 		// - the format = original specifies that we want to get the original DataTable structure itself, not rendered
-		$requestString  = 'method='.$this->moduleNameAndMethod;
+		$requestString  = 'method='.$this->apiMethodToRequestDataTable;
 		$requestString .= '&format=original';
 		
 		$toSetEventually = array(
@@ -385,7 +412,7 @@ abstract class Piwik_ViewDataTable
 	 * @see datatable.js
 	 * @return string
 	 */
-	protected function getUniqIdTable()
+	protected function getUniqueIdViewDataTable()
 	{
 		// if we request a subDataTable the $this->currentControllerAction DIV ID is already there in the page
 		// we make the DIV ID really unique by appending the ID of the subtable requested
@@ -422,7 +449,7 @@ abstract class Piwik_ViewDataTable
 	 * - etc.
 	 *
 	 * The values are loaded:
-	 * - from the generic filters that are applied by default @see Piwik_API_ResponseBuilder::getGenericFiltersInformation()
+	 * - from the generic filters that are applied by default @see Piwik_API_DataTableGenericFilter.php::getGenericFiltersInformation()
 	 * - from the values already available in the GET array
 	 * - from the values set using methods from this class (eg. setSearchPattern(), setLimit(), etc.)
 	 * 
@@ -433,7 +460,7 @@ abstract class Piwik_ViewDataTable
 		// build javascript variables to set
 		$javascriptVariablesToSet = array();
 		
-		$genericFilters = Piwik_API_ResponseBuilder::getGenericFiltersInformation();
+		$genericFilters = Piwik_API_DataTableGenericFilter::getGenericFiltersInformation();
 		foreach($genericFilters as $filter)
 		{
 			foreach($filter as $filterVariableName => $filterInfo)
@@ -478,13 +505,25 @@ abstract class Piwik_ViewDataTable
 				$javascriptVariablesToSet[$name] = $value;
 			}
 		}
-				
+
+		if($this->dataTable instanceof Piwik_DataTable)
+		{
+			// we override the filter_sort_column with the column used for sorting, 
+			// which can be different from the one specified (eg. if the column doesn't exist)
+			$javascriptVariablesToSet['filter_sort_column'] = $this->dataTable->getSortedByColumnName();
+			// datatable can return "2" but we want to write "nb_visits" in the js
+			if(isset(Piwik_Archive::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']]))
+			{
+				$javascriptVariablesToSet['filter_sort_column'] = Piwik_Archive::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']];
+			}
+		}
+		
 		$javascriptVariablesToSet['module'] = $this->currentControllerName;
 		$javascriptVariablesToSet['action'] = $this->currentControllerAction;
 		$javascriptVariablesToSet['viewDataTable'] = $this->getViewDataTableId();
-		if(!is_null($this->actionToLoadTheSubTable))
+		if(!is_null($this->controllerActionCalledWhenRequestSubTable))
 		{
-			$javascriptVariablesToSet['actionToLoadTheSubTable'] = $this->actionToLoadTheSubTable;
+			$javascriptVariablesToSet['controllerActionCalledWhenRequestSubTable'] = $this->controllerActionCalledWhenRequestSubTable;
 		}
 		
 		if($this->dataTable)
@@ -507,6 +546,17 @@ abstract class Piwik_ViewDataTable
 			}
 		}
 		
+		$deleteFromJavascriptVariables = array( 
+						'filter_excludelowpop', 
+						'filter_excludelowpop_value',
+				);
+		foreach($deleteFromJavascriptVariables as $name)
+		{
+			if(isset($javascriptVariablesToSet[$name]))
+			{
+				unset($javascriptVariablesToSet[$name]);
+			}
+		}
 		return $javascriptVariablesToSet;
 	}
 	
@@ -607,6 +657,18 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Whether or not to show the "goal" icon
+	 * @return void
+	 */
+	public function enableShowGoals()
+	{
+		if(Piwik_PluginsManager::getInstance()->isPluginActivated('Goals'))
+		{
+			$this->viewProperties['show_goals'] = true;
+		}
+	}
+	
+	/**
 	 * Sets the pattern to look for in the table (only rows with column equal to the pattern will be kept)
 	 *
 	 * @param array $pattern arrays of patterns to look for
@@ -626,18 +688,12 @@ abstract class Piwik_ViewDataTable
 	 * @param string The name of the column for which we compare the value to $minValue
 	 * @return void
 	 */
-	public function setExcludeLowPopulation( $minValue = null, $columnName = null )
+	public function setExcludeLowPopulation( $columnName = null, $minValue = null )
 	{
-		if( is_null( $minValue) ) 
-		{
-			throw new Exception("setExcludeLowPopulation() value shouldn't be null");
-		}
-
 		if(is_null($columnName))
 		{
 			$columnName = Piwik_Archive::INDEX_NB_VISITS;
 		}
-
 		$this->variablesDefault['filter_excludelowpop'] = $columnName;
 		$this->variablesDefault['filter_excludelowpop_value'] = $minValue;
 	}

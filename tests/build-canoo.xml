@@ -1,0 +1,15 @@
+<project name="canoo" default="webtest" basedir=".">
+
+	<property file="webtest/config/webtest.properties"/>
+	<echo>${wt.home}</echo>
+	<import file="${wt.home}/webtest.xml" optional="true" description="Import all functionalities for a full build"/>
+	
+	<property name="wt.testInWork" value="webtest/test_suite"/>
+	<property name="wt.config.resultfile" value="webtestResults.xml"/>	
+	<property name="wt.config.resultpath" location="results"/>
+	<property name="wt.config.summary" value="true"/>
+	<property name="wt.config.showhtmlparseroutput" value="true"/>
+
+	<target name="webtest" depends="wt.full"/>
+	
+</project>

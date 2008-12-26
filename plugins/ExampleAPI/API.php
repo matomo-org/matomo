@@ -20,7 +20,7 @@
  * 
  * @package Piwik_ExamplePlugin
  */
-class Piwik_ExampleAPI_API extends Piwik_Apiable
+class Piwik_ExampleAPI_API 
 {
 	static private $instance = null;
 	static public function getInstance()
@@ -35,6 +35,7 @@ class Piwik_ExampleAPI_API extends Piwik_Apiable
 
 	public function getPiwikVersion()
 	{
+		Piwik::checkUserHasSomeViewAccess();
 		return Piwik_Version::VERSION;
 	}
 

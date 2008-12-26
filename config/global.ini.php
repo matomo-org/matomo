@@ -61,7 +61,6 @@ PluginsInstalled[] = Installation
 
 [Plugins_Tracker]
 
-
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process
@@ -81,6 +80,12 @@ time_before_archive_considered_outdated = 10
 ; Possible values: yesterday, today, or any YYYY-MM-DD
 default_day = yesterday
 
+; When loading piwik interface, Piwik will load by default the CoreHome module
+; You can override the setting to force the user to login. 
+; This is useful when you have some websites view "anonymous" access but you want to 
+; force users to login instead of viewing the first anonymous website available 
+default_module_login = false
+
 ; When loading the piwik interface in the browser (as opposed to from the PHP-CLI client)
 ; should we launch the archiving process if the archives have not yet been processed?
 ; You want to set it to false when triggering the archiving is done through a crontab, 
@@ -91,6 +96,9 @@ enable_browser_archiving_triggering = true
 ; for example a URL like "example.com/blog/development/first-post" will create 
 ; the page first-post in the subcategory development which belongs to the blog category
 action_category_delimiter = /
+
+; currency used by default when reporting money in Piwik
+default_currency = "$"
 
 ; if you want all your users to use Piwik in only one language, disable the LanguagesManager
 ; plugin, and set this default_language (users won't see the language drop down) 
@@ -145,6 +153,16 @@ campaign_keyword_var_name	= piwik_kwd
 
 ; name of the cookie used to store the visitor information
 cookie_name	= piwik_visitor
+
+; if set to false, any goal conversion will be credited to the last more recent non empty referer. 
+; when set to true, the first ever referer used to reach the website will be used
+use_first_referer_to_determine_goal_referer = false
+
+; if set to true, Piwik will try to match visitors without cookie to a previous visitor that has the same
+; configuration: OS, browser, resolution, IP, etc. This heuristic adds an extra SQL query for each page view without cookie. 
+; it is advised to set it to true for more accurate detection of unique visitors.
+; However when most users have the same IP, and the same configuration, it is advised to set it to false
+enable_detect_unique_visitor_using_settings = false
 
 [log]
 

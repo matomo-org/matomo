@@ -11,6 +11,7 @@
  */
 
 require_once "API/ResponseBuilder.php";
+require_once "API/DataTableGenericFilter.php";
 
 /**
  * An API request is the object used to make a call to the API and get the result.
@@ -108,62 +109,16 @@ class Piwik_API_Request
 			{
 				throw new Exception_PluginDeactivated($module);
 			}
-			$className = "Piwik_" . $module . "_API";
+			$module = "Piwik_" . $module . "_API";
 
-			// call the method via the API_Proxy class
-			$api = Piwik_Api_Proxy::getInstance();
-			$api->registerClass($module);
-
-			// check method exists
-			$api->checkMethodExists($className, $method);
-			
-			// get the list of parameters required by the method
-			$parameters = $api->getParametersList($className, $method);
-
-			// load the parameters from the request URL
-			$finalParameters = $this->getRequestParametersArray( $parameters );
-			
 			// call the method 
-			$returnedValue = call_user_func_array( array( $api->$module, $method), $finalParameters );
+			$returnedValue = Piwik_Api_Proxy::getInstance()->call($module, $method, $this->request);
 			
 			$toReturn = $response->getResponse($returnedValue);
 		} catch(Exception $e ) {
-			return $response->getResponseException( $e );
+			$toReturn = $response->getResponseException( $e );
 		}
 		return $toReturn;
-	}
-	
-	/**
-	 * Returns an array containing the values of the parameters to pass to the method to call
-	 *
-	 * @param array array of (parameter name, default value)
-	 * @return array values to pass to the function call
-	 * @throws exception If there is a parameter missing from the required function parameters
-	 */
-	protected function getRequestParametersArray( $parameters )
-	{
-		$finalParameters = array();
-		foreach($parameters as $name => $defaultValue)
-		{
-			try{
-				if($defaultValue === Piwik_API_Proxy::NO_DEFAULT_VALUE)
-				{
-					try {
-						$requestValue = Piwik_Common::getRequestVar($name, null, null, $this->request);
-					} catch(Exception $e) {
-						$requestValue = null;
-					}
-				}
-				else
-				{
-					$requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $this->request);
-				}
-			} catch(Exception $e) {
-				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request. Add the parameter '&$name=' (with a value) in the URL.");
-			}			
-			$finalParameters[] = $requestValue;
-		}
-		return $finalParameters;
 	}
 
 	/**

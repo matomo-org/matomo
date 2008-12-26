@@ -1,0 +1,206 @@
+<?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ * 
+ * @package Piwik_Referers
+ */
+	
+require_once "core/Tracker/GoalManager.php";
+
+/**
+ * @package Piwik_Referers
+ */
+class Piwik_Goals extends Piwik_Plugin
+{	
+	const ROUNDING_PRECISION = 2;
+	
+	public function getInformation()
+	{
+		$info = array(
+			'name' => '(ALPHA) Goal Tracking',
+			'description' => 'Create Goals and see reports about your goal conversions: evolution over time, revenue per visit, conversions per referer, per keyword, etc.',
+			'author' => 'Piwik',
+			'homepage' => 'http://piwik.org/',
+			'version' => '0.1',
+			'TrackerPlugin' => true
+		);
+		
+		return $info;
+	}
+	
+	function getListHooksRegistered()
+	{
+		$hooks = array(
+			'Common.fetchWebsiteAttributes' => 'fetchGoalsFromDb',
+			'ArchiveProcessing_Day.compute' => 'archiveDay',
+			'ArchiveProcessing_Period.compute' => 'archivePeriod',
+			'WidgetsList.add' => 'addWidgets',
+			'Menu.add' => 'addMenus',
+		);
+		return $hooks;
+	}
+
+	function fetchGoalsFromDb($notification)
+	{
+		require_once "Goals/API.php";
+		$info = $notification->getNotificationInfo();
+		$idsite = $info['idsite'];
+		
+		// add the 'goal' entry in the website array
+		$array =& $notification->getNotificationObject();
+		$array['goals'] = Piwik_Goals_API::getGoals($idsite);
+	}
+	
+	function addWidgets()
+	{
+//		Piwik_AddWidget( 'Referers', 'getKeywords', Piwik_Translate('Referers_WidgetKeywords'));
+	}
+	
+	function addMenus()
+	{
+		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
+		if(count($goals)==0)
+		{
+			Piwik_AddMenu('Goals', 'Add a new Goal', array('module' => 'Goals', 'action' => 'addNewGoal'));
+		}
+		else
+		{
+			Piwik_AddMenu('Goals', 'Overview', array('module' => 'Goals'));
+			foreach($goals as $goal) 
+			{
+				Piwik_AddMenu('Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+			}
+		}
+	}
+	
+	/**
+	 * @param string $recordName 'nb_conversions'
+	 * @param int $idGoal idGoal to return the metrics for, or false to return overall 
+	 * @param int $visitorReturning 0 for new visitors, 1 for returning visitors, false for all
+	 * @return unknown
+	 */
+	static public function getRecordName($recordName, $idGoal = false, $visitorReturning = false)
+	{
+		$idGoalStr = $returningStr = '';
+		if($idGoal !== false)
+		{
+			$idGoalStr = $idGoal . "_";
+		}
+		if($visitorReturning !== false)
+		{
+			$returningStr = 'visitor_returning_' . $visitorReturning . '_';
+		}
+		return 'Goal_' . $returningStr . $idGoalStr . $recordName;
+	}
+	
+	function archivePeriod($notification )
+	{
+		/**
+		 * @var Piwik_ArchiveProcessing_Period 
+		 */
+		$archiveProcessing = $notification->getNotificationObject();
+		
+		$metricsToSum = array( 'nb_conversions', 'revenue');
+		$goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds($archiveProcessing->idsite);
+		
+		$fieldsToSum = array();
+		foreach($metricsToSum as $metricName)
+		{
+			foreach($goalIdsToSum as $goalId)
+			{
+				$fieldsToSum[] = self::getRecordName($metricName, $goalId);
+				$fieldsToSum[] = self::getRecordName($metricName, $goalId, 0);
+				$fieldsToSum[] = self::getRecordName($metricName, $goalId, 1);
+			}
+			$fieldsToSum[] = self::getRecordName($metricName);
+		}
+		$records = $archiveProcessing->archiveNumericValuesSum($fieldsToSum);
+		
+		// also recording conversion_rate for each goal
+		foreach($goalIdsToSum as $goalId)
+		{
+			$nb_conversions = $records[self::getRecordName('nb_conversions', $goalId)]->value;
+			$conversion_rate = $this->getConversionRate($nb_conversions, $archiveProcessing);
+			$record = new Piwik_ArchiveProcessing_Record_Numeric(self::getRecordName('conversion_rate', $goalId), $conversion_rate);
+		}
+		
+		// global conversion rate
+		$nb_conversions = $records[self::getRecordName('nb_conversions')]->value;
+		$conversion_rate = $this->getConversionRate($nb_conversions, $archiveProcessing);
+		$record = new Piwik_ArchiveProcessing_Record_Numeric(self::getRecordName('conversion_rate'), $conversion_rate);
+		
+	}
+	
+	function archiveDay( $notification )
+	{
+		/**
+		 * @var Piwik_ArchiveProcessing_Day 
+		 */
+		$archiveProcessing = $notification->getNotificationObject();
+		
+		// by processing visitor_returning segment, we can also simply sum and get stats for all goals.
+		$query = $archiveProcessing->queryConversionsBySegment('visitor_returning');
+
+		$nb_conversions = $revenue = 0;
+		$goals = $goalsByVisitorReturning = array();
+		while($row = $query->fetch() )
+		{
+			$goalsByVisitorReturning[$row['idgoal']][$row['visitor_returning']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+			
+			if(!isset($goals[$row['idgoal']])) $goals[$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+			$archiveProcessing->updateGoalStats($row, $goals[$row['idgoal']]);
+
+			$revenue += $row['revenue'];
+			$nb_conversions += $row['nb_conversions'];
+		}
+		
+		// Stats by goal, for all visitors
+		foreach($goals as $idgoal => $values)
+		{
+			foreach($values as $metricId => $value)
+			{
+				$metricName = Piwik_Archive::$mappingFromIdToNameGoal[$metricId];
+				$recordName = self::getRecordName($metricName, $idgoal);
+				$record = new Piwik_ArchiveProcessing_Record_Numeric($recordName, $value);
+			}
+			$conversion_rate = $this->getConversionRate($values[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS], $archiveProcessing);
+			$recordName = self::getRecordName('conversion_rate', $idgoal);
+			$record = new Piwik_ArchiveProcessing_Record_Numeric($recordName, $conversion_rate);
+		}
+		
+		// Stats by goal, for visitor returning / non returning
+		foreach($goalsByVisitorReturning as $idgoal => $values)
+		{
+			foreach($values as $visitor_returning => $goalValues)
+			{
+				foreach($goalValues as $metricId => $value)
+				{
+					$metricName = Piwik_Archive::$mappingFromIdToNameGoal[$metricId];
+					$recordName = self::getRecordName($metricName, $idgoal, $visitor_returning);
+					$record = new Piwik_ArchiveProcessing_Record_Numeric($recordName, $value);
+//					echo $record . "<br>";
+				}
+			}
+		}
+	
+		// Stats for all goals
+		$totalAllGoals = array(
+			self::getRecordName('conversion_rate')	=> round(100 * $archiveProcessing->getNumberOfVisitsConverted() / $archiveProcessing->getNumberOfVisits(), self::ROUNDING_PRECISION),
+			self::getRecordName('nb_conversions')	=> $nb_conversions,
+			self::getRecordName('revenue') 			=> $revenue,
+		);
+		foreach($totalAllGoals as $recordName => $value)
+		{
+			$record = new Piwik_ArchiveProcessing_Record_Numeric($recordName, $value);
+		}
+	}
+	
+	function getConversionRate($count, $archiveProcessing)
+	{
+		return round(100 * $count / $archiveProcessing->getNumberOfVisits(), self::ROUNDING_PRECISION);
+	}
+}

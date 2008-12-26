@@ -14,16 +14,6 @@ a {
 	color: black;
 }
 
-#ajaxError {
-	color: red;
-	text-align: center;
-	font-weight: bold;
-	width: 550px;
-	border: 3px solid red;
-	margin: 10px;
-	padding: 10px;
-}
-
 table.admin {
 	font-size: 0.9em;
 	font-family: Arial, Helvetica, verdana sans-serif;

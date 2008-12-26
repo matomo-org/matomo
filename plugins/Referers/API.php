@@ -15,7 +15,7 @@ require_once "Referers/functions.php";
  *
  * @package Piwik_Referers
  */
-class Piwik_Referers_API extends Piwik_Apiable
+class Piwik_Referers_API 
 {
 	static private $instance = null;
 	static public function getInstance()
@@ -56,10 +56,10 @@ class Piwik_Referers_API extends Piwik_Apiable
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
 		return $dataTable;
 	}
-
+	
 	function getKeywords($idSite, $period, $date, $expanded = false)
 	{
-		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword',$idSite, $period, $date, $expanded);
+		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword', $idSite, $period, $date, $expanded);
 		return $dataTable;
 	}
 

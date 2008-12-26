@@ -132,11 +132,28 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			$columns = $row->getColumns();
 			foreach($columns as $name => $value)
 			{
-				if(!isset($allColumns[$name]))
+				//goals => array( 'idgoal=1' =>array(..), 'idgoal=2' => array(..))
+				if(is_array($value))
+				{
+					foreach($value as $key => $subValues)
+					{
+						if(is_array($subValues))
+						{
+							foreach($subValues as $subKey => $subValue)
+							{
+								// goals_idgoal=1
+								$columnName = $name . "_" . $key . "_" . $subKey;
+								$allColumns[$columnName] = true;
+								$csvRow[$columnName] = $subValue;
+							}
+						}
+					}
+				}
+				else
 				{
 					$allColumns[$name] = true;
+					$csvRow[$name] = $value;
 				}
-				$csvRow[$name] = $value;
 			}
 			
 			if($this->exportMetadata)

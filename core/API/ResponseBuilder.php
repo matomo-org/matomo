@@ -124,72 +124,6 @@ class Piwik_API_ResponseBuilder
 		return $return;
 	}
 	
-	
-	/**
-	 * Returns an array containing the information of the generic Piwik_DataTable_Filter 
-	 * to be applied automatically to the data resulting from the API calls.
-	 *
-	 * Order to apply the filters:
-	 * 1 - Filter that remove filtered rows
-	 * 2 - Filter that sort the remaining rows
-	 * 3 - Filter that keep only a subset of the results
-	 * 4 - Presentation filters
-	 * 
-	 * @return array See the code for spec
-	 */
-	public static function getGenericFiltersInformation()
-	{
-		$genericFilters = array(
-			'Pattern' => array(
-								'filter_column' 			=> array('string'), 
-								'filter_pattern' 			=> array('string'),
-						),
-			'PatternRecursive' => array(
-								'filter_column_recursive' 	=> array('string'), 
-								'filter_pattern_recursive' 	=> array('string'),
-						),
-			'ExactMatch' => array(
-								'filter_exact_column'		=> array('string'),
-								'filter_exact_pattern'		=> array('array'),
-						),
-			'ExcludeLowPopulation'	=> array(
-								'filter_excludelowpop' 		=> array('string'), 
-								'filter_excludelowpop_value'=> array('float'),
-						),
-			'AddColumnsWhenShowAllColumns'	=> array(
-								'filter_add_columns_when_show_all_columns'	=> array('integer')
-						),
-			'Sort' => array(
-								'filter_sort_column' 		=> array('string', 'nb_visits'),
-								'filter_sort_order' 		=> array('string', Zend_Registry::get('config')->General->dataTable_default_sort_order),
-						),
-			'Limit' => array(
-								'filter_offset' 			=> array('integer', '0'),
-								'filter_limit' 				=> array('integer', Zend_Registry::get('config')->General->dataTable_default_limit),
-						),
-			'SafeDecodeLabel' => array(),
-		);
-		
-		return $genericFilters;
-	}
-
-	protected function handleDataTableGenericFilters($datatable)
-	{
-		if($datatable instanceof Piwik_DataTable)
-		{
-			$this->applyDataTableGenericFilters($datatable);
-		}
-		elseif($datatable instanceof Piwik_DataTable_Array)
-		{
-			$tables = $datatable->getArray();
-			foreach($tables as $table)
-			{
-				$this->applyDataTableGenericFilters($table);
-			}
-		}
-		return $datatable;
-	}
-	
 	/**
 	 * Returns true if the user requested to serialize the output data (&serialize=1 in the request)
 	 *
@@ -311,9 +245,10 @@ class Piwik_API_ResponseBuilder
 	protected function handleDataTable($datatable)
 	{
 		// if the flag disable_generic_filters is defined we skip the generic filters
-		if(Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->request) == 'false')
+		if('false' == Piwik_Common::getRequestVar('disable_generic_filters', 'false', 'string', $this->request))
 		{
-			$datatable = $this->handleDataTableGenericFilters($datatable);
+			$genericFilter = new Piwik_API_DataTableGenericFilter($datatable, $this->request);
+			$genericFilter->filter();
 		}
 		
 		// if the flag disable_queued_filters is defined we skip the filters that were queued
@@ -345,73 +280,4 @@ class Piwik_API_ResponseBuilder
 		}
 	}
 	
-	/**
-	 * Apply generic filters to the DataTable object resulting from the API Call.
-	 * Disable this feature by setting the parameter disable_generic_filters to 1 in the API call request.
-	 * 
-	 * @param Piwik_DataTable
-	 * @return void
-	 */
-	protected function applyDataTableGenericFilters($dataTable)
-	{
-		if($dataTable instanceof Piwik_DataTable_Array )
-		{
-			$tables = $dataTable->getArray();
-			foreach($tables as $table)
-			{
-				$this->applyDataTableGenericFilters($table);
-			}
-			return;
-		}
-		
-		$genericFilters = self::getGenericFiltersInformation();
-		
-		foreach($genericFilters as $filterName => $parameters)
-		{
-			$filterParameters = array();
-			$exceptionRaised = false;
-			
-			foreach($parameters as $name => $info)
-			{
-				// parameter type to cast to
-				$type = $info[0];
-				
-				// default value if specified, when the parameter doesn't have a value
-				$defaultValue = null;
-				if(isset($info[1]))
-				{
-					$defaultValue = $info[1];
-				}
-				
-				try {
-					$value = Piwik_Common::getRequestVar($name, $defaultValue, $type, $this->request);
-					settype($value, $type);
-					$filterParameters[] = $value;
-				}
-				catch(Exception $e)
-				{
-					$exceptionRaised = true;
-					break;
-				}
-			}
-			
-			if(!$exceptionRaised)
-			{				
-				// a generic filter class name must follow this pattern
-				$class = "Piwik_DataTable_Filter_".$filterName;
-				
-				if($filterName == 'Limit')
-				{
-					$dataTable->setRowsCountBeforeLimitFilter();
-				}
-				
-				// build the set of parameters for the filter					
-				$filterParameters = array_merge(array($dataTable), $filterParameters);
-
-				// use Reflection to create a new instance of the filter, given parameters $filterParameters
-				$reflectionObj = new ReflectionClass($class);
-				$filter = $reflectionObj->newInstanceArgs($filterParameters); 
-			}
-		}
-	}
 }

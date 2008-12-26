@@ -1,15 +1,3 @@
-
-function getEncoded(siteName)
-{
-	// compatible with old browsers but wouldnt work for UTF8 strings
-	if (encodeURIComponent) {
-   		siteName = encodeURIComponent(siteName);
-	} else {
-	    siteName = escape(siteName);
-	}
-	return siteName;
-}
-
 function getDeleteSiteAJAX( idSite )
 {
 	var ajaxRequest = getStandardAjaxConf();
@@ -41,7 +29,7 @@ function getAddSiteAJAX( row )
 	request += '&module=API';
 	request += '&format=json';
 	request += '&method=SitesManager.addSite';
-	siteName = getEncoded(siteName);
+	siteName = encodeURIComponent(siteName);
 	request += '&siteName='+siteName;
 	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
  	request += '&token_auth=' + piwik.token_auth;
@@ -64,7 +52,7 @@ function getUpdateSiteAJAX( row )
 	request += '&module=API';
 	request += '&format=json';
 	request += '&method=SitesManager.updateSite';
-	siteName = getEncoded(siteName);
+	siteName = encodeURIComponent(siteName);
 	request += '&siteName='+siteName;
 	request += '&idSite='+idSite;
 	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );

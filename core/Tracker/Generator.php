@@ -355,7 +355,6 @@ class Piwik_Tracker_Generator
 		for($i = 0; $i < $nbVisitors; $i++)
 		{
 			$nbActions = mt_rand(1, $nbActionsMaxPerVisit);
-			
 			Piwik_Tracker_Generator_Visit::setTimestampToUse($this->getTimestampToUse());
 						
 			$this->generateNewVisit();
@@ -364,7 +363,6 @@ class Piwik_Tracker_Generator
 				$this->generateActionVisit();
 				$this->saveVisit();
 			}
-			
 			$nbActionsTotal += $nbActions;
 		}
 		return $nbActionsTotal;
@@ -655,6 +653,7 @@ class Piwik_Tracker_Generator
 		$this->setFakeRequest();
 		$process = new Piwik_Tracker_Generator_Tracker;
 		$process->main();
+		unset($process);
 	}
 	
 }

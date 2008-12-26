@@ -110,21 +110,6 @@ class Piwik_Tracker_Db
 		}
 		$this->connection = null;
 	}
-
-	/**
-	 * Returns the table name prefixed by the table prefix.
-	 * 
-	 * @param string The table name to prefix, ie "log_visit"
-	 * @return string The table name prefixed, ie "piwik-production_log_visit"
-	 */
-	static public function prefixTable( $suffix )
-	{
-		static $prefix;
-		if (!isset($prefix)) {
-			$prefix = Piwik_Tracker_Config::getInstance()->database['tables_prefix'];
-		}
-		return $prefix . $suffix;
-	}
 	
 	/**
 	 * Returns an array containing all the rows of a query result, using optional bound parameters.
@@ -175,7 +160,7 @@ class Piwik_Tracker_Db
 	 * Executes a query, using optional bound parameters.
 	 * 
 	 * @param string Query 
-	 * @param array Parameters to bind
+	 * @param array|string Parameters to bind array('idsite'=> 1)
 	 * 
 	 * @return PDOStatement or false if failed
 	 * @throw Exception if an exception occured
@@ -192,6 +177,10 @@ class Piwik_Tracker_Db
 				$timer = $this->initProfiler();
 			}
 			
+			if(!is_array($parameters))
+			{
+				$parameters = array( $parameters );
+			}
 			$sth = $this->connection->prepare($query);
 			$sth->execute( $parameters );
 			

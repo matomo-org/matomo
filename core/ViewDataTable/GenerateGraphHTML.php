@@ -27,11 +27,11 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	 */
 	function init($currentControllerName,
 						$currentControllerAction, 
-						$moduleNameAndMethod )
+						$apiMethodToRequestDataTable )
 	{
 		parent::init($currentControllerName,
 						$currentControllerAction, 
-						$moduleNameAndMethod );
+						$apiMethodToRequestDataTable );
 
 		$this->dataTableTemplate = 'CoreHome/templates/graph.tpl';
 		
@@ -74,7 +74,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	protected function buildView()
 	{
 		$view = new Piwik_View($this->dataTableTemplate);
-		$this->id = $this->getUniqIdTable();
+		$this->uniqueIdViewDataTable = $this->getUniqueIdViewDataTable();
 		$view->graphType = $this->graphType;
 
 		$this->parametersToModify['action'] = $this->currentControllerAction;
@@ -82,11 +82,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$view->jsInvocationTag = $this->getFlashInvocationCode($url);
 		$view->urlGraphData = $url;
 		
-		$view->formEmbedId = "formEmbed".$this->id;
+		$view->formEmbedId = "formEmbed".$this->uniqueIdViewDataTable;
 		$view->graphCodeEmbed = $this->graphCodeEmbed;
 		
-		$view->id = $this->id;
-		$view->method = $this->method;
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
 		return $view;
@@ -105,8 +103,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	    // escape the & and stuff:
 	    $url = urlencode($url);
 		
-		$obj_id = $this->id . "Chart";
-	    $div_name = $this->id . "FlashContent";
+		$obj_id = $this->uniqueIdViewDataTable . "Chart";
+	    $div_name = $this->uniqueIdViewDataTable . "FlashContent";
 	    	   
 	    $return = ''; 
 	    if( $use_swfobject )

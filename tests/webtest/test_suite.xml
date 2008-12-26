@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Piwik" default="Level3" basedir=".">
+
+	<target name="setup">
+		<mkdir dir="${screens}" />
+	</target>
+
+	<target name="Level0" if="test.level0" depends="setup">
+		<echo>Starting smoke tests...</echo>
+		<subant failonerror="${wt.config.failOnError}" inheritall="true">
+        	<fileset dir="${testcase.dir}/level0" includes="${testcase.level0.pattern}"/>
+        </subant>
+		<echo>##################################</echo>		
+		<echo># 0 level smoke tests - FINISHED!#</echo>
+		<echo>##################################</echo>				
+	</target>
+	
+	<target name="Level1" if="test.level1" depends="Level0">
+		<echo>Starting setup tests...</echo>
+		<subant failonerror="${wt.config.failOnError}" inheritall="true">
+        	<fileset dir="${testcase.dir}/level1" includes="${testcase.level1.pattern}"/>
+        </subant>
+		<echo>#################################</echo>		
+		<echo># 1st level    tests - FINISHED!  #</echo>
+		<echo>#################################</echo>				
+	</target>
+	
+	<target name="Level2" if="test.level2" depends="Level1">
+		<echo>Starting setup tests...</echo>
+		<subant failonerror="${wt.config.failOnError}" inheritall="true">
+        	<fileset dir="${testcase.dir}/level2" includes="${testcase.level2.pattern}"/>
+        </subant>
+		<echo>###################################</echo>		
+		<echo># 2nd level    test - FINISHED!     #</echo>
+		<echo>###################################</echo>				
+	</target>
+	
+    <target name="Level3" if="test.level3" depends="Level2">
+		<echo>Starting UI tests - 3rd level...</echo>
+		<echo>+-----------------------------------------+</echo>
+		<echo>| WARNING! 3rd Level tests are optional	 |</echo>
+		<echo>| and could fail without BUILD FAILED!	 |</echo>
+		<echo>+-----------------------------------------+</echo>
+		<subant failonerror="${wt.config.failOnError}" inheritall="true">
+        	<fileset dir="${testcase.dir}/level3" includes="${testcase.level3.pattern}"/>
+        </subant>
+		<echo>3rd level smoke tests finished - check for potential errors!</echo>
+    </target>
+
+</project>

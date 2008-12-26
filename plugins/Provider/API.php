@@ -14,7 +14,7 @@ require_once "Provider/functions.php";
  * 
  * @package Piwik_Provider
  */
-class Piwik_Provider_API extends Piwik_Apiable
+class Piwik_Provider_API 
 {
 	static private $instance = null;
 	
@@ -36,19 +36,6 @@ class Piwik_Provider_API extends Piwik_Apiable
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getHostnameUrl'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getHostnameName'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
-		return $dataTable;
-	}
-	
-	/**
-	 * Example of getting a RAW BLOB
-	 *
-	 * @return blob
-	 */
-	public function getProviderBlob( $idSite, $period, $date )
-	{
-		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
-		$dataTable = $archive->getBlob('Provider_hostnameExt');
 		return $dataTable;
 	}
 }

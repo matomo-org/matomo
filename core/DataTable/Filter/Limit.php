@@ -35,7 +35,6 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 			$limit = -1;
 		}
 		$this->limit = $limit;
-		
 		$this->filter();
 	}	
 	
@@ -45,8 +44,10 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 		$rowsCount = $table->getRowsCount();
 		
 		// we delete from 0 to offset
-		$table->deleteRowsOffset( 0, $this->offset );
-		
+		if($this->offset > 0) 
+		{
+			$table->deleteRowsOffset( 0, $this->offset );
+		}
 		// at this point the array has offset less elements. We delete from limit to the end
 		if( $this->limit >= 0 )
 		{

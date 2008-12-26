@@ -1,9 +1,11 @@
 <project name="piwik" default="all" basedir=".">
 
 	<property file="build.properties" />
+	<property file="defaults.properties" />
 
 	<target name="clean">
 		<delete dir="${basedir}/../build" />
+		<delete dir="${basedir}/results" />
 	</target>
 
 	<target name="prepare-build-filesystem" depends="clean">
@@ -23,6 +25,16 @@
 				<include name="*" />
 			</fileset>
 		</copy>
+		<mkdir dir="${basedir}/../build/tmp/templates_c"/>
+		<mkdir dir="${basedir}/../build/tmp/cache"/>
+		<chmod perm="a+rw">
+			<dirset dir="${basedir}/../build">
+				<include name="config" />
+				<include name="tmp" />
+				<include name="tmp/templates_c" />
+				<include name="tmp/cache" />
+			</dirset>
+		</chmod>
 	</target>
 	
 	<target name="process-build-resources" depends="prepare-build-filesystem">
@@ -39,9 +51,71 @@
 			<arg value="all_tests.php" />
 		</exec>
 	</target>
+	
+	<target name="phpdoc">
+		
+		<echo>phpDocumentor started</echo>
+
+		<delete dir="${basedir}/build/phpdocumentor-report"/>
+		<mkdir dir="${basedir}/build/phpdocumentor-report"/>
+		<exec executable="${php.executable}" dir="${basedir}/../build" failonerror="true" failifexecutionfails="true">
+			<arg value="${phpdocumentor.home}/phpDocumentor/phpdoc.inc" />
+			<arg value="--useconfig"/>
+			<arg path="${basedir}/../misc/phpdoc-config.ini"/>
+		</exec>
+		
+		<copy todir="${phpdocumentor.report.dir}" overwrite="true" failonerror="true" verbose="true">
+			<fileset dir="${basedir}/../build/documentation"/>
+		</copy>
+		
+		<echo>phpDocumentor finished</echo>		
+
+	</target>
+	
+	<target name="webtest">
+		<delete file="${basedir}/../build/config/config.ini.php"/>
+		<ant antfile="${basedir}/build-canoo.xml"/>
+	</target>
+	
+	<target name="schemaspy">
+			
+		<echo>SchemaSpy started</echo>
+		
+		<delete dir="${basedir}/build/schemaspy-report"/>
+		<mkdir dir="${basedir}/build/schemaspy-report"/>
+		
+		<echo message="Generating schema for MySql" />
+		<java jar="${basedir}/lib/java/schemaSpy_3.1.1.jar" fork="true"  failonerror="true" maxmemory="256m" dir="${basedir}">
+			<arg value="-t"/>
+			<arg value="mysql"/>
+			<arg value="-host"/>
+			<arg value="${database.main.host}:${database.main.port}"/>
+			<arg value="-db"/>
+			<arg value="${database.main.name}"/>
+			<arg value="-cp"/>
+			<arg path="${basedir}/lib/java/mysql-connector-java-5.1.7.jar"/>
+			<arg value="-u"/>
+			<arg value="${database.main.username}"/>
+			<arg value="-o"/>
+			<arg path="${basedir}/build/schemaspy-report"/>
+			<arg value="-p"/>
+			<arg value="${database.main.password}"/>
+		</java>
+		
+		<copy todir="${schemaspy.report.dir}" overwrite="true" failonerror="true" verbose="true">
+			<fileset dir="${basedir}/build/schemaspy-report"/>
+		</copy>
+		
+		<echo>SchemaSpy finished</echo>
+
+	</target>
+	
 
 	<target name="all">
 		<antcall target="test"/>
+		<antcall target="webtest"/>
+		<antcall target="phpdoc"/>
+		<antcall target="schemaspy"/>
 	</target>
 	
 </project>

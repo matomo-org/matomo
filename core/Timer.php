@@ -15,36 +15,48 @@
  */
 class Piwik_Timer
 {
-	private $m_Start;
+	private $timerStart;
+	private $memoryStart;
 
 	public function __construct()
 	{
-		$this->m_Start = 0.0;
 		$this->init();
 	}
 
+	public function init()
+	{
+		$this->timerStart = $this->getMicrotime();
+		$this->memoryStart = $this->getMemoryUsage();
+	}
+
+	public function getTime($decimals = 3)
+	{
+		return number_format($this->getMicrotime() - $this->timerStart, $decimals, '.', '');
+	}
+	
+	public function getTimeMs($decimals = 3)
+	{
+		return number_format(1000*($this->getMicrotime() - $this->timerStart), $decimals, '.', '');
+	}
+
+	public function getMemoryLeak()
+	{
+		return "Memory delta: ".Piwik::getPrettySizeFromBytes($this->getMemoryUsage() - $this->memoryStart);
+	}
+	
+	public function __toString()
+	{
+		return "Time elapsed: ". $this->getTime() ."s";
+	}
+	
 	private function getMicrotime()
 	{
 		list($micro_seconds, $seconds) = explode(" ", microtime());
 		return ((float)$micro_seconds + (float)$seconds);
 	}
 
-	public function init()
+	private function getMemoryUsage()
 	{
-		$this->m_Start = $this->getMicrotime();
-	}
-
-	public function getTime($decimals = 2)
-	{
-		return number_format($this->getMicrotime() - $this->m_Start, $decimals, '.', '');
-	}
-	public function getTimeMs($decimals = 2)
-	{
-		return number_format(1000*($this->getMicrotime() - $this->m_Start), $decimals, '.', '');
-	}
-
-	public function __toString()
-	{
-		return "Time elapsed: ". $this->getTime() ."s";
+		return memory_get_usage();
 	}
 }

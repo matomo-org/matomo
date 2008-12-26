@@ -29,6 +29,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	
 	function render()
 	{
+//		var_dump($this->table);exit;
 		return $this->renderTable($this->table);
 	}
 	
@@ -41,7 +42,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	protected function renderTable($table, $returnOnlyDataTableXml = false, $prefixLines = '')
 	{
 		$array = $this->getArrayFromDataTable($table);
-		
+//		var_dump($array);exit;
 		if($table instanceof Piwik_DataTable_Array)
 		{
 			$out = $this->renderDataTableArray($table, $array, $prefixLines);
@@ -235,9 +236,21 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	protected function renderDataTable( $array, $prefixLine = "" )
 	{
 		$out = '';
-		foreach($array as $row)
+		foreach($array as $rowId => $row)
 		{
-			$out .= $prefixLine."\t<row>";
+			if(!is_array($row))
+			{
+				$value = $this->formatValue($row);
+				$out .= $prefixLine."\t\t<$rowId>".$value."</$rowId>\n";
+				continue;
+			}
+			$rowAttribute = '';
+			if(($equalFound = strstr($rowId, '=')) !== false)
+			{
+				$rowAttribute = explode('=', $rowId);
+				$rowAttribute = " " . $rowAttribute[0] . "='" . $rowAttribute[1] . "'";
+			}
+			$out .= $prefixLine."\t<row$rowAttribute>";
 			
 			if(count($row) === 1
 				&& key($row) === 0)

@@ -119,7 +119,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	
 	
 	/**
-	 * This powerful method will compute the sum of DataTables over the period for the given fields $aRecordName.
+	 * This method will compute the sum of DataTables over the period for the given fields $aRecordName.
 	 * The resulting DataTable will be then added to queue of data to be recorded in the database.
 	 * It will usually be called in a plugin that listens to the hook 'ArchiveProcessing_Period.compute'
 	 * 
@@ -223,20 +223,24 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	{		
 		$this->archiveNumericValuesMax( 'max_actions' ); 
 		$toSum = array(
-			'nb_uniq_visitors', 
+			'nb_uniq_visitors', //TODO fix
 			'nb_visits',
 			'nb_actions', 
 			'sum_visit_length',
 			'bounce_count',
+			'nb_visits_converted',
 		);
 		$record = $this->archiveNumericValuesSum($toSum);
 		
-		$this->isThereSomeVisits = ($record['nb_visits']->value != 0);
+		$nbVisits = $record['nb_visits']->value;
+		$nbVisitsConverted = $record['nb_visits_converted']->value;
+		$this->isThereSomeVisits = ( $nbVisits!= 0);
 		if($this->isThereSomeVisits === false)
 		{
 			return;
 		}
-		
+		$this->setNumberOfVisits($nbVisits);
+		$this->setNumberOfVisitsConverted($nbVisitsConverted);
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
 	}
 	
@@ -250,21 +254,25 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	{
 		parent::postCompute();
 		
-		// we delete records that are now out of date
-		// in the case of a period we delete archives that were archived before the end of the period
-		// and only if they are at least 1 day old (so we don't delete archives computed today that may be stil valid) 
-		$blobTable = $this->tableArchiveBlob->getTableName();
-		$numericTable = $this->tableArchiveNumeric->getTableName();
-		
-		$query = "	DELETE 
-					FROM %s
-					WHERE period > ? 
-						AND DATE(ts_archived) <= date2
-						AND date(ts_archived) < date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
-					";
-		
-		Zend_Registry::get('db')->query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
-		Zend_Registry::get('db')->query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
+		//TODO should be done in a different asynchronous job
+		if(rand(0, 15) == 5)
+		{
+			// we delete records that are now out of date
+			// in the case of a period we delete archives that were archived before the end of the period
+			// and only if they are at least 1 day old (so we don't delete archives computed today that may be stil valid) 
+			$blobTable = $this->tableArchiveBlob->getTableName();
+			$numericTable = $this->tableArchiveNumeric->getTableName();
+			
+			$query = "	DELETE 
+						FROM %s
+						WHERE period > ? 
+							AND DATE(ts_archived) <= date2
+							AND date(ts_archived) < date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
+						";
+			
+			Zend_Registry::get('db')->query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
+			Zend_Registry::get('db')->query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
+		}
 	}
 	
 }

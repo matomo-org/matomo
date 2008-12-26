@@ -107,16 +107,15 @@ class Piwik_DataTable_Row
 		foreach($this->getColumns() as $column => $value)
 		{
 			if(is_string($value)) $value = "'$value'";
+			elseif(is_array($value)) $value = var_export($value, true);
 			$columns[] = "'$column' => $value";
 		}
 		$columns = implode(", ", $columns);
 		$metadata = array();
 		foreach($this->getMetadata() as $name => $value)
 		{
-			if(is_string($value))
-			{
-				$value = "'$value'";
-			}
+			if(is_string($value)) $value = "'$value'";
+			elseif(is_array($value)) $value = var_export($value, true);
 			$metadata[] = "'$name' => $value";
 		}
 		$metadata = implode(", ", $metadata);
@@ -330,21 +329,50 @@ class Piwik_DataTable_Row
 	 */
 	public function sumRow( Piwik_DataTable_Row $rowToSum )
 	{
-		foreach($rowToSum->getColumns() as $name => $value)
+		foreach($rowToSum->getColumns() as $columnToSumName => $columnToSumValue)
 		{
-			if($name != 'label' 
-				&& Piwik::isNumeric($value))
+			if($columnToSumName != 'label')
 			{
-				$current = $this->getColumn($name);
-				if($current === false)
-				{
-					$current = 0;
-				}
-				$this->setColumn( $name, $current + $value);
+				$thisColumnValue = $this->getColumn($columnToSumName);
+				$newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
+				$this->setColumn( $columnToSumName, $newValue);
 			}
 		}
 	}
 	
+	protected function sumRowArray( $thisColumnValue, $columnToSumValue )
+	{
+		$newValue = 0;
+		if(Piwik::isNumeric($columnToSumValue))
+		{
+			if($thisColumnValue === false)
+			{
+				$thisColumnValue = 0;
+			}
+			$newValue = $thisColumnValue + $columnToSumValue;
+		}
+		elseif(is_array($columnToSumValue))
+		{
+			$newValue = array();
+			if($thisColumnValue == false)
+			{
+				$newValue = $columnToSumValue;
+			}
+			else
+			{
+				$newValue = $thisColumnValue;
+				foreach($columnToSumValue as $arrayIndex => $arrayValue)
+				{
+					if(!isset($newValue[$arrayIndex])) 
+					{
+						$newValue[$arrayIndex] = false;
+					}
+					$newValue[$arrayIndex] = $this->sumRowArray($newValue[$arrayIndex], $arrayValue);
+				}
+			}
+		}
+		return $newValue;
+	}
 	
 	/**
 	 * Helper function to test if two rows are equal.
@@ -363,11 +391,7 @@ class Piwik_DataTable_Row
 		//same columns
 		$cols1 = $row1->getColumns();
 		$cols2 = $row2->getColumns();
-		
-		uksort($cols1, 'strnatcasecmp');
-		uksort($cols2, 'strnatcasecmp');
-		
-		if($cols1 != $cols2)
+		if(array_diff($cols1, $cols2) !== array_diff($cols2, $cols1))
 		{
 			return false;
 		}

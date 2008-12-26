@@ -28,11 +28,11 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	
 	function init($currentControllerName,
 						$currentControllerAction, 
-						$moduleNameAndMethod )
+						$apiMethodToRequestDataTable )
 	{
 		parent::init($currentControllerName,
 						$currentControllerAction, 
-						$moduleNameAndMethod );
+						$apiMethodToRequestDataTable );
 		
 		$this->setParametersToModify(array('date' => Piwik_Common::getRequestVar('date', 'last30', 'string')));
 		$this->doNotShowFooter();

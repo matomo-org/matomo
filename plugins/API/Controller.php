@@ -10,7 +10,7 @@
  */
 
 require_once "API/Request.php";
-
+require_once "API/DocumentationGenerator.php";
 
 /**
  * 
@@ -26,36 +26,19 @@ class Piwik_API_Controller extends Piwik_Controller
 
 	public function listAllMethods()
 	{
-		$this->init();
-		echo Piwik_API_Proxy::getInstance()->getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = Piwik_Common::getRequestVar('prefixUrl', '') );
+		$ApiDocumentation = new Piwik_API_DocumentationGenerator();
+		echo $ApiDocumentation->getAllInterfaceString( $outputExampleUrls = true, $prefixUrls = Piwik_Common::getRequestVar('prefixUrl', '') );
 	}
 	
 	public function listAllAPI()
 	{
 		$view = new Piwik_View("API/templates/listAllAPI.tpl");
 		$this->setGeneralVariablesView($view);
-		$view->countLoadedAPI = $this->init();
-		$view->list_api_methods_with_links = Piwik_API_Proxy::getInstance()->getAllInterfaceString();
-		echo $view->render();
-	}
-	
-	protected function init()
-	{
-		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
 		
-		$loaded = 0;
-		foreach( $plugins as $plugin )
-		{		
-			$plugin = Piwik::unprefixClass($plugin);
-				
-			try {
-				Piwik_API_Proxy::getInstance()->registerClass($plugin);
-				$loaded++;
-			}
-			catch(Exception $e){
-			}
-		}
-		return $loaded;
+		$ApiDocumentation = new Piwik_API_DocumentationGenerator();
+		$view->countLoadedAPI = Piwik_API_Proxy::getInstance()->getCountRegisteredClasses();
+		$view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
+		echo $view->render();
 	}
 }
 

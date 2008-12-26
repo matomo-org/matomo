@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+  <!ENTITY time  SYSTEM "../modules/time.xml">
+  <!ENTITY checkForErrors SYSTEM "../modules/errors.xml">
+  <!ENTITY verifyLinksAndImages SYSTEM "../modules/common_pages.xml">
+  <!ENTITY raquo "&#187;">
+  <!ENTITY rsaquo "&#8250;" >
+]>
+
+<project name="Smoke test level0 - deploy test" basedir="."	default="webtest">
+		&time;
+		<target name="webtest">
+			<webtest name="install index">
+	            <steps>
+	            
+	            	<echo>Piwik install - dbsetup: db.name: ${db.name}</echo>
+					<sql
+						    driver="com.mysql.jdbc.Driver"
+						    url="jdbc:mysql://${db.host}:${db.port}/"
+						    userid="${db.username}"
+						    password="${db.password}"
+						    >
+						   	<classpath>
+						    	<pathelement location="${basedir}/../lib/java/mysql-connector-java-5.1.7.jar" />
+					    	</classpath>		
+							<transaction>
+								DROP DATABASE IF EXISTS ${db.name};
+							</transaction>
+							<transaction>
+								CREATE DATABASE IF NOT EXISTS ${db.name};
+							</transaction>
+					</sql>	            
+	            
+	                <invoke description="get account index" url="/" />
+	                
+	                <!-- 1. welcome -->
+	                
+	                <verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+	                <verifyText description="check page text" text="Piwik" />
+	                <verifyText description="check page text" text="Welcome!" />
+	                <verifyText description="check page text" text="This process is split up into 8 easy steps and will take around 5 minutes" />
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+	            
+	            	<clickLink description="click 'Next'" label="Next &raquo;" />
+	            	
+	            	<!-- 2. systemCheck -->
+	            	
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifyText description="check page text" text="Piwik" />
+	                <verifyText description="check page text" text="System check" />
+	                <verifyText description="check page text" text="Optional" />
+	                
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+	            	
+	            	<not description="check if system check passed">
+	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error.png']"/>
+	            	</not>
+	            	
+	            	<verifyXPath description="looking for ok image" xpath="//img[@src='themes/default/images/ok.png']"/>
+	            	
+	            	<clickLink description="click 'Next'" label="Next &raquo;" />
+	            	
+	            	<!-- 3. databaseSetup -->
+
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifyText description="check page text" text="Piwik" />
+	                <verifyText description="check page text" text="Mysql database setup" />
+	                
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+					
+					<setInputField description="set database host (and port)" name="host" value="${db.host}:${db.port}" />
+	                <setInputField description="set database username" name="username" value="${db.username}" />
+					<setInputField description="set database password" name="password" value="${db.password}" />
+					<setInputField description="set database name" name="dbname" value="${db.name}" />
+					<setInputField description="set database port" name="tables_prefix" value="canoo_" />
+					
+					<clickButton description="click 'Go!' button" label="Go!"/>
+					
+					<!-- 4. tablesCreation -->
+					
+	            	<not description="check if no error">
+	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
+	            	</not>
+					
+	            	<not description="check if no warning">
+	            		<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
+	            	</not>
+	            	
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="Tables created with success!" />
+					<verifyXPath description="looking for success image" xpath="//img[@src='themes/default/images/success_medium.png']"/>
+					
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+					
+					<clickLink description="click 'Next'" label="Next &raquo;" />
+					
+					<!-- 5. generalSetup -->
+					
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="General Setup" />
+					
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+					
+					<setInputField description="set Piwik login" name="login" value="piwik_login" />
+					<setInputField description="set Piwik password" name="password" value="piwik_password" />
+					<setInputField description="set repeated Piwik password" name="password_bis" value="piwik_password" />
+					<setInputField description="set Piwik email" name="email" value="nobody@piwik.org" />
+					
+					<clickButton description="click 'Go!' button" label="Go!"/>
+					
+					<!-- 6. firstWebsiteSetup -->
+					
+	            	<not description="check if no error">
+	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
+	            	</not>
+					
+	            	<not description="check if no warning">
+	            		<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
+	            	</not>
+				
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="Setup a website" />
+					
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+					
+					<setInputField description="set Piwik site name" name="siteName" value="Dummy Site Name" />
+					<setInputField description="set Piwik URL" name="url" value="${wt.config.protocol}://${wt.config.host}:${wt.config.port}${wt.config.basepath}" />
+
+					<clickButton description="click 'Go!' button" label="Go!"/>
+					
+					<!-- 7. displayJavascriptCode -->
+					
+	            	<not description="check if no error">
+	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
+	            	</not>
+					
+	            	<not description="check if no warning">
+	            		<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
+	            	</not>
+
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="Javascript tag" />
+
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+	            	
+	            	<clickLink description="click 'Next'" label="Next &raquo;" />
+	            	
+	            	<!-- 8. finished -->
+	            	
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+					<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="Congratulations" />
+					
+					&checkForErrors;
+	            	&verifyLinksAndImages;
+					
+					<clickLink description="click 'Continue to Piwik'" label="Continue to Piwik &raquo;" />
+	            	
+	            	<!-- logging in -->
+	            	
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Login" />
+					<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="Lost your password?" />
+					
+					&checkForErrors;
+	            	&verifyLinksAndImages;
+					
+					<setInputField description="set Piwik login" htmlId="form_login" value="piwik_login" />
+					<setInputField description="set Piwik password" htmlId="form_password" value="piwik_password" />
+					<clickButton description="click 'Sign in' button" label="Sign in"/>
+					
+					<!-- logged in -->
+					
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports" />
+	            	<verifyText description="check page text" text="Piwik" />
+					<verifyText description="check page text" text="Your Dashboard" />
+					<verifyText description="check page text" text="Hello" />
+
+	            </steps>
+	        </webtest>
+	</target>
+</project>

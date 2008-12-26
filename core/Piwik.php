@@ -34,31 +34,6 @@ class Piwik
 		);
 	
 	/**
-	 * path without trailing slash
-	 */
-	static public function createHtAccess( $path )
-	{
-		@file_put_contents($path . "/.htaccess", "Deny from all");
-	}
-	
-	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
-	{
-		if(!is_dir($path))
-		{
-			$directoryParent = Piwik::realpath(dirname($path));
-			if( is_writable($directoryParent) )
-			{
-				mkdir($path, $mode, true);
-			}
-		}
-		
-		if($denyAccess)
-		{
-			Piwik::createHtAccess($path);
-		}
-	}
-	
-	/**
 	 * Checks that the directories Piwik needs write access are actually writable
 	 * Displays a nice error page if permissions are missing on some directories
 	 * 
@@ -72,7 +47,7 @@ class Piwik
 			$directoryList = '';
 			foreach($resultCheck as $dir => $bool)
 			{
-				$realpath = Piwik::realpath($dir);
+				$realpath = Piwik_Common::realpath($dir);
 				if(!empty($realpath) && $bool === false)
 				{
 					$directoryList .= "<code>chmod 777 $realpath</code><br>";
@@ -100,7 +75,6 @@ class Piwik
 		if( $directoriesToCheck == null )		
 		{
 			$directoriesToCheck = array(
-				'/',
 				'/config',
 				'/tmp',
 				'/tmp/templates_c',
@@ -118,10 +92,10 @@ class Piwik
 			
 			if(!file_exists($directoryToCheck))
 			{
-				Piwik::mkdir($directoryToCheck, 0755, false);
+				Piwik_Common::mkdir($directoryToCheck, 0755, false);
 			}
 			
-			$directory = Piwik::realpath($directoryToCheck);
+			$directory = Piwik_Common::realpath($directoryToCheck);
 			$resultCheck[$directory] = false;
 			if($directory !== false // realpath() returns FALSE on failure
 				&& is_writable($directoryToCheck))
@@ -130,15 +104,6 @@ class Piwik
 			}
 		}
 		return $resultCheck;
-	}
-	
-	static public function realpath($path)
-	{
-		if (file_exists($path)) 
-		{
-		    return realpath($path);
-		} 
-	    return $path;
 	}
 	
 	/**
@@ -400,6 +365,23 @@ class Piwik
 		}
 	}
 	
+	static public function getPrettySizeFromBytes($size)
+	{
+		$bytes = array('','K','M','G','T');
+		foreach($bytes as $val) 
+		{
+			if($size > 1024)
+			{
+				$size = $size / 1024;
+			}
+			else
+			{
+	    		break;
+			}
+		}
+		return round($size, 1)." ".$val;
+	}
+	
 	static public function isPhpCliMode()
 	{
 		return in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'));
@@ -407,7 +389,23 @@ class Piwik
 	
 	static public function isNumeric($value)
 	{
-		return !is_array($value) && ereg('^([-]{0,1}[0-9]{1,}[.]{0,1}[0-9]*)$', $value);
+		return is_numeric($value);
+	}
+	
+	static public function getCurrency()
+	{
+		static $symbol = null;
+		if(is_null($symbol))
+		{
+			$symbol = Zend_Registry::get('config')->General->default_currency;
+		}
+		return $symbol;
+	}
+
+	static public function getPrettyMoney($value)
+	{
+		$symbol = self::getCurrency();
+		return sprintf("$symbol%.2f", $value);
 	}
 	
 	static public function getPrettyTimeFromSeconds($numberOfSeconds)
@@ -515,6 +513,19 @@ class Piwik
 						)
 			",
 			
+			'goal' => "	CREATE TABLE `{$prefixTables}goal` (
+							  `idsite` int(11) NOT NULL,
+							  `idgoal` int(11) NOT NULL,
+							  `name` varchar(50) NOT NULL,
+							  `match_attribute` varchar(20) NOT NULL,
+							  `pattern` varchar(255) NOT NULL,
+							  `pattern_type` varchar(10) NOT NULL,
+							  `case_sensitive` tinyint(4) NOT NULL,
+							  `revenue` float NOT NULL,
+							  `deleted` tinyint(4) NOT NULL default '0',
+							  PRIMARY KEY  (`idsite`,`idgoal`)
+							) 
+			",
 			
 			'logger_message' => "CREATE TABLE {$prefixTables}logger_message (
 									  idlogger_message INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -585,6 +596,7 @@ class Piwik
 							  visit_entry_idaction INTEGER(11) NOT NULL,
 							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
+							  visit_goal_converted TINYINT(1) NOT NULL,
 							  referer_type INTEGER UNSIGNED NULL,
 							  referer_name VARCHAR(70) NULL,
 							  referer_url TEXT NOT NULL,
@@ -611,6 +623,30 @@ class Piwik
 							)
 			",		
 			
+			'log_conversion' => "CREATE TABLE `{$prefixTables}log_conversion` (
+									  `idvisit` int(10) unsigned NOT NULL,
+									  `idsite` int(10) unsigned NOT NULL,
+									  `visitor_idcookie` char(32) NOT NULL,
+									  `server_time` datetime NOT NULL,
+									  `visit_server_date` date NOT NULL,
+									  `idaction` int(11) NOT NULL,
+									  `idlink_va` int(11) NOT NULL,
+									  `referer_idvisit` int(10) unsigned default NULL,
+									  `referer_visit_server_date` date default NULL,
+									  `referer_type` int(10) unsigned default NULL,
+									  `referer_name` varchar(70) default NULL,
+									  `referer_keyword` varchar(255) default NULL,
+									  `visitor_returning` tinyint(1) NOT NULL,
+									  `location_country` char(3) NOT NULL,
+									  `location_continent` char(3) NOT NULL,
+									  `url` text NOT NULL,
+									  `idgoal` int(10) unsigned NOT NULL,
+									  `revenue` float default NULL,
+									  PRIMARY KEY  (`idvisit`,`idgoal`),
+									  KEY `index_idsite_date` (`idsite`,`visit_server_date`)
+									) 
+			",
+							
 			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
 											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
 											  idvisit INTEGER(10) UNSIGNED NOT NULL,
@@ -647,7 +683,8 @@ class Piwik
 									  period TINYINT UNSIGNED NULL,
 								  	  ts_archived DATETIME NULL,
 								  	  value FLOAT NULL,
-									  PRIMARY KEY(idarchive, name)
+									  PRIMARY KEY(idarchive, name),
+									  KEY `index_all` (`idsite`,`date1`,`date2`,`name`,`ts_archived`)
 									)
 			",
 			'archive_blob'	=> "CREATE TABLE {$prefixTables}archive_blob (
@@ -659,7 +696,8 @@ class Piwik
 									  period TINYINT UNSIGNED NULL,
 									  ts_archived DATETIME NULL,
 									  value MEDIUMBLOB NULL,
-									  PRIMARY KEY(idarchive, name)
+									  PRIMARY KEY(idarchive, name),
+									  KEY `index_all` (`idsite`,`date1`,`date2`,`name`,`ts_archived`)
 									)
 			",
 		);
@@ -686,6 +724,13 @@ class Piwik
 		return Piwik_PluginsManager::getInstance()->getLoadedPlugin(Piwik::getModule());
 	}
 	
+	/**
+	 * Returns true if the current user is either the super user, or the user $theUser
+	 * Used when modifying user preference: this usually requires super user or being the user itself.
+	 * 
+	 * @param string $theUser
+	 * @return bool
+	 */
 	static public function isUserIsSuperUserOrTheUser( $theUser )
 	{
 		try{
@@ -696,7 +741,10 @@ class Piwik
 		}
 	}
 	
-	// Accessible either to the user itself
+	/**
+	 * @param string $theUser
+	 * @throws exception if the user is neither the super user nor the user $theUser
+	 */
 	static public function checkUserIsSuperUserOrTheUser( $theUser )
 	{
 		try{
@@ -710,6 +758,10 @@ class Piwik
 		}
 	}
 	
+	/**
+	 * Returns true if the current user is the Super User
+	 * @return bool
+	 */
 	static public function isUserIsSuperUser()
 	{
 		try{
@@ -720,6 +772,10 @@ class Piwik
 		}
 	}
 	
+	/**
+	 * Helper method user to set the current as Super User.
+	 * This should be used with great care as this gives the user all permissions.
+	 */
 	static public function setUserIsSuperUser()
 	{
 		Zend_Registry::get('access')->setSuperUser();
@@ -758,6 +814,11 @@ class Piwik
 	static public function checkUserHasSomeAdminAccess()
 	{
 		Zend_Registry::get('access')->checkUserHasSomeAdminAccess();
+	}
+	
+	static public function checkUserHasSomeViewAccess()
+	{
+		Zend_Registry::get('access')->checkUserHasSomeViewAccess();
 	}
 	
 	static public function isUserHasViewAccess( $idSites )
@@ -835,11 +896,13 @@ class Piwik
 		return false;
 	}
 	
+	/**
+	 * API was simplified in 0.2.27, but we maintain backward compatibility 
+	 * when calling Piwik::prefixTable
+	 */
 	static public function prefixTable( $table )
 	{
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
-		return $prefixTables . $table;
+		return Piwik_Common::prefixTable($table);
 	}
 	
 	/**
@@ -1091,8 +1154,8 @@ class Piwik
 	
 	static public function install()
 	{
-		Piwik::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
-		Piwik::mkdir(Zend_Registry::get('config')->smarty->cache_dir);
+		Piwik_Common::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
+		Piwik_Common::mkdir(Zend_Registry::get('config')->smarty->cache_dir);
 	}
 	
 	static public function uninstall()

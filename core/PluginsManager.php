@@ -401,9 +401,7 @@ class Piwik_PluginsManager
 	}
 	
 	/**
-	 * TODO horrible dirty hack because the Config class is not clean enough. Needs to rewrite the Config
-	 * __set and __get in a cleaner way, also see the __destruct which writes the configuration file.
-	 *
+	 * TODO horrible dirty hack. Fix config class by merging both config files before reading.
 	 * @return array
 	 */
 	public function getInstalledPluginsName()

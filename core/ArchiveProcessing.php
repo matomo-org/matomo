@@ -334,6 +334,7 @@ abstract class Piwik_ArchiveProcessing
 		$this->logTable 			= Piwik::prefixTable('log_visit');
 		$this->logVisitActionTable 	= Piwik::prefixTable('log_link_visit_action');
 		$this->logActionTable	 	= Piwik::prefixTable('log_action');
+		$this->logConversionTable	= Piwik::prefixTable('log_conversion');
 	}
 	
 	/**
@@ -430,6 +431,28 @@ abstract class Piwik_ArchiveProcessing
 		return $this->timestampDateStart;
 	}
 	
+
+	// exposing the number of visits publicly (number used to compute conversions rates)
+	protected $nb_visits = null;
+	protected $nb_visits_converted = null;
+	
+	protected function setNumberOfVisits($nb_visits)
+	{
+		$this->nb_visits = $nb_visits;
+	}
+	public function getNumberOfVisits()
+	{
+		return $this->nb_visits;
+	}
+	protected function setNumberOfVisitsConverted($nb_visits_converted)
+	{
+		$this->nb_visits_converted = $nb_visits_converted;
+	}
+	public function getNumberOfVisitsConverted()
+	{
+		return $this->nb_visits_converted;
+	}
+	
 	/**
 	 * Returns the idArchive we will use for the current archive
 	 *
@@ -499,7 +522,7 @@ abstract class Piwik_ArchiveProcessing
 								);
 		$timeStampWhere = " AND UNIX_TIMESTAMP(ts_archived) >= ? ";
 		$bindSQL[] = $this->maxTimestampArchive;
-			
+		
 		$sqlQuery = "	SELECT idarchive, value, name, UNIX_TIMESTAMP(date1) as timestamp
 						FROM ".$this->tableArchiveNumeric->getTableName()."
 						WHERE idsite = ?
@@ -510,7 +533,6 @@ abstract class Piwik_ArchiveProcessing
 									OR name = 'nb_visits')
 							$timeStampWhere
 						ORDER BY ts_archived DESC";
-		
 		$results = Zend_Registry::get('db')->fetchAll($sqlQuery, $bindSQL );
 		if(empty($results))
 		{

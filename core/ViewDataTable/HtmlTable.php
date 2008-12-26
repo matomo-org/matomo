@@ -53,21 +53,22 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	 */
 	function init($currentControllerName,
 						$currentControllerAction, 
-						$moduleNameAndMethod,						
-						$actionToLoadTheSubTable = null )
+						$apiMethodToRequestDataTable,						
+						$controllerActionCalledWhenRequestSubTable = null )
 	{
 		parent::init($currentControllerName,
 						$currentControllerAction, 
-						$moduleNameAndMethod,						
-						$actionToLoadTheSubTable);
+						$apiMethodToRequestDataTable,						
+						$controllerActionCalledWhenRequestSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/datatable.tpl';
-		
 		$this->variablesDefault['enable_sort'] = '1';
 		
 		// load general columns translations
 		$this->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnNbVisits'));
 		$this->setColumnTranslation('label', Piwik_Translate('General_ColumnLabel'));
 		$this->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnNbUniqVisitors'));
+		
+		$this->handleLowPopulation();
 	}
 
 	protected function getViewDataTableId()
@@ -109,7 +110,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		$phpArray = $this->getPHPArrayFromDataTable();
 		
 		$view->arrayDataTable 	= $phpArray;
-		$view->method = $this->method;
 		
 		$columns = $this->getColumnsToDisplay($phpArray);
 		$view->dataTableColumns = $columns;
@@ -122,10 +122,22 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		}
 		$view->nbColumns = $nbColumns;
 		
-		$view->id = $this->getUniqIdTable();
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
 		return $view;
+	}
+
+	protected function handleLowPopulation( $columnToApplyFilter = null)
+	{
+		if(Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string' ) == '0')
+		{
+			return;
+		}
+		if(is_null($columnToApplyFilter))
+		{
+			$columnToApplyFilter = Piwik_Archive::INDEX_NB_VISITS;
+		}
+		$this->setExcludeLowPopulation( $columnToApplyFilter);
 	}
 	
 	/**
@@ -153,6 +165,16 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	public function setColumnsToDisplay( $columnsNames)
 	{
 		$this->columnsToDisplay = $columnsNames;
+	}
+	
+	/**
+	 * Adds a column to the list of columns to be displayed
+	 *
+	 * @param string $columnName
+	 */
+	public function addColumnToDisplay( $columnName )
+	{
+		$this->columnsToDisplay[] = $columnName;
 	}
 	
 	/**
@@ -217,6 +239,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 				$columnsToDisplay = $columnsInDataTable;
 			}
 			
+			$columnsToDisplay = array_unique($columnsToDisplay);
 			foreach($columnsToDisplay as $columnToDisplay)
 			{
 				if(in_array($columnToDisplay, $columnsInDataTable))

@@ -170,6 +170,13 @@ class Piwik_DataTable
 	protected $indexNotUpToDate = false;
 	
 	/**
+	 * Column name of last time the table was sorted
+	 *
+	 * @var string
+	 */
+	protected $tableSortedBy = false;
+	
+	/**
 	 * List of Piwik_DataTable_Filter queued to this table
 	 *
 	 * @var array
@@ -218,10 +225,12 @@ class Piwik_DataTable
 	 * Sort the dataTable rows using the php callback function 
 	 *
 	 * @param string $functionCallback
+	 * @param string $columnSortedBy The column name. Used to then ask the datatable what column are you sorted by
 	 */
-	public function sort( $functionCallback )
+	public function sort( $functionCallback, $columnSortedBy )
 	{
 		$this->indexNotUpToDate = true;
+		$this->tableSortedBy = $columnSortedBy;
 		usort( $this->rows, $functionCallback );
 		
 		if($this->enableRecursiveSort === true)
@@ -232,12 +241,17 @@ class Piwik_DataTable
 				{
 					$table = Piwik_DataTable_Manager::getInstance()->getTable($idSubtable);
 					$table->enableRecursiveSort();
-					$table->sort($functionCallback);
+					$table->sort($functionCallback, $columnSortedBy);
 				}
 			}
 		}
 	}
 
+	public function getSortedByColumnName()
+	{
+		return $this->tableSortedBy;
+	}
+	
 	/**
 	 * Enables the recursive sort. Means that when using $table->sort() 
 	 * it will also sort all subtables using the same callback
@@ -734,6 +748,7 @@ class Piwik_DataTable
 	 * serialized DataTable contained in this DataTable.
 	 * We save DataTable in serialized format in the Database.
 	 * Each row of this returned PHP array will be a row in the DB table.
+	 * At the end of the method execution, the dataTable may be truncated (if $maximum* parameters are set).
 	 * 
 	 * The keys of the array are very important as they are used to define the DataTable
 	 * 
@@ -771,7 +786,6 @@ class Piwik_DataTable
 		{
 			throw new Exception("Maximum recursion level of ".self::MAXIMUM_DEPTH_LEVEL_ALLOWED. " reached. You have probably set a DataTable_Row with an associated DataTable which belongs already to its parent hierarchy.");
 		}
-		
 		if( !is_null($maximumRowsInDataTable) )
 		{
 			$filter = new Piwik_DataTable_Filter_AddSummaryRow($this, $maximumRowsInDataTable - 1);
@@ -779,7 +793,7 @@ class Piwik_DataTable
 		
 		// For each row, get the serialized row
 		// If it is associated to a sub table, get the serialized table recursively ;
-		// but returns all serialized tables and subtable in an array of 1 dimension!
+		// but returns all serialized tables and subtable in an array of 1 dimension
 		$aSerializedDataTable = array();
 		foreach($this->rows as $row)
 		{
@@ -814,7 +828,7 @@ class Piwik_DataTable
 	  * 
 	  * The function creates all the necessary DataTable_Row
 	  * 
-	  * @param string Serialized string of a datatable
+	  * @param string string of serialized datatable
 	  * @return void
 	  */
 	public function addRowsFromSerializedArray( $stringSerialized )
@@ -1000,14 +1014,17 @@ class Piwik_DataTable
 		$cleanRow = array();
 		foreach($array as $label => $row)
 		{
+			// TODO I think this requirement is not true anymore:
 			// we make sure that the label column is first in the list! 
-			// important for the UI javascript mainly...
+			// important for the UI javascript mainly... 
+			
 			// array_merge doesn't work here as it reindex the numeric value
 			// see the test testMergeArray in PHP_Related.test.php
+			$cleanRow[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = null;
 			$cleanRow[Piwik_DataTable_Row::COLUMNS] = array('label' => $label) + $row;
 			if(!is_null($subtablePerLabel)
 				// some rows of this table don't have subtables 
-				// (for examplecase of the campaign without keywords )
+				// (for example case of campaigns without keywords)
 				&& isset($subtablePerLabel[$label]) 
 			)
 			{

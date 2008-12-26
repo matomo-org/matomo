@@ -50,7 +50,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 		
 		$subtable = 
 		$array = array ( 
-			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Google&copy;', 'nb_uniq_visitors' => 11, 'nb_visits' => 11, 'nb_actions' => 17, 'max_actions' => '5', 'sum_visit_length' => 517, 'bounce_count' => 9), 
+			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Google&copy;', 'goals' => array('idgoal=1' => array('revenue'=> 5.5, 'nb_conversions' => 10)), 'nb_uniq_visitors' => 11, 'nb_visits' => 11, 'nb_actions' => 17, 'max_actions' => '5', 'sum_visit_length' => 517, 'bounce_count' => 9), 
 						Piwik_DataTable_Row::METADATA => array('url' => 'http://www.google.com', 'logo' => './plugins/Referers/images/searchEngines/www.google.com.png'), 
 					 ), 
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'nb_visits' => 151, 'nb_actions' => 147, 'max_actions' => '50', 'sum_visit_length' => 517, 'bounce_count' => 90), 
@@ -107,6 +107,12 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 <result>
 	<row>
 		<label>Google©</label>
+		<goals>
+			<row idgoal=\'1\'>
+				<revenue>5.5</revenue>
+				<nb_conversions>10</nb_conversions>
+			</row>
+		</goals>
 		<nb_uniq_visitors>11</nb_uniq_visitors>
 		<nb_visits>11</nb_visits>
 		<nb_actions>17</nb_actions>
@@ -190,9 +196,9 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 		$dataTable = $this->getDataTableTest();
 	  	$render = new Piwik_DataTable_Renderer_Csv($dataTable);
 	  	$render->convertToUnicode = false;
-		$expected = 'label,nb_uniq_visitors,nb_visits,nb_actions,max_actions,sum_visit_length,bounce_count,metadata_url,metadata_logo
-Google©,11,11,17,5,517,9,http://www.google.com,./plugins/Referers/images/searchEngines/www.google.com.png
-Yahoo!,15,151,147,50,517,90,http://www.yahoo.com,./plugins/Referers/images/searchEngines/www.yahoo.com.png';
+		$expected = 'label,goals_idgoal=1_revenue,goals_idgoal=1_nb_conversions,nb_uniq_visitors,nb_visits,nb_actions,max_actions,sum_visit_length,bounce_count,metadata_url,metadata_logo
+Google©,5.5,10,11,11,17,5,517,9,http://www.google.com,./plugins/Referers/images/searchEngines/www.google.com.png
+Yahoo!,,,15,151,147,50,517,90,http://www.yahoo.com,./plugins/Referers/images/searchEngines/www.yahoo.com.png';
 
 		$this->assertEqual( $expected,$render->render());
 	}
@@ -243,7 +249,7 @@ bounce_count,44';
 	{
 		$dataTable = $this->getDataTableTest();
 	  	$render = new Piwik_DataTable_Renderer_Json($dataTable, true);
-		$expected = '[{"label":"Google&copy;","nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9,"url":"http:\/\/www.google.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.google.com.png"},{"label":"Yahoo!","nb_uniq_visitors":15,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"url":"http:\/\/www.yahoo.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.yahoo.com.png","idsubdatatable":0,"subtable":[{"label":"sub1","count":1},{"label":"sub2","count":2}]}]';
+		$expected = '[{"label":"Google&copy;","goals":{"idgoal=1":{"revenue":5.5,"nb_conversions":10}},"nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9,"url":"http:\/\/www.google.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.google.com.png"},{"label":"Yahoo!","nb_uniq_visitors":15,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"url":"http:\/\/www.yahoo.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.yahoo.com.png","idsubdatatable":0,"subtable":[{"label":"sub1","count":1},{"label":"sub2","count":2}]}]';
 		$rendered = $render->render();
 		
 		$this->assertEqual( $expected,$rendered);
@@ -289,6 +295,12 @@ bounce_count,44';
 					  0 => 
 					  array (
 					    'label' => 'Google&copy;',
+					    'goals' => array(
+					    	'idgoal=1' => array(
+					    		'revenue' => 5.5,
+					    		'nb_conversions' => 10,
+					    	),
+					    ),
 					    'nb_uniq_visitors' => 11,
 					    'nb_visits' => 11,
 					    'nb_actions' => 17,

@@ -1,20 +1,47 @@
-Following up show all columns new UI element
-====
-$("td img", domElem).attr("src") is undefined
-[Break on this error] var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
-datatable.js (line 907)
-$("td img", domElem).attr("src") is undefined
-[Break on this error] var plusDetected = $('td img', domElem).attr('src').indexOf('plus') >= 0;
-when clicking MINUS on actions
-- icons disappear when showing all columns for browsers
-- exclude low population doesn't work for providers
+Before Alpha
+------------
+
+3h - small bugs report in robotrock, new search engines, etc.
+1h - release
+
+To fix
+======
+- <idsubdatatable>1</idsubdatatable> shouldnt be in api response
+- when used with visitsGenerator, in dowloads export XML, full_url and url is 0
+- post 29 There seems not to be a way to export the pages information widget. 
+  I wanted to download the entry pages to see where my visitors entered my site from,
+  but there is no option to do so.
 - ADD forward of non true show_values to forward when specified from URL to ajax
 - disable show icon in some iframes and/or dashboard 
-- do proper CSS factoring
 - clarify 'false' '0' values etc. //convert all JS datatable footer parameter values to '1' or '0'
-- check state of javascript footer (should not have safe_decode and filter_add_columns blah)
-- set custom truncation limit per datatable type (simple VS allColumns, and subtable) ->bug display subtable icon is cut (see truncation limit)
-- Blog post!
+- cron should return errors when token doesn't have any website
+
+Bugs
+====
+- actions for year seems to not load (memory issue?)
+- all graphic showing data evolution are labelled with the text &quot;nb_uniq_visitors&quot; 
+  no matter if youre watching last visits graph, global visits graph or any other. 
+  Its happening in every graph under Visitors subpages and in the Dashboard.
+- In Referers-&gt;Evolution page, in addition, I think its melting titles because I read 
+  in spanish &quot;Entrada directa nb_uniq_visitors&quot; for the first graph, 
+  &quot;Paginas web nb_uniq_visitors&quot; for the second and so on.
+- exclude all population doesn't work for actions
+
+Reports improvements
+====================
+- add new column "overall visits with conversion"
+- add visits with conversion sparkline in VisitsSummary overview
+- add link under widgets to report (optional display)
+- link under goal conversion to full goal reports (optional display)
+- think of ways to show entry / exit pages and bounce rate.
+- show unique visitors when available, otherwise show nb_visits by default
+- bounce count should be bounce rate
+- idem in 222 times that a returning visit has bounced (left the site after one page) 
+- show new vs returning more clearly in UI
+- see also #421
+- add "days since last visit"
+- add "visit count until conversion"
+- add best search engines, keywords, campaigns, websites in referers overview
 
 Test page
 ==========
@@ -25,63 +52,41 @@ Test page
 - without footer
 - without all columns icon
 
-UI fixes + adjustements
-====
-- keep referers logs lines used for XSXS referer injection attack
-- write test to make sure deployement don't include logger in file/db/etc
-- write test to check disabled db plugin default
-- show total size in MB in db plugin
-- search inside datatable doesnt really work eg. "web analytics" restore regex search
-- bounce count should be bounce rate
-- idem in 222 times that a returning visit has bounced (left the site after one page) 
-- show new vs returning more clearly in UI
-- calendar CSS on API page
-- WRONG::: 147 sites Internet différents (utilisant 147 différentes adresses)
-- see also #421
-
-check phpmyvisites piwik analytics sur delicious
-check analytics books
-
 high priority features
 ====
-- tester clickheat http://www.labsmedia.com/clickheat/piwik-clickheat.tar.gz + add FAQ
-- sync update + email install
 - Goal tracking
+- tester clickheat http://www.labsmedia.com/clickheat/piwik-clickheat.tar.gz + add FAQ
+- sync update + email install + automatic update
 - Live!
 - simple MultiSites report plugin.
 - new JS tagging API
 - Exclude webmaster
 - Loyalty (Most people visited: 1 times) and Recency (Most people last visited: X days ago)
-
-UI elements:
-====
-- add link under widgets to report (optional display)
-- link under goal conversion to full goal reports (optional display)
-- think of ways to show entry / exit pages and bounce rate.
-- show unique visitors when available, otherwise show nb_visits by default
-
-website
-====
-- 404 more useful
-- provide changelog + rss feed for new versions
-- www.piwik.org/demo/ is 404
-
-Bugs
+  http://en.wikipedia.org/wiki/RFM
+  
+User Interface improvements
+===========================
 - add icon calendar http://developer.yahoo.com/ypatterns/pattern.php?pattern=calendar#Solution
 - something is wrong in JS calendar when year selected
-- I had to chmod 777 tmp/ to pass install
-all graphic showing data evolution are labelled with the text &quot;nb_uniq_visitors&quot; no matter if youre watching last visits graph, global visits graph or any other. Its happening in every graph under Visitors subpages and in the Dashboard.
-In Referers-&gt;Evolution page, in addition, I think its melting titles because I read in spanish &quot;Entrada directa nb_uniq_visitors&quot; for the first graph, &quot;Paginas web nb_uniq_visitors&quot; for the second and so on.
 
-To clean
+piwik.org
+====
+- 404 more useful
+- fix Piwik changelog
+- www.piwik.org/demo/ is 404
+
+Code improvements
+=================
 - plugins should listen to user delete/ site delete and delete their own user/site related data
 - why widgetize inherits Piwik_Widgetize_Controller
-- PLUGINS HAVE THEIR OWN TESTS
+- plugins could have their own tests, read automatically from the test suite
 
 Documentation
+=============
 - postEvent smarty doc is not clear, + feature we're not using (filter but what we need is simply way to print out html in templates from plugins)
 
 Live! plugin
+============
 - api propre
 - html
 - jquery spy

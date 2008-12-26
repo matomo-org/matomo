@@ -52,7 +52,7 @@ abstract class Piwik_Log extends Zend_Log
 	function addWriteToFile()
 	{
 		$writerFile = new Zend_Log_Writer_Stream($this->logToFileFilename);
-		Piwik::mkdir(Zend_Registry::get('config')->path->log);
+		Piwik_Common::mkdir(Zend_Registry::get('config')->path->log);
 		$writerFile->setFormatter( $this->fileFormatter );
 		$this->addWriter($writerFile);
 	}

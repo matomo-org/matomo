@@ -173,7 +173,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 				'columns' => $row->getColumns(),
 				'metadata' => $row->getMetadata(),
 				'idsubdatatable' => $row->getIdSubDataTable(),
-				);
+			);
 			
 			if($this->renderSubTables
 				&& $row->getIdSubDataTable() !== null)

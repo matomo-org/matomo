@@ -32,7 +32,6 @@
  */
 class Piwik_ArchiveProcessing_Record_BlobArray extends Piwik_ArchiveProcessing_Record
 {
-
 	function __construct( $name, $aValue)
 	{		
 		foreach($aValue as $id => $value)
@@ -49,13 +48,14 @@ class Piwik_ArchiveProcessing_Record_BlobArray extends Piwik_ArchiveProcessing_R
 				$newName = $name . '_' . $id;
 			}
 			$record = new Piwik_ArchiveProcessing_Record_Blob( $newName,  $value );
-			
 		}
 	}
+	
 	public function __toString()
 	{
 		throw new Exception( 'Not valid' );
 	}
+	
 	public function delete()
 	{
 		throw new Exception( 'Not valid' );

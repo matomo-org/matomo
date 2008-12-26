@@ -3,8 +3,6 @@ require_once "ViewDataTable/HtmlTable.php";
 
 class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlTable 
 {
-	const LOW_POPULATION_THRESHOLD_PERCENTAGE_VISIT = 0.005;
-	
 	protected function getViewDataTableId()
 	{
 		return 'tableAllColumns';
@@ -12,26 +10,8 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 	
 	public function main()
 	{
-		//TODO should be cached at least statically?
 		$this->viewProperties['show_exclude_low_population'] = true;
-		$this->handleLowPopulation();
 		parent::main();
-	}
-	
-	protected function handleLowPopulation()
-	{
-		if(Piwik_Common::getRequestVar('filter_excludelowpop', '0', 'string' ) == '0')
-		{
-			return;
-		}
-		
-		require_once "VisitsSummary/Controller.php";
-		$visits = Piwik_VisitsSummary_Controller::getVisits();
-		$visitsThreshold = floor( self::LOW_POPULATION_THRESHOLD_PERCENTAGE_VISIT * $visits); 
-		if($visitsThreshold > 0)
-		{
-			$this->setExcludeLowPopulation( $visitsThreshold, Piwik_Archive::INDEX_NB_VISITS );
-		}
 	}
 	
 	protected function getRequestString()
@@ -42,6 +22,7 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 	
 	protected function postDataTableLoadedFromAPI()
 	{
+		parent::postDataTableLoadedFromAPI();
 		$this->setColumnsToDisplay(array('label', 
 										'nb_visits', 
 										'nb_uniq_visitors', 

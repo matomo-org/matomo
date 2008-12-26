@@ -27,13 +27,38 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     	$this->checkEqual(array('General' => 'default_language'), 'en');
     	$this->checkEqual(array('Tracker' => 'record_statistics'), '1');
     	$this->checkEqual(array('Tracker' => 'visit_standard_length'), '1800');
+    	$this->checkEqual(array('log' => 'logger_message'), array('screen'));
+    	$this->checkEqual(array('log' => 'logger_exception'), array('screen'));
+    	$this->checkEqual(array('log' => 'logger_error'), array('screen'));
+    	$this->checkEqual(array('log' => 'logger_api_call'), null);
     }
     private function checkEqual($key, $valueExpected)
     {
     	$section = key($key);
     	$optionName = current($key);
-    	$value = $this->globalConfig[$section][$optionName];
+    	$value = null;
+    	if(isset($this->globalConfig[$section][$optionName]))
+    	{
+	    	$value = $this->globalConfig[$section][$optionName];
+    	}
     	$this->assertEqual($value, $valueExpected, "$section -> $optionName was '$value', expected '$valueExpected'");
+    }
+    
+    public function test_checkThatGivenPluginsAreDisabledByDefault()
+    {
+    	$pluginsShouldBeDisabled = array(
+    		'DBStats',
+    		'Goals',
+    		'Live',
+    	);
+    	foreach($pluginsShouldBeDisabled as $pluginName)
+    	{
+	    	if(in_array($pluginName, $this->globalConfig['Plugins']['Plugins']))
+	    	{
+	    		throw new Exception("Plugin $pluginName is enabled by default but shouldn't.");
+	    	}
+    	}
+    	
     }
 }
 

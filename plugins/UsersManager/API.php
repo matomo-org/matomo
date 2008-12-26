@@ -13,7 +13,7 @@
  * 
  * @package Piwik_UsersManager
  */
-class Piwik_UsersManager_API extends Piwik_Apiable
+class Piwik_UsersManager_API 
 {
 	static private $instance = null;
 	static public function getInstance()
@@ -25,8 +25,6 @@ class Piwik_UsersManager_API extends Piwik_Apiable
 		}
 		return self::$instance;
 	}
-	
-	static public $methodsNotToPublish = array();
 	
 	/**
 	 * Returns the list of all the users

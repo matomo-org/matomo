@@ -25,3 +25,4 @@ class Piwik_DataTable_Filter_AddColumnsWhenShowAllColumns extends Piwik_DataTabl
 		}
 	}
 }
+

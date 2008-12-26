@@ -185,7 +185,7 @@ $(document).ready( function() {
 				.toggle()
 				.parent()
 				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateuser">')
-							.click( function(){ $.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); } ) 
+				.click( function(){ $.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); } ) 
 			);
 		});
 		

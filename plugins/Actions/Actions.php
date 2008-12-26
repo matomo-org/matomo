@@ -127,7 +127,6 @@ class Piwik_Actions extends Piwik_Plugin
 					GROUP BY t3.idaction
 					ORDER BY nb_hits DESC";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-		
 		$modified = $this->updateActionsTableWithRowQuery($query);
 
 		
@@ -148,7 +147,6 @@ class Piwik_Actions extends Piwik_Plugin
 					GROUP BY visit_entry_idaction
 					";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 
@@ -168,7 +166,6 @@ class Piwik_Actions extends Piwik_Plugin
 				 	GROUP BY visit_exit_idaction
 					";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-		
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 		/*
@@ -185,18 +182,22 @@ class Piwik_Actions extends Piwik_Plugin
 				 	GROUP BY idaction_ref
 				";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
-				
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
-		$maximumRowsInDataTableLevelZero = 200;
-		$maximumRowsInSubDataTable = 50;
-		
+		$this->archiveDayRecordInDatabase();
+	}
+
+	protected function archiveDayRecordInDatabase()
+	{
+		$maximumRowsInDataTableLevelZero = 1000;
+		$maximumRowsInSubDataTable = 200;
+
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION]);
 		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_actions', $s);
-		
+
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD]);
-		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
+		$s = $dataTable->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Actions_downloads', $s);
 		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_OUTLINK]);
@@ -205,7 +206,7 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		unset($this->actionsTablesByType);
 	}
-
+	
 	static public function splitUrl($url)
 	{
 		$matches = $split_arr = array();

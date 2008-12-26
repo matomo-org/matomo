@@ -72,7 +72,6 @@ require_once 'Zend/Db/Table.php';
 require_once 'FrontController.php';
 require_once 'Config.php';
 require_once 'Timer.php';
-require_once 'API/APIable.php';
 require_once 'Access.php';
 require_once 'Log.php';
 require_once 'core/Piwik.php';

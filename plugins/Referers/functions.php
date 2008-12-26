@@ -64,3 +64,4 @@ function Piwik_getRefererTypeLabel($label)
 	}
 	return Piwik_Translate($indexTranslation);
 }
+

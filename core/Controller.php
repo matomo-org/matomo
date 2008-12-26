@@ -9,6 +9,7 @@
  * @package Piwik
  */
 
+require_once "ViewDataTable.php";
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
  * It defines some helper functions controllers can use.
@@ -78,6 +79,15 @@ abstract class Piwik_Controller
 	 */
 	protected function renderView( Piwik_ViewDataTable $view, $fetch)
 	{
+		Piwik_PostEvent(	'Controller.renderView', 
+							$this, 
+							array(	'view' => $view,
+									'controllerName' => $view->getCurrentControllerName(),
+									'controllerAction' => $view->getCurrentControllerAction(),
+									'apiMethodToRequestDataTable' => $view->getApiMethodToRequestDataTable(),
+									'controllerActionCalledWhenRequestSubTable' => $view->getControllerActionCalledWhenRequestSubTable(),
+							)
+				);
 		$view->main();
 		$rendered = $view->getView()->render();
 		if($fetch)
@@ -223,7 +233,6 @@ abstract class Piwik_Controller
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
 		}
-		
 		$otherPeriodsAvailable = array('day', 'week', 'month', 'year');
 		$otherPeriodsNames = array(
 			'day' => Piwik_Translate('CoreHome_PeriodDay'),
@@ -243,7 +252,7 @@ abstract class Piwik_Controller
 		$view->periodsNames = $otherPeriodsNames;
 	}
 	
-	function redirectToIndex($moduleToRedirect = 'CoreHome', $actionToRedirect = 'index')
+	function redirectToIndex($moduleToRedirect, $actionToRedirect)
 	{
 		$sitesId = Piwik_SitesManager_API::getSitesIdWithAtLeastViewAccess();
 		if(!empty($sitesId))

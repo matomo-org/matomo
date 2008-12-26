@@ -1,4 +1,4 @@
-<tr id="{$id}"></tr>
+<tr id="{$properties.uniqueId}"></tr>
 {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 	{$arrayDataTable.message} 
 {else}
