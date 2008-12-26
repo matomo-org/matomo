@@ -1,11 +1,10 @@
 Before Alpha
 ------------
-
-3h - small bugs report in robotrock, new search engines, etc.
-1h - release
+- Your top converting keyword include keyword without conversions
 
 To fix
 ======
+- need documentation about campaigns, inline help link to FAQ
 - <idsubdatatable>1</idsubdatatable> shouldnt be in api response
 - when used with visitsGenerator, in dowloads export XML, full_url and url is 0
 - post 29 There seems not to be a way to export the pages information widget. 
