@@ -60,7 +60,11 @@ class Piwik_Live_Visitor
 	
 	function getIp()
 	{
-		return long2ip($this->details['location_ip']);
+		if(isset($this->details['location_ip']))
+		{
+			return long2ip($this->details['location_ip']);
+		}
+		return false;
 	}
 	
 	function getIdVisit()
@@ -85,7 +89,7 @@ class Piwik_Live_Visitor
 	
 	function getVisitLengthPretty()
 	{
-		return Piwik_getPrettyTimeFromSeconds($this->details['visit_total_time']);
+		return Piwik::getPrettyTimeFromSeconds($this->details['visit_total_time']);
 	}
 	
 	function isVisitorReturning()
