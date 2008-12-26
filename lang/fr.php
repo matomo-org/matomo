@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 $translations = array(
 	'General_Locale' => 'fr_FR.UTF-8',
 	'General_TranslatorName' => 'Get surf!',
