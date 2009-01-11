@@ -235,6 +235,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		
 		Piwik_PostEvent('Tracker.newVisitorInformation', $this->visitorInfo);
 		$this->visitorInfo['location_continent'] = Piwik_Common::getContinent( $this->visitorInfo['location_country'] );		
+		$this->visitorInfo['location_browser_lang'] = substr($this->visitorInfo['location_browser_lang'], 0, 20);
+		$this->visitorInfo['referer_name'] = substr($this->visitorInfo['referer_name'], 0, 70);
+		$this->visitorInfo['referer_keyword'] = substr($this->visitorInfo['referer_keyword'], 0, 255);
+		$this->visitorInfo['config_resolution'] = substr($this->visitorInfo['config_resolution'], 0, 9);
 		
 		$fields = implode(", ", array_keys($this->visitorInfo));
 		$values = substr(str_repeat( "?,",count($this->visitorInfo)),0,-1);

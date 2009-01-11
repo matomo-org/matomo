@@ -114,6 +114,7 @@ class Piwik_Provider extends Piwik_Plugin
 		
 		// add the provider value in the table log_visit
 		$visitorInfo['location_provider'] = $hostnameExtension;
+		$visitorInfo['location_provider'] = substr($visitorInfo['location_provider'], 0, 100);
 
 		// improve the country using the provider extension if valid
 		$hostnameDomain = substr($hostnameExtension, 1 + strrpos($hostnameExtension, '.'));
