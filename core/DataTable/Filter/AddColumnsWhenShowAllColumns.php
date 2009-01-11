@@ -10,12 +10,21 @@ class Piwik_DataTable_Filter_AddColumnsWhenShowAllColumns extends Piwik_DataTabl
 	
 	protected function filter()
 	{
+		$rowsIdToDelete = array();		
 		foreach($this->table->getRows() as $key => $row)
 		{
-//		nb_actions / nb_visits => Actions/visit
-//		sum_visit_length / nb_visits => Avg. Time on Site 
-//		bounce_count=> Bounce Rate
 			$nbVisits = $row->getColumn(Piwik_Archive::INDEX_NB_VISITS);
+			if($nbVisits == 0)
+			{
+				// case of keyword/website/campaign with a conversion for this day, 
+				// but no visit, we don't show it  
+				$rowsIdToDelete[] = $key;
+				continue;
+			}
+			
+			// nb_actions / nb_visits => Actions/visit
+			// sum_visit_length / nb_visits => Avg. Time on Site 
+			// bounce_count=> Bounce Rate
 			$actionsPerVisit = round($row->getColumn(Piwik_Archive::INDEX_NB_ACTIONS) / $nbVisits, $this->roundPrecision);
 			$averageTimeOnSite = round($row->getColumn(Piwik_Archive::INDEX_SUM_VISIT_LENGTH) / $nbVisits, $this->roundPrecision);
 			$bounceRate = round(100 * $row->getColumn(Piwik_Archive::INDEX_BOUNCE_COUNT) / $nbVisits, $this->roundPrecision);
@@ -23,6 +32,7 @@ class Piwik_DataTable_Filter_AddColumnsWhenShowAllColumns extends Piwik_DataTabl
 			$row->addColumn('avg_time_on_site', $averageTimeOnSite);
 			$row->addColumn('bounce_rate', $bounceRate);
 		}
+		$this->table->deleteRows($rowsIdToDelete);
 	}
-}
 
+}
