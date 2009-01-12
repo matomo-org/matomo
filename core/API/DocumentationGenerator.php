@@ -60,8 +60,8 @@ class Piwik_API_DocumentationGenerator
 						$lastNUrls = '';
 						if( ereg('(&period)|(&date)',$exampleUrl))
 						{
-							$exampleUrlRss1 = $prefixUrls . $this->getExampleUrl($class, $methodName, $parametersToSet + array('date' => 'last10')) ;
-							$exampleUrlRss2 = $prefixUrls . $this->getExampleUrl($class, $methodName, $parametersToSet + array('date' => 'last5','period' => 'week',));
+							$exampleUrlRss1 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10') + $parametersToSet) ;
+							$exampleUrlRss2 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',) + $parametersToSet );
 							$lastNUrls = ",	RSS of the last <a target=_blank href='$exampleUrlRss1&format=rss$token_auth'>10 days</a>, <a target=_blank href='$exampleUrlRss2&format=Rss'>5 weeks</a>,
 									XML of the <a target=_blank href='$exampleUrlRss1&format=xml$token_auth'>last 10 days</a>";
 						}
