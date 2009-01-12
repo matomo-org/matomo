@@ -231,13 +231,10 @@ class Piwik
 		if(is_null($db))
 		{
 			$db = Zend_Registry::get('db');
-			$tableName = Piwik::prefixTable('log_profiling');
 		}
-		else
-		{
-			$tableName = $db->prefixTable('log_profiling');
-		}
-		$all = $db->fetchAll('	SELECT *, sum_time_ms / count as avg_time_ms 
+		$tableName = Piwik_Common::prefixTable('log_profiling');
+		
+		$all = $db->fetchAll('SELECT *, sum_time_ms / count as avg_time_ms 
 								FROM '.$tableName );
 		if($all === false) 
 		{
