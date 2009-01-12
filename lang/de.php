@@ -546,7 +546,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Soll der Benutzer %s wirklich gelöscht werden?',
 	'UsersManager_ExceptionLoginExists' => 'Benutzername \'%s\' existiert bereits.',
 	'UsersManager_ExceptionEmailExists' => 'Ein Benutzer mit der eMail-Adresse \'%s\' existiert bereits.',
-	'UsersManager_ExceptionInvalidLogin' => 'Der Benutzername darf lediglich Buchstaben, Zahlen oder die Zeichen \'_\' oder \'-\' oder \'.\' enthalten.',
 	'UsersManager_ExceptionInvalidPassword' => 'Das Passwort muss zwischen 6 und 26 Zeichen lang sein.',
 	'UsersManager_ExceptionInvalidEmail' => 'Die eMail-Adresse scheint nicht gültig zu sein.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Benutzer \'%s\' existiert nicht und kann daher nicht gelöscht werden.',

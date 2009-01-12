@@ -464,7 +464,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Tem certeza que deseja apagar o usu&aacute;rio %s?',
 	'UsersManager_ExceptionLoginExists' => 'Usu&aacute;rio \'%s\' j&aacute; existe.',
 	'UsersManager_ExceptionEmailExists' => 'Usu&aacute;rio com o e-mail \'%s\' j&aacute; existe.',
-	'UsersManager_ExceptionInvalidLogin' => 'O Usu&aacute;rio deve conter somente letras, n&uacute;meros ou os caracteres \'_\' ou \'-\' ou \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'A senha deve conter entre 6 e 26 caracteres.',
 	'UsersManager_ExceptionInvalidEmail' => 'O e-mail n&atilde;o tem um formato v&aacute;lido.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Usu&aacute;rio \'%s\' n&atilde;o existe assim n&atilde;o &eacute; poss&iacute;vel exclu&iacute;-lo.',

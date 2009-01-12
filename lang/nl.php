@@ -544,7 +544,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'weet u zeker dat u de volgende gebruiker wilt verwijderen: %s?',
 	'UsersManager_ExceptionLoginExists' => 'Login \'%s\' bestaat reeds.',
 	'UsersManager_ExceptionEmailExists' => 'Er is reeds een gebruiker met \'%s\' als email adres.',
-	'UsersManager_ExceptionInvalidLogin' => 'Login mag enkel letters, nummers of de volgende karakters bevatten \'_\' or \'-\' or \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'Het password moet een lengte hebben tussen 6 en 26 karakters.',
 	'UsersManager_ExceptionInvalidEmail' => 'Het email adres is ongeldig.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Gebruiker \'%s\' bestaat niet en kan dus niet verwijderd worden.',

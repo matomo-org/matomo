@@ -456,7 +456,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Видалити користувача %s?',
 	'UsersManager_ExceptionLoginExists' => 'Ім\'я користувача "%s" вже існує.',
 	'UsersManager_ExceptionEmailExists' => 'Користувач з адресою e-mail "%s" вже існує.',
-	'UsersManager_ExceptionInvalidLogin' => 'Ім\'я користувача може складатися лише з латинських літер, чисел або символів "_", "-" або ".".',
 	'UsersManager_ExceptionInvalidPassword' => 'Пароль має бути довжиною від 6 до 26 символів.',
 	'UsersManager_ExceptionInvalidEmail' => 'Неправильний e-mail.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Користувач "%s" не існує і тому не може бути видалений.',

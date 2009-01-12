@@ -502,7 +502,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Esteu segur que voleu eliminar l\'usuari %s?',
 	'UsersManager_ExceptionLoginExists' => 'L\'usuari \'%s\' ja existeix.',
 	'UsersManager_ExceptionEmailExists' => 'La direcció de correu-e \'%s\' ja està en un altre compte.',
-	'UsersManager_ExceptionInvalidLogin' => 'El nom d\'usuari només pot contenir lletres, números o els caràcters \'_\' o \'-\' o \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'La contrasenya ha de tenir entre 6 i 26 caràcters.',
 	'UsersManager_ExceptionInvalidEmail' => 'La direcció de correu-e no té un format vàlid.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'L\'usuari \'%s\' no existeix i, per tant, no es pot esborrar.',

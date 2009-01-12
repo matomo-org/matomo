@@ -501,7 +501,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => '本当に、ユーザ %s を削除してもよろしいですか？',
 	'UsersManager_ExceptionLoginExists' => 'ログイン \'%s\' はすでに存在します。',
 	'UsersManager_ExceptionEmailExists' => 'メール \'%s\' のユーザはすでに存在します。',
-	'UsersManager_ExceptionInvalidLogin' => 'ログインには、英数文字と \'_\'、\'-\'、\'.\' 文字のみを含むことができます。',
 	'UsersManager_ExceptionInvalidPassword' => 'パスワード長は 6～26 文字である必要があります。',
 	'UsersManager_ExceptionInvalidEmail' => 'メールが有効な形式ではありません。',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'ユーザ \'%s\' は存在しないため、削除することができません。',

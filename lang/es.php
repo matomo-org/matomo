@@ -456,7 +456,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => '¿Está seguro que desea eliminar al usuario %s?',
 	'UsersManager_ExceptionLoginExists' => 'Login \'%s\' ya existe.',
 	'UsersManager_ExceptionEmailExists' => 'Ya existe un usuario con el email \'%s\'.',
-	'UsersManager_ExceptionInvalidLogin' => 'El login solo puede contener letras, números, \'_\' , \'-\' o \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'La longitud de la contraseña ha de estar entre 6 y 26 caracteres',
 	'UsersManager_ExceptionInvalidEmail' => 'El email no tiene un formato correcto.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'El usuario \'%s\' no existe, por lo que, no puede ser borrado.',

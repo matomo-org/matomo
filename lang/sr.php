@@ -133,7 +133,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Da li ste sigurni da želite da obrišete korisnika %s?',
 	'UsersManager_ExceptionLoginExists' => 'Korisničko ime \'%s\' već postoji.',
 	'UsersManager_ExceptionEmailExists' => 'Korisnik sa elektronskom adresom \'%s\' već postoji.',
-	'UsersManager_ExceptionInvalidLogin' => 'Korisničko ime se može sastojati samo od slova, brojeva i znakova \'_\', \'-\' i \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'Dužina lozinke mora biti između 6 i 26 znakova.',
 	'UsersManager_ExceptionInvalidEmail' => 'Elektronska adresa nije validna.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Korisnik \'%s\' ne postoji pa stoga ni ne može biti obrisan.',
