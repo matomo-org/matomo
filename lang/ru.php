@@ -466,7 +466,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Вы действительно хотите удалить пользователя %s?',
 	'UsersManager_ExceptionLoginExists' => 'Логин \'%s\' уже существует.',
 	'UsersManager_ExceptionEmailExists' => 'Пользователь с Email \'%s\' уже существует.',
-	'UsersManager_ExceptionInvalidLogin' => 'Логин может содержать только буквы, цифры, символы \'_\' или \'-\' или \'.\'.',
 	'UsersManager_ExceptionInvalidPassword' => 'Длина пароля должно быть от 6 до 26 символов.',
 	'UsersManager_ExceptionInvalidEmail' => 'Email неправильного формата',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Пользователя \'%s\' не существует, поэтому он не может быть удален.',

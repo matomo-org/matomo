@@ -558,7 +558,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => '&Auml;r du s&auml;ker p&aring; att du vill radera \'%s\'?',
 	'UsersManager_ExceptionLoginExists' => 'Anv&auml;ndarnamnet \'%s\' finns redan.',
 	'UsersManager_ExceptionEmailExists' => 'En anv&auml;ndare med e-postadressen \'%s\' finns redan.',
-	'UsersManager_ExceptionInvalidLogin' => 'Anv&auml;ndarnamnet f&aring;r endast best&aring; av bokst&auml;ver, siffror eller tecknen \'_\' eller \'-\' eller \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'L&ouml;senordet m&aring;ste ha en l&auml;ngd mellan 6 och 26 tecken.',
 	'UsersManager_ExceptionInvalidEmail' => 'E-postadressen har inget giltigt format.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Anv&auml;ndaren \'%s\' finns inte och kan d&auml;rf&ouml;r inte raderas.',

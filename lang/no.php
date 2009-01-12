@@ -563,7 +563,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Er du sikker på at du vil slette %s?',
 	'UsersManager_ExceptionLoginExists' => 'Login \'%s\' eksisterer allerede.',
 	'UsersManager_ExceptionEmailExists' => 'Bruker med epost \'%s\' eksisterer allerede.',
-	'UsersManager_ExceptionInvalidLogin' => 'Login kan kun inneholde bokstaver, tall og tegnene \'_\' eller \'-\' eller \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'Lengden på massord må være mellom 6 og 26 bokstaver.',
 	'UsersManager_ExceptionInvalidEmail' => 'Epost-adressen er ikke i gyldig format.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Bruker \'%s\' eksisterer ikke, og kan derfor ikke bli slettet.',

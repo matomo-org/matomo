@@ -525,7 +525,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Ste si istý, že chcete odstrániť používateľa %s?',
 	'UsersManager_ExceptionLoginExists' => 'Používateľ (login) \'%s\' už existuje.',
 	'UsersManager_ExceptionEmailExists' => 'Používateľ s e-mailom \'%s\' už existuje.',
-	'UsersManager_ExceptionInvalidLogin' => 'Používateľské meno (login) môže obsahovať iba písmen, číslice a znaky \'_\' alebo \'-\' alebo \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'Dĺžka hesla musí byť od 6 do 26 znakov.',
 	'UsersManager_ExceptionInvalidEmail' => 'E-mailová adresa nemá platný formát.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Používateľ \'%s\' neexistuje a preto nemôže byť odstránený.',

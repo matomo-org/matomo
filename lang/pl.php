@@ -462,7 +462,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => 'Czy jesteś pewien czy chcesz skasować użytkownika %s?',
 	'UsersManager_ExceptionLoginExists' => 'Nazwa użytkownika \'%s\' już istnieje.',
 	'UsersManager_ExceptionEmailExists' => 'Użytkownik z emailem  \'%s\' już istnieje.',
-	'UsersManager_ExceptionInvalidLogin' => 'Nazwa użytkownika może zawierać tylko litery, cyfry i znaki \'_\' albo \'-\' albo \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'Długość hasła musi być pomiędzy 6 i 26 znaków.',
 	'UsersManager_ExceptionInvalidEmail' => 'Email ma niepoprawny format.',
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'Użytkownik \'%s\' nie istnieje lub nie może być skasowany.',

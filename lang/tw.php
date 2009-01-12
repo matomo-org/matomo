@@ -516,7 +516,6 @@ $translations = array(
 	'UsersManager_DeleteConfirm_js' => '您確定要刪除使用者 %s 嗎？',
 	'UsersManager_ExceptionLoginExists' => '登入帳號 \'%s\' 已經存在！',
 	'UsersManager_ExceptionEmailExists' => '使用 \'%s\' E-mail 的使用者已經存在！',
-	'UsersManager_ExceptionInvalidLogin' => '登入帳號只能包含字母，數字或字元 \'_\' 或 \'-\' 或 \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => '密碼長度必須在 6 至 26 個字元之間！',
 	'UsersManager_ExceptionInvalidEmail' => '此 E-mail 並非一個正確格式！',
 	'UsersManager_ExceptionDeleteDoesNotExist' => '使用者 \'%s\' 並不存在，所以它不能被刪除！',
