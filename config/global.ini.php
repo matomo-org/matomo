@@ -162,7 +162,7 @@ use_first_referer_to_determine_goal_referer = false
 ; configuration: OS, browser, resolution, IP, etc. This heuristic adds an extra SQL query for each page view without cookie. 
 ; it is advised to set it to true for more accurate detection of unique visitors.
 ; However when most users have the same IP, and the same configuration, it is advised to set it to false
-enable_detect_unique_visitor_using_settings = false
+enable_detect_unique_visitor_using_settings = true
 
 [log]
 
