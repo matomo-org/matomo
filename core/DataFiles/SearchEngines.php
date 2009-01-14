@@ -97,6 +97,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"nl.altavista.com" 		=> array("Altavista", "q"),
 		"ch.altavista.com" 		=> array("AltaVista", "q"),
 		
+         //Apollo Latvia
+	    "apollo.lv/portal/search/"			=> array("Apollo lv", "q"), 
+
 		// APOLLO7
 		"www.apollo7.de"		=> array("Apollo7", "query"),
 		"apollo7.de"			=> array("Apollo7", "query"),
@@ -216,6 +219,12 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Defind.de
 		"suche.defind.de"	        => array("Defind.de", "search"),
+		
+		//Delfi Latvia
+	    "smart.delfi.lv"			=> array("Delfi lv", "q"), 
+
+		//Delfi
+		"otsing.delfi.ee"       => array("Delfi EE", "q"),
 		
 		// Deskfeeds
 		"www.deskfeeds.com"	        => array("Deskfeeds", "sx"),
@@ -370,15 +379,19 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"w.google.de"			=> array("Google", "q"),
 		"wwwgoogle.de" 			=> array("Google", "q"),
 		"www.googleearth.de" 	=> array("Google", "q"),
-		"googleearth.de"		=> array("Google", "q"),
+		"www.google.ee"		    => array("Google", "q"),
 		"google.gr"				=> array("Google", "q"),
-		"google.hr"				=> array("Google", "q"),
+		"www.google.hr"			=> array("Google", "q"),
 		"www.google.dj"			=> array("Google", "q"),
 		"www.google.dk"			=> array("Google", "q"),
 		"www.google.es"			=> array("Google", "q"),
 		"www.google.fi"			=> array("Google", "q"),
 		"www.google.fm"			=> array("Google", "q"),
 		"www.google.gg"			=> array("Google", "q"),
+		"google.ge"                     => array("Google","q"),
+		"w.google.ge"                   => array("Google","q"),
+		"ww.google.ge"                  => array("Google","q"),
+		"www.google.ge"                 => array("Google","q"),
 		"www.googel.fi"			=> array("Google", "q"),
 		"www.googleearth.fr"	=> array("Google", "q"),
 		"www.google.gl"			=> array("Google", "q"),
@@ -522,7 +535,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Google Directory
 		"directory.google.com"		=> array("Google Directory", " "),
 		
-		// Google Images
+		// Google Images        
+		"images.google.cz"        => array("Google Images", "q"),
+        "images.google.hr"        => array("Google Images", "q"),
+        "images.google.hu"        => array("Google Images", "q"),
+        "images.google.com.kw"        => array("Google Images", "q"),
+        "images.google.com.sa"        => array("Google Images", "q"),
+        "images.google.co.za"        => array("Google Images", "q"),
 		"images.google.fr"		=> array("Google Images", "q"),
 		"images.google.be" 		=> array("Google Images", "q"),
 		"images.google.ca" 		=> array("Google Images", "q"),
@@ -559,6 +578,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"images.google.com.ua"		=> array("Google Images", "q"),
 		"images.google.com.vn"		=> array("Google Images", "q"),
 		"images.google.dk"		=> array("Google Images", "q"),
+        "images.google.ee"		=> array("Google Images", "q"),
 		"images.google.es"		=> array("Google Images", "q"),
 		"images.google.fi"		=> array("Google Images", "q"),
 		"images.google.gg"		=> array("Google Images", "q"),
@@ -574,6 +594,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"images.google.se"		=> array("Google Images", "q"),
 		"images.google.sk"		=> array("Google Images", "q"),
 		"images.google.com"		=> array("Google Images", "q"),
+	
 		
 		// Google News
 		"news.google.com" 		=> array("Google News", "q"),
@@ -613,6 +634,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Hit-Parade
 		"recherche.hit-parade.com"	=> array("Hit-Parade", "p7"),
 		"class.hit-parade.com"		=> array("Hit-Parade", "p7"),
+		
+		//Holmes.ge
+		"holmes.ge"                     => array("Holmes","q"),
 		
 		// Hotbot via Lycos
 		"hotbot.lycos.com"		=> array("Hotbot (Lycos)", "query"),
@@ -669,6 +693,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Klug suchen
 		"www.klug-suchen.de"		   => array("Klug suchen!", "query"),
+
+		//Latne
+	    "www.latne.lv"			=> array("Latne", "q"),
 		
 		// La Toile Du Québec via Google
 		"google.canoe.com"		=> array("La Toile Du Québec (Google)", "q"),
@@ -697,6 +724,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.multimania.lycos.fr" 	=> array("Lycos", "query"),
 		"buscador.lycos.es" 	=> array("Lycos", "query"),
 		
+       // maailm.com
+	   "www.maailm.com"			=> array("maailm.com", "tekst"),
+
 		// Mail.ru
 		"go.mail.ru"			=> array("Mailru", "q"),
 		
@@ -790,6 +820,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Needtofind
 		"ko.search.need2find.com"	=> array("Needtofind", "searchfor"),
+
+		// Neti
+		"www.neti.ee" 		    => array("Neti", "query", "iso-8859-1"),
+		"www.neti.ee/odp/"      => array("Neti World", "query", "iso-8859-1"),
 		
 		// Netster
 		"www.netster.com"		=> array("Netster", "keywords"),
@@ -993,7 +1027,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"ink.yahoo.fr"			=> array("Yahoo!", "p"),
 		"fr.ink.yahoo.com"		=> array("Yahoo!", "p"),
 		"search.yahoo.co.jp" 		=> array("Yahoo!", "p"),
-		"search.yahoo.fr"		=> array("Yahoo!", "p"),
+		"search.yahoo.fr"		    => array("Yahoo!", "p"),
+		"fi.yahoo.com"              => array("Yahoo!", "p"),
 		"ar.search.yahoo.com" 		=> array("Yahoo!", "p"),
 		"br.search.yahoo.com" 		=> array("Yahoo!", "p"),
 		"ch.search.yahoo.com" 		=> array("Yahoo!", "p"),
@@ -1050,6 +1085,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Witch
 		"www.witch.de"		        => array("Witch", "search"),
+
+		//WWW
+		"search.www.ee"		    => array("www värav", "query"),
 		
 		// WXS
 		"wxsl.nl" 			=> array("Planet Internet","q"),

@@ -86,6 +86,11 @@ class Piwik_Common
 		if(!class_exists('Zend_Registry'))
 		{
 			require_once "Zend/Registry.php";
+		}
+		// if DB is not in the registry, we are in tracker mode, we add it in the registry
+		try {
+			Zend_Registry::get('db');
+		} catch(Exception $e) {
 			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
 		}
 		$content = array();
@@ -532,7 +537,7 @@ class Piwik_Common
 		 	// browser code
 		 	$info['name'] = $browsers[strtolower($results[1][$count])];
 		 		
-		 	// majeur version number (7 in mozilla 1.7
+		 	// major version number (1 in mozilla 1.7)
 		 	$info['major_number'] = $results[2][$count];
 		 		
 		 	// is an minor version number ? If not, 0

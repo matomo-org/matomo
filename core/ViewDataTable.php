@@ -189,7 +189,6 @@ abstract class Piwik_ViewDataTable
 			case 'generateDataChartEvolution':
 				require_once "ViewDataTable/GenerateGraphData/ChartEvolution.php";
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartEvolution();
-				
 			break;
 				
 			case 'tableAllColumns':
@@ -521,10 +520,7 @@ abstract class Piwik_ViewDataTable
 		$javascriptVariablesToSet['module'] = $this->currentControllerName;
 		$javascriptVariablesToSet['action'] = $this->currentControllerAction;
 		$javascriptVariablesToSet['viewDataTable'] = $this->getViewDataTableId();
-		if(!is_null($this->controllerActionCalledWhenRequestSubTable))
-		{
-			$javascriptVariablesToSet['controllerActionCalledWhenRequestSubTable'] = $this->controllerActionCalledWhenRequestSubTable;
-		}
+		$javascriptVariablesToSet['controllerActionCalledWhenRequestSubTable'] = $this->controllerActionCalledWhenRequestSubTable;
 		
 		if($this->dataTable)
 		{

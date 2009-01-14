@@ -121,6 +121,7 @@ class Piwik_API_DocumentationGenerator
 		$doNotPrintExampleForTheseMethods = array(
 			'deleteSite',
 			'deleteUser',
+			'deleteGoal',
 		);
 		
 		if(in_array($methodName,$doNotPrintExampleForTheseMethods))
