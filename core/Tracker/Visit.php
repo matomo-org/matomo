@@ -302,6 +302,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		return Piwik_Tracker_Config::getInstance()->Tracker['cookie_name'] . $this->idsite;
 	}
 	
+	/**
+	 * Returns the cookie expiration date.
+	 * @return int
+	 */
+	protected function getCookieExpire()
+	{
+		return time() + Piwik_Tracker_Config::getInstance()->Tracker['cookie_expire'];
+	}
 	
 	/**
 	 * This methods tries to see if the visitor has visited the website before.
@@ -335,7 +343,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected function recognizeTheVisitor()
 	{
 		$this->visitorKnown = false;
-		$this->cookie = new Piwik_Cookie( $this->getCookieName() );
+		$this->cookie = new Piwik_Cookie( $this->getCookieName(), $this->getCookieExpire() );
 		
 		/*
 		 * Case the visitor has the piwik cookie.

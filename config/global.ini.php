@@ -116,7 +116,14 @@ minimum_php_version = 5.1.3
 ; MySQL minimum required version
 minimum_mysql_version = 4.1
 
+; Minimum adviced memory limit in php.ini file (see memory_limit value)
 minimum_memory_limit = 128
+
+; login cookie name
+login_cookie_name = piwik_auth
+
+; login cookie expiration (30 days)
+login_cookie_expire = 2592000
 
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
@@ -153,6 +160,9 @@ campaign_keyword_var_name	= piwik_kwd
 
 ; name of the cookie used to store the visitor information
 cookie_name	= piwik_visitor
+
+; by default, the Piwik tracking cookie expires in 2 years
+cookie_expire = 63072000
 
 ; if set to false, any goal conversion will be credited to the last more recent non empty referer. 
 ; when set to true, the first ever referer used to reach the website will be used
