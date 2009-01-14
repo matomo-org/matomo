@@ -64,7 +64,7 @@ PluginsInstalled[] = Installation
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process
-always_archive_data = true
+always_archive_data = false
 
 ; if set to true, all the SQL queries will be recorded by the profiler 
 ; and a profiling summary will be printed at the end of the request
