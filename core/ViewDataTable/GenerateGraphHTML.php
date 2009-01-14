@@ -116,7 +116,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 				var so = new SWFObject("'.$pathToLibraryOpenChart.'open-flash-chart.swf", "'.$obj_id.'_swf", "'. $width . '", "' . $height . '", "9", "#FFFFFF");
 				so.addVariable("data", "'. $url . '");
 				so.addParam("allowScriptAccess", "sameDomain");
-				so.addParam("wmode", "transparent");
+				so.addParam("wmode", "opaque");
 				so.write("'. $div_name .'");
 				</script>
 				<noscript>
@@ -127,9 +127,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		// when the object/embed is changed, see also widgetize.js; it may require a logic update
 		$this->graphCodeEmbed .= "<div><object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' codebase='http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='" . $width . "' height='" . $height . "' id='". $obj_id ."' >".
 							"<param name='movie' value='".$urlGraph."' />".
-							"<param name='wmode' value='transparent' />".
+							"<param name='wmode' value='opaque' />".
 							"<param name='allowScriptAccess' value='sameDomain' /> ".
-							"<embed src='$urlGraph' allowScriptAccess='sameDomain' quality='high' bgcolor='#FFFFFF' width='". $width ."' height='". $height ."' name='open-flash-chart' type='application/x-shockwave-flash' id='". $obj_id ."' />".
+							"<embed src='$urlGraph' wmode='opaque' allowScriptAccess='sameDomain' quality='high' bgcolor='#FFFFFF' width='". $width ."' height='". $height ."' name='open-flash-chart' type='application/x-shockwave-flash' id='". $obj_id ."' />".
 							"</object></div>";
 		$return .= $this->graphCodeEmbed;
 		
