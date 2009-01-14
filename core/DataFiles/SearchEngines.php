@@ -210,6 +210,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Crossbot
 		"www.crossbot.de"		=> array("Crossbot", "q"),
+		
+		// Cuil
+		"www.cuil.com"			=> array("Cuil", "q"),
 	
 		// DasOertliche
 		"www.dasoertliche.de"	        => array("DasOertliche", "kw"),
