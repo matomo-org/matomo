@@ -64,7 +64,7 @@ PluginsInstalled[] = Installation
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process
-always_archive_data = false
+always_archive_data = true
 
 ; if set to true, all the SQL queries will be recorded by the profiler 
 ; and a profiling summary will be printed at the end of the request
@@ -124,6 +124,17 @@ login_cookie_name = piwik_auth
 
 ; login cookie expiration (30 days)
 login_cookie_expire = 2592000
+
+; during archiving, Piwik will limit the number of results recorded, for performance reasons
+; maximum number of rows for any of the Referers tables (keywords, search engines, campaigns, etc.)
+datatable_archiving_maximum_rows_referers = 500
+; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
+datatable_archiving_maximum_rows_actions = 500
+
+; maximum number of rows for any of the Referers subtable (search engines by keyword, keyword by campaign, etc.)
+datatable_archiving_maximum_rows_subtable_referers = 50
+; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
+datatable_archiving_maximum_rows_subtable_actions = 100
 
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.

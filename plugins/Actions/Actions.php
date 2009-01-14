@@ -76,8 +76,8 @@ class Piwik_Actions extends Piwik_Plugin
 				'Actions_outlink',
 		);
 		
-		$maximumRowsInDataTableLevelZero = 200;
-		$maximumRowsInSubDataTable = 50;
+		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
+		$maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
 		$archiveProcessing->archiveDataTable($dataTableToSum, $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
 	}
 	
@@ -189,8 +189,8 @@ class Piwik_Actions extends Piwik_Plugin
 
 	protected function archiveDayRecordInDatabase()
 	{
-		$maximumRowsInDataTableLevelZero = 1000;
-		$maximumRowsInSubDataTable = 200;
+		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
+		$maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
 
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION]);
 		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
