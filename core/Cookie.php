@@ -51,6 +51,7 @@ class Piwik_Cookie
 	{
 		$this->name = $cookieName;
 		
+		$this->expire = $expire;
 		if(is_null($expire)
 			|| !is_numeric($expire)
 			|| $expire <= 0)
@@ -74,8 +75,8 @@ class Piwik_Cookie
 	}
 	
 	/**
-	 * Returns the default expiry time, 10 years
-	 * @return int Timestamp in 10 years
+	 * Returns the default expiry time, 2 years
+	 * @return int Timestamp in 2 years
 	 */
 	protected function getDefaultExpire()
 	{
@@ -261,21 +262,3 @@ class Piwik_Cookie
 		return Piwik_Common::sanitizeInputValues($value);
 	}	
 }
-
-
-//$c = new Piwik_Cookie( 'piwik_Tracker', 86400);
-//echo $c;
-//$c->set(1,1);
-//$c->set('test',1);
-//$c->set('test2','test=432:gea785');
-//$c->set('test3',array('test=432:gea785'));
-//$c->set('test4',array(array(0=>1),1=>'test'));
-//echo $c;
-//echo "<br>";
-//$v=$c->get('more!');
-//if(empty($v)) $c->set('more!',1);
-//$c->set('more!', array($c->get('more!')));
-//$c->save();
-//$c->delete();
-
-

@@ -67,8 +67,8 @@ class Piwik_Login extends Piwik_Plugin
      		return;
      	}
      		
-		$authCookieName = 'piwik-auth';
-		$authCookieExpiry = time() + 3600;
+		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
+		$authCookieExpiry = time() + Zend_Registry::get('config')->General->login_cookie_expire;
 		$authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
 		$defaultLogin = 'anonymous';
 		$defaultTokenAuth = 'anonymous';
