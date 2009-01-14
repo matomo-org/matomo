@@ -136,17 +136,21 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setSortedColumn( 'nb_uniq_visitors', 'desc' );
 		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
 		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnUniquePageviews'));
+
+		if(Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string' ) != '0')
+		{
+			// computing minimum value to exclude
+			require_once "VisitsSummary/Controller.php";
+			$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary();
+			$nbActions = $visitsInfo->getColumn('nb_actions');
+			$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions
+			// we remove 1 to make sure some actions/downloads are displayed in the case we have a very few of them
+			// and each of them has 1 or 2 hits...
+			$nbActionsLowPopulationThreshold = min($visitsInfo->getColumn('max_actions')-1, $nbActionsLowPopulationThreshold-1);
+			
+			$view->setExcludeLowPopulation( 'nb_hits', $nbActionsLowPopulationThreshold );
+		}
 		
-		// computing minimum value to exclude
-		require_once "VisitsSummary/Controller.php";
-		$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary();
-		$nbActions = $visitsInfo->getColumn('nb_actions');
-		$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions
-		// we remove 1 to make sure some actions/downloads are displayed in the case we have a very few of them
-		// and each of them has 1 or 2 hits...
-		$nbActionsLowPopulationThreshold = min($visitsInfo->getColumn('max_actions')-1, $nbActionsLowPopulationThreshold-1);
-		
-		$view->setExcludeLowPopulation( 'nb_hits', $nbActionsLowPopulationThreshold );
 		$view->main();
 		
 		// we need to rewrite the phpArray so it contains all the recursive arrays

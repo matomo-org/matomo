@@ -1,9 +1,6 @@
-Before Alpha
-------------
-- Your top converting keyword include keyword without conversions
-
 To fix
 ======
+- cron should return errors when token doesn't have any website
 - need documentation about campaigns, inline help link to FAQ
 - <idsubdatatable>1</idsubdatatable> shouldnt be in api response
 - when used with visitsGenerator, in dowloads export XML, full_url and url is 0
@@ -13,7 +10,6 @@ To fix
 - ADD forward of non true show_values to forward when specified from URL to ajax
 - disable show icon in some iframes and/or dashboard 
 - clarify 'false' '0' values etc. //convert all JS datatable footer parameter values to '1' or '0'
-- cron should return errors when token doesn't have any website
 
 Bugs
 ====
@@ -24,7 +20,6 @@ Bugs
 - In Referers-&gt;Evolution page, in addition, I think its melting titles because I read 
   in spanish &quot;Entrada directa nb_uniq_visitors&quot; for the first graph, 
   &quot;Paginas web nb_uniq_visitors&quot; for the second and so on.
-- exclude all population doesn't work for actions
 
 Reports improvements
 ====================
@@ -54,14 +49,15 @@ Test page
 high priority features
 ====
 - Goal tracking
-- tester clickheat http://www.labsmedia.com/clickheat/piwik-clickheat.tar.gz + add FAQ
+- Entry/Exit pages
 - sync update + email install + automatic update
+- tester clickheat http://www.labsmedia.com/clickheat/piwik-clickheat.tar.gz + add FAQ
 - Live!
-- simple MultiSites report plugin.
 - new JS tagging API
 - Exclude webmaster
 - Loyalty (Most people visited: 1 times) and Recency (Most people last visited: X days ago)
   http://en.wikipedia.org/wiki/RFM
+- simple MultiSites report plugin.
   
 User Interface improvements
 ===========================
@@ -83,15 +79,6 @@ Code improvements
 Documentation
 =============
 - postEvent smarty doc is not clear, + feature we're not using (filter but what we need is simply way to print out html in templates from plugins)
-
-Live! plugin
-============
-- api propre
-- html
-- jquery spy
-- simple stats above in TEXT
-- Security review
-- blog post, push version
 
 changes between 2 versions
 http://dev.piwik.org/trac/changeset?old_path=tags%2F0.2.23&old=&new_path=tags%2F0.2.24&new=
