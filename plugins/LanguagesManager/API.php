@@ -29,11 +29,13 @@ class Piwik_LanguagesManager_API
 		{
 			return self::$languageNames;
 		}
-		$languages = glob( "lang/*");
+		$path = PIWIK_INCLUDE_PATH . "/lang/";
+		$languages = glob($path . "*");
+		$pathLength = strlen($path);
 		$languageNames = array();
 		foreach($languages as $language) 
 		{
-			$languageNames[] = substr($language, strlen("lang/"), -strlen('.php'));
+			$languageNames[] = substr($language, $pathLength, -strlen('.php'));
 		}
 		self::$languageNames = $languageNames;
 		return $languageNames;
