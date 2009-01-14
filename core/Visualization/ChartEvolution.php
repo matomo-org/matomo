@@ -81,7 +81,8 @@ class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
 								'date' => substr($values['label'],0,$spacePosition),
 								'module' => 'CoreHome',
 								'action' => 'index',
-								'viewDataTable' => null// we reset the viewDataTable parameter (useless in the link)
+								'viewDataTable' => null, // we reset the viewDataTable parameter (useless in the link)
+								'idGoal' => null, // we reset idGoal
 						));
 					// add the dot on the chart and link it
 					$line[$j]->add_link($dotValue, $link);
