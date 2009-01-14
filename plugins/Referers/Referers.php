@@ -73,8 +73,9 @@ class Piwik_Referers extends Piwik_Plugin
 			'Referers_urlByWebsite',
 		);
 		
-		$maximumRowsInDataTableLevelZero = 500;
-		$maximumRowsInSubDataTable = 50;
+		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_referers;
+		$maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
+		
 		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum, $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
 		
 		$mappingFromArchiveName = array(
@@ -300,8 +301,8 @@ class Piwik_Referers extends Piwik_Plugin
 		$data = $archiveProcessing->getDataTableSerialized($this->interestByType);
 		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_type', $data);
 		
-		$maximumRowsInDataTableLevelZero = 500;
-		$maximumRowsInSubDataTable = 50;
+		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_referers;
+		$maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
 		
 		$blobRecords = array(
 			'Referers_keywordBySearchEngine' => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestBySearchEngineAndKeyword, $this->interestBySearchEngine),
