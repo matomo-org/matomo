@@ -110,6 +110,11 @@ dataTable_default_sort_order = desc
 ; default number of elements in the datatable
 dataTable_default_limit = 10
 
+; if set to true, the website selector will be displayed in the Piwik UI
+; if your Piwik installation has thousands of websites, you may disable the website selector
+; as it slows down the loading of the Piwik UI by setting this value to false
+show_website_selector_in_user_interface = true
+
 ; PHP minimum required version (minimum requirement known to date = ->newInstanceArgs)
 minimum_php_version = 5.1.3
 

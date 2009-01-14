@@ -78,9 +78,15 @@ class Piwik_View implements Piwik_iView
 			$this->currentModule = Piwik::getModule();
 			$this->currentPluginName = Piwik::getCurrentPlugin()->getName();
 			$this->userLogin = Piwik::getCurrentUserLogin();
-			$sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
-			usort($sites, create_function('$site1, $site2', 'return strtolower($site1["name"]) > strtolower($site2["name"]);'));
-			$this->sites = $sites;
+			
+			$showWebsiteSelectorInUserInterface = Zend_Registry::get('config')->General->show_website_selector_in_user_interface;
+			if($showWebsiteSelectorInUserInterface)
+			{
+				$sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+				usort($sites, create_function('$site1, $site2', 'return strtolower($site1["name"]) > strtolower($site2["name"]);'));
+				$this->sites = $sites;
+			}
+			$this->showWebsiteSelectorInUserInterface = $showWebsiteSelectorInUserInterface;
 			$this->url = Piwik_Url::getCurrentUrl();
 			$this->token_auth = Piwik::getCurrentUserTokenAuth();
 			$this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
