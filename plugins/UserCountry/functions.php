@@ -2,7 +2,7 @@
 
 function Piwik_getFlagFromCode($code)
 {
-	$path = 'plugins/UserCountry/flags/%s.png';
+	$path = PIWIK_INCLUDE_PATH . '/plugins/UserCountry/flags/%s.png';
 	
 	$normalPath = sprintf($path,$code);
 	
