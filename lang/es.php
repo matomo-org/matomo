@@ -1,4 +1,3 @@
-<<<<<<< .mine
 <?php 
 $translations = array(
 	'General_Locale' => 'es_ES.UTF-8',
