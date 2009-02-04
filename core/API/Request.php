@@ -87,8 +87,6 @@ class Piwik_API_Request
 	 * It then reads the parameters from the request string and throws an exception if there are missing parameters.
 	 * It then calls the API Proxy which will call the requested method.
 	 * 
-	 * @see the method handleReturnedValue() for the data post process logic 
-	 * 
 	 * @return mixed The data resulting from the API call  
 	 */
 	public function process()
