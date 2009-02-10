@@ -1,38 +1,27 @@
 To fix
 ======
+- Lors de la génération des données sur mon site de test :
+Fatal error: Call to undefined method Piwik_Tracker_Db::prefixTable() in E:\Projects\wowww\piwik\core\Tracker\Db.php on line 241
+- keywords duplicated
+- On the dashboard, the pie graph for the browsers by family widget is very small.
+- Problème de traduction dans Visiteurs > Récapitulatifs
+Évolution sur les 30 derniers __ days __
+- trim keywords
 - cron should return errors when token doesn't have any website
 - need documentation about campaigns, inline help link to FAQ
 - <idsubdatatable>1</idsubdatatable> shouldnt be in api response
 - when used with visitsGenerator, in dowloads export XML, full_url and url is 0
-- post 29 There seems not to be a way to export the pages information widget. 
-  I wanted to download the entry pages to see where my visitors entered my site from,
-  but there is no option to do so.
 - ADD forward of non true show_values to forward when specified from URL to ajax
 - disable show icon in some iframes and/or dashboard 
 - clarify 'false' '0' values etc. //convert all JS datatable footer parameter values to '1' or '0'
+- why widgetize inherits Piwik_Widgetize_Controller
+- plugins should listen to user delete/ site delete and delete their own user/site related data
+- postEvent smarty doc is not clear, + feature we're not using (filter but what we need is simply way to print out html in templates from plugins)
 
-Bugs
-====
 - actions for year seems to not load (memory issue?)
-- all graphic showing data evolution are labelled with the text &quot;nb_uniq_visitors&quot; 
-  no matter if youre watching last visits graph, global visits graph or any other. 
-  Its happening in every graph under Visitors subpages and in the Dashboard.
-- In Referers-&gt;Evolution page, in addition, I think its melting titles because I read 
-  in spanish &quot;Entrada directa nb_uniq_visitors&quot; for the first graph, 
-  &quot;Paginas web nb_uniq_visitors&quot; for the second and so on.
 
 Reports improvements
 ====================
-- add new column "overall visits with conversion"
-- add visits with conversion sparkline in VisitsSummary overview
-- add link under widgets to report (optional display)
-- link under goal conversion to full goal reports (optional display)
-- think of ways to show entry / exit pages and bounce rate.
-- show unique visitors when available, otherwise show nb_visits by default
-- bounce count should be bounce rate
-- idem in 222 times that a returning visit has bounced (left the site after one page) 
-- show new vs returning more clearly in UI
-- see also #421
 - add "days since last visit"
 - add "visit count until conversion"
 - add best search engines, keywords, campaigns, websites in referers overview
@@ -45,40 +34,14 @@ Test page
 - test datatable with low population disabled
 - without footer
 - without all columns icon
-
-high priority features
-====
-- Goal tracking
-- Entry/Exit pages
-- sync update + email install + automatic update
-- tester clickheat http://www.labsmedia.com/clickheat/piwik-clickheat.tar.gz + add FAQ
-- Live!
-- new JS tagging API
-- Exclude webmaster
-- Loyalty (Most people visited: 1 times) and Recency (Most people last visited: X days ago)
-  http://en.wikipedia.org/wiki/RFM
-- simple MultiSites report plugin.
   
 User Interface improvements
 ===========================
 - add icon calendar http://developer.yahoo.com/ypatterns/pattern.php?pattern=calendar#Solution
 - something is wrong in JS calendar when year selected
 
-piwik.org
-====
-- 404 more useful
-- fix Piwik changelog
-- www.piwik.org/demo/ is 404
-
 Code improvements
 =================
-- plugins should listen to user delete/ site delete and delete their own user/site related data
-- why widgetize inherits Piwik_Widgetize_Controller
-- plugins could have their own tests, read automatically from the test suite
-
-Documentation
-=============
-- postEvent smarty doc is not clear, + feature we're not using (filter but what we need is simply way to print out html in templates from plugins)
 
 changes between 2 versions
 http://dev.piwik.org/trac/changeset?old_path=tags%2F0.2.23&old=&new_path=tags%2F0.2.24&new=

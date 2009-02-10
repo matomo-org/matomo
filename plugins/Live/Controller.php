@@ -13,11 +13,17 @@ class Piwik_Live_Controller extends Piwik_Controller
 	function getLastVisits($fetch = false)
 	{
 		$idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+		$minIdVisit = Piwik_Common::getRequestVar('minIdVisit', 0, 'int');
 		$limit = 10;
-		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$idSite&limit=$limit&format=php&serialize=0&disable_generic_filters=1");
+		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$idSite&limit=$limit&minIdVisit=$minIdVisit&format=php&serialize=0&disable_generic_filters=1");
 		
 		$view = new Piwik_View('Live/templates/lastVisits.tpl');
-		$view->visitors = $api->process();
+		$visitors = $api->process();
+		if($minIdVisit == 0)
+		{
+			$visitors = array_slice($visitors, 3);
+		}
+		$view->visitors = $visitors;
 		$rendered = $view->render($fetch);
 		
 		if($fetch)

@@ -9,8 +9,10 @@
 	<li>Returning visitors conversion rate is <b>{$conversion_rate_returning}%</b>, New Visitors conversion rate is <b>{$conversion_rate_new}%</b></li>
 	</ul>
 {/if}
+<hr>
+{$tableByConversion}
 
-
+<hr>
 {literal}
 <style>
 ul.ulGoalTopElements {

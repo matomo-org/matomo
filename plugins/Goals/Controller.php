@@ -26,7 +26,26 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->title = $goalDefinition['name'] . ' - Conversions';
 		$view->graphEvolution = $this->getLastNbConversionsGraph(true);
 		$view->nameGraphEvolution = 'GoalsgetLastNbConversionsGraph'; // must be the function name used above
+		$view->topSegments = $this->getTopSegments($idGoal);
 		
+		// conversion rate for new and returning visitors
+		$request = new Piwik_API_Request("method=Goals.getConversionRateReturningVisitors&format=original");
+		$view->conversion_rate_returning = round( $request->process(), self::CONVERSION_RATE_PRECISION );
+		$request = new Piwik_API_Request("method=Goals.getConversionRateNewVisitors&format=original");
+		$view->conversion_rate_new = round( $request->process(), self::CONVERSION_RATE_PRECISION );
+		
+		$verticalSlider = array();
+		// string label
+		// array parameters to ajax call on click (module, action)
+		// specific order
+		// (intermediate labels)
+		// automatically load the first from the list, highlights it
+		$view->tableByConversion = Piwik_FrontController::getInstance()->fetchDispatch('Referers', 'getKeywords', array(false, 'tableGoals'));
+		echo $view->render();
+	}
+	
+	protected function getTopSegments($idGoal)
+	{
 		$columnNbConversions = 'goal_'.$idGoal.'_nb_conversions';
 		$columnConversionRate = 'goal_'.$idGoal.'_conversion_rate';
 		
@@ -57,17 +76,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
 				);
 			}
 			$topSegments[$segmentName] = $topSegment;
-//			echo $datatable;
 		}
-		
-		$request = new Piwik_API_Request("method=Goals.getConversionRateReturningVisitors&format=original");
-		$view->conversion_rate_returning = round( $request->process(), self::CONVERSION_RATE_PRECISION );
-		$request = new Piwik_API_Request("method=Goals.getConversionRateNewVisitors&format=original");
-		$view->conversion_rate_new = round( $request->process(), self::CONVERSION_RATE_PRECISION );
-		
-		$view->topSegments = $topSegments;
-		echo $view->render();
-		//todo next: nice legends for graphs
+		return $topSegments;
 	}
 	
 	protected function getMetricsForGoal($goalId)

@@ -140,7 +140,8 @@ class Piwik_Common
 	}
 	
 	/**
-	 * ending WITHOUT slashs
+	 * ending WITHOUT slash
+	 * @return string 
 	 */
 	static public function getPathToPiwikRoot()
 	{

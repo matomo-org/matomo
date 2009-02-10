@@ -31,7 +31,7 @@ class Piwik_Referers_API
 	/**
 	 * @return Piwik_DataTable
 	 */
-	private function getDataTable($name, $idSite, $period, $date, $expanded, $idSubtable = null)
+	protected function getDataTable($name, $idSite, $period, $date, $expanded, $idSubtable = null)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );

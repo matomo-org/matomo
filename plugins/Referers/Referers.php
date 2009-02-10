@@ -14,6 +14,7 @@
  */
 class Piwik_Referers extends Piwik_Plugin
 {	
+	public $archiveProcessing;
 	public function getInformation()
 	{
 		$info = array(
@@ -124,17 +125,17 @@ class Piwik_Referers extends Piwik_Plugin
 		}
 	}
 	
-	
 	public function archiveDay( $notification )
 	{
 		/**
 		 * @var Piwik_ArchiveProcessing_Day 
 		 */
-		$archiveProcessing = $notification->getNotificationObject();
+		$this->archiveProcessing = $notification->getNotificationObject();
 		
-		$this->archiveDayAggregateVisits($archiveProcessing);
-		$this->archiveDayAggregateGoals($archiveProcessing);
-		$this->archiveDayRecordInDatabase($archiveProcessing);
+		$this->archiveDayAggregateVisits($this->archiveProcessing);
+		$this->archiveDayAggregateGoals($this->archiveProcessing);
+		Piwik_PostEvent('Referers.archiveDay', $this);
+		$this->archiveDayRecordInDatabase($this->archiveProcessing);
 	}
 	
 	protected function archiveDayAggregateVisits($archiveProcessing)
