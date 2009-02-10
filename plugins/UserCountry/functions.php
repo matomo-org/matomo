@@ -2,12 +2,10 @@
 
 function Piwik_getFlagFromCode($code)
 {
-	$path = PIWIK_INCLUDE_PATH . '/plugins/UserCountry/flags/%s.png';
-	
-	$normalPath = sprintf($path,$code);
-	
-	// flags not in the package !
-	if(!file_exists($normalPath))
+	$path = 'plugins/UserCountry/flags/%s.png';
+	$normalPath = sprintf($path, $code);
+	$absolutePath = PIWIK_INCLUDE_PATH . "/" . $normalPath;
+	if(!file_exists($absolutePath))
 	{
 		return sprintf($path, 'xx');			
 	}

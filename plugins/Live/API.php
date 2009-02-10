@@ -100,7 +100,7 @@ class Piwik_Live_API
 			$whereBind[] = $visitorId;
 		}
 		
-		if(!$minIdVisit)
+		if(!is_null($minIdVisit))
 		{
 			$where[] = " idvisit > ? ";
 			$whereBind[] = $minIdVisit;

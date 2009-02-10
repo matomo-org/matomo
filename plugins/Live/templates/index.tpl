@@ -9,7 +9,14 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() { 
-		$('#visits').spy({ limit: 10, 'fadeInSpeed': '1400', ajax: 'index.php?module=Live&idSite=1&action=getLastVisits', timeout: 5000, customParameterName: 'minIdVisit', customParameterValueCallback: lastIdVisit, fadeInSpeed: 1400 });
+		$('#visits').spy({ 
+			limit: 10, 
+			ajax: 'index.php?module=Live&idSite=1&action=getLastVisits', 
+			timeout: 500, 
+			customParameterName: 'minIdVisit', 
+			customParameterValueCallback: lastIdVisit, 
+			fadeInSpeed: 1400 }
+		);
 	});
 	
 	function lastIdVisit()
