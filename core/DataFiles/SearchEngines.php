@@ -110,7 +110,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.aolrecherche.aol.fr"	=> array("AOL", "q"),
 		"www.aolrecherches.aol.fr" 	=> array("AOL", "query"),
 		"www.aolimages.aol.fr"   	=> array("AOL", "query"),
-		"www.recherche.aol.fr"		=> array("AOL", "q"),
+		"www.recherche.aol.fr"		=> array("AOL", "query"),
 		"aolsearcht.aol.com"		=> array("AOL", "query"),
 		"find.web.aol.com"		=> array("AOL", "query"),
 		"recherche.aol.ca"		=> array("AOL", "query"),
@@ -195,6 +195,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Club Internet
 		"recherche.club-internet.fr"    => array("Club Internet", "q"),
 		
+		// Conduit
+		"search.conduit.com"         => array("Conduit.com (Powered by Google)", "q"),
+	
 		// Comcast
 		"www.comcast.net" 		=> array("Comcast", "query"),
 		
@@ -306,9 +309,15 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"search1-2.free.fr"		=> array("Free", "q"),
 		"search1-1.free.fr"		=> array("Free", "q"),
 		
+		//Freecause
+		"search.freecause.com" => array("FreeCause", "q"),
+	  
 		// Freenet
 		"suche.freenet.de"		=> array("Freenet", "query"),
 		
+		// FriendFeed
+		"friendfeed.com" 			=> array("FriendFeed", "q"),
+	
 		//Froogle
 		"froogle.google.com" 		=> array("Google (Froogle)", "q"),
 		"froogle.google.de" 		=> array("Google (Froogle)", "q"),
@@ -513,6 +522,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"misc.skynet.be" 		=> array("Google", "keywords"),
 		"www.start.no" 			=> array("Google", "q"),
 		"verden.abcsok.no"		=> array("Google", "q"),
+		"search3.incredimail.com"         => array("Google", "q"), 
 		"search.sweetim.com"	        => array("Google", "q"),
 		
 		
@@ -716,6 +726,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Looksmart
 		"www.looksmart.com"		=> array("Looksmart", "key"),
+		
+		//Lo.st
+		"lo.st" 				=> array("Lo.st (Powered by Google)", "x_query"),
 		
 		// Lycos
 		"search.lycos.com"		=> array("Lycos", "query"),
@@ -1046,6 +1059,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"kr.search.yahoo.com" 		=> array("Yahoo!", "p"),
 		"mx.search.yahoo.com" 		=> array("Yahoo!", "p"),
 		"nl.search.yahoo.com" 		=> array("Yahoo!", "p"),
+		"qc.search.yahoo.com"  		=> array("Yahoo!", "p"), 
 		"uk.search.yahoo.com" 		=> array("Yahoo!", "p"),
 		"cade.search.yahoo.com"		=> array("Yahoo!", "p"),
 		"tw.search.yahoo.com" 		=> array("Yahoo!", "p"),
