@@ -35,10 +35,16 @@
 
 function smarty_function_loadJavascriptTranslations($params, &$smarty) 
 {
+	static $pluginTranslationsAlreadyLoaded = array();
 	if(!isset($params['plugins']))
 	{
 		throw new Exception("The smarty function loadJavascriptTranslations needs a 'plugins' parameter.");
 	}
+	if(in_array($params['plugins'], $pluginTranslationsAlreadyLoaded))
+	{
+		return;
+	}
+	$pluginTranslationsAlreadyLoaded[] = $params['plugins'];
 	$translate = Piwik_Translate::getInstance();
 	$jsTranslations = $translate->getJavascriptTranslations(explode(' ',$params['plugins']));
 	
