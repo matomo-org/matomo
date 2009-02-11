@@ -17,7 +17,8 @@ function Piwik_getHostnameUrl($in)
 	if(empty($in)
 		|| strtolower($in) === 'ip')
 	{
-		return "";
+		// link to "what does 'IP' mean?"
+		return "http://piwik.org/faq/general/#faq_52";
 	}
 	return "http://www.".$in."/";
 }
