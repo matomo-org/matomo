@@ -83,7 +83,7 @@ class Piwik_View implements Piwik_iView
 			if($showWebsiteSelectorInUserInterface)
 			{
 				$sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
-				usort($sites, create_function('$site1, $site2', 'return strtolower($site1["name"]) > strtolower($site2["name"]);'));
+				usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
 				$this->sites = $sites;
 			}
 			$this->showWebsiteSelectorInUserInterface = $showWebsiteSelectorInUserInterface;
