@@ -6,6 +6,6 @@
 	{if isset($period)}piwik.period = "{$period}";{/if}
 	{if isset($date)}piwik.currentDateString = "{$date}";{/if}
 	{if isset($minDateYear)}piwik.minDateYear = {$minDateYear};{/if}
-	{if isset($minDateMonth)}piwik.minDateMonth = {$minDateMonth};{/if}
-	{if isset($minDateDay)}piwik.minDateDay = {$minDateDay};{/if}
+	{if isset($minDateMonth)}piwik.minDateMonth = parseInt("{$minDateMonth}", 10);{/if}
+	{if isset($minDateDay)}piwik.minDateDay = parseInt("{$minDateDay}", 10);{/if}
 </script>
