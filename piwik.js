@@ -139,7 +139,7 @@ function _pk_init_tracker(_pk_site, _pk_pkurl)
 	if( typeof(piwik_download_extensions) != "undefined" )
 		_pk_download_extensions = piwik_download_extensions;
 
-	_pk_hosts_alias = ( typeof(piwik_hosts_alias) != "undefined" ? piwik_hosts_alias : new Array())
+	_pk_hosts_alias = ( typeof(piwik_hosts_alias) != "undefined" ? piwik_hosts_alias : new Array());
 	_pk_hosts_alias.push(window.location.hostname);
 
 	if( !_pk_install_tracker )
@@ -148,11 +148,19 @@ function _pk_init_tracker(_pk_site, _pk_pkurl)
 	_pk_tracker_site = _pk_site;
 	_pk_tracker_url = _pk_pkurl;
 
+	var _pk_ignore_regexp = '(?:^| )(piwik_ignore';
+	if (typeof(piwik_ignore_classes) != "undefined")
+		for(var i=0; i < piwik_ignore_classes.length; i++)
+			_pk_ignore_regexp += '|' + piwik_ignore_classes[i];
+	_pk_ignore_regexp += ')(?: |$)';
+
+	var _pk_class = new RegExp(_pk_ignore_regexp);
+
 	if (document.getElementsByTagName) {
 		linksElements = document.getElementsByTagName('a')
 		for (var i = 0; i < linksElements.length; i++) {
-		if( linksElements[i].className != 'piwik_ignore' )
-			_pk_add_event(linksElements[i], 'mousedown', _pk_click, false);
+			if( !_pk_class.exec( linksElements[i].className ) )
+				_pk_add_event(linksElements[i], 'mousedown', _pk_click, false);
 		}
 	}
 }
@@ -176,9 +184,24 @@ function piwik_track(url, _pk_site, _pk_url, _pk_type)
 }
 
 function _pk_is_site_hostname(_pk_hostname) {
-	for(i = 0; i < _pk_hosts_alias.length; i++)
-		if( _pk_hostname == _pk_hosts_alias[i] ) 
+	var alias, offset;
+
+	for(var i in _pk_hosts_alias) {
+		alias = _pk_hosts_alias[i];
+
+		if( _pk_hostname === alias )
 			return true;
+
+		if ( alias.substr(0, 2) == "*." ) {
+			if ((_pk_hostname) == alias.substr(2))
+				return true;
+
+			offset = _pk_hostname.length - alias.length + 1;
+			if ((offset > 0) && (_pk_hostname.substr(offset) == alias.substr(1)))
+				return true;
+		}
+	}
+
 	return false;
 }
 
@@ -201,17 +224,16 @@ function _pk_click(e)
 	if( typeof source.href == 'undefined' )
 		return true;
 
+	var _pk_class = new RegExp('(?:^| )piwik_(download|link)(?: |$)');
 	var _pk_download = new RegExp('\\.(' + _pk_download_extensions + ')$', 'i');
-	var _pk_link_type;
 	var _pk_not_site_hostname = !_pk_is_site_hostname(source.hostname);
+	var _pk_link_match = _pk_class.exec( source.className);
+	var _pk_link_type = _pk_link_match ? _pk_link_match[1] : 0;
 
-	if( source.className == "piwik_download" )
-		_pk_link_type = 'download';
-	else if( source.className == "piwik_link" ) {
-		_pk_link_type = 'link';
+	if (_pk_link_type == 'link')
 		_pk_not_site_hostname = 1;
-	}
-	else _pk_link_type = (_pk_download.test(source.href) ? 'download' : 'link');
+	else if (!_pk_link_type)
+		_pk_link_type = (_pk_download.test(source.href) ? 'download' : 'link');
 
 	if( _pk_not_site_hostname || _pk_link_type == 'download' ) 
 		piwik_track(source.href, _pk_tracker_site, _pk_tracker_url, _pk_link_type);
