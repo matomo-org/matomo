@@ -197,7 +197,7 @@ class Piwik_Tracker
 	{
 		if( !isset($GLOBALS['DEBUGPIWIK']) || !$GLOBALS['DEBUGPIWIK'] ) 
 		{
-			$trans_gif_64 = "R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAABAAEAAAICVAEAOw==";
+			$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 			header("Content-type: image/gif");
 			print(base64_decode($trans_gif_64));
 		}
