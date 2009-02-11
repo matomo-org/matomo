@@ -32,7 +32,7 @@ ul.ulGoalTopElements {
 <script>
 $(document).ready( function() {
 	$('.goalTopElement')
-		.Tooltip()
+		.tooltip()
 		;
 	});
 </script>

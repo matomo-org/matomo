@@ -142,7 +142,7 @@ function bindUpdateAccess()
 		//ask confirmation
 		var userLogin = $(this).parent().parent().find('#login').html();
 		$('.dialog#confirm #login').text( userLogin ); // if changed here change also the launchAjaxRequest
-		var question = $('.dialog#confirm').clone();
+		var question = $('.dialog#confirm');
 		$('#yes', question).click(function()
 		{
 			launchAjaxRequest(target, successCallback);	
@@ -150,7 +150,7 @@ function bindUpdateAccess()
 		});
 		
 		$('#no', question).click($.unblockUI);
-		$.blockUI(question, { width: '300px' });
+		$.blockUI({message: question, css: { width: '300px' }});
 	}
 	else
 	{

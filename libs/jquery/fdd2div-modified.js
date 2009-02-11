@@ -41,11 +41,11 @@
 		}
 		var options = $.extend(defaults, options);
 		
-		if($(this).attr('class')!=null) { 
-			MianCssClassName=$(this).attr('class');
-		} else {
+		if($(this).attr('class') == null || $(this).attr('class').length == 0) {
 			MianCssClassName=defaults.CssClassName;
-			$(this).attr("class", MianCssClassName);
+			$(this).attr('class', MianCssClassName);
+		} else {
+			MianCssClassName=$(this).attr('class');
 		}
 		
 		var unique_id = $(this).attr("id");
@@ -70,6 +70,8 @@
 			var FormAction = $(form).attr('action');
 			if(FormAction == null) {
 				FormAction="?";
+			} else if (FormAction.indexOf('?') < 0) {
+				FormAction+="?";
 			} else {
 				FormAction+="&";
 			}

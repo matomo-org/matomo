@@ -90,7 +90,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		return $view;
 	}
 	
-	protected function getFlashInvocationCode( $url = 'libs/open-flash-chart/data-files/nodata.txt', $use_swfobject = true  )
+	protected function getFlashInvocationCode( $url = 'libs/open-flash-chart/data-files/nodata.txt', $use_swfobject = true )
 	{ 
 		$width = $this->width; 
 		$height = $this->height; 
@@ -100,41 +100,35 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$pathToLibraryOpenChart = $currentPath . $libPathInPiwik;
 		
 		$url = Piwik_Url::getCurrentUrlWithoutQueryString() . $url;
-	    // escape the & and stuff:
-	    $url = urlencode($url);
-		
+		// escape the & and stuff:
+		$url = urlencode($url);
+
 		$obj_id = $this->uniqueIdViewDataTable . "Chart";
-	    $div_name = $this->uniqueIdViewDataTable . "FlashContent";
-	    	   
-	    $return = ''; 
-	    if( $use_swfobject )
-	    {
-	    	// Using library for auto-enabling Flash object on IE, disabled-Javascript proof
-		    $return .=  '
-				<div id="'. $div_name .'"></div>
-				<script type="text/javascript">
-				var so = new SWFObject("'.$pathToLibraryOpenChart.'open-flash-chart.swf", "'.$obj_id.'_swf", "'. $width . '", "' . $height . '", "9", "#FFFFFF");
-				so.addVariable("data", "'. $url . '");
-				so.addParam("allowScriptAccess", "sameDomain");
-				so.addParam("wmode", "opaque");
-				so.write("'. $div_name .'");
-				</script>
-				<noscript>
-				';
+		$div_name = $this->uniqueIdViewDataTable . "FlashContent";
+		$return = '';
+		if( $use_swfobject )
+		{
+			// Using library for auto-enabling Flash object on IE, disabled-Javascript proof
+			$return .=  '
+<div id="'. $div_name .'"><div id="'. $obj_id .'_swf"><noscript>';
 		}
 		$urlGraph = $pathToLibraryOpenChart."open-flash-chart.swf?data=" . $url;
 		
 		// when the object/embed is changed, see also widgetize.js; it may require a logic update
-		$this->graphCodeEmbed .= "<div><object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' codebase='http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='" . $width . "' height='" . $height . "' id='". $obj_id ."' >".
-							"<param name='movie' value='".$urlGraph."' />".
-							"<param name='wmode' value='opaque' />".
-							"<param name='allowScriptAccess' value='sameDomain' /> ".
-							"<embed src='$urlGraph' wmode='opaque' allowScriptAccess='sameDomain' quality='high' bgcolor='#FFFFFF' width='". $width ."' height='". $height ."' name='open-flash-chart' type='application/x-shockwave-flash' id='". $obj_id ."' />".
-							"</object></div>";
+		$this->graphCodeEmbed .= '<div><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="' . $width . '" height="' . $height . '" id="'. $obj_id .'" >
+<param name="movie" value="'.$urlGraph.'" />
+<param name="wmode" value="opaque" />
+<param name="allowScriptAccess" value="sameDomain" />
+<embed src="'.$urlGraph.'" wmode="opaque" allowScriptAccess="sameDomain" quality="high" bgcolor="#FFFFFF" width="'. $width .'" height="'. $height .'" name="open-flash-chart" type="application/x-shockwave-flash" id="'. $obj_id .'" />
+</object></div>';
 		$return .= $this->graphCodeEmbed;
-		
-		if ( $use_swfobject ) {
-			$return .= '</noscript>';
+		if( $use_swfobject )
+		{
+			$return .= '
+</noscript></div></div>
+<script type="text/javascript">
+swfobject.embedSWF("'.$pathToLibraryOpenChart.'open-flash-chart.swf", "'. $obj_id .'_swf", "'. $width . '", "' . $height . '", "9.0.0", false, {"data":"'.$url.'"}, {"allowScriptAccess":"sameDomain","wmode":"opaque"}, {"bgcolor":"#FFFFFF"});
+</script>';
 		}
 		
 		return $return;

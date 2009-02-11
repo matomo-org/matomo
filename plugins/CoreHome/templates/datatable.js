@@ -571,7 +571,7 @@ dataTable.prototype =
 
 		$(domElemToTruncate).truncate(truncationLimit);
 		$('.truncated', domElemToTruncate)
-			.Tooltip();
+			.tooltip();
 	},
 
 	//Apply some miscelleaneous style to the DataTable
@@ -838,7 +838,7 @@ actionDataTable.prototype =
 				$("td:first-child:even", this).addClass('label labelodd');
 				// we truncate the labels columns from the second row
 				$("td:first-child", this).truncate(30);
-			    $('.truncated', this).Tooltip();
+			    $('.truncated', this).tooltip();
 			})
 			.removeClass('rowToProcess');
 	},

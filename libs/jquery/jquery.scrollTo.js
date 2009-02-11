@@ -1,14 +1,11 @@
-;(function($){$.scrollTo=function(target,duration,settings){$($.browser.safari?'body':'html').scrollTo(target,duration,settings);};$.scrollTo.defaults={axis:'y',duration:1};$.fn.scrollTo=function(target,duration,settings){if(typeof duration=='object'){settings=duration;duration=0;}
-settings=$.extend({},$.scrollTo.defaults,settings);if(!duration)
-duration=settings.speed||settings.duration;settings.queue=settings.queue&&settings.axis.length==2;if(settings.queue)
-duration=Math.ceil(duration/2);if(typeof settings.offset=='number')
-settings.offset={left:settings.offset,top:settings.offset};return this.each(function(){var elem=this,$elem=$(elem),t=target,toff,attr={},win=$elem.is('html,body');switch(typeof t){case'number':case'string':if(/^([+-]=)?\d+(px)?$/.test(t)){t={top:t,left:t};break;}
-t=$(t,this);case'object':if(t.is||t.style)
-toff=(t=$(t)).offset();}
-$.each(settings.axis.split(''),parse);animate(settings.onAfter);function parse(i,axis){var Pos=axis=='x'?'Left':'Top',pos=Pos.toLowerCase(),key='scroll'+Pos,act=elem[key];if(toff){attr[key]=toff[pos]+(win?0:act-$elem.offset()[pos]);if(settings.margin){attr[key]-=parseInt(t.css('margin'+Pos))||0;attr[key]-=parseInt(t.css('border'+Pos+'Width'))||0;}
-if(settings.offset&&settings.offset[pos])
-attr[key]+=settings.offset[pos];}else{attr[key]=t[pos];}
-if(/^\d+$/.test(attr[key]))
-attr[key]=attr[key]<=0?0:Math.min(attr[key],max(axis));if(!i&&settings.queue){if(act!=attr[key])
-animate(settings.onAfterFirst);delete attr[key];}};function animate(callback){$elem.animate(attr,duration,settings.easing,function(){if(callback)
-callback.call(this,$elem,attr,t);});};function max(axis){var el=win?$.browser.opera?document.body:document.documentElement:elem,Dim=axis=='x'?'Width':'Height';return el['scroll'+Dim]-el['client'+Dim];};});};})(jQuery);
+/**
+ * jQuery.ScrollTo - Easy element scrolling using jQuery.
+ * Copyright (c) 2007-2008 Ariel Flesler - aflesler(at)gmail(dot)com | http://flesler.blogspot.com
+ * Dual licensed under MIT and GPL.
+ * Date: 9/11/2008
+ * @author Ariel Flesler
+ * @version 1.4
+ *
+ * http://flesler.blogspot.com/2007/10/jqueryscrollto.html
+ */
+;(function(h){var m=h.scrollTo=function(b,c,g){h(window).scrollTo(b,c,g)};m.defaults={axis:'y',duration:1};m.window=function(b){return h(window).scrollable()};h.fn.scrollable=function(){return this.map(function(){var b=this.parentWindow||this.defaultView,c=this.nodeName=='#document'?b.frameElement||b:this,g=c.contentDocument||(c.contentWindow||c).document,i=c.setInterval;return c.nodeName=='IFRAME'||i&&h.browser.safari?g.body:i?g.documentElement:this})};h.fn.scrollTo=function(r,j,a){if(typeof j=='object'){a=j;j=0}if(typeof a=='function')a={onAfter:a};a=h.extend({},m.defaults,a);j=j||a.speed||a.duration;a.queue=a.queue&&a.axis.length>1;if(a.queue)j/=2;a.offset=n(a.offset);a.over=n(a.over);return this.scrollable().each(function(){var k=this,o=h(k),d=r,l,e={},p=o.is('html,body');switch(typeof d){case'number':case'string':if(/^([+-]=)?\d+(px)?$/.test(d)){d=n(d);break}d=h(d,this);case'object':if(d.is||d.style)l=(d=h(d)).offset()}h.each(a.axis.split(''),function(b,c){var g=c=='x'?'Left':'Top',i=g.toLowerCase(),f='scroll'+g,s=k[f],t=c=='x'?'Width':'Height',v=t.toLowerCase();if(l){e[f]=l[i]+(p?0:s-o.offset()[i]);if(a.margin){e[f]-=parseInt(d.css('margin'+g))||0;e[f]-=parseInt(d.css('border'+g+'Width'))||0}e[f]+=a.offset[i]||0;if(a.over[i])e[f]+=d[v]()*a.over[i]}else e[f]=d[i];if(/^\d+$/.test(e[f]))e[f]=e[f]<=0?0:Math.min(e[f],u(t));if(!b&&a.queue){if(s!=e[f])q(a.onAfterFirst);delete e[f]}});q(a.onAfter);function q(b){o.animate(e,j,a.easing,b&&function(){b.call(this,r,a)})};function u(b){var c='scroll'+b,g=k.ownerDocument;return p?Math.max(g.documentElement[c],g.body[c]):k[c]}}).end()};function n(b){return typeof b=='object'?b:{top:b,left:b}}})(jQuery);
