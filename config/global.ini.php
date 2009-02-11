@@ -64,7 +64,7 @@ PluginsInstalled[] = Installation
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process
-always_archive_data = true
+always_archive_data = false
 
 ; if set to true, all the SQL queries will be recorded by the profiler 
 ; and a profiling summary will be printed at the end of the request
@@ -74,7 +74,7 @@ enable_sql_profiler = false
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
 ; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
-time_before_archive_considered_outdated = 1000
+time_before_archive_considered_outdated = 10
 
 ; When loading piwik interface, we redirect the user to 'yesterday' statistics by default
 ; Possible values: yesterday, today, or any YYYY-MM-DD
