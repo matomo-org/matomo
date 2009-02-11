@@ -1,12 +1,13 @@
 <?php
 /*
  * Sparkline PHP Graphing Library
- * Copyright 2004 James Byers <jbyers@users.sf.net>
+ * Copyright 2004 James Byers <jbyers@gmail.com>
  * http://sparkline.org
  *
- * Sparkline is distributed under a BSD License.  See LICENSE for details.
+ * Dual-licensed under the BSD (LICENSE-BSD.txt) and GPL (LICENSE-GPL.txt)
+ * licenses.
  *
- * $Id: Sparkline_Bar.php,v 1.2 2004/11/09 06:18:52 jbyers Exp $
+ * $Id: Sparkline_Bar.php,v 1.3 2008/03/11 19:12:49 jbyers Exp $
  *
  */
 

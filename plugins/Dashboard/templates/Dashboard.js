@@ -109,7 +109,9 @@ dashboard.prototype =
 	addEmptyWidget: function(colNumber, plugin, action, onTop)
 	{
 		var self = this;
-		
+
+		if((plugin === "") || (action === ""))  return;
+
 		if(typeof onTop == "undefined")
 			onTop = false;
 		
@@ -248,7 +250,7 @@ dashboard.prototype =
 		var self = this;
 		   
 		//ask confirmation and delete item
-		var question = $('.dialog#confirm').clone();
+		var question = $('.dialog#confirm');
 		$('#yes', question).click(function()
 		{
 			var item = $(target).parents('.items');
@@ -271,7 +273,7 @@ dashboard.prototype =
 			$('.menu#widgetChooser .menuItem[pluginToLoad='+plugin+'][actionToLoad='+action+']').show();
 		});
 		$('#no', question).click($.unblockUI);
-		$.blockUI(question, { width: '300px', border:'1px solid black' }); 
+		$.blockUI({message: question, css: { width: '300px', border:'1px solid black' }});
 	},
 	
 	//dummies are invisible item that help for widget positionning

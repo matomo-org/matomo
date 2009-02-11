@@ -115,8 +115,8 @@ widgetMenu.prototype =
 
 		//update widget preview on submenu#2 mouse over
 		$('.menuItem', self.menu)
-		.click(function(){	self.movePreviewToDashboard(); })
-		.hover( function() 
+		.click( function() { if(!$(this).hasClass('menuDisabled'))  self.movePreviewToDashboard(); })
+		.hover( function()
 		{
 			if($(this).hasClass('menuDisabled'))
 			{
@@ -161,8 +161,8 @@ widgetMenu.prototype =
 		if(self.dashboard != undefined) 
 		{
 			self.filterOutAlreadyLoadedWidget();
-			var dispMenu = $('#widgetChooser').clone(true);
-			$.blockUI(dispMenu, {width:'', top: '5%',left:'10%', right:'10%', margin:"0px", textAlign:'', cursor:'', border:'0px'});
+			var dispMenu = $('#widgetChooser');
+			$.blockUI({message: dispMenu, css: {width:'', top: '5%',left:'10%', right:'10%', margin:"0px", textAlign:'', cursor:'', border:'0px'}});
 			menuDom = $('.blockMsg #widgetChooser');
 		}
 		else

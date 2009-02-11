@@ -77,8 +77,8 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		$this->lines = array();
 		$this->line_default['type'] = 'line';
 		$this->line_default['values'] = '3,#87421F';
-		$this->js_line_default = 'so.addVariable("line","3,#87421F");';
-		
+		//$this->js_line_default = 'flashvars["line"] = "3,#87421F";';
+
 		$this->bg_colour = '';
 		$this->bg_image = '';
 	
@@ -199,7 +199,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 	{
 		if($this->output_type == 'js')
 		{
-			$tmp = 'so.addVariable("'. $function .'","'. $values . '");';
+			$tmp = 'flashvars["' . $function . '"] = "' . $values . '";';
 		}
 		else
 		{
@@ -1044,12 +1044,12 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		if($this->output_type == 'js')
 		{
 			$this->set_unique_id();
-		
-			$tmp[] = '<div id="' . $this->unique_id . '"></div>';
+
+			// alternate content (<p></p>) is empty for browsers without Flash
+			$tmp[] = '<div id="' . $this->unique_id . '"><p></p></div>';
 			$tmp[] = '<script type="text/javascript" src="' . $this->js_path . 'swfobject.js"></script>';
 			$tmp[] = '<script type="text/javascript">';
-			$tmp[] = 'var so = new SWFObject("' . $this->swf_path . 'open-flash-chart.swf", "ofc", "'. $this->width . '", "' . $this->height . '", "9", "#FFFFFF");';
-			$tmp[] = 'so.addVariable("variables","true");';
+			$tmp[] = 'var flashvars = [];';
 		}
 
 		if( strlen( $this->title ) > 0 )
@@ -1238,7 +1238,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 		
 		if($this->output_type == 'js')
 		{
-			$tmp[] = 'so.write("' . $this->unique_id . '");';
+			$tmp[] = 'swfobject.embedSWF("' .  $this->swf_path . 'open-flash-chart.swf", "' . $this->unique_id . '", "'. $this->width . '", "' . $this->height . '", "9.0.0", false, flashvars, {bgcolor:"#FFFFFF"}, {id:"ofc",name:"ofc"});';
 			$tmp[] = '</script>';
 		}
 		
@@ -1269,7 +1269,6 @@ class line
 		$this->tips = array();
 		$this->_key = false;
 	}
-
 
 	function key( $key, $size )
 	{
@@ -1326,16 +1325,12 @@ class line
 		
 		if( $output_type == 'js' )
 		{
-			$tmp[] = 'so.addVariable("'. $this->var.$set_num .'","'. $values . '");'; 
-
-			$tmp[] = 'so.addVariable("values'. $set_num .'","'. implode( ',', $this->data ) .'");';
-			
+			$tmp[] = 'flashvars["'. $this->var.$set_num .'"] = "'. $values .'";';
+			$tmp[] = 'flashvars["values'. $set_num .'"] = "'. implode( ',', $this->data ) .'";';
 			if( count( $this->links ) > 0 )
-				$tmp[] = 'so.addVariable("links'. $set_num .'","'. implode( ',', $this->links ) .'");';
-				
+				$tmp[] = 'flashvars["links'. $set_num .'"] = "'. implode( ',', $this->links ) .'";';
 			if( count( $this->tips ) > 0 )
-				$tmp[] = 'so.addVariable("tool_tips_set'. $set_num .'","'. implode( ',', $this->tips ) .'");';
-
+				$tmp[] = 'flashvars["tool_tips_set'. $set_num .'"] = "'. implode( ',', $this->tips ) .'";';
 		}
 		else
 		{
@@ -1470,16 +1465,14 @@ class bar
 		
 		if( $output_type == 'js' )
 		{
-			$tmp[] = 'so.addVariable("'. $this->var.$set_num .'","'. $values . '");'; 
+			$tmp[] = 'flashvars["'. $this->var.$set_num .'"] = "'. $values . '";';
+			$tmp[] = 'flashvars["values'. $set_num .'"] = "'. implode( ',', $this->data ) .'";';
 
-			$tmp[] = 'so.addVariable("values'. $set_num .'","'. implode( ',', $this->data ) .'");';
-			
 			if( count( $this->links ) > 0 )
-				$tmp[] = 'so.addVariable("links'. $set_num .'","'. implode( ',', $this->links ) .'");';
-				
-			if( count( $this->tips ) > 0 )
-				$tmp[] = 'so.addVariable("tool_tips_set'. $set_num .'","'. implode( ',', $this->tips ) .'");';
+				$tmp[] = 'flashvars["links'. $set_num .'"] = "'. implode( ',', $this->links ) .'";';
 
+			if( count( $this->tips ) > 0 )
+				$tmp[] = 'flashvars["tool_tips_set'. $set_num .'"] = "'. implode( ',', $this->tips ) .'";';
 		}
 		else
 		{
