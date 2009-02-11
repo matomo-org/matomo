@@ -64,7 +64,7 @@ PluginsInstalled[] = Installation
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process
-always_archive_data = false
+always_archive_data = true
 
 ; if set to true, all the SQL queries will be recorded by the profiler 
 ; and a profiling summary will be printed at the end of the request
@@ -74,7 +74,7 @@ enable_sql_profiler = false
 ; Time in seconds after which an archive will be computed again. 
 ; This setting is used only for today's statistics.
 ; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
-time_before_archive_considered_outdated = 10
+time_before_archive_considered_outdated = 1000
 
 ; When loading piwik interface, we redirect the user to 'yesterday' statistics by default
 ; Possible values: yesterday, today, or any YYYY-MM-DD
@@ -129,6 +129,13 @@ login_cookie_name = piwik_auth
 
 ; login cookie expiration (30 days)
 login_cookie_expire = 2592000
+
+; email address that appears as a Sender in the password recovery email
+; if specified, {DOMAIN} will be replaced by the current Piwik domain
+login_password_recovery_email_address = "password-recovery@{DOMAIN}"
+
+; name that appears as a Sender in the password recovery email
+login_password_recovery_email_name = Piwik
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referers tables (keywords, search engines, campaigns, etc.)
