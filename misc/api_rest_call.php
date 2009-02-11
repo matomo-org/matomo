@@ -27,4 +27,4 @@ foreach($content as $row)
 	
 	print("<b>$keyword</b> ($hits hits)<br>");
 }
-?>
+

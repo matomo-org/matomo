@@ -28,15 +28,13 @@ require_once "core/testMinimumPhpVersion.php";
 // NOTE: the code above this comment must be PHP4 compatible
 date_default_timezone_set(date_default_timezone_get());
 
-if(!defined('ENABLE_DISPATCH'))
+if(!defined('ENABLE_ERROR_HANDLER') || ENABLE_ERROR_HANDLER)
 {
-	define('ENABLE_DISPATCH', true);	
+	require_once "core/ErrorHandler.php";
+	require_once "core/ExceptionHandler.php";
+	set_error_handler('Piwik_ErrorHandler');
+	set_exception_handler('Piwik_ExceptionHandler');
 }
-
-require_once "core/ErrorHandler.php";
-require_once "core/ExceptionHandler.php";
-set_error_handler('Piwik_ErrorHandler');
-set_exception_handler('Piwik_ExceptionHandler');
 
 if(strlen(session_id()) === 0)
 {
@@ -45,7 +43,7 @@ if(strlen(session_id()) === 0)
 
 require_once "FrontController.php";
 
-if(ENABLE_DISPATCH)
+if(!defined('ENABLE_DISPATCH') || ENABLE_DISPATCH)
 {
 	$controller = Piwik_FrontController::getInstance();
 	$controller->init();
