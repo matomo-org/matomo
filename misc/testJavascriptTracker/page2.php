@@ -11,23 +11,31 @@ And test the tracker by clicking all the links below, with several browsers...<b
 <br />
 </div>
 
-<a href="http://www.google.fr"> Site web de google france </a> <br />
-<a href="http://www.yahoo.fr"> Site web de yahoo france </a> <br />
-<a href="http://www.google.com"> Site web de google monde </a> <br />
-<a href="http://maps.google.fr"> Site web de google maps </a> <br />
-<a href="http://piwik.org"> Site web de piwik </a> <br />
-<a href="http://piwik.org/blog"> Site web de piwik </a> <br />
-<br />
-<a href="./test.pdf"> download pdf (rel) </a> <br />
-<a href="./test.jpg"> download jpg (rel) </a> <br />
-<a href="./test.zip"> download zip (rel) </a> <br />
-<a href="
-<?php echo $url; ?>
-test.rar"> download rar (abs) </a> <br />
-<br />
+<script type="text/javascript">
+<!--
+piwik_ignore_classes = ["no-tracking"];
+//-->
+</script>
+<h1>Ignore classes</h1>
+<a href="http://www.yahoo.com">Expecting a yahoo.com outlink</a> <br />
+<a href="http://piwik.org" class="piwik_ignore">Ignore this piwik.org outlink</a> <br />
+<a href="http://dev.piwik.org" class="no-tracking">Ignore this dev.piwik.org outlink</a> <br />
+
+<script type="text/javascript">
+<!--
+piwik_download_extensions = ".zip";
+//-->
+</script>
+<style type="text/css">
+a.boldlink {font-weight: bold}
+</style>
+<h1>Multiple classes</h1>
+<a href="./test.pdf" class="piwik_download">Track this download pdf (rel) </a> <br />
+<a href="./test.jpg" class="boldlink piwik_download">Track this download jpg (rel) </a> <br />
+<a href="./test.zip" class="boldlink no-tracking">Ignore this download zip (rel) </a> <br />
+
 <a href="./index.php"> Prev (rel)</a> <br />
 <a href="<?php echo $url; ?>index.php"> Prev (abs)</a> <br />
-
 
 <!-- Piwik -->
 <a href="http://piwik.org" title="Web analytics" onclick="window.open(this.href);return(false);">
@@ -43,3 +51,19 @@ piwik_log(piwik_action_name, piwik_idsite,piwik_url);
 <noscript><p>Web analytics <img src="<?php echo $urlPiwik; ?>/piwik.php" style="border:0" alt="piwik"/></p>
 </noscript></object></a>
 <!-- /Piwik -->
+
+<script type="text/javascript">
+
+var testPkIsSiteHostname = false;
+if(testPkIsSiteHostname) {
+	// automated testing
+	_pk_hosts_alias = ["*.example.com"];
+	
+	if (_pk_is_site_hostname("localhost")) alert("failed: localhost does not match");
+	if (_pk_is_site_hostname("google.com")) alert("failed: google.com does not match");
+	if (!_pk_is_site_hostname("example.com")) alert("failed: example.com does match");
+	if (!_pk_is_site_hostname("www.example.com")) alert("failed: www.example.com does match");
+	if (!_pk_is_site_hostname("www.sub.example.com")) alert("failed: www.sub.example.com does match");
+}
+</script>
+
