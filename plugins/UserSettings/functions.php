@@ -1,27 +1,27 @@
 <?php
-require_once "DataFiles/Browsers.php";
-require_once "DataFiles/OS.php";
-
+require_once "UserAgentParser/UserAgentParser.php";
+		
 function Piwik_getPluginsLogo( $oldLabel )
 {
 	return  "plugins/UserSettings/images/plugins/". $oldLabel . ".gif";
 }
 
-function Piwik_getOSLabel($oldLabel)
+function Piwik_getOSLabel($osId)
 {
-	if(isset($GLOBALS['Piwik_Oslist_IdToLabel'][$oldLabel]))
+	$osName = UserAgentParser::getOperatingSystemNameFromId($osId);
+	if($osName !== false)
 	{
-		return $GLOBALS['Piwik_Oslist_IdToLabel'][$oldLabel];
+		return $osName;
 	}
 	return 'UNK';
 }
 
-
-function Piwik_getOSShortLabel($oldLabel)
+function Piwik_getOSShortLabel($osId)
 {
-	if(isset($GLOBALS['Piwik_Oslist_IdToShortLabel'][$oldLabel]))
+	$osShortName = UserAgentParser::getOperatingSystemShortNameFromId($osId);
+	if($osShortName !== false)
 	{
-		return $GLOBALS['Piwik_Oslist_IdToShortLabel'][$oldLabel];
+		return $osShortName;
 	}
 	return 'UNK';
 }
@@ -42,10 +42,10 @@ function Piwik_getConfigurationLabel($str)
 	
 	$os = Piwik_getOSLabel($values[0]);
 	$name = $values[1];
-	$browser = 'Unknown';
-	if(isset($GLOBALS['Piwik_BrowserList_IdToLabel'][$name]))
+	$browser = UserAgentParser::getBrowserNameFromId($name);
+	if($browser === false)
 	{
-		$browser = $GLOBALS['Piwik_BrowserList_IdToLabel'][$name];
+		$browser = 'Unknown';
 	}
 	
 	$resolution = $values[2];
@@ -55,22 +55,25 @@ function Piwik_getConfigurationLabel($str)
 
 function Piwik_getBrowserLabel($oldLabel)
 {
-	$name = Piwik_getBrowserId($oldLabel);
+	$browserId = Piwik_getBrowserId($oldLabel);
 	$version = Piwik_getBrowserVersion($oldLabel);
-	if(isset($GLOBALS['Piwik_BrowserList_IdToLabel'][$name]))
+	$browserName = UserAgentParser::getBrowserNameFromId($browserId);
+	if( $browserName !== false)
 	{
-		return $GLOBALS['Piwik_BrowserList_IdToLabel'][$name] . " ". $version;
+		return $browserName . " ". $version;
 	}
 	return 'UNK';
 }
 
 function Piwik_getBrowserShortLabel($oldLabel)
 {
-	$name = Piwik_getBrowserId($oldLabel);
+	$browserId = Piwik_getBrowserId($oldLabel);
 	$version = Piwik_getBrowserVersion($oldLabel);
-	if(isset($GLOBALS['Piwik_BrowserList_IdToShortLabel'][$name]))
+	
+	$browserName = UserAgentParser::getBrowserShortNameFromId($browserId);
+	if( $browserName !== false)
 	{
-		return $GLOBALS['Piwik_BrowserList_IdToShortLabel'][$name] . " ". $version;
+		return $browserName . " ". $version;
 	}
 	return 'UNK';
 }

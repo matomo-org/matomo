@@ -9,9 +9,6 @@
  * @package Piwik_Actions
  */
 
-
-require_once "DataFiles/Browsers.php";
-require_once "DataFiles/OS.php";
 require_once "Actions.php";
 
 /**
