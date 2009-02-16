@@ -130,7 +130,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			'idRefererAction' => $idRefererAction, 
 			'timeSpentRefererAction' => $timeSpentRefererAction, 
 		); 
-		
+		printDebug($info);
+
 		/* 
 		* send the Action object ($this)  and the list of ids ($info) as arguments to the event 
 		*/ 

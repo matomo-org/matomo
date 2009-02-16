@@ -94,9 +94,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if( $this->isVisitorKnown() 
 			&& $this->isLastActionInTheSameVisit())
 		{
+			$idActionReferer = $this->visitorInfo['visit_exit_idaction'];
 			$this->handleKnownVisit($actionId, $someGoalsConverted);
 			$action->record( 	$this->visitorInfo['idvisit'], 
-								$this->visitorInfo['visit_exit_idaction'], 
+								$idActionReferer, 
 								$this->visitorInfo['time_spent_ref_action']
 						);
 		}
@@ -129,10 +130,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function handleKnownVisit($actionId, $someGoalsConverted)
 	{
-		printDebug("Visit known.");		
 		$serverTime 	= $this->getCurrentTimestamp();
 		$datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($serverTime);
-	
+		printDebug("Visit known. Current date is ".$datetimeServer);
+				
 		$sqlUpdateGoalConverted = '';
 		if($someGoalsConverted)
 		{
@@ -156,9 +157,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$this->visitorInfo['visit_server_date'] = $this->getCurrentDate();
 		
 		// will be updated in cookie
+		$this->visitorInfo['time_spent_ref_action'] = $serverTime - $this->visitorInfo['visit_last_action_time'];
 		$this->visitorInfo['visit_last_action_time'] = $serverTime;
 		$this->visitorInfo['visit_exit_idaction'] = $actionId;
-		$this->visitorInfo['time_spent_ref_action'] = $serverTime - $this->visitorInfo['visit_last_action_time'];
 	}
 	
 	/**
