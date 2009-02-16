@@ -1,5 +1,29 @@
 <?php
-
+/**
+ * Example usage
+ * 
+ * Browser info:
+ * var_dump(UserAgentParser::getBrowser($_SERVER['HTTP_USER_AGENT']));
+ * 
+ * Outputs:
+ * array
+ * 	'id' => 'FF' 
+ *  'name' => 'Firefox'
+ *  'short_name' => 'Firefox'
+ *  'version' => '3.0'
+ *  'major_number' => '3'
+ *  'minor_number' => '0'
+ * 
+ * Operating System info:
+ * var_dump(UserAgentParser::getOperatingSystem($_SERVER['HTTP_USER_AGENT']));
+ *
+ * Outputs:
+ * array
+ *  'id' => 'WXP'
+ * 	'name' => 'Windows XP'
+ * 	'short_name' => 'Win XP'
+ * 
+ */
 class UserAgentParser 
 {
 	// browser regex => browser ID
@@ -35,6 +59,7 @@ class UserAgentParser
 					'ibrowse'						=> 'IB',
 			);
 
+	// OS regex => OS ID
 	static protected $operatingSystems = array(
 						'iPhone'         => 'IPH',
 						'Nintendo Wii'   => 'WII',
@@ -53,7 +78,6 @@ class UserAgentParser
 						'Windows NT 4.0' => 'WNT',
 						'WinNT'          => 'WNT',
 						'Windows NT'     => 'WNT',
-						'Win 9x 4.90'    => 'WME',
 						'Win 9x 4.90'    => 'WME',
 						'Windows Me'     => 'WME',
 						'Win32'          => 'W95',
