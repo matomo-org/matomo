@@ -425,6 +425,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			return $this->userSettingsInformation;
 		}
+		require_once "UserAgentParser/UserAgentParser.php";
+		
 		$plugin_Flash 			= Piwik_Common::getRequestVar( 'fla', 0, 'int');
 		$plugin_Director 		= Piwik_Common::getRequestVar( 'dir', 0, 'int');
 		$plugin_Quicktime		= Piwik_Common::getRequestVar( 'qt', 0, 'int');
@@ -435,11 +437,13 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$plugin_Cookie 			= Piwik_Common::getRequestVar( 'cookie', 0, 'int');
 		
 		$userAgent		= Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_USER_AGENT']);
-		$aBrowserInfo	= Piwik_Common::getBrowserInfo($userAgent);
-		$browserName	= $aBrowserInfo['name'];
-		$browserVersion	= $aBrowserInfo['version'];
+		$aBrowserInfo	= UserAgentParser::getBrowser($userAgent);
 		
-		$os				= Piwik_Common::getOs($userAgent);
+		$browserName	= $aBrowserInfo['id'] !== false ? $aBrowserInfo['id'] : 'UNK';
+		$browserVersion	= $aBrowserInfo['version'] !== false ? $aBrowserInfo['version'] : '';
+		
+		$os				= UserAgentParser::getOperatingSystem($userAgent);
+		$os				= $os === false ? 'UNK' : $os['id'];
 		
 		$resolution		= Piwik_Common::getRequestVar('res', 'unknown', 'string');
 

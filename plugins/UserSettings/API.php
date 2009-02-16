@@ -9,8 +9,6 @@
  * @package Piwik_UserSettings
  */
 
-require_once "DataFiles/Browsers.php";
-require_once "DataFiles/OS.php";
 require_once "UserSettings/functions.php";
 
 /**
