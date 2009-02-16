@@ -1,5 +1,7 @@
 To fix
 ======
+- add zlib requirement for gzcompress
+- add upgradephp ctype
 - Lors de la génération des données sur mon site de test :
 Fatal error: Call to undefined method Piwik_Tracker_Db::prefixTable() in E:\Projects\wowww\piwik\core\Tracker\Db.php on line 241
 - keywords duplicated
