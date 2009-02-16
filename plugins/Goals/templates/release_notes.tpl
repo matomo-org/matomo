@@ -1,7 +1,8 @@
 <hr>
 <b>About the Goal Tracking Plugin</b><br>
 <pre>
-
+N/A% should be n/a
+lines with 0 visits and no conversion should not appear
 bug = http://forum.piwik.org/index.php?showtopic=150
 
 The Goal Tracking Plugin is in alpha release. There is more coming soon!

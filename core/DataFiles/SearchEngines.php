@@ -899,7 +899,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Rambler
 		"search.rambler.ru" 		=> array("Rambler", "words"),
-		
+		"www.rambler.ru"            => array("Rambler", "words"),
+		"nova.rambler.ru"           => array("Rambler", "query"), 
+
 		// Reacteur.com
 		"www.reacteur.com"		=> array("Reacteur", "kw"),
 		
