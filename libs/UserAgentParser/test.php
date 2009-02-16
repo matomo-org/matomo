@@ -24,11 +24,12 @@ if(isset($_GET['setUserAgent']) && !empty($_GET['setUserAgent'])) {
 }
 echo " <b>".htmlentities($userAgent)."</b><br><br>";
 
-echo "Browser info:";
+echo "Browser info:<pre>";
 var_dump(UserAgentParser::getBrowser($userAgent));
+echo "</pre>";
 
-echo "Operating System info:";
+echo "Operating System info:<pre>";
 var_dump(UserAgentParser::getOperatingSystem($userAgent));
-
+echo "</pre>";
 
 echo "<br><br><i>UserAgentParser doesn't detect your Operating System or Browser properly? <br>Please submit your user agent string and the expected result to hello at piwik.org. Patches are also welcome :-) Thanks!</i>";
