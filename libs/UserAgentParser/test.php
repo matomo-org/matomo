@@ -4,10 +4,16 @@ echo "<h2>UserAgentParser php library test</h2>";
 $testUserAgent = array( 
 	'my user agent' => '',
 	'iphone' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 2_2 like Mac OS X; en-us) AppleWebKit/525.18.1 (KHTML, like Gecko) Version/3.1.1 Mobile/5G77 Safari/525.20',
+	'ie8 on win7' => 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET CLR 3.0.04506; .NET CLR 3.5.21022; InfoPath.2; SLCC1; Zune 3.0)',
 	'chrome on winxp' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.48 Safari/525.19',
 	'IE6 on winxp' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.04506.648)',
 	'safari on winxp' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Version/3.1.2 Safari/525.21',
 	'FF3 on winxp' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.6) Gecko/2009011913 Firefox/3.0.6',
+	'opera 9.6 on winxp' => 'Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1',
+	'Blackberry' => 'BlackBerry8700/4.1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1',
+	'iPod touch'	=> 'Mozilla/5.0 (iPod; U; CPU like Mac OS X; en) AppleWebKit/420.1 (KHTML, like Gecko) Version/3.0 Mobile/3A100a Safari/419.3',
+	'Android'		=> 'Mozilla/5.0 (Linux; U; Android 1.0; en-us) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2 ',
+	'PalmOS'		=> 'Mozilla/5.0 [en] (PalmOS; U; WebPro/3.5; Palm-Zi72) ',
 );
 echo "Test with another user agent: ";
 foreach($testUserAgent as $name => $userAgent) {
