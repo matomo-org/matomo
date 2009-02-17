@@ -28,6 +28,7 @@ class UserAgentParser
 {
 	// browser regex => browser ID
 	static protected $browsers = array(
+					'opera'							=> 'OP',
 					'msie'							=> 'IE',
 					'microsoft internet explorer'	=> 'IE',
 					'internet explorer'				=> 'IE',
@@ -44,8 +45,8 @@ class UserAgentParser
 					'chrome'						=> 'CH',
 					'k-meleon'						=> 'KM',
 					'mozilla'						=> 'MO',
-					'opera'							=> 'OP',
 					'konqueror'						=> 'KO',
+					'blackberry'					=> 'BB',
 					'icab'							=> 'IC',
 					'lynx'							=> 'LX',
 					'links'							=> 'LI',
@@ -65,6 +66,13 @@ class UserAgentParser
 						'Nintendo Wii'   => 'WII',
 						'PlayStation Portable' => 'PSP',
 						'PlayStation 3'  => 'PS3',
+						'iPod'  		 => 'IPD',
+						'Android'  		 => 'AND',
+						'PalmOS'  		 => 'POS',
+						'Palm OS'  		 => 'POS',
+						'BlackBerry' 	 => 'BLB',
+						'Windows NT 6.1' => 'WI7',
+						'Windows 7' 	 => 'WI7',
 						'Windows NT 6.0' => 'WVI',
 						'Windows Vista'  => 'WVI',
 						'Windows NT 5.2' => 'WS3',
@@ -223,11 +231,12 @@ class UserAgentParser
 		
 		// init OS names and short names
 		self::$operatingSystemsIdToName = array_flip(self::$operatingSystems);
-		self::$operatingSystemsIdToShortName = array(
+		self::$operatingSystemsIdToShortName = array_merge(self::$operatingSystemsIdToName, array(
 			'PS3' => 'PS3',
 			'PSP' => 'PSP',
 			'IPH' => 'iPhone',
 			'WII' => 'WII',
+			'WI7' => 'Win 7',
 			'WVI' => 'Win Vista',
 			'WS3' => 'Win S2003',
 			'WXP' => 'Win XP',
@@ -248,7 +257,7 @@ class UserAgentParser
 			'OS2' => 'OS/2', 
 			'NBS' => 'NetBSD',
 			'UNK' => 'Unknown',
-			);
+			));
 	}
 	
 	static public function getBrowserNameFromId($browserId)
