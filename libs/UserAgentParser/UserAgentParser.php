@@ -201,7 +201,13 @@ class UserAgentParser
 		 		
 		 	if(isset($match[1])) {
 		 		// find minor version number (7 in mozilla 1.7, 9 in firefox 0.9.3)
-		 		$info['minor_number'] = str_replace('.', '', substr($match[1], 0, 2));
+		 		$dot = strpos(substr($match[1], 1), '.');
+		 		if($dot !== false) {
+		 			$info['minor_number'] = substr($match[1], 1, $dot);
+		 		} 
+		 		else {
+		 			$info['minor_number'] = substr($match[1], 1);
+		 		}
 		 	}
 		 	else {
 		 		$info['minor_number'] = '0';
