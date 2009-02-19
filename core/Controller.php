@@ -230,6 +230,7 @@ abstract class Piwik_Controller
 			$view->minDateYear = $minDate->toString('Y');
 			$view->minDateMonth = $minDate->toString('m');
 			$view->minDateDay = $minDate->toString('d');
+			
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
 		}
