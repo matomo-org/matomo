@@ -91,6 +91,8 @@ class Piwik_View implements Piwik_iView
 			$this->token_auth = Piwik::getCurrentUserTokenAuth();
 			$this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
 			$this->piwik_version = Piwik_Version::VERSION;
+			$this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
+			
 		} catch(Exception $e) {
 			// can fail, for example at installation (no plugin loaded yet)		
 		}
