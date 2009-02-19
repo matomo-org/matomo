@@ -245,6 +245,23 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			);
 			
 			$_SESSION['superuser_infos'] = $superUserInfos;
+			
+			$host = 'http://api.piwik.org/1.0/';
+			$host .= 'subscribeNewsletter/';
+			$params = array(
+				'email' => $form->getSubmitValue('email'),
+				'security' => $form->getSubmitValue('subscribe_newsletter_security'),
+				'community' => $form->getSubmitValue('subscribe_newsletter_community'),
+				'url' => Piwik_Url::getCurrentUrlWithoutQueryString(),
+			);
+			if($params['security'] == '1' 
+				|| $params['community'] == '1')
+			{
+				if( !isset($params['security']))  { $params['security'] = '0'; } 
+				if( !isset($params['community'])) { $params['community'] = '0'; } 
+				$url = $host . "?" . http_build_query($params, '', '&');
+				Piwik::sendHttpRequest($url, $timeout = 2);
+			}
 			$this->redirectToNextStep( __FUNCTION__ );
 		}
 		$view->addForm($form);

@@ -15,60 +15,12 @@
  */
 class Piwik_Url 
 {
-	static function getArrayFromCurrentQueryString()
-	{	
-		$queryString = Piwik_Url::getCurrentQueryString();
-		$queryString = htmlspecialchars($queryString);
-		$urlValues = Piwik_Common::getArrayFromQueryString($queryString);
-		return $urlValues;
-	}
-	
-	static function getCurrentQueryStringWithParametersModified( $params )
-	{
-		$urlValues = self::getArrayFromCurrentQueryString();
 
-		foreach($params as $key => $value)
-		{
-			$urlValues[$key] = $value;
-		}
-		
-		$query = http_build_query($urlValues, "", "&");
-		
-		if(strlen($query) > 0)
-		{
-			return '?'.$query;
-		}
-		else
-		{
-			return '';
-		}
-	}
-	
-	static public function redirectToReferer()
-	{
-		$referer = self::getReferer();
-		if($referer !== false)
-		{	
-			self::redirectToUrl($referer);
-		}
-		self::redirectToUrl(Piwik_URL::getCurrentUrlWithoutQueryString());
-	}
-	
-	static public function redirectToUrl( $url )
-	{
-		header("Location: $url");
-		exit;
-	}
-	
-	static public function getReferer()
-	{
-		if(!empty($_SERVER['HTTP_REFERER']))
-		{
-			return $_SERVER['HTTP_REFERER'];
-		}
-		return false;
-	}
-
+	/**
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * @return string
+	 */
 	static public function getCurrentUrl()
 	{
 		return	self::getCurrentHost()
@@ -76,6 +28,11 @@ class Piwik_Url
 				. self::getCurrentQueryString();
 	}
 	
+	/**
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return "http://example.org/dir1/dir2/index.php"
+	 * @return string
+	 */
 	static public function getCurrentUrlWithoutQueryString()
 	{
 		
@@ -84,7 +41,9 @@ class Piwik_Url
 	}
 	
 	/**
-	 * Ending with /
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return "http://example.org/dir1/dir2/"
+	 * @return string with trailing slash
 	 */
 	static public function getCurrentUrlWithoutFileName()
 	{
@@ -102,6 +61,11 @@ class Piwik_Url
 		return $host.$urlDir;
 	}
 	
+	/**
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return "/dir1/dir2/index.php"
+	 * @return string
+	 */
 	static public function getCurrentScriptName()
 	{
 		$url = '';
@@ -128,6 +92,11 @@ class Piwik_Url
 		return $url;
 	}
 	
+	/**
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return "http://example.org"
+	 * @return string
+	 */
 	static public function getCurrentHost()
 	{
 		if(isset($_SERVER['HTTPS'])
@@ -154,7 +123,11 @@ class Piwik_Url
 		return $url;
 	}
 		
-	
+	/**
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return "?param1=value1&param2=value2"
+	 * @return string
+	 */
 	static public function getCurrentQueryString()
 	{
 		$url = '';	
@@ -165,5 +138,94 @@ class Piwik_Url
 		}
 		return $url;
 	}
+	
+	/**
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return 
+	 *  array
+	 *    'param1' => string 'value1'
+	 *    'param2' => string 'value2'
+	 * 
+	 * @return array
+	 */
+	static function getArrayFromCurrentQueryString()
+	{	
+		$queryString = Piwik_Url::getCurrentQueryString();
+		$queryString = htmlspecialchars($queryString);
+		$urlValues = Piwik_Common::getArrayFromQueryString($queryString);
+		return $urlValues;
+	}
+	
+	/**
+	 * Given an array of name-values, it will return the current query string 
+	 * with the new requested parameter key-values;
+	 * If a parameter wasn't found in the current query string, the new key-value will be added to the returned query string.  
+	 *
+	 * @param array $params array ( 'param3' => 'value3' )
+	 * @return string ?param2=value2&param3=value3
+	 */
+	static function getCurrentQueryStringWithParametersModified( $params )
+	{
+		$urlValues = self::getArrayFromCurrentQueryString();
+
+		foreach($params as $key => $value)
+		{
+			$urlValues[$key] = $value;
+		}
+		
+		$query = http_build_query($urlValues, "", "&");
+		
+		if(strlen($query) > 0)
+		{
+			return '?'.$query;
+		}
+		else
+		{
+			return '';
+		}
+	}
+	
+	/**
+	 * Redirects the user to the Referer if found. 
+	 * If the user doesn't have a referer set, it redirects to the current URL without query string.
+	 *
+	 * @return void http Location: header sent
+	 */
+	static public function redirectToReferer()
+	{
+		$referer = self::getReferer();
+		if($referer !== false)
+		{	
+			self::redirectToUrl($referer);
+		}
+		self::redirectToUrl(Piwik_URL::getCurrentUrlWithoutQueryString());
+	}
+	
+	/**
+	 * Redirects the user to the specified URL
+	 *
+	 * @param string $url
+	 * @return void http Location: header sent
+	 */
+	static public function redirectToUrl( $url )
+	{
+		header("Location: $url");
+		exit;
+	}
+	
+	/**
+	 * Returns the HTTP_REFERER header, false if not found.
+	 *
+	 * @return string|false
+	 */
+	static public function getReferer()
+	{
+		if(!empty($_SERVER['HTTP_REFERER']))
+		{
+			return $_SERVER['HTTP_REFERER'];
+		}
+		return false;
+	}
+
 }
 

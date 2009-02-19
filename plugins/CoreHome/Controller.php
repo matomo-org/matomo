@@ -38,6 +38,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	{
 		parent::setGeneralVariablesView($view);
 		$view->menu = Piwik_GetMenu();
+		$view->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
 	}
 
 	public function showInContext()
