@@ -1,4 +1,13 @@
 <?php
+/**
+ * Piwik_Option provides a very simple mechanism to save/retrieve key-values pair
+ * from the database (persistent key-value datastore).
+ * 
+ * This is useful to save Piwik-wide preferences, configuration values.
+ * 
+ * This should not be used to store user preferences nor website preferences. 
+ *
+ */
 class Piwik_Option
 {
 	private $all = array();
@@ -21,6 +30,11 @@ class Piwik_Option
 	{
 	}
 
+	/**
+	 * Returns the option value for the requested option $name
+	 * @param string $name 
+	 * @return string|false if not found
+	 */
 	public function get($name)
 	{
 		$this->autoload();
@@ -39,6 +53,13 @@ class Piwik_Option
 		return $value;
 	}
 	
+	/**
+	 * Sets the option value in the database
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param int $autoload if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
+	 */
 	public function set($name, $value, $autoload = 0)
 	{
 		$autoload = (int)$autoload;
@@ -56,14 +77,9 @@ class Piwik_Option
 		{
 			return;
 		}
-		$all = array();
-		try {
-			$all = Piwik_FetchAll('SELECT option_value, option_name
-									FROM `'. Piwik::prefixTable('option') . '` 
-									WHERE autoload = 1');
-		} catch(Exception $e) {
-			// this would fail for users who upgraded between 0.2.10 and 0.2.13 where option table didn't have the autoload field yet
-		}
+		$all = Piwik_FetchAll('SELECT option_value, option_name
+								FROM `'. Piwik::prefixTable('option') . '` 
+								WHERE autoload = 1');
 		foreach($all as $option)
 		{
 			$this->all[$option['option_name']] = $option['option_value'];
@@ -77,7 +93,7 @@ function Piwik_GetOption($name)
 	return Piwik_Option::getInstance()->get($name);
 }
 
-function Piwik_UpdateOption($name, $value, $autoload = 0)
+function Piwik_SetOption($name, $value, $autoload = 0)
 {
 	Piwik_Option::getInstance()->set($name, $value, $autoload);
 }

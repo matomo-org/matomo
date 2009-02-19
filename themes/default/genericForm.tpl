@@ -27,7 +27,11 @@
 	<table class="centrer">
 	{foreach from=$data item=fieldname}
 		{* normal form *}
-		{if $form_data.$fieldname.label}
+		{if $form_data.$fieldname.type== 'checkbox'}
+		<tr>
+			<td colspan=2>{$form_data.$fieldname.html}</td>
+		</tr>
+		{elseif $form_data.$fieldname.label}
 		<tr>
 			<td>{$form_data.$fieldname.label}</td>
 			<td>{$form_data.$fieldname.html}</td>

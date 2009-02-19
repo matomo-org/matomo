@@ -35,6 +35,8 @@ class Test_Piwik_Url extends UnitTestCase
     				. Piwik_Url::getCurrentHost());
     	print("<br>\nPiwik_Url::getCurrentQueryString() "
     				. Piwik_Url::getCurrentQueryString());
+    	print("<br>\nPiwik_Url::getArrayFromCurrentQueryString() ");
+    	var_dump(Piwik_Url::getArrayFromCurrentQueryString());
     }
 }
 

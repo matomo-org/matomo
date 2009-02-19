@@ -36,6 +36,7 @@ require_once "Url.php";
 require_once "Controller.php";
 require_once "Option.php";
 require_once "View.php";
+require_once "UpdateCheck.php";
 
 require_once "PluginsFunctions/Menu.php";
 require_once "PluginsFunctions/AdminMenu.php";
@@ -248,7 +249,7 @@ class Piwik_FrontController
 			try {
 				$authAdapter = Zend_Registry::get('auth');
 			} catch(Exception $e){
-				throw new Exception("Authentication object 'auth' cannot be found in the Registry. Maybe the Login plugin is not activated?
+				throw new Exception("Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
 									<br>You can activate the plugin by adding:<br>
 									<code>Plugins[] = Login</code><br>
 									under the <code>[Plugins]</code> section in your config/config.inc.php");
@@ -259,6 +260,8 @@ class Piwik_FrontController
 			Zend_Registry::get('access')->loadAccess();
 			
 			Piwik::raiseMemoryLimitIfNecessary();
+			
+			Piwik_UpdateCheck::check();
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString(), true);
 		}

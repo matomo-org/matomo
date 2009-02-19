@@ -894,6 +894,32 @@ class Piwik
 	}
 	
 	/**
+	 * Sends http request ensuring the request will fail before $timeout seconds
+	 * Returns the response content (no header, trimmed)
+	 * @param string $url
+	 * @param int $timeout
+	 * @return string|false false if request failed
+	 */
+	static public function sendHttpRequest($url, $timeout)
+	{
+		$response = false;
+		// we make sure the request takes less than a few seconds to fail
+		// we create a stream_context (works in php >= 5.2.1)
+		// we also set the socket_timeout (for php < 5.2.1) 
+		$default_socket_timeout = @ini_get('default_socket_timeout');
+		@ini_set('default_socket_timeout', $timeout);
+		
+		$ctx = stream_context_create(array('http' => array( 'timeout' => $timeout)));
+		$response = trim(@file_get_contents($url, 0, $ctx));
+		
+		// restore the socket_timeout value
+		if(!empty($default_socket_timeout))
+		{
+			@ini_set('default_socket_timeout', $default_socket_timeout);
+		}
+		return $response;
+	}
+	/**
 	 * API was simplified in 0.2.27, but we maintain backward compatibility 
 	 * when calling Piwik::prefixTable
 	 */
@@ -1075,7 +1101,6 @@ class Piwik
 			Zend_Registry::set($loggerType, $logger);
 		}
 	}
-	
 	
 	static public function createConfigObject( $pathConfigFile = null )
 	{
