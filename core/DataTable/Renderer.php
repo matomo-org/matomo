@@ -86,7 +86,7 @@ abstract class Piwik_DataTable_Renderer
 	static public function factory( $name )
 	{
 		$name = ucfirst(strtolower($name));
-		$path = "core/DataTable/Renderer/".$name.".php";
+		$path = "DataTable/Renderer/".$name.".php";
 		$className = 'Piwik_DataTable_Renderer_' . $name;
 		
 		if( Piwik_Common::isValidFilename($name)
