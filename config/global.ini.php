@@ -140,11 +140,11 @@ login_password_recovery_email_name = Piwik
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referers tables (keywords, search engines, campaigns, etc.)
 datatable_archiving_maximum_rows_referers = 500
-; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
-datatable_archiving_maximum_rows_actions = 500
-
 ; maximum number of rows for any of the Referers subtable (search engines by keyword, keyword by campaign, etc.)
 datatable_archiving_maximum_rows_subtable_referers = 50
+
+; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
+datatable_archiving_maximum_rows_actions = 500
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
 datatable_archiving_maximum_rows_subtable_actions = 100
 
