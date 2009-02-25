@@ -1,5 +1,9 @@
 To fix
 ======
+
+On 2009-02-16, I got ~100 Visitors (usually 20-30) on a site in Piwik but that size for that amount of user seems too much for me.
+http://forum.piwik.org/index.php?showtopic=222
+purge on demand
 - add zlib requirement for gzcompress
 - add upgradephp ctype
 - Lors de la génération des données sur mon site de test :

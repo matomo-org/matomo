@@ -51,6 +51,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Abacho
 		"search.abacho.com"		=> array("Abacho", "q"),
 		
+		// ABCsøk
+		"abcsok.no" 			=> array("ABCsøk", "q"),
+		"www.abcsok.no" 		=> array("ABCsøk", "q"),
+	
 		// about
 		"search.about.com"		=> array("About", "terms"),
 		
@@ -706,7 +710,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Klug suchen
 		"www.klug-suchen.de"		   => array("Klug suchen!", "query"),
-
+	
+		// Kvasir
+		"kvasir.no" 				=> array("Kvasir", "searchExpr"),
+		"www.kvasir.no" 			=> array("Kvasir", "searchExpr"),
+	
 		//Latne
 	    "www.latne.lv"			=> array("Latne", "q"),
 		
@@ -950,6 +958,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Searchy
 		"www.searchy.co.uk"		=> array("Searchy", "search_term"),
 		
+		// Sesam
+		"sesam.no" 					=> array("Sesam", "q"),
+	
 		// Seznam
 		"search1.seznam.cz" 		=> array("Seznam", "q"),
 		"search2.seznam.cz" 		=> array("Seznam", "q"),
