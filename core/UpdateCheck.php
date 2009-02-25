@@ -41,9 +41,6 @@ class Piwik_UpdateCheck
 		{
 			return $latestVersion;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 }
