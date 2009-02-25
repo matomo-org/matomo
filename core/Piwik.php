@@ -909,7 +909,10 @@ class Piwik
 		$default_socket_timeout = @ini_get('default_socket_timeout');
 		@ini_set('default_socket_timeout', $timeout);
 		
-		$ctx = stream_context_create(array('http' => array( 'timeout' => $timeout)));
+		$ctx = null;
+		if(function_exists('stream_context_create')) {
+			$ctx = stream_context_create(array('http' => array( 'timeout' => $timeout)));
+		}
 		$response = trim(@file_get_contents($url, 0, $ctx));
 		
 		// restore the socket_timeout value
