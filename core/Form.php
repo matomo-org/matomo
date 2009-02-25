@@ -28,7 +28,7 @@ abstract class Piwik_Form extends HTML_QuickForm
 	{
 		if(empty($action))
 		{
-			$action = Piwik_Url::getCurrentUrl();
+			$action = Piwik_Url::getCurrentQueryString();
 		}
 		parent::HTML_QuickForm('form', 'POST', $action);
 		
