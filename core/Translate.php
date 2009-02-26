@@ -145,7 +145,12 @@ function Piwik_Translate($index, $args = array())
 	}
 	if(isset($GLOBALS['Piwik_translations'][$index]))
 	{
-		return vsprintf($GLOBALS['Piwik_translations'][$index], $args);
+		$string = $GLOBALS['Piwik_translations'][$index];
+		if(count($args) == 0) {
+			return $string;
+		} else {
+			return vsprintf($string, $args);
+		}
 	}
 	throw new Exception("Translation string '$index' not available.");
 }
