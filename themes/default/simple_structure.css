@@ -43,6 +43,7 @@ code { margin-left: 40px; }
 	border-radius: 3px;
 	color: #246;
 	background: #e5e5e5;
+	text-decoration: none;
 }
 .submit:hover {
 	color: #d54e21;

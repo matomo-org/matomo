@@ -137,11 +137,15 @@ class Piwik_Translate
 	}
 }
 
-function Piwik_Translate($index)
+function Piwik_Translate($index, $args = array())
 {
+	if(!is_array($args))
+	{
+		$args = array($args);
+	}
 	if(isset($GLOBALS['Piwik_translations'][$index]))
 	{
-		return $GLOBALS['Piwik_translations'][$index];
+		return vsprintf($GLOBALS['Piwik_translations'][$index], $args);
 	}
 	throw new Exception("Translation string '$index' not available.");
 }

@@ -1,6 +1,6 @@
 {include file="CoreUpdater/templates/header.tpl"}
 
-<p><b>{'CoreUpdater_UpdateRequired'|translate}</b></p>
+<p><b>{'CoreUpdater_DatabaseUpgradeRequired'|translate}</b></p>
 <p>{'CoreUpdater_YourDatabaseIsOutOfDate'|translate}</p>
 
 {if $coreToUpdate}

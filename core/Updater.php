@@ -157,9 +157,7 @@ class Piwik_Updater
 				{
 					$currentVersion = '0.0.1';
 				}
-				
 				$this->recordComponentSuccessfullyUpdated($name, $currentVersion);
-				
 			}
 
 			$versionCompare = version_compare($currentVersion, $version);

@@ -22,7 +22,7 @@ set_include_path(PIWIK_INCLUDE_PATH
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core/'
 					. PATH_SEPARATOR . get_include_path());
-
+ 
 require_once "core/testMinimumPhpVersion.php";
 
 // NOTE: the code above this comment must be PHP4 compatible
