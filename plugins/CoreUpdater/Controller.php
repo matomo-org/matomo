@@ -136,7 +136,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 		$configFileBefore = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
 		$configFileAfter = PIWIK_INCLUDE_PATH . self::CONFIG_FILE_BACKUP;
-		copy($configFileBefore, $configFileAfter);
+		Piwik::copy($configFileBefore, $configFileAfter);
 	}
 	
 	private function oneClick_Copy()
