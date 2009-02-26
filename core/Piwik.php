@@ -1053,23 +1053,29 @@ class Piwik
 					continue;
 				}
 				$destPath = $target . '/' . $entry;
-				if(!@copy( $sourcePath, $destPath ))
-				{
-					@chmod($destPath, 0755);
-			   		if(!@copy( $sourcePath, $destPath )) 
-			   		{
-						throw new Exception("Error while copying file to $destPath. It is probably a CHMOD permission problem.");
-			   		}
-				}
+				self::copy($sourcePath, $destPath);
 			}
 			$d->close();
 		}
 		else
 		{
-			copy( $source, $target );
+			self::copy($source, $target);
 		}
 	}
 	
+	static public function copy($source, $dest)
+	{
+		if(!@copy( $source, $dest ))
+		{
+			@chmod($dest, 0755);
+	   		if(!@copy( $source, $dest )) 
+	   		{
+				throw new Exception("Error while copying file to $dest. 
+									It is probably a CHMOD permission problem.");
+	   		}
+		}
+		return true;
+	}
 	/**
 	 * API was simplified in 0.2.27, but we maintain backward compatibility 
 	 * when calling Piwik::prefixTable
