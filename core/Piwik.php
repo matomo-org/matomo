@@ -1053,10 +1053,10 @@ class Piwik
 					continue;
 				}
 				$destPath = $target . '/' . $entry;
-				if(!copy( $sourcePath, $destPath ))
+				if(!@copy( $sourcePath, $destPath ))
 				{
 					@chmod($destPath, 0755);
-			   		if(!copy( $sourcePath, $destPath )) 
+			   		if(!@copy( $sourcePath, $destPath )) 
 			   		{
 						throw new Exception("Error while copying file to $destPath. It is probably a CHMOD permission problem.");
 			   		}
