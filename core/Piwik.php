@@ -199,7 +199,7 @@ class Piwik
 	 */
 	static public function secureDiv( $i1, $i2 )
 	{
-	    if ( is_numeric($i1) && is_numeric($i2) && floatval($i2) != 0)
+		if ( is_numeric($i1) && is_numeric($i2) && floatval($i2) != 0)
 		{ 
 			return $i1 / $i2;
 		}   
@@ -291,15 +291,15 @@ class Piwik
 		
 		Piwik::log('<hr><b>SQL Profiler</b>');
 		Piwik::log('<hr><b>Summary</b>');
-		$totalTime    = $profiler->getTotalElapsedSecs();
+		$totalTime	= $profiler->getTotalElapsedSecs();
 		$queryCount   = $profiler->getTotalNumQueries();
 		$longestTime  = 0;
 		$longestQuery = null;
 		foreach ($profiler->getQueryProfiles() as $query) {
-		    if ($query->getElapsedSecs() > $longestTime) {
-		        $longestTime  = $query->getElapsedSecs();
-		        $longestQuery = $query->getQuery();
-		    }
+			if ($query->getElapsedSecs() > $longestTime) {
+				$longestTime  = $query->getElapsedSecs();
+				$longestQuery = $query->getQuery();
+			}
 		}
 		$str = 'Executed ' . $queryCount . ' queries in ' . round($totalTime,3) . ' seconds' . "\n";
 		$str .= '(Average query length: ' . round($totalTime / $queryCount,3) . ' seconds)' . "\n";
@@ -374,7 +374,7 @@ class Piwik
 			}
 			else
 			{
-	    		break;
+				break;
 			}
 		}
 		return round($size, 1)." ".$val;
@@ -1002,28 +1002,28 @@ class Piwik
 	 */
 	static public function unlinkRecursive($dir, $deleteRootToo)
 	{
-	    if(!$dh = @opendir($dir))
-	    {
-	        return;
-	    }
-	    while (false !== ($obj = readdir($dh)))
-	    {
-	        if($obj == '.' || $obj == '..')
-	        {
-	            continue;
-	        }
+		if(!$dh = @opendir($dir))
+		{
+			return;
+		}
+		while (false !== ($obj = readdir($dh)))
+		{
+			if($obj == '.' || $obj == '..')
+			{
+				continue;
+			}
 	
-	        if (!@unlink($dir . '/' . $obj))
-	        {
-	            self::unlinkRecursive($dir.'/'.$obj, true);
-	        }
-	    }
-	    closedir($dh);
-	    if ($deleteRootToo)
-	    {
-	        @rmdir($dir);
-	    }
-	    return;
+			if (!@unlink($dir . '/' . $obj))
+			{
+				self::unlinkRecursive($dir.'/'.$obj, true);
+			}
+		}
+		closedir($dh);
+		if ($deleteRootToo)
+		{
+			@rmdir($dir);
+		}
+		return;
 	} 
 	
 	/**
@@ -1034,34 +1034,42 @@ class Piwik
 	 * @return void
 	 */
 	static public function copyRecursive($source, $target )
-    {
-        if ( is_dir( $source ) )
-        {
-            @mkdir( $target );
-            $d = dir( $source );
-            while ( false !== ( $entry = $d->read() ) )
-            {
-                if ( $entry == '.' || $entry == '..' )
-                {
-                    continue;
-                }
-               
-                $Entry = $source . '/' . $entry;           
-                if ( is_dir( $Entry ) )
-                {
-                    self::copyRecursive( $Entry, $target . '/' . $entry );
-                    continue;
-                }
-                copy( $Entry, $target . '/' . $entry );
-            }
-            $d->close();
-        }
-        else
-        {
-            copy( $source, $target );
-        }
-    }
-    
+	{
+		if ( is_dir( $source ) )
+		{
+			@mkdir( $target );
+			$d = dir( $source );
+			while ( false !== ( $entry = $d->read() ) )
+			{
+				if ( $entry == '.' || $entry == '..' )
+				{
+					continue;
+				}
+			   
+				$sourcePath = $source . '/' . $entry;		   
+				if ( is_dir( $sourcePath ) )
+				{
+					self::copyRecursive( $sourcePath, $target . '/' . $entry );
+					continue;
+				}
+				$destPath = $target . '/' . $entry;
+				if(!copy( $sourcePath, $destPath ))
+				{
+					@chmod($destPath, 0755);
+			   		if(!copy( $sourcePath, $destPath )) 
+			   		{
+						throw new Exception("Error while copying file to $destPath. It is probably a CHMOD permission problem.");
+			   		}
+				}
+			}
+			$d->close();
+		}
+		else
+		{
+			copy( $source, $target );
+		}
+	}
+	
 	/**
 	 * API was simplified in 0.2.27, but we maintain backward compatibility 
 	 * when calling Piwik::prefixTable
@@ -1277,26 +1285,26 @@ class Piwik
 	 * @param string email
 	 * @return bool
 	 */
-    static public function isValidEmailString( $email ) 
-    {
+	static public function isValidEmailString( $email ) 
+	{
 		return (preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,4}$/', $email) > 0);
-    }
-    
-    /**
-     * Creates an entry in the User table for the "anonymous" user. 
-     * 
-     * @return void
-     */
-    static public function createAnonymousUser()
-    {
-    	// The anonymous user is the user that is assigned by default 
-    	// note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
+	}
+	
+	/**
+	 * Creates an entry in the User table for the "anonymous" user. 
+	 * 
+	 * @return void
+	 */
+	static public function createAnonymousUser()
+	{
+		// The anonymous user is the user that is assigned by default 
+		// note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
 		$db = Zend_Registry::get('db');
 		$db->query("INSERT INTO ". Piwik::prefixTable("user") . " 
 					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', CURRENT_TIMESTAMP );" );
-    }
-    
-    static public function createTables()
+	}
+	
+	static public function createTables()
 	{
 		$db = Zend_Registry::get('db');
 		$config = Zend_Registry::get('config');
