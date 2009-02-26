@@ -123,8 +123,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"aolrecherche.aol.fr"		=> array("AOL", "q"),
 		"sucheaol.aol.de"		=> array("AOL", "q"),
 		"suche.aol.de"			=> array("AOL", "q"),
-		"suche.aolsvc.de"		=> array("AOL", "q"),
-		
+		"suche.aolsvc.de"		=> array("AOL", "query"),
 		"aolbusqueda.aol.com.mx"	=> array("AOL", "query"),
 		
 		// Aport
@@ -404,10 +403,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.google.fi"			=> array("Google", "q"),
 		"www.google.fm"			=> array("Google", "q"),
 		"www.google.gg"			=> array("Google", "q"),
-		"google.ge"                     => array("Google","q"),
-		"w.google.ge"                   => array("Google","q"),
-		"ww.google.ge"                  => array("Google","q"),
-		"www.google.ge"                 => array("Google","q"),
+		"www.goggle.com"		=> array("Google", "q"),
+		"google.ge"             => array("Google","q"),
+		"w.google.ge"           => array("Google","q"),
+		"ww.google.ge"          => array("Google","q"),
+		"www.google.ge"         => array("Google","q"),
 		"www.googel.fi"			=> array("Google", "q"),
 		"www.googleearth.fr"	=> array("Google", "q"),
 		"www.google.gl"			=> array("Google", "q"),
@@ -504,7 +504,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.google.co.ve"		=> array("Google", "q"),
 		"www.google.co.za" 		=> array("Google", "q"),
 		"www.google.co.ma"		=> array("Google", "q"),
-		"www.goggle.com"		=> array("Google", "q"),
+		"www.google.com.kw"		=> array("Google", "q"), 
+		"www.google.com.by"		=> array("Google", "q"), 
 		
 		
 		// Powered by Google 
@@ -781,6 +782,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Meinestadt
 		"www.meinestadt.de"	        => array("Meinestadt.de", "words"),
+		"home.meinestadt.de"	        => array("Meinestadt.de", "words"),
 		
 		// Monstercrawler
 		"www.monstercrawler.com" 	=> array("Monstercrawler", "qry"),
