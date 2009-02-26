@@ -1070,8 +1070,13 @@ class Piwik
 			@chmod($dest, 0755);
 	   		if(!@copy( $source, $dest )) 
 	   		{
-				throw new Exception("Error while copying file to $dest. 
-									It is probably a CHMOD permission problem.");
+				throw new Exception("
+				Error while copying file to <code>$dest</code>. <br />
+				Please check that the web server has enough permission to overwrite this file. <br/>
+				For example, on a linux server, if your apache user is www-data you can try to execute:<br>
+				<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br>
+				<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br>
+					");
 	   		}
 		}
 		return true;
