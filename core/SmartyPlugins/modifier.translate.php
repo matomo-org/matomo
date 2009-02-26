@@ -31,10 +31,10 @@ function smarty_modifier_translate($stringToken)
 	}
 	
 	try {
-		$stringTranslated = Piwik_Translate($stringToken);
+		$stringTranslated = Piwik_Translate($stringToken, $aValues);
 	} catch( Exception $e) {
 		$stringTranslated = $stringToken; 
 	}
-	return vsprintf($stringTranslated, $aValues);
+	return $stringTranslated;
 }
  

@@ -79,6 +79,7 @@ class Piwik
 				'/tmp',
 				'/tmp/templates_c',
 				'/tmp/cache',
+				'/tmp/latest/',
 			); 
 		}
 		
@@ -922,6 +923,145 @@ class Piwik
 		}
 		return $response;
 	}
+	
+	/**
+	 * Fetch the file at $url in the destination $pathDestination
+	 * @param string $url
+	 * @param string $pathDestination
+	 * @param int $tries
+	 * @return true on success, throws Exception on failure
+	 */
+	static public function fetchRemoteFile($url, $pathDestination, $tries = 0)
+	{
+		if ($tries > 3) {
+			return false;
+		}
+		
+		$file = @fopen($pathDestination, 'wb');
+		if(!$file) {
+			throw new Exception("Error while creating the file: ".$file);
+		}
+		$url = parse_url($url);
+		$host = $url['host'];
+		$path = $url['path'];
+		
+		if (($s = @fsockopen($host, $port = 80, $errno, $errstr, $timeout = 10)) === false) {
+			throw new Exception("Error while connecting to: $host. Please try again later.");
+		}
+		
+		fwrite($s,
+			'GET '.$path." HTTP/1.0\r\n"
+			.'Host: '.$host."\r\n"
+			."User-Agent: Piwik Update\r\n"
+			."\r\n"
+		);
+		
+		$i = 0;
+		$in_content = false;
+		while (!feof($s))
+		{
+			$line = fgets($s,4096);
+			if (rtrim($line,"\r\n") == '' && !$in_content) {
+				$in_content = true;
+				$i++;
+				continue;
+			}
+			if ($i == 0) {
+				if (!preg_match('/HTTP\/(\\d\\.\\d)\\s*(\\d+)\\s*(.*)/',rtrim($line,"\r\n"), $m)) {
+					fclose($s);
+					return false;
+				}
+				$status = (integer) $m[2];
+				if ($status < 200 || $status >= 400) {
+					fclose($s);
+					return false;
+				}
+			}
+			if (!$in_content) {
+				if (preg_match('/Location:\s+?(.+)$/',rtrim($line,"\r\n"),$m)) {
+					fclose($s);
+					return fetchRemote(trim($m[1]), $pathDestination, $tries+1);
+				}
+				$i++;
+				continue;
+			}
+			if (is_resource($file)) {
+				fwrite($file,$line);
+			}			
+			$i++;
+		}
+		fclose($s);
+		return true;
+	}
+	
+	/**
+	 * Recursively delete a directory
+	 *
+	 * @param string $dir Directory name
+	 * @param boolean $deleteRootToo Delete specified top-level directory as well
+	 */
+	static public function unlinkRecursive($dir, $deleteRootToo)
+	{
+	    if(!$dh = @opendir($dir))
+	    {
+	        return;
+	    }
+	    while (false !== ($obj = readdir($dh)))
+	    {
+	        if($obj == '.' || $obj == '..')
+	        {
+	            continue;
+	        }
+	
+	        if (!@unlink($dir . '/' . $obj))
+	        {
+	            self::unlinkRecursive($dir.'/'.$obj, true);
+	        }
+	    }
+	    closedir($dh);
+	    if ($deleteRootToo)
+	    {
+	        @rmdir($dir);
+	    }
+	    return;
+	} 
+	
+	/**
+	 * Copy recursively from $source to $target.
+	 * 
+	 * @param string $source eg. './tmp/latest'
+	 * @param string $target eg. '.'
+	 * @return void
+	 */
+	static public function copyRecursive($source, $target )
+    {
+        if ( is_dir( $source ) )
+        {
+            @mkdir( $target );
+            $d = dir( $source );
+            while ( false !== ( $entry = $d->read() ) )
+            {
+                if ( $entry == '.' || $entry == '..' )
+                {
+                    continue;
+                }
+               
+                $Entry = $source . '/' . $entry;           
+                if ( is_dir( $Entry ) )
+                {
+                    self::copyRecursive( $Entry, $target . '/' . $entry );
+                    continue;
+                }
+                copy( $Entry, $target . '/' . $entry );
+            }
+            $d->close();
+        }
+        else
+        {
+            copy( $source, $target );
+        }
+    }
+    
 	/**
 	 * API was simplified in 0.2.27, but we maintain backward compatibility 
 	 * when calling Piwik::prefixTable
