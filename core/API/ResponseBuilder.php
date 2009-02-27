@@ -117,6 +117,9 @@ class Piwik_API_ResponseBuilder
 					$return = serialize($return);
 				}
 			break;
+			case 'html':
+				$return = str_replace("\n", "<br />", $message);
+			break;
 			default:
 				$return = 'Error: '.$message;
 			break;

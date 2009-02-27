@@ -1027,6 +1027,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Virgilio
 		"search.virgilio.it"		=> array("Virgilio", "qs"),
+		"ricerca.virgilio.it"		=> array("Virgilio", "qs"),
 		
 		// Voila
 		"search.voila.com"		=> array("Voila", "kw"),

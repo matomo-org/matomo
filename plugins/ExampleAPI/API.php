@@ -52,7 +52,7 @@ class Piwik_ExampleAPI_API
 	
 	public function getObject()
 	{
-		return new MagicObject();
+		return new Piwik_MagicObject();
 	}
 	
 	public function getNull()
@@ -90,7 +90,7 @@ class Piwik_ExampleAPI_API
  * 
  * @package Piwik_ExamplePlugin
  */
-class MagicObject 
+class Piwik_MagicObject 
 {
 	function Incredible(){ return 'Incroyable'; }
 	protected $wonderful = 'magnifique';

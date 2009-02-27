@@ -83,7 +83,6 @@ class Piwik_Log_Formatter_Exception_ScreenFormatter extends Piwik_Log_Formatter_
 		$outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'html', 'string'));
 		$response = new Piwik_API_ResponseBuilder(null, $outputFormat);
 		$message = $response->getResponseException(new Exception($errstr));
-
 		return parent::format($message);
 	}
 }
