@@ -106,6 +106,9 @@ class Piwik_View implements Piwik_iView
 		}
  
 		header('Content-Type: text/html; charset=utf-8');
+		header("Pragma: ");
+		header("Cache-Control: no-store, must-revalidate");
+		
 		return $this->smarty->fetch($this->template);
 	}
 	
