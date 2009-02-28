@@ -82,7 +82,7 @@ function _pk_getUrlLog( _pk_action_name, _pk_site, _pk_pkurl, _pk_custom_vars )
 		_pk_custom_vars = false;
 	}
 	if (_pk_custom_vars) {
-		for (var i in _pk_custom_vars){
+		for (var i=0; i < _pk_custom_vars.length; i++) {
 			if (!Array.prototype[i]){
 				_pk_custom_vars_str = _pk_custom_vars_str + '&vars['+ escape(i) + ']' + "=" + escape(_pk_custom_vars[i]);
 			}
@@ -157,10 +157,13 @@ function _pk_init_tracker(_pk_site, _pk_pkurl)
 	var _pk_class = new RegExp(_pk_ignore_regexp);
 
 	if (document.getElementsByTagName) {
-		linksElements = document.getElementsByTagName('a')
-		for (var i = 0; i < linksElements.length; i++) {
-			if( !_pk_class.exec( linksElements[i].className ) )
-				_pk_add_event(linksElements[i], 'mousedown', _pk_click, false);
+		var targetTags = [ 'a', 'area' ];
+		for (var j=0; j < targetTags.length; j++) {
+			var linksElements = document.getElementsByTagName(targetTags[j])
+			for (var i=0; i < linksElements.length; i++) {
+				if( !_pk_class.exec( linksElements[i].className ) )
+					_pk_add_event(linksElements[i], 'mousedown', _pk_click, false);
+			}
 		}
 	}
 }
@@ -186,7 +189,7 @@ function piwik_track(url, _pk_site, _pk_url, _pk_type)
 function _pk_is_site_hostname(_pk_hostname) {
 	var alias, offset;
 
-	for(var i in _pk_hosts_alias) {
+	for (var i=0; i < _pk_hosts_alias.length; i++) {
 		alias = _pk_hosts_alias[i];
 
 		if( _pk_hostname === alias )
@@ -207,7 +210,7 @@ function _pk_is_site_hostname(_pk_hostname) {
 
 function _pk_click(e)
 {
-	var source;
+	var source, tag;
 
 	if (typeof e == 'undefined')
 		var e = window.event;
@@ -218,7 +221,7 @@ function _pk_click(e)
 		source = e.srcElement;
 	else return true;
 
-	while( source.tagName != "A" )
+	while ((tag = source.tagName) != 'A' && tag != 'AREA')
 		source = source.parentNode;
 
 	if( typeof source.href == 'undefined' )
