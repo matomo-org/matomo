@@ -127,7 +127,7 @@ class Piwik_Tracker_GoalManager
 	
 	function recordGoals($visitorInformation)
 	{
-		$location_country = isset($visitorInformation['location_country']) ? $visitorInformation['location_country'] : Piwik_Common::getCountry(Piwik_Common::getBrowserLanguage());
+		$location_country = isset($visitorInformation['location_country']) ? $visitorInformation['location_country'] : Piwik_Common::getCountry(Piwik_Common::getBrowserLanguage(), $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess']);
 		$location_continent = isset($visitorInformation['location_continent']) ? $visitorInformation['location_continent'] : Piwik_Common::getContinent($location_country);
 		
 		$goal = array(

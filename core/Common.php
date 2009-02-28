@@ -464,105 +464,6 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns a 3 letters ID for the operating system part, given a user agent string.
-	 * @see core/DataFiles/OS.php for the list of OS (also available in $GLOBALS['Piwik_Oslist'])
-	 * If the OS cannot be identified in the user agent, returns 'UNK'
-	 * 
-	 * @param string $userAgent
-	 * 
-	 * @return string
-	 */
-	static public function getOs($userAgent)
-	{
-
-		require_once "DataFiles/OS.php";
-		$osNameToId = $GLOBALS['Piwik_Oslist'];
-
-		foreach($osNameToId as $key => $value)
-		{
-			if ($ok = ereg($key, $userAgent))
-			{
-				return $value;
-			}
-		}
-		return 'UNK';
-	}
-
-	/**
-	 * Returns the browser information from the user agent string.
-	 * 
-	 * @see core/DataFiles/Browsers.php for the list of OS (also available in $GLOBALS['Piwik_BrowserList'])
-	 * 
-	 * @param string $userAgent
-	 * @return array array(		'name' 			=> '', // 2 letters ID or 'UNK' for an unknown browser
-	 * 							'major_number' 	=> '', // 2 in firefox 2.0.12
-	 * 							'minor_number' 	=> '', // 0 in firefox 2.0.12
-	 * 							'version' 		=> ''  // major_number.minor_number
-	 * 				);
-	 */
-	static public function getBrowserInfo($userAgent)
-	{
-		require_once "DataFiles/Browsers.php";
-
-		$browsers = $GLOBALS['Piwik_BrowserList'];
-
-		$info = array(
-			'name' 			=> 'UNK',
-			'major_number' 	=> '',
-			'minor_number' 	=> '',
-			'version' 		=> ''
-			);
-
-		$browser = '';
-		foreach($browsers as $key => $value)
-		{
-			if(!empty($browser)) $browser .= "|";
-			$browser .= $key;
-		}
-
-		$results = array();
-
-		// added fix for Mozilla Suite detection
-		if ((preg_match_all("/(mozilla)[\/\sa-z;.0-9-(]+rv:([0-9]+)([.0-9a-z]+)\) gecko\/[0-9]{8}$/i", $userAgent, $results))
-			||	(preg_match_all("/($browser)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
-			)
-		 {
-		 	$count = count($results[0])-1;
-		 	
-		 	// because google chrome is Mozilla/Chrome/Safari at the same time, we force Chrome
-		 	if(($chrome = array_search('Chrome', $results[1])) !== false)
-		 	{
-		 		$count = $chrome;
-		 	}
-		 	
-		 	// browser code
-		 	$info['name'] = $browsers[strtolower($results[1][$count])];
-		 		
-		 	// major version number (1 in mozilla 1.7)
-		 	$info['major_number'] = $results[2][$count];
-		 		
-		 	// is an minor version number ? If not, 0
-		 	$match = array();
-		 		
-		 	preg_match('/([.\0-9]+)?([\.a-z0-9]+)?/i', $results[3][$count], $match);
-		 		
-		 	if(isset($match[1]))
-		 	{
-		 		// find minor version number (7 in mozilla 1.7, 9 in firefox 0.9.3)
-		 		$info['minor_number'] = substr($match[1], 0, 2);
-		 	}
-		 	else
-		 	{
-		 		$info['minor_number'] = '.0';
-		 	}
-		 		
-		 	$info['version'] = $info['major_number'] . $info['minor_number'];
-		 }
-		 return $info;
-	}
-
-
-	/**
 	 * Returns the best possible IP of the current user, in the format A.B.C.D
 	 *
 	 * @return string ip
@@ -650,61 +551,67 @@ class Piwik_Common
 	 *
 	 * @return string
 	 */
-	static public function getBrowserLanguage()
+	static public function getBrowserLanguage($browserLang = NULL)
 	{
-		$browserLang = Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		static $replacementPatterns = array(
+				'/(\\\\.)/',     // quoted-pairs (RFC 3282)
+				'/(\s+)/',       // CFWS white space
+				'/(\([^)]*\))/', // CFWS comments
+				'/(;q=[0-9.]+)/' // quality
+			);
+
 		if(is_null($browserLang))
 		{
-			$browserLang = '';
+			$browserLang = Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
 		}
+
+		if(is_null($browserLang))
+		{
+			// a fallback might be to infer the language in HTTP_USER_AGENT (i.e., localized build)
+			$browserLang = "";
+		}
+		else
+		{
+			// language tags are case-insensitive per HTTP/1.1 s3.10 but the region may be capitalized per ISO3166-1;
+			// underscores are not permitted per RFC 4646 or 4647 (which obsolete RFC 1766 and 3066),
+			// but we guard against a bad user agent which naively uses its locale
+			$browserLang = strtolower(str_replace('_', '-', $browserLang));
+
+			// filters
+			$browserLang = preg_replace($replacementPatterns, '', $browserLang);
+
+			$browserLang = preg_replace('/((^|,)chrome:.*)/', '', $browserLang, 1); // Firefox bug
+			$browserLang = preg_replace('/(,)(?:en-securid,)|(?:(^|,)en-securid(,|$))/', '\\1',	$browserLang, 1); // unregistered language tag
+
+			$browserLang = str_replace('sr-sp', 'sr-rs', $browserLang); // unofficial (proposed) code in the wild
+		}
+
 		return $browserLang;
 	}
-	
+
 	/**
 	 * Returns the visitor country based only on the Browser 'accepted language' information
 	 *
 	 * @param string $lang browser lang
-	 *
-	 * @return string 2 letters ISO code 
+	 * @param bool If set to true, some assumption will be made and detection guessed more often, but accuracy could be affected
+	 * @return string 2 letter ISO code 
 	 */
-	static public function getCountry( $lang )
+	static public function getCountry( $lang, $enableLanguageToCountryGuess )
 	{
-		$replaceLangCodeByCountryCode = array(
-		// replace cs language (Serbia Montenegro country code) with czech country code
-			'cs' => 'cz',
-		// replace sr language (Surinam country code) with serbia country code
-			'sr' => 'rs',
-		// replace sv language (El Salvador country code) with sweden country code
-			'sv' => 'se',
-		// replace fa language (Unknown country code) with Iran country code
-			'fa' => 'ir',
-		// replace ja language (Unknown country code) with japan country code
-			'ja' => 'jp',
-		// replace ko language (Unknown country code) with corée country code
-			'ko' => 'kr',
-		// replace he language (Unknown country code) with Israel country code
-			'he' => 'il',
-		// replace da language (Unknown country code) with Danemark country code
-			'da' => 'dk',
-		// replace gb code with UK country code
-			'gb' => 'uk',
-		);
-
 		if(empty($lang) || strlen($lang) < 2)
 		{
 			return 'xx';
 		}
 
-		$browserLanguage = str_replace(
-					array_keys($replaceLangCodeByCountryCode),
-					array_values($replaceLangCodeByCountryCode),
-					$lang
-				);
-		
 		$validCountries = self::getCountriesList();
-		return Piwik_Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validCountries);
+		return self::extractCountryCodeFromBrowserLanguage($lang, $validCountries, $enableLanguageToCountryGuess);
 	}
 	
+	/**
+	 * Returns list of valid country codes
+	 *
+	 * @return array of 2 letter ISO codes
+	 */
 	static public function getCountriesList()
 	{
 		static $countriesList = null;
@@ -715,68 +622,79 @@ class Piwik_Common
 		}
 		return $countriesList;
 	}
-	
-	static public function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validCountries)
-	{
-		// Ex: "fr"
-		if(strlen($browserLanguage) == 2)
-		{
-			if(in_array($browserLanguage, $validCountries))
-			{
-				return $browserLanguage;
-			}
-		}
-
-		// when comma
-		$offcomma = strpos($browserLanguage, ',');
-		if($offcomma == 2)
-		{
-			// in 'fr,en-us', keep first two chars
-			$domain = substr($browserLanguage, 0, 2);
-			if(in_array($domain, $validCountries))
-			{
-				return $domain;
-			}
-
-			// catch the second language Ex: "fr" in "en,fr"
-			$domain = substr($browserLanguage, 3, 2);
-			if(in_array($domain, $validCountries))
-			{
-				return $domain;
-			}
-		}
-
-		// detect second code Ex: "be" in "fr-be"
-		$off = strpos($browserLanguage, '-');
-		if($off !== false)
-		{
-			$domain = substr($browserLanguage, $off + 1, 2);
-			if(in_array($domain, $validCountries))
-			{
-				return $domain;
-			}
-		}
-
-		// catch the second language Ex: "fr" in "en;q=1.0,fr;q=0.9"
-		if(preg_match("/^[a-z]{2};q=[01]\.[0-9],(?P<domain>[a-z]{2});/", $browserLanguage, $parts))
-		{
-			$domain = $parts['domain'];
-			if(in_array($domain, $validCountries))
-			{
-				return $domain;
-			}
-		}
-
-		// finally try with the first ever langage code
-		$domain = substr($browserLanguage, 0, 2);
-		if(in_array($domain, $validCountries))
-		{
-			return $domain;
-		}
-
-		// at this point we really can't guess the country
+	/**
+	 * Returns list of valid country codes
+	 *
+	 * @return array of 2 letter ISO codes
+	 */
+	static public function extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess)
+ 	{
+		static $langToCountry = null;
+		if(is_null($langToCountry))
+ 		{
+			require_once "DataFiles/LanguageToCountry.php";
+			$langToCountry = array_keys($GLOBALS['Piwik_LanguageToCountry']);
+ 		}
+ 
+ 		if($enableLanguageToCountryGuess)
+ 		{
+			if(preg_match('/^([a-z]{2,3})(?:,|;|$)/', $browserLanguage, $matches))
+ 			{
+				// match language (without region) to infer the country of origin
+				if(in_array($matches[1], $langToCountry))
+				{
+					return $GLOBALS['Piwik_LanguageToCountry'][$matches[1]];
+				}
+ 			}
+ 		}
+ 
+		if(preg_match_all("/[-]([a-z]{2})/", $browserLanguage, $matches, PREG_SET_ORDER))
+ 		{
+			foreach($matches as $parts)
+ 			{
+				// match location; we don't make any inferences from the language
+				if(in_array($parts[1], $validCountries))
+				{
+					return $parts[1];
+				}
+ 			}
+ 		}	
 		return 'xx';
 	}
+	
+	
+ 	/**
+	 * Returns the visitor language based only on the Browser 'accepted language' information
+	 *
+	 * @param string $lang browser lang
+	 *
+	 * @return string 2 letter ISO 639 code
+	 */
+	static public function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
+	{
+		// assumes language preference is sorted;
+		// does not handle language-script-region tags or language range (*)
+		if(preg_match_all("/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/", $browserLanguage, $matches, PREG_SET_ORDER))
+ 		{
+			foreach($matches as $parts)
+ 			{
+				if(count($parts) == 3)
+				{
+					// match locale (langauge and location)
+					if(in_array($parts[1].$parts[2], $validLanguages))
+					{
+						return $parts[1].$parts[2];
+					}
+				}
+				// match language only (where no region provided)
+				if(in_array($parts[1], $validLanguages))
+				{
+					return $parts[1];
+				}
+ 			}
+ 		}
+		return 'xx';
+ 	}
 	
 	/**
 	 * Generate random string 
