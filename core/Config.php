@@ -55,20 +55,24 @@ class Piwik_Config
 	 */
 	static public function getDefaultUserConfigPath()
 	{
-		return 'config/config.ini.php';
+		return Piwik_Common::getPathToPiwikRoot() . '/config/config.ini.php';
 	}
 
+	static public function getDefaultDefaultConfigPath()
+	{
+		return Piwik_Common::getPathToPiwikRoot() . '/config/global.ini.php';
+	}
+	
 	/**
 	 * Builds the Config object, given the optional path for the user INI file
 	 * If not specified, it will use the default path
 	 *
 	 * @param string $pathIniFileUserConfig
 	 */
-	function __construct($pathIniFileUserConfig = null)
+	function __construct($pathIniFileUserConfig = null, $pathIniFileDefaultConfig = null)
 	{
 		Zend_Registry::set('config', $this);
 		
-		$this->pathIniFileDefaultConfig = Piwik_Common::getPathToPiwikRoot().'/config/global.ini.php';
 		if(is_null($pathIniFileUserConfig))
 		{	
 			$this->pathIniFileUserConfig = self::getDefaultUserConfigPath();
@@ -76,6 +80,15 @@ class Piwik_Config
 		else
 		{
 			$this->pathIniFileUserConfig = $pathIniFileUserConfig;
+		}
+		
+		if(is_null($pathIniFileDefaultConfig))
+		{	
+			$this->pathIniFileDefaultConfig = self::getDefaultDefaultConfigPath();
+		}
+		else
+		{
+			$this->pathIniFileDefaultConfig = $pathIniFileDefaultConfig;
 		}
 		
 		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);
@@ -206,18 +219,21 @@ class Piwik_Config
 	 */
 	public function __get($name)
 	{
-		if( !is_null($this->userConfig)
-		&& null !== ($valueInUserConfig = $this->userConfig->$name))
-		{
-			return $valueInUserConfig;
-		}
+		$value = array();
 		if(null !== ($valueInDefaultConfig = $this->defaultConfig->$name))
 		{
-			return $valueInDefaultConfig;
+			$value = array_merge($value, $valueInDefaultConfig->toArray());
+		}
+		if( !is_null($this->userConfig)
+			&& null !== ($valueInUserConfig = $this->userConfig->$name))
+		{
+			$value = array_merge($value, $valueInUserConfig->toArray());
 		}
 
-		throw new Exception("The configuration parameter $name couldn't be found in your configuration file.
-						<br>Try to replace your default configuration file ({$this->pathIniFileDefaultConfig}) with 
-					the <a href='".$this->urlToPiwikHelpMissingValueInConfigurationFile."'>default piwik configuration file</a> ");
+		return new Zend_Config($value);
+		
+//		throw new Exception("The configuration parameter $name couldn't be found in your configuration file.
+//						<br>Try to replace your default configuration file ({$this->pathIniFileDefaultConfig}) with 
+//					the <a href='".$this->urlToPiwikHelpMissingValueInConfigurationFile."'>default piwik configuration file</a> ");
 	}
 }
