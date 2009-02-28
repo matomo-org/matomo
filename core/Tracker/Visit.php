@@ -185,7 +185,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$defaultTimeOnePageVisit = Piwik_Tracker_Config::getInstance()->Tracker['default_time_one_page_visit'];
 		
 		$userInfo = $this->getUserSettingsInformation();
-		$country = Piwik_Common::getCountry($userInfo['location_browser_lang']);	
+		$country = Piwik_Common::getCountry($userInfo['location_browser_lang'], $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess']);	
 		$refererInfo = $this->getRefererInformation();
 		
 		/**

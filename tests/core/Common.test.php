@@ -81,7 +81,6 @@ class Test_Piwik_Common extends UnitTestCase
 		$a1OK = array('test1' => 't1', 't45', 'tea1&quot;ta&quot;e', 568, 1 => array('t&lt;e&quot;st'), 1.52);
 		
 		$this->assertEqual( $a1OK, Piwik_Common::sanitizeInputValues($a1));
-		
 	}
 	
 	// sanitize an array with bad value level2
@@ -442,8 +441,7 @@ class Test_Piwik_Common extends UnitTestCase
     	$expectedResult = htmlentities($expectedResult);
     	$this->assertEqual($result, $expectedResult);
     }
-    
-    
+
     public function test_isValidFilenameValidValues()
     {
     
@@ -455,6 +453,7 @@ class Test_Piwik_Common extends UnitTestCase
     		$this->assertTrue(Piwik_Common::isValidFilename($toTest), $toTest." not valid!");
     	}
     }
+
     public function test_isValidFilenameNotValidValues()
     {
     
@@ -466,6 +465,131 @@ class Test_Piwik_Common extends UnitTestCase
     		$this->assertFalse(Piwik_Common::isValidFilename($toTest), $toTest." valid but shouldn't!");
     	}
     }
+
+	/**
+	 * Data driven tests of getBrowserLanguage
+	 */
+	public function test_getBrowserLanguage()
+	{
+		$a1 = array( // user agent, browser language
+				array( "en-gb", "en-gb" ),
+
+				// filter quality attribute
+				array( "en-us,en;q=0.5", "en-us,en" ),
+
+				// bad user agents
+				array( "en-us,chrome://global/locale/intl.properties", "en-us" ),
+
+				// unregistered language tag
+				array( "en,en-securid", "en" ),
+				array( "en-securid,en", "en" ),
+				array( "en-us,en-securid,en", "en-us,en" ),
+
+				// accept private sub tags
+				array( "en-us,x-en-securid", "en-us,x-en-securid" ),
+				array( "en-us,en-x-securid", "en-us,en-x-securid" ),
+
+				// filter arbitrary white space
+				array( "en-us, en", "en-us,en" ),
+				array( "en-ca, en-us ,en", "en-ca,en-us,en" ),
+
+				// handle comments
+				array( " ( comment ) en-us (another comment) ", "en-us" ),
+
+				// handle quoted pairs (embedded in comments)
+				array( " ( \( start ) en-us ( \) end ) ", "en-us" ),
+				array( " ( \) en-ca, \( ) en-us ( \) ,en ) ", "en-us" ),
+			);
+
+		foreach($a1 as $testdata)
+		{
+			$res = Piwik_Common::getBrowserLanguage( $testdata[0] );
+			$this->assertEqual( $testdata[1], $res );
+		}
+	}
     
+	/**
+	 * Data driven tests of extractCountryCodeFromBrowserLanguage
+	 */
+	public function test_extractCountryCodeFromBrowserLanguage()
+	{
+		$a1 = array( // browser language, valid countries, expected result
+				array( "",                        array(),                 "xx" ),
+				array( "",                        array("us"),             "xx" ),
+				array( "en",                      array("us"),             "xx" ),
+				array( "en-us",                   array("us"),             "us" ),
+				array( "en-ca",                   array("us"),             "xx" ),
+				array( "en-ca",                   array("us", "ca"),       "ca" ),
+				array( "fr-fr,fr-ca",             array("us", "ca"),       "ca" ),
+				array( "fr-fr;q=1.0,fr-ca;q=0.9", array("us", "ca"),       "ca" ),
+				array( "fr-ca,fr;q=0.1",          array("us", "ca"),       "ca" ),
+				array( "en-us,en;q=0.5", Piwik_Common::getCountriesList(), "us" ),
+				array( "fr-ca,fr;q=0.1",          array("fr", "us", "ca"), "ca" ),
+				array( "fr-fr,fr-ca",             array("fr", "us", "ca"), "fr" )
+			);
+
+		foreach($a1 as $testdata)
+		{
+			$this->assertEqual( $testdata[2], Piwik_Common::extractCountryCodeFromBrowserLanguage( $testdata[0], $testdata[1], true ));
+			$this->assertEqual( $testdata[2], Piwik_Common::extractCountryCodeFromBrowserLanguage( $testdata[0], $testdata[1], false ));
+		}
+	}
+
+	/**
+	 * Data driven tests of extractCountryCodeFromBrowserLanguage
+	 */
+	public function test_extractCountryCodeFromBrowserLanguage_Infer()
+	{
+		$a1 = array( // browser language, valid countries, expected result (non-guess vs guess)
+				array( "fr,en-us",       array("us", "ca"),       "us", "fr" ),
+				array( "fr,en-us",       array("fr", "us", "ca"), "us", "fr" ),
+				array( "fr,fr-fr,en-us", array("fr", "us", "ca"), "fr", "fr" ),
+				array( "fr-fr,fr,en-us", array("fr", "us", "ca"), "fr", "fr" )
+			);
+
+		if(!class_exists('Piwik_Tracker_Config'))
+		{
+			require_once "Tracker/Config.php";
+		}
+
+		// do not infer country from language
+		foreach($a1 as $testdata)
+		{
+			$this->assertEqual( $testdata[2], Piwik_Common::extractCountryCodeFromBrowserLanguage( $testdata[0], $testdata[1], $enableLanguageToCountryGuess = false ));
+		}
+
+		// infer country from language
+		foreach($a1 as $testdata)
+		{
+			$this->assertEqual( $testdata[3], Piwik_Common::extractCountryCodeFromBrowserLanguage( $testdata[0], $testdata[1], $enableLanguageToCountryGuess = true ));
+		}
+	}
+
+	/**
+	 * Data driven tests of extractLanguageCodeFromBrowserLanguage
+	 */
+	public function test_extractLanguageCodeFromBrowserLanguage()
+	{
+		$a1 = array( // browser language, valid languages, expected result
+				array( "fr-ca",          		  array("fr"),    "fr" ),
+				array( "",                        array(),           "xx"    ),
+				array( "",                        array("en"),       "xx"    ),
+				array( "fr",                      array("en"),       "xx"    ),
+				array( "en",                      array("en"),       "en"    ),
+				array( "en-ca",                   array("en-ca"),    "en-ca" ),
+				array( "en-ca",                   array("en"),       "en"    ),
+				array( "fr,en-us",                array("fr", "en"), "fr"    ),
+				array( "fr,en-us",                array("en", "fr"), "fr"    ),
+				array( "fr-fr,fr-ca",             array("fr"),       "fr"    ),
+				array( "fr-fr,fr-ca",             array("fr-ca"),    "fr-ca" ),
+				array( "fr-fr;q=1.0,fr-ca;q=0.9", array("fr-ca"),    "fr-ca" ),
+				array( "fr-ca,fr;q=0.1",          array("fr-ca"),    "fr-ca" ),
+			);
+
+		foreach($a1 as $testdata)
+		{
+			$this->assertEqual( $testdata[2], Piwik_Common::extractLanguageCodeFromBrowserLanguage( $testdata[0], $testdata[1] ), "test with {$testdata[0]} failed, expected {$testdata[2]}");
+		}
+	}
 }
 

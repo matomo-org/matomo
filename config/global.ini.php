@@ -197,6 +197,11 @@ use_first_referer_to_determine_goal_referer = false
 ; However when most users have the same IP, and the same configuration, it is advised to set it to false
 enable_detect_unique_visitor_using_settings = true
 
+; if set to true, Piwik attempts a "best guess" at the visitor's country of
+; origin when the preferred language tag omits region information.
+; The mapping is defined in core/DataFiles/LanguageToCountry.php,
+enable_language_to_country_guess = true
+
 [log]
 
 ;possible values for log: screen, database, file
