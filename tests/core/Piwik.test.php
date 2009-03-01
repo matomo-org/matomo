@@ -8,20 +8,6 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 }
 class Test_Piwik extends UnitTestCase
 {
-	function __construct( $title = '')
-	{
-		parent::__construct( $title );
-	}
-	
-	public function setUp()
-	{
-	}
-	
-	public function tearDown()
-	{
-	}
-	
-    
     public function test_isNumericValid()
     {
     	$valid = array(

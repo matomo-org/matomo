@@ -11,11 +11,6 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 
 class Test_Piwik_ReleaseCheckList extends UnitTestCase
 {
-	function __construct( $title = '')
-	{
-		parent::__construct( $title );
-	}
-	
     public function test_checkThatConfigurationValuesAreProductionValues()
     {
     	$this->globalConfig = parse_ini_file(PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
@@ -61,5 +56,22 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     	}
     	
     }
+    /**
+     * test that the profiler is disabled (mandatory on a production server)
+     */
+    public function test_profilingDisabledInProduction()
+    {
+    	require_once 'Tracker/Db.php';
+    	$this->assertTrue(Piwik_Tracker_Db::isProfilingEnabled() === false, 'SQL profiler should be disabled in production! See Piwik_Tracker_Db::$profiling');
+    }
+    
+
+	function test_piwikTrackerDebugIsOff()
+	{
+		$this->assertTrue(!isset($GLOBALS['DEBUGPIWIK']));
+		define('ENABLE_PIWIK_TRACKER', false);
+		include PATH_TEST_TO_ROOT . "/piwik.php";
+		$this->assertTrue($GLOBALS['DEBUGPIWIK'] === false);
+	}
 }
 

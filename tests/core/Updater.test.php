@@ -12,15 +12,10 @@ require_once "Updater.php";
 require_once "Database.test.php";
 class Test_Piwik_Updater extends Test_Database 
 {
-	function __construct( $title = '')
-	{
-		parent::__construct( $title );
-	}
-	
     public function test_updaterChecksCoreVersion_andDetectsUpdateFile()
     {
     	$updater = new Piwik_Updater();
-    	$updater->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/tests/core/Updater/core/';
+    	$updater->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/core/';
     	$updater->recordComponentSuccessfullyUpdated('core', '0.1');
     	$updater->addComponentToCheck('core', '0.3');
     	$componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
@@ -31,7 +26,7 @@ class Test_Piwik_Updater extends Test_Database
     public function test_updaterChecksGivenPluginVersion_andDetectsMultipleUpdateFile_inOrder()
     {
     	$updater = new Piwik_Updater();
-    	$updater->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/tests/core/Updater/%s/';
+    	$updater->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/%s/';
     	$updater->recordComponentSuccessfullyUpdated('testpluginUpdates', '0.1beta');
     	$updater->addComponentToCheck('testpluginUpdates', '0.1');
     	$componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
@@ -48,8 +43,8 @@ class Test_Piwik_Updater extends Test_Database
     public function test_updaterChecksCoreAndPlugin_checkThatCoreIsRanFirst()
     {
     	$updater = new Piwik_Updater();
-    	$updater->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/tests/core/Updater/%s/';
-    	$updater->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/tests/core/Updater/core/';
+    	$updater->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/%s/';
+    	$updater->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/core/';
     	
     	$updater->recordComponentSuccessfullyUpdated('testpluginUpdates', '0.1beta');
     	$updater->addComponentToCheck('testpluginUpdates', '0.1');
