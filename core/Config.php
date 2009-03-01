@@ -90,7 +90,10 @@ class Piwik_Config
 		{
 			$this->pathIniFileDefaultConfig = $pathIniFileDefaultConfig;
 		}
-		
+		if(!is_file($this->pathIniFileUserConfig))
+		{
+			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
+		}
 		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);
 		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
 		
