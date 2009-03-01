@@ -1,7 +1,5 @@
 <?php 
 
-setlocale(LC_TIME, 'sr_RS.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'sr_RS.UTF-8',
 	'General_TranslatorName' => 'Petar Benke',
