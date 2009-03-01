@@ -204,7 +204,13 @@ class Piwik_UsersManager_API
 			throw new Exception(sprintf(Piwik_TranslateException('UsersManager_ExceptionLoginExists'),$userLogin));
 		}
 		
-		if(!self::isValidLoginString($userLogin))
+		$loginMinimumLength = 3;
+		$loginMaximumLength = 20;
+		$l = strlen($userLogin);
+		if(!($l >= $loginMinimumLength 
+				&& $l <= $loginMaximumLength
+				&& (preg_match('/^[A-Za-z0-9\_\.-]*$/', $userLogin) > 0))
+		)
 		{
 			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLogin'));
 		}
@@ -573,22 +579,6 @@ class Piwik_UsersManager_API
 			$password = md5($password);
 		}
 		return md5($userLogin . $password );
-	}
-
-	/**
-	 * Returns true if the login has a valid format : 
-	 * - only A-Z a-z and the characters _ . and -
-	 * - length between 3 and 26
-	 * 
-	 * @param string login
-	 * @return bool
-	 */
-	static private function isValidLoginString( $input )
-	{
-		$l = strlen($input);
-		return $l >= 3 
-				&& $l <= 26 
-				&& (preg_match('/^[A-Za-z0-9\_\.-]*$/', $input) > 0);
 	}
 	
 	/**
