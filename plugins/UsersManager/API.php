@@ -144,9 +144,8 @@ class Piwik_UsersManager_API
 	static public function getSitesAccessFromUser( $userLogin )
 	{
 		Piwik::checkUserIsSuperUser();
-		
 		self::checkUserExists($userLogin);
-		
+
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT idsite,access 
 								FROM ".Piwik::prefixTable("access")
@@ -384,7 +383,11 @@ class Piwik_UsersManager_API
 	 */
 	static public function userExists( $userLogin )
 	{
-		Piwik::checkUserHasSomeAdminAccess();	
+		Piwik::checkUserHasSomeAdminAccess();
+		if($userLogin == Zend_Registry::get('config')->superuser->login)
+		{
+			return true;
+		}
 		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE login = ?", $userLogin);
@@ -399,6 +402,10 @@ class Piwik_UsersManager_API
 	static public function userEmailExists( $userEmail )
 	{
 		Piwik::checkUserHasSomeAdminAccess();
+		if($userEmail == Zend_Registry::get('config')->superuser->email)
+		{
+			return true;
+		}
 		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE email = ?", $userEmail);
@@ -570,15 +577,16 @@ class Piwik_UsersManager_API
 	 * Generates a unique MD5 for the given login & password
 	 * 
 	 * @param string Login
-	 * @param string Password string, or the MD5ied string of the password
+	 * @param string MD5ied string of the password
 	 */
-	static public function getTokenAuth($userLogin, $password)
+	static public function getTokenAuth($userLogin, $md5Password)
 	{
-		if(strlen($password) != 32)
+		if(strlen($md5Password) != 32) 
 		{
-			$password = md5($password);
+			throw new Exception("UsersManager.getTokenAuth is expecting a MD5-hashed password (32 chars long string). 
+								Please call the md5() function on the password before calling this method.");
 		}
-		return md5($userLogin . $password );
+		return md5($userLogin . $md5Password );
 	}
 	
 	/**

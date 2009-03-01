@@ -35,7 +35,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 		{
 			$login = $form->getSubmitValue('form_login');
 			$password = $form->getSubmitValue('form_password');
-			$authenticated = $this->authenticateAndRedirect($login, $password, $urlToRedirect);
+			$md5Password = md5($password);
+			$authenticated = $this->authenticateAndRedirect($login, $md5Password, $urlToRedirect);
 			if($authenticated === false)
 			{
 				$messageNoAccess = Piwik_Translate('Login_LoginPasswordNotCorrect');
@@ -57,6 +58,15 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$login = Piwik_Common::getRequestVar('login', null, 'string');
 		$password = Piwik_Common::getRequestVar('password', null, 'string');
 		$urlToRedirect = Piwik_Common::getRequestVar('url', Piwik_Url::getCurrentUrlWithoutFileName(), 'string');
+		
+		if(strlen($password) != 32)
+		{
+			throw new Exception("The password parameter is expected to be a MD5 hash of the password.");
+		}
+		if($login == Zend_Registry::get('config')->superuser->login)
+		{
+			throw new Exception("The Super User cannot be authenticated using this URL.");
+		}
 		$authenticated = $this->authenticateAndRedirect($login, $password, $urlToRedirect);
 		if($authenticated === false)
 		{
@@ -64,13 +74,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 	}
 	
-	protected function authenticateAndRedirect($login, $password, $urlToRedirect)
+	protected function authenticateAndRedirect($login, $md5Password, $urlToRedirect)
 	{
-		if(strlen($password) != 32) 
-		{
-			$password = md5($password);
-		}
-		$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login, $password);
+		$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login, $md5Password);
 		
 		$auth = Zend_Registry::get('auth');
 		$auth->setLogin($login);
