@@ -52,6 +52,7 @@ class Piwik_Login extends Piwik_Plugin
 	function ApiRequestAuthenticate($notification)
 	{
 		$tokenAuth = $notification->getNotificationObject();
+		Zend_Registry::get('auth')->setLogin($login = null);
 		Zend_Registry::get('auth')->setTokenAuth($tokenAuth);
 	}
 	
