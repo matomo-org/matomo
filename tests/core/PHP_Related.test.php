@@ -11,23 +11,10 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 require_once 'Timer.php';		
 class Test_PHP_Related extends UnitTestCase
 {
-	function __construct( $title = '')
-	{
-		parent::__construct( $title );
-	}
-	
-	public function setUp()
-	{
-	}
-	
-	public function tearDown()
-	{
-	}
-	
 	// conclusion: 
 	// - it's ok to have big holes in your array index values
 	// - obvious: it's not ok to index array by strings when you can do magic and index with int
-	function oldtest_memoryUsageArrayIncreasingIndexOrJumps()
+	function oneShotTest_memoryUsageArrayIncreasingIndexOrJumps()
 	{
 		ini_set('memory_limit','200M');
 		Piwik::createConfigObject();

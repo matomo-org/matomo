@@ -24,7 +24,7 @@ class Test_Piwik_Blank extends UnitTestCase
 	
     
     /**
-     * -> exception
+     * template function
      */
     public function _test_()
     {

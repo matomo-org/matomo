@@ -17,14 +17,6 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 		parent::__construct( $title );
 	}
 	
-	public function setUp()
-	{
-	}
-	
-	public function tearDown()
-	{
-	}
-	
 	function test_generateDataTable_simple()
 	{
 		$row1 = new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => 

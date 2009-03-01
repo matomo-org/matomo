@@ -7,6 +7,12 @@
  * @version $Id$
  */
 
+$GLOBALS['DEBUGPIWIK'] = false;
+if(defined('ENABLE_PIWIK_TRACKER') && !ENABLE_PIWIK_TRACKER)
+{
+	return;
+}
+
 error_reporting(E_ALL|E_NOTICE);
 define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
 @ignore_user_abort(true);
@@ -27,7 +33,6 @@ require_once "Tracker/Db.php";
 require_once "Tracker/Visit.php";
 require_once "Tracker/GoalManager.php";
 
-$GLOBALS['DEBUGPIWIK'] = false;
 
 ob_start();
 if($GLOBALS['DEBUGPIWIK'] === true)

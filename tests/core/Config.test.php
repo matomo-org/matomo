@@ -7,25 +7,8 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 	require_once PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
 
-class Test_Piwik_Blank extends UnitTestCase
+class Test_Piwik_Config extends UnitTestCase
 {
-	function __construct( $title = '')
-	{
-		parent::__construct( $title );
-	}
-	
-	public function setUp()
-	{
-	}
-	
-	public function tearDown()
-	{
-	}
-	
-    
-    /**
-     * -> exception
-     */
     public function testUserConfigOverwritesSectionGlobalConfigValue()
     {
     	$userFile = 'tests/resources/Config/config.ini.php';

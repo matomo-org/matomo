@@ -92,11 +92,6 @@ class Piwik_Config
 		}
 		
 		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);
-		
-		if(!Zend_Loader::isReadable($this->pathIniFileUserConfig))
-		{
-			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
-		}
 		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
 		
 		// see http://bugs.php.net/bug.php?id=34206
@@ -105,7 +100,6 @@ class Piwik_Config
 	
 	/**
 	 * At the script shutdown, we save the new configuration file, if the user has set some values 
-	 *
 	 */
 	function __destruct()
 	{

@@ -11,10 +11,6 @@ require_once "Database.test.php";
 require_once 'TablePartitioning.php';
 class Test_Piwik_TablePartitioning extends Test_Database
 {
-    function __construct() 
-    {
-        parent::__construct('');
-    }
     public function setUp()
 	{
 		parent::setUp();

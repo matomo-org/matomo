@@ -11,11 +11,6 @@ require_once "Url.php";
 
 class Test_Piwik_Url extends UnitTestCase
 {
-	function __construct( $title = '')
-	{
-		parent::__construct( $title );
-	}
-	
     /**
      * display output of all methods
      */

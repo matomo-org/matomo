@@ -17,11 +17,6 @@ require_once 'DataTable/Renderer/Php.php';
 
 class Test_Piwik_DataTable_Renderer extends UnitTestCase
 {
-	function __construct( $title = '')
-	{
-		parent::__construct( $title );
-	}
-	
 	public function setUp()
 	{
 		Piwik_DataTable_Manager::getInstance()->deleteAll();
@@ -30,7 +25,6 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	public function tearDown()
 	{
 	}
-	
 	
 	/**
 	 * DATA TESTS 

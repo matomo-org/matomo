@@ -9,23 +9,8 @@ if(!defined('CONFIG_TEST_INCLUDED'))
 
 require 'UserCountry/functions.php';
 
-//Zend_Loader::loadClass('Piwik_');
-
 class Test_Piwik_UserCountry extends UnitTestCase
 {
-	function __construct( $title = '')
-	{
-		parent::__construct( $title );
-	}
-	
-	public function setUp()
-	{
-	}
-	
-	public function tearDown()
-	{
-	}
-	
 	public function test_getFlagFromCode()
 	{
 		$flag = Piwik_getFlagFromCode("us");
@@ -47,19 +32,5 @@ class Test_Piwik_UserCountry extends UnitTestCase
 		$this->assertEqual( basename($flag), "xx.png" );
 	}
 
-    /**
-     * -> exception
-     */
-    public function _test_()
-    {
-    	try {
-    		test();
-        	$this->fail("Exception not raised.");
-    	}
-    	catch (Exception $expected) {
-    		$this->assertPattern("()", $expected->getMessage());
-            return;
-        }
-    }
 }
 
