@@ -205,14 +205,14 @@ class Piwik_UsersManager_API
 		}
 		
 		$loginMinimumLength = 3;
-		$loginMaximumLength = 20;
+		$loginMaximumLength = 100;
 		$l = strlen($userLogin);
 		if(!($l >= $loginMinimumLength 
 				&& $l <= $loginMaximumLength
 				&& (preg_match('/^[A-Za-z0-9\_\.-]*$/', $userLogin) > 0))
 		)
 		{
-			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLogin'));
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
 		}
 	}
 		

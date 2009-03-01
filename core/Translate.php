@@ -163,10 +163,10 @@ function Piwik_Translate($index, $args = array())
  * @param string Translation string index
  * @return string
  */
-function Piwik_TranslateException($message)
+function Piwik_TranslateException($message, $args = array())
 {
 	try {
-		return Piwik_Translate($message);		
+		return Piwik_Translate($message, $args);		
 	} 
 	catch(Exception $e) {
 		return $message;
