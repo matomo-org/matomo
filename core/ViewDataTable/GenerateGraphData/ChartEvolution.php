@@ -183,7 +183,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 			$row = null;
 			
 			// find first table with rows
-			foreach($this->dataTable->getRows() as $idsite => $table)
+			foreach($this->dataTable->getArray() as $idsite => $table)
 			{
 				// detect if we got data from more than one site
 				if( $table instanceof Piwik_DataTable_Array)
@@ -203,7 +203,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				else
 				{
 					// single site
-					$this->handleSiteGenerateDataFromDataTable($this->dataTable->getRows());
+					$this->handleSiteGenerateDataFromDataTable($this->dataTable->getArray());
 					break;
 				}				
 			}			
