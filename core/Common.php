@@ -386,8 +386,7 @@ class Piwik_Common
 		{
 			if( is_null($varDefault))
 			{
-				throw new Exception("\$varName '$varName' doesn't have value in \$_REQUEST and doesn't have a" .
-						" \$varDefault value");
+				throw new Exception("The parameter '$varName' isn't set in the Request, and a default value wasn't provided.");
 			}
 			else
 			{
@@ -438,8 +437,7 @@ class Piwik_Common
 			{
 				if($varDefault === null)
 				{
-					throw new Exception("\$varName '$varName' doesn't have a correct type in \$_REQUEST and doesn't " .
-							"have a \$varDefault value");
+					throw new Exception("The parameter '$varName' doesn't have a correct type, and a default value wasn't provided.");
 				}
 				// we return the default value with the good type set
 				else

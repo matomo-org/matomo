@@ -29,7 +29,6 @@ class Piwik_Login_Auth implements Piwik_Auth
 					'SELECT login FROM '.Piwik::prefixTable('user').' WHERE token_auth = ?',
 					array($this->token_auth)
 		);
-		
 		if($login !== false)
 		{
 			if(is_null($this->login)
