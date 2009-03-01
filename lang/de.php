@@ -1,7 +1,5 @@
 <?php 
 
-setlocale(LC_TIME, 'de_DE.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'de_DE.UTF-8',
 	'General_TranslatorName' => 'Frank Bueltge, Thorsten Taube',

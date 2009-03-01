@@ -1,7 +1,4 @@
 <?php 
-
-setlocale(LC_TIME, 'sk_SK.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'sk_SK.UTF-8',
 	'General_TranslatorName' => 'Zdenko Podobný',

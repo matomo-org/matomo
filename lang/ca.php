@@ -1,7 +1,5 @@
 <?php 
 
-setlocale(LC_TIME, 'ca_ES.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'ca.UTF-8',
 	'General_TranslatorName' => 'Isaac Sánchez Barrera',
