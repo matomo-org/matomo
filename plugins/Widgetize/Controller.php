@@ -15,7 +15,7 @@ require_once "Dashboard/Controller.php";
  * 
  * @package Piwik_Widgetize
  */
-class Piwik_Widgetize_Controller extends Piwik_Dashboard_Controller
+class Piwik_Widgetize_Controller extends Piwik_Controller
 {
 	function index()
 	{
