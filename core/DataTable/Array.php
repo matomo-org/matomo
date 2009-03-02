@@ -133,7 +133,8 @@ class Piwik_DataTable_Array
 	 */
 	public function __toString()
 	{
-		$renderer = new Piwik_DataTable_Renderer_Console($this);
+		$renderer = new Piwik_DataTable_Renderer_Console();
+		$renderer->setTable($this);
 		return (string)$renderer;
 	}
 

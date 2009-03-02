@@ -19,11 +19,6 @@
  */
 class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 {
-	function __construct($table = null)
-	{
-		parent::__construct($table);
-	}
-	
 	function render()
 	{
 		return $this->renderTable($this->table);

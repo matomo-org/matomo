@@ -17,12 +17,7 @@
  */
 class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 {
-	protected $prefixRows;
-	function __construct($table = null)
-	{
-		parent::__construct($table);
-		$this->setPrefixRow('#');
-	}
+	protected $prefixRows = '#';
 	
 	function render()
 	{

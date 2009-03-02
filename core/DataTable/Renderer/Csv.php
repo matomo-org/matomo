@@ -63,11 +63,6 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	 */
 	public $exportIdSubtable = true;
 	
-	function __construct($table = null)
-	{
-		parent::__construct($table);
-	}
-	
 	function render()
 	{
 		return $this->renderTable($this->table);

@@ -19,19 +19,17 @@ require_once "DataTable/Renderer/Php.php";
  */
 class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 {
-	function __construct($table = null, $renderSubTables = null)
-	{
-		parent::__construct($table, $renderSubTables);
-	}
-	
-	function render()
+	public function render()
 	{
 		return $this->renderTable($this->table);
 	}
-
+	
 	protected function renderTable($table)
 	{
-		$renderer = new Piwik_DataTable_Renderer_Php($table, $this->renderSubTables, $serialize = false);
+		$renderer = new Piwik_DataTable_Renderer_Php();
+		$renderer->setTable($table);
+		$renderer->setRenderSubTables($this->renderSubTables);
+		$renderer->setSerialize(false);
 		$array = $renderer->flatRender();
 		
 		if(!is_array($array))
