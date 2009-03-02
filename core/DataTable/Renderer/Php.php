@@ -22,17 +22,16 @@
  */
 class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 {
-	protected $serialize;
-	
-	public function __construct($table = null, $renderSubTables = null, $serialize = true)
-	{
-		parent::__construct($table, $renderSubTables);
-		$this->setSerialize($serialize);
-	}
+	protected $prettyDisplay = false;
+	protected $serialize = true;
 	
 	public function setSerialize( $bool )
 	{
-		$this->serialize = $bool;
+		$this->serialize = (bool)$bool;
+	}
+	public function setPrettyDisplay($bool)
+	{
+		$this->prettyDisplay = (bool)$bool;
 	}
 	
 	public function __toString()
@@ -53,7 +52,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		}
 		$toReturn = $this->flatRender( $dataTable );
 		
-		if( false !== Piwik_Common::getRequestVar('prettyDisplay', false) )
+		if( $this->prettyDisplay )
 		{
 			if(!is_array($toReturn))
 			{

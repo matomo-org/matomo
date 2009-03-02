@@ -80,8 +80,10 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 		
 		$tableGenerated = Piwik_ArchiveProcessing_Day::generateDataTable($input);
 		
-		$r1 = new Piwik_DataTable_Renderer_Console($table);
-		$r2 = new Piwik_DataTable_Renderer_Console($tableGenerated);
+		$r1 = new Piwik_DataTable_Renderer_Console();
+	  	$r1->setTable($table);
+		$r2 = new Piwik_DataTable_Renderer_Console();
+		$r2->setTable($tableGenerated);
 //		echo "r1=".$r1;
 //		echo "r2=".$r2;
 		
@@ -134,8 +136,10 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 				);				
 		$tableGenerated = Piwik_ArchiveProcessing_Day::generateDataTable($input);
 		
-		$r1 = new Piwik_DataTable_Renderer_Console($table);
-		$r2 = new Piwik_DataTable_Renderer_Console($tableGenerated);
+		$r1 = new Piwik_DataTable_Renderer_Console();
+		$r1->setTable($table);
+		$r2 = new Piwik_DataTable_Renderer_Console();
+		$r2->setTable($tableGenerated);
 //		echo "r1=".$r1;
 //		echo "r2=".$r2;
 		
@@ -183,8 +187,10 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 		);				
 		$tableGenerated = Piwik_ArchiveProcessing_Day::generateDataTable($input);
 		
-		$r1 = new Piwik_DataTable_Renderer_Console($table);
-		$r2 = new Piwik_DataTable_Renderer_Console($tableGenerated);
+		$r1 = new Piwik_DataTable_Renderer_Console();
+		$r1->setTable($table);
+		$r2 = new Piwik_DataTable_Renderer_Console();
+		$r2->setTable($tableGenerated);
 //		echo "r1=".$r1;
 //		echo "r2=".$r2;
 		
@@ -235,8 +241,10 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 		
 		$tableGenerated = Piwik_ArchiveProcessing_Day::generateDataTable($input);
 		
-		$r1 = new Piwik_DataTable_Renderer_Console($table);
-		$r2 = new Piwik_DataTable_Renderer_Console($tableGenerated);
+		$r1 = new Piwik_DataTable_Renderer_Console();
+		$r1->setTable($table);
+		$r2 = new Piwik_DataTable_Renderer_Console();
+		$r2->setTable($tableGenerated);
 //		echo "r1=".$r1;
 //		echo "r2=".$r2;
 		

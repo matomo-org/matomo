@@ -13,7 +13,8 @@
  * A DataTable Renderer can produce an output given a DataTable object.
  * All new Renderers must be copied in DataTable/Renderer and added to the factory() method.
  * To use a renderer, simply do:
- *  $render = new Piwik_DataTable_Renderer_Xml( $myTable );
+ *  $render = new Piwik_DataTable_Renderer_Xml();
+ *  $render->setTable($dataTable);
  *  echo $render;
  * 
  * @package Piwik_DataTable
@@ -22,28 +23,11 @@
 abstract class Piwik_DataTable_Renderer
 {
 	protected $table;
-	protected $renderSubTables;
+	protected $renderSubTables = false;
 	
-	/**
-	 * Builds the renderer.
-	 * Works with any kind of DataTable if the renderer used handles this DataTable.
-	 *
-	 * @param Piwik_DataTable|Piwik_DataTable_Simple|Piwik_DataTable_Array $table to be rendered
-	 */
-	function __construct($table = null, $renderSubTables = null)
+	public function setRenderSubTables($enableRenderSubTable)
 	{
-		if(!is_null($table))
-		{
-			$this->setTable($table);
-		}
-		if(is_null($renderSubTables))
-		{
-			$this->renderSubTables = (bool)Piwik_Common::getRequestVar('expanded', false);
-		}
-		else
-		{
-			$this->renderSubTables = $renderSubTables; 
-		}
+		$this->renderSubTables = (bool)$enableRenderSubTable;
 	}
 	
 	/**
@@ -64,7 +48,6 @@ abstract class Piwik_DataTable_Renderer
 	
 	/**
 	 * Set the DataTable to be rendered
-	 * 
 	 * @param Piwik_DataTable|Piwik_DataTable_Simple|Piwik_DataTable_Array $table to be rendered
 	 */
 	public function setTable($table)

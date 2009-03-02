@@ -58,5 +58,5 @@ class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 		}
 		echo '</ul></div>';
 	}
-	
 }
+
