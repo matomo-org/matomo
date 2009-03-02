@@ -547,11 +547,6 @@ class Test_Piwik_Common extends UnitTestCase
 				array( "fr-fr,fr,en-us", array("fr", "us", "ca"), "fr", "fr" )
 			);
 
-		if(!class_exists('Piwik_Tracker_Config'))
-		{
-			require_once "Tracker/Config.php";
-		}
-
 		// do not infer country from language
 		foreach($a1 as $testdata)
 		{

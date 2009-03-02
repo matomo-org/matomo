@@ -128,14 +128,11 @@ class Piwik_Tracker
 		$db = null;
 		$configDb = Piwik_Tracker_Config::getInstance()->database;
 		
-		// we decode the password. Password is html encoded because it's enclosed between " double quotes
-		$configDb['password'] = htmlspecialchars_decode($configDb['password']);
 		if(!isset($configDb['port']))
 		{
 			// before 0.2.4 there is no port specified in config file
 			$configDb['port'] = '3306';  
 		}
-		
 		$db = new Piwik_Tracker_Db( 	$configDb['host'], 
 										$configDb['username'], 
 										$configDb['password'], 

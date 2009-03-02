@@ -1,5 +1,5 @@
 [General]
-login=test
+login="tes&quot;t"
 password=test
 
 [Category]

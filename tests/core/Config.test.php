@@ -15,11 +15,14 @@ class Test_Piwik_Config extends UnitTestCase
     	$globalFile = 'tests/resources/Config/global.ini.php';
     	
     	$config = new Piwik_Config($userFile, $globalFile);
-    	
+    	$config->init();
     	$this->assertEqual($config->Category->key1, "value_overwritten");
     	$this->assertEqual($config->Category->key2, "value2");
-    	$this->assertEqual($config->General->login, "test");
+    	$this->assertEqual($config->General->login, 'tes"t');
     	$this->assertEqual($config->CategoryOnlyInGlobalFile->key3, "value3");
+    	$this->assertEqual($config->CategoryOnlyInGlobalFile->key4, "value4");
+    	
     }
+    
 }
 
