@@ -69,7 +69,7 @@ function widgetize()
 		$Launchpad.ShowButton({
 								actionElement : "exportThisWidget",
 								targetElement : "exportThisWidgetMenu",
-								userId : "4797da88692e4fe9",
+								userId : "49ac5bea72e5cd05",
 								widgetName : self.currentWidgetName + " - Piwik",
 								source : "iframeDivToExport"
 							});
