@@ -29,7 +29,7 @@ table.admin thead th {
 	text-transform: uppercase;
 	height: 25px;
 	background-color: #a3c159;
-	font-weight: normal;
+	font-weight:bold;
 }
 
 table.admin tbody tr {

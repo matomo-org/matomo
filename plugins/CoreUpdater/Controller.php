@@ -18,12 +18,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 		Piwik::checkUserIsSuperUser();
 		require_once "UpdateCheck.php";
-		$currentVersion = Piwik_Version::VERSION;
-		$newVersion = Piwik_UpdateCheck::isNewestVersionAvailable();
-		if(!$newVersion)
-		{
-			return;
-		}
+		$this->checkNewVersionIsAvailableOrDie();
 		
 		$view = new Piwik_View('CoreUpdater/templates/update_new_version_available.tpl');
 		$view->piwik_version = Piwik_Version::VERSION;
@@ -34,11 +29,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	public function oneClickUpdate()
 	{
 		Piwik::checkUserIsSuperUser();
-		// check that there is indeed a new version available
-		if(!Piwik_UpdateCheck::isNewestVersionAvailable())
-		{
-			return;
-		}
+		$this->checkNewVersionIsAvailableOrDie();
 
 		$steps = array(
 			array('oneClick_Download', Piwik_Translate('CoreUpdate_DownloadingUpdateFromX', self::LATEST_PIWIK_URL)),
@@ -87,6 +78,14 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		}
 		
 		$this->runUpdaterAndExit();
+	}
+
+	private function checkNewVersionIsAvailableOrDie()
+	{
+		if(!Piwik_UpdateCheck::isNewestVersionAvailable())
+		{
+			throw new Exception("Your Piwik version ".Piwik_Version::VERSION." is up to date.");
+		}
 	}
 	
 	private function oneClick_Download()

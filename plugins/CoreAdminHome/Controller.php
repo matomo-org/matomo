@@ -24,7 +24,15 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 	
 	function redirectToIndex()
 	{
-		header("Location:index.php?module=CorePluginsAdmin");
+		if(Piwik::isUserIsSuperUser()) 
+		{
+			$module = 'CorePluginsAdmin';
+		} 
+		else 
+		{
+			$module = 'SitesManager';
+		}
+		header("Location:index.php?module=" . $module);
 	}
 
 	public function index()
