@@ -183,7 +183,8 @@ class Piwik_Config
 		{
 			$this->userConfig = new Zend_Config(array(), true);
 		}
-		if($this->userConfig->$name != $value)
+		if(is_array($value) 
+			|| $this->userConfig->$name != $value)
 		{
 			$this->configFileUpdated = true;
 		}
