@@ -16,6 +16,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	public function newVersionAvailable()
 	{
+		Piwik::checkUserIsSuperUser();
 		require_once "UpdateCheck.php";
 		$currentVersion = Piwik_Version::VERSION;
 		$newVersion = Piwik_UpdateCheck::isNewestVersionAvailable();
@@ -32,6 +33,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 	public function oneClickUpdate()
 	{
+		Piwik::checkUserIsSuperUser();
 		// check that there is indeed a new version available
 		if(!Piwik_UpdateCheck::isNewestVersionAvailable())
 		{
