@@ -38,7 +38,7 @@ class Piwik_Config
 	protected $pathIniFileUserConfig 		= null;
 	protected $pathIniFileDefaultConfig 	= null;
 	protected $configFileUpdated 			= false;
-	public    $doWriteFileWhenUpdated		= true;
+	protected $doWriteFileWhenUpdated		= true;
 	
 	/**
 	 * Storing the correct cwd() because the value is not correct in the destructor
@@ -85,6 +85,19 @@ class Piwik_Config
 		
 		// see http://bugs.php.net/bug.php?id=34206
 		$this->correctCwd = getcwd();
+	}
+	
+	/**
+	 * By default, when calling setting configuration values using
+	 * $config->database = array(...)
+	 * Piwik will automatically save the updated config file in __destruct()
+	 * This can be disabled (when setting partial configuration values during the installation process for example)
+	 *  
+	 * @return void
+	 */
+	public function disableSavingConfigurationFileUpdates()
+	{
+		$this->doWriteFileWhenUpdated = false;
 	}
 	
 	public function init()

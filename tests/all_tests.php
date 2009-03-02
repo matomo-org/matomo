@@ -3,7 +3,7 @@ flush();
 require_once  "config_test.php";
 Piwik::createConfigObject();
 $databaseTestName = Zend_Registry::get('config')->database_tests->dbname;
-Zend_Registry::get('config')->doWriteFileWhenUpdated = false;
+Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 ?>
 
 <h2>Piwik unit tests</h2> 

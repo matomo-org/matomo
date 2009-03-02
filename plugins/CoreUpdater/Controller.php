@@ -166,7 +166,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private function doWelcomeUpdates()
 	{
 		$view = new Piwik_View('CoreUpdater/templates/update_welcome.tpl');
-		$view->piwik_version = Piwik_Version::VERSION;
+		$view->new_piwik_version = Piwik_Version::VERSION;
+		$view->current_piwik_version = Piwik_GetOption('version_core');
 	
 		$pluginNamesToUpdate = array();
 		$coreToUpdate = false;

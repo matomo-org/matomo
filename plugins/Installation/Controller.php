@@ -289,10 +289,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		if($form->validate())
 		{
-			// we setup the superuser login & password in the config that will be checked by the
-			// API authentication process
-			Zend_Registry::get('config')->superuser = $_SESSION['superuser_infos'];
-			
 			$name = urlencode($form->getSubmitValue('siteName'));
 			$url = urlencode($form->getSubmitValue('url'));
 			
@@ -431,6 +427,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	protected function createDbFromSessionInformation()
 	{
 		$dbInfos = $_SESSION['db_infos'];
+		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
+		Zend_Registry::get('config')->database = $dbInfos;
 		Piwik::createDatabaseObject($dbInfos);
 	}
 	

@@ -119,7 +119,7 @@ class Piwik_Tracker_Generator
 		
 		require_once "core/Piwik.php";
 		Piwik::createConfigObject('../config/config.ini.php');
-		Zend_Registry::get('config')->doWriteFileWhenUpdated = false;
+		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 		
 		// setup database	
 		Piwik::createDatabaseObject();
