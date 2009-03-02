@@ -100,7 +100,15 @@ if (!defined("E_RECOVERABLE_ERROR")) { define("E_RECOVERABLE_ERROR", 4096); }
  * @return string      transformed into JSON equivalent
  */
 if (!function_exists("json_encode")) {
-   function json_encode($var, /*emu_args*/$obj=FALSE) {
+	if(!function_exists('utf8_decode'))
+	{
+		Piwik_ExitWithMessage('
+		When using PHP < 5.2.0, Piwik requires the PHP extension XML. 
+		<br>Please install this extension to continue using Piwik. 
+		<br>More information on <a href="http://php.net/manual/en/xml.installation.php">http://php.net/manual/en/xml.installation.php</a>.');
+	}
+	
+	function json_encode($var, /*emu_args*/$obj=FALSE) {
    
       #-- prepare JSON string
       $json = "";
