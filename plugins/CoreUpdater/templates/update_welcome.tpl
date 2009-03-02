@@ -4,7 +4,7 @@
 <p>{'CoreUpdater_YourDatabaseIsOutOfDate'|translate}</p>
 
 {if $coreToUpdate}
-	<p>{'CoreUpdater_PiwikWillBeUpgradedToVersionX'|translate:$piwik_version}</p>
+	<p>{'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY'|translate:$current_piwik_version:$new_piwik_version}</p>
 {/if}
 
 {if count($pluginNamesToUpdate) > 0}

@@ -235,7 +235,7 @@ $referers = array(
 "http://www.phpmyvisites.net/",
 "http://www.phpmyvisites.net/",
 "http://www.google.fr/search?q=logiciel gratuit&hl=fr&client=firefox-a&channel=s&rls=org.mozilla:fr:official&hs=qxj&start=10&sa=N",
-"http://www.google.fr/search?hl=fr&q=PHP Fatal error%3A  Call to undefined function utf8_decode&btnG=Rechercher&meta=",
+"http://www.google.fr/search?hl=fr&q=PHP Fatal error%3A  Call to undefined function &btnG=Rechercher&meta=",
 "http://www.google.fr/search?client=firefox-a&rls=org.mozilla%3Afr%3Aofficial&channel=s&hl=fr&q=Call to undefined function%3A imagecreatefrompng%28%29  easyphp&meta=&btnG=Recherche Google",
 "http://www.google.fr/search?client=firefox-a&rls=org.mozilla%3Afr%3Aofficial&channel=s&hl=fr&q=Call to undefined function%3A imagecreatefrompng%28%29  easyphp&meta=&btnG=Recherche Google",
 "http://vauv.net/index.php",

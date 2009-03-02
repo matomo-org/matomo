@@ -26,9 +26,7 @@ class Piwik_Option
 		return self::$instance;
 	}
 	
-	private function __construct() 
-	{
-	}
+	private function __construct() {}
 
 	/**
 	 * Returns the option value for the requested option $name
