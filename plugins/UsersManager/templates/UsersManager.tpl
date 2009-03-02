@@ -50,6 +50,7 @@
 }
 </style>
 {/literal}
+<script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>
 
 <h2>{'UsersManager_ManageAccess'|translate}</h2>
 <p>{'UsersManager_MainDescription'|translate}</p>
@@ -103,42 +104,43 @@
 	<input id="no" type="button" value="{'General_No'|translate}"/>
 </div> 
 
-<br/>
-<h2>{'UsersManager_UsersManagement'|translate}</h2>
-<p>{'UsersManager_UsersManagementMainDescription'|translate}</p>
-<div id="ajaxError" style="display:none"></div>
-<div id="ajaxLoading" style="display:none"><div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate}</div></div>
-<table class="admin" id="users">
-	<thead>
-		<tr>
-			<th>{'UsersManager_Login'|translate}</th>
-			<th>{'UsersManager_Password'|translate}</th>
-			<th>{'UsersManager_Email'|translate}</th>
-			<th>{'UsersManager_Alias'|translate}</th>
-			<th>{'UsersManager_Token'|translate}</th>
-			<th>{'General_Edit'|translate}</th>
-			<th>{'General_Delete'|translate}</th>
-		</tr>
-	</thead>
-	
-	<tbody>
-		{foreach from=$users item=user key=i}
-			{if $user.login != 'anonymous'}
-			<tr class="editable" id="row{$i}">
-				<td id="userLogin" class="editable">{$user.login}</td>
-				<td id="password" class="editable">-</td>
-				<td id="email" class="editable">{$user.email}</td>
-				<td id="alias" class="editable">{$user.alias}</td>
-				<td id="alias">{$user.token_auth}</td>
-				<td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#'></td>
-				<td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete"></td>
+{if $userIsSuperUser}
+	<br/>
+	<h2>{'UsersManager_UsersManagement'|translate}</h2>
+	<p>{'UsersManager_UsersManagementMainDescription'|translate}</p>
+	<div id="ajaxError" style="display:none"></div>
+	<div id="ajaxLoading" style="display:none"><div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate}</div></div>
+	<table class="admin" id="users">
+		<thead>
+			<tr>
+				<th>{'UsersManager_Login'|translate}</th>
+				<th>{'UsersManager_Password'|translate}</th>
+				<th>{'UsersManager_Email'|translate}</th>
+				<th>{'UsersManager_Alias'|translate}</th>
+				<th>{'UsersManager_Token'|translate}</th>
+				<th>{'General_Edit'|translate}</th>
+				<th>{'General_Delete'|translate}</th>
 			</tr>
-			{/if}
-		{/foreach}
-	</tbody>
-</table>
-
-<div class="addrow"><a href="#"><img src='plugins/UsersManager/images/add.png'> {'UsersManager_AddUser'|translate}</a></div>
-<script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>
+		</thead>
+		
+		<tbody>
+			{foreach from=$users item=user key=i}
+				{if $user.login != 'anonymous'}
+				<tr class="editable" id="row{$i}">
+					<td id="userLogin" class="editable">{$user.login}</td>
+					<td id="password" class="editable">-</td>
+					<td id="email" class="editable">{$user.email}</td>
+					<td id="alias" class="editable">{$user.alias}</td>
+					<td id="alias">{$user.token_auth}</td>
+					<td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#'></td>
+					<td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete"></td>
+				</tr>
+				{/if}
+			{/foreach}
+		</tbody>
+	</table>
+	
+	<div class="addrow"><a href="#"><img src='plugins/UsersManager/images/add.png'> {'UsersManager_AddUser'|translate}</a></div>
+{/if}
 
 {include file="CoreAdminHome/templates/footer.tpl"}

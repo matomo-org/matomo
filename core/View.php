@@ -90,6 +90,7 @@ class Piwik_View implements Piwik_iView
 			$this->url = Piwik_Url::getCurrentUrl();
 			$this->token_auth = Piwik::getCurrentUserTokenAuth();
 			$this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
+			$this->userIsSuperUser = Piwik::isUserIsSuperUser();
 			$this->piwik_version = Piwik_Version::VERSION;
 			$this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
 			
