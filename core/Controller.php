@@ -225,6 +225,7 @@ abstract class Piwik_Controller
 			$view->idSite = $idSite;
 			$site = new Piwik_Site($idSite);
 			$view->siteName = $site->getName();
+			$view->siteMainUrl = $site->getMainUrl();
 			
 			$minDate = $site->getCreationDate();
 			$view->minDateYear = $minDate->toString('Y');
