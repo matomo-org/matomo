@@ -3,6 +3,8 @@
 	piwik.token_auth = "{$token_auth}";
 	piwik.piwik_url = "{$piwikUrl}";
 	{if isset($idSite)}piwik.idSite = "{$idSite}";{/if}
+	{if isset($siteName)}piwik.siteName = "{$siteName}";{/if}
+	{if isset($siteMainUrl)}piwik.siteMainUrl = "{$siteMainUrl}";{/if}
 	{if isset($period)}piwik.period = "{$period}";{/if}
 	{if isset($date)}piwik.currentDateString = "{$date}";{/if}
 	{if isset($minDateYear)}piwik.minDateYear = {$minDateYear};{/if}
