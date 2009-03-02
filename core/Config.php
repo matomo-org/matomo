@@ -71,38 +71,32 @@ class Piwik_Config
 	 */
 	function __construct($pathIniFileUserConfig = null, $pathIniFileDefaultConfig = null)
 	{
-		Zend_Registry::set('config', $this);
-		
 		if(is_null($pathIniFileUserConfig))
 		{	
-			$this->pathIniFileUserConfig = self::getDefaultUserConfigPath();
+			$pathIniFileUserConfig = self::getDefaultUserConfigPath();
 		}
-		else
-		{
-			$this->pathIniFileUserConfig = $pathIniFileUserConfig;
-		}
+		$this->pathIniFileUserConfig = $pathIniFileUserConfig;
 		
 		if(is_null($pathIniFileDefaultConfig))
 		{	
-			$this->pathIniFileDefaultConfig = self::getDefaultDefaultConfigPath();
+			$pathIniFileDefaultConfig = self::getDefaultDefaultConfigPath();
 		}
-		else
-		{
-			$this->pathIniFileDefaultConfig = $pathIniFileDefaultConfig;
-		}
-		
-		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);
-		
-		if(!is_file($this->pathIniFileUserConfig))
-		{
-			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
-		}
-		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
+		$this->pathIniFileDefaultConfig = $pathIniFileDefaultConfig;
 		
 		// see http://bugs.php.net/bug.php?id=34206
 		$this->correctCwd = getcwd();
 	}
 	
+	public function init()
+	{
+		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);
+		if(!Zend_Loader::isReadable($this->pathIniFileUserConfig))
+		{
+			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
+		}
+		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
+		
+	}
 	/**
 	 * At the script shutdown, we save the new configuration file, if the user has set some values 
 	 */
@@ -112,7 +106,7 @@ class Piwik_Config
 			&& $this->doWriteFileWhenUpdated === true)
 		{
 			$configFile = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
-			$configFile .= "; file automatically generated during the piwik installation process (and updated later by some other plugins)\n";
+			$configFile .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
 			
 			foreach($this->userConfig as $section => $arraySection)
 			{
@@ -134,16 +128,9 @@ class Piwik_Config
 						}
 					}
 					else
-					{	
-						// hack: we add " " around the password because when requesting this data using Zend_Config
-						// the toArray removes the " around the value
-						if( ($section == 'database' || $section == 'database_tests')
-							&& $name == 'password')
-						{
-							$value = '"'.$value.'"';	
-						}
-						
-						$configFile .= $name." = $value\n";						
+					{
+						$value = str_replace('"', "&quot;", $value);
+						$configFile .= $name.' = "'.$value.'"'."\n";						
 					}
 				}
 				$configFile .= "\n";
@@ -179,18 +166,15 @@ class Piwik_Config
 	public function __set($name, $value)
 	{
 		$this->checkWritePermissionOnFile();
-		if(!is_null($this->userConfig))
+		if(is_null($this->userConfig))
 		{
-			if($this->userConfig->$name != $value)
-			{
-				$this->configFileUpdated = true;
-			}
-			$this->userConfig->$name = $value;
+			$this->userConfig = new Zend_Config(array(), true);
 		}
-		else
+		if($this->userConfig->$name != $value)
 		{
-			$this->defaultConfig->$name = $value;
+			$this->configFileUpdated = true;
 		}
+		$this->userConfig->$name = $value;
 	}
 	
 	protected function checkWritePermissionOnFile() 
@@ -218,21 +202,21 @@ class Piwik_Config
 	 */
 	public function __get($name)
 	{
-		$value = array();
+		$section = array();
 		if(null !== ($valueInDefaultConfig = $this->defaultConfig->$name))
 		{
-			$value = array_merge($value, $valueInDefaultConfig->toArray());
+			$section = array_merge($section, $valueInDefaultConfig->toArray());
 		}
 		if( !is_null($this->userConfig)
 			&& null !== ($valueInUserConfig = $this->userConfig->$name))
 		{
-			$value = array_merge($value, $valueInUserConfig->toArray());
+			$valueInUserConfig = $valueInUserConfig->toArray();
+			foreach($valueInUserConfig as $name => &$value)
+			{
+				$value = str_replace("&quot;", '"', $value);	
+			}
+			$section = array_merge($section, $valueInUserConfig);
 		}
-
-		return new Zend_Config($value);
-		
-//		throw new Exception("The configuration parameter $name couldn't be found in your configuration file.
-//						<br>Try to replace your default configuration file ({$this->pathIniFileDefaultConfig}) with 
-//					the <a href='".$this->urlToPiwikHelpMissingValueInConfigurationFile."'>default piwik configuration file</a> ");
+		return new Zend_Config($section);
 	}
 }

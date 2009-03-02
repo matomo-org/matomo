@@ -46,13 +46,22 @@ class Piwik_Tracker_Config
 	 * @var array
 	 */
 	public $config = array();
+	protected $init = false;
 	
-	private function __construct()
+	public function init($pathIniFileUser = 'config/config.ini.php', 
+								$pathIniFileGlobal = 'config/global.ini.php')
 	{
-		$pathIniFileUser = 'config/config.ini.php';
-		$pathIniFileGlobal = 'config/global.ini.php';
 		$this->configUser = parse_ini_file($pathIniFileUser, true);
 		$this->configGlobal = parse_ini_file($pathIniFileGlobal, true);
+	
+		foreach($this->configUser as $section => &$sectionValues)
+		{ 
+			foreach($sectionValues as $name => &$value)
+			{
+				$value = str_replace("&quot;", '"', $value);
+			}
+		}
+		$this->init = true;
 	}
 	
 	/**
@@ -65,15 +74,21 @@ class Piwik_Tracker_Config
 	 */
 	public function __get( $name )
 	{
-		if(isset($this->configUser[$name]))
+		if(!$this->init)
 		{
-			return $this->configUser[$name];
+			$this->init();
 		}
+		
+		$section = array();
 		if(isset($this->configGlobal[$name]))
 		{
-			return $this->configGlobal[$name];
+			$section = array_merge($section, $this->configGlobal[$name]);
 		}
-		throw new Exception("The config element $name is not available in the configuration (check the configuration file).");
+		if(isset($this->configUser[$name]))
+		{
+			$section = array_merge($section, $this->configUser[$name]);
+		}
+		return $section;
 	}
 }
 
