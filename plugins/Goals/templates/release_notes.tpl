@@ -1,10 +1,6 @@
 <hr>
 <b>About the Goal Tracking Plugin</b><br>
 <pre>
-N/A% should be n/a
-lines with 0 visits and no conversion should not appear
-bug = http://forum.piwik.org/index.php?showtopic=150
-
 The Goal Tracking Plugin is in alpha release. There is more coming soon!
 - Test summary row works ok with subtables campaigns
 - The Goal Report page will display conversion table by search engines, country, keyword, campaign, etc.
@@ -15,6 +11,8 @@ The Goal Tracking Plugin is in alpha release. There is more coming soon!
 - provide widgets for the dashboard, general goal overview, and one widget for each goal. With: graph evolution, sparklines. Widget with top segments for each goal.
 - add visits with conversion sparkline in VisitsSummary overview
 - link under goal conversion to full goal reports (optional display)
+- N/A% should be n/a
+
 
 Known bugs
 - Your top converting keyword include keyword without conversions
@@ -22,6 +20,8 @@ Known bugs
 - After adding goal, the window should refresh to the goal report page, and not to the dashboard
 - Outlink trailing slash is automatically deleted from the URL, there would be a problem when trying to exact match a URL with trailing slash
 - All graph labelling are not correct (always printing nb_uniq_visitors even when showing conversion or conversion_rate) see <a href='http://dev.piwik.org/trac/ticket/322'>#322</a>
+- lines with 0 visits and no conversion should not appear
+- bug = http://forum.piwik.org/index.php?showtopic=150
 
 Give us Feedback!
 If you find any other bug, or if you have suggestions, please send us a message using the "Give us feedback" link at the top of the Piwik pages.
