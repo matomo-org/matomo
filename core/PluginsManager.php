@@ -71,7 +71,7 @@ class Piwik_PluginsManager
 	 */
 	public function readPluginsDirectory()
 	{
-		$pluginsName = glob( "plugins/*",GLOB_ONLYDIR);
+		$pluginsName = glob( "plugins/*", GLOB_ONLYDIR);
 		$pluginsName = array_map('basename', $pluginsName);
 		return $pluginsName;
 	}
@@ -79,7 +79,6 @@ class Piwik_PluginsManager
 	public function deactivatePlugin($pluginName)
 	{
 		$plugins = $this->pluginsToLoad;
-	
 		$key = array_search($pluginName,$plugins);
 		if($key !== false)
 		{
@@ -87,19 +86,17 @@ class Piwik_PluginsManager
 			Zend_Registry::get('config')->Plugins = $plugins;
 		}
 		
-		try{
-			$pluginsTracker = Zend_Registry::get('config')->Plugins_Tracker->Plugins_Tracker;
-			if(!is_null($pluginsTracker))
+		$pluginsTracker = Zend_Registry::get('config')->Plugins_Tracker->Plugins_Tracker;
+		if(!is_null($pluginsTracker))
+		{
+			$pluginsTracker = $pluginsTracker->toArray();
+			$key = array_search($pluginName,$pluginsTracker);
+			if($key !== false)
 			{
-				$pluginsTracker = $pluginsTracker->toArray();
-				$key = array_search($pluginName,$pluginsTracker);
-				if($key !== false)
-				{
-					unset($pluginsTracker[$key]);
-					Zend_Registry::get('config')->Plugins_Tracker = $pluginsTracker;
-				}
+				unset($pluginsTracker[$key]);
+				Zend_Registry::get('config')->Plugins_Tracker = $pluginsTracker;
 			}
-		} catch(Exception $e) {}
+		}
 	}
 	
 	public function installLoadedPlugins()
@@ -134,7 +131,7 @@ class Piwik_PluginsManager
 		
 		// we add the plugin to the list of activated plugins
 		$plugins[] = $pluginName;
-
+		
 		// the config file will automatically be saved with the new plugin
 		Zend_Registry::get('config')->Plugins = $plugins;
 	}
@@ -147,7 +144,6 @@ class Piwik_PluginsManager
 			$pluginsToLoad = array();
 		}
 		$this->pluginsToLoad = $pluginsToLoad;
-		
 		$this->loadPlugins();
 	}
 	
@@ -401,7 +397,6 @@ class Piwik_PluginsManager
 	}
 	
 	/**
-	 * TODO horrible dirty hack. Fix config class by merging both config files before reading.
 	 * @return array
 	 */
 	public function getInstalledPluginsName()
@@ -410,18 +405,8 @@ class Piwik_PluginsManager
 		{
 			throw new Exception("Not possible to list installed plugins (case Tracker module)");
 		}
-		if(!is_null(Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled))
-		{
-			return Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled->toArray();
-		}
-		elseif(is_array(Zend_Registry::get('config')->PluginsInstalled))
-		{
-			return Zend_Registry::get('config')->PluginsInstalled;
-		}
-		else
-		{
-			return Zend_Registry::get('config')->PluginsInstalled->toArray();
-		}
+		$pluginNames = Zend_Registry::get('config')->PluginsInstalled->PluginsInstalled->toArray();
+		return $pluginNames;
 	}
 	
 	public function getInstalledPlugins()
@@ -441,7 +426,7 @@ class Piwik_PluginsManager
 		{
 			$this->installPlugin($plugin);
 			$pluginsInstalled[] = $pluginName;
-			Zend_Registry::get('config')->PluginsInstalled = $pluginsInstalled;	
+			Zend_Registry::get('config')->PluginsInstalled = array('PluginsInstalled' => $pluginsInstalled);	
 		}
 		
 		$information = $plugin->getInformation();
@@ -462,7 +447,7 @@ class Piwik_PluginsManager
 			if(!in_array($pluginName, $pluginsTracker))
 			{
 				$pluginsTracker[] = $pluginName;
-				Zend_Registry::get('config')->Plugins_Tracker = $pluginsTracker;
+				Zend_Registry::get('config')->Plugins_Tracker = array('Plugins_Tracker' => $pluginsTracker);
 			}
 		}
 	}
