@@ -1,37 +1,10 @@
 To fix
 ======
-
-On 2009-02-16, I got ~100 Visitors (usually 20-30) on a site in Piwik but that size for that amount of user seems too much for me.
-http://forum.piwik.org/index.php?showtopic=222
-- Problème de traduction dans Visiteurs > Récapitulatifs
-Évolution sur les 30 derniers __ days __
 - ADD forward of non true show_values to forward when specified from URL to ajax
 
-Reports improvements
-====================
-- add "days since last visit"
-- add "visit count until conversion"
-- add best search engines, keywords, campaigns, websites in referers overview
-
-Test page
-==========
-- prepare a page with all use cases in iframes?
-- test the actions datatable in this page?
-- test datatable with search disabled
-- test datatable with low population disabled
-- without footer
-- without all columns icon
-  
 User Interface improvements
 ===========================
 - add icon calendar http://developer.yahoo.com/ypatterns/pattern.php?pattern=calendar#Solution
-- something is wrong in JS calendar when year selected
-
-Code improvements
-=================
-
-changes between 2 versions
-http://dev.piwik.org/trac/changeset?old_path=tags%2F0.2.23&old=&new_path=tags%2F0.2.24&new=
 
 CHANGES DONE TO LIBRARIES
 =========================
