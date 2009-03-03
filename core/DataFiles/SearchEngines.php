@@ -554,6 +554,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"directory.google.com"		=> array("Google Directory", " "),
 		
 		// Google Images        
+		"images.google.com"        => array("Google Images", "q"),
 		"images.google.cz"        => array("Google Images", "q"),
         "images.google.hr"        => array("Google Images", "q"),
         "images.google.hu"        => array("Google Images", "q"),
