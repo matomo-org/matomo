@@ -219,7 +219,8 @@ class Piwik_Config
 		$section = array();
 		if(null !== ($valueInDefaultConfig = $this->defaultConfig->$name))
 		{
-			$section = array_merge($section, $valueInDefaultConfig->toArray());
+			$valueInDefaultConfig = $valueInDefaultConfig->toArray();
+			$section = array_merge($section, $valueInDefaultConfig);
 		}
 		if( !is_null($this->userConfig)
 			&& null !== ($valueInUserConfig = $this->userConfig->$name))
