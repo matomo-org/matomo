@@ -48,7 +48,7 @@
 	<target name="test" depends="process-build-resources">
 		<mkdir dir="${basedir}/../build/test-results"/>
 		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="true" failifexecutionfails="true">		
-			<arg value="all_tests.php" />
+			<arg value="${basedir}/../build/tests/all_tests.php" />
 		</exec>
 	</target>
 	
