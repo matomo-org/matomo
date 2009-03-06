@@ -1,5 +1,4 @@
 <?php
-//TODO add api to get actions name/count/first/last/etc
 require_once "Referers/functions.php";
 require_once "UserCountry/functions.php";
 require_once "UserSettings/functions.php";

@@ -12,6 +12,10 @@
 require_once "core/Tracker/GoalManager.php";
 
 /**
+ * TODO Goals plugin
+ * - clean API especially int methods
+ */
+/**
  * @package Piwik_Referers
  */
 class Piwik_Goals extends Piwik_Plugin

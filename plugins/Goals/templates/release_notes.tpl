@@ -12,7 +12,8 @@ The Goal Tracking Plugin is in alpha release. There is more coming soon!
 - add visits with conversion sparkline in VisitsSummary overview
 - link under goal conversion to full goal reports (optional display)
 - N/A% should be n/a
-
+- GeoIp compatibility, archive goals by city, country? see archiveDayAggregateGoals
+- documentation, eg. http://feedproxy.google.com/~r/WebAnalyticsWorld/~3/1g5Z7k7jDKQ/10-must-track-google-analytics-goals.html
 
 Known bugs
 - Your top converting keyword include keyword without conversions
