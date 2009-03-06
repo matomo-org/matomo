@@ -6,7 +6,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 {
 	const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';
 	const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest';
-	const LATEST_PIWIK_URL = 'http://piwik.org/last.zip';
+	const LATEST_PIWIK_URL = 'http://piwik.org/latest.zip';
 
 	private $componentsWithUpdateFile = array();
 	private $coreError = false;
@@ -90,7 +90,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_Download()
 	{
-		$this->pathPiwikZip = PIWIK_INCLUDE_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . '/last.zip';
+		$this->pathPiwikZip = PIWIK_INCLUDE_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . '/latest.zip';
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
 		$fetched = Piwik::fetchRemoteFile(self::LATEST_PIWIK_URL, $this->pathPiwikZip);
 	}

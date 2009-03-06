@@ -153,6 +153,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Austronaut
 		"www2.austronaut.at"		=> array("Austronaut", "begriff"),
 		
+		//Babylon
+		"search.babylon.com"		=> array("Babylon (Powered by Google)","q"),
+	
 		// Baidu
 		"www.baidu.com"			=> array("Baidu", "wd"),
 		"www1.baidu.com"		=> array("Baidu", "wd"),

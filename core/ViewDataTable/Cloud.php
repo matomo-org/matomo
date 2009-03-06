@@ -20,7 +20,6 @@ require_once "Visualization/Cloud.php";
  */
 class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 {
-	//TODO test this
 	protected $displayLogoInsteadOfLabel = false;
 
 	protected function getViewDataTableId()

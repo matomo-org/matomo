@@ -9,11 +9,11 @@ font-weight: bold;
 <?php
 $visitsDemo = unserialize(file_get_contents('http://piwik.org/demo/?module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php&filter_column=label&filter_pattern=demo'));
 $visitsAll = unserialize(file_get_contents('http://piwik.org/demo/?module=API&method=VisitsSummary.getUniqueVisitors&idSite=1&period=day&date=previous8&format=php'));
-$downloads = unserialize(file_get_contents('http://piwik.org/demo/?module=API&method=Actions.getDownloads&idSite=1&period=day&date=previous8&format=php&expanded=1&filter_column_recursive=label&filter_pattern_recursive=http://piwik.org/last.zip'));
+$downloads = unserialize(file_get_contents('http://piwik.org/demo/?module=API&method=Actions.getDownloads&idSite=1&period=day&date=previous8&format=php&expanded=1&filter_column_recursive=label&filter_pattern_recursive=http://piwik.org/latest.zip'));
 
 $ratioSum = $ratioDemoSum = $count = 0;
 
-print('<table border=1 cellpadding=4><thead><td>Date</td><td>Nb visitors</td><td>Visitors on /demo</td><td>Download last.zip</td><td>Ratio visitors/demo</td><td>Ratio visitors/download</td></thead>');
+print('<table border=1 cellpadding=4><thead><td>Date</td><td>Nb visitors</td><td>Visitors on /demo</td><td>Download latest.zip</td><td>Ratio visitors/demo</td><td>Ratio visitors/download</td></thead>');
 foreach($visitsDemo as $date => $values)
 {
 	$nbVisitsDemo = $values[0]['nb_uniq_visitors'];

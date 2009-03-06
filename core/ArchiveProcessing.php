@@ -247,7 +247,6 @@ abstract class Piwik_ArchiveProcessing
 			&& $this->period->toString() == date("Y-m-d")
 			)
 		{
-			//TODO this TIMESTAMP should be a mysql NOW()!!!!
 			$this->maxTimestampArchive = time() - Zend_Registry::get('config')->General->time_before_archive_considered_outdated;
 		}
 		// either

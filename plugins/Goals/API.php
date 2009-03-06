@@ -133,7 +133,6 @@ class Piwik_Goals_API
 //		
 //	}
 	
-	// TODO
 	public function getConversionRateReturningVisitors( $idSite, $period, $date, $idGoal = false )
 	{
 		// visits converted for returning for all goals = call Frequency API

@@ -223,7 +223,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	{		
 		$this->archiveNumericValuesMax( 'max_actions' ); 
 		$toSum = array(
-			'nb_uniq_visitors', //TODO fix
+			'nb_uniq_visitors', 
 			'nb_visits',
 			'nb_actions', 
 			'sum_visit_length',
