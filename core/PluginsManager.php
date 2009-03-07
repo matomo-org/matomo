@@ -256,7 +256,7 @@ class Piwik_PluginsManager
 			throw new Exception("The plugin filename '$pluginFileName' is not a valid filename");
 		}
 		
-		$path = 'plugins/' . $pluginFileName;
+		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginFileName;
 
 		if(!file_exists($path))
 		{
