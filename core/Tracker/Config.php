@@ -58,7 +58,14 @@ class Piwik_Tracker_Config
 		{ 
 			foreach($sectionValues as $name => &$value)
 			{
-				$value = str_replace("&quot;", '"', $value);
+				if(is_array($value)) 
+				{
+					$value = array_map("html_entity_decode", $value);
+				} 
+				else 
+				{
+					$value = html_entity_decode($value);
+				}
 			}
 		}
 		$this->init = true;

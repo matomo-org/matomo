@@ -6,6 +6,6 @@ password=test
 key1 = value_overwritten
 
 [TestArray]
-installed[] = plugin1
+installed[] = "plugin&quot;1"
 installed[] = plugin2
 installed[] = plugin3

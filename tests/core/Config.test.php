@@ -22,7 +22,7 @@ class Test_Piwik_Config extends UnitTestCase
     	$this->assertEqual($config->CategoryOnlyInGlobalFile->key3, "value3");
     	$this->assertEqual($config->CategoryOnlyInGlobalFile->key4, "value4");
     	
-    	$expectedArray = array('plugin1', 'plugin2', 'plugin3');
+    	$expectedArray = array('plugin"1', 'plugin2', 'plugin3');
     	$array = $config->TestArray->toArray();
     	$this->assertEqual($array['installed'], $expectedArray);
     	
