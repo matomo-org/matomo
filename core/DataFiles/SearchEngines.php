@@ -125,6 +125,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"suche.aol.de"			=> array("AOL", "q"),
 		"suche.aolsvc.de"		=> array("AOL", "query"),
 		"aolbusqueda.aol.com.mx"	=> array("AOL", "query"),
+		"alicesuchet.aol.de" => array('AOL', 'query'),
+		"suche.aolsvc.de" => array('AOL', 'query'),
+		"suche.aol.de" => array('AOL', 'query'),
 		
 		// Aport
 		"sm.aport.ru"			=> array("Aport", "r"),
@@ -343,10 +346,12 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"suche.gmx.net"			=> array("GMX", "su"),
 		"www.gmx.net"			=> array("GMX", "su"),
 		
+		// Gnadenmeer
+		"www.gnadenmeer.de" => array('Gnadenmeer', 'keyword'),
+	
 		// goo
 		"search.goo.ne.jp"		=> array("goo", "mt"),
 		"ocnsearch.goo.ne.jp"		=> array("goo", "mt"),
-		
 		
 		// Google
 		"www.google.com"		=> array("Google", "q"),
@@ -716,11 +721,14 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Klug suchen
 		"www.klug-suchen.de"		   => array("Klug suchen!", "query"),
 	
+		// kostenlos
+		"www.kostenlos.de" => array('kostenlos.de', 'q'),
+	
 		// Kvasir
 		"kvasir.no" 				=> array("Kvasir", "searchExpr"),
 		"www.kvasir.no" 			=> array("Kvasir", "searchExpr"),
 	
-		//Latne
+		// Latne
 	    "www.latne.lv"			=> array("Latne", "q"),
 		
 		// La Toile Du Québec via Google
@@ -788,6 +796,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.meinestadt.de"	        => array("Meinestadt.de", "words"),
 		"home.meinestadt.de"	        => array("Meinestadt.de", "words"),
 		
+		// Mister Wong
+		"www.mister-wong.de" => array('Mister Wong', 'keywords'),
+	
 		// Monstercrawler
 		"www.monstercrawler.com" 	=> array("Monstercrawler", "qry"),
 		
@@ -835,6 +846,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// El Mundo
 		"ariadna.elmundo.es" 	=> array("El Mundo", "q"),
 		
+		// MySpace
+		"searchservice.myspace.com" => array('myspace', 'qry'),
+	
 		// MyWebSearch
 		"kf.mysearch.myway.com" 	=> array("MyWebSearch", "searchfor"),
 		"ms114.mysearch.com" 		=> array("MyWebSearch", "searchfor"),
@@ -915,6 +929,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"search.rambler.ru" 		=> array("Rambler", "words"),
 		"www.rambler.ru"            => array("Rambler", "words"),
 		"nova.rambler.ru"           => array("Rambler", "query"), 
+		"nova.rambler.ru" => array('Rambler', 'q'),
 
 		// Reacteur.com
 		"www.reacteur.com"		=> array("Reacteur", "kw"),
@@ -1083,12 +1098,16 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"uk.search.yahoo.com" 		=> array("Yahoo!", "p"),
 		"cade.search.yahoo.com"		=> array("Yahoo!", "p"),
 		"tw.search.yahoo.com" 		=> array("Yahoo!", "p"),
+		"se.search.yahoo.com" => array('Yahoo!', 'p'),
+		"us.search.yahoo.com" => array('Yahoo!', 'p'),
 		"www.yahoo.com.cn" 		=> array("Yahoo!", "p"),
 		
 		"de.dir.yahoo.com"		     => array("Yahoo! Webverzeichnis", ""),   
 		"cf.dir.yahoo.com"		=> array("Yahoo! Directory", ""),
 		"fr.dir.yahoo.com"		=> array("Yahoo! Directory", ""),
-		
+
+		"images.search.yahoo.com" => array('Yahoo! Images', 'p'),
+	
 		// Yandex
 		"www.yandex.ru" 		=> array("Yandex", "text"),
 		"yandex.ru" 			=> array("Yandex", "text"),

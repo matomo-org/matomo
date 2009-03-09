@@ -5,7 +5,7 @@
  */
 $minVisitors = 200;
 $maxVisitors = 200;
-$nbActions = 3;
+$nbActions = 5;
 $daysToCompute = 2;
 
 //-----------------------------------------------------------------------------
@@ -51,7 +51,10 @@ require_once "Tracker/GoalManager.php";
 //Piwik_PluginsManager::getInstance()->unloadPlugins();
 
 // we have to unload the Provider plugin otherwise it tries to lookup the IP for ahostname, and there is no dns server here
-Piwik_PluginsManager::getInstance()->unloadPlugin('Provider');
+if(Piwik_PluginsManager::getInstance()->isPluginActivated('Provider'))
+{
+	Piwik_PluginsManager::getInstance()->unloadPlugin('Provider');
+}
 
 // we set the DO NOT load plugins so that the Tracker generator doesn't load the plugins we've just disabled.
 // if for some reasons you want to load the plugins, comment this line, and disable the plugin Provider in the plugins interface
