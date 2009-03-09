@@ -251,7 +251,8 @@ class Piwik_Tracker
 				
 				printDebug("Loading plugins: { ". implode(",", $pluginsTracker['Plugins_Tracker']) . "}");
 			}
-		} catch(Exception $e) {		
+		} catch(Exception $e) {
+			printDebug("ERROR: ".$e->getMessage());
 		}
 	}
 	

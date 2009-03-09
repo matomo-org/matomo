@@ -5,12 +5,11 @@
 {/foreach}
 
 {if $coreError}
-	<br><br>
-	<div class="error">
-		<img src="themes/default/images/error_medium.png"> {$coreError}
-		<br><br>{'CoreUpdater_UpdateHasBeenCancelled'|translate}
-	</div>
-	<br><br>
+	<br/><br/>
+	<div class="error"><img src="themes/default/images/error_medium.png"> {$coreError}</div>
+	<br/><br/>
+	<div class="warning"><img src="themes/default/images/warning_medium.png"> {'CoreUpdater_UpdateHasBeenCancelledExplanation'|translate:"<br/><br/>":"<a target='_blank' href='misc/redirectToUrl.php?url=http://piwik.org/docs/update/'>":"</a>"}</div>
+	<br/><br/>
 {/if}
 
 <form action="index.php">
