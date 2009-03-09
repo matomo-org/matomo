@@ -12,4 +12,3 @@ CHANGES DONE TO LIBRARIES
 - edited zend_log and changed attr to protected
 - fixed bug fwrite in zend_log stream writer
 - fixed PEAR so that it works under PHP5 with STRICT MODE enabled
-- edited line 145 registry.php from require_once 'Zend/Exception.php'; to require_once 'Exception.php';
