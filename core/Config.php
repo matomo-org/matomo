@@ -137,12 +137,13 @@ class Piwik_Config
 					{
 						foreach($value as $currentValue)
 						{
+							$currentValue = htmlentities($currentValue);
 							$configFile .= $name."[] = $currentValue\n";
 						}
 					}
 					else
 					{
-						$value = str_replace('"', "&quot;", $value);
+						$value = htmlentities($value);
 						$configFile .= $name.' = "'.$value.'"'."\n";						
 					}
 				}
@@ -228,7 +229,14 @@ class Piwik_Config
 			$valueInUserConfig = $valueInUserConfig->toArray();
 			foreach($valueInUserConfig as $name => &$value)
 			{
-				$value = str_replace("&quot;", '"', $value);	
+				if(is_array($value)) 
+				{
+					$value = array_map("html_entity_decode", $value);
+				} 
+				else 
+				{
+					$value = html_entity_decode($value);
+				}
 			}
 			$section = array_merge($section, $valueInUserConfig);
 		}
