@@ -220,7 +220,7 @@ abstract class Piwik_Controller
 		$view->date = $this->strDate;
 		
 		try {
-			$currentPeriod = Piwik_Common::getRequestVar('period');
+			$this->setPeriodVariablesView($view);
 			$idSite = Piwik_Common::getRequestVar('idSite');
 			$view->idSite = $idSite;
 			$site = new Piwik_Site($idSite);
@@ -235,12 +235,17 @@ abstract class Piwik_Controller
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
 		}
+	}
+	
+	protected function setPeriodVariablesView($view)
+	{
+		$currentPeriod = Piwik_Common::getRequestVar('period');
 		$otherPeriodsAvailable = array('day', 'week', 'month', 'year');
 		$otherPeriodsNames = array(
-			'day' => Piwik_Translate('CoreHome_PeriodDay'),
-			'week' => Piwik_Translate('CoreHome_PeriodWeek'),
-			'month' => Piwik_Translate('CoreHome_PeriodMonth'),
-			'year' => Piwik_Translate('CoreHome_PeriodYear')
+			'day' => array('singular' => Piwik_Translate('CoreHome_PeriodDay'), 'plural' => Piwik_Translate('CoreHome_PeriodDays')),
+			'week' => array('singular' => Piwik_Translate('CoreHome_PeriodWeek'), 'plural' => Piwik_Translate('CoreHome_PeriodWeeks')),
+			'month' => array('singular' => Piwik_Translate('CoreHome_PeriodMonth'), 'plural' => Piwik_Translate('CoreHome_PeriodMonths')),
+			'year' => array('singular' => Piwik_Translate('CoreHome_PeriodYear'), 'plural' => Piwik_Translate('CoreHome_PeriodYears')),
 			);
 		
 		$found = array_search($currentPeriod,$otherPeriodsAvailable);

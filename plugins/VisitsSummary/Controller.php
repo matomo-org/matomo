@@ -6,8 +6,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	function index()
 	{
 		$view = new Piwik_View('VisitsSummary/index.tpl');
-		$currentPeriod = Piwik_Common::getRequestVar('period');
-		$view->period = $currentPeriod;
+		$this->setPeriodVariablesView($view);
 		$view->graphEvolutionVisitsSummary = $this->getLastVisitsGraph( true );
 		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();

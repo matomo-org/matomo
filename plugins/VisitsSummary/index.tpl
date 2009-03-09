@@ -1,7 +1,7 @@
 <script type="text/javascript" src="plugins/CoreHome/templates/sparkline.js"></script>
 
 <a name="evolutionGraph" graphId="VisitsSummarygetLastVisitsGraph"></a>
-<h2>{'VisitsSummary_Evolution'|translate:$period}</h2>
+<h2>{'VisitsSummary_EvolutionPeriods'|translate:$periodsNames.$period.plural}</h2>
 {$graphEvolutionVisitsSummary}
 
 <h2>{'VisitsSummary_Report'|translate}</h2>
