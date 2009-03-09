@@ -1,4 +1,12 @@
 ; <?php exit; ?> DO NOT REMOVE THIS LINE
+; If you want to change some of these default values, the best practise is to override 
+; them in your configuration file in config/config.ini.php. If you directly edit this file,
+; you risk losing your changes when you upgrade Piwik. 
+; For example if you override enable_browser_archiving_triggering, 
+; edit config/config.ini.php and add the following:
+; [General]
+; enable_browser_archiving_triggering = false
+
 [superuser]
 login			= root
 password		= 
@@ -21,46 +29,6 @@ tables_prefix	= piwiktests_
 port			= 3306
 adapter 		= PDO_MYSQL
  
-
-[Plugins]
-Plugins[] 		= CorePluginsAdmin
-Plugins[] 		= CoreAdminHome
-Plugins[] 		= CoreHome
-Plugins[] 		= API
-Plugins[] 		= Widgetize
-Plugins[] 		= LanguagesManager
-Plugins[] 		= Actions
-Plugins[] 		= Dashboard
-Plugins[] 		= Referers
-Plugins[] 		= UserSettings
-
-Plugins[] 		= UserCountry
-Plugins[] 		= VisitsSummary
-Plugins[] 		= VisitFrequency
-Plugins[] 		= VisitTime
-Plugins[] 		= VisitorInterest
-Plugins[] 		= ExampleAPI
-Plugins[] 		= ExamplePlugin
-Plugins[]		= ExampleRssWidget
-Plugins[] 		= ExampleFeedburner
-Plugins[] 		= ExampleRssWidget
-Plugins[] 		= Provider
-Plugins[]		= Feedback
-
-Plugins[] 		= Login
-Plugins[] 		= UsersManager
-Plugins[] 		= SitesManager
-Plugins[] 		= Installation
-
-[PluginsInstalled]
-PluginsInstalled[] = Login
-PluginsInstalled[] = CoreAdminHome
-PluginsInstalled[] = UsersManager
-PluginsInstalled[] = SitesManager
-PluginsInstalled[] = Installation
-
-[Plugins_Tracker]
-
 [Debug]
 ; if set to true, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process
@@ -239,3 +207,44 @@ error_reporting = E_ALL|E_NOTICE
 
 ; allow smarty debugging using {debug}
 debugging		= true
+
+
+[Plugins]
+Plugins[] 		= CorePluginsAdmin
+Plugins[] 		= CoreAdminHome
+Plugins[] 		= CoreHome
+Plugins[] 		= API
+Plugins[] 		= Widgetize
+Plugins[] 		= LanguagesManager
+Plugins[] 		= Actions
+Plugins[] 		= Dashboard
+Plugins[] 		= Referers
+Plugins[] 		= UserSettings
+
+Plugins[] 		= UserCountry
+Plugins[] 		= VisitsSummary
+Plugins[] 		= VisitFrequency
+Plugins[] 		= VisitTime
+Plugins[] 		= VisitorInterest
+Plugins[] 		= ExampleAPI
+Plugins[] 		= ExamplePlugin
+Plugins[]		= ExampleRssWidget
+Plugins[] 		= ExampleFeedburner
+Plugins[] 		= ExampleRssWidget
+Plugins[] 		= Provider
+Plugins[]		= Feedback
+
+Plugins[] 		= Login
+Plugins[] 		= UsersManager
+Plugins[] 		= SitesManager
+Plugins[] 		= Installation
+
+[PluginsInstalled]
+PluginsInstalled[] = Login
+PluginsInstalled[] = CoreAdminHome
+PluginsInstalled[] = UsersManager
+PluginsInstalled[] = SitesManager
+PluginsInstalled[] = Installation
+
+[Plugins_Tracker]
+Plugins_Tracker[] = Provider

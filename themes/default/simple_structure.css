@@ -54,18 +54,22 @@ a { color: #006; }
 	font-size:25pt;
 }
 .warning {
-	color:#ff5502;
 	font-size:130%;
 	font-weight:bold;
-	padding-left:10;
+	padding:20px;
 	border: 1px solid #ff5502;
 }
+.warning, .warning a {
+	color:#ff5502;
+}
 .error {
-	color:red;
 	font-weight:bold;
 	font-size:130%;
 	border: 1px solid red;
 	padding:20;
+}
+.error, .error a {
+	color:red;
 }
 .error img, .success img, .warning img {
 	border:0;
