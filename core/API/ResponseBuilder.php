@@ -118,7 +118,7 @@ class Piwik_API_ResponseBuilder
 				}
 			break;
 			case 'html':
-				$return = str_replace("\n", "<br />", $message);
+				$return = nl2br($message);
 			break;
 			default:
 				$return = 'Error: '.$message;
