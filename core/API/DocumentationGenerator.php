@@ -106,9 +106,6 @@ class Piwik_API_DocumentationGenerator
 			'passwordMd5ied' => 'passwordExample',
 			'email' => 'test@example.org',
 		
-			'siteName' => 'new example website',
-			'urls' => 'http://example.org', // used in addSite, updateSite
-		
 			'languageCode' => 'fr',
 		);
 		
