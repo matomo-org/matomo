@@ -285,6 +285,10 @@ class Piwik_PluginsManager
 		$this->languageToLoad = $code;
 	}
 
+	/**
+	 * @param Piwik_Plugin $plugin
+	 * @return void
+	 */
 	public function unloadPlugin( $plugin )
 	{
 		if(!($plugin instanceof Piwik_Plugin ))
@@ -298,7 +302,7 @@ class Piwik_PluginsManager
 			$success = $this->dispatcher->removeObserver( array( $plugin, $methodToCall), $hookName );
 			if($success !== true)
 			{
-				throw new Exception("Error unloading plugin for method = $methodToCall // hook = $hookName ");
+				throw new Exception("Error unloading plugin = ".$plugin->getClassName() . ", method = $methodToCall, hook = $hookName ");
 			}
 		}
 		unset($this->loadedPlugins[$plugin->getClassName()]);

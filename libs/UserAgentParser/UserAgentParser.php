@@ -212,7 +212,6 @@ class UserAgentParser
 		 	else {
 		 		$info['minor_number'] = '0';
 		 	}
-		 		
 		 	$info['version'] = $info['major_number'] . "." . $info['minor_number'];
 		 	$info['name'] = self::getBrowserNameFromId($info['id']);
 		 	$info['short_name'] = self::getBrowserShortNameFromId($info['id']);

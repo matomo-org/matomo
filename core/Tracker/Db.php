@@ -190,7 +190,9 @@ class Piwik_Tracker_Db
 			}
 			return $sth;
 		} catch (PDOException $e) {
-			throw new Exception("Error query: ".$e->getMessage());
+			throw new Exception("Error query: ".$e->getMessage() . "
+								In query: $query
+								Parameters: ".var_export($parameters, true));
 		}
 	}
 	
