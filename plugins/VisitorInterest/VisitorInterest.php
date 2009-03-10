@@ -99,11 +99,11 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 
 		$recordName = 'VisitorInterest_timeGap';
 		$tableTimegap = $this->getTableTimeGap();
-		$archiveProcessing->insertBlobRecord($recordName, $tableTimegap->getSerialized());
+		$this->archiveProcessing->insertBlobRecord($recordName, $tableTimegap->getSerialized());
 		
 		$recordName = 'VisitorInterest_pageGap';
 		$tablePagegap = $this->getTablePageGap();
-		$archiveProcessing->insertBlobRecord($recordName, $tablePagegap->getSerialized());
+		$this->archiveProcessing->insertBlobRecord($recordName, $tablePagegap->getSerialized());
 	}
 
 	protected function getTablePageGap()
