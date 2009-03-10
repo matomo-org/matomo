@@ -94,7 +94,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		
 		foreach($row as $name => $value)
 		{
-			$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
+			$archiveProcessing->insertNumericRecord($name, $value);
 		}
 	}
 }

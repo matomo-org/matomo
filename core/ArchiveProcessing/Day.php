@@ -70,7 +70,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	
 		foreach($row as $name => $value)
 		{
-			$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
+			$this->insertNumericRecord($name, $value);
 		}
 		$this->setNumberOfVisits($row['nb_visits']);
 		$this->setNumberOfVisitsConverted($row['nb_visits_converted']);

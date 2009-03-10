@@ -9,11 +9,12 @@
  * @package Piwik_ArchiveProcessing
  */
 
+require_once "ArchiveProcessing/Record/Blob.php";
 /**
  * Array of blob records.
  * Useful for easily saving splited data in the DB.
  *  
- * Example: $record = new Piwik_ArchiveProcessing_Record_BlobArray(
+ * Example: $record = new Piwik_ArchiveProcessing_RecordArray(
  * 				'veryLongBook', 
  * 				0 => serialize(	array( '1st chapter very long, 6MB of data we dont want to save' )),
  * 				1 => serialize(	array( '2nd chapter very long, 8MB of data we dont want to save' )),
@@ -30,8 +31,10 @@
  * @package Piwik_ArchiveProcessing
  * @subpackage Piwik_ArchiveProcessing_Record
  */
-class Piwik_ArchiveProcessing_Record_BlobArray extends Piwik_ArchiveProcessing_Record
+class Piwik_ArchiveProcessing_RecordArray extends Piwik_ArchiveProcessing_Record
 {
+	protected $records = array();
+	
 	function __construct( $name, $aValue)
 	{		
 		foreach($aValue as $id => $value)
@@ -47,17 +50,12 @@ class Piwik_ArchiveProcessing_Record_BlobArray extends Piwik_ArchiveProcessing_R
 			{
 				$newName = $name . '_' . $id;
 			}
-			$record = new Piwik_ArchiveProcessing_Record_Blob( $newName,  $value );
+			$this->records[] = new Piwik_ArchiveProcessing_Record_Blob( $newName,  $value );
 		}
 	}
 	
-	public function __toString()
+	public function get()
 	{
-		throw new Exception( 'Not valid' );
-	}
-	
-	public function delete()
-	{
-		throw new Exception( 'Not valid' );
+		return $this->records;
 	}
 }

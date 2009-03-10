@@ -90,11 +90,11 @@ class Piwik_VisitTime extends Piwik_Plugin
 	{
 		$tableLocalTime = $archiveProcessing->getDataTableFromArray($this->interestByLocalTime);
 		$this->makeSureAllHoursAreSet($tableLocalTime, $archiveProcessing);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray('VisitTime_localTime', $tableLocalTime->getSerialized());
-		
+		$archiveProcessing->insertBlobRecord('VisitTime_localTime', $tableLocalTime->getSerialized());
+
 		$tableServerTime = $archiveProcessing->getDataTableFromArray($this->interestByServerTime);
 		$this->makeSureAllHoursAreSet($tableServerTime, $archiveProcessing);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray('VisitTime_serverTime', $tableServerTime->getSerialized());
+		$archiveProcessing->insertBlobRecord('VisitTime_serverTime', $tableServerTime->getSerialized());
 	}
 
 	private function makeSureAllHoursAreSet($table, $archiveProcessing)

@@ -129,14 +129,13 @@ class Piwik_Goals extends Piwik_Plugin
 		{
 			$nb_conversions = $records[self::getRecordName('nb_conversions', $goalId)]->value;
 			$conversion_rate = $this->getConversionRate($nb_conversions, $archiveProcessing);
-			$record = new Piwik_ArchiveProcessing_Record_Numeric(self::getRecordName('conversion_rate', $goalId), $conversion_rate);
+			$archiveProcessing->insertNumericRecord(self::getRecordName('conversion_rate', $goalId), $conversion_rate);
 		}
 		
 		// global conversion rate
 		$nb_conversions = $records[self::getRecordName('nb_conversions')]->value;
 		$conversion_rate = $this->getConversionRate($nb_conversions, $archiveProcessing);
-		$record = new Piwik_ArchiveProcessing_Record_Numeric(self::getRecordName('conversion_rate'), $conversion_rate);
-		
+		$archiveProcessing->insertNumericRecord(self::getRecordName('conversion_rate'), $conversion_rate);
 	}
 	
 	function archiveDay( $notification )
@@ -169,11 +168,11 @@ class Piwik_Goals extends Piwik_Plugin
 			{
 				$metricName = Piwik_Archive::$mappingFromIdToNameGoal[$metricId];
 				$recordName = self::getRecordName($metricName, $idgoal);
-				$record = new Piwik_ArchiveProcessing_Record_Numeric($recordName, $value);
+				$archiveProcessing->insertNumericRecord($recordName, $value);
 			}
 			$conversion_rate = $this->getConversionRate($values[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS], $archiveProcessing);
 			$recordName = self::getRecordName('conversion_rate', $idgoal);
-			$record = new Piwik_ArchiveProcessing_Record_Numeric($recordName, $conversion_rate);
+			$archiveProcessing->insertNumericRecord($recordName, $conversion_rate);
 		}
 		
 		// Stats by goal, for visitor returning / non returning
@@ -185,7 +184,7 @@ class Piwik_Goals extends Piwik_Plugin
 				{
 					$metricName = Piwik_Archive::$mappingFromIdToNameGoal[$metricId];
 					$recordName = self::getRecordName($metricName, $idgoal, $visitor_returning);
-					$record = new Piwik_ArchiveProcessing_Record_Numeric($recordName, $value);
+					$archiveProcessing->insertNumericRecord($recordName, $value);
 //					echo $record . "<br>";
 				}
 			}
@@ -199,7 +198,7 @@ class Piwik_Goals extends Piwik_Plugin
 		);
 		foreach($totalAllGoals as $recordName => $value)
 		{
-			$record = new Piwik_ArchiveProcessing_Record_Numeric($recordName, $value);
+			$archiveProcessing->insertNumericRecord($recordName, $value);
 		}
 	}
 	

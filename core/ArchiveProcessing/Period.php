@@ -124,7 +124,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * It will usually be called in a plugin that listens to the hook 'ArchiveProcessing_Period.compute'
 	 * 
 	 * For example if $aRecordName = 'UserCountry_country' the method will select all UserCountry_country DataTable for the period
-	 * (eg. the 31 dataTable of the last month), sum them, and create the Piwik_ArchiveProcessing_Record_BlobArray so that
+	 * (eg. the 31 dataTable of the last month), sum them, and create the Piwik_ArchiveProcessing_RecordArray so that
 	 * the resulting dataTable is AUTOMATICALLY recorded in the database.
 	 * 
 	 * 
@@ -155,7 +155,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$nameToCount[$recordName]['level0'] =  $table->getRowsCount();
 			$nameToCount[$recordName]['recursive'] =  $table->getRowsCountRecursive();
 			
-			$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $table->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable ));
+			$record = new Piwik_ArchiveProcessing_RecordArray($recordName, $table->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable ));
 		}
 		return $nameToCount;
 	}

@@ -117,11 +117,7 @@ class Piwik_Referers extends Piwik_Plugin
 			{
 				$countValue = $nameToCount[$nameTableToUse]['level0'];
 			}
-			
-			$record = new Piwik_ArchiveProcessing_Record_Numeric(
-													$name, 
-													$countValue
-												);
+			$archiveProcessing->insertNumericRecord($name, $countValue);
 		}
 	}
 	
@@ -296,11 +292,11 @@ class Piwik_Referers extends Piwik_Plugin
 		
 		foreach($numericRecords as $name => $value)
 		{
-			$record = new Piwik_ArchiveProcessing_Record_Numeric($name, $value);
+			$archiveProcessing->insertNumericRecord($name, $value);
 		}
 		
 		$data = $archiveProcessing->getDataTableSerialized($this->interestByType);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray('Referers_type', $data);
+		$archiveProcessing->insertBlobRecord('Referers_type', $data);
 		
 		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_referers;
 		$maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
@@ -315,7 +311,7 @@ class Piwik_Referers extends Piwik_Plugin
 		foreach($blobRecords as $recordName => $table )
 		{
 			$dataToRecord = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
-			$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $dataToRecord);
+			$archiveProcessing->insertBlobRecord($recordName, $dataToRecord);
 		}
 	}
 }
