@@ -21,11 +21,13 @@ class Piwik_ArchiveProcessing_Record_Blob extends Piwik_ArchiveProcessing_Record
 {
 	public $name;
 	public $value;
+	
 	function __construct( $name, $value)
 	{
 		$value = gzcompress($value);
 		parent::__construct( $name, $value );
 	}
+	
 	public function __toString()
 	{
 		return $this->name ." = BLOB";//". gzuncompress($this->value);

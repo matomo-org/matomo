@@ -9,12 +9,6 @@
  * @package Piwik_ArchiveProcessing
  */
 
-require_once "ArchiveProcessing/Record/Blob.php";
-require_once "ArchiveProcessing/Record/BlobArray.php";
-require_once "ArchiveProcessing/Record/Numeric.php";
-require_once "ArchiveProcessing/Record/Manager.php";
-
-
 /**
  * A Record is a tuple (name, value) to be saved in the database.
  * At its creation, the record registers itself to the RecordManager. 
@@ -38,12 +32,6 @@ abstract class Piwik_ArchiveProcessing_Record
 	{
 		$this->name = $name;
 		$this->value = $value;
-		Piwik_ArchiveProcessing_Record_Manager::getInstance()->registerRecord($this);
-	}
-	
-	public function delete()
-	{
-		Piwik_ArchiveProcessing_Record_Manager::getInstance()->unregister($this);
 	}
 	
 	public function __destruct()

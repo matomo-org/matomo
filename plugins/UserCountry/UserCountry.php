@@ -59,10 +59,8 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 		
 		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum);
-		$record = new Piwik_ArchiveProcessing_Record_Numeric(
-												'UserCountry_distinctCountries', 
-												$nameToCount['UserCountry_country']['level0']
-											);
+		$archiveProcessing->insertNumericRecord('UserCountry_distinctCountries', 
+												$nameToCount['UserCountry_country']['level0']);
 	}
 	
 	function archiveDay($notification)
@@ -99,11 +97,11 @@ class Piwik_UserCountry extends Piwik_Plugin
 	protected function archiveDayRecordInDatabase($archiveProcessing)
 	{
 		$tableCountry = $archiveProcessing->getDataTableFromArray($this->interestByCountry);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray('UserCountry_country', $tableCountry->getSerialized());
-		$record = new Piwik_ArchiveProcessing_Record_Numeric('UserCountry_distinctCountries', $tableCountry->getRowsCount());
+		$archiveProcessing->insertBlobRecord('UserCountry_country', $tableCountry->getSerialized());
+		$archiveProcessing->insertNumericRecord('UserCountry_distinctCountries', $tableCountry->getRowsCount());
 		
 		$tableContinent = $archiveProcessing->getDataTableFromArray($this->interestByContinent);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray('UserCountry_continent', $tableContinent->getSerialized());
+		$archiveProcessing->insertBlobRecord('UserCountry_continent', $tableContinent->getSerialized());
 	}
 }
 

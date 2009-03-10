@@ -80,38 +80,38 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$labelSQL = "CONCAT(config_os, ';', config_browser_name, ';', config_resolution)";
 		$interestByConfiguration = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableConfiguration = $archiveProcessing->getDataTableFromArray($interestByConfiguration);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableConfiguration->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tableConfiguration->getSerialized());
 		
 		$recordName = 'UserSettings_os';
 		$labelSQL = "config_os";
 		$interestByOs = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableOs = $archiveProcessing->getDataTableFromArray($interestByOs);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableOs->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tableOs->getSerialized());
 		
 		$recordName = 'UserSettings_browser';
 		$labelSQL = "CONCAT(config_browser_name, ';', config_browser_version)";
 		$interestByBrowser = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableBrowser = $archiveProcessing->getDataTableFromArray($interestByBrowser);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableBrowser->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tableBrowser->getSerialized());
 		
 		$recordName = 'UserSettings_browserType';
 		$tableBrowserType = $this->getTableBrowserByType($tableBrowser);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableBrowserType->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tableBrowserType->getSerialized());
 		
 		$recordName = 'UserSettings_resolution';
 		$labelSQL = "config_resolution";
 		$interestByResolution = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableResolution = $archiveProcessing->getDataTableFromArray($interestByResolution);
 		$filter = new Piwik_DataTable_Filter_ColumnCallbackDeleteRow($tableResolution, 'label', 'Piwik_UserSettings_keepStrlenGreater');
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableResolution->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tableResolution->getSerialized());
 		
 		$recordName = 'UserSettings_wideScreen';
 		$tableWideScreen = $this->getTableWideScreen($tableResolution);
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tableWideScreen->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tableWideScreen->getSerialized());
 		
 		$recordName = 'UserSettings_plugin';
 		$tablePlugin = $this->getDataTablePlugin();
-		$record = new Piwik_ArchiveProcessing_Record_BlobArray($recordName, $tablePlugin->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tablePlugin->getSerialized());
 	}
 	
 	function archivePeriod( $notification )
