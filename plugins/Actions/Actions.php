@@ -184,10 +184,10 @@ class Piwik_Actions extends Piwik_Plugin
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
-		$this->archiveDayRecordInDatabase();
+		$this->archiveDayRecordInDatabase($archiveProcessing);
 	}
 
-	protected function archiveDayRecordInDatabase()
+	protected function archiveDayRecordInDatabase($archiveProcessing)
 	{
 		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
 		$maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
