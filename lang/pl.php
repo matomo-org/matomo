@@ -1,8 +1,8 @@
 <?php 
 $translations = array(
 	'General_Locale' => 'pl_PL.UTF-8',
-	'General_TranslatorName' => 'Piwik team',
-	'General_TranslatorEmail' => 'hello@piwik.org',
+	'General_TranslatorName' => 'Maciej Zawadziński',
+	'General_TranslatorEmail' => 'maciej@brandnewmedia.pl',
 	'General_EnglishLanguageName' => 'Polish',
 	'General_OriginalLanguageName' => 'Polski',
 	'General_HelloUser'	=> 'Witaj, %s!',
