@@ -87,7 +87,7 @@ class UserAgentParser
 						'WinNT'          => 'WNT',
 						'Windows NT'     => 'WNT',
 						'Win 9x 4.90'    => 'WME',
-						'Windows Me'     => 'WME',
+						'Windows ME'     => 'WME',
 						'Win32'          => 'W95',
 						'Win95'          => 'W95',		
 						'Windows 95'     => 'W95',
