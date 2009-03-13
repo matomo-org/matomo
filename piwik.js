@@ -82,7 +82,7 @@ function _pk_getUrlLog( _pk_action_name, _pk_site, _pk_pkurl, _pk_custom_vars )
 		_pk_custom_vars = false;
 	}
 	if (_pk_custom_vars) {
-		for (var i=0; i < _pk_custom_vars.length; i++) {
+		for (var i in _pk_custom_vars) {
 			if (!Array.prototype[i]){
 				_pk_custom_vars_str = _pk_custom_vars_str + '&vars['+ escape(i) + ']' + "=" + escape(_pk_custom_vars[i]);
 			}
