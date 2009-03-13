@@ -17,6 +17,7 @@ $testUserAgent = array(
 	'Android'		=> 'Mozilla/5.0 (Linux; U; Android 1.1; en-us; dream) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2',
 	'PalmOS'		=> 'Mozilla/5.0 [en] (PalmOS; U; WebPro/3.5; Palm-Zi72) ',
 	'safari on mac os X'		=> 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_5; en-us) AppleWebKit/527.3+ (KHTML, like Gecko) Version/3.1.2 Safari/525.20.1',
+	'opera 9.64 on win ME'		=> 'Opera/9.64 (Windows ME; U; en) Presto/2.1.1',
 );
 echo "Test with another user agent: ";
 foreach($testUserAgent as $name => $userAgent) {
