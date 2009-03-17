@@ -1,7 +1,7 @@
 To fix
 ======
 - ADD forward of non true show_values to forward when specified from URL to ajax
-
+ 
 CHANGES DONE TO LIBRARIES
 =========================
 - edited Zend/Db/Adapter/Abstract.php added resetConfigArray()
