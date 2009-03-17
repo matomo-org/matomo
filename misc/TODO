@@ -2,10 +2,6 @@ To fix
 ======
 - ADD forward of non true show_values to forward when specified from URL to ajax
 
-User Interface improvements
-===========================
-- add icon calendar http://developer.yahoo.com/ypatterns/pattern.php?pattern=calendar#Solution
-
 CHANGES DONE TO LIBRARIES
 =========================
 - edited Zend/Db/Adapter/Abstract.php added resetConfigArray()
