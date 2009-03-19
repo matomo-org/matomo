@@ -1,6 +1,7 @@
 <?php
 flush();
-require_once  "config_test.php";
+define('PATH_TEST_TO_ROOT', '..');
+require_once"config_test.php";
 Piwik::createConfigObject();
 $databaseTestName = Zend_Registry::get('config')->database_tests->dbname;
 Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
@@ -43,40 +44,30 @@ $test = &new GroupTest('Piwik - running all tests');
 $toInclude = array();
 function globr($sDir, $sPattern, $nFlags = NULL)
 {
-  $sDir = escapeshellcmd($sDir);
-
-  // Get the list of all matching files currently in the
-  // directory.
-
-  $aFiles = glob("$sDir/$sPattern", $nFlags);
-
-  // Then get a list of all directories in this directory, and
-  // run ourselves on the resulting array.  This is the
-  // recursion step, which will not execute if there are no
-  // directories.
-
-  foreach (glob("$sDir/*", GLOB_ONLYDIR) as $sSubDir)
-  {
-    $aSubFiles = globr($sSubDir, $sPattern, $nFlags);
-   $aFiles = array_merge($aFiles, $aSubFiles);
-  }
-
-  // The array we return contains the files we found, and the
-  // files all of our children found.
-
-  return $aFiles;
-} 
-foreach(globr('./core/',"*.php") as $file)
-{
-	if(!ereg("simpletest/",$file))
+	$sDir = escapeshellcmd($sDir);
+	// Get the list of all matching files currently in the directory.
+	$aFiles = glob("$sDir/$sPattern", $nFlags);
+	
+	// Then get a list of all directories in this directory, and run ourselves on the resulting array.
+	// This is the recursion step, which will not execute if there are no directories.
+	foreach (glob("$sDir/*", GLOB_ONLYDIR) as $sSubDir)
 	{
-		$toInclude[] = $file;
+		$aSubFiles = globr($sSubDir, $sPattern, $nFlags);
+		$aFiles = array_merge($aFiles, $aSubFiles);
 	}
+	// The array we return contains the files we found, and the
+	// files all of our children found.
+	return $aFiles;
+}
+
+foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core/', '*.php') as $file)
+{
+	$toInclude[] = $file;
 }
 
 foreach($toInclude as $file)
 {
-	if(substr_count($file,"test.php")==0)
+	if(substr_count($file, 'test.php') == 0)
 	{
 		// Updater test files can be 0.2.php
 		if( ereg('Updater', $file) ) 
@@ -91,5 +82,4 @@ foreach($toInclude as $file)
 $timer = new Piwik_Timer;
 $test->run(new HtmlReporter());
 echo $timer."<br>";
-//Piwik::printMemoryUsage();
 
