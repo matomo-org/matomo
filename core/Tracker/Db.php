@@ -31,7 +31,14 @@ class Piwik_Tracker_Db
 	 */
 	public function __construct( $host, $username, $password, $dbname, $port, $driverName = 'mysql') 
 	{
-		$this->dsn = $driverName.":dbname=$dbname;host=$host;port=$port";
+		if($host[0] == '/')
+		{
+			$this->dsn = $driverName.":dbname=$dbname;unix_socket=$host";
+		}
+		else
+		{
+			$this->dsn = $driverName.":dbname=$dbname;host=$host;port=$port";
+		}
 		$this->username = $username;
 		$this->password = $password;
 	}
