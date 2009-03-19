@@ -11,16 +11,6 @@ define('SIMPLETEST_PATH', dirname(__FILE__) . '/../simpletest/');
 
 TestEnvFactory::setTestEnv(new PiwikTestEnv());
 
-TestConfig::getInstance()->addDirectory('core');
-TestConfig::getInstance()->addDirectory('plugins');
-
-TestConfig::getInstance()->addTestType('unit', 'tests/unit');
-TestConfig::getInstance()->addLayer('unit', 'cor', 'Core Classes', EnvType::NO_DB);
-TestConfig::getInstance()->addLayer('unit', 'dal', 'Data Abstraction Layer (DB)', EnvType::DB_WITH_TABLES);
-TestConfig::getInstance()->addLayer('unit', 'extdb', 'Extensions to the system (DB)', EnvType::DB_WITH_TABLES);
-TestConfig::getInstance()->addLayer('unit', 'db', 'DB utils', EnvType::DB_WITH_TABLES);
-TestConfig::getInstance()->addLayer('unit', 'util', 'Commonly used utilities', EnvType::NO_DB);
-TestConfig::getInstance()->addLayer('unit', 'mt', 'Maintenance', EnvType::DB_WITH_TABLES);
-
-TestConfig::getInstance()->addTestType('integration', 'tests/integration');
-TestConfig::getInstance()->addLayer('integration', 'cor', 'Integration tests', EnvType::NO_DB);
+TestConfig::getInstance()->addDirectory('tests');
+TestConfig::getInstance()->addTestType('unit', 'core');
+TestConfig::getInstance()->addLayer('unit', 'core', 'core unit tests', EnvType::NO_DB);

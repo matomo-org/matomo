@@ -7,7 +7,7 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', PATH_TEST_TO_ROOT);
 }
-					
+
 set_include_path(PIWIK_INCLUDE_PATH 
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
