@@ -3,45 +3,16 @@ if(!defined("PATH_TEST_TO_ROOT"))
 {
 	define('PATH_TEST_TO_ROOT', '..');
 }
-if(!defined("PATH_TEST_TO_ROOT2")) 
-{
-	define('PATH_TEST_TO_ROOT2', '../..');
-}
 if(!defined('PIWIK_INCLUDE_PATH')) 
 {
 	define('PIWIK_INCLUDE_PATH', PATH_TEST_TO_ROOT);
 }
-set_include_path(	  PATH_TEST_TO_ROOT .'/' 
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT .'/../' 
-					. PATH_SEPARATOR . '../' . PATH_TEST_TO_ROOT
-					. PATH_SEPARATOR . getcwd()
-					. PATH_SEPARATOR . getcwd() . '/../'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/libs/'
-					. PATH_SEPARATOR . getcwd() . '/../../libs/'
-					. PATH_SEPARATOR . getcwd() . '/../libs/'
-					. PATH_SEPARATOR . getcwd() . '/../../config/'
-					. PATH_SEPARATOR . getcwd() . '/../config/'
-					. PATH_SEPARATOR . getcwd() . '/../../core/'
-					. PATH_SEPARATOR . getcwd() . '/../core/'
-					. PATH_SEPARATOR . getcwd() . '/../../tests/'
-					. PATH_SEPARATOR . getcwd() . '/../tests/'
-					. PATH_SEPARATOR . getcwd() . '/../'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/plugins/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/config/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/core/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/tests/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT . '/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/libs/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/config/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/plugins/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/core/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/tests/'
-					. PATH_SEPARATOR . PATH_TEST_TO_ROOT2 . '/'
-					. PATH_SEPARATOR . get_include_path() 
-					. PATH_SEPARATOR . get_include_path() . '../'
-			);
+					
+set_include_path(PIWIK_INCLUDE_PATH 
+					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
+					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
+					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core/'
+					. PATH_SEPARATOR . get_include_path());
 					
 require_once 'simpletest/autorun.php';
 require_once 'simpletest/mock_objects.php';
