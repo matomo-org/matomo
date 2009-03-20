@@ -1,9 +1,4 @@
-{assign var=showSitesSelection value=true}
-{assign var=showPeriodSelection value=false}
-{include file="CoreAdminHome/templates/header.tpl"}
-
-<h1> Plugin Development version </h1>
-
+<h2>Live! (alpha)</h2>
 {literal}
 <script type="text/javascript" src="plugins/Live/templates/scripts/spy.js"></script>
 
