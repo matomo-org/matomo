@@ -1,13 +1,15 @@
 <?php
 require_once 'Live/API.php';
 
-Piwik_AddWidget('Live', 'widget', 'Live Visitors!');
 
 class Piwik_Live_Controller extends Piwik_Controller
 {
 	function widget()
 	{
-		echo "Live Visitors!";
+		$view = new Piwik_View('Live/templates/index.tpl');		
+		$this->setGeneralVariablesView($view);
+		$view->visitors = $this->getLastVisits($fetch = true);
+		echo $view->render();
 	}
 	
 	function getLastVisits($fetch = false)
@@ -35,7 +37,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 	
 	function index()
 	{
-		$view = new Piwik_View('Live/templates/index.tpl');
+		$view = new Piwik_View('Live/templates/structure.tpl');
 		$this->setGeneralVariablesView($view);
 		$view->visitors = $this->getLastVisits($fetch = true);
 		echo $view->render();
