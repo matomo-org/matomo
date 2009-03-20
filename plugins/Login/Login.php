@@ -8,8 +8,9 @@
  * 
  * @package Piwik_Login
  */
-require "Login/Auth.php";
-require "Cookie.php";
+
+require_once "Cookie.php";
+require_once "Login/Auth.php";
 
 /**
  * 

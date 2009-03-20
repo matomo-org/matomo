@@ -83,26 +83,59 @@ class Piwik_Common
 			return $cacheContent;
 		}
 
-		if(!class_exists('Zend_Registry'))
-		{
-			require_once "Zend/Registry.php";
-		}
 		// if DB is not in the registry, we are in tracker mode, we add it in the registry
-		try {
-			Zend_Registry::get('db');
-		} catch(Exception $e) {
+		if(defined('PIWIK_TRACKER_MODE') 
+			&& PIWIK_TRACKER_MODE) 
+		{
 			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
+			require_once "Zend/Exception.php";
+			require_once "Zend/Loader.php"; 
+			require_once "Zend/Auth.php";
+			require_once "Timer.php";
+			require_once "PluginsManager.php";
+			require_once "core/Piwik.php";
+			require_once "Access.php";
+			require_once "Auth.php";
+			require_once "API/Proxy.php";
+			require_once "Archive.php";
+			require_once "Site.php";
+			require_once "Date.php";
+			require_once "DataTable.php";
+			require_once "Translate.php";
+			require_once "Mail.php";
+			require_once "Url.php";
+			require_once "Controller.php";
+			require_once "Option.php";
+			require_once "View.php";
+			require_once "UpdateCheck.php";
+			Piwik::createAccessObject();
+			Piwik::setUserIsSuperUser();
+			$pluginsManager = Piwik_PluginsManager::getInstance();
+			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 		}
+
 		$content = array();
 		Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
 		$cache->set($filename, $content);
 		return $content;
 	}
 	
-	static public function regenerateCacheWebsiteAttributes($idSite)
+	/**
+	 * Delete existing Tracker cache files and regenerate them
+	 * 
+	 * @param array $idSites array of idSites to clear cache for
+	 * @return void
+	 */
+	static public function regenerateCacheWebsiteAttributes($idSites = array())
 	{
-		self::deleteCacheWebsiteAttributes($idSite);
-		self::getCacheWebsiteAttributes($idSite);
+		if(!is_array($idSites))
+		{
+			$idSites = array( $idSites );
+		}
+		foreach($idSites as $idSite) {
+			self::deleteCacheWebsiteAttributes($idSite);
+			self::getCacheWebsiteAttributes($idSite);
+		}
 	}
 	
 	static public function deleteCacheWebsiteAttributes( $idSite )

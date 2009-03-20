@@ -15,10 +15,7 @@ class Piwik_WidgetsList
 	
 	static function get()
 	{
-		if(is_null(self::$widgets)) {
-			self::$widgets = array();
-			Piwik_PostEvent('WidgetsList.add');
-		}
+		Piwik_PostEvent('WidgetsList.add');
 		return self::$widgets;
 	}
 	

@@ -71,9 +71,14 @@ class Piwik_SitesManager_API
 	static private function getAliasSiteUrlsFromId( $idsite )
 	{
 		$db = Zend_Registry::get('db');
-		$urls = $db->fetchCol("SELECT url 
+		$result = $db->fetchAll("SELECT url 
 								FROM ".Piwik::prefixTable("site_url"). " 
 								WHERE idsite = ?", $idsite);
+		$urls = array();
+		foreach($result as $url)
+		{
+			$urls[] = $url['url'];
+		}
 		return $urls;
 	}
 	
@@ -99,7 +104,13 @@ class Piwik_SitesManager_API
 	static public function getAllSitesId()
 	{
 		Piwik::checkUserIsSuperUser();
-		return Zend_Registry::get('db')->fetchCol("SELECT idsite FROM ".Piwik::prefixTable('site'));
+		$result = Zend_Registry::get('db')->fetchAll("SELECT idsite FROM ".Piwik::prefixTable('site'));
+		$idSites = array();
+		foreach($result as $idSite)
+		{
+			$idSites[] = $idSite['idsite'];
+		}
+		return $idSites;
 	}
 	
 	
@@ -231,9 +242,15 @@ class Piwik_SitesManager_API
 		self::insertSiteUrls($idSite, $urls);
 		
 		// we reload the access list which doesn't yet take in consideration this new website
-		Zend_Registry::get('access')->loadAccess();
+		Zend_Registry::get('access')->reloadAccess();
+		self::postUpdateWebsite($idSite);
 
 		return (int)$idSite;
+	}
+	
+	private static function postUpdateWebsite($idSite)
+	{
+		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);	
 	}
 	
 	/**
@@ -247,8 +264,12 @@ class Piwik_SitesManager_API
 	{
 		Piwik::checkUserIsSuperUser();
 		
-		$nbSites = count(Piwik_SitesManager_API::getAllSitesId());
-
+		$idSites = Piwik_SitesManager_API::getAllSitesId();
+		if(!in_array($idSite, $idSites))
+		{
+			throw new Exception("website id = $idSite not found");
+		}
+		$nbSites = count($idSites);
 		if($nbSites == 1)
 		{
 			throw new Exception(Piwik_TranslateException("SitesManager_ExceptionDeleteSite"));
@@ -264,6 +285,8 @@ class Piwik_SitesManager_API
 		
 		$db->query("DELETE FROM ".Piwik::prefixTable("access")." 
 					WHERE idsite = ?", $idSite);
+		
+		Piwik_Common::deleteCacheWebsiteAttributes($idSite);
 	}
 	
 	
@@ -299,6 +322,7 @@ class Piwik_SitesManager_API
 		$urlsInit = self::getSiteUrlsFromId($idSite);
 		$toInsert = array_diff($urls, $urlsInit);
 		self::insertSiteUrls($idSite, $toInsert);
+		self::postUpdateWebsite($idSite);
 		
 		return count($toInsert);
 	}
@@ -349,6 +373,7 @@ class Piwik_SitesManager_API
 		{
 			$insertedUrls = self::addSiteAliasUrls($idSite, array_slice($urls,1));
 		}
+		self::postUpdateWebsite($idSite);
 	}
 	
 	/**

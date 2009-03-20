@@ -11,6 +11,15 @@
 
 require_once "Plugin.php";
 require_once "Event/Dispatcher.php";
+require_once "PluginsFunctions/Menu.php";
+require_once "PluginsFunctions/AdminMenu.php";
+require_once "PluginsFunctions/WidgetsList.php";
+require_once "PluginsFunctions/Sql.php";
+
+require_once "Zend/Exception.php";
+require_once "Zend/Loader.php"; 
+require_once "Auth.php";
+require_once "Controller.php";
 
 /**
  * @package Piwik
@@ -23,9 +32,9 @@ class Piwik_PluginsManager
 	public $dispatcher;
 	
 	protected $pluginsToLoad = array();
-	protected $installPlugins = false;
-	protected $doLoadPlugins = true;
 	protected $languageToLoad = null;
+
+	protected $doLoadPlugins = true;
 	protected $loadedPlugins = array();
 	
 	protected $doLoadAlwaysActivatedPlugins = true;
@@ -62,6 +71,11 @@ class Piwik_PluginsManager
 	{
 		return in_array( $name, $this->pluginsToLoad)
 			|| $this->isPluginAlwaysActivated( $name );		
+	}
+	
+	public function isPluginLoaded( $name )
+	{
+		return isset($this->loadedPlugins[$name]);
 	}
 	
 	/**
@@ -223,15 +237,15 @@ class Piwik_PluginsManager
 		
 		foreach($this->pluginsToLoad as $pluginName)
 		{
-			$newPlugin = $this->loadPlugin($pluginName);
-
-			// if we have to load the plugins
-			// and if this plugin is activated			
-			if($this->doLoadPlugins
-				&& $this->isPluginActivated($pluginName))
+			if(!$this->isPluginLoaded($pluginName))
 			{
-				$this->addPluginObservers( $newPlugin );
-				$this->addLoadedPlugin( $pluginName, $newPlugin);
+				$newPlugin = $this->loadPlugin($pluginName);	
+				if($this->doLoadPlugins
+					&& $this->isPluginActivated($pluginName))
+				{
+					$this->addPluginObservers( $newPlugin );
+					$this->addLoadedPlugin( $pluginName, $newPlugin);
+				}
 			}
 		}
 	}

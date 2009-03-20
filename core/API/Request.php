@@ -64,7 +64,7 @@ class Piwik_API_Request
 			if(isset($requestArray['token_auth']))
 			{
 				Piwik_PostEvent('API.Request.authenticate', $requestArray['token_auth']);
-				Zend_Registry::get('access')->loadAccess();
+				Zend_Registry::get('access')->reloadAccess();
 			}
 						
 			$requestArray = array_merge($_REQUEST, $requestArray);
@@ -75,7 +75,7 @@ class Piwik_API_Request
 			if(!is_array($element))
 			{
 				$element = trim($element);
-			}			
+			}
 		}
 		
 		$this->request = $requestArray;

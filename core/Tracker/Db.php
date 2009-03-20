@@ -164,6 +164,15 @@ class Piwik_Tracker_Db
 	}
 	
 	/**
+	 * This function is a proxy to fetch(), used to maintain compatibility with Zend_Db interface
+	 * @see fetch()
+	 */
+	public function fetchRow( $query, $parameters = array() )
+	{
+		return $this->fetch($query, $parameters);
+	}
+	
+	/**
 	 * Executes a query, using optional bound parameters.
 	 * 
 	 * @param string Query 

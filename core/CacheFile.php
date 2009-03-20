@@ -41,7 +41,7 @@ class Piwik_CacheFile
 	    $content = '';
 	
 	    // We are assuming that most of the time cache will exists
-	    $ok = @include($this->cachePath . $id);
+	    $ok = @include_once($this->cachePath . $id . ".php");
 	
 	    if ($ok && $cache_complete == true) {
 	        return $content;
@@ -104,7 +104,7 @@ class Piwik_CacheFile
      */
     function delete($id)
     {
-        $filename = $this->cachePath . $id;
+        $filename = $this->cachePath . $id . ".php";
         if (file_exists($filename)) {
             @unlink ($filename);
             return true;
