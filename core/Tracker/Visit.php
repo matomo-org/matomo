@@ -46,7 +46,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			throw new Exception("The 'idsite' in the request is invalid.");
 		}
-		
 		$this->idsite = $idsite;
 	}
 	
@@ -236,6 +235,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$fields = implode(", ", array_keys($this->visitorInfo));
 		$values = substr(str_repeat( "?,",count($this->visitorInfo)),0,-1);
 		
+		printDebug($this->visitorInfo);
 		Piwik_Tracker::getDatabase()->query( "INSERT INTO ".Piwik_Common::prefixTable('log_visit').
 						" ($fields) VALUES ($values)", array_values($this->visitorInfo));
 						
@@ -641,19 +641,17 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 
 		$refererDetected = false;
-		if( !empty($this->currentUrlParse['host']))
+		
+		if( !empty($this->currentUrlParse['host'])
+			&&	$this->detectRefererCampaign() )
 		{
-			if(	$this->detectRefererCampaign() )
-			{
-				$refererDetected = true;
-			}
+			$refererDetected = true;
 		}
 		
-		if(!$refererDetected
-			&& !empty($this->refererUrlParse['host']) )
+		if(!$refererDetected)
 		{
-			if( $this->detectRefererSearchEngine()
-				||	$this->detectRefererDirectEntry() )
+			if( $this->detectRefererDirectEntry()
+				|| $this->detectRefererSearchEngine() )
 			{
 				$refererDetected = true;
 			}
@@ -691,7 +689,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		 */
 		require_once "DataFiles/SearchEngines.php";
 		
-		if(array_key_exists($this->refererHost, $GLOBALS['Piwik_SearchEngines']))
+		if(!empty($this->refererHost)
+			&& array_key_exists($this->refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
 			$searchEngineName = $GLOBALS['Piwik_SearchEngines'][$this->refererHost][0];
 			$variableName = $GLOBALS['Piwik_SearchEngines'][$this->refererHost][1];
@@ -767,23 +766,35 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	
 	/*
-	 * Direct entry (referer host is similar to current host)
-	 * And we have previously tried to detect the campaign variables in the URL 
-	 * so it can only be a direct access
+	 * We have previously tried to detect the campaign variables in the URL 
+	 * so at this stage, if the referer host is the current host, 
+	 * or if the referer host is any of the registered URL for this website, 
+	 * it is considered a direct entry
 	 */
 	protected function detectRefererDirectEntry()
 	{
-		if(isset($this->currentUrlParse['host']))
+		if(!empty($this->refererHost))
 		{
-			$currentHost = $this->currentUrlParse['host'];
-					
-			if($currentHost == $this->refererHost)
+			// is the referer host the current host?
+			if(isset($this->currentUrlParse['host']))
+			{
+				$currentHost = $this->currentUrlParse['host'];
+				if($currentHost == $this->refererHost)
+				{
+					$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
+					return true;
+				}
+			}
+			// is the referer host any of the registered URLs for this website?
+			$websiteData = Piwik_Common::getCacheWebsiteAttributes($this->idsite);
+			if(isset($websiteData['hosts'])
+				&& in_array($this->refererHost, $websiteData['hosts']))
 			{
 				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
 				return true;
 			}
 		}
-		
+	
 	}
 	
 	/**

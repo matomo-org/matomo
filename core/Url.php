@@ -35,7 +35,6 @@ class Piwik_Url
 	 */
 	static public function getCurrentUrlWithoutQueryString()
 	{
-		
 		return	self::getCurrentHost()
 				. self::getCurrentScriptName() ;
 	}

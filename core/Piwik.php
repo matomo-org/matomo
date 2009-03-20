@@ -13,7 +13,6 @@ require_once "Config.php";
 require_once "Zend/Db.php";
 require_once "Zend/Db/Table.php";
 require_once "Log.php";
-require_once "PluginsManager.php";
 require_once "Translate.php";
 
 /**
@@ -1259,6 +1258,11 @@ class Piwik
 		$config->init();
 	}
 
+	static public function createAccessObject()
+	{
+		Zend_Registry::set('access', new Piwik_Access());
+	}
+	
 	static public function dropTables( $doNotDelete = array() )
 	{
 		$tablesAlreadyInstalled = self::getTablesInstalled();

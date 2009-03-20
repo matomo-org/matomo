@@ -81,7 +81,7 @@ class Piwik_Access
 	 *
 	 * @var Piwik_Auth
 	 */
-	private $auth;
+	private $auth = null;
 	
 	/**
 	 * Returns the list of the existing Access level.
@@ -93,14 +93,15 @@ class Piwik_Access
 		return self::$availableAccess;
 	}
 
-	/**
-	 * @param Piwik_Auth The authentification object
-	 */
-	public function __construct( Piwik_Auth $auth )
+	function __construct() 
 	{
-		$this->auth = $auth;
+		$this->idsitesByAccess = array( 
+							'view' => array(), 
+							'admin'  => array(), 
+							'superuser'  => array()
+		);
 	}
-
+	
 	/**
 	 * Loads the access levels for the current user.
 	 *
@@ -110,10 +111,15 @@ class Piwik_Access
 	 * We load the access levels for this user for all the websites.
 	 * 
 	 */
-	public function loadAccess()
+	public function reloadAccess(Piwik_Auth $auth = null)
 	{
-		$idsitesByAccess = array( 'view' => array(), 'admin'  => array(), 'superuser'  => array());
-
+		if(!is_null($auth)) {
+			$this->auth = $auth;
+		}
+		if(is_null($this->auth)) {
+			throw new Exception("You must pass a Piwik_Auth object in order to reload access information for this session.");
+		}
+		
 		// access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
 		$result = $this->auth->authenticate();
 
@@ -131,7 +137,7 @@ class Piwik_Access
 				{
 					throw new Exception("Piwik could not find any website in the database.");
 				}
-				$idsitesByAccess['superuser'] = $allSitesId;
+				$this->idsitesByAccess['superuser'] = $allSitesId;
 			}
 			// valid authentification (normal user logged in)
 			else
@@ -146,12 +152,10 @@ class Piwik_Access
 								" WHERE login = ?", $this->login);
 				foreach($accessRaw as $access)
 				{
-					$idsitesByAccess[$access['access']][] = $access['idsite'];
+					$this->idsitesByAccess[$access['access']][] = $access['idsite'];
 				}
 			}
 		}
-
-		$this->idsitesByAccess = $idsitesByAccess;
 	}
 	
 	/**

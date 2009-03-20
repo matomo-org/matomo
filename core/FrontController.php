@@ -16,12 +16,12 @@
 require_once "Zend/Exception.php";
 require_once "Zend/Loader.php"; 
 require_once "Zend/Auth.php";
-require_once "Zend/Auth/Adapter/DbTable.php";
 
 /**
  * Piwik classes
  */
 require_once "Timer.php";
+require_once "PluginsManager.php";
 require_once "core/Piwik.php";
 require_once "Access.php";
 require_once "Auth.php";
@@ -38,10 +38,6 @@ require_once "Option.php";
 require_once "View.php";
 require_once "UpdateCheck.php";
 
-require_once "PluginsFunctions/Menu.php";
-require_once "PluginsFunctions/AdminMenu.php";
-require_once "PluginsFunctions/WidgetsList.php";
-require_once "PluginsFunctions/Sql.php";
 
 /**
  * Front controller.
@@ -238,6 +234,9 @@ class Piwik_FrontController
 			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
 			$pluginsManager->postLoadPlugins();
 			
+			// creating the access object, so that core/Updates/* can enforce Super User and use some APIs
+			Piwik::createAccessObject();
+			
 			require_once "CoreUpdater/Controller.php";
 			$updaterController = new Piwik_CoreUpdater_Controller();
 			$updaterController->checkForCoreAndPluginsUpdates();
@@ -255,9 +254,7 @@ class Piwik_FrontController
 									under the <code>[Plugins]</code> section in your config/config.inc.php");
 			}
 			
-			$access = new Piwik_Access($authAdapter);
-			Zend_Registry::set('access', $access);		
-			Zend_Registry::get('access')->loadAccess();
+			Zend_Registry::get('access')->reloadAccess($authAdapter);
 			
 			Piwik::raiseMemoryLimitIfNecessary();
 			

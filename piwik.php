@@ -13,6 +13,7 @@ if(defined('ENABLE_PIWIK_TRACKER') && !ENABLE_PIWIK_TRACKER)
 	return;
 }
 
+define('PIWIK_TRACKER_MODE', true);
 error_reporting(E_ALL|E_NOTICE);
 define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
 @ignore_user_abort(true);

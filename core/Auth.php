@@ -9,6 +9,8 @@
  * @package Piwik
  */
 
+require_once "Zend/Auth/Result.php";
+
 interface Piwik_Auth {
 	/**
 	 * @return Piwik_Auth_Result
