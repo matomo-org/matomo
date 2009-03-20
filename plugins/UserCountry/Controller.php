@@ -23,7 +23,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->disableExcludeLowPopulation();
 		
 		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
-		$view->setSortedColumn( 1 );
+		$view->setSortedColumn( 1 ); 
 		$view->setLimit( 5 );
 		$view->enableShowGoals();
 		
