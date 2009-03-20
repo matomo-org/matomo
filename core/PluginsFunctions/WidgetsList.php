@@ -11,11 +11,14 @@ function Piwik_AddWidget( $pluginName, $controllerMethodToCall, $widgetTitle )
 
 class Piwik_WidgetsList
 {
-	static protected $widgets;
+	static protected $widgets = null;
 	
 	static function get()
 	{
-		Piwik_PostEvent('WidgetsList.add');
+		if(is_null(self::$widgets)) {
+			self::$widgets = array();
+			Piwik_PostEvent('WidgetsList.add');
+		}
 		return self::$widgets;
 	}
 	

@@ -33,9 +33,9 @@ class Piwik_UserCountry_API
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('UserCountry_country');
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getFlagFromCode'));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_CountryTranslate'));
+		$filter = new Piwik_DataTable_Filter_ColumnCallbackAddMetadata($dataTable, 'label', 'code', create_function('$label', 'return $label;'));
+		$filter = new Piwik_DataTable_Filter_ColumnCallbackAddMetadata($dataTable, 'label', 'logo', 'Piwik_getFlagFromCode');
+		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace($dataTable, 'label', 'Piwik_CountryTranslate');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_AddConstantMetadata', array('logoWidth', 18));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_AddConstantMetadata', array('logoHeight', 12));

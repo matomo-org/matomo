@@ -37,9 +37,12 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 		return "/". preg_quote($pattern, '/') ."/";
 	}
 	
+	/*
+	 * Performs case insensitive match
+	 */
 	static public function match($pattern, $patternQuoted, $string)
 	{
-		return preg_match($patternQuoted,  $string) == 1
+		return preg_match($patternQuoted . "i",  $string) == 1
 				&& stripos($string, $pattern) !== false;
 	}
 	

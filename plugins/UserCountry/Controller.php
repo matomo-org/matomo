@@ -24,7 +24,6 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		
 		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
 		$view->setSortedColumn( 1 );
-		$view->disableSearchBox();
 		$view->setLimit( 5 );
 		$view->enableShowGoals();
 		
