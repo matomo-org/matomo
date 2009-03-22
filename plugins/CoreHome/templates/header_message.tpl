@@ -5,6 +5,6 @@
 	<img src='themes/default/images/warning_small.png' alt='' style="vertical-align: middle;"> 
 	{'General_PiwikXIsAvailablePleaseUpdateNow'|translate:$latest_version_available:"<br /><a href='index.php?module=CoreUpdater&action=newVersionAvailable'>":"</a>":"<a href='misc/redirectToUrl.php?url=http://piwik.org/changelog/' target='_blank'>":"</a>"}
 {else}
-	{'General_PiwikIsACollaborativeProject'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org'>":"$piwik_version</a>":"<br />":"<u><a href='mailto:hello@piwik.org?subject=I would like to help Piwik! Here is my idea and how I could contribute'>":"</a></u>"} 
+	{'General_PiwikIsACollaborativeProjectYouCanContribute'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org'>":"$piwik_version</a>":"<br />":"<a target='_blank' href='misc/redirectToUrl.php?url=http://piwik.org/contribute/'>":"</a></u>"} 
 {/if}
 </span>
