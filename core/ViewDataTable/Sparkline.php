@@ -52,15 +52,6 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 	}
 	
 	/**
-	 * Sparkline needs to be fast to load. Currently we only load numeric values 
-	 * that do not need filtering, we can disable the filters for more performance.
-	 */
-	protected function getRequestString()
-	{
-		return parent::getRequestString() . "&disable_generic_filters=1";
-	}
-	
-	/**
 	 * Given a Piwik_DataTable_Array made of DataTable_Simple rows, returns a php array with the structure:
 	 * array(
 	 * 	array( label => X, value => Y),
