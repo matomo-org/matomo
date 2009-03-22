@@ -83,6 +83,21 @@ class Piwik_LanguagesManager_API
 		return self::$availableLanguageNames;
 	}
 	
+	static public function getTranslationsForLanguage($languageCode)
+	{
+		if(!self::isLanguageAvailable($languageCode))
+		{
+			return false;
+		}
+		require "lang/$languageCode.php";
+		$languageInfo = array();
+		foreach($translations as $key => $value)
+		{
+			$languageInfo[] = array('label' => $key, 'value' => $value);
+		}
+		return $languageInfo;
+	}
+	
 	/**
 	 * @param string $login
 	 * @param string|false $layout
