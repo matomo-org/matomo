@@ -787,11 +787,18 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			}
 			// is the referer host any of the registered URLs for this website?
 			$websiteData = Piwik_Common::getCacheWebsiteAttributes($this->idsite);
-			if(isset($websiteData['hosts'])
-				&& in_array($this->refererHost, $websiteData['hosts']))
+			if(isset($websiteData['hosts']))
 			{
-				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
-				return true;
+				$canonicalHosts = array();
+				foreach($websiteData['hosts'] as $host) {
+					$canonicalHosts[] = str_replace('www.', '' , $host);
+				}
+				$canonicalRefererHost = str_replace('www.', '', $this->refererHost);
+				if(in_array($canonicalRefererHost, $canonicalHosts))
+				{
+					$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
+					return true;
+				}
 			}
 		}
 	

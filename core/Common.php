@@ -82,12 +82,12 @@ class Piwik_Common
 		{
 			return $cacheContent;
 		}
-
 		// if DB is not in the registry, we are in tracker mode, we add it in the registry
 		if(defined('PIWIK_TRACKER_MODE') 
 			&& PIWIK_TRACKER_MODE) 
 		{
 			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
+			//TODO we can remove these includes when #620 is done
 			require_once "Zend/Exception.php";
 			require_once "Zend/Loader.php"; 
 			require_once "Zend/Auth.php";
