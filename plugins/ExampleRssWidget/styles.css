@@ -23,7 +23,7 @@
 	color:#999999;
 	margin:0pt;
 }
-.rss-description {
+.rss-content, .rss-description {
 	clear:both;
 	line-height:1.5em;
 	font-size:11px;

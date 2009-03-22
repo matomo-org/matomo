@@ -25,38 +25,81 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 }
 
 Piwik_AddWidget('ExampleRssWidget', 'rssPiwik', 'Piwik.org Blog');
+Piwik_AddWidget('ExampleRssWidget', 'rssChangelog', 'Piwik Changelog');
 
 class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 {
 	function rssPiwik()
 	{
+		$rss = new Piwik_ExampleRssWidget_Rss('http://feeds.feedburner.com/Piwik');
+		$rss->showDescription(true);
+		echo $rss->get();
+	}
+	function rssChangelog()
+	{
+		$rss = new Piwik_ExampleRssWidget_Rss('http://feeds.feedburner.com/PiwikReleases');
+		$rss->setCountPosts(1);
+		$rss->showDescription(false);
+		$rss->showContent(true);
+		echo $rss->get();
+	}
+}
+
+class Piwik_ExampleRssWidget_Rss
+{
+	protected $url = null;
+	protected $count = 3;
+	protected $showDescription = false;
+	protected $showContent = false;
+	function __construct($url) 
+	{
+		$this->url = $url;
+	}
+	function showDescription($bool) 
+	{
+		$this->showDescription = $bool;
+	}
+	function showContent($bool) 
+	{
+		$this->showContent = $bool;
+	}
+	function setCountPosts($count) 
+	{
+		$this->count = $count;
+	}
+	function get() 
+	{
 		require_once 'libs/Zend/Feed.php';
 		try {
-		    $rss = Zend_Feed::import('http://feeds.feedburner.com/Piwik');
+		    $rss = Zend_Feed::import($this->url);
 		} catch (Zend_Feed_Exception $e) {
-		    echo "Exception caught importing feed: {$e->getMessage()}\n";
-		    exit;
+			echo "Error while importing feed: {$e->getMessage()}\n";
+			exit;
 		}
-		
-		echo '<div style="padding:10px 15px;"><ul class="rss">';
-		
+
+		$output = '<div style="padding:10px 15px;"><ul class="rss">';
 		$i = 0;
 		foreach($rss as $post)
 		{
 			$title = $post->title();
 			$date = strftime("%B %e, %Y", strtotime($post->pubDate()));
-			$description = $post->description();
 			$link = $post->link();
 			
-			echo '<li>
-				<a class="rss-title" title="" href="'.$link.'">'.$title.'</a>
-				<span class="rss-date">'.$date.'</span>
-				<div class="rss-description">'.$description.'</div>
-				</li>';
+			$output .= '<li><a class="rss-title" title="" href="'.$link.'">'.$title.'</a>'.
+						'<span class="rss-date">'.$date.'</span>';
+			if($this->showDescription) 
+			{
+				$output .= '<div class="rss-description">'.$post->description().'</div>';
+			}
+			if($this->showContent) 
+			{
+				$output .= '<div class="rss-content">'.$post->content().'</div>';
+			}
+			$output .= '</li>';
 			
-			if(++$i == 3) break;
+			if(++$i == $this->count) break;
 		}
-		echo '</ul></div>';
+		$output .= '</ul></div>';
+		return $output;
 	}
 }
-
