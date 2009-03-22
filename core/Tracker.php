@@ -60,6 +60,7 @@ class Piwik_Tracker
 				$visit->handle();
 				unset($visit);
 			} catch (PDOException $e) {
+				printDebug($e->getMessage());
 				$this->setState(self::STATE_LOGGING_DISABLE);
 			}
 		}

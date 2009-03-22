@@ -41,7 +41,7 @@ class Piwik_CacheFile
 	    $content = '';
 	
 	    // We are assuming that most of the time cache will exists
-	    $ok = @include_once($this->cachePath . $id . ".php");
+	    $ok = @include($this->cachePath . $id . ".php");
 	
 	    if ($ok && $cache_complete == true) {
 	        return $content;
