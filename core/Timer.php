@@ -57,6 +57,10 @@ class Piwik_Timer
 
 	private function getMemoryUsage()
 	{
-		return memory_get_usage();
+		if(function_exists('memory_get_usage'))
+		{
+			return memory_get_usage();
+		}
+		return 0;
 	}
 }
