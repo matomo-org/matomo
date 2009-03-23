@@ -90,17 +90,37 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		
 		// the visitor and session
 		$this->recognizeTheVisitor();
+		
+		$isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit();
+		
+		// Known visit when:
+		// - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor 
+		// OR
+		// - the visitor doesn't have the Piwik cookie but could be match using heuristics @see recognizeTheVisitor()
+		// AND 
+		// - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
 		if( $this->isVisitorKnown() 
-			&& $this->isLastActionInTheSameVisit())
+			&& $isLastActionInTheSameVisit)
 		{
 			$idActionReferer = $this->visitorInfo['visit_exit_idaction'];
-			$this->handleKnownVisit($actionId, $someGoalsConverted);
-			$action->record( 	$this->visitorInfo['idvisit'], 
-								$idActionReferer, 
-								$this->visitorInfo['time_spent_ref_action']
-						);
+			try {
+				$this->handleKnownVisit($actionId, $someGoalsConverted);
+				$action->record( 	$this->visitorInfo['idvisit'], 
+									$idActionReferer, 
+									$this->visitorInfo['time_spent_ref_action']
+							);
+			} catch(Piwik_Tracker_Visit_VisitorNotFoundInDatabase $e) {
+				printDebug($e->getMessage());
+				$this->visitorKnown = false;
+			}
 		}
-		else
+		
+		// New visit when:
+		// - the visitor has the Piwik cookie but the last action was performed more than 30 min ago @see isLastActionInTheSameVisit()
+		// - the visitor doesn't have the Piwik cookie, and couldn't be matched in @see recognizeTheVisitor()
+		// - the visitor does have the Piwik cookie but the idcookie and idvisit found in the cookie didn't match to any existing visit in the DB
+		if(!$this->isVisitorKnown()
+			|| !$isLastActionInTheSameVisit)
 		{
 			$this->handleNewVisit($actionId, $someGoalsConverted);
 			$action->record( $this->visitorInfo['idvisit'], 0, 0 );
@@ -139,7 +159,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$sqlUpdateGoalConverted = " visit_goal_converted = 1,";
 		}
 		
-		Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ". $this->idsite ." */
+		$statement = Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ". $this->idsite ." */
 							UPDATE ". Piwik_Common::prefixTable('log_visit')." 
 							SET visit_last_action_time = ?,
 								visit_exit_idaction = ?,
@@ -147,11 +167,17 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 								$sqlUpdateGoalConverted
 								visit_total_time = UNIX_TIMESTAMP(visit_last_action_time) - UNIX_TIMESTAMP(visit_first_action_time)
 							WHERE idvisit = ?
+								AND visitor_idcookie = ?
 							LIMIT 1",
 							array( 	$datetimeServer,
 									$actionId,
-									$this->visitorInfo['idvisit'] )
+									$this->visitorInfo['idvisit'],
+									$this->visitorInfo['visitor_idcookie'] )
 				);
+		if($statement->rowCount() == 0)
+		{
+			throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase("The visitor with visitor_idcookie=".$this->visitorInfo['visitor_idcookie']." and idvisit=".$this->visitorInfo['idvisit']." wasn't found in the DB, we fallback to a new visitor");
+		}
 		$this->visitorInfo['idsite'] = $this->idsite;
 		$this->visitorInfo['visit_server_date'] = $this->getCurrentDate();
 		
@@ -834,4 +860,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		$this->cookie = $cookie;
 	}
+}
+
+class Piwik_Tracker_Visit_VisitorNotFoundInDatabase extends Exception {
 }
