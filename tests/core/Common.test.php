@@ -34,6 +34,7 @@ class Test_Piwik_Common extends UnitTestCase
 			'ftp://www.pi-wik.org',
 			'news://www.pi-wik.org',
 			'https://www.tëteâ.org',
+			'http://汉语/漢語.cn' //chinese
 		);
 		
 		foreach($valid as $url)
@@ -50,6 +51,7 @@ class Test_Piwik_Common extends UnitTestCase
 			'test.html',
 			'/\/\/\/\/\/\\\http://test.com////',
 			'jmleslangues.php',
+			'http://',
 		);
 		
 		foreach($notValid as $url)

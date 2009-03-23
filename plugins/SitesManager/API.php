@@ -429,7 +429,7 @@ class Piwik_SitesManager_API
 	 */
 	static private function isValidUrl( $url )
 	{
-		return ereg('^http[s]?://([A-Za-z0-9\/_%~.:-])*$', $url);
+		return Piwik_Common::isLookLikeUrl($url);
 	}
 	
 	/**

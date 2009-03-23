@@ -314,7 +314,8 @@ class Piwik_Common
 	 */
 	static function isLookLikeUrl( $url )
 	{
-		return preg_match('/^(ftp|news|http|https)?:\/\/[A-Za-z0-9\/_.-?&]*/', $url) !== 0;
+		return preg_match('/^(ftp|news|http|https)?:\/\/(.*)$/', $url, $matches) !== 0
+				&& strlen($matches[2]) > 0;
 	}
 
 	/**
