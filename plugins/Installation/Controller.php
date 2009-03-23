@@ -369,10 +369,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		// connect to the database using the DB infos currently in the session
 		$this->createDbFromSessionInformation();
 
-		// create the fake access to grant super user privilege
-		Zend_Registry::set('access', new Piwik_FakeAccess_SetSuperUser);
-		
-		// we need to create the logs otherwise the API request throws an exception
+		Piwik::createAccessObject();
+		Piwik::setUserIsSuperUser();
 		Piwik::createLogObject();
 	}
 	
@@ -514,15 +512,3 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	}
 }
 
-
-/**
- * 
- * @package Piwik_Installation
- */
-class Piwik_FakeAccess_SetSuperUser {
-	function checkUserIsSuperUser()
-	{
-		return true;
-	}
-	function reloadAccess() {}
-}

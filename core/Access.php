@@ -110,52 +110,60 @@ class Piwik_Access
 	 * If the login/password is correct the user is either the SuperUser or a normal user.
 	 * We load the access levels for this user for all the websites.
 	 * 
+	 * @return true on success, false if reloading access failed (when auth object wasn't specified and user is not enforced to be Super User)
 	 */
 	public function reloadAccess(Piwik_Auth $auth = null)
 	{
-		if(!is_null($auth)) {
+		if(!is_null($auth)) 
+		{
 			$this->auth = $auth;
 		}
-		if(is_null($this->auth)) {
-			throw new Exception("You must pass a Piwik_Auth object in order to reload access information for this session.");
+		
+		// if the Piwik_Auth wasn't set, we may be in the special case of setSuperUser(), otherwise we fail
+		if(is_null($this->auth)) 
+		{
+			if($this->isSuperUser())
+			{
+				return $this->reloadAccessSuperUser();
+			}
+			return false;
 		}
 		
 		// access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
 		$result = $this->auth->authenticate();
 
-		if($result->isValid())
+		if(!$result->isValid())
 		{
-			$this->login = $result->getIdentity();
-			$this->token_auth = $result->getTokenAuth();
-				
-			// case the superUser is logged in
-			if($result->getCode() == Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE)
-			{
-				$this->isSuperUser = true;
-				$allSitesId = Piwik_SitesManager_API::getAllSitesId();
-				if(count($allSitesId) === 0) 
-				{
-					throw new Exception("Piwik could not find any website in the database.");
-				}
-				$this->idsitesByAccess['superuser'] = $allSitesId;
-			}
-			// valid authentification (normal user logged in)
-			else
-			{
-				$db = Zend_Registry::get('db');
-
-				// we join with site in case there are rows in access for an idsite that doesn't exist anymore
-				// (backward compatibility ; before we deleted the site without deleting rows in _access table)
-				$accessRaw = $db->fetchAll("SELECT access, t2.idsite
-								  FROM ".Piwik::prefixTable('access'). " as t1 
-									JOIN ".Piwik::prefixTable('site')." as t2 USING (idsite) ".
-								" WHERE login = ?", $this->login);
-				foreach($accessRaw as $access)
-				{
-					$this->idsitesByAccess[$access['access']][] = $access['idsite'];
-				}
-			}
+			return false;
 		}
+		$this->login = $result->getIdentity();
+		$this->token_auth = $result->getTokenAuth();
+			
+		// case the superUser is logged in
+		if($result->getCode() == Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE)
+		{
+			return $this->reloadAccessSuperUser();
+		}
+		// case valid authentification (normal user logged in)
+		
+		// we join with site in case there are rows in access for an idsite that doesn't exist anymore
+		// (backward compatibility ; before we deleted the site without deleting rows in _access table)
+		$accessRaw = Zend_Registry::get('db')->fetchAll("SELECT access, t2.idsite
+						  FROM ".Piwik::prefixTable('access'). " as t1 
+							JOIN ".Piwik::prefixTable('site')." as t2 USING (idsite) ".
+						" WHERE login = ?", $this->login);
+		foreach($accessRaw as $access)
+		{
+			$this->idsitesByAccess[$access['access']][] = $access['idsite'];
+		}
+		return true;
+	}
+	
+	protected function reloadAccessSuperUser()
+	{
+		$this->isSuperUser = true;
+		$this->idsitesByAccess['superuser'] = Piwik_SitesManager_API::getAllSitesId();
+		return true;
 	}
 	
 	/**
@@ -166,8 +174,7 @@ class Piwik_Access
 	 */
 	public function setSuperUser()
 	{
-		$this->isSuperUser = true;
-		$this->idsitesByAccess['superuser'] = Piwik_SitesManager_API::getAllSitesId();
+		$this->reloadAccessSuperUser();
 	}
 	
 	/**

@@ -278,6 +278,11 @@ abstract class Piwik_Controller
 		}
 		else
 		{
+			if(Piwik::isUserIsSuperUser())
+			{
+				Piwik_ExitWithMessage("Error: no website were found in this Piwik installation. 
+				<br>Check your table '". Piwik::prefixTable('site') ."' that should contain your Piwik websites.", false, true);
+			}
 			$currentLogin = Piwik::getCurrentUserLogin();
 			if(!empty($currentLogin)
 				&& $currentLogin != 'anonymous')
