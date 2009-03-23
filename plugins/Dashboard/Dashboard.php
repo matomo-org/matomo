@@ -52,7 +52,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 					iddashboard INT NOT NULL ,
 					layout TEXT NOT NULL,
 					PRIMARY KEY ( login , iddashboard )
-					) " ;
+					)  DEFAULT CHARSET=utf8 " ;
 			Piwik_Query($sql);
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1050:table already exists
