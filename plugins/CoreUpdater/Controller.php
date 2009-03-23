@@ -167,7 +167,12 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('CoreUpdater/templates/update_welcome.tpl');
 		$view->new_piwik_version = Piwik_Version::VERSION;
-		$view->current_piwik_version = Piwik_GetOption('version_core');
+		try {
+			$currentVersion = Piwik_GetOption('version_core');
+		} catch( Exception $e) {
+			$currentVersion = '<= 0.2.9';
+		}
+		$view->current_piwik_version = $currentVersion;
 	
 		$pluginNamesToUpdate = array();
 		$coreToUpdate = false;

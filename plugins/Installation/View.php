@@ -41,6 +41,11 @@ class Piwik_Install_View extends Piwik_View
 		{
 			$this->nextModuleName = $this->steps[$this->currentStepId + 1];
 		}
+		$this->previousModuleName = '';
+		if(isset($this->steps[$this->currentStepId - 1]))
+		{
+			$this->previousModuleName = $this->steps[$this->currentStepId - 1];
+		}
 		
 		return parent::render();
 		

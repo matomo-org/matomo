@@ -1,14 +1,18 @@
 <h1>{'Installation_Tables'|translate}</h1>
 {if isset($someTablesInstalled)}
-	<div class="warning">{'Installation_TablesWarning'|translate}
+	<div class="warning">{'Installation_TablesWithSameNamesFound'|translate:"<span id='linkToggle'>":"</span>"}
 	<img src="themes/default/images/warning_medium.png">
 	</div>
 	<div id="toggle" style="display:none;color:#4F2410"><small><i>{'Installation_TablesFound'|translate}:
 		<br />{$tablesInstalled} </i></small></div>
-
-	<p>{'Installation_TablesWarningHelp'|translate}</p>
 	
-	<p class="nextStep"><a href="{url action=$nextModuleName}">{'Installation_TablesReuse'|translate} &raquo;</a></p>
+	{if isset($showReuseExistingTables)}
+		<p>{'Installation_TablesWarningHelp'|translate}</p>
+		<p class="nextStep"><a href="{url action=$nextModuleName}">{'Installation_TablesReuse'|translate} &raquo;</a></p>
+	{else}
+		<p class="nextStep"><a href="{url action=$previousModuleName}">&laquo; {'Installation_GoBackAndDefinePrefix'|translate}</a></p>
+	{/if}
+	
 	<p class="nextStep" id="eraseAllTables"><a href="{url deleteTables=1}">{'Installation_TablesDelete'|translate} &raquo;</a></p>
 {/if}
 
@@ -16,7 +20,6 @@
 	<div class="success"> {'Installation_TablesDeletedSuccess'|translate} 
 	<img src="themes/default/images/success_medium.png"></div>
 {/if}
-
 
 {if isset($databaseCreated)}
 	<div class="success"> {'Installation_DatabaseCreatedSuccess'|translate:"'$databaseName'"} 
@@ -28,12 +31,11 @@
 	<img src="themes/default/images/success_medium.png"></div>
 {/if}
 
-
 {literal}
 <script>
 $(document).ready( function(){
 	{/literal}
-	var strConfirmEraseTables = "{'Installation_TablesDeleteConfirm'|translate} ";
+	var strConfirmEraseTables = "{'Installation_ConfirmDeleteExistingTables'|translate:"[$tablesInstalled]":"<br>"} ";
 	{literal}	
 	
 	// toggle the display of the tables detected during the installation when clicking

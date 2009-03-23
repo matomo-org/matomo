@@ -28,8 +28,11 @@ class Piwik_Tracker_GoalManager
 	static public function getGoalDefinitions( $idSite )
 	{
 		$websiteAttributes = Piwik_Common::getCacheWebsiteAttributes( $idSite );
-		$goals = $websiteAttributes['goals'];
-		return $goals;
+		if(isset($websiteAttributes['goals']))
+		{
+			return $websiteAttributes['goals'];
+		}
+		return array();
 	}
 	
 	static public function getGoalDefinition( $idSite, $idGoal )
