@@ -151,8 +151,7 @@ class Piwik_API_ResponseBuilder
 	 */
 	protected function getRenderedDataTable($dataTable)
 	{
-		$format = Piwik_Common::getRequestVar('format', 'php', 'string', $this->request);
-		$format = strtolower($format);
+		$format = strtolower($this->outputFormat);
 		
 		// if asked for original dataStructure
 		if($format == 'original')
