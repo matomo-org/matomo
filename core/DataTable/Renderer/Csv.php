@@ -113,7 +113,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		if($table instanceof Piwik_DataTable_Simple 
 			&& $table->getRowsCount() == 1)
 		{
-			$str = 'value' . $this->lineEnd . $table->getRowFromId(0)->getColumn('value');
+			$str = 'value' . $this->lineEnd . $this->formatValue($table->getRowFromId(0)->getColumn('value'));
 			return $str;
 		}
 		
@@ -226,6 +226,10 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			&& !is_numeric($value)) 
 		{
 			$value = html_entity_decode($value, ENT_COMPAT, 'UTF-8');
+		}
+		elseif($value === false)
+		{
+			$value = 0;
 		}
 		return $value;
 	}
