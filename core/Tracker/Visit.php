@@ -532,8 +532,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function isLastActionInTheSameVisit()
 	{
-		return $this->visitorInfo['visit_last_action_time'] 
-					>= ($this->getCurrentTimestamp() - Piwik_Tracker_Config::getInstance()->Tracker['visit_standard_length']);
+		return isset($this->visitorInfo['visit_last_action_time'])
+					&& ($this->visitorInfo['visit_last_action_time'] 
+						>= ($this->getCurrentTimestamp() - Piwik_Tracker_Config::getInstance()->Tracker['visit_standard_length']));
 	}
 
 	/**
