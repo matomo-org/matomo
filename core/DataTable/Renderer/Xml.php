@@ -24,7 +24,6 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 {
 	function render()
 	{
-//		var_dump($this->table);exit;
 		return $this->renderTable($this->table);
 	}
 	
@@ -84,7 +83,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			}
 			else
 			{
-				$out = "<result>".$out."</result>";
+				$out = "<result>".$this->formatValue($out)."</result>";
 			}
 			return $this->output($out);
 		}
@@ -128,7 +127,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	  			}
 	  			else
 	  			{
-		  			$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">$value</result>\n";	  				
+		  			$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">".$this->formatValue($value)."</result>\n";	  				
 	  			}
 	  		}
 	  		return $xml;
@@ -297,6 +296,10 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		{
 			$value = html_entity_decode($value, ENT_COMPAT, 'UTF-8');
 			$value = htmlspecialchars($value);
+		}
+		elseif($value===false)
+		{
+			$value = 0;
 		}
 		return $value;
 	}
