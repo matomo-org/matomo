@@ -483,7 +483,7 @@ class Piwik
 						  date_registered TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 						  PRIMARY KEY(login),
 						  UNIQUE INDEX uniq_keytoken(token_auth)
-						)
+						)  DEFAULT CHARSET=utf8 
 			",
 			
 			'access' => "CREATE TABLE {$prefixTables}access (
@@ -491,7 +491,7 @@ class Piwik
 						  idsite INTEGER UNSIGNED NOT NULL,
 						  access VARCHAR(10) NULL,
 						  PRIMARY KEY(login, idsite)
-						)
+						)  DEFAULT CHARSET=utf8 
 			",
 			
 			'site' => "CREATE TABLE {$prefixTables}site (
@@ -500,14 +500,14 @@ class Piwik
 						  main_url VARCHAR(255) NOT NULL,
   						  ts_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 						  PRIMARY KEY(idsite)
-						)
+						)  DEFAULT CHARSET=utf8 
 			",
 			
 			'site_url' => "CREATE TABLE {$prefixTables}site_url (
 							  idsite INTEGER(10) UNSIGNED NOT NULL,
 							  url VARCHAR(255) NOT NULL,
 							  PRIMARY KEY(idsite, url)
-						)
+						)  DEFAULT CHARSET=utf8 
 			",
 			
 			'goal' => "	CREATE TABLE `{$prefixTables}goal` (
@@ -521,7 +521,7 @@ class Piwik
 							  `revenue` float NOT NULL,
 							  `deleted` tinyint(4) NOT NULL default '0',
 							  PRIMARY KEY  (`idsite`,`idgoal`)
-							) 
+							)  DEFAULT CHARSET=utf8 
 			",
 			
 			'logger_message' => "CREATE TABLE {$prefixTables}logger_message (
@@ -529,7 +529,7 @@ class Piwik
 									  timestamp TIMESTAMP NULL,
 									  message TEXT NULL,
 									  PRIMARY KEY(idlogger_message)
-									)
+									)  DEFAULT CHARSET=utf8 
 			",
 			
 			'logger_api_call' => "CREATE TABLE {$prefixTables}logger_api_call (
@@ -543,7 +543,7 @@ class Piwik
 									  timestamp TIMESTAMP NULL,
 									  returned_value TEXT NULL,
 									  PRIMARY KEY(idlogger_api_call)
-									) 
+									)  DEFAULT CHARSET=utf8 
 			",
 			
 			'logger_error' => "CREATE TABLE {$prefixTables}logger_error (
@@ -555,7 +555,7 @@ class Piwik
 									  errfile VARCHAR(255) NULL,
 									  backtrace TEXT NULL,
 									  PRIMARY KEY(idlogger_error)
-									)
+									) DEFAULT CHARSET=utf8 
 			",
 			
 			'logger_exception' => "CREATE TABLE {$prefixTables}logger_exception (
@@ -567,7 +567,7 @@ class Piwik
 									  errfile VARCHAR(255) NULL,
 									  backtrace TEXT NULL,
 									  PRIMARY KEY(idlogger_exception)
-									)
+									)  DEFAULT CHARSET=utf8 
 			",
 			
 			
@@ -577,7 +577,7 @@ class Piwik
   									  type TINYINT UNSIGNED NULL,
 									  PRIMARY KEY(idaction),
 									  INDEX index_type_name (type, name(15))
-						)
+						)  DEFAULT CHARSET=utf8 
 			",
 					
 			'log_visit' => "CREATE TABLE {$prefixTables}log_visit (
@@ -617,7 +617,7 @@ class Piwik
 							  location_continent CHAR(3) NOT NULL,
 							  PRIMARY KEY(idvisit),
 							  INDEX index_idsite_date (idsite, visit_server_date)
-							)
+							)  DEFAULT CHARSET=utf8 
 			",		
 			
 			'log_conversion' => "CREATE TABLE `{$prefixTables}log_conversion` (
@@ -641,7 +641,7 @@ class Piwik
 									  `revenue` float default NULL,
 									  PRIMARY KEY  (`idvisit`,`idgoal`),
 									  KEY `index_idsite_date` (`idsite`,`visit_server_date`)
-									) 
+									) DEFAULT CHARSET=utf8 
 			",
 							
 			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
@@ -652,7 +652,7 @@ class Piwik
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 											  PRIMARY KEY(idlink_va),
 											  INDEX index_idvisit(idvisit)
-											)
+											)  DEFAULT CHARSET=utf8 
 			",
 		
 			'log_profiling' => "CREATE TABLE {$prefixTables}log_profiling (
@@ -660,7 +660,7 @@ class Piwik
 								  count INTEGER UNSIGNED NULL,
 								  sum_time_ms FLOAT NULL,
 								  UNIQUE INDEX query(query(100))
-								)
+								)  DEFAULT CHARSET=utf8 
 			",
 			
 			'option' => "CREATE TABLE `{$prefixTables}option` (
@@ -668,7 +668,7 @@ class Piwik
 								option_value LONGTEXT NOT NULL ,
 								autoload TINYINT NOT NULL DEFAULT '1',
 								PRIMARY KEY ( option_name )
-								)
+								)  DEFAULT CHARSET=utf8 
 			",
 								
 			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
@@ -682,7 +682,7 @@ class Piwik
 								  	  value FLOAT NULL,
 									  PRIMARY KEY(idarchive, name),
 									  KEY `index_all` (`idsite`,`date1`,`date2`,`name`,`ts_archived`)
-									)
+									)  DEFAULT CHARSET=utf8 
 			",
 			'archive_blob'	=> "CREATE TABLE {$prefixTables}archive_blob (
 									  idarchive INTEGER UNSIGNED NOT NULL,
@@ -695,7 +695,7 @@ class Piwik
 									  value MEDIUMBLOB NULL,
 									  PRIMARY KEY(idarchive, name),
 									  KEY `index_all` (`idsite`,`date1`,`date2`,`name`,`ts_archived`)
-									)
+									)  DEFAULT CHARSET=utf8 
 			",
 		);
 		return $tables;

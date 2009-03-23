@@ -63,7 +63,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 					login VARCHAR( 20 ) NOT NULL ,
 					language VARCHAR( 10 ) NOT NULL ,
 					PRIMARY KEY ( login )
-					) " ;
+					)  DEFAULT CHARSET=utf8 " ;
 			Piwik_Query($sql);
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1050:table already exists
