@@ -1333,7 +1333,6 @@ class Piwik
 	static public function install()
 	{
 		Piwik_Common::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
-		Piwik_Common::mkdir(Zend_Registry::get('config')->smarty->cache_dir);
 	}
 	
 	static public function uninstall()

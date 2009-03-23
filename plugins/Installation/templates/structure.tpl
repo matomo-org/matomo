@@ -146,6 +146,7 @@ P.nextStep A {
 	text-decoration: underline;
 	float:right;
 	font-size:35px;
+	line-height:1em;
 }
 
 #installPercent {
@@ -224,3 +225,5 @@ input {
 	
 	{'Installation_PercentDone'|translate:$percentDone} 
 </div>
+</body>
+</html>

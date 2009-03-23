@@ -150,9 +150,12 @@ function Piwik_Translate($index, $args = array())
 	if(isset($GLOBALS['Piwik_translations'][$index]))
 	{
 		$string = $GLOBALS['Piwik_translations'][$index];
-		if(count($args) == 0) {
+		if(count($args) == 0) 
+		{
 			return $string;
-		} else {
+		}
+		else
+		{
 			return vsprintf($string, $args);
 		}
 	}

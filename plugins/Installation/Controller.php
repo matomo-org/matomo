@@ -70,12 +70,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	function systemCheck()
 	{
+		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		
 		$view = new Piwik_Install_View(
 						$this->pathView . 'systemCheck.tpl', 
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		$this->skipThisStep( __FUNCTION__ );
 		
 		$view->infos = $this->getSystemInformation();
@@ -95,6 +96,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	function databaseSetup()
 	{
+		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		
 		// case the user hits the back button
 		$_SESSION['skipThisStep']['firstWebsiteSetup'] = false;
 		$_SESSION['skipThisStep']['displayJavascriptCode'] = false;
@@ -104,7 +107,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		$this->skipThisStep( __FUNCTION__ );
 					
 		$view->showNextStep = false;
@@ -166,12 +168,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	function tablesCreation()
 	{
+		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		
 		$view = new Piwik_Install_View(
 						$this->pathView . 'tablesCreation.tpl', 
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		$this->skipThisStep( __FUNCTION__ );
 		$this->createDbFromSessionInformation();
 		
@@ -187,15 +190,20 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		$tablesInstalled = Piwik::getTablesInstalled();
 		$tablesToInstall = Piwik::getTablesNames();
-		
+		$view->tablesInstalled = '';
 		if(count($tablesInstalled) > 0)
 		{
-			$view->someTablesInstalled = true;
 			$view->tablesInstalled = implode(", ", $tablesInstalled);
+			$view->someTablesInstalled = true;
 			
-			// when the user reuses the same tables we skip the website creation step
-			$_SESSION['skipThisStep']['firstWebsiteSetup'] = true;
-			$_SESSION['skipThisStep']['displayJavascriptCode'] = true;
+			$minimumCountPiwikTables = 14;
+			if(count($tablesInstalled) >= $minimumCountPiwikTables )
+			{
+				$view->showReuseExistingTables = true;
+				// when the user reuses the same tables we skip the website creation step
+				$_SESSION['skipThisStep']['firstWebsiteSetup'] = true;
+				$_SESSION['skipThisStep']['displayJavascriptCode'] = true;
+			}
 		}
 		else
 		{
@@ -223,12 +231,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	function generalSetup()
 	{		
+		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		
 		$view = new Piwik_Install_View(
 						$this->pathView . 'generalSetup.tpl', 
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		$this->skipThisStep( __FUNCTION__ );
 		
 		require_once "FormGeneralSetup.php";
@@ -269,13 +278,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	public function firstWebsiteSetup()
 	{
+		$this->checkPreviousStepIsValid( __FUNCTION__ );
 				
 		$view = new Piwik_Install_View(
 						$this->pathView . 'firstWebsiteSetup.tpl', 
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		$this->skipThisStep( __FUNCTION__ );
 		
 		require_once "FormFirstWebsiteSetup.php";
@@ -320,12 +329,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	public function displayJavascriptCode()
 	{
+		$this->checkPreviousStepIsValid( __FUNCTION__ );
+		
 		$view = new Piwik_Install_View(
 						$this->pathView . 'displayJavascriptCode.tpl', 
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		$this->skipThisStep( __FUNCTION__ );
 		
 		if( !isset($_SESSION['firstWebsiteSetupSuccessMessage']))
@@ -348,12 +358,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	public function finished()
 	{
+		$this->checkPreviousStepIsValid( __FUNCTION__ );
+
 		$view = new Piwik_Install_View(
 						$this->pathView . 'finished.tpl', 
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		$this->skipThisStep( __FUNCTION__ );
 		$this->writeConfigFileFromSession();
 		$_SESSION['currentStepDone'] = __FUNCTION__;		
@@ -391,26 +402,44 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 * - any step before (OK to go back)
 	 * - the current step (case when validating a form)
 	 */
-	function checkPreviousStepIsValid( $currentStep )
+	protected function checkPreviousStepIsValid( $currentStep )
 	{
+		$error = false;
+		
+		// first we make sure that the config file is not present, ie. Installation state is expected
+		try {
+			$config = new Piwik_Config();
+			$config->init();
+			$error = true;
+		} catch(Exception $e) {
+		}
+		
 		if(empty($_SESSION['currentStepDone']))
 		{
-			return;
+			$error = true;
 		}
-		// the currentStep
-		$currentStepId = array_search($currentStep, $this->steps);
-		
-		// the step before
-		$previousStepId = array_search($_SESSION['currentStepDone'], $this->steps);
-
-		// not OK if currentStepId > previous+1
-		if( $currentStepId > $previousStepId + 1 )
+		else
 		{
-			$message = "Error: it seems you try to skip a step of the Installation process, 
-						or your cookies are disabled. 
-						<br /><b>Make sure your cookies are enabled</b> and go back 
-						<a href='".Piwik_Url::getCurrentUrlWithoutFileName()."'>
-						to the first page of the installation</a>.";
+			// the currentStep
+			$currentStepId = array_search($currentStep, $this->steps);
+			
+			// the step before
+			$previousStepId = array_search($_SESSION['currentStepDone'], $this->steps);
+	
+			// not OK if currentStepId > previous+1
+			if( $currentStepId > $previousStepId + 1 )
+			{
+				$error = true;
+			}
+		}
+		if($error)
+		{
+			$message = Piwik_Translate('Installation_ErrorInvalidState', 
+						array( '<br /><b>',
+								'</b>', 
+								'<a href=\''.Piwik_Url::getCurrentUrlWithoutFileName().'\'>',
+								'</a>')
+					);
 			Piwik::exitWithErrorMessage( $message );
 		}		
 	}
@@ -500,7 +529,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		return $infos;
 	}
-
 	
 	protected function skipThisStep( $step )
 	{
@@ -511,4 +539,3 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 	}
 }
-
