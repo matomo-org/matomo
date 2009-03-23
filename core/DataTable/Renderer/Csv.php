@@ -231,6 +231,11 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		{
 			$value = 0;
 		}
+		if(strpos($value, '"') !== false 
+			|| strpos($value, ',') !== false )
+		{
+			$value = '"'. str_replace('"', '""', $value). '"';
+		}
 		return $value;
 	}
 	
