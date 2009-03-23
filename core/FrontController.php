@@ -230,9 +230,6 @@ class Piwik_FrontController
 			Piwik::createDatabaseObject();
 			Piwik::createLogObject();
 			
-			Piwik_Translate::getInstance()->loadUserTranslation();
-			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
-			$pluginsManager->postLoadPlugins();
 			
 			// creating the access object, so that core/Updates/* can enforce Super User and use some APIs
 			Piwik::createAccessObject();
@@ -257,6 +254,10 @@ class Piwik_FrontController
 			Zend_Registry::get('access')->reloadAccess($authAdapter);
 			
 			Piwik::raiseMemoryLimitIfNecessary();
+			
+			Piwik_Translate::getInstance()->loadUserTranslation();
+			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
+			$pluginsManager->postLoadPlugins();
 			
 			Piwik_UpdateCheck::check();
 		} catch(Exception $e) {
