@@ -33,9 +33,8 @@ require_once "Url.php";
  */
 function smarty_function_hiddenurl($params, &$smarty)
 {
-	$urlModified = Piwik_Url::getCurrentQueryStringWithParametersModified( $params );
-	$queryString = htmlspecialchars($urlModified);
-	$urlValues = Piwik_Common::getArrayFromQueryString($queryString);
+	$queryStringModified = Piwik_Url::getCurrentQueryStringWithParametersModified( $params );
+	$urlValues = Piwik_Common::getArrayFromQueryString($queryStringModified);
 	
 	$out = '';
 	foreach($urlValues as $name => $value)

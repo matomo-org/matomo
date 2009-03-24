@@ -193,7 +193,6 @@ class Piwik_Common
 	static public function getParameterFromQueryString( $urlQuery, $parameter)
 	{
 		$nameToValue = self::getArrayFromQueryString($urlQuery);
-
 		if(isset($nameToValue[$parameter]))
 		{
 			return $nameToValue[$parameter];
@@ -219,7 +218,7 @@ class Piwik_Common
 			$urlQuery = substr($urlQuery, 1);
 		}
 
-		$separator = '&amp;';
+		$separator = '&';
 
 		$urlQuery = $separator . $urlQuery;
 		//		$urlQuery = str_replace(array('%20'), ' ', $urlQuery);
@@ -322,8 +321,8 @@ class Piwik_Common
 	 * Returns the variable after cleaning operations.
 	 * NB: The variable still has to be escaped before going into a SQL Query!
 	 *
-	 * If an array is passed the cleaning is done recursively on all the sub-arrays. \
-	 * The keys of the array are filtered as well!
+	 * If an array is passed the cleaning is done recursively on all the sub-arrays.
+	 * The array's keys are filtered as well!
 	 *
 	 * How this method works:
 	 * - The variable returned has been htmlspecialchars to avoid the XSS security problem.
@@ -381,10 +380,12 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns a variable from the $_REQUEST superglobal.
+	 * Returns a sanitized variable value from the $_REQUEST superglobal.
 	 * If the variable doesn't have a value or an empty value, returns the defaultValue if specified.
 	 * If the variable doesn't have neither a value nor a default value provided, an exception is raised.
 	 *
+	 * @see sanitizeInputValues() for the applied sanitization
+	 *  
 	 * @param string $varName name of the variable
 	 * @param string $varDefault default value. If '', and if the type doesn't match, exit() !
 	 * @param string $varType Expected type, the value must be one of the following: array, numeric, int, integer, string
@@ -727,6 +728,92 @@ class Piwik_Common
  		}
 		return 'xx';
  	}
+	
+
+	/**
+	 * Extracts a keyword from a raw not encoded URL. 
+	 * Will only extract keyword if a known search engine has been detected.
+	 * Returns the keyword: 
+	 * - in UTF8: automatically converted from other charsets when applicable 
+	 * - strtolowered: "QUErY test!" will return "query test!"
+	 * - trimmed: extra spaces before and after are removed
+	 * 
+	 * Lists of supported search engines can be found in core/DataFiles/SearchEngines.php
+	 * The function returns false when a keyword couldn't be found.
+	 * 	 eg. if someone comes from http://www.google.com/partners.html this will return false, as the google keyword parameter couldn't be found. 
+	 * 
+	 * @see unit tests in tests/core/Common.test.php
+	 * @param string URL referer URL, eg. $_SERVER['HTTP_REFERER']
+	 * @return array|false false if a keyword couldn't be extracted,
+	 * 						or array(
+	 * 							'name' => 'Google', 
+	 * 							'keywords' => 'my searched keywords') 
+	 */
+	static public function extractSearchEngineInformationFromUrl($refererUrl)
+	{
+		$refererParsed = @parse_url($refererUrl);
+		$refererHost = '';
+		if(isset($refererParsed['host']))
+		{
+			$refererHost = $refererParsed['host'];
+		}
+		if(empty($refererHost))
+		{
+			return false;
+		}
+		if(!isset($refererParsed['query']))
+		{
+			return false;
+		}
+		require_once "DataFiles/SearchEngines.php";
+		
+		if(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
+		{
+			return false;
+		}
+		$searchEngineName = $GLOBALS['Piwik_SearchEngines'][$refererHost][0];
+		$variableNames = $GLOBALS['Piwik_SearchEngines'][$refererHost][1];
+		if(!is_array($variableNames))
+		{
+			$variableNames = array($variableNames);
+		}
+		$query = $refererParsed['query'];
+
+		if($searchEngineName == 'Google Images')
+		{
+			$query = urldecode(trim(strtolower(Piwik_Common::getParameterFromQueryString($query, 'prev'))));
+			$query = str_replace('&', '&amp;', strstr($query, '?'));
+		}
+		
+		foreach($variableNames as $variableName)
+		{
+			// search for keywords now &vname=keyword
+			$key = strtolower(Piwik_Common::getParameterFromQueryString($query, $variableName));
+			$key = trim(urldecode($key));
+			if(!empty($key))
+			{
+				break;
+			}
+		}
+		if(empty($key))
+		{
+			return false;
+		}
+		
+		if(function_exists('iconv') 
+			&& isset($GLOBALS['Piwik_SearchEngines'][$refererHost][2]))
+		{
+			$charset = trim($GLOBALS['Piwik_SearchEngines'][$refererHost][2]);
+			if(!empty($charset)) 
+			{
+				$key = @iconv($charset, 'utf-8//IGNORE', $key);
+			}
+		}
+		return array(
+			'name' => $searchEngineName,
+			'keywords' => $key,
+		);
+	}
 	
 	/**
 	 * Generate random string 

@@ -39,6 +39,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected $idsite;
 	protected $visitorKnown;
 	
+	// @see detect*() referer methods
+	protected $typeRefererAnalyzed;
+	protected $nameRefererAnalyzed;
+	protected $keywordRefererAnalyzed;
+	protected $refererHost;
+	protected $refererUrl;
+	protected $refererUrlParse;
+	
 	function __construct()
 	{
 		$idsite = Piwik_Common::getRequestVar('idsite', 0, 'int');
@@ -660,6 +668,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string');
 		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string');
 
+		$this->refererUrl = $refererUrl;
 		$this->refererUrlParse = @parse_url($refererUrl);
 		$this->currentUrlParse = @parse_url($currentUrl);
 		if(isset($this->refererUrlParse['host']))
@@ -706,61 +715,15 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function detectRefererSearchEngine()
 	{
-		/*
-		 * A referer is a search engine if the URL's host is in the SearchEngines array
-		 * and if we found the keyword in the URL.
-		 * 
-		 * For example if someone comes from http://www.google.com/partners.html this will not
-		 * be counted as a search engines, but as a website referer from google.com (because the
-		 * keyword couldn't be found in the URL) 
-		 */
-		require_once "DataFiles/SearchEngines.php";
-		
-		if(!empty($this->refererHost)
-			&& array_key_exists($this->refererHost, $GLOBALS['Piwik_SearchEngines']))
+		$searchEngineInformation = Piwik_Common::extractSearchEngineInformationFromUrl(html_entity_decode($this->refererUrl));	
+		if($searchEngineInformation === false)
 		{
-			$searchEngineName = $GLOBALS['Piwik_SearchEngines'][$this->refererHost][0];
-			$variableName = $GLOBALS['Piwik_SearchEngines'][$this->refererHost][1];
-			
-			if(isset($this->refererUrlParse['query']))
-			{
-				$query = $this->refererUrlParse['query'];
-
-				if($searchEngineName == 'Google Images')
-				{
-					$query = urldecode(trim(strtolower(Piwik_Common::getParameterFromQueryString($query, 'prev'))));
-					$query = str_replace('&', '&amp;', strstr($query, '?'));
-				}
-				
-				// search for keywords now &vname=keyword
-				$key = trim(strtolower(Piwik_Common::getParameterFromQueryString($query, $variableName)));
-				
-				if(!empty($key)
-					&& function_exists('iconv') 
-					&& isset($GLOBALS['Piwik_SearchEngines'][$this->refererHost][2]))
-				{
-					$charset = trim($GLOBALS['Piwik_SearchEngines'][$this->refererHost][2]);
-					
-					if(!empty($charset)) 
-					{
-						$key = htmlspecialchars(
-									@iconv(	$charset, 
-											'utf-8//TRANSLIT', 
-											htmlspecialchars_decode($key, Piwik_Common::HTML_ENCODING_QUOTE_STYLE))
-									, Piwik_Common::HTML_ENCODING_QUOTE_STYLE);
-					}
-				}
-				
-				if(!empty($key))
-				{
-					$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_SEARCH_ENGINE;
-					$this->nameRefererAnalyzed = $searchEngineName;
-					$this->keywordRefererAnalyzed = $key;
-					
-					return true;
-				}
-			}
+			return false;
 		}
+		$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_SEARCH_ENGINE;
+		$this->nameRefererAnalyzed = $searchEngineInformation['name'];
+		$this->keywordRefererAnalyzed = $searchEngineInformation['keywords'];
+		return true;
 	}
 	
 	/*

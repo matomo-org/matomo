@@ -368,7 +368,6 @@ class Test_Piwik_Common extends UnitTestCase
     function test_getParameterFromQueryString_noQuerystring()
     {
     	$urlQuery = "";
-    	$urlQuery = htmlentities($urlQuery);
     	$parameter = "test''";
     	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
     	$expectedResult = false;
@@ -382,7 +381,6 @@ class Test_Piwik_Common extends UnitTestCase
     {
     	
     	$urlQuery = "toto=mama&mama=titi";
-    	$urlQuery = htmlentities($urlQuery);
     	$parameter = "tot";
     	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
     	$expectedResult = false;
@@ -396,7 +394,6 @@ class Test_Piwik_Common extends UnitTestCase
     {
     	
     	$urlQuery = "toto=mama&mama=&tuytyt=teaoi";
-    	$urlQuery = htmlentities($urlQuery);
     	$parameter = "mama";
     	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
     	$expectedResult = '';
@@ -410,7 +407,6 @@ class Test_Piwik_Common extends UnitTestCase
     {
     	
     	$urlQuery = "toto=mama&mama=&tuytyt=teaoi&toto=mama second value";
-    	$urlQuery = htmlentities($urlQuery);
     	$parameter = "toto";
     	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
     	$expectedResult = 'mama second value';
@@ -424,7 +420,6 @@ class Test_Piwik_Common extends UnitTestCase
     {
     	
     	$urlQuery = "toto=mama&mama=&tuytyt=teaoi&toto=mama second value";
-    	$urlQuery = htmlentities($urlQuery);
     	$parameter = "tuytyt";
     	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
     	$expectedResult = 'teaoi';
@@ -436,13 +431,10 @@ class Test_Piwik_Common extends UnitTestCase
      */
     function test_getParameterFromQueryString_strangeChars()
     {
-    	
     	$urlQuery = 'toto=mama&mama=&tuytyt=Поиск в Интернете  Поиск страниц на русском _*()!$!£$^!£$%&toto=mama second value';
-    	$urlQuery = htmlentities($urlQuery);
     	$parameter = "tuytyt";
     	$result = Piwik_Common::getParameterFromQueryString( $urlQuery, $parameter);
     	$expectedResult = 'Поиск в Интернете  Поиск страниц на русском _*()!$!£$^!£$%';
-    	$expectedResult = htmlentities($expectedResult);
     	$this->assertEqual($result, $expectedResult);
     }
 
@@ -588,6 +580,68 @@ class Test_Piwik_Common extends UnitTestCase
 		foreach($a1 as $testdata)
 		{
 			$this->assertEqual( $testdata[2], Piwik_Common::extractLanguageCodeFromBrowserLanguage( $testdata[0], $testdata[1] ), "test with {$testdata[0]} failed, expected {$testdata[2]}");
+		}
+	}
+	
+	public function test_extractSearchEngineInformationFromUrl()
+	{
+		$urls = array(
+			// normal case
+			'http://uk.search.yahoo.com/search?p=piwik&ei=UTF-8&fr=moz2'
+				=> array('name' => 'Yahoo!', 'keywords' => 'piwik'),
+			
+			// test request trimmed and capitalized
+			'http://www.google.com/search?hl=en&q=+piWIk+&btnG=Google+Search&aq=f&oq='
+				=> array('name' => 'Google', 'keywords' => 'piwik'),
+				
+			// testing special case of google images
+			'http://images.google.com/imgres?imgurl=http://www.linux-corner.info/snapshot1.png&imgrefurl=http://www.oxxus.net/blog/archives/date/2007/10/page/41/&usg=__-xYvnp1IKpRZKjRDQVhpfExMkuM=&h=781&w=937&sz=203&hl=en&start=1&tbnid=P9LqKMIbdhlg-M:&tbnh=123&tbnw=148&prev=/images%3Fq%3Dthis%2Bmy%2Bquery%2Bwith%2Bhttp://domain%2Bname%2Band%2Bstrange%2Bcharacters%2B%2526%2B%255E%2B%257C%2B%253C%253E%2B%2525%2B%2522%2B%2527%2527%2BEOL%26gbv%3D2%26hl%3Den%26sa%3DG'
+				=> array('name' => 'Google Images', 'keywords' => 'this my query with http://domain name and strange characters & ^ | <> % " \'\' eol'),
+			
+			// testing baidu special case (several variable names possible, and custom encoding)
+			// see http://dev.piwik.org/trac/ticket/589
+			
+			// keyword is in "wd" 
+			'http://www.baidu.com/s?ie=gb2312&bs=%BF%D5%BC%E4+hao123+%7C+%B8%FC%B6%E0%3E%3E&sr=&z=&cl=3&f=8&tn=baidu&wd=%BF%D5%BC%E4+%BA%C3123+%7C+%B8%FC%B6%E0%3E%3E&ct=0'
+				=> array('name' => 'Baidu', 'keywords' => '空间 好123 | 更多>>'),
+
+			// keyword is in "word"
+			'http://www.baidu.com/s?kw=&sc=web&cl=3&tn=sitehao123&ct=0&rn=&lm=&ie=gb2312&rs2=&myselectvalue=&f=&pv=&z=&from=&word=%B7%E8%BF%F1%CB%B5%D3%A2%D3%EF+%D4%DA%CF%DF%B9%DB%BF%B4'
+				=> array('name' => 'Baidu', 'keywords' => '疯狂说英语 在线观看'),
+
+			'http://www.baidu.com/s?wd=%C1%F7%D0%D0%C3%C0%D3%EF%CF%C2%D4%D8'
+				=> array('name' => 'Baidu', 'keywords' => '流行美语下载'),
+
+			'http://web.gougou.com/search?search=%E5%85%A8%E9%83%A8&id=1'
+				=> array('name' => 'Baidu', 'keywords' => '全部'),
+			
+			'http://www.google.cn/search?hl=zh-CN&q=%E6%B5%8F%E8%A7%88%E5%85%AC%E4%BA%A4%E5%9C%B0%E9%93%81%E7%AB%99%E7%82%B9%E4%BF%A1%E6%81%AF&btnG=Google+%E6%90%9C%E7%B4%A2&meta=cr%3DcountryCN&aq=f&oq='
+				=> array('name' => 'Google', 'keywords' => '浏览公交地铁站点信息'),
+			
+			// testing custom charset
+			'http://hledani.tiscali.cz/web/search.php?lang=cs&query=v+%E8esk%E9m+internetu&kde=cz_internet'
+				=> array('name' => 'Tiscali', 'keywords' => 'v českém internetu'),
+			
+			// testing other exotic unicode characters
+			'http://yandex.ru/yandsearch?text=%D1%87%D0%B0%D1%81%D1%82%D0%BE%D1%82%D0%B0+%D1%80%D0%B0%D1%81%D0%BF%D0%B0%D0%B4%D0%B0+%D1%81%D1%82%D0%B5%D0%BA%D0%BB%D0%B0&stpar2=%2Fh1%2Ftm11%2Fs1&stpar4=%2Fs1&stpar1=%2Fu0%27,%20%27%D1%87%D0%B0%D1%81%D1%82%D0%BE%D1%82%D0%B0+%D1%80%D0%B0%D1%81%D0%BF%D0%B0%D0%B4%D0%B0+%D1%81%D1%82%D0%B5%D0%BA%D0%BB%D0%B0'
+				=> array('name' => 'Yandex', 'keywords' => 'частота распада стекла'),
+
+			'http://yandex.ru/yandsearch?text=%D1%81%D0%BF%D0%BE%D1%80%D1%82%D0%B7%D0%B4%D1%80%D0%B0%D0%B2'
+				=> array('name' => 'Yandex', 'keywords' => 'спортздрав'),
+			
+			'http://www.google.ge/search?hl=en&q=%E1%83%A1%E1%83%90%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%95%E1%83%94%E1%83%9A%E1%83%9D&btnG=Google+Search' 
+				=> array('name' => 'Google', 'keywords' => 'საქართველო'),
+			
+		);
+		
+		foreach($urls as $refererUrl => $expectedReturnedValue) {
+			$returnedValue = Piwik_Common::extractSearchEngineInformationFromUrl($refererUrl);
+			$exported = var_export($returnedValue,true);
+			$result = $expectedReturnedValue === $returnedValue;
+			$this->assertTrue($result);
+			if(!$result) {
+				echo "error in extracting from $refererUrl got ".$exported."<br>";
+			}
 		}
 	}
 }

@@ -20,11 +20,14 @@
  * Url => array( SearchEngineName, VariableKeyword, [charset used by the search engine])
  * 
  * The main search engine URL has to be at the top of the list for the given search Engine.
- * 
- * You can add new search engines icons by adding the icon 
- * in the plugins/Referers/images/SearchEngines directory 
+ * You can add new search engines icons by adding the icon in the plugins/Referers/images/SearchEngines directory 
  * using the format "mainSearchEngineUrl.png". Example: www.google.com.png
- *  
+ * 
+ *  A simple example is:
+ *  "www.google.com"		=> array("Google", "q"),
+ * 
+ *  A more complicated example, with an array of possible variable names, and a custom charset:
+ *  "www.baidu.com"			=> array("Baidu", array("wd","word","kw"), "gb2312"),
  * 
  */
 if(!isset($GLOBALS['Piwik_SearchEngines'] ))
@@ -160,8 +163,12 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"search.babylon.com"		=> array("Babylon (Powered by Google)","q"),
 	
 		// Baidu
-		"www.baidu.com"			=> array("Baidu", "wd"),
-		"www1.baidu.com"		=> array("Baidu", "wd"),
+		"www.baidu.com"			=> array("Baidu", array("wd","word","kw"), "gb2312"),
+		"www1.baidu.com"		=> array("Baidu", array("wd","word","kw"), "gb2312"),
+		"zhidao.baidu.com"		=> array("Baidu", array("wd","word","kw"), "gb2312"),
+		"tieba.baidu.com"		=> array("Baidu", array("wd","word","kw"), "gb2312"),
+		"news.baidu.com"		=> array("Baidu", array("wd","word","kw"), "gb2312"),
+		"web.gougou.com"		=> array("Baidu", "search"),
 		
 		// BBC
 		"search.bbc.co.uk"	        => array("BBC", "q"),
@@ -1114,6 +1121,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"search.yaca.yandex.ru" 	=> array("Yandex", "text"),
 		"ya.ru" 			=> array("Yandex", "text"),
 		"www.ya.ru" 			=> array("Yandex", "text"),
+	
+		// Yandex Images
 		"images.yandex.ru"		=> array("Yandex Images","text"),
 		
 		//Yellowmap
