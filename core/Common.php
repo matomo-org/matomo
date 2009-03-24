@@ -738,11 +738,12 @@ class Piwik_Common
 	 * - strtolowered: "QUErY test!" will return "query test!"
 	 * - trimmed: extra spaces before and after are removed
 	 * 
-	 * Lists of supported search engines can be found in core/DataFiles/SearchEngines.php
+	 * Lists of supported search engines can be found in /core/DataFiles/SearchEngines.php
 	 * The function returns false when a keyword couldn't be found.
-	 * 	 eg. if someone comes from http://www.google.com/partners.html this will return false, as the google keyword parameter couldn't be found. 
+	 * 	 eg. if the url is "http://www.google.com/partners.html" this will return false, 
+	 *       as the google keyword parameter couldn't be found. 
 	 * 
-	 * @see unit tests in tests/core/Common.test.php
+	 * @see unit tests in /tests/core/Common.test.php
 	 * @param string URL referer URL, eg. $_SERVER['HTTP_REFERER']
 	 * @return array|false false if a keyword couldn't be extracted,
 	 * 						or array(
