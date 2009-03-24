@@ -142,8 +142,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"arianna.libero.it" 		=> array("Arianna", "query"),
 		
 		// Ask
-		"www.ask.com"			=> array("Ask", "ask"),
-		"web.ask.com"			=> array("Ask", "ask"),
+		"www.ask.com"			=> array("Ask", array("ask","q")),
+		"web.ask.com"			=> array("Ask", array("ask","q")),
 		"www.ask.co.uk"			=> array("Ask", "q"),
 		"uk.ask.com"			=> array("Ask", "q"),
 		"fr.ask.com"			=> array("Ask", "q"),
@@ -521,6 +521,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.google.co.ma"		=> array("Google", "q"),
 		"www.google.com.kw"		=> array("Google", "q"), 
 		"www.google.com.by"		=> array("Google", "q"), 
+		"ipv6.google.com"       => array("Google", "q"),
+		"www.google.com.bh"     => array("Google", "q"),
+		"www.google.com.jm"     => array("Google", "q"),
+		"www.google.com.na"     => array("Google", "q"),
+		"www.google.ch"         => array("Google", "as_q"),
+	
+ 		
 		
 		
 		// Powered by Google 
@@ -854,7 +861,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"ariadna.elmundo.es" 	=> array("El Mundo", "q"),
 		
 		// MySpace
-		"searchservice.myspace.com" => array('myspace', 'qry'),
+		"searchservice.myspace.com" => array('MySpace', 'qry'),
 	
 		// MyWebSearch
 		"kf.mysearch.myway.com" 	=> array("MyWebSearch", "searchfor"),
@@ -884,7 +891,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.netscape.fr"		=> array("Netscape", "q"),
 		"suche.netscape.de"		=> array("Netscape", "q"),
 		"search.netscape.com"		=> array("Netscape", "query"),
-		
+
+		// Nifty
+		"search.nifty.com"              => array("Nifty", "q"),
+
 		// Nomade
 		"ie4.nomade.fr"			=> array("Nomade", "s"),
 		"rechercher.nomade.aliceadsl.fr"=> array("Nomade (AliceADSL)", "s"),
@@ -1125,8 +1135,14 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Yandex Images
 		"images.yandex.ru"		=> array("Yandex Images","text"),
 		
+		// Yasni
+		"www.yasni.de"                  => array("Yasni", "name"),
+		"www.yasni.com"                 => array("Yasni", "name"),
+		"www.yasni.co.uk"               => array("Yasni", "name"),
+		"www.yasni.ch"                  => array("Yasni", "name"),
+		"www.yasni.at"                  => array("Yasni", "name"),
+
 		//Yellowmap
-		
 		"www.yellowmap.de"	        => array("Yellowmap", " "),
 		"yellowmap.de"			       => array("Yellowmap", " "),
 		
