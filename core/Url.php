@@ -150,7 +150,6 @@ class Piwik_Url
 	static function getArrayFromCurrentQueryString()
 	{	
 		$queryString = Piwik_Url::getCurrentQueryString();
-		$queryString = htmlspecialchars($queryString);
 		$urlValues = Piwik_Common::getArrayFromQueryString($queryString);
 		return $urlValues;
 	}
@@ -172,7 +171,12 @@ class Piwik_Url
 			$urlValues[$key] = $value;
 		}
 		
-		$query = http_build_query($urlValues, "", "&");
+		$query = '';
+		foreach($urlValues as $name => $value)
+		{
+			$query .= $name . "=" . $value . "&";
+		}
+		$query = substr($query, 0, -1);
 		
 		if(strlen($query) > 0)
 		{
