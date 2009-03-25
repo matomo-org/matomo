@@ -376,7 +376,7 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns a sanitized variable value from the $_REQUEST superglobal.
+	 * Returns a sanitized variable value from the $_GET and $_POST superglobal.
 	 * If the variable doesn't have a value or an empty value, returns the defaultValue if specified.
 	 * If the variable doesn't have neither a value nor a default value provided, an exception is raised.
 	 *
@@ -395,7 +395,7 @@ class Piwik_Common
 	{
 		if(is_null($requestArrayToUse))
 		{
-			$requestArrayToUse = $_REQUEST;
+			$requestArrayToUse = $_GET + $_POST;
 		}
 
 		$varDefault = self::sanitizeInputValues( $varDefault );

@@ -280,7 +280,6 @@ class Piwik_FrontController
 			for ($i=1; $i < $_SERVER['argc']; $i++)
 			{
 				parse_str($_SERVER['argv'][$i],$tmp);
-				$_REQUEST = array_merge($_REQUEST, $tmp);
 				$_GET = array_merge($_GET, $tmp);
 			}
 		}				
