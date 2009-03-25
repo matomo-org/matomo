@@ -47,12 +47,13 @@ class Piwik_API_Request
 	 * 
 	 * @param string GET request that defines the API call (must at least contain a "method" parameter) 
 	 *  Example: method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml
-	 * 	If a request is not provided, then we use the $_REQUEST superglobal and fetch
+	 * 	If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
 	 * 	the values directly from the HTTP GET query.
 	 */
 	function __construct($request = null)
 	{
-		$requestArray = $_REQUEST;
+		$defaultRequest = $_GET + $_POST;
+		$requestArray = $defaultRequest;
 		
 		if(!is_null($request))
 		{
@@ -67,7 +68,7 @@ class Piwik_API_Request
 				Zend_Registry::get('access')->reloadAccess();
 			}
 						
-			$requestArray = array_merge($_REQUEST, $requestArray);
+			$requestArray = $requestArray + $defaultRequest;
 		}
 		
 		foreach($requestArray as &$element)

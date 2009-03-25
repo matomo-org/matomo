@@ -1,7 +1,19 @@
-INSERT INTO `piwik_log_visit` (`idvisit`, `idsite`, `visitor_localtime`, `visitor_idcookie`, `visitor_returning`, `visit_first_action_time`, `visit_last_action_time`, `visit_server_date`, `visit_exit_idaction`, `visit_entry_idaction`, `visit_total_actions`, `visit_total_time`, `visit_goal_converted`, `referer_type`, `referer_name`, `referer_url`, `referer_keyword`, `config_md5config`, `config_os`, `config_browser_name`, `config_browser_version`, `config_resolution`, `config_pdf`, `config_flash`, `config_java`, `config_director`, `config_quicktime`, `config_realplayer`, `config_windowsmedia`, `config_cookie`, `location_ip`, `location_browser_lang`, `location_country`, `location_continent`, `location_provider`) VALUES
-(5, 1, '14:38:01', 'fb9af1315358d20049619db26b6f1ff9', 1, '2008-11-14 15:48:40', '2008-11-14 15:48:40', '2008-11-14', 2, 2, 1, 10, '', 2, 'Google', 'http://www.google.co.uk/search?hl=en&amp;q=%3Cscript%3Ealert(%27test%27);%3C/script%3E', '%3cscript%3ealert(%27test%27);%3c/script%3e', '231ea91c00491cb5e6484f00c274b037', 'WXP', 'FF', '3.0', '1440x900', 1, 1, 0, 0, 0, 0, 1, 1, 2130706433, 'en-gb,fr;q=0.8,ja;q=', 'uk', 'eur', 'Ip'),
-(15, 1, '18:03:29', 'fff3699b375db5e7cea33a58454cb8a0', 0, '2008-11-14 18:04:39', '2008-11-14 18:04:39', '2008-11-14', 2, 2, 1, 10, '', 3, 'htmlentities', 'http://example.com/&quot;&lt;script&gt;alert(''test'');&lt;/script&gt;', '', '00b29dee0697cb1eeb1931d04813f5f1', 'WXP', 'FF', '3.0', '1440x900', 1, 1, 1, 0, 0, 0, 1, 1, 2130706433, 'en-gb,fr;q=0.8,ja;q=', 'uk', 'eur', 'Ip'),
-(16, 1, '19:51:00', 'fb9af1315358d20049619db26b6f1ff9', 1, '2008-11-14 19:51:00', '2008-11-14 19:51:00', '2008-11-14', 5, 5, 1, 10, '', 3, 'example1.com', 'http://example.com/%22%3E%3Cscript%3Ealert(%27yo%27)%3C%2Fscript%3E', '', '00b29dee0697cb1eeb1931d04813f5f1', 'WXP', 'FF', '3.0', '1440x900', 1, 1, 1, 0, 0, 0, 1, 1, 2130706433, 'en-gb,fr;q=0.8,ja;q=', 'uk', 'eur', 'Ip'),
-(17, 1, '10:25:48', 'fb9af1315358d20049619db26b6f1ff9', 1, '2008-11-14 10:25:48', '2008-11-14 10:25:48', '2008-11-14', 5, 5, 1, 10, '', 3, 'urlencode', 'http://example3.com/test%3cscript%3ealert(%27test%27);%3c/script%3e', '', '00b29dee0697cb1eeb1931d04813f5f1', 'WXP', 'FF', '3.0', '1440x900', 1, 1, 1, 0, 0, 0, 1, 1, 2130706433, 'en-gb,fr;q=0.8,ja;q=', 'uk', 'eur', 'Ip'),
-(21, 1, '12:35:41', 'fb9af1315358d20049619db26b6f1ff9', 1, '2008-11-14 12:35:41', '2008-11-14 13:27:14', '2008-11-14', 5, 2, 26, 3093, '', 3, 'example2.com', 'http://example.com/&quot;&gt;&lt;script&gt;alert(''hi'')&lt;/script&gt;', '', '00b29dee0697cb1eeb1931d04813f5f1', 'WXP', 'FF', '3.0', '1440x900', 1, 1, 1, 0, 0, 0, 1, 1, 2130706433, 'en-gb,fr;q=0.8,ja;q=', 'uk', 'eur', 'Ip'),
-(53615, 1, '14:38:01', 'fb9af1315358d20049619db26b6f1ff9', 1, '2008-11-24 14:04:42', '2008-11-24 14:21:20', '2008-11-24', 2, 2, 3, 998, '', 3, 'localhost&lt;script&gt;alert(''test'')&lt;', 'http://localhost&lt;script&gt;alert(''test'')&lt;/script&gt;/test&lt;script&gt;alert(''test'')&lt;/script&gt;', '', '231ea91c00491cb5e6484f00c274b037', 'WXP', 'FF', '3.0', '1440x900', 1, 1, 0, 0, 0, 0, 1, 1, 2130706433, 'en-gb,fr;q=0.8,ja;q=', 'uk', 'eur', 'Ip');
+Manual regression test procedure for XSS referer
+================================================
+1. set in the config.ini.php
+[Tracker]
+visit_standard_length = 1
+enable_detect_unique_visitor_using_settings = false
+[Debug]
+always_archive_data = true
+
+2. go to /misc/testJavascriptTracker/ and fake the referer using, eg. RefControl options Firefox extension
+http://www.google.co.uk/search?hl=en&q=<script>alert('test');</script>
+http://example.com/&quot;&lt;script&gt;alert(''test'');&lt;/script&gt;
+http://example3.com/test>"'><script>alert('XSS')</script>
+http://example.com/"><script>alert('yo')</script>
+http://example.com/&quot;&gt;&lt;script&gt;alert(''hi'')&lt;/script&gt;
+localhost&lt;script&gt;alert(''test'')&lt;', 'http://localhost&lt;script&gt;alert(''test'')&lt;/script&gt;/test&lt;script&gt;alert(''test'')&lt;/script&gt;
+
+3. go to Piwik UI, and check that in referer everything looks as expected (no parse error, etc.)
+

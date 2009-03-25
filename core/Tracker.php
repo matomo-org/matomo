@@ -47,7 +47,7 @@ class Piwik_Tracker
 	
 	public function __construct() 
 	{
-		$this->request = $_REQUEST;
+		$this->request = $_GET + $_POST;
 	}
 
 	public function main()

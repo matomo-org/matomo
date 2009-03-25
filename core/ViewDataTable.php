@@ -566,9 +566,9 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected function getDefaultOrCurrent( $nameVar )
 	{
-		if(isset($_REQUEST[$nameVar]))
+		if(isset($_GET[$nameVar]))
 		{
-			return htmlspecialchars($_REQUEST[$nameVar]);
+			return htmlspecialchars($_GET[$nameVar]);
 		}
 		$default = $this->getDefault($nameVar);
 		return $default;
