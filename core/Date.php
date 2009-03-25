@@ -36,7 +36,7 @@ class Piwik_Date
 		if (!is_int($dateString)
 			&& ($dateString = strtotime($dateString)) === false) 
 		{
-			throw new Exception("The date '$dateString' is not correct. The date format is YYYY-MM-DD or you can also use magic keywords such as 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
+			throw new Exception("Date format must be: YYYY-MM-DD, or 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
 		}
 		return new Piwik_Date($dateString);
 	}
