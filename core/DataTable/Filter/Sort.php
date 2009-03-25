@@ -45,28 +45,25 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	
 	function sort($a, $b)
 	{
-		return 
-					(
-						(!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
-							&&  !isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
-						)
-						? 0 
-						: (
-							!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
-							? 1
-							:(
-							 	!isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
-								? -1
-								: $this->sign * ( 
-									$a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
-										< $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
-									? -1 
-									: 1
-								)
+		return 	(!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+						&&  !isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+					)
+					? 0 
+					: (
+						!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+						? 1
+						:(
+						 	!isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+							? -1
+							: $this->sign * ( 
+								$a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
+									< $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
+								? -1 
+								: 1
 							)
 						)
 					)
-				;
+			;
 	}
 	
 	function naturalSort($a, $b)
@@ -79,10 +76,20 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	
 	function sortString($a, $b)
 	{
-		return $this->sign * 
-				strcasecmp($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort], 
-					$b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
-			);
+		return !isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+				&& !isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] )
+				? 0
+				: (!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+					? 1
+					: (!isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] )
+						? -1
+						: $this->sign * 
+							strcasecmp($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort], 
+								$b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
+							)
+						)
+					)
+				;
 	}
 	
 	/**
@@ -117,8 +124,11 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 			return $column;
 		}
 		
-		return false;
+		// even though this column is not set properly in the table, 
+		// we select it for the sort, so that the table's internal state is set properly
+		return $this->columnToSort;
 	}
+	
 	protected function filter()
 	{
 		if($this->table instanceof Piwik_DataTable_Simple)
@@ -132,11 +142,6 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		}
 		$row = current($rows);
 		$this->columnToSort = $this->selectColumnToSort($row);
-		
-		if($this->columnToSort === false)
-		{
-			return;
-		}
 		
 		$value = $row->getColumn($this->columnToSort);
 		if( Piwik::isNumeric($value))

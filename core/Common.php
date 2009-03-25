@@ -156,19 +156,15 @@ class Piwik_Common
 	static function getPathAndQueryFromUrl($url)
 	{
 		$parsedUrl = parse_url( $url );
-
 		$result = '';
-
 		if(isset($parsedUrl['path']))
 		{
 			$result .= substr($parsedUrl['path'], 1);
 		}
-
 		if(isset($parsedUrl['query']))
 		{
 			$result .= '?'.$parsedUrl['query'];
 		}
-
 		return $result;
 	}
 	

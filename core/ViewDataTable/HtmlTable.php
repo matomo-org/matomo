@@ -124,6 +124,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
+		$view->defaultWhenColumnValueNotDefined = '-';
 		return $view;
 	}
 
@@ -231,24 +232,20 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 			// we show the columns in order specified in the setColumnsToDisplay
 			// each column has a string name; 
 			// this name will for example be used to specify the sorting column 
-			$columnsInDataTable = array_keys($phpArray[0]['columns']);
 			$columnsToDisplay = $this->columnsToDisplay;
 		
 			if(count($columnsToDisplay) == 0)
 			{
-				$columnsToDisplay = $columnsInDataTable;
+				$columnsToDisplay = array_keys($phpArray[0]['columns']);
 			}
 			
 			$columnsToDisplay = array_unique($columnsToDisplay);
 			foreach($columnsToDisplay as $columnToDisplay)
 			{
-				if(in_array($columnToDisplay, $columnsInDataTable))
-				{
-					$metadataColumnToDisplay[]	= array(
-										'name' => $columnToDisplay, 
-										'displayName' => $this->getColumnTranslation($columnToDisplay) 
-									);
-				}
+				$metadataColumnToDisplay[]	= array(
+									'name' => $columnToDisplay, 
+									'displayName' => $this->getColumnTranslation($columnToDisplay) 
+								);
 			}
 		}
 		return $metadataColumnToDisplay	;

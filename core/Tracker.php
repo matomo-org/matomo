@@ -45,7 +45,10 @@ class Piwik_Tracker
 	const COOKIE_INDEX_REFERER_KEYWORD			= 10;
 	const COOKIE_INDEX_VISITOR_RETURNING		= 11;
 	
-	public function __construct() {}
+	public function __construct() 
+	{
+		$this->request = $_REQUEST;
+	}
 
 	public function main()
 	{
@@ -57,11 +60,11 @@ class Piwik_Tracker
 				self::connectDatabase();
 				
 				$visit = $this->getNewVisitObject();
+				$visit->setRequest($this->request);
 				$visit->handle();
 				unset($visit);
 			} catch (PDOException $e) {
 				printDebug($e->getMessage());
-				$this->setState(self::STATE_LOGGING_DISABLE);
 			}
 		}
 		$this->end();
@@ -195,7 +198,6 @@ class Piwik_Tracker
 		{
 			throw new Exception("The Visit object set in the plugin must implement Piwik_Tracker_Visit_Interface");
 		}
-		
 		return $visit;
 	}
 	
@@ -260,11 +262,11 @@ class Piwik_Tracker
 	private function handleDownloadRedirect()
 	{
 		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
-		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string');
+		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string', $this->request);
 
 		if( !empty($urlDownload) )
 		{
-			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int') == 1)
+			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
 			}
@@ -275,11 +277,12 @@ class Piwik_Tracker
 	private function handleOutlinkRedirect()
 	{
 		$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
-		$urlOutlink = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string');
+		$urlOutlink = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string', $this->request);
 		
 		if( !empty($urlOutlink) )
 		{
-			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int') == 1)
+			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_redirect_var_name'];
+			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
 			}

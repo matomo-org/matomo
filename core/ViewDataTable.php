@@ -242,6 +242,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_goals'] = false;
 		$this->viewProperties['show_search'] = Piwik_Common::getRequestVar('show_search', true);
 		$this->viewProperties['show_table_all_columns'] = Piwik_Common::getRequestVar('show_table_all_columns', true);
+		$this->viewProperties['show_all_views_icons'] = Piwik_Common::getRequestVar('show_all_views_icons', true);
 		$this->viewProperties['show_exclude_low_population'] = Piwik_Common::getRequestVar('show_exclude_low_population', true);
 		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);;
 		$this->viewProperties['show_footer'] = Piwik_Common::getRequestVar('show_footer', true);
@@ -650,6 +651,15 @@ abstract class Piwik_ViewDataTable
 	public function disableShowAllColumns()
 	{
 		$this->viewProperties['show_table_all_columns'] = false;
+	}
+	
+	/**
+	 * Whether or not to show the tag cloud,  pie charts, bar chart icons
+	 * @return void
+	 */
+	public function disableShowAllViewsIcons()
+	{
+		$this->viewProperties['show_all_views_icons'] = false;
 	}
 	
 	/**

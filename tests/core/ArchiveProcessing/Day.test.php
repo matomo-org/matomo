@@ -245,58 +245,6 @@ class Test_Piwik_ArchiveProcessing_Day extends UnitTestCase
 		$r1->setTable($table);
 		$r2 = new Piwik_DataTable_Renderer_Console();
 		$r2->setTable($tableGenerated);
-//		echo "r1=".$r1;
-//		echo "r2=".$r2;
-		
 		$this->assertTrue(Piwik_DataTable::isEqual($table,$tableGenerated));
 	}
-	
-	
-	/*
-	public function test_getActionCategoryFromName_normal()
-	{
-		$name = 'DGgieqho  gea ga ae gae / 3145245 / geq geqa ga eag ae';
-		
-		$expected = array(
-				'DGgieqho  gea ga ae gae',
-				'3145245',
-				'geq geqa ga eag ae'
-				);
-		Piwik_ArchiveProcessing_Day::setCategoryDelimiter('/');
-		$this->assertEqual( Piwik_ArchiveProcessing_Day::getActionCategoryFromName($name),
-							$expected
-					);
-	}
-	
-	public function test_getActionCategoryFromName_emptyCat()
-	{
-		$name = '// 	/	/ /DGgieqho  gea ga ae gae / 314//5245 / geq geqa ga eag ae/    ';
-		
-		$expected = array(
-				'DGgieqho  gea ga ae gae',
-				'314',
-				'5245',
-				'geq geqa ga eag ae'
-				);
-		Piwik_ArchiveProcessing_Day::setCategoryDelimiter('/');
-		$this->assertEqual( Piwik_ArchiveProcessing_Day::getActionCategoryFromName($name),
-							$expected
-					);
-	}
-	public function test_getActionCategoryFromName_strangeChar()
-	{
-		$name = '// 	/	/ /       £$%^&*())(&*&%}{~@:>897864564DGgieqho  gea ga ae gae / 314//5245 / geq geqa ga eag ae/    ';
-		
-		$expected = array(
-				'£$%^&*())(&*&%}{~@:>897864564DGgieqho  gea ga ae gae',
-				'314',
-				'5245',
-				'geq geqa ga eag ae'
-				);
-		Piwik_ArchiveProcessing_Day::setCategoryDelimiter('/');
-		$this->assertEqual( Piwik_ArchiveProcessing_Day::getActionCategoryFromName($name),
-							$expected
-					);
-	}*/
-	
 }

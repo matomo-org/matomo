@@ -129,32 +129,6 @@ visit_standard_length       = 1800
 ; visitors that stay on the website and view only one page will be considered staying 10 seconds
 default_time_one_page_visit = 10
 
-; variable name used to specify a download link
-; Example: '/piwik.php?idsite=1&download=http://piwik.org/piwik.zip' will redirect to 'http://piwik.org/piwik.zip'
-download_url_var_name 		= download
-
-; variable name used to specify a link to an external website
-; Example: '/piwik.php?idsite=1&link=http://piwik.org/' will redirect to 'http://piwik.org/'
-outlink_url_var_name		= link
-
-; variable that contains the name of the download or the outlink to redirect to
-; Example: '/piwik.php?idsite=1&download=http://piwik.org/piwik.zip&name=Piwik last version'
-download_outlink_name_var   = name
-
-; variable name to track any campaign, for example CPC campaign
-; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referer named 'Adwords-CPC'
-campaign_var_name			= piwik_campaign
-
-; variable name to track any campaign keyword
-; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' then it will be counted as a campaign referer named 'Adwords-CPC' with the keyword 'My killer keyword'
-campaign_keyword_var_name	= piwik_kwd
-
-; name of the cookie used to store the visitor information
-cookie_name	= piwik_visitor
-
-; by default, the Piwik tracking cookie expires in 2 years
-cookie_expire = 63072000
-
 ; if set to false, any goal conversion will be credited to the last more recent non empty referer. 
 ; when set to true, the first ever referer used to reach the website will be used
 use_first_referer_to_determine_goal_referer = false
@@ -169,6 +143,39 @@ enable_detect_unique_visitor_using_settings = true
 ; origin when the preferred language tag omits region information.
 ; The mapping is defined in core/DataFiles/LanguageToCountry.php,
 enable_language_to_country_guess = true
+
+; name of the cookie used to store the visitor information
+cookie_name	= piwik_visitor
+
+; by default, the Piwik tracking cookie expires in 2 years
+cookie_expire = 63072000
+
+; variable name to track any campaign, for example CPC campaign
+; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referer named 'Adwords-CPC'
+campaign_var_name			= piwik_campaign
+
+; variable name to track any campaign keyword
+; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' then it will be counted as a campaign referer named 'Adwords-CPC' with the keyword 'My killer keyword'
+campaign_keyword_var_name	= piwik_kwd
+
+; variable name used to specify a download link
+; Example: '/piwik.php?idsite=1&download=http://piwik.org/piwik.zip' will redirect to 'http://piwik.org/piwik.zip'
+download_url_var_name 		= download
+
+; variable name used to specify a link to an external website
+; Example: '/piwik.php?idsite=1&link=http://piwik.org/' will redirect to 'http://piwik.org/'
+outlink_url_var_name		= link
+
+; variable name used to specify that the user should be redirected to the clicked linked, or the downloaded file
+; eg. http://yourwebsite.org/piwik/piwik.php?idsite=1&link=http://example.org&redirect=1
+;     will count the outlink in piwik and redirect the user to http://example.org
+; eg. http://yourwebsite.org/piwik/piwik.php?idsite=1&download=http://yourwebsite.org/download.pdf&redirect=1
+;     will count the download in piwik and redirect the user to http://yourwebsite.org/download.pdf
+; NOTE: it is recommended to rely on the automatic outlink and download tracking (more information on http://piwik.org/docs/javascript-tracking/). 
+;       rather than adding a depending on Piwik for your website to function properly. 
+;       However this feature is useful to some users as it gives a simple and reliable way of counting clicks, that you can then query using the Piwik API.
+outlink_redirect_var_name	= redirect
+download_redirect_var_name	= redirect
 
 [log]
 

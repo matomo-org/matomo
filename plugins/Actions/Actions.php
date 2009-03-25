@@ -44,12 +44,7 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	public function __construct()
 	{
-		$this->setCategoryDelimiter( Zend_Registry::get('config')->General->action_category_delimiter);
-	}
-
-	public function setCategoryDelimiter($delimiter)
-	{
-		self::$actionCategoryDelimiter = $delimiter;
+		self::$actionCategoryDelimiter =  Zend_Registry::get('config')->General->action_category_delimiter;
 	}
 	
 	function addWidgets()
@@ -123,7 +118,7 @@ class Piwik_Actions extends Piwik_Plugin
 						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
 							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 USING (idaction)
 					WHERE visit_server_date = ?
-					AND idsite = ?
+						AND idsite = ?
 					GROUP BY t3.idaction
 					ORDER BY nb_hits DESC";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
@@ -135,7 +130,7 @@ class Piwik_Actions extends Piwik_Plugin
 		 */
 		$query = "SELECT 	name,
 							type,
-							count(distinct visitor_idcookie) as entry_nb_unique_visitor, 
+							count(distinct visitor_idcookie) as entry_nb_uniq_visitors, 
 							count(*) as entry_nb_visits,
 							sum(visit_total_actions) as entry_nb_actions,
 							sum(visit_total_time) as entry_sum_visit_length,							
@@ -143,7 +138,7 @@ class Piwik_Actions extends Piwik_Plugin
 					FROM ".$archiveProcessing->logTable." 
 						JOIN ".$archiveProcessing->logActionTable." ON (visit_entry_idaction = idaction)
 					WHERE visit_server_date = ?
-					AND idsite = ?
+						AND idsite = ?
 					GROUP BY visit_entry_idaction
 					";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
@@ -155,10 +150,9 @@ class Piwik_Actions extends Piwik_Plugin
 		 */
 		$query = "SELECT 	name,
 							type,
-							count(distinct visitor_idcookie) as exit_nb_unique_visitor,
+							count(distinct visitor_idcookie) as exit_nb_uniq_visitors,
 							count(*) as exit_nb_visits,
 							sum(case visit_total_actions when 1 then 1 else 0 end) as exit_bounce_count
-							
 				 	FROM ".$archiveProcessing->logTable." 
 						JOIN ".$archiveProcessing->logActionTable." ON (visit_exit_idaction = idaction)
 				 	WHERE visit_server_date = ?
@@ -207,84 +201,59 @@ class Piwik_Actions extends Piwik_Plugin
 		unset($this->actionsTablesByType);
 	}
 	
-	static public function splitUrl($url)
+	static public function getHostAndPageNameFromUrl($url)
 	{
 		$matches = $split_arr = array();
-		$n = preg_match("#://[^/]+(/)#",$url, $matches, PREG_OFFSET_CAPTURE);
-		if( $n )
+		if(preg_match("#://[^/]+(/)#",$url, $matches, PREG_OFFSET_CAPTURE))
 		{
 			$host = substr($url, 0, $matches[1][1]);
-			$split_arr = array($host, $url);
+			return array($host, substr($url,strlen($host)));
 		}
-		else
-		{
-			$split_arr = array($url);
-		}	
-		return $split_arr;
+		return array($url, "/");
 	}
 	
-	static public function getActionCategoryFromName($name)
+	static public function getActionExplodedNames($name, $type)
 	{
-		$isUrl = false; 
-		// case the name is an URL we dont clean the name the same way
-		if(Piwik_Common::isLookLikeUrl($name)
-			|| preg_match('#^mailto:#',$name))
+		if($type == Piwik_Tracker_Action::TYPE_DOWNLOAD
+			|| $type == Piwik_Tracker_Action::TYPE_OUTLINK)
 		{
-			$split = self::splitUrl($name);
-			$isUrl = true;
+			return self::getHostAndPageNameFromUrl($name);
 		}
-		else
+		if(empty(self::$actionCategoryDelimiter))
 		{
-			if(empty(self::$actionCategoryDelimiter))
-			{
-				$split = array($name);
-			}
-			else
-			{
-				$split = explode(self::$actionCategoryDelimiter, $name, self::$limitLevelSubCategory);
-			}
+			return array($name);
 		}
-		return array( $isUrl, $split);
+		return explode(	self::$actionCategoryDelimiter, 
+						$name, 
+						self::$limitLevelSubCategory);
 	}
 	
 	
 	protected function updateActionsTableWithRowQuery($query)
 	{
 		$rowsProcessed = 0;
-		
 		while( $row = $query->fetch() )
 		{
-			// split the actions by category
-			$returned = $this->getActionCategoryFromName($row['name']);
-			$aActions = $returned[1];
-			$isUrl = $returned[0];
-			
+			$actionExplodedNames = $this->getActionExplodedNames($row['name'], $row['type']);
+
 			// we work on the root table of the given TYPE (either ACTION or DOWNLOAD or OUTLINK etc.)
 			$currentTable =& $this->actionsTablesByType[$row['type']];
 			
 			// go to the level of the subcategory
-			$end = count($aActions)-1;
+			$end = count($actionExplodedNames)-1;
 			for($level = 0 ; $level < $end; $level++)
 			{
-				$actionCategory = $aActions[$level];
+				$actionCategory = $actionExplodedNames[$level];
 				$currentTable =& $currentTable[$actionCategory];
 			}
-			$actionName = $aActions[$end];
+			$actionName = $actionExplodedNames[$end];
 			
-			// create a new element in the array for the page
-			// we are careful to prefix the pageName with some value so that if a page has the same name
-			// as a category we don't overwrite or do other silly things
-			
-			// if the page name is not a URL we add a / before
-			if( !$isUrl )
+			// we are careful to prefix the pageName with some value 
+			// so that if a page has the same name as a category 
+			// we don't merge both entries 
+			if($row['type'] == Piwik_Tracker_Action::TYPE_ACTION)
 			{
-				// we know that the concatenation of a space and the name of the action
-				// will always be unique as all the action names have been trimmed before reaching this point
 				$actionName = '/' . $actionName;
-			}
-			else
-			{
-				$actionName = ' ' . $actionName;
 			}
 						
 			// currentTable is now the array element corresponding the the action
@@ -294,13 +263,10 @@ class Piwik_Actions extends Piwik_Plugin
 			// add the row to the matching sub category subtable
 			if(!($currentTable instanceof Piwik_DataTable_Row))
 			{
-				$currentTable = new Piwik_DataTable_Row(
-					array(	Piwik_DataTable_Row::COLUMNS => 
-							array(	'label' => (string)$actionName,
-									'full_url' => (string)$row['name'],
-								)
-						)
-					);
+				$currentTable = new Piwik_DataTable_Row(array(	
+							Piwik_DataTable_Row::COLUMNS => array('label' => (string)$actionName),
+							Piwik_DataTable_Row::METADATA => array('url' => (string)$row['name']),
+						));
 			}
 			
 			foreach($row as $name => $value)
@@ -308,9 +274,10 @@ class Piwik_Actions extends Piwik_Plugin
 				// we don't add this information as itnot pertinent
 				// name is already set as the label // and it has been cleaned from the categories and extracted from the initial string
 				// type is used to partition the different actions type in different table. Adding the info to the row would be a duplicate. 
-				if($name != 'name' && $name != 'type')
+				if($name != 'name' 
+					&& $name != 'type')
 				{
-					// in some very rare case, we actually have twice the same action name with 2 different idaction
+					// in some edge cases, we have twice the same action name with 2 different idaction
 					// this happens when 2 visitors visit the same new page at the same time, there is a SELECT and an INSERT for each new page, 
 					// and in between the two the other visitor comes. 
 					// here we handle the case where there is already a row for this action name, if this is the case we add the value

@@ -39,11 +39,6 @@ class Piwik_Referers extends Piwik_Plugin
 		return $hooks;
 	}
 
-	public function setCategoryDelimiter($delimiter)
-	{
-		self::$actionCategoryDelimiter = $delimiter;
-	}
-	
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'Referers', 'getKeywords', Piwik_Translate('Referers_WidgetKeywords'));

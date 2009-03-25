@@ -16,9 +16,19 @@
  * @package Piwik_Tracker
  */
 interface Piwik_Tracker_Action_Interface {
-	public function getIdAction();
-	public function record( $idVisit, $idRefererAction, $timeSpentRefererAction );
+	const TYPE_ACTION   = 1;
+	const TYPE_OUTLINK  = 2;
+	const TYPE_DOWNLOAD = 3;
+	
+	public function setRequest($requestArray);
 	public function setIdSite( $idSite );
+	public function init();
+	public function getActionUrl();
+	public function getActionName();
+	public function getActionType();
+	public function record( $idVisit, $idRefererAction, $timeSpentRefererAction );
+	public function getIdAction();
+	public function getIdLinkVisitAction();
 }
 
 /**
@@ -45,38 +55,63 @@ interface Piwik_Tracker_Action_Interface {
  */
 class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 {
-	private $url;
+	private $request;
 	private $idSite;
 	private $idLinkVisitAction;
-	private $finalActionName;
-	private $actionType;
 	private $idAction = null;
-	
-	/**
-	 * 3 types of action, Standard action / Download / Outlink click
-	 */
-	const TYPE_ACTION   = 1;
-	const TYPE_OUTLINK  = 2;
-	const TYPE_DOWNLOAD = 3;
+
+	private $actionName;
+	private $actionType;
+	private $url;
 	
 	protected function getDefaultActionName()
 	{
 		return Piwik_Tracker_Config::getInstance()->Tracker['default_action_name'];
 	}
 	
+	public function setRequest($requestArray)
+	{
+		$this->request = $requestArray;
+	}
+	
 	/**
 	 * Returns URL of the page currently being tracked, or the file being downloaded, or the outlink being clicked
 	 * @return string
 	 */
-	public function getUrl()
+	public function getActionUrl()
 	{
-		return $this->url;
+		return $this->actionUrl;
 	}
-	
+	public function getActionName()
+	{
+		return $this->actionName;
+	}
 	public function getActionType()
 	{
 		return $this->actionType;
 	}
+	
+	protected function setActionName($name)
+	{
+		$this->actionName = $name;
+	}
+	protected function setActionType($type)
+	{
+		$this->actionType = $type;
+	}
+	protected function setActionUrl($url)
+	{
+		$this->actionUrl = $url;
+	}
+	
+	public function init()
+	{
+		$info = $this->extractUrlAndActionNameFromRequest();
+		$this->setActionName($info['name']);
+		$this->setActionType($info['type']);
+		$this->setActionUrl($info['url']);
+	}
+	
 	/**
 	 * Returns the idaction of the current action name.
 	 * This idaction is used in the visitor logging table to link the visit information 
@@ -90,10 +125,31 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 */
 	function getIdAction()
 	{
-		if(is_null($this->idAction))
+		if(!is_null($this->idAction))
 		{
-			$this->idAction = $this->loadActionId();
+			return $this->idAction;
 		}
+		$idAction = Piwik_Tracker::getDatabase()->fetch("/* SHARDING_ID_SITE = ".$this->idSite." */ 	SELECT idaction 
+							FROM ".Piwik_Common::prefixTable('log_action')
+						."  WHERE name = ? AND type = ?", 
+						array($this->getActionName(), $this->getActionType()) 
+					);
+		
+		// the action name has not been found, create it
+		if($idAction === false)
+		{
+			Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */
+							INSERT INTO ". Piwik_Common::prefixTable('log_action'). "( name, type ) 
+							VALUES (?,?)",
+						array($this->getActionName(),$this->getActionType())
+					);
+			$idAction = Piwik_Tracker::getDatabase()->lastInsertId();
+		}
+		else
+		{
+			$idAction = $idAction['idaction'];
+		}
+		$this->idAction = $idAction;
 		return $this->idAction;
 	}
 	
@@ -150,83 +206,55 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	
 	 /**
 	 * Generates the name of the action from the URL or the specified name.
-	 * Sets the name as $this->finalActionName
+	 * Sets the name as $this->actionName
 	 * 
 	 * @return void
 	 */
-	private function generateInfo()
+	protected function extractUrlAndActionNameFromRequest()
 	{
-		$actionName = '';
-		
+		// download?
 		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
-		$downloadUrl = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string');
-		
+		$downloadUrl = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string', $this->request);
 		if(!empty($downloadUrl))
 		{
-			$this->actionType = self::TYPE_DOWNLOAD;
+			$actionType = self::TYPE_DOWNLOAD;
 			$url = $downloadUrl;
-			$actionName = $url;
 		}
-		else
+		
+		// outlink?
+		if(empty($actionType))
 		{
 			$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
-			$outlinkUrl = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string');
+			$outlinkUrl = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string', $this->request);
 			if(!empty($outlinkUrl))
 			{
-				$this->actionType = self::TYPE_OUTLINK;
+				$actionType = self::TYPE_OUTLINK;
 				$url = $outlinkUrl;
-				//remove the last '/' character if it's present
-				if(substr($url,-1) == '/')
-				{
-					$url = substr($url,0,-1);
-				}
-				$nameVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_outlink_name_var'];
-				$actionName = Piwik_Common::getRequestVar( $nameVariableName, '', 'string');
-				if( empty($actionName) )
-				{
-					$actionName = $url;
-				}
-			}
-			else
-			{
-				$this->actionType = self::TYPE_ACTION;
-				$url = Piwik_Common::getRequestVar( 'url', '', 'string');
-				$actionName = Piwik_Common::getRequestVar( 'action_name', '', 'string');
 			}
 		}
-		$this->url = $url;
 		
-		// the ActionName wasn't specified
-		if( empty($actionName) )
+		// defaults to page view 
+		if(empty($actionType))
 		{
-			$actionName = trim(Piwik_Common::getPathAndQueryFromUrl($url));
+			$actionType = self::TYPE_ACTION;
+			$url = Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
+			$actionName = Piwik_Common::getRequestVar( 'action_name', '', 'string', $this->request);
+			if( empty($actionName) )
+			{
+				$cleanedUrl = str_replace(array("\n", "\r", "\t"), "", $url);
+				$actionName = Piwik_Common::getPathAndQueryFromUrl($cleanedUrl);
+				// in case the $actionName is empty or ending with a slash, 
+				// we append the defaultActionName: a/b/ becomes a/b/index 
+				if(empty($actionName)
+					|| substr($actionName, -1) == '/')
+				{
+					$actionName .= $this->getDefaultActionName();
+				}
+			}
 			
-			// in case the $actionName is ending with a slash, 
-			// which means that it is the index page of a category 
-			// we append the defaultActionName 
-			// toto/tata/ becomes toto/tata/index 
-			if(strlen($actionName) > 0 
-				&& $actionName[strlen($actionName)-1] == '/'
-			)
-			{
-				$actionName .= $this->getDefaultActionName();
-			}
-		}
-		
-		/*
-		 * Clean the action name
-		 */
-		 
-		// get the delimiter, by default '/'
-		$actionCategoryDelimiter = Piwik_Tracker_Config::getInstance()->General['action_category_delimiter'];
-		
-		// case the name is an URL we dont clean the name the same way
-		if(Piwik_Common::isLookLikeUrl($actionName))
-		{
-			$actionName = trim($actionName);
-		}
-		else
-		{
+			// get the delimiter, by default '/'
+			$actionCategoryDelimiter = Piwik_Tracker_Config::getInstance()->General['action_category_delimiter'];
+			
 			// create an array of the categories delimited by the delimiter
 			$split = explode($actionCategoryDelimiter, $actionName);
 			
@@ -240,51 +268,18 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			$actionName = implode($actionCategoryDelimiter, $split);
 		}
 		
-		// remove the extra bad characters if any (shouldn't be any at this point...)
-		$actionName = str_replace(array("\n", "\r"), '', $actionName);
-		
+		$url = trim($url);
+		$url = str_replace(array("\n", "\r"), "", $url);
 		if(empty($actionName))
 		{
-			$actionName = $this->getDefaultActionName();
+			$actionName = $url;
 		}
-		
-		$this->finalActionName = $actionName;
+
+		return array(
+			'name' => $actionName,
+			'type' => $actionType,
+			'url'  => $url,
+		);
 	}
-	
-	/**
-	 * Sets the attribute $idAction based on $finalActionName and $actionType.
-	 * 
-	 * @see getIdAction()
-	 */
-	private function loadActionId()
-	{
-		$this->generateInfo();
-		
-		$name = $this->finalActionName;
-		$type = $this->actionType;
-		
-		$idAction = Piwik_Tracker::getDatabase()->fetch("/* SHARDING_ID_SITE = ".$this->idSite." */ 	SELECT idaction 
-							FROM ".Piwik_Common::prefixTable('log_action')
-						."  WHERE name = ? AND type = ?", 
-						array($name, $type) 
-					);
-		
-		// the action name has not been found, create it
-		if($idAction === false)
-		{
-			Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */
-							INSERT INTO ". Piwik_Common::prefixTable('log_action'). "( name, type ) 
-							VALUES (?,?)",
-						array($name,$type)
-					);
-			$idAction = Piwik_Tracker::getDatabase()->lastInsertId();
-		}
-		else
-		{
-			$idAction = $idAction['idaction'];
-		}
-		return $idAction;
-	}
-	
 }
 
