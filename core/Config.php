@@ -144,12 +144,15 @@ class Piwik_Config
 					else
 					{
 						$value = htmlentities($value);
-						$configFile .= $name.' = "'.$value.'"'."\n";						
+						if(!is_numeric($value))
+						{
+							$value = "\"$value\"";
+						}
+						$configFile .= $name.' = '.$value."\n";						
 					}
 				}
 				$configFile .= "\n";
 			}
-
 			chdir($this->correctCwd);
 			file_put_contents($this->getDefaultUserConfigPath(), $configFile );
 		}
