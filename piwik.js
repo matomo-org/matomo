@@ -140,7 +140,7 @@ function _pk_init_tracker(_pk_site, _pk_pkurl)
 		_pk_download_extensions = piwik_download_extensions;
 
 	_pk_hosts_alias = ( typeof(piwik_hosts_alias) != "undefined" ? piwik_hosts_alias : new Array());
-	_pk_hosts_alias.push(window.location.hostname);
+	_pk_hosts_alias[_pk_hosts_alias.length] = window.location.hostname;
 
 	if( !_pk_install_tracker )
 		return;
@@ -229,7 +229,7 @@ function _pk_click(e)
 
 	var _pk_class = new RegExp('(?:^| )piwik_(download|link)(?: |$)');
 	var _pk_download = new RegExp('\\.(' + _pk_download_extensions + ')$', 'i');
-	var _pk_not_site_hostname = !_pk_is_site_hostname(source.hostname);
+	var _pk_not_site_hostname = !_pk_is_site_hostname(source.hostname.toLowerCase());
 	var _pk_link_match = _pk_class.exec( source.className);
 	var _pk_link_type = _pk_link_match ? _pk_link_match[1] : 0;
 
