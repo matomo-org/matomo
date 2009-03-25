@@ -166,7 +166,6 @@ abstract class Piwik_Controller
 		{
 			$period = $paramsToSet['period'];
 		}
-		
 		$last30Relative = new Piwik_Period_Range($period, $range );
 		
 		$last30Relative->setDefaultEndDate(Piwik_Date::factory($endDate));
@@ -240,23 +239,27 @@ abstract class Piwik_Controller
 	protected function setPeriodVariablesView($view)
 	{
 		$currentPeriod = Piwik_Common::getRequestVar('period');
-		$otherPeriodsAvailable = array('day', 'week', 'month', 'year');
-		$otherPeriodsNames = array(
+		$availablePeriods = array('day', 'week', 'month', 'year');
+		if(!in_array($currentPeriod,$availablePeriods))
+		{
+			throw new Exception("Period must be one of: ".implode(",",$availablePeriods));
+		}
+		$periodNames = array(
 			'day' => array('singular' => Piwik_Translate('CoreHome_PeriodDay'), 'plural' => Piwik_Translate('CoreHome_PeriodDays')),
 			'week' => array('singular' => Piwik_Translate('CoreHome_PeriodWeek'), 'plural' => Piwik_Translate('CoreHome_PeriodWeeks')),
 			'month' => array('singular' => Piwik_Translate('CoreHome_PeriodMonth'), 'plural' => Piwik_Translate('CoreHome_PeriodMonths')),
 			'year' => array('singular' => Piwik_Translate('CoreHome_PeriodYear'), 'plural' => Piwik_Translate('CoreHome_PeriodYears')),
 			);
 		
-		$found = array_search($currentPeriod,$otherPeriodsAvailable);
+		$found = array_search($currentPeriod,$availablePeriods);
 		if($found !== false)
 		{
-			unset($otherPeriodsAvailable[$found]);
+			unset($availablePeriods[$found]);
 		}
 		
 		$view->period = $currentPeriod;
-		$view->otherPeriods = $otherPeriodsAvailable;
-		$view->periodsNames = $otherPeriodsNames;
+		$view->otherPeriods = $availablePeriods;
+		$view->periodsNames = $periodNames;
 	}
 	
 	function redirectToIndex($moduleToRedirect, $actionToRedirect)
