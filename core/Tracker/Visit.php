@@ -11,6 +11,7 @@
 
 
 interface Piwik_Tracker_Visit_Interface {
+	function setRequest($requestArray);
 	function handle();
 }
 
@@ -38,6 +39,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected $userSettingsInformation = null;
 	protected $idsite;
 	protected $visitorKnown;
+	protected $request;
 	
 	// @see detect*() referer methods
 	protected $typeRefererAnalyzed;
@@ -49,12 +51,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	function __construct()
 	{
-		$idsite = Piwik_Common::getRequestVar('idsite', 0, 'int');
+		$idsite = Piwik_Common::getRequestVar('idsite', 0, 'int', $this->request);
 		if($idsite <= 0)
 		{
 			throw new Exception("The 'idsite' in the request is invalid.");
 		}
 		$this->idsite = $idsite;
+	}
+	function setRequest($requestArray)
+	{
+		$this->request = $requestArray;
 	}
 	
 	/**
@@ -84,10 +90,35 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			return;
 		}
 		
-		// current action
 		$action = $this->newAction();
+		$action->setIdSite($this->idsite);
+		$action->setRequest($this->request);
+		$action->init();
+		if($this->detectActionIsOutlinkOnAliasHost($action))
+		{
+			printDebug("The outlink's URL host is one  of the known host for this website. We don't record this click.");
+			return;
+		}
 		$actionId = $action->getIdAction();
 
+		if($GLOBALS['DEBUGPIWIK'])
+		{
+			switch($action->getActionType()) {
+				case Piwik_Tracker_Action::TYPE_ACTION:
+					$type = "normal page view";
+					break;
+				case Piwik_Tracker_Action::TYPE_DOWNLOAD:
+					$type = "download";
+					break;
+				case Piwik_Tracker_Action::TYPE_OUTLINK:
+					$type = "outlink";
+					break;
+			}
+			printDebug("Detected action <u>$type</u>, 
+						Action name: ". $action->getActionName() . ", 
+						Action URL = ". $action->getActionUrl() );
+		}
+				
 		// goal matched?
 		$goalManager = new Piwik_Tracker_GoalManager( $action );
 		$someGoalsConverted = false;
@@ -206,9 +237,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		printDebug("New Visit.");
 		
-		$localTime				= Piwik_Common::getRequestVar( 'h', $this->getCurrentDate("H"), 'numeric')
-							.':'. Piwik_Common::getRequestVar( 'm', $this->getCurrentDate("i"), 'numeric')
-							.':'. Piwik_Common::getRequestVar( 's', $this->getCurrentDate("s"), 'numeric');
+		$localTime				= Piwik_Common::getRequestVar( 'h', $this->getCurrentDate("H"), 'numeric', $this->request)
+							.':'. Piwik_Common::getRequestVar( 'm', $this->getCurrentDate("i"), 'numeric', $this->request)
+							.':'. Piwik_Common::getRequestVar( 's', $this->getCurrentDate("s"), 'numeric', $this->request);
 		$serverTime 	= $this->getCurrentTimestamp();	
 		$serverDate 	= $this->getCurrentDate();	
 		
@@ -473,14 +504,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		require_once "UserAgentParser/UserAgentParser.php";
 		
-		$plugin_Flash 			= Piwik_Common::getRequestVar( 'fla', 0, 'int');
-		$plugin_Director 		= Piwik_Common::getRequestVar( 'dir', 0, 'int');
-		$plugin_Quicktime		= Piwik_Common::getRequestVar( 'qt', 0, 'int');
-		$plugin_RealPlayer 		= Piwik_Common::getRequestVar( 'realp', 0, 'int');
-		$plugin_Pdf 			= Piwik_Common::getRequestVar( 'pdf', 0, 'int');
-		$plugin_WindowsMedia 	= Piwik_Common::getRequestVar( 'wma', 0, 'int');
-		$plugin_Java 			= Piwik_Common::getRequestVar( 'java', 0, 'int');
-		$plugin_Cookie 			= Piwik_Common::getRequestVar( 'cookie', 0, 'int');
+		$plugin_Flash 			= Piwik_Common::getRequestVar( 'fla', 0, 'int', $this->request);
+		$plugin_Director 		= Piwik_Common::getRequestVar( 'dir', 0, 'int', $this->request);
+		$plugin_Quicktime		= Piwik_Common::getRequestVar( 'qt', 0, 'int', $this->request);
+		$plugin_RealPlayer 		= Piwik_Common::getRequestVar( 'realp', 0, 'int', $this->request);
+		$plugin_Pdf 			= Piwik_Common::getRequestVar( 'pdf', 0, 'int', $this->request);
+		$plugin_WindowsMedia 	= Piwik_Common::getRequestVar( 'wma', 0, 'int', $this->request);
+		$plugin_Java 			= Piwik_Common::getRequestVar( 'java', 0, 'int', $this->request);
+		$plugin_Cookie 			= Piwik_Common::getRequestVar( 'cookie', 0, 'int', $this->request);
 		
 		$userAgent		= Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_USER_AGENT']);
 		$aBrowserInfo	= UserAgentParser::getBrowser($userAgent);
@@ -491,7 +522,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$os				= UserAgentParser::getOperatingSystem($userAgent);
 		$os				= $os === false ? 'UNK' : $os['id'];
 		
-		$resolution		= Piwik_Common::getRequestVar('res', 'unknown', 'string');
+		$resolution		= Piwik_Common::getRequestVar('res', 'unknown', 'string', $this->request);
 
 		$ip				= Piwik_Common::getIp();
 		$ip 			= ip2long($ip);
@@ -626,8 +657,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			throw new Exception("The Action object set in the plugin must implement the interface Piwik_Tracker_Action_Interface");
 		}
-		$action->setIdSite($this->idsite);
-		
 		return $action;
 	}
 	
@@ -665,8 +694,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$this->refererHost = '';
 		
 		// get the urls and parse them
-		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string');
-		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string');
+		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string', $this->request);
+		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
 
 		$this->refererUrl = $refererUrl;
 		$this->refererUrlParse = @parse_url($refererUrl);
@@ -752,6 +781,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				return true;
 			}
 		}
+		return false;
 	}
 	
 	
@@ -775,23 +805,51 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 					return true;
 				}
 			}
-			// is the referer host any of the registered URLs for this website?
-			$websiteData = Piwik_Common::getCacheWebsiteAttributes($this->idsite);
-			if(isset($websiteData['hosts']))
+			if($this->isHostKnownAliasHost($this->refererHost))
 			{
-				$canonicalHosts = array();
-				foreach($websiteData['hosts'] as $host) {
-					$canonicalHosts[] = str_replace('www.', '' , $host);
-				}
-				$canonicalRefererHost = str_replace('www.', '', $this->refererHost);
-				if(in_array($canonicalRefererHost, $canonicalHosts))
-				{
-					$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
-					return true;
-				}
+				$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
+				return true;
 			}
 		}
-	
+		return false;
+	}
+
+	/**
+	 * @param $action
+	 * @return bool true if the outlink the visitor clicked on points to one of the known hosts for this website
+	 */
+	protected function detectActionIsOutlinkOnAliasHost(Piwik_Tracker_Action_Interface $action)
+	{
+		if($action->getActionType() != Piwik_Tracker_Action_Interface::TYPE_OUTLINK)
+		{
+			return false;
+		}
+		$actionUrl = $action->getActionUrl();
+		$actionUrlParsed = @parse_url($actionUrl);
+		if(!isset($actionUrlParsed['host']))
+		{
+			return false;
+		}
+		return $this->isHostKnownAliasHost($actionUrlParsed['host']);
+	}
+
+	// is the referer host any of the registered URLs for this website?
+	protected function isHostKnownAliasHost($urlHost)
+	{
+		$websiteData = Piwik_Common::getCacheWebsiteAttributes($this->idsite);
+		if(isset($websiteData['hosts']))
+		{
+			$canonicalHosts = array();
+			foreach($websiteData['hosts'] as $host) {
+				$canonicalHosts[] = str_replace('www.', '' , $host);
+			}
+			$canonicalHost = str_replace('www.', '', $urlHost);
+			if(in_array($canonicalHost, $canonicalHosts))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

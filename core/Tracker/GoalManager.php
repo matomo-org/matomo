@@ -66,7 +66,7 @@ class Piwik_Tracker_GoalManager
 		{
 			return false;
 		}
-		$url = $this->action->getUrl();
+		$url = $this->action->getActionUrl();
 		$actionType = $this->action->getActionType();
 		$goals = $this->getGoalDefinitions($idSite);
 		foreach($goals as $goal)
@@ -143,7 +143,7 @@ class Piwik_Tracker_GoalManager
 			'idlink_va' 		=> $this->action->getIdLinkVisitAction(),
 			'location_country'  => $location_country,
 			'location_continent'=> $location_continent,
-			'url' 				=> $this->action->getUrl(),
+			'url' 				=> $this->action->getActionUrl(),
 			'visitor_returning' => $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_VISITOR_RETURNING ),
 		);
 

@@ -23,8 +23,7 @@
 <td>
 {if !$row.idsubdatatable && $column.name=='label' && isset($row.metadata.url)}<span id="urlLink">{$row.metadata.url}</span>{/if}
 {if $column.name=='label'}{logoHtml metadata=$row.metadata alt=$row.columns.label}{/if}
-{* sometimes all columns are not set in the datatable, we assume the value 0 *}
-{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}0{/if}
+{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}{$defaultWhenColumnValueNotDefined}{/if}
 </td>
 {/foreach}
 			</tr>

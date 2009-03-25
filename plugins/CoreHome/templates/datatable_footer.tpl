@@ -29,9 +29,11 @@
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="PHP" filter_limit="100">Php</a> | 
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="RSS" filter_limit="100" date="last10"><img border="0" src="{$piwikUrl}themes/default/images/feed.png"></a>
 				</span>
-				<a class="viewDataTable" format="cloud"><img width="16" height="16" src="{$piwikUrl}themes/default/images/tagcloud.png" title="{'General_TagCloud'|translate}" /></a>
-				<a class="viewDataTable" format="graphVerticalBar"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_bar.png" title="{'General_VBarGraph'|translate}" /></a>
-				<a class="viewDataTable" format="graphPie"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_pie.png" title="{'General_Piechart'|translate}" /></a>
+				{if $properties.show_all_views_icons}
+					<a class="viewDataTable" format="cloud"><img width="16" height="16" src="{$piwikUrl}themes/default/images/tagcloud.png" title="{'General_TagCloud'|translate}" /></a>
+					<a class="viewDataTable" format="graphVerticalBar"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_bar.png" title="{'General_VBarGraph'|translate}" /></a>
+					<a class="viewDataTable" format="graphPie"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_pie.png" title="{'General_Piechart'|translate}" /></a>
+				{/if}
 			</span>
 			<span id="dataTableFooterIconsShow" style="display:none;padding-left:4px;">
 				<img src="{$piwikUrl}plugins/CoreHome/templates/images/more.png" />

@@ -33,7 +33,6 @@ dataTable.prototype =
 	onClickSort: function(domElem)
 	{
 		var self = this;
-		
 		var newColumnToSort = $(domElem).attr('id');
 		// we lookup if the column to sort was already this one, if it is the case then we switch from desc <-> asc 
 		if(self.param.filter_sort_column == newColumnToSort)
@@ -738,6 +737,9 @@ actionDataTable.prototype =
 	buildAjaxRequest: dataTable.prototype.buildAjaxRequest,
 	handleLowPopulationLink: dataTable.prototype.handleLowPopulationLink,
 	handleSearchBox: dataTable.prototype.handleSearchBox,
+	handleExportBox: dataTable.prototype.handleExportBox,
+	handleSort: dataTable.prototype.handleSort,
+	onClickSort: dataTable.prototype.onClickSort,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
@@ -775,6 +777,8 @@ actionDataTable.prototype =
 		
 		self.applyCosmetics(domElem);
 		
+		self.handleExportBox(domElem);
+		self.handleSort(domElem);
 		if( self.workingDivId != undefined)
 		{
 			self.handleSearchBox(domElem, self.actionsDataTableLoaded );

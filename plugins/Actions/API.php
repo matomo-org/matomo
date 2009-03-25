@@ -59,36 +59,13 @@ class Piwik_Actions_API
 	public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('full_url', 'url', create_function('$url', 'return $url;')));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromActionsUrl'));
-		
 		return $dataTable;
 	}
 
 	public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('full_url', 'url', create_function('$url', 'return $url;')));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromActionsUrl'));
 		return $dataTable;
 	}
-}
-
-/**
- * returns /Y in http://X/Y
- *
- * @param string $url
- * @return string
- */
-function Piwik_getPathFromActionsUrl($url)
-{
-	$n = preg_match("#://[^/]+(/)#",$url, $matches, PREG_OFFSET_CAPTURE);
-	if($n)
-	{
-		$returned = substr($url, $matches[1][1]);
-		return $returned;
-	}
-	
-	return $url;
 }
 

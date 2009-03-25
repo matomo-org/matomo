@@ -119,7 +119,7 @@ table.dataTable td.labelodd {
 }
 
 table.dataTable td.label,table.subActionsDataTable td.label,table.actionsDataTable td.label
-	{
+{
 	border-top: 0;
 	border-left: 1px solid #C1DAD7;
 }

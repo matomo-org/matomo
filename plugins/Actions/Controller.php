@@ -3,102 +3,11 @@ require_once "ViewDataTable.php";
 
 class Piwik_Actions_Controller extends Piwik_Controller 
 {
-	function getDownloads($fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	$this->pluginName, 
-						__FUNCTION__,
-						'Actions.getDownloads',
-						'getDownloadsSubDataTable' );
-		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
-		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
-		$view->disableExcludeLowPopulation();
-		$view->setLimit( 15 );
-		$view->disableSort();
-		$view->disableShowAllColumns();
-		
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getDownloadsSubDataTable($fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	$this->pluginName, 
-						__FUNCTION__,
-						'Actions.getDownloads',
-						'getDownloadsSubDataTable');
-		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
-		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
-		$view->disableExcludeLowPopulation();
-		$view->disableSearchBox();
-		$view->setLimit( 15 );
-		$view->disableSort();
-		
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getActions($fetch = false)
-	{
-		$view = $this->getActionsView(	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getActions', 
-										'getActionsSubDataTable' );
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getActionsSubDataTable($fetch = false)
-	{
-		$view = $this->getActionsView( 	$this->pluginName, 
-										__FUNCTION__,
-										'Actions.getActions', 
-										'getActionsSubDataTable'  );
-		
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getOutlinks($fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	$this->pluginName, 
-						__FUNCTION__,
-						'Actions.getOutlinks',
-						'getOutlinksSubDataTable' );
-		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
-		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
-		$view->disableExcludeLowPopulation();
-		$view->setLimit( 15 );
-		$view->disableSort();
-		$view->disableShowAllColumns();
-		
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getOutlinksSubDataTable($fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init(	$this->pluginName, 
-						__FUNCTION__,
-						'Actions.getOutlinks',
-						'getOutlinksSubDataTable');
-		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
-		$view->setSortedColumn( 'nb_uniq_visitors','desc' );
-		$view->disableExcludeLowPopulation();
-		$view->disableSearchBox();
-		$view->setLimit( 15 );
-		$view->disableSort();
-		
-		return $this->renderView($view, $fetch);
-	}
-	
-	function index()
+	public function index()
 	{
 		$view = new Piwik_View('Actions/index.tpl');
 		
-		/* Actions / Downloads / Outlinks */
+		/* Actions, Downloads, Outlinks */
 		$view->dataTableActions = $this->getActions( true );
 		$view->dataTableDownloads = $this->getDownloads( true );
 		$view->dataTableOutlinks = $this->getOutlinks( true );
@@ -106,16 +15,80 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
-	protected function getActionsView($currentControllerName,
-						$currentMethod,
-						$methodToCall = 'Actions.getActions', 
-						$subMethod = 'getActionsSubDataTable')
+	public function getActions($fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory();
-		$view->init(  	$currentControllerName,
-						$currentMethod, 
-						$methodToCall, 
-						$subMethod );
+		$view->init(  	$this->pluginName, 
+						__FUNCTION__,
+						'Actions.getActions', 
+						'getActionsSubDataTable' );
+		$this->configureViewActions($view);
+		return $this->renderView($view, $fetch);
+	}
+	
+	public function getActionsSubDataTable($fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	$this->pluginName, 
+						__FUNCTION__,
+						'Actions.getActions', 
+						'getActionsSubDataTable'  );
+		$this->configureViewActions($view);
+		return $this->renderView($view, $fetch);
+	}
+	
+	public function getDownloads($fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	$this->pluginName, 
+						__FUNCTION__,
+						'Actions.getDownloads',
+						'getDownloadsSubDataTable' );
+		
+		$this->configureViewDownloads($view);
+		$view->disableShowAllColumns();
+		return $this->renderView($view, $fetch);
+	}
+	
+	public function getDownloadsSubDataTable($fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	$this->pluginName, 
+						__FUNCTION__,
+						'Actions.getDownloads',
+						'getDownloadsSubDataTable');
+		$this->configureViewDownloads($view);
+		$view->disableSearchBox();
+		return $this->renderView($view, $fetch);
+	}
+	
+	public function getOutlinks($fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(  	$this->pluginName, 
+						__FUNCTION__,
+						'Actions.getOutlinks',
+						'getOutlinksSubDataTable' );
+		$this->configureViewOutlinks($view);
+		$view->disableExcludeLowPopulation();
+		$view->disableShowAllColumns();
+		return $this->renderView($view, $fetch);
+	}
+	
+	public function getOutlinksSubDataTable($fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init(	$this->pluginName, 
+						__FUNCTION__,
+						'Actions.getOutlinks',
+						'getOutlinksSubDataTable');
+		$this->configureViewOutlinks($view);
+		$view->disableSearchBox();
+		return $this->renderView($view, $fetch);
+	}
+	
+	protected function configureViewActions($view)
+	{
 		$view->setTemplate('CoreHome/templates/datatable_actions.tpl');
 		
 		if(Piwik_Common::getRequestVar('idSubtable', -1) != -1)
@@ -130,9 +103,11 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		}
 		$view->disableSort();
 		$view->disableOffsetInformation();
-		$view->setLimit( 100 );
+		$view->disableShowAllViewsIcons();
+		$view->disableShowAllColumns();
 		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors','nb_hits') );
+		$view->setLimit( 100 );
+		$view->setColumnsToDisplay( array('label','nb_hits','nb_uniq_visitors') );
 		$view->setSortedColumn( 'nb_uniq_visitors', 'desc' );
 		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
 		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnUniquePageviews'));
@@ -160,6 +135,26 @@ class Piwik_Actions_Controller extends Piwik_Controller
 			$view->getView()->arrayDataTable = $phpArrayRecursive;
 		}
 		return $view;
+	}
+	
+	protected function configureViewDownloads($view)
+	{
+		$view->setColumnsToDisplay( array('label','nb_visits', 'nb_uniq_visitors') );
+		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnDownloads'));
+		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('Actions_ColumnUniqueDownloads'));
+		$view->setSortedColumn( 'nb_visits','desc' );
+		$view->disableExcludeLowPopulation();
+		$view->setLimit( 15 );
+	}
+	
+	protected function configureViewOutlinks($view)
+	{
+		$view->setColumnsToDisplay( array('label','nb_visits','nb_uniq_visitors') );
+		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnClicks'));
+		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('Actions_ColumnUniqueClicks'));
+		$view->setSortedColumn( 'nb_visits','desc' );
+		$view->disableExcludeLowPopulation();
+		$view->setLimit( 15 );
 	}
 	
 	protected function getArrayFromRecursiveDataTable( $dataTable, $depth = 0 )

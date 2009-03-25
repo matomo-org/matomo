@@ -331,7 +331,13 @@ class Piwik_DataTable_Row
 	{
 		foreach($rowToSum->getColumns() as $columnToSumName => $columnToSumValue)
 		{
-			if($columnToSumName != 'label')
+			//TODO this should not be hardcoded here.
+			if($columnToSumName != 'label'
+				&& $columnToSumName != 'nb_uniq_visitors'
+				&& $columnToSumName != 'entry_nb_uniq_visitors'
+				&& $columnToSumName != 'exit_nb_uniq_visitors'
+				
+				)
 			{
 				$thisColumnValue = $this->getColumn($columnToSumName);
 				$newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);

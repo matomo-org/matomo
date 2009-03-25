@@ -52,6 +52,8 @@ class Test_Piwik_Common extends UnitTestCase
 			'/\/\/\/\/\/\\\http://test.com////',
 			'jmleslangues.php',
 			'http://',
+			' http://',
+			'testhttp://test.com'
 		);
 		
 		foreach($notValid as $url)

@@ -20,8 +20,7 @@
 			<tr {if $row.idsubdatatable}class="rowToProcess subActionsDataTable" id="{$row.idsubdatatable}"{else} class="actionsDataTable rowToProcess"{/if}>
 				{foreach from=$dataTableColumns item=column}
 				<td>
-				{* sometimes all columns are not set in the datatable, we assume the value 0 *}
-				{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}0{/if}
+				{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}{$defaultWhenColumnValueNotDefined}{/if}
 				</td>
 				{/foreach}
 			</tr>
