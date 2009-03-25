@@ -141,25 +141,21 @@ class Piwik_Translate
 	}
 }
 
-function Piwik_Translate($index, $args = array())
+function Piwik_Translate($string, $args = array())
 {
 	if(!is_array($args))
 	{
 		$args = array($args);
 	}
-	if(isset($GLOBALS['Piwik_translations'][$index]))
+	if(isset($GLOBALS['Piwik_translations'][$string]))
 	{
-		$string = $GLOBALS['Piwik_translations'][$index];
-		if(count($args) == 0) 
-		{
-			return $string;
-		}
-		else
-		{
-			return vsprintf($string, $args);
-		}
+		$string = $GLOBALS['Piwik_translations'][$string];
 	}
-	throw new Exception("Translation string '$index' not available.");
+	if(count($args) == 0) 
+	{
+		return $string;
+	}
+	return vsprintf($string, $args);
 }
 
 
