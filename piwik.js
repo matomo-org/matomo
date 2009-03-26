@@ -227,19 +227,22 @@ function _pk_click(e)
 	if( typeof source.href == 'undefined' )
 		return true;
 
+	var sourceHostName = source.hostname.toLowerCase();
+	var sourceHref = source.href.replace(new RegExp(sourceHostName.replace('.', '\.'), 'i'), sourceHostName);
+
 	var _pk_class = new RegExp('(?:^| )piwik_(download|link)(?: |$)');
 	var _pk_download = new RegExp('\\.(' + _pk_download_extensions + ')$', 'i');
-	var _pk_not_site_hostname = !_pk_is_site_hostname(source.hostname.toLowerCase());
+	var _pk_not_site_hostname = !_pk_is_site_hostname(sourceHostName);
 	var _pk_link_match = _pk_class.exec( source.className);
 	var _pk_link_type = _pk_link_match ? _pk_link_match[1] : 0;
 
 	if (_pk_link_type == 'link')
 		_pk_not_site_hostname = 1;
 	else if (!_pk_link_type)
-		_pk_link_type = (_pk_download.test(source.href) ? 'download' : 'link');
+		_pk_link_type = (_pk_download.test(sourceHref) ? 'download' : 'link');
 
 	if( _pk_not_site_hostname || _pk_link_type == 'download' ) 
-		piwik_track(source.href, _pk_tracker_site, _pk_tracker_url, _pk_link_type);
+		piwik_track(sourceHref, _pk_tracker_site, _pk_tracker_url, _pk_link_type);
 
 	return true;
 }
