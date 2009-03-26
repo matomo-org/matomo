@@ -7,7 +7,7 @@
  * @version $Id$
  */
 
-$GLOBALS['DEBUGPIWIK'] = false;
+$GLOBALS['DEBUGPIWIK'] = false; 
 if(defined('PIWIK_ENABLE_TRACKING') && !PIWIK_ENABLE_TRACKING)
 {
 	return;
