@@ -2,14 +2,13 @@
 
 function Piwik_getFlagFromCode($code)
 {
-	$path = 'plugins/UserCountry/flags/%s.png';
-	$normalPath = sprintf($path, $code);
-	$absolutePath = PIWIK_INCLUDE_PATH . "/" . $normalPath;
-	if(!file_exists($absolutePath))
+	$path = PIWIK_INCLUDE_PATH . '/plugins/UserCountry/flags/%s.png';
+	$pathWithCode = sprintf($path, $code);
+	if(file_exists($pathWithCode))
 	{
-		return sprintf($path, 'xx');			
+		return $pathWithCode;
 	}
-	return $normalPath;
+	return sprintf($path, 'xx');			
 }
 
 function Piwik_ContinentTranslate($label)
@@ -18,7 +17,6 @@ function Piwik_ContinentTranslate($label)
 	{
 		return Piwik_Translate('General_Unknown');
 	}
-	
 	return Piwik_Translate('UserCountry_continent_'. $label);
 }
 

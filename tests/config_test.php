@@ -1,11 +1,11 @@
 <?php
-if(!defined("PATH_TEST_TO_ROOT")) 
+if(!defined("PIWIK_PATH_TEST_TO_ROOT")) 
 {
-	define('PATH_TEST_TO_ROOT', '..');
+	define('PIWIK_PATH_TEST_TO_ROOT', '..');
 }
 if(!defined('PIWIK_INCLUDE_PATH')) 
 {
-	define('PIWIK_INCLUDE_PATH', PATH_TEST_TO_ROOT);
+	define('PIWIK_INCLUDE_PATH', PIWIK_PATH_TEST_TO_ROOT);
 }
 
 set_include_path(PIWIK_INCLUDE_PATH 
@@ -51,6 +51,6 @@ assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);
 assert_options(ASSERT_BAIL, 	0);
 
-define('CONFIG_TEST_INCLUDED', true);
+define('PIWIK_CONFIG_TEST_INCLUDED', true);
 
 

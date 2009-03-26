@@ -1,10 +1,10 @@
 <?php
-if(!defined("PATH_TEST_TO_ROOT")) {
-	define('PATH_TEST_TO_ROOT', getcwd().'/../..');
+if(!defined("PIWIK_PATH_TEST_TO_ROOT")) {
+	define('PIWIK_PATH_TEST_TO_ROOT', getcwd().'/../..');
 }
-if(!defined('CONFIG_TEST_INCLUDED'))
+if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 {
-	require_once PATH_TEST_TO_ROOT . "/tests/config_test.php";
+	require_once PIWIK_PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
 
 //Zend_Loader::loadClass('Piwik_');
@@ -13,7 +13,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 {
     public function test_checkThatConfigurationValuesAreProductionValues()
     {
-    	$this->globalConfig = parse_ini_file(PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
+    	$this->globalConfig = parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
 //    	var_dump($globalConfig);
     	$this->checkEqual(array('Debug' => 'always_archive_data'), '0');
     	$this->checkEqual(array('Debug' => 'enable_sql_profiler'), '0');
@@ -69,8 +69,8 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 	function test_piwikTrackerDebugIsOff()
 	{
 		$this->assertTrue(!isset($GLOBALS['DEBUGPIWIK']));
-		define('ENABLE_PIWIK_TRACKER', false);
-		include PATH_TEST_TO_ROOT . "/piwik.php";
+		define('PIWIK_ENABLE_TRACKING', false);
+		include PIWIK_PATH_TEST_TO_ROOT . "/piwik.php";
 		$this->assertTrue($GLOBALS['DEBUGPIWIK'] === false);
 	}
 }

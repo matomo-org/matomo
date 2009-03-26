@@ -1,7 +1,7 @@
 <?php
 define('PIWIK_INCLUDE_PATH', '..');
-define('ENABLE_DISPATCH', false);
-define('ENABLE_ERROR_HANDLER', false);
+define('PIWIK_ENABLE_DISPATCH', false);
+define('PIWIK_ENABLE_ERROR_HANDLER', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 

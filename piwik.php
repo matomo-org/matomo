@@ -8,7 +8,7 @@
  */
 
 $GLOBALS['DEBUGPIWIK'] = false;
-if(defined('ENABLE_PIWIK_TRACKER') && !ENABLE_PIWIK_TRACKER)
+if(defined('PIWIK_ENABLE_TRACKING') && !PIWIK_ENABLE_TRACKING)
 {
 	return;
 }

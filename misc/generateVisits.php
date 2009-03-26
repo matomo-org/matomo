@@ -23,7 +23,7 @@ $GLOBALS['DEBUGPIWIK'] = false;
 ob_start();
 
 // first check that user has privileges to create some random data in the DB -> he must be super user
-define('ENABLE_DISPATCH', false);
+define('PIWIK_ENABLE_DISPATCH', false);
 require_once "index.php";
 require_once "FrontController.php";
 

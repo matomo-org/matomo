@@ -1,10 +1,10 @@
 <?php
-if(!defined("PATH_TEST_TO_ROOT")) {
-	define('PATH_TEST_TO_ROOT', getcwd().'/../../..');
+if(!defined("PIWIK_PATH_TEST_TO_ROOT")) {
+	define('PIWIK_PATH_TEST_TO_ROOT', getcwd().'/../../..');
 }
-if(!defined('CONFIG_TEST_INCLUDED'))
+if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 {
-	require_once PATH_TEST_TO_ROOT . "/tests/config_test.php";
+	require_once PIWIK_PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
 
 require_once 'Tracker/Config.php';
@@ -12,8 +12,8 @@ class Test_Piwik_TrackerConfig extends UnitTestCase
 {
 	public function testUserConfigOverwritesSectionGlobalConfigValue()
     {
-    	$userFile = PATH_TEST_TO_ROOT . '/tests/resources/Config/config.ini.php';
-    	$globalFile = PATH_TEST_TO_ROOT . '/tests/resources/Config/global.ini.php';
+    	$userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Config/config.ini.php';
+    	$globalFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Config/global.ini.php';
     	
     	$config = Piwik_Tracker_Config::getInstance();
     	$config->init($userFile, $globalFile);

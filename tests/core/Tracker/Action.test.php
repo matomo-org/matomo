@@ -1,10 +1,10 @@
 <?php
-if(!defined("PATH_TEST_TO_ROOT")) {
-	define('PATH_TEST_TO_ROOT', getcwd().'/../../..');
+if(!defined("PIWIK_PATH_TEST_TO_ROOT")) {
+	define('PIWIK_PATH_TEST_TO_ROOT', getcwd().'/../../..');
 }
-if(!defined('CONFIG_TEST_INCLUDED'))
+if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 {
-	require_once PATH_TEST_TO_ROOT . "/tests/config_test.php";
+	require_once PIWIK_PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
 
 require_once 'Tracker/Action.php';
@@ -13,7 +13,7 @@ class Test_Piwik_TrackerAction extends UnitTestCase
 {
 	function test_extractUrlAndActionNameFromRequest()
 	{
-    	$userFile = PATH_TEST_TO_ROOT . '/tests/resources/Tracker/Action.config.ini.php';
+    	$userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Tracker/Action.config.ini.php';
     	$config = Piwik_Tracker_Config::getInstance();
     	$config->init($userFile);
     	
