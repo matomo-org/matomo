@@ -779,7 +779,9 @@ class Piwik_DataTable
 	 * 					);
 	 * 
 	 */
-	public function getSerialized( $maximumRowsInDataTable = null, $maximumRowsInSubDataTable = null )
+	public function getSerialized(	$maximumRowsInDataTable = null, 
+									$maximumRowsInSubDataTable = null,
+									$columnToSortByBeforeTruncation = null )
 	{
 		static $depth = 0;
 		
@@ -789,7 +791,7 @@ class Piwik_DataTable
 		}
 		if( !is_null($maximumRowsInDataTable) )
 		{
-			$filter = new Piwik_DataTable_Filter_AddSummaryRow($this, $maximumRowsInDataTable - 1);
+			$filter = new Piwik_DataTable_Filter_AddSummaryRow($this, $maximumRowsInDataTable - 1, Piwik_DataTable::LABEL_SUMMARY_ROW, $columnToSortByBeforeTruncation);
 		}
 		
 		// For each row, get the serialized row
@@ -802,7 +804,7 @@ class Piwik_DataTable
 			{
 				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
 				$depth++;
-				$aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized( $maximumRowsInSubDataTable, $maximumRowsInSubDataTable );
+				$aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized( $maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation );
 				$depth--;
 			}
 		}

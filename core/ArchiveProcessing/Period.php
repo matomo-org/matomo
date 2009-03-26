@@ -105,6 +105,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 													$name, 
 													$value
 												);
+			$this->insertRecord($records[$name]);
 		}
 		
 		// if asked for only one field to sum
@@ -140,7 +141,10 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 *  				nameTable2 => number of rows,
 	 * 				)
 	 */
-	public function archiveDataTable( $aRecordName, $maximumRowsInDataTableLevelZero = null, $maximumRowsInSubDataTable = null )
+	public function archiveDataTable(	$aRecordName, 
+										$maximumRowsInDataTableLevelZero = null, 
+										$maximumRowsInSubDataTable = null,
+										$columnToSortByBeforeTruncation = null )
 	{
 		if(!is_array($aRecordName))
 		{
@@ -155,7 +159,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$nameToCount[$recordName]['level0'] =  $table->getRowsCount();
 			$nameToCount[$recordName]['recursive'] =  $table->getRowsCountRecursive();
 			
-			$record = new Piwik_ArchiveProcessing_RecordArray($recordName, $table->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable ));
+			$blob = $table->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation );
+			$this->insertBlobRecord($recordName, $blob);
 		}
 		return $nameToCount;
 	}

@@ -17,6 +17,9 @@ class Piwik_Actions extends Piwik_Plugin
 {
 	static protected $actionCategoryDelimiter = null;
 	static protected $limitLevelSubCategory = 10;
+	protected $maximumRowsInDataTableLevelZero;
+	protected $maximumRowsInSubDataTable;
+	protected $columnToSortByBeforeTruncation;
 	
 	public function getInformation()
 	{
@@ -41,10 +44,12 @@ class Piwik_Actions extends Piwik_Plugin
 		);
 		return $hooks;
 	}
-	
 	public function __construct()
 	{
 		self::$actionCategoryDelimiter =  Zend_Registry::get('config')->General->action_category_delimiter;
+		$this->columnToSortByBeforeTruncation = 'nb_visits';
+		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
+		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
 	}
 	
 	function addWidgets()
@@ -64,16 +69,12 @@ class Piwik_Actions extends Piwik_Plugin
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
-		
 		$dataTableToSum = array( 
 				'Actions_actions',
 				'Actions_downloads',
 				'Actions_outlink',
 		);
-		
-		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
-		$maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
-		$archiveProcessing->archiveDataTable($dataTableToSum, $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
+		$archiveProcessing->archiveDataTable($dataTableToSum, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 	}
 	
 	/**
@@ -183,19 +184,16 @@ class Piwik_Actions extends Piwik_Plugin
 
 	protected function archiveDayRecordInDatabase($archiveProcessing)
 	{
-		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
-		$maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
-
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION]);
-		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
+		$s = $dataTable->getSerialized( $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_actions', $s);
 
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD]);
-		$s = $dataTable->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
+		$s = $dataTable->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_downloads', $s);
 		
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_OUTLINK]);
-		$s = $dataTable->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable );
+		$s = $dataTable->getSerialized( $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_outlink', $s);
 		
 		unset($this->actionsTablesByType);

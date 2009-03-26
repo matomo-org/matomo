@@ -23,6 +23,10 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	public function __construct( $table, $columnToSort, $order = 'desc', $naturalSort = false )
 	{
 		parent::__construct($table);
+		if(empty($columnToSort))
+		{
+			return;
+		}
 		$this->columnToSort = $columnToSort;
 		$this->naturalSort = $naturalSort;
 		$this->setOrder($order);
