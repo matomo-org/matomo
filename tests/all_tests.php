@@ -1,6 +1,6 @@
 <?php
 flush();
-define('PATH_TEST_TO_ROOT', '..');
+define('PIWIK_PATH_TEST_TO_ROOT', '..');
 require_once"config_test.php";
 Piwik::createConfigObject();
 $databaseTestName = Zend_Registry::get('config')->database_tests->dbname;
@@ -16,6 +16,32 @@ You may need to create this database ; you can edit the settings for the unit te
 <hr>
 
 <?php
+require_once(SIMPLE_TEST . 'unit_tester.php');
+require_once(SIMPLE_TEST . 'reporter.php');
+
+$test = &new GroupTest('Piwik - running all tests');
+$toInclude = array();
+
+foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core/', '*.php') as $file)
+{
+	$toInclude[] = $file;
+}
+foreach($toInclude as $file)
+{
+	if(substr_count($file, 'test.php') == 0
+//		|| !ereg('UserCountry', $file) // Debug: only run this one test in the context of all_tests.php
+		)
+	{
+		print("The file '$file' is not valid: doesn't end with '.test.php' extension. \n<br>");
+		continue;
+	}
+	$test->addFile($file);
+}
+
+$timer = new Piwik_Timer;
+$test->run(new HtmlReporter());
+echo $timer."<br>";
+
 /*
 assertTrue($x)					Fail if $x is false
 assertFalse($x)					Fail if $x is true
@@ -36,50 +62,14 @@ assertNoPattern($p, $x)			Fail if the regex $p matches $x
 expectError($x)					Swallows any upcoming matching error
 assert($e)						Fail on failed expectation object $e
  */
-require_once(SIMPLE_TEST . 'unit_tester.php');
-require_once(SIMPLE_TEST . 'reporter.php');
-
-$test = &new GroupTest('Piwik - running all tests');
-
-$toInclude = array();
 function globr($sDir, $sPattern, $nFlags = NULL)
 {
 	$sDir = escapeshellcmd($sDir);
-	// Get the list of all matching files currently in the directory.
 	$aFiles = glob("$sDir/$sPattern", $nFlags);
-	
-	// Then get a list of all directories in this directory, and run ourselves on the resulting array.
-	// This is the recursion step, which will not execute if there are no directories.
 	foreach (glob("$sDir/*", GLOB_ONLYDIR) as $sSubDir)
 	{
 		$aSubFiles = globr($sSubDir, $sPattern, $nFlags);
 		$aFiles = array_merge($aFiles, $aSubFiles);
 	}
-	// The array we return contains the files we found, and the
-	// files all of our children found.
 	return $aFiles;
 }
-
-foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core/', '*.php') as $file)
-{
-	$toInclude[] = $file;
-}
-
-foreach($toInclude as $file)
-{
-	if(substr_count($file, 'test.php') == 0)
-	{
-		// Updater test files can be 0.2.php
-		if( ereg('Updater', $file) ) 
-		{
-			continue;
-		}
-		print("The file $file doesn't end with the '.test.php' extension. \n<br>");
-	}
-	$test->addFile($file);
-}
-
-$timer = new Piwik_Timer;
-$test->run(new HtmlReporter());
-echo $timer."<br>";
-
