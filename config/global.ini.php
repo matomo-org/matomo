@@ -178,24 +178,18 @@ outlink_redirect_var_name	= redirect
 download_redirect_var_name	= redirect
 
 [log]
-
 ;possible values for log: screen, database, file
 ; normal messages
 logger_message[]		= screen
 logger_error[]			= screen
 logger_exception[]		= screen
+; if configured to log in files, log files will be created in this relative path
+; eg. if the value is tmp/logs files will be created in /path/to/piwik/tmp/logs/ 
+logger_file_path		= tmp/logs/
 
 ; all calls to the API (method name, parameters, execution time, caller IP, etc.)
+; disabled by default as it can cause serious overhead and should only be used wisely
 ;logger_api_call[]		= file
-
-[log_tests]
-logger_message[]		= screen
-logger_api_call[]		= screen
-logger_error[]			= screen
-logger_exception[]		= screen
-
-[path]
-log				= tmp/logs/
 
 [smarty]
 ; the list of directories in which to look for templates

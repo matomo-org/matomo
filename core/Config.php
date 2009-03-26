@@ -159,16 +159,12 @@ class Piwik_Config
 	}
 	
 	/**
-	 * If called, we use the "testing" environment, which means using the database_tests and log_tests sections 
-	 * for DB & Log configuration.
-	 * 
+	 * If called, we use the database_tests credentials
 	 * @return void
-	 *
 	 */
 	public function setTestEnvironment()
 	{
 		$this->database = $this->database_tests;
-		$this->log = $this->log_tests;
 	}
 	
 	/**
