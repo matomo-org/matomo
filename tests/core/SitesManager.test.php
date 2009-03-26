@@ -280,54 +280,13 @@ class Test_Piwik_SitesManager extends Test_Database
     	
     	$this->assertEqual($shouldHave, $siteUrlsAfter);
     }
-    
-    /**
-     * wrong format urls => exception
-     */
-    public function test_addSiteUrls_wrongUrlsFormat1()
-    {
-    	
-    	$idsite = $this->test_addSite();
-    	
-    	$toAdd = array("http://pi''.com");
-    	
-    	try {
-    		$insertedUrls = Piwik_SitesManager_API::addSiteAliasUrls($idsite, $toAdd);
-    	}
-    	catch (Exception $expected) {
-            return;
-        }
-        $this->fail("Exception not raised.");
-    }
-    
-    /**
-     * wrong format urls => exception
-     */
-    public function test_addSiteUrls_wrongUrlsFormat2()
-    {
-    	
-    	$idsite = $this->test_addSite();
-    	
-    	$toAdd = array("http://pi^.com");
-    	
-    	try {
-    		$insertedUrls = Piwik_SitesManager_API::addSiteAliasUrls($idsite, $toAdd);
-    	}
-    	catch (Exception $expected) {
-            return;
-        }
-        $this->fail("Exception not raised.");
-    }
     /**
      * wrong format urls => exception
      */
     public function test_addSiteUrls_wrongUrlsFormat3()
     {
-    	
     	$idsite = $this->test_addSite();
-    	
-    	$toAdd = array("http://pigeq.com/test{}");
-    	
+    	$toAdd = array("htt{}p://pigeq.com/test");
     	try {
     		$insertedUrls = Piwik_SitesManager_API::addSiteAliasUrls($idsite, $toAdd);
     	}
@@ -336,7 +295,6 @@ class Test_Piwik_SitesManager extends Test_Database
         }
         $this->fail("Exception not raised.");
     }
-    
     
     /**
      * wrong idsite => no exception because simply no access to this resource

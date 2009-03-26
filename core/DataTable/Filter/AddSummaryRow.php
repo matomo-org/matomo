@@ -27,7 +27,10 @@
  */
 class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 {
-	public function __construct( $table, $startRowToSummarize, $labelSummaryRow = Piwik_DataTable::LABEL_SUMMARY_ROW, $columnToSortByBeforeTruncating = Piwik_Archive::INDEX_NB_VISITS )
+	public function __construct(	$table, 
+									$startRowToSummarize, 
+									$labelSummaryRow = Piwik_DataTable::LABEL_SUMMARY_ROW, 
+									$columnToSortByBeforeTruncating = null )
 	{
 		parent::__construct($table);
 		$this->startRowToSummarize = $startRowToSummarize;

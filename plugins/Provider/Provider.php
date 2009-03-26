@@ -80,11 +80,9 @@ class Piwik_Provider extends Piwik_Plugin
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
-		
 		$dataTableToSum = array( 
 				'Provider_hostnameExt',
 		);
-		
 		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
 		

@@ -15,6 +15,9 @@
 class Piwik_Referers extends Piwik_Plugin
 {	
 	public $archiveProcessing;
+	protected $columnToSortByBeforeTruncation;
+	protected $maximumRowsInDataTableLevelZero;
+	protected $maximumRowsInSubDataTable;
 	public function getInformation()
 	{
 		$info = array(
@@ -39,6 +42,13 @@ class Piwik_Referers extends Piwik_Plugin
 		return $hooks;
 	}
 
+	function __construct()
+	{
+		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
+		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_referers;
+		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
+	}
+	
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'Referers', 'getKeywords', Piwik_Translate('Referers_WidgetKeywords'));
@@ -68,11 +78,7 @@ class Piwik_Referers extends Piwik_Plugin
 			'Referers_keywordByCampaign',
 			'Referers_urlByWebsite',
 		);
-		
-		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_referers;
-		$maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
-		
-		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum, $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
+		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 		
 		$mappingFromArchiveName = array(
 			'Referers_distinctSearchEngines' => 
@@ -293,9 +299,6 @@ class Piwik_Referers extends Piwik_Plugin
 		$data = $archiveProcessing->getDataTableSerialized($this->interestByType);
 		$archiveProcessing->insertBlobRecord('Referers_type', $data);
 		
-		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_referers;
-		$maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
-		
 		$blobRecords = array(
 			'Referers_keywordBySearchEngine' => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestBySearchEngineAndKeyword, $this->interestBySearchEngine),
 			'Referers_searchEngineByKeyword' => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestByKeywordAndSearchEngine, $this->interestByKeyword),
@@ -305,7 +308,7 @@ class Piwik_Referers extends Piwik_Plugin
 		
 		foreach($blobRecords as $recordName => $table )
 		{
-			$dataToRecord = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable);
+			$dataToRecord = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 			$archiveProcessing->insertBlobRecord($recordName, $dataToRecord);
 		}
 	}

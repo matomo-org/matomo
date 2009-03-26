@@ -1,0 +1,8 @@
+downloads
+piwik.php?idsite=1&download=http%3A//forum.piwik.org/mma mai ****/test.zip&rand=0.10591157392713457&redirect=0&name=my outlink name
+piwik.php?idsite=1&download=http%3A//forum.piwik.org/test.zip&rand=0.10591157392713457&redirect=0
+
+outlinks
+piwik.php?idsite=1&link=http%3A//www.example.org2/subcategory/subpage/&rand=0.10591157392713457&redirect=0
+piwik.php?idsite=1&link=http%3A//example.org/subcategory/latest.zip/test/&rand=0.10591157392713457&redirect=0
+piwik.php?idsite=1&link=mailto%3Atest@test.com&rand=0.15968200434074042&redirect=0
