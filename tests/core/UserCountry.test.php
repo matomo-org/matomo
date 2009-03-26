@@ -17,20 +17,10 @@ class Test_Piwik_UserCountry extends UnitTestCase
 		$this->assertEqual( basename($flag), "us.png" );
 	}
 
-	public function test_getFlagFromCodeElsewhere()
-	{
-		$olddir = getcwd();
-		chdir("/");
-		$flag = Piwik_getFlagFromCode("us");
-		chdir($olddir);
-		$this->assertEqual( basename($flag), "us.png" );
-	}
-
 	public function test_getFlagFromInvalidCode()
 	{
 		$flag = Piwik_getFlagFromCode("foo");
 		$this->assertEqual( basename($flag), "xx.png" );
 	}
-
 }
 
