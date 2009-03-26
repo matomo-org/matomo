@@ -228,7 +228,7 @@ function _pk_click(e)
 		return true;
 
 	var sourceHostName = source.hostname.toLowerCase();
-	var sourceHref = source.href.replace(new RegExp(sourceHostName.replace('.', '\.'), 'i'), sourceHostName);
+	var sourceHref = source.href.replace(source.hostname, sourceHostName);
 
 	var _pk_class = new RegExp('(?:^| )piwik_(download|link)(?: |$)');
 	var _pk_download = new RegExp('\\.(' + _pk_download_extensions + ')$', 'i');
