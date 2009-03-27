@@ -2,13 +2,14 @@
 
 function Piwik_getFlagFromCode($code)
 {
-	$path = PIWIK_INCLUDE_PATH . '/plugins/UserCountry/flags/%s.png';
-	$pathWithCode = sprintf($path, $code);
-	if(file_exists($pathWithCode))
+	$pathInPiwik = 'plugins/UserCountry/flags/%s.png';
+	$pathWithCode = sprintf($pathInPiwik, $code);
+	$absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
+	if(file_exists($absolutePath))
 	{
 		return $pathWithCode;
 	}
-	return sprintf($path, 'xx');			
+	return sprintf($pathInPiwik, 'xx');			
 }
 
 function Piwik_ContinentTranslate($label)

@@ -27,16 +27,16 @@ function Piwik_getSearchEngineUrlFromName($name)
 function Piwik_getSearchEngineLogoFromName($url)
 {
 	require_once "DataFiles/SearchEngines.php";
-	$path = 'plugins/Referers/images/searchEngines/%s.png';
 	$beginningUrl = strpos($url,'//') + 2;
-	$normalPath = sprintf($path, substr($url,$beginningUrl));
 
-	// flags not in the package !
-	if(!file_exists($normalPath))
+	$pathInPiwik = 'plugins/Referers/images/searchEngines/%s.png';
+	$pathWithCode = sprintf($pathInPiwik, substr($url,$beginningUrl));
+	$absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
+	if(file_exists($absolutePath))
 	{
-		return sprintf($path, 'xx');
+		return $pathWithCode;
 	}
-	return $normalPath;
+	return sprintf($pathInPiwik, 'xx');
 }
 
 
