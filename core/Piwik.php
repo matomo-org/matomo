@@ -334,6 +334,13 @@ class Piwik
 	{
 		echo Zend_Registry::get('timer');
 	}
+
+	static public function printMemoryLeak($prefix = '', $suffix = '<br>')
+	{
+		echo $prefix;
+		echo Zend_Registry::get('timer')->getMemoryLeak();
+		echo $suffix;
+	}
 	
 	static public function printMemoryUsage( $prefixString = null )
 	{
@@ -382,11 +389,6 @@ class Piwik
 	static public function isPhpCliMode()
 	{
 		return in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'));
-	}
-	
-	static public function isNumeric($value)
-	{
-		return is_numeric($value);
 	}
 	
 	static public function getCurrency()

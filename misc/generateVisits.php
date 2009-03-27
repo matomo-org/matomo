@@ -3,10 +3,10 @@
  * The script can be used to generate huge number of visits and actions
  * for a given number of days.
  */
-$minVisitors = 200;
-$maxVisitors = 200;
-$nbActions = 5;
-$daysToCompute = 2;
+$minVisitors = 20000;
+$maxVisitors = 20000;
+$nbActions = 10;
+$daysToCompute = 5;
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
@@ -19,7 +19,7 @@ set_include_path(PIWIK_INCLUDE_PATH
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
 					. PATH_SEPARATOR . get_include_path() );
 					
-$GLOBALS['DEBUGPIWIK'] = false;
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 ob_start();
 
 // first check that user has privileges to create some random data in the DB -> he must be super user

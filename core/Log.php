@@ -93,7 +93,7 @@ abstract class Piwik_Log extends Zend_Log
 		if (empty($this->_writers)) {
 			throw new Zend_Log_Exception('No writers were added');
 		}
-
+		
 		$event['timestamp'] = date('c');
 
 		// pack into event required by filters and writers
@@ -115,12 +115,10 @@ abstract class Piwik_Log extends Zend_Log
 }
 
 /**
- * 
- * 
  * @package Piwik_Log
  */
 class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
-{
+{	
 	/**
 	 * Formats data into a single line to be written by the writer.
 	 *
@@ -141,6 +139,12 @@ class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 
 class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interface
 {
+	function formatEvent($event)
+	{
+		// no injection in error messages, backtrace when displayed on screen
+		return array_map('htmlspecialchars', $event);
+	}
+	
 	function format($string)
 	{
 		$string = self::getFormattedString($string);

@@ -85,12 +85,17 @@ class Piwik_DataTable_Manager
 	 */
 	public function deleteAll()
 	{
+		foreach($this->tables as $id => $table) 
+		{
+			destroy($table);
+		}
 		$this->tables = array();
 		$this->lastTableId = 0;
 	}
 	
 	/**
-	 * Deletes the datatable given its id
+	 * Deletes (unsets) the datatable given its id and removes it from the manager
+	 * Subsequent get for this table will fail
 	 *
 	 * @param int $id
 	 */
@@ -98,8 +103,19 @@ class Piwik_DataTable_Manager
 	{
 		if(isset($this->tables[$id]))
 		{
-			$this->tables[$id] = null;
+			destroy($this->tables[$id]);
+			$this->setTableDeleted($id);
 		}
+	}
+	
+	/**
+	 * Remove the table from the manager (table has already been unset)
+	 * @param $id
+	 * @return void
+	 */
+	public function setTableDeleted($id)
+	{
+		$this->tables[$id] = null;
 	}
 	
 	/**

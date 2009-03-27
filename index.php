@@ -35,7 +35,6 @@ if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
 }
-
 if(strlen(session_id()) === 0)
 {
 	session_start();

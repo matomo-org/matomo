@@ -298,3 +298,10 @@ class Exception_PluginDeactivated extends Exception
 		parent::__construct("The plugin '$module' is not activated. You can activate the plugin on the 'Plugins admin' page.");
 	}
 }
+
+function destroy(&$var) 
+{
+	if (is_object($var)) $var->__destruct();
+	unset($var);
+	$var = null;
+}

@@ -38,7 +38,6 @@ class Piwik_Log_Message extends Piwik_Log
 	{
 		$event = array();
 		$event['message'] = $message;
-		
 		parent::log($event);
 	}
 }

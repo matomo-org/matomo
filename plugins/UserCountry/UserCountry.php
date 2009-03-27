@@ -99,9 +99,11 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$tableCountry = $archiveProcessing->getDataTableFromArray($this->interestByCountry);
 		$archiveProcessing->insertBlobRecord('UserCountry_country', $tableCountry->getSerialized());
 		$archiveProcessing->insertNumericRecord('UserCountry_distinctCountries', $tableCountry->getRowsCount());
+		destroy($tableCountry);
 		
 		$tableContinent = $archiveProcessing->getDataTableFromArray($this->interestByContinent);
 		$archiveProcessing->insertBlobRecord('UserCountry_continent', $tableContinent->getSerialized());
+		destroy($tableContinent);
 	}
 }
 

@@ -19,7 +19,7 @@ class Test_Piwik extends UnitTestCase
     		);
     	foreach($valid as $toTest)
     	{
-    		$this->assertTrue(Piwik::isNumeric($toTest), $toTest." not valid but should!");
+    		$this->assertTrue(is_numeric($toTest), $toTest." not valid but should!");
     	}
     }
     
@@ -30,7 +30,7 @@ class Test_Piwik extends UnitTestCase
     		);
     	foreach($notvalid as $toTest)
     	{
-    		$this->assertFalse(Piwik::isNumeric($toTest), $toTest." valid but shouldn't!");
+    		$this->assertFalse(is_numeric($toTest), $toTest." valid but shouldn't!");
     	}
     }
 

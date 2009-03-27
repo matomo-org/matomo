@@ -128,11 +128,25 @@ class Piwik_Referers extends Piwik_Plugin
 		 * @var Piwik_ArchiveProcessing_Day 
 		 */
 		$this->archiveProcessing = $notification->getNotificationObject();
-		
 		$this->archiveDayAggregateVisits($this->archiveProcessing);
 		$this->archiveDayAggregateGoals($this->archiveProcessing);
 		Piwik_PostEvent('Referers.archiveDay', $this);
 		$this->archiveDayRecordInDatabase($this->archiveProcessing);
+		$this->cleanup();
+	}
+	
+	protected function cleanup()
+	{
+		destroy($this->interestBySearchEngine);
+		destroy($this->interestByKeyword);
+		destroy($this->interestBySearchEngineAndKeyword);
+		destroy($this->interestByKeywordAndSearchEngine);
+		destroy($this->interestByWebsite);
+		destroy($this->interestByWebsiteAndUrl);
+		destroy($this->interestByCampaignAndKeyword);
+		destroy($this->interestByCampaign);
+		destroy($this->interestByType);
+		destroy($this->distinctUrls);
 	}
 	
 	protected function archiveDayAggregateVisits($archiveProcessing)
@@ -165,7 +179,6 @@ class Piwik_Referers extends Piwik_Plugin
 			$this->interestByCampaign =
 			$this->interestByType = 
 			$this->distinctUrls = array();
-		
 		while($row = $query->fetch() )
 		{
 			if(empty($row['referer_type']))
@@ -296,8 +309,9 @@ class Piwik_Referers extends Piwik_Plugin
 			$archiveProcessing->insertNumericRecord($name, $value);
 		}
 		
-		$data = $archiveProcessing->getDataTableSerialized($this->interestByType);
-		$archiveProcessing->insertBlobRecord('Referers_type', $data);
+		$dataTable = $archiveProcessing->getDataTableSerialized($this->interestByType);
+		$archiveProcessing->insertBlobRecord('Referers_type', $dataTable);
+		destroy($dataTable);
 		
 		$blobRecords = array(
 			'Referers_keywordBySearchEngine' => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestBySearchEngineAndKeyword, $this->interestBySearchEngine),
@@ -305,11 +319,11 @@ class Piwik_Referers extends Piwik_Plugin
 			'Referers_keywordByCampaign' => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestByCampaignAndKeyword, $this->interestByCampaign),
 			'Referers_urlByWebsite' => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestByWebsiteAndUrl, $this->interestByWebsite),
 		);
-		
 		foreach($blobRecords as $recordName => $table )
 		{
-			$dataToRecord = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
-			$archiveProcessing->insertBlobRecord($recordName, $dataToRecord);
+			$blob = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
+			$archiveProcessing->insertBlobRecord($recordName, $blob);
+			destroy($table);
 		}
 	}
 }

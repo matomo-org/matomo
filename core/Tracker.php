@@ -119,7 +119,7 @@ class Piwik_Tracker
 		}
 		printDebug("End of the page.");
 		
-		if($GLOBALS['DEBUGPIWIK'] === true)
+		if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 		{
 			Piwik::printSqlProfilingReportTracker(self::$db);
 		}
@@ -203,7 +203,7 @@ class Piwik_Tracker
 	
 	protected function outputTransparentGif()
 	{
-		if( !isset($GLOBALS['DEBUGPIWIK']) || !$GLOBALS['DEBUGPIWIK'] ) 
+		if( !isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG'] ) 
 		{
 			$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 			header("Content-type: image/gif");
@@ -310,7 +310,7 @@ class Piwik_Tracker
 
 function printDebug( $info = '' )
 {
-	if(isset($GLOBALS['DEBUGPIWIK']) && $GLOBALS['DEBUGPIWIK'])
+	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
 	{
 		if(is_array($info))
 		{

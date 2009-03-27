@@ -73,6 +73,8 @@ class Piwik_Log_Formatter_Error_ScreenFormatter extends Piwik_Log_Formatter_Scre
      */
     public function format($event)
     {
+    	$event = parent::formatEvent($event);
+    	
 		$errno = $event['errno'] ;
 		$errstr = $event['message'] ;
 		$errfile = $event['errfile'] ;

@@ -303,7 +303,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	public function freeBlob( $name )
 	{
 		$this->blobCached[$name] = null; 
-//		$this->blobCached = array(); 
+		unset($this->blobCached[$name]);
 	}
 	
 	/**
@@ -452,7 +452,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$this->preFetchBlob($name);
 		$dataTableToLoad = $this->getDataTable($name, $idSubTable);
 		$this->loadSubDataTables($name, $dataTableToLoad, $addMetadataSubtableId = true);
+		$this->freeBlob($name);
 		return $dataTableToLoad;		
 	}
 }
-?>

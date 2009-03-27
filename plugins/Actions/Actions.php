@@ -87,6 +87,7 @@ class Piwik_Actions extends Piwik_Plugin
 	 */
 	public function archiveDay( $notification )
 	{
+		//TODO Actions should use integer based keys like other archive in piwik
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		require_once "Tracker/Action.php";
@@ -178,7 +179,6 @@ class Piwik_Actions extends Piwik_Plugin
 				";
 		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
-		
 		$this->archiveDayRecordInDatabase($archiveProcessing);
 	}
 
@@ -187,27 +187,19 @@ class Piwik_Actions extends Piwik_Plugin
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION]);
 		$s = $dataTable->getSerialized( $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_actions', $s);
+		destroy($dataTable);
 
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD]);
 		$s = $dataTable->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_downloads', $s);
-		
+		destroy($dataTable);
+
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_OUTLINK]);
 		$s = $dataTable->getSerialized( $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_outlink', $s);
-		
+		destroy($dataTable);
+
 		unset($this->actionsTablesByType);
-	}
-	
-	static public function getHostAndPageNameFromUrl($url)
-	{
-		$matches = $split_arr = array();
-		if(preg_match("#://[^/]+(/)#",$url, $matches, PREG_OFFSET_CAPTURE))
-		{
-			$host = substr($url, 0, $matches[1][1]);
-			return array($host, substr($url,strlen($host)));
-		}
-		return array($url, "/");
 	}
 	
 	static public function getActionExplodedNames($name, $type)
@@ -215,7 +207,14 @@ class Piwik_Actions extends Piwik_Plugin
 		if($type == Piwik_Tracker_Action::TYPE_DOWNLOAD
 			|| $type == Piwik_Tracker_Action::TYPE_OUTLINK)
 		{
-			return self::getHostAndPageNameFromUrl($name);
+			$matches = $split_arr = array();
+			//TODO optimize with substring count rather than preg_match
+			if(preg_match("#://[^/]+(/)#", $name, $matches, PREG_OFFSET_CAPTURE))
+			{
+				$host = substr($name, 0, $matches[1][1]);
+				return array($host, substr($name, strlen($host)));
+			}
+			return array($name, "/");
 		}
 		if(empty(self::$actionCategoryDelimiter))
 		{

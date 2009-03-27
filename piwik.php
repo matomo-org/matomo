@@ -7,7 +7,7 @@
  * @version $Id$
  */
 
-$GLOBALS['DEBUGPIWIK'] = false; 
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = false; 
 if(defined('PIWIK_ENABLE_TRACKING') && !PIWIK_ENABLE_TRACKING)
 {
 	return;
@@ -36,7 +36,7 @@ require_once "Tracker/GoalManager.php";
 
 
 ob_start();
-if($GLOBALS['DEBUGPIWIK'] === true)
+if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 {	
 	date_default_timezone_set(date_default_timezone_get());
 	require_once "core/ErrorHandler.php";

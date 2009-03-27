@@ -80,7 +80,7 @@ class Piwik_DataTable_Row
 			&& $row[self::DATATABLE_ASSOCIATED] instanceof Piwik_DataTable)
 		{
 			$this->c[self::DATATABLE_ASSOCIATED] = $row[self::DATATABLE_ASSOCIATED]->getId();
-		}
+		}	
 	}
 	
 	/**
@@ -273,16 +273,7 @@ class Piwik_DataTable_Row
 	 */
 	public function setColumn($name, $value)
 	{
-		if(isset($this->c[self::COLUMNS][$name])
-			|| $name != 'label')
-		{
-			$this->c[self::COLUMNS][$name] = $value;
-		}
-		// we make sure when adding the label it goes first in the table
-		else
-		{
-			$this->c[self::COLUMNS] = array($name => $value) + $this->c[self::COLUMNS];
-		}
+		$this->c[self::COLUMNS][$name] = $value;
 	}
 	
 	/**
@@ -318,6 +309,14 @@ class Piwik_DataTable_Row
 		$this->c[self::METADATA][$name] = $value;
 	}
 	
+	//TODO this should not be hardcoded here
+	protected $columnsExcludedFromSum = array(
+		'label' => true, 
+		'nb_uniq_visitors' => true, 
+		'entry_nb_uniq_visitors' => true, 
+		'exit_nb_uniq_visitors' => true,
+	);
+
 	/**
 	 * Sums the given $row columns values to the existing row' columns values.
 	 * It will sum only the int or float values of $row.
@@ -331,13 +330,7 @@ class Piwik_DataTable_Row
 	{
 		foreach($rowToSum->getColumns() as $columnToSumName => $columnToSumValue)
 		{
-			//TODO this should not be hardcoded here.
-			if($columnToSumName != 'label'
-				&& $columnToSumName != 'nb_uniq_visitors'
-				&& $columnToSumName != 'entry_nb_uniq_visitors'
-				&& $columnToSumName != 'exit_nb_uniq_visitors'
-				
-				)
+			if(!isset($this->columnsExcludedFromSum[$columnToSumName]))
 			{
 				$thisColumnValue = $this->getColumn($columnToSumName);
 				$newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
@@ -348,36 +341,33 @@ class Piwik_DataTable_Row
 	
 	protected function sumRowArray( $thisColumnValue, $columnToSumValue )
 	{
-		$newValue = 0;
-		if(Piwik::isNumeric($columnToSumValue))
+		if(is_numeric($columnToSumValue))
 		{
 			if($thisColumnValue === false)
 			{
 				$thisColumnValue = 0;
 			}
-			$newValue = $thisColumnValue + $columnToSumValue;
+			return $thisColumnValue + $columnToSumValue;
 		}
-		elseif(is_array($columnToSumValue))
+		
+		if(is_array($columnToSumValue))
 		{
-			$newValue = array();
 			if($thisColumnValue == false)
 			{
-				$newValue = $columnToSumValue;
+				return $columnToSumValue;
 			}
-			else
+			$newValue = $thisColumnValue;
+			foreach($columnToSumValue as $arrayIndex => $arrayValue)
 			{
-				$newValue = $thisColumnValue;
-				foreach($columnToSumValue as $arrayIndex => $arrayValue)
+				if(!isset($newValue[$arrayIndex])) 
 				{
-					if(!isset($newValue[$arrayIndex])) 
-					{
-						$newValue[$arrayIndex] = false;
-					}
-					$newValue[$arrayIndex] = $this->sumRowArray($newValue[$arrayIndex], $arrayValue);
+					$newValue[$arrayIndex] = false;
 				}
+				$newValue[$arrayIndex] = $this->sumRowArray($newValue[$arrayIndex], $arrayValue);
 			}
+			return $newValue;
 		}
-		return $newValue;
+		return 0;
 	}
 	
 	/**

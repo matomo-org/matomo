@@ -167,7 +167,17 @@ class Piwik_DataTable
 	 * 
 	 * @var bool
 	 */
-	protected $indexNotUpToDate = false;
+	protected $indexNotUpToDate = true;
+	
+	/**
+	 * This flag sets the index to be rebuild whenever a new row is added, 
+	 * as opposed to re-building the full index when getRowFromLabel is called.
+	 * This is to optimize and not rebuild the full Index in the case where we
+	 * add row, getRowFromLabel, addRow, getRowFromLabel thousands of times.
+	 * 
+	 * @var bool
+	 */
+	protected $rebuildIndexContinuously = false;
 	
 	/**
 	 * Column name of last time the table was sorted
@@ -221,6 +231,22 @@ class Piwik_DataTable
 		$this->currentId = Piwik_DataTable_Manager::getInstance()->addTable($this);
 	}
 
+	/**
+	 * At destruction we free all memory
+	 */
+	public function __destruct()
+	{
+		// destruct can be called several times
+		if(isset($this->rows))
+		{
+			foreach($this->getRows() as $row) {
+				destroy($row);
+			}
+			unset($this->rows);
+			Piwik_DataTable_Manager::getInstance()->setTableDeleted($this->getId());	
+		}
+	}
+	
 	/**
 	 * Sort the dataTable rows using the php callback function 
 	 *
@@ -351,7 +377,7 @@ class Piwik_DataTable
 			{
 				if( $labelToLookFor === self::LABEL_SUMMARY_ROW )
 				{
-					$this->addSummaryRow($row );
+					$this->addSummaryRow( $row );
 				}
 				else
 				{
@@ -382,6 +408,7 @@ class Piwik_DataTable
 	 */
 	public function getRowFromLabel( $label )
 	{
+		$this->rebuildIndexContinuously = true;
 		if($this->indexNotUpToDate)
 		{
 			$this->rebuildIndex();
@@ -411,7 +438,6 @@ class Piwik_DataTable
 		foreach($this->rows as $id => $row)
 		{
 			$label = $row->getColumn('label');
-		
 			if($label !== false)
 			{
 				$this->rowsIndexByLabel[$label] = $id;
@@ -441,14 +467,23 @@ class Piwik_DataTable
 	}
 
 	/**
-	 * Shortcut function used for performance reasons
+	 * Add a row to the table and rebuild the index if necessary
 	 * 
 	 * @param Piwik_DataTable_Row $row to add at the end of the array
 	 */
 	public function addRow( Piwik_DataTable_Row $row )
 	{
-		$this->rows[] = $row;	
-		$this->indexNotUpToDate = true;
+		$this->rows[] = $row;
+		if(!$this->indexNotUpToDate
+			&& $this->rebuildIndexContinuously)
+		{
+			$label = $row->getColumn('label');
+			if($label !== false)
+			{
+				$this->rowsIndexByLabel[$label] = count($this->rows)-1;
+			}
+			$this->indexNotUpToDate = false;
+		}
 	}
 
 	/**
@@ -1037,13 +1072,5 @@ class Piwik_DataTable
 		}
 	}
 
-	/**
-	 * At destruction we try to free memory
-	 * But php doesn't give us much control on this
-	 */
-	public function __destruct()
-	{
-		unset($this->rows);
-	}
-	
 }
+
