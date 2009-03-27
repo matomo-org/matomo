@@ -495,7 +495,8 @@ class Piwik_Plugin_Exception extends Exception
  */
 function Piwik_PostEvent( $eventName,  &$object = null, $info = array() )
 {
-	Piwik_PluginsManager::getInstance()->dispatcher->post( $object, $eventName, $info, true, false );
+	$notification = new Piwik_Event_Notification($object, $eventName, $info);
+	Piwik_PluginsManager::getInstance()->dispatcher->postNotification( $notification, true, false );
 }
 
 /**
@@ -505,3 +506,20 @@ function Piwik_AddAction( $hookName, $function )
 {
 	Piwik_PluginsManager::getInstance()->dispatcher->addObserver( $function, $hookName );
 }
+
+class Piwik_Event_Notification extends Event_Notification
+{
+	static $showProfiler = false;
+	function increaseNotificationCount($className, $method) {
+		parent::increaseNotificationCount();
+		if(self::$showProfiler)
+		{
+			echo "after $className -> $method <br>";
+			echo "-"; Piwik::printTimer();
+			echo "<br>";
+			echo "-"; Piwik::printMemoryLeak();
+			echo "<br>";
+		}
+	}
+}
+

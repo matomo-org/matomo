@@ -81,12 +81,14 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$interestByConfiguration = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableConfiguration = $archiveProcessing->getDataTableFromArray($interestByConfiguration);
 		$archiveProcessing->insertBlobRecord($recordName, $tableConfiguration->getSerialized());
+		destroy($tableConfiguration);
 		
 		$recordName = 'UserSettings_os';
 		$labelSQL = "config_os";
 		$interestByOs = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableOs = $archiveProcessing->getDataTableFromArray($interestByOs);
 		$archiveProcessing->insertBlobRecord($recordName, $tableOs->getSerialized());
+		destroy($tableOs);
 		
 		$recordName = 'UserSettings_browser';
 		$labelSQL = "CONCAT(config_browser_name, ';', config_browser_version)";
@@ -97,6 +99,8 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$recordName = 'UserSettings_browserType';
 		$tableBrowserType = $this->getTableBrowserByType($tableBrowser);
 		$archiveProcessing->insertBlobRecord($recordName, $tableBrowserType->getSerialized());
+		destroy($tableBrowser);
+		destroy($tableBrowserType);
 		
 		$recordName = 'UserSettings_resolution';
 		$labelSQL = "config_resolution";
@@ -108,10 +112,13 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$recordName = 'UserSettings_wideScreen';
 		$tableWideScreen = $this->getTableWideScreen($tableResolution);
 		$archiveProcessing->insertBlobRecord($recordName, $tableWideScreen->getSerialized());
+		destroy($tableResolution);
+		destroy($tableWideScreen);
 		
 		$recordName = 'UserSettings_plugin';
 		$tablePlugin = $this->getDataTablePlugin();
 		$archiveProcessing->insertBlobRecord($recordName, $tablePlugin->getSerialized());
+		destroy($tablePlugin);
 	}
 	
 	function archivePeriod( $notification )

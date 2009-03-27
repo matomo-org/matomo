@@ -101,7 +101,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		$actionId = $action->getIdAction();
 
-		if($GLOBALS['DEBUGPIWIK'])
+		if($GLOBALS['PIWIK_TRACKER_DEBUG'])
 		{
 			switch($action->getActionType()) {
 				case Piwik_Tracker_Action::TYPE_ACTION:

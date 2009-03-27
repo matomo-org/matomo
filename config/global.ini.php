@@ -32,7 +32,8 @@ adapter 		= PDO_MYSQL
 [Debug]
 ; if set to 1, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process
-always_archive_data = 0
+always_archive_data_period = 0;
+always_archive_data_day = 0;
 
 ; if set to 1, all the SQL queries will be recorded by the profiler 
 ; and a profiling summary will be printed at the end of the request
@@ -183,6 +184,7 @@ download_redirect_var_name	= redirect
 logger_message[]		= screen
 logger_error[]			= screen
 logger_exception[]		= screen
+
 ; if configured to log in files, log files will be created in this relative path
 ; eg. if the value is tmp/logs files will be created in /path/to/piwik/tmp/logs/ 
 logger_file_path		= tmp/logs/
@@ -208,7 +210,6 @@ error_reporting = E_ALL|E_NOTICE
 
 ; allow smarty debugging using {debug}
 debugging		= 1
-
 
 [Plugins]
 Plugins[] 		= CorePluginsAdmin

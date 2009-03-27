@@ -148,7 +148,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		$this->columnToSort = $this->selectColumnToSort($row);
 		
 		$value = $row->getColumn($this->columnToSort);
-		if( Piwik::isNumeric($value))
+		if( is_numeric($value))
 		{
 			$methodToUse = "sort";
 		}

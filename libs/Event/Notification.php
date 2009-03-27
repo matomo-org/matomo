@@ -191,4 +191,3 @@ class Event_Notification
         return ($this->_notificationState === EVENT_NOTIFICATION_STATE_CANCELLED);
     }
 }
-?>

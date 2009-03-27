@@ -98,6 +98,7 @@ class Piwik_Provider extends Piwik_Plugin
 		$interestByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableProvider = $archiveProcessing->getDataTableFromArray($interestByProvider);
 		$archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized());
+		destroy($tableProvider);
 	}
 	
 	/**

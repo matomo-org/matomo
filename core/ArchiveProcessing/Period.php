@@ -21,6 +21,12 @@
  */
 class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_period;
+	}
+	
 	/**
 	 * Sums all values for the given field names $aNames over the period
 	 * See @archiveNumericValuesGeneral for more information
@@ -160,11 +166,14 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			$nameToCount[$recordName]['recursive'] =  $table->getRowsCountRecursive();
 			
 			$blob = $table->getSerialized( $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation );
+			destroy($table);
 			$this->insertBlobRecord($recordName, $blob);
 		}
+		Piwik_DataTable_Manager::getInstance()->deleteAll();
+		
 		return $nameToCount;
 	}
-	
+
 	/**
 	 * This method selects all DataTables that have the name $name over the period.
 	 * It calls the appropriate methods that sum all these tables together.

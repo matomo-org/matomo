@@ -36,6 +36,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	{
 		parent::__construct();
 		$this->db = Zend_Registry::get('db');
+		$this->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_day;
 	}
 	
 	/**

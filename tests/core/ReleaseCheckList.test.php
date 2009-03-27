@@ -68,10 +68,10 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 
 	function test_piwikTrackerDebugIsOff()
 	{
-		$this->assertTrue(!isset($GLOBALS['DEBUGPIWIK']));
+		$this->assertTrue(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']));
 		define('PIWIK_ENABLE_TRACKING', false);
 		include PIWIK_PATH_TEST_TO_ROOT . "/piwik.php";
-		$this->assertTrue($GLOBALS['DEBUGPIWIK'] === false);
+		$this->assertTrue($GLOBALS['PIWIK_TRACKER_DEBUG'] === false);
 	}
 }
 

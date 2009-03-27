@@ -34,9 +34,6 @@ abstract class Piwik_ArchiveProcessing_Record
 		$this->value = $value;
 	}
 	
-	public function __destruct()
-	{
-	}
 }
 
 
