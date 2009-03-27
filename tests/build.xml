@@ -2,7 +2,36 @@
 
 	<property file="build.properties" />
 	<property file="defaults.properties" />
-
+	
+	<target name="chmod">
+		<condition property="chmodcondition">
+			<and>
+				<os family="unix"/>
+				<available file="${basedir}/../build" type="dir"/>
+			</and>
+		</condition>
+		<antcall target="chmod-inner"/>		
+	</target>
+	
+	<target name="chmod-inner" if="chmodcondition">
+		
+		<property file="${basedir}/webtest/config/webtest.properties" />
+		
+		<copy file="${basedir}/webtest/chmod.php" tofile="${basedir}/../build/chmod.php" overwrite="true">
+			<filterset>
+			      <filter token="PATH" value="${basedir}/../build"/>
+		    </filterset>
+		</copy>
+		
+		<!-- <get src="${wt.config.protocol}://${wt.config.host}:${wt.config.port}/${wt.config.basepath}/chmod.php" dest="/dev/null" ignoreerrors="true"/> -->
+		
+		<exec executable="wget">
+			<arg value="${wt.config.protocol}://${wt.config.host}:${wt.config.port}/${wt.config.basepath}/chmod.php"/>
+			<arg value="--output-document=/dev/null" />
+			<arg value="--no-check-certificate" />
+		</exec>
+	</target>
+	
 	<target name="clean">
 		<delete dir="${basedir}/../build" />
 		<delete dir="${basedir}/results" />
@@ -112,6 +141,7 @@
 	
 
 	<target name="all">
+		<antcall target="chmod"/>
 		<antcall target="test"/>
 		<antcall target="webtest"/>
 		<antcall target="phpdoc"/>
