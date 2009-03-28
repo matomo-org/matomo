@@ -677,7 +677,7 @@ class Piwik_Common
  			}
  		}
  
-		if(preg_match_all("/[-]([a-z]{2})/", $browserLanguage, $matches, PREG_SET_ORDER))
+		if(!empty($validCountries) && preg_match_all("/[-]([a-z]{2})/", $browserLanguage, $matches, PREG_SET_ORDER))
  		{
 			foreach($matches as $parts)
  			{
@@ -703,7 +703,7 @@ class Piwik_Common
 	{
 		// assumes language preference is sorted;
 		// does not handle language-script-region tags or language range (*)
-		if(preg_match_all("/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/", $browserLanguage, $matches, PREG_SET_ORDER))
+		if(!empty($validLanguages) && preg_match_all("/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/", $browserLanguage, $matches, PREG_SET_ORDER))
  		{
 			foreach($matches as $parts)
  			{
