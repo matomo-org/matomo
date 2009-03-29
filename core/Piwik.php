@@ -1155,9 +1155,9 @@ class Piwik
 		Zend_Registry::get('db')->query("CREATE DATABASE IF NOT EXISTS ".$dbName);
 	}
 	
-	static public function dropTestDatabase()
+	static public function dropDatabase()
 	{
-		$dbName = Zend_Registry::get('config')->database_tests->dbname;
+		$dbName = Zend_Registry::get('config')->database->dbname;
 		Zend_Registry::get('db')->query("DROP DATABASE IF EXISTS " . $dbName);
 	}
 	
@@ -1329,6 +1329,15 @@ class Piwik
 			{
 				$db->query( $tableSql );
 			}
+		}
+	}
+	
+	static public function truncateAllTables()
+	{
+		$tablesAlreadyInstalled = self::getTablesInstalled($forceReload = true);
+		foreach($tablesAlreadyInstalled as $table) 
+		{
+			Zend_Registry::get('db')->query("TRUNCATE `$table`");
 		}
 	}
 	

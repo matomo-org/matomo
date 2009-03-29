@@ -558,6 +558,7 @@ $translations = array(
 	'UsersManager_ExceptionDeleteDoesNotExist' => 'User \'%s\' doesn\'t exist therefore it can\'t be deleted.',
 	'UsersManager_ExceptionAdminAnonymous' => 'You cannot grant \'admin\' access to the \'anonymous\' user.',
 	'UsersManager_ExceptionEditAnonymous' => 'The anonymous user cannot be edited or deleted. It is used by Piwik to define a user that has not logged in yet. For example, you can make your statistics public by granting the \'view\' access to the \'anonymous\' user.',
+	'UsersManager_ExceptionSuperUser' => 'Requested user is the Super User and cannot be queried, edited or deleted via the API. You can manually edit the Super User details in your Piwik configuration file.',
 	'UsersManager_ExceptionUserDoesNotExist' => 'User \'%s\' doesn\'t exist.',
 	'UsersManager_ExceptionAccessValues' => 'The parameter access must have one of the following values : [ %s ]',
 	'SitesManager_Sites' => 'Sites',

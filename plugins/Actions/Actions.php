@@ -16,7 +16,7 @@
 class Piwik_Actions extends Piwik_Plugin
 {
 	static protected $actionCategoryDelimiter = null;
-	static protected $limitLevelSubCategory = 10;
+	static protected $limitLevelSubCategory = 10; // must be less than Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED
 	protected $maximumRowsInDataTableLevelZero;
 	protected $maximumRowsInSubDataTable;
 	protected $columnToSortByBeforeTruncation;

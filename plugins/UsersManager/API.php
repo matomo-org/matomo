@@ -145,7 +145,8 @@ class Piwik_UsersManager_API
 	{
 		Piwik::checkUserIsSuperUser();
 		self::checkUserExists($userLogin);
-
+		self::checkUserIsNotSuperUser($userLogin);
+		
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT idsite,access 
 								FROM ".Piwik::prefixTable("access")
@@ -169,6 +170,7 @@ class Piwik_UsersManager_API
 	{
 		Piwik::checkUserIsSuperUser();
 		self::checkUserExists($userLogin);
+		self::checkUserIsNotSuperUser($userLogin);
 		
 		$db = Zend_Registry::get('db');
 		$user = $db->fetchRow("SELECT * 
@@ -272,6 +274,7 @@ class Piwik_UsersManager_API
 		Piwik::checkUserIsSuperUser();
 		
 		self::checkLogin($userLogin);
+		self::checkUserIsNotSuperUser($userLogin);
 		self::checkPassword($password);
 		self::checkEmail($email);
 
@@ -308,7 +311,7 @@ class Piwik_UsersManager_API
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($userLogin);
 		self::checkUserIsNotAnonymous( $userLogin );
-		
+		self::checkUserIsNotSuperUser($userLogin);
 		$userInfo = self::getUser($userLogin);
 				
 		if(empty($password))
@@ -365,7 +368,7 @@ class Piwik_UsersManager_API
 	{
 		Piwik::checkUserIsSuperUser();
 		self::checkUserIsNotAnonymous( $userLogin );
-		
+		self::checkUserIsNotSuperUser($userLogin);
 		if(!self::userExists($userLogin))
 		{
 			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionDeleteDoesNotExist"),$userLogin));
@@ -384,10 +387,6 @@ class Piwik_UsersManager_API
 	static public function userExists( $userLogin )
 	{
 		Piwik::checkUserHasSomeAdminAccess();
-		if($userLogin == Zend_Registry::get('config')->superuser->login)
-		{
-			return true;
-		}
 		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE login = ?", $userLogin);
@@ -402,10 +401,6 @@ class Piwik_UsersManager_API
 	static public function userEmailExists( $userEmail )
 	{
 		Piwik::checkUserHasSomeAdminAccess();
-		if($userEmail == Zend_Registry::get('config')->superuser->email)
-		{
-			return true;
-		}
 		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE email = ?", $userEmail);
@@ -433,6 +428,7 @@ class Piwik_UsersManager_API
 	{
 		self::checkAccessType( $access );
 		self::checkUserExists( $userLogin);
+		self::checkUserIsNotSuperUser($userLogin);
 		
 		if($userLogin == 'anonymous'
 			&& $access == 'admin')
@@ -512,6 +508,13 @@ class Piwik_UsersManager_API
 		if($userLogin == 'anonymous')
 		{
 			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionEditAnonymous"));
+		}
+	}
+	static private function checkUserIsNotSuperUser( $userLogin )
+	{
+		if($userLogin == Zend_Registry::get('config')->superuser->login)
+		{
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionSuperUser"));
 		}
 	}
 	
