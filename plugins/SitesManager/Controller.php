@@ -30,7 +30,9 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 	
 	function displayJavascriptCode()
 	{
-		$jsTag = Piwik::getJavascriptCode(Piwik_Common::getRequestVar('idsite',1), Piwik_Url::getCurrentUrlWithoutFileName());
+		$idSite = Piwik_Common::getRequestVar('idsite', 1);
+		Piwik::checkUserHasViewAccess($idSite);
+		$jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
 		$view = new Piwik_View('SitesManager/templates/DisplayJavascriptCode.tpl');
 		$view->menu = Piwik_GetAdminMenu();
 		$view->jsTag = $jsTag;
