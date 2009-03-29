@@ -27,6 +27,12 @@ class Test_Piwik_UsersManager extends Test_Database
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
 		
+		// we make sure the tests don't depend on the config file content
+		Zend_Registry::get('config')->superuser = array(
+			'login'=>'superusertest',
+			'password'=>'passwordsuperusertest',
+			'email'=>'superuser@example.com'
+		);
     }
 
     private function _checkUserHasNotChanged($user, $newPassword, $newEmail = null, $newAlias= null)
@@ -52,6 +58,46 @@ class Test_Piwik_UsersManager extends Test_Database
     	$this->assertEqual($user,$userAfter);
     }
     
+    function test_all_superUserIncluded()
+    {
+    	Zend_Registry::get('config')->superuser = array(
+			'login'=>'superusertest',
+			'password'=>'passwordsuperusertest',
+			'email'=>'superuser@example.com'
+		);
+		
+    	$user = array( 'login'=>'user',
+    					'password'=>"geqgeagae",
+    					'email'=>"test@test.com",
+    					'alias'=>"alias");
+    	Piwik_UsersManager_API::addUser($user['login'],$user['password'] ,$user['email'] ,$user['alias'] );
+    
+    	try {
+	    	Piwik_UsersManager_API::addUser('superusertest','te','fake@fale.co','ega');
+	    	$this->fail();
+    	} catch (Exception $expected) {
+    		$this->assertPattern("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
+    	}
+    	try {
+	    	Piwik_UsersManager_API::updateUser('superusertest','te','fake@fale.co','ega');
+	    	$this->fail();
+    	} catch (Exception $expected) {
+    		$this->assertPattern("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
+    	}
+    	try {
+	    	Piwik_UsersManager_API::deleteUser('superusertest','te','fake@fale.co','ega');
+	    	$this->fail();
+    	} catch (Exception $expected) {
+    		$this->assertPattern("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
+    	}
+    	try {
+	    	Piwik_UsersManager_API::deleteUser('superusertest','te','fake@fale.co','ega');
+	    	$this->fail();
+    	} catch (Exception $expected) {
+    		$this->assertPattern("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
+    	}
+    	$this->pass();	
+    }
     /**
      * bad password => exception
      */

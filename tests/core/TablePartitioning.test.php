@@ -91,20 +91,5 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$this->assertEqual( $tablename, (string)$p);
     }
     
-    
-    /**
-     * -> exception
-     */
-    public function _test_()
-    {
-    	try {
-    		test();
-        	$this->fail("Exception not raised.");
-    	}
-    	catch (Exception $expected) {
-    		$this->assertPattern("()", $expected->getMessage());
-            return;
-        }
-    }
 }
 

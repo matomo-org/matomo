@@ -47,7 +47,7 @@ class Piwik_Common
 	static public function prefixTable($table)
 	{
 		$prefixTable = false;
-		if(class_exists('Piwik_Tracker_Config'))
+		if(defined('PIWIK_TRACKER_MODE') && PIWIK_TRACKER_MODE)
 		{
 			$prefixTable = Piwik_Tracker_Config::getInstance()->database['tables_prefix'];
 		}

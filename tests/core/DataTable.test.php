@@ -297,12 +297,10 @@ class Test_Piwik_DataTable extends UnitTestCase
 	 */
 	function test_serializeWithInfiniteRecursion()
 	{
-		
 	  	$table = new Piwik_DataTable;
 	  	$table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 'visits'=>245,'visitors'=>245),
 	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $table,));
 	  						
-	  	
     	try {
     		$table->getSerialized();
         	$this->fail("Exception not raised.");

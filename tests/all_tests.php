@@ -41,6 +41,7 @@ foreach($toInclude as $file)
 $timer = new Piwik_Timer;
 $test->run(new HtmlReporter());
 echo $timer."<br>";
+echo $timer->getMemoryLeak();
 
 /*
 assertTrue($x)					Fail if $x is false

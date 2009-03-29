@@ -220,7 +220,7 @@ class Piwik_DataTable
 	 * 
 	 * @var int
 	 */
-	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 20;
+	const MAXIMUM_DEPTH_LEVEL_ALLOWED = 15;
 
 	/**
 	 * Builds the DataTable, registers itself to the manager
@@ -236,14 +236,18 @@ class Piwik_DataTable
 	 */
 	public function __destruct()
 	{
+		static $depth = 0;
 		// destruct can be called several times
-		if(isset($this->rows))
+		if($depth < self::MAXIMUM_DEPTH_LEVEL_ALLOWED
+			&& isset($this->rows))
 		{
+			$depth++;
 			foreach($this->getRows() as $row) {
 				destroy($row);
 			}
 			unset($this->rows);
 			Piwik_DataTable_Manager::getInstance()->setTableDeleted($this->getId());	
+			$depth--;
 		}
 	}
 	

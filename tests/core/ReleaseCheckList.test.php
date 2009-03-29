@@ -15,7 +15,8 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     {
     	$this->globalConfig = parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
 //    	var_dump($globalConfig);
-    	$this->checkEqual(array('Debug' => 'always_archive_data'), '0');
+    	$this->checkEqual(array('Debug' => 'always_archive_data_day'), '0');
+    	$this->checkEqual(array('Debug' => 'always_archive_data_period'), '0');
     	$this->checkEqual(array('Debug' => 'enable_sql_profiler'), '0');
     	$this->checkEqual(array('General' => 'time_before_archive_considered_outdated'), '10');
     	$this->checkEqual(array('General' => 'enable_browser_archiving_triggering'), '1');
