@@ -30,30 +30,35 @@ class Piwik_UserCountry_API
 	
 	public function getCountry( $idSite, $period, $date )
 	{
-		Piwik::checkUserHasViewAccess( $idSite );
-		$archive = Piwik_Archive::build($idSite, $period, $date );
-		$dataTable = $archive->getDataTable('UserCountry_country');
+		$dataTable = $this->getDataTable('UserCountry_country', $idSite, $period, $date);
+		// apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
 		$filter = new Piwik_DataTable_Filter_ColumnCallbackAddMetadata($dataTable, 'label', 'code', create_function('$label', 'return $label;'));
 		$filter = new Piwik_DataTable_Filter_ColumnCallbackAddMetadata($dataTable, 'label', 'logo', 'Piwik_getFlagFromCode');
 		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace($dataTable, 'label', 'Piwik_CountryTranslate');
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_AddConstantMetadata', array('logoWidth', 18));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_AddConstantMetadata', array('logoHeight', 12));
 		return $dataTable;
 	}
+	
 	public function getContinent( $idSite, $period, $date )
+	{
+		$dataTable = $this->getDataTable('UserCountry_continent', $idSite, $period, $date);
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
+		return $dataTable;
+	}
+	
+	protected function getDataTable($name, $idSite, $period, $date)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		$dataTable = $archive->getDataTable('UserCountry_continent');
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
+		$dataTable = $archive->getDataTable($name);
+		$filter = new Piwik_DataTable_Filter_Sort($dataTable, Piwik_Archive::INDEX_NB_VISITS);
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
 		return $dataTable;
 	}
 	
-	
-	function getNumberOfDistinctCountries($idSite, $period, $date)
+	public function getNumberOfDistinctCountries($idSite, $period, $date)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );

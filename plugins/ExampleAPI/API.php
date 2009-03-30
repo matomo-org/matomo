@@ -36,6 +36,7 @@ class Piwik_ExampleAPI_API
 	public function getPiwikVersion()
 	{
 		Piwik::checkUserHasSomeViewAccess();
+		require_once "Version.php";
 		return Piwik_Version::VERSION;
 	}
 

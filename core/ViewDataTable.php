@@ -740,8 +740,8 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function setSortedColumn( $columnId, $order = 'desc')
 	{
-		$this->variablesDefault['filter_sort_column']= $columnId;
-		$this->variablesDefault['filter_sort_order']= $order;
+		$this->variablesDefault['filter_sort_column'] = $columnId;
+		$this->variablesDefault['filter_sort_order'] = $order;
 	}
 	
 	/**

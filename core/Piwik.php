@@ -116,7 +116,7 @@ class Piwik
 	 */
 	static public function getJavascriptCode($idSite, $piwikUrl, $actionName = "''")
 	{	
-		$jsTag = file_get_contents( "core/Tracker/javascriptTag.tpl");
+		$jsTag = file_get_contents( PIWIK_INCLUDE_PATH . "/core/Tracker/javascriptTag.tpl");
 		$jsTag = nl2br(htmlentities($jsTag));
 		$piwikUrl = preg_match('/^(http|https):\/\/(.*)$/', $piwikUrl, $matches);
 		$piwikUrl = $matches[2];

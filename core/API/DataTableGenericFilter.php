@@ -51,7 +51,7 @@ class Piwik_API_DataTableGenericFilter
 								'filter_update_columns_when_show_all_goals'	=> array('integer')
 						),
 			'Sort' => array(
-								'filter_sort_column' 		=> array('string', Piwik_Archive::INDEX_NB_VISITS),
+								'filter_sort_column' 		=> array('string'),
 								'filter_sort_order' 		=> array('string', Zend_Registry::get('config')->General->dataTable_default_sort_order),
 						),
 			'Limit' => array(

@@ -41,12 +41,12 @@ class Piwik_Actions_API
 		if($expanded)
 		{
 			$dataTable = $archive->getDataTableExpanded($name, $idSubtable);
-			$dataTable->enableRecursiveSort();
 		}
 		else
 		{
 			$dataTable = $archive->getDataTable($name, $idSubtable);
 		}
+		$filter = new Piwik_DataTable_Filter_Sort($dataTable, 'nb_visits', 'desc', $naturalSort = false, $expanded);
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceSummaryRowLabel');
 		return $dataTable;
 	}

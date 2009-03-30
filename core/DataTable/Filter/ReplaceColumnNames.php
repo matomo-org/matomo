@@ -35,10 +35,11 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 	 * 						OLD_COLUMN_NAME2 => NEW_COLUMN NAME2,
 	 * 					)
 	 */
-	public function __construct( $table, $mappingToApply = null )
+	public function __construct( $table, $recursive = false, $mappingToApply = null )
 	{
 		parent::__construct($table);
 		$this->mappingToApply = Piwik_Archive::$mappingFromIdToName;
+		$this->applyFilterRecursively = $recursive;
 		if(!is_null($mappingToApply))
 		{
 			$this->mappingToApply = $mappingToApply;
@@ -58,11 +59,14 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 			$oldColumns = $row->getColumns();
 			$newColumns = $this->getRenamedColumns($oldColumns);
 			$row->setColumns( $newColumns );
-			try {
-				$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $row->getIdSubDataTable() );
-				$this->filterTable($subTable);
-			} catch(Exception $e){
-				// case idSubTable == null, or if the table is not loaded in memory
+			if($this->applyFilterRecursively)
+			{
+				try {
+					$subTable = Piwik_DataTable_Manager::getInstance()->getTable( $row->getIdSubDataTable() );
+					$this->filterTable($subTable);
+				} catch(Exception $e){
+					// case idSubTable == null, or if the table is not loaded in memory
+				}
 			}
 		}
 	}

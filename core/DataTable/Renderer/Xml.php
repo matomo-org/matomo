@@ -30,7 +30,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	protected function getArrayFromDataTable($table)
 	{
 		$renderer = new Piwik_DataTable_Renderer_Php();
-		$renderer->setRenderSubTables($this->renderSubTables);
+		$renderer->setRenderSubTables($this->isRenderSubtables());
 		$renderer->setSerialize(false);
 		$renderer->setTable($table);
 		return $renderer->flatRender();

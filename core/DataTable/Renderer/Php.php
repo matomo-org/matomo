@@ -174,7 +174,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 				'idsubdatatable' => $row->getIdSubDataTable(),
 			);
 			
-			if($this->renderSubTables
+			if($this->isRenderSubtables()
 				&& $row->getIdSubDataTable() !== null)
 			{
 				try{

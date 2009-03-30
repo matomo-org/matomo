@@ -320,7 +320,7 @@ class Piwik_DataTable
 	}
 
 	/**
-	 * Queue a DataTable_Filter that will be applied at the end of the process 
+	 * Queue a DataTable_Filter that will be applied when applyQueuedFilters() is called.
 	 * (just before sending the datatable back to the browser (or API, etc.)
 	 *
 	 * @param string $className The class name of the filter, eg. Piwik_DataTable_Filter_Limit

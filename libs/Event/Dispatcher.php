@@ -212,7 +212,9 @@ class Event_Dispatcher
                     $objClass = get_class($notification->getNotificationObject());
                     if (empty($class) || strcasecmp($class, $objClass) == 0) {
                         call_user_func_array($callback, array(&$notification));
-                        $notification->increaseNotificationCount();
+                        //-- Piwik Hack --//
+	                    $notification->increaseNotificationCount(get_class($callback[0]), $callback[1]);
+	                    //-- End Piwik Hack --//
                     }
                 }
             }
@@ -295,7 +297,9 @@ class Event_Dispatcher
                 if (empty($rObserver['class']) || 
                 	strcasecmp($rObserver['class'], $objClass) == 0) {
                     call_user_func_array($rObserver['callback'], array(&$notification));
-                    $notification->increaseNotificationCount();
+                    //-- Piwik Hack --//
+                    $notification->increaseNotificationCount(get_class($rObserver['callback'][0]), $rObserver['callback'][1]);
+                    //-- End Piwik Hack --//
                 }
             }
         }

@@ -39,20 +39,20 @@ class Piwik_Referers_API
 		if($expanded)
 		{
 			$dataTable = $archive->getDataTableExpanded($name, $idSubtable);
-			$dataTable->enableRecursiveSort();
 		}
 		else
 		{
 			$dataTable = $archive->getDataTable($name, $idSubtable);
 		}
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
+		$filter = new Piwik_DataTable_Filter_Sort($dataTable, Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded);
+		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames', array($expanded));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
 	
 	function getRefererType($idSite, $period, $date)
 	{
-		$dataTable = $this->getDataTable('Referers_type',$idSite, $period, $date, $expanded = false);
+		$dataTable = $this->getDataTable('Referers_type', $idSite, $period, $date, $expanded = false);
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
 		return $dataTable;
 	}
