@@ -26,6 +26,7 @@ abstract class Piwik_Plugin
 	 * 	'author_homepage' => string  // author homepage (or email "mailto:youremail@example.org")
 	 * 	'homepage' => string         // plugin homepage
 	 * 	'version' => string          // plugin version number
+	 *  'translationAvailable' => bool // is there a translation file in plugins/your-plugin/lang/* ?
 	 * 	'TrackerPlugin' => bool     // should we load this plugin during the stats logging process?
 	 */
 	abstract function getInformation();

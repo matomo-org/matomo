@@ -67,12 +67,15 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 	
-		$this->setLimit(-1);
-		
 		// we load the data with the filters applied
+		$this->disableGenericFilters();
+		$this->disableQueuedFilters();
 		$this->loadDataTableFromAPI();
 		$offsetStartSummary = $this->getGraphLimit() - 1;
-		$this->dataTable->queueFilter('Piwik_DataTable_Filter_AddSummaryRow', array($offsetStartSummary, Piwik_Translate('General_Others'), Piwik_Archive::INDEX_NB_VISITS));
+		$filter = new Piwik_DataTable_Filter_AddSummaryRow($this->dataTable, 
+															$offsetStartSummary, 
+															Piwik_Translate('General_Others'), 
+															Piwik_Archive::INDEX_NB_VISITS);
 		$this->dataAvailable = $this->dataTable->getRowsCount() != 0;
 		
 		if(!$this->dataAvailable)
@@ -96,7 +99,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	protected function generateDataFromDataTable()
 	{
 		$this->dataTable->applyQueuedFilters();
-		
 		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
 		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace(
 									$this->dataTable, 

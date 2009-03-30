@@ -45,7 +45,9 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 
 	protected function filter()
 	{
-		$filter = new Piwik_DataTable_Filter_Sort($this->table, $this->columnToSortByBeforeTruncating, 'desc');
+		$filter = new Piwik_DataTable_Filter_Sort($this->table, 
+													$this->columnToSortByBeforeTruncating, 
+													'desc');
 		
 		$rows = $this->table->getRows();
 		$count = $this->table->getRowsCount();
