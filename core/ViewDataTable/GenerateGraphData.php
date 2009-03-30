@@ -33,10 +33,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 {	
 	/**
 	 * Number of elements to display in the graph.
-	 *
 	 * @var int
 	 */
-	protected $graphLimit = 6;
+	protected $graphLimit = null;
 	
 	/**
 	 * Sets the number max of elements to display (number of pie slice, vertical bars, etc.)
@@ -71,11 +70,16 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		$this->disableGenericFilters();
 		$this->disableQueuedFilters();
 		$this->loadDataTableFromAPI();
-		$offsetStartSummary = $this->getGraphLimit() - 1;
-		$filter = new Piwik_DataTable_Filter_AddSummaryRow($this->dataTable, 
-															$offsetStartSummary, 
-															Piwik_Translate('General_Others'), 
-															Piwik_Archive::INDEX_NB_VISITS);
+		
+		$graphLimit = $this->getGraphLimit();
+		if(!empty($graphLimit))
+		{
+			$offsetStartSummary = $this->getGraphLimit() - 1;
+			$filter = new Piwik_DataTable_Filter_AddSummaryRow($this->dataTable, 
+																$offsetStartSummary, 
+																Piwik_Translate('General_Others'), 
+																Piwik_Archive::INDEX_NB_VISITS);
+		}
 		$this->dataAvailable = $this->dataTable->getRowsCount() != 0;
 		
 		if(!$this->dataAvailable)

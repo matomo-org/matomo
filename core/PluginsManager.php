@@ -398,18 +398,18 @@ class Piwik_PluginsManager
 		
 		$pluginName = $plugin->getClassName();
 		
-		$path = "plugins/" . $pluginName ."/lang/%s.php";
+		$path = PIWIK_INCLUDE_PATH . "/plugins/" . $pluginName ."/lang/%s.php";
 		
 		$defaultLangPath = sprintf($path, $langCode);
 		$defaultEnglishLangPath = sprintf($path, 'en');
 		
 		$translations = array();
 				
-		if(Zend_Loader::isReadable($defaultLangPath))
+		if(file_exists($defaultLangPath))
 		{
 			require $defaultLangPath;
 		}
-		elseif(Zend_Loader::isReadable($defaultEnglishLangPath))
+		elseif(file_exists($defaultEnglishLangPath))
 		{
 			require $defaultEnglishLangPath;
 		}
@@ -417,7 +417,6 @@ class Piwik_PluginsManager
 		{
 			throw new Exception("Language file not found for the plugin '$pluginName'.");
 		}
-		
 		Piwik_Translate::getInstance()->mergeTranslationArray($translations);
 	}
 	
