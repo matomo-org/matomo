@@ -108,7 +108,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		$view->setLimit( 100 );
 		$view->setColumnsToDisplay( array('label','nb_hits','nb_uniq_visitors') );
-		$view->setSortedColumn( 'nb_uniq_visitors', 'desc' );
+		$view->setSortedColumn( 'nb_visits', 'desc' );
 		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
 		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnUniquePageviews'));
 
