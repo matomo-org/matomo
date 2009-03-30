@@ -600,6 +600,17 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * The queued filters (replace column names, enhance column with percentage signs, add logo metadata information, etc.) 
+	 * will not be applied to this datatable. They can be manually applied by calling applyQueuedFilters on the datatable.
+	 * 
+	 * @return void
+	 */
+	public function disableQueuedFilters()
+	{
+		$this->variablesDefault['disable_queued_filters'] = true;
+	}
+	
+	/**
 	 * The "X-Y of Z" won't be displayed under this table
 	 * @return void
 	 */
