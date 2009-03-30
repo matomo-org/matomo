@@ -279,15 +279,14 @@ class Piwik_Archive_Single extends Piwik_Archive
 			{
 				$subDataTableLoaded = $this->getDataTable($name, $subTableID);
 				
-				$this->loadSubDataTables($name, $subDataTableLoaded);
-				
+				$this->loadSubDataTables($name, $subDataTableLoaded, $addMetadataSubtableId);
+
 				// we edit the subtable ID so that it matches the newly table created in memory
-				// NB:
-				// we dont do that in the case we are displaying the table expanded.
-				// in this case we want the user to see the REAL dataId in the database
+				// NB: we dont overwrite the datatableid in the case we are displaying the table expanded.
 				if($addMetadataSubtableId)
 				{
-					$row->addMetadata('databaseSubtableId', $row->getIdSubDataTable());
+					// this will be written back to the column 'idsubdatatable' just before rendering, see Renderer/Php.php
+					$row->addMetadata('idsubdatatable_in_db', $row->getIdSubDataTable());
 				}
 				$row->setSubtable( $subDataTableLoaded );
 			}
