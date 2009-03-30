@@ -35,6 +35,8 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	 */
 	protected function getDataTableTest()
 	{
+		$dataTable = new Piwik_DataTable();
+		
 		$arraySubTableForRow2 = array (
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'sub1', 'count' => 1, 'bool' => false) ),
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'sub2', 'count' => 2, 'bool' => true) ),
@@ -42,7 +44,6 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 		$subDataTableForRow2 = new Piwik_DataTable();
 		$subDataTableForRow2->addRowsFromArray($arraySubTableForRow2);
 
-		$subtable =
 		$array = array (
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Google&copy;', 'bool' => false, 'goals' => array('idgoal=1' => array('revenue'=> 5.5, 'nb_conversions' => 10)), 'nb_uniq_visitors' => 11, 'nb_visits' => 11, 'nb_actions' => 17, 'max_actions' => '5', 'sum_visit_length' => 517, 'bounce_count' => 9),
 						Piwik_DataTable_Row::METADATA => array('url' => 'http://www.google.com/display"and,properly', 'logo' => './plugins/Referers/images/searchEngines/www.google.com.png'),
@@ -52,7 +53,6 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subDataTableForRow2,
 					 )
 			);
-		$dataTable = new Piwik_DataTable();
 		$dataTable->addRowsFromArray($array);
 		return $dataTable;
 	}
@@ -136,7 +136,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 		<bounce_count>90</bounce_count>
 		<url>http://www.yahoo.com</url>
 		<logo>./plugins/Referers/images/searchEngines/www.yahoo.com.png</logo>
-		<idsubdatatable>0</idsubdatatable>
+		<idsubdatatable>1</idsubdatatable>
 		<subtable>
 			<row>
 				<label>sub1</label>
@@ -291,7 +291,7 @@ bounce_count,44';
 	  	$render = new Piwik_DataTable_Renderer_Json();
 	  	$render->setTable($dataTable);
 	  	$render->setRenderSubTables(true);
-		$expected = '[{"label":"Google&copy;","bool":false,"goals":{"idgoal=1":{"revenue":5.5,"nb_conversions":10}},"nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9,"url":"http:\/\/www.google.com\/display\"and,properly","logo":".\/plugins\/Referers\/images\/searchEngines\/www.google.com.png"},{"label":"Yahoo!","bool":true,"nb_uniq_visitors":15,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"url":"http:\/\/www.yahoo.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.yahoo.com.png","idsubdatatable":0,"subtable":[{"label":"sub1","count":1,"bool":false},{"label":"sub2","count":2,"bool":true}]}]';
+		$expected = '[{"label":"Google&copy;","bool":false,"goals":{"idgoal=1":{"revenue":5.5,"nb_conversions":10}},"nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9,"url":"http:\/\/www.google.com\/display\"and,properly","logo":".\/plugins\/Referers\/images\/searchEngines\/www.google.com.png"},{"label":"Yahoo!","bool":true,"nb_uniq_visitors":15,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"url":"http:\/\/www.yahoo.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.yahoo.com.png","idsubdatatable":1,"subtable":[{"label":"sub1","count":1,"bool":false},{"label":"sub2","count":2,"bool":true}]}]';
 		$rendered = $render->render();
 
 		$this->assertEqual( $expected,$rendered);
@@ -380,7 +380,7 @@ bounce_count,44';
 					    'bounce_count' => 90,
 					    'url' => 'http://www.yahoo.com',
 					    'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png',
-					  	'idsubdatatable' => 0,
+					  	'idsubdatatable' => 1,
 					    'subtable' =>
 						    array (
 						      0 =>
