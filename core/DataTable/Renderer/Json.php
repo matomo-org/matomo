@@ -28,7 +28,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 	{
 		$renderer = new Piwik_DataTable_Renderer_Php();
 		$renderer->setTable($table);
-		$renderer->setRenderSubTables($this->renderSubTables);
+		$renderer->setRenderSubTables($this->isRenderSubtables());
 		$renderer->setSerialize(false);
 		$array = $renderer->flatRender();
 		

@@ -30,6 +30,11 @@ abstract class Piwik_DataTable_Renderer
 		$this->renderSubTables = (bool)$enableRenderSubTable;
 	}
 	
+	protected function isRenderSubtables()
+	{
+		return $this->renderSubTables;
+	}
+	
 	/**
 	 * Computes the dataTable output and returns the string/binary
 	 * 

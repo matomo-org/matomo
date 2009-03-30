@@ -82,7 +82,6 @@ class Piwik_Common
 		{
 			return $cacheContent;
 		}
-		// if DB is not in the registry, we are in tracker mode, we add it in the registry
 		if(defined('PIWIK_TRACKER_MODE') 
 			&& PIWIK_TRACKER_MODE) 
 		{
@@ -116,7 +115,12 @@ class Piwik_Common
 
 		$content = array();
 		Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
-		$cache->set($filename, $content);
+		// if nothing is returned from the plugins, we don't save the content
+		// this is not expected: all websites are expected to have at least one URL
+		if(!empty($content))
+		{
+			$cache->set($filename, $content);
+		}
 		return $content;
 	}
 	

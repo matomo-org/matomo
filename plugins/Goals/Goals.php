@@ -50,8 +50,7 @@ class Piwik_Goals extends Piwik_Plugin
 	function fetchGoalsFromDb($notification)
 	{
 		require_once "Goals/API.php";
-		$info = $notification->getNotificationInfo();
-		$idsite = $info['idsite'];
+		$idsite = $notification->getNotificationInfo();
 		
 		// add the 'goal' entry in the website array
 		$array =& $notification->getNotificationObject();

@@ -102,7 +102,6 @@ class Piwik_API_DocumentationGenerator
 		$knowExampleDefaultParametersValues = array(
 			'access' => 'view',
 			'userLogin' => 'test',
-			'password' => 'passwordExample',
 			'passwordMd5ied' => 'passwordExample',
 			'email' => 'test@example.org',
 		
@@ -116,8 +115,19 @@ class Piwik_API_DocumentationGenerator
 		
 		// no links for these method names
 		$doNotPrintExampleForTheseMethods = array(
+			//Sites
 			'deleteSite',
+			'addSite',
+			'updateSite',
+			'addSiteAliasUrls',
+			//Users
 			'deleteUser',
+			'addUser',
+			'updateUser',
+			'setUserAccess',
+			//Goals
+			'addGoal',
+			'updateGoal',
 			'deleteGoal',
 		);
 		

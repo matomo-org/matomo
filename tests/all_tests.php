@@ -29,7 +29,7 @@ foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core/', '*.php') as $file)
 foreach($toInclude as $file)
 {
 	if(substr_count($file, 'test.php') == 0
-//		|| !ereg('UserCountry', $file) // Debug: only run this one test in the context of all_tests.php
+//		|| !ereg('Documentation', $file) // Debug: only run this one test in the context of all_tests.php
 		)
 	{
 		print("The file '$file' is not valid: doesn't end with '.test.php' extension. \n<br>");

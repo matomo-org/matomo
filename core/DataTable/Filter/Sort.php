@@ -20,12 +20,16 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	protected $columnToSort;
 	protected $order;
 	
-	public function __construct( $table, $columnToSort, $order = 'desc', $naturalSort = false )
+	public function __construct( $table, $columnToSort, $order = 'desc', $naturalSort = false, $recursiveSort = false )
 	{
 		parent::__construct($table);
 		if(empty($columnToSort))
 		{
 			return;
+		}
+		if($recursiveSort)
+		{
+			$table->enableRecursiveSort();
 		}
 		$this->columnToSort = $columnToSort;
 		$this->naturalSort = $naturalSort;

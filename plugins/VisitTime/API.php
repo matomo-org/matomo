@@ -30,14 +30,11 @@ class Piwik_VisitTime_API
 	protected function getDataTable($name, $idSite, $period, $date )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable($name);
-		$dataTable->queueFilter('Piwik_DataTable_Filter_Sort', array('label', 'asc', true));
+		$filter = new Piwik_DataTable_Filter_Sort($dataTable, 'label', 'asc', true);
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
-		
-		
 		return $dataTable;
 	}
 	
