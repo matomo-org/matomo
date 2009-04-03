@@ -32,7 +32,7 @@ class Piwik_VisitorInterest_API
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable($name);
-		$filter = new Piwik_DataTable_Filter_Sort($dataTable, Piwik_Archive::INDEX_NB_VISITS);
+		$dataTable->filter('Piwik_DataTable_Filter_Sort',array(Piwik_Archive::INDEX_NB_VISITS));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
 		$dataTable->queueFilter('Piwik_DataTable_Filter_Sort', array('label', 'asc', true));
 		return $dataTable;

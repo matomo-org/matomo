@@ -214,7 +214,7 @@ class Piwik_DataTable
 
 	const ID_SUMMARY_ROW = -1;
 	const LABEL_SUMMARY_ROW = -1;
-
+	
 	/**
 	 * Maximum nesting level
 	 * 
@@ -320,6 +320,23 @@ class Piwik_DataTable
 	}
 
 	/**
+	 * Apply a filter to this datatable
+	 * 
+	 * @param $className eg. Piwik_DataTable_Filter_Sort
+	 * @param $parameters eg. array('nb_visits', 'asc')
+	 */
+	public function filter( $className, $parameters = array() )
+	{
+		$reflectionObj = new ReflectionClass($className);
+		
+		// the first parameter of a filter is the DataTable
+		// we add the current datatable as the parameter
+		$parameters = array_merge(array($this), $parameters);
+		
+		$filter = $reflectionObj->newInstanceArgs($parameters); 
+	}
+	
+	/**
 	 * Queue a DataTable_Filter that will be applied when applyQueuedFilters() is called.
 	 * (just before sending the datatable back to the browser (or API, etc.)
 	 *
@@ -349,13 +366,7 @@ class Piwik_DataTable
 				$this->setRowsCountBeforeLimitFilter();
 			}
 			
-			$reflectionObj = new ReflectionClass($filter['className']);
-			
-			// the first parameter of a filter is the DataTable
-			// we add the current datatable as the parameter
-			$filter['parameters'] = array_merge(array($this), $filter['parameters']);
-			
-			$filter = $reflectionObj->newInstanceArgs($filter['parameters']); 
+			$this->filter($filter['className'], $filter['parameters']);
 		}
 		$this->queuedFilters = array();
 	}
@@ -649,16 +660,57 @@ class Piwik_DataTable
 	 */
 	public function deleteColumn( $name )
 	{
-		foreach($this->getRows() as $row)
-		{
-			$row->deleteColumn($name);
-		}
-		if(!is_null($this->summaryRow))
-		{
-			$this->summaryRow->deleteColumn($name);
-		}
+		$this->deleteColumns(array($name));
 	}
 
+	/**
+	 * Rename a column in all rows
+	 * @param $oldName
+	 * @param $newName
+	 */
+	public function renameColumn( $oldName, $newName )
+	{
+		foreach($this->getRows() as $row)
+		{
+			$row->renameColumn($oldName, $newName);
+			if(($idSubDataTable = $row->getIdSubDataTable()) !== null)
+			{
+				Piwik_DataTable_Manager::getInstance()->getTable($idSubDataTable)->renameColumn($oldName, $newName);
+			}
+		}
+		if(!is_null($this->summaryRow))
+		{			
+			$this->summaryRow->renameColumn($oldName, $newName);
+		}
+	}
+	
+	/**
+	 * Delete columns by name in all rows
+	 *
+	 * @param string $name
+	 */
+	public function deleteColumns($names, $deleteRecursiveInSubtables = false)
+	{
+		foreach($this->getRows() as $row)
+		{
+			foreach($names as $name)
+			{
+				$row->deleteColumn($name);
+			}
+			if(($idSubDataTable = $row->getIdSubDataTable()) !== null)
+			{
+				Piwik_DataTable_Manager::getInstance()->getTable($idSubDataTable)->deleteColumns($names, $deleteRecursiveInSubtables);
+			}
+		}
+		if(!is_null($this->summaryRow))
+		{			
+			foreach($names as $name)
+			{
+				$this->summaryRow->deleteColumn($name);
+			}
+		}
+	}
+	
 	/**
 	 * Deletes the ith row 
 	 *
@@ -826,11 +878,16 @@ class Piwik_DataTable
 		
 		if($depth > self::MAXIMUM_DEPTH_LEVEL_ALLOWED)
 		{
+			$depth = 0;
 			throw new Exception("Maximum recursion level of ".self::MAXIMUM_DEPTH_LEVEL_ALLOWED. " reached. You have probably set a DataTable_Row with an associated DataTable which belongs already to its parent hierarchy.");
 		}
 		if( !is_null($maximumRowsInDataTable) )
 		{
-			$filter = new Piwik_DataTable_Filter_AddSummaryRow($this, $maximumRowsInDataTable - 1, Piwik_DataTable::LABEL_SUMMARY_ROW, $columnToSortByBeforeTruncation);
+			$this->filter('Piwik_DataTable_Filter_AddSummaryRow', 
+							array(	$maximumRowsInDataTable - 1, 
+									Piwik_DataTable::LABEL_SUMMARY_ROW, 
+									$columnToSortByBeforeTruncation)
+					);
 		}
 		
 		// For each row, get the serialized row
@@ -1056,13 +1113,8 @@ class Piwik_DataTable
 		$cleanRow = array();
 		foreach($array as $label => $row)
 		{
-			// TODO I think this requirement is not true anymore:
-			// we make sure that the label column is first in the list! 
-			// important for the UI javascript mainly... 
-			
-			// array_merge doesn't work here as it reindex the numeric value
-			// see the test testMergeArray in PHP_Related.test.php
 			$cleanRow[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = null;
+			// we put the 'label' column first as it looks prettier in API results
 			$cleanRow[Piwik_DataTable_Row::COLUMNS] = array('label' => $label) + $row;
 			if(!is_null($subtablePerLabel)
 				// some rows of this table don't have subtables 

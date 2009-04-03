@@ -299,6 +299,8 @@ class Exception_PluginDeactivated extends Exception
 	}
 }
 
+
+// for more information see http://dev.piwik.org/trac/ticket/374
 function destroy(&$var) 
 {
 	if (is_object($var)) $var->__destruct();

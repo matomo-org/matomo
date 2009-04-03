@@ -15,6 +15,7 @@ The Goal Tracking Plugin is in alpha release. There is more coming soon!
 - provide documentation, screenshots, blog post + add screenshot and inline help in "Add a New Goal"
 
 Known bugs
+- need to clarify that goals are triggered once per visit max, but can be triggered multiple times by one unique visitor > need option to force only once per uniq visitor? (ie. e-commerce transaction)
 - Your top converting keyword include keyword without conversions
 - The Goal total nb conversions should be sum of all goal conversions (wrong number when deleting a Goal)
 - After adding goal, the window should refresh to the goal report page, and not to the dashboard

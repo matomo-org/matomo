@@ -10,7 +10,6 @@
  */
 	
 /**
- * 
  * @package Piwik_Actions
  */
 class Piwik_Actions extends Piwik_Plugin
@@ -30,7 +29,6 @@ class Piwik_Actions extends Piwik_Plugin
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
-		
 		return $info;
 	}
 	
@@ -65,16 +63,22 @@ class Piwik_Actions extends Piwik_Plugin
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'getOutlinks'));
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'getDownloads'));		
 	}
-		
+	
+	static protected $invalidSummedColumnNameToRenamedName = array(
+		'nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors', 
+		'entry_nb_uniq_visitors' => 'sum_daily_entry_nb_uniq_visitors', 
+		'exit_nb_uniq_visitors' => 'sum_daily_exit_nb_uniq_visitors',
+	);
+	
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
-		$dataTableToSum = array( 
+		$dataTableToSum = array(
 				'Actions_actions',
 				'Actions_downloads',
 				'Actions_outlink',
 		);
-		$archiveProcessing->archiveDataTable($dataTableToSum, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
+		$archiveProcessing->archiveDataTable($dataTableToSum, self::$invalidSummedColumnNameToRenamedName, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 	}
 	
 	/**

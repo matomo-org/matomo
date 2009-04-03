@@ -10,128 +10,68 @@ require_once 'DataTable.php';
 
 class Test_Piwik_DataTable extends UnitTestCase
 {
-	function __construct( $title = '')
+	public function test_applyFilter()
 	{
-		parent::__construct( $title );
+		$table = $this->getDataTable1ForTest();
+		$this->assertEqual($table->getRowsCount(), 4);
+		$table->filter('Piwik_DataTable_Filter_Limit', array(2,1));
+		$this->assertEqual($table->getRowsCount(), 1);
 	}
 	
-	public function setUp()
+	protected function getSimpleTestDataTable()
 	{
-	}
-	
-	public function tearDown()
-	{
-	}
-	
-	/**
-	 * General tests that tries to test the normal behaviour of DataTable
-	 * 
-	 * We create some tables, add rows, some of the rows link to sub tables
-	 * 
-	 * Then we serialize everything, and we check that the unserialize give the same object back
-	 */
-	function test_general()
-	{
-	  	/*
-	  	 * create some fake tables to make sure that the serialized array of the first TABLE
-	  	 * does not take in consideration those tables
-	  	 */
-	  	$useless1 = new Piwik_DataTable;
-	  	$useless1->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 13,),));
-		/*
-		 * end fake tables
-		 */
-		
-		/*
-		 * MAIN TABLE
-		 */
 		$table = new Piwik_DataTable;
-		$subtable = new Piwik_DataTable;
-		$idtable = $table->getId();
-		$idsubtable = $subtable->getId();
+		$table->addRowsFromArray(
+		array(
+			array(Piwik_DataTable_Row::COLUMNS => array('label'=>'ten',		'count' => 10)),
+			array(Piwik_DataTable_Row::COLUMNS => array('label'=>'ninety',	'count' => 90)),
+			array(Piwik_DataTable_Row::COLUMNS => array('label'=>'hundred', 'count' => 100)),
+			Piwik_DataTable::ID_SUMMARY_ROW => array( Piwik_DataTable_Row::COLUMNS => array('label'=> 'summary', 'count' => 200))
+			)
+		);
+		return $table;
+	}
+	public function test_renameColumn()
+	{
+		$table = $this->getSimpleTestDataTable();
+		$this->assertEqual($table->getColumn('count'), array(10,90,100,200));
+		$table->renameColumn('count', 'renamed');
+		$this->assertEqual($table->getColumn('count'), array(false, false, false, false));
+		$this->assertEqual($table->getColumn('renamed'), array(10,90,100,200));
+	}
+	public function test_deleteColumn()
+	{
+		$table = $this->getSimpleTestDataTable();
+		$this->assertEqual($table->getColumn('count'), array(10,90,100,200));
+		$table->deleteColumn('count');
+		$this->assertEqual($table->getColumn('count'), array(false, false, false, false));
+	}
+	public function test_deleteRow()
+	{
+		$table = $this->getSimpleTestDataTable();
 		
-	  	/*
-	  	 * create some fake tables to make sure 
-	  	 * that the serialized array of the first TABLE
-	  	 * does not take in consideration those tables
-	  	 * (yes theres a story of an ID given by some DataTable_Manager
-	  	 *  we check this module is not messing around)
-	  	 */
-	  	$useless2 = new Piwik_DataTable;
-	  	$useless1->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 8487,),));
-	  	$useless3 = new Piwik_DataTable;
-	  	$useless3->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 8487,),));
-		/*
-		 * end fake tables
-		 */
-		
-		$row = array(Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,	1 => 42,	2 => 657,3 => 155744,),
-	  				Piwik_DataTable_Row::METADATA => array('logo' => 'test.png'));
-	  	$row = new Piwik_DataTable_Row($row);
-	  	
-	  	$table->addRow($row);
-	  	$table->addRowFromArray(array( Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,1 => 42,),
-	  						Piwik_DataTable_Row::METADATA => array('url' => 'piwik.org')));
-		
-	  	$table->addRowFromArray(array( Piwik_DataTable_Row::COLUMNS => array( 0 => 787877888787,),
-	  						Piwik_DataTable_Row::METADATA => array('url' => 'OUPLA ADDED'),
-	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtable));
-		  	
-		/*
-		 * SUB TABLE
-		 */				
-	  									
-		
-		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,),
-	  						Piwik_DataTable_Row::METADATA => array('searchengine' => 'google'),
-	  					);
-	  	$subtable->addRowFromArray($row);
-	  	
-		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 84894,),
-	  						Piwik_DataTable_Row::METADATA => array('searchengine' => 'yahoo'),
-	  					);
-	  	$subtable->addRowFromArray($row);
-		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 4898978989,),
-	  						Piwik_DataTable_Row::METADATA => array('searchengine' => 'ask'),
-	  					);	  	
-	  	$subtable->addRowFromArray($row);
-	  	
-	  	
-	  	/*
-	  	 * SUB SUB TABLE
-	  	 */
-	  	$subsubtable = new Piwik_DataTable;
-	  	$subsubtable->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 245),
-	  						Piwik_DataTable_Row::METADATA => array('yes' => 'subsubmetadata1'),)
-	  						);  	
-	  						
-	  	$subsubtable->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 13,),
-	  						Piwik_DataTable_Row::METADATA => array('yes' => 'subsubmetadata2'),)
-	  						);
-	  						
-		$row = array( 	Piwik_DataTable_Row::COLUMNS => array( 0 => 666666666666666,),
-	  						Piwik_DataTable_Row::METADATA => array('url' => 'NEW ROW ADDED'),
-	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subsubtable);
-	  	
-	  	$subtable->addRowFromArray($row);
-		
-		$idsubsubtable = $subsubtable->getId();
-	  	
-	  	$serialized = ($table->getSerialized());
-	  	
-		$this->assertEqual(array_keys($serialized), array($idsubsubtable,$idsubtable,0));
-		$tableAfter = new Piwik_DataTable;
-		$tableAfter->addRowsFromSerializedArray($serialized[0]);
-		$this->assertEqual($table->getRows(),$tableAfter->getRows());
+		// normal row
+		$idToDelete = 1;
+		$this->assertEqual(count($table->getRowFromId($idToDelete)->getColumns()), 2);
+		$table->deleteRow($idToDelete);
+		$this->assertEqual($table->getRowFromId($idToDelete), false);
 
-		$subsubtableAfter = new Piwik_DataTable;
-		$subsubtableAfter->addRowsFromSerializedArray($serialized[$idsubsubtable]);
-		$this->assertEqual($subsubtable->getRows(),$subsubtableAfter->getRows());
+		// summary row special case
+		$idToDelete = Piwik_DataTable::ID_SUMMARY_ROW;
+		$this->assertEqual(count($table->getRowFromId($idToDelete)->getColumns()), 2);
+		$table->deleteRow($idToDelete);
+		$this->assertEqual($table->getRowFromId($idToDelete), false);
+	}
+	
+	public function test_getLastRow()
+	{
+		$table = $this->getSimpleTestDataTable();
+		$rowsCount = $table->getRowsCount();
+
+		$this->assertTrue($table->getLastRow(), $table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW));
+		$table->deleteRow(Piwik_DataTable::ID_SUMMARY_ROW);
 		
-		
-		$this->assertEqual($table, Piwik_DataTable_Manager::getInstance()->getTable($idtable));
-		$this->assertEqual($subsubtable, Piwik_DataTable_Manager::getInstance()->getTable($idsubsubtable));
-		
+		$this->assertTrue($table->getLastRow(), $table->getRowFromId($rowsCount-2));
 	}
 	
 	/**
@@ -142,9 +82,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 	{
 		
 	 	$table = new Piwik_DataTable;
-	 	
 	 	$idcol = Piwik_DataTable_Row::COLUMNS;
-	 	
 	  	$rows = array(
 	  		array( $idcol => array('label'=>'google')),
 	  		array( $idcol => array('label'=>'ask')),
@@ -306,241 +244,14 @@ class Test_Piwik_DataTable extends UnitTestCase
         	$this->fail("Exception not raised.");
     	}
     	catch (Exception $expected) {
+    		$this->pass();
             return;
         }
 	}
-
-	/**
-	 * Test to filter a column with a pattern
-	 */
-	 function test_filter_Pattern()
-	 {
-	 	$table = new Piwik_DataTable;
-	 	
-	 	$idcol = Piwik_DataTable_Row::COLUMNS;
-	 	
-	  	$rows = array(
-	  		array( $idcol => array('label'=>'google')),
-	  		array( $idcol => array('label'=>'ask')),
-	  		array( $idcol => array('label'=>'piwik')),
-	  		array( $idcol => array('label'=>'yahoo')),
-	  		array( $idcol => array('label'=>'amazon')),
-	  		array( $idcol => array('label'=>'238975247578949')),
-	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')));
-	  	
-	  	$table->addRowsFromArray( $rows );
-	  	
-	  	
-	 	$expectedtable = clone $table;
-	 	$expectedtable->deleteRows(array(1,2,4,5,6));
-	  	
-	  	$filter = new Piwik_DataTable_Filter_Pattern($table, 'label', 'oo');
-	  		  	
-	  	$this->assertEqual($table->getRows(), $expectedtable->getRows());
-	 }
-	/**
-	 * Test to filter a column with a pattern
-	 */
-	 function test_filter_Pattern2()
-	 {
-	 	$table = new Piwik_DataTable;
-	 	
-	 	$idcol = Piwik_DataTable_Row::COLUMNS;
-	 	
-	  	$rows = array(
-	  		array( $idcol => array('label'=>'google')),
-	  		array( $idcol => array('label'=>'ask')),
-	  		array( $idcol => array('label'=>'piwik')),
-	  		array( $idcol => array('label'=>'yahoo')),
-	  		array( $idcol => array('label'=>'amazon')),
-	  		array( $idcol => array('label'=>'238975247578949')),
-	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')));
-	  	
-	  	$table->addRowsFromArray( $rows );
-	  	
-	  	
-	 	$expectedtable = clone $table;
-	 	$expectedtable->deleteRows(array(0,1,2,3,4,5));
-	  	
-	  	$filter = new Piwik_DataTable_Filter_Pattern($table, 'label', '*');
-	  		  	
-	  	$this->assertEqual($table->getRows(), $expectedtable->getRows());
-	 }
-	/**
-	 * Test to filter a table with a offset, limit
-	 */
-	 function test_filter_OffsetLimit()
-	 {
-	 	$table = new Piwik_DataTable;
-	 	
-	 	$idcol = Piwik_DataTable_Row::COLUMNS;
-	 	
-	  	$rows = array(
-	  		array( $idcol => array('label'=>'google')),//0
-	  		array( $idcol => array('label'=>'ask')),//1
-	  		array( $idcol => array('label'=>'piwik')),//2
-	  		array( $idcol => array('label'=>'yahoo')),//3
-	  		array( $idcol => array('label'=>'amazon')),//4
-	  		array( $idcol => array('label'=>'238975247578949')),//5
-	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
-	  		);
-	  	
-	  	$table->addRowsFromArray( $rows );
-	  		  	
-	 	$expectedtable = clone $table;
-	 	$expectedtable->deleteRows(array(0,1,6));
-	  	
-	  	$filter = new Piwik_DataTable_Filter_Limit($table, 2, 4);
-	  	
-	  	$colAfter=$colExpected=array();
-	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
-	  	foreach($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
-	  	
-	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()),
-	  		implode(", ",array_values($colAfter)) ." does not match the expected ".implode(", ",array_values($colExpected)) );
-	 }
-	/**
-	 * Test to filter a column with a offset, limit off bound
-	 */
-	 function test_filter_OffsetLimitOffbound()
-	 {
-	 	$table = new Piwik_DataTable;
-	 	
-	 	$idcol = Piwik_DataTable_Row::COLUMNS;
-	 	
-	  	$rows = array(
-	  		array( $idcol => array('label'=>'google')),//0
-	  		array( $idcol => array('label'=>'ask')),//1
-	  		array( $idcol => array('label'=>'piwik')),//2
-	  		array( $idcol => array('label'=>'yahoo')),//3
-	  		array( $idcol => array('label'=>'amazon')),//4
-	  		array( $idcol => array('label'=>'238975247578949')),//5
-	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
-	  		);
-	  	
-	  	$table->addRowsFromArray( $rows );
-	  		  	
-	 	$expectedtable = clone $table;
-	 	$expectedtable->deleteRows(array(0,1,3,4,5,6));
-	  	
-	  	$filter = new Piwik_DataTable_Filter_Limit($table, 2, 1);
-	  	
-	  	$colAfter=$colExpected=array();
-	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
-	  	foreach($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
-	  	
-	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()));
-	 }
-	/**
-	 * Test to filter a column with a offset, limit 2
-	 */
-	 function test_filter_OffsetLimit2()
-	 {
-	 	$table = new Piwik_DataTable;
-	 	
-	 	$idcol = Piwik_DataTable_Row::COLUMNS;
-	 	
-	  	$rows = array(
-	  		array( $idcol => array('label'=>'google')),//0
-	  		array( $idcol => array('label'=>'ask')),//1
-	  		array( $idcol => array('label'=>'piwik')),//2
-	  		array( $idcol => array('label'=>'yahoo')),//3
-	  		array( $idcol => array('label'=>'amazon')),//4
-	  		array( $idcol => array('label'=>'238975247578949')),//5
-	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
-	  		);
-	  	
-	  	$table->addRowsFromArray( $rows );
-	  		  	
-	 	$expectedtable = clone $table;
-	  	
-	  	$filter = new Piwik_DataTable_Filter_Limit($table, 0, 15);
-	  	
-	  	$colAfter=$colExpected=array();
-	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
-	  	foreach($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
-	  	
-	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()));
-	 }
+	
 	
 	/**
-	 * Test to filter a column with a offset, limit 3
-	 */
-	 function test_filter_OffsetLimit3()
-	 {
-	 	$table = new Piwik_DataTable;
-	 	
-	 	$idcol = Piwik_DataTable_Row::COLUMNS;
-	 	
-	  	$rows = array(
-	  		array( $idcol => array('label'=>'google')),//0
-	  		array( $idcol => array('label'=>'ask')),//1
-	  		array( $idcol => array('label'=>'piwik')),//2
-	  		array( $idcol => array('label'=>'yahoo')),//3
-	  		array( $idcol => array('label'=>'amazon')),//4
-	  		array( $idcol => array('label'=>'238975247578949')),//5
-	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
-	  		);
-	  	
-	  	$table->addRowsFromArray( $rows );
-	  		  	
-	 	$expectedtable = new Piwik_DataTable;
-	  	
-	  	$filter = new Piwik_DataTable_Filter_Limit($table, 8, 15);
-	  	
-	  	$colAfter=$colExpected=array();
-	  	foreach($table->getRows() as $row) $colAfter[] = $row->getColumn('label');
-	  	foreach($expectedtable->getRows() as $row) $colExpected[] = $row->getColumn('label');
-	  	
-	  	$this->assertEqual(array_values($table->getRows()), array_values($expectedtable->getRows()));
-	 }
-	 
-	
-	/**
-	 * Test to sort by label
-	 */
-	 function test_filter_SortString()
-	 {
-	 	
-	 	$idcol = Piwik_DataTable_Row::COLUMNS;
-	 	
-	  	$table = new Piwik_DataTable;
-	 	$rows = array(
-	  		array( $idcol => array('label'=>'google')),//0
-	  		array( $idcol => array('label'=>'ask')),//1
-	  		array( $idcol => array('label'=>'piwik')),//2
-	  		array( $idcol => array('label'=>'yahoo')),//3
-	  		array( $idcol => array('label'=>'amazon')),//4
-	  		array( $idcol => array('label'=>'238975247578949')),//5
-	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))//6
-	  		);
-	  	$table->addRowsFromArray( $rows );
-	  	
-	  	$expectedtable = new Piwik_DataTable;
-	 	$rows = array(
-	  		array( $idcol => array('label'=>'238975247578949')),//5
-	  		array( $idcol => array('label'=>'amazon')),//4
-	  		array( $idcol => array('label'=>'ask')),//1
-	  		array( $idcol => array('label'=>'google')),//0
-	  		array( $idcol => array('label'=>'piwik')),//2
-	  		array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))')),//6
-	  		array( $idcol => array('label'=>'yahoo')),//3
-	  		);
-	  	$expectedtable->addRowsFromArray( $rows );
-	  	
-	  	$expectedtableReverse = new Piwik_DataTable;
-	  	$expectedtableReverse->addRowsFromArray(array_reverse($rows));
-	  		  	
-	 	$filter = new Piwik_DataTable_Filter_Sort($table, 'label', 'asc');
-	 	$this->assertTrue(Piwik_DataTable::isEqual($expectedtable,$table));
-	  	
-	  	$filter = new Piwik_DataTable_Filter_Sort($table, 'label', 'desc');
-	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtableReverse));
-	 
-	 }
-	
-	/**
-	 * Test to sort by label queing the filter
+	 * Test queing filters
 	 */
 	 function test_filter_Queue_SortString()
 	 {
@@ -590,86 +301,114 @@ class Test_Piwik_DataTable extends UnitTestCase
 		$this->assertTrue(Piwik_DataTable::isEqual($expectedtableReverse, $table));
 	 }
 	
-	/**
-	 * Test to sort by visit
-	 */
-	 function test_filter_SortNumeric()
-	 {
-	 	
-	 	$idcol = Piwik_DataTable_Row::COLUMNS;
-	 	
-	  	$table = new Piwik_DataTable;
-	 	$rows = array(
-	  		array( $idcol => array('label'=>'google', 	'nb_visits' => 897)),//0
-	  		array( $idcol => array('label'=>'ask', 		'nb_visits' => -152)),//1
-	  		array( $idcol => array('label'=>'piwik', 	'nb_visits' => 1.5)),//2
-	  		array( $idcol => array('label'=>'yahoo', 	'nb_visits' => 154)),//3
-	  		array( $idcol => array('label'=>'amazon', 	'nb_visits' => 30)),//4
-	  		array( $idcol => array('label'=>'238949', 	'nb_visits' => 0)),//5
-	  		array( $idcol => array('label'=>'Q*(%&*', 	'nb_visits' => 1)),//6
-	  		);
-	  	$table->addRowsFromArray( $rows );
-	  	
-	  	$expectedtable = new Piwik_DataTable;
-	 	$rows = array(
-	  		array( $idcol => array('label'=>'ask', 		'nb_visits' => -152)),//1
-	  		array( $idcol => array('label'=>'238949', 	'nb_visits' => 0)),//5
-	  		array( $idcol => array('label'=>'Q*(%&*', 	'nb_visits' => 1)),//6
-	  		array( $idcol => array('label'=>'piwik', 	'nb_visits' => 1.5)),//2
-	  		array( $idcol => array('label'=>'amazon', 	'nb_visits' => 30)),//4
-	  		array( $idcol => array('label'=>'yahoo', 	'nb_visits' => 154)),//3
-	  		array( $idcol => array('label'=>'google', 	'nb_visits' => 897)),//0
-	  		);
-	  	$expectedtable->addRowsFromArray( $rows );
-	  	
-	  	$expectedtableReverse = new Piwik_DataTable;
-	  	$expectedtableReverse->addRowsFromArray(array_reverse($rows));
-	  		  	
-	 	$filter = new Piwik_DataTable_Filter_Sort($table, 'nb_visits', 'asc');
-	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtable));
-	  	
-	  	$filter = new Piwik_DataTable_Filter_Sort($table, 'nb_visits', 'desc');
-	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtableReverse));
-	 }
 	
-	
-	/**
-	 * Test to exclude low population filter
-	 */
-	 function test_filter_Lowpop1()
-	 {
-	 	
-	 	$idcol = Piwik_DataTable_Row::COLUMNS;
-	 	
-	  	$table = new Piwik_DataTable;
-	 	$rows = array(
-	  		array( $idcol => array('label'=>'google', 	'nb_visits' => 897)),//0
-	  		array( $idcol => array('label'=>'ask', 		'nb_visits' => -152)),//1
-	  		array( $idcol => array('label'=>'piwik', 	'nb_visits' => 1.5)),//2
-	  		array( $idcol => array('label'=>'piwik2', 	'nb_visits' => 1.4)),//2
-	  		array( $idcol => array('label'=>'yahoo', 	'nb_visits' => 154)),//3
-	  		array( $idcol => array('label'=>'amazon', 	'nb_visits' => 30)),//4
-	  		array( $idcol => array('label'=>'238949', 	'nb_visits' => 0)),//5
-	  		array( $idcol => array('label'=>'Q*(%&*', 	'nb_visits' => 1)),//6
-	  		array( $idcol => array('label'=>'Q*(%&*2', 	'nb_visits' => -1.5)),//6
-	  		);
-	  	$table->addRowsFromArray( $rows );
-	  	
-	  	$expectedtable = new Piwik_DataTable;
-	 	$rows = array(
-	  		array( $idcol => array('label'=>'google', 	'nb_visits' => 897)),//0
-	 		array( $idcol => array('label'=>'piwik', 	'nb_visits' => 1.5)),//2
-	  		array( $idcol => array('label'=>'piwik2', 	'nb_visits' => 1.4)),//2
-	  		array( $idcol => array('label'=>'yahoo', 	'nb_visits' => 154)),//3
-	  		array( $idcol => array('label'=>'amazon', 	'nb_visits' => 30)),//4
-		);
-	  	$expectedtable->addRowsFromArray( $rows );
-	  	
-	 	$filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'nb_visits', 1.4);
 
-	  	$this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtable));
-	 }
-	
+	/**
+	 * General tests that tries to test the normal behaviour of DataTable
+	 * 
+	 * We create some tables, add rows, some of the rows link to sub tables
+	 * 
+	 * Then we serialize everything, and we check that the unserialize give the same object back
+	 */
+	function test_general()
+	{
+	  	/*
+	  	 * create some fake tables to make sure that the serialized array of the first TABLE
+	  	 * does not take in consideration those tables
+	  	 */
+	  	$useless1 = new Piwik_DataTable;
+	  	$useless1->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 13,),));
+		/*
+		 * end fake tables
+		 */
+		
+		/*
+		 * MAIN TABLE
+		 */
+		$table = new Piwik_DataTable;
+		$subtable = new Piwik_DataTable;
+		$idtable = $table->getId();
+		$idsubtable = $subtable->getId();
+		
+	  	/*
+	  	 * create some fake tables to make sure that the serialized array of the first TABLE
+	  	 * does not take in consideration those tables
+	  	 * -> we check that the DataTable_Manager is not impacting DataTable 
+	  	 */
+	  	$useless2 = new Piwik_DataTable;
+	  	$useless1->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 8487,),));
+	  	$useless3 = new Piwik_DataTable;
+	  	$useless3->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 8487,),));
+		/*
+		 * end fake tables
+		 */
+		
+		$row = array(Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,	1 => 42,	2 => 657,3 => 155744,),
+	  				Piwik_DataTable_Row::METADATA => array('logo' => 'test.png'));
+	  	$row = new Piwik_DataTable_Row($row);
+	  	
+	  	$table->addRow($row);
+	  	$table->addRowFromArray(array( Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,1 => 42,),
+	  						Piwik_DataTable_Row::METADATA => array('url' => 'piwik.org')));
+		
+	  	$table->addRowFromArray(array( Piwik_DataTable_Row::COLUMNS => array( 0 => 787877888787,),
+	  						Piwik_DataTable_Row::METADATA => array('url' => 'OUPLA ADDED'),
+	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtable));
+		  	
+		/*
+		 * SUB TABLE
+		 */				
+	  									
+		
+		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 1554,),
+	  						Piwik_DataTable_Row::METADATA => array('searchengine' => 'google'),
+	  					);
+	  	$subtable->addRowFromArray($row);
+	  	
+		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 84894,),
+	  						Piwik_DataTable_Row::METADATA => array('searchengine' => 'yahoo'),
+	  					);
+	  	$subtable->addRowFromArray($row);
+		$row = array( 		Piwik_DataTable_Row::COLUMNS => array( 0 => 4898978989,),
+	  						Piwik_DataTable_Row::METADATA => array('searchengine' => 'ask'),
+	  					);	  	
+	  	$subtable->addRowFromArray($row);
+	  	
+	  	
+	  	/*
+	  	 * SUB SUB TABLE
+	  	 */
+	  	$subsubtable = new Piwik_DataTable;
+	  	$subsubtable->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 245),
+	  						Piwik_DataTable_Row::METADATA => array('yes' => 'subsubmetadata1'),)
+	  						);  	
+	  						
+	  	$subsubtable->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => array( 13,),
+	  						Piwik_DataTable_Row::METADATA => array('yes' => 'subsubmetadata2'),)
+	  						);
+	  						
+		$row = array( 	Piwik_DataTable_Row::COLUMNS => array( 0 => 666666666666666,),
+	  						Piwik_DataTable_Row::METADATA => array('url' => 'NEW ROW ADDED'),
+	  						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subsubtable);
+	  	
+	  	$subtable->addRowFromArray($row);
+		
+		$idsubsubtable = $subsubtable->getId();
+	  	
+	  	$serialized = ($table->getSerialized());
+	  	
+		$this->assertEqual(array_keys($serialized), array($idsubsubtable,$idsubtable,0));
+		$tableAfter = new Piwik_DataTable;
+		$tableAfter->addRowsFromSerializedArray($serialized[0]);
+		$this->assertEqual($table->getRows(),$tableAfter->getRows());
+
+		$subsubtableAfter = new Piwik_DataTable;
+		$subsubtableAfter->addRowsFromSerializedArray($serialized[$idsubsubtable]);
+		$this->assertEqual($subsubtable->getRows(),$subsubtableAfter->getRows());
+		
+		$this->assertEqual($table, Piwik_DataTable_Manager::getInstance()->getTable($idtable));
+		$this->assertEqual($subsubtable, Piwik_DataTable_Manager::getInstance()->getTable($idsubsubtable));
+	}
 	
 	/**
 	 * for all datatable->addDatatable tests we check that
