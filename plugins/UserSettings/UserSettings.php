@@ -106,7 +106,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$labelSQL = "config_resolution";
 		$interestByResolution = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableResolution = $archiveProcessing->getDataTableFromArray($interestByResolution);
-		$filter = new Piwik_DataTable_Filter_ColumnCallbackDeleteRow($tableResolution, 'label', 'Piwik_UserSettings_keepStrlenGreater');
+		$tableResolution->filter('Piwik_DataTable_Filter_ColumnCallbackDeleteRow', array('label', 'Piwik_UserSettings_keepStrlenGreater'));
 		$archiveProcessing->insertBlobRecord($recordName, $tableResolution->getSerialized());
 		
 		$recordName = 'UserSettings_wideScreen';

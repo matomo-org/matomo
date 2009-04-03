@@ -44,7 +44,7 @@ class Piwik_Referers_API
 		{
 			$dataTable = $archive->getDataTable($name, $idSubtable);
 		}
-		$filter = new Piwik_DataTable_Filter_Sort($dataTable, Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded);
+		$dataTable->filter('Piwik_DataTable_Filter_Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames', array($expanded));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceSummaryRowLabel');
 		return $dataTable;

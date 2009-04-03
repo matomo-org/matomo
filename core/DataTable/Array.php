@@ -105,6 +105,19 @@ class Piwik_DataTable_Array
 	}
 	
 	/**
+	 * Apply a filter to all tables in the array
+	 * @param $className
+	 * @param $parameters
+	 */
+	public function filter($className, $parameters = array())
+	{
+		foreach($this->array as $table)
+		{
+			$table->filter($className, $parameters);
+		}
+	}
+	
+	/**
 	 * Returns the array of DataTable
 	 *
 	 * @return array of Piwik_DataTable

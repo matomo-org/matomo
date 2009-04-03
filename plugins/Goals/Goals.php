@@ -101,9 +101,6 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	function archivePeriod($notification )
 	{
-		/**
-		 * @var Piwik_ArchiveProcessing_Period 
-		 */
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		$metricsToSum = array( 'nb_conversions', 'revenue');

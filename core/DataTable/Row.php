@@ -19,9 +19,12 @@
  * - idSubtable: a row can be linked to a SubTable
  * 
  * IMPORTANT: Make sure that the column named 'label' contains at least one non-numeric character.
- * Otherwise the method addDataTable() or sumRow() would fail because they would consider
- * the 'label' as being a numeric column to sum.
+ *            Otherwise the method addDataTable() or sumRow() would fail because they would consider
+ *            the 'label' as being a numeric column to sum.
  * 
+ * PERFORMANCE: Do *not* add new fields except if necessary in this object. New fields will be 
+ *              serialized and recorded in the DB millions of times. This object size is critical and must be under control.
+ *              
  * @package Piwik_DataTable
  * @subpackage Piwik_DataTable_Row
  * 
@@ -137,6 +140,15 @@ class Piwik_DataTable_Row
 		}
 		unset($this->c[self::COLUMNS][$name]);
 		return true;
+	}
+	
+	public function renameColumn($oldName, $newName)
+	{
+		if(isset($this->c[self::COLUMNS][$oldName]))
+		{
+			$this->c[self::COLUMNS][$newName] = $this->c[self::COLUMNS][$oldName];
+			unset($this->c[self::COLUMNS][$oldName]);
+		}
 	}
 	
 	/**
@@ -308,14 +320,6 @@ class Piwik_DataTable_Row
 		}
 		$this->c[self::METADATA][$name] = $value;
 	}
-	
-	//TODO this should not be hardcoded here
-	protected $columnsExcludedFromSum = array(
-		'label' => true, 
-		'nb_uniq_visitors' => true, 
-		'entry_nb_uniq_visitors' => true, 
-		'exit_nb_uniq_visitors' => true,
-	);
 
 	/**
 	 * Sums the given $row columns values to the existing row' columns values.
@@ -330,7 +334,7 @@ class Piwik_DataTable_Row
 	{
 		foreach($rowToSum->getColumns() as $columnToSumName => $columnToSumValue)
 		{
-			if(!isset($this->columnsExcludedFromSum[$columnToSumName]))
+			if($columnToSumName != 'label')
 			{
 				$thisColumnValue = $this->getColumn($columnToSumName);
 				$newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);

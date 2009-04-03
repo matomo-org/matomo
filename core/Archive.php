@@ -55,6 +55,7 @@ abstract class Piwik_Archive
 	const INDEX_NB_CONVERSIONS = 8;
 	const INDEX_REVENUE = 9;
 	const INDEX_GOALS = 10;
+	const INDEX_SUM_DAILY_NB_UNIQ_VISITORS = 11;
 	
 	const INDEX_GOAL_NB_CONVERSIONS = 1;
 	const INDEX_GOAL_REVENUE = 2;
@@ -70,6 +71,7 @@ abstract class Piwik_Archive
 				Piwik_Archive::INDEX_NB_CONVERSIONS 		=> 'nb_conversions',
 				Piwik_Archive::INDEX_REVENUE				=> 'revenue',
 				Piwik_Archive::INDEX_GOALS					=> 'goals',
+				Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS => 'sum_daily_nb_uniq_visitors',
 			);
 
 	public static $mappingFromIdToNameGoal = array(
@@ -91,6 +93,7 @@ abstract class Piwik_Archive
 				'nb_conversions' 			=> Piwik_Archive::INDEX_NB_CONVERSIONS,
 				'revenue' 					=> Piwik_Archive::INDEX_REVENUE,
 				'goals'						=> Piwik_Archive::INDEX_GOALS,
+				'sum_daily_nb_uniq_visitors' => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
 	);
 	
 	/**

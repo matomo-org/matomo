@@ -78,7 +78,7 @@ class Piwik_Referers extends Piwik_Plugin
 			'Referers_keywordByCampaign',
 			'Referers_urlByWebsite',
 		);
-		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
+		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 		
 		$mappingFromArchiveName = array(
 			'Referers_distinctSearchEngines' => 

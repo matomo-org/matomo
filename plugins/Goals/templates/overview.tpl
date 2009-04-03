@@ -4,7 +4,7 @@
 {foreach from=$goalMetrics item=goal}
 {assign var=nb_conversions value=$goal.nb_conversions}
 {assign var=conversion_rate value=$goal.conversion_rate}
-<h2 style="padding-top: 30px;">{$goal.name} (goal)</h3>
+<h2 style="padding-top: 30px;">{$goal.name} (goal)</h2>
 <table width=700px>
 	<tr><td>
 		<p>{sparkline src=$goal.urlSparklineConversions}<span>

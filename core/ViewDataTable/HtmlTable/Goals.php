@@ -75,8 +75,8 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		$this->columnsToPercentageFilter[] = 'goals_conversion_rate';
 		foreach($this->columnsToPercentageFilter as $columnName)
 		{
-			$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace($this->dataTable, $columnName, create_function('$rate', 'return $rate."%";'));
+			$this->dataTable->filter('Piwik_DataTable_Filter_ColumnCallbackReplace', array($columnName, create_function('$rate', 'return $rate."%";')));
 		}
-		$filter = new Piwik_DataTable_Filter_ColumnCallbackReplace($this->dataTable, 'revenue_per_visit', array("Piwik", "getPrettyMoney"));
+		$this->dataTable->filter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('revenue_per_visit', array("Piwik", "getPrettyMoney")));
 	}
 }
