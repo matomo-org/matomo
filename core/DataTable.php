@@ -1035,7 +1035,6 @@ class Piwik_DataTable
 			return;
 		}
 		
-		
 		foreach($array as $key => $row)
 		{
 			// stuff that looks like a line

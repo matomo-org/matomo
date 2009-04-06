@@ -64,10 +64,16 @@ class Piwik_Actions extends Piwik_Plugin
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'getDownloads'));		
 	}
 	
-	static protected $invalidSummedColumnNameToRenamedName = array(
+	static protected $invalidSummedColumnNameToRenamedNameForPeriodArchive = array(
 		'nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors', 
 		'entry_nb_uniq_visitors' => 'sum_daily_entry_nb_uniq_visitors', 
 		'exit_nb_uniq_visitors' => 'sum_daily_exit_nb_uniq_visitors',
+	);
+	
+	protected static $invalidSummedColumnNameToDeleteFromDayArchive = array(
+		'nb_uniq_visitors',
+		'entry_nb_uniq_visitors', 
+		'exit_nb_uniq_visitors',
 	);
 	
 	function archivePeriod( $notification )
@@ -78,7 +84,7 @@ class Piwik_Actions extends Piwik_Plugin
 				'Actions_downloads',
 				'Actions_outlink',
 		);
-		$archiveProcessing->archiveDataTable($dataTableToSum, self::$invalidSummedColumnNameToRenamedName, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
+		$archiveProcessing->archiveDataTable($dataTableToSum, self::$invalidSummedColumnNameToRenamedNameForPeriodArchive, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 	}
 	
 	/**
@@ -189,16 +195,19 @@ class Piwik_Actions extends Piwik_Plugin
 	protected function archiveDayRecordInDatabase($archiveProcessing)
 	{
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION]);
+		$this->deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized( $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_actions', $s);
 		destroy($dataTable);
 
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD]);
+		$this->deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_downloads', $s);
 		destroy($dataTable);
 
 		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_OUTLINK]);
+		$this->deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized( $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_outlink', $s);
 		destroy($dataTable);
@@ -206,6 +215,20 @@ class Piwik_Actions extends Piwik_Plugin
 		unset($this->actionsTablesByType);
 	}
 	
+	protected function deleteInvalidSummedColumnsFromDataTable($dataTable)
+	{
+		foreach($dataTable->getRows() as $row)
+		{
+			if(($idSubtable = $row->getIdSubDataTable()) !== null)
+			{
+				foreach(self::$invalidSummedColumnNameToDeleteFromDayArchive as $name)
+				{
+					$row->deleteColumn($name);
+				}
+				$this->deleteInvalidSummedColumnsFromDataTable(Piwik_DataTable_Manager::getInstance()->getTable($idSubtable));
+			}
+		}
+	}
 	static public function getActionExplodedNames($name, $type)
 	{
 		if($type == Piwik_Tracker_Action::TYPE_DOWNLOAD
@@ -311,7 +334,6 @@ class Piwik_Actions extends Piwik_Plugin
 
 		// just to make sure php copies the last $currentTable in the $parentTable array
 		$currentTable =& $this->actionsTablesByType;
-		
 		return $rowsProcessed;
 	}
 }

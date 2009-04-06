@@ -1,7 +1,7 @@
 <?php
 require_once "ViewDataTable/GenerateGraphData.php";
 /**
- * Piwik_ViewDataTable_GenerateGraphData for the vertical bar graph, using Piwik_Visualization_ChartVerticalBar
+ * Piwik_ViewDataTable_GenerateGraphData for the vertical bar graph, using Piwik_Visualization_Chart_VerticalBar
  * 
  * @package Piwik_ViewDataTable
  *
@@ -17,7 +17,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar extends Piwik_ViewD
 	
 	function __construct()
 	{
-		require_once "Visualization/ChartVerticalBar.php";
-		$this->view = new Piwik_Visualization_ChartVerticalBar;
+		require_once "Visualization/Chart/VerticalBar.php";
+		$this->view = new Piwik_Visualization_Chart_VerticalBar;
 	}
 }

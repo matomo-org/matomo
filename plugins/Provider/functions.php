@@ -5,11 +5,15 @@ function Piwik_getHostnameName($in)
 	{
 		return Piwik_Translate('General_Unknown');
 	}
-	elseif(strtolower($in) === 'ip')
+	if(strtolower($in) === 'ip')
 	{
 		return "IP";
 	}
-	return ucfirst(substr($in, 0, strpos($in, '.')));
+	if(($positionDot = strpos($in, '.')) !== false)
+	{
+		return ucfirst(substr($in, 0, $positionDot));
+	}
+	return $in;
 }
 
 function Piwik_getHostnameUrl($in)

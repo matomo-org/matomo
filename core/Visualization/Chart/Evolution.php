@@ -16,12 +16,11 @@ require_once "Visualization/Chart.php";
  * 
  * @package Piwik_Visualization
  */
-class Piwik_Visualization_ChartEvolution extends Piwik_Visualization_Chart
+class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 {
 	function customizeGraph()
 	{
 		parent::customizeGraph();
-		//$this->prepareData();
 
 		$colors = array(
 			"0x3357A0",

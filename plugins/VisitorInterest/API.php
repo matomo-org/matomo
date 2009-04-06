@@ -11,7 +11,6 @@
 
 
 /**
- * 
  * @package Piwik_VisitorInterest
  */
 class Piwik_VisitorInterest_API 
@@ -73,12 +72,13 @@ function Piwik_getDurationLabel($label)
 			return sprintf($XYMin, $min, $max);
 		}
 	}
-	else
+	if(!is_numeric($label))
 	{
-		$time = intval($label) / 60;
-		$plusXMin = Piwik_Translate('VisitorInterest_PlusXMin');
-		return sprintf($plusXMin, '+' . $time);
+		return $label;
 	}
+	$time = intval($label) / 60;
+	$plusXMin = Piwik_Translate('VisitorInterest_PlusXMin');
+	return sprintf($plusXMin, '+' . $time);
 }
 
 function Piwik_getPageGapLabel($label)
@@ -103,5 +103,6 @@ function Piwik_getPageGapLabel($label)
 	{
 		return Piwik_Translate('VisitorInterest_OnePage');
 	}
+
 	return sprintf(Piwik_Translate('VisitorInterest_NPages'), $return);
 }

@@ -16,12 +16,11 @@ require_once "Visualization/Chart.php";
  * 
  * @package Piwik_Visualization
  */
-class Piwik_Visualization_ChartPie extends Piwik_Visualization_Chart
+class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 {
 	function customizeGraph()
 	{
 		parent::customizeGraph();
-		
 		$this->prepareData();		
 	
 	    for($i = 0, $cnt = count($this->arrayLabel); $i < $cnt; $i++) 
@@ -35,7 +34,5 @@ class Piwik_Visualization_ChartPie extends Piwik_Visualization_Chart
 		$this->pie_slice_colours( array('#3C5A69','#679BB5','#695A3C','#B58E67','#969696') );
 		
 		$this->set_tool_tip( '#x_label# <br>#val# ' );
-		
 	}
-	
 }

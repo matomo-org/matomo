@@ -22,10 +22,7 @@ abstract class Piwik_Visualization_OpenFlashChart implements Piwik_iView
 {
 	function __construct()
 	{
-
 		$this->data_sets = array();
-		
-		
 		$this->data = array();
 		$this->links = array();
 		$this->width = 250;

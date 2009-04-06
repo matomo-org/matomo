@@ -25,6 +25,8 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 		$this->assertEqual($table->getRowsCount(), 3);
 		$expectedRow = new Piwik_DataTable_Row(array( Piwik_DataTable_Row::COLUMNS => array('label'=>Piwik_DataTable::LABEL_SUMMARY_ROW, 'nb' => 111)));
 		$this->assertTrue(Piwik_DataTable_Row::isEqual($table->getLastRow(), $expectedRow));
+		// check that column 'label' is forced to be first in summary row
+		$this->assertEqual(array_keys($table->getLastRow()->getColumns()), array_keys($expectedRow->getColumns()));
 	}
 	
 	public function test_offsetIsMoreThanCount_shouldNotAddSummaryRow()
@@ -121,7 +123,7 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 	}
 	protected function getRow0()
 	{
-		return new Piwik_DataTable_Row(array( Piwik_DataTable_Row::COLUMNS => array('label'=>'amazon', 'nb' => 10000)));
+		return new Piwik_DataTable_Row(array( Piwik_DataTable_Row::COLUMNS => array('nb' => 10000, 'label'=>'amazon')));
 	}
 	protected function getRow1()
 	{
@@ -137,6 +139,6 @@ class Test_Piwik_DataTable_Filter_AddSummaryRow extends UnitTestCase
 	}
 	protected function getRow4()
 	{
-		return new Piwik_DataTable_Row(array( Piwik_DataTable_Row::COLUMNS => array('label'=>'google', 'nb' => 1)));
+		return new Piwik_DataTable_Row(array( Piwik_DataTable_Row::COLUMNS => array('nb' => 1, 'label'=>'google')));
 	}
 }

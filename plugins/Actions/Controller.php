@@ -107,10 +107,10 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->disableShowAllColumns();
 		
 		$view->setLimit( 100 );
-		$view->setColumnsToDisplay( array('label','nb_hits','nb_uniq_visitors') );
+		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits') );
 		$view->setSortedColumn( 'nb_visits', 'desc' );
 		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
-		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnUniquePageviews'));
+		$view->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnUniquePageviews'));
 
 		if(Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string' ) != '0')
 		{
@@ -139,9 +139,9 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	protected function configureViewDownloads($view)
 	{
-		$view->setColumnsToDisplay( array('label','nb_visits', 'nb_uniq_visitors') );
-		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnDownloads'));
-		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('Actions_ColumnUniqueDownloads'));
+		$view->setColumnsToDisplay( array('label','nb_visits','nb_hits') );
+		$view->setColumnTranslation('nb_hits', Piwik_Translate('Actions_ColumnDownloads'));
+		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnUniqueDownloads'));
 		$view->setSortedColumn( 'nb_visits','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
@@ -149,9 +149,9 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	protected function configureViewOutlinks($view)
 	{
-		$view->setColumnsToDisplay( array('label','nb_visits','nb_uniq_visitors') );
-		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnClicks'));
-		$view->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('Actions_ColumnUniqueClicks'));
+		$view->setColumnsToDisplay( array('label','nb_visits','nb_hits') );
+		$view->setColumnTranslation('nb_hits', Piwik_Translate('Actions_ColumnClicks'));
+		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnUniqueClicks'));
 		$view->setSortedColumn( 'nb_visits','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
