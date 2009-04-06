@@ -102,11 +102,17 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->init( $this->pluginName,  $currentControllerAction, $APItoCall );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
-		$view->setSortedColumn( 1 );
 		$view->setLimit( 5 );
 		$view->setGraphLimit(5);
+		
+		$this->setPeriodVariablesView($view);
+		$column = 'nb_visits';
+		if($view->period == 'day')
+		{
+			$column = 'nb_uniq_visitors';
+		}
+		$view->setSortedColumn( $column );
+		$view->setColumnsToDisplay( array('label', $column) );
 		return $view;
 	}
 }

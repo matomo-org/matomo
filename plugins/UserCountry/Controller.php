@@ -18,31 +18,37 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 	
 	function getCountry( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory();
-		$view->init( $this->pluginName, __FUNCTION__, "UserCountry.getCountry" );
-		$view->disableExcludeLowPopulation();
-		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
-		$view->setSortedColumn( 1 ); 
+		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getCountry");
 		$view->setLimit( 5 );
-		$view->enableShowGoals();
-		
 		return $this->renderView($view, $fetch);
 	}
 
 	function getContinent( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar' );
-		$view->init( $this->pluginName, __FUNCTION__, "UserCountry.getContinent" );
-		$view->disableExcludeLowPopulation();
+		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getContinent", 'graphVerticalBar');
 		$view->disableSearchBox();
 		$view->disableOffsetInformation();
-		$view->disableSort();
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
-		$view->setSortedColumn( 1 );
-		$view->enableShowGoals();
-		
 		return $this->renderView($view, $fetch);
+	}
+	
+	protected function getStandardDataTableUserCountry( $currentControllerAction, 
+												$APItoCall,
+												$defaultDatatableType = null )
+	{
+		$view = Piwik_ViewDataTable::factory( $defaultDatatableType );
+		$view->init( $this->pluginName, $currentControllerAction, $APItoCall );
+		$view->disableExcludeLowPopulation();
+	
+		$this->setPeriodVariablesView($view);
+		$column = 'nb_visits';
+		if($view->period == 'day')
+		{
+			$column = 'nb_uniq_visitors';
+		}
+		$view->setColumnsToDisplay( array('label',$column) );
+		$view->setSortedColumn( $column );
+		$view->enableShowGoals();
+		return $view;
 	}
 	
 	function getNumberOfDistinctCountries( $fetch = false)
