@@ -14,7 +14,9 @@ class Test_Piwik_DataTable extends UnitTestCase
 	{
 		$table = $this->getDataTable1ForTest();
 		$this->assertEqual($table->getRowsCount(), 4);
-		$table->filter('Piwik_DataTable_Filter_Limit', array(2,1));
+		$table->filter('Limit', array(2,2));
+		$this->assertEqual($table->getRowsCount(), 2);
+		$table->filter('Piwik_DataTable_Filter_Limit', array(0,1));
 		$this->assertEqual($table->getRowsCount(), 1);
 	}
 	
@@ -281,7 +283,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 		$this->assertTrue(Piwik_DataTable::isEqual($tableCopy, $table));
 		
 		// queue the filter and check the table didnt change
-		$table->queueFilter("Piwik_DataTable_Filter_Sort", array('label', 'asc'));
+		$table->queueFilter("Sort", array('label', 'asc'));
 		$this->assertTrue(Piwik_DataTable::isEqual($tableCopy, $table));
 		
 		// apply filter and check the table is sorted
@@ -289,7 +291,7 @@ class Test_Piwik_DataTable extends UnitTestCase
 		$this->assertTrue(Piwik_DataTable::isEqual($expectedtable, $table));
 		
 		// apply one more filter check it hasnt changed
-		$table->queueFilter("Piwik_DataTable_Filter_Sort", array('label', 'desc'));
+		$table->queueFilter("Sort", array('label', 'desc'));
 		$this->assertTrue(Piwik_DataTable::isEqual($expectedtable, $table));
 		
 		// now apply the second sort and check it is correctly sorted

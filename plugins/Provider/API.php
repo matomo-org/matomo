@@ -33,10 +33,10 @@ class Piwik_Provider_API
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('Provider_hostnameExt');
-		$dataTable->filter('Piwik_DataTable_Filter_Sort', array(Piwik_Archive::INDEX_NB_VISITS));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getHostnameUrl'));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getHostnameName'));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
+		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
+		$dataTable->queuefilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getHostnameUrl'));
+		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getHostnameName'));
+		$dataTable->queuefilter('ReplaceColumnNames');
 		return $dataTable;
 	}
 }

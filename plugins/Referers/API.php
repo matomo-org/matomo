@@ -44,16 +44,16 @@ class Piwik_Referers_API
 		{
 			$dataTable = $archive->getDataTable($name, $idSubtable);
 		}
-		$dataTable->filter('Piwik_DataTable_Filter_Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames', array($expanded));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceSummaryRowLabel');
+		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
+		$dataTable->queuefilter('ReplaceColumnNames', array($expanded));
+		$dataTable->queuefilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
 	
 	function getRefererType($idSite, $period, $date)
 	{
 		$dataTable = $this->getDataTable('Referers_type', $idSite, $period, $date, $expanded = false);
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
+		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
 		return $dataTable;
 	}
 	
@@ -66,16 +66,16 @@ class Piwik_Referers_API
 	function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword',$idSite, $period, $date, $expanded = false, $idSubtable);
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
-		$dataTable->queueFilter('Piwik_DataTable_Filter_MetadataCallbackAddMetadata', array( 'url', 'logo', 'Piwik_getSearchEngineLogoFromName') );
+		$dataTable->queuefilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
+		$dataTable->queuefilter('MetadataCallbackAddMetadata', array( 'url', 'logo', 'Piwik_getSearchEngineLogoFromName') );
 		return $dataTable;
 	}
 
 	function getSearchEngines($idSite, $period, $date, $expanded = false)
 	{
 		$dataTable = $this->getDataTable('Referers_keywordBySearchEngine',$idSite, $period, $date, $expanded);
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
-		$dataTable->queueFilter('Piwik_DataTable_Filter_MetadataCallbackAddMetadata', array( 'url', 'logo', 'Piwik_getSearchEngineLogoFromName') );
+		$dataTable->queuefilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
+		$dataTable->queuefilter('MetadataCallbackAddMetadata', array( 'url', 'logo', 'Piwik_getSearchEngineLogoFromName') );
 		return $dataTable;
 	}
 
@@ -106,8 +106,8 @@ class Piwik_Referers_API
 	function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date, $expanded = false, $idSubtable);
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array( 'label', 'url', create_function('$label', 'return $label;')) );
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
+		$dataTable->queuefilter('ColumnCallbackAddMetadata', array( 'label', 'url', create_function('$label', 'return $label;')) );
+		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
 		return $dataTable;
 	}
 

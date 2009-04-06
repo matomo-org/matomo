@@ -46,8 +46,8 @@ class Piwik_Actions_API
 		{
 			$dataTable = $archive->getDataTable($name, $idSubtable);
 		}
-		$dataTable->filter('Piwik_DataTable_Filter_Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceSummaryRowLabel');
+		$dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
+		$dataTable->queuefilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
 	

@@ -21,7 +21,7 @@ require_once 'Archive/Single.php';
  * <pre>
  * 		$archive = Piwik_Archive::build($idSite = 1, $period = 'week', '2008-03-08' );
  * 		$dataTable = $archive->getDataTable('Provider_hostnameExt');
- * 		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
+ * 		$dataTable->queuefilter('ReplaceColumnNames');
  * 		return $dataTable;
  * </pre>
  * 
