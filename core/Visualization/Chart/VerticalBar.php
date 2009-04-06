@@ -18,10 +18,8 @@ require_once "Visualization/Chart.php";
  * @package Piwik_Visualization
  *
  */
-class Piwik_Visualization_ChartVerticalBar extends Piwik_Visualization_Chart
+class Piwik_Visualization_Chart_VerticalBar extends Piwik_Visualization_Chart
 {
-	protected $limit = 10;
-		
 	function customizeGraph()
 	{
 		parent::customizeGraph();

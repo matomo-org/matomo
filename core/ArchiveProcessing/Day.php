@@ -229,8 +229,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			{
 				$subTable = self::generateDataTable($maybeDatatableRow);
 				$row = new Piwik_DataTable_Row_DataTableSummary( $subTable );
+				$row->setColumns( array('label' => $label) + $row->getColumns());
 				$row->addSubtable($subTable);
-				$row->setColumn('label', $label);
 			}
 			// if aInfo is a simple Row we build it
 			else

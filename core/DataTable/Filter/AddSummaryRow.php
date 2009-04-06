@@ -65,7 +65,7 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 			}
 		}
 		
-		$newRow->addColumn('label', $this->labelSummaryRow);
+		$newRow->setColumns(array('label' => $this->labelSummaryRow) + $newRow->getColumns());
 		$this->table->filter('Piwik_DataTable_Filter_Limit', array(0, $this->startRowToSummarize));
 		$this->table->addSummaryRow($newRow);
 	}

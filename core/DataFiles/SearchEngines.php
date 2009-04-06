@@ -112,25 +112,25 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"apollo7.de"			=> array("Apollo7", "query"),
 		
 		// AOL
-		"search.aol.com"		=> array("AOL", "query"),
-		"aolsearch.aol.com"		=> array("AOL", "query"),
-		"www.aolrecherche.aol.fr"	=> array("AOL", "q"),
-		"www.aolrecherches.aol.fr" 	=> array("AOL", "query"),
-		"www.aolimages.aol.fr"   	=> array("AOL", "query"),
-		"www.recherche.aol.fr"		=> array("AOL", "query"),
-		"aolsearcht.aol.com"		=> array("AOL", "query"),
-		"find.web.aol.com"		=> array("AOL", "query"),
-		"recherche.aol.ca"		=> array("AOL", "query"),
-		"aolsearch.aol.co.uk"		=> array("AOL", "query"),
-		"search.aol.co.uk"		=> array("AOL", "query"),
-		"aolrecherche.aol.fr"		=> array("AOL", "q"),
-		"sucheaol.aol.de"		=> array("AOL", "q"),
-		"suche.aol.de"			=> array("AOL", "q"),
-		"suche.aolsvc.de"		=> array("AOL", "query"),
-		"aolbusqueda.aol.com.mx"	=> array("AOL", "query"),
-		"alicesuchet.aol.de" => array('AOL', 'query'),
-		"suche.aolsvc.de" => array('AOL', 'query'),
-		"suche.aol.de" => array('AOL', 'query'),
+		"search.aol.com"		=> array("AOL", array("query", "q")),
+		"aolsearch.aol.com"		=> array("AOL", array("query", "q")),
+		"www.aolrecherche.aol.fr"	=> array("AOL", array("query", "q")),
+		"www.aolrecherches.aol.fr" 	=> array("AOL", array("query", "q")),
+		"www.aolimages.aol.fr"   	=> array("AOL", array("query", "q")),
+		"www.recherche.aol.fr"		=> array("AOL", array("query", "q")),
+		"aolsearcht.aol.com"		=> array("AOL", array("query", "q")),
+		"find.web.aol.com"		=> array("AOL", array("query", "q")),
+		"recherche.aol.ca"		=> array("AOL", array("query", "q")),
+		"aolsearch.aol.co.uk"		=> array("AOL", array("query", "q")),
+		"search.aol.co.uk"		=> array("AOL", array("query", "q")),
+		"aolrecherche.aol.fr"		=> array("AOL", array("query", "q")),
+		"sucheaol.aol.de"		=> array("AOL", array("query", "q")),
+		"suche.aol.de"			=> array("AOL", array("query", "q")),
+		"suche.aolsvc.de"		=> array("AOL", array("query", "q")),
+		"aolbusqueda.aol.com.mx"	=> array("AOL", array("query", "q")),
+		"alicesuchet.aol.de" => array('AOL', array("query", "q")),
+		"suche.aolsvc.de" => array('AOL', array("query", "q")),
+		"suche.aol.de" => array('AOL', array("query", "q")),
 		
 		// Aport
 		"sm.aport.ru"			=> array("Aport", "r"),
@@ -216,6 +216,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 	
 		// Comcast
 		"www.comcast.net" 		=> array("Comcast", "query"),
+		"search.comcast.net"    => array("Comcast", "q"),
 		
 		// Comet systems
 		"search.cometsystems.com"	=> array("CometSystems", "q"),

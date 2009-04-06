@@ -43,8 +43,8 @@ class Piwik_UserCountry_API
 	public function getContinent( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('UserCountry_continent', $idSite, $period, $date);
+		$dataTable->filter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
 		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
 		return $dataTable;
 	}
 	

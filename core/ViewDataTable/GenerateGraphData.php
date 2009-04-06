@@ -131,5 +131,3 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	}
 }
 
-
-

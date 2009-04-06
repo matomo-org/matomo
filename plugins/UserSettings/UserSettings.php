@@ -39,7 +39,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		'ie' => 'Internet Explorer',
 		'gecko' => 'Gecko (Mozilla, Netscape)',
 		'khtml' => 'Khtml (Konqueror, Safari)',
-		'opera' => 'Opera'
+		'opera' => 'Opera',
 	);
 
 	function getListHooksRegistered()

@@ -19,6 +19,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'translationAvailable' => true,
 		);
 	}
 	
@@ -39,11 +40,15 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 			$view->addColumnToDisplay('nb_uniq_visitors');
 		}
 	}
+	
+	function postLoad()
+	{
+		// we register the widgets so they appear in the "Add a new widget" window in the dashboard
+		Piwik_AddWidget('ExamplePlugin', 'exampleWidget', Piwik_Translate('ExamplePlugin_exampleWidget'));
+		Piwik_AddWidget('ExamplePlugin', 'blogPiwik', Piwik_Translate('ExamplePlugin_blogPiwikRss'));
+		Piwik_AddWidget('ExamplePlugin', 'photostreamMatt', Piwik_Translate('ExamplePlugin_photostreamMatt'));
+	}
 }
-
-// we register the widgets so they appear in the "Add a new widget" window in the dashboard
-Piwik_AddWidget('ExamplePlugin', 'exampleWidget', 'Example widget');
-Piwik_AddWidget('ExamplePlugin', 'blogMatthieu', 'Blog matthieu RSS');
 
 class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 {	
@@ -71,19 +76,16 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	}
 
 	/**
-	 * Embed Matt's blog using widgetbox.com widget code
+	 * Embed Piwik.org blog using widgetbox.com widget code
 	 */
-	function blogMatthieu()
+	function blogPiwik()
 	{
-		echo '
-		<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" type="application/x-shockwave-flash" width="400px" height="338px" id="InsertWidget_3fe0d93d-bae5-42f9-bec4-4235cb6285a8" align="middle">
-			<param name="movie" value="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf?appId=3fe0d93d-bae5-42f9-bec4-4235cb6285a8"/>
-			<param name="quality" value="high" />
-			<param name="wmode" value="transparent" />
-			<param name="menu" value="false" />
-		<embed src="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf?appId=3fe0d93d-bae5-42f9-bec4-4235cb6285a8"  name="InsertWidget_3fe0d93d-bae5-42f9-bec4-4235cb6285a8"  width="400px" height="338px" quality="high" menu="false" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" align="middle" /> </object>
-		<img style="visibility:hidden;width:0px;height:0px;" border="0" width="0" height="0" src="http://runtime.widgetbox.com/syndication/track/3fe0d93d-bae5-42f9-bec4-4235cb6285a8.gif" />
-		';
+		echo '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" type="application/x-shockwave-flash" width="400px" height="343px" id="InsertWidget_0bf84c7c-70b5-41c1-adbc-6f4f823c598c" align="middle"><param name="movie" value="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf"/><param name="quality" value="high" /><param name="wmode" value="transparent" /><param name="menu" value="false" /><param name="flashvars" value="r=2&appId=0bf84c7c-70b5-41c1-adbc-6f4f823c598c" /> <embed src="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf"  name="InsertWidget_0bf84c7c-70b5-41c1-adbc-6f4f823c598c"  width="400px" height="343px" quality="high" menu="false" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" align="middle" flashvars="r=2&appId=0bf84c7c-70b5-41c1-adbc-6f4f823c598c" /></object>';
+	}
+	
+	function photostreamMatt()
+	{
+		echo '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" type="application/x-shockwave-flash" width="400px" height="343px" id="InsertWidget_35ba729b-1935-4165-a818-f17e7c9b4748" align="middle"><param name="movie" value="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf"/><param name="quality" value="high" /><param name="wmode" value="transparent" /><param name="menu" value="false" /><param name="flashvars" value="r=2&appId=35ba729b-1935-4165-a818-f17e7c9b4748" /> <embed src="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf"  name="InsertWidget_35ba729b-1935-4165-a818-f17e7c9b4748"  width="400px" height="343px" quality="high" menu="false" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" align="middle" flashvars="r=2&appId=35ba729b-1935-4165-a818-f17e7c9b4748" /></object>';
 	}
 	
 	/**
