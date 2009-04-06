@@ -23,9 +23,15 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 	protected function postDataTableLoadedFromAPI()
 	{
 		parent::postDataTableLoadedFromAPI();
+		Piwik_Controller::setPeriodVariablesView($this);
+		$columnUniqueVisitors = false;
+		if($this->period == 'day')
+		{
+			$columnUniqueVisitors = 'nb_uniq_visitors';
+		}
 		$this->setColumnsToDisplay(array('label', 
 										'nb_visits', 
-										'nb_uniq_visitors', 
+										$columnUniqueVisitors, 
 										'nb_actions_per_visit', 
 										'avg_time_on_site', 
 										'bounce_rate'));

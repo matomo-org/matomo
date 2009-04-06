@@ -55,10 +55,9 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableOffsetInformation();
 		$view->disableExcludeLowPopulation();
-		$view->doNotShowFooter();
 		$view->enableShowGoals();
 		
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors', 'nb_visits') );
+		$view->setColumnsToDisplay( array('label', 'nb_visits') );
 		
 		return $this->renderView($view, $fetch);
 	}
@@ -107,19 +106,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
-	
-	public function getSearchEnginesEvolution($fetch = false)
-	{		
-		$view = Piwik_ViewDataTable::factory('graphEvolution');
-		$view->init( $this->pluginName, __FUNCTION__, 'Referers.getSearchEngines' );
-		
-		$view->setColumnsToDisplay( 'nb_uniq_visitors' );
-		$view->setExactPattern( array('Google','Yahoo!'), 'label');
-		//$view->setExactPattern( array('Google'), 'label');
-		
-		return $this->renderView($view, $fetch);
-	}	
-	
+
 	function getKeywordsFromSearchEngineId( $fetch = false )
 	{
 		$view = Piwik_ViewDataTable::factory();
@@ -191,6 +178,19 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
+	
+	public function getSearchEnginesEvolution($fetch = false)
+	{
+		// TODO example of how to show evolution of a given column over multiple days
+		$view = Piwik_ViewDataTable::factory('graphEvolution');
+		$view->init( $this->pluginName, __FUNCTION__, 'Referers.getSearchEngines' );
+		
+		$view->setColumnsToDisplay( 'nb_visits' );
+		$view->setExactPattern( array('Google','Yahoo!'), 'label');
+		
+		return $this->renderView($view, $fetch);
+	}	
+	
 	protected function getReferersVisitorsByType()
 	{
 		// we disable the queued filters because here we want to get the visits coming from search engines
@@ -215,11 +215,10 @@ class Piwik_Referers_Controller extends Piwik_Controller
 			$row = $dataTableReferersType->getRowFromLabel($columnId);
 			if($row !== false)
 			{
-				$value = $row->getColumn(Piwik_Archive::INDEX_NB_UNIQ_VISITORS);
+				$value = $row->getColumn(Piwik_Archive::INDEX_NB_VISITS);
 			}
 			$return[$nameVar] = $value;
 		}
-		
 		return $return;
 	}
 	function getLastSearchEnginesGraph( $fetch = false )

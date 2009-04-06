@@ -105,23 +105,19 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	 */
 	protected function buildView()
 	{
-		$view = new Piwik_View($this->dataTableTemplate);
-		
 		$phpArray = $this->getPHPArrayFromDataTable();
-		
-		$view->arrayDataTable 	= $phpArray;
-		
 		$columns = $this->getColumnsToDisplay($phpArray);
-		$view->dataTableColumns = $columns;
-		
 		$nbColumns = count($columns);
 		// case no data in the array we use the number of columns set to be displayed 
 		if($nbColumns == 0)
 		{
 			$nbColumns = count($this->columnsToDisplay);
 		}
+
+		$view = new Piwik_View($this->dataTableTemplate);
+		$view->arrayDataTable 	= $phpArray;
+		$view->dataTableColumns = $columns;
 		$view->nbColumns = $nbColumns;
-		
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
 		$view->defaultWhenColumnValueNotDefined = '-';
@@ -218,8 +214,8 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	
 	/**
 	 * Returns array(
-	 * 				array('id' => 1, 'name' => 'nb_visits'),
-	 * 				array('id' => 3, 'name' => 'nb_uniq_visitors'),
+	 * 				array('name' => 'nb_visits', 'displayName' => 'Visits'),
+	 * 				array('name' => 'nb_uniq_visitors', 'displayName' => 'Unique Visitors'),
 	 *
 	 * @param array PHP array conversion of the data table
 	 * @return array
@@ -242,10 +238,13 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 			$columnsToDisplay = array_unique($columnsToDisplay);
 			foreach($columnsToDisplay as $columnToDisplay)
 			{
-				$metadataColumnToDisplay[]	= array(
+				if(!empty($columnToDisplay))
+				{
+					$metadataColumnToDisplay[]	= array(
 									'name' => $columnToDisplay, 
 									'displayName' => $this->getColumnTranslation($columnToDisplay) 
 								);
+				}
 			}
 		}
 		return $metadataColumnToDisplay	;

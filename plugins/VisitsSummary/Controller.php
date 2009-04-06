@@ -15,14 +15,18 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	protected function setSparklinesAndNumbers($view)
 	{
 		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getLastVisitsGraph');
-		$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getLastUniqueVisitorsGraph');
 		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getLastActionsGraph');
 		$view->urlSparklineSumVisitLength 	= $this->getUrlSparkline( 'getLastSumVisitsLengthGraph');
 		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getLastMaxActionsGraph');
 		$view->urlSparklineBounceCount 		= $this->getUrlSparkline( 'getLastBounceCountGraph');
 		
 		$dataTableVisit = self::getVisitsSummary();
-		$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
+		
+		if($view->period == 'day')
+		{
+			$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getLastUniqueVisitorsGraph');
+			$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
+		}
 		$view->nbVisits = $dataTableVisit->getColumn('nb_visits');
 		$view->nbActions = $dataTableVisit->getColumn('nb_actions');
 		$view->sumVisitLength = $dataTableVisit->getColumn('sum_visit_length');

@@ -236,8 +236,12 @@ abstract class Piwik_Controller
 		}
 	}
 	
-	protected function setPeriodVariablesView($view)
+	public static function setPeriodVariablesView($view)
 	{
+		if(isset($view->period))
+		{
+			return;
+		}
 		$currentPeriod = Piwik_Common::getRequestVar('period');
 		$availablePeriods = array('day', 'week', 'month', 'year');
 		if(!in_array($currentPeriod,$availablePeriods))

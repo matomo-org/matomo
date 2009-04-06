@@ -8,8 +8,15 @@ class Piwik_Provider_Controller extends Piwik_Controller
 	{
 		$view = Piwik_ViewDataTable::factory();
 		$view->init( $this->pluginName,  __FUNCTION__, "Provider.getProvider" );
-		$view->setColumnsToDisplay( array('label','nb_uniq_visitors') );
-		$view->setSortedColumn( 1 );
+	
+		$this->setPeriodVariablesView($view);
+		$column = 'nb_visits';
+		if($view->period == 'day')
+		{
+			$column = 'nb_uniq_visitors';
+		}
+		$view->setColumnsToDisplay( array('label',$column) );
+		$view->setSortedColumn( $column	 );
 		$view->setLimit( 5 );
 		return $this->renderView($view, $fetch);
 	}
