@@ -322,11 +322,15 @@ class Piwik_DataTable
 	/**
 	 * Apply a filter to this datatable
 	 * 
-	 * @param $className eg. Piwik_DataTable_Filter_Sort
+	 * @param $className eg. "Sort" or "Piwik_DataTable_Filter_Sort"
 	 * @param $parameters eg. array('nb_visits', 'asc')
 	 */
 	public function filter( $className, $parameters = array() )
 	{
+		if(!class_exists($className))
+		{
+			$className = "Piwik_DataTable_Filter_" . $className;
+		}
 		$reflectionObj = new ReflectionClass($className);
 		
 		// the first parameter of a filter is the DataTable
@@ -883,7 +887,7 @@ class Piwik_DataTable
 		}
 		if( !is_null($maximumRowsInDataTable) )
 		{
-			$this->filter('Piwik_DataTable_Filter_AddSummaryRow', 
+			$this->filter('AddSummaryRow', 
 							array(	$maximumRowsInDataTable - 1, 
 									Piwik_DataTable::LABEL_SUMMARY_ROW, 
 									$columnToSortByBeforeTruncation)

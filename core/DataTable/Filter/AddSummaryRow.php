@@ -45,7 +45,7 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 
 	protected function filter()
 	{
-		$this->table->filter('Piwik_DataTable_Filter_Sort', 
+		$this->table->filter('Sort', 
 							array( $this->columnToSortByBeforeTruncating, 'desc'));
 		
 		$rows = $this->table->getRows();
@@ -66,7 +66,7 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 		}
 		
 		$newRow->setColumns(array('label' => $this->labelSummaryRow) + $newRow->getColumns());
-		$this->table->filter('Piwik_DataTable_Filter_Limit', array(0, $this->startRowToSummarize));
+		$this->table->filter('Limit', array(0, $this->startRowToSummarize));
 		$this->table->addSummaryRow($newRow);
 	}
 }

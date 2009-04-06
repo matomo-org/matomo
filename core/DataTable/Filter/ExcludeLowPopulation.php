@@ -44,7 +44,7 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
 	
 	function filter()
 	{
-		$this->table->filter('Piwik_DataTable_Filter_ColumnCallbackDeleteRow',
+		$this->table->filter('ColumnCallbackDeleteRow',
 							array($this->columnToFilter, 
 								array("Piwik_DataTable_Filter_ExcludeLowPopulation", "excludeLowPopulation")
 							)

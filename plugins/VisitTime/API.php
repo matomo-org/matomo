@@ -32,9 +32,9 @@ class Piwik_VisitTime_API
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable($name);
-		$dataTable->filter('Piwik_DataTable_Filter_Sort', array('label', 'asc', true));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
-		$dataTable->queueFilter('Piwik_DataTable_Filter_ReplaceColumnNames');
+		$dataTable->filter('Sort', array('label', 'asc', true));
+		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
+		$dataTable->queuefilter('ReplaceColumnNames');
 		return $dataTable;
 	}
 	

@@ -75,7 +75,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		if(!empty($graphLimit))
 		{
 			$offsetStartSummary = $this->getGraphLimit() - 1;
-			$this->dataTable->filter('Piwik_DataTable_Filter_AddSummaryRow', 
+			$this->dataTable->filter('AddSummaryRow', 
 										array($offsetStartSummary, 
 										Piwik_Translate('General_Others'), 
 										Piwik_Archive::INDEX_NB_VISITS
@@ -106,7 +106,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	{
 		$this->dataTable->applyQueuedFilters();
 		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
-		$this->dataTable->filter('Piwik_DataTable_Filter_ColumnCallbackReplace',
+		$this->dataTable->filter('ColumnCallbackReplace',
 									array('label','urldecode')
 							);
 		$data = array();
