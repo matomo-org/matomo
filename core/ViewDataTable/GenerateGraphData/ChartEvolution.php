@@ -12,7 +12,6 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	{
 		return 'generateDataChartEvolution';
 	}
-	
 	function __construct()
 	{
 		require_once "Visualization/Chart/Evolution.php";
@@ -25,34 +24,26 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	private function generateLine( $dataArray, $columns, $schema = "##label## ##column##" )
 	{
 		$data = array();
-		
 		foreach($dataArray as $keyName => $table)
 		{
 			$table->applyQueuedFilters();
-
 			// initialize data (default values for all lines is 0)
 			$dataRow = array();
-
 			$rows = $table->getRows();
-
 			foreach($rows as $row)
 			{
 				$rowLabel = $schema;
-
 				if( strpos($rowLabel, "##label##") !== false )
 				{
 					$rowLabel = str_replace("##label##", $row->getColumn('label'), $rowLabel);
 				}
-					
 				foreach($columns as $col)
 				{
 					$label = $rowLabel;
-					
 					if( strpos($label, "##column##") !== false )
 					{
 						$label = str_replace("##column##", $col, $label);
 					}
-					
 					if( !isset($this->lineLabels[$label]) )
 					{
 						$this->lineLabels[$label] = count($this->lineLabels);
@@ -120,7 +111,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		// for numeric we want to have only one column name
 		if( count($columnsToDisplay) != 1 )
 		{
-			$columnsToDisplay = array( 'nb_uniq_visitors' );
+			$columnsToDisplay = array( 'nb_visits' );
 		}
 		
 		$label = $siteLabel . array_shift($columnsToDisplay);
@@ -131,17 +122,17 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	}
 	
 	/*
-	 * generates data for evolution graph from a DataTable that has named columns (i.e. 'nb_hits', 'nb_uniq_visitors')    
+	 * generates data for evolution graph from a DataTable that has named columns (i.e. 'nb_hits', 'nb_visits')    
 	 */
 	protected function generateDataFromRegularDataTable($dataArray, $siteLabel = "")
 	{	
-		// get list of columns 	to display i.e. array('nb_hits','nb_uniq_visitors')						
+		// get list of columns 	to display i.e. array('nb_hits','nb_visits')						
 		$columnsToDisplay = Piwik_Common::getRequestVar('columns', array(), 'array');
 				
 		// default column
 		if( count($columnsToDisplay) == 0 )
 		{
-			$columnsToDisplay = array( 'nb_uniq_visitors' );
+			$columnsToDisplay = array( 'nb_visits' );
 		}		
 		
 		$this->addArray($this->data, $this->generateLabels($dataArray));

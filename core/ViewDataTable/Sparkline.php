@@ -97,6 +97,10 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 					// and we would build automatically the dataTable_array of datatatble_simple from these integers
 					// but we'd have to add this integer to be recorded during archiving etc.
 					$value = $onlyRow->getColumn('nb_uniq_visitors');
+					if($value === false)
+					{
+						$value = $onlyRow->getColumn('nb_visits');
+					}
 				}
 			}
 
