@@ -287,15 +287,29 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	{
 		parent::postCompute();
 		
-		//TODO should be done in a different asynchronous job
-		if(rand(0, 15) == 5)
+		$blobTable = $this->tableArchiveBlob->getTableName();
+		$numericTable = $this->tableArchiveNumeric->getTableName();
+		
+		// delete out of date records maximum once per day (DELETE request is costly)
+		$key = 'lastPurge_' . $blobTable;
+		$timestamp = Piwik_GetOption($key); 
+		if(!$timestamp 
+			|| $timestamp < time() - 86400 )
 		{
-			// we delete records that are now out of date
-			// in the case of a period we delete archives that were archived before the end of the period
-			// and only if they are at least 1 day old (so we don't delete archives computed today that may be stil valid) 
-			$blobTable = $this->tableArchiveBlob->getTableName();
-			$numericTable = $this->tableArchiveNumeric->getTableName();
+			// we delete out of date daily archives from table, maximum once per day
+			// those for day N that were processed on day N (means the archives are only partial as the day wasn't finished)
+			$query = "/* SHARDING_ID_SITE = ".$this->idsite." */ 	DELETE 
+						FROM %s
+						WHERE period = ? 
+							AND date1 = DATE(ts_archived)
+							AND DATE(ts_archived) <> CURRENT_DATE()
+						";
+			Zend_Registry::get('db')->query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
+			Zend_Registry::get('db')->query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
 			
+			// we delete out of date Period records (week/month/etc)
+			// we delete archives that were archived before the end of the period
+			// and only if they are at least 1 day old (so we don't delete archives computed today that may be stil valid) 
 			$query = "	DELETE 
 						FROM %s
 						WHERE period > ? 
@@ -305,6 +319,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			
 			Zend_Registry::get('db')->query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
 			Zend_Registry::get('db')->query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
+			
+			Piwik_SetOption($key, time());
 		}
 	}
 	
