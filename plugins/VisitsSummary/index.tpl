@@ -7,7 +7,6 @@
 <h2>{'VisitsSummary_Report'|translate}</h2>
 {include file=VisitsSummary/sparklines.tpl}
 
-
 <br /><br /><br />
 <p style='color:lightgrey; size:0.8em;'>
 {'VisitsSummary_GenerateTime'|translate:$totalTimeGeneration:$totalNumberOfQueries}

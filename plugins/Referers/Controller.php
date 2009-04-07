@@ -47,7 +47,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	
 	function getRefererType( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory('cloud');
+		$view = Piwik_ViewDataTable::factory('tableAllColumns');
 		$view->init( $this->pluginName,  	
 									__FUNCTION__, 
 									'Referers.getRefererType'
