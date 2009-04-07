@@ -566,17 +566,12 @@ class Piwik_Common
 	static public function getContinent($country)
 	{
 		require_once "DataFiles/Countries.php";
-
 		$countryList = $GLOBALS['Piwik_CountryList'];
-
 		if(isset($countryList[$country][0]))
 		{
 			return $countryList[$country][0];
 		}
-		else
-		{
-			return 'unk';
-		}
+		return 'unk';
 	}
 
 	/**
