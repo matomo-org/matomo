@@ -85,7 +85,6 @@ class Piwik_Common
 		if(defined('PIWIK_TRACKER_MODE') 
 			&& PIWIK_TRACKER_MODE) 
 		{
-			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
 			//TODO we can remove these includes when #620 is done
 			require_once "Zend/Exception.php";
 			require_once "Zend/Loader.php"; 
@@ -107,7 +106,9 @@ class Piwik_Common
 			require_once "Option.php";
 			require_once "View.php";
 			require_once "UpdateCheck.php";
+			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
 			Piwik::createAccessObject();
+			Piwik::createConfigObject();
 			Piwik::setUserIsSuperUser();
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
