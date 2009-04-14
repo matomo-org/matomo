@@ -37,6 +37,9 @@ class Piwik_Login_Auth implements Piwik_Auth
 				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, $login, $this->token_auth );
 			}
 		}
+		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
+		$authCookie = new Piwik_Cookie($authCookieName);
+		$authCookie->delete();
 		return new Piwik_Auth_Result( Piwik_Auth_Result::FAILURE, $this->login, $this->token_auth );
 	}
 
