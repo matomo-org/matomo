@@ -18,7 +18,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     	$this->checkEqual(array('Debug' => 'always_archive_data_day'), '0');
     	$this->checkEqual(array('Debug' => 'always_archive_data_period'), '0');
     	$this->checkEqual(array('Debug' => 'enable_sql_profiler'), '0');
-    	$this->checkEqual(array('General' => 'time_before_archive_considered_outdated'), '10');
+    	$this->checkEqual(array('General' => 'time_before_today_archive_considered_outdated'), '10');
     	$this->checkEqual(array('General' => 'enable_browser_archiving_triggering'), '1');
     	$this->checkEqual(array('General' => 'default_language'), 'en');
     	$this->checkEqual(array('Tracker' => 'record_statistics'), '1');
