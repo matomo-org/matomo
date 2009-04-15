@@ -246,7 +246,7 @@ abstract class Piwik_ArchiveProcessing
 			&& $this->period->toString() == date("Y-m-d")
 			)
 		{
-			$this->maxTimestampArchive = time() - Zend_Registry::get('config')->General->time_before_archive_considered_outdated;
+			$this->maxTimestampArchive = time() - Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated;
 		}
 		// either
 		// - if the period we're looking for is finished, we look for a ts_archived that 
