@@ -174,7 +174,17 @@ class Piwik_Url
 		$query = '';
 		foreach($urlValues as $name => $value)
 		{
-			$query .= $name . "=" . $value . "&";
+			if(is_array($value))
+			{
+				foreach($value as $theValue)
+				{
+					$query .= $name . "[]=" . $theValue . "&";
+				}
+			}
+			else
+			{
+				$query .= $name . "=" . $value . "&";
+			}
 		}
 		$query = substr($query, 0, -1);
 		
