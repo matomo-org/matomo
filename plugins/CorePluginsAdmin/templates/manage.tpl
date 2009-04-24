@@ -28,7 +28,7 @@
 			</td>
 			<td class="vers">{$plugin.info.version}</td>
 			<td class="desc">
-				{$plugin.info.description}
+				{$plugin.info.description|escape:"html"|nl2br}
 				&nbsp;<cite>By 
 					{if isset($plugin.info.author_homepage)}<a title="Author Homepage" href="{$plugin.info.author_homepage}">{/if}
 					{$plugin.info.author}{if isset($plugin.info.author_homepage)}</a>{/if}.</cite>

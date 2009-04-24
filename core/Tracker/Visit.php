@@ -101,7 +101,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		$actionId = $action->getIdAction();
 
-		if($GLOBALS['PIWIK_TRACKER_DEBUG'])
+		if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
 		{
 			switch($action->getActionType()) {
 				case Piwik_Tracker_Action::TYPE_ACTION:
@@ -291,6 +291,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		);
 		
 		Piwik_PostEvent('Tracker.newVisitorInformation', $this->visitorInfo);
+		
+		$this->saveVisitorInformation();
+	}
+	
+	protected function saveVisitorInformation()
+	{
+		Piwik_PostEvent('Tracker.saveVisitorInformation', $this->visitorInfo);
+		
+		$serverTime 	= $this->getCurrentTimestamp();	
+		
 		$this->visitorInfo['location_continent'] = Piwik_Common::getContinent( $this->visitorInfo['location_country'] );		
 		$this->visitorInfo['location_browser_lang'] = substr($this->visitorInfo['location_browser_lang'], 0, 20);
 		$this->visitorInfo['referer_name'] = substr($this->visitorInfo['referer_name'], 0, 70);
@@ -309,6 +319,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$this->visitorInfo['idvisit'] = $idVisit;
 		$this->visitorInfo['visit_first_action_time'] = $serverTime;
 		$this->visitorInfo['visit_last_action_time'] = $serverTime;
+		
+		Piwik_PostEvent('Tracker.saveVisitorInformation.end', $this->visitorInfo);
 	}
 	
 	/**

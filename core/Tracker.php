@@ -216,33 +216,33 @@ class Piwik_Tracker
 		header($header);
 	}
 	
-	private function isVisitValid()
+	protected function isVisitValid()
 	{
 		return $this->stateValid !== self::STATE_LOGGING_DISABLE
 				&&  $this->stateValid !== self::STATE_NO_GET_VARIABLE;
 	}
 	
-	private function getState()
+	protected function getState()
 	{
 		return $this->stateValid;
 	}
 	
-	private function setUrlToRedirect( $url )
+	protected function setUrlToRedirect( $url )
 	{
 		$this->urlToRedirect = $url;
 	}
 	
-	private function getUrlToRedirect()
+	protected function getUrlToRedirect()
 	{
 		return $this->urlToRedirect;
 	}
 	
-	private function setState( $value )
+	protected function setState( $value )
 	{
 		$this->stateValid = $value;
 	}
 
-	private function loadTrackerPlugins()
+	protected function loadTrackerPlugins()
 	{
 		try{
 			$pluginsTracker = Piwik_Tracker_Config::getInstance()->Plugins_Tracker;
@@ -259,7 +259,7 @@ class Piwik_Tracker
 		}
 	}
 	
-	private function handleDownloadRedirect()
+	protected function handleDownloadRedirect()
 	{
 		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
 		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string', $this->request);
@@ -274,7 +274,7 @@ class Piwik_Tracker
 		}
 	}
 	
-	private function handleOutlinkRedirect()
+	protected function handleOutlinkRedirect()
 	{
 		$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
 		$urlOutlink = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string', $this->request);
@@ -290,7 +290,7 @@ class Piwik_Tracker
 		}
 	}
 	
-	private function handleEmptyGetVariable()
+	protected function handleEmptyGetVariable()
 	{
 		if( count($_GET) == 0)
 		{
@@ -298,7 +298,7 @@ class Piwik_Tracker
 		}
 	}
 	
-	private function handleDisabledTracker()
+	protected function handleDisabledTracker()
 	{
 		$saveStats = Piwik_Tracker_Config::getInstance()->Tracker['record_statistics'];
 		if($saveStats == 0)
