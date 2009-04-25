@@ -13,6 +13,7 @@ error_reporting(E_ALL|E_NOTICE);
 @ini_set('display_errors', 1);
 @ini_set('magic_quotes_runtime', 0);
 @ini_set('session.save_handler', 'files');
+
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
@@ -36,6 +37,8 @@ if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
 }
+
+session_cache_limiter('nocache');
 if(strlen(session_id()) === 0)
 {
 	session_start();
