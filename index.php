@@ -12,6 +12,7 @@
 error_reporting(E_ALL|E_NOTICE);
 @ini_set('display_errors', 1);
 @ini_set('magic_quotes_runtime', 0);
+@ini_set('session.save_handler', 'files');
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
