@@ -34,7 +34,7 @@ require_once "Tracker/Db.php";
 require_once "Tracker/Visit.php";
 require_once "Tracker/GoalManager.php";
 
-
+session_cache_limiter('nocache');
 ob_start();
 if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 {	
