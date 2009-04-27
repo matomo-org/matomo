@@ -25,13 +25,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	 * @var array
 	 */
 	protected $columnsToDisplay = array();
-	
-	/**
-	 * Array of columns names translations
-	 *
-	 * @var array
-	 */
-	protected $columnsTranslations = array();
 
 	/**
 	 * Set to true when the DataTable must be loaded along with all its children subtables
@@ -62,11 +55,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 						$controllerActionCalledWhenRequestSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/datatable.tpl';
 		$this->variablesDefault['enable_sort'] = '1';
-		
-		// load general columns translations
-		$this->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnNbVisits'));
-		$this->setColumnTranslation('label', Piwik_Translate('General_ColumnLabel'));
-		$this->setColumnTranslation('nb_uniq_visitors', Piwik_Translate('General_ColumnNbUniqVisitors'));
 		
 		$this->handleLowPopulation();
 	}
@@ -175,44 +163,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	}
 	
 	/**
-	 * Sets translation string for given column
-	 *
-	 * @param string $columnName column name
-	 * @param string $columnTranslation column name translation
-	 */
-	public function setColumnTranslation( $columnName, $columnTranslation )
-	{
-		$this->columnsTranslations[$columnName] = $columnTranslation;
-	}
-	
-	/**
-	 * Returns column translation if available, in other case given column name
-	 *
-	 * @param string $columnName column name
-	 */
-	public function getColumnTranslation( $columnName )
-	{
-		if( isset($this->columnsTranslations[$columnName]) )
-		{
-			return $this->columnsTranslations[$columnName];
-		}
-		else
-		{
-			return $columnName;
-		}
-	}
-	
-	/**
-	 * Sets columns translations array.
-	 *
-	 * @param array $columnsTranslations An associative array indexed by column names, eg. array('nb_visit'=>"Numer of visits")
-	 */
-	public function setColumnsTranslations( $columnsTranslations )
-	{
-		$this->columnsTranslations = $columnsTranslations;
-	}
-	
-	/**
 	 * Returns array(
 	 * 				array('name' => 'nb_visits', 'displayName' => 'Visits'),
 	 * 				array('name' => 'nb_uniq_visitors', 'displayName' => 'Unique Visitors'),
@@ -281,6 +231,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		}
 		return $requestString;
 	}
+	
 	/**
 	 * Set the flag to load the datatable recursively so we can search on subtables as well
 	 *

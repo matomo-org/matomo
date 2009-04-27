@@ -9,78 +9,160 @@
  * @package Piwik_Visualization
  */
 
-require_once "Visualization/OpenFlashChart.php";
+require_once "libs/open-flash-chart/php-ofc-library/open-flash-chart.php";
+
 /**
  * Generates the data in the Open Flash Chart format, from the given data.
- * Uses Open flash chart PHP library @see Piwik_Visualization_OpenFlashChart
  * 
  * @package Piwik_Visualization
  */
-abstract class Piwik_Visualization_Chart extends Piwik_Visualization_OpenFlashChart
+abstract class Piwik_Visualization_Chart implements Piwik_iView
 {
-	protected $dataGraph = array();
+	/**
+	 * @var Piwik_Visualization_OpenFlashChart
+	 */
+	protected $chart = null;
 	
-	function setData($data)
+	protected $xLabels = array();
+	protected $xOnClick = array();
+	protected $xSteps = 2;
+	
+	protected $yLabels = array();
+	protected $yValues = array();
+	
+	function __construct()
 	{
-		$this->dataGraph = $data;
+		$this->chart = new open_flash_chart();
 	}
 	
-	function getCount()
+	public function setAxisXLabels($xLabels)
 	{
-		return count($this->dataGraph);
+		$this->xLabels = $xLabels;
+	}
+	
+	public function setAxisYValues($values)
+	{
+		$this->yValues = $values;
+	}
+	
+	public function setAxisYLabels($labels)
+	{
+		$this->yLabels = $labels;
+	}
+	
+	public function setAxisXOnClick($onClick)
+	{
+		$this->xOnClick = $onClick;
+	}
+	
+	//TODO call + make sure matches beginning of period? (hard..)
+	// day -> every 7 days
+	// week & year -> 1, plot last 
+	// month -> every 12 months, plot last 24
+	public function setXSteps($steps)
+	{
+		$this->xSteps = $steps;
+	}
+	
+	protected function getDataSetsToDisplay()
+	{
+		if(empty($this->yValues)) {
+			return false;
+		}
+		return array_keys($this->yValues);
+	}
+	
+	public function getMaxValue()
+	{
+		$datasetsIds = $this->getDataSetsToDisplay();
+		if($datasetsIds === false)
+		{
+			return 0;
+		}
+		$maxCrossDataSets = false;
+		foreach($datasetsIds as $dataset)
+		{
+			$maxValue = max($this->yValues[$dataset]);
+			if($maxCrossDataSets === false 
+				|| $maxValue > $maxCrossDataSets)
+			{
+				$maxCrossDataSets = $maxValue;
+			}
+		}
+		if($maxCrossDataSets > 10)
+		{
+			$maxCrossDataSets = $maxCrossDataSets + 10 - $maxCrossDataSets % 10;
+		}
+		return $maxCrossDataSets;
+	}
+	
+	public function setTitle($text, $css)
+	{
+		$title = new title($text);
+		$title->set_style($css);
+		$this->chart->set_title($title);
+	}
+	
+	public function render()
+	{
+		return $this->chart->toPrettyString();
 	}
 	
 	function customizeGraph()
 	{
-		$this->set_num_decimals ( 0 );
-		$this->set_is_decimal_separator_comma( false );
-		$this->set_is_thousand_separator_disabled( true );  
-		$this->y_axis_colour = '#ffffff';
-		$this->x_axis_colour = '#596171'; 
-		$this->x_grid_colour = $this->y_grid_colour = '#E0E1E4';
+		$this->chart->set_number_format($num_decimals = 0, 
+							$is_fixed_num_decimals_forced = true, 
+							$is_decimal_separator_comma = false, 
+							$is_thousand_separator_disabled = false);
+							
+		$gridColour = '#E0E1E4';
+		$countValues = count($this->xLabels);
+		$maxValue = $this->getMaxValue();
+		$minValue = 0;
 		
-		// approx 5 x labels on the graph
-		$steps = ceil($this->getCount() / 5);
-		$steps = $steps + $steps % 2; // make sure modulo 2
+		// X Axis
+		$this->x = new x_axis();
+		$this->x->set_colour( '#596171' );
+		$this->x->set_grid_colour( $gridColour );
+		$this->x->set_steps($this->xSteps);
 		
-		$this->set_x_label_style( 10, $this->x_axis_colour, 0, $steps, $this->x_grid_colour );
-		$this->set_x_axis_steps( $steps / 2 );
-		
-		
-		$stepsY = ceil($this->getCount() / 4);
-		$this->y_label_steps( $stepsY / 3 );
-		$this->y_label_steps( 4 );
-		
-		$this->bg_colour = '#ffffff';
-		$this->set_inner_background('#ffffff');
-		
-		$this->set_tool_tip( '#x_label# <br>#val# #key# ' );
-	}
-	
-	function prepareData()
-	{		
-		$label = $data = array();
-		$max = 0;
-		foreach($this->dataGraph as $row)
+		// X Axis Labels
+		$this->x_labels = new x_axis_labels();
+		$this->x_labels->set_size(11);
+		//manually fix the x labels step as this doesn't work in this OFC release..
+		$xLabelsStepped = $this->xLabels;
+		foreach($xLabelsStepped as $i => &$xLabel)
 		{
-			$label[] = $row['label'];
-			$data[] = $row['value'];
-			
-			if($row['value'] > $max) 
+			if(($i % $this->xSteps) != 0)
 			{
-				$max = $row['value'];
+				$xLabel = '';
 			}
 		}
-		$this->arrayData = $data;
-		$this->arrayLabel = $label;
+		$this->x_labels->set_labels($xLabelsStepped);
+		$this->x_labels->set_steps(2);
+		$this->x->set_labels($this->x_labels);
 		
-		$this->arrayLabel = str_replace(","," -",$this->arrayLabel);
-		
-		$this->maxData = $max;
-		if($this->maxData > 10)
+		// Y Axis
+		$this->y = new y_axis();
+		$this->y->set_colour('#ffffff');
+		$this->y->set_grid_colour($gridColour);
+		$stepsCount = 2;
+		$stepsEveryNLabel = ceil(($maxValue - $minValue) / $stepsCount);
+		if($maxValue == 0)
 		{
-			$this->maxData = $max + 10 - $max % 10;
+			$maxValue = 1;
 		}
+		$this->y->set_range( $minValue, $maxValue, $stepsEveryNLabel);
+		
+		// Tooltip
+		$this->tooltip = new tooltip();
+		$this->tooltip->set_shadow( true );
+		$this->tooltip->set_stroke( 1 );
+				
+		// Attach elements to the graph
+		$this->chart->set_x_axis($this->x);
+		$this->chart->set_y_axis($this->y);
+		$this->chart->set_tooltip($this->tooltip);
+		$this->chart->set_bg_colour('#ffffff');
 	}
-	
 }

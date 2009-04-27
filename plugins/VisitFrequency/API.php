@@ -26,19 +26,36 @@ class Piwik_VisitFrequency_API
 		return self::$instance;
 	}
 	
-	public function getSummary( $idSite, $period, $date )
+	public function get( $idSite, $period, $date, $columns = array() )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		$toFetch = array( 	'nb_uniq_visitors_returning',
-							'nb_visits_returning',
-							'nb_actions_returning',
-							'max_actions_returning',
-							'sum_visit_length_returning',
-							'bounce_count_returning',
-							'nb_visits_converted_returning',
-				);
+		$bounceRateReturningRequested = false;
+		if(!empty($columns))
+		{
+			$toFetch = $columns;
+			if(($bounceRateReturningRequested = array_search('bounce_rate_returning', $toFetch)) !== false)
+			{
+				$toFetch = array('nb_visits_returning', 'bounce_count_returning');
+			}
+		}
+		else
+		{ 
+			$toFetch = array( 	'nb_uniq_visitors_returning',
+								'nb_visits_returning',
+								'nb_actions_returning',
+								'max_actions_returning',
+								'sum_visit_length_returning',
+								'bounce_count_returning',
+								'nb_visits_converted_returning',
+					);
+		}
 		$dataTable = $archive->getDataTableFromNumeric($toFetch);
+		if($bounceRateReturningRequested !== false)
+		{
+			$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_count_returning', 'bounce_rate_returning', 'nb_visits_returning', 0));
+			$dataTable->deleteColumns($toFetch);
+		}
 		return $dataTable;
 	}
 

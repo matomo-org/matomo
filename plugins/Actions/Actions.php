@@ -52,9 +52,9 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'Actions', 'getActions', Piwik_Translate('Actions_SubmenuPages'));
-		Piwik_AddWidget( 'Actions', 'getDownloads', Piwik_Translate('Actions_SubmenuDownloads'));
-		Piwik_AddWidget( 'Actions', 'getOutlinks', Piwik_Translate('Actions_SubmenuOutlinks'));
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPages', 'Actions', 'getActions');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuDownloads', 'Actions', 'getDownloads');
 	}
 	
 	function addMenus()

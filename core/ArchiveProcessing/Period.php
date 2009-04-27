@@ -267,7 +267,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		
 		$nbVisits = $record['nb_visits']->value;
 		$nbVisitsConverted = $record['nb_visits_converted']->value;
-		$this->isThereSomeVisits = ( $nbVisits!= 0);
+		$this->isThereSomeVisits = ( $nbVisits > 0);
 		if($this->isThereSomeVisits === false)
 		{
 			return;

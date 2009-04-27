@@ -5,70 +5,61 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$view = new Piwik_View('VisitFrequency/index.tpl');
-		$view->graphEvolutionVisitFrequency = $this->getLastVisitsReturningGraph( true );
+		$view = new Piwik_View('VisitFrequency/templates/index.tpl');
+		$view->graphEvolutionVisitFrequency = $this->getEvolutionGraph(true, array('nb_visits_returning') );
 		$this->setSparklinesAndNumbers($view);
 		echo $view->render();
 	}
 	
-	protected function setSparklinesAndNumbers($view)
+	public function getSparklines()
 	{
-		
-		$view->urlSparklineNbVisitsReturning 		= $this->getUrlSparkline( 'getLastVisitsReturningGraph');
-		$view->urlSparklineNbActionsReturning 		= $this->getUrlSparkline( 'getLastActionsReturningGraph');
-		$view->urlSparklineSumVisitLengthReturning 	= $this->getUrlSparkline( 'getLastSumVisitsLengthReturningGraph');
-		$view->urlSparklineMaxActionsReturning 		= $this->getUrlSparkline( 'getLastMaxActionsReturningGraph');
-		$view->urlSparklineBounceCountReturning 	= $this->getUrlSparkline( 'getLastBounceCountReturningGraph');
-		
-		$dataTableFrequency = $this->getSummary();
-		$view->nbVisitsReturning = $dataTableFrequency->getColumn('nb_visits_returning');
-		$view->nbActionsReturning = $dataTableFrequency->getColumn('nb_actions_returning');
-		$view->maxActionsReturning = $dataTableFrequency->getColumn('max_actions_returning');
-		$view->sumVisitLengthReturning = $dataTableFrequency->getColumn('sum_visit_length_returning');
-		$view->bounceCountReturning = $dataTableFrequency->getColumn('bounce_count_returning');
-	}
-
-	function getSparklines()
-	{
-		$view = new Piwik_View('VisitFrequency/sparklines.tpl');
+		$view = new Piwik_View('VisitFrequency/templates/sparklines.tpl');
 		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();
+	}
+	
+	public function getEvolutionGraph( $fetch = false, $columns = false)
+	{
+		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "VisitFrequency.get");
+		if(empty($columns))
+		{
+			$columns = Piwik_Common::getRequestVar('columns');
+		}
+		$view->setColumnsToDisplay($columns);
+		$view->setColumnsTranslations(array(	
+			'nb_visits_returning' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
+			'nb_actions_returning' => Piwik_Translate('VisitFrequency_ColumnActionsByReturningVisits'), 
+			'max_actions_returning' => Piwik_Translate('VisitFrequency_ColumnMaximumActionsByAReturningVisit'),
+			'sum_visit_length_returning' => Piwik_Translate('VisitFrequency_ColumnTotalTimeSpentByReturningVisits'),
+			'bounce_rate_returning' => Piwik_Translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
+		));
+		return $this->renderView($view, $fetch);
+	}
+	
+	protected function setSparklinesAndNumbers($view)
+	{
+		$view->urlSparklineNbVisitsReturning 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_visits_returning')));
+		$view->urlSparklineNbActionsReturning 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions_returning')));
+		$view->urlSparklineMaxActionsReturning 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('max_actions_returning')));
+		$view->urlSparklineSumVisitLengthReturning 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('sum_visit_length_returning')));
+		$view->urlSparklineBounceRateReturning 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('bounce_rate_returning')));
+		
+		$dataTableFrequency = $this->getSummary();
+		$dataRow = $dataTableFrequency->getFirstRow();
+		$nbVisitsReturning = $dataRow->getColumn('nb_visits_returning');
+		$view->nbVisitsReturning = $nbVisitsReturning;
+		$view->nbActionsReturning = $dataRow->getColumn('nb_actions_returning');
+		$view->maxActionsReturning = $dataRow->getColumn('max_actions_returning');
+		$view->sumVisitLengthReturning = $dataRow->getColumn('sum_visit_length_returning');
+		$nbBouncedReturningVisits = $dataRow->getColumn('bounce_count_returning');
+		$view->bounceRateReturning = Piwik::getPercentageSafe($nbBouncedReturningVisits, $nbVisitsReturning);
+		
 	}
 
 	protected function getSummary()
 	{		
-		$requestString = "method=VisitFrequency.getSummary&format=original";
+		$requestString = "method=VisitFrequency.get&format=original";
 		$request = new Piwik_API_Request($requestString);
 		return $request->process();
-	}
-	
-	function getLastVisitsReturningGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "VisitFrequency.getVisitsReturning");
-		return $this->renderView($view, $fetch);
-	}
-		
-	function getLastActionsReturningGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "VisitFrequency.getActionsReturning");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastSumVisitsLengthReturningGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "VisitFrequency.getSumVisitsLengthReturning");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastMaxActionsReturningGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "VisitFrequency.getMaxActionsReturning");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastBounceCountReturningGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "VisitFrequency.getBounceCountReturning");
-		return $this->renderView($view, $fetch);
 	}
 }

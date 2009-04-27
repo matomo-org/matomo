@@ -44,9 +44,10 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 	function postLoad()
 	{
 		// we register the widgets so they appear in the "Add a new widget" window in the dashboard
-		Piwik_AddWidget('ExamplePlugin', 'exampleWidget', Piwik_Translate('ExamplePlugin_exampleWidget'));
-		Piwik_AddWidget('ExamplePlugin', 'blogPiwik', Piwik_Translate('ExamplePlugin_blogPiwikRss'));
-		Piwik_AddWidget('ExamplePlugin', 'photostreamMatt', Piwik_Translate('ExamplePlugin_photostreamMatt'));
+		// Note that the first two parameters can be either a normal string, or an index to a translation string
+		Piwik_AddWidget('Example Widgets', 'ExamplePlugin_exampleWidget', 'ExamplePlugin', 'exampleWidget');
+		Piwik_AddWidget('Example Widgets', 'ExamplePlugin_blogPiwikRss', 'ExamplePlugin', 'blogPiwik');
+		Piwik_AddWidget('Example Widgets', 'ExamplePlugin_photostreamMatt', 'ExamplePlugin', 'photostreamMatt');
 	}
 }
 
@@ -72,7 +73,9 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		echo "Hello world! <br> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
 		<br>Widgets can include graphs, tables, flash, text, images, etc.
 		<br>It's very easy to create a new plugin and widgets in Piwik. Have a look at this example file (/plugins/ExamplePlugin/ExamplePlugin.php).
-		<br><i>Happy coding!</i>";
+		<div id='happycoding'><i>Happy coding!</i></div>
+		<div id='jsenabled'>You can easily use Jquery in widgets</div>
+		<script type=\"text/javascript\">$('#happycoding').hide().fadeIn(5000);$('#jsenabled').hide().css({'color':'red'}).fadeIn(10000);</script>";
 	}
 
 	/**
@@ -102,15 +105,15 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out .= '<h2>General</h2>';
 		$out .= '<h3>Accessible from your plugin controller</h3>';
 		
-		$out .= '<code>$this->date</code> = current selected <b>Piwik_Date</b> object (<a href="http://piwik.org/documentation/Piwik_Helper/Piwik_Date.html">documentation</a>)<br/>';
+		$out .= '<code>$this->date</code> = current selected <b>Piwik_Date</b> object (<a href="http://dev.piwik.org/trac/browser/trunk/core/Date.php">class</a>)<br/>';
 		$out .= '<code>$period = Piwik_Common::getRequestVar("period");</code> - Get the current selected period<br/>';
 		$out .= '<code>$idSite = Piwik_Common::getRequestVar("idSite");</code> - Get the selected idSite<br/>';
-		$out .= '<code>$site = new Piwik_Site($idSite);</code> - Build the Piwik_Site object (<a href="http://piwik.org/documentation/Piwik_Site/Piwik_Site.html">documentation</a>)<br/>';
+		$out .= '<code>$site = new Piwik_Site($idSite);</code> - Build the Piwik_Site object (<a href="http://dev.piwik.org/trac/browser/trunk/core/Site.php">class</a>)<br/>';
 		$out .= '<code>$this->str_date</code> = current selected date in YYYY-MM-DD format<br/>';
 		
 		$out .= '<h3>Misc</h3>';
 		$out .= '<code>Piwik_AddMenu( $mainMenuName, $subMenuName, $url );</code> - Adds an entry to the menu in the Piwik interface (See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L146">UserCountry Plugin file</a>)<br/>';
-		$out .= '<code>Piwik_AddWidget( $pluginName, $controllerMethodToCall, $widgetTitle );</code> - Adds an entry to the menu in the Piwik interface (See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L143">UserCountry Plugin file</a>)<br/>';
+		$out .= '<code>Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array());</code> - Adds a widget that users can add in the dashboard, or export using the Widgets link at the top of the screen. See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L143">UserCountry Plugin file</a> or any other plugin)<br/>';
 		$out .= '<code>Piwik::prefixTable("site")</code> = <b>' . Piwik::prefixTable("site") . '</b><br/>';
 		
 		

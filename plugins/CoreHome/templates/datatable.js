@@ -258,12 +258,12 @@ dataTable.prototype =
 					}
 					if(Number(self.param.enable_filter_excludelowpop) != 0)
 					{
-						string = _pk_translate('CoreHome_IncludeAllPopulation');
+						string = _pk_translate('CoreHome_IncludeAllPopulation_js');
 						self.param.enable_filter_excludelowpop = 1;
 					}
 					else
 					{
-						string = _pk_translate('CoreHome_ExcludeLowPopulation');
+						string = _pk_translate('CoreHome_ExcludeLowPopulation_js');
 						self.param.enable_filter_excludelowpop = 0;
 					}
 					$(this).html(string);
@@ -377,7 +377,7 @@ dataTable.prototype =
 				// only show this string if there is some rows in the datatable
 				if(totalRows != 0)
 				{
-					var str = sprintf(_pk_translate('CoreHome_PageOf'),offset + '-' + offsetEndDisp,totalRows);
+					var str = sprintf(_pk_translate('CoreHome_PageOf_js'),offset + '-' + offsetEndDisp,totalRows);
 					$(this).text(str);
 				}
 			}
@@ -653,15 +653,15 @@ dataTable.prototype =
 					
 					// at the end of the query it will replace the ID matching the new HTML table #ID
 					// we need to create this ID first
-					$(this).after( '\
-					<tr>\
-						<td colspan="'+numberOfColumns+'" class="cellSubDataTable">\
-							<div id="'+divIdToReplaceWithSubTable+'">\
-								<span id="loadingDataTable" style="display:inline"><img src="'+piwik.piwik_url+'themes/default/images/loading-blue.gif" />'+ _pk_translate('CoreHome_Loading') +'</span>\
-							</div>\
-						</td>\
-					</tr>\
-					');
+					$(this).after( 
+					'<tr>'+
+						'<td colspan="'+numberOfColumns+'" class="cellSubDataTable">'+
+							'<div id="'+divIdToReplaceWithSubTable+'">'+
+								'<span id="loadingDataTable" style="display:inline"><img src="'+piwik.piwik_url+'themes/default/images/loading-blue.gif" />'+ _pk_translate('CoreHome_Loading_js') +'</span>'+
+							'</div>'+
+						'</td>'+
+					'</tr>'
+					);
 					
 					var savedActionVariable = self.param.action;
 					

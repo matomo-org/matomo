@@ -111,7 +111,7 @@ class Piwik_DataTable_Array
 	 */
 	public function filter($className, $parameters = array())
 	{
-		foreach($this->array as $table)
+		foreach($this->array as $id => $table)
 		{
 			$table->filter($className, $parameters);
 		}
@@ -159,6 +159,14 @@ class Piwik_DataTable_Array
 		foreach($this->array as $table)
 		{
 			$table->enableRecursiveSort();
+		}
+	}
+	
+	public function deleteColumns($columns)
+	{
+		foreach($this->array as $table)
+		{
+			$table->deleteColumns($columns);
 		}
 	}
 }

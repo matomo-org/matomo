@@ -95,15 +95,9 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		
 	protected function renderDataTable($table)
 	{
-	
 		if($table->getRowsCount() == 0)
 		{
 			return "<b><i>Empty table</i></b> <br>\n";
-		}
-		if($table instanceof Piwik_DataTable_Simple 
-			&& $table->getRowsCount() ==1)
-		{
-			$table->deleteColumn('label');
 		}
 
 		$i = 1;		

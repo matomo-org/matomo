@@ -1,5 +1,4 @@
 <div id="dataTableFeatures">
-
 {if $properties.show_exclude_low_population}
 	<span id="dataTableExcludeLowPopulation"></span>
 {/if}

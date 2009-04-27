@@ -221,7 +221,8 @@ abstract class Piwik_Period
 	
 	public function __toString()
 	{
-		return $this->toString();
+		$elements = $this->toString();
+		return implode(",", $elements);
 	}
 	
 	public function get( $part= null )
@@ -234,6 +235,7 @@ abstract class Piwik_Period
 	}
 	
 	abstract public function getPrettyString();
+	abstract public function getLocalizedShortString();
 }
 
 	

@@ -1,25 +1,47 @@
 {loadJavascriptTranslations plugins='CoreHome Dashboard'}
 
 <script type="text/javascript">
-	{if !empty($layout) }
-		piwik.dashboardLayout = '{$layout}';
-	{else}
-		// Load default layout...
-		piwik.dashboardLayout = 'VisitsSummary.getLastVisitsGraph~VisitorInterest.getNumberOfVisitsPerVisitDuration~UserSettings.getBrowser~ExampleFeedburner.feedburner|Referers.getKeywords~Referers.getWebsites|Referers.getSearchEngines~VisitTime.getVisitInformationPerServerTime~ExampleRssWidget.rssPiwik|';
-	{/if}
-	
-	piwik.availableWidgets = {$availableWidgets};
+{if !empty($layout) }
+	piwik.dashboardLayout = {$layout};
+{else}
+{literal}
+	piwik.dashboardLayout = 
+	[
+		[
+			{"uniqueId":"widgetVisitsSummarygetEvolutionGraph","parameters":{"module":"VisitsSummary","action":"getEvolutionGraph","columns":["nb_visits"]}},
+			{"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}},
+			{"uniqueId":"widgetUserSettingsgetBrowser","parameters":{"module":"UserSettings","action":"getBrowser"}},
+			{"uniqueId":"widgetUserCountrygetCountry","parameters":{"module":"UserCountry","action":"getCountry"}},
+			{"uniqueId":"widgetExampleFeedburnerfeedburner","parameters":{"module":"ExampleFeedburner","action":"feedburner"}}
+		],
+		[
+			{"uniqueId":"widgetReferersgetKeywords","parameters":{"module":"Referers","action":"getKeywords"}},
+			{"uniqueId":"widgetReferersgetWebsites","parameters":{"module":"Referers","action":"getWebsites"}}
+		],
+		[
+			{"uniqueId":"widgetReferersgetSearchEngines","parameters":{"module":"Referers","action":"getSearchEngines"}},
+			{"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"module":"VisitTime","action":"getVisitInformationPerServerTime"}},
+			{"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}
+		]
+	];
+{/literal}
+
+	{*
+	the old dashboard layout style is:
+	piwik.dashboardLayout = 'VisitsSummary.getEvolutionGraph~VisitorInterest.getNumberOfVisitsPerVisitDuration~UserSettings.getBrowser~ExampleFeedburner.feedburner|Referers.getKeywords~Referers.getWebsites|Referers.getSearchEngines~VisitTime.getVisitInformationPerServerTime~ExampleRssWidget.rssPiwik|';
+	*}
+{/if}
+piwik.availableWidgets = {$availableWidgets};
 </script>
 
 {literal}
 <script type="text/javascript">
 $(document).ready( function() {
-		var dash = new dashboard();
-		var menu = new widgetMenu(dash);
-		blockUIConfig();
-		dash.init(piwik.dashboardLayout);
-		menu.init();
-		$('.button#addWidget').click(function(){menu.show();});
+		var dashboardObject = new dashboard();
+		var widgetMenuObject = new widgetMenu(dashboardObject);
+		dashboardObject.init(piwik.dashboardLayout);
+		widgetMenuObject.init();
+		$('.button#addWidget').click(function(){widgetMenuObject.show();});
 });
 </script>
 {/literal}
@@ -39,35 +61,16 @@ $(document).ready( function() {
 	<div class="menu" id="widgetChooser">
 		<div id="closeMenuIcon"><img src="themes/default/images/close_medium.png" title="{'General_Close'|translate}"/></div>
 		<div id="menuTitleBar">{'Dashboard_SelectWidget'|translate}</div>
-		<div class="subMenu" id="sub1">
-		</div>
-		
-		<div class="subMenu" id="sub2">
-		</div>
-		
-		<div class="subMenu" id="sub3">
-			<div class="widget">
-				<div class="handle" title="{'Dashboard_AddPreviewedWidget'|translate}">
-					<div class="button" id="close">
-						<img src="themes/default/images/close.png" title="{'General_Close'|translate}"/>
-					</div>
-					<div class="widgetTitle">{'Dashboard_WidgetPreview'|translate}</div>
-				</div>
-				<div class="widgetDiv previewDiv" ></div>
-			</div>
-		</div>
-		
+
+		<div class="subMenu" id="sub1"></div>
+		<div class="subMenu" id="sub2"></div>
+		<div class="subMenu" id="sub3"></div>
 		<div class="menuClear"> </div>
 	</div>	
 
 	<div id="dashboardWidgetsArea">
-		<div class="col" id="1">
-		</div>
-	  
-		<div class="col" id="2">
-		</div>
-		
-		<div class="col" id="3">
-		</div>
+		<div class="col" id="1"></div>
+		<div class="col" id="2"></div>
+		<div class="col" id="3"></div>
 	</div>
 </div>

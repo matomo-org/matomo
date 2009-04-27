@@ -12,196 +12,133 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	{
 		return 'generateDataChartEvolution';
 	}
+	
 	function __construct()
 	{
 		require_once "Visualization/Chart/Evolution.php";
 		$this->view = new Piwik_Visualization_Chart_Evolution;
 	}
 	
-	var $lineLabels = array();
-	var $data = array();
-	
-	private function generateLine( $dataArray, $columns, $schema = "##label## ##column##" )
+	protected function generateDataFromDataTable()
 	{
-		$data = array();
-		foreach($dataArray as $keyName => $table)
+		$this->dataTable->applyQueuedFilters();
+		if(!($this->dataTable instanceof Piwik_DataTable_Array))
 		{
-			$table->applyQueuedFilters();
-			// initialize data (default values for all lines is 0)
-			$dataRow = array();
-			$rows = $table->getRows();
-			foreach($rows as $row)
+			throw new Exception("Expecting a DataTable_Array with custom format to draw an evolution chart");
+		}
+		$xLabels = $uniqueIdsDataTable = array();
+		foreach($this->dataTable->metadata as $idDataTable => $metadataDataTable)
+		{
+			$xLabels[] = $metadataDataTable['period']->getLocalizedShortString();
+			$uniqueIdsDataTable[] = $idDataTable;
+		}
+		
+		// list of column names requested to be plotted, we only need to forward these to the Graph object
+		$columnNameRequested = $this->getColumnsToDisplay();
+		
+		$columnNameToValue = array();
+		foreach($this->dataTable->getArray() as $idDataTable => $dataTable)
+		{
+			if($dataTable->getRowsCount() > 1)
 			{
-				$rowLabel = $schema;
-				if( strpos($rowLabel, "##label##") !== false )
+				throw new Exception("Expecting only one row per DataTable");
+			}
+			$row = $dataTable->getFirstRow();
+			if($row !== false)
+			{
+				foreach($row->getColumns() as $columnName => $columnValue)
 				{
-					$rowLabel = str_replace("##label##", $row->getColumn('label'), $rowLabel);
-				}
-				foreach($columns as $col)
-				{
-					$label = $rowLabel;
-					if( strpos($label, "##column##") !== false )
+					if(array_search($columnName, $columnNameRequested) !== false)
 					{
-						$label = str_replace("##column##", $col, $label);
-					}
-					if( !isset($this->lineLabels[$label]) )
-					{
-						$this->lineLabels[$label] = count($this->lineLabels);
-					}					
-					$lineNb = $this->lineLabels[$label];
-										
-					$value = $row->getColumn($col);
-
-					$dataRow['value'.$lineNb] = $value;
-				}
-			}
-			$data[] = $dataRow;
-		}
-		return $data;
-	}
-	
-	private function generateLabels( $dataArray )
-	{
-		$data = array();
-		
-		foreach($dataArray as $keyName => $table)
-		{
-			$table->applyQueuedFilters();
-			
-			$data[] = array('label' => $keyName);
-		}
-		
-		return $data;
-	}
-	
-	private function addArray( &$data, $newData )
-	{	
-		for($i = 0; $i < count($newData); $i++)
-		{
-			foreach($newData[$i] as $key => $value)
-			{
-				$data[$i][$key] = $value;
-			}
-		}
-	}
-	
-	private function fillValues( &$data )
-	{
-		$nbLines = count($this->lineLabels);
-		
-		for($i = 0; $i < count($data); $i++)
-		{
-			for($j = 0; $j < $nbLines; $j++)
-			{
-				if( !isset($data[$i]['value'.$j]) )
-				{
-					$data[$i]['value'.$j] = 0;
+						$columnNameToValue[$columnName][$idDataTable] = $columnValue;
+					} 
 				}
 			}
 		}
-	}
-	
-	/*
-	 * generates data for evolution graph from a numeric DataTable (DataTable that has only 'label' and 'value' columns)
-	 */
-	protected function generateDataFromNumericDataTable($dataArray, $siteLabel = "")
-	{
-		$columnsToDisplay = Piwik_Common::getRequestVar('columns', array(), 'array');
-				
-		// for numeric we want to have only one column name
-		if( count($columnsToDisplay) != 1 )
-		{
-			$columnsToDisplay = array( 'nb_visits' );
-		}
 		
-		$label = $siteLabel . array_shift($columnsToDisplay);
 		
-		$this->addArray($this->data, $this->generateLabels($dataArray));
-		$this->addArray($this->data, $this->generateLine($dataArray,array('value'),$label));
-		$this->fillValues($this->data);
-	}
-	
-	/*
-	 * generates data for evolution graph from a DataTable that has named columns (i.e. 'nb_hits', 'nb_visits')    
-	 */
-	protected function generateDataFromRegularDataTable($dataArray, $siteLabel = "")
-	{	
-		// get list of columns 	to display i.e. array('nb_hits','nb_visits')						
-		$columnsToDisplay = Piwik_Common::getRequestVar('columns', array(), 'array');
-				
-		// default column
-		if( count($columnsToDisplay) == 0 )
+		// make sure all column values are set (at least zero) in order for all unique idDataTable
+		$columnNameToValueCleaned = array();
+		foreach($uniqueIdsDataTable as $uniqueIdDataTable)
 		{
-			$columnsToDisplay = array( 'nb_visits' );
-		}		
-		
-		$this->addArray($this->data, $this->generateLabels($dataArray));
-		$this->addArray($this->data, $this->generateLine($dataArray, $columnsToDisplay, $siteLabel."##label## ##column##"));
-		$this->fillValues($this->data);
-	}	
-
-	protected function handleSiteGenerateDataFromDataTable($dataArray, $siteLabel = "")
-	{			
-		// detect if we got numeric Datatable or regular DataTable	
-		foreach($dataArray as $table) 
-		{
-			$row = $table->getFirstRow();
-				
-			if( $row != null )
+			foreach($columnNameToValue as $columnName => $idDataTableToColumnValue)
 			{
-				$columns = $row->getColumns();
-
-				// if we got 2 columns - 'label' and 'value' this is numeric DataTable
-				if( count($columns) == 2 && isset($columns['label']) && isset($columns['value']) )
+				if(isset($idDataTableToColumnValue[$uniqueIdDataTable]))
 				{
-					$this->generateDataFromNumericDataTable($dataArray, $siteLabel);
+					$columnValue = $idDataTableToColumnValue[$uniqueIdDataTable];
 				}
 				else
 				{
-					$this->generateDataFromRegularDataTable($dataArray, $siteLabel);
+					$columnValue = 0;
 				}
-				break;
+				$columnNameToValueCleaned[$columnName][] = $columnValue;
 			}
 		}
-	}
-			
-	public function generateDataFromDataTable()
-	{
-		$data = array();
-				
-		if( $this->dataTable->getRowsCount() )
+		$columnNames = array_keys($columnNameToValueCleaned);
+		$columnNameToTranslation = array();
+		$columnNameToType = array();
+		$nameToType = array(
+			'_rate' => '%',
+			'_revenue' => Piwik::getCurrency(),
+		);
+		foreach($columnNames as $columnName)
 		{
-			$row = null;
-			
-			// find first table with rows
-			foreach($this->dataTable->getArray() as $idsite => $table)
+			$columnNameToTranslation[$columnName] = $this->getColumnTranslation($columnName);
+			$columnNameToType[$columnName] = false;
+			foreach($nameToType as $pattern => $type)
 			{
-				// detect if we got data from more than one site
-				if( $table instanceof Piwik_DataTable_Array)
+				if(strpos($columnName, $pattern) !== false)
 				{
-					// multiple sites
-					$site = new Piwik_Site($idsite);
-					
-					$this->handleSiteGenerateDataFromDataTable($table->getArray(), $site->getName()." ");
-				}
-				else if( $table instanceof Piwik_DataTable_Simple && $this->dataTable->getKeyName() == 'idSite')
-				{
-					// multiple sites (when numeric DataTable)
-					$site = new Piwik_Site($idsite);
-										
-					$this->handleSiteGenerateDataFromDataTable($table->getFirstRow()->getColumn('value')->getArray(), $site->getName()." ");
-				}
-				else
-				{
-					// single site
-					$this->handleSiteGenerateDataFromDataTable($this->dataTable->getArray());
+					$columnNameToType[$columnName] = $type;
 					break;
-				}				
-			}			
+				}
+			}
+		}
+		$this->view->setAxisXLabels($xLabels);
+		$this->view->setAxisYValues($columnNameToValueCleaned);
+		$this->view->setAxisYLabels($columnNameToTranslation);
+		$this->view->setAxisYValuesTypes($columnNameToType);
+		
+		$firstDatatable = reset($this->dataTable->metadata);
+		$period = $firstDatatable['period'];
+		switch($period->getLabel()) {
+			case 'day': $steps = 7; break;
+			case 'week': $steps = 10; break;
+			case 'month': $steps = 6; break;
+			case 'year': $steps = 2; break;
+			default: $steps = 10; break;
+		}
+		$this->view->setXSteps($steps);
+		
+		if($this->isLinkEnabled())
+		{
+			$axisXOnClick = array();
+			foreach($this->dataTable->metadata as $idDataTable => $metadataDataTable)
+			{
+				$period = $metadataDataTable['period'];
+				$dateInUrl = $period->getDateStart();
+				$link = Piwik_Url::getCurrentUrlWithoutQueryString() . 
+						Piwik_Url::getCurrentQueryStringWithParametersModified( array(
+							'date' => $dateInUrl,
+							'module' => 'CoreHome',
+							'action' => 'index',
+							'viewDataTable' => null, // we reset the viewDataTable parameter (useless in the link)
+							'idGoal' => null, // we reset idGoal
+							'columns' => null, 
+				));
+				$axisXOnClick[] = $link;
+			}
+			$this->view->setAxisXOnClick($axisXOnClick);
+		}
+	}
 
-		}		
-		array_unshift($this->data, array_keys($this->lineLabels));
-				
-		return $this->data;
+	private function isLinkEnabled() 
+	{
+		static $linkEnabled;
+		if(!isset($linkEnabled)) 
+		{
+			$linkEnabled = !Piwik_Common::getRequestVar('disableLink', 0, 'int');
+		}
+		return $linkEnabled;
 	}
 }

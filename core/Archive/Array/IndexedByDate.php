@@ -34,6 +34,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		$table->metadata[$archive->getPrettyDate()] = array( 
 				'timestamp' => $archive->getTimestampStartDate(),
 				'site' => $archive->getSite(),
+				'period' => $archive->getPeriod(),
 			);
 	}
 	
@@ -78,7 +79,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		foreach($queries as $table => $aIds)
 		{
 			$inIds = implode(', ', $aIds);
-			$sql = "SELECT value, name, idarchive, UNIX_TIMESTAMP(date1) as timestamp
+			$sql = "SELECT value, name, UNIX_TIMESTAMP(date1) as timestamp
 									FROM $table
 									WHERE idarchive IN ( $inIds )
 										AND name IN ( $inNames )";
@@ -87,7 +88,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 			
 			foreach($values as $value)
 			{
-				$arrayValues[$value['timestamp']][$value['name']] = $value['value'];
+				$arrayValues[$value['timestamp']][$value['name']] = (float)$value['value'];
 			}			
 		}
 		

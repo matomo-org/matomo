@@ -1,13 +1,13 @@
 /*Overriding some dataTable css for better dashboard display*/
-.widgetDiv .dataTableWrapper, 
-.widgetDiv .dataTableAllColumnsWrapper,
-.widgetDiv .dataTableGraphWrapper,
-.widgetDiv .dataTableActionsWrapper,
-.widgetDiv .dataTableGraphEvolutionWrapper {
+.widget .dataTableWrapper, 
+.widget .dataTableAllColumnsWrapper,
+.widget .dataTableGraphWrapper,
+.widget .dataTableActionsWrapper,
+.widget .dataTableGraphEvolutionWrapper {
 	width: 100%;
 }
 
-.widgetDiv {
+.widget {
 	z-index:1;
 }
 

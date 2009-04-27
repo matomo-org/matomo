@@ -36,10 +36,9 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'VisitsSummary', 'getLastVisitsGraph', Piwik_Translate('VisitsSummary_WidgetLastVisits'));
-		Piwik_AddWidget( 'VisitsSummary', 'getSparklines', Piwik_Translate('VisitsSummary_WidgetVisits'));
-		Piwik_AddWidget( 'VisitsSummary', 'getLastUniqueVisitorsGraph', Piwik_Translate('VisitsSummary_WidgetLastVisitors'));
-		Piwik_AddWidget( 'VisitsSummary', 'index', Piwik_Translate('VisitsSummary_WidgetOverviewGraph'));
+		Piwik_AddWidget( 'Visits Summary', 'VisitsSummary_WidgetLastVisits', 'VisitsSummary', 'getEvolutionGraph', array('columns' => array('nb_visits')));
+		Piwik_AddWidget( 'Visits Summary', 'VisitsSummary_WidgetVisits', 'VisitsSummary', 'getSparklines');
+		Piwik_AddWidget( 'Visits Summary', 'VisitsSummary_WidgetOverviewGraph', 'VisitsSummary', 'index');
 	}
 	
 	function addMenu()

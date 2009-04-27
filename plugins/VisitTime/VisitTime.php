@@ -40,8 +40,8 @@ class Piwik_VisitTime extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerLocalTime', Piwik_Translate('VisitTime_WidgetLocalTime'));
-		Piwik_AddWidget( 'VisitTime', 'getVisitInformationPerServerTime', Piwik_Translate('VisitTime_WidgetServerTime'));
+		Piwik_AddWidget( 'VisitTime_SubmenuTimes', 'VisitTime_WidgetLocalTime', 'VisitTime', 'getVisitInformationPerLocalTime');
+		Piwik_AddWidget( 'VisitTime_SubmenuTimes', 'VisitTime_WidgetServerTime', 'VisitTime', 'getVisitInformationPerServerTime');
 	}
 	
 	function addMenu()
@@ -101,7 +101,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 
 	private function makeSureAllHoursAreSet($table, $archiveProcessing)
 	{
-		for($i=0;$i<=23;$i++)
+		for($i=0; $i<=23; $i++)
 		{
 			if($table->getRowFromLabel($i) === false)
 			{

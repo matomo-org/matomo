@@ -4,7 +4,6 @@
 
 {loadJavascriptTranslations plugins='Dashboard'}
 <script type="text/javascript" src="plugins/Dashboard/templates/widgetMenu.js"></script>
-
 <script type="text/javascript" src="themes/default/common.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.dimensions.js"></script>
 <script type="text/javascript" src="libs/jquery/tooltip/jquery.tooltip.js"></script>
@@ -65,53 +64,31 @@ label {
 $(document).ready( function() {
 	var menu = new widgetMenu();
 	var widgetized = new widgetize();
-	widgetized.callbackHideButtons();
 	menu.init();
 	menu.registerCallbackOnWidgetLoad( widgetized.callbackAddExportButtonsUnderWidget );
-	menu.registerCallbackOnMainMenuHover( widgetized.callbackHideButtons );
-	menu.registerCallbackOnSubMenuHover( widgetized.callbackSavePluginName );
+	menu.registerCallbackOnMenuHover( widgetized.deleteEmbedElements );
 	menu.show();
+	$('#exportFullDashboard').html(
+		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+document.location.protocol + '//' + document.location.hostname + document.location.pathname + '?'+'module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&idSite=1&period=week&date=yesterday" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
+	);
 });
 
 {/literal}
 </script>
 
 <div style="max-width:980px;">
-<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
-If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions to the anonymous user in the <a href='?module=UsersManager'>Users Management section</a>.</p>
-<div id="widgetChooser">
-	<div class="subMenu" id="sub1">
-	</div>
-	<div class="subMenu" id="sub2">
-	</div>
-	<div class="subMenu" id="sub3">
-		<div class="widget">
-			<div class="widgetDiv previewDiv"></div>
-		</div>
-
-		<div id="embedThisWidgetIframe">
-			<label for="embedThisWidgetIframeInput">&rsaquo; Embed Iframe</label>
-			<span id="embedThisWidgetIframeInput"></span>
-		</div>
-		
-		<div id="embedThisWidgetFlash">
-			<label for="embedThisWidgetFlashInput">&rsaquo; Embed Flash</label>
-			<span id="embedThisWidgetFlashInput"></span>
-		</div>
-		
-		<div id="embedThisWidgetEverywhere">
-			<div id="exportThisWidget">
-				<label for="flashEmbed">&rsaquo; Export anywhere!</label>
-				<img src='http://cdn.clearspring.com/launchpad/static/cs_button_share1.gif'>
-			</div>
-			<div id="exportThisWidgettest"></div>
-			<div id="exportThisWidgetMenu">
-				<span style="display:none"><img src="{$piwikUrl}themes/default/images/loading-blue.gif" /></span>
-			</div>
-		</div>
-	</div>
+	<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
+	If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
+	to the anonymous user in the <a href='?module=UsersManager'>Users Management section</a>.
+	<br>Note: You can also display the full Piwik dashboard in your application or website in an Iframe. 
+	For example, for idSite=1 and date=yesterday, you can write: <span id='exportFullDashboard'></span>
+	</p>
 	
-	<div class="menuClear"> </div>
-</div>
-<div id='iframeDivToExport' style='display:none;'></div>
+	<div id="widgetChooser">
+		<div class="subMenu" id="sub1"></div>
+		<div class="subMenu" id="sub2"></div>
+		<div class="subMenu" id="sub3"></div>
+		<div class="menuClear"></div>
+	</div>
+	<div id='iframeDivToExport' style='display:none;'></div>
 </div>

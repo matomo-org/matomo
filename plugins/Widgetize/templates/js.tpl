@@ -1,4 +1,4 @@
-{loadJavascriptTranslations noHtml=1 plugins='CoreHome'}
+{loadJavascriptTranslations disableOutputScriptTag=1 plugins='CoreHome'}
 
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/swfobject/swfobject.js"></scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/javascript/sprintf.js"></scr'+'ipt>');

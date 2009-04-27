@@ -33,7 +33,7 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 	}
 }
 
-Piwik_AddWidget('ExampleFeedburner', 'feedburner', 'Feedburner statistics');
+Piwik_AddWidget('Example Widgets', 'Feedburner statistics', 'ExampleFeedburner', 'feedburner');
 
 class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 {
@@ -44,7 +44,7 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 	 */
 	function feedburner()
 	{
-		$view = new Piwik_View('ExampleFeedburner/feedburner.tpl');
+		$view = new Piwik_View('ExampleFeedburner/templates/feedburner.tpl');
 		$idSite = Piwik_Common::getRequestVar('idSite',1,'int');
 		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName FROM '.Piwik::prefixTable('site').
 								' WHERE idsite = ?', $idSite );

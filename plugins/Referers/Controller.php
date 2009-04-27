@@ -5,8 +5,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('Referers/templates/index.tpl');
 		
-		$view->graphEvolutionReferers = $this->getLastDirectEntryGraph(true);
-		$view->nameGraphEvolutionReferers = 'ReferersgetLastDirectEntryGraph'; // must be the function name used above
+		$view->graphEvolutionReferers = $this->getEvolutionGraph(true, Piwik_Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
+		$view->nameGraphEvolutionReferers = 'ReferersgetEvolutionGraph'; // must be the function name used above TODO why?
 		
 		$view->numberDistinctSearchEngines 	= $this->getNumberOfDistinctSearchEngines(true);
 		$view->numberDistinctKeywords 		= $this->getNumberOfDistinctKeywords(true);
@@ -23,10 +23,10 @@ class Piwik_Referers_Controller extends Piwik_Controller
 			$view->$name = $value;
 		}
 		// sparkline for the historical data of the above values
-		$view->urlSparklineSearchEngines	= $this->getUrlSparkline('getLastSearchEnginesGraph');
-		$view->urlSparklineDirectEntry 		= $this->getUrlSparkline('getLastDirectEntryGraph');
-		$view->urlSparklineWebsites 		= $this->getUrlSparkline('getLastWebsitesGraph');
-		$view->urlSparklineCampaigns 		= $this->getUrlSparkline('getLastCampaignsGraph');
+		$view->urlSparklineSearchEngines	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_SEARCH_ENGINE));
+		$view->urlSparklineDirectEntry 		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_DIRECT_ENTRY));
+		$view->urlSparklineWebsites 		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_WEBSITE));
+		$view->urlSparklineCampaigns 		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_CAMPAIGN));
 		
 		// sparklines for the evolution of the distinct keywords count/websites count/ etc
 		$view->urlSparklineDistinctSearchEngines 	= $this->getUrlSparkline('getLastDistinctSearchEnginesGraph');
@@ -179,9 +179,10 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	}
 	
 	
+	// TODO FIXME WITH NEW API
+	// example of how to show evolution of a given column over multiple days
 	public function getSearchEnginesEvolution($fetch = false)
 	{
-		// TODO example of how to show evolution of a given column over multiple days
 		$view = Piwik_ViewDataTable::factory('graphEvolution');
 		$view->init( $this->pluginName, __FUNCTION__, 'Referers.getSearchEngines' );
 		
@@ -221,50 +222,73 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		}
 		return $return;
 	}
-	function getLastSearchEnginesGraph( $fetch = false )
+
+	protected $refererTypeToLabel = array(
+		Piwik_Common::REFERER_TYPE_DIRECT_ENTRY => 'Referers_DirectEntry',
+		Piwik_Common::REFERER_TYPE_SEARCH_ENGINE => 'Referers_SearchEngines',
+		Piwik_Common::REFERER_TYPE_WEBSITE => 'Referers_Websites',
+		Piwik_Common::REFERER_TYPE_CAMPAIGN => 'Referers_Campaigns',
+	);
+	
+	public function getEvolutionGraph( $fetch = false, $typeReferer = false, $columns = false)
 	{
-		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, 'Referers.getRefererType');
-		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE, 'label');
+		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getRefererType');
+		if(empty($columns))
+		{
+			$columns = Piwik_Common::getRequestVar('columns');
+		}
+		if(empty($typeReferer))
+		{
+			$typeReferer = Piwik_Common::getRequestVar('typeReferer');
+		}
+		$view->setColumnsToDisplay($columns);
+		$view->setSearchPattern($typeReferer, 'label');
+		$view->setParametersToModify(array('typeReferer' => $typeReferer));
+		foreach($columns as $columnName)
+		{
+			$columnTranslation = $this->standardColumnNameToTranslation[$columnName];
+			$refererTypeTranslation = $this->refererTypeToLabel[$typeReferer];
+			$view->setColumnTranslation(
+				$columnName, 
+				Piwik_Translate('Referers_MetricsFromRefererTypeGraphLegend', 
+					array(	Piwik_Translate($columnTranslation), 
+							Piwik_Translate($refererTypeTranslation)
+						)
+					)
+				);
+		}
 		return $this->renderView($view, $fetch);
 	}
-	function getLastDirectEntryGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, 'Referers.getRefererType');
-		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY, 'label');
-		return $this->renderView($view, $fetch);
-	}
-	function getLastWebsitesGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, 'Referers.getRefererType');
-		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_WEBSITE, 'label');
-		return $this->renderView($view, $fetch);
-	}
-	function getLastCampaignsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, 'Referers.getRefererType');
-		$view->setSearchPattern(Piwik_Common::REFERER_TYPE_CAMPAIGN, 'label');
-		return $this->renderView($view, $fetch);
-	}
+	
 	function getLastDistinctSearchEnginesGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, "Referers.getNumberOfDistinctSearchEngines");
+		$view->setColumnTranslation('Referers_distinctSearchEngines', ucfirst(Piwik_Translate('Referers_DistinctSearchEngines')));
+		$view->setColumnsToDisplay(array('Referers_distinctSearchEngines'));
 		return $this->renderView($view, $fetch);
 	}
 	function getLastDistinctKeywordsGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, "Referers.getNumberOfDistinctKeywords");
+		$view->setColumnTranslation('Referers_distinctKeywords', ucfirst(Piwik_Translate('Referers_DistinctKeywords')));
+		$view->setColumnsToDisplay(array('Referers_distinctKeywords'));
 		return $this->renderView($view, $fetch);
 	}
 	function getLastDistinctWebsitesGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, "Referers.getNumberOfDistinctWebsites");
+		$view->setColumnTranslation('Referers_distinctWebsites', ucfirst(Piwik_Translate('Referers_DistinctWebsites')));
+		$view->setColumnsToDisplay(array('Referers_distinctWebsites'));
 		return $this->renderView($view, $fetch);
 	}
 	function getLastDistinctCampaignsGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph($this->pluginName,__FUNCTION__, "Referers.getNumberOfDistinctCampaigns");
+		$view->setColumnTranslation('Referers_distinctCampaigns', ucfirst(Piwik_Translate('Referers_DistinctCampaigns')));
+		$view->setColumnsToDisplay(array('Referers_distinctCampaigns'));
 		return $this->renderView($view, $fetch);
 	}
+
 	function getNumberOfDistinctSearchEngines( $fetch = false)
 	{
 		return $this->getNumericValue('Referers.' . __FUNCTION__);

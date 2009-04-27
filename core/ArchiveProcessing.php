@@ -174,6 +174,13 @@ abstract class Piwik_ArchiveProcessing
 	protected $debugAlwaysArchive = false;
 	
 	/**
+	 * If the archive has at least 1 visit, this is set to true.
+	 *
+	 * @var bool
+	 */
+	public $isThereSomeVisits = false;
+	
+	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -290,11 +297,6 @@ abstract class Piwik_ArchiveProcessing
 		{
 			return null;
 		}
-		else
-		{
-			$this->isThereSomeVisits = true;
-		}
-		
 		return $this->idArchive;
 	}
 	

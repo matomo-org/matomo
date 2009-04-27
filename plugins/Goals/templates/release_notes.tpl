@@ -1,4 +1,5 @@
-<hr>
+<div style="clear:both" />
+<br><br><hr>
 <b>About the Goal Tracking Plugin</b><br>
 <pre>
 The Goal Tracking Plugin is in alpha release. There is more coming soon!
@@ -13,6 +14,7 @@ The Goal Tracking Plugin is in alpha release. There is more coming soon!
 - documentation, eg. http://feedproxy.google.com/~r/WebAnalyticsWorld/~3/1g5Z7k7jDKQ/10-must-track-google-analytics-goals.html
 - internationalization of all strings i18n
 - provide documentation, screenshots, blog post + add screenshot and inline help in "Add a New Goal"
+- way to test a URL against the regex
 
 Known bugs
 - need to clarify that goals are triggered once per visit max, but can be triggered multiple times by one unique visitor > need option to force only once per uniq visitor? (ie. e-commerce transaction)

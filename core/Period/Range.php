@@ -12,7 +12,17 @@ class Piwik_Period_Range extends Piwik_Period
 		$this->strDate = $strDate;
 		$this->defaultEndDate = null;
 	}
-
+	public function getLocalizedShortString()
+	{
+		//"30 Dec 08 - 26 Feb 09"
+		$dateStart = $this->getDateStart();
+		$dateEnd = $this->getDateEnd();
+		$template = "%day% %shortMonth% %shortYear%";
+		$shortDateStart = $dateStart->getLocalized($template);
+		$shortDateEnd = $dateEnd->getLocalized($template);
+		$out = "$shortDateStart - $shortDateEnd";
+		return $out;
+	}
 	public function getPrettyString()
 	{
 		$out = "From ".$this->getDateStart()->toString() . " to " . $this->getDateEnd()->toString();

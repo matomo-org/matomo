@@ -5,7 +5,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$view = new Piwik_View('UserCountry/index.tpl');
+		$view = new Piwik_View('UserCountry/templates/index.tpl');
 		
 		$view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
 		$view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);

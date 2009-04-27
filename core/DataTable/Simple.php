@@ -34,28 +34,6 @@ class Piwik_DataTable_Simple extends Piwik_DataTable
 	 */
 	function addRowsFromArray($array)
 	{
-		foreach($array as $label => $value)
-		{
-			$row = new Piwik_DataTable_Row;
-			$row->addColumn('label', $label);
-			$row->addColumn('value', $value);
-			$this->addRow($row);
-		}
-	}
-	
-	/**
-	 * Returns the 'value' column of the row that has a label '$label'. 
-	 *
-	 * @param string Label of the row we want the value
-	 * @return false|mixed The 'value' column of the row labelled $label
-	 */
-	function getColumn( $label )
-	{
-		$row = $this->getRowFromLabel($label);
-		if($row === false)
-		{
-			return false;
-		}
-		return $row->getColumn('value');
+		$this->addRowsFromSimpleArray(array($array));
 	}
 }

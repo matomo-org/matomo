@@ -28,6 +28,11 @@ class Piwik_Site
 		}
 	}
 	
+	function __toString()
+	{
+		return "site id=".$this->getId().", name=".$this->getName();
+	}
+	
 	function getName()
 	{
 		return self::$infoSites[$this->id]['name'];

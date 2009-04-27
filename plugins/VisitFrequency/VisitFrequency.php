@@ -40,8 +40,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'VisitFrequency', 'getSparklines', Piwik_Translate('VisitFrequency_WidgetOverview'));
-		Piwik_AddWidget( 'VisitFrequency', 'getLastVisitsReturningGraph', Piwik_Translate('VisitFrequency_WidgetGraphReturning'));
+		Piwik_AddWidget( 'General_Visitors', 'VisitFrequency_WidgetOverview', 'VisitFrequency', 'getSparklines');
+		Piwik_AddWidget( 'General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph', array('columns' => array('nb_visits_returning')));
 	}
 	
 	function addMenu()

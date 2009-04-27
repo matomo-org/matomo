@@ -3,51 +3,31 @@ require_once "ViewDataTable.php";
 
 class Piwik_VisitsSummary_Controller extends Piwik_Controller 
 {
-	function index()
+	public function index()
 	{
-		$view = new Piwik_View('VisitsSummary/index.tpl');
+		$view = new Piwik_View('VisitsSummary/templates/index.tpl');
 		$this->setPeriodVariablesView($view);
-		$view->graphEvolutionVisitsSummary = $this->getLastVisitsGraph( true );
+		$view->graphEvolutionVisitsSummary = $this->getEvolutionGraph( true, array('nb_visits') );
 		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();
 	}
 	
-	protected function setSparklinesAndNumbers($view)
+	public function getSparklines()
 	{
-		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getLastVisitsGraph');
-		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getLastActionsGraph');
-		$view->urlSparklineSumVisitLength 	= $this->getUrlSparkline( 'getLastSumVisitsLengthGraph');
-		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getLastMaxActionsGraph');
-		$view->urlSparklineBounceCount 		= $this->getUrlSparkline( 'getLastBounceCountGraph');
-		
-		$dataTableVisit = self::getVisitsSummary();
-		
-		if($view->period == 'day')
-		{
-			$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getLastUniqueVisitorsGraph');
-			$view->nbUniqVisitors = $dataTableVisit->getColumn('nb_uniq_visitors');
-		}
-		$view->nbVisits = $dataTableVisit->getColumn('nb_visits');
-		$view->nbActions = $dataTableVisit->getColumn('nb_actions');
-		$view->sumVisitLength = $dataTableVisit->getColumn('sum_visit_length');
-		$view->bounceCount = $dataTableVisit->getColumn('bounce_count');
-		$view->maxActions = $dataTableVisit->getColumn('max_actions');
-	}
-	
-	function getSparklines()
-	{
-		$view = new Piwik_View('VisitsSummary/sparklines.tpl');
+		$view = new Piwik_View('VisitsSummary/templates/sparklines.tpl');
 		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();
 	}
 
-	static public function getVisits()
+	public function getEvolutionGraph( $fetch = false, $columns = false)
 	{
-		$requestString = 	"method=VisitsSummary.getVisits".
-							"&format=original".
-							"&disable_generic_filters=true"; 
-		$request = new Piwik_API_Request($requestString);
-		return $request->process();
+		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "VisitsSummary.get");
+		if(empty($columns))
+		{
+			$columns = Piwik_Common::getRequestVar('columns');
+		}
+		$view->setColumnsToDisplay($columns);
+		return $this->renderView($view, $fetch);
 	}
 	
 	static public function getVisitsSummary()
@@ -61,39 +41,36 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		return $request->process();
 	}
 
-	function getLastVisitsGraph( $fetch = false )
+	static public function getVisits()
 	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getVisits");
-		return $this->renderView($view, $fetch);
+		$requestString = 	"method=VisitsSummary.getVisits".
+							"&format=original".
+							"&disable_generic_filters=true"; 
+		$request = new Piwik_API_Request($requestString);
+		return $request->process();
 	}
 	
-	function getLastUniqueVisitorsGraph( $fetch = false )
+	protected function setSparklinesAndNumbers($view)
 	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getUniqueVisitors");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastActionsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getActions");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastSumVisitsLengthGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getSumVisitsLength");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastMaxActionsGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getMaxActions");
-		return $this->renderView($view, $fetch);
-	}
-	
-	function getLastBounceCountGraph( $fetch = false )
-	{
-		$view = $this->getLastUnitGraph('VisitsSummary', __FUNCTION__, "VisitsSummary.getBounceCount");
-		return $this->renderView($view, $fetch);
+		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_visits')));
+		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions')));
+		$view->urlSparklineSumVisitLength 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('sum_visit_length')));
+		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('max_actions')));
+		$view->urlSparklineBounceRate 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('bounce_rate')));
+		
+		$dataTableVisit = self::getVisitsSummary();
+		$dataRow = $dataTableVisit->getFirstRow();
+		if($view->period == 'day')
+		{
+			$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_uniq_visitors')));
+			$view->nbUniqVisitors = $dataRow->getColumn('nb_uniq_visitors');
+		}
+		$nbVisits = $dataRow->getColumn('nb_visits');
+		$view->nbVisits = $nbVisits;
+		$view->nbActions = $dataRow->getColumn('nb_actions');
+		$view->sumVisitLength = $dataRow->getColumn('sum_visit_length');
+		$nbBouncedVisits = $dataRow->getColumn('bounce_count');
+		$view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
+		$view->maxActions = $dataRow->getColumn('max_actions');
 	}
 }
