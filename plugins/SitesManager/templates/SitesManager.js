@@ -92,8 +92,7 @@ $(document).ready( function() {
 			var idRow = $(this).attr('id');
 			var nameToDelete = $(this).parent().parent().find('#siteName').html();
 			var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
-			if(confirm(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')')) )
-			{
+			if(confirm(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')')) ) {
 				$.ajax( getDeleteSiteAJAX( idsiteToDelete ) );
 			}
 		}
@@ -102,38 +101,37 @@ $(document).ready( function() {
 	var alreadyEdited = new Array;
 	$('.editSite')
 		.click( function() {
-				ajaxHideError();
-				var idRow = $(this).attr('id');
-				if(alreadyEdited[idRow]==1) return;
-				alreadyEdited[idRow] = 1;
-				$('tr#'+idRow+' .editableSite').each(
-							// make the fields editable
-							// change the EDIT button to VALID button
-							function (i,n) {
-								var contentBefore = $(n).html();
-								var idName = $(n).attr('id');
-								if(idName == 'siteName')
-								{
-									var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25">';
-									$(n)
-										.html(contentAfter)
-										.keypress( submitSiteOnEnter );
-								}
-								if(idName == 'urls')
-								{
-									var contentAfter = '<textarea cols=30 rows=3 id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
-									$(n).html(contentAfter);
-								}
-							}
-						);
-						
-				$(this)
-					.toggle()
-					.parent()
-					.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateSite">')
-								.click( function(){ $.ajax( getUpdateSiteAJAX( $('tr#'+idRow) ) ); } ) 
-						);
-			}
+			ajaxHideError();
+			var idRow = $(this).attr('id');
+			if(alreadyEdited[idRow]==1) return;
+			alreadyEdited[idRow] = 1;
+			$('tr#'+idRow+' .editableSite').each(
+				// make the fields editable
+				// change the EDIT button to VALID button
+				function (i,n) {
+					var contentBefore = $(n).html();
+					var idName = $(n).attr('id');
+					if(idName == 'siteName')
+					{
+						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25">';
+						$(n)
+							.html(contentAfter)
+							.keypress( submitSiteOnEnter );
+					}
+					if(idName == 'urls')
+					{
+						var contentAfter = '<textarea cols=30 rows=3 id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
+						$(n).html(contentAfter);
+					}
+				}
+			);
+			$(this)
+				.toggle()
+				.parent()
+				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateSite">')
+							.click( function(){ $.ajax( getUpdateSiteAJAX( $('tr#'+idRow) ) ); } ) 
+					);
+		}
 	);
 	
 	$('td.editableSite').click( function(){ $(this).parent().find('.editSite').click(); } );

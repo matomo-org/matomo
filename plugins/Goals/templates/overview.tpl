@@ -17,7 +17,6 @@
 {/foreach}
 
 {if $userCanEditGoals}
-	<hr style="margin:30px 0px">
 	{include file=Goals/templates/add_edit_goal.tpl}
 {/if}
 
