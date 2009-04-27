@@ -140,7 +140,7 @@ class Piwik_Referers_API
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		return $archive->getNumeric($name);
+		return $archive->getDataTableFromNumeric($name);
 	}
 }
 

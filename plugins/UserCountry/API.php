@@ -62,7 +62,7 @@ class Piwik_UserCountry_API
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		return $archive->getNumeric('UserCountry_distinctCountries');
+		return $archive->getDataTableFromNumeric('UserCountry_distinctCountries');
 	}
 	
 	
