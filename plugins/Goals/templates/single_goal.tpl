@@ -1,5 +1,6 @@
 {include file="Goals/templates/title_and_evolution_graph.tpl"}
 
+<div style="clear:both"></div>
 {if $nb_conversions > 0}
 	<h2>Conversions Overview</h2>
 	<ul class="ulGoalTopElements">
