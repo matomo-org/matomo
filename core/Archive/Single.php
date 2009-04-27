@@ -107,6 +107,11 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$this->period = $period;
 	}
 	
+	public function getPeriod()
+	{
+		return $this->period;
+	}
+	
 	/**
 	 * Returns the timestamp of the first date in the period for this Archive.
 	 * This is used to sort archives by date when working on a Archive_Array

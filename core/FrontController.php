@@ -235,6 +235,7 @@ class Piwik_FrontController
 			Piwik::createAccessObject();
 			
 			require_once "CoreUpdater/Controller.php";
+			//TODO should not be a controller!
 			$updaterController = new Piwik_CoreUpdater_Controller();
 			$updaterController->checkForCoreAndPluginsUpdates();
 			

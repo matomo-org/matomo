@@ -28,13 +28,18 @@ class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
 	{
 		foreach($this->table->getRows() as $row)
 		{
-			$row->setColumn( 	$this->columnToDecode, 
+			$value = $row->getColumn($this->columnToDecode);
+			if($value !== false)
+			{
+				$row->setColumn( 
+								$this->columnToDecode, 
 								htmlspecialchars(
 									htmlspecialchars_decode(
-										urldecode($row->getColumn($this->columnToDecode)),
+										urldecode($value),
 										ENT_QUOTES), 
 									ENT_QUOTES)
 					);
+			}
 		}
 	}
 }

@@ -25,20 +25,37 @@ class Piwik_VisitsSummary_API
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date )
+	public function get( $idSite, $period, $date, $columns = array() )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 	
-		$toFetch = array( 	'max_actions',
-							'nb_uniq_visitors', 
-							'nb_visits',
-							'nb_actions', 
-							'sum_visit_length',
-							'bounce_count',
-							'nb_visits_converted',
-						);
+		$bounceRateRequested = false;
+		if(!empty($columns))
+		{
+			$toFetch = $columns;
+			if(($bounceRateRequested = array_search('bounce_rate', $toFetch)) !== false)
+			{
+				$toFetch = array('nb_visits', 'bounce_count');
+			}
+		}
+		else
+		{
+			$toFetch = array(	'max_actions',
+								'nb_uniq_visitors', 
+								'nb_visits',
+								'nb_actions', 
+								'sum_visit_length',
+								'bounce_count',
+								'nb_visits_converted',
+							);
+		}
 		$dataTable = $archive->getDataTableFromNumeric($toFetch);
+		if($bounceRateRequested !== false)
+		{
+			$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_count', 'bounce_rate', 'nb_visits', 0));
+			$dataTable->deleteColumns($toFetch);
+		}
 		return $dataTable;
 	}
 	
@@ -70,16 +87,6 @@ class Piwik_VisitsSummary_API
 		return self::getNumeric( $idSite, $period, $date, 'max_actions');
 	}
 	
-	public function getSumVisitsLength( $idSite, $period, $date )
-	{
-		return self::getNumeric( $idSite, $period, $date, 'sum_visit_length');
-	}
-	
-	public function getSumVisitsLengthPretty( $idSite, $period, $date )
-	{
-		return Piwik::getPrettyTimeFromSeconds(self::getSumVisitsLength( $idSite, $period, $date ));
-	}
-	
 	public function getBounceCount( $idSite, $period, $date )
 	{
 		return self::getNumeric( $idSite, $period, $date, 'bounce_count');
@@ -88,5 +95,15 @@ class Piwik_VisitsSummary_API
 	public function getVisitsConverted( $idSite, $period, $date )
 	{
 		return self::getNumeric( $idSite, $period, $date, 'nb_visits_converted');
+	}
+	
+	public function getSumVisitsLength( $idSite, $period, $date )
+	{
+		return self::getNumeric( $idSite, $period, $date, 'sum_visit_length');
+	}
+	
+	public function getSumVisitsLengthPretty( $idSite, $period, $date )
+	{
+		return Piwik::getPrettyTimeFromSeconds(self::getSumVisitsLength( $idSite, $period, $date ));
 	}
 }

@@ -156,11 +156,16 @@ class Piwik_API_ResponseBuilder
 		// if asked for original dataStructure
 		if($format == 'original')
 		{
-			// if the original dataStructure is a simpleDataTable and has only one row, we return the value
-			if($dataTable instanceof Piwik_DataTable_Simple
-				&& $dataTable->getRowsCount() == 1)
+			// if the original dataStructure is a simpleDataTable 
+			// and has only one column, we return the value
+			if($dataTable instanceof Piwik_DataTable_Simple)
 			{
-				return $dataTable->getRowFromId(0)->getColumn('value');
+				$columns = $dataTable->getFirstRow()->getColumns();
+				if(count($columns) == 1)
+				{
+					$values = array_values($columns);
+					return $values[0];
+				}
 			}
 			
 			// by default "original" data is not serialized

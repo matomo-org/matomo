@@ -7,6 +7,17 @@
 class Piwik_Period_Week extends Piwik_Period
 {
 	protected $label = 'week';
+
+	public function getLocalizedShortString()
+	{
+		//"Week 30 Dec - 6 Jan 09"
+		$dateStart = $this->getDateStart();
+		$dateEnd = $this->getDateEnd();
+		$shortDateStart = $dateStart->getLocalized("%day% %shortMonth%");
+		$shortDateEnd = $dateEnd->getLocalized("%day% %shortMonth% %shortYear%");
+		$out = "$shortDateStart - $shortDateEnd";
+		return $out;
+	}
 	
 	public function getPrettyString()
 	{

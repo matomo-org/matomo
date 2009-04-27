@@ -28,4 +28,4 @@ class Piwik_Live extends Piwik_Plugin
 	}
 }
 
-Piwik_AddWidget('Live', 'widget', 'Live Visitors!');
+Piwik_AddWidget('Live!', 'Live Visitors!', 'Live', 'widget');

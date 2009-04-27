@@ -4,16 +4,22 @@ require_once "Goals/API.php";
 class Piwik_Goals_Controller extends Piwik_Controller 
 {
 	const CONVERSION_RATE_PRECISION = 1;
+	
+	function __construct()
+	{
+		parent::__construct();
+		$this->idSite = Piwik_Common::getRequestVar('idSite');
+		$this->goals = Piwik_Goals_API::getGoals($this->idSite);
+	}
+	
 	function goalReport()
 	{
 		$idGoal = Piwik_Common::getRequestVar('idGoal', null, 'int');
-		$idSite = Piwik_Common::getRequestVar('idSite');
-		$goals = Piwik_Goals_API::getGoals($idSite);
-		if(!isset($goals[$idGoal]))
+		if(!isset($this->goals[$idGoal]))
 		{
 			throw new Exception("idgoal $idGoal not valid.");
 		}
-		$goalDefinition = $goals[$idGoal];
+		$goalDefinition = $this->goals[$idGoal];
 		
 		$view = new Piwik_View('Goals/templates/single_goal.tpl');
 		$view->currency = Piwik::getCurrency();
@@ -24,8 +30,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		}
 		$view->name = $goalDefinition['name'];
 		$view->title = $goalDefinition['name'] . ' - Conversions';
-		$view->graphEvolution = $this->getLastNbConversionsGraph(true);
-		$view->nameGraphEvolution = 'GoalsgetLastNbConversionsGraph'; // must be the function name used above
+		$view->graphEvolution = $this->getEvolutionGraph(true, array(Piwik_Goals::getRecordName('nb_conversions', $idGoal)), $idGoal);
+		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph';
 		$view->topSegments = $this->getTopSegments($idGoal);
 		
 		// conversion rate for new and returning visitors
@@ -80,18 +86,19 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		return $topSegments;
 	}
 	
-	protected function getMetricsForGoal($goalId)
+	protected function getMetricsForGoal($idGoal)
 	{
-		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=$goalId");
+		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=$idGoal");
 		$datatable = $request->process();
+		$dataRow = $datatable->getFirstRow();
 		return array (
-				'id'				=> $goalId,
-				'nb_conversions' 	=> $datatable->getRowFromLabel(Piwik_Goals::getRecordName('nb_conversions', $goalId))->getColumn('value'),
-				'conversion_rate'	=> round($datatable->getRowFromLabel(Piwik_Goals::getRecordName('conversion_rate', $goalId))->getColumn('value'), 1),
-				'revenue'			=> $datatable->getRowFromLabel(Piwik_Goals::getRecordName('revenue', $goalId))->getColumn('value'),
-				'urlSparklineConversions' 		=> $this->getUrlSparkline('getLastNbConversionsGraph', $goalId) . "&idGoal=".$goalId,
-				'urlSparklineConversionRate' 	=> $this->getUrlSparkline('getLastConversionRateGraph', $goalId) . "&idGoal=".$goalId,
-				'urlSparklineRevenue' 			=> $this->getUrlSparkline('getLastRevenueGraph', $goalId) . "&idGoal=".$goalId,
+				'id'				=> $idGoal,
+				'nb_conversions' 	=> $dataRow->getColumn(Piwik_Goals::getRecordName('nb_conversions', $idGoal)),
+				'conversion_rate'	=> round($dataRow->getColumn(Piwik_Goals::getRecordName('conversion_rate', $idGoal)), 1),
+				'revenue'			=> $dataRow->getColumn(Piwik_Goals::getRecordName('revenue', $idGoal)),
+				'urlSparklineConversions' 		=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('nb_conversions', $idGoal)), 'idGoal' => $idGoal)),
+				'urlSparklineConversionRate' 	=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('conversion_rate', $idGoal)), 'idGoal' => $idGoal)),
+				'urlSparklineRevenue' 			=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('revenue', $idGoal)), 'idGoal' => $idGoal)),
 		);
 	}
 	
@@ -101,57 +108,98 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->currency = Piwik::getCurrency();
 		
 		$view->title = 'All goals - evolution';
-		$view->graphEvolution = $this->getLastNbConversionsGraph(true);
-		$view->nameGraphEvolution = 'GoalsgetLastNbConversionsGraph'; // must be the function name used above
+		$view->graphEvolution = $this->getEvolutionGraph(true, array(Piwik_Goals::getRecordName('nb_conversions')));
+		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph'; 
 
 		// sparkline for the historical data of the above values
-		$view->urlSparklineConversions		= $this->getUrlSparkline('getLastNbConversionsGraph');
-		$view->urlSparklineConversionRate 	= $this->getUrlSparkline('getLastConversionRateGraph');
-		$view->urlSparklineRevenue 			= $this->getUrlSparkline('getLastRevenueGraph');
+		$view->urlSparklineConversions		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('nb_conversions'))));
+		$view->urlSparklineConversionRate 	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('conversion_rate'))));
+		$view->urlSparklineRevenue 			= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('revenue'))));
 
 		$request = new Piwik_API_Request("method=Goals.get&format=original");
 		$datatable = $request->process();
-		$view->nb_conversions = $datatable->getRowFromLabel('Goal_nb_conversions')->getColumn('value');
-		$view->conversion_rate = $datatable->getRowFromLabel('Goal_conversion_rate')->getColumn('value');
-		$view->revenue = $datatable->getRowFromLabel('Goal_revenue')->getColumn('value');
+		$dataRow = $datatable->getFirstRow();
+		$view->nb_conversions = $dataRow->getColumn('Goal_nb_conversions');
+		$view->conversion_rate = $dataRow->getColumn('Goal_conversion_rate');
+		$view->revenue = $dataRow->getColumn('Goal_revenue');
 		
 		$goalMetrics = array();
-		
-		$idSite = Piwik_Common::getRequestVar('idSite');
-		$goals = Piwik_Goals_API::getGoals($idSite);
-		foreach($goals as $idGoal => $goal)
+		foreach($this->goals as $idGoal => $goal)
 		{
 			$goalMetrics[$idGoal] = $this->getMetricsForGoal($idGoal);
 			$goalMetrics[$idGoal]['name'] = $goal['name'];
 		}
 		
 		$view->goalMetrics = $goalMetrics;
-		$view->goals = $goals;
-		$view->goalsJSON = json_encode($goals);
-		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($idSite);
+		$view->goals = $this->goals;
+		$view->goalsJSON = json_encode($this->goals);
+		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
 		echo $view->render();
 	}
 	
 	function addNewGoal()
 	{
 		$view = new Piwik_View('Goals/templates/add_new_goal.tpl');
-		$idSite = Piwik_Common::getRequestVar('idSite');
-		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($idSite);
+		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
 		$view->currency = Piwik::getCurrency();
 		$view->onlyShowAddNewGoal = true;
 		echo $view->render();
 	}
 
+	protected $goalColumnNameToLabel = array(
+		'nb_conversions' => 'Goals_ColumnConversions',
+		'conversion_rate'=> 'Goals_ColumnConversionRate',
+		'revenue' => 'Goals_ColumnRevenue',
+	);
+	
+	public function getEvolutionGraph( $fetch = false, $columns = false, $idGoal = false)
+	{
+		if(empty($columns))
+		{
+			$columns = Piwik_Common::getRequestVar('columns');
+		}
+		if(empty($idGoal))
+		{
+			$idGoal = Piwik_Common::getRequestVar('idGoal', false);
+		}
+		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
+		$view->setParametersToModify(array('idGoal' => $idGoal));
+		
+		foreach($columns as $columnName)
+		{
+			// find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
+			foreach($this->goalColumnNameToLabel as $metric => $metricTranslation)
+			{
+				if(strpos($columnName, $metric) !== false)
+				{
+					$columnTranslation = Piwik_Translate($metricTranslation);
+					break;
+				}
+			}
+			
+			if(!empty($idGoal))
+			{
+				$goalName = $this->goals[$idGoal]['name'];
+				$columnTranslation = "$columnTranslation (goal \"$goalName\")";
+			}
+			$view->setColumnTranslation($columnName, $columnTranslation);
+		}
+		$view->setColumnsToDisplay($columns);
+		return $this->renderView($view, $fetch);
+	}
+	
 	function getLastNbConversionsGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getConversions');
 		return $this->renderView($view, $fetch);
 	}
+	
 	function getLastConversionRateGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getConversionRate');
 		return $this->renderView($view, $fetch); 
 	}
+
 	function getLastRevenueGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getRevenue');

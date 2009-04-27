@@ -113,24 +113,17 @@ class Piwik_Translate
 		
 		foreach($GLOBALS['Piwik_translations'] as $key => $value)
 		{
-			$matches = array();
-			
-			if( preg_match($moduleRegex,$key,$matches) ) {
-				$varName = $matches[1].'_'.$matches[2];
-				$varValue = $value;
-				
-				$js .= "".$varName.": '".str_replace("'","\\'",$varValue)."',";
+			if( preg_match($moduleRegex,$key) ) {
+				$js .= '"'.$key.'": "'.str_replace('"','\"',$value).'",';
 			}
-			
-			$matches = null;
 		}
 		$js = substr($js,0,-1);
 		$js .= '};';
 		$js .=	'if(typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }'.
 				'for(var i in translations) { piwik_translations[i] = translations[i];} ';
-		$js .= 'function _pk_translate(tvar, str) { '.
-			'var s = str; if( typeof(piwik_translations[tvar]) != \'undefined\' ){  s = piwik_translations[tvar]; }'.
-			'return s;}';
+		$js .= 'function _pk_translate(translationStringId) { '.
+			'if( typeof(piwik_translations[translationStringId]) != \'undefined\' ){  return piwik_translations[translationStringId]; }'.
+			'return "The string "+translationStringId+" was not loaded in javascript. Make sure it is prefixed with _js";}';
 		
 		return $js;
 	}
@@ -175,5 +168,3 @@ function Piwik_TranslateException($message, $args = array())
 		return $message;
 	}
 }
-
-

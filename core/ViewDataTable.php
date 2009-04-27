@@ -110,6 +110,13 @@ abstract class Piwik_ViewDataTable
 	protected $view = null;
 	
 	/**
+	 * Array of columns names translations
+	 *
+	 * @var array
+	 */
+	protected $columnsTranslations = array();
+	
+	/**
 	 * Method to be implemented by the ViewDataTable_*.
 	 * This method should create and initialize a $this->view object @see Piwik_iView
 	 * @return mixed either prints the result or returns the output string
@@ -753,6 +760,45 @@ abstract class Piwik_ViewDataTable
 	{
 		$this->variablesDefault['filter_sort_column'] = $columnId;
 		$this->variablesDefault['filter_sort_order'] = $order;
+	}
+	
+
+	/**
+	 * Sets translation string for given column
+	 *
+	 * @param string $columnName column name
+	 * @param string $columnTranslation column name translation
+	 */
+	public function setColumnTranslation( $columnName, $columnTranslation )
+	{
+		$this->columnsTranslations[$columnName] = $columnTranslation;
+	}
+	
+	/**
+	 * Returns column translation if available, in other case given column name
+	 *
+	 * @param string $columnName column name
+	 */
+	public function getColumnTranslation( $columnName )
+	{
+		if( isset($this->columnsTranslations[$columnName]) )
+		{
+			return $this->columnsTranslations[$columnName];
+		}
+		else
+		{
+			return $columnName;
+		}
+	}
+	
+	/**
+	 * Sets columns translations array.
+	 *
+	 * @param array $columnsTranslations An associative array indexed by column names, eg. array('nb_visit'=>"Numer of visits")
+	 */
+	public function setColumnsTranslations( $columnsTranslations )
+	{
+		$this->columnsTranslations += $columnsTranslations;
 	}
 	
 	/**

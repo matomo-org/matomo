@@ -21,15 +21,12 @@ require_once 'sparkline/lib/Sparkline_Line.php';
 class Piwik_Visualization_Sparkline implements Piwik_iView
 {
 	/**
-	 * Sets data. Must have format: array( array('value' => X),array('value' =>Y ), ...)
-	 *
+	 * Array with format: array( x, y, z, ... )
 	 * @param array $data
 	 */
-	function setData($data)
+	function setValues($data)
 	{
-		$this->data = $data;
-		$this->width = self::getWidth();
-		$this->height = self::getHeight();
+		$this->values = $data;
 	}
 	
 	static public function getWidth()
@@ -39,14 +36,17 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 	
 	static public function getHeight()
 	{
-		return 20;
+		return 25;
 	}
 	
 	function main()
 	{
-		$data = $this->data;
+		$width = self::getWidth();
+		$height = self::getHeight();
+		
+		$data = $this->values;
 		$sparkline = new Sparkline_Line();
-		$sparkline->SetColor('lineColor', 22,44,74); // dark blue
+		$sparkline->SetColor('lineColor', 22, 44, 74); // dark blue
 		$sparkline->SetColorHtml('red', '#FF7F7F');
 		$sparkline->SetColorHtml('blue', '#55AAFF');
 		$sparkline->SetColorHtml('green', '#75BF7C');
@@ -54,37 +54,31 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 		$data = array_reverse($data);
 		$min = $max = $last = null;
 		$i = 0;
-		
-		foreach($this->data as $row)
+		foreach($this->values as $value)
 		{
-			$value = $row['value'];
 			$sparkline->SetData($i, $value);
 			if(	null == $min || $value <= $min[1])
 			{
 				$min = array($i, $value);
 			}
-		
 			if(null == $max || $value >= $max[1]) 
 			{
 				$max = array($i, $value);
 			}
-		
 			$last = array($i, $value);
-			$i++;			
+			$i++;
 		}
-		
 		$sparkline->SetYMin(0);
-		$sparkline->SetPadding(2); // setpadding is additive
-		$sparkline->SetPadding(0,//13 font height 
-					3, //4 * (strlen("$last[1]")), 
-					0, //imagefontheight(FONT_2), 
-					0);
+		$sparkline->setYMax($max[1] + 1); // the +1 seems to be mandatory to not lose some pixels when value = max
+		$sparkline->SetPadding( 3, 0, 2, 0);
 		$font = FONT_2;
-		$sparkline->SetFeaturePoint($min[0]-1,  $min[1],  'red', 5);
-		$sparkline->SetFeaturePoint($max[0]-1,  $max[1],  'green', 5);
-		$sparkline->SetFeaturePoint($last[0]-1, $last[1], 'blue',5);
+		// the -0.5 is a hack as the sparkline samping rendering is obviously slightly bugged
+		// (see also fix marked as //FIX FROM PIWIK in libs/sparkline/lib/Sparkline.php)
+		$sparkline->SetFeaturePoint($min[0] -0.5,  $min[1],  'red', 5);
+		$sparkline->SetFeaturePoint($max[0] -0.5,  $max[1],  'green', 5);
+		$sparkline->SetFeaturePoint($last[0] -0.5, $last[1], 'blue', 5);
 		$sparkline->SetLineSize(3); // for renderresampled, linesize is on virtual image
-		$sparkline->RenderResampled($this->width, $this->height, 'lineColor');
+		$sparkline->RenderResampled($width, $height);
 		
 		$this->sparkline = $sparkline;
 	}

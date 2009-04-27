@@ -66,6 +66,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 
 	private function getValues($fields)
 	{
+		$arrayValues = array();
 		foreach($this->loadValuesFromDB($fields) as $value)
  		{
 			$arrayValues[$value['idsite']][$value['name']] = $value['value'];

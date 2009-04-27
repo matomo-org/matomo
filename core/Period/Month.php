@@ -7,6 +7,13 @@ class Piwik_Period_Month extends Piwik_Period
 {
 	protected $label = 'month';
 
+	public function getLocalizedShortString()
+	{
+		//"Aug 09"
+		$out = $this->getDateStart()->getLocalized("%shortMonth% %shortYear%");
+		return $out;
+	}
+	
 	public function getPrettyString()
 	{
 		$out = $this->getDateStart()->toString('Y-m');

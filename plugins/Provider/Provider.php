@@ -62,7 +62,7 @@ class Piwik_Provider extends Piwik_Plugin
 	
 	function addWidget()
 	{
-		Piwik_AddWidget( 'Provider', 'getProvider', Piwik_Translate('Provider_WidgetProviders'));
+		Piwik_AddWidget('General_Visitors', 'Provider_WidgetProviders', 'Provider', 'getProvider');
 	}
 	
 	function addMenu()

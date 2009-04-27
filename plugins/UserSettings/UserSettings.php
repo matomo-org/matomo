@@ -38,7 +38,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	static public $browserType_display = array(
 		'ie' => 'Internet Explorer',
 		'gecko' => 'Gecko (Mozilla, Netscape)',
-		'khtml' => 'Khtml (Konqueror, Safari)',
+		'khtml' => 'KHTML (Safari, Chrome)',
 		'opera' => 'Opera',
 	);
 
@@ -55,13 +55,13 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'UserSettings', 'getResolution', Piwik_Translate('UserSettings_WidgetResolutions'));
-		Piwik_AddWidget( 'UserSettings', 'getBrowser', Piwik_Translate('UserSettings_WidgetBrowsers'));
-		Piwik_AddWidget( 'UserSettings', 'getPlugin', Piwik_Translate('UserSettings_WidgetPlugins'));
-		Piwik_AddWidget( 'UserSettings', 'getWideScreen', Piwik_Translate('UserSettings_WidgetWidescreen'));
-		Piwik_AddWidget( 'UserSettings', 'getBrowserType', Piwik_Translate('UserSettings_WidgetBrowserFamilies'));
-		Piwik_AddWidget( 'UserSettings', 'getOS', Piwik_Translate('UserSettings_WidgetOperatingSystems'));
-		Piwik_AddWidget( 'UserSettings', 'getConfiguration', Piwik_Translate('UserSettings_WidgetGlobalVisitors'));
+		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetResolutions', 'UserSettings', 'getResolution');
+		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetBrowsers', 'UserSettings', 'getBrowser');
+		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetPlugins', 'UserSettings', 'getPlugin');
+		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetWidescreen', 'UserSettings', 'getWideScreen');
+		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetBrowserFamilies', 'UserSettings', 'getBrowserType');
+		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetOperatingSystems', 'UserSettings', 'getOS');
+		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetGlobalVisitors', 'UserSettings', 'getConfiguration');
 	}
 	
 	function addMenu()

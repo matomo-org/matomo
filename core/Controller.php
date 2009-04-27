@@ -68,6 +68,21 @@ abstract class Piwik_Controller
 		return 'index';
 	}
 	
+	protected $standardColumnNameToTranslation = array(
+		'label' => 'General_ColumnLabel',
+		'nb_visits' => 'General_ColumnNbVisits',
+		'nb_actions' => 'General_ColumnNbActions',
+		'max_actions' => 'General_ColumnMaxActions',
+		'sum_visit_length' => 'General_ColumnSumVisitLength',
+		'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
+		'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
+		'avg_time_on_site' => 'General_ColumnAvgTimeOnSite',
+		'bounce_rate' => 'General_ColumnBounceRate',
+	
+		'revenue_per_visit' => 'General_ColumnValuePerVisit',
+		'goals_conversion_rate' => 'General_ColumnVisitsWithConversions',
+	);
+	
 	/**
 	 * Given an Object implementing Piwik_iView interface, we either:
 	 * - echo the output of the rendering if fetch = false
@@ -88,6 +103,9 @@ abstract class Piwik_Controller
 									'controllerActionCalledWhenRequestSubTable' => $view->getControllerActionCalledWhenRequestSubTable(),
 							)
 				);
+
+		$standardColumnNameToTranslation = array_map('Piwik_Translate', $this->standardColumnNameToTranslation);
+		$view->setColumnsTranslations($standardColumnNameToTranslation);
 		$view->main();
 		$rendered = $view->getView()->render();
 		if($fetch)
@@ -118,7 +136,7 @@ abstract class Piwik_Controller
 		if( !is_null($this->date))
 		{
 			$view->setParametersToModify( 
-				$this->getGraphParamsModified( array('date'=>$this->strDate))
+				$this->getGraphParamsModified( array('date' => $this->strDate))
 				);
 		}
 		
@@ -192,20 +210,22 @@ abstract class Piwik_Controller
 	}
 
 	/**
-	 * Returns the current URL to use in a <img src=X> to display a sparkline.
+	 * Returns the current URL to use in a img src=X to display a sparkline.
 	 * $action must be the name of a Controller method that requests data using the Piwik_ViewDataTable::factory
 	 * It will automatically build a sparkline by setting the viewDataTable=sparkline parameter in the URL.
 	 * It will also computes automatically the 'date' for the 'last30' days/weeks/etc. 
 	 *
 	 * @param string $action, eg. method name of the controller to call in the img src
+	 * @param array array of name => value of parameters to set in the generated GET url 
 	 * @return string the generated URL
 	 */
-	protected function getUrlSparkline( $action )
+	protected function getUrlSparkline( $action, $customParameters = array() )
 	{
 		$params = $this->getGraphParamsModified( 
 					array(	'viewDataTable' => 'sparkline', 
 							'action' => $action,
 							'module' => $this->pluginName)
+					+ $customParameters
 				);
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
 		return $url;
@@ -214,7 +234,8 @@ abstract class Piwik_Controller
 	protected function setGeneralVariablesView($view)
 	{
 		$oDate = Piwik_Date::factory($this->strDate);
-		$localizedDateFormat = Piwik_Translate('CoreHome_LocalizedDateFormat');
+		//TODO TO FIX
+		$localizedDateFormat = Piwik_Translate('CoreHome_DayFormat');
 		$view->prettyDate = $oDate->getLocalized($localizedDateFormat);
 		$view->date = $this->strDate;
 		

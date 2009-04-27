@@ -16,94 +16,90 @@ require_once "Visualization/Chart.php";
  * 
  * @package Piwik_Visualization
  */
-class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
+class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart 
 {
+	protected $yValuesType = array();
+	function setAxisYValuesTypes($yValuesTypes)
+	{
+		$this->yValuesTypes = $yValuesTypes;
+	}
+	
 	function customizeGraph()
 	{
 		parent::customizeGraph();
-
+		$dataSetsToDisplay = $this->getDataSetsToDisplay();
+		if($dataSetsToDisplay === false)
+		{
+			return;
+		}
+		
 		$colors = array(
 			"0x3357A0",
-			"0x9933CC",
 			"0xCC3399",			
+			"0x9933CC",
 			"0x80a033",
 			"0xFD9816",
 			"0x246AD2",
 			"0xFD16EA",
 			"0x49C100",
-			);
-
-		// first row in array contains line labels (legend)		
-		$legendLabels = array_shift($this->dataGraph);
-
-		$line = array();
-
-		// define labels
-		foreach($legendLabels as $nbLabel => $labelName)
-		{
-			$line[$nbLabel] = new line_hollow( 1, 3, $colors[$nbLabel] );
-			$line[$nbLabel]->key( $labelName, 10 );
-		}
+		);
 		
-		$maxData = 0;		
-		$xLabels = array();		
-		$cnt = count($this->dataGraph);
-		
-		// loop over data
-		foreach($this->dataGraph as $values)
+		$i = 0;
+		foreach($dataSetsToDisplay as $dataSetToDisplay)
 		{
-			// add x axis value (label)
-			array_push($xLabels, $values['label']);
+			$color = $colors[$i];
 			
-			// loop over values for all lines (y axis values)		
-			for($j = 0; $j < count($legendLabels); $j++)
-			{
-				// get the y axis value for line $j
-				$dotValue = $values['value'.$j];
+			$labelName = $this->yLabels[$dataSetToDisplay];
+			$d = new hollow_dot();
+			$d->size(3)->halo_size(0)->colour($color); 
+		
+			$line = new line();
+			$line->set_default_dot_style($d);
+			$line->set_key($labelName, 11);
+			$line->set_width( 1 );
+			$line->set_colour( $color );
+			
+			// Line Values
+			// Note: we have to manually create the dot values as the steps feature doens't work on X axis
+			// when it's working again, we can remove code below and set generic tooltip above: // ->tooltip('#x_label#<br>#val# '.$labelName) 
+			$yValues = $this->yValues[$dataSetToDisplay];
+			$labelName = $this->yLabels[$dataSetToDisplay];
+			$lineValues = array();
+			$j = 0;
+			foreach($this->xLabels as $label) {
+				$value = $yValues[$j];
+				$lineValue = new hollow_dot($value);
 				
-				// find maximum y axis value 
-				if(  $dotValue > $maxData )
+				$unit = '';
+				if(!empty($this->yValuesTypes[$dataSetToDisplay]))
 				{
-					$maxData = $dotValue;
+					$unit = $this->yValuesTypes[$dataSetToDisplay];
 				}
-
-				$link = null;
-				if($this->isLinkEnabled())
+				// set the Y Label to display the right unit
+				$this->y->set_label_text("#val#$unit");
+				
+				$lineValue->tooltip("$label<br>$value$unit $labelName");
+				if(!empty($this->xOnClick))
 				{
-					$spacePosition = strpos($values['label'],' ');
-					if($spacePosition === false)
-					{
-						$spacePosition = strlen($values['label']);
-					}				
-					$link = Piwik_Url::getCurrentScriptName() . 
-							Piwik_Url::getCurrentQueryStringWithParametersModified( array(
-								'date' => substr($values['label'],0,$spacePosition),
-								'module' => 'CoreHome',
-								'action' => 'index',
-								'viewDataTable' => null, // we reset the viewDataTable parameter (useless in the link)
-								'idGoal' => null, // we reset idGoal
-						));
-					// add the dot on the chart and link it
-					$line[$j]->add_link($dotValue, $link);
+					$lineValue->on_click('redirectToUrl("'.$this->xOnClick[$j].'")');
 				}
-				else
-				{
-					$line[$j]->add($dotValue);
-				}
+				$lineValues[] = $lineValue;
+				$j++;
 			}
+			$line->set_values( $lineValues );
+			$lines[] = $line;
+			$i++;
 		}
-		$this->data_sets = $line;		
-		$this->set_y_max( $maxData );
-		$this->set_x_labels( $xLabels );
-	}
-	
-	private function isLinkEnabled() 
-	{
-		static $linkEnabled;
-		if(!isset($linkEnabled)) 
+		foreach($lines as $line)
 		{
-			$linkEnabled = !Piwik_Common::getRequestVar('disableLink', 0, 'int');
+			$this->chart->add_element($line);
 		}
-		return $linkEnabled;
+		// if one column is a percentage we set the grid accordingly
+		// note: it is invalid to plot a percentage dataset along with a numeric dataset
+		//TODO only if the max was 100!!
+		if(array_search('%', $this->yValuesTypes) !== false)
+		{
+			$this->y->set_range( 0, 100, 50);
+		}
 	}
 }

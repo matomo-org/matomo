@@ -66,9 +66,10 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration', Piwik_Translate('VisitorInterest_WidgetLengths'));
-		Piwik_AddWidget( 'VisitorInterest', 'getNumberOfVisitsPerPage', Piwik_Translate('VisitorInterest_WidgetPages'));
+		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetLengths', 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration');
+		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetPages', 'VisitorInterest', 'getNumberOfVisitsPerPage');
 	}
+	
 	function addMenu()
 	{
 		Piwik_RenameMenuEntry('General_Visitors', 'VisitFrequency_SubmenuFrequency', 

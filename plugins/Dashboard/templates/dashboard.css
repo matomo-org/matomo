@@ -1,14 +1,9 @@
-.widgetDiv {
-	display: none;
-}
-
-/*--- end of dataTable.css modif*/
 .col {
 	float: left;
 	width: 33%;
 }
 
-.items {
+.sortable {
 	background: white;
 }
 
@@ -29,7 +24,7 @@
 	border: 1px solid #CBD3E7;
 }
 
-.handle {
+.widgetTop {
 	background: #F0F0FA;
 	border-bottom: 1px solid #D2D9EB;
 	width: 100%;
@@ -39,19 +34,20 @@
 	padding-bottom: 4px;
 }
 
-.handleHover {
+.widgetTopHover {
 	background: #E6E6F5;
 }
 
-.widgetTitle {
+.widgetName {
 	font-size: 14pt;
 	margin-left: 25px;
 }
 
 .dummyItem {
 	width: 100%;
-	height: 200px;
+	height: 150px;
 	display: block;
+	visibility:hidden;
 }
 
 .button {
@@ -170,10 +166,6 @@ ul#widgetList {
 	font-weight: bold;
 }
 
-.previewDiv {
-	height: auto;
-}
-
 .widget input {
 	background: #F7F7FF none repeat scroll 0% 50%;
 	border: 1px solid #B3B3B3;
@@ -184,4 +176,7 @@ ul#widgetList {
 
 #widgetChooser {
 	z-index:100;
+}
+#widgetChooser .widgetTop {
+	cursor:pointer;
 }

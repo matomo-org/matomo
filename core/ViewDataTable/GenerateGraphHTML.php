@@ -127,7 +127,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 			$return .= '
 </noscript></div></div>
 <script type="text/javascript">
-swfobject.embedSWF("'.$pathToLibraryOpenChart.'open-flash-chart.swf", "'. $obj_id .'_swf", "'. $width . '", "' . $height . '", "9.0.0", false, {"data":"'.$url.'"}, {"allowScriptAccess":"sameDomain","wmode":"opaque"}, {"bgcolor":"#FFFFFF"});
+swfobject.embedSWF("'.$pathToLibraryOpenChart.'open-flash-chart.swf", "'. $obj_id .'_swf", "'. $width . '", "' . $height . '", "9.0.0", false, {"data-file":"'.$url.'"}, {"allowScriptAccess":"sameDomain","wmode":"opaque"}, {"bgcolor":"#FFFFFF"});
 </script>';
 		}
 		

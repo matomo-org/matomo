@@ -22,16 +22,6 @@
  */
 class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 {
-	/**
-	 * If the archive has at least 1 visit, this is set to true.
-	 *
-	 * @var bool
-	 */
-	public $isThereSomeVisits = false;
-	
-	/**
-	 * Constructor
-	 */
 	function __construct()
 	{
 		parent::__construct();

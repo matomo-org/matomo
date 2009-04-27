@@ -151,7 +151,8 @@ class Piwik_Goals_API
 		$nbVisitsReturning = $request->process();
 //		echo $nbVisitsConvertedReturningVisitors;
 //		echo "<br>". $nbVisitsReturning;exit;
-		return $this->getPercentage($nbVisitsConvertedReturningVisitors, $nbVisitsReturning);
+
+		return Piwik::getPercentageSafe($nbVisitsConvertedReturningVisitors, $nbVisitsReturning, Piwik_Goals::ROUNDING_PRECISION);
 	}
 
 	public function getConversionRateNewVisitors( $idSite, $period, $date, $idGoal = false )
@@ -176,26 +177,29 @@ class Piwik_Goals_API
 		$request = new Piwik_API_Request("method=VisitsSummary.getVisits&idSite=$idSite&period=$period&date=$date&format=original");
 		$nbVisits = $request->process();
 		$newVisits = $nbVisits - $nbVisitsReturning;
-		return $this->getPercentage($convertedNewVisits, $newVisits);
+		return Piwik::getPercentageSafe($convertedNewVisits, $newVisits, Piwik_Goals::ROUNDING_PRECISION);
 	}
 	
-	protected function getPercentage($a, $b)
-	{
-		if($b == 0)
-		{
-			return 0;
-		}
-		return round(100 * $a / $b, Piwik_Goals::ROUNDING_PRECISION);
-	}
-	
-	public function get( $idSite, $period, $date, $idGoal = false )
+	public function get( $idSite, $period, $date, $idGoal = false, $columns = array() )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		$toFetch = array( 	Piwik_Goals::getRecordName('nb_conversions', $idGoal),
-							Piwik_Goals::getRecordName('conversion_rate', $idGoal), 
-							Piwik_Goals::getRecordName('revenue', $idGoal),
-						);
+		if(!empty($columns))
+		{
+			$toFetch = $columns;
+		}
+		else
+		{
+			$toFetch = array(
+						'nb_conversions',
+						'conversion_rate', 
+						'revenue',
+					);
+			foreach($toFetch as &$columnName)
+			{
+				$columnName = Piwik_Goals::getRecordName($columnName, $idGoal);
+			}
+		}
 		$dataTable = $archive->getDataTableFromNumeric($toFetch);
 		return $dataTable;
 	}

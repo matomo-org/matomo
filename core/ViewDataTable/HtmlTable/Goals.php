@@ -70,8 +70,6 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	protected function postDataTableLoadedFromAPI()
 	{
 		parent::postDataTableLoadedFromAPI();
-		$this->setColumnTranslation('revenue_per_visit', 'Value per Visit');
-		$this->setColumnTranslation('goals_conversion_rate', 'Visits with Conversions');
 		$this->columnsToPercentageFilter[] = 'goals_conversion_rate';
 		foreach($this->columnsToPercentageFilter as $columnName)
 		{

@@ -8,6 +8,7 @@ h2 {
 	font-size: 1.6em;
 	color: #1D3256;
 	padding-bottom: 0.5em;
+	clear:both;
 }
 
 h3 {
@@ -26,16 +27,22 @@ p {
 	margin-left: 10px;
 }
 
+
 /* 2 columns reports */
 #leftcolumn {
 	float: left;
 	width: 50%;
 	padding-left: 10px;
 }
-
 #rightcolumn {
 	float: right;
 	width: 45%;
+}
+/* not in widget */
+.widget #leftcolumn, .widget #rightcolumn {
+	float:left;
+	width:100%;
+	padding-left:10px;
 }
 
 #calendar {
@@ -78,8 +85,15 @@ p {
 	border-bottom: 1px solid #520202;
 }
 
-.sparkline {
+div .sparkline {
+	float:left;
+	clear:both;
+	padding-bottom: 1px;
+	margin-top:10px;
+	border-bottom:1px solid white;
+}
+.sparkline img {
 	vertical-align: middle;
 	padding-right: 10px;
+	margin-top: 0;
 }
-

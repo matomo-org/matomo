@@ -1,4 +1,5 @@
 {if ereg('http://127.0.0.1|http://localhost|http://piwik.org', $url)}
+<div style="clear:both"></div>
 {literal}
 <!-- Piwik -->
 <a href="http://piwik.org" title="Web analytics" onclick="window.open(this.href);return(false);">

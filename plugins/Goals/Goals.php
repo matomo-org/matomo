@@ -59,7 +59,6 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-//		Piwik_AddWidget( 'Referers', 'getKeywords', Piwik_Translate('Referers_WidgetKeywords'));
 	}
 	
 	function addMenus()

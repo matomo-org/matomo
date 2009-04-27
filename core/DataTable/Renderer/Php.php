@@ -97,7 +97,6 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			}
 		}
 		
-		// A DataTable_Simple is already flattened so no need to do some crazy stuff to convert it
 		else if($dataTable instanceof Piwik_DataTable_Simple)
 		{
 			$flatArray = $this->renderSimpleTable($dataTable);
@@ -198,9 +197,15 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	protected function renderSimpleTable($table)
 	{
 		$array = array();
-		foreach($table->getRows() as $row)
+
+		$row = $table->getFirstRow();
+		if($row === false)
 		{
-			$array[$row->getColumn('label')] = $row->getColumn('value');
+			return $array;
+		}
+		foreach($row->getColumns() as $columnName => $columnValue)
+		{
+			$array[$columnName] = $columnValue;
 		}
 		return $array;
 	}

@@ -7,24 +7,31 @@ function widgetize()
 		return '<input class="formEmbedCode" id="'+inputId+'" value=\''+ htmlEmbed +'\' onclick="javascript:document.getElementById(\''+inputId+'\').focus();document.getElementById(\''+inputId+'\').select();" readonly="true" type="text">';
 	}
 	
-	this.getEmbedUrl = function( pluginId, actionId, exportFormat )
+	this.getEmbedUrl = function( parameters, exportFormat )
 	{
+		copyParameters = new Object;
+		for(var variableName in parameters) {
+			copyParameters[variableName] = parameters[variableName];
+		}
+		copyParameters['moduleToWidgetize'] = parameters['module'];
+		copyParameters['actionToWidgetize'] = parameters['action'];
+		delete copyParameters['action'];
+		delete copyParameters['module'];
 		var sourceUrl;
 		sourceUrl = document.location.protocol + '//' + document.location.hostname + document.location.pathname + '?';
-		sourceUrl += "module=Widgetize&action="+exportFormat+"&moduleToWidgetize="+pluginId+"&actionToWidgetize="+actionId+"&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+piwik.currentDateString;
-		sourceUrl += "&disableLink=1";
+		sourceUrl += 	"module=Widgetize" +
+						"&action="+exportFormat+
+						"&"+piwikHelper.getQueryStringFromParameters(copyParameters)+
+						"&idSite="+piwik.idSite+
+						"&period="+piwik.period+
+						"&date="+piwik.currentDateString+
+						"&disableLink=1";
 		return sourceUrl;
 	}
 	
-	this.callbackSavePluginName = function(pluginName, actionName, widgetName)
+	this.deleteEmbedElements = function()
 	{
-		self.currentWidgetName = widgetName;
-		self.callbackHideButtons();
-	}
-	
-	this.callbackHideButtons = function()
-	{
-		$('#embedThisWidgetIframe, #embedThisWidgetFlash, #embedThisWidgetEverywhere').hide();
+		$('#exportButtons').remove();
 	}
 	
 	this.htmlentities = function(s)
@@ -32,47 +39,79 @@ function widgetize()
 		return s.replace( /[<>&]/g, function(m) { return "&" + m.charCodeAt(0) + ";"; });
 	}
 	
-	this.callbackAddExportButtonsUnderWidget = function (widget, pluginId, actionId)
+	this.callbackAddExportButtonsUnderWidget = function (	widgetUniqueId, 
+															loadedWidgetElement)
 	{
-		var html = widget.html();
-		
-		// Div containing IFRAME code to load the widget
-		var widgetIframe = '<div id="widgetIframe"><iframe width="100%" height="350" src="'
-							+ self.getEmbedUrl(pluginId, actionId, "iframe") 
-							+ '" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>';
+		widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
+		widgetName = widget["name"];
+		widgetParameters = widget['parameters'];
 	
-		// Iframe Export 
-		$('#embedThisWidgetIframe')
-			.show()
-			.find('#embedThisWidgetIframeInput')
-			.empty()
-			.append(self.getInputFormWithHtml('iframeEmbed', widgetIframe));
-	
-	
-		// Flash Export 
-		widget.find('embed').each(function() {
-			var htmlEmbed = $(this).parent().html();
-			$('#embedThisWidgetFlash')
-				.show()
-				.find('#embedThisWidgetFlashInput')
-				.empty()
-				.append(self.getInputFormWithHtml('flashEmbed', htmlEmbed));
-		});
-		
-		
-		// Clearspring Export 
-		$('#iframeDivToExport')
-			.html(widgetIframe);
+		self.deleteEmbedElements();
+		var exportButtonsElement = $('<span id="exportButtons">');
 
-		$('#exportThisWidgetMenu').empty();
-		$('#embedThisWidgetEverywhere').show();
+		// We first build the HTML code that will load the widget in an IFRAME
+		var widgetIframeHtml = '<div id="widgetIframe">'+
+								'<iframe width="100%" height="350" src="'+
+									self.getEmbedUrl(widgetParameters, "iframe")+ 
+									'" scrolling="no" frameborder="0" marginheight="0" marginwidth="0">'+
+								'</iframe>'+
+							'</div>';
+
+		// Add the input field containing the widget in an Iframe 
+		$(exportButtonsElement).append(
+			'<div id="embedThisWidgetIframe">'+
+				'<label for="embedThisWidgetIframeInput">&rsaquo; Embed Iframe</label>'+
+				'<span id="embedThisWidgetIframeInput">'+
+					self.getInputFormWithHtml('iframeEmbed', widgetIframeHtml)+
+				'</span>'+
+			'</div>'
+		);
+		
+		// Add the Flash Export if a flash <embed> is found in the widget 
+		$(loadedWidgetElement)
+			.find('embed,object')
+			.each(function() {
+				var htmlEmbed = $(this).parent().html();
+
+				$(exportButtonsElement).append(
+					'<div id="embedThisWidgetFlash">'+
+						'<label for="embedThisWidgetFlashInput">&rsaquo; Embed Flash</label>'+
+						'<span id="embedThisWidgetFlashInput">'+
+							self.getInputFormWithHtml('flashEmbed', htmlEmbed) +
+						'</span>'+
+					'</div>'
+				);
+			});
+		
+		// Add the Clearspring Export 
+		$(exportButtonsElement).append(
+			'<div id="embedThisWidgetEverywhere">'+
+				'<div id="exportThisWidget">'+
+					'<label for="flashEmbed">&rsaquo; Export anywhere!</label>'+
+					'<img src="http://cdn.clearspring.com/launchpad/static/cs_button_share1.gif">'+
+				'</div>'+
+				'<div id="exportThisWidgetMenu"></div>'+
+			'</div>'
+		);
+
+		// We then replace the div iframeDivToExport with the actual Iframe html
+		// Clearspring will then build a widget that has the same html as this div
+		$('#iframeDivToExport')
+			.html(widgetIframeHtml);
+
+		// Finally we append the content to the parent widget DIV 
+		$(loadedWidgetElement)
+			.parent()
+			.append(exportButtonsElement);
+		
+		// Call clearspring
 		$Launchpad.ShowButton({
 								actionElement : "exportThisWidget",
 								targetElement : "exportThisWidgetMenu",
-								userId : "49ac5bea72e5cd05",
-								widgetName : self.currentWidgetName + " - Piwik",
+								userId : "4797da88692e4fe9",
+								widgetName : widgetName + " - Piwik",
 								source : "iframeDivToExport"
-							});
+		});
 
 		// JS is buggy at least on IE
 		//var widgetJS = '<script type="text/javascript" src="'+ getEmbedUrl(pluginId, actionId, "js") +'"></scr'+'ipt>';

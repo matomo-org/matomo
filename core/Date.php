@@ -237,20 +237,23 @@ class Piwik_Date
 		return date($part, $this->getTimestamp());
 	}
 	
-	/**
-	 * Returns a localized representation of a date or datepart
-	 *
-	 * @see Windows compatible arguments http://msdn.microsoft.com/en-us/library/fe06s4ak(VS.71).aspx
-	 * @param string OPTIONAL Part of the date to return (in strftime format), if null timestamp is returned
-	 * @return integer|string date or datepart
-	 */
-	public function getLocalized($part = null)
+	//TODO to test
+	public function getLocalized($template)
 	{
-		if(is_null($part))
-		{
-			return $this->getTimestamp();
-		}
-		return strftime($part, $this->getTimestamp());
+		$day = $this->toString('j');
+		$dayOfWeek = $this->toString('N');
+		$monthOfYear = $this->toString('n');
+		$patternToValue = array(
+			"%day%" => $day,
+			"%shortMonth%" => Piwik_Translate('General_ShortMonth_'.$monthOfYear),
+			"%longMonth%" => Piwik_Translate('General_LongMonth_'.$monthOfYear),
+			"%shortDay%" => Piwik_Translate('General_ShortDay_'.$dayOfWeek),
+			"%longDay%" => Piwik_Translate('General_LongDay_'.$dayOfWeek),
+			"%longYear%" => $this->toString('Y'),
+			"%shortYear%" => $this->toString('y'),
+		);
+		$out = str_replace(array_keys($patternToValue), array_values($patternToValue), $template);
+		return $out;
 	}
 	
     /**

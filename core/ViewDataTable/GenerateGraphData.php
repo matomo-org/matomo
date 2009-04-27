@@ -37,13 +37,25 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	 */
 	protected $graphLimit = null;
 	
+	protected $columnsToDisplay = array();
+	
+	public function setColumnsToDisplay($columns)
+	{
+		$this->columnsToDisplay = $columns;
+	}
+	
+	public function getColumnsToDisplay()
+	{
+		return $this->columnsToDisplay;
+	}
+	
 	/**
 	 * Sets the number max of elements to display (number of pie slice, vertical bars, etc.)
 	 * If the data has more elements than $limit then the last part of the data will be the sum of all the remaining data.
 	 *
 	 * @param int $limit
 	 */
-	function setGraphLimit( $limit )
+	public function setGraphLimit( $limit )
 	{
 		$this->graphLimit = $limit;
 	}
@@ -57,7 +69,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	{
 		return $this->graphLimit;
 	}
-	
+
 	public function main()
 	{
 		if($this->mainAlreadyExecuted)
@@ -82,52 +94,41 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 										)
 									);
 		}
-		$this->dataAvailable = $this->dataTable->getRowsCount() != 0;
-		
-		if(!$this->dataAvailable)
+		$this->isDataAvailable = $this->dataTable->getRowsCount() != 0;
+
+		if(!$this->isDataAvailable)
 		{
-			$this->view->customizeGraph();
-			$this->view->title(Piwik_Translate('General_NoDataForGraph'), '{font-size: 25px;}');
+			$this->view->setTitle(Piwik_Translate('General_NoDataForGraph'), '{font-size: 25px;}');
 		}
 		else
 		{
-			$data = $this->generateDataFromDataTable();
-			$this->view->setData($data);
-			$this->view->customizeGraph();
+			$this->generateDataFromDataTable();
 		}
+		//TODO rename
+		$this->view->customizeGraph();
 	}
-	
-	/**
-	 * Returns a format friendly array from the dataTable 
-	 *
-	 * @return array
-	 */
+
+	//TODO rename
 	protected function generateDataFromDataTable()
 	{
 		$this->dataTable->applyQueuedFilters();
+
 		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
-		$this->dataTable->filter('ColumnCallbackReplace',
-									array('label','urldecode')
-							);
-		$data = array();
-		foreach($this->dataTable->getRows() as $row)
+		$this->dataTable->filter('ColumnCallbackReplace', array('label','urldecode')	);
+
+		$xLabels = $this->dataTable->getColumn('label');
+		$columnNames = array_keys($this->dataTable->getFirstRow()->getColumns());
+		unset($columnNames[array_search('label',$columnNames)]);
+		
+		$columnNameToTranslation = $columnNameToValue = array();
+		foreach($columnNames as $columnName)
 		{
-			$label = $row->getColumn('label');
-			$value = $row->getColumn('nb_uniq_visitors');
-			
-			// case no unique visitors
-			if($value === false)
-			{
-				$value = $row->getColumn('nb_visits');
-			}
-			
-			$data[] = array(
-				'label' => $label,
-				'value' => $value,
-				'url' 	=> $row->getMetadata('url'),
-			);
+			$columnNameToTranslation[$columnName] = $this->getColumnTranslation($columnName);
+			$columnNameToValue[$columnName] = $this->dataTable->getColumn($columnName);
 		}
-		return $data;
+		$this->view->setAxisXLabels($xLabels);
+		$this->view->setAxisYValues($columnNameToValue);
+		$this->view->setAxisYLabels($columnNameToTranslation);
 	}
 }
 

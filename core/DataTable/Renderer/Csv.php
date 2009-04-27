@@ -110,16 +110,21 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	
 	protected function renderDataTable( $table )
 	{	
-		if($table instanceof Piwik_DataTable_Simple 
-			&& $table->getRowsCount() == 1)
+		if($table instanceof Piwik_DataTable_Simple)
 		{
-			$str = 'value' . $this->lineEnd . $this->formatValue($table->getRowFromId(0)->getColumn('value'));
-			return $str;
+			$row = $table->getFirstRow();
+			if($row !== false)
+			{
+				$columnNameToValue = $row->getColumns();
+				if(count($columnNameToValue) == 1)
+				{
+					$value = array_values($columnNameToValue);
+					$str = 'value' . $this->lineEnd . $this->formatValue($value[0]);
+					return $str;
+				}
+			}
 		}
-		
-		$csv = array();		
-
-		$allColumns = array();
+		$csv = $allColumns = array();
 		foreach($table->getRows() as $row)
 		{
 			$csvRow = array();

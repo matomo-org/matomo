@@ -34,6 +34,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 	{
 		echo '
 <script type="text/javascript" src="plugins/Dashboard/templates/widgetMenu.js"></script>
+<script type="text/javascript" src="libs/javascript/json2.js"></script>
 <script type="text/javascript" src="plugins/Dashboard/templates/Dashboard.js"></script>
 		';
 	}

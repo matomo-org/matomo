@@ -407,6 +407,15 @@ class Piwik
 		return sprintf("$symbol%.2f", $value);
 	}
 	
+	static public function getPercentageSafe($dividend, $divisor, $precision = 0)
+	{
+		if($divisor == 0)
+		{
+			return 0;
+		}
+		return round(100 * $dividend / $divisor, $precision);
+	}
+	
 	static public function getPrettyTimeFromSeconds($numberOfSeconds)
 	{
 		$numberOfSeconds = (double)$numberOfSeconds;

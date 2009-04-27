@@ -160,9 +160,9 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	  			{
 		  			if(is_array($dataTableSimple))
 		  			{
-			  			$dataTableSimple = "\n" . $this->renderDataTableSimple($dataTableSimple, $prefixLines . "\t") . "\t" ;
+			  			$dataTableSimple = "\n" . $this->renderDataTableSimple($dataTableSimple, $prefixLines . "\t") . $prefixLines . "\t";
 		  			}
-		  			$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">".$dataTableSimple. $prefixLines . "</result>\n";
+		  			$xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\">".$dataTableSimple. "</result>\n";
 	  			}
 	  		}
 	  		return $xml;

@@ -231,13 +231,8 @@ Yahoo!,1,,,15,151,147,50,517,90,http://www.yahoo.com,./plugins/Referers/images/s
 	  	$render = new Piwik_DataTable_Renderer_Csv();
 	  	$render->setTable($dataTable);
 	  	$render->convertToUnicode = false;
-		$expected = 'label,value
-max_actions,14
-nb_uniq_visitors,57
-nb_visits,66
-nb_actions,151
-sum_visit_length,5118
-bounce_count,44';
+		$expected = 'max_actions,nb_uniq_visitors,nb_visits,nb_actions,sum_visit_length,bounce_count
+14,57,66,151,5118,44';
 
 		$this->assertEqual( $expected,$render->render());
 	}
@@ -1018,11 +1013,9 @@ date2,Yahoo!1,150,1510,http://www.yahoo.com1,./plugins/Referers/images/searchEng
 	  	$render = new Piwik_DataTable_Renderer_Csv();
 	  	$render->setTable($dataTable);
 	  	$render->convertToUnicode = false;
-		$expected = 'testKey,label,value
-row1,max_actions,14
-row1,nb_uniq_visitors,57
-row2,max_actions,140
-row2,nb_uniq_visitors,570';
+		$expected = 'testKey,max_actions,nb_uniq_visitors
+row1,14,57
+row2,140,570';
 
 	  	$rendered = $render->render();
 		$this->assertEqual( $expected,$rendered);
@@ -1063,11 +1056,9 @@ idSite,date2,Yahoo!1,150,1510,http://www.yahoo.com1,./plugins/Referers/images/se
 	  	$render = new Piwik_DataTable_Renderer_Csv();
 	  	$render->setTable($dataTable);
 	  	$render->convertToUnicode = false;
-		$expected = 'parentArrayKey,testKey,label,value
-idSite,row1,max_actions,14
-idSite,row1,nb_uniq_visitors,57
-idSite,row2,max_actions,140
-idSite,row2,nb_uniq_visitors,570';
+		$expected = 'parentArrayKey,testKey,max_actions,nb_uniq_visitors
+idSite,row1,14,57
+idSite,row2,140,570';
 
 	  	$rendered = $render->render();
 		$this->assertEqual( $expected,$rendered);

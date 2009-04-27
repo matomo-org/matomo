@@ -20,12 +20,12 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 
 	function css()
 	{
-		echo '<link rel="stylesheet" type="text/css" href="plugins/ExampleRssWidget/styles.css" />';
+		echo '<link rel="stylesheet" type="text/css" href="plugins/ExampleRssWidget/templates/styles.css" />';
 	}
 }
 
-Piwik_AddWidget('ExampleRssWidget', 'rssPiwik', 'Piwik.org Blog');
-Piwik_AddWidget('ExampleRssWidget', 'rssChangelog', 'Piwik Changelog');
+Piwik_AddWidget('Example Widgets', 'Piwik.org Blog', 'ExampleRssWidget', 'rssPiwik');
+Piwik_AddWidget('Example Widgets', 'Piwik Changelog', 'ExampleRssWidget', 'rssChangelog');
 
 class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 {

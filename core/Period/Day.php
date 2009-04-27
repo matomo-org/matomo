@@ -7,10 +7,18 @@
 class Piwik_Period_Day extends Piwik_Period
 {
 	protected $label = 'day';
-	
+
 	public function getPrettyString()
 	{
 		$out = $this->getDateStart()->toString() ;
+		return $out;
+	}
+	public function getLocalizedShortString()
+	{
+		//"Mon 15 Aug"
+		$date = $this->getDateStart();
+		$template = "%shortDay% %day% %shortMonth%";
+		$out = $date->getLocalized($template);
 		return $out;
 	}
 	
@@ -36,5 +44,9 @@ class Piwik_Period_Day extends Piwik_Period
 	public function toString()
 	{
 		return $this->date->toString("Y-m-d");
+	}
+	public function __toString()
+	{
+		return $this->toString();
 	}
 }

@@ -92,7 +92,7 @@ $(document).ready( function() {
 			var idRow = $(this).attr('id');
 			var nameToDelete = $(this).parent().parent().find('#siteName').html();
 			var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
-			if(confirm(sprintf(_pk_translate('SitesManager_DeleteConfirm'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')')) )
+			if(confirm(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')')) )
 			{
 				$.ajax( getDeleteSiteAJAX( idsiteToDelete ) );
 			}

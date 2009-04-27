@@ -8,16 +8,16 @@
 <div id='leftcolumn'>
 	<h2>{'Referers_Type'|translate}</h2>
 	<div id='leftcolumn'>
-			<p>{sparkline src=$urlSparklineDirectEntry}<span>
-			{'Referers_TypeDirectEntries'|translate:"<strong>$visitorsFromDirectEntry</strong>"}</span></p>
-			<p>{sparkline src=$urlSparklineSearchEngines}<span>
-			{'Referers_TypeSearchEngines'|translate:"<strong>$visitorsFromSearchEngines</strong>"}</span></p>
+			<div class="sparkline">{sparkline src=$urlSparklineDirectEntry}
+			{'Referers_TypeDirectEntries'|translate:"<strong>$visitorsFromDirectEntry</strong>"}</div>
+			<div class="sparkline">{sparkline src=$urlSparklineSearchEngines}
+			{'Referers_TypeSearchEngines'|translate:"<strong>$visitorsFromSearchEngines</strong>"}</div>
 	</div>
 	<div id='rightcolumn'>
-			<p>{sparkline src=$urlSparklineWebsites}<span>
-			{'Referers_TypeWebsites'|translate:"<strong>$visitorsFromWebsites</strong>"}</span></p>
-			<p>{sparkline src=$urlSparklineCampaigns}<span>
-			{'Referers_TypeCampaigns'|translate:"<strong>$visitorsFromCampaigns</strong>"}</span></p>
+			<div class="sparkline">{sparkline src=$urlSparklineWebsites}
+			{'Referers_TypeWebsites'|translate:"<strong>$visitorsFromWebsites</strong>"}</div>
+			<div class="sparkline">{sparkline src=$urlSparklineCampaigns}
+			{'Referers_TypeCampaigns'|translate:"<strong>$visitorsFromCampaigns</strong>"}</div>
 	</div>
 </div>
 
@@ -27,17 +27,17 @@
 </div>
 
 <div style="clear:both" />
-<h2>{'Referers_Other'|translate}</h2>
-<table>
-	<tr><td>
-		<p>{sparkline src=$urlSparklineDistinctSearchEngines}<span>
-		{'Referers_OtherDistinctSearchEngines'|translate:"<strong>$numberDistinctSearchEngines</strong>"}</span></p>
-		<p>{sparkline src=$urlSparklineDistinctKeywords}<span>
-		{'Referers_OtherDistinctKeywords'|translate:"<strong>$numberDistinctKeywords</strong>"}</span></p>
-	</td><td>
-		<p>{sparkline src=$urlSparklineDistinctWebsites}<span>
-		{'Referers_OtherDistinctWebsites'|translate:"<strong>$numberDistinctWebsites</strong>":"<strong>$numberDistinctWebsitesUrls</strong>"}</span></p>
-		<p>{sparkline src=$urlSparklineDistinctCampaigns}<span> 
-		{'Referers_OtherDistinctCampaigns'|translate:"<strong>$numberDistinctCampaigns</strong>"}</span></p>
-		</td></tr>
+<h2>{'Referers_Distinct'|translate}</h2>
+<table cellpadding="15">
+<tr><td style="padding-right:50px">
+	<div class="sparkline">{sparkline src=$urlSparklineDistinctSearchEngines}
+	<strong>{$numberDistinctSearchEngines}</strong> {'Referers_DistinctSearchEngines'|translate}</div>
+	<div class="sparkline">{sparkline src=$urlSparklineDistinctKeywords}
+	<strong>{$numberDistinctKeywords}</strong> {'Referers_DistinctKeywords'|translate}</div>
+</td>
+	<div class="sparkline">{sparkline src=$urlSparklineDistinctWebsites}
+	<strong>{$numberDistinctWebsites}</strong> {'Referers_DistinctWebsites'|translate} {'Referers_UsingNDistinctUrls'|translate:"<strong>$numberDistinctWebsitesUrls</strong>"}</div>
+	<div class="sparkline">{sparkline src=$urlSparklineDistinctCampaigns} 
+	<strong>{$numberDistinctCampaigns}</strong> {'Referers_DistinctCampaigns'|translate}</div>
+</td></tr>
 </table>

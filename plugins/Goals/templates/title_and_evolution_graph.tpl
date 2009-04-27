@@ -4,17 +4,15 @@
 <h2>{$title}</h2>
 {$graphEvolution}
 
-<table>
-	<tr><td>
-		<p>{sparkline src=$urlSparklineConversions}<span>
-		{'%s conversions'|translate:"<strong>$nb_conversions</strong>"}</span></p>
-		{if $revenue != 0 }
-			<p>{sparkline src=$urlSparklineRevenue}<span>
-			{'%s overall revenue'|translate:"<strong>$currency$revenue</strong>"}</span></p>
-		{/if}
-	</td><td valign="top">
-		<p>{sparkline src=$urlSparklineConversionRate}<span>
-		{'%s overall conversion rate (visits with a completed goal)'|translate:"<strong>$conversion_rate%</strong>"}</span></p>
-	</td></tr>
-</table>
-
+<div id='leftcolumn'>
+	<div class="sparkline">{sparkline src=$urlSparklineConversions}
+	{'%s conversions'|translate:"<strong>$nb_conversions</strong>"}</div>
+	{if $revenue != 0 }
+		<div class="sparkline">{sparkline src=$urlSparklineRevenue}
+		{'%s overall revenue'|translate:"<strong>$currency$revenue</strong>"}</div>
+	{/if}
+</div>
+<div id='rightcolumn'>
+	<div class="sparkline">{sparkline src=$urlSparklineConversionRate}
+	{'%s overall conversion rate (visits with a completed goal)'|translate:"<strong>$conversion_rate%</strong>"}</div>
+</div>

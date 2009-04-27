@@ -174,6 +174,10 @@ class Piwik_Url
 		$query = '';
 		foreach($urlValues as $name => $value)
 		{
+			if(empty($value))
+			{
+				continue;
+			}
 			if(is_array($value))
 			{
 				foreach($value as $theValue)

@@ -4,9 +4,9 @@ function Piwik_GetWidgetsList()
 	return Piwik_WidgetsList::get();
 }
 
-function Piwik_AddWidget( $pluginName, $controllerMethodToCall, $widgetTitle )
+function Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
 {
-	Piwik_WidgetsList::add($pluginName, $controllerMethodToCall, $widgetTitle);
+	Piwik_WidgetsList::add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters);
 }
 
 class Piwik_WidgetsList
@@ -19,8 +19,17 @@ class Piwik_WidgetsList
 		return self::$widgets;
 	}
 	
-	static function add($pluginName, $controllerMethodToCall, $widgetTitle)
+	static function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters)
 	{
-		self::$widgets[$pluginName][] = array( $widgetTitle, $controllerMethodToCall );
+		$widgetCategory = Piwik_Translate($widgetCategory);
+		$widgetName = Piwik_Translate($widgetName);
+		$widgetUniqueId = 'widget' . $controllerName . $controllerAction;
+		self::$widgets[$widgetCategory][] = array( 
+					'name' => $widgetName,
+					'uniqueId' => $widgetUniqueId,
+					'parameters' => array (	'module' => $controllerName,
+											'action' => $controllerAction
+										) + $customParameters
+									);
 	}
 }
