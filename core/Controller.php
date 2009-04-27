@@ -302,6 +302,7 @@ abstract class Piwik_Controller
 			{
 				$defaultDate = Zend_Registry::get('config')->General->default_day;
 			}
+//			return Piwik_FrontController::getInstance()->dispatch($moduleToRedirect, $actionToRedirect, array('idSite'=>$firstSiteId,'period'=>'day','date'=>$defaultDate));
 			header("Location:index.php?module=".$moduleToRedirect."&action=".$actionToRedirect."&idSite=$firstSiteId&period=day&date=$defaultDate");
 		}
 		else
@@ -309,7 +310,7 @@ abstract class Piwik_Controller
 			if(Piwik::isUserIsSuperUser())
 			{
 				Piwik_ExitWithMessage("Error: no website were found in this Piwik installation. 
-				<br>Check your table '". Piwik::prefixTable('site') ."' that should contain your Piwik websites.", false, true);
+				<br>Check the table '". Piwik::prefixTable('site') ."' that should contain your Piwik websites.", false, true);
 			}
 			$currentLogin = Piwik::getCurrentUserLogin();
 			if(!empty($currentLogin)
