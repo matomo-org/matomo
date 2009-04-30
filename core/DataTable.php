@@ -246,6 +246,7 @@ class Piwik_DataTable
 				destroy($row);
 			}
 			unset($this->rows);
+			$this->rows = array();
 			Piwik_DataTable_Manager::getInstance()->setTableDeleted($this->getId());	
 			$depth--;
 		}
