@@ -21,6 +21,13 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	
 	protected function generateDataFromDataTable()
 	{
+		// if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
+		// we don't expect plugin developers to return a well defined Piwik_DataTable_Array 
+		if($this->dataTable instanceof Piwik_DataTable)
+		{
+			return parent::generateDataFromDataTable();
+		}
+		
 		$this->dataTable->applyQueuedFilters();
 		if(!($this->dataTable instanceof Piwik_DataTable_Array))
 		{
@@ -56,7 +63,6 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 			}
 		}
 		
-		
 		// make sure all column values are set (at least zero) in order for all unique idDataTable
 		$columnNameToValueCleaned = array();
 		foreach($uniqueIdsDataTable as $uniqueIdDataTable)
@@ -76,28 +82,38 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		}
 		$columnNames = array_keys($columnNameToValueCleaned);
 		$columnNameToTranslation = array();
-		$columnNameToType = array();
-		$nameToType = array(
+		$columnNameToUnit = array();
+		$nameToUnit = array(
 			'_rate' => '%',
 			'_revenue' => Piwik::getCurrency(),
 		);
 		foreach($columnNames as $columnName)
 		{
 			$columnNameToTranslation[$columnName] = $this->getColumnTranslation($columnName);
-			$columnNameToType[$columnName] = false;
-			foreach($nameToType as $pattern => $type)
+			
+			$columnNameToUnit[$columnName] = false;
+			// if the unit was specified, we use it
+			if(!empty($this->yAxisUnit))
 			{
-				if(strpos($columnName, $pattern) !== false)
+				$columnNameToUnit[$columnName] = $this->yAxisUnit;
+			}
+			// otherwise we guess the unit from the column name
+			else
+			{
+				foreach($nameToUnit as $pattern => $type)
 				{
-					$columnNameToType[$columnName] = $type;
-					break;
+					if(strpos($columnName, $pattern) !== false)
+					{
+						$columnNameToUnit[$columnName] = $type;
+						break;
+					}
 				}
 			}
 		}
 		$this->view->setAxisXLabels($xLabels);
 		$this->view->setAxisYValues($columnNameToValueCleaned);
 		$this->view->setAxisYLabels($columnNameToTranslation);
-		$this->view->setAxisYValuesTypes($columnNameToType);
+		$this->view->setAxisYUnits($columnNameToUnit);
 		
 		$firstDatatable = reset($this->dataTable->metadata);
 		$period = $firstDatatable['period'];

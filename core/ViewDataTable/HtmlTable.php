@@ -20,13 +20,6 @@
 class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 {
 	/**
-	 * Array of columns names to display
-	 *
-	 * @var array
-	 */
-	protected $columnsToDisplay = array();
-
-	/**
 	 * Set to true when the DataTable must be loaded along with all its children subtables
 	 * Useful when searching for a pattern in the DataTable Actions (we display the full hierarchy)
 	 * 
@@ -93,8 +86,12 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	 */
 	protected function buildView()
 	{
-		$phpArray = $this->getPHPArrayFromDataTable();
-		$columns = $this->getColumnsToDisplay($phpArray);
+		$columns = $this->getColumnsToDisplay();
+		$columnTranslations = array();
+		foreach($columns as $columnName)
+		{
+			$columnTranslations[$columnName] = $this->getColumnTranslation($columnName);
+		}
 		$nbColumns = count($columns);
 		// case no data in the array we use the number of columns set to be displayed 
 		if($nbColumns == 0)
@@ -103,8 +100,9 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		}
 
 		$view = new Piwik_View($this->dataTableTemplate);
-		$view->arrayDataTable 	= $phpArray;
+		$view->arrayDataTable 	= $this->getPHPArrayFromDataTable();
 		$view->dataTableColumns = $columns;
+		$view->columnTranslations = $columnTranslations;
 		$view->nbColumns = $nbColumns;
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
@@ -140,17 +138,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		$phpArray = $renderer->originalRender();
 		return $phpArray;
 	}	
-	
-	/**
-	 * Sets the columns that will be displayed in the HTML output
-	 * By default all columns are displayed ($columnsNames = array() will display all columns)
-	 * 
-	 * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
-	 */
-	public function setColumnsToDisplay( $columnsNames)
-	{
-		$this->columnsToDisplay = $columnsNames;
-	}
+
 	
 	/**
 	 * Adds a column to the list of columns to be displayed
@@ -160,44 +148,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	public function addColumnToDisplay( $columnName )
 	{
 		$this->columnsToDisplay[] = $columnName;
-	}
-	
-	/**
-	 * Returns array(
-	 * 				array('name' => 'nb_visits', 'displayName' => 'Visits'),
-	 * 				array('name' => 'nb_uniq_visitors', 'displayName' => 'Unique Visitors'),
-	 *
-	 * @param array PHP array conversion of the data table
-	 * @return array
-	 */
-	protected function getColumnsToDisplay($phpArray)
-	{
-		$metadataColumnToDisplay = array();
-		if(count($phpArray) > 0)
-		{
-			// we show the columns in order specified in the setColumnsToDisplay
-			// each column has a string name; 
-			// this name will for example be used to specify the sorting column 
-			$columnsToDisplay = $this->columnsToDisplay;
-		
-			if(count($columnsToDisplay) == 0)
-			{
-				$columnsToDisplay = array_keys($phpArray[0]['columns']);
-			}
-			
-			$columnsToDisplay = array_unique($columnsToDisplay);
-			foreach($columnsToDisplay as $columnToDisplay)
-			{
-				if(!empty($columnToDisplay))
-				{
-					$metadataColumnToDisplay[]	= array(
-									'name' => $columnToDisplay, 
-									'displayName' => $this->getColumnTranslation($columnToDisplay) 
-								);
-				}
-			}
-		}
-		return $metadataColumnToDisplay	;
 	}
 
 	/**

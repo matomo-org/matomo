@@ -23,18 +23,6 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		return 'sparkline';
 	}
 
-	protected $columnsToDisplay = array();
-	
-	public function setColumnsToDisplay($columns)
-	{
-		$this->columnsToDisplay = $columns;
-	}
-	
-	public function getColumnsToDisplay()
-	{
-		return $this->columnsToDisplay;
-	}
-	
 	/**
 	 * @see Piwik_ViewDataTable::main()
 	 */
@@ -46,7 +34,7 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 	
-		// we load the data with the filters applied
+		$this->disableGenericFilters();
 		$this->loadDataTableFromAPI();
 		
 		$this->isDataAvailable = $this->dataTable->getRowsCount() != 0;
@@ -55,7 +43,6 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 			throw new Exception(Piwik_Translate('General_NoDataForGraph'));
 		}
 		$values = $this->getValuesFromDataTable($this->dataTable);
-		
 		$graph = new Piwik_Visualization_Sparkline;
 		$graph->setValues($values);
 		$graph->main();
@@ -63,24 +50,17 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		$this->view = $graph;
 	}
 	
-	protected function getValuesFromDataTable( Piwik_DataTable_Array $dataTableArray)
+	protected function getValuesFromDataTableArray( $dataTableArray, $columnToPlot )
 	{
 		$dataTableArray->applyQueuedFilters();
-		
-		$columns = $this->getColumnsToDisplay();
-		$columnToPlot = false;
-		if(!empty($columns))
-		{
-			$columnToPlot = $columns[0];
-		}
 		$values = array();
-		foreach($dataTableArray->getArray() as $keyName => $table)
+		foreach($dataTableArray->getArray() as $table)
 		{
-			$value = 0;
 			if($table->getRowsCount() > 1)
 			{
 				throw new Exception("Expecting only one row per DataTable");
 			}
+			$value = 0;
 			$onlyRow = $table->getFirstRow();
 			if($onlyRow !== false)
 			{
@@ -97,6 +77,28 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 				}
 			}
 			$values[] = $value;
+		}
+		return $values;
+	}
+	
+	protected function getValuesFromDataTable( $dataTable )
+	{
+		$columns = $this->getColumnsToDisplay();
+		$columnToPlot = false;
+		if(!empty($columns))
+		{
+			$columnToPlot = $columns[0];
+		}
+		
+		// a Piwik_DataTable_Array is returned when using the normal code path to request data from Archives, in all core plugins
+		// however plugins can also return simple datatable, hence why the sparkline can accept both data types
+		if($this->dataTable instanceof Piwik_DataTable_Array)
+		{
+			$values = $this->getValuesFromDataTableArray($dataTable, $columnToPlot);
+		}
+		elseif($this->dataTable instanceof Piwik_DataTable)
+		{
+			$values = $this->dataTable->getColumn($columnToPlot);
 		}
 		return $values;
 	}

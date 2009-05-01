@@ -902,7 +902,8 @@ actionDataTable.prototype =
 				var parents = $(this).attr('parent');
 				if(parents)
 				{
-					if(parents.indexOf(idSubTable) >= 0 || parents.indexOf('subDataTable_'+idSubTable) >= 0)
+					if(parents.indexOf(idSubTable) >= 0 
+						|| parents.indexOf('subDataTable_'+idSubTable) >= 0)
 					{
 						if(plusDetected)
 						{

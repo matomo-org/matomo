@@ -242,7 +242,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 			$typeReferer = Piwik_Common::getRequestVar('typeReferer');
 		}
 		$view->setColumnsToDisplay($columns);
-		$view->setSearchPattern($typeReferer, 'label');
 		$view->setParametersToModify(array('typeReferer' => $typeReferer));
 		foreach($columns as $columnName)
 		{

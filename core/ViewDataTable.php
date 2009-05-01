@@ -116,6 +116,9 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected $columnsTranslations = array();
 	
+	
+	protected $columnsToDisplay = array();
+	
 	/**
 	 * Method to be implemented by the ViewDataTable_*.
 	 * This method should create and initialize a $this->view object @see Piwik_iView
@@ -433,7 +436,7 @@ abstract class Piwik_ViewDataTable
 		else
 		{
 			// the $uniqIdTable variable is used as the DIV ID in the rendered HTML
-			// we use the current Controller action name as it is supposed to be unique in the rendered page 
+			// we use the current Controller action name as it is supposed to be unique in the rendered page
 			$uniqIdTable = $this->currentControllerName . $this->currentControllerAction;
 		}
 		return $uniqIdTable;
@@ -648,7 +651,7 @@ abstract class Piwik_ViewDataTable
 	 * When this method is called, the output will not contain the template datatable_footer.tpl
 	 * @return void
 	 */
-	public function doNotShowFooter()
+	public function disableFooter()
 	{
 		$this->viewProperties['show_footer'] = false;
 	}
@@ -789,6 +792,36 @@ abstract class Piwik_ViewDataTable
 		{
 			return $columnName;
 		}
+	}
+
+	/**
+	 * Sets the columns that will be displayed in the HTML output
+	 * By default all columns are displayed ($columnsNames = array() will display all columns)
+	 * 
+	 * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
+	 */
+	public function setColumnsToDisplay( $columnsNames )
+	{
+		if(!is_array($columnsNames))
+		{
+			$columnsNames = array($columnsNames);
+		}
+		$this->columnsToDisplay = $columnsNames;
+	}
+
+	/**
+	 * Returns columns names to display, in order.
+	 * If no columns were specified to be displayed, return all columns found in the first row.
+	 * @param array PHP array conversion of the data table
+	 * @return array
+	 */
+	public function getColumnsToDisplay()
+	{
+		if(empty($this->columnsToDisplay))
+		{
+			return array_keys($this->dataTable->getFirstRow()->getColumns());
+		}
+		return $this->columnsToDisplay;
 	}
 	
 	/**

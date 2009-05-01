@@ -29,6 +29,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	
 	protected $yLabels = array();
 	protected $yValues = array();
+	protected $yUnits = array();
 	
 	function __construct()
 	{
@@ -39,10 +40,20 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	{
 		$this->xLabels = $xLabels;
 	}
+
+	public function setAxisXOnClick($onClick)
+	{
+		$this->xOnClick = $onClick;
+	}
 	
 	public function setAxisYValues($values)
 	{
 		$this->yValues = $values;
+	}
+
+	function setAxisYUnits($yUnits)
+	{
+		$this->yUnits = $yUnits;
 	}
 	
 	public function setAxisYLabels($labels)
@@ -50,10 +61,6 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		$this->yLabels = $labels;
 	}
 	
-	public function setAxisXOnClick($onClick)
-	{
-		$this->xOnClick = $onClick;
-	}
 	
 	//TODO call + make sure matches beginning of period? (hard..)
 	// day -> every 7 days
@@ -153,6 +160,16 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 			$maxValue = 1;
 		}
 		$this->y->set_range( $minValue, $maxValue, $stepsEveryNLabel);
+		$dataSetsToDisplay = $this->getDataSetsToDisplay();
+		if($dataSetsToDisplay != false)
+		{
+			$dataSetToDisplay = current($dataSetsToDisplay);
+			if(isset($this->yUnits[$dataSetToDisplay]))
+			{
+				$unit = $this->yUnits[$dataSetToDisplay];
+				$this->y->set_label_text("#val#$unit");
+			}
+		}
 		
 		// Tooltip
 		$this->tooltip = new tooltip();

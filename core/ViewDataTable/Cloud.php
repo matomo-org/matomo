@@ -22,6 +22,11 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 {
 	protected $displayLogoInsteadOfLabel = false;
 
+	public function displayLogoInTagCloud()
+	{
+		$this->displayLogoInsteadOfLabel = true;
+	}
+	
 	protected function getViewDataTableId()
 	{
 		return 'cloud';
@@ -59,45 +64,46 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		$this->view = $this->buildView();
 	}
 	
+	function getColumnToDisplay()
+	{
+		$columns = parent::getColumnsToDisplay();
+		// not label, but the first numeric column
+		return $columns[1];
+	}
+	
 	protected function buildView()
 	{
 		$view = new Piwik_View($this->dataTableTemplate);
 		
-		$words = $labelMetadata = array();
+		$columnToDisplay = $this->getColumnToDisplay();
+		$columnTranslation = $this->getColumnTranslation($columnToDisplay);
+		$values = $this->dataTable->getColumn($columnToDisplay);
+		$labels  = $this->dataTable->getColumn('label');
 		foreach($this->dataTable->getRows() as $row)
 		{
-			$label = $row->getColumn('label');
-			$value = $row->getColumn('nb_uniq_visitors');
-			
-			// case no unique visitors
-			if($value === false)
-			{
-				$value = $row->getColumn('nb_visits');
-			}
-			$words[$label] = $value;
-			
 			$logo = false;
 			if($this->displayLogoInsteadOfLabel)
 			{
 				$logo =  $row->getMetadata('logo');
 			}
-			
-			$labelMetadata[$label] = array( 
+			$labelMetadata[$row->getColumn('label')] = array( 
 				'logo' => $logo,
 				'url' => $row->getMetadata('url'),
-				'hits' => $value
 				);
 		}
-		$cloud = new Piwik_Visualization_Cloud($words);
+		$cloud = new Piwik_Visualization_Cloud();
+		foreach($labels as $i => $label)
+		{
+			$cloud->addWord($label, $values[$i]);
+		}		
 		$cloudValues  = $cloud->render('array');
-		
 		foreach($cloudValues as &$value)
 		{
 			$value['logoWidth'] = round(max(16, $value['percent']));
 		}
+		$view->columnTranslation = $columnTranslation;
 		$view->labelMetadata = $labelMetadata;
 		$view->cloudValues = $cloudValues;
-		
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
 		return $view;

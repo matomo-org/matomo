@@ -40,6 +40,11 @@ abstract class Piwik_Period
 		$this->date = clone $date;
 	}
 	
+	/**
+	 * @param $strPeriod "day", "week", "month", "year"
+	 * @param $date Piwik_Date object
+	 * @return Piwik_Period
+	 */
 	static public function factory($strPeriod, $date)
 	{
 		switch ($strPeriod) {
@@ -129,7 +134,6 @@ abstract class Piwik_Period
 	}
 	
 	/**
-	 *
 	 * @return Piwik_Date
 	 */
 	protected function getDate()
@@ -163,7 +167,7 @@ abstract class Piwik_Period
 	 * Returns Period_Day for a period made of days (week, month),
 	 * 			Period_Month for a period made of months (year) 
 	 * 
-	 * @return array
+	 * @return array Piwik_Period
 	 */
 	public function getSubperiods()
 	{

@@ -92,7 +92,7 @@ abstract class Piwik_Controller
 	 * @param bool $fetch
 	 * @return string|void
 	 */
-	protected function renderView( Piwik_ViewDataTable $view, $fetch)
+	protected function renderView( Piwik_ViewDataTable $view, $fetch = false)
 	{
 		Piwik_PostEvent(	'Controller.renderView', 
 							$this, 

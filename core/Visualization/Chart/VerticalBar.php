@@ -52,19 +52,17 @@ class Piwik_Visualization_Chart_VerticalBar extends Piwik_Visualization_Chart
 		// create the bar values
 		$yValues = $this->yValues[$dataSetToDisplay];
 		$labelName = $this->yLabels[$dataSetToDisplay];
-		$sum = array_sum($yValues);
+		$unit = @$this->yUnits[$dataSetToDisplay];
 		$barValues = array();
 		$i = 0;
 		foreach($this->xLabels as $label) {
 			$value = $yValues[$i];
 			$barValue = new bar_value($value);
-			$percentage = round(100 * $value / $sum);
-			$barValue->set_tooltip("$label <br>$value $labelName ($percentage%)");
+			$barValue->set_tooltip("$label<br>$value$unit $labelName");
 			$barValues[] = $barValue;
 			$i++;
 		}
 		$bar->set_values($barValues);
 		$this->chart->add_element($bar);
 	}
-	
 }
