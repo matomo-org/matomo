@@ -18,12 +18,6 @@ require_once "Visualization/Chart.php";
  */
 class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart 
 {
-	protected $yValuesType = array();
-	function setAxisYValuesTypes($yValuesTypes)
-	{
-		$this->yValuesTypes = $yValuesTypes;
-	}
-	
 	function customizeGraph()
 	{
 		parent::customizeGraph();
@@ -71,13 +65,10 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 				$lineValue = new hollow_dot($value);
 				
 				$unit = '';
-				if(!empty($this->yValuesTypes[$dataSetToDisplay]))
+				if(!empty($this->yUnits[$dataSetToDisplay]))
 				{
-					$unit = $this->yValuesTypes[$dataSetToDisplay];
+					$unit = $this->yUnits[$dataSetToDisplay];
 				}
-				// set the Y Label to display the right unit
-				$this->y->set_label_text("#val#$unit");
-				
 				$lineValue->tooltip("$label<br>$value$unit $labelName");
 				if(!empty($this->xOnClick))
 				{
@@ -97,7 +88,7 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 		// if one column is a percentage we set the grid accordingly
 		// note: it is invalid to plot a percentage dataset along with a numeric dataset
 		//TODO only if the max was 100!!
-		if(array_search('%', $this->yValuesTypes) !== false)
+		if(array_search('%', $this->yUnits) !== false)
 		{
 			$this->y->set_range( 0, 100, 50);
 		}

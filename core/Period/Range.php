@@ -101,9 +101,7 @@ class Piwik_Period_Range extends Piwik_Period
 		if(ereg('(last|previous)([0-9]*)', $this->strDate, $regs))
 		{
 			$lastN = $regs[2];
-			
 			$lastOrPrevious = $regs[1];
-			
 			if(!is_null($this->defaultEndDate))
 			{
 				$defaultEndDate = $this->defaultEndDate;

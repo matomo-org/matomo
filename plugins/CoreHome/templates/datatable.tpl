@@ -11,7 +11,7 @@
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column}
-				<th class="sortable" id="{$column.name}"><div id="thDIV">{$column.displayName}</div></th>
+				<th class="sortable" id="{$column}"><div id="thDIV">{$columnTranslations[$column]}</div></th>
 			{/foreach}
 			</tr>
 			</thead>
@@ -21,9 +21,9 @@
 			<tr {if $row.idsubdatatable && $javascriptVariablesToSet.controllerActionCalledWhenRequestSubTable != null}class="subDataTable" id="{$row.idsubdatatable}"{/if}>
 {foreach from=$dataTableColumns item=column}
 <td>
-{if !$row.idsubdatatable && $column.name=='label' && isset($row.metadata.url)}<span id="urlLink">{$row.metadata.url}</span>{/if}
-{if $column.name=='label'}{logoHtml metadata=$row.metadata alt=$row.columns.label}{/if}
-{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}{$defaultWhenColumnValueNotDefined}{/if}
+{if !$row.idsubdatatable && $column=='label' && isset($row.metadata.url)}<span id="urlLink">{$row.metadata.url}</span>{/if}
+{if $column=='label'}{logoHtml metadata=$row.metadata alt=$row.columns.label}{/if}
+{if isset($row.columns[$column])}{$row.columns[$column]}{else}{$defaultWhenColumnValueNotDefined}{/if}
 </td>
 {/foreach}
 			</tr>

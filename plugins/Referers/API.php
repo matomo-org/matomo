@@ -50,9 +50,13 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 	
-	function getRefererType($idSite, $period, $date)
+	function getRefererType($idSite, $period, $date, $typeReferer = false)
 	{
 		$dataTable = $this->getDataTable('Referers_type', $idSite, $period, $date, $expanded = false);
+		if($typeReferer !== false)
+		{
+			$dataTable->filter('Pattern', array('label', $typeReferer));
+		}
 		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
 		return $dataTable;
 	}

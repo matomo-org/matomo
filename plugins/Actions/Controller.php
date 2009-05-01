@@ -117,6 +117,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 			// computing minimum value to exclude
 			require_once "VisitsSummary/Controller.php";
 			$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary();
+			$visitsInfo = $visitsInfo->getFirstRow();
 			$nbActions = $visitsInfo->getColumn('nb_actions');
 			$nbActionsLowPopulationThreshold = floor(0.02 * $nbActions); // 2 percent of the total number of actions
 			// we remove 1 to make sure some actions/downloads are displayed in the case we have a very few of them

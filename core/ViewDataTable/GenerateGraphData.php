@@ -36,17 +36,11 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	 * @var int
 	 */
 	protected $graphLimit = null;
+	protected $yAxisUnit = '';
 	
-	protected $columnsToDisplay = array();
-	
-	public function setColumnsToDisplay($columns)
+	public function setAxisYUnit($unit)
 	{
-		$this->columnsToDisplay = $columns;
-	}
-	
-	public function getColumnsToDisplay()
-	{
-		return $this->columnsToDisplay;
+		$this->yAxisUnit = $unit;
 	}
 	
 	/**
@@ -80,6 +74,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	
 		// the queued filters will be manually applied later. This is to ensure that filtering using search
 		// will be done on the table before the labels are enhanced (see ReplaceColumnNames)
+		$this->disableGenericFilters();
 		$this->disableQueuedFilters();
 		$this->loadDataTableFromAPI();
 		
@@ -114,21 +109,25 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		$this->dataTable->applyQueuedFilters();
 
 		// We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
-		$this->dataTable->filter('ColumnCallbackReplace', array('label','urldecode')	);
+		$this->dataTable->filter('ColumnCallbackReplace', array('label','urldecode'));
 
 		$xLabels = $this->dataTable->getColumn('label');
-		$columnNames = array_keys($this->dataTable->getFirstRow()->getColumns());
-		unset($columnNames[array_search('label',$columnNames)]);
+		$columnNames = parent::getColumnsToDisplay();
+		if(($labelColumnFound = array_search('label',$columnNames)) !== false)
+		{
+			unset($columnNames[$labelColumnFound]);
+		}
 		
-		$columnNameToTranslation = $columnNameToValue = array();
+		$columnNameToTranslation = $columnNameToValue = $columnNameToUnit = array();
 		foreach($columnNames as $columnName)
 		{
 			$columnNameToTranslation[$columnName] = $this->getColumnTranslation($columnName);
 			$columnNameToValue[$columnName] = $this->dataTable->getColumn($columnName);
+			$columnNameToUnit[$columnName] = $this->yAxisUnit;
 		}
 		$this->view->setAxisXLabels($xLabels);
 		$this->view->setAxisYValues($columnNameToValue);
 		$this->view->setAxisYLabels($columnNameToTranslation);
+		$this->view->setAxisYUnits($columnNameToUnit);
 	}
 }
-

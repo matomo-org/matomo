@@ -29,7 +29,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay($columns);
 		return $this->renderView($view, $fetch);
 	}
-	
+
 	static public function getVisitsSummary()
 	{
 		$requestString =	"method=VisitsSummary.get".

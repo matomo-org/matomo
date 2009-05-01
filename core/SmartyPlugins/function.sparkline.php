@@ -15,7 +15,7 @@ require_once "Visualization/Sparkline.php";
  * @param string $url
  * @return string IMG HTML tag 
  */
-function smarty_function_sparkline($params, &$smarty)
+function smarty_function_sparkline($params, &$smarty = false)
 {
 	$src = $params['src'];
 	$width = Piwik_Visualization_Sparkline::getWidth();

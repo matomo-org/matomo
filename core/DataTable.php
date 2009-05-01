@@ -1082,11 +1082,21 @@ class Piwik_DataTable
 	 * 	 LABEL => array(col1 => X, col2 => Y),
 	 * 	 LABEL2 => array(col1 => X, col2 => Y),
 	 * )
-	 * 
 	 * to the structure 
 	 * array (
 	 * 	 array( Piwik_DataTable_Row::COLUMNS => array('label' => LABEL, col1 => X, col2 => Y)),
 	 * 	 array( Piwik_DataTable_Row::COLUMNS => array('label' => LABEL2, col1 => X, col2 => Y)),
+	 * )
+	 * 
+	 * It also works with array having only one value per row, eg.
+	 * array (
+	 * 	 LABEL => X,
+	 * 	 LABEL2 => Y,
+	 * )
+	 * would be converted to the structure 
+	 * array (
+	 * 	 array( Piwik_DataTable_Row::COLUMNS => array('label' => LABEL, 'value' => X)),
+	 * 	 array( Piwik_DataTable_Row::COLUMNS => array('label' => LABEL2, 'value' => Y)),
 	 * )
 	 * 
 	 * The optional parameter $subtablePerLabel is an array of subTable associated to the rows of the $array
@@ -1116,6 +1126,10 @@ class Piwik_DataTable
 		$cleanRow = array();
 		foreach($array as $label => $row)
 		{
+			if(!is_array($row))
+			{
+				$row = array('value' => $row);
+			}
 			$cleanRow[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = null;
 			// we put the 'label' column first as it looks prettier in API results
 			$cleanRow[Piwik_DataTable_Row::COLUMNS] = array('label' => $label) + $row;

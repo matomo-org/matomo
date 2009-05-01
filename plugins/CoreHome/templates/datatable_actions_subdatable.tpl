@@ -9,7 +9,7 @@
 		<tr {if $row.idsubdatatable}class="subActionsDataTable" id="{$row.idsubdatatable}"{else}class="actionsDataTable"{/if}>
 			{foreach from=$dataTableColumns item=column}
 			<td>
-			{if isset($row.columns[$column.name])}{$row.columns[$column.name]}{else}{$defaultWhenColumnValueNotDefined}{/if}
+			{if isset($row.columns[$column])}{$row.columns[$column]}{else}{$defaultWhenColumnValueNotDefined}{/if}
 			</td>
 			{/foreach}
 		</tr>
