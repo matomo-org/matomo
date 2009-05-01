@@ -252,6 +252,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$country = Piwik_Common::getCountry($userInfo['location_browser_lang'], $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess']);	
 		$refererInfo = $this->getRefererInformation();
 		
+		$userInfo['location_ip'] = ip2long('65.55.110.40');
+		
+		// if the referer is Live! we check if the IP comes from microsoft 
+		// we don't count their cloak checks requests (which really is "Live referer spam") see #686
+		if($refererInfo['referer_name'] == "Live"
+			&& preg_match("/^65\.55/", long2ip($userInfo['location_ip'])))
+		{
+			throw new Exception("Spam Live bot, go away, you're making me cry");
+		}
+		
 		/**
 		 * Save the visitor
 		 */
