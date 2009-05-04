@@ -54,8 +54,8 @@ class Piwik_ExampleUI_API
 	function getTemperatures()
 	{
 		$xAxis = array(
-			'12AM', '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM', 
-			'12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM',
+			'0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h', 
+			'12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h',
 		);
 		$temperatureValues = array_slice(range(50,90), 0, count($xAxis));
 		shuffle($temperatureValues);

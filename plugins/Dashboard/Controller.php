@@ -24,7 +24,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$layout = html_entity_decode($this->getLayout());
 		if(strstr($layout, '[[') == false) {
 			$layout = "'$layout'";
-		} 
+		}
+		$view->layout = $layout;
 		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
 		return $view;
 	}

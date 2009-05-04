@@ -44,6 +44,9 @@ class Piwik_Visualization_Cloud
 	{
 		$this->shuffleCloud();
 		$return = array();
+		if(empty($this->wordsArray)) {
+			return array();
+		}
 		$maxValue = max($this->wordsArray);
 		foreach ($this->wordsArray as $word => $popularity)
 		{

@@ -25,7 +25,6 @@
 		]
 	];
 {/literal}
-
 	{*
 	the old dashboard layout style is:
 	piwik.dashboardLayout = 'VisitsSummary.getEvolutionGraph~VisitorInterest.getNumberOfVisitsPerVisitDuration~UserSettings.getBrowser~ExampleFeedburner.feedburner|Referers.getKeywords~Referers.getWebsites|Referers.getSearchEngines~VisitTime.getVisitInformationPerServerTime~ExampleRssWidget.rssPiwik|';

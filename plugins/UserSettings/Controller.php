@@ -85,12 +85,10 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->disableSort();
 		$view->disableOffsetInformation();
 		$view->disableShowAllColumns();
-		
+		$view->disallowPercentageInGraphTooltip();
 		$view->setColumnsToDisplay( array('label','nb_visits') );
-		$view->setSortedColumn( 'nb_visits' );
 		$view->setGraphLimit( 10 );
 		$view->setLimit( 10 );
-		
 		return $this->renderView($view, $fetch);
 	}
 	

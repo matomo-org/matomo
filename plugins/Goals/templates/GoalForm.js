@@ -84,8 +84,8 @@ function bindListGoalEdit()
 }
 function getAjaxDeleteGoal(idGoal)
 {
-	var ajaxRequest = getStandardAjaxConf();
-	toggleAjaxLoading();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf();
+	piwikHelper.toggleAjaxLoading();
 	
 	var parameters = new Object;
 	parameters.idSite = piwik.idSite;
@@ -100,8 +100,8 @@ function getAjaxDeleteGoal(idGoal)
 
 function getAjaxAddGoal()
 {
-	var ajaxRequest = getStandardAjaxConf();
-	toggleAjaxLoading();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf();
+	piwikHelper.toggleAjaxLoading();
 	
 	var parameters = new Object;
 	

@@ -22,9 +22,9 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 {
 	protected $displayLogoInsteadOfLabel = false;
 
-	public function displayLogoInTagCloud()
+	public function setDisplayLogoInTagCloud($bool)
 	{
-		$this->displayLogoInsteadOfLabel = true;
+		$this->displayLogoInsteadOfLabel = $bool;
 	}
 	
 	protected function getViewDataTableId()
@@ -79,6 +79,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		$columnTranslation = $this->getColumnTranslation($columnToDisplay);
 		$values = $this->dataTable->getColumn($columnToDisplay);
 		$labels  = $this->dataTable->getColumn('label');
+		$labelMetadata = array();
 		foreach($this->dataTable->getRows() as $row)
 		{
 			$logo = false;

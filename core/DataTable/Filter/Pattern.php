@@ -34,7 +34,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	
 	static public function getPatternQuoted( $pattern )
 	{
-		return "/". preg_quote($pattern, '/') ."/";
+		return "/". str_replace('/','\/', $pattern) ."/";
 	}
 	
 	/*
@@ -42,8 +42,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	 */
 	static public function match($pattern, $patternQuoted, $string)
 	{
-		return preg_match($patternQuoted . "i",  $string) == 1
-				&& stripos($string, $pattern) !== false;
+		return @preg_match($patternQuoted . "i",  $string) == 1;
 	}
 	
 	protected function filter()

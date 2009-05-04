@@ -19,13 +19,32 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		$this->view = new Piwik_Visualization_Chart_Evolution;
 	}
 	
-	protected function generateDataFromDataTable()
+	protected function guessUnitFromRequestedColumnNames($requestedColumnNames)
+	{
+		$nameToUnit = array(
+			'_rate' => '%',
+			'_revenue' => Piwik::getCurrency(),
+		);
+		foreach($requestedColumnNames as $columnName)
+		{
+			foreach($nameToUnit as $pattern => $type)
+			{
+				if(strpos($columnName, $pattern) !== false)
+				{
+					return $type;
+				}
+			}
+		}
+		return false;
+	}
+	
+	protected function initChartObjectData()
 	{
 		// if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
 		// we don't expect plugin developers to return a well defined Piwik_DataTable_Array 
 		if($this->dataTable instanceof Piwik_DataTable)
 		{
-			return parent::generateDataFromDataTable();
+			return parent::initChartObjectData();
 		}
 		
 		$this->dataTable->applyQueuedFilters();
@@ -33,42 +52,53 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		{
 			throw new Exception("Expecting a DataTable_Array with custom format to draw an evolution chart");
 		}
+		
+		// the X label is extracted from the 'period' object in the table's metadata
 		$xLabels = $uniqueIdsDataTable = array();
 		foreach($this->dataTable->metadata as $idDataTable => $metadataDataTable)
 		{
+			//eg. "Aug 2009"
 			$xLabels[] = $metadataDataTable['period']->getLocalizedShortString();
+			// we keep track of all unique data table that we need to set a Y value for
 			$uniqueIdsDataTable[] = $idDataTable;
 		}
 		
-		// list of column names requested to be plotted, we only need to forward these to the Graph object
-		$columnNameRequested = $this->getColumnsToDisplay();
-		
-		$columnNameToValue = array();
+		$requestedColumnNames = $this->getColumnsToDisplay();
+		$yAxisLabelToValue = array();
 		foreach($this->dataTable->getArray() as $idDataTable => $dataTable)
 		{
-			if($dataTable->getRowsCount() > 1)
+			foreach($dataTable->getRows() as $row)
 			{
-				throw new Exception("Expecting only one row per DataTable");
-			}
-			$row = $dataTable->getFirstRow();
-			if($row !== false)
-			{
-				foreach($row->getColumns() as $columnName => $columnValue)
+				$rowLabel = $row->getColumn('label');
+				foreach($requestedColumnNames as $requestedColumnName)
 				{
-					if(array_search($columnName, $columnNameRequested) !== false)
+					$metricLabel = $this->getColumnTranslation($requestedColumnName);
+					if($rowLabel !== false)
 					{
-						$columnNameToValue[$columnName][$idDataTable] = $columnValue;
+						// eg. "Yahoo! (Visits)"
+						$yAxisLabel = "$rowLabel ($metricLabel)";
+					}
+					else
+					{
+						// eg. "Visits"
+						$yAxisLabel = $metricLabel;
+					}
+					if(($columnValue = $row->getColumn($requestedColumnName)) !== false)
+					{
+						$yAxisLabelToValue[$yAxisLabel][$idDataTable] = $columnValue;
 					} 
 				}
 			}
 		}
 		
-		// make sure all column values are set (at least zero) in order for all unique idDataTable
-		$columnNameToValueCleaned = array();
+		// make sure all column values are set to at least zero (no gap in the graph) 
+		$yAxisLabelToValueCleaned = array();
+		$yAxisLabels = array();
 		foreach($uniqueIdsDataTable as $uniqueIdDataTable)
 		{
-			foreach($columnNameToValue as $columnName => $idDataTableToColumnValue)
+			foreach($yAxisLabelToValue as $yAxisLabel => $idDataTableToColumnValue)
 			{
+				$yAxisLabels[$yAxisLabel] = $yAxisLabel;
 				if(isset($idDataTableToColumnValue[$uniqueIdDataTable]))
 				{
 					$columnValue = $idDataTableToColumnValue[$uniqueIdDataTable];
@@ -77,43 +107,20 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				{
 					$columnValue = 0;
 				}
-				$columnNameToValueCleaned[$columnName][] = $columnValue;
+				$yAxisLabelToValueCleaned[$yAxisLabel][] = $columnValue;
 			}
 		}
-		$columnNames = array_keys($columnNameToValueCleaned);
-		$columnNameToTranslation = array();
-		$columnNameToUnit = array();
-		$nameToUnit = array(
-			'_rate' => '%',
-			'_revenue' => Piwik::getCurrency(),
-		);
-		foreach($columnNames as $columnName)
+		
+		$unit = $this->yAxisUnit;
+		if(empty($unit))
 		{
-			$columnNameToTranslation[$columnName] = $this->getColumnTranslation($columnName);
-			
-			$columnNameToUnit[$columnName] = false;
-			// if the unit was specified, we use it
-			if(!empty($this->yAxisUnit))
-			{
-				$columnNameToUnit[$columnName] = $this->yAxisUnit;
-			}
-			// otherwise we guess the unit from the column name
-			else
-			{
-				foreach($nameToUnit as $pattern => $type)
-				{
-					if(strpos($columnName, $pattern) !== false)
-					{
-						$columnNameToUnit[$columnName] = $type;
-						break;
-					}
-				}
-			}
+			$unit = $this->guessUnitFromRequestedColumnNames($requestedColumnNames);
 		}
+		
 		$this->view->setAxisXLabels($xLabels);
-		$this->view->setAxisYValues($columnNameToValueCleaned);
-		$this->view->setAxisYLabels($columnNameToTranslation);
-		$this->view->setAxisYUnits($columnNameToUnit);
+		$this->view->setAxisYValues($yAxisLabelToValueCleaned);
+		$this->view->setAxisYLabels($yAxisLabels);
+		$this->view->setAxisYUnit($unit);
 		
 		$firstDatatable = reset($this->dataTable->metadata);
 		$period = $firstDatatable['period'];
@@ -134,14 +141,14 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				$period = $metadataDataTable['period'];
 				$dateInUrl = $period->getDateStart();
 				$link = Piwik_Url::getCurrentUrlWithoutQueryString() . 
-						Piwik_Url::getCurrentQueryStringWithParametersModified( array(
-							'date' => $dateInUrl,
+						'?' .
+						Piwik_Url::getQueryStringFromParameters( array(
 							'module' => 'CoreHome',
 							'action' => 'index',
-							'viewDataTable' => null, // we reset the viewDataTable parameter (useless in the link)
-							'idGoal' => null, // we reset idGoal
-							'columns' => null, 
-				));
+							'idSite' => Piwik_Common::getRequestVar('idSite'),
+							'period' => $period->getLabel(),
+							'date' => $dateInUrl,
+						));
 				$axisXOnClick[] = $link;
 			}
 			$this->view->setAxisXOnClick($axisXOnClick);

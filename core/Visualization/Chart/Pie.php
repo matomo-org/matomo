@@ -28,9 +28,9 @@ class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 		return array_slice($dataSetsToDisplay, 0, 1);
 	}
 	
-	function customizeGraph()
+	function customizeChartProperties()
 	{
-		parent::customizeGraph();
+		parent::customizeChartProperties();
 		$dataSetsToDisplay = $this->getDataSetsToDisplay();
 		if($dataSetsToDisplay === false)
 		{
@@ -49,12 +49,12 @@ class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 		// create the Pie values
 		$yValues = $this->yValues[$dataSetToDisplay];
 		$labelName = $this->yLabels[$dataSetToDisplay];
-		$unit = @$this->yUnits[$dataSetToDisplay];
+		$unit = $this->yUnit;
 		$sum = array_sum($yValues);
 		$pieValues = array();
 		$i = 0;
 		foreach($this->xLabels as $label) {
-			$value = $yValues[$i];
+			$value = (float)$yValues[$i];
 			$i++;
 			// we never plot empty pie slices (eg. visits by server time pie chart)
 			if($value <= 0) {

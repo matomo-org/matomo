@@ -165,14 +165,28 @@ class Piwik_Url
 	static function getCurrentQueryStringWithParametersModified( $params )
 	{
 		$urlValues = self::getArrayFromCurrentQueryString();
-
 		foreach($params as $key => $value)
 		{
 			$urlValues[$key] = $value;
 		}
-		
+		$query = self::getQueryStringFromParameters($urlValues);
+		if(strlen($query) > 0)
+		{
+			return '?'.$query;
+		}
+		return '';
+	}
+	
+	/**
+	 * Given an array of parameters name->value, returns the query string.
+	 * Also works with array values using the php array syntax for GET parameters.
+	 * @param $parameters eg. array( 'param1' => 10, 'param2' => array(1,2))
+	 * @return string eg. "param1=10&param2[]=1&param2[]=2"
+	 */
+	static public function getQueryStringFromParameters($parameters)
+	{
 		$query = '';
-		foreach($urlValues as $name => $value)
+		foreach($parameters as $name => $value)
 		{
 			if(empty($value))
 			{
@@ -191,15 +205,7 @@ class Piwik_Url
 			}
 		}
 		$query = substr($query, 0, -1);
-		
-		if(strlen($query) > 0)
-		{
-			return '?'.$query;
-		}
-		else
-		{
-			return '';
-		}
+		return $query;
 	}
 	
 	/**

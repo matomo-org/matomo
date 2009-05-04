@@ -20,32 +20,39 @@
 	<div>
 		<span id="dataTableFooterIcons">
 			<span id="exportToFormat" style="display:none;padding-left:4px;">
+				{if $properties.show_export_as_image_icon}
+					<span id="dataTableFooterExportAsImageIcon">
+						<a href="javascript:OFC.jquery.popup('{$chartDivId}');"><img title="{'General_ExportAsImage'|translate}" src="{$piwikUrl}themes/default/images/image.png" /></a>
+					</span>
+				{/if}
 				<img width="16" height="16" src="{$piwikUrl}themes/default/images/export.png" title="{'General_Export'|translate}" />
-				<span id="linksExportToFormat" style="display:none;"> 
+				<span id="linksExportToFormat" style="display:none"> 
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="CSV" filter_limit="100">CSV</a> | 
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="XML" filter_limit="100">XML</a> |
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="JSON" filter_limit="100">Json</a> |
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="PHP" filter_limit="100">Php</a> | 
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="RSS" filter_limit="100" date="last10"><img border="0" src="{$piwikUrl}themes/default/images/feed.png"></a>
 				</span>
-				{if $properties.show_all_views_icons}
-					<a class="viewDataTable" format="cloud"><img width="16" height="16" src="{$piwikUrl}themes/default/images/tagcloud.png" title="{'General_TagCloud'|translate}" /></a>
-					<a class="viewDataTable" format="graphVerticalBar"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_bar.png" title="{'General_VBarGraph'|translate}" /></a>
-					<a class="viewDataTable" format="graphPie"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_pie.png" title="{'General_Piechart'|translate}" /></a>
-				{/if}
+			{if $properties.show_all_views_icons}
+				<a class="viewDataTable" format="cloud"><img width="16" height="16" src="{$piwikUrl}themes/default/images/tagcloud.png" title="{'General_TagCloud'|translate}" /></a>
+				<a class="viewDataTable" format="graphVerticalBar"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_bar.png" title="{'General_VBarGraph'|translate}" /></a>
+				<a class="viewDataTable" format="graphPie"><img width="16" height="16" src="{$piwikUrl}themes/default/images/chart_pie.png" title="{'General_Piechart'|translate}" /></a>
+			{/if}
 			</span>
 			<span id="dataTableFooterIconsShow" style="display:none;padding-left:4px;">
 				<img src="{$piwikUrl}plugins/CoreHome/templates/images/more.png" />
 			</span>
-			{if $properties.show_table_all_columns}
+			
+			{if $properties.show_table}
 				<span id="tableAllColumnsSwitch" style="display:none;float:right;padding-right:4px;border-right:1px solid #82A1D2;">
 				{if $javascriptVariablesToSet.viewDataTable != 'table'}
 					<img title="{'General_DisplayNormalTable'|translate}" src="{$piwikUrl}themes/default/images/table.png" />
-				{else}
+				{elseif $properties.show_table_all_columns}
 					<img title="{'General_DisplayMoreData'|translate}" src="{$piwikUrl}themes/default/images/table_more.png" />
 				{/if}
 				</span>
 			{/if}
+			
 			{if $properties.show_goals}
 			<span id="tableGoals" style="display:none;float:right;padding-right:4px;">
 				{if $javascriptVariablesToSet.viewDataTable != 'tableGoals'}

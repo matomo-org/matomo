@@ -19,6 +19,7 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 		$view = Piwik_ViewDataTable::factory('table');
 		$view->init( $this->pluginName,  __FUNCTION__, 'ExampleUI.getTemperatures' );
 		$view->setColumnTranslation('value', "Temperature in °C");
+		$view->setSortedColumn('label', 'asc');
 		$view->setGraphLimit( 24 );
 		$view->setLimit( 24 );
 		$view->disableExcludeLowPopulation();
@@ -90,7 +91,7 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 	{
 		$view = Piwik_ViewDataTable::factory('cloud');
 		$view->init( $this->pluginName,  __FUNCTION__, 'ExampleUI.getPlanetRatiosWithLogos' );
-		$view->displayLogoInTagCloud();
+		$view->setDisplayLogoInTagCloud(true);
 		$view->disableFooterExceptExportIcons();
 		$view->setColumnsToDisplay( array('label','value') );
 		$view->setColumnTranslation('value', "times the diameter of Earth");
@@ -118,8 +119,17 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 		$this->renderView($view);
 	}
 	
-	function sparklinesWithEvolutionGraph()
+	function misc()
 	{
-		
+		echo "<h2>Evolution graph filtered to Google and Yahoo!</h2>";
+		$this->echoDataTableSearchEnginesFiltered();
 	}
+	
+	function echoDataTableSearchEnginesFiltered()
+	{
+		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getSearchEngines');
+		$view->setColumnsToDisplay( 'nb_visits' );
+		$view->setSearchPattern('^(Google|Yahoo!)$', 'label');
+		return $this->renderView($view);
+	}	
 }

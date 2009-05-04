@@ -8,7 +8,9 @@
 <h2>{'UserCountry_Continent'|translate}</h2>
 {$dataTableContinent}
 
-<p>{sparkline src=$urlSparklineCountries}<span>
-{'UserCountry_DistinctCountries'|translate:"<strong>$numberDistinctCountries</strong>"} </span></p>	
+<div class="sparkline">
+	{sparkline src=$urlSparklineCountries}
+	{'UserCountry_DistinctCountries'|translate:"<strong>$numberDistinctCountries</strong>"}
+</div>	
 
 {postEvent name="template_footerUserCountry"}

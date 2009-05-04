@@ -46,17 +46,20 @@ class Piwik_Common
 	 */
 	static public function prefixTable($table)
 	{
-		$prefixTable = false;
-		if(defined('PIWIK_TRACKER_MODE') && PIWIK_TRACKER_MODE)
+		static $prefixTable = null;
+		if(is_null($prefixTable))
 		{
-			$prefixTable = Piwik_Tracker_Config::getInstance()->database['tables_prefix'];
-		}
-		else
-		{
-			$config = Zend_Registry::get('config');
-			if($config !== false)
+			if(defined('PIWIK_TRACKER_MODE') && PIWIK_TRACKER_MODE)
 			{
-				$prefixTable = $config->database->tables_prefix;
+				$prefixTable = Piwik_Tracker_Config::getInstance()->database['tables_prefix'];
+			}
+			else
+			{
+				$config = Zend_Registry::get('config');
+				if($config !== false)
+				{
+					$prefixTable = $config->database->tables_prefix;
+				}
 			}
 		}
 		return $prefixTable . $table;
@@ -402,9 +405,7 @@ class Piwik_Common
 		{
 			$requestArrayToUse = $_GET + $_POST;
 		}
-
 		$varDefault = self::sanitizeInputValues( $varDefault );
-
 		if($varType == 'int')
 		{
 			// settype accepts only integer
@@ -435,7 +436,7 @@ class Piwik_Common
 				return $varDefault;
 			}
 		}
-
+	
 		// Normal case, there is a value available in REQUEST for the requested varName
 		$value = self::sanitizeInputValues( $requestArrayToUse[$varName] );
 
@@ -483,7 +484,6 @@ class Piwik_Common
 				}
 			}
 		}
-
 		return $value;
 	}
 

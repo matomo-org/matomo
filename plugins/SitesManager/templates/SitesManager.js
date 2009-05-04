@@ -1,7 +1,7 @@
 function getDeleteSiteAJAX( idSite )
 {
-	var ajaxRequest = getStandardAjaxConf();
-	toggleAjaxLoading();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf();
+	piwikHelper.toggleAjaxLoading();
 		
 	var parameters = new Object;
 	parameters.module = 'API';
@@ -17,8 +17,8 @@ function getDeleteSiteAJAX( idSite )
 
 function getAddSiteAJAX( row )
 {
-	var ajaxRequest = getStandardAjaxConf();
-	toggleAjaxLoading();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf();
+	piwikHelper.toggleAjaxLoading();
 	
 	var parameters = new Object;
  	var siteName = $(row).find('input[@id=siteadd_name]').val();
@@ -41,8 +41,8 @@ function getAddSiteAJAX( row )
 
 function getUpdateSiteAJAX( row )
 {
-	var ajaxRequest = getStandardAjaxConf();
-	toggleAjaxLoading();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf();
+	piwikHelper.toggleAjaxLoading();
 	
 	var siteName = $(row).find('input[@id=siteName]').val();
 	var idSite = $(row).children('#idSite').html();
@@ -65,7 +65,7 @@ function getUpdateSiteAJAX( row )
 
 $(document).ready( function() {
 	$('.addRowSite').click( function() {
-		ajaxHideError();
+		piwikHelper.ajaxHideError();
 		$(this).toggle();
 		
 		var numberOfRows = $('table#editSites')[0].rows.length;
@@ -82,13 +82,13 @@ $(document).ready( function() {
 		;
 		$('#'+newRowId).keypress( submitSiteOnEnter );
 		$('.addsite').click( function(){ $.ajax( getAddSiteAJAX($('tr#'+newRowId)) ); } );
-		$('.cancel').click(function() { ajaxHideError(); $(this).parents('tr').remove();  $('.addRowSite').toggle(); });
+		$('.cancel').click(function() { piwikHelper.ajaxHideError(); $(this).parents('tr').remove();  $('.addRowSite').toggle(); });
 	
 	 } );
 	
 	// when click on deleteuser, the we ask for confirmation and then delete the user
 	$('.deleteSite').click( function() {
-			ajaxHideError();
+			piwikHelper.ajaxHideError();
 			var idRow = $(this).attr('id');
 			var nameToDelete = $(this).parent().parent().find('#siteName').html();
 			var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
@@ -101,7 +101,7 @@ $(document).ready( function() {
 	var alreadyEdited = new Array;
 	$('.editSite')
 		.click( function() {
-			ajaxHideError();
+			piwikHelper.ajaxHideError();
 			var idRow = $(this).attr('id');
 			if(alreadyEdited[idRow]==1) return;
 			alreadyEdited[idRow] = 1;

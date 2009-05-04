@@ -18,7 +18,7 @@ menu.prototype =
 	customAjaxHandleError: function ()
 	{
 		menu.prototype.lastUrlRequested = null;
-		ajaxHandleError();		
+		piwikHelper.ajaxHandleError();		
 	},
 	
 	overMainLI: function ()

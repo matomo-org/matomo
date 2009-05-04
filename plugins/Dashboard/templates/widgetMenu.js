@@ -48,7 +48,7 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
 		url: 'index.php',
 		dataType: 'html',
 		async: true,
-		error: ajaxHandleError,		
+		error: piwikHelper.ajaxHandleError,		
 		success: onWidgetLoadedCallback,
 		data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+piwik.currentDateString
 	};

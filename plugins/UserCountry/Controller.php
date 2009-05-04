@@ -59,6 +59,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 	function getLastDistinctCountriesGraph( $fetch = false )
 	{
 		$view = $this->getLastUnitGraph('UserCountry',__FUNCTION__, "UserCountry.getNumberOfDistinctCountries");
+		$view->setColumnsToDisplay('UserCountry_distinctCountries');
 		return $this->renderView($view, $fetch);
 	}
 }

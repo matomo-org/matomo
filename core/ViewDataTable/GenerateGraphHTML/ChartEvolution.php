@@ -35,7 +35,8 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 						$apiMethodToRequestDataTable );
 		
 		$this->setParametersToModify(array('date' => Piwik_Common::getRequestVar('date', 'last30', 'string')));
-		$this->disableFooter();
+		$this->disableShowAllViewsIcons();
+		$this->disableShowTable();
 	}
 	
 	/**
@@ -46,6 +47,10 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	 */
 	public function setColumnsToDisplay( $columnsNames)
 	{
+		if(!is_array($columnsNames)) 
+		{
+			$columnsNames = array($columnsNames);
+		}
 		$this->setParametersToModify( array('columns' => $columnsNames) );
 	}
 }

@@ -59,11 +59,27 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	 *
 	 * @return int
 	 */
-	function getGraphLimit()
+	public function getGraphLimit()
 	{
 		return $this->graphLimit;
 	}
 
+	protected $displayPercentageInTooltip = true;
+	
+	/**
+	 * The percentage in tooltips is computed based on the sum of all values for the plotted column.
+	 * If the sum of the column in the data set is not the number of elements in the data set,
+	 * for example when plotting visits that have a given plugin enabled: 
+	 * one visit can have several plugins, hence the sum is much greater than the number of visits.
+	 * In this case displaying the percentage doesn't make sense.
+	 * 
+	 * @return void
+	 */
+	public function disallowPercentageInGraphTooltip()
+	{
+		$this->displayPercentageInTooltip = false;
+	}
+	
 	public function main()
 	{
 		if($this->mainAlreadyExecuted)
@@ -74,7 +90,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	
 		// the queued filters will be manually applied later. This is to ensure that filtering using search
 		// will be done on the table before the labels are enhanced (see ReplaceColumnNames)
-		$this->disableGenericFilters();
 		$this->disableQueuedFilters();
 		$this->loadDataTableFromAPI();
 		
@@ -97,14 +112,12 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		}
 		else
 		{
-			$this->generateDataFromDataTable();
+			$this->initChartObjectData();
 		}
-		//TODO rename
-		$this->view->customizeGraph();
+		$this->view->customizeChartProperties();
 	}
 
-	//TODO rename
-	protected function generateDataFromDataTable()
+	protected function initChartObjectData()
 	{
 		$this->dataTable->applyQueuedFilters();
 
@@ -118,16 +131,16 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 			unset($columnNames[$labelColumnFound]);
 		}
 		
-		$columnNameToTranslation = $columnNameToValue = $columnNameToUnit = array();
+		$columnNameToTranslation = $columnNameToValue = array();
 		foreach($columnNames as $columnName)
 		{
 			$columnNameToTranslation[$columnName] = $this->getColumnTranslation($columnName);
 			$columnNameToValue[$columnName] = $this->dataTable->getColumn($columnName);
-			$columnNameToUnit[$columnName] = $this->yAxisUnit;
 		}
 		$this->view->setAxisXLabels($xLabels);
 		$this->view->setAxisYValues($columnNameToValue);
 		$this->view->setAxisYLabels($columnNameToTranslation);
-		$this->view->setAxisYUnits($columnNameToUnit);
+		$this->view->setAxisYUnit($this->yAxisUnit);
+		$this->view->setDisplayPercentageInTooltip($this->displayPercentageInTooltip);
 	}
 }

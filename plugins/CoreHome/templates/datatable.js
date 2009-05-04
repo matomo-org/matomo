@@ -114,7 +114,7 @@ dataTable.prototype =
 			url: piwik.piwik_url + 'index.php',
 			dataType: 'html',
 			async: true,
-			error: ajaxHandleError,		// Callback when the request fails
+			error: piwikHelper.ajaxHandleError,		// Callback when the request fails
 			success: callbackSuccess,	// Callback when the request succeeds
 			data: new Object
 		};
@@ -178,7 +178,7 @@ dataTable.prototype =
 		else
 		{
 			dataTableSel.html( $(content).html() );
-			lazyScrollTo(dataTableSel[0], 400);
+			piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 		}
 	},	
 		
@@ -486,7 +486,7 @@ dataTable.prototype =
 			.click(
 				function(){
 					// we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
-					// this value is stored in config file General->dataTable_default_limit but this is more an edge case so ok to set it to 10
+					// this value is stored in config file General->datatable_default_limit but this is more an edge case so ok to set it to 10
 					delete self.param.filter_limit;
 					delete self.param.enable_filter_excludelowpop;
 					self.param.viewDataTable = 'tableGoals';
@@ -499,7 +499,7 @@ dataTable.prototype =
 			.click(
 				function(){
 					// we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
-					// this value is stored in config file General->dataTable_default_limit but this is more an edge case so ok to set it to 10
+					// this value is stored in config file General->datatable_default_limit but this is more an edge case so ok to set it to 10
 					delete self.param.filter_limit;
 					self.param.viewDataTable = self.param.viewDataTable == 'table' ? 'tableAllColumns' : 'table';
 					// when switching to display simple table, do not exclude low pop by default
@@ -953,7 +953,7 @@ actionDataTable.prototype =
 	
 		var dataTableSel = $('#'+idToReplace);
 		dataTableSel.html($(content).html());
-		lazyScrollTo(dataTableSel[0], 400);
+		piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 	},
 	
 	// Called when a set of rows for a category of actions is loaded

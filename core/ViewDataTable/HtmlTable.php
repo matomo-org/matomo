@@ -48,7 +48,8 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 						$controllerActionCalledWhenRequestSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/datatable.tpl';
 		$this->variablesDefault['enable_sort'] = '1';
-		
+		$this->setSortedColumn('nb_visits', 'desc');
+		$this->setLimit(Zend_Registry::get('config')->General->datatable_default_limit);
 		$this->handleLowPopulation();
 	}
 

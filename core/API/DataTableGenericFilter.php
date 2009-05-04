@@ -36,10 +36,6 @@ class Piwik_API_DataTableGenericFilter
 								'filter_column_recursive' 	=> array('string'), 
 								'filter_pattern_recursive' 	=> array('string'),
 						),
-			'ExactMatch' => array(
-								'filter_exact_column'		=> array('string'),
-								'filter_exact_pattern'		=> array('array'),
-						),
 			'ExcludeLowPopulation'	=> array(
 								'filter_excludelowpop' 		=> array('string'), 
 								'filter_excludelowpop_value'=> array('float', '0'),
@@ -52,13 +48,12 @@ class Piwik_API_DataTableGenericFilter
 						),
 			'Sort' => array(
 								'filter_sort_column' 		=> array('string'),
-								'filter_sort_order' 		=> array('string', Zend_Registry::get('config')->General->dataTable_default_sort_order),
+								'filter_sort_order' 		=> array('string'),
 						),
 			'Limit' => array(
 								'filter_offset' 			=> array('integer', '0'),
-								'filter_limit' 				=> array('integer', Zend_Registry::get('config')->General->dataTable_default_limit),
+								'filter_limit' 				=> array('integer'),
 						),
-			'SafeDecodeLabel' => array(),
 		);
 		
 		return $genericFilters;
