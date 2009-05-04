@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 $translations = array(
 	'General_Locale' => 'sv_SE.UTF-8',
 	'General_TranslatorName' => 'Fredrik Astrom',
