@@ -15,8 +15,8 @@ $(document).ready( function(){
 					//on click, reload the graph with the new url
 					$(this).click( function() {	
 						//get the main page graph and reload with new data
-						findSWFGraph(graph.attr('graphId')+"Chart_swf").reload(url);
-						lazyScrollTo(graph[0], 400);
+						piwikHelper.findSWFGraph(graph.attr('graphId')+"Chart_swf").reload(url);
+						piwikHelper.lazyScrollTo(graph[0], 400);
 					});
 					$(this).hover( 	
 						function() { 

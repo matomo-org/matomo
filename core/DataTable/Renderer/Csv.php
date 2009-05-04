@@ -65,7 +65,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	
 	function render()
 	{
-		return $this->renderTable($this->table);
+		return $this->output($this->renderTable($this->table));
 	}
 	
 	protected function renderTable($table)
@@ -104,8 +104,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		{
 			$str = $this->renderDataTable($table);
 		}
-		
-		return $this->output($str);
+		return $str;
 	}
 	
 	protected function renderDataTable( $table )

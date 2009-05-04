@@ -67,7 +67,6 @@ class Piwik_API_Request
 				Piwik_PostEvent('API.Request.authenticate', $requestArray['token_auth']);
 				Zend_Registry::get('access')->reloadAccess();
 			}
-						
 			$requestArray = $requestArray + $defaultRequest;
 		}
 		

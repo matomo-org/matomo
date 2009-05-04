@@ -29,7 +29,11 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	
 	protected $yLabels = array();
 	protected $yValues = array();
-	protected $yUnits = array();
+	protected $yUnit = '';
+	
+	protected $maxValue;
+	protected $minValue;
+	protected $displayPercentageInTooltip = true;
 	
 	function __construct()
 	{
@@ -51,14 +55,22 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		$this->yValues = $values;
 	}
 
-	function setAxisYUnits($yUnits)
+	function setAxisYUnit($yUnit)
 	{
-		$this->yUnits = $yUnits;
+		if(!empty($yUnit))
+		{
+			$this->yUnit = $yUnit;
+		}
 	}
 	
 	public function setAxisYLabels($labels)
 	{
 		$this->yLabels = $labels;
+	}
+	
+	public function setDisplayPercentageInTooltip($bool)
+	{
+		$this->displayPercentageInTooltip = $bool;
 	}
 	
 	
@@ -115,7 +127,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		return $this->chart->toPrettyString();
 	}
 	
-	function customizeGraph()
+	function customizeChartProperties()
 	{
 		$this->chart->set_number_format($num_decimals = 0, 
 							$is_fixed_num_decimals_forced = true, 
@@ -124,8 +136,8 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 							
 		$gridColour = '#E0E1E4';
 		$countValues = count($this->xLabels);
-		$maxValue = $this->getMaxValue();
-		$minValue = 0;
+		$this->maxValue = $this->getMaxValue();
+		$this->minValue = 0;
 		
 		// X Axis
 		$this->x = new x_axis();
@@ -154,21 +166,17 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		$this->y->set_colour('#ffffff');
 		$this->y->set_grid_colour($gridColour);
 		$stepsCount = 2;
-		$stepsEveryNLabel = ceil(($maxValue - $minValue) / $stepsCount);
-		if($maxValue == 0)
+		$stepsEveryNLabel = ceil(($this->maxValue - $this->minValue) / $stepsCount);
+		if($this->maxValue == 0)
 		{
-			$maxValue = 1;
+			$this->maxValue = 1;
 		}
-		$this->y->set_range( $minValue, $maxValue, $stepsEveryNLabel);
+		$this->y->set_range( $this->minValue, $this->maxValue, $stepsEveryNLabel);
 		$dataSetsToDisplay = $this->getDataSetsToDisplay();
 		if($dataSetsToDisplay != false)
 		{
 			$dataSetToDisplay = current($dataSetsToDisplay);
-			if(isset($this->yUnits[$dataSetToDisplay]))
-			{
-				$unit = $this->yUnits[$dataSetToDisplay];
-				$this->y->set_label_text("#val#$unit");
-			}
+			$this->y->set_label_text("#val#".$this->yUnit);
 		}
 		
 		// Tooltip

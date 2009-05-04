@@ -28,8 +28,7 @@ piwikHelper.getQueryStringFromParameters = function(parameters)
 	return queryString.substring(0, queryString.length-1);
 }
 
-//TODO all piwik global functions should be static of piwikHelper 
-function findSWFGraph(name) {
+piwikHelper.findSWFGraph = function(name) {
   if (navigator.appName.indexOf("Microsoft")!= -1) {
     return window[name];
   } else {
@@ -37,10 +36,12 @@ function findSWFGraph(name) {
   }
 }
 
-function redirectToUrl(url) {
+piwikHelper.redirectToUrl = function(url) {
+	alert(url);
 	window.location = url;
 }
-function ajaxHandleError()
+
+piwikHelper.ajaxHandleError = function()
 {
 	$('#loadingError').show();
 	setTimeout( function(){ 
@@ -48,55 +49,48 @@ function ajaxHandleError()
 		}, 2000);
 }
 
-function ajaxShowError( string )
+piwikHelper.ajaxShowError = function( string )
 {
 	$('#ajaxError').html(string).show();
 }
 
-function ajaxHideError()
+piwikHelper.ajaxHideError = function()
 {
 	$('#ajaxError').hide();
 }
 
-function ajaxHandleResponse(response)
+piwikHelper.ajaxHandleResponse = function(response)
 {
 	if(response.result == "error") 
 	{
-		ajaxShowError(response.message);
+		piwikHelper.ajaxShowError(response.message);
 	}
 	else
 	{
 		window.location.reload();
 	}
-	toggleAjaxLoading();
+	piwikHelper.toggleAjaxLoading();
 }
 
-function toggleAjaxLoading()
+piwikHelper.toggleAjaxLoading = function()
 {
 	$('#ajaxLoading').toggle();
 }
 
-String.prototype.trim = function() {
-	return this.replace(/^\s+|\s+$/g,"");
-}
-
-function getStandardAjaxConf()
+piwikHelper.getStandardAjaxConf = function()
 {
 	var ajaxRequest = new Object;
-
-	//prepare the ajax request
 	ajaxRequest.type = 'GET';
 	ajaxRequest.url = 'index.php';
 	ajaxRequest.dataType = 'json';
-	ajaxRequest.error = ajaxHandleError;
-	ajaxRequest.success = ajaxHandleResponse;
-
+	ajaxRequest.error = piwikHelper.ajaxHandleError;
+	ajaxRequest.success = piwikHelper.ajaxHandleResponse;
 	return ajaxRequest;
 }
 
-//scroll the window to the jquery element 'elem' if necessary
-//time specify the duration of the animation in ms
-function lazyScrollTo(elem, time)
+// Scrolls the window to the jquery element 'elem' if necessary.
+// "time" specifies the duration of the animation in ms
+piwikHelper.lazyScrollTo = function(elem, time)
 {
 	var elemTop = $(elem).offset().top;
 	//only scroll the page if the graph is not visible 
@@ -106,4 +100,8 @@ function lazyScrollTo(elem, time)
 		//scroll the page smoothly to the graph
 		$.scrollTo(elem, time);
 	}
+}
+
+String.prototype.trim = function() {
+	return this.replace(/^\s+|\s+$/g,"");
 }

@@ -34,7 +34,6 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 	
-		$this->disableGenericFilters();
 		$this->loadDataTableFromAPI();
 		
 		$this->isDataAvailable = $this->dataTable->getRowsCount() != 0;

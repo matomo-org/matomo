@@ -18,9 +18,9 @@ require_once "Visualization/Chart.php";
  */
 class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart 
 {
-	function customizeGraph()
+	function customizeChartProperties()
 	{
-		parent::customizeGraph();
+		parent::customizeChartProperties();
 		$dataSetsToDisplay = $this->getDataSetsToDisplay();
 		if($dataSetsToDisplay === false)
 		{
@@ -61,18 +61,14 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 			$lineValues = array();
 			$j = 0;
 			foreach($this->xLabels as $label) {
-				$value = $yValues[$j];
+				$value = (float)$yValues[$j];
 				$lineValue = new hollow_dot($value);
 				
-				$unit = '';
-				if(!empty($this->yUnits[$dataSetToDisplay]))
-				{
-					$unit = $this->yUnits[$dataSetToDisplay];
-				}
+				$unit = $this->yUnit;
 				$lineValue->tooltip("$label<br>$value$unit $labelName");
 				if(!empty($this->xOnClick))
 				{
-					$lineValue->on_click('redirectToUrl("'.$this->xOnClick[$j].'")');
+					$lineValue->on_click('piwikHelper.redirectToUrl("'.$this->xOnClick[$j].'")');
 				}
 				$lineValues[] = $lineValue;
 				$j++;
@@ -87,8 +83,8 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 		}
 		// if one column is a percentage we set the grid accordingly
 		// note: it is invalid to plot a percentage dataset along with a numeric dataset
-		//TODO only if the max was 100!!
-		if(array_search('%', $this->yUnits) !== false)
+		if($this->yUnit == '%' 
+			&& $this->maxValue > 90)
 		{
 			$this->y->set_range( 0, 100, 50);
 		}

@@ -108,7 +108,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		
 		$view->setLimit( 100 );
 		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits') );
-		$view->setSortedColumn( 'nb_visits', 'desc' );
 		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
 		$view->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnUniquePageviews'));
 
@@ -143,7 +142,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label','nb_visits','nb_hits') );
 		$view->setColumnTranslation('nb_hits', Piwik_Translate('Actions_ColumnDownloads'));
 		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnUniqueDownloads'));
-		$view->setSortedColumn( 'nb_visits','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
 	}
@@ -153,7 +151,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label','nb_visits','nb_hits') );
 		$view->setColumnTranslation('nb_hits', Piwik_Translate('Actions_ColumnClicks'));
 		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnUniqueClicks'));
-		$view->setSortedColumn( 'nb_visits','desc' );
 		$view->disableExcludeLowPopulation();
 		$view->setLimit( 15 );
 	}

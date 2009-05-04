@@ -50,7 +50,7 @@ class Piwik_ExampleUI extends Piwik_Plugin
 			'Pie graph' => 'pieGraph',
 			'Tag clouds' => 'tagClouds',
 			'Sparklines' => 'sparklines',
-			'Sparklines with evolution graph' => 'sparklinesWithEvolutionGraph',
+			'Misc' => 'misc',
 		);
 		foreach($menus as $subMenu => $action) 
 		{

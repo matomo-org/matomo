@@ -249,6 +249,9 @@ class Piwik_API_ResponseBuilder
 			$genericFilter->filter();
 		}
 		
+		// we automatically safe decode all datatable labels (against xss) 
+		$datatable->queueFilter('SafeDecodeLabel');
+		
 		// if the flag disable_queued_filters is defined we skip the filters that were queued
 		if(Piwik_Common::getRequestVar('disable_queued_filters', 'false', 'string', $this->request) == 'false')
 		{

@@ -67,16 +67,6 @@ class Piwik_Date
 		$this->timestamp =  $date ;
 	}
 	
-	/*
-	 * @param int Timestamp
-	 * @return string Pretty date in the current locale
-	 */
-	static public function getPrettyDateFromTimestamp($timestamp)
-	{
-		$date = Piwik_Date::factory($timestamp);
-		return $date->getLocalized(Piwik_Translate('CoreHome_LocalizedDateFormat'));
-	}
-	
 	/**
 	 * Sets the time part of the date
 	 * Doesn't modify $this
@@ -237,7 +227,12 @@ class Piwik_Date
 		return date($part, $this->getTimestamp());
 	}
 	
-	//TODO to test
+	/**
+	 * Returns a localized date string, given a template. 
+	 * Allowed tags are: %day%, %shortDay%, %longDay%, etc.
+	 * @param $template string eg. %shortMonth% %longYear%
+	 * @return string eg. "Aug 2009"
+	 */
 	public function getLocalized($template)
 	{
 		$day = $this->toString('j');

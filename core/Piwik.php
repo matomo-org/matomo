@@ -904,6 +904,30 @@ class Piwik
 		return false;
 	}
 	
+	static public function displayScreenForCoreAndPluginsUpdatesIfNecessary()
+	{
+		require_once "Updater.php";
+		require_once "Version.php";
+		$updater = new Piwik_Updater();
+		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
+		
+		$plugins = Piwik_PluginsManager::getInstance()->getInstalledPlugins();
+		foreach($plugins as $pluginName => $plugin)
+		{
+			$updater->addComponentToCheck($pluginName, $plugin->getVersion());
+		}
+		
+		$componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
+		if(count($componentsWithUpdateFile) == 0)
+		{
+			return;
+		}
+			
+		require_once "CoreUpdater/Controller.php";
+		$updaterController = new Piwik_CoreUpdater_Controller();
+		$updaterController->runUpdaterAndExit($componentsWithUpdateFile);
+	}
+	
 	/**
 	 * Sends http request ensuring the request will fail before $timeout seconds
 	 * Returns the response content (no header, trimmed)

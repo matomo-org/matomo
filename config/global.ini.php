@@ -73,11 +73,11 @@ default_currency = "$"
 ; plugin, and set this default_language (users won't see the language drop down) 
 default_language = en
 
-; default sorting order used by all datatables (desc or asc)
-dataTable_default_sort_order = desc
-
 ; default number of elements in the datatable
-dataTable_default_limit = 10
+datatable_default_limit = 10
+
+; default number of rows returned in API responses
+API_datatable_default_limit = 50
 
 ; if set to 1, the website selector will be displayed in the Piwik UI
 ; if your Piwik installation has thousands of websites, you may disable the website selector

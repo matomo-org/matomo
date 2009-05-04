@@ -67,7 +67,7 @@ abstract class Piwik_Controller
 	{
 		return 'index';
 	}
-	
+
 	protected $standardColumnNameToTranslation = array(
 		'label' => 'General_ColumnLabel',
 		'nb_visits' => 'General_ColumnNbVisits',
@@ -82,7 +82,7 @@ abstract class Piwik_Controller
 		'revenue_per_visit' => 'General_ColumnValuePerVisit',
 		'goals_conversion_rate' => 'General_ColumnVisitsWithConversions',
 	);
-	
+
 	/**
 	 * Given an Object implementing Piwik_iView interface, we either:
 	 * - echo the output of the rendering if fetch = false
@@ -129,6 +129,9 @@ abstract class Piwik_Controller
 		require_once "ViewDataTable/GenerateGraphHTML.php";
 		$view = Piwik_ViewDataTable::factory('graphEvolution');
 		$view->init( $currentModuleName, $currentControllerAction, $apiMethod );
+		$view->disableExcludeLowPopulation();
+		$view->disableShowAllViewsIcons();
+		$view->disableShowTable();
 		
 		// if the date is not yet a nicely formatted date range ie. YYYY-MM-DD,YYYY-MM-DD we build it
 		// otherwise the current controller action is being called with the good date format already so it's fine

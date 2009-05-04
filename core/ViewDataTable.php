@@ -251,8 +251,10 @@ abstract class Piwik_ViewDataTable
 
 		$this->viewProperties['show_goals'] = false;
 		$this->viewProperties['show_search'] = Piwik_Common::getRequestVar('show_search', true);
+		$this->viewProperties['show_table'] = Piwik_Common::getRequestVar('show_table', true);
 		$this->viewProperties['show_table_all_columns'] = Piwik_Common::getRequestVar('show_table_all_columns', true);
 		$this->viewProperties['show_all_views_icons'] = Piwik_Common::getRequestVar('show_all_views_icons', true);
+		$this->viewProperties['show_export_as_image_icon'] = Piwik_Common::getRequestVar('show_export_as_image_icon', false);
 		$this->viewProperties['show_exclude_low_population'] = Piwik_Common::getRequestVar('show_exclude_low_population', true);
 		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);;
 		$this->viewProperties['show_footer'] = Piwik_Common::getRequestVar('show_footer', true);
@@ -368,8 +370,6 @@ abstract class Piwik_ViewDataTable
 			'filter_excludelowpop_value',
 			'filter_column', 
 			'filter_pattern',
-			'filter_exact_pattern',
-			'filter_exact_column',
 			'disable_generic_filters',
 			'disable_queued_filters'
 		);
@@ -666,6 +666,15 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Whether or not to show the "View table" icon
+	 * @return void
+	 */
+	public function disableShowTable()
+	{
+		$this->viewProperties['show_table'] = false;
+	}
+	
+	/**
 	 * Whether or not to show the "View more data" icon
 	 * @return void
 	 */
@@ -693,19 +702,6 @@ abstract class Piwik_ViewDataTable
 		{
 			$this->viewProperties['show_goals'] = true;
 		}
-	}
-	
-	/**
-	 * Sets the pattern to look for in the table (only rows with column equal to the pattern will be kept)
-	 *
-	 * @param array $pattern arrays of patterns to look for
-	 * @param string $column to compare the pattern to
-	 * @return void
-	 */
-	public function setExactPattern($pattern, $column)
-	{
-		$this->variablesDefault['filter_exact_pattern'] = $pattern;
-		$this->variablesDefault['filter_exact_column'] = $column;
 	}
 	
 	/**

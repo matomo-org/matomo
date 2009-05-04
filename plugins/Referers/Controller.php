@@ -178,20 +178,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
-	
-	// TODO FIXME WITH NEW API
-	// example of how to show evolution of a given column over multiple days
-	public function getSearchEnginesEvolution($fetch = false)
-	{
-		$view = Piwik_ViewDataTable::factory('graphEvolution');
-		$view->init( $this->pluginName, __FUNCTION__, 'Referers.getSearchEngines' );
-		
-		$view->setColumnsToDisplay( 'nb_visits' );
-		$view->setExactPattern( array('Google','Yahoo!'), 'label');
-		
-		return $this->renderView($view, $fetch);
-	}	
-	
 	protected function getReferersVisitorsByType()
 	{
 		// we disable the queued filters because here we want to get the visits coming from search engines

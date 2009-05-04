@@ -230,14 +230,9 @@ class Piwik_FrontController
 			Piwik::createDatabaseObject();
 			Piwik::createLogObject();
 			
-			
 			// creating the access object, so that core/Updates/* can enforce Super User and use some APIs
 			Piwik::createAccessObject();
-			
-			require_once "CoreUpdater/Controller.php";
-			//TODO should not be a controller!
-			$updaterController = new Piwik_CoreUpdater_Controller();
-			$updaterController->checkForCoreAndPluginsUpdates();
+			Piwik::displayScreenForCoreAndPluginsUpdatesIfNecessary();
 			
 			Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 			Piwik::install();

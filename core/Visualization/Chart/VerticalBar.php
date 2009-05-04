@@ -29,9 +29,9 @@ class Piwik_Visualization_Chart_VerticalBar extends Piwik_Visualization_Chart
 		return array_slice($dataSetsToDisplay, 0, 1);
 	}
 	
-	function customizeGraph()
+	function customizeChartProperties()
 	{
-		parent::customizeGraph();
+		parent::customizeChartProperties();
 		$dataSetsToDisplay = $this->getDataSetsToDisplay();
 		if($dataSetsToDisplay === false)
 		{
@@ -52,13 +52,21 @@ class Piwik_Visualization_Chart_VerticalBar extends Piwik_Visualization_Chart
 		// create the bar values
 		$yValues = $this->yValues[$dataSetToDisplay];
 		$labelName = $this->yLabels[$dataSetToDisplay];
-		$unit = @$this->yUnits[$dataSetToDisplay];
+		$unit = $this->yUnit;
 		$barValues = array();
 		$i = 0;
+		$sum = array_sum($yValues);
 		foreach($this->xLabels as $label) {
-			$value = $yValues[$i];
+			$value = (float)$yValues[$i];
+			
+			$displayPercentage = '';
+			if($this->displayPercentageInTooltip)
+			{
+				$percentage = round(100 * $value / $sum);
+				$displayPercentage = "($percentage%)";
+			}
 			$barValue = new bar_value($value);
-			$barValue->set_tooltip("$label<br>$value$unit $labelName");
+			$barValue->set_tooltip("$label<br>$value$unit $labelName $displayPercentage");
 			$barValues[] = $barValue;
 			$i++;
 		}

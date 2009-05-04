@@ -221,7 +221,7 @@ dashboard.prototype =
 				url: 'index.php',
 				dataType: 'html',
 				async: true,
-				error: ajaxHandleError,
+				error: piwikHelper.ajaxHandleError,
 				data: {	"module": "Dashboard",
 						"action": "saveLayout",
 						"layout": layoutString

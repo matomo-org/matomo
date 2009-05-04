@@ -1,14 +1,10 @@
 <?php
-require_once "Updater.php";
-require_once "Version.php";
-
 class Piwik_CoreUpdater_Controller extends Piwik_Controller
 {
 	const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';
 	const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest';
 	const LATEST_PIWIK_URL = 'http://piwik.org/latest.zip';
 
-	private $componentsWithUpdateFile = array();
 	private $coreError = false;
 	private $warningMessages = array();
 	private $errorMessages = array();
@@ -58,26 +54,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$view->coreError = $errorMessage;
 		$view->feedbackMessages = $messages;
 		echo $view->render();
-	}
-	
-	public function checkForCoreAndPluginsUpdates()
-	{
-		$this->updater = new Piwik_Updater();
-		$this->updater->addComponentToCheck('core', Piwik_Version::VERSION);
-		
-		$plugins = Piwik_PluginsManager::getInstance()->getInstalledPlugins();
-		foreach($plugins as $pluginName => $plugin)
-		{
-			$this->updater->addComponentToCheck($pluginName, $plugin->getVersion());
-		}
-		
-		$this->componentsWithUpdateFile = $this->updater->getComponentsWithUpdateFile();
-		if(count($this->componentsWithUpdateFile) == 0)
-		{
-			return;
-		}
-		
-		$this->runUpdaterAndExit();
 	}
 
 	private function checkNewVersionIsAvailableOrDie()
@@ -152,20 +128,20 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 	}
 	
-	private function runUpdaterAndExit()
+	private function runUpdaterAndExit($componentsWithUpdateFile)
 	{
 		if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1)
 		{
-			$this->doExecuteUpdates();
+			$this->doExecuteUpdates($componentsWithUpdateFile);
 		}
 		else
 		{
-			$this->doWelcomeUpdates();
+			$this->doWelcomeUpdates($componentsWithUpdateFile);
 		}
 		exit;
 	}
 	
-	private function doWelcomeUpdates()
+	private function doWelcomeUpdates($componentsWithUpdateFile)
 	{
 		$view = new Piwik_View('CoreUpdater/templates/update_welcome.tpl');
 		$view->new_piwik_version = Piwik_Version::VERSION;
@@ -178,7 +154,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 		$pluginNamesToUpdate = array();
 		$coreToUpdate = false;
-		foreach($this->componentsWithUpdateFile as $name => $filenames)
+		foreach($componentsWithUpdateFile as $name => $filenames)
 		{
 			if($name == 'core')
 			{
@@ -195,9 +171,9 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
-	private function doExecuteUpdates()
+	private function doExecuteUpdates($componentsWithUpdateFile)
 	{
-		$this->loadAndExecuteUpdateFiles();
+		$this->loadAndExecuteUpdateFiles($componentsWithUpdateFile);
 		
 		$view = new Piwik_View('CoreUpdater/templates/update_database_done.tpl');
 		$view->coreError = $this->coreError;
@@ -213,7 +189,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		// if errors in any plugins updates, show them on screen, disable plugins that errored + CONTINUE
 		// if warning in any core update or in any plugins update, show message + CONTINUE
 		// if no error or warning, success message + CONTINUE
-		foreach($this->componentsWithUpdateFile as $name => $filenames)
+		foreach($componentsWithUpdateFile as $name => $filenames)
 		{
 			try {
 				$this->warningMessages = array_merge($this->warningMessages, $this->updater->update($name));

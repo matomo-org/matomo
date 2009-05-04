@@ -83,9 +83,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 									FROM $table
 									WHERE idarchive IN ( $inIds )
 										AND name IN ( $inNames )";
-
 			$values = $db->fetchAll($sql);
-			
 			foreach($values as $value)
 			{
 				$arrayValues[$value['timestamp']][$value['name']] = (float)$value['value'];
