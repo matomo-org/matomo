@@ -178,6 +178,7 @@ class Piwik_Config
 	 */
 	public function __set($name, $value)
 	{
+		$this->cachedConfigArray = array();
 		$this->checkWritePermissionOnFile();
 		if(is_null($this->userConfig))
 		{
@@ -206,6 +207,55 @@ class Piwik_Config
 		return $enoughPermission;
 	}
 	
+	protected $cachedConfigArray = array();
+	
+	/**
+	 * Loop through the Default and the User configuration objects and cache them in arrays.
+	 * This slightly helps reducing the Zend overhead when accessing config entries hundreds of times.
+	 * @return void
+	 */
+	protected function cacheConfigArray()
+	{
+		$allSections = array(); 
+		foreach($this->defaultConfig as $sectionName => $valueInDefaultConfig)
+		{
+			$allSections[] = $sectionName;
+		}
+		foreach($this->userConfig as $sectionName => $valueInUserConfig)
+		{
+			$allSections[] = $sectionName;
+		}
+		$allSections = array_unique($allSections);
+		
+		foreach($allSections as $sectionName)
+		{
+			$section = array();
+			if(($valueInDefaultConfig = $this->defaultConfig->$sectionName) !== null)
+			{
+				$valueInDefaultConfig = $valueInDefaultConfig->toArray();
+				$section = array_merge($section, $valueInDefaultConfig);
+			}
+			if( !is_null($this->userConfig)
+				&& null !== ($valueInUserConfig = $this->userConfig->$sectionName))
+			{
+				$valueInUserConfig = $valueInUserConfig->toArray();
+				foreach($valueInUserConfig as $name => &$value)
+				{
+					if(is_array($value)) 
+					{
+						$value = array_map("html_entity_decode", $value);
+					} 
+					else 
+					{
+						$value = html_entity_decode($value);
+					}
+				}
+				$section = array_merge($section, $valueInUserConfig);
+			}
+			$this->cachedConfigArray[$sectionName] = new Zend_Config($section);
+		}
+	}
+	
 	/**
 	 * Called when getting a configuration value, eg. 	Zend_Registry::get('config')->superuser->login
 	 *
@@ -216,29 +266,10 @@ class Piwik_Config
 	 */
 	public function __get($name)
 	{
-		$section = array();
-		if(null !== ($valueInDefaultConfig = $this->defaultConfig->$name))
+		if(empty($this->cachedConfigArray))
 		{
-			$valueInDefaultConfig = $valueInDefaultConfig->toArray();
-			$section = array_merge($section, $valueInDefaultConfig);
+			$this->cacheConfigArray();
 		}
-		if( !is_null($this->userConfig)
-			&& null !== ($valueInUserConfig = $this->userConfig->$name))
-		{
-			$valueInUserConfig = $valueInUserConfig->toArray();
-			foreach($valueInUserConfig as $name => &$value)
-			{
-				if(is_array($value)) 
-				{
-					$value = array_map("html_entity_decode", $value);
-				} 
-				else 
-				{
-					$value = html_entity_decode($value);
-				}
-			}
-			$section = array_merge($section, $valueInUserConfig);
-		}
-		return new Zend_Config($section);
+		return $this->cachedConfigArray[$name];
 	}
 }
