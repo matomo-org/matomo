@@ -47,6 +47,17 @@ class Piwik_Url
 	static public function getCurrentUrlWithoutFileName()
 	{
 		$host = self::getCurrentHost();
+		$urlDir = self::getCurrentScriptPath();
+		return $host.$urlDir;
+	}
+
+	/**
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return "/dir1/dir2/"
+	 * @return string with trailing slash
+	 */
+	static public function getCurrentScriptPath()
+	{
 		$queryString = self::getCurrentScriptName() ;
 		
 		//add a fake letter case /test/test2/ returns /test which is not expected
@@ -57,7 +68,7 @@ class Piwik_Url
 		{
 			$urlDir .= '/';
 		}
-		return $host.$urlDir;
+		return $urlDir;
 	}
 	
 	/**
@@ -90,7 +101,7 @@ class Piwik_Url
 		}
 		return $url;
 	}
-	
+
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org"
