@@ -18,9 +18,6 @@
 <link rel="stylesheet" href="plugins/CoreHome/templates/datatable.css">
 <link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css">
 <script type="text/javascript" src="plugins/Widgetize/templates/widgetize.js"></script>
-
-{*<script type="text/javascript" src="http://widgets.clearspring.com/launchpad/include.js"></script>
-*}
 <script src="http://cdn.clearspring.com/launchpad/v2/standalone.js" type="text/javascript"></script>
 {literal}
 <style>
