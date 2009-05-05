@@ -19,6 +19,7 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 		$view = Piwik_ViewDataTable::factory('table');
 		$view->init( $this->pluginName,  __FUNCTION__, 'ExampleUI.getTemperatures' );
 		$view->setColumnTranslation('value', "Temperature in °C");
+		$view->setColumnTranslation('label', "Hour of day");
 		$view->setSortedColumn('label', 'asc');
 		$view->setGraphLimit( 24 );
 		$view->setLimit( 24 );

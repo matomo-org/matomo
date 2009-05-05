@@ -17,6 +17,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerVisitDuration" );
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
+		$view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_ColumnVisitDuration'));
 		$view->disableSort();
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
@@ -32,6 +33,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerPage" );
 		$view->setColumnsToDisplay( array('label','nb_visits') );
 		$view->setSortedColumn( 'nb_visits', 'asc' );
+		$view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'));
 		$view->disableExcludeLowPopulation();
 		$view->disableOffsetInformation();
 		$view->disableSearchBox();

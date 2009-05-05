@@ -30,6 +30,8 @@ class Test_Piwik_Url extends UnitTestCase
     				. Piwik_Url::getCurrentUrlWithoutFileName());
     	print("<br>\nPiwik_Url::getCurrentScriptName() "
     				. Piwik_Url::getCurrentScriptName());
+    	print("<br>\nPiwik_Url::getCurrentScriptPath() "
+    				. Piwik_Url::getCurrentScriptPath());
     	print("<br>\nPiwik_Url::getCurrentHost() "
     				. Piwik_Url::getCurrentHost());
     	print("<br>\nPiwik_Url::getCurrentQueryString() "

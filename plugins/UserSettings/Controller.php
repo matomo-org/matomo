@@ -22,7 +22,8 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view = $this->getStandardDataTableUserSettings(
 										__FUNCTION__, 
 										'UserSettings.getResolution'
-									);
+									);		
+		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnResolution'));
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -32,6 +33,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										__FUNCTION__, 
 										'UserSettings.getConfiguration'
 									);
+		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnConfiguration'));
 		$view->setLimit( 3 );
 		return $this->renderView($view, $fetch);
 	}
@@ -42,6 +44,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										__FUNCTION__, 
 										'UserSettings.getOS'
 									);
+		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnOperatinsSystem'));
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -51,6 +54,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										__FUNCTION__, 
 										'UserSettings.getBrowser'
 									);
+		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnBrowser'));
 		$view->setGraphLimit(7);
 		return $this->renderView($view, $fetch);
 	}
@@ -62,6 +66,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										'UserSettings.getBrowserType',
 										'graphPie'
 									);
+		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnBrowserFamily'));
 		$view->disableOffsetInformation();
 		return $this->renderView($view, $fetch);
 	}
@@ -72,6 +77,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										__FUNCTION__, 
 										'UserSettings.getWideScreen'
 									);
+		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnTypeOfScreen'));
 		$view->disableOffsetInformation();
 		return $this->renderView($view, $fetch);
 	}
@@ -87,6 +93,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 		$view->disableShowAllColumns();
 		$view->disallowPercentageInGraphTooltip();
 		$view->setColumnsToDisplay( array('label','nb_visits') );
+		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnPlugin'));
 		$view->setGraphLimit( 10 );
 		$view->setLimit( 10 );
 		return $this->renderView($view, $fetch);
