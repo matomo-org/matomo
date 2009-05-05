@@ -113,8 +113,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$height = $this->height; 
 
 		$currentPath = dirname(Piwik_Url::getCurrentScriptName() . 'x');
-		$pathToLibraryOpenChart = $currentPath . 'libs/open-flash-chart/';
-		$pathToLibrarySwfObject = $currentPath . 'libs/swfobject/';
+		$pathToLibraryOpenChart = $currentPath . '/libs/open-flash-chart/';
+		$pathToLibrarySwfObject = $currentPath . '/libs/swfobject/';
 		
 		$url = Piwik_Url::getCurrentUrlWithoutQueryString() . $url;
 		// escape the & and stuff:
@@ -125,7 +125,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		// - Export as Image feature from Open Flash Chart
 		// - Using library for auto-enabling Flash object on IE, disabled-Javascript proof
 		$return = '
-			<div id="'. $this->chartDivId .'">Displaying Graphs in Piwik requires Flash >= '.$requiredFlashVersion.'. <a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/faq/troubleshooting/#faq_53">More information about displaying graphs in Piwik.</a></div>
+			<div id="'. $this->chartDivId .'">
+				Displaying Graphs in Piwik requires Flash >= '.$requiredFlashVersion.'. <a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/faq/troubleshooting/#faq_53">More information about displaying graphs in Piwik.</a>
+			</div>
 			<script type="text/javascript">
 				OFC = {};
 				OFC.jquery = {
@@ -138,26 +140,26 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 				            write("<html><head><title>'.Piwik_Translate('General_ExportAsImage').'<\/title><\/head><body>" + Control.OFC.image(src) + "<br><br><p>'.htmlentities(Piwik_Translate('General_SaveImageOnYourComputer')).'</p><\/body><\/html>") }
 				     }
 				}
-				if (typeof(Control == "undefined")) {var Control = {OFC: OFC.jquery}}
+				if (typeof(Control == "undefined")) {var Control = {OFC: OFC.jquery}; }
 				// By default, right-clicking on OFC and choosing "save image locally" calls this function.
-				function save_image() { OFC.jquery.popup("'.$this->chartDivId.'") }
+				function save_image() { OFC.jquery.popup("'.$this->chartDivId.'"); }
 				
-				swfobject.embedSWF(
-					"'.$pathToLibraryOpenChart.'open-flash-chart.swf", 
-					"'. $this->chartDivId .'", 
-					"'. $width . '", "' . $height . '", 
-					"'.$requiredFlashVersion.'", 
-					"'.$pathToLibrarySwfObject.'expressInstall.swf", 
-					{
-						"data-file":"'.$url.'", 
-						"loading":"'.htmlspecialchars(Piwik_Translate('General_Loading')).'"
-					}, 
-					{
-						"allowScriptAccess":"sameDomain",
-						"wmode":"opaque"
-					}, 
-					{"bgcolor":"#FFFFFF"}
-				);
+					swfobject.embedSWF(
+						"'.$pathToLibraryOpenChart.'open-flash-chart.swf", 
+						"'. $this->chartDivId .'", 
+						"'. $width . '", "' . $height . '", 
+						"'.$requiredFlashVersion.'", 
+						"'.$pathToLibrarySwfObject.'expressInstall.swf", 
+						{
+							"data-file":"'.$url.'", 
+							"loading":"'.htmlspecialchars(Piwik_Translate('General_Loading')).'"
+						}, 
+						{
+							"allowScriptAccess":"sameDomain",
+							"wmode":"opaque"
+						}, 
+						{"bgcolor":"#FFFFFF"}
+					);
 				</script>';
 		return $return;
 	}
