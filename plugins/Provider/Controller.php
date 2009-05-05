@@ -16,6 +16,7 @@ class Piwik_Provider_Controller extends Piwik_Controller
 			$column = 'nb_uniq_visitors';
 		}
 		$view->setColumnsToDisplay( array('label',$column) );
+		$view->setColumnTranslation('label', Piwik_Translate('Provider_ColumnProvider'));
 		$view->setSortedColumn( $column	 );
 		$view->setLimit( 5 );
 		return $this->renderView($view, $fetch);
