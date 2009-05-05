@@ -817,6 +817,7 @@ abstract class Piwik_ViewDataTable
 		{
 			return array_keys($this->dataTable->getFirstRow()->getColumns());
 		}
+		$this->columnsToDisplay = array_filter($this->columnsToDisplay);
 		return $this->columnsToDisplay;
 	}
 	
