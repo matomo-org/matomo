@@ -15,7 +15,6 @@
 	<span id="dataTablePrevious">&lsaquo; {'General_Previous'|translate}</span>
 	<span id="dataTableNext">{'General_Next'|translate} &rsaquo;</span>
 {/if}
-
 {if $properties.show_footer_icons}
 	<div>
 		<span id="dataTableFooterIcons">

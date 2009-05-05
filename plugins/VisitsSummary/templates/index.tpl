@@ -1,4 +1,3 @@
-
 <script type="text/javascript" src="plugins/CoreHome/templates/sparkline.js"></script>
 
 <a name="evolutionGraph" graphId="VisitsSummarygetEvolutionGraph"></a>

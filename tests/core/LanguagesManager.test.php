@@ -25,8 +25,8 @@ class Test_Languages_Manager extends UnitTestCase
 		{
 			ob_start(); 
 			$strings = Piwik_LanguagesManager_API::getTranslationsForLanguage($language);
-			$this->assertTrue(count($strings) > 100); // at least 100 translations in the language file
 			$content = ob_get_flush();
+			$this->assertTrue(count($strings) > 100); // at least 100 translations in the language file
 			$this->assertTrue(strlen($content) == 0, "buffer was ".strlen($content)." long but should be zero. Translation file for '$language' must be buggy.");
 		}
 		$this->pass();

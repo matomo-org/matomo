@@ -129,9 +129,6 @@ abstract class Piwik_Controller
 		require_once "ViewDataTable/GenerateGraphHTML.php";
 		$view = Piwik_ViewDataTable::factory('graphEvolution');
 		$view->init( $currentModuleName, $currentControllerAction, $apiMethod );
-		$view->disableExcludeLowPopulation();
-		$view->disableShowAllViewsIcons();
-		$view->disableShowTable();
 		
 		// if the date is not yet a nicely formatted date range ie. YYYY-MM-DD,YYYY-MM-DD we build it
 		// otherwise the current controller action is being called with the good date format already so it's fine

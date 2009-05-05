@@ -37,7 +37,6 @@ piwikHelper.findSWFGraph = function(name) {
 }
 
 piwikHelper.redirectToUrl = function(url) {
-	alert(url);
 	window.location = url;
 }
 
