@@ -74,9 +74,9 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 		$font = FONT_2;
 		// the -0.5 is a hack as the sparkline samping rendering is obviously slightly bugged
 		// (see also fix marked as //FIX FROM PIWIK in libs/sparkline/lib/Sparkline.php)
-		$sparkline->SetFeaturePoint($min[0] -0.5,  $min[1],  'red', 5);
-		$sparkline->SetFeaturePoint($max[0] -0.5,  $max[1],  'green', 5);
-		$sparkline->SetFeaturePoint($last[0] -0.5, $last[1], 'blue', 5);
+		$sparkline->SetFeaturePoint($min[0] -1,  $min[1],  'red', 5);
+		$sparkline->SetFeaturePoint($max[0] -1,  $max[1],  'green', 5);
+		$sparkline->SetFeaturePoint($last[0] -1, $last[1], 'blue', 5);
 		$sparkline->SetLineSize(3); // for renderresampled, linesize is on virtual image
 		$ratio = 1;
 //		var_dump($min);var_dump($max);var_dump($lasts);exit;
