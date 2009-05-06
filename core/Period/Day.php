@@ -13,11 +13,20 @@ class Piwik_Period_Day extends Piwik_Period
 		$out = $this->getDateStart()->toString() ;
 		return $out;
 	}
+	
 	public function getLocalizedShortString()
 	{
 		//"Mon 15 Aug"
 		$date = $this->getDateStart();
 		$template = "%shortDay% %day% %shortMonth%";
+		$out = $date->getLocalized($template);
+		return $out;
+	}
+	public function getLocalizedLongString()
+	{
+		//"Mon 15 Aug"
+		$date = $this->getDateStart();
+		$template = "%longDay% %day% %longMonth% %longYear%";
 		$out = $date->getLocalized($template);
 		return $out;
 	}

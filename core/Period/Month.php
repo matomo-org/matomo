@@ -13,7 +13,13 @@ class Piwik_Period_Month extends Piwik_Period
 		$out = $this->getDateStart()->getLocalized("%shortMonth% %shortYear%");
 		return $out;
 	}
-	
+
+	public function getLocalizedLongString()
+	{
+		//"August 2009"
+		$out = $this->getDateStart()->getLocalized("%longMonth% %longYear%");
+		return $out;
+	}
 	public function getPrettyString()
 	{
 		$out = $this->getDateStart()->toString('Y-m');

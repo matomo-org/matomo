@@ -240,6 +240,7 @@ abstract class Piwik_Period
 	
 	abstract public function getPrettyString();
 	abstract public function getLocalizedShortString();
+	abstract public function getLocalizedLongString();
 }
 
 	

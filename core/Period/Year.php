@@ -11,11 +11,15 @@ class Piwik_Period_Year extends Piwik_Period
 
 	public function getLocalizedShortString()
 	{
+		return $this->getLocalizedLongString();
+	}
+
+	public function getLocalizedLongString()
+	{
 		//"2009"
 		$out = $this->getDateStart()->getLocalized("%longYear%");
 		return $out;
 	}
-	
 	public function getPrettyString()
 	{
 		$out = $this->getDateStart()->toString('Y');

@@ -233,14 +233,12 @@ abstract class Piwik_Controller
 	
 	protected function setGeneralVariablesView($view)
 	{
-		$oDate = Piwik_Date::factory($this->strDate);
-		//TODO TO FIX
-		$localizedDateFormat = Piwik_Translate('CoreHome_DayFormat');
-		$view->prettyDate = $oDate->getLocalized($localizedDateFormat);
 		$view->date = $this->strDate;
 		
 		try {
 			$this->setPeriodVariablesView($view);
+			$period = Piwik_Period::factory(Piwik_Common::getRequestVar('period'), Piwik_Date::factory($this->strDate));
+			$view->prettyDate = $period->getLocalizedLongString();
 			$idSite = Piwik_Common::getRequestVar('idSite');
 			$view->idSite = $idSite;
 			$site = new Piwik_Site($idSite);
@@ -281,7 +279,6 @@ abstract class Piwik_Controller
 		{
 			unset($availablePeriods[$found]);
 		}
-		
 		$view->period = $currentPeriod;
 		$view->otherPeriods = $availablePeriods;
 		$view->periodsNames = $periodNames;
