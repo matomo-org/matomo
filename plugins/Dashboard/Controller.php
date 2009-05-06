@@ -22,7 +22,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view = new Piwik_View($template);
 		$this->setGeneralVariablesView($view);
 		$layout = html_entity_decode($this->getLayout());
-		if(strstr($layout, '[[') == false) {
+		if(!empty($layout)
+			&& strstr($layout, '[[') == false) {
 			$layout = "'$layout'";
 		}
 		$view->layout = $layout;
