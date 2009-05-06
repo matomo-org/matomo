@@ -4,7 +4,7 @@
 <script type="text/javascript" src="plugins/CoreHome/templates/date.js"></script>
 
 <span id="periodString">
-	<span id="date"><img src='plugins/CoreHome/templates/images/more_date.gif' style="vertical-align:middle" alt="" /> {$prettyDate}</span> -&nbsp;
+	<span id="date"><img src='themes/default/images/icon-calendar.gif' style="vertical-align:middle" alt="" /> {$prettyDate}</span> -&nbsp;
 	<span id="periods"> 
 		<span id="currentPeriod">{$periodsNames.$period.singular}</span> 
 		<span id="otherPeriods">

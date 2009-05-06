@@ -23,6 +23,11 @@ class Piwik_Period_Range extends Piwik_Period
 		$out = "$shortDateStart - $shortDateEnd";
 		return $out;
 	}
+
+	public function getLocalizedLongString()
+	{
+		return $this->getLocalizedShortString();
+	}
 	public function getPrettyString()
 	{
 		$out = "From ".$this->getDateStart()->toString() . " to " . $this->getDateEnd()->toString();
