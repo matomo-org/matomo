@@ -16,14 +16,21 @@
 	$(document).ready(function() {
 		var extraPadding = 0;
 		// if there is only one website, we dont show the arrows image, so no need to add the extra padding
-		if( $('#sitesSelection').find('option').size() > 1)
-		{
+		if( $('#sitesSelection').find('option').size() > 1) {
 			extraPadding = 21;
 		}
 		$("#sitesSelectionWrapper").show();
 		var widthSitesSelection = $("#selectedSiteName").width() + 4 + extraPadding;
 		$("#sitesSelectionWrapper").css('padding-right', widthSitesSelection);
 		$("#sitesSelection").fdd2div({CssClassName:"formDiv"});
+
+		// this will put the anchor after the url before proceed to different site.
+		$("#sitesSelection ul li").bind('click',function (e) {
+			e.preventDefault();               
+			var request_URL = $(e.target).attr("href");
+		        var new_idSite = broadcast.getValueFromUrl('idSite',request_URL);
+		        broadcast.propagateNewPage( 'idSite='+new_idSite );
+		});
 	});</script>
 	{/literal}
 </span>

@@ -14,5 +14,18 @@
 	<br/>
 	<span id="calendar"></span>
 </span>
+
+{literal}<script language="javascript">
+$(document).ready(function() {
+     // this will trigger to change only the period value on search query and hash string.
+     $("#otherPeriods a").bind('click',function(e) {
+        e.preventDefault();                            
+        var request_URL = $(e.target).attr("href");
+        var new_period = broadcast.getValueFromUrl('period',request_URL);
+        broadcast.propagateNewPage('period='+new_period);
+    });
+});</script>
+{/literal}
+
 <div style="clear:both"></div>
 
