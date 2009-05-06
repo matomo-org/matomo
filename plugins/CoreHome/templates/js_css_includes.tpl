@@ -12,6 +12,8 @@
 <script type="text/javascript" src="libs/javascript/sprintf.js"></script>
 <script type="text/javascript" src="libs/jquery/fdd2div-modified.js"></script>
 <script type="text/javascript" src="libs/jquery/superfish_modified.js"></script>
+<script type="text/javascript" src="libs/jquery/jquery.history.js"></script>
+<script type="text/javascript" src="plugins/CoreHome/templates/broadcast.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/menu.js"></script>
 <script type="text/javascript" src="libs/jquery/thickbox.js"></script>
 <link rel="stylesheet" type="text/css" href="libs/jquery/thickbox.css" />

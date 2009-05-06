@@ -24,7 +24,7 @@ function isDateSelected( date )
 	var dateYear = date.getFullYear();
 	var dateDay = date.getDate();
 	var style = '';
-	
+
 	if( date.toLocaleDateString() == todayDate.toLocaleDateString())
 	{
 		style = style + 'dateToday ';
@@ -36,13 +36,13 @@ function isDateSelected( date )
 		&& dateDay >= todayDay
 	)
 	{
-		return [true, style];		
+		return [true, style];
 	}
-	
+
 	// we dont color dates before the minimum date
 	if( dateYear < piwik.minDateYear
 		|| ( dateYear == piwik.minDateYear
-				&& 
+				&&
 					(
 						(dateMonth == piwik.minDateMonth - 1
 						&& dateDay < piwik.minDateDay)
@@ -51,9 +51,9 @@ function isDateSelected( date )
 			)
 	)
 	{
-		return [true, style];		
+		return [true, style];
 	}
-	
+
 	// we color all day of the month for the same year for the month period
 	if(piwik.period == "month"
 		&& dateMonth == currentMonth
@@ -76,7 +76,7 @@ function isDateSelected( date )
 	{
 		valid = true;
 	}
-	else if( piwik.period == "day"  
+	else if( piwik.period == "day"
 				&& dateDay == currentDay
 				&& dateMonth == currentMonth
 				&& dateYear == currentYear
@@ -84,7 +84,7 @@ function isDateSelected( date )
 	{
 		valid = true;
 	}
-	
+
 	if(valid)
 	{
 		return [true, style+'dateUsedStats'];
@@ -96,34 +96,12 @@ function isDateSelected( date )
 function updateDate()
 {
 	var date = formatDate(popUpCal.getDateFor($('#calendar')[0]));
-
-	// available in global scope
-	var currentUrl = window.location.href;
-	if((startStrDate = currentUrl.indexOf("date")) >= 0)
-	{
-		// look for the & after the date
-		var endStrDate = currentUrl.indexOf("&", startStrDate);
-		if(endStrDate == -1)
-		{
-			endStrDate = currentUrl.length;
-		}
-
-		var dateToReplace = currentUrl.substring( 
-							startStrDate + 4+1, 
-							endStrDate
-						);
-		regDateToReplace = new RegExp(dateToReplace, 'ig');
-		currentUrl = currentUrl.replace( regDateToReplace, date );		
-	}
-	else
-	{
-		currentUrl = currentUrl + '&date=' + date;
-	}
-	
-	window.location.href = currentUrl;
+        // Let broadcast do it job:
+        // It will replace date value to both search query and hash and load the new page.
+        broadcast.propagateNewPage('date='+date);
 }
 
-function formatDate(date) 
+function formatDate(date)
 {
 	var day = date.getDate();
 	var month = date.getMonth() + 1;
@@ -169,7 +147,7 @@ $(document).ready(function(){
 				_pk_translate('CoreHome_MonthDecember_js')]
 			},
 			currentDate);
-			
+
 		$("#calendar").hide();
 	}
 );

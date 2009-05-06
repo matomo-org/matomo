@@ -27,6 +27,14 @@
 </div>
 
 <div style="clear:both" />
+
+<p>View 
+	<a href="javascript:broadcast.propagateAjax('module=Referers&action=getSearchEnginesAndKeywords')">{'Referers_SubmenuSearchEngines'|translate}</a>,
+	<a href="javascript:broadcast.propagateAjax('module=Referers&action=getWebsites')">{'Referers_SubmenuWebsites'|translate}</a>,
+	<a href="javascript:broadcast.propagateAjax('module=Referers&action=getCampaigns')">{'Referers_SubmenuCampaigns'|translate}</a>.
+</p>
+	
+
 <h2>{'Referers_Distinct'|translate}</h2>
 <table cellpadding="15">
 <tr><td style="padding-right:50px">
