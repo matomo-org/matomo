@@ -289,7 +289,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_flash' 			=> $userInfo['config_flash'],
 			'config_java' 			=> $userInfo['config_java'],
 			'config_director' 		=> $userInfo['config_director'],
-			'config_quicktime' 		=> $userInfo['config_quicktime'],
 			'config_realplayer' 	=> $userInfo['config_realplayer'],
 			'config_windowsmedia' 	=> $userInfo['config_windowsmedia'],
 			'config_cookie' 		=> $userInfo['config_cookie'],
@@ -526,7 +525,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		
 		$plugin_Flash 			= Piwik_Common::getRequestVar( 'fla', 0, 'int', $this->request);
 		$plugin_Director 		= Piwik_Common::getRequestVar( 'dir', 0, 'int', $this->request);
-		$plugin_Quicktime		= Piwik_Common::getRequestVar( 'qt', 0, 'int', $this->request);
 		$plugin_RealPlayer 		= Piwik_Common::getRequestVar( 'realp', 0, 'int', $this->request);
 		$plugin_Pdf 			= Piwik_Common::getRequestVar( 'pdf', 0, 'int', $this->request);
 		$plugin_WindowsMedia 	= Piwik_Common::getRequestVar( 'wma', 0, 'int', $this->request);
@@ -574,7 +572,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_flash' 			=> $plugin_Flash,
 			'config_java' 			=> $plugin_Java,
 			'config_director' 		=> $plugin_Director,
-			'config_quicktime' 		=> $plugin_Quicktime,
 			'config_realplayer' 	=> $plugin_RealPlayer,
 			'config_windowsmedia' 	=> $plugin_WindowsMedia,
 			'config_cookie' 		=> $plugin_Cookie,

@@ -128,11 +128,14 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 	}
 	
-	private function runUpdaterAndExit($componentsWithUpdateFile)
+	public function runUpdaterAndExit($updater, $componentsWithUpdateFile)
 	{
+		if(empty($componentsWithUpdateFile)) {
+			return;
+		}
 		if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1)
 		{
-			$this->doExecuteUpdates($componentsWithUpdateFile);
+			$this->doExecuteUpdates($updater, $componentsWithUpdateFile);
 		}
 		else
 		{
@@ -171,9 +174,9 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
-	private function doExecuteUpdates($componentsWithUpdateFile)
+	private function doExecuteUpdates($updater, $componentsWithUpdateFile)
 	{
-		$this->loadAndExecuteUpdateFiles($componentsWithUpdateFile);
+		$this->loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile);
 		
 		$view = new Piwik_View('CoreUpdater/templates/update_database_done.tpl');
 		$view->coreError = $this->coreError;
@@ -183,7 +186,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
-	private function loadAndExecuteUpdateFiles()
+	private function loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile)
 	{
 		// if error in any core update, show message + help message + EXIT
 		// if errors in any plugins updates, show them on screen, disable plugins that errored + CONTINUE
@@ -192,7 +195,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		foreach($componentsWithUpdateFile as $name => $filenames)
 		{
 			try {
-				$this->warningMessages = array_merge($this->warningMessages, $this->updater->update($name));
+				$this->warningMessages = array_merge($this->warningMessages, $updater->update($name));
 			} catch (UpdateErrorException $e) {
 				$this->errorMessages[] = $e->getMessage();
 				if($name == 'core') 
