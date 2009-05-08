@@ -618,7 +618,6 @@ class Piwik
 							  config_flash TINYINT(1) NOT NULL,
 							  config_java TINYINT(1) NOT NULL,
 							  config_director TINYINT(1) NOT NULL,
-							  config_quicktime TINYINT(1) NOT NULL,
 							  config_realplayer TINYINT(1) NOT NULL,
 							  config_windowsmedia TINYINT(1) NOT NULL,
 							  config_cookie TINYINT(1) NOT NULL,
@@ -925,7 +924,7 @@ class Piwik
 			
 		require_once "CoreUpdater/Controller.php";
 		$updaterController = new Piwik_CoreUpdater_Controller();
-		$updaterController->runUpdaterAndExit($componentsWithUpdateFile);
+		$updaterController->runUpdaterAndExit($updater, $componentsWithUpdateFile);
 	}
 	
 	/**

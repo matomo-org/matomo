@@ -183,7 +183,6 @@ class Piwik_Live_Visitor
 	 		'config_flash',
 	 		'config_java',
 	 		'config_director',
-	 		'config_quicktime',
 	 		'config_realplayer',
 	 		'config_windowsmedia'
 		);

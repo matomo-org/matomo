@@ -36,7 +36,6 @@ if (_pk_win && _pk_ie){
 	_pk_dir = _pk_plug_ie("SWCtl.SWCtl.1");
 	_pk_fla = _pk_plug_ie("ShockwaveFlash.ShockwaveFlash.1");
 	if (_pk_plug_ie("PDF.PdfCtrl.1") == '1' || _pk_plug_ie('PDF.PdfCtrl.5') == '1' || _pk_plug_ie('PDF.PdfCtrl.6') == '1') _pk_pdf = '1';
-	_pk_qt = _pk_plug_ie("Quicktime.Quicktime"); // Old : "QuickTimeCheckObject.QuickTimeCheck.1"
 	_pk_rea = _pk_plug_ie("rmocx.RealPlayer G2 Control.1");
 	_pk_wma = _pk_plug_ie("wmplayer.ocx"); // Old : "MediaPlayer.MediaPlayer.1"
 } else {
@@ -46,7 +45,6 @@ if (_pk_win && _pk_ie){
 	_pk_dir = _pk_plug_normal("application/x-director");
 	_pk_fla = _pk_plug_normal("application/x-shockwave-flash");
 	_pk_pdf = _pk_plug_normal("application/pdf");
-	_pk_qt  = _pk_plug_normal("video/quicktime");
 	_pk_rea = _pk_plug_normal("audio/x-pn-realaudio-plugin");
 	_pk_wma = _pk_plug_normal("application/x-mplayer2");
 }
@@ -97,7 +95,7 @@ function _pk_getUrlLog( _pk_action_name, _pk_site, _pk_pkurl, _pk_custom_vars )
 		+'&idsite='+_pk_site
 		+'&res='+screen.width+'x'+screen.height
 		+'&h='+_pk_da.getHours()+'&m='+_pk_da.getMinutes()+'&s='+_pk_da.getSeconds()
-		+'&fla='+_pk_fla+'&dir='+_pk_dir+'&qt='+_pk_qt+'&realp='+_pk_rea+'&pdf='+_pk_pdf
+		+'&fla='+_pk_fla+'&dir='+_pk_dir+'&realp='+_pk_rea+'&pdf='+_pk_pdf
 		+'&wma='+_pk_wma+'&java='+_pk_jav+'&cookie='+_pk_cookie
 		+'&title='+_pk_title
 		+'&urlref='+_pk_escape(_pk_rtu)
