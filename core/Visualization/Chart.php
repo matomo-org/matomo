@@ -73,11 +73,6 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		$this->displayPercentageInTooltip = $bool;
 	}
 	
-	
-	//TODO call + make sure matches beginning of period? (hard..)
-	// day -> every 7 days
-	// week & year -> 1, plot last 
-	// month -> every 12 months, plot last 24
 	public function setXSteps($steps)
 	{
 		$this->xSteps = $steps;

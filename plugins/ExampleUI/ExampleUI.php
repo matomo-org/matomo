@@ -10,7 +10,6 @@
  */
 
 
-// TODO this plugin should be used to test all piwik UI features before release 
 /*
 - prepare a page with all use cases
 - test the actions datatable in this page?

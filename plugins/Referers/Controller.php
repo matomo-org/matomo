@@ -6,7 +6,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view = new Piwik_View('Referers/templates/index.tpl');
 		
 		$view->graphEvolutionReferers = $this->getEvolutionGraph(true, Piwik_Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
-		$view->nameGraphEvolutionReferers = 'ReferersgetEvolutionGraph'; // must be the function name used above TODO why?
+		$view->nameGraphEvolutionReferers = 'ReferersgetEvolutionGraph';
 		
 		$view->numberDistinctSearchEngines 	= $this->getNumberOfDistinctSearchEngines(true);
 		$view->numberDistinctKeywords 		= $this->getNumberOfDistinctKeywords(true);

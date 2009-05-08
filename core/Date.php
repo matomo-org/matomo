@@ -74,7 +74,6 @@ class Piwik_Date
 	 * @param string $time HH:MM:SS
 	 * @return Piwik_Date The new date with the time part set
 	 */
-	//TODO test this method
 	public function setTime($time)
 	{
 		return new Piwik_Date( strtotime( $this->get("j F Y") . " $time"));
