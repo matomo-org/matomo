@@ -48,6 +48,8 @@ time_before_today_archive_considered_outdated = 10
 ; When loading piwik interface, we redirect the user to 'yesterday' statistics by default
 ; Possible values: yesterday, today, or any YYYY-MM-DD
 default_day = yesterday
+; Possible values: day, week, month, year
+default_period = day
 
 ; When loading piwik interface, Piwik will load by default the CoreHome module
 ; You can override the setting to force the user to login. 
