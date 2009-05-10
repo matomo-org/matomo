@@ -299,8 +299,8 @@ abstract class Piwik_Controller
 			{
 				$defaultDate = Zend_Registry::get('config')->General->default_day;
 			}
-//			return Piwik_FrontController::getInstance()->dispatch($moduleToRedirect, $actionToRedirect, array('idSite'=>$firstSiteId,'period'=>'day','date'=>$defaultDate));
-			header("Location:index.php?module=".$moduleToRedirect."&action=".$actionToRedirect."&idSite=$firstSiteId&period=day&date=$defaultDate");
+			$defaultPeriod = Zend_Registry::get('config')->General->default_period;
+			header("Location:index.php?module=".$moduleToRedirect."&action=".$actionToRedirect."&idSite=$firstSiteId&period=$defaultPeriod&date=$defaultDate");
 		}
 		else
 		{
