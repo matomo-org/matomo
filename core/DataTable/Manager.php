@@ -87,7 +87,7 @@ class Piwik_DataTable_Manager
 	{
 		foreach($this->tables as $id => $table) 
 		{
-			destroy($table);
+			$this->deleteTable($id);
 		}
 		$this->tables = array();
 		$this->lastTableId = 0;
