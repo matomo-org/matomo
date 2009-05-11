@@ -64,7 +64,8 @@ menu.prototype =
             var url = $(this).find('a').attr('name');
             var module = broadcast.getValueFromUrl("module",url);
             var action = broadcast.getValueFromUrl("action",url);
-
+            var idGoal = broadcast.getValueFromUrl("idGoal",url);
+			
             var main_menu = ($(this).parent().attr("class").match(/nav/)) ? true : false;
             if(main_menu)
             {
@@ -72,26 +73,47 @@ menu.prototype =
             }
             else
             {
-                $(this).attr({id: module + '_' + action});
+				// so Goals plugin is a little different than other
+				// we can't identify by it's modules_action so we uses its idGoals.
+				if(idGoal != '') {
+					$(this).attr({id: module + '_' + action + '_' + idGoal});
+				}
+				else {
+					$(this).attr({id: module + '_' + action});
+				}
             }
         });
 	},
 
-    activateMenu : function(module,action)
+    activateMenu : function(module,action,idGoal)
     {
-		// we are in the SUB UL LI
-		var $li = $("#" + module + "_" + action);
-		piwikMenu.param.superfish.find("li").removeClass('sfHover');
-		// we are in the SUB UL LI
-		if($li.find('ul li').size() == 0) {
-	        $.fn.superfish.currentActiveMenu = $li.parents('li');
-	        $li.addClass('sfHover');
-	        $li.parents('ul').css({'display':'block','visibility': 'visible'});
+		// getting the right li is a little tricky since goals uses idGoal, and overview is index.
+		var $li = '';
+		// So, if module is Goals, idGoal is present, and action is not Index, must be one of the goals
+		if(module == 'Goals' && idGoal != '' && action != 'index') {
+			$li = $("#" + module + "_" + action + "_" + idGoal);
 		} else {
+			$li = $("#" + module + "_" + action);
+		}
+
+		// we can't find this li based on Module_action? then li only be the main menu. e.g Dashboard.
+		var no_sub_menu = false;
+		if($li.size() == 0) {
+			$li = $("#" + module);
+			no_sub_menu = true;
+		}
+		
+		piwikMenu.param.superfish.find("li").removeClass('sfHover');
+		if($li.find('ul li').size() != 0 || no_sub_menu == true) {
 			// we clicked on a MAIN LI
-	        $.fn.superfish.currentActiveMenu = $li;
-	        $li.find('>ul li:first').addClass('sfHover');
-	        $li.find('ul').css({'display':'block','visibility': 'visible'});
+			$.fn.superfish.currentActiveMenu = $li;
+			$li.find('>ul li:first').addClass('sfHover');
+			$li.find('ul').css({'display':'block','visibility': 'visible'});
+		} else {
+		// we are in the SUB UL LI
+			$.fn.superfish.currentActiveMenu = $li.parents('li');
+			$li.addClass('sfHover');
+			$li.parents('ul').css({'display':'block','visibility': 'visible'});
 		}
 	    $.fn.superfish.currentActiveMenu.showSuperfishUl().siblings().hideSuperfishUl();
     },

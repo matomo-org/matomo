@@ -137,11 +137,9 @@ broadcast.updateParamValue = function(newParamValue,urlStr)
     var valFromUrl = broadcast.getParamValue(paramName,urlStr);
 
     if( valFromUrl != '') {
-        // Prepending '=' to both regToBerePlace and new_val,
-        // this would make sure that it will only replacing the value that follow by an '='
-        var new_val = '=' + p_v[1];
-        var regToBeReplace = new RegExp('=' + valFromUrl, 'ig');
-        urlStr = urlStr.replace( regToBeReplace, new_val );
+        // replacing current param=value to newParamValue;
+        var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
+        urlStr = urlStr.replace( regToBeReplace, newParamValue );
     } else {
         urlStr += (urlStr == '') ? newParamValue : '&' + newParamValue;
     }
@@ -170,7 +168,11 @@ broadcast.loadAjaxContent = function(urlAjax)
 	    broadcast.lastUrlRequested = null;
 	}
     }
-    piwikMenu.activateMenu( broadcast.getParamValue('module', urlAjax), broadcast.getParamValue('action', urlAjax));
+    piwikMenu.activateMenu(
+        broadcast.getParamValue('module', urlAjax),
+        broadcast.getParamValue('action', urlAjax),
+        broadcast.getParamValue('idGoal', urlAjax)
+    );
     ajaxRequest = {
         type: 'GET',
 	    url: urlAjax,
