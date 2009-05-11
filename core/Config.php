@@ -39,6 +39,7 @@ class Piwik_Config
 	protected $pathIniFileDefaultConfig 	= null;
 	protected $configFileUpdated 			= false;
 	protected $doWriteFileWhenUpdated		= true;
+	protected $cachedConfigArray = array();
 	
 	/**
 	 * Storing the correct cwd() because the value is not correct in the destructor
@@ -108,8 +109,8 @@ class Piwik_Config
 			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
 		}
 		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
-		
 	}
+	
 	/**
 	 * At the script shutdown, we save the new configuration file, if the user has set some values 
 	 */
@@ -195,7 +196,6 @@ class Piwik_Config
 	protected function checkWritePermissionOnFile() 
 	{
 		static $enoughPermission = null;
-		
 		if(is_null($enoughPermission))
 		{
 			if($this->doWriteFileWhenUpdated)
@@ -206,8 +206,6 @@ class Piwik_Config
 		}
 		return $enoughPermission;
 	}
-	
-	protected $cachedConfigArray = array();
 	
 	/**
 	 * Loop through the Default and the User configuration objects and cache them in arrays.
@@ -221,9 +219,12 @@ class Piwik_Config
 		{
 			$allSections[] = $sectionName;
 		}
-		foreach($this->userConfig as $sectionName => $valueInUserConfig)
+		if(!is_null($this->userConfig))
 		{
-			$allSections[] = $sectionName;
+			foreach($this->userConfig as $sectionName => $valueInUserConfig)
+			{
+				$allSections[] = $sectionName;
+			}
 		}
 		$allSections = array_unique($allSections);
 		
