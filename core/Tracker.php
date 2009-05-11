@@ -65,6 +65,7 @@ class Piwik_Tracker
 				unset($visit);
 			} catch (PDOException $e) {
 				printDebug($e->getMessage());
+			} catch(Piwik_Tracker_Visit_Excluded $e) {
 			}
 		}
 		$this->end();
