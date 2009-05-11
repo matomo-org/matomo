@@ -257,7 +257,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if($refererInfo['referer_name'] == "Live"
 			&& preg_match("/^65\.55/", long2ip($userInfo['location_ip'])))
 		{
-			throw new Exception("Spam Live bot, go away, you're making me cry");
+			throw new Piwik_Tracker_Visit_Excluded("Spam Live bot, go away, you're making me cry");
 		}
 		
 		/**
@@ -902,4 +902,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 }
 
 class Piwik_Tracker_Visit_VisitorNotFoundInDatabase extends Exception {
+}
+class Piwik_Tracker_Visit_Excluded extends Exception {
 }
