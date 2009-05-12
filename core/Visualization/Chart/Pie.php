@@ -40,7 +40,7 @@ class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 		
 		// create the Pie
 		$pie = new pie();
-		$pie->set_alpha(0.6);
+		$pie->set_alpha("0.6");
 		$pie->set_start_angle( 35 );
 		$pie->add_animation( new pie_fade() );
 		$pie->set_label_colour('#142448');

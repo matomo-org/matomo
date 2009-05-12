@@ -45,7 +45,7 @@ class Piwik_Visualization_Chart_VerticalBar extends Piwik_Visualization_Chart
 
 		// create the Bar object
 		$bar = new bar_filled('#3B5AA9', '#063E7E');
-		$bar->set_alpha(0.5);
+		$bar->set_alpha("0.5");
 		$bar->set_key($this->yLabels[$dataSetToDisplay], 12);
 		$bar->set_tooltip( '#val# #key#');
 		
