@@ -42,23 +42,22 @@ class Piwik_DataTable_Manager
 	protected $tables = array();
 	
 	/**
-	 * Id of the last inserted table in the Manager
-	 *
+	 * Id of the next inserted table id in the Manager
 	 * @var int
 	 */
-	protected $lastTableid = 0;
+	protected $nextTableId = 0;
 	
 	/**
 	 * Add a DataTable to the registry
 	 * 
 	 * @param Piwik_DataTable
-	 * @return int Number of tables registered in the manager (including the one just added)
+	 * @return int Index of the table in the manager array
 	 */
 	public function addTable( $table )
 	{
-		$this->tables[] = $table;
-		$this->lastTableId++;
-		return $this->lastTableId - 1;
+		$this->tables[$this->nextTableId] = $table;
+		$this->nextTableId++;
+		return $this->nextTableId - 1;
 	}
 	
 	/**
@@ -90,7 +89,7 @@ class Piwik_DataTable_Manager
 			$this->deleteTable($id);
 		}
 		$this->tables = array();
-		$this->lastTableId = 0;
+		$this->nextTableId = 0;
 	}
 	
 	/**
