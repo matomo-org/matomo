@@ -30,6 +30,7 @@ class Piwik_Goals extends Piwik_Plugin
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
+			'TrackerPlugin' => true, // this plugin must be loaded during the stats logging
 		);
 		
 		return $info;
