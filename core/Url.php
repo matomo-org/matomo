@@ -160,7 +160,7 @@ class Piwik_Url
 	 */
 	static function getArrayFromCurrentQueryString()
 	{	
-		$queryString = Piwik_Url::getCurrentQueryString();
+		$queryString = self::getCurrentQueryString();
 		$urlValues = Piwik_Common::getArrayFromQueryString($queryString);
 		return $urlValues;
 	}
@@ -232,7 +232,7 @@ class Piwik_Url
 		{	
 			self::redirectToUrl($referer);
 		}
-		self::redirectToUrl(Piwik_URL::getCurrentUrlWithoutQueryString());
+		self::redirectToUrl(self::getCurrentUrlWithoutQueryString());
 	}
 	
 	/**
