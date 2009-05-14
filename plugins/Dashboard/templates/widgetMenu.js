@@ -75,7 +75,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName, widgetLoading
 // widgetMenu constructor
 function widgetMenu(dashboard)
 {
-	this.menu = new Object;
+	this.menu = new Object();
 	this.dashboard = dashboard;
 }
 
@@ -256,7 +256,7 @@ widgetMenu.prototype =
 			return false;
 		}
 		var widgets = self.dashboard.getWidgetsElementsInsideElement( self.dashboard.dashboardElement );
-		var widgetInDashboardUniqueIds = new Array;
+		var widgetInDashboardUniqueIds = new Array();
 		for(var i=0; i<widgets.size(); i++) {
 			widgetInDashboardUniqueIds.push($(widgets[i]).attr('id'));
 		}
