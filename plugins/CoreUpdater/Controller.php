@@ -171,6 +171,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 		$view->pluginNamesToUpdate = $pluginNamesToUpdate;
 		$view->coreToUpdate = $coreToUpdate; 
+		$view->clearCompiledTemplates();
 		echo $view->render();
 	}
 
@@ -183,6 +184,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$view->warningMessages = $this->warningMessages;
 		$view->errorMessages = $this->errorMessages;
 		$view->deactivatedPlugins = $this->deactivatedPlugins;
+		$view->clearCompiledTemplates();
 		echo $view->render();
 	}
 
