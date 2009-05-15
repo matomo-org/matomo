@@ -70,7 +70,7 @@ class Piwik_Date
 	/**
 	 * Sets the time part of the date
 	 * Doesn't modify $this
-     * 
+	 * 
 	 * @param string $time HH:MM:SS
 	 * @return Piwik_Date The new date with the time part set
 	 */
@@ -245,6 +245,7 @@ class Piwik_Date
 			"%longDay%" => Piwik_Translate('General_LongDay_'.$dayOfWeek),
 			"%longYear%" => $this->toString('Y'),
 			"%shortYear%" => $this->toString('y'),
+			"%time%" => $this->toString('H:i:s T')
 		);
 		$out = str_replace(array_keys($patternToValue), array_values($patternToValue), $template);
 		return $out;
