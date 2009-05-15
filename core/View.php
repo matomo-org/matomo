@@ -141,7 +141,13 @@ class Piwik_View implements Piwik_iView
 		}
 	}
 
-/*	public function isCached($template)
+	public function clearCompiledTemplates()
+	{
+		$this->smarty->clear_compiled_tpl();
+	}
+
+/*
+	public function isCached($template)
 	{
 		if ($this->smarty->is_cached($template))
 		{
