@@ -75,8 +75,8 @@ class Piwik_Live_API
 			$visitorDetailsArray = $visitor->getAllVisitorDetails();
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp']);
 			//TODO TO FIX
-			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized('%longDay% %d %b');
-			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%X');
+			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth%');
+			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}
 		return $table;
