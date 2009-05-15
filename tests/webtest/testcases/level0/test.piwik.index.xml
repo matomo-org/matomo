@@ -67,7 +67,7 @@
 
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
-	                <verifyText description="check page text" text="Mysql database setup" />
+	                <verifyText description="check page text" text="MySQL database setup" />
 	                
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
