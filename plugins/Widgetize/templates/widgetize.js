@@ -4,12 +4,12 @@ function widgetize()
 	
 	this.getInputFormWithHtml = function(inputId, htmlEmbed)
 	{
-		return '<input class="formEmbedCode" id="'+inputId+'" value=\''+ htmlEmbed +'\' onclick="javascript:document.getElementById(\''+inputId+'\').focus();document.getElementById(\''+inputId+'\').select();" readonly="true" type="text">';
+		return '<input class="formEmbedCode" id="'+inputId+'" value="'+ htmlEmbed.replace(/"/g, '&quot;') +'" onclick="javascript:document.getElementById(\''+inputId+'\').focus();document.getElementById(\''+inputId+'\').select();" readonly="true" type="text">';
 	}
 	
 	this.getEmbedUrl = function( parameters, exportFormat )
 	{
-		copyParameters = new Object;
+		copyParameters = new Object();
 		for(var variableName in parameters) {
 			copyParameters[variableName] = parameters[variableName];
 		}
