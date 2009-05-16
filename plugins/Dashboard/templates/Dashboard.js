@@ -217,15 +217,12 @@ dashboard.prototype =
 			self.layout = layout;
 			var ajaxRequest =
 			{
-				type: 'GET',
-				url: 'index.php',
+				type: 'POST',
+				url: 'index.php?module=Dashboard&action=saveLayout',
 				dataType: 'html',
 				async: true,
 				error: piwikHelper.ajaxHandleError,
-				data: {	"module": "Dashboard",
-						"action": "saveLayout",
-						"layout": layoutString
-				}
+				data: {	"layout": layoutString }
 			};
 			$.ajax(ajaxRequest);
 		}
