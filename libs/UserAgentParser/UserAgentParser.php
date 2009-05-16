@@ -58,6 +58,7 @@ class UserAgentParser
 					'amigavoyager'					=> 'AV',
 					'amiga-aweb'					=> 'AW',
 					'ibrowse'						=> 'IB',
+					'arora'							=> 'AR',
 			);
 
 	// OS regex => OS ID
