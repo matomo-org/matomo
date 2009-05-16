@@ -39,7 +39,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// 1
 		"1.cz" 						=> array("1.cz", "q", "iso-8859-2"),
 		"www.1.cz" 					=> array("1.cz", "q", "iso-8859-2"),
-		
+
+		// 123people
+		"www.123people.com"			=> array("123people", "search_term"),
+		"www.123people.de"                      => array("123people", "search_term"),
+		"www.123people.es"                      => array("123people", "search_term"),
+		"www.123people.fr"                      => array("123people", "search_term"),
+
 		// 1und1
 		"portal.1und1.de"			=> array("1und1", "search"),
 		
@@ -285,7 +291,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Euroseek
 		"www.euroseek.com"		=> array("Euroseek", "string"),
-		
+	
+                // Everyclick
+		"www.everyclick.com"            => array("Everyclick", "keyword"),
+	
 		// Excite
 		"www.excite.it" 		=> array("Excite", "q"),
 		"msxml.excite.com"		=> array("Excite", "qkw"),
@@ -396,9 +405,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.google.cc"			=> array("Google", "q"),
 		"www.google.cd"			=> array("Google", "q"),
 		"www.google.cg"			=> array("Google", "q"),
-		"www.google.ch"			=> array("Google", "q"),
-		"ww.google.ch"			=> array("Google", "q"),
-		"w.google.ch"			=> array("Google", "q"),
+		"www.google.ch"			=> array("Google", array("q", "as_q")),
+		"ww.google.ch"			=> array("Google", array("q", "as_q")),
+		"w.google.ch"			=> array("Google", array("q", "as_q")),
 		"www.google.ci"			=> array("Google", "q"),
 		"www.google.cl"			=> array("Google", "q"),
 		"www.google.cn"			=> array("Google", "q"),
@@ -526,8 +535,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.google.com.bh"     => array("Google", "q"),
 		"www.google.com.jm"     => array("Google", "q"),
 		"www.google.com.na"     => array("Google", "q"),
-		"www.google.ch"         => array("Google", "as_q"),
-	
+	        "www.google.lk"         => array("Google", "q"),
+		"www.google.com.gh"     => array("Google", "q"),
+		"www.google.rs"         => array("Google", "q"),
+		"www.google.com.gi"     => array("Google", "q"),
  		
 		
 		
@@ -568,6 +579,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"blogsearch.google.at"		=> array("Google Blogsearch", "q"),
 		"blogsearch.google.ch"		=> array("Google Blogsearch", "q"),
 		"blogsearch.google.pl"		=> array("Google Blogsearch", "q"),
+		"blogsearch.google.co.in"       => array("Google Blogsearch", array("q", "as_q")),
 		
 		
 		// Google translation
