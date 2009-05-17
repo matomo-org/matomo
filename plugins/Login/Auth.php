@@ -8,6 +8,11 @@ class Piwik_Login_Auth implements Piwik_Auth
 	protected $login = null;
 	protected $token_auth = null;
 	
+	public function getName()
+	{
+		return 'Login';
+	}
+
 	public function authenticate()
 	{
 		$rootLogin = Zend_Registry::get('config')->superuser->login;
