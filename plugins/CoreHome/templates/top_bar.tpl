@@ -13,7 +13,7 @@
 {'General_HelloUser'|translate:"<strong>$userLogin</strong>"}
 {if isset($userHasSomeAdminAccess) && $userHasSomeAdminAccess}| <a href='?module=CoreAdminHome'>{'General_Settings'|translate}</a>{/if} 
  {if $showSitesSelection && $showWebsiteSelectorInUserInterface}| {include file=CoreHome/templates/sites_selection.tpl}{/if}
-| {if $userLogin == 'anonymous'}<a href='?module=Login'>{'Login_LogIn'|translate}</a>{else}<a href='?module=Login&amp;action=logout'>{'Login_Logout'|translate}</a>{/if}
+| {if $userLogin == 'anonymous'}<a href='?module={$loginModule}'>{'Login_LogIn'|translate}</a>{else}<a href='?module={$loginModule}&amp;action=logout'>{'Login_Logout'|translate}</a>{/if}
 </small>
 
 </nobr>
