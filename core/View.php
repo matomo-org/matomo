@@ -93,7 +93,8 @@ class Piwik_View implements Piwik_iView
 			$this->userIsSuperUser = Piwik::isUserIsSuperUser();
 			$this->piwik_version = Piwik_Version::VERSION;
 			$this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
-			
+
+			$this->loginModule = Zend_Registry::get('auth')->getName();
 		} catch(Exception $e) {
 			// can fail, for example at installation (no plugin loaded yet)		
 		}

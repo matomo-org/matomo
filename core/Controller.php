@@ -314,7 +314,7 @@ abstract class Piwik_Controller
 				&& $currentLogin != 'anonymous')
 			{
 				$errorMessage = sprintf(Piwik_Translate('CoreHome_NoPrivileges'),$currentLogin);
-				$errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='?module=Login&amp;action=logout'>&rsaquo; ". Piwik_Translate('General_Logout'). "</a></b><br />";
+				$errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='?module=". Zend_Registry::get('auth')->getName() ."&amp;action=logout'>&rsaquo; ". Piwik_Translate('General_Logout'). "</a></b><br />";
 				Piwik_ExitWithMessage($errorMessage, false, true);
 			}
 			else
