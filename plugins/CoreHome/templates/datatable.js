@@ -605,11 +605,11 @@ dataTable.prototype =
 				
 				if( urlToLink.match("javascript:") )
 				{
-					$(this).html( '<a href="#" onClick="' + urlToLink.replace("javascript:","") + '">' + imgToPrepend + $(this).html() + '</a>');				
+					$(this).prepend(imgToPrepend).wrap('<a href="#" onclick="' + urlToLink.replace("javascript:","") + '"></a>');
 				}
 				else
 				{
-					$(this).html( '<a target="_blank" href="' + urlToLink + '">' + imgToPrepend + $(this).html() + '</a>');
+					$(this).prepend(imgToPrepend).wrap('<a target="_blank" href="' + urlToLink + '"></a>');
 				}
 			});
 		}
