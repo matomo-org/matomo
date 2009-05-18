@@ -387,7 +387,7 @@ class Piwik_UsersManager_API
 	static public function userExists( $userLogin )
 	{
 		Piwik::checkUserHasSomeAdminAccess();
-		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
+		$count = Piwik_FetchOne("SELECT count(*) 
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE login = ?", $userLogin);
 		return $count != 0;
@@ -401,7 +401,7 @@ class Piwik_UsersManager_API
 	static public function userEmailExists( $userEmail )
 	{
 		Piwik::checkUserHasSomeAdminAccess();
-		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
+		$count = Piwik_FetchOne("SELECT count(*) 
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE email = ?", $userEmail);
 		return $count != 0;	

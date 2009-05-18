@@ -334,7 +334,7 @@ class Piwik_Tracker_Generator
 		{
 			if($this->reinitProfilingAtEveryRequest)
 			{
-				$all = Zend_Registry::get('db')->query('TRUNCATE TABLE '.Piwik::prefixTable('log_profiling').'' );
+				$all = Piwik_Query('TRUNCATE TABLE '.Piwik::prefixTable('log_profiling').'' );
 			}
 		}
 	}

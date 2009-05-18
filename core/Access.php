@@ -148,7 +148,7 @@ class Piwik_Access
 		
 		// we join with site in case there are rows in access for an idsite that doesn't exist anymore
 		// (backward compatibility ; before we deleted the site without deleting rows in _access table)
-		$accessRaw = Zend_Registry::get('db')->fetchAll("SELECT access, t2.idsite
+		$accessRaw = Piwik_FetchAll("SELECT access, t2.idsite
 						  FROM ".Piwik::prefixTable('access'). " as t1 
 							JOIN ".Piwik::prefixTable('site')." as t2 USING (idsite) ".
 						" WHERE login = ?", $this->login);

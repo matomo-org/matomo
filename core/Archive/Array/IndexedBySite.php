@@ -80,7 +80,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 								FROM {$this->getNumericTableName()}
 								WHERE idarchive IN ( {$this->getArchiveIds()} )
 									AND name IN ( {$this->getSqlStringFieldsArray($fields)} )";
-		return Zend_Registry::get('db')->fetchAll($sql);
+		return Piwik_FetchAll($sql);
 	}
 
 	private function getFirstArchive()
