@@ -304,8 +304,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 							AND date1 = DATE(ts_archived)
 							AND DATE(ts_archived) <> CURRENT_DATE()
 						";
-			Zend_Registry::get('db')->query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
-			Zend_Registry::get('db')->query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
+			Piwik_Query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
+			Piwik_Query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
 			
 			// we delete out of date Period records (week/month/etc)
 			// we delete archives that were archived before the end of the period
@@ -317,8 +317,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 							AND date(ts_archived) < date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
 						";
 			
-			Zend_Registry::get('db')->query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
-			Zend_Registry::get('db')->query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
+			Piwik_Query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
+			Piwik_Query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
 			
 			Piwik_SetOption($key, time());
 		}

@@ -1184,13 +1184,13 @@ class Piwik
 		{
 			$dbName = Zend_Registry::get('config')->database->dbname;
 		}
-		Zend_Registry::get('db')->query("CREATE DATABASE IF NOT EXISTS ".$dbName);
+		Piwik_Query("CREATE DATABASE IF NOT EXISTS ".$dbName);
 	}
 	
 	static public function dropDatabase()
 	{
 		$dbName = Zend_Registry::get('config')->database->dbname;
-		Zend_Registry::get('db')->query("DROP DATABASE IF EXISTS " . $dbName);
+		Piwik_Query("DROP DATABASE IF EXISTS " . $dbName);
 	}
 	
 	static public function createDatabaseObject( $dbInfos = null )
@@ -1226,7 +1226,7 @@ class Piwik
 	
 	static public function getMysqlVersion()
 	{
-		return Zend_Registry::get('db')->fetchOne("SELECT VERSION()");
+		return Piwik_FetchOne("SELECT VERSION()");
 	}
 
 	static public function createLogObject()
@@ -1369,7 +1369,7 @@ class Piwik
 		$tablesAlreadyInstalled = self::getTablesInstalled($forceReload = true);
 		foreach($tablesAlreadyInstalled as $table) 
 		{
-			Zend_Registry::get('db')->query("TRUNCATE `$table`");
+			Piwik_Query("TRUNCATE `$table`");
 		}
 	}
 	

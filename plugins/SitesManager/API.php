@@ -104,7 +104,7 @@ class Piwik_SitesManager_API
 	static public function getAllSitesId()
 	{
 		Piwik::checkUserIsSuperUser();
-		$result = Zend_Registry::get('db')->fetchAll("SELECT idsite FROM ".Piwik::prefixTable('site'));
+		$result = Piwik_FetchAll("SELECT idsite FROM ".Piwik::prefixTable('site'));
 		$idSites = array();
 		foreach($result as $idSite)
 		{
