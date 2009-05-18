@@ -498,11 +498,21 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns the best possible IP of the current user, in the format A.B.C.D
+	 * Convert dotted IP to a stringified integer representation
 	 *
 	 * @return string ip
 	 */
 	static public function getIp()
+	{
+		return sprintf("%u", ip2long(self::getIpString()));
+	}
+
+	/**
+	 * Returns the best possible IP of the current user, in the format A.B.C.D
+	 *
+	 * @return string ip
+	 */
+	static public function getIpString()
 	{
 		if(isset($_SERVER['HTTP_CLIENT_IP'])
 		&& ($ip = Piwik_Common::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']))

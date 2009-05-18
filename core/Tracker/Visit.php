@@ -543,7 +543,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$resolution		= Piwik_Common::getRequestVar('res', 'unknown', 'string', $this->request);
 
 		$ip				= Piwik_Common::getIp();
-		$ip 			= ip2long($ip);
 
 		$browserLang	= Piwik_Common::getBrowserLanguage();
 		
