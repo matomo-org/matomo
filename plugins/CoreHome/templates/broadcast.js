@@ -9,7 +9,7 @@
  */
 
 // Load this once and only once.
-broadcast = new Object();
+broadcast = {};
 
 broadcast.init = function() {
 	if(typeof broadcast.isInit != 'undefined') {

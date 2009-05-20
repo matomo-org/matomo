@@ -87,7 +87,7 @@ function getAjaxDeleteGoal(idGoal)
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	piwikHelper.toggleAjaxLoading();
 	
-	var parameters = new Object;
+	var parameters = {};
 	parameters.idSite = piwik.idSite;
  	parameters.idGoal =  idGoal;
  	parameters.method =  'Goals.deleteGoal';
@@ -103,7 +103,7 @@ function getAjaxAddGoal()
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	piwikHelper.toggleAjaxLoading();
 	
-	var parameters = new Object;
+	var parameters = {};
 	
 	parameters.idSite = piwik.idSite;
 	parameters.name = encodeURIComponent( $('#goal_name').val() );

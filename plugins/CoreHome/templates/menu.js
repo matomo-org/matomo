@@ -1,6 +1,6 @@
 function menu()
 {
-	this.param = new Object;
+	this.param = {};
 }
 
 menu.prototype =
