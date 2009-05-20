@@ -1,7 +1,7 @@
 function dashboard()
 {
-	this.dashboardElement = new Object;
-	this.dashboardColumnsElement = new Object;
+	this.dashboardElement = {};
+	this.dashboardColumnsElement = {};
 	this.layout = '';
 }
 
@@ -35,7 +35,7 @@ dashboard.prototype =
 		var self = this;
 		
 		if(typeof self.layout == 'string') {
-			var layout = new Object;
+			var layout = {};
 			//Old dashboard layout format: a string that looks like 'Actions.getActions~Actions.getDownloads|UserCountry.getCountry|Referers.getSearchEngines';
 			// '|' separate columns
 			// '~' separate widgets
@@ -46,7 +46,7 @@ dashboard.prototype =
 					continue;
 				}
 				var widgets = columns[columnNumber].split('~');
-				layout[columnNumber] = new Object;
+				layout[columnNumber] = {};
 				for(var j=0; j<widgets.length; j++) {
 					wid = widgets[j].split('.');
 					uniqueId = 'widget'+wid[0]+wid[1];

@@ -4,12 +4,12 @@
 //A list of all our DataTables
 //Test if the object have already been initialized (multiple includes)
 if(typeof dataTables == "undefined")
-	var dataTables = new Object;
+	var dataTables = {};
 
 //DataTable constructor
 function dataTable()
 {
-	this.param = new Object;
+	this.param = {};
 }
 
 //Prototype of the DataTable object
@@ -24,7 +24,7 @@ dataTable.prototype =
 		}
 		
 		this.workingDivId = workingDivId;
-		this.loadedSubDataTable = new Object;
+		this.loadedSubDataTable = {};
 		this.bindEventsAndApplyStyle(domElem);
 		this.initialized = true;
 	},
@@ -716,7 +716,7 @@ actionDataTable.prototype.constructor = actionDataTable;
 //Test if the object have already been initialized (multiple includes)
 if(typeof actionDataTables == "undefined")
 {
-	var actionDataTables = new Object;
+	var actionDataTables = {};
 }
 
 //actionDataTable constructor
@@ -725,7 +725,7 @@ function actionDataTable()
 	dataTable.call(this);
 	this.parentAttributeParent = '';
 	this.parentId = '';
-	this.disabledRowDom = new Object;	//to handle double click on '+' row
+	this.disabledRowDom = {};	//to handle double click on '+' row
 }
 
 //Prototype of the actionDataTable object

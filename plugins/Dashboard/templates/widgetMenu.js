@@ -75,7 +75,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName, widgetLoading
 // widgetMenu constructor
 function widgetMenu(dashboard)
 {
-	this.menu = new Object();
+	this.menu = {};
 	this.dashboard = dashboard;
 }
 

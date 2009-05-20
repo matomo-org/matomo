@@ -78,7 +78,7 @@ piwikHelper.toggleAjaxLoading = function()
 
 piwikHelper.getStandardAjaxConf = function()
 {
-	var ajaxRequest = new Object;
+	var ajaxRequest = {};
 	ajaxRequest.type = 'GET';
 	ajaxRequest.url = 'index.php';
 	ajaxRequest.dataType = 'json';

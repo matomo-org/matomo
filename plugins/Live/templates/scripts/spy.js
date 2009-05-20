@@ -117,7 +117,7 @@ $.fn.spy = function(settings) {
 	return this.each(function() {
 		var e = this;
 		var lr = ''; // last ajax return
-		var parameters = new Object;
+		var parameters = {};
 		spy.ajaxTimer = window.setInterval(function() {
 			if (spyRunning && (!spy.parsing)) {
 			    var customParameterValue = o.customParameterValueCallback.call();

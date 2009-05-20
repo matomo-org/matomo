@@ -3,7 +3,7 @@ function getDeleteSiteAJAX( idSite )
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	piwikHelper.toggleAjaxLoading();
 		
-	var parameters = new Object;
+	var parameters = {};
 	parameters.module = 'API';
 	parameters.format = 'json';
  	parameters.method =  'SitesManager.deleteSite';
@@ -20,7 +20,7 @@ function getAddSiteAJAX( row )
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	piwikHelper.toggleAjaxLoading();
 	
-	var parameters = new Object;
+	var parameters = {};
  	var siteName = $(row).find('input[@id=siteadd_name]').val();
  	var urls =  $(row).find('textarea[@id=siteadd_urls]').val();
 	var urls = urls.trim().split("\n");

@@ -3,7 +3,7 @@ function getUpdateUserAJAX( row )
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	piwikHelper.toggleAjaxLoading();
 	
-	var parameters = new Object;
+	var parameters = {};
 	parameters.module = 'API';
 	parameters.format = 'json';
  	parameters.method =  'UsersManager.updateUser';
@@ -24,7 +24,7 @@ function getDeleteUserAJAX( login )
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	piwikHelper.toggleAjaxLoading();
 		
-	var parameters = new Object;
+	var parameters = {};
 	parameters.module = 'API';
 	parameters.format = 'json';
  	parameters.method =  'UsersManager.deleteUser';
@@ -41,7 +41,7 @@ function getAddUserAJAX( row )
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	piwikHelper.toggleAjaxLoading();
 	
-	var parameters = new Object;
+	var parameters = {};
 	parameters.module = 'API';
 	parameters.format = 'json';
  	parameters.method =  'UsersManager.addUser';
@@ -68,7 +68,7 @@ function getUpdateUserAccess(login, access, successCallback)
 	ajaxRequest.success = successCallback;
 	ajaxRequest.async = false;
 	
-	var parameters = new Object;
+	var parameters = {};
 	parameters.module = 'API';
 	parameters.format = 'json';
  	parameters.method =  'UsersManager.setUserAccess';

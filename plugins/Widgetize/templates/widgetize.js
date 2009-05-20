@@ -9,7 +9,7 @@ function widgetize()
 	
 	this.getEmbedUrl = function( parameters, exportFormat )
 	{
-		copyParameters = new Object();
+		copyParameters = {};
 		for(var variableName in parameters) {
 			copyParameters[variableName] = parameters[variableName];
 		}
