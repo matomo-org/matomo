@@ -27,7 +27,7 @@
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
  * @package Smarty
- * @version 2.6.22
+ * @version 2.6.24
  */
 
 /* $Id$ */
@@ -236,7 +236,8 @@ class Smarty
                                     'INCLUDE_ANY'     => false,
                                     'PHP_TAGS'        => false,
                                     'MODIFIER_FUNCS'  => array('count'),
-                                    'ALLOW_CONSTANTS'  => false
+                                    'ALLOW_CONSTANTS'  => false,
+                                    'ALLOW_SUPER_GLOBALS' => true
                                    );
 
     /**
@@ -464,7 +465,7 @@ class Smarty
      *
      * @var string
      */
-    var $_version              = '2.6.22';
+    var $_version              = '2.6.24';
 
     /**
      * current template inclusion depth
@@ -561,6 +562,14 @@ class Smarty
      */
     var $_cache_including = false;
 
+    /**
+     * array of super globals internally
+     *
+     * @var array
+     */
+    var $_supers = array();
+
+
     /**#@-*/
     /**
      * The class constructor.
@@ -569,6 +578,15 @@ class Smarty
     {
       $this->assign('SCRIPT_NAME', isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME']
                     : @$GLOBALS['HTTP_SERVER_VARS']['SCRIPT_NAME']);
+                    
+      $this->_supers['get'] = $this->request_use_auto_globals ? $_GET : $GLOBALS['HTTP_GET_VARS'];
+      $this->_supers['post'] = $this->request_use_auto_globals ? $_POST : $GLOBALS['HTTP_POST_VARS'];
+      $this->_supers['server'] = $this->request_use_auto_globals ? $_SERVER : $GLOBALS['HTTP_SERVER_VARS'];
+      $this->_supers['session'] = $this->request_use_auto_globals ? $_SESSION : $GLOBALS['HTTP_SESSION_VARS'];
+      $this->_supers['request'] = $this->request_use_auto_globals ? $_REQUEST : $GLOBALS['HTTP_REQUEST_VARS'];
+      $this->_supers['cookies'] = $this->request_use_auto_globals ? $_COOKIE : $GLOBALS['HTTP_COOKIE_VARS'];
+      $this->_supers['env'] = $this->request_use_auto_globals ? $_ENV : $GLOBALS['HTTP_ENV_VARS'];
+                    
     }
 
     /**
@@ -1117,10 +1135,8 @@ class Smarty
     {
         static $_cache_info = array();
         
-/*begin piwik
         $_smarty_old_error_level = $this->debugging ? error_reporting() : error_reporting(isset($this->error_reporting)
                ? $this->error_reporting : error_reporting() & ~E_NOTICE);
-  end piwik*/
 
         if (!$this->debugging && $this->debugging_ctrl == 'URL') {
             $_query_string = $this->request_use_auto_globals ? $_SERVER['QUERY_STRING'] : $GLOBALS['HTTP_SERVER_VARS']['QUERY_STRING'];
@@ -1217,12 +1233,12 @@ class Smarty
                     } else {
                             echo $_smarty_results;
                     }
-//                    error_reporting($_smarty_old_error_level); // piwik
+                    error_reporting($_smarty_old_error_level);
                     // restore initial cache_info
                     $this->_cache_info = array_pop($_cache_info);
                     return true;
                 } else {
-//                    error_reporting($_smarty_old_error_level); // piwik
+                    error_reporting($_smarty_old_error_level);
                     // restore initial cache_info
                     $this->_cache_info = array_pop($_cache_info);
                     return $_smarty_results;
@@ -1302,10 +1318,10 @@ class Smarty
                 require_once(SMARTY_CORE_DIR . 'core.display_debug_console.php');
                 echo smarty_core_display_debug_console($_params, $this);
             }
-//            error_reporting($_smarty_old_error_level); // piwik
+            error_reporting($_smarty_old_error_level);
             return;
         } else {
-//            error_reporting($_smarty_old_error_level); // piwik
+            error_reporting($_smarty_old_error_level);
             if (isset($_smarty_results)) { return $_smarty_results; }
         }
     }
@@ -1550,7 +1566,7 @@ class Smarty
                         $params['source_content'] = $this->_read_file($_resource_name);
                     }
                     $params['resource_timestamp'] = filemtime($_resource_name);
-                    $_return = is_file($_resource_name);
+                    $_return = is_file($_resource_name) && is_readable($_resource_name);
                     break;
 
                 default:
@@ -1713,7 +1729,7 @@ class Smarty
      */
     function _read_file($filename)
     {
-        if ( file_exists($filename) && ($fd = @fopen($filename, 'rb')) ) {
+        if ( file_exists($filename) && is_readable($filename) && ($fd = @fopen($filename, 'rb')) ) {
             $contents = '';
             while (!feof($fd)) {
                 $contents .= fread($fd, 8192);
@@ -1952,7 +1968,7 @@ class Smarty
 			return $function;
 		}
 	}
-    
+  
     /**#@-*/
 
 }

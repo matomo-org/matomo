@@ -36,12 +36,18 @@ class Piwik_View implements Piwik_iView
 		{
 			$this->smarty->$key = $value;
 		}
-		
+
 		$this->smarty->template_dir = $smConf->template_dir->toArray();
+
 		$this->smarty->plugins_dir = $smConf->plugins_dir->toArray();
+		array_walk($this->smarty->plugins_dir, "Piwik_View::addPiwikPath");
+
 		$this->smarty->compile_dir = $smConf->compile_dir;
 		$this->smarty->cache_dir = $smConf->cache_dir;
-		
+
+		$this->smarty->error_reporting = $smConf->debugging;
+		$this->smarty->error_reporting = $smConf->error_reporting;
+
 		$this->smarty->load_filter('output','trimwhitespace');
 		
 		// global value accessible to all templates: the piwik base URL for the current request
@@ -163,4 +169,9 @@ class Piwik_View implements Piwik_iView
 		$this->smarty->caching = $caching;
 	}
 */
+
+	static public function addPiwikPath(&$value, $key)
+	{
+		$value = PIWIK_INCLUDE_PATH ."/$value";
+	}
 }
