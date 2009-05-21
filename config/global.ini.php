@@ -201,8 +201,8 @@ template_dir[]	= plugins
 template_dir[]	= themes/default
 template_dir[]	= themes
 
-plugins_dir[] 	= libs/Smarty/plugins
 plugins_dir[]	= core/SmartyPlugins
+plugins_dir[] 	= libs/Smarty/plugins
 
 compile_dir		= tmp/templates_c
 cache_dir		= tmp/cache
