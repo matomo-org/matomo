@@ -1,17 +1,5 @@
 <?php
 
-class y_axis_labels
-{
-	function y_axis_labels()
-	{	
-	}
-	
-	function set_text($text)
-	{
-		$this->text = $text;
-	}
-}
-
 class y_axis_base
 {
 	function y_axis_base(){}
@@ -84,15 +72,12 @@ class y_axis_base
 	}
 	
 	/**
-	 * @param $labels as an array of string values.
-	 *
-	 * By default the Y axis will show from min to max, but you can override this
-	 * by passing in your own labels. Remember the Y axis min is at the bottom, so
-	 * the labels will go from bottom to top.
+	 * @param $y_axis_labels as an y_axis_labels object
+	 * Use this to customize the labels (colour, font, etc...)
 	 */
-	function set_labels( $labels )
+	function set_labels( $y_axis_labels )
 	{
-		$this->labels = $labels;	
+		$this->labels = $y_axis_labels;
 	}
 	
 	/**

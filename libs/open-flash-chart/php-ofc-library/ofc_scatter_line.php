@@ -2,10 +2,11 @@
 
 class scatter_line
 {
-	function scatter_line( $colour )
+	function scatter_line( $colour, $width  )
 	{
 		$this->type      = "scatter_line";
 		$this->set_colour( $colour );
+		$this->set_width( $width );
 	}
 	
 	function set_default_dot_style( $style )
@@ -17,6 +18,11 @@ class scatter_line
 	function set_colour( $colour )
 	{
 		$this->colour = $colour;
+	}
+	
+	function set_width( $width )
+	{
+		$this->width = $width;
 	}
 	
 	function set_values( $values )

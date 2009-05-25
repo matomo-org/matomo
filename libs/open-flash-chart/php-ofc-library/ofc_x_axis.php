@@ -12,6 +12,12 @@ class x_axis
 		$this->stroke = $stroke;	
 	}
 	
+	function stroke( $stroke )
+	{
+		$this->set_stroke( $stroke );
+		return $this;
+	}
+	
 	/**
 	 *@param $colour as string HEX colour
 	 *@param $grid_colour as string HEX colour
@@ -30,16 +36,34 @@ class x_axis
 		$this->colour = $colour;	
 	}
 	
+	function colour( $colour )
+	{
+		$this->set_colour($colour);
+		return $this;
+	}
+	
 	function set_tick_height( $height )
 	{
 		$tmp = 'tick-height';
 		$this->$tmp      		= $height;
 	}
 	
+	function tick_height( $height )
+	{
+		$this->set_tick_height($height);
+		return $this;
+	}
+	
 	function set_grid_colour( $colour )
 	{
 		$tmp = 'grid-colour';
 		$this->$tmp = $colour;
+	}
+	
+	function grid_colour( $colour )
+	{
+		$this->set_grid_colour($colour);
+		return $this;
 	}
 	
 	/**
@@ -51,12 +75,24 @@ class x_axis
 		$this->offset = $o?true:false;	
 	}
 	
+	function offset( $o )
+	{
+		$this->set_offset($o);
+		return $this;
+	}
+	
 	/**
-	 * @param $steps as integer. Which ticks are visible.
+	 * @param $steps as integer. Which grid lines and ticks are visible.
 	 */
 	function set_steps( $steps )
 	{
 		$this->steps = $steps;
+	}
+	
+	function steps( $steps )
+	{
+		$this->set_steps($steps);
+		return $this;
 	}
 	
 	/**

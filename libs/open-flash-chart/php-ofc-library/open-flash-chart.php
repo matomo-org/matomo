@@ -20,6 +20,8 @@ include_once 'ofc_title.php';
 include_once 'ofc_y_axis_base.php';
 include_once 'ofc_y_axis.php';
 include_once 'ofc_y_axis_right.php';
+include_once 'ofc_y_axis_labels.php';
+include_once 'ofc_y_axis_label.php';
 include_once 'ofc_x_axis.php';
 
 
