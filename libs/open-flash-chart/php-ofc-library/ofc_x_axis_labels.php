@@ -4,9 +4,21 @@ class x_axis_labels
 {
 	function x_axis_labels(){}
 	
+	/**
+	 * @param $steps which labels are generated
+	 */
 	function set_steps( $steps )
 	{
 		$this->steps = $steps;
+	}
+	
+	/**
+	 * @param $steps as integer which labels are visible
+	 */
+	function visible_steps( $steps )
+	{
+		$this->{"visible-steps"} = $steps;
+		return $this;
 	}
 	
 	/**

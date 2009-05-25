@@ -145,7 +145,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 				function save_image() { OFC.jquery.popup("'.$this->chartDivId.'"); }
 				
 					swfobject.embedSWF(
-						"'.$pathToLibraryOpenChart.'open-flash-chart.swf", 
+						"'.$pathToLibraryOpenChart.'open-flash-chart.swf?v2j", 
 						"'. $this->chartDivId .'", 
 						"'. $width . '", "' . $height . '", 
 						"'.$requiredFlashVersion.'", 

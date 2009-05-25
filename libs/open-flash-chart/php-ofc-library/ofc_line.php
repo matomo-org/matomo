@@ -1,5 +1,27 @@
 <?php
 
+class line_on_show
+{
+	/**
+	 *@param $type as string. Can be any one of:
+	 * - 'pop-up'
+	 * - 'explode'
+	 * - 'mid-slide'
+	 * - 'drop'
+	 * - 'fade-in'
+	 * - 'shrink-in'
+	 *
+	 * @param $cascade as float. Cascade in seconds
+	 * @param $delay as float. Delay before animation starts in seconds.
+	 */
+	function __construct($type, $cascade, $delay)
+	{
+		$this->type = $type;
+		$this->cascade = (float)$cascade;
+		$this->delay = (float)$delay;
+	}
+}
+
 class line
 {
 	function line()
@@ -111,5 +133,19 @@ class line
 	function attach_to_right_y_axis()
 	{
 		$this->axis = 'right';
+	}
+	
+	/**
+	 *@param $on_show line_on_show object
+	 */
+	function set_on_show($on_show)
+	{
+		$this->{'on-show'} = $on_show;
+	}
+	
+	function on_show($on_show)
+	{
+		$this->set_on_show($on_show);
+		return $this;
 	}
 }

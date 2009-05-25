@@ -2,6 +2,28 @@
 
 include_once 'ofc_bar_base.php';
 
+class bar_on_show
+{
+	/**
+	 *@param $type as string. Can be any one of:
+	 * - 'pop-up'
+	 * - 'drop'
+	 * - 'fade-in'
+	 * - 'grow-up'
+	 * - 'grow-down'
+	 * - 'pop'
+	 *
+	 * @param $cascade as float. Cascade in seconds
+	 * @param $delay as float. Delay before animation starts in seconds.
+	 */
+	function __construct($type, $cascade, $delay)
+	{
+		$this->type = $type;
+		$this->cascade = (float)$cascade;
+		$this->delay = (float)$delay;
+	}
+}
+
 class bar_value
 {
 	/**
