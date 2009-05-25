@@ -27,7 +27,7 @@
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
  * @package Smarty
- * @version 2.6.24
+ * @version 2.6.25
  */
 
 /* $Id$ */
@@ -107,7 +107,7 @@ class Smarty
     /**
      * When set, smarty does uses this value as error_reporting-level.
      *
-     * @var boolean
+     * @var integer
      */
     var $error_reporting  =  null;
 
@@ -465,7 +465,7 @@ class Smarty
      *
      * @var string
      */
-    var $_version              = '2.6.24';
+    var $_version              = '2.6.25';
 
     /**
      * current template inclusion depth
@@ -582,7 +582,10 @@ class Smarty
       $this->_supers['get'] = $this->request_use_auto_globals ? $_GET : $GLOBALS['HTTP_GET_VARS'];
       $this->_supers['post'] = $this->request_use_auto_globals ? $_POST : $GLOBALS['HTTP_POST_VARS'];
       $this->_supers['server'] = $this->request_use_auto_globals ? $_SERVER : $GLOBALS['HTTP_SERVER_VARS'];
-      $this->_supers['session'] = $this->request_use_auto_globals ? $_SESSION : $GLOBALS['HTTP_SESSION_VARS'];
+      if(isset($_SESSION))
+        $this->_supers['session'] = $this->request_use_auto_globals ? $_SESSION : $GLOBALS['HTTP_SESSION_VARS'];
+      else
+        $this->_supers['session'] = array();
       $this->_supers['request'] = $this->request_use_auto_globals ? $_REQUEST : $GLOBALS['HTTP_REQUEST_VARS'];
       $this->_supers['cookies'] = $this->request_use_auto_globals ? $_COOKIE : $GLOBALS['HTTP_COOKIE_VARS'];
       $this->_supers['env'] = $this->request_use_auto_globals ? $_ENV : $GLOBALS['HTTP_ENV_VARS'];
