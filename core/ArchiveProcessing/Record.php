@@ -33,7 +33,11 @@ abstract class Piwik_ArchiveProcessing_Record
 		$this->name = $name;
 		$this->value = $value;
 	}
-	
+
+	function __destruct()
+	{
+		destroy($this->value);
+	}
 }
 
 
