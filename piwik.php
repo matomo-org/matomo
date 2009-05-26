@@ -18,11 +18,13 @@ error_reporting(E_ALL|E_NOTICE);
 define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
 @ignore_user_abort(true);
 
-set_include_path(PIWIK_INCLUDE_PATH 
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
-					. PATH_SEPARATOR . get_include_path() );
+if((@include "Zend/Version.php") === false) {
+	set_include_path(PIWIK_INCLUDE_PATH
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins'
+		. PATH_SEPARATOR . get_include_path());
+}
 
 require_once "Common.php";
 require_once "PluginsManager.php";
