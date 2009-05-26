@@ -53,7 +53,15 @@ class Piwik_ArchiveProcessing_RecordArray extends Piwik_ArchiveProcessing_Record
 			$this->records[] = new Piwik_ArchiveProcessing_Record_Blob( $newName,  $value );
 		}
 	}
-	
+
+	public function __destruct()
+	{
+		foreach($this->records as $record)
+		{
+			destroy($record);
+		}
+	}
+
 	public function get()
 	{
 		return $this->records;
