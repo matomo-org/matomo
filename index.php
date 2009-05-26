@@ -19,11 +19,13 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
 }
 
-set_include_path(PIWIK_INCLUDE_PATH 
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core/'
-					. PATH_SEPARATOR . get_include_path());
+if((@include "Zend/Version.php") === false) {
+	set_include_path(PIWIK_INCLUDE_PATH
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins'
+		. PATH_SEPARATOR . get_include_path());
+}
  
 require_once "core/testMinimumPhpVersion.php";
 
