@@ -616,7 +616,6 @@ class Piwik
 							  config_resolution VARCHAR(9) NOT NULL,
 							  config_pdf TINYINT(1) NOT NULL,
 							  config_flash TINYINT(1) NOT NULL,
-							  config_java TINYINT(1) NOT NULL,
 							  config_director TINYINT(1) NOT NULL,
 							  config_realplayer TINYINT(1) NOT NULL,
 							  config_windowsmedia TINYINT(1) NOT NULL,
