@@ -60,6 +60,7 @@ class Piwik_ArchiveProcessing_RecordArray extends Piwik_ArchiveProcessing_Record
 		{
 			destroy($record);
 		}
+		$this->records = array();
 	}
 
 	public function get()

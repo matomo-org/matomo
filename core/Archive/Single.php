@@ -72,6 +72,15 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * @var bool
 	 */
 	protected $alreadyChecked = false;
+
+	public function __destruct()
+	{
+		foreach($this->blobCached as $name => $blob)
+		{
+			$this->freeBlob($name);
+		}
+		$this->blobCached = array();
+	}
 	
 	/**
 	 * Returns the pretty date of this Archive, eg. 'Thursday 20th March 2008'

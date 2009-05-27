@@ -28,6 +28,16 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 	
 	abstract protected function getIndexName();
 	abstract protected function getDataTableLabelValue( $archive );
+
+
+	public function __destruct()
+	{
+		foreach($this->archives as $archive)
+		{
+			destroy($archive);
+		}
+		$this->archives = array();
+	}
 	
 	public function prepareArchive()
 	{
