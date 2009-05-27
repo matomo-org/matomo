@@ -183,7 +183,6 @@ class Piwik_UserSettings extends Piwik_Plugin
 	{
 		$toSelect = "sum(case config_pdf when 1 then 1 else 0 end) as pdf, 
 							sum(case config_flash when 1 then 1 else 0 end) as flash, 
-				 			sum(case config_java when 1 then 1 else 0 end) as java, 
 							sum(case config_director when 1 then 1 else 0 end) as director,
 							sum(case config_realplayer when 1 then 1 else 0 end) as realplayer,
 							sum(case config_windowsmedia when 1 then 1 else 0 end) as windowsmedia,
