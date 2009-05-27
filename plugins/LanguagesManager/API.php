@@ -43,13 +43,13 @@ class Piwik_LanguagesManager_API
 
 	static public function getAvailableLanguagesInfo()
 	{
-		require "lang/en.php";
+		require PIWIK_INCLUDE_PATH . "/lang/en.php";
 		$englishTranslation = $translations;
 		$filenames = self::getAvailableLanguages();
 		$languagesInfo = array();
 		foreach($filenames as $filename) 
 		{
-			require "lang/$filename.php";
+			require PIWIK_INCLUDE_PATH . "/lang/$filename.php";
 			$translationStringsDone = array_intersect_key($englishTranslation, $translations);
 			$percentageComplete = count($translationStringsDone) / count($englishTranslation);
 			$percentageComplete = round(100 * $percentageComplete, 0);  
@@ -76,7 +76,7 @@ class Piwik_LanguagesManager_API
 		$languagesInfo = array();
 		foreach($filenames as $filename) 
 		{
-			require "lang/$filename.php";
+			require PIWIK_INCLUDE_PATH . "/lang/$filename.php";
 			$languagesInfo[] = array( 'code' => $filename, 'name' => $translations['General_OriginalLanguageName']);
 		}
 		self::$availableLanguageNames = $languagesInfo;
@@ -89,7 +89,7 @@ class Piwik_LanguagesManager_API
 		{
 			return false;
 		}
-		require "lang/$languageCode.php";
+		require PIWIK_INCLUDE_PATH . "/lang/$languageCode.php";
 		$languageInfo = array();
 		foreach($translations as $key => $value)
 		{

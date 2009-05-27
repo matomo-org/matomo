@@ -9,7 +9,7 @@
  * @package Piwik_Referers
  */
 	
-require_once "core/Tracker/GoalManager.php";
+require_once "Tracker/GoalManager.php";
 
 /**
  * TODO Goals plugin

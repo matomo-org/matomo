@@ -94,7 +94,7 @@ class Piwik_Common
 			require_once "Zend/Auth.php";
 			require_once "Timer.php";
 			require_once "PluginsManager.php";
-			require_once "core/Piwik.php";
+			require_once "Piwik.php";
 			require_once "Access.php";
 			require_once "Auth.php";
 			require_once "API/Proxy.php";
