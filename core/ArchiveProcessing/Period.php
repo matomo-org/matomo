@@ -322,6 +322,12 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			
 			Piwik_SetOption($key, time());
 		}
+		
+		foreach($this->archives as $archive)
+		{
+			destroy($archive);
+		}
+		$this->archives = array();
 	}
 	
 }

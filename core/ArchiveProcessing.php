@@ -475,11 +475,12 @@ abstract class Piwik_ArchiveProcessing
 			{
 				$this->insertRecord($record);
 			}
+			destroy($records);
 			return true;
 		}
 		$record = new Piwik_ArchiveProcessing_Record_Blob($name, $value);
 		$this->insertRecord($record);
-		unset($record);
+		destroy($record);
 		return true;
 	}
 	
