@@ -9,7 +9,7 @@
  * @package Piwik_Helper
  */
 
-require_once "core/Piwik.php";
+require_once "Piwik.php";
 
 /**
  * Exception handler used to display nicely exceptions in Piwik

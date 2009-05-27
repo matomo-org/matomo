@@ -69,7 +69,7 @@ class Piwik_ExampleRssWidget_Rss
 	}
 	function get() 
 	{
-		require_once 'libs/Zend/Feed.php';
+		require_once 'Zend/Feed.php';
 		try {
 		    $rss = Zend_Feed::import($this->url);
 		} catch (Zend_Feed_Exception $e) {

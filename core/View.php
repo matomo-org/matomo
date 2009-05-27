@@ -38,6 +38,7 @@ class Piwik_View implements Piwik_iView
 		}
 
 		$this->smarty->template_dir = $smConf->template_dir->toArray();
+		array_walk($this->smarty->template_dir, "Piwik_View::addPiwikPath");
 
 		$this->smarty->plugins_dir = $smConf->plugins_dir->toArray();
 		array_walk($this->smarty->plugins_dir, "Piwik_View::addPiwikPath");
