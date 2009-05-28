@@ -20,7 +20,7 @@
 <link rel="stylesheet" type="text/css" href="plugins/CoreAdminHome/templates/styles.css" />
 <link rel="stylesheet" type="text/css" href="libs/jquery/jquery-calendar.css" />
 
-<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico"> 
+<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 
 {postEvent name="template_js_import"}
 {postEvent name="template_css_import"}

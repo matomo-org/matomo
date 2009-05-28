@@ -57,7 +57,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		$actionName = Piwik_Common::getRequestVar('actionToWidgetize');
 		$parameters = array ( $fetch = true );
 		$content = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName, $parameters);
-	    $view = new Piwik_View('Widgetize/templates/js.tpl');
+		$view = new Piwik_View('Widgetize/templates/js.tpl');
 		$view->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		$content = str_replace(array("\t","\n","\r\n","\r"), "", $content);
 		$view->content = $content;
