@@ -5,7 +5,7 @@
 {loadJavascriptTranslations plugins='CoreHome Dashboard'}
 {include file="CoreHome/templates/js_css_includes.tpl"}
 {include file="CoreHome/templates/js_global_variables.tpl"}
-<link rel="stylesheet" href="plugins/CoreHome/templates/datatable.css">
-<link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css">
+<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/datatable.css" />
+<link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
 </head>
 <body>

@@ -15,8 +15,8 @@
 <script type="text/javascript" src="libs/jquery/ui.mouse.js"></script>
 <script type="text/javascript" src="libs/jquery/ui.sortable_modif.js"></script>
 
-<link rel="stylesheet" href="plugins/CoreHome/templates/datatable.css">
-<link rel="stylesheet" href="plugins/Dashboard/templates/dashboard.css">
+<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/datatable.css" />
+<link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
 <script type="text/javascript" src="plugins/Widgetize/templates/widgetize.js"></script>
 <script src="http://cdn.clearspring.com/launchpad/v2/standalone.js" type="text/javascript"></script>
 {literal}
