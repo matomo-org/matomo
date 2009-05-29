@@ -554,7 +554,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 												$plugin_RealPlayer,
 												$plugin_Pdf,
 												$plugin_WindowsMedia,
-												$plugin_Java,
 												$plugin_Cookie,
 												$ip,
 												$browserLang);
@@ -869,9 +868,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * Returns a MD5 of all the configuration settings
 	 * @return string
 	 */
-	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Java, $plugin_Cookie, $ip, $browserLang)
+	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Cookie, $ip, $browserLang)
 	{
-		return md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Director . $plugin_RealPlayer . $plugin_Pdf . $plugin_WindowsMedia . $plugin_Java . $plugin_Cookie . $ip . $browserLang );
+		return md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Director . $plugin_RealPlayer . $plugin_Pdf . $plugin_WindowsMedia . $plugin_Cookie . $ip . $browserLang );
 	}
 	
 	/**
