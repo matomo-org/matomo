@@ -36,6 +36,7 @@ require_once "Url.php";
 require_once "Controller.php";
 require_once "Option.php";
 require_once "View.php";
+require_once "Version.php";
 require_once "UpdateCheck.php";
 
 
