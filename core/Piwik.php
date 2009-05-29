@@ -905,7 +905,6 @@ class Piwik
 	static public function displayScreenForCoreAndPluginsUpdatesIfNecessary()
 	{
 		require_once "Updater.php";
-		require_once "Version.php";
 		$updater = new Piwik_Updater();
 		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
 		
