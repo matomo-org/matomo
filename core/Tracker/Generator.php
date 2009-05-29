@@ -388,11 +388,9 @@ class Piwik_Tracker_Generator
 		$this->setCurrentRequest( 's' ,$this->getRandom('s'));
 		$this->setCurrentRequest( 'fla' ,$this->getRandom01());
 		$this->setCurrentRequest( 'dir' ,$this->getRandom01());
-		$this->setCurrentRequest( 'qt' ,$this->getRandom01());
 		$this->setCurrentRequest( 'realp' ,$this->getRandom01());
 		$this->setCurrentRequest( 'pdf' ,$this->getRandom01());
 		$this->setCurrentRequest( 'wma' ,$this->getRandom01());
-		$this->setCurrentRequest( 'java' ,$this->getRandom01());
 		$this->setCurrentRequest( 'cookie',$this->getRandom01());
 
 		$_SERVER['HTTP_CLIENT_IP'] = mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255);
