@@ -4,5 +4,5 @@
 
 
 <p class="nextStep">
-	<a href="{url module='' action=''}">{'Installation_ContinueToPiwik'|translate} &raquo;</a>
+	<a href="index.php">{'Installation_ContinueToPiwik'|translate} &raquo;</a>
 </p>

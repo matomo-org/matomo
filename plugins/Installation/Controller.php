@@ -369,7 +369,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$_SESSION['currentStepDone'] = __FUNCTION__;		
 		$view->showNextStep = false;
 		
-	    setcookie(session_name(), session_id(), 1, '/');
+		setcookie(session_name(), session_id(), 1, '/');
 		@session_destroy();	
 		echo $view->render();
 	}
