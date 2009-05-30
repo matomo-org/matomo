@@ -26,7 +26,7 @@ class Piwik_Login_PasswordForm extends Piwik_Form
 	
 	function init()
 	{
-		$urlToGoAfter = Piwik_Common::getRequestVar('form_url', Piwik_Url::getCurrentUrlWithoutQueryString(), 'string');
+		$urlToGoAfter = Piwik_Common::getRequestVar('form_url', 'index.php', 'string');
 			
 		$formElements = array(
 			array('text', 'form_login'),
@@ -42,7 +42,4 @@ class Piwik_Login_PasswordForm extends Piwik_Form
 		
 		$this->addElement('submit', 'submit');	
 	}
-	
-	
 }
-
