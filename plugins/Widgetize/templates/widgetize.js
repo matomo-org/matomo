@@ -73,6 +73,8 @@ function widgetize()
 			.each(function() {
 				var htmlEmbed = $(this).parent().html();
 
+				htmlEmbed = htmlEmbed.replace(/ (data|href|src)="(?!javascript:)/g, ' $1="' + piwik.piwik_url);
+
 				$(exportButtonsElement).append(
 					'<div id="embedThisWidgetFlash">'+
 						'<label for="embedThisWidgetFlashInput">&rsaquo; Embed Flash</label>'+

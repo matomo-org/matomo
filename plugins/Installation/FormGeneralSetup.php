@@ -19,8 +19,8 @@ class Piwik_Installation_FormGeneralSetup extends Piwik_Form
 {
 	function init()
 	{
-		$urlToGoAfter = Piwik_Url::getCurrentUrl();			
-		
+		$urlToGoAfter = Piwik_Url::getCurrentQueryString();
+
 		$formElements = array(
 			array('text', 'login', Piwik_Translate('Installation_SuperUserLogin')),
 			array('password', 'password', Piwik_Translate('Installation_Password')),

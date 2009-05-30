@@ -112,9 +112,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$width = $this->width; 
 		$height = $this->height; 
 
-		$currentPath = Piwik_Url::getCurrentScriptPath();
-		$pathToLibraryOpenChart = $currentPath . 'libs/open-flash-chart/';
-		$pathToLibrarySwfObject = $currentPath . 'libs/swfobject/';
+		$pathToLibraryOpenChart = 'libs/open-flash-chart/';
+		$pathToLibrarySwfObject = 'libs/swfobject/';
 		
 		$url = Piwik_Url::getCurrentUrlWithoutQueryString() . $url;
 		// escape the & and stuff:
