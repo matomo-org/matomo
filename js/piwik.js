@@ -301,7 +301,7 @@ try {
 						partial = [];
 
 						// Is the value an array?
-//						if (Object.prototype.toString.call(value)=="[object Array]") {	// call added in IE5.5
+						// if (Object.prototype.toString.call(value)=="[object Array]") {	// call added in IE5.5
 						if (value instanceof Array) {
 							// The value is an array. Stringify every element. Use null as a placeholder
 							// for non-JSON values.
@@ -315,7 +315,7 @@ try {
 							return v;
 						}
 
-//						if (Object.prototype.toString.call(value)=="[object Date]") {	// call added in IE5.5
+						// if (Object.prototype.toString.call(value)=="[object Date]") {	// call added in IE5.5
 						if (value instanceof Date) {
 							return quote(value.getUTCFullYear()   + '-' +
 							           f(value.getUTCMonth() + 1) + '-' +
@@ -504,7 +504,7 @@ try {
 			 * Get the web bug image (transparent single pixel, 1x1, image) to log visit in Piwik
 			 */
 			function getWebBug() {
-				var i, customDataString, pluginString, extraString, now, request;
+				var i, customDataString, pluginString, extraString, now, request, query;
 
 				/*
 				 * encode custom vars
@@ -525,14 +525,17 @@ try {
 				extraString = executePluginMethod('log');
 
 				now = new Date();
-				request =  configTrackerUrl + '?idsite=' + configTrackerSiteId +
-				                              '&url=' + escapeWrapper(documentAlias.location.href) +
-				                              '&action_name=' + escapeWrapper(configTitle) + // refs #530
-				                              '&res=' + screenAlias.width + 'x' + screenAlias.height +
-				                              '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
-				                              '&cookie=' + browserHasCookies +
-				                              '&urlref=' + escapeWrapper(pageReferrer) +
-				                              pluginString + customDataString + extraString;
+
+				query = 'idsite=' + configTrackerSiteId +
+				        '&url=' + escapeWrapper(documentAlias.location.href) +
+				        '&action_name=' + escapeWrapper(configTitle) + // refs #530
+				        '&res=' + screenAlias.width + 'x' + screenAlias.height +
+				        '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
+				        '&cookie=' + browserHasCookies +
+				        '&urlref=' + escapeWrapper(pageReferrer) +
+				        pluginString + customDataString + extraString;
+
+				request =  configTrackerUrl + '?' + query;
 
 				getImage(request, configTrackerPause);
 			}
@@ -541,23 +544,27 @@ try {
 			 * Log the click with the server
 			 */
 			function logClick(url, linkType, customData) {
-				var customDataString, extraString, request;
+				var customDataString, extraString, request, query;
 
 				/*
 				 * encode custom data
 				 */
 				customDataString = '';
 				if (isDefined(customData)) {
+					customDataString = '&data=' + escapeWrapper(stringify(customData));
+				} else if (isDefined(configCustomData)) {
 					customDataString = '&data=' + escapeWrapper(stringify(configCustomData));
 				}
 
 				extraString = executePluginMethod('click');
 
-				request = configTrackerUrl + '?idsite=' + configTrackerSiteId +
-				                             '&' + linkType + '=' + escapeWrapper(url) +
-				                             '&rand=' + Math.random() +
-				                             '&redirect=0' +
-				                             customDataString + extraString;
+				query = 'idsite=' + configTrackerSiteId +
+				        '&' + linkType + '=' + escapeWrapper(url) +
+				        '&rand=' + Math.random() +
+				        '&redirect=0' +
+				        customDataString + extraString;
+
+				request = configTrackerUrl + '?' + query;
 
 				getImage(request, configTrackerPause);
 			}
