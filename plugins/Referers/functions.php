@@ -44,7 +44,12 @@ function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 {
 	require_once "DataFiles/SearchEngines.php";
 	$keyword = urlencode($keyword);
+	$keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);
 	$path = @$GLOBALS['Piwik_SearchEngines'][Piwik_getSearchEngineHostFromUrl($url)][2];
+	if(empty($path))
+	{
+		return false;
+	}
 	$path = str_replace("{k}", $keyword, $path);
 	return $url . '/' . $path;
 }
