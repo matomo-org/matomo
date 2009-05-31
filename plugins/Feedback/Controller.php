@@ -32,7 +32,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 		$view = new Piwik_View('Feedback/templates/sent.tpl');
 		try 
 		{
-			$minimumBodyLength = 10;
+			$minimumBodyLength = 25;
 			if(strlen($body) < $minimumBodyLength)
 			{
 				throw new Exception(sprintf("Message must be at least %s characters long.", $minimumBodyLength));
