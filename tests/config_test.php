@@ -8,8 +8,7 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 	define('PIWIK_INCLUDE_PATH', PIWIK_PATH_TEST_TO_ROOT);
 }
 
-set_include_path(PIWIK_INCLUDE_PATH 
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
+set_include_path(PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
 					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core/'
 					. PATH_SEPARATOR . get_include_path());
@@ -20,7 +19,6 @@ SimpleTest :: prefer(new HtmlReporter());
 
 error_reporting(E_ALL|E_NOTICE);
 date_default_timezone_set('Europe/London');
-
 
 require_once "Zend/Exception.php";
 require_once "Zend/Loader.php";
@@ -45,7 +43,7 @@ require_once 'Config.php';
 require_once 'Timer.php';
 require_once 'Access.php';
 require_once 'Log.php';
-require_once 'core/Piwik.php';
+require_once 'Piwik.php';
 
 assert_options(ASSERT_ACTIVE, 	1);
 assert_options(ASSERT_WARNING, 	1);
