@@ -602,19 +602,20 @@ dataTable.prototype =
 				
 				var truncationOffsetBecauseImageIsPrepend = -2; //website subtable needs -9. 
 				self.truncate( $(this), truncationOffsetBecauseImageIsPrepend );
-				
+
 				if( urlToLink.match("javascript:") )
 				{
-					$(this).prepend(imgToPrepend).wrap('<a href="#" onclick="' + urlToLink.replace("javascript:","") + '"></a>');
+//					$(this).prepend(imgToPrepend).wrap('<a href="#" onclick="' + urlToLink.replace("javascript:","") + '"></a>');
+					$(this).html( '<a href="#" onClick="' + urlToLink.replace("javascript:","") + '">' + imgToPrepend + $(this).html() + '</a>');
 				}
 				else
 				{
-					$(this).prepend(imgToPrepend).wrap('<a target="_blank" href="' + urlToLink + '"></a>');
+//					$(this).prepend(imgToPrepend).wrap('<a target="_blank" href="' + urlToLink + '"></a>');
+					$(this).html( '<a target="_blank" href="' + urlToLink + '">' + imgToPrepend + $(this).html() + '</a>');
 				}
 			});
 		}
-	
-		
+
 		// Add some styles on the cells even/odd
 		// label (first column of a data row) or not
 		$("th:first-child", domElem).addClass('label');
