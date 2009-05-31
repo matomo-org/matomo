@@ -34,9 +34,9 @@ class Piwik_Provider_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable('Provider_hostnameExt');
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getHostnameUrl'));
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getHostnameName'));
-		$dataTable->queuefilter('ReplaceColumnNames');
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getHostnameUrl'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getHostnameName'));
+		$dataTable->queueFilter('ReplaceColumnNames');
 		return $dataTable;
 	}
 }

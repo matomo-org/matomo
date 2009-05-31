@@ -47,6 +47,7 @@ require_once "DataTable/Filter/ColumnCallbackAddMetadata.php";
 require_once "DataTable/Filter/ColumnCallbackReplace.php";
 require_once "DataTable/Filter/ColumnCallbackAddColumnPercentage.php";
 require_once "DataTable/Filter/MetadataCallbackAddMetadata.php";
+require_once "DataTable/Filter/MetadataCallbackReplace.php";
 require_once "DataTable/Filter/AddConstantMetadata.php";
 require_once "DataTable/Filter/Null.php";
 require_once "DataTable/Filter/ExcludeLowPopulation.php";

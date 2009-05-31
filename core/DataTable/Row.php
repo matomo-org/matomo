@@ -276,7 +276,7 @@ class Piwik_DataTable_Row
 	{
 		$this->c[self::COLUMNS] = $columns;
 	}
-	
+
 	/**
 	 * Set the value $value to the column called $name.
 	 * 
@@ -286,6 +286,17 @@ class Piwik_DataTable_Row
 	public function setColumn($name, $value)
 	{
 		$this->c[self::COLUMNS][$name] = $value;
+	}
+	
+	/**
+	 * Set the value $value to the metadata called $name.
+	 * 
+	 * @param string $name of the metadata to set
+	 * @param mixed $value of the metadata to set
+	 */
+	public function setMetadata($name, $value)
+	{
+		$this->c[self::METADATA][$name] = $value;
 	}
 	
 	/**

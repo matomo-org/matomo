@@ -25,12 +25,14 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
 {
 	private $columnToRead;
 	private $functionToApply;
+	private $functionParameters;
 	private $metadataToAdd;
 	
-	public function __construct( $table, $columnToRead, $metadataToAdd, $functionToApply )
+	public function __construct( $table, $columnToRead, $metadataToAdd, $functionToApply, $functionParameters = null )
 	{
 		parent::__construct($table);
 		$this->functionToApply = $functionToApply;
+		$this->functionParameters = $functionParameters;
 		$this->columnToRead = $columnToRead;
 		$this->metadataToAdd = $metadataToAdd;
 		$this->filter();
@@ -41,7 +43,12 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
 		foreach($this->table->getRows() as $key => $row)
 		{
 			$oldValue = $row->getColumn($this->columnToRead);
-			$newValue = call_user_func( $this->functionToApply, $oldValue);
+			$parameters = array($oldValue);
+			if(!is_null($this->functionParameters))
+			{
+				$parameters = array_merge($parameters, $this->functionParameters);
+			}
+			$newValue = call_user_func_array( $this->functionToApply, $parameters);
 			$row->addMetadata($this->metadataToAdd, $newValue);
 		}
 	}

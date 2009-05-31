@@ -45,8 +45,8 @@ class Piwik_Referers_API
 			$dataTable = $archive->getDataTable($name, $idSubtable);
 		}
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
-		$dataTable->queuefilter('ReplaceColumnNames', array($expanded));
-		$dataTable->queuefilter('ReplaceSummaryRowLabel');
+		$dataTable->queueFilter('ReplaceColumnNames', array($expanded));
+		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
 	
@@ -57,7 +57,7 @@ class Piwik_Referers_API
 		{
 			$dataTable->filter('Pattern', array('label', $typeReferer));
 		}
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
 		return $dataTable;
 	}
 	
@@ -70,22 +70,33 @@ class Piwik_Referers_API
 	function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword',$idSite, $period, $date, $expanded = false, $idSubtable);
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
-		$dataTable->queuefilter('MetadataCallbackAddMetadata', array( 'url', 'logo', 'Piwik_getSearchEngineLogoFromName') );
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
+		$dataTable->queueFilter('MetadataCallbackAddMetadata', array( 'url', 'logo', 'Piwik_getSearchEngineLogoFromUrl') );
+		
+		// get the keyword and create the URL to the search result page
+		$keywords = $this->getKeywords($idSite, $period, $date);
+		$keyword = $keywords->getRowFromIdSubDataTable($idSubtable)->getColumn('label');
+		$dataTable->queueFilter('MetadataCallbackReplace', array( 'url', 'Piwik_getSearchEngineUrlFromUrlAndKeyword', array($keyword)) );
 		return $dataTable;
 	}
 
 	function getSearchEngines($idSite, $period, $date, $expanded = false)
 	{
 		$dataTable = $this->getDataTable('Referers_keywordBySearchEngine',$idSite, $period, $date, $expanded);
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
-		$dataTable->queuefilter('MetadataCallbackAddMetadata', array( 'url', 'logo', 'Piwik_getSearchEngineLogoFromName') );
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
+		$dataTable->queueFilter('MetadataCallbackAddMetadata', array( 'url', 'logo', 'Piwik_getSearchEngineLogoFromUrl') );
 		return $dataTable;
 	}
 
 	function getKeywordsFromSearchEngineId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_keywordBySearchEngine',$idSite, $period, $date, $expanded = false, $idSubtable);
+		
+		// get the search engine and create the URL to the search result page
+		$searchEngines = $this->getSearchEngines($idSite, $period, $date);
+		$searchEngines->applyQueuedFilters();
+		$searchEngineUrl = $searchEngines->getRowFromIdSubDataTable($idSubtable)->getMetadata('url');
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromKeywordAndUrl', array($searchEngineUrl)));
 		return $dataTable;
 	}
 
@@ -110,8 +121,8 @@ class Piwik_Referers_API
 	function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date, $expanded = false, $idSubtable);
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array( 'label', 'url', create_function('$label', 'return $label;')) );
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', create_function('$label', 'return $label;')) );
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
 		return $dataTable;
 	}
 

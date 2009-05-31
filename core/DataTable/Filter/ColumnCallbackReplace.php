@@ -34,14 +34,22 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 	{
 		foreach($this->table->getRows() as $key => $row)
 		{
-			$parameters = array($row->getColumn($this->columnToFilter));
+			$parameters = array($this->getElementToReplace($row, $this->columnToFilter));
 			if(!is_null($this->functionParameters))
 			{
 				$parameters = array_merge($parameters, $this->functionParameters);
 			}
 			$newValue = call_user_func_array( $this->functionToApply, $parameters);
-			$row->setColumn($this->columnToFilter, $newValue);
+			$this->setElementToReplace($row, $this->columnToFilter, $newValue);
 		}
 	}
+	
+	protected function setElementToReplace($row, $columnToFilter, $newValue)
+	{
+		$row->setColumn($columnToFilter, $newValue);
+	}
+	protected function getElementToReplace($row, $columnToFilter)
+	{
+		return $row->getColumn($columnToFilter);
+	}
 }
-
