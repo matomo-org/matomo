@@ -7,7 +7,7 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once PIWIK_PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
 
-require_once 'plugins/LanguagesManager/API.php';
+require_once 'LanguagesManager/API.php';
 
 class Test_Languages_Manager extends UnitTestCase
 {
