@@ -35,8 +35,8 @@ class Piwik_UserCountry_API
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getFlagFromCode'));
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_CountryTranslate'));
-		$dataTable->queuefilter('AddConstantMetadata', array('logoWidth', 18));
-		$dataTable->queuefilter('AddConstantMetadata', array('logoHeight', 12));
+		$dataTable->queueFilter('AddConstantMetadata', array('logoWidth', 18));
+		$dataTable->queueFilter('AddConstantMetadata', array('logoHeight', 12));
 		return $dataTable;
 	}
 	
@@ -44,7 +44,7 @@ class Piwik_UserCountry_API
 	{
 		$dataTable = $this->getDataTable('UserCountry_continent', $idSite, $period, $date);
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
 		return $dataTable;
 	}
 	
@@ -54,7 +54,7 @@ class Piwik_UserCountry_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
-		$dataTable->queuefilter('ReplaceColumnNames');
+		$dataTable->queueFilter('ReplaceColumnNames');
 		return $dataTable;
 	}
 	

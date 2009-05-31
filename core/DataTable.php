@@ -486,6 +486,25 @@ class Piwik_DataTable
 	}
 
 	/**
+	 * Returns a row that has the subtable ID matching the parameter
+	 * 
+	 * @param int $idSubTable
+	 * @return Piwik_DataTable_Row or false if not found
+	 */
+	public function getRowFromIdSubDataTable($idSubTable)
+	{
+		$idSubTable = (int)$idSubTable;
+		foreach($this->rows as $row)
+		{
+			if($row->getIdSubDataTable() === $idSubTable)
+			{
+				return $row;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Add a row to the table and rebuild the index if necessary
 	 * 
 	 * @param Piwik_DataTable_Row $row to add at the end of the array

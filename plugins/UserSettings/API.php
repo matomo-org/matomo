@@ -33,7 +33,7 @@ class Piwik_UserSettings_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
-		$dataTable->queuefilter('ReplaceColumnNames');
+		$dataTable->queueFilter('ReplaceColumnNames');
 		return $dataTable;
 	}
 	public function getResolution( $idSite, $period, $date )
@@ -45,49 +45,49 @@ class Piwik_UserSettings_API
 	public function getConfiguration( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('UserSettings_configuration', $idSite, $period, $date);
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getConfigurationLabel'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getConfigurationLabel'));
 		return $dataTable;
 	}
 
 	public function getOS( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('UserSettings_os', $idSite, $period, $date);
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getOSLogo'));
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array( 'label', 'shortLabel', 'Piwik_getOSShortLabel') );
-		$dataTable->queuefilter('ColumnCallbackReplace', array( 'label', 'Piwik_getOSLabel') );
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getOSLogo'));
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'shortLabel', 'Piwik_getOSShortLabel') );
+		$dataTable->queueFilter('ColumnCallbackReplace', array( 'label', 'Piwik_getOSLabel') );
 		return $dataTable;
 	}
 		
 	public function getBrowser( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('UserSettings_browser', $idSite, $period, $date);
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowsersLogo'));
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'Piwik_getBrowserShortLabel'));
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserLabel'));
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowsersLogo'));
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'Piwik_getBrowserShortLabel'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserLabel'));
 		return $dataTable;
 	}
 	
 	public function getBrowserType( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('UserSettings_browserType', $idSite, $period, $date);
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'ucfirst'));
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserTypeLabel'));
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'ucfirst'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserTypeLabel'));
 		return $dataTable;
 	}
 	
 	public function getWideScreen( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('UserSettings_wideScreen', $idSite, $period, $date);
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getScreensLogo'));
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'ucfirst'));
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getScreensLogo'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
 		return $dataTable;
 	}
 	
 	public function getPlugin( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('UserSettings_plugin', $idSite, $period, $date);
-		$dataTable->queuefilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getPluginsLogo'));
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'ucfirst'));
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getPluginsLogo'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
 		return $dataTable;
 	}	
 }

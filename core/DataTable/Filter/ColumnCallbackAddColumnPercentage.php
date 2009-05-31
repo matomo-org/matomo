@@ -9,7 +9,7 @@
  * 
  * Usage:
  *   $nbVisits = Piwik_VisitsSummary_API::getVisits($idSite, $period, $date);
- *   $dataTable->queuefilter('ColumnCallbackAddColumnPercentage', array('nb_visits', 'nb_visits_percentage', $nbVisits, 1));
+ *   $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits', 'nb_visits_percentage', $nbVisits, 1));
  *
  */
 class Piwik_DataTable_Filter_ColumnCallbackAddColumnPercentage extends Piwik_DataTable_Filter

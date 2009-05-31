@@ -33,8 +33,8 @@ class Piwik_VisitTime_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array('label', 'asc', true));
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
-		$dataTable->queuefilter('ReplaceColumnNames');
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
+		$dataTable->queueFilter('ReplaceColumnNames');
 		return $dataTable;
 	}
 	

@@ -585,6 +585,18 @@ class Test_Piwik_Common extends UnitTestCase
 		}
 	}
 	
+	public function test_SearchEngines_areDefinedCorrectly()
+	{
+		require_once "DataFiles/SearchEngines.php";
+		foreach($GLOBALS['Piwik_SearchEngines'] as $host => $info)
+		{
+			if(isset($info[2]) && $info[2] !== false)
+			{
+				$this->assertTrue(strrpos($info[2], "{k}") !== false, "$host search URL is not defined correctly, found {$info[2]} but must contain the macro {k}");
+			}
+		}
+	}
+	
 	public function test_extractSearchEngineInformationFromUrl()
 	{
 		$urls = array(

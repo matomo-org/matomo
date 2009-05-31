@@ -32,22 +32,22 @@ class Piwik_VisitorInterest_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort',array(Piwik_Archive::INDEX_NB_VISITS));
-		$dataTable->queuefilter('ReplaceColumnNames');
-		$dataTable->queuefilter('Sort', array('label', 'asc', true));
+		$dataTable->queueFilter('ReplaceColumnNames');
+		$dataTable->queueFilter('Sort', array('label', 'asc', true));
 		return $dataTable;
 	}
 	
 	public function getNumberOfVisitsPerVisitDuration( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('VisitorInterest_timeGap', $idSite, $period, $date);
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getDurationLabel'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getDurationLabel'));
 		return $dataTable;
 	}
 
 	public function getNumberOfVisitsPerPage( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('VisitorInterest_pageGap', $idSite, $period, $date);
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getPageGapLabel'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getPageGapLabel'));
 		return $dataTable;
 	}
 }

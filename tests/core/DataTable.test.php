@@ -76,6 +76,22 @@ class Test_Piwik_DataTable extends UnitTestCase
 		$this->assertTrue($table->getLastRow(), $table->getRowFromId($rowsCount-2));
 	}
 	
+	public function test_getRowFromIdSubDataTable()
+	{
+		$table1 = $this->getDataTable1ForTest();
+		$idTable1 = $table1->getId();
+		$table2 = $this->getDataTable2ForTest();
+		$this->assertEqual($table2->getRowFromIdSubDataTable($idTable1), false);
+		
+		$table2->getFirstRow()->addSubtable($table1);
+		$this->assertEqual($table2->getRowFromIdSubDataTable($idTable1), $table2->getFirstRow());
+		
+		$table3 = $this->getDataTable1ForTest();
+		$idTable3 = $table3->getId();
+		$table2->getLastRow()->addSubtable($table3);
+		$this->assertEqual($table2->getRowFromIdSubDataTable($idTable3), $table2->getLastRow());
+	}
+	
 	/**
 	 * we test the count rows and the count rows recursive version
 	 * on a Simple array (1 level only)

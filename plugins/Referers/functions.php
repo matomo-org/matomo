@@ -23,14 +23,10 @@ function Piwik_getSearchEngineUrlFromName($name)
 	return $url;
 }
 
-
-function Piwik_getSearchEngineLogoFromName($url)
+function Piwik_getSearchEngineLogoFromUrl($url)
 {
-	require_once "DataFiles/SearchEngines.php";
-	$beginningUrl = strpos($url,'//') + 2;
-
 	$pathInPiwik = 'plugins/Referers/images/searchEngines/%s.png';
-	$pathWithCode = sprintf($pathInPiwik, substr($url,$beginningUrl));
+	$pathWithCode = sprintf($pathInPiwik, Piwik_getSearchEngineHostFromUrl($url));
 	$absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
 	if(file_exists($absolutePath))
 	{
@@ -39,6 +35,24 @@ function Piwik_getSearchEngineLogoFromName($url)
 	return sprintf($pathInPiwik, 'xx');
 }
 
+function Piwik_getSearchEngineHostFromUrl($url)
+{
+	return substr($url, strpos($url,'//') + 2);
+}
+
+function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
+{
+	require_once "DataFiles/SearchEngines.php";
+	$keyword = urlencode($keyword);
+	$path = @$GLOBALS['Piwik_SearchEngines'][Piwik_getSearchEngineHostFromUrl($url)][2];
+	$path = str_replace("{k}", $keyword, $path);
+	return $url . '/' . $path;
+}
+
+function Piwik_getSearchEngineUrlFromKeywordAndUrl($keyword, $url)
+{
+	return Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword);
+}
 
 function Piwik_getRefererTypeLabel($label)
 {
