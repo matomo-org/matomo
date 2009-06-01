@@ -9,7 +9,8 @@ enable_detect_unique_visitor_using_settings = 0
 always_archive_data = 1
 
 2. go to /misc/testJavascriptTracker/ and fake the referer using, eg. RefControl options Firefox extension
-http://www.google.co.uk/search?hl=en&q=<script>alert('test');</script>
+http://www.google.co.uk/search?hl=en&q=';alert(String.fromCharCode(88,83,83))//\';alert(String.fromCharCode(88,83,83))//";alert(String.fromCharCode(88,83,83))//\";alert(String.fromCharCode(88,83,83))//--></SCRIPT>">'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>
+http://example.com/';alert(String.fromCharCode(88,83,83))//\';alert(String.fromCharCode(88,83,83))//";alert(String.fromCharCode(88,83,83))//\";alert(String.fromCharCode(88,83,83))//--></SCRIPT>">'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>
 http://example.com/&quot;&lt;script&gt;alert(''test'');&lt;/script&gt;
 http://example3.com/test>"'><script>alert('XSS')</script>
 http://example.com/"><script>alert('yo')</script>
