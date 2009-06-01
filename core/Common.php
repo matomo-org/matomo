@@ -351,7 +351,7 @@ class Piwik_Common
 		}
 		elseif(is_string($value))
 		{
-			$value = htmlspecialchars($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+			$value = self::sanitizeInputValue($value);
 
 			// Undo the damage caused by magic_quotes -- only before php 5.3 as it is now deprecated
 			if ( version_compare(phpversion(), '5.3') === -1 
@@ -383,6 +383,16 @@ class Piwik_Common
 		return $value;
 	}
 
+	static public function sanitizeInputValue($value)
+	{
+		return htmlspecialchars($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+	}
+	
+	static public function unsanitizeInputValue($value)
+	{
+		return htmlspecialchars_decode($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE);
+	}
+	
 	/**
 	 * Returns a sanitized variable value from the $_GET and $_POST superglobal.
 	 * If the variable doesn't have a value or an empty value, returns the defaultValue if specified.

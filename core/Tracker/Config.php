@@ -48,9 +48,16 @@ class Piwik_Tracker_Config
 	public $config = array();
 	protected $init = false;
 	
-	public function init($pathIniFileUser = 'config/config.ini.php', 
-								$pathIniFileGlobal = 'config/global.ini.php')
+	public function init($pathIniFileUser = null, $pathIniFileGlobal = null)
 	{
+		if(is_null($pathIniFileUser))
+		{
+			$pathIniFileUser = PIWIK_INCLUDE_PATH . '/config/config.ini.php'; 
+		}
+		if(is_null($pathIniFileGlobal))
+		{
+			$pathIniFileGlobal = PIWIK_INCLUDE_PATH . '/config/global.ini.php'; 
+		}
 		$this->configUser = parse_ini_file($pathIniFileUser, true);
 		$this->configGlobal = parse_ini_file($pathIniFileGlobal, true);
 	
