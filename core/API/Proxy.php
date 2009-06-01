@@ -225,7 +225,7 @@ class Piwik_API_Proxy
 	private function includeApiFile($fileName)
 	{
 		$module = self::getModuleNameFromClassName($fileName);
-		$potentialPaths = array( "plugins/". $module ."/API.php", );
+		$potentialPaths = array( $module ."/API.php", );
 		
 		$found = false;
 		foreach($potentialPaths as $path)

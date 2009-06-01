@@ -85,7 +85,7 @@ class Piwik_PluginsManager
 	 */
 	public function readPluginsDirectory()
 	{
-		$pluginsName = glob( "plugins/*", GLOB_ONLYDIR);
+		$pluginsName = glob( PIWIK_INCLUDE_PATH . "/plugins/*", GLOB_ONLYDIR);
 		$pluginsName = array_map('basename', $pluginsName);
 		return $pluginsName;
 	}
