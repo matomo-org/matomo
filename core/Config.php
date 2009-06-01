@@ -138,13 +138,11 @@ class Piwik_Config
 					{
 						foreach($value as $currentValue)
 						{
-							$currentValue = htmlentities($currentValue);
 							$configFile .= $name."[] = $currentValue\n";
 						}
 					}
 					else
 					{
-						$value = htmlentities($value);
 						if(!is_numeric($value))
 						{
 							$value = "\"$value\"";
@@ -155,7 +153,7 @@ class Piwik_Config
 				$configFile .= "\n";
 			}
 			chdir($this->correctCwd);
-			file_put_contents($this->getDefaultUserConfigPath(), $configFile );
+			file_put_contents($this->pathIniFileUserConfig, $configFile );
 		}
 	}
 	
@@ -165,7 +163,7 @@ class Piwik_Config
 	 */
 	public function setTestEnvironment()
 	{
-		$this->database = $this->database_tests;
+		$this->database = $this->database_tests->toArray();
 	}
 	
 	/**
@@ -175,9 +173,9 @@ class Piwik_Config
 	 * The values will be saved in the configuration file at the end of the script @see __destruct()
 	 * 
 	 * @param string $name
-	 * @param mixed $value
+	 * @param mixed $values
 	 */
-	public function __set($name, $value)
+	public function __set($name, $values)
 	{
 		$this->cachedConfigArray = array();
 		$this->checkWritePermissionOnFile();
@@ -185,12 +183,45 @@ class Piwik_Config
 		{
 			$this->userConfig = new Zend_Config(array(), true);
 		}
-		if(is_array($value) 
-			|| $this->userConfig->$name != $value)
+		$values = self::encodeValues($values);
+		if(is_array($values) 
+			|| $this->userConfig->$name != $values)
 		{
 			$this->configFileUpdated = true;
 		}
-		$this->userConfig->$name = $value;
+		$this->userConfig->$name = $values;
+	}
+	
+	private function encodeValues($values)
+	{
+		if(is_array($values))
+		{
+			foreach($values as &$value)
+			{
+				$value = self::encodeValues($value);
+			}
+		}
+		else
+		{
+			$values = htmlentities($values, ENT_COMPAT);
+		}
+		return $values;
+	}
+	
+	private function decodeValues($values)
+	{
+		if(is_array($values))
+		{
+			foreach($values as &$value)
+			{
+				$value = self::decodeValues($value);
+			}
+		}
+		else
+		{
+			$values = html_entity_decode($values, ENT_COMPAT);
+		}
+		return $values;
 	}
 	
 	protected function checkWritePermissionOnFile() 
@@ -240,20 +271,10 @@ class Piwik_Config
 				&& null !== ($valueInUserConfig = $this->userConfig->$sectionName))
 			{
 				$valueInUserConfig = $valueInUserConfig->toArray();
-				foreach($valueInUserConfig as $name => &$value)
-				{
-					if(is_array($value)) 
-					{
-						$value = array_map("html_entity_decode", $value);
-					} 
-					else 
-					{
-						$value = html_entity_decode($value);
-					}
-				}
+				$valueInUserConfig = self::decodeValues($valueInUserConfig);
 				$section = array_merge($section, $valueInUserConfig);
 			}
-			$this->cachedConfigArray[$sectionName] = new Zend_Config($section);
+			$this->cachedConfigArray[$sectionName] = new Zend_Config($section, true);
 		}
 	}
 	

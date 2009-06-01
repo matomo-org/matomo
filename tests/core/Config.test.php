@@ -11,8 +11,8 @@ class Test_Piwik_Config extends UnitTestCase
 {
     public function testUserConfigOverwritesSectionGlobalConfigValue()
     {
-    	$userFile = 'tests/resources/Config/config.ini.php';
-    	$globalFile = 'tests/resources/Config/global.ini.php';
+    	$userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
+    	$globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
     	
     	$config = new Piwik_Config($userFile, $globalFile);
     	$config->init();
@@ -29,6 +29,28 @@ class Test_Piwik_Config extends UnitTestCase
     	$expectedArray = array('value1', 'value2');
     	$array = $config->TestArrayOnlyInGlobalFile->toArray();
     	$this->assertEqual($array['my_array'], $expectedArray);
+    }
+    
+    public function testWritingConfigWithSpecialCharacters()
+    {
+    	$userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.written.ini.php';
+    	$globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
+    	
+    	$config = new Piwik_Config($userFile, $globalFile);
+    	$config->init();
+    	$stringWritten = '&6^ geagea\'\'\'";;&';
+    	$config->Category = array('test' => $stringWritten);
+    	$this->assertEqual($config->Category->test, $stringWritten);
+    	unset($config);
+    	
+    	$config = new Piwik_Config($userFile, $globalFile);
+    	$config->init();
+    	$this->assertEqual($config->Category->test, $stringWritten);
+    	$config->Category = array(
+    							'test' => $config->Category->test,
+    							'test2' => $stringWritten);
+    	$this->assertEqual($config->Category->test, $stringWritten);
+    	$this->assertEqual($config->Category->test2, $stringWritten);
     }
     
 }

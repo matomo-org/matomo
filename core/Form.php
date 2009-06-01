@@ -102,6 +102,7 @@ abstract class Piwik_Form extends HTML_QuickForm
 function Piwik_Form_fieldHaveSameValue($element, $value, $arg) 
 {
 	$value2 = Piwik_Common::getRequestVar( $arg, '', 'string');
+	$value2 = Piwik_Common::unsanitizeInputValue($value2);
 	return $value === $value2;
 }
 
