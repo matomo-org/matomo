@@ -173,7 +173,7 @@ try {
 			configTrackerSiteId = siteId || '',
 
 			// Document title
-			configTitle = documentAlias.title || '',
+			configTitle = '',
 
 			// Extensions to be treated as download links
 			configDownloadExtensions = '7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd||xls|xml|z|zip',
