@@ -36,11 +36,9 @@ $(document).ready( function(){
 {$javascriptTag}
 </code>
 
-<h1>Quick help:</h1>
+<h1>Quick Help:</h1>
 <ul>
-<li>The best is to add the tag just before your &lt;/body&gt; at the bottom of your pages</li>
-<li>You can generally edit your website templates and add this code in a "footer" file.</li>
-<li><a target="_blank" href="http://piwik.org/docs/javascript-tracking/">More information about the Javascript Tracking</a>.</li>
+{include file=SitesManager/templates/JavascriptTagHelp.tpl}
 <li>For medium and high traffic websites, check out the  <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">How to setup auto archiving page</a> to make Piwik run really fast!</li>
 <!-- <li>Link to help with the main blog engines wordpress/drupal/myspace/blogspot</li> -->
 </ul>

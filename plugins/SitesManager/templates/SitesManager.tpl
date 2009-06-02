@@ -41,7 +41,7 @@
 			<th>{'SitesManager_Urls'|translate}</th>
 			<th> </th>
 			<th> </th>
-			<th> {'SitesManager_JsCode'|translate} </th>
+			<th> {'SitesManager_JsTrackingTag'|translate} </th>
 			</tr>
 		</thead>
 		<tbody>
@@ -52,7 +52,7 @@
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url}<br />{/foreach}</td>       
 				<td><img src='plugins/UsersManager/images/edit.png' class="editSite" id="row{$i}" href='#' alt="" /></td>
 				<td><img src='plugins/UsersManager/images/remove.png' class="deleteSite" id="row{$i}" value="{'General_Delete'|translate}" alt="" /></td>
-				<td><a href='{url action=displayJavascriptCode idsite=$site.idsite}'>{'SitesManager_ShowJsCode'|translate}</a></td>
+				<td><a href='{url action=displayJavascriptCode idsite=$site.idsite}'>{'SitesManager_ShowTrackingTag'|translate}</a></td>
 			</tr>
 			{/foreach}
 			
