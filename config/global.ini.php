@@ -2,7 +2,7 @@
 ; If you want to change some of these default values, the best practise is to override 
 ; them in your configuration file in config/config.ini.php. If you directly edit this file,
 ; you risk losing your changes when you upgrade Piwik. 
-; For example if you override enable_browser_archiving_triggering, 
+; For example if you want to override enable_browser_archiving_triggering, 
 ; edit config/config.ini.php and add the following:
 ; [General]
 ; enable_browser_archiving_triggering = 0
