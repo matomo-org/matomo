@@ -189,6 +189,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Bild
 		"www.bild.t-online.de"	        => array("Bild.de (enhanced by Google)", "query"),
 		
+		// Bing
+		"www.bing.com"				=> array("Bing", "q", "search?q={k}"),
+	
 		//Blogdigger
 		"www.blogdigger.com"		=> array("Blogdigger","q"),
 		
