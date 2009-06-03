@@ -7,7 +7,6 @@
 try {
  var piwikTracker = Piwik.getTracker("piwik.php", 1);
  piwikTracker.setCustomData({ 'video_play':1, 'video_finished':0 });
- piwikTracker.setDocumentTitle('');
  piwikTracker.trackPageView();
  piwikTracker.enableLinkTracking();
 } catch(err) {}
