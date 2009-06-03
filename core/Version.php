@@ -1,5 +1,5 @@
 <?php
 
 final class Piwik_Version {
-	const VERSION = '0.4RC2';
+	const VERSION = '0.4RC3';
 }
