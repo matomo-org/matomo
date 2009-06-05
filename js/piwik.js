@@ -667,7 +667,7 @@ try {
 					var originalSourceHostName = sourceElement.hostname,
 						sourceHostName = originalSourceHostName.toLowerCase(),
 						sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName),
-						scriptProtocol = /^(javascript|vbscript|jscript|mocha|livescript|ecmascript):/i;
+						scriptProtocol = /^(javascript|vbscript|jscript|mocha|livescript|ecmascript): */i;
 
 					// ignore script pseudo-protocol links
 					if (!scriptProtocol.test(sourceHref)) {
