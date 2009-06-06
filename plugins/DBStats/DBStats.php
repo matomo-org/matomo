@@ -17,7 +17,7 @@ class Piwik_DBStats extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Databases statistics',
+			'name' => 'Database statistics',
 			'description' => 'This plugin reports the database usage by Piwik tables.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
