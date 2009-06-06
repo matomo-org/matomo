@@ -125,7 +125,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		// - Using library for auto-enabling Flash object on IE, disabled-Javascript proof
 		$return = '
 			<div id="'. $this->chartDivId .'">
-				Displaying Graphs in Piwik requires Flash >= '. $requiredFlashVersion .'. <a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/faq/troubleshooting/#faq_53">More information about displaying graphs in Piwik.</a>
+				Displaying Graphs in Piwik requires Flash >= '. $requiredFlashVersion .'. <a target="_blank" href="misc/redirectToUrl.php?url='. urlencode('http://piwik.org/faq/troubleshooting/#faq_53') .'">More information about displaying graphs in Piwik.</a>
 			</div>
 			<script type="text/javascript">
 				OFC = {};
@@ -135,7 +135,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 					image: function (src) { return "<img title=\'Piwik Graph\' src=\'data:image/png;base64," + $("#"+src)[0].get_img_binary() + "\' />"; },
 					popup: function (src) {
 						var img_win = window.open("", "Charts: Export as Image");
-						img_win.document.write("<html><head><title>'. Piwik_Translate('General_ExportAsImage') .'<\/title><\/head><body>" + Control.OFC.image(src) + "<br><br><p>'.htmlentities(Piwik_Translate('General_SaveImageOnYourComputer')).'<\/p><\/body><\/html>");
+						img_win.document.write("<html><head><title>'. Piwik_Translate('General_ExportAsImage') .'<\/title><\/head><body>" + Control.OFC.image(src) + "<br><br><p>'. htmlentities(Piwik_Translate('General_SaveImageOnYourComputer')) .'<\/p><\/body><\/html>");
 					}
 				};
 				if (typeof Control == "undefined") { var Control = {OFC: OFC.jquery}; }
