@@ -117,7 +117,7 @@
 				<th>{'UsersManager_Password'|translate}</th>
 				<th>{'UsersManager_Email'|translate}</th>
 				<th>{'UsersManager_Alias'|translate}</th>
-				<th>{'UsersManager_Token'|translate}</th>
+				<th>token_auth</th>
 				<th>{'General_Edit'|translate}</th>
 				<th>{'General_Delete'|translate}</th>
 			</tr>
