@@ -619,7 +619,6 @@ $translations = array(
 	'UsersManager_Password' => 'Password',
 	'UsersManager_Email' => 'Email',
 	'UsersManager_Alias' => 'Alias',
-	'UsersManager_Token' => 'token_auth',
 	'UsersManager_Edit' => 'Edit',
 	'UsersManager_AddUser' => 'Add a new user',
 	'UsersManager_MenuUsers' => 'Users',
