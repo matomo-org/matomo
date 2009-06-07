@@ -562,7 +562,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.adelphia.net" 		=> array("Google", "q"),
 		"so.qq.com" 			=> array("Google", "word"),
 		"misc.skynet.be" 		=> array("Google", "keywords"),
-		"www.start.no" 			=> array("Google", "q"),
+		
 		"verden.abcsok.no"		=> array("Google", "q"),
 		"search3.incredimail.com"         => array("Google", "q"), 
 		"search.sweetim.com"	        => array("Google", "q"),
@@ -684,6 +684,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Goyellow.de
 		"www.goyellow.de"	        => array("GoYellow.de", "MDN"),
 		
+		// Gule Sider:
+		"www.gulesider.no" => array("Gule Sider", "q"), 
+	
 		// HighBeam
 		"www.highbeam.com"	        => array("HighBeam", "Q"),
 		
@@ -754,8 +757,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.kostenlos.de" => array('kostenlos.de', 'q'),
 	
 		// Kvasir
-		"kvasir.no" 				=> array("Kvasir", "searchExpr"),
-		"www.kvasir.no" 			=> array("Kvasir", "searchExpr"),
+		"kvasir.no" 				=> array("Kvasir", "q"),
+		"www.kvasir.no" 			=> array("Kvasir", "q"),
 	
 		// Latne
 	    "www.latne.lv"			=> array("Latne", "q"),
@@ -827,7 +830,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 	   "www.maailm.com"			=> array("maailm.com", "tekst"),
 
 		// Mail.ru
-		"go.mail.ru"			=> array("Mailru", "q"),
+		"go.mail.ru"			=> array("Mailru", "q", "search?q={k}", "windows-1251"),
 		
 		// Mamma
 		"mamma.com"			=> array("Mamma", "query"),
@@ -907,6 +910,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Nifty
 		"search.nifty.com"              => array("Nifty", "q"),
 
+		// Nigma
+		"www.nigma.ru"			=> array("Nigma", "s", "index.php?s={k}"),
+		"nigma.ru"			=> array("Nigma", "s", "index.php?s={k}"),
+
 		// Nomade
 		"ie4.nomade.fr"			=> array("Nomade", "s"),
 		"rechercher.nomade.aliceadsl.fr"=> array("Nomade (AliceADSL)", "s"),
@@ -921,6 +928,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Onet
 		"szukaj.onet.pl" 		=> array("Onet.pl", "qt"),
 		
+		// Online.no:
+		"www.online.no" => array("Online.no", "q"),
+		"online.no" => array("Online.no", "q"), 
+	
 		// Opera
 		"search.opera.com" 		=> array("Opera", "search"),
 		
@@ -929,6 +940,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"bbs2.openfind.com.tw" 		=> array("Openfind (BBS)", "query"),
 		"news.openfind.com.tw" 		=> array("Openfind (News)", "query"),
 		
+		// Opplysningen 1881:
+		"www.1881.no" => array("Opplysningen 1881", "Query"), 
+	
 		// Overture
 		"www.overture.com"		=> array("Overture", "Keywords"),
 		"www.fr.overture.com"		=> array("Overture", "Keywords"),
@@ -945,6 +959,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Postami
 		"www.postami.com" 		=> array("Postami", "query"),
 		
+		// qip
+		"start.qip.ru"			=> array("qip.ru", "query", "search?query={k}"),
+		"search.qip.ru"			=> array("qip.ru", "query", "search?query={k}"),
+
 		// Quick searches
 		"data.quicksearches.net"	=> array("QuickSearches", "q"),
 		
@@ -958,7 +976,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"nova.rambler.ru"           => array("Rambler", "query", "search?query={k}"), 
 		"search.rambler.ru" 		=> array("Rambler", "words"),
 		"www.rambler.ru"            => array("Rambler", "words"),
-		"nova.rambler.ru" 			=> array("Rambler", "q"),
 
 		// Reacteur.com
 		"www.reacteur.com"		=> array("Reacteur", "kw"),
@@ -1026,9 +1043,15 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Sphere
 		"www.sphere.com" 		=> array("Sphere", "q"),
 		
+		// Start.no
+		"www.start.no" 			=> array("Google", "q"),
+	
 		// Startpagina
 		"startgoogle.startpagina.nl" 	=> array("Startpagina (Google)", "q"),
 		
+		// Suchmaschine.com
+		"www.suchmaschine.com"		=> array("Suchmaschine.com", "suchstr"),
+
 		// Suchnase
 		"www.suchnase.de" 		=> array("Suchnase", "qkw"),
 		
@@ -1041,10 +1064,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"search.fr.sympatico.msn.ca"    => array("Sympatico", "q"),
 		"sea.search.fr.sympatico.msn.ca"=> array("Sympatico", "q"),
 		
-		// Suchmaschine.com
-		"www.suchmaschine.com"		=> array("Suchmaschine.com", "suchstr"),
 		
-		//Technorati
+		// Technorati
 		"www.technorati.com"		=> array("Technorati", " "),
 		
 		// Teoma
@@ -1064,9 +1085,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.trouvez.com"		=> array("Trouvez.com", "query"),
 		
 		// Trusted-Search
-		
 		"www.trusted--search.com"       => array("Trusted Search", "w"),
-		 
+
+		// Twingly
+		"www.twingly.com" => array("Twingly", "q"), 
+			 
 		// Vinden
 		"zoek.vinden.nl" 		=> array("Vinden", "query"),
 		
@@ -1147,7 +1170,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"www.ya.ru" 			=> array("Yandex", "text"),
 	
 		// Yandex Images
-		"images.yandex.ru"		=> array("Yandex Images","text"),
+		"images.yandex.ru"		=> array("Yandex Images", "text", "yandsearch?text={k}"),
 		
 		// Yasni
 		"www.yasni.de"                  => array("Yasni", "name"),
