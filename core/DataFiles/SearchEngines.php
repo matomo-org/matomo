@@ -138,6 +138,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"alicesuchet.aol.de" => array('AOL', array("query", "q")),
 		"suche.aolsvc.de" => array('AOL', array("query", "q")),
 		"suche.aol.de" => array('AOL', array("query", "q")),
+		"alicesuche.aol.de" => array('AOL', array("query", "q")),
+		"suchet2.aol.de" => array('AOL', array("query", "q")),
+		"search.hp.my.aol.de" => array('AOL', array("query", "q")),
 		
 		// Aport
 		"sm.aport.ru"			=> array("Aport", "r"),
@@ -681,6 +684,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		"news.google.it" 		=> array("Google News", "q"),
 		"news.google.sm" 		=> array("Google News", "q"),
 		
+		// Google syndicated search
+		"googlesyndicatedsearch.com" => array('Google syndicated search', 'q'),
+	 
 		// Goyellow.de
 		"www.goyellow.de"	        => array("GoYellow.de", "MDN"),
 		
