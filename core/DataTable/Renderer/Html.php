@@ -107,7 +107,9 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 			}
 			$i++;
 		}
-		
+
+		ksort($allColumns);
+
 		$allColumns['_metadata'] = $someMetadata;
 		$allColumns['_idSubtable'] = $someIdSubTable;
 		$html = "\n";

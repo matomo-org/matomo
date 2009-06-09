@@ -154,7 +154,9 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 					$csvRow[$name] = $value;
 				}
 			}
-			
+
+			ksort($allColumns);
+
 			if($this->exportMetadata)
 			{
 				$metadata = $row->getMetadata();
