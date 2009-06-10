@@ -29,6 +29,9 @@ Known bugs
 - Outlink trailing slash is automatically deleted from the URL, there would be a problem when trying to exact match a URL with trailing slash
 - lines with 0 visits and no conversion should not appear
 
-In V2
+Feature requests
 - need to clarify that goals are triggered once per visit max, but can be triggered multiple times by one unique visitor > need option to force only once per uniq visitor? (ie. e-commerce transaction)
 - GeoIp compatibility, archive goals by city, country? see archiveDayAggregateGoals
+- Goal conversions, revenue, etc. by hour
+- I would like to be able to plot conversions, for a given keyword/website, over the last N days/weeks/etc. See	#534
+- when entering the regex to detect as a goal, we could query the piwik API for this regex and list all URLs that match the regex; allows for an easy debug/check that the regex is correct and will be triggererd when expected
