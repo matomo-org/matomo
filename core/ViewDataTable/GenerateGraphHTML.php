@@ -154,7 +154,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 						"loading":"'. htmlspecialchars(Piwik_Translate('General_Loading')) .'"
 					},
 					{
-						"allowScriptAccess":"sameDomain",
+						"allowScriptAccess":"always",
 						"wmode":"opaque"
 					}, 
 					{"bgcolor":"#FFFFFF"}
