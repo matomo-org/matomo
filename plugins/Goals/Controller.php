@@ -177,7 +177,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 				}
 			}
 			
-			if(!empty($idGoal))
+			if(!empty($idGoal) && isset($this->goals[$idGoal]))
 			{
 				$goalName = $this->goals[$idGoal]['name'];
 				$columnTranslation = "$columnTranslation (goal \"$goalName\")";

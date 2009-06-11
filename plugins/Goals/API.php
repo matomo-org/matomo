@@ -119,7 +119,7 @@ class Piwik_Goals_API
 										WHERE idsite = ? 
 											AND idgoal = ?",
 									array($idSite, $idGoal));
-		$db->query("DELETE FROM ".Piwik::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
+		Zend_Registry::get('db')->query("DELETE FROM ".Piwik::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
 	
