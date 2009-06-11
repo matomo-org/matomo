@@ -227,7 +227,7 @@ $(document).ready(function () {
 	});
 
 	test("Tracking", function() {
-		expect(<?php echo $sqlite ? 10 : 3; ?>);
+		expect(<?php echo $sqlite ? 11 : 3; ?>);
 
 		var tracker = Piwik.getTracker();
 
@@ -265,19 +265,22 @@ if ($sqlite) {
 			triggerEvent( buttons[i], "click" );
 		}
 
+		tracker.trackGoal(42, 69, { "boy" : "Michael", "girl" : "Mandy" });
+
 		stop();
 		setTimeout(function() {
 			jQuery.ajax({
 				url: url("piwik.php?results='. $token .'"),
 				success: function(results) {
 //alert(results);
-					ok( /\<span\>6\<\/span\>/.test( results ), "count tracking events" );
+					ok( /\<span\>7\<\/span\>/.test( results ), "count tracking events" );
 					ok( /PiwikTest/.test( results ), "trackPageView()" );
 					ok( /example.ca/.test( results ), "trackLink()" );
 					ok( /example.net/.test( results ), "click: implicit outlink (by outbound URL)" );
 					ok( /example.html/.test( results ), "click: explicit outlink" );
 					ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
 					ok( /example.word/.test( results ), "click: explicit download" );
+					ok( /42.*?69.*?Michael.*?Mandy/.test( results ), "trackGoal()" );
 
 					start();
 				}

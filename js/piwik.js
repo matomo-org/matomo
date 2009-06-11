@@ -406,7 +406,7 @@ try {
 */
 
 			/*
-			 * Send image request to Piwik server using GET.
+			 * Send image request to Piwik server using GET
 			 */
 			function getImage(url, delay) {
 				var now = new Date(),
@@ -560,6 +560,40 @@ try {
 
 				query = 'idsite=' + configTrackerSiteId +
 				        '&' + linkType + '=' + escapeWrapper(url) +
+				        '&rand=' + Math.random() +
+				        '&redirect=0' +
+				        customDataString + extraString;
+
+				request = configTrackerUrl + '?' + query;
+
+				getImage(request, configTrackerPause);
+			}
+
+			/*
+			 * Log the goal with the server
+			 */
+			function logGoal(idGoal, customRevenue, customData) {
+				var customDataString, extraString, request, query;
+
+				/*
+				 * encode custom data
+				 */
+				customDataString = '';
+
+				if (isDefined(customRevenue)) {
+					customDataString += '&revenue=' + customRevenue;
+				}
+
+				if (isDefined(customData)) {
+					customDataString += '&data=' + escapeWrapper(stringify(customData));
+				} else if (isDefined(configCustomData)) {
+					customDataString += '&data=' + escapeWrapper(stringify(configCustomData));
+				}
+
+				extraString = executePluginMethod('goal');
+
+				query = 'idsite=' + configTrackerSiteId +
+				        '&goal=' + idGoal +
 				        '&rand=' + Math.random() +
 				        '&redirect=0' +
 				        customDataString + extraString;
@@ -909,7 +943,14 @@ try {
 				},
 
 				/*
-				 * Manually log a click from your own code.
+				 * Trigger a goal
+				 */
+				trackGoal: function (idGoal, customRevenue, customData) {
+					logGoal(idGoal, customRevenue, customData);
+				},
+
+				/*
+				 * Manually log a click from your own code
 				 */
 				trackLink: function (sourceUrl, linkType, customData) {
 					logClick(sourceUrl, linkType, customData);

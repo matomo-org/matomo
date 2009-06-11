@@ -31,10 +31,18 @@ Piwik.addPlugin('testPlugin', {
 	},
 
 	/*
-	 * function called on trackLin() or click event
+	 * function called on trackLink() or click event
 	 * - returns URL components to be appended to tracker URL
 	 */
 	click: function () {
+		return '&data=' + encodeURIComponent('{"token":"' + getToken() + '"}');
+	},
+
+	/*
+	 * function called on trackGoal()
+	 * - returns URL components to be appended to tracker URL
+	 */
+	goal: function () {
 		return '&data=' + encodeURIComponent('{"token":"' + getToken() + '"}');
 	},
 
