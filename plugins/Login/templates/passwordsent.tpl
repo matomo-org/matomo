@@ -13,7 +13,7 @@
 {/if}
 
 <p id="nav">
-<a href="?module=Login&amp;form_url={$urlToRedirect}" title="{'Login_LogIn'|translate}">{'Login_LogIn'|translate}</a>
+<a href="index.php?module=Login&amp;form_url={$urlToRedirect}" title="{'Login_LogIn'|translate}">{'Login_LogIn'|translate}</a>
 </p>
 
 </div>

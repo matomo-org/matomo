@@ -1081,7 +1081,7 @@ class Piwik_DataTable
 				{
 					if(is_array($subRow))
 					{
-						throw $e;						
+						throw $e;
 					}
 				}
 				$row = new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => $row ) );		

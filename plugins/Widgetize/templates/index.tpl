@@ -76,7 +76,7 @@ $(document).ready( function() {
 <div style="max-width:980px;">
 	<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
 	If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
-	to the anonymous user in the <a href='?module=UsersManager'>Users Management section</a>.
+	to the anonymous user in the <a href='index.php?module=UsersManager'>Users Management section</a>.
 	<br>Note: You can also display the full Piwik dashboard in your application or website in an Iframe. 
 	For example, for idSite=1 and date=yesterday, you can write: <span id='exportFullDashboard'></span>
 	</p>

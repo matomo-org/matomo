@@ -17,7 +17,6 @@
  */
 function smarty_modifier_urlRewriteWithParameters($parameters)
 {
-	$url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
+	$url = 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
 	return htmlspecialchars($url);
 }
-

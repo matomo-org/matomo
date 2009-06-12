@@ -19,7 +19,7 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_Form
 {
 	function init()
 	{
-		$urlToGoAfter = Piwik_Url::getCurrentQueryString();
+		$urlToGoAfter = 'index.php' . Piwik_Url::getCurrentQueryString();
 
 		$urlExample = 'http://example.org';
 		$javascriptOnClickUrlExample = "\"javascript:if(this.value=='$urlExample'){this.value='http://';} this.style.color='black';\"";
