@@ -525,7 +525,7 @@ dataTable.prototype =
 				if(typeof date != 'undefined') {
 					param_date = date; 
 				}
-				var str = '?module=API'
+				var str = 'index.php?module=API'
 						+'&method='+method
 						+'&format='+format
 						+'&idSite='+self.param.idSite

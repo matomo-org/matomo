@@ -27,5 +27,5 @@ require_once "Url.php";
  */
 function smarty_function_url($params, &$smarty)
 {
-	return htmlspecialchars(Piwik_Url::getCurrentQueryStringWithParametersModified( $params ));
+	return htmlspecialchars('index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified( $params ));
 }

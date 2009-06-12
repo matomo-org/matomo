@@ -10,7 +10,7 @@
 </div>
 
 <div id="footer" style="border-top:1px solid gray; margin-top:20px;padding-top:10px;">
-<a href='?module=CoreHome'>{'General_BackToHomepage'|translate}</a>
+<a href='index.php?module=CoreHome'>{'General_BackToHomepage'|translate}</a>
 
 </div>
 
