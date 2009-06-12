@@ -689,7 +689,7 @@ try {
 				} else if (isDefined(clickEvent.srcElement)) {
 					sourceElement = clickEvent.srcElement;
 				} else {
-					return true;
+					return;
 				}
 
 				while ((tag = sourceElement.tagName) != 'A' && tag != 'AREA') {
@@ -712,9 +712,6 @@ try {
 						}
 					}
 				}
-
-				// Returns true so href isn't cancelled
-				return true;
 			}
 
 			/*
