@@ -19,7 +19,7 @@
 	
 	$("#feedburnerSubmit").click( function(){
 		var feedburnerName = getName();
-		$.get('?module=ExampleFeedburner&action=saveFeedburnerName&idSite='+idSite+'&name='+feedburnerName);
+		$.get('index.php?module=ExampleFeedburner&action=saveFeedburnerName&idSite='+idSite+'&name='+feedburnerName);
 		loadIframe();
 		
 	});
