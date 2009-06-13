@@ -10,15 +10,8 @@ class Piwik_Tracker_GoalManager
 	 * @var Piwik_Tracker_Action
 	 */
 	protected $action = null;
-	protected $matchedGoals = array();
+	protected $convertedGoals = array();
 	protected $idsite = null;
-	
-	function __construct($action)
-	{
-		$this->action = $action;
-		
-		
-	}
 
 	function setCookie($cookie)
 	{
@@ -59,15 +52,20 @@ class Piwik_Tracker_GoalManager
 		return $goalIds;
 	}
 	
-	//TODO does this code work for manually triggered goals, with custom revenue? 
-	function detectGoals($idSite)
+	private function isGoalPluginEnabled()
 	{
-		if(!Piwik_PluginsManager::getInstance()->isPluginActivated('Goals'))
+		return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
+	}
+	
+	//TODO does this code work for manually triggered goals, with custom revenue? 
+	function detectGoalsMatchingUrl($idSite, $action)
+	{
+		if(!$this->isGoalPluginEnabled())
 		{
 			return false;
 		}
-		$url = $this->action->getActionUrl();
-		$actionType = $this->action->getActionType();
+		$url = $action->getActionUrl();
+		$actionType = $action->getActionType();
 		$goals = $this->getGoalDefinitions($idSite);
 		foreach($goals as $goal)
 		{
@@ -121,14 +119,33 @@ class Piwik_Tracker_GoalManager
 			}
 			if($match)
 			{
-				$this->matchedGoals[] = $goal;
+				$goal['url'] = $url;
+				$this->convertedGoals[] = $goal;
 			}
 		}
-//		var_dump($this->matchedGoals);exit;
-		return count($this->matchedGoals) > 0;
+//		var_dump($this->convertedGoals);exit;
+		return count($this->convertedGoals) > 0;
 	}
 	
-	function recordGoals($visitorInformation)
+	function detectGoalId($idSite, $idGoal, $request)
+	{
+		if(!$this->isGoalPluginEnabled())
+		{
+			return false;
+		}
+		$goals = $this->getGoalDefinitions($idSite);
+		if(!isset($goals[$idGoal]))
+		{
+			return false;
+		}
+		$goal = $goals[$idGoal];
+		$goal['url'] = Piwik_Common::getRequestVar( 'url', '', 'string', $request);
+		$goal['revenue'] = Piwik_Common::getRequestVar('revenue', $goal['revenue'], 'float', $request);
+		$this->convertedGoals[] = $goal;
+		return true;
+	}
+	
+	function recordGoals($visitorInformation, $action)
 	{
 		$location_country = isset($visitorInformation['location_country']) ? $visitorInformation['location_country'] : Piwik_Common::getCountry(Piwik_Common::getBrowserLanguage(), $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess']);
 		$location_continent = isset($visitorInformation['location_continent']) ? $visitorInformation['location_continent'] : Piwik_Common::getContinent($location_country);
@@ -139,11 +156,8 @@ class Piwik_Tracker_GoalManager
 			'visitor_idcookie' 	=> $visitorInformation['visitor_idcookie'],
 			'server_time' 		=> Piwik_Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
 			'visit_server_date' => $visitorInformation['visit_server_date'],
-			'idaction' 			=> $this->action->getIdAction(),
-			'idlink_va' 		=> $this->action->getIdLinkVisitAction(),
 			'location_country'  => $location_country,
 			'location_continent'=> $location_continent,
-			'url' 				=> $this->action->getActionUrl(),
 			'visitor_returning' => $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_VISITOR_RETURNING ),
 		);
 
@@ -159,12 +173,18 @@ class Piwik_Tracker_GoalManager
 			);
 		}
 
-		foreach($this->matchedGoals as $matchedGoal)
+		foreach($this->convertedGoals as $convertedGoal)
 		{
-			printDebug("- Goal ".$matchedGoal['idgoal'] ." matched. Recording...");
+			printDebug("- Goal ".$convertedGoal['idgoal'] ." matched. Recording...");
 			$newGoal = $goal;
-			$newGoal['idgoal'] = $matchedGoal['idgoal'];
-			$newGoal['revenue'] = $matchedGoal['revenue'];
+			$newGoal['idgoal'] = $convertedGoal['idgoal'];
+			$newGoal['url'] = $convertedGoal['url'];
+			$newGoal['revenue'] = $convertedGoal['revenue'];
+			if(!is_null($action))
+			{
+				$newGoal['idaction'] = $action->getIdAction();
+				$newGoal['idlink_va'] = $action->getIdLinkVisitAction();
+			}
 			printDebug($newGoal);
 			
 			$fields = implode(", ", array_keys($newGoal));

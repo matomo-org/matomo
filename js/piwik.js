@@ -504,102 +504,77 @@ try {
 			 * Get the web bug image (transparent single pixel, 1x1, image) to log visit in Piwik
 			 */
 			function getWebBug() {
-				var i, customDataString, pluginString, extraString, now, request, query;
-
-				/*
-				 * encode custom vars
-				 */
-				customDataString = '';
+				var request = getRequest() 
+				request += '&action_name=' + escapeWrapper(configTitle); // refs #530;
+				// custom vars
 				if (isDefined(configCustomData)) {
-					customDataString = '&data=' + escapeWrapper(stringify(configCustomData));
+					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
+				getImage(request, configTrackerPause);
+			}
 
-				/*
-				 * encode plugin data
-				 */
-				pluginString = '';
-				for (i in pluginMap) {
-					pluginString += '&' + pluginMap[i][0] + '=' + pluginMap[i][3];
-				}
-
-				extraString = executePluginMethod('log');
-
+			/*
+			 * Returns the URL to call piwik.php, 
+			 * with the standard parameters (plugins, resolution, url, referer, etc.)
+			 */
+			function getRequest() {
+				var i, now, request;
 				now = new Date();
-
-				query = 'idsite=' + configTrackerSiteId +
+				request = 'idsite=' + configTrackerSiteId +
 				        '&url=' + escapeWrapper(documentAlias.location.href) +
-				        '&action_name=' + escapeWrapper(configTitle) + // refs #530
 				        '&res=' + screenAlias.width + 'x' + screenAlias.height +
 				        '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
 				        '&cookie=' + browserHasCookies +
 				        '&urlref=' + escapeWrapper(pageReferrer) +
-				        pluginString + customDataString + extraString;
-
-				request =  configTrackerUrl + '?' + query;
-
-				getImage(request, configTrackerPause);
-			}
-
-			/*
-			 * Log the click with the server
-			 */
-			function logClick(url, linkType, customData) {
-				var customDataString, extraString, request, query;
-
-				/*
-				 * encode custom data
-				 */
-				customDataString = '';
-				if (isDefined(customData)) {
-					customDataString = '&data=' + escapeWrapper(stringify(customData));
-				} else if (isDefined(configCustomData)) {
-					customDataString = '&data=' + escapeWrapper(stringify(configCustomData));
+				        '&rand=' + Math.random();
+				// plugin data
+				for (i in pluginMap) {
+					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][3];
 				}
-
-				extraString = executePluginMethod('click');
-
-				query = 'idsite=' + configTrackerSiteId +
-				        '&' + linkType + '=' + escapeWrapper(url) +
-				        '&rand=' + Math.random() +
-				        '&redirect=0' +
-				        customDataString + extraString;
-
-				request = configTrackerUrl + '?' + query;
-
-				getImage(request, configTrackerPause);
+				request += executePluginMethod('log');
+				request =  configTrackerUrl + '?' + request;
+				return request;
 			}
-
+			
 			/*
 			 * Log the goal with the server
 			 */
 			function logGoal(idGoal, customRevenue, customData) {
-				var customDataString, extraString, request, query;
-
-				/*
-				 * encode custom data
-				 */
-				customDataString = '';
-
+				var request = getRequest();
 				if (isDefined(customRevenue)) {
-					customDataString += '&revenue=' + customRevenue;
+					request += '&revenue=' + customRevenue;
 				}
 
+				// encode custom data
 				if (isDefined(customData)) {
-					customDataString += '&data=' + escapeWrapper(stringify(customData));
+					request += '&data=' + escapeWrapper(stringify(customData));
 				} else if (isDefined(configCustomData)) {
-					customDataString += '&data=' + escapeWrapper(stringify(configCustomData));
+					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
 
-				extraString = executePluginMethod('goal');
-
-				query = 'idsite=' + configTrackerSiteId +
-				        '&goal=' + idGoal +
+				request += executePluginMethod('goal');
+				request += '&idgoal=' + idGoal;
+				getImage(request, configTrackerPause);
+			}
+			
+			/*
+			 * Log the click with the server
+			 */
+			function logClick(url, linkType, customData) {
+				var request;
+				request = 'idsite=' + configTrackerSiteId +
+				        '&' + linkType + '=' + escapeWrapper(url) +
 				        '&rand=' + Math.random() +
-				        '&redirect=0' +
-				        customDataString + extraString;
+				        '&redirect=0';
 
-				request = configTrackerUrl + '?' + query;
-
+				// encode custom data
+				if (isDefined(customData)) {
+					request += '&data=' + escapeWrapper(stringify(customData));
+				} else if (isDefined(configCustomData)) {
+					request += '&data=' + escapeWrapper(stringify(configCustomData));
+				}
+				request += executePluginMethod('click');
+				request = configTrackerUrl + '?' + request;
 				getImage(request, configTrackerPause);
 			}
 
