@@ -21,7 +21,7 @@ function smarty_modifier_urlRewriteBasicView($parameters)
 	// replace action=Y by actionToLoad=Y
 	$parameters['moduleToLoad'] = $parameters['module'];
 	unset($parameters['module']);
-	
+
 	if(isset( $parameters['action']))
 	{
 		$parameters['actionToLoad'] = $parameters['action'];
@@ -31,8 +31,8 @@ function smarty_modifier_urlRewriteBasicView($parameters)
 	{
 		$parameters['actionToLoad'] = null;
 	}
-	$url = 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
-	
+	$url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
+
 	// add module=CoreHome&action=showInContext
 	$url = $url . '&amp;module=CoreHome&amp;action=showInContext';
 	return htmlspecialchars($url);
