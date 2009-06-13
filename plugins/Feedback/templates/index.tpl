@@ -11,7 +11,7 @@ input {
 </style>
 {/literal}
 
-<form method="post" action="?module=Feedback&action=sendFeedback">
+<form method="post" action="index.php?module=Feedback&action=sendFeedback">
 
 <p><strong>your email	:</strong>
 <br /><input type="text" name="email" size="40" /></p>
