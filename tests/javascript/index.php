@@ -280,7 +280,7 @@ if ($sqlite) {
 					ok( /example.html/.test( results ), "click: explicit outlink" );
 					ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
 					ok( /example.word/.test( results ), "click: explicit download" );
-					ok( /42.*?69.*?Michael.*?Mandy/.test( results ), "trackGoal()" );
+					ok( /idgoal=42.*?revenue=69.*?Michael.*?Mandy/.test( results ), "trackGoal()" );
 
 					start();
 				}

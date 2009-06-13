@@ -499,20 +499,6 @@ try {
 				return navigatorAlias.cookieEnabled ? '1' : '0';
 			}
 
-
-			/*
-			 * Get the web bug image (transparent single pixel, 1x1, image) to log visit in Piwik
-			 */
-			function getWebBug() {
-				var request = getRequest() 
-				request += '&action_name=' + escapeWrapper(configTitle); // refs #530;
-				// custom vars
-				if (isDefined(configCustomData)) {
-					request += '&data=' + escapeWrapper(stringify(configCustomData));
-				}
-				getImage(request, configTrackerPause);
-			}
-
 			/*
 			 * Returns the URL to call piwik.php, 
 			 * with the standard parameters (plugins, resolution, url, referer, etc.)
@@ -531,9 +517,25 @@ try {
 				for (i in pluginMap) {
 					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][3];
 				}
-				request += executePluginMethod('log');
+
 				request =  configTrackerUrl + '?' + request;
 				return request;
+			}
+
+			/*
+			 * Get the web bug image (transparent single pixel, 1x1, image) to log visit in Piwik
+			 */
+			function getWebBug() {
+				var request = getRequest();
+				request += '&action_name=' + escapeWrapper(configTitle); // refs #530;
+
+				// encode custom data
+				if (isDefined(configCustomData)) {
+					request += '&data=' + escapeWrapper(stringify(configCustomData));
+				}
+
+				request += executePluginMethod('log');
+				getImage(request, configTrackerPause);
 			}
 			
 			/*
@@ -541,6 +543,8 @@ try {
 			 */
 			function logGoal(idGoal, customRevenue, customData) {
 				var request = getRequest();
+				request += '&idgoal=' + idGoal;
+
 				if (isDefined(customRevenue)) {
 					request += '&revenue=' + customRevenue;
 				}
@@ -553,7 +557,6 @@ try {
 				}
 
 				request += executePluginMethod('goal');
-				request += '&idgoal=' + idGoal;
 				getImage(request, configTrackerPause);
 			}
 			
@@ -563,9 +566,9 @@ try {
 			function logClick(url, linkType, customData) {
 				var request;
 				request = 'idsite=' + configTrackerSiteId +
-				        '&' + linkType + '=' + escapeWrapper(url) +
-				        '&rand=' + Math.random() +
-				        '&redirect=0';
+				          '&' + linkType + '=' + escapeWrapper(url) +
+				          '&rand=' + Math.random() +
+				          '&redirect=0';
 
 				// encode custom data
 				if (isDefined(customData)) {
@@ -573,6 +576,7 @@ try {
 				} else if (isDefined(configCustomData)) {
 					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
+
 				request += executePluginMethod('click');
 				request = configTrackerUrl + '?' + request;
 				getImage(request, configTrackerPause);
