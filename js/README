@@ -1,14 +1,18 @@
 Deployment
 
 * piwik.js is minified using YUICompressor 2.4.2.
-
+  To install YUICompressor run:
+    $ cd /path/to/piwik/js/
+    $ wget http://www.julienlecomte.net/yuicompressor/yuicompressor-2.4.2.zip
+    $ unzip yuicompressor-2.4.2.zip
+    
   To compress the code containing the evil "eval", either apply the patch from
   http://yuilibrary.com/projects/yuicompressor/ticket/2343811,
   or run:
-
-	sed 's/eval/replacedEvilString/' <piwik.js | \
-	java -jar yuicompressor-2.4.2.jar --type js --line-break 1000 | \
-	sed 's/replacedEvilString/eval/' >piwik-min.js
+    $ cd /path/to/piwik/js/
+    $ sed 's/eval/replacedEvilString/' <piwik.js | java -jar yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' > piwik-min.js && cp piwik-min.js ../piwik.js
+    
+  This will generate the minify /path/to/piwik/js/piwik-min.js and copy it to /path/to/piwik/piwik.js
 
 * The uncompressed piwik.js resides in the js/ folder. If you omit the filename,
   js/index.php will serve the minified version.  A side effect of this feature
