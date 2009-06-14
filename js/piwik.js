@@ -22,9 +22,7 @@
 
 // Guard against loading the script twice
 var Piwik;
-try {
-	if (Piwik.getTracker) { }
-} catch (e) {
+if (!this.Piwik) {
 	// Piwik singleton and namespace
 	Piwik = (function () {
 		/************************************************************
