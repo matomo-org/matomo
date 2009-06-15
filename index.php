@@ -12,7 +12,11 @@
 error_reporting(E_ALL|E_NOTICE);
 @ini_set('display_errors', 1);
 @ini_set('magic_quotes_runtime', 0);
-@ini_set('session.save_handler', 'files');
+if(!in_array(ini_get('session.save_handler'), array('files', 'memcached')))
+{
+	@ini_set('session.save_handler', 'files');
+	@ini_set('session.save_path', '');
+}
 
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
