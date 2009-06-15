@@ -12,7 +12,7 @@
 error_reporting(E_ALL|E_NOTICE);
 @ini_set('display_errors', 1);
 @ini_set('magic_quotes_runtime', 0);
-if(!in_array(ini_get('session.save_handler'), array('files', 'memcached')))
+if(ini_get('session.save_handler') == 'user')
 {
 	@ini_set('session.save_handler', 'files');
 	@ini_set('session.save_path', '');
