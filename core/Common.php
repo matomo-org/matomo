@@ -73,10 +73,11 @@ class Piwik_Common
 	 */
 	static function getCacheWebsiteAttributes( $idSite )
 	{
+		require_once "Loader.php";
+
 		static $cache = null;
 		if(is_null($cache))
 		{
-			require_once "CacheFile.php";
 			$cache = new Piwik_CacheFile('tracker');
 		}
 		$filename = $idSite;
@@ -88,27 +89,6 @@ class Piwik_Common
 		if(defined('PIWIK_TRACKER_MODE') 
 			&& PIWIK_TRACKER_MODE) 
 		{
-			//TODO we can remove these includes when #620 is done
-			require_once "Zend/Exception.php";
-			require_once "Zend/Loader.php"; 
-			require_once "Zend/Auth.php";
-			require_once "Timer.php";
-			require_once "PluginsManager.php";
-			require_once "Piwik.php";
-			require_once "Access.php";
-			require_once "Auth.php";
-			require_once "API/Proxy.php";
-			require_once "Archive.php";
-			require_once "Site.php";
-			require_once "Date.php";
-			require_once "DataTable.php";
-			require_once "Translate.php";
-			require_once "Mail.php";
-			require_once "Url.php";
-			require_once "Controller.php";
-			require_once "Option.php";
-			require_once "View.php";
-			require_once "UpdateCheck.php";
 			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
 			Piwik::createAccessObject();
 			Piwik::createConfigObject();
@@ -148,7 +128,6 @@ class Piwik_Common
 	
 	static public function deleteCacheWebsiteAttributes( $idSite )
 	{
-		require_once "CacheFile.php";
 		$cache = new Piwik_CacheFile('tracker');
 		$filename = $idSite;
 		$cache->delete($filename);
