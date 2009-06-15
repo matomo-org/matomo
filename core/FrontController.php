@@ -120,7 +120,7 @@ class Piwik_FrontController
 		}
 				
 		$controllerClassName = "Piwik_".$module."_Controller";
-		if(!class_exists($controllerClassName))
+		if(!class_exists($controllerClassName, false))
 		{
 			$moduleController = $module . "/Controller.php";
 			if( !Zend_Loader::isReadable($moduleController))
