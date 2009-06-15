@@ -25,44 +25,6 @@ if((@include "Version.php") === false || !class_exists('Piwik_Version', false))
 		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
 }
 
-function piwikAutoloader($class)
-{
-	$class = str_replace('_', '/', $class) . '.php';
-	if(substr($class, 0, 6) === 'Piwik/')
-	{
-		$class = substr($class, 6);
-		if(file_exists(PIWIK_INCLUDE_PATH . "/core/" . $class))
-		{
-			include_once PIWIK_INCLUDE_PATH . "/core/" . $class;
-		}
-		else
-		{
-			include_once PIWIK_INCLUDE_PATH . "/plugins/" . $class;
-		}
-	}
-	else
-	{
-		include_once PIWIK_INCLUDE_PATH . "/libs/" . $class;
-	}
-}
-
-// Note: only one __autoload per PHP instance
-if(function_exists('spl_autoload_register'))
-{
-	spl_autoload_register('piwikAutoloader'); // use the SPL autoload stack
-	if(function_exists('__autoload'))
-	{
-		spl_auto_register('__autoload');
-	}
-}
-else
-{
-	function __autoload($class)
-	{
-		piwikAutoloader($class);
-	}
-}
-
 require_once "Common.php";
 require_once "PluginsManager.php";
 require_once "Tracker.php";
