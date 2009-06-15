@@ -327,7 +327,7 @@ class Piwik_DataTable
 	 */
 	public function filter( $className, $parameters = array() )
 	{
-		if(!class_exists($className))
+		if(!class_exists($className, false))
 		{
 			$className = "Piwik_DataTable_Filter_" . $className;
 		}
