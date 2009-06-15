@@ -116,7 +116,7 @@ class Piwik_FrontController
 		
 		if( ! Piwik_PluginsManager::getInstance()->isPluginActivated( $module )) 
 		{
-			throw new Exception_PluginDeactivated($module);
+			throw new Piwik_FrontController_PluginDeactivatedException($module);
 		}
 				
 		$controllerClassName = "Piwik_".$module."_Controller";
@@ -288,7 +288,7 @@ class Piwik_FrontController
  *
  * @package Piwik
  */
-class Exception_PluginDeactivated extends Exception
+class Piwik_FrontController_PluginDeactivatedException extends Exception
 {
 	function __construct($module)
 	{

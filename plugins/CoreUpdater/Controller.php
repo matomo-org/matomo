@@ -198,7 +198,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		{
 			try {
 				$this->warningMessages = array_merge($this->warningMessages, $updater->update($name));
-			} catch (UpdateErrorException $e) {
+			} catch (Piwik_Updater_UpdateErrorException $e) {
 				$this->errorMessages[] = $e->getMessage();
 				if($name == 'core') 
 				{

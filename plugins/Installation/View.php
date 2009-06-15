@@ -13,7 +13,7 @@
  * 
  * @package Piwik_Installation
  */
-class Piwik_Install_View extends Piwik_View
+class Piwik_Installation_View extends Piwik_View
 {
 	protected $mainTemplate = 'Installation/templates/structure.tpl';
 	

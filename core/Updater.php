@@ -64,7 +64,7 @@ class Piwik_Updater
 		{
 			try {
 				require_once $file;
-			} catch( UpdateErrorException $e) {
+			} catch( Piwik_Updater_UpdateErrorException $e) {
 				throw $e;
 			} catch( Exception $e) {
 				$warningMessages[] = $e->getMessage();
@@ -177,4 +177,4 @@ class Piwik_Updater
 	}
 }
 
-class UpdateErrorException extends Exception {}
+class Piwik_Updater_UpdateErrorException extends Exception {}

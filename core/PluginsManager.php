@@ -344,7 +344,7 @@ class Piwik_PluginsManager
 		try{
 			$plugin->install();
 		} catch(Exception $e) {
-			throw new Piwik_Plugin_Exception($plugin->getName(), $plugin->getClassName(), $e->getMessage());		}	
+			throw new Piwik_PluginsManager_PluginException($plugin->getName(), $plugin->getClassName(), $e->getMessage());		}	
 	}
 	
 	
@@ -477,7 +477,7 @@ class Piwik_PluginsManager
 	}
 }
 
-class Piwik_Plugin_Exception extends Exception 
+class Piwik_PluginsManager_PluginException extends Exception 
 {
 	function __construct($pluginName, $className, $message)
 	{

@@ -21,5 +21,5 @@ if($error)
 	$message .= "\n	Please make sure you execute the queries on your mysql database. 
 When you have executed these queries, you can manually edit the ". Piwik::prefixTable('option')." table in your Piwik database, ".
 " and set the piwik_version value to 0.2.12. ";
-	throw new UpdateErrorException($message);
+	throw new Piwik_Updater_UpdateErrorException($message);
 }
