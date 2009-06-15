@@ -126,7 +126,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 				{
 					$name = 'value';
 				}
-				$html .= "\t\t<td>$name</td>\n";
+				$html .= "\t\t<th>$name</th>\n";
 			}
 		}
 
