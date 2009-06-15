@@ -184,6 +184,10 @@ class Piwik_API_ResponseBuilder
 			$renderer->setSerialize( $this->caseRendererPHPSerialize());
 			$renderer->setPrettyDisplay(Piwik_Common::getRequestVar('prettyDisplay', false, 'int', $this->request));
 		}
+		else if($format == 'html')
+		{
+			$renderer->setTableId($this->request['method']);
+		}
 		
 		return $renderer->render();
 	}
