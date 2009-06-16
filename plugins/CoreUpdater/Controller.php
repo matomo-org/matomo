@@ -13,7 +13,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	public function newVersionAvailable()
 	{
 		Piwik::checkUserIsSuperUser();
-		require_once "UpdateCheck.php";
 		$newVersion = $this->checkNewVersionIsAvailableOrDie();
 		
 		$view = new Piwik_View('CoreUpdater/templates/update_new_version_available.tpl');

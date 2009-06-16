@@ -10,8 +10,6 @@
  *
  */
 
-require_once 'SitesManager/API.php';
-
 /**
  * Class to handle User Access:
  * - loads user access from the Piwik_Auth_Result object 

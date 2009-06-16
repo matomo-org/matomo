@@ -9,37 +9,6 @@
  * @package Piwik
  */
 
-
-/**
- * Zend classes
- */
-require_once "Zend/Exception.php";
-require_once "Zend/Loader.php"; 
-require_once "Zend/Auth.php";
-
-/**
- * Piwik classes
- */
-require_once "Timer.php";
-require_once "PluginsManager.php";
-require_once "Piwik.php";
-require_once "Access.php";
-require_once "Auth.php";
-require_once "API/Proxy.php";
-require_once "Archive.php";
-require_once "Site.php";
-require_once "Date.php";
-require_once "DataTable.php";
-require_once "Translate.php";
-require_once "Mail.php";
-require_once "Url.php";
-require_once "Controller.php";
-require_once "Option.php";
-require_once "View.php";
-require_once "Version.php";
-require_once "UpdateCheck.php";
-
-
 /**
  * Front controller.
  * This is the class hit in the first place.
@@ -120,6 +89,8 @@ class Piwik_FrontController
 		}
 				
 		$controllerClassName = "Piwik_".$module."_Controller";
+
+		// FrontController's autoloader
 		if(!class_exists($controllerClassName, false))
 		{
 			$moduleController = $module . "/Controller.php";
