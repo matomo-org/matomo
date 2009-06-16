@@ -42,8 +42,8 @@ class Piwik_Loader
 				$path = PIWIK_INCLUDE_PATH . self::$dirs[$i] . $classPath . '.php';
 				if(file_exists($path))
 				{
-					include_once($path);
-					if(class_exists($class, false))
+					require_once($path);
+					if(class_exists($class, false) || interface_exists($class, false))
 					{
 						return;
 					}
@@ -54,6 +54,7 @@ class Piwik_Loader
 			$lastSlash = strrpos($classPath, '/');
 			$classPath = ($lastSlash === false) ? '' : substr($classPath, 0, $lastSlash);
 		}
+		throw new Exception("$class could not be autoloaded.");
 	}
 }
 
