@@ -11,6 +11,7 @@
 
 require_once "PluginsManager.php";
 require_once "Translate.php";
+require_once "Option.php";
 
 /**
  * Front controller.
