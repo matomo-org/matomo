@@ -21,6 +21,8 @@ function Piwik_ExceptionHandler(Exception $exception)
 	} catch(Exception $e) {
 		// case when the exception is raised before the logger being ready
 		// we handle the exception a la mano, but using the Logger formatting properties
+		require_once "Log/Exception.php";
+
 		$event = array();
 		$event['errno'] 	= $exception->getCode();
 		$event['message'] 	= $exception->getMessage();

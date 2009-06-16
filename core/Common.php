@@ -89,6 +89,10 @@ class Piwik_Common
 		if(defined('PIWIK_TRACKER_MODE') 
 			&& PIWIK_TRACKER_MODE) 
 		{
+			require_once "PluginsManager.php";
+			require_once "Translate.php";
+			require_once "Option.php";
+
 			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
 			Piwik::createAccessObject();
 			Piwik::createConfigObject();
