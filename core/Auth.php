@@ -9,6 +9,8 @@
  * @package Piwik
  */
 
+require "Zend/Auth/Result.php";
+
 interface Piwik_Auth {
 	/**
 	 * Authentication module's name, e.g., "Login"
