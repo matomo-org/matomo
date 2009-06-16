@@ -10,6 +10,7 @@
  */
 
 require_once "PluginsManager.php";
+require_once "Translate.php";
 
 /**
  * Front controller.
