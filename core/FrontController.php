@@ -9,6 +9,8 @@
  * @package Piwik
  */
 
+require_once "PluginsManager.php";
+
 /**
  * Front controller.
  * This is the class hit in the first place.
