@@ -110,7 +110,7 @@ class Piwik_API_Request
 			$module = "Piwik_" . $module . "_API";
 
 			// call the method 
-			$returnedValue = Piwik_Api_Proxy::getInstance()->call($module, $method, $this->request);
+			$returnedValue = Piwik_API_Proxy::getInstance()->call($module, $method, $this->request);
 			
 			$toReturn = $response->getResponse($returnedValue);
 		} catch(Exception $e ) {

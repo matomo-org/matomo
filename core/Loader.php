@@ -11,24 +11,48 @@
 
 class Piwik_Loader
 {
+	// our class search path; current directory is intentionally excluded
+	protected static $dirs = array( '/core/', '/libs/', '/plugins/' );
+
+	protected static function getClassPath($class)
+	{
+		$class = str_replace('_', '/', $class);
+
+		if($class == 'Piwik')
+		{
+			return $class;
+		}
+
+		if(substr($class, 0, 6) == 'Piwik/')
+		{
+			return substr($class, 6);
+		}
+
+		return $class;
+	}
+
 	public static function autoload($class)
 	{
-		$class = str_replace('_', '/', $class) . '.php';
-		if(substr($class, 0, 6) === 'Piwik/')
+		$classPath = self::getClassPath($class);
+		while(!empty($classPath))
 		{
-			$class = substr($class, 6);
-			if(file_exists(PIWIK_INCLUDE_PATH . "/core/" . $class))
+			// auto-discover class location
+			for($i = 0; $i < count(self::$dirs); $i++)
 			{
-				include_once PIWIK_INCLUDE_PATH . "/core/" . $class;
+				$path = PIWIK_INCLUDE_PATH . self::$dirs[$i] . $classPath . '.php';
+				if(file_exists($path))
+				{
+					include_once($path);
+					if(class_exists($class, false))
+					{
+						return;
+					}
+				}
 			}
-			else
-			{
-				include_once PIWIK_INCLUDE_PATH . "/plugins/" . $class;
-			}
-		}
-		else
-		{
-			include_once PIWIK_INCLUDE_PATH . "/libs/" . $class;
+
+			// truncate to find file with multiple class definitions
+			$lastSlash = strrpos($classPath, '/');
+			$classPath = ($lastSlash === false) ? '' : substr($classPath, 0, $lastSlash);
 		}
 	}
 }

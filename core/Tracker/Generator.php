@@ -117,7 +117,6 @@ class Piwik_Tracker_Generator
 		// init GET and REQUEST to the empty array
 		$this->setFakeRequest();
 		
-		require_once "Piwik.php";
 		Piwik::createConfigObject(PIWIK_INCLUDE_PATH . '/config/config.ini.php');
 		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 		
