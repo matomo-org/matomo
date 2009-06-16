@@ -48,7 +48,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected $refererHost;
 	protected $refererUrl;
 	protected $refererUrlParse;
-	
+	protected $currentUrlParse;
+
 	function __construct()
 	{
 		$idsite = Piwik_Common::getRequestVar('idsite', 0, 'int', $this->request);
@@ -738,8 +739,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
 
 		$this->refererUrl = $refererUrl;
-		$this->refererUrlParse = @parse_url($refererUrl);
-		$this->currentUrlParse = @parse_url($currentUrl);
+		$this->refererUrlParse = @parse_url(html_entity_decode($refererUrl));
+		$this->currentUrlParse = @parse_url(html_entity_decode($currentUrl));
+
 		if(isset($this->refererUrlParse['host']))
 		{
 			$this->refererHost = $this->refererUrlParse['host'];
@@ -865,7 +867,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			return false;
 		}
 		$actionUrl = $action->getActionUrl();
-		$actionUrlParsed = @parse_url($actionUrl);
+		$actionUrlParsed = @parse_url(html_entity_decode($actionUrl));
 		if(!isset($actionUrlParsed['host']))
 		{
 			return false;
