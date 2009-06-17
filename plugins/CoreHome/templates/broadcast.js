@@ -158,6 +158,8 @@ broadcast.loadAjaxContent = function(urlAjax)
     $('#loadingPiwik').show();
     $('#content').hide();
 
+    $("object").remove();
+
     broadcast.lastUrlRequested = urlAjax;
 
     function sectionLoaded(content)
