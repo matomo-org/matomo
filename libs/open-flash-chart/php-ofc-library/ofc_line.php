@@ -103,6 +103,12 @@ class line
 		$this->tip = $tip;
 	}
 	
+	/**
+	 * @param $text as string. A javascript function name as a string. The chart will
+	 * try to call this function, it will pass the chart id as the only parameter into
+	 * this function. E.g:
+	 * 
+	 */
 	function set_on_click( $text )
 	{
 		$tmp = 'on-click';
@@ -136,7 +142,7 @@ class line
 	}
 	
 	/**
-	 *@param $on_show line_on_show object
+	 *@param $on_show as line_on_show object
 	 */
 	function set_on_show($on_show)
 	{

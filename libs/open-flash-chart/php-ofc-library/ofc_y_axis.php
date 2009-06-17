@@ -13,4 +13,5 @@ class y_axis extends y_axis_base
 		$tmp = 'grid-colour';
 		$this->$tmp = $colour;
 	}
+	
 }

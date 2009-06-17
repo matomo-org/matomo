@@ -75,9 +75,18 @@ class bar_base
 		$this->tip = $tip;	
 	}
 	
+	/**
+	 *@param $on_show as line_on_show object
+	 */
 	function set_on_show($on_show)
 	{
 		$this->{'on-show'} = $on_show;
+	}
+	
+	function set_on_click( $text )
+	{
+		$tmp = 'on-click';
+		$this->$tmp = $text;
 	}
 }
 
