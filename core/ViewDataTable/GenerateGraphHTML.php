@@ -124,9 +124,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		// - Export as Image feature from Open Flash Chart
 		// - Using library for auto-enabling Flash object on IE, disabled-Javascript proof
 		$return = '
-			<div id="'. $this->chartDivId .'">
+			<div><div id="'. $this->chartDivId .'">
 				Displaying Graphs in Piwik requires Flash >= '. $requiredFlashVersion .'. <a target="_blank" href="misc/redirectToUrl.php?url='. urlencode('http://piwik.org/faq/troubleshooting/#faq_53') .'">More information about displaying graphs in Piwik.</a>
-			</div>
+			</div></div>
 			<script type="text/javascript">
 				OFC = {};
 				OFC.jquery = {
