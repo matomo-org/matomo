@@ -51,8 +51,19 @@ class x_axis_labels
 		$this->rotate = 270;
 	}
 	
+	/**
+	 * @param @angle as real. The angle of the text.
+	 */
 	function rotate( $angle )
 	{
 		$this->rotate = $angle;
+	}
+	
+	/**
+	 * @param $text as string. Replace and magic variables with actual x axis position.
+	 */
+	function text( $text )
+	{
+		$this->text = $text;
 	}
 }
