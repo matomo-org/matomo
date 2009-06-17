@@ -220,7 +220,14 @@ class Piwik_Cookie
 	public function set( $name, $value )
 	{
 		$name = self::escapeValue($name);
-		$this->value[$name] = $value;
+		if(is_null($value))
+		{
+			unset($this->value[$name]);
+		}
+		else
+		{
+			$this->value[$name] = $value;
+		}
 	}
 	
 	/**
