@@ -134,7 +134,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 					rasterize: function (src, dst) { $("#"+ dst).replaceWith(Control.OFC.image(src)); },
 					image: function (src) { return "<img title=\'Piwik Graph\' src=\'data:image/png;base64," + $("#"+src)[0].get_img_binary() + "\' />"; },
 					popup: function (src) {
-						var img_win = window.open("", "Charts: Export as Image");
+						var img_win = window.open("", "ExportChartAsImage");
 						img_win.document.write("<html><head><title>'. Piwik_Translate('General_ExportAsImage') .'<\/title><\/head><body>" + Control.OFC.image(src) + "<br><br><p>'. htmlentities(Piwik_Translate('General_SaveImageOnYourComputer')) .'<\/p><\/body><\/html>");
 					}
 				};
