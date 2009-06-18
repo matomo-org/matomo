@@ -165,7 +165,7 @@ class Piwik_Common
 	 */
 	static public function getPathToPiwikRoot()
 	{
-		return realpath( dirname(__FILE__). "/../" );
+		return realpath( dirname(__FILE__). "/.." );
 	}
 	
 
