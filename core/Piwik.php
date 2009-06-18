@@ -78,7 +78,7 @@ class Piwik
 				'/tmp',
 				'/tmp/templates_c',
 				'/tmp/cache',
-				'/tmp/latest/',
+				'/tmp/latest',
 			); 
 		}
 		
