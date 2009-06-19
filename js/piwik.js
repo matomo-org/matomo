@@ -655,7 +655,7 @@ if (!this.Piwik) {
 			 * Handle click event
 			 */
 			function clickHandler(clickEvent) {
-				var sourceElement, tag, linkType;
+				var sourceElement, parentElement, tag, linkType;
 
 				if (!isDefined(clickEvent)) {
 					clickEvent = windowAlias.event;
@@ -669,8 +669,9 @@ if (!this.Piwik) {
 					return;
 				}
 
-				while ((tag = sourceElement.tagName) != 'A' && tag != 'AREA') {
-					sourceElement = sourceElement.parentNode;
+				while ((parentElement = sourceElement.parentNode) &&
+				       ((tag = sourceElement.tagName) != 'A' && tag != 'AREA')) {
+					sourceElement = parentElement;
 				}
 
 				if (isDefined(sourceElement.href)) {
