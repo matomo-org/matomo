@@ -892,8 +892,7 @@ class Piwik
 			||  $currentAction != $newAction )
 		{
 			
-			$newUrl = Piwik_URL::getCurrentUrlWithoutQueryString() 
-				. Piwik_Url::getCurrentQueryStringWithParametersModified(
+			$newUrl = 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified(
 						array('module' => $newModule, 'action' => $newAction)
 				);
 	
