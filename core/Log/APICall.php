@@ -25,7 +25,7 @@ class Piwik_Log_APICall extends Piwik_Log
 		$logToFileFilename = self::ID;
 		$logToDatabaseTableName = self::ID;
 		$logToDatabaseColumnMapping = null;
-		$screenFormatter = new Piwik_Log_Formatter_APICall_ScreenFormatter;
+		$screenFormatter = new Piwik_Log_APICall_Formatter_ScreenFormatter;
 		$fileFormatter = new Piwik_Log_Formatter_FileFormatter;
 		
 		parent::__construct($logToFileFilename, 
@@ -67,7 +67,7 @@ class Piwik_Log_APICall extends Piwik_Log
  * @package Piwik_Log
  * @subpackage Piwik_Log_APICall
  */
-class Piwik_Log_Formatter_APICall_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter 
+class Piwik_Log_APICall_Formatter_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter 
 {
 	/**
      * Formats data into a single line to be written by the writer.
