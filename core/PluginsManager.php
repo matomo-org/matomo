@@ -512,10 +512,12 @@ function Piwik_AddAction( $hookName, $function )
 class Piwik_Event_Notification extends Event_Notification
 {
 	static $showProfiler = false;
-	function increaseNotificationCount($className, $method) {
+	function increaseNotificationCount(/* $className, $method */) {
 		parent::increaseNotificationCount();
-		if(self::$showProfiler)
+		if(self::$showProfiler && func_num_args() == 2)
 		{
+			$className = func_get_arg(0);
+			$method = func_get_arg(1);
 			echo "after $className -> $method <br>";
 			echo "-"; Piwik::printTimer();
 			echo "<br>";
