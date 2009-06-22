@@ -21,8 +21,6 @@ function Piwik_ExceptionHandler(Exception $exception)
 	} catch(Exception $e) {
 		// case when the exception is raised before the logger being ready
 		// we handle the exception a la mano, but using the Logger formatting properties
-		require_once "Log/Exception.php";
-
 		$event = array();
 		$event['errno'] 	= $exception->getCode();
 		$event['message'] 	= $exception->getMessage();
@@ -30,7 +28,7 @@ function Piwik_ExceptionHandler(Exception $exception)
 		$event['errline'] 	= $exception->getLine();
 		$event['backtrace'] = $exception->getTraceAsString();
 		
-		$formatter = new Piwik_Log_Formatter_Exception_ScreenFormatter;
+		$formatter = new Piwik_Log_Exception_Formatter_ScreenFormatter;
 		
 		$message = $formatter->format($event);
 		$message .= "<br><br>And this exception raised another exception \"". $e->getMessage()."\"";
