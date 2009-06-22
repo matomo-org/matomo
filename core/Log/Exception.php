@@ -44,14 +44,20 @@ class Piwik_Log_Exception extends Piwik_Log
 		$this->addWriter($writerScreen);
 	}
 
-	public function log($exception)
+	public function log($exception, $unused = null)
 	{
+		// sanity checks
+		if(func_num_args() != 1) {
+			return;
+		}
+
 		$event = array();
 		$event['errno'] 	= $exception->getCode();
 		$event['message'] 	= $exception->getMessage();
 		$event['errfile'] 	= $exception->getFile();
 		$event['errline'] 	= $exception->getLine();
 		$event['backtrace'] = $exception->getTraceAsString();
+
 		parent::log($event);
 	}
 }
