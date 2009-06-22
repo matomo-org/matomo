@@ -87,13 +87,17 @@ abstract class Piwik_Log extends Zend_Log
 	 * Log an event
 	 * Overload Zend_log::log
 	 */
-	public function log($event)
+	public function log($event, $unused = null)
 	{
 		// sanity checks
 		if (empty($this->_writers)) {
 			throw new Zend_Log_Exception('No writers were added');
 		}
-		
+
+		if(func_num_args() != 1) {
+			return;
+		}
+
 		$event['timestamp'] = date('c');
 
 		// pack into event required by filters and writers

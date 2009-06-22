@@ -42,8 +42,17 @@ class Piwik_Log_Error extends Piwik_Log
 		$this->addWriter($writerScreen);
 	}
 	
-	public function log($errno, $errstr, $errfile, $errline, $backtrace)
+	public function log($errno, $errstr)
 	{
+		// sanity checks
+		if(func_num_args() != 5) {
+			return;
+		}
+
+		$errfile = func_get_arg(2);
+		$errline = func_get_arg(3);
+		$backtrace = func_get_arg(4);
+
 		$event = array();
 		$event['errno'] = $errno;
 		$event['message'] = $errstr;
