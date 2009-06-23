@@ -141,7 +141,7 @@ class Piwik_API_Proxy
 			$returnedValue = call_user_func_array(array($object, $methodName), $finalParameters);
 			
 			// log the API Call
-			Zend_Registry::get('logger_api_call')->log(
+			Zend_Registry::get('logger_api_call')->log_api_call(
 								$className,
 								$methodName,
 								$parameterNamesDefaultValues,
