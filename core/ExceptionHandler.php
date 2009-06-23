@@ -17,7 +17,7 @@
 function Piwik_ExceptionHandler(Exception $exception) 
 {
 	try	{
-		Zend_Registry::get('logger_exception')->log($exception);
+		Zend_Registry::get('logger_exception')->log_exception($exception);
 	} catch(Exception $e) {
 		// case when the exception is raised before the logger being ready
 		// we handle the exception a la mano, but using the Logger formatting properties
@@ -27,7 +27,7 @@ function Piwik_ExceptionHandler(Exception $exception)
 		$event['errfile'] 	= $exception->getFile();
 		$event['errline'] 	= $exception->getLine();
 		$event['backtrace'] = $exception->getTraceAsString();
-		
+
 		$formatter = new Piwik_Log_Exception_Formatter_ScreenFormatter;
 		
 		$message = $formatter->format($event);

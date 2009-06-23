@@ -37,18 +37,8 @@ class Piwik_Log_APICall extends Piwik_Log
 		$this->setEventItem('caller_ip', Piwik_Common::getIp() );
 	}
 
-	function log($className, $methodName)
+	public function log_api_call($className, $methodName, $parameterNames, $parameterValues, $executionTime, $returnedValue)
 	{
-		// sanity checks
-		if(func_num_args() != 6) {
-			return;
-		}
-
-		$parameterNames = func_get_arg(2);
-		$parameterValues = func_get_arg(3);
-		$executionTime = func_get_arg(4);
-		$returnedValue = func_get_arg(5);
-
 		$event = array();
 		$event['class_name'] = $className;
 		$event['method_name'] = $methodName;
@@ -57,7 +47,7 @@ class Piwik_Log_APICall extends Piwik_Log
 		$event['execution_time'] = $executionTime;
 		$event['returned_value'] = is_array($returnedValue) ? serialize($returnedValue) : $returnedValue;
 		
-		parent::log($event);
+		parent::log($event, Piwik_Log::INFO);
 	}
 }
 

@@ -34,16 +34,11 @@ class Piwik_Log_Message extends Piwik_Log
 							$logToDatabaseColumnMapping );
 	}
 	
-	public function log($message, $unused = null)
+	public function log_message($message)
 	{
-		// sanity checks
-		if(func_num_args() != 1) {
-			return;
-		}
-
 		$event = array();
 		$event['message'] = $message;
-		parent::log($event);
+		parent::log($event, Piwik_Log::INFO);
 	}
 }
 
