@@ -50,10 +50,9 @@ if(strlen(session_id()) === 0)
 	session_start();
 }
 
+require_once "core/Loader.php";
 if(!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH)
 {
-	require_once "core/Loader.php";
-
 	$controller = Piwik_FrontController::getInstance();
 	$controller->init();
 	$controller->dispatch();
