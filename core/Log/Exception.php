@@ -44,7 +44,7 @@ class Piwik_Log_Exception extends Piwik_Log
 		$this->addWriter($writerScreen);
 	}
 
-	public function log_exception($exception)
+	public function logEvent($exception)
 	{
 		$event = array();
 		$event['errno'] 	= $exception->getCode();
