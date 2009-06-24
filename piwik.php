@@ -7,7 +7,7 @@
  * @version $Id$
  */
 
-$GLOBALS['PIWIK_TRACKER_DEBUG'] = false; 
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = true; 
 if(defined('PIWIK_ENABLE_TRACKING') && !PIWIK_ENABLE_TRACKING)
 {
 	return;
@@ -39,6 +39,7 @@ session_cache_limiter('nocache');
 ob_start();
 if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 {	
+	require_once "core/Loader.php";
 	date_default_timezone_set(date_default_timezone_get());
 	require_once "core/ErrorHandler.php";
 	require_once "core/ExceptionHandler.php";
