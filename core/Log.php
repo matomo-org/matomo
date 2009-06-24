@@ -44,7 +44,7 @@ abstract class Piwik_Log extends Zend_Log
 	
 	static public function dump($var)
 	{
-		Zend_Registry::get('logger_message')->log_message(var_export($var, true));
+		Zend_Registry::get('logger_message')->logEvent(var_export($var, true));
 	}
 	
 	function addWriteToFile()
@@ -85,7 +85,6 @@ abstract class Piwik_Log extends Zend_Log
 
 	/**
 	 * Log an event
-	 * Overload/override Zend_Log::log
 	 */
 	public function log($event, $priority)
 	{

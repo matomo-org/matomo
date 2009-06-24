@@ -37,7 +37,7 @@ class Piwik_Log_APICall extends Piwik_Log
 		$this->setEventItem('caller_ip', Piwik_Common::getIp() );
 	}
 
-	public function log_api_call($className, $methodName, $parameterNames, $parameterValues, $executionTime, $returnedValue)
+	public function logEvent($className, $methodName, $parameterNames, $parameterValues, $executionTime, $returnedValue)
 	{
 		$event = array();
 		$event['class_name'] = $className;

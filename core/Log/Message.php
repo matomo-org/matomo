@@ -34,7 +34,7 @@ class Piwik_Log_Message extends Piwik_Log
 							$logToDatabaseColumnMapping );
 	}
 	
-	public function log_message($message)
+	public function logEvent($message)
 	{
 		$event = array();
 		$event['message'] = $message;

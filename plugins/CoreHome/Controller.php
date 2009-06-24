@@ -20,10 +20,10 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 {
 	function getDefaultAction()
 	{
-		return 'redirectToIndex';
+		return 'redirectToCoreHomeIndex';
 	}
 	
-	function redirectToIndex()
+	function redirectToCoreHomeIndex()
 	{
 		// redirect to Login only for anonymous user
 		if((bool)Zend_Registry::get('config')->General->default_module_login == true
