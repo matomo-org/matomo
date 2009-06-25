@@ -15,9 +15,11 @@
  * HOW TO ADD A SEARCH ENGINE TO THE LIST
  * ======================================
  * If you want to add a new entry, please email us the information + icon at hello at piwik.org
+ *
+ * See also: http://piwik.org/faq/general/#faq_39
  * 
  * Detail of a line:
- * Url => array( SearchEngineName, VariableKeyword, [charset used by the search engine])
+ * Url => array( SearchEngineName, KeywordParameter, [path containing the keyword], [charset used by the search engine])
  * 
  * The main search engine URL has to be at the top of the list for the given search Engine.
  * You can add new search engines icons by adding the icon in the plugins/Referers/images/SearchEngines directory 
