@@ -1,5 +1,15 @@
 <?php
 /**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: $
+ * 
+ * @package Piwik_DataTable
+ */
+
+/**
  * Add a new column to the table which is a percentage based on the value resulting 
  * from a callback function with the parameter being another column's value
  * 

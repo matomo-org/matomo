@@ -1,4 +1,14 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: $
+ * 
+ * @package Piwik_ViewDataTable
+ */
+
 require_once "ViewDataTable/GenerateGraphData.php";
 /**
  * Piwik_ViewDataTable_GenerateGraphData for the vertical bar graph, using Piwik_Visualization_Chart_VerticalBar

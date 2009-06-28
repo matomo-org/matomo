@@ -1,6 +1,17 @@
 <?php
 /**
- * Enter description here...
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: $
+ * 
+ * @package SmartyPlugins
+ */
+
+/**
+ * Smarty {assignTopBar} function plugin.
+ * Initialize top nav bar text and links.
  *
  * @param array $params
  * @param Smarty $smarty
