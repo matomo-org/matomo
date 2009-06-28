@@ -1,5 +1,15 @@
 <?php
 /**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: $
+ * 
+ * @package Piwik
+ */
+
+/**
  * Executes a SQL query on the DB and returns the Zend_Db_Statement object
  * If you want to fetch data from the DB you should use the function Piwik_FetchAll()
  * 
