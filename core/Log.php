@@ -35,7 +35,14 @@ abstract class Piwik_Log extends Zend_Log
 							$logToDatabaseColumnMapping )
 	{
 		parent::__construct();
-		$this->logToFileFilename = PIWIK_INCLUDE_PATH . '/' . Zend_Registry::get('config')->log->logger_file_path . $logToFileFilename;
+
+		$log_dir = Zend_Registry::get('config')->log->logger_file_path;
+		if($log_dir[0] != '/' && $log_dir[0] != DIRECTORY_SEPARATOR)
+		{
+			$log_dir = PIWIK_INCLUDE_PATH . '/' . $log_dir;
+		}
+		$this->logToFileFilename = $log_dir . '/' . $logToFileFilename;
+
 		$this->fileFormatter = $fileFormatter;
 		$this->screenFormatter = $screenFormatter;
 		$this->logToDatabaseTableName = Piwik::prefixTable($logToDatabaseTableName);

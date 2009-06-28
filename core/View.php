@@ -179,6 +179,9 @@ class Piwik_View implements Piwik_iView
 
 	static public function addPiwikPath(&$value, $key)
 	{
-		$value = PIWIK_INCLUDE_PATH ."/$value";
+		if($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR)
+		{
+			$value = PIWIK_INCLUDE_PATH ."/$value";
+		}
 	}
 }
