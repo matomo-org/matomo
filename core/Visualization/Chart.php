@@ -166,7 +166,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		{
 			$this->maxValue = 1;
 		}
-		$this->y->set_range( $this->minValue, $this->maxValue, $stepsEveryNLabel);
+                $this->y->set_range( $this->minValue, (int) $this->maxValue, (int) $stepsEveryNLabel);
 		$dataSetsToDisplay = $this->getDataSetsToDisplay();
 		if($dataSetsToDisplay != false)
 		{
