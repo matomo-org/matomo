@@ -102,7 +102,7 @@ class Piwik_Tracker_Config
 		{
 			$section = array_merge($section, $this->configUser[$name]);
 		}
-		return $section;
+		return count($section) ? $section : null;
 	}
 }
 
