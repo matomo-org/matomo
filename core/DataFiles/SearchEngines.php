@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: SearchEngines.php 569 2008-07-22 23:12:58Z matt $
+ * @version $Id$
  * 
  * @package Piwik_Referers
  */

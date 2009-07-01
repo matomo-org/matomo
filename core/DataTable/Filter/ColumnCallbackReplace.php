@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ColumnCallbackReplace.php 444 2008-04-11 13:38:22Z johmathe $
+ * @version $Id$
  * 
  * @package Piwik_DataTable
  */

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: TablePartitioning.php 386 2008-03-18 19:27:54Z julien $
+ * @version $Id$
  * 
  * @package Piwik
  */

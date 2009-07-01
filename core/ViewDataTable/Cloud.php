@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Cloud.php 581 2008-07-27 23:07:52Z matt $
+ * @version $Id$
  * 
  * @package Piwik_ViewDataTable
  */
