@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Console.php 525 2008-06-25 23:49:13Z matt $
+ * @version $Id$
  * 
  * @package Piwik_DataTable
  */

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Error.php 485 2008-05-19 22:29:55Z matt $
+ * @version $Id$
  * 
  * @package Piwik_Log
  * @subpackage Piwik_Log_Error

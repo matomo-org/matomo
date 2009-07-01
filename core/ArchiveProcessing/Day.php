@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Day.php 504 2008-06-01 20:19:28Z matt $
+ * @version $Id$
  * 
  * @package Piwik_ArchiveProcessing
  */

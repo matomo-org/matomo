@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Message.php 492 2008-05-23 01:08:12Z matt $
+ * @version $Id$
  * 
  * @package Piwik_Log
  * @subpackage Piwik_Log_Message
