@@ -88,6 +88,11 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		$arrayValues = array();
 		foreach($queries as $table => $aIds)
 		{
+			if(!count($aIds))
+			{
+				continue;
+			}
+
 			$inIds = implode(', ', $aIds);
 			$sql = "SELECT value, name, UNIX_TIMESTAMP(date1) as timestamp
 									FROM $table
