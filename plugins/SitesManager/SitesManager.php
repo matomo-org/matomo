@@ -30,9 +30,15 @@ class Piwik_SitesManager extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
+			'template_css_import' => 'css',
 			'AdminMenu.add' => 'addMenu',
 			'Common.fetchWebsiteAttributes' => 'recordWebsiteHostsInCache',
 		);
+	}
+	
+	function css()
+	{
+		echo '<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />';
 	}
 	
 	function recordWebsiteHostsInCache($notification)
