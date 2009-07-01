@@ -19,7 +19,10 @@
 # time_before_archive_considered_outdated = 3600
 # enable_browser_archiving_triggering = false
 
-PHP_BIN=`which php5`
+PHP_BIN=`which php5 2>/dev/null`
+if test -z $PHP_BIN; then
+  PHP_BIN=`which php`
+fi
 PIWIK_CRON_FOLDER=`dirname $(readlink -f ${0})`
 PIWIK_PATH="$PIWIK_CRON_FOLDER"/../../index.php
 PIWIK_CONFIG="$PIWIK_CRON_FOLDER"/../../config/config.ini.php
@@ -27,9 +30,8 @@ PIWIK_CONFIG="$PIWIK_CRON_FOLDER"/../../config/config.ini.php
 PIWIK_SUPERUSER=`sed '/^\[superuser\]/,$!d;/^login[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
 PIWIK_SUPERUSER_MD5_PASSWORD=`sed '/^\[superuser\]/,$!d;/^password[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
 
-CMD_TOKEN_AUTH="$PHP_BIN $PIWIK_PATH -- module=API&method=UsersManager.getTokenAuth&userLogin=$PIWIK_SUPERUSER&md5Password=$PIWIK_SUPERUSER_MD5_PASSWORD&format=php"
-CMD_TOKEN_AUTH_RESULT=`$CMD_TOKEN_AUTH`
-TOKEN_AUTH=${CMD_TOKEN_AUTH_RESULT:6:32}
+CMD_TOKEN_AUTH="$PHP_BIN $PIWIK_PATH -- module=API&method=UsersManager.getTokenAuth&userLogin=$PIWIK_SUPERUSER&md5Password=$PIWIK_SUPERUSER_MD5_PASSWORD&format=php&serialize=0"
+TOKEN_AUTH=`$CMD_TOKEN_AUTH`
 
 for period in day week year; do
   CMD="$PHP_BIN $PIWIK_PATH -- module=API&method=VisitsSummary.getVisits&idSite=all&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH";
