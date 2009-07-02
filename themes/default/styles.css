@@ -22,13 +22,13 @@
 }
 
 .formDiv a.collapsed{
-	background:#ffffff url('collapsed_arrows.gif') no-repeat right center;
+	background:#ffffff url('images/collapsed_arrows.gif') no-repeat right center;
 	padding-right:16px;
 	color:#000000;
 	text-decoration:none;
 }
 .formDiv a.expanded{
-	background:#176999 url('expanded_arrows.gif') no-repeat right center;
+	background:#176999 url('images/expanded_arrows.gif') no-repeat right center;
 	padding-right:16px;
 	color:#ffffff;
 	text-decoration:none;
