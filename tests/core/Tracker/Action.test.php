@@ -84,6 +84,13 @@ class Test_Piwik_TrackerAction extends UnitTestCase
 										'url' => 'http://example.org/category/test///test  wOw',
 										'type' => Piwik_Tracker_Action::TYPE_ACTION),
 			),
+			// testing: inclusion of zero values in action name
+			array(
+				'request' => array( 'url' => "http://example.org/category/1/0/t/test"),
+				'expected' => array(	'name' => 'category/1/0/t/test',
+										'url' => 'http://example.org/category/1/0/t/test',
+										'type' => Piwik_Tracker_Action::TYPE_ACTION),
+			),
 		);
 		foreach($tests as $test) {
 			$request = $test['request'];
