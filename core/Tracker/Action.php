@@ -262,7 +262,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			$split = array_map('trim', $split);
 			
 			// remove empty categories
-			$split = array_filter($split);
+			$split = array_filter($split, 'strlen');
 			
 			// rebuild the name from the array of cleaned categories
 			$actionName = implode($actionCategoryDelimiter, $split);
