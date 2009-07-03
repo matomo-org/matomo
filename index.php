@@ -34,6 +34,8 @@ require_once "core/testMinimumPhpVersion.php";
 
 // NOTE: the code above this comment must be PHP4 compatible
 
+date_default_timezone_set(date_default_timezone_get());
+
 if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 {
 	require_once "core/ErrorHandler.php";
@@ -43,7 +45,6 @@ if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 	set_exception_handler('Piwik_ExceptionHandler');
 }
 
-date_default_timezone_set(date_default_timezone_get());
 session_cache_limiter('nocache');
 
 require_once "core/Loader.php";
