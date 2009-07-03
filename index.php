@@ -45,10 +45,6 @@ if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 
 date_default_timezone_set(date_default_timezone_get());
 session_cache_limiter('nocache');
-if(strlen(session_id()) === 0)
-{
-	session_start();
-}
 
 require_once "core/Loader.php";
 if(!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH)

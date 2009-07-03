@@ -127,9 +127,10 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	static protected function getLanguageFromPreferences()
 	{
-		if(isset($_SESSION['language']))
+		$session = new Zend_Session_Namespace("LanguagesManager");
+		if(isset($session->language))
 		{
-			return $_SESSION['language'];
+			return $session->language;
 		}
 		
 		try {

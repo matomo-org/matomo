@@ -25,7 +25,8 @@ class Piwik_LanguagesManager_Controller extends Piwik_Controller
 	{
 		$language = Piwik_Common::getRequestVar('language');
 		$currentUser = Piwik::getCurrentUserLogin();
-		$_SESSION['language'] = $language;
+		$session = new Zend_Session_Namespace("LanguagesManager");
+		$session->language = $language;
 		if($currentUser !== 'anonymous')
 		{
 			Piwik_LanguagesManager_API::setLanguageForUser($currentUser, $language);
