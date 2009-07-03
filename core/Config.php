@@ -168,7 +168,7 @@ class Piwik_Config
 	
 	/**
 	 * Called when setting configuration values eg. 
-	 * 	Zend_Registry::get('config')->superuser = $_SESSION['superuser_infos'];
+	 * 	Zend_Registry::get('config')->MyConfigSection = 'foobar';
 	 *
 	 * The values will be saved in the configuration file at the end of the script @see __destruct()
 	 * 
