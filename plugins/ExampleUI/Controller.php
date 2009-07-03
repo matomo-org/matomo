@@ -31,6 +31,7 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 	
 	function evolutionGraph()
 	{
+		ob_start();
 		echo "<h2>Evolution of server temperatures over the last few days</h2>";
 		$this->echoEvolutionGraph();
 	}
@@ -69,6 +70,7 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 	
 	function tagClouds()
 	{
+		ob_start();
 		echo "<h2>Simple tag cloud</h2>";
 		$this->echoSimpleTagClouds();
 		
@@ -122,6 +124,7 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 	
 	function misc()
 	{
+		ob_start();
 		echo "<h2>Evolution graph filtered to Google and Yahoo!</h2>";
 		$this->echoDataTableSearchEnginesFiltered();
 	}
