@@ -25,15 +25,14 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 
 if((@include "Version.php") === false || !class_exists('Piwik_Version', false))
 {
-	set_include_path(PIWIK_INCLUDE_PATH . '/core'
-		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
-		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+	ini_set('include_path', PIWIK_INCLUDE_PATH . '/core'
+	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
 }
 
 require_once "core/testMinimumPhpVersion.php";
 
 // NOTE: the code above this comment must be PHP4 compatible
-date_default_timezone_set(date_default_timezone_get());
 
 if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 {
@@ -44,6 +43,7 @@ if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 	set_exception_handler('Piwik_ExceptionHandler');
 }
 
+date_default_timezone_set(date_default_timezone_get());
 session_cache_limiter('nocache');
 if(strlen(session_id()) === 0)
 {
