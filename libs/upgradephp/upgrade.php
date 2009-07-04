@@ -140,7 +140,7 @@ if (!function_exists("json_encode")) {
          if (!utf8_decode($var)) {
             $var = utf8_encode($var);
          }
-         $var = str_replace(array("\"", "\\", "/", "\b", "\f", "\n", "\r", "\t"), array("\\\"", "\\\\", "\\/", "\\b", "\\f", "\\n", "\\r", "\\t"), $var);
+         $var = str_replace(array("\\", "\"", "/", "\b", "\f", "\n", "\r", "\t"), array("\\\\", "\\\"", "\\/", "\\b", "\\f", "\\n", "\\r", "\\t"), $var);
          $json = '"' . $var . '"';
          //@COMPAT: for fully-fully-compliance   $var = preg_replace("/[\000-\037]/", "", $var);
       }
