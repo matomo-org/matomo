@@ -20,9 +20,9 @@ define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
 
 if((@include "Version.php") === false || !class_exists('Piwik_Version', false))
 {
-	set_include_path(PIWIK_INCLUDE_PATH . '/core'
-		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
-		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+	ini_set('include_path', PIWIK_INCLUDE_PATH . '/core'
+	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
 }
 
 require_once "Common.php";
