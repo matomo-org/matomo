@@ -225,7 +225,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		if(isset($session->databaseCreated)
 			&& $session->databaseCreated === true)
 		{
-			$view->databaseName = $session->db_infos->dbname;
+			$view->databaseName = $session->db_infos['dbname'];
 			$view->databaseCreated = true;
 			unset($session->databaseCreated);
 		}
