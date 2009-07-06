@@ -7,11 +7,6 @@ try {
   var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", {$idSite});
   piwikTracker.trackPageView();
   piwikTracker.enableLinkTracking();
-} catch( err ) {
-}
-</script>
-<!-- End Piwik Tag -->
-
-<!-- Piwik - JavaScript Disabled -->
-<object><noscript><p>{$hrefTitle} <img src="http://{$piwikUrl}piwik.php?idsite={$idSite}" style="border:0" alt=""/></p></noscript></object>
+} catch( err ) {}
+</script><noscript><img src="http://{$piwikUrl}piwik.php?idsite={$idSite}" style="border:0" alt=""/></noscript>
 <!-- End Piwik Tag -->
