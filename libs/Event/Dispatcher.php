@@ -209,12 +209,13 @@ class Event_Dispatcher
             foreach (array_keys($this->_pending[$nName]) as $k) {
                 $notification =& $this->_pending[$nName][$k];
                 if (!$notification->isNotificationCancelled()) {
-                    $objClass = get_class($notification->getNotificationObject());
+                    $object = $notification->getNotificationObject();
+                    $objClass = is_object($object) ? get_class($object) : null;
                     if (empty($class) || strcasecmp($class, $objClass) == 0) {
                         call_user_func_array($callback, array(&$notification));
                         //-- Piwik Hack --//
-	                    $notification->increaseNotificationCount(get_class($callback[0]), $callback[1]);
-	                    //-- End Piwik Hack --//
+                        $notification->increaseNotificationCount($callback);
+                        //-- End Piwik Hack --//
                     }
                 }
             }
@@ -268,7 +269,9 @@ class Event_Dispatcher
         if ($pending === true) {
             $this->_pending[$nName][] =& $notification;
         }
-        $objClass = get_class($notification->getNotificationObject());
+
+        $object = $notification->getNotificationObject();
+        $objClass = is_object($object) ? get_class($object) : null;
 
         // Find the registered observers
         if (isset($this->_ro[$nName])) {
@@ -278,10 +281,11 @@ class Event_Dispatcher
                     return $notification;
                 }
                 if (empty($rObserver['class']) ||
-                	strcasecmp($rObserver['class'], $objClass) == 0) {
-                    call_user_func_array($rObserver['callback'], array(&$notification));
+            	    strcasecmp($rObserver['class'], $objClass) == 0) {
+                    $callback = $rObserver['callback'];
+                    call_user_func_array($callback, array(&$notification));
                     //-- Piwik Hack --//
-                    $notification->increaseNotificationCount(get_class($rObserver['callback'][0]), $rObserver['callback'][1]);
+                    $notification->increaseNotificationCount($callback);
                     //-- End Piwik Hack --//
                 }
             }

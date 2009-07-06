@@ -141,8 +141,8 @@ abstract class Piwik_Archive
 		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
 		elseif(is_string($strDate) 
 			&& (
-				ereg('^(last|previous){1}([0-9]*)$', $strDate, $regs)
-				|| ereg('^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$', $strDate, $regs)
+				preg_match('/^(last|previous){1}([0-9]*)$/', $strDate, $regs)
+				|| preg_match('/^([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}),([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2})$/', $strDate, $regs)
 				)
 			)
 		{

@@ -512,17 +512,21 @@ function Piwik_AddAction( $hookName, $function )
 class Piwik_Event_Notification extends Event_Notification
 {
 	static $showProfiler = false;
-	function increaseNotificationCount(/* $className, $method */) {
+	function increaseNotificationCount(/* array($className|object, $method) */) {
 		parent::increaseNotificationCount();
-		if(self::$showProfiler && func_num_args() == 2)
+		if(self::$showProfiler && func_num_args() == 1)
 		{
-			$className = func_get_arg(0);
-			$method = func_get_arg(1);
-			echo "after $className -> $method <br>";
-			echo "-"; Piwik::printTimer();
-			echo "<br>";
-			echo "-"; Piwik::printMemoryLeak();
-			echo "<br>";
+			$callback = func_get_arg(0);
+			if(is_array($callback)) {
+				$className = is_object($callback[0]) ? get_class($callback[0]) : $callback[0];
+				$method = $callback[1];
+
+				echo "after $className -> $method <br>";
+				echo "-"; Piwik::printTimer();
+				echo "<br>";
+				echo "-"; Piwik::printMemoryLeak();
+				echo "<br>";
+			}
 		}
 	}
 }

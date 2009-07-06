@@ -67,7 +67,7 @@ class Piwik_API_DocumentationGenerator
 					if($exampleUrl !== false)
 					{
 						$lastNUrls = '';
-						if( ereg('(&period)|(&date)',$exampleUrl))
+						if( preg_match('/(&period)|(&date)/',$exampleUrl))
 						{
 							$exampleUrlRss1 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10') + $parametersToSet) ;
 							$exampleUrlRss2 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',) + $parametersToSet );

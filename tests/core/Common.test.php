@@ -166,8 +166,8 @@ class Test_Piwik_Common extends UnitTestCase
 	// sanitize with magic quotes runtime on => shouldnt affect the result
 	function test_sanitizeInputValues_magicquotesON()
 	{
-		$this->assertTrue(set_magic_quotes_runtime(1));
-		$this->assertTrue(get_magic_quotes_runtime(), 1);
+		$this->assertTrue(@set_magic_quotes_runtime(1));
+		$this->assertTrue(@get_magic_quotes_runtime(), 1);
 		
 		$this->test_sanitizeInputValues_array1();
 		$this->test_sanitizeInputValues_array2();
@@ -179,8 +179,8 @@ class Test_Piwik_Common extends UnitTestCase
 	function test_sanitizeInputValues_magicquotesOFF()
 	{
 		
-		$this->assertTrue(set_magic_quotes_runtime(0));
-		$this->assertEqual(get_magic_quotes_runtime(), 0);
+		$this->assertTrue(@set_magic_quotes_runtime(0));
+		$this->assertEqual(@get_magic_quotes_runtime(), 0);
 		$this->test_sanitizeInputValues_array1();
 		$this->test_sanitizeInputValues_array2();
 		$this->test_sanitizeInputValues_badString();

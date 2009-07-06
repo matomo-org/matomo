@@ -1,7 +1,7 @@
 <?php
 flush();
 define('PIWIK_PATH_TEST_TO_ROOT', '..');
-require_once"config_test.php";
+require_once "config_test.php";
 Piwik::createConfigObject();
 $databaseTestName = Zend_Registry::get('config')->database_tests->dbname;
 Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
@@ -22,14 +22,14 @@ require_once(SIMPLE_TEST . 'reporter.php');
 $test = &new GroupTest('Piwik - running all tests');
 $toInclude = array();
 
-foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core/', '*.php') as $file)
+foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core', '*.php') as $file)
 {
 	$toInclude[] = $file;
 }
 foreach($toInclude as $file)
 {
 	if(substr_count($file, 'test.php') == 0
-//		|| !ereg('Documentation', $file) // Debug: only run this one test in the context of all_tests.php
+//		|| !preg_match('/Documentation/', $file) // Debug: only run this one test in the context of all_tests.php
 		)
 	{
 		print("The file '$file' is not valid: doesn't end with '.test.php' extension. \n<br>");
@@ -72,5 +72,6 @@ function globr($sDir, $sPattern, $nFlags = NULL)
 		$aSubFiles = globr($sSubDir, $sPattern, $nFlags);
 		$aFiles = array_merge($aFiles, $aSubFiles);
 	}
+	sort($aFiles);
 	return $aFiles;
 }

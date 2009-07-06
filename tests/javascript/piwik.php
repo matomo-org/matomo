@@ -13,14 +13,6 @@ if (!file_exists("enable_sqlite")) {
 }
 
 if (!extension_loaded('sqlite')) {
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-        dl('php_sqlite.dll');
-    } else {
-        dl('sqlite.so');
-    }
-}
-
-if (!extension_loaded('sqlite')) {
 	sendWebBug();
 	exit;
 }

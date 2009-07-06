@@ -8,9 +8,9 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 	define('PIWIK_INCLUDE_PATH', PIWIK_PATH_TEST_TO_ROOT);
 }
 
-set_include_path(PIWIK_INCLUDE_PATH . '/core/'
-	. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
-	. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/');
+ini_set('include_path', PIWIK_INCLUDE_PATH . '/core'
+     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
 
 require_once 'Loader.php';
 					
@@ -19,7 +19,8 @@ require_once 'simpletest/mock_objects.php';
 SimpleTest :: prefer(new HtmlReporter());
 
 error_reporting(E_ALL|E_NOTICE);
-date_default_timezone_set('Europe/London');
+@date_default_timezone_set('Europe/London');
+//@date_default_timezone_set('America/Toronto');
 
 require_once "Zend/Exception.php";
 require_once "Zend/Loader.php";
