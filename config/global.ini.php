@@ -69,7 +69,7 @@ enable_browser_archiving_triggering = 1
 action_category_delimiter = /
 
 ; currency used by default when reporting money in Piwik
-default_currency = "$"
+default_currency = "\$"
 
 ; if you want all your users to use Piwik in only one language, disable the LanguagesManager
 ; plugin, and set this default_language (users won't see the language drop down) 
