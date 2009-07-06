@@ -8,5 +8,5 @@ try {
   piwikTracker.trackPageView();
   piwikTracker.enableLinkTracking();
 } catch( err ) {}
-</script><noscript><img src="http://{$piwikUrl}piwik.php?idsite={$idSite}" style="border:0" alt=""/></noscript>
+</script><noscript><p><img src="http://{$piwikUrl}piwik.php?idsite={$idSite}" style="border:0" alt=""/></p></noscript>
 <!-- End Piwik Tag -->
