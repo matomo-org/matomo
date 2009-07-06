@@ -1,4 +1,4 @@
-{if ereg('http://127.0.0.1|http://localhost|http://piwik.org', $url)}
+{if preg_match('/http\:\/\/127\.0\.0\.1|http\:\/\/localhost|http\:\/\/piwik\.org/', $url)}
 <div style="clear:both"></div>
 {literal}
 <!-- Piwik -->

@@ -165,8 +165,8 @@ class Piwik_Menu
 				// we want to move some submenus in the first position
 				foreach($element as $nameSubmenu => $submenu)
 				{
-					if(ereg('Evolution', $nameSubmenu) !== false
-						|| ereg('Overview', $nameSubmenu) !== false)
+					if(preg_match('/Evolution/', $nameSubmenu)
+						|| preg_match('/Overview/', $nameSubmenu))
 					{
 						$newElement = array($nameSubmenu => $submenu);
 						unset($element[$nameSubmenu]);

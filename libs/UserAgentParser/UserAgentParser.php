@@ -129,7 +129,7 @@ class UserAgentParser
 			'short_name' => '',
 		);
 		foreach(self::$operatingSystems as $key => $value) {
-			if ($ok = ereg($key, $userAgent)) {
+			if (strstr($userAgent, $key) !== false) {
 				$info['id'] = $value;
 				break;
 			}

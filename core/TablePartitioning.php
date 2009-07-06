@@ -86,7 +86,7 @@ abstract class Piwik_TablePartitioning
 		}
 	}
 	
-	protected function __toString()
+	public function __toString()
 	{
 		return $this->getTableName();
 	}

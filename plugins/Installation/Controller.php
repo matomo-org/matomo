@@ -141,7 +141,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					Piwik::createDatabaseObject($dbInfos);
 				} catch (Zend_Db_Adapter_Exception $e) {
 					// database not found, we try to create  it
-					if(ereg('[1049]',$e->getMessage() ))
+					if(preg_match('/1049/', $e->getMessage() ))
 					{
 						$dbInfosConnectOnly = $dbInfos;
 						$dbInfosConnectOnly['dbname'] = null;
@@ -502,7 +502,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 		    $gdInfo = gd_info();
 			$infos['gd_version'] = $gdInfo['GD Version'];
-		    ereg ("([0-9]{1})", $gdInfo['GD Version'], $gdVersion);
+		    preg_match('/([0-9]{1})/', $gdInfo['GD Version'], $gdVersion);
 		    if($gdVersion[0] >= 2) 
 		    {
 				$infos['gd_ok'] = true;

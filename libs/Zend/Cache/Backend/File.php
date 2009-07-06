@@ -168,8 +168,8 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
         if (!$fp) return false;
         if ($this->_options['file_locking']) @flock($fp, LOCK_SH);
         $length = @filesize($file);
-        $mqr = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
+        $mqr = @get_magic_quotes_runtime();
+        @set_magic_quotes_runtime(0);
         if ($this->_options['read_control']) {
             $hashControl = @fread($fp, 32);
             $length = $length - 32;
@@ -179,7 +179,7 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
         } else {
             $data = '';
         }
-        set_magic_quotes_runtime($mqr);
+        @set_magic_quotes_runtime($mqr);
         if ($this->_options['file_locking']) @flock($fp, LOCK_UN);
         @fclose($fp);
         if ($this->_options['read_control']) {
@@ -236,12 +236,12 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
                 if ($this->_options['read_control']) {
                     @fwrite($fp, $this->_hash($data, $this->_options['read_control_type']), 32);
                 }
-                $mqr = get_magic_quotes_runtime();
-                set_magic_quotes_runtime(0);
+                $mqr = @get_magic_quotes_runtime();
+                @set_magic_quotes_runtime(0);
                 @fwrite($fp, $data);
                 if ($this->_options['file_locking']) @flock($fp, LOCK_UN);
                 @fclose($fp);
-                set_magic_quotes_runtime($mqr);
+                @set_magic_quotes_runtime($mqr);
                 $result = true;
                 break;
             }         

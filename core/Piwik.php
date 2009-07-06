@@ -85,7 +85,7 @@ class Piwik
 		$resultCheck = array();
 		foreach($directoriesToCheck as $directoryToCheck)
 		{
-			if( !ereg('^'.preg_quote(PIWIK_INCLUDE_PATH), $directoryToCheck) )
+			if( !preg_match('/^'.preg_quote(PIWIK_INCLUDE_PATH, '/').'/', $directoryToCheck) )
 			{
 				$directoryToCheck = PIWIK_INCLUDE_PATH . $directoryToCheck;
 			}
@@ -1299,14 +1299,14 @@ class Piwik
 		$tablesAlreadyInstalled = self::getTablesInstalled();
 		$db = Zend_Registry::get('db');
 		
-		$doNotDeletePattern = "(".implode("|",$doNotDelete).")";
+		$doNotDeletePattern = '/('.implode('|',$doNotDelete).')/';
 		
 		foreach($tablesAlreadyInstalled as $tableName)
 		{
 			
 			if( count($doNotDelete) == 0
 				|| (!in_array($tableName,$doNotDelete)
-					&& !ereg($doNotDeletePattern,$tableName)
+					&& !preg_match($doNotDeletePattern,$tableName)
 					)
 				)
 			{

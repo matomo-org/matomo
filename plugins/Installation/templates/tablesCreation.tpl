@@ -13,7 +13,7 @@
 		<p class="nextStep"><a href="{url action=$previousModuleName}">&laquo; {'Installation_GoBackAndDefinePrefix'|translate}</a></p>
 	{/if}
 	
-	<p class="nextStep" id="eraseAllTables"><a href="{url deleteTables=1}">{'Installation_TablesDelete'|translate} &raquo;</a></p>
+	<p class="nextStep"><a href="{url deleteTables=1}" id="eraseAllTables">{'Installation_TablesDelete'|translate} &raquo;</a></p>
 {/if}
 
 {if isset($existingTablesDeleted)}
@@ -55,11 +55,7 @@ $(document).ready( function(){
 			
 	$("#eraseAllTables")
 		.click( function(){ 
-			if(confirm(	strConfirmEraseTables ) ) 
-			{ 
-				window.location.href = $(this).attr('href'); 
-			}
-			else 
+			if(!confirm( strConfirmEraseTables ) ) 
 			{ 
 				return false; 
 			}

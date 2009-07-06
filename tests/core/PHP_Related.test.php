@@ -328,7 +328,7 @@ class test_magicMethodStaticAttr
 {
 	static $test = "test";
 	
-	function __get($name)
+	public function __get($name)
 	{
 		print("reading static attr ; __get called");
 		return 1;

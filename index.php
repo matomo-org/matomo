@@ -34,7 +34,7 @@ require_once "core/testMinimumPhpVersion.php";
 
 // NOTE: the code above this comment must be PHP4 compatible
 
-date_default_timezone_set(date_default_timezone_get());
+@date_default_timezone_set(date_default_timezone_get());
 
 if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 {

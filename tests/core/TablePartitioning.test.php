@@ -39,7 +39,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$timestamp = strtotime("10 September 2000");
     	$suffixShouldBe = "_2000_09";
 		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
+		$prefixTables = $config->database_tests->tables_prefix;
 		$tablename = $prefixTables.$tableName.$suffixShouldBe;
 		
     	$p->setTimestamp( $timestamp );
@@ -60,7 +60,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$timestamp = strtotime("10 September 2000");
     	$suffixShouldBe = "_2000_09";
 		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
+		$prefixTables = $config->database_tests->tables_prefix;
 		$tablename = $prefixTables.$tableName.$suffixShouldBe;
 		
     	$p->setTimestamp( $timestamp );
@@ -80,7 +80,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$timestamp = strtotime("10 September 2000");
     	$suffixShouldBe = "_2000_09_10";
 		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
+		$prefixTables = $config->database_tests->tables_prefix;
 		$tablename = $prefixTables.$tableName.$suffixShouldBe;
 		
     	$p->setTimestamp( $timestamp );

@@ -68,7 +68,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
-			if(ereg('1050',$e->getMessage()))
+			if(preg_match('/1050/', $e->getMessage()))
 			{
 				return;
 			}
