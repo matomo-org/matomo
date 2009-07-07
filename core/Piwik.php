@@ -396,7 +396,7 @@ class Piwik
 		static $symbol = null;
 		if(is_null($symbol))
 		{
-			$symbol = Zend_Registry::get('config')->General->default_currency;
+			$symbol = trim(Zend_Registry::get('config')->General->default_currency);
 		}
 		return $symbol;
 	}
