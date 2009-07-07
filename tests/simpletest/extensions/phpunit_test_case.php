@@ -3,7 +3,7 @@
      *	adapter for SimpleTest to use PHPUnit test cases
      *	@package	SimpleTest
      *	@subpackage Extensions
-     *	@version	$Id$
+     *	@version	$Id: phpunit_test_case.php 1530 2007-06-04 23:35:45Z lastcraft $
      */
     
     /**#@+

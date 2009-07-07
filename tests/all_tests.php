@@ -19,13 +19,18 @@ You may need to create this database ; you can edit the settings for the unit te
 require_once(SIMPLE_TEST . 'unit_tester.php');
 require_once(SIMPLE_TEST . 'reporter.php');
 
-$test = &new GroupTest('Piwik - running all tests');
+$test = new GroupTest('Piwik - running all tests');
 $toInclude = array();
 
 foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core', '*.php') as $file)
 {
-	$toInclude[] = $file;
+	if($file !== PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php')
+	{
+		$toInclude[] = $file;
+	}
 }
+sort($toInclude);
+array_unshift($toInclude, PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php');
 foreach($toInclude as $file)
 {
 	if(substr_count($file, 'test.php') == 0
@@ -72,6 +77,5 @@ function globr($sDir, $sPattern, $nFlags = NULL)
 		$aSubFiles = globr($sSubDir, $sPattern, $nFlags);
 		$aFiles = array_merge($aFiles, $aSubFiles);
 	}
-	sort($aFiles);
 	return $aFiles;
 }
