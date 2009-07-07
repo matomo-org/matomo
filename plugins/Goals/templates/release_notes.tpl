@@ -8,18 +8,17 @@ Give us Feedback!
 If you find any other bug, or if you have suggestions, please send us a message using the "Give us feedback" link at the top of the Piwik pages.
 
 Work left to do on the Goal Tracking plugin:
-- Test summary row works ok with subtables campaigns
 - The Goal Report page will display conversion table by search engines, country, keyword, campaign, etc.
+- Contemplate adding goal conversions per landing page? If we add Goals per landing page, what page is used for goals that are triggered using piwikTracker.trackGoal in javascript?
 - The Goal Overview page will link to a Goal Report page with a "(more)" link that will ajax reload the page
-- Goals could be triggered using javascript event, with custom revenue
-- provide widgets for the dashboard, general goal overview, and one widget for each goal. With: graph evolution, sparklines. Widget with top segments for each goal.
-- add visits with conversion sparkline in VisitsSummary overview
-- link under goal conversion to full goal reports (optional display)
+- Provide widgets for the dashboard, general goal overview, and one widget for each goal. With: graph evolution, sparklines. Widget with top segments for each goal.
+- Add visits with conversion sparkline in VisitsSummary overview
+- Add link under goal conversion to full goal reports (optional display)
+- Internationalization of all strings i18n
+- Provide documentation, screenshots, blog post + add screenshot and inline help in "Add a New Goal"
 - N/A% should be n/a
-- internationalization of all strings i18n
-- provide documentation, screenshots, blog post + add screenshot and inline help in "Add a New Goal"
-- way to test a URL against the regex
-- contemplate adding goal conversions per landing page?
+- Way to test a URL against the regex
+- Test summary row works ok with subtables campaigns
 
 Known bugs
 - see bug described in http://forum.piwik.org/index.php?showtopic=150
