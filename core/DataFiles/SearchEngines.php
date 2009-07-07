@@ -378,7 +378,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 	
 		// goo
 		'search.goo.ne.jp'		=> array('goo', 'mt'),
-		'ocnsearch.goo.ne.jp'		=> array('goo', 'mt'),
+		'ocnsearch.goo.ne.jp'	=> array('goo', 'mt'),
 		
 		// Google
 		'www.google.com'		=> array('Google', 'q', 'search?q={k}'),
@@ -415,9 +415,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.cc'			=> array('Google', 'q'),
 		'www.google.cd'			=> array('Google', 'q'),
 		'www.google.cg'			=> array('Google', 'q'),
-		'www.google.ch'			=> array('Google', array('q', 'as_q')),
-		'ww.google.ch'			=> array('Google', array('q', 'as_q')),
-		'w.google.ch'			=> array('Google', array('q', 'as_q')),
+		'www.google.ch'			=> array('Google', 'q'),
+		'ww.google.ch'			=> array('Google', 'q'),
+		'w.google.ch'			=> array('Google', 'q'),
 		'www.google.ci'			=> array('Google', 'q'),
 		'www.google.cl'			=> array('Google', 'q'),
 		'www.google.cn'			=> array('Google', 'q'),
@@ -439,10 +439,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.fm'			=> array('Google', 'q'),
 		'www.google.gg'			=> array('Google', 'q'),
 		'www.goggle.com'		=> array('Google', 'q'),
-		'google.ge'             => array('Google','q'),
-		'w.google.ge'           => array('Google','q'),
-		'ww.google.ge'          => array('Google','q'),
-		'www.google.ge'         => array('Google','q'),
+		'google.ge'             => array('Google', 'q'),
+		'w.google.ge'           => array('Google', 'q'),
+		'ww.google.ge'          => array('Google', 'q'),
+		'www.google.ge'         => array('Google', 'q'),
 		'www.googel.fi'			=> array('Google', 'q'),
 		'www.googleearth.fr'	=> array('Google', 'q'),
 		'www.google.gl'			=> array('Google', 'q'),
@@ -545,7 +545,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.com.bh'     => array('Google', 'q'),
 		'www.google.com.jm'     => array('Google', 'q'),
 		'www.google.com.na'     => array('Google', 'q'),
-	        'www.google.lk'         => array('Google', 'q'),
+	    'www.google.lk'         => array('Google', 'q'),
 		'www.google.com.gh'     => array('Google', 'q'),
 		'www.google.rs'         => array('Google', 'q'),
 		'www.google.com.gi'     => array('Google', 'q'),
@@ -588,14 +588,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'blogsearch.google.at'		=> array('Google Blogsearch', 'q'),
 		'blogsearch.google.ch'		=> array('Google Blogsearch', 'q'),
 		'blogsearch.google.pl'		=> array('Google Blogsearch', 'q'),
-		'blogsearch.google.co.in'       => array('Google Blogsearch', array('q', 'as_q')),
+		'blogsearch.google.co.in'   => array('Google Blogsearch', 'q'),
 		
 		
 		// Google translation
 		'translate.google.com'		=> array('Google Translations', 'q'),
-		
-		// Google Directory
-		'directory.google.com'		=> array('Google Directory', ' '),
 		
 		// Google Images        
 		'images.google.com'        => array('Google Images', 'q', 'images?q={k}'),
