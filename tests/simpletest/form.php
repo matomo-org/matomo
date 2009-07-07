@@ -1,9 +1,9 @@
 <?php
 /**
- *	Base include file for SimpleTest.
- *	@package	SimpleTest
- *	@subpackage	WebTester
- *	@version	$Id$
+ *  Base include file for SimpleTest.
+ *  @package    SimpleTest
+ *  @subpackage WebTester
+ *  @version    $Id: form.php 1672 2008-03-02 04:47:34Z edwardzyang $
  */
     
 /**#@+
@@ -172,7 +172,7 @@ class SimpleForm {
      */
     function _addRadioButton(&$tag) {
         if (! isset($this->_radios[$tag->getName()])) {
-            $this->_widgets[] = &new SimpleRadioGroup();
+            $this->_widgets[] = new SimpleRadioGroup();
             $this->_radios[$tag->getName()] = count($this->_widgets) - 1;
         }
         $this->_widgets[$this->_radios[$tag->getName()]]->addWidget($tag);
@@ -191,7 +191,7 @@ class SimpleForm {
             $index = $this->_checkboxes[$tag->getName()];
             if (! SimpleTestCompatibility::isA($this->_widgets[$index], 'SimpleCheckboxGroup')) {
                 $previous = &$this->_widgets[$index];
-                $this->_widgets[$index] = &new SimpleCheckboxGroup();
+                $this->_widgets[$index] = new SimpleCheckboxGroup();
                 $this->_widgets[$index]->addWidget($previous);
             }
             $this->_widgets[$index]->addWidget($tag);
@@ -228,12 +228,16 @@ class SimpleForm {
      *                                      present, nothing will be set.
      *    @access public
      */
-    function setField($selector, $value) {
+    function setField($selector, $value, $position=false) {
         $success = false;
+        $_position = 0;
         for ($i = 0, $count = count($this->_widgets); $i < $count; $i++) {
             if ($selector->isMatch($this->_widgets[$i])) {
-                if ($this->_widgets[$i]->setValue($value)) {
-                    $success = true;
+                $_position++;
+                if ($position === false or $_position === (int)$position) {
+                    if ($this->_widgets[$i]->setValue($value)) {
+                        $success = true;
+                    }
                 }
             }
         }

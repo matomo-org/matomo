@@ -3,7 +3,7 @@
      *	adapter for SimpleTest to use PEAR PHPUnit test cases
      *	@package	SimpleTest
      *	@subpackage Extensions
-     *	@version	$Id$
+     *	@version	$Id: pear_test_case.php 1388 2006-11-10 20:59:59Z lastcraft $
      */
     
     /**#@+

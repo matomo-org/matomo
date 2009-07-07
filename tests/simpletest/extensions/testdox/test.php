@@ -1,11 +1,13 @@
 <?php
+// $Id: test.php 1641 2008-01-22 20:13:52Z pp11 $
 require_once dirname(__FILE__) . '/../../autorun.php';
-require_once dirname(__FILE__) . '/../../extensions/testdox.php';
+require_once dirname(__FILE__) . '/../testdox.php';
+
 // uncomment to see test dox in action
 //SimpleTest::prefer(new TestDoxReporter());
 
-class TestOfTestDoxReporter extends UnitTestCase {
-    
+class TestOfTestDoxReporter extends UnitTestCase
+{
     function testIsAnInstanceOfSimpleScorerAndReporter() {
         $dox = new TestDoxReporter();
         $this->assertIsA($dox, 'SimpleScorer');
@@ -98,9 +100,9 @@ class TestOfTestDoxReporter extends UnitTestCase {
         $dox->paintMethodStart('TESTSupportsAllUppercaseTestPrefixEvenThoughIDoNotKnowWhyYouWouldDoThat');
         $buffer = ob_get_clean();
         $this->assertEqual(
-                '- supports all uppercase test prefix even though i do not know why you would do that',
-                $buffer
+            '- supports all uppercase test prefix even though i do not know why you would do that',
+            $buffer
         );
     }
 }
-?>
+
