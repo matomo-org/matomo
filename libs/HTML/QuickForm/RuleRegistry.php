@@ -54,7 +54,7 @@ class HTML_QuickForm_RuleRegistry
      * @static
      * @return    HTML_QuickForm_RuleRegistry
      */
-    function &singleton()
+    static function &singleton()
     {
         static $obj;
         if (!isset($obj)) {
