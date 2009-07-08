@@ -127,7 +127,7 @@ class Piwik_View implements Piwik_iView
 	public function addForm( $form )
 	{
 		// Create the renderer object	
-		$renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty);
+		$renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, false, false);
 		
 		// build the HTML for the form
 		$form->accept($renderer);

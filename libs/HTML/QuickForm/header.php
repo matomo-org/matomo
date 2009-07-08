@@ -15,7 +15,7 @@
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Alexey Borzov <avb@php.net>
- * @copyright   2001-2007 The PHP Group
+ * @copyright   2001-2009 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
  * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
@@ -32,7 +32,7 @@ require_once 'HTML/QuickForm/static.php';
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Alexey Borzov <avb@php.net>
- * @version     Release: 3.2.9
+ * @version     Release: 3.2.11
  * @since       3.0
  */
 class HTML_QuickForm_header extends HTML_QuickForm_static

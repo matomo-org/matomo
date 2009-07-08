@@ -17,7 +17,7 @@
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @author      Alexey Borzov <avb@php.net>
- * @copyright   2001-2007 The PHP Group
+ * @copyright   2001-2009 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
  * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
@@ -119,7 +119,7 @@ define('QUICKFORM_INVALID_DATASOURCE',     -9);
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @author      Alexey Borzov <avb@php.net>
- * @version     Release: 3.2.9
+ * @version     Release: 3.2.11
  */
 class HTML_QuickForm extends HTML_Common
 {
@@ -1030,7 +1030,13 @@ class HTML_QuickForm extends HTML_Common
             $this->_elementIndex[$elementName] = array_shift($this->_duplicateIndex[$elementName]);
         }
         if ($removeRules) {
+            $this->_required = array_diff($this->_required, array($elementName));
             unset($this->_rules[$elementName], $this->_errors[$elementName]);
+            if ('group' == $el->getType()) {
+                foreach (array_keys($el->getElements()) as $key) {
+                    unset($this->_rules[$el->getElementName($key)]);
+                }
+            }
         }
         return $el;
     } // end func removeElement
@@ -1526,6 +1532,11 @@ class HTML_QuickForm extends HTML_Common
                     // Fix for bug #3501: we shouldn't validate not uploaded files, either.
                     // Unfortunately, we can't just use $element->isUploadedFile() since
                     // the element in question can be buried in group. Thus this hack.
+                    // See also bug #12014, we should only consider a file that has
+                    // status UPLOAD_ERR_NO_FILE as not uploaded, in all other cases
+                    // validation should be performed, so that e.g. 'maxfilesize' rule
+                    // will display an error if status is UPLOAD_ERR_INI_SIZE 
+                    // or UPLOAD_ERR_FORM_SIZE
                     } elseif (is_array($submitValue)) {
                         if (false === ($pos = strpos($target, '['))) {
                             $isUpload = !empty($this->_submitFiles[$target]);
@@ -1540,7 +1551,7 @@ class HTML_QuickForm extends HTML_Common
                                     ) . "']";
                             eval("\$isUpload = isset(\$this->_submitFiles['{$base}']['name']{$idx});");
                         }
-                        if ($isUpload && (!isset($submitValue['error']) || 0 != $submitValue['error'])) {
+                        if ($isUpload && (!isset($submitValue['error']) || UPLOAD_ERR_NO_FILE == $submitValue['error'])) {
                             continue 2;
                         }
                     }
@@ -1960,7 +1971,7 @@ class HTML_QuickForm extends HTML_Common
      * @return bool     whether $value is an error
      * @static
      */
-    static function isError($value)
+    function isError($value)
     {
         return (is_object($value) && is_a($value, 'html_quickform_error'));
     } // end func isError
@@ -1976,7 +1987,7 @@ class HTML_QuickForm extends HTML_Common
      * @return  string  error message
      * @static
      */
-    static function errorMessage($value)
+    function errorMessage($value)
     {
         // make the variable static so that it only has to do the defining on the first call
         static $errorMessages;
@@ -2016,7 +2027,7 @@ class HTML_QuickForm extends HTML_Common
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @version     Release: 3.2.9
+ * @version     Release: 3.2.11
  */
 class HTML_QuickForm_Error extends PEAR_Error {
 
