@@ -6,8 +6,8 @@
 
 // TODO - generator should generate pages with slash, then test that period archiving doesn't show the unique page view
 // TODO - should generate goals with keyword or referer that are not found for this day, to simulate a referer 5 days ago and conversion today
-$minVisitors = 20000;
-$maxVisitors = 20000;
+$minVisitors = 200;
+$maxVisitors = 200;
 $nbActions = 10;
 $daysToCompute = 5;
 
@@ -17,10 +17,10 @@ define('PIWIK_INCLUDE_PATH', '..');
 ignore_user_abort(true);
 set_time_limit(0);
 
-if((@include "Version.php") === false || !class_exists('Piwik_Version')) {
-	set_include_path(PIWIK_INCLUDE_PATH . '/core'
-		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
-		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+if((@include "Version.php") === false || !class_exists('Piwik_Version', false)) {
+	ini_set('include_path', PIWIK_INCLUDE_PATH . '/core'
+	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
 }
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
@@ -42,15 +42,7 @@ try {
 Piwik::checkUserIsSuperUser();
 
 require_once "PluginsManager.php";
-require_once "Timer.php";
-require_once "Cookie.php";
 require_once "Tracker.php";
-require_once "Tracker/Config.php";
-require_once "Tracker/Action.php";
-require_once "Tracker/Db.php";
-require_once "Tracker/Visit.php";
-require_once "Tracker/Generator.php";
-require_once "Tracker/GoalManager.php";
 
 //Piwik_PluginsManager::getInstance()->unloadPlugins();
 
