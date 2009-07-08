@@ -57,13 +57,7 @@ class Piwik_API_Request
 			$request = trim($request);
 			$request = str_replace(array("\n","\t"),'', $request);
 			parse_str($request, $requestArray);
-
-			// if a token_auth is specified in the API request, we load the right permissions
-			if(isset($requestArray['token_auth']))
-			{
-				Piwik_PostEvent('API.Request.authenticate', $requestArray['token_auth']);
-				Zend_Registry::get('access')->reloadAccess();
-			}
+		
 			$requestArray = $requestArray + $defaultRequest;
 		}
 		
@@ -106,6 +100,14 @@ class Piwik_API_Request
 			}
 			$module = "Piwik_" . $module . "_API";
 
+			// if a token_auth is specified in the API request, we load the right permissions
+			$token_auth = Piwik_Common::getRequestVar('token_auth', '', 'string', $this->request);
+			if($token_auth)
+			{
+				Piwik_PostEvent('API.Request.authenticate', $token_auth);
+				Zend_Registry::get('access')->reloadAccess();
+			}
+			
 			// call the method 
 			$returnedValue = Piwik_API_Proxy::getInstance()->call($module, $method, $this->request);
 			
