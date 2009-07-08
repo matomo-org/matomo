@@ -77,4 +77,3 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 		return $table->getRowsCount();
 	}
 }
-

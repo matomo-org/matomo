@@ -74,13 +74,13 @@ abstract class Piwik_DataTable_Renderer
 	static public function factory( $name )
 	{
 		$name = ucfirst(strtolower($name));
-		$path = "DataTable/Renderer/".$name.".php";
+		$path = PIWIK_INCLUDE_PATH .'/core/DataTable/Renderer/'.$name.'.php';
 		$className = 'Piwik_DataTable_Renderer_' . $name;
 		
 		if( Piwik_Common::isValidFilename($name)
 			&& Zend_Loader::isReadable($path) )
 		{
-			require_once $path;
+			require_once $path; // prefixed by PIWIK_INCLUDE_PATH
 			return new $className;			
 		}
 		else
@@ -89,4 +89,3 @@ abstract class Piwik_DataTable_Renderer
 		}		
 	}	
 }
-

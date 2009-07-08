@@ -9,11 +9,10 @@
  * @package Piwik_Helper
  */
 
-require_once "Zend/Registry.php"; 
-
-if(!defined('E_STRICT')) {				define('E_STRICT', 2048); }
-if(!defined('E_RECOVERABLE_ERROR')){	define('E_RECOVERABLE_ERROR', 4096); }
-if(!defined('E_EXCEPTION'))	{			define('E_EXCEPTION', 8192); }
+if(!defined('E_STRICT')) {            define('E_STRICT', 2048); }
+if(!defined('E_RECOVERABLE_ERROR')) { define('E_RECOVERABLE_ERROR', 4096); }
+if(!defined('E_DEPRECATED')) {        define('E_DEPRECATED', 8192); }
+if(!defined('E_USER_DEPRECATED')) {   define('E_USER_DEPRECATED', 16384); }
 
 /**
  * Error handler used to display nicely errors in Piwik
@@ -49,7 +48,6 @@ function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 		case E_COMPILE_ERROR:
 		case E_COMPILE_WARNING:
 		case E_USER_ERROR:
-		case E_EXCEPTION:
 			exit;
 		break;
 		
@@ -59,9 +57,10 @@ function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 		case E_USER_NOTICE:
 		case E_STRICT:
 		case E_RECOVERABLE_ERROR:
+		case E_DEPRECATED:
+		case E_USER_DEPRECATED:
 		default:
 			// do not exit
 		break;
 	}
 }
-

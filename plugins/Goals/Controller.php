@@ -9,8 +9,6 @@
  * @package Piwik_Goals
  */
 
-require_once "Goals/API.php";
-
 class Piwik_Goals_Controller extends Piwik_Controller 
 {
 	const CONVERSION_RATE_PRECISION = 1;

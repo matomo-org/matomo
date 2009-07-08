@@ -170,5 +170,3 @@ class Piwik_DataTable_Array
 		}
 	}
 }
-
-

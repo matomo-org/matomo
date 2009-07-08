@@ -9,17 +9,10 @@
  * @package Piwik
  */
 
-require_once "Plugin.php";
-require_once "Event/Dispatcher.php";
-require_once "PluginsFunctions/Menu.php";
-require_once "PluginsFunctions/AdminMenu.php";
-require_once "PluginsFunctions/WidgetsList.php";
-require_once "PluginsFunctions/Sql.php";
-
-require_once "Zend/Exception.php";
-require_once "Zend/Loader.php"; 
-require_once "Auth.php";
-require_once "Controller.php";
+require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Menu.php';
+require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/AdminMenu.php';
+require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/WidgetsList.php';
+require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Sql.php';
 
 /**
  * @package Piwik
@@ -85,7 +78,7 @@ class Piwik_PluginsManager
 	 */
 	public function readPluginsDirectory()
 	{
-		$pluginsName = glob( PIWIK_INCLUDE_PATH . "/plugins/*", GLOB_ONLYDIR);
+		$pluginsName = glob( PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
 		$pluginsName = array_map('basename', $pluginsName);
 		return $pluginsName;
 	}
@@ -262,8 +255,8 @@ class Piwik_PluginsManager
 		{
 			return $this->loadedPlugins[$pluginName];
 		}
-		$pluginFileName = $pluginName . '/' . $pluginName . ".php";
-		$pluginClassName = "Piwik_".$pluginName;
+		$pluginFileName = $pluginName . '/' . $pluginName . '.php';
+		$pluginClassName = 'Piwik_'.$pluginName;
 		
 		if( !Piwik_Common::isValidFilename($pluginName))
 		{
@@ -282,7 +275,7 @@ class Piwik_PluginsManager
 
 		// Don't remove this.
 		// Our autoloader can't find plugins/PluginName/PluginName.php
-		require_once $path;
+		require_once $path; // prefixed by PIWIK_INCLUDE_PATH
 		
 		if(!class_exists($pluginClassName, false))
 		{
@@ -401,7 +394,7 @@ class Piwik_PluginsManager
 		
 		$pluginName = $plugin->getClassName();
 		
-		$path = PIWIK_INCLUDE_PATH . "/plugins/" . $pluginName ."/lang/%s.php";
+		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName .'/lang/%s.php';
 		
 		$defaultLangPath = sprintf($path, $langCode);
 		$defaultEnglishLangPath = sprintf($path, 'en');
@@ -530,4 +523,3 @@ class Piwik_Event_Notification extends Event_Notification
 		}
 	}
 }
-

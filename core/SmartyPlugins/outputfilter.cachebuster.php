@@ -46,4 +46,3 @@ function smarty_outputfilter_cachebuster($source, &$smarty)
 
 	return preg_replace($pattern, $replace, $source);
 }
-

@@ -71,7 +71,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	function archiveDay( $notification )
 	{
-		require_once "UserSettings/functions.php";
+		require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 		
 		$archiveProcessing = $notification->getNotificationObject();
 		$this->archiveProcessing = $archiveProcessing;

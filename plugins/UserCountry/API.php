@@ -8,8 +8,8 @@
  * 
  * @package Piwik_UserCountry
  */
-require_once "DataFiles/Countries.php";
-require_once "UserCountry/functions.php";
+require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
  * 

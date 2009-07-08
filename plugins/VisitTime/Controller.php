@@ -9,7 +9,6 @@
  * @package Piwik_VisitTime
  */
 
-require_once "ViewDataTable.php";
 class Piwik_VisitTime_Controller extends Piwik_Controller 
 {
 	function index()

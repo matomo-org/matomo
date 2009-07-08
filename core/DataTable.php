@@ -9,12 +9,6 @@
  * @package Piwik_DataTable
  */
 
-require_once "DataTable/Renderer.php";
-require_once "DataTable/Renderer/Console.php";
-require_once "DataTable/Filter.php";
-require_once "DataTable/Row.php";
-require_once "DataTable/Manager.php";
-
 /**
  * 
  * ---- DataTable
@@ -1165,4 +1159,3 @@ class Piwik_DataTable
 	}
 
 }
-

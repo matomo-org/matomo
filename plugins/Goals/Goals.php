@@ -9,8 +9,6 @@
  * @package Piwik_Referers
  */
 	
-require_once "Tracker/GoalManager.php";
-
 /**
  * TODO Goals plugin
  * - clean API especially int methods
@@ -50,7 +48,6 @@ class Piwik_Goals extends Piwik_Plugin
 
 	function fetchGoalsFromDb($notification)
 	{
-		require_once "Goals/API.php";
 		$idsite = $notification->getNotificationInfo();
 		
 		// add the 'goal' entry in the website array

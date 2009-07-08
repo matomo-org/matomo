@@ -9,8 +9,6 @@
  * @package Piwik_Archive
  */
 
-require_once "Archive/Array.php";
-
 class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array 
 {
 	/**

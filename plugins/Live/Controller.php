@@ -9,9 +9,6 @@
  * @package Piwik_Live
  */
 
-require_once 'Live/API.php';
-
-
 class Piwik_Live_Controller extends Piwik_Controller
 {
 	function widget()

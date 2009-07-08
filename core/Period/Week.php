@@ -57,5 +57,4 @@ class Piwik_Period_Week extends Piwik_Period
 			$currentDay = $currentDay->addDay(1);
 		}
 	}
-
 }

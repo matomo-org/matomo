@@ -105,5 +105,3 @@ class Piwik_Tracker_Config
 		return count($section) ? $section : null;
 	}
 }
-
-

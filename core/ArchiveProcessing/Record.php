@@ -39,6 +39,3 @@ abstract class Piwik_ArchiveProcessing_Record
 		destroy($this->value);
 	}
 }
-
-
-

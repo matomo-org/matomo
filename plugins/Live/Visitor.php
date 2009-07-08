@@ -9,10 +9,10 @@
  * @package Piwik_Live
  */
 
-require_once "Referers/functions.php";
-require_once "UserCountry/functions.php";
-require_once "UserSettings/functions.php";
-require_once "Provider/functions.php";
+require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
 class Piwik_Live_Visitor
 {

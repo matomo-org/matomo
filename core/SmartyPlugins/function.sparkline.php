@@ -9,8 +9,6 @@
  * @package SmartyPlugins
  */
 
-require_once "Visualization/Sparkline.php";
-
 /**
  * @param string $url
  * @return string IMG HTML tag 

@@ -180,4 +180,3 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 		$this->table->sort( array($this,$methodToUse), $this->columnToSort );
 	}
 }
-

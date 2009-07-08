@@ -9,7 +9,6 @@
  * @package Piwik_API
  */
 
-
 /**
  * Proxy is a singleton that has the knowledge of every method available, their parameters 
  * and default values.
@@ -225,20 +224,13 @@ class Piwik_API_Proxy
 	private function includeApiFile($fileName)
 	{
 		$module = self::getModuleNameFromClassName($fileName);
-		$potentialPaths = array( $module ."/API.php", );
-		
-		$found = false;
-		foreach($potentialPaths as $path)
+		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/API.php';
+
+		if(Zend_Loader::isReadable($path))
 		{
-			if(Zend_Loader::isReadable($path))
-			{
-				require_once $path;
-				$found = true;
-				break;
-			}
+			require_once $path; // prefixed by PIWIK_INCLUDE_PATH
 		}
-		
-		if(!$found)
+		else
 		{
 			throw new Exception("API module $module not found.");
 		}

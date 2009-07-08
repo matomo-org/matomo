@@ -115,4 +115,3 @@ class Piwik_Log_APICall_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
 		
     }
 }
-

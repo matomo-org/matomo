@@ -9,8 +9,6 @@
  * @package SmartyPlugins
  */
 
-require_once "Url.php";
-
 /**
  * Smarty {url} function plugin.
  * Generates a piwik URL with the specified parameters modified.

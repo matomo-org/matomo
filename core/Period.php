@@ -9,8 +9,6 @@
  * @package Piwik_Helper
  */
 
-require_once "Period/Day.php";
-require_once "Period/Range.php";
 /**
  * Creating a new Piwik_Period subclass: 
  * 
@@ -53,17 +51,14 @@ abstract class Piwik_Period
 				break;
 		
 			case 'week':
-				require_once "Period/Week.php";
 				return new Piwik_Period_Week($date); 
 				break;
 				
 			case 'month':
-				require_once "Period/Month.php";
 				return new Piwik_Period_Month($date); 
 				break;
 				
 			case 'year':
-				require_once "Period/Year.php";
 				return new Piwik_Period_Year($date); 
 				break;
 				
@@ -242,5 +237,3 @@ abstract class Piwik_Period
 	abstract public function getLocalizedShortString();
 	abstract public function getLocalizedLongString();
 }
-
-	

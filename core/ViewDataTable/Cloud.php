@@ -9,8 +9,6 @@
  * @package Piwik_ViewDataTable
  */
 
-require_once "Visualization/Cloud.php";
-
 /** 
  * Reads the requested DataTable from the API, and prepares the data to give 
  * to Piwik_Visualization_Cloud that will display the tag cloud (via the template cloud.tpl).

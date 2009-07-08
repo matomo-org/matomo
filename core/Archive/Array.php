@@ -10,8 +10,6 @@
  * @package Piwik_Archive
  */
 
-require_once "DataTable/Simple.php";
-require_once "DataTable/Array.php";
 /**
  * Piwik_Archive_Array is used to store multiple archives, 
  * for example one archive for a given day for each Piwik website

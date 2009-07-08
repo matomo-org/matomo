@@ -163,4 +163,3 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		return $return;
 	}
 }
-

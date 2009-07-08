@@ -84,7 +84,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_Unpack()
 	{
-		require_once 'PclZip/pclzip.lib.php';
+		require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
 		$archive = new PclZip($this->pathPiwikZip);
 
 		$pathExtracted = PIWIK_INCLUDE_PATH.self::PATH_TO_EXTRACT_LATEST_VERSION;

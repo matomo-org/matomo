@@ -134,4 +134,3 @@ class Piwik_API_DataTableGenericFilter
 		}
 	}
 }
-

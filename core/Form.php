@@ -9,10 +9,6 @@
  * @package Piwik_Helper
  */
 
-
-require_once "HTML/QuickForm.php";
-require_once "HTML/QuickForm/Renderer/ArraySmarty.php";
-
 /**
  * Parent class for forms to be included in Smarty
  * 

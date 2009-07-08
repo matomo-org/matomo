@@ -9,8 +9,6 @@
  * @package Piwik_Actions
  */
 
-require_once "ViewDataTable.php";
-
 class Piwik_Actions_Controller extends Piwik_Controller 
 {
 	public function index()
@@ -126,7 +124,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		if(Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string' ) != '0')
 		{
 			// computing minimum value to exclude
-			require_once "VisitsSummary/Controller.php";
 			$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary();
 			$visitsInfo = $visitsInfo->getFirstRow();
 			$nbActions = $visitsInfo->getColumn('nb_actions');

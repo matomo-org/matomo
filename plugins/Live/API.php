@@ -9,8 +9,6 @@
  * @package Piwik_Live
  */
 
-require_once "Live/Visitor.php";
-
 class Piwik_Live_API 
 {
 	static private $instance = null;

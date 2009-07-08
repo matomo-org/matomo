@@ -53,7 +53,7 @@ class Piwik_LanguagesManager_API
 
 	static public function getAvailableLanguagesInfo()
 	{
-		require PIWIK_INCLUDE_PATH . "/lang/en.php";
+		require PIWIK_INCLUDE_PATH . '/lang/en.php';
 		$englishTranslation = $translations;
 		$filenames = self::getAvailableLanguages();
 		$languagesInfo = array();

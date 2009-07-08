@@ -105,4 +105,3 @@ class Piwik_Visualization_Cloud
 		}
 	}
 }
-

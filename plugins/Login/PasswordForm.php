@@ -9,8 +9,6 @@
  * @package Piwik_Login
  */
 
-require_once "Form.php";
-
 /**
  * 
  * @package Piwik_Login

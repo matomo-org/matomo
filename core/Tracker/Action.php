@@ -282,4 +282,3 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		);
 	}
 }
-

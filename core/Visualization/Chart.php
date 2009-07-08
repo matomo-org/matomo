@@ -9,7 +9,7 @@
  * @package Piwik_Visualization
  */
 
-require_once "open-flash-chart/php-ofc-library/open-flash-chart.php";
+require_once PIWIK_INCLUDE_PATH . '/libs/open-flash-chart/php-ofc-library/open-flash-chart.php';
 
 /**
  * Generates the data in the Open Flash Chart format, from the given data.

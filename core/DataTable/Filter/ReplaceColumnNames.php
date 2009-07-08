@@ -98,4 +98,3 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 		return $newColumns;
 	}
 }
-

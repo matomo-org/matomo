@@ -546,7 +546,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			return $this->userSettingsInformation;
 		}
-		require_once "UserAgentParser/UserAgentParser.php";
+		require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
 		
 		$plugin_Flash 			= Piwik_Common::getRequestVar( 'fla', 0, 'int', $this->request);
 		$plugin_Director 		= Piwik_Common::getRequestVar( 'dir', 0, 'int', $this->request);

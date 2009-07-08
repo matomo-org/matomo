@@ -126,5 +126,3 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 		
 	}	
 }
-
-

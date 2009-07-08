@@ -41,4 +41,3 @@ class Piwik_DataTable_Filter_ColumnCallbackDeleteRow extends Piwik_DataTable_Fil
 		}
 	}
 }
-

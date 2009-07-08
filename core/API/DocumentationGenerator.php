@@ -23,7 +23,7 @@ class Piwik_API_DocumentationGenerator
 		{		
 			$plugin = Piwik::unprefixClass($plugin);
 			try {
-				Piwik_API_Proxy::getInstance()->registerClass("Piwik_".$plugin."_API");
+				Piwik_API_Proxy::getInstance()->registerClass('Piwik_'.$plugin.'_API');
 			}
 			catch(Exception $e){
 			}

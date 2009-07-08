@@ -214,7 +214,6 @@ class Piwik_Tracker_Db
 	
 	protected function initProfiler()
 	{
-		require_once "Timer.php";
 		return new Piwik_Timer;
 	}
 	
@@ -267,5 +266,3 @@ class Piwik_Tracker_Db
 		self::$profiling = true;
 	}
 }
-
-

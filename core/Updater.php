@@ -9,7 +9,7 @@
  * @package Piwik
  */
 
-require_once "Option.php";
+require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
 class Piwik_Updater
 {
@@ -73,7 +73,7 @@ class Piwik_Updater
 		foreach($this->componentsWithUpdateFile[$name] as $file)
 		{
 			try {
-				require_once $file;
+				require_once $file; // prefixed by PIWIK_INCLUDE_PATH
 			} catch( Piwik_Updater_UpdateErrorException $e) {
 				throw $e;
 			} catch( Exception $e) {

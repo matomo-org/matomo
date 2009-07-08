@@ -9,9 +9,6 @@
  * @package Piwik_Helper
  */
 
-require_once "Zend/Config/Ini.php";
-require_once "Zend/Registry.php";
-
 /**
  * This class is used to access configuration files values.
  * You can also set these values, the updated configuration files will be written at the end of the script execution.

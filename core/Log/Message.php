@@ -72,4 +72,3 @@ class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
     	return parent::format($message);
     }
 }
-

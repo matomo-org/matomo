@@ -11,7 +11,7 @@
  *
  */
 
-require_once('Sparkline.php');
+require_once dirname(__FILE__).'/Sparkline.php';
 
 class Sparkline_Line extends Sparkline {
 

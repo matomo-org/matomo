@@ -9,8 +9,7 @@
  * @package Piwik_Visualization
  */
 
-require_once 'sparkline/lib/Sparkline_Line.php';
-
+require_once PIWIK_INCLUDE_PATH . '/libs/sparkline/lib/Sparkline_Line.php';
 
 /**
  * Renders a sparkline image given a PHP data array.

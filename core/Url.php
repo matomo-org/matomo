@@ -15,7 +15,6 @@
  */
 class Piwik_Url 
 {
-
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
@@ -262,4 +261,3 @@ class Piwik_Url
 	}
 
 }
-

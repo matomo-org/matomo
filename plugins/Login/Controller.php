@@ -9,11 +9,6 @@
  * @package Piwik_Login
  */
 
-require_once "UsersManager/API.php";
-require_once "Login/Form.php";
-require_once "Login/PasswordForm.php";
-require_once "View.php";
-
 /**
  * @package Piwik_Login
  */

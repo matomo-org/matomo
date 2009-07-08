@@ -28,4 +28,3 @@ function smarty_modifier_sumtime($numberOfSeconds)
 {
 	return Piwik::getPrettyTimeFromSeconds($numberOfSeconds);
 }
-

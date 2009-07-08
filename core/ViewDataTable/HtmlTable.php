@@ -205,4 +205,3 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		}
 	}
 }
-

@@ -177,5 +177,4 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		@header("Content-Type: text/html;charset=utf-8");
 		return $xml;
 	}
-
 }

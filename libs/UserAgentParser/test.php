@@ -1,5 +1,5 @@
 <?php
-require_once "UserAgentParser.php";
+require_once dirname(__FILE__).'/UserAgentParser.php';
 echo "<h2>UserAgentParser php library test</h2>";
 $testUserAgent = array( 
 	'my user agent' => '',

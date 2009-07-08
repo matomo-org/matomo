@@ -41,23 +41,3 @@ abstract class Piwik_DataTable_Filter
 	
 	abstract protected function filter();
 }
-
-require_once "DataTable/Filter/ColumnCallbackDeleteRow.php";
-require_once "DataTable/Filter/ColumnCallbackAddMetadata.php";
-require_once "DataTable/Filter/ColumnCallbackReplace.php";
-require_once "DataTable/Filter/ColumnCallbackAddColumnPercentage.php";
-require_once "DataTable/Filter/MetadataCallbackAddMetadata.php";
-require_once "DataTable/Filter/MetadataCallbackReplace.php";
-require_once "DataTable/Filter/AddConstantMetadata.php";
-require_once "DataTable/Filter/Null.php";
-require_once "DataTable/Filter/ExcludeLowPopulation.php";
-require_once "DataTable/Filter/Limit.php";
-require_once "DataTable/Filter/Pattern.php";
-require_once "DataTable/Filter/PatternRecursive.php";
-require_once "DataTable/Filter/ReplaceColumnNames.php";
-require_once "DataTable/Filter/Sort.php";
-require_once "DataTable/Filter/AddSummaryRow.php";
-require_once "DataTable/Filter/ReplaceSummaryRowLabel.php";
-require_once "DataTable/Filter/SafeDecodeLabel.php";
-require_once "DataTable/Filter/AddColumnsWhenShowAllColumns.php";
-require_once "DataTable/Filter/UpdateColumnsWhenShowAllGoals.php";

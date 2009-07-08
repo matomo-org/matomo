@@ -9,7 +9,6 @@
  * @package Piwik_Log
  * @subpackage Piwik_Log_Exception
  */
-require_once "Log.php";
 
 /**
  * Class used to log an exception event.
@@ -57,7 +56,6 @@ class Piwik_Log_Exception extends Piwik_Log
 	}
 }
 
-
 /**
  * Format an exception event to be displayed on the screen.
  *
@@ -81,15 +79,9 @@ class Piwik_Log_Exception_Formatter_ScreenFormatter extends Piwik_Log_Formatter_
 		$errline = $event['errline'] ;
 		$backtrace = $event['backtrace'] ;
 
-		require_once "API/ResponseBuilder.php";
 		$outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'html', 'string'));
 		$response = new Piwik_API_ResponseBuilder(null, $outputFormat);
 		$message = $response->getResponseException(new Exception($errstr));
 		return parent::format($message);
 	}
 }
-
-
-
-
-

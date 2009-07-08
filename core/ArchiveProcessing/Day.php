@@ -9,7 +9,6 @@
  * @package Piwik_ArchiveProcessing
  */
 
-
 /**
  * Handles the archiving process for a day. 
  * The class provides generic helper methods to manipulate data from the DB, 
@@ -426,5 +425,3 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 					);
 	}
 }
-
-

@@ -9,9 +9,6 @@
  * @package Piwik_API
  */
 
-require_once "API/Request.php";
-require_once "API/DocumentationGenerator.php";
-
 /**
  * 
  * @package Piwik_API

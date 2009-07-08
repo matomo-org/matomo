@@ -35,8 +35,6 @@
 //
 // $Id$
 
-require_once 'Event/Notification.php';
-
 /**
  * Pseudo 'static property' for Notification object
  * @global array $GLOBALS["_Event_Dispatcher"]

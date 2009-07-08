@@ -32,7 +32,7 @@ class Piwik_Translate
 
 	public function loadEnglishTranslation()
 	{
-		require PIWIK_INCLUDE_PATH . "/lang/en.php";
+		require PIWIK_INCLUDE_PATH . '/lang/en.php';
 		$this->mergeTranslationArray($translations);
 		$this->setLocale();
 		$this->englishLanguageLoaded = true;
@@ -47,7 +47,7 @@ class Piwik_Translate
 			return;
 		}
 		
-		require PIWIK_INCLUDE_PATH . "/lang/" . $language . ".php";
+		require PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
 		$this->mergeTranslationArray($translations);
 		$this->setLocale();
 	}

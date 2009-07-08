@@ -9,7 +9,6 @@
  * @package Piwik_VisitorInterest
  */
 
-require_once "ViewDataTable.php";
 class Piwik_VisitorInterest_Controller extends Piwik_Controller 
 {
 	function index()

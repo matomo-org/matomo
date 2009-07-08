@@ -9,8 +9,6 @@
  * @package Piwik_VisitFrequency
  */
 
-require_once "ViewDataTable.php";
-
 class Piwik_VisitFrequency_Controller extends Piwik_Controller 
 {
 	function index()

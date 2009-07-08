@@ -1,5 +1,5 @@
 <?php
-require_once "SitesManager/API.php";
+require_once PIWIK_INCLUDE_PATH . '/plugins/SitesManager/API.php';
 
 // alter table to set the utf8 collation
 $tablesToAlter = Piwik::getTablesInstalled(true);

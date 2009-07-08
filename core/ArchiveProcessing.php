@@ -9,12 +9,6 @@
  * @package Piwik_ArchiveProcessing
  */
 
-require_once 'TablePartitioning.php';
-require_once 'ArchiveProcessing/Record.php';
-require_once 'ArchiveProcessing/RecordArray.php';
-require_once "ArchiveProcessing/Record/Numeric.php";
-require_once 'DataTable.php';
-
 /**
  * The ArchiveProcessing module is a module that reads the Piwik logs from the DB and
  * compute all the reports, which are then stored in the database.
@@ -199,14 +193,12 @@ abstract class Piwik_ArchiveProcessing
 		switch($name)
 		{
 			case 'day':
-				require_once 'ArchiveProcessing/Day.php';			
 				$process = new Piwik_ArchiveProcessing_Day();
 			break;
 			
 			case 'week':
 			case 'month':
 			case 'year':
-				require_once 'ArchiveProcessing/Period.php';	
 				$process = new Piwik_ArchiveProcessing_Period();
 			break;
 			

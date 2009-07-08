@@ -9,8 +9,6 @@
  * @package Piwik_ViewDataTable
  */
 
-require_once "ViewDataTable/HtmlTable.php";
-
 class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlTable 
 {
 	protected function getViewDataTableId()

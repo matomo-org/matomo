@@ -100,8 +100,6 @@ class Piwik_Actions extends Piwik_Plugin
 		//TODO Actions should use integer based keys like other archive in piwik
 		$archiveProcessing = $notification->getNotificationObject();
 		
-		require_once "Tracker/Action.php";
-		
 		$this->actionsTablesByType = array(
 			Piwik_Tracker_Action::TYPE_ACTION => array(),
 			Piwik_Tracker_Action::TYPE_DOWNLOAD => array(),

@@ -9,9 +9,9 @@
  * @package Piwik
  */
 
-require_once "PluginsManager.php";
-require_once "Translate.php";
-require_once "Option.php";
+require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
 /**
  * Front controller.
@@ -92,17 +92,17 @@ class Piwik_FrontController
 			throw new Piwik_FrontController_PluginDeactivatedException($module);
 		}
 				
-		$controllerClassName = "Piwik_".$module."_Controller";
+		$controllerClassName = 'Piwik_'.$module.'_Controller';
 
 		// FrontController's autoloader
 		if(!class_exists($controllerClassName, false))
 		{
-			$moduleController = $module . "/Controller.php";
+			$moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
 			if( !Zend_Loader::isReadable($moduleController))
 			{
 				throw new Exception("Module controller $moduleController not found!");
 			}
-			require_once $moduleController;
+			require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
 		}
 		
 		$controller = new $controllerClassName;

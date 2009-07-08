@@ -9,11 +9,6 @@
  * @package Piwik
  */
 
-require_once 'Period.php';
-require_once 'Date.php';
-require_once 'ArchiveProcessing.php';
-require_once 'Archive/Single.php';
-
 /**
  * The archive object is used to query specific data for a day or a period of statistics for a given website.
  * 
@@ -135,7 +130,6 @@ abstract class Piwik_Archive
 		if( count($sites) > 1 
 			|| $idSite === 'all' )
 		{
-			require_once 'Archive/Array/IndexedBySite.php';
 			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate);
 		}
 		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
@@ -147,7 +141,6 @@ abstract class Piwik_Archive
 			)
 		{
 			$oSite = new Piwik_Site($idSite);
-			require_once 'Archive/Array/IndexedByDate.php';
 			$archive = new Piwik_Archive_Array_IndexedByDate($oSite, $period, $strDate);
 		}
 		// case we request a single archive
@@ -266,11 +259,5 @@ abstract class Piwik_Archive
 	public function getIdSite()
 	{
 		return $this->site->getId();
-	}
-	
+	}	
 }
-
-
-
-
-

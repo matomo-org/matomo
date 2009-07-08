@@ -247,7 +247,6 @@ class Piwik_API_ResponseBuilder
 
 	protected function handleScalar($scalar)
 	{
-		require_once "DataTable/Simple.php";
 		$dataTable = new Piwik_DataTable_Simple();
 		$dataTable->addRowsFromArray( array($scalar) );
 		return $this->getRenderedDataTable($dataTable);
@@ -292,6 +291,5 @@ class Piwik_API_ResponseBuilder
 			$dataTable->addRowsFromSimpleArray($array);
 			return $this->getRenderedDataTable($dataTable);
 		}
-	}
-	
+	}	
 }
