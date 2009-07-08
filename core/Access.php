@@ -34,7 +34,6 @@
  *
  * @package Piwik
  */
-
 class Piwik_Access
 {	
 	/**

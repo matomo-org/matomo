@@ -9,8 +9,6 @@
  * @package Piwik_ViewDataTable
  */
 
-require_once "API/Request.php";
-
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
  * The main() method will create an object Piwik_iView
@@ -162,58 +160,47 @@ abstract class Piwik_ViewDataTable
 		switch($type)
 		{
 			case 'cloud':
-				require_once "ViewDataTable/Cloud.php";
 				return new Piwik_ViewDataTable_Cloud();
 			break;
 			
 			case 'graphPie':
-				require_once "ViewDataTable/GenerateGraphHTML/ChartPie.php";
 				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartPie();
 			break;			
 			
 			case 'graphVerticalBar':
-				require_once "ViewDataTable/GenerateGraphHTML/ChartVerticalBar.php";
 				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar();
 			break;	
 			
 			case 'graphEvolution':
-				require_once "ViewDataTable/GenerateGraphHTML/ChartEvolution.php";
 				return new Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution();
 			break;	
 			
 			case 'sparkline':
-				require_once "ViewDataTable/Sparkline.php";
 				return new Piwik_ViewDataTable_Sparkline();
 			break;	
 			
 			case 'generateDataChartVerticalBar':
-				require_once "ViewDataTable/GenerateGraphData/ChartVerticalBar.php";
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar();
 			break;
 						
 			case 'generateDataChartPie':
-				require_once "ViewDataTable/GenerateGraphData/ChartPie.php";
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartPie();
 			break;
 			
 			case 'generateDataChartEvolution':
-				require_once "ViewDataTable/GenerateGraphData/ChartEvolution.php";
 				return new Piwik_ViewDataTable_GenerateGraphData_ChartEvolution();
 			break;
 				
 			case 'tableAllColumns':
-				require_once "ViewDataTable/HtmlTable/AllColumns.php";
 				return new Piwik_ViewDataTable_HtmlTable_AllColumns();
 			break;
 			
 			case 'tableGoals':
-				require_once "ViewDataTable/HtmlTable/Goals.php";
 				return new Piwik_ViewDataTable_HtmlTable_Goals();
 			break;
 			
 			case 'table':
 			default:
-				require_once "ViewDataTable/HtmlTable.php";
 				return new Piwik_ViewDataTable_HtmlTable();
 			break;
 		}
@@ -262,8 +249,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
 		$this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
 	}
-	
-	
+
 	/**
 	 * Forces the View to use a given template.
 	 * Usually the template to use is set in the specific ViewDataTable_* 

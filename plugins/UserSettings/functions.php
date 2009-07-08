@@ -9,11 +9,11 @@
  * @package Piwik_UserSettings
  */
 
-require_once "UserAgentParser/UserAgentParser.php";
+require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
 		
 function Piwik_getPluginsLogo( $oldLabel )
 {
-	return  "plugins/UserSettings/images/plugins/". $oldLabel . ".gif";
+	return  'plugins/UserSettings/images/plugins/'. $oldLabel . '.gif';
 }
 
 function Piwik_getOSLabel($osId)
@@ -122,18 +122,18 @@ function Piwik_getBrowserVersion($str)
 function Piwik_getBrowsersLogo($label)
 {
 	$id = Piwik_getBrowserId($label);
-	return  "plugins/UserSettings/images/browsers/". $id . ".gif";
+	return  'plugins/UserSettings/images/browsers/'. $id . '.gif';
 }
 
 function Piwik_getOSLogo($label)
 {
-	$path = "plugins/UserSettings/images/os/". $label . ".gif";
+	$path = 'plugins/UserSettings/images/os/'. $label . '.gif';
 	return $path;
 }
 
 function Piwik_getScreensLogo($label)
 {
-	return "plugins/UserSettings/images/screens/" . $label . ".gif";
+	return 'plugins/UserSettings/images/screens/' . $label . '.gif';
 }
 
 function Piwik_UserSettings_keepStrlenGreater($value)

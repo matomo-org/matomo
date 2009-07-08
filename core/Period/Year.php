@@ -9,8 +9,6 @@
  * @package Piwik_Period
  */
 
-require_once "Period/Month.php";
-
 class Piwik_Period_Year extends Piwik_Period
 {	
 	protected $label = 'year';

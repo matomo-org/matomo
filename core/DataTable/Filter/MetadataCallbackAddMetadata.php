@@ -45,4 +45,3 @@ class Piwik_DataTable_Filter_MetadataCallbackAddMetadata extends Piwik_DataTable
 		}
 	}
 }
-

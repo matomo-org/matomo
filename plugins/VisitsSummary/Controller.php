@@ -9,8 +9,6 @@
  * @package Piwik_VisitsSummary
  */
 
-require_once "ViewDataTable.php";
-
 class Piwik_VisitsSummary_Controller extends Piwik_Controller 
 {
 	public function index()

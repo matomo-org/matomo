@@ -32,4 +32,3 @@ class Piwik_DataTable_Filter_Null extends Piwik_DataTable_Filter
 		}
 	}
 }
-

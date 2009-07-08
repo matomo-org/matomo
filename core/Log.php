@@ -9,13 +9,6 @@
  * @package Piwik_Log
  */
 
-require_once "Zend/Log.php";
-require_once "Zend/Log/Formatter/Interface.php";
-require_once "Zend/Log/Writer/Stream.php";
-require_once "Zend/Log/Writer/Db.php";
-
-require_once "Common.php";
-
 /**
  * 
  * @package Piwik_Log
@@ -167,4 +160,3 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 		return $string;
 	}
 }
-

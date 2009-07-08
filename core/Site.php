@@ -70,4 +70,3 @@ class Piwik_Site
 		return $validIds;
 	}
 }
-

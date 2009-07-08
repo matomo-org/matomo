@@ -9,9 +9,6 @@
  * @package Piwik_Login
  */
 
-require_once "Cookie.php";
-require_once "Login/Auth.php";
-
 /**
  * 
  * @package Piwik_Login
@@ -45,7 +42,6 @@ class Piwik_Login extends Piwik_Plugin
 		$exception  = $notification->getNotificationObject();
 		$exceptionMessage = $exception->getMessage(); 
 
-		require "Login/Controller.php";
 		$controller = new Piwik_Login_Controller;
 		$controller->login($exceptionMessage);
 	}
@@ -60,14 +56,14 @@ class Piwik_Login extends Piwik_Plugin
 	function initAuthenticationObject($notification)
 	{
 		$auth = new Piwik_Login_Auth();
-     	Zend_Registry::set('auth', $auth);
-		
-     	$action = Piwik::getAction();
-     	if(Piwik::getModule() === 'API' 
-     		&& (empty($action) || $action == 'index'))
-     	{
-     		return;
-     	}
+		Zend_Registry::set('auth', $auth);
+
+		$action = Piwik::getAction();
+		if(Piwik::getModule() === 'API' 
+			&& (empty($action) || $action == 'index'))
+		{
+			return;
+		}
      		
 		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
 		$authCookieExpiry = time() + Zend_Registry::get('config')->General->login_cookie_expire;

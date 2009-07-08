@@ -60,4 +60,3 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 		}
 	}
 }
-

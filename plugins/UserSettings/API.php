@@ -9,7 +9,7 @@
  * @package Piwik_UserSettings
  */
 
-require_once "UserSettings/functions.php";
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 
 /**
  * @package Piwik_UserSettings

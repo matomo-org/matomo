@@ -9,7 +9,6 @@
  * @package Piwik_Tracker
  */
 
-
 /**
  * Fake Piwik_Tracker_Visit class that overwrite all the Time related method to be able
  * to setup a given timestamp for the generated visitor and actions.
@@ -44,4 +43,3 @@ class Piwik_Tracker_Generator_Visit extends Piwik_Tracker_Visit
 	}
 	
 }
-

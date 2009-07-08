@@ -21,7 +21,7 @@ function Piwik_getPathFromUrl($url)
 
 function Piwik_getSearchEngineUrlFromName($name)
 {
-	require_once "DataFiles/SearchEngines.php";
+	require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 	if(isset($GLOBALS['Piwik_SearchEngines_NameToUrl'][$name]))
 	{
 		$url = 'http://'.$GLOBALS['Piwik_SearchEngines_NameToUrl'][$name];
@@ -52,7 +52,7 @@ function Piwik_getSearchEngineHostFromUrl($url)
 
 function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 {
-	require_once "DataFiles/SearchEngines.php";
+	require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 	$keyword = urlencode($keyword);
 	$keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);
 	$path = @$GLOBALS['Piwik_SearchEngines'][Piwik_getSearchEngineHostFromUrl($url)][2];

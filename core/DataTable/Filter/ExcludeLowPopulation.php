@@ -56,4 +56,3 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
 		return $value >= self::$minimumValue;
 	}
 }
-

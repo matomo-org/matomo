@@ -9,8 +9,6 @@
  * @package SmartyPlugins
  */
 
-require_once "Url.php";
-
 /**
  * Posts an event from a smarty template. This event can then be hooked by another plugin.
  * The even will be posted along with a string value that plugins can edit.

@@ -9,7 +9,6 @@
  * @package Piwik
  */
 
-require_once "ViewDataTable.php";
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
  * It defines some helper functions controllers can use.
@@ -126,7 +125,6 @@ abstract class Piwik_Controller
 	 */
 	protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
 	{
-		require_once "ViewDataTable/GenerateGraphHTML.php";
 		$view = Piwik_ViewDataTable::factory('graphEvolution');
 		$view->init( $currentModuleName, $currentControllerAction, $apiMethod );
 		

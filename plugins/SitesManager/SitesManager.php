@@ -43,7 +43,6 @@ class Piwik_SitesManager extends Piwik_Plugin
 	
 	function recordWebsiteHostsInCache($notification)
 	{
-		require_once "SitesManager/API.php";
 		$idsite = $notification->getNotificationInfo();
 		// add the 'hosts' entry in the website array
 		$array =& $notification->getNotificationObject();

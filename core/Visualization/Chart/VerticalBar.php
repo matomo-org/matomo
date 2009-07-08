@@ -9,8 +9,6 @@
  * @package Piwik_Visualization
  */
 
-require_once "Visualization/Chart.php";
-
 /**
  * Customize & set values for the flash Vertical bar chart
  * 

@@ -143,4 +143,3 @@ class Piwik_DataTable_Manager
 		echo "<br>-- End Piwik_DataTable_Manager->dumpAllTables()<hr>";
 	}
 }
-

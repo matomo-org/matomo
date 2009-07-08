@@ -9,8 +9,6 @@
  * @package Piwik_UserCountry
  */
 
-require_once "ViewDataTable.php";
-
 class Piwik_UserCountry_Controller extends Piwik_Controller 
 {
 	function index()

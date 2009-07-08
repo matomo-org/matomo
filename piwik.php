@@ -25,24 +25,27 @@ if((@include "Version.php") === false || !class_exists('Piwik_Version', false))
 	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
 }
 
-require_once "Common.php";
-require_once "PluginsManager.php";
-require_once "Tracker.php";
-require_once "Tracker/Config.php";
-require_once "Tracker/Action.php";
-require_once "Cookie.php";
-require_once "Tracker/Db.php";
-require_once "Tracker/Visit.php";
-require_once "Tracker/GoalManager.php";
+require_once PIWIK_INCLUDE_PATH .'/libs/Event/Dispatcher.php';
+require_once PIWIK_INCLUDE_PATH .'/libs/Event/Notification.php';
+require_once PIWIK_INCLUDE_PATH .'/core/PluginsManager.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Plugin.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Common.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Tracker.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Config.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Visit.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Tracker/GoalManager.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Action.php';
+require_once PIWIK_INCLUDE_PATH .'/core/CacheFile.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Cookie.php';
 
 session_cache_limiter('nocache');
 ob_start();
 if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 {	
-	require_once "core/Loader.php";
-	date_default_timezone_set(date_default_timezone_get());
-	require_once "core/ErrorHandler.php";
-	require_once "core/ExceptionHandler.php";
+	@date_default_timezone_set(date_default_timezone_get());
+	require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
+	require_once PIWIK_INCLUDE_PATH .'/core/ExceptionHandler.php';
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
 	printDebug($_GET);

@@ -30,24 +30,22 @@ if((@include "Version.php") === false || !class_exists('Piwik_Version', false))
 	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
 }
 
-require_once "core/testMinimumPhpVersion.php";
+require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 // NOTE: the code above this comment must be PHP4 compatible
 
+session_cache_limiter('nocache');
 @date_default_timezone_set(date_default_timezone_get());
+require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 
 if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 {
-	require_once "core/ErrorHandler.php";
-	require_once "core/ExceptionHandler.php";
-
+	require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
+	require_once PIWIK_INCLUDE_PATH .'/core/ExceptionHandler.php';
 	set_error_handler('Piwik_ErrorHandler');
 	set_exception_handler('Piwik_ExceptionHandler');
 }
 
-session_cache_limiter('nocache');
-
-require_once "core/Loader.php";
 if(!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH)
 {
 	$controller = Piwik_FrontController::getInstance();

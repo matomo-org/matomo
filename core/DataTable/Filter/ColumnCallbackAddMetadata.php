@@ -9,7 +9,6 @@
  * @package Piwik_DataTable
  */
 
-
 /**
  * Add a new 'metadata' column to the table based on the value resulting 
  * from a callback function with the parameter being another column's value
@@ -53,4 +52,3 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
 		}
 	}
 }
-

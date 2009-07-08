@@ -40,4 +40,3 @@ class Piwik_DataTable_Filter_AddConstantMetadata extends Piwik_DataTable_Filter
 		}
 	}
 }
-

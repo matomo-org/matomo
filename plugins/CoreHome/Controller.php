@@ -10,9 +10,6 @@
  * 
  */
 
-require_once "API/Request.php";
-require_once "ViewDataTable.php";
-
 /**
  * @package Piwik_CoreHome
  */
@@ -44,7 +41,6 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	{
 		$controllerName = Piwik_Common::getRequestVar('moduleToLoad');
 		$actionName = Piwik_Common::getRequestVar('actionToLoad', 'index');
-				
 		$view = $this->getDefaultIndexView();
 		$view->basicHtmlView = true;
 		$view->content = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName );

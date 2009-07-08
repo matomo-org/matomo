@@ -9,7 +9,6 @@
  * @package Piwik_DataTable
  */
 
-require_once "DataTable/Renderer/Php.php";
 /**
  * XML export of a given DataTable.
  * See the tests cases for more information about the XML format (/tests/core/DataTable/Renderer.test.php)

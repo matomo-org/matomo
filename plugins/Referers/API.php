@@ -9,7 +9,7 @@
  * @package Piwik_Referers
  */
 
-require_once "Referers/functions.php";
+require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 
 /**
  *

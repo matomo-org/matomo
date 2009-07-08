@@ -161,4 +161,3 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		return $html;
 	}
 }
-

@@ -36,4 +36,3 @@ function Piwik_ExceptionHandler(Exception $exception)
 		Piwik::exitWithErrorMessage( $message );
 	}
 }
-

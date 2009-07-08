@@ -9,21 +9,6 @@
  * @package Piwik
  */
 
-function Piwik_GetAdminMenu()
-{
-	return Piwik_AdminMenu::getInstance()->get();
-}
-
-function Piwik_AddAdminMenu( $adminMenuName, $url )
-{
-	return Piwik_AdminMenu::getInstance()->add($adminMenuName, $url);
-}
-
-function Piwik_RenameAdminMenuEntry($adminMenuOriginal, $adminMenuRenamed)
-{
-	Piwik_AdminMenu::getInstance()->rename($adminMenuOriginal, $adminMenuRenamed);
-}
-
 class Piwik_AdminMenu
 {
 	private $adminMenu = null;
@@ -84,4 +69,19 @@ class Piwik_AdminMenu
 		unset($this->adminMenu[$adminMenuOriginal]);
 		$this->adminMenu[$adminMenuRenamed] = $save;
 	}
+}
+
+function Piwik_GetAdminMenu()
+{
+	return Piwik_AdminMenu::getInstance()->get();
+}
+
+function Piwik_AddAdminMenu( $adminMenuName, $url )
+{
+	return Piwik_AdminMenu::getInstance()->add($adminMenuName, $url);
+}
+
+function Piwik_RenameAdminMenuEntry($adminMenuOriginal, $adminMenuRenamed)
+{
+	Piwik_AdminMenu::getInstance()->rename($adminMenuOriginal, $adminMenuRenamed);
 }

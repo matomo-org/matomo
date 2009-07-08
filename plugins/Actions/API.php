@@ -9,8 +9,6 @@
  * @package Piwik_Actions
  */
 
-require_once "Actions.php";
-
 /**
  * 
  * @package Piwik_Actions

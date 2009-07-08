@@ -9,8 +9,6 @@
  * @package Piwik_Installation
  */
 
-require_once "Installation/View.php";
-
 /**
  * 
  * @package Piwik_Installation
@@ -54,7 +52,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	function welcome()
 	{
-		require_once "Login/Controller.php";
 		Piwik_Login_Controller::clearSession();
 		
 		$view = new Piwik_Installation_View(
@@ -115,7 +112,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$this->skipThisStep( __FUNCTION__ );
 					
 		$view->showNextStep = false;
-		require_once "FormDatabaseSetup.php";
+
 		$form = new Piwik_Installation_FormDatabaseSetup;
 		
 		if($form->validate())
@@ -215,7 +212,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			Piwik::createTables();
 			Piwik::createAnonymousUser();
-			require_once "Updater.php";
+
 			$updater = new Piwik_Updater();
 			$updater->recordComponentSuccessfullyUpdated('core', Piwik_Version::VERSION);
 			$view->tablesCreated = true;
@@ -246,7 +243,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$this->skipThisStep( __FUNCTION__ );
 		$session = new Zend_Session_Namespace("Installation");
 
-		require_once "FormGeneralSetup.php";
 		$form = new Piwik_Installation_FormGeneralSetup;
 		
 		if($form->validate())
@@ -293,7 +289,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					);
 		$this->skipThisStep( __FUNCTION__ );
 		
-		require_once "FormFirstWebsiteSetup.php";
 		$form = new Piwik_Installation_FormFirstWebsiteSetup;
 		$session = new Zend_Session_Namespace("Installation");
 		if( !isset($session->generalSetupSuccessMessage))
@@ -309,7 +304,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			
 			$this->initObjectsToCallAPI();
 						
-			require_once "API/Request.php";
 			$request = new Piwik_API_Request("
 							method=SitesManager.addSite
 							&siteName=$name

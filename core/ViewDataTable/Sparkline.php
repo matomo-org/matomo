@@ -9,8 +9,6 @@
  * @package Piwik_ViewDataTable
  */
 
-require_once "Visualization/Sparkline.php";
-
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.
  * 

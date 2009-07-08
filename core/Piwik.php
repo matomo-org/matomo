@@ -9,11 +9,7 @@
  * @package Piwik
  */
 
-require_once "Config.php";
-require_once "Zend/Db.php";
-require_once "Zend/Db/Table.php";
-require_once "Log.php";
-require_once "Translate.php";
+require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 
 /**
  * Main piwik helper class.
@@ -903,7 +899,6 @@ class Piwik
 	
 	static public function displayScreenForCoreAndPluginsUpdatesIfNecessary()
 	{
-		require_once "Updater.php";
 		$updater = new Piwik_Updater();
 		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
 		
@@ -919,7 +914,6 @@ class Piwik
 			return;
 		}
 			
-		require_once "CoreUpdater/Controller.php";
 		$updaterController = new Piwik_CoreUpdater_Controller();
 		$updaterController->runUpdaterAndExit($updater, $componentsWithUpdateFile);
 	}
@@ -1228,11 +1222,6 @@ class Piwik
 
 	static public function createLogObject()
 	{
-		require_once "Log/APICall.php";
-		require_once "Log/Exception.php";
-		require_once "Log/Error.php";
-		require_once "Log/Message.php";
-		
 		$configAPI = Zend_Registry::get('config')->log;
 		
 		$aLoggers = array(

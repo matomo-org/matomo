@@ -9,7 +9,6 @@
  * @package Piwik_ViewDataTable
  */
 
-require_once "ViewDataTable/GenerateGraphHTML.php";
 /**
  * Generates HTML embed for the Evolution graph
  *  

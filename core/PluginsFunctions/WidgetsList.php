@@ -9,16 +9,6 @@
  * @package Piwik
  */
 
-function Piwik_GetWidgetsList()
-{
-	return Piwik_WidgetsList::get();
-}
-
-function Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
-{
-	Piwik_WidgetsList::add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters);
-}
-
 class Piwik_WidgetsList
 {
 	static protected $widgets = null;
@@ -42,4 +32,14 @@ class Piwik_WidgetsList
 										) + $customParameters
 									);
 	}
+}
+
+function Piwik_GetWidgetsList()
+{
+	return Piwik_WidgetsList::get();
+}
+
+function Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
+{
+	Piwik_WidgetsList::add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters);
 }

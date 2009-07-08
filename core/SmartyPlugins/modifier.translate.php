@@ -37,4 +37,3 @@ function smarty_modifier_translate($stringToken)
 	}
 	return $stringTranslated;
 }
- 

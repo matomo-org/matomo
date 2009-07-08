@@ -9,7 +9,6 @@
  * @package Piwik
  */
 
-
 /**
  * Abstract class to define a Piwik_Plugin.
  * Any plugin has to at least implement the abstract methods of this class.
@@ -102,4 +101,3 @@ abstract class Piwik_Plugin
 	}
 
 }
-

@@ -288,4 +288,3 @@ if(!isset($GLOBALS['Piwik_CountryList']))
 			'zr' => array('afr')
 		);
 }
-

@@ -435,5 +435,3 @@ class Piwik_DataTable_Row
 		return true;
 	}
 }
-
-require_once "Row/DataTableSummary.php";

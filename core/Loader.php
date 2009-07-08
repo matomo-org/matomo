@@ -42,7 +42,7 @@ class Piwik_Loader
 				$path = PIWIK_INCLUDE_PATH . self::$dirs[$i] . $classPath . '.php';
 				if(file_exists($path))
 				{
-					require_once($path);
+					require_once $path; // prefixed by PIWIK_INCLUDE_PATH
 					if(class_exists($class, false) || interface_exists($class, false))
 					{
 						return;

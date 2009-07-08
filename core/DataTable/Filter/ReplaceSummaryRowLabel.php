@@ -40,4 +40,3 @@ class Piwik_DataTable_Filter_ReplaceSummaryRowLabel extends Piwik_DataTable_Filt
 		}
 	}
 }
-

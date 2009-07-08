@@ -9,8 +9,6 @@
  * @package Piwik_SitesManager
  */
 
-require_once "Dashboard/Controller.php";
-
 /**
  * 
  * @package Piwik_Widgetize

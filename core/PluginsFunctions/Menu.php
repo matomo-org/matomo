@@ -9,27 +9,6 @@
  * @package Piwik
  */
 
-function Piwik_GetMenu()
-{
-	return Piwik_Menu::getInstance()->get();
-}
-
-function Piwik_AddMenu( $mainMenuName, $subMenuName, $url )
-{
-	Piwik_Menu::getInstance()->add($mainMenuName, $subMenuName, $url);
-}
-
-function Piwik_RenameMenuEntry($mainMenuOriginal, $subMenuOriginal, 
-								$mainMenuRenamed, $subMenuRenamed)
-{
-	Piwik_Menu::getInstance()->rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed);
-}
-
-function Piwik_EditMenuUrl( $mainMenuToEdit, $subMenuToEdit, $newUrl )
-{
-	Piwik_Menu::getInstance()->editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl);
-} 
-
 class Piwik_Menu
 {
 	protected $menu = null;
@@ -178,4 +157,25 @@ class Piwik_Menu
 			}
 		}
 	}
+}
+
+function Piwik_GetMenu()
+{
+	return Piwik_Menu::getInstance()->get();
+}
+
+function Piwik_AddMenu( $mainMenuName, $subMenuName, $url )
+{
+	Piwik_Menu::getInstance()->add($mainMenuName, $subMenuName, $url);
+}
+
+function Piwik_RenameMenuEntry($mainMenuOriginal, $subMenuOriginal, 
+								$mainMenuRenamed, $subMenuRenamed)
+{
+	Piwik_Menu::getInstance()->rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed);
+}
+
+function Piwik_EditMenuUrl( $mainMenuToEdit, $subMenuToEdit, $newUrl )
+{
+	Piwik_Menu::getInstance()->editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl);
 }

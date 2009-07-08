@@ -303,7 +303,7 @@ class Piwik_Tracker_Generator
 		 */
 		// we load some real referers to be used by the generator
 		$referers = array();
-		require_once PIWIK_INCLUDE_PATH . "/misc/generateVisitsData/Referers.php";
+		require_once PIWIK_INCLUDE_PATH . '/misc/generateVisitsData/Referers.php';
 
 		$this->addParam('urlref',$referers);
 
@@ -312,8 +312,8 @@ class Piwik_Tracker_Generator
 		
 		// load some user agent and accept language
 		$userAgent = $acceptLanguages = array();
-		require_once PIWIK_INCLUDE_PATH . "/misc/generateVisitsData/UserAgent.php";
-		require_once PIWIK_INCLUDE_PATH . "/misc/generateVisitsData/AcceptLanguage.php";
+		require_once PIWIK_INCLUDE_PATH . '/misc/generateVisitsData/UserAgent.php';
+		require_once PIWIK_INCLUDE_PATH . '/misc/generateVisitsData/AcceptLanguage.php';
 		$this->userAgents=$userAgent;
 		$this->acceptLanguage=$acceptLanguages;
 	}
@@ -644,5 +644,3 @@ class Piwik_Tracker_Generator
 	}
 	
 }
-require_once "Generator/Tracker.php";
-require_once "Generator/Visit.php";

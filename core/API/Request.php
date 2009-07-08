@@ -10,9 +10,6 @@
  * @package Piwik_API
  */
 
-require_once "API/ResponseBuilder.php";
-require_once "API/DataTableGenericFilter.php";
-
 /**
  * An API request is the object used to make a call to the API and get the result.
  * The request has the format of a normal GET request, ie. parameter_1=X&parameter_2=Y
@@ -134,5 +131,4 @@ class Piwik_API_Request
 		}
 		return $a;
 	}
-
 }

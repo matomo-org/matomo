@@ -9,7 +9,6 @@
  * @package Piwik_Tracker
  */
 
-
 /**
  * Fake Piwik_Tracker that:
  * - overwrite the sendHeader method so that no headers are sent.

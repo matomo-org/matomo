@@ -9,8 +9,6 @@
  * @package SmartyPlugins
  */
 
-require_once "Url.php";
-
 /**
  * Smarty {hiddenurl} function plugin.
  * Writes an input Hidden field for every parameter in the URL.

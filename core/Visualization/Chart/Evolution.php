@@ -9,8 +9,6 @@
  * @package Piwik_Visualization
  */
 
-require_once "Visualization/Chart.php";
-
 /**
  * Customize the Evolution chart style for the flash graph
  * 

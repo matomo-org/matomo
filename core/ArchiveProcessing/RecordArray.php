@@ -9,7 +9,6 @@
  * @package Piwik_ArchiveProcessing
  */
 
-require_once "ArchiveProcessing/Record/Blob.php";
 /**
  * Array of blob records.
  * Useful for easily saving splited data in the DB.

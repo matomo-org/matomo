@@ -9,7 +9,6 @@
  * @package Piwik_Helper
  */
 
-
 /**
  * Simple class to handle the cookies:
  * - read a cookie values

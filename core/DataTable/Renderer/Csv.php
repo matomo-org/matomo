@@ -9,7 +9,6 @@
  * @package Piwik_DataTable
  */
 
-require_once "DataTable/Renderer/Php.php";
 /**
  * CSV export
  * 

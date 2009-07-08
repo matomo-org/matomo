@@ -8,7 +8,7 @@
  * 
  * @package Piwik_Provider
  */
-require_once "Provider/functions.php";
+require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
 /**
  * 

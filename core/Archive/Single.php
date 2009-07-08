@@ -394,7 +394,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	public function getDataTableFromNumeric( $fields )
 	{
-		require_once "DataTable/Simple.php";
 		if(!is_array($fields))
 		{
 			$fields = array($fields);

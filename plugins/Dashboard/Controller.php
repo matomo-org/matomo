@@ -9,8 +9,6 @@
  * @package Piwik_CoreHome
  * 
  */
-require_once "API/Request.php";
-require_once "ViewDataTable.php";
 
 /**
  * @package Piwik_Dashboard

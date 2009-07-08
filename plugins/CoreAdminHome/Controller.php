@@ -9,8 +9,6 @@
  * @package Piwik_CoreAdminHome
  */
 
-require_once "API/Request.php";
-
 /**
  * @package Piwik_CoreAdminHome
  */

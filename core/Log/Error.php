@@ -116,5 +116,3 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
 	    return parent::format($strReturned);
     }
 }
-
-

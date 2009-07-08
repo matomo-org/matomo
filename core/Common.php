@@ -73,7 +73,7 @@ class Piwik_Common
 	 */
 	static function getCacheWebsiteAttributes( $idSite )
 	{
-		require_once "Loader.php";
+		require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 
 		static $cache = null;
 		if(is_null($cache))
@@ -89,9 +89,9 @@ class Piwik_Common
 		if(defined('PIWIK_TRACKER_MODE') 
 			&& PIWIK_TRACKER_MODE) 
 		{
-			require_once "PluginsManager.php";
-			require_once "Translate.php";
-			require_once "Option.php";
+			require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
+			require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
+			require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
 			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
 			Piwik::createAccessObject();
@@ -569,7 +569,7 @@ class Piwik_Common
 	 */
 	static public function getContinent($country)
 	{
-		require_once "DataFiles/Countries.php";
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 		$countryList = $GLOBALS['Piwik_CountryList'];
 		if(isset($countryList[$country][0]))
 		{
@@ -649,7 +649,7 @@ class Piwik_Common
 		static $countriesList = null;
 		if(is_null($countriesList))
 		{
-			require_once "DataFiles/Countries.php";
+			require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 			$countriesList = array_keys($GLOBALS['Piwik_CountryList']);
 		}
 		return $countriesList;
@@ -664,7 +664,7 @@ class Piwik_Common
 		static $langToCountry = null;
 		if(is_null($langToCountry))
  		{
-			require_once "DataFiles/LanguageToCountry.php";
+			require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/LanguageToCountry.php';
 			$langToCountry = array_keys($GLOBALS['Piwik_LanguageToCountry']);
  		}
  
@@ -765,7 +765,7 @@ class Piwik_Common
 		{
 			return false;
 		}
-		require_once "DataFiles/SearchEngines.php";
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 		
 		if(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{

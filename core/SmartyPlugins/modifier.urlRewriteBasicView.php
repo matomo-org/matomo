@@ -37,4 +37,3 @@ function smarty_modifier_urlRewriteBasicView($parameters)
 	$url = $url . '&amp;module=CoreHome&amp;action=showInContext';
 	return htmlspecialchars($url);
 }
-

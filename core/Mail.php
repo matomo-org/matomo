@@ -9,8 +9,6 @@
  * @package Piwik
  */
 
-require_once "Zend/Mail.php";
-
 /**
  * Class for sending mails, for more information see: 
  * http://framework.zend.com/manual/en/zend.mail.html 
