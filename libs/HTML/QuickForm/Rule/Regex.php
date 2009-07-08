@@ -15,7 +15,7 @@
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @copyright   2001-2007 The PHP Group
+ * @copyright   2001-2009 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
  * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
@@ -32,7 +32,7 @@ require_once 'HTML/QuickForm/Rule.php';
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @version     Release: 3.2.9
+ * @version     Release: 3.2.11
  * @since       3.2
  */
 class HTML_QuickForm_Rule_Regex extends HTML_QuickForm_Rule
@@ -93,6 +93,12 @@ class HTML_QuickForm_Rule_Regex extends HTML_QuickForm_Rule
     function getValidationScript($options = null)
     {
         $regex = isset($this->_data[$this->name]) ? $this->_data[$this->name] : $options;
+
+        // bug #12376, converting unicode escapes and stripping 'u' modifier
+        if ($pos = strpos($regex, 'u', strrpos($regex, '/'))) {
+            $regex = substr($regex, 0, $pos) . substr($regex, $pos + 1);
+            $regex = preg_replace('/(?<!\\\\)(?>\\\\\\\\)*\\\\x{([a-fA-F0-9]+)}/', '\\u$1', $regex);
+        }
 
         return array("  var regex = " . $regex . ";\n", "{jsVar} != '' && !regex.test({jsVar})");
     } // end func getValidationScript

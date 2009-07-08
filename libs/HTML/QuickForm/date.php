@@ -15,7 +15,7 @@
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Alexey Borzov <avb@php.net>
- * @copyright   2001-2007 The PHP Group
+ * @copyright   2001-2009 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
  * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
@@ -39,7 +39,7 @@ require_once 'HTML/QuickForm/select.php';
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Alexey Borzov <avb@php.net>
- * @version     Release: 3.2.9
+ * @version     Release: 3.2.11
  * @since       3.1
  */
 class HTML_QuickForm_date extends HTML_QuickForm_group
@@ -435,11 +435,28 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     }
 
     // }}}
+    // {{{ _trimLeadingZeros()
+
+   /**
+    * Trims leading zeros from the (numeric) string
+    *
+    * @param    string  A numeric string, possibly with leading zeros
+    * @return   string  String with leading zeros removed
+    */
+    function _trimLeadingZeros($str)
+    {
+        if (0 == strcmp($str, $this->_options['emptyOptionValue'])) {
+            return $str;
+        }
+        $trimmed = ltrim($str, '0');
+        return strlen($trimmed)? $trimmed: '0';
+    }
+
+    // }}}
     // {{{ setValue()
 
     function setValue($value)
     {
-        $trimLeadingZeros = create_function('$a', '$b = ltrim($a, \'0\'); return strlen($b)? $b: \'0\';');
         if (empty($value)) {
             $value = array();
         } elseif (is_scalar($value)) {
@@ -460,14 +477,14 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                 'h' => $arr[4],
                 'g' => $arr[4],
                 'H' => $arr[5],
-                'i' => $trimLeadingZeros($arr[6]),
-                's' => $trimLeadingZeros($arr[7]),
+                'i' => $this->_trimLeadingZeros($arr[6]),
+                's' => $this->_trimLeadingZeros($arr[7]),
                 'a' => $arr[8],
                 'A' => $arr[9],
-                'W' => $trimLeadingZeros($arr[10])
+                'W' => $this->_trimLeadingZeros($arr[10])
             );
         } else {
-            $value = array_map($trimLeadingZeros, $value);
+            $value = array_map(array($this, '_trimLeadingZeros'), $value);
         }
         parent::setValue($value);
     }
