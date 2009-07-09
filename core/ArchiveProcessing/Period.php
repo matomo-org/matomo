@@ -115,6 +115,10 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		$records = array();
 		foreach($results as $name => $value)
 		{
+			if($name == 'nb_uniq_visitors' && ($this->periodId == Piwik::$idPeriods['week'] || $this->periodId == Piwik::$idPeriods['month']))
+			{
+			    $value = (float) $this->computeNbUniqVisitors();
+			}
 			$records[$name] = new Piwik_ArchiveProcessing_Record_Numeric(
 													$name, 
 													$value
@@ -275,6 +279,14 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		$this->setNumberOfVisits($nbVisits);
 		$this->setNumberOfVisitsConverted($nbVisitsConverted);
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
+	}
+
+	protected function computeNbUniqVisitors()
+	{
+		$query = "SELECT count(distinct visitor_idcookie) as nb_uniq_visitors FROM ".$this->logTable."
+			  WHERE visit_server_date >= ? AND visit_server_date <= ? AND idsite = ?";
+
+		return Zend_Registry::get('db')->fetchOne($query, array( $this->strDateStart, $this->strDateEnd, $this->idsite ));
 	}
 	
 	/**
