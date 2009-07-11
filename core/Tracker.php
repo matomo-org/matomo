@@ -177,6 +177,7 @@ class Piwik_Tracker
 		if(isset(self::$db))
 		{
 			self::$db->disconnect();
+			self::$db = null;
 		}
 	}
 
