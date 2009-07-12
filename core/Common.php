@@ -571,9 +571,9 @@ class Piwik_Common
 	{
 		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 		$countryList = $GLOBALS['Piwik_CountryList'];
-		if(isset($countryList[$country][0]))
+		if(isset($countryList[$country]))
 		{
-			return $countryList[$country][0];
+			return $countryList[$country];
 		}
 		return 'unk';
 	}

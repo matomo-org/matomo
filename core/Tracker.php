@@ -283,7 +283,7 @@ class Piwik_Tracker
 		
 		if( !empty($urlOutlink) )
 		{
-			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_redirect_var_name'];
+//			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_redirect_var_name'];
 			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
