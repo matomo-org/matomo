@@ -104,6 +104,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			// if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
 			if(!$someGoalsConverted)
 			{
+				unset($goalManager);
 				return;
 			}
 		}
