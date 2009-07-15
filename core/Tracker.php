@@ -268,11 +268,12 @@ class Piwik_Tracker
 
 		if( !empty($urlDownload) )
 		{
-			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
+			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_redirect_var_name'];
+			if( Piwik_Common::getRequestVar( $redirectVariableName, 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
+				$this->setUrlToRedirect ( $urlDownload );
 			}
-			$this->setUrlToRedirect ( $urlDownload );
 		}
 	}
 	
@@ -283,12 +284,12 @@ class Piwik_Tracker
 		
 		if( !empty($urlOutlink) )
 		{
-//			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_redirect_var_name'];
-			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
+			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_redirect_var_name'];
+			if( Piwik_Common::getRequestVar( $redirectVariableName, 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
+				$this->setUrlToRedirect ( $urlOutlink);
 			}
-			$this->setUrlToRedirect ( $urlOutlink);
 		}
 	}
 	
