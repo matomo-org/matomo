@@ -119,6 +119,8 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	
 	public function render()
 	{
+		@header("Pragma: ");
+		@header("Cache-Control: no-store, must-revalidate");
 		return $this->chart->toPrettyString();
 	}
 	
