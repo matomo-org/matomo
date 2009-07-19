@@ -25,15 +25,22 @@ class Piwik_Tracker_Db
 	static private $profiling = false;
 
 	protected $queriesProfiling = array();
-	
+
 	/**
 	 * Builds the DB object
 	 */
-	public function __construct( $host, $username, $password, $dbname, $port, $driverName = 'mysql') 
+	public function __construct( $dbInfo, $driverName = 'mysql') 
 	{
-		$this->dsn = $driverName.":dbname=$dbname;host=$host;port=$port";
-		$this->username = $username;
-		$this->password = $password;
+		if(isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/')
+		{
+			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};unix_socket=${dbInfo['unix_socket']}";
+		}
+		else
+		{
+			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};host=${dbInfo['host']};port=${dbInfo['port']}";
+		}
+		$this->username = $dbInfo['username'];
+		$this->password = $dbInfo['password'];
 	}
 
 	public function __destruct() 

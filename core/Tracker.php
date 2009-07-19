@@ -138,11 +138,7 @@ class Piwik_Tracker
 			// before 0.2.4 there is no port specified in config file
 			$configDb['port'] = '3306';  
 		}
-		$db = new Piwik_Tracker_Db( 	$configDb['host'], 
-										$configDb['username'], 
-										$configDb['password'], 
-										$configDb['dbname'],
-										$configDb['port'] );
+		$db = new Piwik_Tracker_Db( $configDb );
 		$db->connect();
 		
 		return $db;
