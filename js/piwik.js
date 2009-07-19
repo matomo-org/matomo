@@ -183,10 +183,10 @@ if (!this.Piwik) {
 			configIgnoreClasses = [],
 
 			// Download class name
-			configDownloadClass = 'piwik_download',
+			configDownloadClasses = [],
 
 			// (Out) Link class name
-			configLinkClass = 'piwik_link',
+			configLinkClasses = [],
 
 			// Maximum delay to wait for web bug image to be fetched (in milliseconds)
 			configTrackerPause = 500,
@@ -543,13 +543,15 @@ if (!this.Piwik) {
 				var request = getRequest();
 				request += '&idgoal=' + idGoal;
 
-				if (isDefined(customRevenue)) {
+				if (isDefined(customRevenue) && customRevenue !== null) {
 					request += '&revenue=' + customRevenue;
 				}
 
 				// encode custom data
 				if (isDefined(customData)) {
-					request += '&data=' + escapeWrapper(stringify(customData));
+					if (customData !== null) {
+						request += '&data=' + escapeWrapper(stringify(customData));
+					}
 				} else if (isDefined(configCustomData)) {
 					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
@@ -570,7 +572,9 @@ if (!this.Piwik) {
 
 				// encode custom data
 				if (isDefined(customData)) {
-					request += '&data=' + escapeWrapper(stringify(customData));
+					if (customData !== null) {
+						request += '&data=' + escapeWrapper(stringify(customData));
+					}
 				} else if (isDefined(configCustomData)) {
 					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
@@ -609,6 +613,22 @@ if (!this.Piwik) {
 			}
 
 			/*
+			 * Construct regular expression of classes
+			 */
+			function getClassesRegExp(configClasses, defaultClass) {
+				var i, classesRegExp = '(^| )(piwik_' + defaultClass;
+
+				if (isDefined(configClasses)) {
+					for (i = 0; i < configClasses.length; i++) {
+						classesRegExp += '|' + configClasses[i];
+					}
+				}
+				classesRegExp += ')( |$)';
+
+				return new RegExp(classesRegExp);
+			}
+
+			/*
 			 * Link or Download?
 			 */
 			function getLinkType(className, href, isInLink) {
@@ -618,27 +638,24 @@ if (!this.Piwik) {
 				}
 
 				// does class indicate whether it is an (explicit/forced) outlink or a download?
-				var downloadOrLinkPattern = new RegExp('(^| )(' + configDownloadClass + '|' + configLinkClass + ')( |$)'),
-				match = downloadOrLinkPattern.exec(className),
+				var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
+				linkPattern = getClassesRegExp(configLinkClasses, 'link'),
 
 				// does file extension indicate that it is a download?
 				downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')$', 'i');
 
-				// optimization of the nested if..elseif..else construct below
-				return match ? (match[2] == configDownloadClass ? 'download' : 'link') :
-					    (downloadExtensionsPattern.test(href) ? 'download' : 0);
+				// optimization of the if..elseif..else construct below
+				return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : 0);
 
 /*
 				var linkType;
 
-				if (match) {
-					if (match[2] == configDownloadClass) {
-						// class attribute contains 'piwik_download' (or user's override)
-						linkType = 'download';
-					} else {
-						// class attribute contains 'piwik_link' (or user's override)
-						linkType = 'link';
-					}
+				if (linkPattern.test(className)) {
+					// class attribute contains 'piwik_link' (or user's override)
+					linkType = 'link';
+				} else if (downloadPattern.test(className)) {
+					// class attribute contains 'piwik_download' (or user's override)
+					linkType = 'download';
 				} else if (downloadExtensionsPattern.test(sourceHref)) {
 					// file extension matches a defined download extension
 					linkType = 'download';
@@ -693,22 +710,6 @@ if (!this.Piwik) {
 			}
 
 			/*
-			 * Construct regular expression of classes to be ignored
-			 */
-			function getIgnoreRegExp() {
-				var i, ignoreRegExp = '(^| )(piwik_ignore';
-
-				if (isDefined(configIgnoreClasses)) {
-					for (i = 0; i < configIgnoreClasses.length; i++) {
-						ignoreRegExp += '|' + configIgnoreClasses[i];
-					}
-				}
-				ignoreRegExp += ')( |$)';
-
-				return new RegExp(ignoreRegExp);
-			}
-
-			/*
 			 * Add click listener to a DOM element
 			 */
 			function addClickListener(element) {
@@ -724,7 +725,7 @@ if (!this.Piwik) {
 
 					// iterate through anchor elements with href and AREA elements
 
-					var i, ignorePattern = getIgnoreRegExp(), linkElements = documentAlias.links;
+					var i, ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore'), linkElements = documentAlias.links;
 
 					if (linkElements) {
 						for (i = 0; i < linkElements.length; i++) {
@@ -875,20 +876,44 @@ if (!this.Piwik) {
 				},
 
 				/*
+				 * Set array of classes to be treated as downloads
+				 */
+				setDownloadClasses: function (downloadClasses) {
+					if (typeof downloadClasses == 'object' && downloadClasses instanceof Array) {
+						configDownloadClasses = downloadClasses;
+					} else if (typeof downloadClasses == 'string') {
+						configDownloadClasses = [downloadClasses];
+					}
+				},
+
+				/*
 				 * Set download class name (i.e., override default: piwik_download)
+				 * (deprecated)
 				 */
 				setDownloadClass: function (className) {
-					if (typeof className == 'string' && className.length > 0) {
-						configDownloadClass = className;
+					if (typeof className == 'string') {
+						configDownloadClasses = [className];
+					}
+				},
+
+				/*
+				 * Set array of classes to be treated as outlinks
+				 */
+				setLinkClasses: function (linkClasses) {
+					if (typeof linkClasses == 'object' && linkClasses instanceof Array) {
+						configLinkClasses = linkClasses;
+					} else if (typeof linkClasses == 'string') {
+						configLinkClasses = [linkClasses];
 					}
 				},
 
 				/*
 				 * Set outlink class name (i.e., override default: piwik_link)
+				 * (deprecated)
 				 */
 				setLinkClass: function (className) {
-					if (typeof className == 'string' && className.length > 0) {
-						configLinkClass = className;
+					if (typeof className == 'string') {
+						configLinkClasses = [className];
 					}
 				},
 
