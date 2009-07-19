@@ -198,23 +198,16 @@ if (!this.Piwik) {
 			browserHasCookies = '0',
 			pageReferrer,
 
-			// Plugin, Parameter name, MIME type, ActiveX progid, detected, version
+			// Plugin, Parameter name, MIME type, detected
 			pluginMap = {
-				director:    ['dir',   'application/x-director',
-				                        ['SWCtl.SWctl.1'],
-				                        '0', ''],
-				flash:       ['fla',   'application/x-shockwave-flash',
-				                        ['ShockwaveFlash.ShockwaveFlash.1'],
-				                        '0', ''],
-				pdf:         ['pdf',   'application/pdf',
-				                        ['AcroPDF.PDF.1', 'PDF.PdfCtrl.6', 'PDF.PdfCtrl.5', 'PDF.PdfCtrl.1'],
-				                        '0', ''],
-				realplayer:  ['realp', 'audio/x-pn-realaudio-plugin',
-				                        ['rmocx.RealPlayer G2 Control.1', 'RealPlayer.RealPlayer(tm) ActiveX Control (32-bit)'],
-				                        '0', ''],
-				wma:         ['wma',   'application/x-mplayer2',
-				                        ['WMPlayer.OCX', 'MediaPlayer.MediaPlayer.1'],
-				                        '0', '']
+				// document types
+				pdf:         ['pdf',   'application/pdf',               '0'],
+				// media players
+				realplayer:  ['realp', 'audio/x-pn-realaudio-plugin',   '0'],
+				wma:         ['wma',   'application/x-mplayer2',        '0'],
+				// interactive multimedia 
+				director:    ['dir',   'application/x-director',        '0'],
+				flash:       ['fla',   'application/x-shockwave-flash', '0']
 			},
 
 			// Guard against installing the link tracker more than once per Tracker instance
@@ -420,43 +413,19 @@ if (!this.Piwik) {
 			 * Browser plugin tests
 			 */
 			function detectBrowserPlugins() {
-				var i, mimeTypes = '';
+				var i, mimeType;
 
-				function setPluginInfo(pluginName, mimeType) {
-					if (mimeTypes.indexOf(mimeType) != -1 && navigatorAlias.mimeTypes[mimeType].enabledPlugin !== null) {
-						pluginMap[pluginName][3] = '1';
-					}
+				// Safari and Opera
+				if (navigatorAlias.javaEnabled) {
+					pluginMap.java[2] = '1';
 				}
 
-				/*
-				 * Note: an ActiveXObject object has no intrinsic properties or methods;
-				 *       thus, no standard means of getting a plugin's version number
-				 */
-				function setIEPluginInfo(pluginName, progids) {
-					if (progids !== null && isDefined(windowAlias.ActiveXObject)) {
-						for (var j = 0; j < progids.length; j++) {
-							try {
-								if (new ActiveXObject(progids[j])) {
-									pluginMap[pluginName][3] = '1';
-									break;
-								}
-							} catch (e) { }
+				if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
+					for (i in pluginMap) {
+						mimeType = navigatorAlias.mimeTypes[pluginMap[i][1]];
+						if (mimeType && mimeType.enabledPlugin) {
+							pluginMap[i][2] = '1';
 						}
-					}
-				}
-
-				// Begin detection of browser plugins
-				if (isWindowsIE()) {
-					for (i in pluginMap) {
-						setIEPluginInfo(i, pluginMap[i][2]);
-					}
-				} else {
-					for (i = 0; i < navigatorAlias.mimeTypes.length; i++) {
-						mimeTypes += navigatorAlias.mimeTypes[i].type.toLowerCase();
-					}
-
-					for (i in pluginMap) {
-						setPluginInfo(i, pluginMap[i][1]);
 					}
 				}
 			}
@@ -513,7 +482,7 @@ if (!this.Piwik) {
 				        '&rand=' + Math.random();
 				// plugin data
 				for (i in pluginMap) {
-					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][3];
+					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][2];
 				}
 
 				request =  configTrackerUrl + '?' + request;
