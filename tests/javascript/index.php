@@ -116,14 +116,27 @@ $(document).ready(function () {
 		ok( !tracker.hook.test._isSiteHostName('piwik.example.org'), '!isSiteHostName("piwik.example.org")');
 	});
 
-	test("Tracker setIgnoreClasses() and getIgnoreRegExp", function() {
-		expect(15);
+	test("Tracker getClassesRegExp()", function() {
+		expect(0);
 
 		var tracker = Piwik.getTracker();
 
-		equals( typeof tracker.hook.test._getIgnoreRegExp, 'function', "getIgnoreRegExp" );
+		equals( typeof tracker.hook.test._getClassesRegExp, 'function', "getClassesRegExp" );
 
-		var ignore = tracker.hook.test._getIgnoreRegExp();
+		var download = tracker.hook.test._getClassesRegExp([], 'download');
+		ok( download.test('piwik_download'), 'piwik_download (default)' );
+
+		var outlink = tracker.hook.test._getClassesRegExp([], 'link');
+		ok( outlink.test('piwik_link'), 'piwik_link (default)' );
+
+	});
+
+	test("Tracker setIgnoreClasses() and getClassesRegExp(ignore)", function() {
+		expect(14);
+
+		var tracker = Piwik.getTracker();
+
+		var ignore = tracker.hook.test._getClassesRegExp([], 'ignore');
 		ok( ignore.test('piwik_ignore'), '[1] piwik_ignore' );
 		ok( !ignore.test('pk_ignore'), '[1] !pk_ignore' );
 		ok( !ignore.test('apiwik_ignore'), '!apiwik_ignore' );
@@ -131,7 +144,7 @@ $(document).ready(function () {
 		ok( ignore.test('abc piwik_ignore xyz'), 'abc piwik_ignore xyz' );
 
 		tracker.setIgnoreClasses( 'my_download' );
-		ignore = tracker.hook.test._getIgnoreRegExp();
+		ignore = tracker.hook.test._getClassesRegExp(['my_download'], 'ignore');
 		ok( ignore.test('piwik_ignore'), '[2] piwik_ignore' );
 		ok( !ignore.test('pk_ignore'), '[2] !pk_ignore' );
 		ok( ignore.test('my_download'), 'my_download' );
@@ -139,7 +152,7 @@ $(document).ready(function () {
 		ok( ignore.test('abc my_download xyz'), 'abc my_download xyz' );
 
 		tracker.setIgnoreClasses( ['my_download', 'my_outlink'] );
-		ignore = tracker.hook.test._getIgnoreRegExp();
+		ignore = tracker.hook.test._getClassesRegExp(['my_download','my_outlink'], 'ignore');
 		ok( ignore.test('piwik_ignore'), '[3] piwik_ignore' );
 		ok( !ignore.test('pk_ignore'), '[3] !pk_ignore' );
 		ok( ignore.test('my_download'), 'my_download' );
@@ -160,7 +173,7 @@ $(document).ready(function () {
 	});
 
 	test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClass(), setLinkClass(), and getLinkType()", function() {
-		expect(19);
+		expect(25);
 
 		var tracker = Piwik.getTracker();
 
@@ -187,12 +200,22 @@ $(document).ready(function () {
 		tracker.setDownloadClass('my_download');
 		equals( tracker.hook.test._getLinkType('my_download', 'piwiktest.ext', true), 'download', 'my_download' );
 		equals( tracker.hook.test._getLinkType('abc my_download xyz', 'piwiktest.ext', true), 'download', 'abc my_download xyz' );
-		equals( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true), 0, 'piwik_download != my_download' );
+		equals( tracker.hook.test._getLinkType('piwik_download', 'piwiktest.ext', true), 'download', 'download (default)' );
+
+		tracker.setDownloadClasses(['a', 'b']);
+		equals( tracker.hook.test._getLinkType('abc piwik_download', 'piwiktest.ext', true), 'download', 'download (default)' );
+		equals( tracker.hook.test._getLinkType('abc a', 'piwiktest.ext', true), 'download', 'download (a)' );
+		equals( tracker.hook.test._getLinkType('b abc', 'piwiktest.ext', true), 'download', 'download (b)' );
 
 		tracker.setLinkClass('my_link');
 		equals( tracker.hook.test._getLinkType('my_link', 'piwiktest.ext', true), 'link', 'my_link' );
 		equals( tracker.hook.test._getLinkType('abc my_link xyz', 'piwiktest.ext', true), 'link', 'abc my_link xyz' );
-		equals( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.ext', true), 0, '[2] link default' );
+		equals( tracker.hook.test._getLinkType('piwik_link', 'piwiktest.ext', true), 'link', '[2] link default' );
+
+		tracker.setLinkClasses(['c', 'd']);
+		equals( tracker.hook.test._getLinkType('abc piwik_link', 'piwiktest.ext', true), 'link', 'link (default)' );
+		equals( tracker.hook.test._getLinkType('abc c', 'piwiktest.ext', true), 'link', 'link (c)' );
+		equals( tracker.hook.test._getLinkType('d abc', 'piwiktest.ext', true), 'link', 'link (d)' );
 	});
 
 	test("JSON", function() {
