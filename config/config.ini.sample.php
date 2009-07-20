@@ -16,3 +16,4 @@ password		= datatabasePassword
 dbname			= databaseName
 adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
 tables_prefix	= piwik_
+unix_socket		= /path/to/unix/socket
