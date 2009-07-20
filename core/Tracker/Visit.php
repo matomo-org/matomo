@@ -314,9 +314,13 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_resolution' 	=> $userInfo['config_resolution'],
 			'config_pdf' 			=> $userInfo['config_pdf'],
 			'config_flash' 			=> $userInfo['config_flash'],
+			'config_java' 			=> $userInfo['config_java'],
 			'config_director' 		=> $userInfo['config_director'],
+			'config_quicktime'		=> $userInfo['config_quicktime'],
 			'config_realplayer' 	=> $userInfo['config_realplayer'],
 			'config_windowsmedia' 	=> $userInfo['config_windowsmedia'],
+			'config_gears'	 		=> $userInfo['config_gears'],
+			'config_silverlight'	=> $userInfo['config_silverlight'],
 			'config_cookie' 		=> $userInfo['config_cookie'],
 			'location_ip' 			=> $userInfo['location_ip'],
 			'location_browser_lang' => $userInfo['location_browser_lang'],
@@ -550,10 +554,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
 		
 		$plugin_Flash 			= Piwik_Common::getRequestVar( 'fla', 0, 'int', $this->request);
+		$plugin_Java 			= Piwik_Common::getRequestVar( 'java', 0, 'int', $this->request);
 		$plugin_Director 		= Piwik_Common::getRequestVar( 'dir', 0, 'int', $this->request);
+		$plugin_Quicktime		= Piwik_Common::getRequestVar( 'qt', 0, 'int', $this->request);
 		$plugin_RealPlayer 		= Piwik_Common::getRequestVar( 'realp', 0, 'int', $this->request);
-		$plugin_Pdf 			= Piwik_Common::getRequestVar( 'pdf', 0, 'int', $this->request);
+		$plugin_PDF 			= Piwik_Common::getRequestVar( 'pdf', 0, 'int', $this->request);
 		$plugin_WindowsMedia 	= Piwik_Common::getRequestVar( 'wma', 0, 'int', $this->request);
+		$plugin_Gears			= Piwik_Common::getRequestVar( 'gears', 0, 'int', $this->request);
+		$plugin_Silverlight		= Piwik_Common::getRequestVar( 'ag', 0, 'int', $this->request);
 		$plugin_Cookie 			= Piwik_Common::getRequestVar( 'cookie', 0, 'int', $this->request);
 		
 		$userAgent		= Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_USER_AGENT']);
@@ -577,10 +585,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 												$browserVersion,
 												$resolution,
 												$plugin_Flash,
+												$plugin_Java,
 												$plugin_Director,
+												$plugin_Quicktime,
 												$plugin_RealPlayer,
-												$plugin_Pdf,
+												$plugin_PDF,
 												$plugin_WindowsMedia,
+												$plugin_Gears,
+												$plugin_Silverlight,
 												$plugin_Cookie,
 												$ip,
 												$browserLang);
@@ -591,11 +603,15 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_browser_name' 	=> $browserName,
 			'config_browser_version' => $browserVersion,
 			'config_resolution' 	=> $resolution,
-			'config_pdf' 			=> $plugin_Pdf,
+			'config_pdf' 			=> $plugin_PDF,
 			'config_flash' 			=> $plugin_Flash,
+			'config_java' 			=> $plugin_Java,
 			'config_director' 		=> $plugin_Director,
+			'config_quicktime' 		=> $plugin_Quicktime,
 			'config_realplayer' 	=> $plugin_RealPlayer,
 			'config_windowsmedia' 	=> $plugin_WindowsMedia,
+			'config_gears'	 		=> $plugin_Gears,
+			'config_silverlight'	=> $plugin_Silverlight,
 			'config_cookie' 		=> $plugin_Cookie,
 			'location_ip' 			=> $ip,
 			'location_browser_lang' => $browserLang,			
@@ -899,9 +915,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * Returns a MD5 of all the configuration settings
 	 * @return string
 	 */
-	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Cookie, $ip, $browserLang)
+	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
 	{
-		return md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Director . $plugin_RealPlayer . $plugin_Pdf . $plugin_WindowsMedia . $plugin_Cookie . $ip . $browserLang );
+		return md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang );
 	}
 	
 	/**

@@ -203,11 +203,16 @@ if (!this.Piwik) {
 				// document types
 				pdf:         ['pdf',   'application/pdf',               '0'],
 				// media players
+				quicktime:   ['qt',    'video/quicktime',               '0'],
 				realplayer:  ['realp', 'audio/x-pn-realaudio-plugin',   '0'],
 				wma:         ['wma',   'application/x-mplayer2',        '0'],
 				// interactive multimedia 
 				director:    ['dir',   'application/x-director',        '0'],
-				flash:       ['fla',   'application/x-shockwave-flash', '0']
+				flash:       ['fla',   'application/x-shockwave-flash', '0'],
+				// RIA
+				java:        ['java',  'application/x-java-vm',         '0'],
+				gears:       ['gears', 'application/x-googlegears',     '0'],
+				silverlight: ['ag',    'application/x-silverlight',     '0']
 			},
 
 			// Guard against installing the link tracker more than once per Tracker instance
@@ -341,16 +346,6 @@ if (!this.Piwik) {
 			registeredHooks = {};
 
 			/*
-			 * Platform test for Internet Explorer on Windows
-			 */
-			function isWindowsIE() {
-				var agent = navigatorAlias.userAgent.toLowerCase();
-
-				return (agent.indexOf('msie') != -1) && (agent.indexOf('opera') == -1) &&
-				       ((agent.indexOf('win') != -1) || (agent.indexOf('32bit') != -1));
-			}
-
-			/*
 			 * Set cookie value
 			 */
 			function setCookie(cookieName, value, daysToExpire, path, domain, secure) {
@@ -418,6 +413,11 @@ if (!this.Piwik) {
 				// Safari and Opera
 				if (navigatorAlias.javaEnabled) {
 					pluginMap.java[2] = '1';
+				}
+
+				// Firefox
+				if (typeof windowAlias.GearsFactory === 'function') {
+					pluginMap.gears[2] = '1';
 				}
 
 				if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
