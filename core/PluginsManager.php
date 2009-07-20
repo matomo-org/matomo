@@ -267,10 +267,7 @@ class Piwik_PluginsManager
 
 		if(!file_exists($path))
 		{
-			throw new Exception("The plugin '$pluginName' is enabled, but the file '$path' couldn't be found.
-							To continue, please disable the plugin manually by removing the line 
-							<pre>Plugins[] = $pluginName</pre>
-							in the configuration file <code>config/config.ini.php</code>");
+			throw new Exception("Unable to load plugin '$pluginName' because '$path' couldn't be found.");
 		}
 
 		// Don't remove this.
