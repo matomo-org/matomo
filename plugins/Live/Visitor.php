@@ -191,9 +191,13 @@ class Piwik_Live_Visitor
 		$plugins = array( 
 	 		'config_pdf',
 	 		'config_flash',
+	 		'config_java',
 	 		'config_director',
+	 		'config_quicktime',
 	 		'config_realplayer',
-	 		'config_windowsmedia'
+	 		'config_windowsmedia',
+	 		'config_gears',
+	 		'config_silverlight',
 		);
 		$return = array();
 		foreach($plugins as $plugin)
