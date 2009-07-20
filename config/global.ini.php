@@ -19,7 +19,7 @@ dbname			=
 tables_prefix	= 
 port			= 3306
 adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
-unix_socket		= 
+;unix_socket		=
 
 [database_tests]
 host 			= localhost
@@ -29,7 +29,7 @@ dbname			= piwik_tests
 tables_prefix	= piwiktests_
 port			= 3306
 adapter 		= PDO_MYSQL
-unix_socket		= 
+;unix_socket		=
  
 [Debug]
 ; if set to 1, the archiving process will always be triggered, even if the archive has already been computed
