@@ -70,10 +70,11 @@ class Piwik_Updater
 	public function update($name)
 	{
 		$warningMessages = array();
-		foreach($this->componentsWithUpdateFile[$name] as $file)
+		foreach($this->componentsWithUpdateFile[$name] as $fileVersion => $file)
 		{
 			try {
 				require_once $file; // prefixed by PIWIK_INCLUDE_PATH
+				$this->recordComponentSuccessfullyUpdated($name, $fileVersion);
 			} catch( Piwik_Updater_UpdateErrorException $e) {
 				throw $e;
 			} catch( Exception $e) {
@@ -116,14 +117,14 @@ class Piwik_Updater
 				$fileVersion = basename($file, '.php');
 				if(version_compare($currentVersion, $fileVersion) == -1)
 				{
-					$componentsWithUpdateFile[$name][] = $file;
+					$componentsWithUpdateFile[$name][$fileVersion] = $file;
 				}
 			}
 			
 			if(isset($componentsWithUpdateFile[$name]))
 			{
 				// order the update files by version asc
-				usort($componentsWithUpdateFile[$name], "version_compare");
+				uasort($componentsWithUpdateFile[$name], "version_compare");
 			}
 			else
 			{
