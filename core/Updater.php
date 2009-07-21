@@ -154,8 +154,16 @@ class Piwik_Updater
 			try {
 				$currentVersion = Piwik_GetOption('version_'.$name);
 			} catch( Exception $e) {
-				// case when the option table is not yet created (before 0.2.10)
-				$currentVersion = false;
+				if(preg_match('/1146/', $e->getMessage()))
+				{
+					// case when the option table is not yet created (before 0.2.10)
+					$currentVersion = false;
+				}
+				else
+				{
+					// failed for some other reason
+					throw $e;
+				}
 			}
 			if($currentVersion === false)
 			{
