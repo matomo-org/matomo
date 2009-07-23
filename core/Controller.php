@@ -247,6 +247,7 @@ abstract class Piwik_Controller
 			$view->minDateYear = $minDate->toString('Y');
 			$view->minDateMonth = $minDate->toString('m');
 			$view->minDateDay = $minDate->toString('d');
+			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
 			
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
@@ -270,7 +271,7 @@ abstract class Piwik_Controller
 			'week' => array('singular' => Piwik_Translate('CoreHome_PeriodWeek'), 'plural' => Piwik_Translate('CoreHome_PeriodWeeks')),
 			'month' => array('singular' => Piwik_Translate('CoreHome_PeriodMonth'), 'plural' => Piwik_Translate('CoreHome_PeriodMonths')),
 			'year' => array('singular' => Piwik_Translate('CoreHome_PeriodYear'), 'plural' => Piwik_Translate('CoreHome_PeriodYears')),
-			);
+		);
 		
 		$found = array_search($currentPeriod,$availablePeriods);
 		if($found !== false)
