@@ -219,9 +219,12 @@ class Piwik
 	
 	static public function printSqlProfilingReportTracker( $db = null )
 	{
-		function maxSumMsFirst($a,$b)
+		if(!function_exists('maxSumMsFirst'))
 		{
-			return $a['sum_time_ms'] < $b['sum_time_ms'];
+			function maxSumMsFirst($a,$b)
+			{
+				return $a['sum_time_ms'] < $b['sum_time_ms'];
+			}
 		}
 		
 		if(is_null($db))
@@ -278,9 +281,12 @@ class Piwik
 							'sumTimeMs' =>  $existing['count'] + $query->getElapsedSecs() * 1000);
 			$infoIndexedByQuery[$query->getQuery()] = $new;
 		}
-		function sortTimeDesc($a,$b)
+		if(!function_exists('sortTimeDesc'))
 		{
-			return $a['sumTimeMs'] < $b['sumTimeMs'];
+			function sortTimeDesc($a,$b)
+			{
+				return $a['sumTimeMs'] < $b['sumTimeMs'];
+			}
 		}
 		uasort( $infoIndexedByQuery, 'sortTimeDesc');
 		
