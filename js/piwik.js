@@ -411,7 +411,8 @@ if (!this.Piwik) {
 				var i, mimeType;
 
 				// Safari and Opera
-				if (navigatorAlias.javaEnabled) {
+				// IE6: typeof navigator.javaEnabled == 'unknown'
+				if (typeof navigatorAlias.javaEnabled !== 'undefined' && navigatorAlias.javaEnabled()) {
 					pluginMap.java[2] = '1';
 				}
 
