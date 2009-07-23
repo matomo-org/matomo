@@ -52,7 +52,7 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 	 */
 	protected function getNewDataTableArray()
 	{
-		$table = new Piwik_DataTable_Array;
+		$table = new Piwik_DataTable_Array();
 		$table->setKeyName($this->getIndexName());
 		return $table;
 	}

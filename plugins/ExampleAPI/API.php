@@ -69,7 +69,7 @@ class Piwik_ExampleAPI_API
 	{
 		$dataTable = new Piwik_DataTable();
 		
-		$row1 = new Piwik_DataTable_Row;
+		$row1 = new Piwik_DataTable_Row();
 		$row1->setColumns( array('name' => 'piwik', 'license' => 'GPL'));
 		$dataTable->addRow($row1);
 		

@@ -642,7 +642,7 @@ class Piwik_Tracker_Generator
 	protected function saveVisit()
 	{
 		$this->setFakeRequest();
-		$process = new Piwik_Tracker_Generator_Tracker;
+		$process = new Piwik_Tracker_Generator_Tracker();
 		$process->main();
 		unset($process);
 	}

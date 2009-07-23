@@ -147,13 +147,13 @@ class Piwik_UserSettings extends Piwik_Plugin
 			$name = Piwik_getScreenTypeFromResolution($resolution);
 			if(!isset($nameToRow[$name]))
 			{
-				$nameToRow[$name] = new Piwik_DataTable_Row;
+				$nameToRow[$name] = new Piwik_DataTable_Row();
 				$nameToRow[$name]->addColumn('label', $name);
 			}
 			
 			$nameToRow[$name]->sumRow( $row );
 		}
-		$tableWideScreen = new Piwik_DataTable;
+		$tableWideScreen = new Piwik_DataTable();
 		$tableWideScreen->addRowsFromArray($nameToRow);
 		
 		return $tableWideScreen;
@@ -168,13 +168,13 @@ class Piwik_UserSettings extends Piwik_Plugin
 			$familyNameToUse = Piwik_getBrowserFamily($browserLabel);
 			if(!isset($nameToRow[$familyNameToUse]))
 			{
-				$nameToRow[$familyNameToUse] = new Piwik_DataTable_Row;
+				$nameToRow[$familyNameToUse] = new Piwik_DataTable_Row();
 				$nameToRow[$familyNameToUse]->addColumn('label',$familyNameToUse);
 			}
 			$nameToRow[$familyNameToUse]->sumRow( $row );
 		}
 		
-		$tableBrowserType = new Piwik_DataTable;
+		$tableBrowserType = new Piwik_DataTable();
 		$tableBrowserType->addRowsFromArray($nameToRow);
 		return $tableBrowserType;
 	}

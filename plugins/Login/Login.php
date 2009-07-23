@@ -42,7 +42,7 @@ class Piwik_Login extends Piwik_Plugin
 		$exception  = $notification->getNotificationObject();
 		$exceptionMessage = $exception->getMessage(); 
 
-		$controller = new Piwik_Login_Controller;
+		$controller = new Piwik_Login_Controller();
 		$controller->login($exceptionMessage);
 	}
 	

@@ -26,6 +26,6 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar extends Piwik_ViewD
 	
 	function __construct()
 	{
-		$this->view = new Piwik_Visualization_Chart_VerticalBar;
+		$this->view = new Piwik_Visualization_Chart_VerticalBar();
 	}
 }

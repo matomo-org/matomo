@@ -84,7 +84,7 @@
  * 	
  * ---- Code example
  * 
- * $table = new DataTable;
+ * $table = new DataTable();
  * $table->addRowsFromArray( array(...) );
  * 
  * # sort the table by visits asc

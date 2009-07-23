@@ -105,7 +105,7 @@ class Piwik_FrontController
 			require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
 		}
 		
-		$controller = new $controllerClassName;
+		$controller = new $controllerClassName();
 		if($action === false)
 		{
 			$action = $controller->getDefaultAction();

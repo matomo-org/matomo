@@ -224,7 +224,7 @@ class Piwik_DataTable_Row
 		$thisSubtableID = $this->getIdSubDataTable();
 		if($thisSubtableID === null)
 		{
-			$thisSubTable = new Piwik_DataTable;
+			$thisSubTable = new Piwik_DataTable();
 			$this->addSubtable($thisSubTable);
 		}
 		else

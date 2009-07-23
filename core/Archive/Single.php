@@ -405,7 +405,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$values[$field] = $this->getNumeric($field);
 		}
 		
-		$table = new Piwik_DataTable_Simple;
+		$table = new Piwik_DataTable_Simple();
 		$table->addRowsFromArray($values);
 		return $table;
 	}
@@ -427,7 +427,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		
 		$data = $this->get($name, 'blob');
 		
-		$table = new Piwik_DataTable;
+		$table = new Piwik_DataTable();
 		
 		if($data !== false)
 		{

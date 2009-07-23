@@ -54,7 +54,7 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 	Piwik::createLogObject();
 }
 
-$process = new Piwik_Tracker;
+$process = new Piwik_Tracker();
 $process->main();
 ob_end_flush();
 printDebug($_COOKIE);

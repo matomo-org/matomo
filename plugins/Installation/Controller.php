@@ -113,7 +113,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					
 		$view->showNextStep = false;
 
-		$form = new Piwik_Installation_FormDatabaseSetup;
+		$form = new Piwik_Installation_FormDatabaseSetup();
 		
 		if($form->validate())
 		{
@@ -248,7 +248,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$this->skipThisStep( __FUNCTION__ );
 		$session = new Zend_Session_Namespace("Installation");
 
-		$form = new Piwik_Installation_FormGeneralSetup;
+		$form = new Piwik_Installation_FormGeneralSetup();
 		
 		if($form->validate())
 		{			
@@ -294,7 +294,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					);
 		$this->skipThisStep( __FUNCTION__ );
 		
-		$form = new Piwik_Installation_FormFirstWebsiteSetup;
+		$form = new Piwik_Installation_FormFirstWebsiteSetup();
 		$session = new Zend_Session_Namespace("Installation");
 		if( !isset($session->generalSetupSuccessMessage))
 		{
