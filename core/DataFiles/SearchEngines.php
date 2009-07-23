@@ -157,6 +157,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Ask
 		'www.ask.com'			=> array('Ask', array('ask','q'), 'web?q={k}'),
 		'web.ask.com'			=> array('Ask', array('ask','q')),
+		'ask.reference.com'     => array('Ask', 'q'), 
 		'www.ask.co.uk'			=> array('Ask', 'q'),
 		'uk.ask.com'			=> array('Ask', 'q'),
 		'fr.ask.com'			=> array('Ask', 'q'),
@@ -226,7 +227,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Club Internet
 		'recherche.club-internet.fr'    => array('Club Internet', 'q'),
-		
+		        
+        // Clusty
+        "clusty.com"            => array("Clusty", "query", "search?query={k}"),
+	
 		// Conduit
 		'search.conduit.com'         => array('Conduit.com', 'q', 'Results.aspx?q={k}'),
 	
@@ -571,6 +575,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		'verden.abcsok.no'		=> array('Google', 'q'),
 		'search3.incredimail.com'         => array('Google', 'q'), 
+		'search.incredimail.com'         => array('Google', 'q'), 
 		'search.sweetim.com'	        => array('Google', 'q'),
 		
 		
@@ -703,6 +708,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		//Holmes.ge
 		'holmes.ge'                     => array('Holmes','q'),
 		
+		// Hooseek.com 
+		'www.hooseek.com'                       => array('Hooseek', 'recherche'),
+	 
 		// Hotbot via Lycos
 		'hotbot.lycos.com'		=> array('Hotbot (Lycos)', 'query'),
 		'search.hotbot.de'		=> array('Hotbot', 'query'),
@@ -898,6 +906,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Najdi
 		'www.najdi.si' 			=> array('Najdi.si', 'q'),
 		
+	    // Naver
+	    'search.naver.com'		=> array('Naver', 'query'),
+	
 		// Needtofind
 		'ko.search.need2find.com'	=> array('Needtofind', 'searchfor'),
 
@@ -1033,7 +1044,22 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Sesam
 		'sesam.no' 					=> array('Sesam', 'q'),
-	
+    	
+		// Setooz
+        "bg.setooz.com"                 => array("Setooz", "query"),
+        "el.setooz.com"                 => array("Setooz", "query"),
+        "et.setooz.com"                 => array("Setooz", "query"),
+        "lv.setooz.com"                 => array("Setooz", "query"),
+        "lt.setooz.com"                 => array("Setooz", "query"),
+        "hu.setooz.com"                 => array("Setooz", "query"),
+        "no.setooz.com"                 => array("Setooz", "query"),
+        "pl.setooz.com"                 => array("Setooz", "query"),
+        "sk.setooz.com"                 => array("Setooz", "query"),
+        "fi.setooz.com"                 => array("Setooz", "query"),
+        "sv.setooz.com"                 => array("Setooz", "query"),
+        "tr.setooz.com"                 => array("Setooz", "query"),
+        "uk.setooz.com"                 => array("Setooz", "query"),
+    	
 		// Seznam
 		'search.seznam.cz' 		=> array('Seznam', 'q'),
 		'search1.seznam.cz' 		=> array('Seznam', 'q'),
@@ -1046,6 +1072,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Skynet
 		'search.skynet.be' 		=> array('Skynet', 'keywords'),
 		
+	    // soso.com
+	    'www.soso.com'			=> array('Soso', 'w'),
+	
 		// Sphere
 		'www.sphere.com' 		=> array('Sphere', 'q'),
 		
@@ -1105,7 +1134,12 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Virgilio
 		'search.virgilio.it'		=> array('Virgilio', 'qs'),
 		'ricerca.virgilio.it'		=> array('Virgilio', 'qs'),
-		
+
+		// vivisimo
+        "de.vivisimo.com"               => array("Vivisimo", "query", "search/?query={k}&dlang=de&v%3Aproject=de-vivisimo-com"),
+        "vivisimo.com"          => array("Vivisimo", "query", "search/?query={k}"),
+        "search.vivisimo.com"           => array("Vivisimo", "query", "search/?query={k}"),
+	
 		// Voila
 		'search.voila.com'		=> array('Voila', 'kw'),
 		'search.ke.voila.fr'		=> array('Voila', 'rdata'),
