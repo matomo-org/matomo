@@ -43,6 +43,7 @@ session_cache_limiter('nocache');
 ob_start();
 if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 {	
+    require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 	@date_default_timezone_set(date_default_timezone_get());
 	require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
 	require_once PIWIK_INCLUDE_PATH .'/core/ExceptionHandler.php';
