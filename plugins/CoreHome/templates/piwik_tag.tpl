@@ -1,4 +1,4 @@
-{if  $piwikUrl == 'http://piwik.org/demo/'}
+{if $piwikUrl == 'http://piwik.org/demo/' || $debugTrackVisitsInsidePiwikUI}
 <div style="clear:both"></div>
 {literal}
 <!-- Piwik -->
