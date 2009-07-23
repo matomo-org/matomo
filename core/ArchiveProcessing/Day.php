@@ -96,14 +96,14 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		{
 			$count = array($labelCount => $count);
 		}
-		$table = new Piwik_DataTable;
+		$table = new Piwik_DataTable();
 		$table->addRowsFromArrayWithIndexLabel($data);
 		return $table;
 	}
 	
 	public function getDataTableFromArray( $array )
 	{
-		$table = new Piwik_DataTable;
+		$table = new Piwik_DataTable();
 		$table->addRowsFromArrayWithIndexLabel($array);
 		return $table;
 	}
@@ -177,7 +177,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 */
 	static public function generateDataTable( $table )
 	{
-		$dataTableToReturn = new Piwik_DataTable;
+		$dataTableToReturn = new Piwik_DataTable();
 		foreach($table as $label => $maybeDatatableRow)
 		{
 			// case the aInfo is a subtable-like array
@@ -215,7 +215,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 */
 	public function getDataTableSerialized( $array )
 	{
-		$table = new Piwik_DataTable;
+		$table = new Piwik_DataTable();
 		$table->addRowsFromArrayWithIndexLabel($array );
 		$toReturn = $table->getSerialized();
 		return $toReturn;
@@ -252,11 +252,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$tablesByLabel = array();
 		foreach($arrayLevel0 as $label => $aAllRowsForThisLabel)
 		{
-			$table = new Piwik_DataTable;
+			$table = new Piwik_DataTable();
 			$table->addRowsFromArrayWithIndexLabel($aAllRowsForThisLabel);
 			$tablesByLabel[$label] = $table;
 		}
-		$parentTableLevel0 = new Piwik_DataTable;
+		$parentTableLevel0 = new Piwik_DataTable();
 		$parentTableLevel0->addRowsFromArrayWithIndexLabel($subArrayLevel1ByKey, $tablesByLabel);
 
 		return $parentTableLevel0;

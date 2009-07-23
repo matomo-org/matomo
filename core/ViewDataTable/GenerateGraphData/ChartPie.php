@@ -26,6 +26,6 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartPie extends Piwik_ViewDataTable
 	
 	function __construct()
 	{
-		$this->view = new Piwik_Visualization_Chart_Pie;
+		$this->view = new Piwik_Visualization_Chart_Pie();
 	}
 }

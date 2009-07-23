@@ -24,8 +24,8 @@ class Piwik_Log_Error extends Piwik_Log
 		$logToFileFilename = self::ID;
 		$logToDatabaseTableName = self::ID;
 		$logToDatabaseColumnMapping = null;
-		$screenFormatter = new Piwik_Log_Error_Formatter_ScreenFormatter;
-		$fileFormatter = new Piwik_Log_Formatter_FileFormatter;
+		$screenFormatter = new Piwik_Log_Error_Formatter_ScreenFormatter();
+		$fileFormatter = new Piwik_Log_Formatter_FileFormatter();
 		
 		parent::__construct($logToFileFilename, 
 							$fileFormatter,

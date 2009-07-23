@@ -28,7 +28,7 @@ function Piwik_ExceptionHandler(Exception $exception)
 		$event['errline'] 	= $exception->getLine();
 		$event['backtrace'] = $exception->getTraceAsString();
 
-		$formatter = new Piwik_Log_Exception_Formatter_ScreenFormatter;
+		$formatter = new Piwik_Log_Exception_Formatter_ScreenFormatter();
 		
 		$message = $formatter->format($event);
 		$message .= "<br><br>And this exception raised another exception \"". $e->getMessage()."\"";

@@ -21,7 +21,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	function login( $messageNoAccess = null )
 	{
-		$form = new Piwik_Login_Form;
+		$form = new Piwik_Login_Form();
 
 		// get url from POSTed form or GET parameter (getting back from password remind form)
 		$currentUrl = 'index.php'.Piwik_Url::getCurrentQueryString();
@@ -97,7 +97,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	
 	function lostPassword($messageNoAccess = null)
 	{
-		$form = new Piwik_Login_PasswordForm;
+		$form = new Piwik_Login_PasswordForm();
 		$currentUrl = 'index.php';
 		$urlToRedirect = Piwik_Common::getRequestVar('form_url', htmlspecialchars($currentUrl), 'string');
 

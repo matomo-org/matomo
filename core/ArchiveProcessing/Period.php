@@ -198,7 +198,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 */
 	protected function getRecordDataTableSum( $name, $invalidSummedColumnNameToRenamedName )
 	{
-		$table = new Piwik_DataTable;
+		$table = new Piwik_DataTable();
 		foreach($this->archives as $archive)
 		{
 			$archive->preFetchBlob($name);
@@ -237,7 +237,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		// we first compute every subperiod of the archive
 		foreach($this->period->getSubperiods() as $period)
 		{
-			$archivePeriod = new Piwik_Archive_Single;
+			$archivePeriod = new Piwik_Archive_Single();
 			$archivePeriod->setSite( $this->site );
 			$archivePeriod->setPeriod( $period );
 			$archivePeriod->prepareArchive();

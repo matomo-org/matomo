@@ -134,7 +134,7 @@ class Piwik_API_Proxy
 			$this->checkParametersAreNotNull($className, $methodName, $finalParameters);
 
 			// start the timer
-			$timer = new Piwik_Timer;
+			$timer = new Piwik_Timer();
 			
 			// call the method
 			$returnedValue = call_user_func_array(array($object, $methodName), $finalParameters);

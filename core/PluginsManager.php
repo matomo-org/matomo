@@ -278,7 +278,7 @@ class Piwik_PluginsManager
 		{
 			throw new Exception("The class $pluginClassName couldn't be found in the file '$path'");
 		}
-		$newPlugin = new $pluginClassName;
+		$newPlugin = new $pluginClassName();
 		
 		if(!($newPlugin instanceof Piwik_Plugin))
 		{

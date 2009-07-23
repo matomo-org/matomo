@@ -40,7 +40,7 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 			throw new Exception(Piwik_Translate('General_NoDataForGraph'));
 		}
 		$values = $this->getValuesFromDataTable($this->dataTable);
-		$graph = new Piwik_Visualization_Sparkline;
+		$graph = new Piwik_Visualization_Sparkline();
 		$graph->setValues($values);
 		$graph->main();
 		

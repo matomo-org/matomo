@@ -36,7 +36,7 @@ class Piwik_DataTable_Array
 	/**
 	 * This is the label used to index the tables.
 	 * For example if the tables are indexed using the timestamp of each period
-	 * eg. $this->array[1045886960] = new Piwik_DataTable;
+	 * eg. $this->array[1045886960] = new Piwik_DataTable();
 	 * the keyName would be 'timestamp'.
 	 * 
 	 * This label is used in the Renderer (it becomes a column name or the XML description tag)
