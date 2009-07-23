@@ -1,4 +1,4 @@
-{if preg_match('/http\:\/\/127\.0\.0\.1|http\:\/\/localhost|http\:\/\/piwik\.org/', $url)}
+{if  $piwikUrl == 'http://piwik.org/demo/'}
 <div style="clear:both"></div>
 {literal}
 <!-- Piwik -->
