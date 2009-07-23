@@ -50,8 +50,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected $refererUrlParse;
 	protected $currentUrlParse;
 
-	function __construct()
+	function setRequest($requestArray)
 	{
+		$this->request = $requestArray;
+
 		$idsite = Piwik_Common::getRequestVar('idsite', 0, 'int', $this->request);
 		if($idsite <= 0)
 		{
@@ -59,15 +61,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		$this->idsite = $idsite;
 	}
-	function setRequest($requestArray)
-	{
-		$this->request = $requestArray;
-	}
 	
 	/**
-	 *	Main algorith to handle the visit. 
+	 *	Main algorithm to handle the visit. 
 	 *
-	 *  Once we have the visitor information, we have to define if the visit is a new or a known visit.
+	 *  Once we have the visitor information, we have to determine if the visit is a new or a known visit.
 	 * 
 	 * 1) When the last action was done more than 30min ago, 
 	 * 	  or if the visitor is new, then this is a new visit.
