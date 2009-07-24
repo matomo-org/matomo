@@ -31,7 +31,8 @@ class Piwik_Tracker
 	const STATE_NOTHING_TO_NOTICE = 1;
 	const STATE_TO_REDIRECT_URL = 2;
 	const STATE_LOGGING_DISABLE = 10;
-	const STATE_NO_GET_VARIABLE = 11;
+	const STATE_EMPTY_REQUEST = 11;
+	const STATE_TRACK_ONLY = 12;
 		
 	const COOKIE_INDEX_IDVISITOR 				= 1;
 	const COOKIE_INDEX_TIMESTAMP_LAST_ACTION 	= 2;
@@ -45,9 +46,9 @@ class Piwik_Tracker
 	const COOKIE_INDEX_REFERER_KEYWORD			= 10;
 	const COOKIE_INDEX_VISITOR_RETURNING		= 11;
 	
-	public function __construct() 
+	public function __construct($args = null)
 	{
-		$this->request = $_GET + $_POST;
+		$this->request = $args ? $args : $_GET + $_POST;
 	}
 
 	public function main()
@@ -85,9 +86,10 @@ class Piwik_Tracker
 	{
 		$this->loadTrackerPlugins();
 		$this->handleDisabledTracker();
-		$this->handleEmptyGetVariable();
+		$this->handleEmptyRequest();
 		$this->handleDownloadRedirect();
 		$this->handleOutlinkRedirect();
+		$this->handleDataPush();
 	}
 
 	// display the logo or pixel 1*1 GIF
@@ -103,8 +105,8 @@ class Piwik_Tracker
 				$this->outputTransparentGif();
 			break;
 			
-			case self::STATE_NO_GET_VARIABLE:
-				printDebug("No get variables => Piwik page");
+			case self::STATE_EMPTY_REQUEST:
+				printDebug("Empty request => Piwik page");
 				echo "<a href='index.php'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
 			break;
 			
@@ -112,6 +114,10 @@ class Piwik_Tracker
 				$this->sendHeader('Location: ' . $this->getUrlToRedirect());
 			break;
 			
+			case self::STATE_TRACK_ONLY:
+				printDebug("Data push, tracking only");
+			break;
+
 			case self::STATE_NOTHING_TO_NOTICE:
 			default:
 				printDebug("Nothing to notice => default behaviour");
@@ -217,7 +223,7 @@ class Piwik_Tracker
 	protected function isVisitValid()
 	{
 		return $this->stateValid !== self::STATE_LOGGING_DISABLE
-				&&  $this->stateValid !== self::STATE_NO_GET_VARIABLE;
+				&&  $this->stateValid !== self::STATE_EMPTY_REQUEST;
 	}
 	
 	protected function getState()
@@ -257,6 +263,14 @@ class Piwik_Tracker
 		}
 	}
 	
+	protected function handleDataPush()
+	{
+		if( Piwik_Common::getRequestVar( 'data_push', 0, 'int', $this->request) == 1)
+		{
+			$this->setState( self::STATE_TRACK_ONLY );
+		}
+	}
+
 	protected function handleDownloadRedirect()
 	{
 		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
@@ -288,12 +302,12 @@ class Piwik_Tracker
 			}
 		}
 	}
-	
-	protected function handleEmptyGetVariable()
+
+	protected function handleEmptyRequest()
 	{
-		if( count($_GET) == 0)
+		if( count($this->request) == 0)
 		{
-			$this->setState(self::STATE_NO_GET_VARIABLE);			
+			$this->setState(self::STATE_EMPTY_REQUEST);
 		}
 	}
 	
@@ -313,9 +327,9 @@ function printDebug( $info = '' )
 	{
 		if(is_array($info))
 		{
-			print("<PRE>");
+			print("<pre>");
 			print(var_export($info,true));
-			print("</PRE>");
+			print("</pre>");
 		}
 		else
 		{

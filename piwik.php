@@ -8,14 +8,13 @@
  */
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false; 
-if(defined('PIWIK_ENABLE_TRACKING') && !PIWIK_ENABLE_TRACKING)
-{
-	return;
-}
 
 define('PIWIK_TRACKER_MODE', true);
 error_reporting(E_ALL|E_NOTICE);
-define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
+if(!defined('PIWIK_INCLUDE_PATH'))
+{
+	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
+}
 @ignore_user_abort(true);
 
 if((@include "Version.php") === false || !class_exists('Piwik_Version', false))
@@ -43,8 +42,8 @@ session_cache_limiter('nocache');
 ob_start();
 if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 {	
-    require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 	@date_default_timezone_set(date_default_timezone_get());
+	require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 	require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
 	require_once PIWIK_INCLUDE_PATH .'/core/ExceptionHandler.php';
 	set_error_handler('Piwik_ErrorHandler');
@@ -55,7 +54,10 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 	Piwik::createLogObject();
 }
 
-$process = new Piwik_Tracker();
-$process->main();
-ob_end_flush();
-printDebug($_COOKIE);
+if(!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING)
+{
+	$process = new Piwik_Tracker();
+	$process->main();
+	ob_end_flush();
+	printDebug($_COOKIE);
+}
