@@ -15,6 +15,12 @@
  */
 class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 {	
+	protected function setGeneralVariablesView($view)
+	{
+		parent::setGeneralVariablesView($view);
+		$view->menu = Piwik_GetAdminMenu();
+	}
+
 	function index()
 	{
 		Piwik::checkUserIsSuperUser();
@@ -33,7 +39,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		
 		$view = new Piwik_View('CorePluginsAdmin/templates/manage.tpl');
 		$view->pluginsName = $plugins;
-		$view->menu = Piwik_GetAdminMenu();
+		$this->setGeneralVariablesView($view);
 		echo $view->render();
 	}
 
