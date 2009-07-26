@@ -15,6 +15,12 @@
  */
 class Piwik_SitesManager_Controller extends Piwik_Controller
 {
+	protected function setGeneralVariablesView($view)
+	{
+		parent::setGeneralVariablesView($view);
+		$view->menu = Piwik_GetAdminMenu();
+	}
+
 	function index()
 	{
 		$view = new Piwik_View('SitesManager/templates/SitesManager.tpl');
@@ -24,7 +30,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 			$site['alias_urls'] = Piwik_SitesManager_API::getSiteUrlsFromId($site['idsite']);
 		}
 		$view->adminSites = $sites;
-		$view->menu = Piwik_GetAdminMenu();
+		$this->setGeneralVariablesView($view);
 		echo $view->render();
 	}
 	
