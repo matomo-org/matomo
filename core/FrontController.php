@@ -9,6 +9,9 @@
  * @package Piwik
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Option.php';

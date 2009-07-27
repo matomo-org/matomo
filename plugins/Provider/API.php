@@ -8,6 +8,10 @@
  * 
  * @package Piwik_Provider
  */
+
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
 /**

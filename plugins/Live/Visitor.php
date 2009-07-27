@@ -9,6 +9,9 @@
  * @package Piwik_Live
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';

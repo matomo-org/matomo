@@ -9,6 +9,9 @@
  * @package Piwik
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+
 require_once PIWIK_INCLUDE_PATH . '/libs/Smarty/Smarty.class.php';
 
 class Piwik_Smarty extends Smarty 

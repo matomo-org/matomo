@@ -8,6 +8,10 @@
  * 
  * @package Piwik_UserCountry
  */
+
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+
 require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
