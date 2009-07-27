@@ -9,6 +9,9 @@
  * @package Piwik
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Menu.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/AdminMenu.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/WidgetsList.php';

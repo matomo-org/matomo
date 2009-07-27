@@ -19,7 +19,11 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View($template);
 		$this->setGeneralVariablesView($view);
+
+		// layout was JSON.stringified
 		$layout = html_entity_decode($this->getLayout());
+		$layout = str_replace("\\\"", "\"", $layout);
+
 		if(!empty($layout)
 			&& strstr($layout, '[[') == false) {
 			$layout = "'$layout'";
