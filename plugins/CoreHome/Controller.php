@@ -31,12 +31,6 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		parent::redirectToIndex('CoreHome', 'index');
 	}
 	
-	protected function setGeneralVariablesView($view)
-	{
-		parent::setGeneralVariablesView($view);
-		$view->menu = Piwik_GetMenu();
-	}
-
 	public function showInContext()
 	{
 		$controllerName = Piwik_Common::getRequestVar('moduleToLoad');
@@ -51,6 +45,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('CoreHome/templates/index.tpl');
 		$this->setGeneralVariablesView($view);
+		$view->menu = Piwik_GetMenu();
 		$view->content = '';
 		return $view;
 	}

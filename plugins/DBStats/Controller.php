@@ -11,17 +11,12 @@
 
 class Piwik_DBStats_Controller extends Piwik_Controller
 {
-	protected function setGeneralVariablesView($view)
-	{
-		parent::setGeneralVariablesView($view);
-		$view->menu = Piwik_GetAdminMenu();
-	}
-
 	function index()
 	{
 		$view = new Piwik_View('DBStats/templates/DBStats.tpl');
 		$view->tablesStatus = Piwik_DBStats_API::getAllTablesStatus();
 		$this->setGeneralVariablesView($view);
+		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();		
 	}
 }

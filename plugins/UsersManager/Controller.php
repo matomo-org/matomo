@@ -16,12 +16,6 @@
  */
 class Piwik_UsersManager_Controller extends Piwik_Controller
 {
-	protected function setGeneralVariablesView($view)
-	{
-		parent::setGeneralVariablesView($view);
-		$view->menu = Piwik_GetAdminMenu();
-	}
-
 	function index()
 	{
 		$view = new Piwik_View('UsersManager/templates/UsersManager.tpl');
@@ -72,6 +66,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$view->formUrl = Piwik_Url::getCurrentUrl();
 		$view->websites = Piwik_SitesManager_API::getSitesWithAdminAccess();
 		$this->setGeneralVariablesView($view);
+		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}
 }

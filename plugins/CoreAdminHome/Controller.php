@@ -32,12 +32,6 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		header("Location:index.php?module=" . $module);
 	}
 
-	protected function setGeneralVariablesView($view)
-	{
-		parent::setGeneralVariablesView($view);
-		$view->menu = Piwik_GetAdminMenu();
-	}
-
 	public function index()
 	{
 		Piwik::checkUserIsSuperUser();
@@ -50,6 +44,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		$view = new Piwik_View('CoreAdminHome/templates/index.tpl');
 		$view->content = '';
 		$this->setGeneralVariablesView($view);
+		$view->menu = Piwik_GetAdminMenu();
 		return $view;
 	}
 }
