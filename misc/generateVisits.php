@@ -13,7 +13,14 @@ $daysToCompute = 5;
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
-define('PIWIK_INCLUDE_PATH', '..');
+if(file_exists('../bootstrap.php'))
+{
+	require_once '../bootstrap.php';
+}
+if(!defined('PIWIK_INCLUDE_PATH'))
+{
+	define('PIWIK_INCLUDE_PATH', '..');
+}
 ignore_user_abort(true);
 set_time_limit(0);
 
