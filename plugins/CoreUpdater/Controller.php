@@ -130,6 +130,10 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private function oneClick_Copy()
 	{
 		Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
+		if(PIWIK_INCLUDE_PATH !== PIWIK_DOCUMENT_ROOT)
+		{
+			Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT, true);
+		}
 		Piwik::unlinkRecursive($this->pathRootExtractedPiwik, true);
 	}
 	

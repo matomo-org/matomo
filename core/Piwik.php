@@ -1068,9 +1068,10 @@ class Piwik
 	 * 
 	 * @param string $source eg. './tmp/latest'
 	 * @param string $target eg. '.'
+	 * @param bool   $excludePhp
 	 * @return void
 	 */
-	static public function copyRecursive($source, $target )
+	static public function copyRecursive($source, $target, $excludePhp=false )
 	{
 		if ( is_dir( $source ) )
 		{
@@ -1086,22 +1087,41 @@ class Piwik
 				$sourcePath = $source . '/' . $entry;		   
 				if ( is_dir( $sourcePath ) )
 				{
-					self::copyRecursive( $sourcePath, $target . '/' . $entry );
+					self::copyRecursive( $sourcePath, $target . '/' . $entry, $excludePhp );
 					continue;
 				}
 				$destPath = $target . '/' . $entry;
-				self::copy($sourcePath, $destPath);
+				self::copy($sourcePath, $destPath, $excludePhp);
 			}
 			$d->close();
 		}
 		else
 		{
-			self::copy($source, $target);
+			self::copy($source, $target, $excludePhp);
 		}
 	}
 	
-	static public function copy($source, $dest)
+	/**
+	 * Copy individual file from $source to $target.
+	 * 
+	 * @param string $source eg. './tmp/latest/index.php'
+	 * @param string $target eg. './index.php'
+	 * @param bool   $excludePhp
+	 * @return bool
+	 */
+	static public function copy($source, $dest, $excludePhp=false)
 	{
+		static $phpExtensions = array('php', 'tpl');
+
+		if($excludePhp)
+		{
+			$path_parts = pathinfo($source);
+			if(in_array($path_parts['extension'], $phpExtensions))
+			{
+				return true;
+			}
+		}
+
 		if(!@copy( $source, $dest ))
 		{
 			@chmod($dest, 0755);
@@ -1118,6 +1138,7 @@ class Piwik
 		}
 		return true;
 	}
+
 	/**
 	 * API was simplified in 0.2.27, but we maintain backward compatibility 
 	 * when calling Piwik::prefixTable
