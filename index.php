@@ -18,9 +18,14 @@ if(ini_get('session.save_handler') == 'user')
 	@ini_set('session.save_path', '');
 }
 
+define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__));
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
+	if(file_exists(PIWIK_INCLUDE_PATH . '/bootstrap.php'))
+	{
+		require_once PIWIK_INCLUDE_PATH . '/bootstrap.php';
+	}
 }
 
 if((@include "Version.php") === false || !class_exists('Piwik_Version', false))
