@@ -249,6 +249,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		// will be updated in cookie
 		$this->visitorInfo['time_spent_ref_action'] = $serverTime - $this->visitorInfo['visit_last_action_time'];
 		$this->visitorInfo['visit_last_action_time'] = $serverTime;
+
+		Piwik_PostEvent('Tracker.knownVisitorInformation', $this->visitorInfo);
 	}
 	
 	/**
