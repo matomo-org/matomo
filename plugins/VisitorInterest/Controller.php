@@ -25,6 +25,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerVisitDuration" );
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
+		$view->setSortedColumn( 'label', 'asc' );
 		$view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_ColumnVisitDuration'));
 		$view->disableSort();
 		$view->disableExcludeLowPopulation();
