@@ -29,12 +29,14 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 	protected $pathView = 'Installation/templates/';
 	
+	protected $session;
+
 	public function __construct()
 	{
-		$session = new Zend_Session_Namespace("Installation");
-		if(!isset($session->currentStepDone)) 
+		$this->session = new Zend_Session_Namespace("Installation");
+		if(!isset($this->session->currentStepDone)) 
 		{
-			$session->currentStepDone = '';
+			$this->session->currentStepDone = '';
 		}
 		
 		Piwik_PostEvent('InstallationController.construct', $this);
@@ -61,8 +63,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					);
 		$this->skipThisStep( __FUNCTION__ );
 		$view->showNextStep = true;
-		$session = new Zend_Session_Namespace("Installation");
-		$session->currentStepDone = __FUNCTION__;		
+		$this->session->currentStepDone = __FUNCTION__;		
 		echo $view->render();
 	}
 	
@@ -86,8 +87,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 							&& $view->infos['pdo_mysql_ok']
 
 						;
-		$session = new Zend_Session_Namespace("Installation");
-		$session->currentStepDone = __FUNCTION__;
+		$this->session->currentStepDone = __FUNCTION__;
 
 		echo $view->render();
 	}
@@ -98,8 +98,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		
 		// case the user hits the back button
-		$session = new Zend_Session_Namespace("Installation");
-		$session->skipThisStep = array(
+		$this->session->skipThisStep = array(
 			'firstWebsiteSetup' => false,
 			'displayJavascriptCode' => false,
 		);
@@ -149,7 +148,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						$dbInfosConnectOnly['dbname'] = null;
 						Piwik::createDatabaseObject($dbInfosConnectOnly);
 						Piwik::createDatabase($dbInfos['dbname']);
-						$session->databaseCreated = true;
+						$this->session->databaseCreated = true;
 					}
 				}
 				
@@ -160,7 +159,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					throw new Exception(vsprintf("Your MySQL version is %s but Piwik requires at least %s.", array($mysqlVersion, $minimumMysqlVersion)));
 				}
 				
-				$session->db_infos = $dbInfos;
+				$this->session->db_infos = $dbInfos;
 				$this->redirectToNextStep( __FUNCTION__ );
 			} catch(Exception $e) {
 				$view->errorMessage = $e->getMessage();
@@ -182,7 +181,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
-		$session = new Zend_Session_Namespace("Installation");
 		$this->skipThisStep( __FUNCTION__ );
 		$this->createDbFromSessionInformation();
 		
@@ -192,8 +190,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->existingTablesDeleted = true;
 			
 			// when the user decides to drop the tables then we dont skip the next steps anymore
-			$session->skipThisStep['firstWebsiteSetup'] = false;
-			$session->skipThisStep['displayJavascriptCode'] = false;
+			// workaround ZF-1743
+			$tmp = $this->session->skipThisStep;
+			$tmp['firstWebsiteSetup'] = false;
+			$tmp['displayJavascriptCode'] = false;
+			$this->session->skipThisStep = $tmp;
 		}
 		
 		$tablesInstalled = Piwik::getTablesInstalled();
@@ -209,8 +210,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			{
 				$view->showReuseExistingTables = true;
 				// when the user reuses the same tables we skip the website creation step
-				$session->skipThisStep['firstWebsiteSetup'] = true;
-	                        $session->skipThisStep['displayJavascriptCode'] = true;
+				// workaround ZF-1743
+				$tmp = $this->session->skipThisStep;
+				$tmp['firstWebsiteSetup'] = true;
+	                        $tmp['displayJavascriptCode'] = true;
+				$this->session->skipThisStep = $tmp;
 			}
 		}
 		else
@@ -224,15 +228,15 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->showNextStep = true;
 		}
 		
-		if(isset($session->databaseCreated)
-			&& $session->databaseCreated === true)
+		if(isset($this->session->databaseCreated)
+			&& $this->session->databaseCreated === true)
 		{
-			$view->databaseName = $session->db_infos['dbname'];
+			$view->databaseName = $this->session->db_infos['dbname'];
 			$view->databaseCreated = true;
-			unset($session->databaseCreated);
+			unset($this->session->databaseCreated);
 		}
 		
-		$session->currentStepDone = __FUNCTION__;
+		$this->session->currentStepDone = __FUNCTION__;
 		echo $view->render();
 	}
 	
@@ -246,7 +250,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						__FUNCTION__
 					);
 		$this->skipThisStep( __FUNCTION__ );
-		$session = new Zend_Session_Namespace("Installation");
 
 		$form = new Piwik_Installation_FormGeneralSetup();
 		
@@ -258,7 +261,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				'email' 		=> $form->getSubmitValue('email'),
 			);
 			
-			$session->superuser_infos = $superUserInfos;
+			$this->session->superuser_infos = $superUserInfos;
 			
 			$host = 'http://api.piwik.org/1.0/';
 			$host .= 'subscribeNewsletter/';
@@ -295,11 +298,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$this->skipThisStep( __FUNCTION__ );
 		
 		$form = new Piwik_Installation_FormFirstWebsiteSetup();
-		$session = new Zend_Session_Namespace("Installation");
-		if( !isset($session->generalSetupSuccessMessage))
+		if( !isset($this->session->generalSetupSuccessMessage))
 		{
 			$view->displayGeneralSetupSuccess = true;
-			$session->generalSetupSuccessMessage = true;
+			$this->session->generalSetupSuccessMessage = true;
 		}
 		
 		if($form->validate())
@@ -318,9 +320,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						
 			try {
 				$result = $request->process();
-				$session->site_idSite = $result;
-				$session->site_name = $name;
-				$session->site_url = $url;
+				$this->session->site_idSite = $result;
+				$this->session->site_name = $name;
+				$this->session->site_url = $url;
 				
 				$this->redirectToNextStep( __FUNCTION__ );
 			} catch(Exception $e) {
@@ -334,7 +336,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	public function displayJavascriptCode()
 	{
-		$session = new Zend_Session_Namespace("Installation");
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
 		
 		$view = new Piwik_Installation_View(
@@ -344,27 +345,26 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					);
 		$this->skipThisStep( __FUNCTION__ );
 		
-		if( !isset($session->firstWebsiteSetupSuccessMessage))
+		if( !isset($this->session->firstWebsiteSetupSuccessMessage))
 		{
 			$view->displayfirstWebsiteSetupSuccess = true;
-			$session->firstWebsiteSetupSuccessMessage = true;
+			$this->session->firstWebsiteSetupSuccessMessage = true;
 		}
 		
 		
-		$view->websiteName = urldecode($session->site_name);
+		$view->websiteName = urldecode($this->session->site_name);
 		
-		$jsTag = Piwik::getJavascriptCode($session->site_idSite, Piwik_Url::getCurrentUrlWithoutFileName());
+		$jsTag = Piwik::getJavascriptCode($this->session->site_idSite, Piwik_Url::getCurrentUrlWithoutFileName());
 		
 		$view->javascriptTag = $jsTag;
 		$view->showNextStep = true;
 		
-		$session->currentStepDone = __FUNCTION__;
+		$this->session->currentStepDone = __FUNCTION__;
 		echo $view->render();
 	}
 	
 	public function finished()
 	{
-		$session = new Zend_Session_Namespace("Installation");
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
 
 		$view = new Piwik_Installation_View(
@@ -375,7 +375,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$this->skipThisStep( __FUNCTION__ );
 		$this->writeConfigFileFromSession();
 
-		$session->currentStepDone = __FUNCTION__;		
+		$this->session->currentStepDone = __FUNCTION__;		
 		$view->showNextStep = false;
 		
 		@Zend_Session::destroy(true);
@@ -394,15 +394,14 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	protected function writeConfigFileFromSession()
 	{
-		$session = new Zend_Session_Namespace("Installation");
-		if(!isset($session->superuser_infos)
-			|| !isset($session->db_infos))
+		if(!isset($this->session->superuser_infos)
+			|| !isset($this->session->db_infos))
 		{
 			return;
 		}
 		$config = Zend_Registry::get('config');
-		$config->superuser = $session->superuser_infos;
-		$config->database = $session->db_infos;
+		$config->superuser = $this->session->superuser_infos;
+		$config->database = $this->session->db_infos;
 	}
 	
 	/**
@@ -412,7 +411,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 */
 	protected function checkPreviousStepIsValid( $currentStep )
 	{
-		$session = new Zend_Session_Namespace("Installation");
 		$error = false;
 		
 		// first we make sure that the config file is not present, ie. Installation state is expected
@@ -423,7 +421,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		} catch(Exception $e) {
 		}
 		
-		if(empty($session->currentStepDone))
+		if(empty($this->session->currentStepDone))
 		{
 			$error = true;
 		}
@@ -433,7 +431,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$currentStepId = array_search($currentStep, $this->steps);
 			
 			// the step before
-			$previousStepId = array_search($session->currentStepDone, $this->steps);
+			$previousStepId = array_search($this->session->currentStepDone, $this->steps);
 	
 			// not OK if currentStepId > previous+1
 			if( $currentStepId > $previousStepId + 1 )
@@ -455,16 +453,14 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 	protected function redirectToNextStep($currentStep)
 	{
-		$session = new Zend_Session_Namespace("Installation");
-		$session->currentStepDone = $currentStep;
+		$this->session->currentStepDone = $currentStep;
 		$nextStep = $this->steps[1 + array_search($currentStep, $this->steps)];
 		Piwik::redirectToModule('Installation' , $nextStep);
 	}
 	
 	protected function createDbFromSessionInformation()
 	{
-		$session = new Zend_Session_Namespace("Installation");
-		$dbInfos = $session->db_infos;
+		$dbInfos = $this->session->db_infos;
 		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 		Zend_Registry::get('config')->database = $dbInfos;
 		Piwik::createDatabaseObject($dbInfos);
@@ -543,9 +539,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	protected function skipThisStep( $step )
 	{
-		$session = new Zend_Session_Namespace("Installation");
-		if(isset($session->skipThisStep[$step])
-			&& $session->skipThisStep[$step])
+		if(isset($this->session->skipThisStep[$step])
+			&& $this->session->skipThisStep[$step])
 		{
 			$this->redirectToNextStep($step);
 		}
