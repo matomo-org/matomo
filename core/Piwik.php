@@ -1236,6 +1236,7 @@ class Piwik
 			$db = Zend_Db::factory($config->database->adapter, $dbInfos);
 			$db->getConnection();
 			// see http://framework.zend.com/issues/browse/ZF-1398
+			$db->getConnection()->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
 			$db->getConnection()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 			$db->getConnection()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);		
 			Zend_Db_Table::setDefaultAdapter($db);
