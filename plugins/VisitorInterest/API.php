@@ -78,7 +78,7 @@ function Piwik_getDurationLabel($label)
 	}
 	$time = intval($label) / 60;
 	$plusXMin = Piwik_Translate('VisitorInterest_PlusXMin');
-	return sprintf($plusXMin, '+' . $time);
+	return sprintf($plusXMin, $time . urlencode('+'));
 }
 
 function Piwik_getPageGapLabel($label)
