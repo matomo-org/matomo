@@ -73,7 +73,7 @@ class Piwik_Updater
 	public function update($name)
 	{
 		$warningMessages = array();
-		foreach($this->componentsWithUpdateFile[$name] as $fileVersion => $file)
+		foreach($this->componentsWithUpdateFile[$name] as $file => $fileVersion)
 		{
 			try {
 				require_once $file; // prefixed by PIWIK_INCLUDE_PATH
@@ -91,7 +91,7 @@ class Piwik_Updater
 	}
 	
 	/**
-	 * @return array array( componentName => array( file1, [...]), [...])
+	 * @return array array( componentName => array( file1 => version1, [...]), [...])
 	 */
 	private function loadComponentsWithUpdateFile()
 	{
@@ -103,11 +103,11 @@ class Piwik_Updater
 			
 			if($name == 'core')
 			{
-				$pathToUpdates = $this->pathUpdateFileCore . '*';
+				$pathToUpdates = $this->pathUpdateFileCore . '*.php';
 			}
 			else
 			{
-				$pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*';
+				$pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
 			}
 			
 			$files = glob( $pathToUpdates );
@@ -120,7 +120,7 @@ class Piwik_Updater
 				$fileVersion = basename($file, '.php');
 				if(version_compare($currentVersion, $fileVersion) == -1)
 				{
-					$componentsWithUpdateFile[$name][$fileVersion] = $file;
+					$componentsWithUpdateFile[$name][$file] = $fileVersion;
 				}
 			}
 			
@@ -197,6 +197,35 @@ class Piwik_Updater
 		}
 		return $componentsToUpdate;
 	}
+
+	/**
+	 * Performs database update(s)
+	 */
+	static function updateDatabase($file, $sqlarray)
+	{
+		foreach($sqlarray as $update => $ignoreError)
+		{
+			try {
+				Piwik_Query( $update );
+			} catch(Exception $e) {
+				if(($ignoreError === false) || !preg_match($ignoreError, $e->getMessage()))
+				{
+					$message =  $file .":\nError trying to execute the query '". $update ."'.\nThe error was: ". $e->getMessage();
+					throw new Piwik_Updater_UpdateErrorException($message);
+				}
+			}
+		}
+	}
 }
+
+// If you encountered an error during the database update:
+// - correct the source of the problem
+// - execute the remaining queries in the update that failed
+// - manually update the `option` table in your Piwik database, setting the value of version_core to the version of the failed update
+// - re-run the updater (through the browser or command-line) to continue with the remaining updates
+//
+// If the source of the problem is:
+// - insufficient memory:  increase memory_limit
+// - browser timeout: increase max_execution_time or run the updater from the command-line (shell)
 
 class Piwik_Updater_UpdateErrorException extends Exception {}

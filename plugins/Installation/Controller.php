@@ -205,8 +205,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->tablesInstalled = implode(", ", $tablesInstalled);
 			$view->someTablesInstalled = true;
 			
-			$minimumCountPiwikTables = 14;
-			if(count($tablesInstalled) >= $minimumCountPiwikTables )
+			$minimumCountPiwikTables = 12;
+			$baseTablesInstalled = preg_grep('/archive_numeric|archive_blob/', $tablesInstalled, PREG_GREP_INVERT);
+			if(count($baseTablesInstalled) >= $minimumCountPiwikTables )
 			{
 				$view->showReuseExistingTables = true;
 				// when the user reuses the same tables we skip the website creation step

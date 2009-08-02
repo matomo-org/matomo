@@ -1,26 +1,23 @@
 <?php
 
-// restore previously deleted columns
-$optionalUpdates = array(
-	"ALTER TABLE `".Piwik::prefixTable('log_visit')."` 
-		ADD `config_java` TINYINT(1) NOT NULL AFTER `config_flash` ;",
-	"ALTER TABLE `".Piwik::prefixTable('log_visit')."` 
-		ADD `config_quicktime` TINYINT(1) NOT NULL AFTER `config_director` ;",
-);
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
 
-foreach($optionalUpdates as $update)
+class Piwik_Updates_0_4_2
 {
-	try {
-		Piwik_Query( $update );
-	} catch(Zend_Db_Statement_Exception $e) {
-		// ignore mysql code error 1060: duplicate column
-		if(!preg_match('/1060/', $e->getMessage()))
-		{
-			throw $e;
-		}
+	// when restoring (possibly) previousy dropped columns, ignore mysql code error 1060: duplicate column
+	static function update()
+	{
+		Piwik_Updater::updateDatabase(__FILE__, array(
+			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
+				ADD `config_java` TINYINT(1) NOT NULL AFTER `config_flash`' => '/1060/',
+			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
+				ADD `config_quicktime` TINYINT(1) NOT NULL AFTER `config_director`' => '/1060/',
+			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
+				ADD `config_gears` TINYINT(1) NOT NULL AFTER  `config_windowsmedia`,
+				ADD `config_silverlight` TINYINT(1) NOT NULL AFTER `config_gears`' => false,
+		));
 	}
 }
 
-Piwik_Query( "ALTER TABLE `".Piwik::prefixTable('log_visit')."` 
-		ADD `config_gears` TINYINT(1) NOT NULL AFTER  `config_windowsmedia`,
-		ADD `config_silverlight` TINYINT(1) NOT NULL AFTER `config_gears` ;");
+Piwik_Updates_0_4_2::update();

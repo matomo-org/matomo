@@ -1,14 +1,21 @@
 <?php
-require_once PIWIK_INCLUDE_PATH . '/plugins/SitesManager/API.php';
 
-// alter table to set the utf8 collation
-$tablesToAlter = Piwik::getTablesInstalled(true);
-foreach($tablesToAlter as $table) {
-	Piwik_Query("ALTER TABLE `". $table . "` 
-				 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ");
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+
+class Piwik_Updates_0_2_33
+{
+	static function update()
+	{
+		// alter table to set the utf8 collation
+		$tablesToAlter = Piwik::getTablesInstalled(true);
+		foreach($tablesToAlter as $table) {
+			$sqlarray[ 'ALTER TABLE `'. $table .'`
+				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' ] = false;
+		}
+
+		Piwik_Updater::updateDatabase(__FILE__, $sqlarray);
+	}
 }
-// force regeneration of cache files as we add 'hosts' entry in it
-Piwik::setUserIsSuperUser();
-$allSiteIds = Piwik_SitesManager_API::getAllSitesId();
-Piwik_Common::regenerateCacheWebsiteAttributes($allSiteIds);
 
+Piwik_Updates_0_2_33::update();
