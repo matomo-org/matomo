@@ -1,9 +1,18 @@
 <?php
-try {
-	Piwik_Query('DROP TABLE IF EXISTS `'. Piwik::prefixTable('option') . '`');
-	$tables = Piwik::getTablesCreateSql();
-	$optionTable = $tables['option'];
-	Piwik_Query( $optionTable );
-} catch (Exception $e) {
-	throw new Piwik_Updater_UpdateErrorException("Error trying to re-create the option table in Mysql: " . $e->getMessage());
+
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+
+class Piwik_Updates_0_2_13
+{
+	static function update()
+	{
+		$tables = Piwik::getTablesCreateSql();
+		Piwik_Updater::updateDatabase(__FILE__, array(
+			'DROP TABLE IF EXISTS `'. Piwik::prefixTable('option') .'`' => false,
+			$tables['option'] => false,
+		));
+	}
 }
+
+Piwik_Updates_0_2_13::update();
