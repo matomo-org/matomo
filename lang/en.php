@@ -185,6 +185,7 @@ $translations = array(
 	'CoreUpdater_CreatingBackupOfConfigurationFile' => 'Creating a backup of the configuration file in %s',
 	'CoreUpdater_InstallingTheLatestVersion' => 'Installing the latest version',
 	'CoreUpdater_PiwikUpdatedSuccessfully' => 'Piwik updated successfully!',
+	'CoreUpdater_EmptyDatabaseError' => 'Database %s is empty. You must edit or remove your Piwik configuration file.',
 	'Actions_Actions' => 'Actions',
 	'Actions_SubmenuPages' => 'Pages',
 	'Actions_SubmenuOutlinks' => 'Outlinks',
