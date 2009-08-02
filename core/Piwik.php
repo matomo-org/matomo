@@ -491,7 +491,7 @@ class Piwik
 		$prefixTables = $config->database->tables_prefix;
 		$tables = array(
 			'user' => "CREATE TABLE {$prefixTables}user (
-						  login VARCHAR(20) NOT NULL,
+						  login VARCHAR(100) NOT NULL,
 						  password CHAR(32) NOT NULL,
 						  alias VARCHAR(45) NOT NULL,
 						  email VARCHAR(100) NOT NULL,
@@ -503,7 +503,7 @@ class Piwik
 			",
 			
 			'access' => "CREATE TABLE {$prefixTables}access (
-						  login VARCHAR(20) NOT NULL,
+						  login VARCHAR(100) NOT NULL,
 						  idsite INTEGER UNSIGNED NOT NULL,
 						  access VARCHAR(10) NULL,
 						  PRIMARY KEY(login, idsite)

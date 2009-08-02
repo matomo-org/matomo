@@ -59,7 +59,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		// we catch the exception
 		try{
 			$sql = "CREATE TABLE ". Piwik::prefixTable('user_language')." (
-					login VARCHAR( 20 ) NOT NULL ,
+					login VARCHAR( 100 ) NOT NULL ,
 					language VARCHAR( 10 ) NOT NULL ,
 					PRIMARY KEY ( login )
 					)  DEFAULT CHARSET=utf8 " ;
