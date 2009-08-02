@@ -28,11 +28,13 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 }
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__));
 
-if((@include "Version.php") === false || !class_exists('Piwik_Version', false))
+if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
 {
-	ini_set('include_path', PIWIK_INCLUDE_PATH . '/core'
-	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
-	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+	define('PIWIK_INCLUDE_SEARCH_PATH', PIWIK_INCLUDE_PATH . '/core'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+	@ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
+	@set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 }
 
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
