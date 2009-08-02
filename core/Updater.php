@@ -57,7 +57,7 @@ class Piwik_Updater
 	/**
 	 * Returns a list of components (core | plugin) that need to run through the upgrade process.
 	 *
-	 * @return array( componentName => array( updateFile1, [...]), [...])
+	 * @return array( componentName => array( file1 => version1, [...]), [...])
 	 */
 	public function getComponentsWithUpdateFile()
 	{
@@ -106,7 +106,7 @@ class Piwik_Updater
 	}
 	
 	/**
-	 * @return array array( componentName => array( file1 => version1, [...]), [...])
+	 * @return array( componentName => array( file1 => version1, [...]), [...])
 	 */
 	private function loadComponentsWithUpdateFile()
 	{
