@@ -35,7 +35,11 @@ class Test_Piwik_Updater extends Test_Database
     	$updateFiles = $componentsWithUpdateFile['testpluginUpdates'];
     	$this->assertTrue(count($updateFiles) == 2);
     	
-    	$expectedInOrder = array('0.1beta2.php', '0.1.php');
+	$path = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/testpluginUpdates/';
+    	$expectedInOrder = array(
+		$path . '0.1beta2.php' => '0.1beta2',
+		$path . '0.1.php' => '0.1'
+	);
     	$this->assertEqual(array_map("basename", $updateFiles), $expectedInOrder);
     	
     }
