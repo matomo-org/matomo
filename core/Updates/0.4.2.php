@@ -1,9 +1,6 @@
 <?php
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
-
-class Piwik_Updates_0_4_2
+class Piwik_Updates_0_4_2 implements Piwik_iUpdate
 {
 	// when restoring (possibly) previousy dropped columns, ignore mysql code error 1060: duplicate column
 	static function update()
@@ -19,5 +16,3 @@ class Piwik_Updates_0_4_2
 		));
 	}
 }
-
-Piwik_Updates_0_4_2::update();

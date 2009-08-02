@@ -1,9 +1,6 @@
 <?php
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
-
-class Piwik_Updates_0_2_12
+class Piwik_Updates_0_2_12 implements Piwik_iUpdate
 {
 	static function update()
 	{
@@ -15,5 +12,3 @@ class Piwik_Updates_0_2_12
 		));
 	}
 }
-
-Piwik_Updates_0_2_12::update();

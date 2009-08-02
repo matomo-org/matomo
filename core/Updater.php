@@ -77,6 +77,21 @@ class Piwik_Updater
 		{
 			try {
 				require_once $file; // prefixed by PIWIK_INCLUDE_PATH
+
+				if($name == 'core')
+				{
+					$className = 'Piwik_Updates_' . str_replace('.', '_', $fileVersion);
+				}
+				else
+				{
+					$className = 'Piwik_'. $name .'_Updates_' . str_replace('.', '_', $fileVersion);
+				}
+
+				if(class_exists($className))
+				{
+					call_user_func( array($className, 'update') );
+				}
+
 				$this->recordComponentSuccessfullyUpdated($name, $fileVersion);
 			} catch( Piwik_Updater_UpdateErrorException $e) {
 				throw $e;
