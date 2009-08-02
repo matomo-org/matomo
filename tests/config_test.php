@@ -1,15 +1,11 @@
 <?php
-if(file_exists('../bootstrap.php'))
+if(!defined("PIWIK_PATH_TEST_TO_ROOT")) 
 {
-	require_once '../bootstrap.php';
+	define('PIWIK_PATH_TEST_TO_ROOT', '..');
 }
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
-	define('PIWIK_INCLUDE_PATH', '..');
-}
-if(!defined("PIWIK_PATH_TEST_TO_ROOT")) 
-{
-	define('PIWIK_PATH_TEST_TO_ROOT', PIWIK_INCLUDE_PATH);
+	define('PIWIK_INCLUDE_PATH', PIWIK_PATH_TEST_TO_ROOT);
 }
 
 ini_set('include_path', PIWIK_INCLUDE_PATH . '/core'
