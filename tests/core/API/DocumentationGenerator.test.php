@@ -14,6 +14,8 @@ class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 	function test_callableApiMethods_doNotFail()
 	{
 		Piwik::createConfigObject();
+		Zend_Registry::get('config')->setTestEnvironment();	
+		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 		Piwik::createLogObject();
 		Piwik::createAccessObject();
 		Piwik::createDatabaseObject();
