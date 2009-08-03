@@ -24,13 +24,15 @@ $toInclude = array();
 
 foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core', '*.php') as $file)
 {
-	if($file !== PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php')
+	if(preg_match('/Database|ReleaseCheckList/', $file))
 	{
-		$toInclude[] = $file;
+		continue;
 	}
+	$toInclude[] = $file;
 }
 sort($toInclude);
 array_unshift($toInclude, PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php');
+$toInclude[] = PIWIK_INCLUDE_PATH . '/tests/core/ReleaseCheckList.test.php';
 foreach($toInclude as $file)
 {
 	if(substr_count($file, 'test.php') == 0

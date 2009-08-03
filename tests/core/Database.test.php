@@ -78,9 +78,14 @@ class FakeAccess
 		}
 	}
 	
+	static public function setSuperUser()
+	{
+		self::$superUser = true;
+	}
+
 	static public function reloadAccess()
 	{}
-	
+
 	static public function checkUserHasAdminAccess( $idSites )
 	{
 		if(!self::$superUser)
@@ -129,6 +134,22 @@ class FakeAccess
 			}
 		}
 	}
+
+	static public function checkUserHasSomeViewAccess()
+	{
+		if(!self::$superUser)
+		{
+			if( count(self::$idSitesView) == 0 )
+			{
+				throw new Exception("checkUserHasSomeViewAccess Fake exception // string not to be tested");
+			}
+		}
+		else
+		{
+			return;
+		}
+	}
+
 	//means at least view access
 	static public function checkUserHasSomeAdminAccess()
 	{
