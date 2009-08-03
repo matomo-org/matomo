@@ -16,9 +16,9 @@ class Test_Database extends UnitTestCase
 		print("The test class extends Test_Database: the test Piwik database is created once in the constructor, and all tables are truncated at the end of EACH unit test method.<br>");
 		
 		Piwik::createConfigObject();
-		Piwik::createDatabaseObject();
 		Zend_Registry::get('config')->setTestEnvironment();	
 		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
+		Piwik::createDatabaseObject();
 		Piwik::createLogObject();
 
 		Piwik::dropDatabase();
