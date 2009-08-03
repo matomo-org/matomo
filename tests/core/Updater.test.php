@@ -7,9 +7,8 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once PIWIK_PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
 
-//Zend_Loader::loadClass('Piwik_');
-require_once "Updater.php";
-require_once "Database.test.php";
+require_once 'Database.test.php';
+
 class Test_Piwik_Updater extends Test_Database 
 {
     public function test_updaterChecksCoreVersion_andDetectsUpdateFile()
