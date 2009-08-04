@@ -9,8 +9,17 @@
  * @package Piwik_ExampleAPI
  */
 
+/** 
+ * ExampleAPI plugin
+ *
+ * @package Piwik_ExampleAPI
+ */
 class Piwik_ExampleAPI extends Piwik_Plugin
 {
+	/**
+	 * Return information about this plugin.
+	 * @return array
+	 */
 	public function getInformation()
 	{
 		return array(

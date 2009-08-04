@@ -9,6 +9,11 @@
  * @package Piwik_Actions
  */
 
+/**
+ * Actions controller
+ *
+ * @package Piwik_Actions
+ */
 class Piwik_Actions_Controller extends Piwik_Controller 
 {
 	public function index()
