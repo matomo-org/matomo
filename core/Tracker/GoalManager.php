@@ -83,6 +83,7 @@ class Piwik_Tracker_GoalManager
 			if(		($actionType == Piwik_Tracker_Action::TYPE_ACTION && $attribute != 'url')
 				||	($actionType == Piwik_Tracker_Action::TYPE_DOWNLOAD && $attribute != 'file')
 				||	($actionType == Piwik_Tracker_Action::TYPE_OUTLINK && $attribute != 'external_website')
+				||	($attribute == 'manually')
 				)
 			{
 				continue;
