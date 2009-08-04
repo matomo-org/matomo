@@ -10,6 +10,10 @@
  */
 	
 /**
+ * Actions plugin
+ *
+ * Reports about the page views, the outlinks and downloads.
+ *
  * @package Piwik_Actions
  */
 class Piwik_Actions extends Piwik_Plugin

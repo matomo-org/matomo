@@ -10,7 +10,8 @@
  */
 
 /**
- * 
+ * Actions API
+ *
  * @package Piwik_Actions
  */
 class Piwik_Actions_API
