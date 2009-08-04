@@ -87,7 +87,7 @@ class Piwik_Updater
 					$className = 'Piwik_'. $name .'_Updates_' . str_replace('.', '_', $fileVersion);
 				}
 
-				if(class_exists($className))
+				if(class_exists($className, false))
 				{
 					call_user_func( array($className, 'update') );
 				}
