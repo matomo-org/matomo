@@ -253,7 +253,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Cuil
 		'www.cuil.com'			=> array('Cuil', 'q', 'search?q={k}'),
-	
+
+		// Daemon search
+		'www.daemon-search.com'         => array('Daemon search', 'q', 'explore/web?q={k}'),
+
 		// DasOertliche
 		'www.dasoertliche.de'	        => array('DasOertliche', 'kw'),
 		
@@ -972,7 +975,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		
 		// Plazoo
 		'www.plazoo.com' 		=> array('Plazoo', 'q'),
-		
+
+		// Poisk.Ru
+		'poisk.ru'                      => array('Poisk.Ru', 'text', 'cgi-bin/poisk?text={k}', 'windows-1251'),
+
 		// Postami
 		'www.postami.com' 		=> array('Postami', 'query'),
 		
@@ -990,7 +996,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.qualigo.nl'	        => array('Qualigo', 'q'),
 		
 		// Rambler
-		'nova.rambler.ru'           => array('Rambler', 'query', 'search?query={k}'), 
+		'nova.rambler.ru'           => array('Rambler', array('query', 'words'), 'search?query={k}'), 
 		'search.rambler.ru' 		=> array('Rambler', 'words'),
 		'www.rambler.ru'            => array('Rambler', 'words'),
 
@@ -1193,6 +1199,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'tw.search.yahoo.com' 		=> array('Yahoo!', 'p'),
 		'se.search.yahoo.com' => array('Yahoo!', 'p'),
 		'us.search.yahoo.com' => array('Yahoo!', 'p'),
+		'ru.search.yahoo.com'		=> array('Yahoo!', 'p', 'search?p={k}'),
 		'www.yahoo.com.cn' 		=> array('Yahoo!', 'p'),
 		
 		'de.dir.yahoo.com'		     => array('Yahoo! Webverzeichnis', ''),   
