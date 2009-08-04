@@ -30,9 +30,9 @@ var mappingMatchTypeName = {
 	"external_website": "external website URL" 
 };
 var mappingMatchTypeExamples = { 
-	"url": "eg. contains 'checkout/confirmation'<br>eg. is exactly 'http://example.com/thank-you.html'<br>eg. matches the expression '[.*]\\\/demo\\\/[.*]'", 
-	"file": "eg. contains 'files/brochure.pdf'<br>eg. is exactly 'http://example.com/files/brochure.pdf'<br>eg. matches the expression '[.*]\\\.zip'", 
-	"external_website": "eg. contains 'amazon.com'<br>eg. is exactly 'http://mypartner.com/landing.html'<br>eg. matches the expression 'http://www.amazon.com\\\/[.*]\\\/yourAffiliateId'" 
+	"url": "eg. contains 'checkout/confirmation'<br>eg. is exactly 'http://example.com/thank-you.html'<br>eg. matches the expression '(.*)\\\/demo\\\/(.*)'", 
+	"file": "eg. contains 'files/brochure.pdf'<br>eg. is exactly 'http://example.com/files/brochure.pdf'<br>eg. matches the expression '(.*)\\\.zip'", 
+	"external_website": "eg. contains 'amazon.com'<br>eg. is exactly 'http://mypartner.com/landing.html'<br>eg. matches the expression 'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'" 
 };
 
 bindGoalForm();
