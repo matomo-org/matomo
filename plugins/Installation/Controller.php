@@ -79,14 +79,21 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$this->skipThisStep( __FUNCTION__ );
 		
 		$view->infos = $this->getSystemInformation();
+		$view->helpMessages = array(
+			'PDO'            => 'Installation_SystemCheckPdoHelp',
+			'pdo_mysql'      => 'Installation_SystemCheckPdoMysqlHelp',
+			'zlib'           => 'Installation_SystemCheckZlibHelp',
+			'SPL'            => 'Installation_SystemCheckSplHelp',
+			'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
+			'mail'           => 'Installation_SystemCheckMailHelp',
+		);
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
 		
 		$view->showNextStep = !$view->problemWithSomeDirectories 
 							&& $view->infos['phpVersion_ok']
-							&& $view->infos['pdo_ok']
-							&& $view->infos['pdo_mysql_ok']
-
+							&& !count($view->infos['missing_extensions'])
 						;
+
 		$this->session->currentStepDone = __FUNCTION__;
 
 		echo $view->render();
@@ -480,21 +487,40 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['phpVersion_minimum'] = $minimumPhpVersion;
 		$infos['phpVersion'] = phpversion();
 		$infos['phpVersion_ok'] = version_compare( $minimumPhpVersion, $infos['phpVersion']) === -1;
-		
+
+		// critical errors
 		$extensions = @get_loaded_extensions();
-		
-		$infos['pdo_ok'] = false;
-		if (in_array('PDO', $extensions))  
+		$needed_extensions = array(
+			'PDO',
+			'pdo_mysql',
+			'zlib',
+			'SPL',
+		);
+		$infos['needed_extensions'] = $needed_extensions;
+		$infos['missing_extensions'] = array();
+		foreach($needed_extensions as $needed_extension)
 		{
-		    $infos['pdo_ok'] = true;
+			if(!in_array($needed_extension, $extensions))
+			{
+				$infos['missing_extensions'][] = $needed_extension;
+			}
 		}
-				
-		$infos['pdo_mysql_ok'] = false;
-		if (in_array('pdo_mysql', $extensions))  
+
+		// warnings
+		$needed_functions = array(
+			'set_time_limit',
+			'mail',
+		);
+		$infos['needed_functions'] = $needed_functions;
+		$infos['missing_functions'] = array();
+		foreach($needed_functions as $needed_function)
 		{
-		    $infos['pdo_mysql_ok'] = true;
+			if(!function_exists($needed_function))
+			{
+				$infos['missing_functions'][] = $needed_function;
+			}
 		}
-		
+
 		$infos['gd_ok'] = false;
 		if (in_array('gd', $extensions)) 
 		{
@@ -511,18 +537,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['serverOs'] = @php_uname();
 		$infos['serverTime'] = date('H:i:s');
 
-		$infos['setTimeLimit_ok'] = false;
-		if(function_exists( 'set_time_limit'))
-		{
-			$infos['setTimeLimit_ok'] = true;
-		}
-
-		$infos['mail_ok'] = false;
-		if(function_exists('mail'))
-		{
-			$infos['mail_ok'] = true;
-		}
-		
 		$infos['registerGlobals_ok'] = ini_get('register_globals') == 0;
 		$infos['memoryMinimum'] = $minimumMemoryLimit;
 		
