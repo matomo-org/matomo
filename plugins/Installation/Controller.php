@@ -126,13 +126,15 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				'port'			=> Zend_Registry::get('config')->database->port,
 			);
 
-			if($dbInfos['host'][0] == '/')
+			if(($portIndex = strpos($dbInfos['host'], '/')) !== false)
 			{
-				$dbInfos['unix_socket'] = $dbInfos['host'];
-				$dbInfos['host'] = '';
+				// unix_socket=/path/sock.n
+				$dbInfos['port'] = substr($dbInfos['host'], $portIndex);
+				$dbInfos['host'] = "";
 			}
-			else if(($portIndex = strpos($dbInfos['host'],':')) !== false)
+			else if(($portIndex = strpos($dbInfos['host'], ':')) !== false)
 			{
+				// host:port
 				$dbInfos['port'] = substr($dbInfos['host'], $portIndex + 1 );
 				$dbInfos['host'] = substr($dbInfos['host'], 0, $portIndex);
 			}

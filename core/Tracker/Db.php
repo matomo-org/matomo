@@ -35,6 +35,10 @@ class Piwik_Tracker_Db
 		{
 			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};unix_socket=${dbInfo['unix_socket']}";
 		}
+		else if ($dbInfo['port'][0] == '/')
+		{
+			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};unix_socket=${dbInfo['port']}";
+		}
 		else
 		{
 			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};host=${dbInfo['host']};port=${dbInfo['port']}";
