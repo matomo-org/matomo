@@ -1,37 +1,45 @@
 {assign var=ok value="<img src='themes/default/images/ok.png' />"}
 {assign var=error value="<img src='themes/default/images/error.png' />"}
 {assign var=warning value="<img src='themes/default/images/warning.png' />"}
+{assign var=link value="<img src='themes/default/images/link.gif' />"}
 
 <h1>{'Installation_SystemCheck'|translate}</h1>
-
 
 <table class="infosServer">
 	<tr>
 		<td class="label">{'Installation_SystemCheckPhp'|translate} &gt; {$infos.phpVersion_minimum}</td>
 		<td>{if $infos.phpVersion_ok}{$ok}{else}{$error}{/if}</td>
-	</tr><tr>
-		<td class="label">{'Installation_SystemCheckPdo'|translate}</td>
-		<td>{if $infos.pdo_ok}{$ok}
-		{else}{$error}{/if}	
-		</td>
-	</tr>  
+	</tr>
 	<tr>
-		<td class="label">{'Installation_SystemCheckPdoMysql'|translate}</td>
-		<td>{if $infos.pdo_mysql_ok}{$ok}
-		{else}{$error}
-		{/if}
-		
-		{if !$infos.pdo_mysql_ok || !$infos.pdo_ok}
-			<p class="error" style="width:80%">{'Installation_SystemCheckPdoError'|translate}
-			<small>
-			<br /><br />
-			{'Installation_SystemCheckPdoHelp'|translate:"<br/><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />":"<code>--with-pdo-mysql </code>":"<br/><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />"}
-			</small>
-			</p>
-		{/if}
-		
+		<td class="label">{'Installation_SystemCheckExtensions'|translate}</td>
+		<td>{foreach from=$infos.needed_extensions item=needed_extension}
+				{$needed_extension}
+				{if in_array($needed_extension, $infos.missing_extensions)}
+					{$error}
+				{else}
+					{$ok}
+				{/if}
+				<br />
+			{/foreach}
 		</td>
 	</tr>
+	{if count($infos.missing_extensions) gt 0}
+	<tr>
+		<td colspan="2">
+			<p class="error" style="width:80%">
+			<small>
+				{foreach from=$infos.missing_extensions item=missing_extension}
+					<p>
+					{$helpMessages[$missing_extension]|translate}
+					</p>
+				{/foreach}
+			</small>
+			</p>
+			{$link} <a href="http://piwik.org/docs/requirements/" target="_blank">{'Installation_Requirements'|translate}</a> 
+			<br />
+		</td>
+	</tr>
+	{/if}
 	<tr>
 		<td valign="top">
 			{'Installation_SystemCheckWriteDirs'|translate}
@@ -46,7 +54,6 @@
 		</td>
 	</tr>
 </table>
-
 {if $problemWithSomeDirectories}
 	<br />
 	<div class="error">
@@ -60,7 +67,7 @@
 	</div>
 	<br />
 {/if}
-<h1>Optional</h1>
+<h1>{'Optional'|translate}</h1>
 <table class="infos">
 	<tr>
 		<td class="label">{'Installation_SystemCheckMemoryLimit'|translate}</td>
@@ -77,13 +84,21 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="label">{'Installation_SystemCheckTimeLimit'|translate}</td>
-		<td>{if $infos.setTimeLimit_ok}{$ok}{else}{$warning}
-			<br /><i>{'Installation_SystemCheckTimeLimitHelp'|translate}</i>{/if}</td>
-	</tr>
-	<tr>
-		<td class="label">{'Installation_SystemCheckMail'|translate}</td>
-		<td>{if $infos.mail_ok}{$ok}{else}{$warning}{/if}</td>
+		<td class="label">{'Installation_SystemCheckFunctions'|translate}</td>
+		<td>{foreach from=$infos.needed_functions item=needed_function}
+				{$needed_function}
+				{if in_array($needed_function, $infos.missing_functions)}
+					{$warning}
+					<p>
+					<small>
+					{$helpMessages[$needed_function]|translate}
+					</small>
+					</p>
+				{else}
+					{$ok}<br />
+				{/if}
+			{/foreach}
+		</td>
 	</tr>
 </table>
 
@@ -100,7 +115,7 @@
 </style>
 {/literal}
 <div id="legend"><small>
-<b>Legend</b>
+<b>{'Installation_Legend'|translate}</b>
 <br />
 {$ok} {'General_Ok'|translate}<br />
 {$error} {'General_Error'|translate}: {'Installation_SystemCheckError'|translate} <br />
