@@ -1233,6 +1233,12 @@ class Piwik
 		Piwik_PostEvent('Reporting.createDatabase', $db);
 		if(is_null($db))
 		{
+			if($dbInfos['port'][0] == '/')
+			{
+				$dbInfos['unix_socket'] = $dbInfos['port'];
+				unset($dbInfos['host']);
+				unset($dbInfos['port']);
+			}
 			$db = Zend_Db::factory($config->database->adapter, $dbInfos);
 			$db->getConnection();
 			// see http://framework.zend.com/issues/browse/ZF-1398
