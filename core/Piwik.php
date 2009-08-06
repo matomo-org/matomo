@@ -930,37 +930,197 @@ class Piwik
 		$updaterController = new Piwik_CoreUpdater_Controller();
 		$updaterController->runUpdaterAndExit($updater, $componentsWithUpdateFile);
 	}
-	
+
 	/**
 	 * Sends http request ensuring the request will fail before $timeout seconds
-	 * Returns the response content (no header, trimmed)
-	 * @param string $url
+	 *
+	 * If no $destinationPath is specified, the trimmed response (without header) is returned as a string.
+	 * If a $destinationPath is specified, the response (without header) is saved to a file.
+	 *
+	 * @param string $aUrl
 	 * @param int $timeout
-	 * @return string|false false if request failed
+	 * @param string $userAgent
+	 * @param string $destinationPath
+	 * @param int $followDepth
+	 * @return true (or string) on success; false on HTTP response error code (1xx or 4xx); throws exception on all other errors
 	 */
-	static public function sendHttpRequest($url, $timeout)
+	static public function sendHttpRequest($aUrl, $timeout, $userAgent = null, $destinationPath = null, $followDepth = 0)
 	{
-		$response = false;
-		// we make sure the request takes less than a few seconds to fail
-		// we create a stream_context (works in php >= 5.2.1)
-		// we also set the socket_timeout (for php < 5.2.1) 
-		$default_socket_timeout = @ini_get('default_socket_timeout');
-		@ini_set('default_socket_timeout', $timeout);
-		
-		$ctx = null;
-		if(function_exists('stream_context_create')) {
-			$ctx = stream_context_create(array('http' => array( 'timeout' => $timeout)));
-		}
-		$response = trim(@file_get_contents($url, 0, $ctx));
-		
-		// restore the socket_timeout value
-		if(!empty($default_socket_timeout))
+		if ($followDepth > 3)
 		{
-			@ini_set('default_socket_timeout', $default_socket_timeout);
+			throw new Exception('Too many redirects ('.$followDepth.')');
 		}
-		return $response;
+
+		$file = null;
+		if($destinationPath)
+		{
+			if (($file = @fopen($destinationPath, 'wb')) === false)
+			{
+				throw new Exception('Error while creating the file: ' . $destinationPath);
+			}
+		}
+
+		// initialization
+		$url = @parse_url($aUrl);
+		if($url === false || !isset($url['scheme']))
+		{
+			throw new Exception('Malformed URL: '.$aUrl);
+		}
+
+		if($url['scheme'] != 'http')
+		{
+			throw new Exception('Invalid protocol/scheme: '.$url['scheme']);
+		}
+		$host = $url['host'];
+		$port = isset($url['port)']) ? $url['port'] : 80;;
+		$path = isset($url['path']) ? $url['path'] : '/';
+		if(isset($url['query']))
+		{
+			$path .= '?'.$url['query'];
+		}
+		$errno = null;
+		$errstr = null;
+
+		// connection attempt
+		if (($fsock = @fsockopen($host, $port, $errno, $errstr, $timeout)) === false)
+		{
+			if(is_resource($file)) { @fclose($file); }
+			throw new Exception("Error while connecting to: $host. Please try again later.");
+		}
+
+		// send HTTP request header
+		fwrite($fsock,
+			"GET $path HTTP/1.0\r\n"
+			."Host: $host".($port != 80 ? ':'.$port : '')."\r\n"
+			."User-Agent: Piwik/".Piwik_Version::VERSION.($userAgent ? " $userAgent" : '')."\r\n"
+			.'Referer: http://'.Piwik_Common::getIpString()."/\r\n"
+			."Connection: close\r\n"
+			."\r\n"
+		);
+
+		$streamMetaData = array('timed_out' => false);
+		@stream_set_blocking($fsock, true);
+		@stream_set_timeout($fsock, $timeout);
+
+		// process header
+		$status = null;
+		$expectRedirect = false;
+		$contentLength = 0;
+		$fileLength = 0;
+
+		while (!feof($fsock))
+		{
+			$line = fgets($fsock, 4096);
+
+			$streamMetaData = @stream_get_meta_data($fsock);
+			if($streamMetaData['timed_out'])
+			{
+				if(is_resource($file)) { @fclose($file); }
+				@fclose($fsock);
+				throw new Exception('Timed out waiting for server response');
+			}
+
+			// a blank line marks the end of the server response header
+			if(rtrim($line, "\r\n") == '')
+			{
+				break;
+			}
+
+			// parse first line of server response header
+			if(!$status)
+			{
+				// expect first line to be HTTP response status line, e.g., HTTP/1.1 200 OK
+				if(!preg_match('/^HTTP\/(\d\.\d)\s+(\d+)(\s*.*)?/', $line, $m))
+				{
+					if(is_resource($file)) { @fclose($file); }
+					@fclose($fsock);
+					throw new Exception('Expected server response code.  Got '.rtrim($line, "\r\n"));
+				}
+
+				$status = (integer) $m[2];
+
+				// Informational 1xx or Client Error 4xx
+				if ($status < 200 || $status >= 400)
+				{
+					if(is_resource($file)) { @fclose($file); }
+					@fclose($s);
+					return false;
+				}
+
+				continue;
+			}
+
+			// handle redirect
+			if(preg_match('/^Location:\s*(.+)/', rtrim($line, "\r\n"), $m))
+			{
+				if(is_resource($file)) { @fclose($file); }
+				@fclose($s);
+				// Successful 2xx vs Redirect 3xx
+				if($status < 300)
+				{
+					throw new Exception('Unexpected redirect to Location: '.rtrim($line).' for status code '.$status);
+				}
+				return self::sendHttpRequest(trim($m[1]), $pathDestination, $tries+1);
+			}
+
+			// save expected content length for later verification
+			if(preg_match('/^Content-Length:\s*(\d+)/', $line, $m))
+			{
+				$contentLength = (integer) $m[1];
+			}
+		}
+
+		if(feof($fsock))
+		{
+			throw new Exception('Unexpected end of transmission');
+		}
+
+		// process content/body
+		$response = '';
+
+		while (!feof($fsock))
+		{
+			$line = fgets($fsock, 4096);
+
+			$streamMetaData = @stream_get_meta_data($fsock);
+			if($streamMetaData['timed_out'])
+			{
+				if(is_resource($file)) { @fclose($file); }
+				@fclose($fsock);
+				throw new Exception('Timed out waiting for server response');
+			}
+
+			if(is_resource($file))
+			{
+				// save to file
+				$fileLength += fwrite($file, $line);
+			}
+			else
+			{
+				// concatenate to response string
+				$response .= $line;
+			}
+		}
+
+		// determine success or failure
+		@fclose(@$fsock);
+		if(is_resource($file))
+		{
+			@fclose($file);
+			if($contentLength && ($fileLength != $contentLength))
+			{
+				throw new Exception('File size error: '.$destinationPath.'; expected '.$contentLength.' bytes; received '.$fileLength.' bytes');
+			}
+			return true;
+		}
+
+		if($contentLength && strlen($response) != $contentLength)
+		{
+			throw new Exception('Content length error: expected '.$contentLength.' bytes; received '.$fileLength.' bytes');
+		}
+		return trim($response);
 	}
-	
+
 	/**
 	 * Fetch the file at $url in the destination $pathDestination
 	 * @param string $url
@@ -970,67 +1130,9 @@ class Piwik
 	 */
 	static public function fetchRemoteFile($url, $pathDestination, $tries = 0)
 	{
-		if ($tries > 3) {
-			return false;
-		}
-		
-		$file = @fopen($pathDestination, 'wb');
-		if(!$file) {
-			throw new Exception("Error while creating the file: ".$file);
-		}
-		$url = parse_url($url);
-		$host = $url['host'];
-		$path = $url['path'];
-		
-		if (($s = @fsockopen($host, $port = 80, $errno, $errstr, $timeout = 10)) === false) {
-			throw new Exception("Error while connecting to: $host. Please try again later.");
-		}
-		
-		fwrite($s,
-			'GET '.$path." HTTP/1.0\r\n"
-			.'Host: '.$host."\r\n"
-			."User-Agent: Piwik Update\r\n"
-			."\r\n"
-		);
-		
-		$i = 0;
-		$in_content = false;
-		while (!feof($s))
-		{
-			$line = fgets($s,4096);
-			if (rtrim($line,"\r\n") == '' && !$in_content) {
-				$in_content = true;
-				$i++;
-				continue;
-			}
-			if ($i == 0) {
-				if (!preg_match('/HTTP\/(\\d\\.\\d)\\s*(\\d+)\\s*(.*)/',rtrim($line,"\r\n"), $m)) {
-					fclose($s);
-					return false;
-				}
-				$status = (integer) $m[2];
-				if ($status < 200 || $status >= 400) {
-					fclose($s);
-					return false;
-				}
-			}
-			if (!$in_content) {
-				if (preg_match('/Location:\s+?(.+)$/',rtrim($line,"\r\n"),$m)) {
-					fclose($s);
-					return fetchRemote(trim($m[1]), $pathDestination, $tries+1);
-				}
-				$i++;
-				continue;
-			}
-			if (is_resource($file)) {
-				fwrite($file,$line);
-			}			
-			$i++;
-		}
-		fclose($s);
-		return true;
+		return self::sendHttpRequest($url, 10, 'Update', $pathDestination, $tries);
 	}
-	
+
 	/**
 	 * Recursively delete a directory
 	 *
@@ -1410,4 +1512,3 @@ class Piwik
 		$db->query( "DROP TABLE IF EXISTS ". implode(", ", self::getTablesNames()) );
 	}
 }
-
