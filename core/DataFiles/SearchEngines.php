@@ -140,7 +140,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'suche.aol.de'				=> array('AOL', array('query', 'q')),
 		'alicesuche.aol.de'			=> array('AOL', array('query', 'q')),
 		'suchet2.aol.de'			=> array('AOL', array('query', 'q')),
-		'search.hp.my.aol.com.au'	=> array('AOL', array('query', 'q'), 'aol/search?query={k}'),
+		'search.hp.my.aol.com.au'	=> array('AOL', array('query', 'q')),
 		'search.hp.my.aol.de'		=> array('AOL', array('query', 'q')),
 
 		// Aport
@@ -924,7 +924,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Nigma
 		'www.nigma.ru'				=> array('Nigma', 's', 'index.php?s={k}'),
-		'nigma.ru'					=> array('Nigma', 's', 'index.php?s={k}'),
+		'nigma.ru'					=> array('Nigma', 's'),
 
 		// Nomade
 		'ie4.nomade.fr'				=> array('Nomade', 's'),
@@ -976,7 +976,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// qip
 		'start.qip.ru'				=> array('qip.ru', 'query', 'search?query={k}'),
-		'search.qip.ru'				=> array('qip.ru', 'query', 'search?query={k}'),
+		'search.qip.ru'				=> array('qip.ru', 'query'),
 
 		// Quick searches
 		'data.quicksearches.net'	=> array('QuickSearches', 'q'),
@@ -1133,9 +1133,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'ricerca.virgilio.it'		=> array('Virgilio', 'qs'),
 
 		// vivisimo
-		'de.vivisimo.com'			=> array('Vivisimo', 'query', 'search/?query={k}&dlang=de&v%3Aproject=de-vivisimo-com'),
 		'vivisimo.com'				=> array('Vivisimo', 'query', 'search/?query={k}'),
-		'search.vivisimo.com'		=> array('Vivisimo', 'query', 'search/?query={k}'),
+		'search.vivisimo.com'		=> array('Vivisimo', 'query'),
+
+		'de.vivisimo.com'			=> array('Vivisimo', 'query', 'search/?query={k}&dlang=de&v%3Aproject=de-vivisimo-com'),
 
 		// Voila
 		'search.voila.com'			=> array('Voila', 'kw'),
@@ -1171,8 +1172,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.yahoo.fr'			=> array('Yahoo!', 'p'),
 		'fi.yahoo.com'				=> array('Yahoo!', 'p'),
 		'ar.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'au.search.yahoo.com'		=> array('Yahoo!', 'p', 'search?p={k}'),
-		'au.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
+		'au.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'br.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'ch.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'de.search.yahoo.com'		=> array('Yahoo!', 'p'),
@@ -1192,8 +1192,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'tw.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'se.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'us.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'ru.search.yahoo.com'		=> array('Yahoo!', 'p', 'search?p={k}'),
+		'ru.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'www.yahoo.com.cn'			=> array('Yahoo!', 'p'),
+
+		'au.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
 
 		'de.dir.yahoo.com'			=> array('Yahoo! Webverzeichnis', ''),
 		'cf.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
