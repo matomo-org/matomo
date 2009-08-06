@@ -53,6 +53,14 @@ color:#9B9B9B;
 				</td>
 			</tr>
 		</tbody>
+		<tbody id="manual_trigger_section" style="display:none">
+			<tr>
+				<td>where the visited page</td>
+				<td>
+					manually calls the JavaScript piwikTracker.trackGoal() method (<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/javascript-tracking/'>learn more</a>)
+				</td>
+			</tr>
+		</tbody>
 		<tbody>
 			<tr>
 				<td>(optional) Goal default value is </td>

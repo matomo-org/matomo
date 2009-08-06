@@ -23,6 +23,7 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
 		$('select[name=trigger_type] option[value=manually]').attr('selected', true);
 		$('input[name=match_attribute]').attr('disabled', true);
 		$('#match_attribute_section').hide();
+		$('#manual_trigger_section').show();
 		matchAttribute = 'url';
 	} else {
 		$('select[name=trigger_type] option[value=visitors]').attr('selected', true);
@@ -54,9 +55,11 @@ function bindGoalForm()
 		if(triggerTypeId == "manually") {
 			$('input[name=match_attribute]').attr('disabled', true);
 			$('#match_attribute_section').hide();
+			$('#manual_trigger_section').show();
 		} else {
 			$('input[name=match_attribute]').removeAttr('disabled');
 			$('#match_attribute_section').show();
+			$('#manual_trigger_section').hide();
 		}
 	});
 
