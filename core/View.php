@@ -20,7 +20,7 @@ class Piwik_View implements Piwik_iView
 	private $smarty = false;
 	private $variables = array();
 	
-	public function __construct( $templateFile, $smConf = array())
+	public function __construct( $templateFile, $smConf = array(), $filter = true )
 	{
 		$this->template = $templateFile;
 		$this->smarty = new Piwik_Smarty();
@@ -50,9 +50,12 @@ class Piwik_View implements Piwik_iView
 		$this->smarty->error_reporting = $smConf->error_reporting;
 
 		$this->smarty->assign('tag', 'piwik=' . Piwik_Version::VERSION);
-		$this->smarty->load_filter('output', 'cachebuster');
+		if($filter)
+		{
+			$this->smarty->load_filter('output', 'cachebuster');
 
-		$this->smarty->load_filter('output', 'trimwhitespace');
+			$this->smarty->load_filter('output', 'trimwhitespace');
+		}
 		
 		// global value accessible to all templates: the piwik base URL for the current request
 		$this->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
