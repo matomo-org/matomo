@@ -33,15 +33,15 @@ function smarty_outputfilter_cachebuster($source, &$smarty)
 	$tag = $smarty->get_template_vars('tag');
 
 	$pattern = array(
-		'/<script type="text\/javascript" src="([^"]+)">/',
-		'/<script src="([^"]+)" type="text\/javascript">/',
-		'/<link rel="stylesheet" type="text\/css" href="([^"]+)"/'
+		'~<script type="text/javascript" src="([^"]+)">~',
+		'~<script src="([^"]+)" type="text/javascript">~',
+		'~<link rel="stylesheet" type="text/css" href="([^"]+)"~',
 	);
 
 	$replace = array(
 		'<script type="text/javascript" src="$1?'. $tag .'">',
-		'<script src="$1?'. $tag .'" type="text/javascript" >',
-		'<link rel="stylesheet" type="text/css" href="$1?'. $tag .'"'
+		'<script src="$1?'. $tag .'" type="text/javascript">',
+		'<link rel="stylesheet" type="text/css" href="$1?'. $tag .'"',
 	);
 
 	return preg_replace($pattern, $replace, $source);
