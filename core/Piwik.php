@@ -117,7 +117,7 @@ class Piwik
 	{	
 		$jsTag = file_get_contents( PIWIK_INCLUDE_PATH . "/core/Tracker/javascriptTag.tpl");
 		$jsTag = nl2br(htmlentities($jsTag));
-		$piwikUrl = preg_match('/^(http|https):\/\/(.*)$/', $piwikUrl, $matches);
+		$piwikUrl = preg_match('~^(http|https)://(.*)$~', $piwikUrl, $matches);
 		$piwikUrl = $matches[2];
 		$jsTag = str_replace('{$actionName}', $actionName, $jsTag);
 		$jsTag = str_replace('{$idSite}', $idSite, $jsTag);
@@ -1030,7 +1030,7 @@ class Piwik
 			if(!$status)
 			{
 				// expect first line to be HTTP response status line, e.g., HTTP/1.1 200 OK
-				if(!preg_match('/^HTTP\/(\d\.\d)\s+(\d+)(\s*.*)?/', $line, $m))
+				if(!preg_match('~^HTTP/(\d\.\d)\s+(\d+)(\s*.*)?~', $line, $m))
 				{
 					if(is_resource($file)) { @fclose($file); }
 					@fclose($fsock);

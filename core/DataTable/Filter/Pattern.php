@@ -34,7 +34,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	
 	static public function getPatternQuoted( $pattern )
 	{
-		return "/". str_replace('/','\/', $pattern) ."/";
+		return '/'. str_replace('/', '\/', $pattern) .'/';
 	}
 	
 	/*

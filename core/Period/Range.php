@@ -141,7 +141,7 @@ class Piwik_Period_Range extends Piwik_Period
 			
 			$startDate = $this->removePeriod($endDate, $lastN);
 		}
-		elseif(preg_match('/([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}),([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2})/', $this->strDate, $regs))
+		elseif(preg_match('/([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})/', $this->strDate, $regs))
 		{
 			$strDateStart = $regs[1];
 			$strDateEnd = $regs[2];

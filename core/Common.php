@@ -287,7 +287,7 @@ class Piwik_Common
 	 */
 	static public function isValidFilename($filename)
 	{
-		return (0 !== preg_match("/(^[a-zA-Z0-9]+([a-zA-Z\_0-9\.-]*))$/" , $filename));
+		return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z_0-9.-]*))$/', $filename));
 	}
 	
 	/**
@@ -300,7 +300,7 @@ class Piwik_Common
 	 */
 	static function isLookLikeUrl( $url )
 	{
-		return preg_match('/^(ftp|news|http|https)?:\/\/(.*)$/', $url, $matches) !== 0
+		return preg_match('~^(ftp|news|http|https)?://(.*)$~', $url, $matches) !== 0
 				&& strlen($matches[2]) > 0;
 	}
 
@@ -613,7 +613,7 @@ class Piwik_Common
 			$browserLang = preg_replace($replacementPatterns, '', $browserLang);
 
 			$browserLang = preg_replace('/((^|,)chrome:.*)/', '', $browserLang, 1); // Firefox bug
-			$browserLang = preg_replace('/(,)(?:en-securid,)|(?:(^|,)en-securid(,|$))/', '\\1',	$browserLang, 1); // unregistered language tag
+			$browserLang = preg_replace('/(,)(?:en-securid,)|(?:(^|,)en-securid(,|$))/', '$1',	$browserLang, 1); // unregistered language tag
 
 			$browserLang = str_replace('sr-sp', 'sr-rs', $browserLang); // unofficial (proposed) code in the wild
 		}
@@ -680,7 +680,7 @@ class Piwik_Common
  			}
  		}
  
-		if(!empty($validCountries) && preg_match_all("/[-]([a-z]{2})/", $browserLanguage, $matches, PREG_SET_ORDER))
+		if(!empty($validCountries) && preg_match_all('/[-]([a-z]{2})/', $browserLanguage, $matches, PREG_SET_ORDER))
  		{
 			foreach($matches as $parts)
  			{
@@ -706,7 +706,7 @@ class Piwik_Common
 	{
 		// assumes language preference is sorted;
 		// does not handle language-script-region tags or language range (*)
-		if(!empty($validLanguages) && preg_match_all("/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/", $browserLanguage, $matches, PREG_SET_ORDER))
+		if(!empty($validLanguages) && preg_match_all('/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/', $browserLanguage, $matches, PREG_SET_ORDER))
  		{
 			foreach($matches as $parts)
  			{

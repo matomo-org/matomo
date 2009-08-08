@@ -136,7 +136,7 @@ abstract class Piwik_Archive
 		elseif(is_string($strDate) 
 			&& (
 				preg_match('/^(last|previous){1}([0-9]*)$/', $strDate, $regs)
-				|| preg_match('/^([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}),([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2})$/', $strDate, $regs)
+				|| preg_match('/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$/', $strDate, $regs)
 				)
 			)
 		{
