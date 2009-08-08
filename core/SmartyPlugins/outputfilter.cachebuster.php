@@ -30,7 +30,7 @@
  */
 function smarty_outputfilter_cachebuster($source, &$smarty)
 {
-	$tag = preg_quote($smarty->get_template_vars('tag'));
+	$tag = $smarty->get_template_vars('tag');
 
 	$pattern = array(
 		'~<script type="text/javascript" src="([^"]+)">~',
