@@ -282,7 +282,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		// if the referer is Live! or Bing we check if the IP comes from microsoft 
 		// we don't count their cloak checks requests (which really is "Live referer spam") see #686
 		if( in_array($refererInfo['referer_name'], array("Live", "Bing"))
-			&& preg_match("/^65\.55/", long2ip($userInfo['location_ip'])))
+			&& preg_match('/^65\.55/', long2ip($userInfo['location_ip'])))
 		{
 			throw new Piwik_Tracker_Visit_Excluded("Spam Live bot, go away, you're making me cry");
 		}
