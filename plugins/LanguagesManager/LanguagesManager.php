@@ -33,7 +33,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 
 	function css()
 	{
-		echo '<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />';
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
 	}
 	
 	function showLanguagesSelector()

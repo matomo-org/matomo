@@ -29,7 +29,7 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 
 	function css()
 	{
-		echo '<link rel="stylesheet" type="text/css" href="plugins/ExampleRssWidget/templates/styles.css" />';
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/ExampleRssWidget/templates/styles.css\" />\n";
 	}
 }
 
