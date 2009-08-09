@@ -41,7 +41,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 
 	function css()
 	{
-		echo '<link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />';
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/Dashboard/templates/dashboard.css\" />\n";
 	}
 	
 	public function install()
