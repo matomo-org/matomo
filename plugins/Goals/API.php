@@ -35,6 +35,11 @@ class Piwik_Goals_API
 		foreach($goals as &$goal)
 		{
 			unset($goal['idsite']);
+			if($goal['match_attribute'] == 'manually') {
+			    unset($goal['pattern']);
+			    unset($goal['pattern_type']);
+			    unset($goal['case_sensitive']);
+			}
 			$cleanedGoals[$goal['idgoal']] = $goal;
 		}
 		return $cleanedGoals;
