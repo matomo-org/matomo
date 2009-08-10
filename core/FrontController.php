@@ -127,7 +127,7 @@ class Piwik_FrontController
 	
 	/**
 	 * Often plugins controller display stuff using echo/print.
-	 * Using this function instead of dispath() returns the output string form the actions calls.
+	 * Using this function instead of dispatch() returns the output string form the actions calls.
 	 *
 	 * @param string $controllerName
 	 * @param string $actionName
@@ -143,8 +143,8 @@ class Piwik_FrontController
 		{
 			$output = ob_get_contents();
 		}
-	    ob_end_clean();
-	    return $output;
+		ob_end_clean();
+		return $output;
 	}
 	
 	/**
