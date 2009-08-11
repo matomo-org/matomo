@@ -16,6 +16,11 @@
  */
 class Piwik_View implements Piwik_iView
 {
+	// view types
+	const CLASSIC = 0;
+	const MOBILE = 1;
+	const CLI = 2;
+
 	private $template = '';
 	private $smarty = false;
 	private $variables = array();
@@ -183,5 +188,69 @@ class Piwik_View implements Piwik_iView
 		{
 			$value = PIWIK_INCLUDE_PATH ."/$value";
 		}
+	}
+
+	/**
+	 * View factory method
+	 *
+	 * @param $templateName (e.g., 'index')
+	 * @param $viewType     (e.g., Piwik_View::CLI; default us Piwik_View::CLASSIC)
+	 */
+	static public function factory( $templateName, $viewType = null)
+	{
+		// get caller
+		$bt = debug_backtrace();
+		if(!isset($bt[0]))
+		{
+			throw new Exception("View factory cannot be invoked directly");
+		}
+		$path = dirname($bt[0]['file']);
+
+		// determine best view type
+		if($viewType === null)
+		{
+			// TODO: #920 - mobile detection
+
+			if(Piwik::isPhpCliMode())
+			{
+				$viewType = self::CLI;
+			}
+			else
+			{
+				$viewType = self::CLASSIC;
+			}
+		}
+
+		// get template filename
+		if($viewType == self::CLI)
+		{
+			$templateFile = $path.'/templates/cli_'.$templateName.'.tpl';
+			if(file_exists($templateFile))
+			{
+				return new Piwik_View($templateFile, array(), false);
+			}
+
+			$viewType = self::CLASSIC;
+		}
+
+		if($viewType == self::MOBILE)
+		{
+			$templateFile = $path.'/templates/mobile_'.$templateName.'.tpl';
+			if(!file_exists($templateFile))
+			{
+				$viewType = self::CLASSIC;
+			}
+		}
+
+		if($viewType != self::MOBILE)
+		{
+			$templateFile = $path.'/templates/'.$templateName.'.tpl';
+			if(!file_exists($templateFile))
+			{
+				throw new Exception('Template not found: '.$templateFile);
+			}
+		}
+
+		return new Piwik_View($templateFile);
 	}
 }
