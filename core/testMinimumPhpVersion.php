@@ -10,7 +10,7 @@
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
 /**
  * This file is executed before anything else. 

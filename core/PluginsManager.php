@@ -10,7 +10,7 @@
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Menu.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/AdminMenu.php';
