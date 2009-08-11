@@ -175,23 +175,23 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		{
 			@set_time_limit(0);
 
-			$view = new Piwik_View('CoreUpdater/templates/cli_update_welcome.tpl', null, false);
+			$view = Piwik_View::factory('update_welcome');
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 
 			if(!$this->coreError)
 			{
-				$view = new Piwik_View('CoreUpdater/templates/cli_update_database_done.tpl', null, false);
+				$view = Piwik_View::factory('update_database_done');
 				$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 			}
 		}
 		else if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1)
 		{
-			$view = new Piwik_View('CoreUpdater/templates/update_database_done.tpl');
+			$view = Piwik_View::factory('update_database_done');
 			$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 		}
 		else
 		{
-			$view = new Piwik_View('CoreUpdater/templates/update_welcome.tpl');
+			$view = Piwik_View::factory('update_welcome');
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 		}
 		exit;
