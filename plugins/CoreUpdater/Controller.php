@@ -129,11 +129,36 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_Copy()
 	{
+		/*
+		 * Copy all files to PIWIK_INCLUDE_PATH.
+		 * These files are accessed through the dispatcher.
+		 */
 		Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
+
+		/*
+		 * These files are visible in the web root and are generally
+		 * served directly by the web server.
+		 */
 		if(PIWIK_INCLUDE_PATH !== PIWIK_DOCUMENT_ROOT)
 		{
+			$specialCases = array(
+				'/index.php',
+				'/piwik.php',
+				'/js/index.php',
+			);
+
+			foreach($specialCases as $file)
+			{
+				Piwik::copy($this->pathRootExtractedPiwik . $file,
+					PIWIK_DOCUMENT_ROOT . $file);
+			}
+
+			/*
+			 * Copy the non-PHP files (e.g., images, css, javascript)
+			 */
 			Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT, true);
 		}
+
 		Piwik::unlinkRecursive($this->pathRootExtractedPiwik, true);
 	}
 	
