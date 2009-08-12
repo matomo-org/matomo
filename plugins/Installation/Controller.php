@@ -80,17 +80,18 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		$view->infos = $this->getSystemInformation();
 		$view->helpMessages = array(
-			'PDO'            => 'Installation_SystemCheckPdoHelp',
-			'pdo_mysql'      => 'Installation_SystemCheckPdoMysqlHelp',
 			'zlib'           => 'Installation_SystemCheckZlibHelp',
 			'SPL'            => 'Installation_SystemCheckSplHelp',
 			'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
 			'mail'           => 'Installation_SystemCheckMailHelp',
 		);
+
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
 		
 		$view->showNextStep = !$view->problemWithSomeDirectories 
 							&& $view->infos['phpVersion_ok']
+							&& $view->infos['pdo_ok']
+							&& $view->infos['pdo_mysql_ok']
 							&& !count($view->infos['missing_extensions'])
 						;
 
@@ -495,8 +496,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		// critical errors
 		$extensions = @get_loaded_extensions();
 		$needed_extensions = array(
-			'PDO',
-			'pdo_mysql',
 			'zlib',
 			'SPL',
 		);
@@ -508,6 +507,18 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			{
 				$infos['missing_extensions'][] = $needed_extension;
 			}
+		}
+
+		$infos['pdo_ok'] = false;
+		if (in_array('PDO', $extensions))
+		{
+			$infos['pdo_ok'] = true;
+		}
+
+		$infos['pdo_mysql_ok'] = false;
+		if (in_array('pdo_mysql', $extensions))
+		{
+			$infos['pdo_mysql_ok'] = true;
 		}
 
 		// warnings
@@ -556,6 +567,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['memoryCurrent'] = $memoryValue."M";
 			$infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;
 		}
+
+		$infos['isWindows'] = substr(PHP_OS, 0, 3) == "WIN";
 		
 		return $infos;
 	}
