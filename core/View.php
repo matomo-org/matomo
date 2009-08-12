@@ -17,7 +17,7 @@
 class Piwik_View implements Piwik_iView
 {
 	// view types
-	const CLASSIC = 0;
+	const STANDARD = 0; // REGULAR, FULL, CLASSIC
 	const MOBILE = 1;
 	const CLI = 2;
 
@@ -194,10 +194,12 @@ class Piwik_View implements Piwik_iView
 	 * View factory method
 	 *
 	 * @param $templateName (e.g., 'index')
-	 * @param $viewType     (e.g., Piwik_View::CLI; default us Piwik_View::CLASSIC)
+	 * @param $viewType     (e.g., Piwik_View::CLI)
 	 */
 	static public function factory( $templateName, $viewType = null)
 	{
+		Piwik_PostEvent('View.getViewType', $viewType);
+
 		// get caller
 		$bt = debug_backtrace();
 		if(!isset($bt[0]))
@@ -209,15 +211,13 @@ class Piwik_View implements Piwik_iView
 		// determine best view type
 		if($viewType === null)
 		{
-			// TODO: #920 - mobile detection
-
 			if(Piwik::isPhpCliMode())
 			{
 				$viewType = self::CLI;
 			}
 			else
 			{
-				$viewType = self::CLASSIC;
+				$viewType = self::STANDARD;
 			}
 		}
 
@@ -230,7 +230,7 @@ class Piwik_View implements Piwik_iView
 				return new Piwik_View($templateFile, array(), false);
 			}
 
-			$viewType = self::CLASSIC;
+			$viewType = self::STANDARD;
 		}
 
 		if($viewType == self::MOBILE)
@@ -238,7 +238,7 @@ class Piwik_View implements Piwik_iView
 			$templateFile = $path.'/templates/mobile_'.$templateName.'.tpl';
 			if(!file_exists($templateFile))
 			{
-				$viewType = self::CLASSIC;
+				$viewType = self::STANDARD;
 			}
 		}
 

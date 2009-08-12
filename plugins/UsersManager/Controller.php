@@ -18,7 +18,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$view = new Piwik_View('UsersManager/templates/UsersManager.tpl');
+		$view = Piwik_View::factory('UsersManager');
 		
 		$IdSitesAdmin = Piwik_SitesManager_API::getSitesIdWithAdminAccess();
 		$idSiteSelected = 1;

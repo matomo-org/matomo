@@ -41,7 +41,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 	
 	protected function getDefaultIndexView()
 	{
-		$view = new Piwik_View('CoreAdminHome/templates/index.tpl');
+		$view = Piwik_View::factory('index');
 		$view->content = '';
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();

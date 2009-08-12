@@ -17,7 +17,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 {	
 	function index()
 	{		
-		$view = new Piwik_View('Feedback/templates/index.tpl');
+		$view = Piwik_View::factory('index');
 		echo $view->render();
 	}
 
@@ -29,7 +29,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 		$body = Piwik_Common::getRequestVar('body', '', 'string');
 		$email = Piwik_Common::getRequestVar('email', '', 'string');
 
-		$view = new Piwik_View('Feedback/templates/sent.tpl');
+		$view = Piwik_View::factory('sent');
 		try 
 		{
 			$minimumBodyLength = 35;

@@ -17,7 +17,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$view = new Piwik_View('SitesManager/templates/SitesManager.tpl');
+		$view = Piwik_View::factory('SitesManager');
 		$sites = Piwik_SitesManager_API::getSitesWithAdminAccess();
 		foreach($sites as &$site)
 		{
@@ -34,7 +34,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		$idSite = Piwik_Common::getRequestVar('idsite', 1);
 		Piwik::checkUserHasViewAccess($idSite);
 		$jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
-		$view = new Piwik_View('SitesManager/templates/DisplayJavascriptCode.tpl');
+		$view = Piwik_View::factory('DisplayJavascriptCode');
 		$view->menu = Piwik_GetAdminMenu();
 		$view->jsTag = $jsTag;
 		echo $view->render();

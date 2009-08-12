@@ -40,7 +40,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			}
 		}
 
-		$view = new Piwik_View('Login/templates/login.tpl');
+		$view = Piwik_View::factory('login');
 		// make navigation login form -> reset password -> login form remember your first url
 		$view->urlToRedirect = $urlToRedirect;
 		$view->AccessErrorString = $messageNoAccess;
@@ -107,7 +107,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$this->lostPasswordFormValidated($loginMail, $urlToRedirect);
 			return;
 		}
-		$view = new Piwik_View('Login/templates/lostPassword.tpl');
+		$view = Piwik_View::factory('lostPassword');
 		$view->AccessErrorString = $messageNoAccess;
 		// make navigation login form -> reset password -> login form remember your first url
 		$view->urlToRedirect = $urlToRedirect;
@@ -146,7 +146,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 		else
 		{
-			$view = new Piwik_View('Login/templates/passwordsent.tpl');
+			$view = Piwik_View::factory('passwordsent');
 				
 			$login = $user['login'];
 			$email = $user['email'];

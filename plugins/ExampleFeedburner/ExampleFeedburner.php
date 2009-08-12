@@ -53,7 +53,7 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 	 */
 	function feedburner()
 	{
-		$view = new Piwik_View('ExampleFeedburner/templates/feedburner.tpl');
+		$view = Piwik_View::factory('feedburner');
 		$idSite = Piwik_Common::getRequestVar('idSite',1,'int');
 		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName FROM '.Piwik::prefixTable('site').
 								' WHERE idsite = ?', $idSite );

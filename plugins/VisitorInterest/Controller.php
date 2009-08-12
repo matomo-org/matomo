@@ -13,7 +13,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$view = new Piwik_View('VisitorInterest/templates/index.tpl');
+		$view = Piwik_View::factory('index');
 		$view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
 		$view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
 		echo $view->render();

@@ -17,7 +17,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 {
 	protected function getDashboardView($template)
 	{
-		$view = new Piwik_View($template);
+		$view = Piwik_View::factory($template);
 		$this->setGeneralVariablesView($view);
 
 		// layout was JSON.stringified
@@ -35,13 +35,13 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	
 	public function embeddedIndex()
 	{
-		$view = $this->getDashboardView('Dashboard/templates/index.tpl');
+		$view = $this->getDashboardView('index');
 		echo $view->render();
 	}
 	
 	public function index()
 	{
-		$view = $this->getDashboardView('Dashboard/templates/standalone.tpl');
+		$view = $this->getDashboardView('standalone');
 		echo $view->render();
 	}
 	

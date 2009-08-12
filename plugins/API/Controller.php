@@ -34,7 +34,7 @@ class Piwik_API_Controller extends Piwik_Controller
 	
 	public function listAllAPI()
 	{
-		$view = new Piwik_View("API/templates/listAllAPI.tpl");
+		$view = Piwik_View::factory("listAllAPI");
 		$this->setGeneralVariablesView($view);
 		
 		$ApiDocumentation = new Piwik_API_DocumentationGenerator();

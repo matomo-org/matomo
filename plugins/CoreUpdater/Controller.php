@@ -25,7 +25,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		Piwik::checkUserIsSuperUser();
 		$newVersion = $this->checkNewVersionIsAvailableOrDie();
 		
-		$view = new Piwik_View('CoreUpdater/templates/update_new_version_available.tpl');
+		$view = Piwik_View::factory('update_new_version_available');
 		$view->piwik_version = Piwik_Version::VERSION;
 		$view->piwik_new_version = $newVersion;
 		echo $view->render();
@@ -59,7 +59,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			}
 		}
 		
-		$view = new Piwik_View('CoreUpdater/templates/update_one_click_done.tpl');
+		$view = Piwik_View::factory('update_one_click_done');
 		$view->coreError = $errorMessage;
 		$view->feedbackMessages = $messages;
 		echo $view->render();
