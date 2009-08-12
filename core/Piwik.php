@@ -1016,7 +1016,7 @@ class Piwik
 			if (($fsock = @fsockopen($host, $port, $errno, $errstr, $timeout)) === false || !is_resource($fsock))
 			{
 				if(is_resource($file)) { @fclose($file); }
-				throw new Exception("Error while connecting to: $host. Please try again later.");
+				throw new Exception("Error while connecting to: $host. Please try again later. $errstr");
 			}
 
 			// send HTTP request header
