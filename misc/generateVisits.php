@@ -4,6 +4,11 @@
  * for a given number of days.
  */
 
+if(file_exists('../bootstrap.php'))
+{
+	require_once '../bootstrap.php';
+}
+
 // TODO - generator should generate pages with slash, then test that period archiving doesn't show the unique page view
 // TODO - should generate goals with keyword or referer that are not found for this day, to simulate a referer 5 days ago and conversion today
 $minVisitors = 200;
@@ -13,10 +18,6 @@ $daysToCompute = 5;
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
-if(file_exists('../bootstrap.php'))
-{
-	require_once '../bootstrap.php';
-}
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', '..');

@@ -7,15 +7,16 @@
  * @version $Id$
  */
 
+if(file_exists('bootstrap.php'))
+{
+	require_once 'bootstrap.php';
+}
+
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false; 
 
 define('PIWIK_TRACKER_MODE', true);
 error_reporting(E_ALL|E_NOTICE);
 
-if(file_exists('bootstrap.php'))
-{
-	require_once 'bootstrap.php';
-}
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));

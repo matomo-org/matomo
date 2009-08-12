@@ -9,8 +9,16 @@
  * @package Piwik
  */
 
+if(file_exists('bootstrap.php'))
+{
+	require_once 'bootstrap.php';
+}
+
 error_reporting(E_ALL|E_NOTICE);
-@ini_set('display_errors', 1);
+if(!defined('PIWIK_DISPLAY_ERRORS') || PIWIK_DISPLAY_ERRORS)
+{
+	@ini_set('display_errors', 1);
+}
 @ini_set('magic_quotes_runtime', 0);
 if(ini_get('session.save_handler') == 'user')
 {
@@ -18,10 +26,6 @@ if(ini_get('session.save_handler') == 'user')
 	@ini_set('session.save_path', '');
 }
 
-if(file_exists('bootstrap.php'))
-{
-	require_once 'bootstrap.php';
-}
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
