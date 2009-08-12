@@ -32,9 +32,13 @@ class Piwik_UpdateCheck
 
 			$url = self::PIWIK_HOST . "?" . http_build_query($parameters, '', '&');
 			$timeout = self::SOCKET_TIMEOUT;
-			$latestVersion = Piwik::sendHttpRequest($url, $timeout);
+			try {
+				$latestVersion = Piwik::sendHttpRequest($url, $timeout);
+				Piwik_SetOption(self::LATEST_VERSION, $latestVersion);
+			} catch(Exception $e) {
+				// e.g., disable_functions = fsockopen; allow_url_open = Off
+			}
 			Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoload = 1);
-			Piwik_SetOption(self::LATEST_VERSION, $latestVersion);
 		}
 	}
 	

@@ -79,6 +79,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 		$this->pathPiwikZip = PIWIK_INCLUDE_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . '/latest.zip';
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
+
+		// we catch exceptions in the caller (i.e., oneClickUpdate)
 		$fetched = Piwik::fetchRemoteFile(self::LATEST_PIWIK_URL, $this->pathPiwikZip);
 	}
 	

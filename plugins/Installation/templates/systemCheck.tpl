@@ -78,6 +78,12 @@
 		</td>
 	</tr>
 	<tr>
+		<td class="label">{'Installation_SystemCheckOpenURL'|translate}</td>
+		<td>
+			{if $infos.openurl}{$infos.openurl} {$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckOpenURLHelp'|translate}</i>{/if}
+		</td>
+	</tr>
+	<tr>
 		<td class="label">{'Installation_SystemCheckGD'|translate}</td>
 		<td>
 			{if $infos.gd_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckGDHelp'|translate}</i>{/if}

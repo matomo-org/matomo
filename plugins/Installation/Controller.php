@@ -287,7 +287,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				if( !isset($params['security']))  { $params['security'] = '0'; } 
 				if( !isset($params['community'])) { $params['community'] = '0'; } 
 				$url = $host . "?" . http_build_query($params, '', '&');
-				Piwik::sendHttpRequest($url, $timeout = 2);
+				try {
+					Piwik::sendHttpRequest($url, $timeout = 2);
+				} catch(Exception $e) {
+					// e.g., disable_functions = fsockopen; allow_url_open = Off
+				}
 			}
 			$this->redirectToNextStep( __FUNCTION__ );
 		}
@@ -520,6 +524,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				$infos['missing_functions'][] = $needed_function;
 			}
 		}
+
+		$infos['openurl'] = Piwik::getTransportMethod();
 
 		$infos['gd_ok'] = false;
 		if (in_array('gd', $extensions)) 
