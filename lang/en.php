@@ -689,6 +689,8 @@ $translations = array(
 	'Installation_SystemCheckWriteDirsHelp' => 'To fix this error on your Linux system, try typing in the following command(s)',
 	'Installation_SystemCheckMemoryLimit' => 'Memory limit',
 	'Installation_SystemCheckMemoryLimitHelp' => 'On a high traffic website, the archiving process may require more memory than currently allowed.  If necessary, change the memory_limit directive in your php.ini file.',
+	'Installation_SystemCheckOpenURL' => 'Open URL',
+	'Installation_SystemCheckOpenURLHelp' => 'Newsletter subscriptions, update notifications, and one-click updates requires the "curl" extension, allow_url_fopen=On, or fsockopen() enabled.',
 	'Installation_SystemCheckGD' => 'GD &gt; 2.x (graphics)',
 	'Installation_SystemCheckGDHelp' => 'The sparklines (small graphs) will not work.',
 	'Installation_SystemCheckFunctions' => 'Required functions',
