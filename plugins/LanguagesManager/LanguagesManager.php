@@ -38,7 +38,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	
 	function showLanguagesSelector()
 	{
-		$view = new Piwik_View("LanguagesManager/templates/languages.tpl");
+		$view = Piwik_View::factory("languages");
 		$view->languages = Piwik_LanguagesManager_API::getAvailableLanguageNames();
 		$view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
 		$view->currentLanguageName = self::getLanguageNameForCurrentUser();

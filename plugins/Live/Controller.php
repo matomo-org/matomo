@@ -13,7 +13,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 {
 	function widget()
 	{
-		$view = new Piwik_View('Live/templates/index.tpl');		
+		$view = Piwik_View::factory('index');		
 		$this->setGeneralVariablesView($view);
 		$view->visitors = $this->getLastVisits($fetch = true);
 		echo $view->render();
@@ -26,7 +26,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		$limit = 10;
 		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$idSite&limit=$limit&minIdVisit=$minIdVisit&format=php&serialize=0&disable_generic_filters=1");
 		
-		$view = new Piwik_View('Live/templates/lastVisits.tpl');
+		$view = Piwik_View::factory('lastVisits');
 		$visitors = $api->process();
 		if($minIdVisit == 0)
 		{
@@ -44,7 +44,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 	
 	function index()
 	{
-		$view = new Piwik_View('Live/templates/structure.tpl');
+		$view = Piwik_View::factory('structure');
 		$this->setGeneralVariablesView($view);
 		$view->visitors = $this->getLastVisits($fetch = true);
 		echo $view->render();

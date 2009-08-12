@@ -13,7 +13,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$view = new Piwik_View('DBStats/templates/DBStats.tpl');
+		$view = Piwik_View::factory('DBStats');
 		$view->tablesStatus = Piwik_DBStats_API::getAllTablesStatus();
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();

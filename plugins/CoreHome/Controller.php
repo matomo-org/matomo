@@ -43,7 +43,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	
 	protected function getDefaultIndexView()
 	{
-		$view = new Piwik_View('CoreHome/templates/index.tpl');
+		$view = Piwik_View::factory('index');
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetMenu();
 		$view->content = '';

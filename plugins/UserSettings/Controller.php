@@ -13,7 +13,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$view = new Piwik_View('UserSettings/templates/index.tpl');
+		$view = Piwik_View::factory('index');
 		
 		$view->dataTablePlugin = $this->getPlugin( true );
 		$view->dataTableResolution = $this->getResolution( true );

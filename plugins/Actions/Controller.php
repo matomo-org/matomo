@@ -18,7 +18,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 {
 	public function index()
 	{
-		$view = new Piwik_View('Actions/index.tpl');
+		$view = Piwik_View::factory('index');
 		
 		/* Actions, Downloads, Outlinks */
 		$view->dataTableActions = $this->getActions( true );

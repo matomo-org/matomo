@@ -13,7 +13,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$view = new Piwik_View('Referers/templates/index.tpl');
+		$view = Piwik_View::factory('index');
 		
 		$view->graphEvolutionReferers = $this->getEvolutionGraph(true, Piwik_Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
 		$view->nameGraphEvolutionReferers = 'ReferersgetEvolutionGraph';
@@ -49,7 +49,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	
 	function getSearchEnginesAndKeywords()
 	{
-		$view = new Piwik_View('Referers/templates/searchEngines_Keywords.tpl');
+		$view = Piwik_View::factory('searchEngines_Keywords');
 		$view->searchEngines = $this->getSearchEngines(true) ;
 		$view->keywords = $this->getKeywords(true);
 		echo $view->render();

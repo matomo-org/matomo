@@ -13,7 +13,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$view = new Piwik_View('VisitFrequency/templates/index.tpl');
+		$view = Piwik_View::factory('index');
 		$view->graphEvolutionVisitFrequency = $this->getEvolutionGraph(true, array('nb_visits_returning') );
 		$this->setSparklinesAndNumbers($view);
 		echo $view->render();
@@ -21,7 +21,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 	
 	public function getSparklines()
 	{
-		$view = new Piwik_View('VisitFrequency/templates/sparklines.tpl');
+		$view = Piwik_View::factory('sparklines');
 		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();
 	}

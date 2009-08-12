@@ -31,7 +31,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 									);
 		}
 		
-		$view = new Piwik_View('CorePluginsAdmin/templates/manage.tpl');
+		$view = Piwik_View::factory('manage');
 		$view->pluginsName = $plugins;
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
