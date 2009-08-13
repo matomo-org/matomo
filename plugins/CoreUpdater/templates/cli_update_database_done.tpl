@@ -13,6 +13,19 @@
 
 	* {$helpMessage}
 
+
+	{'CoreUpdater_ErrorDIYHelp'|translate}
+
+	* {'CoreUpdater_ErrorDIYHelp_1'|translate}
+
+	* {'CoreUpdater_ErrorDIYHelp_2'|translate}
+
+	* {'CoreUpdater_ErrorDIYHelp_3'|translate}
+
+	* {'CoreUpdater_ErrorDIYHelp_4'|translate}
+
+	* {'CoreUpdater_ErrorDIYHelp_5'|translate}
+
 {else}
 	{if count($warningMessages) > 0}
 		[!] {'CoreUpdater_WarningMessages'|translate|unescape}

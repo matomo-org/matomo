@@ -233,14 +233,4 @@ class Piwik_Updater
 	}
 }
 
-// If you encountered an error during the database update:
-// - correct the source of the problem
-// - execute the remaining queries in the update that failed
-// - manually update the `option` table in your Piwik database, setting the value of version_core to the version of the failed update
-// - re-run the updater (through the browser or command-line) to continue with the remaining updates
-//
-// If the source of the problem is:
-// - insufficient memory:  increase memory_limit
-// - browser timeout: increase max_execution_time or run the updater from the command-line (shell)
-
 class Piwik_Updater_UpdateErrorException extends Exception {}

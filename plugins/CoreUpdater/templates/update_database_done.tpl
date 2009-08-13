@@ -12,6 +12,13 @@
 	<br>
 	<p>{'CoreUpdater_HelpMessageIntroductionWhenError'|translate}
 	<ul><li>{$helpMessage}</li></ul></p>
+
+	<p>{'CoreUpdater_ErrorDIYHelp'|translate}
+	<ul><li>{'CoreUpdater_ErrorDIYHelp_1'|translate}</li>
+		<li>{'CoreUpdater_ErrorDIYHelp_2'|translate}</li>
+		<li>{'CoreUpdater_ErrorDIYHelp_3'|translate}</li>
+		<li>{'CoreUpdater_ErrorDIYHelp_4'|translate}</li>
+		<li>{'CoreUpdater_ErrorDIYHelp_5'|translate}</li></ul></p>
 {else}
 	
 	{if count($warningMessages) > 0}
