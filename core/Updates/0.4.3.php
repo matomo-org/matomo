@@ -23,7 +23,8 @@ class Piwik_Updates_0_4_3 implements Piwik_iUpdate
 			'ALTER IGNORE TABLE `'. Piwik::prefixTable('site') .'`
 				 CHANGE `feedburnerName` `feedburnerName` VARCHAR( 100 ) DEFAULT NULL' => '/1054/',
 			// 0.2.12 [673]
-			'DROP INDEX index_idaction ON '. Piwik::prefixTable('log_action') => '/1091/',
+			// Note: requires INDEX privilege
+			'DROP INDEX index_idaction ON `'. Piwik::prefixTable('log_action') .'`' => '/1072|1091/',
 			// 0.2.27 [826]
 			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
 				CHANGE `visit_goal_converted` `visit_goal_converted` TINYINT(1) NOT NULL' => false,
