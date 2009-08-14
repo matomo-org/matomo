@@ -9,13 +9,12 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 	vertical-align: baseline;
 	background: transparent;
 }
-form {margin: 0px 0px 0px 0px; }
+form {margin: 0px; }
 body {
 	line-height: 1.33;
 	background-color: white;
 	color: black;
 }
-
 ol,ul {
 	list-style: none;
 }
@@ -23,21 +22,17 @@ ol,ul {
 blockquote,q {
 	quotes: none;
 }
-
 /* remember to define focus styles! */
 :focus {
 	outline: 0;
 }
-
 /* remember to highlight inserts somehow! */
 ins {
 	text-decoration: none;
 }
-
 del {
 	text-decoration: line-through;
 }
-
 /* start piwik styles */
 body {
 	font-family: Georgia, "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
@@ -48,14 +43,12 @@ a {
 	text-decoration:underline;
 	cursor:pointer;
 }
-
 #loadingPiwik {
 	font-weight: bold;
 	font-size: 1.1em;
 	color: #193B6C;
 	padding: 0.5em;
 }
-
 #loadingError {
 	font-weight: bold;
 	font-size: 1.1em;
@@ -64,7 +57,6 @@ a {
 	margin-left: 30%;
 	display: none;
 }
-
 #otherPeriods {
 	display:none;
 }	
@@ -97,7 +89,6 @@ a {
 #header_message, #header_message a { 
 	color:#FF7F00; 
 }
-
 #topRightBar {
 	padding: 0pt 0pt 4px; 
 	font-size: 84%;
@@ -113,7 +104,7 @@ a {
 	font-family: arial, sans-serif !important;
 	height: 20px;
 	padding: 4px 10px 0px !important;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	font-size: 13px;
 	padding-top: 4px !important;
 }
@@ -121,7 +112,6 @@ a {
 	float: left;
 	display: inline;
 	font-size: 45pt;
-	padding-left: 15px;
 	padding-left: 15px;
 }
 #javascriptDisable, #javascriptDisable a {
@@ -134,7 +124,7 @@ a {
 	height: 22px;
 	margin-right: 0.73em;
 	vertical-align: top;
-	color: #000000;
+	color: #000;
 	margin-bottom: 0px;
 }
 #tooltip h3 {
@@ -152,13 +142,11 @@ a {
 	background-color:#F5F7FF;
 	opacity:0.95;
 }
-
-
 .tableForm {
 	cellspacing:0;
 }
 .tableForm td {
-	border-color:#FFFFFF rgb(198, 205, 216)  rgb(198, 205, 216) rgb(198, 205, 216) ;
+	border-color:#FFF #C6CDD8 #C6CDD8 #C6CDD8;
 	border-style:solid;
 	padding:0.5em 0.5em 0.5em 0.8em;
 	border-width:10px 1px 1px 1px;
@@ -166,7 +154,7 @@ a {
 }
 .tableForm input {
 	font-size:1.1em;
-	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
+	border-color:#CCC #999 #999 #CCC;
 	border-width:1px;
 	color:#3A2B16;
 	padding:0.15em;
@@ -178,13 +166,12 @@ a {
 	margin-top:15px;
 	background:transparent url(./images/background-submit.png) repeat scroll 0%;
 	font-size:1.4em;
-	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
+	border-color:#CCC #999 #999 #CCC;
 	border-style:double;
 	border-width:3px;
-	color:#333333;
+	color:#333;
 	padding:0.15em;
 }
-
 #ajaxError {
 	color: red;
 	text-align: center;
