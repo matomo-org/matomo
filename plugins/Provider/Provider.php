@@ -183,7 +183,7 @@ class Piwik_Provider extends Piwik_Plugin
 		$out =& $notification->getNotificationObject();
 		$out = '</div>
 			<div id="rightcolumn">
-			<h2>Providers</h2>';
+			<h2>'.Piwik_Translate('Provider_WidgetProviders').'</h2>';
 		$out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider','getProvider');
 		$out .= '</div>';
 	}
