@@ -26,7 +26,7 @@ class Piwik_Updates_0_4_3 implements Piwik_iUpdate
 			// Note: requires INDEX privilege
 			'DROP INDEX index_idaction ON `'. Piwik::prefixTable('log_action') .'`' => '/1072|1091/',
 			// 0.2.27 [826]
-			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
+			'ALTER IGNORE TABLE `'. Piwik::prefixTable('log_visit') .'`
 				CHANGE `visit_goal_converted` `visit_goal_converted` TINYINT(1) NOT NULL' => false,
 			// 0.2.32 [941]
 			'ALTER TABLE `'. Piwik::prefixTable('access') .'`
