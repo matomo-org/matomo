@@ -7,11 +7,9 @@
 <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico"> 
 {loadJavascriptTranslations plugins='CoreHome'}
 {include file="CoreHome/templates/js_css_includes.tpl"}
-</head>
-
-<body>
 {include file="CoreHome/templates/js_global_variables.tpl"}
-
+</head>
+<body>
 {assign var=showSitesSelection value=true}
 {include file="CoreHome/templates/top_bar.tpl"}
 {include file="CoreHome/templates/header.tpl"}
