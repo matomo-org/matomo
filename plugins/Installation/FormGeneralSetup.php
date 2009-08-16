@@ -48,7 +48,7 @@ class Piwik_Installation_FormGeneralSetup extends Piwik_Form
 			{
 				continue;
 			}
-			$formRules[] = array($row[1], sprintf(Piwik_Translate('General_Required'), $row[2]), 'required');
+			$formRules[] = array($row[1], Piwik_Translate('General_Required', $row[2]), 'required');
 		}
 		
 		$formRules[] = array( 	'email', 

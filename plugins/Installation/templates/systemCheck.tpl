@@ -86,13 +86,13 @@
 {if $problemWithSomeDirectories}
 	<br />
 	<div class="error">
-			{'Installation_SystemCheckWriteDirsHelp'|translate}:
-	{foreach from=$infos.directories key=dir item=bool}
-		<ul>{if !$bool}
-			<li><pre>chmod a+w {$dir}</pre></li>
-		{/if}
-		</ul>
-	{/foreach}
+		{'Installation_SystemCheckWriteDirsHelp'|translate}:
+		{foreach from=$infos.directories key=dir item=bool}
+			<ul>{if !$bool}
+					<li><pre>chmod a+w {$dir}</pre></li>
+				{/if}
+			</ul>
+		{/foreach}
 	</div>
 	<br />
 {/if}

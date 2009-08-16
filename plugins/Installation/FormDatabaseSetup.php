@@ -31,11 +31,11 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_Form
 		{
 			if($row[1] != 'password' && $row[1] != 'tables_prefix')
 			{
-				$formRules[] = array($row[1], sprintf('%s required', $row[2]), 'required');
+				$formRules[] = array($row[1], Piwik_Translate('General_Required', $row[2]), 'required');
 			}
 		}
 		$this->addRules( $formRules );	
 		
-		$this->addElement('submit', 'submit', 'Go!');
+		$this->addElement('submit', 'submit', Piwik_Translate('Installation_SubmitGo'));
 	}	
 }

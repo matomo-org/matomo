@@ -17,14 +17,14 @@ class Piwik_Installation_Controller extends Piwik_Controller
 {
 	// public so plugins can add/delete installation steps
 	public $steps = array(
-			'welcome',
-			'systemCheck',
-			'databaseSetup',
-			'tablesCreation',
-			'generalSetup',
-			'firstWebsiteSetup',
-			'displayJavascriptCode',
-			'finished'
+			'welcome'				=> 'Installation_Welcome',
+			'systemCheck'			=> 'Installation_SystemCheck',
+			'databaseSetup'			=> 'Installation_MysqlSetup',
+			'tablesCreation'		=> 'Installation_Tables',
+			'generalSetup'			=> 'Installation_GeneralSetup',
+			'firstWebsiteSetup'		=> 'Installation_SetupWebsite',
+			'displayJavascriptCode'	=>'Installation_JsTag',
+			'finished'				=> 'Installation_Congratulations',
 		);
 		
 	protected $pathView = 'Installation/templates/';
@@ -33,12 +33,15 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 	public function __construct()
 	{
-		$this->session = new Zend_Session_Namespace("Installation");
+		$this->session = new Zend_Session_Namespace('Installation');
 		if(!isset($this->session->currentStepDone)) 
 		{
 			$this->session->currentStepDone = '';
 		}
-		
+
+		Piwik_Translate::getInstance()->loadEnglishTranslation();
+		Piwik_Translate::getInstance()->loadUserTranslation();
+
 		Piwik_PostEvent('InstallationController.construct', $this);
 	}
 	
@@ -49,13 +52,14 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	
 	function getDefaultAction()
 	{
-		return $this->steps[0];
+		$steps = array_keys($this->steps);
+		return $steps[0];
 	}
 	
 	function welcome()
 	{
 		Piwik_Login_Controller::clearSession();
-		
+
 		$view = new Piwik_Installation_View(
 						$this->pathView . 'welcome.tpl', 
 						$this->getInstallationSteps(),
@@ -138,7 +142,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			{
 				// unix_socket=/path/sock.n
 				$dbInfos['port'] = substr($dbInfos['host'], $portIndex);
-				$dbInfos['host'] = "";
+				$dbInfos['host'] = '';
 			}
 			else if(($portIndex = strpos($dbInfos['host'], ':')) !== false)
 			{
@@ -166,7 +170,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				$minimumMysqlVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
 				if(version_compare($mysqlVersion, $minimumMysqlVersion) === -1) 
 				{
-					throw new Exception(vsprintf("Your MySQL version is %s but Piwik requires at least %s.", array($mysqlVersion, $minimumMysqlVersion)));
+					throw new Exception(Piwik_Translate('Installation_ExceptionMySqlVersion', array($mysqlVersion, $minimumMysqlVersion)));
 				}
 				
 				$this->session->db_infos = $dbInfos;
@@ -212,7 +216,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$view->tablesInstalled = '';
 		if(count($tablesInstalled) > 0)
 		{
-			$view->tablesInstalled = implode(", ", $tablesInstalled);
+			$view->tablesInstalled = implode(', ', $tablesInstalled);
 			$view->someTablesInstalled = true;
 			
 			$minimumCountPiwikTables = 12;
@@ -287,7 +291,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			{
 				if( !isset($params['security']))  { $params['security'] = '0'; } 
 				if( !isset($params['community'])) { $params['community'] = '0'; } 
-				$url = $host . "?" . http_build_query($params, '', '&');
+				$url = $host . '?' . http_build_query($params, '', '&');
 				try {
 					Piwik::sendHttpRequest($url, $timeout = 2);
 				} catch(Exception $e) {
@@ -442,11 +446,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 		else
 		{
+			$steps = array_keys($this->steps);
+
 			// the currentStep
-			$currentStepId = array_search($currentStep, $this->steps);
+			$currentStepId = array_search($currentStep, $steps);
 			
 			// the step before
-			$previousStepId = array_search($this->session->currentStepDone, $this->steps);
+			$previousStepId = array_search($this->session->currentStepDone, $steps);
 	
 			// not OK if currentStepId > previous+1
 			if( $currentStepId > $previousStepId + 1 )
@@ -468,8 +474,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 	protected function redirectToNextStep($currentStep)
 	{
+		$steps = array_keys($this->steps);
 		$this->session->currentStepDone = $currentStep;
-		$nextStep = $this->steps[1 + array_search($currentStep, $this->steps)];
+		$nextStep = $steps[1 + array_search($currentStep, $steps)];
 		Piwik::redirectToModule('Installation' , $nextStep);
 	}
 	
@@ -564,11 +571,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$raised = Piwik::raiseMemoryLimitIfNecessary();
 		if(	$memoryValue = Piwik::getMemoryLimitValue() )
 		{
-			$infos['memoryCurrent'] = $memoryValue."M";
+			$infos['memoryCurrent'] = $memoryValue.'M';
 			$infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;
 		}
 
-		$infos['isWindows'] = substr(PHP_OS, 0, 3) == "WIN";
+		$infos['isWindows'] = substr(PHP_OS, 0, 3) == 'WIN';
 		
 		return $infos;
 	}
@@ -580,5 +587,15 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			$this->redirectToNextStep($step);
 		}
+	}
+
+	public function saveLanguage()
+	{
+		$language = Piwik_Common::getRequestVar('language');
+
+		$session = new Zend_Session_Namespace('LanguagesManager');
+		$session->language = $language;
+
+		Piwik_Url::redirectToReferer();
 	}
 }

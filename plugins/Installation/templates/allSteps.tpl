@@ -1,11 +1,11 @@
 <ul>
 {foreach from=$allStepsTitle key=stepId item=stepName}
 	{if $currentStepId > $stepId}
-	<li class="pastStep">{$stepName}</li>
+	<li class="pastStep">{$stepName|translate}</li>
 	{elseif $currentStepId == $stepId}
-	<li class="actualStep">{$stepName}</li>
+	<li class="actualStep">{$stepName|translate}</li>
 	{else}
-	<li class="futureStep">{$stepName}</li>
+	<li class="futureStep">{$stepName|translate}</li>
 	{/if}
 {/foreach}
 </ul>

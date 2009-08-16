@@ -35,7 +35,12 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	{
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
 	}
-	
+
+	/**
+	 * Show styled language selection drop-down list
+	 *
+	 * @param string $url The form action.  Default is to save language.
+	 */
 	function showLanguagesSelector()
 	{
 		$view = Piwik_View::factory("languages");
@@ -139,8 +144,5 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 			return false;
 		}
 	}
-	
-	
-	
-}
 
+}
