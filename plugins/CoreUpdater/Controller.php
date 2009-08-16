@@ -19,7 +19,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private $warningMessages = array();
 	private $errorMessages = array();
 	private $deactivatedPlugins = array();
-	
+
 	public function newVersionAvailable()
 	{
 		Piwik::checkUserIsSuperUser();
@@ -37,8 +37,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$this->checkNewVersionIsAvailableOrDie();
 
 		$steps = array(
-			array('oneClick_Download', Piwik_Translate('CoreUpdate_DownloadingUpdateFromX', self::LATEST_PIWIK_URL)),
-			array('oneClick_Unpack', Piwik_Translate('CoreUpdate_UnpackingTheUpdate')),
+			array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', self::LATEST_PIWIK_URL)),
+			array('oneClick_Unpack', Piwik_Translate('CoreUpdater_UnpackingTheUpdate')),
 			array('oneClick_Verify', Piwik_Translate('CoreUpdater_VerifyingUnpackedFiles')),
 			array('oneClick_CreateConfigFileBackup', Piwik_Translate('CoreUpdater_CreatingBackupOfConfigurationFile', self::CONFIG_FILE_BACKUP)),
 			array('oneClick_Copy', Piwik_Translate('CoreUpdater_InstallingTheLatestVersion')),
@@ -70,7 +70,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$newVersion = Piwik_UpdateCheck::isNewestVersionAvailable();
 		if(!$newVersion)
 		{
-			throw new Exception("Your Piwik version ".Piwik_Version::VERSION." is up to date.");
+			throw new Exception(Piwik_Translate('CoreUpdater_ExceptionAlreadyLatestVersion', Piwik_Version::VERSION));
 		}
 		return $newVersion;
 	}
@@ -93,12 +93,12 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		if ( false == ($archive_files = $archive->extract(
 							PCLZIP_OPT_PATH, $pathExtracted)) )
 		{
-			throw new Exception('Incompatible archive: ' . $archive->errorInfo(true));
+			throw new Exception(Piwik_Translate('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo(true)));
 		}	
 	
 		if ( 0 == count($archive_files) )
 		{
-			throw new Exception('Empty archive.');
+			throw new Exception(Piwik_Translate('CoreUpdater_ExceptionArchiveEmpty'));
 		}
 		unlink($this->pathPiwikZip);
 		$this->pathRootExtractedPiwik = $pathExtracted . '/piwik';
@@ -117,7 +117,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		{
 			if(!is_file($this->pathRootExtractedPiwik . $file))
 			{
-				throw new Exception("Archive is incomplete: some files are missing (eg. $file).");
+				throw new Exception(Piwik_Translate('CoreUpdater_ExceptionArchiveIncomplete', $file));
 			}
 		}
 	}
@@ -180,9 +180,20 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	public function runUpdaterAndExit($updater, $componentsWithUpdateFile)
 	{
-		if(empty($componentsWithUpdateFile)) {
+		if(empty($componentsWithUpdateFile))
+		{
 			return;
 		}
+
+		$language = Piwik_Common::getRequestVar('language', '', 'string');
+		if(!empty($language))
+		{
+			$session = new Zend_Session_Namespace('LanguagesManager');
+			$session->language = $language;
+		}
+
+		Piwik_Translate::getInstance()->loadUserTranslation();
+
 		if(Piwik::isPhpCliMode())
 		{
 			@set_time_limit(0);
