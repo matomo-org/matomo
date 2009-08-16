@@ -135,7 +135,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 					image: function (src) { return \'<img title="Piwik Graph" src="data:image/png;base64,\' + $("#"+src)[0].get_img_binary() + \'" />\'; },
 					popup: function (src) {
 						var img_win = window.open("", "ExportChartAsImage");
-						img_win.document.write(\'<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" /><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>'. Piwik_Translate('General_ExportAsImage') .'</title></head><body>\' + Control.OFC.image(src) + \'<br /><br /><p>'. htmlentities(Piwik_Translate('General_SaveImageOnYourComputer')) .'</p></body></html>\');
+						img_win.document.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\" /><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><title>'. Piwik_Translate('General_ExportAsImage') .'</title></head><body>\' + Control.OFC.image(src) + \'<br /><br /><p>'. htmlentities(Piwik_Translate('General_SaveImageOnYourComputer')) .'</p></body></html>");
 					}
 				};
 				if (typeof Control == "undefined") { var Control = {OFC: OFC.jquery}; }
