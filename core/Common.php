@@ -772,7 +772,11 @@ class Piwik_Common
 			return false;
 		}
 		$searchEngineName = $GLOBALS['Piwik_SearchEngines'][$refererHost][0];
-		$variableNames = $GLOBALS['Piwik_SearchEngines'][$refererHost][1];
+		$variableNames = null;
+		if(isset($GLOBALS['Piwik_SearchEngines'][$refererHost][1]))
+		{
+			$variableNames = $GLOBALS['Piwik_SearchEngines'][$refererHost][1];
+		}
 		if(!$variableNames)
 		{
 			$url = $GLOBALS['Piwik_SearchEngines_NameToUrl'][$searchEngineName];
