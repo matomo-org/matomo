@@ -186,7 +186,7 @@ class Piwik_View implements Piwik_iView
 	{
 		if($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR)
 		{
-			$value = PIWIK_INCLUDE_PATH ."/$value";
+			$value = PIWIK_USER_PATH ."/$value";
 		}
 	}
 

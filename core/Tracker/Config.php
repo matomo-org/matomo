@@ -52,11 +52,11 @@ class Piwik_Tracker_Config
 	{
 		if(is_null($pathIniFileUser))
 		{
-			$pathIniFileUser = PIWIK_INCLUDE_PATH . '/config/config.ini.php'; 
+			$pathIniFileUser = PIWIK_USER_PATH . '/config/config.ini.php'; 
 		}
 		if(is_null($pathIniFileGlobal))
 		{
-			$pathIniFileGlobal = PIWIK_INCLUDE_PATH . '/config/global.ini.php'; 
+			$pathIniFileGlobal = PIWIK_USER_PATH . '/config/global.ini.php'; 
 		}
 		$this->configUser = parse_ini_file($pathIniFileUser, true);
 		$this->configGlobal = parse_ini_file($pathIniFileGlobal, true);

@@ -77,7 +77,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_Download()
 	{
-		$this->pathPiwikZip = PIWIK_INCLUDE_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . '/latest.zip';
+		$this->pathPiwikZip = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . '/latest.zip';
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
 
 		// we catch exceptions in the caller (i.e., oneClickUpdate)
@@ -89,7 +89,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
 		$archive = new PclZip($this->pathPiwikZip);
 
-		$pathExtracted = PIWIK_INCLUDE_PATH.self::PATH_TO_EXTRACT_LATEST_VERSION;
+		$pathExtracted = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION;
 		if ( false == ($archive_files = $archive->extract(
 							PCLZIP_OPT_PATH, $pathExtracted)) )
 		{
@@ -124,8 +124,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_CreateConfigFileBackup()
 	{
-		$configFileBefore = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
-		$configFileAfter = PIWIK_INCLUDE_PATH . self::CONFIG_FILE_BACKUP;
+		$configFileBefore = PIWIK_USER_PATH . '/config/global.ini.php';
+		$configFileAfter = PIWIK_USER_PATH . self::CONFIG_FILE_BACKUP;
 		Piwik::copy($configFileBefore, $configFileAfter);
 	}
 	
@@ -139,10 +139,13 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 		/*
 		 * These files are visible in the web root and are generally
-		 * served directly by the web server.
+		 * served directly by the web server.  May be shared.
 		 */
 		if(PIWIK_INCLUDE_PATH !== PIWIK_DOCUMENT_ROOT)
 		{
+			/*
+			 * Copy PHP files that expect to be in the document root
+			 */
 			$specialCases = array(
 				'/index.php',
 				'/piwik.php',
@@ -151,14 +154,21 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 			foreach($specialCases as $file)
 			{
-				Piwik::copy($this->pathRootExtractedPiwik . $file,
-					PIWIK_DOCUMENT_ROOT . $file);
+				Piwik::copy($this->pathRootExtractedPiwik . $file, PIWIK_DOCUMENT_ROOT . $file);
 			}
 
 			/*
 			 * Copy the non-PHP files (e.g., images, css, javascript)
 			 */
 			Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT, true);
+		}
+
+		/*
+		 * Config files may be user (account) specific
+		 */
+		if(PIWIK_INCLUDE_PATH !== PIWIK_USER_PATH)
+		{
+			Piwik::copyRecursive($this->pathRootExtractedPiwik . '/config', PIWIK_USER_PATH . '/config');
 		}
 
 		Piwik::unlinkRecursive($this->pathRootExtractedPiwik, true);

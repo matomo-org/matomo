@@ -84,9 +84,9 @@ class Piwik
 		$resultCheck = array();
 		foreach($directoriesToCheck as $directoryToCheck)
 		{
-			if( !preg_match('/^'.preg_quote(PIWIK_INCLUDE_PATH, '/').'/', $directoryToCheck) )
+			if( !preg_match('/^'.preg_quote(PIWIK_USER_PATH, '/').'/', $directoryToCheck) )
 			{
-				$directoryToCheck = PIWIK_INCLUDE_PATH . $directoryToCheck;
+				$directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
 			}
 			
 			if(!file_exists($directoryToCheck))
