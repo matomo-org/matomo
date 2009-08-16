@@ -53,12 +53,12 @@ class Piwik_Config
 	 */
 	static public function getDefaultUserConfigPath()
 	{
-		return Piwik_Common::getPathToPiwikRoot() . '/config/config.ini.php';
+		return PIWIK_USER_PATH .'/config/config.ini.php';
 	}
 
 	static public function getDefaultDefaultConfigPath()
 	{
-		return Piwik_Common::getPathToPiwikRoot() . '/config/global.ini.php';
+		return PIWIK_USER_PATH .'/config/global.ini.php';
 	}
 	
 	/**

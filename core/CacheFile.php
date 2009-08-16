@@ -24,7 +24,7 @@ class Piwik_CacheFile
     
     function __construct($directory)
     {
-    	$this->cachePath = PIWIK_INCLUDE_PATH . '/tmp/cache/' . $directory . '/';
+    	$this->cachePath = PIWIK_USER_PATH . '/tmp/cache/' . $directory . '/';
 //    	echo $this->cachePath;exit;
     }
     

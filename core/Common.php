@@ -773,6 +773,11 @@ class Piwik_Common
 		}
 		$searchEngineName = $GLOBALS['Piwik_SearchEngines'][$refererHost][0];
 		$variableNames = $GLOBALS['Piwik_SearchEngines'][$refererHost][1];
+		if(!$variableNames)
+		{
+			$url = $GLOBALS['Piwik_SearchEngines_NameToUrl'][$searchEngineName];
+			$variableNames = $GLOBALS['Piwik_SearchEngines'][$url][1];
+		}
 		if(!is_array($variableNames))
 		{
 			$variableNames = array($variableNames);
