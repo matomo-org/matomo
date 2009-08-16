@@ -31,11 +31,11 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_Form
 		$formRules = array();
 		foreach($formElements as $row)
 		{
-			$formRules[] = array($row[1], sprintf('%s required', $row[2]), 'required');
+			$formRules[] = array($row[1], Piwik_Translate('General_Required', $row[2]), 'required');
 		}
 		
 		$this->addRules( $formRules );	
 		
-		$this->addElement('submit', 'submit', 'Go!');
+		$this->addElement('submit', 'submit', Piwik_Translate('Installation_SubmitGo'));
 	}	
 }

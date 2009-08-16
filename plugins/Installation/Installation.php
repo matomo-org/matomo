@@ -55,13 +55,21 @@ class Piwik_Installation extends Piwik_Plugin
 
 		$step = Piwik_Common::getRequestVar('action', 'welcome', 'string');
 		$controller = $this->getInstallationController();
-		if(in_array($step, $controller->getInstallationSteps()))
+		if(in_array($step, array_keys($controller->getInstallationSteps())))
 		{
 			$controller->$step();
 		}
 		else
 		{
-			Piwik::exitWithErrorMessage(Piwik_Translate('Installation_NoConfigFound'));
+			$module = Piwik_Common::getRequestVar('module', 'Installation', 'string');
+			if($module == 'LanguagesManager' && $step == 'saveLanguage')
+			{
+				$controller->saveLanguage();
+			}
+			else
+			{
+				Piwik::exitWithErrorMessage(Piwik_Translate('Installation_NoConfigFound'));
+			}
 		}
 		exit;
 	}	

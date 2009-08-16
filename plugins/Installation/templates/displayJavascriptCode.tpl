@@ -26,7 +26,7 @@ $(document).ready( function(){
 {if isset($displayfirstWebsiteSetupSuccess)}
 
 <span id="toFade" class="success">
-	Website {$websiteName} created with success!
+	{'Installation_SetupWebsiteSetupSuccess'|translate:$websiteName}
 	<img src="themes/default/images/success_medium.png">
 </span>
 {/if}
@@ -36,9 +36,9 @@ $(document).ready( function(){
 {$javascriptTag}
 </code>
 
-<h1>Quick Help:</h1>
-<ul>
+<h1>{'Installation_QuickHelp'|translate}:</h1>
 {include file=SitesManager/templates/JavascriptTagHelp.tpl}
-<li>For medium and high traffic websites, check out the  <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">How to setup auto archiving page</a> to make Piwik run really fast!</li>
+<ul>
+<li>{'Installation_JsTagArchivingHelp'|translate}</li>
 <!-- <li>Link to help with the main blog engines wordpress/drupal/myspace/blogspot</li> -->
 </ul>
