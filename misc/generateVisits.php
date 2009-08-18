@@ -23,7 +23,6 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 	define('PIWIK_INCLUDE_PATH', '..');
 }
 ignore_user_abort(true);
-set_time_limit(0);
 
 if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
 {
@@ -41,6 +40,8 @@ ob_start();
 define('PIWIK_ENABLE_DISPATCH', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once "FrontController.php";
+
+Piwik::setMaxExecutionTime(0);
 
 $idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
 
