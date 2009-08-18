@@ -38,6 +38,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 		{
 			$updaterController = new Piwik_CoreUpdater_Controller();
 			$updaterController->saveLanguage();
+			exit;
 		}
 
 		$updater = new Piwik_Updater();
