@@ -9,7 +9,6 @@
  * @package Piwik_Installation
  */
 
-
 /**
  * 
  * @package Piwik_Installation
@@ -17,7 +16,7 @@
 class Piwik_Installation extends Piwik_Plugin
 {	
 	protected $installationControllerName = 'Piwik_Installation_Controller';
-		
+
 	public function getInformation()
 	{
 		$info = array(
@@ -30,47 +29,42 @@ class Piwik_Installation extends Piwik_Plugin
 		
 		return $info;
 	}
-	
+
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'FrontController.NoConfigurationFile' 		=> 'startInstallation',
+			'FrontController.NoConfigurationFile' => 'dispatch',
 		);
 		return $hooks;
 	}
-	
+
 	public function setControllerToLoad( $newControllerName )
 	{
 		$this->installationControllerName = $newControllerName;
 	}
-	
+
 	protected function getInstallationController()
 	{
 		return new $this->installationControllerName();
 	}
-	
-	function startInstallation()
+
+	function dispatch()
 	{
+		Piwik_Translate::getInstance()->loadUserTranslation();
+
 		Piwik_PostEvent('Installation.startInstallation', $this);
 
 		$step = Piwik_Common::getRequestVar('action', 'welcome', 'string');
 		$controller = $this->getInstallationController();
-		if(in_array($step, array_keys($controller->getInstallationSteps())))
+		if(in_array($step, array_keys($controller->getInstallationSteps())) || $step == 'saveLanguage')
 		{
 			$controller->$step();
 		}
 		else
 		{
-			$module = Piwik_Common::getRequestVar('module', 'Installation', 'string');
-			if($module == 'LanguagesManager' && $step == 'saveLanguage')
-			{
-				$controller->saveLanguage();
-			}
-			else
-			{
-				Piwik::exitWithErrorMessage(Piwik_Translate('Installation_NoConfigFound'));
-			}
+			Piwik::exitWithErrorMessage(Piwik_Translate('Installation_NoConfigFound'));
 		}
+
 		exit;
 	}	
 }

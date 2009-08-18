@@ -20,6 +20,7 @@ class Piwik_Installation_View extends Piwik_View
 	function __construct($subtemplatePath, $installationSteps, $currentStepName)
 	{
 		parent::__construct($this->mainTemplate);
+
 		$this->subTemplateToLoad = $subtemplatePath;
 		$this->steps = array_keys($installationSteps);
 		$this->allStepsTitle = array_values($installationSteps);
@@ -46,8 +47,7 @@ class Piwik_Installation_View extends Piwik_View
 		{
 			$this->previousModuleName = $this->steps[$this->currentStepId - 1];
 		}
-		
+
 		return parent::render();
-		
 	}
 }

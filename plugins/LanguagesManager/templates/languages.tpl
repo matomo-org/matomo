@@ -1,6 +1,6 @@
 <span class="topBarElem" style="padding-right:70px">
 	<span id="languageSelection" style="display:none;position:absolute">
-		<form action="index.php?module=LanguagesManager&action=saveLanguage" method="get">
+		<form action="index.php?{if $currentModule != ''}module=LanguagesManager&{/if}action=saveLanguage" method="get">
 		<select name="language">
 			<option value="{$currentLanguageCode}">{$currentLanguageName}</option>
 			{foreach from=$languages item=language}

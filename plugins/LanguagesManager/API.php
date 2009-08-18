@@ -129,4 +129,26 @@ class Piwik_LanguagesManager_API
 					ON DUPLICATE KEY UPDATE language=?',
 					$paramsBind);
 	}
+
+	/**
+	 * @param
+	 */
+	static public function getLanguageForSession()
+	{
+		$session = new Zend_Session_Namespace("LanguagesManager");
+		if(isset($session->language))
+		{
+			return $session->language;
+		}
+		return null;
+	}
+
+	/**
+	 * @param
+	 */
+	static public function setLanguageForSession($language)
+	{
+		$session = new Zend_Session_Namespace("LanguagesManager");
+		$session->language = $language;
+	}
 }

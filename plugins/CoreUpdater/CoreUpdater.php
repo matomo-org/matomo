@@ -21,5 +21,46 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 			'version' => '0.1',
 		);
 	}
-}
 
+	function getListHooksRegistered()
+	{
+		$hooks = array(
+			'FrontController.DispatchCoreAndPluginUpdatesScreen' => 'dispatch',
+			'FrontController.CheckForUpdates' => 'updateCheck',
+		);
+		return $hooks;
+	}
+
+	function dispatch()
+	{
+		$language = Piwik_Common::getRequestVar('language', '', 'string');
+		if($language != '')
+		{
+			$updaterController = new Piwik_CoreUpdater_Controller();
+			$updaterController->saveLanguage();
+		}
+
+		$updater = new Piwik_Updater();
+		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
+		
+		$plugins = Piwik_PluginsManager::getInstance()->getInstalledPlugins();
+		foreach($plugins as $pluginName => $plugin)
+		{
+			$updater->addComponentToCheck($pluginName, $plugin->getVersion());
+		}
+		
+		$componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
+		if(count($componentsWithUpdateFile) == 0)
+		{
+			return;
+		}
+			
+		$updaterController = new Piwik_CoreUpdater_Controller();
+		$updaterController->runUpdaterAndExit($updater, $componentsWithUpdateFile);
+	}	
+
+	function updateCheck()
+	{
+		Piwik_UpdateCheck::check();
+	}
+}

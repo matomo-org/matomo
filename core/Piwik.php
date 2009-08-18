@@ -125,7 +125,7 @@ class Piwik
 		$jsTag = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsTag);
 		return $jsTag;
 	}
-	
+
 	/**
 	 * Set maximum script execution time.
 	 *
@@ -920,27 +920,6 @@ class Piwik
 			Piwik_Url::redirectToUrl($newUrl);
 		}
 		return false;
-	}
-	
-	static public function displayScreenForCoreAndPluginsUpdatesIfNecessary()
-	{
-		$updater = new Piwik_Updater();
-		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
-		
-		$plugins = Piwik_PluginsManager::getInstance()->getInstalledPlugins();
-		foreach($plugins as $pluginName => $plugin)
-		{
-			$updater->addComponentToCheck($pluginName, $plugin->getVersion());
-		}
-		
-		$componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
-		if(count($componentsWithUpdateFile) == 0)
-		{
-			return;
-		}
-			
-		$updaterController = new Piwik_CoreUpdater_Controller();
-		$updaterController->runUpdaterAndExit($updater, $componentsWithUpdateFile);
 	}
 
 	/**
