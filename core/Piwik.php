@@ -126,6 +126,18 @@ class Piwik
 		return $jsTag;
 	}
 	
+	/**
+	 * Set maximum script execution time.
+	 *
+	 * @param int max execution time in seconds (0 = no limit)
+	 */
+	static public function setMaxExecutionTime($executionTime)
+	{
+		// in the event one or the other is disabled...
+		@ini_set('max_execution_time', $executionTime);
+		@set_time_limit($executionTime);
+	}
+
 	static public function getMemoryLimitValue()
 	{
 		if($memory = ini_get('memory_limit'))
