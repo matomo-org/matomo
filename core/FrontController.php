@@ -188,34 +188,38 @@ class Piwik_FrontController
 			
 			Piwik::checkDirectoriesWritableOrDie($directoriesToCheck);
 			self::assignCliParametersToRequest();
-			
+
+			Piwik_Translate::getInstance()->loadEnglishTranslation();
+
 			$exceptionToThrow = false;
-			
+
 			try {
 				Piwik::createConfigObject();
 			} catch(Exception $e) {
 				Piwik_PostEvent('FrontController.NoConfigurationFile', $e);
 				$exceptionToThrow = $e;
 			}
-			Piwik_Translate::getInstance()->loadEnglishTranslation();
-			
+
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
-			
+
 			if($exceptionToThrow)
 			{
 				throw $exceptionToThrow;
 			}
+
+			Piwik_Translate::getInstance()->loadUserTranslation();
+
 			Piwik::createDatabaseObject();
 			Piwik::createLogObject();
 			
 			// creating the access object, so that core/Updates/* can enforce Super User and use some APIs
 			Piwik::createAccessObject();
-			Piwik::displayScreenForCoreAndPluginsUpdatesIfNecessary();
-			
+			Piwik_PostEvent('FrontController.DispatchCoreAndPluginUpdatesScreen');
+
 			Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 			Piwik::install();
-			
+
 			Piwik_PostEvent('FrontController.initAuthenticationObject');
 			try {
 				$authAdapter = Zend_Registry::get('auth');
@@ -229,12 +233,11 @@ class Piwik_FrontController
 			Zend_Registry::get('access')->reloadAccess($authAdapter);
 			
 			Piwik::raiseMemoryLimitIfNecessary();
-			
-			Piwik_Translate::getInstance()->loadUserTranslation();
+
 			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
 			$pluginsManager->postLoadPlugins();
 			
-			Piwik_UpdateCheck::check();
+			Piwik_PostEvent('FrontController.CheckForUpdates');
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString(), true);
 		}

@@ -23,7 +23,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'tablesCreation'		=> 'Installation_Tables',
 			'generalSetup'			=> 'Installation_GeneralSetup',
 			'firstWebsiteSetup'		=> 'Installation_SetupWebsite',
-			'displayJavascriptCode'	=>'Installation_JsTag',
+			'displayJavascriptCode'	=> 'Installation_JsTag',
 			'finished'				=> 'Installation_Congratulations',
 		);
 		
@@ -38,9 +38,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			$this->session->currentStepDone = '';
 		}
-
-		Piwik_Translate::getInstance()->loadEnglishTranslation();
-		Piwik_Translate::getInstance()->loadUserTranslation();
 
 		Piwik_PostEvent('InstallationController.construct', $this);
 	}
@@ -592,10 +589,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	public function saveLanguage()
 	{
 		$language = Piwik_Common::getRequestVar('language');
-
-		$session = new Zend_Session_Namespace('LanguagesManager');
-		$session->language = $language;
-
+		Piwik_LanguagesManager_API::setLanguageForSession($language);
 		Piwik_Url::redirectToReferer();
 	}
 }

@@ -36,6 +36,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		Piwik::checkUserIsSuperUser();
 		$this->checkNewVersionIsAvailableOrDie();
 
+		Piwik::setMaxExecutionTime(0);
+
 		$steps = array(
 			array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', self::LATEST_PIWIK_URL)),
 			array('oneClick_Unpack', Piwik_Translate('CoreUpdater_UnpackingTheUpdate')),
@@ -177,7 +179,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private function oneClick_Finished()
 	{
 	}
-	
+
 	public function runUpdaterAndExit($updater, $componentsWithUpdateFile)
 	{
 		if(empty($componentsWithUpdateFile))
@@ -185,18 +187,9 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			return;
 		}
 
-		$language = Piwik_Common::getRequestVar('language', '', 'string');
-		if(!empty($language))
-		{
-			$session = new Zend_Session_Namespace('LanguagesManager');
-			$session->language = $language;
-		}
-
-		Piwik_Translate::getInstance()->loadUserTranslation();
-
 		if(Piwik::isPhpCliMode())
 		{
-			@set_time_limit(0);
+			Piwik::setMaxExecutionTime(0);
 
 			$view = Piwik_View::factory('update_welcome');
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
@@ -301,5 +294,12 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 				}
 			}
 		}
+	}
+
+	public function saveLanguage()
+	{
+		$language = Piwik_Common::getRequestVar('language');
+		Piwik_LanguagesManager_API::setLanguageForSession($language);
+		Piwik_Url::redirectToReferer();
 	}
 }
