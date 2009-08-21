@@ -90,7 +90,7 @@ class Piwik_ExampleRssWidget_Rss
 		foreach($rss as $post)
 		{
 			$title = $post->title();
-			$date = strftime("%B %e, %Y", strtotime($post->pubDate()));
+			$date = @strftime("%B %e, %Y", strtotime($post->pubDate()));
 			$link = $post->link();
 			
 			$output .= '<li><a class="rss-title" title="" href="'.$link.'">'.$title.'</a>'.
