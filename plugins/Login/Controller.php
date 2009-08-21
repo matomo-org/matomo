@@ -42,8 +42,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 		if($form->validate())
 		{
-			// if the current url to redirect contains module=login we instead redirect to the doc root
-			if(stripos($urlToRedirect, 'module=Login') !== false)
+			// if the current url to redirect contains module=Login or Installation we instead redirect to the doc root
+			if(preg_match('/module=(Login|Installation)/', $urlToRedirect))
 			{
 				$urlToRedirect = 'index.php';
 			}
