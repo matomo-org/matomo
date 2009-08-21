@@ -14,30 +14,44 @@
  */
 class Piwik_Login_Controller extends Piwik_Controller
 {
-	function getDefaultAction()
+	/**
+	 * Default action
+	 *
+	 * @param none
+	 * @return void
+	 */
+	function index()
 	{
-		return 'login';
+		$this->login();
 	}
 
-	function login( $messageNoAccess = null )
+	/**
+	 * Login form
+	 *
+	 * @param none
+	 * @return void
+	 */
+	function login()
 	{
+		$messageNoAccess = null;
 		$form = new Piwik_Login_Form();
 
-		// get url from POSTed form or GET parameter (getting back from password remind form)
-		$currentUrl = 'index.php'.Piwik_Url::getCurrentQueryString();
-		$urlToRedirect = Piwik_Common::getRequestVar('form_url', htmlspecialchars($currentUrl), 'string');
+		$currentUrl = Piwik_Url::getReferer();
+		$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
 		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 
 		if($form->validate())
 		{
+			// if the current url to redirect contains module=login we instead redirect to the doc root
+			if(stripos($urlToRedirect, 'module=Login') !== false)
+			{
+				$urlToRedirect = 'index.php';
+			}
+
 			$login = $form->getSubmitValue('form_login');
 			$password = $form->getSubmitValue('form_password');
 			$md5Password = md5($password);
-			$authenticated = $this->authenticateAndRedirect($login, $md5Password, $urlToRedirect);
-			if($authenticated === false)
-			{
-				$messageNoAccess = Piwik_Translate('Login_LoginPasswordNotCorrect');
-			}
+			$messageNoAccess = $this->authenticateAndRedirect($login, $md5Password, $urlToRedirect);
 		}
 
 		$view = Piwik_View::factory('login');
@@ -49,14 +63,21 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
 	}
-	
+
+	/**
+	 * Form-less login
+	 *
+	 * @param none
+	 * @return void
+	 */
 	function logme()
 	{
 		$login = Piwik_Common::getRequestVar('login', null, 'string');
 		$password = Piwik_Common::getRequestVar('password', null, 'string');
 		$currentUrl = 'index.php';
 		$urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
-		
+		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
+
 		if(strlen($password) != 32)
 		{
 			throw new Exception("The password parameter is expected to be a MD5 hash of the password.");
@@ -71,42 +92,59 @@ class Piwik_Login_Controller extends Piwik_Controller
 			echo Piwik_Translate('Login_LoginPasswordNotCorrect');
 		}
 	}
-	
+
+	/**
+	 * Authenticate user and password.  Redirect if successful.
+	 *
+	 * @param string $login (user name)
+	 * @param string $md5Password (md5 hash of password)
+	 * @param string $urlToRedirect (URL to redirect to, if successfully authenticated)
+	 * @return string (failure message if unable to authenticate)
+	 */
 	protected function authenticateAndRedirect($login, $md5Password, $urlToRedirect)
 	{
 		$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login, $md5Password);
-		
+
 		$auth = Zend_Registry::get('auth');
 		$auth->setLogin($login);
 		$auth->setTokenAuth($tokenAuth);
-		$authResult = $auth->authenticate();
-		if($authResult->isValid())
-		{
-			$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
-			$authCookieExpiry = time() + Zend_Registry::get('config')->General->login_cookie_expire;
-			$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
-			$cookie->set('login', $login);
-			$cookie->set('token_auth', $authResult->getTokenAuth());
-			$cookie->save();
 
-			$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
-			Piwik_Url::redirectToUrl($urlToRedirect);
+		$authResult = $auth->authenticate();
+		if(!$authResult->isValid())
+		{
+			return Piwik_Translate('Login_LoginPasswordNotCorrect');
 		}
-		return false;
+
+		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
+		$authCookieExpiry = time() + Zend_Registry::get('config')->General->login_cookie_expire;
+		$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);
+		$cookie->set('login', $login);
+		$cookie->set('token_auth', $authResult->getTokenAuth());
+		$cookie->save();
+
+		Piwik_Url::redirectToUrl($urlToRedirect);
 	}
-	
-	function lostPassword($messageNoAccess = null)
+
+	/**
+	 * Lost password form.  Email password reset information.
+	 *
+	 * @param none
+	 * @return void
+	 */
+	function lostPassword()
 	{
+		$messageNoAccess = null;
 		$form = new Piwik_Login_PasswordForm();
 		$currentUrl = 'index.php';
-		$urlToRedirect = Piwik_Common::getRequestVar('form_url', htmlspecialchars($currentUrl), 'string');
+		$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
+		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 
 		if($form->validate())
 		{
 			$loginMail = $form->getSubmitValue('form_login');
-			$this->lostPasswordFormValidated($loginMail, $urlToRedirect);
-			return;
+			$messageNoAccess = $this->lostPasswordFormValidated($loginMail, $urlToRedirect);
 		}
+
 		$view = Piwik_View::factory('lostPassword');
 		$view->AccessErrorString = $messageNoAccess;
 		// make navigation login form -> reset password -> login form remember your first url
@@ -116,20 +154,170 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
 	}
-	
+
+	/**
+	 * Validate user (by username or email address).
+	 *
+	 * @param string $loginMail (user name or email address)
+	 * @param string $urlToRedirect (URL to redirect to, if successfully validated)
+	 * @return string (failure message if unable to validate)
+	 */
 	protected function lostPasswordFormValidated($loginMail, $urlToRedirect)
 	{
+		$user = self::getUserInformation($loginMail);
+		if( $user === null )
+		{
+			return Piwik_Translate('Login_InvalidUsernameEmail');
+		}
+
+		$view = Piwik_View::factory('passwordsent');
+
+		$login = $user['login'];
+		$email = $user['email'];
+
+		// construct a password reset token from user information
+		$resetToken = self::generatePasswordResetToken($user);
+
+		$ip = Piwik_Common::getIpString();
+		$url = Piwik_Url::getCurrentUrlWithoutQueryString() . "?module=Login&action=resetPassword&token=$resetToken";
+
+		// send email with new password
+		try
+		{
+			$mail = new Piwik_Mail();
+			$mail->addTo($email, $login);
+			$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));
+			$mail->setBodyText(
+				str_replace(
+					'\n',
+					"\n",
+					sprintf(Piwik_Translate('Login_MailPasswordRecoveryBody'), $login, $ip, $url, $resetToken)
+				)
+			);
+
+			$piwikHost = $_SERVER['HTTP_HOST'];
+			if(strlen($piwikHost) == 0)
+			{
+				$piwikHost = 'piwik.org';
+			}
+
+			$fromEmailName = Zend_Registry::get('config')->General->login_password_recovery_email_name;
+			$fromEmailAddress = Zend_Registry::get('config')->General->login_password_recovery_email_address;
+			$fromEmailAddress = str_replace('{DOMAIN}', $piwikHost, $fromEmailAddress);
+			$mail->setFrom($fromEmailAddress, $fromEmailName);
+			@$mail->send();
+		}
+		catch(Exception $e)
+		{
+			$view->ErrorString = $e->getMessage();
+		}
+
+		$view->linkTitle = Piwik::getRandomTitle();
+		$view->urlToRedirect = $urlToRedirect;
+		echo $view->render();
+
+		exit;
+	}
+
+	/**
+	 * Reset password form.  Enter new password here.
+	 *
+	 * @param none
+	 * @return void
+	 */
+	function resetPassword()
+	{
+		$messageNoAccess = null;
+
+		$form = new Piwik_Login_ResetPasswordForm();
+		$currentUrl = 'index.php';
+		$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
+		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
+
+		if($form->validate())
+		{
+			$loginMail = $form->getSubmitValue('form_login');
+			$token = $form->getSubmitValue('form_token');
+			$password = $form->getSubmitValue('form_password');
+			$messageNoAccess = $this->resetPasswordFormValidated($loginMail, $token, $password, $urlToRedirect);
+		}
+
+		$view = Piwik_View::factory('resetPassword');
+		$view->AccessErrorString = $messageNoAccess;
+		// make navigation login form -> reset password -> login form remember your first url
+		$view->urlToRedirect = $urlToRedirect;
+		$view->linkTitle = Piwik::getRandomTitle();
+		$view->addForm( $form );
+		$view->subTemplate = 'genericForm.tpl';
+		echo $view->render();
+	}
+
+	/**
+	 * Validate password reset request.  If successful, set new password and redirect.
+	 *
+	 * @param string $loginMail (user name or email address)
+	 * @param string $token (password reset token)
+	 * @param array of string $newPassword (new password)
+	 * @param string $urlToRedirect (URL to redirect to, if successfully validated)
+	 * @return string (failure message)
+	 */
+	protected function resetPasswordFormValidated($loginMail, $token, $password, $urlToRedirect)
+	{
+		$user = self::getUserInformation($loginMail);
+		if( $user === null )
+		{
+			return Piwik_Translate('Login_InvalidUsernameEmail');
+		}
+
+		if(!self::isValidToken($token, $user))
+		{
+			return Piwik_Translate('Login_InvalidOrExpiredToken');
+		}
+
+		try
+		{
+			if( $user['email'] == Zend_Registry::get('config')->superuser->email )
+			{
+				$user['password'] = md5($password);
+				Zend_Registry::get('config')->superuser = $user;
+			}
+			else
+			{
+				Piwik_UsersManager_API::updateUser($login, $password);
+			}
+		}
+		catch(Exception $e)
+		{
+			$view->ErrorString = $e->getMessage();
+		}
+
+		$view = Piwik_View::factory('passwordchanged');
+		$view->linkTitle = Piwik::getRandomTitle();
+		$view->urlToRedirect = $urlToRedirect;
+		echo $view->render();
+
+		exit;
+	}
+
+	/**
+	 * Get user information
+	 *
+	 * @param string $loginMail (user login or email address)
+	 * @return array ("login" => '...', "email" => '...', "password" => '...') or null, if user not found
+	 */
+	protected function getUserInformation($loginMail)
+	{
 		Piwik::setUserIsSuperUser();
+
 		$user = null;
-		$isSuperUser = false;
-		
 		if( $loginMail == Zend_Registry::get('config')->superuser->email
 			|| $loginMail == Zend_Registry::get('config')->superuser->login )
 		{
-			$isSuperUser = true;
-			$user = array( 
+			$user = array(
 					'login' => Zend_Registry::get('config')->superuser->login,
-					'email' => Zend_Registry::get('config')->superuser->email);
+					'email' => Zend_Registry::get('config')->superuser->email,
+					'password' => Zend_Registry::get('config')->superuser->password,
+			);
 		}
 		else if( Piwik_UsersManager_API::userExists($loginMail) )
 		{
@@ -140,72 +328,76 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$user = Piwik_UsersManager_API::getUserByEmail($loginMail);
 		}
 
-		if( $user === null )
-		{
-			$messageNoAccess = Piwik_Translate('Login_InvalidUsernameEmail');
-		}
-		else
-		{
-			$view = Piwik_View::factory('passwordsent');
-				
-			$login = $user['login'];
-			$email = $user['email'];
-			$randomPassword = Piwik_Common::getRandomString(8);
-
-			// send email with new password
-			try
-			{
-				$mail = new Piwik_Mail();
-				$mail->addTo($email, $login);
-				$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));
-				$mail->setBodyText(
-					str_replace(
-						'\n',
-						"\n",
-						sprintf(Piwik_Translate('Login_MailPasswordRecoveryBody'), $login, $randomPassword, Piwik_Url::getCurrentUrlWithoutQueryString())
-					)
-				);
-				
-				$piwikHost = $_SERVER['HTTP_HOST'];
-				if(strlen($piwikHost) == 0)
-				{
-					$piwikHost = 'piwik.org';
-				}
-				
-				$fromEmailName = Zend_Registry::get('config')->General->login_password_recovery_email_name;
-				$fromEmailAddress = Zend_Registry::get('config')->General->login_password_recovery_email_address;
-				$fromEmailAddress = str_replace('{DOMAIN}', $piwikHost, $fromEmailAddress);
-				$mail->setFrom($fromEmailAddress, $fromEmailName);
-				@$mail->send();
-			
-				if($isSuperUser)
-				{
-					$user['password'] = md5($randomPassword);
-					Zend_Registry::get('config')->superuser = $user;
-				}
-				else
-				{
-					Piwik_UsersManager_API::updateUser($login, $randomPassword);
-				}
-			}
-			catch(Exception $e)
-			{
-				$view->ErrorString = $e->getMessage();
-			}
-
-			$view->linkTitle = Piwik::getRandomTitle();
-			$view->urlToRedirect = $urlToRedirect;
-			echo $view->render();
-		}
+		return $user;
 	}
-	
+
+	/**
+	 * Generate a password reset token.  Expires in (roughly) 24 hours.
+	 *
+	 * @param array (user information)
+	 * @param int $timestamp (Unix timestamp)
+	 * @return string (generated token)
+	 */
+	protected function generatePasswordResetToken($user, $timestamp = null)
+	{
+		/*
+		 * Piwik does not stored the generated password reset token.
+		 * This avoids a database schema change and SQL queries to store, retrieve, and purge (expired) tokens.
+		 */
+		if(!$timestamp)
+		{
+			$timestamp = time() + 24*60*60; /* +24 hrs */
+		}
+
+		$expiry = strftime('%Y%m%d%H', $timestamp); 
+		$token = md5($expiry . $user['login'] . $user['email'] . $user['password']);
+		return $token;
+	}
+
+	/**
+	 * Validate token.
+	 *
+	 * @param string $token
+	 * @param array $user (user information)
+	 * @return bool (true if valid, false otherwise)
+	 */
+	protected function isValidToken($token, $user)
+	{
+		$now = time();
+
+		// token valid for 24 hrs (give or take, due to the coarse granularity in our strftime format string)
+		for($i = 0; $i <= 24; $i++)
+		{
+			$generatedToken = self::generatePasswordResetToken($user, $now + $i*60*60);
+			if($generatedToken == $token)
+			{
+				return true;
+			}
+		}
+
+		// fails if token is invalid, expired, password already changed, other user information has changed, ...
+		return false;
+	}
+
+	/**
+	 * Clear session information
+	 *
+	 * @param none
+	 * @return void
+	 */
 	static public function clearSession()
-	{	
+	{
 		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
 		$cookie = new Piwik_Cookie($authCookieName);
-		$cookie->delete();	
+		$cookie->delete();
 	}
-	
+
+	/**
+	 * Logout current user
+	 *
+	 * @param none
+	 * @return void
+	 */
 	public function logout()
 	{
 		self::clearSession();

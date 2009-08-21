@@ -40,16 +40,16 @@ class Piwik_View implements Piwik_iView
 		}
 
 		$this->smarty->template_dir = $smConf->template_dir->toArray();
-		array_walk($this->smarty->template_dir, array("Piwik_View","addPiwikPath"));
+		array_walk($this->smarty->template_dir, array("Piwik_View","addPiwikPath"), PIWIK_USER_PATH);
 
 		$this->smarty->plugins_dir = $smConf->plugins_dir->toArray();
-		array_walk($this->smarty->plugins_dir, array("Piwik_View","addPiwikPath"));
+		array_walk($this->smarty->plugins_dir, array("Piwik_View","addPiwikPath"), PIWIK_INCLUDE_PATH);
 
 		$this->smarty->compile_dir = $smConf->compile_dir;
-		Piwik_View::addPiwikPath($this->smarty->compile_dir, null);
+		Piwik_View::addPiwikPath($this->smarty->compile_dir, null, PIWIK_USER_PATH);
 
 		$this->smarty->cache_dir = $smConf->cache_dir;
-		Piwik_View::addPiwikPath($this->smarty->cache_dir, null);
+		Piwik_View::addPiwikPath($this->smarty->cache_dir, null, PIWIK_USER_PATH);
 
 		$this->smarty->error_reporting = $smConf->debugging;
 		$this->smarty->error_reporting = $smConf->error_reporting;
@@ -181,11 +181,11 @@ class Piwik_View implements Piwik_iView
 	}
 */
 
-	static public function addPiwikPath(&$value, $key)
+	static public function addPiwikPath(&$value, $key, $path)
 	{
 		if($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR)
 		{
-			$value = PIWIK_USER_PATH ."/$value";
+			$value = $path ."/$value";
 		}
 	}
 
@@ -210,7 +210,7 @@ class Piwik_View implements Piwik_iView
 		// determine best view type
 		if($viewType === null)
 		{
-			if(Piwik::isPhpCliMode())
+			if(Piwik_Common::isPhpCliMode())
 			{
 				$viewType = self::CLI;
 			}

@@ -73,7 +73,7 @@ form p {
 	padding: 16px;
 }
 
-#form_password,#form_login,#user_email {
+#form_password,#form_login,#user_email,#form_token {
 	font-size: 20px;
 	width: 97%;
 	padding: 3px;

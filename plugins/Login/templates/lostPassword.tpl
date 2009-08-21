@@ -19,7 +19,6 @@
 </p>
 
 <form {$form_data.attributes}>
-
 	<p>
 		<label>{'Login_LoginOrEmail'|translate}:<br />
 		<input type="text" name="form_login" id="form_login" class="input" value="" size="20" tabindex="10" /></label>
@@ -30,15 +29,11 @@
 	</p>
 </form>
 
-
 <p id="nav">
-<a href="index.php?module=Login&amp;form_url={$urlToRedirect}" title="{'Login_LogIn'|translate}">{'Login_LogIn'|translate}</a>
+<a href="index.php?module=Login&amp;form_url={$urlToRedirect|escape:url}" title="{'Login_LogIn'|translate}">{'Login_LogIn'|translate}</a>
 </p>
 
 </div>
 
 </body>
 </html>
-
-
-

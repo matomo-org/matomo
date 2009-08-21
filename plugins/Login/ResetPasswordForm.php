@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id$
+ * @version $Id: Form.php 1296 2009-07-08 04:19:14Z vipsoft $
  *
  * @package Piwik_Login
  */
@@ -13,32 +13,42 @@
  *
  * @package Piwik_Login
  */
-class Piwik_Login_Form extends Piwik_Form
+class Piwik_Login_ResetPasswordForm extends Piwik_Form
 {
 	function __construct()
 	{
 		parent::__construct();
 		// reset
-		$this->updateAttributes('id="loginform" name="loginform"');
+		$this->updateAttributes('id="resetpasswordform" name="resetpasswordform"');
 	}
 
 	function init()
 	{
-		// if form_url is not defined, go to referrer
-		$currentUrl = Piwik_Url::getReferer();
+		$currentUrl = 'index.php';
 		$urlToGoAfter = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
-		$urlToGoAfter = htmlspecialchars_decode($urlToGoAfter);
+
+		$resetToken = Piwik_Common::getRequestVar('token', '', 'string');
 
 		$formElements = array(
 			array('text', 'form_login'),
 			array('password', 'form_password'),
+			array('password', 'form_password_bis'),
+			array('text', 'form_token'),
 			array('hidden', 'form_url', $urlToGoAfter),
 		);
 		$this->addElements( $formElements );
 
+		$defaults = array(
+			'form_token' => $resetToken,
+		);
+		$this->setDefaults($defaults);
+
 		$formRules = array(
 			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Login')), 'required'),
 			array('form_password', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Password')), 'required'),
+			array('form_password_bis', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_PasswordRepeat')), 'required'),
+			array('form_token', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_PasswordResetToken')), 'required'),
+			array('form_password', Piwik_Translate( 'Login_PasswordsDoNotMatch'), 'fieldHaveSameValue', 'form_password_bis'),
 		);
 		$this->addRules( $formRules );
 

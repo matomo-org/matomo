@@ -402,10 +402,17 @@ class Piwik
 		}
 		return round($size, 1)." ".$val;
 	}
-	
+
+	/**
+	 * Returns true if PHP was invoked as CGI or command-line interface (shell)
+	 * Maintained for backwards compatibility. (Deprecated)
+	 *
+	 * @param none
+	 * @return bool true if PHP invoked as a CGI or from CLI
+	 */
 	static public function isPhpCliMode()
 	{
-		return in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'));
+		return Piwik_Common::isPhpCliMode();
 	}
 	
 	static public function getCurrency()
