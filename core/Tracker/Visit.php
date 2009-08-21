@@ -324,14 +324,21 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_cookie' 		=> $userInfo['config_cookie'],
 			'location_ip' 			=> $userInfo['location_ip'],
 			'location_browser_lang' => $userInfo['location_browser_lang'],
-			'location_country' 		=> $country
+			'location_country' 		=> $country,
 		);
 		
 		Piwik_PostEvent('Tracker.newVisitorInformation', $this->visitorInfo);
 		
 		$this->saveVisitorInformation();
 	}
-	
+
+	/**
+	 * Save new visitor information to log_visit table.
+	 * Provides pre- and post- event hooks (Tracker.saveVisitorInformation and Tracker.saveVisitorInformation.end) for plugins
+	 *
+	 * @param none
+	 * @return void
+	 */
 	protected function saveVisitorInformation()
 	{
 		Piwik_PostEvent('Tracker.saveVisitorInformation', $this->visitorInfo);
