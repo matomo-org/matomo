@@ -8,7 +8,7 @@
 	</div>
 {else}
 	<p class="message">
-	{'Login_PasswordSent'|translate}
+	{'Login_PasswordSuccessfullyChanged'|translate}
 	</p>
 {/if}
 

@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
- * 
+ *
  * @package Piwik_Login
  */
 
@@ -13,7 +13,7 @@ class Piwik_Login_Auth implements Piwik_Auth
 {
 	protected $login = null;
 	protected $token_auth = null;
-	
+
 	public function getName()
 	{
 		return 'Login';
@@ -55,7 +55,7 @@ class Piwik_Login_Auth implements Piwik_Auth
 	{
 		$this->login = $login;
 	}
-	
+
 	public function setTokenAuth($token_auth)
 	{
 		$this->token_auth = $token_auth;

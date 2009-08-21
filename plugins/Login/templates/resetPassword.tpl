@@ -16,7 +16,7 @@
 
 <form {$form_data.attributes}>
 	<p>
-		<label>{'Login_Login'|translate}:<br />
+		<label>{'Login_LoginOrEmail'|translate}:<br />
 		<input type="text" name="form_login" id="form_login" class="input" value="" size="20" tabindex="10" /></label>
 	</p>
 
@@ -24,12 +24,20 @@
 		<label>{'Login_Password'|translate}:<br />
 		<input type="password" name="form_password" id="form_password" class="input" value="" size="20" tabindex="20" /></label>
 	</p>
-	{*
-		<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> Remember Me</label></p>
-	*}
+
+	<p>
+		<label>{'Login_PasswordRepeat'|translate}:<br />
+		<input type="password" name="form_password_bis" id="form_password" class="input" value="" size="20" tabindex="30" /></label>
+	</p>
+
+	<p>
+		<label>{'Login_PasswordResetToken'|translate}:<br />
+		<input type="text" name="form_token" id="form_token" class="input" value="{$form_data.form_token.value}" size="20" tabindex="40" /></label>
+	</p>
+
 	{$form_data.form_url.html}
 	<p class="submit">
-		<input type="submit" value="{'Login_LogIn'|translate}" tabindex="100" />
+		<input type="submit" value="{'Login_ChangePassword'|translate}" tabindex="100" />
 	</p>
 </form>
 

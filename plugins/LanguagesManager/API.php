@@ -119,10 +119,10 @@ class Piwik_LanguagesManager_API
 					' WHERE login = ? ', array($login ));
 	}
 	
-	static public function setLanguageForUser($login, $language)
+	static public function setLanguageForUser($login, $languageCode)
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
-		$paramsBind = array($login, $language, $language);
+		$paramsBind = array($login, $languageCode, $languageCode);
 		Piwik_Query('INSERT INTO '.Piwik::prefixTable('user_language') .
 					' (login, language)
 						VALUES (?,?)
@@ -146,9 +146,9 @@ class Piwik_LanguagesManager_API
 	/**
 	 * @param
 	 */
-	static public function setLanguageForSession($language)
+	static public function setLanguageForSession($languageCode)
 	{
 		$session = new Zend_Session_Namespace("LanguagesManager");
-		$session->language = $language;
+		$session->language = $languageCode;
 	}
 }
