@@ -3,10 +3,6 @@ if(!defined("PIWIK_PATH_TEST_TO_ROOT"))
 {
 	define('PIWIK_PATH_TEST_TO_ROOT', '..');
 }
-if(!defined('PIWIK_DOCUMENT_ROOT'))
-{
-	define('PIWIK_DOCUMENT_ROOT', PIWIK_PATH_TEST_TO_ROOT);
-}
 if(!defined('PIWIK_USER_PATH'))
 {
 	define('PIWIK_USER_PATH', PIWIK_PATH_TEST_TO_ROOT);
