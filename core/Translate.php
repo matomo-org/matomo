@@ -133,58 +133,48 @@ class Piwik_Translate
 	{
 		setlocale(LC_ALL, $GLOBALS['Piwik_translations']['General_Locale']);
 	}
-
-	/**
-	 * Returns translated string or given message if translation is not found.
-	 *
-	 * @param string Translation string index
-	 * @param array $args sprintf arguments
-	 * @return string
-	 */
-	static public function translate($string, $args = array())
-	{
-		if(!is_array($args))
-		{
-			$args = array($args);
-		}
-		if(isset($GLOBALS['Piwik_translations'][$string]))
-		{
-			$string = $GLOBALS['Piwik_translations'][$string];
-		}
-		if(count($args) == 0) 
-		{
-			return $string;
-		}
-		return vsprintf($string, $args);
-	}
-
-	/**
-	 * Returns translated string or given message if translation is not found.
-	 * This function does not throw any exception. Use it to translate exceptions.
-	 *
-	 * @param string $message Translation string index
-	 * @param array $args sprintf arguments
-	 * @return string
-	 */
-	static public function translateException($message, $args = array())
-	{
-		try
-		{
-			return self::translate($message, $args);		
-		} 
-		catch(Exception $e)
-		{
-			return $message;
-		}
-	}
 }
 
+/**
+ * Returns translated string or given message if translation is not found.
+ *
+ * @param string Translation string index
+ * @param array $args sprintf arguments
+ * @return string
+ */
 function Piwik_Translate($string, $args = array())
 {
-	return Piwik_Translate::translate($string, $args);
+	if(!is_array($args))
+	{
+		$args = array($args);
+	}
+	if(isset($GLOBALS['Piwik_translations'][$string]))
+	{
+		$string = $GLOBALS['Piwik_translations'][$string];
+	}
+	if(count($args) == 0) 
+	{
+		return $string;
+	}
+	return vsprintf($string, $args);
 }
 
+/**
+ * Returns translated string or given message if translation is not found.
+ * This function does not throw any exception. Use it to translate exceptions.
+ *
+ * @param string $message Translation string index
+ * @param array $args sprintf arguments
+ * @return string
+ */
 function Piwik_TranslateException($message, $args = array())
 {
-	return Piwik_Translate::translateException($message, $args);
+	try
+	{
+		return Piwik_Translate($message, $args);		
+	} 
+	catch(Exception $e)
+	{
+		return $message;
+	}
 }
