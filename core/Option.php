@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -17,6 +18,7 @@
  * 
  * This should not be used to store user preferences nor website preferences. 
  *
+ * @package Piwik
  */
 class Piwik_Option
 {
@@ -40,6 +42,7 @@ class Piwik_Option
 
 	/**
 	 * Returns the option value for the requested option $name
+	 *
 	 * @param string $name 
 	 * @return string|false if not found
 	 */

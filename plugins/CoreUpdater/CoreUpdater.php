@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_CorePluginsAdmin
+ * @category Piwik_Plugins
+ * @package Piwik_CoreUpdater
  */
 
+/**
+ *
+ * @package Piwik_CoreUpdater
+ */
 class Piwik_CoreUpdater extends Piwik_Plugin
 {
 	public function getInformation()

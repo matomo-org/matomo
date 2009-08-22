@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  *
+ * @category Piwik_Plugins
  * @package Piwik_Login
  */
 
@@ -35,7 +36,6 @@ class Piwik_Login_PasswordForm extends Piwik_Form
 
 		$formRules = array(
 			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_LoginOrEmail')), 'required'),
-			array('hidden', 'form_url', $urlToGoAfter),
 		);
 		$this->addRules( $formRules );
 

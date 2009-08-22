@@ -1,11 +1,12 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
- * 
+ *
+ * @category Piwik
  * @package Piwik
  */
 
@@ -34,8 +35,6 @@ class Piwik
 	/**
 	 * Checks that the directories Piwik needs write access are actually writable
 	 * Displays a nice error page if permissions are missing on some directories
-	 * 
-	 * @return void
 	 */
 	static public function checkDirectoriesWritableOrDie( $directoriesToCheck = null )
 	{
@@ -405,9 +404,9 @@ class Piwik
 
 	/**
 	 * Returns true if PHP was invoked as CGI or command-line interface (shell)
-	 * Maintained for backwards compatibility. (Deprecated)
 	 *
-	 * @param none
+	 * @deprecated deprecated in 0.4.4
+	 * @see Piwik_Common::isPhpCliMode()
 	 * @return bool true if PHP invoked as a CGI or from CLI
 	 */
 	static public function isPhpCliMode()
@@ -1268,7 +1267,6 @@ class Piwik
 	 * @param string $source eg. './tmp/latest'
 	 * @param string $target eg. '.'
 	 * @param bool   $excludePhp
-	 * @return void
 	 */
 	static public function copyRecursive($source, $target, $excludePhp=false )
 	{
@@ -1556,8 +1554,6 @@ class Piwik
 	
 	/**
 	 * Creates an entry in the User table for the "anonymous" user. 
-	 * 
-	 * @return void
 	 */
 	static public function createAnonymousUser()
 	{

@@ -6,10 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_VisitsSummary
+ * @category Piwik_Plugins
+ * @package Piwik_Goals
  */
 
 /**
+ *
  * @package Piwik_Goals
  */
 class Piwik_Goals_API 
@@ -231,5 +233,4 @@ class Piwik_Goals_API
 	{
 		return self::getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('revenue', $idGoal));
 	}
-	
 }

@@ -6,9 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_LanguageManager
+ * @category Piwik_Plugins
+ * @package Piwik_LanguagesManager
+ * 
  */
 
+/**
+ *
+ * @package Piwik_LanguagesManager
+ */
 class Piwik_LanguagesManager extends Piwik_Plugin
 {
 	public function getInformation()
@@ -57,7 +63,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	}
 	
 	/**
-	 * @return void|Exception
+	 * @throws Zend_Db_Statement_Exception if non-recoverable error
 	 */
 	public function install()
 	{
@@ -84,7 +90,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	}
 	
 	/**
-	 * @return void|Exception
+	 * @throws Zend_Db_Statement_Exception if non-recoverable error
 	 */
 	public function uninstall()
 	{

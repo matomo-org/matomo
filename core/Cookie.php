@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Helper
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -15,7 +16,7 @@
  * - edit an existing cookie and save it
  * - create a new cookie, set values, expiration date, etc. and save it
  * 
- * @package Piwik_Helper
+ * @package Piwik
  */
 class Piwik_Cookie
 {
@@ -66,6 +67,7 @@ class Piwik_Cookie
 	
 	/**
 	 * Returns true if the visitor already has the cookie.
+	 *
 	 * @return bool 
 	 */
 	public function isCookieFound()
@@ -75,6 +77,7 @@ class Piwik_Cookie
 	
 	/**
 	 * Returns the default expiry time, 2 years
+	 *
 	 * @return int Timestamp in 2 years
 	 */
 	protected function getDefaultExpire()
@@ -113,8 +116,6 @@ class Piwik_Cookie
 	
 	/**
 	 * We set the privacy policy header
-	 * 
-	 * @return void
 	 */
 	protected function setP3PHeader()
 	{
@@ -123,8 +124,6 @@ class Piwik_Cookie
 	
 	/**
 	 * Delete the cookie
-	 * 
-	 * @return void
 	 */
 	public function delete()
 	{
@@ -148,8 +147,6 @@ class Piwik_Cookie
 	 * Parses the cookie string to extract the different variables.
 	 * Unserialize the array when necessary.
 	 * Decode the non numeric values that were base64 encoded.
-	 * 
-	 * @return void
 	 */
 	protected function loadContentFromCookie()
 	{
@@ -183,6 +180,7 @@ class Piwik_Cookie
 	/**
 	 * Returns the string to save in the cookie from the $this->value array of values.
 	 * It goes through the array and generates the cookie content string.
+	 *
 	 * @return string Cookie content
 	 */
 	protected function generateContentString()
@@ -214,8 +212,7 @@ class Piwik_Cookie
 	 * 
 	 * @param string Name of the value to save; the name will be used to retrieve this value
 	 * @param string|array|numeric Value to save
-	 * 
- 	 */
+	 */
 	public function set( $name, $value )
 	{
 		$name = self::escapeValue($name);

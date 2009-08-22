@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -14,6 +15,13 @@ defined('PIWIK_INCLUDE_PATH') or die;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
+/**
+ * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
+ *
+ * @package Piwik
+ * @subpackage Piwik_Updater
+ * @see Piwik_iUpdate
+ */
 class Piwik_Updater
 {
 	const INDEX_CURRENT_VERSION = 0;
@@ -31,9 +39,10 @@ class Piwik_Updater
 	}
 
 	/**
+	 * Add component to check
+	 *
 	 * @param string $name
 	 * @param string $version
-	 * @return void
 	 */
 	public function addComponentToCheck($name, $version)
 	{
@@ -41,9 +50,10 @@ class Piwik_Updater
 	}
 	
 	/**
+	 * Record version of successfully completed component update
+	 *
 	 * @param string $name
 	 * @param string $version
-	 * @return void
 	 */
 	public function recordComponentSuccessfullyUpdated($name, $version)
 	{
@@ -67,6 +77,8 @@ class Piwik_Updater
 	}
 
 	/**
+	 * Update the named component
+	 *
 	 * @param string $name
 	 * @return array of warning strings if applicable
 	 */
@@ -104,8 +116,10 @@ class Piwik_Updater
 		$this->recordComponentSuccessfullyUpdated($name, $this->componentsWithNewVersion[$name][self::INDEX_NEW_VERSION]);
 		return $warningMessages;
 	}
-	
+
 	/**
+	 * Construct list of update files for the outdated components
+	 *
 	 * @return array( componentName => array( file1 => version1, [...]), [...])
 	 */
 	private function loadComponentsWithUpdateFile()
@@ -154,6 +168,8 @@ class Piwik_Updater
 	}
 	
 	/**
+	 * Construct list of outdated components
+	 *
 	 * @return array array( componentName => array( oldVersion, newVersion), [...])
 	 */
 	private function loadComponentsWithNewVersion()
@@ -215,6 +231,9 @@ class Piwik_Updater
 
 	/**
 	 * Performs database update(s)
+	 *
+	 * @param string $file Update script filename
+	 * @param array $sqlarray An array of SQL queries to be executed
 	 */
 	static function updateDatabase($file, $sqlarray)
 	{
@@ -233,4 +252,10 @@ class Piwik_Updater
 	}
 }
 
+/**
+ * Exception thrown by updater if a non-recoverable error occurs
+ *
+ * @package Piwik
+ * @subpackage Piwik_Updater
+ */
 class Piwik_Updater_UpdateErrorException extends Exception {}

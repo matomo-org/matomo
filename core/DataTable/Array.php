@@ -6,14 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * The DataTable_Array is a way to store an array of dataTable.
  * The Piwik_DataTable_Array implements some of the features of the Piwik_DataTable such as queueFilter, getRowsCount.
  * 
- * @package Piwik_DataTable
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Array
 {
@@ -80,8 +82,6 @@ class Piwik_DataTable_Array
 	 *
 	 * @param string $className Filter name, eg. Piwik_DataTable_Filter_Limit
 	 * @param array $parameters Filter parameters, eg. array( 50, 10 )
-	 * 
-	 * @return void
 	 */
 	public function queueFilter( $className, $parameters = array() )
 	{
@@ -93,8 +93,6 @@ class Piwik_DataTable_Array
 	
 	/**
 	 * Apply the filters previously queued to each of the DataTable of this DataTable_Array.
-	 *
-	 * @return void
 	 */
 	public function applyQueuedFilters()
 	{

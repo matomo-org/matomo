@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -129,9 +130,7 @@
  * 
  * @package Piwik
  * @subpackage Piwik_DataTable
- * 
  */
-
 class Piwik_DataTable
 {	
 	/**
@@ -279,8 +278,6 @@ class Piwik_DataTable
 	/**
 	 * Enables the recursive sort. Means that when using $table->sort() 
 	 * it will also sort all subtables using the same callback
-	 * 
-	 * @return void
 	 */
 	public function enableRecursiveSort()
 	{
@@ -304,9 +301,6 @@ class Piwik_DataTable
 
 	/**
 	 * Saves the current number of rows
-	 * 
-	 * @return void
-	 *
 	 */
 	function setRowsCountBeforeLimitFilter()
 	{
@@ -353,7 +347,6 @@ class Piwik_DataTable
 	/**
 	 * Apply all filters that were previously queued to this table
 	 * @see queueFilter()
-	 * @return void
 	 */
 	public function applyQueuedFilters()
 	{
@@ -443,8 +436,6 @@ class Piwik_DataTable
 
 	/**
 	 * Rebuilds the index used to lookup a row by label
-	 *
-	 * @return void
 	 */
 	private function rebuildIndex()
 	{
@@ -682,6 +673,7 @@ class Piwik_DataTable
 
 	/**
 	 * Rename a column in all rows
+	 *
 	 * @param $oldName
 	 * @param $newName
 	 */
@@ -885,7 +877,6 @@ class Piwik_DataTable
 	 * 					//first Datatable level3 (child of second Datatable level1 for example)
  	 *					3 => 'eghuighahgaueytae78yaet7yaetaeGRQWUBGUIQGH&QE',
 	 * 					);
-	 * 
 	 */
 	public function getSerialized(	$maximumRowsInDataTable = null, 
 									$maximumRowsInSubDataTable = null,
@@ -945,7 +936,6 @@ class Piwik_DataTable
 	  * The function creates all the necessary DataTable_Row
 	  * 
 	  * @param string string of serialized datatable
-	  * @return void
 	  */
 	public function addRowsFromSerializedArray( $stringSerialized )
 	{
@@ -973,7 +963,6 @@ class Piwik_DataTable
 	 * 				array( ... ), 
 	 * 				
 	 * 			)
-	 * @return void
 	 */
 	public function addRowsFromArray( $array )
 	{
@@ -1131,8 +1120,6 @@ class Piwik_DataTable
 	 * 
 	 * @param array $array See method description
 	 * @param array|null $subtablePerLabel see method description
-	 * 
-	 * @return void
 	 */
 	public function addRowsFromArrayWithIndexLabel( $array, $subtablePerLabel = null)
 	{
@@ -1157,5 +1144,4 @@ class Piwik_DataTable
 			$this->addRow( new Piwik_DataTable_Row($cleanRow) );
 		}
 	}
-
 }

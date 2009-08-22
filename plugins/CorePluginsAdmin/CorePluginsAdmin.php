@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik_Plugins
  * @package Piwik_CorePluginsAdmin
  */
 
+/**
+ *
+ * @package Piwik_CorePluginsAdmin
+ */
 class Piwik_CorePluginsAdmin extends Piwik_Plugin
 {
 	public function getInformation()
@@ -32,5 +37,3 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 		Piwik_AddAdminMenu(Piwik_Translate('CorePluginsAdmin_MenuPlugins'), array('module' => 'CorePluginsAdmin', 'action' => 'index'));		
 	}
 }
-
-

@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ArchiveProcessing
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -17,7 +18,8 @@
  * These methods are called by the plugins that do the logic of archiving their own data. \
  * They hook on the event 'ArchiveProcessing_Period.compute'
  * 
- * @package Piwik_ArchiveProcessing
+ * @package Piwik
+ * @subpackage Piwik_ArchiveProcessing
  */
 class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 {
@@ -253,8 +255,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 * 
 	 * All the other reports are computed inside plugins listening to the event 'ArchiveProcessing_Period.compute'.
 	 * See some of the plugins for an example.
-	 * 
-	 * @return void
 	 */
 	protected function compute()
 	{		
@@ -292,8 +292,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	/**
 	 * Called at the end of the archiving process.
 	 * Does some cleaning job in the database.
-	 * 
-	 * @return void
 	 */
 	protected function postCompute()
 	{

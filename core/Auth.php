@@ -6,9 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  *
+ * @category Piwik
  * @package Piwik
  */
 
+/**
+ * Interface for authentication modules
+ *
+ * @package Piwik
+ * @subpackage Piwik_Auth
+ */
 interface Piwik_Auth {
 	/**
 	 * Authentication module's name, e.g., "Login"
@@ -24,8 +31,11 @@ interface Piwik_Auth {
 }
 
 /**
+ * Authentication result
  *
+ * @see Zend_Auth_Result
  * @package Piwik
+ * @subpackage Piwik_Auth
  */
 class Piwik_Auth_Result extends Zend_Auth_Result
 {
@@ -37,7 +47,15 @@ class Piwik_Auth_Result extends Zend_Auth_Result
 	protected $_token_auth = null;
 	
 	const SUCCESS_SUPERUSER_AUTH_CODE = 42;
-	
+
+	/**
+	 * Constructor for Piwik_Auth_Result
+	 *
+	 * @param int $code
+	 * @param string $login identity
+	 * @param string $token_auth
+	 * @param array $messages
+	 */
 	public function __construct($code, $login, $token_auth, array $messages = array())
 	{
 		// Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, Piwik_Auth_Result::SUCCESS, Piwik_Auth_Result::FAILURE  

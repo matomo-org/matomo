@@ -6,15 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Log
- * @subpackage Piwik_Log_Message
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Class used to log a standard message event.
  * 
- * @package Piwik_Log
- * @subpackage Piwik_Log_Message
+ * @package Piwik
+ * @subpackage Piwik_Log
  */
 class Piwik_Log_Message extends Piwik_Log
 {
@@ -42,13 +42,12 @@ class Piwik_Log_Message extends Piwik_Log
 	}
 }
 
-
 /**
  * Format a standard message event to be displayed on the screen.
  * The message can be a PHP array or a string.
  * 
- * @package Piwik_Log
- * @subpackage Piwik_Log_Message
+ * @package Piwik
+ * @subpackage Piwik_Log
  */
 class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter 
 {

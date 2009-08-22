@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik_Plugins
  * @package Piwik_ExampleRssWidget
  */
 
+/**
+ *
+ * @package Piwik_ExampleRssWidget
+ */
 class Piwik_ExampleRssWidget extends Piwik_Plugin
 {
 	public function getInformation()
@@ -36,6 +41,10 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 Piwik_AddWidget('Example Widgets', 'Piwik.org Blog', 'ExampleRssWidget', 'rssPiwik');
 Piwik_AddWidget('Example Widgets', 'Piwik Changelog', 'ExampleRssWidget', 'rssChangelog');
 
+/**
+ *
+ * @package Piwik_ExampleRssWidget
+ */
 class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 {
 	function rssPiwik()
@@ -54,6 +63,10 @@ class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 	}
 }
 
+/**
+ *
+ * @package Piwik_ExampleRssWidget
+ */
 class Piwik_ExampleRssWidget_Rss
 {
 	protected $url = null;

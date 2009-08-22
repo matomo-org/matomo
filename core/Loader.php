@@ -6,15 +6,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
+/**
+ * Piwik auto loader
+ *
+ * @package Piwik
+ */
 class Piwik_Loader
 {
 	// our class search path; current directory is intentionally excluded
 	protected static $dirs = array( '/core/', '/libs/', '/plugins/' );
 
-	protected static function getClassPath($class)
+	/**
+	 * Get class file name
+	 *
+	 * @param string $class Class name
+	 * @return string Class file name
+	 */
+	protected static function getClassFileName($class)
 	{
 		$class = str_replace('_', '/', $class);
 
@@ -31,9 +43,15 @@ class Piwik_Loader
 		return $class;
 	}
 
+	/**
+	 * Load class by name
+	 *
+	 * @param string $class Class name
+	 * @throws exception if class cannot be loaded
+	 */
 	public static function autoload($class)
 	{
-		$classPath = self::getClassPath($class);
+		$classPath = self::getClassFileName($class);
 		while(!empty($classPath))
 		{
 			// auto-discover class location

@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -19,18 +20,19 @@
  * - the renderer can be applied (XML, PHP, HTML, etc.)
  * So you don't have to write specific renderer for your data, it is already available in all the formats supported natively by Piwik.
  * 
- * @package Piwik_DataTable
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Simple extends Piwik_DataTable
 {
 	/**
 	 * Loads (append) in the DataTable the array information
+	 *
 	 * @param array Array containing the rows information
 	 * 		array(
 	 * 			'Label row 1' => Value row 1,
 	 * 			'Label row 2' => Value row 2,
 	 * 	)
-	 * @return void
 	 */
 	function addRowsFromArray($array)
 	{

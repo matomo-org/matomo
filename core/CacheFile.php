@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -16,6 +17,8 @@
  *
  * We may want to add support for cache expire, storing last modification time in the file. See code in:
  * - openx/lib/max/Delivery/cache.php
+ *
+ * @package Piwik
  */
 class Piwik_CacheFile
 {

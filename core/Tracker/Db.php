@@ -6,15 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Simple database PDO wrapper.
  * We can't afford to have a dependency with the Zend_Db module in Tracker.
  * We wrote this simple class 
- * 
- * @package Piwik_Tracker
+ *
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
 class Piwik_Tracker_Db 
 {
@@ -110,8 +112,6 @@ class Piwik_Tracker_Db
 	
 	/**
 	 * Disconnects from the Mysql server
-	 *
-	 * @return void
 	 */
 	public function disconnect()
 	{

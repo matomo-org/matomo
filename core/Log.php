@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Log
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * 
- * @package Piwik_Log
+ * @package Piwik
+ * @subpackage Piwik_Log
  */
 abstract class Piwik_Log extends Zend_Log
 {
@@ -114,7 +116,9 @@ abstract class Piwik_Log extends Zend_Log
 }
 
 /**
- * @package Piwik_Log
+ * 
+ * @package Piwik
+ * @subpackage Piwik_Log
  */
 class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 {	
@@ -136,6 +140,11 @@ class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 	}
 }
 
+/**
+ * 
+ * @package Piwik
+ * @subpackage Piwik_Log
+ */
 class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interface
 {
 	function formatEvent($event)

@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ArchiveProcessing
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -25,7 +26,8 @@
  * - name 		= the name of the report (ex: uniq_visitors or search_keywords_by_search_engines)
  * - value 		= the actual data
  * 
- * @package Piwik_ArchiveProcessing
+ * @package Piwik
+ * @subpackage Piwik_ArchiveProcessing
  */
 abstract class Piwik_ArchiveProcessing
 {
@@ -216,8 +218,6 @@ abstract class Piwik_ArchiveProcessing
 	
 	/**
 	 * Inits the object
-	 * 
-	 * @return void
 	 */
 	protected function loadArchiveProperties()
 	{		
@@ -312,8 +312,6 @@ abstract class Piwik_ArchiveProcessing
 	
 	/**
 	 * Init the object before launching the real archive processing
-	 * 
-	 * @return void
 	 */
 	protected function initCompute()
 	{
@@ -330,8 +328,6 @@ abstract class Piwik_ArchiveProcessing
 	 * Makes sure the new archive is marked as "successful" in the DB
 	 * 
 	 * We also try to delete some stuff from memory but really there is still a lot...
-	 * 
-	 * @return void
 	 */
 	protected function postCompute()
 	{

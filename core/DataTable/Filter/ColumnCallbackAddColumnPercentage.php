@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -21,6 +22,8 @@
  *   $nbVisits = Piwik_VisitsSummary_API::getVisits($idSite, $period, $date);
  *   $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits', 'nb_visits_percentage', $nbVisits, 1));
  *
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Filter_ColumnCallbackAddColumnPercentage extends Piwik_DataTable_Filter
 {

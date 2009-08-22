@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -42,7 +43,6 @@ abstract class Piwik_Plugin
 	/**
 	 * Executed after loading plugin and registering translations
 	 * Useful for code that uses translated strings from the plugin.
-	 * @return void
 	 */
 	public function postLoad()
 	{
@@ -54,8 +54,7 @@ abstract class Piwik_Plugin
 	 * - create tables
 	 * - update existing tables
 	 * - etc.
-	 * @return void
-	*/
+	 */
 	public function install()
 	{
 		return;
@@ -63,7 +62,6 @@ abstract class Piwik_Plugin
 	  
 	/**
 	 * Remove the created resources during the install
-	 * @return void
 	 */
 	public function uninstall()
 	{
@@ -72,7 +70,8 @@ abstract class Piwik_Plugin
 	
 	/**
 	 * Returns the plugin name
-	 * @var string
+	 *
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -82,7 +81,8 @@ abstract class Piwik_Plugin
 
 	/**
 	 * Returns the plugin version number
-	 * @var string
+	 *
+	 * @return string
 	 */
 	public function getVersion()
 	{
@@ -99,5 +99,4 @@ abstract class Piwik_Plugin
 	{
 		return substr(get_class($this), strlen("Piwik_"));
 	}
-
 }

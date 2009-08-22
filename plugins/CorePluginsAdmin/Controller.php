@@ -6,12 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ExamplePlugin
+ * @category Piwik_Plugins
+ * @package Piwik_CorePluginsAdmin
  */
 
 /**
- * 
- * @package Piwik_ExamplePlugin
+ *
+ * @package Piwik_CorePluginsAdmin
  */
 class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 {	

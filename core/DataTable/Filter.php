@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -20,8 +21,8 @@
  * The concept is very simple: the filter is given the DataTable 
  * and can do whatever is necessary on the data (in the filter() method).
  * 
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Filter
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 abstract class Piwik_DataTable_Filter
 {

@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ArchiveProcessing
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -14,8 +15,8 @@
  * Example: $record = new Piwik_ArchiveProcessing_Record_Blob('visitor_names', serialize(array('piwik-fan', 'php', 'stevie-vibes')));
  * The value will be compressed before being saved in the DB.
  * 
- * @package Piwik_ArchiveProcessing
- * @subpackage Piwik_ArchiveProcessing_Record
+ * @package Piwik
+ * @subpackage Piwik_ArchiveProcessing
  */
 class Piwik_ArchiveProcessing_Record_Blob extends Piwik_ArchiveProcessing_Record
 {

@@ -6,10 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
-
+/**
+ * @package Piwik
+ * @subpackage Piwik_Tracker
+ */
 interface Piwik_Tracker_Visit_Interface {
 	function setRequest($requestArray);
 	function handle();
@@ -26,9 +30,9 @@ interface Piwik_Tracker_Visit_Interface {
  * Whether a visit is NEW or KNOWN we also save the action in the DB. 
  * One request to the piwik.php script is associated to one action.
  * 
- * @package Piwik_Tracker
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
-
 class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 {
 	/**
@@ -335,9 +339,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	/**
 	 * Save new visitor information to log_visit table.
 	 * Provides pre- and post- event hooks (Tracker.saveVisitorInformation and Tracker.saveVisitorInformation.end) for plugins
-	 *
-	 * @param none
-	 * @return void
 	 */
 	protected function saveVisitorInformation()
 	{
@@ -369,6 +370,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	/**
 	 *  Returns vistor cookie
+	 *
 	 *  @return string
 	 */
 	protected function getVisitorIdcookie()
@@ -388,6 +390,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	/**
 	 * Returns the current date in the "Y-m-d" PHP format
+	 *
 	 * @return string
 	 */
 	protected function getCurrentDate( $format = "Y-m-d")
@@ -397,6 +400,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	/**
 	 * Returns the current Timestamp
+	 *
 	 * @return int
 	 */
 	protected function getCurrentTimestamp()
@@ -428,6 +432,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	/**
 	 * Returns the cookie name used for the Piwik Tracker cookie
+	 *
 	 * @return string
 	 */
 	protected function getCookieName()
@@ -437,6 +442,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	
 	/**
 	 * Returns the cookie expiration date.
+	 *
 	 * @return int
 	 */
 	protected function getCookieExpire()
@@ -950,7 +956,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	}
 }
 
+/**
+ * @package Piwik
+ * @subpackage Piwik_Tracker
+ */
 class Piwik_Tracker_Visit_VisitorNotFoundInDatabase extends Exception {
 }
+
+/**
+ * @package Piwik
+ * @subpackage Piwik_Tracker
+ */
 class Piwik_Tracker_Visit_Excluded extends Exception {
 }

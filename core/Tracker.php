@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -16,7 +17,8 @@
  * 
  * We try to include as little files as possible (no dependency on 3rd party modules).
  * 
- * @package Piwik_Tracker
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
 class Piwik_Tracker
 {	

@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik_Plugins
  * @package Piwik_ExampleFeedburner
  */
 
+/**
+ *
+ * @package Piwik_ExampleFeedburner
+ */
 class Piwik_ExampleFeedburner extends Piwik_Plugin
 {
 	public function getInformation()

@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Helper
+ * @category Piwik
+ * @package Piwik
  */
 
 if(!defined('E_STRICT')) {            define('E_STRICT', 2048); }
@@ -17,7 +18,10 @@ if(!defined('E_USER_DEPRECATED')) {   define('E_USER_DEPRECATED', 16384); }
 /**
  * Error handler used to display nicely errors in Piwik
  * 
- * @package Piwik_Helper
+ * @param int $errno Error number
+ * @param string $errstring Error message
+ * @param string $errfile File name
+ * @param int $errline Line number
  */
 function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 {

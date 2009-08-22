@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  *
+ * @category Piwik_Plugins
  * @package Piwik_Login
  */
 
+/**
+ *
+ * @package Piwik_Login
+ */
 class Piwik_Login_Auth implements Piwik_Auth
 {
 	protected $login = null;

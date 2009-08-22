@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Goals
  */
 
+/**
+ *
+ * @package Piwik_Goals
+ */
 class Piwik_Goals_Controller extends Piwik_Controller 
 {
 	const CONVERSION_RATE_PRECISION = 1;

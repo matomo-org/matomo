@@ -6,16 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Delete all rows from the table that are not in the offset,offset+limit range
  * 
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Filter 
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
-
 class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
 {	
 	/**

@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_API
+ * @category Piwik
+ * @package Piwik
  */
 
+/**
+ * @package Piwik
+ * @subpackage Piwik_API
+ */
 class Piwik_API_ResponseBuilder
 {
 	private $request = null;

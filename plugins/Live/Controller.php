@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Live
  */
 
+/**
+ *
+ * @package Piwik_Live
+ */
 class Piwik_Live_Controller extends Piwik_Controller
 {
 	function widget()

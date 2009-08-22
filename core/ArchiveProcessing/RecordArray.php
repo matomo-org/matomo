@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ArchiveProcessing
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -27,8 +28,8 @@
  * 		veryLongBook_2 => Z
  * 		veryLongBook_3 => M
  * 
- * @package Piwik_ArchiveProcessing
- * @subpackage Piwik_ArchiveProcessing_Record
+ * @package Piwik
+ * @subpackage Piwik_ArchiveProcessing
  */
 class Piwik_ArchiveProcessing_RecordArray extends Piwik_ArchiveProcessing_Record
 {

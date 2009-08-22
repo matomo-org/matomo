@@ -6,18 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Helper
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
- * @package Piwik_Helper
+ * Class to retrieve absolute URL or URI components of the current URL,
+ * and handle URL redirection.
  *
+ * @package Piwik
  */
 class Piwik_Url 
 {
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 *
 	 * @return string
 	 */
 	static public function getCurrentUrl()
@@ -30,6 +34,7 @@ class Piwik_Url
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org/dir1/dir2/index.php"
+	 *
 	 * @return string
 	 */
 	static public function getCurrentUrlWithoutQueryString()
@@ -41,6 +46,7 @@ class Piwik_Url
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org/dir1/dir2/"
+	 *
 	 * @return string with trailing slash
 	 */
 	static public function getCurrentUrlWithoutFileName()
@@ -53,6 +59,7 @@ class Piwik_Url
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "/dir1/dir2/"
+	 *
 	 * @return string with trailing slash
 	 */
 	static public function getCurrentScriptPath()
@@ -73,6 +80,7 @@ class Piwik_Url
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "/dir1/dir2/index.php"
+	 *
 	 * @return string
 	 */
 	static public function getCurrentScriptName()
@@ -104,6 +112,7 @@ class Piwik_Url
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org"
+	 *
 	 * @return string
 	 */
 	static public function getCurrentHost()
@@ -135,6 +144,7 @@ class Piwik_Url
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "?param1=value1&param2=value2"
+	 *
 	 * @return string
 	 */
 	static public function getCurrentQueryString()
@@ -190,6 +200,7 @@ class Piwik_Url
 	/**
 	 * Given an array of parameters name->value, returns the query string.
 	 * Also works with array values using the php array syntax for GET parameters.
+	 *
 	 * @param $parameters eg. array( 'param1' => 10, 'param2' => array(1,2))
 	 * @return string eg. "param1=10&param2[]=1&param2[]=2"
 	 */
@@ -221,8 +232,6 @@ class Piwik_Url
 	/**
 	 * Redirects the user to the Referer if found. 
 	 * If the user doesn't have a referer set, it redirects to the current URL without query string.
-	 *
-	 * @return void http Location: header sent
 	 */
 	static public function redirectToReferer()
 	{
@@ -238,7 +247,6 @@ class Piwik_Url
 	 * Redirects the user to the specified URL
 	 *
 	 * @param string $url
-	 * @return void http Location: header sent
 	 */
 	static public function redirectToUrl( $url )
 	{
@@ -259,5 +267,4 @@ class Piwik_Url
 		}
 		return false;
 	}
-
 }

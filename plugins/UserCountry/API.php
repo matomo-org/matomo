@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
 
@@ -68,6 +69,4 @@ class Piwik_UserCountry_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		return $archive->getDataTableFromNumeric('UserCountry_distinctCountries');
 	}
-	
-	
 }

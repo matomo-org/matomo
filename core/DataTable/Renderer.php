@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -17,8 +18,8 @@
  *  $render->setTable($dataTable);
  *  echo $render;
  * 
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Renderer
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 abstract class Piwik_DataTable_Renderer
 {

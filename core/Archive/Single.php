@@ -7,13 +7,16 @@
  * @version $Id$
  * 
  * 
- * @package Piwik_Archive
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Piwik_Archive_Single is used to store the data of a single archive, 
  * for example the statistics for the 'day' '2008-02-21' for the website idSite '2' 
  *
+ * @package Piwik
+ * @subpackage Piwik_Archive
  */
 class Piwik_Archive_Single extends Piwik_Archive
 {
@@ -141,8 +144,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * Prepares the archive. Gets the idarchive from the ArchiveProcessing.
 	 * 
 	 * This will possibly launch the archiving process if the archive was not available.
-	 * 
-	 * @return void
 	 */
 	public function prepareArchive()
 	{
@@ -278,8 +279,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * @param string $name
 	 * @param Piwik_DataTable $dataTableToLoad
 	 * @param bool $addMetadataSubtableId
-	 * 
-	 * @return void
 	 */
 	public function loadSubDataTables($name, Piwik_DataTable $dataTableToLoad, $addMetadataSubtableId = false)
 	{
@@ -310,8 +309,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	
 	/**
 	 * Free the blob cache memory array
-	 *
-	 * @return void
 	 */
 	public function freeBlob( $name )
 	{
@@ -322,7 +319,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	/**
 	 * Fetches all blob fields name_* at once for the current archive for performance reasons.
 	 * 
-	 * @return void
+	 * @return false if no visits
 	 */
 	public function preFetchBlob( $name )
 	{
