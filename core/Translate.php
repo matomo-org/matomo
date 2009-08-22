@@ -141,7 +141,7 @@ class Piwik_Translate
 	 * @param array $args sprintf arguments
 	 * @return string
 	 */
-	static public function translate($string, args = array())
+	static public function translate($string, $args = array())
 	{
 		if(!is_array($args))
 		{
