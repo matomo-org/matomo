@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -215,7 +216,7 @@ class Piwik_FrontController
 			
 			// creating the access object, so that core/Updates/* can enforce Super User and use some APIs
 			Piwik::createAccessObject();
-			Piwik_PostEvent('FrontController.DispatchCoreAndPluginUpdatesScreen');
+			Piwik_PostEvent('FrontController.dispatchCoreAndPluginUpdatesScreen');
 
 			Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 			Piwik::install();
@@ -237,7 +238,7 @@ class Piwik_FrontController
 			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
 			$pluginsManager->postLoadPlugins();
 			
-			Piwik_PostEvent('FrontController.CheckForUpdates');
+			Piwik_PostEvent('FrontController.checkForUpdates');
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString(), true);
 		}
