@@ -36,7 +36,7 @@
 	                
 	                <!-- 1. welcome -->
 	                
-	                <verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+	                <verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 	                <verifyText description="check page text" text="Piwik" />
 	                <verifyText description="check page text" text="Welcome!" />
 	                <verifyText description="check page text" text="This process is split up into 8 easy steps and will take around 5 minutes" />
@@ -47,7 +47,7 @@
 	            	
 	            	<!-- 2. systemCheck -->
 	            	
-	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
 	                <verifyText description="check page text" text="System check" />
 	                <verifyText description="check page text" text="Optional" />
@@ -65,7 +65,7 @@
 	            	
 	            	<!-- 3. databaseSetup -->
 
-	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
 	                <verifyText description="check page text" text="MySQL database setup" />
 	                
@@ -90,7 +90,7 @@
 	            		<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
 	            	</not>
 	            	
-	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
 					<verifyText description="check page text" text="Tables created with success!" />
 					<verifyXPath description="looking for success image" xpath="//img[@src='themes/default/images/success_medium.png']"/>
@@ -102,7 +102,7 @@
 					
 					<!-- 5. generalSetup -->
 					
-	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
 					<verifyText description="check page text" text="General Setup" />
 					
@@ -126,7 +126,7 @@
 	            		<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
 	            	</not>
 				
-	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
 					<verifyText description="check page text" text="Setup a website" />
 					
@@ -148,7 +148,7 @@
 	            		<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']"/>
 	            	</not>
 
-	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
 					<verifyText description="check page text" text="JavaScript tag" />
 
@@ -159,7 +159,7 @@
 	            	
 	            	<!-- 8. finished -->
 	            	
-	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &raquo; Installation" />
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
 					<verifyText description="check page text" text="Congratulations" />
 					
