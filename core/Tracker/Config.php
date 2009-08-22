@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -19,7 +20,8 @@
  * It's using the php.net/parse_ini_file function to parse the configuration files.
  * It can be used to access both user config.ini.php and piwik global.ini.php config file.
  * 
- * @package Piwik_Tracker
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
 class Piwik_Tracker_Config
 {

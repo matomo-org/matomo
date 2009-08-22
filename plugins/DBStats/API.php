@@ -6,12 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik_Plugins
  * @package Piwik_DBStats
  */
 
 /**
- * 
- * @package Piwik_DBStats_API
+ *
+ * @package Piwik_DBStats
  */
 class Piwik_DBStats_API
 {

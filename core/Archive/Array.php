@@ -6,14 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * 
- * @package Piwik_Archive
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Piwik_Archive_Array is used to store multiple archives, 
  * for example one archive for a given day for each Piwik website
  *
+ * @package Piwik
+ * @subpackage Piwik_Archive
  */
 abstract class Piwik_Archive_Array extends Piwik_Archive
 {	

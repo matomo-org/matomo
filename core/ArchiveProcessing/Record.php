@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ArchiveProcessing
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -20,8 +21,8 @@
  * - blob ; the value will be saved in a binary field in the DB
  * 	 It should be used for all the other types: PHP variables, STRING, serialized OBJECTS or ARRAYS, etc.
  * 
- * @package Piwik_ArchiveProcessing
- * @subpackage Piwik_ArchiveProcessing_Record
+ * @package Piwik
+ * @subpackage Piwik_ArchiveProcessing
  */
 abstract class Piwik_ArchiveProcessing_Record
 {

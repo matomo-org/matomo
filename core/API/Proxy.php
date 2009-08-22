@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_API
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -17,7 +18,8 @@
  * 
  * It will also log the performance of API calls (time spent, parameter values, etc.) if logger available
  * 
- * @package Piwik_API
+ * @package Piwik
+ * @subpackage Piwik_API
  */
 class Piwik_API_Proxy
 {

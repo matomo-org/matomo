@@ -25,6 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
  * For a detailed explanation, see the documentation on http://dev.piwik.org/trac/wiki/MainSequenceDiagram
  * 
  * @package Piwik
+ * @subpackage Piwik_FrontController
  */
 class Piwik_FrontController
 {
@@ -173,8 +174,6 @@ class Piwik_FrontController
 	 * - loads the plugin, 
 	 * - inits the DB connection,
 	 * - etc.
-	 * 
-	 * @return void 
 	 */
 	function init()
 	{
@@ -248,8 +247,6 @@ class Piwik_FrontController
 	 * Assign CLI parameters as if they were REQUEST or GET parameters.
 	 * You can trigger Piwik from the command line by
 	 * # /usr/bin/php5 /path/to/piwik/index.php -- "module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php"
-	 *
-	 * @return void
 	 */
 	static protected function assignCliParametersToRequest()
 	{
@@ -269,6 +266,7 @@ class Piwik_FrontController
  * Exception thrown when the requested plugin is not activated in the config file
  *
  * @package Piwik
+ * @subpackage Piwik_FrontController
  */
 class Piwik_FrontController_PluginDeactivatedException extends Exception
 {
@@ -278,8 +276,9 @@ class Piwik_FrontController_PluginDeactivatedException extends Exception
 	}
 }
 
-
-// for more information see http://dev.piwik.org/trac/ticket/374
+/**
+ * For more information: @link http://dev.piwik.org/trac/ticket/374
+ */
 function destroy(&$var) 
 {
 	if (is_object($var)) $var->__destruct();

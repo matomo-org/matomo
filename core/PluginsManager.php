@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -297,7 +298,6 @@ class Piwik_PluginsManager
 
 	/**
 	 * @param Piwik_Plugin $plugin
-	 * @return void
 	 */
 	public function unloadPlugin( $plugin )
 	{

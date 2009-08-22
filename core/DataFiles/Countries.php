@@ -6,13 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  *
- * @package Piwik_UserCountry
+ * @category Piwik
+ * @package DataFiles
  */
 
 /**
  * Country code and continent database.
  * If you want to add a new entry, please email us at hello at piwik.org
- *
  */
 if(!isset($GLOBALS['Piwik_CountryList']))
 {

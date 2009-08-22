@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ViewDataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -14,8 +15,8 @@
  * 
  * Reads the requested DataTable from the API.
  * 
- * @package Piwik_ViewDataTable
- *
+ * @package Piwik
+ * @subpackage Piwik_ViewDataTable
  */
 class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 {
@@ -153,8 +154,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 
 	/**
 	 * Sets the columns in the HTML table as not sortable (they are not clickable) 
-	 *
-	 * @return void
 	 */
 	public function disableSort()
 	{

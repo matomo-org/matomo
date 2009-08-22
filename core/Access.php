@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  *
+ * @category Piwik
  * @package Piwik
- *
  */
 
 /**
@@ -33,6 +33,7 @@
  * and he only can change the main configuration settings.
  *
  * @package Piwik
+ * @subpackage Piwik_Access
  */
 class Piwik_Access
 {	
@@ -155,7 +156,12 @@ class Piwik_Access
 		}
 		return true;
 	}
-	
+
+	/**
+	 * Reload super user access
+	 *
+	 * @return bool
+	 */	
 	protected function reloadAccessSuperUser()
 	{
 		$this->isSuperUser = true;
@@ -166,8 +172,6 @@ class Piwik_Access
 	/**
 	 * We bypass the normal auth method and give the current user Super User rights.
 	 * This should be very carefully used.
-	 * 
-	 * @return void
 	 */
 	public function setSuperUser()
 	{
@@ -186,6 +190,7 @@ class Piwik_Access
 	
 	/**
 	 * Returns the current user login
+	 *
 	 * @return string|null
 	 */
 	public function getLogin()
@@ -195,6 +200,7 @@ class Piwik_Access
 
 	/**
 	 * Returns the token_auth used to authenticate this user in the API
+	 *
 	 * @return string|null
 	 */
 	public function getTokenAuth()
@@ -261,6 +267,7 @@ class Piwik_Access
 
 	/**
 	 * If the user doesn't have an ADMIN access for at least one website, throws an exception
+	 *
 	 * @throws Exception
 	 */
 	public function checkUserHasSomeAdminAccess()
@@ -274,6 +281,7 @@ class Piwik_Access
 	
 	/**
 	 * If the user doesn't have any view permission, throw exception
+	 *
 	 * @throws Exception
 	 */
 	public function checkUserHasSomeViewAccess()
@@ -347,6 +355,7 @@ class Piwik_Access
  * Exception thrown when a user doesn't  have sufficient access.
  * 
  * @package Piwik
+ * @subpackage Piwik_Access
  */
 class Piwik_Access_NoAccessException extends Exception
 {}

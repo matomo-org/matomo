@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Helper
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -18,7 +19,7 @@
  * 
  * will read the value minimumMemoryLimit under the [General] section of the config file
  * 
- * @package Piwik_Helper
+ * @package Piwik
  */
 class Piwik_Config
 {
@@ -47,7 +48,7 @@ class Piwik_Config
 	protected $correctCwd;
 	
 	/**
-	 * Returns default relative path for configuration file
+	 * Returns default relative path for user configuration file
 	 *
 	 * @return string
 	 */
@@ -56,6 +57,11 @@ class Piwik_Config
 		return PIWIK_USER_PATH .'/config/config.ini.php';
 	}
 
+	/**
+	 * Returns default relative path for global configuration file
+	 *
+	 * @return string
+	 */
 	static public function getDefaultDefaultConfigPath()
 	{
 		return PIWIK_USER_PATH .'/config/global.ini.php';
@@ -90,8 +96,6 @@ class Piwik_Config
 	 * $config->database = array(...)
 	 * Piwik will automatically save the updated config file in __destruct()
 	 * This can be disabled (when setting partial configuration values during the installation process for example)
-	 *  
-	 * @return void
 	 */
 	public function disableSavingConfigurationFileUpdates()
 	{
@@ -156,7 +160,6 @@ class Piwik_Config
 	
 	/**
 	 * If called, we use the database_tests credentials
-	 * @return void
 	 */
 	public function setTestEnvironment()
 	{
@@ -238,7 +241,6 @@ class Piwik_Config
 	/**
 	 * Loop through the Default and the User configuration objects and cache them in arrays.
 	 * This slightly helps reducing the Zend overhead when accessing config entries hundreds of times.
-	 * @return void
 	 */
 	protected function cacheConfigArray()
 	{
@@ -276,7 +278,7 @@ class Piwik_Config
 	}
 	
 	/**
-	 * Called when getting a configuration value, eg. 	Zend_Registry::get('config')->superuser->login
+	 * Called when getting a configuration value, eg. Zend_Registry::get('config')->superuser->login
 	 *
 	 * @param string $name
 	 * @return mixed value 

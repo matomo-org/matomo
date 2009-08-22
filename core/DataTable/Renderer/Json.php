@@ -6,15 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * JSON export. Using the php 5.2 feature json_encode.
  * Works with recursive DataTable (when a row can be associated with a subDataTable).
  * 
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Renderer
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 {

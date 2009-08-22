@@ -6,14 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Interface of the Action object.
  * New Action classes can be defined in plugins and used instead of the default one.
  * 
- * @package Piwik_Tracker
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
 interface Piwik_Tracker_Action_Interface {
 	const TYPE_ACTION   = 1;
@@ -50,8 +52,8 @@ interface Piwik_Tracker_Action_Interface {
  * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the reports (currently actions do not link to the url of the pages)
  * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action and this HTML title is displayed in the interface
  * 
- * 
- * @package Piwik_Tracker
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
 class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 {
@@ -207,8 +209,6 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 /**
 	 * Generates the name of the action from the URL or the specified name.
 	 * Sets the name as $this->actionName
-	 * 
-	 * @return void
 	 */
 	protected function extractUrlAndActionNameFromRequest()
 	{

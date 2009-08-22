@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Archive
+ * @category Piwik
+ * @package Piwik
  */
 
+/**
+ * @package Piwik
+ * @subpackage Piwik_Archive
+ */
 class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array 
 {
 	/**

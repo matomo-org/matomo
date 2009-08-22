@@ -6,13 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Helper
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Date object widely used in Piwik.
  * 
- * @package Piwik_Helper
+ * @package Piwik
  */
 class Piwik_Date
 {
@@ -171,9 +172,9 @@ class Piwik_Date
 
     /**
      * Subtracts days from the existing date object and returns a new Piwik_Date object
+     * Returned is the new date object
      * Doesn't modify $this
      * 
-     * Returned is the new date object
      * @return Piwik_Date  new date
      */
     public function subDay( $n )
@@ -229,6 +230,7 @@ class Piwik_Date
 	/**
 	 * Returns a localized date string, given a template. 
 	 * Allowed tags are: %day%, %shortDay%, %longDay%, etc.
+	 * 
 	 * @param $template string eg. %shortMonth% %longYear%
 	 * @return string eg. "Aug 2009"
 	 */
@@ -332,6 +334,7 @@ class Piwik_Date
 	
 	/**
 	 * Returns a date object set to yesterday midnight
+	 * 
 	 * @return Piwik_Date
 	 */
 	static public function yesterday()

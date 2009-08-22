@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ArchiveProcessing
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -16,8 +17,8 @@
  * 
  * All the logic of the archiving is done inside the plugins listening to the event 'ArchiveProcessing_Day.compute'
  * 
- * @package Piwik_ArchiveProcessing
- * 
+ * @package Piwik
+ * @subpackage Piwik_ArchiveProcessing
  */
 class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 {
@@ -32,8 +33,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * Main method to process logs for a day. The only logic done here is computing the number of visits, actions, etc.
 	 * All the other reports are computed inside plugins listening to the event 'ArchiveProcessing_Day.compute'.
 	 * See some of the plugins for an example eg. 'Provider'
-	 * 
-	 * @return void
 	 */
 	protected function compute()
 	{
@@ -372,8 +371,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * 			LABEL2 => array( Piwik_Archive::INDEX_NB_VISITS => Y, [...] )
 	 * 			);
 	 * 		)
-	 * @param array by reference, will be modified
-	 * @return void (array by reference is modified)
+	 *
+	 * @param array $interestByLabel Passed by reference, will be modified
 	 */
 	function enrichConversionsByLabelArray(&$interestByLabel)
 	{
@@ -394,8 +393,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	}
 
 	/**
-	 * @param array $interestByLabelAndSubLabel
-	 * @return void (array by reference is modified)
+	 * @param array $interestByLabelAndSubLabel Passed by reference, will be modified
 	 */
 	function enrichConversionsByLabelArrayHasTwoLevels(&$interestByLabelAndSubLabel)
 	{

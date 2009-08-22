@@ -6,9 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik
+ * @category Piwik
+ * @package PluginsFunctions
  */
 
+/**
+ * @package PluginsFunctions
+ */
 class Piwik_AdminMenu
 {
 	private $adminMenu = null;
@@ -50,7 +54,7 @@ class Piwik_AdminMenu
 	}
 	
 	/*
-	 * @return void
+	 *
 	 */
 	public function add($adminMenuName, $url)
 	{
@@ -61,7 +65,7 @@ class Piwik_AdminMenu
 	}
 	
 	/*
-	 * @return void
+	 *
 	 */
 	public function rename($adminMenuOriginal, $adminMenuRenamed)
 	{

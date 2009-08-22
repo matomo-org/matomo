@@ -1,17 +1,18 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
 /**
  * Class for sending mails, for more information see: 
- * http://framework.zend.com/manual/en/zend.mail.html 
+ * @link http://framework.zend.com/manual/en/zend.mail.html 
  *
  * @package Piwik
  */

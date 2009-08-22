@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -14,7 +15,8 @@
  * easy way to access them. This is used to store all the DataTable during the archiving process.
  * At the end of archiving, the ArchiveProcessing will read the stored datatable and record them in the DB.
  * 
- * @package Piwik_DataTable
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Manager
 {
@@ -79,8 +81,6 @@ class Piwik_DataTable_Manager
 	
 	/**
 	 * Delete all the registered DataTables from the manager
-	 * 
-	 * @return void
 	 */
 	public function deleteAll()
 	{
@@ -109,8 +109,8 @@ class Piwik_DataTable_Manager
 	
 	/**
 	 * Remove the table from the manager (table has already been unset)
+	 *
 	 * @param $id
-	 * @return void
 	 */
 	public function setTableDeleted($id)
 	{
@@ -119,8 +119,6 @@ class Piwik_DataTable_Manager
 	
 	/**
 	 * Debug only. Dumps all tables currently registered in the Manager
-	 *
-	 * @return void
 	 */
 	public function dumpAllTables()
 	{

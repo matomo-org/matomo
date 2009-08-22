@@ -6,13 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Helper
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Exception handler used to display nicely exceptions in Piwik
  * 
- * @package Piwik_Helper
+ * @param Exception $exception
  */
 function Piwik_ExceptionHandler(Exception $exception) 
 {

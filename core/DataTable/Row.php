@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -25,9 +26,8 @@
  * PERFORMANCE: Do *not* add new fields except if necessary in this object. New fields will be 
  *              serialized and recorded in the DB millions of times. This object size is critical and must be under control.
  *              
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Row
- * 
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Row
 {

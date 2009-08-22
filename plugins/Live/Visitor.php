@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Live
  */
 
@@ -17,6 +18,10 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
+/**
+ *
+ * @package Piwik_Live
+ */
 class Piwik_Live_Visitor
 {
 	function __construct($visitorRawData)

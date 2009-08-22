@@ -5,10 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
- * 
+ *
+ * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
  */
 
+/**
+ *
+ * @package Piwik_CoreUpdater
+ */
 class Piwik_CoreUpdater_Controller extends Piwik_Controller
 {
 	const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';

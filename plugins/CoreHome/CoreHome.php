@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_CorePluginsAdmin
+ * @category Piwik_Plugins
+ * @package Piwik_CoreHome
  */
 
+/**
+ *
+ * @package Piwik_CoreHome
+ */
 class Piwik_CoreHome extends Piwik_Plugin
 {
 	public function getInformation()
@@ -22,4 +27,3 @@ class Piwik_CoreHome extends Piwik_Plugin
 		);
 	}
 }
-

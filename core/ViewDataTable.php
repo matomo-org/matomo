@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ViewDataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -31,26 +32,29 @@
  * </pre>
  * 
  * @see factory() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
- * @package Piwik_ViewDataTable
- *
+ * @package Piwik
+ * @subpackage Piwik_ViewDataTable
  */
 abstract class Piwik_ViewDataTable
 {
 	/**
 	 * Template file that will be loaded for this view.
 	 * Usually set in the Piwik_ViewDataTable_*
+	 *
 	 * @var string eg. 'CoreHome/templates/cloud.tpl'
 	 */
 	protected $dataTableTemplate = null;
 	
 	/**
 	 * Flag used to make sure the main() is only executed once
+	 *
 	 * @var bool
 	 */
 	protected $mainAlreadyExecuted = false;
 	
 	/**
 	 * Contains the values set for the parameters
+	 *
 	 * @see getJavascriptVariablesToSet()
 	 * @var array
 	 */
@@ -59,18 +63,21 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Array of properties that are available in the view (from smarty)
 	 * Used to store UI properties, eg. "show_footer", "show_search", etc.
+	 *
 	 * @var array
 	 */
 	protected $viewProperties = array();
 	
 	/**
 	 * If the current dataTable refers to a subDataTable (eg. keywordsBySearchEngineId for id=X) this variable is set to the Id
+	 *
 	 * @var bool|int
 	 */
 	protected $idSubtable = false;
 	
 	/**
 	 * DataTable loaded from the API for this ViewDataTable.
+	 *
 	 * @var Piwik_DataTable
 	 */
 	protected $dataTable = null; 
@@ -120,12 +127,14 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Method to be implemented by the ViewDataTable_*.
 	 * This method should create and initialize a $this->view object @see Piwik_iView
+	 *
 	 * @return mixed either prints the result or returns the output string
 	 */
 	abstract public function main();
 	
 	/**
 	 * Unique string ID that defines the format of the dataTable, eg. "pieChart", "table", etc.
+	 *
 	 * @return string
 	 */
 	abstract protected function getViewDataTableId();
@@ -223,7 +232,6 @@ abstract class Piwik_ViewDataTable
 	 * @param string $currentControllerAction eg. 'getKeywords'
 	 * @param string $apiMethodToRequestDataTable eg. 'Referers.getKeywords'
 	 * @param string $controllerActionCalledWhenRequestSubTable eg. 'getSearchEnginesFromKeywordId'
-	 * @return void
 	 */
 	public function init( $currentControllerName,
 						$currentControllerAction, 
@@ -320,7 +328,6 @@ abstract class Piwik_ViewDataTable
 	 * The function init() must have been called before, so that the object knows which API module and action to call.
 	 * It builds the API request string and uses Piwik_API_Request to call the API.
 	 * The requested Piwik_DataTable object is stored in $this->dataTable.
-	 * @return void
 	 */
 	protected function loadDataTableFromAPI()
 	{		
@@ -430,6 +437,7 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Returns array of properties, eg. "show_footer", "show_search", etc.
+	 *
 	 * @return array of boolean
 	 */
 	protected function getViewProperties()
@@ -588,7 +596,6 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * The generic filters (limit, offset, sort by visit desc) will not be applied to this datatable.
-	 * @return void
 	 */
 	public function disableGenericFilters()
 	{
@@ -598,8 +605,6 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * The queued filters (replace column names, enhance column with percentage signs, add logo metadata information, etc.) 
 	 * will not be applied to this datatable. They can be manually applied by calling applyQueuedFilters on the datatable.
-	 * 
-	 * @return void
 	 */
 	public function disableQueuedFilters()
 	{
@@ -608,7 +613,6 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * The "X-Y of Z" won't be displayed under this table
-	 * @return void
 	 */
 	public function disableOffsetInformation()
 	{
@@ -617,7 +621,6 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * The search box won't be displayed under this table
-	 * @return void
 	 */
 	public function disableSearchBox()
 	{
@@ -626,7 +629,6 @@ abstract class Piwik_ViewDataTable
 
 	/**
 	 * Do not show the footer icons (show all columns icon, "plus" icon)
-	 * @return void
 	 */
 	public function disableFooterIcons()
 	{
@@ -635,7 +637,6 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * When this method is called, the output will not contain the template datatable_footer.tpl
-	 * @return void
 	 */
 	public function disableFooter()
 	{
@@ -644,7 +645,6 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * The "Include low population" link won't be displayed under this table
-	 * @return void
 	 */
 	public function disableExcludeLowPopulation()
 	{
@@ -653,7 +653,6 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Whether or not to show the "View table" icon
-	 * @return void
 	 */
 	public function disableShowTable()
 	{
@@ -662,7 +661,6 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Whether or not to show the "View more data" icon
-	 * @return void
 	 */
 	public function disableShowAllColumns()
 	{
@@ -671,7 +669,6 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Whether or not to show the tag cloud,  pie charts, bar chart icons
-	 * @return void
 	 */
 	public function disableShowAllViewsIcons()
 	{
@@ -680,7 +677,6 @@ abstract class Piwik_ViewDataTable
 	
 	/**
 	 * Whether or not to show the "goal" icon
-	 * @return void
 	 */
 	public function enableShowGoals()
 	{
@@ -695,7 +691,6 @@ abstract class Piwik_ViewDataTable
 	 * 
 	 * @param int|float If a row value is less than this value, it will be removed from the dataTable
 	 * @param string The name of the column for which we compare the value to $minValue
-	 * @return void
 	 */
 	public function setExcludeLowPopulation( $columnName = null, $minValue = null )
 	{
@@ -712,7 +707,6 @@ abstract class Piwik_ViewDataTable
 	 *
 	 * @param string $pattern to look for
 	 * @param string $column to compare the pattern to
-	 * @return void
 	 */
 	public function setSearchPattern($pattern, $column)
 	{
@@ -724,7 +718,6 @@ abstract class Piwik_ViewDataTable
 	 * Sets the maximum number of rows of the table
 	 *
 	 * @param int $limit
-	 * @return void
 	 */
 	public function setLimit( $limit )
 	{
@@ -739,7 +732,6 @@ abstract class Piwik_ViewDataTable
 	 *
 	 * @param int|string $columnId eg. 'nb_visits' for some tables, or Piwik_Archive::INDEX_NB_VISITS for others
 	 * @param string $order desc or asc
-	 * @return void
 	 */
 	public function setSortedColumn( $columnId, $order = 'desc')
 	{
@@ -829,7 +821,6 @@ abstract class Piwik_ViewDataTable
 	 *
 	 * @param string parameter name
 	 * @param mixed $value
-	 * @return void
 	 */
 	public function setCustomParameter($parameter, $value)
 	{

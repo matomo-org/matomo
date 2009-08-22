@@ -6,15 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ViewDataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * This class generates the HTML code to embed to flash graphs in the page.
  * It doesn't call the API but simply prints the html snippet.
  * 
- * @package Piwik_ViewDataTable
- *
+ * @package Piwik
+ * @subpackage Piwik_ViewDataTable
  */
 abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 {	

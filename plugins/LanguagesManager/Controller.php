@@ -6,12 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_CoreHome
+ * @category Piwik_Plugins
+ * @package Piwik_LanguagesManager
  * 
  */
 
 /**
- * @package Piwik_Dashboard
+ * @package Piwik_LanguagesManager
  */
 class Piwik_LanguagesManager_Controller extends Piwik_Controller
 {

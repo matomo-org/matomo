@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -14,6 +15,12 @@ defined('PIWIK_INCLUDE_PATH') or die;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/Smarty/Smarty.class.php';
 
+/**
+ * Smarty class
+ *
+ * @package Piwik
+ * @subpackage Piwik_Smarty
+ */
 class Piwik_Smarty extends Smarty 
 {
 	function trigger_error($error_msg, $error_type = E_USER_WARNING)
@@ -22,4 +29,8 @@ class Piwik_Smarty extends Smarty
 	}
 }
 
+/**
+ * @package Piwik
+ * @subpackage Piwik_Smarty
+ */
 class SmartyException extends Exception {}

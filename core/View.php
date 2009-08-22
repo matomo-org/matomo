@@ -6,13 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
 /**
- * 
- * @package Piwik_View
+ * View class to render the user interface
  *
+ * @package Piwik
  */
 class Piwik_View implements Piwik_iView
 {
@@ -69,9 +70,9 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * Directly assigns a variable to the view script.
 	 * VAR names may not be prefixed with '_'.
+	 *
 	 *	@param string $key The variable name.
 	 *	@param mixed $val The variable value.
-	 *	@return void
 	 */
 	public function __set($key, $val)
 	{
@@ -81,6 +82,7 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * Retrieves an assigned variable.
 	 * VAR names may not be prefixed with '_'.
+	 *
 	 *	@param string $key The variable name.
 	 *	@return mixed The variable value.
 	 */
@@ -192,8 +194,8 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * View factory method
 	 *
-	 * @param $templateName (e.g., 'index')
-	 * @param $viewType     (e.g., Piwik_View::CLI)
+	 * @param $templateName Template name (e.g., 'index')
+	 * @param $viewType     View type (e.g., Piwik_View::CLI)
 	 */
 	static public function factory( $templateName, $viewType = null)
 	{

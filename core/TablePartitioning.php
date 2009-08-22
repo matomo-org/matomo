@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -15,6 +16,7 @@
  *     Piwik::getTablesInstalled() to add the new table to the list of tablename_* to fetch
  * 
  * @package Piwik
+ * @subpackage Piwik_TablePartitioning
  */
 abstract class Piwik_TablePartitioning
 {
@@ -95,6 +97,7 @@ abstract class Piwik_TablePartitioning
 /**
  * 
  * @package Piwik
+ * @subpackage Piwik_TablePartitioning
  */
 class Piwik_TablePartitioning_Monthly extends Piwik_TablePartitioning
 {
@@ -113,9 +116,11 @@ class Piwik_TablePartitioning_Monthly extends Piwik_TablePartitioning
 	}
 		
 }
+
 /**
  * 
  * @package Piwik
+ * @subpackage Piwik_TablePartitioning
  */
 class Piwik_TablePartitioning_Daily extends Piwik_TablePartitioning
 {
@@ -131,6 +136,5 @@ class Piwik_TablePartitioning_Daily extends Piwik_TablePartitioning
 		$date = date("Y_m_d", $this->timestamp);
 		
 		return $prefixTables . $this->tableName . "_" . $date;
-	}
-		
+	}		
 }

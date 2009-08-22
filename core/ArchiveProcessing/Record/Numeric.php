@@ -6,15 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ArchiveProcessing
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Numeric record.
  * Example: $record = new Piwik_ArchiveProcessing_Record_Numeric('nb_visitors_live', 15);
  * 
- * @package Piwik_ArchiveProcessing
- * @subpackage Piwik_ArchiveProcessing_Record
+ * @package Piwik
+ * @subpackage Piwik_ArchiveProcessing
  */
 class Piwik_ArchiveProcessing_Record_Numeric extends Piwik_ArchiveProcessing_Record
 {	

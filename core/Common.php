@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  *
- * @package Piwik_Helper
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -16,7 +17,7 @@
  * This class should contain only the functions that are used in
  * both the CORE and the piwik.php statistics logging engine.
  *
- * @package Piwik_Helper
+ * @package Piwik
  */
 class Piwik_Common
 {
@@ -113,7 +114,6 @@ class Piwik_Common
 	 * Regenerate Tracker cache files
 	 *
 	 * @param array $idSites array of idSites to clear cache for
-	 * @return void
 	 */
 	static public function regenerateCacheWebsiteAttributes($idSites = array())
 	{
@@ -131,7 +131,6 @@ class Piwik_Common
 	 * Delete existing Tracker cache
 	 *
 	 * @param string $idSite (website ID of the site to clear cache for
-	 * @return void
 	 */
 	static public function deleteCacheWebsiteAttributes( $idSite )
 	{
@@ -249,7 +248,6 @@ class Piwik_Common
 	 * @param string $path
 	 * @param int $mode (in octal)
 	 * @param bool $denyAccess
-	 * @return void
 	 */
 	static public function mkdir( $path, $mode = 0755, $denyAccess = true )
 	{
@@ -272,7 +270,6 @@ class Piwik_Common
 	 * Create .htaccess file in specified directory
 	 *
 	 * @param string $path without trailing slash
-	 * @return void
 	 */
 	static public function createHtAccess( $path )
 	{
@@ -284,7 +281,7 @@ class Piwik_Common
 	 * See http://php.net/realpath
 	 *
 	 * @param string $path
-	 * @return string (canonicalized absolute path)
+	 * @return string canonicalized absolute path
 	 */
 	static public function realpath($path)
 	{
@@ -390,7 +387,7 @@ class Piwik_Common
 	 * Sanitize a single input value
 	 *
 	 * @param string $value
-	 * @return string (sanitized input)
+	 * @return string sanitized input
 	 */
 	static public function sanitizeInputValue($value)
 	{
@@ -401,7 +398,7 @@ class Piwik_Common
 	 * Unsanitize a single input value
 	 *
 	 * @param string $value
-	 * @return string (unsanitized input)
+	 * @return string unsanitized input
 	 */
 	static public function unsanitizeInputValue($value)
 	{
@@ -573,7 +570,6 @@ class Piwik_Common
 		}
 	}
 
-
 	/**
 	 * Returns the first element of a comma separated list of IPs
 	 *
@@ -590,7 +586,6 @@ class Piwik_Common
 		}
 		return trim(self::sanitizeInputValues($ip));
 	}
-
 
 	/**
 	 * Returns the continent of a given country
@@ -683,7 +678,6 @@ class Piwik_Common
 	/**
 	 * Returns list of valid country codes
 	 *
-	 * @param none
 	 * @return array of 2 letter ISO codes
 	 */
 	static public function getCountriesList()
@@ -696,6 +690,7 @@ class Piwik_Common
 		}
 		return $countriesList;
 	}
+
 	/**
 	 * Returns list of valid country codes
 	 *
@@ -893,7 +888,7 @@ class Piwik_Common
 	/**
 	 * Returns true if PHP was invoked as CGI or command-line interface (shell)
 	 *
-	 * @param none
+	 * @since added in 0.4.4
 	 * @return bool true if PHP invoked as a CGI or from CLI
 	 */
 	static public function isPhpCliMode()

@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -39,7 +40,6 @@ abstract class Piwik_Controller
 	
 	/**
 	 * Builds the controller object, reads the date from the request, extracts plugin name from 
-	 *
 	 */
 	function __construct()
 	{
@@ -140,8 +140,7 @@ abstract class Piwik_Controller
 		
 		return $view;
 	}
-	
-	
+
 	/**
 	 * Returns the array of new processed parameters once the parameters are applied.
 	 * For example: if you set range=last30 and date=2008-03-10, 

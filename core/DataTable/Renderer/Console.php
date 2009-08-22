@@ -6,14 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Simple output
  * 
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Renderer
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 {

@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
+ * @category Piwik_Plugins
  * @package Piwik_UserSettings
  */
 
@@ -15,6 +16,7 @@ defined('PIWIK_INCLUDE_PATH') or die;
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 
 /**
+ *
  * @package Piwik_UserSettings
  */
 class Piwik_UserSettings_API 

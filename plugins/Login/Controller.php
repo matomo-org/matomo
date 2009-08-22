@@ -6,19 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  *
+ * @category Piwik_Plugins
  * @package Piwik_Login
  */
 
 /**
+ *
  * @package Piwik_Login
  */
 class Piwik_Login_Controller extends Piwik_Controller
 {
 	/**
 	 * Default action
-	 *
-	 * @param none
-	 * @return void
 	 */
 	function index()
 	{
@@ -27,9 +26,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Login form
-	 *
-	 * @param none
-	 * @return void
 	 */
 	function login()
 	{
@@ -66,9 +62,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Form-less login
-	 *
-	 * @param none
-	 * @return void
 	 */
 	function logme()
 	{
@@ -127,9 +120,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Lost password form.  Email password reset information.
-	 *
-	 * @param none
-	 * @return void
 	 */
 	function lostPassword()
 	{
@@ -221,9 +211,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Reset password form.  Enter new password here.
-	 *
-	 * @param none
-	 * @return void
 	 */
 	function resetPassword()
 	{
@@ -381,9 +368,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Clear session information
-	 *
-	 * @param none
-	 * @return void
 	 */
 	static public function clearSession()
 	{
@@ -394,9 +378,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Logout current user
-	 *
-	 * @param none
-	 * @return void
 	 */
 	public function logout()
 	{

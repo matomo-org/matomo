@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_ViewDataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -26,8 +27,8 @@
  * 	}
  * </pre>
  *  
- * @package Piwik_ViewDataTable
- *
+ * @package Piwik
+ * @subpackage Piwik_ViewDataTable
  */
 abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 {	
@@ -72,8 +73,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	 * for example when plotting visits that have a given plugin enabled: 
 	 * one visit can have several plugins, hence the sum is much greater than the number of visits.
 	 * In this case displaying the percentage doesn't make sense.
-	 * 
-	 * @return void
 	 */
 	public function disallowPercentageInGraphTooltip()
 	{

@@ -6,13 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_Visualization
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Customize & set values for the Flash Pie chart 
  * 
- * @package Piwik_Visualization
+ * @package Piwik
+ * @subpackage Piwik_Visualization
  */
 class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 {

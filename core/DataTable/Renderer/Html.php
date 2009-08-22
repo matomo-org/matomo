@@ -6,15 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Simple HTML output
  * Does not work with recursive DataTable (i.e., when a row can be associated with a subDataTable).
  * 
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Renderer
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 {
