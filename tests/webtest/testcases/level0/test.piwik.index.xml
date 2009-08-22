@@ -65,10 +65,8 @@
 	            	
 	            	<!-- 3. databaseSetup -->
 
-	            	<echo>Checking title is parsed correctly (skipped)</echo>
-	            	<!-- verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" / -->
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
-	            	<echo></echo>
 	                <verifyText description="check page text" text="MySQL database setup" />
 	                
 	            	&checkForErrors;
