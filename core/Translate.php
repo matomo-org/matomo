@@ -170,7 +170,7 @@ class Piwik_Translate
 	{
 		try
 		{
-			return Piwik_Translate($message, $args);		
+			return self::translate($message, $args);		
 		} 
 		catch(Exception $e)
 		{
