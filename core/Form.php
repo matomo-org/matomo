@@ -14,9 +14,8 @@
  * Parent class for forms to be included in Smarty
  * 
  * For an example, @see Piwik_Login_Form
- *
+ * 
  * @package Piwik
- * @subpackage Piwik_Form
  */
 abstract class Piwik_Form extends HTML_QuickForm
 {
@@ -30,8 +29,8 @@ abstract class Piwik_Form extends HTML_QuickForm
 		}
 		parent::HTML_QuickForm('form', 'POST', $action);
 		
-		$this->registerRule( 'checkEmail', 'rule', 'Piwik_Form_isValidEmailString');
-		$this->registerRule( 'fieldHaveSameValue', 'rule', 'Piwik_Form_fieldHaveSameValue');
+		$this->registerRule( 'checkEmail', 'function', 'Piwik_Form_isValidEmailString');
+		$this->registerRule( 'fieldHaveSameValue', 'function', 'Piwik_Form_fieldHaveSameValue');
 	
 		$this->init();
 	}
@@ -97,34 +96,14 @@ abstract class Piwik_Form extends HTML_QuickForm
 	}
 }
 
-/**
- * Custom validation rule: Compare fields for equality
- * For more general applications, @see HTML_QuickForm_Rule_Compare
- *
- * @package Piwik
- * @subpackage Piwik_Form
- */
-class Piwik_Form_fieldHaveSameValue extends HTML_QuickForm_Rule
+function Piwik_Form_fieldHaveSameValue($element, $value, $arg) 
 {
-	function validate($value, $arg)
-	{
-		$value2 = Piwik_Common::getRequestVar( $arg, '', 'string');
-		$value2 = Piwik_Common::unsanitizeInputValue($value2);
-		return $value === $value2;
-	}
+	$value2 = Piwik_Common::getRequestVar( $arg, '', 'string');
+	$value2 = Piwik_Common::unsanitizeInputValue($value2);
+	return $value === $value2;
 }
 
-/**
- * Custom validation rule: Does this look like an email address?
- * For stronger checking, @see HTML_QuickForm_Rule_Email
- *
- * @package Piwik
- * @subpackage Piwik_Form
- */
-class Piwik_Form_isValidEmailString extends HTML_QuickForm_Rule
+function Piwik_Form_isValidEmailString( $element, $value )
 {
-	function validate($value)
-	{
-		return Piwik::isValidEmailString($value);
-	}
+	return Piwik::isValidEmailString($value);
 }
