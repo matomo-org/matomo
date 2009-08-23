@@ -24,6 +24,8 @@ require_once PIWIK_INCLUDE_PATH . '/libs/Smarty/Smarty.class.php';
  *
  * @package Piwik
  * @subpackage Piwik_Smarty
+ * @see Smarty, libs/Smarty/Smarty.class.php
+ * @link http://smarty.net/manual/en/
  */
 class Piwik_Smarty extends Smarty 
 {

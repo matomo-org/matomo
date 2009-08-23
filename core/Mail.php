@@ -12,9 +12,10 @@
 
 /**
  * Class for sending mails, for more information see: 
- * @link http://framework.zend.com/manual/en/zend.mail.html 
  *
  * @package Piwik
+ * @see Zend_Mail, libs/Zend/Mail.php
+ * @link http://framework.zend.com/manual/en/zend.mail.html 
  */
 class Piwik_Mail extends Zend_Mail
 {

@@ -16,6 +16,8 @@
  * For an example, @see Piwik_Login_Form
  * 
  * @package Piwik
+ * @see HTML_QuickForm, libs/HTML/QuickForm.php
+ * @link http://pear.php.net/package/HTML_QuickForm/
  */
 abstract class Piwik_Form extends HTML_QuickForm
 {
