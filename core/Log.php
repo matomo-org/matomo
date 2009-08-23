@@ -14,6 +14,8 @@
  * 
  * @package Piwik
  * @subpackage Piwik_Log
+ * @see Zend_Log, libs/Zend/Log.php
+ * @link http://framework.zend.com/manual/en/zend.log.html 
  */
 abstract class Piwik_Log extends Zend_Log
 {
