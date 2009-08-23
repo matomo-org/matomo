@@ -10,6 +10,18 @@
  * @package SmartyPlugins
  */
 
+/**
+ * Smarty {logoHtml} function plugin.
+ * Generates an img tag with the specified attributes
+ *
+ * Example:
+ * <pre>
+ * {logoHtml metadata=$row.metadata alt=$row.columns.label}
+ * </pre>
+ *
+ * @param array $params attributes to be set
+ * @return string HTML IMG tag
+ */
 function smarty_function_logoHtml($params, &$smarty)
 {
 	if(!isset($params['metadata']['logo']))

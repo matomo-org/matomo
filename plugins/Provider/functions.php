@@ -10,6 +10,12 @@
  * @package Piwik_Provider
  */
 
+/**
+ * Return hostname portion of a domain name
+ *
+ * @param string $in
+ * @return string Host name, IP (if IP address didn't resolve), or Unknown
+ */
 function Piwik_getHostnameName($in)
 {
 	if(empty($in))
@@ -27,6 +33,12 @@ function Piwik_getHostnameName($in)
 	return $in;
 }
 
+/**
+ * Return URL for a given domain name
+ *
+ * @param string $in hostname
+ * @return string URL
+ */
 function Piwik_getHostnameUrl($in)
 {
 	if(empty($in)

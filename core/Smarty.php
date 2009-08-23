@@ -13,6 +13,10 @@
 // no direct access
 defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see libs/Smarty/Smarty.class.php
+ * @link http://smarty.net
+ */
 require_once PIWIK_INCLUDE_PATH . '/libs/Smarty/Smarty.class.php';
 
 /**

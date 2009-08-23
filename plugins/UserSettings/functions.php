@@ -13,6 +13,9 @@
 // no direct access
 defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see libs/UserAgentParser/UserAgentParser.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
 		
 function Piwik_getPluginsLogo( $oldLabel )

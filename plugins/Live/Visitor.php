@@ -13,6 +13,12 @@
 // no direct access
 defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see plugins/Referers/functions.php
+ * @see plugins/UserCountry/functions.php
+ * @see plugins/UserSettings/functions.php
+ * @see plugins/Provider/functions.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';

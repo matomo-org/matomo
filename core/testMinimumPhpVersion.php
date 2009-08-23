@@ -85,6 +85,11 @@ if(isset($piwik_errorMessage))
 	Piwik_ExitWithMessage($piwik_errorMessage, false, true);
 }
 
-// we now include the upgradephp package to define some functions used in piwik 
-// that may not be defined in the current php version
+/**
+ * We now include the upgradephp package to define some functions used in Piwik
+ * that may not be defined in the current PHP version.
+ *
+ * @see libs/upgradephp/upgrade.php
+ * @link http://upgradephp.berlios.de/
+ */
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';

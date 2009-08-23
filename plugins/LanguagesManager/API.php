@@ -30,12 +30,23 @@ class Piwik_LanguagesManager_API
 	static protected $availableLanguageNames = null;
 	static protected $languageNames = null;
 	
+	/**
+	 * Returns true if specified language is available
+	 *
+	 * @param string $languageCode
+	 * @return bool true if language available; false otherwise
+	 */
 	static public function isLanguageAvailable($languageCode)
 	{
 		return $languageCode !== false
 			&& in_array($languageCode, self::getAvailableLanguages());
 	}
 	
+	/**
+	 * Return array of available languages
+	 *
+	 * @return array Arry of strings, each containing its ISO language code
+	 */
 	static public function getAvailableLanguages()
 	{
 		if(!is_null(self::$languageNames))
@@ -54,6 +65,11 @@ class Piwik_LanguagesManager_API
 		return $languageNames;
 	}
 
+	/**
+	 * Return information on translations (code, language, % translated, etc)
+	 *
+	 * @return array Array of arrays
+	 */
 	static public function getAvailableLanguagesInfo()
 	{
 		require PIWIK_INCLUDE_PATH . '/lang/en.php';
@@ -78,6 +94,11 @@ class Piwik_LanguagesManager_API
 		return $languagesInfo;
 	}
 	
+	/**
+	 * Return array of available languages
+	 *
+	 * @return array Arry of array, each containing its ISO language code and name of the language
+	 */ 
 	static public function getAvailableLanguageNames()
 	{
 		if(!is_null(self::$availableLanguageNames))
@@ -96,6 +117,12 @@ class Piwik_LanguagesManager_API
 		return self::$availableLanguageNames;
 	}
 	
+	/**
+	 * Returns translation strings by language
+	 *
+	 * @param string $languageCode ISO language code
+	 * @return array|false Array of arrays, each containing 'label' (translation index)  and 'value' (translated string); false if language unavailable
+	 */
 	static public function getTranslationsForLanguage($languageCode)
 	{
 		if(!self::isLanguageAvailable($languageCode))
@@ -112,6 +139,8 @@ class Piwik_LanguagesManager_API
 	}
 	
 	/**
+	 * Returns the language for the user
+	 *
 	 * @param string $login
 	 * @param string|false $layout
 	 */
@@ -122,6 +151,12 @@ class Piwik_LanguagesManager_API
 					' WHERE login = ? ', array($login ));
 	}
 	
+	/**
+	 * Sets the language for the user
+	 *
+	 * @param string $login
+	 * @param string $languageCode
+	 */
 	static public function setLanguageForUser($login, $languageCode)
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
@@ -134,7 +169,9 @@ class Piwik_LanguagesManager_API
 	}
 
 	/**
-	 * @param
+	 * Returns the langage for the session
+	 *
+	 * @return string|null
 	 */
 	static public function getLanguageForSession()
 	{
@@ -147,7 +184,9 @@ class Piwik_LanguagesManager_API
 	}
 
 	/**
-	 * @param
+	 * Set the language for the session
+	 *
+	 * @param string $languageCode ISO language code
 	 */
 	static public function setLanguageForSession($languageCode)
 	{

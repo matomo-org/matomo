@@ -13,7 +13,7 @@
 /**
  * Interface to be implemented by update scripts
  *
- * @example /core/Updates/0.4.2.php Incremental update script from version 0.4.1 to 0.4.2
+ * @example core/Updates/0.4.2.php Incremental update script from version 0.4.1 to 0.4.2
  * @package Piwik
  */
 interface Piwik_iUpdate
