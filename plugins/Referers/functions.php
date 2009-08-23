@@ -10,6 +10,12 @@
  * @package Piwik_Referers
  */
 
+/**
+ * Returns path component from a URL
+ *
+ * @param string $url
+ * @return string path
+ */
 function Piwik_getPathFromUrl($url)
 {
 	$path = Piwik_Common::getPathAndQueryFromUrl($url);
@@ -20,6 +26,13 @@ function Piwik_getPathFromUrl($url)
 	return $path;
 }
 
+/**
+ * Return search engine URL by name
+ *
+ * @param string $name
+ * @return string URL
+ * @see core/DataFiles/SearchEnginges.php
+ */
 function Piwik_getSearchEngineUrlFromName($name)
 {
 	require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
@@ -34,6 +47,13 @@ function Piwik_getSearchEngineUrlFromName($name)
 	return $url;
 }
 
+/**
+ * Return search engine logo path by URL
+ *
+ * @param string $url
+ * @return string path
+ * @see plugins/Referers/images/searchEnginges/
+ */
 function Piwik_getSearchEngineLogoFromUrl($url)
 {
 	$pathInPiwik = 'plugins/Referers/images/searchEngines/%s.png';
@@ -46,11 +66,25 @@ function Piwik_getSearchEngineLogoFromUrl($url)
 	return sprintf($pathInPiwik, 'xx');
 }
 
+/**
+ * Return search engine host in URL
+ *
+ * @param string $url
+ * @return string host
+ */
 function Piwik_getSearchEngineHostFromUrl($url)
 {
 	return substr($url, strpos($url,'//') + 2);
 }
 
+/**
+ * Return search engine URL for URL and keyword
+ *
+ * @param string $url Domain name, e.g., search.piwik.org
+ * @param string $keyword Keyword, e.g., web+analytics
+ * @return string URL, e.g., http://search.piwik.org/q=web+analytics
+ * @see core/DataFiles/SearchEnginges.php
+ */
 function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 {
 	require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
@@ -65,11 +99,25 @@ function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 	return $url . '/' . $path;
 }
 
+/**
+ * Return search engine URL for keyword and URL
+ *
+ * @param string $keyword Keyword, e.g., web+analytics
+ * @param string $url Domain name, e.g., search.piwik.org
+ * @return string URL, e.g., http://search.piwik.org/q=web+analytics
+ * @see Piwik_getSearchEngineUrlFromUrlAndKeyword()
+ */
 function Piwik_getSearchEngineUrlFromKeywordAndUrl($keyword, $url)
 {
 	return Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword);
 }
 
+/**
+ * Return translated referrer type
+ *
+ * @param string $label
+ * @return string Referrer type
+ */
 function Piwik_getRefererTypeLabel($label)
 {
 	$indexTranslation = '';

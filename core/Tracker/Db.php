@@ -183,7 +183,7 @@ class Piwik_Tracker_Db
 	 * @param array|string Parameters to bind array('idsite'=> 1)
 	 * 
 	 * @return PDOStatement or false if failed
-	 * @throw Exception if an exception occured
+	 * @throws Exception if an exception occured
 	 */
 	public function query($query, $parameters = array()) 
 	{

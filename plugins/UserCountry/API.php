@@ -13,6 +13,10 @@
 // no direct access
 defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see core/DataFiles/Countries.php
+ * @see plugins/UserCountry/functions.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 

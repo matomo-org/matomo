@@ -13,6 +13,9 @@
 // no direct access
 defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see plugins/Provider/functions.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
 /**

@@ -234,7 +234,7 @@ class Piwik_Tracker_Generator
 	 * - setup the different possible values for parameters such as 'resolution',
 	 * 		'color', 'hour', 'minute', etc.
 	 * - load from DataFiles and setup values for the other parameters such as UserAgent, Referers, AcceptedLanguages, etc.
-	 *  @see /misc/generateVisitsData/
+	 *   @see misc/generateVisitsData/
 	 */
 	public function init()
 	{

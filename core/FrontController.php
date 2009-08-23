@@ -13,6 +13,11 @@
 // no direct access
 defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see core/PluginsManager.php
+ * @see core/Translate.php
+ * @see core/Option.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Option.php';

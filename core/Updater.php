@@ -13,6 +13,9 @@
 // no direct access
 defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see core/Option.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
 /**

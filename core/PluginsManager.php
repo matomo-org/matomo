@@ -13,6 +13,12 @@
 // no direct access
 defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see core/PluginsFunctions/Menu.php
+ * @see core/PluginsFunctions/AdminMenu.php
+ * @see core/PluginsFunctions/WidgetsList.php
+ * @see core/PluginsFunctions/Sql.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Menu.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/AdminMenu.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/WidgetsList.php';
@@ -20,6 +26,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Sql.php';
 
 /**
  * @package Piwik
+ * @subpackage Piwik_PluginsManager
  */
 class Piwik_PluginsManager
 {
@@ -473,6 +480,10 @@ class Piwik_PluginsManager
 	}
 }
 
+/**
+ * @package Piwik
+ * @subpackage Piwik_PluginsManager
+ */
 class Piwik_PluginsManager_PluginException extends Exception 
 {
 	function __construct($pluginName, $className, $message)
@@ -502,6 +513,9 @@ function Piwik_AddAction( $hookName, $function )
 	Piwik_PluginsManager::getInstance()->dispatcher->addObserver( $function, $hookName );
 }
 
+/**
+ * @package Piwik
+ */
 class Piwik_Event_Notification extends Event_Notification
 {
 	static $showProfiler = false;
