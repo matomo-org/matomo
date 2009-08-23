@@ -10,13 +10,19 @@
  * @package Piwik
  */
 
-// @since PHP 5
+/**
+ * @since PHP 5
+ */
 if(!defined('E_STRICT')) {            define('E_STRICT', 2048); }
 
-// @since PHP 5.2.0
+/**
+ * @since PHP 5.2.0
+ */
 if(!defined('E_RECOVERABLE_ERROR')) { define('E_RECOVERABLE_ERROR', 4096); }
 
-// @since PHP 5.3.0
+/**
+ * @since PHP 5.3.0
+ */
 if(!defined('E_DEPRECATED')) {        define('E_DEPRECATED', 8192); }
 if(!defined('E_USER_DEPRECATED')) {   define('E_USER_DEPRECATED', 16384); }
 

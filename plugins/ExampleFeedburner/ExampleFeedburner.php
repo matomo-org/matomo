@@ -49,6 +49,10 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 
 Piwik_AddWidget('Example Widgets', 'Feedburner statistics', 'ExampleFeedburner', 'feedburner');
 
+/**
+ *
+ * @package Piwik_ExampleFeedburner
+ */
 class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 {
 
