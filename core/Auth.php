@@ -33,9 +33,10 @@ interface Piwik_Auth {
 /**
  * Authentication result
  *
- * @see Zend_Auth_Result
  * @package Piwik
  * @subpackage Piwik_Auth
+ * @see Zend_Auth_Result, libs/Zend/Auth/Result.php
+ * @link http://framework.zend.com/manual/en/zend.auth.html
  */
 class Piwik_Auth_Result extends Zend_Auth_Result
 {

@@ -515,6 +515,8 @@ function Piwik_AddAction( $hookName, $function )
 
 /**
  * @package Piwik
+ * @see Event_Notification, libs/Event/Notification.php
+ * @link http://pear.php.net/package/Event_Dispatcher/docs/latest/Event_Dispatcher/Event_Notification.html
  */
 class Piwik_Event_Notification extends Event_Notification
 {
