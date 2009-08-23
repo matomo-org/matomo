@@ -371,7 +371,7 @@ class Piwik_DataTable
 	 * 
 	 * A common row to 2 DataTable is defined by the same label
 	 * 	
-	 * @example @see tests/core/DataTable.test.php
+	 * @example tests/core/DataTable.test.php
 	 */
 	public function addDataTable( Piwik_DataTable $tableToSum )
 	{
