@@ -623,13 +623,10 @@ class Piwik_Common
 
 		if(is_null($browserLang))
 		{
-			if(self::isPhpCliMode())
+			$browserLang = self::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+			if(empty($browserLang) && self::isPhpCliMode())
 			{
 				$browserLang = $_ENV['LANG'];
-			}
-			else
-			{
-				$browserLang = self::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
 			}
 		}
 
