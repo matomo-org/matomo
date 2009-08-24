@@ -614,11 +614,15 @@ class Piwik_Common
 	static public function getBrowserLanguage($browserLang = NULL)
 	{
 		static $replacementPatterns = array(
-				'/(\\\\.)/',		// quoted-pairs (RFC 3282)
+				// extraneous bits of RFC 3282 that we ignore
+				'/(\\\\.)/',		// quoted-pairs
 				'/(\s+)/',			// CFWS white space
 				'/(\([^)]*\))/',	// CFWS comments
 				'/(;q=[0-9.]+)/',	// quality
+
+				// found in the LANG environment variable
 				'/\.(.*)/',			// charset (e.g., en_CA.UTF-8)
+				'/^C$/',			// POSIX 'C' locale
 			);
 
 		if(is_null($browserLang))
@@ -626,7 +630,7 @@ class Piwik_Common
 			$browserLang = self::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
 			if(empty($browserLang) && self::isPhpCliMode())
 			{
-				$browserLang = $_ENV['LANG'];
+				$browserLang = @$_ENV['LANG'];
 			}
 		}
 
@@ -883,13 +887,14 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns true if PHP was invoked as CGI or command-line interface (shell)
+	 * Returns true if PHP was invoked from command-line interface (shell)
 	 *
 	 * @since added in 0.4.4
 	 * @return bool true if PHP invoked as a CGI or from CLI
 	 */
 	static public function isPhpCliMode()
 	{
-		return in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'));
+		return	PHP_SAPI == 'cli' ||
+				(substr(PHP_SAPI, 0, 3) == 'cgi' && @$_SERVER['REMOTE_ADDR'] == '');
 	}
 }
