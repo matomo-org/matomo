@@ -212,7 +212,7 @@ class Piwik_View implements Piwik_iView
 		// determine best view type
 		if($viewType === null)
 		{
-			if(Piwik_Common::isPhpCliMode())
+			if(empty($_SERVER['HTTP_USER_AGENT']) && Piwik_Common::isPhpCliMode())
 			{
 				$viewType = self::CLI;
 			}
