@@ -1,6 +1,6 @@
 <?php
 if(!defined("PIWIK_PATH_TEST_TO_ROOT")) {
-	define('PIWIK_PATH_TEST_TO_ROOT', getcwd().'/../..');
+	define('PIWIK_PATH_TEST_TO_ROOT', getcwd().'/../../..');
 }
 if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 {
