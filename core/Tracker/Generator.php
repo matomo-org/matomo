@@ -273,10 +273,8 @@ class Piwik_Tracker_Generator
 		 * Sets values for: outlinks, downloads, campaigns
 		 */
 		// we get the name of the Download/outlink variables
-		$downloadOrOutlink = array(
-						Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'],
-						Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'],
-		);
+		$downloadOrOutlink = array('download', 'link');
+
 		// we have a 20% chance to add a download or outlink variable to the URL 
 		$this->addParam('piwik_downloadOrOutlink', $downloadOrOutlink);
 		$this->addParam('piwik_downloadOrOutlink', array_fill(0,8,''));
@@ -400,8 +398,8 @@ class Piwik_Tracker_Generator
 	{		
 		// we don't keep the previous action values 
 		// reinit them to empty string
-		$this->setCurrentRequest( Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'],'');
-		$this->setCurrentRequest( Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'],'');
+		$this->setCurrentRequest( 'download', '');
+		$this->setCurrentRequest( 'link', '');
 		$this->setCurrentRequest( 'action_name', '');
 
 		// generate new url referer ; case the visitor stays more than 30min

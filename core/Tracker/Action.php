@@ -213,8 +213,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	protected function extractUrlAndActionNameFromRequest()
 	{
 		// download?
-		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
-		$downloadUrl = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string', $this->request);
+		$downloadUrl = Piwik_Common::getRequestVar( 'download', '', 'string', $this->request);
 		if(!empty($downloadUrl))
 		{
 			$actionType = self::TYPE_DOWNLOAD;
@@ -224,8 +223,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		// outlink?
 		if(empty($actionType))
 		{
-			$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
-			$outlinkUrl = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string', $this->request);
+			$outlinkUrl = Piwik_Common::getRequestVar( 'link', '', 'string', $this->request);
 			if(!empty($outlinkUrl))
 			{
 				$actionType = self::TYPE_OUTLINK;
