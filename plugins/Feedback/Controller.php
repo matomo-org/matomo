@@ -40,7 +40,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 			}
 			if(!Piwik::isValidEmailString($email))
 			{
-				throw new Exception(Piwik_Translate('UsersManager_ExceptionInvalidEmail'));
+				throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidEmail'));
 			}
 			if(strpos($body, 'http://') !== false)
 			{

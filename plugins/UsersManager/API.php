@@ -203,7 +203,7 @@ class Piwik_UsersManager_API
 	{
 		if(self::userExists($userLogin))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException('UsersManager_ExceptionLoginExists'),$userLogin));
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionLoginExists', $userLogin));
 		}
 		
 		$loginMinimumLength = 3;
@@ -230,7 +230,7 @@ class Piwik_UsersManager_API
 	{
 		if(self::userEmailExists($email))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException('UsersManager_ExceptionEmailExists'),$email));
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionEmailExists', $email));
 		}
 		
 		if(!Piwik::isValidEmailString($email))
@@ -372,7 +372,7 @@ class Piwik_UsersManager_API
 		self::checkUserIsNotSuperUser($userLogin);
 		if(!self::userExists($userLogin))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionDeleteDoesNotExist"),$userLogin));
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
 		}
 		
 		
@@ -486,7 +486,7 @@ class Piwik_UsersManager_API
 	{
 		if(!self::userExists($userLogin))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionUserDoesNotExist"),$userLogin));
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionUserDoesNotExist", $userLogin));
 		}
 	}
 	
@@ -500,7 +500,7 @@ class Piwik_UsersManager_API
 	{
 		if(!self::userEmailExists($userEmail))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionUserDoesNotExist"),$userEmail));
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionUserDoesNotExist", $userEmail));
 		}
 	}
 	
@@ -528,7 +528,7 @@ class Piwik_UsersManager_API
 		
 		if(!in_array($access,$accessList))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionAccessValues"),implode(", ", $accessList)));
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionAccessValues", implode(", ", $accessList)));
 		}
 	}
 	

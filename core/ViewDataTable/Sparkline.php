@@ -39,7 +39,7 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		$this->isDataAvailable = $this->dataTable->getRowsCount() != 0;
 		if(!$this->isDataAvailable)
 		{
-			throw new Exception(Piwik_Translate('General_NoDataForGraph'));
+			throw new Exception(Piwik_TranslateException('General_NoDataForGraph'));
 		}
 		$values = $this->getValuesFromDataTable($this->dataTable);
 		$graph = new Piwik_Visualization_Sparkline();
