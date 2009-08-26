@@ -118,6 +118,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 		$url = 'index.php' . $url;
 		// escape the & and stuff:
+		$url = str_replace(array('[', ']'), array('%5B', '%5D'), $url);
 		$url = urlencode($url);
 
 		$requiredFlashVersion = "9.0.0";
