@@ -769,8 +769,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
 
 		$this->refererUrl = $refererUrl;
-		$this->refererUrlParse = @parse_url(urldecode(Piwik_Common::unsanitizeInputValue($refererUrl)));
-		$this->currentUrlParse = @parse_url(urldecode(Piwik_Common::unsanitizeInputValue($currentUrl)));
+		$this->refererUrlParse = @parse_url(Piwik_Common::unsanitizeInputValue($refererUrl));
+		$this->currentUrlParse = @parse_url(Piwik_Common::unsanitizeInputValue($currentUrl));
 
 		if(isset($this->refererUrlParse['host']))
 		{
@@ -816,7 +816,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function detectRefererSearchEngine()
 	{
-		$searchEngineInformation = Piwik_Common::extractSearchEngineInformationFromUrl(urldecode(Piwik_Common::unsanitizeInputValue($this->refererUrl)));	
+		$searchEngineInformation = Piwik_Common::extractSearchEngineInformationFromUrl(Piwik_Common::unsanitizeInputValue($this->refererUrl));
 		if($searchEngineInformation === false)
 		{
 			return false;
@@ -897,7 +897,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			return false;
 		}
 		$actionUrl = $action->getActionUrl();
-		$actionUrlParsed = @parse_url(urldecode(Piwik_Common::unsanitizeInputValue($actionUrl)));
+		$actionUrlParsed = @parse_url(Piwik_Common::unsanitizeInputValue($actionUrl));
 		if(!isset($actionUrlParsed['host']))
 		{
 			return false;
