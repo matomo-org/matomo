@@ -275,13 +275,11 @@ class Piwik_Tracker
 
 	protected function handleDownloadRedirect()
 	{
-		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
-		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string', $this->request);
+		$urlDownload = Piwik_Common::getRequestVar( 'download', '', 'string', $this->request);
 
 		if( !empty($urlDownload) )
 		{
-			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_redirect_var_name'];
-			if( Piwik_Common::getRequestVar( $redirectVariableName, 1, 'int', $this->request) == 1)
+			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
 				$this->setUrlToRedirect ( $urlDownload );
@@ -291,13 +289,11 @@ class Piwik_Tracker
 	
 	protected function handleOutlinkRedirect()
 	{
-		$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
-		$urlOutlink = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string', $this->request);
+		$urlOutlink = Piwik_Common::getRequestVar( 'link', '', 'string', $this->request);
 		
 		if( !empty($urlOutlink) )
 		{
-			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_redirect_var_name'];
-			if( Piwik_Common::getRequestVar( $redirectVariableName, 1, 'int', $this->request) == 1)
+			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
 				$this->setUrlToRedirect ( $urlOutlink);
