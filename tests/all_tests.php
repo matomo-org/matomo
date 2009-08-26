@@ -31,6 +31,10 @@ foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core', '*.php') as $file)
 	$toInclude[] = $file;
 }
 sort($toInclude);
+foreach(globr(PIWIK_INCLUDE_PATH . '/plugins', '*/tests/*.php') as $file)
+{
+	$toInclude[] = $file;
+}
 array_unshift($toInclude, PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php');
 $toInclude[] = PIWIK_INCLUDE_PATH . '/tests/core/ReleaseCheckList.test.php';
 foreach($toInclude as $file)
