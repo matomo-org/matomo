@@ -77,7 +77,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$newVersion = Piwik_UpdateCheck::isNewestVersionAvailable();
 		if(!$newVersion)
 		{
-			throw new Exception(Piwik_Translate('CoreUpdater_ExceptionAlreadyLatestVersion', Piwik_Version::VERSION));
+			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionAlreadyLatestVersion', Piwik_Version::VERSION));
 		}
 		return $newVersion;
 	}
@@ -100,12 +100,12 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		if ( false == ($archive_files = $archive->extract(
 							PCLZIP_OPT_PATH, $pathExtracted)) )
 		{
-			throw new Exception(Piwik_Translate('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo(true)));
+			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo(true)));
 		}	
 	
 		if ( 0 == count($archive_files) )
 		{
-			throw new Exception(Piwik_Translate('CoreUpdater_ExceptionArchiveEmpty'));
+			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveEmpty'));
 		}
 		unlink($this->pathPiwikZip);
 		$this->pathRootExtractedPiwik = $pathExtracted . '/piwik';
@@ -124,7 +124,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		{
 			if(!is_file($this->pathRootExtractedPiwik . $file))
 			{
-				throw new Exception(Piwik_Translate('CoreUpdater_ExceptionArchiveIncomplete', $file));
+				throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncomplete', $file));
 			}
 		}
 	}

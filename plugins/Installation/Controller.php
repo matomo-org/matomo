@@ -168,7 +168,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				$minimumMysqlVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
 				if(version_compare($mysqlVersion, $minimumMysqlVersion) === -1) 
 				{
-					throw new Exception(Piwik_Translate('Installation_ExceptionMySqlVersion', array($mysqlVersion, $minimumMysqlVersion)));
+					throw new Exception(Piwik_TranslateException('Installation_ExceptionMySqlVersion', array($mysqlVersion, $minimumMysqlVersion)));
 				}
 				
 				$this->session->db_infos = $dbInfos;
