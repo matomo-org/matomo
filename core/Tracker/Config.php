@@ -104,6 +104,20 @@ class Piwik_Tracker_Config
 		{
 			$section = array_merge($section, $this->configUser[$name]);
 		}
+		if(isset($this->config[$name]))
+		{
+			$section = array_merge($section, $this->config[$name]);
+		}
 		return count($section) ? $section : null;
+	}
+
+	/**
+	 * If called, we use the database_tests credentials
+	 * and test configuration overrides
+	 */
+	public function setTestEnvironment($configTest = array())
+	{
+		$this->database = $this->database_tests;
+		$this->config = $configTest;
 	}
 }
