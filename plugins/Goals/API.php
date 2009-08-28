@@ -50,7 +50,6 @@ class Piwik_Goals_API
 	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
-
 		// save in db
 		$db = Zend_Registry::get('db');
 		$idGoal = $db->fetchOne("SELECT max(idgoal) + 1 
@@ -60,21 +59,9 @@ class Piwik_Goals_API
 		{
 			$idGoal = 1;
 		}
-
+		self::checkPatternIsValid($patternType, $pattern);
 		$name = self::checkName($name);
-
-		if($matchAttribute == 'manually')
-		{
-			$patternType = 'regex';
-			$pattern = '.*';
-			$caseSensitive = 0;
-		}
-		else
-		{
-			self::checkPatternIsValid($patternType, $pattern);
-			$pattern = self::checkPattern($pattern);
-		}
-
+		$pattern = self::checkPattern($pattern);
 		$db->insert(Piwik::prefixTable('goal'),
 					array( 
 						'idsite' => $idSite,
@@ -94,21 +81,9 @@ class Piwik_Goals_API
 	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
-
 		$name = self::checkName($name);
-
-		if($matchAttribute == 'manually')
-		{
-			$patternType = 'regex';
-			$pattern = '.*';
-			$caseSensitive = 0;
-		}
-		else
-		{
-			self::checkPatternIsValid($patternType, $pattern);
-			$pattern = self::checkPattern($pattern);
-		}
-
+		$pattern = self::checkPattern($pattern);
+		self::checkPatternIsValid($patternType, $pattern);
 		Zend_Registry::get('db')->update( Piwik::prefixTable('goal'), 
 					array(
 						'name' => $name,
