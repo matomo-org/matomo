@@ -163,7 +163,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						$this->session->databaseCreated = true;
 					}
 				}
-				
+
+				// MySQL system check
 				$mysqlVersion = Piwik::getMysqlVersion();
 				$minimumMysqlVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
 				if(version_compare($mysqlVersion, $minimumMysqlVersion) === -1) 
@@ -526,6 +527,18 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['pdo_mysql_ok'] = true;
 		}
 
+		$infos['json'] = false;
+		if(in_array('json', $extensions))
+		{
+			$infos['json'] = true;
+		}
+
+		$infos['xml'] = false;
+		if(in_array('xml', $extensions))
+		{
+			$infos['xml'] = true;
+		}
+
 		// warnings
 		$needed_functions = array(
 			'set_time_limit',
@@ -554,14 +567,14 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				$infos['gd_ok'] = true;
 		    }
 		}
-			
+
 		$infos['serverVersion'] = addslashes($_SERVER['SERVER_SOFTWARE']);
 		$infos['serverOs'] = @php_uname();
 		$infos['serverTime'] = date('H:i:s');
 
 		$infos['registerGlobals_ok'] = ini_get('register_globals') == 0;
 		$infos['memoryMinimum'] = $minimumMemoryLimit;
-		
+
 		$infos['memory_ok'] = true;
 		// on windows the ini_get is not working?
 		$infos['memoryCurrent'] = '?M';
@@ -574,10 +587,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 
 		$infos['isWindows'] = substr(PHP_OS, 0, 3) == 'WIN';
-		
+
 		return $infos;
 	}
-	
+
 	protected function skipThisStep( $step )
 	{
 		if(isset($this->session->skipThisStep[$step])
