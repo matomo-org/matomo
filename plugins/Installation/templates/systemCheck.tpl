@@ -24,18 +24,39 @@
 	</tr>
 	{if !$infos.pdo_mysql_ok || !$infos.pdo_ok}
 	<tr>
-		<td colspan="2">
-			<p class="error" style="width:80%">
+		<td colspan="2" class="error">
 			<small>
 				{if $infos.isWindows}
 					{'Installation_SystemCheckWinPdoHelp'|translate:"<br /><br /><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />"|nl2br}
 				{else}
-					{'Installation_SystemCheckPdoHelp'|translate:"<code>--with-pdo-mysql </code><br />":"<br /><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />"|nl2br}
+					{'Installation_SystemCheckPdoHelp'|translate:"<br /><br /><code>--with-pdo-mysql </code><br />":"<br /><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />"|nl2br}
 				{/if}
 				<br />
 				{'Installation_SystemCheckPhpPdoSite'|translate}
 			</small>
-			</p>
+		</td>
+	</tr>
+	{/if}
+	<tr>
+		<td valign="top">
+			{'Installation_SystemCheckJson'|translate}
+		</td>
+		<td>{if $infos.json || $infos.xml}{$ok}
+			{else}{$error}{/if}
+		</td>
+	</tr>
+	{if !$infos.json && !$infos.xml}
+	<tr>
+		<td colspan="2" class="error">
+			<small>
+				{'Installation_SystemCheckJsonHelp'|translate}
+				<br />
+				{if version_compare($infos.phpVersion, '5.2.0') >= 0}
+					{'Installation_SystemCheckJsonSite'|translate}
+				{else}
+					{'Installation_SystemCheckXmlSite'|translate}
+				{/if}
+			</small>
 		</td>
 	</tr>
 	{/if}
@@ -54,18 +75,14 @@
 	</tr>
 	{if count($infos.missing_extensions) gt 0}
 	<tr>
-		<td colspan="2">
-			<p class="error" style="width:80%">
+		<td colspan="2" class="error">
 			<small>
 				{foreach from=$infos.missing_extensions item=missing_extension}
-						<p>
-						{$helpMessages[$missing_extension]|translate}
-						</p>
+					<p>
+					{$helpMessages[$missing_extension]|translate}
+					</p>
 				{/foreach}
 			</small>
-			</p>
-			{$link} <a href="http://piwik.org/docs/requirements/" target="_blank">{'Installation_Requirements'|translate}</a> 
-			<br />
 		</td>
 	</tr>
 	{/if}
@@ -74,12 +91,14 @@
 			{'Installation_SystemCheckWriteDirs'|translate}
 		</td>
 		<td>
-			{foreach from=$infos.directories key=dir item=bool}
-				{if $bool}{$ok}{else}
-				<span style="color:red">{$error}</span>{/if} 
-				{$dir}
-				<br />				
-			{/foreach}
+			<small>
+				{foreach from=$infos.directories key=dir item=bool}
+					{if $bool}{$ok}{else}
+					<span style="color:red">{$error}</span>{/if} 
+					{$dir}
+					<br />				
+				{/foreach}
+			</small>
 		</td>
 	</tr>
 </table>
@@ -112,6 +131,14 @@
 			{if $infos.openurl}{$infos.openurl} {$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckOpenURLHelp'|translate}</i>{/if}
 		</td>
 	</tr>
+	{if $infos.json}
+	<tr>
+		<td class="label">{'Installation_SystemCheckXml'|translate}</td>
+		<td>
+			{if $infos.xml}{$ok}{else}{$warning}<br /><i>{'Installation_SystemCheckXmlHelp'|translate}</i>{/if}
+		</td>
+	</tr>
+	{/if}
 	<tr>
 		<td class="label">{'Installation_SystemCheckGD'|translate}</td>
 		<td>
