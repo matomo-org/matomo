@@ -303,7 +303,6 @@ class Test_Piwik_Common extends UnitTestCase
     	$_GET['test'] = '';
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'int'), 45);
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'integer'), 45);
-    	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'numeric'), 45);
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'float'), 45);
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45.25, 'float'), 45.25);
     }
@@ -356,7 +355,6 @@ class Test_Piwik_Common extends UnitTestCase
     	
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 1, 'int'), 45645646);
     	$this->assertEqual( Piwik_Common::getRequestVar('test', 45, 'integer'), 45645646);
-    	$this->assertEqual( Piwik_Common::getRequestVar('test', 0, 'numeric'), 45645646);
     	$this->assertEqual( Piwik_Common::getRequestVar('test', "45454", 'string'), $test);
     	$this->assertEqual( Piwik_Common::getRequestVar('test', array(), 'array'), array());
     	
