@@ -268,9 +268,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		printDebug("New Visit.");
 
-		$localTime				= Piwik_Common::getRequestVar( 'h', $this->getCurrentDate("H"), 'numeric', $this->request)
-							.':'. Piwik_Common::getRequestVar( 'm', $this->getCurrentDate("i"), 'numeric', $this->request)
-							.':'. Piwik_Common::getRequestVar( 's', $this->getCurrentDate("s"), 'numeric', $this->request);
+		$localTime				= Piwik_Common::getRequestVar( 'h', $this->getCurrentDate("H"), 'int', $this->request)
+							.':'. Piwik_Common::getRequestVar( 'm', $this->getCurrentDate("i"), 'int', $this->request)
+							.':'. Piwik_Common::getRequestVar( 's', $this->getCurrentDate("s"), 'int', $this->request);
 		$serverTime 	= $this->getCurrentTimestamp();
 		$serverDate 	= $this->getCurrentDate();
 
