@@ -472,11 +472,11 @@ class Piwik_Common
 			}
 			elseif($varType == 'integer')
 			{
-				if(is_int($value) || $value==(int)$value) $ok = true;
+				if($value == (string)(int)$value) $ok = true;
 			}
 			elseif($varType == 'float')
 			{
-				if(is_float($value) || $value==(float)$value) $ok = true;
+				if($value == (string)(float)$value) $ok = true;
 			}
 			elseif($varType == 'array')
 			{
