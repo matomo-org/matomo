@@ -414,7 +414,7 @@ class Piwik_Common
 	 *
 	 * @param string $varName name of the variable
 	 * @param string $varDefault default value. If '', and if the type doesn't match, exit() !
-	 * @param string $varType Expected type, the value must be one of the following: array, numeric, int, integer, string
+	 * @param string $varType Expected type, the value must be one of the following: array, int, integer, string
 	 *
 	 * @exception if the variable type is not known
 	 * @exception if the variable we want to read doesn't have neither a value nor a default value specified
@@ -470,10 +470,6 @@ class Piwik_Common
 			{
 				if(is_string($value)) $ok = true;
 			}
-			elseif($varType == 'numeric')
-			{
-				if(is_numeric($value) || $value==(int)$value || $value==(float)$value) $ok = true;
-			}
 			elseif($varType == 'integer')
 			{
 				if(is_int($value) || $value==(int)$value) $ok = true;
@@ -488,7 +484,7 @@ class Piwik_Common
 			}
 			else
 			{
-				throw new Exception("\$varType specified is not known. It should be one of the following: array, numeric, int, integer, float, string");
+				throw new Exception("\$varType specified is not known. It should be one of the following: array, int, integer, float, string");
 			}
 
 			// The type is not correct
