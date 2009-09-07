@@ -14,19 +14,20 @@
  *
  * @category   Zend
  * @package    Zend_Mime
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Decode.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 /**
- * Zend_Mime
+ * @see Zend_Mime
  */
 require_once 'Zend/Mime.php';
 
 /**
  * @category   Zend
  * @package    Zend_Mime
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mime_Decode
@@ -141,6 +142,11 @@ class Zend_Mime_Decode
 
         $headers = iconv_mime_decode_headers($headers, ICONV_MIME_DECODE_CONTINUE_ON_ERROR);
 
+        if ($headers === false ) {
+            // an error occurs during the decoding
+            return;
+        }
+
         // normalize header names
         foreach ($headers as $name => $header) {
             $lower = strtolower($name);
@@ -183,17 +189,17 @@ class Zend_Mime_Decode
      */
     public static function splitHeaderField($field, $wantedPart = null, $firstName = 0)
     {
-    	$wantedPart = strtolower($wantedPart);
-    	$firstName = strtolower($firstName);
+        $wantedPart = strtolower($wantedPart);
+        $firstName = strtolower($firstName);
 
         // special case - a bit optimized
         if ($firstName === $wantedPart) {
             $field = strtok($field, ';');
             return $field[0] == '"' ? substr($field, 1, -1) : $field;
         }
-        
+
         $field = $firstName . '=' . $field;
-        if (!preg_match_all('%([^=]+)=("[^"]+"|[^;]+)(;\s*|$)%', $field, $matches)) {
+        if (!preg_match_all('%([^=\s]+)\s*=\s*("[^"]+"|[^;]+)(;\s*|$)%', $field, $matches)) {
             throw new Zend_Exception('not a valid header field');
         }
 
@@ -212,7 +218,7 @@ class Zend_Mime_Decode
 
         $split = array();
         foreach ($matches[1] as $key => $name) {
-        	$name = strtolower($name);
+            $name = strtolower($name);
             if ($matches[2][$key][0] == '"') {
                 $split[$name] = substr($matches[2][$key], 1, -1);
             } else {

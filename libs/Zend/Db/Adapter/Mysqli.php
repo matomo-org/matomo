@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -16,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Mysqli.php 16203 2009-06-21 18:56:17Z thomas $
  */
 
 
@@ -47,21 +46,64 @@ require_once 'Zend/Db/Statement/Mysqli.php';
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
 {
 
     /**
+     * Keys are UPPERCASE SQL datatypes or the constants
+     * Zend_Db::INT_TYPE, Zend_Db::BIGINT_TYPE, or Zend_Db::FLOAT_TYPE.
+     *
+     * Values are:
+     * 0 = 32-bit integer
+     * 1 = 64-bit integer
+     * 2 = float or decimal
+     *
+     * @var array Associative array of datatypes to values 0, 1, or 2.
+     */
+    protected $_numericDataTypes = array(
+        Zend_Db::INT_TYPE    => Zend_Db::INT_TYPE,
+        Zend_Db::BIGINT_TYPE => Zend_Db::BIGINT_TYPE,
+        Zend_Db::FLOAT_TYPE  => Zend_Db::FLOAT_TYPE,
+        'INT'                => Zend_Db::INT_TYPE,
+        'INTEGER'            => Zend_Db::INT_TYPE,
+        'MEDIUMINT'          => Zend_Db::INT_TYPE,
+        'SMALLINT'           => Zend_Db::INT_TYPE,
+        'TINYINT'            => Zend_Db::INT_TYPE,
+        'BIGINT'             => Zend_Db::BIGINT_TYPE,
+        'SERIAL'             => Zend_Db::BIGINT_TYPE,
+        'DEC'                => Zend_Db::FLOAT_TYPE,
+        'DECIMAL'            => Zend_Db::FLOAT_TYPE,
+        'DOUBLE'             => Zend_Db::FLOAT_TYPE,
+        'DOUBLE PRECISION'   => Zend_Db::FLOAT_TYPE,
+        'FIXED'              => Zend_Db::FLOAT_TYPE,
+        'FLOAT'              => Zend_Db::FLOAT_TYPE
+    );
+
+    /**
+     * @var Zend_Db_Statement_Mysqli
+     */
+    protected $_stmt = null;
+
+    /**
+     * Default class name for a DB statement.
+     *
+     * @var string
+     */
+    protected $_defaultStmtClass = 'Zend_Db_Statement_Mysqli';
+
+    /**
      * Quote a raw string.
      *
-     * @param string $value     Raw string
+     * @param mixed $value Raw string
+     *
      * @return string           Quoted string
      */
     protected function _quote($value)
     {
-        if (is_numeric($value)) {
+        if (is_int($value) || is_float($value)) {
             return $value;
         }
         $this->_connect();
@@ -135,7 +177,7 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
     public function describeTable($tableName, $schemaName = null)
     {
         /**
-         * @todo: use INFORMATION_SCHEMA someday when
+         * @todo  use INFORMATION_SCHEMA someday when
          * MySQL's implementation isn't too slow.
          */
 
@@ -185,6 +227,10 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
                 $row['Length'] = $matches[2];
             } else if (preg_match('/^decimal\((\d+),(\d+)\)/', $row['Type'], $matches)) {
                 $row['Type'] = 'decimal';
+                $row['Precision'] = $matches[1];
+                $row['Scale'] = $matches[2];
+            } else if (preg_match('/^float\((\d+),(\d+)\)/', $row['Type'], $matches)) {
+                $row['Type'] = 'float';
                 $row['Precision'] = $matches[1];
                 $row['Scale'] = $matches[2];
             } else if (preg_match('/^((?:big|medium|small|tiny)?int)\((\d+)\)/', $row['Type'], $matches)) {
@@ -237,37 +283,69 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             return;
         }
 
+        if (!extension_loaded('mysqli')) {
+            /**
+             * @see Zend_Db_Adapter_Mysqli_Exception
+             */
+            require_once 'Zend/Db/Adapter/Mysqli/Exception.php';
+            throw new Zend_Db_Adapter_Mysqli_Exception('The Mysqli extension is required for this adapter but the extension is not loaded');
+        }
+
         if (isset($this->_config['port'])) {
             $port = (integer) $this->_config['port'];
         } else {
             $port = null;
         }
 
-		if(!class_exists("mysqli"))
-		{
-            /**
-             * @see Zend_Db_Adapter_Mysqli_Exception
-             */
-            require_once 'Zend/Db/Adapter/Mysqli/Exception.php';
-            throw new Zend_Db_Adapter_Mysqli_Exception("The extension mysqli is not installed.");
-		}
-	
+        $this->_connection = mysqli_init();
+
+        if(!empty($this->_config['driver_options'])) {
+            foreach($this->_config['driver_options'] as $option=>$value) {
+                if(is_string($option)) {
+                    // Suppress warnings here
+                    // Ignore it if it's not a valid constant
+                    $option = @constant(strtoupper($option));
+                    if($option === null)
+                        continue;
+                }
+                mysqli_options($this->_connection, $option, $value);
+            }
+        }
+
         // Suppress connection warnings here.
         // Throw an exception instead.
-        $this->_connection = new mysqli(
+        $_isConnected = @mysqli_real_connect(
+            $this->_connection,
             $this->_config['host'],
             $this->_config['username'],
             $this->_config['password'],
             $this->_config['dbname'],
             $port
         );
-        if ($this->_connection === false || mysqli_connect_errno()) {
+
+        if ($_isConnected === false || mysqli_connect_errno()) {
+
+            $this->closeConnection();
             /**
              * @see Zend_Db_Adapter_Mysqli_Exception
              */
             require_once 'Zend/Db/Adapter/Mysqli/Exception.php';
             throw new Zend_Db_Adapter_Mysqli_Exception(mysqli_connect_error());
         }
+
+        if (!empty($this->_config['charset'])) {
+            mysqli_set_charset($this->_connection, $this->_config['charset']);
+        }
+    }
+
+    /**
+     * Test if a connection is active
+     *
+     * @return boolean
+     */
+    public function isConnected()
+    {
+        return ((bool) ($this->_connection instanceof mysqli));
     }
 
     /**
@@ -277,7 +355,9 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
      */
     public function closeConnection()
     {
-        $this->_connection->close();
+        if ($this->isConnected()) {
+            $this->_connection->close();
+        }
         $this->_connection = null;
     }
 
@@ -290,8 +370,20 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
     public function prepare($sql)
     {
         $this->_connect();
-        $stmt = new Zend_Db_Statement_Mysqli($this, $sql);
+        if ($this->_stmt) {
+            $this->_stmt->close();
+        }
+        $stmtClass = $this->_defaultStmtClass;
+        if (!class_exists($stmtClass)) {
+            require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass($stmtClass);
+        }
+        $stmt = new $stmtClass($this, $sql);
+        if ($stmt === false) {
+            return false;
+        }
         $stmt->setFetchMode($this->_fetchMode);
+        $this->_stmt = $stmt;
         return $stmt;
     }
 
@@ -309,12 +401,13 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
      *
      * @param string $tableName   OPTIONAL Name of table.
      * @param string $primaryKey  OPTIONAL Name of primary key column.
-     * @return integer
+     * @return string
+     * @todo Return value should be int?
      */
     public function lastInsertId($tableName = null, $primaryKey = null)
     {
         $mysqli = $this->_connection;
-        return $mysqli->insert_id;
+        return (string) $mysqli->insert_id;
     }
 
     /**
@@ -357,6 +450,7 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
      *
      * @param int $mode
      * @return void
+     * @throws Zend_Db_Adapter_Mysqli_Exception
      */
     public function setFetchMode($mode)
     {
@@ -438,4 +532,18 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
         }
     }
 
+    /**
+     * Retrieve server version in PHP style
+     *
+     *@return string
+     */
+    public function getServerVersion()
+    {
+        $this->_connect();
+        $version = $this->_connection->server_version;
+        $major = (int) ($version / 10000);
+        $minor = (int) ($version % 10000 / 100);
+        $revision = (int) ($version % 100);
+        return $major . '.' . $minor . '.' . $revision;
+    }
 }

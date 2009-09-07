@@ -4,7 +4,5 @@ To fix
  
 CHANGES DONE TO LIBRARIES
 =========================
-- edited Zend/Db/Adapter/Abstract.php added resetConfigArray()
-- edited zend_log and changed attr to protected
-- fixed bug fwrite in zend_log stream writer
+- [ZF-7788] edited Zend/Db/Adapter/Abstract.php added resetConfigArray()
 - fixed PEAR so that it works under PHP5 with STRICT MODE enabled

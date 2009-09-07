@@ -14,56 +14,53 @@
  *
  * @category   Zend
  * @package    Zend_Session
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: HttpUserAgent.php 16210 2009-06-21 19:22:17Z thomas $
  * @since      Preview Release 0.2
  */
 
 /**
- * Zend_Session_Validator_Abstract
+ * @see Zend_Session_Validator_Abstract
  */
 require_once 'Zend/Session/Validator/Abstract.php';
 
 /**
  * Zend_Session_Validator_HttpUserAgent
- * 
- * @category Zend
- * @package Zend_Session
- * @subpackage Validators
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ *
+ * @category   Zend
+ * @package    Zend_Session
+ * @subpackage Validator
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Session_Validator_HttpUserAgent extends Zend_Session_Validator_Abstract 
+class Zend_Session_Validator_HttpUserAgent extends Zend_Session_Validator_Abstract
 {
-    
+
     /**
      * Setup() - this method will get the current user agent and store it in the session
      * as 'valid data'
      *
+     * @return void
      */
     public function setup()
     {
         $this->setValidData( (isset($_SERVER['HTTP_USER_AGENT'])
-		    ? $_SERVER['HTTP_USER_AGENT'] : null) );
+            ? $_SERVER['HTTP_USER_AGENT'] : null) );
     }
-    
+
     /**
-     * Validate() - this method will determine if the current user agent matches the 
+     * Validate() - this method will determine if the current user agent matches the
      * user agent we stored when we initialized this variable.
      *
      * @return bool
      */
     public function validate()
     {
-        $current_browser = (isset($_SERVER['HTTP_USER_AGENT'])
-		    ? $_SERVER['HTTP_USER_AGENT'] : null);
-        
-        if ($current_browser === $this->getValidData()) {
-            return true;
-        } else {
-            return false;
-        }
+        $currentBrowser = (isset($_SERVER['HTTP_USER_AGENT'])
+            ? $_SERVER['HTTP_USER_AGENT'] : null);
+
+        return $currentBrowser === $this->getValidData();
     }
-    
+
 }

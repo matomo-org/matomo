@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Formatter
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Xml.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 /** Zend_Log_Formatter_Interface */
@@ -27,10 +27,10 @@ require_once 'Zend/Log/Formatter/Interface.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Formatter
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
- */ 
+ * @version    $Id: Xml.php 16219 2009-06-21 19:45:39Z thomas $
+ */
 class Zend_Log_Formatter_Xml implements Zend_Log_Formatter_Interface
 {
     /**
@@ -69,18 +69,21 @@ class Zend_Log_Formatter_Xml implements Zend_Log_Formatter_Interface
             foreach ($this->_elementMap as $elementName => $fieldKey) {
                 $dataToInsert[$elementName] = $event[$fieldKey];
             }
-        }        
-        
+        }
+
         $dom = new DOMDocument();
         $elt = $dom->appendChild(new DOMElement($this->_rootElement));
 
         foreach ($dataToInsert as $key => $value) {
+            if($key == "message") {
+                $value = htmlspecialchars($value);
+            }
             $elt->appendChild(new DOMElement($key, $value));
         }
-        
+
         $xml = $dom->saveXML();
         $xml = preg_replace('/<\?xml version="1.0"( encoding="[^\"]*")?\?>\n/u', '', $xml);
-        
+
         return $xml . PHP_EOL;
     }
 

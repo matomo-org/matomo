@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -13,37 +12,44 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    Zend_Uri
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Uri.php 8064 2008-02-16 10:58:39Z thomas $
+ * @category  Zend
+ * @package   Zend_Uri
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd     New BSD License
+ * @version   $Id: Uri.php 16207 2009-06-21 19:17:51Z thomas $
  */
 
 /**
- * @see Zend_Loader
- */
-require_once 'Zend/Loader.php';
-
-/**
- * @category   Zend
- * @package    Zend_Uri
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * Abstract class for all Zend_Uri handlers
+ *
+ * @category  Zend
+ * @package   Zend_Uri
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Uri
 {
     /**
      * Scheme of this URI (http, ftp, etc.)
+     *
      * @var string
      */
     protected $_scheme = '';
 
     /**
+     * Global configuration array
+     *
+     * @var array
+     */
+    static protected $_config = array(
+        'allow_unwise' => false
+    );
+    
+    /**
      * Return a string representation of this URI.
      *
-     * @see     getUri()
-     * @return  string
+     * @see    getUri()
+     * @return string
      */
     public function __toString()
     {
@@ -55,7 +61,7 @@ abstract class Zend_Uri
      * by validating it but not returning an object.  Returns TRUE if
      * $uri is a well-formed URI, or FALSE otherwise.
      *
-     * @param string $uri
+     * @param  string $uri The URI to check
      * @return boolean
      */
     public static function check($uri)
@@ -73,28 +79,28 @@ abstract class Zend_Uri
      * Create a new Zend_Uri object for a URI.  If building a new URI, then $uri should contain
      * only the scheme (http, ftp, etc).  Otherwise, supply $uri with the complete URI.
      *
-     * @param string $uri
-     * @throws Zend_Uri_Exception
+     * @param  string $uri The URI form which a Zend_Uri instance is created
+     * @throws Zend_Uri_Exception When an empty string was supplied for the scheme
+     * @throws Zend_Uri_Exception When an illegal scheme is supplied
+     * @throws Zend_Uri_Exception When the scheme is not supported
      * @return Zend_Uri
+     * @link   http://www.faqs.org/rfcs/rfc2396.html
      */
     public static function factory($uri = 'http')
     {
-        /**
-         * Separate the scheme from the scheme-specific parts
-         * @link http://www.faqs.org/rfcs/rfc2396.html
-         */
-        $uri = explode(':', $uri, 2);
-        $scheme = strtolower($uri[0]);
-        $schemeSpecific = isset($uri[1]) ? $uri[1] : '';
+        // Separate the scheme from the scheme-specific parts
+        $uri            = explode(':', $uri, 2);
+        $scheme         = strtolower($uri[0]);
+        $schemeSpecific = isset($uri[1]) === true ? $uri[1] : '';
 
-        if (!strlen($scheme)) {
-            require_once 'Zend/Uri/Exception.php';   
+        if (strlen($scheme) === 0) {
+            require_once 'Zend/Uri/Exception.php';
             throw new Zend_Uri_Exception('An empty string was supplied for the scheme');
         }
 
         // Security check: $scheme is used to load a class file, so only alphanumerics are allowed.
-        if (!ctype_alnum($scheme)) {
-            require_once 'Zend/Uri/Exception.php';   
+        if (ctype_alnum($scheme) === false) {
+            require_once 'Zend/Uri/Exception.php';
             throw new Zend_Uri_Exception('Illegal scheme supplied, only alphanumeric characters are permitted');
         }
 
@@ -104,18 +110,26 @@ abstract class Zend_Uri
          */
         switch ($scheme) {
             case 'http':
+                // Break intentionally omitted
             case 'https':
                 $className = 'Zend_Uri_Http';
                 break;
-            case 'mailto':
-                // @todo
-            default:
-                require_once 'Zend/Uri/Exception.php';   
-                throw new Zend_Uri_Exception("Scheme \"$scheme\" is not supported");
-        }
-        Zend_Loader::loadClass($className);
-        return new $className($scheme, $schemeSpecific);
 
+            case 'mailto':
+                // TODO
+            default:
+                require_once 'Zend/Uri/Exception.php';
+                throw new Zend_Uri_Exception("Scheme \"$scheme\" is not supported");
+                break;
+        }
+
+        if (!class_exists($className)) {
+            require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass($className);
+        }
+        $schemeHandler = new $className($scheme, $schemeSpecific);
+
+        return $schemeHandler;
     }
 
     /**
@@ -125,20 +139,31 @@ abstract class Zend_Uri
      */
     public function getScheme()
     {
-        if (!empty($this->_scheme)) {
+        if (empty($this->_scheme) === false) {
             return $this->_scheme;
         } else {
             return false;
         }
     }
 
-    /******************************************************************************
-     * Abstract Methods
-     *****************************************************************************/
-
+    /**
+     * Set global configuration options
+     *
+     * @param array $config
+     */
+    static public function setConfig(array $config)
+    {
+        foreach ($config as $k => $v) {
+            self::$_config[$k] = $v;
+        }
+    }
+    
     /**
      * Zend_Uri and its subclasses cannot be instantiated directly.
      * Use Zend_Uri::factory() to return a new Zend_Uri object.
+     *
+     * @param string $scheme         The scheme of the URI
+     * @param string $schemeSpecific The scheme-specific part of the URI
      */
     abstract protected function __construct($scheme, $schemeSpecific = '');
 

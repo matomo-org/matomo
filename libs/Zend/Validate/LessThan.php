@@ -15,9 +15,9 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: LessThan.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: LessThan.php 17470 2009-08-08 22:27:09Z thomas $
  */
 
 
@@ -30,7 +30,7 @@ require_once 'Zend/Validate/Abstract.php';
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_LessThan extends Zend_Validate_Abstract
@@ -104,7 +104,7 @@ class Zend_Validate_LessThan extends Zend_Validate_Abstract
     {
         $this->_setValue($value);
         if ($this->_max <= $value) {
-            $this->_error();
+            $this->_error(self::NOT_LESS);
             return false;
         }
         return true;
