@@ -28,12 +28,14 @@ class candle_value
 
 class candle extends bar_base
 {
-	function candle($colour)
+	function candle($colour, $negative_colour=null)
 	{
 		$this->type      = "candle";
 		parent::bar_base();
 		
 		$this->set_colour( $colour );
+		if(!is_null($negative_colour))
+			$this->{'negative-colour'} = $negative_colour;
 	}
 }
 

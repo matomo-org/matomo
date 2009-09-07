@@ -38,6 +38,8 @@ include_once 'ofc_line.php';
 //include_once 'ofc_line_hollow.php';
 include_once 'ofc_candle.php';
 include_once 'ofc_area_base.php';
+include_once 'ofc_tags.php';
+include_once 'ofc_arrow.php';
 //include_once 'ofc_area_hollow.php';
 //include_once 'ofc_area_line.php';
 

@@ -88,5 +88,10 @@ class bar_base
 		$tmp = 'on-click';
 		$this->$tmp = $text;
 	}
+	
+	function attach_to_right_y_axis()
+	{
+		$this->axis = 'right';
+	}
 }
 
