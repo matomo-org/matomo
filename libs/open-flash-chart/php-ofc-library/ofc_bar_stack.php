@@ -36,6 +36,11 @@ class bar_stack_value
 		$this->val = $val;
 		$this->colour = $colour;
 	}
+	
+	function set_tooltip( $tip )
+	{
+		$this->tip = $tip;
+	} 
 }
 
 class bar_stack_key
