@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -15,9 +14,10 @@
  *
  * @category   Zend
  * @package    Zend_Auth
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @subpackage Zend_Auth_Storage
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: NonPersistent.php 16200 2009-06-21 18:50:06Z thomas $
  */
 
 
@@ -30,13 +30,14 @@ require_once 'Zend/Auth/Storage/Interface.php';
 /**
  * Non-Persistent Auth Storage
  *
- * Since HTTP Authentication happens again on each request, this will always be 
- * re-populated. So there's no need to use sessions, this simple value class 
+ * Since HTTP Authentication happens again on each request, this will always be
+ * re-populated. So there's no need to use sessions, this simple value class
  * will hold the data for rest of the current request.
  *
  * @category   Zend
  * @package    Zend_Auth
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @subpackage Zend_Auth_Storage
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Auth_Storage_NonPersistent implements Zend_Auth_Storage_Interface
@@ -46,7 +47,7 @@ class Zend_Auth_Storage_NonPersistent implements Zend_Auth_Storage_Interface
      */
     protected $_data;
 
-    
+
     /**
      * Returns true if and only if storage is empty
      *
@@ -60,7 +61,6 @@ class Zend_Auth_Storage_NonPersistent implements Zend_Auth_Storage_Interface
 
     /**
      * Returns the contents of storage
-     *
      * Behavior is undefined when storage is empty.
      *
      * @throws Zend_Auth_Storage_Exception If reading contents from storage is impossible

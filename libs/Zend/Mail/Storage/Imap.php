@@ -4,20 +4,20 @@
  *
  * LICENSE
  *
- * This source file is subject to version 1.0 of the Zend Framework
- * license, that is bundled with this package in the file LICENSE.txt, and
- * is available through the world-wide-web at the following URL:
- * http://framework.zend.com/license/new-bsd. If you did not receive
- * a copy of the Zend Framework license and are unable to obtain it
- * through the world-wide-web, please send a note to license@zend.com
- * so we can mail you a copy immediately.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://framework.zend.com/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
  * 
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Imap.php 8928 2008-03-20 19:41:41Z thomas $
+ * @version    $Id: Imap.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 
@@ -60,7 +60,7 @@ require_once 'Zend/Mail/Storage.php';
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Storage_Imap extends Zend_Mail_Storage_Abstract
@@ -93,13 +93,24 @@ class Zend_Mail_Storage_Imap extends Zend_Mail_Storage_Abstract
                                           '\Flagged'  => Zend_Mail_Storage::FLAG_FLAGGED);
 
     /**
+     * map flags to search criterias
+     * @var array
+     */
+    protected static $_searchFlags = array('\Recent'   => 'RECENT',
+                                           '\Answered' => 'ANSWERED',
+                                           '\Seen'     => 'SEEN',
+                                           '\Deleted'  => 'DELETED',
+                                           '\Draft'    => 'DRAFT',
+                                           '\Flagged'  => 'FLAGGED');
+
+    /**
      * Count messages all messages in current box
      *
      * @return int number of messages
      * @throws Zend_Mail_Storage_Exception
      * @throws Zend_Mail_Protocol_Exception
      */
-    public function countMessages()
+    public function countMessages($flags = null)
     {
         if (!$this->_currentFolder) {
             /**
@@ -109,9 +120,20 @@ class Zend_Mail_Storage_Imap extends Zend_Mail_Storage_Abstract
             throw new Zend_Mail_Storage_Exception('No selected folder to count');
         }
 
-        // we're reselecting the current mailbox, because STATUS is slow and shouldn't be used on the current mailbox
-        $result = $this->_protocol->select($this->_currentFolder);
-        return $result['exists'];
+        if ($flags === null) {
+            return count($this->_protocol->search(array('ALL')));
+        }
+    
+        $params = array();
+        foreach ((array)$flags as $flag) {
+            if (isset(self::$_searchFlags[$flag])) {
+                $params[] = self::$_searchFlags[$flag];
+            } else {
+                $params[] = 'KEYWORD';
+                $params[] = $this->_protocol->escapeString($flag);
+            }
+        }
+        return count($this->_protocol->search($params));
     }
 
     /**
@@ -584,6 +606,20 @@ class Zend_Mail_Storage_Imap extends Zend_Mail_Storage_Abstract
         }
     }
 
+    /**
+     * move an existing message
+     *
+     * NOTE: imap has no native move command, thus it's emulated with copy and delete
+     *
+     * @param  int                             $id     number of message
+     * @param  string|Zend_Mail_Storage_Folder $folder name or instance of targer folder
+     * @return null
+     * @throws Zend_Mail_Storage_Exception
+     */
+    public function moveMessage($id, $folder) {
+        $this->copyMessage($id, $folder);
+        $this->removeMessage($id);
+    }
 
     /**
      * set flags for message

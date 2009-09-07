@@ -15,9 +15,9 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Feed.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Feed.php 16205 2009-06-21 19:08:45Z thomas $
  */
 
 
@@ -29,7 +29,7 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed
@@ -192,10 +192,11 @@ class Zend_Feed
     {
         // Load the feed as an XML DOMDocument object
         @ini_set('track_errors', 1);
-        $doc = @DOMDocument::loadXML($string);
+        $doc = new DOMDocument;
+        $status = @$doc->loadXML($string);
         @ini_restore('track_errors');
 
-        if (!$doc) {
+        if (!$status) {
             // prevent the class to generate an undefined variable notice (ZF-2590)
             if (!isset($php_errormsg)) {
                 if (function_exists('xdebug_is_enabled')) {
@@ -372,13 +373,15 @@ class Zend_Feed
     public static function importArray(array $data, $format = 'atom')
     {
         $obj = 'Zend_Feed_' . ucfirst(strtolower($format));
-        /**
-         * @see Zend_Loader
-         */
-        require_once 'Zend/Loader.php';
-        Zend_Loader::loadClass($obj);
-        Zend_Loader::loadClass('Zend_Feed_Builder');
+        if (!class_exists($obj)) {
+            require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass($obj);
+        }
 
+        /**
+         * @see Zend_Feed_Builder
+         */
+        require_once 'Zend/Feed/Builder.php';
         return new $obj(null, null, new Zend_Feed_Builder($data));
     }
 
@@ -392,12 +395,10 @@ class Zend_Feed
     public static function importBuilder(Zend_Feed_Builder_Interface $builder, $format = 'atom')
     {
         $obj = 'Zend_Feed_' . ucfirst(strtolower($format));
-        /**
-         * @see Zend_Loader
-         */
-        require_once 'Zend/Loader.php';
-        Zend_Loader::loadClass($obj);
-
+        if (!class_exists($obj)) {
+            require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass($obj);
+        }
         return new $obj(null, null, $builder);
     }
 }

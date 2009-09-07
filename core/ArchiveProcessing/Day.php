@@ -50,17 +50,18 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 					ORDER BY NULL
 				 ";
 		$row = $this->db->fetchRow($query, array($this->strDateStart,$this->idsite ) );
-		
-		if($row === false)
+		if($row === false || $row === null)
 		{
 			return;
 		}
+
 		$this->isThereSomeVisits = true;
 	
 		foreach($row as $name => $value)
 		{
 			$this->insertNumericRecord($name, $value);
 		}
+
 		$this->setNumberOfVisits($row['nb_visits']);
 		$this->setNumberOfVisitsConverted($row['nb_visits_converted']);
 		Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);

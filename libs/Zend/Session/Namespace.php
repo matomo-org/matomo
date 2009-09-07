@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Session
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Namespace.php 16210 2009-06-21 19:22:17Z thomas $
  * @since      Preview Release 0.2
  */
 
@@ -38,7 +38,7 @@ require_once 'Zend/Session/Abstract.php';
  *
  * @category   Zend
  * @package    Zend_Session
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Session_Namespace extends Zend_Session_Abstract implements IteratorAggregate
@@ -71,6 +71,25 @@ class Zend_Session_Namespace extends Zend_Session_Abstract implements IteratorAg
     protected static $_singleInstances = array();
 
     /**
+     * resetSingleInstance()
+     *
+     * @param string $namespaceName
+     * @return null
+     */
+    public static function resetSingleInstance($namespaceName = null)
+    {
+        if ($namespaceName != null) {
+            if (array_key_exists($namespaceName, self::$_singleInstances)) {
+                unset(self::$_singleInstances[$namespaceName]);
+            }
+            return;
+        }
+        
+        self::$_singleInstances = array();
+        return;
+    }
+    
+    /**
      * __construct() - Returns an instance object bound to a particular, isolated section
      * of the session, identified by $namespace name (defaulting to 'Default').
      * The optional argument $singleInstance will prevent construction of additional
@@ -96,6 +115,14 @@ class Zend_Session_Namespace extends Zend_Session_Abstract implements IteratorAg
              */
             require_once 'Zend/Session/Exception.php';
             throw new Zend_Session_Exception('Session namespace must not start with an underscore.');
+        }
+
+        if (preg_match('#(^[0-9])#i', $namespace[0])) {
+            /**
+             * @see Zend_Session_Exception
+             */
+            require_once 'Zend/Session/Exception.php';
+            throw new Zend_Session_Exception('Session namespace must not start with a number.');
         }
 
         if (isset(self::$_singleInstances[$namespace])) {
@@ -300,14 +327,14 @@ class Zend_Session_Namespace extends Zend_Session_Abstract implements IteratorAg
 
     /**
      * apply() - enables applying user-selected function, such as array_merge() to the namespace
+     * Parameters following the $callback argument are passed to the callback function.
      * Caveat: ignores members expiring now.
      *
      * Example:
      *   $namespace->apply('array_merge', array('tree' => 'apple', 'fruit' => 'peach'), array('flower' => 'rose'));
      *   $namespace->apply('count');
      *
-     * @param string $callback - callback function
-     * @param mixed  OPTIONAL arguments passed to the callback function
+     * @param string|array $callback - callback function
      */
     public function apply($callback)
     {
@@ -319,13 +346,14 @@ class Zend_Session_Namespace extends Zend_Session_Abstract implements IteratorAg
 
     /**
      * applySet() - enables applying user-selected function, and sets entire namespace to the result
-     * Result of $callback must be an array. Caveat: ignores members expiring now.
+     * Result of $callback must be an array.
+     * Parameters following the $callback argument are passed to the callback function.
+     * Caveat: ignores members expiring now.
      *
      * Example:
      *   $namespace->applySet('array_merge', array('tree' => 'apple', 'fruit' => 'peach'), array('flower' => 'rose'));
      *
-     * @param string $callback - callback function
-     * @param mixed  OPTIONAL arguments passed to the callback function
+     * @param string|array $callback - callback function
      */
     public function applySet($callback)
     {
@@ -337,7 +365,7 @@ class Zend_Session_Namespace extends Zend_Session_Abstract implements IteratorAg
              * @see Zend_Session_Exception
              */
             require_once 'Zend/Session/Exception.php';
-            throw new Zend_Session_Exception("Result must be an array. Got: " . gettype($result));
+            throw new Zend_Session_Exception('Result must be an array. Got: ' . gettype($result));
         }
         $_SESSION[$this->_namespace] = $result;
         return $result;

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Login.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Login.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 
@@ -33,7 +33,7 @@ require_once 'Zend/Mail/Protocol/Smtp.php';
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Protocol_Smtp_Auth_Login extends Zend_Mail_Protocol_Smtp

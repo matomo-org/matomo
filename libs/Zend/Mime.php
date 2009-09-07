@@ -14,8 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Mime
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Mime.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 
@@ -24,7 +25,7 @@
  *
  * @category   Zend
  * @package    Zend_Mime
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mime
@@ -38,7 +39,7 @@ class Zend_Mime
     const ENCODING_BASE64 = 'base64';
     const DISPOSITION_ATTACHMENT = 'attachment';
     const DISPOSITION_INLINE = 'inline';
-    const LINELENGTH = 74;
+    const LINELENGTH = 72;
     const LINEEND = "\n";
     const MULTIPART_ALTERNATIVE = 'multipart/alternative';
     const MULTIPART_MIXED = 'multipart/mixed';
@@ -114,7 +115,7 @@ class Zend_Mime
     }
 
     /**
-     * Encode a given string with the QUOTED_PRINTABLE mechanism
+     * Encode a given string with the QUOTED_PRINTABLE mechanism and wrap the lines.
      *
      * @param string $str
      * @param int $lineLength Defaults to {@link LINELENGTH}
@@ -126,9 +127,7 @@ class Zend_Mime
         $lineEnd = self::LINEEND)
     {
         $out = '';
-        $str = str_replace('=', '=3D', $str);
-        $str = str_replace(self::$qpKeys, self::$qpReplaceValues, $str);
-        $str = rtrim($str);
+        $str = self::_encodeQuotedPrintable($str);
 
         // Split encoded text into separate lines
         while ($str) {
@@ -156,6 +155,120 @@ class Zend_Mime
         $out = rtrim($out, $lineEnd);
         $out = rtrim($out, '=');
         return $out;
+    }
+
+    /**
+     * Converts a string into quoted printable format.
+     *
+     * @param  string $str
+     * @return string
+     */
+    private static function _encodeQuotedPrintable($str)
+    {
+        $str = str_replace('=', '=3D', $str);
+        $str = str_replace(self::$qpKeys, self::$qpReplaceValues, $str);
+        $str = rtrim($str);
+        return $str;
+    }
+
+    /**
+     * Encode a given string with the QUOTED_PRINTABLE mechanism for Mail Headers.
+     *
+     * Mail headers depend on an extended quoted printable algorithm otherwise
+     * a range of bugs can occur.
+     *
+     * @param string $str
+     * @param string $charset
+     * @param int $lineLength Defaults to {@link LINELENGTH}
+     * @param int $lineEnd Defaults to {@link LINEEND}
+     * @return string
+     */
+    public static function encodeQuotedPrintableHeader($str, $charset,
+        $lineLength = self::LINELENGTH,
+        $lineEnd = self::LINEEND)
+    {
+        // Reduce line-length by the length of the required delimiter, charsets and encoding
+        $prefix = sprintf('=?%s?Q?', $charset);
+        $lineLength = $lineLength-strlen($prefix)-3;
+
+        $str = self::_encodeQuotedPrintable($str);
+
+        // Mail-Header required chars have to be encoded also:
+        $str = str_replace(array('?', ' ', '_'), array('=3F', '=20', '=5F'), $str);
+
+        // initialize first line, we need it anyways
+        $lines = array(0 => "");
+
+        // Split encoded text into separate lines
+        $tmp = "";
+        while(strlen($str) > 0) {
+            $currentLine = max(count($lines)-1, 0);
+            $token       = self::getNextQuotedPrintableToken($str);
+            $str         = substr($str, strlen($token));
+
+            $tmp .= $token;
+            if($token == '=20') {
+                // only if we have a single char token or space, we can append the
+                // tempstring it to the current line or start a new line if necessary.
+                if(strlen($lines[$currentLine].$tmp) > $lineLength) {
+                    $lines[$currentLine+1] = $tmp;
+                } else {
+                    $lines[$currentLine] .= $tmp;
+                }
+                $tmp = "";
+            }
+            // don't forget to append the rest to the last line
+            if(strlen($str) == 0) {
+                $lines[$currentLine] .= $tmp;
+            }
+        }
+
+        // assemble the lines together by pre- and appending delimiters, charset, encoding.
+        for($i = 0; $i < count($lines); $i++) {
+            $lines[$i] = " ".$prefix.$lines[$i]."?=";
+        }
+        $str = trim(implode($lineEnd, $lines));
+        return $str;
+    }
+
+    /**
+     * Retrieves the first token from a quoted printable string.
+     *
+     * @param  string $str
+     * @return string
+     */
+    private static function getNextQuotedPrintableToken($str)
+    {
+        if(substr($str, 0, 1) == "=") {
+            $token = substr($str, 0, 3);
+        } else {
+            $token = substr($str, 0, 1);
+        }
+        return $token;
+    }
+
+    /**
+     * Encode a given string in mail header compatible base64 encoding.
+     *
+     * @param string $str
+     * @param string $charset
+     * @param int $lineLength Defaults to {@link LINELENGTH}
+     * @param int $lineEnd Defaults to {@link LINEEND}
+     * @return string
+     */
+    public static function encodeBase64Header($str,
+        $charset,
+        $lineLength = self::LINELENGTH,
+        $lineEnd = self::LINEEND)
+    {
+        $prefix = '=?' . $charset . '?B?';
+        $suffix = '?=';
+        $remainingLength = $lineLength - strlen($prefix) - strlen($suffix);
+
+        $encodedValue = self::encodeBase64($str, $remainingLength, $lineEnd);
+        $encodedValue = str_replace($lineEnd, $suffix . $lineEnd . ' ' . $prefix, $encodedValue);
+        $encodedValue = $prefix . $encodedValue . $suffix;
+        return $encodedValue;
     }
 
     /**

@@ -16,9 +16,9 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Smtp.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Smtp.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 
@@ -42,7 +42,7 @@ require_once 'Zend/Mail/Protocol/Abstract.php';
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Protocol_Smtp extends Zend_Mail_Protocol_Abstract
@@ -192,7 +192,7 @@ class Zend_Mail_Protocol_Smtp extends Zend_Mail_Protocol_Abstract
              * @see Zend_Mail_Protocol_Exception
              */
             require_once 'Zend/Mail/Protocol/Exception.php';
-            throw new Zend_Mail_Protocol_Exception(join(', ', $this->_validHost->getMessage()));
+            throw new Zend_Mail_Protocol_Exception(join(', ', $this->_validHost->getMessages()));
         }
 
         // Initiate helo sequence

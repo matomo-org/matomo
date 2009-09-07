@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Zend Framework
  *
@@ -15,12 +16,16 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Cookie
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com/)
- * @version    $Id: Cookie.php 9130 2008-04-04 08:30:24Z thomas $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Cookie.php 17124 2009-07-26 09:46:42Z shahar $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
+/**
+ * @see Zend_Uri_Http
+ */
 require_once 'Zend/Uri/Http.php';
+
 
 /**
  * Zend_Http_Cookie is a class describing an HTTP cookie and all it's parameters.
@@ -34,9 +39,9 @@ require_once 'Zend/Uri/Http.php';
  *
  * See http://wp.netscape.com/newsref/std/cookie_spec.html for some specs.
  *
- * @category    Zend
- * @package     Zend_Http
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com/)
+ * @category   Zend
+ * @package    Zend_Http
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Http_Cookie
@@ -90,8 +95,8 @@ class Zend_Http_Cookie
      *
      * @param string $name
      * @param string $value
-     * @param int $expires
      * @param string $domain
+     * @param int $expires
      * @param string $path
      * @param bool $secure
      */
@@ -222,7 +227,7 @@ class Zend_Http_Cookie
 
         // Make sure we have a valid Zend_Uri_Http object
         if (! ($uri->valid() && ($uri->getScheme() == 'http' || $uri->getScheme() =='https'))) {
-            require_once 'Zend/Http/Exception.php';    
+            require_once 'Zend/Http/Exception.php';
             throw new Zend_Http_Exception('Passed URI is not a valid HTTP or HTTPS URI');
         }
 
@@ -231,12 +236,15 @@ class Zend_Http_Cookie
         if ($this->isExpired($now)) return false;
         if ($this->isSessionCookie() && ! $matchSessionCookies) return false;
 
-        // Validate domain and path
-        // Domain is validated using tail match, while path is validated using head match
-        $domain_preg = preg_quote($this->getDomain(), "/");
-        if (! preg_match("/{$domain_preg}$/", $uri->getHost())) return false;
-        $path_preg = preg_quote($this->getPath(), "/");
-        if (! preg_match("/^{$path_preg}/", $uri->getPath())) return false;
+        // Check if the domain matches
+        if (! self::matchCookieDomain($this->getDomain(), $uri->getHost())) {
+            return false;
+        }
+
+        // Check that path matches using prefix match
+        if (! self::matchCookiePath($this->getPath(), $uri->getPath())) {
+            return false;
+        }
 
         // If we didn't die until now, return true.
         return true;
@@ -304,14 +312,29 @@ class Zend_Http_Cookie
                 list($k, $v) = $keyValue;
                 switch (strtolower($k))    {
                     case 'expires':
-                        $expires = strtotime($v);
+                        if(($expires = strtotime($v)) === false) {
+                            /**
+                             * The expiration is past Tue, 19 Jan 2038 03:14:07 UTC
+                             * the maximum for 32-bit signed integer. Zend_Date
+                             * can get around that limit.
+                             *
+                             * @see Zend_Date
+                             */
+                            require_once 'Zend/Date.php';
+
+                            $expireDate = new Zend_Date($v);
+                            $expires = $expireDate->getTimestamp();
+                        }
                         break;
+
                     case 'path':
                         $path = $v;
                         break;
+
                     case 'domain':
                         $domain = $v;
                         break;
+
                     default:
                         break;
                 }
@@ -319,9 +342,67 @@ class Zend_Http_Cookie
         }
 
         if ($name !== '') {
-            return new Zend_Http_Cookie($name, $value, $domain, $expires, $path, $secure);
+            return new self($name, $value, $domain, $expires, $path, $secure);
         } else {
             return false;
         }
+    }
+
+    /**
+     * Check if a cookie's domain matches a host name.
+     *
+     * Used by Zend_Http_Cookie and Zend_Http_CookieJar for cookie matching
+     *
+     * @param  string $cookieDomain
+     * @param  string $host
+     *
+     * @return boolean
+     */
+    public static function matchCookieDomain($cookieDomain, $host)
+    {
+        if (! $cookieDomain) {
+            require_once 'Zend/Http/Exception.php';
+            throw new Zend_Http_Exception("\$cookieDomain is expected to be a cookie domain");
+        }
+
+        if (! $host) {
+            require_once 'Zend/Http/Exception.php';
+            throw new Zend_Http_Exception("\$host is expected to be a host name");
+        }
+
+        $cookieDomain = strtolower($cookieDomain);
+        $host = strtolower($host);
+
+        if ($cookieDomain[0] == '.') {
+            $cookieDomain = substr($cookieDomain, 1);
+        }
+
+        // Check for either exact match or suffix match
+        return ($cookieDomain == $host ||
+                preg_match("/\.$cookieDomain$/", $host));
+    }
+
+    /**
+     * Check if a cookie's path matches a URL path
+     *
+     * Used by Zend_Http_Cookie and Zend_Http_CookieJar for cookie matching
+     *
+     * @param  string $cookiePath
+     * @param  string $path
+     * @return boolean
+     */
+    public static function matchCookiePath($cookiePath, $path)
+    {
+        if (! $cookiePath) {
+            require_once 'Zend/Http/Exception.php';
+            throw new Zend_Http_Exception("\$cookiePath is expected to be a cookie path");
+        }
+
+        if (! $path) {
+            require_once 'Zend/Http/Exception.php';
+            throw new Zend_Http_Exception("\$path is expected to be a host name");
+        }
+
+        return (strpos($path, $cookiePath) === 0);
     }
 }

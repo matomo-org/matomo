@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -16,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Statement
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Mysqli.php 17693 2009-08-20 16:34:59Z jimbojsb $
  */
 
 
@@ -27,14 +26,14 @@
  */
 require_once 'Zend/Db/Statement.php';
 
-
+    
 /**
  * Extends for Mysqli
  *
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Statement
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
@@ -82,7 +81,7 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
              * @see Zend_Db_Statement_Mysqli_Exception
              */
             require_once 'Zend/Db/Statement/Mysqli/Exception.php';
-            throw new Zend_Db_Statement_Mysqli_Exception("Mysqli prepare error: " . $mysqli->error);
+            throw new Zend_Db_Statement_Mysqli_Exception("Mysqli prepare error: " . $mysqli->error, $mysqli->errno);
         }
     }
 
@@ -95,11 +94,26 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
      * @param mixed $length    OPTIONAL Length of SQL parameter.
      * @param mixed $options   OPTIONAL Other options.
      * @return bool
-     * @throws Zend_Db_Statement_Db2_Exception
+     * @throws Zend_Db_Statement_Mysqli_Exception
      */
     protected function _bindParam($parameter, &$variable, $type = null, $length = null, $options = null)
     {
         return true;
+    }
+
+    /**
+     * Closes the cursor and the statement.
+     *
+     * @return bool
+     */
+    public function close()
+    {
+        if ($this->_stmt) {
+            $r = $this->_stmt->close();
+            $this->_stmt = null;
+            return $r;
+        }
+        return false;
     }
 
     /**
@@ -109,11 +123,15 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
      */
     public function closeCursor()
     {
-        if (!$this->_stmt) {
-            return false;
+        if ($stmt = $this->_stmt) {
+            $mysqli = $this->_adapter->getConnection();
+            while ($mysqli->more_results()) {
+                $mysqli->next_result();
+            }
+            $this->_stmt->free_result();
+            return $this->_stmt->reset();
         }
-        $this->_stmt->reset();
-        return true;
+        return false;
     }
 
     /**
@@ -174,6 +192,36 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
         if (!$this->_stmt) {
             return false;
         }
+
+        // if no params were given as an argument to execute(),
+        // then default to the _bindParam array
+        if ($params === null) {
+            $params = $this->_bindParam;
+        }
+        // send $params as input parameters to the statement
+        if ($params) {
+            array_unshift($params, str_repeat('s', count($params)));
+            $stmtParams = array();
+            foreach ($params as $k => &$value) {
+                $stmtParams[$k] = &$value;
+            }
+            call_user_func_array(
+                array($this->_stmt, 'bind_param'),
+                $stmtParams
+                );
+        }
+
+        // execute the statement
+        $retval = $this->_stmt->execute();
+        if ($retval === false) {
+            /**
+             * @see Zend_Db_Statement_Mysqli_Exception
+             */
+            require_once 'Zend/Db/Statement/Mysqli/Exception.php';
+            throw new Zend_Db_Statement_Mysqli_Exception("Mysqli statement execute error : " . $this->_stmt->error, $this->_stmt->errno);
+        }
+
+
         // retain metadata
         if ($this->_meta === null) {
             $this->_meta = $this->_stmt->result_metadata();
@@ -182,7 +230,7 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
                  * @see Zend_Db_Statement_Mysqli_Exception
                  */
                 require_once 'Zend/Db/Statement/Mysqli/Exception.php';
-                throw new Zend_Db_Statement_Mysqli_Exception("Mysqli statement metadata error: " . $this->_stmt->error);
+                throw new Zend_Db_Statement_Mysqli_Exception("Mysqli statement metadata error: " . $this->_stmt->error, $this->_stmt->errno);
             }
         }
 
@@ -206,38 +254,16 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
                 $refs[$i] = &$f;
             }
 
+            $this->_stmt->store_result();
             // bind to the result variables
             call_user_func_array(
                 array($this->_stmt, 'bind_result'),
                 $this->_values
             );
         }
-
-        // if no params were given as an argument to execute(),
-        // then default to the _bindParam array
-        if ($params === null) {
-            $params = $this->_bindParam;
-        }
-        // send $params as input parameters to the statement
-        if ($params) {
-            array_unshift($params, str_repeat('s', count($params)));
-            call_user_func_array(
-                array($this->_stmt, 'bind_param'),
-                $params
-            );
-        }
-
-        // execute the statement
-        $retval = $this->_stmt->execute();
-        if ($retval === false) {
-            /**
-             * @see Zend_Db_Statement_Mysqli_Exception
-             */
-            require_once 'Zend/Db/Statement/Mysqli/Exception.php';
-            throw new Zend_Db_Statement_Mysqli_Exception("Mysqli statement execute error : " . $this->_stmt->error);
-        }
         return $retval;
     }
+
 
     /**
      * Fetches a row from the result set.
@@ -304,7 +330,6 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
                 throw new Zend_Db_Statement_Mysqli_Exception("Invalid fetch mode '$style' specified");
                 break;
         }
-
         return $row;
     }
 

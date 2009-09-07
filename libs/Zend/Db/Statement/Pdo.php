@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Statement
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Pdo.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
@@ -27,21 +27,21 @@ require_once 'Zend/Db/Statement.php';
 
 /**
  * Proxy class to wrap a PDOStatement object.
- * Matches the interface of PDOStatement.  All methods simply proxy to the 
+ * Matches the interface of PDOStatement.  All methods simply proxy to the
  * matching method in PDOStatement.  PDOExceptions thrown by PDOStatement
  * are re-thrown as Zend_Db_Statement_Exception.
  *
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Statement
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Db_Statement_Pdo extends Zend_Db_Statement
+class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggregate
 {
 
     /**
-     * The mysqli_stmt object.
+     * The statement object.
      *
      * @var PDOStatement
      */
@@ -82,7 +82,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement
     public function bindColumn($column, &$param, $type = null)
     {
         try {
-            if (is_null($type)) {
+            if ($type === null) {
                 return $this->_stmt->bindColumn($column, $param);
             } else {
                 return $this->_stmt->bindColumn($column, $param, $type);
@@ -107,6 +107,17 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement
     protected function _bindParam($parameter, &$variable, $type = null, $length = null, $options = null)
     {
         try {
+            if ($type === null) {
+                if (is_bool($variable)) {
+                    $type = PDO::PARAM_BOOL;
+                } elseif ($variable === null) {
+                    $type = PDO::PARAM_NULL;
+                } elseif (is_integer($variable)) {
+                    $type = PDO::PARAM_INT;
+                } else {
+                    $type = PDO::PARAM_STR;
+                }
+            }
             return $this->_stmt->bindParam($parameter, $variable, $type, $length, $options);
         } catch (PDOException $e) {
             require_once 'Zend/Db/Statement/Exception.php';
@@ -129,7 +140,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement
             $parameter = ":$parameter";
         }
         try {
-            if (is_null($type)) {
+            if ($type === null) {
                 return $this->_stmt->bindValue($parameter, $value);
             } else {
                 return $this->_stmt->bindValue($parameter, $value, $type);
@@ -251,6 +262,16 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement
     }
 
     /**
+     * Required by IteratorAggregate interface
+     *
+     * @return IteratorIterator
+     */
+    public function getIterator()
+    {
+        return new IteratorIterator($this->_stmt);
+    }
+
+    /**
      * Returns an array containing all of the result set rows.
      *
      * @param int $style OPTIONAL Fetch mode.
@@ -340,7 +361,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement
     public function getColumnMeta($column)
     {
         try {
-            return $this->_stmt->getColumnMeta();
+            return $this->_stmt->getColumnMeta($column);
         } catch (PDOException $e) {
             require_once 'Zend/Db/Statement/Exception.php';
             throw new Zend_Db_Statement_Exception($e->getMessage());

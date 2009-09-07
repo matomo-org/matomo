@@ -14,49 +14,56 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Identical.php 8118 2008-02-18 16:10:32Z matthew $
+ * @version    $Id: Identical.php 17684 2009-08-20 09:20:36Z yoshida@zend.co.jp $
  */
 
-/** Zend_Validate_Abstract */
+/** @see Zend_Validate_Abstract */
 require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Identical extends Zend_Validate_Abstract
 {
-    /**#@+
+    /**
      * Error codes
      * @const string
      */
     const NOT_SAME      = 'notSame';
     const MISSING_TOKEN = 'missingToken';
-    /**#@-*/
 
     /**
      * Error messages
      * @var array
      */
     protected $_messageTemplates = array(
-        self::NOT_SAME      => 'Tokens do not match',
+        self::NOT_SAME      => "The token '%token%' does not match the given token '%value%'",
         self::MISSING_TOKEN => 'No token was provided to match against',
+    );
+
+    /**
+     * @var array
+     */
+    protected $_messageVariables = array(
+        'token' => '_tokenString'
     );
 
     /**
      * Original token against which to validate
      * @var string
      */
+    protected $_tokenString;
     protected $_token;
 
     /**
      * Sets validator options
      *
-     * @param  string $token
+     * @param  mixed $token
      * @return void
      */
     public function __construct($token = null)
@@ -68,19 +75,20 @@ class Zend_Validate_Identical extends Zend_Validate_Abstract
 
     /**
      * Set token against which to compare
-     * 
-     * @param  string $token 
+     *
+     * @param  mixed $token
      * @return Zend_Validate_Identical
      */
     public function setToken($token)
     {
-        $this->_token = (string) $token;
+        $this->_tokenString = (string) $token;
+        $this->_token       = $token;
         return $this;
     }
 
     /**
      * Retrieve token
-     * 
+     *
      * @return string
      */
     public function getToken()
@@ -91,18 +99,18 @@ class Zend_Validate_Identical extends Zend_Validate_Abstract
     /**
      * Defined by Zend_Validate_Interface
      *
-     * Returns true if and only if a token has been set and the provided value 
+     * Returns true if and only if a token has been set and the provided value
      * matches that token.
      *
-     * @param  string $value
+     * @param  mixed $value
      * @return boolean
      */
     public function isValid($value)
     {
-        $this->_setValue($value);
-        $token = $this->getToken();
+        $this->_setValue((string) $value);
+        $token        = $this->getToken();
 
-        if (empty($token)) {
+        if ($token === null) {
             $this->_error(self::MISSING_TOKEN);
             return false;
         }

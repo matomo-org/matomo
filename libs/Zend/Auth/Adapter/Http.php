@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -16,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage Zend_Auth_Adapter_Http
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Http.php 16200 2009-06-21 18:50:06Z thomas $
  */
 
 
@@ -36,7 +35,7 @@ require_once 'Zend/Auth/Adapter/Interface.php';
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage Zend_Auth_Adapter_Http
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @todo       Support auth-int
  * @todo       Track nonces, nonce-count, opaque for replay protection and stale support
@@ -168,6 +167,14 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
      */
     public function __construct(array $config)
     {
+        if (!extension_loaded('hash')) {
+            /**
+             * @see Zend_Auth_Adapter_Exception
+             */
+            require_once 'Zend/Auth/Adapter/Exception.php';
+            throw new Zend_Auth_Adapter_Exception(__CLASS__  . ' requires the \'hash\' extension');
+        }
+
         $this->_request  = null;
         $this->_response = null;
         $this->_ieNoOpaque = false;
@@ -351,8 +358,8 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
     /**
      * Authenticate
      *
-     * @return Zend_Auth_Result
      * @throws Zend_Auth_Adapter_Exception
+     * @return Zend_Auth_Result
      */
     public function authenticate()
     {
@@ -380,24 +387,30 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
         list($clientScheme) = explode(' ', $authHeader);
         $clientScheme = strtolower($clientScheme);
 
+        // The server can issue multiple challenges, but the client should
+        // answer with only the selected auth scheme.
         if (!in_array($clientScheme, $this->_supportedSchemes)) {
             $this->_response->setHttpResponseCode(400);
             return new Zend_Auth_Result(
                 Zend_Auth_Result::FAILURE_UNCATEGORIZED,
-                array(), 
-                array('Client requested an unsupported authentication scheme')
+                array(),
+                array('Client requested an incorrect or unsupported authentication scheme')
             );
         }
 
-        // The server can issue multiple challenges, but the client should
-        // answer with only one selected auth scheme.
+        // client sent a scheme that is not the one required
+        if (!in_array($clientScheme, $this->_acceptSchemes)) {
+            // challenge again the client
+            return $this->_challengeClient();
+        }
+        
         switch ($clientScheme) {
             case 'basic':
                 $result = $this->_basicAuth($authHeader);
                 break;
             case 'digest':
                 $result = $this->_digestAuth($authHeader);
-                break;
+            break;
             default:
                 /**
                  * @see Zend_Auth_Adapter_Exception
@@ -512,8 +525,8 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             throw new Zend_Auth_Adapter_Exception('Unable to base64_decode Authorization header value');
         }
 
-        // See ZF-1253. Validate the credentials the same way the digest 
-        // implementation does. If invalid credentials are detected, 
+        // See ZF-1253. Validate the credentials the same way the digest
+        // implementation does. If invalid credentials are detected,
         // re-challenge the client.
         if (!ctype_print($auth)) {
             return $this->_challengeClient();
@@ -567,7 +580,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             );
         }
 
-        // See ZF-1052. This code was a bit too unforgiving of invalid 
+        // See ZF-1052. This code was a bit too unforgiving of invalid
         // usernames. Now, if the username is bad, we re-challenge the client.
         if ('::invalid::' == $data['username']) {
             return $this->_challengeClient();
@@ -686,11 +699,11 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
         $temp = null;
         $data = array();
 
-        // See ZF-1052. Detect invalid usernames instead of just returning a 
+        // See ZF-1052. Detect invalid usernames instead of just returning a
         // 400 code.
         $ret = preg_match('/username="([^"]+)"/', $header, $temp);
         if (!$ret || empty($temp[1])
-                  || !ctype_print($temp[1]) 
+                  || !ctype_print($temp[1])
                   || strpos($temp[1], ':') !== false) {
             $data['username'] = '::invalid::';
         } else {
@@ -755,8 +768,8 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
         }
         $temp = null;
 
-        // The spec says this should default to MD5 if omitted. OK, so how does 
-        // that square with the algo we send out in the WWW-Authenticate header, 
+        // The spec says this should default to MD5 if omitted. OK, so how does
+        // that square with the algo we send out in the WWW-Authenticate header,
         // if it can easily be overridden by the client?
         $ret = preg_match('/algorithm="?(' . $this->_algo . ')"?/', $header, $temp);
         if ($ret && !empty($temp[1])
@@ -815,8 +828,8 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
         }
         $temp = null;
 
-        // Not optional in this implementation. The spec says this value 
-        // shouldn't be a quoted string, but apparently some implementations 
+        // Not optional in this implementation. The spec says this value
+        // shouldn't be a quoted string, but apparently some implementations
         // quote it anyway. See ZF-1544.
         $ret = preg_match('/nc="?([0-9A-Fa-f]{8})"?/', $header, $temp);
         if (!$ret || empty($temp[1])) {

@@ -14,21 +14,18 @@
  *
  * @category   Zend
  * @package    Zend_Log
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Log.php 16207 2009-06-21 19:17:51Z thomas $
  */
-
-/** Zend_Log_Filter_Priority */
-require_once 'Zend/Log/Filter/Priority.php';
 
 /**
  * @category   Zend
  * @package    Zend_Log
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
- */ 
+ * @version    $Id: Log.php 16207 2009-06-21 19:17:51Z thomas $
+ */
 class Zend_Log
 {
     const EMERG   = 0;  // Emergency: system is unusable
@@ -66,7 +63,7 @@ class Zend_Log
      *
      * @param Zend_Log_Writer_Abstract|null  $writer  default writer
      */
-    public function __construct($writer = null)
+    public function __construct(Zend_Log_Writer_Abstract $writer = null)
     {
         $r = new ReflectionClass($this);
         $this->_priorities = array_flip($r->getConstants());
@@ -105,6 +102,8 @@ class Zend_Log
         if (($priority = array_search($priority, $this->_priorities)) !== false) {
             $this->log(array_shift($params), $priority);
         } else {
+            /** @see Zend_Log_Exception */
+            require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Bad log priority');
         }
     }
@@ -121,10 +120,14 @@ class Zend_Log
     {
         // sanity checks
         if (empty($this->_writers)) {
+            /** @see Zend_Log_Exception */
+            require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('No writers were added');
         }
 
         if (! isset($this->_priorities[$priority])) {
+            /** @see Zend_Log_Exception */
+            require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Bad log priority');
         }
 
@@ -162,6 +165,8 @@ class Zend_Log
 
         if (isset($this->_priorities[$priority])
             || array_search($name, $this->_priorities)) {
+            /** @see Zend_Log_Exception */
+            require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Existing priorities cannot be overwritten');
         }
 
@@ -172,14 +177,20 @@ class Zend_Log
      * Add a filter that will be applied before all log writers.
      * Before a message will be received by any of the writers, it
      * must be accepted by all filters added with this method.
-     * 
-     * @param  Zend_Log_Filter_Interface  $filter
+     *
+     * @param  int|Zend_Log_Filter_Interface $filter
      * @return void
      */
     public function addFilter($filter)
     {
         if (is_integer($filter)) {
+        	/** @see Zend_Log_Filter_Priority */
+            require_once 'Zend/Log/Filter/Priority.php';
             $filter = new Zend_Log_Filter_Priority($filter);
+        } elseif(!is_object($filter) || ! $filter instanceof Zend_Log_Filter_Interface) {
+            /** @see Zend_Log_Exception */
+            require_once 'Zend/Log/Exception.php';
+            throw new Zend_Log_Exception('Invalid filter provided');
         }
 
         $this->_filters[] = $filter;
@@ -192,7 +203,7 @@ class Zend_Log
      * @param  Zend_Log_Writer_Abstract $writer
      * @return void
      */
-    public function addWriter($writer)
+    public function addWriter(Zend_Log_Writer_Abstract $writer)
     {
         $this->_writers[] = $writer;
     }

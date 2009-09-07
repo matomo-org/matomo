@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Filter
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Suppress.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 /** Zend_Log_Filter_Interface */
@@ -27,10 +27,10 @@ require_once 'Zend/Log/Filter/Interface.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Filter
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
- */ 
+ * @version    $Id: Suppress.php 16219 2009-06-21 19:45:39Z thomas $
+ */
 class Zend_Log_Filter_Suppress implements Zend_Log_Filter_Interface
 {
     /**
@@ -39,12 +39,12 @@ class Zend_Log_Filter_Suppress implements Zend_Log_Filter_Interface
     protected $_accept = true;
 
     /**
-     * This is a simple boolean filter.  
+     * This is a simple boolean filter.
      *
      * Call suppress(true) to suppress all log events.
      * Call suppress(false) to accept all log events.
      *
-     * @param  boolean  $suppress  Should all log events be suppressed? 
+     * @param  boolean  $suppress  Should all log events be suppressed?
      * @return  void
      */
     public function suppress($suppress)

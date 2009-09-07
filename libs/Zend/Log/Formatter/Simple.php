@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Formatter
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Simple.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 /** Zend_Log_Formatter_Interface */
@@ -27,16 +27,18 @@ require_once 'Zend/Log/Formatter/Interface.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Formatter
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
- */ 
+ * @version    $Id: Simple.php 16219 2009-06-21 19:45:39Z thomas $
+ */
 class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
 {
     /**
      * @var string
      */
     protected $_format;
+
+    const DEFAULT_FORMAT = '%timestamp% %priorityName% (%priority%): %message%';
 
     /**
      * Class constructor
@@ -47,13 +49,14 @@ class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
     public function __construct($format = null)
     {
         if ($format === null) {
-            $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
+            $format = self::DEFAULT_FORMAT . PHP_EOL;
         }
-        
+
         if (! is_string($format)) {
+            require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Format must be a string');
         }
-        
+
         $this->_format = $format;
     }
 
@@ -67,6 +70,13 @@ class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
     {
         $output = $this->_format;
         foreach ($event as $name => $value) {
+
+            if ((is_object($value) && !method_exists($value,'__toString'))
+                || is_array($value)) {
+
+                $value = gettype($value);
+            }
+
             $output = str_replace("%$name%", $value, $output);
         }
         return $output;

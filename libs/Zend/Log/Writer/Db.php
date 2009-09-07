@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Db.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 /** Zend_Log_Writer_Abstract */
@@ -27,10 +27,10 @@ require_once 'Zend/Log/Writer/Abstract.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
- */ 
+ * @version    $Id: Db.php 16219 2009-06-21 19:45:39Z thomas $
+ */
 class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
 {
     /**
@@ -69,8 +69,9 @@ class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
     /**
      * Formatting is not possible on this writer
      */
-    public function setFormatter($formatter) 
+    public function setFormatter($formatter)
     {
+        require_once 'Zend/Log/Exception.php';
         throw new Zend_Log_Exception(get_class() . ' does not support formatting');
     }
 
@@ -79,7 +80,7 @@ class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
      *
      * @return void
      */
-    public function shutdown() 
+    public function shutdown()
     {
         $this->_db = null;
     }
@@ -93,9 +94,10 @@ class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
     protected function _write($event)
     {
         if ($this->_db === null) {
-            throw new Zend_Log_Exception('Database adapter instance has been removed by shutdown');
+            require_once 'Zend/Log/Exception.php';
+            throw new Zend_Log_Exception('Database adapter is null');
         }
-        
+
         if ($this->_columnMap === null) {
             $dataToInsert = $event;
         } else {
@@ -104,7 +106,7 @@ class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
                 $dataToInsert[$columnName] = $event[$fieldKey];
             }
         }
-        
+
         $this->_db->insert($this->_table, $dataToInsert);
     }
 

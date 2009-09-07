@@ -15,9 +15,9 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: UpcA.php 8210 2008-02-20 14:09:05Z andries $
+ * @version    $Id: UpcA.php 16223 2009-06-21 20:04:53Z thomas $
  */
 
 
@@ -30,7 +30,7 @@ require_once 'Zend/Validate/Abstract.php';
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Barcode_UpcA extends Zend_Validate_Abstract
@@ -67,15 +67,18 @@ class Zend_Validate_Barcode_UpcA extends Zend_Validate_Abstract
      */
     public function isValid($value)
     {
-        $valueString = (string) $value;
-        $this->_setValue($valueString);
+        if (!is_string($value)) {
+            $this->_error(self::INVALID);
+            return false;
+        }
 
-        if (strlen($valueString) !== 12) {
+        $this->_setValue($value);
+        if (strlen($value) !== 12) {
             $this->_error(self::INVALID_LENGTH);
             return false;
         }
 
-        $barcode = substr($valueString, 0, -1);
+        $barcode = substr($value, 0, -1);
         $oddSum  = 0;
         $evenSum = 0;
 
@@ -90,7 +93,7 @@ class Zend_Validate_Barcode_UpcA extends Zend_Validate_Abstract
         $calculation = ($oddSum + $evenSum) % 10;
         $checksum    = ($calculation === 0) ? 0 : 10 - $calculation;
 
-        if ($valueString[11] != $checksum) {
+        if ($value[11] != $checksum) {
             $this->_error(self::INVALID);
             return false;
         }

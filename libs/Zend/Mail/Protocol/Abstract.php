@@ -16,9 +16,9 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Abstract.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 
@@ -42,9 +42,9 @@ require_once 'Zend/Validate/Hostname.php';
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Abstract.php 16219 2009-06-21 19:45:39Z thomas $
  * @todo Implement proxy settings
  */
 abstract class Zend_Mail_Protocol_Abstract
@@ -221,7 +221,7 @@ abstract class Zend_Mail_Protocol_Abstract
         $errorStr = '';
 
         // open connection
-        $this->_socket = stream_socket_client($remote, $errorNum, $errorStr, self::TIMEOUT_CONNECTION);
+        $this->_socket = @stream_socket_client($remote, $errorNum, $errorStr, self::TIMEOUT_CONNECTION);
 
         if ($this->_socket === false) {
             if ($errorNum == 0) {

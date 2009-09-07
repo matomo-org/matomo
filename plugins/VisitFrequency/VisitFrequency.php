@@ -83,7 +83,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 				 	GROUP BY visitor_returning";
 		$row = $archiveProcessing->db->fetchRow($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ) );
 		
-		if($row==false)
+		if($row === false || $row === null)
 		{
 			$row['nb_visits_returning'] = 0;
 			$row['nb_actions_returning'] = 0;

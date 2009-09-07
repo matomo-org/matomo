@@ -15,9 +15,9 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Abstract.php 16205 2009-06-21 19:08:45Z thomas $
  */
 
 
@@ -37,7 +37,7 @@ require_once 'Zend/Feed/Element.php';
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Feed_Abstract extends Zend_Feed_Element implements Iterator
@@ -81,7 +81,7 @@ abstract class Zend_Feed_Abstract extends Zend_Feed_Element implements Iterator
                  * @see Zend_Feed_Exception
                  */
                 require_once 'Zend/Feed/Exception.php';
-            	throw new Zend_Feed_Exception('Feed failed to load, got response code ' . $response->getStatus());
+                throw new Zend_Feed_Exception('Feed failed to load, got response code ' . $response->getStatus());
             }
             $this->_element = $response->getBody();
             $this->__wakeup();
@@ -110,10 +110,11 @@ abstract class Zend_Feed_Abstract extends Zend_Feed_Element implements Iterator
     public function __wakeup()
     {
         @ini_set('track_errors', 1);
-        $doc = @DOMDocument::loadXML($this->_element);
+        $doc = new DOMDocument;
+        $status = @$doc->loadXML($this->_element);
         @ini_restore('track_errors');
 
-        if (!$doc) {
+        if (!$status) {
             // prevent the class to generate an undefined variable notice (ZF-2590)
             if (!isset($php_errormsg)) {
                 if (function_exists('xdebug_is_enabled')) {

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -15,70 +14,93 @@
  *
  * @category   Zend
  * @package    Zend_Cache
- * @subpackage Frontend
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @subpackage Zend_Cache_Frontend
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Output.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
- 
- 
+
+
 /**
- * Zend_Cache_Core
+ * @see Zend_Cache_Core
  */
 require_once 'Zend/Cache/Core.php';
 
 
 /**
  * @package    Zend_Cache
- * @subpackage Frontend
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
+ * @subpackage Zend_Cache_Frontend
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Frontend_Output extends Zend_Cache_Core
 {
-                 
+
+    private $_idStack = array();
+
     /**
      * Constructor
-     * 
-     * @param array $options associative array of options
+     *
+     * @param  array $options Associative array of options
+     * @return void
      */
-    public function __construct($options = array())
+    public function __construct(array $options = array())
     {
         parent::__construct($options);
+        $this->_idStack = array();
     }
-        
-        
+
     /**
      * Start the cache
      *
-     * @param string $id cache id
-     * @param boolean $doNotTestCacheValidity if set to true, the cache validity won't be tested
-     * @return boolean true if the cache is hit (false else)
+     * @param  string  $id                     Cache id
+     * @param  boolean $doNotTestCacheValidity If set to true, the cache validity won't be tested
+     * @param  boolean $echoData               If set to true, datas are sent to the browser if the cache is hit (simpy returned else)
+     * @return mixed True if the cache is hit (false else) with $echoData=true (default) ; string else (datas)
      */
-    public function start($id, $doNotTestCacheValidity = false)
+    public function start($id, $doNotTestCacheValidity = false, $echoData = true)
     {
         $data = $this->load($id, $doNotTestCacheValidity);
         if ($data !== false) {
-            echo($data);
-            return true;
+            if ( $echoData ) {
+                echo($data);
+                return true;
+            } else {
+                return $data;
+            }
         }
         ob_start();
         ob_implicit_flush(false);
+        $this->_idStack[] = $id;
         return false;
     }
 
-
     /**
      * Stop the cache
-     * 
-     * @param array $tags tags array
-     * @param int $specificLifetime if != false, set a specific lifetime for this cache record (null => infinite lifetime)    
+     *
+     * @param  array   $tags             Tags array
+     * @param  int     $specificLifetime If != false, set a specific lifetime for this cache record (null => infinite lifetime)
+     * @param  string  $forcedDatas      If not null, force written datas with this
+     * @param  boolean $echoData         If set to true, datas are sent to the browser
+     * @param  int     $priority         integer between 0 (very low priority) and 10 (maximum priority) used by some particular backends
+     * @return void
      */
-    public function end($tags = array(), $specificLifetime = false)
+    public function end($tags = array(), $specificLifetime = false, $forcedDatas = null, $echoData = true, $priority = 8)
     {
-        $data = ob_get_contents();
-        ob_end_clean();
-        $this->save($data, null, $tags, $specificLifetime);
-        echo($data);
+        if ($forcedDatas === null) {
+            $data = ob_get_contents();
+            ob_end_clean();
+        } else {
+            $data =& $forcedDatas;
+        }
+        $id = array_pop($this->_idStack);
+        if ($id === null) {
+            Zend_Cache::throwException('use of end() without a start()');
+        }
+        $this->save($data, $id, $tags, $specificLifetime, $priority);
+        if ($echoData) {
+            echo($data);
+        }
     }
-             
+
 }

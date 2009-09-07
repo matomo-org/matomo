@@ -4,20 +4,20 @@
  *
  * LICENSE
  *
- * This source file is subject to version 1.0 of the Zend Framework
- * license, that is bundled with this package in the file LICENSE.txt, and
- * is available through the world-wide-web at the following URL:
- * http://framework.zend.com/license/new-bsd. If you did not receive
- * a copy of the Zend Framework license and are unable to obtain it
- * through the world-wide-web, please send a note to license@zend.com
- * so we can mail you a copy immediately.
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://framework.zend.com/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
  * 
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mbox.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Mbox.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 
@@ -33,16 +33,16 @@
 require_once 'Zend/Mail/Storage/Abstract.php';
 
 /**
- * @see Zend_Mail_Message
+ * @see Zend_Mail_Message_File
  */
-require_once 'Zend/Mail/Message.php';
+require_once 'Zend/Mail/Message/File.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
@@ -71,6 +71,11 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
      */
     protected $_positions;
 
+    /**
+     * used message class, change it in an extened class to extend the returned message class
+     * @var string
+     */
+    protected $_messageClass = 'Zend_Mail_Message_File';
 
     /**
      * Count messages all messages in current box
@@ -131,11 +136,19 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
      * Fetch a message
      *
      * @param  int $id number of message
-     * @return Zend_Mail_Message
+     * @return Zend_Mail_Message_File
      * @throws Zend_Mail_Storage_Exception
      */
     public function getMessage($id)
     {
+        // TODO that's ugly, would be better to let the message class decide
+        if (strtolower($this->_messageClass) == 'zend_mail_message_file' || is_subclass_of($this->_messageClass, 'zend_mail_message_file')) {
+            // TODO top/body lines
+            $messagePos = $this->_getPos($id);
+            return new $this->_messageClass(array('file' => $this->_fh, 'startPos' => $messagePos['start'],
+                                                  'endPos' => $messagePos['end']));
+        }
+
         $bodyLines = 0; // TODO: need a way to change that
 
         $message = $this->getRawHeader($id);
