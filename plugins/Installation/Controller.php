@@ -396,7 +396,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$this->session->currentStepDone = __FUNCTION__;		
 		$view->showNextStep = false;
 		
-		@Zend_Session::destroy(true);
 		echo $view->render();
 	}
 	
