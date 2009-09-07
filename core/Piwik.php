@@ -1445,7 +1445,10 @@ class Piwik
 			$db->getConnection()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 			$db->getConnection()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);		
 			Zend_Db_Table::setDefaultAdapter($db);
-			$db->resetConfigArray(); // we don't want this information to appear in the logs
+			if(method_exists('Zend_Db_Adapter_Abstract', 'resetConfigArray'))
+			{
+				$db->resetConfigArray(); // we don't want this information to appear in the logs
+			}
 		}
 		Zend_Registry::set('db', $db);
 	}
