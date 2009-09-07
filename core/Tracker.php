@@ -147,12 +147,12 @@ class Piwik_Tracker
 		switch($configDb['adapter'])
 		{
 			case 'PDO_MYSQL':
-				require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db/PdoMySql.php';
-				return new Piwik_Tracker_Db_PdoMySql($configDb);
+				require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db/Pdo/Mysql.php';
+				return new Piwik_Tracker_Db_Pdo_Mysql($configDb);
 
 			case 'MYSQLI':
-				require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db/MySqli.php';
-				return new Piwik_Tracker_Db_MySqli($configDb);
+				require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db/Mysqli.php';
+				return new Piwik_Tracker_Db_Mysqli($configDb);
 		}
 
 		throw new Exception('Unsupported database adapter '.$configDb['adapter']);
