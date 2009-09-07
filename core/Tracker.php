@@ -28,7 +28,7 @@ class Piwik_Tracker
 	/**
 	 * @var Piwik_Tracker_Db
 	 */
-	static protected $db = null;
+	protected static $db = null;
 	
 	const STATE_NOTHING_TO_NOTICE = 1;
 	const STATE_TO_REDIRECT_URL = 2;
@@ -135,7 +135,29 @@ class Piwik_Tracker
 		
 		self::disconnectDatabase();
 	}
-	
+
+	/**
+	 * Factory to create database objects
+	 *
+	 * @param array $configDb Database configuration
+	 * @return Piwik_Tracker_Db_*
+	 */
+	public static function factory($configDb)
+	{
+		switch($configDb['adapter'])
+		{
+			case 'PDO_MYSQL':
+				require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db/PdoMySql.php';
+				return new Piwik_Tracker_Db_PdoMySql($configDb);
+
+			case 'MYSQLI':
+				require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db/MySqli.php';
+				return new Piwik_Tracker_Db_MySqli($configDb);
+		}
+
+		throw new Exception('Unsupported database adapter '.$configDb['adapter']);
+	}
+
 	public static function connectPiwikTrackerDb()
 	{
 		$db = null;
@@ -146,7 +168,8 @@ class Piwik_Tracker
 			// before 0.2.4 there is no port specified in config file
 			$configDb['port'] = '3306';  
 		}
-		$db = new Piwik_Tracker_Db( $configDb );
+
+		$db = self::factory( $configDb );
 		$db->connect();
 		
 		return $db;

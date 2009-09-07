@@ -1441,9 +1441,14 @@ class Piwik
 			}
 			$db = Zend_Db::factory($config->database->adapter, $dbInfos);
 			$db->getConnection();
-			// see http://framework.zend.com/issues/browse/ZF-1398
-			$db->getConnection()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-			$db->getConnection()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);		
+
+			if($config->database->adapter == 'PDO_MYSQL')
+			{
+				// see http://framework.zend.com/issues/browse/ZF-1398
+				$db->getConnection()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+				$db->getConnection()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);		
+			}
+
 			Zend_Db_Table::setDefaultAdapter($db);
 			if(method_exists('Zend_Db_Adapter_Abstract', 'resetConfig'))
 			{
