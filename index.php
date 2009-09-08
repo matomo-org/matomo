@@ -14,6 +14,11 @@ if(file_exists('bootstrap.php'))
 	require_once 'bootstrap.php';
 }
 
+if(!defined('PIWIK_SESSION_NAME'))
+{
+	define('PIWIK_SESSION_NAME', 'PIWIK_SESSID');
+}
+@ini_set('session.name', PIWIK_SESSION_NAME);
 error_reporting(E_ALL|E_NOTICE);
 if(!defined('PIWIK_DISPLAY_ERRORS') || PIWIK_DISPLAY_ERRORS)
 {

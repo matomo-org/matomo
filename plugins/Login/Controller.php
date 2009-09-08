@@ -115,6 +115,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$cookie->set('token_auth', $authResult->getTokenAuth());
 		$cookie->save();
 
+		Zend_Session::regenerateId();
+
 		Piwik_Url::redirectToUrl($urlToRedirect);
 	}
 
@@ -374,6 +376,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
 		$cookie = new Piwik_Cookie($authCookieName);
 		$cookie->delete();
+
+		Zend_Session::expireSessionCookie();
 	}
 
 	/**

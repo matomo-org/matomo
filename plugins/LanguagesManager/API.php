@@ -175,7 +175,7 @@ class Piwik_LanguagesManager_API
 	 */
 	static public function getLanguageForSession()
 	{
-		$session = new Zend_Session_Namespace("LanguagesManager");
+		$session = new Zend_Session_Namespace("Piwik_LanguagesManager");
 		if(isset($session->language))
 		{
 			return $session->language;
@@ -190,7 +190,7 @@ class Piwik_LanguagesManager_API
 	 */
 	static public function setLanguageForSession($languageCode)
 	{
-		$session = new Zend_Session_Namespace("LanguagesManager");
+		$session = new Zend_Session_Namespace("Piwik_LanguagesManager");
 		$session->language = $languageCode;
 	}
 }
