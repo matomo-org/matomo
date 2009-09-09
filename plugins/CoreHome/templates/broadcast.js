@@ -164,7 +164,7 @@ broadcast.loadAjaxContent = function(urlAjax)
 
     function sectionLoaded(content)
     {
-	if(content.indexOf('<body class="login">') >= 0) {
+	if(content.substring(0, 14) == '<!DOCTYPE html') {
 		window.location.reload();
 		return;
 	}
