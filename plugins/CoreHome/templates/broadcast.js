@@ -164,10 +164,6 @@ broadcast.loadAjaxContent = function(urlAjax)
 
     function sectionLoaded(content)
     {
-	if(content.indexOf('<title>') != -1) {
-		window.location.href = window.location.search;
-		return;
-	}
         if(urlAjax == broadcast.lastUrlRequested) {
 	    $('#content').html( content ).show();
 	    $('#loadingPiwik').hide();
