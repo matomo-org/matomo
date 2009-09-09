@@ -164,6 +164,11 @@ broadcast.loadAjaxContent = function(urlAjax)
 
     function sectionLoaded(content)
     {
+	if(content.indexOf('<body class="login">') >= 0) {
+		window.location.reload();
+		return;
+	}
+
         if(urlAjax == broadcast.lastUrlRequested) {
 	    $('#content').html( content ).show();
 	    $('#loadingPiwik').hide();
