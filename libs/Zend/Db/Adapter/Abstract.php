@@ -306,16 +306,6 @@ abstract class Zend_Db_Adapter_Abstract
     }
 
     /**
-     * Reset the configuration variables in this adapter.
-     *
-     * Piwik customization. ZF-7788
-     */
-    public function resetConfig()
-    {
-        $this->_config = array();
-    }
-
-    /**
      * Returns the configuration variables in this adapter.
      *
      * @return array

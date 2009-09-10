@@ -4,5 +4,4 @@ To fix
  
 CHANGES DONE TO LIBRARIES
 =========================
-- [ZF-7788] edited Zend/Db/Adapter/Abstract.php added resetConfig()
 - fixed PEAR so that it works under PHP5 with STRICT MODE enabled

@@ -1439,7 +1439,7 @@ class Piwik
 				unset($dbInfos['host']);
 				unset($dbInfos['port']);
 			}
-			$db = Zend_Db::factory($config->database->adapter, $dbInfos);
+			$db = Piwik_Db::factory($config->database->adapter, $dbInfos);
 			$db->getConnection();
 
 			if($config->database->adapter == 'PDO_MYSQL')
@@ -1450,10 +1450,7 @@ class Piwik
 			}
 
 			Zend_Db_Table::setDefaultAdapter($db);
-			if(method_exists('Zend_Db_Adapter_Abstract', 'resetConfig'))
-			{
-				$db->resetConfig(); // we don't want this information to appear in the logs
-			}
+			$db->resetConfig(); // we don't want this information to appear in the logs
 		}
 		Zend_Registry::set('db', $db);
 	}
