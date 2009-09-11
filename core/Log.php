@@ -137,7 +137,9 @@ class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 			$value = str_replace("\n", '\n', $value);
 			$value = '"'.$value.'"';
 		}
-		$str = implode(" ", $event) . "\n";
+		$ts = $event['timestamp'];
+		unset($event['timestamp']);
+		$str = $ts . ' ' . implode(" ", $event) . "\n";
 		return $str;
 	}
 }
