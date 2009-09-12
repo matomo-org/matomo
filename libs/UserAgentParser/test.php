@@ -18,6 +18,8 @@ $testUserAgent = array(
 	'PalmOS'		=> 'Mozilla/5.0 [en] (PalmOS; U; WebPro/3.5; Palm-Zi72) ',
 	'safari on mac os X'		=> 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_5; en-us) AppleWebKit/527.3+ (KHTML, like Gecko) Version/3.1.2 Safari/525.20.1',
 	'opera 9.64 on win ME'		=> 'Opera/9.64 (Windows ME; U; en) Presto/2.1.1',
+	'opera 10.00 on XP' => 'Opera/9.80 (Windows NT 5.1; U; en) Presto/2.2.15 Version/10.00',
+	'iron on win7' => 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/531.0 (KHTML, like Gecko) Iron/3.0.189.0 Safari/531.0',
 );
 echo "Test with another user agent: ";
 foreach($testUserAgent as $name => $userAgent) {

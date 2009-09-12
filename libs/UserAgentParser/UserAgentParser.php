@@ -59,6 +59,7 @@ class UserAgentParser
 					'amiga-aweb'					=> 'AW',
 					'ibrowse'						=> 'IB',
 					'arora'							=> 'AR',
+					'iron'							=> 'IR',
 			);
 
 	// OS regex => OS ID
@@ -167,30 +168,28 @@ class UserAgentParser
 			'version' 		=> '',
 			);
 
-		$browser = '';
-		foreach(self::$browsers as $key => $value) {
-			if(!empty($browser)) {
-				$browser .= "|";
-			}
-			$browser .= $key;
-		}
+		$browser = implode('|', array_keys(self::$browsers));
 
 		$results = array();
 
-		// added fix for Mozilla Suite detection
+		// added fixes for Mozilla Suite and Chrome/Iron detection
 		if (preg_match_all("/(mozilla)[\/\sa-z;.0-9-(]+rv:([0-9]+)([.0-9a-z]+)\) gecko\/[0-9]{8}$/i", $userAgent, $results)
+			||	preg_match_all("/(chrome|iron)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			||	preg_match_all("/($browser)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			)
 		 {
 		 	$count = count($results[0])-1;
-		 	
-		 	// because google chrome is Mozilla/Chrome/Safari at the same time, we force Chrome
-		 	if(($chrome = array_search('Chrome', $results[1])) !== false) {
-		 		$count = $chrome;
-		 	}
-		 	
+
 		 	// browser code
 		 	$info['id'] = self::$browsers[strtolower($results[1][$count])];
+		 	$info['name'] = self::getBrowserNameFromId($info['id']);
+		 	$info['short_name'] = self::getBrowserShortNameFromId($info['id']);
+
+			// Opera 10 fix
+			if($info['id'] == 'OP' && preg_match_all("/(version)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults)) {
+				$results = $newResults;
+				$count = count($results[0])-1;
+			}
 		 		
 		 	// major version number (1 in mozilla 1.7)
 		 	$info['major_number'] = $results[2][$count];
@@ -214,8 +213,7 @@ class UserAgentParser
 		 		$info['minor_number'] = '0';
 		 	}
 		 	$info['version'] = $info['major_number'] . "." . $info['minor_number'];
-		 	$info['name'] = self::getBrowserNameFromId($info['id']);
-		 	$info['short_name'] = self::getBrowserShortNameFromId($info['id']);
+
 		 	return $info;
 		 }
 		 return false;
@@ -301,6 +299,5 @@ class UserAgentParser
 		}
 		return false;
 		
-	}
-	
+	}	
 }
