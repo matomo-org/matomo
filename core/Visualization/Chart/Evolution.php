@@ -41,7 +41,7 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 		$i = 0;
 		foreach($dataSetsToDisplay as $dataSetToDisplay)
 		{
-			$color = $colors[$i];
+			$color = $colors[$i % count($colors)];
 			
 			$labelName = $this->yLabels[$dataSetToDisplay];
 			$d = new hollow_dot();
