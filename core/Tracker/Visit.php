@@ -283,14 +283,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$country = Piwik_Common::getCountry($userInfo['location_browser_lang'], $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess']);
 		$refererInfo = $this->getRefererInformation();
 
-		// if the referer is Live! or Bing we check if the IP comes from microsoft
-		// we don't count their cloak checks requests (which really is "Live referer spam") see #686
-		if( in_array($refererInfo['referer_name'], array("Live", "Bing"))
-			&& preg_match('/^65\.55/', long2ip($userInfo['location_ip'])))
-		{
-			throw new Piwik_Tracker_Visit_Excluded("Spam Live bot, go away, you're making me cry");
-		}
-
 		/**
 		 * Save the visitor
 		 */
@@ -438,8 +430,20 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function isExcluded()
 	{
-		$excluded = 0;
+		$ip = $this->getVisitorIp();
+		$ua = $this->getUserAgent();
+
+		/*
+		 * Live/Bing bot and Googlebot are evolving to detect cloaked websites.
+		 * As a result, these sophisticated bots exhibit characteristics of
+		 * browsers (cookies enabled, executing JavaScript, etc).
+		 */
+		$excluded =  preg_match('/65\.55/', long2ip($ip))	// Live/Bing
+				  || preg_match('/Googlebot/', $ua);			// Googlebot
+
+		/* custom filters can override the built-in filter above */
 		Piwik_PostEvent('Tracker.Visit.isExcluded', $excluded);
+
 		if($excluded)
 		{
 			printDebug("Visitor excluded.");
