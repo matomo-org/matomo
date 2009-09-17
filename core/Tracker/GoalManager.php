@@ -211,7 +211,7 @@ class Piwik_Tracker_GoalManager
 					VALUES ($bindFields) ", array_values($newGoal) 
 				);
 			} catch( Exception $e) {
-				if(strpos($e->getMessage(), '1062') !== false)
+				if(Piwik_Tracker::isErrNo('1062'))
 				{
 					// integrity violation when same visit converts to the same goal twice
 					printDebug("--> Goal already recorded for this (idvisit, idgoal)");

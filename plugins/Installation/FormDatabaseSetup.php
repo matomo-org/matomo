@@ -18,12 +18,20 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_Form
 {
 	function init()
 	{		
+		$infos = Piwik_Installation_Controller::getSystemInformation();
+		$adapters = array();
+		foreach($infos['adapters'] as $adapter => $port)
+		{
+			$adapters[$adapter] = $adapter;
+		}
+
 		$formElements = array(
 			array('text', 'host', 'mysql server', 'value='.'localhost'),
 			array('text', 'username', 'login'),
 			array('password', 'password', 'password'),
 			array('text', 'dbname', 'database name'),
 			array('text', 'tables_prefix', 'table prefix', 'value='.'piwik_'),
+			array('select', 'adapter', 'adapter', $adapters),
 		);
 		$this->addElements( $formElements );
 		

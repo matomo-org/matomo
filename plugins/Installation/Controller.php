@@ -20,7 +20,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	public $steps = array(
 			'welcome'				=> 'Installation_Welcome',
 			'systemCheck'			=> 'Installation_SystemCheck',
-			'databaseSetup'			=> 'Installation_MysqlSetup',
+			'databaseSetup'			=> 'Installation_DatabaseSetup',
 			'tablesCreation'		=> 'Installation_Tables',
 			'generalSetup'			=> 'Installation_GeneralSetup',
 			'firstWebsiteSetup'		=> 'Installation_SetupWebsite',
@@ -80,7 +80,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					);
 		$this->skipThisStep( __FUNCTION__ );
 		
-		$view->infos = $this->getSystemInformation();
+		$view->infos = self::getSystemInformation();
 		$view->helpMessages = array(
 			'zlib'           => 'Installation_SystemCheckZlibHelp',
 			'SPL'            => 'Installation_SystemCheckSplHelp',
@@ -92,8 +92,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		
 		$view->showNextStep = !$view->problemWithSomeDirectories 
 							&& $view->infos['phpVersion_ok']
-							&& $view->infos['pdo_ok']
-							&& $view->infos['pdo_mysql_ok']
+							&& count($view->infos['adapters'])
 							&& !count($view->infos['missing_extensions'])
 						;
 
@@ -132,7 +131,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				'password' 		=> $form->getSubmitValue('password'),
 				'dbname' 		=> $form->getSubmitValue('dbname'),
 				'tables_prefix' => $form->getSubmitValue('tables_prefix'),
-				'adapter' 		=> Zend_Registry::get('config')->database->adapter,
+				'adapter' 		=> $form->getSubmitValue('adapter'),
 				'port'			=> Zend_Registry::get('config')->database->port,
 			);
 
@@ -154,7 +153,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					Piwik::createDatabaseObject($dbInfos);
 				} catch (Zend_Db_Adapter_Exception $e) {
 					// database not found, we try to create  it
-					if(preg_match('/1049/', $e->getMessage() ))
+					if(Zend_Registry::get('db')->isErrNo('1049'))
 					{
 						$dbInfosConnectOnly = $dbInfos;
 						$dbInfosConnectOnly['dbname'] = null;
@@ -164,13 +163,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					}
 				}
 
-				// MySQL system check
-				$mysqlVersion = Piwik::getMysqlVersion();
-				$minimumMysqlVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
-				if(version_compare($mysqlVersion, $minimumMysqlVersion) === -1) 
-				{
-					throw new Exception(Piwik_TranslateException('Installation_ExceptionMySqlVersion', array($mysqlVersion, $minimumMysqlVersion)));
-				}
+				Piwik::checkDatabaseVersion();
 				
 				$this->session->db_infos = $dbInfos;
 				$this->redirectToNextStep( __FUNCTION__ );
@@ -180,7 +173,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 		$view->addForm($form);
 		
-		$view->infos = $this->getSystemInformation();
+		$view->infos = self::getSystemInformation();
 			
 		echo $view->render();
 	}
@@ -486,7 +479,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		Piwik::createDatabaseObject($dbInfos);
 	}
 	
-	protected function getSystemInformation()
+	public static function getSystemInformation()
 	{
 		$minimumPhpVersion = Zend_Registry::get('config')->General->minimum_php_version;
 		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
@@ -515,16 +508,12 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 
 		$infos['pdo_ok'] = false;
-		if (in_array('PDO', $extensions))
+		if(in_array('PDO', $extensions))
 		{
 			$infos['pdo_ok'] = true;
 		}
 
-		$infos['pdo_mysql_ok'] = false;
-		if (in_array('pdo_mysql', $extensions))
-		{
-			$infos['pdo_mysql_ok'] = true;
-		}
+		$infos['adapters'] = Piwik_Db::getAdapters();
 
 		$infos['json'] = false;
 		if(in_array('json', $extensions))

@@ -20,7 +20,7 @@ class Piwik_Updates_0_4_3 implements Piwik_iUpdate
 		Piwik_Updater::updateDatabase(__FILE__, array(
 			// 0.1.7 [463]
 			'ALTER IGNORE TABLE `'. Piwik::prefixTable('log_visit') .'`
-				 CHANGE `location_provider` `location_provider` VARCHAR( 100 ) DEFAULT NULL' => '/1054/',
+				 CHANGE `location_provider` `location_provider` VARCHAR( 100 ) DEFAULT NULL' => '1054',
 			// 0.1.7 [470]
 			'ALTER TABLE `'. Piwik::prefixTable('logger_api_call') .'`
 				CHANGE `parameter_names_default_values` `parameter_names_default_values` TEXT,
@@ -34,10 +34,10 @@ class Piwik_Updates_0_4_3 implements Piwik_iUpdate
 				CHANGE `message` `message` TEXT' => false,
 			// 0.2.2 [489]
 			'ALTER IGNORE TABLE `'. Piwik::prefixTable('site') .'`
-				 CHANGE `feedburnerName` `feedburnerName` VARCHAR( 100 ) DEFAULT NULL' => '/1054/',
+				 CHANGE `feedburnerName` `feedburnerName` VARCHAR( 100 ) DEFAULT NULL' => '1054',
 			// 0.2.12 [673]
 			// Note: requires INDEX privilege
-			'DROP INDEX index_idaction ON `'. Piwik::prefixTable('log_action') .'`' => '/1072|1091/',
+			'DROP INDEX index_idaction ON `'. Piwik::prefixTable('log_action') .'`' => '1091',
 			// 0.2.27 [826]
 			'ALTER IGNORE TABLE `'. Piwik::prefixTable('log_visit') .'`
 				CHANGE `visit_goal_converted` `visit_goal_converted` TINYINT(1) NOT NULL' => false,
@@ -47,14 +47,14 @@ class Piwik_Updates_0_4_3 implements Piwik_iUpdate
 			'ALTER TABLE `'. Piwik::prefixTable('user') .'`
 				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL' => false,
 			'ALTER TABLE `'. Piwik::prefixTable('user_dashboard') .'`
-				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL' => '/1146/',
+				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL' => '1146',
 			'ALTER TABLE `'. Piwik::prefixTable('user_language') .'`
-				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL' => '/1146/',
+				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL' => '1146',
 			// 0.2.33 [1020]
 			'ALTER TABLE `'. Piwik::prefixTable('user_dashboard') .'`
-				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '/1146/',
+				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '1146',
 			'ALTER TABLE `'. Piwik::prefixTable('user_language') .'`
-				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '/1146/',
+				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '1146',
 			// 0.4 [1140]
 			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
 				CHANGE `location_ip` `location_ip` BIGINT UNSIGNED NOT NULL' => false,

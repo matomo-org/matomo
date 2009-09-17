@@ -13,13 +13,75 @@
 /**
  * @package Piwik
  */
-class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli
+class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapter
 {
+	public function __construct($config)
+	{
+		$config['charset'] = 'utf8';
+		parent::__construct($config);
+	}
+
 	/**
 	 * Reset the configuration variables in this adapter.
 	 */
 	public function resetConfig()
 	{
 		$this->_config = array();
+	}
+
+	/**
+	 * Return default port.
+	 *
+	 * @return int
+	 */
+	public static function getDefaultPort()
+	{
+		return 3306;
+	}
+
+	/**
+	 * Check MySQL version
+	 */
+	public function checkServerVersion()
+	{
+//		$databaseVersion = $this->getServerVersion();
+                $databaseVersion = $this->fetchOne('SELECT VERSION()', array());
+                $requiredVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
+                if(version_compare($databaseVersion, $requiredVersion) === -1)
+                {
+                        throw new Exception(Piwik_TranslateException('Core_ExceptionDatabaseVersion', array('MySQL', $databaseVersion, $requiredVersion)));
+                }
+	}
+
+	/**
+	 * Returns true if this adapter's required extensions are enabled
+	 *
+	 * @return bool
+	 */
+	public static function isEnabled()
+	{
+		$extensions = @get_loaded_extensions();
+		return in_array('mysqli', $extensions) && function_exists('mysqli_set_charset');
+	}
+
+	/**
+	 * Returns true if this adapter supports blobs as fields
+	 *
+	 * @return bool
+	 */
+	public function hasBlobDataType()
+	{
+		return true;
+	}
+
+	/**
+	 * Test error number
+	 *
+	 * @param string $errno
+	 * @return bool
+	 */
+	public function isErrNo($errno)
+	{
+		return mysqli_errno($this->_connection) == $errno;
 	}
 }

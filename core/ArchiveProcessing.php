@@ -101,6 +101,13 @@ abstract class Piwik_ArchiveProcessing
 	 * @var int
 	 */
 	protected $maxTimestampArchive;
+
+	/**
+	 * Compress blobs
+	 *
+	 * @var bool
+	 */
+	protected $compressBlob;
 	
 	/**
 	 * Id of the current site
@@ -263,6 +270,9 @@ abstract class Piwik_ArchiveProcessing
 				$this->maxTimestampArchive = Piwik_Date::today()->getTimestamp();
 			}
 		}
+
+		$db = Zend_Registry::get('db');
+		$this->compressBlob = $db->hasBlobDataType();
 	}
 	
 	/**
@@ -466,7 +476,16 @@ abstract class Piwik_ArchiveProcessing
 			destroy($records);
 			return true;
 		}
-		$record = new Piwik_ArchiveProcessing_Record_Blob($name, $value);
+
+		if($this->compressBlob)
+		{
+			$record = new Piwik_ArchiveProcessing_Record_Blob($name, $value);
+		}
+		else
+		{
+			$record = new Piwik_ArchiveProcessing_Record($name, $value);
+		}
+
 		$this->insertRecord($record);
 		destroy($record);
 		return true;

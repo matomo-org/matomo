@@ -34,7 +34,7 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1060: column already exists
 			// if there is another error we throw the exception, otherwise it is OK as we are simply reinstalling the plugin
-			if(!preg_match('/1060/', $e->getMessage()))
+			if(!Zend_Registry::get('db')->isErrNo('1060'))
 			{
 				throw $e;
 			}

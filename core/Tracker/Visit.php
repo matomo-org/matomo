@@ -230,7 +230,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 									visit_total_actions = visit_total_actions + 1, ";
 			$this->visitorInfo['visit_exit_idaction'] = $actionId;
 		}
-		$statement = Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ". $this->idsite ." */
+
+		$result = Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ". $this->idsite ." */
 							UPDATE ". Piwik_Common::prefixTable('log_visit')."
 							SET $sqlActionIdUpdate
 								$sqlUpdateGoalConverted
@@ -243,10 +244,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 									$this->visitorInfo['idvisit'],
 									$this->visitorInfo['visitor_idcookie'] )
 				);
-		if($statement->rowCount() == 0)
+
+		if(Piwik_Tracker::getDatabase()->rowCount($result) == 0)
 		{
 			throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase("The visitor with visitor_idcookie=".$this->visitorInfo['visitor_idcookie']." and idvisit=".$this->visitorInfo['idvisit']." wasn't found in the DB, we fallback to a new visitor");
 		}
+
 		$this->visitorInfo['idsite'] = $this->idsite;
 		$this->visitorInfo['visit_server_date'] = $this->getCurrentDate();
 

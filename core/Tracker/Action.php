@@ -138,10 +138,10 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 					);
 		
 		// the action name has not been found, create it
-		if($idAction === false)
+		if($idAction === false || $idAction == '')
 		{
 			Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */
-							INSERT INTO ". Piwik_Common::prefixTable('log_action'). "( name, type ) 
+							INSERT INTO ". Piwik_Common::prefixTable('log_action'). " ( name, type ) 
 							VALUES (?,?)",
 						array($this->getActionName(),$this->getActionType())
 					);

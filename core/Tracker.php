@@ -71,6 +71,7 @@ class Piwik_Tracker
 			} catch(Piwik_Tracker_Visit_Excluded $e) {
 			}
 		}
+
 		$this->end();
 	}	
 	
@@ -130,6 +131,7 @@ class Piwik_Tracker
 		
 		if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 		{
+			self::$db->recordProfiling();
 			Piwik::printSqlProfilingReportTracker(self::$db);
 		}
 		

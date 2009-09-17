@@ -246,17 +246,16 @@ class Piwik
 		
 		if(is_null($db))
 		{
-			$db = Zend_Registry::get('db');
+			$db = Piwik_Tracker::getDatabase();
 		}
 		$tableName = Piwik_Common::prefixTable('log_profiling');
 		
-		$all = $db->fetchAll('SELECT *, sum_time_ms / count as avg_time_ms 
-								FROM '.$tableName );
+		$all = $db->fetchAll('SELECT * FROM '.$tableName );
 		if($all === false) 
 		{
 			return;
 		}
-		usort($all, 'maxSumMsFirst');
+		uasort($all, 'maxSumMsFirst');
 		
 		$infoIndexedByQuery = array();
 		foreach($all as $infoQuery)
@@ -298,6 +297,7 @@ class Piwik
 							'sumTimeMs' =>  $existing['count'] + $query->getElapsedSecs() * 1000);
 			$infoIndexedByQuery[$query->getQuery()] = $new;
 		}
+
 		if(!function_exists('sortTimeDesc'))
 		{
 			function sortTimeDesc($a,$b)
@@ -341,9 +341,7 @@ class Piwik
 				$avgTimeMs = $timeMs / $count;
 				$avgTimeString = " (average = <b>". round($avgTimeMs,1) . "ms</b>)"; 
 			}
-			$query = str_replace(array("\t","\n","\r\n","\r"), "_toberemoved_", $query);
-			$query = str_replace('_toberemoved__toberemoved_','',$query);
-			$query = str_replace('_toberemoved_', ' ',$query);
+			$query = preg_replace('/([\t\n\r ]+)/', ' ', $query);
 			$output .= "Executed <b>$count</b> time". ($count==1?'':'s') ." in <b>".$timeMs."ms</b> $avgTimeString <pre>\t$query</pre>";
 		}
 		Piwik::log($output);
@@ -1385,7 +1383,7 @@ class Piwik
 			$tablesInstalled = array_intersect($allMyTables, $allTables);
 			
 			// at this point we have only the piwik tables which is good
-			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)`
+			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
 			$idSiteInSql = "no";
 			if(!is_null($idSite))
 			{
@@ -1439,15 +1437,13 @@ class Piwik
 				unset($dbInfos['host']);
 				unset($dbInfos['port']);
 			}
+
+			// not used by Zend Framework
+			unset($dbInfos['tables_prefix']);
+			unset($dbInfos['adapter']);
+
 			$db = Piwik_Db::factory($config->database->adapter, $dbInfos);
 			$db->getConnection();
-
-			if($config->database->adapter == 'PDO_MYSQL')
-			{
-				// see http://framework.zend.com/issues/browse/ZF-1398
-				$db->getConnection()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-				$db->getConnection()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);		
-			}
 
 			Zend_Db_Table::setDefaultAdapter($db);
 			$db->resetConfig(); // we don't want this information to appear in the logs
@@ -1460,9 +1456,27 @@ class Piwik
 		Zend_Registry::get('db')->closeConnection();
 	}
 	
+	/**
+	 * Returns the MySQL database server version
+	 *
+	 * @deprecated 0.4.4
+	 */
 	static public function getMysqlVersion()
 	{
 		return Piwik_FetchOne("SELECT VERSION()");
+	}
+
+	/**
+	 * Checks the database server version against the required minimum
+	 * version.
+	 *
+	 * @see config/global.ini.php
+	 * @since 0.4.4
+	 * @throws Exception if server version is less than the required version
+	 */
+	static public function checkDatabaseVersion()
+	{
+		Zend_Registry::get('db')->checkServerVersion();
 	}
 
 	static public function createLogObject()

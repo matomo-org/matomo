@@ -255,7 +255,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 		
 		// uncompress when selecting from the BLOB table
-		if($typeValue == 'blob')
+		if($typeValue == 'blob' && $db->hasBlobDataType())
 		{
 			$value = gzuncompress($value);
 		}
@@ -331,6 +331,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
 
 		$db = Zend_Registry::get('db');
+		$hasBlobs = $db->hasBlobDataType();
 		$query = $db->query("SELECT value, name
 								FROM $tableBlob
 								WHERE idarchive = ?
@@ -342,8 +343,15 @@ class Piwik_Archive_Single extends Piwik_Archive
 		{
 			$value = $row['value'];
 			$name = $row['name'];
-						
-			$this->blobCached[$name] = gzuncompress($value);
+
+			if($hasBlobs)
+			{
+				$this->blobCached[$name] = gzuncompress($value);
+			}
+			else
+			{
+				$this->blobCached[$name] = $value;
+			}
 		}
 	}
 	
