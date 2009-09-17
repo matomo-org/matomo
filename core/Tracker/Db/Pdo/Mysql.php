@@ -18,7 +18,7 @@
  */
 class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 {
-	private $connection = null;
+	protected $connection = null;
 	private $dsn;
 	private $username;
 	private $password;
@@ -60,8 +60,10 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 		{
 			$timer = $this->initProfiler();
 		}
+
+		$config = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'");
 		
-		$this->connection = new PDO($this->dsn, $this->username, $this->password);
+		$this->connection = new PDO($this->dsn, $this->username, $this->password, $config);
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		// we may want to setAttribute(PDO::ATTR_TIMEOUT ) to a few seconds (default is 60) in case the DB is locked
 		// the piwik.php would stay waiting for the database... bad!
@@ -79,10 +81,6 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 	 */
 	public function disconnect()
 	{
-		if(self::$profiling)
-		{
-			$this->recordProfiling();
-		}
 		$this->connection = null;
 	}
 	
@@ -146,6 +144,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 		{
 			return false;
 		}
+
 		try {
 			if(self::$profiling)
 			{
@@ -180,5 +179,28 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 	public function lastInsertId()
 	{
 		return $this->connection->lastInsertId();
+	}
+
+	/**
+	 * Test error number
+	 *
+	 * @param string $errno
+	 * @return bool
+	 */
+	public function isErrNo($errno)
+	{
+		$errInfo = $this->errorInfo();
+		return $errInfo[1] == $errno;
+	}
+
+	/**
+	 * Return number of affected rows in last query
+	 *
+	 * @param mixed $queryResult Result from query()
+	 * @return int
+	 */
+	public function rowCount($queryResult)
+	{
+		return $queryResult->rowCount();
 	}
 }

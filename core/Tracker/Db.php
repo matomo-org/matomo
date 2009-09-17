@@ -31,7 +31,7 @@ abstract class Piwik_Tracker_Db
 	 * You can then use Piwik::printSqlProfilingReportTracker(); 
 	 * to display the SQLProfiling report and see which queries take time, etc.
 	 */
-	public function enableProfiling()
+	public static function enableProfiling()
 	{
 		self::$profiling = true;
 	}
@@ -39,7 +39,7 @@ abstract class Piwik_Tracker_Db
 	/** 
 	 * Disables the SQL profiling logging.
 	 */
-	public function disableProfiling()
+	public static function disableProfiling()
 	{
 		self::$profiling = false;
 	}
@@ -121,10 +121,6 @@ abstract class Piwik_Tracker_Db
 	 */
 	public function disconnect()
 	{
-		if(self::$profiling)
-		{
-			$this->recordProfiling();
-		}
 		$this->connection = null;
 	}
 	
@@ -159,6 +155,14 @@ abstract class Piwik_Tracker_Db
 	}
 
 	/**
+	 * Return number of affected rows in last query
+	 *
+	 * @param mixed $queryResult Result from query()
+	 * @return int
+	 */
+	abstract public function rowCount($queryResult);
+
+	/**
 	 * Executes a query, using optional bound parameters.
 	 * 
 	 * @param string Query 
@@ -176,4 +180,12 @@ abstract class Piwik_Tracker_Db
 	 * @return int
 	 */
 	abstract public function lastInsertId();
-	}
+
+	/**
+	 * Test error number
+	 *
+	 * @param string $errno
+	 * @return bool True if error number matches; false otherwise
+	 */
+	abstract public function isErrNo($errno);
+}

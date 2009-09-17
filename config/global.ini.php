@@ -97,6 +97,9 @@ minimum_php_version = 5.1.3
 ; MySQL minimum required version
 minimum_mysql_version = 4.1
 
+; PostgreSQL minimum required version
+minimum_pgsql_version = 8.3
+
 ; Minimum adviced memory limit in php.ini file (see memory_limit value)
 minimum_memory_limit = 128
 

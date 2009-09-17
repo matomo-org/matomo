@@ -18,8 +18,10 @@
  */
 class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 {
-	private $connection = null;
+	protected $connection = null;
 	private $host;
+	private $port;
+	private $socket;
 	private $dbname;
 	private $username;
 	private $password;
@@ -31,15 +33,21 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	{
 		if(isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/')
 		{
-			$this->host = ':' . $dbInfo['unix_socket'];
+			$this->host = null;
+			$this->port = null;
+			$this->socket = $dbInfo['unix_socket'];
 		}
 		else if ($dbInfo['port'][0] == '/')
 		{
-			$this->host = ':' . $dbInfo['port'];
+			$this->host = null;
+			$this->port = null;
+			$this->socket = $dbInfo['port'];
 		}
 		else
 		{
-			$this->host = $dbInfo['host'] . ':' . $dbInfo['port'];
+			$this->host = $dbInfo['host'];
+			$this->port = $dbInfo['port'];
+			$this->socket = null;
 		}
 		$this->dbname = $dbInfo['dbname'];
 		$this->username = $dbInfo['username'];
@@ -63,8 +71,16 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			$timer = $this->initProfiler();
 		}
 		
-		$this->connection = mysql_connect($this->host, $this->username, $this->password);
-		$result = mysql_select_db($this->dbname);
+		$this->connection = mysqli_connect($this->host, $this->username, $this->password, $this->dbname, $this->port, $this->socket);
+		if(!$this->connection || mysqli_connect_errno())
+		{
+			throw new Exception("Connect failed: " . mysqli_connect_error());
+		}
+
+		if(!mysqli_set_charset($this->connection, 'utf8'))
+		{
+			throw new Exception("Set Charset failed: " . mysqli_error($this->connection));
+		}
 
 		$this->password = '';
 		
@@ -79,10 +95,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	 */
 	public function disconnect()
 	{
-		if(self::$profiling)
-		{
-			$this->recordProfiling();
-		}
+		mysqli_close($this->connection);
 		$this->connection = null;
 	}
 	
@@ -97,11 +110,22 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	public function fetchAll( $query, $parameters = array() )
 	{
 		try {
+			if(self::$profiling)
+			{
+				$timer = $this->initProfiler();
+			}
+
 			$query = $this->prepare( $query, $parameters );
-			$rs = mysql_query($query);
-			while($row = mysql_fetch_array($rs, MYSQL_ASSOC)) 
+			$rs = mysqli_query($this->connection, $query);
+			while($row = mysqli_fetch_array($rs, MYSQL_ASSOC)) 
 			{
 				$rows[] = $row;
+			}
+			mysqli_free_result($rs);
+
+			if(self::$profiling)
+			{
+				$this->recordQueryProfile($query, $timer);
 			}
 			return $rows;
 		} catch (Exception $e) {
@@ -121,13 +145,24 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	public function fetch( $query, $parameters = array() )
 	{
 		try {
+			if(self::$profiling)
+			{
+				$timer = $this->initProfiler();
+			}
+
 			$query = $this->prepare( $query, $parameters );
-			$rs = mysql_query($query);
+			$rs = mysqli_query($this->connection, $query);
 			if($rs === false)
 			{
 				return false;
 			}
-			$row = mysql_fetch_array($rs, MYSQL_ASSOC);
+			$row = mysqli_fetch_array($rs, MYSQL_ASSOC);
+			mysqli_free_result($rs);
+
+			if(self::$profiling)
+			{
+				$this->recordQueryProfile($query, $timer);
+			}
 			return $row;
 		} catch (Exception $e) {
 			throw new Exception("Error query: ".$e->getMessage());
@@ -149,6 +184,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 		{
 			return false;
 		}
+
 		try {
 			if(self::$profiling)
 			{
@@ -160,7 +196,11 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 				$parameters = array( $parameters );
 			}
 			$query = $this->prepare( $query, $parameters );
-			$result = mysql_query($query);
+			$result = mysqli_query($this->connection, $query);
+			if(!is_bool($result))
+			{
+				mysqli_free_result($result);
+			}
 			
 			if(self::$profiling)
 			{
@@ -173,7 +213,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 								Parameters: ".var_export($parameters, true));
 		}
 	}
-	
+
 	/**
 	 * Returns the last inserted ID in the DB
 	 * 
@@ -181,7 +221,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	 */
 	public function lastInsertId()
 	{
-		return mysql_insert_id();
+		return mysqli_insert_id($this->connection);
 	}
 
 	/**
@@ -199,7 +239,29 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 		}
 		$query = str_replace('?', "'%s'", $query);
 		array_unshift($parameters, $query);
-		$query = call_user_func_array(sprintf, $parameters);
+		$query = call_user_func_array('sprintf', $parameters);
 		return $query;
+	}
+
+	/**
+	 * Test error number
+	 *
+	 * @param string $errno
+	 * @return bool
+	 */
+	public function isErrNo($errno)
+	{
+		return mysqli_errno($this->_connection) == $errno;
+	}
+
+	/**
+	 * Return number of affected rows in last query
+	 *
+	 * @param mixed $queryResult Result from query()
+	 * @return int
+	 */
+	public function rowCount($queryResult)
+	{
+		return mysqli_affected_rows($this->connection);
 	}
 }

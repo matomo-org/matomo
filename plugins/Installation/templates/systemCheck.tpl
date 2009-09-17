@@ -11,28 +11,31 @@
 		<td>{if $infos.phpVersion_ok}{$ok}{else}{$error}{/if}</td>
 	</tr>
 	<tr>
-		<td class="label">{'Installation_SystemCheckPdo'|translate}</td>
+		<td class="label">PDO {'Installation_Extension'|translate}</td>
 		<td>{if $infos.pdo_ok}{$ok}
-			{else}{$error}{/if}
+			{else}-{/if}
 		</td>
 	</tr>
+	{foreach from=$infos.adapters key=adapter item=port}
 	<tr>
-		<td class="label">{'Installation_SystemCheckPdoMysql'|translate}</td>
-		<td>{if $infos.pdo_mysql_ok}{$ok}
-			{else}{$error}{/if}
-		</td>
+		<td class="label">{$adapter} {'Installation_Extension'|translate}</td>
+		<td>{$ok}</td>
 	</tr>
-	{if !$infos.pdo_mysql_ok || !$infos.pdo_ok}
+	{/foreach}
+	{if !count($infos.adapters)}
 	<tr>
 		<td colspan="2" class="error">
 			<small>
+				{'Installation_SystemCheckDatabaseHelp'|translate}
+				<p>
 				{if $infos.isWindows}
-					{'Installation_SystemCheckWinPdoHelp'|translate:"<br /><br /><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />"|nl2br}
+					{'Installation_SystemCheckWinPdoAndMysqliHelp'|translate:"<br /><br /><code>extension=php_mysqli.dll</code><br /><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />"|nl2br}
 				{else}
-					{'Installation_SystemCheckPdoHelp'|translate:"<br /><br /><code>--with-pdo-mysql </code><br />":"<br /><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />"|nl2br}
+					{'Installation_SystemCheckPdoAndMysqliHelp'|translate:"<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br />":"<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />"|nl2br}
 				{/if}
 				<br />
-				{'Installation_SystemCheckPhpPdoSite'|translate}
+				{'Installation_SystemCheckPhpPdoAndMysqliSite'|translate}
+				</p>
 			</small>
 		</td>
 	</tr>
