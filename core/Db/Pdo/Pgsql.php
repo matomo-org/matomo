@@ -105,10 +105,11 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 	/**
 	 * Test error number
 	 *
+	 * @param Exception $e
 	 * @param string $errno
 	 * @return bool
 	 */
-	public function isErrNo($errno)
+	public function isErrNo($e, $errno)
 	{
 		// map MySQL driver-specific error codes to PostgreSQL SQLSTATE
 		$map = array(
@@ -141,7 +142,10 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 			'1146' => '42P01',
 		);
 
-		$errInfo = $this->errorInfo();
-		return $errInfo[0] == $map[$errno];
+		if(preg_match('/([0-9]{2}[0-9P][0-9]{2})/', $e->getMessage(), $match))
+		{
+			return $match[1] == $map[$errno];
+		}
+		return false;
 	}
 }

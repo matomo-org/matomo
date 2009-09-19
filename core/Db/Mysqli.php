@@ -77,10 +77,11 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 	/**
 	 * Test error number
 	 *
+	 * @param Exception $e
 	 * @param string $errno
 	 * @return bool
 	 */
-	public function isErrNo($errno)
+	public function isErrNo($e, $errno)
 	{
 		return mysqli_errno($this->_connection) == $errno;
 	}

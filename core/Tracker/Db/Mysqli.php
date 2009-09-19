@@ -246,10 +246,11 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	/**
 	 * Test error number
 	 *
+	 * @param Exception $e
 	 * @param string $errno
 	 * @return bool
 	 */
-	public function isErrNo($errno)
+	public function isErrNo($e, $errno)
 	{
 		return mysqli_errno($this->_connection) == $errno;
 	}
