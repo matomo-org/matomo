@@ -106,8 +106,9 @@ interface Piwik_Db_iAdapter
 	/**
 	 * Test error number
 	 *
+	 * @param Exception $e
 	 * @param string $errno
 	 * @return bool
 	 */
-	public function isErrNo($errno);
+	public function isErrNo($e, $errno);
 }

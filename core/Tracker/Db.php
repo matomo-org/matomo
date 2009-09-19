@@ -184,8 +184,9 @@ abstract class Piwik_Tracker_Db
 	/**
 	 * Test error number
 	 *
+	 * @param Exception $e
 	 * @param string $errno
 	 * @return bool True if error number matches; false otherwise
 	 */
-	abstract public function isErrNo($errno);
+	abstract public function isErrNo($e, $errno);
 }

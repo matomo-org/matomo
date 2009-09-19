@@ -63,7 +63,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
-			if(!Zend_Registry::get('db')->isErrNo('1050'))
+			if(!Zend_Registry::get('db')->isErrNo($e, '1050'))
 			{
 				throw $e;
 			}

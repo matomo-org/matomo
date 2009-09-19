@@ -98,12 +98,16 @@ class Piwik_Db_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_i
 	/**
 	 * Test error number
 	 *
+	 * @param Exception $e
 	 * @param string $errno
 	 * @return bool
 	 */
-	public function isErrNo($errno)
+	public function isErrNo($e, $errno)
 	{
-		$errInfo = $this->errorInfo();
-		return $errInfo[1] == $errno;
+		if(preg_match('/([0-9]{4})/', $e->getMessage(), $match))
+		{
+			return $match[1] == $errno;
+		}
+		return false;
 	}
 }
