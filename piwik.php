@@ -17,7 +17,7 @@ $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 define('PIWIK_TRACKER_MODE', true);
 error_reporting(E_ALL|E_NOTICE);
 
-define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__));
+define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));
 if(!defined('PIWIK_USER_PATH'))
 {
 	define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);

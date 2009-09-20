@@ -31,7 +31,7 @@ if(ini_get('session.save_handler') == 'user')
 	@ini_set('session.save_path', '');
 }
 
-define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__));
+define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));
 if(!defined('PIWIK_USER_PATH'))
 {
 	define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
