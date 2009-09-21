@@ -155,7 +155,10 @@ class Piwik_UsersManager_API
 		$return = array();
 		foreach($users as $user)
 		{
-			$return[$user['idsite']] = $user['access'];
+			$return[] = array(
+				'site' => $user['idsite'],
+				'access' => $user['access'],
+			);
 		}
 		return $return;
 	}

@@ -32,6 +32,17 @@ class Test_Piwik_UsersManager extends Test_Database
 		);
     }
 
+	private function _flatten($sitesAccess)
+	{
+		$result = array();;
+
+		foreach($sitesAccess as $siteAccess)
+		{
+			$result[ $siteAccess['site'] ] = $siteAccess['access'];
+		}
+		return $result;
+	}
+
     private function _checkUserHasNotChanged($user, $newPassword, $newEmail = null, $newAlias= null)
     {
     	if(is_null($newEmail))
@@ -599,6 +610,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	
     	FakeAccess::$superUser = true;
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
+	$access = $this->_flatten($access);
     	
     	FakeAccess::$superUser = false;
     	$this->assertEqual( array_keys($access), FakeAccess::getSitesIdWithAdminAccess());
@@ -626,6 +638,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view", "all");
     	
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
+	$access = $this->_flatten($access);
     	$this->assertEqual( array($id1,$id2,$id3,$id4,$id5), array_keys($access));
     	
     }
@@ -640,6 +653,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view", array());
     	
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
+	$access = $this->_flatten($access);
     	$this->assertEqual( array(), $access);
     	
     }
@@ -655,6 +669,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view", array(1));
     	
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
+	$access = $this->_flatten($access);
     	$this->assertEqual( array(1), array_keys($access));
     }
 
@@ -672,6 +687,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view", array($id1,$id3));
     	
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
+	$access = $this->_flatten($access);
     	$this->assertEqual( array($id1,$id3), array_keys($access));
     }
     /**
@@ -688,6 +704,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "view", "1,3");
     	
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
+	$access = $this->_flatten($access);
     	$this->assertEqual( array($id1,$id3), array_keys($access));
     }
     
@@ -705,6 +722,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	Piwik_UsersManager_API::setUserAccess("gegg4564eqgeqag", "admin", array($id2));
     	
     	$access = Piwik_UsersManager_API::getSitesAccessFromUser("gegg4564eqgeqag");
+	$access = $this->_flatten($access);
     	$this->assertEqual( array($id1=>'view',$id2=>'admin'), $access);
     }
     
@@ -724,7 +742,9 @@ class Test_Piwik_UsersManager extends Test_Database
     	Piwik_UsersManager_API::setUserAccess("user2", "view", array($id3));
     	
     	$access1 = Piwik_UsersManager_API::getSitesAccessFromUser("user1");
+	$access1 = $this->_flatten($access1);
     	$access2 = Piwik_UsersManager_API::getSitesAccessFromUser("user2");
+	$access2 = $this->_flatten($access2);
     	$wanted1 = array( $id1 => 'view', $id2 => 'view', );
     	$wanted2 = array( $id1 => 'admin', $id3 => 'view' );
     	
@@ -767,6 +787,7 @@ class Test_Piwik_UsersManager extends Test_Database
     	Piwik_UsersManager_API::setUserAccess("user1", "admin", array($id1));
     	
     	$access1 = Piwik_UsersManager_API::getSitesAccessFromUser("user1");
+	$access1 = $this->_flatten($access1);
     	$wanted1 = array( $id1 => 'admin', $id2 => 'view', );
     	
     	$this->assertEqual($access1, $wanted1);
