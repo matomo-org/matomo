@@ -140,5 +140,5 @@ function Piwik_getRefererTypeLabel($label)
 			$indexTranslation = 'General_Others';
 			break;
 	}
-	return Piwik_Translate($indexTranslation);
+	return html_entity_decode(Piwik_Translate($indexTranslation), ENT_COMPAT, 'UTF-8');
 }

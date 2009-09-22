@@ -67,7 +67,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		foreach($this->dataTable->metadata as $idDataTable => $metadataDataTable)
 		{
 			//eg. "Aug 2009"
-			$xLabels[] = $metadataDataTable['period']->getLocalizedShortString();
+			$xLabels[] = html_entity_decode($metadataDataTable['period']->getLocalizedShortString(), ENT_COMPAT, 'UTF-8');
 			// we keep track of all unique data table that we need to set a Y value for
 			$uniqueIdsDataTable[] = $idDataTable;
 		}

@@ -107,7 +107,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 
 		if(!$this->isDataAvailable)
 		{
-			$this->view->setTitle(Piwik_Translate('General_NoDataForGraph'), '{font-size: 25px;}');
+			$this->view->setTitle(html_entity_decode(Piwik_Translate('General_NoDataForGraph'), ENT_COMPAT, 'UTF-8'), '{font-size: 25px;}');
 		}
 		else
 		{
