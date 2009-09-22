@@ -1,0 +1,18 @@
+<MSDeploy.iisApp>
+  <iisApp path="piwik" />
+  <setAcl
+    path="piwik"
+    setAclUser="anonymousAuthenticationUser"
+    setAclAccess="ReadAndExecute,ListDirectory"
+  />
+  <setAcl
+    path="piwik/config"
+    setAclUser="anonymousAuthenticationUser"
+    setAclAccess="Modify"
+  />
+  <setAcl
+    path="piwik/tmp"
+    setAclUser="anonymousAuthenticationUser"
+    setAclAccess="Modify"
+  />
+</MSDeploy.iisApp>
