@@ -269,11 +269,13 @@ class Piwik_Common
 	/**
 	 * Create .htaccess file in specified directory
 	 *
+	 * Apache-specific; for IIS @see web.config
+	 *
 	 * @param string $path without trailing slash
 	 */
 	static public function createHtAccess( $path )
 	{
-		@file_put_contents($path . "/.htaccess", "Deny from all");
+		@file_put_contents($path . '/.htaccess', 'Deny from all');
 	}
 
 	/**
