@@ -10,4 +10,7 @@
 	{if isset($minDateYear)}piwik.minDateYear = {$minDateYear};{/if}
 	{if isset($minDateMonth)}piwik.minDateMonth = parseInt("{$minDateMonth}", 10);{/if}
 	{if isset($minDateDay)}piwik.minDateDay = parseInt("{$minDateDay}", 10);{/if}
+	{if isset($maxDateYear)}piwik.maxDateYear = {$maxDateYear};{/if}
+	{if isset($maxDateMonth)}piwik.maxDateMonth = parseInt("{$maxDateMonth}", 10);{/if}
+	{if isset($maxDateDay)}piwik.maxDateDay = parseInt("{$maxDateDay}", 10);{/if}
 </script>
