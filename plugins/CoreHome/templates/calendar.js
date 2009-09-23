@@ -118,7 +118,7 @@ $(document).ready(function(){
 			dateFormat: 'DMY-',
 			firstDay: 1,
 			minDate: new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
-			maxDate: new Date(),
+			maxDate: new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay),
 			changeFirstDay: false,
 			prevText: "",
 			nextText: "",

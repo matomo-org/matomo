@@ -4,8 +4,6 @@
 <title>Piwik &rsaquo; Administration</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Piwik {$piwik_version}" />
-</head>
-<body>
 {include file="CoreHome/templates/js_global_variables.tpl"}
 
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
@@ -24,7 +22,8 @@
 
 {postEvent name="template_js_import"}
 {postEvent name="template_css_import"}
-
+</head>
+<body>
 {include file="CoreHome/templates/top_bar.tpl"}
 
 <div id="header">

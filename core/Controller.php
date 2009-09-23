@@ -246,6 +246,12 @@ abstract class Piwik_Controller
 			$view->minDateYear = $minDate->toString('Y');
 			$view->minDateMonth = $minDate->toString('m');
 			$view->minDateDay = $minDate->toString('d');
+
+			$maxDate = Piwik_Date::factory('today');
+			$view->maxDateYear = $maxDate->toString('Y');
+			$view->maxDateMonth = $maxDate->toString('m');
+			$view->maxDateDay = $maxDate->toString('d');
+
 			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
 			
 		} catch(Exception $e) {
