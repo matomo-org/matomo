@@ -27,22 +27,6 @@ class Piwik_Db
 		return $adapter;
 	}
 
-	/*
-	 * Recursive glob()
-	 *
-	 * @return array
-	 */
-	private static function globr($sDir, $sPattern, $nFlags = NULL)
-	{
-		$sDir = escapeshellcmd($sDir);
-		$aFiles = glob("$sDir/$sPattern", $nFlags);
-		foreach (glob("$sDir/*", GLOB_ONLYDIR) as $sSubDir)
-		{
-			$aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
-			$aFiles = array_merge($aFiles, $aSubFiles);
-		}
-		return $aFiles;
-	}
 
 	/**
 	 * Get list of adapters
@@ -53,7 +37,7 @@ class Piwik_Db
 	{
 		$path = PIWIK_INCLUDE_PATH . '/core/Db';
 		$pathLength = strlen($path) + 1;
-		$adapters = self::globr($path, '*.php');
+		$adapters = Piwik::globr($path, '*.php');
 		$adapterNames = array();
 		foreach($adapters as $adapter)
 		{

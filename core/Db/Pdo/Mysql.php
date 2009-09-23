@@ -35,8 +35,6 @@ class Piwik_Db_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_i
 
 		$this->_connect();
 
-		// see http://framework.zend.com/issues/browse/ZF-1398
-		$this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 		$this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
 		return $this->_connection;

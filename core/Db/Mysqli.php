@@ -85,4 +85,24 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 	{
 		return mysqli_errno($this->_connection) == $errno;
 	}
+
+	/**
+	 * Execute unprepared SQL query
+	 *
+	 * Workaround some SQL statements not compatible with prepare().
+	 * See http://framework.zend.com/issues/browse/ZF-1398
+	 *
+	 * @param string $sqlQuery
+	 * @return int Number of rows affected (SELECT/INSERT/UPDATE/DELETE)
+	 */
+	public function exec( $sqlQuery )
+	{
+		$rc = mysqli_query($this->_connection, $sqlQuery);
+		$rowsAffected = mysqli_affected_rows($this->_connection);
+		if(!is_bool($rc))
+		{
+			mysqli_free_result($rc);
+		}
+		return $rowsAffected;
+	}
 }
