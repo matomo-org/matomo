@@ -1338,6 +1338,27 @@ class Piwik
 	}
 
 	/**
+	 * Recursively find pathnames that match a pattern
+	 * @see glob()
+	 *
+	 * @param string $sDir directory
+	 * @param string $sPattern pattern
+	 * @param int $nFlags glob() flags
+	 * @return array
+	 */
+	public static function globr($sDir, $sPattern, $nFlags = NULL)
+	{
+		$sDir = escapeshellcmd($sDir);
+		$aFiles = glob("$sDir/$sPattern", $nFlags);
+		foreach (glob("$sDir/*", GLOB_ONLYDIR) as $sSubDir)
+		{
+			$aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
+			$aFiles = array_merge($aFiles, $aSubFiles);
+		}
+		return $aFiles;
+	}
+
+	/**
 	 * API was simplified in 0.2.27, but we maintain backward compatibility 
 	 * when calling Piwik::prefixTable
 	 */
@@ -1407,13 +1428,13 @@ class Piwik
 		{
 			$dbName = Zend_Registry::get('config')->database->dbname;
 		}
-		Piwik_Query("CREATE DATABASE IF NOT EXISTS ".$dbName);
+		Piwik_Exec("CREATE DATABASE IF NOT EXISTS ".$dbName);
 	}
-	
+
 	static public function dropDatabase()
 	{
 		$dbName = Zend_Registry::get('config')->database->dbname;
-		Piwik_Query("DROP DATABASE IF EXISTS " . $dbName);
+		Piwik_Exec("DROP DATABASE IF EXISTS " . $dbName);
 	}
 	
 	static public function createDatabaseObject( $dbInfos = null )

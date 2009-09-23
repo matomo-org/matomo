@@ -22,7 +22,7 @@ require_once(SIMPLE_TEST . 'reporter.php');
 $test = new GroupTest('Piwik - running all tests');
 $toInclude = array();
 
-foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core', '*.php') as $file)
+foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/tests/core', '*.php') as $file)
 {
 	if(preg_match('/Database|ReleaseCheckList/', $file))
 	{
@@ -31,7 +31,7 @@ foreach(globr(PIWIK_INCLUDE_PATH . '/tests/core', '*.php') as $file)
 	$toInclude[] = $file;
 }
 sort($toInclude);
-foreach(globr(PIWIK_INCLUDE_PATH . '/plugins', '*/tests/*.php') as $file)
+foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/plugins', '*/tests/*.php') as $file)
 {
 	$toInclude[] = $file;
 }
@@ -74,14 +74,3 @@ assertNoPattern($p, $x)			Fail if the regex $p matches $x
 expectError($x)					Swallows any upcoming matching error
 assert($e)						Fail on failed expectation object $e
  */
-function globr($sDir, $sPattern, $nFlags = NULL)
-{
-	$sDir = escapeshellcmd($sDir);
-	$aFiles = glob("$sDir/$sPattern", $nFlags);
-	foreach (glob("$sDir/*", GLOB_ONLYDIR) as $sSubDir)
-	{
-		$aSubFiles = globr($sSubDir, $sPattern, $nFlags);
-		$aFiles = array_merge($aFiles, $aSubFiles);
-	}
-	return $aFiles;
-}

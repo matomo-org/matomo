@@ -17,6 +17,11 @@ class Piwik_Sql
 {
 }
 
+function Piwik_Exec( $sqlQuery )
+{
+	return Zend_Registry::get('db')->exec( $sqlQuery );
+}
+
 /**
  * Executes a SQL query on the DB and returns the Zend_Db_Statement object
  * If you want to fetch data from the DB you should use the function Piwik_FetchAll()
