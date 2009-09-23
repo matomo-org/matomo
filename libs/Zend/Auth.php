@@ -16,7 +16,7 @@
  * @package    Zend_Auth
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Auth.php 16200 2009-06-21 18:50:06Z thomas $
+ * @version    $Id: Auth.php 18039 2009-09-09 03:35:19Z ralph $
  */
 
 
@@ -116,6 +116,14 @@ class Zend_Auth
     {
         $result = $adapter->authenticate();
 
+        /**
+         * ZF-7546 - prevent multiple succesive calls from storing inconsistent results
+         * Ensure storage has clean state
+         */ 
+        if ($this->hasIdentity()) {
+            $this->clearIdentity();
+        }
+        
         if ($result->isValid()) {
             $this->getStorage()->write($result->getIdentity());
         }

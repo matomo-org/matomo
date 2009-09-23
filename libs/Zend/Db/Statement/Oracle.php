@@ -17,7 +17,7 @@
  * @subpackage Statement
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Oracle.php 16541 2009-07-07 06:59:03Z bkarwin $
+ * @version    $Id: Oracle.php 17857 2009-08-27 22:01:47Z ralph $
  */
 
 /**
@@ -36,11 +36,6 @@ require_once 'Zend/Db/Statement.php';
  */
 class Zend_Db_Statement_Oracle extends Zend_Db_Statement
 {
-
-    /**
-     * The connection_stmt object.
-     */
-    protected $_stmt;
 
     /**
      * Column names.

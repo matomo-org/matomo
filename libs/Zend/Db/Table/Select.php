@@ -18,7 +18,7 @@
  * @subpackage Select
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Select.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Select.php 18200 2009-09-17 21:25:37Z beberlei $
  */
 
 
@@ -193,23 +193,27 @@ class Zend_Db_Table_Select extends Zend_Db_Select
         $primary = $this->_info[Zend_Db_Table_Abstract::NAME];
         $schema  = $this->_info[Zend_Db_Table_Abstract::SCHEMA];
 
-        // If no fields are specified we assume all fields from primary table
-        if (!count($fields)) {
-            $this->from($primary, self::SQL_WILDCARD, $schema);
-            $fields = $this->getPart(Zend_Db_Table_Select::COLUMNS);
-        }
 
-        $from = $this->getPart(Zend_Db_Table_Select::FROM);
+        if (count($this->_parts[self::UNION]) == 0) {
+            
+            // If no fields are specified we assume all fields from primary table
+            if (!count($fields)) {
+                $this->from($primary, self::SQL_WILDCARD, $schema);
+                $fields = $this->getPart(Zend_Db_Table_Select::COLUMNS);
+            }
 
-        if ($this->_integrityCheck !== false) {
-            foreach ($fields as $columnEntry) {
-                list($table, $column) = $columnEntry;
+            $from = $this->getPart(Zend_Db_Table_Select::FROM);
 
-                // Check each column to ensure it only references the primary table
-                if ($column) {
-                    if (!isset($from[$table]) || $from[$table]['tableName'] != $primary) {
-                        require_once 'Zend/Db/Table/Select/Exception.php';
-                        throw new Zend_Db_Table_Select_Exception('Select query cannot join with another table');
+            if ($this->_integrityCheck !== false) {
+                foreach ($fields as $columnEntry) {
+                    list($table, $column) = $columnEntry;
+
+                    // Check each column to ensure it only references the primary table
+                    if ($column) {
+                        if (!isset($from[$table]) || $from[$table]['tableName'] != $primary) {
+                            require_once 'Zend/Db/Table/Select/Exception.php';
+                            throw new Zend_Db_Table_Select_Exception('Select query cannot join with another table');
+                        }
                     }
                 }
             }

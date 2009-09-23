@@ -17,7 +17,7 @@
  * @package    Zend_Session
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Session.php 16207 2009-06-21 19:17:51Z thomas $
+ * @version    $Id: Session.php 18342 2009-09-21 16:31:18Z alexander $
  * @since      Preview Release 0.2
  */
 
@@ -263,6 +263,8 @@ class Zend_Session extends Zend_Session_Abstract
      */
     public static function setSaveHandler(Zend_Session_SaveHandler_Interface $saveHandler)
     {
+        self::$_saveHandler = $saveHandler;
+
         if (self::$_unitTestEnabled) {
             return;
         }
@@ -275,7 +277,6 @@ class Zend_Session extends Zend_Session_Abstract
             array(&$saveHandler, 'destroy'),
             array(&$saveHandler, 'gc')
             );
-        self::$_saveHandler = $saveHandler;
     }
 
 

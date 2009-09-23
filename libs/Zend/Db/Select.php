@@ -17,7 +17,7 @@
  * @subpackage Select
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Select.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Select.php 18296 2009-09-18 22:43:17Z beberlei $
  */
 
 
@@ -1156,7 +1156,13 @@ class Zend_Db_Select
             $order = array();
             foreach ($this->_parts[self::ORDER] as $term) {
                 if (is_array($term)) {
-                    $order[] = $this->_adapter->quoteIdentifier($term[0], true) . ' ' . $term[1];
+                    if(is_numeric($term[0]) && strval(intval($term[0])) == $term[0]) {
+                        $order[] = (int)trim($term[0]) . ' ' . $term[1];
+                    } else {
+                        $order[] = $this->_adapter->quoteIdentifier($term[0], true) . ' ' . $term[1];
+                    }
+                } else if (is_numeric($term) && strval(intval($term)) == $term) {
+                    $order[] = (int)trim($term);
                 } else {
                     $order[] = $this->_adapter->quoteIdentifier($term, true);
                 }

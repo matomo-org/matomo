@@ -17,7 +17,7 @@
  * @subpackage Statement
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Exception.php 16541 2009-07-07 06:59:03Z bkarwin $
+ * @version    $Id: Exception.php 17860 2009-08-27 22:48:48Z beberlei $
  */
 
 /**
@@ -36,4 +36,38 @@ require_once 'Zend/Db/Exception.php';
  */
 class Zend_Db_Statement_Exception extends Zend_Db_Exception
 {
+    /**
+     * @var Exception
+     */
+    protected $_chainedException = null;
+
+    /**
+     * @param string $message
+     * @param string|int $code
+     * @param Exception $chainedException
+     */
+    public function __construct($message = null, $code = null, Exception $chainedException=null)
+    {
+        $this->message = $message;
+        $this->code = $code;
+        $this->_chainedException = $chainedException;
+    }
+
+    /**
+     * Check if this general exception has a specific database driver specific exception nested inside.
+     * 
+     * @return bool
+     */
+    public function hasChainedException()
+    {
+        return ($this->_chainedException!==null);
+    }
+
+    /**
+     * @return Exception|null
+     */
+    public function getChainedException()
+    {
+        return $this->_chainedException;
+    }
 }

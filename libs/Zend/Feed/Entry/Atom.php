@@ -17,7 +17,7 @@
  * @package    Zend_Feed
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Atom.php 16205 2009-06-21 19:08:45Z thomas $
+ * @version    $Id: Atom.php 18184 2009-09-17 18:26:40Z padraic $
  */
 
 
@@ -267,7 +267,7 @@ class Zend_Feed_Entry_Atom extends Zend_Feed_Entry_Abstract
 
         foreach ($links as $link) {
             if (empty($link['rel'])) {
-                continue;
+                $link['rel'] = 'alternate'; // see Atom 1.0 spec
             }
             if ($rel == $link['rel']) {
                 return $link['href'];

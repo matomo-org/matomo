@@ -17,7 +17,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Abstract.php 17822 2009-08-26 00:03:56Z ralph $
  */
 
 /**
@@ -803,7 +803,16 @@ abstract class Zend_Db_Table_Abstract
         // If $this has a metadata cache
         if (null !== $this->_metadataCache) {
             // Define the cache identifier where the metadata are saved
-            $cacheId = md5("$this->_schema.$this->_name");
+            
+            //get db configuration
+            $dbConfig = $this->_db->getConfig();
+                
+            // Define the cache identifier where the metadata are saved
+            $cacheId = md5( // port:host/dbname:schema.table (based on availabilty)
+                (isset($dbConfig['options']['port']) ? ':'.$dbConfig['options']['port'] : null)
+                . (isset($dbConfig['options']['host']) ? ':'.$dbConfig['options']['host'] : null)
+                . '/'.$dbConfig['dbname'].':'.$this->_schema.'.'.$this->_name
+                );
         }
 
         // If $this has no metadata cache or metadata cache misses
@@ -969,8 +978,8 @@ abstract class Zend_Db_Table_Abstract
             self::COLS             => $this->_getCols(),
             self::PRIMARY          => (array) $this->_primary,
             self::METADATA         => $this->_metadata,
-            self::ROW_CLASS        => $this->_rowClass,
-            self::ROWSET_CLASS     => $this->_rowsetClass,
+            self::ROW_CLASS        => $this->getRowClass(),
+            self::ROWSET_CLASS     => $this->getRowsetClass(),
             self::REFERENCE_MAP    => $this->_referenceMap,
             self::DEPENDENT_TABLES => $this->_dependentTables,
             self::SEQUENCE         => $this->_sequence
@@ -1228,6 +1237,7 @@ abstract class Zend_Db_Table_Abstract
         $whereList = array();
         $numberTerms = 0;
         foreach ($args as $keyPosition => $keyValues) {
+            $keyValuesCount = count($keyValues);
             // Coerce the values to an array.
             // Don't simply typecast to array, because the values
             // might be Zend_Db_Expr objects.
@@ -1235,12 +1245,13 @@ abstract class Zend_Db_Table_Abstract
                 $keyValues = array($keyValues);
             }
             if ($numberTerms == 0) {
-                $numberTerms = count($keyValues);
-            } else if (count($keyValues) != $numberTerms) {
+                $numberTerms = $keyValuesCount;
+            } else if ($keyValuesCount != $numberTerms) {
                 require_once 'Zend/Db/Table/Exception.php';
                 throw new Zend_Db_Table_Exception("Missing value(s) for the primary key");
             }
-            for ($i = 0; $i < count($keyValues); ++$i) {
+            $keyValues = array_values($keyValues);
+            for ($i = 0; $i < $keyValuesCount; ++$i) {
                 if (!isset($whereList[$i])) {
                     $whereList[$i] = array();
                 }
@@ -1266,6 +1277,16 @@ abstract class Zend_Db_Table_Abstract
             $whereClause = '(' . implode(' OR ', $whereOrTerms) . ')';
         }
 
+        // issue ZF-5775 (empty where clause should return empty rowset)
+        if ($whereClause == null) {
+            $rowsetClass = $this->getRowsetClass();
+            if (!class_exists($rowsetClass)) {
+                require_once 'Zend/Loader.php';
+                Zend_Loader::loadClass($rowsetClass);
+            }
+            return new $rowsetClass(array('table' => $this, 'rowClass' => $this->getRowClass(), 'stored' => true));
+        }
+        
         return $this->fetchAll($whereClause);
     }
 
@@ -1307,15 +1328,16 @@ abstract class Zend_Db_Table_Abstract
             'table'    => $this,
             'data'     => $rows,
             'readOnly' => $select->isReadOnly(),
-            'rowClass' => $this->_rowClass,
+            'rowClass' => $this->getRowClass(),
             'stored'   => true
         );
 
-        if (!class_exists($this->_rowsetClass)) {
+        $rowsetClass = $this->getRowsetClass();
+        if (!class_exists($rowsetClass)) {
             require_once 'Zend/Loader.php';
-            Zend_Loader::loadClass($this->_rowsetClass);
+            Zend_Loader::loadClass($rowsetClass);
         }
-        return new $this->_rowsetClass($data);
+        return new $rowsetClass($data);
     }
 
     /**
@@ -1359,11 +1381,12 @@ abstract class Zend_Db_Table_Abstract
             'stored'  => true
         );
 
-        if (!class_exists($this->_rowClass)) {
+        $rowClass = $this->getRowClass();
+        if (!class_exists($rowClass)) {
             require_once 'Zend/Loader.php';
-            Zend_Loader::loadClass($this->_rowClass);
+            Zend_Loader::loadClass($rowClass);
         }
-        return new $this->_rowClass($data);
+        return new $rowClass($data);
     }
 
     /**
@@ -1421,11 +1444,12 @@ abstract class Zend_Db_Table_Abstract
             'stored'   => false
         );
 
-        if (!class_exists($this->_rowClass)) {
+        $rowClass = $this->getRowClass();
+        if (!class_exists($rowClass)) {
             require_once 'Zend/Loader.php';
-            Zend_Loader::loadClass($this->_rowClass);
+            Zend_Loader::loadClass($rowClass);
         }
-        $row = new $this->_rowClass($config);
+        $row = new $rowClass($config);
         $row->setFromArray($data);
         return $row;
     }
