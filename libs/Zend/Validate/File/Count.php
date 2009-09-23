@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Count.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version   $Id: Count.php 18148 2009-09-16 19:27:43Z thomas $
  */
 
 /**
@@ -100,8 +100,7 @@ class Zend_Validate_File_Count extends Zend_Validate_Abstract
      * 'min': Minimum filecount
      * 'max': Maximum filecount
      *
-     * @param  integer|array $options Options for the adapter
-     * @param  integer $max (Deprecated) Maximum value (implies $options is the minimum)
+     * @param  integer|array|Zend_Config $options Options for the adapter
      * @return void
      */
     public function __construct($options)
@@ -116,7 +115,8 @@ class Zend_Validate_File_Count extends Zend_Validate_Abstract
         }
 
         if (1 < func_num_args()) {
-            trigger_error('Multiple arguments are deprecated in favor of an array of named arguments', E_USER_NOTICE);
+// @todo: Preperation for 2.0... needs to be cleared with the dev-team
+//          trigger_error('Multiple arguments are deprecated in favor of an array of named arguments', E_USER_NOTICE);
             $options['min'] = func_get_arg(0);
             $options['max'] = func_get_arg(1);
         }

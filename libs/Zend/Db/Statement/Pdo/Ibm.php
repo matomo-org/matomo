@@ -17,7 +17,7 @@
  * @subpackage Statement
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ibm.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Ibm.php 17860 2009-08-27 22:48:48Z beberlei $
  */
 
 /**
@@ -87,7 +87,7 @@ class Zend_Db_Statement_Pdo_Ibm extends Zend_Db_Statement_Pdo
             }
         } catch (PDOException $e) {
             require_once 'Zend/Db/Statement/Exception.php';
-            throw new Zend_Db_Statement_Exception($e->getMessage());
+            throw new Zend_Db_Statement_Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 

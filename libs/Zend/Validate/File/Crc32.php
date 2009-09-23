@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Crc32.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version   $Id: Crc32.php 18148 2009-09-16 19:27:43Z thomas $
  */
 
 /**
@@ -60,7 +60,7 @@ class Zend_Validate_File_Crc32 extends Zend_Validate_File_Hash
     /**
      * Sets validator options
      *
-     * @param  string|array $options
+     * @param  string|array|Zend_Config $options
      * @return void
      */
     public function __construct($options)

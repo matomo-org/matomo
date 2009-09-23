@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: NotEmpty.php 17680 2009-08-19 20:02:26Z thomas $
+ * @version    $Id: NotEmpty.php 18186 2009-09-17 18:57:00Z matthew $
  */
 
 /**
@@ -53,8 +53,8 @@ class Zend_Validate_NotEmpty extends Zend_Validate_Abstract
      */
     public function isValid($value)
     {
-        if (!is_string($value) && !is_int($value) && !is_float($value) && !is_bool($value) &&
-            !is_array($value)) {
+        if (!is_null($value) && !is_string($value) && !is_int($value) && !is_float($value) &&
+            !is_bool($value) && !is_array($value)) {
             $this->_error(self::INVALID);
             return false;
         }
@@ -66,6 +66,8 @@ class Zend_Validate_NotEmpty extends Zend_Validate_Abstract
         ) {
             $this->_error(self::IS_EMPTY);
             return false;
+        } elseif (is_int($value) && (0 === $value)) {
+            return true;
         } elseif (!is_string($value) && empty($value)) {
             $this->_error(self::IS_EMPTY);
             return false;

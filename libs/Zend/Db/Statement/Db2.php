@@ -17,7 +17,7 @@
  * @subpackage Statement
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db2.php 16541 2009-07-07 06:59:03Z bkarwin $
+ * @version    $Id: Db2.php 17857 2009-08-27 22:01:47Z ralph $
  */
 
 /**
@@ -35,10 +35,6 @@ require_once 'Zend/Db/Statement.php';
  */
 class Zend_Db_Statement_Db2 extends Zend_Db_Statement
 {
-    /**
-     * Statement resource handle.
-     */
-    protected $_stmt = null;
 
     /**
      * Column names.

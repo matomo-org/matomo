@@ -17,7 +17,7 @@
  * @subpackage Zend_Auth_Adapter
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ldap.php 17788 2009-08-24 14:43:23Z sgehrig $
+ * @version    $Id: Ldap.php 17976 2009-09-04 14:50:25Z sgehrig $
  */
 
 /**
@@ -312,10 +312,9 @@ class Zend_Auth_Adapter_Ldap implements Zend_Auth_Adapter_Interface
                     continue;
                 }
 
-                $ldap->bind($username, $password);
-
                 $canonicalName = $ldap->getCanonicalAccountName($username);
-                $dn = $ldap->getCanonicalAccountName($username, Zend_Ldap::ACCTNAME_FORM_DN);
+                $ldap->bind($canonicalName, $password);
+                $dn = $ldap->getCanonicalAccountName($canonicalName, Zend_Ldap::ACCTNAME_FORM_DN);
 
                 $groupResult = $this->_checkGroupMembership($ldap, $canonicalName, $dn, $adapterOptions);
                 if ($groupResult === true) {
@@ -446,6 +445,14 @@ class Zend_Auth_Adapter_Ldap implements Zend_Auth_Adapter_Interface
         if (!empty($groupFilter)) {
             $group = $group->addAnd($groupFilter);
         }
+
+        /*
+         * Fixes problem when authenticated user is not allowed to retrieve
+         * group-membership information.
+         * This requires that the user specified with "username" and "password"
+         * in the Zend_Ldap options is able to retrieve the required information.
+         */
+        $ldap->bind();
 
         $result = $ldap->count($group, $adapterOptions['groupDn'], $adapterOptions['groupScope']);
 

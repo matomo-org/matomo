@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client
- * @version    $Id: Client.php 17374 2009-08-04 12:43:04Z shahar $
+ * @version    $Id: Client.php 17843 2009-08-27 14:40:35Z cogo $
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */

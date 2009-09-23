@@ -17,7 +17,7 @@
  * @package    Zend_Feed
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Feed.php 16205 2009-06-21 19:08:45Z thomas $
+ * @version    $Id: Feed.php 18291 2009-09-18 21:00:51Z padraic $
  */
 
 
@@ -191,26 +191,33 @@ class Zend_Feed
     public static function importString($string)
     {
         // Load the feed as an XML DOMDocument object
-        @ini_set('track_errors', 1);
+        $libxml_errflag = libxml_use_internal_errors(true);
         $doc = new DOMDocument;
-        $status = @$doc->loadXML($string);
-        @ini_restore('track_errors');
+        if (trim($string) == '') {
+            require_once 'Zend/Feed/Exception.php';
+            throw new Zend_Feed_Exception('Document/string being imported'
+            . ' is an Empty string or comes from an empty HTTP response');
+        }
+        $status = $doc->loadXML($string);
+        libxml_use_internal_errors($libxml_errflag);
+
 
         if (!$status) {
             // prevent the class to generate an undefined variable notice (ZF-2590)
-            if (!isset($php_errormsg)) {
-                if (function_exists('xdebug_is_enabled')) {
-                    $php_errormsg = '(error message not available, when XDebug is running)';
-                } else {
-                    $php_errormsg = '(error message not available)';
-                }
+            // Build error message
+            $error = libxml_get_last_error();
+            if ($error && $error->message) {
+                $errormsg = "DOMDocument cannot parse XML: {$error->message}";
+            } else {
+                $errormsg = "DOMDocument cannot parse XML";
             }
+
 
             /**
              * @see Zend_Feed_Exception
              */
             require_once 'Zend/Feed/Exception.php';
-            throw new Zend_Feed_Exception("DOMDocument cannot parse XML: $php_errormsg");
+            throw new Zend_Feed_Exception($errormsg);
         }
 
         // Try to find the base feed element or a single <entry> of an Atom feed
@@ -355,7 +362,7 @@ class Zend_Feed
                 } catch (Exception $e) {
                     continue;
                 }
-                $feeds[] = $feed;
+                $feeds[$uri->getUri()] = $feed;
             }
         }
 
