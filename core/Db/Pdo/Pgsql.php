@@ -38,8 +38,7 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 	 */
 	public function checkServerVersion()
 	{
-//		$databaseVersion = $this->getServerVersion();
-                $databaseVersion = $this->fetchOne('show server_version', array());
+		$databaseVersion = $this->getServerVersion();
                 $requiredVersion = Zend_Registry::get('config')->General->minimum_pgsql_version;
                 if(version_compare($databaseVersion, $requiredVersion) === -1)
                 {
@@ -147,5 +146,16 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 			return $match[1] == $map[$errno];
 		}
 		return false;
+	}
+
+	/**
+	 * Is the connection character set equal to utf8?
+	 *
+	 * @return bool
+	 */
+	public function isConnectionUTF8()
+	{
+		$charset = $this->fetchOne('SHOW client_encoding');
+		return strtolower($charset) === 'utf8';
 	}
 }

@@ -1500,6 +1500,16 @@ class Piwik
 		Zend_Registry::get('db')->checkServerVersion();
 	}
 
+	/**
+	 * Check database connection character set is utf8.
+	 *
+	 * @return bool True if it is (or doesn't matter); false otherwise
+	 */
+	static public function isDatabaseConnectionUTF8()
+	{
+		return Zend_Registry::get('db')->isConnectionUTF8();
+	}
+
 	static public function createLogObject()
 	{
 		$configAPI = Zend_Registry::get('config')->log;

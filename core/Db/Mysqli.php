@@ -17,7 +17,6 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 {
 	public function __construct($config)
 	{
-		$config['charset'] = 'utf8';
 		parent::__construct($config);
 	}
 
@@ -44,8 +43,7 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 	 */
 	public function checkServerVersion()
 	{
-//		$databaseVersion = $this->getServerVersion();
-                $databaseVersion = $this->fetchOne('SELECT VERSION()', array());
+		$databaseVersion = $this->getServerVersion();
                 $requiredVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
                 if(version_compare($databaseVersion, $requiredVersion) === -1)
                 {
@@ -87,7 +85,7 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 	}
 
 	/**
-	 * Execute unprepared SQL query
+	 * Execute unprepared SQL query and throw away the result
 	 *
 	 * Workaround some SQL statements not compatible with prepare().
 	 * See http://framework.zend.com/issues/browse/ZF-1398
@@ -104,5 +102,16 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 			mysqli_free_result($rc);
 		}
 		return $rowsAffected;
+	}
+
+	/**
+	 * Is the connection character set equal to utf8?
+	 *
+	 * @return bool
+	 */
+	public function isConnectionUTF8()
+	{
+		$charset = mysqli_character_set_name($this->_connection);
+		return $charset === 'utf8';
 	}
 }
