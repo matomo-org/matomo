@@ -14,22 +14,12 @@ if(file_exists('bootstrap.php'))
 	require_once 'bootstrap.php';
 }
 
-if(!defined('PIWIK_SESSION_NAME'))
-{
-	define('PIWIK_SESSION_NAME', 'PIWIK_SESSID');
-}
-@ini_set('session.name', PIWIK_SESSION_NAME);
 error_reporting(E_ALL|E_NOTICE);
 if(!defined('PIWIK_DISPLAY_ERRORS') || PIWIK_DISPLAY_ERRORS)
 {
 	@ini_set('display_errors', 1);
 }
 @ini_set('magic_quotes_runtime', 0);
-if(ini_get('session.save_handler') == 'user')
-{
-	@ini_set('session.save_handler', 'files');
-	@ini_set('session.save_path', '');
-}
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));
 if(!defined('PIWIK_USER_PATH'))
@@ -48,6 +38,29 @@ if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
 		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
 	@ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
 	@set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
+}
+
+if(!defined('PIWIK_SESSION_NAME'))
+{
+	define('PIWIK_SESSION_NAME', 'PIWIK_SESSID');
+}
+@ini_set('session.name', PIWIK_SESSION_NAME);
+if(ini_get('session.save_handler') == 'user')
+{
+	@ini_set('session.save_handler', 'files');
+	@ini_set('session.save_path', '');
+}
+if(ini_get('session.save_handler') == 'files')
+{
+	if(!is_writable(ini_get('session.save_path')))
+	{
+		$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
+		@ini_set('session.save_path', $sessionPath);
+		if(!is_dir($sessionPath))
+		{
+			@mkdir($sessionPath, 0755, true);
+		}
+	}
 }
 
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
