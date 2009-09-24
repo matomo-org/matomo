@@ -15,12 +15,6 @@
  */
 class Piwik_Db_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_iAdapter
 {
-	public function __construct($config)
-	{
-		$config['driver_options'] = array(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES 'utf8'");
-		parent::__construct($config);
-	}
-
 	/**
 	 * Returns connection handle
 	 *
@@ -35,6 +29,16 @@ class Piwik_Db_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_i
 
 		$this->_connect();
 
+		/**
+		 * Before MySQL 5.1.17, server-side prepared statements
+		 * do not use the query cache.
+		 * @see http://dev.mysql.com/doc/refman/5.1/en/query-cache-operation.html
+		 *
+		 * MySQL also does not support preparing certain DDL and SHOW
+		 * statements.
+		 * @see http://framework.zend.com/issues/browse/ZF-1398
+		 */
+		$this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 		$this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
 		return $this->_connection;
@@ -63,8 +67,7 @@ class Piwik_Db_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_i
 	 */
 	public function checkServerVersion()
 	{
-//		$databaseVersion = $this->getServerVersion();
-                $databaseVersion = $this->fetchOne('SELECT VERSION()', array());
+		$databaseVersion = $this->getServerVersion();
                 $requiredVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
                 if(version_compare($databaseVersion, $requiredVersion) === -1)
                 {
@@ -107,5 +110,17 @@ class Piwik_Db_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_i
 			return $match[1] == $errno;
 		}
 		return false;
+	}
+
+	/**
+	 * Is the connection character set equal to utf8?
+	 *
+	 * @return bool
+	 */
+	public function isConnectionUTF8()
+	{
+		$charsetInfo = $this->fetchAll('SHOW VARIABLES LIKE ?', array('character_set_connection'));
+		$charset = $charsetInfo[0]['Value'];
+		return $charset === 'utf8';
 	}
 }

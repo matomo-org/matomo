@@ -25,6 +25,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	private $dbname;
 	private $username;
 	private $password;
+	private $charset;
 	
 	/**
 	 * Builds the DB object
@@ -52,6 +53,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 		$this->dbname = $dbInfo['dbname'];
 		$this->username = $dbInfo['username'];
 		$this->password = $dbInfo['password'];
+		$this->charset = isset($dbInfo['charset']) ? $dbInfo['charset'] : null;
 	}
 
 	public function __destruct() 
@@ -77,7 +79,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			throw new Exception("Connect failed: " . mysqli_connect_error());
 		}
 
-		if(!mysqli_set_charset($this->connection, 'utf8'))
+		if($this->charset && !mysqli_set_charset($this->connection, $this->charset))
 		{
 			throw new Exception("Set Charset failed: " . mysqli_error($this->connection));
 		}

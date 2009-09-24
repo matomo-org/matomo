@@ -16,17 +16,41 @@
 class Piwik_Db
 {
 	/**
+	 * Get adapter class name
+	 *
+	 * @param string $adapterName
+	 * @return string
+	 */
+	private static function getAdapterClassName($adapterName)
+	{
+		return 'Piwik_Db_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($adapterName))));
+	}
+
+	/**
 	 * Create adapter
 	 *
+	 * @param string $adapterName
+	 * @oaran array $config
 	 * @return mixed (Piwik_Db_Mysqli, Piwik_Db_Pdo_Mysql, etc)
 	 */
 	public static function factory($adapterName, $config)
 	{
-		$adapterName = 'Piwik_Db_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($adapterName))));
-		$adapter = new $adapterName($config);
+		$className = self::getAdapterClassName($adapterName);
+		$adapter = new $className($config);
 		return $adapter;
 	}
 
+	/**
+	 * Get default port for named adapter
+	 *
+	 * @param string $adapterName
+	 * @return int
+	 */
+	public static function getDefaultPortForAdapter($adapterName)
+	{
+		$className = self::getAdapterClassName($adapterName);
+		return call_user_func(array($className, 'getDefaultPort'));
+	}
 
 	/**
 	 * Get list of adapters
@@ -95,4 +119,11 @@ interface Piwik_Db_iAdapter
 	 * @return bool
 	 */
 	public function isErrNo($e, $errno);
+
+	/**
+	 * Is the connection character set equal to utf8?
+	 *
+	 * @return bool
+	 */
+	public function isConnectionUTF8();
 }

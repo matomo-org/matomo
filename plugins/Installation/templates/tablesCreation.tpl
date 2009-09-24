@@ -1,4 +1,11 @@
 <h1>{'Installation_Tables'|translate}</h1>
+
+{if isset($charsetWarning)}
+	<div class="warning">{'Installation_ConnectionCharacterSetNotUtf8'|translate}
+	<img src="themes/default/images/warning_medium.png">
+	</div>
+{/if}
+
 {if isset($someTablesInstalled)}
 	<div class="warning">{'Installation_TablesWithSameNamesFound'|translate:"<span id='linkToggle'>":"</span>"}
 	<img src="themes/default/images/warning_medium.png">

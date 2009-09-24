@@ -27,6 +27,38 @@ class Piwik_Tracker_Db_Pdo_Pgsql extends Piwik_Tracker_Db_Pdo_Mysql
 	}
 
 	/**
+	 * Connects to the DB
+	 * 
+	 * @throws Exception if there was an error connecting the DB
+	 */
+	public function connect() 
+	{
+		if(self::$profiling)
+		{
+			$timer = $this->initProfiler();
+		}
+
+		
+		$this->connection = new PDO($this->dsn, $this->username, $this->password, $config);
+		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		// we may want to setAttribute(PDO::ATTR_TIMEOUT ) to a few seconds (default is 60) in case the DB is locked
+		// the piwik.php would stay waiting for the database... bad!
+		// we delete the password from this object "just in case" it could be printed 
+		$this->password = '';
+
+		if(!empty($this->charset))
+		{
+			$sql = "SET NAMES '" . $this->charset . "'";
+			$this->connection->exec($sql);
+		}
+
+		if(self::$profiling)
+		{
+			$this->recordQueryProfile('connect', $timer);
+		}
+	}
+	
+	/**
 	 * Test error number
 	 *
 	 * @param Exception $e

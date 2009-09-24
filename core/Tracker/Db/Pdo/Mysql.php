@@ -22,6 +22,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 	private $dsn;
 	private $username;
 	private $password;
+	private $charset;
 	
 	/**
 	 * Builds the DB object
@@ -42,6 +43,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 		}
 		$this->username = $dbInfo['username'];
 		$this->password = $dbInfo['password'];
+		$this->charset = isset($dbInfo['charset']) ? $dbInfo['charset'] : null;
 	}
 
 	public function __destruct() 
@@ -61,8 +63,6 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 			$timer = $this->initProfiler();
 		}
 
-		$config = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'");
-		
 		$this->connection = new PDO($this->dsn, $this->username, $this->password, $config);
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		// we may want to setAttribute(PDO::ATTR_TIMEOUT ) to a few seconds (default is 60) in case the DB is locked
@@ -70,6 +70,17 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 		// we delete the password from this object "just in case" it could be printed 
 		$this->password = '';
 		
+		/*
+		 * Lazy initialization via MYSQL_ATTR_INIT_COMMAND depends
+		 * on mysqlnd support, PHP version, and OS.
+		 * see ZF-7428 and http://bugs.php.net/bug.php?id=47224
+		 */
+		if(!empty($this->charset))
+		{
+			$sql = "SET NAMES '" . $this->charset . "'";
+			$this->connection->exec($sql);
+		}
+
 		if(self::$profiling)
 		{
 			$this->recordQueryProfile('connect', $timer);

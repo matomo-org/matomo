@@ -676,6 +676,7 @@ $translations = array(
 	'Installation_NoConfigFound' => 'The Piwik configuration file couldn\'t be found and you are trying to access a Piwik page.<br /><b>&nbsp;&nbsp;&raquo; You can <a href=\'index.php\'>install Piwik now</a></b><br /><small>If you installed Piwik before and have some tables in your DB, don\'t worry, you can reuse the same tables and keep your existing data!</small>',
 	'Installation_DatabaseSetup' => 'Database setup',
 	'Installation_DatabaseErrorConnect' => 'Error while trying to connect to the database server',
+	'Installation_ConnectionCharacterSetNotUtf8' => 'Client connection to the database server is not UTF8',
 	'Installation_JsTag' => 'JavaScript tag',
 	'Installation_JsTagHelp' => '<p>To count all visitors, you must insert the JavaScript code on all of your pages.</p><p>Your pages do not have to be made with PHP, Piwik will work on all kinds of pages (whether it is HTML, ASP, Perl or any other languages).</p><p>Here is the code you have to insert: (copy and paste on all your pages) </p>',
 	'Installation_JsTagQuicHelpk' => 'Quick Help',
