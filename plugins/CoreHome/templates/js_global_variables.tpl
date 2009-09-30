@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	var piwik = {literal}{}{/literal};
 	piwik.token_auth = "{$token_auth}";
-	piwik.piwik_url = "{$piwikUrl}";
+	piwik.piwik_url = "{$piwikUrl|urlencode}";
 	{if isset($idSite)}piwik.idSite = "{$idSite}";{/if}
 	{if isset($siteName)}piwik.siteName = "{$siteName}";{/if}
 	{if isset($siteMainUrl)}piwik.siteMainUrl = "{$siteMainUrl}";{/if}
