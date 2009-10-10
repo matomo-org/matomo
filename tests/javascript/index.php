@@ -6,7 +6,8 @@
  <script src="../../js/piwik.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
- <link rel="stylesheet" href="assets/testsuite.css" type="text/css" media="screen" />
+ <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
+ <script src="assets/qunit.js" type="text/javascript"></script>
 </head>
 <body>
 <?php
@@ -19,11 +20,12 @@ if (file_exists("enable_sqlite")) {
 ?>
 
 
- <h1>piwik.js: Piwik Unit Tests</h1>
- <h2 id="banner"></h2>
- <h2 id="userAgent"></h2>
+ <h1 id="qunit-header">piwik.js: Piwik Unit Tests</h1>
+ <h2 id="qunit-banner"></h2>
+ <div id="qunit-testrunner-toolbar"></div>
+ <h2 id="qunit-userAgent"></h2>
 
- <div class="hidden">
+ <div id="other" style="display:none;">
   <div id="div1"></div>
   <iframe name="iframe2"></iframe>
   <iframe name="iframe3"></iframe>
@@ -42,11 +44,9 @@ if (file_exists("enable_sqlite")) {
   </ul>
  </div>
 
- <ol id="tests"></ol>
+ <ol id="qunit-tests"></ol>
 
- <div id="main"></div>
-
- <script src="assets/testrunner.js" type="text/javascript"></script>
+ <div id="main" style="display:none;"></div>
 
  <script>
 function getToken() {
@@ -276,9 +276,9 @@ if ($sqlite) {
 
 		tracker.trackLink("http://example.ca", "link", { "token" : "'. $token .'" });
 
-		var buttons = q("click1", "click2", "click3", "click4", "click5", "click6", "click7");
+		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
 		for (var i=0; i < buttons.length; i++) {
-			triggerEvent( buttons[i], "click" );
+			triggerEvent( document.getElementById(buttons[i]), "click" );
 		}
 
 		tracker.trackGoal(42, 69, { "boy" : "Michael", "girl" : "Mandy" });
