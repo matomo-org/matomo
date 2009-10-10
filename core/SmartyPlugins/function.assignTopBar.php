@@ -19,11 +19,21 @@
  */
 function smarty_function_assignTopBar($params, &$smarty)
 {
-	$topBarElements = array(
+	$topBarElements = array();
+	$elements = array(
 		array('CoreHome', Piwik_Translate('General_YourDashboard'), array('module' => 'CoreHome', 'action' => 'index')),
 		array('Widgetize', Piwik_Translate('General_Widgets'),  array('module' => 'Widgetize', 'action' => 'index')), 
 		array('API', Piwik_Translate('General_API'), array('module' => 'API', 'action' => 'listAllAPI')),
 		array('Feedback', Piwik_Translate('General_GiveUsYourFeedback'), array('module' => 'Feedback', 'action' => 'index', 'keepThis' => 'true', 'TB_iframe' => 'true', 'height' => '400', 'width' => '350'), 'title="'.Piwik_Translate('General_GiveUsYourFeedback').'" class="thickbox"'),
 	);
+
+	foreach($elements as $element)
+	{
+		if(Piwik_PluginsManager::getInstance()->isPluginActivated($element[0]))
+		{
+			$topBarElements[] = $element;
+		}
+	}
+
 	$smarty->assign("topBarElements", $topBarElements);
 }
