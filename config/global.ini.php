@@ -18,7 +18,7 @@ password		=
 dbname			= 
 tables_prefix	= 
 port			= 3306
-adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
+adapter			= PDO_MYSQL
 
 [database_tests]
 host 			= localhost
