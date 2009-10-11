@@ -75,7 +75,12 @@ class Piwik_FrontController
 		{
 			return;
 		}
-		
+
+		if(isset($_SERVER['PATH_INFO']))
+		{
+			return;
+		}
+
 		if(is_null($module))
 		{
 			$defaultModule = 'CoreHome';
