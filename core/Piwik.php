@@ -1350,10 +1350,13 @@ class Piwik
 	{
 		$sDir = escapeshellcmd($sDir);
 		$aFiles = glob("$sDir/$sPattern", $nFlags);
-		foreach (glob("$sDir/*", GLOB_ONLYDIR) as $sSubDir)
+		if(($aDirs = glob("$sDir/*", GLOB_ONLYDIR)) != false)
 		{
-			$aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
-			$aFiles = array_merge($aFiles, $aSubFiles);
+			foreach ($aDirs as $sSubDir)
+			{
+				$aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
+				$aFiles = array_merge($aFiles, $aSubFiles);
+			}
 		}
 		return $aFiles;
 	}
@@ -1361,6 +1364,8 @@ class Piwik
 	/**
 	 * API was simplified in 0.2.27, but we maintain backward compatibility 
 	 * when calling Piwik::prefixTable
+	 *
+	 * @deprecated as of 0.2.27
 	 */
 	static public function prefixTable( $table )
 	{
