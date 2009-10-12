@@ -16,6 +16,7 @@
 <script type="text/javascript" src="plugins/CoreHome/templates/broadcast.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/menu.js"></script>
 <script type="text/javascript" src="libs/jquery/thickbox.js"></script>
+{postEvent name="template_js_import"}
 <link rel="stylesheet" type="text/css" href="libs/jquery/thickbox.css" />
 
 <link rel="stylesheet" type="text/css" href="themes/default/common.css" />
@@ -24,6 +25,4 @@
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/datatable.css" />
 <link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
 <link rel="stylesheet" type="text/css" href="libs/jquery/jquery-calendar.css" />
-
-{postEvent name="template_js_import"}
 {postEvent name="template_css_import"}
