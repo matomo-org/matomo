@@ -53,11 +53,11 @@ class Piwik_Referers extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'Referers', 'Referers_WidgetKeywords', 'Referers', 'getKeywords');
-		Piwik_AddWidget( 'Referers', 'Referers_WidgetCampaigns', 'Referers', 'getCampaigns');
-		Piwik_AddWidget( 'Referers', 'Referers_WidgetExternalWebsites', 'Referers', 'getWebsites');
-		Piwik_AddWidget( 'Referers', 'Referers_WidgetSearchEngines', 'Referers', 'getSearchEngines');
-		Piwik_AddWidget( 'Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetKeywords', 'Referers', 'getKeywords');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetCampaigns', 'Referers', 'getCampaigns');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetExternalWebsites', 'Referers', 'getWebsites');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetSearchEngines', 'Referers', 'getSearchEngines');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
 	}
 	
 	function addMenus()
