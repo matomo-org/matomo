@@ -553,6 +553,7 @@ $translations = array(
 	'UserCountry_continent_ams' => 'South and Central America',
 	'UserCountry_continent_amn' => 'North America',
 	'UserCountry_continent_oce' => 'Oceania',
+	'VisitsSummary_VisitsSummary' => 'Visits Summary',
 	'VisitsSummary_NbVisits' => '%s visits',
 	'VisitsSummary_NbUniqueVisitors' => '%s unique visitors',
 	'VisitsSummary_NbActions' => '%s actions (page views)',
