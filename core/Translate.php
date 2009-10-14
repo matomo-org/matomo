@@ -60,7 +60,7 @@ class Piwik_Translate
 			$GLOBALS['Piwik_translations'] = array();
 		}
 		// we could check that no string overlap here
-		$GLOBALS['Piwik_translations'] = array_merge($GLOBALS['Piwik_translations'], $translation);
+		$GLOBALS['Piwik_translations'] = array_filter(array_merge($GLOBALS['Piwik_translations'], $translation), 'strlen');
 	}
 	
 	/**
