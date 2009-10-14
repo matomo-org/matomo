@@ -131,6 +131,10 @@ datatable_archiving_maximum_rows_subtable_actions = 100
 ; If set to 1, Piwik uses a Content Distribution Network
 use_ajax_cdn = 0
 
+; required AJAX library versions
+jquery_version = 1.2.6
+swfobject_version = 2.2
+
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1

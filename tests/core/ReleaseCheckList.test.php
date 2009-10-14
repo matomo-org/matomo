@@ -74,5 +74,21 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 		include PIWIK_PATH_TEST_TO_ROOT . "/piwik.php";
 		$this->assertTrue($GLOBALS['PIWIK_TRACKER_DEBUG'] === false);
 	}
+
+	function test_ajaxLibraryVersions()
+	{
+		Piwik::createConfigObject();
+		Zend_Registry::get('config')->setTestEnvironment();	
+		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
+
+		$jqueryJs = file_get_contents( PIWIK_DOCUMENT_ROOT . '/libs/jquery/jquery.js', false, NULL, 0, 512 );
+		$this->assertTrue( preg_match('/jQuery ([0-9.]+)/', $jqueryJs, $matches) );
+		$this->assertEqual( $matches[1], Zend_Registry::get('config')->General->jquery_version );
+
+
+		$swfobjectJs = file_get_contents( PIWIK_DOCUMENT_ROOT . '/libs/swfobject/swfobject.js', false, NULL, 0, 512 );
+		$this->assertTrue( preg_match('/SWFObject v([0-9.]+)/', $swfobjectJs, $matches) );
+		$this->assertEqual( $matches[1], Zend_Registry::get('config')->General->swfobject_version );
+	}
 }
 

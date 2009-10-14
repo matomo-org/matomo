@@ -62,7 +62,7 @@ class Piwik_View implements Piwik_iView
 			$this->smarty->load_filter('output', 'ajaxcdn');
 			$this->smarty->load_filter('output', 'trimwhitespace');
 		}
-		
+
 		// global value accessible to all templates: the piwik base URL for the current request
 		$this->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 	}
