@@ -59,7 +59,7 @@ class Piwik_View implements Piwik_iView
 		if($filter)
 		{
 			$this->smarty->load_filter('output', 'cachebuster');
-
+			$this->smarty->load_filter('output', 'ajaxcdn');
 			$this->smarty->load_filter('output', 'trimwhitespace');
 		}
 		

@@ -21,7 +21,7 @@
  *           of external CSS stylesheets and
  *           JavaScript scripts<br>
  * Install:  Drop into the plugin directory, call
- *           <code>$smarty->assign('tag','XXXX');</code>
+ *           <code>$smarty->assign('tag', 'some_unique_tag');</code>
  *           <code>$smarty->load_filter('output','cachebuster');</code>
  *           from application.
  * @author   Anthon Pang <apang at softwaredevelopment dot ca>
@@ -41,7 +41,7 @@ function smarty_outputfilter_cachebuster($source, &$smarty)
 
 	$replace = array(
 		'<script type="text/javascript" src="$1?'. $tag .'">',
-		'<script src="$1?'. $tag .'" type="text/javascript">',
+		'<script type="text/javascript" src="$1?'. $tag .'">',
 		'<link rel="stylesheet" type="text/css" href="$1?'. $tag .'" />',
 	);
 
