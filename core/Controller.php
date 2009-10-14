@@ -253,7 +253,7 @@ abstract class Piwik_Controller
 			$view->maxDateDay = $maxDate->toString('d');
 
 			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
-			
+
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
 		}
