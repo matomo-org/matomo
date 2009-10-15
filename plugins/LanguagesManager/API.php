@@ -79,7 +79,7 @@ class Piwik_LanguagesManager_API
 		foreach($filenames as $filename) 
 		{
 			require PIWIK_INCLUDE_PATH . "/lang/$filename.php";
-			$translationStringsDone = array_intersect_key($englishTranslation, $translations);
+			$translationStringsDone = array_intersect_key($englishTranslation, array_filter($translations, 'strlen'));
 			$percentageComplete = count($translationStringsDone) / count($englishTranslation);
 			$percentageComplete = round(100 * $percentageComplete, 0);  
 			$languageInfo = array( 	'code' => $filename, 
