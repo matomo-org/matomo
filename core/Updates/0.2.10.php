@@ -23,15 +23,15 @@ class Piwik_Updates_0_2_10 implements Piwik_iUpdate
 		));
 
 		$obsoleteDirectories = array(
-			'plugins/AdminHome',
-			'plugins/Home',
-			'plugins/PluginsAdmin',
+			'/plugins/AdminHome',
+			'/plugins/Home',
+			'/plugins/PluginsAdmin',
 		);
 		foreach($obsoleteDirectories as $dir)
 		{
-			if(file_exists($dir))
+			if(file_exists(PIWIK_INCLUDE_PATH . $dir))
 			{
-				Piwik::unlinkRecursive($dir, true);
+				Piwik::unlinkRecursive(PIWIK_INCLUDE_PATH . $dir, true);
 			}
 		}
 	}
