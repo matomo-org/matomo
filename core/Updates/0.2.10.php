@@ -21,5 +21,18 @@ class Piwik_Updates_0_2_10 implements Piwik_iUpdate
 		Piwik_Updater::updateDatabase(__FILE__, array(
 			$tables['option'] => false,
 		));
+
+		$obsoleteDirectories = array(
+			'plugins/AdminHome',
+			'plugins/Home',
+			'plugins/PluginsAdmin',
+		);
+		foreach($obsoleteDirectories as $dir)
+		{
+			if(file_exists($dir))
+			{
+				Piwik::unlinkRecursive($dir, true);
+			}
+		}
 	}
 }
