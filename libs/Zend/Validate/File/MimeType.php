@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: MimeType.php 18148 2009-09-16 19:27:43Z thomas $
+ * @version   $Id: MimeType.php 18513 2009-10-12 16:17:35Z matthew $
  */
 
 /**
@@ -80,6 +80,22 @@ class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
     protected $_magicfile;
 
     /**
+     * If no $_ENV['MAGIC'] is set, try and autodiscover it based on common locations
+     * @var array
+     */
+    protected $_magicFiles = array(
+        '/usr/share/misc/magic',
+        '/usr/share/misc/magic.mime',
+        '/usr/share/misc/magic.mgc',
+        '/usr/share/mime/magic',
+        '/usr/share/mime/magic.mime',
+        '/usr/share/mime/magic.mgc',
+        '/usr/share/file/magic',
+        '/usr/share/file/magic.mime',
+        '/usr/share/file/magic.mgc',
+    );
+
+    /**
      * Option to allow header check
      *
      * @var boolean
@@ -123,6 +139,14 @@ class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
      */
     public function getMagicFile()
     {
+        if (null === $this->_magicfile && empty($_ENV['MAGIC'])) {
+            foreach ($this->_magicFiles as $file) {
+                if (file_exists($file)) {
+                    $this->setMagicFile($file);
+                    break;
+                }
+            }
+        }
         return $this->_magicfile;
     }
 
