@@ -163,7 +163,7 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 	 * Returns a list of the tables in the database.
 	 *
 	 * Replaces parent::listTables() which uses subqueries.
-	 * @see ZF-????
+	 * @see ZF-8046
 	 *
 	 * @return array
 	 */
