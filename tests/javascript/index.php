@@ -8,6 +8,22 @@
  <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <script src="assets/qunit.js" type="text/javascript"></script>
+ <script type="text/javascript">
+<!--
+/**
+ * Add random number to url to stop IE from caching
+ *
+ * @example url("data/test.html")
+ * @result "data/test.html?10538358428943"
+ *
+ * @example url("data/test.php?foo=bar")
+ * @result "data/test.php?foo=bar&10538358345554"
+ */
+function url(value) {
+        return value + (/\?/.test(value) ? "&" : "?") + new Date().getTime() + "" + parseInt(Math.random()*100000);
+}
+//-->
+ </script>
 </head>
 <body>
 <?php
@@ -41,6 +57,7 @@ if (file_exists("enable_sqlite")) {
     <li><a id="click5" href="example.html" target="iframe5" class="piwik_link clicktest">outlink: explicit (localhost)</a></li>
     <li><a id="click6" href="example.pdf" target="iframe6" class="clicktest">download: implicit (file extension)</a></li>
     <li><a id="click7" href="example.word" target="iframe7" class="piwik_download clicktest">download: explicit</a></li>
+    <li><a id="click8" href="example.php?name=false.zip" target="iframe8" class="clicktest">not a download</a></li>
   </ul>
  </div>
 
@@ -243,7 +260,7 @@ $(document).ready(function () {
 	});
 
 	test("Tracking", function() {
-		expect(<?php echo $sqlite ? 11 : 3; ?>);
+		expect(<?php echo $sqlite ? 12 : 3; ?>);
 
 		var tracker = Piwik.getTracker();
 
@@ -276,7 +293,7 @@ if ($sqlite) {
 
 		tracker.trackLink("http://example.ca", "link", { "token" : "'. $token .'" });
 
-		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
+		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7", "click8");
 		for (var i=0; i < buttons.length; i++) {
 			triggerEvent( document.getElementById(buttons[i]), "click" );
 		}
@@ -296,6 +313,7 @@ if ($sqlite) {
 					ok( /example.html/.test( results ), "click: explicit outlink" );
 					ok( /example.pdf/.test( results ), "click: implicit download (by file extension)" );
 					ok( /example.word/.test( results ), "click: explicit download" );
+					ok( ! /example.(org|php)/.test( results ), "click: ignored" );
 					ok( /idgoal=42.*?revenue=69.*?Michael.*?Mandy/.test( results ), "trackGoal()" );
 
 					start();

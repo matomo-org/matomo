@@ -174,7 +174,7 @@ if (!this.Piwik) {
 			configTitle = '',
 
 			// Extensions to be treated as download links
-			configDownloadExtensions = '7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd||xls|xml|z|zip',
+			configDownloadExtensions = '7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|t?bz2|tgz|torrent|txt|wav|wma|wmv|wpd||xls|xml|z|zip',
 
 			// Hosts or alias(es) to not treat as outlinks
 			configHostsAlias = [windowAlias.location.hostname],
@@ -236,7 +236,7 @@ if (!this.Piwik) {
 			 */
 			stringify = function (value) {
 
-				var escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+				var escapable = new RegExp('[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]', 'g'),
 					// table of character substitutions
 					meta = {'\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"' : '\\"', '\\': '\\\\'};
 
@@ -614,6 +614,9 @@ if (!this.Piwik) {
 				// does file extension indicate that it is a download?
 				downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')$', 'i');
 
+				// remove parameters, e.g., ?q=falsepositive.zip
+				href = href.replace(new RegExp('[?].*'), '');
+
 				// optimization of the if..elseif..else construct below
 				return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : 0);
 
@@ -666,7 +669,7 @@ if (!this.Piwik) {
 					var originalSourceHostName = sourceElement.hostname,
 						sourceHostName = originalSourceHostName.toLowerCase(),
 						sourceHref = sourceElement.href.replace(originalSourceHostName, sourceHostName),
-						scriptProtocol = /^(javascript|vbscript|jscript|mocha|livescript|ecmascript): */i;
+						scriptProtocol = new RegExp('^(javascript|vbscript|jscript|mocha|livescript|ecmascript): *', 'i');
 
 					// ignore script pseudo-protocol links
 					if (!scriptProtocol.test(sourceHref)) {
