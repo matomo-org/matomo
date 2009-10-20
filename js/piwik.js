@@ -368,10 +368,8 @@ if (!this.Piwik) {
 			/*
 			 * Get cookie value
 			 */
-			function getCookie(cookieName, path, domain) {
-				var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)' +
-						(path ? '(;[ ]*expires=[^;]*)?;[ ]*path=' + path.replace('/', '\\/') + '' : '') +
-						(domain ? ';[ ]*domain=' + domain + '(;|$)' : '')),
+			function getCookie(cookieName) {
+				var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
 
 					cookieMatch = cookiePattern.exec(documentAlias.cookie);
 
