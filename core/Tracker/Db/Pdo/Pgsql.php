@@ -39,7 +39,7 @@ class Piwik_Tracker_Db_Pdo_Pgsql extends Piwik_Tracker_Db_Pdo_Mysql
 		}
 
 		
-		$this->connection = new PDO($this->dsn, $this->username, $this->password, $config);
+		$this->connection = new PDO($this->dsn, $this->username, $this->password, $config = array());
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		// we may want to setAttribute(PDO::ATTR_TIMEOUT ) to a few seconds (default is 60) in case the DB is locked
 		// the piwik.php would stay waiting for the database... bad!
