@@ -57,7 +57,6 @@ if (file_exists("enable_sqlite")) {
     <li><a id="click5" href="example.html" target="iframe5" class="piwik_link clicktest">outlink: explicit (localhost)</a></li>
     <li><a id="click6" href="example.pdf" target="iframe6" class="clicktest">download: implicit (file extension)</a></li>
     <li><a id="click7" href="example.word" target="iframe7" class="piwik_download clicktest">download: explicit</a></li>
-    <li><a id="click8" href="example.php?name=false.zip" target="iframe8" class="clicktest">not a download</a></li>
   </ul>
  </div>
 
@@ -190,7 +189,7 @@ $(document).ready(function () {
 	});
 
 	test("Tracker setDownloadExtensions(), addDownloadExtensions(), setDownloadClass(), setLinkClass(), and getLinkType()", function() {
-		expect(25);
+		expect(29);
 
 		var tracker = Piwik.getTracker();
 
@@ -205,6 +204,11 @@ $(document).ready(function () {
 		equals( tracker.hook.test._getLinkType('abc piwik_link xyz', 'piwiktest.asp', true), 'link', 'abc piwik_link xyz' );
 		equals( tracker.hook.test._getLinkType('something', 'piwiktest.txt', true), 'download', 'download extension' );
 		equals( tracker.hook.test._getLinkType('something', 'piwiktest.ext', true), 0, '[1] link (default)' );
+
+		equals( tracker.hook.test._getLinkType('something', 'file.zip', true), 'download', 'download file.zip' );
+		equals( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip#anchor', true), 'download', 'download file.zip (anchor)' );
+		equals( tracker.hook.test._getLinkType('something', 'index.php?name=file.zip&redirect=yes', true), 'download', 'download file.zip (is param)' );
+		equals( tracker.hook.test._getLinkType('something', 'file.zip?mirror=true', true), 'download', 'download file.zip (with param)' );
 
 		tracker.setDownloadExtensions('pk');
 		equals( tracker.hook.test._getLinkType('something', 'piwiktest.pk', true), 'download', '[1] .pk == download extension' );
@@ -293,7 +297,7 @@ if ($sqlite) {
 
 		tracker.trackLink("http://example.ca", "link", { "token" : "'. $token .'" });
 
-		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7", "click8");
+		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
 		for (var i=0; i < buttons.length; i++) {
 			triggerEvent( document.getElementById(buttons[i]), "click" );
 		}
