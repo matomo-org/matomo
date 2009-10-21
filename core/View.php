@@ -10,6 +10,15 @@
  * @package Piwik
  */
 
+/*
+ * Transition for pre-Piwik 0.4.4
+ * @todo Remove this post-1.0
+ */
+if(!defined('PIWIK_USER_PATH'))
+{
+	define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
+}
+
 /**
  * View class to render the user interface
  *
