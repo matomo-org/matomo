@@ -90,7 +90,7 @@ $(document).ready( function() {
 	$('.deleteSite').click( function() {
 			piwikHelper.ajaxHideError();
 			var idRow = $(this).attr('id');
-			var nameToDelete = $(this).parent().parent().find('#siteName').html();
+			var nameToDelete = $(this).parent().parent().find('input[@id=siteName]').val() || $(this).parent().parent().find('td[@id=siteName]').html();
 			var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
 			if(confirm(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')')) ) {
 				$.ajax( getDeleteSiteAJAX( idsiteToDelete ) );
