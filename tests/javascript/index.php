@@ -251,7 +251,8 @@ $(document).ready(function () {
 
 		var d = new Date();
 		d.setTime(1240013340000);
-		equals( tracker.hook.test._stringify(d), '"2009-04-18T00:09:00Z"', 'Date');
+		ok( tracker.hook.test._stringify(d) == '"2009-04-18T00:09:00Z"'
+		|| tracker.hook.test._stringify(d) == '"2009-04-18T00:09:00.000Z"', 'Date');
 
 		equals( tracker.hook.test._stringify(null), 'null', 'null' );
 		equals( typeof tracker.hook.test._stringify(dummy), 'undefined', 'undefined' );
