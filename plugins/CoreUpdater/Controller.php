@@ -43,6 +43,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 		Piwik::setMaxExecutionTime(0);
 
+		$view = Piwik_View::factory('update_one_click_done');
+
 		$steps = array(
 			array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', self::LATEST_PIWIK_URL)),
 			array('oneClick_Unpack', Piwik_Translate('CoreUpdater_UnpackingTheUpdate')),
@@ -66,7 +68,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			}
 		}
 		
-		$view = Piwik_View::factory('update_one_click_done');
 		$view->coreError = $errorMessage;
 		$view->feedbackMessages = $messages;
 		echo $view->render();
