@@ -609,9 +609,10 @@ class Piwik
 			'log_action' => "CREATE TABLE {$prefixTables}log_action (
 									  idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 									  name VARCHAR(255) NOT NULL,
+									  hash INTEGER(10) UNSIGNED NOT NULL,
   									  type TINYINT UNSIGNED NULL,
 									  PRIMARY KEY(idaction),
-									  INDEX index_type_name (type, name(15))
+									  INDEX index_type_hash (type, hash)
 						)  DEFAULT CHARSET=utf8 
 			",
 					
@@ -624,8 +625,8 @@ class Piwik
 							  visit_first_action_time DATETIME NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
 							  visit_server_date DATE NOT NULL,
-							  visit_exit_idaction INTEGER(11) NOT NULL,
-							  visit_entry_idaction INTEGER(11) NOT NULL,
+							  visit_exit_idaction_url INTEGER(11) NOT NULL,
+							  visit_entry_idaction_url INTEGER(11) NOT NULL,
 							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_goal_converted TINYINT(1) NOT NULL,
@@ -663,7 +664,7 @@ class Piwik
 									  `visitor_idcookie` char(32) NOT NULL,
 									  `server_time` datetime NOT NULL,
 									  `visit_server_date` date NOT NULL,
-									  `idaction` int(11) default NULL,
+									  `idaction_url` int(11) default NULL,
 									  `idlink_va` int(11) default NULL,
 									  `referer_idvisit` int(10) unsigned default NULL,
 									  `referer_visit_server_date` date default NULL,
@@ -684,8 +685,9 @@ class Piwik
 			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
 											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
 											  idvisit INTEGER(10) UNSIGNED NOT NULL,
-											  idaction INTEGER(10) UNSIGNED NOT NULL,
-											  idaction_ref INTEGER(11) UNSIGNED NOT NULL,
+											  idaction_url INTEGER(10) UNSIGNED NOT NULL,
+											  idaction_url_ref INTEGER(10) UNSIGNED NOT NULL,
+											  idaction_name INTEGER(10) UNSIGNED,
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 											  PRIMARY KEY(idlink_va),
 											  INDEX index_idvisit(idvisit)

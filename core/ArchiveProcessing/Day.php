@@ -28,7 +28,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		$this->db = Zend_Registry::get('db');
 		$this->debugAlwaysArchive = Zend_Registry::get('config')->Debug->always_archive_data_day;
 	}
-	
+
 	/**
 	 * Main method to process logs for a day. The only logic done here is computing the number of visits, actions, etc.
 	 * All the other reports are computed inside plugins listening to the event 'ArchiveProcessing_Day.compute'.

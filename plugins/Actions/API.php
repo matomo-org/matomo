@@ -50,10 +50,25 @@ class Piwik_Actions_API
 		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
-	
+
+	/**
+	 * Backward compatibility. Fallsback to getPageTitles() instead.
+	 * @deprecated Deprecated since Piwik 0.5
+	 */
 	public function getActions( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-		return $this->getDataTable('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable );
+	    return $this->getPageTitles( $idSite, $period, $date, $expanded, $idSubtable );
+	}
+	
+	public function getPageUrls( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	{
+		return $this->getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
+	}
+
+	public function getPageTitles( $idSite, $period, $date, $expanded = false, $idSubtable = false)
+	{
+		$dataTable = $this->getDataTable('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable);
+		return $dataTable;
 	}
 
 	public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )

@@ -17,7 +17,7 @@
 class Piwik_Tracker_GoalManager 
 {
 	/**
-	 * @var Piwik_Cookie 
+	 * @var Piwik_Cookie
 	 */
 	protected $cookie = null;
 	/**
@@ -41,7 +41,7 @@ class Piwik_Tracker_GoalManager
 		}
 		return array();
 	}
-	
+
 	static public function getGoalDefinition( $idSite, $idGoal )
 	{
 		$goals = self::getGoalDefinitions( $idSite );
@@ -54,7 +54,7 @@ class Piwik_Tracker_GoalManager
 		}
 		throw new Exception("The goal id = $idGoal couldn't be found.");
 	}
-	
+
 	static public function getGoalIds( $idSite )
 	{
 		$goals = self::getGoalDefinitions( $idSite );
@@ -65,13 +65,13 @@ class Piwik_Tracker_GoalManager
 		}
 		return $goalIds;
 	}
-	
+
 	private function isGoalPluginEnabled()
 	{
 		return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
 	}
-	
-	//TODO does this code work for manually triggered goals, with custom revenue? 
+
+	//TODO does this code work for manually triggered goals, with custom revenue?
 	function detectGoalsMatchingUrl($idSite, $action)
 	{
 		if(!$this->isGoalPluginEnabled())
@@ -85,7 +85,7 @@ class Piwik_Tracker_GoalManager
 		{
 			$attribute = $goal['match_attribute'];
 			// if the attribute to match is not the type of the current action
-			if(		($actionType == Piwik_Tracker_Action::TYPE_ACTION && $attribute != 'url')
+			if(		($actionType == Piwik_Tracker_Action::TYPE_ACTION_URL && $attribute != 'url')
 				||	($actionType == Piwik_Tracker_Action::TYPE_DOWNLOAD && $attribute != 'file')
 				||	($actionType == Piwik_Tracker_Action::TYPE_OUTLINK && $attribute != 'external_website')
 				||	($attribute == 'manually')
@@ -93,9 +93,9 @@ class Piwik_Tracker_GoalManager
 			{
 				continue;
 			}
-			
+
 			$pattern_type = $goal['pattern_type'];
-			
+
 			switch($pattern_type)
 			{
 				case 'regex':
@@ -141,7 +141,7 @@ class Piwik_Tracker_GoalManager
 //		var_dump($this->convertedGoals);exit;
 		return count($this->convertedGoals) > 0;
 	}
-	
+
 	function detectGoalId($idSite, $idGoal, $request)
 	{
 		if(!$this->isGoalPluginEnabled())
@@ -159,12 +159,12 @@ class Piwik_Tracker_GoalManager
 		$this->convertedGoals[] = $goal;
 		return true;
 	}
-	
+
 	function recordGoals($visitorInformation, $action)
 	{
 		$location_country = isset($visitorInformation['location_country']) ? $visitorInformation['location_country'] : Piwik_Common::getCountry(Piwik_Common::getBrowserLanguage(), $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess']);
 		$location_continent = isset($visitorInformation['location_continent']) ? $visitorInformation['location_continent'] : Piwik_Common::getContinent($location_country);
-		
+
 		$goal = array(
 			'idvisit' 			=> $visitorInformation['idvisit'],
 			'idsite' 			=> $visitorInformation['idsite'],
@@ -197,18 +197,18 @@ class Piwik_Tracker_GoalManager
 			$newGoal['revenue'] = $convertedGoal['revenue'];
 			if(!is_null($action))
 			{
-				$newGoal['idaction'] = $action->getIdAction();
+				$newGoal['idaction_url'] = $action->getIdActionUrl();
 				$newGoal['idlink_va'] = $action->getIdLinkVisitAction();
 			}
 			printDebug($newGoal);
-			
+
 			$fields = implode(", ", array_keys($newGoal));
 			$bindFields = substr(str_repeat( "?,",count($newGoal)),0,-1);
-			
+
 			try {
 				Piwik_Tracker::getDatabase()->query(
-					"INSERT INTO " . Piwik_Common::prefixTable('log_conversion') . "	($fields) 
-					VALUES ($bindFields) ", array_values($newGoal) 
+					"INSERT INTO " . Piwik_Common::prefixTable('log_conversion') . "	($fields)
+					VALUES ($bindFields) ", array_values($newGoal)
 				);
 			} catch( Exception $e) {
 				if(Piwik_Tracker::isErrNo($e, '1062'))
@@ -221,7 +221,6 @@ class Piwik_Tracker_GoalManager
 					throw $e;
 				}
 			}
-			//$idlog_goal = Piwik_Tracker::getDatabase()->lastInsertId();
 		}
 	}
 }

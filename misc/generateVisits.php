@@ -9,12 +9,29 @@ if(file_exists('../bootstrap.php'))
 	require_once '../bootstrap.php';
 }
 
+if(empty($_GET['choice']) || $_GET['choice'] != 'yes') {
+    echo "<div style='color:red;font-size:large'>WARNING!</div> <br>You are about to generate fake visits which will be recorded in your Piwik database.
+    <br>It will <b>not</b> be possible to easily delete these visits from the piwik logs.
+    <br><br>Are you sure you want to generate fake visits?
+    <br><br>
+    <a href='../index.php'><b>NO</b>, I do not want to generate fake visits</a>
+    <br><br>
+    <a href='?choice=yes'><b>YES</b>, I want to generate fake visits</a>
+    <br><br>
+    Note: you can edit the source code of this file to specify how many visits to generate, how many days, etc.
+	";
+    return;
+}
+
+
 // TODO - generator should generate pages with slash, then test that period archiving doesn't show the unique page view
 // TODO - should generate goals with keyword or referer that are not found for this day, to simulate a referer 5 days ago and conversion today
-$minVisitors = 200;
-$maxVisitors = 200;
+$minVisitors = 20;
+$maxVisitors = 100;
 $nbActions = 10;
-$daysToCompute = 5;
+$daysToCompute = 1;
+$idSite = 1;
+
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
@@ -42,8 +59,7 @@ require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once "FrontController.php";
 
 Piwik::setMaxExecutionTime(0);
-
-$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
+$idSite = Piwik_Common::getRequestVar('idSite', $idSite, 'int');
 
 try {
 	Piwik_FrontController::getInstance()->init();

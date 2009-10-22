@@ -220,11 +220,11 @@ class Piwik_Tracker_Generator
 	 */
 	public function end()
 	{
-		Piwik_Tracker::disconnectDatabase();
 		if($this->profiling)
 		{
 			Piwik::printSqlProfilingReportTracker();
 		}
+		Piwik_Tracker::disconnectDatabase();
 	}
 	
 	/**
@@ -446,19 +446,12 @@ class Piwik_Tracker_Generator
 				// add the parameter to the url
 				$this->setCurrentRequest( $GETParamToAdd , $urlValue);
 			}
-			
-			// if we didn't set any campaign NOR any download click
-			// then we sometimes set a special action name to the current action
-			elseif(rand(0,2)==1)
-			{
-				$this->setCurrentRequest( 'action_name' , $this->getRandomString(1,1));
-			}
 		}
 		
 		$this->setCurrentRequest( 'url' ,$url);
 		
 		// setup the title of the page
-		$this->setCurrentRequest( 'title',$this->getRandomString(15,5));
+		$this->setCurrentRequest( 'action_name',$this->getRandomString(15,5));
 	}
 	
 	/**
