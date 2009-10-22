@@ -246,7 +246,9 @@ class Piwik_API_Proxy
 	{
 		if($method->isPublic() 
 			&& !$method->isConstructor()
-			&& $method->getName() != 'getInstance' )
+			&& $method->getName() != 'getInstance'
+			&& false === strstr($method->getDocComment(), '@deprecated')
+			 )
 		{
 			$name = $method->getName();
 			$parameters = $method->getParameters();

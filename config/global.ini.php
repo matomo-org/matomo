@@ -72,6 +72,14 @@ enable_browser_archiving_triggering = 1
 ; the page first-post in the subcategory development which belongs to the blog category
 action_category_delimiter = /
 
+; this action name is used when the URL ends with a slash / 
+; it is useful to have an actual string to write in the UI
+action_default_name 		= index
+
+; this action name is used when the URL has no page title or page URL defined
+action_default_name_when_not_defined = "page title not defined"
+action_default_url_when_not_defined = "page url not defined"
+
 ; currency used by default when reporting money in Piwik
 ; the trailing space is required for php 5.2.x vs 5.3 compatibility
 default_currency = "$ "
@@ -138,9 +146,6 @@ swfobject_version = 2.2
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
-
-; this action name is used when the javascript variable piwik_action_name is not specified in the piwik javascript code, and when the URL has no path.
-default_action_name 		= index
 
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds after his last page view, it will be recorded as a new visit  
 visit_standard_length       = 1800
