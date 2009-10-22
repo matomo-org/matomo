@@ -1108,7 +1108,7 @@ class Piwik
 
 			while (!feof($fsock))
 			{
-				$line = fgets($fsock, 4096);
+				$line = fread($fsock, 8192);
 
 				$streamMetaData = @stream_get_meta_data($fsock);
 				if($streamMetaData['timed_out'])
@@ -1193,7 +1193,7 @@ class Piwik
 				fwrite($file, $response);
 			}
 
-			@curl_close ($ch);
+			@curl_close($ch);
 			unset($ch);
 		}
 		else
@@ -1203,6 +1203,7 @@ class Piwik
 
 		if(is_resource($file))
 		{
+			fflush($file);
 			@fclose($file);
 			if($contentLength && ($fileLength != $contentLength))
 			{
