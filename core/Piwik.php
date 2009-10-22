@@ -1349,7 +1349,6 @@ class Piwik
 	 */
 	public static function globr($sDir, $sPattern, $nFlags = NULL)
 	{
-		$sDir = escapeshellcmd($sDir);
 		$aFiles = glob("$sDir/$sPattern", $nFlags);
 		if(($aDirs = glob("$sDir/*", GLOB_ONLYDIR)) != false)
 		{
