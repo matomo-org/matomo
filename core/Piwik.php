@@ -977,7 +977,7 @@ class Piwik
 			}
 		}
 
-		return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $followDepth); 			
+		return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $file, $followDepth); 			
 	}
 
 	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $file = null, $followDepth = 0)
