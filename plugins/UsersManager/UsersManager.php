@@ -36,7 +36,7 @@ class Piwik_UsersManager extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddAdminMenu(Piwik_Translate('UsersManager_MenuUsers'), array('module' => 'UsersManager', 'action' => 'index'));		
+		Piwik_AddAdminMenu('UsersManager_MenuUsers', array('module' => 'UsersManager', 'action' => 'index'));		
 	}
 }
 
