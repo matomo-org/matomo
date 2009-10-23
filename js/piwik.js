@@ -6,7 +6,7 @@
  * @version $Id$
  */
 
-/*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false */
+/*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false; strict:false */
 /*global window escape unescape ActiveXObject */
 
 // Note: YUICompressor 2.4.2 won't compress piwik_log() because of the the "evil" eval().
@@ -39,6 +39,7 @@ if (!this.Piwik) {
 		navigatorAlias = navigator,
 		screenAlias = screen,
 		windowAlias = window,
+		hostnameAlias = windowAlias.location.hostname,
 
 		/* DOM Ready */
 		hasLoaded = false,
@@ -170,14 +171,17 @@ if (!this.Piwik) {
 			// Site ID
 			configTrackerSiteId = siteId || '',
 
+			// Document URL
+			configUrl = documentAlias.location.href,
+
 			// Document title
-			configTitle = '',
+			configTitle = documentAlias.title,
 
 			// Extensions to be treated as download links
 			configDownloadExtensions = '7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|t?bz2|tgz|torrent|txt|wav|wma|wmv|wpd||xls|xml|z|zip',
 
 			// Hosts or alias(es) to not treat as outlinks
-			configHostsAlias = [windowAlias.location.hostname],
+			configHostsAlias = [hostnameAlias],
 
 			// Anchor classes to not track
 			configIgnoreClasses = [],
@@ -390,7 +394,8 @@ if (!this.Piwik) {
 */
 
 			/*
-			 * Send image request to Piwik server using GET
+			 * Send image request to Piwik server using GET.
+			 * The infamous web bug is a transparent, single pixel (1x1) image
 			 */
 			function getImage(url, delay) {
 				var now = new Date(),
@@ -473,7 +478,7 @@ if (!this.Piwik) {
 				var i, now, request;
 				now = new Date();
 				request = 'idsite=' + configTrackerSiteId +
-				        '&url=' + escapeWrapper(documentAlias.location.href) +
+				        '&url=' + escapeWrapper(configUrl) +
 				        '&res=' + screenAlias.width + 'x' + screenAlias.height +
 				        '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
 				        '&cookie=' + browserHasCookies +
@@ -489,9 +494,9 @@ if (!this.Piwik) {
 			}
 
 			/*
-			 * Get the web bug image (transparent single pixel, 1x1, image) to log visit in Piwik
+			 * Log the page view / visit
 			 */
-			function getWebBug() {
+			function logPageView() {
 				var request = getRequest();
 				request += '&action_name=' + escapeWrapper(configTitle); // refs #530;
 
@@ -816,10 +821,10 @@ if (!this.Piwik) {
 				setDomains: function (hostsAlias) {
 					if (typeof hostsAlias == 'object' && hostsAlias instanceof Array) {
 						configHostsAlias = hostsAlias;
-						// configHostAlias.push(windowAlias.location.hostname); // array.push added in IE5.5
-						configHostsAlias[configHostsAlias.length] = windowAlias.location.hostname;
+						// configHostAlias.push(hostnameAlias); // array.push added in IE5.5
+						configHostsAlias[configHostsAlias.length] = hostnameAlias;
 					} else if (typeof hostsAlias == 'string') {
-						configHostsAlias = [hostsAlias, windowAlias.location.hostname];
+						configHostsAlias = [hostsAlias, hostnameAlias];
 					}
 				},
 
@@ -831,6 +836,15 @@ if (!this.Piwik) {
 						configIgnoreClasses = ignoreClasses;
 					} else if (typeof ignoreClasses == 'string') {
 						configIgnoreClasses = [ignoreClasses];
+					}
+				},
+
+				/*
+				 * Override url
+				 */
+				setCustomUrl: function (url) {
+					if (isDefined(url)) {
+						configUrl = url;
 					}
 				},
 
@@ -928,7 +942,7 @@ if (!this.Piwik) {
 				 * Log visit to this page
 				 */
 				trackPageView: function () {
-					getWebBug();
+					logPageView();
 				}
 			};
 		}
