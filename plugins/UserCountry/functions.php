@@ -38,9 +38,9 @@ function Piwik_ContinentTranslate($label)
 {
 	if($label == 'unk')
 	{
-		return Piwik_Translate('General_Unknown');
+		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
-	return Piwik_Translate('UserCountry_continent_'. $label);
+	return html_entity_decode(Piwik_Translate('UserCountry_continent_'. $label), ENT_COMPAT, 'UTF-8');
 }
 
 /**
@@ -53,7 +53,7 @@ function Piwik_CountryTranslate($label)
 {
 	if($label == 'xx')
 	{
-		return Piwik_Translate('General_Unknown');
+		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
-	return Piwik_Translate('UserCountry_country_'. $label);
+	return html_entity_decode(Piwik_Translate('UserCountry_country_'. $label), ENT_COMPAT, 'UTF-8');
 }
