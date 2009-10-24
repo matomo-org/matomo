@@ -4,6 +4,8 @@ echo "<h2>UserAgentParser php library test</h2>";
 $testUserAgent = array( 
 	'my user agent' => '',
 	'ie8 on win7' => 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET CLR 3.0.04506; .NET CLR 3.5.21022; InfoPath.2; SLCC1; Zune 3.0)',
+	'ie8 on vista (compatibility view)' => 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0)',
+	'ie8 on vista' => 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)',
 	'chrome on winxp' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.48 Safari/525.19',
 	'IE6 on winxp' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.04506.648)',
 	'safari on winxp' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Version/3.1.2 Safari/525.21',
@@ -20,6 +22,9 @@ $testUserAgent = array(
 	'opera 9.64 on win ME'		=> 'Opera/9.64 (Windows ME; U; en) Presto/2.1.1',
 	'opera 10.00 on XP' => 'Opera/9.80 (Windows NT 5.1; U; en) Presto/2.2.15 Version/10.00',
 	'iron on win7' => 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/531.0 (KHTML, like Gecko) Iron/3.0.189.0 Safari/531.0',
+	'firefox 3.6 alpha on vista' => 'Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.2a2pre) Gecko/20090826 Namoroka/3.6a2pre',
+	'firefox 3.5 alpha on win7' => 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1b4pre) Gecko/20090420 Shiretoko/3.5b4pre (.NET CLR 3.5.30729)',
+	'firefox nightly build' => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:2.0a1pre) Gecko/2008060602 Minefield/4.0a1pre',
 );
 echo "Test with another user agent: ";
 foreach($testUserAgent as $name => $userAgent) {
