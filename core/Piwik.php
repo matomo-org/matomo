@@ -977,10 +977,10 @@ class Piwik
 			}
 		}
 
-		return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $file, $followDepth); 			
+		return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth); 			
 	}
 
-	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $file = null, $followDepth = 0)
+	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0)
 	{
 		if ($followDepth > 3)
 		{
@@ -1207,7 +1207,7 @@ class Piwik
 		{
 			fflush($file);
 			@fclose($file);
-			if($contentLength && ($fileLength != $contentLength))
+			if($contentLength && (($fileLength != $contentLength) || (filesize($destinationPath) != $contentLength)))
 			{
 				throw new Exception('File size error: '.$destinationPath.'; expected '.$contentLength.' bytes; received '.$fileLength.' bytes');
 			}
