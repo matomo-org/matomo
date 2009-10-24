@@ -52,7 +52,7 @@ if(ini_get('session.save_handler') == 'user')
 }
 if(ini_get('session.save_handler') == 'files')
 {
-	if(!@is_writable(ini_get('session.save_path')))
+	if(!ini_get('open_basedir') && !@is_writable(ini_get('session.save_path')))
 	{
 		$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
 		@ini_set('session.save_path', $sessionPath);
