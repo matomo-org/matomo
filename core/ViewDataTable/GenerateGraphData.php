@@ -86,7 +86,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 			return;
 		}
 		$this->mainAlreadyExecuted = true;
-	
+
+		@header( "Content-type: application/json" );
+
 		// the queued filters will be manually applied later. This is to ensure that filtering using search
 		// will be done on the table before the labels are enhanced (see ReplaceColumnNames)
 		$this->disableQueuedFilters();
