@@ -27,6 +27,7 @@
 class UserAgentParser 
 {
 	// browser regex => browser ID
+	// if there are aliases, the common name should be last
 	static protected $browsers = array(
 					'opera'							=> 'OP',
 					'msie'							=> 'IE',
@@ -35,7 +36,6 @@ class UserAgentParser
 					'netscape6'						=> 'NS',
 					'netscape'						=> 'NS',
 					'galeon'						=> 'GA',
-					'firefox'						=> 'FF',
 					'minefield'						=> 'FF',
 					'namoroka'						=> 'FF',
 					'shiretoko'						=> 'FF',
@@ -43,6 +43,7 @@ class UserAgentParser
 					'granparidiso'					=> 'FF',
 					'mozilla firebird'				=> 'FB',
 					'firebird'						=> 'FB',
+					'firefox'						=> 'FF',
 					'phoenix'						=> 'PX',
 					'seamonkey'						=> 'SM',
 					'camino'						=> 'CA',
