@@ -99,7 +99,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$this->parametersToModify = array_merge($this->variablesDefault, $this->parametersToModify);
 		
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($this->parametersToModify);
-		$view->jsInvocationTag = $this->getFlashInvocationCode($url);
+		$this->chartData = $this->getFlashData();
+		$view->flashParameters = $this->getFlashParameters();
 		$view->urlGraphData = $url;
 		$view->chartDivId = $this->chartDivId;
 		$view->formEmbedId = "formEmbed".$this->uniqueIdViewDataTable;
@@ -107,62 +108,39 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$view->properties = $this->getViewProperties();
 		return $view;
 	}
-	
-	protected function getFlashInvocationCode( $url = 'libs/open-flash-chart/data-files/nodata.txt' )
-	{ 
-		$width = $this->width; 
-		$height = $this->height; 
 
-		$pathToLibraryOpenChart = 'libs/open-flash-chart/';
-		$pathToLibrarySwfObject = 'libs/swfobject/';
-	
-		$url = 'index.php' . $url;
-		// escape the & and stuff:
-		$url = str_replace(array('[', ']'), array('%5B', '%5D'), $url);
-		$url = urlencode($url);
+	protected function getFlashData()
+	{
+		$saveGet = $_GET;
 
-		$requiredFlashVersion = "9.0.0";
-		
-		// - Export as Image feature from Open Flash Chart
-		// - Using library for auto-enabling Flash object on IE, disabled-Javascript proof
-		$return = '
-			<div><div id="'. $this->chartDivId .'">
-				Displaying Graphs in Piwik requires Flash >= '. $requiredFlashVersion .'. <a target="_blank" href="misc/redirectToUrl.php?url='. urlencode('http://piwik.org/faq/troubleshooting/#faq_53') .'">More information about displaying graphs in Piwik.</a>
-			</div></div>
-			<script type="text/javascript">
-				OFC = {};
-				OFC.jquery = {
-					name: "jQuery",
-					rasterize: function (src, dst) { $("#"+ dst).replaceWith(Control.OFC.image(src)); },
-					image: function (src) { return \'<img title="Piwik Graph" src="data:image/png;base64,\' + $("#"+src)[0].get_img_binary() + \'" />\'; },
-					popup: function (src) {
-						var img_win = window.open("", "ExportChartAsImage");
-						img_win.document.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\" /><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><title>'. Piwik_Translate('General_ExportAsImage') .'</title></head><body>" + Control.OFC.image(src) + "<br /><br /><p>'. htmlentities(Piwik_Translate('General_SaveImageOnYourComputer')) .'</p></body></html>");
-						img_win.document.close();
-					}
-				};
-				if (typeof Control == "undefined") { var Control = {OFC: OFC.jquery}; }
+		foreach($this->parametersToModify as $key => $val)
+		{
+			if (is_array($val)) {
+				$_GET[$key] = unserialize(serialize($val));
+			} else {
+				$_GET[$key] = $val;
+			}
+		}
+		$content = Piwik_FrontController::getInstance()->fetchDispatch( $this->currentControllerName, $this->currentControllerAction, array());
 
-				// By default, right-clicking on OFC and choosing "save image locally" calls this function.
-				function save_image() { OFC.jquery.popup("'. $this->chartDivId .'"); }
+		$_GET = $saveGet;
 
-				swfobject.embedSWF(
-					"'. $pathToLibraryOpenChart .'open-flash-chart.swf?piwik='. Piwik_Version::VERSION .'",
-					"'. $this->chartDivId .'",
-					"'. $width . '", "' . $height . '",
-					"'. $requiredFlashVersion .'",
-					"'. $pathToLibrarySwfObject .'expressInstall.swf",
-					{
-						"data-file":"'. $url .'",
-						"loading":"'. htmlspecialchars(Piwik_Translate('General_Loading')) .'"
-					},
-					{
-						"allowScriptAccess":"always",
-						"wmode":"opaque"
-					}, 
-					{"bgcolor":"#FFFFFF"}
-				);
-			</script>';
-		return $return;
+		return str_replace(array("\r", "\n", "'"), array('', '', "\\'"), $content);
+	}
+
+	protected function getFlashParameters()
+	{
+		// chart title is only set when there's no data in the graph
+		$isDataAvailable = !preg_match('/],\s+"title": {/', $this->chartData);
+
+		return array(
+			'width'                => $this->width,
+			'height'               => $this->height,
+			'ofcLibraryPath'       => 'libs/open-flash-chart/',
+			'swfLibraryPath'       => 'libs/swfobject/',
+			'requiredFlashVersion' => '9.0.0',
+			'isDataAvailable'      => $isDataAvailable,
+			'data'                 => $this->chartData,
+		);
 	}
 }
