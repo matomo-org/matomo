@@ -1,6 +1,15 @@
+/**
+ * Piwik - Web Analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ */
+
 function piwikHelper()
 {
 }
+
 /*
  *  Returns query string for an object of key,values
  *  Note: we don't use $.param from jquery as it doesn't return array values the PHP way (returns a=v1&a=v2 instead of a[]=v1&a[]=v2)
@@ -29,11 +38,13 @@ piwikHelper.getQueryStringFromParameters = function(parameters)
 }
 
 piwikHelper.findSWFGraph = function(name) {
-  if (navigator.appName.indexOf("Microsoft")!= -1) {
-    return window[name];
-  } else {
-    return document[name];
-  }
+	if(document.getElementById)
+		return document.getElementById(name);
+	if(document.layers)
+		return document[id];
+	if(document.all)
+		return document.all[id];
+	return null;
 }
 
 piwikHelper.redirectToUrl = function(url) {
@@ -98,6 +109,41 @@ piwikHelper.lazyScrollTo = function(elem, time)
 	{
 		//scroll the page smoothly to the graph
 		$.scrollTo(elem, time);
+	}
+}
+
+piwikHelper.OFC = (function () {
+	var _data = {};
+	return {
+		get: function (id) {
+			return typeof _data[id] == 'undefined' ? '' : _data[id]; },
+		set: function (id, data) { _data[id] = data; },
+		jquery: {
+			name: 'jQuery',
+			rasterize: function (src, dst) { $('#'+dst).replaceWith(piwikHelper.OFC.jquery.image(src)); },
+			image: function (src) { return '<img title="Piwik Graph" src="data:image/png;base64,' + $('#'+src)[0].get_img_binary() + '" />'; },
+			popup: function (src) {
+				var img_win = window.open('', 'ExportChartAsImage');
+				img_win.document.write('<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" /><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>' + _pk_translate('General_ExportAsImage_js') + '</title></head><body>' + piwikHelper.OFC.jquery.image(src) + '<br /><br /><p>' + _pk_translate('General_SaveImageOnYourComputer_js') + '</p></body></html>');
+				img_win.document.close();
+			},
+			load: function (dst, data) { $('#'+dst)[0].load(data || piwikHelper.OFC.get(dst)); }
+		}
+	};
+})();
+
+// Open Flash Charts 2 - callback when chart is being initialized
+function open_flash_chart_data(chartId) {
+	if (typeof chartId != 'undefined') {
+		return piwikHelper.OFC.get(chartId);
+	}
+	return '';
+}
+
+// Open Flash Charts 2 - callback when user selects "Save Image Locally" (right click on Flash chart for pop-up menu)
+function save_image(chartId) {
+	if (typeof chartId != 'undefined') {
+		piwikHelper.OFC.jquery.popup(chartId);
 	}
 }
 

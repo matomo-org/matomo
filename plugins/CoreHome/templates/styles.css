@@ -97,3 +97,11 @@ div .sparkline {
 	padding-right: 10px;
 	margin-top: 0;
 }
+
+div.pk-emptyGraph {
+        padding-top: 20px;
+        padding-bottom: 10px;
+        text-align: center;
+        font-size: 0.9em;
+        font-style: italic;
+}

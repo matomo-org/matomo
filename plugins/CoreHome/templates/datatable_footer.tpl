@@ -21,7 +21,7 @@
 			<span id="exportToFormat" style="display:none;padding-left:4px;">
 				{if $properties.show_export_as_image_icon}
 					<span id="dataTableFooterExportAsImageIcon">
-						<a href="javascript:OFC.jquery.popup('{$chartDivId}');"><img title="{'General_ExportAsImage'|translate}" src="themes/default/images/image.png" /></a>
+						<a href="javascript:piwikHelper.OFC.jquery.popup('{$chartDivId}');"><img title="{'General_ExportAsImage_js'|translate}" src="themes/default/images/image.png" /></a>
 					</span>
 				{/if}
 				<img width="16" height="16" src="themes/default/images/export.png" title="{'General_Export'|translate}" />

@@ -97,9 +97,9 @@ class Piwik_Translate
 	 */
 	public function getJavascriptTranslations(array $moduleList)
 	{
-		if( empty($moduleList) )
+		if(!in_array('General', $moduleList))
 		{
-			return '';
+			$moduleList[] = 'General';
 		}
 		
 		$js = 'var translations = {';
