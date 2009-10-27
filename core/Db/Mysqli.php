@@ -47,7 +47,7 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
                 $requiredVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
                 if(version_compare($databaseVersion, $requiredVersion) === -1)
                 {
-                        throw new Exception(Piwik_TranslateException('Core_ExceptionDatabaseVersion', array('MySQL', $databaseVersion, $requiredVersion)));
+                        throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('MySQL', $databaseVersion, $requiredVersion)));
                 }
 	}
 
