@@ -47,8 +47,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 					WHERE visit_server_date = ?
 						AND idsite = ?
 					GROUP BY visit_server_date
-					ORDER BY NULL
-				 ";
+					ORDER BY NULL";
 		$row = $this->db->fetchRow($query, array($this->strDateStart,$this->idsite ) );
 		if($row === false || $row === null)
 		{
@@ -155,7 +154,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				FROM ".$this->logTable."
 				WHERE visit_server_date = ?
 					AND idsite = ?
-				GROUP BY label";
+				GROUP BY label
+				ORDER BY NULL";
 		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ) );
 
 		$interest = array();
@@ -329,7 +329,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			 	FROM ".$this->logConversionTable."
 			 	WHERE visit_server_date = ?
 			 		AND idsite = ?
-			 	GROUP BY idgoal $segments";
+			 	GROUP BY idgoal $segments
+				ORDER BY NULL";
 		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ));
 		return $query;
 	}
@@ -343,7 +344,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			 	FROM ".$this->logConversionTable."
 			 	WHERE visit_server_date = ?
 			 		AND idsite = ?
-			 	GROUP BY idgoal, label";
+			 	GROUP BY idgoal, label
+				ORDER BY NULL";
 		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ));
 		return $query;
 	}
