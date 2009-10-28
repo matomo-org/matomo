@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Entry.php 18655 2009-10-20 14:17:39Z padraic $
  */
 
 /**
@@ -33,6 +33,11 @@ require_once 'Zend/Feed/Reader/Extension/EntryAbstract.php';
  * @see Zend_Date
  */
 require_once 'Zend/Date.php';
+
+/**
+ * @see Zend_Uri
+ */
+require_once 'Zend/Uri.php';
 
 /**
  * @category   Zend
@@ -263,6 +268,34 @@ class Zend_Feed_Reader_Extension_Atom_Entry
 
         return $this->_data['id'];
     }
+    
+    /**
+     * Get the base URI of the feed (if set).
+     *
+     * @return string|null
+     */
+    public function getBaseUrl()
+    {
+        if (array_key_exists('baseUrl', $this->_data)) {
+            return $this->_data['baseUrl'];
+        }
+        
+        $baseUrl = $this->_xpath->evaluate('string('
+            . $this->getXpathPrefix() . '/@xml:base[1]'
+        . ')');
+        
+        if (!$baseUrl) {
+            $baseUrl = $this->_xpath->evaluate('string(//@xml:base[1])');
+        }
+
+        if (!$baseUrl) {
+            $baseUrl = null;
+        }
+        
+        $this->_data['baseUrl'] = $baseUrl;
+
+        return $this->_data['baseUrl'];
+    }
 
     /**
      * Get a specific link
@@ -303,7 +336,7 @@ class Zend_Feed_Reader_Extension_Atom_Entry
 
         if ($list->length) {
             foreach ($list as $link) {
-                $links[] = $link->value;
+                $links[] = $this->_absolutiseUri($link->value);
             }
         }
 
@@ -392,6 +425,7 @@ class Zend_Feed_Reader_Extension_Atom_Entry
 
         if ($list->length) {
             $link = $list->item(0)->value;
+            $link = $this->_absolutiseUri($link);
         }
 
         $this->_data['commentlink'] = $link;
@@ -418,11 +452,29 @@ class Zend_Feed_Reader_Extension_Atom_Entry
 
         if ($list->length) {
             $link = $list->item(0)->value;
+            $link = $this->_absolutiseUri($link);
         }
 
         $this->_data['commentfeedlink'] = $link;
 
         return $this->_data['commentfeedlink'];
+    }
+    
+    /**
+     *  Attempt to absolutise the URI, i.e. if a relative URI apply the
+     *  xml:base value as a prefix to turn into an absolute URI.
+     */
+    protected function _absolutiseUri($link)
+    {
+        if (!Zend_Uri::check($link)) {
+            if (!is_null($this->getBaseUrl())) {
+                $link = $this->getBaseUrl() . $link;
+                if (!Zend_Uri::check($link)) {
+                    $link = null;
+                }
+            }
+        }
+        return $link;
     }
 
     /**

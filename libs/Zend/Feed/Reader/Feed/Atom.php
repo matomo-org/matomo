@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Atom.php 16963 2009-07-22 14:39:31Z padraic $
+ * @version    $Id: Atom.php 18655 2009-10-20 14:17:39Z padraic $
  */
 
 /**
@@ -238,6 +238,24 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
         $this->_data['language'] = $language;
 
         return $this->_data['language'];
+    }
+    
+    /**
+     * Get a link to the source website
+     *
+     * @return string|null
+     */
+    public function getBaseUrl()
+    {
+        if (array_key_exists('baseUrl', $this->_data)) {
+            return $this->_data['baseUrl'];
+        }
+
+        $baseUrl = $this->getExtension('Atom')->getBaseUrl();
+
+        $this->_data['baseUrl'] = $baseUrl;
+
+        return $this->_data['baseUrl'];
     }
 
     /**
