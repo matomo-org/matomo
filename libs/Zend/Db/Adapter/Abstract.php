@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 17702 2009-08-20 23:54:16Z yoshida@zend.co.jp $
+ * @version    $Id: Abstract.php 18633 2009-10-17 05:36:58Z ralph $
  */
 
 
@@ -173,10 +173,10 @@ abstract class Zend_Db_Adapter_Abstract
                 $config = $config->toArray();
             } else {
                 /**
-                 * @see Zend_Db_Exception
+                 * @see Zend_Db_Adapter_Exception
                  */
-                require_once 'Zend/Db/Exception.php';
-                throw new Zend_Db_Exception('Adapter parameters must be in an array or a Zend_Config object');
+                require_once 'Zend/Db/Adapter/Exception.php';
+                throw new Zend_Db_Adapter_Exception('Adapter parameters must be in an array or a Zend_Config object');
             }
         }
 

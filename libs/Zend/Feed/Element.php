@@ -17,7 +17,7 @@
  * @package    Zend_Feed
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Element.php 16205 2009-06-21 19:08:45Z thomas $
+ * @version    $Id: Element.php 18568 2009-10-16 11:59:55Z sgehrig $
  */
 
 
@@ -204,10 +204,12 @@ class Zend_Feed_Element implements ArrayAccess
         if (!$nodes) {
             if (strpos($var, ':') !== false) {
                 list($ns, $elt) = explode(':', $var, 2);
-                $node = $this->_element->ownerDocument->createElementNS(Zend_Feed::lookupNamespace($ns), $var, $val);
+                $node = $this->_element->ownerDocument->createElementNS(Zend_Feed::lookupNamespace($ns),
+                    $var, htmlspecialchars($val, ENT_NOQUOTES, 'UTF-8'));
                 $this->_element->appendChild($node);
             } else {
-                $node = $this->_element->ownerDocument->createElement($var, $val);
+                $node = $this->_element->ownerDocument->createElement($var,
+                    htmlspecialchars($val, ENT_NOQUOTES, 'UTF-8'));
                 $this->_element->appendChild($node);
             }
         } elseif (count($nodes) > 1) {
@@ -382,7 +384,8 @@ class Zend_Feed_Element implements ArrayAccess
 
         if (strpos($offset, ':') !== false) {
             list($ns, $attr) = explode(':', $offset, 2);
-            return $this->_element->setAttributeNS(Zend_Feed::lookupNamespace($ns), $attr, $value);
+            // DOMElement::setAttributeNS() requires $qualifiedName to have a prefix
+            return $this->_element->setAttributeNS(Zend_Feed::lookupNamespace($ns), $offset, $value);
         } else {
             return $this->_element->setAttribute($offset, $value);
         }
