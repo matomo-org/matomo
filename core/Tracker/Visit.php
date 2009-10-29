@@ -554,7 +554,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 													UNIX_TIMESTAMP(visit_last_action_time) as visit_last_action_time,
 													UNIX_TIMESTAMP(visit_first_action_time) as visit_first_action_time,
 													idvisit,
-													visit_exit_idaction
+													visit_exit_idaction_url
 										FROM ".Piwik_Common::prefixTable('log_visit').
 										" WHERE visit_server_date = ?
 											AND idsite = ?
@@ -782,7 +782,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * - referer_url : the same for all the referer types
 	 *
 	 */
-	protected function getRefererInformation()
+	public function getRefererInformation()
 	{
 		// default values for the referer_* fields
 		$this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;

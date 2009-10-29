@@ -69,6 +69,11 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	{
 		$this->request = $requestArray;
 	}
+
+	public function getRequest()
+	{
+	    return $this->request;
+	}
 	
 	/**
 	 * Returns URL of the page currently being tracked, or the file being downloaded, or the outlink being clicked
