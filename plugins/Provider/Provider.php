@@ -49,7 +49,7 @@ class Piwik_Provider extends Piwik_Plugin
 		
 		// if the column already exist do not throw error. Could be installed twice...
 		try {
-			Piwik_Query($query);
+			Piwik_Exec($query);
 		}
 		catch(Exception $e){}
 	}
@@ -58,7 +58,7 @@ class Piwik_Provider extends Piwik_Plugin
 	{
 		// add column hostname / hostname ext in the visit table
 		$query = "ALTER TABLE `".Piwik::prefixTable('log_visit')."` DROP `location_provider`";
-		Piwik_Query($query);
+		Piwik_Exec($query);
 	}
 	
 	function addWidget()

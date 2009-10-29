@@ -74,7 +74,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 					language VARCHAR( 10 ) NOT NULL ,
 					PRIMARY KEY ( login )
 					)  DEFAULT CHARSET=utf8 " ;
-			Piwik_Query($sql);
+			Piwik_Exec($sql);
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
@@ -91,7 +91,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	public function uninstall()
 	{
 		$sql = "DROP TABLE ". Piwik::prefixTable('user_language') ;
-		Piwik_Query($sql);		
+		Piwik_Exec($sql);		
 	}
 	
 	

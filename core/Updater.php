@@ -244,7 +244,7 @@ class Piwik_Updater
 		foreach($sqlarray as $update => $ignoreError)
 		{
 			try {
-				Piwik_Query( $update );
+				Piwik_Exec( $update );
 			} catch(Exception $e) {
 				if(($ignoreError === false) || !Zend_Registry::get('db')->isErrNo($e, $ignoreError))
 				{

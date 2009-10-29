@@ -59,7 +59,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 					layout TEXT NOT NULL,
 					PRIMARY KEY ( login , iddashboard )
 					)  DEFAULT CHARSET=utf8 " ;
-			Piwik_Query($sql);
+			Piwik_Exec($sql);
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
@@ -73,7 +73,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 	public function uninstall()
 	{
 		$sql = "DROP TABLE ". Piwik::prefixTable('user_dashboard') ;
-		Piwik_Query($sql);		
+		Piwik_Exec($sql);		
 	}
 	
 }
