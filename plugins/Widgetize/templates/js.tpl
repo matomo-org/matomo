@@ -4,7 +4,6 @@ document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/swfobject/
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/javascript/sprintf.js"></scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/jquery.js"></scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}themes/default/common.js"></scr'+'ipt>');
-document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/jquery.dimensions.js"></scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/tooltip/jquery.tooltip.js"></scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/jquery/truncate/jquery.truncate.js"></scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}plugins/CoreHome/templates/datatable.js"></scr'+'ipt>');
