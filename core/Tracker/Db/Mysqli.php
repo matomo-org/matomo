@@ -117,6 +117,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 				$timer = $this->initProfiler();
 			}
 
+			$rows = array();
 			$query = $this->prepare( $query, $parameters );
 			$rs = mysqli_query($this->connection, $query);
 			while($row = mysqli_fetch_array($rs, MYSQL_ASSOC)) 
