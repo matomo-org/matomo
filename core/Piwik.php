@@ -1351,7 +1351,10 @@ class Piwik
 	 */
 	public static function globr($sDir, $sPattern, $nFlags = NULL)
 	{
-		$aFiles = glob("$sDir/$sPattern", $nFlags);
+		if(($aFiles = glob("$sDir/$sPattern", $nFlags)) == false)
+		{
+			$aFiles = array();
+		}
 		if(($aDirs = glob("$sDir/*", GLOB_ONLYDIR)) != false)
 		{
 			foreach ($aDirs as $sSubDir)
