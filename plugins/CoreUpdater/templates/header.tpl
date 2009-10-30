@@ -4,10 +4,13 @@
 <head>
 	<title>Piwik &rsaquo; {'CoreUpdater_UpdateTitle'|translate}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="themes/default/simple_structure.css" />
 	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="themes/default/simple_structure.css" />
 	{postEvent name="template_css_import"}
+
 	<script type="text/javascript" src="libs/jquery/jquery.js"></script>
+	<script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
 	<script type="text/javascript" src="libs/jquery/fdd2div-modified.js"></script>
 </head>
 <body>

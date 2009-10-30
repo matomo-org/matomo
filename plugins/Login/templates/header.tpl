@@ -4,6 +4,9 @@
 <head>
 	<title>Piwik &rsaquo; Login</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="plugins/Login/templates/login.css" media="screen" />
 	
 	{literal}
 	<script type="text/javascript">
@@ -17,8 +20,6 @@
 		window.onload = focusit;
 	</script>
 	{/literal}
-	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="plugins/Login/templates/login.css" media="screen" />
 </head>
 
 <body class="login">

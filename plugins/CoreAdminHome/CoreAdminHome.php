@@ -26,4 +26,16 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 			'version' => '0.1',
 		);
 	}
+
+	public function getListHooksRegistered()
+	{
+		return array( 
+			'template_css_import' => 'css',
+		);
+	}
+
+	function css()
+	{
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/CoreAdminHome/templates/menu.css\" />\n";
+	}
 }

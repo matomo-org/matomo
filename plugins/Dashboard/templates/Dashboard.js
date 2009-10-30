@@ -121,8 +121,8 @@ dashboard.prototype =
 			.hover( function() {
 					$(this).addClass('widgetHover');
 					$('.widgetTop', this).addClass('widgetTopHover');
-					$('.button#close', this).show();
-				}, function() {
+ 					$('.button#close', this).show();
+ 				}, function() {
 					$(this).removeClass('widgetHover');
 					$('.widgetTop', this).removeClass('widgetTopHover');
 					$('.button#close', this).hide();
@@ -140,25 +140,28 @@ dashboard.prototype =
 	makeSortable: function()
 	{
 		var self = this;
-		function getHelper() {
-			return $(this).clone().addClass('helper');
-		}
+
 		function onStart() {
 		}
-		function onStop() {
+
+		function onStop(event, ui) {
 			$('.widgetHover', this).removeClass('widgetHover');
 			$('.widgetTopHover', this).removeClass('widgetTopHover');
 			$('.button#close', this).hide();
 			self.saveLayout();
 		}
+
 		//launch 'sortable' property on every dashboard widgets
 		self.dashboardElement
-					.sortableDestroy()
+					.sortable('destroy')
 					.sortable({
-						items:'.sortable',
-						hoverClass: 'hover',
+						items: 'div.sortable',
+						opacity: 0.6,
+						forceHelperSize: true,
+						forcePlaceholderSize: true,
+						placeholder: 'hover',
 						handle: '.widgetTop',
-						helper: getHelper,
+						helper: 'original',
 						start: onStart,
 						stop: onStop
 					});
