@@ -82,8 +82,12 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 
 		$jqueryJs = file_get_contents( PIWIK_DOCUMENT_ROOT . '/libs/jquery/jquery.js', false, NULL, 0, 512 );
-		$this->assertTrue( preg_match('/jQuery ([0-9.]+)/', $jqueryJs, $matches) );
+		$this->assertTrue( preg_match('/jQuery (?:JavaScript Library )?v?([0-9.]+)/', $jqueryJs, $matches) );
 		$this->assertEqual( $matches[1], Zend_Registry::get('config')->General->jquery_version );
+
+		$jqueryuiJs = file_get_contents( PIWIK_DOCUMENT_ROOT . '/libs/jquery/jquery-ui.js', false, NULL, 0, 512 );
+		$this->assertTrue( preg_match('/jQuery UI ([0-9.]+)/', $jqueryuiJs, $matches) );
+		$this->assertEqual( $matches[1], Zend_Registry::get('config')->General->jqueryui_version );
 
 
 		$swfobjectJs = file_get_contents( PIWIK_DOCUMENT_ROOT . '/libs/swfobject/swfobject.js', false, NULL, 0, 512 );

@@ -20,7 +20,7 @@
 				{literal}},
 				{{/literal}
 					"allowScriptAccess":"always",
-					"wmode":"opaque"
+					"wmode":"transparent"
 				{literal}},
 				{{/literal}
 					"bgcolor":"#FFFFFF"

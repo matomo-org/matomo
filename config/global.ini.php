@@ -140,7 +140,8 @@ datatable_archiving_maximum_rows_subtable_actions = 100
 use_ajax_cdn = 0
 
 ; required AJAX library versions
-jquery_version = 1.2.6
+jquery_version = 1.3.2
+jqueryui_version = 1.7.2
 swfobject_version = 2.2
 
 [Tracker]

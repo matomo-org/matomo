@@ -35,15 +35,18 @@ function smarty_outputfilter_ajaxcdn($source, &$smarty)
 	}
 
 	$jquery_version = Zend_Registry::get('config')->General->jquery_version;
+	$jqueryui_version = Zend_Registry::get('config')->General->jqueryui_version;
 	$swfobject_version = Zend_Registry::get('config')->General->swfobject_version;
 
 	$pattern = array(
 		'~<script type="text/javascript" src="libs/jquery/jquery\.js([^"]*)">~',
+		'~<script type="text/javascript" src="libs/jquery/jquery-ui\.js([^"]*)">~',
 		'~<script type="text/javascript" src="libs/swfobject/swfobject\.js([^"]*)">~',
 	);
 
 	$replace = array(
 		'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/'.$jquery_version.'/jquery.min.js">',
+		'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/jquery-ui.min.js">',
 		'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/'.$swfobject_version.'/swfobject.js">',
 	);
 
