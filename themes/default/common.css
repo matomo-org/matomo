@@ -128,7 +128,7 @@ a {
 	margin-bottom: 0px;
 }
 #tooltip h3 {
-	font-weight:none;
+	font-weight: normal;
 	font-size:1em;
 	color:#162540;
 	margin:0;
@@ -143,7 +143,7 @@ a {
 	opacity:0.95;
 }
 .tableForm {
-	cellspacing:0;
+	border-spacing:0;
 }
 .tableForm td {
 	border-color:#FFF #C6CDD8 #C6CDD8 #C6CDD8;
