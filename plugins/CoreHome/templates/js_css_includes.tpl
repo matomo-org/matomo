@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/styles.css" />
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/menu.css" />
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/datatable.css" />
+<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/cloud.css" />
 <link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
 {postEvent name="template_css_import"}
 
