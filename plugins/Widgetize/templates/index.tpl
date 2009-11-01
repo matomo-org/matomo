@@ -1,9 +1,7 @@
 {assign var=showSitesSelection value=true}
 {assign var=showPeriodSelection value=true}
-
-{loadJavascriptTranslations plugins='Dashboard'}
-
 {include file="CoreAdminHome/templates/header.tpl"}
+{loadJavascriptTranslations plugins='Dashboard'}
 
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/datatable.css" />
 <link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
