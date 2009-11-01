@@ -36,6 +36,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		Piwik::checkUserHasViewAccess($idSite);
 		$jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
 		$view = Piwik_View::factory('DisplayJavascriptCode');
+		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		$view->jsTag = $jsTag;
 		echo $view->render();

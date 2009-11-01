@@ -22,10 +22,10 @@ code {
 </style>
 {/literal}
 
+<h2>{$siteName}</h2>
 <p>{'SitesManager_JsTrackingTagHelp'|translate}:</p>
 
 <code>{$jsTag}</code>
-
 
 <ul style="list-style-type:disc; padding-left:20px">
 {include file=SitesManager/templates/JavascriptTagHelp.tpl}
