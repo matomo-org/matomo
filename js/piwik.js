@@ -178,7 +178,7 @@ if (!this.Piwik) {
 			configTitle = documentAlias.title,
 
 			// Extensions to be treated as download links
-			configDownloadExtensions = '7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|t?bz2|tgz|torrent|txt|wav|wma|wmv|wpd||xls|xml|z|zip',
+			configDownloadExtensions = '7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wma|wmv|wpd||xls|xml|z|zip',
 
 			// Hosts or alias(es) to not treat as outlinks
 			configHostsAlias = [hostnameAlias],
