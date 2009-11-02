@@ -3,7 +3,9 @@
 {include file="CoreAdminHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='Dashboard'}
 
+<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/styles.css" />
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/datatable.css" />
+<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/cloud.css" />
 <link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
 
 <script type="text/javascript" src="themes/default/common.js"></script>
