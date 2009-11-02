@@ -3,6 +3,7 @@
 document.write('<link rel="stylesheet" href="{$piwikUrl}themes/default/common.css">');
 document.write('<link rel="stylesheet" href="{$piwikUrl}plugins/CoreHome/templates/styles.css">');
 document.write('<link rel="stylesheet" href="{$piwikUrl}plugins/CoreHome/templates/datatable.css">');
+document.write('<link rel="stylesheet" href="{$piwikUrl}plugins/CoreHome/templates/cloud.css">');
 
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}themes/default/common.js"></scr'+'ipt>');
 document.write('<scr'+'ipt language="javascript" src="{$piwikUrl}libs/swfobject/swfobject.js"></scr'+'ipt>');
