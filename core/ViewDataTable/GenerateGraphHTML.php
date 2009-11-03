@@ -99,7 +99,16 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$this->parametersToModify = array_merge($this->variablesDefault, $this->parametersToModify);
 		
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($this->parametersToModify);
-		$this->chartData = $this->getFlashData();
+
+		$idSite = Piwik_Common::getRequestVar('idSite', 1);
+		if(Piwik::isUserHasViewAccess($idSite))
+		{
+			$this->chartData = $this->getFlashData();
+		}
+		else
+		{
+			$this->chartData = null;
+		}
 		$view->flashParameters = $this->getFlashParameters();
 		$view->urlGraphData = $url;
 		$view->chartDivId = $this->chartDivId;
@@ -131,7 +140,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	protected function getFlashParameters()
 	{
 		// chart title is only set when there's no data in the graph
-		$isDataAvailable = !preg_match('/],\s+"title": {/', $this->chartData);
+		$isDataAvailable = $this->chartData && !preg_match('/],\s+"title": {/', $this->chartData);
 
 		return array(
 			'width'                => $this->width,
