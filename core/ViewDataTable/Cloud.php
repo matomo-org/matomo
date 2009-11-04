@@ -59,7 +59,12 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 
-		$this->loadDataTableFromAPI();
+		$this->isDataAvailable = true;
+		try {
+			$this->loadDataTableFromAPI();
+		} catch(Exception $e) {
+			$this->isDataAvailable = false;
+		}
 		$this->view = $this->buildView();
 	}
 	
@@ -73,37 +78,43 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 	protected function buildView()
 	{
 		$view = new Piwik_View($this->dataTableTemplate);
-		
-		$columnToDisplay = $this->getColumnToDisplay();
-		$columnTranslation = $this->getColumnTranslation($columnToDisplay);
-		$values = $this->dataTable->getColumn($columnToDisplay);
-		$labels  = $this->dataTable->getColumn('label');
-		$labelMetadata = array();
-		foreach($this->dataTable->getRows() as $row)
+		if(!$this->isDataAvailable)
 		{
-			$logo = false;
-			if($this->displayLogoInsteadOfLabel)
+			$view->cloudValues = array();
+		}
+		else
+		{
+			$columnToDisplay = $this->getColumnToDisplay();
+			$columnTranslation = $this->getColumnTranslation($columnToDisplay);
+			$values = $this->dataTable->getColumn($columnToDisplay);
+			$labels  = $this->dataTable->getColumn('label');
+			$labelMetadata = array();
+			foreach($this->dataTable->getRows() as $row)
 			{
-				$logo =  $row->getMetadata('logo');
-			}
-			$labelMetadata[$row->getColumn('label')] = array( 
-				'logo' => $logo,
-				'url' => $row->getMetadata('url'),
+				$logo = false;
+				if($this->displayLogoInsteadOfLabel)
+				{
+					$logo =  $row->getMetadata('logo');
+				}
+				$labelMetadata[$row->getColumn('label')] = array( 
+					'logo' => $logo,
+					'url' => $row->getMetadata('url'),
 				);
+			}
+			$cloud = new Piwik_Visualization_Cloud();
+			foreach($labels as $i => $label)
+			{
+				$cloud->addWord($label, $values[$i]);
+			}		
+			$cloudValues  = $cloud->render('array');
+			foreach($cloudValues as &$value)
+			{
+				$value['logoWidth'] = round(max(16, $value['percent']));
+			}
+			$view->columnTranslation = $columnTranslation;
+			$view->labelMetadata = $labelMetadata;
+			$view->cloudValues = $cloudValues;
 		}
-		$cloud = new Piwik_Visualization_Cloud();
-		foreach($labels as $i => $label)
-		{
-			$cloud->addWord($label, $values[$i]);
-		}		
-		$cloudValues  = $cloud->render('array');
-		foreach($cloudValues as &$value)
-		{
-			$value['logoWidth'] = round(max(16, $value['percent']));
-		}
-		$view->columnTranslation = $columnTranslation;
-		$view->labelMetadata = $labelMetadata;
-		$view->cloudValues = $cloudValues;
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
 		return $view;
