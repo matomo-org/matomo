@@ -160,11 +160,6 @@ dataTable.prototype =
 	// in the current page with the AJAX response
 	dataTableLoaded: function(response)
 	{
-		if(response.substring(0, 14) == '<!DOCTYPE html') {
-			window.location.reload();
-			return;
-		}
-
 		var content = $(response);
 		var idToReplace = $(content).attr('id');
 		var dataTableSel = $('#'+idToReplace);
@@ -948,11 +943,6 @@ actionDataTable.prototype =
 	//called when the full table actions is loaded
 	actionsDataTableLoaded: function(response)
 	{
-		if(response.substring(0, 14) == '<!DOCTYPE html') {
-			window.location.reload();
-			return;
-		}
-
 		var content = $(response);
 		var idToReplace = $(content).attr('id');		
 		
@@ -968,11 +958,6 @@ actionDataTable.prototype =
 	// Called when a set of rows for a category of actions is loaded
 	actionsSubDataTableLoaded: function(response)
 	{	
-		if(response.substring(0, 14) == '<!DOCTYPE html') {
-			window.location.reload();
-			return;
-		}
-
 		var self = this;
 		var idToReplace = $(response).attr('id');
 		

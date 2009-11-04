@@ -69,8 +69,14 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 			return;
 		}
 		$this->mainAlreadyExecuted = true;
-		
-		$this->loadDataTableFromAPI();
+
+		$this->isDataAvailable = true;
+		try {
+			$this->loadDataTableFromAPI();
+		} catch(Exception $e) {
+			$this->isDataAvailable = false;
+		}
+
 		$this->postDataTableLoadedFromAPI();
 		$this->view = $this->buildView();
 	}
@@ -88,27 +94,35 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	 */
 	protected function buildView()
 	{
-		$columns = $this->getColumnsToDisplay();
-		$columnTranslations = array();
-		foreach($columns as $columnName)
-		{
-			$columnTranslations[$columnName] = $this->getColumnTranslation($columnName);
-		}
-		$nbColumns = count($columns);
-		// case no data in the array we use the number of columns set to be displayed 
-		if($nbColumns == 0)
-		{
-			$nbColumns = count($this->columnsToDisplay);
-		}
-
 		$view = new Piwik_View($this->dataTableTemplate);
-		$view->arrayDataTable 	= $this->getPHPArrayFromDataTable();
-		$view->dataTableColumns = $columns;
-		$view->columnTranslations = $columnTranslations;
-		$view->nbColumns = $nbColumns;
+
+		if(!$this->isDataAvailable)
+		{
+			$view->arrayDataTable = array();
+		}
+		else
+		{
+			$columns = $this->getColumnsToDisplay();
+			$columnTranslations = array();
+			foreach($columns as $columnName)
+			{
+				$columnTranslations[$columnName] = $this->getColumnTranslation($columnName);
+			}
+			$nbColumns = count($columns);
+			// case no data in the array we use the number of columns set to be displayed 
+			if($nbColumns == 0)
+			{
+				$nbColumns = count($this->columnsToDisplay);
+			}
+
+			$view->arrayDataTable 	= $this->getPHPArrayFromDataTable();
+			$view->dataTableColumns = $columns;
+			$view->columnTranslations = $columnTranslations;
+			$view->nbColumns = $nbColumns;
+			$view->defaultWhenColumnValueNotDefined = '-';
+		}
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
-		$view->defaultWhenColumnValueNotDefined = '-';
 		return $view;
 	}
 
@@ -153,7 +167,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	}
 
 	/**
-	 * Sets the columns in the HTML table as not sortable (they are not clickable) 
 	 */
 	public function disableSort()
 	{
