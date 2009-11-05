@@ -8,7 +8,8 @@
 	text-decoration:none;
 }
 .tagCloud .word {
-	padding: 4px 4px 4px 4px;
+	padding: 4px 8px 4px 0;
+	white-space: nowrap;
 }
 .tagCloud .valueIsZero {
 	text-decoration: line-through;
