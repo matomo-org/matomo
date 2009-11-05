@@ -51,6 +51,10 @@ class Piwik_Loader
 	 */
 	public static function autoload($class)
 	{
+	        if (class_exists($class, false) || interface_exists($class, false)) {
+	            return;
+	        }
+
 		$classPath = self::getClassFileName($class);
 		while(!empty($classPath))
 		{
