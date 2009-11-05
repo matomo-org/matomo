@@ -21,8 +21,8 @@ function getAddSiteAJAX( row )
 	piwikHelper.toggleAjaxLoading();
 	
 	var parameters = {};
- 	var siteName = $(row).find('input[@id=siteadd_name]').val();
- 	var urls =  $(row).find('textarea[@id=siteadd_urls]').val();
+ 	var siteName = $(row).find('input#siteadd_name').val();
+ 	var urls =  $(row).find('textarea#siteadd_urls').val();
 	var urls = urls.trim().split("\n");
  	
 	var request = '';
@@ -44,9 +44,9 @@ function getUpdateSiteAJAX( row )
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	piwikHelper.toggleAjaxLoading();
 	
-	var siteName = $(row).find('input[@id=siteName]').val();
+	var siteName = $(row).find('input#siteName').val();
 	var idSite = $(row).children('#idSite').html();
-	var urls = $(row).find('textarea[@id=urls]').val().trim().split("\n");
+	var urls = $(row).find('textarea#urls').val().trim().split("\n");
 	
 	var request = '';
 	request += '&module=API';
@@ -90,7 +90,7 @@ $(document).ready( function() {
 	$('.deleteSite').click( function() {
 			piwikHelper.ajaxHideError();
 			var idRow = $(this).attr('id');
-			var nameToDelete = $(this).parent().parent().find('input[@id=siteName]').val() || $(this).parent().parent().find('td[@id=siteName]').html();
+			var nameToDelete = $(this).parent().parent().find('input#siteName').val() || $(this).parent().parent().find('td#siteName').html();
 			var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
 			if(confirm(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')')) ) {
 				$.ajax( getDeleteSiteAJAX( idsiteToDelete ) );
