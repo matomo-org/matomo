@@ -272,7 +272,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			}
 			else
 			{
-				Piwik_UsersManager_API::updateUser($login, $password);
+				Piwik_UsersManager_API::updateUser($user['login'], $password);
 			}
 		}
 		catch(Exception $e)
