@@ -8,10 +8,10 @@ function getUpdateUserAJAX( row )
 	parameters.format = 'json';
  	parameters.method =  'UsersManager.updateUser';
  	parameters.userLogin = $(row).children('#userLogin').html();
- 	var password =  $(row).find('input[@id=password]').val();
+ 	var password =  $(row).find('input#password').val();
  	if(password != '-') parameters.password = password;
- 	parameters.email = $(row).find('input[@id=email]').val();
- 	parameters.alias = $(row).find('input[@id=alias]').val();
+ 	parameters.email = $(row).find('input#email').val();
+ 	parameters.alias = $(row).find('input#alias').val();
  	parameters.token_auth = piwik.token_auth;
 	
 	ajaxRequest.data = parameters;
@@ -45,10 +45,10 @@ function getAddUserAJAX( row )
 	parameters.module = 'API';
 	parameters.format = 'json';
  	parameters.method =  'UsersManager.addUser';
- 	parameters.userLogin = $(row).find('input[@id=useradd_login]').val();
- 	parameters.password =  $(row).find('input[@id=useradd_password]').val();
- 	parameters.email = $(row).find('input[@id=useradd_email]').val();
- 	parameters.alias = $(row).find('input[@id=useradd_alias]').val();
+ 	parameters.userLogin = $(row).find('input#useradd_login').val();
+ 	parameters.password =  $(row).find('input#useradd_password').val();
+ 	parameters.email = $(row).find('input#useradd_email').val();
+ 	parameters.alias = $(row).find('input#useradd_alias').val();
  	parameters.token_auth = piwik.token_auth;
  	
 	ajaxRequest.data = parameters;
