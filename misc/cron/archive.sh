@@ -23,7 +23,16 @@ PHP_BIN=`which php5 2>/dev/null`
 if test -z $PHP_BIN; then
   PHP_BIN=`which php`
 fi
-PIWIK_CRON_FOLDER=`dirname $(readlink -f ${0})`
+
+act_path() {
+    local pathname="$1"
+    readlink -f "$pathname" 2>/dev/null || \
+    realpath "$pathname" 2>/dev/null || \
+    type -P "$pathname" 2>/dev/null
+}
+
+ARCHIVE=`act_path ${0}`
+PIWIK_CRON_FOLDER=`dirname ${ARCHIVE}`
 PIWIK_PATH="$PIWIK_CRON_FOLDER"/../../index.php
 PIWIK_CONFIG="$PIWIK_CRON_FOLDER"/../../config/config.ini.php
 
