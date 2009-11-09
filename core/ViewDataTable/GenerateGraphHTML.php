@@ -100,8 +100,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($this->parametersToModify);
 
+		$this->includeData = Zend_Registry::get('config')->General->serve_widget_and_data;
 		$idSite = Piwik_Common::getRequestVar('idSite', 1);
-		if(Piwik::isUserHasViewAccess($idSite))
+		if(Piwik::isUserHasViewAccess($idSite) && $this->includeData)
 		{
 			$this->chartData = $this->getFlashData();
 		}
@@ -149,6 +150,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 			'swfLibraryPath'       => 'libs/swfobject/',
 			'requiredFlashVersion' => '9.0.0',
 			'isDataAvailable'      => $isDataAvailable,
+			'includeData'          => $this->includeData,
 			'data'                 => $this->chartData,
 		);
 	}

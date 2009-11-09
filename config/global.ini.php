@@ -144,6 +144,11 @@ jquery_version = 1.3.2
 jqueryui_version = 1.7.2
 swfobject_version = 2.2
 
+; If set to 0, Flash widgets require separate HTTP requests
+; (i.e., one request to load the JavaScript which instantiates Open Flash Chart; the other request is made by OFC to download the JSON data for the chart)
+; If set to 1, Piwik uses a single HTTP request per Flash widget to serve both the widget and data
+serve_widget_and_data = 1
+
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
