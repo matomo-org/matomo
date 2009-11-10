@@ -82,8 +82,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$view->helpMessages = array(
 			'zlib'           => 'Installation_SystemCheckZlibHelp',
 			'SPL'            => 'Installation_SystemCheckSplHelp',
-			'iconv'          => 'Installation_SystemCheckIconv',
-			'dom'            => 'Installation_SystemCheckDom',
+			'iconv'          => 'Installation_SystemCheckIconvHelp',
+			'dom'            => 'Installation_SystemCheckDomHelp',
 			'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
 			'mail'           => 'Installation_SystemCheckMailHelp',
 		);
