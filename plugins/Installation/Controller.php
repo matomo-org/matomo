@@ -153,13 +153,17 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					Piwik::createDatabaseObject($dbInfos);
 				} catch (Zend_Db_Adapter_Exception $e) {
 					// database not found, we try to create  it
-					if(Zend_Registry::get('db')->isErrNo($e, '1049'))
+					if(Zend_Registry::isRegistered('db') && Zend_Registry::get('db')->isErrNo($e, '1049'))
 					{
 						$dbInfosConnectOnly = $dbInfos;
 						$dbInfosConnectOnly['dbname'] = null;
 						Piwik::createDatabaseObject($dbInfosConnectOnly);
 						Piwik::createDatabase($dbInfos['dbname']);
 						$this->session->databaseCreated = true;
+					}
+					else
+					{
+					    throw $e;
 					}
 				}
 
