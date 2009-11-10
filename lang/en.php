@@ -715,6 +715,8 @@ $translations = array(
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'On a Windows server you can add the following lines to your php.ini: %s',
 	'Installation_SystemCheckSplHelp' => 'You need to configure and rebuild PHP with the Standard PHP Library (SPL) enabled (by default).',
 	'Installation_SystemCheckZlibHelp' => 'You need to configure and rebuild PHP with "zlib" support enabled, --with-zlib.',
+	'Installation_SystemCheckIconvHelp' => 'You need to configure and rebuild PHP with "iconv" support enabled, --with-iconv.',
+	'Installation_SystemCheckDomHelp' => 'DOM is part of PHP core. You probably need to install the dom module, e.g., php-5-dom.',
 	'Installation_SystemCheckJson' => 'JSON',
 	'Installation_SystemCheckJsonHelp' => 'You need to configure and rebuild PHP with either "json" or "xml" extensions enabled.',
 	'Installation_SystemCheckJsonSite' => 'More information on: <a style="color:red" href="http://php.net/json">PHP JSON</a>.',
