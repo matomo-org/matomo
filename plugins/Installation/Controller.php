@@ -503,7 +503,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'zlib',
 			'SPL',
 			'iconv',
-			'dom',
 		);
 		$infos['needed_extensions'] = $needed_extensions;
 		$infos['missing_extensions'] = array();
