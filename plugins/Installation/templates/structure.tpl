@@ -5,7 +5,7 @@
 <title>Piwik &rsaquo; {'Installation_Installation'|translate}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-{postEvent name="template_css_import"}
+<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />
 
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
@@ -44,7 +44,7 @@ body {
 }
 
 #logo {
-	padding:30;
+	padding:30px;
 }
 
 h1 {
@@ -130,20 +130,20 @@ h3 {
 	font-size:90%;
 }
 
-#generalInstall UL {
+#generalInstall ul {
 	list-style-type: decimal;
 }
-LI.futureStep {
+li.futureStep {
 	color: #d3d3d3;
 }
-LI.actualStep {
+li.actualStep {
 	font-weight: bold;
 }
-LI.pastStep {
+li.pastStep {
 	color: #008000;
 }
 
-P.nextStep A {
+p.nextStep a {
 	font-weight: bold;
 	padding: 0.5em;
 	color: #ae0000;
