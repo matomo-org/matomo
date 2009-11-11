@@ -81,6 +81,11 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 	 */
 	public function isErrNo($e, $errno)
 	{
+		if(is_null($this->_connection) && preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match))
+		{
+			return $match[1] == $errno;
+		}
+
 		return mysqli_errno($this->_connection) == $errno;
 	}
 
