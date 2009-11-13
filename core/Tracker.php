@@ -131,8 +131,10 @@ class Piwik_Tracker
 		
 		if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 		{
-			self::$db->recordProfiling();
-			Piwik::printSqlProfilingReportTracker(self::$db);
+			if(isset(self::$db)) {
+				self::$db->recordProfiling();
+				Piwik::printSqlProfilingReportTracker(self::$db);
+			}
 		}
 		
 		self::disconnectDatabase();
@@ -328,7 +330,11 @@ class Piwik_Tracker
 
 	protected function handleEmptyRequest()
 	{
-		if( count($this->request) == 0)
+		if( count($this->request) == 0
+		
+			// when the NOSCRIPT visitor (with JS disabled) hits the page piwik.php?idsite=N
+			// the request is not stored in Piwik (it could be a bot)
+			|| (empty($this->request['res']) && empty($this->request['url'])))
 		{
 			$this->setState(self::STATE_EMPTY_REQUEST);
 		}
