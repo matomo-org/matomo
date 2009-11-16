@@ -17,6 +17,12 @@ class Piwik_Updates_0_2_10 implements Piwik_iUpdate
 {
 	static function update()
 	{
+		$obsoleteFile = '/plugins/ExamplePlugin/API.php';
+		if(file_exists(PIWIK_INCLUDE_PATH . $obsoleteFile))
+		{
+			@unlink(PIWIK_INCLUDE_PATH . $obsoleteFile);
+		}
+
 		$tables = Piwik::getTablesCreateSql();
 		Piwik_Updater::updateDatabase(__FILE__, array(
 			$tables['option'] => false,
