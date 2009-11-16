@@ -7,6 +7,15 @@
 	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 
 	<link rel="stylesheet" type="text/css" href="themes/default/simple_structure.css" />
+{literal}
+<style>
+.topBarElem {
+        font-family:arial,sans-serif !important;
+        font-size:13px;
+        line-height:1.33;
+}
+</style>
+{/literal}
 	{postEvent name="template_css_import"}
 
 	<script type="text/javascript" src="libs/jquery/jquery.js"></script>
