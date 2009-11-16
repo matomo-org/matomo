@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="themes/default/common.css" />
 <link rel="stylesheet" type="text/css" href="libs/jquery/thickbox.css" />
-<link rel="stylesheet" type="text/css" href="libs/jquery/jquery-calendar.css" />
+<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" class="ui-theme" />
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/styles.css" />
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/menu.css" />
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/datatable.css" />

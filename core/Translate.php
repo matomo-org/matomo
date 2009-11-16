@@ -110,7 +110,7 @@ class Piwik_Translate
 			$moduleRegex .= $module.'|'; 
 		}
 		$moduleRegex = substr($moduleRegex, 0, -1);
-		$moduleRegex .= ')_([^_]+)_js$#i';
+		$moduleRegex .= ')_.*_js$#i';
 		
 		foreach($GLOBALS['Piwik_translations'] as $key => $value)
 		{

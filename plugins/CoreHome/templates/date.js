@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$("#periodString").hide();
 	$("#otherPeriods").hide();
-	$("#calendar").hide();
+	$("#datepicker").hide();
 	$("#periodString").show();
 	
 	// we get the content of the div before modifying it (append image, etc.)
@@ -83,6 +83,6 @@ $(document).ready(function(){
 			
 		})
 		.click(function(){
-			$("#calendar").toggle();
+			$("#datepicker").toggle();
 		});
 } );
