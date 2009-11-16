@@ -45,26 +45,8 @@ p {
 	padding-left:10px;
 }
 
-#calendar {
-	display: block;
-}
-
-/* Calendar*/
-.calendar td.dateToday,.calendar td.dateToday a {
-	font-weight: bold;
-}
-
-.calendar td.dateUsedStats,.calendar td.dateUsedStats a {
-	color: #2E85FF;
-	border-color: #2E85FF;
-}
-
-.calendar td.calendar_unselectable {
-	color: #F2F7FF;
-}
-
-.calendar {
-	line-height: 1.33;
+div.ui-datepicker {
+	font-size: 62.5%;
 }
 
 #otherPeriods a {
@@ -92,6 +74,7 @@ div .sparkline {
 	margin-top:10px;
 	border-bottom:1px solid white;
 }
+
 .sparkline img {
 	vertical-align: middle;
 	padding-right: 10px;
