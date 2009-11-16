@@ -78,7 +78,8 @@ class Piwik_Tracker_GoalManager
 		{
 			return false;
 		}
-		$url = $action->getActionUrl();
+		$sanitizedUrl = $action->getActionUrl();
+		$url = htmlspecialchars_decode($sanitizedUrl);
 		$actionType = $action->getActionType();
 		$goals = $this->getGoalDefinitions($idSite);
 		foreach($goals as $goal)
@@ -134,7 +135,7 @@ class Piwik_Tracker_GoalManager
 			}
 			if($match)
 			{
-				$goal['url'] = $url;
+				$goal['url'] = $sanitizedUrl;
 				$this->convertedGoals[] = $goal;
 			}
 		}
