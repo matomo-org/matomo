@@ -3,6 +3,14 @@
 	<span id="dataTableExcludeLowPopulation"></span>
 {/if}
 
+{if $properties.show_offset_information}
+<div>
+	<span id="dataTablePages"></span>
+	<span id="dataTablePrevious">&lsaquo; {'General_Previous'|translate}</span>
+	<span id="dataTableNext">{'General_Next'|translate} &rsaquo;</span>
+</div>
+{/if}
+
 {if $properties.show_search}
 <span id="dataTableSearchPattern">
 	<input id="keyword" type="text" length="15" />
@@ -10,11 +18,6 @@
 </span>
 {/if}
 
-{if $properties.show_offset_information}
-	<span id="dataTablePages"></span>
-	<span id="dataTablePrevious">&lsaquo; {'General_Previous'|translate}</span>
-	<span id="dataTableNext">{'General_Next'|translate} &rsaquo;</span>
-{/if}
 {if $properties.show_footer_icons}
 	<div>
 		<span id="dataTableFooterIcons">
