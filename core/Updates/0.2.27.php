@@ -17,8 +17,13 @@ class Piwik_Updates_0_2_27 implements Piwik_iUpdate
 {
 	static function update()
 	{
-		$sqlarray[ 'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
-					ADD `visit_goal_converted` VARCHAR( 1 ) NOT NULL AFTER `visit_total_time`' ] = false;
+		$sqlarray = array(
+			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
+				ADD `visit_goal_converted` VARCHAR( 1 ) NOT NULL AFTER `visit_total_time`' => false,
+			// 0.2.27 [826]
+			'ALTER IGNORE TABLE `'. Piwik::prefixTable('log_visit') .'`
+				CHANGE `visit_goal_converted` `visit_goal_converted` TINYINT(1) NOT NULL' => false,
+		);
 
 		$tables = Piwik::getTablesCreateSql();
 		$sqlarray[ $tables['log_conversion'] ] = false;

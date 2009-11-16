@@ -26,6 +26,11 @@ class Piwik_Updates_0_4 implements Piwik_iUpdate
 				SET caller_ip=caller_ip+CAST(POW(2,32) AS UNSIGNED) WHERE caller_ip < 0' => false,
 			'ALTER TABLE `'. Piwik::prefixTable('logger_api_call') .'`
 				CHANGE `caller_ip` `caller_ip` BIGINT UNSIGNED' => false,
+			// 0.4 [1140]
+			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
+				CHANGE `location_ip` `location_ip` BIGINT UNSIGNED NOT NULL' => false,
+			'ALTER TABLE `'. Piwik::prefixTable('logger_api_call') .'`
+				CHANGE `caller_ip` `caller_ip` BIGINT UNSIGNED' => false,
 		));
 	}
 }

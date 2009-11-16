@@ -17,6 +17,14 @@ class Piwik_Updates_0_2_33 implements Piwik_iUpdate
 {
 	static function update()
 	{
+		$sqlarray = array(
+			// 0.2.33 [1020]
+			'ALTER TABLE `'. Piwik::prefixTable('user_dashboard') .'`
+				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '1146',
+			'ALTER TABLE `'. Piwik::prefixTable('user_language') .'`
+				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '1146',
+		);
+
 		// alter table to set the utf8 collation
 		$tablesToAlter = Piwik::getTablesInstalled(true);
 		foreach($tablesToAlter as $table) {
