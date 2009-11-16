@@ -5,6 +5,7 @@
 <title>Piwik &rsaquo; {'Installation_Installation'|translate}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+<link rel="stylesheet" type="text/css" href="themes/default/common.css" />
 <link rel="stylesheet" type="text/css" href="themes/default/styles.css" />
 
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
@@ -58,6 +59,12 @@ h3 {
 	margin-top:10px;
 	font-size:17px;
 	color:#3F5163;
+}
+
+.topBarElem {
+	font-family:arial,sans-serif !important;
+	font-size:13px;
+	line-height:1.33;
 }
 
 .error {
@@ -201,11 +208,14 @@ input {
 {/literal}
 </head>
 <body>
+
 <div id="main">
 	<div id="content">
 		<div id="logo">
 			<span id="title">Piwik</span> &nbsp;&nbsp;&nbsp;<span id="subtitle"># {'General_OpenSourceWebAnalytics'|translate}</span>
-			<span style="float:right">{postEvent name="template_topBar"}</span>
+		</div>
+		<div style="float:right" id="topRightBar">
+		{postEvent name="template_topBar"}
 		</div>
 		<div class="both"></div>
 
