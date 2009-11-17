@@ -56,12 +56,14 @@
 		</copy>
 		<mkdir dir="${basedir}/../build/tmp/templates_c"/>
 		<mkdir dir="${basedir}/../build/tmp/cache"/>
+		<mkdir dir="${basedir}/../build/tmp/latest"/>
 		<chmod perm="a+rw">
 			<dirset dir="${basedir}/../build">
 				<include name="config" />
 				<include name="tmp" />
 				<include name="tmp/templates_c" />
 				<include name="tmp/cache" />
+				<include name="tmp/latest" />
 			</dirset>
 		</chmod>
 	</target>
