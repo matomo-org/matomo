@@ -17,7 +17,7 @@ var todayDay = todayDate.getDate();
 function updateDate(dateText, inst)
 {
 	var date = dateText;
-	// Let broadcast do it job:
+	// Let broadcast do its job:
 	// It will replace date value to both search query and hash and load the new page.
 	broadcast.propagateNewPage('date=' + date);
 }
@@ -36,7 +36,7 @@ $(document).ready(function(){
 		defaultDate: currentDate,
 		changeMonth: true,
 		changeYear: true,
-		// jquery-ui 1.7.2 lacks some Piwik translations (e.g., "be", "et", and "gl")
+		// jquery-ui-i18n 1.7.2 lacks some translations, so we use our own
 		dayNamesMin: [
 			_pk_translate('CoreHome_DaySu_js'),
 			_pk_translate('CoreHome_DayMo_js'),

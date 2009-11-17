@@ -84,5 +84,9 @@ $(document).ready(function(){
 		})
 		.click(function(){
 			$("#datepicker").toggle();
+			if($("#datepicker").is(":visible"))
+			{
+				$("#datepicker .ui-state-highlight").removeClass('ui-state-highlight');
+			}
 		});
 } );
