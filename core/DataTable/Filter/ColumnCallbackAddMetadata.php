@@ -12,7 +12,7 @@
 
 /**
  * Add a new 'metadata' column to the table based on the value resulting 
- * from a callback function with the param	r being another column's value
+ * from a callback function with the parameter being another column's value
  * 
  * For example from the "label" column we can to create an "icon" 'metadata' column 
  * with the icon URI built from the label (LINUX => UserSettings/icons/linux.png)
