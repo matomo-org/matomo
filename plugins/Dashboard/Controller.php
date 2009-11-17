@@ -21,15 +21,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view = Piwik_View::factory($template);
 		$this->setGeneralVariablesView($view);
 
-		// layout was JSON.stringified
-		$layout = html_entity_decode($this->getLayout());
-		$layout = str_replace("\\\"", "\"", $layout);
-
-		if(!empty($layout)
-			&& strstr($layout, '[[') == false) {
-			$layout = "'$layout'";
-		}
-		$view->layout = $layout;
+		$view->layout = $this->getLayout();
 		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
 		return $view;
 	}
@@ -97,7 +89,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		if($currentUser == 'anonymous')
 		{
 			$session = new Zend_Session_Namespace("Piwik_Dashboard");
-			$session->idDashboard = $layout;
+			$session->dashboardLayout = $layout;
 		}
 		else
 		{
@@ -119,16 +111,45 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		{
 			$session = new Zend_Session_Namespace("Piwik_Dashboard");
 
-			if(!isset($session->idDashboard))
+			if(!isset($session->dashboardLayout))
 			{
 				return false;
 			}
-			return $session->idDashboard;
+			$layout = $session->dashboardLayout;
 		}
 		else
 		{
-			return $this->getLayoutForUser($currentUser,$idDashboard);
-		}		
+			$layout = $this->getLayoutForUser($currentUser,$idDashboard);
+		}
+	
+		// layout was JSON.stringified
+		$layout = html_entity_decode($layout);
+		$layout = str_replace("\\\"", "\"", $layout);
+
+		// compatibility with the old layout format
+		if(!empty($layout)
+			&& strstr($layout, '[[') == false) {
+			$layout = "'$layout'";
+		}
+		
+		// if the json decoding works (ie. new Json format)
+		// we will only return the widgets that are from enabled plugins
+		if($layoutObject = json_decode($layout, $assoc = true)) 
+		{
+			foreach($layoutObject as &$row) 
+			{
+				foreach($row as $widgetId => $widget)
+				{
+					$pluginName = $widget['parameters']['module'];
+					if(!Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName))
+					{
+						unset($row[$widgetId]);
+					}
+				}
+			}
+			$layout = json_encode($layoutObject);
+		}
+		return $layout;
 	}
 }
 
