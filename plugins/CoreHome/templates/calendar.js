@@ -27,7 +27,7 @@ $(document).ready(function(){
 		onSelect: updateDate,
 		showOtherMonths: false,
 		dateFormat: 'yy-mm-dd',
-		firstDay: 0,
+		firstDay: 1,
 		minDate: new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
 		maxDate: new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay),
 		prevText: "",
