@@ -59,7 +59,7 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 	public static function isEnabled()
 	{
 		$extensions = @get_loaded_extensions();
-		return in_array('mysqli', $extensions) && function_exists('mysqli_set_charset');
+		return in_array('mysqli', $extensions);
 	}
 
 	/**
