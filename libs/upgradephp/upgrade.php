@@ -427,3 +427,24 @@ if (!function_exists("ctype_alnum")) {
    }
 
 }
+
+/**
+ * Sets the default client character set.
+ *
+ * @compat
+ *    Procedural style
+ * @bugs
+ *    PHP documentation says this function exists in PHP 5 >= 5.0.5,
+ *    but it also depends on the versions of external libraries, e.g.,
+ *    php_mysqli.dll and libmysql.dll.
+ *
+ * @param $link    mysqli MySQLi connection resource
+ * @param $charset string Character set
+ * @return bool           TRUE on success, FALSE on failure
+ */
+if (in_array('mysqli', @get_loaded_extensions()) && !function_exists('mysqli_set_charset')) {
+	function mysqli_set_charset($link, $charset)
+	{
+		return mysqli_query($link, "SET NAMES '$charset'");
+	}
+}
