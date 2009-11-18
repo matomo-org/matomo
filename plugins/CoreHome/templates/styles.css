@@ -50,6 +50,11 @@ div.ui-datepicker {
 	font-size: 62.5%;
 }
 
+.ui-datepicker-current-period a, .ui-datepicker-current-period a:link, .ui-datepicker-current-period a:visited {
+	border: 1px solid #2E85FF;
+	color: #2E85FF;
+}
+
 #otherPeriods a {
 	text-decoration: none;
 }
