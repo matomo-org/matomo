@@ -14,6 +14,78 @@ var todayMonth = todayDate.getMonth();
 var todayYear = todayDate.getFullYear();
 var todayDay = todayDate.getDate();
 
+function highlightCurrentPeriod( date )
+{
+	var valid = false;
+
+	var dateMonth = date.getMonth();
+	var dateYear = date.getFullYear();
+	var dateDay = date.getDate();
+	var style = '';
+
+	// we don't color dates in the future
+	if( dateMonth == todayMonth
+		&& dateYear == todayYear
+		&& dateDay >= todayDay
+	)
+	{
+		return [true, ''];
+	}
+
+	// we don't color dates before the minimum date
+	if( dateYear < piwik.minDateYear
+		|| ( dateYear == piwik.minDateYear
+				&&
+					(
+						(dateMonth == piwik.minDateMonth - 1
+						&& dateDay < piwik.minDateDay)
+					||  (dateMonth < piwik.minDateMonth - 1)
+				)
+			)
+	)
+	{
+		return [true, ''];
+	}
+
+	// we color all day of the month for the same year for the month period
+	if(piwik.period == "month"
+		&& dateMonth == currentMonth
+		&& dateYear == currentYear
+	)
+	{
+		valid = true;
+	}
+	// we color all day of the year for the year period
+	else if(piwik.period == "year"
+			&& dateYear == currentYear
+	)
+	{
+		valid = true;
+	}
+	else if(piwik.period == "week"
+			&& date.getWeek() == currentDate.getWeek()
+			&& dateYear == currentYear
+	)
+	{
+		valid = true;
+	}
+	else if( piwik.period == "day"
+				&& dateDay == currentDay
+				&& dateMonth == currentMonth
+				&& dateYear == currentYear
+		)
+	{
+		valid = true;
+	}
+
+	if(valid)
+	{
+		return [true, 'ui-datepicker-current-period'];
+	}
+
+	return [true, ''];
+}
+
 function updateDate(dateText, inst)
 {
 	var date = dateText;
@@ -33,6 +105,7 @@ $(document).ready(function(){
 		prevText: "",
 		nextText: "",
 		currentText: "",
+		beforeShowDay: highlightCurrentPeriod,
 		defaultDate: currentDate,
 		changeMonth: true,
 		changeYear: true,
