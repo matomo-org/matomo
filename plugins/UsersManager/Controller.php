@@ -44,15 +44,15 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		
 		// we dont want to display the user currently logged so that the user can't change his settings from admin to view...
 		$currentlyLogged = Piwik::getCurrentUserLogin();
-	
 		foreach($usersLogin as $login)
 		{
-			if( $login != $currentlyLogged
-				&& !isset($usersAccessByWebsite[$login]))
+			if(!isset($usersAccessByWebsite[$login]))
 			{
 				$usersAccessByWebsite[$login] = 'noaccess';
 			}
 		}
+		unset($usersAccessByWebsite[$currentlyLogged]);
+
 		ksort($usersAccessByWebsite);
 		
 		$users = array();

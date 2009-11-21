@@ -83,9 +83,9 @@
 </thead>
 
 <tbody>
-{foreach from=$usersAccessByWebsite key=login item=access}
 {assign var=accesValid value="<img src='plugins/UsersManager/images/ok.png' class='accessGranted'>"}
 {assign var=accesInvalid value="<img src='plugins/UsersManager/images/no-access.png' class='updateAccess'>"}
+{foreach from=$usersAccessByWebsite key=login item=access}
 <tr>
 	<td id='login'>{$login}</td>
 	<td id='noaccess'>{if $access=='noaccess' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
