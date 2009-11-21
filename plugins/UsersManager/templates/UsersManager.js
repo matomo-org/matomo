@@ -1,3 +1,14 @@
+function changeSite()
+{
+	var action = $('form#accessSites').attr('action');
+	var idsite = getIdSites();
+
+	action = action + '&idsite=' + idsite;
+
+	window.location = action;
+	return false;
+}
+
 function getUpdateUserAJAX( row )
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
