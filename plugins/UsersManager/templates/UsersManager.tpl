@@ -56,7 +56,7 @@
 <p>{'UsersManager_MainDescription'|translate}</p>
 <div id="sites">
 <form method="post" action="{url action=index}" id="accessSites">
-	<p>{'UsersManager_Sites'|translate}: <select id="selectIdsite" name="idsite" onchange="this.form.submit()">
+	<p>{'UsersManager_Sites'|translate}: <select id="selectIdsite" name="idsite" onchange="changeSite()">
 	
 	<optgroup label="{'UsersManager_AllWebsites'|translate}">
 		<option label="{'UsersManager_AllWebsites'|translate}" value="all" {if $idSiteSelected=='all'} selected="selected"{/if}>{'UsersManager_ApplyToAllWebsites'|translate}</option>
