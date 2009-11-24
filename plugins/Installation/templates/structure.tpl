@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <link rel="stylesheet" type="text/css" href="themes/default/common.css" />
+<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="themes/default/styles.css" />
 
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
@@ -17,7 +18,12 @@
 $(document).ready( function(){
 	$('#toFade').fadeOut(4000, function(){ $(this).css('display', 'hidden'); } );
 	$('input:first').focus();
+	$('#progressbar').progressbar({
+{/literal}
+		value: {$percentDone}
+{literal}
 	});
+});
 </script>
 {/literal}
 
@@ -160,21 +166,6 @@ p.nextStep a {
 	line-height:1em;
 }
 
-#installPercent {
-	width: 100%;
-	height: 1.5em;
-	margin: 0;
-	padding: 0;
-	background-color: #eee;
-	border: 1px solid #ddd;
-}
-#installPercent P {
-	height: 1.5em;
-	background-color: #8aaecc;
-	margin: 0;
-	padding: 0;
-}
-
 td {
 	border-color:#FFFFFF rgb(198, 205, 216)  rgb(198, 205, 216) rgb(198, 205, 216) ;
 	border-style:solid;
@@ -236,11 +227,9 @@ input {
 		
 		<h3>{'Installation_InstallationStatus'|translate}</h3>
 		
-		<div id="installPercent">
-		<p style="width: {$percentDone}%;"></p>
+		<div id="progressbar"></div>
+		{'Installation_PercentDone'|translate:$percentDone} 
 	</div>
-	
-	{'Installation_PercentDone'|translate:$percentDone} 
 </div>
 </body>
 </html>
