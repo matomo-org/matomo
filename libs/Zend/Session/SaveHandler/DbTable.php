@@ -17,7 +17,7 @@
  * @package    Zend_Session
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTable.php 16933 2009-07-21 20:24:35Z matthew $
+ * @version    $Id: DbTable.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 /**
@@ -49,8 +49,8 @@ require_once 'Zend/Config.php';
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Session_SaveHandler_DbTable 
-    extends Zend_Db_Table_Abstract 
+class Zend_Session_SaveHandler_DbTable
+    extends Zend_Db_Table_Abstract
     implements Zend_Session_SaveHandler_Interface
 {
     const PRIMARY_ASSIGNMENT                   = 'primaryAssignment';
@@ -516,7 +516,7 @@ class Zend_Session_SaveHandler_DbTable
      */
     protected function _getPrimary($id, $type = null)
     {
-    	$this->_setupPrimaryKey();
+        $this->_setupPrimaryKey();
 
         if ($type === null) {
             $type = self::PRIMARY_TYPE_NUM;

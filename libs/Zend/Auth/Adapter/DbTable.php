@@ -17,7 +17,7 @@
  * @subpackage Zend_Auth_Adapter
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTable.php 18066 2009-09-10 18:47:53Z ralph $
+ * @version    $Id: DbTable.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -58,7 +58,7 @@ class Zend_Auth_Adapter_DbTable implements Zend_Auth_Adapter_Interface
      * @var Zend_Db_Select
      */
     protected $_dbSelect = null;
-    
+
     /**
      * $_tableName - the table name to check
      *
@@ -241,10 +241,10 @@ class Zend_Auth_Adapter_DbTable implements Zend_Auth_Adapter_Interface
         if ($this->_dbSelect == null) {
             $this->_dbSelect = $this->_zendDb->select();
         }
-        
+
         return $this->_dbSelect;
     }
-    
+
     /**
      * getResultRowObject() - Returns the result row as a stdClass object
      *
@@ -451,7 +451,7 @@ class Zend_Auth_Adapter_DbTable implements Zend_Auth_Adapter_Interface
     protected function _authenticateValidateResult($resultIdentity)
     {
         $zendAuthCredentialMatchColumn = $this->_zendDb->foldCase('zend_auth_credential_match');
-        
+
         if ($resultIdentity[$zendAuthCredentialMatchColumn] != '1') {
             $this->_authenticateResultInfo['code'] = Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID;
             $this->_authenticateResultInfo['messages'][] = 'Supplied credential is invalid.';

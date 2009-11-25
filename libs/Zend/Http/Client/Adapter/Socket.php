@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Socket.php 17124 2009-07-26 09:46:42Z shahar $
+ * @version    $Id: Socket.php 19087 2009-11-20 13:35:23Z padraic $
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -110,6 +110,16 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
         foreach ($config as $k => $v) {
             $this->config[strtolower($k)] = $v;
         }
+    }
+    
+    /**
+     * Retrieve the array of all configuration options
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**

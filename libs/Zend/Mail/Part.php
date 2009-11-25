@@ -16,7 +16,7 @@
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Part.php 16219 2009-06-21 19:45:39Z thomas $
+ * @version    $Id: Part.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -381,7 +381,7 @@ class Zend_Mail_Part implements RecursiveIterator, Zend_Mail_Part_Interface
             return false;
         }
     }
-    
+
     /**
      * Get a specific field from a header like content type or all fields as array
      *

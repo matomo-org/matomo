@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 17860 2009-08-27 22:48:48Z beberlei $
+ * @version    $Id: Abstract.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -119,7 +119,7 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
         if (isset($this->_config['persistent']) && ($this->_config['persistent'] == true)) {
             $this->_config['driver_options'][PDO::ATTR_PERSISTENT] = true;
         }
-        
+
         try {
             $this->_connection = new PDO(
                 $dsn,
@@ -258,10 +258,10 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
         if ($sql instanceof Zend_Db_Select) {
             $sql = $sql->assemble();
         }
-        
+
         try {
             $affected = $this->getConnection()->exec($sql);
-            
+
             if ($affected === false) {
                 $errorInfo = $this->getConnection()->errorInfo();
                 /**
@@ -270,7 +270,7 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
                 require_once 'Zend/Db/Adapter/Exception.php';
                 throw new Zend_Db_Adapter_Exception($errorInfo[2]);
             }
-            
+
             return $affected;
         } catch (PDOException $e) {
             /**

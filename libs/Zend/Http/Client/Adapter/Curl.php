@@ -16,15 +16,19 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Curl.php 17118 2009-07-26 09:41:41Z shahar $
+ * @version    $Id: Curl.php 19087 2009-11-20 13:35:23Z padraic $
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Uri_Http */
+/**
+ * @see Zend_Uri_Http
+ */
 require_once 'Zend/Uri/Http.php';
 
-/** Zend_Http_Client_Adapter_Interface */
+/**
+ * @see Zend_Http_Client_Adapter_Interface
+ */
 require_once 'Zend/Http/Client/Adapter/Interface.php';
 
 /**
@@ -78,7 +82,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
         CURLOPT_INFILESIZE,
         CURLOPT_PORT,
         CURLOPT_MAXREDIRS,
-        CURLOPT_TIMEOUT,
+        CURLOPT_CONNECTTIMEOUT,
         CURL_HTTP_VERSION_1_1,
         CURL_HTTP_VERSION_1_0,
     );
@@ -147,6 +151,17 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
 
         return $this;
     }
+    
+    /**
+     * Retrieve the array of all configuration options which
+     * are not simply passed immediately to CURL extension.
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->_config;
+    }
 
     /**
      * Direct setter for cURL adapter related options.
@@ -196,7 +211,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
         }
 
         // Set timeout
-        curl_setopt($this->_curl, CURLOPT_TIMEOUT, $this->_config['timeout']);
+        curl_setopt($this->_curl, CURLOPT_CONNECTTIMEOUT, $this->_config['timeout']);
 
         // Set Max redirects
         curl_setopt($this->_curl, CURLOPT_MAXREDIRS, $this->_config['maxredirects']);

@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Atom.php 18655 2009-10-20 14:17:39Z padraic $
+ * @version    $Id: Atom.php 19044 2009-11-19 16:44:24Z padraic $
  */
 
 /**
@@ -41,9 +41,8 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     /**
      * Constructor
      *
-     * @param  Zend_Feed_Abstract $feed
+     * @param  DOMDocument $dom
      * @param  string $type
-     * @param  string $xpath
      */
     public function __construct(DomDocument $dom, $type = null)
     {
@@ -196,7 +195,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
         return $this->_data['generator'];
     }
 
-	/**
+    /**
      * Get the feed ID
      *
      * @return string|null
@@ -239,7 +238,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
 
         return $this->_data['language'];
     }
-    
+
     /**
      * Get a link to the source website
      *
@@ -312,7 +311,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
         return $this->_data['title'];
     }
 
-	/**
+    /**
      * Read all entries to the internal entries array
      *
      */

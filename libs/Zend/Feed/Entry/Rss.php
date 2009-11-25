@@ -17,7 +17,7 @@
  * @package    Zend_Feed
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Rss.php 16205 2009-06-21 19:08:45Z thomas $
+ * @version    $Id: Rss.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -98,7 +98,7 @@ class Zend_Feed_Entry_Rss extends Zend_Feed_Entry_Abstract
                 return parent::__isset($var);
         }
     }
-    
+
     /**
      * Overwrites parent::_call method to enable read access
      * to content:encoded element.

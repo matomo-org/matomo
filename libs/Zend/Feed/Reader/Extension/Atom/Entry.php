@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 18655 2009-10-20 14:17:39Z padraic $
+ * @version    $Id: Entry.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 /**
@@ -48,7 +48,7 @@ require_once 'Zend/Uri.php';
 class Zend_Feed_Reader_Extension_Atom_Entry
     extends Zend_Feed_Reader_Extension_EntryAbstract
 {
-	/**
+    /**
      * Get the specified author
      *
      * @param  int $index
@@ -268,7 +268,7 @@ class Zend_Feed_Reader_Extension_Atom_Entry
 
         return $this->_data['id'];
     }
-    
+
     /**
      * Get the base URI of the feed (if set).
      *
@@ -279,11 +279,11 @@ class Zend_Feed_Reader_Extension_Atom_Entry
         if (array_key_exists('baseUrl', $this->_data)) {
             return $this->_data['baseUrl'];
         }
-        
+
         $baseUrl = $this->_xpath->evaluate('string('
             . $this->getXpathPrefix() . '/@xml:base[1]'
         . ')');
-        
+
         if (!$baseUrl) {
             $baseUrl = $this->_xpath->evaluate('string(//@xml:base[1])');
         }
@@ -291,7 +291,7 @@ class Zend_Feed_Reader_Extension_Atom_Entry
         if (!$baseUrl) {
             $baseUrl = null;
         }
-        
+
         $this->_data['baseUrl'] = $baseUrl;
 
         return $this->_data['baseUrl'];
@@ -459,7 +459,7 @@ class Zend_Feed_Reader_Extension_Atom_Entry
 
         return $this->_data['commentfeedlink'];
     }
-    
+
     /**
      *  Attempt to absolutise the URI, i.e. if a relative URI apply the
      *  xml:base value as a prefix to turn into an absolute URI.

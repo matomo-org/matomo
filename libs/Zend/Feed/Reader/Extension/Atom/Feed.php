@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Feed.php 18655 2009-10-20 14:17:39Z padraic $
+ * @version    $Id: Feed.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 /**
@@ -40,7 +40,7 @@ require_once 'Zend/Uri.php';
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Feed_Reader_Extension_Atom_Feed 
+class Zend_Feed_Reader_Extension_Atom_Feed
     extends Zend_Feed_Reader_Extension_FeedAbstract
 {
     /**
@@ -245,7 +245,7 @@ class Zend_Feed_Reader_Extension_Atom_Feed
         return $this->_data['generator'];
     }
 
-	/**
+    /**
      * Get the feed ID
      *
      * @return string|null
@@ -298,7 +298,7 @@ class Zend_Feed_Reader_Extension_Atom_Feed
 
         return $this->_data['language'];
     }
-    
+
     /**
      * Get the base URI of the feed (if set).
      *
@@ -332,12 +332,12 @@ class Zend_Feed_Reader_Extension_Atom_Feed
         }
 
         $link = null;
-        
+
         $list = $this->_xpath->query(
             $this->getXpathPrefix() . '/atom:link[@rel="alternate"]/@href' . '|' .
             $this->getXpathPrefix() . '/atom:link[not(@rel)]/@href'
         );
-        
+
         if ($list->length) {
             $link = $list->item(0)->nodeValue;
             $link = $this->_absolutiseUri($link);
@@ -390,7 +390,7 @@ class Zend_Feed_Reader_Extension_Atom_Feed
         return $this->_data['title'];
     }
 
-	/**
+    /**
      * Get an author entry in RSS format
      *
      * @param  DOMElement $element
@@ -428,7 +428,7 @@ class Zend_Feed_Reader_Extension_Atom_Feed
 
         return null;
     }
-    
+
     /**
      *  Attempt to absolutise the URI, i.e. if a relative URI apply the
      *  xml:base value as a prefix to turn into an absolute URI.
@@ -451,7 +451,7 @@ class Zend_Feed_Reader_Extension_Atom_Feed
      */
     protected function _registerNamespaces()
     {
-        if ($this->getType() == Zend_Feed_Reader::TYPE_ATOM_10 
+        if ($this->getType() == Zend_Feed_Reader::TYPE_ATOM_10
             || $this->getType() == Zend_Feed_Reader::TYPE_ATOM_03
         ) {
             return; // pre-registered at Feed level

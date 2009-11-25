@@ -17,7 +17,7 @@
  * @subpackage Select
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Select.php 18511 2009-10-12 14:33:35Z ralph $
+ * @version    $Id: Select.php 19155 2009-11-21 09:48:02Z mikaelkael $
  */
 
 
@@ -173,7 +173,7 @@ class Zend_Db_Select
      */
     public function getBind()
     {
-    	return $this->_bind;
+        return $this->_bind;
     }
 
     /**
@@ -184,9 +184,9 @@ class Zend_Db_Select
      */
     public function bind($bind)
     {
-    	$this->_bind = $bind;
+        $this->_bind = $bind;
 
-    	return $this;
+        return $this;
     }
 
     /**
@@ -786,6 +786,7 @@ class Zend_Db_Select
             list($schema, $tableName) = explode('.', $tableName);
         }
 
+        $lastFromCorrelationName = null;
         if (!empty($correlationName)) {
             if (array_key_exists($correlationName, $this->_parts[self::FROM])) {
                 /**
@@ -794,8 +795,7 @@ class Zend_Db_Select
                 require_once 'Zend/Db/Select/Exception.php';
                 throw new Zend_Db_Select_Exception("You cannot define a correlation name '$correlationName' more than once");
             }
-            
-            $lastFromCorrelationName = null;
+
             if ($type == self::FROM) {
                 // append this from after the last from joinType
                 $tmpFromParts = $this->_parts[self::FROM];
@@ -827,7 +827,7 @@ class Zend_Db_Select
         // add to the columns from this joined table
         if ($type == self::FROM && $lastFromCorrelationName == null) {
             $lastFromCorrelationName = true;
-        } 
+        }
         $this->_tableCols($correlationName, $cols, $lastFromCorrelationName);
 
         return $this;
@@ -945,7 +945,7 @@ class Zend_Db_Select
             } else {
                 $tmpColumns = array();
             }
-            
+
             // find the correlation name to insert after
             if (is_string($afterCorrelationName)) {
                 while ($tmpColumns) {
@@ -960,7 +960,7 @@ class Zend_Db_Select
             foreach ($columnValues as $columnValue) {
                 array_push($this->_parts[self::COLUMNS], $columnValue);
             }
-            
+
             // finish ensuring that all previous values are applied (if they exist)
             while ($tmpColumns) {
                 array_push($this->_parts[self::COLUMNS], array_shift($tmpColumns));
@@ -1104,7 +1104,7 @@ class Zend_Db_Select
             $tmp = '';
 
             $joinType = ($table['joinType'] == self::FROM) ? self::INNER_JOIN : $table['joinType'];
-            
+
             // Add join clause (if applicable)
             if (! empty($from)) {
                 $tmp .= ' ' . strtoupper($joinType) . ' ';
@@ -1246,8 +1246,7 @@ class Zend_Db_Select
 
         if (!empty($this->_parts[self::LIMIT_OFFSET])) {
             $offset = (int) $this->_parts[self::LIMIT_OFFSET];
-            // This should reduce to the max integer PHP can support
-            $count = intval(9223372036854775807);
+            $count = PHP_INT_MAX;
         }
 
         if (!empty($this->_parts[self::LIMIT_COUNT])) {

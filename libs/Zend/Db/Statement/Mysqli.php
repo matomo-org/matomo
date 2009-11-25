@@ -17,7 +17,7 @@
  * @subpackage Statement
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mysqli.php 18195 2009-09-17 20:58:05Z bittarman $
+ * @version    $Id: Mysqli.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -26,7 +26,7 @@
  */
 require_once 'Zend/Db/Statement.php';
 
-    
+
 /**
  * Extends for Mysqli
  *
@@ -275,12 +275,12 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
         // fetch the next result
         $retval = $this->_stmt->fetch();
         switch ($retval) {
-	        case null: // end of data
-	        case false: // error occurred
-	            $this->_stmt->reset();
-	            return false;
-	        default:
-	            // fallthrough
+            case null: // end of data
+            case false: // error occurred
+                $this->_stmt->reset();
+                return false;
+            default:
+                // fallthrough
         }
 
         // make sure we have a fetch mode

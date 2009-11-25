@@ -17,7 +17,7 @@
  * @subpackage Statement
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Exception.php 17860 2009-08-27 22:48:48Z beberlei $
+ * @version    $Id: Exception.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 /**
@@ -55,7 +55,7 @@ class Zend_Db_Statement_Exception extends Zend_Db_Exception
 
     /**
      * Check if this general exception has a specific database driver specific exception nested inside.
-     * 
+     *
      * @return bool
      */
     public function hasChainedException()

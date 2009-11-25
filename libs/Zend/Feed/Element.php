@@ -17,7 +17,7 @@
  * @package    Zend_Feed
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Element.php 18568 2009-10-16 11:59:55Z sgehrig $
+ * @version    $Id: Element.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -213,7 +213,7 @@ class Zend_Feed_Element implements ArrayAccess
                 $this->_element->appendChild($node);
             }
         } elseif (count($nodes) > 1) {
-            /** 
+            /**
              * @see Zend_Feed_Exception
              */
             require_once 'Zend/Feed/Exception.php';

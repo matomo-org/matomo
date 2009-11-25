@@ -17,7 +17,7 @@
  * @package    Zend_Session
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Session.php 18342 2009-09-21 16:31:18Z alexander $
+ * @version    $Id: Session.php 18951 2009-11-12 16:26:19Z alexander $
  * @since      Preview Release 0.2
  */
 
@@ -62,7 +62,7 @@ class Zend_Session extends Zend_Session_Abstract
      * @var bool|bitset This could also be a combiniation of error codes to catch
      */
     protected static $_throwStartupExceptions = true;
-    
+
     /**
      * Check whether or not the session was started
      *
@@ -244,14 +244,14 @@ class Zend_Session extends Zend_Session_Abstract
         foreach (self::$_localOptions as $localOptionName => $localOptionMemberName) {
             $options[$localOptionName] = self::${$localOptionMemberName};
         }
-        
+
         if ($optionName) {
             if (array_key_exists($optionName, $options)) {
                 return $options[$optionName];
             }
             return null;
         }
-        
+
         return $options;
     }
 
@@ -466,23 +466,23 @@ class Zend_Session extends Zend_Session_Abstract
          * Hack to throw exceptions on start instead of php errors
          * @see http://framework.zend.com/issues/browse/ZF-1325
          */
-        
+
         $errorLevel = (is_int(self::$_throwStartupExceptions)) ? self::$_throwStartupExceptions : E_ALL;
-        
+
         /** @see Zend_Session_Exception */
         if (!self::$_unitTestEnabled) {
-            
+
             if (self::$_throwStartupExceptions) {
                 require_once 'Zend/Session/Exception.php';
                 set_error_handler(array('Zend_Session_Exception', 'handleSessionStartError'), $errorLevel);
             }
-            
+
             $startedCleanly = session_start();
-            
+
             if (self::$_throwStartupExceptions) {
                 restore_error_handler();
             }
-            
+
             if (!$startedCleanly || Zend_Session_Exception::$sessionStartError != null) {
                 if (self::$_throwStartupExceptions) {
                     set_error_handler(array('Zend_Session_Exception', 'handleSilentWriteClose'), $errorLevel);

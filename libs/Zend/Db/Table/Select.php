@@ -18,7 +18,7 @@
  * @subpackage Select
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Select.php 18200 2009-09-17 21:25:37Z beberlei $
+ * @version    $Id: Select.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -195,7 +195,7 @@ class Zend_Db_Table_Select extends Zend_Db_Select
 
 
         if (count($this->_parts[self::UNION]) == 0) {
-            
+
             // If no fields are specified we assume all fields from primary table
             if (!count($fields)) {
                 $this->from($primary, self::SQL_WILDCARD, $schema);

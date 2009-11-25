@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Rss.php 18367 2009-09-22 14:55:59Z padraic $
+ * @version    $Id: Rss.php 19044 2009-11-19 16:44:24Z padraic $
  */
 
 /**
@@ -51,9 +51,8 @@ class Zend_Feed_Reader_Feed_Rss extends Zend_Feed_Reader_FeedAbstract
     /**
      * Constructor
      *
-     * @param  Zend_Feed_Abstract $feed
+     * @param  DOMDocument $dom
      * @param  string $type
-     * @param  string $xpath
      */
     public function __construct(DomDocument $dom, $type = null)
     {
@@ -74,7 +73,7 @@ class Zend_Feed_Reader_Feed_Rss extends Zend_Feed_Reader_FeedAbstract
         }
     }
 
-	/**
+    /**
      * Get a single author
      *
      * @param  int $index
@@ -170,7 +169,7 @@ class Zend_Feed_Reader_Feed_Rss extends Zend_Feed_Reader_FeedAbstract
         return $this->_data['copyright'];
     }
 
-	/**
+    /**
      * Get the feed creation date
      *
      * @return string|null
@@ -493,7 +492,7 @@ class Zend_Feed_Reader_Feed_Rss extends Zend_Feed_Reader_FeedAbstract
         return $this->_data['title'];
     }
 
-	/**
+    /**
      * Read all entries to the internal entries array
      *
      */

@@ -17,7 +17,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Abstract.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 /**
@@ -472,9 +472,9 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
         if (is_array($primaryKey)) {
             $newPrimaryKey = $primaryKey;
         } else {
-        	//ZF-6167 Use tempPrimaryKey temporary to avoid that zend encoding fails.
+            //ZF-6167 Use tempPrimaryKey temporary to avoid that zend encoding fails.
             $tempPrimaryKey = (array) $this->_primary;
-        	$newPrimaryKey = array(current($tempPrimaryKey) => $primaryKey);
+            $newPrimaryKey = array(current($tempPrimaryKey) => $primaryKey);
         }
 
         /**
@@ -865,7 +865,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
         if (is_string($dependentTable)) {
             $dependentTable = $this->_getTableFromString($dependentTable);
         }
-        
+
         if (!$dependentTable instanceof Zend_Db_Table_Abstract) {
             $type = gettype($dependentTable);
             if ($type == 'object') {
@@ -921,7 +921,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
         if (is_string($parentTable)) {
             $parentTable = $this->_getTableFromString($parentTable);
         }
-        
+
         if (!$parentTable instanceof Zend_Db_Table_Abstract) {
             $type = gettype($parentTable);
             if ($type == 'object') {
@@ -937,7 +937,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
             && ($parentTable->getDefinition() == null)) {
             $parentTable->setOptions(array(Zend_Db_Table_Abstract::DEFINITION => $tableDefinition));
         }
-        
+
         if ($select === null) {
             $select = $parentTable->select();
         } else {
@@ -955,7 +955,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
             $parentColumnName = $parentDb->foldCase($map[Zend_Db_Table_Abstract::REF_COLUMNS][$i]);
             $parentColumn = $parentDb->quoteIdentifier($parentColumnName, true);
             $parentInfo = $parentTable->info();
-            
+
             // determine where part
             $type     = $parentInfo[Zend_Db_Table_Abstract::METADATA][$parentColumnName]['DATA_TYPE'];
             $nullable = $parentInfo[Zend_Db_Table_Abstract::METADATA][$parentColumnName]['NULLABLE'];
@@ -966,7 +966,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
             } else {
                 $select->where("$parentColumn = ?", $value, $type);
             }
-            
+
         }
 
         return $parentTable->fetchRow($select);
@@ -989,7 +989,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
         if (is_string($intersectionTable)) {
             $intersectionTable = $this->_getTableFromString($intersectionTable);
         }
-        
+
         if (!$intersectionTable instanceof Zend_Db_Table_Abstract) {
             $type = gettype($intersectionTable);
             if ($type == 'object') {
@@ -1005,11 +1005,11 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
             && ($intersectionTable->getDefinition() == null)) {
             $intersectionTable->setOptions(array(Zend_Db_Table_Abstract::DEFINITION => $tableDefinition));
         }
-        
+
         if (is_string($matchTable)) {
             $matchTable = $this->_getTableFromString($matchTable);
         }
-        
+
         if (! $matchTable instanceof Zend_Db_Table_Abstract) {
             $type = gettype($matchTable);
             if ($type == 'object') {
@@ -1025,7 +1025,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
             && ($matchTable->getDefinition() == null)) {
             $matchTable->setOptions(array(Zend_Db_Table_Abstract::DEFINITION => $tableDefinition));
         }
-        
+
         if ($select === null) {
             $select = $matchTable->select();
         } else {
@@ -1164,12 +1164,12 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
 
         if ($this->_table instanceof Zend_Db_Table_Abstract) {
             $tableDefinition = $this->_table->getDefinition();
-            
+
             if ($tableDefinition !== null && $tableDefinition->hasTableConfig($tableName)) {
                 return new Zend_Db_Table($tableName, $tableDefinition);
-            } 
+            }
         }
-                
+
         // assume the tableName is the class name
         if (!class_exists($tableName)) {
             try {
@@ -1182,11 +1182,11 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
         }
 
         $options = array();
-        
+
         if (($table = $this->_getTable())) {
             $options['db'] = $table->getAdapter();
         }
-        
+
         if (isset($tableDefinition) && $tableDefinition !== null) {
             $options[Zend_Db_Table_Abstract::DEFINITION] = $tableDefinition;
         }
