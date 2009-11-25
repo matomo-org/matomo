@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Atom.php 16966 2009-07-22 15:22:18Z padraic $
+ * @version    $Id: Atom.php 19193 2009-11-23 16:11:15Z padraic $
  */
 
 /**
@@ -76,7 +76,7 @@ class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract impleme
         $this->_extensions['Thread_Entry'] = new $threadClass($entry, $entryKey, $type);
     }
 
-	/**
+    /**
      * Get the specified author
      *
      * @param  int $index
@@ -295,7 +295,7 @@ class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract impleme
             return $this->_data['commentcount'];
         }
 
-        $commentcount = $this->getExtension('Thread')>getCommentCount();
+        $commentcount = $this->getExtension('Thread')->getCommentCount();
 
         if (!$commentcount) {
             $commentcount = $this->getExtension('Atom')->getCommentCount();

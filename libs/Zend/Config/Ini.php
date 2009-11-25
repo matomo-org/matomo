@@ -16,7 +16,7 @@
  * @package    Zend_Config
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ini.php 16201 2009-06-21 18:51:15Z thomas $
+ * @version    $Id: Ini.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -54,7 +54,7 @@ class Zend_Config_Ini extends Zend_Config
      * @var boolean
      */
     protected $_skipExtends = false;
-    
+
     /**
      * Loads the section $section from the config file $filename for
      * access facilitated by nested object properties.
@@ -153,7 +153,7 @@ class Zend_Config_Ini extends Zend_Config
 
             }
             parent::__construct($dataArray, $allowModifications);
-        } 
+        }
 
         $this->_loadedSection = $section;
     }
@@ -210,7 +210,7 @@ class Zend_Config_Ini extends Zend_Config
 
         return $iniArray;
     }
-    
+
     /**
      * Process each element in the section and handle the ";extends" inheritance
      * key. Passes control to _processKey() to handle the nest separator
@@ -230,7 +230,7 @@ class Zend_Config_Ini extends Zend_Config
             if (strtolower($key) == ';extends') {
                 if (isset($iniArray[$value])) {
                     $this->_assertValidExtend($section, $value);
-                    
+
                     if (!$this->_skipExtends) {
                         $config = $this->_processSection($iniArray, $value, $config);
                     }

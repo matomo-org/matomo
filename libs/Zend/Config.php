@@ -16,7 +16,7 @@
  * @package    Zend_Config
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Config.php 16201 2009-06-21 18:51:15Z thomas $
+ * @version    $Id: Config.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -83,7 +83,7 @@ class Zend_Config implements Countable, Iterator
 
     /**
      * Load file error string.
-     * 
+     *
      * Is null if there was no error while file loading
      *
      * @var string
@@ -169,11 +169,11 @@ class Zend_Config implements Countable, Iterator
             throw new Zend_Config_Exception('Zend_Config is read only');
         }
     }
-    
+
     /**
      * Deep clone of this instance to ensure that nested Zend_Configs
      * are also cloned.
-     * 
+     *
      * @return void
      */
     public function __clone()
@@ -374,7 +374,7 @@ class Zend_Config implements Countable, Iterator
             }
         }
     }
-    
+
     /**
      * Returns if this Zend_Config object is read only or not.
      *
@@ -384,7 +384,7 @@ class Zend_Config implements Countable, Iterator
     {
         return !$this->_allowModifications;
     }
-    
+
     /**
      * Get the current extends
      *
@@ -394,7 +394,7 @@ class Zend_Config implements Countable, Iterator
     {
         return $this->_extends;
     }
-    
+
     /**
      * Set an extend for Zend_Config_Writer
      *
@@ -410,7 +410,7 @@ class Zend_Config implements Countable, Iterator
             $this->_extends[$extendingSection] = $extendedSection;
         }
     }
-    
+
     /**
      * Throws an exception if $extendingSection may not extend $extendedSection,
      * and tracks the section extension if it is valid.
@@ -445,7 +445,7 @@ class Zend_Config implements Countable, Iterator
      * @param integer $errline
      */
     protected function _loadFileErrorHandler($errno, $errstr, $errfile, $errline)
-    { 
+    {
         if ($this->_loadFileErrorStr === null) {
             $this->_loadFileErrorStr = $errstr;
         } else {

@@ -16,7 +16,7 @@
  * @package   Zend_Uri
  * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Uri.php 16207 2009-06-21 19:17:51Z thomas $
+ * @version   $Id: Uri.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 /**
@@ -44,7 +44,7 @@ abstract class Zend_Uri
     static protected $_config = array(
         'allow_unwise' => false
     );
-    
+
     /**
      * Return a string representation of this URI.
      *
@@ -157,7 +157,7 @@ abstract class Zend_Uri
             self::$_config[$k] = $v;
         }
     }
-    
+
     /**
      * Zend_Uri and its subclasses cannot be instantiated directly.
      * Use Zend_Uri::factory() to return a new Zend_Uri object.

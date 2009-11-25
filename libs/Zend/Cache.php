@@ -16,7 +16,7 @@
  * @package    Zend_Cache
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Cache.php 16200 2009-06-21 18:50:06Z thomas $
+ * @version    $Id: Cache.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -44,11 +44,11 @@ abstract class Zend_Cache
 
     /**
      * Standard backends which implement the ExtendedInterface
-     * 
+     *
      * @var array
      */
     public static $standardExtendedBackends = array('File', 'Apc', 'TwoLevels', 'Memcached', 'Sqlite');
-    
+
     /**
      * Only for backward compatibily (may be removed in next major release)
      *
@@ -73,7 +73,7 @@ abstract class Zend_Cache
     const CLEANING_MODE_MATCHING_TAG     = 'matchingTag';
     const CLEANING_MODE_NOT_MATCHING_TAG = 'notMatchingTag';
     const CLEANING_MODE_MATCHING_ANY_TAG = 'matchingAnyTag';
-    
+
     /**
      * Factory
      *
@@ -110,7 +110,7 @@ abstract class Zend_Cache
         $frontendObject->setBackend($backendObject);
         return $frontendObject;
     }
-    
+
     /**
      * Frontend Constructor
      *
@@ -151,7 +151,7 @@ abstract class Zend_Cache
         }
         return new $backendClass($backendOptions);
     }
-    
+
     /**
      * Backend Constructor
      *

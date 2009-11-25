@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FeedAbstract.php 16711 2009-07-14 16:10:54Z matthew $
+ * @version    $Id: FeedAbstract.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 /**
@@ -43,7 +43,7 @@ require_once 'Zend/Feed/Reader/Entry/Rss.php';
  */
 abstract class Zend_Feed_Reader_Extension_FeedAbstract
 {
-	/**
+    /**
      * Parsed feed data
      *
      * @var array
@@ -141,8 +141,8 @@ abstract class Zend_Feed_Reader_Extension_FeedAbstract
 
         /**
      * Get the XPath prefix
-	 *
-	 * @return string
+     *
+     * @return string
      */
     public function getXpathPrefix()
     {

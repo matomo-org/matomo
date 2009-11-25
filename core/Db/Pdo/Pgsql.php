@@ -158,26 +158,4 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 		$charset = $this->fetchOne('SHOW client_encoding');
 		return strtolower($charset) === 'utf8';
 	}
-
-	/**
-	 * Returns a list of the tables in the database.
-	 *
-	 * Replaces parent::listTables() which uses subqueries.
-	 * @see ZF-8046
-	 *
-	 * @return array
-	 */
-	public function listTables()
-	{
-		$sql = "SELECT c.relname  AS table_name "
-			. "FROM pg_catalog.pg_class c "
-			. "JOIN pg_catalog.pg_roles r ON r.oid = c.relowner "
-			. "LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace "
-			. "WHERE n.nspname <> 'pg_catalog' "
-			. "AND n.nspname !~ '^pg_toast' "
-			. "AND pg_catalog.pg_table_is_visible(c.oid) "
-			. "AND c.relkind = 'r' ";
- 
-         return $this->fetchCol($sql);
-	}
 }

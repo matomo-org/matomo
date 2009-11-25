@@ -17,7 +17,7 @@
  * @subpackage Statement
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Statement.php 17858 2009-08-27 22:04:38Z ralph $
+ * @version    $Id: Statement.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 /**
@@ -46,7 +46,7 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
      * @var resource|object The driver level statement object/resource
      */
     protected $_stmt = null;
-    
+
     /**
      * @var Zend_Db_Adapter_Abstract
      */
@@ -120,14 +120,14 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
     /**
      * Internal method called by abstract statment constructor to setup
      * the driver level statement
-     * 
+     *
      * @return void
      */
     protected function _prepare($sql)
     {
         return;
     }
-    
+
     /**
      * @param string $sql
      * @return void
@@ -472,9 +472,9 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
     {
         return $this->_adapter;
     }
-    
+
     /**
-     * Gets the resource or object setup by the 
+     * Gets the resource or object setup by the
      * _parse
      * @return unknown_type
      */

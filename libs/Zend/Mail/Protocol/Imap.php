@@ -17,7 +17,7 @@
  * @subpackage Protocol
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Imap.php 18499 2009-10-08 22:24:02Z yoshida@zend.co.jp $
+ * @version    $Id: Imap.php 18977 2009-11-14 14:15:59Z yoshida@zend.co.jp $
  */
 
 
@@ -50,7 +50,7 @@ class Zend_Mail_Protocol_Imap
     /**
      * Public constructor
      *
-     * @param  string   $host  hostname of IP address of IMAP server, if given connect() is called
+     * @param  string   $host  hostname or IP address of IMAP server, if given connect() is called
      * @param  int|null $port  port of IMAP server, null for default (143 or 993 for ssl)
      * @param  bool     $ssl   use ssl? 'SSL', 'TLS' or false
      * @throws Zend_Mail_Protocol_Exception
@@ -71,9 +71,9 @@ class Zend_Mail_Protocol_Imap
     }
 
     /**
-     * Open connection to POP3 server
+     * Open connection to IMAP server
      *
-     * @param  string      $host  hostname of IP address of POP3 server
+     * @param  string      $host  hostname or IP address of IMAP server
      * @param  int|null    $port  of IMAP server, default is 143 (993 for ssl)
      * @param  string|bool $ssl   use 'SSL', 'TLS' or false
      * @return string welcome message
@@ -97,7 +97,8 @@ class Zend_Mail_Protocol_Imap
              * @see Zend_Mail_Protocol_Exception
              */
             require_once 'Zend/Mail/Protocol/Exception.php';
-            throw new Zend_Mail_Protocol_Exception('cannot connect to host : ' . $errno . ' : ' . $errstr);
+            throw new Zend_Mail_Protocol_Exception('cannot connect to host; error = ' . $errstr .
+                                                   ' (errno = ' . $errno . ' )');
         }
 
         if (!$this->_assumedNextLine('* OK')) {
@@ -208,7 +209,7 @@ class Zend_Mail_Protocol_Imap
                 $token = substr($token, 1);
             }
             if ($token[0] == '"') {
-                if (preg_match('%^"((.|\\\\|\\")*?)" *%', $line, $matches)) {
+                if (preg_match('%^\(*"((.|\\\\|\\")*?)" *%', $line, $matches)) {
                     $tokens[] = $matches[1];
                     $line = substr($line, strlen($matches[0]));
                     continue;

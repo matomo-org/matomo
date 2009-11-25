@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 18633 2009-10-17 05:36:58Z ralph $
+ * @version    $Id: Abstract.php 19115 2009-11-20 17:41:25Z matthew $
  */
 
 
@@ -902,7 +902,7 @@ abstract class Zend_Db_Adapter_Abstract
             return str_replace('?', $this->quote($value, $type), $text);
         } else {
             while ($count > 0) {
-                if (strpos($text, '?') != false) {
+                if (strpos($text, '?') !== false) {
                     $text = substr_replace($text, $this->quote($value, $type), strpos($text, '?'), 1);
                 }
                 --$count;

@@ -17,7 +17,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 17822 2009-08-26 00:03:56Z ralph $
+ * @version    $Id: Abstract.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 /**
@@ -93,14 +93,14 @@ abstract class Zend_Db_Table_Abstract
      * @var unknown_type
      */
     protected $_definition = null;
-    
+
     /**
      * Optional definition config name used in concrete implementation
      *
      * @var string
      */
     protected $_definitionConfigName = null;
-    
+
     /**
      * Default cache for information provided by the adapter's describeTable() method.
      *
@@ -326,7 +326,7 @@ abstract class Zend_Db_Table_Abstract
 
         return $this;
     }
-    
+
     /**
      * setDefinition()
      *
@@ -338,7 +338,7 @@ abstract class Zend_Db_Table_Abstract
         $this->_definition = $definition;
         return $this;
     }
-    
+
     /**
      * getDefinition()
      *
@@ -348,7 +348,7 @@ abstract class Zend_Db_Table_Abstract
     {
         return $this->_definition;
     }
-    
+
     /**
      * setDefinitionConfigName()
      *
@@ -360,7 +360,7 @@ abstract class Zend_Db_Table_Abstract
         $this->_definitionConfigName = $definitionConfigName;
         return $this;
     }
-    
+
     /**
      * getDefinitionConfigName()
      *
@@ -803,10 +803,10 @@ abstract class Zend_Db_Table_Abstract
         // If $this has a metadata cache
         if (null !== $this->_metadataCache) {
             // Define the cache identifier where the metadata are saved
-            
+
             //get db configuration
             $dbConfig = $this->_db->getConfig();
-                
+
             // Define the cache identifier where the metadata are saved
             $cacheId = md5( // port:host/dbname:schema.table (based on availabilty)
                 (isset($dbConfig['options']['port']) ? ':'.$dbConfig['options']['port'] : null)
@@ -1286,7 +1286,7 @@ abstract class Zend_Db_Table_Abstract
             }
             return new $rowsetClass(array('table' => $this, 'rowClass' => $this->getRowClass(), 'stored' => true));
         }
-        
+
         return $this->fetchAll($whereClause);
     }
 

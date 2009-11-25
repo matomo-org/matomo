@@ -17,7 +17,7 @@
  * @package    Zend_Feed
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 18293 2009-09-18 22:16:07Z padraic $
+ * @version    $Id: Abstract.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -77,7 +77,7 @@ abstract class Zend_Feed_Abstract extends Zend_Feed_Element implements Iterator,
             $client->setUri($uri);
             $response = $client->request('GET');
             if ($response->getStatus() !== 200) {
-                /** 
+                /**
                  * @see Zend_Feed_Exception
                  */
                 require_once 'Zend/Feed/Exception.php';
@@ -123,8 +123,8 @@ abstract class Zend_Feed_Abstract extends Zend_Feed_Element implements Iterator,
                     $php_errormsg = '(error message not available)';
                 }
             }
-            
-            /** 
+
+            /**
              * @see Zend_Feed_Exception
              */
             require_once 'Zend/Feed/Exception.php';

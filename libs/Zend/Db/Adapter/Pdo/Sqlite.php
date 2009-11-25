@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Sqlite.php 18214 2009-09-18 05:30:19Z ralph $
+ * @version    $Id: Sqlite.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -198,11 +198,11 @@ class Zend_Db_Adapter_Pdo_Sqlite extends Zend_Db_Adapter_Pdo_Abstract
     public function describeTable($tableName, $schemaName = null)
     {
         $sql = 'PRAGMA ';
-        
+
         if ($schemaName) {
             $sql .= $this->quoteIdentifier($schemaName) . '.';
         }
-        
+
         $sql .= 'table_info('.$this->quoteIdentifier($tableName).')';
 
         $stmt = $this->query($sql);

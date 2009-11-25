@@ -16,7 +16,7 @@
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mail.php 16207 2009-06-21 19:17:51Z thomas $
+ * @version    $Id: Mail.php 18951 2009-11-12 16:26:19Z alexander $
  */
 
 
@@ -458,7 +458,7 @@ class Zend_Mail extends Zend_Mime_Message
      */
     protected function _encodeHeader($value)
     {
-    	if (Zend_Mime::isPrintable($value) === false) {
+        if (Zend_Mime::isPrintable($value) === false) {
             if ($this->getHeaderEncoding() === Zend_Mime::ENCODING_QUOTEDPRINTABLE) {
                 $value = Zend_Mime::encodeQuotedPrintableHeader($value, $this->getCharset(), Zend_Mime::LINELENGTH, Zend_Mime::LINEEND);
             } else {
@@ -763,22 +763,22 @@ class Zend_Mail extends Zend_Mime_Message
             } else if (is_string($date)) {
                 $date = strtotime($date);
                 if ($date === false || $date < 0) {
-		            /**
-		             * @see Zend_Mail_Exception
-		             */
-		            require_once 'Zend/Mail/Exception.php';
-                	throw new Zend_Mail_Exception('String representations of Date Header must be ' .
+                    /**
+                     * @see Zend_Mail_Exception
+                     */
+                    require_once 'Zend/Mail/Exception.php';
+                    throw new Zend_Mail_Exception('String representations of Date Header must be ' .
                                                   'strtotime()-compatible');
                 }
                 $date = date('r', $date);
             } else if ($date instanceof Zend_Date) {
                 $date = $date->get(Zend_Date::RFC_2822);
             } else {
-	            /**
-	             * @see Zend_Mail_Exception
-	             */
-	            require_once 'Zend/Mail/Exception.php';
-            	throw new Zend_Mail_Exception(__METHOD__ . ' only accepts UNIX timestamps, Zend_Date objects, ' .
+                /**
+                 * @see Zend_Mail_Exception
+                 */
+                require_once 'Zend/Mail/Exception.php';
+                throw new Zend_Mail_Exception(__METHOD__ . ' only accepts UNIX timestamps, Zend_Date objects, ' .
                                               ' and strtotime()-compatible strings');
             }
             $this->_date = $date;
@@ -787,8 +787,8 @@ class Zend_Mail extends Zend_Mime_Message
             /**
              * @see Zend_Mail_Exception
              */
-        	require_once 'Zend/Mail/Exception.php';
-        	throw new Zend_Mail_Exception('Date Header set twice');
+            require_once 'Zend/Mail/Exception.php';
+            throw new Zend_Mail_Exception('Date Header set twice');
         }
         return $this;
     }
@@ -829,14 +829,14 @@ class Zend_Mail extends Zend_Mime_Message
      */
     public function setMessageId($id = true)
     {
-    	if ($id === null || $id === false) {
-    		return $this;
-    	} elseif ($id === true) {
+        if ($id === null || $id === false) {
+            return $this;
+        } elseif ($id === true) {
             $id = $this->createMessageId();
-    	}
+        }
 
         if ($this->_messageId === null) {
-        	$id = $this->_filterOther($id);
+            $id = $this->_filterOther($id);
             $this->_messageId = $id;
             $this->_storeHeader('Message-Id', $this->_messageId);
         } else {
@@ -884,25 +884,25 @@ class Zend_Mail extends Zend_Mime_Message
         $time = time();
 
         if ($this->_from !== null) {
-        	$user = $this->_from;
+            $user = $this->_from;
         } elseif (isset($_SERVER['REMOTE_ADDR'])) {
-        	$user = $_SERVER['REMOTE_ADDR'];
+            $user = $_SERVER['REMOTE_ADDR'];
         } else {
-        	$user = getmypid();
+            $user = getmypid();
         }
 
-    	$rand = mt_rand();
+        $rand = mt_rand();
 
-    	if ($this->_recipients !== array()) {
+        if ($this->_recipients !== array()) {
             $recipient = array_rand($this->_recipients);
-    	} else {
-    		$recipient = 'unknown';
-    	}
+        } else {
+            $recipient = 'unknown';
+        }
 
-    	if (isset($_SERVER["SERVER_NAME"])) {
+        if (isset($_SERVER["SERVER_NAME"])) {
             $hostName = $_SERVER["SERVER_NAME"];
         } else {
-        	$hostName = php_uname('n');
+            $hostName = php_uname('n');
         }
 
         return sha1($time . $user . $rand . $recipient) . '@' . $hostName;
@@ -983,14 +983,14 @@ class Zend_Mail extends Zend_Mime_Message
      */
     protected function _filterEmail($email)
     {
-    	$rule = array("\r" => '',
-    	              "\n" => '',
-    	              "\t" => '',
+        $rule = array("\r" => '',
+                      "\n" => '',
+                      "\t" => '',
                       '"'  => '',
-    	              ','  => '',
+                      ','  => '',
                       '<'  => '',
                       '>'  => '',
-    	);
+        );
 
         return strtr($email, $rule);
     }
@@ -1003,13 +1003,13 @@ class Zend_Mail extends Zend_Mime_Message
      */
     protected function _filterName($name)
     {
-    	$rule = array("\r" => '',
+        $rule = array("\r" => '',
                       "\n" => '',
                       "\t" => '',
                       '"'  => "'",
                       '<'  => '[',
-    	              '>'  => ']',
-    	);
+                      '>'  => ']',
+        );
 
         return trim(strtr($name, $rule));
     }
