@@ -39,11 +39,11 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 	public function checkServerVersion()
 	{
 		$databaseVersion = $this->getServerVersion();
-                $requiredVersion = Zend_Registry::get('config')->General->minimum_pgsql_version;
-                if(version_compare($databaseVersion, $requiredVersion) === -1)
-                {
-                        throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('PostgreSQL', $databaseVersion, $requiredVersion)));
-                }
+		$requiredVersion = Zend_Registry::get('config')->General->minimum_pgsql_version;
+		if(version_compare($databaseVersion, $requiredVersion) === -1)
+		{
+			throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('PostgreSQL', $databaseVersion, $requiredVersion)));
+		}
 	}
 
 	/**
@@ -157,5 +157,16 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 	{
 		$charset = $this->fetchOne('SHOW client_encoding');
 		return strtolower($charset) === 'utf8';
+	}
+
+	/**
+	 * Get server timezone offset in seconds
+	 *
+	 * @return string
+	 */
+	public function getCurrentTimezone()
+	{
+		$tzOffset = $this->fetchOne('SELECT extract(timezone FROM now())');
+		return $tzOffset;
 	}
 }
