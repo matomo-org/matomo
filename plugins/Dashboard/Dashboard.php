@@ -60,7 +60,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 					PRIMARY KEY ( login , iddashboard )
 					)  DEFAULT CHARSET=utf8 " ;
 			Piwik_Exec($sql);
-		} catch(Zend_Db_Statement_Exception $e){
+		} catch(Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
 			if(!Zend_Registry::get('db')->isErrNo($e, '1050'))

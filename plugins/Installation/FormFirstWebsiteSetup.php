@@ -24,8 +24,8 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_Form
 		$javascriptOnClickUrlExample = "\"javascript:if(this.value=='$urlExample'){this.value='http://';} this.style.color='black';\"";
 		
 		$formElements = array(
-			array('text', 'siteName', 'website name'),
-			array('text', 'url', 'website URL', "style='color:rgb(153, 153, 153);' value=$urlExample onfocus=".$javascriptOnClickUrlExample." onclick=".$javascriptOnClickUrlExample),
+			array('text', 'siteName', Piwik_Translate('Installation_SetupWebSiteName')),
+			array('text', 'url', Piwik_Translate('Installation_SetupWebSiteURL'), "style='color:rgb(153, 153, 153);' value=$urlExample onfocus=".$javascriptOnClickUrlExample." onclick=".$javascriptOnClickUrlExample),
 		);
 		$this->addElements( $formElements );
 		

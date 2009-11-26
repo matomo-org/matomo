@@ -1469,11 +1469,13 @@ class Piwik
 				unset($dbInfos['port']);
 			}
 
+			$adapter = $dbInfos['adapter'];
+
 			// not used by Zend Framework
 			unset($dbInfos['tables_prefix']);
 			unset($dbInfos['adapter']);
 
-			$db = Piwik_Db::factory($config->database->adapter, $dbInfos);
+			$db = Piwik_Db::factory($adapter, $dbInfos);
 			$db->getConnection();
 
 			Zend_Db_Table::setDefaultAdapter($db);
