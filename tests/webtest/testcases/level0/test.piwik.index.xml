@@ -39,7 +39,8 @@
 	                <verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 	                <verifyText description="check page text" text="Piwik" />
 	                <verifyText description="check page text" text="Welcome!" />
-	                <verifyText description="check page text" text="This process is split up into 8 easy steps and will take around 5 minutes" />
+	                <verifyText description="check page text" text="This process is split up into 9 easy steps and will take around 5 minutes" />
+
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
 	            
@@ -80,7 +81,18 @@
 					
 					<clickButton description="click 'Go!' button" label="Go!"/>
 					
-					<!-- 4. tablesCreation -->
+	            	<!-- 4. databaseCheck -->
+	            	
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
+					<verifyText description="check page text" text="Piwik" />
+	                <verifyText description="check page text" text="Database check" />
+	                
+	            	&checkForErrors;
+	            	&verifyLinksAndImages;
+
+	            	<clickLink description="click 'Next'" label="Next &raquo;" />
+	            	
+					<!-- 5. tablesCreation -->
 					
 	            	<not description="check if no error">
 	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
@@ -100,7 +112,7 @@
 					
 					<clickLink description="click 'Next'" label="Next &raquo;" />
 					
-					<!-- 5. generalSetup -->
+					<!-- 6. generalSetup -->
 					
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
@@ -116,7 +128,7 @@
 					
 					<clickButton description="click 'Go!' button" label="Go!"/>
 					
-					<!-- 6. firstWebsiteSetup -->
+					<!-- 7. firstWebsiteSetup -->
 					
 	            	<not description="check if no error">
 	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
@@ -138,7 +150,7 @@
 
 					<clickButton description="click 'Go!' button" label="Go!"/>
 					
-					<!-- 7. displayJavascriptCode -->
+					<!-- 8. displayJavascriptCode -->
 					
 	            	<not description="check if no error">
 	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
@@ -157,7 +169,7 @@
 	            	
 	            	<clickLink description="click 'Next'" label="Next &raquo;" />
 	            	
-	            	<!-- 8. finished -->
+	            	<!-- 9. finished -->
 	            	
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
