@@ -27,6 +27,19 @@
 		</td>
 	</tr>
 {/if}
+	<tr>
+		<td class="label">{'Installation_DatabaseTimezone'|translate}</td>
+		<td>{if isset($timezoneWarning)}{$warning}{else}{$ok}{/if}</td>
+	</tr>
+{if isset($timezoneWarning)}
+	<tr>
+		<td colspan="2">
+			<small>
+				<span style="color:orange">{'Installation_TimezoneMismatch'|translate}</span>
+			</small>
+		</td>
+	</tr>
+{/if}
 </table>
 
 <p>

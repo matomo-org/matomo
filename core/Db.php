@@ -126,4 +126,11 @@ interface Piwik_Db_iAdapter
 	 * @return bool
 	 */
 	public function isConnectionUTF8();
+
+	/**
+	 * Get server timezone offset in seconds
+	 *
+	 * @return string
+	 */
+	public function getCurrentTimezone();
 }

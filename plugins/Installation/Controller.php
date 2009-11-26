@@ -219,6 +219,14 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->charsetWarning = true;
 		}
 
+		$db = Zend_Registry::get('db');
+		$dbTimezone = $db->getCurrentTimezone();
+		$phpTimezone = date('Z');
+		if($dbTimezone != $phpTimezone)
+		{
+			$view->timezoneWarning = true;
+		}
+
 		$view->showNextStep = true;
 		$this->session->currentStepDone = __FUNCTION__;
 
