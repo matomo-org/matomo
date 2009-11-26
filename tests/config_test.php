@@ -25,7 +25,7 @@ require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 					
 require_once 'simpletest/autorun.php';
 require_once 'simpletest/mock_objects.php';
-SimpleTest :: prefer(new HtmlReporter());
+SimpleTest::prefer(new HtmlReporter());
 
 error_reporting(E_ALL|E_NOTICE);
 //@date_default_timezone_set('Europe/London');

@@ -87,7 +87,7 @@ class SimpleTest {
      *   @access public
      *   @see preferred()
      */
-    function prefer(&$object) {
+    public static function prefer(&$object) {
         $registry = &SimpleTest::_getRegistry();
         $registry['Preferred'][] = &$object;
     }
@@ -202,7 +202,7 @@ class SimpleTest {
      *    @access private
      *    @static
      */
-    function &_getRegistry() {
+    public static function &_getRegistry() {
         static $registry = false;
         if (! $registry) {
             $registry = SimpleTest::_getDefaults();
@@ -231,7 +231,7 @@ class SimpleTest {
      *    @access private
      *    @static
      */
-    function _getDefaults() {
+    private static function _getDefaults() {
         return array(
                 'StubBaseClass' => 'SimpleStub',
                 'MockBaseClass' => 'SimpleMock',
