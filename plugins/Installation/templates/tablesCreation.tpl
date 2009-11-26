@@ -1,14 +1,8 @@
 <h1>{'Installation_Tables'|translate}</h1>
 
-{if isset($charsetWarning)}
-	<div class="warning">{'Installation_ConnectionCharacterSetNotUtf8'|translate}
-	<img src="themes/default/images/warning_medium.png">
-	</div>
-{/if}
-
 {if isset($someTablesInstalled)}
 	<div class="warning">{'Installation_TablesWithSameNamesFound'|translate:"<span id='linkToggle'>":"</span>"}
-	<img src="themes/default/images/warning_medium.png">
+	<img src="themes/default/images/warning_medium.png" />
 	</div>
 	<div id="toggle" style="display:none;color:#4F2410"><small><i>{'Installation_TablesFound'|translate}:
 		<br />{$tablesInstalled} </i></small></div>
@@ -25,11 +19,6 @@
 
 {if isset($existingTablesDeleted)}
 	<div class="success"> {'Installation_TablesDeletedSuccess'|translate} 
-	<img src="themes/default/images/success_medium.png"></div>
-{/if}
-
-{if isset($databaseCreated)}
-	<div class="success"> {'Installation_DatabaseCreatedSuccess'|translate:"'$databaseName'"} 
 	<img src="themes/default/images/success_medium.png"></div>
 {/if}
 

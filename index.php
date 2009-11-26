@@ -52,13 +52,22 @@ if(ini_get('session.save_handler') == 'user')
 }
 if(ini_get('session.save_handler') == 'files')
 {
-	if(ini_get('safe_mode') || ini_get('open_basedir') || !@is_writable(ini_get('session.save_path')))
+	$sessionPath = ini_get('session.save_path');
+	if(ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_writable($sessionPath))
 	{
 		$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
 		@ini_set('session.save_path', $sessionPath);
 		if(!is_dir($sessionPath))
 		{
 			@mkdir($sessionPath, 0755, true);
+			if(!is_dir($sessionPath))
+			{
+				die("Error: Unable to mkdir $sessionPath");
+			}
+		}
+		else if(!@is_writable($sessionPath))
+		{
+			die("Error: $sessionPath is not writable");
 		}
 	}
 }

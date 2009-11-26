@@ -21,6 +21,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'welcome'				=> 'Installation_Welcome',
 			'systemCheck'			=> 'Installation_SystemCheck',
 			'databaseSetup'			=> 'Installation_DatabaseSetup',
+			'databaseCheck'			=> 'Installation_DatabaseCheck',
 			'tablesCreation'		=> 'Installation_Tables',
 			'generalSetup'			=> 'Installation_GeneralSetup',
 			'firstWebsiteSetup'		=> 'Installation_SetupWebsite',
@@ -153,6 +154,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			try{
 				try {
 					Piwik::createDatabaseObject($dbInfos);
+					$this->session->databaseCreated = true;
 				} catch (Zend_Db_Adapter_Exception $e) {
 					$db = Piwik_Db::factory($adapter, $dbInfos);
 
@@ -167,11 +169,12 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					}
 					else
 					{
-					    throw $e;
+						throw $e;
 					}
 				}
 
 				Piwik::checkDatabaseVersion();
+				$this->session->databaseVersionOk = true;
 
 				$this->session->db_infos = $dbInfos;
 				$this->redirectToNextStep( __FUNCTION__ );
@@ -182,6 +185,42 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$view->addForm($form);
 
 		$view->infos = self::getSystemInformation();
+
+		echo $view->render();
+	}
+
+	function databaseCheck()
+	{
+		$this->checkPreviousStepIsValid( __FUNCTION__ );
+
+		$view = new Piwik_Installation_View(
+						$this->pathView . 'databaseCheck.tpl',
+						$this->getInstallationSteps(),
+						__FUNCTION__
+					);
+		$this->skipThisStep( __FUNCTION__ );
+
+		if(isset($this->session->databaseVersionOk)
+			&& $this->session->databaseVersionOk === true)
+		{
+			$view->databaseVersionOk = true;
+		}
+
+		if(isset($this->session->databaseCreated)
+			&& $this->session->databaseCreated === true)
+		{
+			$view->databaseName = $this->session->db_infos['dbname'];
+			$view->databaseCreated = true;
+		}
+
+		$this->createDbFromSessionInformation();
+		if(!Piwik::isDatabaseConnectionUTF8())
+		{
+			$view->charsetWarning = true;
+		}
+
+		$view->showNextStep = true;
+		$this->session->currentStepDone = __FUNCTION__;
 
 		echo $view->render();
 	}
@@ -211,11 +250,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$this->session->skipThisStep = $tmp;
 		}
 
-		if(!Piwik::isDatabaseConnectionUTF8())
-		{
-//			$view->charsetWarning = true;
-		}
-
 		$tablesInstalled = Piwik::getTablesInstalled();
 		$tablesToInstall = Piwik::getTablesNames();
 		$view->tablesInstalled = '';
@@ -226,14 +260,20 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 			$minimumCountPiwikTables = 12;
 			$baseTablesInstalled = preg_grep('/archive_numeric|archive_blob/', $tablesInstalled, PREG_GREP_INVERT);
-			if(count($baseTablesInstalled) >= $minimumCountPiwikTables )
+
+			Piwik::createAccessObject();
+			Piwik::setUserIsSuperUser();
+
+			if(count($baseTablesInstalled) >= $minimumCountPiwikTables &&
+				count(Piwik_SitesManager_API::getAllSitesId()) > 0 &&
+				count(Piwik_UsersManager_API::getUsers()) > 0)
 			{
 				$view->showReuseExistingTables = true;
 				// when the user reuses the same tables we skip the website creation step
 				// workaround ZF-1743
 				$tmp = $this->session->skipThisStep;
 				$tmp['firstWebsiteSetup'] = true;
-	                        $tmp['displayJavascriptCode'] = true;
+				$tmp['displayJavascriptCode'] = true;
 				$this->session->skipThisStep = $tmp;
 			}
 		}
@@ -246,14 +286,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$updater->recordComponentSuccessfullyUpdated('core', Piwik_Version::VERSION);
 			$view->tablesCreated = true;
 			$view->showNextStep = true;
-		}
-
-		if(isset($this->session->databaseCreated)
-			&& $this->session->databaseCreated === true)
-		{
-			$view->databaseName = $this->session->db_infos['dbname'];
-			$view->databaseCreated = true;
-			unset($this->session->databaseCreated);
 		}
 
 		$this->session->currentStepDone = __FUNCTION__;
@@ -375,7 +407,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$this->session->firstWebsiteSetupSuccessMessage = true;
 		}
 
-
 		$view->websiteName = urldecode($this->session->site_name);
 
 		$jsTag = Piwik::getJavascriptCode($this->session->site_idSite, Piwik_Url::getCurrentUrlWithoutFileName());
@@ -397,11 +428,15 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						__FUNCTION__
 					);
 		$this->skipThisStep( __FUNCTION__ );
-		$this->writeConfigFileFromSession();
 
-		$this->session->currentStepDone = __FUNCTION__;
+		if(!file_exists(Piwik_Config::getDefaultUserConfigPath()))
+		{
+			$this->writeConfigFileFromSession();
+		}
+
 		$view->showNextStep = false;
 
+		$this->session->currentStepDone = __FUNCTION__;
 		echo $view->render();
 	}
 
@@ -425,6 +460,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$config = Zend_Registry::get('config');
 		$config->superuser = $this->session->superuser_infos;
 		$config->database = $this->session->db_infos;
+		unset($this->session->superuser_infos);
+		unset($this->session->db_infos);
 	}
 
 	/**
@@ -436,20 +473,21 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	{
 		$error = false;
 
-		// first we make sure that the config file is not present, ie. Installation state is expected
-		try {
-			$config = new Piwik_Config();
-			$config->init();
-			$error = true;
-		} catch(Exception $e) {
-		}
-
 		if(empty($this->session->currentStepDone))
 		{
 			$error = true;
 		}
+		else if($currentStep == 'finished' && $this->session->currentStepDone == 'finished')
+		{
+			// ok to refresh this page or use language selector
+		}
 		else
 		{
+			if(file_exists(Piwik_Config::getDefaultUserConfigPath()))
+			{
+				$error = true;
+			}
+
 			$steps = array_keys($this->steps);
 
 			// the currentStep
@@ -562,13 +600,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['gd_ok'] = false;
 		if (in_array('gd', $extensions))
 		{
-		    $gdInfo = gd_info();
+			$gdInfo = gd_info();
 			$infos['gd_version'] = $gdInfo['GD Version'];
-		    preg_match('/([0-9]{1})/', $gdInfo['GD Version'], $gdVersion);
-		    if($gdVersion[0] >= 2)
-		    {
+			preg_match('/([0-9]{1})/', $gdInfo['GD Version'], $gdVersion);
+			if($gdVersion[0] >= 2)
+			{
 				$infos['gd_ok'] = true;
-		    }
+			}
 		}
 
 		$infos['serverVersion'] = addslashes($_SERVER['SERVER_SOFTWARE']);

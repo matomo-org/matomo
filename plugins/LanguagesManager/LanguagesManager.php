@@ -63,7 +63,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	}
 	
 	/**
-	 * @throws Zend_Db_Statement_Exception if non-recoverable error
+	 * @throws Exception if non-recoverable error
 	 */
 	public function install()
 	{
@@ -75,7 +75,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 					PRIMARY KEY ( login )
 					)  DEFAULT CHARSET=utf8 " ;
 			Piwik_Exec($sql);
-		} catch(Zend_Db_Statement_Exception $e){
+		} catch(Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
 			if(!Zend_Registry::get('db')->isErrNo($e, '1050'))
@@ -86,7 +86,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	}
 	
 	/**
-	 * @throws Zend_Db_Statement_Exception if non-recoverable error
+	 * @throws Exception if non-recoverable error
 	 */
 	public function uninstall()
 	{
