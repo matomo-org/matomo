@@ -26,4 +26,16 @@ class Piwik_Feedback extends Piwik_Plugin
 			'version' => '0.1',
 		);
 	}
+
+	function getListHooksRegistered()
+	{
+		return array(
+			'template_js_import' => 'js',
+		);
+	}
+	
+	function js()
+	{
+		echo "<script type=\"text/javascript\" src=\"plugins/Feedback/templates/feedback.js\"></script>\n";
+	}
 }

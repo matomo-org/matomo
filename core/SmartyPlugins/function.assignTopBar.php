@@ -24,7 +24,7 @@ function smarty_function_assignTopBar($params, &$smarty)
 		array('CoreHome', Piwik_Translate('General_YourDashboard'), array('module' => 'CoreHome', 'action' => 'index')),
 		array('Widgetize', Piwik_Translate('General_Widgets'),  array('module' => 'Widgetize', 'action' => 'index')), 
 		array('API', Piwik_Translate('General_API'), array('module' => 'API', 'action' => 'listAllAPI')),
-		array('Feedback', Piwik_Translate('General_GiveUsYourFeedback'), array('module' => 'Feedback', 'action' => 'index', 'keepThis' => 'true', 'TB_iframe' => 'true', 'height' => '400', 'width' => '350'), 'title="'.Piwik_Translate('General_GiveUsYourFeedback').'" class="thickbox"'),
+		array('Feedback', Piwik_Translate('General_GiveUsYourFeedback'), array('module' => 'Feedback', 'action' => 'index'), 'id="topbar-feedback"'),
 	);
 
 	foreach($elements as $element)
