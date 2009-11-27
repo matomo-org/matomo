@@ -139,8 +139,7 @@ class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 		}
 		$ts = $event['timestamp'];
 		unset($event['timestamp']);
-		$str = $ts . ' ' . implode(" ", $event) . "\n";
-		return $str;
+		return $ts . ' ' . implode(" ", $event) . "\n";
 	}
 }
 
@@ -156,11 +155,10 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 		// no injection in error messages, backtrace when displayed on screen
 		return array_map('htmlspecialchars', $event);
 	}
-	
+
 	function format($string)
 	{
-		$string = self::getFormattedString($string);
-		return $string;
+		return self::getFormattedString($string);
 	}
 	
 	static public function getFormattedString($string)

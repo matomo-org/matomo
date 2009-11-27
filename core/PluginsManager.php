@@ -192,9 +192,7 @@ class Piwik_PluginsManager
 	 */
 	public function getLoadedPluginsName()
 	{
-		$oPlugins = $this->getLoadedPlugins();
-		$pluginNames = array_map('get_class',$oPlugins);
-		return $pluginNames;
+		return array_map('get_class', $this->getLoadedPlugins());
 	}
 	
 	/**
