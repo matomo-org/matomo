@@ -330,11 +330,7 @@ class Piwik_Tracker
 
 	protected function handleEmptyRequest()
 	{
-		if( count($this->request) == 0
-		
-			// when the NOSCRIPT visitor (with JS disabled) hits the page piwik.php?idsite=N
-			// the request is not stored in Piwik (it could be a bot)
-			|| (empty($this->request['res']) && empty($this->request['url'])))
+		if( count($this->request) == 0 )
 		{
 			$this->setState(self::STATE_EMPTY_REQUEST);
 		}
