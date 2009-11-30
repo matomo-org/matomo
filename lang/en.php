@@ -717,7 +717,7 @@ $translations = array(
 	'Installation_DatabaseServerVersion' => 'Database server version',
 	'Installation_DatabaseCreation' => 'Database creation',
 	'Installation_DatabaseClientCharset' => 'Database client character set',
-	'Installation_ConnectionCharacterSetNotUtf8' => 'Client connection to the database server is not UTF8.  You can recompile libmysql --with-chartset=utf8 (best option), add <code>charset = utf8</code> to your database configuration (forces an additional query which will slow down the tracker), or leave it as non-utf8 (in which case, your data won\'t be stored as true utf8).',
+	'Installation_ConnectionCharacterSetNotUtf8' => 'Client connection to the database server is not UTF8.  You can recompile libmysql --with-charset=utf8 (best option), add <code>charset = utf8</code> to your database configuration (forces an additional query which will slow down the tracker), or leave it as non-utf8 (in which case, your data won\'t be stored as true utf8).',
 	'Installation_DatabaseTimezone' => 'Database timezone',
 	'Installation_TimezoneMismatch' => 'PHP date.timezone is not the same as the database server timezone',
 	'Installation_JsTag' => 'JavaScript tag',
