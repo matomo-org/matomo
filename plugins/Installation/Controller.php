@@ -222,7 +222,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$db = Zend_Registry::get('db');
 		$dbTimezone = $db->getCurrentTimezone();
 		$phpTimezone = date('Z');
-		if($dbTimezone != $phpTimezone)
+		if($dbTimezone !== '' && ($dbTimezone != $phpTimezone))
 		{
 			$view->timezoneWarning = true;
 		}

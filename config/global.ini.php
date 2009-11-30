@@ -103,7 +103,8 @@ show_website_selector_in_user_interface = 1
 minimum_php_version = 5.1.3
 
 ; MySQL minimum required version
-minimum_mysql_version = 4.1.3
+; note: timezone support added in 4.1.3
+minimum_mysql_version = 4.1
 
 ; PostgreSQL minimum required version
 minimum_pgsql_version = 8.3
