@@ -131,10 +131,14 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 	 */
 	public function getCurrentTimezone()
 	{
-		// could return SYSTEM, an offset from UTC (e.g., -05:00), or a named timezone (e.g., 'Europe/Helsinki', 'US/Eastern', or 'MET')
-		$tz = $this->fetchOne('SELECT @@session.time_zone');
+		$tzOffset = '';
+		try {
+			// could return SYSTEM, an offset from UTC (e.g., -05:00), or a named timezone (e.g., 'Europe/Helsinki', 'US/Eastern', or 'MET')
+			$tz = $this->fetchOne('SELECT @@session.time_zone');
 
-		$tzOffset = $this->fetchOne("SELECT timestampdiff(second, '2004-01-01 12:00:00', CONVERT_TZ('2004-01-01 12:00:00','+00:00','$tz'))");
+			$tzOffset = $this->fetchOne("SELECT timestampdiff(second, '2004-01-01 12:00:00', CONVERT_TZ('2004-01-01 12:00:00','+00:00','$tz'))");
+		} catch(Exception $e) { }
+
 		return $tzOffset;
 	}
 }
