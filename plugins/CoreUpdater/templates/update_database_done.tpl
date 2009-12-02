@@ -6,7 +6,7 @@
 	<div class="error">
 		<img src="themes/default/images/error_medium.png"> {'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate}
 		{foreach from=$errorMessages item=message}
-		<pre>{$message}</pre>
+		<pre>{$message}</pre><br />
 		{/foreach}
 	</div>
 	<br>
@@ -25,7 +25,7 @@
 		<div class="warning">
 			<p><img src="themes/default/images/warning_medium.png"> {'CoreUpdater_WarningMessages'|translate}</p>
 			{foreach from=$warningMessages item=message}
-			<pre>{$message}</pre>
+			<pre>{$message}</pre><br />
 			{/foreach}
 		</div>
 	{/if}
@@ -34,7 +34,7 @@
 		<div class="warning">
 			<p><img src="themes/default/images/warning_medium.png"> {'CoreUpdater_ErrorDuringPluginsUpdates'|translate}</p>
 			{foreach from=$errorMessages item=message}
-			<pre>{$message}</pre>
+			<pre>{$message}</pre><br />
 			{/foreach}
 			
 			{if isset($deactivatedPlugins) && count($deactivatedPlugins) > 0}
