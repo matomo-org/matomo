@@ -23,7 +23,7 @@ class Piwik_Updates_0_4_4 implements Piwik_iUpdate
 			$rc = @unlink($obsoleteFile);
 			if(!$rc)
 			{
-				throw new Exception("You need to manually delete: " . $obsoleteFile);
+				throw new Piwik_Updater_UpdateErrorException("Unable to delete $obsoleteFile");
 			}
 		}
 	}
