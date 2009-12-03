@@ -19,6 +19,7 @@ defined('PIWIK_INCLUDE_PATH') or die;
  * @see plugins/UserSettings/functions.php
  * @see plugins/Provider/functions.php
  */
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
@@ -73,6 +74,7 @@ class Piwik_Live_Visitor
 			'resolution' => $this->getResolution(),
 			'screenIcon' => $this->getScreenTypeIcon(),
 			'plugins' => $this->getPlugins(),
+			'lastActionDateTime' => $this->getDateTimeLastAction(),
 		);
 	}
 	
@@ -283,5 +285,10 @@ class Piwik_Live_Visitor
 	function getProviderUrl()
 	{
 		return Piwik_getHostnameUrl($this->details['location_provider']);
+	}
+	
+	function getDateTimeLastAction()
+	{
+		return date('Y-m-d H:i:s', strtotime($this->details['visit_last_action_time']));
 	}
 }
