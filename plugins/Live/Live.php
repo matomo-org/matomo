@@ -37,9 +37,31 @@ class Piwik_Live extends Piwik_Plugin
 			'description' => 'Live Visitors!',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'version' => '0.5',
 		);
 	}
+	
+	function getListHooksRegistered()
+	{
+		return array(
+			'template_css_import' => 'css',
+			'WidgetsList.add' => 'addWidget',
+			'Menu.add' => 'addMenu',
+		);
+	}
+	
+	function css()
+	{
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
+	}
+		
+	function addMenu()
+	{
+		Piwik_AddMenu('General_Visitors', 'VisitorLog', array('module' => 'Live', 'action' => 'getLastVisitsDetails'));
+	}
+	
+	public function addWidget() {
+		Piwik_AddWidget('Live!', 'Live Visitors!', 'Live', 'widget');
+	}
+	
 }
-
-Piwik_AddWidget('Live!', 'Live Visitors!', 'Live', 'widget');

@@ -89,7 +89,8 @@ $.fn.spy = function(settings) {
 	spy.addItem = function(e, i) {
 		if (! o.isDupe.call(this, i, spy.last)) {
 			spy.last = i; // note i is a pointer - so when it gets modified, so does spy.last
-			$('#' + e.id + ' > div:gt(' + (o.limit - 1) + ')').remove();
+			$('#' + e.id + ' > div:gt(' + (o.limit - 2) + ')').remove();
+			$('#' + e.id + ' > div:gt(' + (o.limit - o.fadeLast - 2) + ')').fadeEachDown();
 			o.push.call(e, i);
 			$('#' + e.id + ' > div:first').fadeIn(o.fadeInSpeed);
 		}
@@ -130,6 +131,17 @@ $.fn.spy = function(settings) {
 	});
 };
 
+$.fn.fadeEachDown = function() {
+	var s = this.size()+5;
+	return this.each(function(i) {
+		var o = 1 - (s == 1 ? 0.5 : 0.85/s*(i+1));
+		var e = this.style;
+		if (window.ActiveXObject)
+			e.filter = "alpha(opacity=" + o*100 + ")";
+		e.opacity = o;
+	});
+};
+
 function pauseSpy() {
 	spyRunning = 0; return false;
 }
@@ -137,3 +149,6 @@ function pauseSpy() {
 function playSpy() {
 	spyRunning = 1; return false;
 }
+
+
+
