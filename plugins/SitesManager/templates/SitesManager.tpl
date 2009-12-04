@@ -58,7 +58,9 @@
 			
 		</tbody>
 	</table>
-	<div class="addRowSite"><a href="#"><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</a></div>
+  {if $isSuperUser}	
+	  <div class="addRowSite"><a href="#"><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</a></div>
+	{/if}
 {/if}
 
 {include file="CoreAdminHome/templates/footer.tpl"}
