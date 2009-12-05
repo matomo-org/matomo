@@ -58,8 +58,14 @@
 			
 		</tbody>
 	</table>
-  {if $isSuperUser}	
-	  <div class="addRowSite"><a href="#"><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</a></div>
+	{if $isSuperUser}	
+	<div class="addRowSite"><a href="#"><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</a></div>
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top:20px; padding:0 .7em;">
+			<p style="font-size:62.5%;"><span class="ui-icon ui-icon-info" style="float:left;margin-right:.3em;"></span>
+			{'SitesManager_AliasUrlHelp'|translate}</p>
+		</div>
+	</div>
 	{/if}
 {/if}
 

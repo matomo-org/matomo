@@ -692,6 +692,9 @@ $translations = array(
 	'SitesManager_ShowTrackingTag' => 'show tracking tag',
 	'SitesManager_NoWebsites' => 'You don\'t have any website to administrate.',
 	'SitesManager_AddSite' => 'Add a new website',
+	'SitesManager_AliasUrlHelp' => 'It is recommended, but not required, to specify the various URLs that your visitors use to access this website. 
+Alias URLs for a website will not appear in the Referers > Websites report. 
+Note that it is not necessary to specify the URLs with and without \'www\' as Piwik automatically considers both.',
 	'SitesManager_Id' => 'Id',
 	'SitesManager_Name' => 'Name',
 	'SitesManager_Urls' => 'URLs',
