@@ -74,7 +74,6 @@ class Piwik_View implements Piwik_iView
 
 		// global value accessible to all templates: the piwik base URL for the current request
 		$this->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
-		$this->isSuperUser = Zend_Registry::get('access')->isSuperUser();
 	}
 	
 	/**

@@ -254,6 +254,7 @@ abstract class Piwik_Controller
 
 			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
 
+			$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
 		}
