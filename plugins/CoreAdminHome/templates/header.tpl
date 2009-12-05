@@ -10,6 +10,7 @@
 {include file="CoreHome/templates/js_global_variables.tpl"}
 
 <link rel="stylesheet" type="text/css" href="themes/default/common.css" />
+<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" class="ui-theme" />
 <link rel="stylesheet" type="text/css" href="plugins/CoreAdminHome/templates/styles.css" />
 {postEvent name="template_css_import"}
 
