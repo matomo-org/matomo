@@ -10,15 +10,14 @@
 {include file="CoreHome/templates/js_global_variables.tpl"}
 
 <link rel="stylesheet" type="text/css" href="themes/default/common.css" />
-<link rel="stylesheet" type="text/css" href="libs/jquery/thickbox.css" />
 <link rel="stylesheet" type="text/css" href="plugins/CoreAdminHome/templates/styles.css" />
 {postEvent name="template_css_import"}
 
 <script type="text/javascript" src="themes/default/common.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="libs/jquery/jquery.bgiframe.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
-<script type="text/javascript" src="libs/jquery/thickbox.js"></script>
 <script type="text/javascript" src="libs/jquery/fdd2div-modified.js"></script>
 <script type="text/javascript" src="libs/javascript/sprintf.js"></script>
 {postEvent name="template_js_import"}
