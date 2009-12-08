@@ -19,6 +19,10 @@ dbname			=
 tables_prefix	= 
 port			= 3306
 adapter			= PDO_MYSQL
+; if charset is set to utf8, Piwik will ensure that it is storing its data using UTF8 charset.
+; it will add a sql query SET at each page view.
+; Piwik should work correctly without this setting.  
+;charset		= utf8
 
 [database_tests]
 host 			= localhost
