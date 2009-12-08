@@ -23,7 +23,7 @@ class Piwik_Provider extends Piwik_Plugin
 			'description' => 'Reports the Provider of the visitors.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'version' => Piwik_Version::VERSION,
 			'TrackerPlugin' => true, // this plugin must be loaded during the stats logging
 		);
 		

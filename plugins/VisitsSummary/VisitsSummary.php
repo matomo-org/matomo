@@ -23,7 +23,7 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 			'description' => 'Reports the general Analytics numbers: visits, unique visitors, number of actions, Bounce Rate, etc.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'version' => Piwik_Version::VERSION,
 		);
 		return $info;
 	}

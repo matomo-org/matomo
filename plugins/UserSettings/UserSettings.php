@@ -23,7 +23,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 			'description' => 'Reports various User Settings: Browser, Browser Family, Operating System, Plugins, Resolution, Global Settings.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'version' => Piwik_Version::VERSION,
 		);
 		
 		return $info;

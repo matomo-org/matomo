@@ -23,7 +23,7 @@ class Piwik_DBStats extends Piwik_Plugin
 			'description' => 'This plugin reports the MySQL database usage by Piwik tables.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'version' => Piwik_Version::VERSION,
 		);
 	}
 
