@@ -304,6 +304,7 @@ class Piwik_Live_API
 	
 
 	/*
+	 * TODO should be refactored with function below
 	 * @return array
 	 */
 	private function loadLastVisitorDetailsInLastXMinFromDatabase($visitorId = null, $idSite = null, $limit = 1000, $minIdVisit = false, $minutes = 0 )
@@ -345,11 +346,12 @@ class Piwik_Live_API
 				FROM " . Piwik::prefixTable('log_visit') . "
 				$sqlWhere 
 				ORDER BY idvisit DESC
-				LIMIT " . $limit;
+				LIMIT " . (int)$limit;
 		return Piwik_FetchAll($sql, $whereBind);
 	}
 	
 	/*
+	 * TODO should be refactored with function above
 	 * @return array
 	 */
 	private function loadLastVisitorDetailsInLastXDaysFromDatabase($visitorId = null, $idSite = null, $limit = 1000, $minIdVisit = false, $days = 0 )
@@ -391,12 +393,12 @@ class Piwik_Live_API
 				FROM " . Piwik::prefixTable('log_visit') . "
 				$sqlWhere 
 				ORDER BY idvisit DESC
-				LIMIT " . $limit;
-				
+				LIMIT " . (int)$limit;
 		return Piwik_FetchAll($sql, $whereBind);
 	}
 	
 	/*
+	 * TODO should be refactored with function above
 	 * @return array
 	 */
 	private function loadLastVisitedPagesInLastXMinFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = false, $minutes = 0 )
@@ -443,6 +445,7 @@ class Piwik_Live_API
 	}	
 		
 	/*
+	 * TODO should be refactored with function above
 	 * @return array
 	 */
 	private function loadLastVisitedPagesInLastXDaysFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = false, $days = 0 )

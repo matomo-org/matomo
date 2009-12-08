@@ -50,8 +50,11 @@ class Piwik_DBStats_API
 		Piwik::checkUserIsSuperUser();
 		$db = Zend_Registry::get('db');
 		// http://dev.mysql.com/doc/refman/5.1/en/show-table-status.html
-		$tables = $db->fetchAll("SHOW TABLE STATUS LIKE '". $table."'");
+		$tables = $db->fetchAll("SHOW TABLE STATUS LIKE ". $db->quote($table));
 
+		if(!isset($tables[0])) {
+			throw new Exception('Error, table or field not found');
+		}
 		if ($field == '')
 		{
 			return $tables[0];

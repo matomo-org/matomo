@@ -16,7 +16,7 @@ body {
 #success {
 	color: #38D73B;
 	text-align: center;
-	border: 2px solid red;
+	border: 2px solid #38D73B;
 	margin: 10px;
 	padding: 10px;
 }

@@ -36,9 +36,10 @@ $(document).ready( function(){
 {$javascriptTag}
 </code>
 
-<h1>{'Installation_QuickHelp'|translate}:</h1>
+<h1>{'Installation_JsTagHelpTitle'|translate}</h1>
 {include file=SitesManager/templates/JavascriptTagHelp.tpl}
-<ul>
-<li>{'Installation_JsTagArchivingHelp'|translate}</li>
+
+<br/>
+<h1>{'Installation_LargePiwikInstances'|translate}</h1>
+{'Installation_JsTagArchivingHelp'|translate}
 <!-- <li>Link to help with the main blog engines wordpress/drupal/myspace/blogspot</li> -->
-</ul>

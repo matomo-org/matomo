@@ -60,13 +60,13 @@
 	</table>
 	{if $isSuperUser}	
 	<div class="addRowSite"><a href="#"><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</a></div>
+	{/if}
 	<div class="ui-widget">
-		<div class="ui-state-highlight ui-corner-all" style="margin-top:20px; padding:0 .7em;">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top:20px; padding:0 .7em; width:400px">
 			<p style="font-size:62.5%;"><span class="ui-icon ui-icon-info" style="float:left;margin-right:.3em;"></span>
 			{'SitesManager_AliasUrlHelp'|translate}</p>
 		</div>
 	</div>
-	{/if}
 {/if}
 
 {include file="CoreAdminHome/templates/footer.tpl"}
