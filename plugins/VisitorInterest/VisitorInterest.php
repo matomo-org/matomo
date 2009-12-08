@@ -23,7 +23,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			'description' => 'Reports about the Visitor Interest: number of pages viewed, time spent on the Website.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'version' => Piwik_Version::VERSION,
 		);
 		
 		return $info;

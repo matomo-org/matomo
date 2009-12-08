@@ -23,7 +23,7 @@ class Piwik_UsersManager extends Piwik_Plugin
 			'description' => 'Users Management in Piwik: add a new User, edit an existing one, update the permissions. All the actions are also available through the API.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'version' => Piwik_Version::VERSION,
 		);
 		
 		return $info;
