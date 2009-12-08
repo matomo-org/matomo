@@ -50,7 +50,7 @@ class Piwik_DBStats_API
 		Piwik::checkUserIsSuperUser();
 		$db = Zend_Registry::get('db');
 		// http://dev.mysql.com/doc/refman/5.1/en/show-table-status.html
-		$tables = $db->fetchAll("SHOW TABLE STATUS LIKE ?", $table);
+		$tables = $db->fetchAll("SHOW TABLE STATUS LIKE '". $table."'");
 
 		if ($field == '')
 		{
