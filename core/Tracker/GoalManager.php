@@ -71,7 +71,6 @@ class Piwik_Tracker_GoalManager
 		return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
 	}
 
-	//TODO does this code work for manually triggered goals, with custom revenue?
 	function detectGoalsMatchingUrl($idSite, $action)
 	{
 		if(!$this->isGoalPluginEnabled())
