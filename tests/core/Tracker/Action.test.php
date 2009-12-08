@@ -103,7 +103,7 @@ class Test_Piwik_TrackerAction extends UnitTestCase
 			// empty request
 			array(
 				'request' => array(),
-				'expected' => array(	'name' => null,	'url' => '/',
+				'expected' => array(	'name' => null,	'url' => '',
 										'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
 			),
 			array(
