@@ -162,15 +162,18 @@ class Piwik_Cookie
 			if(!is_numeric($varValue))
 			{
 				$varValue = base64_decode($varValue);
-
-				// some of the values may be serialized array so we try to unserialize it
-				if( ($arrayValue = @unserialize($varValue)) !== false
-					// we set the unserialized version only for arrays as you can have set a serialized string on purpose
-					&& is_array($arrayValue)
-					)
-				{
-					$varValue = $arrayValue;
-				}
+  				// some of the values may be serialized array so we try to unserialize it
+ 				if (preg_match('/^a:[0-9]+:\{/', $varValue)
+ 					&& !preg_match('/(^|;|{|})O:[0-9]+:"/', $varValue)
+ 					&& strpos($varValue, "\0") === false)
+  				{
+ 					// we set the unserialized version only for arrays as you can have set a serialized string on purpose
+ 					if( ($arrayValue = @unserialize($varValue)) !== false
+ 						&& is_array($arrayValue) )
+ 					{
+ 						$varValue = $arrayValue;
+ 					}
+  				}
 			}
 			
 			$this->set($varName, $varValue);
