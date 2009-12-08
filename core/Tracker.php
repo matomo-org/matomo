@@ -35,6 +35,7 @@ class Piwik_Tracker
 	const STATE_LOGGING_DISABLE = 10;
 	const STATE_EMPTY_REQUEST = 11;
 	const STATE_TRACK_ONLY = 12;
+	const STATE_NOSCRIPT_REQUEST = 13;
 		
 	const COOKIE_INDEX_IDVISITOR 				= 1;
 	const COOKIE_INDEX_TIMESTAMP_LAST_ACTION 	= 2;
@@ -110,7 +111,7 @@ class Piwik_Tracker
 			
 			case self::STATE_EMPTY_REQUEST:
 				printDebug("Empty request => Piwik page");
-				echo "<a href='index.php'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
+				echo "<a href='/'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
 			break;
 			
 			case self::STATE_TO_REDIRECT_URL:
@@ -121,6 +122,7 @@ class Piwik_Tracker
 				printDebug("Data push, tracking only");
 			break;
 
+			case self::STATE_NOSCRIPT_REQUEST:
 			case self::STATE_NOTHING_TO_NOTICE:
 			default:
 				printDebug("Nothing to notice => default behaviour");
@@ -330,9 +332,14 @@ class Piwik_Tracker
 
 	protected function handleEmptyRequest()
 	{
-		if( count($this->request) == 0 )
+		$countParameters = count($this->request);
+		if($countParameters == 0) 
 		{
 			$this->setState(self::STATE_EMPTY_REQUEST);
+		}
+		if($countParameters == 1 )
+		{
+			$this->setState(self::STATE_NOSCRIPT_REQUEST);
 		}
 	}
 	

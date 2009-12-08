@@ -276,7 +276,8 @@ class Piwik_PluginsManager
 
 		if(!file_exists($path))
 		{
-			throw new Exception("Unable to load plugin '$pluginName' because '$path' couldn't be found.");
+			throw new Exception("Unable to load plugin '$pluginName' because '$path' couldn't be found.
+			You can manually uninstall the plugin by removing the line <code>Plugins[] = $pluginName</code> from the Piwik config file.");
 		}
 
 		// Don't remove this.

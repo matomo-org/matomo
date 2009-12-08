@@ -54,3 +54,7 @@ function Piwik_FetchOne( $sqlQuery, $parameters = array())
 	return Zend_Registry::get('db')->fetchOne( $sqlQuery, $parameters );
 }
 
+function Piwik_Quote($value )
+{
+	return Zend_Registry::get('db')->quote($value);
+}

@@ -72,6 +72,9 @@ class Piwik_Db
 				$adapterNames[strtoupper($adapterName)] = call_user_func(array($className, 'getDefaultPort'));
 			}
 		}
+		// little hack to return PDO_MYSQL first by default
+		$adapterNames = array_reverse($adapterNames, $preserve_keys = true);
+        		
 		return $adapterNames;
 	}
 }
