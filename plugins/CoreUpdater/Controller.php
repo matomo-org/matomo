@@ -221,7 +221,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private function doWelcomeUpdates($view, $componentsWithUpdateFile)
 	{
 		$view->new_piwik_version = Piwik_Version::VERSION;
-
+		$view->commandUpgradePiwik = "<br/><code>php ".Piwik_Common::getPathToPiwikRoot()."/index.php </code>";
 		$pluginNamesToUpdate = array();
 		$coreToUpdate = false;
 

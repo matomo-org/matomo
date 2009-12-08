@@ -26,7 +26,7 @@
 		<p>{'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate:$listOfPlugins}</p>
 	{/if}
 
-	<p>{'CoreUpdater_TheUpgradeProcessMayFail'|translate}</p>
+	<p>{'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate:$commandUpgradePiwik}</p>
 	<p>{'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate}</p>
 
 	<br>

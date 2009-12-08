@@ -225,6 +225,8 @@ input {
 		
 		<div class="both"></div>
 		
+		<br/>
+		<br/>
 		<h3>{'Installation_InstallationStatus'|translate}</h3>
 		
 		<div id="progressbar"></div>

@@ -22,7 +22,7 @@
 	<tr>
 		<td colspan="2">
 			<small>
-				<span style="color:orange">{'Installation_ConnectionCharacterSetNotUtf8'|translate}</span>
+				<span style="color:#FF7F00">{'Installation_ConnectionCharacterSetNotUtf8'|translate}</span>
 			</small>
 		</td>
 	</tr>
@@ -35,7 +35,7 @@
 	<tr>
 		<td colspan="2">
 			<small>
-				<span style="color:orange">{'Installation_TimezoneMismatch'|translate}</span>
+				<span style="color:#FF7F00">{'Installation_TimezoneMismatch'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/FAQ/troubleshooting/#faq_58' target='_blank'>FAQ</a>"}.</span>
 			</small>
 		</td>
 	</tr>
