@@ -67,25 +67,26 @@ function widgetize()
 			'</div>'
 		);
 		
-		// Add the Flash Export if a flash <embed> is found in the widget 
-		$(loadedWidgetElement)
-			.find('embed,object')
-			.each(function() {
-				var htmlEmbed = $(this).parent().html();
-
-				htmlEmbed = htmlEmbed.replace(/ (data=")/, ' $1' + unescape(piwik.piwik_url));
-				htmlEmbed = htmlEmbed.replace(/ (value=")x-(data-file=)/, ' $1$2' + piwik.piwik_url + 'index.php');
-
-				$(exportButtonsElement).append(
-					'<div id="embedThisWidgetFlash">'+
-						'<label for="embedThisWidgetFlashInput">&rsaquo; Embed Flash</label>'+
-						'<span id="embedThisWidgetFlashInput">'+
-							self.getInputFormWithHtml('flashEmbed', htmlEmbed) +
-						'</span>'+
-					'</div>'
-				);
-			});
-
+		if(false) {
+			// Add the Flash Export if a flash <embed> is found in the widget 
+			$(loadedWidgetElement)
+				.find('embed,object')
+				.each(function() {
+					var htmlEmbed = $(this).parent().html();
+	
+					htmlEmbed = htmlEmbed.replace(/ (data=")/, ' $1' + unescape(piwik.piwik_url));
+					htmlEmbed = htmlEmbed.replace(/ (value=")x-(data-file=)/, ' $1$2' + piwik.piwik_url + 'index.php');
+	
+					$(exportButtonsElement).append(
+						'<div id="embedThisWidgetFlash">'+
+							'<label for="embedThisWidgetFlashInput">&rsaquo; Embed Flash</label>'+
+							'<span id="embedThisWidgetFlashInput">'+
+								self.getInputFormWithHtml('flashEmbed', htmlEmbed) +
+							'</span>'+
+						'</div>'
+					);
+				});
+		}
 		// 0.5: Removing launchpad feature as it doesn't seem to work well despite us contacting Clearspring
 		if(false) {
 			$(exportButtonsElement).append(
