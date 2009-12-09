@@ -140,10 +140,12 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 			{
 				foreach($row as $widgetId => $widget)
 				{
-					$pluginName = $widget['parameters']['module'];
-					if(!Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName))
-					{
-						unset($row[$widgetId]);
+					if(isset($widget->parameters->module)) {
+    					$pluginName = $widget->parameters->module;
+    					if(!Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName))
+    					{
+    						unset($row[$widgetId]);
+    					}
 					}
 				}
 			}
