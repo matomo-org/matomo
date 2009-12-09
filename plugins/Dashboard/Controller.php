@@ -141,9 +141,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	
 	protected function removeDisabledPluginFromLayout($layout)
 	{
+		$layout = str_replace("\n", "", $layout);
 		// if the json decoding works (ie. new Json format)
 		// we will only return the widgets that are from enabled plugins
-		if($layoutObject = json_decode($layout, $assoc = true)) 
+		if($layoutObject = json_decode($layout, $assoc = false)) 
 		{
 			foreach($layoutObject as &$row) 
 			{
