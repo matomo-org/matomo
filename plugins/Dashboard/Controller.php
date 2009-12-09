@@ -21,7 +21,11 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view = Piwik_View::factory($template);
 		$this->setGeneralVariablesView($view);
 
-		$view->layout = $this->getLayout();
+		$layout = $this->getLayout();
+		if(empty($layout)) {
+			$layout = $this->getDefaultLayout();
+		}
+		$view->layout = $layout;
 		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
 		return $view;
 	}
@@ -131,7 +135,12 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 			&& strstr($layout, '[[') == false) {
 			$layout = "'$layout'";
 		}
-		
+		$layout = $this->removeDisabledPluginFromLayout($layout);
+		return $layout;
+	}
+	
+	protected function removeDisabledPluginFromLayout($layout)
+	{
 		// if the json decoding works (ie. new Json format)
 		// we will only return the widgets that are from enabled plugins
 		if($layoutObject = json_decode($layout, $assoc = true)) 
@@ -152,6 +161,30 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 			$layout = json_encode($layoutObject);
 		}
 		return $layout;
+	}
+	
+	protected function getDefaultLayout()
+	{
+		$defaultLayout = '[
+    		[
+    			{"uniqueId":"widgetVisitsSummarygetEvolutionGraph","parameters":{"module":"VisitsSummary","action":"getEvolutionGraph","columns":["nb_visits"]}},
+    			{"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}},
+    			{"uniqueId":"widgetUserSettingsgetBrowser","parameters":{"module":"UserSettings","action":"getBrowser"}},
+    			{"uniqueId":"widgetUserCountrygetCountry","parameters":{"module":"UserCountry","action":"getCountry"}},
+    			{"uniqueId":"widgetExampleFeedburnerfeedburner","parameters":{"module":"ExampleFeedburner","action":"feedburner"}}
+    		],
+    		[
+    			{"uniqueId":"widgetReferersgetKeywords","parameters":{"module":"Referers","action":"getKeywords"}},
+    			{"uniqueId":"widgetReferersgetWebsites","parameters":{"module":"Referers","action":"getWebsites"}}
+    		],
+    		[
+    			{"uniqueId":"widgetReferersgetSearchEngines","parameters":{"module":"Referers","action":"getSearchEngines"}},
+    			{"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"module":"VisitTime","action":"getVisitInformationPerServerTime"}},
+    			{"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}
+    		]
+    	]';
+		$defaultLayout = $this->removeDisabledPluginFromLayout($defaultLayout);
+		return $defaultLayout;
 	}
 }
 
