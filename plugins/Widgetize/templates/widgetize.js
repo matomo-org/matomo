@@ -67,9 +67,8 @@ function widgetize()
 			'</div>'
 		);
 		
-		// Add the Flash Export if a flash <embed> is found in the widget 
-		// 0.5: removing temporarily this feature as it seems not working
 		if(false) {
+			// Add the Flash Export if a flash <embed> is found in the widget 
 			$(loadedWidgetElement)
 				.find('embed,object')
 				.each(function() {
@@ -88,7 +87,6 @@ function widgetize()
 					);
 				});
 		}
-		
 		// 0.5: Removing launchpad feature as it doesn't seem to work well despite us contacting Clearspring
 		if(false) {
 			$(exportButtonsElement).append(

@@ -50,7 +50,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// 1und1
 		'portal.1und1.de'			=> array('1und1', 'search'),
-
+		'search.1und1.de'                       => array('1und1', 'su', 'search/web/?mc=suche%40web%40home.suche%40web&allparams=&smode=&su={k}&search=Suche&webRb='),
+	
 		// 3271
 		'nmsearch.3721.com'			=> array('3271', 'p'),
 		'seek.3721.com'				=> array('3271', 'p'),
@@ -334,7 +335,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'antisearch.francite.com'	=> array('Francite', 'KEYWORDS'),
 
 		// Fireball
-		'suche.fireball.de'			=> array('Fireball', 'query'),
+		'suche.fireball.de'			=> array('Fireball', 'query'),   
+		'www.fireball.de'                       => array('Fireball', 'q'),
 
 		// Firstfind
 		'www.firstsfind.com'		=> array('Firstsfind', 'qry'),
@@ -344,7 +346,15 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Flix
 		'www.flix.de'				=> array('Flix.de', 'keyword'),
+                
+		// Forestle
+        'de.forestle.org'                               => array('Forestle', 'q', 'search.php?q={k}'),
+        'at.forestle.org'                               => array('Forestle', 'q', 'search.php?q={k}'),
+        'ch.forestle.org'                               => array('Forestle', 'q', 'search.php?q={k}'),
+        'us.forestle.org'                               => array('Forestle', 'q', 'search.php?q={k}'),
+        'fr.forestle.org'                               => array('Forestle', 'q', 'search.php?q={k}'),
 
+	
 		// Free
 		'search.free.fr'			=> array('Free', 'q'),
 		'search1-2.free.fr'			=> array('Free', 'q'),
@@ -1109,9 +1119,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search-dyn.tiscali.de'		=> array('Tiscali', 'key'),
 		'hledani.tiscali.cz'		=> array('Tiscali', 'query', false, 'windows-1250'),
 
-		// T-Online
+        // Tixuma
+		'www.tixuma.de'                         => array('Tixuma', 'sc', 'index.php?mp=search&stp=&sc={k}&tg=0'),
+	
+        // T-Online
 		'suche.t-online.de'			=> array('T-Online', 'q'),
-
+		'navigationshilfe.t-online.de'                  => array('T-Online', 'q', 'dtag/dns/results?mode=search_top&q={k}'),
+		
 		// Trouvez.com
 		'www.trouvez.com'			=> array('Trouvez.com', 'query'),
 
@@ -1193,7 +1207,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'us.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'ru.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'www.yahoo.com.cn'			=> array('Yahoo!', 'p'),
+		'de.yhs.search.yahoo.com'       => array('Yahoo!', 'p', 'avg/search?p={k}'),
 
+	
 		'au.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
 
 		'de.dir.yahoo.com'			=> array('Yahoo! Webverzeichnis', ''),

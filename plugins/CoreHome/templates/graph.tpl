@@ -14,10 +14,10 @@
 				"{$flashParameters.requiredFlashVersion}",
 				"{$flashParameters.swfLibraryPath}expressInstall.swf",
 				{literal}{{/literal}
+					"{if $flashParameters.includeData}x-{/if}data-file":"{$urlGraphData|escape:"url"}",
 				{if $flashParameters.includeData}
 					"id":"{$chartDivId}",
 				{/if}
-					"{if $flashParameters.includeData}x-{/if}data-file":"{$urlGraphData|escape:"url"}",
 					"loading":"{'General_Loading'|translate|escape:"html"}"
 				{literal}},
 				{{/literal}
