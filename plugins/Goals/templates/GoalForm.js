@@ -137,7 +137,7 @@ function getAjaxAddGoal()
 		parameters.pattern = '.*';
 		parameters.caseSensitive = 0;
 	} else {
-		parameters.matchAttribute = $('input[name=match_attribute][checked]').val();
+		parameters.matchAttribute = $('input[name=match_attribute]:checked').val();
 		parameters.patternType = $('[name=pattern_type]').val();
 		parameters.pattern = encodeURIComponent( $('input[name=pattern]').val() );
 		parameters.caseSensitive = $('#case_sensitive').attr('checked') == true ? 1: 0;
