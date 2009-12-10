@@ -19,16 +19,22 @@
 # time_before_archive_considered_outdated = 3600
 # enable_browser_archiving_triggering = false
 
-PHP_BIN=`which php5 2>/dev/null`
+for TEST_PHP_BIN in php5 php; do
+  if which $TEST_PHP_BIN >/dev/null 2>/dev/null; then
+    PHP_BIN=`which $TEST_PHP_BIN`
+    break
+  fi
+done
 if test -z $PHP_BIN; then
-  PHP_BIN=`which php`
+  echo "php binary not found. Make sure php5 or php exists in PATH."
+  exit 1
 fi
 
 act_path() {
-    local pathname="$1"
-    readlink -f "$pathname" 2>/dev/null || \
-    realpath "$pathname" 2>/dev/null || \
-    type -P "$pathname" 2>/dev/null
+  local pathname="$1"
+  readlink -f "$pathname" 2>/dev/null || \
+  realpath "$pathname" 2>/dev/null || \
+  type -P "$pathname" 2>/dev/null
 }
 
 ARCHIVE=`act_path ${0}`
