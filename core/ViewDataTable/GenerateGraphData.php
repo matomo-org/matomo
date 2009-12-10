@@ -87,7 +87,10 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 
-		@header( "Content-type: application/json" );
+		if (!Zend_Registry::get('config')->General->serve_widget_and_data)
+		{
+			@header( "Content-type: application/json" );
+		}
 
 		// the queued filters will be manually applied later. This is to ensure that filtering using search
 		// will be done on the table before the labels are enhanced (see ReplaceColumnNames)
