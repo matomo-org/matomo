@@ -821,4 +821,9 @@ Note that it is not necessary to specify the URLs with and without \'www\' as Pi
 	'TranslationsAdmin_LanguageCode' => 'Language code',
 	'TranslationsAdmin_Export' => 'Export language',
 	'TranslationsAdmin_Import' => 'Import language',
+	'SecurityInfo_Security' => 'Security',
+	'SecurityInfo_SecurityInformation' => 'PHP Security Information',
+	'SecurityInfo_PluginDescription' => 'Based on PhpSecInfo from the <a href="http://phpsec.org/">PHP Security Consortium</a>, this plugin provides security information about your PHP environment and offers suggestions for improvement. It is a tool in a multilayered security approach. It does not replace secure development practices nor audit the code/application.',
+	'SecurityInfo_Test' => 'Test',
+	'SecurityInfo_Result' => 'Result',
 );
