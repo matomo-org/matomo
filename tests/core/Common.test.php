@@ -590,7 +590,7 @@ class Test_Piwik_Common extends UnitTestCase
 		{
 			if(isset($info[2]) && $info[2] !== false)
 			{
-				$this->assertTrue(strrpos($info[2], "{k}") !== false, $host . "search URL is not defined correctly, must contain the macro {k}");
+				$this->assertTrue(strrpos($info[2], "{k}") !== false, $host . " search URL is not defined correctly, must contain the macro {k}");
 			}
 		}
 	}
