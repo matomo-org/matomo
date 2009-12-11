@@ -518,6 +518,32 @@ class Piwik_Common
 	}
 
 	/**
+	 * Get salt from [superuser] section
+	 *
+	 * @return string
+	 */
+	static public function getSalt()
+	{
+		static $salt = null;
+		if(is_null($salt))
+		{
+			if(defined('PIWIK_TRACKER_MODE') && PIWIK_TRACKER_MODE)
+			{
+				$salt = Piwik_Tracker_Config::getInstance()->superuser['salt'];
+			}
+			else
+			{
+				$config = Zend_Registry::get('config');
+				if($config !== false)
+				{
+					$salt = $config->superuser->salt;
+				}
+			}
+		}
+		return $salt;
+	}
+
+	/**
 	 * Convert dotted IP to a stringified integer representation
 	 *
 	 * @return string ip

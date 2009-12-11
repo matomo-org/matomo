@@ -162,18 +162,9 @@ class Piwik_Cookie
 			if(!is_numeric($varValue))
 			{
 				$varValue = base64_decode($varValue);
-  				// some of the values may be serialized array so we try to unserialize it
- 				if (preg_match('/^a:[0-9]+:\{/', $varValue)
- 					&& !preg_match('/(^|;|{|})O:[0-9]+:"/', $varValue)
- 					&& strpos($varValue, "\0") === false)
-  				{
- 					// we set the unserialized version only for arrays as you can have set a serialized string on purpose
- 					if( ($arrayValue = @unserialize($varValue)) !== false
- 						&& is_array($arrayValue) )
- 					{
- 						$varValue = $arrayValue;
- 					}
-  				}
+
+				// some of the values may be serialized array so we try to unserialize it
+				$varValue = self::unserialize_array($varValue);
 			}
 			
 			$this->set($varName, $varValue);
@@ -267,4 +258,28 @@ class Piwik_Cookie
 	{
 		return Piwik_Common::sanitizeInputValues($value);
 	}	
+
+	/**
+	 * Unserialize (serialized) array
+	 *
+	 * @param string
+	 * @return array or original string if not unserializable
+	 */
+	public static function unserialize_array( $str )
+	{
+		// we set the unserialized version only for arrays as you can have set a serialized string on purpose
+		if (preg_match('/^a:[0-9]+:{/', $str)
+			&& !preg_match('/(^|;|{|})O:[0-9]+:"/', $str)
+			&& strpos($str, "\0") === false)
+		{
+			if( ($arrayValue = @unserialize($str)) !== false
+				&& is_array($arrayValue) )
+			{
+				return $arrayValue;
+			}
+		}
+
+		// return original string
+		return $str;
+	}
 }
