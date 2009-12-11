@@ -1,0 +1,89 @@
+## PHPSECINFO
+
+*Now on GitHub*
+
+_see LICENSE for copyright and license info_
+
+Mailing List for bug reports, feedback, etc:
+http://lists.phpsec.org/mailman/listinfo/phpsecinfo
+
+
+### WHAT IS PHPSECINFO?
+PHPSecInfo is a PHP environment security auditing tool modeled after the
+phpsecinfo() function.  From a single function call, PHPSecInfo runs a
+series of tests on your PHP environment to identify potential security
+issues and offer suggestions.  It can be useful as part of a multilayered
+security approach.
+
+
+#### WHAT IS PHPSECINFO NOT?
+* It is not a replacement for secure coding practices
+* It does not audit PHP code
+* It is not comprehensive test for either your hosting environment
+  or your web application
+* It is not the "final word."  PHPSecInfo identifies *potential* problems
+  and offers suggestions for improvement.  Your environment may _require_
+  certain settings that trigger cautions or warnings.
+
+
+### HOW DO I USE PHPSECINFO?
+
+The simplest way:
+
+* Uncompress and upload the contents of the archive to your web server's
+  document root
+* Open a browser and view the index.php file where you've uploaded the files
+  (probably something like http://www.yourdomain.com/phpsecinfo/index.php)
+
+
+### WHAT DO I DO IF I GET A NOTICE OR WARNING?
+
+Read the explanation of the result carefully.  Research the issue on-line
+-- resources like the php.net official docs and the PHP Security Guide are
+very useful.  Investigate why your environment is set up in such a way.  If
+there's not a compelling reason to keep it as-is, you should probably
+
+A by no means comprehensive list of resources to get your started:
+
+Web Sites:
+http://www.php.net/manual/en/security.php
+http://phpsec.org/projects/guide/
+
+Books:
+http://phparch.com/pgps
+http://phpsecurity.org/
+http://apachesecurity.net/
+
+
+### HOW CAN I CUSTOMIZE THE OUTPUT OF PHPSECINFO?
+
+PHPSecInfo is intended to be used as a self-contained tool.  However, you
+can obtain the test results in an array and then present this data in your
+preferred format.
+
+Example:
+<code>
+require_once('PhpSecInfo/PhpSecInfo.php');
+// instantiate the class
+$psi = new PhpSecInfo();
+
+// load and run all tests
+$psi->loadAndRun();
+
+// grab the results as a multidimensional array
+$results = $psi->getResultsAsArray();
+echo "<pre>"; echo print_r($results, true); echo "</pre>";
+
+// grab the standard results output as a string
+$html = $psi->getOutput();
+
+// send it to the browser
+echo $html;
+</code>
+
+
+### HOW CAN I OFFER FEEDBACK, REPORT BUGS, COMPLAIN, ETC.?
+
+The best way is to subscribe to and post on the PHPSecInfo Mailing List:
+
+http://lists.phpsec.org/mailman/listinfo/phpsecinfo
