@@ -26,7 +26,7 @@ class Piwik_Updates_0_5 implements Piwik_iUpdate
 			'ALTER TABLE ' . Piwik::prefixTable('log_link_visit_action') . ' ADD COLUMN `idaction_name` INTEGER(10) UNSIGNED AFTER `idaction_url_ref`;' => '1060',
 			'ALTER TABLE ' . Piwik::prefixTable('log_conversion') . ' CHANGE `idaction` `idaction_url` INTEGER(11) UNSIGNED NOT NULL;' => false,
 			'UPDATE ' . Piwik::prefixTable('log_action') . ' SET `hash` = CRC32(name);' => false,
-			'CREATE INDEX index_type_hash ON ' . Piwik::prefixTable('log_action') . ' (type, hash);' => false,
+			'CREATE INDEX index_type_hash ON ' . Piwik::prefixTable('log_action') . ' (type, hash);' => '1061',
 			'DROP INDEX index_type_name ON ' . Piwik::prefixTable('log_action') . ';' => false,
 		));
 	}
