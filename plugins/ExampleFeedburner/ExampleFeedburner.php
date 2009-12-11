@@ -22,7 +22,7 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 			'name' => 'Example Feedburner',
 			'description' => 'Example Plugin: How to display your Feedburner subscriber in a Widget in the Dashboard?',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}

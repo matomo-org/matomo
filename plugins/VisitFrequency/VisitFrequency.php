@@ -22,7 +22,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 			'name' => 'Visits Frequency',
 			'description' => 'Reports various statistics about the Returning Visitor versus the First time visitor.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 		return $info;

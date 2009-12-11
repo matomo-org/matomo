@@ -22,7 +22,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 			'name' => 'Example Plugin',
 			'description' => 'Example Plugin: This plugin shows how to create a very simple plugin, that exports two widgets in the Dashboard.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 			'translationAvailable' => true,
 		);

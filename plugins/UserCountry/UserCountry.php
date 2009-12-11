@@ -22,7 +22,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'name' => 'Visitors Country',
 			'description' => 'Reports the Country of the visitors.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 		return $info;

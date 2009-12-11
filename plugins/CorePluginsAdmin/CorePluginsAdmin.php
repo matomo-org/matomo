@@ -22,7 +22,7 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 			'name' => 'Plugins Management',
 			'description' => 'Plugins Administration Interface.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 	}

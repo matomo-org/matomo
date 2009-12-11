@@ -34,7 +34,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'name' => 'Actions',
 			'description' => 'Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic!',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 		return $info;

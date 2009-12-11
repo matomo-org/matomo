@@ -22,7 +22,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 			'name' => 'Updater',
 			'description' => 'Piwik updating mechanism',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 	}

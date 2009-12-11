@@ -22,7 +22,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 			'name' => 'Sites Management',
 			'description' => 'Websites Management in Piwik: Add a new Website, Edit an existing one, Show the Javascript code to include on your pages. All the actions are also available through the API.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 		return $info;

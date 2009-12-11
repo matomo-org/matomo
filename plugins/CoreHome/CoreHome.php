@@ -22,7 +22,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 			'name' => 'Homepage',
 			'description' => 'Web Analytics Reports Structure.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 	}
