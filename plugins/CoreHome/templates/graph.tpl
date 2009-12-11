@@ -7,6 +7,9 @@
 		</div></div>
 		<script type="text/javascript">
 <!--
+			{if $flashParameters.includeData}
+			piwikHelper.OFC.set("{$chartDivId}", '{$flashParameters.data}');
+			{/if}
 			swfobject.embedSWF(
 				"{$flashParameters.ofcLibraryPath}open-flash-chart.swf?{$tag}",
 				"{$chartDivId}",
@@ -28,9 +31,6 @@
 					"bgcolor":"#FFFFFF"
 				{literal}}{/literal}
 			);
-			{if $flashParameters.includeData}
-			piwikHelper.OFC.set("{$chartDivId}", '{$flashParameters.data}');
-			{/if}
 //-->
 		</script>
 	{else}
