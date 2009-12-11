@@ -29,7 +29,7 @@ class Piwik_Goals extends Piwik_Plugin
 			'name' => '(ALPHA) Goal Tracking',
 			'description' => 'Create Goals and see reports about your goal conversions: evolution over time, revenue per visit, conversions per referer, per keyword, etc.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 			'TrackerPlugin' => true, // this plugin must be loaded during the stats logging
 		);

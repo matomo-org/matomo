@@ -36,7 +36,7 @@ class Piwik_Live extends Piwik_Plugin
 			'name' => 'Live Visitors',
 			'description' => 'Live Visitors!',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 	}

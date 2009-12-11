@@ -22,7 +22,7 @@ class Piwik_Feedback extends Piwik_Plugin
 			'name' => 'Feedback',
 			'description' => 'Send your Feedback to the Piwik Team in one click. Share your ideas and suggestions with us!',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 	}

@@ -22,7 +22,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 			'name' => 'Administration area',
 			'description' => 'Administration area of Piwik.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 	}

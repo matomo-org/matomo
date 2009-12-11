@@ -32,7 +32,7 @@ class Piwik_ExampleUI extends Piwik_Plugin
 			'name' => 'Example User Interface',
 			'description' => 'Example Plugin: This plugin shows how to work with the Piwik UI: create tables, graphs, etc.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}

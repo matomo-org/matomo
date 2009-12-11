@@ -22,7 +22,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'name' => 'Visits Time',
 			'description' => 'Reports the Local and Server time. Server time information can be useful to schedule a maintenance on the Website.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 		return $info;
