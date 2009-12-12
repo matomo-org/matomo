@@ -5,6 +5,7 @@
 <title>Piwik &rsaquo; Web Analytics Reports</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Piwik {$piwik_version}" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" /> 
 {loadJavascriptTranslations plugins='CoreHome'}
 {include file="CoreHome/templates/js_global_variables.tpl"}
