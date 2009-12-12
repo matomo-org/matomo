@@ -4,6 +4,7 @@
 <head>
 	<title>Piwik &rsaquo; {'CoreUpdater_UpdateTitle'|translate}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 
 	<link rel="stylesheet" type="text/css" href="themes/default/simple_structure.css" />

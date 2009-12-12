@@ -4,6 +4,7 @@
 <head>
 <title>Piwik &rsaquo; {'Installation_Installation'|translate}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 
 <link rel="stylesheet" type="text/css" href="themes/default/common.css" />
 <link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" />
