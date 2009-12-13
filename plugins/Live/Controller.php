@@ -49,8 +49,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 							__FUNCTION__, 
 						'Live.getLastVisitsDetails',
 						'getPagesFromVisitId');											
-
-		
 // All colomns in DB which could be shown
 //'ip', 'idVisit', 'countActions', 'isVisitorReturning', 'country', 'countryFlag', 'continent', 'provider', 'providerUrl', 'idSite', 
 //'serverDate', 'visitLength', 'visitLengthPretty', 'firstActionTimestamp', 'lastActionTimestamp', 'refererType', 'refererName', 	
@@ -58,9 +56,22 @@ class Piwik_Live_Controller extends Piwik_Controller
 //'browserFamily', 'browserFamilyDescription', 'browser', 'browserIcon', 'screen', 'resolution', 'screenIcon', 'plugins', 'lastActionDateTime',
 //'serverDatePretty', 'serverTimePretty', 'actionDetails'
 		
-		$view->setColumnsToDisplay( array('label', 'idVisit', 'serverDatePretty', 'serverTimePretty', 'ip', 'countActions', 'visitLengthPretty', 'keywords', 'refererUrl',  
-											'operatingSystemShortName', 'browser', 'screen', 'resolution', 'plugins'
-											) );
+		$view->setColumnsToDisplay(array(
+			'idVisit',
+			'serverDatePretty',
+			'serverTimePretty',
+			'ip',
+			'countActions',
+			'visitLengthPretty',
+			'keywords',
+			'refererUrl',
+			'operatingSystemShortName',
+			'browser',
+			'screen',
+			'resolution',
+			'plugins',
+		));
+
 		$view->disableSort();
 		$view->setLimit(10);
 		$view->disableExcludeLowPopulation();		
@@ -68,8 +79,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
-	
-	
+
 	function getPagesFromVisitId( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory('');
@@ -147,5 +157,4 @@ class Piwik_Live_Controller extends Piwik_Controller
 		
 		echo $view->render();		
 	}	
-	
 }
