@@ -46,6 +46,7 @@ class Piwik_UpdateCheck
 				Piwik_SetOption(self::LATEST_VERSION, $latestVersion);
 			} catch(Exception $e) {
 				// e.g., disable_functions = fsockopen; allow_url_open = Off
+				Piwik_SetOption(self::LATEST_VERSION, '');
 			}
 			Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoload = 1);
 		}
