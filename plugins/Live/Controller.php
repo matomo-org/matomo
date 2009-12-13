@@ -26,11 +26,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		
 	function index()
 	{
-		$view = Piwik_View::factory('index');
-		$this->setGeneralVariablesView($view);
-		$view->visitors = $this->getLastVisitsStart(true);
-		
-		echo $view->render();
+		$this->widget(true);
 	}	
 	
 	public function widget($fetch = false)
