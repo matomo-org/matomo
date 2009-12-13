@@ -15,7 +15,7 @@
 {assign var=showSitesSelection value=true}
 {include file="CoreHome/templates/top_bar.tpl"}
 {include file="CoreHome/templates/header.tpl"}
-{include file="CoreHome/templates/menu.tpl"}
+{if isset($menu) && $menu}{include file="CoreHome/templates/menu.tpl"}{/if}
 <div style='clear:both'></div>
 {include file="CoreHome/templates/loading.tpl"}
 
