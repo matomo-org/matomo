@@ -40,8 +40,6 @@ class PhpSecInfo_Test_Application_Php extends PhpSecInfo_Test_Application
 	}
 
 	function _execTest() {
-var_dump($this->current_value);
-var_dump($this->recommended_value);
 		if (version_compare($this->current_value, '5.2.1') < 0) {
 			return PHPSECINFO_TEST_RESULT_WARN;
 		}
