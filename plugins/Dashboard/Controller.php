@@ -21,12 +21,12 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view = Piwik_View::factory($template);
 		$this->setGeneralVariablesView($view);
 
+		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
 		$layout = $this->getLayout();
 		if(empty($layout)) {
 			$layout = $this->getDefaultLayout();
 		}
 		$view->layout = $layout;
-		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
 		return $view;
 	}
 	
@@ -151,8 +151,9 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 				foreach($row as $widgetId => $widget)
 				{
 					if(isset($widget->parameters->module)) {
-    					$pluginName = $widget->parameters->module;
-    					if(!Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName))
+    					$controllerName = $widget->parameters->module;
+    					$controllerAction = $widget->parameters->action;
+    					if(!Piwik_IsWidgetDefined($controllerName, $controllerAction))
     					{
     						unset($row[$widgetId]);
     					}
