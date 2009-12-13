@@ -5,18 +5,20 @@
 
  
 	$(document).ready(function() { 
-	
-		$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
-		$('#visitsLive').spy({ 
-			limit: 10, 
-			ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart', 
-			fadeLast: 2, 
-			isDupes : check_for_dupe,
-			timeout: 20000,
-			customParameterName: 'minIdVisit', 
-			customParameterValueCallback: lastIdVisit,
-			fadeInSpeed: 1400 });
-		});
+		if($('#_spyTmp').size() == 0) {
+			$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
+			$('#visitsLive').spy({ 
+				limit: 10, 
+				ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart', 
+				fadeLast: 2, 
+				isDupes : check_for_dupe,
+				timeout: 20000,
+				customParameterName: 'minIdVisit', 
+				customParameterValueCallback: lastIdVisit,
+				fadeInSpeed: 1400
+			});
+		}
+	});
 		
 	// first I'm ensuring that 'last' has been initialised (with last.constructor == Object),
 	// then prev.html() == last.html() will return true if the HTML is the same, or false,
