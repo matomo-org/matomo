@@ -130,8 +130,10 @@ menu.prototype =
 };
 
 $(document).ready( function(){
-	piwikMenu = new menu();
-	piwikMenu.init();
-	piwikMenu.loadFirstSection();
-	broadcast.init();
+	if($('.nav').size()) {
+		piwikMenu = new menu();
+		piwikMenu.init();
+		piwikMenu.loadFirstSection();
+		broadcast.init();
+	}
 });
