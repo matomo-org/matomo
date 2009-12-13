@@ -30,7 +30,7 @@
 				  $col=0;
 		  		}
 				{/php}	
-				<img align="middle" src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.pageUrl}">
+				<a href="{$action.pageUrl}" target="_blank"><img align="middle" src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{$action.pageUrl}"></a>
 			{/foreach}
 		</div>
 	</div>
