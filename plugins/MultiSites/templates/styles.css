@@ -1,0 +1,27 @@
+@CHARSET "UTF-8";
+
+
+.indicator {
+	background-image: url("../images/loading-blue.gif");
+	background-position:	center;
+	background-repeat: no-repeat;
+	height: 20px;
+	width: 60px;
+	margin: auto;
+	border: 0px !important;
+}
+
+.clean
+{
+    border: 0px !important;
+}
+
+#multisites td, #multisites tr, #multisites .sparkline
+{
+    text-align: center;
+    vertical-align: middle;
+    padding: 1px !important;
+    margin: 0px !important;
+}
+
+
