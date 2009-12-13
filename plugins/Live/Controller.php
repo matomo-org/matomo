@@ -57,6 +57,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 //'serverDatePretty', 'serverTimePretty', 'actionDetails'
 		
 		$view->setColumnsToDisplay(array(
+//			'label',
 			'idVisit',
 			'serverDatePretty',
 			'serverTimePretty',
@@ -70,6 +71,23 @@ class Piwik_Live_Controller extends Piwik_Controller
 			'screen',
 			'resolution',
 			'plugins',
+		));
+
+		$view->setColumnsTranslations(array(
+//			'label' => Piwik_Translate('translation'),
+			'idVisit' => Piwik_Translate(''),
+			'serverDatePretty' => Piwik_Translate('Live_Date'),
+			'serverTimePretty' => Piwik_Translate('Live_Time'),
+			'ip' => 'IP', 
+			'countActions' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'),
+			'visitLengthPretty' => Piwik_Translate('VisitorInterest_ColumnVisitDuration'),
+			'keywords' => Piwik_Translate('Referers_ColumnKeyword'),
+			'refererUrl' => Piwik_Translate('Live_Referrer_URL'),
+			'operatingSystemShortName' => Piwik_Translate('UserSettings_ColumnOperatingSystem'),
+			'browser' => Piwik_Translate('UserSettings_ColumnBrowser'),
+			'screen' => Piwik_Translate('UserSettings_ColumnTypeOfScreen'),
+			'resolution' => Piwik_Translate('UserSettings_ColumnResolution'),
+			'plugins' => Piwik_Translate('UserSettings_ColumnPlugin'),
 		));
 
 		$view->disableSort();
