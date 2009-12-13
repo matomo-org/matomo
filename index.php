@@ -53,6 +53,10 @@ if(ini_get('session.save_handler') == 'user')
 if(ini_get('session.save_handler') == 'files')
 {
 	$sessionPath = ini_get('session.save_path');
+	if(preg_match('/^[0-9]+;(.*)/', $sessionPath, $matches))
+	{
+		$sessionPath = $matches[1];
+	}
 	if(ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_writable($sessionPath))
 	{
 		$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
