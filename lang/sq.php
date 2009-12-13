@@ -1,6 +1,6 @@
 <?php 
 $translations = array(
-	'General_Locale' => 'en_EN.UTF-8',
+	'General_Locale' => 'sq_AL.UTF-8',
 	'General_TranslatorName' => 'Besnik Bleta',
 	'General_TranslatorEmail' => 'besnik@programeshqip.org',
 	'General_EnglishLanguageName' => 'Albanian',
