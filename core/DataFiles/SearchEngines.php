@@ -1,37 +1,37 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package DataFiles
  */
 
 /**
  * Search Engine database
- * 
+ *
  * ======================================
  * HOW TO ADD A SEARCH ENGINE TO THE LIST
  * ======================================
  * If you want to add a new entry, please email us the information + icon at hello at piwik.org
  *
  * See also: http://piwik.org/faq/general/#faq_39
- * 
+ *
  * Detail of a line:
  * Url => array( SearchEngineName, KeywordParameter, [path containing the keyword], [charset used by the search engine])
- * 
+ *
  * The main search engine URL has to be at the top of the list for the given search Engine.
- * You can add new search engines icons by adding the icon in the plugins/Referers/images/SearchEngines directory 
+ * You can add new search engines icons by adding the icon in the plugins/Referers/images/SearchEngines directory
  * using the format 'mainSearchEngineUrl.png'. Example: www.google.com.png
- * To help Piwik link directly the search engine result page for the keyword, specify the third entry in the array 
+ * To help Piwik link directly the search engine result page for the keyword, specify the third entry in the array
  * using the macro {k} that will automatically be replaced by the keyword.
- * 
+ *
  *  A simple example is:
  *  'www.google.com'		=> array('Google', 'q', 'search?q={k}'),
- * 
+ *
  *  A more complicated example, with an array of possible variable names, and a custom charset:
  *  'www.baidu.com'			=> array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', 'gb2312'),
  */
@@ -51,7 +51,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// 1und1
 		'portal.1und1.de'			=> array('1und1', 'search'),
 		'search.1und1.de'                       => array('1und1', 'su', 'search/web/?mc=suche%40web%40home.suche%40web&allparams=&smode=&su={k}&search=Suche&webRb='),
-	
+
 		// 3271
 		'nmsearch.3721.com'			=> array('3271', 'p'),
 		'seek.3721.com'				=> array('3271', 'p'),
@@ -335,7 +335,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'antisearch.francite.com'	=> array('Francite', 'KEYWORDS'),
 
 		// Fireball
-		'suche.fireball.de'			=> array('Fireball', 'query'),   
+		'suche.fireball.de'			=> array('Fireball', 'query'),
 		'www.fireball.de'                       => array('Fireball', 'q'),
 
 		// Firstfind
@@ -346,15 +346,14 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Flix
 		'www.flix.de'				=> array('Flix.de', 'keyword'),
-                
-		// Forestle
-        'de.forestle.org'                               => array('Forestle', 'q', 'search.php?q={k}'),
-        'at.forestle.org'                               => array('Forestle', 'q', 'search.php?q={k}'),
-        'ch.forestle.org'                               => array('Forestle', 'q', 'search.php?q={k}'),
-        'us.forestle.org'                               => array('Forestle', 'q', 'search.php?q={k}'),
-        'fr.forestle.org'                               => array('Forestle', 'q', 'search.php?q={k}'),
 
-	
+		// Forestle
+		'de.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'at.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'ch.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'us.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+		'fr.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
+
 		// Free
 		'search.free.fr'			=> array('Free', 'q'),
 		'search1-2.free.fr'			=> array('Free', 'q'),
@@ -700,7 +699,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Goyellow.de
 		'www.goyellow.de'			=> array('GoYellow.de', 'MDN'),
 
-		// Gule Sider:
+		// Gule Sider
 		'www.gulesider.no'			=> array('Gule Sider', 'q'),
 
 		// HighBeam
@@ -949,7 +948,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Onet
 		'szukaj.onet.pl'			=> array('Onet.pl', 'qt'),
 
-		// Online.no:
+		// Online.no
 		'www.online.no'				=> array('Online.no', 'q'),
 		'online.no'					=> array('Online.no', 'q'),
 
@@ -961,7 +960,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'bbs2.openfind.com.tw'		=> array('Openfind (BBS)', 'query'),
 		'news.openfind.com.tw'		=> array('Openfind (News)', 'query'),
 
-		// Opplysningen 1881:
+		// Opplysningen 1881
 		'www.1881.no'				=> array('Opplysningen 1881', 'Query'),
 
 		// Overture
@@ -991,9 +990,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'data.quicksearches.net'	=> array('QuickSearches', 'q'),
 
 		// Qualigo
-		'www.qualigo.de'			=> array('Qualigo', 'q'),
-		'www.qualigo.ch'			=> array('Qualigo', 'q'),
 		'www.qualigo.at'			=> array('Qualigo', 'q'),
+		'www.qualigo.ch'			=> array('Qualigo', 'q'),
+		'www.qualigo.de'			=> array('Qualigo', 'q'),
 		'www.qualigo.nl'			=> array('Qualigo', 'q'),
 
 		// Rambler
@@ -1020,28 +1019,28 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.seek.fr'				=> array('Searchalot', 'qry_str'),
 
 		// Seekport
-		'www.seekport.de'			=> array('Seekport', 'query'),
-		'www.seekport.co.uk'		=> array('Seekport', 'query'),
-		'www.seekport.fr'			=> array('Seekport', 'query'),
 		'www.seekport.at'			=> array('Seekport', 'query'),
+		'www.seekport.de'			=> array('Seekport', 'query'),
 		'www.seekport.es'			=> array('Seekport', 'query'),
+		'www.seekport.fr'			=> array('Seekport', 'query'),
 		'www.seekport.it'			=> array('Seekport', 'query'),
+		'www.seekport.co.uk'		=> array('Seekport', 'query'),
 
 		// Seekport (blogs)
-		'blogs.seekport.de'			=> array('Seekport (Blogs)', 'query'),
-		'blogs.seekport.co.uk'		=> array('Seekport (Blogs)', 'query'),
-		'blogs.seekport.fr'			=> array('Seekport (Blogs)', 'query'),
 		'blogs.seekport.at'			=> array('Seekport (Blogs)', 'query'),
+		'blogs.seekport.de'			=> array('Seekport (Blogs)', 'query'),
 		'blogs.seekport.es'			=> array('Seekport (Blogs)', 'query'),
+		'blogs.seekport.fr'			=> array('Seekport (Blogs)', 'query'),
 		'blogs.seekport.it'			=> array('Seekport (Blogs)', 'query'),
+		'blogs.seekport.co.uk'		=> array('Seekport (Blogs)', 'query'),
 
 		// Seekport (news)
-		'news.seekport.de'			=> array('Seekport (News)', 'query'),
-		'news.seekport.co.uk'		=> array('Seekport (News)', 'query'),
-		'news.seekport.fr'			=> array('Seekport (News)', 'query'),
 		'news.seekport.at'			=> array('Seekport (News)', 'query'),
+		'news.seekport.de'			=> array('Seekport (News)', 'query'),
 		'news.seekport.es'			=> array('Seekport (News)', 'query'),
+		'news.seekport.fr'			=> array('Seekport (News)', 'query'),
 		'news.seekport.it'			=> array('Seekport (News)', 'query'),
+		'news.seekport.co.uk'		=> array('Seekport (News)', 'query'),
 
 		// Searchscout
 		'www.searchscout.com'		=> array('Search Scout', 'gt_keywords'),
@@ -1056,13 +1055,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'bg.setooz.com'				=> array('Setooz', 'query'),
 		'el.setooz.com'				=> array('Setooz', 'query'),
 		'et.setooz.com'				=> array('Setooz', 'query'),
-		'lv.setooz.com'				=> array('Setooz', 'query'),
-		'lt.setooz.com'				=> array('Setooz', 'query'),
+		'fi.setooz.com'				=> array('Setooz', 'query'),
 		'hu.setooz.com'				=> array('Setooz', 'query'),
+		'lt.setooz.com'				=> array('Setooz', 'query'),
+		'lv.setooz.com'				=> array('Setooz', 'query'),
 		'no.setooz.com'				=> array('Setooz', 'query'),
 		'pl.setooz.com'				=> array('Setooz', 'query'),
 		'sk.setooz.com'				=> array('Setooz', 'query'),
-		'fi.setooz.com'				=> array('Setooz', 'query'),
 		'sv.setooz.com'				=> array('Setooz', 'query'),
 		'tr.setooz.com'				=> array('Setooz', 'query'),
 		'uk.setooz.com'				=> array('Setooz', 'query'),
@@ -1119,13 +1118,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search-dyn.tiscali.de'		=> array('Tiscali', 'key'),
 		'hledani.tiscali.cz'		=> array('Tiscali', 'query', false, 'windows-1250'),
 
-        // Tixuma
+		// Tixuma
 		'www.tixuma.de'                         => array('Tixuma', 'sc', 'index.php?mp=search&stp=&sc={k}&tg=0'),
-	
-        // T-Online
+
+		// T-Online
 		'suche.t-online.de'			=> array('T-Online', 'q'),
-		'navigationshilfe.t-online.de'                  => array('T-Online', 'q', 'dtag/dns/results?mode=search_top&q={k}'),
-		
+		'navigationshilfe.t-online.de'=> array('T-Online', 'q', 'dtag/dns/results?mode=search_top&q={k}'),
+
 		// Trouvez.com
 		'www.trouvez.com'			=> array('Trouvez.com', 'query'),
 
@@ -1188,29 +1187,28 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'au.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'br.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'ch.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'de.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'ca.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'cade.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'cf.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'fr.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'espanol.search.yahoo.com'	=> array('Yahoo!', 'p'),
+		'de.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'es.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'espanol.search.yahoo.com'	=> array('Yahoo!', 'p'),
+		'fr.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'id.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'it.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'kr.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'mx.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'nl.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'qc.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'uk.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'cade.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'tw.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'se.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'us.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'ru.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'se.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'tw.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'uk.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'us.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'www.yahoo.com.cn'			=> array('Yahoo!', 'p'),
-		'de.yhs.search.yahoo.com'       => array('Yahoo!', 'p', 'avg/search?p={k}'),
 
-	
 		'au.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
+		'de.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
 
 		'de.dir.yahoo.com'			=> array('Yahoo! Webverzeichnis', ''),
 		'cf.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
