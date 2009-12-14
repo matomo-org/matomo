@@ -1,5 +1,19 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ * 
+ * @category Piwik_Plugins
+ * @package Piwik_MultiSites
+ */
 
+/**
+ *
+ * @package Piwik_MultiSites
+ */
 class Piwik_MultiSites_Controller extends Piwik_Controller
 {
 	protected $orderBy = 'names';
@@ -133,4 +147,3 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 }
-?>
