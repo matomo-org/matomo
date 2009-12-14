@@ -150,8 +150,6 @@ function switchEvolution(params)
 
 function displayRows(allSites, params)
 {
-	var table = document.getElementById('tb');
-	var trow = table.insertRow(0);
 	for(var i  = 0;  i < allSites.length; i++)
 	{
 		var str = params['row'];
@@ -167,10 +165,8 @@ function displayRows(allSites, params)
 		str = str.replace(/%main_url%/g, allSites[i].url);
 		str = str.replace(/%date%/g, params['date']);
 		str = str.replace(/%period%/g, params['period']);
-		trow = table.insertRow(0);
-		trow.innerHTML = str;
-		trow.setAttribute('id', 'row_' + allSites[i].idsite);
-		trow.setAttribute('class', 'table_row');
+		
+		$('#tb').append('<tr class="tables_row" id="row_'+ allSites[i].idsite+'">' + str + '</tr>');
 	}
 
 	$(".table_row").show();
