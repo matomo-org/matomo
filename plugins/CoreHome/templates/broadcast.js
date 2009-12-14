@@ -106,7 +106,10 @@ broadcast.propagateNewPage = function (str)
     for( var i=0; i<params_vals.length; i++ ) {
         // update both the current search query and hash string
         currentSearchStr = broadcast.updateParamValue(params_vals[i],currentSearchStr);
-        currentHashStr   = broadcast.updateParamValue(params_vals[i],currentHashStr);
+
+        if(currentHashStr.length != 0 ) {
+        	currentHashStr   = broadcast.updateParamValue(params_vals[i],currentHashStr);
+        }
     }
 
     // Now load the new page.
@@ -164,21 +167,21 @@ broadcast.loadAjaxContent = function(urlAjax)
 
     function sectionLoaded(content)
     {
-	if(content.substring(0, 14) == '<!DOCTYPE html') {
-		window.location.reload();
-		return;
-	}
+		if(content.substring(0, 14) == '<!DOCTYPE html') {
+			window.location.reload();
+			return;
+		}
 
         if(urlAjax == broadcast.lastUrlRequested) {
-	    $('#content').html( content ).show();
-	    $('#loadingPiwik').hide();
-	    broadcast.lastUrlRequested = null;
-	}
+		    $('#content').html( content ).show();
+		    $('#loadingPiwik').hide();
+		    broadcast.lastUrlRequested = null;
+		}
     }
-    piwikMenu.activateMenu(
-        broadcast.getParamValue('module', urlAjax),
-        broadcast.getParamValue('action', urlAjax),
-        broadcast.getParamValue('idGoal', urlAjax)
+	piwikMenu.activateMenu(
+	    broadcast.getParamValue('module', urlAjax),
+	    broadcast.getParamValue('action', urlAjax),
+	    broadcast.getParamValue('idGoal', urlAjax)
     );
     ajaxRequest = {
         type: 'GET',
