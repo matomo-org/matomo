@@ -30,7 +30,7 @@
 			<td class="desc">
 				{$plugin.info.description|nl2br}
 				&nbsp;<cite>By 
-					{if isset($plugin.info.author_homepage)}<a title="Author Homepage" href="{$plugin.info.author_homepage}">{/if}
+					{if isset($plugin.info.author_homepage)}<a title="Author Homepage" href="misc/redirectToUrl.php?url={$plugin.info.author_homepage}">{/if}
 					{$plugin.info.author}{if isset($plugin.info.author_homepage)}</a>{/if}.</cite>
 			</td>
 			<td class="status">

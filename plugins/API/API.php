@@ -20,7 +20,8 @@ class Piwik_API extends Piwik_Plugin
 	{
 		return array(
 			'name' => 'API',
-			'description' => 'All the data in Piwik is available through simple APIs. This plugin is the web service entry point, that you can call to get your Web Analytics data in xml, json, php, csv, etc. Discover the <a href="http://dev.piwik.org/trac/wiki/API/Reference">Piwik APIs</a>.',
+			'description' => 'All the data in Piwik is available through simple APIs. This plugin is the web service entry point, that you can call to get your Web Analytics data in xml, json, php, csv, etc.</a>.',
+			'homepage' => 'misc/redirectToUrl.php?url=http://dev.piwik.org/trac/wiki/API/Reference',
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
