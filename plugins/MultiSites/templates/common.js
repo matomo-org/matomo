@@ -13,14 +13,11 @@ function setRowData (idsite, visits, actions, unique, name, url, visitsSummaryVa
 
 function setOrderBy(self, allSites, params, mOrderBy)
 {
-	if(params['mOrderBy'] == mOrderBy)
-	{
-		if(params['order'] == 'desc')
-		{
+	if(params['mOrderBy'] == mOrderBy) {
+		if(params['order'] == 'desc') {
 			params['order'] = 'asc';
-		}
-		else
-		{
+		} 
+		else {
 			params['order'] = 'desc';
 		}
 	}
@@ -36,7 +33,7 @@ function setOrderBy(self, allSites, params, mOrderBy)
 function prepareRows(allUnsortedSites, params)
 {
 	var allSites;
-	$("#tb").find("tr:not(:last)").remove();
+	$("#tb").find("tr").remove();
 	$("#next").html('');
 	$("#prev").html('');
 	$(".asc").hide();
@@ -63,7 +60,7 @@ function orderBy(allSites, params)
 			{
 				return 0;
 			}
-			return (a['name'].toLowerCase() < b['name'].toLowerCase()) ? 1 : -1;
+			return (a['name'].toLowerCase() < b['name'].toLowerCase()) ? -1 : 1;
 		});
 	}
 	else if(params['mOrderBy'] == 'visits')
@@ -72,7 +69,7 @@ function orderBy(allSites, params)
 			if (a['visits'] == b['visits']) {
 				return 0;
 			}
-			return (a['visits'] < b['visits']) ? 1 : -1;
+			return (a['visits'] < b['visits']) ? -1 : 1;
 		});
 	}
 	else if(params['mOrderBy'] == 'actions')
@@ -81,7 +78,7 @@ function orderBy(allSites, params)
 			if (a['actions'] == b['actions']) {
 				return 0;
 			}
-			return (a['actions'] < b['actions']) ? 1 : -1;
+			return (a['actions'] < b['actions']) ? -1 : 1;
 		});
 	}
 	else if(params['mOrderBy'] == 'unique')
@@ -90,7 +87,7 @@ function orderBy(allSites, params)
 			if (a['unique'] == b['unique']) {
 				return 0;
 			}
-			return (a['unique'] < b['unique']) ? 1 : -1;
+			return (a['unique'] < b['unique']) ? -1 : 1;
 		});
 	}
 	else if(params['mOrderBy'] == 'uniqueSummary')
@@ -99,7 +96,7 @@ function orderBy(allSites, params)
 			if (a['uniqueSummaryValue'] == b['uniqueSummaryValue']) {
 				return 0;
 			}
-			return (a['uniqueSummaryValue'] - b['uniqueSummaryValue'] <= 0.01) ? 1 : -1;
+			return (a['uniqueSummaryValue'] - b['uniqueSummaryValue'] <= 0.01) ? -1 : 1;
 		});
 	}
 	else if(params['mOrderBy'] == 'actionsSummary')
@@ -108,7 +105,7 @@ function orderBy(allSites, params)
 			if (a['actionsSummaryValue'] == b['actionsSummaryValue']) {
 				return 0;
 			}
-			return (a['actionsSummaryValue'] - b['actionsSummaryValue'] <= 0.01) ? 1 : -1;
+			return (a['actionsSummaryValue'] - b['actionsSummaryValue'] <= 0.01) ? -1 : 1;
 		});
 	}
 	else if(params['mOrderBy'] == 'visitsSummary')
@@ -117,7 +114,7 @@ function orderBy(allSites, params)
 			if (a['visitsSummaryValue'] == b['visitsSummaryValue']) {
 				return 0;
 			}
-			return (a['visitsSummaryValue'] - b['visitsSummaryValue'] <= 0.01) ? 1 : -1;
+			return (a['visitsSummaryValue'] - b['visitsSummaryValue'] <= 0.01) ? -1 : 1;
 		});
 	}
 
