@@ -20,7 +20,7 @@ class Piwik_MultiSites extends Piwik_Plugin
 	{
 		return array(
 			'name' => 'MultiSites',
-			'description' => 'Displays multi-site executive summary/statistics. Developed by <a href="http://blogvertising.pl/">Brand New Media LLC</a>. Currently maintained as a core Piwik plugin.',
+			'description' => 'Displays multi-site executive summary/statistics. Developed by Brand New Media LLC. Currently maintained as a core Piwik plugin.',
 			'author' => 'Piwik',
 			'author_homepage' => "http://piwik.org/",
 			'version' => Piwik_Version::VERSION,
