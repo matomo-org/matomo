@@ -235,6 +235,7 @@ Plugins[] 		= Widgetize
 Plugins[] 		= LanguagesManager
 Plugins[] 		= Actions
 Plugins[] 		= Dashboard
+Plugins[] 		= MultiSites
 Plugins[] 		= Referers
 Plugins[] 		= UserSettings
 
