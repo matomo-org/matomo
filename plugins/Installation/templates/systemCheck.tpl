@@ -165,6 +165,12 @@
 			{/foreach}
 		</td>
 	</tr>
+	<tr>
+		<td class="label">{'Installation_SystemCheckProtocol'|translate}</td>
+		<td>
+			{if $infos.protocol_ok}{$ok}{else}{$warning} {$infos.protocol}<br /><i>{'Installation_SystemCheckProtocolHelp'|translate}</i><br /><br /><code>[General]</code><br /><code>reverse_proxy = 1</code><br />{/if}
+		</td>
+	</tr>
 </table>
 
 <p>
