@@ -109,6 +109,20 @@ class Piwik_Url
 		return $url;
 	}
 
+	static public function getCurrentScheme()
+	{
+    	if(isset($_SERVER['HTTPS'])
+    			&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)
+    			)
+		{
+			$scheme = 'https';
+		}
+		else 
+		{
+			$scheme = 'http';
+		}
+		return $scheme;
+	}
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org"
@@ -117,17 +131,7 @@ class Piwik_Url
 	 */
 	static public function getCurrentHost()
 	{
-		if(isset($_SERVER['HTTPS'])
-			&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)
-			)
-		{
-			$url = 'https';
-		}
-		else
-		{
-			$url = 'http';
-		}
-		
+		$url = self::getCurrentScheme();
 		$url .= '://';
 		
 		if(isset($_SERVER['HTTP_HOST']))
