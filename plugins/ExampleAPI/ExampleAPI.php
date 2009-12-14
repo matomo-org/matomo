@@ -25,7 +25,8 @@ class Piwik_ExampleAPI extends Piwik_Plugin
 	{
 		return array(
 			'name' => 'Example API',
-			'description' => 'Example Plugin: How to create an API for your plugin, to export your data in multiple formats without any special coding? Visit the <a href="index.php?module=API&action=listAllAPI#ExampleAPI">ExampleAPI example methods</a>.',
+			'description' => 'Example Plugin: How to create an API for your plugin, to export your data in multiple formats without any special coding?',
+			'homepage' => 'index.php?module=API&action=listAllAPI#ExampleAPI',
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
