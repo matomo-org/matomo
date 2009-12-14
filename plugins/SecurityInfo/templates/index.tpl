@@ -5,7 +5,7 @@
 {include file="CoreAdminHome/templates/menu.tpl"}
 
 <h2>{'SecurityInfo_SecurityInformation'|translate}</h2>
-<p>{'SecurityInfo_PluginDescription'|translate}</p>
+<p>{'SecurityInfo_PluginDescription'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://phpsec.org/'>PHP Security Consortium</a>"}</p>
 
 <div style="max-width:980px;">
 {foreach from=$results.test_results key=i item=section}
