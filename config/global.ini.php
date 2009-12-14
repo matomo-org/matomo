@@ -154,6 +154,9 @@ swfobject_version = 2.2
 ; If set to 1, Piwik uses a single HTTP request per Flash widget to serve both the widget and data
 serve_widget_and_data = 1
 
+; If set to 1, Piwik adds a response header to workaround the IE+Flash+HTTPS bug.
+reverse_proxy = 0
+
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1

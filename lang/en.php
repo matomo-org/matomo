@@ -781,6 +781,8 @@ Note that it is not necessary to specify the URLs with and without \'www\' as Pi
 	'Installation_SystemCheckMailHelp' => 'Feedback and Lost Password messages will not be sent without mail().',
 	'Installation_SystemCheckError' => 'An error occured - must be fixed before you proceed',
 	'Installation_SystemCheckWarning' => 'Piwik will work normally but some features may be missing',
+	'Installation_SystemCheckProtocol' => 'Protocol',
+	'Installation_SystemCheckProtocolHelp' => 'If you are behind a reverse proxy, add these lines to config/config.ini.php:',
 	'Installation_Tables' => 'Creating the tables',
 	'Installation_TablesWithSameNamesFound' => 'Some %s tables in your database %s have the same names as the tables Piwik is trying to create',
 	'Installation_TablesFound' => 'The following tables have been found in the database',
