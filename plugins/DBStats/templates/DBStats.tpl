@@ -12,7 +12,7 @@
 <table class="adminTable">
 	<thead>
 		<th>{'DBStats_Table'|translate}</th>
-		<th>{'DBStats_RowNumber'|translate}</th>
+		<th>{'DBStats_RowCount'|translate}</th>
 		<th>{'DBStats_DataSize'|translate}</th>
 		<th>{'DBStats_IndexSize'|translate}</th>
 		<th>{'DBStats_TotalSize'|translate}</th>

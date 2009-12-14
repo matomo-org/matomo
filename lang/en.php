@@ -805,7 +805,7 @@ Note that it is not necessary to specify the URLs with and without \'www\' as Pi
 	'DBStats_MainDescription' => 'Piwik is storing all your web analytics data in the MySQL database. Currently, Piwik tables are using %s.',
 	'DBStats_LearnMore' => 'To learn more about how Piwik processes data and how to make Piwik work well for medium and high traffic websites, check out the documentation %s.',
 	'DBStats_Table' => 'Table',
-	'DBStats_RowNumber' => 'Row number',
+	'DBStats_RowCount' => 'Row count',
 	'DBStats_DataSize' => 'Data size',
 	'DBStats_IndexSize' => 'Index size',
 	'DBStats_TotalSize' => 'Total size',

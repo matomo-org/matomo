@@ -1,6 +1,6 @@
 {assign var=showSitesSelection value=true}
 {assign var=showPeriodSelection value=true}
-{include file="CoreAdminHome/templates/header.tpl"}
+{include file="CoreHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='Dashboard'}
 
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/styles.css" />
@@ -17,7 +17,9 @@
 <script type="text/javascript" src="plugins/Dashboard/templates/widgetMenu.js"></script>
 
 <script type="text/javascript" src="plugins/Widgetize/templates/widgetize.js"></script>
-<script src="http://cdn.clearspring.com/launchpad/v2/standalone.js" type="text/javascript"></script>
+<!--
+	<script src="http://cdn.clearspring.com/launchpad/v2/standalone.js" type="text/javascript"></script>
+-->
 {literal}
 <style>
 .menu {

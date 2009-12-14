@@ -11,7 +11,7 @@ function setRowData (idsite, visits, actions, unique, name, url, visitsSummaryVa
 	this.uniqueSummaryValue = parseFloat(uniqueSummaryValue);
 }
 
-function setOrderBy(allSites, params, mOrderBy)
+function setOrderBy(self, allSites, params, mOrderBy)
 {
 	if(params['mOrderBy'] == mOrderBy)
 	{
@@ -26,6 +26,10 @@ function setOrderBy(allSites, params, mOrderBy)
 	}
 	params['mOrderBy'] = mOrderBy;
 	prepareRows(allSites, params);
+
+	$('#arrow_asc').hide();
+	$('#arrow_desc').hide();
+	$(self).append(params['arrow_'+params['order']]);
 	return params;
 }
 
@@ -38,14 +42,6 @@ function prepareRows(allUnsortedSites, params)
 	$(".asc").hide();
 	$(".desc").hide();
 	var mOrderBy = params['mOrderBy'];
-	if(mOrderBy.indexOf('summary') != -1)
-	{
-		$("#evolution_" + params['order']).show();
-	}
-	else
-	{
-		$("#" + mOrderBy + '_' + params['order']).show();
-	}
 
 	allSites = orderBy(allUnsortedSites, params);
 	if(allSites.length > params['limit'])
@@ -56,17 +52,13 @@ function prepareRows(allUnsortedSites, params)
 	displayRows(allSites.reverse(), params);
 	showPagination(allUnsortedSites, params);
 	params['sitesVisible'] = allSites;
-
 }
 
 function orderBy(allSites, params)
 {
-
 	if(params['mOrderBy'] == 'names')
 	{
-		allSites.sort(function(a,b)
-		{
-
+		allSites.sort(function(a,b) {
 			if (a['name'].toLowerCase() == b['name'].toLowerCase())
 			{
 				return 0;
@@ -74,23 +66,18 @@ function orderBy(allSites, params)
 			return (a['name'].toLowerCase() < b['name'].toLowerCase()) ? 1 : -1;
 		});
 	}
-
 	else if(params['mOrderBy'] == 'visits')
 	{
-		allSites.sort(function(a,b)
-		{
+		allSites.sort(function(a,b) {
 			if (a['visits'] == b['visits']) {
 				return 0;
 			}
 			return (a['visits'] < b['visits']) ? 1 : -1;
-		}
-		);
+		});
 	}
-
 	else if(params['mOrderBy'] == 'actions')
 	{
-		allSites.sort(function (a,b)
-		{
+		allSites.sort(function (a,b) {
 			if (a['actions'] == b['actions']) {
 				return 0;
 			}
@@ -99,8 +86,7 @@ function orderBy(allSites, params)
 	}
 	else if(params['mOrderBy'] == 'unique')
 	{
-		allSites.sort(function (a,b)
-		{
+		allSites.sort(function (a,b) {
 			if (a['unique'] == b['unique']) {
 				return 0;
 			}
@@ -109,8 +95,7 @@ function orderBy(allSites, params)
 	}
 	else if(params['mOrderBy'] == 'uniqueSummary')
 	{
-		allSites.sort(function (a,b)
-		{
+		allSites.sort(function (a,b) {
 			if (a['uniqueSummaryValue'] == b['uniqueSummaryValue']) {
 				return 0;
 			}
@@ -119,34 +104,27 @@ function orderBy(allSites, params)
 	}
 	else if(params['mOrderBy'] == 'actionsSummary')
 	{
-		allSites.sort(function (a,b)
-		{
+		allSites.sort(function (a,b) {
 			if (a['actionsSummaryValue'] == b['actionsSummaryValue']) {
 				return 0;
 			}
-
-	return (a['actionsSummaryValue'] - b['actionsSummaryValue'] <= 0.01) ? 1 : -1;
-			});
-		}
+			return (a['actionsSummaryValue'] - b['actionsSummaryValue'] <= 0.01) ? 1 : -1;
+		});
+	}
 	else if(params['mOrderBy'] == 'visitsSummary')
 	{
-
-		allSites.sort(function (a,b)
-		{
+		allSites.sort(function (a,b) {
 			if (a['visitsSummaryValue'] == b['visitsSummaryValue']) {
 				return 0;
 			}
-
-	return (a['visitsSummaryValue'] - b['visitsSummaryValue'] <= 0.01) ? 1 : -1;
+			return (a['visitsSummaryValue'] - b['visitsSummaryValue'] <= 0.01) ? 1 : -1;
 		});
 	}
-
 
 	if(params['order'] == 'desc')
 	{
 		allSites.reverse();
 	}
-
 	return allSites;
 }
 
@@ -168,10 +146,7 @@ function switchEvolution(params)
 	{
 		$('#sparkline_' + allSites[i].idsite).html(getSparklineImg(allSites[i].idsite, params['evolutionBy'], params));
 	}
-
 }
-
-
 
 function displayRows(allSites, params)
 {
@@ -202,8 +177,9 @@ function displayRows(allSites, params)
 	$('.actions').hide();
 	$('.unique').hide();
 	$('.visits').hide();
+	$('#main_indicator').hide();
 	$('.' + params['evolutionBy']).show();
-	$("#content").show();
+	$("#main_indicator").hide();
 }
 
 function getSparklineImg(id, column, params)

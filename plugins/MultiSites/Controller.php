@@ -1,19 +1,5 @@
 <?php
-/**
- * Piwik - Open source web analytics
- * 
- * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id$
- * 
- * @category Piwik_Plugins
- * @package Piwik_MultiSites
- */
 
-/**
- *
- * @package Piwik_MultiSites
- */
 class Piwik_MultiSites_Controller extends Piwik_Controller
 {
 	protected $orderBy = 'names';
@@ -26,30 +12,24 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	protected $date;
 	protected $dateToStr;
 
-	public function index()
+
+	function index()
 	{
-		$view = Piwik_View::factory('index');
-		$this->setGeneralVariablesView($view);
-		$view->basicHtmlView = true;
-
-		$view->content = $this->getSitesInfo();
-
-		echo $view->render();		
+		$this->getSitesInfo();
 	}
+
 
 	public function getSitesInfo()
 	{
-		$view = Piwik_View::factory('getSitesInfo');
-		$this->setGeneralVariablesView($view);
-		$view->basicHtmlView = true;
-
+		$view = new Piwik_View("MultiSites/templates/index.tpl");
 		$mySites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+
 
 		$params = $this->getGraphParamsModified();
 		$this->dateToStr = $params['date'];
 
 		$ids = 'all';
-		$this->period = PiwiK_Common::getRequestVar('period', 'day');
+		$this->period = PiwiK_Common::getRequestVar('period', 'day');		
 
 		$this->date = PiwiK_Common::getRequestVar('date', 'today');
 		$lastDate =  date('Y-m-d',strtotime("-1 ".$this->period, strtotime($this->date)));
@@ -88,8 +68,8 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		}
 
 		$view->mySites = $mySites;
-		$view->arrowDown = '<img src="plugins/MultiSites/images/arrow_asc.gif" width="16px" height="16px" />';
-		$view->arrowUp = '<img src="plugins/MultiSites/images/arrow_desc.gif" width="16px" height="16px" />';
+		$view->arrowAsc = '<img src="plugins/MultiSites/images/arrow_asc.gif" width="16px" height="16px" />';
+		$view->arrowDesc = '<img src="plugins/MultiSites/images/arrow_desc.gif" width="16px" height="16px" />';
 		$view->evolutionBy = $this->evolutionBy;
 		$view->period = $this->period;
 		$view->date = $this->date;
@@ -98,12 +78,12 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->orderBy = $this->orderBy;
 		$view->order = $this->order;
 		$view->dateToStr = $this->dateToStr;
-
-		$this->setPeriodVariablesView($view);
+		
+		$this->setGeneralVariablesView($view);
 		$period = Piwik_Period::factory(Piwik_Common::getRequestVar('period'), Piwik_Date::factory($this->strDate));
 		$view->prettyDate = $period->getLocalizedLongString();
-
-		return $view->render();
+		
+		echo $view->render();
 	}
 
 	private function getSummary($lastVisits, $currentVisits, $mySites, $type)
@@ -153,3 +133,4 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 }
+?>
