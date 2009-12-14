@@ -21,7 +21,7 @@ function smarty_function_assignTopBar($params, &$smarty)
 {
 	$topBarElements = array();
 	$elements = array(
-		array('CoreHome', Piwik_Translate('General_YourDashboard'), array('module' => 'CoreHome', 'action' => 'index')),
+		array('CoreHome', Piwik_Translate('General_Dashboard'), array('module' => 'CoreHome', 'action' => 'index')),
 		array('MultiSites', Piwik_Translate('General_MultiSitesSummary'), array('module' => 'MultiSites', 'action' => 'index')),
 		array('Widgetize', Piwik_Translate('General_Widgets'),  array('module' => 'Widgetize', 'action' => 'index')), 
 		array('API', Piwik_Translate('General_API'), array('module' => 'API', 'action' => 'listAllAPI')),
