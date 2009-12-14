@@ -17,6 +17,6 @@ class Piwik_Updates_0_5_3 implements Piwik_iUpdate
 				return;
 			}
 		} catch(Exception $e) { }
-		throw new Piwik_Updater_UpdateErrorException("Edit config.ini.php and add to <code>[Plugins]</code> section: <code>Plugins[] = MultiSites</code>");
+		throw new Piwik_Updater_UpdateErrorException("You can enable the new MultiSites plugin in the Plugins screen in the Piwik admin!");
 	}
 }
