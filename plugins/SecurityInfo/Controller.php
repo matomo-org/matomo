@@ -31,6 +31,7 @@ class Piwik_SecurityInfo_Controller extends Piwik_Controller
 		$results = $psi->getResultsAsArray();
 
 		// suppress results
+		unset($results['test_results']['Core']['memory_limit']);
 		unset($results['test_results']['Core']['post_max_size']);
 		unset($results['test_results']['Core']['upload_max_filesize']);
 
