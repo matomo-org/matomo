@@ -40,7 +40,7 @@ class PhpSecInfo_Test_Application_Piwik extends PhpSecInfo_Test_Application
 			return PHPSECINFO_TEST_RESULT_ERROR;
 		}
 
-		if ( $this->current_value === $this->recommended_value ) {
+		if (version_compare($this->current_value, $this->recommended_value) >= 0) {
 			return PHPSECINFO_TEST_RESULT_OK;
 		}
 
@@ -50,7 +50,7 @@ class PhpSecInfo_Test_Application_Piwik extends PhpSecInfo_Test_Application
 	function _setMessages() {
 		parent::_setMessages();
 
-		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_OK, 'en', "You are running Piwik ".$this->recommended_value." (the latest version).");
+		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_OK, 'en', "You are running Piwik ".$this->current_value." (the latest version).");
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_NOTICE, 'en', "You are running Piwik ".$this->current_value.".  The latest version of Piwik is ".$this->recommended_value.".");
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_WARN, 'en', "You are running Piwik ".$this->current_value." which is no longer supported by the Piwik developers. We recommend running the latest (stable) version of Piwik which includes numerous enhancements, bug fixes, and security fixes.");
 		$this->setMessageForResult(PHPSECINFO_TEST_RESULT_ERROR, 'en', "Unable to determine the latest version of Piwik available.");
