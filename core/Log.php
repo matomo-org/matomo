@@ -166,7 +166,17 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 		if(Piwik_Common::isPhpCliMode())
 		{
 			$string = str_replace(array('<br>','<br />','<br/>'), "\n", $string);
-			$string = strip_tags($string);
+			if(is_array($string))
+			{
+				for($i=0; $i< count($string); $i++)
+				{
+					$string[i] = strip_tags($string[i]);
+				}
+			}
+			else
+			{
+				$string = strip_tags($string);
+			}
 		}
 		return $string;
 	}
