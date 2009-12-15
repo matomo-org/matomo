@@ -30,6 +30,10 @@ class Piwik_SecurityInfo_Controller extends Piwik_Controller
 		// grab the results as a multidimensional array
 		$results = $psi->getResultsAsArray();
 
+		// suppress results
+		unset($results['test_results']['Core']['post_max_size']);
+		unset($results['test_results']['Core']['upload_max_filesize']);
+
 		$view = Piwik_View::factory('index');
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
