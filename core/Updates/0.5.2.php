@@ -38,6 +38,6 @@ class Piwik_Updates_0_5_2 implements Piwik_iUpdate
 			}
 		} catch(Exception $e) { }
 
-		throw new Piwik_Updater_UpdateErrorException("Edit config.ini.php and add to <code>[superuser]</code> section: <code>salt = $salt</code>");
+		throw new Piwik_Updater_UpdateErrorException("Edit config.ini.php and add below <code>[superuser]</code> the following line <br/><code>salt = $salt</code>");
 	}
 }
