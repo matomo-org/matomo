@@ -17,7 +17,7 @@
  */
 class Piwik_UpdateCheck 
 {
-	const CHECK_INTERVAL = 86400;
+	const CHECK_INTERVAL = 28800; // every 8 hours
 	const LAST_TIME_CHECKED = 'UpdateCheck_LastTimeChecked';
 	const LATEST_VERSION = 'UpdateCheck_LatestVersion';
 	const PIWIK_HOST = 'http://api.piwik.org/1.0/getLatestVersion/';
