@@ -196,6 +196,9 @@ campaign_var_name			= piwik_campaign
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' then it will be counted as a campaign referer named 'Adwords-CPC' with the keyword 'My killer keyword'
 campaign_keyword_var_name	= piwik_kwd
 
+; maximum length of a Page Title or a Page URL recorded in the log_action.name table
+page_maximum_length = 1024;
+
 [log]
 ;possible values for log: screen, database, file
 ; normal messages

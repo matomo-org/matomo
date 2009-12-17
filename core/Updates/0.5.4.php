@@ -1,3 +1,4 @@
+<<<<<<< .mine
 <?php
 /**
  * Piwik - Open source web analytics
@@ -36,7 +37,7 @@ class Piwik_Updates_0_5_4 implements Piwik_iUpdate
 					throw new Exception('mandatory update failed');
 				}
 			} catch(Exception $e) {
-				throw new Piwik_Updater_UpdateErrorException("Edit config.ini.php and add below <code>[superuser]</code> the following line <br/><code>salt = $salt</code>");
+				throw new Piwik_Updater_UpdateErrorException("Please edit your config/config.ini.php file and add below <code>[superuser]</code> the following line: <br/><code>salt = $salt</code>");
 			}
 		}
 
@@ -61,5 +62,11 @@ class Piwik_Updates_0_5_4 implements Piwik_iUpdate
 				throw new Exception("You can now enable the new MultiSites plugin in the Plugins screen in the Piwik admin!");
 			}
 		}
+		
+		Piwik_Updater::updateDatabase(__FILE__, array(
+			'ALTER TABLE `'. Piwik::prefixTable('log_action') .'` 
+				CHANGE `name` `name` TEXT' => false,
+		));
+		
 	}
 }
