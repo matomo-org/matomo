@@ -246,7 +246,8 @@ class Piwik_Updater
 			try {
 				Piwik_Exec( $update );
 			} catch(Exception $e) {
-				if(($ignoreError === false) || !Zend_Registry::get('db')->isErrNo($e, $ignoreError))
+				if(($ignoreError === false) 
+					|| !Zend_Registry::get('db')->isErrNo($e, $ignoreError))
 				{
 					$message =  $file .":\nError trying to execute the query '". $update ."'.\nThe error was: ". $e->getMessage();
 					throw new Piwik_Updater_UpdateErrorException($message);
