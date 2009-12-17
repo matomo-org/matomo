@@ -349,9 +349,14 @@ class Piwik_Actions extends Piwik_Plugin
 		$rowsProcessed = 0;
 		while( $row = $query->fetch() )
 		{
+			// in some unknown case, the type field is NULL, as reported in #1082 - we ignore this page view
+			if(empty($row['type'])) {
+				continue;
+			}
+			
 			$actionExplodedNames = $this->getActionExplodedNames($row['name'], $row['type']);
 
-			// we work on the root table of the given TYPE (either ACTION or DOWNLOAD or OUTLINK etc.)
+			// we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
 			$currentTable =& $this->actionsTablesByType[$row['type']];
 
 			// go to the level of the subcategory
