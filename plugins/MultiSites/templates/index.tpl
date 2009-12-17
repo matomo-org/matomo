@@ -51,8 +51,6 @@
 		</th>
 		<th style="text-align:center;width:350px" colspan="2">
 			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> Evolution</span>
-			<span id="evolution_asc" class="asc" style="display: none;">{$arrowDesc}</span>
-			<span id="evolution_desc" class="desc" style="display: none;">{$arrowAsc}</span>
 			<select class="selector" id="evolution_selector" onchange="params['evolutionBy'] = $('#evolution_selector').val(); switchEvolution(params);">
 				<option value="visits" {if $evolutionBy eq 'visits'} selected {/if}>{'General_ColumnNbVisits'|translate}</option>
 				<option value="actions" {if $evolutionBy eq 'actions'} selected {/if}>{'General_ColumnPageviews'|translate}</option>
