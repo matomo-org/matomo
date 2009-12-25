@@ -53,6 +53,8 @@ if (file_exists($file) && function_exists('readfile')) {
 			// manually compressed
 			$filegz = '../piwik.js.gz';
 			if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches) && file_exists($filegz) && (filemtime($file) < filemtime($filegz))) {
+				$encoding = $matches[1];
+				$compressed = true;
 				$file = $filegz;
 			}
 		}
