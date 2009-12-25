@@ -9,7 +9,7 @@
 
 $file = '../piwik.js';
 
-if (file_exists($file)) {
+if (file_exists($file) && function_exists('readfile')) {
 	// conditional GET
 	$modifiedSince = '';
 	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
@@ -20,28 +20,39 @@ if (file_exists($file)) {
 	// optional compression
 	$compressed = false;
 	$encoding = '';
-	if (extension_loaded('zlib') && function_exists('file_get_contents') && function_exists('file_put_contents') && isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+	if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
 		$acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
-		if (preg_match('/(?:^|, ?)(deflate)(?:,|$)/', $acceptEncoding, $matches)) {
-			$encoding = $matches[1];
-		} else if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches)) {
-			$encoding = $matches[1];
-		}
+		if (extension_loaded('zlib') && function_exists('file_get_contents') && function_exists('file_put_contents')) {
+			if (preg_match('/(?:^|, ?)(deflate)(?:,|$)/', $acceptEncoding, $matches)) {
+				$encoding = 'deflate';
+				$filegz = '../piwik.js.deflate';
+			} else if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches)) {
+				$encoding = $matches[1];
+				$filegz = '../piwik.js.gz';
+			}
 
-		if (!empty($encoding)) {
-			$filegz = '../piwik.js.' . $encoding;
+			if (!empty($encoding)) {
+				// compress-on-demand and use cache
+				if(!file_exists($filegz) || (filemtime($file) > filemtime($filegz))) {
+					$data = file_get_contents($file);
 
-			if(!file_exists($filegz) || (filemtime($file) > filemtime($filegz))) {
-				$data = file_get_contents($file);
+					if ($encoding == 'deflate') {
+						$data = gzcompress($data, 9);
+					} else if ($encoding == 'gzip' || $encoding == 'x-gzip') {
+						$data = gzencode($data, 9);
+					}
 
-				if ($encoding == 'deflate') {
-					$data = gzcompress($data, 9);
-				} else if ($encoding == 'gzip' || $encoding == 'x-gzip') {
-					$data = gzencode($data, 9);
+					file_put_contents($filegz, $data);
+					$file = $filegz;
 				}
 
-				file_put_contents($filegz, $data);
 				$compressed = true;
+				$file = $filegz;
+			}
+		} else {
+			// manually compressed
+			$filegz = '../piwik.js.gz';
+			if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches) && file_exists($filegz) && (filemtime($file) < filemtime($filegz))) {
 				$file = $filegz;
 			}
 		}
