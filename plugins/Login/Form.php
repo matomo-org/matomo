@@ -25,15 +25,9 @@ class Piwik_Login_Form extends Piwik_Form
 
 	function init()
 	{
-		// if form_url is not defined, go to referrer
-		$currentUrl = Piwik_Url::getReferer();
-		$urlToGoAfter = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
-		$urlToGoAfter = htmlspecialchars_decode($urlToGoAfter);
-
 		$formElements = array(
 			array('text', 'form_login'),
 			array('password', 'form_password'),
-			array('hidden', 'form_url', $urlToGoAfter),
 		);
 		$this->addElements( $formElements );
 

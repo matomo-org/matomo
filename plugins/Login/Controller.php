@@ -11,6 +11,7 @@
  */
 
 /**
+ * Login controller
  *
  * @package Piwik_Login
  */
@@ -18,6 +19,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 {
 	/**
 	 * Default action
+	 *
+	 * @param none
+	 * @return void
 	 */
 	function index()
 	{
@@ -26,20 +30,22 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Login form
+	 *
+	 * @param string $messageNoAccess Access error message
+	 * @param string $currentUrl Current URL
+	 * @return void
 	 */
-	function login()
+	function login($messageNoAccess = null)
 	{
-		$messageNoAccess = null;
-		$form = new Piwik_Login_Form();
-
-		$currentUrl = Piwik_Url::getReferer();
+		$currentUrl = Piwik::getModule() == 'Login' ? Piwik_Url::getReferer() : 'index.php' . Piwik_Url::getCurrentQueryString();
 		$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
 		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 
+		$form = new Piwik_Login_Form();
 		if($form->validate())
 		{
-			// if the current url to redirect contains module=Login or Installation we instead redirect to the doc root
-			if(preg_match('/module=(Login|Installation)/', $urlToRedirect))
+			// if the current url to redirect contains module=Login, Installation, or CoreUpdater, we instead redirect to the doc root
+			if(empty($urlToRedirect) || preg_match('/module=(Login|Installation|CoreUpdater)/', $urlToRedirect))
 			{
 				$urlToRedirect = 'index.php';
 			}
@@ -62,6 +68,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Form-less login
+	 *
+	 * @param none
+	 * @return void
 	 */
 	function logme()
 	{
@@ -122,15 +131,18 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Lost password form.  Email password reset information.
+	 *
+	 * @param none
+	 * @return void
 	 */
 	function lostPassword()
 	{
 		$messageNoAccess = null;
-		$form = new Piwik_Login_PasswordForm();
 		$currentUrl = 'index.php';
 		$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
 		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 
+		$form = new Piwik_Login_PasswordForm();
 		if($form->validate())
 		{
 			$loginMail = $form->getSubmitValue('form_login');
@@ -213,16 +225,18 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Reset password form.  Enter new password here.
+	 *
+	 * @param none
+	 * @return void
 	 */
 	function resetPassword()
 	{
 		$messageNoAccess = null;
-
-		$form = new Piwik_Login_ResetPasswordForm();
 		$currentUrl = 'index.php';
 		$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
 		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 
+		$form = new Piwik_Login_ResetPasswordForm();
 		if($form->validate())
 		{
 			$loginMail = $form->getSubmitValue('form_login');
@@ -370,6 +384,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Clear session information
+	 *
+	 * @param none
+	 * @return void
 	 */
 	static public function clearSession()
 	{
@@ -382,6 +399,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	/**
 	 * Logout current user
+	 *
+	 * @param none
+	 * @return void
 	 */
 	public function logout()
 	{
