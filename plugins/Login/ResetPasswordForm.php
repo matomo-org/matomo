@@ -25,9 +25,6 @@ class Piwik_Login_ResetPasswordForm extends Piwik_Form
 
 	function init()
 	{
-		$currentUrl = 'index.php';
-		$urlToGoAfter = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
-
 		$resetToken = Piwik_Common::getRequestVar('token', '', 'string');
 
 		$formElements = array(
@@ -35,7 +32,6 @@ class Piwik_Login_ResetPasswordForm extends Piwik_Form
 			array('password', 'form_password'),
 			array('password', 'form_password_bis'),
 			array('text', 'form_token'),
-			array('hidden', 'form_url', $urlToGoAfter),
 		);
 		$this->addElements( $formElements );
 

@@ -27,7 +27,7 @@
 	{*
 		<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> Remember Me</label></p>
 	*}
-	{$form_data.form_url.html}
+	<input name="form_url" type="hidden" value="{$urlToRedirect}" />
 	<p class="submit">
 		<input type="submit" value="{'Login_LogIn'|translate}" tabindex="100" />
 	</p>
