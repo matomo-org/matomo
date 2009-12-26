@@ -589,7 +589,7 @@ if (!this.Piwik) {
 			 * Construct regular expression of classes
 			 */
 			function getClassesRegExp(configClasses, defaultClass) {
-				var i, classesRegExp = '(^| )(piwik_' + defaultClass;
+				var i, classesRegExp = '(^| )(piwik[_-]' + defaultClass;
 
 				if (isDefined(configClasses)) {
 					for (i = 0; i < configClasses.length; i++) {
