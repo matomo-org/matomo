@@ -38,6 +38,8 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('DisplayJavascriptCode');
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
+		$site = new Piwik_Site($idSite);
+		$view->displaySiteName = $site->getName();
 		$view->jsTag = $jsTag;
 		echo $view->render();
 	}
