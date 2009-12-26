@@ -608,7 +608,7 @@ class Piwik
 			
 			'log_action' => "CREATE TABLE {$prefixTables}log_action (
 									  idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-									  name VARCHAR(255) NOT NULL,
+									  name TEXT,
 									  hash INTEGER(10) UNSIGNED NOT NULL,
   									  type TINYINT UNSIGNED NULL,
 									  PRIMARY KEY(idaction),
