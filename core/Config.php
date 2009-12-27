@@ -109,6 +109,10 @@ class Piwik_Config
 		{
 			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
 		}
+		if(is_null($this->defaultConfig))
+		{
+			throw new Exception("The configuration file {$this->pathIniFileUserConfig} could not be read. Your host may have disabled parse_ini_file().");
+		}
 		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
 	}
 	

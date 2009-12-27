@@ -779,6 +779,7 @@ Note that it is not necessary to specify the URLs with and without \'www\' as Pi
 	'Installation_SystemCheckFunctions' => 'Required functions',
 	'Installation_SystemCheckTimeLimitHelp' => 'On a high traffic website, executing the archiving process may require more time than currently allowed.  If necessary, change the max_execution_time directive in your php.ini file.',
 	'Installation_SystemCheckMailHelp' => 'Feedback and Lost Password messages will not be sent without mail().',
+	'Installation_SystemCheckParseIniFileHelp' => 'Configuration file cannot be read without parse_ini_file().',
 	'Installation_SystemCheckError' => 'An error occured - must be fixed before you proceed',
 	'Installation_SystemCheckWarning' => 'Piwik will work normally but some features may be missing',
 	'Installation_SystemCheckProtocol' => 'Protocol',

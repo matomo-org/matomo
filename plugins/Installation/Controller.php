@@ -11,6 +11,7 @@
  */
 
 /**
+ * Installation controller
  *
  * @package Piwik_Installation
  */
@@ -44,17 +45,30 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		Piwik_PostEvent('InstallationController.construct', $this);
 	}
 
+	/**
+	 * Get installation steps
+	 *
+	 * @return array installation steps
+	 */
 	public function getInstallationSteps()
 	{
 		return $this->steps;
 	}
 
+	/**
+	 * Get default action (first installation step)
+	 *
+	 * @return string function name
+	 */
 	function getDefaultAction()
 	{
 		$steps = array_keys($this->steps);
 		return $steps[0];
 	}
 
+	/**
+	 * Installation Step 1: Welcome
+	 */
 	function welcome()
 	{
 		$view = new Piwik_Installation_View(
@@ -68,6 +82,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	/**
+	 * Installation Step 2: System Check
+	 */
 	function systemCheck()
 	{
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
@@ -87,6 +104,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'dom'            => 'Installation_SystemCheckDomHelp',
 			'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
 			'mail'           => 'Installation_SystemCheckMailHelp',
+			'parse_ini_file' => 'Installation_SystemCheckParseIniFileHelp',
 		);
 
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
@@ -102,6 +120,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	/**
+	 * Installation Step 3: Database Set-up
+	 */
 	function databaseSetup()
 	{
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
@@ -189,6 +210,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	/**
+	 * Installation Step 4: Database Check
+	 */
 	function databaseCheck()
 	{
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
@@ -233,6 +257,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	/**
+	 * Installation Step 5: Table Creation
+	 */
 	function tablesCreation()
 	{
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
@@ -300,6 +327,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	/**
+	 * Installation Step 6: General Set-up (superuser login/password/email and subscriptions)
+	 */
 	function generalSetup()
 	{
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
@@ -351,6 +381,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	/**
+	 * Installation Step 7: Configure first web-site
+	 */
 	public function firstWebsiteSetup()
 	{
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
@@ -399,6 +432,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	/**
+	 * Installation Step 8: Display JavaScript tracking code
+	 */
 	public function displayJavascriptCode()
 	{
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
@@ -427,6 +463,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	/**
+	 * Installation Step 9: Finished!
+	 */
 	public function finished()
 	{
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
@@ -449,6 +488,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	/**
+	 * Instantiate access and log objects
+	 */
 	protected function initObjectsToCallAPI()
 	{
 		// connect to the database using the DB infos currently in the session
@@ -459,6 +501,20 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		Piwik::createLogObject();
 	}
 
+	/**
+	 * Create database connection from session-store
+	 */
+	protected function createDbFromSessionInformation()
+	{
+		$dbInfos = $this->session->db_infos;
+		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
+		Zend_Registry::get('config')->database = $dbInfos;
+		Piwik::createDatabaseObject($dbInfos);
+	}
+
+	/**
+	 * Write configuration file from session-store
+	 */
 	protected function writeConfigFileFromSession()
 	{
 		if(!isset($this->session->superuser_infos)
@@ -474,9 +530,22 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	}
 
 	/**
+	 * Save language selection in session-store
+	 */
+	public function saveLanguage()
+	{
+		$language = Piwik_Common::getRequestVar('language');
+		Piwik_LanguagesManager_API::setLanguageForSession($language);
+		Piwik_Url::redirectToReferer();
+	}
+
+	/**
 	 * The previous step is valid if it is either
 	 * - any step before (OK to go back)
 	 * - the current step (case when validating a form)
+	 * If step is invalid, then exit.
+	 *
+	 * @param string $currentStep Current step
 	 */
 	protected function checkPreviousStepIsValid( $currentStep )
 	{
@@ -524,6 +593,12 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 	}
 
+	/**
+	 * Redirect to next step
+	 *
+	 * @param string Current step
+	 * @return none
+	 */
 	protected function redirectToNextStep($currentStep)
 	{
 		$steps = array_keys($this->steps);
@@ -532,14 +607,23 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		Piwik::redirectToModule('Installation' , $nextStep);
 	}
 
-	protected function createDbFromSessionInformation()
+	/**
+	 * Skip this step (typically to mark the current function as completed)
+	 *
+	 * @param string function name
+	 */
+	protected function skipThisStep( $step )
 	{
-		$dbInfos = $this->session->db_infos;
-		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
-		Zend_Registry::get('config')->database = $dbInfos;
-		Piwik::createDatabaseObject($dbInfos);
+		if(isset($this->session->skipThisStep[$step])
+			&& $this->session->skipThisStep[$step])
+		{
+			$this->redirectToNextStep($step);
+		}
 	}
 
+	/**
+	 * Get system information
+	 */
 	public static function getSystemInformation()
 	{
 		$minimumPhpVersion = Zend_Registry::get('config')->General->minimum_php_version;
@@ -593,12 +677,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$needed_functions = array(
 			'set_time_limit',
 			'mail',
+			'parse_ini_file',
 		);
 		$infos['needed_functions'] = $needed_functions;
 		$infos['missing_functions'] = array();
 		foreach($needed_functions as $needed_function)
 		{
-			if(!function_exists($needed_function))
+			if(!self::functionExists($needed_function))
 			{
 				$infos['missing_functions'][] = $needed_function;
 			}
@@ -649,6 +734,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		return $infos;
 	}
 
+	/**
+	 * Get protocol information, with the exception of HTTPS
+	 *
+	 * @return string protocol information
+	 */
 	public static function getProtocolInformation()
 	{
 		if(Piwik_Common::getRequestVar('clientProtocol', 'http', 'string') == 'https')
@@ -671,7 +761,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			return 'X-Forwarded-Scheme';
 		}
 
-		if(isset($_SERVER['HTTP_X_URL_SCHEME']) && strtolower($_SERVER['HTTPS']) == 'HTTP_X_URL_SCHEME')
+		if(isset($_SERVER['HTTP_X_URL_SCHEME']) && strtolower($_SERVER['HTTP_X_URL_SCHEME']) == 'https')
 		{
 			return 'X-Url-Scheme';
 		}
@@ -679,19 +769,24 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		return null;
 	}
 
-	protected function skipThisStep( $step )
+	/**
+	 * Test if function exists.  Also handles case where function is disabled via Suhosin.
+	 *
+	 * @param string $functionName Function name
+	 * @return bool True if function exists (not disabled); False otherwise.
+	 */
+	protected function functionExists($functionName)
 	{
-		if(isset($this->session->skipThisStep[$step])
-			&& $this->session->skipThisStep[$step])
+		if(extension_loaded('suhosin'))
 		{
-			$this->redirectToNextStep($step);
-		}
-	}
+			$blacklist = @ini_get("suhosin.executor.func.blacklist");
+			if(!empty($blacklist))
+			{
+				$blacklistFunctions = array_map('strtolower', array_map('trim', explode(',', $blacklist)));
+				return function_exists($functionName) && !in_array($functionName, $blacklistFunctions);
+			}
 
-	public function saveLanguage()
-	{
-		$language = Piwik_Common::getRequestVar('language');
-		Piwik_LanguagesManager_API::setLanguageForSession($language);
-		Piwik_Url::redirectToReferer();
+			return function_exists($functionName);
+		}
 	}
 }
