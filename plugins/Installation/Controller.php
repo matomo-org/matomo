@@ -775,7 +775,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 * @param string $functionName Function name
 	 * @return bool True if function exists (not disabled); False otherwise.
 	 */
-	protected function functionExists($functionName)
+	public static function functionExists($functionName)
 	{
 		if(extension_loaded('suhosin'))
 		{
@@ -786,7 +786,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				return function_exists($functionName) && !in_array($functionName, $blacklistFunctions);
 			}
 
-			return function_exists($functionName);
 		}
+		return function_exists($functionName);
 	}
 }
