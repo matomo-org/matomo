@@ -82,13 +82,28 @@
 			<small>
 				{foreach from=$infos.missing_extensions item=missing_extension}
 					<p>
-					{$helpMessages[$missing_extension]|translate}
+					<i>{$helpMessages[$missing_extension]|translate}</i>
 					</p>
 				{/foreach}
 			</small>
 		</td>
 	</tr>
 	{/if}
+	<tr>
+		<td class="label">{'Installation_SystemCheckFunctions'|translate}</td>
+		<td>{foreach from=$infos.needed_functions item=needed_function}
+				{$needed_function}
+				{if in_array($needed_function, $infos.missing_functions)}
+					{$error}
+					<p>
+					<i>{$helpMessages[$needed_function]|translate}</i>
+					</p>
+				{else}
+					{$ok}<br />
+				{/if}
+			{/foreach}
+		</td>
+	</tr>
 	<tr>
 		<td valign="top">
 			{'Installation_SystemCheckWriteDirs'|translate}
@@ -150,14 +165,12 @@
 	</tr>
 	<tr>
 		<td class="label">{'Installation_SystemCheckFunctions'|translate}</td>
-		<td>{foreach from=$infos.needed_functions item=needed_function}
-				{$needed_function}
-				{if in_array($needed_function, $infos.missing_functions)}
+		<td>{foreach from=$infos.desired_functions item=desired_function}
+				{$desired_function}
+				{if in_array($desired_function, $infos.missing_desired_functions)}
 					{$warning}
 					<p>
-					<small>
-					{$helpMessages[$needed_function]|translate}
-					</small>
+					<i>{$helpMessages[$desired_function]|translate}</i>
 					</p>
 				{else}
 					{$ok}<br />

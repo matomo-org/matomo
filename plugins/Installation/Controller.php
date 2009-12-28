@@ -98,13 +98,14 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$view->infos = self::getSystemInformation();
 		$view->helpMessages = array(
-			'zlib'           => 'Installation_SystemCheckZlibHelp',
-			'SPL'            => 'Installation_SystemCheckSplHelp',
-			'iconv'          => 'Installation_SystemCheckIconvHelp',
-			'dom'            => 'Installation_SystemCheckDomHelp',
-			'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
-			'mail'           => 'Installation_SystemCheckMailHelp',
-			'parse_ini_file' => 'Installation_SystemCheckParseIniFileHelp',
+			'zlib'            => 'Installation_SystemCheckZlibHelp',
+			'SPL'             => 'Installation_SystemCheckSplHelp',
+			'iconv'           => 'Installation_SystemCheckIconvHelp',
+			'dom'             => 'Installation_SystemCheckDomHelp',
+			'set_time_limit'  => 'Installation_SystemCheckTimeLimitHelp',
+			'mail'            => 'Installation_SystemCheckMailHelp',
+			'parse_ini_file'  => 'Installation_SystemCheckParseIniFileHelp',
+			'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
 		);
 
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
@@ -113,6 +114,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 							&& $view->infos['phpVersion_ok']
 							&& count($view->infos['adapters'])
 							&& !count($view->infos['missing_extensions'])
+							&& !count($view->infos['missing_functions'])
 						;
 
 		$this->session->currentStepDone = __FUNCTION__;
@@ -673,11 +675,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['xml'] = true;
 		}
 
-		// warnings
 		$needed_functions = array(
-			'set_time_limit',
-			'mail',
 			'parse_ini_file',
+			'debug_backtrace',
 		);
 		$infos['needed_functions'] = $needed_functions;
 		$infos['missing_functions'] = array();
@@ -686,6 +686,21 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			if(!self::functionExists($needed_function))
 			{
 				$infos['missing_functions'][] = $needed_function;
+			}
+		}
+
+		// warnings
+		$desired_functions = array(
+			'set_time_limit',
+			'mail',
+		);
+		$infos['desired_functions'] = $desired_functions;
+		$infos['missing_desired_functions'] = array();
+		foreach($desired_functions as $desired_function)
+		{
+			if(!self::functionExists($desired_function))
+			{
+				$infos['missing_desired_functions'][] = $desired_function;
 			}
 		}
 
