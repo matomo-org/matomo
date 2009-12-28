@@ -185,7 +185,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 	}
 
-	public function runUpdaterAndExit($updater, $componentsWithUpdateFile)
+	public function runUpdaterAndExit($updater = null, $componentsWithUpdateFile = null)
 	{
 		if(empty($componentsWithUpdateFile))
 		{

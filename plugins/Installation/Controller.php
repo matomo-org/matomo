@@ -69,15 +69,17 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	/**
 	 * Installation Step 1: Welcome
 	 */
-	function welcome()
+	function welcome($message)
 	{
 		$view = new Piwik_Installation_View(
 						$this->pathView . 'welcome.tpl',
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
+		$view->newInstall = !file_exists(Piwik_Config::getDefaultUserConfigPath());
+		$view->errorMessage = $message;
 		$this->skipThisStep( __FUNCTION__ );
-		$view->showNextStep = true;
+		$view->showNextStep = $view->newInstall;
 		$this->session->currentStepDone = __FUNCTION__;
 		echo $view->render();
 	}

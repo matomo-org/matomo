@@ -215,7 +215,13 @@ class Piwik_FrontController
 
 			Piwik_Translate::getInstance()->loadUserTranslation();
 
-			Piwik::createDatabaseObject();
+			try {
+				Piwik::createDatabaseObject();
+			} catch(Exception $e) {
+				Piwik_PostEvent('FrontController.badConfigurationFile', $e);
+				throw $e;
+			}
+
 			Piwik::createLogObject();
 			
 			// creating the access object, so that core/Updates/* can enforce Super User and use some APIs
