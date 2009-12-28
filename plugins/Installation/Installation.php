@@ -35,6 +35,7 @@ class Piwik_Installation extends Piwik_Plugin
 	{
 		$hooks = array(
 			'FrontController.NoConfigurationFile' => 'dispatch',
+			'FrontController.badConfigurationFile' => 'dispatch',
 		);
 		return $hooks;
 	}
@@ -49,8 +50,18 @@ class Piwik_Installation extends Piwik_Plugin
 		return new $this->installationControllerName();
 	}
 
-	function dispatch()
+	function dispatch($notification = null)
 	{
+		if($notification)
+		{
+			$exception = $notification->getNotificationObject();
+			$message = $exception->getMessage();
+		}
+		else
+		{
+			$message = '';
+		}
+
 		Piwik_Translate::getInstance()->loadUserTranslation();
 
 		Piwik_PostEvent('Installation.startInstallation', $this);
@@ -59,7 +70,7 @@ class Piwik_Installation extends Piwik_Plugin
 		$controller = $this->getInstallationController();
 		if(in_array($step, array_keys($controller->getInstallationSteps())) || $step == 'saveLanguage')
 		{
-			$controller->$step();
+			$controller->$step($message);
 		}
 		else
 		{

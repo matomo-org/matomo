@@ -1,6 +1,14 @@
 <h1>{'Installation_Welcome'|translate}</h1>
 
+{if $newInstall}
 {'Installation_WelcomeHelp'|translate:$totalNumberOfSteps}
+{else}
+<p>{'Installation_ConfigurationHelp'|translate}</p>
+<br />
+<div class="error">
+{$errorMessage}
+</div>
+{/if}
 
 {literal}
 <script type="text/javascript">
@@ -13,3 +21,9 @@ if (document.location.protocol === 'https:') {
 //-->
 </script>
 {/literal}
+
+{if !$showNextStep}
+<p class="nextStep">
+	<a href="{url}">{'General_Refresh'|translate} &raquo;</a>
+</p>
+{/if}

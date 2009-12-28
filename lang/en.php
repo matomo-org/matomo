@@ -798,6 +798,7 @@ Note that it is not necessary to specify the URLs with and without \'www\' as Pi
 	'Installation_ConfirmDeleteExistingTables' => 'Are you sure you want to delete the tables: %s from your database? WARNING: DATA FROM THESE TABLES CANNOT BE RECOVERED!',
 	'Installation_Welcome' => 'Welcome!',
 	'Installation_WelcomeHelp' => '<p>Piwik is an open source web analytics software that makes it easy to get the information you want from your visitors.</p><p>This process is split up into %s easy steps and will take around 5 minutes.</p>',
+	'Installation_ConfigurationHelp' => 'Your Piwik configuration file appears to be misconfigured.  You can either remove config/config.ini.php and resume installation, or correct the database connection settings.',
 	'Installation_ErrorInvalidState' => 'Error: it seems you try to skip a step of the Installation process, or your cookies are disabled, or the Piwik configuration file is already created. %sMake sure your cookies are enabled%s and go back %s to the first page of the installation %s.',
 	'Provider_WidgetProviders' => 'Providers',
 	'Provider_ColumnProvider' => 'Provider',
