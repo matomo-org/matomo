@@ -61,7 +61,6 @@ class Piwik_View implements Piwik_iView
 		$this->smarty->cache_dir = $smConf->cache_dir;
 		Piwik_View::addPiwikPath($this->smarty->cache_dir, null, PIWIK_USER_PATH);
 
-		$this->smarty->error_reporting = $smConf->debugging;
 		$this->smarty->error_reporting = $smConf->error_reporting;
 
 		$this->smarty->assign('tag', 'piwik=' . Piwik_Version::VERSION);
