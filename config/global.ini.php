@@ -229,9 +229,6 @@ cache_dir		= tmp/cache
 ; error reporting inside Smarty
 error_reporting = E_ALL|E_NOTICE
 
-; allow smarty debugging using {debug}
-debugging		= 1
-
 [Plugins]
 Plugins[] 		= CorePluginsAdmin
 Plugins[] 		= CoreAdminHome
