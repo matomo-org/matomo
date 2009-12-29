@@ -781,6 +781,7 @@ Note that it is not necessary to specify the URLs with and without \'www\' as Pi
 	'Installation_SystemCheckMailHelp' => 'Feedback and Lost Password messages will not be sent without mail().',
 	'Installation_SystemCheckParseIniFileHelp' => 'Configuration file cannot be read without parse_ini_file().',
 	'Installation_SystemCheckDebugBacktraceHelp' => 'View::factory won\'t be able to create views for the calling module.',
+	'Installation_SystemCheckCreateFunctionHelp' => 'Piwik uses anonymous functions for callbacks.',
 	'Installation_SystemCheckError' => 'An error occured - must be fixed before you proceed',
 	'Installation_SystemCheckWarning' => 'Piwik will work normally but some features may be missing',
 	'Installation_SystemCheckProtocol' => 'Protocol',
