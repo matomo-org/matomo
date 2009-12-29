@@ -1,4 +1,4 @@
-<Files ~ "\.(php|php4|php5|inc|tpl)$">
+<Files ~ "\.(php|php4|php5|phtml|phps|inc|tpl)$">
 Order Deny,Allow
 Deny from all
 </Files>
