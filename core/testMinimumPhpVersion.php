@@ -69,6 +69,7 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	exit;
 }
 
+// added in PHP 4.3.0
 if (!function_exists('file_get_contents'))
 {
 	function file_get_contents($filename)
