@@ -19,6 +19,12 @@ defined('PIWIK_INCLUDE_PATH') or die;
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 
 /**
+ * @see mysqli_set_charset
+ * @see parse_ini_file
+ */
+require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/common.php';
+
+/**
  * Main piwik helper class.
  * Contains static functions you can call from the plugins.
  * 
@@ -1090,7 +1096,7 @@ class Piwik
 					{
 						throw new Exception('Unexpected redirect to Location: '.rtrim($line).' for status code '.$status);
 					}
-					return self::sendHttpRequest(trim($m[1]), $pathDestination, $tries+1);
+					return self::sendHttpRequestBy($method, trim($m[1]), $timeout, $userAgent, $pathDestination, $file, $followDepth+1);
 				}
 
 				// save expected content length for later verification
