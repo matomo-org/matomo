@@ -10,6 +10,15 @@
  * @package Piwik
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die;
+
+/**
+ * @see mysqli_set_charset
+ * @see parse_ini_file
+ */
+require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/common.php';
+
 /**
  * Static class providing functions used by both the CORE of Piwik and the visitor Tracking engine.
  *

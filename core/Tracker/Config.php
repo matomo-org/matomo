@@ -60,8 +60,8 @@ class Piwik_Tracker_Config
 		{
 			$pathIniFileGlobal = PIWIK_USER_PATH . '/config/global.ini.php'; 
 		}
-		$this->configUser = parse_ini_file($pathIniFileUser, true);
-		$this->configGlobal = parse_ini_file($pathIniFileGlobal, true);
+		$this->configUser = _parse_ini_file($pathIniFileUser, true);
+		$this->configGlobal = _parse_ini_file($pathIniFileGlobal, true);
 	
 		foreach($this->configUser as $section => &$sectionValues)
 		{ 
