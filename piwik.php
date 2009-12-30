@@ -40,6 +40,7 @@ if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
 	@set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 }
 
+require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/common.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Event/Dispatcher.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Event/Notification.php';
 require_once PIWIK_INCLUDE_PATH .'/core/PluginsManager.php';
