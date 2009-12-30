@@ -679,7 +679,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 
 		$needed_functions = array(
-			'parse_ini_file',
 			'debug_backtrace',
 			'create_function',
 		);
@@ -697,6 +696,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$desired_functions = array(
 			'set_time_limit',
 			'mail',
+			'parse_ini_file',
 		);
 		$infos['desired_functions'] = $desired_functions;
 		$infos['missing_desired_functions'] = array();
@@ -719,6 +719,21 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			if($gdVersion[0] >= 2)
 			{
 				$infos['gd_ok'] = true;
+			}
+		}
+
+		/**
+		 * @see http://bugs.php.net/?id=50609
+		 */
+		$infos['hasMbstring'] = false;
+		$infos['multibyte_ok'] = true;
+		if(function_exists('mb_internal_encoding'))
+		{
+			$infos['hasMbstring'] = true;
+			if ((((int) ini_get('mbstring.func_overload')) & 2) &&
+				(!function_exists('mb_substr_replace')))
+			{
+				$infos['multibyte_ok'] = false;
 			}
 		}
 

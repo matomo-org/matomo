@@ -61,14 +61,18 @@ class Piwik_View implements Piwik_iView
 		$this->smarty->cache_dir = $smConf->cache_dir;
 		Piwik_View::addPiwikPath($this->smarty->cache_dir, null, PIWIK_USER_PATH);
 
-		$this->smarty->error_reporting = $smConf->error_reporting;
+		$error_reporting = $smConf->error_reporting;
+		if($error_reporting != (string)(int)$error_reporting)
+		{
+			$error_reporting = self::bitwise_eval($error_reporting);
+		}
+		$this->smarty->error_reporting = $error_reporting;
 
 		$this->smarty->assign('tag', 'piwik=' . Piwik_Version::VERSION);
 		if($filter)
 		{
 			$this->smarty->load_filter('output', 'cachebuster');
 			$this->smarty->load_filter('output', 'ajaxcdn');
-			$this->smarty->load_filter('output', 'trimwhitespace');
 		}
 
 		// global value accessible to all templates: the piwik base URL for the current request
@@ -197,6 +201,30 @@ class Piwik_View implements Piwik_iView
 		{
 			$value = $path ."/$value";
 		}
+	}
+
+	/**
+	 * Evaluate expression containing only bitwise operators.
+	 * Replaces defined constants with corresponding values.
+	 * Does not use eval() or create_function().
+	 *
+	 * @param string $expression Expression.
+	 * @return string
+	 */
+	static public function bitwise_eval($expression)
+	{
+		// replace defined constants
+		$buf = get_defined_constants(true);
+		$consts = version_compare(phpversion(), '5.3.0') >= 0 ? $buf['Core'] : $buf['internal'];
+		$expression = str_replace(' ', '', strtr($expression, $consts));
+
+		// bitwise operators in order of precedence (highest to lowest)
+		$expression = preg_replace_callback('/~(-?[0-9]+)/', create_function('$matches', 'return (string)((~(int)$matches[1]));'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)&(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]&(int)$matches[2]);'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)\^(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]^(int)$matches[2]);'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)\|(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]|(int)$matches[2]);'), $expression);
+
+		return (string)((int)$expression & PHP_INT_MAX);
 	}
 
 	/**

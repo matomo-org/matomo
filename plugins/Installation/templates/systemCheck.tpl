@@ -163,6 +163,14 @@
 			{if $infos.gd_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckGDHelp'|translate}</i>{/if}
 		</td>
 	</tr>
+	{if $infos.hasMbstring}
+	<tr>
+		<td class="label">{'Installation_SystemCheckMbstring'|translate}</td>
+		<td>
+			{if $infos.multibyte_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckMbstringHelp'|translate}</i>{/if}
+		</td>
+	</tr>
+	{/if}
 	<tr>
 		<td class="label">{'Installation_SystemCheckFunctions'|translate}</td>
 		<td>{foreach from=$infos.desired_functions item=desired_function}

@@ -104,7 +104,7 @@ class Piwik_Config
 	
 	public function init()
 	{
-		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);
+		$this->defaultConfig = new Piwik_Config_Ini($this->pathIniFileDefaultConfig, null, true);
 		if(!Zend_Loader::isReadable($this->pathIniFileUserConfig))
 		{
 			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
@@ -113,7 +113,7 @@ class Piwik_Config
 		{
 			throw new Exception("The configuration file {$this->pathIniFileUserConfig} could not be read. Your host may have disabled parse_ini_file().");
 		}
-		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
+		$this->userConfig = new Piwik_Config_Ini($this->pathIniFileUserConfig, null, true);
 	}
 	
 	/**
@@ -296,5 +296,30 @@ class Piwik_Config
 			$this->cacheConfigArray();
 		}
 		return $this->cachedConfigArray[$name];
+	}
+}
+
+class Piwik_Config_Ini extends Zend_Config_Ini
+{
+	/**
+	 * Load ini file configuration
+	 *
+	 * Derived from Zend_Config_Ini->_loadIniFile().
+	 * @license New BSD License
+	 *
+	 * @param string $filename
+	 * @return array
+	 */
+	protected function _loadIniFile($filename)
+	{
+		set_error_handler(array($this, '_loadFileErrorHandler'));
+		$loaded = _parse_ini_file($filename, true);
+		restore_error_handler();
+		// Check if there was an error while loading the file
+		if ($this->_loadFileErrorStr !== null) {
+			throw new Zend_Config_Exception($this->_loadFileErrorStr);
+		}
+
+		return $loaded;
 	}
 }
