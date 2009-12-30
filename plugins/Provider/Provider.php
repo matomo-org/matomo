@@ -145,6 +145,13 @@ class Piwik_Provider extends Piwik_Plugin
 		}
 		else
 		{
+			$provider = $hostname;
+			Piwik_PostEvent('Provider.getCleanHostname', $provider);
+			if($provider != $hostname)
+			{
+				return $provider;
+			}
+
 			$e = explode('.', $hostname);
 			$s = sizeof($e);
 			
