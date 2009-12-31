@@ -132,10 +132,6 @@ class Piwik_Provider extends Piwik_Plugin
 	 */
 	private function getCleanHostname($hostname)
 	{
-		$extToExclude = array(
-			'com', 'net', 'org', 'co'
-		);
-		
 		$off = strrpos($hostname, '.');
 		$ext = substr($hostname, $off);
 	
@@ -145,13 +141,17 @@ class Piwik_Provider extends Piwik_Plugin
 		}
 		else
 		{
-			$provider = $hostname;
-			Piwik_PostEvent('Provider.getCleanHostname', $provider);
-			if($provider != $hostname)
+			$cleanHostname = null;
+			Piwik_PostEvent('Provider.getCleanHostname', $cleanHostname, $hostname);
+			if($cleanHostname !== null)
 			{
-				return $provider;
+				return $cleanHostname;
 			}
 
+			$extToExclude = array(
+				'com', 'net', 'org', 'co'
+			);
+		
 			$e = explode('.', $hostname);
 			$s = sizeof($e);
 			
