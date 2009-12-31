@@ -364,7 +364,10 @@ class Piwik_Actions extends Piwik_Plugin
 			for($level = 0 ; $level < $end; $level++)
 			{
 				$actionCategory = $actionExplodedNames[$level];
-				$currentTable =& $currentTable[$actionCategory];
+				if(is_array($currentTable))
+				{
+					$currentTable =& $currentTable[$actionCategory];
+				}
 			}
 			$actionName = $actionExplodedNames[$end];
 
@@ -382,7 +385,10 @@ class Piwik_Actions extends Piwik_Plugin
 
 			// currentTable is now the array element corresponding the the action
 			// at this point we may be for example at the 4th level of depth in the hierarchy
-			$currentTable =& $currentTable[$actionName];
+			if(is_array($currentTable))
+			{
+				$currentTable =& $currentTable[$actionName];
+			}
 			
 			// add the row to the matching sub category subtable
 			if(!($currentTable instanceof Piwik_DataTable_Row))
