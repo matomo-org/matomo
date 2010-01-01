@@ -73,6 +73,7 @@ class Piwik_View implements Piwik_iView
 		{
 			$this->smarty->load_filter('output', 'cachebuster');
 			$this->smarty->load_filter('output', 'ajaxcdn');
+			$this->smarty->load_filter('output', 'trimwhitespace');
 		}
 
 		// global value accessible to all templates: the piwik base URL for the current request
@@ -219,6 +220,7 @@ class Piwik_View implements Piwik_iView
 		$expression = str_replace(' ', '', strtr($expression, $consts));
 
 		// bitwise operators in order of precedence (highest to lowest)
+		// @todo: boolean ! (NOT) and parentheses aren't handled
 		$expression = preg_replace_callback('/~(-?[0-9]+)/', create_function('$matches', 'return (string)((~(int)$matches[1]));'), $expression);
 		$expression = preg_replace_callback('/(-?[0-9]+)&(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]&(int)$matches[2]);'), $expression);
 		$expression = preg_replace_callback('/(-?[0-9]+)\^(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]^(int)$matches[2]);'), $expression);
