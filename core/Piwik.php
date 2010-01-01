@@ -112,6 +112,60 @@ class Piwik
 		}
 		return $resultCheck;
 	}
+
+	/**
+	 * Check integrity of Piwik installation
+	 *
+	 * @return bool TRUE if ok, FALSE if manifest.inc.php not found or md5_file() doesn't exist
+	 * @throws Exception if not ok
+	 */
+	static public function checkIntegrity()
+	{
+		$manifest = PIWIK_USER_PATH . '/config/manifest.inc.php';
+		if(file_exists($manifest))
+		{
+			require_once $manifest;
+
+			$files = Manifest::$files;
+
+			if(file_exists(PIWIK_DOCUMENT_ROOT . '/.svn'))
+			{
+				unset($files['Manifest.xml']);
+				unset($files['parameters.xml']);
+			}
+
+			$hasMd5file = function_exists('md5_file');
+			foreach($files as $path => $props)
+			{
+				if(preg_match('/\.(php|tpl)$/', $path, $matches))
+				{
+					$file = PIWIK_INCLUDE_PATH . '/' . $path;
+				}
+				else
+				{
+					$file = PIWIK_DOCUMENT_ROOT . '/' . $path;
+				}
+				
+				if(!file_exists($file))
+				{
+					throw new Exception("missing: $file");
+				}
+				else if(filesize($file) != $props[0])
+				{
+					throw new Exception("file size mismatch: $file (expected: ".$props[0].", found length: ".filesize($file).")");
+				}
+				else if($hasMd5file && (@md5_file($file) !== $props[1]))
+				{
+					throw new Exception("integrity failed: $file (expected md5sum: ".$props[1].")");
+				}
+			}
+			if($hasMd5file)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * Returns the Javascript code to be inserted on every page to track

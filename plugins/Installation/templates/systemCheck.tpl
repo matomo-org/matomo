@@ -136,6 +136,12 @@
 <h1>{'Optional'|translate}</h1>
 <table class="infos">
 	<tr>
+		<td class="label">{'Installation_SystemCheckFileIntegrity'|translate}</td>
+		<td>
+			{if $infos.integrity}{$ok}{elseif isset($infos.integrityErrorMessage)}{$error} <i>{$infos.integrityErrorMessage}</i>{else}{$warning} <i>{'Installation_SystemCheckFileIntegrityHelp'|translate}</i>{/if}
+		</td>
+	</tr>
+	<tr>
 		<td class="label">{'Installation_SystemCheckMemoryLimit'|translate}</td>
 		<td>
 			{$infos.memoryCurrent}
