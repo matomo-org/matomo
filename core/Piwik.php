@@ -44,6 +44,8 @@ class Piwik
 	/**
 	 * Checks that the directories Piwik needs write access are actually writable
 	 * Displays a nice error page if permissions are missing on some directories
+	 *
+	 * @param array $directoriesToCheck Array of directory names to check
 	 */
 	static public function checkDirectoriesWritableOrDie( $directoriesToCheck = null )
 	{
@@ -121,18 +123,18 @@ class Piwik
 	 */
 	static public function checkIntegrity()
 	{
+		// ignore dev environments
+		if(file_exists(PIWIK_DOCUMENT_ROOT . '/.svn'))
+		{
+			return false;
+		}
+
 		$manifest = PIWIK_USER_PATH . '/config/manifest.inc.php';
 		if(file_exists($manifest))
 		{
 			require_once $manifest;
 
 			$files = Manifest::$files;
-
-			if(file_exists(PIWIK_DOCUMENT_ROOT . '/.svn'))
-			{
-				unset($files['Manifest.xml']);
-				unset($files['parameters.xml']);
-			}
 
 			$hasMd5file = function_exists('md5_file');
 			foreach($files as $path => $props)
@@ -148,15 +150,15 @@ class Piwik
 				
 				if(!file_exists($file))
 				{
-					throw new Exception("missing: $file");
+					throw new Exception(Piwik_TranslateException('General_ExceptionMissingFile', $file));
 				}
 				else if(filesize($file) != $props[0])
 				{
-					throw new Exception("file size mismatch: $file (expected: ".$props[0].", found length: ".filesize($file).")");
+					throw new Exception(Piwik_TranslateException('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file))));
 				}
 				else if($hasMd5file && (@md5_file($file) !== $props[1]))
 				{
-					throw new Exception("integrity failed: $file (expected md5sum: ".$props[1].")");
+					throw new Exception(Piwik_TranslateException('General_ExceptionFileIntegrity', array($file, $props[1])));
 				}
 			}
 			if($hasMd5file)
@@ -799,12 +801,22 @@ class Piwik
 		);
 		return $tables;
 	}
-	
+
+	/**
+	 * Get current user login
+	 *
+	 * @return string
+	 */	
 	static public function getCurrentUserLogin()
 	{
 		return Zend_Registry::get('access')->getLogin();
 	}
-	
+
+	/**
+	 * Get current user's token auth
+	 *
+	 * @return string
+	 */
 	static public function getCurrentUserTokenAuth()
 	{
 		return Zend_Registry::get('access')->getTokenAuth();
@@ -838,6 +850,8 @@ class Piwik
 	}
 	
 	/**
+	 * Check that current user is either the specified user or the superuser
+	 *
 	 * @param string $theUser
 	 * @throws exception if the user is neither the super user nor the user $theUser
 	 */
@@ -856,6 +870,7 @@ class Piwik
 	
 	/**
 	 * Returns true if the current user is the Super User
+	 *
 	 * @return bool
 	 */
 	static public function isUserIsSuperUser()
@@ -876,12 +891,23 @@ class Piwik
 	{
 		Zend_Registry::get('access')->setSuperUser();
 	}
-	
+
+	/**
+	 * Check that user is the superuser
+	 *
+	 * @throws Exception if not the superuser
+	 */
 	static public function checkUserIsSuperUser()
 	{
 		Zend_Registry::get('access')->checkUserIsSuperUser();
 	}
-	
+
+	/**
+	 * Returns true if the user has admin access to the sites
+	 *
+	 * @param mixed $idSites
+	 * @return bool
+	 */
 	static public function isUserHasAdminAccess( $idSites )
 	{
 		try{
@@ -891,12 +917,23 @@ class Piwik
 			return false;
 		}
 	}
-	
+
+	/**
+	 * Check user has admin access to the sites
+	 *
+	 * @param mixed $idSites
+	 * @throws Exception if user doesn't have admin access to the sites
+	 */
 	static public function checkUserHasAdminAccess( $idSites )
 	{
 		Zend_Registry::get('access')->checkUserHasAdminAccess( $idSites );
 	}
 	
+	/**
+	 * Returns true if the user has admin access to any sites
+	 *
+	 * @return bool
+	 */
 	static public function isUserHasSomeAdminAccess()
 	{
 		try{
@@ -907,16 +944,22 @@ class Piwik
 		}
 	}
 	
+	/**
+	 * Check user has admin access to any sites
+	 *
+	 * @throws Exception if user doesn't have admin access to any sites
+	 */
 	static public function checkUserHasSomeAdminAccess()
 	{
 		Zend_Registry::get('access')->checkUserHasSomeAdminAccess();
 	}
 	
-	static public function checkUserHasSomeViewAccess()
-	{
-		Zend_Registry::get('access')->checkUserHasSomeViewAccess();
-	}
-	
+	/**
+	 * Returns true if the user has view access to the sites
+	 *
+	 * @param mixed $idSites
+	 * @return bool
+	 */
 	static public function isUserHasViewAccess( $idSites )
 	{
 		try{
@@ -927,11 +970,48 @@ class Piwik
 		}
 	}
 	
+	/**
+	 * Check user has view access to the sites
+	 *
+	 * @param mixed $idSites
+	 * @throws Exception if user doesn't have view access to sites
+	 */
 	static public function checkUserHasViewAccess( $idSites )
 	{
 		Zend_Registry::get('access')->checkUserHasViewAccess( $idSites );
 	}
+
+	/**
+	 * Returns true if the user has view access to any sites
+	 *
+	 * @return bool
+	 */
+	static public function isUserHasSomeViewAccess()
+	{
+		try{
+			self::checkUserHasViewAccess( $idSites );
+			return true;
+		} catch( Exception $e){
+			return false;
+		}
+	}
 	
+	/**
+	 * Check user has view access to any sites
+	 *
+	 * @throws Exception if user doesn't have view access to any sites
+	 */
+	static public function checkUserHasSomeViewAccess()
+	{
+		Zend_Registry::get('access')->checkUserHasSomeViewAccess();
+	}
+
+	/**
+	 * Prefix class name (if needed)
+	 *
+	 * @param string $class
+	 * @return string
+	 */	
 	static public function prefixClass( $class )
 	{
 		if(substr_count($class, Piwik::CLASSES_PREFIX) > 0)
@@ -940,6 +1020,13 @@ class Piwik
 		}
 		return Piwik::CLASSES_PREFIX.$class;
 	}
+
+	/**
+	 * Unprefix class name (if needed)
+	 *
+	 * @param string $class
+	 * @return string
+	 */	
 	static public function unprefixClass( $class )
 	{
 		$lenPrefix = strlen(Piwik::CLASSES_PREFIX);
@@ -971,7 +1058,11 @@ class Piwik
 	}
 	
 	/**
-	 * returns false if the URL to redirect to is already this URL
+	 * Redirect to module (and action)
+	 *
+	 * @param string $newModule
+	 * @param string $newAction
+	 * @return bool false if the URL to redirect to is already this URL
 	 */
 	static public function redirectToModule( $newModule, $newAction = '' )
 	{
@@ -993,6 +1084,8 @@ class Piwik
 
 	/**
 	 * Get "best" available transport method for sendHttpRequest() calls.
+	 *
+	 * @return string
 	 */
 	static public function getTransportMethod()
 	{
@@ -1023,7 +1116,8 @@ class Piwik
 	 * @param string $userAgent
 	 * @param string $destinationPath
 	 * @param int $followDepth
-	 * @return true (or string) on success; false on HTTP response error code (1xx or 4xx); throws exception on all other errors
+	 * @return bool true (or string) on success; false on HTTP response error code (1xx or 4xx)
+	 * @throws Exception for all other errors
 	 */
 	static public function sendHttpRequest($aUrl, $timeout, $userAgent = null, $destinationPath = null, $followDepth = 0)
 	{
@@ -1040,6 +1134,19 @@ class Piwik
 		return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $file, $followDepth); 			
 	}
 
+	/**
+	 * Sends http request using the specified transport method
+	 *
+	 * @param string $method
+	 * @param string $aUrl
+	 * @param int $timeout
+	 * @param string $userAgent
+	 * @param string $destinationPath
+	 * @param resource $file
+	 * @param int $followDepth
+	 * @return bool true (or string) on success; false on HTTP response error code (1xx or 4xx)
+	 * @throws Exception for all other errors
+	 */
 	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0)
 	{
 		if ($followDepth > 3)
@@ -1440,6 +1547,8 @@ class Piwik
 	/**
 	 * Names of all the prefixed tables in piwik
 	 * Doesn't use the DB 
+	 *
+	 * @return array Table names
 	 */
 	static public function getTablesNames()
 	{
@@ -1455,7 +1564,14 @@ class Piwik
 	}
 	
 	static $tablesInstalled = null;
-	
+
+	/**
+	 * Get list of tables installed
+	 *
+	 * @param bool $forceReload Invalidate cache
+	 * @param string $idSite
+	 * @return array Tables installed
+	 */	
 	static public function getTablesInstalled($forceReload = true,  $idSite = null)
 	{
 		if(is_null(self::$tablesInstalled)
@@ -1491,7 +1607,10 @@ class Piwik
 		}
 		return 	self::$tablesInstalled;
 	}
-	
+
+	/**
+	 * Create database
+	 */
 	static public function createDatabase( $dbName = null )
 	{
 		if(is_null($dbName))
@@ -1501,12 +1620,19 @@ class Piwik
 		Piwik_Exec("CREATE DATABASE IF NOT EXISTS ".$dbName);
 	}
 
+	/**
+	 * Drop database
+	 */
 	static public function dropDatabase()
 	{
 		$dbName = Zend_Registry::get('config')->database->dbname;
 		Piwik_Exec("DROP DATABASE IF EXISTS " . $dbName);
+
 	}
-	
+
+	/**
+	 * Create database object and connect to database
+	 */	
 	static public function createDatabaseObject( $dbInfos = null )
 	{
 		$config = Zend_Registry::get('config');
@@ -1543,7 +1669,10 @@ class Piwik
 		}
 		Zend_Registry::set('db', $db);
 	}
-	
+
+	/**
+	 * Disconnect from database
+	 */	
 	static public function disconnectDatabase()
 	{
 		Zend_Registry::get('db')->closeConnection();
@@ -1582,6 +1711,9 @@ class Piwik
 		return Zend_Registry::get('db')->isConnectionUTF8();
 	}
 
+	/**
+	 * Create log object
+	 */
 	static public function createLogObject()
 	{
 		$configAPI = Zend_Registry::get('config')->log;
@@ -1633,6 +1765,11 @@ class Piwik
 		}
 	}
 	
+	/**
+	 * Create configuration object
+	 *
+	 * @param string $pathConfigFile
+	 */
 	static public function createConfigObject( $pathConfigFile = null )
 	{
 		$config = new Piwik_Config($pathConfigFile);
@@ -1640,11 +1777,17 @@ class Piwik
 		$config->init();
 	}
 
+	/**
+	 * Create access object
+	 */
 	static public function createAccessObject()
 	{
 		Zend_Registry::set('access', new Piwik_Access());
 	}
-	
+
+	/**
+	 * Drop specific tables
+	 */	
 	static public function dropTables( $doNotDelete = array() )
 	{
 		$tablesAlreadyInstalled = self::getTablesInstalled();
@@ -1688,7 +1831,10 @@ class Piwik
 		$db->query("INSERT INTO ". Piwik::prefixTable("user") . " 
 					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', CURRENT_TIMESTAMP );" );
 	}
-	
+
+	/**
+	 * Create all tables
+	 */	
 	static public function createTables()
 	{
 		$db = Zend_Registry::get('db');
@@ -1709,7 +1855,10 @@ class Piwik
 			}
 		}
 	}
-	
+
+	/**
+	 * Truncate all tables
+	 */
 	static public function truncateAllTables()
 	{
 		$tablesAlreadyInstalled = self::getTablesInstalled($forceReload = true);
@@ -1718,12 +1867,18 @@ class Piwik
 			Piwik_Query("TRUNCATE `$table`");
 		}
 	}
-	
+
+	/**
+	 * Installation helper
+	 */
 	static public function install()
 	{
 		Piwik_Common::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
 	}
-	
+
+	/**
+	 * Uninstallation helper
+	 */	
 	static public function uninstall()
 	{
 		$db = Zend_Registry::get('db');

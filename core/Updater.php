@@ -80,6 +80,18 @@ class Piwik_Updater
 	}
 
 	/**
+	 * Component has a new version?
+	 *
+	 * @param string $componentName
+	 * @return bool TRUE if compoment is to be updated; FALSE if not
+	 */
+	public function hasNewVersion($componentName)
+	{
+		return isset($this->componentsWithNewVersion) &&
+			isset($this->componentsWithNewVersion[$componentName]);
+	}
+
+	/**
 	 * Update the named component
 	 *
 	 * @param string $name
