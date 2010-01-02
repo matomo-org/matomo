@@ -138,7 +138,13 @@
 	<tr>
 		<td class="label">{'Installation_SystemCheckFileIntegrity'|translate}</td>
 		<td>
-			{if $infos.integrity}{$ok}{elseif isset($infos.integrityErrorMessage)}{$error} <i>{$infos.integrityErrorMessage}</i>{else}{$warning} <i>{'Installation_SystemCheckFileIntegrityHelp'|translate}</i>{/if}
+			{if !isset($infos.integrityErrorMessage)}
+				{$ok}
+			{elseif $infos.integrity}
+				{$warning} <i>{$infos.integrityErrorMessage}</i>
+			{else}
+				{$error} <i>{$infos.integrityErrorMessage}</i>
+			{/if}
 		</td>
 	</tr>
 	<tr>

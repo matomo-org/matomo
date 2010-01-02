@@ -765,11 +765,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['protocol_ok'] = false;
 		}
 
-		try {
-			$infos['integrity'] = Piwik::checkIntegrity();
-		} catch(Exception $e) {
-			$infos['integrity'] = false;
-			$infos['integrityErrorMessage'] = $e->getMessage();
+		$integrityInfo = Piwik::getFileIntegrityInformation();
+		$infos['integrity'] = $integrityInfo[0];
+		if(isset($integrityInfo[1]))
+		{
+			$infos['integrityErrorMessage'] = $integrityInfo[1];
 		}
 
 		return $infos;
