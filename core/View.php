@@ -216,7 +216,7 @@ class Piwik_View implements Piwik_iView
 	{
 		// replace defined constants
 		$buf = get_defined_constants(true);
-		$consts = version_compare(phpversion(), '5.3.0') >= 0 ? $buf['Core'] : $buf['internal'];
+		$consts = isset($buf['Core']) ? $buf['Core'] : (isset($buf['mhash']) ? $buf['mhash'] : $buf['internal']);
 		$expression = str_replace(' ', '', strtr($expression, $consts));
 
 		// bitwise operators in order of precedence (highest to lowest)
