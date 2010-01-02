@@ -116,20 +116,23 @@ class Piwik
 	}
 
 	/**
-	 * Check integrity of Piwik installation
+	 * Get file integrity information (in PIWIK_INCLUDE_PATH).
 	 *
-	 * @return bool TRUE if ok, FALSE if manifest.inc.php not found or md5_file() doesn't exist
-	 * @throws Exception if not ok
+	 * @return array(bool, string, ...) Return code (true/false), followed by zero or more error messages
 	 */
-	static public function checkIntegrity()
+	static public function getFileIntegrityInformation()
 	{
+		$messages = array();
+		$messages[] = true;
+
 		// ignore dev environments
-		if(file_exists(PIWIK_DOCUMENT_ROOT . '/.svn'))
+		if(file_exists(PIWIK_INCLUDE_PATH . '/.svn'))
 		{
-			return false;
+			$messages[] = Piwik_Translate('General_WarningFileIntegritySkipped');
+			return $messages;
 		}
 
-		$manifest = PIWIK_USER_PATH . '/config/manifest.inc.php';
+		$manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
 		if(file_exists($manifest))
 		{
 			require_once $manifest;
@@ -139,36 +142,40 @@ class Piwik
 			$hasMd5file = function_exists('md5_file');
 			foreach($files as $path => $props)
 			{
-				if(preg_match('/\.(php|tpl)$/', $path, $matches))
-				{
-					$file = PIWIK_INCLUDE_PATH . '/' . $path;
-				}
-				else
-				{
-					$file = PIWIK_DOCUMENT_ROOT . '/' . $path;
-				}
+				$file = PIWIK_INCLUDE_PATH . '/' . $path;
 				
 				if(!file_exists($file))
 				{
-					throw new Exception(Piwik_TranslateException('General_ExceptionMissingFile', $file));
+					$messages[] = Piwik_Translate('General_ExceptionMissingFile', $file);
 				}
 				else if(filesize($file) != $props[0])
 				{
-					throw new Exception(Piwik_TranslateException('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file))));
+					$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
 				}
 				else if($hasMd5file && (@md5_file($file) !== $props[1]))
 				{
-					throw new Exception(Piwik_TranslateException('General_ExceptionFileIntegrity', array($file, $props[1])));
+					$messages[] = Piwik_Translate('General_ExceptionFileIntegrity');
 				}
 			}
-			if($hasMd5file)
+
+			if(count($messages) > 1)
 			{
-				return true;
+				$messages[0] = false;
+			}
+
+			if(!$hasMd5file)
+			{
+				$messages[] = Piwik_Translate('General_WarningFileIntegrityNoMd5file');
 			}
 		}
-		return false;
+		else
+		{
+			$messages[] = Piwik_Translate('General_WarningFileIntegrityNoManifest');
+		}
+
+		return $messages;
 	}
-	
+
 	/**
 	 * Returns the Javascript code to be inserted on every page to track
 	 *
