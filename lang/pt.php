@@ -1,6 +1,6 @@
 <?php 
 $translations = array(
-	'General_Locale' => 'pt-BR.UTF-8',
+	'General_Locale' => 'pt_PT.UTF-8',
 	'General_TranslatorName' => 'Rodrigo "Acid Rain" Kroehn',
 	'General_TranslatorEmail' => 'epages@epages.com.br',
 	'General_EnglishLanguageName' => 'Portuguese',
