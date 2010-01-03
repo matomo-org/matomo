@@ -1,7 +1,4 @@
 <?php 
-
-setlocale(LC_TIME, 'lt_LT.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'lt_LT.UTF-8',
 	'General_TranslatorName' => 'Donatas Stonys',

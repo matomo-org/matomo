@@ -1,7 +1,4 @@
 <?php 
-
-setlocale(LC_TIME, 'nb_NO.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'nb_NO.UTF-8',
 	'General_TranslatorName' => 'Hans Fredrik Nordhaug',
