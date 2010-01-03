@@ -86,7 +86,7 @@
 }
 
 #visitsLive .datetime {
-	background:#D4E3ED url(images/bg_header.jpg) repeat-x scroll 0 0;
+	background:#D4E3ED url(plugins/CoreHome/templates/images/bg_header.jpg) repeat-x scroll 0 0;
 	border-top:1px solid #C1DAD7;
 	color:#6D929B;
 	margin:0;
@@ -95,7 +95,7 @@
 
 #visitsLive .country {
 	color:#4F6B72;
-	background:#FFFFFF url(images/bullet1.gif) no-repeat scroll 0 0;
+	background:#FFFFFF url(plugins/CoreHome/templates/images/bullet1.gif) no-repeat scroll 0 0;
 }
 
 #visitsLive .referer {
