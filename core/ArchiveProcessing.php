@@ -508,7 +508,7 @@ abstract class Piwik_ArchiveProcessing
 			$table = $this->tableArchiveBlob;
 		}
 		
-		$query = "INSERT INTO ".$table->getTableName()." (idarchive, idsite, date1, date2, period, ts_archived, name, value)
+		$query = "INSERT IGNORE INTO ".$table->getTableName()." (idarchive, idsite, date1, date2, period, ts_archived, name, value)
 					VALUES (?,?,?,?,?,?,?,?)";
 		Piwik_Query($query, 
 							array(	$this->idArchive,
