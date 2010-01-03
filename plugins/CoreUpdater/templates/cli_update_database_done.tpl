@@ -54,9 +54,9 @@
 		{'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate|unescape}
 
 		* {$helpMessage}
+	{else}
+		{'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate|unescape}
 
 	{/if}
-	{'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate|unescape}
-
 {/if}
 {/textformat}

@@ -56,7 +56,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 		}
 		
 		$componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
-		if(count($componentsWithUpdateFile) == 0)
+		if(count($componentsWithUpdateFile) == 0 && !$updater->hasNewVersion('core'))
 		{
 			return;
 		}

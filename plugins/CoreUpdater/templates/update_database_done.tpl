@@ -49,9 +49,9 @@
 		<p>{'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate}
 		<ul><li>{$helpMessage}</li></ul>
 		</p>
+	{else}
+		<p class="success">{'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate}</p>
 	{/if}
-		
-	<p class="success">{'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate}</p>
 
 	<form action="index.php">
 	<input type="submit" class="submit" value="{'CoreUpdater_ContinueToPiwik'|translate}"/>

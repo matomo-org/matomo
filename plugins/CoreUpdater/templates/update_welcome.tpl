@@ -14,26 +14,87 @@
 	<p>{'CoreUpdater_HelpMessageIntroductionWhenError'|translate}
 	<ul><li>{$helpMessage}</li></ul></p>
 {else}
-	<p><b>{'CoreUpdater_DatabaseUpgradeRequired'|translate}</b></p>
-	<p>{'CoreUpdater_YourDatabaseIsOutOfDate'|translate}</p>
+	{if $coreToUpdate || count($pluginNamesToUpdate) > 0}
+		<p><b>{'CoreUpdater_DatabaseUpgradeRequired'|translate}</b></p>
+		<p>{'CoreUpdater_YourDatabaseIsOutOfDate'|translate}</p>
 
-	{if $coreToUpdate}
-		<p>{'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY'|translate:$current_piwik_version:$new_piwik_version}</p>
+		{if $coreToUpdate}
+			<p>{'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY'|translate:$current_piwik_version:$new_piwik_version}</p>
+		{/if}
+
+		{if count($pluginNamesToUpdate) > 0}
+			{assign var=listOfPlugins value=$pluginNamesToUpdate|@implode:', '}
+			<p>{'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate:$listOfPlugins}</p>
+		{/if}
+
+		<p>{'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate:$commandUpgradePiwik}</p>
+		<p>{'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate}</p>
 	{/if}
 
-	{if count($pluginNamesToUpdate) > 0}
-		{assign var=listOfPlugins value=$pluginNamesToUpdate|@implode:', '}
-		<p>{'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate:$listOfPlugins}</p>
+	{if count($warningMessages) > 0}
+		<p><i>{$warningMessages[0]}</i>
+		{if count($warningMessages) > 1}
+			<button id="more-results" class="ui-button ui-state-default ui-corner-all">{'General_Details'|translate}</button>
+		{/if}
+		</p>
+<div id="integrity-results" title="{'Installation_SystemCheckFileIntegrity'|translate}" style="display:none; font-size: 62.5%;">
+	<table>
+	{foreach from=$warningMessages item=msg}
+		<tr><td>{$msg}</td></tr>
+	{/foreach}
+	</table>
+</div>
+<script type="text/javascript">
+{literal}<!--
+$(function() {
+	$("#integrity-results").dialog({
+		bgiframe: true,
+		modal: true,
+		autoOpen: false,
+		width: 600,
+		buttons: {
+			Ok: function() {
+			$(this).dialog('close');
+			}
+		}
+	});
+});
+$('#more-results').click(function() {
+	$('#integrity-results').dialog('open');
+})
+.hover(
+	function(){ 
+		$(this).addClass("ui-state-hover"); 
+	},
+	function(){ 
+		$(this).removeClass("ui-state-hover"); 
+	}
+).mousedown(function(){
+	$(this).addClass("ui-state-active"); 
+})
+.mouseup(function(){
+		$(this).removeClass("ui-state-active");
+});
+//-->{/literal}
+</script>
 	{/if}
 
-	<p>{'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate:$commandUpgradePiwik}</p>
-	<p>{'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate}</p>
+	{if $coreToUpdate || count($pluginNamesToUpdate) > 0}
+		<br>
+		<form action="index.php">
+		<input type="hidden" name="updateCorePlugins" value="1">
+		<input type="submit" class="submit" value="{'CoreUpdater_UpgradePiwik'|translate}"/>
+		</form>
+	{else}
+		{if count($warningMessages) == 0}
+			<p class="success">{'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate}</p>
+		{/if}
 
-	<br>
-	<form action="index.php">
-	<input type="hidden" name="updateCorePlugins" value="1">
-	<input type="submit" class="submit" value="{'CoreUpdater_UpgradePiwik'|translate}"/>
-	</form>
+		<br>
+		<form action="index.php">
+		<input type="submit" class="submit" value="{'CoreUpdater_ContinueToPiwik'|translate}"/>
+		</form>
+	{/if}
 {/if}
 
 {include file="CoreUpdater/templates/footer.tpl"}

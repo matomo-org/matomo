@@ -138,13 +138,58 @@
 	<tr>
 		<td class="label">{'Installation_SystemCheckFileIntegrity'|translate}</td>
 		<td>
-			{if !isset($infos.integrityErrorMessage)}
-				{$ok}
-			{elseif $infos.integrity}
-				{$warning} <i>{$infos.integrityErrorMessage}</i>
+		{if !isset($infos.integrityErrorMessages)}
+			{$ok}
+		{else}
+			{if $infos.integrity}
+				{$warning} <i>{$infos.integrityErrorMessages[0]}</i>
 			{else}
-				{$error} <i>{$infos.integrityErrorMessage}</i>
+				{$error} <i>{$infos.integrityErrorMessages[0]}</i>
 			{/if}
+			{if count($infos.integrityErrorMessages) > 1}
+				<button id="more-results" class="ui-button ui-state-default ui-corner-all">{'General_Details'|translate}</button>
+			{/if}
+<div id="integrity-results" title="{'Installation_SystemCheckFileIntegrity'|translate}" style="display:none; font-size: 62.5%;">
+	<table>
+	{foreach from=$infos.integrityErrorMessages item=msg}
+		<tr><td>{$msg}</td></tr>
+	{/foreach}
+	</table>
+</div>
+<script type="text/javascript">
+{literal}<!--
+$(function() {
+	$("#integrity-results").dialog({
+		bgiframe: true,
+		modal: true,
+		autoOpen: false,
+		width: 600,
+		buttons: {
+			Ok: function() {
+			$(this).dialog('close');
+			}
+		}
+	});
+});
+$('#more-results').click(function() {
+	$('#integrity-results').dialog('open');
+})
+.hover(
+	function(){ 
+		$(this).addClass("ui-state-hover"); 
+	},
+	function(){ 
+		$(this).removeClass("ui-state-hover"); 
+	}
+).mousedown(function(){
+	$(this).addClass("ui-state-active"); 
+})
+.mouseup(function(){
+		$(this).removeClass("ui-state-active");
+});
+//-->{/literal}
+</script>
+		{/if}
 		</td>
 	</tr>
 	<tr>
