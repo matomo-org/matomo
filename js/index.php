@@ -7,6 +7,11 @@
  * @version $Id$
  */
 
+if(!empty($_SERVER['QUERY_STRING'])) {
+	include '../piwik.php';
+	exit;
+}
+
 $file = '../piwik.js';
 
 if (file_exists($file) && function_exists('readfile')) {
