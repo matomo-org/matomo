@@ -1,7 +1,4 @@
 <?php 
-
-setlocale(LC_TIME, 'it_IT.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'it_IT.UTF-8',
 	'General_TranslatorName' => 'Yusef Maali, Giovdi',
