@@ -154,7 +154,7 @@ class Piwik
 				}
 				else if($hasMd5file && (@md5_file($file) !== $props[1]))
 				{
-					$messages[] = Piwik_Translate('General_ExceptionFileIntegrity');
+					$messages[] = Piwik_Translate('General_ExceptionFileIntegrity', $file);
 				}
 			}
 

@@ -170,7 +170,7 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 			{
 				for($i=0; $i< count($string); $i++)
 				{
-					$string[i] = strip_tags($string[i]);
+					$string[$i] = strip_tags($string[$i]);
 				}
 			}
 			else
