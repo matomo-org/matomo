@@ -187,7 +187,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 	public function runUpdaterAndExit($updater = null, $componentsWithUpdateFile = null)
 	{
-		if(empty($componentsWithUpdateFile))
+		if(empty($updater) && empty($componentsWithUpdateFile))
 		{
 			return;
 		}
@@ -207,6 +207,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		}
 		else if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1)
 		{
+			$this->warningMessages = array();
 			$view = Piwik_View::factory('update_database_done');
 			$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 		}
@@ -254,7 +255,16 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 				}
 			}
 		}
+
+		// check file integrity
+		$integrityInfo = Piwik::getFileIntegrityInformation();
+		if(isset($integrityInfo[1]))
+		{
+			$this->warningMessages = array_splice($integrityInfo, 1);
+		}
+
 		$view->coreError = $this->coreError;
+		$view->warningMessages = $this->warningMessages;
 		$view->errorMessages = $this->errorMessages;
 		$view->current_piwik_version = $currentVersion;
 		$view->pluginNamesToUpdate = $pluginNamesToUpdate;
