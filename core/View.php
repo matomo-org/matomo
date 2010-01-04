@@ -216,6 +216,8 @@ class Piwik_View implements Piwik_iView
 	{
 		// replace defined constants
 		$buf = get_defined_constants(true);
+
+		// use only the 'Core' PHP constants, e.g., E_ALL, E_STRICT, ...
 		$consts = isset($buf['Core']) ? $buf['Core'] : (isset($buf['mhash']) ? $buf['mhash'] : $buf['internal']);
 		$expression = str_replace(' ', '', strtr($expression, $consts));
 
