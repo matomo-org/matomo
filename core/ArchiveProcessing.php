@@ -507,7 +507,9 @@ abstract class Piwik_ArchiveProcessing
 		{
 			$table = $this->tableArchiveBlob;
 		}
-		
+
+		// ignore duplicate idarchive
+		// @see http://dev.piwik.org/trac/ticket/987
 		$query = "INSERT IGNORE INTO ".$table->getTableName()." (idarchive, idsite, date1, date2, period, ts_archived, name, value)
 					VALUES (?,?,?,?,?,?,?,?)";
 		Piwik_Query($query, 
