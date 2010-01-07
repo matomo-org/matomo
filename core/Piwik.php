@@ -1212,7 +1212,7 @@ class Piwik
 			$expectRedirect = false;
 			$fileLength = 0;
 
-			while (!feof($fsock))
+			while(!feof($fsock))
 			{
 				$line = fgets($fsock, 4096);
 
@@ -1247,7 +1247,7 @@ class Piwik
 					if ($status < 200 || $status >= 400)
 					{
 						if(is_resource($file)) { @fclose($file); }
-						@fclose($s);
+						@fclose($fsock);
 						return false;
 					}
 
@@ -1258,7 +1258,7 @@ class Piwik
 				if(preg_match('/^Location:\s*(.+)/', rtrim($line, "\r\n"), $m))
 				{
 					if(is_resource($file)) { @fclose($file); }
-					@fclose($s);
+					@fclose($fsock);
 					// Successful 2xx vs Redirect 3xx
 					if($status < 300)
 					{
@@ -1282,7 +1282,7 @@ class Piwik
 			// process content/body
 			$response = '';
 
-			while (!feof($fsock))
+			while(!feof($fsock))
 			{
 				$line = fread($fsock, 8192);
 
