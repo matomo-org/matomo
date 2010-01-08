@@ -283,7 +283,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$defaultTimeOnePageVisit = Piwik_Tracker_Config::getInstance()->Tracker['default_time_one_page_visit'];
 
 		$userInfo = $this->getUserSettingsInformation();
-		$country = Piwik_Common::getCountry($userInfo['location_browser_lang'], $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess']);
+		$ip = $userInfo['location_ip'];
+		$country = Piwik_Common::getCountry($ip, $userInfo['location_browser_lang'], $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess']);
 		$refererInfo = $this->getRefererInformation();
 
 		/**
@@ -321,7 +322,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_gears'	 		=> $userInfo['config_gears'],
 			'config_silverlight'	=> $userInfo['config_silverlight'],
 			'config_cookie' 		=> $userInfo['config_cookie'],
-			'location_ip' 			=> $userInfo['location_ip'],
+			'location_ip' 			=> $ip,
 			'location_browser_lang' => $userInfo['location_browser_lang'],
 			'location_country' 		=> $country,
 		);
