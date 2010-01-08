@@ -196,7 +196,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 					'\n',
 					"\n",
 					sprintf(Piwik_Translate('Login_MailPasswordRecoveryBody'), $login, $ip, $url, $resetToken)
-				)
+				) . "\n"
 			);
 
 			$piwikHost = $_SERVER['HTTP_HOST'];
