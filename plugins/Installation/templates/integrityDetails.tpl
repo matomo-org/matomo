@@ -1,3 +1,6 @@
+{if !isset($warningMessages)}
+{assign var=warningMessages value=$infos.integrityErrorMessages}
+{/if}
 <div id="integrity-results" title="{'Installation_SystemCheckFileIntegrity'|translate}" style="display:none; font-size: 62.5%;">
 	<table>
 	{foreach from=$warningMessages item=msg}
