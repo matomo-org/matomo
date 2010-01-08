@@ -47,6 +47,13 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 	}
 
 	/**
+	 * Check client version compatibility against database server
+	 */
+	public function checkClientVersion()
+	{
+	}
+
+	/**
 	 * Returns true if this adapter's required extensions are enabled
 	 *
 	 * @return bool
@@ -172,5 +179,25 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 	{
 		$tzOffset = $this->fetchOne('SELECT extract(timezone FROM now())');
 		return $tzOffset;
+	}
+
+	/**
+	 * Retrieve client version in PHP style
+	 *
+	 * @return string
+	 */
+	public function getClientVersion()
+	{
+		$this->_connect();
+		try {
+			$version = $this->_connection->getAttribute(PDO::ATTR_CLIENT_VERSION);
+			$matches = null;
+			if (preg_match('/((?:[0-9]{1,2}\.){1,3}[0-9]{1,2})/', $version, $matches)) {
+				return $matches[1];
+			}
+		} catch (PDOException $e) {
+			// In case of the driver doesn't support getting attributes
+		}
+		return null;
 	}
 }

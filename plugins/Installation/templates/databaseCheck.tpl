@@ -11,6 +11,19 @@
 		<td>{if isset($databaseVersionOk)}{$ok}{else}{$error}{/if}</td>
 	</tr>
 	<tr>
+		<td class="label">{'Installation_DatabaseClientVersion'|translate}</td>
+		<td>{if isset($clientVersionWarning)}{$warning}{else}{$ok}{/if}</td>
+	</tr>
+{if isset($clientVersionWarning)}
+	<tr>
+		<td colspan="2">
+			<small>
+				<span style="color:#FF7F00">{$clientVersionWarning}</span>
+			</small>
+		</td>
+	</tr>
+{/if}
+	<tr>
 		<td class="label">{'Installation_DatabaseCreation'|translate}</td>
 		<td>{if isset($databaseCreated)}{$ok}{else}{$error}{/if}</td>
 	</tr>

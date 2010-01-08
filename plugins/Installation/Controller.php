@@ -243,12 +243,19 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 
 		$this->createDbFromSessionInformation();
+		$db = Zend_Registry::get('db');
+
+		try {
+			$db->checkClientVersion();
+		} catch(Exception $e) {
+			$view->clientVersionWarning = $e->getMessage();
+		}
+
 		if(!Piwik::isDatabaseConnectionUTF8())
 		{
 			$view->charsetWarning = true;
 		}
 
-		$db = Zend_Registry::get('db');
 		$dbTimezone = $db->getCurrentTimezone();
 		$phpTimezone = date('Z');
 		if($dbTimezone !== '' && ($dbTimezone != $phpTimezone))

@@ -67,12 +67,26 @@ class Piwik_Db_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_i
 	 */
 	public function checkServerVersion()
 	{
-		$databaseVersion = $this->getServerVersion();
+		$serverVersion = $this->getServerVersion();
                 $requiredVersion = Zend_Registry::get('config')->General->minimum_mysql_version;
-                if(version_compare($databaseVersion, $requiredVersion) === -1)
+                if(version_compare($serverVersion, $requiredVersion) === -1)
                 {
-                        throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('MySQL', $databaseVersion, $requiredVersion)));
+                        throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
                 }
+	}
+
+	/**
+	 * Check client version compatibility against database server
+	 */
+	public function checkClientVersion()
+	{
+		$serverVersion = $this->getServerVersion();
+		$clientVersion = $this->getClientVersion();
+		if(version_compare($serverVersion, '5') >= 0
+			&& version_compare($clientVersion, '5') < 0)
+		{
+			throw new Exception(Piwik_TranslateException('General_ExceptionIncompatibleClientServerVersions', array('MySQL', $clientVersion, $serverVersion)));
+		}
 	}
 
 	/**
@@ -140,5 +154,25 @@ class Piwik_Db_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_i
 		} catch(Exception $e) { }
 
 		return $tzOffset;
+	}
+
+	/**
+	 * Retrieve client version in PHP style
+	 *
+	 * @return string
+	 */
+	public function getClientVersion()
+	{
+		$this->_connect();
+		try {
+			$version = $this->_connection->getAttribute(PDO::ATTR_CLIENT_VERSION);
+			$matches = null;
+			if (preg_match('/((?:[0-9]{1,2}\.){1,3}[0-9]{1,2})/', $version, $matches)) {
+				return $matches[1];
+			}
+		} catch (PDOException $e) {
+			// In case of the driver doesn't support getting attributes
+		}
+		return null;
 	}
 }
