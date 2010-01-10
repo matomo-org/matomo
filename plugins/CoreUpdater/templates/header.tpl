@@ -11,6 +11,10 @@
 	<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" class="ui-theme" />
 {literal}
 <style>
+* {
+	margin: 0;
+	padding: 0;
+}
 .topBarElem {
         font-family:arial,sans-serif !important;
         font-size:13px;
