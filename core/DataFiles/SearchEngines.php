@@ -1219,6 +1219,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Yandex
 		'yandex.ru'					=> array('Yandex', 'text', 'yandsearch?text={k}'),
+		'yandex.ua'					=> array('Yandex', 'text'),
 		'www.yandex.ru'				=> array('Yandex', 'text'),
 		'search.yaca.yandex.ru'		=> array('Yandex', 'text'),
 		'ya.ru'						=> array('Yandex', 'text'),
