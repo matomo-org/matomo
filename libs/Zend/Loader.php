@@ -16,7 +16,7 @@
  * @package    Zend_Loader
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Loader.php 16206 2009-06-21 19:15:37Z thomas $
+ * @version    $Id: Loader.php 19241 2009-11-25 17:17:31Z bate $
  */
 
 /**
@@ -79,8 +79,7 @@ class Zend_Loader
             $file = basename($file);
             self::loadFile($file, $dirs, true);
         } else {
-            self::_securityCheck($file);
-            include $file;
+            self::loadFile($file);
         }
 
         if (!class_exists($class, false) && !interface_exists($class, false)) {

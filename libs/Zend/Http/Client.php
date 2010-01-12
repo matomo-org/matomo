@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client
- * @version    $Id: Client.php 17843 2009-08-27 14:40:35Z cogo $
+ * @version    $Id: Client.php 19309 2009-11-30 11:03:01Z bate $
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -43,6 +43,11 @@ require_once 'Zend/Http/Client/Adapter/Interface.php';
  * @see Zend_Http_Response
  */
 require_once 'Zend/Http/Response.php';
+
+/**
+ * @see Zend_Http_Response_Stream
+ */
+require_once 'Zend/Http/Response/Stream.php';
 
 /**
  * Zend_Http_Client is an implemetation of an HTTP client in PHP. The client
@@ -110,7 +115,8 @@ class Zend_Http_Client
         'httpversion'     => self::HTTP_1,
         'keepalive'       => false,
         'storeresponse'   => true,
-        'strict'          => true
+        'strict'          => true,
+        'output_stream'	  => false,
     );
 
     /**
@@ -125,7 +131,7 @@ class Zend_Http_Client
      *
      * @var Zend_Uri_Http
      */
-    protected $uri;
+    protected $uri = null;
 
     /**
      * Associative array of request headers
@@ -265,6 +271,11 @@ class Zend_Http_Client
             /** @see Zend_Http_Client_Exception */
             require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('Passed parameter is not a valid HTTP URI.');
+        }
+
+        // Set auth if username and password has been specified in the uri
+        if ($uri->getUsername() && $uri->getPassword()) {
+            $this->setAuth($uri->getUsername(), $uri->getPassword());
         }
 
         // We have no ports, set the defaults
@@ -536,6 +547,11 @@ class Zend_Http_Client
         if ($user === false || $user === null) {
             $this->auth = null;
 
+            // Clear the auth information in the uri instance as well
+            if ($this->uri instanceof Zend_Uri_Http) {
+                $this->getUri()->setUsername('');
+                $this->getUri()->setPassword('');
+            }
         // Else, set up authentication
         } else {
             // Check we got a proper authentication type
@@ -726,7 +742,9 @@ class Zend_Http_Client
      * 2. For backwards compatibilty: If someone uses the old post($data) method.
      *    this method will be used to set the encoded data.
      *
-     * @param string $data
+     * $data can also be stream (such as file) from which the data will be read.
+     *
+     * @param string|resource $data
      * @param string $enctype
      * @return Zend_Http_Client
      */
@@ -734,7 +752,13 @@ class Zend_Http_Client
     {
         $this->raw_post_data = $data;
         $this->setEncType($enctype);
-
+        if (is_resource($data)) {
+            // We've got stream data
+            $stat = @fstat($data);
+            if($stat) {
+                $this->setHeaders(self::CONTENT_LENGTH, $stat['size']);
+            }
+        }
         return $this;
     }
 
@@ -744,9 +768,13 @@ class Zend_Http_Client
      * Should be used to reset the request parameters if the client is
      * used for several concurrent requests.
      *
+     * clearAll parameter controls if we clean just parameters or also
+     * headers and last_*
+     *
+     * @param bool $clearAll Should all data be cleared?
      * @return Zend_Http_Client
      */
-    public function resetParameters()
+    public function resetParameters($clearAll = false)
     {
         // Reset parameter data
         $this->paramsGet     = array();
@@ -754,12 +782,18 @@ class Zend_Http_Client
         $this->files         = array();
         $this->raw_post_data = null;
 
-        // Clear outdated headers
-        if (isset($this->headers[strtolower(self::CONTENT_TYPE)])) {
-            unset($this->headers[strtolower(self::CONTENT_TYPE)]);
-        }
-        if (isset($this->headers[strtolower(self::CONTENT_LENGTH)])) {
-            unset($this->headers[strtolower(self::CONTENT_LENGTH)]);
+        if($clearAll) {
+            $this->headers = array();
+            $this->last_request = null;
+            $this->last_response = null;
+        } else {
+            // Clear outdated headers
+            if (isset($this->headers[strtolower(self::CONTENT_TYPE)])) {
+                unset($this->headers[strtolower(self::CONTENT_TYPE)]);
+            }
+            if (isset($this->headers[strtolower(self::CONTENT_LENGTH)])) {
+                unset($this->headers[strtolower(self::CONTENT_LENGTH)]);
+            }
         }
 
         return $this;
@@ -828,6 +862,61 @@ class Zend_Http_Client
     }
 
     /**
+     * Load the connection adapter
+     *
+     * @return Zend_Http_Client_Adapter_Interface $adapter
+     */
+    public function getAdapter()
+    {
+        return $this->adapter;
+    }
+
+    /**
+     * Set streaming for received data
+     *
+     * @param string|boolean $streamfile Stream file, true for temp file, false/null for no streaming
+     * @return Zend_Http_Client
+     */
+    public function setStream($streamfile = true)
+    {
+        $this->setConfig(array("output_stream" => $streamfile));
+        return $this;
+    }
+
+    /**
+     * Get status of streaming for received data
+     * @return boolean|string
+     */
+    public function getStream()
+    {
+        return $this->config["output_stream"];
+    }
+
+    /**
+     * Create temporary stream
+     *
+     * @return resource
+     */
+    protected function _openTempStream()
+    {
+        $this->_stream_name = $this->config['output_stream'];
+        if(!is_string($this->_stream_name)) {
+            // If name is not given, create temp name
+            $this->_stream_name = tempnam(isset($this->config['stream_tmp_dir'])?$this->config['stream_tmp_dir']:sys_get_temp_dir(),
+                 'Zend_Http_Client');
+        }
+
+        $fp = fopen($this->_stream_name, "w+b");
+        if(!$fp) {
+                $this->close();
+                require_once 'Zend/Http/Client/Exception.php';
+                throw new Zend_Http_Client_Exception("Could not open temp file $name");
+
+        }
+        return $fp;
+    }
+
+    /**
      * Send the HTTP request and return an HTTP response object
      *
      * @param string $method
@@ -870,9 +959,27 @@ class Zend_Http_Client
             $body = $this->_prepareBody();
             $headers = $this->_prepareHeaders();
 
+            // check that adapter supports streaming before using it
+            if(is_resource($body) && !($this->adapter instanceof Zend_Http_Client_Adapter_Stream)) {
+                /** @see Zend_Http_Client_Exception */
+                require_once 'Zend/Http/Client/Exception.php';
+                throw new Zend_Http_Client_Exception('Adapter does not support streaming');
+            }
+
             // Open the connection, send the request and read the response
             $this->adapter->connect($uri->getHost(), $uri->getPort(),
                 ($uri->getScheme() == 'https' ? true : false));
+
+            if($this->config['output_stream']) {
+                if($this->adapter instanceof Zend_Http_Client_Adapter_Stream) {
+                    $stream = $this->_openTempStream();
+                    $this->adapter->setOutputStream($stream);
+                } else {
+                    /** @see Zend_Http_Client_Exception */
+                    require_once 'Zend/Http/Client/Exception.php';
+                    throw new Zend_Http_Client_Exception('Adapter does not support streaming');
+                }
+            }
 
             $this->last_request = $this->adapter->write($this->method,
                 $uri, $this->config['httpversion'], $headers, $body);
@@ -884,7 +991,20 @@ class Zend_Http_Client
                 throw new Zend_Http_Client_Exception('Unable to read response, or response is empty');
             }
 
-            $response = Zend_Http_Response::fromString($response);
+            if($this->config['output_stream']) {
+                rewind($stream);
+                // cleanup the adapter
+                $this->adapter->setOutputStream(null);
+                $response = Zend_Http_Response_Stream::fromStream($response, $stream);
+                $response->setStreamName($this->_stream_name);
+                if(!is_string($this->config['output_stream'])) {
+                    // we used temp name, will need to clean up
+                    $response->setCleanup(true);
+                }
+            } else {
+                $response = Zend_Http_Response::fromString($response);
+            }
+
             if ($this->config['storeresponse']) {
                 $this->last_response = $response;
             }
@@ -1039,6 +1159,9 @@ class Zend_Http_Client
             return '';
         }
 
+        if (isset($this->raw_post_data) && is_resource($this->raw_post_data)) {
+            return $this->raw_post_data;
+        }
         // If mbstring overloads substr and strlen functions, we have to
         // override it's internal encoding
         if (function_exists('mb_internal_encoding') &&

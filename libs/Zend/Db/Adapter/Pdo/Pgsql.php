@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Pgsql.php 19051 2009-11-19 18:27:53Z mikaelkael $
+ * @version    $Id: Pgsql.php 19377 2009-12-03 18:16:12Z mikaelkael $
  */
 
 
@@ -99,14 +99,19 @@ class Zend_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Abstract
      */
     public function listTables()
     {
-        $sql = "SELECT c.relname  AS table_name "
-              . "FROM pg_catalog.pg_class c "
-              . "JOIN pg_catalog.pg_roles r ON r.oid = c.relowner "
-              . "LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace "
-              . "WHERE n.nspname <> 'pg_catalog' "
-              . "AND n.nspname !~ '^pg_toast' "
-              . "AND pg_catalog.pg_table_is_visible(c.oid) "
-              . "AND c.relkind = 'r' ";
+        // @todo use a better query with joins instead of subqueries
+        $sql = "SELECT c.relname AS table_name "
+             . "FROM pg_class c, pg_user u "
+             . "WHERE c.relowner = u.usesysid AND c.relkind = 'r' "
+             . "AND NOT EXISTS (SELECT 1 FROM pg_views WHERE viewname = c.relname) "
+             . "AND c.relname !~ '^(pg_|sql_)' "
+             . "UNION "
+             . "SELECT c.relname AS table_name "
+             . "FROM pg_class c "
+             . "WHERE c.relkind = 'r' "
+             . "AND NOT EXISTS (SELECT 1 FROM pg_views WHERE viewname = c.relname) "
+             . "AND NOT EXISTS (SELECT 1 FROM pg_user WHERE usesysid = c.relowner) "
+             . "AND c.relname !~ '^pg_'";
 
         return $this->fetchCol($sql);
     }
