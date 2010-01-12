@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Test.php 17869 2009-08-28 10:37:13Z cogo $
+ * @version    $Id: Test.php 19309 2009-11-30 11:03:01Z bate $
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -72,11 +72,31 @@ class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interfac
     protected $responseIndex = 0;
 
     /**
+     * Wether or not the next request will fail with an exception
+     *
+     * @var boolean
+     */
+    protected $_nextRequestWillFail = false;
+
+    /**
      * Adapter constructor, currently empty. Config is set using setConfig()
      *
      */
     public function __construct()
     { }
+
+    /**
+     * Set the nextRequestWillFail flag
+     *
+     * @param boolean $flag
+     * @return Zend_Http_Client_Adapter_Test
+     */
+    public function setNextRequestWillFail($flag)
+    {
+        $this->_nextRequestWillFail = (bool) $flag;
+
+        return $this;
+    }
 
     /**
      * Set the configuration array for the adapter
@@ -108,9 +128,16 @@ class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interfac
      * @param int     $port
      * @param boolean $secure
      * @param int     $timeout
+     * @throws Zend_Http_Client_Adapter_Exception
      */
     public function connect($host, $port = 80, $secure = false)
-    { }
+    {
+        if ($this->_nextRequestWillFail) {
+            $this->_nextRequestWillFail = false;
+            require_once 'Zend/Http/Client/Adapter/Exception.php';
+            throw new Zend_Http_Client_Adapter_Exception('Request failed');
+        }
+    }
 
     /**
      * Send request to the remote server

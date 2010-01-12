@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Memcached.php 18951 2009-11-12 16:26:19Z alexander $
+ * @version    $Id: Memcached.php 19250 2009-11-26 06:42:20Z bate $
  */
 
 
@@ -178,7 +178,7 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
     public function load($id, $doNotTestCacheValidity = false)
     {
         $tmp = $this->_memcache->get($id);
-        if (is_array($tmp)) {
+        if (is_array($tmp) && isset($tmp[0])) {
             return $tmp[0];
         }
         return false;

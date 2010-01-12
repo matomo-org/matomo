@@ -17,7 +17,7 @@
  * @package    Zend_Feed
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Element.php 18951 2009-11-12 16:26:19Z alexander $
+ * @version    $Id: Element.php 20105 2010-01-06 21:28:26Z matthew $
  */
 
 
@@ -36,6 +36,11 @@ class Zend_Feed_Element implements ArrayAccess
      * @var DOMElement
      */
     protected $_element;
+
+    /**
+     * @var string Character encoding to utilize
+     */
+    protected $_encoding = 'UTF-8';
 
     /**
      * @var Zend_Feed_Element
@@ -148,6 +153,27 @@ class Zend_Feed_Element implements ArrayAccess
         return $this->_element->ownerDocument->saveXML($this->_element);
     }
 
+    /**
+     * Get encoding
+     *
+     * @return string
+     */
+    public function getEncoding()
+    {
+        return $this->_encoding;
+    }
+
+    /**
+     * Set encoding
+     *
+     * @param  string $value Encoding to use
+     * @return Zend_Feed_Element
+     */
+    public function setEncoding($value)
+    {
+        $this->_encoding = (string) $value;
+        return $this;
+    }
 
     /**
      * Map variable access onto the underlying entry representation.
@@ -205,11 +231,11 @@ class Zend_Feed_Element implements ArrayAccess
             if (strpos($var, ':') !== false) {
                 list($ns, $elt) = explode(':', $var, 2);
                 $node = $this->_element->ownerDocument->createElementNS(Zend_Feed::lookupNamespace($ns),
-                    $var, htmlspecialchars($val, ENT_NOQUOTES, 'UTF-8'));
+                    $var, htmlspecialchars($val, ENT_NOQUOTES, $this->getEncoding()));
                 $this->_element->appendChild($node);
             } else {
                 $node = $this->_element->ownerDocument->createElement($var,
-                    htmlspecialchars($val, ENT_NOQUOTES, 'UTF-8'));
+                    htmlspecialchars($val, ENT_NOQUOTES, $this->getEncoding()));
                 $this->_element->appendChild($node);
             }
         } elseif (count($nodes) > 1) {
