@@ -93,11 +93,11 @@ if (!this.Piwik) {
 			 * Delay/pause (blocks UI)
 			 */
 			if (isDefined(expireDateTime)) {
-				var now = new Date();
+				var now;
 
-				while (now.getTime() < expireDateTime) {
+				do {
 					now = new Date();
-				}
+				} while (now.getTime() < expireDateTime);
 			}
 
 			executePluginMethod('unload');
