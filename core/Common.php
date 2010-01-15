@@ -574,7 +574,15 @@ class Piwik_Common
 	 */
 	static public function getIp()
 	{
-		return sprintf("%u", ip2long(self::getIpString()));
+		$ip = self::getIpString();
+
+		// accept ipv4-mapped addresses
+		if(strpos($ip, '::ffff:') === 0)
+		{
+			$ip = substr($ip, 7);
+		}
+
+		return sprintf("%u", ip2long($ip));
 	}
 
 	/**
