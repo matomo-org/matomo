@@ -65,9 +65,7 @@ function smarty_outputfilter_trimwhitespace_replace($search_str, $replace, &$sub
     // If mbstring overloads substr and strlen functions, we have to
     // override it's internal encoding
     if (function_exists('mb_internal_encoding') &&
-        (((int) ini_get('mbstring.func_overload')) & 2) &&
-	!function_exists('mb_substr_replace')) {
-
+        	(((int) ini_get('mbstring.func_overload')) & 2)) {
         $mbIntEnc = mb_internal_encoding();
         mb_internal_encoding('ASCII');
     }
