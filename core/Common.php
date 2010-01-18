@@ -718,12 +718,12 @@ class Piwik_Common
 	 * Returns the visitor country based on the Browser 'accepted language'
 	 * information, but provides a hook for geolocation via IP address.
 	 *
-	 * @param string $ip
 	 * @param string $lang browser lang
 	 * @param bool If set to true, some assumption will be made and detection guessed more often, but accuracy could be affected
+	 * @param string $ip
 	 * @return string 2 letter ISO code
 	 */
-	static public function getCountry( $ip, $lang, $enableLanguageToCountryGuess )
+	static public function getCountry( $lang, $enableLanguageToCountryGuess, $ip )
 	{
 		$country = null;
 		Piwik_PostEvent('Common.getCountry', $country, $ip);
