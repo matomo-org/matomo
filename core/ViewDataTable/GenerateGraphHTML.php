@@ -28,12 +28,13 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	 */
 	function init($currentControllerName,
 						$currentControllerAction, 
-						$apiMethodToRequestDataTable )
+						$apiMethodToRequestDataTable,
+						$controllerActionCalledWhenRequestSubTable = null)
 	{
 		parent::init($currentControllerName,
 						$currentControllerAction, 
-						$apiMethodToRequestDataTable );
-
+						$apiMethodToRequestDataTable,
+						$controllerActionCalledWhenRequestSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/graph.tpl';
 		
 		$this->disableOffsetInformation();

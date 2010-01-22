@@ -41,7 +41,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	function init($currentControllerName,
 						$currentControllerAction, 
 						$apiMethodToRequestDataTable,						
-						$controllerActionCalledWhenRequestSubTable = null )
+						$controllerActionCalledWhenRequestSubTable = null)
 	{
 		parent::init($currentControllerName,
 						$currentControllerAction, 
