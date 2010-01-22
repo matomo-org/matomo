@@ -43,9 +43,9 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$this->dateToStr = $params['date'];
 
 		$ids = 'all';
-		$this->period = PiwiK_Common::getRequestVar('period', 'day');		
+		$this->period = Piwik_Common::getRequestVar('period', 'day');		
 
-		$this->date = PiwiK_Common::getRequestVar('date', 'today');
+		$this->date = Piwik_Common::getRequestVar('date', 'today');
 		$lastDate =  date('Y-m-d',strtotime("-1 ".$this->period, strtotime($this->date)));
 
 		$visits = Piwik_VisitsSummary_API::getVisits($ids, $this->period, $this->date);
