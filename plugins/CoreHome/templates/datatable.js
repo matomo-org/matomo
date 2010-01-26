@@ -990,7 +990,7 @@ actionDataTable.prototype =
 //helper function for actionDataTable
 function getLevelFromClass( style) 
 {
-	if (typeof style == "undefined") return 0;
+	if (!style || typeof style == "undefined") return 0;
 	
 	var currentLevelIndex = style.indexOf('level');
 	var currentLevel = 0;
@@ -1004,7 +1004,7 @@ function getLevelFromClass( style)
 //helper function for actionDataTable
 function getNextLevelFromClass( style )
 {
-	if (typeof style == "undefined") return 0;
+	if (!style || typeof style == "undefined") return 0;
 	currentLevel = getLevelFromClass(style);
 	newLevel = currentLevel;
 	// if this is not a row to process so 
