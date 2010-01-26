@@ -110,7 +110,7 @@ $.fn.spy = function(settings) {
 		fadeInSpeed: (settings.fadeInSpeed || 'slow'), // 1400 = crawl
 		customParameterName: settings.customParameterName,
 		customParameterValueCallback: settings.customParameterValueCallback,
-		isDupe: (settings.isDupe || spy.isDupe),
+		isDupe: (settings.isDupe || spy.isDupe)
 	};
 
 	spy.attachHolder();
