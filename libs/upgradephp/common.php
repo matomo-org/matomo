@@ -42,14 +42,8 @@ if (in_array('mysqli', @get_loaded_extensions()) && !function_exists('mysqli_set
  * @return array
  */
 if(function_exists('parse_ini_file')) {
-	if(version_compare(phpversion(), '5.3.0') >= 0) {
-		function _parse_ini_file($filename, $process_sections) {
-			return parse_ini_file($filename, $process_sections, INI_SCANNER_RAW);
-		}
-	} else {
-		function _parse_ini_file($filename, $process_sections) {
-			return parse_ini_file($filename, $process_sections);
-		}
+	function _parse_ini_file($filename, $process_sections) {
+		return parse_ini_file($filename, $process_sections);
 	}
 } else {
 	function _parse_ini_file($filename, $process_sections = false)
