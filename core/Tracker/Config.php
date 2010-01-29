@@ -50,53 +50,55 @@ class Piwik_Tracker_Config
 	public $config = array();
 	protected $configUser = null;
 	protected $configGlobal = null;
-	protected $init = false;
+	protected $initialized = false;
 	
-	public function init($pathIniFileUser = null, $pathIniFileGlobal = null)
+	function __construct()
 	{
-		$hasZendShm = function_exists('zend_shm_cache_fetch') && function_exists('zend_shm_cache_store');
-		if($hasZendShm)
+		$this->hasZendShm = function_exists('zend_shm_cache_fetch') && function_exists('zend_shm_cache_store');
+		if($this->hasZendShm)
 		{
 			$this->configUser = zend_shm_cache_fetch('Piwik_Tracker_Config::configUser');
 			$this->configGlobal = zend_shm_cache_fetch('Piwik_Tracker_Config::configGlobal');
+			$this->initialized = $this->configUser !== false && $this->configGlobal !== false;
 		}
+	}
 
-		if(!$this->configUser || !$this->configGlobal)
+	public function init($pathIniFileUser = null, $pathIniFileGlobal = null)
+	{
+		if(is_null($pathIniFileUser))
 		{
-			if(is_null($pathIniFileUser))
+			$pathIniFileUser = PIWIK_USER_PATH . '/config/config.ini.php'; 
+		}
+		if(is_null($pathIniFileGlobal))
+		{
+			$pathIniFileGlobal = PIWIK_USER_PATH . '/config/global.ini.php'; 
+		}
+		$this->configUser = _parse_ini_file($pathIniFileUser, true);
+		$this->configGlobal = _parse_ini_file($pathIniFileGlobal, true);
+
+		foreach($this->configUser as $section => &$sectionValues)
+		{ 
+			foreach($sectionValues as $name => &$value)
 			{
-				$pathIniFileUser = PIWIK_USER_PATH . '/config/config.ini.php'; 
-			}
-			if(is_null($pathIniFileGlobal))
-			{
-				$pathIniFileGlobal = PIWIK_USER_PATH . '/config/global.ini.php'; 
-			}
-			$this->configUser = _parse_ini_file($pathIniFileUser, true);
-			$this->configGlobal = _parse_ini_file($pathIniFileGlobal, true);
-	
-			foreach($this->configUser as $section => &$sectionValues)
-			{ 
-				foreach($sectionValues as $name => &$value)
+				if(is_array($value)) 
 				{
-					if(is_array($value)) 
-					{
-						$value = array_map("html_entity_decode", $value);
-					} 
-					else 
-					{
-						$value = html_entity_decode($value);
-					}
+					$value = array_map("html_entity_decode", $value);
+				} 
+				else 
+				{
+					$value = html_entity_decode($value);
 				}
 			}
-
-			if($hasZendShm)
-			{
-				// arbitrarily set time-to-live to 1 hour
-				zend_shm_cache_store('Piwik_Tracker_Config::configUser', $this->configUser, 3600);
-				zend_shm_cache_store('Piwik_Tracker_Config::configGlobal', $this->configGlobal, 3600);
-			}
 		}
-		$this->init = true;
+
+		if($this->hasZendShm)
+		{
+			// arbitrarily set time-to-live to 1 hour
+			zend_shm_cache_store('Piwik_Tracker_Config::configUser', $this->configUser, 3600);
+			zend_shm_cache_store('Piwik_Tracker_Config::configGlobal', $this->configGlobal, 3600);
+		}
+
+		$this->initialized = true;
 	}
 	
 	/**
@@ -109,7 +111,7 @@ class Piwik_Tracker_Config
 	 */
 	public function __get( $name )
 	{
-		if(!$this->init)
+		if(!$this->initialized)
 		{
 			$this->init();
 		}
