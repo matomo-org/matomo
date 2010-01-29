@@ -36,6 +36,7 @@ class UserAgentParser
 					'netscape6'						=> 'NS',
 					'netscape'						=> 'NS',
 					'galeon'						=> 'GA',
+					'epiphany'						=> 'EP',
 					'minefield'						=> 'FF',
 					'namoroka'						=> 'FF',
 					'shiretoko'						=> 'FF',
@@ -113,7 +114,22 @@ class UserAgentParser
 						'OS/2'           => 'OS2', 
 						'NetBSD'         => 'NBS',
 		);
-			
+
+	// WebKit version numbers to Safari version numbers
+	static protected $webkitToSafari = array(
+			'526.11.2'	=> array('4', '0'),
+			'525.26'	=> array('3', '2'),
+			'525.13'	=> array('3', '1'),
+			'522.11'	=> array('3', '0'),
+			'412'		=> array('2', '0'),
+			'312'		=> array('1', '3'),
+			'125'		=> array('1', '1'),
+			'85'		=> array('1', '0'),
+			'73'		=> array('0', '9'),
+			'48'		=> array('0', '8'),
+		);
+
+
 	static protected $browserIdToName;
 	static protected $browserIdToShortName;
 	static protected $operatingSystemsIdToName;
@@ -218,7 +234,19 @@ class UserAgentParser
 		 	else {
 		 		$info['minor_number'] = '0';
 		 	}
-		 	$info['version'] = $info['major_number'] . "." . $info['minor_number'];
+		 	$info['version'] = $info['major_number'] . '.' . $info['minor_number'];
+
+			// Safari fix
+			if($info['short_name'] == 'Safari') {
+				foreach(self::$webkitToSafari as $buildVersion => $productVersion) {
+					if(version_compare($info['version'], $buildVersion) >= 0) {
+						$info['major_number'] = $productVersion[0];
+						$info['minor_number'] = $productVersion[1];
+						$info['version'] = $productVersion[0] . '.' . $productVersion[1];
+						break;
+					}
+				}
+			}
 
 		 	return $info;
 		 }
