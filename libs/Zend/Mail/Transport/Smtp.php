@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Transport
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Smtp.php 18989 2009-11-15 13:23:41Z yoshida@zend.co.jp $
+ * @version    $Id: Smtp.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -45,7 +45,7 @@ require_once 'Zend/Mail/Transport/Abstract.php';
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Transport
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
@@ -111,6 +111,9 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
      * @param  string $host OPTIONAL (Default: 127.0.0.1)
      * @param  array|null $config OPTIONAL (Default: null)
      * @return void
+     * 
+     * @todo Someone please make this compatible
+     *       with the SendMail transport class.
      */
     public function __construct($host = '127.0.0.1', Array $config = array())
     {
@@ -177,6 +180,7 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
      * developer to add a custom adapter if required before mail is sent.
      *
      * @return void
+     * @todo Rename this to sendMail, it's a public method...
      */
     public function _sendMail()
     {

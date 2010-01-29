@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Loader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Loader.php 19241 2009-11-25 17:17:31Z bate $
+ * @version    $Id: Loader.php 20620 2010-01-25 20:18:08Z matthew $
  */
 
 /**
@@ -24,7 +24,7 @@
  *
  * @category   Zend
  * @package    Zend_Loader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Loader
@@ -60,8 +60,20 @@ class Zend_Loader
             throw new Zend_Exception('Directory argument must be a string or an array');
         }
 
-        // autodiscover the path from the class name
-        $file = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+        // Autodiscover the path from the class name
+        // Implementation is PHP namespace-aware, and based on 
+        // Framework Interop Group reference implementation:
+        // http://groups.google.com/group/php-standards/web/psr-0-final-proposal
+        $className = ltrim($class, '\\');
+        $file      = '';
+        $namespace = '';
+        if ($lastNsPos = strripos($className, '\\')) {
+            $namespace = substr($className, 0, $lastNsPos);
+            $className = substr($className, $lastNsPos + 1);
+            $file      = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+        }
+        $file .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+
         if (!empty($dirs)) {
             // use the autodiscovered path
             $dirPath = dirname($file);
@@ -79,7 +91,7 @@ class Zend_Loader
             $file = basename($file);
             self::loadFile($file, $dirs, true);
         } else {
-            self::loadFile($file);
+            self::loadFile($file, null, true);
         }
 
         if (!class_exists($class, false) && !interface_exists($class, false)) {
@@ -161,6 +173,11 @@ class Zend_Loader
      */
     public static function isReadable($filename)
     {
+        // Phar occasionally fails when using fopen()
+        if (strpos($filename, 'phar://') !== false) {
+            return is_readable($filename);
+        }
+
         if (!$fh = @fopen($filename, 'r', true)) {
             return false;
         }

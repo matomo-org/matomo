@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Float.php 17470 2009-08-08 22:27:09Z thomas $
+ * @version    $Id: Float.php 20532 2010-01-22 20:18:23Z thomas $
  */
 
 /**
@@ -32,7 +32,7 @@ require_once 'Zend/Locale/Format.php';
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Float extends Zend_Validate_Abstract
@@ -45,7 +45,7 @@ class Zend_Validate_Float extends Zend_Validate_Abstract
      */
     protected $_messageTemplates = array(
         self::INVALID   => "Invalid type given, value should be float, string, or integer",
-        self::NOT_FLOAT => "'%value%' does not appear to be a float"
+        self::NOT_FLOAT => "'%value%' does not appear to be a float",
     );
 
     protected $_locale;
@@ -53,10 +53,29 @@ class Zend_Validate_Float extends Zend_Validate_Abstract
     /**
      * Constructor for the float validator
      *
-     * @param string|Zend_Locale $locale
+     * @param string|Zend_Config|Zend_Locale $locale
      */
     public function __construct($locale = null)
     {
+        if ($locale instanceof Zend_Config) {
+            $locale = $locale->toArray();
+        }
+
+        if (is_array($locale)) {
+            if (array_key_exists('locale', $locale)) {
+                $locale = $locale['locale'];
+            } else {
+                $locale = null;
+            }
+        }
+
+        if (empty($locale)) {
+            require_once 'Zend/Registry.php';
+            if (Zend_Registry::isRegistered('Zend_Locale')) {
+                $locale = Zend_Registry::get('Zend_Locale');
+            }
+        }
+
         if ($locale !== null) {
             $this->setLocale($locale);
         }
@@ -95,6 +114,10 @@ class Zend_Validate_Float extends Zend_Validate_Abstract
         if (!is_string($value) && !is_int($value) && !is_float($value)) {
             $this->_error(self::INVALID);
             return false;
+        }
+
+        if (is_float($value)) {
+            return true;
         }
 
         $this->_setValue($value);

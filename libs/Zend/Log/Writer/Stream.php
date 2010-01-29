@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Stream.php 16219 2009-06-21 19:45:39Z thomas $
+ * @version    $Id: Stream.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** Zend_Log_Writer_Abstract */
@@ -30,9 +30,9 @@ require_once 'Zend/Log/Formatter/Simple.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Stream.php 16219 2009-06-21 19:45:39Z thomas $
+ * @version    $Id: Stream.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 class Zend_Log_Writer_Stream extends Zend_Log_Writer_Abstract
 {
@@ -48,8 +48,13 @@ class Zend_Log_Writer_Stream extends Zend_Log_Writer_Abstract
      * @param  streamOrUrl     Stream or URL to open as a stream
      * @param  mode            Mode, only applicable if a URL is given
      */
-    public function __construct($streamOrUrl, $mode = 'a')
+    public function __construct($streamOrUrl, $mode = NULL)
     {
+        // Setting the default
+        if ($mode === NULL) {
+            $mode = 'a';
+        }
+
         if (is_resource($streamOrUrl)) {
             if (get_resource_type($streamOrUrl) != 'stream') {
                 require_once 'Zend/Log/Exception.php';
@@ -63,6 +68,10 @@ class Zend_Log_Writer_Stream extends Zend_Log_Writer_Abstract
 
             $this->_stream = $streamOrUrl;
         } else {
+            if (is_array($streamOrUrl) && isset($streamOrUrl['stream'])) {
+                $streamOrUrl = $streamOrUrl['stream'];
+            }
+
             if (! $this->_stream = @fopen($streamOrUrl, $mode, false)) {
                 require_once 'Zend/Log/Exception.php';
                 $msg = "\"$streamOrUrl\" cannot be opened with mode \"$mode\"";
@@ -72,7 +81,30 @@ class Zend_Log_Writer_Stream extends Zend_Log_Writer_Abstract
 
         $this->_formatter = new Zend_Log_Formatter_Simple();
     }
+    
+    /**
+     * Create a new instance of Zend_Log_Writer_Mock
+     * 
+     * @param  array|Zend_Config $config
+     * @return Zend_Log_Writer_Mock
+     * @throws Zend_Log_Exception
+     */
+    static public function factory($config)
+    {
+        $config = self::_parseConfig($config);
+        $config = array_merge(array(
+            'stream' => null, 
+            'mode'   => null,
+        ), $config);
 
+        $streamOrUrl = isset($config['url']) ? $config['url'] : $config['stream']; 
+        
+        return new self(
+            $streamOrUrl, 
+            $config['mode']
+        );
+    }
+    
     /**
      * Close the stream resource.
      *
@@ -100,5 +132,4 @@ class Zend_Log_Writer_Stream extends Zend_Log_Writer_Abstract
             throw new Zend_Log_Exception("Unable to write to stream");
         }
     }
-
 }

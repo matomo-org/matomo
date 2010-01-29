@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Reader.php 19120 2009-11-20 17:58:59Z padraic $
+ * @version    $Id: Reader.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -42,7 +42,7 @@ require_once 'Zend/Feed/Reader/FeedSet.php';
 /**
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Reader
@@ -62,6 +62,7 @@ class Zend_Feed_Reader
     const TYPE_ANY              = 'any';
     const TYPE_ATOM_03          = 'atom-03';
     const TYPE_ATOM_10          = 'atom-10';
+    const TYPE_ATOM_10_ENTRY    = 'atom-10-entry';
     const TYPE_ATOM_ANY         = 'atom';
     const TYPE_RSS_090          = 'rss-090';
     const TYPE_RSS_091          = 'rss-091';
@@ -341,6 +342,8 @@ class Zend_Feed_Reader
 
         if (substr($type, 0, 3) == 'rss') {
             $reader = new Zend_Feed_Reader_Feed_Rss($dom, $type);
+        } elseif (substr($type, 8, 5) == 'entry') {
+            $reader = new Zend_Feed_Reader_Entry_Atom($dom->documentElement, 0, Zend_Feed_Reader::TYPE_ATOM_10);
         } elseif (substr($type, 0, 4) == 'atom') {
             $reader = new Zend_Feed_Reader_Feed_Atom($dom, $type);
         } else {
@@ -412,14 +415,14 @@ class Zend_Feed_Reader
     /**
      * Detect the feed type of the provided feed
      *
-     * @param  Zend_Feed_Abstract $feed A fully instantiated Zend_Feed object
+     * @param  Zend_Feed_Abstract|DOMDocument|string $feed
      * @return string
      */
-    public static function detectType($feed)
+    public static function detectType($feed, $specOnly = false)
     {
         if ($feed instanceof Zend_Feed_Reader_FeedInterface) {
             $dom = $feed->getDomDocument();
-        } elseif($feed instanceof DomDocument) {
+        } elseif($feed instanceof DOMDocument) {
             $dom = $feed;
         } elseif(is_string($feed) && !empty($feed)) {
             @ini_set('track_errors', 1);
@@ -439,7 +442,8 @@ class Zend_Feed_Reader
             }
         } else {
             require_once 'Zend/Feed/Exception.php';
-            throw new Zend_Feed_Exception('Invalid object/scalar provided: must be of type Zend_Feed_Reader_FeedInterface, DomDocument or string');
+            throw new Zend_Feed_Exception('Invalid object/scalar provided: must'
+            . ' be of type Zend_Feed_Reader_FeedInterface, DomDocument or string');
         }
         $xpath = new DOMXPath($dom);
 
@@ -503,6 +507,14 @@ class Zend_Feed_Reader
 
         if ($xpath->query('//atom:feed')->length) {
             return self::TYPE_ATOM_10;
+        }
+        
+        if ($xpath->query('//atom:entry')->length) {
+            if ($specOnly == true) {
+                return self::TYPE_ATOM_10;
+            } else {
+                return self::TYPE_ATOM_10_ENTRY;
+            }
         }
 
         $xpath->registerNamespace('atom', self::NAMESPACE_ATOM_03);
@@ -684,4 +696,24 @@ class Zend_Feed_Reader
         self::registerExtension('Thread');
         self::registerExtension('Podcast');
     }
+    
+    /**
+     * Utility method to apply array_unique operation to a multidimensional
+     * array.
+     *
+     * @param array
+     * @return array
+     */
+    public static function arrayUnique(array $array)
+    {
+        foreach ($array as &$value) {
+            $value = serialize($value);
+        }
+        $array = array_unique($array);
+        foreach ($array as &$value) {
+            $value = unserialize($value);
+        }
+        return $array;
+    }
+ 
 }

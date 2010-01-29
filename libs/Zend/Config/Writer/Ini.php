@@ -14,38 +14,24 @@
  *
  * @category   Zend
  * @package    Zend_Config
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ini.php 19737 2009-12-18 01:52:18Z dasprid $
+ * @version    $Id: Ini.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
  * @see Zend_Config_Writer
  */
-require_once 'Zend/Config/Writer.php';
+require_once 'Zend/Config/Writer/FileAbstract.php';
 
 /**
  * @category   Zend
  * @package    Zend_Config
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Config_Writer_Ini extends Zend_Config_Writer
+class Zend_Config_Writer_Ini extends Zend_Config_Writer_FileAbstract
 {
-    /**
-     * Filename to write to
-     *
-     * @var string
-     */
-    protected $_filename = null;
-
-    /**
-     * Wether to exclusively lock the file or not
-     *
-     * @var boolean
-     */
-    protected $_exclusiveLock = false;
-
     /**
      * String that separates nesting levels of configuration data identifiers
      *
@@ -54,30 +40,11 @@ class Zend_Config_Writer_Ini extends Zend_Config_Writer
     protected $_nestSeparator = '.';
 
     /**
-     * Set the target filename
+     * If true the ini string is rendered in the global namespace without sections.
      *
-     * @param  string $filename
-     * @return Zend_Config_Writer_Xml
+     * @var bool
      */
-    public function setFilename($filename)
-    {
-        $this->_filename = $filename;
-
-        return $this;
-    }
-
-    /**
-     * Set wether to exclusively lock the file or not
-     *
-     * @param  boolean     $exclusiveLock
-     * @return Zend_Config_Writer_Array
-     */
-    public function setExclusiveLock($exclusiveLock)
-    {
-        $this->_exclusiveLock = $exclusiveLock;
-
-        return $this;
-    }
+    protected $_renderWithoutSections = false;
 
     /**
      * Set the nest separator
@@ -93,44 +60,35 @@ class Zend_Config_Writer_Ini extends Zend_Config_Writer
     }
 
     /**
-     * Defined by Zend_Config_Writer
+     * Set if rendering should occour without sections or not.
      *
-     * @param  string      $filename
-     * @param  Zend_Config $config
-     * @param  boolean     $exclusiveLock
-     * @throws Zend_Config_Exception When filename was not set
-     * @throws Zend_Config_Exception When filename is not writable
-     * @return void
+     * If set to true, the INI file is rendered without sections completely
+     * into the global namespace of the INI file.
+     *
+     * @param  bool $withoutSections
+     * @return Zend_Config_Writer_Ini
      */
-    public function write($filename = null, Zend_Config $config = null, $exclusiveLock = null)
+    public function setRenderWithoutSections($withoutSections=true)
     {
-        if ($filename !== null) {
-            $this->setFilename($filename);
-        }
+        $this->_renderWithoutSections = (bool)$withoutSections;
+        return $this;
+    }
 
-        if ($config !== null) {
-            $this->setConfig($config);
-        }
-
-        if ($exclusiveLock !== null) {
-            $this->setExclusiveLock($exclusiveLock);
-        }
-
-        if ($this->_filename === null) {
-            require_once 'Zend/Config/Exception.php';
-            throw new Zend_Config_Exception('No filename was set');
-        }
-
-        if ($this->_config === null) {
-            require_once 'Zend/Config/Exception.php';
-            throw new Zend_Config_Exception('No config was set');
-        }
-
+    /**
+     * Render a Zend_Config into a INI config string.
+     *
+     * @since 1.10
+     * @return string
+     */
+    public function render()
+    {
         $iniString   = '';
         $extends     = $this->_config->getExtends();
         $sectionName = $this->_config->getSectionName();
 
-        if (is_string($sectionName)) {
+        if($this->_renderWithoutSections == true) {
+            $iniString .= $this->_addBranch($this->_config);
+        } else if (is_string($sectionName)) {
             $iniString .= '[' . $sectionName . ']' . "\n"
                        .  $this->_addBranch($this->_config)
                        .  "\n";
@@ -153,18 +111,7 @@ class Zend_Config_Writer_Ini extends Zend_Config_Writer
             }
         }
 
-        $flags = 0;
-
-        if ($this->_exclusiveLock) {
-            $flags |= LOCK_EX;
-        }
-
-        $result = @file_put_contents($this->_filename, $iniString, $flags);
-
-        if ($result === false) {
-            require_once 'Zend/Config/Exception.php';
-            throw new Zend_Config_Exception('Could not write to file "' . $this->_filename . '"');
-        }
+        return $iniString;
     }
 
     /**

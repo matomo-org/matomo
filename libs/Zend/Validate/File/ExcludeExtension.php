@@ -14,9 +14,9 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: ExcludeExtension.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version   $Id: ExcludeExtension.php 20358 2010-01-17 19:03:49Z thomas $
  */
 
 /**
@@ -29,7 +29,7 @@ require_once 'Zend/Validate/File/Extension.php';
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_ExcludeExtension extends Zend_Validate_File_Extension
@@ -44,8 +44,8 @@ class Zend_Validate_File_ExcludeExtension extends Zend_Validate_File_Extension
      * @var array Error message templates
      */
     protected $_messageTemplates = array(
-        self::FALSE_EXTENSION => "The file '%value%' has a false extension",
-        self::NOT_FOUND       => "The file '%value%' was not found"
+        self::FALSE_EXTENSION => "File '%value%' has a false extension",
+        self::NOT_FOUND       => "File '%value%' could not be found",
     );
 
     /**

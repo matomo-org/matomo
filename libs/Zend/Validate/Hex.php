@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -15,22 +14,20 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Hex.php 17470 2009-08-08 22:27:09Z thomas $
+ * @version    $Id: Hex.php 20358 2010-01-17 19:03:49Z thomas $
  */
-
 
 /**
  * @see Zend_Validate_Abstract
  */
 require_once 'Zend/Validate/Abstract.php';
 
-
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Hex extends Zend_Validate_Abstract
@@ -45,7 +42,7 @@ class Zend_Validate_Hex extends Zend_Validate_Abstract
      */
     protected $_messageTemplates = array(
         self::INVALID => "Invalid type given, value should be a string",
-        self::NOT_HEX => "'%value%' has not only hexadecimal digit characters"
+        self::NOT_HEX => "'%value%' has not only hexadecimal digit characters",
     );
 
     /**

@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 18951 2009-11-12 16:26:19Z alexander $
+ * @version    $Id: Entry.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -37,7 +37,7 @@ require_once 'Zend/Date.php';
 /**
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Reader_Extension_DublinCore_Entry
@@ -87,22 +87,56 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
 
         if ($list->length) {
             foreach ($list as $author) {
-                if ($this->getType() == Zend_Feed_Reader::TYPE_RSS_20
-                    && preg_match("/\(([^\)]+)\)/", $author->nodeValue, $matches, PREG_OFFSET_CAPTURE)
-                ) {
-                    $authors[] = $matches[1][0];
-                } else {
-                    $authors[] = $author->nodeValue;
-                }
+                $authors[] = array(
+                    'name' => $author->nodeValue
+                );
             }
-
-            $authors = array_unique($authors);
+            $authors = new Zend_Feed_Reader_Collection_Author(
+                Zend_Feed_Reader::arrayUnique($authors)
+            );
+        } else {
+            $authors = null;
         }
 
         $this->_data['authors'] = $authors;
 
         return $this->_data['authors'];
     }
+    
+    /**
+     * Get categories (subjects under DC)
+     *
+     * @return Zend_Feed_Reader_Collection_Category
+     */
+    public function getCategories()
+    {
+        if (array_key_exists('categories', $this->_data)) {
+            return $this->_data['categories'];
+        }
+        
+        $list = $this->_xpath->evaluate($this->getXpathPrefix() . '//dc11:subject');
+
+        if (!$list->length) {
+            $list = $this->_xpath->evaluate($this->getXpathPrefix() . '//dc10:subject');
+        }
+        
+        if ($list->length) {
+            $categoryCollection = new Zend_Feed_Reader_Collection_Category;
+            foreach ($list as $category) {
+                $categoryCollection[] = array(
+                    'term' => $category->nodeValue,
+                    'scheme' => null,
+                    'label' => $category->nodeValue,
+                );
+            }
+        } else {
+            $categoryCollection = new Zend_Feed_Reader_Collection_Category;
+        }
+        
+        $this->_data['categories'] = $categoryCollection;
+        return $this->_data['categories'];  
+    }
+    
 
     /**
      * Get the entry content

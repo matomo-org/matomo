@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Profiler
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Firebug.php 18951 2009-11-12 16:26:19Z alexander $
+ * @version    $Id: Firebug.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** Zend_Db_Profiler */
@@ -35,7 +35,7 @@ require_once 'Zend/Wildfire/Plugin/FirePhp/TableMessage.php';
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Profiler
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Profiler_Firebug extends Zend_Db_Profiler
@@ -121,9 +121,9 @@ class Zend_Db_Profiler_Firebug extends Zend_Db_Profiler
      */
     public function queryEnd($queryId)
     {
-        parent::queryEnd($queryId);
+        $state = parent::queryEnd($queryId);
 
-        if (!$this->getEnabled()) {
+        if (!$this->getEnabled() || $state == self::IGNORED) {
             return;
         }
 

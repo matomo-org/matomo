@@ -14,9 +14,9 @@
  *
  * @category  Zend
  * @package   Zend_Config
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Xml.php 17267 2009-07-29 02:13:18Z yoshida@zend.co.jp $
+ * @version   $Id: Xml.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -29,7 +29,7 @@ require_once 'Zend/Config.php';
  *
  * @category  Zend
  * @package   Zend_Config
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Config_Xml extends Zend_Config
@@ -40,7 +40,7 @@ class Zend_Config_Xml extends Zend_Config
     const XML_NAMESPACE = 'http://framework.zend.com/xml/zend-config-xml/1.0/';
 
     /**
-     * Wether to skip extends or not
+     * Whether to skip extends or not
      *
      * @var boolean
      */
@@ -61,7 +61,7 @@ class Zend_Config_Xml extends Zend_Config
      *
      * @param  string  $xml     XML file or string to process
      * @param  mixed   $section Section to process
-     * @param  boolean $options Whether modifiacations are allowed at runtime
+     * @param  boolean $options Whether modifications are allowed at runtime
      * @throws Zend_Config_Exception When xml is not set or cannot be loaded
      * @throws Zend_Config_Exception When section $sectionName cannot be found in $xml
      */
@@ -282,34 +282,5 @@ class Zend_Config_Xml extends Zend_Config
         }
 
         return $config;
-    }
-
-    /**
-     * Merge two arrays recursively, overwriting keys of the same name
-     * in $firstArray with the value in $secondArray.
-     *
-     * @param  mixed $firstArray  First array
-     * @param  mixed $secondArray Second array to merge into first array
-     * @return array
-     */
-    protected function _arrayMergeRecursive($firstArray, $secondArray)
-    {
-        if (is_array($firstArray) && is_array($secondArray)) {
-            foreach ($secondArray as $key => $value) {
-                if (isset($firstArray[$key])) {
-                    $firstArray[$key] = $this->_arrayMergeRecursive($firstArray[$key], $value);
-                } else {
-                    if($key === 0) {
-                        $firstArray= array(0=>$this->_arrayMergeRecursive($firstArray, $value));
-                    } else {
-                        $firstArray[$key] = $value;
-                    }
-                }
-            }
-        } else {
-            $firstArray = $secondArray;
-        }
-
-        return $firstArray;
     }
 }

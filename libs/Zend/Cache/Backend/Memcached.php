@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Memcached.php 19250 2009-11-26 06:42:20Z bate $
+ * @version    $Id: Memcached.php 20591 2010-01-25 00:14:10Z mabe $
  */
 
 
@@ -35,7 +35,7 @@ require_once 'Zend/Cache/Backend.php';
 /**
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
@@ -219,13 +219,14 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
         } else {
             $flag = 0;
         }
-        // #ZF-5702 : we try add() first becase set() seems to be slower
-        if (!($result = $this->_memcache->add($id, array($data, time(), $lifetime), $flag, $lifetime))) {
-            $result = $this->_memcache->set($id, array($data, time(), $lifetime), $flag, $lifetime);
-        }
+
+        // ZF-8856: using set because add needs a second request if item already exists
+        $result = @$this->_memcache->set($id, array($data, time(), $lifetime), $flag, $lifetime);
+
         if (count($tags) > 0) {
             $this->_log("Zend_Cache_Backend_Memcached::save() : tags are unsupported by the Memcached backend");
         }
+
         return $result;
     }
 
@@ -383,22 +384,23 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
         $memSize = 0;
         $memUsed = 0;
         foreach ($mems as $key => $mem) {
-            if ($mem === false) {
-                Zend_Cache::throwException('can\'t get stat from ' . $key);
-            } else {
-                $eachSize = $mem['limit_maxbytes'];
-                if ($eachSize == 0) {
-                    Zend_Cache::throwException('can\'t get memory size from ' . $key);
-                }
-
-                $eachUsed = $mem['bytes'];
-                if ($eachUsed > $eachSize) {
-                    $eachUsed = $eachSize;
-                }
-
-                $memSize += $eachSize;
-                $memUsed += $eachUsed;
+            if ($mem === false || !$mem['limit_maxbytes']) {
+                $this->_log('can\'t get stat from ' . $key);
+                continue;
             }
+
+            $eachSize = $mem['limit_maxbytes'];
+            $eachUsed = $mem['bytes'];
+            if ($eachUsed > $eachSize) {
+                $eachUsed = $eachSize;
+            }
+
+            $memSize += $eachSize;
+            $memUsed += $eachUsed;
+        }
+
+        if (!$memSize || !$memUsed) {
+            Zend_Cache::throwException('Can\'t get filling percentage');
         }
 
         return ((int) (100. * ($memUsed / $memSize)));

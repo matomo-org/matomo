@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Test.php 16541 2009-07-07 06:59:03Z bkarwin $
+ * @version    $Id: Test.php 20379 2010-01-18 14:40:57Z mabe $
  */
 
 
@@ -34,7 +34,7 @@ require_once 'Zend/Cache/Backend.php';
 /**
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_Backend_Interface
@@ -103,7 +103,11 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
     public function load($id, $doNotTestCacheValidity = false)
     {
         $this->_addLog('get', array($id, $doNotTestCacheValidity));
-        if ($id=='false') {
+        if ( $id == 'false'
+          || $id == 'd8523b3ee441006261eeffa5c3d3a0a7'
+          || $id == 'e83249ea22178277d5befc2c5e2e9ace'
+          || $id == '40f649b94977c0a6e76902e2a0b43587')
+        {
             return false;
         }
         if ($id=='serialized') {
@@ -136,10 +140,7 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
         if ($id=='false') {
             return false;
         }
-        if (($id=='d8523b3ee441006261eeffa5c3d3a0a7') or ($id=='3c439c922209e2cb0b54d6deffccd75a')) {
-            return false;
-        }
-        if (($id=='40f649b94977c0a6e76902e2a0b43587') or ($id=='e83249ea22178277d5befc2c5e2e9ace')) {
+        if (($id=='3c439c922209e2cb0b54d6deffccd75a')) {
             return false;
         }
         return 123456;
