@@ -627,7 +627,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Пожалуйста, введите свой логин или e-mail. Новый пароль прийдет вам по e-mail.',
 	'Login_InvalidUsernameEmail' => 'Неверное имя пользователя и/или e-mail',
 	'Login_MailTopicPasswordRecovery' => 'Восстановление пароля',
-	'Login_MailPasswordRecoveryBody' => 'Здравствуйте, %1s, \n\n Ваш новый пароль: %2s \n\n Теперь вы можете войти: %3s',
 	'Login_PasswordSent' => 'Пароль уже выслан, проверьте свою почту.',
 	'Login_ContactAdmin' => 'Возможная причина: функция mail() отключена. <br />Пожалуйста, свяжитесь с администратором.',
 	'UsersManager_UsersManagement' => 'Управление пользователями',

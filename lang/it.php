@@ -626,7 +626,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Per favore, inserisci il tuo username o l\'indirizzo e-mail. Riceverai una nuova password via e-mail.',
 	'Login_InvalidUsernameEmail' => 'Username e/o indirizzo e-mail non validi',
 	'Login_MailTopicPasswordRecovery' => 'Recupero Password',
-	'Login_MailPasswordRecoveryBody' => 'Ciao %1s, \n\n La tua nuova password &egrave;: %2s \n\n Ora puoi effettuare il login qui: %3s',
 	'Login_PasswordSent' => 'La password &egrave; stata inviata. Controlla la tua casella e-mail.',
 	'Login_ContactAdmin' => 'Possibile ragione: il tuo host potrebbe non avere attive le funzionalit&agrave; di e-mail.<br />Per favore, contatta l\'amministratore del server.',
 	'UsersManager_UsersManagement' => 'Gestione utenti',

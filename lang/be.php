@@ -443,7 +443,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Калі ласка, увядзіце свой лагін або e-mail. Новы пароль прийдет вам па e-mail.',
 	'Login_InvalidUsernameEmail' => 'Няслушнае імя карыстача і/або e-mail',
 	'Login_MailTopicPasswordRecovery' => 'Аднаўленне пароля',
-	'Login_MailPasswordRecoveryBody' => 'Дабрыдзень, %1s, \n\n Ваш новы пароль: %2s \n\n Зараз вы можаце ўвайсці: %3s',
 	'Login_PasswordSent' => 'Пароль ужо высланы, праверце сваю пошту.',
 	'Login_ContactAdmin' => 'Магчымы чыннік: функцыя mail() адключаная. <br />Калі ласка, звяжыцеся з адміністратарам.',
 	'UsersManager_ManageAccess' => 'Кіраванне правамі доступу',

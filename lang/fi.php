@@ -620,7 +620,6 @@ $translations = array(
      'Login_InvalidUsernameEmail' => 'Virheellinen käyttäjätunnus ja/tai sähköpostiosoite',
      'Login_InvalidOrExpiredToken' => 'Virheellinen tai vanhentunut tunnistautuminen',
      'Login_MailTopicPasswordRecovery' => 'Salasanan palautus',
-     'Login_MailPasswordRecoveryBody' => 'Hei %1s, \n\n Uusi salasanasi on : %2s \n\n Voit kirjautua sisään: %3s',
      'Login_PasswordSent' => 'Salasana on lähetetty. Tarkista sähköpostisi.',
      'Login_ContactAdmin' => 'Mahdollisia syitä: palvelin ei välttämättä salli sähköpostien lähetystä (mail()-funktiota).<br/>Ota yhteyttä Piwikin ylläpitäjään.',
      'UsersManager_UsersManagement' => 'Käyttäjien hallinta',

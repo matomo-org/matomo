@@ -627,7 +627,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Por favor, introduzca su nombre de usuario o dirección de email. Recibirá una nueva contraseña por email',
 	'Login_InvalidUsernameEmail' => 'Nombre de usuario y/o email incorrectos',
 	'Login_MailTopicPasswordRecovery' => 'Recuperar contraseña',
-	'Login_MailPasswordRecoveryBody' => 'Hola %1s, \n\n Tu nueva contraseña es: %2s \n\n Puedes conectarte ahora en: %3s',
 	'Login_PasswordSent' => 'La contraseña acaba de ser enviada. Comprueba tu email.',
 	'Login_ContactAdmin' => 'Posible razón: su hosting puede tener deshabilitado la función mail(). <br />Por favor contacte con su administrador de Piwik.',
 	'UsersManager_UsersManagement' => 'Administración de Usuarios',

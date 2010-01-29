@@ -650,7 +650,6 @@ $translations = array(
 	'Login_InvalidUsernameEmail' => 'Nom d\'utilisateur et/ou courriel invalide.',
 	'Login_InvalidOrExpiredToken' => 'La Clef est invalide ou a expiré',
 	'Login_MailTopicPasswordRecovery' => 'Récupération du mot de passe',
-	'Login_MailPasswordRecoveryBody' => 'Hi %1s, \n\n Votre nouveau mot de passe est : %2s \n\n Vous pouvez vous connecter maintenant ici : %3s',
 	'Login_PasswordSent' => 'Le mot de passe vient juste d\'être envoyé. Veuillez vérifier vos courriels.',
 	'Login_ContactAdmin' => 'Raison possible : Votre hébergeur peut avoir désactivé la fonction mail(). <br /> Veuillez contacter votre administrateur Piwik.',
 	'UsersManager_UsersManagement' => 'Gestion des utilisateurs',

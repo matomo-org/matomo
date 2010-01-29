@@ -626,7 +626,6 @@ $translations = array(
 	'Login_PasswordReminder' => '請輸入您的使用者名稱或 E-mail 位址！ 您將透過 E-mail 接收到一組新密碼！',
 	'Login_InvalidUsernameEmail' => '無效的使用者名稱 和/或 E-mail 位址',
 	'Login_MailTopicPasswordRecovery' => '重取得密碼',
-	'Login_MailPasswordRecoveryBody' => '%1s 您好， \n\n 您的新密碼是： %2s \n\n 您現在可以從此登入： %3s',
 	'Login_PasswordSent' => '密碼剛剛已經發送！ 請檢查您的 E-mail 信箱！',
 	'Login_ContactAdmin' => '可能的原因：您的伺服主機可能已經停用了 mail() 函式！ <br />請聯絡您的 Piwik 管理員！',
 	'UsersManager_UsersManagement' => '使用者管理',

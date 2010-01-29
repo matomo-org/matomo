@@ -501,7 +501,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'ユーザ名かメールアドレスを入力してください。 新しいパスワードがメールで送信されます。',
 	'Login_InvalidUsernameEmail' => 'ユーザ名かメールアドレスが無効です',
 	'Login_MailTopicPasswordRecovery' => 'パスワードの再発行',
-	'Login_MailPasswordRecoveryBody' => '%1s さん\n\n あなたの新しいパスワード： %2s \n\n ログインURL： %3s',
 	'Login_PasswordSent' => 'パスワードが送信されました。 メールを確認してください。',
 	'Login_ContactAdmin' => '考えられる理由： ホストで mail() 関数が無効にされている可能性があります。<br />Piwik 管理者にご連絡ください。',
 	'UsersManager_UsersManagement' => 'ユーザの管理',

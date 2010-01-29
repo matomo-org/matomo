@@ -544,7 +544,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Introduce-ti nume si adresa de mail. Vei primi parola pe adresa de mail indicata.',
 	'Login_InvalidUsernameEmail' => 'Nume/adresa mail invalida',
 	'Login_MailTopicPasswordRecovery' => 'Recuperare parola',
-	'Login_MailPasswordRecoveryBody' => 'Salut %1s, \n\n noua parola este: %2s \n\n logheaza-te la: %3s',
 	'Login_PasswordSent' => 'Parola a fost trimisa. Verifica emailul.',
 	'Login_ContactAdmin' => 'Motiv posibil: gazda ta poate avea dezactivata functia email . <br />Contactati adminstratorul.',
 	'UsersManager_UsersManagement' => 'Management useri',

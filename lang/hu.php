@@ -611,7 +611,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Kérlek add meg a felhasználó neved vagy e-mail címed. Küldünk egy új jelszót levélben!',
 	'Login_InvalidUsernameEmail' => 'Helytelen felhasználó és/vagy e-mail cím',
 	'Login_MailTopicPasswordRecovery' => 'Jelszó újrakérése',
-	'Login_MailPasswordRecoveryBody' => 'Hello %1s, \n\n Az új jelszavad: %2s \n\n Mostmár be tudsz lépni itt: %3s',
 	'Login_PasswordSent' => 'A jelszó elküldve, kérjük ellenőrizd a postaládád.',
 	'Login_ContactAdmin' => 'Lehetséges ok: talán a szolgáltatód tiltja a levélküldés funkciót. <br />Kérjük lépj kapcsolatba a Piwik rendszergazdáddal.',
 	'UsersManager_UsersManagement' => 'Felhasználói menedzsment',

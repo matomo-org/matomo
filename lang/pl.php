@@ -516,7 +516,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Wprowadź nazwę użytkownika albo adres email. Otrzymasz nowe email z nowym hasłem.',
 	'Login_InvalidUsernameEmail' => 'Nieprawidłowa nazwa użytkownika i/lub adress e-mail',
 	'Login_MailTopicPasswordRecovery' => 'Odzyskiwanie hasła',
-	'Login_MailPasswordRecoveryBody' => 'Witaj %1s, \n\n Twoje nowe hasło to: %2s \n\n Możesz się teraz zalogować: %3s',
 	'Login_PasswordSent' => 'Hasło zostało wysłane - sprawdź email.',
 	'Login_ContactAdmin' => 'Możliwości: Twój host może może mieć zablokowaną funkcję mail(). <br>Skontakuj się z administratorem Piwik\'a.',
 	'UsersManager_UsersManagement' => 'Zarządzanie użytkownikami',

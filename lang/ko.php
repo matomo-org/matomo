@@ -627,7 +627,6 @@ $translations = array(
 	'Login_PasswordReminder' => '사용자명 또는 이메일 주소를 입력하세요. 새 비밀번호를 이메일을 통해 받게될 것입니다.',
 	'Login_InvalidUsernameEmail' => '잘못된 사용자명 그리고/또는 이메일 주소',
 	'Login_MailTopicPasswordRecovery' => '비밀번호 복구',
-	'Login_MailPasswordRecoveryBody' => '안녕하세요, %1s 님. \n\n 새 비밀번호는: %2s \n\n 이제 로그인 할 수 있습니다: %3s',
 	'Login_PasswordSent' => '비밀번호는 방금 전송되었습니다. 이메일을 확인하세요.',
 	'Login_ContactAdmin' => '가능한 이유: 호스트가 메일 기능을 비활성화했을 수 있습니다. <br />당신의 Piwik 관리자에게 연락해보세요.',
 	'UsersManager_UsersManagement' => '사용자 관리',

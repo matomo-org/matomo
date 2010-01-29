@@ -626,7 +626,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'V&auml;nligen fyll i ditt anv&auml;ndarnamn eller din e-postadress. Du kommer att f&aring; ett nytt l&ouml;senord skickat via e-post.',
 	'Login_InvalidUsernameEmail' => 'Felaktigt anv&auml;ndarnamn och/eller e-postadress',
 	'Login_MailTopicPasswordRecovery' => '&Aring;terst&auml;ll l&ouml;senord',
-	'Login_MailPasswordRecoveryBody' => 'Hej %1s, \n\n Ditt nya l&ouml;senord &auml;r: %2s \n\n Nu kan du logga in p&aring;: %3s',
 	'Login_PasswordSent' => 'L&ouml;senordet har skickats. Kontrollera din e-post.',
 	'Login_ContactAdmin' => 'M&ouml;jlig orsak: din v&auml;rd kan ha avaktiverat mail() funktionen. <br />Var v&auml;nlig kontakta din Piwik-administrat&ouml;r',
 	'UsersManager_UsersManagement' => 'Anv&auml;ndarhantering',

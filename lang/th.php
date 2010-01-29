@@ -317,7 +317,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'กรุณาใส่ชื่อผู้ใช้ หรือ ที่อยู่อีเมลล์ คุณจะได้รับรหัสผ่านใหม่ทางอีเมลล์',
 	'Login_InvalidUsernameEmail' => 'ไม่มี ชื่อผู้ใช้ และ/หรือ ที่อยู่อีเมลล์ดังกล่าว',
 	'Login_MailTopicPasswordRecovery' => 'การกู้คืนรหัสผ่าน',
-	'Login_MailPasswordRecoveryBody' => 'สวัสดี %1s, \n\n รหัสผ่านใหม่ของคุณคือ :%2s \n\n คุณสามารถล็อคอินทันทีได้ที่ :%3s',
 	'Login_PasswordSent' => 'รหัสผ่านได้ส่งไปให้คุณแล้ว กรุณาเช็คอีเมลล์ของคุณ ',
 	'Login_ContactAdmin' => 'ปัญหาอาจเกิดจากโฮสของคุณปิดฟังก์ชั่น Mail()<br /> กรุณาติดต่อ Piwik Administrator ของคุณ',
 	'Provider_WidgetProviders' => 'ผู้ให้บริการ',
