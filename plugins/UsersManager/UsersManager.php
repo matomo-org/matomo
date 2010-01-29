@@ -19,8 +19,8 @@ class Piwik_UsersManager extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Users Management',
-			'description' => 'Users Management in Piwik: add a new User, edit an existing one, update the permissions. All the actions are also available through the API.',
+			'name' => 'UsersManager',
+			'description' => Piwik_Translate('UsersManager_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

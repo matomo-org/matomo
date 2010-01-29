@@ -19,8 +19,8 @@ class Piwik_VisitTime extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Visits Time',
-			'description' => 'Reports the Local and Server time. Server time information can be useful to schedule a maintenance on the Website.',
+			'name' => 'VisitTime',
+			'description' =>  Piwik_Translate('VisitTime_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

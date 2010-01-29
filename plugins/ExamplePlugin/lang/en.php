@@ -11,6 +11,7 @@
  */
 
 $translations = array(
+	'ExamplePlugin_PluginDescription' => 'Example Plugin: This plugin shows how to create a very simple plugin, that exports two widgets in the Dashboard.',
 	'ExamplePlugin_exampleWidgets' => 'Example Widgets',
 	'ExamplePlugin_exampleWidget' => 'Example widget',
 	'ExamplePlugin_blogPiwikRss' => 'Blog Piwik RSS',

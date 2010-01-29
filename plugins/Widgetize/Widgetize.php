@@ -19,8 +19,8 @@ class Piwik_Widgetize extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Widgetize your data!',
-			'description' => 'The plugin makes it very easy to export any Piwik Widget in your Blog, Website or on Igoogle and Netvibes!',
+			'name' => 'Widgetize',
+			'description' => Piwik_Translate('Widgetize_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

@@ -19,8 +19,8 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Visits Summary',
-			'description' => 'Reports the general Analytics numbers: visits, unique visitors, number of actions, Bounce Rate, etc.',
+			'name' => 'VisitsSummary',
+			'description' => Piwik_Translate('VisitsSummary_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

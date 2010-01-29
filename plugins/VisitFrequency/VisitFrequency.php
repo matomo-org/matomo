@@ -19,8 +19,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Visits Frequency',
-			'description' => 'Reports various statistics about the Returning Visitor versus the First time visitor.',
+			'name' => 'VisitFrequency',
+			'description' => Piwik_Translate('VisitFrequency_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
