@@ -20,7 +20,7 @@ class Piwik_Feedback extends Piwik_Plugin
 	{
 		return array(
 			'name' => 'Feedback',
-			'description' => 'Send your Feedback to the Piwik Team in one click. Share your ideas and suggestions with us!',
+			'description' => Piwik_Translate('Feedback_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

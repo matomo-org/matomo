@@ -19,8 +19,8 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Example Plugin',
-			'description' => 'Example Plugin: This plugin shows how to create a very simple plugin, that exports two widgets in the Dashboard.',
+			'name' => 'ExamplePlugin',
+			'description' => Piwik_Translate('ExamplePlugin_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',

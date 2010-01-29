@@ -20,8 +20,8 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Languages Management',
-			'description' => 'This plugin will display a list of the available languages for the Piwik interface. The language selected will be saved in the preferences for each user.',
+			'name' => 'LanguagesManager',
+			'description' => Piwik_Translate('LanguagesManager_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

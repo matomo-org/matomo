@@ -20,7 +20,7 @@ class Piwik_Provider extends Piwik_Plugin
 	{
 		$info = array(
 			'name' => 'Provider',
-			'description' => 'Reports the Provider of the visitors.',
+			'description' => Piwik_Translate('Provider_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

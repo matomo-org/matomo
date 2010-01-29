@@ -20,7 +20,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 	{
 		return array(
 			'name' => 'Dashboard',
-			'description' => 'Your Web Analytics Dashboard. You can customize Your Dashboard: add new widgets, change the order of your widgets. Each user can access his own custom Dashboard.',
+			'description' => Piwik_Translate('Dashboard_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

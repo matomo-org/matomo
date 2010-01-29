@@ -26,8 +26,8 @@ class Piwik_Goals extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => '(ALPHA) Goal Tracking',
-			'description' => 'Create Goals and see reports about your goal conversions: evolution over time, revenue per visit, conversions per referer, per keyword, etc.',
+			'name' => 'Goals',
+			'description' => Piwik_Translate('Goals_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

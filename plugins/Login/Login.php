@@ -20,7 +20,7 @@ class Piwik_Login extends Piwik_Plugin
 	{
 		$info = array(
 			'name' => 'Login',
-			'description' => 'Login Authentication plugin, reading the credentials from the config/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).',
+			'description' => Piwik_Translate('Login_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

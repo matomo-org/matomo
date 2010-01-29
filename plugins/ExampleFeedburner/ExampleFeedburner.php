@@ -19,8 +19,8 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Example Feedburner',
-			'description' => 'Example Plugin: How to display your Feedburner subscriber in a Widget in the Dashboard?',
+			'name' => 'ExampleFeedburner',
+			'description' => Piwik_Translate('ExampleFeedburner_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',

@@ -19,8 +19,8 @@ class Piwik_DBStats extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Database statistics',
-			'description' => 'This plugin reports the MySQL database usage by Piwik tables.',
+			'name' => 'DBStats',
+			'description' => Piwik_Translate('DBStats_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,

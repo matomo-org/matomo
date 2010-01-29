@@ -32,7 +32,7 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		$info = array(
 			'name' => 'Actions',
-			'description' => 'Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic!',
+			'description' => Piwik_Translate('Actions_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
