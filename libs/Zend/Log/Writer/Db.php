@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 16219 2009-06-21 19:45:39Z thomas $
+ * @version    $Id: Db.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** Zend_Log_Writer_Abstract */
@@ -27,9 +27,9 @@ require_once 'Zend/Log/Writer/Abstract.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 16219 2009-06-21 19:45:39Z thomas $
+ * @version    $Id: Db.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
 {
@@ -64,6 +64,33 @@ class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
         $this->_db    = $db;
         $this->_table = $table;
         $this->_columnMap = $columnMap;
+    }
+
+    /**
+     * Create a new instance of Zend_Log_Writer_Db
+     * 
+     * @param  array|Zend_Config $config
+     * @return Zend_Log_Writer_Db
+     * @throws Zend_Log_Exception
+     */
+    static public function factory($config)
+    {
+        $config = self::_parseConfig($config);
+        $config = array_merge(array(
+            'db'        => null, 
+            'table'     => null, 
+            'columnMap' => null,
+        ), $config);
+        
+        if (isset($config['columnmap'])) {
+            $config['columnMap'] = $config['columnmap'];
+        }
+        
+        return new self(
+            $config['db'],
+            $config['table'],
+            $config['columnMap']
+        );
     }
 
     /**
@@ -109,5 +136,4 @@ class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
 
         $this->_db->insert($this->_table, $dataToInsert);
     }
-
 }

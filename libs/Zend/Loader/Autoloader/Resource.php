@@ -15,8 +15,8 @@
  * @category   Zend
  * @package    Zend_Loader
  * @subpackage Autoloader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Resource.php 19190 2009-11-23 12:43:42Z bate $
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Resource.php 20096 2010-01-06 02:05:09Z bkarwin $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -29,7 +29,7 @@ require_once 'Zend/Loader/Autoloader/Interface.php';
  * @uses       Zend_Loader_Autoloader_Interface
  * @package    Zend_Loader
  * @subpackage Autoloader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Loader_Autoloader_Resource implements Zend_Loader_Autoloader_Interface

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Firebug.php 18951 2009-11-12 16:26:19Z alexander $
+ * @version    $Id: Firebug.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** Zend_Log */
@@ -38,7 +38,7 @@ require_once 'Zend/Wildfire/Plugin/FirePhp.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Log_Writer_Firebug extends Zend_Log_Writer_Abstract
@@ -74,11 +74,23 @@ class Zend_Log_Writer_Firebug extends Zend_Log_Writer_Abstract
      */
     public function __construct()
     {
-        if (php_sapi_name()=='cli') {
+        if (php_sapi_name() == 'cli') {
             $this->setEnabled(false);
         }
 
         $this->_formatter = new Zend_Log_Formatter_Firebug();
+    }
+   
+    /**
+     * Create a new instance of Zend_Log_Writer_Firebug
+     * 
+     * @param  array|Zend_Config $config
+     * @return Zend_Log_Writer_Firebug
+     * @throws Zend_Log_Exception
+     */
+    static public function factory($config)
+    {
+        return new self();
     }
 
     /**

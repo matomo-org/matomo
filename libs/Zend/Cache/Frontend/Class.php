@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Frontend
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Class.php 16541 2009-07-07 06:59:03Z bkarwin $
+ * @version    $Id: Class.php 20379 2010-01-18 14:40:57Z mabe $
  */
 
 /**
@@ -29,7 +29,7 @@ require_once 'Zend/Cache/Core.php';
 /**
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Frontend
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Frontend_Class extends Zend_Cache_Core
@@ -208,14 +208,14 @@ class Zend_Cache_Frontend_Class extends Zend_Cache_Core
             // We do not have not cache
             return call_user_func_array(array($this->_cachedEntity, $name), $parameters);
         }
+
         $id = $this->_makeId($name, $parameters);
-        if ($this->test($id)) {
+        if ( ($rs = $this->load($id)) && isset($rs[0], $rs[1]) ) {
             // A cache is available
-            $result = $this->load($id);
-            $output = $result[0];
-            $return = $result[1];
+            $output = $rs[0];
+            $return = $rs[1];
         } else {
-            // A cache is not available
+            // A cache is not available (or not valid for this frontend)
             ob_start();
             ob_implicit_flush(false);
             $return = call_user_func_array(array($this->_cachedEntity, $name), $parameters);
@@ -224,6 +224,7 @@ class Zend_Cache_Frontend_Class extends Zend_Cache_Core
             $data = array($output, $return);
             $this->save($data, $id, $this->_tags, $this->_specificLifetime, $this->_priority);
         }
+
         echo $output;
         return $return;
     }

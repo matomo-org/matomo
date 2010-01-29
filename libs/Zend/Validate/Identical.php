@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Identical.php 17684 2009-08-20 09:20:36Z yoshida@zend.co.jp $
+ * @version    $Id: Identical.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** @see Zend_Validate_Abstract */
@@ -25,7 +25,7 @@ require_once 'Zend/Validate/Abstract.php';
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Identical extends Zend_Validate_Abstract
@@ -68,6 +68,14 @@ class Zend_Validate_Identical extends Zend_Validate_Abstract
      */
     public function __construct($token = null)
     {
+        if ($token instanceof Zend_Config) {
+            $token = $token->toArray();
+        }
+
+        if (is_array($token) && (count($token) == 1) && array_key_exists('token', $token)) {
+            $token = $token['token'];
+        }
+
         if (null !== $token) {
             $this->setToken($token);
         }

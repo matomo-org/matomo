@@ -16,8 +16,8 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Response
- * @version    $Id: Stream.php 19309 2009-11-30 11:03:01Z bate $
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Response.php 17131 2009-07-26 10:03:39Z shahar $
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -28,7 +28,7 @@
  *
  * @package    Zend_Http
  * @subpackage Response
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Http_Response_Stream extends Zend_Http_Response
@@ -39,23 +39,23 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
      * @var resource
      */
     protected $stream;
-    
+
     /**
      * The name of the file containing the stream
-     * 
+     *
      * Will be empty if stream is not file-based.
-     * 
+     *
      * @var string
      */
     protected $stream_name;
 
-    /* *
+    /**
      * Should we clean up the stream file when this response is closed?
-     * 
+     *
      * @var boolean
      */
     protected $_cleanup;
-    
+
     /**
      * Get the response as stream
      *
@@ -65,7 +65,7 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
     {
         return $this->stream;
     }
-    
+
     /**
      * Set the response stream
      *
@@ -78,45 +78,45 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
         return $this;
     }
 
-	/**
-	 * Get the cleanup trigger
-	 * 
-	 * @return boolean
-	 */
-	public function getCleanup() {
-		return $this->_cleanup;
-	}
+    /**
+     * Get the cleanup trigger
+     *
+     * @return boolean
+     */
+    public function getCleanup() {
+        return $this->_cleanup;
+    }
 
-	/**
-	 * Set the cleanup trigger
-	 * 
-	 * @param $cleanup Set cleanup trigger
-	 */
-	public function setCleanup($cleanup = true) {
-		$this->_cleanup = $cleanup;
-	}
+    /**
+     * Set the cleanup trigger
+     *
+     * @param $cleanup Set cleanup trigger
+     */
+    public function setCleanup($cleanup = true) {
+        $this->_cleanup = $cleanup;
+    }
 
     /**
      * Get file name associated with the stream
-     * 
-	 * @return string
-	 */
-	public function getStreamName() {
-		return $this->stream_name;
-	}
+     *
+     * @return string
+     */
+    public function getStreamName() {
+        return $this->stream_name;
+    }
 
-	/**
-	 * Set file name associated with the stream
-	 * 
-	 * @param string $stream_name Name to set
-	 * @return Zend_Http_Response_Stream
-	 */
-	public function setStreamName($stream_name) {
-		$this->stream_name = $stream_name;
-		return $this;
-	}
-    
-    
+    /**
+     * Set file name associated with the stream
+     *
+     * @param string $stream_name Name to set
+     * @return Zend_Http_Response_Stream
+     */
+    public function setStreamName($stream_name) {
+        $this->stream_name = $stream_name;
+        return $this;
+    }
+
+
     /**
      * HTTP response constructor
      *
@@ -136,17 +136,16 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
      * @param string $message Response code as text
      * @throws Zend_Http_Exception
      */
-
-	public function __construct($code, $headers, $body = null, $version = '1.1', $message = null)
+    public function __construct($code, $headers, $body = null, $version = '1.1', $message = null)
     {
-        
+
         if(is_resource($body)) {
             $this->setStream($body);
             $body = '';
         }
         parent::__construct($code, $headers, $body, $version, $message);
     }
-    
+
     /**
      * Create a new Zend_Http_Response_Stream object from a string
      *
@@ -163,7 +162,7 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
 
         return new self($code, $headers, $stream, $version, $message);
     }
-    
+
     /**
      * Get the response body as string
      *
@@ -183,7 +182,7 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
         }
         return parent::getBody();
     }
-    
+
     /**
      * Get the raw response body (as transfered "on wire") as string
      *
@@ -199,12 +198,12 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
         }
         return $this->body;
     }
-    
+
     /**
      * Read stream content and return it as string
-     * 
+     *
      * Function reads the remainder of the body from the stream and closes the stream.
-     * 
+     *
      * @return string
      */
     protected function readStream()
@@ -221,7 +220,7 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
         fclose($this->stream);
         $this->stream = null;
     }
- 
+
     public function __destruct()
     {
         if(is_resource($this->stream)) {
@@ -232,5 +231,5 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
             @unlink($this->stream_name);
         }
     }
-    
+
 }

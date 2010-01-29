@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FeedAbstract.php 18951 2009-11-12 16:26:19Z alexander $
+ * @version    $Id: FeedAbstract.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -38,7 +38,7 @@ require_once 'Zend/Feed/Reader/Entry/Rss.php';
 /**
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Feed_Reader_Extension_FeedAbstract
@@ -139,7 +139,30 @@ abstract class Zend_Feed_Reader_Extension_FeedAbstract
         return $this->_data;
     }
 
-        /**
+    /**
+     * Set the XPath query
+     *
+     * @param  DOMXPath $xpath
+     * @return Zend_Feed_Reader_Extension_EntryAbstract
+     */
+    public function setXpath(DOMXPath $xpath)
+    {
+        $this->_xpath = $xpath;
+        $this->_registerNamespaces();
+        return $this;
+    }
+
+    /**
+     * Get the DOMXPath object
+     *
+     * @return string
+     */
+    public function getXpath()
+    {
+        return $this->_xpath;
+    }
+
+    /**
      * Get the XPath prefix
      *
      * @return string

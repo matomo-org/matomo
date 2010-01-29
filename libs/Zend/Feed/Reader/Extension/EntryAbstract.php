@@ -14,15 +14,15 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: EntryAbstract.php 18951 2009-11-12 16:26:19Z alexander $
+ * @version    $Id: EntryAbstract.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Feed_Reader_Extension_EntryAbstract
@@ -86,7 +86,7 @@ abstract class Zend_Feed_Reader_Extension_EntryAbstract
         if (!is_null($type)) {
             $this->_data['type'] = $type;
         } else {
-            $this->_data['type'] = Zend_Feed_Reader::detectType($feed);
+            $this->_data['type'] = Zend_Feed_Reader::detectType($entry->ownerDocument, true);
         }
         // set the XPath query prefix for the entry being queried
         if ($this->getType() == Zend_Feed_Reader::TYPE_RSS_10
@@ -153,6 +153,9 @@ abstract class Zend_Feed_Reader_Extension_EntryAbstract
      */
     public function getXpath()
     {
+        if (!$this->_xpath) {
+            $this->setXpath(new DOMXPath($this->getDomDocument()));
+        }
         return $this->_xpath;
     }
 

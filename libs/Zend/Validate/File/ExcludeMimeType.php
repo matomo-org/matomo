@@ -14,9 +14,9 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: ExcludeMimeType.php 18148 2009-09-16 19:27:43Z thomas $
+ * @version   $Id: ExcludeMimeType.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -29,7 +29,7 @@ require_once 'Zend/Validate/File/MimeType.php';
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_ExcludeMimeType extends Zend_Validate_File_MimeType

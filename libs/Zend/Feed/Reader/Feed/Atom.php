@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Atom.php 19044 2009-11-19 16:44:24Z padraic $
+ * @version    $Id: Atom.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -32,7 +32,7 @@ require_once 'Zend/Feed/Reader/Extension/Atom/Feed.php';
 /**
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
@@ -44,11 +44,13 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
      * @param  DOMDocument $dom
      * @param  string $type
      */
-    public function __construct(DomDocument $dom, $type = null)
+    public function __construct(DOMDocument $dom, $type = null)
     {
         parent::__construct($dom, $type);
         $atomClass = Zend_Feed_Reader::getPluginLoader()->getClassName('Atom_Feed');
         $this->_extensions['Atom_Feed'] = new $atomClass($dom, $this->_data['type'], $this->_xpath);
+        $atomClass = Zend_Feed_Reader::getPluginLoader()->getClassName('DublinCore_Feed');
+        $this->_extensions['DublinCore_Feed'] = new $atomClass($dom, $this->_data['type'], $this->_xpath);
         foreach ($this->_extensions as $extension) {
             $extension->setXpathPrefix('/atom:feed');
         }
@@ -82,9 +84,9 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
             return $this->_data['authors'];
         }
 
-        $people = $this->getExtension('Atom')->getAuthors();
+        $authors = $this->getExtension('Atom')->getAuthors();
 
-        $this->_data['authors'] = $people;
+        $this->_data['authors'] = $authors;
 
         return $this->_data['authors'];
     }
@@ -312,8 +314,49 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
+     * Get an array of any supported Pusubhubbub endpoints
+     *
+     * @return array|null
+     */
+    public function getHubs()
+    {
+        if (array_key_exists('hubs', $this->_data)) {
+            return $this->_data['hubs'];
+        }
+
+        $hubs = $this->getExtension('Atom')->getHubs();
+
+        $this->_data['hubs'] = $hubs;
+
+        return $this->_data['hubs'];
+    }
+    
+    /**
+     * Get all categories
+     *
+     * @return Zend_Feed_Reader_Collection_Category
+     */
+    public function getCategories()
+    {
+        if (array_key_exists('categories', $this->_data)) {
+            return $this->_data['categories'];
+        }
+
+        $categoryCollection = $this->getExtension('Atom')->getCategories();
+        
+        if (count($categoryCollection) == 0) {
+            $categoryCollection = $this->getExtension('DublinCore')->getCategories();
+        }
+
+        $this->_data['categories'] = $categoryCollection;
+
+        return $this->_data['categories'];
+    }
+
+    /**
      * Read all entries to the internal entries array
      *
+     * @return void
      */
     protected function _indexEntries()
     {

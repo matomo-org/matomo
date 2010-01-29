@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Table
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 18951 2009-11-12 16:26:19Z alexander $
+ * @version    $Id: Abstract.php 20571 2010-01-24 15:40:22Z mikaelkael $
  */
 
 /**
@@ -29,7 +29,7 @@ require_once 'Zend/Db.php';
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Table
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
@@ -293,13 +293,14 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
      }
 
      /**
-      * Does nothing
+      * Proxy to __unset
       * Required by the ArrayAccess implementation
       *
       * @param string $offset
       */
      public function offsetUnset($offset)
      {
+         return $this->__unset($offset);
      }
 
     /**
@@ -1083,7 +1084,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
                 Zend_Loader::loadClass($rowsetClass);
             } catch (Zend_Exception $e) {
                 require_once 'Zend/Db/Table/Row/Exception.php';
-                throw new Zend_Db_Table_Row_Exception($e->getMessage());
+                throw new Zend_Db_Table_Row_Exception($e->getMessage(), $e->getCode(), $e);
             }
         }
         $rowset = new $rowsetClass($config);
@@ -1177,7 +1178,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess
                 Zend_Loader::loadClass($tableName);
             } catch (Zend_Exception $e) {
                 require_once 'Zend/Db/Table/Row/Exception.php';
-                throw new Zend_Db_Table_Row_Exception($e->getMessage());
+                throw new Zend_Db_Table_Row_Exception($e->getMessage(), $e->getCode(), $e);
             }
         }
 

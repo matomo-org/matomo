@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 18688 2009-10-25 16:08:24Z thomas $
+ * @version    $Id: Abstract.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -27,7 +27,7 @@ require_once 'Zend/Validate/Interface.php';
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
@@ -251,11 +251,11 @@ abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
     }
 
     /**
-     * @param  string $messageKey OPTIONAL
+     * @param  string $messageKey
      * @param  string $value      OPTIONAL
      * @return void
      */
-    protected function _error($messageKey = null, $value = null)
+    protected function _error($messageKey, $value = null)
     {
         if ($messageKey === null) {
             $keys = array_keys($this->_messageTemplates);

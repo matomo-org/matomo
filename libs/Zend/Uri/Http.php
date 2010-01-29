@@ -14,9 +14,9 @@
  *
  * @category  Zend
  * @package   Zend_Uri
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Http.php 16208 2009-06-21 19:19:26Z thomas $
+ * @version   $Id: Http.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -35,7 +35,7 @@ require_once 'Zend/Validate/Hostname.php';
  * @category  Zend
  * @package   Zend_Uri
  * @uses      Zend_Uri
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Uri_Http extends Zend_Uri
@@ -592,6 +592,23 @@ class Zend_Uri_Http extends Zend_Uri
     }
 
     /**
+     * Returns the query portion of the URL (after ?) as a
+     * key-value-array. If the query is empty an empty array
+     * is returned
+     *
+     * @return array
+     */
+    public function getQueryAsArray()
+    {
+        $query = $this->getQuery();
+        $querryArray = array();
+        if ($query !== false) {
+            parse_str($query, $querryArray);
+        }
+        return $querryArray;
+    }
+
+    /**
      * Returns true if and only if the query string passes validation. If no query is passed,
      * then the query string contained in the instance variable is used.
      *
@@ -620,6 +637,32 @@ class Zend_Uri_Http extends Zend_Uri
         }
 
         return $status == 1;
+    }
+
+    /**
+     * Add or replace params in the query string for the current URI, and
+     * return the old query.
+     *
+     * @param  array $queryParams
+     * @return string Old query string
+     */
+    public function addReplaceQueryParameters(array $queryParams)
+    {
+        $queryParams = array_merge($this->getQueryAsArray(), $queryParams);
+        return $this->setQuery($queryParams);
+    }
+
+    /**
+     * Remove params in the query string for the current URI, and
+     * return the old query.
+     *
+     * @param  array $queryParamKeys
+     * @return string Old query string
+     */
+    public function removeQueryParameters(array $queryParamKeys)
+    {
+        $queryParams = array_diff_key($this->getQueryAsArray(), array_fill_keys($queryParamKeys, 0));
+        return $this->setQuery($queryParams);
     }
 
     /**
