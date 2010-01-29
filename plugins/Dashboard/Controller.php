@@ -148,15 +148,21 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		{
 			foreach($layoutObject as &$row) 
 			{
+				if(!is_array($row))
+				{
+					$row = array();
+					continue;
+				}
+
 				foreach($row as $widgetId => $widget)
 				{
 					if(isset($widget->parameters->module)) {
-    					$controllerName = $widget->parameters->module;
-    					$controllerAction = $widget->parameters->action;
-    					if(!Piwik_IsWidgetDefined($controllerName, $controllerAction))
-    					{
-    						unset($row[$widgetId]);
-    					}
+						$controllerName = $widget->parameters->module;
+						$controllerAction = $widget->parameters->action;
+						if(!Piwik_IsWidgetDefined($controllerName, $controllerAction))
+						{
+							unset($row[$widgetId]);
+						}
 					}
 				}
 			}
