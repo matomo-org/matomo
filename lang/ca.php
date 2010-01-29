@@ -335,7 +335,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Si us plau, inseriu el vostre nom d\'usuari o el vostre correu-e. Rebreu una contrasenya nova al vostre correu-e.',
 	'Login_InvalidUsernameEmail' => 'Aquest usuari i/o direcció de correu-e és invàlid.',
 	'Login_MailTopicPasswordRecovery' => 'Recuperació de la contrasenya',
-	'Login_MailBodyPasswordRecovery' => 'Hola %1s! La vostra nova contrasenya és %2s<br />Ara ja podeu iniciar la sessió a %3s',
 	'Login_PasswordSent' => 'La informació per a canviar la contrasenya s\'ha enviat. Reviseu el vostre correu-e',
 	'Login_ContactAdmin' => 'Possiblement sigui perquè el vostre proveïdor d\'allotjament ha desactivat la funció mail().<br />Contacteu amb l\'administrador del lloc.',
 	'Login_MailPasswordRecoveryBody' => 'Hola %s, una petició de reinicialització de la contrasenya ha estat rebuda de %s. Per a reiniciar-la: 1)Aneu al formulari de reinicialització de contrasenyes a %s 2)Introduïu el següent codi: %s 3)Ompliu el formulari (introduint la nova contrasenya dos cops) i envieu-lo. Nota: el codi caduca en 24 hores.',

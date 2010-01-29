@@ -433,7 +433,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Por favor, introduzca o seu nome de usuario ou enderezo de correo electrónico. Recibirá un novo contrasinal por correo electrónico',
 	'Login_InvalidUsernameEmail' => 'O nome do usuario ou o enderezo de correo electrónicoo son incorrectos',
 	'Login_MailTopicPasswordRecovery' => 'Recuperar contrasinal',
-	'Login_MailPasswordRecoveryBody' => 'Ola %1s,\n\nO teu novo contrasinal é: %2s\n\n Podes conectarte agora en: %3s',
 	'Login_PasswordSent' => 'O contrasinal acaba de ser enviado. Comprobe o seu correo electrónico.',
 	'Login_ContactAdmin' => 'Posible razón: o seu aloxamento pode ter deshabilitado a función mail().<br>Por favor contacte co seu administrador de piwik.',
 	'UsersManager_ManageAccess' => 'Administrar o acceso',

@@ -262,7 +262,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Будь ласка, вкажіть ваші Ім\'я користувача або E-mail. Ви отримаєте новий пароль на Ваш e-mail.',
 	'Login_InvalidUsernameEmail' => 'Невірне Ім\'я користувача та/або E-mail',
 	'Login_MailTopicPasswordRecovery' => 'Відновлення пароля',
-	'Login_MailPasswordRecoveryBody' => 'Вітаю, %1s\n\n Ваш новий пароль: %2s\n\n Тепер ви можете зайти в систему тут: %3s',
 	'Login_PasswordSent' => 'Пароль було надіслано. Перевірте ваш e-mail.',
 	'Login_ContactAdmin' => 'Можлива причина: функція mail() відключена в налаштуваннях вашого хостингу.<br/>Зверніться, будь ласка, до вашого Piwik-адміністратора.',
 	'Provider_WidgetProviders' => 'Провайдери',

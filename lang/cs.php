@@ -626,7 +626,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Prosím zadejte vase uživatelské jméno, nebo e-mailovou adresu. Nové heslo dostanete e-mailem.',
 	'Login_InvalidUsernameEmail' => 'Neplatné uživatelské jméno a/nebo e-mailová adresa',
 	'Login_MailTopicPasswordRecovery' => 'Záchrana hesla',
-	'Login_MailPasswordRecoveryBody' => 'Ahoj %1s, \n\n Vaše nové heslo je: %2s \n\n Můžete se přihlásit na: %3s',
 	'Login_PasswordSent' => 'Heslo bylo právě odesláno. Zkontrolujte si váš e-mail.',
 	'Login_ContactAdmin' => 'Možná příčina: Váš hosting zakázal funkci mail().. <br />Prosím kontaktujte vašeho administrátora Piwiku.',
 	'UsersManager_UsersManagement' => 'Správa uživatelů',

@@ -626,7 +626,6 @@ $translations = array(
 'Login_PasswordReminder' => 'Skriv dit brugernavn eller e-mailadresse. Du vil modtage en ny adgangskode med e-mail.',
 'Login_InvalidUsernameEmail' => 'Fejl i brugernavn og/eller e-mailadresse.',
 'Login_MailTopicPasswordRecovery' => 'Genopret adgangskode',
-'Login_MailPasswordRecoveryBody' => 'Hej %1s, \n\m Ny adgangskode er: %2s \n\n Du kan logge på her: %3s',
 'Login_PasswordSent' => 'Adgangskoden er sendt. Tjek din e-mail.',
 'Login_ContactAdmin' => 'Mulig grund: udbyderen har måske deaktiveret mail()-funktionen. <br />Kontakt Piwik administrator.',
 'UsersManager_UsersManagement' => 'Bruger administration',

@@ -228,7 +228,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Vennligst skriv inn ditt brukernavn eller epost-adresse. Du vil få et nytt passord på epost.',
 	'Login_InvalidUsernameEmail' => 'Feil brukernavn og/eller epost-adresse.',
 	'Login_MailTopicPasswordRecovery' => 'Gjennoppretting av passord',
-	'Login_MailPasswordRecoveryBody' => 'Hei %1s, \n\n Ditt nye passord er: %2s \n\n Du kan nå logge inn her: %3s',
 	'Login_PasswordSent' => 'Passordet har nettopp blitt sendt. Sjekk din e-post.',
 	'Login_ContactAdmin' => 'Mulig grunn: Din tjener har kanskje deaktivert mail()-funksjonen. <br />Kontakt din Piwik administrator.',
 	'Provider_WidgetProviders' => 'Tilbydere',

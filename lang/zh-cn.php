@@ -503,7 +503,6 @@ $translations = array(
 	'Login_PasswordReminder' => '请输入您的用户名称或 E-mail 地址！ 您将透过 E-mail 接收到一组新密码！',
 	'Login_InvalidUsernameEmail' => '无效的使用者名称 和/或 E-mail 地址',
 	'Login_MailTopicPasswordRecovery' => '重取得密码',
-	'Login_MailPasswordRecoveryBody' => '%1s 您好， \n\n 您的新密码是： %2s \n\n 您现在可以登录了： %3s',
 	'Login_PasswordSent' => '密码刚刚已经发送！ 请检查您的 E-mail 信箱！',
 	'Login_ContactAdmin' => '可能的原因：您的主机可能已经停用了 mail() 函数！ <br />请联络您的 Piwik 管理员！',
 	'UsersManager_UsersManagement' => '用户管理',

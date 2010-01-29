@@ -513,7 +513,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Palun sisesta kasutaja või e-mail address. Sulle saadetakse salasõna e-mailiga.',
 	'Login_InvalidUsernameEmail' => 'Vale kasutajanimi ja/või e-maili address',
 	'Login_MailTopicPasswordRecovery' => 'Salasõna taastamine',
-	'Login_MailPasswordRecoveryBody' => 'Tere %1s, \n\n Sinu uus salasõna on: %2s \n\n Saad nüüd sisse logida siit: %3s',
 	'Login_PasswordSent' => 'Salasõna saadetud. Kontrolli oma e-maili.',
 	'Login_ContactAdmin' => 'Võimalik põhjus: sinu majutusel on mail() funktsioon välja lülitatud. <br />Palun kontakteeru administraatoriga.',
 	'UsersManager_UsersManagement' => 'Kasutajate haldamine',

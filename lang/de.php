@@ -626,7 +626,6 @@ $translations = array(
 'Login_PasswordReminder'=>'Benutzername oder E-Mail-Adresse eingeben um ein neues Passwort per E-Mail zu erhalten.',
 'Login_InvalidUsernameEmail'=>'Ungültiger Bernutzername und/oder E-Mail-Adresse',
 'Login_MailTopicPasswordRecovery'=>'Passwort wiederherstellen',
-'Login_MailPasswordRecoveryBody'=>'Hallo %1s, \n\n Ihr neues Passwort lautet: %2s\n\n Damit können Sie sich unter %3s anmelden.',
 'Login_PasswordSent'=>'Das Passwort wurde gesendet. Bitte Postfach auf neue E-Mails überprüfen.',
 'Login_ContactAdmin'=>'Möglicher Grund: Der Server könnte die mail()-Funktion abgeschaltet haben.<br/>Bitte sprechen Sie mit Ihrem Piwik-Administrator.',
 'UsersManager_UsersManagement'=>'Benutzerverwaltung',

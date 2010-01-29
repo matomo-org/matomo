@@ -467,7 +467,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Por favor digite o seu nome de usu&aacute;rio ou e-mail. Voc&ecirc; receber&aacute; uma nova senha via e-mail.',
 	'Login_InvalidUsernameEmail' => 'Nome de usu&aacute;rio e/ou e-mail inv&aacute;lido',
 	'Login_MailTopicPasswordRecovery' => 'Recuperar senha',
-	'Login_MailPasswordRecoveryBody' => 'Ol&aacute; %1s, \n\n A sua nova senha &eacute;: %2s \n\n Voc&ecirc; pode entrar agora em: %3s',
 	'Login_PasswordSent' => 'A senha foi enviada. Cheque o seu e-mail.',
 	'Login_ContactAdmin' => 'Poss&iacute;vel raz&atilde;o: o seu host desabilitou a fun&ccedil;&atilde;o mail(). <br />Por favor contate o administrador.',
 	'UsersManager_ManageAccess' => 'Gerenciar acesso',

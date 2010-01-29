@@ -545,7 +545,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Vložte prosím svoje meno používateľa alebo e-mailovú adresu. E-mailom Vám bude doručené nové heslo.',
 	'Login_InvalidUsernameEmail' => 'Neplatné meno používateľa alebo e-mailová adresa',
 	'Login_MailTopicPasswordRecovery' => 'Obnova hesla',
-	'Login_MailPasswordRecoveryBody' => 'Ahoj %1s, \n\n Tvoje nové heslo je: %2s \n\n Teraz sa môžeš prihlásiť: %3s',
 	'Login_PasswordSent' => 'Heslo bolo práve odoslané. Skontrolujte si e-mail.',
 	'Login_ContactAdmin' => 'Možné dôvody: Váš server ma zakázanú funkciu mail().<br /> Skontaktujte svojho administrátora Piwik.',
 	'UsersManager_UsersManagement' => 'Správa používateľov',

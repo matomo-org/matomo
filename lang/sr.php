@@ -627,7 +627,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Molimo vas da upišete vaše korisničko ime ili elektronsku adresu. Novu lozinku ćete dobiti elektronskom poštom.',
 	'Login_InvalidUsernameEmail' => 'Pogrešno korisničko ime i/ili email',
 	'Login_MailTopicPasswordRecovery' => 'Povraćaj lozinke',
-	'Login_MailPasswordRecoveryBody' => 'Pozdrav %1s \n\n Vaša nova lozinka je: %2s \n\n Sada se možete prijaviti na: %3s',
 	'Login_PasswordSent' => 'Lozinka vam je upravo poslata. Proverite vašu elektronsku poštu.',
 	'Login_ContactAdmin' => 'Mogući razlog: vaš hosting provajder je možda onemogućio mail() funkciju. <br />Molimo vas da kontaktirate vašeg Piwik administratora.',
 	'UsersManager_UsersManagement' => 'Upravljanje korisnicima',

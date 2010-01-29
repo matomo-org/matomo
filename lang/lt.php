@@ -306,7 +306,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Prašome įvesti naudotojo vardą arba el. pašto adresą. Naują slaptažodį gausite el. paštu.',
 	'Login_InvalidUsernameEmail' => 'Netinkamas naudotojo vardas ir/arba el. pašto adresas',
 	'Login_MailTopicPasswordRecovery' => 'Slaptažodžio atkūrimas',
-	'Login_MailPasswordRecoveryBody' => 'Sveiki %1s, \n\n Jūsų naujas slaptažodis: %2s \n\n Dabar galite prisijungti: %3s',
 	'Login_PasswordSent' => 'Slaptažodis nusiųstas. Pasitikrinkite el. paštą.',
 	'Login_ContactAdmin' => 'Galima priežastis: Jūsų pagr. kompiuteryje (serveryje) gali būti išjungta mail() funkcija.<br />Prašome susisiekti su savo Piwik administratoriumi.',
 	'Provider_WidgetProviders' => 'Tiekėjai',
