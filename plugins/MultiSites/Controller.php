@@ -118,7 +118,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 
 	private function fillSummary($current, $last, $type)
 	{
-		if(($current == 0 && $last == 0) || $current == 0)
+		if($current == 0 && $last == 0)
 		{
 			$summary = 0;
 		}
