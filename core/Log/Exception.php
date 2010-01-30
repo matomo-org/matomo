@@ -52,7 +52,7 @@ class Piwik_Log_Exception extends Piwik_Log
 		$event['errline'] 	= $exception->getLine();
 		$event['backtrace'] = $exception->getTraceAsString();
 
-		parent::log($event, Piwik_Log::CRIT);
+		parent::log($event, Piwik_Log::CRIT, null);
 	}
 }
 

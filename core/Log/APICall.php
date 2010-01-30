@@ -47,7 +47,7 @@ class Piwik_Log_APICall extends Piwik_Log
 		$event['execution_time'] = $executionTime;
 		$event['returned_value'] = is_array($returnedValue) ? serialize($returnedValue) : $returnedValue;
 		
-		parent::log($event, Piwik_Log::INFO);
+		parent::log($event, Piwik_Log::INFO, null);
 	}
 }
 

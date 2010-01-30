@@ -90,7 +90,7 @@ abstract class Piwik_Log extends Zend_Log
 	/**
 	 * Log an event
 	 */
-	public function log($event, $priority)
+	public function log($event, $priority, $extras = null)
 	{
 		// sanity checks
 		if (empty($this->_writers)) {
