@@ -51,7 +51,7 @@ class Piwik_Log_Error extends Piwik_Log
 		$event['errline'] = $errline;
 		$event['backtrace'] = $backtrace;
 		
-		parent::log($event, Piwik_Log::ERR);
+		parent::log($event, Piwik_Log::ERR, null);
 	}
 }
 

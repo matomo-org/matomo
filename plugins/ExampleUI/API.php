@@ -26,7 +26,7 @@ class Piwik_ExampleUI_API
 		return self::$instance;
 	}
 	
-	function getTemperaturesEvolution($date, $period)
+	static public function getTemperaturesEvolution($date, $period)
 	{
 		$period = new Piwik_Period_Range($period, 'last30');
 		$dateStart = $period->getDateStart()->get('Y-m-d'); // eg. "2009-04-01"
@@ -56,7 +56,7 @@ class Piwik_ExampleUI_API
 	}
 	
 	// we generate an array of random server temperatures
-	function getTemperatures()
+	static public function getTemperatures()
 	{
 		$xAxis = array(
 			'0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h', 
@@ -75,7 +75,7 @@ class Piwik_ExampleUI_API
 		return $dataTable;
 	}
 	
-	function getPlanetRatios()
+	static public function getPlanetRatios()
 	{
 		$planetRatios = array(
 			'Mercury' => 0.382,
@@ -93,9 +93,9 @@ class Piwik_ExampleUI_API
 		return $dataTable;
 	}
 	
-	function getPlanetRatiosWithLogos()
+	static public function getPlanetRatiosWithLogos()
 	{
-		$planetsDataTable = $this->getPlanetRatios();
+		$planetsDataTable = self::getPlanetRatios();
 		foreach($planetsDataTable->getRows() as $row)
 		{
 			$row->addMetadata('logo', "plugins/ExampleUI/images/icons-planet/".strtolower($row->getColumn('label').".png"));

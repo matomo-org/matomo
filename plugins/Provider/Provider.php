@@ -180,13 +180,13 @@ class Piwik_Provider extends Piwik_Plugin
 		return trim(strtolower(@gethostbyaddr(long2ip($ip))));
 	}
 
-	public function headerUserCountry($notification)
+	static public function headerUserCountry($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '<div id="leftcolumn">';
 	}
 	
-	public function footerUserCountry($notification)
+	static public function footerUserCountry($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '</div>

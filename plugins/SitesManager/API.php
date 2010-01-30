@@ -249,7 +249,7 @@ class Piwik_SitesManager_API
 		return (int)$idSite;
 	}
 	
-	private static function postUpdateWebsite($idSite)
+	static private function postUpdateWebsite($idSite)
 	{
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);	
 	}

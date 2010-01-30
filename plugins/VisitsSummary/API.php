@@ -27,7 +27,7 @@ class Piwik_VisitsSummary_API
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date, $columns = array() )
+	static public function get( $idSite, $period, $date, $columns = array() )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
@@ -61,7 +61,7 @@ class Piwik_VisitsSummary_API
 		return $dataTable;
 	}
 	
-	protected static function getNumeric( $idSite, $period, $date, $toFetch )
+	static protected function getNumeric( $idSite, $period, $date, $toFetch )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
@@ -69,42 +69,42 @@ class Piwik_VisitsSummary_API
 		return $dataTable;		
 	}
 
-	public function getVisits( $idSite, $period, $date )
+	static public function getVisits( $idSite, $period, $date )
 	{
 		return self::getNumeric( $idSite, $period, $date, 'nb_visits');
 	}
 	
-	public function getUniqueVisitors( $idSite, $period, $date )
+	static public function getUniqueVisitors( $idSite, $period, $date )
 	{
 		return self::getNumeric( $idSite, $period, $date, 'nb_uniq_visitors');
 	}
 	
-	public function getActions( $idSite, $period, $date )
+	static public function getActions( $idSite, $period, $date )
 	{
 		return self::getNumeric( $idSite, $period, $date, 'nb_actions');
 	}
 	
-	public function getMaxActions( $idSite, $period, $date )
+	static public function getMaxActions( $idSite, $period, $date )
 	{
 		return self::getNumeric( $idSite, $period, $date, 'max_actions');
 	}
 	
-	public function getBounceCount( $idSite, $period, $date )
+	static public function getBounceCount( $idSite, $period, $date )
 	{
 		return self::getNumeric( $idSite, $period, $date, 'bounce_count');
 	}
 	
-	public function getVisitsConverted( $idSite, $period, $date )
+	static public function getVisitsConverted( $idSite, $period, $date )
 	{
 		return self::getNumeric( $idSite, $period, $date, 'nb_visits_converted');
 	}
 	
-	public function getSumVisitsLength( $idSite, $period, $date )
+	static public function getSumVisitsLength( $idSite, $period, $date )
 	{
 		return self::getNumeric( $idSite, $period, $date, 'sum_visit_length');
 	}
 	
-	public function getSumVisitsLengthPretty( $idSite, $period, $date )
+	static public function getSumVisitsLengthPretty( $idSite, $period, $date )
 	{
 		return Piwik::getPrettyTimeFromSeconds(self::getSumVisitsLength( $idSite, $period, $date ));
 	}

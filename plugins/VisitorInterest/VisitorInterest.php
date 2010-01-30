@@ -159,13 +159,13 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		return $table;
 	}
 	
-	public function headerVisitsFrequency($notification)
+	static public function headerVisitsFrequency($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '<div id="leftcolumn">';
 	}
 	
-	public function footerVisitsFrequency($notification)
+	static public function footerVisitsFrequency($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '</div>

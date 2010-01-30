@@ -27,7 +27,7 @@ class Piwik_VisitFrequency_API
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date, $columns = array() )
+	static public function get( $idSite, $period, $date, $columns = array() )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
@@ -60,7 +60,7 @@ class Piwik_VisitFrequency_API
 		return $dataTable;
 	}
 
-	protected function getNumeric( $idSite, $period, $date, $toFetch )
+	static protected function getNumeric( $idSite, $period, $date, $toFetch )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
@@ -68,33 +68,33 @@ class Piwik_VisitFrequency_API
 		return $dataTable;		
 	}
 
-	public function getVisitsReturning( $idSite, $period, $date )
+	static public function getVisitsReturning( $idSite, $period, $date )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_returning');
+		return self::getNumeric( $idSite, $period, $date, 'nb_visits_returning');
 	}
 	
-	public function getActionsReturning( $idSite, $period, $date )
+	static public function getActionsReturning( $idSite, $period, $date )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_actions_returning');
+		return self::getNumeric( $idSite, $period, $date, 'nb_actions_returning');
 	}
 	
-	public function getMaxActionsReturning( $idSite, $period, $date )
+	static public function getMaxActionsReturning( $idSite, $period, $date )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'max_actions_returning');
+		return self::getNumeric( $idSite, $period, $date, 'max_actions_returning');
 	}
 	
-	public function getSumVisitsLengthReturning( $idSite, $period, $date )
+	static public function getSumVisitsLengthReturning( $idSite, $period, $date )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'sum_visit_length_returning');
+		return self::getNumeric( $idSite, $period, $date, 'sum_visit_length_returning');
 	}
 	
-	public function getBounceCountReturning( $idSite, $period, $date )
+	static public function getBounceCountReturning( $idSite, $period, $date )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'bounce_count_returning');
+		return self::getNumeric( $idSite, $period, $date, 'bounce_count_returning');
 	}
 	
-	public function getConvertedVisitsReturning( $idSite, $period, $date )
+	static public function getConvertedVisitsReturning( $idSite, $period, $date )
 	{
-		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_converted_returning');
+		return self::getNumeric( $idSite, $period, $date, 'nb_visits_converted_returning');
 	}
 }
