@@ -211,7 +211,7 @@ class Piwik
 
 	/**
 	 * Get php memory_limit
-	 *
+	 * 
 	 * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
 	 * @return int memory limit in megabytes
 	 */
@@ -219,14 +219,20 @@ class Piwik
 	{
 		if($memory = ini_get('memory_limit'))
 		{
-			// handle shorthand notations (case-insensitive)
-			$memory = strtoupper($memory);
-			if(substr($memory, -1) == 'G')
-				return substr($memory, 0, -1) * 1024;
-			if(substr($memory, -1) == 'M')
-				return substr($memory, 0, -1);
-			if(substr($memory, -1) == 'K')
-				return substr($memory, 0, -1) / 1024;
+			// handle shorthand byte options (case-insensitive)
+			$shorthandByteOption = substr($memory, -1);
+			switch($shorthandByteOption)
+			{
+				case 'G':
+				case 'g':
+					return substr($memory, 0, -1) * 1024;
+				case 'M':
+				case 'm':
+					return substr($memory, 0, -1);
+				case 'K':
+				case 'k':
+					return substr($memory, 0, -1) / 1024;
+			}
 			return $memory / 1048576;
 		}
 		return false;
