@@ -209,11 +209,25 @@ class Piwik
 		@set_time_limit($executionTime);
 	}
 
+	/**
+	 * Get php memory_limit
+	 *
+	 * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
+	 * @return int memory limit in megabytes
+	 */
 	static public function getMemoryLimitValue()
 	{
 		if($memory = ini_get('memory_limit'))
 		{
-			return substr($memory, 0, strlen($memory) - 1);
+			// handle shorthand notations (case-insensitive)
+			$memory = strtoupper($memory);
+			if(substr($memory, -1) == 'G')
+				return substr($memory, 0, -1) * 1024;
+			if(substr($memory, -1) == 'M')
+				return substr($memory, 0, -1);
+			if(substr($memory, -1) == 'K')
+				return substr($memory, 0, -1) / 1024;
+			return $memory / 1048576;
 		}
 		return false;
 	}
