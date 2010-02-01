@@ -157,6 +157,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Ask
 		'www.ask.com'				=> array('Ask', array('ask', 'q'), 'web?q={k}'),
 		'web.ask.com'				=> array('Ask', array('ask', 'q')),
+		'images.ask.com'			=> array('Ask', 'q'),
 		'ask.reference.com'			=> array('Ask', 'q'),
 		'www.ask.co.uk'				=> array('Ask', 'q'),
 		'uk.ask.com'				=> array('Ask', 'q'),
@@ -237,6 +238,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Comcast
 		'www.comcast.net'			=> array('Comcast', 'query'),
 		'search.comcast.net'		=> array('Comcast', 'q'),
+		'search3.comcast.com'		=> array('Comcast', 'url'),
 
 		// Comet systems
 		'search.cometsystems.com'	=> array('CometSystems', 'q'),
@@ -275,6 +277,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Deskfeeds
 		'www.deskfeeds.com'			=> array('Deskfeeds', 'sx'),
 
+		// Digg
+		'digg.com'					=> array('Digg', 's', 'search?s={k}'),
+
 		// Dino
 		'www.dino-online.de'		=> array('Dino', 'query'),
 
@@ -293,6 +298,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// earthlink
 		'search.earthlink.net'		=> array('Earthlink', 'q'),
+
+		// Ecosia (powered by Bing)
+		'ecosia.org'				=> array('Ecosia', 'q', 'search.php?q={k}'),
 
 		// Eniro
 		'www.eniro.se'				=> array('Eniro', 'q'),
@@ -323,6 +331,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// eo
 		'eo.st'						=> array('eo', 'q'),
+
+		// Facebook
+		'www.facebook.com'			=> array('Facebook', 'q', 'search/?q={k}'),
 
 		// Feedminer
 		'www.feedminer.com'			=> array('Feedminer', 'q'),
@@ -516,6 +527,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.co.zw'			=> array('Google', 'q'),
 		'www.google.com.ar'			=> array('Google', 'q'),
 		'www.google.com.au'			=> array('Google', 'q'),
+		'www.google.com.bd'			=> array('Google', 'q'),
 		'www.google.com.bh'			=> array('Google', 'q'),
 		'www.google.com.bo'			=> array('Google', 'q'),
 		'www.google.com.br'			=> array('Google', 'q'),
@@ -1003,6 +1015,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Reacteur.com
 		'www.reacteur.com'			=> array('Reacteur', 'kw'),
 
+		// RPMFind
+		'www.rpmfind.net'			=> array('rpmfind', 'query', 'linux/rpm2html/search.php?query={k}'),
+		'rpmfind.net'				=> array('rpmfind', 'query'),
+		'fr2.rpmfind.net'			=> array('rpmfind', 'query'),
+
 		// Sapo
 		'pesquisa.sapo.pt'			=> array('Sapo', 'q'),
 
@@ -1194,6 +1211,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'es.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'espanol.search.yahoo.com'	=> array('Yahoo!', 'p'),
 		'fr.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'hk.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'id.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'it.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'kr.search.yahoo.com'		=> array('Yahoo!', 'p'),
@@ -1209,7 +1227,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		'au.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
 		'de.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
-
+		'us.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'), 
 		'de.dir.yahoo.com'			=> array('Yahoo! Webverzeichnis', ''),
 		'cf.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
 		'fr.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
