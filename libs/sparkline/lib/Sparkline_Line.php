@@ -95,16 +95,18 @@ class Sparkline_Line extends Sparkline {
     }
 
     if (!isset($this->yMax)) {
-      $this->yMax = $this->dataSeriesStats[$series]['yMax'] + ($this->yMin * -1);
+      $this->yMax = $this->dataSeriesStats[$series]['yMax'];
     }
 
     if (!isset($this->xMax)) {
       $this->xMax = $this->dataSeriesStats[$series]['xMax'];
     }
 
+    $this->yRange = $this->yMax + ($this->yMin * -1);
+
     for ($i = 0; $i < sizeof($this->dataSeries[$series]); $i++) {
-      $y = round(($this->dataSeries[$series][$i] + ($this->yMin * -1)) * ($yBound / $this->yMax));
-      $x = round($i * $xBound / (sizeof($this->dataSeries[$series]) ));
+      $y = round(($this->dataSeries[$series][$i] + ($this->yMin * -1)) * (($yBound-1) / $this->yRange));
+      $x = round($i * $xBound / (sizeof($this->dataSeries[$series]) - 1));
       $this->dataSeriesConverted[$series][] = array($x, $y);
       $this->Debug("Sparkline :: ConvertDataSeries series $series value $i ($x, $y)", DEBUG_SET);
     }
@@ -167,7 +169,7 @@ class Sparkline_Line extends Sparkline {
     // draw features
     //
     while (list(, $v) = each($this->featurePoint)) {
-      $pxY = round(($v['ptY'] + ($this->yMin * -1)) * ($this->GetGraphHeight() / $this->yMax));
+      $pxY = round(($v['ptY'] + ($this->yMin * -1)) * ($this->GetGraphHeight() / $this->yRange));
       $pxX = round($v['ptX'] * $this->GetGraphWidth() / $this->dataSeriesStats[1]['xMax']);
 
       $this->DrawCircleFilled($pxX + $this->graphAreaPx[0][0], 
@@ -257,7 +259,7 @@ class Sparkline_Line extends Sparkline {
     // draw features
     //
     while (list(, $v) = each($this->featurePoint)) {
-      $pxY = round(($v['ptY'] + ($this->yMin * -1)) * ($this->GetGraphHeight() / $this->yMax));
+      $pxY = round(($v['ptY'] + ($this->yMin * -1)) * ($this->GetGraphHeight() / $this->yRange));
       $pxX = round($v['ptX'] * $this->GetGraphWidth() / $this->dataSeriesStats[1]['xMax']);
 
       $this->DrawCircleFilled($pxX + $this->graphAreaPx[0][0], 
