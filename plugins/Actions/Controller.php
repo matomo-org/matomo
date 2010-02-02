@@ -35,7 +35,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->init(  	$this->pluginName, 
 						__FUNCTION__,
 						'Actions.getPageUrls',
-						'getActionsSubDataTable'  );
+						'getPageUrlsSubDataTable'  );
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
