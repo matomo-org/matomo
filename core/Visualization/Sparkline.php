@@ -77,11 +77,9 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 			$i++;
 		}
 		$sparkline->SetYMin(0);
-		$sparkline->setYMax($max[1] + 0.5); // the +0.5 seems to be mandatory to not lose some pixels when value = max
-		$sparkline->SetPadding( 3, 0, 2, 0);
-		$font = FONT_2;
-		// the -0.5 is a hack as the sparkline samping rendering is obviously slightly bugged
-		// (see also fix marked as //FIX FROM PIWIK in libs/sparkline/lib/Sparkline.php)
+		$sparkline->SetYMax($max[1]);
+		$sparkline->SetPadding( 3, 0, 2, 0 ); // top, right, bottom, left
+//		$font = FONT_2;
 		$sparkline->SetFeaturePoint($min[0] -1,  $min[1],  'red', 5);
 		$sparkline->SetFeaturePoint($max[0] -1,  $max[1],  'green', 5);
 		$sparkline->SetFeaturePoint($last[0] -1, $last[1], 'blue', 5);

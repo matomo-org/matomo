@@ -187,7 +187,7 @@ class Piwik_Goals extends Piwik_Plugin
 	
 		// Stats for all goals
 		$totalAllGoals = array(
-			self::getRecordName('conversion_rate')	=> round(100 * $archiveProcessing->getNumberOfVisitsConverted() / $archiveProcessing->getNumberOfVisits(), self::ROUNDING_PRECISION),
+			self::getRecordName('conversion_rate')	=> $this->getConversionRate($archiveProcessing->getNumberOfVisitsConverted(), $archiveProcessing),
 			self::getRecordName('nb_conversions')	=> $nb_conversions,
 			self::getRecordName('revenue') 			=> $revenue,
 		);
