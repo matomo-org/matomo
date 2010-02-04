@@ -242,10 +242,10 @@ class Piwik_View implements Piwik_iView
 		Piwik_PostEvent('View.getViewType', $viewType);
 
 		// get caller
-		$bt = debug_backtrace();
-		if(!isset($bt[0]))
+		$bt = @debug_backtrace();
+		if($bt === null || !isset($bt[0]))
 		{
-			throw new Exception("View factory cannot be invoked directly");
+			throw new Exception("View factory cannot be invoked");
 		}
 		$path = dirname($bt[0]['file']);
 
