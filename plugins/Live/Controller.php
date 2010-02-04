@@ -117,8 +117,8 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function getLastVisitsStart($fetch = false) 
 	{
 		$view = Piwik_View::factory('lastVisits');
+		$this->setGeneralVariablesView($view);
 		$view->visitors = $this->getLastVisits(10);
-		
 		$rendered = $view->render($fetch);
 		
 		if($fetch)
