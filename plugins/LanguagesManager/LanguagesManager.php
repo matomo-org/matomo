@@ -51,7 +51,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	{
 		// don't use Piwik_View::factory() here
 		$view = new Piwik_View("LanguagesManager/templates/languages.tpl"); 
-		$view->languages = Piwik_LanguagesManager_API::getAvailableLanguageNames();
+		$view->languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguageNames();
 		$view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
 		$view->currentLanguageName = self::getLanguageNameForCurrentUser();
 		echo $view ->render();
@@ -102,11 +102,11 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	static public function getLanguageCodeForCurrentUser()
 	{
 		$languageCode = self::getLanguageFromPreferences();
-		if(!Piwik_LanguagesManager_API::isLanguageAvailable($languageCode))
+		if(!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($languageCode))
 		{
-			$languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), Piwik_LanguagesManager_API::getAvailableLanguages());
+			$languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages());
 		}
-		if(!Piwik_LanguagesManager_API::isLanguageAvailable($languageCode))
+		if(!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($languageCode))
 		{
 			$languageCode = 'en';
 		}
@@ -119,7 +119,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	static public function getLanguageNameForCurrentUser()
 	{
 		$languageCode = self::getLanguageCodeForCurrentUser();
-		$languages = Piwik_LanguagesManager_API::getAvailableLanguageNames();
+		$languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguageNames();
 		foreach($languages as $language)
 		{
 			if($language['code'] === $languageCode) 
@@ -134,14 +134,14 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	static protected function getLanguageFromPreferences()
 	{
-		if ($language = Piwik_LanguagesManager_API::getLanguageForSession())
+		if ($language = Piwik_LanguagesManager_API::getInstance()->getLanguageForSession())
 		{
 			return $language;
 		}
 		
 		try {
 			$currentUser = Piwik::getCurrentUserLogin();
-			return Piwik_LanguagesManager_API::getLanguageForUser($currentUser);
+			return Piwik_LanguagesManager_API::getInstance()->getLanguageForUser($currentUser);
 		} catch(Exception $e) {
 			return false;
 		}

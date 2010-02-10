@@ -444,7 +444,7 @@ class Piwik_UsersManager_API
 		// has an 'admin' access
 		if($idSites === 'all')
 		{
-			$idSites = Piwik_SitesManager_API::getSitesIdWithAdminAccess();
+			$idSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAdminAccess();
 		}
 		// in case the idSites is an integer we build an array		
 		elseif(!is_array($idSites))

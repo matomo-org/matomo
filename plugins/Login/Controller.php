@@ -105,7 +105,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	protected function authenticateAndRedirect($login, $md5Password, $urlToRedirect)
 	{
-		$tokenAuth = Piwik_UsersManager_API::getTokenAuth($login, $md5Password);
+		$tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($login, $md5Password);
 
 		$auth = Zend_Registry::get('auth');
 		$auth->setLogin($login);
@@ -286,7 +286,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			}
 			else
 			{
-				Piwik_UsersManager_API::updateUser($user['login'], $password);
+				Piwik_UsersManager_API::getInstance()->updateUser($user['login'], $password);
 			}
 		}
 		catch(Exception $e)
@@ -322,13 +322,13 @@ class Piwik_Login_Controller extends Piwik_Controller
 					'password' => Zend_Registry::get('config')->superuser->password,
 			);
 		}
-		else if( Piwik_UsersManager_API::userExists($loginMail) )
+		else if( Piwik_UsersManager_API::getInstance()->userExists($loginMail) )
 		{
-			$user = Piwik_UsersManager_API::getUser($loginMail);
+			$user = Piwik_UsersManager_API::getInstance()->getUser($loginMail);
 		}
-		else if( Piwik_UsersManager_API::userEmailExists($loginMail) )
+		else if( Piwik_UsersManager_API::getInstance()->userEmailExists($loginMail) )
 		{
-			$user = Piwik_UsersManager_API::getUserByEmail($loginMail);
+			$user = Piwik_UsersManager_API::getInstance()->getUserByEmail($loginMail);
 		}
 
 		return $user;

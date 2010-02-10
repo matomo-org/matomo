@@ -148,12 +148,12 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out .= 'At this point, we have: <code>$fetched[\'token_auth\'] == <b>'.var_export($token_auth,true) . '</b></code><br/>';
 		
   		$out .= '<h2>Example Sites information API</h2>';
-		$out .= '<code>Piwik_SitesManager_API::getSitesWithViewAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getSitesWithViewAccess(),true) . '</pre></b><br/>';
-		$out .= '<code>Piwik_SitesManager_API::getSitesWithAdminAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getSitesWithAdminAccess(),true) . '</pre></b><br/>';
+		$out .= '<code>Piwik_SitesManager_API::getInstance()->getSitesWithViewAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getInstance()->getSitesWithViewAccess(),true) . '</pre></b><br/>';
+		$out .= '<code>Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess(),true) . '</pre></b><br/>';
 
 		$out .= '<h2>Example API  Users information</h2>';
 		$out .= 'View the list of API methods you can call on <a href="http://dev.piwik.org/trac/wiki/API/Reference#Methods">API reference</a><br/>';
-		$out .= 'For example you can try <code>Piwik_UsersManager_API::getUsersSitesFromAccess("view");</code> or <code>Piwik_UsersManager_API::deleteUser("userToDelete");</code><br/>';
+		$out .= 'For example you can try <code>Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess("view");</code> or <code>Piwik_UsersManager_API::getInstance()->deleteUser("userToDelete");</code><br/>';
 		
 		$out .= '<h2>Smarty plugins</h2>';
 		$out .= 'There are some builtin plugins for Smarty especially developped for Piwik. <br>

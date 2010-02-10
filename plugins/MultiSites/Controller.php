@@ -36,7 +36,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 	public function getSitesInfo()
 	{
 		$view = new Piwik_View("MultiSites/templates/index.tpl");
-		$mySites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+		$mySites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
 
 
 		$params = $this->getGraphParamsModified();
@@ -48,14 +48,14 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$this->date = Piwik_Common::getRequestVar('date', 'today');
 		$lastDate =  date('Y-m-d',strtotime("-1 ".$this->period, strtotime($this->date)));
 
-		$visits = Piwik_VisitsSummary_API::getVisits($ids, $this->period, $this->date);
-		$lastVisits = Piwik_VisitsSummary_API::getVisits($ids, $this->period, $lastDate);
+		$visits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $this->period, $this->date);
+		$lastVisits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $this->period, $lastDate);
 
-		$actions = Piwik_VisitsSummary_API::getActions($ids, $this->period, $this->date);
-		$lastActions = Piwik_VisitsSummary_API::getActions($ids, $this->period, $lastDate);
+		$actions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $this->period, $this->date);
+		$lastActions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $this->period, $lastDate);
 
-		$uniqueUsers = Piwik_VisitsSummary_API::getUniqueVisitors($ids, $this->period, $this->date);
-		$lastUniqueUsers = Piwik_VisitsSummary_API::getUniqueVisitors($ids, $this->period, $lastDate);
+		$uniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $this->period, $this->date);
+		$lastUniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $this->period, $lastDate);
 
 		$visitsSummary = $this->getSummary($lastVisits, $visits, $mySites, "visits");
 		$actionsSummary = $this->getSummary($lastActions, $actions, $mySites, "actions");
