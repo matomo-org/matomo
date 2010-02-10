@@ -701,7 +701,7 @@ class Piwik
 									  hash INTEGER(10) UNSIGNED NOT NULL,
   									  type TINYINT UNSIGNED NULL,
 									  PRIMARY KEY(idaction),
-									  KEY index_type_hash (type, hash)
+									  INDEX index_type_hash (type, hash)
 						)  DEFAULT CHARSET=utf8 
 			",
 					
@@ -743,7 +743,7 @@ class Piwik
 							  location_country CHAR(3) NOT NULL,
 							  location_continent CHAR(3) NOT NULL,
 							  PRIMARY KEY(idvisit),
-							  KEY index_idsite_date_config (idsite, visit_server_date, config_md5config(8))
+							  INDEX index_idsite_date_config (idsite, visit_server_date, config_md5config(8))
 							)  DEFAULT CHARSET=utf8 
 			",		
 			
@@ -767,7 +767,7 @@ class Piwik
 									  `idgoal` int(10) unsigned NOT NULL,
 									  `revenue` float default NULL,
 									  PRIMARY KEY  (`idvisit`,`idgoal`),
-									  KEY `index_idsite_date` (`idsite`,`visit_server_date`)
+									  INDEX `index_idsite_date` (`idsite`,`visit_server_date`)
 									) DEFAULT CHARSET=utf8 
 			",
 							
@@ -779,7 +779,7 @@ class Piwik
 											  idaction_name INTEGER(10) UNSIGNED,
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 											  PRIMARY KEY(idlink_va),
-											  KEY index_idvisit(idvisit)
+											  INDEX index_idvisit(idvisit)
 											)  DEFAULT CHARSET=utf8 
 			",
 		
@@ -809,8 +809,8 @@ class Piwik
 								  	  ts_archived DATETIME NULL,
 								  	  value FLOAT NULL,
 									  PRIMARY KEY(idarchive, name),
-									  KEY index_idsite_dates_period(idsite, date1, date2, period),
-									  KEY index_period_archived(period, ts_archived)
+									  INDEX index_idsite_dates_period(idsite, date1, date2, period),
+									  INDEX index_period_archived(period, ts_archived)
 									)  DEFAULT CHARSET=utf8 
 			",
 			'archive_blob'	=> "CREATE TABLE {$prefixTables}archive_blob (
@@ -823,8 +823,8 @@ class Piwik
 									  ts_archived DATETIME NULL,
 									  value MEDIUMBLOB NULL,
 									  PRIMARY KEY(idarchive, name),
-									  KEY index_idsite_dates_period(idsite, date1, date2, period),
-									  KEY index_period_archived(period, ts_archived)
+									  INDEX index_idsite_dates_period(idsite, date1, date2, period),
+									  INDEX index_period_archived(period, ts_archived)
 									)  DEFAULT CHARSET=utf8 
 			",
 		);
