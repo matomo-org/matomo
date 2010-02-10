@@ -59,7 +59,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		{
 			if($columnName == 'goal_%s_conversion_rate')
 			{
-				$goals = Piwik_Goals_API::getGoals( $this->getIdSite() );
+				$goals = Piwik_Goals_API::getInstance()->getGoals( $this->getIdSite() );
 				foreach($goals as $goal)
 				{
 					$idgoal = $goal['idgoal'];

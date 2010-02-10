@@ -114,7 +114,7 @@ class Piwik_View implements Piwik_iView
 			$showWebsiteSelectorInUserInterface = Zend_Registry::get('config')->General->show_website_selector_in_user_interface;
 			if($showWebsiteSelectorInUserInterface)
 			{
-				$sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+				$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
 				usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
 				$this->sites = $sites;
 			}

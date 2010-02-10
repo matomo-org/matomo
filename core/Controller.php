@@ -291,7 +291,7 @@ abstract class Piwik_Controller
 	
 	function redirectToIndex($moduleToRedirect, $actionToRedirect)
 	{
-		$sitesId = Piwik_SitesManager_API::getSitesIdWithAtLeastViewAccess();
+		$sitesId = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
 		if(!empty($sitesId))
 		{
 			$firstSiteId = $sitesId[0];

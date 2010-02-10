@@ -25,7 +25,7 @@ class Piwik_Site
 		$this->id = $idsite;
 		if(!isset(self::$infoSites[$this->id]))
 		{
-			self::$infoSites[$this->id] = Piwik_SitesManager_API::getSiteFromId($idsite);
+			self::$infoSites[$this->id] = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
 		}
 	}
 	

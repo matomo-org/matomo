@@ -165,7 +165,7 @@ class Piwik_Access
 	protected function reloadAccessSuperUser()
 	{
 		$this->isSuperUser = true;
-		$this->idsitesByAccess['superuser'] = Piwik_SitesManager_API::getAllSitesId();
+		$this->idsitesByAccess['superuser'] = Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		return true;
 	}
 	
