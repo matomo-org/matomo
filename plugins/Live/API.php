@@ -38,15 +38,15 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	static public function getLastVisitForVisitor( $visitorId, $idSite = null )
+	public function getLastVisitForVisitor( $visitorId, $idSite = null )
 	{
-		return self::getLastVisitsForVisitor($visitorId, $idSite, 1);
+		return $this->getLastVisitsForVisitor($visitorId, $idSite, 1);
 	}
 	
 	/*
 	 * @return Piwik_DataTable
 	 */
-	static public function getLastVisitsForVisitor( $visitorId, $idSite, $limit = 10 )
+	public function getLastVisitsForVisitor( $visitorId, $idSite, $limit = 10 )
 	{
 		if(is_null($idSite))
 		{
@@ -56,15 +56,15 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-		$visitorDetails = self::loadLastVisitorDetailsFromDatabase($visitorId, $idSite, $limit);
-		$table = self::getCleanedVisitorsFromDetails($visitorDetails);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($visitorId, $idSite, $limit);
+		$table = $this->getCleanedVisitorsFromDetails($visitorDetails);
 		return $table;
 	}
 
 	/*
 	 * @return Piwik_DataTable
 	 */
-	static public function getLastVisits( $idSite = false, $limit = 10, $minIdVisit = false )
+	public function getLastVisits( $idSite = false, $limit = 10, $minIdVisit = false )
 	{
 		// for checking given vars
 		// echo $idSite.'|'.$limit.'|'.$minIdVisit.'<br>';
@@ -76,8 +76,8 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-		$visitorDetails = self::loadLastVisitorDetailsFromDatabase(null, $idSite, $limit, $minIdVisit);
-		$table = self::getCleanedVisitorsFromDetails($visitorDetails);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase(null, $idSite, $limit, $minIdVisit);
+		$table = $this->getCleanedVisitorsFromDetails($visitorDetails);
 //		var_dump($table);
 		return $table;
 	}
@@ -85,7 +85,7 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	static public function getLastVisitsDetails( $idSite = false, $limit = 1000, $minIdVisit = false )
+	public function getLastVisitsDetails( $idSite = false, $limit = 1000, $minIdVisit = false )
 	{
 		// for checking given vars
 		// echo $idSite.'|'.$limit.'|'.$minIdVisit.'<br>';
@@ -97,8 +97,8 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-		$visitorDetails = self::loadLastVisitorDetailsFromDatabase(null, $idSite, $limit, $minIdVisit);
-		$dataTable = self::getCleanedVisitorsFromDetails($visitorDetails);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase(null, $idSite, $limit, $minIdVisit);
+		$dataTable = $this->getCleanedVisitorsFromDetails($visitorDetails);
 //echo "hallo";
 //
 //		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('operatingSystem', 'icon', 'Piwik_Live_Visitor::getVisitLength()'));
@@ -114,12 +114,12 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	static private function getCleanedVisitorsFromDetails($visitorDetails)
+	private function getCleanedVisitorsFromDetails($visitorDetails)
 	{
 		$table = new Piwik_DataTable();
 		foreach($visitorDetails as $visitorDetail)
 		{
-			self::cleanVisitorDetails($visitorDetail);
+			$this->cleanVisitorDetails($visitorDetail);
 			$visitor = new Piwik_Live_Visitor($visitorDetail);
 			$visitorDetailsArray = $visitor->getAllVisitorDetails();
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp']);
@@ -146,7 +146,7 @@ class Piwik_Live_API
 	/*
 	 * @return array
 	 */
-	static private function loadLastVisitorDetailsFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = false )
+	private function loadLastVisitorDetailsFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = false )
 	{
 		// for checking given vars
 		// echo $visitorId.'|'.$idSite.'|'.$limit.'|'.$minIdVisit.'<br>';		
@@ -188,7 +188,7 @@ class Piwik_Live_API
 	/*
 	 *
 	 */
-	static private function cleanVisitorDetails( &$visitorDetails )
+	private function cleanVisitorDetails( &$visitorDetails )
 	{
 		$toUnset = array('config_md5config');		
 		if(!Piwik::isUserIsSuperUser())
@@ -210,7 +210,7 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	static public function getUsersInLastXMin( $idSite = false, $limit = 10, $minIdVisit = false, $minutes = 30 )
+	public function getUsersInLastXMin( $idSite = false, $limit = 10, $minIdVisit = false, $minutes = 30 )
 	{
 		if(is_null($idSite))
 		{
@@ -220,16 +220,16 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-		$visitorDetails = self::loadLastVisitorDetailsInLastXMinFromDatabase(null, $idSite, $limit, $minIdVisit, $minutes);
+		$visitorDetails = $this->loadLastVisitorDetailsInLastXMinFromDatabase(null, $idSite, $limit, $minIdVisit, $minutes);
 		
-		$table = self::getCleanedVisitorsFromDetails($visitorDetails);
+		$table = $this->getCleanedVisitorsFromDetails($visitorDetails);
 		return $table;
 	}
 
 	/*
 	 * @return Piwik_DataTable
 	 */
-	static public function getUsersInLastXDays( $idSite = false, $limit = 10, $minIdVisit = false, $days = 10 )
+	public function getUsersInLastXDays( $idSite = false, $limit = 10, $minIdVisit = false, $days = 10 )
 	{
 	
 		if(is_null($idSite))
@@ -240,9 +240,9 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-		$visitorDetails = self::loadLastVisitorDetailsInLastXDaysFromDatabase(null, $idSite, $limit, $minIdVisit, $days);
+		$visitorDetails = $this->loadLastVisitorDetailsInLastXDaysFromDatabase(null, $idSite, $limit, $minIdVisit, $days);
 		
-		$table = self::getCleanedVisitorsFromDetails($visitorDetails);
+		$table = $this->getCleanedVisitorsFromDetails($visitorDetails);
 
 		return $table;
 	}
@@ -250,7 +250,7 @@ class Piwik_Live_API
 	/*
 	 * @return array
 	 */	
-	static public function getPageImpressionsInLastXDays($idSite = false, $limit = 10, $minIdVisit = false, $days = 10){
+	public function getPageImpressionsInLastXDays($idSite = false, $limit = 10, $minIdVisit = false, $days = 10){
 		// for checking given vars
 		#echo $idSite.'|'.$limit.'|'.$minIdVisit.'|'.$days.'<br>';
 			
@@ -262,7 +262,7 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-		$pageDetails = self::loadLastVisitedPagesInLastXDaysFromDatabase(null, $idSite, $limit, $minIdVisit, $days);
+		$pageDetails = $this->loadLastVisitedPagesInLastXDaysFromDatabase(null, $idSite, $limit, $minIdVisit, $days);
 		
 		$i = -1;
 		foreach ($pageDetails as $detail) {
@@ -278,7 +278,7 @@ class Piwik_Live_API
 	/*
 	 * @return array
 	 */	
-	static public function getPageImpressionsInLastXMin($idSite = false, $limit = 10, $minIdVisit = false, $minutes = 30){
+	public function getPageImpressionsInLastXMin($idSite = false, $limit = 10, $minIdVisit = false, $minutes = 30){
 
 		if(is_null($idSite))
 		{
@@ -288,7 +288,7 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-		$pageDetails = self::loadLastVisitedPagesInLastXMinFromDatabase(null, $idSite, $limit, $minIdVisit, $minutes);
+		$pageDetails = $this->loadLastVisitedPagesInLastXMinFromDatabase(null, $idSite, $limit, $minIdVisit, $minutes);
 		
 		$i = -1;
 		foreach ($pageDetails as $detail) {
@@ -307,7 +307,7 @@ class Piwik_Live_API
 	 * TODO should be refactored with function below
 	 * @return array
 	 */
-	static private function loadLastVisitorDetailsInLastXMinFromDatabase($visitorId = null, $idSite = null, $limit = 1000, $minIdVisit = false, $minutes = 0 )
+	private function loadLastVisitorDetailsInLastXMinFromDatabase($visitorId = null, $idSite = null, $limit = 1000, $minIdVisit = false, $minutes = 0 )
 	{
 		$where = $whereBind = array();
 		
@@ -354,7 +354,7 @@ class Piwik_Live_API
 	 * TODO should be refactored with function above
 	 * @return array
 	 */
-	static private function loadLastVisitorDetailsInLastXDaysFromDatabase($visitorId = null, $idSite = null, $limit = 1000, $minIdVisit = false, $days = 0 )
+	private function loadLastVisitorDetailsInLastXDaysFromDatabase($visitorId = null, $idSite = null, $limit = 1000, $minIdVisit = false, $days = 0 )
 	{
 		$where = $whereBind = array();
 		
@@ -401,7 +401,7 @@ class Piwik_Live_API
 	 * TODO should be refactored with function above
 	 * @return array
 	 */
-	static private function loadLastVisitedPagesInLastXMinFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = false, $minutes = 0 )
+	private function loadLastVisitedPagesInLastXMinFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = false, $minutes = 0 )
 	{
 		$where = $whereBind = array();
 		
@@ -448,7 +448,7 @@ class Piwik_Live_API
 	 * TODO should be refactored with function above
 	 * @return array
 	 */
-	static private function loadLastVisitedPagesInLastXDaysFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = false, $days = 0 )
+	private function loadLastVisitedPagesInLastXDaysFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = false, $days = 0 )
 	{
 		$where = $whereBind = array();
 		
@@ -484,6 +484,5 @@ class Piwik_Live_API
 				$sqlWhere";
 
 		return Piwik_FetchAll($sql, $whereBind);
-	}
-	
+	}	
 }

@@ -41,7 +41,7 @@ class Piwik_ExampleAPI_API
 	 * Get Piwik version
 	 * @return string
 	 */
-	static public function getPiwikVersion()
+	public function getPiwikVersion()
 	{
 		Piwik::checkUserHasSomeViewAccess();
 		return Piwik_Version::VERSION;
@@ -51,7 +51,7 @@ class Piwik_ExampleAPI_API
 	 * Get Answer to Life
 	 * @return integer
 	 */
-	static public function getAnswerToLife()
+	public function getAnswerToLife()
 	{
 		return 42;
 	}
@@ -60,7 +60,7 @@ class Piwik_ExampleAPI_API
 	 * Get Golden Ratio
 	 * @return float
 	 */
-	static public function getGoldenRatio()
+	public function getGoldenRatio()
 	{
 		//http://en.wikipedia.org/wiki/Golden_ratio
 		return 1.618033988749894848204586834365;
@@ -70,7 +70,7 @@ class Piwik_ExampleAPI_API
 	 * Get object
 	 * @return Piwik_MagicObject
 	 */
-	static public function getObject()
+	public function getObject()
 	{
 		return new Piwik_MagicObject();
 	}
@@ -79,7 +79,7 @@ class Piwik_ExampleAPI_API
 	 * Get null
 	 * @return null
 	 */
-	static public function getNull()
+	public function getNull()
 	{
 		return null;
 	}
@@ -88,7 +88,7 @@ class Piwik_ExampleAPI_API
 	 * Get array of descriptive text
 	 * @return array
 	 */
-	static public function getDescriptionArray()
+	public function getDescriptionArray()
 	{
 		return array('piwik','open source','web analytics','free');
 	}
@@ -97,7 +97,7 @@ class Piwik_ExampleAPI_API
 	 * Get data table
 	 * @return Piwik_DataTable
 	 */
-	static public function getCompetitionDatatable()
+	public function getCompetitionDatatable()
 	{
 		$dataTable = new Piwik_DataTable();
 
@@ -114,7 +114,7 @@ class Piwik_ExampleAPI_API
 	 * Get more information on the Answer to Life...
 	 * @return string
 	 */
-	static public function getMoreInformationAnswerToLife()
+	public function getMoreInformationAnswerToLife()
 	{
 		return "Check http://en.wikipedia.org/wiki/The_Answer_to_Life,_the_Universe,_and_Everything";
 	}

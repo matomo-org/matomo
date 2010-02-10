@@ -27,7 +27,7 @@ class Piwik_VisitTime_API
 		return self::$instance;
 	}
 	
-	static protected function getDataTable($name, $idSite, $period, $date )
+	protected function getDataTable($name, $idSite, $period, $date )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
@@ -38,14 +38,14 @@ class Piwik_VisitTime_API
 		return $dataTable;
 	}
 	
-	static public function getVisitInformationPerLocalTime( $idSite, $period, $date )
+	public function getVisitInformationPerLocalTime( $idSite, $period, $date )
 	{
-		return self::getDataTable('VisitTime_localTime', $idSite, $period, $date );
+		return $this->getDataTable('VisitTime_localTime', $idSite, $period, $date );
 	}
 	
-	static public function getVisitInformationPerServerTime( $idSite, $period, $date )
+	public function getVisitInformationPerServerTime( $idSite, $period, $date )
 	{
-		return self::getDataTable('VisitTime_serverTime', $idSite, $period, $date );
+		return $this->getDataTable('VisitTime_serverTime', $idSite, $period, $date );
 	}
 }
 

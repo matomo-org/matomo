@@ -29,7 +29,7 @@ class Piwik_Actions_API
 		return self::$instance;
 	}
 	
-	static protected function getDataTable($name, $idSite, $period, $date, $expanded, $idSubtable )
+	protected function getDataTable($name, $idSite, $period, $date, $expanded, $idSubtable )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
@@ -55,31 +55,31 @@ class Piwik_Actions_API
 	 * Backward compatibility. Fallsback to getPageTitles() instead.
 	 * @deprecated Deprecated since Piwik 0.5
 	 */
-	static public function getActions( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	public function getActions( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-	    return self::getPageTitles( $idSite, $period, $date, $expanded, $idSubtable );
+	    return $this->getPageTitles( $idSite, $period, $date, $expanded, $idSubtable );
 	}
 	
-	static public function getPageUrls( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	public function getPageUrls( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-		return self::getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
+		return $this->getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
 	}
 
-	static public function getPageTitles( $idSite, $period, $date, $expanded = false, $idSubtable = false)
+	public function getPageTitles( $idSite, $period, $date, $expanded = false, $idSubtable = false)
 	{
-		$dataTable = self::getDataTable('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable);
+		$dataTable = $this->getDataTable('Actions_actions', $idSite, $period, $date, $expanded, $idSubtable);
 		return $dataTable;
 	}
 
-	static public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	public function getDownloads( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-		$dataTable = self::getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = $this->getDataTable('Actions_downloads', $idSite, $period, $date, $expanded, $idSubtable );
 		return $dataTable;
 	}
 
-	static public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
+	public function getOutlinks( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-		$dataTable = self::getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = $this->getDataTable('Actions_outlink', $idSite, $period, $date, $expanded, $idSubtable );
 		return $dataTable;
 	}
 }
