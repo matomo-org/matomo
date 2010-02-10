@@ -55,7 +55,7 @@ class Piwik_Goals extends Piwik_Plugin
 		
 		// add the 'goal' entry in the website array
 		$array =& $notification->getNotificationObject();
-		$array['goals'] = Piwik_Goals_API::getGoals($idsite);
+		$array['goals'] = Piwik_Goals_API::getInstance()->getGoals($idsite);
 	}
 	
 	function addWidgets()

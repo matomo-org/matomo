@@ -265,7 +265,7 @@ class Piwik_SitesManager_API
 	{
 		Piwik::checkUserIsSuperUser();
 		
-		$idSites = Piwik_SitesManager_API::getAllSitesId();
+		$idSites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		if(!in_array($idSite, $idSites))
 		{
 			throw new Exception("website id = $idSite not found");

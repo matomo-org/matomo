@@ -21,7 +21,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('UsersManager');
 		
-		$IdSitesAdmin = Piwik_SitesManager_API::getSitesIdWithAdminAccess();
+		$IdSitesAdmin = Piwik_SitesManager_API::getInstance()->getSitesIdWithAdminAccess();
 		$idSiteSelected = 1;
 		
 		if(count($IdSitesAdmin) > 0)
@@ -36,11 +36,11 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		}
 		else
 		{
-			$usersAccessByWebsite = Piwik_UsersManager_API::getUsersAccessFromSite( $idSiteSelected );
+			$usersAccessByWebsite = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite( $idSiteSelected );
 		}
 	
 		// requires super user access
-		$usersLogin = Piwik_UsersManager_API::getUsersLogin();
+		$usersLogin = Piwik_UsersManager_API::getInstance()->getUsersLogin();
 		
 		// we dont want to display the user currently logged so that the user can't change his settings from admin to view...
 		$currentlyLogged = Piwik::getCurrentUserLogin();
@@ -58,14 +58,14 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$users = array();
 		if(Zend_Registry::get('access')->isSuperUser())
 		{
-			$users = Piwik_UsersManager_API::getUsers();
+			$users = Piwik_UsersManager_API::getInstance()->getUsers();
 		}
 		
 		$view->idSiteSelected = $idSiteSelected;
 		$view->users = $users;
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
 		$view->formUrl = Piwik_Url::getCurrentUrl();
-		$view->websites = Piwik_SitesManager_API::getSitesWithAdminAccess();
+		$view->websites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();

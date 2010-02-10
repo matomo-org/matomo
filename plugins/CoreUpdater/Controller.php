@@ -314,7 +314,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	public function saveLanguage()
 	{
 		$language = Piwik_Common::getRequestVar('language');
-		Piwik_LanguagesManager_API::setLanguageForSession($language);
+		Piwik_LanguagesManager_API::getInstance()->setLanguageForSession($language);
 		Piwik_Url::redirectToReferer();
 	}
 }

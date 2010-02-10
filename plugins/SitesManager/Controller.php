@@ -19,10 +19,10 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 	function index()
 	{
 		$view = Piwik_View::factory('SitesManager');
-		$sites = Piwik_SitesManager_API::getSitesWithAdminAccess();
+		$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
 		foreach($sites as &$site)
 		{
-			$site['alias_urls'] = Piwik_SitesManager_API::getSiteUrlsFromId($site['idsite']);
+			$site['alias_urls'] = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($site['idsite']);
 		}
 		$view->adminSites = $sites;
 		$this->setGeneralVariablesView($view);

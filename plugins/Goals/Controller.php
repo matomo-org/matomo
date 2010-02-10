@@ -22,7 +22,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		parent::__construct();
 		$this->idSite = Piwik_Common::getRequestVar('idSite');
-		$this->goals = Piwik_Goals_API::getGoals($this->idSite);
+		$this->goals = Piwik_Goals_API::getInstance()->getGoals($this->idSite);
 	}
 	
 	function goalReport()

@@ -47,7 +47,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 		$idsite = $notification->getNotificationInfo();
 		// add the 'hosts' entry in the website array
 		$array =& $notification->getNotificationObject();
-		$urls = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
+		$urls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
 		$hosts = array();
 		foreach($urls as $url)
 		{

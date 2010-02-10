@@ -312,8 +312,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			Piwik::setUserIsSuperUser();
 
 			if(count($baseTablesInstalled) >= $minimumCountPiwikTables &&
-				count(Piwik_SitesManager_API::getAllSitesId()) > 0 &&
-				count(Piwik_UsersManager_API::getUsers()) > 0)
+				count(Piwik_SitesManager_API::getInstance()->getAllSitesId()) > 0 &&
+				count(Piwik_UsersManager_API::getInstance()->getUsers()) > 0)
 			{
 				$view->showReuseExistingTables = true;
 				// when the user reuses the same tables we skip the website creation step
@@ -547,7 +547,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	public function saveLanguage()
 	{
 		$language = Piwik_Common::getRequestVar('language');
-		Piwik_LanguagesManager_API::setLanguageForSession($language);
+		Piwik_LanguagesManager_API::getInstance()->setLanguageForSession($language);
 		Piwik_Url::redirectToReferer();
 	}
 
