@@ -94,7 +94,7 @@ class FakeAccess
 		}
 		else
 		{
-			$websitesAccess=Piwik_SitesManager_API::getAllSitesId();
+			$websitesAccess=Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		
 		if(!is_array($idSites))
@@ -119,7 +119,7 @@ class FakeAccess
 		}
 		else
 		{
-			$websitesAccess=Piwik_SitesManager_API::getAllSitesId();
+			$websitesAccess=Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		
 		if(!is_array($idSites))
@@ -175,7 +175,7 @@ class FakeAccess
 	{
 		if(self::$superUser)
 		{
-			return Piwik_SitesManager_API::getAllSitesId();
+			return Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		return  self::$idSitesAdmin;
 	}
@@ -184,7 +184,7 @@ class FakeAccess
 	{
 		if(self::$superUser)
 		{
-			return Piwik_SitesManager_API::getAllSitesId();
+			return Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		return  self::$idSitesView;
 	}
@@ -192,7 +192,7 @@ class FakeAccess
 	{
 		if(self::$superUser)
 		{
-			return Piwik_SitesManager_API::getAllSitesId();
+			return Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		return  array_merge(self::$idSitesView,self::$idSitesAdmin);
 	}
