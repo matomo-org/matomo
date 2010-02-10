@@ -27,7 +27,7 @@ class Piwik_Goals_API
 		return self::$instance;
 	}
 	
-	static public function getGoals( $idSite )
+	public function getGoals( $idSite )
 	{
 		$goals = Piwik_FetchAll("SELECT * 
 											FROM ".Piwik_Common::prefixTable('goal')." 
@@ -47,7 +47,7 @@ class Piwik_Goals_API
 		return $cleanedGoals;
 	}
 
-	static public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
+	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 		// save in db
@@ -59,9 +59,9 @@ class Piwik_Goals_API
 		{
 			$idGoal = 1;
 		}
-		self::checkPatternIsValid($patternType, $pattern);
-		$name = self::checkName($name);
-		$pattern = self::checkPattern($pattern);
+		$this->checkPatternIsValid($patternType, $pattern);
+		$name = $this->checkName($name);
+		$pattern = $this->checkPattern($pattern);
 		$db->insert(Piwik::prefixTable('goal'),
 					array( 
 						'idsite' => $idSite,
@@ -78,12 +78,12 @@ class Piwik_Goals_API
 		return $idGoal;
 	}
 	
-	static public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
+	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
-		$name = self::checkName($name);
-		$pattern = self::checkPattern($pattern);
-		self::checkPatternIsValid($patternType, $pattern);
+		$name = $this->checkName($name);
+		$pattern = $this->checkPattern($pattern);
+		$this->checkPatternIsValid($patternType, $pattern);
 		Zend_Registry::get('db')->update( Piwik::prefixTable('goal'), 
 					array(
 						'name' => $name,
@@ -98,7 +98,7 @@ class Piwik_Goals_API
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
 
-	static private function checkPatternIsValid($patternType, $pattern)
+	private function checkPatternIsValid($patternType, $pattern)
 	{
 		if($patternType == 'exact' 
 			&& substr($pattern, 0, 4) != 'http')
@@ -108,17 +108,17 @@ class Piwik_Goals_API
 		}
 	}
 	
-	static private function checkName($name)
+	private function checkName($name)
 	{
 		return urldecode($name);
 	}
 	
-	static private function checkPattern($pattern)
+	private function checkPattern($pattern)
 	{
 		return urldecode($pattern);
 	}
 	
-	static public function deleteGoal( $idSite, $idGoal )
+	public function deleteGoal( $idSite, $idGoal )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 		Piwik_Query("UPDATE ".Piwik::prefixTable('goal')."
@@ -130,17 +130,17 @@ class Piwik_Goals_API
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
 	
-//	static public function getConversionsReturningVisitors( $idSite, $period, $date, $idGoal = false )
+//	public function getConversionsReturningVisitors( $idSite, $period, $date, $idGoal = false )
 //	{
 //		
 //	}
 //	
-//	static public function getConversionsNewVisitors( $idSite, $period, $date, $idGoal = false )
+//	public function getConversionsNewVisitors( $idSite, $period, $date, $idGoal = false )
 //	{
 //		
 //	}
 	
-	static public function getConversionRateReturningVisitors( $idSite, $period, $date, $idGoal = false )
+	public function getConversionRateReturningVisitors( $idSite, $period, $date, $idGoal = false )
 	{
 		// visits converted for returning for all goals = call Frequency API
 		if($idGoal === false)
@@ -151,7 +151,7 @@ class Piwik_Goals_API
 		// visits converted for returning = nb conversion for this goal
 		else
 		{
-			$nbVisitsConvertedReturningVisitors = self::getNumeric($idSite, $period, $date, Piwik_Goals::getRecordName('nb_conversions', $idGoal, 1));
+			$nbVisitsConvertedReturningVisitors = $this->getNumeric($idSite, $period, $date, Piwik_Goals::getRecordName('nb_conversions', $idGoal, 1));
 		}
 		// all returning visits
 		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
@@ -162,7 +162,7 @@ class Piwik_Goals_API
 		return Piwik::getPercentageSafe($nbVisitsConvertedReturningVisitors, $nbVisitsReturning, Piwik_Goals::ROUNDING_PRECISION);
 	}
 
-	static public function getConversionRateNewVisitors( $idSite, $period, $date, $idGoal = false )
+	public function getConversionRateNewVisitors( $idSite, $period, $date, $idGoal = false )
 	{
 		// new visits converted for all goals = nb visits converted - nb visits converted for returning
 		if($idGoal == false)
@@ -176,7 +176,7 @@ class Piwik_Goals_API
 		// new visits converted for a given goal = nb conversion for this goal for new visits
 		else
 		{
-			$convertedNewVisits = self::getNumeric($idSite, $period, $date, Piwik_Goals::getRecordName('nb_conversions', $idGoal, 0));
+			$convertedNewVisits = $this->getNumeric($idSite, $period, $date, Piwik_Goals::getRecordName('nb_conversions', $idGoal, 0));
 		}
 		// all new visits = all visits - all returning visits 
 		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
@@ -187,7 +187,7 @@ class Piwik_Goals_API
 		return Piwik::getPercentageSafe($convertedNewVisits, $newVisits, Piwik_Goals::ROUNDING_PRECISION);
 	}
 	
-	static public function get( $idSite, $period, $date, $idGoal = false, $columns = array() )
+	public function get( $idSite, $period, $date, $idGoal = false, $columns = array() )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
@@ -211,7 +211,7 @@ class Piwik_Goals_API
 		return $dataTable;
 	}
 	
-	static protected function getNumeric( $idSite, $period, $date, $toFetch )
+	protected function getNumeric( $idSite, $period, $date, $toFetch )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
@@ -219,18 +219,18 @@ class Piwik_Goals_API
 		return $dataTable;		
 	}
 
-	static public function getConversions( $idSite, $period, $date, $idGoal = false )
+	public function getConversions( $idSite, $period, $date, $idGoal = false )
 	{
-		return self::getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
+		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
 	}
 	
-	static public function getConversionRate( $idSite, $period, $date, $idGoal = false )
+	public function getConversionRate( $idSite, $period, $date, $idGoal = false )
 	{
-		return self::getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('conversion_rate', $idGoal));
+		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('conversion_rate', $idGoal));
 	}
 	
-	static public function getRevenue( $idSite, $period, $date, $idGoal = false )
+	public function getRevenue( $idSite, $period, $date, $idGoal = false )
 	{
-		return self::getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('revenue', $idGoal));
+		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('revenue', $idGoal));
 	}
 }

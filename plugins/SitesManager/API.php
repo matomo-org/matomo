@@ -34,7 +34,7 @@ class Piwik_SitesManager_API
 	 * @param int $idSite
 	 * @return string The Javascript tag ready to be included on the HTML pages
 	 */
-	static public function getJavascriptTag( $idSite, $piwikUrl = '', $actionName = '')
+	public function getJavascriptTag( $idSite, $piwikUrl = '', $actionName = '')
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 		
@@ -56,7 +56,7 @@ class Piwik_SitesManager_API
 	 * @exception if the site ID doesn't exist or the user doesn't have access to it
 	 * @return array
 	 */
-	static public function getSiteFromId( $idSite )
+	public function getSiteFromId( $idSite )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$site = Zend_Registry::get('db')->fetchRow("SELECT * FROM ".Piwik::prefixTable("site")." WHERE idsite = ?", $idSite);
@@ -69,7 +69,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array list of alias URLs
 	 */
-	static private function getAliasSiteUrlsFromId( $idsite )
+	private function getAliasSiteUrlsFromId( $idsite )
 	{
 		$db = Zend_Registry::get('db');
 		$result = $db->fetchAll("SELECT url 
@@ -89,11 +89,11 @@ class Piwik_SitesManager_API
 	 * @exception if the website ID doesn't exist or the user doesn't have access to it
 	 * @return array list of URLs
 	 */
-	static public function getSiteUrlsFromId( $idSite )
+	public function getSiteUrlsFromId( $idSite )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
-		$site = self::getSiteFromId($idSite);
-		$urls = self::getAliasSiteUrlsFromId($idSite);
+		$site = $this->getSiteFromId($idSite);
+		$urls = $this->getAliasSiteUrlsFromId($idSite);
 		return array_merge(array($site['main_url']), $urls);
 	}
 	
@@ -102,7 +102,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array the list of websites ID
 	 */
-	static public function getAllSitesId()
+	public function getAllSitesId()
 	{
 		Piwik::checkUserIsSuperUser();
 		$result = Piwik_FetchAll("SELECT idsite FROM ".Piwik::prefixTable('site'));
@@ -121,10 +121,10 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array for each site, an array of information (idsite, name, main_url, etc.)
 	 */
-	static public function getSitesWithAdminAccess()
+	public function getSitesWithAdminAccess()
 	{
-		$sitesId = self::getSitesIdWithAdminAccess();
-		return self::getSitesFromIds($sitesId);
+		$sitesId = $this->getSitesIdWithAdminAccess();
+		return $this->getSitesFromIds($sitesId);
 	}
 	
 	/**
@@ -133,10 +133,10 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array for each site, an array of information (idsite, name, main_url, etc.)
 	 */
-	static public function getSitesWithViewAccess()
+	public function getSitesWithViewAccess()
 	{
-		$sitesId = self::getSitesIdWithViewAccess();
-		return self::getSitesFromIds($sitesId);
+		$sitesId = $this->getSitesIdWithViewAccess();
+		return $this->getSitesFromIds($sitesId);
 	}
 	
 	/**
@@ -145,10 +145,10 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array array for each site, an array of information (idsite, name, main_url, etc.)
 	 */
-	static public function getSitesWithAtLeastViewAccess()
+	public function getSitesWithAtLeastViewAccess()
 	{
-		$sitesId = self::getSitesIdWithAtLeastViewAccess();
-		return self::getSitesFromIds($sitesId);
+		$sitesId = $this->getSitesIdWithAtLeastViewAccess();
+		return $this->getSitesFromIds($sitesId);
 	}
 	
 	/**
@@ -157,7 +157,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array list of websites ID
 	 */
-	static public function getSitesIdWithAdminAccess()
+	public function getSitesIdWithAdminAccess()
 	{
 		$sitesId = Zend_Registry::get('access')->getSitesIdWithAdminAccess();
 		return $sitesId;
@@ -169,7 +169,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array list of websites ID
 	 */
-	static public function getSitesIdWithViewAccess()
+	public function getSitesIdWithViewAccess()
 	{
 		return Zend_Registry::get('access')->getSitesIdWithViewAccess();
 	}
@@ -180,7 +180,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array list of websites ID
 	 */
-	static public function getSitesIdWithAtLeastViewAccess()
+	public function getSitesIdWithAtLeastViewAccess()
 	{
 		return Zend_Registry::get('access')->getSitesIdWithAtLeastViewAccess();
 	}
@@ -191,7 +191,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @param array list of website ID
 	 */
-	static private function getSitesFromIds( $idSites )
+	private function getSitesFromIds( $idSites )
 	{
 		if(count($idSites) === 0)
 		{
@@ -218,14 +218,14 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return int the website ID created
 	 */
-	static public function addSite( $siteName, $urls )
+	public function addSite( $siteName, $urls )
 	{
 		Piwik::checkUserIsSuperUser();
 		
-		self::checkName($siteName);
-		$urls = self::cleanParameterUrls($urls);
-		self::checkUrls($urls);
-		self::checkAtLeastOneUrl($urls);
+		$this->checkName($siteName);
+		$urls = $this->cleanParameterUrls($urls);
+		$this->checkUrls($urls);
+		$this->checkAtLeastOneUrl($urls);
 		
 		$db = Zend_Registry::get('db');
 		
@@ -240,16 +240,16 @@ class Piwik_SitesManager_API
 									
 		$idSite = $db->lastInsertId();
 		
-		self::insertSiteUrls($idSite, $urls);
+		$this->insertSiteUrls($idSite, $urls);
 		
 		// we reload the access list which doesn't yet take in consideration this new website
 		Zend_Registry::get('access')->reloadAccess();
-		self::postUpdateWebsite($idSite);
+		$this->postUpdateWebsite($idSite);
 
 		return (int)$idSite;
 	}
 	
-	static private function postUpdateWebsite($idSite)
+	private function postUpdateWebsite($idSite)
 	{
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);	
 	}
@@ -261,7 +261,7 @@ class Piwik_SitesManager_API
 	 *
 	 * @param int $idSite
 	 */
-	static public function deleteSite( $idSite )
+	public function deleteSite( $idSite )
 	{
 		Piwik::checkUserIsSuperUser();
 		
@@ -296,7 +296,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @exception if the parameter is not an array or if array empty 
 	 */
-	static private function checkAtLeastOneUrl( $urls )
+	private function checkAtLeastOneUrl( $urls )
 	{
 		if(!is_array($urls)
 			|| count($urls) == 0)
@@ -313,17 +313,17 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return int the number of inserted URLs
 	 */
-	static public function addSiteAliasUrls( $idSite,  $urls)
+	public function addSiteAliasUrls( $idSite,  $urls)
 	{
 		Piwik::checkUserHasAdminAccess( $idSite );
 		
-		$urls = self::cleanParameterUrls($urls);
-		self::checkUrls($urls);
+		$urls = $this->cleanParameterUrls($urls);
+		$this->checkUrls($urls);
 		
-		$urlsInit = self::getSiteUrlsFromId($idSite);
+		$urlsInit = $this->getSiteUrlsFromId($idSite);
 		$toInsert = array_diff($urls, $urlsInit);
-		self::insertSiteUrls($idSite, $toInsert);
-		self::postUpdateWebsite($idSite);
+		$this->insertSiteUrls($idSite, $toInsert);
+		$this->postUpdateWebsite($idSite);
 		
 		return count($toInsert);
 	}
@@ -341,20 +341,20 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return bool true on success
 	 */
-	static public function updateSite( $idSite, $siteName, $urls = null)
+	public function updateSite( $idSite, $siteName, $urls = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
-		self::checkName($siteName);
+		$this->checkName($siteName);
 		
 		// SQL fields to update
 		$bind = array();
 		
 		if(!is_null($urls))
 		{
-			$urls = self::cleanParameterUrls($urls);
-			self::checkUrls($urls);
-			self::checkAtLeastOneUrl($urls);
+			$urls = $this->cleanParameterUrls($urls);
+			$this->checkUrls($urls);
+			$this->checkAtLeastOneUrl($urls);
 			$url = $urls[0];
 			
 			$bind['main_url'] = $url;
@@ -369,19 +369,19 @@ class Piwik_SitesManager_API
 								);
 								
 		// we now update the main + alias URLs
-		self::deleteSiteAliasUrls($idSite);
+		$this->deleteSiteAliasUrls($idSite);
 		if(count($urls) > 1)
 		{
-			$insertedUrls = self::addSiteAliasUrls($idSite, array_slice($urls,1));
+			$insertedUrls = $this->addSiteAliasUrls($idSite, array_slice($urls,1));
 		}
-		self::postUpdateWebsite($idSite);
+		$this->postUpdateWebsite($idSite);
 	}
 	
 	/**
 	 * Insert the list of alias URLs for the website.
 	 * The URLs must not exist already for this website!
 	 */
-	static private function insertSiteUrls($idSite, $urls)
+	private function insertSiteUrls($idSite, $urls)
 	{
 		if(count($urls) != 0)
 		{
@@ -400,7 +400,7 @@ class Piwik_SitesManager_API
 	/**
 	 * Delete all the alias URLs for the given idSite.
 	 */
-	static private function deleteSiteAliasUrls($idsite)
+	private function deleteSiteAliasUrls($idsite)
 	{
 		$db = Zend_Registry::get('db');
 		$db->query("DELETE FROM ".Piwik::prefixTable("site_url") ." 
@@ -412,7 +412,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return string the URL without the trailing slash
 	 */
-	static private function removeTrailingSlash($url)
+	private function removeTrailingSlash($url)
 	{
 		// if there is a final slash, we take the URL without this slash (expected URL format)
 		if(strlen($url) > 5
@@ -428,7 +428,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return bool
 	 */
-	static private function isValidUrl( $url )
+	private function isValidUrl( $url )
 	{
 		return Piwik_Common::isLookLikeUrl($url);
 	}
@@ -438,7 +438,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @exception if the website name is empty
 	 */
-	static private function checkName($siteName)
+	private function checkName($siteName)
 	{
 		if(empty($siteName))
 		{
@@ -452,11 +452,11 @@ class Piwik_SitesManager_API
 	 * @exception if any of the urls is not valid
 	 * @param array
 	 */
-	static private function checkUrls($urls)
+	private function checkUrls($urls)
 	{
 		foreach($urls as $url)
 		{			
-			if(!self::isValidUrl($url))
+			if(!$this->isValidUrl($url))
 			{
 				throw new Exception(sprintf(Piwik_TranslateException("SitesManager_ExceptionInvalidUrl"),$url));
 			}
@@ -471,7 +471,7 @@ class Piwik_SitesManager_API
 	 * @param string|array urls
 	 * @return array the array of cleaned URLs
 	 */
-	static private function cleanParameterUrls( $urls )
+	private function cleanParameterUrls( $urls )
 	{
 		if(!is_array($urls))
 		{
@@ -479,7 +479,7 @@ class Piwik_SitesManager_API
 		}
 		foreach($urls as &$url)
 		{
-			$url = self::removeTrailingSlash($url);
+			$url = $this->removeTrailingSlash($url);
 		}
 		$urls = array_unique($urls);
 		

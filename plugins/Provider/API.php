@@ -36,7 +36,7 @@ class Piwik_Provider_API
 		return self::$instance;
 	}
 
-	static public function getProvider( $idSite, $period, $date )
+	public function getProvider( $idSite, $period, $date )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );

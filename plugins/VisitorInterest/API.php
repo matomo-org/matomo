@@ -27,7 +27,7 @@ class Piwik_VisitorInterest_API
 		return self::$instance;
 	}
 
-	static protected function getDataTable($name, $idSite, $period, $date)
+	protected function getDataTable($name, $idSite, $period, $date)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
@@ -38,16 +38,16 @@ class Piwik_VisitorInterest_API
 		return $dataTable;
 	}
 	
-	static public function getNumberOfVisitsPerVisitDuration( $idSite, $period, $date )
+	public function getNumberOfVisitsPerVisitDuration( $idSite, $period, $date )
 	{
-		$dataTable = self::getDataTable('VisitorInterest_timeGap', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('VisitorInterest_timeGap', $idSite, $period, $date);
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getDurationLabel'));
 		return $dataTable;
 	}
 
-	static public function getNumberOfVisitsPerPage( $idSite, $period, $date )
+	public function getNumberOfVisitsPerPage( $idSite, $period, $date )
 	{
-		$dataTable = self::getDataTable('VisitorInterest_pageGap', $idSite, $period, $date);
+		$dataTable = $this->getDataTable('VisitorInterest_pageGap', $idSite, $period, $date);
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getPageGapLabel'));
 		return $dataTable;
 	}
