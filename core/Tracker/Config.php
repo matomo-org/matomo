@@ -48,21 +48,8 @@ class Piwik_Tracker_Config
 	 * @var array
 	 */
 	public $config = array();
-	protected $configUser = null;
-	protected $configGlobal = null;
 	protected $initialized = false;
 	
-	function __construct()
-	{
-		$this->hasZendShm = function_exists('zend_shm_cache_fetch') && function_exists('zend_shm_cache_store');
-		if($this->hasZendShm)
-		{
-			$this->configUser = zend_shm_cache_fetch('Piwik_Tracker_Config::configUser');
-			$this->configGlobal = zend_shm_cache_fetch('Piwik_Tracker_Config::configGlobal');
-			$this->initialized = $this->configUser !== false && $this->configGlobal !== false;
-		}
-	}
-
 	public function init($pathIniFileUser = null, $pathIniFileGlobal = null)
 	{
 		if(is_null($pathIniFileUser))
@@ -75,7 +62,7 @@ class Piwik_Tracker_Config
 		}
 		$this->configUser = _parse_ini_file($pathIniFileUser, true);
 		$this->configGlobal = _parse_ini_file($pathIniFileGlobal, true);
-
+	
 		foreach($this->configUser as $section => &$sectionValues)
 		{ 
 			foreach($sectionValues as $name => &$value)
@@ -90,14 +77,6 @@ class Piwik_Tracker_Config
 				}
 			}
 		}
-
-		if($this->hasZendShm)
-		{
-			// arbitrarily set time-to-live to 1 hour
-			zend_shm_cache_store('Piwik_Tracker_Config::configUser', $this->configUser, 3600);
-			zend_shm_cache_store('Piwik_Tracker_Config::configGlobal', $this->configGlobal, 3600);
-		}
-
 		$this->initialized = true;
 	}
 	
