@@ -45,6 +45,8 @@ class Zend_Cache_Frontend_Capture extends Zend_Cache_Core
      * @var array
      */
     protected $_tags = array();
+    
+    protected $_extension = null;
 
     /**
      * Start the cache
@@ -52,9 +54,10 @@ class Zend_Cache_Frontend_Capture extends Zend_Cache_Core
      * @param  string  $id Cache id
      * @return mixed True if the cache is hit (false else) with $echoData=true (default) ; string else (datas)
      */
-    public function start($id, array $tags)
+    public function start($id, array $tags, $extension = null)
     {
         $this->_tags = $tags;
+        $this->_extension = $extension;
         ob_start(array($this, '_flush'));
         ob_implicit_flush(false);
         $this->_idStack[] = $id;
@@ -74,8 +77,11 @@ class Zend_Cache_Frontend_Capture extends Zend_Cache_Core
         if (is_null($id)) {
             Zend_Cache::throwException('use of _flush() without a start()');
         }
-        file_put_contents('/var/www/data.dump', $data);
-        $this->save($data, $id, $this->_tags);
+        if ($this->_extension) {
+            $this->save(serialize(array($data, $this->_extension)), $id, $this->_tags);
+        } else {
+            $this->save($data, $id, $this->_tags);
+        }
         return $data;
     }
 }

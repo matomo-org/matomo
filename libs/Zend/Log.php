@@ -16,7 +16,7 @@
  * @package    Zend_Log
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Log.php 20893 2010-02-03 22:59:25Z yoshida@zend.co.jp $
  */
 
 /**
@@ -24,7 +24,7 @@
  * @package    Zend_Log
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Log.php 20893 2010-02-03 22:59:25Z yoshida@zend.co.jp $
  */
 class Zend_Log
 {
@@ -106,7 +106,7 @@ class Zend_Log
         }
 
         $log = new Zend_Log;
-        
+
         if (!is_array(current($config))) {
             $log->addWriter(current($config));
         } else {
@@ -164,20 +164,20 @@ class Zend_Log
 
     /**
      * Construct a filter or writer from config
-     * 
+     *
      * @param string $type 'writer' of 'filter'
      * @param mixed $config Zend_Config or Array
      * @param string $namespace
      * @return object
      */
-    protected function _constructFromConfig($type, $config, $namespace) 
+    protected function _constructFromConfig($type, $config, $namespace)
     {
         if ($config instanceof Zend_Config) {
             $config = $config->toArray();
         }
 
         if (!is_array($config) || empty($config)) {
-            require_once 'Zend_Log_Exception.php';
+            require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception(
                 'Configuration must be an array or instance of Zend_Config'
             );
@@ -191,7 +191,7 @@ class Zend_Log
         }
 
         $reflection = new ReflectionClass($className);
-        if (!$reflection->implementsInterface('Zend_Log_FactoryInterface')) {        
+        if (!$reflection->implementsInterface('Zend_Log_FactoryInterface')) {
             require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception(
                 'Driver does not implement Zend_Log_FactoryInterface and can not be constructed from config.'
