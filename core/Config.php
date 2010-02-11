@@ -158,7 +158,7 @@ class Piwik_Config
 				$configFile .= "\n";
 			}
 			chdir($this->correctCwd);
-			file_put_contents($this->pathIniFileUserConfig, $configFile );
+			@file_put_contents($this->pathIniFileUserConfig, $configFile );
 		}
 	}
 	
@@ -323,3 +323,4 @@ class Piwik_Config_Ini extends Zend_Config_Ini
 		return $loaded;
 	}
 }
+
