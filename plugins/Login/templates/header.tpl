@@ -8,7 +8,6 @@
 	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 
 	<link rel="stylesheet" type="text/css" href="plugins/Login/templates/login.css" media="screen" />
-	{postEvent name="template_css_import"}
 	
 	{literal}
 	<script type="text/javascript">
@@ -22,7 +21,6 @@
 		window.onload = focusit;
 	</script>
 	{/literal}
-	{postEvent name="template_js_import"}
 </head>
 
 <body class="login">
