@@ -16,7 +16,7 @@
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mail.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Mail.php 20783 2010-01-31 08:06:30Z yoshida@zend.co.jp $
  */
 
 
@@ -64,15 +64,15 @@ class Zend_Mail extends Zend_Mime_Message
     /**
      * @var array
      * @static
-     */    
+     */
     protected static $_defaultFrom;
 
     /**
      * @var array
      * @static
-     */ 
+     */
     protected static $_defaultReplyTo;
-    
+
     /**
      * Mail character set
      * @var string
@@ -184,7 +184,7 @@ class Zend_Mail extends Zend_Mime_Message
     {
         self::$_defaultTransport = $transport;
     }
-    
+
     /**
      * Gets the default mail transport for all following uses of
      * unittests
@@ -196,7 +196,7 @@ class Zend_Mail extends Zend_Mime_Message
     {
         return self::$_defaultTransport;
     }
-    
+
     /**
      * Clear the default transport property
      */
@@ -758,7 +758,7 @@ class Zend_Mail extends Zend_Mime_Message
 
     /**
      * Returns the default sender of the mail
-     * 
+     *
      * @return null|array   Null if none was set.
      */
     public static function getDefaultFrom()
@@ -768,17 +768,17 @@ class Zend_Mail extends Zend_Mime_Message
 
     /**
      * Clears the default sender from the mail
-     * 
+     *
      * @return void
      */
     public static function clearDefaultFrom()
     {
         self::$_defaultFrom = null;
     }
-    
+
     /**
      * Sets From-name and -email based on the defaults
-     * 
+     *
      * @return Zend_Mail Provides fluent interface
      */
     public function setFromToDefaultFrom() {
@@ -788,12 +788,12 @@ class Zend_Mail extends Zend_Mime_Message
             throw new Zend_Mail_Exception(
                 'No default From Address set to use');
         }
-        
+
         $this->setFrom($from['email'], $from['name']);
 
         return $this;
     }
-    
+
     /**
      * Sets Default ReplyTo-address and -name of the message
      *
@@ -805,20 +805,20 @@ class Zend_Mail extends Zend_Mime_Message
     {
         self::$_defaultReplyTo = array('email' => $email, 'name' => $name);
     }
-    
+
     /**
      * Returns the default Reply-To Address and Name of the mail
-     * 
+     *
      * @return null|array   Null if none was set.
      */
     public static function getDefaultReplyTo()
     {
         return self::$_defaultReplyTo;
     }
-    
+
     /**
      * Clears the default ReplyTo-address and -name from the mail
-     * 
+     *
      * @return void
      */
     public static function clearDefaultReplyTo()
@@ -828,7 +828,7 @@ class Zend_Mail extends Zend_Mime_Message
 
     /**
      * Sets ReplyTo-name and -email based on the defaults
-     * 
+     *
      * @return Zend_Mail Provides fluent interface
      */
     public function setReplyToFromDefault() {
@@ -838,7 +838,7 @@ class Zend_Mail extends Zend_Mime_Message
             throw new Zend_Mail_Exception(
                 'No default Reply-To Address set to use');
         }
-        
+
         $this->setReplyTo($replyTo['email'], $replyTo['name']);
 
         return $this;
@@ -1019,7 +1019,7 @@ class Zend_Mail extends Zend_Mime_Message
      * true  :Auto
      * false :No set
      * null  :No set
-     * string:Sets given string
+     * string:Sets given string (Angle brackets is not necessary)
      * @return  Zend_Mail Provides fluent interface
      * @throws  Zend_Mail_Exception
      */
@@ -1034,7 +1034,7 @@ class Zend_Mail extends Zend_Mime_Message
         if ($this->_messageId === null) {
             $id = $this->_filterOther($id);
             $this->_messageId = $id;
-            $this->_storeHeader('Message-Id', $this->_messageId);
+            $this->_storeHeader('Message-Id', '<' . $this->_messageId . '>');
         } else {
             /**
              * @see Zend_Mail_Exception

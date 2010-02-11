@@ -16,7 +16,7 @@
  * @package    Zend_Cache
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Core.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Core.php 20930 2010-02-05 14:37:52Z padraic $
  */
 
 
@@ -255,6 +255,9 @@ class Zend_Cache_Core
     {
         if (!is_string($name) || !array_key_exists($name, $this->_options)) {
             Zend_Cache::throwException("Incorrect option name : $name");
+        }
+        if ($name == 'lifetime' && empty($value)) {
+            $value = null;
         }
         $this->_options[$name] = $value;
     }

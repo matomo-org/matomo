@@ -47,15 +47,16 @@ class Zend_Cache_Backend_Static
      * @var array
      */
     protected $_options = array(
-        'public_dir'       => null,
-        'sub_dir'          => 'html',
-        'file_extension'   => '.html',
-        'index_filename'   => 'index',
-        'file_locking'     => true,
-        'cache_file_umask' => 0644,
-        'debug_header'     => false,
-        'tag_cache'        => null,
-        'disable_caching'  => false
+        'public_dir'            => null,
+        'sub_dir'               => 'html',
+        'file_extension'        => '.html',
+        'index_filename'        => 'index',
+        'file_locking'          => true,
+        'cache_file_umask'      => 0600,
+        'cache_directory_umask' => 0700,
+        'debug_header'          => false,
+        'tag_cache'             => null,
+        'disable_caching'       => false
     );
 
     /**
@@ -101,7 +102,13 @@ class Zend_Cache_Backend_Static
         if ($name == 'tag_cache') {
             return $this->getInnerCache();
         } else {
-            return parent::getOption($name);
+            if (in_array($name, $this->_options)) {
+                return $this->_options[$name];
+            }
+            if ($name == 'lifetime') {
+                return parent::getLifetime();
+            }
+            return null;
         }
     }
 
@@ -159,8 +166,20 @@ class Zend_Cache_Backend_Static
         if (empty($fileName)) {
             $fileName = $this->_options['index_filename'];
         }
+        if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+            $this->_tagged = $tagged;
+        } elseif (!$this->_tagged) {
+            return false;
+        }
         $pathName = $this->_options['public_dir'] . dirname($id);
-        $file     = $pathName . '/' . $fileName . $this->_options['file_extension'];
+        
+        // Switch extension if needed
+        if (isset($this->_tagged[$id])) {
+            $extension = $this->_tagged[$id]['extension'];
+        } else {
+            $extension = $this->_options['file_extension'];
+        }
+        $file     = $pathName . '/' . $fileName . $extension;
         if (file_exists($file)) {
             return true;
         }
@@ -184,6 +203,13 @@ class Zend_Cache_Backend_Static
         if ($this->_options['disable_caching']) {
             return true;
         }
+        $extension = null;
+        if ($this->_isSerialized($data)) {
+            $data = unserialize($data);
+            $extension = '.' . ltrim($data[1], '.');
+            $data = $data[0];
+        }
+
         clearstatcache();
         if (is_null($id) || strlen($id) == 0) {
             $id = $this->_detectId();
@@ -203,27 +229,31 @@ class Zend_Cache_Backend_Static
             $dataUnserialized = unserialize($data);
             $data = $dataUnserialized['data'];
         }
-
-        $file = rtrim($pathName, '/') . '/' . $fileName . $this->_options['file_extension'];
+        $ext = $this->_options['file_extension'];
+        if ($extension) $ext = $extension;
+        $file = rtrim($pathName, '/') . '/' . $fileName . $ext;
         if ($this->_options['file_locking']) {
+            file_put_contents('/var/www/data.dump', $file.$data);
             $result = file_put_contents($file, $data, LOCK_EX);
         } else {
             $result = file_put_contents($file, $data);
         }
         @chmod($file, $this->_octdec($this->_options['cache_file_umask']));
 
-        if (count($tags) > 0) {
-            if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
-                $this->_tagged = $tagged;
-            } elseif (is_null($this->_tagged)) {
-                $this->_tagged = array();
-            }
-            if (!isset($this->_tagged[$id])) {
-                $this->_tagged[$id] = array();
-            }
-            $this->_tagged[$id] = array_unique(array_merge($this->_tagged[$id], $tags));
-            $this->getInnerCache()->save($this->_tagged, self::INNER_CACHE_NAME);
+        if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+            $this->_tagged = $tagged;
+        } elseif (is_null($this->_tagged)) {
+            $this->_tagged = array();
         }
+        if (!isset($this->_tagged[$id])) {
+            $this->_tagged[$id] = array();
+        }
+        if (!isset($this->_tagged[$id]['tags'])) {
+            $this->_tagged[$id]['tags'] = array();
+        }
+        $this->_tagged[$id]['tags'] = array_unique(array_merge($this->_tagged[$id]['tags'], $tags));
+        $this->_tagged[$id]['extension'] = $ext;
+        $this->getInnerCache()->save($this->_tagged, self::INNER_CACHE_NAME);
         return (bool) $result;
     }
     
@@ -237,9 +267,23 @@ class Zend_Cache_Backend_Static
         foreach ($parts as $part) {
             $directory = rtrim($directory, '/') . '/' . $part;
             if (!is_dir($directory)) {
-                mkdir($directory, $this->_octdec($this->_options['cache_file_umask']));
+                mkdir($directory, $this->_octdec($this->_options['cache_directory_umask']));
             }
         }
+    }
+    
+    /**
+     * Detect serialization of data (cannot predict since this is the only way
+     * to obey the interface yet pass in another parameter).
+     *
+     * In future, ZF 2.0, check if we can just avoid the interface restraints.
+     *
+     * This format is the only valid one possible for the class, so it's simple
+     * to just run a regular expression for the starting serialized format.
+     */
+    protected function _isSerialized($data)
+    {
+        return preg_match("/a:2:\{i:0;s:\d+:\"/", $data);
     }
 
     /**
@@ -254,11 +298,21 @@ class Zend_Cache_Backend_Static
             Zend_Cache::throwException('Invalid cache id: does not match expected public_dir path');
         }
         $fileName = basename($id);
+        if (is_null($this->_tagged) && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
+            $this->_tagged = $tagged;
+        } elseif (!$this->_tagged) {
+            return false;
+        }
+        if (isset($this->_tagged[$id])) {
+            $extension = $this->_tagged[$id]['extension'];
+        } else {
+            $extension = $this->_options['file_extension'];
+        }
         if (empty($fileName)) {
             $fileName = $this->_options['index_filename'];
         }
         $pathName = $this->_options['public_dir'] . dirname($id);
-        $file     = realpath($pathName) . '/' . $fileName . $this->_options['file_extension'];
+        $file     = realpath($pathName) . '/' . $fileName . $extension;
         if (!file_exists($file)) {
             return false;
         }
@@ -341,7 +395,7 @@ class Zend_Cache_Backend_Static
                 foreach ($tags as $tag) {
                     $urls = array_keys($this->_tagged);
                     foreach ($urls as $url) {
-                        if (in_array($tag, $this->_tagged[$url])) {
+                        if (isset($this->_tagged[$url]['tags']) && in_array($tag, $this->_tagged[$url]['tags'])) {
                             $this->remove($url);
                             unset($this->_tagged[$url]);
                         }
@@ -382,7 +436,7 @@ class Zend_Cache_Backend_Static
                 }
                 $urls = array_keys($this->_tagged);
                 foreach ($urls as $url) {
-                    $difference = array_diff($tags, $this->_tagged[$url]);
+                    $difference = array_diff($tags, $this->_tagged[$url]['tags']);
                     if (count($tags) == count($difference)) {
                         $this->remove($url);
                         unset($this->_tagged[$url]);
