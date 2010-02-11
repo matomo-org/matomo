@@ -197,7 +197,7 @@
 					
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports" />
 	            	<verifyText description="check page text" text="Piwik" />
-					<verifyText description="check page text" text="Your Dashboard" />
+					<verifyText description="check page text" text="Dashboard" />
 					<verifyText description="check page text" text="Hello" />
 
 	            </steps>
