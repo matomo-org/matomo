@@ -20,11 +20,11 @@ class Test_Languages_Manager extends UnitTestCase
 	function test_getTranslationsForLanguages()
 	{
 		// we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
-		$languages = Piwik_LanguagesManager_API::getAvailableLanguages();
+		$languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages();
 		foreach($languages as $language)
 		{
 			ob_start(); 
-			$strings = Piwik_LanguagesManager_API::getTranslationsForLanguage($language);
+			$strings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage($language);
 			$content = ob_get_flush();
 			$this->assertTrue(strpos(serialize($strings), "<script") === false, " language file containing javascript");
 			$this->assertTrue(count($strings) > 100); // at least 100 translations in the language file
@@ -36,6 +36,6 @@ class Test_Languages_Manager extends UnitTestCase
 	//test language when it's not defined
 	function test_getTranslationsForLanguages_not()
 	{
-		$this->assertFalse(Piwik_LanguagesManager_API::getTranslationsForLanguage("../no-language"));
+		$this->assertFalse(Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage("../no-language"));
 	}
 }
