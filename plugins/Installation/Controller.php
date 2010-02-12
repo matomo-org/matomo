@@ -729,16 +729,12 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			}
 		}
 
-		/**
-		 * @see http://bugs.php.net/?id=50609
-		 */
 		$infos['hasMbstring'] = false;
 		$infos['multibyte_ok'] = true;
 		if(function_exists('mb_internal_encoding'))
 		{
 			$infos['hasMbstring'] = true;
-			if ((((int) ini_get('mbstring.func_overload')) & 2) &&
-				(!function_exists('mb_substr_replace')))
+			if (((int) ini_get('mbstring.func_overload')) != 0)
 			{
 				$infos['multibyte_ok'] = false;
 			}
