@@ -13,11 +13,11 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_5 implements Piwik_iUpdate
+class Piwik_Updates_0_5 extends Piwik_Updates
 {
-	static function update()
+	static function getSql()
 	{
-		Piwik_Updater::updateDatabase(__FILE__, array(
+		return array(
 			'ALTER TABLE ' . Piwik::prefixTable('log_action') . ' ADD COLUMN `hash` INTEGER(10) UNSIGNED NOT NULL AFTER `name`;' => '1060',
 			'ALTER TABLE ' . Piwik::prefixTable('log_visit') . ' CHANGE visit_exit_idaction visit_exit_idaction_url INTEGER(11) NOT NULL;' => '1054',
 			'ALTER TABLE ' . Piwik::prefixTable('log_visit') . ' CHANGE visit_entry_idaction visit_entry_idaction_url INTEGER(11) NOT NULL;' => '1054',
@@ -28,6 +28,11 @@ class Piwik_Updates_0_5 implements Piwik_iUpdate
 			'UPDATE ' . Piwik::prefixTable('log_action') . ' SET `hash` = CRC32(name);' => false,
 			'CREATE INDEX index_type_hash ON ' . Piwik::prefixTable('log_action') . ' (type, hash);' => '1061',
 			'DROP INDEX index_type_name ON ' . Piwik::prefixTable('log_action') . ';' => '1091',
-		));
+		);
+	}
+
+	static function update()
+	{
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 	}
 }

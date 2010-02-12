@@ -25,11 +25,13 @@ class Piwik_UpdateCheck
 
 	/**
 	 * Check for a newer version
+	 *
+	 * @param bool $force Force check
 	 */
-	public static function check()
+	public static function check($force = false)
 	{
 		$lastTimeChecked = Piwik_GetOption(self::LAST_TIME_CHECKED);
-		if($lastTimeChecked === false
+		if($force || $lastTimeChecked === false
 			|| time() - self::CHECK_INTERVAL > $lastTimeChecked )
 		{
 			$parameters = array(

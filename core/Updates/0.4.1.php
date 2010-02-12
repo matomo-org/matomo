@@ -13,15 +13,20 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_4_1 implements Piwik_iUpdate
+class Piwik_Updates_0_4_1 extends Piwik_Updates
 {
-	static function update()
+	static function getSql()
 	{
-		Piwik_Updater::updateDatabase(__FILE__, array(
+		return array(
 			'ALTER TABLE `'. Piwik::prefixTable('log_conversion') .'`
 				CHANGE `idlink_va` `idlink_va` INT(11) DEFAULT NULL' => false,
 			'ALTER TABLE `'. Piwik::prefixTable('log_conversion') .'`
 				CHANGE `idaction` `idaction` INT(11) DEFAULT NULL' => '1054',
-		));
+		);
+	}
+
+	static function update()
+	{
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 	}
 }

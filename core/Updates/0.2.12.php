@@ -13,18 +13,24 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_12 implements Piwik_iUpdate
+class Piwik_Updates_0_2_12 extends Piwik_Updates
 {
-	static function update()
+	static function getSql()
 	{
-		Piwik_Updater::updateDatabase(__FILE__, array(
+		return array(
 			'ALTER TABLE `'. Piwik::prefixTable('site') .'`
 				CHANGE `ts_created` `ts_created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL' => false,
 			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
 				DROP `config_color_depth`' => false,
+
 			// 0.2.12 [673]
 			// Note: requires INDEX privilege
 			'DROP INDEX index_idaction ON `'. Piwik::prefixTable('log_action') .'`' => '1091',
-		));
+		);
+	}
+
+	static function update()
+	{
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 	}
 }

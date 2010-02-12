@@ -13,19 +13,19 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_10 implements Piwik_iUpdate
+class Piwik_Updates_0_2_10 extends Piwik_Updates
 {
-	static function update()
+	static function getSql()
 	{
 		$tables = Piwik::getTablesCreateSql();
-		Piwik_Updater::updateDatabase(__FILE__, array(
-			$tables['option'] => false,
-		));
 
-		Piwik_Updater::updateDatabase(__FILE__, array(
+		return array(
+			$tables['option'] => false,
+
 			// 0.1.7 [463]
 			'ALTER IGNORE TABLE `'. Piwik::prefixTable('log_visit') .'`
 				 CHANGE `location_provider` `location_provider` VARCHAR( 100 ) DEFAULT NULL' => '1054',
+
 			// 0.1.7 [470]
 			'ALTER TABLE `'. Piwik::prefixTable('logger_api_call') .'`
 				CHANGE `parameter_names_default_values` `parameter_names_default_values` TEXT,
@@ -37,10 +37,16 @@ class Piwik_Updates_0_2_10 implements Piwik_iUpdate
 				CHANGE `message` `message` TEXT' => false,
 			'ALTER TABLE `'. Piwik::prefixTable('logger_message') .'`
 				CHANGE `message` `message` TEXT' => false,
+
 			// 0.2.2 [489]
 			'ALTER IGNORE TABLE `'. Piwik::prefixTable('site') .'`
 				 CHANGE `feedburnerName` `feedburnerName` VARCHAR( 100 ) DEFAULT NULL' => '1054',
-		));
+		);
+	}
+
+	static function update()
+	{
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 
 		$obsoleteFile = '/plugins/ExamplePlugin/API.php';
 		if(file_exists(PIWIK_INCLUDE_PATH . $obsoleteFile))
