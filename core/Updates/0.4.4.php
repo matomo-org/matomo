@@ -13,7 +13,7 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_4_4 implements Piwik_iUpdate
+class Piwik_Updates_0_4_4 extends Piwik_Updates
 {
 	static function update()
 	{

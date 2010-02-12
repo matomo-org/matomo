@@ -11,15 +11,25 @@
  */
 
 /**
- * Interface to be implemented by update scripts
+ * Abstract class for update scripts
  *
  * @example core/Updates/0.4.2.php
  * @package Piwik
  */
-interface Piwik_iUpdate
+abstract class Piwik_Update
 {
+	/**
+	 * Return SQL to be executed in this update
+	 *
+	 * @return array
+	 */
+	static function getSql()
+	{
+		return array();
+	}
+
 	/**
 	 * Incremental version update
 	 */
-	static function update();
+	abstract static function update();
 }

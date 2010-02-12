@@ -13,8 +13,16 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_5_4 implements Piwik_iUpdate
+class Piwik_Updates_0_5_4 extends Piwik_Updates
 {
+	static function getSql()
+	{
+		return array(
+			'ALTER TABLE `'. Piwik::prefixTable('log_action') .'`
+				 CHANGE `name` `name` TEXT' => false,
+		);
+	}
+
 	static function update()
 	{
 		$config = Zend_Registry::get('config');
@@ -62,10 +70,6 @@ class Piwik_Updates_0_5_4 implements Piwik_iUpdate
 			}
 		}
 		
-		Piwik_Updater::updateDatabase(__FILE__, array(
-			'ALTER TABLE `'. Piwik::prefixTable('log_action') .'` 
-				CHANGE `name` `name` TEXT' => false,
-		));
-		
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 	}
 }

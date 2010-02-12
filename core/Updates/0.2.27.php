@@ -13,9 +13,9 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_27 implements Piwik_iUpdate
+class Piwik_Updates_0_2_27 extends Piwik_Updates
 {
-	static function update()
+	static function getSql()
 	{
 		$sqlarray = array(
 			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
@@ -38,6 +38,11 @@ class Piwik_Updates_0_2_27 implements Piwik_iUpdate
 			}
 		}
 
-		Piwik_Updater::updateDatabase(__FILE__, $sqlarray);
+		return $sqlarray;
+	}
+
+	static function update()
+	{
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 	}
 }

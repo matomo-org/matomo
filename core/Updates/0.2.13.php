@@ -13,14 +13,20 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_13 implements Piwik_iUpdate
+class Piwik_Updates_0_2_13 extends Piwik_Updates
 {
-	static function update()
+	static function getSql()
 	{
 		$tables = Piwik::getTablesCreateSql();
-		Piwik_Updater::updateDatabase(__FILE__, array(
+
+		return array(
 			'DROP TABLE IF EXISTS `'. Piwik::prefixTable('option') .'`' => false,
 			$tables['option'] => false,
-		));
+		);
+	}
+
+	static function update()
+	{
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 	}
 }

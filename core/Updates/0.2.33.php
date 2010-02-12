@@ -13,9 +13,9 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_33 implements Piwik_iUpdate
+class Piwik_Updates_0_2_33 extends Piwik_Updates
 {
-	static function update()
+	static function getSql()
 	{
 		$sqlarray = array(
 			// 0.2.33 [1020]
@@ -32,6 +32,11 @@ class Piwik_Updates_0_2_33 implements Piwik_iUpdate
 				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' ] = false;
 		}
 
-		Piwik_Updater::updateDatabase(__FILE__, $sqlarray);
+		return $sqlarray;
+	}
+
+	static function update()
+	{
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 	}
 }

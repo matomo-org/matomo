@@ -13,11 +13,11 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_32 implements Piwik_iUpdate
+class Piwik_Updates_0_2_32 extends Piwik_Updates
 {
-	static function update()
+	static function getSql()
 	{
-		Piwik_Updater::updateDatabase(__FILE__, array(
+		return array(
 			// 0.2.32 [941]
 			'ALTER TABLE `'. Piwik::prefixTable('access') .'`
 				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL' => false,
@@ -27,6 +27,11 @@ class Piwik_Updates_0_2_32 implements Piwik_iUpdate
 				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL' => '1146',
 			'ALTER TABLE `'. Piwik::prefixTable('user_language') .'`
 				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL' => '1146',
-		));
+		);
+	}
+
+	static function update()
+	{
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 	}
 }
