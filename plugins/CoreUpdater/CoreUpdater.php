@@ -36,17 +36,8 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 		return $hooks;
 	}
 
-	function dispatch()
+	public static function getComponentUpdates($updater)
 	{
-		$language = Piwik_Common::getRequestVar('language', '', 'string');
-		if($language != '')
-		{
-			$updaterController = new Piwik_CoreUpdater_Controller();
-			$updaterController->saveLanguage();
-			exit;
-		}
-
-		$updater = new Piwik_Updater();
 		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
 		
 		$plugins = Piwik_PluginsManager::getInstance()->getInstalledPlugins();
@@ -58,12 +49,20 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 		$componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
 		if(count($componentsWithUpdateFile) == 0 && !$updater->hasNewVersion('core'))
 		{
-			return;
+			return null;
 		}
-			
-		$updaterController = new Piwik_CoreUpdater_Controller();
-		$updaterController->runUpdaterAndExit($updater, $componentsWithUpdateFile);
-	}	
+
+		return $componentsWithUpdateFile;
+	}
+
+	function dispatch()
+	{
+		$updater = new Piwik_Updater();
+		if(self::getComponentUpdates($updater) !== null)
+		{
+			Piwik::redirectToModule('CoreUpdater');
+		}
+	}
 
 	function updateCheck()
 	{
