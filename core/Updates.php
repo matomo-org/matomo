@@ -16,7 +16,7 @@
  * @example core/Updates/0.4.2.php
  * @package Piwik
  */
-abstract class Piwik_Update
+abstract class Piwik_Updates
 {
 	/**
 	 * Return SQL to be executed in this update
