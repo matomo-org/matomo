@@ -185,6 +185,19 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 	}
 
+	public function index()
+	{
+		$language = Piwik_Common::getRequestVar('language', '');
+		if(!empty($language))
+		{
+			Piwik_LanguagesManager_API::getInstance()->setLanguageForSession($language);
+               		Piwik_Url::redirectToUrl('index.php?module=CoreUpdater');
+		}
+
+		$updater = new Piwik_Updater();
+		$this->runUpdaterAndExit($updater, Piwik_CoreUpdater::getComponentUpdates($updater));
+	}
+
 	public function runUpdaterAndExit($updater = null, $componentsWithUpdateFile = null)
 	{
 		if(empty($updater) && empty($componentsWithUpdateFile))
@@ -309,12 +322,5 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 				}
 			}
 		}
-	}
-
-	public function saveLanguage()
-	{
-		$language = Piwik_Common::getRequestVar('language');
-		Piwik_LanguagesManager_API::getInstance()->setLanguageForSession($language);
-		Piwik_Url::redirectToReferer();
 	}
 }
