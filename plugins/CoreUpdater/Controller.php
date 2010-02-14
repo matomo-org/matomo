@@ -191,7 +191,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		if(!empty($language))
 		{
 			Piwik_LanguagesManager_API::getInstance()->setLanguageForSession($language);
-               		Piwik_Url::redirectToUrl('index.php?module=CoreUpdater');
+			Piwik_Translate::getInstance()->loadEnglishTranslation();
+			Piwik_Translate::getInstance()->loadUserTranslation();
 		}
 
 		$updater = new Piwik_Updater();
