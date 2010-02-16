@@ -51,7 +51,13 @@ class Piwik_Provider extends Piwik_Plugin
 		try {
 			Piwik_Exec($query);
 		}
-		catch(Exception $e){}
+		catch(Exception $e) {
+			if(!Zend_Registry::get('db')->isErrNo($e, '1060'))
+			{
+				throw $e;
+			}
+		}
+
 	}
 	
 	function uninstall()
