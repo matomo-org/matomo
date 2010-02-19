@@ -34,7 +34,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		'ie'	 => array('IE'),
 		'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM'),
 		'khtml'  => array('KO'),
-		'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP'),
+		'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'WO', 'AD', 'AB', 'IR'),
 		'opera'  => array('OP'),
 	);
 
