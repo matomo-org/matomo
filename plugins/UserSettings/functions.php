@@ -181,4 +181,4 @@ function Piwik_getBrowserFamily($browserLabel)
 		}
 	}
 	return $familyNameToUse;	
-}			
+}

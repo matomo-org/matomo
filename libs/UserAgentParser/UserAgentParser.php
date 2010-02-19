@@ -29,93 +29,51 @@ class UserAgentParser
 	// browser regex => browser ID
 	// if there are aliases, the common name should be last
 	static protected $browsers = array(
-					'opera'							=> 'OP',
-					'msie'							=> 'IE',
-					'microsoft internet explorer'	=> 'IE',
-					'internet explorer'				=> 'IE',
-					'netscape6'						=> 'NS',
-					'netscape'						=> 'NS',
-					'galeon'						=> 'GA',
-					'epiphany'						=> 'EP',
-					'minefield'						=> 'FF',
-					'namoroka'						=> 'FF',
-					'shiretoko'						=> 'FF',
-					'bonecho'						=> 'FF',
-					'granparidiso'					=> 'FF',
-					'mozilla firebird'				=> 'FB',
-					'firebird'						=> 'FB',
-					'firefox'						=> 'FF',
-					'phoenix'						=> 'PX',
-					'seamonkey'						=> 'SM',
-					'camino'						=> 'CA',
-					'safari'						=> 'SF',
-					'chrome'						=> 'CH',
-					'k-meleon'						=> 'KM',
-					'mozilla'						=> 'MO',
-					'konqueror'						=> 'KO',
-					'blackberry'					=> 'BB',
-					'icab'							=> 'IC',
-					'lynx'							=> 'LX',
-					'links'							=> 'LI',
-					'ncsa mosaic'					=> 'MC',
-					'amaya'							=> 'AM',
-					'omniweb'						=> 'OW',
-					'hotjava'						=> 'HJ',
-					'browsex'						=> 'BX',
-					'amigavoyager'					=> 'AV',
-					'amiga-aweb'					=> 'AW',
-					'ibrowse'						=> 'IB',
-					'arora'							=> 'AR',
-					'iron'							=> 'IR',
-			);
-
-	// OS regex => OS ID
-	static protected $operatingSystems = array(
-						'iPod'  		 => 'IPD',
-						'iPhone'         => 'IPH',
-						'Nintendo Wii'   => 'WII',
-						'PlayStation Portable' => 'PSP',
-						'PlayStation 3'  => 'PS3',
-						'Android'  		 => 'AND',
-						'PalmOS'  		 => 'POS',
-						'Palm OS'  		 => 'POS',
-						'BlackBerry' 	 => 'BLB',
-						'Windows NT 6.1' => 'WI7',
-						'Windows 7' 	 => 'WI7',
-						'Windows NT 6.0' => 'WVI',
-						'Windows Vista'  => 'WVI',
-						'Windows NT 5.2' => 'WS3',
-						'Windows Server 2003' => 'WS3',
-						'Windows NT 5.1' => 'WXP',
-						'Windows XP'     => 'WXP',
-						'Win98'          => 'W98',
-						'Windows 98'     => 'W98',
-						'Windows NT 5.0' => 'W2K',
-						'Windows 2000'   => 'W2K',
-						'Windows NT 4.0' => 'WNT',
-						'WinNT'          => 'WNT',
-						'Windows NT'     => 'WNT',
-						'Win 9x 4.90'    => 'WME',
-						'Windows ME'     => 'WME',
-						'Win32'          => 'W95',
-						'Win95'          => 'W95',		
-						'Windows 95'     => 'W95',
-						'Mac_PowerPC'    => 'MAC', 
-						'Mac PPC'        => 'MAC',
-						'PPC'            => 'MAC',
-						'Mac PowerPC'    => 'MAC',
-						'Mac OS'         => 'MAC',
-						'Linux'          => 'LIN',
-						'SunOS'          => 'SOS', 
-						'FreeBSD'        => 'BSD', 
-						'AIX'            => 'AIX', 
-						'IRIX'           => 'IRI', 
-						'HP-UX'          => 'HPX', 
-						'OS/2'           => 'OS2', 
-						'NetBSD'         => 'NBS',
+			'opera'							=> 'OP',
+			'msie'							=> 'IE',
+			'microsoft internet explorer'	=> 'IE',
+			'internet explorer'				=> 'IE',
+			'netscape6'						=> 'NS',
+			'netscape'						=> 'NS',
+			'galeon'						=> 'GA',
+			'epiphany'						=> 'EP',
+			'minefield'						=> 'FF',
+			'namoroka'						=> 'FF',
+			'shiretoko'						=> 'FF',
+			'bonecho'						=> 'FF',
+			'granparidiso'					=> 'FF',
+			'mozilla firebird'				=> 'FB',
+			'firebird'						=> 'FB',
+			'firefox'						=> 'FF',
+			'phoenix'						=> 'PX',
+			'seamonkey'						=> 'SM',
+			'camino'						=> 'CA',
+			'safari'						=> 'SF',
+			'chrome'						=> 'CH',
+			'k-meleon'						=> 'KM',
+			'mozilla'						=> 'MO',
+			'konqueror'						=> 'KO',
+			'blackberry'					=> 'BB',
+			'icab'							=> 'IC',
+			'lynx'							=> 'LX',
+			'links'							=> 'LI',
+			'ncsa mosaic'					=> 'MC',
+			'amaya'							=> 'AM',
+			'omniweb'						=> 'OW',
+			'hotjava'						=> 'HJ',
+			'browsex'						=> 'BX',
+			'amigavoyager'					=> 'AV',
+			'amiga-aweb'					=> 'AW',
+			'ibrowse'						=> 'IB',
+			'arora'							=> 'AR',
+			'iron'							=> 'IR',
+			'android'						=> 'AD',
+			'webos'							=> 'WO',
+			'webpro'						=> 'WP',
+			'abrowse'						=> 'AB',
 		);
 
-	// WebKit version numbers to Safari version numbers
+	// WebKit version numbers to Apple Safari version numbers (if Version/X.Y.Z not present)
 	static protected $webkitToSafari = array(
 			'526.11.2'	=> array('4', '0'),
 			'525.26'	=> array('3', '2'),
@@ -129,6 +87,56 @@ class UserAgentParser
 			'48'		=> array('0', '8'),
 		);
 
+	// OS regex => OS ID
+	static protected $operatingSystems = array(
+			'iPod'					=> 'IPD',
+			'iPhone'				=> 'IPH',
+			'iPad'					=> 'IPA',
+			'Nintendo Wii'			=> 'WII',
+			'PlayStation Portable'	=> 'PSP',
+			'PlayStation 3'			=> 'PS3',
+			'Android'				=> 'AND',
+			'webOS'					=> 'WOS',
+			'Palm webOS'			=> 'WOS',
+			'PalmOS'				=> 'POS',
+			'Palm OS'				=> 'POS',
+			'BlackBerry'			=> 'BLB',
+			'Windows NT 6.1'		=> 'WI7',
+			'Windows 7'				=> 'WI7',
+			'Windows NT 6.0'		=> 'WVI',
+			'Windows Vista'			=> 'WVI',
+			'Windows NT 5.2'		=> 'WS3',
+			'Windows Server 2003'	=> 'WS3',
+			'Windows NT 5.1'		=> 'WXP',
+			'Windows XP'			=> 'WXP',
+			'Win98'					=> 'W98',
+			'Windows 98'			=> 'W98',
+			'Windows NT 5.0'		=> 'W2K',
+			'Windows 2000'			=> 'W2K',
+			'Windows NT 4.0'		=> 'WNT',
+			'WinNT'					=> 'WNT',
+			'Windows NT'			=> 'WNT',
+			'Win 9x 4.90'			=> 'WME',
+			'Windows ME'			=> 'WME',
+			'Win32'					=> 'W95',
+			'Win95'					=> 'W95',		
+			'Windows 95'			=> 'W95',
+			'Mac_PowerPC'			=> 'MAC', 
+			'Mac PPC'				=> 'MAC',
+			'PPC'					=> 'MAC',
+			'Mac PowerPC'			=> 'MAC',
+			'Mac OS'				=> 'MAC',
+			'Linux'					=> 'LIN',
+			'SunOS'					=> 'SOS', 
+			'FreeBSD'				=> 'BSD', 
+			'AIX'					=> 'AIX', 
+			'IRIX'					=> 'IRI', 
+			'HP-UX'					=> 'HPX', 
+			'OS/2'					=> 'OS2', 
+			'NetBSD'				=> 'NBS',
+			'Syllable'				=> 'SYL',
+			'AmigaOS'				=> 'AMI',
+		);
 
 	static protected $browserIdToName;
 	static protected $browserIdToShortName;
@@ -170,10 +178,12 @@ class UserAgentParser
 	 * 
 	 * @param string $userAgent
 	 * @return array false if the browser is "unknown", or 
-	 * 				array(		'name' 			=> '', // 2 letters ID, eg. FF 
+	 * 				array(		'id' 			=> '', // 2 letters ID, eg. FF 
+	 * 							'name' 			=> '', // 2 letters ID, eg. FF 
+	 * 							'short_name'	=> '', // 2 letters ID, eg. FF 
 	 * 							'major_number' 	=> '', // 2 in firefox 2.0.12
 	 * 							'minor_number' 	=> '', // 0 in firefox 2.0.12
-	 * 							'version' 		=> ''  // major_number.minor_number
+	 * 							'version' 		=> '', // major_number.minor_number
 	 * 				);
 	 * @see self::$browsers for the list of OS 
 	 */
@@ -188,16 +198,16 @@ class UserAgentParser
 			'major_number' 	=> '',
 			'minor_number' 	=> '',
 			'version' 		=> '',
-			);
+		);
 
 		$browser = implode('|', array_keys(self::$browsers));
 
 		$results = array();
 
-		// added fixes for Mozilla Suite and Chrome/Iron detection
-		if (preg_match_all("/(mozilla)[\/\sa-z;.0-9-(]+rv:([0-9]+)([.0-9a-z]+)\) gecko\/[0-9]{8}$/i", $userAgent, $results)
-			||	preg_match_all("/(chrome|iron)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
-			||	preg_match_all("/($browser)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
+		if (strpos($userAgent, 'PlayStation Portable') === false &&
+			(preg_match_all("/(mozilla)[\/\sa-z;.0-9-(]+rv:([0-9]+)([.0-9a-z]+)\) gecko\/[0-9]{8}$/i", $userAgent, $results)
+			||	preg_match_all("/(android|chrome|iron|webos)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
+			||	preg_match_all("/($browser)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
 			)
 		 {
 		 	$count = count($results[0])-1;
@@ -207,8 +217,8 @@ class UserAgentParser
 		 	$info['name'] = self::getBrowserNameFromId($info['id']);
 		 	$info['short_name'] = self::getBrowserShortNameFromId($info['id']);
 
-			// Opera 10 fix
-			if($info['id'] == 'OP' && preg_match_all("/(version)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults)) {
+			// Version/X.Y.Z override
+			if(preg_match_all("/(version)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults)) {
 				$results = $newResults;
 				$count = count($results[0])-1;
 			}
@@ -261,19 +271,28 @@ class UserAgentParser
 		
 		// init browser names and short names
 		self::$browserIdToName = array_map('ucwords',array_flip(self::$browsers));
-		self::$browserIdToName['CH'] = "Google Chrome";
+		self::$browserIdToName['AB'] = 'ABrowse';
+		self::$browserIdToName['AV'] = 'AmigaVoyager';
+		self::$browserIdToName['BB'] = 'BlackBerry';
+		self::$browserIdToName['CH'] = 'Google Chrome';
+		self::$browserIdToName['WO'] = 'Palm webOS';
+		self::$browserIdToName['WP'] = 'WebPro';
 		
 		self::$browserIdToShortName = self::$browserIdToName;
-		self::$browserIdToShortName['IE'] = "IE";
-		self::$browserIdToShortName['FB'] = "Firebird";
+		self::$browserIdToShortName['CH'] = 'Chrome';
+		self::$browserIdToShortName['FB'] = 'Firebird';
+		self::$browserIdToShortName['IE'] = 'IE';
+		self::$browserIdToShortName['WO'] = 'webOS';
 		
 		// init OS names and short names
-		self::$operatingSystemsIdToName = array_flip(self::$operatingSystems);
+		self::$operatingSystemsIdToName = array_merge(array_flip(self::$operatingSystems), array(
+			'IPD' => 'iPhone',
+			'IPA' => 'iPhone',
+		));
 		self::$operatingSystemsIdToShortName = array_merge(self::$operatingSystemsIdToName, array(
 			'PS3' => 'PS3',
 			'PSP' => 'PSP',
-			'IPH' => 'iPhone',
-			'WII' => 'WII',
+			'WII' => 'Wii',
 			'WI7' => 'Win 7',
 			'WVI' => 'Win Vista',
 			'WS3' => 'Win S2003',
@@ -285,17 +304,9 @@ class UserAgentParser
 			'W95' => 'Win 95',		
 			'WCE' => 'Win CE',
 			'MAC' => 'Mac OS',
-			'LIN' => 'Linux', 
-			'INC' => 'Inconnu', 
-			'SOS' => 'SunOS', 
-			'BSD' => 'FreeBSD', 
-			'AIX' => 'AIX',
-			'IRI' => 'IRIX', 
-			'HPX' => 'HPX', 
-			'OS2' => 'OS/2', 
-			'NBS' => 'NetBSD',
+			'WOS' => 'webOS',
 			'UNK' => 'Unknown',
-			));
+		));
 	}
 	
 	static public function getBrowserNameFromId($browserId)
@@ -332,6 +343,5 @@ class UserAgentParser
 			return self::$operatingSystemsIdToShortName[$osId];
 		}
 		return false;
-		
 	}	
 }
