@@ -28,6 +28,9 @@ class Piwik_Updates_0_5_5 extends Piwik_Updates
 			if(preg_match('/archive_/', $tableName) == 1)
 			{
 				$sqlarray[ 'DROP INDEX index_all ON '. $tableName ] = '1091';
+			}
+			if(preg_match('/archive_numeric_/', $tableName) == 1)
+			{
 				$sqlarray[ 'CREATE INDEX index_idsite_dates_period ON '. $tableName .' (idsite, date1, date2, period)' ] = '1061';
 			}
 		}

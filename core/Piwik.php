@@ -823,7 +823,6 @@ class Piwik
 									  ts_archived DATETIME NULL,
 									  value MEDIUMBLOB NULL,
 									  PRIMARY KEY(idarchive, name),
-									  INDEX index_idsite_dates_period(idsite, date1, date2, period),
 									  INDEX index_period_archived(period, ts_archived)
 									)  DEFAULT CHARSET=utf8 
 			",
