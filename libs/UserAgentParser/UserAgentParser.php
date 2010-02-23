@@ -33,7 +33,7 @@ class UserAgentParser
 			'amaya'							=> 'AM',
 			'amigavoyager'					=> 'AV',
 			'amiga-aweb'					=> 'AW',
-			'android'						=> 'AN',
+			'android'						=> 'AD',
 			'arora'							=> 'AR',
 			'beonex'						=> 'BE',
 			'blackberry'					=> 'BB',
@@ -117,7 +117,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'FL', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'WO', 'AD', 'AB', 'IR', 'CS', 'FD', 'HA'),
 			'opera'  => array('OP'),
 		);
 
