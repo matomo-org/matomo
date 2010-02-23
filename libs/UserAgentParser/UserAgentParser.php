@@ -49,6 +49,7 @@ class UserAgentParser
 			'chrome'						=> 'CH',
 
 			'cometbird'						=> 'CO',
+			'dillo'							=> 'DI',
 			'elinks'						=> 'EL',
 			'epiphany'						=> 'EP',
 			'fennec'						=> 'FE',
