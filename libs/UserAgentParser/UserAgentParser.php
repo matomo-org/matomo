@@ -216,7 +216,7 @@ class UserAgentParser
 			'PlayStation Portable'	=> 'PSP',
 			'PlayStation 3'			=> 'PS3',
 
-			'IRIX'					=> 'IRX',
+			'IRIX'					=> 'IRI',
 			'OSF1'					=> 'T64',
 			'OS/2'					=> 'OS2',
 			'BEOS'					=> 'BEO',
