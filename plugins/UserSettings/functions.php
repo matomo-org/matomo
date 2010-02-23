@@ -171,14 +171,6 @@ function Piwik_getScreenTypeFromResolution($resolution)
 
 function Piwik_getBrowserFamily($browserLabel)
 {
-	$familyNameToUse = 'unknown';
-	foreach(Piwik_UserSettings::$browserType as $familyName => $aBrowsers)
-	{			
-		if(in_array(substr($browserLabel, 0, 2), $aBrowsers))
-		{
-			$familyNameToUse = $familyName;
-			break;				
-		}
-	}
+	$familyNameToUse = UserAgentParser::getBrowserFamilyFromId(substr($browserLabel, 0, 2));
 	return $familyNameToUse;	
 }
