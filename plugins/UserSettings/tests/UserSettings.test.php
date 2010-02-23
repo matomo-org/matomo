@@ -58,7 +58,7 @@ class Test_Piwik_UserSettings extends UnitTestCase
 
 		// Android
 		'Mozilla/5.0 (Linux; U; Android 1.1; en-us; dream) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2' => array(
-			array('AD', 'Android', 'Android', '3.0', '3', '0', 'webkit'),
+			array('AN', 'Android', 'Android', '3.0', '3', '0', 'webkit'),
 			array('AND', 'Android', 'Android')),
 
 		// AOL / America Online Browser (treat as IE)
