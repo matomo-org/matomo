@@ -3,36 +3,36 @@
 
 <script type="text/javascript" charset="utf-8">
 
- 
-	$(document).ready(function() { 
+
+	$(document).ready(function() {
 		if($('#_spyTmp').size() == 0) {
 			$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
-			$('#visitsLive').spy({ 
-				limit: 10, 
-				ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart', 
-				fadeLast: 2, 
+			$('#visitsLive').spy({
+				limit: 10,
+				ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart',
+				fadeLast: 2,
 				isDupes : check_for_dupe,
 				timeout: 20000,
-				customParameterName: 'minIdVisit', 
+				customParameterName: 'minIdVisit',
 				customParameterValueCallback: lastIdVisit,
 				fadeInSpeed: 1400
 			});
 		}
 	});
-		
+
 	// first I'm ensuring that 'last' has been initialised (with last.constructor == Object),
 	// then prev.html() == last.html() will return true if the HTML is the same, or false,
 	// if I have a different entry.
 	function check_for_dupe(prev, last)
 	{
-		
+
 		if (last.constructor == Object)	{
 			return (prev.html() == last.html());
-		}	
+		}
 		else {
 			return 0;
-			
-		}	
+
+		}
 	}
 
 	function lastIdVisit()
@@ -46,7 +46,7 @@
 	var pauseDisabledImage = "plugins/Live/templates/images/pause_disabled.gif";
 	var playImage = "plugins/Live/templates/images/play.gif";
 	var playDisabledImage = "plugins/Live/templates/images/play_disabled.gif";
-	
+
 	function onClickPause()
 	{
 		$('#pauseImage').attr('src', pauseImage);
@@ -59,18 +59,27 @@
 		$('#pauseImage').attr('src', pauseDisabledImage);
 		return playSpy();
 	}
-	
+
 	// updates the numbers of total visits in startbox
 	function updateTotalVisits()
 	{
 		$("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=ajaxTotalVisitors");
 	}
-	
+
 	// updates the visit table, to refresh the already presented visotors pages
 	function updateVisitBox()
 	{
 		$("#visitsLive").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart");
 	}
+
+	/* TOOLTIP */
+		$('#visitsLive label').tooltip({
+		    track: true,
+		    delay: 0,
+		    showURL: false,
+		    showBody: " - ",
+		    fade: 250
+		});
 
 </script>
 
@@ -82,7 +91,7 @@
 #visitsLive .datetime, #visitsLive .country, #visitsLive .referer, #visitsLive .settings, #visitsLive .returning , #visitsLive .countActions{
 	border-bottom:1px solid #C1DAD7;
 	border-right:1px solid #C1DAD7;
-	padding:5px 5px 5px 12px;	
+	padding:5px 5px 5px 12px;
 }
 
 #visitsLive .datetime {
@@ -169,6 +178,6 @@
 </div>
 
 <div>
-	<a href="javascript:void(0);" onclick="onClickPause();"><img id="pauseImage" border="0" src="plugins/Live/templates/images/pause_disabled.gif"></a> 
+	<a href="javascript:void(0);" onclick="onClickPause();"><img id="pauseImage" border="0" src="plugins/Live/templates/images/pause_disabled.gif"></a>
 	<a href="javascript:void(0);" onclick="onClickPlay();"><img id="playImage" border="0" src="plugins/Live/templates/images/play.gif"></a>
 </div>
