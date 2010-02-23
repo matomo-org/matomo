@@ -12,12 +12,12 @@ $.fn.spy = function(settings) {
 	spy.parsing = 0;
 	spy.waitTimer = 0;
 	spy.json = null;
-	
+
 	if (!settings.ajax) {
 		alert("An AJAX/AJAH URL must be set for the spy to work.");
 		return;
 	}
-	
+
 	spy.attachHolder = function() {
 		// not mad on this, but the only way to parse HTML collections
 		if (o.method == 'html')
@@ -37,7 +37,7 @@ $.fn.spy = function(settings) {
 		else
 			return 0;
 	}
-	
+
 	spy.parse = function(e, r) {
 		spy.parsing = 1; // flag to stop pull via ajax
 		if (o.method == 'html') {
@@ -45,7 +45,7 @@ $.fn.spy = function(settings) {
 		} else if (o.method == 'json') {
 			eval('spy.json = ' + r); // convert text to json
 		}
-		
+
 		if ((o.method == 'json' && spy.json.constructor == Array) || o.method == 'html') {
 			if (spy.parseItem(e)) {
 				spy.waitTimer = window.setInterval(function() {
@@ -65,7 +65,7 @@ $.fn.spy = function(settings) {
 			spy.parsing = 0;
 		}
 	}
-	
+
 	// returns true if there's more to parse
 	spy.parseItem = function(e) {
 		if (o.method == 'html') {
@@ -74,7 +74,7 @@ $.fn.spy = function(settings) {
 			if (i.size() > 0) {
 				i.hide();
 				spy.addItem(e, i);
-			}		
+			}
 			return ($('div#_spyTmp').find('div').size() != 0);
 		} else {
 			if (spy.json.length) {
@@ -85,7 +85,7 @@ $.fn.spy = function(settings) {
 			return (spy.json.length != 0);
 		}
 	}
-	
+
 	spy.addItem = function(e, i) {
 		if (! o.isDupe.call(this, i, spy.last)) {
 			spy.last = i; // note i is a pointer - so when it gets modified, so does spy.last
@@ -95,11 +95,11 @@ $.fn.spy = function(settings) {
 			$('#' + e.id + ' > div:first').fadeIn(o.fadeInSpeed);
 		}
 	}
-	
+
 	spy.push = function(r) {
 		$('#' + this.id).prepend(r);
 	}
-	
+
 	var o = {
 		limit: (settings.limit || 10),
 		ajax: settings.ajax,
@@ -126,7 +126,7 @@ $.fn.spy = function(settings) {
 				$.get(o.ajax, parameters, function(r) {
 					spy.parse(e, r);
 				});
-			}	
+			}
 		}, o.timeout);
 	});
 };
