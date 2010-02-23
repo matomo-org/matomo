@@ -574,7 +574,7 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		// Netscape Communicator (4.x)
 		'Mozilla/4.76C-SGI [en] (X11; I; IRIX64 6.5 IP30)' => array(
 			array('NS', 'Netscape', 'Netscape', '4.76', '4', '76', 'gecko'),
-			array('IRX', 'IRIX', 'IRIX')),
+			array('IRI', 'IRIX', 'IRIX')),
 		'Mozilla/4.72 [en] (X11; I; HP-UX B.11.00 9000/800)' => array(
 			array('NS', 'Netscape', 'Netscape', '4.72', '4', '72', 'gecko'),
 			array('HPX', 'HP-UX', 'HP-UX')),
