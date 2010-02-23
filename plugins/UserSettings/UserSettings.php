@@ -29,18 +29,9 @@ class Piwik_UserSettings extends Piwik_Plugin
 		return $info;
 	}
 
-	// source: http://en.wikipedia.org/wiki/List_of_web_browsers
-	static public $browserType = array(
-		'ie'	 => array('IE'),
-		'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM'),
-		'khtml'  => array('KO'),
-		'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'WO', 'AD', 'AB', 'IR'),
-		'opera'  => array('OP'),
-	);
-
 	static public $browserType_display = array(
 		'ie'     => 'Trident (Internet Explorer)',
-		'gecko'  => 'Gecko (Mozilla, Netscape)',
+		'gecko'  => 'Gecko (Firefox, SeaMonkey)',
 		'khtml'  => 'KHTML (Konqueror)',
 		'webkit' => 'WebKit (Safari, Chrome)',
 		'opera'  => 'Presto (Opera)',
