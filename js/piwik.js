@@ -6,7 +6,7 @@
  * @version $Id$
  */
 
-/*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false; strict:false */
+/*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false, strict:false */
 /*global window escape unescape ActiveXObject */
 
 // Note: YUICompressor 2.4.2 won't compress piwik_log() because of the the "evil" eval().
@@ -18,6 +18,8 @@
  *
  * This version of piwik.js is known to not work with:
  * - IE4 (and below) - try..catch and for..in not introduced until IE5
+ *
+ * @todo Move to minimum EMCAScript v3 (IE5.5).
  */
 
 // Guard against loading the script twice
@@ -122,19 +124,24 @@ if (!this.Piwik) {
 		 */
 		function addReadyListener() {
 			if (documentAlias.addEventListener) {
+//				addEventListener(documentAlias, "DOMContentLoaded", function ready() { // named functions added in IE 5.5
 				addEventListener(documentAlias, "DOMContentLoaded", function () {
+//                        documentAlias.removeEventListener("DOMContentLoaded", ready, false);
                         documentAlias.removeEventListener("DOMContentLoaded", arguments.callee, false);
 						loadHandler();
 					});
 			} else if (documentAlias.attachEvent) {
-				documentAlias.attachEvent("onreadystatechange", function () {
+//				documentAlias.attachEvent("onreadystatechange", function ready() {
+				documentAlias.attachEvent("onreadystatechange", function () { // named functions added in IE 5.5
 					if (documentAlias.readyState === "complete") {
+//						documentAlias.detachEvent("onreadystatechange", ready);
 						documentAlias.detachEvent("onreadystatechange", arguments.callee);
 						loadHandler();
 					}
 				});
 
 				if (documentAlias.documentElement.doScroll && windowAlias == windowAlias.top) {
+//					(function ready() { // named functions added in IE 5.5
 					(function () {
 						if (hasLoaded) {
 							return;
@@ -142,6 +149,7 @@ if (!this.Piwik) {
 						try {
 							documentAlias.documentElement.doScroll("left");
 						} catch (error) {
+//							setTimeout(ready, 0);
 							setTimeout(arguments.callee, 0);
 							return;
 						}
@@ -296,7 +304,7 @@ if (!this.Piwik) {
 						// the remote chance that this gets fixed someday.
 						return String(value);
 
-			        case 'object':
+					case 'object':
 						// Make an array to hold the partial results of stringifying this object value.
 						partial = [];
 
