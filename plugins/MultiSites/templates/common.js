@@ -24,9 +24,13 @@ function setOrderBy(self, allSites, params, mOrderBy)
 	params['mOrderBy'] = mOrderBy;
 	prepareRows(allSites, params);
 
-	$('#arrow_asc').hide();
-	$('#arrow_desc').hide();
-	$(self).append(params['arrow_'+params['order']]);
+	$('.arrow').removeClass('multisites_desc multisites_asc');
+	if($(self).attr('class') == 'evolution')
+	{
+		mOrderBy = 'evolution';
+	}
+	$('#' + mOrderBy + '  .arrow').addClass('multisites_' + params['order']);
+
 	return params;
 }
 
@@ -36,17 +40,18 @@ function prepareRows(allUnsortedSites, params)
 	$("#tb").find("tr").remove();
 	$("#next").html('');
 	$("#prev").html('');
-	$(".asc").hide();
-	$(".desc").hide();
 	var mOrderBy = params['mOrderBy'];
 
 	allSites = orderBy(allUnsortedSites, params);
+	
 	if(allSites.length > params['limit'])
 	{
 		allSites = limitBy(allSites, params);
 	}
 
-	displayRows(allSites.reverse(), params);
+
+		displayRows(allSites, params);
+
 	showPagination(allUnsortedSites, params);
 	params['sitesVisible'] = allSites;
 }
@@ -118,7 +123,7 @@ function orderBy(allSites, params)
 		});
 	}
 
-	if(params['order'] == 'desc')
+	if(params['order'] == 'asc')
 	{
 		allSites.reverse();
 	}
@@ -177,11 +182,11 @@ function displayRows(allSites, params)
 
 function getSparklineImg(id, column, params)
 {
-    if(column == 'unique')
-    {
-        column = 'uniq_visitors';
-    }
-     return '<img class="sparkline" alt="" src="?module=MultiSites&action=getEvolutionGraph&period=' + params['period'] + '&date=' + params['dateToStr'] + '&evolutionBy=' + params['evolutionBy'] + '&columns[]=nb_' + column  + '&idSite=' + id + '&idsite=' + id + '&viewDataTable=sparkline" width="100" height="25"  />';
+	if(column == 'unique')
+	{
+		column = 'uniq_visitors';
+	}
+	return '<img class="sparkline" alt="" src="?module=MultiSites&action=getEvolutionGraph&period=' + params['period'] + '&date=' + params['dateToStr'] + '&evolutionBy=' + params['evolutionBy'] + '&columns[]=nb_' + column  + '&idSite=' + id + '&idsite=' + id + '&viewDataTable=sparkline" width="100" height="25"  />';
 }
 
 
@@ -200,9 +205,9 @@ function showPagination(allSites, params)
 	}
 	var start = (params['page'] - 1) * params['limit'] + 1;
 	var count = allSites.length;
-	var end = parseInt(start) + parseInt(params['limit']);
+	var end = parseInt(start) + parseInt(params['limit']) - 1;
 	if(end > count) end = count;
-	html = '<span>' + (start ) + ' - ' + end + ' of ' + count + '</span>';
+	html = '<span>' + (start ) + ' - ' + end  + ' of ' + count + '</span>';
 	$("#counter").html(html);
 }
 

@@ -82,8 +82,6 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		}
 
 		$view->mySites = $mySites;
-		$view->arrowAsc = '<img src="plugins/MultiSites/images/arrow_asc.gif" width="16px" height="16px" />';
-		$view->arrowDesc = '<img src="plugins/MultiSites/images/arrow_desc.gif" width="16px" height="16px" />';
 		$view->evolutionBy = $this->evolutionBy;
 		$view->period = $this->period;
 		$view->date = $this->date;

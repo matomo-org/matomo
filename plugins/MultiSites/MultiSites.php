@@ -21,8 +21,8 @@ class Piwik_MultiSites extends Piwik_Plugin
 		return array(
 			'name' => 'MultiSites',
 			'description' => Piwik_Translate('MultiSites_PluginDescription'),
-			'author' => 'Brand New Media LLC',
-			'author_homepage' => "http://blogvertising.pl/",
+			'author' => 'ClearCode.cc',
+			'author_homepage' => "http://clearcode.cc/",
 			'version' => Piwik_Version::VERSION,
 		);
 	}
