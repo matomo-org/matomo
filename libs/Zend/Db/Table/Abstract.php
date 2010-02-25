@@ -17,7 +17,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Abstract.php 21079 2010-02-18 18:15:49Z tech13 $
  */
 
 /**
@@ -823,11 +823,7 @@ abstract class Zend_Db_Table_Abstract
             $metadata = $this->_db->describeTable($this->_name, $this->_schema);
             // If $this has a metadata cache, then cache the metadata
             if (null !== $this->_metadataCache && !$this->_metadataCache->save($metadata, $cacheId)) {
-                /**
-                 * @see Zend_Db_Table_Exception
-                 */
-                require_once 'Zend/Db/Table/Exception.php';
-                throw new Zend_Db_Table_Exception('Failed saving metadata to metadataCache');
+                trigger_error('Failed saving metadata to metadataCache', E_USER_NOTICE);
             }
         }
 

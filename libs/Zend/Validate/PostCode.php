@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PostCode.php 20532 2010-01-22 20:18:23Z thomas $
+ * @version    $Id: PostCode.php 21107 2010-02-19 21:40:22Z thomas $
  */
 
 /**
@@ -193,6 +193,7 @@ class Zend_Validate_PostCode extends Zend_Validate_Abstract
      */
     public function isValid($value)
     {
+        $this->_setValue($value);
         if (!is_string($value) && !is_int($value)) {
             $this->_error(self::INVALID);
             return false;

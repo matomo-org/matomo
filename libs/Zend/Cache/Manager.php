@@ -22,6 +22,9 @@
 /** @see Zend_Cache_Exception */
 require_once 'Zend/Cache/Exception.php';
 
+/** @see Zend_Cache */
+require_once 'Zend/Cache.php';
+
 /**
  * @category   Zend
  * @package    Zend_Cache
@@ -86,7 +89,6 @@ class Zend_Cache_Manager
                 'name'    => 'Capture',
                 'options' => array(
                     'ignore_user_abort' => true,
-//                    'automatic_serialization' => true
                 ),
             ),
             'backend' => array(

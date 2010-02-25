@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: IsImage.php 20358 2010-01-17 19:03:49Z thomas $
+ * @version   $Id: IsImage.php 21138 2010-02-22 22:37:11Z thomas $
  */
 
 /**
@@ -46,7 +46,7 @@ class Zend_Validate_File_IsImage extends Zend_Validate_File_MimeType
      */
     protected $_messageTemplates = array(
         self::FALSE_TYPE   => "File '%value%' is no image, '%type%' detected",
-        self::NOT_DETECTED => "The mimetype of file '%value%' could not been detected",
+        self::NOT_DETECTED => "The mimetype of file '%value%' could not be detected",
         self::NOT_READABLE => "File '%value%' can not be read",
     );
 
@@ -63,27 +63,63 @@ class Zend_Validate_File_IsImage extends Zend_Validate_File_MimeType
         }
 
         $temp    = array();
+        // http://de.wikipedia.org/wiki/Liste_von_Dateiendungen
+        // http://www.iana.org/assignments/media-types/image/
         $default = array(
-            'image/x-quicktime',
+            'application/cdf',
+            'application/dicom',
+            'application/fractals',
+            'application/postscript',
+            'application/vnd.hp-hpgl',
+            'application/vnd.oasis.opendocument.graphics',
+            'application/x-cdf',
+            'application/x-cmu-raster',
+            'application/x-ima',
+            'application/x-inventor',
+            'application/x-koan',
+            'application/x-portable-anymap',
+            'application/x-world-x-3dmf',
+            'image/bmp',
+            'image/c',
+            'image/cgm',
+            'image/fif',
+            'image/gif',
+            'image/jpeg',
+            'image/jpm',
+            'image/jpx',
             'image/jp2',
-            'image/x-xpmi',
+            'image/naplps',
+            'image/pjpeg',
+            'image/png',
+            'image/svg',
+            'image/svg+xml',
+            'image/tiff',
+            'image/vnd.adobe.photoshop',
+            'image/vnd.djvu',
+            'image/vnd.fpx',
+            'image/vnd.net-fpx',
+            'image/x-cmu-raster',
+            'image/x-cmx',
+            'image/x-coreldraw',
+            'image/x-cpi',
+            'image/x-emf',
+            'image/x-ico',
+            'image/x-icon',
+            'image/x-jg',
+            'image/x-ms-bmp',
+            'image/x-niff',
+            'image/x-pict',
+            'image/x-pcx',
+            'image/x-portable-anymap',
             'image/x-portable-bitmap',
             'image/x-portable-greymap',
             'image/x-portable-pixmap',
-            'image/x-niff',
-            'image/tiff',
-            'image/png',
+            'image/x-quicktime',
+            'image/x-rgb',
+            'image/x-tiff',
             'image/x-unknown',
-            'image/gif',
-            'image/x-ms-bmp',
-            'application/dicom',
-            'image/vnd.adobe.photoshop',
-            'image/vnd.djvu',
-            'image/x-cpi',
-            'image/jpeg',
-            'image/x-ico',
-            'image/x-coreldraw',
-            'image/svg+xml'
+            'image/x-windows-bmp',
+            'image/x-xpmi',
         );
 
         if (is_array($mimetype)) {
