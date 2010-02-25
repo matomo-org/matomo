@@ -17,7 +17,7 @@
  * @subpackage Zend_Auth_Adapter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ldap.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Ldap.php 21009 2010-02-09 14:06:42Z sgehrig $
  */
 
 /**
@@ -317,10 +317,15 @@ class Zend_Auth_Adapter_Ldap implements Zend_Auth_Adapter_Interface
                 /*
                  * Fixes problem when authenticated user is not allowed to retrieve
                  * group-membership information or own account.
-                 * This requires that the user specified with "username" and "password"
-                 * in the Zend_Ldap options is able to retrieve the required information.
+                 * This requires that the user specified with "username" and optionally
+                 * "password" in the Zend_Ldap options is able to retrieve the required
+                 * information.
                  */
-                $ldap->bind();
+                $requireRebind = false;
+                if (isset($options['username'])) {
+                    $ldap->bind();
+                    $requireRebind = true;
+                }
                 $dn = $ldap->getCanonicalAccountName($canonicalName, Zend_Ldap::ACCTNAME_FORM_DN);
 
                 $groupResult = $this->_checkGroupMembership($ldap, $canonicalName, $dn, $adapterOptions);
@@ -329,8 +334,10 @@ class Zend_Auth_Adapter_Ldap implements Zend_Auth_Adapter_Interface
                     $messages[0] = '';
                     $messages[1] = '';
                     $messages[] = "$canonicalName authentication successful";
-                    // rebinding with authenticated user
-                    $ldap->bind($dn, $password);
+                    if ($requireRebind === true) {
+	                    // rebinding with authenticated user
+	                    $ldap->bind($dn, $password);
+                    }
                     return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $canonicalName, $messages);
                 } else {
                     $messages[0] = 'Account is not a member of the specified group';

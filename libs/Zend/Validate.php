@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Validate.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Validate.php 21097 2010-02-19 20:11:34Z thomas $
  */
 
 /**
@@ -197,7 +197,7 @@ class Zend_Validate implements Zend_Validate_Interface
         $namespaces = array_merge((array) $namespaces, self::$_defaultNamespaces, array('Zend_Validate'));
         $className  = ucfirst($classBaseName);
         try {
-            if (!class_exists($className)) {
+            if (!class_exists($className, false)) {
                 require_once 'Zend/Loader.php';
                 foreach($namespaces as $namespace) {
                     $class = $namespace . '_' . $className;

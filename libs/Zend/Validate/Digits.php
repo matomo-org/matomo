@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Digits.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Digits.php 21136 2010-02-22 22:30:50Z thomas $
  */
 
 /**
@@ -49,7 +49,7 @@ class Zend_Validate_Digits extends Zend_Validate_Abstract
      * @var array
      */
     protected $_messageTemplates = array(
-        self::NOT_DIGITS   => "'%value%' contains not only digit characters",
+        self::NOT_DIGITS   => "'%value%' contains characters which are not digits; but only digits are allowed",
         self::STRING_EMPTY => "'%value%' is an empty string",
         self::INVALID      => "Invalid type given, value should be string, integer or float",
     );

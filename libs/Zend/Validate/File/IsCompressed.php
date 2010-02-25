@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: IsCompressed.php 20358 2010-01-17 19:03:49Z thomas $
+ * @version   $Id: IsCompressed.php 21138 2010-02-22 22:37:11Z thomas $
  */
 
 /**
@@ -63,23 +63,39 @@ class Zend_Validate_File_IsCompressed extends Zend_Validate_File_MimeType
         }
 
         $temp    = array();
-        $default = array(
-            'application/x-tar',
+        // http://de.wikipedia.org/wiki/Liste_von_Dateiendungen
+            $default = array(
+            'application/arj',
+            'application/gnutar',
+            'application/lha',
+            'application/lzx',
+            'application/vnd.ms-cab-compressed',
+            'application/x-ace-compressed',
+            'application/x-arc',
+            'application/x-archive',
+            'application/x-arj',
+            'application/x-bzip',
+            'application/x-bzip2',
+            'application/x-cab-compressed',
+            'application/x-compress',
+            'application/x-compressed',
             'application/x-cpio',
             'application/x-debian-package',
-            'application/x-archive',
-            'application/x-arc',
-            'application/x-arj',
-            'application/x-lharc',
+            'application/x-eet',
+            'application/x-gzip',
+            'application/x-java-pack200',
             'application/x-lha',
+            'application/x-lharc',
+            'application/x-lzh',
+            'application/x-lzma',
+            'application/x-lzx',
             'application/x-rar',
+            'application/x-sit',
+            'application/x-stuffit',
+            'application/x-tar',
             'application/zip',
             'application/zoo',
-            'application/x-eet',
-            'application/x-java-pack200',
-            'application/x-compress',
-            'application/x-gzip',
-            'application/x-bzip2'
+            'multipart/x-gzip',
         );
 
         if (is_array($mimetype)) {
