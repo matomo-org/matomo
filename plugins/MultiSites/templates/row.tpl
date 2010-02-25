@@ -14,12 +14,12 @@
 <td class="multisites-column">
     %unique%&nbsp;
 </td>
-<td style="width:150px">
+<td style="width:170px">
     <div class="visits" style="display:none">%visitsSummary%</div>
     <div class="actions"style="display:none">%actionsSummary%</div>
     <div class="unique" >%uniqueSummary%</div>
 </td>
-<td style="width:185px">
+<td style="width:180px">
     <div id="sparkline_%idsite%" style="width: 100px; margin: auto">
 	%sparkline%
     </div
