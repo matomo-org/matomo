@@ -199,6 +199,9 @@ campaign_keyword_var_name	= piwik_kwd
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
 
+; number of octets in IP address to mask, in order to anonymize a visitor's IP address; if the AnonymizeIP plugin is deactivated, this value is ignored; for IPv4 addresses, valid values are 0..4
+ip_address_mask_length = 1
+
 [log]
 ;possible values for log: screen, database, file
 ; normal messages
