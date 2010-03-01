@@ -305,15 +305,13 @@ class Piwik_Live_Visitor
 		if(isset($this->details['match_attribute'])){
 			return $this->details['match_attribute'];
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
 
 	function getGoalIcon()
 	{
-		$goalicon = "";
 		if(isset($this->details['match_attribute'])){
+			$goalicon = "";
 			switch ($this->details['match_attribute']) {
 	    		case "url":
 			    	$goalicon = "plugins/Live/templates/images/goal.png";
@@ -327,9 +325,6 @@ class Piwik_Live_Visitor
 			}
 			return $goalicon;
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
-
 }
