@@ -265,7 +265,7 @@ $(document).ready(function () {
 	});
 
 	test("Tracking", function() {
-		expect(<?php echo $sqlite ? 12 : 3; ?>);
+		expect(<?php echo $sqlite ? 13 : 3; ?>);
 
 		var tracker = Piwik.getTracker();
 
@@ -296,6 +296,8 @@ if ($sqlite) {
 
 		tracker.trackPageView();
 
+		tracker.trackPageView("CustomTitleTest");
+
 		tracker.trackLink("http://example.ca", "link", { "token" : "'. $token .'" });
 
 		var buttons = new Array("click1", "click2", "click3", "click4", "click5", "click6", "click7");
@@ -311,8 +313,9 @@ if ($sqlite) {
 				url: url("piwik.php?results='. $token .'"),
 				success: function(results) {
 //alert(results);
-					ok( /\<span\>7\<\/span\>/.test( results ), "count tracking events" );
+					ok( /\<span\>8\<\/span\>/.test( results ), "count tracking events" );
 					ok( /PiwikTest/.test( results ), "trackPageView()" );
+					ok( /CustomTitleTest/.test( results ), "trackPageView(customTitle)" );
 					ok( /example.ca/.test( results ), "trackLink()" );
 					ok( /example.net/.test( results ), "click: implicit outlink (by outbound URL)" );
 					ok( /example.html/.test( results ), "click: explicit outlink" );

@@ -504,9 +504,9 @@ if (!this.Piwik) {
 			/*
 			 * Log the page view / visit
 			 */
-			function logPageView() {
+			function logPageView(customTitle) {
 				var request = getRequest();
-				request += '&action_name=' + escapeWrapper(configTitle); // refs #530;
+				request += '&action_name=' + escapeWrapper(isDefined(customTitle) ? customTitle : configTitle); // refs #530;
 
 				// encode custom data
 				if (isDefined(configCustomData)) {
@@ -949,8 +949,8 @@ if (!this.Piwik) {
 				/*
 				 * Log visit to this page
 				 */
-				trackPageView: function () {
-					logPageView();
+				trackPageView: function (customTitle) {
+					logPageView(customTitle);
 				}
 			};
 		}
