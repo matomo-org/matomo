@@ -40,6 +40,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		if(!isset($this->session->currentStepDone))
 		{
 			$this->session->currentStepDone = '';
+			$this->session->skipThisStep = array();
 		}
 
 		Piwik_PostEvent('InstallationController.construct', $this);
@@ -238,7 +239,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		if(isset($this->session->databaseCreated)
 			&& $this->session->databaseCreated === true)
 		{
-			$view->databaseName = $this->session->db_infos['dbname'];
+			$dbInfos = $this->session->db_infos;
+			$view->databaseName = $dbInfos['dbname'];
 			$view->databaseCreated = true;
 		}
 
@@ -251,8 +253,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->clientVersionWarning = $e->getMessage();
 		}
 
+		$this->session->charsetCorrection = false;
 		if(!Piwik::isDatabaseConnectionUTF8())
 		{
+			$this->session->charsetCorrection = true;
 			$view->charsetWarning = true;
 		}
 
@@ -302,6 +306,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$view->tablesInstalled = '';
 		if(count($tablesInstalled) > 0)
 		{
+			// we have existing tables
+			$this->session->charsetCorrection = false;
+
 			$view->tablesInstalled = implode(', ', $tablesInstalled);
 			$view->someTablesInstalled = true;
 
@@ -530,15 +537,24 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	protected function writeConfigFileFromSession()
 	{
 		if(!isset($this->session->superuser_infos)
-			|| !isset($this->session->db_infos))
+			|| !isset($this->session->db_infos)
+			|| !isset($this->session->charsetCorrection))
 		{
 			return;
 		}
 		$config = Zend_Registry::get('config');
 		$config->superuser = $this->session->superuser_infos;
-		$config->database = $this->session->db_infos;
+		$dbInfos = $this->session->db_infos;
+
+		if($this->session->charsetCorrection)
+		{
+			$dbInfos['charset'] = 'utf8';
+		}
+		$config->database = $dbInfos;
+
 		unset($this->session->superuser_infos);
 		unset($this->session->db_infos);
+		unset($this->session->charsetCorrection);
 	}
 
 	/**
@@ -626,8 +642,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 */
 	protected function skipThisStep( $step )
 	{
-		if(isset($this->session->skipThisStep[$step])
-			&& $this->session->skipThisStep[$step])
+		$skipThisStep = $this->session->skipThisStep;
+		if(isset($skipThisStep[$step]) && $skipThisStep[$step])
 		{
 			$this->redirectToNextStep($step);
 		}
