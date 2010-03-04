@@ -106,7 +106,7 @@ class Sparkline_Line extends Sparkline {
 
     for ($i = 0; $i < sizeof($this->dataSeries[$series]); $i++) {
       $y = round(($this->dataSeries[$series][$i] + ($this->yMin * -1)) * (($yBound-1) / $this->yRange));
-      $x = round($i * $xBound / (sizeof($this->dataSeries[$series]) - 1));
+      $x = round($i * $xBound / (sizeof($this->dataSeries[$series])));
       $this->dataSeriesConverted[$series][] = array($x, $y);
       $this->Debug("Sparkline :: ConvertDataSeries series $series value $i ($x, $y)", DEBUG_SET);
     }
