@@ -542,9 +542,9 @@ if (!this.Piwik) {
 			}
 			
 			/*
-			 * Log the click with the server
+			 * Log the link or click  with the server
 			 */
-			function logClick(url, linkType, customData) {
+			function logLink(url, linkType, customData) {
 				var request;
 				request = 'idsite=' + configTrackerSiteId +
 				          '&' + linkType + '=' + escapeWrapper(url) +
@@ -684,7 +684,7 @@ if (!this.Piwik) {
 						// track outlinks and all downloads
 						linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
 						if (linkType) {
-							logClick(sourceHref, linkType);
+							logLink(sourceHref, linkType);
 						}
 					}
 				}
@@ -943,7 +943,7 @@ if (!this.Piwik) {
 				 * Manually log a click from your own code
 				 */
 				trackLink: function (sourceUrl, linkType, customData) {
-					logClick(sourceUrl, linkType, customData);
+					logLink(sourceUrl, linkType, customData);
 				},
 
 				/*
