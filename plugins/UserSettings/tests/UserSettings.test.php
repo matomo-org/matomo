@@ -210,6 +210,14 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('IE', 'Internet Explorer', 'IE', '7.0', '7', '0', 'ie'),
 			array('WXP', 'Windows XP', 'Win XP')),
 
+		// Dillo
+		'Dillo/2.0' => array(
+			array('DI', 'Dillo', 'Dillo', '2.0', '2', '0', 'unknown'),
+			false),
+		'Dillo/0.6.4' => array(
+			array('DI', 'Dillo', 'Dillo', '0.6', '0', '6', 'unknown'),
+			false),
+
 		// ELinks
 		'ELinks/0.12~pre2.dfsg0-1ubuntu1-lite (textmode; Debian; Linux 2.6.32-4-jolicloud i686; 143x37-2)' => array(
 			array('EL', 'ELinks', 'ELinks', '0.12', '0', '12', 'unknown'),
