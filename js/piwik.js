@@ -180,7 +180,7 @@ if (!this.Piwik) {
 			configTrackerSiteId = siteId || '',
 
 			// Document URL
-			configUrl = documentAlias.location.href,
+			configCustomUrl,
 
 			// Document title
 			configTitle = documentAlias.title,
@@ -486,7 +486,7 @@ if (!this.Piwik) {
 				var i, now, request;
 				now = new Date();
 				request = 'idsite=' + configTrackerSiteId +
-				        '&url=' + escapeWrapper(configUrl) +
+				        '&url=' + escapeWrapper(isDefined(configCustomUrl) ? configCustomUrl : documentAlias.location.href) +
 				        '&res=' + screenAlias.width + 'x' + screenAlias.height +
 				        '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
 				        '&cookie=' + browserHasCookies +
@@ -852,7 +852,7 @@ if (!this.Piwik) {
 				 */
 				setCustomUrl: function (url) {
 					if (isDefined(url)) {
-						configUrl = url;
+						configCustomUrl = url;
 					}
 				},
 
