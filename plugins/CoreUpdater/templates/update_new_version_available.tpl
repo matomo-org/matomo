@@ -4,9 +4,9 @@
 <p>{'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage'|translate:$piwik_new_version}</p>
 <br>
 <form action="index.php">
-<input type="hidden" name="module" value="CoreUpdater">
-<input type="hidden" name="action" value="oneClickUpdate">
-<input type="submit" class="submit" value="{'CoreUpdater_UpdateAutomatically'|translate}"/>
+<input type="hidden" name="module" value="CoreUpdater" />
+<input type="hidden" name="action" value="oneClickUpdate" />
+<input type="submit" class="submit" value="{'CoreUpdater_UpdateAutomatically'|translate}" />
 <a style="margin-left:50px" class="submit button" href="http://piwik.org/latest.zip">{'CoreUpdater_DownloadX'|translate:$piwik_new_version}</a>
 </form>
 

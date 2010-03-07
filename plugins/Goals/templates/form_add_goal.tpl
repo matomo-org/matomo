@@ -21,13 +21,13 @@ color:#9B9B9B;
 					</select>
 				</td>
 				<td>
-					<input type="radio" id="match_attribute_url" value="url" name="match_attribute"/>
+					<input type="radio" id="match_attribute_url" value="url" name="match_attribute" />
 					<label for="match_attribute_url">Visit a given URL (page or group of pages)</label>
 					<br />
-					<input type="radio" id="match_attribute_file" value="file" name="match_attribute"/>
+					<input type="radio" id="match_attribute_file" value="file" name="match_attribute" />
 					<label for="match_attribute_file">Download a file</label>
 					<br />
-					<input type="radio" id="match_attribute_external_website" value="external_website" name="match_attribute"/>
+					<input type="radio" id="match_attribute_external_website" value="external_website" name="match_attribute" />
 					<label for="match_attribute_external_website">Click on a Link to an external website </label>
 				</td>
 				</tr>
@@ -42,12 +42,12 @@ color:#9B9B9B;
 						<option value="regex">matches the expression</option>
 					</select>
 				
-					<input type="text" name="pattern" value=""/>
+					<input type="text" name="pattern" value="" />
 					<br />
 					<div id="examples_pattern" class="goalInlineHelp"></div>
 					<br />
 					<span style="float:right">
-					(optional) <input type="checkbox" id="case_sensitive"/>
+					(optional) <input type="checkbox" id="case_sensitive" />
 					<label for="case_sensitive">Case sensitive match</label>
 					</span>
 				</td>
@@ -63,7 +63,7 @@ color:#9B9B9B;
 		<tbody>
 			<tr>
 				<td>(optional) Goal default value is </td>
-				<td>{$currency} <input type="text" name="revenue" size="1" value="0"/>
+				<td>{$currency} <input type="text" name="revenue" size="1" value="0" />
 				<div class="goalInlineHelp"> 
 				For example, a Contact Form submitted by a visitor <br />
 				may be worth $10 on average. Piwik will help you understand <br />

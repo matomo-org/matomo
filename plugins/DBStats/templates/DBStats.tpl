@@ -7,7 +7,7 @@
 <h2>{'DBStats_DatabaseUsage'|translate}</h2>
 {assign var=totalSize value=$tablesStatus.Total.Total_length}
 <p>{'DBStats_MainDescription'|translate:$totalSize}
-<br/>
+<br />
 {'DBStats_LearnMore'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>"}</p>
 <table class="adminTable">
 	<thead>

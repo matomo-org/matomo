@@ -43,7 +43,7 @@
 		<br>
 		<form action="index.php">
 		<input type="hidden" name="updateCorePlugins" value="1">
-		<input type="submit" class="submit" value="{'CoreUpdater_UpgradePiwik'|translate}"/>
+		<input type="submit" class="submit" value="{'CoreUpdater_UpgradePiwik'|translate}" />
 		</form>
 	{else}
 		{if count($warningMessages) == 0}
@@ -52,7 +52,7 @@
 
 		<br>
 		<form action="index.php">
-		<input type="submit" class="submit" value="{'CoreUpdater_ContinueToPiwik'|translate}"/>
+		<input type="submit" class="submit" value="{'CoreUpdater_ContinueToPiwik'|translate}" />
 		</form>
 	{/if}
 {/if}

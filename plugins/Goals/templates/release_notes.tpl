@@ -1,4 +1,4 @@
-<div style="clear:both" />
+<div style="clear:both;"></div>
 <br><br><hr>
 <b>About the Goal Tracking Plugin</b><br>
 <pre>
