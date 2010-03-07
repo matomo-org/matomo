@@ -21,6 +21,6 @@
 </nobr>
 </div>
 
-<br clear="all" />
+<br class="clearAll" />
 
 </div>

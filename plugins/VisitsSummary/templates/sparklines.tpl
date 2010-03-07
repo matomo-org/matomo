@@ -10,4 +10,4 @@
 	<div class="sparkline">{sparkline src=$urlSparklineMaxActions} {'VisitsSummary_MaxNbActions'|translate:"<strong>$maxActions</strong>"}</div>
 	<div class="sparkline">{sparkline src=$urlSparklineBounceRate} {'VisitsSummary_NbVisitsBounced'|translate:"<strong>$bounceRate%</strong>"}</div>
 </div>
-<div style="clear:both" />
+<div style="clear:both;"></div>

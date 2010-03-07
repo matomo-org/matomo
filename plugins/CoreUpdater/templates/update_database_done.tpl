@@ -54,7 +54,7 @@
 	{/if}
 
 	<form action="index.php">
-	<input type="submit" class="submit" value="{'CoreUpdater_ContinueToPiwik'|translate}"/>
+	<input type="submit" class="submit" value="{'CoreUpdater_ContinueToPiwik'|translate}" />
 	</form>
 {/if}
 

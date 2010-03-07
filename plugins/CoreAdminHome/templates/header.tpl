@@ -35,6 +35,6 @@
 {include file="CoreHome/templates/js_disabled_notice.tpl"}
 </div>
 
-<br clear="all"/>
+<br class="clearAll" />
 
 <div id="content">

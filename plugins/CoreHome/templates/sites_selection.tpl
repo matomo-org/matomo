@@ -8,7 +8,7 @@
 		   {/foreach}
 		</select>
 		{hiddenurl idSite=null}
-		<input type="submit" value="go"/>
+		<input type="submit" value="go" />
 		</form>
 	</span>
 

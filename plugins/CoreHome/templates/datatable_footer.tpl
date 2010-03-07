@@ -33,7 +33,7 @@
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="XML" filter_limit="100">XML</a> |
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="JSON" filter_limit="100">Json</a> |
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="PHP" filter_limit="100">Php</a> | 
-					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="RSS" filter_limit="100" date="last10"><img border="0" src="themes/default/images/feed.png"></a>
+					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="RSS" filter_limit="100" date="last10"><img border="0" src="themes/default/images/feed.png" /></a>
 				</span>
 			{if $properties.show_all_views_icons}
 				<a class="viewDataTable" format="cloud"><img width="16" height="16" src="themes/default/images/tagcloud.png" title="{'General_TagCloud'|translate}" /></a>

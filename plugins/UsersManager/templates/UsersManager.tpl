@@ -100,12 +100,12 @@
 
 <div class="dialog" id="confirm"> 
 	<p>{'UsersManager_ChangeAllConfirm'|translate:"<span id='login'></span>"}</p>
-	<input id="yes" type="button" value="{'General_Yes'|translate}"/>
-	<input id="no" type="button" value="{'General_No'|translate}"/>
+	<input id="yes" type="button" value="{'General_Yes'|translate}" />
+	<input id="no" type="button" value="{'General_No'|translate}" />
 </div> 
 
 {if $userIsSuperUser}
-	<br/>
+	<br />
 	<h2>{'UsersManager_UsersManagement'|translate}</h2>
 	<p>{'UsersManager_UsersManagementMainDescription'|translate}</p>
 	<div id="ajaxError" style="display:none"></div>

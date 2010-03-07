@@ -7,7 +7,7 @@
 			<option value="{$language.code}">{$language.name}</option>
 			{/foreach}
 		</select>
-		<input type="submit" value="go"/>
+		<input type="submit" value="go" />
 		</form>
 	</span>
 	

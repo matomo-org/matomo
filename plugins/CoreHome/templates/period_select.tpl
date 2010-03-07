@@ -10,7 +10,7 @@
 			{foreach from=$otherPeriods item=thisPeriod} | <a href='{url period=$thisPeriod}'>{$periodsNames.$thisPeriod.singular}</a>{/foreach}
 		</span>
 	</span>
-	<br/>
+	<br />
 	<span id="datepicker"></span>
 </span>
 
@@ -26,5 +26,4 @@ $(document).ready(function() {
 });</script>
 {/literal}
 
-<div style="clear:both"></div>
-
+<div style="clear:both;"></div>
