@@ -31,7 +31,7 @@
 <span id="feedburnerIframe"></span>
 
 <center>
-<input id="feedburnerName" type="text" value="{$feedburnerFeedName}">
-<input id="feedburnerSubmit" type="submit" value="ok">
+<input id="feedburnerName" type="text" value="{$feedburnerFeedName}" />
+<input id="feedburnerSubmit" type="submit" value="ok" />
 </center>
 

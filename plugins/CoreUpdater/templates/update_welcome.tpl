@@ -42,7 +42,7 @@
 	{if $coreToUpdate || count($pluginNamesToUpdate) > 0}
 		<br>
 		<form action="index.php">
-		<input type="hidden" name="updateCorePlugins" value="1">
+		<input type="hidden" name="updateCorePlugins" value="1" />
 		<input type="submit" class="submit" value="{'CoreUpdater_UpgradePiwik'|translate}" />
 		</form>
 	{else}

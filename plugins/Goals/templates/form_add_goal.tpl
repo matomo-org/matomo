@@ -73,8 +73,8 @@ color:#9B9B9B;
 			<tr>
 				<td colspan="2" style="border:0">
 				<div class="submit">	
-					<input type="hidden" name="methodGoalAPI" value="">	
-					<input type="hidden" name="goalIdUpdate" value="">
+					<input type="hidden" name="methodGoalAPI" value="" />
+					<input type="hidden" name="goalIdUpdate" value="" />
 					<input type="submit" value="Add Goal" name="submit" id="goal_submit" class="submit" />
 				</div>
 				</td>
