@@ -124,7 +124,7 @@ class Piwik_Translate
 				'for(var i in translations) { piwik_translations[i] = translations[i];} ';
 		$js .= 'function _pk_translate(translationStringId) { '.
 			'if( typeof(piwik_translations[translationStringId]) != \'undefined\' ){  return piwik_translations[translationStringId]; }'.
-			'return "The string "+translationStringId+" was not loaded in javascript. Make sure it is prefixed with _js";}';
+			'return "The string "+translationStringId+" was not loaded in javascript. Make sure it is suffixed with _js";}';
 		
 		return $js;
 	}
