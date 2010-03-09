@@ -265,7 +265,7 @@ $(document).ready(function () {
 	});
 
 	test("Tracking", function() {
-		expect(<?php echo $sqlite ? 13 : 3; ?>);
+		expect(<?php echo $sqlite ? 14 : 3; ?>);
 
 		var tracker = Piwik.getTracker();
 
@@ -307,13 +307,15 @@ if ($sqlite) {
 
 		tracker.trackGoal(42, 69, { "boy" : "Michael", "girl" : "Mandy" });
 
+		piwik_log("CompatibilityLayer", 1, "piwik.php", {"token":"'. $token .'"});
+
 		stop();
 		setTimeout(function() {
 			jQuery.ajax({
 				url: url("piwik.php?results='. $token .'"),
 				success: function(results) {
 //alert(results);
-					ok( /\<span\>8\<\/span\>/.test( results ), "count tracking events" );
+					ok( /\<span\>9\<\/span\>/.test( results ), "count tracking events" );
 					ok( /PiwikTest/.test( results ), "trackPageView()" );
 					ok( /CustomTitleTest/.test( results ), "trackPageView(customTitle)" );
 					ok( /example.ca/.test( results ), "trackLink()" );
@@ -323,6 +325,7 @@ if ($sqlite) {
 					ok( /example.word/.test( results ), "click: explicit download" );
 					ok( ! /example.(org|php)/.test( results ), "click: ignored" );
 					ok( /idgoal=42.*?revenue=69.*?Michael.*?Mandy/.test( results ), "trackGoal()" );
+					ok( /CompatibilityLayer/.test( results ), "piwik_log(): compatibility layer" );
 
 					start();
 				}
