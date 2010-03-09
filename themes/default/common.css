@@ -33,6 +33,13 @@ ins {
 del {
 	text-decoration: line-through;
 }
+/* br clear="all" deprecated */
+br.clearAll {
+	clear: both;
+	height: 0;
+	line-height: 0;
+	font-size: px; /*for IE*/
+}
 /* start piwik styles */
 body {
 	font-family: Georgia, "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;

@@ -188,9 +188,3 @@ p {
 .adminTable .active {
 	background-color: #ECF9DD;
 }
-br .clearall {
-	clear: both;
-	height: 0;
-	line-height: 0;
-	font-size: px; /*for IE*/
-}

@@ -94,9 +94,3 @@ div.pk-emptyGraph {
         font-size: 0.9em;
         font-style: italic;
 }
-br .clearall {
-	clear: both;
-	height: 0;
-	line-height: 0;
-	font-size: px; /*for IE*/
-}
