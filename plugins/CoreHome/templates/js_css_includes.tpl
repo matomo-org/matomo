@@ -7,7 +7,6 @@
 <link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
 {postEvent name="template_css_import"}
 
-<script type="text/javascript" src="themes/default/common.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.bgiframe.js"></script>
@@ -20,6 +19,7 @@
 <script type="text/javascript" src="libs/jquery/jquery.history.js"></script>
 <script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
 <script type="text/javascript" src="libs/javascript/sprintf.js"></script>
+<script type="text/javascript" src="themes/default/common.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/datatable.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/broadcast.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/menu.js"></script>
