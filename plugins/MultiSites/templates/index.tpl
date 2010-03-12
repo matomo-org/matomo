@@ -83,6 +83,13 @@
 
 <script type="text/javascript">
 prepareRows(allSites, params, '{$orderBy}');
+
+{literal}
+function refreshAfter(timeoutPeriod) {
+	setTimeout("location.reload(true);",timeoutPeriod);
+}
+refreshAfter(5*60*1000);
+{/literal}
 </script>
 </div>
 </div>
