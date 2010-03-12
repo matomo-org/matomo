@@ -292,7 +292,7 @@ abstract class Piwik_Controller
 	function redirectToIndex($moduleToRedirect, $actionToRedirect)
 	{
 		$websiteId = $this->getDefaultWebsiteId();
-		$defaultDate = $this->getDefaultDate($websiteId);
+		$defaultDate = $this->getDefaultDate();
 		$defaultPeriod = $this->getDefaultPeriod();
 		
 		if($websiteId) {
@@ -349,16 +349,8 @@ abstract class Piwik_Controller
 	 * Returns default date for Piwik reports
 	 * @return string today, 2010-01-01, etc.
 	 */
-	protected function getDefaultDate($websiteId)
+	protected function getDefaultDate()
 	{
-		if ($websiteId) 
-		{
-			$website = new Piwik_Site($websiteId);
-			if( $website->getCreationDate()->isToday() ) 
-			{
-				return 'today';
-			}
-		}
 		return Zend_Registry::get('config')->General->default_day;
 	}
 	

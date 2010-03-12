@@ -1092,21 +1092,13 @@ class Piwik
 	 * @param string $newAction
 	 * @return bool false if the URL to redirect to is already this URL
 	 */
-	static public function redirectToModule( $newModule, $newAction = '' )
+	static public function redirectToModule( $newModule, $newAction = '', $parameters = array() )
 	{
-		$currentModule = self::getModule();
-		$currentAction = self::getAction();
-	
-		if($currentModule != $newModule
-			||  $currentAction != $newAction )
-		{
-			
-			$newUrl = 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified(
-						array('module' => $newModule, 'action' => $newAction)
-				);
-	
-			Piwik_Url::redirectToUrl($newUrl);
-		}
+		$newUrl = 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified(
+					array('module' => $newModule, 'action' => $newAction)
+					+ $parameters
+			);
+		Piwik_Url::redirectToUrl($newUrl);
 		return false;
 	}
 
