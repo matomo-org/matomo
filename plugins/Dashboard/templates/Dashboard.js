@@ -79,14 +79,25 @@ dashboard.prototype =
 		// load all widgets
 		$('.widget', self.dashboardElement).each( function() {
 			var uniqueId = $(this).attr('id');
-			function onWidgetLoadedReplaceElementWithContent(loadedContent)
-			{
-				$('#'+uniqueId+'>.widgetContent', self.dashboardElement).html(loadedContent);
-			}
-			widget = widgetsHelper.getWidgetObjectFromUniqueId(uniqueId);
-			widgetParameters = widget["parameters"];
-			$.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent));
+			self.reloadWidget(uniqueId);
 		});
+	},
+
+	reloadEnclosingWidget: function(domNodeInsideWidget)
+	{
+		var uniqueId = $(domNodeInsideWidget).parents('.widget').attr('id');
+		this.reloadWidget(uniqueId);
+	},
+	
+	reloadWidget: function(uniqueId) 
+	{
+		function onWidgetLoadedReplaceElementWithContent(loadedContent)
+		{
+			$('#'+uniqueId+'>.widgetContent', self.dashboardElement).html(loadedContent);
+		}
+		widget = widgetsHelper.getWidgetObjectFromUniqueId(uniqueId);
+		widgetParameters = widget["parameters"];
+		$.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent));
 	},
 	
 	addDummyWidgetAtBottomOfColumn: function(columnNumber)
