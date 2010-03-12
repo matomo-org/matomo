@@ -291,42 +291,83 @@ abstract class Piwik_Controller
 	
 	function redirectToIndex($moduleToRedirect, $actionToRedirect)
 	{
+		$websiteId = $this->getDefaultWebsiteId();
+		$defaultDate = $this->getDefaultDate($websiteId);
+		$defaultPeriod = $this->getDefaultPeriod();
+		
+		if($websiteId) {
+			header("Location:index.php?module=".$moduleToRedirect
+									."&action=".$actionToRedirect
+									."&idSite=".$websiteId
+									."&period=".$defaultPeriod
+									."&date=".$defaultDate);
+			exit;
+		}
+		
+		if(Piwik::isUserIsSuperUser())
+		{
+			Piwik_ExitWithMessage("Error: no website were found in this Piwik installation. 
+			<br>Check the table '". Piwik::prefixTable('site') ."' that should contain your Piwik websites.", false, true);
+		}
+		
+		$currentLogin = Piwik::getCurrentUserLogin();
+		if(!empty($currentLogin)
+			&& $currentLogin != 'anonymous')
+		{
+			$errorMessage = sprintf(Piwik_Translate('CoreHome_NoPrivileges'),$currentLogin);
+			$errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=". Zend_Registry::get('auth')->getName() ."&amp;action=logout'>&rsaquo; ". Piwik_Translate('General_Logout'). "</a></b><br />";
+			Piwik_ExitWithMessage($errorMessage, false, true);
+		}
+
+		Piwik_FrontController::dispatch('Login', false);
+	}
+	
+
+	/**
+	 * Returns default website for Piwik to load 
+	 * @return Piwik_Site
+	 */
+	protected function getDefaultWebsiteId()
+	{
+		$defaultWebsiteId = false;
+		Piwik_PostEvent( 'Controller.getDefaultWebsiteId', $defaultWebsiteId );
+		
+		if($defaultWebsiteId) 
+		{
+			return $defaultWebsiteId;
+		}
+		
 		$sitesId = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
 		if(!empty($sitesId))
 		{
-			$firstSiteId = $sitesId[0];
-			$firstSite = new Piwik_Site($firstSiteId);
-			if ($firstSite->getCreationDate()->isToday()) 
-			{
-				$defaultDate = 'today';
-			}
-			else
-			{
-				$defaultDate = Zend_Registry::get('config')->General->default_day;
-			}
-			$defaultPeriod = Zend_Registry::get('config')->General->default_period;
-			header("Location:index.php?module=".$moduleToRedirect."&action=".$actionToRedirect."&idSite=$firstSiteId&period=$defaultPeriod&date=$defaultDate");
+			return $sitesId[0];
 		}
-		else
+		return false;
+	}
+	
+	/**
+	 * Returns default date for Piwik reports
+	 * @return string today, 2010-01-01, etc.
+	 */
+	protected function getDefaultDate($websiteId)
+	{
+		if ($websiteId) 
 		{
-			if(Piwik::isUserIsSuperUser())
+			$website = new Piwik_Site($websiteId);
+			if( $website->getCreationDate()->isToday() ) 
 			{
-				Piwik_ExitWithMessage("Error: no website were found in this Piwik installation. 
-				<br>Check the table '". Piwik::prefixTable('site') ."' that should contain your Piwik websites.", false, true);
-			}
-			$currentLogin = Piwik::getCurrentUserLogin();
-			if(!empty($currentLogin)
-				&& $currentLogin != 'anonymous')
-			{
-				$errorMessage = sprintf(Piwik_Translate('CoreHome_NoPrivileges'),$currentLogin);
-				$errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=". Zend_Registry::get('auth')->getName() ."&amp;action=logout'>&rsaquo; ". Piwik_Translate('General_Logout'). "</a></b><br />";
-				Piwik_ExitWithMessage($errorMessage, false, true);
-			}
-			else
-			{
-				Piwik_FrontController::dispatch('Login', false);
+				return 'today';
 			}
 		}
-		exit;
+		return Zend_Registry::get('config')->General->default_day;
+	}
+	
+	/**
+	 * Returns default period for Piwik reports
+	 * @return string day, week, etc.
+	 */
+	protected function getDefaultPeriod()
+	{
+		return Zend_Registry::get('config')->General->default_period;
 	}
 }
