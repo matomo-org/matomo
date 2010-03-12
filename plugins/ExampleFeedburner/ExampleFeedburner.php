@@ -72,7 +72,60 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 		}
 		$view->feedburnerFeedName = $feedburnerFeedName;
 		$view->idSite = $idSite;
+		$view->fbStats = $this->getFeedData($feedburnerFeedName);
 		echo $view->render();
+	}
+	
+
+	/**
+	 * Returns array of counts and images based on Feedburner URI
+	 * 
+	 * @param string $uri
+	 * @return array()
+	 */
+	protected function getFeedData($uri)
+	{
+		// Awareness API only supports yesterday and back   
+		// we get stats for previous two days
+		// http://code.google.com/apis/feedburner/awareness_api.html#dates
+		$yesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-1,   date("Y")));
+		$beforeYesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-2,   date("Y")));
+		
+		//create url to gather XML feed from
+		$url = 'http://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.$uri.'&dates='.$beforeYesterday.','.$yesterday.'';
+		$data = Piwik::sendHttpRequest($url, 5);
+		try {
+			$xml = new SimpleXMLElement($data);
+		} catch(Exception $e) {
+			return "Error parsing the data for feed $uri. Fetched data was: \n'". $data."'";
+		}
+		
+		if(count($xml->feed->entry) != 2) {
+			return "Error fetching the Feedburner stats. Expected XML, Got: \n" . strip_tags($data);
+		}
+		$data = array();
+		$i = 0;
+		foreach($xml->feed->entry as $feedDay){
+			$data[0][$i] = $feedDay['circulation'];
+			$data[1][$i] = $feedDay['hits'];
+			$data[2][$i] = $feedDay['reach'];
+			$i++;
+		}
+	
+		foreach($data as $key => $value) {
+			if( $value[0] == $value[1]) {
+				$img = 'nochange.gif';
+			} else if($value[0] < $value[1]) {
+				$img = 'arrow-up-green.gif';
+			} else {
+				$img = 'arrow-down-red.gif';
+			}
+			
+			$prefixImage = '<img alt="" src="./plugins/ExampleFeedburner/templates/';
+			$suffixImage = '" />';
+			$data[$key][2] = $prefixImage . $img . $suffixImage;
+		}
+		return $data;
 	}
 	
 	/**
