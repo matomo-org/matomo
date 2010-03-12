@@ -51,8 +51,29 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		return $view;
 	}
 	
+	protected function setDateTodayIfWebsiteCreatedToday()
+	{
+		$date = Piwik_Common::getRequestVar('date', false);
+		$date = Piwik_Date::factory($date);
+		if($date->isToday()) {
+			return;
+		} 
+		$websiteId = Piwik_Common::getRequestVar('idSite', false);
+		if ($websiteId) {
+			$website = new Piwik_Site($websiteId);
+			if( $website->getCreationDate()->isToday() ) {
+				Piwik::redirectToModule( 'CoreHome', 'index', 
+										array(	'date' => 'today', 
+												'idSite' => $websiteId, 
+												'period' => Piwik_Common::getRequestVar('period')) 
+				);
+			}
+		}
+	}
+	
 	public function index()
 	{
+		$this->setDateTodayIfWebsiteCreatedToday();
 		$view = $this->getDefaultIndexView();
 		echo $view->render();		
 	}
