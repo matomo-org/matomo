@@ -375,7 +375,7 @@ class Piwik_Actions extends Piwik_Plugin
 			{
 				$actionName = '/' . $actionName;
 			}
-			else if( $row['type'] == Piwik_Tracker_Action::TYPE_ACTION_NAME )
+			else 
 			{
 				$actionName = ' ' . $actionName;
 			}
