@@ -138,7 +138,7 @@
 	<tr>
 		<td class="label">{'Installation_SystemCheckFileIntegrity'|translate}</td>
 		<td>
-		{if !isset($infos.integrityErrorMessages)}
+		{if empty($infos.integrityErrorMessages)}
 			{$ok}
 		{else}
 			{if $infos.integrity}
