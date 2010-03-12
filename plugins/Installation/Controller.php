@@ -211,8 +211,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		}
 		$view->addForm($form);
 
-		$view->infos = self::getSystemInformation();
-
 		echo $view->render();
 	}
 
@@ -795,6 +793,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$integrityInfo = Piwik::getFileIntegrityInformation();
 		$infos['integrity'] = $integrityInfo[0];
+		
+		$infos['integrityErrorMessages'] = array();
 		if(isset($integrityInfo[1]))
 		{
 			$infos['integrityErrorMessages'] = array_splice($integrityInfo, 1);
