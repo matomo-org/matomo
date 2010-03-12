@@ -23,10 +23,10 @@ $(document).ready( function() {
 <div id="dashboard">
  
 	<div class="dialog" id="confirm"> 
-	        <img src="themes/default/images/delete.png" style="padding: 10px; position: relative; margin-top: 10%; float: left;"/>
+	        <img src="themes/default/images/delete.png" style="padding: 10px; position: relative; margin-top: 10%; float: left;" />
 	        <p>{'Dashboard_DeleteWidgetConfirm'|translate}</p>
-			<input id="yes" type="button" value="{'General_Yes'|translate}"/>
-			<input id="no" type="button" value="{'General_No'|translate}"/>
+			<input id="yes" type="button" value="{'General_Yes'|translate}" />
+			<input id="no" type="button" value="{'General_No'|translate}" />
 	</div> 
 
 	<div class="button" id="addWidget">
@@ -34,7 +34,7 @@ $(document).ready( function() {
 	</div>
 	
 	<div class="menu" id="widgetChooser">
-		<div id="closeMenuIcon"><img src="themes/default/images/close_medium.png" title="{'General_Close'|translate}"/></div>
+		<div id="closeMenuIcon"><img src="themes/default/images/close_medium.png" title="{'General_Close'|translate}" /></div>
 		<div id="menuTitleBar">{'Dashboard_SelectWidget'|translate}</div>
 
 		<div class="subMenu" id="sub1"></div>
