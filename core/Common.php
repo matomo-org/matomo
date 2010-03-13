@@ -568,62 +568,6 @@ class Piwik_Common
 	}
 
 	/**
-	 * Generate nonce
-	 *
-	 * @param string $id Unique id to avoid namespace conflicts, e.g., ModuleName.ActionName
-	 * @param int $ttl Optional time-to-live in seconds; default is 5 minutes
-	 * @return string Nonce
-	 */
-	static public function getNonce($id, $ttl = 300)
-	{
-		// the ingredients to our secret sauce? a dash of private salt and a flavorful mix of PRNGs, making it less predictable in nature, yet retaining a subtle hint of more entropy
-		$nonce = md5(self::getSalt() . self::generateUniqId());
-
-		// keeping it simple: store the host and path to the Piwik root
-		$referer = @parse_url(Piwik_Url::getReferer());
-		$url = $referer ? $referer['host'] .'/'. (isset($referer['path']) ? $referer['path'] .'/' : '') : '';
-
-		// save session-dependent nonce
-		$ns = new Zend_Session_Namespace($id);
-		$ns->snonce = array(
-			'nonce' => $nonce,
-			'url' => $url,
-		);
-		$ns->setExpirationSeconds($ttl, 'snonce');
-
-		return $nonce;
-	}
-
-	/**
-	 * Verify nonce
-	 *
-	 * @param string $id Unique id
-	 * @param string $nonce Nonce sent to client
-	 * @return bool true if valid; false otherwise
-	 */
-	static public function verifyNonce($id, $nonce)
-	{
-		$ns = new Zend_Session_Namespace($id);
-		$snonce = $ns->snonce;
-
-		// validate token
-		if(empty($nonce) || $snonce['nonce'] !== $nonce)
-		{
-			return false;
-		}
-
-		// validate referer
-		$referer = @parse_url(Piwik_Url::getReferer());
-		$url = $referer ? $referer['host'] .'/'. (isset($referer['path']) ? $referer['path'] .'/' : '') : '';
-		if((empty($snonce['url']) xor empty($url)) || ($nonce['url'] !== $url))
-		{
-			return false;
-		}
-
-		return true;		
-	}
-
-	/**
 	 * Convert dotted IP to a stringified integer representation
 	 *
 	 * @return string ip
