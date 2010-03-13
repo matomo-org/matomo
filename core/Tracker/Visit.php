@@ -388,7 +388,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 *
 	 * @return long
 	 */
-	protected function getVisitorIp()
+	public function getVisitorIp()
 	{
 		return Piwik_Common::getIp();
 	}
@@ -398,7 +398,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 *
 	 * @return string
 	 */
-	protected function getUserAgent()
+	public function getUserAgent()
 	{
 		return @$_SERVER['HTTP_USER_AGENT'];
 	}
@@ -446,7 +446,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				  || preg_match('/Googlebot/', $ua);			// Googlebot
 
 		/* custom filters can override the built-in filter above */
-		Piwik_PostEvent('Tracker.Visit.isExcluded', $excluded);
+		Piwik_PostEvent('Tracker.Visit.isExcluded', $excluded, $this);
 
 		if($excluded)
 		{

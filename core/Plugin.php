@@ -99,4 +99,14 @@ abstract class Piwik_Plugin
 	{
 		return substr(get_class($this), strlen("Piwik_"));
 	}
+
+	/**
+	 * Get cron schedule
+	 *
+	 * @return string|false A crontab like schedule
+	 */
+	public function getSchedule()
+	{
+		return false;
+	}
 }
