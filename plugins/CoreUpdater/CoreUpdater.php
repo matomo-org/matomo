@@ -57,8 +57,9 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 
 	function dispatch()
 	{
+		$module = Piwik_Common::getRequestVar('module', '', 'string');
 		$updater = new Piwik_Updater();
-		if(self::getComponentUpdates($updater) !== null)
+		if(self::getComponentUpdates($updater) !== null && $module != 'CoreUpdater')
 		{
 			Piwik::redirectToModule('CoreUpdater');
 		}
