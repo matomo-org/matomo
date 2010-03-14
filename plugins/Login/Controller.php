@@ -18,6 +18,29 @@
 class Piwik_Login_Controller extends Piwik_Controller
 {
 	/**
+	 * Redirect to referer only if from within Piwik
+	 *
+	 * @returns string
+	 */
+	static public function getRefererToRedirect()
+	{
+		// retrieve any previously saved referer
+		$referer = Piwik_Common::getRequestVar('form_url', '', 'string');
+		if(!empty($referer))
+		{
+			return htmlspecialchars_decode($referer);
+		}
+
+		// if the referer contains module=Login, Installation, or CoreUpdater, we instead redirect to the doc root
+		$referer = Piwik_Url::getLocalReferer();
+		if(empty($referer) || preg_match('/module=(Login|Installation|CoreUpdater)/', $referer))
+		{
+			$referer = 'index.php';
+		}
+		return $referer;
+	}
+
+	/**
 	 * Default action
 	 *
 	 * @param none
@@ -37,19 +60,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	function login($messageNoAccess = null)
 	{
-		$currentUrl = Piwik::getModule() == 'Login' ? Piwik_Url::getReferer() : 'index.php' . Piwik_Url::getCurrentQueryString();
-		$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
-		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
+		$urlToRedirect = self::getRefererToRedirect();
 
 		$form = new Piwik_Login_Form();
 		if($form->validate())
 		{
-			// if the current url to redirect contains module=Login, Installation, or CoreUpdater, we instead redirect to the doc root
-			if(empty($urlToRedirect) || preg_match('/module=(Login|Installation|CoreUpdater)/', $urlToRedirect))
-			{
-				$urlToRedirect = 'index.php';
-			}
-
 			$login = $form->getSubmitValue('form_login');
 			$password = $form->getSubmitValue('form_password');
 			$md5Password = md5($password);
@@ -74,20 +89,19 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	function logme()
 	{
-		$login = Piwik_Common::getRequestVar('login', null, 'string');
 		$password = Piwik_Common::getRequestVar('password', null, 'string');
-		$currentUrl = 'index.php';
-		$urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
-		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
-
 		if(strlen($password) != 32)
 		{
 			throw new Exception("The password parameter is expected to be a MD5 hash of the password.");
 		}
+
+		$login = Piwik_Common::getRequestVar('login', null, 'string');
 		if($login == Zend_Registry::get('config')->superuser->login)
 		{
 			throw new Exception("The Super User cannot be authenticated using this URL.");
 		}
+
+		$urlToRedirect = self::getRefererToRedirect();
 		$authenticated = $this->authenticateAndRedirect($login, $password, $urlToRedirect);
 		if($authenticated === false)
 		{
@@ -138,9 +152,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	function lostPassword()
 	{
 		$messageNoAccess = null;
-		$currentUrl = 'index.php';
-		$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
-		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
+		$urlToRedirect = self::getRefererToRedirect();
 
 		$form = new Piwik_Login_PasswordForm();
 		if($form->validate())
@@ -232,9 +244,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	function resetPassword()
 	{
 		$messageNoAccess = null;
-		$currentUrl = 'index.php';
-		$urlToRedirect = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
-		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
+		$urlToRedirect = self::getRefererToRedirect();
 
 		$form = new Piwik_Login_ResetPasswordForm();
 		if($form->validate())

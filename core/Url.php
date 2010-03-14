@@ -123,6 +123,7 @@ class Piwik_Url
 		}
 		return $scheme;
 	}
+
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org"
@@ -246,7 +247,7 @@ class Piwik_Url
 		}
 		self::redirectToUrl(self::getCurrentUrlWithoutQueryString());
 	}
-	
+
 	/**
 	 * Redirects the user to the specified URL
 	 *
@@ -268,6 +269,32 @@ class Piwik_Url
 		if(!empty($_SERVER['HTTP_REFERER']))
 		{
 			return $_SERVER['HTTP_REFERER'];
+		}
+		return false;
+	}
+
+	/**
+	 * Get local referer, i.e., on the same host and in the same script path.
+	 *
+	 * @return string|false
+	 */
+	static public function getLocalReferer()
+	{
+		// verify that the referer contains the current URL (minus the filename & query parameters), http://example.org/dir1/dir2/
+		$referer = self::getReferer();
+		if($referer !== false)
+		{
+			// handle case-sensitivity differences
+			$pathContains = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ? 'stripos' : 'strpos';
+
+			// determine the offset to begin the comparison;
+			// rationale: we can't rely on the scheme/protocol portion of the reconstructed "current" URL as there may be a reverse proxy
+			$offset = strpos($referer, '://');
+			$current = strstr(self::getCurrentUrlWithoutFileName(), '://');
+			if($pathContains($referer, $current, $offset) === $offset)
+			{
+				return $referer;
+			}
 		}
 		return false;
 	}
