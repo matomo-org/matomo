@@ -28,6 +28,7 @@ class Piwik_Login_Form extends Piwik_Form
 		$formElements = array(
 			array('text', 'form_login'),
 			array('password', 'form_password'),
+			array('hidden', 'form_nonce'),
 		);
 		$this->addElements( $formElements );
 
