@@ -253,6 +253,14 @@ abstract class Piwik_ArchiveProcessing
 			)
 		{
 			$this->maxTimestampArchive = time() - Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated;
+			
+			$browserArchivingEnabled = Zend_Registry::get('config')->General->enable_browser_archiving_triggering;
+			// see #1150; if new archives are not triggered from the browser, 
+			// we still want to try and return the latest archive available for today (rather than return nothing)
+			if(!$browserArchivingEnabled)
+			{
+				$this->maxTimestampArchive = 0;
+			}
 		}
 		// either
 		// - if the period we're looking for is finished, we look for a ts_archived that 
