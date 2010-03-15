@@ -1904,4 +1904,52 @@ class Piwik
 		$db = Zend_Registry::get('db');
 		$db->query( "DROP TABLE IF EXISTS ". implode(", ", self::getTablesNames()) );
 	}
+
+	/**
+	 * Generate nonce
+	 *
+	 * @param string $id Unique id to avoid namespace conflicts, e.g., ModuleName.ActionName
+	 * @param int $ttl Optional time-to-live in seconds; default is 5 minutes
+	 * @return string Nonce
+	 */
+	static public function getNonce($id, $ttl = 300)
+	{
+		// the ingredients to our secret sauce? a dash of private salt and a flavorful mix of PRNGs, making it less predictable in nature, yet retaining a subtle hint of more entropy
+		$nonce = md5(Piwik_Common::getSalt() . Piwik_Common::generateUniqId());
+
+		// save session-dependent nonce
+		$ns = new Zend_Session_Namespace($id);
+		$ns->nonce = $nonce;
+		$ns->setExpirationSeconds($ttl, 'nonce');
+
+		return $nonce;
+	}
+
+	/**
+	 * Verify nonce
+	 *
+	 * @param string $id Unique id
+	 * @param string $nonce Nonce sent to client
+	 * @return bool true if valid; false otherwise
+	 */
+	static public function verifyNonce($id, $nonce)
+	{
+		$ns = new Zend_Session_Namespace($id);
+		$snonce = $ns->nonce;
+
+		// validate token
+		if(empty($nonce) || $snonce !== $nonce)
+		{
+			return false;
+		}
+
+		// validate referer
+		$referer = Piwik_Url::getReferer();
+		if(!empty($referer) && (Piwik_Url::getLocalReferer() === false))
+		{
+			return false;
+		}
+
+		return true;		
+	}
 }
