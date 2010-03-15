@@ -65,16 +65,21 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$form = new Piwik_Login_Form();
 		if($form->validate())
 		{
-			$login = $form->getSubmitValue('form_login');
-			$password = $form->getSubmitValue('form_password');
-			$md5Password = md5($password);
-			$messageNoAccess = $this->authenticateAndRedirect($login, $md5Password, $urlToRedirect);
+			$nonce = $form->getSubmitValue('form_nonce');
+			if(Piwik::verifyNonce('Piwik_Login.login', $nonce))
+			{
+				$login = $form->getSubmitValue('form_login');
+				$password = $form->getSubmitValue('form_password');
+				$md5Password = md5($password);
+				$messageNoAccess = $this->authenticateAndRedirect($login, $md5Password, $urlToRedirect);
+			}
 		}
 
 		$view = Piwik_View::factory('login');
 		// make navigation login form -> reset password -> login form remember your first url
 		$view->urlToRedirect = $urlToRedirect;
 		$view->AccessErrorString = $messageNoAccess;
+		$view->nonce = Piwik::getNonce('Piwik_Login.login');
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
 		$view->subTemplate = 'genericForm.tpl';
