@@ -41,6 +41,10 @@ function Piwik_getHostnameName($in)
  */
 function Piwik_getHostnameUrl($in)
 {
+	if($in == Piwik_DataTable::LABEL_SUMMARY_ROW) 
+	{ 
+		return false;
+	}
 	if(empty($in)
 		|| strtolower($in) === 'ip')
 	{
