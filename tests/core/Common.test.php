@@ -652,7 +652,11 @@ class Test_Piwik_Common extends UnitTestCase
 			
 			// new google url formats
 			'http://www.google.com/url?sa=t&source=web&ct=res&cd=7&url=http%3A%2F%2Fwww.example.com%2Fmypage.htm&ei=0SjdSa-1N5O8M_qW8dQN&rct=j&q=flowers&usg=AFQjCNHJXSUh7Vw7oubPaO3tZOzz-F-u_w&sig2=X8uCFh6IoPtnwmvGMULQfw'
-				=> array('name' => 'Google', 'keywords' => 'flowers')
+				=> array('name' => 'Google', 'keywords' => 'flowers'),
+			'http://www.google.com/webhp?tab=mw#hl=en&source=hp&q=test+hash&btnG=Google+Search&aq=f&aqi=&aql=&oq=&fp=22b4dcbb1403dc0f'
+				=> false,
+			'http://www.google.com/#hl=en&source=hp&q=test+hash&aq=f&aqi=n1g5g-s1g1g-s1g2&aql=&oq=&fp=22b4dcbb1403dc0f'
+				=> false,
 		);
 		
 		foreach($urls as $refererUrl => $expectedReturnedValue) {
