@@ -140,6 +140,9 @@ datatable_archiving_maximum_rows_actions = 500
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
 datatable_archiving_maximum_rows_subtable_actions = 100
 
+; maximum number of rows for the provider table
+datatable_archiving_maximum_rows_providers = 500
+
 ; by default, Piwik uses self-hosted AJAX libraries.
 ; If set to 1, Piwik uses a Content Distribution Network
 use_ajax_cdn = 0

@@ -156,6 +156,11 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 *  final DataTable (ie. the number of distinct LABEL over the period) (eg. the number of distinct keywords over the last month)
 	 * 
 	 * @param string|array Field name(s) of DataTable to select so we can get the sum 
+	 * @param array (current_column_name => new_column_name) for columns that must change names when summed (eg. unique visitors go from nb_uniq_visitors to sum_daily_nb_uniq_visitors)
+	 * @param int Max row count of parent datatable to archive  
+	 * @param int Max row count of children datatable(s) to archive
+	 * @param string Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count) 
+	 * 
 	 * @return array  array (
 	 * 					nameTable1 => number of rows, 
 	 *  				nameTable2 => number of rows,
