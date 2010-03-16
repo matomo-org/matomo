@@ -1,33 +1,20 @@
 {literal}
-<style>
-body {
-	font-family: Georgia,"Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	font-size:0.9em;
-	padding:0.2em;
-}
-#error {
-	color: red;
-	text-align: center;
-	border: 2px solid red;
-	background-color:#FFFBFB;
-	margin: 10px;
-	padding: 10px;
-}
-#success {
-	color: #38D73B;
-	text-align: center;
-	border: 2px solid #38D73B;
-	margin: 10px;
-	padding: 10px;
-}
-</style>
+<script type="text/javascript">
+	$('#feedback-retry').click(function() {
+		$('#feedback-sent').hide().empty();
+		$('#feedback-form').show();
+		return false;
+	});
+</script>
 {/literal}
 
 {if isset($ErrorString)}
-	<div id="error"><strong>{'General_Error'|translate}:</strong> {$ErrorString}</div>
-	<p>Please manually send your message at <a href='mailto:hello@piwik.org'>hello@piwik.org</a></p>
-	<p>{$message}</p>
+	<div id="feedback-error"><strong>{'General_Error'|translate}:</strong> {$ErrorString}</div>
+	<p>{'Feedback_ManuallySendEmailTo'|translate} <a href='mailto:hello@piwik.org?subject={'[Feedback form - Piwik]'|escape:"hex"}&body={$message|stripeol|escape:"hex"}'>hello@piwik.org</a></p>
+	<textarea cols="37" rows="10" readonly="readonly">{$message}</textarea>
+    <p><a href="#" id="feedback-retry"><img src="plugins/Feedback/images/go-previous.png" border="0" title="{'General_Previous'|translate}" alt="[{'General_Previous'|translate}]" /></a></p>
 {else}
-	<div id="success">Your message was sent to Piwik.</div>
-	<p><strong>Thank you for your helping us making Piwik better!</strong><br /> The Piwik Team</p>	
+	<div id="feedback-success">{'Feedback_MessageSent'|translate}</div>
+	<p><strong>{'Feedback_ThankYou'|translate}</strong></p>
+	<p>-- {'Feedback_ThePiwikTeam'|translate}</p>
 {/if}

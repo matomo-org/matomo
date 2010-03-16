@@ -1,20 +1,26 @@
 $(function() {
-	// initialize
 	var feedback = $('a#topbar-feedback');
 	if (feedback.size()) {
-		var iframe = $('<iframe src="' + feedback.attr('href') + '" style="width:450px !important;" width="450"></iframe>').appendTo('body');
-		iframe.dialog({
+		var fbDiv = $('<div id="feedback-dialog"></div>').appendTo('body');
+
+		$.get(feedback.attr('href'), function(data) {
+			fbDiv.html(data);
+		});
+
+		fbDiv.dialog({
 			title: feedback.html(),
 			bgiframe: true,
 			modal: true,
 			height: 480,
-			width: 450,
+			width: 460,
 			resizable: false,
 			autoOpen: false
 		});
 
 		$('#topbar-feedback').click(function() {
-			iframe.dialog('open');
+			$('#feedback-faq').show();
+			$('#feedback-form').hide();
+			fbDiv.dialog('open');
 			return false;
 		});
 	}
