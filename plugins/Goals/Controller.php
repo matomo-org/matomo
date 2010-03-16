@@ -30,7 +30,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$idGoal = Piwik_Common::getRequestVar('idGoal', null, 'int');
 		if(!isset($this->goals[$idGoal]))
 		{
-			throw new Exception("idgoal $idGoal not valid.");
+			Piwik::redirectToModule('Goals', 'index', array('idGoal' => null));
 		}
 		$goalDefinition = $this->goals[$idGoal];
 		
