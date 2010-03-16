@@ -122,6 +122,10 @@ login_cookie_name = piwik_auth
 ; login cookie expiration (30 days)
 login_cookie_expire = 2592000
 
+; The path on the server in which the cookie will be available on. 
+; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
+login_cookie_path = 
+
 ; email address that appears as a Sender in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Piwik domain
 login_password_recovery_email_address = "password-recovery@{DOMAIN}"
@@ -190,6 +194,10 @@ cookie_name	= piwik_visitor
 
 ; by default, the Piwik tracking cookie expires in 2 years
 cookie_expire = 63072000
+
+; The path on the server in which the cookie will be available on. 
+; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
+cookie_path = 
 
 ; variable name to track any campaign, for example CPC campaign
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referer named 'Adwords-CPC'

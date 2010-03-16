@@ -46,11 +46,12 @@ class Piwik_Cookie
 	 * 
 	 * @param string cookie Name
 	 * @param int The timestamp after which the cookie will expire, eg time() + 86400
+	 * @param string The path on the server in which the cookie will be available on. 
 	 */
-	public function __construct( $cookieName, $expire = null)
+	public function __construct( $cookieName, $expire = null, $path = null)
 	{
 		$this->name = $cookieName;
-		
+		$this->path = $path;
 		$this->expire = $expire;
 		if(is_null($expire)
 			|| !is_numeric($expire)
@@ -58,6 +59,7 @@ class Piwik_Cookie
 		{
 			$this->expire = $this->getDefaultExpire();
 		}
+		
 		
 		if($this->isCookieFound())
 		{
@@ -139,7 +141,7 @@ class Piwik_Cookie
 	public function save()
 	{
 		$this->setP3PHeader();
-		$this->setCookie( $this->name, $this->generateContentString(), $this->expire);
+		$this->setCookie( $this->name, $this->generateContentString(), $this->expire, $this->path);
 	}
 	
 	/**
