@@ -1,0 +1,28 @@
+#feedback-form input, #feedback-form textarea, #feedback-sent textarea, #feedback-form select, #feedback-faq p, #feedback-form p, #feedback-sent div, #feedback-sent p, #feedback-faq li {
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size:0.9em;
+	padding:0.2em;
+}
+#feedback-faq ul {
+	list-style-type:disc;
+	list-style-position:inside;
+	padding:1em;
+}
+#feedback-faq, #feedback-form, #feedback-sent {
+	margin-right:1em;
+}
+#feedback-error {
+	color: red;
+	text-align: center;
+	border: 2px solid red;
+	background-color:#FFFBFB;
+	margin: 10px;
+	padding: 10px;
+}
+#feedback-success {
+	color: #38D73B;
+	text-align: center;
+	border: 2px solid #38D73B;
+	margin: 10px;
+	padding: 10px;
+}
