@@ -84,17 +84,12 @@ class Piwik_Provider extends Piwik_Plugin
 		Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider','footerUserCountry'));
 	}
 
-	function __construct()
-	{
-		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_providers;
-	}
-	
 	function archivePeriod( $notification )
 	{
+		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_providers;
 		$archiveProcessing = $notification->getNotificationObject();
 		$dataTableToSum = array( 'Provider_hostnameExt' );
-		$archiveProcessing->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTableLevelZero);
+		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTableLevelZero);
 	}
 
 	/**
@@ -108,7 +103,9 @@ class Piwik_Provider extends Piwik_Plugin
 		$labelSQL = "location_provider";
 		$interestByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableProvider = $archiveProcessing->getDataTableFromArray($interestByProvider);
-		$archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized($this->maximumRowsInDataTableLevelZero, null, $this->columnToSortByBeforeTruncation));
+		$columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
+		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_providers;
+		$archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized($maximumRowsInDataTableLevelZero, null, $columnToSortByBeforeTruncation));
 		destroy($tableProvider);
 	}
 	
