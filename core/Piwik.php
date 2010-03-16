@@ -1906,7 +1906,8 @@ class Piwik
 	}
 
 	/**
-	 * Generate nonce
+	 * Generate nonce -- a cryptographic "number used only once", often recommended as part of a robust defense against cross-site request forgery (CSRF/XSRF).
+	 * Characteristics: limited lifetime, uniqueness, unpredictability (pseudo-randomness).
 	 *
 	 * @param string $id Unique id to avoid namespace conflicts, e.g., ModuleName.ActionName
 	 * @param int $ttl Optional time-to-live in seconds; default is 5 minutes
@@ -1915,7 +1916,7 @@ class Piwik
 	static public function getNonce($id, $ttl = 300)
 	{
 		// the ingredients to our secret sauce? a dash of private salt and a flavorful mix of PRNGs, making it less predictable in nature, yet retaining a subtle hint of more entropy
-		$nonce = md5(Piwik_Common::getSalt() . Piwik_Common::generateUniqId());
+		$nonce = md5(Piwik_Common::getSalt() . time() . Piwik_Common::generateUniqId());
 
 		// save session-dependent nonce
 		$ns = new Zend_Session_Namespace($id);
@@ -1926,7 +1927,7 @@ class Piwik
 	}
 
 	/**
-	 * Verify nonce
+	 * Verify nonce and check referrer (if present, i.e., it may be suppressed by the browser or a proxy/network).
 	 *
 	 * @param string $id Unique id
 	 * @param string $nonce Nonce sent to client
