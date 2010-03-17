@@ -231,6 +231,7 @@ widgetMenu.prototype =
 			self.filterOutAlreadyLoadedWidget();
 			$.blockUI({
 					message: self.menuElement, 
+					centerY: 0,
 					css: {width:'', top: '5%',left:'10%', right:'10%', margin:"0px", textAlign:'', cursor:'', border:'0px'}
 			});
 		}
@@ -309,7 +310,7 @@ widgetMenu.prototype =
 			);
 			$.extend($.blockUI.defaults.overlayCSS, { backgroundColor: '#000000', opacity: '0.4'});
 			$.extend($.blockUI.defaults,{ fadeIn: 0, fadeOut: 0 });
-			$(window).keydown( function(e) {
+			$(document).keydown( function(e) {
 				var key = e.keyCode || e.which;
 				if(key == 27) {
 					self.hideMenu();
