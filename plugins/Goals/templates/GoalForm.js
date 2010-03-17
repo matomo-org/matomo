@@ -42,11 +42,6 @@ function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, patte
 	}
 }
 
-function initAndShowAddGoalForm()
-{
-	initGoalForm('Goals.addGoal', 'Add Goal', '', 'url', '', 'contains', false, '0');
-	return showAddNewGoal(); 
-}
 
 function bindGoalForm()
 {
@@ -80,31 +75,6 @@ function bindGoalForm()
 		initAndShowAddGoalForm();
 	} );
 }
-
-function bindListGoalEdit()
-{
-	$('a[name=linkEditGoal]').click( function() {
-		var goalId = $(this).attr('id');
-		var goal = piwik.goals[goalId];
-		initGoalForm("Goals.updateGoal", "Update Goal", goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive=='0' ? false : true), goal.revenue, goalId);
-		showAddNewGoal();
-		return false;
-	});
-	
-	$('a[name=linkDeleteGoal]').click( function() {
-		var goalId = $(this).attr('id');
-		var goal = piwik.goals[goalId];
-		if(confirm(sprintf("Are you sure you want to delete the Goal '%s'?", goal.name)))
-		{
-			$.ajax( getAjaxDeleteGoal( goalId ) );
-		}
-		return false;
-	});
-
-	$('a[name=linkEditGoals]').click( function(){ 
-		return showEditGoals(); 
-	} );
-}
 function getAjaxDeleteGoal(idGoal)
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
@@ -112,11 +82,11 @@ function getAjaxDeleteGoal(idGoal)
 	
 	var parameters = {};
 	parameters.idSite = piwik.idSite;
- 	parameters.idGoal =  idGoal;
- 	parameters.method =  'Goals.deleteGoal';
+	parameters.idGoal =  idGoal;
+	parameters.method =  'Goals.deleteGoal';
 	parameters.module = 'API';
 	parameters.format = 'json';
- 	parameters.token_auth = piwik.token_auth;
+	parameters.token_auth = piwik.token_auth;
 	ajaxRequest.data = parameters;
 	return ajaxRequest;
 }
@@ -130,7 +100,7 @@ function getAjaxAddGoal()
 	
 	parameters.idSite = piwik.idSite;
 	parameters.name = encodeURIComponent( $('#goal_name').val() );
-
+	
 	if($('[name=trigger_type]').val() == 'manually') {
 		parameters.matchAttribute = 'manually';
 		parameters.patternType = 'regex';
@@ -144,12 +114,43 @@ function getAjaxAddGoal()
 	}
 	parameters.revenue = $('input[name=revenue]').val();
 	
- 	parameters.idGoal =  $('input[name=goalIdUpdate]').val();
- 	parameters.method =  $('input[name=methodGoalAPI]').val();
+	parameters.idGoal =  $('input[name=goalIdUpdate]').val();
+	parameters.method =  $('input[name=methodGoalAPI]').val();
 	parameters.module = 'API';
 	parameters.format = 'json';
- 	parameters.token_auth = piwik.token_auth;
+	parameters.token_auth = piwik.token_auth;
 	
 	ajaxRequest.data = parameters;
 	return ajaxRequest;
+}
+
+function bindListGoalEdit()
+{
+	$('a[name=linkEditGoal]').click( function() {
+		var goalId = $(this).attr('id');
+		var goal = piwik.goals[goalId];
+		initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal_js'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive=='0' ? false : true), goal.revenue, goalId);
+		showAddNewGoal();
+		return false;
+	});
+	
+	$('a[name=linkDeleteGoal]').click( function() {
+		var goalId = $(this).attr('id');
+		var goal = piwik.goals[goalId];
+        if(confirm(sprintf(_pk_translate('Goals_DeleteGoalConfirm_js'), '"'+goal.name+'"')))
+		{
+			$.ajax( getAjaxDeleteGoal( goalId ) );
+		}
+		return false;
+	});
+
+	$('a[name=linkEditGoals]').click( function(){ 
+		return showEditGoals(); 
+	} );
+}
+
+function initAndShowAddGoalForm()
+{
+	initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal_js'), '', 'url', '', 'contains', false, '0');
+	return showAddNewGoal(); 
 }

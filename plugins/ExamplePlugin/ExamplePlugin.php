@@ -155,6 +155,20 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out .= 'View the list of API methods you can call on <a href="http://dev.piwik.org/trac/wiki/API/Reference#Methods">API reference</a><br/>';
 		$out .= 'For example you can try <code>Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess("view");</code> or <code>Piwik_UsersManager_API::getInstance()->deleteUser("userToDelete");</code><br/>';
 		
+		$out .= '<h2>Javascript in Piwik</h2>';
+		$out .= '<h3>i18n internationalization</h3>';
+		$out .= 'In order to translate strings within Javascript code, you can use the javascript function _pk_translate( token );.
+				<ul><li>The "token" parameter is the string unique key found in the translation file. For this token string to be available in Javascript, you must
+				suffix your token by "_js" in the language file. For example, you can add <code>\'Goals_AddGoal_js\' => \'Add Goal\',</code> in the lang/en.php file</li>
+				<li>You then need to instruct Piwik to load your Javascript translations for your plugin; by default, all translation strings are not loaded in Javascript for performance reasons. This can be done by calling the Smarty modifier before any your javascript includes that would be using the translations, eg. 
+					<code>{loadJavascriptTranslations plugins=\'$YOUR_PLUGIN_NAME\'}</code>. In our previous example, the $YOUR_PLUGIN_NAME being Goals, we would write <code>{loadJavascriptTranslations plugins=\'Goals\'}</code>
+					</li><li>You can then print this string from your JS code by doing <code>_pk_translate(\'Goals_AddGoal_js\');</code>.
+					</li></ul>';
+
+		$out .= '<h3>Reload a widget in the dashboard</h3>';
+		$out .= 'It is sometimes useful to reload one widget in the dashboard (for example, every 20 seconds for a real time widget, or after a setting change). 
+					You can easily force your widget to reload in the dashboard by calling the helper function <code>piwik.dashboardObject.reloadEnclosingWidget($(this));</code>.';
+		
 		$out .= '<h2>Smarty plugins</h2>';
 		$out .= 'There are some builtin plugins for Smarty especially developped for Piwik. <br>
 				You can find them on the <a href="http://dev.piwik.org/trac/browser/trunk/core/SmartyPlugins">SVN at /trunk/core/SmartyPlugins</a>. <br>

@@ -7,12 +7,12 @@
 <h2 style="padding-top: 30px;">{$goal.name} (goal)</h2>
 <div id='leftcolumn'>
 	<div class="sparkline">{sparkline src=$goal.urlSparklineConversions}
-	{'%s conversions'|translate:"<strong>$nb_conversions</strong>"}</div>
+	{'Goals_Conversions'|translate:"<strong>$nb_conversions</strong>"}</div>
 </div>
 <div id='rightcolumn'>
 	<div class="sparkline">{sparkline src=$goal.urlSparklineConversionRate}
-	{'%s conversion rate'|translate:"<strong>$conversion_rate%</strong>"}</div>
-	{* (<a href=''>more</a>) *}
+	{'Goals_ConversionRate'|translate:"<strong>$conversion_rate%</strong>"}</div>
+    {* (<a href=''>{'General_More'|translate}</a>) *}
 </div>
 {/foreach}
 
