@@ -1,6 +1,6 @@
 ﻿/*!
  * jQuery blockUI plugin
- * Version 2.26 (09-SEP-2009)
+ * Version 2.31 (06-JAN-2010)
  * @requires jQuery v1.2.3 or later
  *
  * Examples at: http://malsup.com/jquery/block/
@@ -20,6 +20,8 @@ if (/1\.(0|1|2)\.(0|1|2)/.test($.fn.jquery) || /^1.1/.test($.fn.jquery)) {
 }
 
 $.fn._fadeIn = $.fn.fadeIn;
+
+var noOp = function() {};
 
 // this bit is to ensure we don't call setExpression when we shouldn't (with extra muscle to handle
 // retarded userAgent strings on Vista)
@@ -63,7 +65,7 @@ $.fn.unblock = function(opts) {
 	});
 };
 
-$.blockUI.version = 2.26; // 2nd generation blocking at no extra cost!
+$.blockUI.version = 2.31; // 2nd generation blocking at no extra cost!
 
 // override these in your code to change the default behavior and style
 $.blockUI.defaults = {
@@ -164,6 +166,9 @@ $.blockUI.defaults = {
 
 	// suppresses the use of overlay styles on FF/Linux (due to performance issues with opacity)
 	applyPlatformOpacityRules: true,
+	
+	// callback method invoked when fadeIn has completed and blocking message is visible
+	onBlock: null,
 
 	// callback method invoked when unblocking has completed; the callback is
 	// passed the element that has been unblocked (which is the window object for page
@@ -252,7 +257,11 @@ function install(el, opts) {
 	if ($.browser.msie || opts.forceIframe)
 		lyr1.css('opacity',0.0);
 
-	$([lyr1[0],lyr2[0],lyr3[0]]).appendTo(full ? 'body' : el);
+	//$([lyr1[0],lyr2[0],lyr3[0]]).appendTo(full ? 'body' : el);
+	var layers = [lyr1,lyr2,lyr3], $par = full ? $('body') : $(el);
+	$.each(layers, function() {
+		this.appendTo($par);
+	});
 	
 	if (opts.theme && opts.draggable && $.fn.draggable) {
 		lyr3.draggable({
@@ -312,16 +321,21 @@ function install(el, opts) {
 	if (($.browser.msie || opts.forceIframe) && opts.showOverlay)
 		lyr1.show(); // opacity is zero
 	if (opts.fadeIn) {
+		var cb = opts.onBlock ? opts.onBlock : noOp;
+		var cb1 = (opts.showOverlay && !msg) ? cb : noOp;
+		var cb2 = msg ? cb : noOp;
 		if (opts.showOverlay)
-			lyr2._fadeIn(opts.fadeIn);
+			lyr2._fadeIn(opts.fadeIn, cb1);
 		if (msg)
-			lyr3.fadeIn(opts.fadeIn);
+			lyr3._fadeIn(opts.fadeIn, cb2);
 	}
 	else {
 		if (opts.showOverlay)
 			lyr2.show();
 		if (msg)
 			lyr3.show();
+		if (opts.onBlock)
+			opts.onBlock();
 	}
 
 	// bind key and mouse events
@@ -388,7 +402,7 @@ function reset(els,data,opts,el) {
 		data.el.style.position = data.position;
 		if (data.parent)
 			data.parent.appendChild(data.el);
-		$(data.el).removeData('blockUI.history');
+		$(el).removeData('blockUI.history');
 	}
 
 	if (typeof opts.onUnblock == 'function')
