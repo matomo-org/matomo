@@ -92,9 +92,13 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->dateToStr = $this->dateToStr;
 		
 		$this->setGeneralVariablesView($view);
-		$minDate = Piwik_Date::factory(Zend_Registry::get('access')->getSitesMinDate());
-		$this->setMinDateView($minDate, $view);
 		
+		$minTimestamp = Zend_Registry::get('access')->getSitesMinDate();
+		if(!empty($minTimestamp))
+		{
+    		$minDate = Piwik_Date::factory($minTimestamp);
+    		$this->setMinDateView($minDate, $view);
+		}
 		echo $view->render();
 	}
 

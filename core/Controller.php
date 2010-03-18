@@ -325,6 +325,7 @@ abstract class Piwik_Controller
 		}
 
 		Piwik_FrontController::dispatch('Login', false);
+		exit;
 	}
 	
 
