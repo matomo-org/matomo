@@ -26,18 +26,19 @@ $(function() {
 {/literal}
 
   <div id="feedback-faq">
-    <p><strong>{'Feedback_PleaseUseForum'|translate}</strong></p>
-    <p>» {'Feedback_ViewAnswersTo'|translate} <a href="http://piwik.org/faq/">{'Feedback_FrequentlyAskedQuestions'|translate}</a>.</p>
+    <p><strong>{'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate}</strong></p>
+    <p>» {'Feedback_ViewAnswersToFAQ'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://piwik.org/faq/'>":"</a>"}.</p>
     <ul>
       <li>{'Feedback_WhyAreMyVisitsNoTracked'|translate}</li>
-      <li>{'Feedback_WhyNoData'|translate}</li>
       <li>{'Feedback_HowToExclude'|translate}</li>
       <li>{'Feedback_WhyWrongCountry'|translate}</li>
       <li>{'Feedback_HowToAnonymizeIP'|translate}</li>
     </ul>
-    <p>» {'Feedback_VisitThe'|translate} <a href="http://forum.piwik.org/">{'Feedback_Forums'|translate}</a>.</p>
-    <p>» {'Feedback_LearnWaysTo'|translate} <a href="http://piwik.org/contribute/">{'Feedback_Participate'|translate}</a>.</p>
-    <p>» {'Feedback_SpecialRequest'|translate} <a href="#" id="feedback-contact">{'Feedback_ContactUs'|translate}</a>.</p>
+    <p>» {'Feedback_VisitTheForums'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://forum.piwik.org/'>":"</a>"}.</p>
+    <p>» {'Feedback_LearnWaysToParticipate'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://piwik.org/contribute/'>":"</a>"}.</p>
+    <br/>
+    <p><strong>{'Feedback_SpecialRequest'|translate}</strong></p>
+    <p>»  <a target='_blank' href="#" id="feedback-contact">{'Feedback_ContactThePiwikTeam'|translate}</a></p>
   </div>
   <div id="feedback-form" style="display:none;">
     <form method="post" action="index.php?module=Feedback&action=sendFeedback">
@@ -50,10 +51,10 @@ $(function() {
         </select>
       </p>
       <p><strong>{'Feedback_MyEmailAddress'|translate}</strong><br />
-        <input type="text" name="email" size="40" />
+        <input type="text" name="email" size="59" />
         <input type="hidden" name="nonce" value="{$nonce}" /></p>
       <p><strong>{'Feedback_MyMessage'|translate}</strong> {'Feedback_DetailsPlease'|translate}<br />
-        <textarea name="body" cols="37" rows="10"></textarea></p>
+        <textarea name="body" cols="57" rows="10"></textarea></p>
       <p><input id="feedback-form-submit" type="submit" value="{'Feedback_SendFeedback'|translate}" /></p>
       <p><a href="#" id="feedback-home"><img src="plugins/Feedback/images/go-previous.png" border="0" title="{'General_Previous'|translate}" alt="[{'General_Previous'|translate}]" /></a></p>
     </form>

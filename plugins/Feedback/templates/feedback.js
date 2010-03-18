@@ -12,7 +12,7 @@ $(function() {
 			bgiframe: true,
 			modal: true,
 			height: 480,
-			width: 460,
+			width: 500,
 			resizable: false,
 			autoOpen: false
 		});
