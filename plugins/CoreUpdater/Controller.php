@@ -191,25 +191,24 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		if(!empty($language))
 		{
 			Piwik_LanguagesManager_API::getInstance()->setLanguageForSession($language);
-			Piwik_Translate::getInstance()->loadEnglishTranslation();
-			Piwik_Translate::getInstance()->loadUserTranslation();
+			Piwik::redirectToModule('CoreUpdater', 'index', array('language' => null));
 		}
-
-		$updater = new Piwik_Updater();
-		$this->runUpdaterAndExit($updater, Piwik_CoreUpdater::getComponentUpdates($updater));
+		$this->runUpdaterAndExit();
 	}
 
-	public function runUpdaterAndExit($updater = null, $componentsWithUpdateFile = null)
+	public function runUpdaterAndExit()
 	{
-		if(empty($updater) && empty($componentsWithUpdateFile))
+		$updater = new Piwik_Updater();
+		$componentsWithUpdateFile = Piwik_CoreUpdater::getComponentUpdates($updater);		
+		if(empty($componentsWithUpdateFile))
 		{
 			return;
 		}
-
+		
+		Piwik::setMaxExecutionTime(0);
+		
 		if(Piwik::isPhpCliMode())
 		{
-			Piwik::setMaxExecutionTime(0);
-
 			$view = Piwik_View::factory('update_welcome');
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 
@@ -228,6 +227,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		else
 		{
 			$view = Piwik_View::factory('update_welcome');
+    		$view->queries = $updater->getSqlQueriesToExecute();
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 		}
 		exit;

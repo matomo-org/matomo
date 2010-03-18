@@ -27,7 +27,7 @@ html { background: #eee; }
 }
 p, dt {
 	line-height: 120%;
-	padding-bottom: 2px;
+	padding-bottom: 1em;
 	margin:10;
 }
 a { color: #006; }
