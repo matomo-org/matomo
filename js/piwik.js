@@ -486,6 +486,7 @@ if (!this.Piwik) {
 				var i, now, request;
 				now = new Date();
 				request = 'idsite=' + configTrackerSiteId +
+						'&rec=1' + 
 				        '&url=' + escapeWrapper(isDefined(configCustomUrl) ? configCustomUrl : documentAlias.location.href) +
 				        '&res=' + screenAlias.width + 'x' + screenAlias.height +
 				        '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
@@ -547,6 +548,7 @@ if (!this.Piwik) {
 			function logLink(url, linkType, customData) {
 				var request;
 				request = 'idsite=' + configTrackerSiteId +
+						  '&rec=1' + 
 				          '&' + linkType + '=' + escapeWrapper(url) +
 				          '&rand=' + Math.random() +
 				          '&redirect=0';
