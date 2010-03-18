@@ -298,8 +298,10 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			$actionType = self::TYPE_ACTION_URL;
 			$url = Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
 
-			// get the delimiter, by default '/'
-			$actionCategoryDelimiter = Piwik_Tracker_Config::getInstance()->General['action_category_delimiter'];
+			// get the delimiter, by default '/'; BC, we read the old action_category_delimiter first (see #1067) 
+			$actionCategoryDelimiter = isset(Piwik_Tracker_Config::getInstance()->General['action_category_delimiter'])
+										? Piwik_Tracker_Config::getInstance()->General['action_category_delimiter']
+										: Piwik_Tracker_Config::getInstance()->General['action_url_category_delimiter'];
 			
 			// create an array of the categories delimited by the delimiter
 			$split = explode($actionCategoryDelimiter, $actionName);

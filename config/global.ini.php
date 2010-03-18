@@ -71,14 +71,17 @@ default_module_login = 0
 ; so that your users do not trigger archiving in their browser when this is not expected
 enable_browser_archiving_triggering = 1
 
-; character used to automatically create categories in the "Action" "Downloads" reports
+; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
 ; for example a URL like "example.com/blog/development/first-post" will create 
 ; the page first-post in the subcategory development which belongs to the blog category
-action_category_delimiter = /
+action_url_category_delimiter = /
+
+; similar to above, but this delimiter is only used for page titles in the Actions > Page titles report
+action_title_category_delimiter = /
 
 ; this action name is used when the URL ends with a slash / 
 ; it is useful to have an actual string to write in the UI
-action_default_name 		= index
+action_default_name = index
 
 ; this action name is used when the URL has no page title or page URL defined
 action_default_name_when_not_defined = "page title not defined"
