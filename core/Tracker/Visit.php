@@ -445,6 +445,15 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$excluded =  preg_match('/65\.55/', long2ip($ip))	// Live/Bing
 				  || preg_match('/Googlebot/', $ua);			// Googlebot
 
+				  
+		/*
+		 * Requests built with piwik.js will contain a rec=1 parameter. This is used as
+		 * an indication that the request is made by a JS enabled device. By default, Piwik 
+		 * doesn't track non-JS visitors.
+		 */
+		$toRecord = Piwik_Common::getRequestVar('rec', false, 'int');
+		$excluded = $excluded || !$toRecord;
+		
 		/* custom filters can override the built-in filter above */
 		Piwik_PostEvent('Tracker.Visit.isExcluded', $excluded);
 
