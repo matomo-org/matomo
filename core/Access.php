@@ -146,10 +146,7 @@ class Piwik_Access
 		
 		// we join with site in case there are rows in access for an idsite that doesn't exist anymore
 		// (backward compatibility ; before we deleted the site without deleting rows in _access table)
-		$accessRaw = Piwik_FetchAll("SELECT access, t2.idsite
-						  FROM ".Piwik::prefixTable('access'). " as t1 
-							JOIN ".Piwik::prefixTable('site')." as t2 USING (idsite) ".
-						" WHERE login = ?", $this->login);
+		$accessRaw = Piwik_FetchAll($this->getSqlAccessSite("access, t2.idsite"), $this->login);
 		foreach($accessRaw as $access)
 		{
 			$this->idsitesByAccess[$access['access']][] = $access['idsite'];
@@ -157,6 +154,20 @@ class Piwik_Access
 		return true;
 	}
 
+	/**
+	 * Returns the SQL query joining sites and access table for a given login
+	 * 
+	 * @param $select eg. "MIN(ts_created)"
+	 * @return string SQL query
+	 */
+	private function getSqlAccessSite($select)
+	{
+		return "SELECT ". $select ."
+						  FROM ".Piwik::prefixTable('access'). " as t1 
+							JOIN ".Piwik::prefixTable('site')." as t2 USING (idsite) ".
+						" WHERE login = ?";
+	}
+	
 	/**
 	 * Reload super user access
 	 *
@@ -222,6 +233,21 @@ class Piwik_Access
 			$this->idsitesByAccess['admin'],
 			$this->idsitesByAccess['superuser'])
 		);
+	}
+	
+	/**
+	 * Returns the min date out of all websites 
+	 * for which the current user has at least view access
+	 * 
+	 * @return int timestamp
+	 */
+	public function getSitesMinDate()
+	{
+		if($this->isSuperUser())
+		{
+			return Piwik_FetchOne('SELECT MIN(ts_created) FROM '.Piwik::prefixTable('site'));
+		}
+		return Piwik_FetchOne($this->getSqlAccessSite("MIN(ts_created)"), $this->login);
 	}
 
 

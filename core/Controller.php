@@ -228,6 +228,13 @@ abstract class Piwik_Controller
 		return $url;
 	}
 	
+	protected function setMinDateView(Piwik_Date $minDate, $view)
+	{
+		$view->minDateYear = $minDate->toString('Y');
+		$view->minDateMonth = $minDate->toString('m');
+		$view->minDateDay = $minDate->toString('d');
+	}
+	
 	protected function setGeneralVariablesView($view)
 	{
 		$view->date = $this->strDate;
@@ -243,9 +250,7 @@ abstract class Piwik_Controller
 			$view->siteMainUrl = $site->getMainUrl();
 			
 			$minDate = $site->getCreationDate();
-			$view->minDateYear = $minDate->toString('Y');
-			$view->minDateMonth = $minDate->toString('m');
-			$view->minDateDay = $minDate->toString('d');
+			$this->setMinDateView($minDate, $view);
 
 			$maxDate = Piwik_Date::factory('today');
 			$view->maxDateYear = $maxDate->toString('Y');
