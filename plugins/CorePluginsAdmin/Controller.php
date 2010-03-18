@@ -39,9 +39,17 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	private function checkTokenInUrl()
+	{
+		if(Piwik_Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
+			throw new Piwik_Access_NoAccessException('Token is not valid.');
+		}
+	}
+	
 	function deactivate()
 	{
 		Piwik::checkUserIsSuperUser();
+		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
 		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin');
@@ -50,6 +58,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 	function activate()
 	{
 		Piwik::checkUserIsSuperUser();
+		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
 		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin');
