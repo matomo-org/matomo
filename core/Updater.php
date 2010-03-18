@@ -61,10 +61,20 @@ class Piwik_Updater
 	public function recordComponentSuccessfullyUpdated($name, $version)
 	{
 		try {
-			Piwik_SetOption('version_'.$name, $version, $autoload = 1);
+			Piwik_SetOption($this->getNameInOptionTable($name), $version, $autoload = 1);
 		} catch(Exception $e) {
 			// case when the option table is not yet created (before 0.2.10)
 		}
+	}
+	
+	/**
+	 * Returns the flag name to use in the option table to record current schema version
+	 * @param string $name
+	 * @return string
+	 */
+	private function getNameInOptionTable($name)
+	{
+		return 'version_'.$name;
 	}
 	
 	/**
@@ -92,34 +102,66 @@ class Piwik_Updater
 	}
 
 	/**
+	 * Returns the list of SQL queries that would be executed during the update
+	 * 
+	 * @return array of SQL queries 
+	 */
+	public function getSqlQueriesToExecute()
+	{
+		$queries = array();
+		foreach($this->componentsWithUpdateFile as $componentName => $componentUpdateInfo) 
+		{
+			foreach($componentUpdateInfo as $file => $fileVersion)
+			{
+				require_once $file; // prefixed by PIWIK_INCLUDE_PATH
+
+				$className = $this->getUpdateClassName($componentName, $fileVersion);
+				if(class_exists($className, false))
+				{
+					$queriesForComponent = call_user_func( array($className, 'getSql'));
+					foreach($queriesForComponent as $query => $error) {
+						$queries[] = $query.';';
+					}
+				}
+			}
+			// unfortunately had to extract this query from the Piwik_Option class
+    		$queries[] = 'UPDATE '.Piwik::prefixTable('option').' 
+    				SET option_value = "' .$fileVersion.'" 
+    				WHERE option_name = "'. $this->getNameInOptionTable($componentName).'";';
+		}
+		return $queries;
+	}
+	
+	private function getUpdateClassName($componentName, $fileVersion)
+	{
+		if($componentName == 'core')
+		{
+			return 'Piwik_Updates_' . str_replace('.', '_', $fileVersion);
+		}
+		return 'Piwik_'. $componentName .'_Updates_' . str_replace('.', '_', $fileVersion);
+	}
+	
+	/**
 	 * Update the named component
 	 *
-	 * @param string $name
+	 * @param string $componentName 'core', or plugin name
 	 * @return array of warning strings if applicable
 	 */
-	public function update($name)
+	public function update($componentName)
 	{
 		$warningMessages = array();
-		foreach($this->componentsWithUpdateFile[$name] as $file => $fileVersion)
+		foreach($this->componentsWithUpdateFile[$componentName] as $file => $fileVersion)
 		{
 			try {
 				require_once $file; // prefixed by PIWIK_INCLUDE_PATH
 
-				if($name == 'core')
-				{
-					$className = 'Piwik_Updates_' . str_replace('.', '_', $fileVersion);
-				}
-				else
-				{
-					$className = 'Piwik_'. $name .'_Updates_' . str_replace('.', '_', $fileVersion);
-				}
-
+				$className = $this->getUpdateClassName($componentName, $fileVersion);
 				if(class_exists($className, false))
 				{
 					call_user_func( array($className, 'update') );
 				}
 
-				$this->recordComponentSuccessfullyUpdated($name, $fileVersion);
+				$this->recordComponentSuccessfullyUpdated($componentName, $fileVersion);
 			} catch( Piwik_Updater_UpdateErrorException $e) {
 				throw $e;
 			} catch( Exception $e) {
@@ -128,7 +170,7 @@ class Piwik_Updater
 		}
 		
 		// to debug, create core/Updates/X.php, update the core/Version.php, throw an Exception in the try, and comment the following line
-		$this->recordComponentSuccessfullyUpdated($name, $this->componentsWithNewVersion[$name][self::INDEX_NEW_VERSION]);
+		$this->recordComponentSuccessfullyUpdated($componentName, $this->componentsWithNewVersion[$componentName][self::INDEX_NEW_VERSION]);
 		return $warningMessages;
 	}
 
