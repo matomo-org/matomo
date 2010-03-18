@@ -41,8 +41,8 @@
 			
 			<td class="togl action-links" {if $plugin.alwaysActivated}title="{'CorePluginsAdmin_ActivatedHelp'|translate}"{/if}>
 				{if $plugin.alwaysActivated} <center>-</center>  
-				{elseif $plugin.activated}<a href=index.php?module=CorePluginsAdmin&action=deactivate&pluginName={$name}>{'CorePluginsAdmin_Deactivate'|translate}</a>
-				{else}<a href=index.php?module=CorePluginsAdmin&action=activate&pluginName={$name}>{'CorePluginsAdmin_Activate'|translate}</a>{/if}
+				{elseif $plugin.activated}<a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={$name}&token_auth={$token_auth}'>{'CorePluginsAdmin_Deactivate'|translate}</a>
+				{else}<a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={$name}&token_auth={$token_auth}'>{'CorePluginsAdmin_Activate'|translate}</a>{/if}
 			</td> 
 		</tr>
 	{/if}

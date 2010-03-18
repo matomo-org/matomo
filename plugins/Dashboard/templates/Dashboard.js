@@ -232,7 +232,7 @@ dashboard.prototype =
 			var ajaxRequest =
 			{
 				type: 'POST',
-				url: 'index.php?module=Dashboard&action=saveLayout',
+				url: 'index.php?module=Dashboard&action=saveLayout&token_auth='+piwik.token_auth,
 				dataType: 'html',
 				async: true,
 				error: piwikHelper.ajaxHandleError,
