@@ -19,7 +19,8 @@
  */
 class Piwik_Actions extends Piwik_Plugin
 {
-	static protected $actionCategoryDelimiter = null;
+	static protected $actionUrlCategoryDelimiter = null;
+	static protected $actionTitleCategoryDelimiter = null;
 	static protected $defaultActionName = null;
 	static protected $defaultActionNameWhenNotDefined = null;
 	static protected $defaultActionUrlWhenNotDefined = null;
@@ -53,7 +54,18 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	public function __construct()
 	{
-		self::$actionCategoryDelimiter =  Zend_Registry::get('config')->General->action_category_delimiter;
+		// for BC, we read the old style delimiter first (see #1067)
+		$actionDelimiter = Zend_Registry::get('config')->General->action_category_delimiter;
+		if(empty($actionDelimiter)) 
+		{
+    		self::$actionUrlCategoryDelimiter =  Zend_Registry::get('config')->General->action_url_category_delimiter;
+    		self::$actionTitleCategoryDelimiter =  Zend_Registry::get('config')->General->action_title_category_delimiter;
+		}
+		else
+		{
+			self::$actionUrlCategoryDelimiter = self::$actionTitleCategoryDelimiter = $actionDelimiter;
+		}
+		
 		self::$defaultActionName = Zend_Registry::get('config')->General->action_default_name;
 		self::$defaultActionNameWhenNotDefined = Zend_Registry::get('config')->General->action_default_name_when_not_defined;
 		self::$defaultActionUrlWhenNotDefined = Zend_Registry::get('config')->General->action_default_url_when_not_defined;
@@ -320,12 +332,21 @@ class Piwik_Actions extends Piwik_Plugin
 			}
 		}
 		
-		if(empty(self::$actionCategoryDelimiter))
+	    if($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) 
+	    {
+	    	$categoryDelimiter = self::$actionTitleCategoryDelimiter;
+	    } 
+	    else 
+	    {
+	    	$categoryDelimiter = self::$actionUrlCategoryDelimiter;
+	    }
+	    
+		if(empty($categoryDelimiter))
 		{
 			return array( trim($name) );
 		}
 
-		$split = explode(self::$actionCategoryDelimiter, $name, self::$limitLevelSubCategory);
+		$split = explode($categoryDelimiter, $name, self::$limitLevelSubCategory);
 
 		// trim every category and remove empty categories
 		$split = array_map('trim', $split);
