@@ -27,6 +27,7 @@ Known bugs
 - After adding goal, the window should ideally refresh to the goal report page, and not to the dashboard
 - Outlink trailing slash is automatically deleted from the URL, there would be a problem when trying to exact match a URL with trailing slash
 - lines with 0 visits and no conversion should not appear
+- clicking on the graph for a given goal redirects to the dashboard instead of redirecting to the goal report for the clicked date
 
 Feature requests
 - need to clarify that goals are triggered once per visit max, but can be triggered multiple times by one unique visitor > need option to force only once per uniq visitor? (ie. e-commerce transaction)
