@@ -67,9 +67,11 @@ $(document).ready( function() {
 	menu.registerCallbackOnWidgetLoad( widgetized.callbackAddExportButtonsUnderWidget );
 	menu.registerCallbackOnMenuHover( widgetized.deleteEmbedElements );
 	menu.show();
+	var dashboardUrl = document.location.protocol + '//' + document.location.hostname + document.location.pathname + '?module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&idSite=1&period=week&date=yesterday';
 	$('#exportFullDashboard').html(
-		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+document.location.protocol + '//' + document.location.hostname + document.location.pathname + '?'+'module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&idSite=1&period=week&date=yesterday" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
+		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+ dashboardUrl +'" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
 	);
+	$('#linkDashboardUrl').attr('href',dashboardUrl); 
 });
 
 {/literal}
@@ -77,12 +79,16 @@ $(document).ready( function() {
 
 <div style="max-width:980px;">
 	<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
-	If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
-	to the anonymous user in the <a href='index.php?module=UsersManager'>Users Management section</a>.
-	<br>Note: You can also display the full Piwik dashboard in your application or website in an Iframe. 
+	<p><b>&rsaquo; Widget authentication: </b> If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
+	to the anonymous user in the <a href='index.php?module=UsersManager'>Users Management section</a>. 
+	<br>Alternatively, if you are publishing widgets on a password protected or private page, 
+	you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret token_auth parameter (found in the <a href='{url module=API}' target='_blank'>API page</a>) in the widget URL. 
+	
+	</p>
+	<p>	<b>&rsaquo; Widgetize the full dashboard:</b> You can also display the full Piwik dashboard in your application or website in an Iframe (<a href='' target='_blank' id='linkDashboardUrl'>see example</a>). 
 	For example, for idSite=1 and date=yesterday, you can write: <span id='exportFullDashboard'></span>
 	</p>
-	
+	<p>	<b>&rsaquo; Select a report, and copy paste in your page the embed code below the widget:</b>
 	<div id="widgetChooser">
 		<div class="subMenu" id="sub1"></div>
 		<div class="subMenu" id="sub2"></div>
