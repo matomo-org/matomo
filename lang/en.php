@@ -116,6 +116,7 @@ $translations = array(
 	'General_WarningFileIntegritySkipped' => 'Development environment detected. File integrity check skipped.',
 	'General_WarningFileIntegrityNoManifest' => 'File integrity check could not be performed due to missing manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'File integrity check could not be completed due to missing md5_file() function.',
+	'General_FileIntegrityWarningExplanation' => 'Warning! File integrity check failed and reported some errors. This is most likely due to a partial or failed upload of some of the Piwik files. You should reupload all the Piwik files and refresh this page until it shows no error.',
 	'Actions_PluginDescription' => 'Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic!',
 	'Actions_Actions' => 'Actions',
 	'Actions_SubmenuPages' => 'Pages',
