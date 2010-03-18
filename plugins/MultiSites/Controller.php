@@ -92,8 +92,8 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->dateToStr = $this->dateToStr;
 		
 		$this->setGeneralVariablesView($view);
-		$period = Piwik_Period::factory(Piwik_Common::getRequestVar('period'), Piwik_Date::factory($this->strDate));
-		$view->prettyDate = $period->getLocalizedLongString();
+		$minDate = Piwik_Date::factory(Zend_Registry::get('access')->getSitesMinDate());
+		$this->setMinDateView($minDate, $view);
 		
 		echo $view->render();
 	}
