@@ -798,7 +798,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['integrityErrorMessages'] = array();
 		if(isset($integrityInfo[1]))
 		{
-			$infos['integrityErrorMessages'] = array_splice($integrityInfo, 1);
+			$infos['integrityErrorMessages'][] = '<b>'.Piwik_Translate('General_FileIntegrityWarningExplanation').'</b>';	
+			$infos['integrityErrorMessages'] += array_splice($integrityInfo, 1);
 		}
 
 		return $infos;
