@@ -56,5 +56,5 @@
 </table>
 
 <p>
-{$link} <a href="http://piwik.org/docs/requirements/" target="_blank">{'Installation_Requirements'|translate}</a> 
+{$link} <a href="misc/redirectToUrl.php?url=http://piwik.org/docs/requirements/" target="_blank">{'Installation_Requirements'|translate}</a> 
 </p>
