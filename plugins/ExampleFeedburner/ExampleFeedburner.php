@@ -106,22 +106,22 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 		$data = array();
 		$i = 0;
 		foreach($xml->feed->entry as $feedDay){
-			$data[0][$i] = $feedDay['circulation'];
-			$data[1][$i] = $feedDay['hits'];
-			$data[2][$i] = $feedDay['reach'];
+			$data[0][$i] = (int)$feedDay['circulation'];
+			$data[1][$i] = (int)$feedDay['hits'];
+			$data[2][$i] = (int)$feedDay['reach'];
 			$i++;
 		}
 	
 		foreach($data as $key => $value) {
 			if( $value[0] == $value[1]) {
-				$img = 'nochange.gif';
+				$img = 'stop.png';
 			} else if($value[0] < $value[1]) {
-				$img = 'arrow-up-green.gif';
+				$img = 'arrow_up.png';
 			} else {
-				$img = 'arrow-down-red.gif';
+				$img = 'arrow_down.png';
 			}
 			
-			$prefixImage = '<img alt="" src="./plugins/ExampleFeedburner/templates/';
+			$prefixImage = '<img alt="" src="./plugins/MultiSites/images/';
 			$suffixImage = '" />';
 			$data[$key][2] = $prefixImage . $img . $suffixImage;
 		}
