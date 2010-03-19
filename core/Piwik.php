@@ -122,6 +122,9 @@ class Piwik
 	 */
 	static public function getFileIntegrityInformation()
 	{
+		$exclude = array(
+			'robots.txt',
+		);
 		$messages = array();
 		$messages[] = true;
 
@@ -142,6 +145,11 @@ class Piwik
 			$hasMd5file = function_exists('md5_file');
 			foreach($files as $path => $props)
 			{
+				if(in_array($path, $exclude))
+				{
+					continue;
+				}
+
 				$file = PIWIK_INCLUDE_PATH . '/' . $path;
 				
 				if(!file_exists($file))
