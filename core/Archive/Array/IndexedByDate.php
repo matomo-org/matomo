@@ -91,7 +91,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		$arrayValues = array();
 		foreach($queries as $table => $aIds)
 		{
-			$inIds = implode(', ', $aIds);
+			$inIds = implode(', ', array_filter($aIds));
 			if(empty($inIds))
 			{
 				// Probable timezone configuration error, i.e., mismatch between PHP and MySQL server.

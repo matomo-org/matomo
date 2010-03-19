@@ -112,7 +112,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 			}
 			$archiveIds[] = $archive->getIdArchive();
  		}
-		return implode(', ', $archiveIds);
+		return implode(', ', array_filter($archiveIds));
 	}
 	
 	private function getNumericTableName()
