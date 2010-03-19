@@ -139,6 +139,11 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private function oneClick_Copy()
 	{
 		/*
+		 * Overwrite the downloaded robots.txt with our local copy
+		 */
+		Piwik::copy(PIWIK_DOCUMENT_ROOT . '/robots.txt', $this->pathRootExtractedPiwik . '/robots.txt');
+
+		/*
 		 * Copy all files to PIWIK_INCLUDE_PATH.
 		 * These files are accessed through the dispatcher.
 		 */
