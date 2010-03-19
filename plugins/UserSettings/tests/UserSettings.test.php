@@ -439,6 +439,15 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.04506.648)' => array(
 			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
 			array('WXP', 'Windows XP', 'Win XP')),
+		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)' => array(
+			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
+			array('WS3', 'Windows Server 2003', 'Win S2003')),
+		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; WOW64; SV1; .NET CLR 2.0.50727)' => array(
+			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
+			array('WXP', 'Windows XP', 'Win XP')),
+		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Win64; x64; SV1; .NET CLR 2.0.50727)' => array(
+			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
+			array('WXP', 'Windows XP', 'Win XP')),
 
 		// Iron
 		'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/531.0 (KHTML, like Gecko) Iron/3.0.189.0 Safari/531.0' => array(

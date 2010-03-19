@@ -161,6 +161,9 @@ class UserAgentParser
 			'Windows NT 6.0'		=> 'WVI',
 			'Windows Vista'			=> 'WVI',
 			'CYGWIN_NT-5.2'			=> 'WS3',
+			'Windows NT 5.2; WOW64'	=> 'WXP', // 64-bit Windows XP
+			'Windows NT 5.2; Win64'	=> 'WXP', // 64-bit Windows XP
+			'Windows NT 5.2; SV1'	=> 'WS3',
 			'Windows NT 5.2'		=> 'WS3',
 			'Windows Server 2003'	=> 'WS3',
 			'CYGWIN_NT-5.1'			=> 'WXP',
