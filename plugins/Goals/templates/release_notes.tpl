@@ -22,6 +22,7 @@ Work left to do on the Goal Tracking plugin:
 
 Known bugs
 - see bug described in http://forum.piwik.org/index.php?showtopic=150
+- clicking on a goal report, then clicking on Overview, the global conversion and conversion rate doesn't display as the idGoal is still in the hash parameters list
 - Your top converting keyword include keyword without conversions?
 - The Goal total nb conversions should be sum of all goal conversions (wrong number when deleting a Goal) 
 - After adding goal, the window should ideally refresh to the goal report page, and not to the dashboard
