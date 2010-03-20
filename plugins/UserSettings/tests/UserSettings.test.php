@@ -102,7 +102,7 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('LIN', 'Linux', 'Linux')),
 		'Mozilla/5.0 (Windows; U; Windows NT 5.2; pt-BR) AppleWebKit/527+ (KHTML, like Gecko, Safari/419.3) Arora/0.4 (Change: )' => array(
 			array('AR', 'Arora', 'Arora', '0.4', '0', '4', 'webkit'),
-			array('WS3', 'Windows Server 2003', 'Win S2003')),
+			array('WS3', 'Windows Server 2003 / XP x64', 'Win S2003')),
 		'Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.3 (Change: 287 c9dfb30)' => array(
 			array('AR', 'Arora', 'Arora', '0.3', '0', '3', 'webkit'),
 			array('WXP', 'Windows XP', 'Win XP')),
@@ -181,7 +181,7 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		// Chrome / Chromium
 		'Mozilla/5.0 (Windows; U; Windows NT 5.2; en-US) AppleWebKit/532.9 (KHTML, like Gecko) Chrome/5.0.310.0 Safari/532.9' => array(
 			array('CH', 'Chrome', 'Chrome', '5.0', '5', '0', 'webkit'),
-			array('WS3', 'Windows Server 2003', 'Win S2003')),
+			array('WS3', 'Windows Server 2003 / XP x64', 'Win S2003')),
 		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.48 Safari/525.19' => array(
 			array('CH', 'Chrome', 'Chrome', '1.0', '1', '0', 'webkit'),
 			array('WXP', 'Windows XP', 'Win XP')),
@@ -441,13 +441,13 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('WXP', 'Windows XP', 'Win XP')),
 		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)' => array(
 			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
-			array('WS3', 'Windows Server 2003', 'Win S2003')),
+			array('WS3', 'Windows Server 2003 / XP x64', 'Win S2003')),
 		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; WOW64; SV1; .NET CLR 2.0.50727)' => array(
 			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
-			array('WXP', 'Windows XP', 'Win XP')),
+			array('WS3', 'Windows Server 2003 / XP x64', 'Win S2003')),
 		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; Win64; x64; SV1; .NET CLR 2.0.50727)' => array(
 			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
-			array('WXP', 'Windows XP', 'Win XP')),
+			array('WS3', 'Windows Server 2003 / XP x64', 'Win S2003')),
 
 		// Iron
 		'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/531.0 (KHTML, like Gecko) Iron/3.0.189.0 Safari/531.0' => array(
