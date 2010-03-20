@@ -9,7 +9,7 @@
 <input type="submit" class="submit" value="{'CoreUpdater_UpdateAutomatically'|translate}" />
 <a style="margin-left:50px" class="submit button" href="http://piwik.org/latest.zip">{'CoreUpdater_DownloadX'|translate:$piwik_new_version}</a>
 </form>
-
+<br/>
 <a href='index.php'>&laquo; {'General_BackToPiwik'|translate}</a>
 {include file="CoreUpdater/templates/footer.tpl"}
 
