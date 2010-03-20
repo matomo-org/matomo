@@ -246,6 +246,7 @@ class Piwik_FrontController
 			Piwik::raiseMemoryLimitIfNecessary();
 
 			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
+			$pluginsManager->loadTranslations();
 			$pluginsManager->postLoadPlugins();
 			
 			Piwik_PostEvent('FrontController.checkForUpdates');

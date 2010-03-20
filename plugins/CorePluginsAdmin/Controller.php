@@ -20,18 +20,27 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 	{
 		Piwik::checkUserIsSuperUser();
 		
-		$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
-		$loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
 		$plugins = array();
+
+		$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
 		foreach($listPlugins as $pluginName)
 		{
 			$oPlugin = Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);
-			$plugins[$pluginName]= array( 	'activated' => Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName),
-											'alwaysActivated' => Piwik_PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
-											'info' => $oPlugin->getInformation()
-									);
+			$plugins[$pluginName] = array(
+			 	'activated' => Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName),
+				'alwaysActivated' => Piwik_PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
+			);
 		}
-		
+
+		Piwik_PluginsManager::getInstance()->loadTranslations();
+
+		$loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+		foreach($loadedPlugins as $oPlugin)
+		{
+			$pluginName = $oPlugin->getClassName();
+			$plugins[$pluginName]['info'] = $oPlugin->getInformation();
+		}
+
 		$view = Piwik_View::factory('manage');
 		$view->pluginsName = $plugins;
 		$this->setGeneralVariablesView($view);
