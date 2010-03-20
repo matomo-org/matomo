@@ -26,6 +26,13 @@
  */
 class Piwik_ExampleUI extends Piwik_Plugin
 {
+	/**
+	 * Return information about this plugin.
+	 *
+	 * @see Piwik_Plugin
+	 *
+	 * @return array
+	 */
 	public function getInformation()
 	{
 		return array(
