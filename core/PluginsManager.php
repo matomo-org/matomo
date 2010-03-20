@@ -174,13 +174,22 @@ class Piwik_PluginsManager
 	{
 		$this->doLoadAlwaysActivatedPlugins = false;
 	}
-	
+
+	public function loadTranslations()
+	{
+		$plugins = $this->getLoadedPlugins();
+
+		foreach($plugins as $plugin)
+		{
+			$this->loadTranslation( $plugin, $this->languageToLoad );
+		}
+	}
+
 	public function postLoadPlugins()
 	{
 		$plugins = $this->getLoadedPlugins();
 		foreach($plugins as $plugin)
 		{
-			$this->loadTranslation( $plugin, $this->languageToLoad );
 			$plugin->postLoad();
 		}
 	}
@@ -246,7 +255,6 @@ class Piwik_PluginsManager
 					&& $this->isPluginActivated($pluginName))
 				{
 					$this->addPluginObservers( $newPlugin );
-					$this->addLoadedPlugin( $pluginName, $newPlugin);
 				}
 			}
 		}
@@ -294,6 +302,9 @@ class Piwik_PluginsManager
 		{
 			throw new Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
 		}
+
+		$this->addLoadedPlugin( $pluginName, $newPlugin);
+
 		return $newPlugin;
 	}
 	
@@ -385,7 +396,7 @@ class Piwik_PluginsManager
 		{
 			return ;
 		}
-		
+
 		$infos = $plugin->getInformation();		
 		if(!isset($infos['translationAvailable']))
 		{
@@ -397,7 +408,7 @@ class Piwik_PluginsManager
 		{
 			return;
 		}
-		
+	
 		$pluginName = $plugin->getClassName();
 		
 		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName .'/lang/%s.php';
