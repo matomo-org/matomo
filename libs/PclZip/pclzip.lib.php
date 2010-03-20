@@ -3853,7 +3853,7 @@
           fclose($v_dest_file);
 
           // ----- Change the file mtime
-          touch($p_entry['filename'], $p_entry['mtime']);
+          @touch($p_entry['filename'], $p_entry['mtime']);
 
 
         }
