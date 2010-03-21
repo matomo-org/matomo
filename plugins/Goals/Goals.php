@@ -180,7 +180,7 @@ class Piwik_Goals extends Piwik_Plugin
 					$metricName = Piwik_Archive::$mappingFromIdToNameGoal[$metricId];
 					$recordName = self::getRecordName($metricName, $idgoal, $visitor_returning);
 					$archiveProcessing->insertNumericRecord($recordName, $value);
-//					echo $record . "<br>";
+//					echo $record . "<br />";
 				}
 			}
 		}

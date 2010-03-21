@@ -68,7 +68,7 @@ class Piwik_Live_API
 	public function getLastVisits( $idSite = false, $limit = 10, $minIdVisit = false )
 	{
 		// for checking given vars
-		// echo $idSite.'|'.$limit.'|'.$minIdVisit.'<br>';
+		// echo $idSite.'|'.$limit.'|'.$minIdVisit.'<br />';
 		if(is_null($idSite))
 		{
 			Piwik::checkUserIsSuperUser();
@@ -158,7 +158,7 @@ class Piwik_Live_API
 	private function loadLastVisitorDetailsFromDatabase($visitorId = null, $idSite = null, $limit = null, $minIdVisit = false )
 	{
 		// for checking given vars
-		// echo $visitorId.'|'.$idSite.'|'.$limit.'|'.$minIdVisit.'<br>';
+		// echo $visitorId.'|'.$idSite.'|'.$limit.'|'.$minIdVisit.'<br />';
 		$where = $whereBind = array();
 
 		if(!is_null($idSite))
@@ -266,7 +266,7 @@ class Piwik_Live_API
 	 */
 	public function getPageImpressionsInLastXDays($idSite = false, $limit = 10, $minIdVisit = false, $days = 10){
 		// for checking given vars
-		#echo $idSite.'|'.$limit.'|'.$minIdVisit.'|'.$days.'<br>';
+		#echo $idSite.'|'.$limit.'|'.$minIdVisit.'|'.$days.'<br />';
 
 		if(is_null($idSite))
 		{

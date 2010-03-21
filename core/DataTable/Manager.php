@@ -122,22 +122,22 @@ class Piwik_DataTable_Manager
 	 */
 	public function dumpAllTables()
 	{
-		echo "<hr>Piwik_DataTable_Manager->dumpAllTables()<br>";
+		echo "<hr />Piwik_DataTable_Manager->dumpAllTables()<br />";
 		foreach($this->tables as $id => $table)
 		{
 			if(!($table instanceof Piwik_DataTable ))
 			{
-				echo "Error table $id is not instance of datatable<br>";
+				echo "Error table $id is not instance of datatable<br />";
 				var_dump($table);
 			}
 			else
 			{
-				echo "<hr>";
-				echo "Table (index=$id) TableId = ". $table->getId() . "<br>";
+				echo "<hr />";
+				echo "Table (index=$id) TableId = ". $table->getId() . "<br />";
 				echo $table;
-				echo "<br>";
+				echo "<br />";
 			}
 		}
-		echo "<br>-- End Piwik_DataTable_Manager->dumpAllTables()<hr>";
+		echo "<br />-- End Piwik_DataTable_Manager->dumpAllTables()<hr />";
 	}
 }

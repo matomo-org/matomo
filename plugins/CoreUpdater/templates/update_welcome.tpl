@@ -3,14 +3,14 @@
 {assign var='helpMessage' value='CoreUpdater_HelpMessageContent'|translate:'<a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/faq/">':'</a>':'</li><li>'}
 
 {if $coreError}
-	<br><br>
+	<br /><br />
 	<div class="error">
-		<img src="themes/default/images/error_medium.png"> {'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate}
+		<img src="themes/default/images/error_medium.png" /> {'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate}
 		{foreach from=$errorMessages item=message}
 		<pre>{$message}</pre>
 		{/foreach}
 	</div>
-	<br>
+	<br />
 	<p>{'CoreUpdater_HelpMessageIntroductionWhenError'|translate}
 	<ul><li>{$helpMessage}</li></ul></p>
 {else}
@@ -30,17 +30,17 @@
 		<p><strong>{'CoreUpdater_NoteForLargePiwikInstances'|translate}</strong></p>
 		<ul>
 		<li>{'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate:$commandUpgradePiwik}</li>
-		<li>{'CoreUpdater_YouCouldManuallyExecuteSqlQueries'|translate}<br/>
+		<li>{'CoreUpdater_YouCouldManuallyExecuteSqlQueries'|translate}<br />
 			<a href='#' id='showSql' style='margin-left:20px'>› {'CoreUpdater_ClickHereToViewSqlQueries'|translate}</a>
 		<div id='sqlQueries' style='display:none'>
-		<br/>
+		<br />
 			<code>
-			# {'CoreUpdater_NoteItIsExpectedThatQueriesFail'|translate}<br/><br/>
-			{foreach from=$queries item=query}&nbsp;&nbsp;&nbsp;{$query}<br/>
+			# {'CoreUpdater_NoteItIsExpectedThatQueriesFail'|translate}<br /><br />
+			{foreach from=$queries item=query}&nbsp;&nbsp;&nbsp;{$query}<br />
 			{/foreach}
 			</code>
 		</div>
-		<br/><br/>
+		<br /><br />
 		<p><strong>{'CoreUpdater_ReadyToGo'|translate}</strong></p>
 		<p>{'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate}</p>
 	{/if}
@@ -54,7 +54,7 @@
 	{/if}
 
 	{if $coreToUpdate || count($pluginNamesToUpdate) > 0}
-		<br>
+		<br />
 		<form action="index.php">
 		<input type="hidden" name="updateCorePlugins" value="1" />
 		<input type="submit" class="submit" value="{'CoreUpdater_UpgradePiwik'|translate}" />
@@ -64,7 +64,7 @@
 			<p class="success">{'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate}</p>
 		{/if}
 
-		<br>
+		<br />
 		<form action="index.php">
 		<input type="submit" class="submit" value="{'CoreUpdater_ContinueToPiwik'|translate}" />
 		</form>

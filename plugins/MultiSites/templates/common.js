@@ -186,7 +186,7 @@ function getSparklineImg(id, column, params)
 	{
 		column = 'uniq_visitors';
 	}
-	return '<img class="sparkline" alt="" src="?module=MultiSites&action=getEvolutionGraph&period=' + params['period'] + '&date=' + params['dateToStr'] + '&evolutionBy=' + params['evolutionBy'] + '&columns[]=nb_' + column  + '&idSite=' + id + '&idsite=' + id + '&viewDataTable=sparkline" width="100" height="25"  />';
+	return '<img class="sparkline" alt="" src="?module=MultiSites&action=getEvolutionGraph&period=' + params['period'] + '&date=' + params['dateToStr'] + '&evolutionBy=' + params['evolutionBy'] + '&columns[]=nb_' + column  + '&idSite=' + id + '&idsite=' + id + '&viewDataTable=sparkline" width="100" height="25" />';
 }
 
 
@@ -230,15 +230,15 @@ function getImageForSummary(value)
 {
 	if(value > 0)
 	{
-		return '<img src="plugins/MultiSites/images/arrow_up.png"  alt="" /> <b style="color: green;">' + value + ' %</b>';
+		return '<img src="plugins/MultiSites/images/arrow_up.png" alt="" /> <b style="color: green;">' + value + ' %</b>';
 	}
 	else if(value == 0)
 	{
-		return '<img src="plugins/MultiSites/images/stop.png"  alt="" /> <b>' + value + '%</b>';
+		return '<img src="plugins/MultiSites/images/stop.png" alt="" /> <b>' + value + '%</b>';
 	}
 	else
 	{
-		return '<img src="plugins/MultiSites/images/arrow_down.png"  alt="" /> <b style="color: red;">' + value +' %</b>';
+		return '<img src="plugins/MultiSites/images/arrow_down.png" alt="" /> <b style="color: red;">' + value +' %</b>';
 	}
 }
 

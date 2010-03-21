@@ -19,19 +19,19 @@
 
 {if isset($existingTablesDeleted)}
 	<div class="success"> {'Installation_TablesDeletedSuccess'|translate} 
-	<img src="themes/default/images/success_medium.png"></div>
+	<img src="themes/default/images/success_medium.png" /></div>
 {/if}
 
 {if isset($tablesCreated)}
 	<div class="success"> {'Installation_TablesCreatedSuccess'|translate} 
-	<img src="themes/default/images/success_medium.png"></div>
+	<img src="themes/default/images/success_medium.png" /></div>
 {/if}
 
 {literal}
 <script>
 $(document).ready( function(){
 	{/literal}
-	var strConfirmEraseTables = "{'Installation_ConfirmDeleteExistingTables'|translate:"[$tablesInstalled]":"<br>"} ";
+	var strConfirmEraseTables = "{'Installation_ConfirmDeleteExistingTables'|translate:"[$tablesInstalled]":"<br />"} ";
 	{literal}	
 	
 	// toggle the display of the tables detected during the installation when clicking

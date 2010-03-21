@@ -196,7 +196,7 @@ widgetMenu.prototype =
 											_pk_translate('Dashboard_WidgetPreview_js')+
 										'</div>', 
 										'<span id="loadingPiwik">'+
-											'<img src="themes/default/images/loading-blue.gif"> ' +_pk_translate('Dashboard_LoadingWidget_js') +
+											'<img src="themes/default/images/loading-blue.gif" /> ' +_pk_translate('Dashboard_LoadingWidget_js') +
 										'</span>'
 				);
 				$('#sub3').html(emptyWidgetHtml);

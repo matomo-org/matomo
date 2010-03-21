@@ -241,12 +241,12 @@ class Piwik_Cookie
 	 */
 	public function __toString()
 	{
-		$str = "<-- Content of the cookie '{$this->name}' <br>\n";
+		$str = "&lt;-- Content of the cookie '{$this->name}' <br />\n";
 		foreach($this->value as $name => $value )
 		{
-			$str .= $name . " = " . var_export($this->get($name), true) . "<br>\n";
+			$str .= $name . " = " . var_export($this->get($name), true) . "<br />\n";
 		}
-		$str .= "--> <br>\n";
+		$str .= "--&gt; <br />\n";
 		return $str;
 	}
 	

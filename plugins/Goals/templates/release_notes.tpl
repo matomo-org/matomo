@@ -1,6 +1,6 @@
 <div style="clear:both;"></div>
-<br><br><hr>
-<b>About the Goal Tracking Plugin</b><br>
+<br /><br /><hr />
+<b>About the Goal Tracking Plugin</b><br />
 <pre>
 The Goal Tracking Plugin is in alpha release. There is more coming soon!
 

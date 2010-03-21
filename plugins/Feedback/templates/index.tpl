@@ -36,7 +36,7 @@ $(function() {
     </ul>
     <p>» {'Feedback_VisitTheForums'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://forum.piwik.org/'>":"</a>"}.</p>
     <p>» {'Feedback_LearnWaysToParticipate'|translate:"<a target='_blank' href='misc/redirectToUrl.php?url=http://piwik.org/contribute/'>":"</a>"}.</p>
-    <br/>
+    <br />
     <p><strong>{'Feedback_SpecialRequest'|translate}</strong></p>
     <p>»  <a target='_blank' href="#" id="feedback-contact">{'Feedback_ContactThePiwikTeam'|translate}</a></p>
   </div>

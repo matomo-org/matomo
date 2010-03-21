@@ -86,9 +86,9 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	 */
 	function exampleWidget()
 	{
-		echo "Hello world! <br> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
-		<br>Widgets can include graphs, tables, flash, text, images, etc.
-		<br>It's very easy to create a new plugin and widgets in Piwik. Have a look at this example file (/plugins/ExamplePlugin/ExamplePlugin.php).
+		echo "Hello world! <br /> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
+		<br />Widgets can include graphs, tables, flash, text, images, etc.
+		<br />It's very easy to create a new plugin and widgets in Piwik. Have a look at this example file (/plugins/ExamplePlugin/ExamplePlugin.php).
 		<div id='happycoding'><i>Happy coding!</i></div>
 		<div id='jsenabled'>You can easily use Jquery in widgets</div>
 		<script type=\"text/javascript\">$('#happycoding').hide().fadeIn(5000);$('#jsenabled').hide().css({'color':'red'}).fadeIn(10000);</script>";
@@ -115,52 +115,52 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	function index()
 	{
 		$out = '';
-		$out .= '<i>This page aims to list the different functions you can use when programming plugins for Piwik.</i><br>';
-		$out .= '<b>Be careful, the following APIs may change in the near future as Piwik is still in development.</b><br>';
+		$out .= '<i>This page aims to list the different functions you can use when programming plugins for Piwik.</i><br />';
+		$out .= '<b>Be careful, the following APIs may change in the near future as Piwik is still in development.</b><br />';
 		
 		$out .= '<h2>General</h2>';
 		$out .= '<h3>Accessible from your plugin controller</h3>';
 		
-		$out .= '<code>$this->date</code> = current selected <b>Piwik_Date</b> object (<a href="http://dev.piwik.org/trac/browser/trunk/core/Date.php">class</a>)<br/>';
-		$out .= '<code>$period = Piwik_Common::getRequestVar("period");</code> - Get the current selected period<br/>';
-		$out .= '<code>$idSite = Piwik_Common::getRequestVar("idSite");</code> - Get the selected idSite<br/>';
-		$out .= '<code>$site = new Piwik_Site($idSite);</code> - Build the Piwik_Site object (<a href="http://dev.piwik.org/trac/browser/trunk/core/Site.php">class</a>)<br/>';
-		$out .= '<code>$this->str_date</code> = current selected date in YYYY-MM-DD format<br/>';
+		$out .= '<code>$this->date</code> = current selected <b>Piwik_Date</b> object (<a href="http://dev.piwik.org/trac/browser/trunk/core/Date.php">class</a>)<br />';
+		$out .= '<code>$period = Piwik_Common::getRequestVar("period");</code> - Get the current selected period<br />';
+		$out .= '<code>$idSite = Piwik_Common::getRequestVar("idSite");</code> - Get the selected idSite<br />';
+		$out .= '<code>$site = new Piwik_Site($idSite);</code> - Build the Piwik_Site object (<a href="http://dev.piwik.org/trac/browser/trunk/core/Site.php">class</a>)<br />';
+		$out .= '<code>$this->str_date</code> = current selected date in YYYY-MM-DD format<br />';
 		
 		$out .= '<h3>Misc</h3>';
-		$out .= '<code>Piwik_AddMenu( $mainMenuName, $subMenuName, $url );</code> - Adds an entry to the menu in the Piwik interface (See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L146">UserCountry Plugin file</a>)<br/>';
-		$out .= '<code>Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array());</code> - Adds a widget that users can add in the dashboard, or export using the Widgets link at the top of the screen. See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L143">UserCountry Plugin file</a> or any other plugin)<br/>';
-		$out .= '<code>Piwik::prefixTable("site")</code> = <b>' . Piwik::prefixTable("site") . '</b><br/>';
+		$out .= '<code>Piwik_AddMenu( $mainMenuName, $subMenuName, $url );</code> - Adds an entry to the menu in the Piwik interface (See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L146">UserCountry Plugin file</a>)<br />';
+		$out .= '<code>Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array());</code> - Adds a widget that users can add in the dashboard, or export using the Widgets link at the top of the screen. See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L143">UserCountry Plugin file</a> or any other plugin)<br />';
+		$out .= '<code>Piwik::prefixTable("site")</code> = <b>' . Piwik::prefixTable("site") . '</b><br />';
 		
 		
 		$out .= '<h2>User access</h2>';
-		$out .= '<code>Piwik::getCurrentUserLogin()</code> = <b>' . Piwik::getCurrentUserLogin() . '</b><br/>';
-		$out .= '<code>Piwik::isUserHasSomeAdminAccess()</code> = <b>' . self::boolToString(Piwik::isUserHasSomeAdminAccess()) . '</b><br/>';
-		$out .= '<code>Piwik::isUserHasAdminAccess( array $idSites = array(1,2) )</code> = <b>' . self::boolToString(Piwik::isUserHasAdminAccess(array(1,2) )) . '</b><br/>';
-		$out .= '<code>Piwik::isUserHasViewAccess( array $idSites = array(1) ) </code> = <b>' . self::boolToString(Piwik::isUserHasViewAccess(array(1))) . '</b><br/>';
-		$out .= '<code>Piwik::isUserIsSuperUser()</code> = <b>' . self::boolToString(Piwik::isUserIsSuperUser()) . '</b><br/>';
+		$out .= '<code>Piwik::getCurrentUserLogin()</code> = <b>' . Piwik::getCurrentUserLogin() . '</b><br />';
+		$out .= '<code>Piwik::isUserHasSomeAdminAccess()</code> = <b>' . self::boolToString(Piwik::isUserHasSomeAdminAccess()) . '</b><br />';
+		$out .= '<code>Piwik::isUserHasAdminAccess( array $idSites = array(1,2) )</code> = <b>' . self::boolToString(Piwik::isUserHasAdminAccess(array(1,2) )) . '</b><br />';
+		$out .= '<code>Piwik::isUserHasViewAccess( array $idSites = array(1) ) </code> = <b>' . self::boolToString(Piwik::isUserHasViewAccess(array(1))) . '</b><br />';
+		$out .= '<code>Piwik::isUserIsSuperUser()</code> = <b>' . self::boolToString(Piwik::isUserIsSuperUser()) . '</b><br />';
 		
 		$out .= '<h2>Execute SQL queries</h2>';
 		$txtQuery = "SELECT token_auth FROM ".Piwik::prefixTable('user')." WHERE login = ?";
 		$result = Piwik_FetchOne($txtQuery, array('anonymous'));
-		$out .= '<code>Piwik_FetchOne("'.$txtQuery.'", array("anonymous"))</code> = <b>' . var_export($result,true) . '</b><br/>';
-		$out .= '<br>';
+		$out .= '<code>Piwik_FetchOne("'.$txtQuery.'", array("anonymous"))</code> = <b>' . var_export($result,true) . '</b><br />';
+		$out .= '<br />';
 		
 		$query = Piwik_Query($txtQuery, array('anonymous'));
 		$fetched = $query->fetch();
 		$token_auth = $fetched['token_auth'];
 		
-		$out .= '<code>$query = Piwik_Query("'.$txtQuery.'", array("anonymous"))</code><br>';
-		$out .= '<code>$fetched = $query->fetch();</code><br>';
-		$out .= 'At this point, we have: <code>$fetched[\'token_auth\'] == <b>'.var_export($token_auth,true) . '</b></code><br/>';
+		$out .= '<code>$query = Piwik_Query("'.$txtQuery.'", array("anonymous"))</code><br />';
+		$out .= '<code>$fetched = $query->fetch();</code><br />';
+		$out .= 'At this point, we have: <code>$fetched[\'token_auth\'] == <b>'.var_export($token_auth,true) . '</b></code><br />';
 		
   		$out .= '<h2>Example Sites information API</h2>';
-		$out .= '<code>Piwik_SitesManager_API::getInstance()->getSitesWithViewAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getInstance()->getSitesWithViewAccess(),true) . '</pre></b><br/>';
-		$out .= '<code>Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess(),true) . '</pre></b><br/>';
+		$out .= '<code>Piwik_SitesManager_API::getInstance()->getSitesWithViewAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getInstance()->getSitesWithViewAccess(),true) . '</pre></b><br />';
+		$out .= '<code>Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess()</code> = <b><pre>' .var_export(Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess(),true) . '</pre></b><br />';
 
 		$out .= '<h2>Example API  Users information</h2>';
-		$out .= 'View the list of API methods you can call on <a href="http://dev.piwik.org/trac/wiki/API/Reference#Methods">API reference</a><br/>';
-		$out .= 'For example you can try <code>Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess("view");</code> or <code>Piwik_UsersManager_API::getInstance()->deleteUser("userToDelete");</code><br/>';
+		$out .= 'View the list of API methods you can call on <a href="http://dev.piwik.org/trac/wiki/API/Reference#Methods">API reference</a><br />';
+		$out .= 'For example you can try <code>Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess("view");</code> or <code>Piwik_UsersManager_API::getInstance()->deleteUser("userToDelete");</code><br />';
 		
 		$out .= '<h2>Javascript in Piwik</h2>';
 		$out .= '<h3>i18n internationalization</h3>';
@@ -177,9 +177,9 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 					You can easily force your widget to reload in the dashboard by calling the helper function <code>piwik.dashboardObject.reloadEnclosingWidget($(this));</code>.';
 		
 		$out .= '<h2>Smarty plugins</h2>';
-		$out .= 'There are some builtin plugins for Smarty especially developped for Piwik. <br>
-				You can find them on the <a href="http://dev.piwik.org/trac/browser/trunk/core/SmartyPlugins">SVN at /trunk/core/SmartyPlugins</a>. <br>
-				More documentation to come about smarty plugins.<br/>';
+		$out .= 'There are some builtin plugins for Smarty especially developped for Piwik. <br />
+				You can find them on the <a href="http://dev.piwik.org/trac/browser/trunk/core/SmartyPlugins">SVN at /trunk/core/SmartyPlugins</a>. <br />
+				More documentation to come about smarty plugins.<br />';
 		
 		echo $out;
 	}

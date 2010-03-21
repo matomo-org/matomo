@@ -157,7 +157,7 @@ class Piwik_Goals_API
 		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
 		$nbVisitsReturning = $request->process();
 //		echo $nbVisitsConvertedReturningVisitors;
-//		echo "<br>". $nbVisitsReturning;exit;
+//		echo "<br />". $nbVisitsReturning;exit;
 
 		return Piwik::getPercentageSafe($nbVisitsConvertedReturningVisitors, $nbVisitsReturning, Piwik_Goals::ROUNDING_PRECISION);
 	}

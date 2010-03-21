@@ -10,10 +10,10 @@
     <li>{'Goals_ReturningVisitorsConversionRateIs'|translate:"<b>$conversion_rate_returning%</b>"}, {'Goals_NewVisitorsConversionRateIs'|translate:"<b>$conversion_rate_new%</b>"}</li>
 	</ul>
 {/if}
-<hr>
+<hr />
 {$tableByConversion}
 
-<hr>
+<hr />
 {literal}
 <style>
 ul.ulGoalTopElements {

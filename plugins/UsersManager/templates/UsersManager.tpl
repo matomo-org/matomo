@@ -83,8 +83,8 @@
 </thead>
 
 <tbody>
-{assign var=accesValid value="<img src='plugins/UsersManager/images/ok.png' class='accessGranted'>"}
-{assign var=accesInvalid value="<img src='plugins/UsersManager/images/no-access.png' class='updateAccess'>"}
+{assign var=accesValid value="<img src='plugins/UsersManager/images/ok.png' class='accessGranted' />"}
+{assign var=accesInvalid value="<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />"}
 {foreach from=$usersAccessByWebsite key=login item=access}
 <tr>
 	<td id='login'>{$login}</td>
@@ -132,15 +132,15 @@
 					<td id="email" class="editable">{$user.email}</td>
 					<td id="alias" class="editable">{$user.alias}</td>
 					<td id="alias">{$user.token_auth}</td>
-					<td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#'></td>
-					<td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete"></td>
+					<td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#' /></td>
+					<td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete" /></td>
 				</tr>
 				{/if}
 			{/foreach}
 		</tbody>
 	</table>
 	
-	<div class="addrow"><a href="#"><img src='plugins/UsersManager/images/add.png'> {'UsersManager_AddUser'|translate}</a></div>
+	<div class="addrow"><a href="#"><img src='plugins/UsersManager/images/add.png' /> {'UsersManager_AddUser'|translate}</a></div>
 {/if}
 
 {include file="CoreAdminHome/templates/footer.tpl"}
