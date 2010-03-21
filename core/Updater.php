@@ -199,8 +199,9 @@ class Piwik_Updater
 			$files = glob( $pathToUpdates );
 			if($files === false)
 			{
-				continue;
+				$files = array();
 			}
+
 			foreach( $files as $file)
 			{
 				$fileVersion = basename($file, '.php');
