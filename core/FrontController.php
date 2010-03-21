@@ -236,8 +236,8 @@ class Piwik_FrontController
 				$authAdapter = Zend_Registry::get('auth');
 			} catch(Exception $e){
 				throw new Exception("Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
-									<br>You can activate the plugin by adding:<br>
-									<code>Plugins[] = Login</code><br>
+									<br />You can activate the plugin by adding:<br />
+									<code>Plugins[] = Login</code><br />
 									under the <code>[Plugins]</code> section in your config/config.inc.php");
 			}
 			

@@ -2,7 +2,7 @@
 
 {if isset($errorMessage)}
 	<div class="error">
-		<img src="themes/default/images/error_medium.png">
+		<img src="themes/default/images/error_medium.png" />
 		{'Installation_DatabaseErrorConnect'|translate}:
 		<br />{$errorMessage}
 		

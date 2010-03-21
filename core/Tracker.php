@@ -365,7 +365,7 @@ function printDebug( $info = '' )
 		}
 		else
 		{
-			print($info . "<br>\n");
+			print($info . "<br />\n");
 		}
 	}
 }

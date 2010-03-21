@@ -73,10 +73,10 @@ $(document).ready( function() {
 	
 		$(' <tr id="'+newRowId+'">\
 				<td>&nbsp;</td>\
-				<td><input id="siteadd_name" value="Name" size=25></td>\
-				<td><textarea cols=30 rows=3 id="siteadd_urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea></td>\
-				<td><img src="plugins/UsersManager/images/ok.png" class="addsite" href="#"></td>\
-	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel"></td>\
+				<td><input id="siteadd_name" value="Name" size="25" /></td>\
+				<td><textarea cols="30" rows="3" id="siteadd_urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea></td>\
+				<td><img src="plugins/UsersManager/images/ok.png" class="addsite" href="#" /></td>\
+	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel" /></td>\
 	 		</tr>')
 	  			.appendTo('#editSites')
 		;
@@ -113,14 +113,14 @@ $(document).ready( function() {
 					var idName = $(n).attr('id');
 					if(idName == 'siteName')
 					{
-						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25">';
+						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25" />';
 						$(n)
 							.html(contentAfter)
 							.keypress( submitSiteOnEnter );
 					}
 					if(idName == 'urls')
 					{
-						var contentAfter = '<textarea cols=30 rows=3 id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
+						var contentAfter = '<textarea cols="30" rows="3" id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
 						$(n).html(contentAfter);
 					}
 				}
@@ -128,7 +128,7 @@ $(document).ready( function() {
 			$(this)
 				.toggle()
 				.parent()
-				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateSite">')
+				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateSite" />')
 							.click( function(){ $.ajax( getUpdateSiteAJAX( $('tr#'+idRow) ) ); } ) 
 					);
 		}

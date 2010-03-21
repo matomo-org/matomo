@@ -58,7 +58,7 @@ class Piwik
 				$realpath = Piwik_Common::realpath($dir);
 				if(!empty($realpath) && $bool === false)
 				{
-					$directoryList .= "<code>chmod 777 $realpath</code><br>";
+					$directoryList .= "<code>chmod 777 $realpath</code><br />";
 				}
 			}
 			$directoryList .= '';
@@ -274,7 +274,7 @@ class Piwik
 	static public function log($message = '')
 	{
 		Zend_Registry::get('logger_message')->logEvent($message);
-		Zend_Registry::get('logger_message')->logEvent( "<br>" . PHP_EOL);
+		Zend_Registry::get('logger_message')->logEvent( "<br />" . PHP_EOL);
 	}
 	
 	
@@ -291,7 +291,7 @@ class Piwik
 	{
 		$output = "<style>a{color:red;}</style>\n".
 			"<div style='color:red;font-family:Georgia;font-size:120%'>".
-			"<p><img src='themes/default/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20'>".
+			"<p><img src='themes/default/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20' />".
 			$message.
 			"</p></div>";
 		print(Piwik_Log_Formatter_ScreenFormatter::getFormattedString($output));
@@ -404,8 +404,8 @@ class Piwik
 		}
 		uasort( $infoIndexedByQuery, 'sortTimeDesc');
 		
-		Piwik::log('<hr><b>SQL Profiler</b>');
-		Piwik::log('<hr><b>Summary</b>');
+		Piwik::log('<hr /><b>SQL Profiler</b>');
+		Piwik::log('<hr /><b>Summary</b>');
 		$totalTime	= $profiler->getTotalElapsedSecs();
 		$queryCount   = $profiler->getTotalNumQueries();
 		$longestTime  = 0;
@@ -418,15 +418,15 @@ class Piwik
 		}
 		$str = 'Executed ' . $queryCount . ' queries in ' . round($totalTime,3) . ' seconds' . "\n";
 		$str .= '(Average query length: ' . round($totalTime / $queryCount,3) . ' seconds)' . "\n";
-		$str .= '<br>Queries per second: ' . round($queryCount / $totalTime,1) . "\n";
-		$str .= '<br>Longest query length: ' . round($longestTime,3) . " seconds (<code>$longestQuery</code>) \n";
+		$str .= '<br />Queries per second: ' . round($queryCount / $totalTime,1) . "\n";
+		$str .= '<br />Longest query length: ' . round($longestTime,3) . " seconds (<code>$longestQuery</code>) \n";
 		Piwik::log($str);
 		Piwik::getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery);
 	}
 	
 	static private function getSqlProfilingQueryBreakdownOutput( $infoIndexedByQuery )
 	{
-		Piwik::log('<hr><b>Breakdown by query</b>');
+		Piwik::log('<hr /><b>Breakdown by query</b>');
 		$output = '';
 		foreach($infoIndexedByQuery as $query => $queryInfo) 
 		{
@@ -449,7 +449,7 @@ class Piwik
 		echo Zend_Registry::get('timer');
 	}
 
-	static public function printMemoryLeak($prefix = '', $suffix = '<br>')
+	static public function printMemoryLeak($prefix = '', $suffix = '<br />')
 	{
 		echo $prefix;
 		echo Zend_Registry::get('timer')->getMemoryLeak();
@@ -1524,10 +1524,10 @@ class Piwik
 	   		{
 				throw new Exception("
 				Error while copying file to <code>$dest</code>. <br />
-				Please check that the web server has enough permission to overwrite this file. <br/>
-				For example, on a linux server, if your apache user is www-data you can try to execute:<br>
-				<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br>
-				<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br>
+				Please check that the web server has enough permission to overwrite this file. <br />
+				For example, on a linux server, if your apache user is www-data you can try to execute:<br />
+				<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br />
+				<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br />
 					");
 	   		}
 		}

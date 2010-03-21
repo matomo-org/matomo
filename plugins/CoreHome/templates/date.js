@@ -54,7 +54,7 @@ $(document).ready(function(){
 				{
 					$("#currentPeriod:not(.hoverPeriod)")
 						.addClass("hoverPeriod")
-						.append('&nbsp;<img src="plugins/CoreHome/templates/images/more_period.gif" style="vertical-align:middle">');
+						.append('&nbsp;<img src="plugins/CoreHome/templates/images/more_period.gif" style="vertical-align:middle" />');
 				}
 			}, function(){
 				restoreCurrentPeriod();

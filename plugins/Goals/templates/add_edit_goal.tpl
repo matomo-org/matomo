@@ -34,14 +34,14 @@ var mappingMatchTypeName = {ldelim}
 {rdelim};
 var mappingMatchTypeExamples = {ldelim}
 	"url": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'checkout/confirmation'"} \
-		<br/>{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://example.com/thank-you.html'"} \
-		<br/>{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"matches the expression '(.*)\\\/demo\\\/(.*)'"}", 
+		<br />{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://example.com/thank-you.html'"} \
+		<br />{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"matches the expression '(.*)\\\/demo\\\/(.*)'"}", 
 	"file": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'files/brochure.pdf'"} \
-		<br/>{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://example.com/files/brochure.pdf'"} \
-		<br/>{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"'(.*)\\\.zip'"}", 
+		<br />{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://example.com/files/brochure.pdf'"} \
+		<br />{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"'(.*)\\\.zip'"}", 
 	"external_website": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'amazon.com'"} \
-		<br>{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://mypartner.com/landing.html'"} \
-		<br>{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'"}" 
+		<br />{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://mypartner.com/landing.html'"} \
+		<br />{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'"}" 
 {rdelim};
 bindGoalForm();
 

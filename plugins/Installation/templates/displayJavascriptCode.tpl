@@ -27,7 +27,7 @@ $(document).ready( function(){
 
 <span id="toFade" class="success">
 	{'Installation_SetupWebsiteSetupSuccess'|translate:$websiteName}
-	<img src="themes/default/images/success_medium.png">
+	<img src="themes/default/images/success_medium.png" />
 </span>
 {/if}
 <h1>{'Installation_JsTag'|translate}</h1>

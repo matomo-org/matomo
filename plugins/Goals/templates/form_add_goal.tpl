@@ -24,13 +24,13 @@
 				</select>
 			</td>
 			<td>
-				<input type="radio" id="match_attribute_url" value="url" name="match_attribute"/>
+				<input type="radio" id="match_attribute_url" value="url" name="match_attribute" />
                 <label for="match_attribute_url">{'Goals_VisitUrl'|translate}</label>
 				<br />
-				<input type="radio" id="match_attribute_file" value="file" name="match_attribute"/>
+				<input type="radio" id="match_attribute_file" value="file" name="match_attribute" />
 				<label for="match_attribute_file">{'Goals_Download'|translate}</label>
 				<br />
-				<input type="radio" id="match_attribute_external_website" value="external_website" name="match_attribute"/>
+				<input type="radio" id="match_attribute_external_website" value="external_website" name="match_attribute" />
 				<label for="match_attribute_external_website">{'Goals_ClickOutlink'|translate}</label>
 			</td>
 			</tr>
@@ -50,7 +50,7 @@
 				<div id="examples_pattern" class="goalInlineHelp"></div>
 				<br />
 				<span style="float:right">
-				{'Goals_Optional'|translate} <input type="checkbox" id="case_sensitive"/>
+				{'Goals_Optional'|translate} <input type="checkbox" id="case_sensitive" />
                 <label for="case_sensitive">{'Goals_CaseSensitive'|translate}</label>
 				</span>
 			</td>
@@ -64,7 +64,7 @@
 	<tbody>
 		<tr>
             <td>(optional) {'Goals_DefaultRevenue'|translate}</td>
-			<td>{$currency} <input type="text" name="revenue" size="1" value="0"/>
+			<td>{$currency} <input type="text" name="revenue" size="1" value="0" />
             <div class="goalInlineHelp"> {'Goals_DefaultRevenueHelp'|translate} </div>
 			</td>
 		</tr>
@@ -72,7 +72,7 @@
 		<tr>
 			<td colspan="2" style="border:0">
 			<div class="submit">	
-				<input type="hidden" name="methodGoalAPI" value="" />	
+				<input type="hidden" name="methodGoalAPI" value="" />
 				<input type="hidden" name="goalIdUpdate" value="" />
                 <input type="submit" value="" name="submit" id="goal_submit" class="submit" />
 			</div>

@@ -186,7 +186,7 @@ $(document).ready( function() {
 					var idName = $(n).attr('id');
 					if(idName != 'userLogin')
 					{
-						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25">';
+						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25" />';
 						$(n).html(contentAfter);
 					}
 				}
@@ -195,7 +195,7 @@ $(document).ready( function() {
 			$(this)
 				.toggle()
 				.parent()
-				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateuser">')
+				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateuser" />')
 				.click( function(){ $.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); } ) 
 			);
 		});
@@ -227,13 +227,13 @@ $(document).ready( function() {
 		var newRowId = 'row' + newRowId;
 	
 		$(' <tr id="'+newRowId+'">\
-				<td><input id="useradd_login" value="login?" size=10></td>\
-				<td><input id="useradd_password" value="password" size=10></td>\
-				<td><input id="useradd_email" value="email@domain.com" size=15></td>\
-				<td><input id="useradd_alias" value="alias" size=15></td>\
+				<td><input id="useradd_login" value="login?" size="10" /></td>\
+				<td><input id="useradd_password" value="password" size="10" /></td>\
+				<td><input id="useradd_email" value="email@domain.com" size="15" /></td>\
+				<td><input id="useradd_alias" value="alias" size="15" /></td>\
 				<td>-</td>\
-				<td><img src="plugins/UsersManager/images/ok.png" class="adduser"></td>\
-	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel"></td>\
+				<td><img src="plugins/UsersManager/images/ok.png" class="adduser" /></td>\
+	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel" /></td>\
 	 		</tr>')
 	  			.appendTo('#users')
 		;

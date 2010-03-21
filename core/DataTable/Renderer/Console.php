@@ -32,25 +32,25 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 	
 	protected function renderDataTableArray(Piwik_DataTable_Array $tableArray, $prefix )
 	{
-		$output = "Piwik_DataTable_Array<hr>";
+		$output = "Piwik_DataTable_Array<hr />";
 		$prefix = $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		foreach($tableArray->getArray() as $descTable => $table)
 		{
-			$output .= $prefix . "<b>". $descTable. "</b><br>";
+			$output .= $prefix . "<b>". $descTable. "</b><br />";
 			$output .= $prefix . $this->renderTable($table, $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
-			$output .= "<hr>";
+			$output .= "<hr />";
 		}
-		$output .= "Metadata<br>";
+		$output .= "Metadata<br />";
 		foreach($tableArray->metadata as $id => $metadata)
 		{
-			$output .= "<br>";
-			$output .= $prefix . " <b>$id</b> <br>";
+			$output .= "<br />";
+			$output .= $prefix . " <b>$id</b><br />";
 			foreach($metadata as $name => $value)
 			{
 				$output .= $prefix . $prefix . "$name => $value";
 			}
 		}
-		$output .= "<hr>";
+		$output .= "<hr />";
 		return $output;
 	}
 	
@@ -63,7 +63,7 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 		
 		if($table->getRowsCount() == 0)
 		{
-			return "Empty table <br>\n";
+			return "Empty table<br />\n";
 		}
 		
 		static $depth=0;
@@ -103,7 +103,7 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 			
 			$output.= str_repeat($this->prefixRows, $depth) 
 						. "- $i [".$columns."] [".$metadata."] [idsubtable = " 
-						. $row->getIdSubDataTable()."]<br>\n";
+						. $row->getIdSubDataTable()."]<br />\n";
 			
 			if($row->getIdSubDataTable() !== null)
 			{
@@ -116,7 +116,7 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 											$prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 										);
 				} catch(Exception $e) {
-					$output.= "-- Sub DataTable not loaded<br>\n";
+					$output.= "-- Sub DataTable not loaded<br />\n";
 				}
 				$depth--;
 			}

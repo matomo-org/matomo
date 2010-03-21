@@ -98,7 +98,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 	{
 		if($table->getRowsCount() == 0)
 		{
-			return "<b><i>Empty table</i></b> <br>\n";
+			return "<b><i>Empty table</i></b><br />\n";
 		}
 
 		$i = 1;		

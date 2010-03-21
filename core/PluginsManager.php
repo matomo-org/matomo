@@ -540,11 +540,11 @@ class Piwik_Event_Notification extends Event_Notification
 				$className = is_object($callback[0]) ? get_class($callback[0]) : $callback[0];
 				$method = $callback[1];
 
-				echo "after $className -> $method <br>";
+				echo "after $className -> $method <br />";
 				echo "-"; Piwik::printTimer();
-				echo "<br>";
+				echo "<br />";
 				echo "-"; Piwik::printMemoryLeak();
-				echo "<br>";
+				echo "<br />";
 			}
 		}
 	}

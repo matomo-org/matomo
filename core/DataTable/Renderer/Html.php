@@ -96,7 +96,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 			if(count($metadata) != 0)
 			{
 				$someMetadata = true;
-				$metadata = implode("<br>", $metadata);
+				$metadata = implode("<br />", $metadata);
 				$this->tableStructure[$i]['_metadata'] = $metadata;
 			}
 			

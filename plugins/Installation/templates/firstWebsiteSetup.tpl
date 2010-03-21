@@ -3,7 +3,7 @@
 {if isset($displayGeneralSetupSuccess)}
 <span id="toFade" class="success">
 	{'Installation_GeneralSetupSuccess'|translate}
-	<img src="themes/default/images/success_medium.png">
+	<img src="themes/default/images/success_medium.png" />
 </span>
 {/if}
 
@@ -11,7 +11,7 @@
 
 {if isset($errorMessage)}
 	<div class="error">
-		<img src="themes/default/images/error_medium.png">
+		<img src="themes/default/images/error_medium.png" />
 		{'Installation_SetupWebsiteError'|translate}:
 		<br />- {$errorMessage}
 		

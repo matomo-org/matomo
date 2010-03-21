@@ -214,7 +214,7 @@ class Piwik_Tracker_GoalManager
 				if(Piwik_Tracker::getDatabase()->isErrNo($e, '1062'))
 				{
 					// integrity violation when same visit converts to the same goal twice
-					printDebug("--> Goal already recorded for this (idvisit, idgoal)");
+					printDebug("--&gt; Goal already recorded for this (idvisit, idgoal)");
 				}
 				else
 				{

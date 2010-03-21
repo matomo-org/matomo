@@ -4,7 +4,7 @@ function widgetize()
 	
 	this.getInputFormWithHtml = function(inputId, htmlEmbed)
 	{
-		return '<input class="formEmbedCode" id="'+inputId+'" value="'+ htmlEmbed.replace(/"/g, '&quot;') +'" onclick="javascript:document.getElementById(\''+inputId+'\').focus();document.getElementById(\''+inputId+'\').select();" readonly="true" type="text">';
+		return '<input class="formEmbedCode" id="'+inputId+'" value="'+ htmlEmbed.replace(/"/g, '&quot;') +'" onclick="javascript:document.getElementById(\''+inputId+'\').focus();document.getElementById(\''+inputId+'\').select();" readonly="true" type="text" />';
 	}
 	
 	this.getEmbedUrl = function( parameters, exportFormat )
@@ -92,7 +92,7 @@ function widgetize()
 				'<div id="embedThisWidgetEverywhere">'+
 					'<div id="exportThisWidget">'+
 						'<label for="flashEmbed">&rsaquo; Export anywhere!</label>'+
-						'<img src="http://cdn.clearspring.com/launchpad/static/cs_button_share1.gif">'+
+						'<img src="http://cdn.clearspring.com/launchpad/static/cs_button_share1.gif" />'+
 					'</div>'+
 					'<div id="exportThisWidgetMenu"></div>'+
 				'</div>'
@@ -119,6 +119,6 @@ function widgetize()
 		
 		// JS is buggy at least on IE
 		//var widgetJS = '<script type="text/javascript" src="'+ getEmbedUrl(pluginId, actionId, "js") +'"></scr'+'ipt>';
-		//divEmbedThisWidget.append('<br/>Embed JS: '+ getInputFormWithHtml('javascriptEmbed', widgetJS));
+		//divEmbedThisWidget.append('<br />Embed JS: '+ getInputFormWithHtml('javascriptEmbed', widgetJS));
 	}
 }
