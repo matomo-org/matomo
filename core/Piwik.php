@@ -1800,23 +1800,9 @@ class Piwik
 	 */
 	static public function createConfigObject( $pathConfigFile = null )
 	{
-		$isTestEnvironment = false;
-		if(is_null($pathConfigFile))
-		{
-			try {
-				$config = Zend_Registry::get('config');
-				$isTestEnvironment = $config->isTestEnvironment();
-			} catch (Exception $e) {
-			}
-		}
-		
 		$config = new Piwik_Config($pathConfigFile);
 		Zend_Registry::set('config', $config);
 		$config->init();
-		if($isTestEnvironment)
-		{
-			$config->setTestEnvironment();
-		}
 	}
 
 	/**

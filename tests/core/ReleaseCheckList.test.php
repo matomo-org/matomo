@@ -79,7 +79,6 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 	{
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();	
-		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 
 		$jqueryJs = file_get_contents( PIWIK_DOCUMENT_ROOT . '/libs/jquery/jquery.js', false, NULL, 0, 512 );
 		$this->assertTrue( preg_match('/jQuery (?:JavaScript Library )?v?([0-9.]+)/', $jqueryJs, $matches) );

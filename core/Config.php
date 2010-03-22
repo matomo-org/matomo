@@ -170,6 +170,7 @@ class Piwik_Config
 	{
 		$this->isTestEnvironment = true;
 		$this->database = $this->database_tests->toArray();
+		$this->disableSavingConfigurationFileUpdates();
 	}
 
 	/**
