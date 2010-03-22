@@ -18,6 +18,7 @@ class Test_Database extends UnitTestCase
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();	
 		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
+		Piwik_Tracker_Config::getInstance()->setTestEnvironment();
 		Piwik::createDatabaseObject();
 		Piwik::createLogObject();
 
@@ -78,9 +79,9 @@ class FakeAccess
 		}
 	}
 	
-	static public function setSuperUser()
+	static public function setSuperUser($bool = true)
 	{
-		self::$superUser = true;
+		self::$superUser = $bool;
 	}
 
 	static public function reloadAccess()

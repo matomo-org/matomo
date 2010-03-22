@@ -47,7 +47,7 @@ class Piwik_Common
 		static $prefixTable = null;
 		if(is_null($prefixTable))
 		{
-			if(defined('PIWIK_TRACKER_MODE') && PIWIK_TRACKER_MODE)
+			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 			{
 				$prefixTable = Piwik_Tracker_Config::getInstance()->database['tables_prefix'];
 			}
@@ -84,16 +84,28 @@ class Piwik_Common
 		{
 			return $cacheContent;
 		}
-		if(defined('PIWIK_TRACKER_MODE')
-			&& PIWIK_TRACKER_MODE)
+		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 		{
 			require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 			require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 			require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
-			Piwik::createDatabaseObject();
-			Piwik::createAccessObject();
-			Piwik::createConfigObject();
+			try {
+				$db = Zend_Registry::get('db');
+			} catch (Exception $e) {
+				Piwik::createDatabaseObject();
+			}
+			try {
+				$access = Zend_Registry::get('access');
+			} catch (Exception $e) {
+				Piwik::createAccessObject();
+			}
+			try {
+				$config = Zend_Registry::get('config');
+			} catch (Exception $e) {
+				Piwik::createConfigObject();
+			}
+			$isSuperUser = Piwik::isUserIsSuperUser();
 			Piwik::setUserIsSuperUser();
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
@@ -101,6 +113,16 @@ class Piwik_Common
 
 		$content = array();
 		Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
+		
+		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
+		{
+    		// we remove the temporary Super user privilege
+        	if(!$isSuperUser)
+        	{
+        		Piwik::setUserIsSuperUser($isSuperUser);
+        	} 
+		}
+		
 		// if nothing is returned from the plugins, we don't save the content
 		// this is not expected: all websites are expected to have at least one URL
 		if(!empty($content))
@@ -561,7 +583,7 @@ class Piwik_Common
 		static $salt = null;
 		if(is_null($salt))
 		{
-			if(defined('PIWIK_TRACKER_MODE') && PIWIK_TRACKER_MODE)
+			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 			{
 				$salt = Piwik_Tracker_Config::getInstance()->superuser['salt'];
 			}

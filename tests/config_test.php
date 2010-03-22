@@ -43,6 +43,11 @@ function dump($var)
 	print("</pre>");
 }
 
+function printDebug($text)
+{
+	return;
+}
+
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Registry.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Config/Ini.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Config.php';
