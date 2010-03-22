@@ -447,20 +447,6 @@ class Piwik_PluginsManager
 		return $pluginNames;
 	}
 	
-	/**
-	 * Get array of installed plugins
-	 *
-	 * @deprecated 0.6
-	 *
-	 * @return array of Piwik_Plugin
-	 */
-	public function getInstalledPlugins()
-	{
-		$plugins = $this->getLoadedPlugins();
-		$installed = $this->getInstalledPluginsName();
-		return array_intersect_key($plugins, array_combine($installed, array_fill(0, count($installed), 1)));
-	}
-
 	private function installPluginIfNecessary( Piwik_Plugin $plugin )
 	{
 		$pluginName = $plugin->getClassName();
