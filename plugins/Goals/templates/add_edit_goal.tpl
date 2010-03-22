@@ -8,12 +8,8 @@
 	</h2>
 {/if}
 
-	<div>
-		<div id="ajaxError" style="display:none"></div>
-		<div id="ajaxLoading" style="display:none">
-			<div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate}</div>
-		</div>
-	</div>
+{ajaxErrorDiv}
+{ajaxLoadingDiv id=goalAjaxLoading}
 	
 {if !isset($onlyShowAddNewGoal)}
 	{include file="Goals/templates/list_goal_edit.tpl"}

@@ -12,7 +12,6 @@ function changeSite()
 function getUpdateUserAJAX( row )
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
 	
 	var parameters = {};
 	parameters.module = 'API';
@@ -33,7 +32,6 @@ function getUpdateUserAJAX( row )
 function getDeleteUserAJAX( login )
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
 		
 	var parameters = {};
 	parameters.module = 'API';
@@ -50,7 +48,6 @@ function getDeleteUserAJAX( login )
 function getAddUserAJAX( row )
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
 	
 	var parameters = {};
 	parameters.module = 'API';
@@ -121,15 +118,16 @@ function bindUpdateAccess()
 	// callback called when the ajax request Update the user permissions is successful
 	function successCallback (response)
 	{
+		piwikHelper.hideAjaxLoading();
 		// if the permission couldn't be granted
 		if(response.result == "error") 
 		{
-			piwikHelper.ajaxShowError(response.message);
+			piwikHelper.showAjaxError(response.message);
 		}
 		// if the permission change was successful
 		else
 		{
-			piwikHelper.ajaxHideError();
+			piwikHelper.hideAjaxError();
 			
 			$(self).parent().parent().find('.accessGranted')
 				.attr("src","plugins/UsersManager/images/no-access.png" )
@@ -174,7 +172,7 @@ $(document).ready( function() {
 	// when click on edituser, the cells become editable
 	$('.edituser')
 		.click( function() {
-			piwikHelper.ajaxHideError();
+			piwikHelper.hideAjaxError();
 			var idRow = $(this).attr('id');
 			if(alreadyEdited[idRow]==1) return;
 			alreadyEdited[idRow] = 1;
@@ -208,7 +206,7 @@ $(document).ready( function() {
 	// when click on deleteuser, the we ask for confirmation and then delete the user
 	$('.deleteuser')
 		.click( function() {
-			piwikHelper.ajaxHideError();
+			piwikHelper.hideAjaxError();
 			var idRow = $(this).attr('id');
 			var loginToDelete = $(this).parent().parent().find('#userLogin').html();
 			if( confirm(sprintf(_pk_translate('UsersManager_DeleteConfirm_js'),'"'+loginToDelete+'"')) )
@@ -219,7 +217,7 @@ $(document).ready( function() {
 	);
 	
 	$('.addrow').click( function() {
-		piwikHelper.ajaxHideError();
+		piwikHelper.hideAjaxError();
 		$(this).toggle();
 		
 		var numberOfRows = $('table#users')[0].rows.length;
@@ -239,7 +237,7 @@ $(document).ready( function() {
 		;
 		$('#'+newRowId).keypress( submitOnEnter );
 		$('.adduser').click( function(){ $.ajax( getAddUserAJAX($('tr#'+newRowId)) ); } );
-		$('.cancel').click(function() { piwikHelper.ajaxHideError(); $(this).parents('tr').remove();  $('.addrow').toggle(); });
+		$('.cancel').click(function() { piwikHelper.hideAjaxError(); $(this).parents('tr').remove();  $('.addrow').toggle(); });
 	});
 
 	$('.updateAccess')

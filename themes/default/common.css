@@ -169,7 +169,7 @@ a {
 .tableForm .submit {
 	text-align:center;
 }
-.submit input{
+input.submit {
 	margin-top:15px;
 	background:transparent url(./images/background-submit.png) repeat scroll 0%;
 	font-size:1.4em;
@@ -179,7 +179,7 @@ a {
 	color:#333;
 	padding:0.15em;
 }
-#ajaxError {
+.ajaxError {
 	color: red;
 	text-align: center;
 	font-weight: bold;
@@ -187,4 +187,10 @@ a {
 	border: 3px solid red;
 	margin: 10px;
 	padding: 10px;
+}
+
+/* extending the jquery UI css for inline help */
+.ui-widget { 
+	text-align:justify;
+	width:300px;	
 }

@@ -55,7 +55,7 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
 	return ajaxRequest;
 };
 
-widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName, widgetLoadingString)
+widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
 {
 	return '<div id="'+uniqueId+'" class="widget">'+
 				'<div class="widgetTop">'+
@@ -66,7 +66,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName, widgetLoading
 				'</div>'+
 				'<div class="widgetContent">'+ 
 					'<div class="widgetLoading">'+
-						widgetLoadingString +
+						_pk_translate('Dashboard_LoadingWidget_js') +
 					'</div>'+
 				'</div>'+
 			'</div>';
@@ -194,10 +194,7 @@ widgetMenu.prototype =
 										widgetUniqueId, 
 										'<div title="'+_pk_translate("Dashboard_AddPreviewedWidget_js")+'">'+
 											_pk_translate('Dashboard_WidgetPreview_js')+
-										'</div>', 
-										'<span id="loadingPiwik">'+
-											'<img src="themes/default/images/loading-blue.gif" /> ' +_pk_translate('Dashboard_LoadingWidget_js') +
-										'</span>'
+										'</div>'
 				);
 				$('#sub3').html(emptyWidgetHtml);
 				

@@ -19,6 +19,8 @@ broadcast.init = function() {
 	// Initialize history plugin.
 	// The callback is called at once by present location.hash
 	$.historyInit(broadcast.pageload);
+	
+	piwikHelper.showAjaxLoading();
 }
 
 /************************************************
@@ -157,8 +159,7 @@ broadcast.loadAjaxContent = function(urlAjax)
 {
     urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
 
-    // showing loading...
-    $('#loadingPiwik').show();
+	piwikHelper.showAjaxLoading();
     $('#content').hide();
 
     $("object").remove();
@@ -174,7 +175,7 @@ broadcast.loadAjaxContent = function(urlAjax)
 
         if(urlAjax == broadcast.lastUrlRequested) {
 		    $('#content').html( content ).show();
-		    $('#loadingPiwik').hide();
+			piwikHelper.hideAjaxLoading();
 		    broadcast.lastUrlRequested = null;
 		}
     }

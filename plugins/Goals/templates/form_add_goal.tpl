@@ -71,11 +71,11 @@
 		<tr>
 		<tr>
 			<td colspan="2" style="border:0">
-			<div class="submit">	
-				<input type="hidden" name="methodGoalAPI" value="" />
+				<input type="hidden" name="methodGoalAPI" value="" />	
 				<input type="hidden" name="goalIdUpdate" value="" />
-                <input type="submit" value="" name="submit" id="goal_submit" class="submit" />
-			</div>
+				<center>
+	            <input type="submit" value="" name="submit" id="goal_submit" class="submit" />
+	            </center>
 			</td>
 		</tr>
 	</tbody>

@@ -4,7 +4,8 @@
 
 {if isset($menu) && $menu}{include file="CoreHome/templates/menu.tpl"}{/if}
 <div style="clear:both;"></div>
-{include file="CoreHome/templates/loading.tpl"}
+{ajaxLoadingDiv}
+{ajaxRequestErrorDiv}
 
 <div id="content">
 {if $content}{$content}{/if}

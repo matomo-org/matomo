@@ -435,6 +435,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function isExcluded()
 	{
+		$excluded = false;
+		
 		$ip = $this->getVisitorIp();
 		$ua = $this->getUserAgent();
 
@@ -443,21 +445,42 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		 * As a result, these sophisticated bots exhibit characteristics of
 		 * browsers (cookies enabled, executing JavaScript, etc).
 		 */
-		$excluded =  preg_match('/65\.55/', long2ip($ip))	// Live/Bing
-				  || preg_match('/Googlebot/', $ua);			// Googlebot
-
+		if (preg_match('/65\.55/', long2ip($ip))	// Live/Bing
+				  || preg_match('/Googlebot/', $ua))			// Googlebot
+		{
+			printDebug('Search bot detected, visit excluded');
+			$excluded = true;
+		}
+				  
 				  
 		/*
 		 * Requests built with piwik.js will contain a rec=1 parameter. This is used as
 		 * an indication that the request is made by a JS enabled device. By default, Piwik 
 		 * doesn't track non-JS visitors.
 		 */
-		$toRecord = Piwik_Common::getRequestVar('rec', false, 'int');
-		$excluded = $excluded || !$toRecord;
+		if(!$excluded)
+		{
+			$parameterForceRecord = 'rec';
+			$toRecord = Piwik_Common::getRequestVar($parameterForceRecord, false, 'int');
+			if(!$toRecord)
+			{
+				printDebug('GET parameter '.$parameterForceRecord.' not found in URL, request excluded');
+				$excluded = true;
+			}
+		}
 		
 		/* custom filters can override the built-in filter above */
 		Piwik_PostEvent('Tracker.Visit.isExcluded', $excluded);
-
+		
+		/*
+		 * Checking for excluded IPs; this happens after the hook as this is of higher priority 
+		 * and should not be overwritten.
+		 */
+		if(!$excluded)
+		{
+			$excluded = $this->isVisitorIpExcluded($ip);
+		}
+		
 		if($excluded)
 		{
 			printDebug("Visitor excluded.");
@@ -467,6 +490,30 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		return false;
 	}
 
+	/**
+	 * Checks if the visitor ip is in the excluded list
+	 * 
+	 * @param $ip Long IP
+	 * @return bool
+	 */
+	protected function isVisitorIpExcluded($ip)
+	{
+		$websiteAttributes = Piwik_Common::getCacheWebsiteAttributes( $this->idsite );
+		if(!empty($websiteAttributes['excluded_ips']))
+		{
+			foreach($websiteAttributes['excluded_ips'] as $ipRange)
+			{
+				if($ip >= $ipRange[0]
+					&& $ip <= $ipRange[1])
+				{
+					printDebug('Visitor IP '.long2ip($ip).' is excluded from being tracked');
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Returns the cookie name used for the Piwik Tracker cookie
 	 *

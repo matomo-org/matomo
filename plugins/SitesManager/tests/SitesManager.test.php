@@ -105,6 +105,48 @@ class Test_Piwik_SitesManager extends Test_Database
     }
     
     /**
+     * Test with valid IPs
+     */
+    public function test_addSite_excludedIps_valid()
+    {
+    	$ips = '1.2.3.4,1.1.1.*,1.2.*.*,1.*.*.*'; 
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ips);
+    	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+    	$this->assertEqual($siteInfo['excluded_ips'], $ips);
+    }
+    
+    /**
+     * Test with invalid IPs
+     */
+    public function test_addSite_excludedIps_notValid()
+    {
+    	$invalidIps = array(
+    		'35817587341',
+    		'ieagieha',
+    		'1.2.3',
+    		'*.1.1.1',
+    		'*.*.1.1',
+    		'*.*.*.1',
+    		'*.*.*.*',
+    		'1.1.1.1.1',
+    	); 
+    	foreach($invalidIps as $ip)
+    	{
+    		$raised = false;
+    		try {
+    			$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ip);
+    		} catch(Exception $e) {
+    			$raised = true;
+    		}
+    		if(!$raised) 
+    		{
+    			$this->fail('was expecting invalid IP exception to raise');
+    		}
+    	}
+    	$this->pass();
+    }
+    
+    /**
      * one url -> one main_url and nothing inserted as alias urls
      */
     public function test_addSite_oneUrl()
@@ -440,8 +482,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net"),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org"),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => ""),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => ""),
     	);
     		
 		FakeAccess::setIdSitesAdmin (array(1,3));
@@ -476,8 +518,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net"),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org"),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => ""),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => ""),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
@@ -512,8 +554,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net"),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org"),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => ""),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => ""),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));

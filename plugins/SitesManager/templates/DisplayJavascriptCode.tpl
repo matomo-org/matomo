@@ -13,7 +13,7 @@ code {
 	border-width:1px 1px 1px 5px;
 	direction:ltr;
 	display:block;
-	font-size:80%;
+	font-size:90%;
 	margin:2px 2px 20px;
 	padding:4px;
 	text-align:left;

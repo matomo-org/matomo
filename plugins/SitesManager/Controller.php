@@ -23,9 +23,13 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		foreach($sites as &$site)
 		{
 			$site['alias_urls'] = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($site['idsite']);
+			$site['excluded_ips'] = str_replace(',','<br/>', $site['excluded_ips']);
 		}
 		$view->adminSites = $sites;
+		$view->currentIpAddress = Piwik_Common::getIpString();
 		$this->setGeneralVariablesView($view);
+		$excludedIpsGlobal = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
+		$view->globalExcludedIps = str_replace(',',"\n", $excludedIpsGlobal);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}

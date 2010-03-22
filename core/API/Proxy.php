@@ -215,7 +215,7 @@ class Piwik_API_Proxy
 					}
 				}
 			} catch(Exception $e) {
-				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request. Add the parameter '&$name=' (with a value) in the URL.");
+				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request. ");
 			}			
 			$finalParameters[] = $requestValue;
 		}

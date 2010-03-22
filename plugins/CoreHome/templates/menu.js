@@ -10,7 +10,7 @@ menu.prototype =
 		if(urlLoaded == menu.prototype.lastUrlRequested)
 		{
 			$('#content').html( content ).show();
-			$('#loadingPiwik').hide();
+			piwikHelper.hideAjaxLoading();
 			menu.prototype.lastUrlRequested = null;
 		}
 	},

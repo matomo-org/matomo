@@ -33,7 +33,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 		return array(
 			'template_css_import' => 'css',
 			'AdminMenu.add' => 'addMenu',
-			'Common.fetchWebsiteAttributes' => 'recordWebsiteHostsInCache',
+			'Common.fetchWebsiteAttributes' => 'recordWebsiteDataInCache',
 		);
 	}
 	
@@ -42,12 +42,47 @@ class Piwik_SitesManager extends Piwik_Plugin
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
 	}
 	
-	function recordWebsiteHostsInCache($notification)
+	function recordWebsiteDataInCache($notification)
 	{
-		$idsite = $notification->getNotificationInfo();
+		$idSite = $notification->getNotificationInfo();
 		// add the 'hosts' entry in the website array
 		$array =& $notification->getNotificationObject();
-		$urls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+		$array['hosts'] = $this->getTrackerHosts($idSite);
+		$array['excluded_ips'] = $this->getTrackerExcludedIps($idSite);
+	}
+	
+	private function getTrackerExcludedIps($idSite)
+	{
+		$website = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
+		$excludedIps = $website['excluded_ips'];
+		$globalExcludedIps = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
+		
+		$excludedIps .= ',' . $globalExcludedIps;
+		
+		$ipRanges = array();
+		foreach(explode(',', $excludedIps) as $ip)
+		{
+			$ipMin = $ipMax = $ip;
+			if(substr_count($ip, '*') > 0)
+			{
+				$ipMin = str_replace('*', '0', $ip); 
+				$ipMax = str_replace('*', '255', $ip);
+			}
+			$ipRange = array( ip2long($ipMin), ip2long($ipMax));
+			
+			// we can still get invalid IPs at this stage (eg. ip2long(555.1.1.1) would return false)
+			if($ipRange[0] === false || $ipRange[1] === false) 
+			{
+				continue;
+			}
+			$ipRanges[] = $ipRange; 
+		}
+		return $ipRanges;
+	}
+	
+	private function getTrackerHosts($idSite)
+	{
+		$urls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idSite);
 		$hosts = array();
 		foreach($urls as $url)
 		{
@@ -57,7 +92,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 				$hosts[] = $url['host'];
 			}
 		}
-		$array['hosts'] = $hosts;
+		return $hosts;
 	}
 	
 	function addMenu()

@@ -1,8 +1,7 @@
 function getDeleteSiteAJAX( idSite )
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
-		
+
 	var parameters = {};
 	parameters.module = 'API';
 	parameters.format = 'json';
@@ -18,12 +17,13 @@ function getDeleteSiteAJAX( idSite )
 function getAddSiteAJAX( row )
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
 	
 	var parameters = {};
  	var siteName = $(row).find('input#siteadd_name').val();
  	var urls =  $(row).find('textarea#siteadd_urls').val();
-	var urls = urls.trim().split("\n");
+	var urls = getApiFormatUrls(urls);
+	var excludedIps = $(row).find('textarea#siteadd_excludedIps').val();
+	excludedIps = getApiFormatExcludedIps(excludedIps);
  	
 	var request = '';
 	request += '&module=API';
@@ -31,6 +31,7 @@ function getAddSiteAJAX( row )
 	request += '&method=SitesManager.addSite';
 	siteName = encodeURIComponent(siteName);
 	request += '&siteName='+siteName;
+	request += '&excludedIps='+excludedIps;
 	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
  	request += '&token_auth=' + piwik.token_auth;
  	
@@ -39,14 +40,25 @@ function getAddSiteAJAX( row )
 	return ajaxRequest;
 }
 
+function getApiFormatUrls(urls)
+{
+	return urls.trim().split("\n");
+}
+function getApiFormatExcludedIps(excludedIps)
+{
+	return excludedIps.trim().split("\n").join(',');
+}
+
 function getUpdateSiteAJAX( row )
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
 	
 	var siteName = $(row).find('input#siteName').val();
 	var idSite = $(row).children('#idSite').html();
-	var urls = $(row).find('textarea#urls').val().trim().split("\n");
+	var urls = $(row).find('textarea#urls').val();
+	urls = getApiFormatUrls(urls);
+	var excludedIps = $(row).find('textarea#excludedIps').val();
+	excludedIps = getApiFormatExcludedIps(excludedIps);
 	
 	var request = '';
 	request += '&module=API';
@@ -55,6 +67,7 @@ function getUpdateSiteAJAX( row )
 	siteName = encodeURIComponent(siteName);
 	request += '&siteName='+siteName;
 	request += '&idSite='+idSite;
+	request += '&excludedIps='+excludedIps;
 	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
  	request += '&token_auth=' + piwik.token_auth;
  	
@@ -63,9 +76,24 @@ function getUpdateSiteAJAX( row )
 	return ajaxRequest;
 }
 
+function getSetGlobalExcludedIpsAJAX()
+{
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingExcludedIps', 'ajaxErrorExcludedIps');
+	var excludedIps = $('textarea#globalExcludedIps').val();
+	excludedIps = getApiFormatExcludedIps(excludedIps);
+	var request = '';
+	request += '&module=API';
+	request += '&format=json';
+	request += '&method=SitesManager.setGlobalExcludedIps';
+	request += '&excludedIps='+excludedIps;
+ 	request += '&token_auth=' + piwik.token_auth;
+	ajaxRequest.data = request;
+	return ajaxRequest;
+}
+
 $(document).ready( function() {
 	$('.addRowSite').click( function() {
-		piwikHelper.ajaxHideError();
+		piwikHelper.hideAjaxError();
 		$(this).toggle();
 		
 		var numberOfRows = $('table#editSites')[0].rows.length;
@@ -74,7 +102,8 @@ $(document).ready( function() {
 		$(' <tr id="'+newRowId+'">\
 				<td>&nbsp;</td>\
 				<td><input id="siteadd_name" value="Name" size="25" /></td>\
-				<td><textarea cols="30" rows="3" id="siteadd_urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea></td>\
+				<td><textarea cols="30" rows="3" id="siteadd_urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
+				<td><textarea cols="30" rows="3" id="siteadd_excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
 				<td><img src="plugins/UsersManager/images/ok.png" class="addsite" href="#" /></td>\
 	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel" /></td>\
 	 		</tr>')
@@ -82,13 +111,13 @@ $(document).ready( function() {
 		;
 		$('#'+newRowId).keypress( submitSiteOnEnter );
 		$('.addsite').click( function(){ $.ajax( getAddSiteAJAX($('tr#'+newRowId)) ); } );
-		$('.cancel').click(function() { piwikHelper.ajaxHideError(); $(this).parents('tr').remove();  $('.addRowSite').toggle(); });
-	
+		$('.cancel').click(function() { piwikHelper.hideAjaxError(); $(this).parents('tr').remove();  $('.addRowSite').toggle(); });
+		return false;
 	 } );
 	
 	// when click on deleteuser, the we ask for confirmation and then delete the user
 	$('.deleteSite').click( function() {
-			piwikHelper.ajaxHideError();
+			piwikHelper.hideAjaxError();
 			var idRow = $(this).attr('id');
 			var nameToDelete = $(this).parent().parent().find('input#siteName').val() || $(this).parent().parent().find('td#siteName').html();
 			var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
@@ -101,7 +130,7 @@ $(document).ready( function() {
 	var alreadyEdited = new Array;
 	$('.editSite')
 		.click( function() {
-			piwikHelper.ajaxHideError();
+			piwikHelper.hideAjaxError();
 			var idRow = $(this).attr('id');
 			if(alreadyEdited[idRow]==1) return;
 			alreadyEdited[idRow] = 1;
@@ -121,6 +150,13 @@ $(document).ready( function() {
 					if(idName == 'urls')
 					{
 						var contentAfter = '<textarea cols="30" rows="3" id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
+						contentAfter += '<br />'+aliasUrlsHelp;
+						$(n).html(contentAfter);
+					}
+					if(idName == 'excludedIps')
+					{
+						var contentAfter = '<textarea cols="30" rows="3" id="excludedIps">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
+						contentAfter += '<br />'+excludedIpHelp;
 						$(n).html(contentAfter);
 					}
 				}
@@ -133,6 +169,10 @@ $(document).ready( function() {
 					);
 		}
 	);
+	
+	$('#globalExcludedIpsSubmit').click( function() {
+		$.ajax( getSetGlobalExcludedIpsAJAX() );
+	});
 	
 	$('td.editableSite').click( function(){ $(this).parent().find('.editSite').click(); } );
 });
