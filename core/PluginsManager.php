@@ -261,10 +261,11 @@ class Piwik_PluginsManager
 	}
 	
 	/**
-	 * Loads the plugin filename and instanciates the plugin with the given name, eg. UserCountry
+	 * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry
 	 * Do NOT give the class name ie. Piwik_UserCountry, but give the plugin name ie. UserCountry 
 	 *
-	 * @param Piwik_Plugin $pluginName
+	 * @param string $pluginName
+	 * @return Piwik_Plugin
 	 */
 	public function loadPlugin( $pluginName )
 	{
