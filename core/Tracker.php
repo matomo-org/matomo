@@ -353,19 +353,22 @@ class Piwik_Tracker
 	}
 }
 
-function printDebug( $info = '' )
+if(!function_exists('printDebug')) 
 {
-	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
-	{
-		if(is_array($info))
-		{
-			print("<pre>");
-			print(var_export($info,true));
-			print("</pre>");
-		}
-		else
-		{
-			print($info . "<br />\n");
-		}
-	}
+    function printDebug( $info = '' )
+    {
+    	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
+    	{
+    		if(is_array($info))
+    		{
+    			print("<pre>");
+    			print(var_export($info,true));
+    			print("</pre>");
+    		}
+    		else
+    		{
+    			print($info . "<br />\n");
+    		}
+    	}
+    }
 }
