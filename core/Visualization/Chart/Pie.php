@@ -63,7 +63,7 @@ class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 			}
 			$pieValue = new pie_value($value, $label);
 			$percentage = round(100 * $value / $sum);
-			$pieValue->set_tooltip("$label<br />$percentage% ($value$unit $labelName)");
+			$pieValue->set_tooltip("$label<br>$percentage% ($value$unit $labelName)");
 			$pieValues[] = $pieValue;
 		}
 		$pie->set_values($pieValues);
