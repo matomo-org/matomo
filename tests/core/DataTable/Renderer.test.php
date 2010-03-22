@@ -1120,7 +1120,7 @@ idSite,row2,15";
 
 
 	  	$expected=
-"- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br>\n- 2 ['visits' => 3] [] [idsubtable = $idsubtable1]<br>\n*- 1 ['visits' => 1] [] [idsubtable = $idsubsubtable]<br>\n**- 1 ['visits' => 2] [] [idsubtable = ]<br>\n- 3 ['visits' => 9] [] [idsubtable = $idsubtable2]<br>\n*- 1 ['visits' => 5] [] [idsubtable = ]<br>\n";
+"- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br />\n- 2 ['visits' => 3] [] [idsubtable = $idsubtable1]<br />\n*- 1 ['visits' => 1] [] [idsubtable = $idsubsubtable]<br />\n**- 1 ['visits' => 2] [] [idsubtable = ]<br />\n- 3 ['visits' => 9] [] [idsubtable = $idsubtable2]<br />\n*- 1 ['visits' => 5] [] [idsubtable = ]<br />\n";
 	  	/*
 	  	 * RENDER
 	  	 */
@@ -1147,7 +1147,7 @@ idSite,row2,15";
 
 	  	);
 
-	  	$expected="- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br>\n";
+	  	$expected="- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br />\n";
 
 	  	/*
 	  	 * RENDER

@@ -59,7 +59,9 @@ class Test_Piwik extends UnitTestCase
 			try {
 				$version = Piwik::sendHttpRequestBy($method, 'http://api.piwik.org/1.0/getLatestVersion/', 5);
 			}
-			catch(Exception $e)	{ }
+			catch(Exception $e) {
+				var_dump($e->getMessage());
+			}
 
 			$this->assertTrue( preg_match('/^([0-9.]+)$/', $version) );
 		}
@@ -68,7 +70,9 @@ class Test_Piwik extends UnitTestCase
 		try {
 			Piwik::fetchRemoteFile('http://api.piwik.org/1.0/getLatestVersion/', $destinationPath, 3);
 		}
-		catch(Exception $e) { }
+		catch(Exception $e) {
+			var_dump($e->getMessage());
+		}
 
 		$this->assertTrue( filesize($destinationPath) > 0 );
 	}
