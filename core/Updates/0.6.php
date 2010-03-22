@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_6 extends Piwik_Updates
 {
-	static function getSql()
+	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		return array(
 			'ALTER TABLE ' . Piwik::prefixTable('site') . ' ADD `excluded_ips` TEXT NOT NULL AFTER `ts_created` ;' => false,

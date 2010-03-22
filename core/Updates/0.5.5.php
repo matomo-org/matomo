@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_5_5 extends Piwik_Updates
 {
-	static function getSql()
+	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		$sqlarray = array(
 			'DROP INDEX index_idsite_date ON ' . Piwik::prefixTable('log_visit') => '1091',

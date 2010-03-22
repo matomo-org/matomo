@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_5 extends Piwik_Updates
 {
-	static function getSql()
+	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		return array(
 			'ALTER TABLE ' . Piwik::prefixTable('log_action') . ' ADD COLUMN `hash` INTEGER(10) UNSIGNED NOT NULL AFTER `name`;' => '1060',

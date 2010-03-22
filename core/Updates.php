@@ -23,7 +23,7 @@ abstract class Piwik_Updates
 	 *
 	 * @return array
 	 */
-	static function getSql()
+	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		return array();
 	}

@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_2_33 extends Piwik_Updates
 {
-	static function getSql()
+	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		$sqlarray = array(
 			// 0.2.33 [1020]
