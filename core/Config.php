@@ -37,7 +37,8 @@ class Piwik_Config
 	protected $pathIniFileDefaultConfig 	= null;
 	protected $configFileUpdated 			= false;
 	protected $doWriteFileWhenUpdated		= true;
-	protected $cachedConfigArray = array();
+	protected $cachedConfigArray 			= array();
+	protected $isTestEnvironment			= false;
 	
 	/**
 	 * Storing the correct cwd() because the value is not correct in the destructor
@@ -167,7 +168,17 @@ class Piwik_Config
 	 */
 	public function setTestEnvironment()
 	{
+		$this->isTestEnvironment = true;
 		$this->database = $this->database_tests->toArray();
+	}
+
+	/**
+	 * Is the config file set to use the test values?
+	 * @return bool
+	 */
+	public function isTestEnvironment()
+	{
+		return $this->isTestEnvironment;
 	}
 	
 	/**

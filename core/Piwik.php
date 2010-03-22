@@ -923,9 +923,9 @@ class Piwik
 	 * Helper method user to set the current as Super User.
 	 * This should be used with great care as this gives the user all permissions.
 	 */
-	static public function setUserIsSuperUser()
+	static public function setUserIsSuperUser( $bool = true )
 	{
-		Zend_Registry::get('access')->setSuperUser();
+		Zend_Registry::get('access')->setSuperUser($bool);
 	}
 
 	/**
@@ -1800,9 +1800,23 @@ class Piwik
 	 */
 	static public function createConfigObject( $pathConfigFile = null )
 	{
+		$isTestEnvironment = false;
+		if(is_null($pathConfigFile))
+		{
+			try {
+				$config = Zend_Registry::get('config');
+				$isTestEnvironment = $config->isTestEnvironment();
+			} catch (Exception $e) {
+			}
+		}
+		
 		$config = new Piwik_Config($pathConfigFile);
 		Zend_Registry::set('config', $config);
 		$config->init();
+		if($isTestEnvironment)
+		{
+			$config->setTestEnvironment();
+		}
 	}
 
 	/**

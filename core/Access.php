@@ -184,9 +184,17 @@ class Piwik_Access
 	 * We bypass the normal auth method and give the current user Super User rights.
 	 * This should be very carefully used.
 	 */
-	public function setSuperUser()
+	public function setSuperUser($bool = true)
 	{
-		$this->reloadAccessSuperUser();
+		if($bool) 
+		{
+			$this->reloadAccessSuperUser();
+		}
+		else
+		{
+			$this->isSuperUser = false;
+			$this->idsitesByAccess['superuser'] = array();
+		}
 	}
 	
 	/**
