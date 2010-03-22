@@ -24,13 +24,6 @@ class Test_Piwik_TrackerVisit extends Test_Database
 		Zend_Registry::set('access', $pseudoMockAccess);
     }
     
-    public function tearDown()
-    {
-    	parent::tearDown();
-		FakeAccess::$superUser = false;
-		Zend_Registry::set('access', false);
-    }
-    
 	function test_isVisitorIpExcluded()
 	{
 		$excludedIps = array(
