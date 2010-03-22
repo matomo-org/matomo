@@ -5,6 +5,7 @@ require_once "config_test.php";
 Piwik::createConfigObject();
 $databaseTestName = Zend_Registry::get('config')->database_tests->dbname;
 Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
+Piwik::setMaxExecutionTime(300);
 ?>
 
 <h2>Piwik unit tests</h2> 
