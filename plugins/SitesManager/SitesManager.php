@@ -75,7 +75,12 @@ class Piwik_SitesManager extends Piwik_Plugin
 			{
 				continue;
 			}
-			$ipRanges[] = $ipRange; 
+
+			// long data type is signed; convert to stringified unsigned number
+			$ipRange[0] = sprintf("%u", $ipRange[0]);
+			$ipRange[1] = sprintf("%u", $ipRange[1]);
+
+			$ipRanges[] = $ipRange;
 		}
 		return $ipRanges;
 	}
@@ -100,4 +105,3 @@ class Piwik_SitesManager extends Piwik_Plugin
 		Piwik_AddAdminMenu('SitesManager_MenuSites', array('module' => 'SitesManager', 'action' => 'index'));		
 	}
 }
-
