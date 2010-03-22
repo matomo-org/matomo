@@ -104,12 +104,12 @@
 	<input id="no" type="button" value="{'General_No'|translate}" />
 </div> 
 
+{ajaxErrorDiv}
+{ajaxLoadingDiv}
 {if $userIsSuperUser}
 	<br />
 	<h2>{'UsersManager_UsersManagement'|translate}</h2>
 	<p>{'UsersManager_UsersManagementMainDescription'|translate}</p>
-	<div id="ajaxError" style="display:none"></div>
-	<div id="ajaxLoading" style="display:none"><div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate}</div></div>
 	<table class="admin" id="users">
 		<thead>
 			<tr>

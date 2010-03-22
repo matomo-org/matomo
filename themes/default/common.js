@@ -59,42 +59,52 @@ piwikHelper.ajaxHandleError = function()
 		}, 2000);
 }
 
-piwikHelper.ajaxShowError = function( string )
-{
-	$('#ajaxError').html(string).show();
-}
-
-piwikHelper.ajaxHideError = function()
-{
-	$('#ajaxError').hide();
-}
-
-piwikHelper.ajaxHandleResponse = function(response)
+piwikHelper.ajaxHandleResponse = function(response, loadingDivID, errorDivID)
 {
 	if(response.result == "error") 
 	{
-		piwikHelper.ajaxShowError(response.message);
+		piwikHelper.hideAjaxLoading(loadingDivID);
+		piwikHelper.showAjaxError(response.message, errorDivID);
 	}
 	else
 	{
 		window.location.reload();
 	}
-	piwikHelper.toggleAjaxLoading();
 }
 
-piwikHelper.toggleAjaxLoading = function()
+piwikHelper.showAjaxError = function( string, errorDivID )
 {
-	$('#ajaxLoading').toggle();
+	errorDivID = errorDivID || 'ajaxError';
+	$('#'+errorDivID).html(string).show();
 }
 
-piwikHelper.getStandardAjaxConf = function()
+piwikHelper.hideAjaxError = function(errorDivID)
 {
+	errorDivID = errorDivID || 'ajaxError';
+	$('#'+errorDivID).hide();
+}
+
+piwikHelper.showAjaxLoading = function(loadingDivID)
+{
+	loadingDivID = loadingDivID || 'ajaxLoading';
+	$('#'+loadingDivID).show();
+}
+piwikHelper.hideAjaxLoading = function(loadingDivID)
+{
+	loadingDivID = loadingDivID || 'ajaxLoading';
+	$('#'+loadingDivID).hide();
+}
+
+piwikHelper.getStandardAjaxConf = function(loadingDivID, errorDivID)
+{
+	piwikHelper.showAjaxLoading(loadingDivID);
+	piwikHelper.hideAjaxError(errorDivID);
 	var ajaxRequest = {};
 	ajaxRequest.type = 'GET';
 	ajaxRequest.url = 'index.php';
 	ajaxRequest.dataType = 'json';
 	ajaxRequest.error = piwikHelper.ajaxHandleError;
-	ajaxRequest.success = piwikHelper.ajaxHandleResponse;
+	ajaxRequest.success = function(response) { piwikHelper.ajaxHandleResponse(response, loadingDivID, errorDivID); };
 	return ajaxRequest;
 }
 

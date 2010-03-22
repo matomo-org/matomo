@@ -77,8 +77,8 @@ function bindGoalForm()
 }
 function getAjaxDeleteGoal(idGoal)
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('goalAjaxLoading');
+	$.scrollTo("#AddEditGoals", 400);
 	
 	var parameters = {};
 	parameters.idSite = piwik.idSite;
@@ -93,9 +93,8 @@ function getAjaxDeleteGoal(idGoal)
 
 function getAjaxAddGoal()
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
-	
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('goalAjaxLoading');
+	$.scrollTo("#AddEditGoals", 400);
 	var parameters = {};
 	
 	parameters.idSite = piwik.idSite;

@@ -4,7 +4,14 @@
 {loadJavascriptTranslations plugins='SitesManager'}
 {include file="CoreAdminHome/templates/menu.tpl"}
 
+<script type="text/javascript">
+{capture assign=excludedIpHelpPlain}{'SitesManager_HelpExcludedIps'|translate:"1.2.3.*":"1.2.*.*"}<br/><br/> {'SitesManager_YourCurrentIpAddressIs'|translate:"<i>$currentIpAddress</i>"}{/capture}
+{assign var=excludedIpHelp value=$excludedIpHelpPlain|inlineHelp}
+var excludedIpHelp = '{$excludedIpHelp|escape:javascript}';
+var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:javascript}';
+</script>
 <script type="text/javascript" src="plugins/SitesManager/templates/SitesManager.js"></script>
+
 {literal}
 <style>
 .addRowSite:hover, .editableSite:hover, .addsite:hover, .cancel:hover, .deleteSite:hover, .editSite:hover, .updateSite:hover{
@@ -24,11 +31,15 @@
 }
 </style>
 {/literal}
-<h2>{'SitesManager_WebsitesManagement'|translate}</h2>
-<p>{'SitesManager_MainDescription'|translate}</p>
 
-<div id="ajaxError" style="display:none"></div>
-<div id="ajaxLoading" style="display:none"><div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate} </div></div>
+<h2>{'SitesManager_WebsitesManagement'|translate}</h2>
+<p>{'SitesManager_MainDescription'|translate}
+{if $isSuperUser}
+<br/>{'SitesManager_SuperUserCanExcludeIpsOnAllWebsites'|translate:"<a href='#globalIpExclusion'>":"</a>"}.
+{/if}
+</p>
+{ajaxErrorDiv}
+{ajaxLoadingDiv}
 
 {if $adminSites|@count == 0}
 	{'SitesManager_NoWebsites'|translate}
@@ -39,6 +50,7 @@
 			<th>{'SitesManager_Id'|translate}</th>
 			<th>{'SitesManager_Name'|translate}</th>
 			<th>{'SitesManager_Urls'|translate}</th>
+			<th>{'SitesManager_ExcludedIps'|translate}</th>
 			<th> </th>
 			<th> </th>
 			<th> {'SitesManager_JsTrackingTag'|translate} </th>
@@ -50,23 +62,30 @@
 				<td id="idSite">{$site.idsite}</td>
 				<td id="siteName" class="editableSite">{$site.name}</td>
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url}<br />{/foreach}</td>       
-				<td><img src='plugins/UsersManager/images/edit.png' class="editSite" id="row{$i}" href='#' alt="" /></td>
-				<td><img src='plugins/UsersManager/images/remove.png' class="deleteSite" id="row{$i}" value="{'General_Delete'|translate}" alt="" /></td>
+				<td id="excludedIps" class="editableSite">{foreach from=$site.excluded_ips item=ip}{$ip}<br />{/foreach}</td>       
+				<td><img src='plugins/UsersManager/images/edit.png' class="editSite" id="row{$i}" href='#' title="{'General_Edit'|translate}" /></td>
+				<td><img src='plugins/UsersManager/images/remove.png' class="deleteSite" id="row{$i}" title="{'General_Delete'|translate}" value="{'General_Delete'|translate}" /></td>
 				<td><a href='{url action=displayJavascriptCode idsite=$site.idsite}'>{'SitesManager_ShowTrackingTag'|translate}</a></td>
 			</tr>
 			{/foreach}
-			
 		</tbody>
 	</table>
 	{if $isSuperUser}	
-	<div class="addRowSite"><a href="#"><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</a></div>
+	<div class="addRowSite"><a href=""><img src='plugins/UsersManager/images/add.png' alt="" /> {'SitesManager_AddSite'|translate}</a></div>
 	{/if}
-	<div class="ui-widget">
-		<div class="ui-state-highlight ui-corner-all" style="margin-top:20px; padding:0 .7em; width:400px">
-			<p style="font-size:62.5%;"><span class="ui-icon ui-icon-info" style="float:left;margin-right:.3em;"></span>
-			{'SitesManager_AliasUrlHelp'|translate}</p>
-		</div>
-	</div>
 {/if}
 
+{if $isSuperUser}	
+	<a name='globalIpExclusion'></a><h2>{'SitesManager_GlobalListExcludedIps'|translate}</h2>
+	<p>{'SitesManager_ListOfIpsToBeExcludedOnAllWebsites'|translate} </p>
+	{ajaxErrorDiv id=ajaxErrorExcludedIps}
+	{ajaxLoadingDiv id=ajaxLoadingExcludedIps}
+	<textarea cols="30" rows="3" id="globalExcludedIps">{$globalExcludedIps}
+	</textarea><br/>
+	{$excludedIpHelp}
+	<input type="hidden" name="token_auth" value="{$token_auth}" />
+	<p><input type="submit" class="submit" id='globalExcludedIpsSubmit' value="{'General_Save'|translate}" /></p>
+{/if}
+
+<br /><br /><br /><br />
 {include file="CoreAdminHome/templates/footer.tpl"}

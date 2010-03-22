@@ -91,7 +91,7 @@ class Piwik_Common
 			require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 			require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
-			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
+			Piwik::createDatabaseObject();
 			Piwik::createAccessObject();
 			Piwik::createConfigObject();
 			Piwik::setUserIsSuperUser();
@@ -139,6 +139,16 @@ class Piwik_Common
 		$cache->delete($filename);
 	}
 
+	/**
+	 * Deletes all Tracker cache files
+	 */
+	static public function deleteAllCache()
+	{
+		$cache = new Piwik_CacheFile('tracker');
+		$cache->deleteAll();
+	}
+	
+	
 	/**
 	 * Returns the path and query part from a URL.
 	 * Eg. http://piwik.org/test/index.php?module=CoreHome will return /test/index.php?module=CoreHome

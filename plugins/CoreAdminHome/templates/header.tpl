@@ -38,3 +38,6 @@
 <br class="clearAll" />
 
 <div id="content">
+
+{ajaxRequestErrorDiv}
+

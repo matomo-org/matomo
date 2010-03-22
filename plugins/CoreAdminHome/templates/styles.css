@@ -40,14 +40,12 @@ table.admin tbody tr {
 table.admin tbody td {
 	color: #414141;
 	text-align: left;
+	vertical-align:top;
 }
 
 table.admin tbody th {
 	text-align: left;
 	padding: 2px;
-}
-table.admin tbody td {
-	vertical-align:middle;
 }
 table.admin tbody td, table.admin tbody th {
 	color: #536C2A;

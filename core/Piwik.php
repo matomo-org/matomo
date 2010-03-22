@@ -630,6 +630,7 @@ class Piwik
 						  name VARCHAR(90) NOT NULL,
 						  main_url VARCHAR(255) NOT NULL,
   						  ts_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  						  excluded_ips TEXT NOT NULL,
 						  PRIMARY KEY(idsite)
 						)  DEFAULT CHARSET=utf8 
 			",

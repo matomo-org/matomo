@@ -17,6 +17,10 @@
 class Piwik_SitesManager_API 
 {
 	static private $instance = null;
+	
+	/**
+	 * @return Piwik_SitesManager_API
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
@@ -26,6 +30,8 @@ class Piwik_SitesManager_API
 		}
 		return self::$instance;
 	}
+	
+	const OPTION_EXCLUDED_IPS_GLOBAL = 'SitesManager_ExcludedIpsGlobal';
 	
 	/**
 	 * Returns the javascript tag for the given idSite.
@@ -206,19 +212,19 @@ class Piwik_SitesManager_API
 	}
 	
 	/**
-	 * Add a website in the database.
+	 * Add a website.
+	 * Requires Super User access.
 	 * 
 	 * The website is defined by a name and an array of URLs.
-	 * The name must not be empty.
-	 * The URLs array must contain at least one URL called the 'main_url' ; 
-	 * if several URLs are provided in the array, they will be recorded as Alias URLs for
-	 * this website.
-	 * 
-	 * Requires Super User access.
+	 * @param string Site name
+	 * @param array|string The URLs array must contain at least one URL called the 'main_url' ; 
+	 * 					    if several URLs are provided in the array, they will be recorded 
+	 * 						as Alias URLs for this website.
+	 * @param string Comma separated list of IPs to exclude from the reports (allows wildcards)
 	 * 
 	 * @return int the website ID created
 	 */
-	public function addSite( $siteName, $urls )
+	public function addSite( $siteName, $urls, $excludedIps = null )
 	{
 		Piwik::checkUserIsSuperUser();
 		
@@ -232,11 +238,12 @@ class Piwik_SitesManager_API
 		$url = $urls[0];
 		$urls = array_slice($urls, 1);
 		
-		$db->insert(Piwik::prefixTable("site"), array(
-									'name' => $siteName,
-									'main_url' => $url,
-									)
-								);
+		$bind = array(	'name' => $siteName,
+						'main_url' => $url,
+		);
+	
+		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
+		$db->insert(Piwik::prefixTable("site"), $bind);
 									
 		$idSite = $db->lastInsertId();
 		
@@ -306,6 +313,27 @@ class Piwik_SitesManager_API
 	}
 
 	/**
+	 * Checks that the submitted IPs (comma separated list) are valid
+	 * Returns the cleaned up IPs
+	 * @param $excludedIps 
+	 * 
+	 * @return array of IPs
+	 */
+	private function checkAndReturnExcludedIps($excludedIps)
+	{
+		$ips = explode(',', $excludedIps);
+		$ips = array_filter($ips, 'trim');
+		foreach($ips as $ip)
+		{
+			if(!$this->isValidIp($ip))
+			{
+				throw new Exception('The IP to exclude "'.$ip.'" does not have a valid IP format (eg. 1.2.3.4 or 1.2.3.*).');
+			}
+		}
+		$ips = implode(',', $ips);
+		return $ips;
+	}
+	/**
 	 * Add a list of alias Urls to the given idSite
 	 * 
 	 * If some URLs given in parameter are already recorded as alias URLs for this website,
@@ -329,6 +357,33 @@ class Piwik_SitesManager_API
 	}
 	
 	/**
+	 * Sets IPs to be excluded from all websites. IPs can contain wildcards.
+	 * Will also apply to websites created in the future.
+	 * 
+	 * @param string Comma separated list of IPs to exclude from being tracked (allows wildcards)
+	 * @return bool
+	 */
+	public function setGlobalExcludedIps($excludedIps)
+	{
+		Piwik::checkUserIsSuperUser();
+		$excludedIps = $this->checkAndReturnExcludedIps($excludedIps);
+		Piwik_SetOption(self::OPTION_EXCLUDED_IPS_GLOBAL, $excludedIps);
+		Piwik_Common::deleteAllCache();
+		return true;
+	}
+	
+	/**
+	 * Returns the list of IPs that are excluded from all websites 
+	 * 
+	 * @return string Comma separated list of IPs
+	 */
+	public function getExcludedIpsGlobal()
+	{
+		Piwik::checkUserIsSuperUser();
+		return Piwik_GetOption(self::OPTION_EXCLUDED_IPS_GLOBAL);
+	}
+	
+	/**
 	 * Update an existing website.
 	 * If only one URL is specified then only the main url will be updated.
 	 * If several URLs are specified, both the main URL and the alias URLs will be updated.
@@ -336,12 +391,13 @@ class Piwik_SitesManager_API
 	 * @param int website ID defining the website to edit
 	 * @param string website name
 	 * @param string|array the website URLs
+	 * @param string Comma separated list of IPs to exclude from being tracked (allows wildcards)
 	 * 
 	 * @exception if any of the parameter is not correct
 	 * 
 	 * @return bool true on success
 	 */
-	public function updateSite( $idSite, $siteName, $urls = null)
+	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
@@ -359,9 +415,8 @@ class Piwik_SitesManager_API
 			
 			$bind['main_url'] = $url;
 		}
-		
+		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
 		$bind['name'] = $siteName;
-		
 		$db = Zend_Registry::get('db');
 		$db->update(Piwik::prefixTable("site"), 
 							$bind,
@@ -431,6 +486,22 @@ class Piwik_SitesManager_API
 	private function isValidUrl( $url )
 	{
 		return Piwik_Common::isLookLikeUrl($url);
+	}
+	
+	/**
+	 * Tests if the IP is a valid IP, allowing wildcards, except in the first octet.
+	 * Wildcards can only be used from right to left, ie. 1.1.*.* is allowed, but 1.1.*.1 is not.
+	 * 
+	 * @param $ip
+	 * @return bool
+	 */
+	private function isValidIp( $ip )
+	{
+		return preg_match('~^(\d+)\.(\d+)\.(\d+)\.(\d+)$~', $ip, $matches) !== 0
+			|| preg_match('~^(\d+)\.(\d+)\.(\d+)\.\*$~', $ip, $matches) !== 0
+			|| preg_match('~^(\d+)\.(\d+)\.\*.\*$~', $ip, $matches) !== 0
+			|| preg_match('~^(\d+)\.\*\.\*\.\*$~', $ip, $matches) !== 0
+			;
 	}
 	
 	/**

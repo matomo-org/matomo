@@ -120,13 +120,14 @@ dashboard.prototype =
 		}
 		columnElement = $(self.dashboardColumnsElement[columnNumber]);
 		emptyWidgetContent = '<div class="sortable">'+
-								widgetsHelper.getEmptyWidgetHtml(uniqueId, widgetName, _pk_translate('Dashboard_LoadingWidget_js'))+
+								widgetsHelper.getEmptyWidgetHtml(uniqueId, widgetName)+
 							'</div>';
 		if(addWidgetOnTop) {
 			columnElement.prepend(emptyWidgetContent);
 		} else {
 			columnElement.append(emptyWidgetContent);
 		}
+		
 		widgetElement = $('#'+ uniqueId);
 		widgetElement
 			.hover( function() {
