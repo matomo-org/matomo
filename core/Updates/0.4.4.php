@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_4_4 extends Piwik_Updates
 {
-	static function update()
+	static function update($adapter = 'PDO_MYSQL')
 	{
 		$obsoleteFile = PIWIK_DOCUMENT_ROOT . '/libs/open-flash-chart/php-ofc-library/ofc_upload_image.php';
 		if(file_exists($obsoleteFile))

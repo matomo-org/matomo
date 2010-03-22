@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_2_34 extends Piwik_Updates
 {
-	static function update()
+	static function update($adapter = 'PDO_MYSQL')
 	{
 		// force regeneration of cache files following #648
 		Piwik::setUserIsSuperUser();

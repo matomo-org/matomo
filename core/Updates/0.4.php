@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_4 extends Piwik_Updates
 {
-	static function getSql()
+	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		return array(
 			'UPDATE `'. Piwik::prefixTable('log_visit') .'`

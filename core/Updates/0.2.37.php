@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_2_37 extends Piwik_Updates
 {
-	static function getSql()
+	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		return array(
 			'DELETE FROM `'.  Piwik::prefixTable('user_dashboard') ."`

@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_2_13 extends Piwik_Updates
 {
-	static function getSql()
+	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		$tables = Piwik::getTablesCreateSql();
 
