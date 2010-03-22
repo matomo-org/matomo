@@ -66,7 +66,7 @@ class Piwik_Visualization_Chart_VerticalBar extends Piwik_Visualization_Chart
 				$displayPercentage = "($percentage%)";
 			}
 			$barValue = new bar_value($value);
-			$barValue->set_tooltip("$label<br />$value$unit $labelName $displayPercentage");
+			$barValue->set_tooltip("$label<br>$value$unit $labelName $displayPercentage");
 			$barValues[] = $barValue;
 			$i++;
 		}

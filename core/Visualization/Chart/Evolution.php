@@ -55,7 +55,7 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 			
 			// Line Values
 			// Note: we have to manually create the dot values as the steps feature doens't work on X axis
-			// when it's working again, we can remove code below and set generic tooltip above: // ->tooltip('#x_label#<br />#val# '.$labelName) 
+			// when it's working again, we can remove code below and set generic tooltip above: // ->tooltip('#x_label#<br>#val# '.$labelName) 
 			$yValues = $this->yValues[$dataSetToDisplay];
 			$labelName = $this->yLabels[$dataSetToDisplay];
 			$lineValues = array();
@@ -65,7 +65,7 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 				$lineValue = new hollow_dot($value);
 				
 				$unit = $this->yUnit;
-				$lineValue->tooltip("$label<br />$value$unit $labelName");
+				$lineValue->tooltip("$label<br>$value$unit $labelName");
 				if(!empty($this->xOnClick))
 				{
 					$lineValue->on_click("piwikHelper.redirectToUrl('".$this->xOnClick[$j]."')");
