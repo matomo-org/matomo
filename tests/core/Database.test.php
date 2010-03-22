@@ -17,7 +17,6 @@ class Test_Database extends UnitTestCase
 		
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();	
-		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 		Piwik_Tracker_Config::getInstance()->setTestEnvironment();
 		Piwik::createDatabaseObject();
 		Piwik::createLogObject();
