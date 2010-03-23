@@ -174,7 +174,7 @@ class Sparkline_Line extends Sparkline {
     //
     while (list(, $v) = each($this->featurePoint)) {
       $pxY = round(($v['ptY'] + ($this->yMin * -1)) * ($this->GetGraphHeight() / $this->yRange));
-      $pxX = round($v['ptX'] * $this->GetGraphWidth() / $this->dataSeriesStats[1]['xMax']);
+      $pxX = round($v['ptX'] * $this->GetGraphWidth() / sizeof($this->dataSeries[1]));
 
       $this->DrawCircleFilled($pxX + $this->graphAreaPx[0][0], 
                               $pxY + $this->graphAreaPx[0][1], 
@@ -264,7 +264,7 @@ class Sparkline_Line extends Sparkline {
     //
     while (list(, $v) = each($this->featurePoint)) {
       $pxY = round(($v['ptY'] + ($this->yMin * -1)) * ($this->GetGraphHeight() / $this->yRange));
-      $pxX = round($v['ptX'] * $this->GetGraphWidth() / $this->dataSeriesStats[1]['xMax']);
+      $pxX = round($v['ptX'] * $this->GetGraphWidth() / sizeof($this->dataSeries[1]));
 
       $this->DrawCircleFilled($pxX + $this->graphAreaPx[0][0], 
                               $pxY + $this->graphAreaPx[0][1], 

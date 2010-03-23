@@ -80,9 +80,9 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 		$sparkline->SetYMax($max[1]);
 		$sparkline->SetPadding( 3, 0, 2, 0 ); // top, right, bottom, left
 //		$font = FONT_2;
-		$sparkline->SetFeaturePoint($min[0] -1,  $min[1],  'red', 5);
-		$sparkline->SetFeaturePoint($max[0] -1,  $max[1],  'green', 5);
-		$sparkline->SetFeaturePoint($last[0] -1, $last[1], 'blue', 5);
+		$sparkline->SetFeaturePoint($min[0],  $min[1],  'red', 5);
+		$sparkline->SetFeaturePoint($max[0],  $max[1],  'green', 5);
+		$sparkline->SetFeaturePoint($last[0], $last[1], 'blue', 5);
 		$sparkline->SetLineSize(3); // for renderresampled, linesize is on virtual image
 		$ratio = 1;
 //		var_dump($min);var_dump($max);var_dump($lasts);exit;
