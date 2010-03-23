@@ -19,7 +19,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 	function index()
 	{
 		$view = Piwik_View::factory('index');
-		$view->nonce = Piwik::getNonce('Piwik_Feedback.sendFeedback', 3600);
+		$view->nonce = Piwik_Nonce::getNonce('Piwik_Feedback.sendFeedback', 3600);
 		echo $view->render();
 	}
 
@@ -49,7 +49,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 			{
 				throw new Exception(Piwik_TranslateException('Feedback_ExceptionNoUrls'));
 			}
-			if(!Piwik::verifyNonce('Piwik_Feedback.sendFeedback', $nonce))
+			if(!Piwik_Nonce::verifyNonce('Piwik_Feedback.sendFeedback', $nonce))
 			{
 				throw new Exception(Piwik_TranslateException('General_ExceptionNonceMismatch'));
 			}

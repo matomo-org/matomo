@@ -66,7 +66,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		if($form->validate())
 		{
 			$nonce = $form->getSubmitValue('form_nonce');
-			if(Piwik::verifyNonce('Piwik_Login.login', $nonce))
+			if(Piwik_Nonce::verifyNonce('Piwik_Login.login', $nonce))
 			{
 				$login = $form->getSubmitValue('form_login');
 				$password = $form->getSubmitValue('form_password');
@@ -79,7 +79,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		// make navigation login form -> reset password -> login form remember your first url
 		$view->urlToRedirect = $urlToRedirect;
 		$view->AccessErrorString = $messageNoAccess;
-		$view->nonce = Piwik::getNonce('Piwik_Login.login');
+		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
 		$view->subTemplate = 'genericForm.tpl';
