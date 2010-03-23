@@ -39,8 +39,12 @@ class Sparkline_Line extends Sparkline {
   // data setting
   //
   function SetData($x, $y, $series = 1) {
-    $x = trim($x);
-    $y = trim($y);
+	if(!is_numeric($x)) {
+	    $x = trim($x);
+	}
+	if(!is_numeric($y)) {
+	    $y = trim($y);
+	}
 
     $this->Debug("Sparkline_Line :: SetData($x, $y, $series)", DEBUG_SET);
 
