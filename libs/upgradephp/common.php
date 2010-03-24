@@ -32,7 +32,7 @@ if (in_array('mysqli', @get_loaded_extensions()) && !function_exists('mysqli_set
 
 /**
  * parse_ini_file() replacement.
- * Behaves like parse_ini_file($filename, $process_sections, INI_SCANNER_RAW);
+ * Behaves like parse_ini_file($filename, $process_sections);
  *
  * @author Andrew Sohn <asohn (at) aircanopy (dot) net>
  * @author anthon (dot) pang (at) gmail (dot) com
@@ -42,7 +42,7 @@ if (in_array('mysqli', @get_loaded_extensions()) && !function_exists('mysqli_set
  * @return array
  */
 if(function_exists('parse_ini_file')) {
-	function _parse_ini_file($filename, $process_sections) {
+	function _parse_ini_file($filename, $process_sections = false) {
 		return parse_ini_file($filename, $process_sections);
 	}
 } else {

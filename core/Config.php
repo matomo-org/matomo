@@ -313,10 +313,23 @@ class Piwik_Config
 
 class Piwik_Config_Ini extends Zend_Config_Ini
 {
+    /**
+     * Handle any errors from parse_ini_file
+     *
+     * @param integer $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param integer $errline
+     */
+	public function _parseFileErrorHandler($errno, $errstr, $errfile, $errline)
+	{
+		$this->_loadFileErrorHandler($errno, $errstr, $errfile, $errline);
+	}
+
 	/**
 	 * Load ini file configuration
 	 *
-	 * Derived from Zend_Config_Ini->_loadIniFile().
+	 * Derived from Zend_Config_Ini->_loadIniFile() and Zend_Config_Ini->_parseIniFile()
 	 * @license New BSD License
 	 *
 	 * @param string $filename
@@ -324,15 +337,15 @@ class Piwik_Config_Ini extends Zend_Config_Ini
 	 */
 	protected function _loadIniFile($filename)
 	{
-		set_error_handler(array($this, '_loadFileErrorHandler'));
-		$loaded = _parse_ini_file($filename, true);
+		set_error_handler(array($this, '_parseFileErrorHandler'));
+		$iniArray = _parse_ini_file($filename, true);
 		restore_error_handler();
 		// Check if there was an error while loading the file
 		if ($this->_loadFileErrorStr !== null) {
 			throw new Zend_Config_Exception($this->_loadFileErrorStr);
 		}
 
-		return $loaded;
+		return $iniArray;
 	}
 }
 
