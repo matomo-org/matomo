@@ -31,7 +31,7 @@ class PhpSecInfo_Test_Application_Php extends PhpSecInfo_Test_Application
 		$url = 'http://php.net/releases/?serialize=1&version=5';
 		$timeout = Piwik_UpdateCheck::SOCKET_TIMEOUT;
 		try {
-			$latestVersion = Piwik::sendHttpRequest($url, $timeout);
+			$latestVersion = Piwik_Http::sendHttpRequest($url, $timeout);
 			$versionInfo = Piwik_Common::unserialize_array($latestVersion);
 			$this->recommended_value = $versionInfo['version'];
 		} catch(Exception $e) {

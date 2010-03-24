@@ -36,7 +36,7 @@ class PhpSecInfo_Test_Application extends PhpSecInfo_Test
 	 * @return boolean
 	 */
 	function isTestable() {
-		return Piwik::getTransportMethod() !== null;
+		return Piwik_Http::getTransportMethod() !== null;
 	}
 
 	function getMoreInfoURL() {

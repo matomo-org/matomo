@@ -101,7 +101,7 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 		//create url to gather XML feed from
 		$url = 'http://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.$uri.'&dates='.$beforeYesterday.','.$yesterday.'';
 		try {
-			$data = Piwik::sendHttpRequest($url, 5);
+			$data = Piwik_Http::sendHttpRequest($url, 5);
 			$xml = new SimpleXMLElement($data);
 		} catch(Exception $e) {
 			return "Error parsing the data for feed $uri. Fetched data was: \n'". $data."'";
