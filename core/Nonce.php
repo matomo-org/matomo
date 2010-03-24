@@ -16,7 +16,7 @@
  * A cryptographic nonce -- "number used only once" -- is often recommended as part of a robust defense against cross-site request forgery (CSRF/XSRF).
  * Desrable characteristics: limited lifetime, uniqueness, unpredictability (pseudo-randomness).
  *
- * We use a session-dependent nonce with a configurable expiration that comines and hashes:
+ * We use a session-dependent nonce with a configurable expiration that combines and hashes:
  * - a private salt because it's non-public
  * - time() because it's unique
  * - a mix of PRNGs (pseudo-random number generators) to increase entropy and make it less predictable
