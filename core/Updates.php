@@ -21,6 +21,7 @@ abstract class Piwik_Updates
 	/**
 	 * Return SQL to be executed in this update
 	 *
+	 * @param string Adapter name
 	 * @return array
 	 */
 	static function getSql($adapter = 'PDO_MYSQL')
