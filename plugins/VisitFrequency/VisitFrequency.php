@@ -79,8 +79,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 				 	FROM ".$archiveProcessing->logTable."
 				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
-				 		AND visitor_returning = 1
-				 	GROUP BY visitor_returning";
+				 		AND visitor_returning = 1";
 		$row = $archiveProcessing->db->fetchRow($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ) );
 		
 		if($row === false || $row === null)
