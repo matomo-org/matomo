@@ -44,36 +44,4 @@ class Test_Piwik extends UnitTestCase
     	$this->assertTrue( Piwik::secureDiv( 11.0, 'a' ) === 0 );
     	
     }
-
-	public function test_fetchRemoteFile()
-	{
-		$methods = array(
-			'curl', 'stream', 'socket'
-		);
-
-		$this->assertTrue( in_array(Piwik::getTransportMethod(), $methods) );
-
-		foreach($methods as $method)
-		{
-			$version = '';
-			try {
-				$version = Piwik::sendHttpRequestBy($method, 'http://api.piwik.org/1.0/getLatestVersion/', 5);
-			}
-			catch(Exception $e) {
-				var_dump($e->getMessage());
-			}
-
-			$this->assertTrue( preg_match('/^([0-9.]+)$/', $version) );
-		}
-
-		$destinationPath = PIWIK_USER_PATH . '/tmp/latest/LATEST';
-		try {
-			Piwik::fetchRemoteFile('http://api.piwik.org/1.0/getLatestVersion/', $destinationPath, 3);
-		}
-		catch(Exception $e) {
-			var_dump($e->getMessage());
-		}
-
-		$this->assertTrue( filesize($destinationPath) > 0 );
-	}
 }
