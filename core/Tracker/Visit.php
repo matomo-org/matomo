@@ -441,12 +441,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$ua = $this->getUserAgent();
 
 		/*
-		 * Live/Bing bot and Googlebot are evolving to detect cloaked websites.
+		 * Live/Bing/MSN bot and Googlebot are evolving to detect cloaked websites.
 		 * As a result, these sophisticated bots exhibit characteristics of
 		 * browsers (cookies enabled, executing JavaScript, etc).
 		 */
-		if (preg_match('/65\.55/', long2ip($ip))	// Live/Bing
-				  || preg_match('/Googlebot/', $ua))			// Googlebot
+		$dotIp = long2ip($ip);
+		if (preg_match('/^65\.55/', $dotIp)			// Live/Bing
+				|| preg_match('/^207\.46/', $dotIp)	// MSN
+				|| preg_match('/Googlebot/', $ua))	// Googlebot
 		{
 			printDebug('Search bot detected, visit excluded');
 			$excluded = true;
