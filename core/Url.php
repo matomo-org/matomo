@@ -140,8 +140,13 @@ class Piwik_Url
 	{
 		$url = self::getCurrentScheme();
 		$url .= '://';
-		
-		if(isset($_SERVER['HTTP_HOST']))
+
+		if (!empty($_SERVER['HTTP_X_FORWARDED_HOST']))
+		{
+			$proxies = explode(',', $_SERVER['HTTP_X_FORWARDED_HOST']);
+			$url .=  $proxies[0];
+		}
+		else if(isset($_SERVER['HTTP_HOST']))
 		{
 			$url .= $_SERVER['HTTP_HOST'];
 		}
@@ -293,22 +298,10 @@ class Piwik_Url
 			// handle case-sensitivity differences
 			$pathContains = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ? 'stripos' : 'strpos';
 
-			// get current URL without filename
-			if (!empty($_SERVER['HTTP_X_FORWARDED_HOST']))
-			{
-				$proxies = explode(',', $_SERVER['HTTP_X_FORWARDED_HOST']);
-				$host = self::getCurrentScheme() . '://' . $proxies[0];
-			}
-			else
-			{
-				$host = self::getCurrentHost();
-			}
-			$proxyUrl = $host . self::getCurrentScriptPath();
-
 			// determine the offset to begin the comparison;
 			// rationale: we can't rely on the scheme/protocol portion of the reconstructed "current" URL as there may be a reverse proxy
 			$offset = strpos($referer, '://');
-			$current = strstr($proxyUrl, '://');
+			$current = strstr(self::getCurrentUrlWithoutFileName(), '://');
 			if($pathContains($referer, $current, $offset) === $offset)
 			{
 				return $referer;
