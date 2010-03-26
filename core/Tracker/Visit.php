@@ -446,9 +446,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		 * browsers (cookies enabled, executing JavaScript, etc).
 		 */
 		$dotIp = long2ip($ip);
-		if (strpos($dotIp, '65.55') === 0			// Live/Bing
-				|| strpos($dotIp, '207.46') === 0	// MSN
-				|| preg_match('/Googlebot/', $ua))	// Googlebot
+		if (strpos($dotIp, '65.55') === 0				// Live/Bing
+				|| strpos($dotIp, '207.46') === 0		// MSN
+				|| strpos($ua, 'Googlebot') !== false)	// Googlebot
 		{
 			printDebug('Search bot detected, visit excluded');
 			$excluded = true;
