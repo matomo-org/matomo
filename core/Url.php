@@ -297,7 +297,7 @@ class Piwik_Url
 			if (!empty($_SERVER['HTTP_X_FORWARDED_HOST']))
 			{
 				$proxies = explode(',', $_SERVER['HTTP_X_FORWARDED_HOST']);
-				$host = self::getCurrentScheme() . '//' . $proxies[0];
+				$host = self::getCurrentScheme() . '://' . $proxies[0];
 			}
 			else
 			{
