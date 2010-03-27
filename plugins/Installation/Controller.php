@@ -255,7 +255,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		if(!Piwik::isDatabaseConnectionUTF8())
 		{
 			$this->session->charsetCorrection = true;
-			$view->charsetWarning = true;
 		}
 
 		$dbTimezone = $db->getCurrentTimezone();
