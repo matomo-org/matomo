@@ -190,7 +190,7 @@ input.submit {
 }
 
 /* extending the jquery UI css for inline help */
-.ui-widget { 
+.ajaxError .ui-widget { 
 	text-align:justify;
 	width:300px;	
 }
