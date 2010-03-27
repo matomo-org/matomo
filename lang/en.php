@@ -113,7 +113,6 @@ $translations = array(
 	'General_ExceptionFilesizeMismatch' => 'File size mismatch: %1$s (expected length: %2$s, found: %3$s)',
 	'General_ExceptionFileIntegrity' => 'Integrity check failed: %s',
 	'General_ExceptionNonceMismatch' => 'Could not verify the security token on this form.',
-	'General_WarningFileIntegritySkipped' => 'Development environment detected. File integrity check skipped.',
 	'General_WarningFileIntegrityNoManifest' => 'File integrity check could not be performed due to missing manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'File integrity check could not be completed due to missing md5_file() function.',
 	'General_FileIntegrityWarningExplanation' => 'File integrity check failed and reported some errors. This is most likely due to a partial or failed upload of some of the Piwik files. You should reupload all the Piwik files and refresh this page until it shows no error.',
