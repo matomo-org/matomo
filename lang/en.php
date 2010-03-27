@@ -369,8 +369,6 @@ $translations = array(
 	'Installation_DatabaseServerVersion' => 'Database server version',
 	'Installation_DatabaseClientVersion' => 'Database client version',
 	'Installation_DatabaseCreation' => 'Database creation',
-	'Installation_DatabaseClientCharset' => 'Database client character set',
-	'Installation_ConnectionCharacterSetNotUtf8' => 'Client connection to the database server is not set to UTF8 by default. This is not critical issue: <b>Piwik should work correctly</b>. However for consistency, it is recommended that you do one of the following: <ul style="list-style: disc;margin-left:10px"><li>in your piwik config/config.ini.php, add <code>charset = utf8</code> under the [database] section of your Piwik configuration file <code>config/config.ini.php</code></li><li>recompile libmysql --with-charset=utf8</li></ul>',
 	'Installation_DatabaseTimezone' => 'Database timezone',
 	'Installation_TimezoneMismatch' => 'PHP date.timezone is not the same as the database server timezone. This might cause issues with reports not showing data for the right hours of the day. More information at %s',
 	'Installation_JsTag' => 'JavaScript tag',

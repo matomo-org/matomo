@@ -28,19 +28,6 @@
 		<td>{if isset($databaseCreated)}{$ok}{else}{$error}{/if}</td>
 	</tr>
 	<tr>
-		<td class="label">{'Installation_DatabaseClientCharset'|translate}</td>
-		<td>{if isset($charsetWarning)}{$warning}{else}utf8 {$ok}{/if}</td>
-	</tr>
-{if isset($charsetWarning)}
-	<tr>
-		<td colspan="2">
-			<small>
-				<span style="color:#FF7F00">{'Installation_ConnectionCharacterSetNotUtf8'|translate}</span>
-			</small>
-		</td>
-	</tr>
-{/if}
-	<tr>
 		<td class="label">{'Installation_DatabaseTimezone'|translate}</td>
 		<td>{if isset($timezoneWarning)}{$warning}{else}{$ok}{/if}</td>
 	</tr>
