@@ -131,7 +131,6 @@ class Piwik
 		// ignore dev environments
 		if(file_exists(PIWIK_INCLUDE_PATH . '/.svn'))
 		{
-			$messages[] = Piwik_Translate('General_WarningFileIntegritySkipped');
 			return $messages;
 		}
 
