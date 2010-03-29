@@ -46,6 +46,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$this->period = Piwik_Common::getRequestVar('period', 'day');		
 
 		$this->date = Piwik_Common::getRequestVar('date', 'today');
+		
 		$lastDate =  date('Y-m-d',strtotime("-1 ".$this->period, strtotime($this->date)));
 
 		$visits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $this->period, $this->date);
@@ -90,7 +91,13 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->orderBy = $this->orderBy;
 		$view->order = $this->order;
 		$view->dateToStr = $this->dateToStr;
-		
+	
+		$view->autoRefreshTodayReport = false;
+		// if the current date is today (or yesterday, in case the website is set to UTC-12), we refresh the page every 5min
+		if(in_array($this->date, array('today', date('Y-m-d'), 'yesterday', Piwik_Date::factory('yesterday')->toString('Y-m-d'))))
+		{
+			$view->autoRefreshTodayReport = true;
+		}
 		$this->setGeneralVariablesView($view);
 		
 		$minTimestamp = Zend_Registry::get('access')->getSitesMinDate();

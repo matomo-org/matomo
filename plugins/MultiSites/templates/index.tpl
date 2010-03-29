@@ -84,12 +84,14 @@
 <script type="text/javascript">
 prepareRows(allSites, params, '{$orderBy}');
 
+{if $autoRefreshTodayReport}
 {literal}
 function refreshAfter(timeoutPeriod) {
 	setTimeout("location.reload(true);",timeoutPeriod);
 }
 refreshAfter(5*60*1000);
 {/literal}
+{/if}
 </script>
 </div>
 </div>
