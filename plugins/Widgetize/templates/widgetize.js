@@ -86,29 +86,7 @@ function widgetize()
 				);
 		});
 				
-		// 0.5: Removing launchpad feature as it doesn't seem to work well despite us contacting Clearspring
-		if(false) {
-			$(exportButtonsElement).append(
-				'<div id="embedThisWidgetEverywhere">'+
-					'<div id="exportThisWidget">'+
-						'<label for="flashEmbed">&rsaquo; Export anywhere!</label>'+
-						'<img src="http://cdn.clearspring.com/launchpad/static/cs_button_share1.gif" />'+
-					'</div>'+
-					'<div id="exportThisWidgetMenu"></div>'+
-				'</div>'
-			);
-			// Call clearspring
-			$Launchpad.ShowButton({
-									actionElement : "exportThisWidget",
-									targetElement : "exportThisWidgetMenu",
-									userId : "4797da88692e4fe9",
-									widgetName : widgetName + " - Piwik",
-									source : "iframeDivToExport"
-			});
-		}
-
 		// We then replace the div iframeDivToExport with the actual Iframe html
-		// Clearspring will then build a widget that has the same html as this div
 		$('#iframeDivToExport')
 			.html(widgetIframeHtml);
 

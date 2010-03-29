@@ -17,9 +17,6 @@
 <script type="text/javascript" src="plugins/Dashboard/templates/widgetMenu.js"></script>
 
 <script type="text/javascript" src="plugins/Widgetize/templates/widgetize.js"></script>
-<!--
-	<script src="http://cdn.clearspring.com/launchpad/v2/standalone.js" type="text/javascript"></script>
--->
 
 {literal}
 <style>
