@@ -454,6 +454,7 @@ $translations = array(
 	'Installation_ConfigurationHelp' => 'Your Piwik configuration file appears to be misconfigured.  You can either remove config/config.ini.php and resume installation, or correct the database connection settings.',
 	'Installation_ErrorInvalidState' => 'Error: it seems you tried to skip a step of the Installation process, or your cookies are disabled, or the Piwik configuration file was already created. %1$sMake sure your cookies are enabled%2$s and go back %3$s to the first page of the installation %4$s.',
 	'LanguagesManager_PluginDescription' => 'This plugin will display a list of the available languages for the Piwik interface. The language selected will be saved in the preferences for each user.',
+	'LanguagesManager_AboutPiwikTranslations' => 'About Piwik translations',
 	'Live_PluginDescription' => 'Spy on your visitors, live, in real-time!',
 	'Live_VisitorLog' => 'Visitor Log',
 	'Live_Date' => 'Date',
