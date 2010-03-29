@@ -44,12 +44,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
 							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
 					FROM ".$this->logTable."
-					WHERE visit_server_date = ?
+					WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
 						AND idsite = ?
-					GROUP BY visit_server_date
 					ORDER BY NULL";
-		$row = $this->db->fetchRow($query, array($this->strDateStart,$this->idsite ) );
-		if($row === false || $row === null)
+		$row = $this->db->fetchRow($query, array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ) );
+		if($row === false || $row === null || $row['nb_visits'] == 0)
 		{
 			return;
 		}
@@ -87,9 +87,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	{
 		$query = "SELECT $select 
 			 	FROM ".$this->logTable." 
-			 	WHERE visit_server_date = ?
-			 		AND idsite = ?";
-		$data = $this->db->fetchRow($query, array( $this->strDateStart, $this->idsite ));
+			 	WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
+			 			AND idsite = ?";
+		$data = $this->db->fetchRow($query, array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ));
 		
 		foreach($data as $label => &$count)
 		{
@@ -152,11 +153,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
 							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
 				FROM ".$this->logTable."
-				WHERE visit_server_date = ?
-					AND idsite = ?
+				WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
+						AND idsite = ?
 				GROUP BY label
 				ORDER BY NULL";
-		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ) );
+		$query = $this->db->query($query, array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ) );
 
 		$interest = array();
 		while($row = $query->fetch())
@@ -327,11 +329,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						sum(revenue) as revenue
 						$segments
 			 	FROM ".$this->logConversionTable."
-			 	WHERE visit_server_date = ?
-			 		AND idsite = ?
+			 	WHERE server_time >= ?
+						AND server_time <= ?
+			 			AND idsite = ?
 			 	GROUP BY idgoal $segments
 				ORDER BY NULL";
-		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ));
+		$query = $this->db->query($query, array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ));
 		return $query;
 	}
 	
@@ -342,11 +345,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 						sum(revenue) as revenue,
 						$segment as label
 			 	FROM ".$this->logConversionTable."
-			 	WHERE visit_server_date = ?
-			 		AND idsite = ?
+			 	WHERE server_time >= ?
+						AND server_time <= ?
+			 			AND idsite = ?
 			 	GROUP BY idgoal, label
 				ORDER BY NULL";
-		$query = $this->db->query($query, array( $this->strDateStart, $this->idsite ));
+		$query = $this->db->query($query, array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ));
 		return $query;
 	}
 	

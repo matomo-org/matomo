@@ -611,7 +611,7 @@ class Piwik
 						  alias VARCHAR(45) NOT NULL,
 						  email VARCHAR(100) NOT NULL,
 						  token_auth CHAR(32) NOT NULL,
-						  date_registered TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+						  date_registered TIMESTAMP NULL,
 						  PRIMARY KEY(login),
 						  UNIQUE KEY uniq_keytoken(token_auth)
 						)  DEFAULT CHARSET=utf8 
@@ -629,8 +629,9 @@ class Piwik
 						  idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 						  name VARCHAR(90) NOT NULL,
 						  main_url VARCHAR(255) NOT NULL,
-  						  ts_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  						  ts_created TIMESTAMP NULL,
   						  excluded_ips TEXT NOT NULL,
+  						  timezone VARCHAR( 50 ) NOT NULL,
 						  PRIMARY KEY(idsite)
 						)  DEFAULT CHARSET=utf8 
 			",
@@ -721,7 +722,6 @@ class Piwik
 							  visitor_returning TINYINT(1) NOT NULL,
 							  visit_first_action_time DATETIME NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
-							  visit_server_date DATE NOT NULL,
 							  visit_exit_idaction_url INTEGER(11) NOT NULL,
 							  visit_entry_idaction_url INTEGER(11) NOT NULL,
 							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
@@ -751,31 +751,30 @@ class Piwik
 							  location_country CHAR(3) NOT NULL,
 							  location_continent CHAR(3) NOT NULL,
 							  PRIMARY KEY(idvisit),
-							  INDEX index_idsite_date_config (idsite, visit_server_date, config_md5config(8))
+							  INDEX index_idsite_datetime_config (idsite, visit_last_action_time, config_md5config(8))
 							)  DEFAULT CHARSET=utf8 
 			",		
 			
 			'log_conversion' => "CREATE TABLE `{$prefixTables}log_conversion` (
-									  `idvisit` int(10) unsigned NOT NULL,
-									  `idsite` int(10) unsigned NOT NULL,
-									  `visitor_idcookie` char(32) NOT NULL,
-									  `server_time` datetime NOT NULL,
-									  `visit_server_date` date NOT NULL,
-									  `idaction_url` int(11) default NULL,
-									  `idlink_va` int(11) default NULL,
-									  `referer_idvisit` int(10) unsigned default NULL,
-									  `referer_visit_server_date` date default NULL,
-									  `referer_type` int(10) unsigned default NULL,
-									  `referer_name` varchar(70) default NULL,
-									  `referer_keyword` varchar(255) default NULL,
-									  `visitor_returning` tinyint(1) NOT NULL,
-									  `location_country` char(3) NOT NULL,
-									  `location_continent` char(3) NOT NULL,
-									  `url` text NOT NULL,
-									  `idgoal` int(10) unsigned NOT NULL,
-									  `revenue` float default NULL,
-									  PRIMARY KEY  (`idvisit`,`idgoal`),
-									  INDEX `index_idsite_date` (`idsite`,`visit_server_date`)
+									  idvisit int(10) unsigned NOT NULL,
+									  idsite int(10) unsigned NOT NULL,
+									  visitor_idcookie char(32) NOT NULL,
+									  server_time datetime NOT NULL,
+									  idaction_url int(11) default NULL,
+									  idlink_va int(11) default NULL,
+									  referer_idvisit int(10) unsigned default NULL,
+									  referer_visit_server_date date default NULL,
+									  referer_type int(10) unsigned default NULL,
+									  referer_name varchar(70) default NULL,
+									  referer_keyword varchar(255) default NULL,
+									  visitor_returning tinyint(1) NOT NULL,
+									  location_country char(3) NOT NULL,
+									  location_continent char(3) NOT NULL,
+									  url text NOT NULL,
+									  idgoal int(10) unsigned NOT NULL,
+									  revenue float default NULL,
+									  PRIMARY KEY  (idvisit,idgoal),
+									  INDEX index_idsite_datetime ( idsite , server_time )
 									) DEFAULT CHARSET=utf8 
 			",
 							
@@ -1531,6 +1530,22 @@ class Piwik
 	}
 	
 	/**
+	 * Returns true if the current php version supports timezone manipulation
+	 * (most likely if php >= 5.2)
+	 * 
+	 * @return bool
+	 */
+	static public function isTimezoneSupportEnabled()
+	{
+		return 
+    		function_exists( 'date_create' ) &&
+    		function_exists( 'date_default_timezone_set' ) &&
+    		function_exists( 'timezone_identifiers_list' ) &&
+    		function_exists( 'timezone_open' ) &&
+    		function_exists( 'timezone_offset_get' );
+	}
+	
+	/**
 	 * Creates an entry in the User table for the "anonymous" user. 
 	 */
 	static public function createAnonymousUser()
@@ -1539,7 +1554,7 @@ class Piwik
 		// note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
 		$db = Zend_Registry::get('db');
 		$db->query("INSERT INTO ". Piwik::prefixTable("user") . " 
-					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', CURRENT_TIMESTAMP );" );
+					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '".time()."' );" );
 	}
 
 	/**

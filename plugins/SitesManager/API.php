@@ -32,6 +32,7 @@ class Piwik_SitesManager_API
 	}
 	
 	const OPTION_EXCLUDED_IPS_GLOBAL = 'SitesManager_ExcludedIpsGlobal';
+	const OPTION_DEFAULT_TIMEZONE = 'SitesManager_DefaultTimezone';
 	
 	/**
 	 * Returns the javascript tag for the given idSite.
@@ -221,10 +222,11 @@ class Piwik_SitesManager_API
 	 * 					    if several URLs are provided in the array, they will be recorded 
 	 * 						as Alias URLs for this website.
 	 * @param string Comma separated list of IPs to exclude from the reports (allows wildcards)
+	 * @param string Timezone string, eg. 'Europe/London'
 	 * 
 	 * @return int the website ID created
 	 */
-	public function addSite( $siteName, $urls, $excludedIps = null )
+	public function addSite( $siteName, $urls, $excludedIps = null, $timezone = null )
 	{
 		Piwik::checkUserIsSuperUser();
 		
@@ -232,6 +234,13 @@ class Piwik_SitesManager_API
 		$urls = $this->cleanParameterUrls($urls);
 		$this->checkUrls($urls);
 		$this->checkAtLeastOneUrl($urls);
+		$timezone = trim($timezone);
+		
+		if(empty($timezone))
+		{
+			$timezone = $this->getDefaultTimezone();
+		}
+		$this->checkValidTimezone($timezone);
 		
 		$db = Zend_Registry::get('db');
 		
@@ -240,9 +249,11 @@ class Piwik_SitesManager_API
 		
 		$bind = array(	'name' => $siteName,
 						'main_url' => $url,
+						'ts_created' => Piwik_Date::now()->getDatetime()
 		);
 	
 		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
+		$bind['timezone'] = $timezone;
 		$db->insert(Piwik::prefixTable("site"), $bind);
 									
 		$idSite = $db->lastInsertId();
@@ -312,6 +323,22 @@ class Piwik_SitesManager_API
 		}
 	}
 
+	private function checkValidTimezone($timezone)
+	{
+		$timezones = $this->getTimezonesList();
+		foreach($timezones as $continent => $cities)
+		{
+			foreach($cities as $timezoneId => $city)
+			{
+				if($timezoneId == $timezone)
+				{
+					return true;
+				}
+			}
+		}
+		throw new Exception('The timezone "'.$timezone.'" is not valid. Please enter a valid timezone.');
+	}
+	
 	/**
 	 * Checks that the submitted IPs (comma separated list) are valid
 	 * Returns the cleaned up IPs
@@ -384,6 +411,37 @@ class Piwik_SitesManager_API
 	}
 	
 	/**
+	 * Returns the default timezone that will be set when creating a website through the API.
+	 * Via the UI, if the default timezone is not UTC, it will be pre-selected in the drop down
+	 * 
+	 * @return string Timezone eg. UTC+7 or Europe/Paris
+	 */
+	public function getDefaultTimezone()
+	{
+		Piwik::checkUserIsSuperUser();
+		$defaultTimezone = Piwik_GetOption(self::OPTION_DEFAULT_TIMEZONE);
+		if($defaultTimezone)
+		{
+			return $defaultTimezone;
+		}
+		return 'UTC';
+	}
+	
+	/**
+	 * Sets the default timezone that will be used when creating websites
+	 * 
+	 * @param $timezone string eg. Europe/Paris or UTC+8
+	 * @return bool
+	 */
+	public function setDefaultTimezone($defaultTimezone)
+	{
+		Piwik::checkUserIsSuperUser();
+		$this->checkValidTimezone($defaultTimezone);
+		Piwik_SetOption(self::OPTION_DEFAULT_TIMEZONE, $defaultTimezone);
+		return true;
+	}
+	
+	/**
 	 * Update an existing website.
 	 * If only one URL is specified then only the main url will be updated.
 	 * If several URLs are specified, both the main URL and the alias URLs will be updated.
@@ -392,12 +450,13 @@ class Piwik_SitesManager_API
 	 * @param string website name
 	 * @param string|array the website URLs
 	 * @param string Comma separated list of IPs to exclude from being tracked (allows wildcards)
+	 * @param string Timezone
 	 * 
 	 * @exception if any of the parameter is not correct
 	 * 
 	 * @return bool true on success
 	 */
-	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null)
+	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null, $timezone = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
@@ -415,6 +474,14 @@ class Piwik_SitesManager_API
 			
 			$bind['main_url'] = $url;
 		}
+		
+		if(!is_null($timezone))
+		{
+			$timezone = trim($timezone);
+			$this->checkValidTimezone($timezone);
+			$bind['timezone'] = $timezone;
+		}
+		
 		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
 		$bind['name'] = $siteName;
 		$db = Zend_Registry::get('db');
@@ -430,6 +497,72 @@ class Piwik_SitesManager_API
 			$insertedUrls = $this->addSiteAliasUrls($idSite, array_slice($urls,1));
 		}
 		$this->postUpdateWebsite($idSite);
+	}
+	
+	/**
+	 * Returns the list of timezones supported. 
+	 * Used for addSite and updateSite
+	 * 
+	 * @TODO NOT COMPATIBLE WITH API RESPONSE AUTO BUILDER
+	 * 
+	 * @return array of timezone strings
+	 */
+	public function getTimezonesList()
+	{
+		if(!Piwik::isTimezoneSupportEnabled())
+		{
+			return array('UTC' => $this->getTimezonesListUTCOffsets());
+		}
+		
+		$continents = array( 'Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific');
+		$timezones = timezone_identifiers_list();
+		
+		$return = array();
+		foreach($timezones as $timezone)
+		{
+			$timezoneExploded = explode('/', $timezone);
+			$continent = $timezoneExploded[0];
+			
+			// only display timezones that are grouped by continent
+			if(!in_array($continent, $continents))
+			{
+				continue;
+			}
+			$city = $timezoneExploded[1];
+			if(!empty($timezoneExploded[2]))
+			{
+				$city .= ' - '.$timezoneExploded[2];
+			}
+			$city = str_replace('_', ' ', $city);
+			$return[$continent][$timezone] = $city;
+		}
+		
+		$return['UTC'] = $this->getTimezonesListUTCOffsets();
+		return $return;
+	}
+	
+	private function getTimezonesListUTCOffsets()
+	{
+		// manually add the UTC offsets
+		$GmtOffsets = array (-12, -11.5, -11, -10.5, -10, -9.5, -9, -8.5, -8, -7.5, -7, -6.5, -6, -5.5, -5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.5,
+			0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 5.75, 6, 6.5, 7, 7.5, 8, 8.5, 8.75, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.75, 13, 13.75, 14);
+			
+		$return = array();
+		foreach($GmtOffsets as $offset)
+		{
+			if($offset > 0)
+			{
+				$offset = '+'.$offset;
+			}
+			elseif($offset == 0)
+			{
+				$offset = '';
+			}
+			$offset = 'UTC' . $offset;
+			$offsetName = str_replace(array('.25','.5','.75'), array(':15',':30',':45'), $offset);
+			$return[$offset] = $offsetName;
+		}
+		return $return;
 	}
 	
 	/**

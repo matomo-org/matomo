@@ -146,7 +146,7 @@
 			{else}
 				{$error} <i>{$infos.integrityErrorMessages[0]}</i>
 			{/if}
-			{if count($infos.integrityErrorMessages) > 1}
+			{if count($infos.integrityErrorMessages) >= 1}
 				<button id="more-results" class="ui-button ui-state-default ui-corner-all">{'General_Details'|translate}</button>
 			{/if}
 		{/if}
@@ -158,6 +158,13 @@
 			{$infos.memoryCurrent}
 			{if $infos.memory_ok}{$ok}{else}{$warning} 
 				<br /><i>{'Installation_SystemCheckMemoryLimitHelp'|translate}</i>{/if}	
+		</td>
+	</tr>
+	<tr>
+		<td class="label">{'SitesManager_Timezone'|translate}</td>
+		<td>
+			{if $infos.timezone}{$ok}{else}{$warning} 
+				<br /><i>{'SitesManager_AdvancedTimezoneSupportNotFound'|translate}</i>{/if}	
 		</td>
 	</tr>
 	<tr>

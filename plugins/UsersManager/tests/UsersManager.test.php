@@ -364,11 +364,12 @@ class Test_Piwik_UsersManager extends Test_Database
     	$email = "mgeag4544i@geq.com";
     	$alias = "her is my alias )(&|\" '£%*(&%+))";
 		
+    	$time = time();
 		Piwik_UsersManager_API::getInstance()->addUser($login, $password, $email, $alias);
     	$user = Piwik_UsersManager_API::getInstance()->getUser($login);
 		
 	    // check that the date registered is correct
-		$this->assertTrue( strtotime($user['date_registered']) >= time() - 1 , 
+		$this->assertTrue( strtotime($user['date_registered']) ==  $time , 
 				"the date_registered ".strtotime($user['date_registered'])." is different from the time() ". time());
 		$this->assertTrue($user['date_registered'] <= time() );
 		

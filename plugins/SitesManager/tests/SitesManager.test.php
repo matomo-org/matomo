@@ -19,6 +19,9 @@ class Test_Piwik_SitesManager extends Test_Database
     	$pseudoMockAccess = new FakeAccess;
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
+		
+		// clear static Site cache
+		Piwik_Site::clearCache();
     }
     
     /**
@@ -107,12 +110,14 @@ class Test_Piwik_SitesManager extends Test_Database
     /**
      * Test with valid IPs
      */
-    public function test_addSite_excludedIps_valid()
+    public function test_addSite_excludedIpsAndtimezone_valid()
     {
-    	$ips = '1.2.3.4,1.1.1.*,1.2.*.*,1.*.*.*'; 
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ips);
+    	$ips = '1.2.3.4,1.1.1.*,1.2.*.*,1.*.*.*';
+    	$timezone = 'Europe/Paris'; 
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ips, $timezone);
     	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
     	$this->assertEqual($siteInfo['excluded_ips'], $ips);
+    	$this->assertEqual($siteInfo['timezone'], $timezone);
     }
     
     /**
@@ -482,8 +487,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => ""),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => ""),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC'),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC'),
     	);
     		
 		FakeAccess::setIdSitesAdmin (array(1,3));
@@ -518,8 +523,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => ""),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => ""),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC'),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC'),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
@@ -554,8 +559,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => ""),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => ""),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC'),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC'),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
@@ -685,6 +690,42 @@ class Test_Piwik_SitesManager extends Test_Database
     	
     	$this->assertEqual($allUrls,$newurls);
 
+    }
+
+    function test_addSites_invalidTimezone()
+    {
+    	// trying invalid timezones
+    	try {
+    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', 'UTC+15');
+    		$this->fail('invalid timezone should raise an exception');
+    	} catch(Exception $e) {
+    	}
+    	try {
+    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', 'Paris');
+    		$this->fail('invalid timezone should raise an exception');
+    	} catch(Exception $e) {
+    	}
+    	$this->pass();
+    }
+    
+    function test_setDefaultTimezone()
+    {
+    	$defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
+    	$this->assertEqual($defaultTimezone, 'UTC');
+    
+    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '');
+    	$site = new Piwik_Site($idsite);
+    	$this->assertEqual($site->getTimezone(), 'UTC');
+    	
+    	$newDefaultTimezone = 'UTC+5.5';
+    	Piwik_SitesManager_API::getInstance()->setDefaultTimezone($newDefaultTimezone);
+    	$defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
+    	$this->assertEqual($defaultTimezone, $newDefaultTimezone);
+    	
+    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', $newDefaultTimezone);
+    	$site = new Piwik_Site($idsite);
+    	$this->assertEqual($site->getTimezone(), $newDefaultTimezone);
+    	$this->assertEqual($site->getCreationDate(), date('Y-m-d'));
     }
 }
 

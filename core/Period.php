@@ -44,7 +44,7 @@ abstract class Piwik_Period
 	 * @param $date Piwik_Date object
 	 * @return Piwik_Period
 	 */
-	static public function factory($strPeriod, $date)
+	static public function factory($strPeriod, Piwik_Date $date)
 	{
 		switch ($strPeriod) {
 			case 'day':
@@ -186,25 +186,6 @@ abstract class Piwik_Period
 		$this->subperiods[] = $date;
 	}
 	
-	/**
-	 * A period is finished if all the subperiods are finished
-	 */
-	public function isFinished()
-	{
-		if(!$this->subperiodsProcessed)
-		{
-			$this->generate();
-		}
-		foreach($this->subperiods as $period)
-		{
-			if(!$period->isFinished())
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-		
 	public function toString()
 	{
 		if(!$this->subperiodsProcessed)
@@ -230,7 +211,7 @@ abstract class Piwik_Period
 		{
 			$this->generate();
 		}
-		return $this->date->get($part);
+		return $this->date->toString($part);
 	}
 	
 	abstract public function getPrettyString();

@@ -238,21 +238,22 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							SET $sqlActionIdUpdate
 								$sqlUpdateGoalConverted
 								visit_last_action_time = ?,
-								visit_total_time = UNIX_TIMESTAMP(visit_last_action_time) - UNIX_TIMESTAMP(visit_first_action_time)
+								visit_total_time = ?
 							WHERE idvisit = ?
 								AND visitor_idcookie = ?
 							LIMIT 1",
 							array( 	$datetimeServer,
+									$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'],
 									$this->visitorInfo['idvisit'],
 									$this->visitorInfo['visitor_idcookie'] )
 				);
+		printDebug('Updating visitor with idvisit='.$this->visitorInfo['idvisit'].', setting visit_last_action_time='.$datetimeServer.' and visit_total_time='.$visitTotalTime);
 		if(Piwik_Tracker::getDatabase()->rowCount($result) == 0)
 		{
 			throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase("The visitor with visitor_idcookie=".$this->visitorInfo['visitor_idcookie']." and idvisit=".$this->visitorInfo['idvisit']." wasn't found in the DB, we fallback to a new visitor");
 		}
 
 		$this->visitorInfo['idsite'] = $this->idsite;
-		$this->visitorInfo['visit_server_date'] = $this->getCurrentDate();
 
 		// will be updated in cookie
 		$this->visitorInfo['time_spent_ref_action'] = $serverTime - $this->visitorInfo['visit_last_action_time'];
@@ -276,7 +277,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							.':'. Piwik_Common::getRequestVar( 'm', $this->getCurrentDate("i"), 'int', $this->request)
 							.':'. Piwik_Common::getRequestVar( 's', $this->getCurrentDate("s"), 'int', $this->request);
 		$serverTime 	= $this->getCurrentTimestamp();
-		$serverDate 	= $this->getCurrentDate();
 
 		$idcookie = $this->getVisitorIdcookie();
 		$returningVisitor = $this->isVisitorKnown() ? 1 : 0;
@@ -298,7 +298,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'visitor_returning' 	=> $returningVisitor,
 			'visit_first_action_time' => Piwik_Tracker::getDatetimeFromTimestamp($serverTime),
 			'visit_last_action_time' =>  Piwik_Tracker::getDatetimeFromTimestamp($serverTime),
-			'visit_server_date' 	=> $serverDate,
 			'visit_entry_idaction_url' => $actionUrlId,
 			'visit_exit_idaction_url' => $actionUrlId,
 			'visit_total_actions' 	=> 1,
@@ -533,7 +532,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getCookieExpire()
 	{
-		return time() + Piwik_Tracker_Config::getInstance()->Tracker['cookie_expire'];
+		return $this->getCurrentTimestamp() + Piwik_Tracker_Config::getInstance()->Tracker['cookie_expire'];
 	}
 	
 	/**
@@ -621,12 +620,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 			$visitRow = Piwik_Tracker::getDatabase()->fetch(
 										" SELECT  	visitor_idcookie,
-													UNIX_TIMESTAMP(visit_last_action_time) as visit_last_action_time,
-													UNIX_TIMESTAMP(visit_first_action_time) as visit_first_action_time,
+													visit_last_action_time,
+													visit_first_action_time,
 													idvisit,
 													visit_exit_idaction_url
 										FROM ".Piwik_Common::prefixTable('log_visit').
-										" WHERE visit_server_date = ?
+										" WHERE DATE(visit_last_action_time) = ?
 											AND idsite = ?
 											AND config_md5config = ?
 										ORDER BY visit_last_action_time DESC
@@ -636,14 +635,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				&& count($visitRow) > 0)
 			{
 				$this->visitorInfo['visitor_idcookie'] = $visitRow['visitor_idcookie'];
-				$this->visitorInfo['visit_last_action_time'] = $visitRow['visit_last_action_time'];
-				$this->visitorInfo['visit_first_action_time'] = $visitRow['visit_first_action_time'];
+				$this->visitorInfo['visit_last_action_time'] = strtotime($visitRow['visit_last_action_time']);
+				$this->visitorInfo['visit_first_action_time'] = strtotime($visitRow['visit_first_action_time']);
 				$this->visitorInfo['idvisit'] = $visitRow['idvisit'];
 				$this->visitorInfo['visit_exit_idaction_url'] = $visitRow['visit_exit_idaction_url'];
 
 				$this->visitorKnown = true;
 
-				printDebug("The visitor is known because of his userSettings+IP (idcookie = {$visitRow['visitor_idcookie']}, idvisit = {$this->visitorInfo['idvisit']}, last action = ".date("r", $this->visitorInfo['visit_last_action_time']).") ");
+				printDebug("The visitor is known because of his userSettings+IP (idcookie = {$visitRow['visitor_idcookie']}, idvisit = {$this->visitorInfo['idvisit']}, last action = ".date("r", $this->visitorInfo['visit_last_action_time']).", first action = ".date("r", $this->visitorInfo['visit_first_action_time']) .")");
 			}
 		}
 	}

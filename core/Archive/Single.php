@@ -134,9 +134,12 @@ class Piwik_Archive_Single extends Piwik_Archive
 	{
 		if(!is_null($this->archiveProcessing))
 		{
-			return $this->archiveProcessing->getTimestampStartDate();
+			$timestamp = $this->archiveProcessing->getTimestampStartDate();
+			if(!empty($timestamp))
+			{
+				return $timestamp;
+			}
 		}
-		
 		return $this->period->getDateStart()->getTimestamp();
 	}
 		
