@@ -665,7 +665,7 @@ class Test_Piwik_Common extends UnitTestCase
 			$result = $expectedReturnedValue === $returnedValue;
 			$this->assertTrue($result);
 			if(!$result) {
-				echo "error in extracting from $refererUrl got ".$exported."<br>";
+				$this->fail("error in extracting from $refererUrl got ".$exported."<br>");
 			}
 		}
 	}
@@ -685,7 +685,7 @@ class Test_Piwik_Common extends UnitTestCase
 			unserialize($a);
 			$this->fail("Expected exception not raised");
 		} catch(Exception $expected) {
-			echo "test: unserializing an object where class not (yet) defined<br>\n";
+			$this->pass("test: unserializing an object where class not (yet) defined<br>\n");
 		}
 
 		$ua = Piwik_Common::unserialize_array($a);
@@ -694,7 +694,7 @@ class Test_Piwik_Common extends UnitTestCase
 		$a = 'O:28:"Test_Piwik_Cookie_Mock_Class":0:{}';
 		try {
 			unserialize($a);
-			echo "test: unserializing an object where class is defined<br>\n";
+			$this->pass("test: unserializing an object where class is defined<br>\n");
 		} catch(Exception $unexpected) {
 			$this->fail("Unexpected exception raised");
 		}
@@ -705,7 +705,7 @@ class Test_Piwik_Common extends UnitTestCase
 		$a = 'a:1:{i:0;O:28:"Test_Piwik_Cookie_Mock_Class":0:{}}';
 		try {
 			unserialize($a);
-			echo "test: unserializing nested object where class is defined<br>\n";
+			$this->pass("test: unserializing nested object where class is defined<br>\n");
 		} catch(Exception $unexpected) {
 			$this->fail("Unexpected exception raised");
 		}
@@ -716,7 +716,7 @@ class Test_Piwik_Common extends UnitTestCase
 		$a = 'a:2:{i:0;s:4:"test";i:1;O:28:"Test_Piwik_Cookie_Mock_Class":0:{}}';
 		try {
 			unserialize($a);
-			echo "test: unserializing another nested object where class is defined<br>\n";
+			$this->pass("test: unserializing another nested object where class is defined<br>\n");
 		} catch(Exception $unexpected) {
 			$this->fail("Unexpected exception raised");
 		}
@@ -727,7 +727,7 @@ class Test_Piwik_Common extends UnitTestCase
 		$a = 'O:28:"Test_Piwik_Cookie_Mock_Class":1:{s:34:"'."\0".'Test_Piwik_Cookie_Mock_Class'."\0".'name";s:4:"test";}';
 		try {
 			unserialize($a);
-			echo "test: unserializing object with member where class is defined<br>\n";
+			$this->pass("test: unserializing object with member where class is defined<br>\n");
 		} catch(Exception $unexpected) {
 			$this->fail("Unexpected exception raised");
 		}
@@ -738,7 +738,7 @@ class Test_Piwik_Common extends UnitTestCase
 		$a = 'a:1:{s:4:"test";s:1:"'."\0".'";}';
 		try {
 			unserialize($a);
-			echo "test: unserializing with leading null byte<br>\n";
+			$this->pass("test: unserializing with leading null byte<br>\n");
 		} catch(Exception $unexpected) {
 			$this->fail("Unexpected exception raised");
 		}
@@ -749,7 +749,7 @@ class Test_Piwik_Common extends UnitTestCase
 		$a = 'a:1:{s:4:"test";s:3:"'."a\0b".'";}';
 		try {
 			unserialize($a);
-			echo "test: unserializing with leading intervening byte<br>\n";
+			$this->pass("test: unserializing with leading intervening byte<br>\n");
 		} catch(Exception $unexpected) {
 			$this->fail("Unexpected exception raised");
 		}

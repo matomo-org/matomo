@@ -29,8 +29,8 @@ class Piwik_ExampleUI_API
 	public function getTemperaturesEvolution($date, $period)
 	{
 		$period = new Piwik_Period_Range($period, 'last30');
-		$dateStart = $period->getDateStart()->get('Y-m-d'); // eg. "2009-04-01"
-		$dateEnd = $period->getDateEnd()->get('Y-m-d'); // eg. "2009-04-30"
+		$dateStart = $period->getDateStart()->toString('Y-m-d'); // eg. "2009-04-01"
+		$dateEnd = $period->getDateEnd()->toString('Y-m-d'); // eg. "2009-04-30"
 		
 		// here you could select from your custom table in the database, eg.
 		$query = "SELECT AVG(temperature)
