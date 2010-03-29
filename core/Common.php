@@ -624,38 +624,34 @@ class Piwik_Common
 	 */
 	static public function getIpString()
 	{
-		if(isset($_SERVER['HTTP_CLIENT_IP'])
-		&& ($ip = self::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']))
-		&& strpos($ip, "unknown") === false)
+		// note: these may be spoofed
+		static $clientHeaders = array(
+			// ISP proxy
+			'HTTP_CLIENT_IP',
+
+			// de facto standard
+			'HTTP_X_FORWARDED_FOR',
+		);
+
+		foreach($clientHeaders as $clientHeader)
 		{
-			return $ip;
+			if(!empty($_SERVER[$clientHeader]))
+			{
+				$ip = self::getFirstIpFromList($_SERVER[$clientHeader]);
+				if(!empty($ip) && stripos($ip, 'unknown') === false)
+				{
+					return $ip;
+				}
+			}
 		}
-		elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-		&& $ip = self::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_FOR'])
-		&& isset($ip)
-		&& !empty($ip)
-		&& strpos($ip, "unknown")===false )
-		{
-			return $ip;
-		}
-		elseif( isset($_SERVER['HTTP_CLIENT_IP'])
-		&& strlen( self::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']) ) != 0 )
-		{
-			return self::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']);
-		}
-		else if( isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-		&& strlen ($ip = self::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_FOR'])) != 0)
-		{
-			return $ip;
-		}
-		elseif(isset($_SERVER['REMOTE_ADDR']))
+
+		// default
+		if(isset($_SERVER['REMOTE_ADDR']))
 		{
 			return self::getFirstIpFromList($_SERVER['REMOTE_ADDR']);
 		}
-		else
-		{
-			return '0.0.0.0';
-		}
+
+		return '0.0.0.0';
 	}
 
 	/**
