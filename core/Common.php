@@ -91,11 +91,6 @@ class Piwik_Common
 			require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
 			try {
-				$db = Zend_Registry::get('db');
-			} catch (Exception $e) {
-				Piwik::createDatabaseObject();
-			}
-			try {
 				$access = Zend_Registry::get('access');
 			} catch (Exception $e) {
 				Piwik::createAccessObject();
@@ -104,6 +99,11 @@ class Piwik_Common
 				$config = Zend_Registry::get('config');
 			} catch (Exception $e) {
 				Piwik::createConfigObject();
+			}
+			try {
+				$db = Zend_Registry::get('db');
+			} catch (Exception $e) {
+				Piwik::createDatabaseObject();
 			}
 			$isSuperUser = Piwik::isUserIsSuperUser();
 			Piwik::setUserIsSuperUser();
