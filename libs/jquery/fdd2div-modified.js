@@ -95,7 +95,11 @@
 								$('body').append("<div style=\"position:absolute\">"+newForm+"</div>");
 								child_options+="<li><a href='"+FormAction+"' onclick=\"document.form"+unique_id+"_"+n+".submit();return false;\">"+i.firstChild.nodeValue+"</a></li>\n";
 						} else {
-							child_options+="<li><a href='"+FormAction+SelectName+"="+OptionValue+"'>"+i.firstChild.nodeValue+"</a></li>\n";
+							if($(i).attr('href')) {
+								child_options+="<li><b><a target='_blank' href='"+$(i).attr('href')+"'>"+i.firstChild.nodeValue+"</a></b></li>\n";
+							} else {
+								child_options+="<li><a href='"+FormAction+SelectName+"="+OptionValue+"'>"+i.firstChild.nodeValue+"</a></li>\n";
+							}
 						}
 					}
 				});
