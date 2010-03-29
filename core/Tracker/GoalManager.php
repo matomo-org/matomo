@@ -170,7 +170,6 @@ class Piwik_Tracker_GoalManager
 			'idsite' 			=> $visitorInformation['idsite'],
 			'visitor_idcookie' 	=> $visitorInformation['visitor_idcookie'],
 			'server_time' 		=> Piwik_Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
-			'visit_server_date' => $visitorInformation['visit_server_date'],
 			'location_country'  => $location_country,
 			'location_continent'=> $location_continent,
 			'visitor_returning' => $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_VISITOR_RETURNING ),

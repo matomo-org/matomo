@@ -42,7 +42,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		return 'date';
 	}
 	
-	protected function loadMetadata(Piwik_DataTable_Array $table, $archive)
+	protected function loadMetadata(Piwik_DataTable_Array $table, Piwik_Archive $archive)
 	{
 		$table->metadata[$archive->getPrettyDate()] = array( 
 				'timestamp' => $archive->getTimestampStartDate(),
@@ -98,14 +98,15 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 				continue;
 			}
 
-			$sql = "SELECT value, name, UNIX_TIMESTAMP(date1) as timestamp
+			$sql = "SELECT value, name, date1 as startDate
 									FROM $table
 									WHERE idarchive IN ( $inIds )
 										AND name IN ( $inNames )";
 			$values = $db->fetchAll($sql);
 			foreach($values as $value)
 			{
-				$arrayValues[$value['timestamp']][$value['name']] = (float)$value['value'];
+				$timestamp = Piwik_Date::factory($value['startDate'])->getTimestamp();
+				$arrayValues[$timestamp][$value['name']] = (float)$value['value'];
 			}			
 		}
 		

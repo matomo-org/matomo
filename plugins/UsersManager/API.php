@@ -17,6 +17,10 @@
 class Piwik_UsersManager_API 
 {
 	static private $instance = null;
+	
+	/**
+	 * @return Piwik_UsersManager_API
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
@@ -295,7 +299,8 @@ class Piwik_UsersManager_API
 									'alias' => $alias,
 									'email' => $email,
 									'token_auth' => $token_auth,
-									)
+									'date_registered' => Piwik_Date::now()->getDatetime()
+							)
 		);
 		
 		// we reload the access list which doesn't yet take in consideration this new user

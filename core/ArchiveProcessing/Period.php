@@ -288,10 +288,14 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 
 	protected function computeNbUniqVisitors()
 	{
-		$query = "SELECT count(distinct visitor_idcookie) as nb_uniq_visitors FROM ".$this->logTable."
-			  WHERE visit_server_date >= ? AND visit_server_date <= ? AND idsite = ?";
+		$query = "
+			SELECT count(distinct visitor_idcookie) as nb_uniq_visitors 
+			FROM ".$this->logTable."
+			WHERE visit_last_action_time >= ?
+    				AND visit_last_action_time <= ? 
+    				AND idsite = ?";
 
-		return Zend_Registry::get('db')->fetchOne($query, array( $this->strDateStart, $this->strDateEnd, $this->idsite ));
+		return Zend_Registry::get('db')->fetchOne($query, array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ));
 	}
 	
 	/**
@@ -311,16 +315,21 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		if(!$timestamp 
 			|| $timestamp < time() - 86400 )
 		{
+			//@TODO fix for time zones
+			// maybe solution would be to add a flag "temporary" in the tables? and delete those with temporary=1
+			
 			// we delete out of date daily archives from table, maximum once per day
 			// those for day N that were processed on day N (means the archives are only partial as the day wasn't finished)
 			$query = "/* SHARDING_ID_SITE = ".$this->idsite." */ 	DELETE 
 						FROM %s
 						WHERE period = ? 
 							AND date1 = DATE(ts_archived)
-							AND DATE(ts_archived) <> CURRENT_DATE()
+							AND DATE(ts_archived) <> ?
 						";
-			Piwik_Query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
-			Piwik_Query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
+			$today = date('Y-m-d');
+			/* @fixme */
+			//Piwik_Query(sprintf($query, $blobTable), array(Piwik::$idPeriods['day'], $today));
+			//Piwik_Query(sprintf($query, $numericTable), array(Piwik::$idPeriods['day'], $today));
 			
 			// we delete out of date Period records (week/month/etc)
 			// we delete archives that were archived before the end of the period
@@ -332,8 +341,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 							AND date(ts_archived) < date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
 						";
 			
-			Piwik_Query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
-			Piwik_Query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
+			//Piwik_Query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
+			//Piwik_Query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
 			
 			Piwik_SetOption($key, time());
 		}

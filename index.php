@@ -81,7 +81,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 // NOTE: the code above this comment must be PHP4 compatible
 
 session_cache_limiter('nocache');
-@date_default_timezone_set(date_default_timezone_get());
+@date_default_timezone_set('UTC');
 require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 
 if(!defined('PIWIK_ENABLE_SESSION_START') || PIWIK_ENABLE_SESSION_START)

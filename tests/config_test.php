@@ -28,8 +28,7 @@ require_once 'simpletest/mock_objects.php';
 SimpleTest::prefer(new HtmlReporter());
 
 error_reporting(E_ALL|E_NOTICE);
-//@date_default_timezone_set('Europe/London');
-@date_default_timezone_set('America/Toronto');
+@date_default_timezone_set('UTC');
 
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Exception.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Loader.php';

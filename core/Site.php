@@ -31,7 +31,12 @@ class Piwik_Site
 	
 	function __toString()
 	{
-		return "site id=".$this->getId().", name=".$this->getName();
+		return "site id=".$this->getId().",
+				 name=".$this->getName() .",
+				 url = ". $this->getMainUrl() .",
+				 IPs excluded = ".$this->getExcludedIps().",
+				 timezone = ".$this->getTimezone().",
+				 creation date = ".$this->getCreationDate();
 	}
 	
 	function getName()
@@ -55,6 +60,16 @@ class Piwik_Site
 		return Piwik_Date::factory($date);
 	}
 	
+	function getTimezone()
+	{
+		return self::$infoSites[$this->id]['timezone'];
+	}
+	
+	function getExcludedIps()
+	{
+		return self::$infoSites[$this->id]['excluded_ips'];
+	}
+	
 	/**
 	 * @param string comma separated idSite list
 	 * @return array of valid integer
@@ -69,5 +84,10 @@ class Piwik_Site
 			$validIds[] = $id;
 		}
 		return $validIds;
+	}
+	
+	static public function clearCache()
+	{
+		self::$infoSites = array();
 	}
 }

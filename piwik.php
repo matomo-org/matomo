@@ -57,9 +57,9 @@ require_once PIWIK_INCLUDE_PATH .'/core/Cookie.php';
 
 session_cache_limiter('nocache');
 ob_start();
+@date_default_timezone_set('UTC');
 if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 {	
-	@date_default_timezone_set(date_default_timezone_get());
 	require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 	require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
 	require_once PIWIK_INCLUDE_PATH .'/core/ExceptionHandler.php';

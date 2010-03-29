@@ -150,7 +150,7 @@ class Piwik_Referers extends Piwik_Plugin
 		destroy($this->distinctUrls);
 	}
 	
-	protected function archiveDayAggregateVisits($archiveProcessing)
+	protected function archiveDayAggregateVisits(Piwik_ArchiveProcessing $archiveProcessing)
 	{
 		$query = "SELECT 	referer_type, 
 							referer_name, 
@@ -164,11 +164,12 @@ class Piwik_Referers extends Piwik_Plugin
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
 							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
 				 	FROM ".$archiveProcessing->logTable."
-				 	WHERE visit_server_date = ?
+				 	WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
 				 		AND idsite = ?
 				 	GROUP BY referer_type, referer_name, referer_url, referer_keyword
 				 	ORDER BY nb_visits DESC";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
 
 		$this->interestBySearchEngine =
 			$this->interestByKeyword =

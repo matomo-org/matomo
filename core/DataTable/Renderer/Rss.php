@@ -47,8 +47,9 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 			$site = $table->metadata[$date]['site'];
 	
 			$pudDate = date('r', $timestamp);
-			$dateUrl = date('Y-m-d', $timestamp);
-			$thisPiwikUrl = htmlentities($piwikUrl . "&date=$dateUrl");
+			
+			$dateInSiteTimezone = Piwik_Date::factory($timestamp)->setTimezone($site->getTimezone())->toString('Y-m-d');
+			$thisPiwikUrl = htmlentities($piwikUrl . "&date=$dateInSiteTimezone");
 			$siteName = $site->getName();
 			$title = $siteName . " on ". $date;
 			

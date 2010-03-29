@@ -26,10 +26,21 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 			$site['excluded_ips'] = str_replace(',','<br/>', $site['excluded_ips']);
 		}
 		$view->adminSites = $sites;
-		$view->currentIpAddress = Piwik_Common::getIpString();
-		$this->setGeneralVariablesView($view);
+		
+		try {
+			$timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
+		} catch(Exception $e) {
+			$timezones = array();
+		}
+		$view->timezoneSupported = Piwik::isTimezoneSupportEnabled();
+		$view->timezones = json_encode($timezones);
+		$view->utcTime = Piwik_Date::now()->getDatetime();
 		$excludedIpsGlobal = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
 		$view->globalExcludedIps = str_replace(',',"\n", $excludedIpsGlobal);
+		$view->defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
+		$view->currentIpAddress = Piwik_Common::getIpString();
+
+		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}

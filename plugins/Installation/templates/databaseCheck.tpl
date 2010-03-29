@@ -27,19 +27,6 @@
 		<td class="label">{'Installation_DatabaseCreation'|translate}</td>
 		<td>{if isset($databaseCreated)}{$ok}{else}{$error}{/if}</td>
 	</tr>
-	<tr>
-		<td class="label">{'Installation_DatabaseTimezone'|translate}</td>
-		<td>{if isset($timezoneWarning)}{$warning}{else}{$ok}{/if}</td>
-	</tr>
-{if isset($timezoneWarning)}
-	<tr>
-		<td colspan="2">
-			<small>
-				<span style="color:#FF7F00">{'Installation_TimezoneMismatch'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/FAQ/troubleshooting/#faq_58' target='_blank'>FAQ</a>"}.</span>
-			</small>
-		</td>
-	</tr>
-{/if}
 </table>
 
 <p>

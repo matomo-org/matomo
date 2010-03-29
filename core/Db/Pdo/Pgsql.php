@@ -171,17 +171,6 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 	}
 
 	/**
-	 * Get server timezone offset in seconds
-	 *
-	 * @return string
-	 */
-	public function getCurrentTimezone()
-	{
-		$tzOffset = $this->fetchOne('SELECT extract(timezone FROM now())');
-		return $tzOffset;
-	}
-
-	/**
 	 * Retrieve client version in PHP style
 	 *
 	 * @return string

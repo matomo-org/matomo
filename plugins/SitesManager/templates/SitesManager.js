@@ -24,13 +24,15 @@ function getAddSiteAJAX( row )
 	var urls = getApiFormatUrls(urls);
 	var excludedIps = $(row).find('textarea#siteadd_excludedIps').val();
 	excludedIps = getApiFormatExcludedIps(excludedIps);
- 	
+	var timezone = encodeURIComponent($(row).find('option:selected').val());
+	
 	var request = '';
 	request += '&module=API';
 	request += '&format=json';
 	request += '&method=SitesManager.addSite';
 	siteName = encodeURIComponent(siteName);
 	request += '&siteName='+siteName;
+	request += '&timezone='+timezone;
 	request += '&excludedIps='+excludedIps;
 	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
  	request += '&token_auth=' + piwik.token_auth;
@@ -59,7 +61,7 @@ function getUpdateSiteAJAX( row )
 	urls = getApiFormatUrls(urls);
 	var excludedIps = $(row).find('textarea#excludedIps').val();
 	excludedIps = getApiFormatExcludedIps(excludedIps);
-	
+	var timezone = encodeURIComponent($(row).find('option:selected').val());
 	var request = '';
 	request += '&module=API';
 	request += '&format=json';
@@ -67,12 +69,27 @@ function getUpdateSiteAJAX( row )
 	siteName = encodeURIComponent(siteName);
 	request += '&siteName='+siteName;
 	request += '&idSite='+idSite;
+	request += '&timezone='+timezone;
 	request += '&excludedIps='+excludedIps;
 	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
  	request += '&token_auth=' + piwik.token_auth;
  	
 	ajaxRequest.data = request;
 	
+	return ajaxRequest;
+}
+
+function getDefaultTimezoneAJAX()
+{
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingDefaultTimezone', 'ajaxErrorDefaultTimezone');
+	var timezone = encodeURIComponent($('#defaultTimezone option:selected').val());
+	var request = '';
+	request += '&module=API';
+	request += '&format=json';
+	request += '&method=SitesManager.setDefaultTimezone';
+	request += '&defaultTimezone='+timezone;
+ 	request += '&token_auth=' + piwik.token_auth;
+	ajaxRequest.data = request;
 	return ajaxRequest;
 }
 
@@ -104,6 +121,7 @@ $(document).ready( function() {
 				<td><input id="siteadd_name" value="Name" size="25" /></td>\
 				<td><textarea cols="30" rows="3" id="siteadd_urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
 				<td><textarea cols="30" rows="3" id="siteadd_excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
+				<td>'+getTimezoneSelector(defaultTimezone)+'<br />' + timezoneHelp + '</td>\
 				<td><img src="plugins/UsersManager/images/ok.png" class="addsite" href="#" /></td>\
 	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel" /></td>\
 	 		</tr>')
@@ -159,6 +177,12 @@ $(document).ready( function() {
 						contentAfter += '<br />'+excludedIpHelp;
 						$(n).html(contentAfter);
 					}
+					if(idName == 'timezone')
+					{
+						var contentAfter = getTimezoneSelector(contentBefore);
+						contentAfter += '<br />' + timezoneHelp;
+						$(n).html(contentAfter);
+					}
 				}
 			);
 			$(this)
@@ -173,10 +197,39 @@ $(document).ready( function() {
 	$('#globalExcludedIpsSubmit').click( function() {
 		$.ajax( getSetGlobalExcludedIpsAJAX() );
 	});
+
+	$('#defaultTimezone').html( getTimezoneSelector(defaultTimezone));
+	
+	$('#defaultTimezoneSubmit').click( function() {
+		$.ajax( getDefaultTimezoneAJAX() );
+	});
 	
 	$('td.editableSite').click( function(){ $(this).parent().find('.editSite').click(); } );
 });
- 
+
+function getTimezoneSelector(selectedTimezone)
+{
+	var html = '<select id="timezones">';
+	if(!selectedTimezone)
+	{
+		html += '<option selected="selected" value="'+selectACity+'">'+selectACity+'</option>';
+	}
+	for(var continent in timezones) {
+		html += '<optgroup label="' + continent + '">';
+		for(var timezoneId in timezones[continent]) {
+			var selected = '';
+			if(timezoneId == selectedTimezone) {
+				selected = ' selected="selected" ';
+			}
+			html += '<option ' + selected + ' value="'+ timezoneId + '">' + timezones[continent][timezoneId] + '</option>';
+		}
+		html += "</optgroup>\n";
+	}
+	html += '</select>';
+	return html;
+}
+
+
 function submitSiteOnEnter(e)
 {
 	var key=e.keyCode || e.which;

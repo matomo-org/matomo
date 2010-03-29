@@ -257,13 +257,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$this->session->charsetCorrection = true;
 		}
 
-		$dbTimezone = $db->getCurrentTimezone();
-		$phpTimezone = date('Z');
-		if($dbTimezone !== '' && ($dbTimezone != $phpTimezone))
-		{
-			$view->timezoneWarning = true;
-		}
-
 		$view->showNextStep = true;
 		$this->session->currentStepDone = __FUNCTION__;
 
@@ -801,6 +794,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['integrityErrorMessages'] += array_slice($integrityInfo, 1);
 		}
 
+		$infos['timezone'] = Piwik::isTimezoneSupportEnabled();
 		return $infos;
 	}
 

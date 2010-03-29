@@ -125,6 +125,7 @@ class Piwik_Actions extends Piwik_Plugin
 	public function archiveDay( $notification )
 	{
 		//TODO Actions should use integer based keys like other archive in piwik
+		/* @var $archiveProcessing Piwik_ArchiveProcessing */
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		$this->actionsTablesByType = array(
@@ -155,11 +156,12 @@ class Piwik_Actions extends Piwik_Plugin
 					FROM (".$archiveProcessing->logTable." as t1
 						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
 							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 ON (t2.idaction_url = t3.idaction)
-					WHERE visit_server_date = ?
+					WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
 						AND idsite = ?
 					GROUP BY t3.idaction
 					ORDER BY nb_hits DESC";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 
 		/*
@@ -173,11 +175,12 @@ class Piwik_Actions extends Piwik_Plugin
 					FROM (".$archiveProcessing->logTable." as t1
 						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
 							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 ON (t2.idaction_name = t3.idaction)
-					WHERE visit_server_date = ?
+					WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
 						AND idsite = ?
 					GROUP BY t3.idaction
 					ORDER BY nb_hits DESC";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 
 		/*
@@ -192,11 +195,12 @@ class Piwik_Actions extends Piwik_Plugin
 							sum(case visit_total_actions when 1 then 1 else 0 end) as entry_bounce_count
 					FROM ".$archiveProcessing->logTable." 
 						JOIN ".$archiveProcessing->logActionTable." ON (visit_entry_idaction_url = idaction)
-					WHERE visit_server_date = ?
+					WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
 						AND idsite = ?
 					GROUP BY visit_entry_idaction_url
 					";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 
@@ -210,11 +214,12 @@ class Piwik_Actions extends Piwik_Plugin
 							sum(case visit_total_actions when 1 then 1 else 0 end) as exit_bounce_count
 				 	FROM ".$archiveProcessing->logTable." 
 						JOIN ".$archiveProcessing->logActionTable." ON (visit_exit_idaction_url = idaction)
-				 	WHERE visit_server_date = ?
+				 	WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
 				 		AND idsite = ?
 				 	GROUP BY visit_exit_idaction_url
 					";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 		/*
@@ -226,11 +231,12 @@ class Piwik_Actions extends Piwik_Plugin
 					FROM (".$archiveProcessing->logTable." log_visit 
 						JOIN ".$archiveProcessing->logVisitActionTable." log_link_visit_action USING (idvisit))
 							JOIN ".$archiveProcessing->logActionTable."  log_action ON (log_action.idaction = log_link_visit_action.idaction_url_ref)
-					WHERE visit_server_date = ?
+					WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
 				 		AND idsite = ?
 				 	GROUP BY idaction_url_ref
 				";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		$this->archiveDayRecordInDatabase($archiveProcessing);
 	}

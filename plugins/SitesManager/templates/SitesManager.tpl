@@ -9,7 +9,26 @@
 {assign var=excludedIpHelp value=$excludedIpHelpPlain|inlineHelp}
 var excludedIpHelp = '{$excludedIpHelp|escape:javascript}';
 var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:javascript}';
+{capture assign=defaultTimezoneHelpPlain}
+	{if $timezoneSupported}
+		{'SitesManager_ChooseCityInSameTimezoneAsYou'|translate}
+	{else}
+		{'SitesManager_AdvancedTimezoneSupportNotFound'|translate}
+	{/if} <br /><br />{'SitesManager_UTCTimeIs'|translate:$utcTime}
+{/capture}
+
+{capture assign=timezoneHelpPlain}
+	{$defaultTimezoneHelpPlain}
+	<br /><br />{'SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward'|translate}
+{/capture}
+
+var timezoneHelp = '{$timezoneHelpPlain|inlineHelp|escape:javascript}';
+{assign var=defaultTimezoneHelp value=$defaultTimezoneHelpPlain|inlineHelp};
+var timezones = {$timezones};
+var defaultTimezone = '{$defaultTimezone}';
+var selectACity = '{'SitesManager_SelectCity'|translate}';
 </script>
+
 <script type="text/javascript" src="plugins/SitesManager/templates/SitesManager.js"></script>
 
 {literal}
@@ -29,17 +48,21 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 #editSites {
 	valign: top;
 }
+option, select {
+	font-size:11px;
+}
 </style>
 {/literal}
 
 <h2>{'SitesManager_WebsitesManagement'|translate}</h2>
 <p>{'SitesManager_MainDescription'|translate}
 {if $isSuperUser}
-<br/>{'SitesManager_SuperUserCanExcludeIpsOnAllWebsites'|translate:"<a href='#globalIpExclusion'>":"</a>"}.
+<br/>{'SitesManager_SuperUserCan'|translate:"<a href='#globalIpExclusion'>":"</a>":"<a href='#defaultTimezone'>":"</a>"}
 {/if}
 </p>
 {ajaxErrorDiv}
 {ajaxLoadingDiv}
+
 
 {if $adminSites|@count == 0}
 	{'SitesManager_NoWebsites'|translate}
@@ -51,6 +74,7 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 			<th>{'SitesManager_Name'|translate}</th>
 			<th>{'SitesManager_Urls'|translate}</th>
 			<th>{'SitesManager_ExcludedIps'|translate}</th>
+			<th>{'SitesManager_Timezone'|translate}</th>
 			<th> </th>
 			<th> </th>
 			<th> {'SitesManager_JsTrackingTag'|translate} </th>
@@ -63,6 +87,7 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 				<td id="siteName" class="editableSite">{$site.name}</td>
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url}<br />{/foreach}</td>       
 				<td id="excludedIps" class="editableSite">{foreach from=$site.excluded_ips item=ip}{$ip}<br />{/foreach}</td>       
+				<td id="timezone" class="editableSite">{$site.timezone}</td>       
 				<td><img src='plugins/UsersManager/images/edit.png' class="editSite" id="row{$i}" href='#' title="{'General_Edit'|translate}" /></td>
 				<td><img src='plugins/UsersManager/images/remove.png' class="deleteSite" id="row{$i}" title="{'General_Delete'|translate}" value="{'General_Delete'|translate}" /></td>
 				<td><a href='{url action=displayJavascriptCode idsite=$site.idsite}'>{'SitesManager_ShowTrackingTag'|translate}</a></td>
@@ -85,6 +110,19 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 	{$excludedIpHelp}
 	<input type="hidden" name="token_auth" value="{$token_auth}" />
 	<p><input type="submit" class="submit" id='globalExcludedIpsSubmit' value="{'General_Save'|translate}" /></p>
+	
+	
+	<a name='defaultTimezone'></a><h2>{'SitesManager_DefaultTimezone'|translate}</h2>
+	<p>{'SitesManager_SelectDefaultTimezone'|translate} 
+	{ajaxErrorDiv id=ajaxErrorDefaultTimezone}
+	{ajaxLoadingDiv id=ajaxLoadingDefaultTimezone}
+	<div id='defaultTimezone'></div>
+	<br/>
+	{$defaultTimezoneHelp}
+	<input type="hidden" name="token_auth" value="{$token_auth}" />
+	<p><input type="submit" class="submit" id='defaultTimezoneSubmit' value="{'General_Save'|translate}" /></p>
+	
+	
 {/if}
 
 <br /><br /><br /><br />
