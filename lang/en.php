@@ -68,6 +68,7 @@ $translations = array(
 	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s is a collaborative project. %3$s If you like Piwik, you can help! Check out %4$s How to participate in Piwik?%5$s ',
 	'General_YouAreCurrentlyViewingDemoOfPiwik' => 'You are currently viewing the demo of %1$s; %2$sdownload%3$s the full version! Check out %4$s',
 	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Piwik %1$s is available. %2$s Please update now!%3$s (see %4$s changes%5$s).',
+	'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin' => '%s is available. Please notify the site administrator.',
 	'General_BackToPiwik' => 'Back to Piwik',
 	'General_ShortMonth_1' => 'Jan',
 	'General_ShortMonth_2' => 'Feb',
