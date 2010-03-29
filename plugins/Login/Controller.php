@@ -22,10 +22,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 *
 	 * @returns string
 	 */
-	static public function getRefererToRedirect()
+	static public function getRefererToRedirect($var = 'form_url')
 	{
 		// retrieve any previously saved referer
-		$referer = Piwik_Common::getRequestVar('form_url', '', 'string');
+		$referer = Piwik_Common::getRequestVar($var, '', 'string');
 		if(!empty($referer))
 		{
 			return htmlspecialchars_decode($referer);
@@ -106,7 +106,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			throw new Exception("The Super User cannot be authenticated using this URL.");
 		}
 
-		$urlToRedirect = self::getRefererToRedirect();
+		$urlToRedirect = self::getRefererToRedirect('url');
 		$authenticated = $this->authenticateAndRedirect($login, $password, $urlToRedirect);
 		if($authenticated === false)
 		{
