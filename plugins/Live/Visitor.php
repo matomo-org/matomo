@@ -83,7 +83,7 @@ class Piwik_Live_Visitor
 
 	function getServerDate()
 	{
-		return date('Y-m-d', strtotime($this->details['visit_last_action_time']));
+		return $this->details['visit_server_date'];
 	}
 
 	function getIp()

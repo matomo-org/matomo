@@ -32,7 +32,8 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function widget($fetch = false)
 	{
 		$view = Piwik_View::factory('index');
-		$this->setGeneralVariablesView($view);
+//		$this->setGeneralVariablesView($view);
+		$view->idSite = Piwik_Common::getRequestVar('idSite');		
 		$view->visitorsCountHalfHour = $this->getUsersInLastXMin(30);
 		$view->visitorsCountToday = $this->getUsersInLastXDays(1);
 		$view->pisHalfhour = $this->getPageImpressionsInLastXMin(30);
@@ -124,7 +125,9 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function getLastVisitsStart($fetch = false)
 	{
 		$view = Piwik_View::factory('lastVisits');
-		$this->setGeneralVariablesView($view);
+//		$this->setGeneralVariablesView($view);
+		$view->idSite = Piwik_Common::getRequestVar('idSite');		
+		
 		$view->visitors = $this->getLastVisits(10);
 
 		$rendered = $view->render($fetch);
@@ -138,35 +141,35 @@ class Piwik_Live_Controller extends Piwik_Controller
 
 	public function getLastVisits($limit = 10)
 	{
-		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$this->idSite&limit=$limit&minIdVisit=$this->minIdVisit&format=php&serialize=0&disable_generic_filters=1");
+		$api = new Piwik_API_Request("method=Live.getLastVisits&idSite=$this->idSite&limit=$limit&format=php&serialize=0&disable_generic_filters=1");
 		$visitors = $api->process();
 
 		return $visitors;
 	}
 
 	public function getUsersInLastXMin($minutes = 30) {
-		$api = new Piwik_API_Request("method=Live.getUsersInLastXMin&idSite=".$this->idSite."&limit=10000&minIdVisit=".$this->minIdVisit."&minutes=".$minutes."&format=php&serialize=0&disable_generic_filters=1");
+		$api = new Piwik_API_Request("method=Live.getUsersInLastXMin&idSite=".$this->idSite."&minutes=".$minutes."&format=php&serialize=0&disable_generic_filters=1");
 		$visitors_halfhour = $api->process();
 
 		return count($visitors_halfhour);
 	}
 
 	public function getUsersInLastXDays($days = 1) {
-		$api = new Piwik_API_Request("method=Live.getUsersInLastXDays&idSite=$this->idSite&limit=50000&minIdVisit=$this->minIdVisit&days=$days&format=php&serialize=0&disable_generic_filters=1");
+		$api = new Piwik_API_Request("method=Live.getUsersInLastXDays&idSite=$this->idSite&days=$days&format=php&serialize=0&disable_generic_filters=1");
 		$visitors_today = $api->process();
 
 		return count($visitors_today);
 	}
 
 	public function getPageImpressionsInLastXMin($minutes = 30) {
-		$api = new Piwik_API_Request("method=Live.getPageImpressionsInLastXMin&idSite=$this->idSite&limit=10000&minIdVisit=$this->minIdVisit&minutes=$minutes&format=php&serialize=0&disable_generic_filters=1");
+		$api = new Piwik_API_Request("method=Live.getPageImpressionsInLastXMin&idSite=$this->idSite&minutes=$minutes&format=php&serialize=0&disable_generic_filters=1");
 		$pis_halfhour = $api->process();
 
 		return count($pis_halfhour);
 	}
 
 	public function getPageImpressionsInLastXDays($days = 1) {
-		$api = new Piwik_API_Request("method=Live.getPageImpressionsInLastXDays&idSite=$this->idSite&limit=50000&minIdVisit=$this->minIdVisit&days=$days&format=php&serialize=0&disable_generic_filters=1");
+		$api = new Piwik_API_Request("method=Live.getPageImpressionsInLastXDays&idSite=$this->idSite&days=$days&format=php&serialize=0&disable_generic_filters=1");
 		$pis_today = $api->process();
 
 		return count($pis_today);
@@ -175,12 +178,19 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function ajaxTotalVisitors($fetch = false)
 	{
 		$view = Piwik_View::factory('totalVisits');
-		$this->setGeneralVariablesView($view);
+//		$this->setGeneralVariablesView($view);
+		$view->idSite = Piwik_Common::getRequestVar('idSite');		
 		$view->visitorsCountHalfHour = $this->getUsersInLastXMin(30);
 		$view->visitorsCountToday = $this->getUsersInLastXDays(1);
 		$view->pisHalfhour = $this->getPageImpressionsInLastXMin(30);
 		$view->pisToday = $this->getPageImpressionsInLastXDays(1);
 
-		echo $view->render();
+		$rendered = $view->render($fetch);
+
+		if($fetch)
+		{
+			return $rendered;
+		}
+		echo $rendered;	
 	}
 }

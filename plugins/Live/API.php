@@ -221,7 +221,7 @@ class Piwik_Live_API
 	/*
 	 * @return Piwik_DataTable
 	 */
-	public function getUsersInLastXMin( $idSite = false, $limit = 10, $minIdVisit = false, $minutes = 30 )
+	public function getUsersInLastXMin( $idSite = false, $minutes = 30 )
 	{
 		if(is_null($idSite))
 		{
@@ -231,18 +231,15 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-//		$visitorDetails = $this->loadLastVisitorDetailsInLastXMinFromDatabase(null, $idSite, $limit, $minIdVisit, $minutes);
-		$visitorDetails = $this->loadLastVisitorInLastXTimeFromDatabase(null, $idSite, $limit, $minIdVisit, $minutes, 0, 1);
+		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes, 0, 1);
 
-		$table = $this->getCleanedVisitorsFromDetails($visitorDetails);
-
-		return $table;
+		return $visitorData;
 	}
 
 	/*
 	 * @return Piwik_DataTable
 	 */
-	public function getUsersInLastXDays( $idSite = false, $limit = 10, $minIdVisit = false, $days = 10 )
+	public function getUsersInLastXDays( $idSite = false, $days = 10 )
 	{
 
 		if(is_null($idSite))
@@ -253,20 +250,16 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-//		$visitorDetails = $this->loadLastVisitorDetailsInLastXDaysFromDatabase(null, $idSite, $limit, $minIdVisit, $days);
-		$visitorDetails = $this->loadLastVisitorInLastXTimeFromDatabase(null, $idSite, $limit, $minIdVisit, 0, $days, 1);
+		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, 0, $days, 1);
 
-		$table = $this->getCleanedVisitorsFromDetails($visitorDetails);
-
-		return $table;
+		return $visitorData;
 	}
 
 	/*
 	 * @return array
 	 */
-	public function getPageImpressionsInLastXDays($idSite = false, $limit = 10, $minIdVisit = false, $days = 10){
-		// for checking given vars
-		#echo $idSite.'|'.$limit.'|'.$minIdVisit.'|'.$days.'<br />';
+	public function getPageImpressionsInLastXDays($idSite = false, $days = 10)
+	{
 
 		if(is_null($idSite))
 		{
@@ -276,24 +269,16 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-//		$pageDetails = $this->loadLastVisitedPagesInLastXDaysFromDatabase(null, $idSite, $limit, $minIdVisit, $days);
-		$pageDetails = $this->loadLastVisitorInLastXTimeFromDatabase(null, $idSite, $limit, $minIdVisit, 0, $days, 2);
+		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, 0, $days, 2);
 
-		$i = -1;
-		foreach ($pageDetails as $detail) {
-			$i++;
-			if(strlen($pageDetails[$i]['name']) > 30) {
-				$pageDetails[$i]['name']  = substr($pageDetails[$i]['name'] , 0, 30 - 3).'...';
-			}
-		}
-
-		return $pageDetails;
+		return $visitorData;
 	}
 
 	/*
 	 * @return array
 	 */
-	public function getPageImpressionsInLastXMin($idSite = false, $limit = 10, $minIdVisit = false, $minutes = 30){
+	public function getPageImpressionsInLastXMin($idSite = false, $minutes = 30)
+	{
 
 		if(is_null($idSite))
 		{
@@ -303,34 +288,23 @@ class Piwik_Live_API
 		{
 			Piwik::checkUserHasViewAccess($idSite);
 		}
-//		$pageDetails = $this->loadLastVisitedPagesInLastXMinFromDatabase(null, $idSite, $limit, $minIdVisit, $minutes);
-		$pageDetails = $this->loadLastVisitorInLastXTimeFromDatabase(null, $idSite, $limit, $minIdVisit, $minutes, 0, 2);
+		$visitorData = $this->loadLastVisitorInLastXTimeFromDatabase($idSite, $minutes, 0, 2);
 
-		$i = -1;
-		foreach ($pageDetails as $detail) {
-			$i++;
-			if(strlen($pageDetails[$i]['name']) > 30) {
-				$pageDetails[$i]['name']  = substr($pageDetails[$i]['name'] , 0, 30 - 3).'...';
-			}
-		}
-		return $pageDetails;
+		return $visitorData;
 	}
 
 
 	/**
 	 * Load last Visitors PAGES or DETAILS in MINUTES or DAYS from database
 	 *
-	 * @param boolen $visitorId
-	 * @param boolen $idSite
-	 * @param int $limit int
-	 * @param int $minIdVisit
+	 * @param int $idSite
 	 * @param int $minutes
 	 * @param int $days
-	 * @param int $type 1 = DETAILS; 2 = PAGES
+	 * @param int $type 1 = VISITS; 2 = PAGEVIEWS
 	 *
 	 * @return mixed
 	 */
-	private function loadLastVisitorInLastXTimeFromDatabase($visitorId = null, $idSite = null, $limit = 1000, $minIdVisit = false, $minutes = 0, $days = 0, $type = 0 )
+	private function loadLastVisitorInLastXTimeFromDatabase($idSite = null,  $minutes = 0, $days = 0, $type = 0 )
 	{
 		$where = $whereBind = array();
 
@@ -338,18 +312,6 @@ class Piwik_Live_API
 		{
 			$where[] = " " . Piwik::prefixTable('log_visit') . ".`idsite` = ? ";
 			$whereBind[] = $idSite;
-		}
-
-		if(!is_null($visitorId))
-		{
-			$where[] = " `visitor_idcookie` = ? ";
-			$whereBind[] = $visitorId;
-		}
-
-		if(!is_null($minIdVisit))
-		{
-			$where[] = " " . Piwik::prefixTable('log_visit') . ".`idvisit` > ? ";
-			$whereBind[] = $minIdVisit;
 		}
 
 		if($minutes != 0)
@@ -373,33 +335,17 @@ class Piwik_Live_API
 		// Details
 		if($type == 1)
 		{
-			$sql = "SELECT 	" . Piwik::prefixTable('log_visit') . ".*
+			$sql = "SELECT 	" . Piwik::prefixTable('log_visit') . ".idvisit
 				FROM " . Piwik::prefixTable('log_visit') . "
 				$sqlWhere
-				ORDER BY idvisit DESC
-				LIMIT " . (int)$limit;
+				ORDER BY idvisit DESC";
 		 }
 		 // Pages
 		 elseif($type == 2)
 		 {
-		 	// different SELECT between $minutes & $days
-		 	if($minutes != 0)
-		 	{
-		 		$sql_select = "SELECT " . Piwik::prefixTable('log_link_visit_action') . ".`idaction_url`, " . Piwik::prefixTable('log_action') . ".`idaction`, " . Piwik::prefixTable('log_action') . ".`name` , " . Piwik::prefixTable('log_visit') . ".*";
-			}
-			elseif($days != 0)
-			{
-			    $sql_select = "SELECT " . Piwik::prefixTable('log_link_visit_action') . ".`idaction_url`, " . Piwik::prefixTable('log_action') . ".`idaction`, " . Piwik::prefixTable('log_action') . ".`name` , " . Piwik::prefixTable('log_link_visit_action') . ".*";
-			}
-			else
-			{
-				// neither $minutes nor $days --> ERROR
-				return false;
-			}
-
+	 		$sql_select = "SELECT " . Piwik::prefixTable('log_link_visit_action') . ".`idaction_url`";
 			$sql = $sql_select."
 				FROM " . Piwik::prefixTable('log_link_visit_action') . "
-				INNER JOIN " . Piwik::prefixTable('log_action') . " ON " . Piwik::prefixTable('log_link_visit_action') . ".`idaction_url`= " . Piwik::prefixTable('log_action') . ".`idaction`
 				INNER JOIN " . Piwik::prefixTable('log_visit') . " ON " . Piwik::prefixTable('log_visit') . ".`idvisit` = " . Piwik::prefixTable('log_link_visit_action') . ".`idvisit`
 				$sqlWhere";
 		 }
