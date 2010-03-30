@@ -93,20 +93,16 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 h2 {
 	border-bottom-color:#DADADA;
 	color:#666666;
-	-x-system-font:none;
 	border-bottom-style:solid;
 	border-bottom-width:1px;
 	clear:both;
 	font-family:Georgia,"Times New Roman",Times,serif;
 	font-size:24px;
 	font-size-adjust:none;
-	font-stretch:normal;
 	font-style:normal;
-	font-variant:normal;
 	font-weight:normal;
-	line-height:normal;
 	margin:5px 0pt 0pt -4px;
-	padding:0pt 280px 7px 0pt;
+	padding:0pt 0px 7px 0pt;
 }
 
 p {

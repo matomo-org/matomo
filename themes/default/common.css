@@ -92,6 +92,8 @@ a {
 	padding:5px;
 	font-weight:bold; 
 	right:10px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
 }
 #header_message, #header_message a { 
 	color:#FF7F00; 
@@ -192,5 +194,13 @@ input.submit {
 /* extending the jquery UI css for inline help */
 .ui-widget { 
 	text-align:justify;
+	display:inline;
+}
+
+.ui-inline-help {
+	width:200px;
+	margin-top:20px; 
+	padding:0 0.7em; 
+	
 }
 
