@@ -86,14 +86,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	 */
 	public function saveLayout()
 	{
+		$this->checkTokenInUrl();
 		$layout = Piwik_Common::getRequestVar('layout');
 		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
 		$currentUser = Piwik::getCurrentUserLogin();
-
-		if(Piwik_Common::getRequestVar('token_auth', false ) != Piwik::getCurrentUserTokenAuth()) 
-		{
-			return;
-		}
 		if($currentUser == 'anonymous')
 		{
 			$session = new Zend_Session_Namespace("Piwik_Dashboard");

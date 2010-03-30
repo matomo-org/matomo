@@ -512,20 +512,30 @@ class Piwik
 		return Piwik_Common::isPhpCliMode();
 	}
 	
-	static public function getCurrency()
+	static public function getCurrency($idSite)
 	{
-		static $symbol = null;
-		if(is_null($symbol))
+		static $symbols = null;
+		if(is_null($symbols))
 		{
-			$symbol = trim(Zend_Registry::get('config')->General->default_currency);
+			$symbols = Piwik_SitesManager_API::getInstance()->getCurrencySymbols();
 		}
-		return $symbol;
+		$site = new Piwik_Site($idSite);
+		return $symbols[$site->getCurrency()];
 	}
 
-	static public function getPrettyMoney($value)
+	static public function getPrettyMoney($value, $idSite)
 	{
-		$symbol = self::getCurrency();
-		return sprintf("$symbol%.2f", $value);
+		$currencyBefore = self::getCurrency($idSite);
+		$currencyAfter = '';
+		
+		// manually put the currency symbol after the amount for euro 
+		// (maybe more currencies prefer this notation?)
+		if(in_array($currencyBefore,array('€'))) 
+		{
+			$currencyAfter = '&nbsp;'.$currencyBefore;
+			$currencyBefore = '';
+		}
+		return sprintf("$currencyBefore&nbsp;%s$currencyAfter", $value);
 	}
 	
 	static public function getPercentageSafe($dividend, $divisor, $precision = 0)
@@ -630,8 +640,9 @@ class Piwik
 						  name VARCHAR(90) NOT NULL,
 						  main_url VARCHAR(255) NOT NULL,
   						  ts_created TIMESTAMP NULL,
-  						  excluded_ips TEXT NOT NULL,
   						  timezone VARCHAR( 50 ) NOT NULL,
+  						  currency CHAR( 3 ) NOT NULL,
+  						  excluded_ips TEXT NOT NULL,
 						  PRIMARY KEY(idsite)
 						)  DEFAULT CHARSET=utf8 
 			",

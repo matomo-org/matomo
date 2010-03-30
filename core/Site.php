@@ -36,6 +36,7 @@ class Piwik_Site
 				 url = ". $this->getMainUrl() .",
 				 IPs excluded = ".$this->getExcludedIps().",
 				 timezone = ".$this->getTimezone().",
+				 currency = ".$this->getCurrency().",
 				 creation date = ".$this->getCreationDate();
 	}
 	
@@ -59,10 +60,15 @@ class Piwik_Site
 		$date = self::$infoSites[$this->id]['ts_created'];
 		return Piwik_Date::factory($date);
 	}
-	
+
 	function getTimezone()
 	{
 		return self::$infoSites[$this->id]['timezone'];
+	}
+	
+	function getCurrency()
+	{
+		return self::$infoSites[$this->id]['currency'];
 	}
 	
 	function getExcludedIps()

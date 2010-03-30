@@ -22,11 +22,17 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 	<br /><br />{'SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward'|translate}
 {/capture}
 
+{capture assign=currencyHelpPlain}
+	{'SitesManager_CurrencySymbolWillBeUsedForGoals'|translate|inlineHelp}
+{/capture}
+
 var timezoneHelp = '{$timezoneHelpPlain|inlineHelp|escape:javascript}';
+var currencyHelp = '{$currencyHelpPlain|escape:javascript}';
 {assign var=defaultTimezoneHelp value=$defaultTimezoneHelpPlain|inlineHelp};
 var timezones = {$timezones};
+var currencies = {$currencies};
 var defaultTimezone = '{$defaultTimezone}';
-var selectACity = '{'SitesManager_SelectCity'|translate}';
+var defaultCurrency = '{$defaultCurrency}';
 </script>
 
 <script type="text/javascript" src="plugins/SitesManager/templates/SitesManager.js"></script>
@@ -51,13 +57,20 @@ var selectACity = '{'SitesManager_SelectCity'|translate}';
 option, select {
 	font-size:11px;
 }
+
+.globalSettings td {
+vertical-align:top;
+}
+.globalSettings .ui-inline-help {
+margin-top:0;
+}
 </style>
 {/literal}
 
 <h2>{'SitesManager_WebsitesManagement'|translate}</h2>
 <p>{'SitesManager_MainDescription'|translate}
 {if $isSuperUser}
-<br/>{'SitesManager_SuperUserCan'|translate:"<a href='#globalIpExclusion'>":"</a>":"<a href='#defaultTimezone'>":"</a>"}
+<br/>{'SitesManager_SuperUserCan'|translate:"<a href='#globalSettings'>":"</a>"}
 {/if}
 </p>
 {ajaxErrorDiv}
@@ -75,6 +88,7 @@ option, select {
 			<th>{'SitesManager_Urls'|translate}</th>
 			<th>{'SitesManager_ExcludedIps'|translate}</th>
 			<th>{'SitesManager_Timezone'|translate}</th>
+			<th>{'SitesManager_Currency'|translate}</th>
 			<th> </th>
 			<th> </th>
 			<th> {'SitesManager_JsTrackingTag'|translate} </th>
@@ -88,6 +102,7 @@ option, select {
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url}<br />{/foreach}</td>       
 				<td id="excludedIps" class="editableSite">{foreach from=$site.excluded_ips item=ip}{$ip}<br />{/foreach}</td>       
 				<td id="timezone" class="editableSite">{$site.timezone}</td>       
+				<td id="currency" class="editableSite">{$site.currency}</td>       
 				<td><img src='plugins/UsersManager/images/edit.png' class="editSite" id="row{$i}" href='#' title="{'General_Edit'|translate}" /></td>
 				<td><img src='plugins/UsersManager/images/remove.png' class="deleteSite" id="row{$i}" title="{'General_Delete'|translate}" value="{'General_Delete'|translate}" /></td>
 				<td><a href='{url action=displayJavascriptCode idsite=$site.idsite}'>{'SitesManager_ShowTrackingTag'|translate}</a></td>
@@ -101,28 +116,46 @@ option, select {
 {/if}
 
 {if $isSuperUser}	
-	<a name='globalIpExclusion'></a><h2>{'SitesManager_GlobalListExcludedIps'|translate}</h2>
-	<p>{'SitesManager_ListOfIpsToBeExcludedOnAllWebsites'|translate} </p>
-	{ajaxErrorDiv id=ajaxErrorExcludedIps}
-	{ajaxLoadingDiv id=ajaxLoadingExcludedIps}
-	<textarea cols="30" rows="3" id="globalExcludedIps">{$globalExcludedIps}
-	</textarea><br/>
-	{$excludedIpHelp}
-	<input type="hidden" name="token_auth" value="{$token_auth}" />
-	<p><input type="submit" class="submit" id='globalExcludedIpsSubmit' value="{'General_Save'|translate}" /></p>
-	
-	
-	<a name='defaultTimezone'></a><h2>{'SitesManager_DefaultTimezone'|translate}</h2>
-	<p>{'SitesManager_SelectDefaultTimezone'|translate} 
-	{ajaxErrorDiv id=ajaxErrorDefaultTimezone}
-	{ajaxLoadingDiv id=ajaxLoadingDefaultTimezone}
-	<div id='defaultTimezone'></div>
+<br/>
+	<a name='globalSettings'></a>
+	<h2>{'SitesManager_GlobalWebsitesSettings'|translate}</h2>
 	<br/>
-	{$defaultTimezoneHelp}
-	<input type="hidden" name="token_auth" value="{$token_auth}" />
-	<p><input type="submit" class="submit" id='defaultTimezoneSubmit' value="{'General_Save'|translate}" /></p>
-	
-	
+	{ajaxErrorDiv id=ajaxErrorGlobalSettings}
+	{ajaxLoadingDiv id=ajaxLoadingGlobalSettings}
+	<table width='600px' class='globalSettings'>
+		
+		<tr><td colspan="2">
+				<b>{'SitesManager_GlobalListExcludedIps'|translate}</b>
+				<p>{'SitesManager_ListOfIpsToBeExcludedOnAllWebsites'|translate} </p>
+			</td></tr>
+			<tr><td>
+			<textarea cols="30" rows="3" id="globalExcludedIps">{$globalExcludedIps}
+</textarea>
+			</td><td>
+				{$excludedIpHelp}
+		</td></tr>
+		
+		<tr><td colspan="2">
+				<b>{'SitesManager_DefaultTimezone'|translate}</b>
+				<p>{'SitesManager_SelectDefaultTimezone'|translate} </p>
+			</td></tr>
+			<tr><td>
+				<div id='defaultTimezone'></div>
+			</td><td>
+				{$defaultTimezoneHelp}
+		</td></tr>
+		
+		<tr><td colspan="2">
+				<b>{'SitesManager_DefaultCurrency'|translate}</b>
+				<p>{'SitesManager_SelectDefaultCurrency'|translate} </p>
+			</td></tr>
+			<tr><td>
+				<div id='defaultCurrency'></div>
+			</td><td>
+				{$currencyHelpPlain}
+		</td></tr>
+	</table>
+	<p><input type="submit" class="submit" id='globalSettingsSubmit' value="{'General_Save'|translate}" /></p>
 {/if}
 
 <br /><br /><br /><br />

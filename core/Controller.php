@@ -188,7 +188,6 @@ abstract class Piwik_Controller
 		$paramDate = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
 		
 		$params = array_merge($paramsToSet , array(	'date' => $paramDate ) );
-		
 		return $params;
 	}
 	
@@ -367,5 +366,18 @@ abstract class Piwik_Controller
 	protected function getDefaultPeriod()
 	{
 		return Zend_Registry::get('config')->General->default_period;
+	}
+	
+	/**
+	 * Checks that the specified token matches the current logged in user token
+	 * Protection against CSRF
+	 * 
+	 * @return throws exception if token doesn't match
+	 */
+	protected function checkTokenInUrl()
+	{
+		if(Piwik_Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
+			throw new Piwik_Access_NoAccessException('Token is not valid.');
+		}
 	}
 }
