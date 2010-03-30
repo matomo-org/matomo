@@ -24,7 +24,8 @@ function getAddSiteAJAX( row )
 	var urls = getApiFormatUrls(urls);
 	var excludedIps = $(row).find('textarea#siteadd_excludedIps').val();
 	excludedIps = getApiFormatExcludedIps(excludedIps);
-	var timezone = encodeURIComponent($(row).find('option:selected').val());
+	var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
+	var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
 	
 	var request = '';
 	request += '&module=API';
@@ -33,6 +34,7 @@ function getAddSiteAJAX( row )
 	siteName = encodeURIComponent(siteName);
 	request += '&siteName='+siteName;
 	request += '&timezone='+timezone;
+	request += '&currency='+currency;
 	request += '&excludedIps='+excludedIps;
 	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
  	request += '&token_auth=' + piwik.token_auth;
@@ -61,7 +63,8 @@ function getUpdateSiteAJAX( row )
 	urls = getApiFormatUrls(urls);
 	var excludedIps = $(row).find('textarea#excludedIps').val();
 	excludedIps = getApiFormatExcludedIps(excludedIps);
-	var timezone = encodeURIComponent($(row).find('option:selected').val());
+	var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
+	var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
 	var request = '';
 	request += '&module=API';
 	request += '&format=json';
@@ -70,6 +73,7 @@ function getUpdateSiteAJAX( row )
 	request += '&siteName='+siteName;
 	request += '&idSite='+idSite;
 	request += '&timezone='+timezone;
+	request += '&currency='+currency;
 	request += '&excludedIps='+excludedIps;
 	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
  	request += '&token_auth=' + piwik.token_auth;
@@ -79,29 +83,19 @@ function getUpdateSiteAJAX( row )
 	return ajaxRequest;
 }
 
-function getDefaultTimezoneAJAX()
+function getGlobalSettingsAJAX()
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingDefaultTimezone', 'ajaxErrorDefaultTimezone');
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingGlobalSettings', 'ajaxErrorGlobalSettings');
 	var timezone = encodeURIComponent($('#defaultTimezone option:selected').val());
-	var request = '';
-	request += '&module=API';
-	request += '&format=json';
-	request += '&method=SitesManager.setDefaultTimezone';
-	request += '&defaultTimezone='+timezone;
- 	request += '&token_auth=' + piwik.token_auth;
-	ajaxRequest.data = request;
-	return ajaxRequest;
-}
-
-function getSetGlobalExcludedIpsAJAX()
-{
-	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingExcludedIps', 'ajaxErrorExcludedIps');
+	var currency = encodeURIComponent($('#defaultCurrency option:selected').val());
 	var excludedIps = $('textarea#globalExcludedIps').val();
 	excludedIps = getApiFormatExcludedIps(excludedIps);
 	var request = '';
-	request += '&module=API';
+	request += 'module=SitesManager';
+	request += '&action=setGlobalSettings';
 	request += '&format=json';
-	request += '&method=SitesManager.setGlobalExcludedIps';
+	request += '&timezone='+timezone;
+	request += '&currency='+currency;
 	request += '&excludedIps='+excludedIps;
  	request += '&token_auth=' + piwik.token_auth;
 	ajaxRequest.data = request;
@@ -118,10 +112,11 @@ $(document).ready( function() {
 	
 		$(' <tr id="'+newRowId+'">\
 				<td>&nbsp;</td>\
-				<td><input id="siteadd_name" value="Name" size="25" /></td>\
-				<td><textarea cols="30" rows="3" id="siteadd_urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
-				<td><textarea cols="30" rows="3" id="siteadd_excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
+				<td><input id="siteadd_name" value="Name" size="15" /></td>\
+				<td><textarea cols="25" rows="3" id="siteadd_urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
+				<td><textarea cols="20" rows="4" id="siteadd_excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
 				<td>'+getTimezoneSelector(defaultTimezone)+'<br />' + timezoneHelp + '</td>\
+				<td>'+getCurrencySelector(defaultCurrency)+'<br />' + currencyHelp + '</td>\
 				<td><img src="plugins/UsersManager/images/ok.png" class="addsite" href="#" /></td>\
 	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel" /></td>\
 	 		</tr>')
@@ -160,20 +155,20 @@ $(document).ready( function() {
 					var idName = $(n).attr('id');
 					if(idName == 'siteName')
 					{
-						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25" />';
+						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="15" />';
 						$(n)
 							.html(contentAfter)
 							.keypress( submitSiteOnEnter );
 					}
 					if(idName == 'urls')
 					{
-						var contentAfter = '<textarea cols="30" rows="3" id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
+						var contentAfter = '<textarea cols="25" rows="3" id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
 						contentAfter += '<br />'+aliasUrlsHelp;
 						$(n).html(contentAfter);
 					}
 					if(idName == 'excludedIps')
 					{
-						var contentAfter = '<textarea cols="30" rows="3" id="excludedIps">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
+						var contentAfter = '<textarea cols="20" rows="4" id="excludedIps">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
 						contentAfter += '<br />'+excludedIpHelp;
 						$(n).html(contentAfter);
 					}
@@ -181,6 +176,12 @@ $(document).ready( function() {
 					{
 						var contentAfter = getTimezoneSelector(contentBefore);
 						contentAfter += '<br />' + timezoneHelp;
+						$(n).html(contentAfter);
+					}
+					if(idName == 'currency')
+					{
+						var contentAfter = getCurrencySelector(contentBefore);
+						contentAfter += '<br />' + currencyHelp;
 						$(n).html(contentAfter);
 					}
 				}
@@ -194,15 +195,12 @@ $(document).ready( function() {
 		}
 	);
 	
-	$('#globalExcludedIpsSubmit').click( function() {
-		$.ajax( getSetGlobalExcludedIpsAJAX() );
+	$('#globalSettingsSubmit').click( function() {
+		$.ajax( getGlobalSettingsAJAX() );
 	});
 
 	$('#defaultTimezone').html( getTimezoneSelector(defaultTimezone));
-	
-	$('#defaultTimezoneSubmit').click( function() {
-		$.ajax( getDefaultTimezoneAJAX() );
-	});
+	$('#defaultCurrency').html( getCurrencySelector(defaultCurrency));
 	
 	$('td.editableSite').click( function(){ $(this).parent().find('.editSite').click(); } );
 });
@@ -210,10 +208,6 @@ $(document).ready( function() {
 function getTimezoneSelector(selectedTimezone)
 {
 	var html = '<select id="timezones">';
-	if(!selectedTimezone)
-	{
-		html += '<option selected="selected" value="'+selectACity+'">'+selectACity+'</option>';
-	}
 	for(var continent in timezones) {
 		html += '<optgroup label="' + continent + '">';
 		for(var timezoneId in timezones[continent]) {
@@ -229,6 +223,20 @@ function getTimezoneSelector(selectedTimezone)
 	return html;
 }
 
+
+function getCurrencySelector(selectedCurrency)
+{
+	var html = '<select id="currencies">';
+	for(var currency in currencies) {
+		var selected = '';
+		if(currency == selectedCurrency) {
+			selected = ' selected="selected" ';
+		}
+		html += '<option ' + selected + ' value="'+ currency + '">' + currencies[currency] + '</option>';
+	}
+	html += '</select>';
+	return html;
+}
 
 function submitSiteOnEnter(e)
 {

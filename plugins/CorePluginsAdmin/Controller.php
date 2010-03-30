@@ -48,13 +48,6 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
-	private function checkTokenInUrl()
-	{
-		if(Piwik_Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
-			throw new Piwik_Access_NoAccessException('Token is not valid.');
-		}
-	}
-	
 	function deactivate()
 	{
 		Piwik::checkUserIsSuperUser();

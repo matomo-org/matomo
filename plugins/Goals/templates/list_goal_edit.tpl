@@ -14,7 +14,7 @@
 		<td>{$goal.idgoal}</td>
 		<td>{$goal.name}</td>
         <td><span class='matchAttribute'>{$goal.match_attribute}</span> {if isset($goal.pattern_type)}<br />{'Goals_Pattern'|translate} {$goal.pattern_type}: {$goal.pattern}</b>{/if}</td>
-		<td>{if $goal.revenue==0}-{else}{$currency}{$goal.revenue}{/if}</td>
+		<td>{if $goal.revenue==0}-{else}{$goal.revenue|money:$idSite}{/if}</td>
 		<td><a href='#' name="linkEditGoal" id="{$goal.idgoal}"><img src='plugins/UsersManager/images/edit.png' border="0" /> {'General_Edit'|translate}</a></td>
 		<td><a href='#' name="linkDeleteGoal" id="{$goal.idgoal}"><img src='plugins/UsersManager/images/remove.png' border="0" /> {'General_Delete'|translate}</a></td>
 	</tr>

@@ -35,7 +35,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$goalDefinition = $this->goals[$idGoal];
 		
 		$view = Piwik_View::factory('single_goal');
-		$view->currency = Piwik::getCurrency();
+		$this->setGeneralVariablesView($view);
 		$goal = $this->getMetricsForGoal($idGoal);
 		foreach($goal as $name => $value)
 		{
@@ -118,7 +118,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	function index()
 	{
 		$view = Piwik_View::factory('overview');
-		$view->currency = Piwik::getCurrency();
+		$this->setGeneralVariablesView($view);
 		
 		$view->title = 'All goals - evolution';
 		$view->graphEvolution = $this->getEvolutionGraph(true, array(Piwik_Goals::getRecordName('nb_conversions')));
@@ -153,8 +153,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	function addNewGoal()
 	{
 		$view = Piwik_View::factory('add_new_goal');
+		$this->setGeneralVariablesView($view);
 		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
-		$view->currency = Piwik::getCurrency();
 		$view->onlyShowAddNewGoal = true;
 		echo $view->render();
 	}

@@ -33,6 +33,7 @@ class Piwik_SitesManager_API
 	
 	const OPTION_EXCLUDED_IPS_GLOBAL = 'SitesManager_ExcludedIpsGlobal';
 	const OPTION_DEFAULT_TIMEZONE = 'SitesManager_DefaultTimezone';
+	const OPTION_DEFAULT_CURRENCY = 'SitesManager_DefaultCurrency';
 	
 	/**
 	 * Returns the javascript tag for the given idSite.
@@ -226,7 +227,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return int the website ID created
 	 */
-	public function addSite( $siteName, $urls, $excludedIps = null, $timezone = null )
+	public function addSite( $siteName, $urls, $excludedIps = null, $timezone = null, $currency = null )
 	{
 		Piwik::checkUserIsSuperUser();
 		
@@ -242,6 +243,12 @@ class Piwik_SitesManager_API
 		}
 		$this->checkValidTimezone($timezone);
 		
+		if(empty($currency))
+		{
+			$currency = $this->getDefaultCurrency();
+		}
+		$this->checkValidCurrency($currency);
+		
 		$db = Zend_Registry::get('db');
 		
 		$url = $urls[0];
@@ -254,6 +261,7 @@ class Piwik_SitesManager_API
 	
 		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
 		$bind['timezone'] = $timezone;
+		$bind['currency'] = $currency;
 		$db->insert(Piwik::prefixTable("site"), $bind);
 									
 		$idSite = $db->lastInsertId();
@@ -339,6 +347,14 @@ class Piwik_SitesManager_API
 		throw new Exception('The timezone "'.$timezone.'" is not valid. Please enter a valid timezone.');
 	}
 	
+	private function checkValidCurrency($currency)
+	{
+		if(!in_array($currency, array_keys($this->getCurrencyList())))
+		{
+			throw new Exception('The currency "'.$currency.'" is not valid. Please enter a valid currency symbol (USD, EUR, etc.)');
+		}
+	}
+	
 	/**
 	 * Checks that the submitted IPs (comma separated list) are valid
 	 * Returns the cleaned up IPs
@@ -411,6 +427,36 @@ class Piwik_SitesManager_API
 	}
 	
 	/**
+	 * Returns the default currency that will be set when creating a website through the API.
+	 * 
+	 * @return string Currency ID eg. 'USD'
+	 */
+	public function getDefaultCurrency()
+	{
+		Piwik::checkUserIsSuperUser();
+		$defaultCurrency = Piwik_GetOption(self::OPTION_DEFAULT_CURRENCY);
+		if($defaultCurrency)
+		{
+			return $defaultCurrency;
+		}
+		return 'USD';
+	}
+	
+	/**
+	 * Sets the default currency that will be used when creating websites
+	 * 
+	 * @param $defaultCurrency string eg. 'USD'
+	 * @return bool
+	 */
+	public function setDefaultCurrency($defaultCurrency)
+	{
+		Piwik::checkUserIsSuperUser();
+		$this->checkValidCurrency($defaultCurrency);
+		Piwik_SetOption(self::OPTION_DEFAULT_CURRENCY, $defaultCurrency);
+		return true;
+	}
+	
+	/**
 	 * Returns the default timezone that will be set when creating a website through the API.
 	 * Via the UI, if the default timezone is not UTC, it will be pre-selected in the drop down
 	 * 
@@ -430,7 +476,7 @@ class Piwik_SitesManager_API
 	/**
 	 * Sets the default timezone that will be used when creating websites
 	 * 
-	 * @param $timezone string eg. Europe/Paris or UTC+8
+	 * @param $defaultTimezone string eg. Europe/Paris or UTC+8
 	 * @return bool
 	 */
 	public function setDefaultTimezone($defaultTimezone)
@@ -456,7 +502,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return bool true on success
 	 */
-	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null, $timezone = null)
+	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null, $timezone = null, $currency = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
@@ -474,7 +520,13 @@ class Piwik_SitesManager_API
 			
 			$bind['main_url'] = $url;
 		}
-		
+
+		if(!is_null($currency))
+		{
+			$currency = trim($currency);
+			$this->checkValidCurrency($currency);
+			$bind['currency'] = $currency;
+		}
 		if(!is_null($timezone))
 		{
 			$timezone = trim($timezone);
@@ -498,6 +550,77 @@ class Piwik_SitesManager_API
 		}
 		$this->postUpdateWebsite($idSite);
 	}
+	
+	/**
+	 * Returns the list of supported currencies 
+	 * @see getCurrencySymbols()
+	 * @return array ( currencyId => currencyName)
+	 */
+	public function getCurrencyList()
+	{
+		return array(
+    		'USD' => 'US Dollar ($)',
+            'EUR' => 'Euro (€)',
+            'JPY' => 'Japanese Yen (¥)',
+            'GBP' => 'British Pound Sterling (K£)',
+            'AUD' => 'Australian Dollar (A$)',
+            'KRW' => 'South Korean Won (₩)',
+            'BRL' => 'Brazilian Real (R$)',
+            'CNY' => 'Chinese Yuan Renminbi (CN¥)',
+            'DKK' => 'Danish Krone (Dkr)',
+            'RUB' => 'Russian Ruble (RUB)',
+            'SEK' => 'Swedish Krona (Skr)',
+            'NOK' => 'Norwegian Krone (Nkr)',
+            'PLN' => 'Polish Zloty (zł)',
+            'TRY' => 'Turkish Lira (TL)',
+            'TWD' => 'New Taiwan Dollar (NT$)',
+            'HKD' => 'Hong Kong Dollar (HK$)',
+            'THB' => 'Thai Baht (฿)',
+            'IDR' => 'Indonesian Rupiah (Rp)',
+            'ARS' => 'Argentine Peso (AR$)',
+            'MXN' => 'Mexican Peso (MXN)',
+            'VND' => 'Vietnamese Dong (₫)',
+            'PHP' => 'Philippine Peso (Php)',
+            'INR' => 'Indian Rupee (Rs.)',
+            'CHF' => 'Swiss Franc (Fr.)',
+		);
+	}
+	
+	/**
+	 * Returns the list of currency symbols
+	 * @see getCurrencyList()
+	 * @return array( currencyId => currencySymbol )
+	 */
+	public function getCurrencySymbols()
+	{
+		return array(
+    		'USD' => '$',
+            'EUR' => '€',
+            'JPY' => '¥',
+            'GBP' => 'UK£',
+            'AUD' => 'A$',
+            'KRW' => '₩',
+            'BRL' => 'R$',
+            'CNY' => 'CN¥',
+            'DKK' => 'Dkr',
+            'RUB' => 'RUB',
+            'SEK' => 'Skr',
+            'NOK' => 'Nkr',
+            'PLN' => 'zł',
+            'TRY' => 'TL',
+            'TWD' => 'NT$',
+            'HKD' => 'HK$',
+            'THB' => '฿',
+            'IDR' => 'Rp',
+            'ARS' => 'AR$',
+            'MXN' => 'MXN',
+            'VND' => '₫',
+            'PHP' => 'Php',
+            'INR' => 'Rs.',
+            'CHF' => 'Fr.',
+		);
+	}
+	
 	
 	/**
 	 * Returns the list of timezones supported. 

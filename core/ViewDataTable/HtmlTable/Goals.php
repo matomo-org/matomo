@@ -23,6 +23,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	
 	public function main()
 	{
+		$this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
 		$this->viewProperties['show_exclude_low_population'] = true;
 		$this->viewProperties['show_goals'] = true;
 		$this->setColumnsToDisplay( array(	'label', 
@@ -49,7 +50,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 
 	private function getIdSite()
 	{
-		return Piwik_Common::getRequestVar('idSite', null, 'int');
+		return $this->idSite;
 	}
 	
 	public function setColumnsToDisplay($columnsNames)
@@ -86,6 +87,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		{
 			$this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$rate', 'return $rate."%";')));
 		}
-		$this->dataTable->filter('ColumnCallbackReplace', array('revenue_per_visit', array("Piwik", "getPrettyMoney")));
+		$this->dataTable->filter('ColumnCallbackReplace', array('revenue_per_visit', create_function('$value', 'return sprintf("%.1f",$value);')));
+		$this->dataTable->filter('ColumnCallbackReplace', array('revenue_per_visit', array("Piwik", "getPrettyMoney"), array($this->getIdSite())));
 	}
 }

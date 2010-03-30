@@ -9,7 +9,8 @@
 	{'Goals_Conversions'|translate:"<strong>$nb_conversions</strong>"}</div>
 	{if $revenue != 0 }
 		<div class="sparkline">{sparkline src=$urlSparklineRevenue}
-		{'Goals_OverallRevenue'|translate:"<strong>$currency$revenue</strong>"}</div>
+		{assign var=revenue value=$revenue|money:$idSite}
+		{'Goals_OverallRevenue'|translate:"<strong>$revenue</strong>"}</div>
 	{/if}
 </div>
 <div id='rightcolumn'>

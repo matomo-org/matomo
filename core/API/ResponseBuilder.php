@@ -19,7 +19,7 @@ class Piwik_API_ResponseBuilder
 	private $request = null;
 	private $outputFormat = null;
 	
-	public function __construct($request, $outputFormat)
+	public function __construct($outputFormat, $request = array())
 	{
 		$this->request = $request;
 		$this->outputFormat = $outputFormat;
@@ -49,11 +49,17 @@ class Piwik_API_ResponseBuilder
 	 * 
 	 * @throws Exception If an object/resource is returned, if any of conversion fails, etc. 
 	 * 
-	 * @param mixed The initial returned value, before post process
+	 * @param mixed The initial returned value, before post process. If set to null, success response is returned. 
 	 * @return mixed Usually a string, but can still be a PHP data structure if the format requested is 'original'
 	 */
-	public function getResponse($value)
+	public function getResponse($value = null)
 	{ 
+		// when null or void is returned from the api call, we handle it as a successful operation 
+		if(!isset($value))
+		{
+			return $this->handleSuccess();
+		}
+		
 		// If the returned value is an object DataTable we
 		// apply the set of generic filters if asked in the URL
 		// and we render the DataTable according to the format specified in the URL
@@ -71,12 +77,6 @@ class Piwik_API_ResponseBuilder
 		if(is_array($value))
 		{
 			return $this->handleArray($value);
-		}
-		
-		// when null or void is returned from the api call, we handle it as a successful operation 
-		if(!isset($value))
-		{
-			return $this->handleSuccess();
 		}
 		
 		// original data structure requested, we return without process

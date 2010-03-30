@@ -34,15 +34,38 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		}
 		$view->timezoneSupported = Piwik::isTimezoneSupportEnabled();
 		$view->timezones = json_encode($timezones);
+		$view->defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
+
+		$view->currencies = json_encode(Piwik_SitesManager_API::getInstance()->getCurrencyList());
+		$view->defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
+
 		$view->utcTime = Piwik_Date::now()->getDatetime();
 		$excludedIpsGlobal = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
 		$view->globalExcludedIps = str_replace(',',"\n", $excludedIpsGlobal);
-		$view->defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
 		$view->currentIpAddress = Piwik_Common::getIpString();
 
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
+	}
+	
+	function setGlobalSettings()
+	{
+		$response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
+		
+		try {
+    		$this->checkTokenInUrl();
+    		$timezone = Piwik_Common::getRequestVar('timezone', false);
+    		$excludedIps = Piwik_Common::getRequestVar('excludedIps', false);
+    		$currency = Piwik_Common::getRequestVar('currency', false);
+    		Piwik_SitesManager_API::getInstance()->setDefaultTimezone($timezone);
+    		Piwik_SitesManager_API::getInstance()->setDefaultCurrency($currency);
+    		Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIps);
+			$toReturn = $response->getResponse();
+		} catch(Exception $e ) {
+			$toReturn = $response->getResponseException( $e );
+		}
+		echo $toReturn;
 	}
 	
 	function displayJavascriptCode()

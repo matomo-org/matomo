@@ -87,7 +87,7 @@ class Piwik_API_Request
 		$outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'xml', 'string', $this->request));
 		
 		// create the response
-		$response = new Piwik_API_ResponseBuilder($this->request, $outputFormat);
+		$response = new Piwik_API_ResponseBuilder($outputFormat, $this->request);
 		
 		try {
 			// read parameters

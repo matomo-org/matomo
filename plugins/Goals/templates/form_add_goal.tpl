@@ -64,7 +64,7 @@
 	<tbody>
 		<tr>
             <td>(optional) {'Goals_DefaultRevenue'|translate}</td>
-			<td>{$currency} <input type="text" name="revenue" size="1" value="0" />
+			<td>{'<input type="text" name="revenue" size="1" value="0" />'|money:$idSite}
             <div class="goalInlineHelp"> {'Goals_DefaultRevenueHelp'|translate} </div>
 			</td>
 		</tr>

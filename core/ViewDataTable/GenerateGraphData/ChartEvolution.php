@@ -28,11 +28,11 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		$this->view = new Piwik_Visualization_Chart_Evolution();
 	}
 	
-	protected function guessUnitFromRequestedColumnNames($requestedColumnNames)
+	protected function guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite)
 	{
 		$nameToUnit = array(
 			'_rate' => '%',
-			'_revenue' => Piwik::getCurrency(),
+			'_revenue' => Piwik::getCurrency($idSite),
 		);
 		foreach($requestedColumnNames as $columnName)
 		{
@@ -119,11 +119,12 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				$yAxisLabelToValueCleaned[$yAxisLabel][] = $columnValue;
 			}
 		}
+		$idSite = Piwik_Common::getRequestVar('idSite');
 		
 		$unit = $this->yAxisUnit;
 		if(empty($unit))
 		{
-			$unit = $this->guessUnitFromRequestedColumnNames($requestedColumnNames);
+			$unit = $this->guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite);
 		}
 		
 		$this->view->setAxisXLabels($xLabels);
@@ -154,7 +155,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 						Piwik_Url::getQueryStringFromParameters( array(
 							'module' => 'CoreHome',
 							'action' => 'index',
-							'idSite' => Piwik_Common::getRequestVar('idSite'),
+							'idSite' => $idSite,
 							'period' => $period->getLabel(),
 							'date' => $dateInUrl,
 						));

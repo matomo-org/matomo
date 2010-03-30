@@ -110,14 +110,16 @@ class Test_Piwik_SitesManager extends Test_Database
     /**
      * Test with valid IPs
      */
-    public function test_addSite_excludedIpsAndtimezone_valid()
+    public function test_addSite_excludedIpsAndtimezoneAndCurrency_valid()
     {
     	$ips = '1.2.3.4,1.1.1.*,1.2.*.*,1.*.*.*';
     	$timezone = 'Europe/Paris'; 
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ips, $timezone);
+    	$currency = 'EUR';
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ips, $timezone, $currency);
     	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
     	$this->assertEqual($siteInfo['excluded_ips'], $ips);
     	$this->assertEqual($siteInfo['timezone'], $timezone);
+    	$this->assertEqual($siteInfo['currency'], $currency);
     }
     
     /**
@@ -487,8 +489,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
     	);
     		
 		FakeAccess::setIdSitesAdmin (array(1,3));
@@ -523,8 +525,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
@@ -559,8 +561,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
@@ -708,24 +710,45 @@ class Test_Piwik_SitesManager extends Test_Database
     	$this->pass();
     }
     
-    function test_setDefaultTimezone()
+    function test_addSites_invalidCurrency()
+    {
+    	$invalidCurrency = '€';
+    	try {
+    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', 'UTC', $invalidCurrency);
+    		$this->fail('invalid currency should raise an exception');
+    	} catch(Exception $e) {
+    	}
+    	$this->pass();
+    }
+    
+    function test_setDefaultTimezoneAndCurrency()
     {
     	$defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
     	$this->assertEqual($defaultTimezone, 'UTC');
+    	$defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
+    	$this->assertEqual($defaultCurrency, 'USD');
     
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '');
     	$site = new Piwik_Site($idsite);
     	$this->assertEqual($site->getTimezone(), 'UTC');
+    	$this->assertEqual($site->getCurrency(), 'USD');
     	
     	$newDefaultTimezone = 'UTC+5.5';
     	Piwik_SitesManager_API::getInstance()->setDefaultTimezone($newDefaultTimezone);
     	$defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
     	$this->assertEqual($defaultTimezone, $newDefaultTimezone);
+
+    	$newDefaultCurrency = 'EUR';
+    	Piwik_SitesManager_API::getInstance()->setDefaultCurrency($newDefaultCurrency);
+    	$defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
+    	$this->assertEqual($defaultCurrency, $newDefaultCurrency);
     	
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', $newDefaultTimezone);
     	$site = new Piwik_Site($idsite);
     	$this->assertEqual($site->getTimezone(), $newDefaultTimezone);
     	$this->assertEqual($site->getCreationDate(), date('Y-m-d'));
+    	$this->assertEqual($site->getCurrency(), $newDefaultCurrency);
     }
+    
 }
 
