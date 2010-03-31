@@ -202,6 +202,10 @@ class Piwik_API_ResponseBuilder
 		{
 			$renderer->setTableId($this->request['method']);
 		}
+		else if($format == 'csv')
+		{
+			$renderer->setConvertToUnicode( Piwik_Common::getRequestVar('convertToUnicode', true, 'int') );
+		}
 		
 		return $renderer->render();
 	}
