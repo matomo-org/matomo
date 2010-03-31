@@ -785,7 +785,7 @@ class Piwik
 									  url text NOT NULL,
 									  idgoal int(10) unsigned NOT NULL,
 									  revenue float default NULL,
-									  PRIMARY KEY  (idvisit,idgoal),
+									  PRIMARY KEY  (idvisit, idgoal),
 									  INDEX index_idsite_datetime ( idsite , server_time )
 									) DEFAULT CHARSET=utf8 
 			",

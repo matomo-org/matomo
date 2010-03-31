@@ -48,7 +48,6 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			'http://a.com/index?p1=v1&&p2=v2&p3=v3&p4=v4&&',
 		);
 		
-		$urls = array_filter($urls, array('Piwik_Common', 'sanitizeInputValue'));
 		return $urls;
 	}
 	
@@ -61,8 +60,6 @@ class Test_Piwik_TrackerAction extends  Test_Database
 		$this->setUpRootAccess();
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), $excludedIps = '', $excludedQueryParameters);
 		$urls = $this->getTestUrls();
-		$action = new Piwik_Tracker_Action();
-		$action->setIdSite($idsite);
 		foreach($urls as $url)
 		{
 			$expectedUrl = $url;
@@ -76,7 +73,7 @@ class Test_Piwik_TrackerAction extends  Test_Database
 			{
 				$expectedUrl = 'http://a.com/index?p1=v1&p2=v2&p3=v3&p4=v4';
 			}
-			$this->assertEqual($expectedUrl, $action->excludeParametersFromUrl($url));
+			$this->assertEqual($expectedUrl, Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idsite));
 		}
 	}
 	
@@ -96,12 +93,10 @@ class Test_Piwik_TrackerAction extends  Test_Database
 		$this->setUpRootAccess();
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), $excludedIps = '', $excludedQueryParameters);
 		$urls = $this->getTestUrls();
-		$action = new Piwik_Tracker_Action();
-		$action->setIdSite($idsite);
 		$filteredUrls = array();
 		foreach($urls as $url)
 		{
-			$filteredUrls[] = $action->excludeParametersFromUrl($url);
+			$filteredUrls[] = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idsite);
 		}
 		$this->assertEqual($expectedUrls, $filteredUrls);
 	}
@@ -125,12 +120,10 @@ class Test_Piwik_TrackerAction extends  Test_Database
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), $excludedIps = '', $excludedQueryParameters);
 		Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
 		$urls = $this->getTestUrls();
-		$action = new Piwik_Tracker_Action();
-		$action->setIdSite($idsite);
 		$filteredUrls = array();
 		foreach($urls as $url)
 		{
-			$filteredUrls[] = $action->excludeParametersFromUrl($url);
+			$filteredUrls[] = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idsite);
 		}
 		$this->assertEqual($expectedUrls, $filteredUrls);
 	}

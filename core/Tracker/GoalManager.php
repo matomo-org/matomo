@@ -154,7 +154,9 @@ class Piwik_Tracker_GoalManager
 			return false;
 		}
 		$goal = $goals[$idGoal];
-		$goal['url'] = Piwik_Common::getRequestVar( 'url', '', 'string', $request);
+		
+		$url = Piwik_Common::getRequestVar( 'url', '', 'string', $request);
+		$goal['url'] = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite);
 		$goal['revenue'] = Piwik_Common::getRequestVar('revenue', $goal['revenue'], 'float', $request);
 		$this->convertedGoals[] = $goal;
 		return true;
@@ -162,8 +164,16 @@ class Piwik_Tracker_GoalManager
 
 	function recordGoals($visitorInformation, $action)
 	{
-		$location_country = isset($visitorInformation['location_country']) ? $visitorInformation['location_country'] : Piwik_Common::getCountry( Piwik_Common::getBrowserLanguage(), $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess'], $visitorInformation['location_ip'] );
-		$location_continent = isset($visitorInformation['location_continent']) ? $visitorInformation['location_continent'] : Piwik_Common::getContinent($location_country);
+		$location_country = isset($visitorInformation['location_country']) 
+							? $visitorInformation['location_country'] 
+							: Piwik_Common::getCountry( 
+										Piwik_Common::getBrowserLanguage(), 
+										$enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess'], $visitorInformation['location_ip'] 
+							);
+							
+		$location_continent = isset($visitorInformation['location_continent']) 
+								? $visitorInformation['location_continent'] 
+								: Piwik_Common::getContinent($location_country);
 
 		$goal = array(
 			'idvisit' 			=> $visitorInformation['idvisit'],
@@ -206,7 +216,7 @@ class Piwik_Tracker_GoalManager
 
 			try {
 				Piwik_Tracker::getDatabase()->query(
-					"INSERT INTO " . Piwik_Common::prefixTable('log_conversion') . "	($fields)
+					"INSERT IGNORE INTO " . Piwik_Common::prefixTable('log_conversion') . "	($fields)
 					VALUES ($bindFields) ", array_values($newGoal)
 				);
 			} catch( Exception $e) {

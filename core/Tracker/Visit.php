@@ -88,6 +88,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	public function handle()
 	{
+		// the IP is needed by isExcluded() and GoalManager->recordGoals()
+		$this->visitorInfo['location_ip'] = Piwik_Common::getIp();
+		
 		if($this->isExcluded())
 		{
 			return;
@@ -128,9 +131,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit();
 
 		// Known visit when:
-		// - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
-		// OR
-		// - the visitor doesn't have the Piwik cookie but could be match using heuristics @see recognizeTheVisitor()
+		// ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
+		//   OR
+		//   - the visitor doesn't have the Piwik cookie but could be match using heuristics @see recognizeTheVisitor()
+		// )
 		// AND
 		// - the last page view for this visitor was less than 30 minutes ago @see isLastActionInTheSameVisit()
 		if( $this->isVisitorKnown()
@@ -284,8 +288,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$defaultTimeOnePageVisit = Piwik_Tracker_Config::getInstance()->Tracker['default_time_one_page_visit'];
 
 		$userInfo = $this->getUserSettingsInformation();
-		$ip = $userInfo['location_ip'];
-		$country = Piwik_Common::getCountry($userInfo['location_browser_lang'], $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess'], $ip);
+		$country = Piwik_Common::getCountry($userInfo['location_browser_lang'], 
+											$enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess'], 
+											$this->getVisitorIp());
 		$refererInfo = $this->getRefererInformation();
 
 		/**
@@ -322,7 +327,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_gears'	 		=> $userInfo['config_gears'],
 			'config_silverlight'	=> $userInfo['config_silverlight'],
 			'config_cookie' 		=> $userInfo['config_cookie'],
-			'location_ip' 			=> $ip,
+			'location_ip' 			=> $this->getVisitorIp(),
 			'location_browser_lang' => $userInfo['location_browser_lang'],
 			'location_country' 		=> $country,
 		);
@@ -390,8 +395,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getVisitorIp()
 	{
-		return Piwik_Common::getIp();
+		return $this->visitorInfo['location_ip']; 
 	}
+	
 
 	/**
 	 * Returns the visitor's browser (user agent)
@@ -683,8 +689,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$resolution		= Piwik_Common::getRequestVar('res', 'unknown', 'string', $this->request);
 
-		$ip				= $this->getVisitorIp();
-
 		$browserLang	= Piwik_Common::getBrowserLanguage();
 
 		$configurationHash = $this->getConfigHash(
@@ -702,7 +706,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 												$plugin_Gears,
 												$plugin_Silverlight,
 												$plugin_Cookie,
-												$ip,
+												$this->getVisitorIp(),
 												$browserLang);
 
 		$this->userSettingsInformation = array(
@@ -721,7 +725,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_gears'	 		=> $plugin_Gears,
 			'config_silverlight'	=> $plugin_Silverlight,
 			'config_cookie' 		=> $plugin_Cookie,
-			'location_ip' 			=> $ip,
 			'location_browser_lang' => $browserLang,
 		);
 

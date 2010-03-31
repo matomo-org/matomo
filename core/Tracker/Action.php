@@ -65,7 +65,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	private $actionType;
 	private $actionUrl;
 	
-	private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid');
+	static private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid');
 	
 	public function setRequest($requestArray)
 	{
@@ -130,34 +130,35 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	
 	protected function setActionUrl($url)
 	{
-		$url = $this->excludeParametersFromUrl($url);
+		$url = self::excludeQueryParametersFromUrl($url, $this->idSite);
 		$url = $this->truncate($url);
 		$this->actionUrl = $url;
 	}
 	
-	public function excludeParametersFromUrl($originalUrl)
+	static public function excludeQueryParametersFromUrl($originalUrl, $idSite)
 	{
-		$website = Piwik_Common::getCacheWebsiteAttributes( $this->idSite );
-
+		$website = Piwik_Common::getCacheWebsiteAttributes( $idSite );
+		$originalUrl = Piwik_Common::unsanitizeInputValue($originalUrl);
 		$parsedUrl = @parse_url($originalUrl);
 		if(empty($parsedUrl['query']))
 		{
 			return $originalUrl;
 		}
-		$parametersToExclude = array_merge($website['excluded_parameters'], $this->queryParametersToExclude);
+		$parametersToExclude = array_merge($website['excluded_parameters'], self::$queryParametersToExclude);
 		
 		$parametersToExclude = array_map('strtolower', $parametersToExclude);
 		$queryParameters = Piwik_Common::getArrayFromQueryString($parsedUrl['query']);
 		
 		$validQuery = '';
+		$separator = '&';
 		foreach($queryParameters as $name => $value)
 		{
 			if(!in_array(strtolower($name), $parametersToExclude))
 			{
-				$validQuery .= $name.'='.$value.'&';
+				$validQuery .= $name.'='.$value.$separator;
 			}
 		}
-		$parsedUrl['query'] = substr($validQuery,0,-1);
+		$parsedUrl['query'] = substr($validQuery,0,-strlen($separator));
 		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
 		printDebug('Excluded parameters "'.implode(',',$website['excluded_parameters']).'" from URL.
 					 Before was <br/><code>"'.$originalUrl.'"</code>, <br/>
