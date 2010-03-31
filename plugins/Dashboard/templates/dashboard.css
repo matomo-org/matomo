@@ -18,6 +18,8 @@
 	margin-right: 5px;
 	margin-left: 5px;
 	overflow: hidden;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
 }
 
 .widgetHover {
@@ -26,6 +28,8 @@
 
 .widgetTop {
 	background: #F0F0FA;
+	-moz-border-radius:4px 4px 0 0;
+	-webkit-border-radius:4px 4px 0 0;
 	border-bottom: 1px solid #D2D9EB;
 	width: 100%;
 	cursor: move;
