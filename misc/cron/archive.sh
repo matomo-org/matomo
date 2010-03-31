@@ -48,8 +48,25 @@ PIWIK_SUPERUSER_MD5_PASSWORD=`sed '/^\[superuser\]/,$!d;/^password[ \t]*=[ \t]*"
 CMD_TOKEN_AUTH="$PHP_BIN $PIWIK_PATH -- module=API&method=UsersManager.getTokenAuth&userLogin=$PIWIK_SUPERUSER&md5Password=$PIWIK_SUPERUSER_MD5_PASSWORD&format=php&serialize=0"
 TOKEN_AUTH=`$CMD_TOKEN_AUTH`
 
-for period in day week year; do
-  CMD="$PHP_BIN $PIWIK_PATH -- module=API&method=VisitsSummary.getVisits&idSite=all&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH";
-  $CMD
-  echo ""
+CMD_GET_ID_SITES="$PHP_BIN $PIWIK_PATH -- module=API&method=SitesManager.getAllSitesId&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
+ID_SITES=`$CMD_GET_ID_SITES`
+echo "Starting Piwik archiving..."
+echo ""
+for idsite in $ID_SITES; do
+  TEST_IS_NUMERIC=`echo $idsite | egrep '^[0-9]+$'`
+  if [ "$TEST_IS_NUMERIC" ]
+  then
+    for period in day week year; do
+      echo ""
+      echo "Archiving period = $period for idsite = $idsite..."
+      CMD="$PHP_BIN $PIWIK_PATH -- module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH";
+      $CMD
+    done
+
+    echo ""
+    echo "Archiving for idsite = $idsite done!"
+  fi
 done
+
+echo "Piwik archiving finished."
+
