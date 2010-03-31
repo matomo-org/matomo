@@ -104,7 +104,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	
 	function photostreamMatt()
 	{
-		echo '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" type="application/x-shockwave-flash" width="400px" height="343px" id="InsertWidget_35ba729b-1935-4165-a818-f17e7c9b4748" align="middle"><param name="movie" value="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf"/><param name="quality" value="high" /><param name="wmode" value="transparent" /><param name="menu" value="false" /><param name="flashvars" value="r=2&appId=35ba729b-1935-4165-a818-f17e7c9b4748" /> <embed src="http://widgetserver.com/syndication/flash/wrapper/InsertWidget.swf"  name="InsertWidget_35ba729b-1935-4165-a818-f17e7c9b4748"  width="400px" height="343px" quality="high" menu="false" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" align="middle" flashvars="r=2&appId=35ba729b-1935-4165-a818-f17e7c9b4748" /></object>';
+		echo '<iframe align=center src=http://www.flickr.com/slideShow/index.gne?user_id=34965144@N00&set_id=72157602308487455 frameBorder=0 width=380 scrolling=no height=500></iframe> ';
 	}
 	
 	/**
