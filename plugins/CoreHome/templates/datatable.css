@@ -81,6 +81,13 @@ table.dataTable th {
 	background: #D4E3ED url(images/bg_header.jpg) repeat-x;
 }
 
+table.dataTable th.first {
+	-moz-border-radius:6px 0 0 0;
+}
+
+table.dataTable th.last {
+	-moz-border-radius:0 6px 0 0;
+}
 table.dataTable th.columnSorted {
 	font-weight: bold;
 	padding-right: 20px;
