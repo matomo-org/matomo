@@ -74,9 +74,11 @@ class Piwik_Translate
 		{
 			return $language;
 		}
+
 		Piwik_PostEvent('Translate.getLanguageToLoad', $language);
 		
-		if(is_null($language) || empty($language))
+		$language = Piwik_Common::getRequestVar('language', is_null($language) ? '' : $language, 'string');
+		if(empty($language))
 		{
 			$language = Zend_Registry::get('config')->General->default_language;
 		}
