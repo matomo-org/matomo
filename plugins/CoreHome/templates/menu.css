@@ -27,7 +27,7 @@
 	float: left;
 	list-style: none;
 	z-index: 49;
-	margin-right:2px;
+	margin-right:1px;
 }
 
 .nav li.current ul {
