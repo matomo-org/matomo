@@ -26,6 +26,13 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 	{'SitesManager_CurrencySymbolWillBeUsedForGoals'|translate|inlineHelp}
 {/capture}
 
+{capture assign=excludedQueryParametersHelp}
+	{'SitesManager_ListOfQueryParametersToExclude'|translate}
+	<br/><br/>
+	{'SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters'|translate:"phpsessid, sessionid, etc."}
+{/capture}
+{assign var=excludedQueryParametersHelp value=$excludedQueryParametersHelp|inlineHelp}
+var excludedQueryParametersHelp = '{$excludedQueryParametersHelp|escape:javascript}';
 var timezoneHelp = '{$timezoneHelpPlain|inlineHelp|escape:javascript}';
 var currencyHelp = '{$currencyHelpPlain|escape:javascript}';
 {assign var=defaultTimezoneHelp value=$defaultTimezoneHelpPlain|inlineHelp};
@@ -57,12 +64,20 @@ var defaultCurrency = '{$defaultCurrency}';
 option, select {
 	font-size:11px;
 }
-
+textarea {
+font-size:9pt;
+}
 .globalSettings td {
 vertical-align:top;
 }
 .globalSettings .ui-inline-help {
-margin-top:0;
+	margin-top:0;
+	margin-bottom:30px;
+	width:100%;
+	margin-left:40px;
+}
+.admin thead th {
+vertical-align:middle;
 }
 </style>
 {/literal}
@@ -87,6 +102,7 @@ margin-top:0;
 			<th>{'SitesManager_Name'|translate}</th>
 			<th>{'SitesManager_Urls'|translate}</th>
 			<th>{'SitesManager_ExcludedIps'|translate}</th>
+			<th>{'SitesManager_ExcludedParameters'|replace:" ":"<br/>"}</th>
 			<th>{'SitesManager_Timezone'|translate}</th>
 			<th>{'SitesManager_Currency'|translate}</th>
 			<th> </th>
@@ -101,8 +117,9 @@ margin-top:0;
 				<td id="siteName" class="editableSite">{$site.name}</td>
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url}<br />{/foreach}</td>       
 				<td id="excludedIps" class="editableSite">{foreach from=$site.excluded_ips item=ip}{$ip}<br />{/foreach}</td>       
-				<td id="timezone" class="editableSite">{$site.timezone}</td>       
-				<td id="currency" class="editableSite">{$site.currency}</td>       
+				<td id="excludedQueryParameters" class="editableSite">{foreach from=$site.excluded_parameters item=parameter}{$parameter}<br />{/foreach}</td>       
+				<td id="timezone" class="editableSite">{$site.timezone}</td>
+				<td id="currency" class="editableSite">{$site.currency}</td>
 				<td><img src='plugins/UsersManager/images/edit.png' class="editSite" id="row{$i}" href='#' title="{'General_Edit'|translate}" /></td>
 				<td><img src='plugins/UsersManager/images/remove.png' class="deleteSite" id="row{$i}" title="{'General_Delete'|translate}" value="{'General_Delete'|translate}" /></td>
 				<td><a href='{url action=displayJavascriptCode idsite=$site.idsite}'>{'SitesManager_ShowTrackingTag'|translate}</a></td>
@@ -133,6 +150,17 @@ margin-top:0;
 </textarea>
 			</td><td>
 				{$excludedIpHelp}
+		</td></tr>
+		
+		<tr><td colspan="2">
+				<b>{'SitesManager_GlobalListExcludedQueryParameters'|translate}</b>
+				<p>{'SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites'|translate} </p>
+			</td></tr>
+			<tr><td>
+			<textarea cols="30" rows="3" id="globalExcludedQueryParameters">{$globalExcludedQueryParameters}
+</textarea>
+			</td><td>
+				{$excludedQueryParametersHelp}
 		</td></tr>
 		
 		<tr><td colspan="2">

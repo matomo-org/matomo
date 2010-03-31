@@ -110,16 +110,19 @@ class Test_Piwik_SitesManager extends Test_Database
     /**
      * Test with valid IPs
      */
-    public function test_addSite_excludedIpsAndtimezoneAndCurrency_valid()
+    public function test_addSite_excludedIpsAndtimezoneAndCurrencyAndExcludedQueryParameters_valid()
     {
     	$ips = '1.2.3.4,1.1.1.*,1.2.*.*,1.*.*.*';
     	$timezone = 'Europe/Paris'; 
     	$currency = 'EUR';
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ips, $timezone, $currency);
+    	$excludedQueryParameters = 'p1,P2, P33333';
+    	$expectedExcludedQueryParameters = 'p1,P2,P33333';
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ips, $excludedQueryParameters,$timezone, $currency);
     	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
     	$this->assertEqual($siteInfo['excluded_ips'], $ips);
     	$this->assertEqual($siteInfo['timezone'], $timezone);
     	$this->assertEqual($siteInfo['currency'], $currency);
+    	$this->assertEqual($siteInfo['excluded_parameters'], $expectedExcludedQueryParameters);
     }
     
     /**
@@ -489,8 +492,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
     	);
     		
 		FakeAccess::setIdSitesAdmin (array(1,3));
@@ -525,8 +528,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
@@ -561,8 +564,8 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'timezone' => 'UTC', 'currency' => 'USD'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
@@ -698,12 +701,12 @@ class Test_Piwik_SitesManager extends Test_Database
     {
     	// trying invalid timezones
     	try {
-    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', 'UTC+15');
+    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', '', 'UTC+15');
     		$this->fail('invalid timezone should raise an exception');
     	} catch(Exception $e) {
     	}
     	try {
-    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', 'Paris');
+    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', '', 'Paris');
     		$this->fail('invalid timezone should raise an exception');
     	} catch(Exception $e) {
     	}
@@ -721,33 +724,61 @@ class Test_Piwik_SitesManager extends Test_Database
     	$this->pass();
     }
     
-    function test_setDefaultTimezoneAndCurrency()
+    function test_setDefaultTimezoneAndCurrencyAndExcludedQueryParametersAndExcludedIps()
     {
+    	// test that they return default values
     	$defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
     	$this->assertEqual($defaultTimezone, 'UTC');
     	$defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
     	$this->assertEqual($defaultCurrency, 'USD');
+    	$excludedIps = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
+    	$this->assertEqual($excludedIps, '');
+    	$excludedQueryParameters = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
+    	$this->assertEqual($excludedQueryParameters, '');
     
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '');
+    	// test that when not specified, defaults are set as expected  
+    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'));
     	$site = new Piwik_Site($idsite);
     	$this->assertEqual($site->getTimezone(), 'UTC');
     	$this->assertEqual($site->getCurrency(), 'USD');
-    	
+    	$this->assertEqual($site->getExcludedQueryParameters(), '');
+    	$this->assertEqual($site->getExcludedIps(), '');
+
+    	// set the global timezone and get it
     	$newDefaultTimezone = 'UTC+5.5';
     	Piwik_SitesManager_API::getInstance()->setDefaultTimezone($newDefaultTimezone);
     	$defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
     	$this->assertEqual($defaultTimezone, $newDefaultTimezone);
 
+    	// set the default currency and get it
     	$newDefaultCurrency = 'EUR';
     	Piwik_SitesManager_API::getInstance()->setDefaultCurrency($newDefaultCurrency);
     	$defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
     	$this->assertEqual($defaultCurrency, $newDefaultCurrency);
     	
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', $newDefaultTimezone);
+    	// set the global IPs to exclude and get it
+    	$newGlobalExcludedIps = '1.1.1.*,1.1.*.*,150.1.1.1';
+    	Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($newGlobalExcludedIps);
+    	$globalExcludedIps = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
+    	$this->assertEqual($globalExcludedIps, $newGlobalExcludedIps);
+    	
+    	// set the global URL query params to exclude and get it
+    	$newGlobalExcludedQueryParameters = 'PHPSESSID,blabla, TesT';
+    	// removed the space
+    	$expectedGlobalExcludedQueryParameters = 'PHPSESSID,blabla,TesT';
+    	Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($newGlobalExcludedQueryParameters);
+    	$globalExcludedQueryParameters = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
+    	$this->assertEqual($globalExcludedQueryParameters, $expectedGlobalExcludedQueryParameters);
+
+    	// create a website and check that default currency and default timezone are set
+    	// however, excluded IPs and excluded query Params are not returned
+    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', '', $newDefaultTimezone);
     	$site = new Piwik_Site($idsite);
     	$this->assertEqual($site->getTimezone(), $newDefaultTimezone);
     	$this->assertEqual($site->getCreationDate(), date('Y-m-d'));
     	$this->assertEqual($site->getCurrency(), $newDefaultCurrency);
+    	$this->assertEqual($site->getExcludedIps(), '');
+    	$this->assertEqual($site->getExcludedQueryParameters(), '');
     }
     
 }

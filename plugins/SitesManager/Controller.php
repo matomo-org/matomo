@@ -24,6 +24,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		{
 			$site['alias_urls'] = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($site['idsite']);
 			$site['excluded_ips'] = str_replace(',','<br/>', $site['excluded_ips']);
+			$site['excluded_parameters'] = str_replace(',','<br/>', $site['excluded_parameters']);
 		}
 		$view->adminSites = $sites;
 		
@@ -38,10 +39,12 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 
 		$view->currencies = json_encode(Piwik_SitesManager_API::getInstance()->getCurrencyList());
 		$view->defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
-
+		
 		$view->utcTime = Piwik_Date::now()->getDatetime();
 		$excludedIpsGlobal = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
 		$view->globalExcludedIps = str_replace(',',"\n", $excludedIpsGlobal);
+		$excludedQueryParametersGlobal = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
+		$view->globalExcludedQueryParameters = str_replace(',',"\n", $excludedQueryParametersGlobal);
 		$view->currentIpAddress = Piwik_Common::getIpString();
 
 		$this->setGeneralVariablesView($view);
@@ -57,9 +60,11 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
     		$this->checkTokenInUrl();
     		$timezone = Piwik_Common::getRequestVar('timezone', false);
     		$excludedIps = Piwik_Common::getRequestVar('excludedIps', false);
+    		$excludedQueryParameters = Piwik_Common::getRequestVar('excludedQueryParameters', false);
     		$currency = Piwik_Common::getRequestVar('currency', false);
     		Piwik_SitesManager_API::getInstance()->setDefaultTimezone($timezone);
     		Piwik_SitesManager_API::getInstance()->setDefaultCurrency($currency);
+    		Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($excludedQueryParameters);
     		Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIps);
 			$toReturn = $response->getResponse();
 		} catch(Exception $e ) {

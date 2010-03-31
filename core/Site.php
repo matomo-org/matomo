@@ -76,6 +76,11 @@ class Piwik_Site
 		return self::$infoSites[$this->id]['excluded_ips'];
 	}
 	
+	function getExcludedQueryParameters()
+	{
+		return self::$infoSites[$this->id]['excluded_parameters'];
+	}
+	
 	/**
 	 * @param string comma separated idSite list
 	 * @return array of valid integer

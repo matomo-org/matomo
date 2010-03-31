@@ -19,13 +19,15 @@ function getAddSiteAJAX( row )
 	var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	
 	var parameters = {};
- 	var siteName = $(row).find('input#siteadd_name').val();
- 	var urls =  $(row).find('textarea#siteadd_urls').val();
+ 	var siteName = $(row).find('input#name').val();
+ 	var urls =  $(row).find('textarea#urls').val();
 	var urls = getApiFormatUrls(urls);
-	var excludedIps = $(row).find('textarea#siteadd_excludedIps').val();
-	excludedIps = getApiFormatExcludedIps(excludedIps);
+	var excludedIps = $(row).find('textarea#excludedIps').val();
+	excludedIps = getApiFormatTextarea(excludedIps);
 	var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
 	var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
+	var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
+	excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
 	
 	var request = '';
 	request += '&module=API';
@@ -36,6 +38,7 @@ function getAddSiteAJAX( row )
 	request += '&timezone='+timezone;
 	request += '&currency='+currency;
 	request += '&excludedIps='+excludedIps;
+	request += '&excludedQueryParameters='+excludedQueryParameters;
 	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
  	request += '&token_auth=' + piwik.token_auth;
  	
@@ -48,9 +51,9 @@ function getApiFormatUrls(urls)
 {
 	return urls.trim().split("\n");
 }
-function getApiFormatExcludedIps(excludedIps)
+function getApiFormatTextarea(textareaContent)
 {
-	return excludedIps.trim().split("\n").join(',');
+	return textareaContent.trim().split("\n").join(',');
 }
 
 function getUpdateSiteAJAX( row )
@@ -62,7 +65,9 @@ function getUpdateSiteAJAX( row )
 	var urls = $(row).find('textarea#urls').val();
 	urls = getApiFormatUrls(urls);
 	var excludedIps = $(row).find('textarea#excludedIps').val();
-	excludedIps = getApiFormatExcludedIps(excludedIps);
+	excludedIps = getApiFormatTextarea(excludedIps);
+	var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
+	excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
 	var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
 	var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
 	var request = '';
@@ -75,6 +80,7 @@ function getUpdateSiteAJAX( row )
 	request += '&timezone='+timezone;
 	request += '&currency='+currency;
 	request += '&excludedIps='+excludedIps;
+	request += '&excludedQueryParameters='+excludedQueryParameters;
 	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
  	request += '&token_auth=' + piwik.token_auth;
  	
@@ -89,7 +95,9 @@ function getGlobalSettingsAJAX()
 	var timezone = encodeURIComponent($('#defaultTimezone option:selected').val());
 	var currency = encodeURIComponent($('#defaultCurrency option:selected').val());
 	var excludedIps = $('textarea#globalExcludedIps').val();
-	excludedIps = getApiFormatExcludedIps(excludedIps);
+	excludedIps = getApiFormatTextarea(excludedIps);
+	var excludedQueryParameters = $('textarea#globalExcludedQueryParameters').val();
+	excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
 	var request = '';
 	request += 'module=SitesManager';
 	request += '&action=setGlobalSettings';
@@ -97,6 +105,7 @@ function getGlobalSettingsAJAX()
 	request += '&timezone='+timezone;
 	request += '&currency='+currency;
 	request += '&excludedIps='+excludedIps;
+	request += '&excludedQueryParameters='+excludedQueryParameters;
  	request += '&token_auth=' + piwik.token_auth;
 	ajaxRequest.data = request;
 	return ajaxRequest;
@@ -112,9 +121,10 @@ $(document).ready( function() {
 	
 		$(' <tr id="'+newRowId+'">\
 				<td>&nbsp;</td>\
-				<td><input id="siteadd_name" value="Name" size="15" /></td>\
-				<td><textarea cols="25" rows="3" id="siteadd_urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
-				<td><textarea cols="20" rows="4" id="siteadd_excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
+				<td><input id="name" value="Name" size="15" /></td>\
+				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
+				<td><textarea cols="20" rows="4" id="excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
+				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />'+excludedQueryParametersHelp+'</td>\
 				<td>'+getTimezoneSelector(defaultTimezone)+'<br />' + timezoneHelp + '</td>\
 				<td>'+getCurrencySelector(defaultCurrency)+'<br />' + currencyHelp + '</td>\
 				<td><img src="plugins/UsersManager/images/ok.png" class="addsite" href="#" /></td>\
@@ -122,7 +132,6 @@ $(document).ready( function() {
 	 		</tr>')
 	  			.appendTo('#editSites')
 		;
-		$('#'+newRowId).keypress( submitSiteOnEnter );
 		$('.addsite').click( function(){ $.ajax( getAddSiteAJAX($('tr#'+newRowId)) ); } );
 		$('.cancel').click(function() { piwikHelper.hideAjaxError(); $(this).parents('tr').remove();  $('.addRowSite').toggle(); });
 		return false;
@@ -170,6 +179,12 @@ $(document).ready( function() {
 					{
 						var contentAfter = '<textarea cols="20" rows="4" id="excludedIps">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
 						contentAfter += '<br />'+excludedIpHelp;
+						$(n).html(contentAfter);
+					}
+					if(idName == 'excludedQueryParameters')
+					{
+						var contentAfter = '<textarea cols="20" rows="4" id="excludedQueryParameters">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
+						contentAfter += '<br />'+excludedQueryParametersHelp;
 						$(n).html(contentAfter);
 					}
 					if(idName == 'timezone')

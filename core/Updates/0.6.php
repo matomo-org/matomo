@@ -24,6 +24,7 @@ class Piwik_Updates_0_6 extends Piwik_Updates
 			'UPDATE ' . Piwik::prefixTable('site') . ' SET `timezone` = "'.$defaultTimezone.'";' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('site') . ' ADD currency CHAR( 3 ) NOT NULL AFTER `timezone` ;' => false,
 			'UPDATE ' . Piwik::prefixTable('site') . ' SET `currency` = "'.$defaultCurrency.'";' => false,
+			'ALTER TABLE ' . Piwik::prefixTable('site') . ' ADD excluded_parameters VARCHAR( 255 ) NOT NULL AFTER `excluded_ips` ;' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('site') . ' ADD `excluded_ips` TEXT NOT NULL AFTER `currency` ;' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('log_visit') . ' DROP INDEX `index_idsite_date_config` ;' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('log_visit') . ' DROP visit_server_date;' => false,

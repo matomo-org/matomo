@@ -34,6 +34,7 @@ class Piwik_SitesManager_API
 	const OPTION_EXCLUDED_IPS_GLOBAL = 'SitesManager_ExcludedIpsGlobal';
 	const OPTION_DEFAULT_TIMEZONE = 'SitesManager_DefaultTimezone';
 	const OPTION_DEFAULT_CURRENCY = 'SitesManager_DefaultCurrency';
+	const OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL = 'SitesManager_ExcludedQueryParameters';
 	
 	/**
 	 * Returns the javascript tag for the given idSite.
@@ -227,7 +228,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return int the website ID created
 	 */
-	public function addSite( $siteName, $urls, $excludedIps = null, $timezone = null, $currency = null )
+	public function addSite( $siteName, $urls, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null )
 	{
 		Piwik::checkUserIsSuperUser();
 		
@@ -260,6 +261,7 @@ class Piwik_SitesManager_API
 		);
 	
 		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
+		$bind['excluded_parameters'] = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
 		$bind['timezone'] = $timezone;
 		$bind['currency'] = $currency;
 		$db->insert(Piwik::prefixTable("site"), $bind);
@@ -365,7 +367,8 @@ class Piwik_SitesManager_API
 	private function checkAndReturnExcludedIps($excludedIps)
 	{
 		$ips = explode(',', $excludedIps);
-		$ips = array_filter($ips, 'trim');
+		$ips = array_map('trim', $ips);
+		$ips = array_filter($ips, 'strlen');
 		foreach($ips as $ip)
 		{
 			if(!$this->isValidIp($ip))
@@ -411,6 +414,33 @@ class Piwik_SitesManager_API
 		Piwik::checkUserIsSuperUser();
 		$excludedIps = $this->checkAndReturnExcludedIps($excludedIps);
 		Piwik_SetOption(self::OPTION_EXCLUDED_IPS_GLOBAL, $excludedIps);
+		Piwik_Common::deleteAllCache();
+		return true;
+	}
+	
+	/**
+	 * Returns the list of URL query parameters that are excluded from all websites 
+	 * 
+	 * @return string Comma separated list of URL parameters
+	 */
+	public function getExcludedQueryParametersGlobal()
+	{
+		Piwik::checkUserIsSuperUser();
+		return Piwik_GetOption(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
+	}
+	
+	/**
+	 * Sets list of URL query parameters to be excluded on all websites.
+	 * Will also apply to websites created in the future.
+	 * 
+	 * @param string Comma separated list of URL query parameters to exclude from URLs
+	 * @return bool
+	 */
+	public function setGlobalExcludedQueryParameters($excludedQueryParameters)
+	{
+		Piwik::checkUserIsSuperUser();
+		$excludedQueryParameters = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
+		Piwik_SetOption(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $excludedQueryParameters);
 		Piwik_Common::deleteAllCache();
 		return true;
 	}
@@ -502,7 +532,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return bool true on success
 	 */
-	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null, $timezone = null, $currency = null)
+	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
@@ -535,6 +565,7 @@ class Piwik_SitesManager_API
 		}
 		
 		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
+		$bind['excluded_parameters'] = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
 		$bind['name'] = $siteName;
 		$db = Zend_Registry::get('db');
 		$db->update(Piwik::prefixTable("site"), 
@@ -549,6 +580,21 @@ class Piwik_SitesManager_API
 			$insertedUrls = $this->addSiteAliasUrls($idSite, array_slice($urls,1));
 		}
 		$this->postUpdateWebsite($idSite);
+	}
+	
+	private function checkAndReturnExcludedQueryParameters($parameters)
+	{
+		$parameters = trim($parameters);
+		if(empty($parameters))
+		{
+			return '';
+		}
+		
+		$parameters = explode(',', $parameters);
+		$parameters = array_map('trim', $parameters);
+		$parameters = array_filter($parameters, 'strlen');
+		$parameters = array_unique($parameters);
+		return implode(',', $parameters);
 	}
 	
 	/**

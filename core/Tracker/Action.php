@@ -65,6 +65,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	private $actionType;
 	private $actionUrl;
 	
+	private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid');
+	
 	public function setRequest($requestArray)
 	{
 		$this->request = $requestArray;
@@ -128,8 +130,39 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	
 	protected function setActionUrl($url)
 	{
+		$url = $this->excludeParametersFromUrl($url);
 		$url = $this->truncate($url);
 		$this->actionUrl = $url;
+	}
+	
+	public function excludeParametersFromUrl($originalUrl)
+	{
+		$website = Piwik_Common::getCacheWebsiteAttributes( $this->idSite );
+
+		$parsedUrl = @parse_url($originalUrl);
+		if(empty($parsedUrl['query']))
+		{
+			return $originalUrl;
+		}
+		$parametersToExclude = array_merge($website['excluded_parameters'], $this->queryParametersToExclude);
+		
+		$parametersToExclude = array_map('strtolower', $parametersToExclude);
+		$queryParameters = Piwik_Common::getArrayFromQueryString($parsedUrl['query']);
+		
+		$validQuery = '';
+		foreach($queryParameters as $name => $value)
+		{
+			if(!in_array(strtolower($name), $parametersToExclude))
+			{
+				$validQuery .= $name.'='.$value.'&';
+			}
+		}
+		$parsedUrl['query'] = substr($validQuery,0,-1);
+		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
+		printDebug('Excluded parameters "'.implode(',',$website['excluded_parameters']).'" from URL.
+					 Before was <br/><code>"'.$originalUrl.'"</code>, <br/>
+					 After is <br/><code>"'.$url.'"</code>');
+		return $url;
 	}
 	
 	public function init()

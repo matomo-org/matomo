@@ -97,6 +97,17 @@ class Piwik_Option
 		}
 		$loaded = true;
 	}
+	
+	/**
+	 * Clears the cache 
+	 * Used in unit tests to reset the state of the object between tests
+	 * 
+	 * @return void
+	 */
+	public function clearCache()
+	{
+		$this->all = array();
+	}
 }
 
 function Piwik_GetOption($name)
