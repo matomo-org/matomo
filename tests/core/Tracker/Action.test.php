@@ -9,14 +9,135 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 
 require_once 'Tracker/Action.php';
 require_once 'Tracker/Config.php';
-class Test_Piwik_TrackerAction extends UnitTestCase
+require_once "Database.test.php";
+
+$GLOBALS['PIWIK_TRACKER_MODE'] = true;
+class Test_Piwik_TrackerAction extends  Test_Database
 {
-	function test_extractUrlAndActionNameFromRequest()
+	function setUp()
 	{
-    	$userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Tracker/Action.config.ini.php';
+		parent::setUp();
+		$userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Tracker/Action.config.ini.php';
     	$config = Piwik_Tracker_Config::getInstance();
     	$config->init($userFile);
-    	
+	}
+	
+	protected function setUpRootAccess()
+	{
+    	$pseudoMockAccess = new FakeAccess;
+		FakeAccess::$superUser = true;
+		Zend_Registry::set('access', $pseudoMockAccess);
+	}
+	
+	protected function getTestUrls()
+	{
+		$urls = array(
+			// a wrongly formatted url (parse_url returns false)
+			'http:////wrongurl',
+			
+			// a URL with all components
+			'http://username:password@hostname:80/path?phpSESSID=value#anchor',
+			
+			// a standard url 
+			'http://a.com/index?p1=v1',
+		
+			// testing with capital parameter
+			'http://a.com/index?p1=v1&P2=v2&p3=v3',
+		
+			// testing with extra &&
+			'http://a.com/index?p1=v1&&p2=v2&p3=v3&p4=v4&&',
+		);
+		
+		$urls = array_filter($urls, array('Piwik_Common', 'sanitizeInputValue'));
+		return $urls;
+	}
+	
+	/*
+	 * No excluded query parameters specified, appart from the standard "session" parameters, always excluded
+	 */
+	function test_excludeQueryParameters_none()
+	{
+		$excludedQueryParameters = '';
+		$this->setUpRootAccess();
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), $excludedIps = '', $excludedQueryParameters);
+		$urls = $this->getTestUrls();
+		$action = new Piwik_Tracker_Action();
+		$action->setIdSite($idsite);
+		foreach($urls as $url)
+		{
+			$expectedUrl = $url;
+			if($url=='http://username:password@hostname:80/path?phpSESSID=value#anchor')
+			{
+				$expectedUrl = 'http://username:password@hostname:80/path#anchor';
+			}
+			
+			// the extra & are automatically cleaned up
+			if($url=='http://a.com/index?p1=v1&&p2=v2&p3=v3&p4=v4&&')
+			{
+				$expectedUrl = 'http://a.com/index?p1=v1&p2=v2&p3=v3&p4=v4';
+			}
+			$this->assertEqual($expectedUrl, $action->excludeParametersFromUrl($url));
+		}
+	}
+	
+	/*
+	 * Testing with some website specific parameters excluded
+	 */
+	function test_excludeQueryParameters_siteExcluded()
+	{
+		$excludedQueryParameters = 'p4, p2';
+		$expectedUrls = array(
+			'http:////wrongurl',
+			'http://username:password@hostname:80/path#anchor',
+			'http://a.com/index?p1=v1',
+			'http://a.com/index?p1=v1&p3=v3',
+			'http://a.com/index?p1=v1&p3=v3',
+		);
+		$this->setUpRootAccess();
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), $excludedIps = '', $excludedQueryParameters);
+		$urls = $this->getTestUrls();
+		$action = new Piwik_Tracker_Action();
+		$action->setIdSite($idsite);
+		$filteredUrls = array();
+		foreach($urls as $url)
+		{
+			$filteredUrls[] = $action->excludeParametersFromUrl($url);
+		}
+		$this->assertEqual($expectedUrls, $filteredUrls);
+	}
+	
+	/*
+	 * Testing with some website specific and some global excluded query parameters
+	 */
+	function test_excludeQueryParameters_siteAndGlobalExcluded()
+	{
+		// testing also that query parameters are case insensitive 
+		$excludedQueryParameters = 'P2';
+		$excludedGlobalParameters = 'blabla, P4';
+		$expectedUrls = array(
+			'http:////wrongurl',
+			'http://username:password@hostname:80/path#anchor',
+			'http://a.com/index?p1=v1',
+			'http://a.com/index?p1=v1&p3=v3',
+			'http://a.com/index?p1=v1&p3=v3',
+		);
+		$this->setUpRootAccess();
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), $excludedIps = '', $excludedQueryParameters);
+		Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
+		$urls = $this->getTestUrls();
+		$action = new Piwik_Tracker_Action();
+		$action->setIdSite($idsite);
+		$filteredUrls = array();
+		foreach($urls as $url)
+		{
+			$filteredUrls[] = $action->excludeParametersFromUrl($url);
+		}
+		$this->assertEqual($expectedUrls, $filteredUrls);
+	}
+	
+	
+	function test_extractUrlAndActionNameFromRequest()
+	{
 		$action = new Test_Piwik_TrackerAction_extractUrlAndActionNameFromRequest();
 		
 		$tests = array(

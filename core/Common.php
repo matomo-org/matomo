@@ -275,6 +275,35 @@ class Piwik_Common
 	}
 
 	/**
+	 * Builds a URL from the result of parse_url function
+	 * Copied from the PHP comments at http://php.net/parse_url
+	 * @param array
+	 */
+    static public function getParseUrlReverse($parsed) 
+    {
+        if (!is_array($parsed)) 
+        {
+        	return false;
+        }
+        
+        $uri = !empty($parsed['scheme']) ? $parsed['scheme'].':'.((strtolower($parsed['scheme']) == 'mailto') ? '' : '//') : '';
+        $uri .= !empty($parsed['user']) ? $parsed['user'].(!empty($parsed['pass']) ? ':'.$parsed['pass'] : '').'@' : '';
+        $uri .= !empty($parsed['host']) ? $parsed['host'] : '';
+        $uri .= !empty($parsed['port']) ? ':'.$parsed['port'] : '';
+        
+        if (!empty($parsed['path'])) 
+        {
+            $uri .= (substr($parsed['path'], 0, 1) == '/') 
+            			? $parsed['path'] 
+            			: ((!empty($uri) ? '/' : '' ) . $parsed['path']);
+        }
+        
+        $uri .= !empty($parsed['query']) ? '?'.$parsed['query'] : '';
+        $uri .= !empty($parsed['fragment']) ? '#'.$parsed['fragment'] : '';
+        return $uri;
+    }
+    
+	/**
 	 * Create directory if permitted
 	 *
 	 * @param string $path

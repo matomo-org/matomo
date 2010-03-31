@@ -36,6 +36,8 @@ class Test_Database extends UnitTestCase
 	
 	public function tearDown()
 	{
+		Piwik_Option::getInstance()->clearCache();
+		Piwik_Common::deleteAllCache();
 		Piwik::truncateAllTables();
 	}
 	

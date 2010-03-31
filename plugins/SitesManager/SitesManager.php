@@ -37,11 +37,23 @@ class Piwik_SitesManager extends Piwik_Plugin
 		);
 	}
 	
+	function addMenu()
+	{
+		Piwik_AddAdminMenu('SitesManager_MenuSites', array('module' => 'SitesManager', 'action' => 'index'));		
+	}
+	
 	function css()
 	{
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
 	}
 	
+	/**
+	 * Hooks when a website tracker cache is flushed (website updated, cache deleted, or empty cache)
+	 * Will record in the tracker config file all data needed for this website in Tracker. 
+	 * 
+	 * @param $notification
+	 * @return void
+	 */
 	function recordWebsiteDataInCache($notification)
 	{
 		$idSite = $notification->getNotificationInfo();
@@ -49,8 +61,14 @@ class Piwik_SitesManager extends Piwik_Plugin
 		$array =& $notification->getNotificationObject();
 		$array['hosts'] = $this->getTrackerHosts($idSite);
 		$array['excluded_ips'] = $this->getTrackerExcludedIps($idSite);
+		$array['excluded_parameters'] = $this->getTrackerExcludedQueryParameters($idSite);
 	}
 	
+	/**
+	 * Returns the array of excluded IPs to save in the config file
+	 * @param $idSite
+	 * @return array
+	 */
 	private function getTrackerExcludedIps($idSite)
 	{
 		$website = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
@@ -85,6 +103,29 @@ class Piwik_SitesManager extends Piwik_Plugin
 		return $ipRanges;
 	}
 	
+	/**
+	 * Returns the array of URL query parameters to exclude from URLs
+	 * @param $idSite
+	 * @return array
+	 */
+	private function getTrackerExcludedQueryParameters($idSite)
+	{
+		$website = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
+		$excludedQueryParameters = $website['excluded_parameters'];
+		$globalExcludedQueryParameters = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
+		
+		$excludedQueryParameters .= ',' . $globalExcludedQueryParameters;
+		$parameters = explode(',', $excludedQueryParameters);
+		$parameters = array_filter($parameters, 'strlen');
+		$parameters = array_unique($parameters);
+		return $parameters;
+	}
+	
+	/**
+	 * Returns the hosts alias URLs
+	 * @param $idSite
+	 * @return array
+	 */
 	private function getTrackerHosts($idSite)
 	{
 		$urls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idSite);
@@ -100,8 +141,4 @@ class Piwik_SitesManager extends Piwik_Plugin
 		return $hosts;
 	}
 	
-	function addMenu()
-	{
-		Piwik_AddAdminMenu('SitesManager_MenuSites', array('module' => 'SitesManager', 'action' => 'index'));		
-	}
 }
