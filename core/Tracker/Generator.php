@@ -252,6 +252,9 @@ class Piwik_Tracker_Generator
 		}
 		mt_srand(make_seed());
 		
+		// set rec=1 parameter, required as of 0.5.5 in order to force the request to be recorded
+		$this->setCurrentRequest('rec', 1);
+		
 		/*
 		 * Sets values for: resolutions, colors, idSite, times
 		 */
