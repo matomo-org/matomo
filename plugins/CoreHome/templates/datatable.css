@@ -83,10 +83,12 @@ table.dataTable th {
 
 table.dataTable th.first {
 	-moz-border-radius:6px 0 0 0;
+	-webkit-border-radius:6px 0 0 0;
 }
 
 table.dataTable th.last {
 	-moz-border-radius:0 6px 0 0;
+	-webkit-border-radius:0 6px 0 0;
 }
 table.dataTable th.columnSorted {
 	font-weight: bold;
