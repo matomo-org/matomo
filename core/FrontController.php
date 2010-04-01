@@ -213,7 +213,6 @@ class Piwik_FrontController
 				throw $exceptionToThrow;
 			}
 
-			Piwik_Translate::getInstance()->loadUserTranslation();
 
 			try {
 				Piwik::createDatabaseObject();
@@ -242,6 +241,7 @@ class Piwik_FrontController
 			}
 			
 			Zend_Registry::get('access')->reloadAccess($authAdapter);
+			Piwik_Translate::getInstance()->loadUserTranslation();
 			
 			Piwik::raiseMemoryLimitIfNecessary();
 
