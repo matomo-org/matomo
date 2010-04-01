@@ -1,15 +1,9 @@
-body {
-	font-family: Georgia, Trebuchet MS, arial, sans-serif;
-}
-
 img {
 	vertical-align: baseline;
 }
-
 textarea {
 	font-size: 1em;
 }
-
 a {
 	color: black;
 }
@@ -114,7 +108,19 @@ p {
 	margin:0pt 15px;
 	padding:0pt;
 }
-
+textarea, input, select {
+	background-color:#FFFFFF;
+	border-color:#939EA5;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-style:solid;
+	border-width:1px;
+	margin:1px;
+	padding:3px;
+}
+input[disabled] {
+	background-color:#F7F7F7;
+}
 .adminTable {
 	border-width: 1px;
 	border-style: solid;
@@ -133,8 +139,9 @@ p {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #ccc;
-	font-size: 11px;
+	font-size: 13px;
 	vertical-align: text-top;
+	vertical-align:top;
 }
 .adminTable td {
 	padding: 7px 15px 9px 10px;
@@ -181,4 +188,24 @@ p {
 }
 .adminTable .active {
 	background-color: #ECF9DD;
+}
+
+.adminTable .ui-inline-help {
+	margin-top:0;
+	width:100%;
+}
+/* admin table, without borders */
+.adminTableNoBorder {
+	border:0;
+}
+.adminTableNoBorder td, .adminTableNoBorder th {
+	border:0;
+}
+
+/* other styles */
+
+.form-description {
+	color:#666666;
+	font-style:italic;
+	margin-left:10px;
 }

@@ -31,11 +31,20 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 	{
 		return array( 
 			'template_css_import' => 'css',
+			'AdminMenu.add' => 'addMenu'
 		);
 	}
 
 	function css()
 	{
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/CoreAdminHome/templates/menu.css\" />\n";
+	}
+	
+	function addMenu()
+	{
+		Piwik_AddAdminMenu('CoreAdminHome_MenuGeneralSettings', 
+							array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
+							Piwik::isUserIsSuperUser(),
+							$order = 6);
 	}
 }

@@ -2,10 +2,10 @@
 ; If you want to change some of these default values, the best practise is to override 
 ; them in your configuration file in config/config.ini.php. If you directly edit this file,
 ; you risk losing your changes when you upgrade Piwik. 
-; For example if you want to override enable_browser_archiving_triggering, 
+; For example if you want to override action_title_category_delimiter, 
 ; edit config/config.ini.php and add the following:
 ; [General]
-; enable_browser_archiving_triggering = 0
+; action_title_category_delimiter = "-"
 
 [superuser]
 login			= root
@@ -48,29 +48,6 @@ enable_sql_profiler = 0
 track_visits_inside_piwik_ui = 0
 
 [General]
-; Time in seconds after which an archive will be computed again. 
-; This setting is used only for today's statistics.
-; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
-time_before_today_archive_considered_outdated = 10
-
-; When loading piwik interface, we redirect the user to 'yesterday' statistics by default
-; Possible values: yesterday, today, or any YYYY-MM-DD
-default_day = yesterday
-; Possible values: day, week, month, year
-default_period = day
-
-; When loading piwik interface, Piwik will load by default the CoreHome module
-; You can override the setting to force the user to login. 
-; This is useful when you have some websites view "anonymous" access but you want to 
-; force users to login instead of viewing the first anonymous website available 
-default_module_login = 0
-
-; When loading the piwik interface in the browser (as opposed to from the PHP-CLI client)
-; should we launch the archiving process if the archives have not yet been processed?
-; You want to set it to 0 when triggering the archiving is done through a crontab, 
-; so that your users do not trigger archiving in their browser when this is not expected
-enable_browser_archiving_triggering = 1
-
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
 ; for example a URL like "example.com/blog/development/first-post" will create 
 ; the page first-post in the subcategory development which belongs to the blog category
@@ -87,10 +64,6 @@ action_default_name = index
 action_default_name_when_not_defined = "page title not defined"
 action_default_url_when_not_defined = "page url not defined"
 
-; currency used by default when reporting money in Piwik
-; the trailing space is required for php 5.2.x vs 5.3 compatibility
-default_currency = "$ "
-
 ; if you want all your users to use Piwik in only one language, disable the LanguagesManager
 ; plugin, and set this default_language (users won't see the language drop down) 
 default_language = en
@@ -105,6 +78,21 @@ API_datatable_default_limit = 50
 ; if your Piwik installation has thousands of websites, you may disable the website selector
 ; as it slows down the loading of the Piwik UI by setting this value to 0
 show_website_selector_in_user_interface = 1
+
+; This setting is overriden in the UI, under "User Settings". 
+; The date and period loaded by Piwik uses the defaults below. Possible values: yesterday, today.
+default_day = yesterday
+; Possible values: day, week, month, year.
+default_period = day
+
+; This setting is overriden in the UI, under "General Settings". This is the default value used if the setting hasn't been overriden via the UI.
+; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
+; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
+time_before_today_archive_considered_outdated = 10
+
+; This setting is overriden in the UI, under "General Settings". The default value is to allow browsers
+; to trigger the Piwik archiving process.
+enable_browser_archiving_triggering = 1
 
 ; PHP minimum required version (minimum requirement known to date = ->newInstanceArgs)
 minimum_php_version = 5.1.3
@@ -213,8 +201,11 @@ campaign_keyword_var_name	= piwik_kwd
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
 
-; number of octets in IP address to mask, in order to anonymize a visitor's IP address; if the AnonymizeIP plugin is deactivated, this value is ignored; for IPv4 addresses, valid values are 0..4
+; number of octets in IP address to mask, in order to anonymize a visitor's IP address
+; if the AnonymizeIP plugin is deactivated, this value is ignored
+; for IPv4 addresses, valid values are 0..4
 ip_address_mask_length = 1
+
 
 [log]
 ;possible values for log: screen, database, file

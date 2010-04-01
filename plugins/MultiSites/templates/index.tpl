@@ -35,7 +35,8 @@
 </script>
 
 {postEvent name="template_headerMultiSites"}
-<table id="mt" class="dataTable" cellspacing="0" style="width:850px;margin: auto">
+<div align="center">
+<table id="mt" class="dataTable" cellspacing="0" style="width:850px;">
 	<thead>
 		<th id="names" class="label" style="text-align:center">
 			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'names');">{'General_Website'|translate}</span>
@@ -80,7 +81,7 @@
 	</tr>
 	</tfoot>
 </table>
-
+</div>
 <script type="text/javascript">
 prepareRows(allSites, params, '{$orderBy}');
 

@@ -931,6 +931,18 @@ class Piwik
 	}
 	
 	/**
+	 * Returns the name of the Login plugin currently being used.
+	 * Must be used since it is not allowed to hardcode 'Login' in URLs
+	 * in case another Login plugin is being used.
+	 * 
+	 * @return string
+	 */
+	static public function getLoginPluginName()
+	{
+		return Zend_Registry::get('auth')->getName();
+	}
+	
+	/**
 	 * Helper method user to set the current as Super User.
 	 * This should be used with great care as this gives the user all permissions.
 	 */
@@ -1036,7 +1048,7 @@ class Piwik
 	static public function isUserHasSomeViewAccess()
 	{
 		try{
-			self::checkUserHasViewAccess( $idSites );
+			self::checkUserHasSomeViewAccess();
 			return true;
 		} catch( Exception $e){
 			return false;

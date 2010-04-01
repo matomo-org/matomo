@@ -22,6 +22,9 @@ ol,ul {
 blockquote,q {
 	quotes: none;
 }
+label {
+	cursor:pointer;
+}
 /* remember to define focus styles! */
 :focus {
 	outline: 0;
@@ -180,6 +183,7 @@ input.submit {
 	border-width:3px;
 	color:#333;
 	padding:0.15em;
+	align:center;
 }
 .ajaxError {
 	color: red;

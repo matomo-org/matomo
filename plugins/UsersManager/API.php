@@ -31,6 +31,40 @@ class Piwik_UsersManager_API
 		return self::$instance;
 	}
 	
+	const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
+	const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
+	
+	/**
+	 * Sets a user preference
+	 * @param $userLogin
+	 * @param $preferenceName
+	 * @param $preferenceValue
+	 * @return void
+	 */
+	public function setUserPreference($userLogin, $preferenceName, $preferenceValue)
+	{
+		Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+		Piwik_SetOption($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
+	}
+	
+	/**
+	 * Gets a user preference
+	 * @param $userLogin
+	 * @param $preferenceName
+	 * @param $preferenceValue
+	 * @return void
+	 */
+	public function getUserPreference($userLogin, $preferenceName)
+	{
+		Piwik::checkUserIsSuperUserOrTheUser($userLogin);
+		return Piwik_GetOption($this->getPreferenceId($userLogin, $preferenceName));
+	}
+	
+	private function getPreferenceId($login, $preference)
+	{
+		return $login . '_' . $preference;
+	}
+	
 	/**
 	 * Returns the list of all the users
 	 * 
@@ -176,7 +210,7 @@ class Piwik_UsersManager_API
 	 */
 	public function getUser( $userLogin )
 	{
-		Piwik::checkUserIsSuperUser();
+		Piwik::checkUserIsSuperUserOrTheUser($userLogin);
 		$this->checkUserExists($userLogin);
 		$this->checkUserIsNotSuperUser($userLogin);
 		
@@ -395,7 +429,6 @@ class Piwik_UsersManager_API
 	 */
 	public function userExists( $userLogin )
 	{
-		Piwik::checkUserHasSomeAdminAccess();
 		$count = Piwik_FetchOne("SELECT count(*) 
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE login = ?", $userLogin);

@@ -256,6 +256,7 @@ abstract class Piwik_Controller
 			$view->maxDateMonth = $maxDate->toString('m');
 			$view->maxDateDay = $maxDate->toString('d');
 
+			$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
 			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
 
 			$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
@@ -293,12 +294,21 @@ abstract class Piwik_Controller
 		$view->periodsNames = $periodNames;
 	}
 	
-	function redirectToIndex($moduleToRedirect, $actionToRedirect)
+	function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null)
 	{
-		$websiteId = $this->getDefaultWebsiteId();
-		$defaultDate = $this->getDefaultDate();
-		$defaultPeriod = $this->getDefaultPeriod();
-		
+		if(is_null($websiteId))
+		{
+			$websiteId = $this->getDefaultWebsiteId();
+		}
+		if(is_null($defaultDate))
+		{
+			$defaultDate = $this->getDefaultDate();
+		}
+		if(is_null($defaultPeriod))
+		{
+			$defaultPeriod = $this->getDefaultPeriod();
+		}
+
 		if($websiteId) {
 			header("Location:index.php?module=".$moduleToRedirect
 									."&action=".$actionToRedirect
@@ -323,7 +333,7 @@ abstract class Piwik_Controller
 			Piwik_ExitWithMessage($errorMessage, false, true);
 		}
 
-		Piwik_FrontController::dispatch('Login', false);
+		Piwik_FrontController::dispatch(Piwik::getLoginPluginName(), false);
 		exit;
 	}
 	
@@ -335,6 +345,14 @@ abstract class Piwik_Controller
 	protected function getDefaultWebsiteId()
 	{
 		$defaultWebsiteId = false;
+	
+		// User preference: default website ID to load
+		$defaultReport = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT);
+		if(is_numeric($defaultReport)) 
+		{
+			$defaultWebsiteId = $defaultReport;
+		}
+		
 		Piwik_PostEvent( 'Controller.getDefaultWebsiteId', $defaultWebsiteId );
 		
 		if($defaultWebsiteId) 
@@ -349,23 +367,41 @@ abstract class Piwik_Controller
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Returns default date for Piwik reports
 	 * @return string today, 2010-01-01, etc.
 	 */
 	protected function getDefaultDate()
 	{
-		return Zend_Registry::get('config')->General->default_day;
+		$userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
+		if($userSettingsDate === false)
+		{
+			return Zend_Registry::get('config')->General->default_day;
+		}
+		if($userSettingsDate == 'yesterday')
+		{
+			return $userSettingsDate;
+		}
+		return 'today';
 	}
 	
 	/**
-	 * Returns default period for Piwik reports
-	 * @return string day, week, etc.
+	 * Returns default date for Piwik reports
+	 * @return string today, 2010-01-01, etc.
 	 */
 	protected function getDefaultPeriod()
 	{
-		return Zend_Registry::get('config')->General->default_period;
+		$userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
+		if($userSettingsDate === false)
+		{
+			return Zend_Registry::get('config')->General->default_period;
+		}
+		if(in_array($userSettingsDate, array('today','yesterday')))
+		{
+			return 'day';
+		}
+		return $userSettingsDate;
 	}
 	
 	/**

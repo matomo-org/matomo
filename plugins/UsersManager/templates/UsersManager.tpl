@@ -113,7 +113,7 @@
 	<table class="admin" id="users">
 		<thead>
 			<tr>
-				<th>{'UsersManager_Login'|translate}</th>
+				<th>{'General_Username'|translate}</th>
 				<th>{'UsersManager_Password'|translate}</th>
 				<th>{'UsersManager_Email'|translate}</th>
 				<th>{'UsersManager_Alias'|translate}</th>

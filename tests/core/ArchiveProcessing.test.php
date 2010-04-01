@@ -89,17 +89,17 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 	// test of validity of an archive, for today's archive
 	public function test_init_today()
 	{
-		Zend_Registry::get('config')->General->enable_browser_archiving_triggering = true;
+		Piwik_ArchiveProcessing::setBrowserTriggerArchiving(true);
 		
 		$archiveProcessing = $this->createArchiveProcessing('day', 'today', 'UTC-1');
 		
-		// we look at anything processed in the last time_before_today_archive_considered_outdated seconds
-		$dateMinArchived = time() - Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated;
+		// we look at anything processed within the time to live range
+		$dateMinArchived = time() - Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
 		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived);
 
 		// when browsers don't trigger archives, we force ArchiveProcessing 
 		// to fetch any of the most recent archive
-		Zend_Registry::get('config')->General->enable_browser_archiving_triggering = false;
+		Piwik_ArchiveProcessing::setBrowserTriggerArchiving(false);
 		$dateMinArchived = 0;
 		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived);
 		
