@@ -416,7 +416,7 @@ class UserAgentParser
 		
 		// init OS names and short names
 		self::$operatingSystemsIdToName = array_merge(array_flip(self::$operatingSystems), array(
-			'IPD' => 'iPhone',
+			'IPD' => 'iPod',
 			'IPA' => 'iPhone',
 			'WME' => 'Windows Me',
 			'BEO' => 'BeOS',
