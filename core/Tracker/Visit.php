@@ -476,7 +476,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			}
 		}
 		
-		/* custom filters can override the built-in filter above */
+		/* custom filters can override the built-in filters above */
 		Piwik_PostEvent('Tracker.Visit.isExcluded', $excluded);
 		
 		/*

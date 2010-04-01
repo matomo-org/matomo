@@ -23,13 +23,22 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	
 	function redirectToCoreHomeIndex()
 	{
-		// redirect to Login only for anonymous user
-		if((bool)Zend_Registry::get('config')->General->default_module_login == true
-			&& Piwik::getCurrentUserLogin() == 'anonymous')
+		$defaultReport = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT);
+		$module = 'CoreHome';
+		$action = 'index';
+		
+		// User preference: default report to load is the All Websites dashboard
+		if($defaultReport == 'MultiSites' 
+			&& Piwik_PluginsManager::getInstance()->isPluginActivated('MultiSites'))
 		{
-			return Piwik_FrontController::dispatch('Login', false);
+			$module = 'MultiSites';
 		}
-		parent::redirectToIndex('CoreHome', 'index');
+		if($defaultReport == Piwik::getLoginPluginName())
+		{
+			$module = Piwik::getLoginPluginName();
+		}
+		
+		parent::redirectToIndex($module, $action);
 	}
 	
 	public function showInContext()

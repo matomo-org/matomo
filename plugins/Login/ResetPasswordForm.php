@@ -41,7 +41,7 @@ class Piwik_Login_ResetPasswordForm extends Piwik_Form
 		$this->setDefaults($defaults);
 
 		$formRules = array(
-			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Login')), 'required'),
+			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('General_Username')), 'required'),
 			array('form_password', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Password')), 'required'),
 			array('form_password_bis', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_PasswordRepeat')), 'required'),
 			array('form_token', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_PasswordResetToken')), 'required'),

@@ -29,7 +29,7 @@
 	-webkit-border-radius:4px 4px 0 0;
 }
 
-#tablist li a:hover {
+#tablist li a:hover, #tablist li a.active {
 	color: black;
 	background: #defdbb;
 	border-color: black;

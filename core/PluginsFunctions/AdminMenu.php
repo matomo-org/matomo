@@ -16,6 +16,7 @@
 class Piwik_AdminMenu
 {
 	private $adminMenu = null;
+	private $adminMenuOrdered = null;
 	static private $instance = null;
 	
 	/**
@@ -36,31 +37,37 @@ class Piwik_AdminMenu
 	 */
 	public function get()
 	{
-		if(!is_null($this->adminMenu))
+		if(!is_null($this->adminMenuOrdered))
 		{
-			return;
+			return $this->adminMenuOrdered;
 		}
 		
 		Piwik_PostEvent('AdminMenu.add');
-		
-		foreach($this->adminMenu as $key => &$element)
+
+		$this->adminMenuOrdered = array();
+		ksort($this->adminMenu);
+		foreach($this->adminMenu as $order => $menu)
 		{
-			if(is_null($element))
-			{
-				unset($this->adminMenu[$key]);
-			}
+			foreach($menu as $key => &$element)
+    		{
+    			if(!is_null($element))
+    			{
+    				$this->adminMenuOrdered[$key] = $element;
+    			}
+    		}
 		}
-		return $this->adminMenu;
+		return $this->adminMenuOrdered;
 	}
 	
 	/*
 	 *
 	 */
-	public function add($adminMenuName, $url)
+	public function add($adminMenuName, $url, $displayedForCurrentUser, $order)
 	{
-		if(!isset($this->adminMenu[$adminMenuName]))
+		if($displayedForCurrentUser
+			&& !isset($this->adminMenu[$adminMenuName]))
 		{
-			$this->adminMenu[$adminMenuName] = $url;
+			$this->adminMenu[$order][$adminMenuName] = $url;
 		}
 	}
 	
@@ -74,15 +81,30 @@ class Piwik_AdminMenu
 		$this->adminMenu[$adminMenuRenamed] = $save;
 	}
 }
+function Piwik_GetCurrentAdminMenuName()
+{
+	$menu = Piwik_GetAdminMenu();
+	$currentModule = Piwik::getModule();
+	$currentAction = Piwik::getAction();
+	foreach($menu as $name => $parameters)
+	{
+		if($parameters['module'] == $currentModule
+			&& $parameters['action'] == $currentAction)
+		{
+			return $name;
+		}
+	}
+	return false;
+}
 
 function Piwik_GetAdminMenu()
 {
 	return Piwik_AdminMenu::getInstance()->get();
 }
 
-function Piwik_AddAdminMenu( $adminMenuName, $url )
+function Piwik_AddAdminMenu( $adminMenuName, $url, $displayedForCurrentUser = true, $order = 10 )
 {
-	return Piwik_AdminMenu::getInstance()->add($adminMenuName, $url);
+	return Piwik_AdminMenu::getInstance()->add($adminMenuName, $url, $displayedForCurrentUser, $order);
 }
 
 function Piwik_RenameAdminMenuEntry($adminMenuOriginal, $adminMenuRenamed)

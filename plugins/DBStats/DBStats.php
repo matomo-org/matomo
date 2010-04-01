@@ -34,6 +34,9 @@ class Piwik_DBStats extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddAdminMenu('DBStats_DatabaseUsage', array('module' => 'DBStats', 'action' => 'index'));		
+		Piwik_AddAdminMenu('DBStats_DatabaseUsage', 
+							array('module' => 'DBStats', 'action' => 'index'),
+							Piwik::isUserIsSuperUser(),
+							$order = 9);		
 	}
 }

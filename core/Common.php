@@ -105,23 +105,17 @@ class Piwik_Common
 			} catch (Exception $e) {
 				Piwik::createDatabaseObject();
 			}
-			$isSuperUser = Piwik::isUserIsSuperUser();
-			Piwik::setUserIsSuperUser();
-			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+    		$pluginsManager = Piwik_PluginsManager::getInstance();
+    		$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 		}
 
+		$isSuperUser = Piwik::isUserIsSuperUser();
+		Piwik::setUserIsSuperUser();
 		$content = array();
 		Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
 		
-		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
-		{
-    		// we remove the temporary Super user privilege
-        	if(!$isSuperUser)
-        	{
-        		Piwik::setUserIsSuperUser($isSuperUser);
-        	} 
-		}
+		// we remove the temporary Super user privilege
+		Piwik::setUserIsSuperUser($isSuperUser);
 		
 		// if nothing is returned from the plugins, we don't save the content
 		// this is not expected: all websites are expected to have at least one URL

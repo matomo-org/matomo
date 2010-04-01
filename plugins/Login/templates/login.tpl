@@ -16,7 +16,7 @@
 
 <form {$form_data.attributes}>
 	<p>
-		<label>{'Login_Login'|translate}:<br />
+		<label>{'General_Username'|translate}:<br />
 		<input type="text" name="form_login" id="form_login" class="input" value="" size="20" tabindex="10" />
 		<input type="hidden" name="form_nonce" id="form_nonce" value="{$nonce}" /></label>
 	</p>

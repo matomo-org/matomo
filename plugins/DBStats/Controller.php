@@ -18,6 +18,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller
 {
 	function index()
 	{
+		Piwik::checkUserIsSuperUser();
 		$view = Piwik_View::factory('DBStats');
 		$view->tablesStatus = Piwik_DBStats_API::getInstance()->getAllTablesStatus();
 		$this->setGeneralVariablesView($view);

@@ -221,6 +221,48 @@ abstract class Piwik_ArchiveProcessing
 		return $process;
 	}
 	
+	const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
+	const OPTION_BROWSER_TRIGGER_ARCHIVING = 'enableBrowserTriggerArchiving';
+	
+	static public function setTodayArchiveTimeToLive($timeToLiveSeconds)
+	{
+		$timeToLiveSeconds = (int)$timeToLiveSeconds;
+		if($timeToLiveSeconds <= 0)
+		{
+			throw new Exception('Today archive time to live must be a number of seconds greater than zero');
+		}
+		Piwik_SetOption(self::OPTION_TODAY_ARCHIVE_TTL, $timeToLiveSeconds, $autoload = true);
+	}
+	
+	static public function getTodayArchiveTimeToLive()
+	{
+		$timeToLive = Piwik_GetOption(self::OPTION_TODAY_ARCHIVE_TTL);
+		if($timeToLive !== false)
+		{
+			return $timeToLive;
+		}
+		return Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated;
+	}
+
+	static public function setBrowserTriggerArchiving($enabled)
+	{
+		if(!is_bool($enabled))
+		{
+			throw new Exception('Browser trigger archiving must be set to true or false.');
+		}
+		Piwik_SetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING, (int)$enabled, $autoload = true);
+		
+	}
+	static public function isBrowserTriggerArchivingEnabled()
+	{
+		$browserArchivingEnabled = Piwik_GetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING);
+		if($browserArchivingEnabled !== false)
+		{
+			return (bool)$browserArchivingEnabled;
+		}
+		return (bool)Zend_Registry::get('config')->General->enable_browser_archiving_triggering;
+	}
+	
 	public function getIdArchive()
 	{
 		return $this->idArchive;
@@ -280,8 +322,8 @@ abstract class Piwik_ArchiveProcessing
 			&& $this->startTimestampUTC <= time() && $this->endTimestampUTC > time()
 			)
 		{
-			$minDatetimeArchiveProcessedUTC = time() - Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated;
-			$browserArchivingEnabled = Zend_Registry::get('config')->General->enable_browser_archiving_triggering;
+			$minDatetimeArchiveProcessedUTC = time() - self::getTodayArchiveTimeToLive();
+			$browserArchivingEnabled = self::isBrowserTriggerArchivingEnabled();
 			// see #1150; if new archives are not triggered from the browser, 
 			// we still want to try and return the latest archive available for today (rather than return nothing)
 			if(!$browserArchivingEnabled)
@@ -636,19 +678,11 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function isArchivingDisabled()
 	{
-		static $archivingIsDisabled = null;
-		if(is_null($archivingIsDisabled))
+		if(!self::isBrowserTriggerArchivingEnabled()
+			&& !Piwik_Common::isPhpCliMode())
 		{
-			$archivingIsDisabled = false;
-			$enableBrowserArchivingTriggering = (bool)Zend_Registry::get('config')->General->enable_browser_archiving_triggering;
-			if($enableBrowserArchivingTriggering == false)
-			{
-				if( !Piwik_Common::isPhpCliMode())
-				{
-					$archivingIsDisabled = true;
-				}
-			}
+			return true;
 		}
-		return $archivingIsDisabled;
+		return false;
 	}
 }

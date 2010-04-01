@@ -61,14 +61,15 @@
 }
 
 .nav li, .nav li:hover,.nav li.sfHover,.nav li.current,.nav a:focus,.nav a:hover,.nav a:active{
--moz-border-radius:5px 5px 0 0;
--webkit-border-radius:5px 5px 0 0;
+	-moz-border-radius:5px 5px 0 0;
+	-webkit-border-radius:5px 5px 0 0;
 }
 
 /* LEVEL1 HOVER */
 .nav li:hover,.nav li.sfHover,.nav li.current,.nav a:focus,.nav a:hover,.nav a:active {
 	background: #C9D5FF;
 	-moz-border-radius:5px 5px 0 0;
+	-webkit-border-radius:5px 5px 0 0;
 }
 
 .nav li {

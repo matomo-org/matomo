@@ -67,15 +67,6 @@ option, select {
 textarea {
 font-size:9pt;
 }
-.globalSettings td {
-vertical-align:top;
-}
-.globalSettings .ui-inline-help {
-	margin-top:0;
-	margin-bottom:30px;
-	width:100%;
-	margin-left:40px;
-}
 .admin thead th {
 vertical-align:middle;
 }
@@ -102,7 +93,7 @@ vertical-align:middle;
 			<th>{'SitesManager_Name'|translate}</th>
 			<th>{'SitesManager_Urls'|translate}</th>
 			<th>{'SitesManager_ExcludedIps'|translate}</th>
-			<th>{'SitesManager_ExcludedParameters'|replace:" ":"<br/>"}</th>
+			<th>{'SitesManager_ExcludedParameters'|translate|replace:" ":"<br/>"}</th>
 			<th>{'SitesManager_Timezone'|translate}</th>
 			<th>{'SitesManager_Currency'|translate}</th>
 			<th> </th>
@@ -139,7 +130,7 @@ vertical-align:middle;
 	<br/>
 	{ajaxErrorDiv id=ajaxErrorGlobalSettings}
 	{ajaxLoadingDiv id=ajaxLoadingGlobalSettings}
-	<table width='600px' class='globalSettings'>
+	<table style='width:600px' class="adminTable adminTableNoBorder" >
 		
 		<tr><td colspan="2">
 				<b>{'SitesManager_GlobalListExcludedIps'|translate}</b>
@@ -183,7 +174,7 @@ vertical-align:middle;
 				{$currencyHelpPlain}
 		</td></tr>
 	</table>
-	<p><input type="submit" class="submit" id='globalSettingsSubmit' value="{'General_Save'|translate}" /></p>
+	<span style='margin-left:20px'><input type="submit" class="submit" id='globalSettingsSubmit' value="{'General_Save'|translate}" /></span>
 {/if}
 
 <br /><br /><br /><br />
