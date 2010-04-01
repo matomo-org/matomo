@@ -661,10 +661,10 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('IPH', 'iPhone', 'iPhone')),
 		'Mozilla/5.0 (iPod; U; CPU like Mac OS X; en) AppleWebKit/420.1 (KHTML, like Gecko) Version/3.0 Mobile/3A100a Safari/419.3' => array(
 			array('SF', 'Safari', 'Safari', '3.0', '3', '0', 'webkit'),
-			array('IPD', 'iPhone', 'iPhone')),
+			array('IPD', 'iPod', 'iPod')),
 		'Mozilla/5.0 (iPod; U; CPU iPhone OS 2_2_1 like Mac OS X; en-us) AppleWebKit/525.18.1 (KHTML, like Gecko) Version/3.1.1 Mobile/5H11a Safari/525.20' => array(
 			array('SF', 'Safari', 'Safari', '3.1', '3', '1', 'webkit'),
-			array('IPD', 'iPhone', 'iPhone')),
+			array('IPD', 'iPod', 'iPod')),
 		'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_5; en-us) AppleWebKit/527.3+ (KHTML, like Gecko) Version/3.1.2 Safari/525.20.1' => array(
 			array('SF', 'Safari', 'Safari', '3.1', '3', '1', 'webkit'),
 			array('MAC', 'Mac OS', 'Mac OS')),
