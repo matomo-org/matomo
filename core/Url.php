@@ -295,13 +295,16 @@ class Piwik_Url
 		// handle case-sensitivity differences
 		$pathContains = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ? 'stripos' : 'strpos';
 
-		// determine the offset to begin the comparison;
-		// rationale: we can't rely on the scheme/protocol portion of the reconstructed "current" URL as there may be a reverse proxy
-		$offset = strpos($url, '://');
-		$current = strstr(self::getCurrentUrlWithoutFileName(), '://');
-		if($pathContains($url, $current, $offset) === $offset)
+		// test the scheme/protocol portion of the reconstructed "current" URL
+		if(stripos($url, 'http://') === 0 || stripos($url, 'https://') === 0)
 		{
-			return true;
+			// determine the offset to begin the comparison
+			$offset = strpos($url, '://');
+			$current = strstr(self::getCurrentUrlWithoutFileName(), '://');
+			if($pathContains($url, $current, $offset) === $offset)
+			{
+				return true;
+			}
 		}
 
 		return false;

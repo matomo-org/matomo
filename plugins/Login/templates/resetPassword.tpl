@@ -35,7 +35,7 @@
 		<input type="text" name="form_token" id="form_token" class="input" value="{$form_data.form_token.value}" size="20" tabindex="40" /></label>
 	</p>
 
-	<input name="form_url" type="hidden" value="{$urlToRedirect}" />
+	<input name="form_url" type="hidden" value="{$urlToRedirect|escape:url}" />
 	<p class="submit">
 		<input type="submit" value="{'Login_ChangePassword'|translate}" tabindex="100" />
 	</p>

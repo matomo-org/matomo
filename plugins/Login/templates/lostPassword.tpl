@@ -23,7 +23,7 @@
 		<label>{'Login_LoginOrEmail'|translate}:<br />
 		<input type="text" name="form_login" id="form_login" class="input" value="" size="20" tabindex="10" /></label>
 	</p>
-	<input name="form_url" type="hidden" value="{$urlToRedirect}" />
+	<input name="form_url" type="hidden" value="{$urlToRedirect|escape:url}" />
 	<p class="submit">
 		<input type="submit" value="{'Login_RemindPassword'|translate}" tabindex="100" />
 	</p>
