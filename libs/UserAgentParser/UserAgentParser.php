@@ -185,8 +185,8 @@ class UserAgentParser
 			'Windows 95'			=> 'W95',
 
 			'iPod'					=> 'IPD',
-			'iPhone'				=> 'IPH',
 			'iPad'					=> 'IPA',
+			'iPhone'				=> 'IPH',
 			'Darwin'				=> 'MAC',
 			'Macintosh'				=> 'MAC',
 			'Power Macintosh'		=> 'MAC',
@@ -417,7 +417,7 @@ class UserAgentParser
 		// init OS names and short names
 		self::$operatingSystemsIdToName = array_merge(array_flip(self::$operatingSystems), array(
 			'IPD' => 'iPod',
-			'IPA' => 'iPhone',
+			'IPA' => 'iPad',
 			'WME' => 'Windows Me',
 			'BEO' => 'BeOS',
 			'T64' => 'Tru64',
