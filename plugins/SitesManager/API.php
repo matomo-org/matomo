@@ -850,6 +850,8 @@ class Piwik_SitesManager_API
 		{
 			$urls = array($urls);
 		}
+		
+		$urls = array_map('urldecode', $urls);
 		foreach($urls as &$url)
 		{
 			$url = $this->removeTrailingSlash($url);
