@@ -285,6 +285,29 @@ class Piwik_Url
 	}
 
 	/**
+	 * Is the URL on the same host and in the same script path?
+	 *
+	 * @param string $url
+	 * @return bool True if local; false otherwise.
+	 */
+	static public function isLocalUrl($url)
+	{
+		// handle case-sensitivity differences
+		$pathContains = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ? 'stripos' : 'strpos';
+
+		// determine the offset to begin the comparison;
+		// rationale: we can't rely on the scheme/protocol portion of the reconstructed "current" URL as there may be a reverse proxy
+		$offset = strpos($url, '://');
+		$current = strstr(self::getCurrentUrlWithoutFileName(), '://');
+		if($pathContains($url, $current, $offset) === $offset)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get local referer, i.e., on the same host and in the same script path.
 	 *
 	 * @return string|false
@@ -293,20 +316,10 @@ class Piwik_Url
 	{
 		// verify that the referer contains the current URL (minus the filename & query parameters), http://example.org/dir1/dir2/
 		$referer = self::getReferer();
-		if($referer !== false)
-		{
-			// handle case-sensitivity differences
-			$pathContains = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ? 'stripos' : 'strpos';
-
-			// determine the offset to begin the comparison;
-			// rationale: we can't rely on the scheme/protocol portion of the reconstructed "current" URL as there may be a reverse proxy
-			$offset = strpos($referer, '://');
-			$current = strstr(self::getCurrentUrlWithoutFileName(), '://');
-			if($pathContains($referer, $current, $offset) === $offset)
-			{
-				return $referer;
-			}
+		if($referer !== false && self::isLocalUrl($referer)) {
+			return $referer;
 		}
+
 		return false;
 	}
 }
