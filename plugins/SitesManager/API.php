@@ -643,7 +643,7 @@ class Piwik_SitesManager_API
     		'USD' => '$',
             'EUR' => '€',
             'JPY' => '¥',
-            'GBP' => 'UK£',
+            'GBP' => '£',
             'AUD' => 'A$',
             'KRW' => '₩',
             'BRL' => 'R$',
