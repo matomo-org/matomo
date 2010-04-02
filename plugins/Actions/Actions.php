@@ -210,8 +210,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$query = "SELECT 	name,
 							type,
 							count(distinct visitor_idcookie) as exit_nb_uniq_visitors,
-							count(*) as exit_nb_visits,
-							sum(case visit_total_actions when 1 then 1 else 0 end) as exit_bounce_count
+							count(*) as exit_nb_visits
 				 	FROM ".$archiveProcessing->logTable." 
 						JOIN ".$archiveProcessing->logActionTable." ON (visit_exit_idaction_url = idaction)
 				 	WHERE visit_last_action_time >= ?
