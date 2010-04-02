@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Float.php 20532 2010-01-22 20:18:23Z thomas $
+ * @version    $Id: Float.php 21664 2010-03-27 21:39:38Z thomas $
  */
 
 /**
@@ -76,9 +76,7 @@ class Zend_Validate_Float extends Zend_Validate_Abstract
             }
         }
 
-        if ($locale !== null) {
-            $this->setLocale($locale);
-        }
+        $this->setLocale($locale);
     }
 
     /**
@@ -121,27 +119,14 @@ class Zend_Validate_Float extends Zend_Validate_Abstract
         }
 
         $this->_setValue($value);
-        if ($this->_locale === null) {
-            $locale        = localeconv();
-            $valueFiltered = str_replace($locale['thousands_sep'], '', (string) $value);
-            $valueFiltered = str_replace($locale['decimal_point'], '.', $valueFiltered);
-
-            if (strval(floatval($valueFiltered)) != $valueFiltered) {
+        try {
+            if (!Zend_Locale_Format::isFloat($value, array('locale' => $this->_locale))) {
                 $this->_error(self::NOT_FLOAT);
                 return false;
             }
-
-        } else {
-            try {
-                if (!Zend_Locale_Format::isFloat($value, array('locale' => 'en')) &&
-                    !Zend_Locale_Format::isFloat($value, array('locale' => $this->_locale))) {
-                    $this->_error(self::NOT_FLOAT);
-                    return false;
-                }
-            } catch (Zend_Locale_Exception $e) {
-                $this->_error(self::NOT_FLOAT);
-                return false;
-            }
+        } catch (Zend_Locale_Exception $e) {
+            $this->_error(self::NOT_FLOAT);
+            return false;
         }
 
         return true;

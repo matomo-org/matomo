@@ -17,14 +17,14 @@
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Test.php 20379 2010-01-18 14:40:57Z mabe $
+ * @version    $Id: Test.php 21292 2010-03-02 10:25:22Z mabe $
  */
 
 
 /**
  * @see Zend_Cache_Backend_Interface
  */
-require_once 'Zend/Cache/Backend/Interface.php';
+require_once 'Zend/Cache/Backend/ExtendedInterface.php';
 
 /**
  * @see Zend_Cache_Backend
@@ -37,7 +37,7 @@ require_once 'Zend/Cache/Backend.php';
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_Backend_Interface
+class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
 {
     /**
      * Available options
@@ -250,6 +250,145 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
     public function isAutomaticCleaningAvailable()
     {
         return true;
+    }
+
+    /**
+     * Return an array of stored cache ids
+     *
+     * @return array array of stored cache ids (string)
+     */
+    public function getIds()
+    {
+        return array(
+            'prefix_id1', 'prefix_id2'
+        );
+    }
+
+    /**
+     * Return an array of stored tags
+     *
+     * @return array array of stored tags (string)
+     */
+    public function getTags()
+    {
+        return array(
+            'tag1', 'tag2'
+        );
+    }
+
+    /**
+     * Return an array of stored cache ids which match given tags
+     *
+     * In case of multiple tags, a logical AND is made between tags
+     *
+     * @param array $tags array of tags
+     * @return array array of matching cache ids (string)
+     */
+    public function getIdsMatchingTags($tags = array())
+    {
+        if ($tags == array('tag1', 'tag2')) {
+            return array('prefix_id1', 'prefix_id2');
+        }
+
+        return array();
+    }
+
+    /**
+     * Return an array of stored cache ids which don't match given tags
+     *
+     * In case of multiple tags, a logical OR is made between tags
+     *
+     * @param array $tags array of tags
+     * @return array array of not matching cache ids (string)
+     */
+    public function getIdsNotMatchingTags($tags = array())
+    {
+        if ($tags == array('tag3', 'tag4')) {
+            return array('prefix_id3', 'prefix_id4');
+        }
+
+        return array();
+    }
+
+    /**
+     * Return an array of stored cache ids which match any given tags
+     *
+     * In case of multiple tags, a logical AND is made between tags
+     *
+     * @param array $tags array of tags
+     * @return array array of any matching cache ids (string)
+     */
+    public function getIdsMatchingAnyTags($tags = array())
+    {
+        if ($tags == array('tag5', 'tag6')) {
+            return array('prefix_id5', 'prefix_id6');
+        }
+
+        return array();
+    }
+
+    /**
+     * Return the filling percentage of the backend storage
+     *
+     * @return int integer between 0 and 100
+     */
+    public function getFillingPercentage()
+    {
+        return 50;
+    }
+
+    /**
+     * Return an array of metadatas for the given cache id
+     *
+     * The array must include these keys :
+     * - expire : the expire timestamp
+     * - tags : a string array of tags
+     * - mtime : timestamp of last modification time
+     *
+     * @param string $id cache id
+     * @return array array of metadatas (false if the cache id is not found)
+     */
+    public function getMetadatas($id)
+    {
+        return false;
+    }
+
+    /**
+     * Give (if possible) an extra lifetime to the given cache id
+     *
+     * @param string $id cache id
+     * @param int $extraLifetime
+     * @return boolean true if ok
+     */
+    public function touch($id, $extraLifetime)
+    {
+        return true;
+    }
+
+    /**
+     * Return an associative array of capabilities (booleans) of the backend
+     *
+     * The array must include these keys :
+     * - automatic_cleaning (is automating cleaning necessary)
+     * - tags (are tags supported)
+     * - expired_read (is it possible to read expired cache records
+     *                 (for doNotTestCacheValidity option for example))
+     * - priority does the backend deal with priority when saving
+     * - infinite_lifetime (is infinite lifetime can work with this backend)
+     * - get_list (is it possible to get the list of cache ids and the complete list of tags)
+     *
+     * @return array associative of with capabilities
+     */
+    public function getCapabilities()
+    {
+        return array(
+            'automatic_cleaning' => true,
+            'tags'               => true,
+            'expired_read'       => false,
+            'priority'           => true,
+            'infinite_lifetime'  => true,
+            'get_list'           => true
+        );
     }
 
     /**

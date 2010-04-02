@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Iban.php 20532 2010-01-22 20:18:23Z thomas $
+ * @version    $Id: Iban.php 21563 2010-03-19 10:10:45Z thomas $
  */
 
 /**
@@ -123,14 +123,14 @@ class Zend_Validate_Iban extends Zend_Validate_Abstract
             }
         }
 
-        if (empty($locale)) {
+        if ($locale !== false) {
             require_once 'Zend/Registry.php';
             if (Zend_Registry::isRegistered('Zend_Locale')) {
                 $locale = Zend_Registry::get('Zend_Locale');
             }
         }
 
-        if ($locale !== null) {
+        if (!empty($locale)) {
             $this->setLocale($locale);
         }
     }
@@ -153,11 +153,13 @@ class Zend_Validate_Iban extends Zend_Validate_Abstract
      */
     public function setLocale($locale = null)
     {
-        require_once 'Zend/Locale.php';
-        $locale = Zend_Locale::findLocale($locale);
-        if (strlen($locale) < 4) {
-            require_once 'Zend/Validate/Exception.php';
-            throw new Zend_Validate_Exception('Region must be given for IBAN validation');
+        if ($locale !== false) {
+            require_once 'Zend/Locale.php';
+            $locale = Zend_Locale::findLocale($locale);
+            if (strlen($locale) < 4) {
+                require_once 'Zend/Validate/Exception.php';
+                throw new Zend_Validate_Exception('Region must be given for IBAN validation');
+            }
         }
 
         $this->_locale = $locale;
