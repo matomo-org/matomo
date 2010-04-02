@@ -49,7 +49,7 @@ function getAddSiteAJAX( row )
 
 function getApiFormatUrls(urls)
 {
-	return urls.trim().split("\n");
+	return encodeURIComponent(urls.trim()).split("\n");
 }
 function getApiFormatTextarea(textareaContent)
 {
