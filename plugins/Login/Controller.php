@@ -26,7 +26,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	{
 		// retrieve any previously saved referer
 		$referer = Piwik_Common::getRequestVar($var, '', 'string');
-		if(!empty($referer))
+		if(!empty($referer) && Piwik_Url::isLocalUrl($referer))
 		{
 			return htmlspecialchars_decode($referer);
 		}
