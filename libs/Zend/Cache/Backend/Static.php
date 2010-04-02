@@ -233,7 +233,6 @@ class Zend_Cache_Backend_Static
         if ($extension) $ext = $extension;
         $file = rtrim($pathName, '/') . '/' . $fileName . $ext;
         if ($this->_options['file_locking']) {
-            file_put_contents('/var/www/data.dump', $file.$data);
             $result = file_put_contents($file, $data, LOCK_EX);
         } else {
             $result = file_put_contents($file, $data);

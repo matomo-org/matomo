@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Count.php 20358 2010-01-17 19:03:49Z thomas $
+ * @version   $Id: Count.php 21326 2010-03-04 20:32:39Z thomas $
  */
 
 /**
@@ -249,7 +249,10 @@ class Zend_Validate_File_Count extends Zend_Validate_Abstract
             $value = $file['destination'] . DIRECTORY_SEPARATOR . $file['name'];
         }
 
-        $this->addFile($value);
+        if (($file === null) || !empty($file['tmp_name'])) {
+            $this->addFile($value);
+        }
+
         $this->_count = count($this->_files);
         if (($this->_max !== null) && ($this->_count > $this->_max)) {
             return $this->_throw($file, self::TOO_MANY);

@@ -282,8 +282,7 @@ class Zend_Feed_Rss extends Zend_Feed_Abstract
         $author = '';
         $email = '';
         if (isset($array->itunes->owner)) {
-			// ZF-9313
-			$itunesOwner = $array->itunes->owner;
+            $itunesOwner = $array->itunes->owner;
             if (isset($itunesOwner['name'])) {
                 $author = $itunesOwner['name'];
             }
