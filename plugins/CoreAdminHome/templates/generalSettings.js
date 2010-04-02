@@ -1,7 +1,7 @@
 function getGeneralSettingsAJAX()
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoading', 'ajaxError');
-	var enableBrowserTriggerArchiving = $('#enableBrowserTriggerArchiving').val();
+	var enableBrowserTriggerArchiving = $('input[name=enableBrowserTriggerArchiving]:checked').val();
 	var todayArchiveTimeToLive = $('#todayArchiveTimeToLive').val();
 	var request = '';
 	request += 'module=CoreAdminHome';
