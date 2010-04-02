@@ -1096,6 +1096,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Skynet
 		'search.skynet.be'			=> array('Skynet', 'keywords'),
 
+		// Sogou
+		'www.sogou.com'				=> array('Sogou', 'query', 'web?query={k}'),
+
 		// soso.com
 		'www.soso.com'				=> array('Soso', 'w'),
 
