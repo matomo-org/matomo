@@ -28,14 +28,13 @@
 	{*
 		<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> Remember Me</label></p>
 	*}
-	<input name="form_url" type="hidden" value="{$urlToRedirect|escape:url}" />
 	<p class="submit">
 		<input type="submit" value="{'Login_LogIn'|translate}" tabindex="100" />
 	</p>
 </form>
 
 <p id="nav">
-<a href="index.php?module=Login&amp;action=lostPassword&amp;form_url={$urlToRedirect|escape:url}" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
+<a href="index.php?module=Login&amp;action=lostPassword" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
 </p>
 
 </div>

@@ -18,25 +18,32 @@
 class Piwik_Login_Controller extends Piwik_Controller
 {
 	/**
-	 * Redirect to referer only if from within Piwik
+	 * Get referer to redirect to upon successful login.
+	 * Remembers referer URL even if navigation is: login form -> reset password -> login form
 	 *
 	 * @returns string
 	 */
-	static public function getRefererToRedirect($var = 'form_url')
+	static public function getRefererToRedirect()
 	{
 		// retrieve any previously saved referer
-		$referer = Piwik_Common::getRequestVar($var, '', 'string');
-		if(!empty($referer) && Piwik_Url::isLocalUrl($referer))
+		$ns = new Zend_Session_Namespace('Piwik_Login.referer');
+		$referer = $ns->referer;
+		if(empty($referer))
 		{
-			return htmlspecialchars_decode($referer);
+			// if the referer contains module=Login, Installation, or CoreUpdater, we instead redirect to the doc root
+			$referer = Piwik_Url::getLocalReferer();
+			if(empty($referer) || preg_match('/module=(Login|Installation|CoreUpdater)/', $referer))
+			{
+				$referer = 'index.php';
+			}
+			$ns->referer = $referer;
+			$ns->setExpirationSeconds(300, 'referer');
 		}
-
-		// if the referer contains module=Login, Installation, or CoreUpdater, we instead redirect to the doc root
-		$referer = Piwik_Url::getLocalReferer();
-		if(empty($referer) || preg_match('/module=(Login|Installation|CoreUpdater)/', $referer))
+		else if(!Piwik_Url::isLocalUrl($referer))
 		{
 			$referer = 'index.php';
 		}
+
 		return $referer;
 	}
 
@@ -76,8 +83,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 
 		$view = Piwik_View::factory('login');
-		// make navigation login form -> reset password -> login form remember your first url
-		$view->urlToRedirect = $urlToRedirect;
 		$view->AccessErrorString = $messageNoAccess;
 		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 		$view->linkTitle = Piwik::getRandomTitle();
@@ -106,7 +111,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 			throw new Exception("The Super User cannot be authenticated using this URL.");
 		}
 
-		$urlToRedirect = self::getRefererToRedirect('url');
+		$currentUrl = 'index.php';
+		$urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
+		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
+
 		$authenticated = $this->authenticateAndRedirect($login, $password, $urlToRedirect);
 		if($authenticated === false)
 		{
@@ -136,6 +144,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 			return Piwik_Translate('Login_LoginPasswordNotCorrect');
 		}
 
+		$ns = new Zend_Session_Namespace('Piwik_Login.referer');
+		unset($ns->referer);
+
 		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
 		$authCookieExpiry = time() + Zend_Registry::get('config')->General->login_cookie_expire;
 		$authCookiePath = Zend_Registry::get('config')->General->login_cookie_path;
@@ -164,13 +175,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 		if($form->validate())
 		{
 			$loginMail = $form->getSubmitValue('form_login');
-			$messageNoAccess = $this->lostPasswordFormValidated($loginMail, $urlToRedirect);
+			$messageNoAccess = $this->lostPasswordFormValidated($loginMail);
 		}
 
 		$view = Piwik_View::factory('lostPassword');
 		$view->AccessErrorString = $messageNoAccess;
-		// make navigation login form -> reset password -> login form remember your first url
-		$view->urlToRedirect = $urlToRedirect;
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
 		$view->subTemplate = 'genericForm.tpl';
@@ -184,7 +193,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 * @param string $urlToRedirect (URL to redirect to, if successfully validated)
 	 * @return string (failure message if unable to validate)
 	 */
-	protected function lostPasswordFormValidated($loginMail, $urlToRedirect)
+	protected function lostPasswordFormValidated($loginMail)
 	{
 		$user = self::getUserInformation($loginMail);
 		if( $user === null )
@@ -235,7 +244,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 
 		$view->linkTitle = Piwik::getRandomTitle();
-		$view->urlToRedirect = $urlToRedirect;
 		echo $view->render();
 
 		exit;
@@ -258,13 +266,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$loginMail = $form->getSubmitValue('form_login');
 			$token = $form->getSubmitValue('form_token');
 			$password = $form->getSubmitValue('form_password');
-			$messageNoAccess = $this->resetPasswordFormValidated($loginMail, $token, $password, $urlToRedirect);
+			$messageNoAccess = $this->resetPasswordFormValidated($loginMail, $token, $password);
 		}
 
 		$view = Piwik_View::factory('resetPassword');
 		$view->AccessErrorString = $messageNoAccess;
-		// make navigation login form -> reset password -> login form remember your first url
-		$view->urlToRedirect = $urlToRedirect;
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
 		$view->subTemplate = 'genericForm.tpl';
@@ -280,7 +286,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 * @param string $urlToRedirect (URL to redirect to, if successfully validated)
 	 * @return string (failure message)
 	 */
-	protected function resetPasswordFormValidated($loginMail, $token, $password, $urlToRedirect)
+	protected function resetPasswordFormValidated($loginMail, $token, $password)
 	{
 		$user = self::getUserInformation($loginMail);
 		if( $user === null )
@@ -312,7 +318,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 		$view = Piwik_View::factory('passwordchanged');
 		$view->linkTitle = Piwik::getRandomTitle();
-		$view->urlToRedirect = $urlToRedirect;
 		echo $view->render();
 
 		exit;
