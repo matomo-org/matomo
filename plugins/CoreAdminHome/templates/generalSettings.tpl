@@ -14,8 +14,8 @@
 	<td style='width:400px'>{'General_AllowPiwikArchivingToTriggerBrowser'|translate}</td>
 	<td style='width:150px'>
 	<fieldset>
-		<label><input type="radio" value="0" name="enableBrowserTriggerArchiving" {if $enableBrowserTriggerArchiving==0}checked="checked"{/if}> {'General_Yes'|translate}</label><br>
-		<label><input type="radio" value="1" name="enableBrowserTriggerArchiving" {if $enableBrowserTriggerArchiving!=0}checked="checked"{/if}> {'General_No'|translate}</label> 
+		<label><input type="radio" value="1" name="enableBrowserTriggerArchiving" {if $enableBrowserTriggerArchiving==1}checked="checked"{/if}> {'General_Yes'|translate}</label><br>
+		<label><input type="radio" value="0" name="enableBrowserTriggerArchiving" {if $enableBrowserTriggerArchiving==0}checked="checked"{/if}> {'General_No'|translate}</label> 
 	</fieldset>
 	<td>
 	{capture assign=browserArchivingHelp}
