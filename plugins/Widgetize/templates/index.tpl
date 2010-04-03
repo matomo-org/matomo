@@ -76,13 +76,14 @@ $(document).ready( function() {
 
 <div style="max-width:980px;">
 	<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
-	<p><b>&rsaquo; Widget authentication: </b> If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
+	<p><b>&rsaquo; Widget authentication:</b> If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
 	to the anonymous user in the <a href='index.php?module=UsersManager'>Users Management section</a>. 
 	<br />Alternatively, if you are publishing widgets on a password protected or private page, 
 	you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret token_auth parameter (found in the <a href='{url module=API action=listAllAPI}' target='_blank'>API page</a>) in the widget URL. 
-	
 	</p>
-	<p>	<b>&rsaquo; Widgetize the full dashboard:</b> You can also display the full Piwik dashboard in your application or website in an Iframe (<a href='' target='_blank' id='linkDashboardUrl'>see example</a>). 
+	<p><b>&rsaquo; Widgetize the full dashboard:</b> You can also display the full Piwik dashboard in your application or website in an IFRAME (<a href='' target='_blank' id='linkDashboardUrl'>see example</a>). 
+    The date parameter can be set to a specific calendar date, "today", or "yesterday".  The period parameter can be set to "day", "week", "month", or "year".
+    The language parameter can be set to the language code of a translation, such as language=fr.
 	For example, for idSite=1 and date=yesterday, you can write: <span id='exportFullDashboard'></span>
 	</p>
 	<p>	<b>&rsaquo; Select a report, and copy paste in your page the embed code below the widget:</b>
