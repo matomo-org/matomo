@@ -105,8 +105,9 @@ class Piwik_Common
 			} catch (Exception $e) {
 				Piwik::createDatabaseObject();
 			}
-    		$pluginsManager = Piwik_PluginsManager::getInstance();
-    		$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+
+			$pluginsManager = Piwik_PluginsManager::getInstance();
+			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 		}
 
 		$isSuperUser = Piwik::isUserIsSuperUser();
