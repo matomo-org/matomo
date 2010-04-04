@@ -73,9 +73,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Acoon
 		'www.acoon.de'				=> array('Acoon', 'begriff'),
 
-		// Acont
-		'acont.de'					=> array('Acont', 'query'),
-
 		// Alexa
 		'www.alexa.com'				=> array('Alexa', 'q', 'search?q={k}'),
 		'alexa.com'					=> array('Alexa', 'q'),
@@ -301,6 +298,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Ecosia (powered by Bing)
 		'ecosia.org'				=> array('Ecosia', 'q', 'search.php?q={k}'),
+		'www.ecosia.org'			=> array('Ecosia', 'q'),
 
 		// Eniro
 		'www.eniro.se'				=> array('Eniro', 'q'),
@@ -1100,7 +1098,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.sogou.com'				=> array('Sogou', 'query', 'web?query={k}'),
 
 		// soso.com
-		'www.soso.com'				=> array('Soso', 'w'),
+		'www.soso.com'				=> array('Soso', 'w', 'q?w={k}', 'gb2312'),
 
 		// Sphere
 		'www.sphere.com'			=> array('Sphere', 'q'),
@@ -1190,8 +1188,31 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'suche.web.de'				=> array('Web.de (Websuche)', 'su'),
 		'dir.web.de'				=> array('Web.de (Directory)', 'su'),
 
+		// Web.nl
+		'www.web.nl'				=> array('Web.nl', 'query'),
+
+		// Weborama
+		'www.weborama.fr'			=> array('weborama', 'query'),
+
+		// WebSearch
+		'is1.websearch.com'			=> array('WebSearch', 'qkw'),
+		'www.websearch.com'			=> array('WebSearch', 'qkw'),
+		'websearch.cs.com'			=> array('WebSearch', 'query'),
+
 		// Webtip
 		'www.webtip.de'				=> array('Webtip', 'keyword'),
+
+		// Wedoo
+		'fr.wedoo.com'				=> array('Wedoo', 'keyword'),
+
+		// Witch
+		'www.witch.de'				=> array('Witch', 'search'),
+
+		// WXS
+		'wxsl.nl'					=> array('Planet Internet', 'q'),
+
+		// WWW
+		'search.www.ee'				=> array('www värav', 'query'),
 
 		// X-recherche
 		'www.x-recherche.com'		=> array('X-Recherche', 'mots'),
@@ -1260,33 +1281,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Yellowmap
 		'www.yellowmap.de'			=> array('Yellowmap', ' '),
 		'yellowmap.de'				=> array('Yellowmap', ' '),
-
-		// Wanadoo
-		'search.ke.wanadoo.fr'		=> array('Wanadoo', 'kw'),
-		'busca.wanadoo.es'			=> array('Wanadoo', 'buscar'),
-
-		// Wedoo
-		'fr.wedoo.com'				=> array('Wedoo', 'keyword'),
-
-		// Web.nl
-		'www.web.nl'				=> array('Web.nl', 'query'),
-
-		// Weborama
-		'www.weborama.fr'			=> array('weborama', 'query'),
-
-		// WebSearch
-		'is1.websearch.com'			=> array('WebSearch', 'qkw'),
-		'www.websearch.com'			=> array('WebSearch', 'qkw'),
-		'websearch.cs.com'			=> array('WebSearch', 'query'),
-
-		// Witch
-		'www.witch.de'				=> array('Witch', 'search'),
-
-		// WWW
-		'search.www.ee'				=> array('www värav', 'query'),
-
-		// WXS
-		'wxsl.nl'					=> array('Planet Internet', 'q'),
 
 		// Zoek
 		'www3.zoek.nl'				=> array('Zoek', 'q'),
