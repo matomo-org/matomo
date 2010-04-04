@@ -905,23 +905,23 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'ariadna.elmundo.es'		=> array('El Mundo', 'q'),
 
 		// MySpace
-		'searchservice.myspace.com'	=> array('MySpace', 'qry'),
+		'searchservice.myspace.com'	=> array('MySpace', 'qry', 'index.cfm?fuseaction=sitesearch.results&type=Web&qry={k}'),
 
-		// MyWebSearch
-		'kf.mysearch.myway.com'		=> array('MyWebSearch', 'searchfor'),
+		// MySearch / MyWay / MyWebSearch (default: powered by Ask.com)
+		'www.mysearch.com'			=> array('MyWebSearch', 'searchfor', 'search/Ajmain.jhtml?searchfor={k}'),
 		'ms114.mysearch.com'		=> array('MyWebSearch', 'searchfor'),
 		'ms146.mysearch.com'		=> array('MyWebSearch', 'searchfor'),
-		'mysearch.myway.com'		=> array('MyWebSearch', 'searchfor'),
-		'searchfr.myway.com'		=> array('MyWebSearch', 'searchfor'),
+		'kf.mysearch.myway.com'		=> array('MyWebSearch', 'searchfor'),
 		'ki.mysearch.myway.com'		=> array('MyWebSearch', 'searchfor'),
-		'search.mywebsearch.com'	=> array('MyWebSearch', 'searchfor'),
-		'www.mywebsearch.com'		=> array('MyWebSearch', 'searchfor'),
+		'search.myway.com'			=> array('MyWebSearch', 'searchfor'),
+		'search.mywebsearch.com'	=> array('MyWebSearch', 'searchfor', 'mywebsearch/Ajmain.jhtml?searchfor={k}'),
+
 
 		// Najdi
 		'www.najdi.si'				=> array('Najdi.si', 'q'),
 
 		// Naver
-		'search.naver.com'			=> array('Naver', 'query'),
+		'search.naver.com'			=> array('Naver', 'query', 'search.naver?query={k}', 'x-windows-949'),
 
 		// Needtofind
 		'ko.search.need2find.com'	=> array('Needtofind', 'searchfor'),
