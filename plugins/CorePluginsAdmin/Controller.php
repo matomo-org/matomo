@@ -54,7 +54,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
-		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin');
+		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin&action=index');
 	}
 
 	function activate()
@@ -63,6 +63,6 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
-		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin');
+		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin&action=index');
 	}
 }
