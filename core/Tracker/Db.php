@@ -155,6 +155,25 @@ abstract class Piwik_Tracker_Db
 	}
 
 	/**
+	 * This function is a proxy to fetch(, used to maintain compatibility with Zend_Db interface
+	 * @see fetch()
+	 */
+	public function fetchOne( $query, $parameters = array() )
+	{
+		$result = $this->fetch($query, $parameters);
+		return is_array($result) ? $result[0] : false;
+	}
+
+	/**
+	 * This function is a proxy to fetch(, used to maintain compatibility with Zend_Db + PDO interface
+	 * @see fetch()
+	 */
+	public function exec( $query, $parameters = array() )
+	{
+		return $this->fetch($query, $parameters);
+	}
+
+	/**
 	 * Return number of affected rows in last query
 	 *
 	 * @param mixed $queryResult Result from query()

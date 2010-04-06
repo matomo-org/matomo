@@ -11,19 +11,24 @@ require_once 'Tracker/Visit.php';
 
 
 require_once "Database.test.php";
-$GLOBALS['PIWIK_TRACKER_MODE'] = true;
 class Test_Piwik_TrackerVisit extends Test_Database
 {
-    public function setUp()
-    {
-    	parent::setUp();
+	public function setUp()
+	{
+		$GLOBALS['PIWIK_TRACKER_MODE'] = true;
+		parent::setUp();
 
 		// setup the access layer
-    	$pseudoMockAccess = new FakeAccess;
+		$pseudoMockAccess = new FakeAccess;
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
-    }
-    
+	}
+
+	public function tearDown()
+	{
+		$GLOBALS['PIWIK_TRACKER_MODE'] = false;
+	}
+
 	function test_isVisitorIpExcluded()
 	{
 		$excludedIps = array(

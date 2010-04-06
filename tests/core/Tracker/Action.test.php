@@ -11,17 +11,22 @@ require_once 'Tracker/Action.php';
 require_once 'Tracker/Config.php';
 require_once "Database.test.php";
 
-$GLOBALS['PIWIK_TRACKER_MODE'] = true;
 class Test_Piwik_TrackerAction extends  Test_Database
 {
 	function setUp()
 	{
+		$GLOBALS['PIWIK_TRACKER_MODE'] = true;
 		parent::setUp();
 		$userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Tracker/Action.config.ini.php';
-    	$config = Piwik_Tracker_Config::getInstance();
-    	$config->init($userFile);
+		$config = Piwik_Tracker_Config::getInstance();
+		$config->init($userFile);
 	}
-	
+
+	function tearDown()
+	{
+		$GLOBALS['PIWIK_TRACKER_MODE'] = false;
+	}
+
 	protected function setUpRootAccess()
 	{
     	$pseudoMockAccess = new FakeAccess;
