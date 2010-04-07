@@ -34,6 +34,8 @@ class Piwik_UpdateCheck
 		if($force || $lastTimeChecked === false
 			|| time() - self::CHECK_INTERVAL > $lastTimeChecked )
 		{
+			// set the time checked first, so that parallel Piwik requests don't all trigger the http requests
+			Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoload = 1);
 			$parameters = array(
 				'piwik_version' => Piwik_Version::VERSION,
 				'php_version' => phpversion(),
@@ -50,7 +52,6 @@ class Piwik_UpdateCheck
 				// e.g., disable_functions = fsockopen; allow_url_open = Off
 				Piwik_SetOption(self::LATEST_VERSION, '');
 			}
-			Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoload = 1);
 		}
 	}
 	
