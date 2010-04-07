@@ -298,6 +298,9 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.2b) Gecko/20020923 Phoenix/0.1' => array(
 			array('PX', 'Phoenix', 'Phoenix', '0.1', '0', '1', 'gecko'),
 			array('WXP', 'Windows XP', 'Win XP')),
+		'Mozilla/5.0 (Nintendo DS v4; U; M3 Adapter CF + PassMe2; en-US; rv:1.8.0.6 ) Gecko/20060728 Firefox/1.5.0.6 (firefox.gba.ds)' => array(
+			array('FF', 'Firefox', 'Firefox', '1.5', '1', '5', 'gecko'),
+			array('NDS', 'Nintendo DS', 'DS')),
 
 		// Flock
 		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7 Flock/2.5.6 (.NET CLR 3.5.30729)' => array(
@@ -643,6 +646,15 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Opera/9.80 (Windows NT 5.1; U; en) Presto/2.2.15 Version/10.00' => array(
 			array('OP', 'Opera', 'Opera', '10.00', '10', '0', 'opera'),
 			array('WXP', 'Windows XP', 'Win XP')),
+		'Mozilla/4.0 (compatible; MSIE 6.0; Nitro) Opera 8.50 [en Mozilla/4.0 (compatible; MSIE 6.0; Nitro) Opera 8.50 [ja]' => array(
+			array('OP', 'Opera', 'Opera', '8.50', '8', '50', 'opera'),
+			array('NDS', 'Nintendo DS', 'DS')),
+		'Opera/9.00 (Nintendo DS U; ; 1309-9; de)' => array(
+			array('OP', 'Opera', 'Opera', '9.00', '9', '00', 'opera'),
+			array('NDS', 'Nintendo DS', 'DS')),
+		'Opera/9.50 (Nintendo DSi; Opera/507; U; en-US) ' => array(
+			array('OP', 'Opera', 'Opera', '9.50', '9', '50', 'opera'),
+			array('DSI', 'Nintendo DSi', 'DSi')),
 
 		// PSP
 		'PSP (PlayStation Portable); 2.00' => array(
