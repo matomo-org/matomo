@@ -104,6 +104,9 @@ class UserAgentParser
 			'netscape'						=> 'NS',
 
 			'omniweb'						=> 'OW',
+
+			// Opera
+			'nitro) opera'					=> 'OP',
 			'opera'							=> 'OP',
 
 			// Safari
@@ -214,6 +217,9 @@ class UserAgentParser
 			'Syllable'				=> 'SYL',
 
 			'Nintendo Wii'			=> 'WII',
+			'Nitro'					=> 'NDS',
+			'Nintendo DS '			=> 'NDS',
+			'Nintendo DSi'			=> 'DSI',
 			'PlayStation Portable'	=> 'PSP',
 			'PlayStation 3'			=> 'PS3',
 
@@ -291,11 +297,12 @@ class UserAgentParser
 		unset($browsers['firefox']);
 		unset($browsers['mozilla']);
 		unset($browsers['safari']);
-		$browsersPattern = implode('|', array_keys($browsers));
+		unset($browsers['opera']);
+		$browsersPattern = str_replace(')', '\)', implode('|', array_keys($browsers)));
 
 		$results = array();
 
-		if (preg_match_all("/($browsersPattern)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
+		if (preg_match_all("/(^opera|$browsersPattern)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			|| preg_match_all("/(firefox|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			|| preg_match_all("/^(mozilla)\/([0-9]+)([\.0-9a-z-]+)?(?: \[[a-z]{2}\])? (?:\([^)]*\))$/i", $userAgent, $results)
 			|| preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
@@ -421,11 +428,14 @@ class UserAgentParser
 			'WME' => 'Windows Me',
 			'BEO' => 'BeOS',
 			'T64' => 'Tru64',
+			'NDS' => 'Nintendo DS',
 		));
 		self::$operatingSystemsIdToShortName = array_merge(self::$operatingSystemsIdToName, array(
 			'PS3' => 'PS3',
 			'PSP' => 'PSP',
 			'WII' => 'Wii',
+			'NDS' => 'DS',
+			'DSI' => 'DSi',
 			'WI7' => 'Win 7',
 			'WVI' => 'Win Vista',
 			'WS3' => 'Win S2003',
