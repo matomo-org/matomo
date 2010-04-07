@@ -299,8 +299,27 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
      * @access    public
      * @return    void
      */
-    function addOption($text, $value, $attributes=null)
-    {
+
+    // CLY - modification to allow optgroups
+    // function addOption($text, $value, $attributes=null)
+    function addOption($text, $value, $attributes=null, &$optGroup=null) {
+        // if text is an array, start an optgroup
+        if (is_array($text)) {
+            if (is_array($optGroup)) {
+                $optGroup[$value]['options'] = array();
+                $optGroup =& $optGroup[$value]['options'];
+            }
+            else {
+                $this->_options[$value]['options'] = array();
+                $optGroup =& $this->_options[$value]['options'];
+            };
+            foreach($text as $key=>$val) {
+                $this->addOption($val, $key, null, $optGroup);
+            }
+            // done all the options in the optgroup
+            return;
+        }
+    // end mod 
         if (null === $attributes) {
             $attributes = array('value' => (string)$value);
         } else {
@@ -316,7 +335,33 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
             }
             $this->_updateAttrArray($attributes, array('value' => (string)$value));
         }
-        $this->_options[] = array('text' => $text, 'attr' => $attributes);
+    // CLY - modification to allow optgroups
+        // if $optGroup is an array, add the option to it
+        if (is_array($optGroup)) {
+            $optGroup[$text]['attr'] = $attributes;
+        }
+        // if $optGroup is a string, add the option to the option group
+        // used if directly adding an option to an optgroup
+        elseif (is_string($optGroup)) {
+            $optGroups = explode($optGroup, ',');
+            $target =& $this->_options;
+            foreach($optGroups as $group) {
+                // create the option group if it does not exist
+                if (empty($target[$group]['options'])) {
+                    $target[$group]['options'] = array();
+                }
+                $target =& $target[$group]['options'];
+            }
+            // foreach
+            // add the option
+            $target[$text]['attr'] = $attributes;
+        }
+        // else if there are attributes, add them to the option
+        elseif (is_array($attributes)) {
+            $this->_options[$text]['attr'] = $attributes;
+        }
+        // $this->_options[] = array('text' => $text, 'attr' => $attributes);
+    // end mod 
     } // end func addOption
     
     // }}}
@@ -493,7 +538,11 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
             }
             $strHtml .= $tabs . '<select' . $attrString . ">\n";
 
-            $strValues = is_array($this->_values)? array_map('strval', $this->_values): array();
+        // CLY - modified to allow optgroups
+            foreach ($this->_options as $text=>$option) {
+                $strHtml .= $tabs . $this->_optionToHtml($text, $option);
+            } 
+        /*    $strValues = is_array($this->_values)? array_map('strval', $this->_values): array();
             foreach ($this->_options as $option) {
                 if (!empty($strValues) && in_array($option['attr']['value'], $strValues, true)) {
                     $option['attr']['selected'] = 'selected';
@@ -501,13 +550,48 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
                 $strHtml .= $tabs . "\t<option" . $this->_getAttrString($option['attr']) . '>' .
                             $option['text'] . "</option>\n";
             }
-
+        */
+        // end mod
             return $strHtml . $tabs . '</select>';
         }
     } //end func toHtml
     
     // }}}
     // {{{ getFrozenHtml()
+
+// CLY - new function to allow optgroups
+    /**
+    * Returns an OPTION in HTML
+    *
+    * This function is called recursively to support optgroups
+    *
+    * @param string $text Display text for the option
+    * @param array $option The option
+    * @since ??
+    * @access private
+    * @return string
+    */
+    // Creates the HTML for an option
+    function _optionToHtml($text, $option)
+    {
+        $tabs = $this->_getTabs();
+        // if an option has options it's an optgroup
+        if (isset($option['options'])) {
+            $strHtml = $tabs . "<optgroup label=\"$text\">\n";
+            foreach($option['options'] as $txt=>$opt) {
+                $strHtml .= $tabs . $this->_optionToHtml($txt, $opt);
+            }
+            $strHtml .= $tabs . "</optgroup>\n";
+            return($strHtml);
+        }
+        // else it's an option
+        else {
+            if (is_array($this->_values) && in_array((string)$option['attr']['value'], $this->_values)) {
+                $this->_updateAttrArray($option['attr'], array('selected' => 'selected'));
+            }
+            return("\t<option" . $this->_getAttrString($option['attr']) . ">$text</option>\n");
+        }
+    } 
 
     /**
      * Returns the value of field without HTML tags
@@ -568,12 +652,17 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
         if (is_array($value) && !empty($this->_options)) {
             $cleanValue = null;
             foreach ($value as $v) {
-                for ($i = 0, $optCount = count($this->_options); $i < $optCount; $i++) {
-                    if (0 == strcmp($v, $this->_options[$i]['attr']['value'])) {
-                        $cleanValue[] = $v;
-                        break;
-                    }
-                }
+            // CLY - modified to allow optgroups 
+                if ($this->_isInOptGroup($v, $this->_options)) {
+                    $cleanValue[] = $v;
+                } 
+//                for ($i = 0, $optCount = count($this->_options); $i < $optCount; $i++) {
+//                    if (0 == strcmp($v, $this->_options[$i]['attr']['value'])) {
+//                        $cleanValue[] = $v;
+//                        break;
+//                    }
+//                }
+            // end mod
             }
         } else {
             $cleanValue = $value;
@@ -607,6 +696,22 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
         } else {
             return parent::onQuickFormEvent($event, $arg, $caller);
         }
+    }
+                                                                                                                                                                                  
+    function _isInOptGroup($v, $opts) {
+        $isInOptGroup = false;
+        foreach ($opts as $opt) {
+            if (isset($opt['options'])) {
+                $isInOptGroup = $this->_isInOptGroup($v, $opt['options']);
+            }
+            else {
+                if ($v == $opt['attr']['value']) {
+                    $isInOptGroup = true;
+                }
+            }
+            if ($isInOptGroup) break;
+        }
+        return $isInOptGroup;
     }
 
     // }}}

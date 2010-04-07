@@ -220,18 +220,23 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	function databaseCheck()
 	{
 		$this->checkPreviousStepIsValid( __FUNCTION__ );
-
 		$view = new Piwik_Installation_View(
 						$this->pathView . 'databaseCheck.tpl',
 						$this->getInstallationSteps(),
 						__FUNCTION__
 					);
+					
+		$error = false;
 		$this->skipThisStep( __FUNCTION__ );
 
 		if(isset($this->session->databaseVersionOk)
 			&& $this->session->databaseVersionOk === true)
 		{
 			$view->databaseVersionOk = true;
+		}
+		else
+		{
+			$error = true;
 		}
 
 		if(isset($this->session->databaseCreated)
@@ -241,6 +246,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->databaseName = $dbInfos['dbname'];
 			$view->databaseCreated = true;
 		}
+		else
+		{
+			$error = true;
+		}
 
 		$this->createDbFromSessionInformation();
 		$db = Zend_Registry::get('db');
@@ -249,6 +258,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$db->checkClientVersion();
 		} catch(Exception $e) {
 			$view->clientVersionWarning = $e->getMessage();
+			$error = true;
 		}
 
 		$this->session->charsetCorrection = false;
@@ -259,7 +269,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$view->showNextStep = true;
 		$this->session->currentStepDone = __FUNCTION__;
-
+	
+		if($error === false)
+		{
+			$this->redirectToNextStep(__FUNCTION__);
+		}
 		echo $view->render();
 	}
 
@@ -411,12 +425,12 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$this->session->generalSetupSuccessMessage = true;
 		}
 
+		$this->initObjectsToCallAPI();
 		if($form->validate())
 		{
 			$name = urlencode($form->getSubmitValue('siteName'));
 			$url = urlencode($form->getSubmitValue('url'));
 
-			$this->initObjectsToCallAPI();
 
 			$request = new Piwik_API_Request("
 							method=SitesManager.addSite

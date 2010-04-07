@@ -28,11 +28,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		}
 		$view->adminSites = $sites;
 		
-		try {
-			$timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
-		} catch(Exception $e) {
-			$timezones = array();
-		}
+		$timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
 		$view->timezoneSupported = Piwik::isTimezoneSupportEnabled();
 		$view->timezones = json_encode($timezones);
 		$view->defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();

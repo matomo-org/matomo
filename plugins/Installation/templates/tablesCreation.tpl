@@ -11,7 +11,7 @@
 		<p>{'Installation_TablesWarningHelp'|translate}</p>
 		<p class="nextStep"><a href="{url action=$nextModuleName}">{'Installation_TablesReuse'|translate} &raquo;</a></p>
 	{else}
-		<p class="nextStep"><a href="{url action=$previousModuleName}">&laquo; {'Installation_GoBackAndDefinePrefix'|translate}</a></p>
+		<p class="nextStep"><a href="{url action=$previousPreviousModuleName}">&laquo; {'Installation_GoBackAndDefinePrefix'|translate}</a></p>
 	{/if}
 	
 	<p class="nextStep"><a href="{url deleteTables=1}" id="eraseAllTables">{'Installation_TablesDelete'|translate} &raquo;</a></p>

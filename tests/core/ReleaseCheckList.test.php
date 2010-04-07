@@ -11,6 +11,14 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 
 class Test_Piwik_ReleaseCheckList extends UnitTestCase
 {
+	public function test_checkPatchedQuickform()
+	{
+		// we patched quickform so that it supports SELECT optgroup html tags
+		// see patch: http://pear.php.net/bugs/bug.php?id=1283&edit=12&patch=add-optgroup-support&revision=latest
+		$this->assertTrue(method_exists('HTML_QuickForm_select', '_optionToHtml'));
+		$this->assertTrue(method_exists('HTML_QuickForm_select', '_isInOptGroup'));
+	}
+	
     public function test_checkThatConfigurationValuesAreProductionValues()
     {
     	$this->globalConfig = parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
