@@ -75,17 +75,12 @@ abstract class Piwik_DataTable_Renderer
 	static public function factory( $name )
 	{
 		$name = ucfirst(strtolower($name));
-		$path = PIWIK_INCLUDE_PATH .'/core/DataTable/Renderer/'.$name.'.php';
 		$className = 'Piwik_DataTable_Renderer_' . $name;
 		
-		if( Piwik_Common::isValidFilename($name)
-			&& Zend_Loader::isReadable($path) )
-		{
-			require_once $path; // prefixed by PIWIK_INCLUDE_PATH
+		try {
+			Piwik_Loader::autoload($className);
 			return new $className;			
-		}
-		else
-		{
+		} catch(Exception $e) {
 			throw new Exception("Renderer format '$name' not valid. Try 'xml' or 'json' or 'csv' or 'html' or 'php' or 'original' instead.");
 		}		
 	}	
