@@ -41,6 +41,7 @@ class Piwik_UpdateCheck
 				'php_version' => phpversion(),
 				'url' => Piwik_Url::getCurrentUrlWithoutQueryString(),
 				'trigger' => Piwik_Common::getRequestVar('module','','string'),
+				'timezone' => Piwik_SitesManager_API::getInstance()->getDefaultTimezone(),
 			);
 
 			$url = self::PIWIK_HOST . "?" . http_build_query($parameters, '', '&');

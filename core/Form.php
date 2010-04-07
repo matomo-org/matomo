@@ -96,6 +96,16 @@ abstract class Piwik_Form extends HTML_QuickForm
 			}
 		}
 	}
+	function setSelected( $nameElement, $value )
+	{
+		foreach( $this->_elements as $key => $value)
+		{
+			if($value->_attributes['name'] == $nameElement)
+			{
+				$this->_elements[$key]->_attributes['selected'] = 'selected';
+			}
+		}
+	}
 }
 
 function Piwik_Form_fieldHaveSameValue($element, $value, $arg) 

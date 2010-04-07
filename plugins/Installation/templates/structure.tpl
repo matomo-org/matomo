@@ -94,11 +94,16 @@ h3 {
 	padding:10;	
 }
 .warning {
+	margin:10px;
 	color:#ff5502;
 	font-size:130%;
 	font-weight:bold;
-	padding:10;	
+	padding:10px 20px 10px 30px;	
 	border: 1px solid #ff5502;
+}
+
+.warning ul {
+	list-style:disc;
 }
 
 .success img, .warning img {

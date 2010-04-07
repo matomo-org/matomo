@@ -198,13 +198,11 @@ input.submit {
 /* extending the jquery UI css for inline help */
 .ui-widget { 
 	text-align:justify;
-	display:inline;
 }
 
 .ui-inline-help {
 	width:170px;
 	margin-top:20px;
 	padding:0 0.7em;
-	
 }
 
