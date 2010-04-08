@@ -261,10 +261,11 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$error = true;
 		}
 
-		$this->session->charsetCorrection = false;
 		if(!Piwik::isDatabaseConnectionUTF8())
 		{
-			$this->session->charsetCorrection = true;
+			$dbInfos = $this->session->db_infos;
+			$dbInfos['charset'] = 'utf8';
+			$this->session->db_infos = $dbInfos;
 		}
 
 		$view->showNextStep = true;
@@ -311,8 +312,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		if(count($tablesInstalled) > 0)
 		{
 			// we have existing tables
-			$this->session->charsetCorrection = false;
-
 			$view->tablesInstalled = implode(', ', $tablesInstalled);
 			$view->someTablesInstalled = true;
 
@@ -541,24 +540,17 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	protected function writeConfigFileFromSession()
 	{
 		if(!isset($this->session->superuser_infos)
-			|| !isset($this->session->db_infos)
-			|| !isset($this->session->charsetCorrection))
+			|| !isset($this->session->db_infos))
 		{
 			return;
 		}
 		$config = Zend_Registry::get('config');
 		$config->superuser = $this->session->superuser_infos;
 		$dbInfos = $this->session->db_infos;
-
-		if($this->session->charsetCorrection)
-		{
-			$dbInfos['charset'] = 'utf8';
-		}
 		$config->database = $dbInfos;
 
 		unset($this->session->superuser_infos);
 		unset($this->session->db_infos);
-		unset($this->session->charsetCorrection);
 	}
 
 	/**
