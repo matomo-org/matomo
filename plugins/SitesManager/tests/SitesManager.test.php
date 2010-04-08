@@ -781,7 +781,7 @@ class Test_Piwik_SitesManager extends Test_Database
     	$this->assertEqual($site->getExcludedQueryParameters(), '');
     }
     
-    function test_getSitesIdFromSiteUrl()
+    function test_getSitesIdFromSiteUrl_SuperUser()
     {
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com"));
 		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com","http://piwik.net"));
@@ -795,5 +795,54 @@ class Test_Piwik_SitesManager extends Test_Database
 
 		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
 		$this->assertTrue(count($idsites) == 3);
+	}
+
+	function test_getSitesIdFromSiteUrl_User()
+	{
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com"));
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com","http://piwik.net"));
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.com","http://piwik.org"));
+
+		$saveAccess = Zend_Registry::get('access');
+
+		Piwik_UsersManager_API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
+		Piwik_UsersManager_API::getInstance()->setUserAccess("user1", "view", array(1));
+
+    	Piwik_UsersManager_API::getInstance()->addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
+		Piwik_UsersManager_API::getInstance()->setUserAccess("user2", "view", array(1));
+		Piwik_UsersManager_API::getInstance()->setUserAccess("user2", "admin", array(3));
+
+    	Piwik_UsersManager_API::getInstance()->addUser("user3", "geqgegagae", "tegst3@tesgt.com", "alias");
+		Piwik_UsersManager_API::getInstance()->setUserAccess("user3", "view", array(1,2));
+		Piwik_UsersManager_API::getInstance()->setUserAccess("user3", "admin", array(3));
+
+    	$pseudoMockAccess = new FakeAccess;
+		FakeAccess::$superUser = false;
+		FakeAccess::$identity = 'user1';
+		FakeAccess::setIdSitesView (array(1));
+		FakeAccess::setIdSitesAdmin (array());
+		Zend_Registry::set('access', $pseudoMockAccess);
+		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
+		$this->assertTrue(count($idsites) == 1);
+
+    	$pseudoMockAccess = new FakeAccess;
+		FakeAccess::$superUser = false;
+		FakeAccess::$identity = 'user2';
+		FakeAccess::setIdSitesView (array(1));
+		FakeAccess::setIdSitesAdmin (array(3));
+		Zend_Registry::set('access', $pseudoMockAccess);
+		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
+		$this->assertTrue(count($idsites) == 2);
+
+    	$pseudoMockAccess = new FakeAccess;
+		FakeAccess::$superUser = false;
+		FakeAccess::$identity = 'user3';
+		FakeAccess::setIdSitesView (array(1,2));
+		FakeAccess::setIdSitesAdmin (array(3));
+		Zend_Registry::set('access', $pseudoMockAccess);
+		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
+		$this->assertTrue(count($idsites) == 3);
+
+		Zend_Registry::set('access', $saveAccess);
 	}
 }
