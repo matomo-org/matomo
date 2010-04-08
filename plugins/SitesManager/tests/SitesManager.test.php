@@ -781,5 +781,19 @@ class Test_Piwik_SitesManager extends Test_Database
     	$this->assertEqual($site->getExcludedQueryParameters(), '');
     }
     
-}
+    function test_getSitesIdFromSiteUrl()
+    {
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com"));
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com","http://piwik.net"));
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.com","http://piwik.org"));
 
+		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.org');
+		$this->assertTrue(count($idsites) == 1);
+
+		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');
+		$this->assertTrue(count($idsites) == 2);
+
+		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
+		$this->assertTrue(count($idsites) == 3);
+	}
+}

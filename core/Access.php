@@ -146,7 +146,7 @@ class Piwik_Access
 		
 		// we join with site in case there are rows in access for an idsite that doesn't exist anymore
 		// (backward compatibility ; before we deleted the site without deleting rows in _access table)
-		$accessRaw = Piwik_FetchAll($this->getSqlAccessSite("access, t2.idsite"), $this->login);
+		$accessRaw = Piwik_FetchAll(self::getSqlAccessSite("access, t2.idsite"), $this->login);
 		foreach($accessRaw as $access)
 		{
 			$this->idsitesByAccess[$access['access']][] = $access['idsite'];
@@ -160,7 +160,7 @@ class Piwik_Access
 	 * @param $select eg. "MIN(ts_created)"
 	 * @return string SQL query
 	 */
-	private function getSqlAccessSite($select)
+	static public function getSqlAccessSite($select)
 	{
 		return "SELECT ". $select ."
 						  FROM ".Piwik::prefixTable('access'). " as t1 
@@ -255,7 +255,7 @@ class Piwik_Access
 		{
 			return Piwik_FetchOne('SELECT MIN(ts_created) FROM '.Piwik::prefixTable('site'));
 		}
-		return Piwik_FetchOne($this->getSqlAccessSite("MIN(ts_created)"), $this->login);
+		return Piwik_FetchOne(self::getSqlAccessSite("MIN(ts_created)"), $this->login);
 	}
 
 
