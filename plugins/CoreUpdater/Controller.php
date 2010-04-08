@@ -278,7 +278,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$integrityInfo = Piwik::getFileIntegrityInformation();
 		if(isset($integrityInfo[1]))
 		{
-			if($infos['integrity'] == false)
+			if($integrityInfo[0] == false)
 			{
 				$this->warningMessages[] = '<b>'.Piwik_Translate('General_FileIntegrityWarningExplanation').'</b>';
 			}
