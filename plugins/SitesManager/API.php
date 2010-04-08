@@ -733,7 +733,12 @@ class Piwik_SitesManager_API
 			$city = str_replace('_', ' ', $city);
 			$return[$continent][$timezone] = $city;
 		}
-		
+
+		foreach($continents as $continent)
+		{
+			ksort($return[$continent]);
+		}
+
 		$return['UTC'] = $this->getTimezonesListUTCOffsets();
 		return $return;
 	}
@@ -889,4 +894,3 @@ class Piwik_SitesManager_API
 		return $urls;
 	}
 }
-
