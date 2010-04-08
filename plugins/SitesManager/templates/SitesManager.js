@@ -21,7 +21,7 @@ function getAddSiteAJAX( row )
 	var parameters = {};
  	var siteName = $(row).find('input#name').val();
  	var urls =  $(row).find('textarea#urls').val();
-	var urls = getApiFormatUrls(urls);
+	urls = getApiFormatUrls(urls);
 	var excludedIps = $(row).find('textarea#excludedIps').val();
 	excludedIps = getApiFormatTextarea(excludedIps);
 	var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
@@ -49,7 +49,11 @@ function getAddSiteAJAX( row )
 
 function getApiFormatUrls(urls)
 {
-	return encodeURIComponent(urls.trim()).split("\n");
+	var aUrls = urls.trim().split("\n");
+	for(var i=0; i < aUrls.length; i++) {
+		aUrls[i] = encodeURIComponent(aUrls[i]);
+	}
+	return aUrls;
 }
 function getApiFormatTextarea(textareaContent)
 {
