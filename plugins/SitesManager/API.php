@@ -213,7 +213,36 @@ class Piwik_SitesManager_API
 								ORDER BY idsite ASC");
 		return $sites;
 	}
-	
+
+	/**
+	 * Returns the list of websites ID associated with a URL.
+	 *
+	 * @param string $url
+	 * @return array list of websites ID
+	 */
+	public function getSitesIdFromSiteUrl( $url )
+	{
+		$url = $this->removeTrailingSlash($url);
+
+		if(Piwik::isUserIsSuperUser())
+		{
+			$ids = Zend_Registry::get('db')->fetchAll(
+					'SELECT idsite FROM ' . Piwik::prefixTable('site') . ' WHERE main_url = ? ' .
+					'UNION SELECT idsite FROM ' . Piwik::prefixTable('site_url') . ' WHERE url = ?', array($url, $url));
+		}
+		else
+		{
+			$login = Piwik::getCurrentUserLogin();
+			$ids = Zend_Registry::get('db')->fetchAll(
+					'SELECT idsite FROM ' . Piwik::prefixTable('site') . ' WHERE main_url = ? ' .
+					'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ') ' .
+					'UNION SELECT idsite FROM ' . Piwik::prefixTable('site_url') . ' WHERE url = ? ' .
+					'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ')', array($url, $login, $url, $login));
+		}
+
+		return $ids;
+	}
+
 	/**
 	 * Add a website.
 	 * Requires Super User access.
