@@ -29,7 +29,7 @@ $(document).ready( function(){
 {/literal}
 
 {literal}
-<style>
+<style type="text/css">
 div.both {
 	clear: both;
 }
