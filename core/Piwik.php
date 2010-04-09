@@ -1599,7 +1599,7 @@ class Piwik
 		// note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
 		$db = Zend_Registry::get('db');
 		$db->query("INSERT INTO ". Piwik::prefixTable("user") . " 
-					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '".time()."' );" );
+					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '".Piwik_Date::factory('now')->getDatetime()."' );" );
 	}
 
 	/**
