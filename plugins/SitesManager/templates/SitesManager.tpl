@@ -128,8 +128,6 @@ vertical-align:middle;
 	<a name='globalSettings'></a>
 	<h2>{'SitesManager_GlobalWebsitesSettings'|translate}</h2>
 	<br/>
-	{ajaxErrorDiv id=ajaxErrorGlobalSettings}
-	{ajaxLoadingDiv id=ajaxLoadingGlobalSettings}
 	<table style='width:600px' class="adminTable adminTableNoBorder" >
 		
 		<tr><td colspan="2">
@@ -175,6 +173,8 @@ vertical-align:middle;
 		</td></tr>
 	</table>
 	<span style='margin-left:20px'><input type="submit" class="submit" id='globalSettingsSubmit' value="{'General_Save'|translate}" /></span>
+	{ajaxErrorDiv id=ajaxErrorGlobalSettings}
+	{ajaxLoadingDiv id=ajaxLoadingGlobalSettings}
 {/if}
 
 <br /><br /><br /><br />

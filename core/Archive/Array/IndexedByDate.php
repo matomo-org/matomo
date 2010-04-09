@@ -25,7 +25,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 	 */
 	function __construct(Piwik_Site $oSite, $strPeriod, $strDate)
 	{
-		$rangePeriod = new Piwik_Period_Range($strPeriod, $strDate);
+		$rangePeriod = new Piwik_Period_Range($strPeriod, $strDate, $oSite->getTimezone());
 		foreach($rangePeriod->getSubperiods() as $subPeriod)
 		{
 			$startDate = $subPeriod->getDateStart();

@@ -1,6 +1,5 @@
 <img src="plugins/MultiSites/images/arrow_desc.gif" style="display: none" />
 <img src="plugins/MultiSites/images/arrow_asc.gif" style="display: none" />
-
 {assign var=showSitesSelection value=false}
 {assign var=showPeriodSelection value=true}
 {include file="CoreHome/templates/header.tpl"}
@@ -13,7 +12,6 @@
 <div id="multisites" style="margin: auto">
 <div id="main">
 {include file="MultiSites/templates/row.tpl" assign="row"}
-
 <script type="text/javascript">
 	var allSites = new Array();
 	var params = new Array();
