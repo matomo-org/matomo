@@ -34,6 +34,7 @@ class Piwik_Login extends Piwik_Plugin
 			'FrontController.initAuthenticationObject'	=> 'initAuthenticationObject',
 			'FrontController.NoAccessException'		=> 'noAccess',
 			'API.Request.authenticate' => 'ApiRequestAuthenticate',
+			'Login.initSession' => 'initSession',
 		);
 		return $hooks;
 	}
@@ -79,5 +80,37 @@ class Piwik_Login extends Piwik_Plugin
 		}
 		$auth->setLogin($defaultLogin);
 		$auth->setTokenAuth($defaultTokenAuth);
+	}
+	
+	function initSession($notification)
+	{
+		$info = $notification->getNotificationObject();
+		$login = $info['login'];
+		$md5Password = $info['md5Password'];
+		
+		$tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($login, $md5Password);
+
+		$auth = Zend_Registry::get('auth');
+		$auth->setLogin($login);
+		$auth->setTokenAuth($tokenAuth);
+
+		$authResult = $auth->authenticate();
+		if(!$authResult->isValid())
+		{
+			throw new Exception(Piwik_Translate('Login_LoginPasswordNotCorrect'));
+		}
+
+		$ns = new Zend_Session_Namespace('Piwik_Login.referer');
+		unset($ns->referer);
+
+		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
+		$authCookieExpiry = time() + Zend_Registry::get('config')->General->login_cookie_expire;
+		$authCookiePath = Zend_Registry::get('config')->General->login_cookie_path;
+		$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
+		$cookie->set('login', $login);
+		$cookie->set('token_auth', $authResult->getTokenAuth());
+		$cookie->save();
+
+		Zend_Session::regenerateId();
 	}
 }

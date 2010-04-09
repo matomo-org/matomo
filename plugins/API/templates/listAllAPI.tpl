@@ -1,5 +1,6 @@
 {assign var=showSitesSelection value=true}
 {assign var=showPeriodSelection value=false}
+{assign var=showMenu value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 
 <style>

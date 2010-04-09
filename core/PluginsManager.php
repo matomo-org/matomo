@@ -508,6 +508,11 @@ class Piwik_PluginsManager_PluginException extends Exception
 
 /**
  * Post an event to the dispatcher which will notice the observers
+ * 
+ * @param $eventName The event name
+ * @param $object Object or array that the listeners can read and/or modify
+ * @param $info Additional array of data that can be used by the listeners, but not changed
+ * @return void
  */
 function Piwik_PostEvent( $eventName,  &$object = null, $info = array() )
 {

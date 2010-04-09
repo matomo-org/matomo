@@ -193,8 +193,21 @@ input.submit {
 	border: 3px solid red;
 	margin: 10px;
 	padding: 10px;
+	-moz-border-radius:9px;
+	-webkit-border-radius:9px;
 }
-
+.ajaxSuccess {
+	width: 350px;
+	padding: 20px;
+	margin:10px;
+	display: block;
+	color:#301901;
+	border: 1px solid #e6db55;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	background-color: #ffffe0;
+	padding:0 0.6em;
+}
 /* extending the jquery UI css for inline help */
 .ui-widget { 
 	text-align:justify;

@@ -2,14 +2,11 @@
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='UsersManager'}
-{include file="CoreAdminHome/templates/menu.tpl"}
 <script type="text/javascript" src="plugins/UsersManager/templates/userSettings.js"></script>
 <h2>{'UsersManager_MenuUserSettings'|translate}</h2>
 
-{ajaxErrorDiv id=ajaxErrorUserSettings}
-{ajaxLoadingDiv id=ajaxLoadingUserSettings}
 <br/>
-<table id='userSettingsTable' class="adminTable adminTableNoBorder" style='width:700px'>
+<table id='userSettingsTable' class="adminTable adminTableNoBorder" style='width:1000px'>
 <tr>
 	<td><label for="username">{'General_Username'|translate} </label></td>
 	<td>
@@ -58,8 +55,18 @@
 	</td>
 </tr>
 
+<tr>
+	<td><label for="email">{'UsersManager_ChangePassword'|translate} </label></td>
+	<td><input size="25" value="" autocomplete="off" id="password" type="password"> 
+	 <span class='form-description'>{'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate}</span>
+	<br/><input size="25" value="" autocomplete="off" id="passwordBis" type="password">
+	 <span class='form-description'> {'UsersManager_TypeYourPasswordAgain'|translate}</span>
+	 </td>
+</tr>
 </table>
 
+{ajaxErrorDiv id=ajaxErrorUserSettings}
+{ajaxLoadingDiv id=ajaxLoadingUserSettings}
 <input type="submit" value="{'General_Save'|translate}" id="userSettingsSubmit" class="submit">
 
 

@@ -211,20 +211,54 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
     		$defaultReport = Piwik_Common::getRequestVar('defaultReport');
     		$defaultDate = Piwik_Common::getRequestVar('defaultDate');
 
+    		$newPassword = false;
+    		$password = Piwik_Common::getRequestvar('password', false);
+    		$passwordBis = Piwik_Common::getRequestvar('passwordBis', false);
+    		if(!empty($password)
+    			|| !empty($passwordBis))
+			{
+				if($password != $passwordBis)
+				{
+					throw new Exception(Piwik_Translate('Login_PasswordsDoNotMatch'));
+				}
+				$newPassword = $password;
+			}
+			
     		$userLogin = Piwik::getCurrentUserLogin();
     		if(Piwik::isUserIsSuperUser())
     		{
     			$superUser = Zend_Registry::get('config')->superuser;
-    			if($email != $superUser->email)
+    			$updatedSuperUser = false;
+    			if($newPassword !== false)
+    			{
+    				$md5PasswordSuperUser = md5($newPassword);
+    				$superUser->password = $md5PasswordSuperUser;
+    				$updatedSuperUser = true;
+    			}
+    			if($superUser->email != $email)
     			{
     				$superUser->email = $email;
+    				$updatedSuperUser = true;
+    			}
+				if($updatedSuperUser)
+				{
     				Zend_Registry::get('config')->superuser = $superUser->toArray();
     			}
     		}
     		else
     		{
-    			Piwik_UsersManager_API::getInstance()->updateUser($userLogin, false, $email, $alias);
+    			Piwik_UsersManager_API::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
     		}
+    		
+			// logs the user in with the new password
+    		if($newPassword !== false)
+    		{
+        		$info = array(	'login' => $userLogin, 
+        						'md5Password' => md5($newPassword),
+        		);
+        		Piwik_PostEvent('Login.initSession', $info);
+    		}
+    		
     		Piwik_UsersManager_API::getInstance()->setUserPreference($userLogin, 
     															Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, 
     															$defaultReport);

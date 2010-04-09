@@ -75,6 +75,7 @@ function bindGoalForm()
 		initAndShowAddGoalForm();
 	} );
 }
+
 function getAjaxDeleteGoal(idGoal)
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf('goalAjaxLoading');
