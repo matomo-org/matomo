@@ -62,14 +62,18 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	protected function setDateTodayIfWebsiteCreatedToday()
 	{
 		$date = Piwik_Common::getRequestVar('date', false);
-		$date = Piwik_Date::factory($date);
-		if($date->isToday()) {
+		if($date == 'today') 
+		{
 			return;
 		} 
 		$websiteId = Piwik_Common::getRequestVar('idSite', false);
 		if ($websiteId) {
 			$website = new Piwik_Site($websiteId);
-			if( $website->getCreationDate()->isToday() ) {
+			$datetimeCreationDate = $this->site->getCreationDate()->getDatetime();
+			$creationDateLocalTimezone = Piwik_Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
+			$todayLocalTimezone = Piwik_Date::factory('now', $website->getTimezone())->toString('Y-m-d');
+			if( $creationDateLocalTimezone == $todayLocalTimezone ) 
+			{
 				Piwik::redirectToModule( 'CoreHome', 'index', 
 										array(	'date' => 'today', 
 												'idSite' => $websiteId, 

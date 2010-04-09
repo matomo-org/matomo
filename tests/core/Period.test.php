@@ -561,9 +561,23 @@ class Test_Piwik_Period extends UnitTestCase
 	// test range 1
 	function test_range_today()
 	{
-		
 	 	$range = new Piwik_Period_Range( 'day', 'last1' );
 	 	$today = Piwik_Date::today();
+	 	
+	 	$correct=array(
+			$today->toString(),
+		);
+		$correct = array_reverse($correct);
+	 		
+	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
+	 	$this->assertEqual( $range->toString(), $correct);
+	}
+	
+	function test_range_today_UtcPlus12()
+	{
+		// rather ugly test, UTC+23 doesn't exist, but it's a way to test that last1 in UTC+23 will be "our" UTC tomorrow
+	 	$range = new Piwik_Period_Range( 'day', 'last1', 'UTC+23' );
+	 	$today = Piwik_Date::now()->addHour(23);
 	 	
 	 	$correct=array(
 			$today->toString(),

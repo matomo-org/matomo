@@ -18,11 +18,12 @@
  */
 class Piwik_Period_Range extends Piwik_Period
 {
-	public function __construct( $strPeriod, $strDate )
+	public function __construct( $strPeriod, $strDate, $timezone = 'UTC' )
 	{
 		$this->strPeriod = $strPeriod;
 		$this->strDate = $strDate;
 		$this->defaultEndDate = null;
+		$this->timezone = $timezone;
 	}
 	public function getLocalizedShortString()
 	{
@@ -125,7 +126,7 @@ class Piwik_Period_Range extends Piwik_Period
 			}
 			else
 			{
-				$defaultEndDate = Piwik_Date::today();
+				$defaultEndDate = Piwik_Date::factory('now', $this->timezone);
 			}		
 			if($lastOrPrevious == 'last')
 			{

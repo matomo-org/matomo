@@ -161,11 +161,11 @@ class Piwik_Archive_Single extends Piwik_Archive
 			// we add one day to make sure we don't miss the day of the website creation
 			if( $this->period->getDateEnd()->addDay(2)->isEarlier( $this->site->getCreationDate() ) )
 			{
-				return;				
+				return;
 			}
 			
 			// if the starting date is in the future we know there is no visit
-			if( $this->period->getDateStart()->subDay(1)->isLater( Piwik_Date::today() ) )
+			if( $this->period->getDateStart()->subDay(2)->isLater( Piwik_Date::today() ) )
 			{
 				return;
 			}

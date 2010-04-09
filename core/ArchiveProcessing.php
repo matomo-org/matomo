@@ -610,8 +610,8 @@ abstract class Piwik_ArchiveProcessing
 	protected function isArchived()
 	{
 		$bindSQL = array(	$this->idsite, 
-							$this->period->getDateStart(), 
-							$this->period->getDateEnd(), 
+							$this->period->getDateStart()->toString('Y-m-d'), 
+							$this->period->getDateEnd()->toString('Y-m-d'), 
 							$this->periodId, 
 		);
 		

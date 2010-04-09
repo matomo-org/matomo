@@ -35,27 +35,30 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 
 	public function getSitesInfo()
 	{
-		$view = new Piwik_View("MultiSites/templates/index.tpl");
+		// overwrites the default Date set in the parent controller 
+		// Instead of the default current website's local date, 
+		// we set "today" or "yesterday" based on the default Piwik timezone
+		$piwikDefaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
+		$date = Piwik_Common::getRequestVar('date', 'today');
+		$date = $this->getDateParameterInTimezone($date, $piwikDefaultTimezone);
+		$this->setDate($date);
+		
 		$mySites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
-
-
 		$params = $this->getGraphParamsModified();
 		$this->dateToStr = $params['date'];
 
 		$ids = 'all';
 		$this->period = Piwik_Common::getRequestVar('period', 'day');		
 
-		$this->date = Piwik_Common::getRequestVar('date', 'today');
-		
-		$lastDate =  date('Y-m-d',strtotime("-1 ".$this->period, strtotime($this->date)));
+		$lastDate =  date('Y-m-d',strtotime("-1 ".$this->period, strtotime($this->strDate)));
 
-		$visits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $this->period, $this->date);
+		$visits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $this->period, $this->strDate);
 		$lastVisits = Piwik_VisitsSummary_API::getInstance()->getVisits($ids, $this->period, $lastDate);
 
-		$actions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $this->period, $this->date);
+		$actions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $this->period, $this->strDate);
 		$lastActions = Piwik_VisitsSummary_API::getInstance()->getActions($ids, $this->period, $lastDate);
 
-		$uniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $this->period, $this->date);
+		$uniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $this->period, $this->strDate);
 		$lastUniqueUsers = Piwik_VisitsSummary_API::getInstance()->getUniqueVisitors($ids, $this->period, $lastDate);
 
 		$visitsSummary = $this->getSummary($lastVisits, $visits, $mySites, "visits");
@@ -80,12 +83,14 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$site['visitsSummaryValue'] = $visitsSummary[$idSite];
 			$site['actionsSummaryValue'] = $actionsSummary[$idSite];
 			$site['uniqueSummaryValue'] = $uniqueSummary[$idSite];
+		
 		}
-
+		
+		$view = new Piwik_View("MultiSites/templates/index.tpl");
 		$view->mySites = $mySites;
 		$view->evolutionBy = $this->evolutionBy;
 		$view->period = $this->period;
-		$view->date = $this->date;
+		$view->date = $this->strDate;
 		$view->page = $this->page;
 		$view->limit = $this->limit;
 		$view->orderBy = $this->orderBy;
@@ -93,25 +98,56 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->dateToStr = $this->dateToStr;
 	
 		$view->autoRefreshTodayReport = false;
-		// if the current date is today (or yesterday, in case the website is set to UTC-12), we refresh the page every 5min
-		if(in_array($this->date, array('today', date('Y-m-d'), 'yesterday', Piwik_Date::factory('yesterday')->toString('Y-m-d'))))
+		// if the current date is today, or yesterday, 
+		// in case the website is set to UTC-12), or today in UTC+14, we refresh the page every 5min
+		if(in_array($this->strDate, array(	'today', date('Y-m-d'), 
+											'yesterday', Piwik_Date::factory('yesterday')->toString('Y-m-d'),
+											Piwik_Date::factory('now', 'UTC+14')->toString('Y-m-d'))))
 		{
 			$view->autoRefreshTodayReport = true;
 		}
 		$this->setGeneralVariablesView($view);
+		$this->setMinMaxDateAcrossWebsites($mySites, $view);
 		
-		$minTimestamp = Zend_Registry::get('access')->getSitesMinDate();
-		if(!empty($minTimestamp))
-		{
-    		$minDate = Piwik_Date::factory($minTimestamp);
-    		$this->setMinDateView($minDate, $view);
-		}
 		echo $view->render();
 	}
 
+	/**
+	 * The Multisites reports displays the first calendar date as the earliest day available for all websites.
+	 * Also, today is the later "today" available across all timezones.
+	 * @param $mySites
+	 * @param $view
+	 * @return void
+	 */
+	private function setMinMaxDateAcrossWebsites($mySites, $view)
+	{
+		$minDate = null;
+		$maxDate = Piwik_Date::now();
+		foreach($mySites as &$site)
+		{
+			// look for 'now' in the website's timezone
+			$timezone = $site['timezone'];
+			$date = Piwik_Date::factory('now', $timezone);
+			if($date->isLater($maxDate))
+			{
+				$maxDate = clone $date;
+			}
+			
+			// look for the absolute minimum date
+			$creationDate = $site['ts_created'];
+			$date = Piwik_Date::factory($creationDate, $timezone);
+			if(is_null($minDate) 
+				|| $date->isEarlier($minDate))
+			{
+				$minDate = clone $date;
+			}
+		}
+		$this->setMinDateView($minDate, $view);
+		$this->setMaxDateView($maxDate, $view);
+	}
+	
 	private function getSummary($lastVisits, $currentVisits, $mySites, $type)
 	{
-
 		$currentVisitsArray = $currentVisits->getArray();
 		$lastVisitsArray = $lastVisits->getArray();
 		$summaryArray = array();

@@ -37,24 +37,57 @@ class Piwik_Date
 	 * Returns a Piwik_Date objects. 
 	 *
 	 * @param string $strDate 'today' 'yesterday' or any YYYY-MM-DD or timestamp
+	 * @param string $timezone if specified, the dateString will be relative to this $timezone. 
+	 * 				For example, today in UTC+12 will be a timestamp in the future for UTC.
+     *              This is different from using ->setTimezone() 
 	 * @return Piwik_Date 
 	 */
-	static public function factory($dateString)
+	static public function factory($dateString, $timezone = null)
 	{
-		if($dateString == 'today') 
+		if($dateString == 'now')
 		{
-			return self::today();
+			$date = self::now();
 		}
-		if($dateString == 'yesterday')
+		elseif($dateString == 'today') 
 		{
-			return self::yesterday();
+			$date = self::today();
 		}
-		if (!is_int($dateString)
+		elseif($dateString == 'yesterday')
+		{
+			$date = self::yesterday();
+		}
+		elseif($dateString == 'yesterdaySameTime')
+		{
+			$date = self::yesterdaySameTime();
+		}
+		elseif (!is_int($dateString)
 			&& ($dateString = strtotime($dateString)) === false) 
 		{
 			throw new Exception("Date format must be: YYYY-MM-DD, or 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
 		}
-		return new Piwik_Date($dateString);
+		else
+		{
+			$date = new Piwik_Date($dateString);
+		}
+		if(is_null($timezone))
+		{
+			return $date;
+		}
+		
+		// manually adjust for UTC timezones
+		$utcOffset = self::extractUtcOffset($timezone);
+		if($utcOffset !== false)
+		{
+			return $date->addHour($utcOffset);
+		}
+		
+		date_default_timezone_set($timezone);
+		$datetime = $date->getDatetime();
+		date_default_timezone_set('UTC');
+		
+		$date = Piwik_Date::factory(strtotime($datetime));
+		
+		return $date;
 	}
 	
 	/*
@@ -118,6 +151,32 @@ class Piwik_Date
 	}
 	
 	/**
+	 * Helper function that returns the offset in the timezone string 'UTC+14'
+	 * Returns false if the timezone is not UTC+X or UTC-X
+	 * 
+	 * @param $timezone
+	 * @return int or false
+	 */
+	static protected function extractUtcOffset($timezone)
+	{
+		if($timezone == 'UTC')
+		{
+			return 0;
+		}
+		$start = substr($timezone, 0, 4);
+		if($start != 'UTC-' 
+			&& $start != 'UTC+')
+		{
+			return false;
+		}
+		$offset = (float)substr($timezone, 4);
+		if($start == 'UTC-') {
+			$offset = -$offset;
+		}
+		return $offset;
+	}
+	
+	/**
 	 * Returns the unix timestamp of the date in UTC, 
 	 * converted from the date timezone
 	 *
@@ -125,19 +184,10 @@ class Piwik_Date
 	 */
 	public function getTimestamp()
 	{
-		if($this->timezone == 'UTC')
-		{
-			return (int)$this->timestamp;
+		$utcOffset = self::extractUtcOffset($this->timezone);
+		if($utcOffset !== false) {
+			return (int)($this->timestamp - $utcOffset * 3600);
 		}
-		$start = substr($this->timezone, 0, 4);
-		if($start == 'UTC-' || $start == 'UTC+')
-		{
-    		$offset = (float)substr($this->timezone, 4);
-    		if($start == 'UTC-') {
-    			$offset = -$offset;
-    		}
-    		return (int)($this->timestamp - $offset * 3600);
-		}		
 		// @fixme
 		// The following code seems clunky - I thought the DateTime php class would allow to return timestamps
 		// after applying the timezone offset. Instead, the underlying timestamp is not changed.
@@ -200,7 +250,6 @@ class Piwik_Date
 		return $this->toString();
 	}
 
-	
     /**
      * Compares the week of the current date against the given $date
      * Returns 0 if equal, -1 if current week is earlier or 1 if current week is later
@@ -223,6 +272,7 @@ class Piwik_Date
 		}
 		return 1;
     }
+    
     /**
      * Compares the month of the current date against the given $date month
      * Returns 0 if equal, -1 if current month is earlier or 1 if current month is later
@@ -287,6 +337,16 @@ class Piwik_Date
 	}
 	
 	/**
+	 * Returns a date object set to yesterday same time of day
+	 * 
+	 * @return Piwik_Date
+	 */
+	static public function yesterdaySameTime()
+	{
+		return new Piwik_Date(strtotime("yesterday ".date('H:i:s')));
+	}
+	
+	/**
 	 * Sets the time part of the date
 	 * Doesn't modify $this
 	 * 
@@ -342,8 +402,6 @@ class Piwik_Date
 		return new Piwik_Date( $result, $this->timezone );
 	}
 	
-
-
     /**
      * Subtracts days from the existing date object and returns a new Piwik_Date object
      * Returned is the new date object
@@ -385,7 +443,6 @@ class Piwik_Date
 					);
 		return new Piwik_Date( $result, $this->timezone );
     }
-    
 	
 	/**
 	 * Returns a localized date string, given a template. 
@@ -445,6 +502,14 @@ class Piwik_Date
 		return new Piwik_Date( $ts, $this->timezone );
 	}
 
+	/**
+	 * Substract hour to the existing date object.
+     * Returned is the new date object
+     * Doesn't modify $this
+     * 
+     * @param int Number of hours to substract
+     * @return  Piwik_Date new date
+     */
 	public function subHour( $n )
 	{
 		return $this->addHour(-$n);

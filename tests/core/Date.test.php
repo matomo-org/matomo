@@ -43,6 +43,24 @@ class Test_Piwik_Date extends UnitTestCase
 		$this->assertEqual( strtotime(date("Y-m-d",strtotime('-1day')). " 00:00:00"), $date->getTimestamp());
 	}
 
+	function test_factoryTimezone()
+	{
+		// now in UTC converted to UTC+10 means adding 10 hours 
+		$date = Piwik_Date::factory('now', 'UTC+10');
+		$dateExpected = Piwik_Date::now()->addHour(10);
+		$this->assertEqual($date->getDatetime(), $dateExpected->getDatetime());
+
+		// Congo is in UTC+1 all year long (no DST)
+		$date = Piwik_Date::factory('now', 'Africa/Brazzaville');
+		$dateExpected = Piwik_Date::factory('now')->addHour(1);
+		$this->assertEqual($date->getDatetime(), $dateExpected->getDatetime());
+		
+		// yesterday same time in Congo is the same as today in Congo - 24 hours
+		$date = Piwik_Date::factory('yesterdaySameTime', 'Africa/Brazzaville');
+		$dateExpected = Piwik_Date::factory('now', 'Africa/Brazzaville')->subHour(24);
+		$this->assertEqual($date->getDatetime(), $dateExpected->getDatetime());
+	}
+	
 	function test_setTimezone_dayInUTC()
 	{
 		$date = Piwik_Date::factory('2010-01-01');

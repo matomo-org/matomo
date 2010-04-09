@@ -244,22 +244,6 @@ class Piwik_Access
 	}
 	
 	/**
-	 * Returns the min date out of all websites 
-	 * for which the current user has at least view access
-	 * 
-	 * @return int timestamp
-	 */
-	public function getSitesMinDate()
-	{
-		if($this->isSuperUser())
-		{
-			return Piwik_FetchOne('SELECT MIN(ts_created) FROM '.Piwik::prefixTable('site'));
-		}
-		return Piwik_FetchOne(self::getSqlAccessSite("MIN(ts_created)"), $this->login);
-	}
-
-
-	/**
 	 * Returns an array of ID sites for which the user has an ADMIN access.
 	 *
 	 * @return array Example if the user is ADMIN for 4 and 8
