@@ -20,7 +20,10 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_Form
 	{
 		try {
     		$timezone = $this->getSubmitValue('timezone');
-    		Piwik_SitesManager_API::getInstance()->setDefaultTimezone($timezone);
+    		if(!empty($timezone))
+    		{
+    			Piwik_SitesManager_API::getInstance()->setDefaultTimezone($timezone);
+    		}
 		} catch(Exception $e) {
 			$this->_errors['timezone'] = Piwik_Translate('General_NotValid', Piwik_Translate('Installation_Timezone'));
 		}
@@ -35,7 +38,7 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_Form
 		$javascriptOnClickUrlExample = "\"javascript:if(this.value=='$urlExample'){this.value='http://';} this.style.color='black';\"";
 		
 		$timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
-		$timezones = array_merge(array(Piwik_Translate('SitesManager_SelectACity')), $timezones);
+		$timezones = array_merge(array('No timezone' => Piwik_Translate('SitesManager_SelectACity')), $timezones);
 		
 		$formElements = array(
 			array('text', 'siteName', Piwik_Translate('Installation_SetupWebSiteName')),
