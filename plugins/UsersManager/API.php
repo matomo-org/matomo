@@ -247,16 +247,7 @@ class Piwik_UsersManager_API
 			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionLoginExists', $userLogin));
 		}
 		
-		$loginMinimumLength = 3;
-		$loginMaximumLength = 100;
-		$l = strlen($userLogin);
-		if(!($l >= $loginMinimumLength 
-				&& $l <= $loginMaximumLength
-				&& (preg_match('/^[A-Za-z0-9_.-]*$/', $userLogin) > 0))
-		)
-		{
-			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
-		}
+		Piwik::checkValidLoginString($userLogin);
 	}
 		
 	private function checkPassword($password)

@@ -210,6 +210,7 @@ input {
 			<span id="title">Piwik</span> &nbsp;&nbsp;&nbsp;<span id="subtitle"># {'General_OpenSourceWebAnalytics'|translate}</span>
 		</div>
 		<div style="float:right" id="topRightBar">
+		<br/>
 		{postEvent name="template_topBar"}
 		</div>
 		<div class="both"></div>

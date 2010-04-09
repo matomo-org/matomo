@@ -16,6 +16,17 @@
  */
 class Piwik_Installation_FormGeneralSetup extends Piwik_Form
 {
+	function validate()
+	{
+		try {
+    		$login = $this->getSubmitValue('login');
+    		Piwik::checkValidLoginString($login);
+		} catch(Exception $e) {
+			$this->_errors['login'] = $e->getMessage();
+		}
+		return parent::validate();
+	}
+	
 	function init()
 	{
 		$urlToGoAfter = 'index.php' . Piwik_Url::getCurrentQueryString();
