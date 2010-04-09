@@ -1554,6 +1554,27 @@ class Piwik
 	}
 	
 	/**
+	 * Returns true if the login is valid.
+	 * Warning: does not check if the login already exists! You must use UsersManager_API->userExists as well.
+	 *  
+	 * @param string $login
+	 * @return bool or throws exception
+	 */
+	static public function checkValidLoginString( $userLogin )
+	{
+		$loginMinimumLength = 3;
+		$loginMaximumLength = 100;
+		$l = strlen($userLogin);
+		if(!($l >= $loginMinimumLength 
+				&& $l <= $loginMaximumLength
+				&& (preg_match('/^[A-Za-z0-9_.-]*$/', $userLogin) > 0))
+		)
+		{
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
+		}
+	}
+	
+	/**
 	 * Returns true if the current php version supports timezone manipulation
 	 * (most likely if php >= 5.2)
 	 * 
