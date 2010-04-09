@@ -2,7 +2,6 @@
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='UsersManager'}
-{include file="CoreAdminHome/templates/menu.tpl"}
 
 {literal}
 <style>
@@ -16,17 +15,6 @@
 	text-align:center;
 }
 
-#accessUpdated {
-	color: red;
-	text-align: center;
-	font-weight: bold;
-	width: 350px;
-	margin: 10px;
-	padding: 10px;
-	display: none;
-	border: 3px solid green;
-	color: green;
-}
 #access td, #users td {
 	spacing: 0px;
 	padding: 2px 5px 5px 4px;
@@ -96,7 +84,7 @@
 </tbody>
 </table>
 
-<div id="accessUpdated">{'General_Done'|translate}!</div>
+<div id="accessUpdated" class="ajaxSuccess"><p>{'General_Done'|translate}!</p></div>
 
 <div class="dialog" id="confirm"> 
 	<p>{'UsersManager_ChangeAllConfirm'|translate:"<span id='login'></span>"}</p>

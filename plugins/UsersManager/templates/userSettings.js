@@ -3,6 +3,8 @@ function getUserSettingsAJAX()
 	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingUserSettings', 'ajaxErrorUserSettings');
 	var alias = $('#alias').val();
 	var email = $('#email').val();
+	var password = $('#password').val();
+	var passwordBis = $('#passwordBis').val();
 	var defaultReport = $('input[name=defaultReport]:checked').val();
 	if(defaultReport == 1) {
 		defaultReport = $('#defaultReportWebsite option:selected').val();
@@ -14,6 +16,8 @@ function getUserSettingsAJAX()
 	request += '&format=json';
 	request += '&alias='+alias;
 	request += '&email='+email;
+	request += '&password='+password;
+	request += '&passwordBis='+passwordBis;
 	request += '&defaultReport='+defaultReport;
 	request += '&defaultDate='+defaultDate;
  	request += '&token_auth=' + piwik.token_auth;

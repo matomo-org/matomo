@@ -35,6 +35,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 
 	public function getSitesInfo()
 	{
+		Piwik::checkUserHasSomeViewAccess();
 		// overwrites the default Date set in the parent controller 
 		// Instead of the default current website's local date, 
 		// we set "today" or "yesterday" based on the default Piwik timezone

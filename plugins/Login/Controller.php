@@ -78,7 +78,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 				$login = $form->getSubmitValue('form_login');
 				$password = $form->getSubmitValue('form_password');
 				$md5Password = md5($password);
-				$messageNoAccess = $this->authenticateAndRedirect($login, $md5Password, $urlToRedirect);
+				try {
+					$this->authenticateAndRedirect($login, $md5Password, $urlToRedirect);
+				} catch(Exception $e) {
+					$messageNoAccess = $e->getMessage();
+				}
 			}
 		}
 
@@ -108,7 +112,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$login = Piwik_Common::getRequestVar('login', null, 'string');
 		if($login == Zend_Registry::get('config')->superuser->login)
 		{
-			throw new Exception("The Super User cannot be authenticated using this URL.");
+			throw new Exception("The Super User cannot be authenticated using the 'logme' mechanism.");
 		}
 
 		$currentUrl = 'index.php';
@@ -132,31 +136,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	protected function authenticateAndRedirect($login, $md5Password, $urlToRedirect)
 	{
-		$tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($login, $md5Password);
-
-		$auth = Zend_Registry::get('auth');
-		$auth->setLogin($login);
-		$auth->setTokenAuth($tokenAuth);
-
-		$authResult = $auth->authenticate();
-		if(!$authResult->isValid())
-		{
-			return Piwik_Translate('Login_LoginPasswordNotCorrect');
-		}
-
-		$ns = new Zend_Session_Namespace('Piwik_Login.referer');
-		unset($ns->referer);
-
-		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
-		$authCookieExpiry = time() + Zend_Registry::get('config')->General->login_cookie_expire;
-		$authCookiePath = Zend_Registry::get('config')->General->login_cookie_path;
-		$cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
-		$cookie->set('login', $login);
-		$cookie->set('token_auth', $authResult->getTokenAuth());
-		$cookie->save();
-
-		Zend_Session::regenerateId();
-
+		$info = array(	'login' => $login, 
+						'md5Password' => $md5Password,
+		);
+		Piwik_PostEvent('Login.initSession', $info);
 		Piwik_Url::redirectToUrl($urlToRedirect);
 	}
 

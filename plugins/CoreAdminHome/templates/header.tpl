@@ -40,4 +40,12 @@
 <div id="content">
 
 {ajaxRequestErrorDiv}
+{if !isset($showMenu) || $showMenu}
+	{include file="CoreAdminHome/templates/menu.tpl"}
+{/if}
 
+{if strpos($url, 'updated=1')}	
+<div class="ajaxSuccess" style="display:normal">
+	<p>{'General_YourChangesHaveBeenSaved'|translate}</p>
+</div>
+{/if}

@@ -242,4 +242,5 @@ $(document).ready( function() {
 
 	$('.updateAccess')
 		.click( bindUpdateAccess );
+	$('#accessUpdated').hide();
 });	

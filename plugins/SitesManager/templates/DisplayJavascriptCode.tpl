@@ -2,7 +2,6 @@
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='SitesManager'}
-{include file="CoreAdminHome/templates/menu.tpl"}
 
 {literal}
 <style>

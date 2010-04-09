@@ -2,7 +2,6 @@
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='SecurityInfo'}
-{include file="CoreAdminHome/templates/menu.tpl"}
 
 <h2>{'SecurityInfo_SecurityInformation'|translate}</h2>
 <p>{'SecurityInfo_PluginDescription'|translate}</p>

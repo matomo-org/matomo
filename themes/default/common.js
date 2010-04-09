@@ -47,31 +47,6 @@ piwikHelper.findSWFGraph = function(name) {
 	return null;
 }
 
-piwikHelper.redirectToUrl = function(url) {
-	window.location = url;
-}
-
-piwikHelper.ajaxHandleError = function()
-{
-	$('#loadingError').show();
-	setTimeout( function(){ 
-		$('#loadingError').fadeOut('slow');
-		}, 2000);
-}
-
-piwikHelper.ajaxHandleResponse = function(response, loadingDivID, errorDivID)
-{
-	if(response.result == "error") 
-	{
-		piwikHelper.hideAjaxLoading(loadingDivID);
-		piwikHelper.showAjaxError(response.message, errorDivID);
-	}
-	else
-	{
-		window.location.reload();
-	}
-}
-
 piwikHelper.showAjaxError = function( string, errorDivID )
 {
 	errorDivID = errorDivID || 'ajaxError';
@@ -106,6 +81,38 @@ piwikHelper.getStandardAjaxConf = function(loadingDivID, errorDivID)
 	ajaxRequest.error = piwikHelper.ajaxHandleError;
 	ajaxRequest.success = function(response) { piwikHelper.ajaxHandleResponse(response, loadingDivID, errorDivID); };
 	return ajaxRequest;
+}
+
+piwikHelper.redirectToUrl = function(url) {
+	window.location = url;
+}
+
+piwikHelper.ajaxHandleError = function()
+{
+	$('#loadingError').show();
+	setTimeout( function(){ 
+		$('#loadingError').fadeOut('slow');
+		}, 2000);
+}
+
+piwikHelper.ajaxHandleResponse = function(response, loadingDivID, errorDivID)
+{
+	if(response.result == "error") 
+	{
+		piwikHelper.hideAjaxLoading(loadingDivID);
+		piwikHelper.showAjaxError(response.message, errorDivID);
+	}
+	else
+	{
+		// add updated=1 to the URL so that a "Your changes have been saved" message is displayed
+		var urlToRedirect = String(window.location.pathname) + String(window.location.search);
+		updatedUrl = 'updated=1';
+		if(urlToRedirect.search(new RegExp(updatedUrl)) == -1)
+		{
+			urlToRedirect += '&' + updatedUrl;
+		}
+		piwikHelper.redirectToUrl(urlToRedirect);
+	}
 }
 
 // Scrolls the window to the jquery element 'elem' if necessary.
