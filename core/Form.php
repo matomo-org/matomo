@@ -23,13 +23,13 @@ abstract class Piwik_Form extends HTML_QuickForm
 {
 	protected $a_formElements = array();
 	
-	function __construct( $action = '' )
+	function __construct( $action = '', $attributes = '' )
 	{
 		if(empty($action))
 		{
 			$action = Piwik_Url::getCurrentQueryString();
 		}
-		parent::HTML_QuickForm('form', 'POST', $action);
+		parent::HTML_QuickForm('form', 'POST', $action, $target='', $attributes);
 		
 		$this->registerRule( 'checkEmail', 'function', 'Piwik_Form_isValidEmailString');
 		$this->registerRule( 'fieldHaveSameValue', 'function', 'Piwik_Form_fieldHaveSameValue');

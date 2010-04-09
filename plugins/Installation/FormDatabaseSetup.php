@@ -16,6 +16,10 @@
  */
 class Piwik_Installation_FormDatabaseSetup extends Piwik_Form
 {
+	function __construct()
+	{
+		parent::__construct($action = '', $attributes = 'autocomplete="off"');
+	}
 	function init()
 	{		
 		$availableAdapters = Piwik_Db::getAdapters();
@@ -27,8 +31,8 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_Form
 
 		$formElements = array(
 			array('text', 'host', Piwik_Translate('Installation_DatabaseSetupServer'), 'value='.'localhost'),
-			array('text', 'username', Piwik_Translate('Installation_DatabaseSetupLogin')),
-			array('password', 'password', Piwik_Translate('Installation_DatabaseSetupPassword')),
+			array('text', 'username', Piwik_Translate('Installation_DatabaseSetupLogin')), 
+			array('password', 'password', Piwik_Translate('Installation_DatabaseSetupPassword')), 
 			array('text', 'dbname', Piwik_Translate('Installation_DatabaseSetupDatabaseName')),
 			array('text', 'tables_prefix', Piwik_Translate('Installation_DatabaseSetupTablePrefix'), 'value='.'piwik_'),
 			array('select', 'adapter', Piwik_Translate('Installation_DatabaseSetupAdapter'), $adapters),
