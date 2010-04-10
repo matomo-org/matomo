@@ -538,6 +538,11 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('IE', 'Internet Explorer', 'IE', '7.0', '7', '0', 'ie'),
 			array('WXP', 'Windows XP', 'Win XP')),
 
+		// Midori
+		'Midori/0.1.9 (X11; Linux i686; U; fr-fr) WebKit/532+' => array(
+			array('MI', 'Midori', 'Midori', '0.1', '0', '1', 'webkit'),
+			array('LIN', 'Linux', 'Linux')),
+
 		// Mozilla Suite
 		'Mozilla/5.0 (X11; U; SunOS sun4u; en-US; rv:1.7) Gecko/20070606' => array(
 			array('MO', 'Mozilla', 'Mozilla', '1.7', '1', '7', 'gecko'),
