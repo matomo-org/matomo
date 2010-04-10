@@ -87,6 +87,7 @@ class UserAgentParser
 			'konqueror'						=> 'KO',
 			'links'							=> 'LI',
 			'lynx'							=> 'LX',
+			'midori'						=> 'MI',
 
 			// SeaMonkey (formerly Mozilla Suite) (and rebranded versions)
 			'mozilla'						=> 'MO',
@@ -121,7 +122,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'FL', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI'),
 			'opera'  => array('OP'),
 		);
 
