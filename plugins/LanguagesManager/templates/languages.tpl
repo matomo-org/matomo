@@ -12,7 +12,7 @@
 		</form>
 	</span>
 	
-	{literal}<script language="javascript">
+	{literal}<script type="text/javascript">
 	$(document).ready(function() {
 		$("#languageSelection").fdd2div({CssClassName:"formDiv"});
 		$("#languageSelection").show();
