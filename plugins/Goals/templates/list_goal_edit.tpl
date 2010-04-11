@@ -22,7 +22,7 @@
 	</table>
 </span>
 
-<script language="javascript">
+<script type="text/javascript">
 var goalTypeToTranslation = {ldelim}
     "manually" : "{'Goals_ManuallyTriggeredUsingJavascriptFunction'|translate}",
     "file" : "{'Goals_Download'|translate}",

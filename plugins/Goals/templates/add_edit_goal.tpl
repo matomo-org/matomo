@@ -21,7 +21,7 @@
 
 {loadJavascriptTranslations plugins='Goals'}
 <script type="text/javascript" src="plugins/Goals/templates/GoalForm.js"></script>
-<script language="javascript">
+<script type="text/javascript">
 
 var mappingMatchTypeName = {ldelim} 
 	"url": "URL", 

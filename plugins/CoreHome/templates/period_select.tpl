@@ -14,7 +14,7 @@
 	<span id="datepicker"></span>
 </span>
 
-{literal}<script language="javascript">
+{literal}<script type="text/javascript">
 $(document).ready(function() {
      // this will trigger to change only the period value on search query and hash string.
      $("#otherPeriods a").bind('click',function(e) {
