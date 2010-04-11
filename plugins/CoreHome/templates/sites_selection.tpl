@@ -12,7 +12,7 @@
 		</form>
 	</span>
 
-	{literal}<script language="javascript">
+	{literal}<script type="text/javascript">
 	$(document).ready(function() {
 		var extraPadding = 0;
 		// if there is only one website, we dont show the arrows image, so no need to add the extra padding
