@@ -13,7 +13,7 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_6 extends Piwik_Updates
+class Piwik_Updates_0_6_rc1 extends Piwik_Updates
 {
 	static function getSql($adapter = 'PDO_MYSQL')
 	{
@@ -39,6 +39,7 @@ class Piwik_Updates_0_6 extends Piwik_Updates
 
 	static function update()
 	{
+		// first we disable the plugins and keep an array of warnings messages 
 		$pluginsToDisableMessage = array(
 			'SearchEnginePosition' => "SearchEnginePosition plugin was disabled, because it is not compatible with the new Piwik 0.6. \n You can download the latest version of the plugin, compatible with Piwik 0.6.\n<a target='_blank' href='misc/redirectToUrl.php?url=http://dev.piwik.org/trac/ticket/502'>Click here.</a>", 
 			'GeoIP' => "GeoIP plugin was disabled, because it is not compatible with the new Piwik 0.6. \nYou can download the latest version of the plugin, compatible with Piwik 0.6.\n<a target='_blank' href='misc/redirectToUrl.php?url=http://dev.piwik.org/trac/ticket/45'>Click here.</a>"
@@ -56,7 +57,7 @@ class Piwik_Updates_0_6 extends Piwik_Updates
 		// Run the SQL
 		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 		
-		// Outputs warning message if plugins were disabled, pointing users to the download page
+		// Outputs warning message, pointing users to the plugin download page
 		if(!empty($disabledPlugins))
 		{
 			throw new Exception("The following plugins were disabled during the upgrade:"
