@@ -235,7 +235,7 @@ class Piwik_Live_API
 		if($days != 0)
 		{
 			$timeLimit = mktime(0, 0, 0, date("m"),   date("d") - $days + 1,   date("Y"));
-			$where[] = " `visit_last_action_time` > '".date('Y-m-d H:i:s',$timeLimit)."'";
+			$where[] = " `visit_last_action_time` > '".date('Y-m-d H:i:s', $timeLimit)."'";
 		}
 
 		$sqlWhere = "";
