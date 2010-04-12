@@ -134,11 +134,12 @@ class Piwik_Updater
 	
 	private function getUpdateClassName($componentName, $fileVersion)
 	{
+		$suffix = strtolower(str_replace(array('-','.'), '_', $fileVersion));
 		if($componentName == 'core')
 		{
-			return 'Piwik_Updates_' . str_replace('.', '_', $fileVersion);
+			return 'Piwik_Updates_' . $suffix;
 		}
-		return 'Piwik_'. $componentName .'_Updates_' . str_replace('.', '_', $fileVersion);
+		return 'Piwik_'. $componentName .'_Updates_' . $suffix;
 	}
 	
 	/**
