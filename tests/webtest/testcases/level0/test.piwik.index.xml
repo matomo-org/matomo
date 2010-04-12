@@ -148,6 +148,7 @@
 					
 					<setInputField description="set Piwik site name" name="siteName" value="Dummy Site Name" />
 					<setInputField description="set Piwik URL" name="url" value="${wt.config.protocol}://${wt.config.host}:${wt.config.port}${wt.config.basepath}" />
+					<setSelectField description="set Piwik timezone" name="timezone" value="UTC" />
 
 					<clickButton description="click 'Go!' button" label="Go!"/>
 					
@@ -192,6 +193,7 @@
 					
 					<setInputField description="set Piwik login" htmlId="form_login" value="piwik_login" />
 					<setInputField description="set Piwik password" htmlId="form_password" value="piwik_password" />
+
 					<clickButton description="click 'Sign in' button" label="Sign in"/>
 					
 					<!-- logged in -->
