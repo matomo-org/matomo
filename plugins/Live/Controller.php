@@ -11,12 +11,10 @@
  */
 
 /**
- *
  * @package Piwik_Live
  */
 class Piwik_Live_Controller extends Piwik_Controller
 {
-
 	function __construct()
 	{
 		parent::__construct();
@@ -32,7 +30,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function widget($fetch = false)
 	{
 		$view = Piwik_View::factory('index');
-//		$this->setGeneralVariablesView($view);
 		$view->idSite = Piwik_Common::getRequestVar('idSite');		
 		$view->visitorsCountHalfHour = $this->getUsersInLastXMin(30);
 		$view->visitorsCountToday = $this->getUsersInLastXDays(1);
@@ -58,7 +55,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 //'serverDatePretty', 'serverTimePretty', 'actionDetails'
 
 		$view->setColumnsToDisplay(array(
-//			'label',
 			'idVisit',
 			'serverDatePretty',
 			'serverTimePretty',
@@ -75,7 +71,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 		));
 
 		$view->setColumnsTranslations(array(
-//			'label' => Piwik_Translate('translation'),
 			'idVisit' => Piwik_Translate(''),
 			'serverDatePretty' => Piwik_Translate('Live_Date'),
 			'serverTimePretty' => Piwik_Translate('Live_Time'),
@@ -114,18 +109,12 @@ class Piwik_Live_Controller extends Piwik_Controller
 						'Live.getLastVisitsForVisitor',
 						'getPagesFromVisitId');
 
-		#$view->disableSearchBox();
-		#$view->disableExcludeLowPopulation();
-		#$view->setColumnsToDisplay( array('label','nb_visits') );
-		#$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnKeyword'));
-
 		return $this->renderView($view, $fetch);
 	}
 
 	public function getLastVisitsStart($fetch = false)
 	{
 		$view = Piwik_View::factory('lastVisits');
-//		$this->setGeneralVariablesView($view);
 		$view->idSite = Piwik_Common::getRequestVar('idSite');		
 		
 		$view->visitors = $this->getLastVisits(10);
@@ -178,7 +167,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 	public function ajaxTotalVisitors($fetch = false)
 	{
 		$view = Piwik_View::factory('totalVisits');
-//		$this->setGeneralVariablesView($view);
 		$view->idSite = Piwik_Common::getRequestVar('idSite');		
 		$view->visitorsCountHalfHour = $this->getUsersInLastXMin(30);
 		$view->visitorsCountToday = $this->getUsersInLastXDays(1);
