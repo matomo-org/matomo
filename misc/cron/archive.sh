@@ -1,7 +1,9 @@
 #!/bin/bash -e
 
 # Description
-# This script automatically fetches the Super User token_auth 
+# This cron script will automatically run Piwik archiving every hour.
+
+# It automatically fetches the Super User token_auth 
 # and triggers the archiving for all websites for all periods.
 # This ensures that all reports are pre-computed and Piwik renders very fast. 
 
@@ -10,14 +12,22 @@
 
 # How to setup the crontab job?
 # Add the following lines in your crontab file, eg. /etc/cron.d/piwik-archive
+#---------------START CRON TAB--
 #MAILTO="youremail@example.com"
-#5 0 * * * www-data /path/to/piwik/misc/cron/archive.sh > /dev/null
-
-# Other optimization for high traffic websites
-# You may want to override the following settings in config/config.ini.php (see documentation in config/config.ini.php)
+#5 * * * * www-data /path/to/piwik/misc/cron/archive.sh > /dev/null
+#-----------------END CRON TAB--
+# When an error occurs (eg. php memory error, timeout) the error messages 
+# will be sent to youremail@example.com.  
+#   
+# Optimization for high traffic websites
+# You may want to override the following settings in config/config.ini.php:
+# See documentation of the fields in your piwik/config/config.ini.php 
+#
 # [General]
 # time_before_archive_considered_outdated = 3600
 # enable_browser_archiving_triggering = false
+#
+#===========================================================================
 
 for TEST_PHP_BIN in php5 php; do
   if which $TEST_PHP_BIN >/dev/null 2>/dev/null; then
