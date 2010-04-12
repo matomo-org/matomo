@@ -39,6 +39,30 @@ class Piwik_Updates_0_6 extends Piwik_Updates
 
 	static function update()
 	{
+		$pluginsToDisableMessage = array(
+			'SearchEnginePosition' => "SearchEnginePosition plugin was disabled, because it is not compatible with the new Piwik 0.6. \n You can download the latest version of the plugin, compatible with Piwik 0.6.\n<a target='_blank' href='misc/redirectToUrl.php?url=http://dev.piwik.org/trac/ticket/502'>Click here.</a>", 
+			'GeoIP' => "GeoIP plugin was disabled, because it is not compatible with the new Piwik 0.6. \nYou can download the latest version of the plugin, compatible with Piwik 0.6.\n<a target='_blank' href='misc/redirectToUrl.php?url=http://dev.piwik.org/trac/ticket/45'>Click here.</a>"
+		);
+		$disabledPlugins = array();
+		foreach($pluginsToDisableMessage as $pluginToDisable => $warningMessage) 
+		{
+			if(Piwik_PluginsManager::getInstance()->isPluginActivated($pluginToDisable))
+			{
+				Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginToDisable);
+				$disabledPlugins[] = $warningMessage;
+			}
+		}
+		
+		// Run the SQL
 		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+		
+		// Outputs warning message if plugins were disabled, pointing users to the download page
+		if(!empty($disabledPlugins))
+		{
+			throw new Exception("The following plugins were disabled during the upgrade:"
+							."<ul><li>" . 
+								implode('</li><li>', $disabledPlugins) . 
+							"</li></ul>");
+		}
 	}
 }

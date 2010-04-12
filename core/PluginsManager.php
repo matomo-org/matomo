@@ -118,7 +118,7 @@ class Piwik_PluginsManager
 			if($key !== false)
 			{
 				unset($pluginsTracker[$key]);
-				Zend_Registry::get('config')->Plugins_Tracker = $pluginsTracker;
+				Zend_Registry::get('config')->Plugins_Tracker = array('Plugins_Tracker' => $pluginsTracker);
 			}
 		}
 	}

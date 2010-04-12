@@ -73,3 +73,7 @@ a { color: #006; }
 	border:0;
 	vertical-align:bottom;
 }
+.warning, .error {
+	-moz-border-radius:4px; 
+	-webkit-border-radius:4px; 
+}
