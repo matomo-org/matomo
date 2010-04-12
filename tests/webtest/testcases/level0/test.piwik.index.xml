@@ -82,7 +82,7 @@
 					<clickButton description="click 'Go!' button" label="Go!"/>
 					
 	            	<!-- 4. databaseCheck -->
-	            	
+<!--	            	
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
 	                <verifyText description="check page text" text="Database check" />
@@ -91,6 +91,7 @@
 	            	&verifyLinksAndImages;
 
 	            	<clickLink description="click 'Next'" label="Next &raquo;" />
+-->
 	            	
 					<!-- 5. tablesCreation -->
 					
