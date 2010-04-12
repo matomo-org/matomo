@@ -464,7 +464,7 @@ class Piwik_Date
 			"%longDay%" => Piwik_Translate('General_LongDay_'.$dayOfWeek),
 			"%longYear%" => $this->toString('Y'),
 			"%shortYear%" => $this->toString('y'),
-			"%time%" => $this->toString('H:i:s T')
+			"%time%" => $this->toString('H:i:s')
 		);
 		$out = str_replace(array_keys($patternToValue), array_values($patternToValue), $template);
 		return $out;
