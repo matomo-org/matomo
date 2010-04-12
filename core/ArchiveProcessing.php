@@ -45,6 +45,14 @@ abstract class Piwik_ArchiveProcessing
 	 * @var int
 	 */
 	const DONE_ERROR = 2;
+	
+	/**
+	 * Flag indicates the archive is over a period that is not finished, eg. the current day, current week, etc.
+	 * Archives flagged will be regularly purged from the DB.
+	 * 
+	 * @var int
+	 */
+	const DONE_OK_TEMPORARY = 3;
 
 	/**
 	 * Idarchive in the DB for the requested archive
@@ -110,6 +118,13 @@ abstract class Piwik_ArchiveProcessing
 	protected $compressBlob;
 	
 	/**
+	 * Is the current archive temporary. ie.
+	 * - today 
+	 * - current week / month / year
+	 */
+	protected $temporaryArchive;
+	
+	/**
 	 * Id of the current site
 	 * Can be accessed by plugins (that is why it's public)
 	 * 
@@ -121,7 +136,7 @@ abstract class Piwik_ArchiveProcessing
 	 * Period of the current archive
 	 * Can be accessed by plugins (that is why it's public)
 	 * 
-	 * @var Piwik_Period
+	 * @var $period Piwik_Period
 	 */
 	public $period 	= null;
 	
@@ -309,6 +324,11 @@ abstract class Piwik_ArchiveProcessing
 		return $this->endDatetimeUTC;
 	}
 	
+	public function isArchiveTemporary()
+	{
+		return $this->temporaryArchive;
+	}
+	
 	/**
 	 * Returns the minimum archive processed datetime to look at
 	 *  
@@ -316,12 +336,14 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function getMinTimeArchivedProcessed()
 	{
+		$this->temporaryArchive = false;
 		// if the current archive is a DAY and if it's today,
 		// we set this minDatetimeArchiveProcessedUTC that defines the lifetime value of today's archive
 		if( $this->period->getNumberOfSubperiods() == 0
 			&& $this->startTimestampUTC <= time() && $this->endTimestampUTC > time()
 			)
 		{
+			$this->temporaryArchive = true;
 			$minDatetimeArchiveProcessedUTC = time() - self::getTodayArchiveTimeToLive();
 			$browserArchivingEnabled = self::isBrowserTriggerArchivingEnabled();
 			// see #1150; if new archives are not triggered from the browser, 
@@ -344,7 +366,10 @@ abstract class Piwik_ArchiveProcessing
 			}
 			else
 			{
-				$minDatetimeArchiveProcessedUTC = Piwik_Date::today()->setTimezone($this->site->getTimezone())->getTimestamp();
+    			$this->temporaryArchive = true;
+				$minDatetimeArchiveProcessedUTC = Piwik_Date::today()
+													->setTimezone($this->site->getTimezone())
+													->getTimestamp();
 			}
 		}
 		return $minDatetimeArchiveProcessedUTC;
@@ -406,6 +431,15 @@ abstract class Piwik_ArchiveProcessing
 		$this->logVisitActionTable 	= Piwik::prefixTable('log_link_visit_action');
 		$this->logActionTable	 	= Piwik::prefixTable('log_action');
 		$this->logConversionTable	= Piwik::prefixTable('log_conversion');
+		
+		$temporary = 'definitive archive';
+		if($this->isArchiveTemporary())
+		{
+			$temporary = 'temporary archive';
+		}
+		Piwik::log("Processing archive '" . $this->period->getLabel() . "', 
+								idsite = ". $this->idsite." ($temporary) - 
+								UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
 	}
 	
 	/**
@@ -421,9 +455,14 @@ abstract class Piwik_ArchiveProcessing
 					DELETE FROM ".$this->tableArchiveNumeric->getTableName()." 
 					WHERE idarchive = ? AND name = 'done'",
 					array($this->idArchive)
-				);
+		);
 		
-		$this->insertNumericRecord('done', Piwik_ArchiveProcessing::DONE_OK);
+		$flag = Piwik_ArchiveProcessing::DONE_OK;
+		if($this->isArchiveTemporary())
+		{
+			$flag = Piwik_ArchiveProcessing::DONE_OK_TEMPORARY;
+		}
+		$this->insertNumericRecord('done', $flag);
 		
 		Piwik_DataTable_Manager::getInstance()->deleteAll();
 	}
@@ -630,6 +669,7 @@ abstract class Piwik_ArchiveProcessing
 							AND date2 = ?
 							AND period = ?
 							AND ( (name = 'done' AND value = ".Piwik_ArchiveProcessing::DONE_OK.")
+									OR (name = 'done' AND value = ".Piwik_ArchiveProcessing::DONE_OK_TEMPORARY.")
 									OR name = 'nb_visits')
 							$timeStampWhere
 						ORDER BY ts_archived DESC";

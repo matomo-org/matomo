@@ -209,8 +209,8 @@ ip_address_mask_length = 1
 
 [log]
 ;possible values for log: screen, database, file
-; normal messages
-logger_message[]		= screen
+; by default, standard logging/debug messages are hidden from screen
+;logger_message[]		= screen
 logger_error[]			= screen
 logger_exception[]		= screen
 

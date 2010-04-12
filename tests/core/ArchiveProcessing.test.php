@@ -57,6 +57,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		// min finished timestamp considered when looking at archive timestamp 
 		$dateMinArchived = Piwik_Date::today()->setTimezone('UTC+10')->getTimestamp();
 		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived);
+		$this->assertTrue($archiveProcessing->isArchiveTemporary());
 	}
 	
 	// test of validity of an archive, for a month in the past
@@ -70,8 +71,9 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		
 		$this->assertEqual($archiveProcessing->getStartDatetimeUTC(), '2010-01-01 00:00:00');
 		$this->assertEqual($archiveProcessing->getEndDatetimeUTC(), '2010-01-01 23:59:59');
+		$this->assertFalse($archiveProcessing->isArchiveTemporary());
 	}
-	
+
 	// test of validity of an archive, for a non UTC date in the past
 	public function test_init_dayInPast_NonUTCWebsite()
 	{
@@ -83,7 +85,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		
 		$this->assertEqual($archiveProcessing->getStartDatetimeUTC(), '2009-12-31 18:30:00');
 		$this->assertEqual($archiveProcessing->getEndDatetimeUTC(), '2010-01-01 18:29:59');
-		
+		$this->assertFalse($archiveProcessing->isArchiveTemporary());
 	}
 	
 	// test of validity of an archive, for today's archive
@@ -96,6 +98,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		// we look at anything processed within the time to live range
 		$dateMinArchived = time() - Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
 		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived);
+		$this->assertTrue($archiveProcessing->isArchiveTemporary());
 
 		// when browsers don't trigger archives, we force ArchiveProcessing 
 		// to fetch any of the most recent archive
@@ -105,6 +108,7 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		
 		$this->assertEqual($archiveProcessing->getStartDatetimeUTC(), date('Y-m-d').' 01:00:00');
 		$this->assertEqual($archiveProcessing->getEndDatetimeUTC(), date('Y-m-d', time()+86400).' 00:59:59');
+		$this->assertTrue($archiveProcessing->isArchiveTemporary());
 	}
 	
 }

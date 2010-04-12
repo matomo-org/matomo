@@ -32,7 +32,8 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     	$this->checkEqual(array('Tracker' => 'record_statistics'), '1');
     	$this->checkEqual(array('Tracker' => 'visit_standard_length'), '1800');
     	$this->checkEqual(array('Tracker' => 'enable_detect_unique_visitor_using_settings'), '1');
-    	$this->checkEqual(array('log' => 'logger_message'), array('screen'));
+    	// logging messages are disabled
+    	$this->checkEqual(array('log' => 'logger_message'), '');
     	$this->checkEqual(array('log' => 'logger_exception'), array('screen'));
     	$this->checkEqual(array('log' => 'logger_error'), array('screen'));
     	$this->checkEqual(array('log' => 'logger_api_call'), null);
