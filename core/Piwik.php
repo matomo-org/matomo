@@ -763,8 +763,8 @@ class Piwik
 							  location_browser_lang VARCHAR(20) NOT NULL,
 							  location_country CHAR(3) NOT NULL,
 							  location_continent CHAR(3) NOT NULL,
-							  PRIMARY KEY(idvisit),
-							  INDEX index_idsite_date_config (idsite, visit_server_date, config_md5config(8)) 
+							  PRIMARY KEY(idsite, idvisit),
+							  INDEX index_idsite_date_config (idsite, visit_server_date, config_md5config(8)) ,
 							  INDEX index_idsite_datetime_config (idsite, visit_last_action_time, config_md5config(8))
 							)  DEFAULT CHARSET=utf8 
 			",		

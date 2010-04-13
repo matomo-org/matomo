@@ -142,21 +142,21 @@ class Piwik_Live_API
 			$idvisit = $visitorDetailsArray['idVisit'];
 
 			$sql = "
-				SELECT DISTINCT `" .Piwik::prefixTable('log_action')."`.`name` AS pageUrl
-				FROM `" .Piwik::prefixTable('log_link_visit_action')."`
-					INNER JOIN `" .Piwik::prefixTable('log_action')."` 
-					ON  `" .Piwik::prefixTable('log_link_visit_action')."`.`idaction_url` = `" .Piwik::prefixTable('log_action')."`.`idaction`
-				WHERE `" .Piwik::prefixTable('log_link_visit_action')."`.`idvisit` = $idvisit;
+				SELECT DISTINCT " .Piwik::prefixTable('log_action').".name AS pageUrl
+				FROM " .Piwik::prefixTable('log_link_visit_action')."
+					INNER JOIN " .Piwik::prefixTable('log_action')." 
+					ON  " .Piwik::prefixTable('log_link_visit_action').".idaction_url = " .Piwik::prefixTable('log_action').".idaction
+				WHERE " .Piwik::prefixTable('log_link_visit_action').".idvisit = $idvisit;
 				 ";
 
 			$visitorDetailsArray['actionDetails'] = Piwik_FetchAll($sql);
 
 			$sql = "
-				SELECT DISTINCT `" .Piwik::prefixTable('log_action')."`.`name` AS pageUrl
-				FROM `" .Piwik::prefixTable('log_link_visit_action')."`
-					INNER JOIN `" .Piwik::prefixTable('log_action')."` 
-					ON  `" .Piwik::prefixTable('log_link_visit_action')."`.`idaction_name` = `" .Piwik::prefixTable('log_action')."`.`idaction`
-				WHERE `" .Piwik::prefixTable('log_link_visit_action')."`.`idvisit` = $idvisit;
+				SELECT DISTINCT " .Piwik::prefixTable('log_action').".name AS pageUrl
+				FROM " .Piwik::prefixTable('log_link_visit_action')."
+					INNER JOIN " .Piwik::prefixTable('log_action')." 
+					ON  " .Piwik::prefixTable('log_link_visit_action').".idaction_name = " .Piwik::prefixTable('log_action').".idaction
+				WHERE " .Piwik::prefixTable('log_link_visit_action').".idvisit = $idvisit;
 				 ";
 
 			$visitorDetailsArray['actionDetailsTitle'] = Piwik_FetchAll($sql);
@@ -195,15 +195,16 @@ class Piwik_Live_API
 		}
 
 		$sql = "SELECT 	" . Piwik::prefixTable('log_visit') . ".* , 
-						" . Piwik::prefixTable ( 'goal' ) . ".`match_attribute`
+						" . Piwik::prefixTable ( 'goal' ) . ".match_attribute
 				FROM " . Piwik::prefixTable('log_visit') . "
 					LEFT JOIN ".Piwik::prefixTable('log_conversion')." 
-					ON " . Piwik::prefixTable('log_visit') . ".`idvisit` = " . Piwik::prefixTable('log_conversion') . ".`idvisit`
+					ON " . Piwik::prefixTable('log_visit') . ".idvisit = " . Piwik::prefixTable('log_conversion') . ".idvisit
 					LEFT JOIN ".Piwik::prefixTable('goal')." 
-					ON " . Piwik::prefixTable('goal') . ".`idgoal` = " . Piwik::prefixTable('log_conversion') . ".`idgoal` 
-					AND " . Piwik::prefixTable('goal') . ".`deleted` = 0
+					ON (" . Piwik::prefixTable('goal') . ".idsite = " . Piwik::prefixTable('log_visit') . ".idsite
+						AND  " . Piwik::prefixTable('goal') . ".idgoal = " . Piwik::prefixTable('log_conversion') . ".idgoal)
+					AND " . Piwik::prefixTable('goal') . ".deleted = 0
 				$sqlWhere
-				ORDER BY idvisit DESC
+				ORDER BY idsite,idvisit DESC
 				LIMIT $limit";
 
 		return Piwik_FetchAll($sql, $whereBind);
@@ -223,19 +224,19 @@ class Piwik_Live_API
 	{
 		$where = $whereBind = array();
 
-		$where[] = " " . Piwik::prefixTable('log_visit') . ".`idsite` = ? ";
+		$where[] = " " . Piwik::prefixTable('log_visit') . ".idsite = ? ";
 		$whereBind[] = $idSite;
 
 		if($minutes != 0)
 		{
 			$timeLimit = mktime(date("H"), date("i") - $minutes, 0, date("m"),   date("d"),   date("Y"));
-			$where[] = " `visit_last_action_time` > '".date('Y-m-d H:i:s',$timeLimit)."'";
+			$where[] = " visit_last_action_time > '".date('Y-m-d H:i:s',$timeLimit)."'";
 		}
 
 		if($days != 0)
 		{
 			$timeLimit = mktime(0, 0, 0, date("m"),   date("d") - $days + 1,   date("Y"));
-			$where[] = " `visit_last_action_time` > '".date('Y-m-d H:i:s', $timeLimit)."'";
+			$where[] = " visit_last_action_time > '".date('Y-m-d H:i:s', $timeLimit)."'";
 		}
 
 		$sqlWhere = "";
@@ -250,16 +251,15 @@ class Piwik_Live_API
 			$sql = "SELECT 	" . Piwik::prefixTable('log_visit') . ".idvisit
 				FROM " . Piwik::prefixTable('log_visit') . "
 				$sqlWhere
-				ORDER BY idvisit DESC";
+				ORDER BY idsite,idvisit DESC";
 		 }
 		 // Pages
 		 elseif($type == self::TYPE_FETCH_PAGEVIEWS)
 		 {
-	 		$sql_select = "SELECT " . Piwik::prefixTable('log_link_visit_action') . ".`idaction_url`";
-			$sql = $sql_select."
-				FROM " . Piwik::prefixTable('log_link_visit_action') . "
-					INNER JOIN " . Piwik::prefixTable('log_visit') . " 
-					ON " . Piwik::prefixTable('log_visit') . ".`idvisit` = " . Piwik::prefixTable('log_link_visit_action') . ".`idvisit`
+			$sql = "SELECT " . Piwik::prefixTable('log_link_visit_action') . ".idaction_url
+					FROM " . Piwik::prefixTable('log_link_visit_action') . "
+    					INNER JOIN " . Piwik::prefixTable('log_visit') . " 
+    					ON " . Piwik::prefixTable('log_visit') . ".idvisit = " . Piwik::prefixTable('log_link_visit_action') . ".idvisit
 				$sqlWhere";
 		 }
 		 else
