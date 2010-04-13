@@ -17,7 +17,7 @@
 
 <tr>
 	<td><label for="alias">{'UsersManager_Alias'|translate} </label></td>
-	<td><input size="25" value="{$userAlias}" id="alias" {if $isSuperUser} disabled="disabled" {/if}/>
+	<td><input size="25" value="{$userAlias}" id="alias"{if $isSuperUser} disabled="disabled"{/if} />
 		{if $isSuperUser}
 			<span class='form-description'>
 				{'UsersManager_TheSuperUserAliasCannotBeChanged'|translate}
@@ -34,8 +34,8 @@
 	<td>{'UsersManager_ReportToLoadByDefault'|translate}</td>
 	<td>
 	<fieldset>
-		<label><input type="radio" value="MultiSites" name="defaultReport" {if $defaultReport=='MultiSites'}checked="checked" {/if}/> {'General_AllWebsitesDashboard'|translate}</label><br>
-		<label><input type="radio" value="1" name="defaultReport" {if $defaultReport!='MultiSites'}checked="checked" {/if}/> {'General_DashboardForASpecificWebsite'|translate}</label> 
+		<label><input type="radio" value="MultiSites" name="defaultReport"{if $defaultReport=='MultiSites'} checked="checked"{/if} /> {'General_AllWebsitesDashboard'|translate}</label><br />
+		<label><input type="radio" value="1" name="defaultReport"{if $defaultReport!='MultiSites'} checked="checked"{/if} /> {'General_DashboardForASpecificWebsite'|translate}</label> 
 		<select id="defaultReportWebsite">
 		   {if isset($sites)}{foreach from=$sites item=info}
 		   		<option value="{$info.idsite}" {if $defaultReport==$info.idsite} selected="selected"{/if}>{$info.name}</option>
@@ -49,7 +49,7 @@
 	<td>
 	<fieldset>
 		{foreach from=$availableDefaultDates key=value item=description}
-			<label><input type="radio" {if $defaultDate==$value}checked="checked"{/if} value="{$value}" name="defaultDate" /> {$description}</label><br />
+			<label><input type="radio"{if $defaultDate==$value} checked="checked"{/if} value="{$value}" name="defaultDate" /> {$description}</label><br />
 		{/foreach}
 	</fieldset>
 	</td>
@@ -85,10 +85,10 @@
 		<td style='width:400px'>{'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'|translate}</td>
 		<td>
 		<fieldset>
-			<label><input type="radio" value="Login" name="anonymousDefaultReport" {if $anonymousDefaultReport==$loginModule}checked="checked" {/if}/> {'UsersManager_TheLoginScreen'|translate}</label><br>
-			<label><input {if empty($anonymousSites)}disabled="disabled"{/if} type="radio" value="MultiSites" name="anonymousDefaultReport" {if $anonymousDefaultReport=='MultiSites'}checked="checked" {/if}/> {'General_AllWebsitesDashboard'|translate}</label><br>
+			<label><input type="radio" value="Login" name="anonymousDefaultReport"{if $anonymousDefaultReport==$loginModule} checked="checked"{/if} /> {'UsersManager_TheLoginScreen'|translate}</label><br />
+			<label><input {if empty($anonymousSites)}disabled="disabled" {/if}type="radio" value="MultiSites" name="anonymousDefaultReport"{if $anonymousDefaultReport=='MultiSites'} checked="checked"{/if} /> {'General_AllWebsitesDashboard'|translate}</label><br />
 			
-				<label><input {if empty($anonymousSites)}disabled="disabled"{/if} type="radio" value="1" name="anonymousDefaultReport" {if $anonymousDefaultReport>0}checked="checked" {/if}/> {'General_DashboardForASpecificWebsite'|translate}</label> 
+				<label><input {if empty($anonymousSites)}disabled="disabled" {/if}type="radio" value="1" name="anonymousDefaultReport"{if $anonymousDefaultReport>0} checked="checked"{/if} /> {'General_DashboardForASpecificWebsite'|translate}</label>
 				{if !empty($anonymousSites)}
 				<select id="anonymousDefaultReportWebsite">
 				   {foreach from=$anonymousSites item=info}

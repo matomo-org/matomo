@@ -13,12 +13,12 @@
 	<td style='width:400px'>{'General_AllowPiwikArchivingToTriggerBrowser'|translate}</td>
 	<td style='width:150px'>
 	<fieldset>
-		<label><input type="radio" value="1" name="enableBrowserTriggerArchiving" {if $enableBrowserTriggerArchiving==1}checked="checked"{/if}> {'General_Yes'|translate}</label><br>
-		<label><input type="radio" value="0" name="enableBrowserTriggerArchiving" {if $enableBrowserTriggerArchiving==0}checked="checked"{/if}> {'General_No'|translate}</label> 
+		<label><input type="radio" value="1" name="enableBrowserTriggerArchiving"{if $enableBrowserTriggerArchiving==1} checked="checked"{/if} /> {'General_Yes'|translate}</label><br />
+		<label><input type="radio" value="0" name="enableBrowserTriggerArchiving"{if $enableBrowserTriggerArchiving==0} checked="checked"{/if} /> {'General_No'|translate}</label> 
 	</fieldset>
 	<td>
 	{capture assign=browserArchivingHelp}
-		{'General_ArchivingInlineHelp'|translate}<br/> 
+		{'General_ArchivingInlineHelp'|translate}<br /> 
 		{'General_SeeTheOfficialDocumentationForMoreInformation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>":"</a>"}
 	{/capture}
 	{$browserArchivingHelp|inlineHelp}	</td>
@@ -28,11 +28,11 @@
 <tr>
 	<td><label for="todayArchiveTTL">{'General_ReportsForTodayWillBeProcessedAtMostEvery'|translate}</label></td>
 	<td>
-		{'General_NSeconds'|translate:"<input size='3' value='$todayArchiveTimeToLive' id='todayArchiveTimeToLive'>"} 
+		{'General_NSeconds'|translate:"<input size='3' value='$todayArchiveTimeToLive' id='todayArchiveTimeToLive' />"} 
 	</td>
 	<td width='450px'>
 	{capture assign=archiveTodayTTLHelp}
-		{'General_SmallTrafficYouCanLeaveDefault'|translate:10}<br/> 
+		{'General_SmallTrafficYouCanLeaveDefault'|translate:10}<br /> 
 		{'General_MediumToHighTrafficItIsRecommendedTo'|translate:1800:3600}
 	{/capture}
 	{$archiveTodayTTLHelp|inlineHelp}	</td>
@@ -40,8 +40,8 @@
 </tr>
 
 </table>
-<input type="submit" value="{'General_Save'|translate}" id="generalSettingsSubmit" class="submit">
-<br/><br/>
+<input type="submit" value="{'General_Save'|translate}" id="generalSettingsSubmit" class="submit" />
+<br /><br />
 
 
 {include file="CoreAdminHome/templates/footer.tpl"}
