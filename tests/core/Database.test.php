@@ -14,18 +14,23 @@ class Test_Database extends UnitTestCase
 	{
 		parent::__construct( $title );
 		print("The test class extends Test_Database: the test Piwik database is created once in the constructor, and all tables are truncated at the end of EACH unit test method.<br>");
-		
-		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();	
-		Piwik_Tracker_Config::getInstance()->setTestEnvironment();
-		Piwik::createDatabaseObject();
-		Piwik::createLogObject();
-
-		Piwik::dropDatabase();
-		Piwik::createDatabase();
-		Piwik::disconnectDatabase();
-		Piwik::createDatabaseObject();
-		Piwik::createTables();
+		try {
+    		Piwik::createConfigObject();
+    		Zend_Registry::get('config')->setTestEnvironment();	
+    		Piwik_Tracker_Config::getInstance()->setTestEnvironment();
+    		Piwik::createDatabaseObject();
+    		Piwik::createLogObject();
+    
+    		Piwik::dropDatabase();
+    		Piwik::createDatabase();
+    		Piwik::disconnectDatabase();
+    		Piwik::createDatabaseObject();
+    		Piwik::createTables();
+		} catch(Exception $e) {
+			echo $e->getMessage();
+			echo "<br/><b>TEST INITIALIZATION FAILED!";
+			throw $e;
+		}
 	}
 	public function __destruct()
 	{

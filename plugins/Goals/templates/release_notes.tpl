@@ -19,6 +19,7 @@ Work left to do on the Goal Tracking plugin:
 - N/A% should be n/a
 - Way to test a URL against the regex
 - Test summary row works ok with subtables campaigns
+- Numeric records by the goal plugin can contain a lot of value=0 rows. Instead, we should only record the numeric value if it is not zero, and assume zero when not found. 
 
 Known bugs
 - see bug described in http://forum.piwik.org/index.php?showtopic=150
