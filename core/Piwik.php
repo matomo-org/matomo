@@ -763,8 +763,9 @@ class Piwik
 							  location_browser_lang VARCHAR(20) NOT NULL,
 							  location_country CHAR(3) NOT NULL,
 							  location_continent CHAR(3) NOT NULL,
-							  PRIMARY KEY(idsite, idvisit),
-							  INDEX index_idsite_date_config (idsite, visit_server_date, config_md5config(8)) ,
+							  PRIMARY KEY(idvisit),
+							  INDEX index_idsite_idvisit (idsite, idvisit),
+							  INDEX index_idsite_date_config (idsite, visit_server_date, config_md5config(8)),
 							  INDEX index_idsite_datetime_config (idsite, visit_last_action_time, config_md5config(8))
 							)  DEFAULT CHARSET=utf8 
 			",		
@@ -788,7 +789,7 @@ class Piwik
 									  idgoal int(10) unsigned NOT NULL,
 									  revenue float default NULL,
 									  PRIMARY KEY  (idvisit, idgoal),
-									  INDEX index_idsite_datetime ( idsite , server_time )
+									  INDEX index_idsite_datetime ( idsite, server_time )
 									) DEFAULT CHARSET=utf8 
 			",
 							
@@ -813,8 +814,8 @@ class Piwik
 			",
 			
 			'option' => "CREATE TABLE `{$prefixTables}option` (
-								option_name VARCHAR( 64 ) NOT NULL ,
-								option_value LONGTEXT NOT NULL ,
+								option_name VARCHAR( 64 ) NOT NULL,
+								option_value LONGTEXT NOT NULL,
 								autoload TINYINT NOT NULL DEFAULT '1',
 								PRIMARY KEY ( option_name )
 								)  DEFAULT CHARSET=utf8 
