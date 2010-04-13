@@ -14,7 +14,7 @@
 			</div>
 			<!--<div class="settings"></div>-->
 			<div class="referer">
-				{if $visitor.refererType != 'directEntry'}from <a href="{$visitor.refererUrl}">{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.refererName}</a>
+				{if $visitor.refererType != 'directEntry'}from <a href="{$visitor.refererUrl}" target="_blank">{if !empty($visitor.searchEngineIcon)}<img src="{$visitor.searchEngineIcon}" /> {/if}{$visitor.refererName}</a>
 					{if !empty($visitor.keywords)}"{$visitor.keywords}"{/if}
 				{/if}
 				{if $visitor.refererType == 'directEntry'}Direct entry{/if}

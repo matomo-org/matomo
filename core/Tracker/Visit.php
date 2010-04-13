@@ -243,11 +243,13 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 								$sqlUpdateGoalConverted
 								visit_last_action_time = ?,
 								visit_total_time = ?
-							WHERE idvisit = ?
+							WHERE idsite = ? 
+								AND idvisit = ?
 								AND visitor_idcookie = ?
 							LIMIT 1";
 		$sqlBind = array( 	$datetimeServer,
 							$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'],
+							$this->idsite,
 							$this->visitorInfo['idvisit'],
 							$this->visitorInfo['visitor_idcookie'] );
 							

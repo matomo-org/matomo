@@ -12,7 +12,7 @@
 				ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart',
 				fadeLast: 2,
 				isDupes : check_for_dupe,
-				timeout: 20000,
+				timeout: 8000,
 				customParameterName: 'minIdVisit',
 				customParameterValueCallback: lastIdVisit,
 				fadeInSpeed: 1400
