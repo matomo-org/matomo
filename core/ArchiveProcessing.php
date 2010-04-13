@@ -345,10 +345,9 @@ abstract class Piwik_ArchiveProcessing
 		{
 			$this->temporaryArchive = true;
 			$minDatetimeArchiveProcessedUTC = time() - self::getTodayArchiveTimeToLive();
-			$browserArchivingEnabled = $this->isArchivingDisabled();
 			// see #1150; if new archives are not triggered from the browser, 
 			// we still want to try and return the latest archive available for today (rather than return nothing)
-			if(!$browserArchivingEnabled)
+			if($this->isArchivingDisabled())
 			{
 				return false;
 			}
