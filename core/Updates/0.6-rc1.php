@@ -26,8 +26,6 @@ class Piwik_Updates_0_6_rc1 extends Piwik_Updates
 			'UPDATE ' . Piwik::prefixTable('site') . ' SET `currency` = "'.$defaultCurrency.'";' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('site') . ' ADD `excluded_ips` TEXT NOT NULL AFTER `currency` ;' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('site') . ' ADD excluded_parameters VARCHAR( 255 ) NOT NULL AFTER `excluded_ips` ;' => false,
-			'ALTER TABLE ' . Piwik::prefixTable('log_visit') . ' DROP INDEX `index_idsite_date_config` ;' => false,
-			'ALTER TABLE ' . Piwik::prefixTable('log_visit') . ' DROP visit_server_date;' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('log_visit') . ' ADD INDEX `index_idsite_datetime_config`  ( `idsite` , `visit_last_action_time`  , `config_md5config` ( 8 ) ) ;' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('log_conversion') . ' DROP INDEX index_idsite_date' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('log_conversion') . ' DROP visit_server_date;' => false,
