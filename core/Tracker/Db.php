@@ -161,7 +161,7 @@ abstract class Piwik_Tracker_Db
 	public function fetchOne( $query, $parameters = array() )
 	{
 		$result = $this->fetch($query, $parameters);
-		return is_array($result) ? $result[0] : false;
+		return is_array($result) && !empty($result) ? reset($result) : false;
 	}
 
 	/**

@@ -237,7 +237,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 									visit_total_actions = visit_total_actions + 1, ";
 			$this->visitorInfo['visit_exit_idaction_url'] = $actionUrlId;
 		}
-		$result = Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ". $this->idsite ." */
+		$sqlQuery = "/* SHARDING_ID_SITE = ". $this->idsite ." */
 							UPDATE ". Piwik_Common::prefixTable('log_visit')."
 							SET $sqlActionIdUpdate
 								$sqlUpdateGoalConverted
@@ -245,12 +245,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 								visit_total_time = ?
 							WHERE idvisit = ?
 								AND visitor_idcookie = ?
-							LIMIT 1",
-							array( 	$datetimeServer,
-									$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'],
-									$this->visitorInfo['idvisit'],
-									$this->visitorInfo['visitor_idcookie'] )
-				);
+							LIMIT 1";
+		$sqlBind = array( 	$datetimeServer,
+							$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'],
+							$this->visitorInfo['idvisit'],
+							$this->visitorInfo['visitor_idcookie'] );
+							
+		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
+		
 		printDebug('Updating visitor with idvisit='.$this->visitorInfo['idvisit'].', setting visit_last_action_time='.$datetimeServer.' and visit_total_time='.$visitTotalTime);
 		if(Piwik_Tracker::getDatabase()->rowCount($result) == 0)
 		{
@@ -297,39 +299,40 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		 * Save the visitor
 		 */
 		$this->visitorInfo = array(
-			'idsite' 				=> $this->idsite,
-			'visitor_localtime' 	=> $localTime,
-			'visitor_idcookie' 		=> $idcookie,
-			'visitor_returning' 	=> $returningVisitor,
-			'visit_first_action_time' => Piwik_Tracker::getDatetimeFromTimestamp($serverTime),
-			'visit_last_action_time' =>  Piwik_Tracker::getDatetimeFromTimestamp($serverTime),
-			'visit_entry_idaction_url' => $actionUrlId,
-			'visit_exit_idaction_url' => $actionUrlId,
-			'visit_total_actions' 	=> 1,
-			'visit_total_time' 		=> $defaultTimeOnePageVisit,
-			'visit_goal_converted'  => $someGoalsConverted ? 1: 0,
-			'referer_type' 			=> $refererInfo['referer_type'],
-			'referer_name' 			=> $refererInfo['referer_name'],
-			'referer_url' 			=> $refererInfo['referer_url'],
-			'referer_keyword' 		=> $refererInfo['referer_keyword'],
-			'config_md5config' 		=> $userInfo['config_md5config'],
-			'config_os' 			=> $userInfo['config_os'],
-			'config_browser_name' 	=> $userInfo['config_browser_name'],
-			'config_browser_version' => $userInfo['config_browser_version'],
-			'config_resolution' 	=> $userInfo['config_resolution'],
-			'config_pdf' 			=> $userInfo['config_pdf'],
-			'config_flash' 			=> $userInfo['config_flash'],
-			'config_java' 			=> $userInfo['config_java'],
-			'config_director' 		=> $userInfo['config_director'],
-			'config_quicktime'		=> $userInfo['config_quicktime'],
-			'config_realplayer' 	=> $userInfo['config_realplayer'],
-			'config_windowsmedia' 	=> $userInfo['config_windowsmedia'],
-			'config_gears'	 		=> $userInfo['config_gears'],
-			'config_silverlight'	=> $userInfo['config_silverlight'],
-			'config_cookie' 		=> $userInfo['config_cookie'],
-			'location_ip' 			=> $this->getVisitorIp(),
-			'location_browser_lang' => $userInfo['location_browser_lang'],
-			'location_country' 		=> $country,
+			'idsite' 					=> $this->idsite,
+			'visitor_localtime' 		=> $localTime,
+			'visitor_idcookie' 			=> $idcookie,
+			'visitor_returning' 		=> $returningVisitor,
+			'visit_server_date'     	=> $this->getCurrentDate(),
+			'visit_first_action_time' 	=> Piwik_Tracker::getDatetimeFromTimestamp($serverTime),
+			'visit_last_action_time' 	=> Piwik_Tracker::getDatetimeFromTimestamp($serverTime),
+			'visit_entry_idaction_url' 	=> $actionUrlId,
+			'visit_exit_idaction_url' 	=> $actionUrlId,
+			'visit_total_actions' 		=> 1,
+			'visit_total_time' 			=> $defaultTimeOnePageVisit,
+			'visit_goal_converted'  	=> $someGoalsConverted ? 1: 0,
+			'referer_type' 				=> $refererInfo['referer_type'],
+			'referer_name' 				=> $refererInfo['referer_name'],
+			'referer_url' 				=> $refererInfo['referer_url'],
+			'referer_keyword' 			=> $refererInfo['referer_keyword'],
+			'config_md5config' 			=> $userInfo['config_md5config'],
+			'config_os' 				=> $userInfo['config_os'],
+			'config_browser_name' 		=> $userInfo['config_browser_name'],
+			'config_browser_version' 	=> $userInfo['config_browser_version'],
+			'config_resolution' 		=> $userInfo['config_resolution'],
+			'config_pdf' 				=> $userInfo['config_pdf'],
+			'config_flash' 				=> $userInfo['config_flash'],
+			'config_java' 				=> $userInfo['config_java'],
+			'config_director' 			=> $userInfo['config_director'],
+			'config_quicktime'			=> $userInfo['config_quicktime'],
+			'config_realplayer' 		=> $userInfo['config_realplayer'],
+			'config_windowsmedia' 		=> $userInfo['config_windowsmedia'],
+			'config_gears'	 			=> $userInfo['config_gears'],
+			'config_silverlight'		=> $userInfo['config_silverlight'],
+			'config_cookie' 			=> $userInfo['config_cookie'],
+			'location_ip' 				=> $this->getVisitorIp(),
+			'location_browser_lang'		=> $userInfo['location_browser_lang'],
+			'location_country' 			=> $country,
 		);
 
 		Piwik_PostEvent('Tracker.newVisitorInformation', $this->visitorInfo);
@@ -631,7 +634,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 													idvisit,
 													visit_exit_idaction_url
 										FROM ".Piwik_Common::prefixTable('log_visit').
-										" WHERE DATE(visit_last_action_time) = ?
+										" WHERE visit_server_date = ?
 											AND idsite = ?
 											AND config_md5config = ?
 										ORDER BY visit_last_action_time DESC

@@ -345,7 +345,7 @@ abstract class Piwik_ArchiveProcessing
 		{
 			$this->temporaryArchive = true;
 			$minDatetimeArchiveProcessedUTC = time() - self::getTodayArchiveTimeToLive();
-			$browserArchivingEnabled = self::isBrowserTriggerArchivingEnabled();
+			$browserArchivingEnabled = $this->isArchivingDisabled();
 			// see #1150; if new archives are not triggered from the browser, 
 			// we still want to try and return the latest archive available for today (rather than return nothing)
 			if(!$browserArchivingEnabled)
@@ -698,7 +698,7 @@ abstract class Piwik_ArchiveProcessing
 			return false;
 		}
 		
-		// we look for the nb_visits result for this more recent archive
+		// we look for the nb_visits result for this most recent archive
 		foreach($results as $result)
 		{
 			if($result['name'] == 'nb_visits' 
