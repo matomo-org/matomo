@@ -4,7 +4,7 @@
 {loadJavascriptTranslations plugins='SitesManager'}
 
 <script type="text/javascript">
-{capture assign=excludedIpHelpPlain}{'SitesManager_HelpExcludedIps'|translate:"1.2.3.*":"1.2.*.*"}<br/><br/> {'SitesManager_YourCurrentIpAddressIs'|translate:"<i>$currentIpAddress</i>"}{/capture}
+{capture assign=excludedIpHelpPlain}{'SitesManager_HelpExcludedIps'|translate:"1.2.3.*":"1.2.*.*"}<br /><br /> {'SitesManager_YourCurrentIpAddressIs'|translate:"<i>$currentIpAddress</i>"}{/capture}
 {assign var=excludedIpHelp value=$excludedIpHelpPlain|inlineHelp}
 var excludedIpHelp = '{$excludedIpHelp|escape:javascript}';
 var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:javascript}';
@@ -27,7 +27,7 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 
 {capture assign=excludedQueryParametersHelp}
 	{'SitesManager_ListOfQueryParametersToExclude'|translate}
-	<br/><br/>
+	<br /><br />
 	{'SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters'|translate:"phpsessid, sessionid, etc."}
 {/capture}
 {assign var=excludedQueryParametersHelp value=$excludedQueryParametersHelp|inlineHelp}
@@ -75,7 +75,7 @@ vertical-align:middle;
 <h2>{'SitesManager_WebsitesManagement'|translate}</h2>
 <p>{'SitesManager_MainDescription'|translate}
 {if $isSuperUser}
-<br/>{'SitesManager_SuperUserCan'|translate:"<a href='#globalSettings'>":"</a>"}
+<br />{'SitesManager_SuperUserCan'|translate:"<a href='#globalSettings'>":"</a>"}
 {/if}
 </p>
 {ajaxErrorDiv}
@@ -92,7 +92,7 @@ vertical-align:middle;
 			<th>{'SitesManager_Name'|translate}</th>
 			<th>{'SitesManager_Urls'|translate}</th>
 			<th>{'SitesManager_ExcludedIps'|translate}</th>
-			<th>{'SitesManager_ExcludedParameters'|translate|replace:" ":"<br/>"}</th>
+			<th>{'SitesManager_ExcludedParameters'|translate|replace:" ":"<br />"}</th>
 			<th>{'SitesManager_Timezone'|translate}</th>
 			<th>{'SitesManager_Currency'|translate}</th>
 			<th> </th>
@@ -123,10 +123,10 @@ vertical-align:middle;
 {/if}
 
 {if $isSuperUser}	
-<br/>
+<br />
 	<a name='globalSettings'></a>
 	<h2>{'SitesManager_GlobalWebsitesSettings'|translate}</h2>
-	<br/>
+	<br />
 	<table style='width:600px' class="adminTable adminTableNoBorder" >
 		
 		<tr><td colspan="2">
