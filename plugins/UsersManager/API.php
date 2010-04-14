@@ -575,6 +575,8 @@ class Piwik_UsersManager_API
 	{
 		$db = Zend_Registry::get('db');
 		$db->query("DELETE FROM ".Piwik::prefixTable("user")." WHERE login = ?", $userLogin);
+
+		Piwik_PostEvent('UsersManager.deleteUser', $userLogin);
 	}
 	
 	
