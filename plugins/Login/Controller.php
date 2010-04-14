@@ -86,7 +86,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 			}
 			else
 			{
-				$messageNoAccess = Piwik_Translate('Login_InvalidOrExpiredToken');
+				$messageNoAccess = Piwik_Translate('Login_InvalidNonceOrReferer');
 			}
 		}
 
