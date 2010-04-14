@@ -20,7 +20,7 @@ Work left to do on the Goal Tracking plugin:
 - Way to test a URL against the regex
 - Test summary row works ok with subtables campaigns
 - Numeric records by the goal plugin can contain a lot of value=0 rows. Instead, we should only record the numeric value if it is not zero, and assume zero when not found. 
-
+- The goal table, by segment, for example goal conversions by country, should really display number of conversions as well as the current "conversion rate" by goal. Having the absolute number for each country / search engine / etc. is critical.
 Known bugs
 - see bug described in http://forum.piwik.org/index.php?showtopic=150
 - clicking on a goal report, then clicking on Overview, the global conversion and conversion rate doesn't display as the idGoal is still in the hash parameters list
