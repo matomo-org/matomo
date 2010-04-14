@@ -32,6 +32,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 		return array( 
 			'template_js_import' => 'js',
 			'template_css_import' => 'css',
+			'UsersManager.deleteUser' => 'deleteDashboardLayout',
 		);
 	}
 
@@ -48,7 +49,13 @@ class Piwik_Dashboard extends Piwik_Plugin
 	{
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/Dashboard/templates/dashboard.css\" />\n";
 	}
-	
+
+	function deleteDashboardLayout($notification)
+	{
+		$userLogin = $notification->getNotificationObject();
+		Piwik_Exec('DELETE FROM ' . Piwik::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
+	}
+
 	public function install()
 	{
 		// we catch the exception
