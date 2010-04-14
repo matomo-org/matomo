@@ -14,12 +14,12 @@
 	<td style='width:220px'>
 	<fieldset>
 		<label><input type="radio" value="1" name="enableBrowserTriggerArchiving"{if $enableBrowserTriggerArchiving==1} checked="checked"{/if} /> 
-			{'General_Yes'|translate} <br/>
+			{'General_Yes'|translate} <br />
 			<span class="form-description">{'General_Default'|translate}</span>
-		</label><br /><br/>
+		</label><br /><br />
 		
 		<label><input type="radio" value="0" name="enableBrowserTriggerArchiving"{if $enableBrowserTriggerArchiving==0} checked="checked"{/if} /> 
-			{'General_No'|translate} <br/>
+			{'General_No'|translate} <br />
 			<span class="form-description">{'General_ArchivingTriggerDescription'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>":"</a>"}</span>
 		</label> 
 	</fieldset>
