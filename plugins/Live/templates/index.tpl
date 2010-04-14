@@ -25,7 +25,6 @@
 	// if I have a different entry.
 	function check_for_dupe(prev, last)
 	{
-
 		if (last.constructor == Object)	{
 			return (prev.html() == last.html());
 		}
@@ -158,18 +157,21 @@
 	<div id="thDIV">Visits<div></th>
 	<th id="label" class="sortable label" style="cursor: auto;">
 	<div id="thDIV">PageViews<div></th>
-	<thead>
+	</tr>
+	</thead>
+	<tbody>
 	<tr>
-	<tr class="subDataTable">
+	<tr class="">
 	<td class="columnodd">Today</td>
 	<td class="columnodd">{$visitorsCountToday}</td>
 	<td class="columnodd">{$pisToday}</td>
 	</tr>
-	<tr class="subDataTable">
+	<tr class="">
 	<td class="columnodd">Last 30 minutes</td>
 	<td class="columnodd">{$visitorsCountHalfHour}</td>
 	<td class="columnodd">{$pisHalfhour}</td>
 	</tr>
+	</tbody>
 	</table>
 </div>
 
