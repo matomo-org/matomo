@@ -34,6 +34,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 			'template_css_import' => 'css',
 			'template_topBar' => 'showLanguagesSelector',
 			'Translate.getLanguageToLoad' => 'getLanguageToLoad',
+			'UsersManager.deleteUser' => 'deleteUserLanguage',
 		);
 	}
 
@@ -62,7 +63,13 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$language =& $notification->getNotificationObject();
 		$language = self::getLanguageCodeForCurrentUser();
 	}
-	
+
+	function deleteUserLanguage($notification)
+	{
+		$userLogin = $notification->getNotificationObject();
+		Piwik_Exec('DELETE FROM ' . Piwik::prefixTable('user_language') . ' WHERE login = ?', array($userLogin));
+	}
+
 	/**
 	 * @throws Exception if non-recoverable error
 	 */
@@ -94,8 +101,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$sql = "DROP TABLE ". Piwik::prefixTable('user_language') ;
 		Piwik_Exec($sql);		
 	}
-	
-	
+
 	/**
 	 * @return string Two letters language code, eg. "fr"
 	 */
