@@ -1,8 +1,6 @@
 {foreach from=$visitors item=visitor}
-	<div class="visit{if $visitor.idVisit % 2} alt{/if}">
-		<!--<div class="idvisit">{$visitor.idVisit}</div>-->
+	<div id="{$visitor.idVisit}" class="visit{if $visitor.idVisit % 2} alt{/if}">
 		<div style="display:none" class="idvisit">{$visitor.idVisit}</div>
-
 			<div class="datetime">
 				{$visitor.serverDatePretty} - {$visitor.serverTimePretty}
 				&nbsp;<img src="{$visitor.countryFlag}" title="{$visitor.country}, Provider {$visitor.provider}" />

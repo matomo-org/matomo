@@ -3,7 +3,6 @@
 
 <script type="text/javascript" charset="utf-8">
 
-
 	$(document).ready(function() {
 		if($('#_spyTmp').size() == 0) {
 			$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
@@ -11,11 +10,11 @@
 				limit: 10,
 				ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart',
 				fadeLast: 2,
-				isDupes : check_for_dupe,
+				isDupe: check_for_dupe,
 				timeout: 8000,
 				customParameterName: 'minIdVisit',
 				customParameterValueCallback: lastIdVisit,
-				fadeInSpeed: 1400
+				fadeInSpeed: 600
 			});
 		}
 	});
@@ -30,7 +29,6 @@
 		}
 		else {
 			return 0;
-
 		}
 	}
 
