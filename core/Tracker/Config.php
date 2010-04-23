@@ -52,28 +52,31 @@ class Piwik_Tracker_Config
 	
 	public function init($pathIniFileUser = null, $pathIniFileGlobal = null)
 	{
-		if(is_null($pathIniFileUser))
-		{
-			$pathIniFileUser = PIWIK_USER_PATH . '/config/config.ini.php'; 
-		}
 		if(is_null($pathIniFileGlobal))
 		{
 			$pathIniFileGlobal = PIWIK_USER_PATH . '/config/global.ini.php'; 
 		}
-		$this->configUser = _parse_ini_file($pathIniFileUser, true);
 		$this->configGlobal = _parse_ini_file($pathIniFileGlobal, true);
-	
-		foreach($this->configUser as $section => &$sectionValues)
-		{ 
-			foreach($sectionValues as $name => &$value)
-			{
-				if(is_array($value)) 
+
+		if(is_null($pathIniFileUser))
+		{
+			$pathIniFileUser = PIWIK_USER_PATH . '/config/config.ini.php'; 
+		}
+		$this->configUser = _parse_ini_file($pathIniFileUser, true);
+		if($this->configUser)
+		{
+			foreach($this->configUser as $section => &$sectionValues)
+			{ 
+				foreach($sectionValues as $name => &$value)
 				{
-					$value = array_map("html_entity_decode", $value);
-				} 
-				else 
-				{
-					$value = html_entity_decode($value);
+					if(is_array($value)) 
+					{
+						$value = array_map("html_entity_decode", $value);
+					} 
+					else 
+					{
+						$value = html_entity_decode($value);
+					}
 				}
 			}
 		}
