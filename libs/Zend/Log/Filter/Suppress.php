@@ -21,7 +21,7 @@
  */
 
 /** Zend_Log_Filter_Interface */
-require_once 'Zend/Log/Filter/Interface.php';
+// require_once 'Zend/Log/Filter/Interface.php';
 
 /**
  * @category   Zend

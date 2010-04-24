@@ -19,7 +19,7 @@
  * @version    $Id: Atom.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
  
-require_once 'Zend/Feed/Writer/Renderer/Feed/Atom/AtomAbstract.php';
+// require_once 'Zend/Feed/Writer/Renderer/Feed/Atom/AtomAbstract.php';
  
 /**
  * @category   Zend

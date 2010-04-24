@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @category   Zend
@@ -76,7 +76,7 @@ class Zend_Validate_Regex extends Zend_Validate_Abstract
             if (array_key_exists('pattern', $pattern)) {
                 $pattern = $pattern['pattern'];
             } else {
-                require_once 'Zend/Validate/Exception.php';
+                // require_once 'Zend/Validate/Exception.php';
                 throw new Zend_Validate_Exception("Missing option 'pattern'");
             }
         }
@@ -107,7 +107,7 @@ class Zend_Validate_Regex extends Zend_Validate_Abstract
         $status         = @preg_match($this->_pattern, "Test");
 
         if (false === $status) {
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception("Internal error while using the pattern '$this->_pattern'");
         }
 

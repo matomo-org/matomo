@@ -23,7 +23,7 @@
 /**
  * Zend_Db_Statement_Exception
  */
-require_once 'Zend/Db/Statement/Exception.php';
+// require_once 'Zend/Db/Statement/Exception.php';
 
 /**
  * @category   Zend

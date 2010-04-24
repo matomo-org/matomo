@@ -22,7 +22,7 @@
 /**
  * @see Zend_Feed_Reader_Feed_Atom
  */
-require_once 'Zend/Feed/Reader/Feed/Atom.php';
+// require_once 'Zend/Feed/Reader/Feed/Atom.php';
 
 /**
  * @category   Zend

@@ -111,10 +111,10 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
         if (isset($config['rowClass'])) {
             $this->_rowClass   = $config['rowClass'];
         }
-        if (!class_exists($this->_rowClass)) {
-            require_once 'Zend/Loader.php';
-            Zend_Loader::loadClass($this->_rowClass);
-        }
+        // if (!class_exists($this->_rowClass)) {
+            // require_once 'Zend/Loader.php';
+            // Zend_Loader::loadClass($this->_rowClass);
+        // }
         if (isset($config['data'])) {
             $this->_data       = $config['data'];
         }
@@ -321,7 +321,7 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
     {
         $position = (int) $position;
         if ($position < 0 || $position >= $this->_count) {
-            require_once 'Zend/Db/Table/Rowset/Exception.php';
+            // require_once 'Zend/Db/Table/Rowset/Exception.php';
             throw new Zend_Db_Table_Rowset_Exception("Illegal index $position");
         }
         $this->_pointer = $position;
@@ -390,7 +390,7 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
             $this->seek($position);
             $row = $this->current();
         } catch (Zend_Db_Table_Rowset_Exception $e) {
-            require_once 'Zend/Db/Table/Rowset/Exception.php';
+            // require_once 'Zend/Db/Table/Rowset/Exception.php';
             throw new Zend_Db_Table_Rowset_Exception('No row could be found at position ' . (int) $position, 0, $e);
         }
         if ($seek == false) {

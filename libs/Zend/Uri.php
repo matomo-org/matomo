@@ -94,13 +94,13 @@ abstract class Zend_Uri
         $schemeSpecific = isset($uri[1]) === true ? $uri[1] : '';
 
         if (strlen($scheme) === 0) {
-            require_once 'Zend/Uri/Exception.php';
+            // require_once 'Zend/Uri/Exception.php';
             throw new Zend_Uri_Exception('An empty string was supplied for the scheme');
         }
 
         // Security check: $scheme is used to load a class file, so only alphanumerics are allowed.
         if (ctype_alnum($scheme) === false) {
-            require_once 'Zend/Uri/Exception.php';
+            // require_once 'Zend/Uri/Exception.php';
             throw new Zend_Uri_Exception('Illegal scheme supplied, only alphanumeric characters are permitted');
         }
 
@@ -118,15 +118,15 @@ abstract class Zend_Uri
             case 'mailto':
                 // TODO
             default:
-                require_once 'Zend/Uri/Exception.php';
+                // require_once 'Zend/Uri/Exception.php';
                 throw new Zend_Uri_Exception("Scheme \"$scheme\" is not supported");
                 break;
         }
 
-        if (!class_exists($className)) {
-            require_once 'Zend/Loader.php';
-            Zend_Loader::loadClass($className);
-        }
+        // if (!class_exists($className)) {
+            // require_once 'Zend/Loader.php';
+            // Zend_Loader::loadClass($className);
+        // }
         $schemeHandler = new $className($scheme, $schemeSpecific);
 
         return $schemeHandler;

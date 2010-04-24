@@ -22,7 +22,7 @@
 /**
  * @see Zend_Feed_Writer_Renderer_RendererAbstract
  */
-require_once 'Zend/Feed/Writer/Renderer/RendererAbstract.php';
+// require_once 'Zend/Feed/Writer/Renderer/RendererAbstract.php';
 
 /**
  * @category   Zend

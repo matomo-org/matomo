@@ -20,19 +20,19 @@
  */
 
 /** @see Zend_Feed_Writer_Feed */
-require_once 'Zend/Feed/Writer/Feed.php';
+// require_once 'Zend/Feed/Writer/Feed.php';
 
 /** @see Zend_Version */
-require_once 'Zend/Version.php';
+// require_once 'Zend/Version.php';
 
 /** @see Zend_Feed_Writer_Renderer_RendererInterface */
-require_once 'Zend/Feed/Writer/Renderer/RendererInterface.php';
+// require_once 'Zend/Feed/Writer/Renderer/RendererInterface.php';
 
 /** @see Zend_Feed_Writer_Renderer_Entry_Rss */
-require_once 'Zend/Feed/Writer/Renderer/Entry/Rss.php';
+// require_once 'Zend/Feed/Writer/Renderer/Entry/Rss.php';
 
 /** @see Zend_Feed_Writer_Renderer_RendererAbstract */
-require_once 'Zend/Feed/Writer/Renderer/RendererAbstract.php';
+// require_once 'Zend/Feed/Writer/Renderer/RendererAbstract.php';
 
 /**
  * @category   Zend
@@ -144,7 +144,7 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
     protected function _setTitle(DOMDocument $dom, DOMElement $root)
     {
         if(!$this->getDataContainer()->getTitle()) {
-            require_once 'Zend/Feed/Exception.php';
+            // require_once 'Zend/Feed/Exception.php';
             $message = 'RSS 2.0 feed elements MUST contain exactly one'
             . ' title element but a title has not been set';
             $exception = new Zend_Feed_Exception($message);
@@ -172,7 +172,7 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
     protected function _setDescription(DOMDocument $dom, DOMElement $root)
     {
         if(!$this->getDataContainer()->getDescription()) {
-            require_once 'Zend/Feed/Exception.php';
+            // require_once 'Zend/Feed/Exception.php';
             $message = 'RSS 2.0 feed elements MUST contain exactly one'
             . ' description element but one has not been set';
             $exception = new Zend_Feed_Exception($message);
@@ -249,7 +249,7 @@ class Zend_Feed_Writer_Renderer_Feed_Rss
     {
         $value = $this->getDataContainer()->getLink();
         if(!$value) {
-            require_once 'Zend/Feed/Exception.php';
+            // require_once 'Zend/Feed/Exception.php';
             $message = 'RSS 2.0 feed elements MUST contain exactly one'
             . ' link element but one has not been set';
             $exception = new Zend_Feed_Exception($message);

@@ -31,15 +31,6 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 	define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
-if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
-{
-	define('PIWIK_INCLUDE_SEARCH_PATH', PIWIK_INCLUDE_PATH . '/core'
-		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
-		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
-	@ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
-	@set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
-}
-
 if(!defined('PIWIK_SESSION_NAME'))
 {
 	define('PIWIK_SESSION_NAME', 'PIWIK_SESSID');

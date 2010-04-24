@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @category   Zend
@@ -80,7 +80,7 @@ class Zend_Validate_Ccnum extends Zend_Validate_Abstract
             /**
              * @see Zend_Filter_Digits
              */
-            require_once 'Zend/Filter/Digits.php';
+            // require_once 'Zend/Filter/Digits.php';
             self::$_filter = new Zend_Filter_Digits();
         }
 

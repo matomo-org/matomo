@@ -24,7 +24,7 @@
 /**
  * @see Zend_Feed_Entry_Abstract
  */
-require_once 'Zend/Feed/Entry/Abstract.php';
+// require_once 'Zend/Feed/Entry/Abstract.php';
 
 
 /**

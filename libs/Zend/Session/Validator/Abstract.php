@@ -23,7 +23,7 @@
 /**
  * @see Zend_Session_Validator_Interface
  */
-require_once 'Zend/Session/Validator/Interface.php';
+// require_once 'Zend/Session/Validator/Interface.php';
 
 /**
  * Zend_Session_Validator_Abstract

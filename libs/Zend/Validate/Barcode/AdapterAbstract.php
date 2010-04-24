@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_Barcode_AdapterInterface
  */
-require_once 'Zend/Validate/Barcode/AdapterInterface.php';
+// require_once 'Zend/Validate/Barcode/AdapterInterface.php';
 
 /**
  * @category   Zend

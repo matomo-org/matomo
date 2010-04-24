@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @category   Zend
@@ -133,7 +133,7 @@ class Zend_Validate_Alpha extends Zend_Validate_Abstract
             /**
              * @see Zend_Filter_Alpha
              */
-            require_once 'Zend/Filter/Alpha.php';
+            // require_once 'Zend/Filter/Alpha.php';
             self::$_filter = new Zend_Filter_Alpha();
         }
 

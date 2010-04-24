@@ -21,7 +21,7 @@
  */
 
 /** Zend_Log_Writer_Abstract */
-require_once 'Zend/Log/Writer/Abstract.php';
+// require_once 'Zend/Log/Writer/Abstract.php';
 
 /**
  * @category   Zend
@@ -98,7 +98,7 @@ class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
      */
     public function setFormatter($formatter)
     {
-        require_once 'Zend/Log/Exception.php';
+        // require_once 'Zend/Log/Exception.php';
         throw new Zend_Log_Exception(get_class() . ' does not support formatting');
     }
 
@@ -121,7 +121,7 @@ class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
     protected function _write($event)
     {
         if ($this->_db === null) {
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Database adapter is null');
         }
 

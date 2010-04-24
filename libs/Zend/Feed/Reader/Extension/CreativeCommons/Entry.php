@@ -22,12 +22,12 @@
 /**
  * @see Zend_Feed_Reader_Extension_EntryAbstract
  */
-require_once 'Zend/Feed/Reader/Extension/EntryAbstract.php';
+// require_once 'Zend/Feed/Reader/Extension/EntryAbstract.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_CreativeCommons_Feed
  */
-require_once 'Zend/Feed/Reader/Extension/CreativeCommons/Feed.php';
+// require_once 'Zend/Feed/Reader/Extension/CreativeCommons/Feed.php';
 
 /**
  * @category   Zend

@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_File_Exists
  */
-require_once 'Zend/Validate/File/Exists.php';
+// require_once 'Zend/Validate/File/Exists.php';
 
 /**
  * Validator which checks if the destination file does not exist

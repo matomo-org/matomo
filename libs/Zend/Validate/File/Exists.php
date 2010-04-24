@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * Validator which checks if the file already exists in the directory
@@ -72,7 +72,7 @@ class Zend_Validate_File_Exists extends Zend_Validate_Abstract
         } else if (is_string($directory)) {
             $directory = explode(',', $directory);
         } else if (!is_array($directory)) {
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception ('Invalid options to validator provided');
         }
 
@@ -122,7 +122,7 @@ class Zend_Validate_File_Exists extends Zend_Validate_Abstract
         if (is_string($directory)) {
             $directory = explode(',', $directory);
         } else if (!is_array($directory)) {
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception ('Invalid options to validator provided');
         }
 

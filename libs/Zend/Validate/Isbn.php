@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @category   Zend
@@ -77,7 +77,7 @@ class Zend_Validate_Isbn extends Zend_Validate_Abstract
             /**
              * @see Zend_Validate_Exception
              */
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception('Invalid options provided.');
         }
 
@@ -221,7 +221,7 @@ class Zend_Validate_Isbn extends Zend_Validate_Abstract
             /**
              * @see Zend_Validate_Exception
              */
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception('Invalid ISBN separator.');
         }
 
@@ -253,7 +253,7 @@ class Zend_Validate_Isbn extends Zend_Validate_Abstract
             /**
              * @see Zend_Validate_Exception
              */
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception('Invalid ISBN type');
         }
 

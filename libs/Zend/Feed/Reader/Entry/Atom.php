@@ -22,22 +22,22 @@
 /**
  * @see Zend_Feed_Reader
  */
-require_once 'Zend/Feed/Reader.php';
+// require_once 'Zend/Feed/Reader.php';
 
 /**
  * @see Zend_Feed_Reader_EntryInterface
  */
-require_once 'Zend/Feed/Reader/EntryInterface.php';
+// require_once 'Zend/Feed/Reader/EntryInterface.php';
 
 /**
  * @see Zend_Feed_Reader_EntryAbstract
  */
-require_once 'Zend/Feed/Reader/EntryAbstract.php';
+// require_once 'Zend/Feed/Reader/EntryAbstract.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_Atom_Entry
  */
-require_once 'Zend/Feed/Reader/Extension/Atom/Entry.php';
+// require_once 'Zend/Feed/Reader/Extension/Atom/Entry.php';
 
 /**
  * @category   Zend

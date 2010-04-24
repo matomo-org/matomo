@@ -154,7 +154,7 @@ class Zend_Mail_Storage_Folder implements RecursiveIterator
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            require_once 'Zend/Mail/Storage/Exception.php';
+            // require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception("no subfolder named $name");
         }
 

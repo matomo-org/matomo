@@ -23,7 +23,7 @@
 /**
  * @see Zend_Db_Statement
  */
-require_once 'Zend/Db/Statement.php';
+// require_once 'Zend/Db/Statement.php';
 
 /**
  * Extends for DB2 native adapter.
@@ -65,7 +65,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
             /**
              * @see Zend_Db_Statement_Db2_Exception
              */
-            require_once 'Zend/Db/Statement/Db2/Exception.php';
+            // require_once 'Zend/Db/Statement/Db2/Exception.php';
             throw new Zend_Db_Statement_Db2_Exception(
                 db2_stmt_errormsg(),
                 db2_stmt_error()
@@ -100,7 +100,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
             /**
              * @see Zend_Db_Statement_Db2_Exception
              */
-            require_once 'Zend/Db/Statement/Db2/Exception.php';
+            // require_once 'Zend/Db/Statement/Db2/Exception.php';
             throw new Zend_Db_Statement_Db2_Exception(
                 db2_stmt_errormsg(),
                 db2_stmt_error()
@@ -208,7 +208,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
             /**
              * @see Zend_Db_Statement_Db2_Exception
              */
-            require_once 'Zend/Db/Statement/Db2/Exception.php';
+            // require_once 'Zend/Db/Statement/Db2/Exception.php';
             throw new Zend_Db_Statement_Db2_Exception(
                 db2_stmt_errormsg(),
                 db2_stmt_error());
@@ -272,7 +272,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
                 /**
                  * @see Zend_Db_Statement_Db2_Exception
                  */
-                require_once 'Zend/Db/Statement/Db2/Exception.php';
+                // require_once 'Zend/Db/Statement/Db2/Exception.php';
                 throw new Zend_Db_Statement_Db2_Exception("Invalid fetch mode '$style' specified");
                 break;
         }
@@ -306,7 +306,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
         /**
          * @see Zend_Db_Statement_Db2_Exception
          */
-        require_once 'Zend/Db/Statement/Db2/Exception.php';
+        // require_once 'Zend/Db/Statement/Db2/Exception.php';
         throw new Zend_Db_Statement_Db2_Exception(__FUNCTION__ . '() is not implemented');
     }
 

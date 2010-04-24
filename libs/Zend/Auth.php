@@ -87,7 +87,7 @@ class Zend_Auth
             /**
              * @see Zend_Auth_Storage_Session
              */
-            require_once 'Zend/Auth/Storage/Session.php';
+            // require_once 'Zend/Auth/Storage/Session.php';
             $this->setStorage(new Zend_Auth_Storage_Session());
         }
 

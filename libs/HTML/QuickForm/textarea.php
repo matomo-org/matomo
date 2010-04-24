@@ -25,7 +25,7 @@
 /**
  * Base class for form elements
  */ 
-require_once 'HTML/QuickForm/element.php';
+require_once dirname(__FILE__) . '/element.php';
 
 /**
  * HTML class for a textarea type field

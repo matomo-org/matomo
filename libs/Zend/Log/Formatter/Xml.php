@@ -21,7 +21,7 @@
  */
 
 /** Zend_Log_Formatter_Interface */
-require_once 'Zend/Log/Formatter/Interface.php';
+// require_once 'Zend/Log/Formatter/Interface.php';
 
 /**
  * @category   Zend

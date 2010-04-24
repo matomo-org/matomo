@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @category   Zend
@@ -71,7 +71,7 @@ class Zend_Validate_LessThan extends Zend_Validate_Abstract
             if (array_key_exists('max', $max)) {
                 $max = $max['max'];
             } else {
-                require_once 'Zend/Validate/Exception.php';
+                // require_once 'Zend/Validate/Exception.php';
                 throw new Zend_Validate_Exception("Missing option 'max'");
             }
         }

@@ -23,12 +23,12 @@
 /**
  * Zend_Mail_Part
  */
-require_once 'Zend/Mail/Part/File.php';
+// require_once 'Zend/Mail/Part/File.php';
 
 /**
  * Zend_Mail_Message_Interface
  */
-require_once 'Zend/Mail/Message/Interface.php';
+// require_once 'Zend/Mail/Message/Interface.php';
 
 /**
  * @category   Zend

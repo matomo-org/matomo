@@ -31,15 +31,6 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 
 @ignore_user_abort(true);
 
-if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
-{
-	define('PIWIK_INCLUDE_SEARCH_PATH', PIWIK_INCLUDE_PATH . '/core'
-		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
-		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
-	@ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
-	@set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
-}
-
 require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/common.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Event/Dispatcher.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Event/Notification.php';

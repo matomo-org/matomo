@@ -21,7 +21,7 @@
 /**
  * @see Zend_Feed_Writer_Extension_RendererInterface
  */
-require_once 'Zend/Feed/Writer/Extension/RendererInterface.php';
+// require_once 'Zend/Feed/Writer/Extension/RendererInterface.php';
  
  /**
  * @category   Zend

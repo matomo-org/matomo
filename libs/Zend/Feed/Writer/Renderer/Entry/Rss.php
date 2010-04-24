@@ -22,7 +22,7 @@
 /**
  * @see Zend_Feed_Writer_Renderer_RendererAbstract
  */
-require_once 'Zend/Feed/Writer/Renderer/RendererAbstract.php';
+// require_once 'Zend/Feed/Writer/Renderer/RendererAbstract.php';
 
 /**
  * @category   Zend
@@ -89,7 +89,7 @@ class Zend_Feed_Writer_Renderer_Entry_Rss
     {
         if(!$this->getDataContainer()->getDescription()
         && !$this->getDataContainer()->getTitle()) {
-            require_once 'Zend/Feed/Exception.php';
+            // require_once 'Zend/Feed/Exception.php';
             $message = 'RSS 2.0 entry elements SHOULD contain exactly one'
             . ' title element but a title has not been set. In addition, there'
             . ' is no description as required in the absence of a title.';
@@ -118,7 +118,7 @@ class Zend_Feed_Writer_Renderer_Entry_Rss
     {
         if(!$this->getDataContainer()->getDescription()
         && !$this->getDataContainer()->getTitle()) {
-            require_once 'Zend/Feed/Exception.php';
+            // require_once 'Zend/Feed/Exception.php';
             $message = 'RSS 2.0 entry elements SHOULD contain exactly one'
             . ' description element but a description has not been set. In'
             . ' addition, there is no title element as required in the absence'

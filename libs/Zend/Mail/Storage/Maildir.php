@@ -24,17 +24,17 @@
 /**
  * @see Zend_Mail_Storage_Abstract
  */
-require_once 'Zend/Mail/Storage/Abstract.php';
+// require_once 'Zend/Mail/Storage/Abstract.php';
 
 /**
  * @see Zend_Mail_Message_File
  */
-require_once 'Zend/Mail/Message/File.php';
+// require_once 'Zend/Mail/Message/File.php';
 
 /**
  * @see Zend_Mail_Storage
  */
-require_once 'Zend/Mail/Storage.php';
+// require_once 'Zend/Mail/Storage.php';
 
 
 /**
@@ -122,7 +122,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            require_once 'Zend/Mail/Storage/Exception.php';
+            // require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('id does not exist');
         }
 
@@ -134,7 +134,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            require_once 'Zend/Mail/Storage/Exception.php';
+            // require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('field does not exist');
         }
 
@@ -200,7 +200,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            require_once 'Zend/Mail/Storage/Exception.php';
+            // require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('not implemented');
         }
 
@@ -234,7 +234,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            require_once 'Zend/Mail/Storage/Exception.php';
+            // require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('not implemented');
         }
 
@@ -270,7 +270,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            require_once 'Zend/Mail/Storage/Exception.php';
+            // require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('no valid dirname given in params');
         }
 
@@ -278,7 +278,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            require_once 'Zend/Mail/Storage/Exception.php';
+            // require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('invalid maildir given');
         }
 
@@ -322,7 +322,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            require_once 'Zend/Mail/Storage/Exception.php';
+            // require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('cannot open maildir');
         }
         $this->_getMaildirFiles($dh, $dirname . '/cur/');
@@ -336,7 +336,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            require_once 'Zend/Mail/Storage/Exception.php';
+            // require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('cannot read recent mails in maildir');
         }
     }
@@ -422,7 +422,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
         /**
          * @see Zend_Mail_Storage_Exception
          */
-        require_once 'Zend/Mail/Storage/Exception.php';
+        // require_once 'Zend/Mail/Storage/Exception.php';
         throw new Zend_Mail_Storage_Exception('maildir is (currently) read-only');
     }
 
@@ -469,7 +469,7 @@ class Zend_Mail_Storage_Maildir extends Zend_Mail_Storage_Abstract
         /**
          * @see Zend_Mail_Storage_Exception
          */
-        require_once 'Zend/Mail/Storage/Exception.php';
+        // require_once 'Zend/Mail/Storage/Exception.php';
         throw new Zend_Mail_Storage_Exception('unique id not found');
     }
 }

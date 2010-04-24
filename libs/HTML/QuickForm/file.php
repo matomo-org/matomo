@@ -26,7 +26,7 @@
 /**
  * Base class for <input /> form elements
  */
-require_once 'HTML/QuickForm/input.php';
+require_once dirname(__FILE__) . '/input.php';
 
 // register file-related rules
 if (class_exists('HTML_QuickForm')) {

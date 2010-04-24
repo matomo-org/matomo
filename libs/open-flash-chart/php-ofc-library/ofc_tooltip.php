@@ -1,6 +1,6 @@
 <?php
 
-include_once 'ofc_bar_base.php';
+include_once dirname(__FILE__) . '/ofc_bar_base.php';
 
 class tooltip
 {

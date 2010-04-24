@@ -22,39 +22,39 @@
 /**
  * @see Zend_Date
  */
-require_once 'Zend/Date.php';
+// require_once 'Zend/Date.php';
 
 /**
  * @see Zend_Date
  */
-require_once 'Zend/Uri.php';
+// require_once 'Zend/Uri.php';
 
 /**
  * @see Zend_Feed_Writer
  */
-require_once 'Zend/Feed/Writer.php';
+// require_once 'Zend/Feed/Writer.php';
 
 /**
  * @see Zend_Feed_Writer_Entry
  */
-require_once 'Zend/Feed/Writer/Entry.php';
+// require_once 'Zend/Feed/Writer/Entry.php';
 
 /**
  * @see Zend_Feed_Writer_Deleted
  */
-require_once 'Zend/Feed/Writer/Deleted.php';
+// require_once 'Zend/Feed/Writer/Deleted.php';
 
 /**
  * @see Zend_Feed_Writer_Renderer_Feed_Atom
  */
-require_once 'Zend/Feed/Writer/Renderer/Feed/Atom.php';
+// require_once 'Zend/Feed/Writer/Renderer/Feed/Atom.php';
 
 /**
  * @see Zend_Feed_Writer_Renderer_Feed_Rss
  */
-require_once 'Zend/Feed/Writer/Renderer/Feed/Rss.php';
+// require_once 'Zend/Feed/Writer/Renderer/Feed/Rss.php';
 
-require_once 'Zend/Feed/Writer/Feed/FeedAbstract.php';
+// require_once 'Zend/Feed/Writer/Feed/FeedAbstract.php';
 
 /**
  * @category   Zend
@@ -147,7 +147,7 @@ implements Iterator, Countable
         if (isset($this->_entries[$index])) {
             unset($this->_entries[$index]);
         }
-        require_once 'Zend/Feed/Exception.php';
+        // require_once 'Zend/Feed/Exception.php';
         throw new Zend_Feed_Exception('Undefined index: ' . $index . '. Entry does not exist.');
     }
 
@@ -162,7 +162,7 @@ implements Iterator, Countable
         if (isset($this->_entries[$index])) {
             return $this->_entries[$index];
         }
-        require_once 'Zend/Feed/Exception.php';
+        // require_once 'Zend/Feed/Exception.php';
         throw new Zend_Feed_Exception('Undefined index: ' . $index . '. Entry does not exist.');
     }
 
@@ -266,7 +266,7 @@ implements Iterator, Countable
         $this->setType(strtolower($type));
         $type = ucfirst($this->getType());
         if ($type !== 'Rss' && $type !== 'Atom') {
-            require_once 'Zend/Feed/Exception.php';
+            // require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('Invalid feed type specified: ' . $type . '.'
             . ' Should be one of "rss" or "atom".');
         }

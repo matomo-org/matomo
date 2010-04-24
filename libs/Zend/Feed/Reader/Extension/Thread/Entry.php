@@ -22,7 +22,7 @@
 /**
  * @see Zend_Feed_Reader_Extension_EntryAbstract
  */
-require_once 'Zend/Feed/Reader/Extension/EntryAbstract.php';
+// require_once 'Zend/Feed/Reader/Extension/EntryAbstract.php';
 
 /**
  * @category   Zend
