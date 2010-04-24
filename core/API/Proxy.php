@@ -232,7 +232,7 @@ class Piwik_API_Proxy
 		$module = self::getModuleNameFromClassName($fileName);
 		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/API.php';
 
-		if(Zend_Loader::isReadable($path))
+		if(is_readable($path))
 		{
 			require_once $path; // prefixed by PIWIK_INCLUDE_PATH
 		}

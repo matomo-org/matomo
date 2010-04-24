@@ -61,7 +61,6 @@ abstract class Piwik_Log extends Zend_Log
 	
 	function addWriteToNull()
 	{
-		Zend_Loader::loadClass('Zend_Log_Writer_Null');
 		$this->addWriter( new Zend_Log_Writer_Null );
 	}
 	

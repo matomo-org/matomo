@@ -398,8 +398,8 @@ class Piwik_PluginsManager
 	 */
 	private function loadTranslation( $plugin, $langCode )
 	{
-		// we are certainly in Tracker mode, Zend is not loaded
-		if(!class_exists('Zend_Loader', false))
+		// we are in Tracker mode if Piwik_Loader is not (yet) loaded
+		if(!class_exists('Piwik_Loader', false))
 		{
 			return ;
 		}

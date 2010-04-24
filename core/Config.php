@@ -106,7 +106,7 @@ class Piwik_Config
 	public function init()
 	{
 		$this->defaultConfig = new Piwik_Config_Ini($this->pathIniFileDefaultConfig, null, true);
-		if(!Zend_Loader::isReadable($this->pathIniFileUserConfig))
+		if(!is_readable($this->pathIniFileUserConfig))
 		{
 			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
 		}
