@@ -22,57 +22,57 @@
 /**
  * @see Zend_Feed_Reader
  */
-require_once 'Zend/Feed/Reader.php';
+// require_once 'Zend/Feed/Reader.php';
 
 /**
  * @see Zend_Feed_Reader_EntryInterface
  */
-require_once 'Zend/Feed/Reader/EntryInterface.php';
+// require_once 'Zend/Feed/Reader/EntryInterface.php';
 
 /**
  * @see Zend_Feed_Reader_EntryAbstract
  */
-require_once 'Zend/Feed/Reader/EntryAbstract.php';
+// require_once 'Zend/Feed/Reader/EntryAbstract.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_DublinCore_Entry
  */
-require_once 'Zend/Feed/Reader/Extension/DublinCore/Entry.php';
+// require_once 'Zend/Feed/Reader/Extension/DublinCore/Entry.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_Content_Entry
  */
-require_once 'Zend/Feed/Reader/Extension/Content/Entry.php';
+// require_once 'Zend/Feed/Reader/Extension/Content/Entry.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_Atom_Entry
  */
-require_once 'Zend/Feed/Reader/Extension/Atom/Entry.php';
+// require_once 'Zend/Feed/Reader/Extension/Atom/Entry.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_WellformedWeb_Entry
  */
-require_once 'Zend/Feed/Reader/Extension/WellFormedWeb/Entry.php';
+// require_once 'Zend/Feed/Reader/Extension/WellFormedWeb/Entry.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_Slash_Entry
  */
-require_once 'Zend/Feed/Reader/Extension/Slash/Entry.php';
+// require_once 'Zend/Feed/Reader/Extension/Slash/Entry.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_Thread_Entry
  */
-require_once 'Zend/Feed/Reader/Extension/Thread/Entry.php';
+// require_once 'Zend/Feed/Reader/Extension/Thread/Entry.php';
 
 /**
  * @see Zend_Date
  */
-require_once 'Zend/Date.php';
+// require_once 'Zend/Date.php';
 
 /**
  * @see Zend_Feed_Reader_Collection_Category
  */
-require_once 'Zend/Feed/Reader/Collection/Category.php';
+// require_once 'Zend/Feed/Reader/Collection/Category.php';
 
 /**
  * @category   Zend
@@ -274,7 +274,7 @@ class Zend_Feed_Reader_Entry_Rss extends Zend_Feed_Reader_EntryAbstract implemen
                         break;
                     } catch (Zend_Date_Exception $e) {
                         if ($standard == Zend_Date::DATES) {
-                            require_once 'Zend/Feed/Exception.php';
+                            // require_once 'Zend/Feed/Exception.php';
                             throw new Zend_Feed_Exception(
                                 'Could not load date due to unrecognised'
                                 .' format (should follow RFC 822 or 2822):'

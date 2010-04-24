@@ -101,7 +101,7 @@ class Zend_Log
 
         if (!is_array($config) || empty($config)) {
             /** @see Zend_Log_Exception */
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Configuration must be an array or instance of Zend_Config');
         }
 
@@ -131,7 +131,7 @@ class Zend_Log
 
         if (!$writer instanceof Zend_Log_Writer_Abstract) {
             /** @see Zend_Log_Exception */
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception("{$writerName} does not extend Zend_Log_Writer_Abstract!");
         }
 
@@ -155,7 +155,7 @@ class Zend_Log
 
         if (!$filter instanceof Zend_Log_Filter_Interface) {
             /** @see Zend_Log_Exception */
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception("{$filterName} does not implement Zend_Log_Filter_Interface");
         }
 
@@ -177,7 +177,7 @@ class Zend_Log
         }
 
         if (!is_array($config) || empty($config)) {
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception(
                 'Configuration must be an array or instance of Zend_Config'
             );
@@ -185,14 +185,14 @@ class Zend_Log
 
         $params    = isset($config[ $type .'Params' ]) ? $config[ $type .'Params' ] : array();
         $className = $this->getClassName($config, $type, $namespace);
-        if (!class_exists($className)) {
-            require_once 'Zend/Loader.php';
-            Zend_Loader::loadClass($className);
-        }
+        // if (!class_exists($className)) {
+            // require_once 'Zend/Loader.php';
+            // Zend_Loader::loadClass($className);
+        // }
 
         $reflection = new ReflectionClass($className);
         if (!$reflection->implementsInterface('Zend_Log_FactoryInterface')) {
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception(
                 'Driver does not implement Zend_Log_FactoryInterface and can not be constructed from config.'
             );
@@ -212,7 +212,7 @@ class Zend_Log
     protected function getClassName($config, $type, $defaultNamespace)
     {
         if (!isset($config[ $type . 'Name' ])) {
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception("Specify {$type}Name in the configuration array");
         }
         $className = $config[ $type . 'Name' ];
@@ -256,7 +256,7 @@ class Zend_Log
             switch (count($params)) {
                 case 0:
                     /** @see Zend_Log_Exception */
-                    require_once 'Zend/Log/Exception.php';
+                    // require_once 'Zend/Log/Exception.php';
                     throw new Zend_Log_Exception('Missing log message');
                 case 1:
                     $message = array_shift($params);
@@ -270,7 +270,7 @@ class Zend_Log
             $this->log($message, $priority, $extras);
         } else {
             /** @see Zend_Log_Exception */
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Bad log priority');
         }
     }
@@ -289,13 +289,13 @@ class Zend_Log
         // sanity checks
         if (empty($this->_writers)) {
             /** @see Zend_Log_Exception */
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('No writers were added');
         }
 
         if (! isset($this->_priorities[$priority])) {
             /** @see Zend_Log_Exception */
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Bad log priority');
         }
 
@@ -353,7 +353,7 @@ class Zend_Log
         if (isset($this->_priorities[$priority])
             || array_search($name, $this->_priorities)) {
             /** @see Zend_Log_Exception */
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Existing priorities cannot be overwritten');
         }
 
@@ -372,7 +372,7 @@ class Zend_Log
     {
         if (is_integer($filter)) {
             /** @see Zend_Log_Filter_Priority */
-            require_once 'Zend/Log/Filter/Priority.php';
+            // require_once 'Zend/Log/Filter/Priority.php';
             $filter = new Zend_Log_Filter_Priority($filter);
 
         } elseif ($filter instanceof Zend_Config || is_array($filter)) {
@@ -380,7 +380,7 @@ class Zend_Log
 
         } elseif(! $filter instanceof Zend_Log_Filter_Interface) {
             /** @see Zend_Log_Exception */
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Invalid filter provided');
         }
 
@@ -402,7 +402,7 @@ class Zend_Log
 
         if (!$writer instanceof Zend_Log_Writer_Abstract) {
             /** @see Zend_Log_Exception */
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception(
                 'Writer must be an instance of Zend_Log_Writer_Abstract'
                 . ' or you should pass a configuration array'

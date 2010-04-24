@@ -24,17 +24,17 @@
 /**
  * @see Zend_Feed_Builder_Interface
  */
-require_once 'Zend/Feed/Builder/Interface.php';
+// require_once 'Zend/Feed/Builder/Interface.php';
 
 /**
  * @see Zend_Feed_Builder_Header
  */
-require_once 'Zend/Feed/Builder/Header.php';
+// require_once 'Zend/Feed/Builder/Header.php';
 
 /**
  * @see Zend_Feed_Builder_Entry
  */
-require_once 'Zend/Feed/Builder/Entry.php';
+// require_once 'Zend/Feed/Builder/Entry.php';
 
 
 /**
@@ -220,7 +220,7 @@ class Zend_Feed_Builder implements Zend_Feed_Builder_Interface
                 /**
                  * @see Zend_Feed_Builder_Exception
                  */
-                require_once 'Zend/Feed/Builder/Exception.php';
+                // require_once 'Zend/Feed/Builder/Exception.php';
                 throw new Zend_Feed_Builder_Exception("$mandatory key is missing");
             }
         }
@@ -268,7 +268,7 @@ class Zend_Feed_Builder implements Zend_Feed_Builder_Interface
                     /**
                      * @see Zend_Feed_Builder_Exception
                      */
-                    require_once 'Zend/Feed/Builder/Exception.php';
+                    // require_once 'Zend/Feed/Builder/Exception.php';
                     throw new Zend_Feed_Builder_Exception("you have to define $mandatory property of your cloud");
                 }
             }
@@ -282,7 +282,7 @@ class Zend_Feed_Builder implements Zend_Feed_Builder_Interface
                     /**
                      * @see Zend_Feed_Builder_Exception
                      */
-                    require_once 'Zend/Feed/Builder/Exception.php';
+                    // require_once 'Zend/Feed/Builder/Exception.php';
                     throw new Zend_Feed_Builder_Exception("you have to define $mandatory property of your textInput");
                 }
             }
@@ -349,7 +349,7 @@ class Zend_Feed_Builder implements Zend_Feed_Builder_Interface
                     /**
                      * @see Zend_Feed_Builder_Exception
                      */
-                    require_once 'Zend/Feed/Builder/Exception.php';
+                    // require_once 'Zend/Feed/Builder/Exception.php';
                     throw new Zend_Feed_Builder_Exception("$mandatory key is missing");
                 }
             }
@@ -379,7 +379,7 @@ class Zend_Feed_Builder implements Zend_Feed_Builder_Interface
                         /**
                          * @see Zend_Feed_Builder_Exception
                          */
-                        require_once 'Zend/Feed/Builder/Exception.php';
+                        // require_once 'Zend/Feed/Builder/Exception.php';
                         throw new Zend_Feed_Builder_Exception("$mandatory key of source property is missing");
                     }
                 }

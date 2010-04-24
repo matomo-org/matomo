@@ -20,24 +20,24 @@
  */
 
 /** @see Zend_Feed_Writer_Feed */
-require_once 'Zend/Feed/Writer/Feed.php';
+// require_once 'Zend/Feed/Writer/Feed.php';
 
 /** @see Zend_Version */
-require_once 'Zend/Version.php';
+// require_once 'Zend/Version.php';
 
 /** @see Zend_Feed_Writer_Renderer_RendererInterface */
-require_once 'Zend/Feed/Writer/Renderer/RendererInterface.php';
+// require_once 'Zend/Feed/Writer/Renderer/RendererInterface.php';
 
 /** @see Zend_Feed_Writer_Renderer_Entry_Atom */
-require_once 'Zend/Feed/Writer/Renderer/Entry/Atom.php';
+// require_once 'Zend/Feed/Writer/Renderer/Entry/Atom.php';
 
 /** @see Zend_Feed_Writer_Renderer_Entry_Atom_Deleted */
-require_once 'Zend/Feed/Writer/Renderer/Entry/Atom/Deleted.php';
+// require_once 'Zend/Feed/Writer/Renderer/Entry/Atom/Deleted.php';
 
 /** @see Zend_Feed_Writer_Renderer_RendererAbstract */
-require_once 'Zend/Feed/Writer/Renderer/RendererAbstract.php';
+// require_once 'Zend/Feed/Writer/Renderer/RendererAbstract.php';
 
-require_once 'Zend/Feed/Writer/Renderer/Feed/Atom/AtomAbstract.php';
+// require_once 'Zend/Feed/Writer/Renderer/Feed/Atom/AtomAbstract.php';
 
 /**
  * @category   Zend

@@ -22,18 +22,18 @@
 /**
  * @see Zend_Feed_Reader
  */
-require_once 'Zend/Feed/Reader.php';
+// require_once 'Zend/Feed/Reader.php';
 
 /**
  * @see Zend_Feed_Reader_Entry_Atom
  */
-require_once 'Zend/Feed/Reader/Entry/Atom.php';
+// require_once 'Zend/Feed/Reader/Entry/Atom.php';
 
 
 /**
  * @see Zend_Feed_Reader_Entry_Rss
  */
-require_once 'Zend/Feed/Reader/Entry/Rss.php';
+// require_once 'Zend/Feed/Reader/Entry/Rss.php';
 
 /**
  * @category   Zend

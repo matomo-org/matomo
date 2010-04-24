@@ -22,27 +22,27 @@
 /**
  * @see Zend_Feed_Reader_FeedAbstract
  */
-require_once 'Zend/Feed/Reader/FeedAbstract.php';
+// require_once 'Zend/Feed/Reader/FeedAbstract.php';
 
 /**
  * @see Zend_feed_Reader_Extension_Atom_Feed
  */
-require_once 'Zend/Feed/Reader/Extension/Atom/Feed.php';
+// require_once 'Zend/Feed/Reader/Extension/Atom/Feed.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_DublinCore_Feed
  */
-require_once 'Zend/Feed/Reader/Extension/DublinCore/Feed.php';
+// require_once 'Zend/Feed/Reader/Extension/DublinCore/Feed.php';
 
 /**
  * @see Zend_Date
  */
-require_once 'Zend/Date.php';
+// require_once 'Zend/Date.php';
 
 /**
  * @see Zend_Feed_Reader_Collection_Author
  */
-require_once 'Zend/Feed/Reader/Collection/Author.php';
+// require_once 'Zend/Feed/Reader/Collection/Author.php';
 
 /**
  * @category   Zend
@@ -235,7 +235,7 @@ class Zend_Feed_Reader_Feed_Rss extends Zend_Feed_Reader_FeedAbstract
                         break;
                     } catch (Zend_Date_Exception $e) {
                         if ($standard == Zend_Date::DATES) {
-                            require_once 'Zend/Feed/Exception.php';
+                            // require_once 'Zend/Feed/Exception.php';
                             throw new Zend_Feed_Exception(
                                 'Could not load date due to unrecognised'
                                 .' format (should follow RFC 822 or 2822):'

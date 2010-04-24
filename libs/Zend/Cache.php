@@ -83,7 +83,7 @@ abstract class Zend_Cache
      * @param array  $backendOptions  associative array of options for the corresponding backend constructor
      * @param boolean $customFrontendNaming if true, the frontend argument is used as a complete class name ; if false, the frontend argument is used as the end of "Zend_Cache_Frontend_[...]" class name
      * @param boolean $customBackendNaming if true, the backend argument is used as a complete class name ; if false, the backend argument is used as the end of "Zend_Cache_Backend_[...]" class name
-     * @param boolean $autoload if true, there will no require_once for backend and frontend (usefull only for custom backends/frontends)
+     * @param boolean $autoload if true, there will no // require_once for backend and frontend (usefull only for custom backends/frontends)
      * @throws Zend_Cache_Exception
      * @return Zend_Cache_Core|Zend_Cache_Frontend
      */
@@ -129,7 +129,7 @@ abstract class Zend_Cache
             // we use a standard backend
             $backendClass = 'Zend_Cache_Backend_' . $backend;
             // security controls are explicit
-            require_once str_replace('_', DIRECTORY_SEPARATOR, $backendClass) . '.php';
+            // require_once str_replace('_', DIRECTORY_SEPARATOR, $backendClass) . '.php';
         } else {
             // we use a custom backend
             if (!preg_match('~^[\w]+$~D', $backend)) {
@@ -146,7 +146,7 @@ abstract class Zend_Cache
                 if (!(self::_isReadable($file))) {
                     self::throwException("file $file not found in include_path");
                 }
-                require_once $file;
+                // require_once $file;
             }
         }
         return new $backendClass($backendOptions);
@@ -171,7 +171,7 @@ abstract class Zend_Cache
             // For perfs reasons, with frontend == 'Core', we can interact with the Core itself
             $frontendClass = 'Zend_Cache_' . ($frontend != 'Core' ? 'Frontend_' : '') . $frontend;
             // security controls are explicit
-            require_once str_replace('_', DIRECTORY_SEPARATOR, $frontendClass) . '.php';
+            // require_once str_replace('_', DIRECTORY_SEPARATOR, $frontendClass) . '.php';
         } else {
             // we use a custom frontend
             if (!preg_match('~^[\w]+$~D', $frontend)) {
@@ -188,7 +188,7 @@ abstract class Zend_Cache
                 if (!(self::_isReadable($file))) {
                     self::throwException("file $file not found in include_path");
                 }
-                require_once $file;
+                // require_once $file;
             }
         }
         return new $frontendClass($frontendOptions);
@@ -204,7 +204,7 @@ abstract class Zend_Cache
     public static function throwException($msg, Exception $e = null)
     {
         // For perfs reasons, we use this dynamic inclusion
-        require_once 'Zend/Cache/Exception.php';
+        // require_once 'Zend/Cache/Exception.php';
         throw new Zend_Cache_Exception($msg, 0, $e);
     }
 

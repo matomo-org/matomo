@@ -25,7 +25,7 @@
 /**
  * @see Zend_Db_Table_Rowset_Abstract
  */
-require_once 'Zend/Db/Table/Rowset/Abstract.php';
+// require_once 'Zend/Db/Table/Rowset/Abstract.php';
 
 
 /**

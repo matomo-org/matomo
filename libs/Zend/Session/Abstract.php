@@ -82,7 +82,7 @@ abstract class Zend_Session_Abstract
             /**
              * @see Zend_Session_Exception
              */
-            require_once 'Zend/Session/Exception.php';
+            // require_once 'Zend/Session/Exception.php';
             throw new Zend_Session_Exception(self::_THROW_NOT_READABLE_MSG);
         }
 
@@ -108,7 +108,7 @@ abstract class Zend_Session_Abstract
             /**
              * @see Zend_Session_Exception
              */
-            require_once 'Zend/Session/Exception.php';
+            // require_once 'Zend/Session/Exception.php';
             throw new Zend_Session_Exception(self::_THROW_NOT_WRITABLE_MSG);
         }
 
@@ -143,7 +143,7 @@ abstract class Zend_Session_Abstract
             /**
              * @see Zend_Session_Exception
              */
-            require_once 'Zend/Session/Exception.php';
+            // require_once 'Zend/Session/Exception.php';
             throw new Zend_Session_Exception(self::_THROW_NOT_READABLE_MSG);
         }
 

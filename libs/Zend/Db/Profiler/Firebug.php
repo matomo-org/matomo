@@ -21,13 +21,13 @@
  */
 
 /** Zend_Db_Profiler */
-require_once 'Zend/Db/Profiler.php';
+// require_once 'Zend/Db/Profiler.php';
 
 /** Zend_Wildfire_Plugin_FirePhp */
-require_once 'Zend/Wildfire/Plugin/FirePhp.php';
+// require_once 'Zend/Wildfire/Plugin/FirePhp.php';
 
 /** Zend_Wildfire_Plugin_FirePhp_TableMessage */
-require_once 'Zend/Wildfire/Plugin/FirePhp/TableMessage.php';
+// require_once 'Zend/Wildfire/Plugin/FirePhp/TableMessage.php';
 
 /**
  * Writes DB events as log messages to the Firebug Console via FirePHP.

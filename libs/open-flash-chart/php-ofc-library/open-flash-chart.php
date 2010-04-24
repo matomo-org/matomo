@@ -10,55 +10,55 @@
 //
 if (! function_exists('json_encode'))
 {
-	include_once 'JSON.php';
+	include_once dirname(__FILE__) . '/JSON.php';
 }
 
-include_once 'json_format.php';
+include_once dirname(__FILE__) . '/json_format.php';
 
 // ofc classes
-include_once 'ofc_title.php';
-include_once 'ofc_y_axis_base.php';
-include_once 'ofc_y_axis.php';
-include_once 'ofc_y_axis_right.php';
-include_once 'ofc_y_axis_labels.php';
-include_once 'ofc_y_axis_label.php';
-include_once 'ofc_x_axis.php';
+include_once dirname(__FILE__) . '/ofc_title.php';
+include_once dirname(__FILE__) . '/ofc_y_axis_base.php';
+include_once dirname(__FILE__) . '/ofc_y_axis.php';
+include_once dirname(__FILE__) . '/ofc_y_axis_right.php';
+include_once dirname(__FILE__) . '/ofc_y_axis_labels.php';
+include_once dirname(__FILE__) . '/ofc_y_axis_label.php';
+include_once dirname(__FILE__) . '/ofc_x_axis.php';
 
 
-include_once 'ofc_pie.php';
-//include_once 'ofc_bar.php';
-include_once 'ofc_bar_glass.php';
-include_once 'ofc_bar_filled.php';
-include_once 'ofc_bar_stack.php';
-//include_once 'ofc_bar_3d.php';
-include_once 'ofc_hbar.php';
-include_once 'ofc_line_base.php';
-include_once 'ofc_line.php';
-//include_once 'ofc_line_dot.php';
-//include_once 'ofc_line_hollow.php';
-include_once 'ofc_candle.php';
-include_once 'ofc_area_base.php';
-include_once 'ofc_tags.php';
-include_once 'ofc_arrow.php';
-//include_once 'ofc_area_hollow.php';
-//include_once 'ofc_area_line.php';
+include_once dirname(__FILE__) . '/ofc_pie.php';
+//include_once dirname(__FILE__) . '/ofc_bar.php';
+include_once dirname(__FILE__) . '/ofc_bar_glass.php';
+include_once dirname(__FILE__) . '/ofc_bar_filled.php';
+include_once dirname(__FILE__) . '/ofc_bar_stack.php';
+//include_once dirname(__FILE__) . '/ofc_bar_3d.php';
+include_once dirname(__FILE__) . '/ofc_hbar.php';
+include_once dirname(__FILE__) . '/ofc_line_base.php';
+include_once dirname(__FILE__) . '/ofc_line.php';
+//include_once dirname(__FILE__) . '/ofc_line_dot.php';
+//include_once dirname(__FILE__) . '/ofc_line_hollow.php';
+include_once dirname(__FILE__) . '/ofc_candle.php';
+include_once dirname(__FILE__) . '/ofc_area_base.php';
+include_once dirname(__FILE__) . '/ofc_tags.php';
+include_once dirname(__FILE__) . '/ofc_arrow.php';
+//include_once dirname(__FILE__) . '/ofc_area_hollow.php';
+//include_once dirname(__FILE__) . '/ofc_area_line.php';
 
-include_once 'ofc_x_legend.php';
-include_once 'ofc_y_legend.php';
-include_once 'ofc_bar_sketch.php';
-include_once 'ofc_scatter.php';
-include_once 'ofc_scatter_line.php';
-include_once 'ofc_x_axis_labels.php';
-include_once 'ofc_x_axis_label.php';
-include_once 'ofc_tooltip.php';
-include_once 'ofc_shape.php';
-include_once 'ofc_radar_axis.php';
-include_once 'ofc_radar_axis_labels.php';
-include_once 'ofc_radar_spoke_labels.php';
-include_once 'ofc_line_style.php';
+include_once dirname(__FILE__) . '/ofc_x_legend.php';
+include_once dirname(__FILE__) . '/ofc_y_legend.php';
+include_once dirname(__FILE__) . '/ofc_bar_sketch.php';
+include_once dirname(__FILE__) . '/ofc_scatter.php';
+include_once dirname(__FILE__) . '/ofc_scatter_line.php';
+include_once dirname(__FILE__) . '/ofc_x_axis_labels.php';
+include_once dirname(__FILE__) . '/ofc_x_axis_label.php';
+include_once dirname(__FILE__) . '/ofc_tooltip.php';
+include_once dirname(__FILE__) . '/ofc_shape.php';
+include_once dirname(__FILE__) . '/ofc_radar_axis.php';
+include_once dirname(__FILE__) . '/ofc_radar_axis_labels.php';
+include_once dirname(__FILE__) . '/ofc_radar_spoke_labels.php';
+include_once dirname(__FILE__) . '/ofc_line_style.php';
 
-include_once 'dot_base.php';
-include_once 'ofc_menu.php';
+include_once dirname(__FILE__) . '/dot_base.php';
+include_once dirname(__FILE__) . '/ofc_menu.php';
 
 class open_flash_chart
 {

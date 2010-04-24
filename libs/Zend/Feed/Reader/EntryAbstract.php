@@ -211,7 +211,7 @@ abstract class Zend_Feed_Reader_EntryAbstract
                 return call_user_func_array(array($extension, $method), $args);
             }
         }
-        require_once 'Zend/Feed/Exception.php';
+        // require_once 'Zend/Feed/Exception.php';
         throw new Zend_Feed_Exception('Method: ' . $method
             . 'does not exist and could not be located on a registered Extension');
     }

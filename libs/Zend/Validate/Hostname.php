@@ -22,12 +22,12 @@
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @see Zend_Validate_Ip
  */
-require_once 'Zend/Validate/Ip.php';
+// require_once 'Zend/Validate/Ip.php';
 
 /**
  * Please note there are two standalone test scripts for testing IDN characters due to problems
@@ -544,7 +544,7 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
                     $regexChars = array(0 => '/^[a-z0-9\x2d]{1,63}$/i');
                     if ($this->_options['idn'] &&  isset($this->_validIdns[strtoupper($this->_tld)])) {
                         if (is_string($this->_validIdns[strtoupper($this->_tld)])) {
-                            $regexChars += include($this->_validIdns[strtoupper($this->_tld)]);
+                            $regexChars += include(dirname(__FILE__) . '/../../' . $this->_validIdns[strtoupper($this->_tld)]);
                         } else {
                             $regexChars += $this->_validIdns[strtoupper($this->_tld)];
                         }

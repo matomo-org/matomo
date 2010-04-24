@@ -21,10 +21,10 @@
  */
 
 /** @see Zend_Log_Filter_Interface */
-require_once 'Zend/Log/Filter/Interface.php';
+// require_once 'Zend/Log/Filter/Interface.php';
 
 /** @see Zend_Log_FactoryInterface */
-require_once 'Zend/Log/FactoryInterface.php';
+// require_once 'Zend/Log/FactoryInterface.php';
 
 /**
  * @category   Zend
@@ -51,7 +51,7 @@ abstract class Zend_Log_Filter_Abstract
         }
 
         if (!is_array($config)) {
-            require_once 'Zend/Log/Exception.php';
+            // require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Configuration must be an array or instance of Zend_Config');
         }
 

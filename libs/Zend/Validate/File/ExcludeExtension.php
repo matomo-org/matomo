@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/File/Extension.php';
+// require_once 'Zend/Validate/File/Extension.php';
 
 /**
  * Validator for the excluding file extensions
@@ -61,7 +61,7 @@ class Zend_Validate_File_ExcludeExtension extends Zend_Validate_File_Extension
     public function isValid($value, $file = null)
     {
         // Is file readable ?
-        require_once 'Zend/Loader.php';
+        // require_once 'Zend/Loader.php';
         if (!Zend_Loader::isReadable($value)) {
             return $this->_throw($file, self::NOT_FOUND);
         }

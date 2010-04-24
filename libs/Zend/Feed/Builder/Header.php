@@ -23,12 +23,12 @@
 /**
  * @see Zend_Feed_Builder_Header_Itunes
  */
-require_once 'Zend/Feed/Builder/Header/Itunes.php';
+// require_once 'Zend/Feed/Builder/Header/Itunes.php';
 
 /**
  * @see Zend_Uri
  */
-require_once 'Zend/Uri.php';
+// require_once 'Zend/Uri.php';
 
 
 /**
@@ -172,13 +172,13 @@ class Zend_Feed_Builder_Header extends ArrayObject
         /**
          * @see Zend_Validate_EmailAddress
          */
-        require_once 'Zend/Validate/EmailAddress.php';
+        // require_once 'Zend/Validate/EmailAddress.php';
         $validate = new Zend_Validate_EmailAddress();
         if (!$validate->isValid($email)) {
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            require_once 'Zend/Feed/Builder/Exception.php';
+            // require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception("you have to set a valid email address into the email property");
         }
         $this->offsetSet('email', $email);
@@ -246,13 +246,13 @@ class Zend_Feed_Builder_Header extends ArrayObject
         /**
          * @see Zend_Validate_EmailAddress
          */
-        require_once 'Zend/Validate/EmailAddress.php';
+        // require_once 'Zend/Validate/EmailAddress.php';
         $validate = new Zend_Validate_EmailAddress();
         if (!$validate->isValid($webmaster)) {
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            require_once 'Zend/Feed/Builder/Exception.php';
+            // require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception("you have to set a valid email address into the webmaster property");
         }
         $this->offsetSet('webmaster', $webmaster);
@@ -272,13 +272,13 @@ class Zend_Feed_Builder_Header extends ArrayObject
         /**
          * @see Zend_Validate_Int
          */
-        require_once 'Zend/Validate/Int.php';
+        // require_once 'Zend/Validate/Int.php';
         $validate = new Zend_Validate_Int();
         if (!$validate->isValid($ttl)) {
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            require_once 'Zend/Feed/Builder/Exception.php';
+            // require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception("you have to set an integer value to the ttl property");
         }
         $this->offsetSet('ttl', $ttl);
@@ -317,7 +317,7 @@ class Zend_Feed_Builder_Header extends ArrayObject
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            require_once 'Zend/Feed/Builder/Exception.php';
+            // require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception('Passed parameter is not a valid HTTP URI');
         }
         if (!$uri->getPort()) {
@@ -362,7 +362,7 @@ class Zend_Feed_Builder_Header extends ArrayObject
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            require_once 'Zend/Feed/Builder/Exception.php';
+            // require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception("you can not have more than 24 rows in the skipHours property");
         }
         foreach ($hours as $hour) {
@@ -370,7 +370,7 @@ class Zend_Feed_Builder_Header extends ArrayObject
                 /**
                  * @see Zend_Feed_Builder_Exception
                  */
-                require_once 'Zend/Feed/Builder/Exception.php';
+                // require_once 'Zend/Feed/Builder/Exception.php';
                 throw new Zend_Feed_Builder_Exception("$hour has te be between 0 and 23");
             }
         }
@@ -392,7 +392,7 @@ class Zend_Feed_Builder_Header extends ArrayObject
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            require_once 'Zend/Feed/Builder/Exception.php';
+            // require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception("you can not have more than 7 days in the skipDays property");
         }
         $valid = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
@@ -401,7 +401,7 @@ class Zend_Feed_Builder_Header extends ArrayObject
                 /**
                  * @see Zend_Feed_Builder_Exception
                  */
-                require_once 'Zend/Feed/Builder/Exception.php';
+                // require_once 'Zend/Feed/Builder/Exception.php';
                 throw new Zend_Feed_Builder_Exception("$day is not a valid day");
             }
         }

@@ -26,7 +26,7 @@
 /**
  * Base class for all HTML classes
  */
-require_once 'HTML/Common.php';
+require_once dirname(__FILE__) . '/../Common.php';
 
 /**
  * Base class for form elements

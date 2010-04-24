@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_Db_Abstract
  */
-require_once 'Zend/Validate/Db/Abstract.php';
+// require_once 'Zend/Validate/Db/Abstract.php';
 
 /**
  * Confirms a record does not exist in a table.

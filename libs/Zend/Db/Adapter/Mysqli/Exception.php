@@ -24,7 +24,7 @@
 /**
  * Zend
  */
-require_once 'Zend/Db/Adapter/Exception.php';
+// require_once 'Zend/Db/Adapter/Exception.php';
 
 /**
  * Zend_Db_Adapter_Mysqli_Exception

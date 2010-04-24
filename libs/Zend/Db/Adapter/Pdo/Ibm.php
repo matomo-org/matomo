@@ -22,16 +22,16 @@
 
 
 /** @see Zend_Db_Adapter_Pdo_Abstract */
-require_once 'Zend/Db/Adapter/Pdo/Abstract.php';
+// require_once 'Zend/Db/Adapter/Pdo/Abstract.php';
 
 /** @see Zend_Db_Abstract_Pdo_Ibm_Db2 */
-require_once 'Zend/Db/Adapter/Pdo/Ibm/Db2.php';
+// require_once 'Zend/Db/Adapter/Pdo/Ibm/Db2.php';
 
 /** @see Zend_Db_Abstract_Pdo_Ibm_Ids */
-require_once 'Zend/Db/Adapter/Pdo/Ibm/Ids.php';
+// require_once 'Zend/Db/Adapter/Pdo/Ibm/Ids.php';
 
 /** @see Zend_Db_Statement_Pdo_Ibm */
-require_once 'Zend/Db/Statement/Pdo/Ibm.php';
+// require_once 'Zend/Db/Statement/Pdo/Ibm.php';
 
 
 /**
@@ -131,7 +131,7 @@ class Zend_Db_Adapter_Pdo_Ibm extends Zend_Db_Adapter_Pdo_Abstract
             }
         } catch (PDOException $e) {
             /** @see Zend_Db_Adapter_Exception */
-            require_once 'Zend/Db/Adapter/Exception.php';
+            // require_once 'Zend/Db/Adapter/Exception.php';
             $error = strpos($e->getMessage(), 'driver does not support that attribute');
             if ($error) {
                 throw new Zend_Db_Adapter_Exception("PDO_IBM driver extension is downlevel.  Please use driver release version 1.2.1 or later", 0, $e);
@@ -178,7 +178,7 @@ class Zend_Db_Adapter_Pdo_Ibm extends Zend_Db_Adapter_Pdo_Abstract
         if (array_key_exists('host', $this->_config) &&
         !array_key_exists('port', $config)) {
             /** @see Zend_Db_Adapter_Exception */
-            require_once 'Zend/Db/Adapter/Exception.php';
+            // require_once 'Zend/Db/Adapter/Exception.php';
             throw new Zend_Db_Adapter_Exception("Configuration must have a key for 'port' when 'host' is specified");
         }
     }

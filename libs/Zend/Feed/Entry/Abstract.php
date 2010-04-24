@@ -24,12 +24,12 @@
 /**
  * @see Zend_Feed
  */
-require_once 'Zend/Feed.php';
+// require_once 'Zend/Feed.php';
 
 /**
  * @see Zend_Feed_Element
  */
-require_once 'Zend/Feed/Element.php';
+// require_once 'Zend/Feed/Element.php';
 
 
 /**
@@ -96,7 +96,7 @@ abstract class Zend_Feed_Entry_Abstract extends Zend_Feed_Element
                     /**
                      * @see Zend_Feed_Exception
                      */
-                    require_once 'Zend/Feed/Exception.php';
+                    // require_once 'Zend/Feed/Exception.php';
                     throw new Zend_Feed_Exception("DOMDocument cannot parse XML: $php_errormsg");
                 }
 
@@ -105,7 +105,7 @@ abstract class Zend_Feed_Entry_Abstract extends Zend_Feed_Element
                     /**
                      * @see Zend_Feed_Exception
                      */
-                    require_once 'Zend/Feed/Exception.php';
+                    // require_once 'Zend/Feed/Exception.php';
                     throw new Zend_Feed_Exception('No root <' . $this->_rootElement . '> element found, cannot parse feed.');
                 }
             } else {

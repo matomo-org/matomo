@@ -22,7 +22,7 @@
 /**
  * @see Zend_Validate_File_Size
  */
-require_once 'Zend/Validate/File/Size.php';
+// require_once 'Zend/Validate/File/Size.php';
 
 /**
  * Validator for the size of all files which will be validated in sum
@@ -76,7 +76,7 @@ class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
         } elseif (is_scalar($options)) {
             $options = array('max' => $options);
         } elseif (!is_array($options)) {
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception('Invalid options to validator provided');
         }
 
@@ -104,7 +104,7 @@ class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
      */
     public function isValid($value, $file = null)
     {
-        require_once 'Zend/Loader.php';
+        // require_once 'Zend/Loader.php';
         if (is_string($value)) {
             $value = array($value);
         }

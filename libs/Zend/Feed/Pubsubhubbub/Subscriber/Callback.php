@@ -21,17 +21,17 @@
 /**
  * @see Zend_Feed_Pubsubhubbub
  */
-require_once 'Zend/Feed/Pubsubhubbub.php';
+// require_once 'Zend/Feed/Pubsubhubbub.php';
 
 /**
  * @see Zend_Feed_Pubsubhubbub
  */
-require_once 'Zend/Feed/Pubsubhubbub/CallbackAbstract.php';
+// require_once 'Zend/Feed/Pubsubhubbub/CallbackAbstract.php';
 
 /**
  * @see Zend_Feed_Reader
  */
-require_once 'Zend/Feed/Reader.php';
+// require_once 'Zend/Feed/Reader.php';
 
 /**
  * @category   Zend
