@@ -31,42 +31,6 @@ if(!defined('PIWIK_INCLUDE_PATH'))
 	define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
-if(!defined('PIWIK_SESSION_NAME'))
-{
-	define('PIWIK_SESSION_NAME', 'PIWIK_SESSID');
-}
-@ini_set('session.name', PIWIK_SESSION_NAME);
-if(ini_get('session.save_handler') == 'user')
-{
-	@ini_set('session.save_handler', 'files');
-	@ini_set('session.save_path', '');
-}
-if(ini_get('session.save_handler') == 'files')
-{
-	$sessionPath = ini_get('session.save_path');
-	if(preg_match('/^[0-9]+;(.*)/', $sessionPath, $matches))
-	{
-		$sessionPath = $matches[1];
-	}
-	if(ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_writable($sessionPath))
-	{
-		$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
-		@ini_set('session.save_path', $sessionPath);
-		if(!is_dir($sessionPath))
-		{
-			@mkdir($sessionPath, 0755, true);
-			if(!is_dir($sessionPath))
-			{
-				die("Error: Unable to mkdir $sessionPath");
-			}
-		}
-		else if(!@is_writable($sessionPath))
-		{
-			die("Error: $sessionPath is not writable");
-		}
-	}
-}
-
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 // NOTE: the code above this comment must be PHP4 compatible
@@ -77,7 +41,7 @@ require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 
 if(!defined('PIWIK_ENABLE_SESSION_START') || PIWIK_ENABLE_SESSION_START)
 {
-	Zend_Session::start();
+	Piwik_Session::start();
 }
 
 if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
