@@ -30,7 +30,8 @@ class Piwik_Session extends Zend_Session
 			@ini_set('session.save_path', '');
 		}
 
-		// for "files", we want a writeable folder
+		// for "files", we want a writeable folder;
+		// for shared hosting, we assume the web server has been securely configured to prevent local session file hijacking
 		if(ini_get('session.save_handler') == 'files')
 		{
 			$sessionPath = ini_get('session.save_path');
@@ -41,21 +42,28 @@ class Piwik_Session extends Zend_Session
 			if(ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_writable($sessionPath))
 			{
 				$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
+				$ok = true;
 
 				if(!is_dir($sessionPath))
 				{
 					@mkdir($sessionPath, 0755, true);
 					if(!is_dir($sessionPath))
 					{
-						die("Error: Unable to mkdir $sessionPath");
+						// Unable to mkdir $sessionPath
+						$ok = false;
 					}
 				}
 				else if(!@is_writable($sessionPath))
 				{
-					die("Error: $sessionPath is not writable");
+					// $sessionPath is not writable
+					$ok = false;
 				}
 
-				@ini_set('session.save_path', $sessionPath);
+				if($ok)
+				{
+					@ini_set('session.save_path', $sessionPath);
+				}
+				// else rely on default setting (assuming it is configured to a writeable folder)
 			}
 		}
 
