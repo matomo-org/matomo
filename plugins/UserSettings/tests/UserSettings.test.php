@@ -430,6 +430,12 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('MAC', 'Mac OS', 'Mac OS')),
 
 		// Internet Explorer
+		'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)' => array(
+			array('IE', 'Internet Explorer', 'IE', '9.0', '9', '0', 'ie'),
+			array('WI7', 'Windows 7', 'Win 7')),
+		'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/5.0)' => array(
+			array('IE', 'Internet Explorer', 'IE', '7.0', '7', '0', 'ie'),
+			array('WVI', 'Windows Vista', 'Win Vista')),
 		'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET CLR 3.0.04506; .NET CLR 3.5.21022; InfoPath.2; SLCC1; Zune 3.0)' => array(
 			array('IE', 'Internet Explorer', 'IE', '8.0', '8', '0', 'ie'),
 			array('WI7', 'Windows 7', 'Win 7')),
