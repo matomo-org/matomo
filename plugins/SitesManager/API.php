@@ -454,7 +454,7 @@ class Piwik_SitesManager_API
 	 */
 	public function getExcludedQueryParametersGlobal()
 	{
-		Piwik::checkUserIsSuperUser();
+		Piwik::checkUserHasSomeAdminAccess();
 		return Piwik_GetOption(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
 	}
 	
@@ -481,7 +481,7 @@ class Piwik_SitesManager_API
 	 */
 	public function getExcludedIpsGlobal()
 	{
-		Piwik::checkUserIsSuperUser();
+		Piwik::checkUserHasSomeAdminAccess();
 		return Piwik_GetOption(self::OPTION_EXCLUDED_IPS_GLOBAL);
 	}
 	
@@ -492,7 +492,7 @@ class Piwik_SitesManager_API
 	 */
 	public function getDefaultCurrency()
 	{
-		Piwik::checkUserIsSuperUser();
+		Piwik::checkUserHasSomeAdminAccess();
 		$defaultCurrency = Piwik_GetOption(self::OPTION_DEFAULT_CURRENCY);
 		if($defaultCurrency)
 		{
