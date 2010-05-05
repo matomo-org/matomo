@@ -26,6 +26,7 @@ class Test_Database extends UnitTestCase
     		Piwik::disconnectDatabase();
     		Piwik::createDatabaseObject();
     		Piwik::createTables();
+    		Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 		} catch(Exception $e) {
 			echo $e->getMessage();
 			echo "<br/><b>TEST INITIALIZATION FAILED!";

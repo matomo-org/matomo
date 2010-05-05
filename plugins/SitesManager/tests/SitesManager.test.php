@@ -11,6 +11,11 @@ require_once PIWIK_PATH_TEST_TO_ROOT . '/tests/core/Database.test.php';
 
 class Test_Piwik_SitesManager extends Test_Database
 {
+	public function __construct()
+	{
+		Piwik_PluginsManager::getInstance()->unloadPlugin('ExampleFeedburner');
+		parent::__construct();
+	}
     public function setUp()
     {
     	parent::setUp();
