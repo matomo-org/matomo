@@ -408,7 +408,6 @@ class Piwik_UsersManager_API
 			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
 		}
 		
-		
 		$this->deleteUserOnly( $userLogin );
 		$this->deleteUserAccess( $userLogin );
 	}

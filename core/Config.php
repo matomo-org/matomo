@@ -170,6 +170,9 @@ class Piwik_Config
 	{
 		$this->isTestEnvironment = true;
 		$this->database = $this->database_tests->toArray();
+		// for unit tests, we set that no plugin is installed. This will force
+		// the test initialization to create the plugins tables, execute ALTER queries, etc.
+		$this->PluginsInstalled = array();
 		$this->disableSavingConfigurationFileUpdates();
 	}
 
