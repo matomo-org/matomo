@@ -290,6 +290,10 @@ class Piwik_Access
 	 */
 	public function checkUserHasSomeAdminAccess()
 	{
+		if($this->isSuperUser())
+		{
+			return;
+		}
 		$idSitesAccessible = $this->getSitesIdWithAdminAccess();
 		if(count($idSitesAccessible) == 0)
 		{
