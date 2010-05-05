@@ -115,7 +115,7 @@ class Piwik_Date
  		$date = Piwik_Date::factory($dateStartUTC)->setTimezone($this->timezone);
  		return $date->toString(self::DATE_TIME_FORMAT);
  	}
- 	
+
  	/**
  	 * Returns the datetime of the current timestamp
  	 * 
@@ -494,11 +494,17 @@ class Piwik_Date
      */
 	public function addHour( $n )
 	{
+		$minutes = 0;
+		if($n != round($n))
+		{
+			$minutes = abs($n - floor($n)) * 60;
+			$n = floor($n);
+		}
 		if($n > 0 ) 
 		{
 			$n = '+'.$n;
 		}
-		$ts = strtotime("$n hour", $this->timestamp);
+		$ts = strtotime("$n hour $minutes minutes", $this->timestamp);
 		return new Piwik_Date( $ts, $this->timezone );
 	}
 
