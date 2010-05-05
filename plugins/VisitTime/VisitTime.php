@@ -75,6 +75,21 @@ class Piwik_VisitTime extends Piwik_Plugin
 		
 		$labelSQL = "HOUR(visit_first_action_time)";
 		$this->interestByServerTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+		$this->interestByServerTime = $this->convertServerTimeToLocalTimezone($this->interestByServerTime, $archiveProcessing);
+	}
+	
+	protected function convertServerTimeToLocalTimezone($interestByServerTime, $archiveProcessing)
+	{
+		$date = Piwik_Date::factory($archiveProcessing->getStartDatetimeUTC())->toString();
+		$timezone = $archiveProcessing->site->getTimezone();
+		$visitsByHourTz = array();
+		foreach($interestByServerTime as $hour => $stats)
+		{
+			$datetime = $date . ' '.$hour.':00:00';
+			$hourInTz = (int)Piwik_Date::factory($datetime, $timezone)->toString('H');
+			$visitsByHourTz[$hourInTz] = $stats;
+		}
+		return $visitsByHourTz;
 	}
 	
 	protected function archiveDayAggregateGoals($archiveProcessing)

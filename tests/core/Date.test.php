@@ -124,5 +124,18 @@ class Test_Piwik_Date extends UnitTestCase
 		$this->assertEqual($date->getDateEndUTC(), $utcDayEnd);
 	}
 	
+	function test_addHour()
+	{
+		// add partial hours
+		$dayStart = '2010-03-28 00:00:00';
+		$dayExpected = '2010-03-28 05:45:00';
+		$date = Piwik_Date::factory($dayStart)->addHour(5.75);
+		$this->assertEqual($date->getDatetime(), $dayExpected);
+		
+		// remove partial hours
+		$dayExpected = '2010-03-27 18:15:00';
+		$date = Piwik_Date::factory($dayStart)->subHour(5.75);
+		$this->assertEqual($date->getDatetime(), $dayExpected);
+	}
 }
 
