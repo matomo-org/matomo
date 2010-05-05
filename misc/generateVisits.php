@@ -9,6 +9,12 @@ if(file_exists('../bootstrap.php'))
 	require_once '../bootstrap.php';
 }
 
+$minVisitors = 20;
+$maxVisitors = 100;
+$nbActions = 10;
+$daysToCompute = 1;
+$idSite = 1;
+
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
 if(!defined('PIWIK_INCLUDE_PATH'))
@@ -29,11 +35,14 @@ if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 ob_start();
 
+
 // first check that user has privileges to create some random data in the DB -> he must be super user
 define('PIWIK_ENABLE_DISPATCH', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once "FrontController.php";
 
+// TODO - should generate goals with keyword or referer that are not found for this day,
+// to simulate a referer 5 days ago and conversion today
 Piwik::setMaxExecutionTime(0);
 
 try {
@@ -62,17 +71,7 @@ if(	empty($_GET['choice'])
     return;
 }
 
-// TODO - should generate goals with keyword or referer that are not found for this day, to simulate a referer 5 days ago and conversion today
-$minVisitors = 20;
-$maxVisitors = 100;
-$nbActions = 10;
-$daysToCompute = 1;
-$idSite = 1;
-
-
 $idSite = Piwik_Common::getRequestVar('idSite', $idSite, 'int');
-
-
 require_once "PluginsManager.php";
 require_once "Tracker.php";
 
