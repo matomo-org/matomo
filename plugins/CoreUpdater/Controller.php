@@ -200,13 +200,13 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$this->runUpdaterAndExit();
 	}
 
-	public function runUpdaterAndExit()
+	protected function runUpdaterAndExit()
 	{
 		$updater = new Piwik_Updater();
 		$componentsWithUpdateFile = Piwik_CoreUpdater::getComponentUpdates($updater);		
 		if(empty($componentsWithUpdateFile))
 		{
-			return;
+			Piwik::redirectToModule('CoreHome');
 		}
 		
 		Piwik::setMaxExecutionTime(0);

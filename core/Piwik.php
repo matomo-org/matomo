@@ -1133,7 +1133,6 @@ class Piwik
 					+ $parameters
 			);
 		Piwik_Url::redirectToUrl($newUrl);
-		return false;
 	}
 
 	/**
