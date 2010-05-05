@@ -53,7 +53,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 	function deleteDashboardLayout($notification)
 	{
 		$userLogin = $notification->getNotificationObject();
-		Piwik_Exec('DELETE FROM ' . Piwik::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
+		Piwik_Query('DELETE FROM ' . Piwik::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
 	}
 
 	public function install()
