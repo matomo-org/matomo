@@ -656,6 +656,7 @@ class Piwik_SitesManager_API
             'VND' => 'Vietnamese Dong (₫)',
             'PHP' => 'Philippine Peso (Php)',
             'INR' => 'Indian Rupee (Rs.)',
+			'VEF' => 'Venezuelan bolívar (Bs. F)',
             'CHF' => 'Swiss Franc (Fr.)',
 		);
 	}
@@ -691,6 +692,7 @@ class Piwik_SitesManager_API
             'VND' => '₫',
             'PHP' => 'Php',
             'INR' => 'Rs.',
+			'VEF' => 'Bs. F',
             'CHF' => 'Fr.',
 		);
 	}
