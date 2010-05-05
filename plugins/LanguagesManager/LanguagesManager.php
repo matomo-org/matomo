@@ -67,7 +67,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	function deleteUserLanguage($notification)
 	{
 		$userLogin = $notification->getNotificationObject();
-		Piwik_Exec('DELETE FROM ' . Piwik::prefixTable('user_language') . ' WHERE login = ?', array($userLogin));
+		Piwik_Query('DELETE FROM ' . Piwik::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
 	}
 
 	/**
