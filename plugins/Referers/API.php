@@ -10,9 +10,6 @@
  * @package Piwik_Referers
  */
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
-
 /**
  * @see plugins/Referers/functions.php
  */

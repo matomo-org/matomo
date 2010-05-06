@@ -10,9 +10,6 @@
  * @package Piwik
  */
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
-
 /**
  * @see libs/open-flash-chart/php-ofc-library/open-flash-chart.php
  * @link http://teethgrinder.co.uk/open-flash-chart-2/

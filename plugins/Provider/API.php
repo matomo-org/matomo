@@ -10,9 +10,6 @@
  * @package Piwik_Provider
  */
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
-
 /**
  * @see plugins/Provider/functions.php
  */

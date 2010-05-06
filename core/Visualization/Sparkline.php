@@ -10,9 +10,6 @@
  * @package Piwik
  */
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
-
 /**
  * @see libs/sparkline/lib/Sparkline_Line.php
  * @link http://sparkline.org

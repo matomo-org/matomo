@@ -10,9 +10,6 @@
  * @package Piwik
  */
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
-
 /**
  * This file is executed before anything else. 
  * It checks the minimum PHP version required to run Piwik.
