@@ -327,10 +327,11 @@ class Piwik_Common
 	 * Apache-specific; for IIS @see web.config
 	 *
 	 * @param string $path without trailing slash
+	 * @param string $content
 	 */
-	static public function createHtAccess( $path )
+	static public function createHtAccess( $path, $content = "<Files \"*\">\nDeny from all\n</Files>\n" )
 	{
-		@file_put_contents($path . '/.htaccess', 'Deny from all');
+		@file_put_contents($path . '/.htaccess', $content);
 	}
 
 	/**

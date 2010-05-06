@@ -113,6 +113,38 @@ class Piwik
 	}
 
 	/**
+	 * Generate .htaccess files at runtime to avoid permission problems.
+	 */
+	static public function createHtAccessFiles()
+	{
+		// deny access to these folders
+		$directoriesToProtect = array(
+			'/config',
+			'/core',
+			'/lang',
+		); 
+		foreach($directoriesToProtect as $directoryToProtect)
+		{
+			Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect);
+		}
+
+		// more selective allow/deny filters
+		$allowAny = "<Files \"*\">\nAllow from all\nSatisfy any\n</Files>\n";
+		$allowStaticAssets = "<Files ~ \"\\.(gif|ico|jpg|png|js|css|swf)$\">\nSatisfy any\nAllow from all\n</Files>\n";
+		$denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl)$\">\nDeny from all\n</Files>\n";
+		$directoriesToProtect = array(
+			'/js' => $allowAny,
+			'/libs' => $denyDirectPhp . $allowStaticAssets,
+			'/plugins' => $denyDirectPhp . $allowStaticAssets,
+			'/themes' => $denyDirectPhp . $allowStaticAssets,
+		); 
+		foreach($directoriesToProtect as $directoryToProtect => $content)
+		{
+			Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $content);
+		}
+	}
+
+	/**
 	 * Get file integrity information (in PIWIK_INCLUDE_PATH).
 	 *
 	 * @return array(bool, string, ...) Return code (true/false), followed by zero or more error messages
