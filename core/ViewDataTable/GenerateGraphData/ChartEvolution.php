@@ -157,7 +157,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 							'action' => 'index',
 							'idSite' => $idSite,
 							'period' => $period->getLabel(),
-							'date' => $dateInUrl,
+							'date' => $dateInUrl->toString(),
 						));
 				$axisXOnClick[] = $link;
 			}
