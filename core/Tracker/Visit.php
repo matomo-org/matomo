@@ -54,6 +54,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected $refererUrlParse;
 	protected $currentUrlParse;
 
+	const COOKIE_IGNORE_VISITS = 'piwik_ignore';
+	
 	function setRequest($requestArray)
 	{
 		$this->request = $requestArray;
@@ -485,10 +487,18 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		/* custom filters can override the built-in filters above */
 		Piwik_PostEvent('Tracker.Visit.isExcluded', $excluded);
 		
-		/*
-		 * Checking for excluded IPs; this happens after the hook as this is of higher priority 
-		 * and should not be overwritten.
-		 */
+		/* 
+		 * Following exclude operations happen after the hook. 
+		 * These are of higher priority and should not be overwritten by plugins.
+		 */ 
+		
+		// Checking if the Piwik ignore cookie is set
+		if(!$excluded)
+		{
+			$excluded = $this->isIgnoreCookieFound();
+		}
+		
+		// Checking for excluded IPs
 		if(!$excluded)
 		{
 			$excluded = $this->isVisitorIpExcluded($ip);
@@ -500,6 +510,21 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			return true;
 		}
 
+		return false;
+	}
+	
+	/**
+	 * Looks for the ignore cookie that users can set in the Piwik admin screen.
+	 * @return bool
+	 */
+	protected function isIgnoreCookieFound()
+	{
+		$cookie = new Piwik_Cookie(Piwik_Tracker_Visit::COOKIE_IGNORE_VISITS);
+		if($cookie->isCookieFound())
+		{
+			printDebug('Piwik ignore cookie was found, visit not tracked.');
+			return true;
+		}
 		return false;
 	}
 
