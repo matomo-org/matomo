@@ -126,9 +126,19 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 
 		foreach($this->parametersToModify as $key => $val)
 		{
-			if (is_array($val)) {
+			// We do not forward filter data to the graph controller.
+			// This would cause the graph to have filter_limit=5 set by default, 
+			// which would break them (graphs need the full dataset to build the "Others" aggregate value)
+			if(strpos($key, 'filter_') !== false)
+			{
+				continue;
+			}
+			if (is_array($val)) 
+			{
 				$_GET[$key] = unserialize(serialize($val));
-			} else {
+			} 
+			else 
+			{
 				$_GET[$key] = $val;
 			}
 		}
