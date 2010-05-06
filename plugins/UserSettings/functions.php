@@ -10,9 +10,6 @@
  * @package Piwik_UserSettings
  */
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
-
 /**
  * @see libs/UserAgentParser/UserAgentParser.php
  */
