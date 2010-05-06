@@ -684,7 +684,7 @@ class Piwik_Common
 	 *
 	 * @return string first element before ','
 	 */
-	static private function getFirstIpFromList($ip)
+	static public function getFirstIpFromList($ip)
 	{
 		$p = strpos($ip, ',');
 		if($p!==false)
