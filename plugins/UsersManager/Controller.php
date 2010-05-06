@@ -127,6 +127,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 	
 	public function setIgnoreCookie()
 	{
+		Piwik::checkUserHasSomeViewAccess();
 		$this->checkTokenInUrl();
 		$cookie = $this->getIgnoreCookie();
 		if($cookie->isCookieFound())
