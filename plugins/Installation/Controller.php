@@ -656,6 +656,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos = array();
 
 		$infos['directories'] = Piwik::checkDirectoriesWritable();
+		Piwik::createHtAccessFiles();
+
 		$infos['phpVersion_minimum'] = $minimumPhpVersion;
 		$infos['phpVersion'] = phpversion();
 		$infos['phpVersion_ok'] = version_compare( $minimumPhpVersion, $infos['phpVersion']) === -1;
