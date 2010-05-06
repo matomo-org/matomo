@@ -721,7 +721,7 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function setLimit( $limit )
 	{
-		if($limit != 0)
+		if($limit !== 0)
 		{
 			$this->variablesDefault['filter_limit'] = $limit;
 		}
