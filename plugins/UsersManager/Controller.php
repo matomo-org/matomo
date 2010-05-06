@@ -117,11 +117,38 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 			'year' => Piwik_Translate('General_CurrentYear'),
 		);
 		
+		$view->ignoreCookieSet = $this->isIgnoreCookieFound();
 		$this->initViewAnonymousUserSettings($view);
 		
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
+	}
+	
+	public function setIgnoreCookie()
+	{
+		$this->checkTokenInUrl();
+		$cookie = $this->getIgnoreCookie();
+		if($cookie->isCookieFound())
+		{
+			$cookie->delete();
+		}
+		else
+		{
+			$cookie->save();
+		}
+		Piwik::redirectToModule('UsersManager', 'userSettings');
+	}
+
+	protected function getIgnoreCookie()
+	{
+		return new Piwik_Cookie(Piwik_Tracker_Visit::COOKIE_IGNORE_VISITS);
+	}
+	
+	protected function isIgnoreCookieFound()
+	{
+		$cookie = $this->getIgnoreCookie();
+		return $cookie->isCookieFound();
 	}
 	
 	/**
