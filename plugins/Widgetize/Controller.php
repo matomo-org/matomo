@@ -43,6 +43,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 	
 	function js()
 	{
+		Piwik_API_Request::reloadAuthUsingTokenAuth();
 		$controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
 		$actionName = Piwik_Common::getRequestVar('actionToWidgetize');
 		$parameters = array ( $fetch = true );
@@ -56,6 +57,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 
 	function iframe()
 	{		
+		Piwik_API_Request::reloadAuthUsingTokenAuth();
 		$controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
 		$actionName = Piwik_Common::getRequestVar('actionToWidgetize');
 		$parameters = array ( $fetch = true );

@@ -68,7 +68,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	/**
 	 * We persist the parametersToModify values in the javascript footer.
-	 * This is used by the "export links" that use the "date" attribute from the json properties array in the datatable footer.
+	 * This is used by the "export links" that use the "date" attribute 
+	 * from the json properties array in the datatable footer.
 	 */
 	protected function getJavascriptVariablesToSet()
 	{
