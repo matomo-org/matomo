@@ -152,7 +152,7 @@ vertical-align:middle;
 		</td></tr>
 		
 		<tr><td colspan="2">
-				<b>{'SitesManager_DefaultTimezone'|translate}</b>
+				<b>{'SitesManager_DefaultTimezoneForNewWebsites'|translate}</b>
 				<p>{'SitesManager_SelectDefaultTimezone'|translate} </p>
 			</td></tr>
 			<tr><td>
@@ -162,7 +162,7 @@ vertical-align:middle;
 		</td></tr>
 		
 		<tr><td colspan="2">
-				<b>{'SitesManager_DefaultCurrency'|translate}</b>
+				<b>{'SitesManager_DefaultCurrencyForNewWebsites'|translate}</b>
 				<p>{'SitesManager_SelectDefaultCurrency'|translate} </p>
 			</td></tr>
 			<tr><td>
