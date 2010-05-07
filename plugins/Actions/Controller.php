@@ -127,7 +127,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		{
 			$view->setTemplate('CoreHome/templates/datatable_actions_recursive.tpl');
 		}
-		$view->disableSort();
 		$view->disableOffsetInformation();
 		$view->disableShowAllViewsIcons();
 		$view->disableShowAllColumns();

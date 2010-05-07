@@ -239,7 +239,13 @@ dataTable.prototype =
 			$(".sortable#"+self.param.filter_sort_column+' #thDIV', domElem).parent()
 				.addClass('columnSorted')
 				.prepend('<div id="sortIconContainer"><img id="sortIcon" width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+prefixSortIcon+ self.param.filter_sort_order+'.png" /></div>');
-		}
+			
+
+			$("th.sortable", domElem)
+					.hover( function() { $(this).css({ cursor: "pointer"}); }, 
+							function() { $(this).css({ cursor: "auto"});
+					});
+	}
 	},
 	
 	// Add behaviour to the low population link
@@ -622,14 +628,6 @@ dataTable.prototype =
 		$("tr:odd td", domElem).slice(1).addClass('columnodd');
 		$("tr:even td", domElem).slice(1).addClass('columneven');
 		
-		// Change cursor on mouse hover if sort is enabled
-		if( self.param.enable_sort ) 
-		{
-			$("th.sortable", domElem)
-				.hover( function() { $(this).css({ cursor: "pointer"}); }, 
-						function() { $(this).css({ cursor: "auto"});
-				});
-		}
 	},
  	
  	//behaviour for 'nested DataTable' (DataTable loaded on a click on a row)
@@ -780,8 +778,8 @@ actionDataTable.prototype =
 		self.handleSort(domElem);
 		if( self.workingDivId != undefined)
 		{
-			self.handleSearchBox(domElem, self.actionsDataTableLoaded );
-			self.handleLowPopulationLink(domElem, self.actionsDataTableLoaded );
+			self.handleSearchBox(domElem, self.dataTableLoaded );
+			self.handleLowPopulationLink(domElem, self.dataTableLoaded );
 		}
 	},
 	
@@ -941,7 +939,7 @@ actionDataTable.prototype =
 	},
 	
 	//called when the full table actions is loaded
-	actionsDataTableLoaded: function(response)
+	dataTableLoaded: function(response)
 	{
 		var content = $(response);
 		var idToReplace = $(content).attr('id');		
