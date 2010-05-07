@@ -9,8 +9,8 @@
 			<table cellspacing="0" class="dataTable dataTableActions"> 
 			<thead>
 			<tr>
-			{foreach from=$dataTableColumns item=column}
-				<th class="sortable" id="{$column}">{$columnTranslations[$column]}</td>
+			{foreach from=$dataTableColumns item=column name=head}
+				<th class="sortable {if $smarty.foreach.head.first}first{elseif $smarty.foreach.head.last}last{/if}" id="{$column}"><div id="thDIV">{$columnTranslations[$column]}</div></td>
 			{/foreach}
 			</tr>
 			</thead>
