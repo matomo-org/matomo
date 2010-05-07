@@ -73,7 +73,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 		$labelSQL = "HOUR(visitor_localtime)";
 		$this->interestByLocalTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		
-		$labelSQL = "HOUR(visit_first_action_time)";
+		$labelSQL = "HOUR(visit_last_action_time)";
 		$this->interestByServerTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$this->interestByServerTime = $this->convertServerTimeToLocalTimezone($this->interestByServerTime, $archiveProcessing);
 	}
