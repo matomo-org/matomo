@@ -16,7 +16,7 @@
  * @package    Zend_Loader
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Loader.php 20990 2010-02-08 18:20:39Z matthew $
+ * @version    $Id: Loader.php 22020 2010-04-27 16:35:56Z matthew $
  */
 
 /**
@@ -177,6 +177,14 @@ class Zend_Loader
             // Return early if the filename is readable without needing the 
             // include_path
             return true;
+        }
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN'
+            && preg_match('/^[a-z]:/i', $filename)
+        ) {
+            // If on windows, and path provided is clearly an absolute path, 
+            // return false immediately
+            return false;
         }
 
         foreach (self::explodeIncludePath() as $path) {
