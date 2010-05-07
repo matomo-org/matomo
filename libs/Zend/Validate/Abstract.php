@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Abstract.php 21726 2010-03-31 19:57:27Z rob $
  */
 
 /**
@@ -353,6 +353,16 @@ abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
     }
 
     /**
+     * Does this validator have its own specific translator?
+     * 
+     * @return bool
+     */
+    public function hasTranslator()
+    {
+        return (bool)$this->_translator;
+    }  
+    
+    /**
      * Set default translation object for all validate objects
      *
      * @param  Zend_Translate|Zend_Translate_Adapter|null $translator
@@ -392,6 +402,16 @@ abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
         return self::$_defaultTranslator;
     }
 
+    /**
+     * Is there a default translation object set?
+     * 
+     * @return boolean
+     */
+    public static function hasDefaultTranslator()
+    { 
+        return (bool)self::$_defaultTranslator;
+    }
+    
     /**
      * Indicate whether or not translation should be disabled
      *

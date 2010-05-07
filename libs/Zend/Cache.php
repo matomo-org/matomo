@@ -16,7 +16,7 @@
  * @package    Zend_Cache
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Cache.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Cache.php 21974 2010-04-23 17:10:17Z alexander $
  */
 
 
@@ -40,7 +40,8 @@ abstract class Zend_Cache
      *
      * @var array
      */
-    public static $standardBackends = array('File', 'Sqlite', 'Memcached', 'Apc', 'ZendPlatform', 'Xcache', 'TwoLevels');
+    public static $standardBackends = array('File', 'Sqlite', 'Memcached', 'Apc', 'ZendPlatform',
+                                            'Xcache', 'TwoLevels', 'ZendServer_Disk', 'ZendServer_ShMem');
 
     /**
      * Standard backends which implement the ExtendedInterface
@@ -220,6 +221,10 @@ abstract class Zend_Cache
         $name = str_replace(array('-', '_', '.'), ' ', $name);
         $name = ucwords($name);
         $name = str_replace(' ', '', $name);
+        if (stripos($name, 'ZendServer') === 0) {
+            $name = 'ZendServer_' . substr($name, strlen('ZendServer'));
+        }
+
         return $name;
     }
 

@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Isbn.php 20358 2010-01-17 19:03:49Z thomas $
+ * @version    $Id: Isbn.php 21761 2010-04-04 21:37:18Z thomas $
  */
 
 /**
@@ -36,6 +36,7 @@ class Zend_Validate_Isbn extends Zend_Validate_Abstract
     const ISBN10  = '10';
     const ISBN13  = '13';
     const INVALID = 'isbnInvalid';
+    const NO_ISBN = 'isbnNoIsbn';
 
     /**
      * Validation failure message template definitions.
@@ -43,7 +44,8 @@ class Zend_Validate_Isbn extends Zend_Validate_Abstract
      * @var array
      */
     protected $_messageTemplates = array(
-        self::INVALID => "'%value%' is no valid ISBN number",
+        self::INVALID => "Invalid type given, value should be string or integer",
+        self::NO_ISBN => "'%value%' is no valid ISBN number",
     );
 
     /**
@@ -145,21 +147,25 @@ class Zend_Validate_Isbn extends Zend_Validate_Abstract
     /**
      * Defined by Zend_Validate_Interface.
      *
-     * Returns true if and only if $value contains a valid ISBN.
+     * Returns true if and only if $value is a valid ISBN.
      *
      * @param  string $value
      * @return boolean
      */
     public function isValid($value)
     {
-        // save value
+        if (!is_string($value) && !is_int($value)) {
+            $this->_error(self::INVALID);
+            return false;
+        }
+
         $value = (string) $value;
         $this->_setValue($value);
 
         switch ($this->_detectFormat()) {
             case self::ISBN10:
                 // sum
-                $isbn10 = preg_replace('/[^0-9X]/', '', $value);
+                $isbn10 = str_replace($this->_separator, '', $value);
                 $sum    = 0;
                 for ($i = 0; $i < 9; $i++) {
                     $sum += (10 - $i) * $isbn10{$i};
@@ -176,7 +182,7 @@ class Zend_Validate_Isbn extends Zend_Validate_Abstract
 
             case self::ISBN13:
                 // sum
-                $isbn13 = preg_replace('/[^0-9]/', '', $value);
+                $isbn13 = str_replace($this->_separator, '', $value);
                 $sum    = 0;
                 for ($i = 0; $i < 12; $i++) {
                     if ($i % 2 == 0) {
@@ -193,13 +199,13 @@ class Zend_Validate_Isbn extends Zend_Validate_Abstract
                 break;
 
             default:
-                $this->_error(self::INVALID);
+                $this->_error(self::NO_ISBN);
                 return false;
         }
 
         // validate
         if (substr($this->_value, -1) != $checksum) {
-            $this->_error(self::INVALID);
+            $this->_error(self::NO_ISBN);
             return false;
         }
         return true;

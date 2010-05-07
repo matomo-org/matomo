@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: MimeType.php 21472 2010-03-11 22:16:55Z thomas $
+ * @version   $Id: MimeType.php 21936 2010-04-18 16:23:34Z thomas $
  */
 
 /**
@@ -197,7 +197,7 @@ class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
         } else {
             $const = defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
             $this->_finfo = @finfo_open($const, $file);
-            if ($this->_finfo === false) {
+            if (empty($this->_finfo)) {
                 $this->_finfo = null;
                 // require_once 'Zend/Validate/Exception.php';
                 throw new Zend_Validate_Exception('The given magicfile is not accepted by finfo');
@@ -332,19 +332,18 @@ class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
         $mimefile = $this->getMagicFile();
         if (class_exists('finfo', false)) {
             $const = defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
-            if (!empty($mimefile) && !empty($this->_finfo)) {
+            if (!empty($mimefile) && empty($this->_finfo)) {
                 $this->_finfo = @finfo_open($const, $mimefile);
             }
 
-            if ($this->_finfo === false) {
+            if (empty($this->_finfo)) {
                 $this->_finfo = @finfo_open($const);
             }
 
-            if ($this->_finfo !== false) {
+            $this->_type = null;
+            if (!empty($this->_finfo)) {
                 $this->_type = finfo_file($this->_finfo, $value);
             }
-
-            unset($this->_finfo);
         }
 
         if (empty($this->_type) &&

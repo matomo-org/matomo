@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client
- * @version    $Id: Client.php 21020 2010-02-11 17:27:23Z shahar $
+ * @version    $Id: Client.php 21952 2010-04-19 18:44:26Z shahar $
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -910,16 +910,17 @@ class Zend_Http_Client
                  'Zend_Http_Client');
         }
 
-        $fp = fopen($this->_stream_name, "w+b");
-        if(!$fp) {
-                $this->close();
+        if (false === ($fp = @fopen($this->_stream_name, "w+b"))) {
+                if ($this->adapter instanceof Zend_Http_Client_Adapter_Interface) {
+                    $this->adapter->close();
+                }
                 // require_once 'Zend/Http/Client/Exception.php';
-                throw new Zend_Http_Client_Exception("Could not open temp file $name");
-
+                throw new Zend_Http_Client_Exception("Could not open temp file {$this->_stream_name}");
         }
+        
         return $fp;
     }
-
+    
     /**
      * Send the HTTP request and return an HTTP response object
      *
