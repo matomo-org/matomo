@@ -4,7 +4,7 @@
 		{$arrayDataTable.message} 
 	{else}
 		{if count($arrayDataTable) == 0}
-		<div id="emptyDatatable">{'CoreHome_TableNoData'|translate}</div>
+		<div class="pk-emptyDataTable">{'CoreHome_TableNoData'|translate}</div>
 		{else}
 			<a name="{$properties.uniqueId}"></a>
 			<table cellspacing="0" class="dataTable"> 
@@ -21,7 +21,7 @@
 			<tr {if $row.idsubdatatable && $javascriptVariablesToSet.controllerActionCalledWhenRequestSubTable != null}class="subDataTable" id="{$row.idsubdatatable}"{/if}>
 {foreach from=$dataTableColumns item=column}
 <td>
-{if !$row.idsubdatatable && $column=='label' && !empty($row.metadata.url)}<span id="urlLink">{$row.metadata.url}</span>{/if}
+{if !$row.idsubdatatable && $column=='label' && !empty($row.metadata.url)}<span class="urlLink">{$row.metadata.url}</span>{/if}
 {if $column=='label'}{logoHtml metadata=$row.metadata alt=$row.columns.label}{/if}
 {if isset($row.columns[$column])}{$row.columns[$column]}{else}{$defaultWhenColumnValueNotDefined}{/if}
 </td>
