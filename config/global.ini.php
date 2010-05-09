@@ -143,8 +143,8 @@ datatable_archiving_maximum_rows_providers = 500
 use_ajax_cdn = 0
 
 ; required AJAX library versions
-jquery_version = 1.3.2
-jqueryui_version = 1.7.2
+jquery_version = 1.4.2
+jqueryui_version = 1.8.1
 swfobject_version = 2.2
 
 ; If set to 0, Flash widgets require separate HTTP requests
