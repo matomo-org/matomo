@@ -177,6 +177,7 @@ dataTable.prototype =
 		}
 		else
 		{
+			dataTableSel.find('object').remove();
 			dataTableSel.html( $(content) );
 			piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 		}
