@@ -1,7 +1,7 @@
 <div id="{$properties.uniqueId}">
 <div class="tagCloud">
 {if count($cloudValues) == 0}
-	<div id="emptyDatatable">{'General_NoDataForTagCloud'|translate}</div>
+	<div class="pk-emptyDataTable">{'General_NoDataForTagCloud'|translate}</div>
 {else}
 	{foreach from=$cloudValues key=word item=value}
 	<span title="{$value.word} ({$value.value} {$columnTranslation})" class="word size{$value.size} {* we strike tags with 0 hits *} {if $value.value == 0}valueIsZero{/if}">

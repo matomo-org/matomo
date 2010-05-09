@@ -131,7 +131,7 @@ dataTable.prototype =
 	
 	// Function called to trigger the AJAX request 
 	// The ajax request contains the function callback to trigger if the request is successful or failed
-	// displayLoading = false When we don't want to display the Loading... DIV #loadingDataTable
+	// displayLoading = false When we don't want to display the Loading... DIV .pk-loadingDataTable
 	// for example when the script add a Loading... it self and doesn't want to display the generic Loading
 	reloadAjaxDataTable: function(displayLoading, callbackSuccess)
 	{
@@ -148,7 +148,7 @@ dataTable.prototype =
 		
 		if(displayLoading)
 		{
-			$('#'+self.workingDivId+' #loadingDataTable').css('display','block');
+			$('#'+self.workingDivId+' .pk-loadingDataTable').css('display','block');
 		}
 		
 		$.ajax(self.buildAjaxRequest(callbackSuccess));
@@ -170,14 +170,14 @@ dataTable.prototype =
 		{
 			// we add class to the table so that we can give a different style to the subtable
 			$(content).find('table.dataTable').addClass('subDataTable');
-			$(content).find('#dataTableFeatures').addClass('subDataTable');
+			$(content).find('.dataTableFeatures').addClass('subDataTable');
 			
 			//we force the initialisation of subdatatables
-			dataTableSel.html( $(content).html() );
+			dataTableSel.html( $(content) );
 		}
 		else
 		{
-			dataTableSel.html( $(content).html() );
+			dataTableSel.html( $(content) );
 			piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 		}
 	},	
@@ -254,7 +254,7 @@ dataTable.prototype =
 		var self = this;
 		
 		// Set the string for the DIV, either "Exclude low pop" or "Include all"
-		$('#dataTableExcludeLowPopulation', domElem)
+		$('.dataTableExcludeLowPopulation', domElem)
 			.each(
 				function()
 				{
@@ -307,7 +307,7 @@ dataTable.prototype =
 			currentPattern = '';
 		}
 		
-		$('#dataTableSearchPattern', domElem)
+		$('.dataTableSearchPattern', domElem)
 			.show()
 			.each(function(){
 				// when enter is pressed in the input field we submit the form
@@ -371,7 +371,7 @@ dataTable.prototype =
 	{
 		var self = this;
 		
-		$('#dataTablePages', domElem).each(
+		$('.dataTablePages', domElem).each(
 			function(){
 				var offset = 1+Number(self.param.filter_offset);
 				var offsetEnd = Number(self.param.filter_offset) + Number(self.param.filter_limit);
@@ -390,7 +390,7 @@ dataTable.prototype =
 		);
 		
 		// Display the next link if the total Rows is greater than the current end row
-		$('#dataTableNext', domElem)
+		$('.dataTableNext', domElem)
 			.each(function(){
 				var offsetEnd = Number(self.param.filter_offset) 
 									+ Number(self.param.filter_limit);
@@ -409,7 +409,7 @@ dataTable.prototype =
 		;
 		
 		// Display the previous link if the current offset is not zero
-		$('#dataTablePrevious', domElem)
+		$('.dataTablePrevious', domElem)
 			.each(function(){
 					var offset = 1+Number(self.param.filter_offset);
 					if(offset != 1)
@@ -442,18 +442,18 @@ dataTable.prototype =
 		}
 		
 		// When the (+) image is hovered, the export buttons are displayed 
-		$('#dataTableFooterIconsShow', domElem)
+		$('.dataTableFooterIconsShow', domElem)
 			.show()
 			.hover( function() {
 					$(this).fadeOut('slow');
-					$('#exportToFormat', $(this).parent()).show('slow');
+					$('.exportToFormatIcons', $(this).parent()).show('slow');
 				}, function(){}
 		);
 		
 		//timeout object used to hide the datatable export buttons
 		var timeout = null;
 		
-		$('#dataTableFooterIcons', domElem)
+		$('.dataTableFooterIcons', domElem)
 			.hover( function() {
 					//display 'hand' cursor
 					$(this).css({ cursor: "pointer"});
@@ -472,8 +472,8 @@ dataTable.prototype =
 					//set a timeout that will hide export buttons after a few moments
 					var dom = this;
 					timeout = setTimeout(function(){
-						$('#exportToFormat', dom).fadeOut('fast', function(){	//queue the two actions
-						$('#dataTableFooterIconsShow', dom).show('fast');});
+						$('.exportToFormatIcons', dom).fadeOut('fast', function(){	//queue the two actions
+						$('.dataTableFooterIconsShow', dom).show('fast');});
 					}, 1000);
 				}
 		);
@@ -487,7 +487,7 @@ dataTable.prototype =
 				}
 		);
 		
-		$('#tableGoals', domElem)
+		$('.tableGoals', domElem)
 			.show()
 			.click(
 				function(){
@@ -500,7 +500,7 @@ dataTable.prototype =
 				}
 		);
 		
-		$('#tableAllColumnsSwitch', domElem)
+		$('.tableAllColumnsSwitch', domElem)
 			.show()
 			.click(
 				function(){
@@ -517,8 +517,8 @@ dataTable.prototype =
 				}
 		);
 		
-		$('#exportToFormat img', domElem).click(function(){
-			$(this).siblings('#linksExportToFormat').toggle();
+		$('.exportToFormatIcons img', domElem).click(function(){
+			$(this).siblings('.linksExportToFormat').toggle();
 		});
 		
 		$('.exportToFormat', domElem).attr( 'href', function(){
@@ -584,7 +584,7 @@ dataTable.prototype =
 	{
 		var self = this;
 		
-		var urlLinkFoundDom = $("tr:not('.subDataTable') td:first-child:has('#urlLink')", domElem);
+		var urlLinkFoundDom = $("tr:not('.subDataTable') td:first-child:has('.urlLink')", domElem);
 		if(urlLinkFoundDom.length == 0)
 		{
 			self.truncate( $("table tr td:first-child", domElem) );
@@ -602,7 +602,7 @@ dataTable.prototype =
 				{
 					imgToPrepend = '<img width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="themes/default/images/link.gif" /> ';
 				}
-				var urlLinkDom = $('#urlLink',this);
+				var urlLinkDom = $('.urlLink', this);
 				var urlToLink = $(urlLinkDom).html();
 				$(urlLinkDom).remove();
 				
@@ -654,7 +654,7 @@ dataTable.prototype =
 					'<tr>'+
 						'<td colspan="'+numberOfColumns+'" class="cellSubDataTable">'+
 							'<div id="'+divIdToReplaceWithSubTable+'">'+
-								'<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('CoreHome_Loading_js') +'</span>'+
+								'<span class="pk-loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('CoreHome_Loading_js') +'</span>'+
 							'</div>'+
 						'</td>'+
 					'</tr>'
@@ -873,7 +873,7 @@ actionDataTable.prototype =
 			$(domElem).after( '\
 			<tr id="'+divIdToReplaceWithSubTable+'" class="cellSubDataTable">\
 				<td colspan="'+numberOfColumns+'">\
-						<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
+						<span class="pk-loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
 				</td>\
 			</tr>\
 			');
@@ -949,7 +949,7 @@ actionDataTable.prototype =
 		self.parentId = '';
 	
 		var dataTableSel = $('#'+idToReplace);
-		dataTableSel.html($(content).html());
+		dataTableSel.html( $(content) );
 		piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 	},
 	

@@ -217,85 +217,86 @@ table thead div {
 	position: absolute;
 }
 
-#dataTablePages {
+.dataTablePages {
 	color: #BFBFBF;
 	font-weight: bold;
 	margin: 10px;
 	font-size: 0.9em;
 }
 
-#dataTableSearchPattern {
+.dataTableSearchPattern {
 	display: inline;
 	white-space: nowrap;
 }
 
-#dataTableSearchPattern input {
+.dataTableSearchPattern input {
 	font-size: 0.7em;
 	padding: 2px;
 	border: 1px solid #B3B3B3;
 	color: #0C183A;
 }
 
-#dataTableSearchPattern input:hover {
+.dataTableSearchPattern input:hover {
 	background: #F7F7FF none repeat scroll 0%;
 }
 
-#dataTableSearchPattern #keyword {
+.dataTableSearchPattern #keyword {
 	background: transparent url(images/search.png) no-repeat scroll 4px
 		center;
 	padding: 3px 3px 3px 20px;
 }
 
-#dataTableExcludeLowPopulation,#dataTableNext,#dataTablePrevious {
+.dataTableExcludeLowPopulation,.dataTableNext,.dataTablePrevious {
 	font-size: 0.9em;
 	color: #184A83;
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-.subDataTable#dataTableFeatures {
+/* @todo are these supposed to be together? */
+.subDataTable.dataTableFeatures {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	width: 100%;
 }
 
-#dataTableFeatures {
+.dataTableFeatures {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	width: 100%;
 	text-align: center;
 }
 
-#dataTableExcludeLowPopulation {
+.dataTableExcludeLowPopulation {
 	float: right;
 	font-size: 0.8em;
 	color: #C3C6D8;
 	text-align: right;
 }
 
-#dataTableNext,#dataTablePrevious,#dataTableSearchPattern,#loadingDataTable
+.dataTableNext,.dataTablePrevious,.dataTableSearchPattern,.pk-loadingDataTable
 {
 	display: none;
 }
 
-.subDataTable #dataTableFooterIcons {
+.subDataTable .dataTableFooterIcons {
 	height: 0px;
 }
 
-#dataTableFooterIcons {
+.dataTableFooterIcons {
 	float: right;
 	height: 18px;
 }
 
-#exportToFormat {
+.exportToFormatIcons {
 	float: right;
 }
 
-#dataTableFooterIconsShow {
+.dataTableFooterIconsShow {
 	float: right;
 }
 
-#dataTableFooterIcons,#dataTableFooterIcons a {
+.dataTableFooterIcons,.dataTableFooterIcons a {
 	text-decoration: none;
 	color: #8894B1;
 	font-size:0.9em;
@@ -305,7 +306,7 @@ table thead div {
 	clear: both;
 }
 
-#loadingDataTable {
+.pk-loadingDataTable {
 	float: left;
 	font-size: 0.9em;
 	color: #193B6C;
@@ -347,7 +348,7 @@ tr td.label img.plusMinus {
 	margin-right: 0em;
 }
 
-#emptyDatatable {
+.pk-emptyDataTable {
 	padding-top: 20px;
 	padding-bottom: 10px;
 	text-align: center;
