@@ -32,7 +32,7 @@ class Piwik_Http
 			if(@ini_get('allow_url_fopen') != '1')
 			{
 				$method = 'socket';
-				if(preg_match('/(^|,|\s)fsockopen($|,|\s)/', @ini_get('disable_functions')))
+				if(!function_exists('fsockopen'))
 				{
 					return null;
 				}
@@ -91,6 +91,7 @@ class Piwik_Http
 		}
 
 		$contentLength = 0;
+		$fileLength = 0;
 
 		if($method == 'socket')
 		{
@@ -139,7 +140,6 @@ class Piwik_Http
 			// process header
 			$status = null;
 			$expectRedirect = false;
-			$fileLength = 0;
 
 			while(!feof($fsock))
 			{
@@ -223,10 +223,12 @@ class Piwik_Http
 					throw new Exception('Timed out waiting for server response');
 				}
 
+				$fileLength += strlen($line);
+
 				if(is_resource($file))
 				{
 					// save to file
-					$fileLength += fwrite($file, $line);
+					fwrite($file, $line);
 				}
 				else
 				{
@@ -262,6 +264,8 @@ class Piwik_Http
 			}
 
 			$response = @file_get_contents($aUrl, 0, $ctx);
+			$fileLength = strlen($response);
+
 			if(is_resource($file))
 			{
 				// save to file
@@ -282,7 +286,7 @@ class Piwik_Http
 				CURLOPT_URL => $aUrl,
 				CURLOPT_HEADER => false,
 				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_TIMEOUT => $timeout,
+				CURLOPT_CONNECTTIMEOUT => $timeout,
 				CURLOPT_BINARYTRANSFER => is_resource($file),
 				CURLOPT_FOLLOWLOCATION => true,
 				CURLOPT_MAXREDIRS => 3,
@@ -292,6 +296,18 @@ class Piwik_Http
 			@curl_setopt_array($ch, $curl_options);
 
 			$response = @curl_exec($ch);
+			if($response === false)
+			{
+				$errstr = curl_error($ch);
+				if($errstr != '')
+				{
+					throw new Exception('curl_exec: '.$errstr);
+				}
+			}
+
+			$contentLength = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+			$fileLength = strlen($response);
+
 			if(is_resource($file))
 			{
 				// save to file
@@ -310,14 +326,16 @@ class Piwik_Http
 		{
 			fflush($file);
 			@fclose($file);
-			if($contentLength && (($fileLength != $contentLength) || (filesize($destinationPath) != $contentLength)))
+
+			$fileSize = filesize($destinationPath);
+			if(($contentLength && ($fileLength != $contentLength)) || ($fileSize != $fileLength))
 			{
-				throw new Exception('File size error: '.$destinationPath.'; expected '.$contentLength.' bytes; received '.$fileLength.' bytes');
+				throw new Exception('File size error: '.$destinationPath.'; expected '.$contentLength.' bytes; received '.$fileLength.' bytes; saved '.$fileSize.' bytes to file');
 			}
 			return true;
 		}
 
-		if($contentLength && strlen($response) != $contentLength)
+		if($contentLength && ($fileLength != $contentLength))
 		{
 			throw new Exception('Content length error: expected '.$contentLength.' bytes; received '.$fileLength.' bytes');
 		}
