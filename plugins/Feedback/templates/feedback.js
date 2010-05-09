@@ -20,6 +20,7 @@ $(function() {
 		$('#topbar-feedback').click(function() {
 			$('#feedback-faq').show();
 			$('#feedback-form').hide();
+			$('#feedback-sent').hide().empty();
 			fbDiv.dialog('open');
 			return false;
 		});
