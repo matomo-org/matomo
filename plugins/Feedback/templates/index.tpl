@@ -2,8 +2,8 @@
 <script type="text/javascript">
 $(function() {
 	$('#feedback-contact').click(function() {
-		$('#feedback-faq').toggle();
-		$('#feedback-form').toggle();
+		$('#feedback-faq').hide();
+		$('#feedback-form').show();
 		return false;
 	});
 
