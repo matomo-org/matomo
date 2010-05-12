@@ -13,11 +13,35 @@
 /**
  * @package Piwik
  */
-class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapter
+class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_iAdapter
 {
-	public function __construct($config)
+	/**
+	 * Returns connection handle
+	 *
+	 * @return resource
+	 */
+	public function getConnection()
 	{
-		parent::__construct($config);
+		if($this->_connection)
+		{
+			return $this->_connection;
+		}
+
+		$this->_connect();
+
+		/**
+		 * Before MySQL 5.1.17, server-side prepared statements
+		 * do not use the query cache.
+		 * @see http://dev.mysql.com/doc/refman/5.1/en/query-cache-operation.html
+		 *
+		 * MySQL also does not support preparing certain DDL and SHOW
+		 * statements.
+		 * @see http://framework.zend.com/issues/browse/ZF-1398
+		 */
+		$this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+		$this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+
+		return $this->_connection;
 	}
 
 	/**
@@ -73,7 +97,7 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 	public static function isEnabled()
 	{
 		$extensions = @get_loaded_extensions();
-		return in_array('mysqli', $extensions);
+		return in_array('PDO', $extensions) && in_array('pdo_mysql', $extensions) && in_array('mysql', PDO::getAvailableDrivers());
 	}
 
 	/**
@@ -95,36 +119,11 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 	 */
 	public function isErrNo($e, $errno)
 	{
-		if(is_null($this->_connection))
+		if(preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match))
 		{
-			if(preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match))
-			{
-				return $match[1] == $errno;
-			}
-			return mysqli_connect_errno() == $errno;
+			return $match[1] == $errno;
 		}
-
-		return mysqli_errno($this->_connection) == $errno;
-	}
-
-	/**
-	 * Execute unprepared SQL query and throw away the result
-	 *
-	 * Workaround some SQL statements not compatible with prepare().
-	 * See http://framework.zend.com/issues/browse/ZF-1398
-	 *
-	 * @param string $sqlQuery
-	 * @return int Number of rows affected (SELECT/INSERT/UPDATE/DELETE)
-	 */
-	public function exec( $sqlQuery )
-	{
-		$rc = mysqli_query($this->_connection, $sqlQuery);
-		$rowsAffected = mysqli_affected_rows($this->_connection);
-		if(!is_bool($rc))
-		{
-			mysqli_free_result($rc);
-		}
-		return $rowsAffected;
+		return false;
 	}
 
 	/**
@@ -134,22 +133,28 @@ class Piwik_Db_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapte
 	 */
 	public function isConnectionUTF8()
 	{
-		$charset = mysqli_character_set_name($this->_connection);
+		$charsetInfo = $this->fetchAll('SHOW VARIABLES LIKE ?', array('character_set_connection'));
+		$charset = $charsetInfo[0]['Value'];
 		return $charset === 'utf8';
 	}
 
 	/**
-	 * Get client version
+	 * Retrieve client version in PHP style
 	 *
 	 * @return string
 	 */
 	public function getClientVersion()
 	{
 		$this->_connect();
-		$version = $this->_connection->server_version;
-		$major = (int) ($version / 10000);
-		$minor = (int) ($version % 10000 / 100);
-		$revision = (int) ($version % 100);
-		return $major . '.' . $minor . '.' . $revision;
+		try {
+			$version = $this->_connection->getAttribute(PDO::ATTR_CLIENT_VERSION);
+			$matches = null;
+			if (preg_match('/((?:[0-9]{1,2}\.){1,3}[0-9]{1,2})/', $version, $matches)) {
+				return $matches[1];
+			}
+		} catch (PDOException $e) {
+			// In case of the driver doesn't support getting attributes
+		}
+		return null;
 	}
 }
