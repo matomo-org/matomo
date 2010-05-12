@@ -318,6 +318,7 @@ table.dataTableActions tr td.labelodd {
 	background-image: none;
 }
 
+
 /* levels higher than 4 have a default padding left */
 tr.subActionsDataTable td.label,tr.actionsDataTable td.label {
 	padding-left: 7em;
@@ -328,24 +329,29 @@ tr.level0 td.label {
 }
 
 tr.level1 td.label {
-	padding-left: +3.5em;
+	padding-left: +2.5em;
 }
 
 tr.level2 td.label {
-	padding-left: +5.5em;
+	padding-left: +3.5em;
 }
 
 tr.level3 td.label {
-	padding-left: +6.5em;
+	padding-left: +4.5em;
 }
 
 tr.level4 td.label {
-	padding-left: +7em;
+	padding-left: +5em;
 }
 
+/* less right margins for the link image in the Pa*/
+table.dataTableActions img.link {
+	margin-right: 0.3em;
+	margin-left:-0.5em;
+}
 tr td.label img.plusMinus {
-	margin-left: -1em;
 	margin-right: 0em;
+	margin-left:-1em;
 }
 
 .pk-emptyDataTable {
