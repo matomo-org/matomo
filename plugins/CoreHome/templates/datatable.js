@@ -205,8 +205,50 @@ dataTable.prototype =
 		self.handleLowPopulationLink(domElem);
 		self.handleOffsetInformation(domElem);
 		self.handleExportBox(domElem);
+		self.handleLinkedRows(domElem);
 		self.applyCosmetics(domElem);
 		self.handleSubDataTable(domElem);
+	},
+	
+	handleLinkedRows: function(domElem)
+	{
+		var self = this;
+		
+		var urlLinkFoundDom = $("tr td:first-child:has('.urlLink')", domElem);
+		if(urlLinkFoundDom.length == 0)
+		{
+			self.truncate( $("table tr td:first-child", domElem) );
+		}
+		else
+		{
+			urlLinkFoundDom.each( function(){
+				// we add a link based on the <span id="urlLink"> present in the column label (the first column)
+				// if this span is there, we add the link around the HTML in the TD
+				// but we add this link only for the rows that are not clickable already (subDataTable)
+				var imgToPrepend = '';
+				if( $(this).find('img').length == 0 )
+				{
+					var imageLinkWidth = 10;
+					var imageLinkHeight = 9;
+					imgToPrepend = '<img class="link" width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="themes/default/images/link.gif" /> ';
+				}
+				var urlLinkDom = $('.urlLink',this);
+				var urlToLink = $(urlLinkDom).html();
+				$(urlLinkDom).remove();
+				
+				var truncationOffsetBecauseImageIsPrepend = -2; //website subtable needs -9. 
+
+				self.truncate( $(this), truncationOffsetBecauseImageIsPrepend );
+				if( urlToLink.match("javascript:") )
+				{
+					$(this).prepend(imgToPrepend).wrapInner('<a href="#" onclick="' + urlToLink.replace("javascript:","") + '"></a>');
+				}
+				else
+				{
+					$(this).prepend(imgToPrepend).wrapInner('<a target="_blank" href="' + urlToLink + '"></a>');
+				} 	
+			});
+		}
 	},
 	
 	// if sorting the columns is enabled, when clicking on a column, 
@@ -584,42 +626,6 @@ dataTable.prototype =
 	applyCosmetics: function(domElem)
 	{
 		var self = this;
-		
-		var urlLinkFoundDom = $("tr:not('.subDataTable') td:first-child:has('.urlLink')", domElem);
-		if(urlLinkFoundDom.length == 0)
-		{
-			self.truncate( $("table tr td:first-child", domElem) );
-		}
-		else
-		{
-			var imageLinkWidth = 10;
-			var imageLinkHeight = 9;
-			urlLinkFoundDom.each( function(){
-				// we add a link based on the <span id="urlLink"> present in the column label (the first column)
-				// if this span is there, we add the link around the HTML in the TD
-				// but we add this link only for the rows that are not clickable already (subDataTable)
-				var imgToPrepend = '';
-				if( $(this).find('img').length == 0 )
-				{
-					imgToPrepend = '<img width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="themes/default/images/link.gif" /> ';
-				}
-				var urlLinkDom = $('.urlLink', this);
-				var urlToLink = $(urlLinkDom).html();
-				$(urlLinkDom).remove();
-				
-				var truncationOffsetBecauseImageIsPrepend = -2; //website subtable needs -9. 
-				self.truncate( $(this), truncationOffsetBecauseImageIsPrepend );
-
-				if( urlToLink.match("javascript:") )
-				{
-					$(this).prepend(imgToPrepend).wrapInner('<a href="#" onclick="' + urlToLink.replace("javascript:","") + '"></a>');
-				}
-				else
-				{
-					$(this).prepend(imgToPrepend).wrapInner('<a target="_blank" href="' + urlToLink + '"></a>');
-				}
-			});
-		}
 
 		// Add some styles on the cells even/odd
 		// label (first column of a data row) or not
@@ -738,6 +744,8 @@ actionDataTable.prototype =
 	handleExportBox: dataTable.prototype.handleExportBox,
 	handleSort: dataTable.prototype.handleSort,
 	onClickSort: dataTable.prototype.onClickSort,
+	handleLinkedRows: dataTable.prototype.handleLinkedRows,
+	truncate: dataTable.prototype.truncate,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
@@ -777,6 +785,8 @@ actionDataTable.prototype =
 		
 		self.handleExportBox(domElem);
 		self.handleSort(domElem);
+		self.handleLinkedRows(domElem);
+		
 		if( self.workingDivId != undefined)
 		{
 			self.handleSearchBox(domElem, self.dataTableLoaded );
@@ -839,8 +849,8 @@ actionDataTable.prototype =
 				$("td:first-child:odd", this).addClass('label labeleven');
 				$("td:first-child:even", this).addClass('label labelodd');
 				// we truncate the labels columns from the second row
-				$("td:first-child", this).truncate(30);
-			    $('.truncated', this).tooltip();
+//				$("td:first-child", this).truncate(30);
+//			    $('.truncated', this).tooltip();
 			})
 			.removeClass('rowToProcess');
 	},
@@ -975,7 +985,8 @@ actionDataTable.prototype =
 		}
 		
 		// we execute the bindDataTableEvent function for the new DIV
-		self.init(self.workingDivId, $('#'+idToReplace));
+		self.init(self.workingDivId, $('#'+self.workingDivId));
+//		self.init(self.workingDivId, $('#'+idToReplace));
 		
 		//bind back the click event (disabled to avoid double-click problem)
 		self.disabledRowDom.click(
