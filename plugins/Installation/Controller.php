@@ -153,7 +153,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		if($form->validate())
 		{
 			$adapter = $form->getSubmitValue('adapter');
-			$port = Piwik_Db::getDefaultPortForAdapter($adapter);
+			$port = Piwik_Db_Adapter::getDefaultPortForAdapter($adapter);
 
 			$dbInfos = array(
 				'host' 			=> $form->getSubmitValue('host'),
@@ -183,7 +183,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					Piwik::createDatabaseObject($dbInfos);
 					$this->session->databaseCreated = true;
 				} catch (Zend_Db_Adapter_Exception $e) {
-					$db = Piwik_Db::factory($adapter, $dbInfos);
+					$db = Piwik_Db_Adapter::factory($adapter, $dbInfos);
 
 					// database not found, we try to create  it
 					if($db->isErrNo($e, '1049'))
@@ -686,7 +686,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['pdo_ok'] = true;
 		}
 
-		$infos['adapters'] = Piwik_Db::getAdapters();
+		$infos['adapters'] = Piwik_Db_Adapter::getAdapters();
 
 		$infos['json'] = false;
 		if(in_array('json', $extensions))

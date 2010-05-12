@@ -1425,7 +1425,7 @@ class Piwik
 			unset($dbInfos['tables_prefix']);
 			unset($dbInfos['adapter']);
 
-			$db = Piwik_Db::factory($adapter, $dbInfos);
+			$db = Piwik_Db_Adapter::factory($adapter, $dbInfos);
 			$db->getConnection();
 
 			Zend_Db_Table::setDefaultAdapter($db);

@@ -22,7 +22,7 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_Form
 	}
 	function init()
 	{		
-		$availableAdapters = Piwik_Db::getAdapters();
+		$availableAdapters = Piwik_Db_Adapter::getAdapters();
 		$adapters = array();
 		foreach($availableAdapters as $adapter => $port)
 		{

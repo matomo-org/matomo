@@ -13,7 +13,7 @@
 /**
  * @package Piwik
  */
-class Piwik_Db
+class Piwik_Db_Adapter
 {
 	/**
 	 * Get adapter class name
@@ -23,7 +23,7 @@ class Piwik_Db
 	 */
 	private static function getAdapterClassName($adapterName)
 	{
-		return 'Piwik_Db_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($adapterName))));
+		return 'Piwik_Db_Adapter_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($adapterName))));
 	}
 
 	/**
@@ -31,7 +31,7 @@ class Piwik_Db
 	 *
 	 * @param string $adapterName
 	 * @oaran array $config
-	 * @return mixed (Piwik_Db_Mysqli, Piwik_Db_Pdo_Mysql, etc)
+	 * @return mixed (Piwik_Db_Adapter_Mysqli, Piwik_Db_Adapter_Pdo_Mysql, etc)
 	 */
 	public static function factory($adapterName, $config)
 	{
@@ -59,14 +59,14 @@ class Piwik_Db
 	 */
 	public static function getAdapters()
 	{
-		$path = PIWIK_INCLUDE_PATH . '/core/Db';
+		$path = PIWIK_INCLUDE_PATH . '/core/Db/Adapter';
 		$pathLength = strlen($path) + 1;
 		$adapters = Piwik::globr($path, '*.php');
 		$adapterNames = array();
 		foreach($adapters as $adapter)
 		{
 			$adapterName = str_replace('/', '_', substr($adapter, $pathLength, -strlen('.php')));
-			$className = 'Piwik_Db_'.$adapterName;
+			$className = 'Piwik_Db_Adapter_'.$adapterName;
 			if(call_user_func(array($className, 'isEnabled')))
 			{
 				$adapterNames[strtoupper($adapterName)] = call_user_func(array($className, 'getDefaultPort'));
