@@ -428,6 +428,14 @@ class Piwik_Actions extends Piwik_Plugin
 				}
 			}
 			
+			// For pages that bounce, we don't know the time on page.
+			if($row['type'] == Piwik_Tracker_Action::TYPE_ACTION_URL
+				&& isset($row['nb_visits'])
+				&& !isset($row['sum_time_spent']))
+			{
+				$row['sum_time_spent'] = Zend_Registry::get('config')->Tracker->default_time_one_page_visit * $row['nb_visits'];
+			}
+			
 			foreach($row as $name => $value)
 			{
 				// we don't add this information as itnot pertinent
