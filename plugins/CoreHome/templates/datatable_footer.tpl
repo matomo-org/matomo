@@ -58,7 +58,7 @@
 			{if $properties.show_goals}
 			<span class="tableGoals" style="display:none;float:right;padding-right:4px;">
 				{if $javascriptVariablesToSet.viewDataTable != 'tableGoals'}
-					<img title="View Goals" src="themes/default/images/goal.png" />
+					<img title="{'General_DisplayGoals'|translate}" src="themes/default/images/goal.png" />
 				{/if}
 			</span>
 			{/if}
