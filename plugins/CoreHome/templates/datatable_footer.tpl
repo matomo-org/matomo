@@ -30,6 +30,7 @@
 				<img width="16" height="16" src="themes/default/images/export.png" title="{'General_Export'|translate}" />
 				<span class="linksExportToFormat" style="display:none"> 
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="CSV" filter_limit="100">CSV</a> | 
+					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="TSV" filter_limit="100">TSV (Excel)</a> | 
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="XML" filter_limit="100">XML</a> |
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="JSON" filter_limit="100">Json</a> |
 					<a target="_blank" class="exportToFormat" methodToCall="{$properties.apiMethodToRequestDataTable}" format="PHP" filter_limit="100">Php</a> | 

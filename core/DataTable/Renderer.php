@@ -26,6 +26,10 @@ abstract class Piwik_DataTable_Renderer
 	protected $table;
 	protected $renderSubTables = false;
 	
+	public function __construct()
+	{
+	}
+	
 	public function setRenderSubTables($enableRenderSubTable)
 	{
 		$this->renderSubTables = (bool)$enableRenderSubTable;
