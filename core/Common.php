@@ -943,10 +943,12 @@ class Piwik_Common
 		}
 		$query = $refererParsed['query'];
 
-		if($searchEngineName == 'Google Images')
+		if($searchEngineName == 'Google Images'
+			|| ($searchEngineName == 'Google' && strpos($refererUrl, '/imgres') !== false) )
 		{
 			$query = urldecode(trim(strtolower(self::getParameterFromQueryString($query, 'prev'))));
 			$query = str_replace('&', '&amp;', strstr($query, '?'));
+			$searchEngineName = 'Google Images';
 		}
 
 		foreach($variableNames as $variableName)
