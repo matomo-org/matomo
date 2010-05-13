@@ -37,7 +37,7 @@
 	</tbody>
 	<tbody id="match_attribute_section">
 		<tr>
-			<td>where the <span id="match_attribute_name"></span></td>
+			<td>{'Goals_WhereThe'|translate} <span id="match_attribute_name"></span></td>
 			<td>
 				<select name="pattern_type">
                     <option value="contains">{'Goals_Contains'|translate:""}</option>
