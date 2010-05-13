@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Piwik &rsaquo; Administration</title>
+<title>Piwik &rsaquo; {'CoreAdminHome_Administration'|translate}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Piwik {$piwik_version}" />
 <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
