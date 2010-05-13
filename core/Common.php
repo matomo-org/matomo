@@ -916,13 +916,26 @@ class Piwik_Common
 		{
 			return false;
 		}
+		// some search engines (eg. Bing Images) use the same domain 
+		// as an existing search engine (eg. Bing), we must also use the url path 
+		$refererPath = '';
+		if(isset($refererParsed['path']))
+		{
+			$refererPath = $refererParsed['path'];
+		}
+		// no search query
 		if(!isset($refererParsed['query']))
 		{
 			return false;
 		}
 		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 
-		if(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
+		$refererHostPath = $refererHost . $refererPath;
+		if(array_key_exists($refererHostPath, $GLOBALS['Piwik_SearchEngines']))
+		{
+			$refererHost = $refererHostPath;
+		}
+		elseif(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
 			return false;
 		}
