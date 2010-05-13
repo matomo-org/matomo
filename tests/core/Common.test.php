@@ -601,10 +601,6 @@ class Test_Piwik_Common extends UnitTestCase
 	public function test_extractSearchEngineInformationFromUrl()
 	{
 		$urls = array(
-			// bing image search has a special URL
-			'http://www.bing.com/images/search?q=piwik&go=&form=QBIL'
-				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),
-				
 			// normal case
 			'http://uk.search.yahoo.com/search?p=piwik&ei=UTF-8&fr=moz2'
 				=> array('name' => 'Yahoo!', 'keywords' => 'piwik'),
@@ -665,6 +661,15 @@ class Test_Piwik_Common extends UnitTestCase
 			// new google image format
 			'http://www.google.com/imgres?imgurl=http://www.imagedomain.com/zoom/34782_ZOOM.jpg&imgrefurl=http://www.mydomain.com/product/Omala-Govindra-Tank-XS-Brown-and-Chile.html&usg=__BD6z_JrJRAFjScDRhj4Tp8Vm_Zo=&h=610&w=465&sz=248&hl=en&start=3&itbs=1&tbnid=aiNVNce9-ZYAPM:&tbnh=136&tbnw=104&prev=/images%3Fq%3DFull%2BSupport%2BTummy%26hl%3Den%26safe%3Doff%26sa%3DG%26gbv%3D2%26tbs%3Disch:1'
 				=> array('name' => 'Google Images', 'keywords' => 'full support tummy'),
+
+			// Google CSE is not standard google
+			'http://www.google.com/cse?cx=006944612449134755049%3Ahq5up-97k4u&cof=FORID%3A10&q=piwik&ad=w9&num=10&rurl=http%3A%2F%2Fwww.homepagle.com%2Fsearch.php%3Fcx%3D006944612449134755049%253Ahq5up-97k4u%26cof%3DFORID%253A10%26q%3D89'
+				=> array('name' => 'Google Custom Search', 'keywords' => 'piwik'),
+				
+			// bing image search has a special URL
+			'http://www.bing.com/images/search?q=piwik&go=&form=QBIL'
+				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),
+				
 		);
 		
 		foreach($urls as $refererUrl => $expectedReturnedValue) {
