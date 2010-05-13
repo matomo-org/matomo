@@ -2,7 +2,7 @@
     <a title="View reports" href="index.php?module=CoreHome&action=index&date=%date%&period=%period%&idSite=%idsite%">%name%</a>
     
     <span style="width: 10px; margin-left:3px"> 
-	<a target="_blank" title="Go to %main_url%" href="%main_url%"><img src="plugins/MultiSites/images/link.gif" /></a>
+	<a target="_blank" title="{'General_GoTo'|translate:"%main_url%"}" href="%main_url%"><img src="plugins/MultiSites/images/link.gif" /></a>
     </span>
 </td>
 <td class="multisites-column">
