@@ -74,7 +74,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	function addMenu()
 	{
 		Piwik_RenameMenuEntry('General_Visitors', 'VisitFrequency_SubmenuFrequency', 
-							  'General_Visitors', 'VisitorInterest_SubmenuFrequencyLoyalty' );
+							  'General_Visitors', 'VisitorInterest_Engagement' );
 	}
 
 	function postLoad()
