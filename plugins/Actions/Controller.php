@@ -72,7 +72,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'getDownloadsSubDataTable' );
 		
 		$this->configureViewDownloads($view);
-		$view->disableShowAllColumns();
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -84,7 +83,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getDownloads',
 						'getDownloadsSubDataTable');
 		$this->configureViewDownloads($view);
-		$view->disableSearchBox();
 		return $this->renderView($view, $fetch);
 	}
 
@@ -96,8 +94,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getOutlinks',
 						'getOutlinksSubDataTable' );
 		$this->configureViewOutlinks($view);
-		$view->disableExcludeLowPopulation();
-		$view->disableShowAllColumns();
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -109,33 +105,18 @@ class Piwik_Actions_Controller extends Piwik_Controller
 						'Actions.getOutlinks',
 						'getOutlinksSubDataTable');
 		$this->configureViewOutlinks($view);
-		$view->disableSearchBox();
 		return $this->renderView($view, $fetch);
 	}
 
+	/*
+	 * Page titles & Page URLs reports
+	 */
 	protected function configureViewActions($view)
 	{
-		$view->setTemplate('CoreHome/templates/datatable_actions.tpl');
-		
-		if(Piwik_Common::getRequestVar('idSubtable', -1) != -1)
-		{
-			$view->setTemplate('CoreHome/templates/datatable_actions_subdatable.tpl');
-		}
-		$currentlySearching = $view->setSearchRecursive();
-		
-		if($currentlySearching)
-		{
-			$view->setTemplate('CoreHome/templates/datatable_actions_recursive.tpl');
-		}
-		$view->disableOffsetInformation();
-		$view->disableShowAllViewsIcons();
-		$view->disableShowAllColumns();
-		
-		$view->setLimit( 100 );
 		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits') );
 		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
 		$view->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnUniquePageviews'));
-
+		
 		if(Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string' ) != '0')
 		{
 			// computing minimum value to exclude
@@ -149,18 +130,14 @@ class Piwik_Actions_Controller extends Piwik_Controller
 			
 			$view->setExcludeLowPopulation( 'nb_hits', $nbActionsLowPopulationThreshold );
 		}
-		
-		$view->main();
-		
-		// we need to rewrite the phpArray so it contains all the recursive arrays
-		if($currentlySearching)
-		{
-			$phpArrayRecursive = $this->getArrayFromRecursiveDataTable($view->getDataTable());
-			$view->getView()->arrayDataTable = $phpArrayRecursive;
-		}
+
+		$this->configureGenericViewActions($view);
 		return $view;
 	}
 	
+	/*
+	 * Downloads report
+	 */
 	protected function configureViewDownloads($view)
 	{
 		$view->setColumnsToDisplay( array('label','nb_visits','nb_hits') );
@@ -168,9 +145,12 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnTranslation('nb_hits', Piwik_Translate('Actions_ColumnDownloads'));
 		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnUniqueDownloads'));
 		$view->disableExcludeLowPopulation();
-		$view->setLimit( 15 );
+		$this->configureGenericViewActions($view);
 	}
 	
+	/*
+	 * Outlinks report
+	 */
 	protected function configureViewOutlinks($view)
 	{
 		$view->setColumnsToDisplay( array('label','nb_visits','nb_hits') );
@@ -178,9 +158,39 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnTranslation('nb_hits', Piwik_Translate('Actions_ColumnClicks'));
 		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnUniqueClicks'));
 		$view->disableExcludeLowPopulation();
-		$view->setLimit( 15 );
+		$this->configureGenericViewActions($view);
 	}
 
+	/*
+	 * Common to all Actions reports, how to use the custom Actions Datatable html  
+	 */
+	protected function configureGenericViewActions($view)
+	{
+		$view->setTemplate('CoreHome/templates/datatable_actions.tpl');
+		if(Piwik_Common::getRequestVar('idSubtable', -1) != -1)
+		{
+			$view->setTemplate('CoreHome/templates/datatable_actions_subdatable.tpl');
+		}
+		$currentlySearching = $view->setSearchRecursive();
+		if($currentlySearching)
+		{
+			$view->setTemplate('CoreHome/templates/datatable_actions_recursive.tpl');
+		}
+		// disable Footer icons
+		$view->disableOffsetInformation();
+		$view->disableShowAllViewsIcons();
+		$view->disableShowAllColumns();
+		
+		$view->setLimit( 100 );
+		$view->main();
+		// we need to rewrite the phpArray so it contains all the recursive arrays
+		if($currentlySearching)
+		{
+			$phpArrayRecursive = $this->getArrayFromRecursiveDataTable($view->getDataTable());
+			$view->getView()->arrayDataTable = $phpArrayRecursive;
+		}
+	}
+	
 	protected function getArrayFromRecursiveDataTable( $dataTable, $depth = 0 )
 	{
 		$table = array();
