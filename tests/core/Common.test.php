@@ -601,6 +601,10 @@ class Test_Piwik_Common extends UnitTestCase
 	public function test_extractSearchEngineInformationFromUrl()
 	{
 		$urls = array(
+			// bing image search has a special URL
+			'http://www.bing.com/images/search?q=piwik&go=&form=QBIL'
+				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),
+				
 			// normal case
 			'http://uk.search.yahoo.com/search?p=piwik&ei=UTF-8&fr=moz2'
 				=> array('name' => 'Yahoo!', 'keywords' => 'piwik'),
