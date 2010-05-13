@@ -61,14 +61,19 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	 */
 	public $exportIdSubtable = true;
 	
-	function setConvertToUnicode($bool)
+	public function render()
+	{
+		return $this->output($this->renderTable($this->table));
+	}
+	
+	public function setConvertToUnicode($bool)
 	{
 		$this->convertToUnicode = $bool;
 	}
 	
-	function render()
+	public function setSeparator($separator)
 	{
-		return $this->output($this->renderTable($this->table));
+		$this->separator = $separator;
 	}
 	
 	protected function renderTable($table)
