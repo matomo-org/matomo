@@ -617,6 +617,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'blogsearch.google.co.in'	=> array('Google Blogsearch', 'q'),
 		'blogsearch.google.co.uk'	=> array('Google Blogsearch', 'q'),
 
+		// Google Custom Search
+		'www.google.com/cse'		=> array('Google Custom Search', 'q'),
+	
 		// Google translation
 		'translate.google.com'		=> array('Google Translations', 'q'),
 
