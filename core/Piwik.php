@@ -249,6 +249,9 @@ class Piwik
 	/**
 	 * Get php memory_limit
 	 * 
+	 * Prior to PHP 5.2.1, or on Windows, --enable-memory-limit is not a
+	 * compile-time default, so ini_get('memory_limit') may return false.
+	 *
 	 * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
 	 * @return int memory limit in megabytes
 	 */

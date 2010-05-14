@@ -772,8 +772,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['memoryMinimum'] = $minimumMemoryLimit;
 
 		$infos['memory_ok'] = true;
-		// on windows the ini_get is not working?
-		$infos['memoryCurrent'] = '?M';
+		$infos['memoryCurrent'] = '-1';
 
 		$raised = Piwik::raiseMemoryLimitIfNecessary();
 		if(	$memoryValue = Piwik::getMemoryLimitValue() )
