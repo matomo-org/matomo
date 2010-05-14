@@ -197,7 +197,6 @@ input.submit {
 	-webkit-border-radius:9px;
 }
 .ajaxSuccess {
-	width: 350px;
 	padding: 20px;
 	margin:10px;
 	display: block;
@@ -207,6 +206,7 @@ input.submit {
 	-webkit-border-radius:3px;
 	background-color: #ffffe0;
 	padding:0 0.6em;
+	display:inline-block;
 }
 /* extending the jquery UI css for inline help */
 .ui-widget { 

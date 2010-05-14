@@ -46,8 +46,13 @@
 	{include file="CoreAdminHome/templates/menu.tpl"}
 {/if}
 
-{if strpos($url, 'updated=1')}	
+{if !empty($configFileNotWritable)}
+<div class="ajaxSuccess" style="display:normal">
+	<p>{'General_ConfigFileIsNotWritable'|translate:"(config/config.ini.php)":"<br/>"}</p>
+</div>
+{elseif strpos($url, 'updated=1')}	
 <div class="ajaxSuccess" style="display:normal">
 	<p>{'General_YourChangesHaveBeenSaved'|translate}</p>
 </div>
 {/if}
+
