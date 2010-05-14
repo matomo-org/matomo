@@ -130,6 +130,7 @@ $translations = array(
 	'General_LongDay_5' => 'Friday',
 	'General_LongDay_6' => 'Saturday',
 	'General_LongDay_7' => 'Sunday',
+	'General_ConfigFileIsNotWritable' => 'The Piwik configuration file %s is not writable, your changes will not be saved. %s Please change permissions of the config file to make it writable.',
 	'General_ExceptionDatabaseVersion' => 'Your %1$s version is %2$s but Piwik requires at least %3$s.',
 	'General_ExceptionIncompatibleClientServerVersions' => 'Your %1$s client version is %2$s which is incompatible with server version %3$s.',
 	'General_ExceptionMissingFile' => 'Missing file: %s',

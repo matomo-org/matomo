@@ -163,6 +163,11 @@ class Piwik_Config
 		}
 	}
 	
+	public function isFileWritable()
+	{
+		return is_writable($this->pathIniFileUserConfig);
+	}
+	
 	/**
 	 * If called, we use the database_tests credentials
 	 */

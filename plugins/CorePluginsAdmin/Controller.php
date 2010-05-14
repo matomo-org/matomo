@@ -21,7 +21,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		Piwik::checkUserIsSuperUser();
 		
 		$plugins = array();
-
+	
 		$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
 		foreach($listPlugins as $pluginName)
 		{
@@ -45,6 +45,11 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		$view->pluginsName = $plugins;
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
+		if(!Zend_Registry::get('config')->isFileWritable())
+		{
+			$view->configFileNotWritable = true;
+		}
+		
 		echo $view->render();
 	}
 
