@@ -285,7 +285,6 @@ class Piwik_Http
 			$curl_options = array(
 				CURLOPT_URL => $aUrl,
 				CURLOPT_HEADER => false,
-				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_CONNECTTIMEOUT => $timeout,
 				CURLOPT_BINARYTRANSFER => is_resource($file),
 				CURLOPT_FOLLOWLOCATION => true,
@@ -293,6 +292,15 @@ class Piwik_Http
 				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
 				CURLOPT_REFERER => 'http://'.Piwik_Common::getIpString(),
 			);
+			if(is_resource($file))
+			{
+				// write directly to file
+				$curl_options[CURLOPT_FILE] = $file;
+			}
+			else
+			{
+				$curl_options[CURLOPT_RETURNTRANSFER] = true;
+			}
 			@curl_setopt_array($ch, $curl_options);
 
 			$response = @curl_exec($ch);
@@ -306,13 +314,7 @@ class Piwik_Http
 			}
 
 			$contentLength = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-			$fileLength = strlen($response);
-
-			if(is_resource($file))
-			{
-				// save to file
-				fwrite($file, $response);
-			}
+			$fileLength = is_resource($file) ? curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : strlen($response);
 
 			@curl_close($ch);
 			unset($ch);
@@ -351,6 +353,8 @@ class Piwik_Http
 	 */
 	static public function fetchRemoteFile($url, $pathDestination, $tries = 0)
 	{
+		@ignore_user_abort(true);
+		Piwik::setMaxExecutionTime(0);
 		return self::sendHttpRequest($url, 10, 'Update', $pathDestination, $tries);
 	}
 }
