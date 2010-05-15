@@ -38,5 +38,15 @@ class Test_Piwik_Http extends UnitTestCase
 		}
 
 		$this->assertTrue( filesize($destinationPath) > 0 );
+
+		$destinationPath = PIWIK_USER_PATH . '/tmp/latest/latest.zip';
+		try {
+			Piwik_Http::fetchRemoteFile('http://piwik.org/latest.zip', $destinationPath, 3);
+		}
+		catch(Exception $e) {
+			var_dump($e->getMessage());
+		}
+
+		$this->assertTrue( filesize($destinationPath) > 0 );
 	}
 }
