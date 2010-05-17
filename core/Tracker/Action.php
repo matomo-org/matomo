@@ -144,7 +144,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		{
 			return $originalUrl;
 		}
-		$parametersToExclude = array_merge($website['excluded_parameters'], self::$queryParametersToExclude);
+		$excludedParameters = isset($website['excluded_parameters']) ? $website['excluded_parameters'] : array();
+		$parametersToExclude = array_merge($excludedParameters, self::$queryParametersToExclude);
 		
 		$parametersToExclude = array_map('strtolower', $parametersToExclude);
 		$queryParameters = Piwik_Common::getArrayFromQueryString($parsedUrl['query']);
@@ -160,7 +161,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 		$parsedUrl['query'] = substr($validQuery,0,-strlen($separator));
 		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
-		printDebug('Excluded parameters "'.implode(',',$website['excluded_parameters']).'" from URL.
+		printDebug('Excluded parameters "'.implode(',',$excludedParameters).'" from URL.
 					 Before was <br/><code>"'.$originalUrl.'"</code>, <br/>
 					 After is <br/><code>"'.$url.'"</code>');
 		return $url;
