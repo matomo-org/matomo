@@ -184,7 +184,7 @@
 	            	
 	            	<!-- logging in -->
 	            	
-	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Login" />
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Sign in" />
 					<verifyText description="check page text" text="Piwik" />
 					<verifyText description="check page text" text="Lost your password?" />
 					
