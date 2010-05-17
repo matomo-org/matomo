@@ -50,7 +50,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// 1und1
 		'portal.1und1.de'			=> array('1und1', 'search'),
-		'search.1und1.de'                       => array('1und1', 'su', 'search/web/?mc=suche%40web%40home.suche%40web&allparams=&smode=&su={k}&search=Suche&webRb='),
+		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?mc=suche%40web%40home.suche%40web&allparams=&smode=&su={k}&search=Suche&webRb='),
 
 		// 3271
 		'nmsearch.3721.com'			=> array('3271', 'p'),
@@ -198,7 +198,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.bing.com'				=> array('Bing', 'q', 'search?q={k}'),
 
 		// Bing Images
-		'www.bing.com/images/search' => array('Bing Images', 'q', 'search?q={k}'),
+		'www.bing.com/images/search'=> array('Bing Images', 'q', 'search?q={k}'),
 	
 		// Blogdigger
 		'www.blogdigger.com'		=> array('Blogdigger', 'q'),
@@ -348,7 +348,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Fireball
 		'suche.fireball.de'			=> array('Fireball', 'query'),
-		'www.fireball.de'                       => array('Fireball', 'q'),
+		'www.fireball.de'			=> array('Fireball', 'q'),
 
 		// Firstfind
 		'www.firstsfind.com'		=> array('Firstsfind', 'qry'),
@@ -386,7 +386,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'froogle.google.co.uk'		=> array('Google (Froogle)', 'q'),
 
 		// GAIS
-		'gais.cs.ccu.edu.tw'		=> array('GAIS)', 'query'),
+		'gais.cs.ccu.edu.tw'		=> array('GAIS', 'query'),
 
 		// Gigablast
 		'www.gigablast.com'			=> array('Gigablast', 'q'),
@@ -1144,7 +1144,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'hledani.tiscali.cz'		=> array('Tiscali', 'query', false, 'windows-1250'),
 
 		// Tixuma
-		'www.tixuma.de'                         => array('Tixuma', 'sc', 'index.php?mp=search&stp=&sc={k}&tg=0'),
+		'www.tixuma.de'				=> array('Tixuma', 'sc', 'index.php?mp=search&stp=&sc={k}&tg=0'),
 
 		// T-Online
 		'suche.t-online.de'			=> array('T-Online', 'q'),
