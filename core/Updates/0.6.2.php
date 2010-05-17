@@ -38,5 +38,10 @@ class Piwik_Updates_0_6_2 extends Piwik_Updates
 				Piwik::unlinkRecursive($dir, true);
 			}
 		}
+
+                // force regeneration of cache files
+                Piwik::setUserIsSuperUser();
+                $allSiteIds = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+                Piwik_Common::regenerateCacheWebsiteAttributes($allSiteIds);
 	}
 }
