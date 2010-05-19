@@ -85,7 +85,7 @@ class Piwik_Http
 	 */
 	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0)
 	{
-		if ($followDepth > 3)
+		if ($followDepth > 5)
 		{
 			throw new Exception('Too many redirects ('.$followDepth.')');
 		}
@@ -256,7 +256,7 @@ class Piwik_Http
 					'http' => array(
 						'header' => 'User-Agent: Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : '')."\r\n"
 						           .'Referer: http://'.Piwik_Common::getIpString()."/\r\n",
-						'max_redirects' => 3, // PHP 5.1.0
+						'max_redirects' => 5, // PHP 5.1.0
 						'timeout' => $timeout, // PHP 5.2.1
 					)
 				);
@@ -288,7 +288,7 @@ class Piwik_Http
 				CURLOPT_CONNECTTIMEOUT => $timeout,
 				CURLOPT_BINARYTRANSFER => is_resource($file),
 				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_MAXREDIRS => 3,
+				CURLOPT_MAXREDIRS => 5,
 				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
 				CURLOPT_REFERER => 'http://'.Piwik_Common::getIpString(),
 			);
