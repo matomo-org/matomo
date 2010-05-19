@@ -165,49 +165,48 @@ class Piwik
 		}
 
 		$manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
-		if(file_exists($manifest))
-		{
-			require_once $manifest;
-
-			$files = Manifest::$files;
-
-			$hasMd5file = function_exists('md5_file');
-			foreach($files as $path => $props)
-			{
-				if(in_array($path, $exclude))
-				{
-					continue;
-				}
-
-				$file = PIWIK_INCLUDE_PATH . '/' . $path;
-				
-				if(!file_exists($file))
-				{
-					$messages[] = Piwik_Translate('General_ExceptionMissingFile', $file);
-				}
-				else if(filesize($file) != $props[0])
-				{
-					$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
-				}
-				else if($hasMd5file && (@md5_file($file) !== $props[1]))
-				{
-					$messages[] = Piwik_Translate('General_ExceptionFileIntegrity', $file);
-				}
-			}
-
-			if(count($messages) > 1)
-			{
-				$messages[0] = false;
-			}
-
-			if(!$hasMd5file)
-			{
-				$messages[] = Piwik_Translate('General_WarningFileIntegrityNoMd5file');
-			}
-		}
-		else
+		if(!file_exists($manifest))
 		{
 			$messages[] = Piwik_Translate('General_WarningFileIntegrityNoManifest');
+			return $messages;
+		}
+
+		require_once $manifest;
+
+		$files = Manifest::$files;
+
+		$hasMd5file = function_exists('md5_file');
+		foreach($files as $path => $props)
+		{
+			if(in_array($path, $exclude))
+			{
+				continue;
+			}
+
+			$file = PIWIK_INCLUDE_PATH . '/' . $path;
+				
+			if(!file_exists($file))
+			{
+				$messages[] = Piwik_Translate('General_ExceptionMissingFile', $file);
+			}
+			else if(filesize($file) != $props[0])
+			{
+				$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+			}
+			else if($hasMd5file && (@md5_file($file) !== $props[1]))
+			{
+				$messages[] = Piwik_Translate('General_ExceptionFileIntegrity', $file);
+			}
+		}
+
+		if(count($messages) > 1)
+		{
+			$messages[0] = false;
+		}
+
+		if(!$hasMd5file)
+		{
+			$messages[] = Piwik_Translate('General_WarningFileIntegrityNoMd5file');
 		}
 
 		return $messages;

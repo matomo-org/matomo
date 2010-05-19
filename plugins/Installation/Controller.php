@@ -801,7 +801,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			{
 				$infos['integrityErrorMessages'][] = '<b>'.Piwik_Translate('General_FileIntegrityWarningExplanation').'</b>';
 			}
-			$infos['integrityErrorMessages'] += array_slice($integrityInfo, 1);
+			$infos['integrityErrorMessages'] = array_merge($infos['integrityErrorMessages'], array_slice($integrityInfo, 1));
 		}
 
 		$infos['timezone'] = Piwik::isTimezoneSupportEnabled();

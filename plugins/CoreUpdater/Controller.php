@@ -282,8 +282,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			{
 				$this->warningMessages[] = '<b>'.Piwik_Translate('General_FileIntegrityWarningExplanation').'</b>';
 			}
-			$this->warningMessages += array_slice($integrityInfo, 1);
-
+			$this->warningMessages = array_merge($this->warningMessages, array_slice($integrityInfo, 1));
 		}
 
 		$view->coreError = $this->coreError;
