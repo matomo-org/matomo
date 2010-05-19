@@ -143,8 +143,7 @@ class Piwik_Url
 
 		if (!empty($_SERVER['HTTP_X_FORWARDED_HOST']))
 		{
-			$proxies = Piwik_Common::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_HOST']);
-			$url .=  $proxies[0];
+			$url .= Piwik_Common::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_HOST']);
 		}
 		else if(isset($_SERVER['HTTP_HOST']))
 		{
