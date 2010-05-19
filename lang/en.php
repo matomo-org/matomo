@@ -490,6 +490,7 @@ $translations = array(
 	'Live_Date' => 'Date',
 	'Live_Time' => 'Time',
 	'Live_Referrer_URL' => 'Referrer URL',
+	'Live_Last30Minutes' => 'Last 30 minutes',
 	'Login_PluginDescription' => 'Login Authentication plugin, reading the credentials from the config/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).',
 	'Login_LoginPasswordNotCorrect' => 'Username &amp; Password not correct',
 	'Login_Password' => 'Password',
