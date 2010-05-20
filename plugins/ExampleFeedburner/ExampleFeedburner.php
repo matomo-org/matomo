@@ -94,12 +94,12 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 	{
 		// Awareness API only supports yesterday and back   
 		// we get stats for previous two days
-		// http://code.google.com/apis/feedburner/awareness_api.html#dates
+		// https://code.google.com/apis/feedburner/awareness_api.html#dates
 		$yesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-1,   date("Y")));
 		$beforeYesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-2,   date("Y")));
 		
 		//create url to gather XML feed from
-		$url = 'http://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.$uri.'&dates='.$beforeYesterday.','.$yesterday.'';
+		$url = 'https://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.$uri.'&dates='.$beforeYesterday.','.$yesterday.'';
 		$data = '';
 		try {
 			$data = Piwik_Http::sendHttpRequest($url, 5);
