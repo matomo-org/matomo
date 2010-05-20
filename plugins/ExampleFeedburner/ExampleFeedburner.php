@@ -92,14 +92,16 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 	 */
 	protected function getFeedData($uri)
 	{
-		// Awareness API only supports yesterday and back   
-		// we get stats for previous two days
-		// https://code.google.com/apis/feedburner/awareness_api.html#dates
-		$yesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-1,   date("Y")));
-		$beforeYesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-2,   date("Y")));
+		// Awareness API only supports yesterday and back;
+		// we get stats for previous two days;
+		// note: "An individual date starts at 12am CDT (GMT -5) and ends 12am CDT the next day. Custom timezone support is not yet available."
+		// @see http://code.google.com/apis/feedburner/awareness_api.html#dates
+
+		$yesterday = Piwik_Date::factory('-1 day', 'UTC-5');
+		$beforeYesterday = Piwik_Date::factory('-2 day', 'UTC-5');
 		
 		//create url to gather XML feed from
-		$url = 'https://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.$uri.'&dates='.$beforeYesterday.','.$yesterday.'';
+		$url = 'https://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.$uri.'&dates='.$beforeYesterday->toString().','.$yesterday->toString();
 		$data = '';
 		try {
 			$data = Piwik_Http::sendHttpRequest($url, 5);
