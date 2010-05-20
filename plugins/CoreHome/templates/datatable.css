@@ -52,6 +52,7 @@ table.dataTable td.label,
 table.subDataTable td.label,
 table.dataTableActions td.label {
 	width: 100%;
+	white-space:nowrap;
 }
 
 table.dataTable img,

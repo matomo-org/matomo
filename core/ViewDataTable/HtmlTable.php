@@ -82,14 +82,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	}
 
 	/**
-	 * Hook called after the dataTable has been loaded from the API
-	 * Can be used to add, delete or modify the data freshly loaded
-	 */
-	protected function postDataTableLoadedFromAPI()
-	{
-	}
-
-	/**
 	 * @return Piwik_View with all data set
 	 */
 	protected function buildView()
@@ -103,10 +95,11 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		else
 		{
 			$columns = $this->getColumnsToDisplay();
-			$columnTranslations = array();
+			$columnTranslations = $columnDescriptions = array();
 			foreach($columns as $columnName)
 			{
 				$columnTranslations[$columnName] = $this->getColumnTranslation($columnName);
+				$columnDescriptions[$columnName] = $this->getColumnDescription($columnName);
 			}
 			$nbColumns = count($columns);
 			// case no data in the array we use the number of columns set to be displayed 
@@ -118,6 +111,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 			$view->arrayDataTable 	= $this->getPHPArrayFromDataTable();
 			$view->dataTableColumns = $columns;
 			$view->columnTranslations = $columnTranslations;
+			$view->columnDescriptions = $columnDescriptions;
 			$view->nbColumns = $nbColumns;
 			$view->defaultWhenColumnValueNotDefined = '-';
 		}

@@ -82,6 +82,14 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected $dataTable = null; 
 		
+	
+	/**
+	 * List of filters to apply after the data has been loaded from the API
+	 * 
+	 * @var array
+	 */
+	protected $queuedFilters = array();
+	
 	/**
 	 * @see init()
 	 * @var string
@@ -121,7 +129,11 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected $columnsTranslations = array();
 	
-	
+	/**
+	 * Array of columns set to display
+	 * 
+	 * @var array
+	 */
 	protected $columnsToDisplay = array();
 	
 	/**
@@ -341,6 +353,21 @@ abstract class Piwik_ViewDataTable
 		$dataTable = $request->process();
 
 		$this->dataTable = $dataTable;
+	}
+	
+	/**
+	 * Hook called after the dataTable has been loaded from the API
+	 * Can be used to add, delete or modify the data freshly loaded
+	 */
+	protected function postDataTableLoadedFromAPI()
+	{
+		// Apply datatable filters that were queued by the controllers
+		foreach($this->queuedFilters as $filter)
+		{
+			$filterName = $filter[0];
+			$filterParameters = $filter[1];
+			$this->dataTable->filter($filterName, $filterParameters);
+		}
 	}
 	
 	/**
@@ -746,9 +773,10 @@ abstract class Piwik_ViewDataTable
 	 * @param string $columnName column name
 	 * @param string $columnTranslation column name translation
 	 */
-	public function setColumnTranslation( $columnName, $columnTranslation )
+	public function setColumnTranslation( $columnName, $columnTranslation, $columnDescription = false )
 	{
 		$this->columnsTranslations[$columnName] = $columnTranslation;
+		$this->columnsDescriptions[$columnName] = $columnDescription;
 	}
 	
 	/**
@@ -762,10 +790,20 @@ abstract class Piwik_ViewDataTable
 		{
 			return html_entity_decode($this->columnsTranslations[$columnName], ENT_COMPAT, 'UTF-8');
 		}
-		else
+		return $columnName;
+	}
+	
+	/**
+	 * Returns column description, or false
+	 * @param string $columnName column name
+	 */
+	public function getColumnDescription( $columnName )
+	{
+		if( !empty($this->columnsDescriptions[$columnName]) )
 		{
-			return $columnName;
+			return html_entity_decode($this->columnsDescriptions[$columnName], ENT_COMPAT, 'UTF-8');
 		}
+		return false;
 	}
 
 	/**
@@ -829,5 +867,19 @@ abstract class Piwik_ViewDataTable
 			throw new Exception("$parameter is already defined for this DataTable.");
 		}
 		$this->variablesDefault[$parameter] = $value;
+	}
+	
+	/**
+	 * Queues a Datatable filter, that will be applied once the datatable is loaded from the API.
+	 * Useful when the controller needs to add columns, or decorate existing columns, when these filters don't 
+	 * necessarily make sense directly in the API. 
+	 * 
+	 * @param $filterName
+	 * @param $parameters
+	 * @return void
+	 */
+	public function queueFilter($filterName, $parameters)
+	{
+		$this->queuedFilters[] = array($filterName, $parameters);
 	}
 }
