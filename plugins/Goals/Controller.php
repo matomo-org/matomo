@@ -129,7 +129,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->urlSparklineConversionRate 	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('conversion_rate'))));
 		$view->urlSparklineRevenue 			= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('revenue'))));
 
-		$request = new Piwik_API_Request("method=Goals.get&format=original");
+		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=0");
 		$datatable = $request->process();
 		$dataRow = $datatable->getFirstRow();
 		$view->nb_conversions = $dataRow->getColumn('Goal_nb_conversions');
