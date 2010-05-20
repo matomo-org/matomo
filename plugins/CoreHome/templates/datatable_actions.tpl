@@ -10,7 +10,7 @@
 			<thead>
 			<tr>
 			{foreach from=$dataTableColumns item=column name=head}
-				<th class="sortable {if $smarty.foreach.head.first}first{elseif $smarty.foreach.head.last}last{/if}" id="{$column}"><div id="thDIV">{$columnTranslations[$column]}</div></td>
+				<th class="sortable {if $smarty.foreach.head.first}first{elseif $smarty.foreach.head.last}last{/if}" id="{$column}"><div id="thDIV">{if !empty($columnDescriptions[$column])}<label title='{$columnDescriptions[$column]|escape:'html'}'>{/if}{$columnTranslations[$column]|escape:'html'}{if !empty($columnDescriptions[$column])}</label>{/if}</div></td>
 			{/foreach}
 			</tr>
 			</thead>

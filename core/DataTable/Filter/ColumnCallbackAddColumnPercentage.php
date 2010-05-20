@@ -25,55 +25,10 @@
  * @package Piwik
  * @subpackage Piwik_DataTable
  */
-class Piwik_DataTable_Filter_ColumnCallbackAddColumnPercentage extends Piwik_DataTable_Filter
+class Piwik_DataTable_Filter_ColumnCallbackAddColumnPercentage extends Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient
 {
-	private $columnValueToRead;
-	private $columnNamePercentageToAdd;
-	private $columnNameUsedAsDivisor;
-	private $totalValueUsedAsDivisor;
-	private $percentagePrecision;
-	
-	/**
-	 * @param Piwik_DataTable $table
-	 * @param string $columnValueToRead
-	 * @param string $columnNamePercentageToAdd
-	 * @param numeric|string $totalValueUsedToComputePercentageOrColumnName 
-	 * 						if a numeric value is given, we use this value as the divisor to process the percentage. 
-	 * 						if a string is given, this string is the column name's value used as the divisor.
-	 * @param int $percentagePrecision precision 0 means "11", 1 means "11.2"
-	 */
-	public function __construct( $table, $columnValueToRead, $columnNamePercentageToAdd, $totalValueUsedToComputePercentageOrColumnName, $percentagePrecision = 0 )
+	protected function formatValue($value, $divisor)
 	{
-		parent::__construct($table);
-		$this->columnValueToRead = $columnValueToRead;
-		$this->columnNamePercentageToAdd = $columnNamePercentageToAdd;
-		if(is_numeric($totalValueUsedToComputePercentageOrColumnName))
-		{
-			$this->totalValueUsedAsDivisor = $totalValueUsedToComputePercentageOrColumnName;
-		}
-		else
-		{
-			$this->columnNameUsedAsDivisor = $totalValueUsedToComputePercentageOrColumnName;
-		}
-		$this->percentagePrecision = $percentagePrecision;
-		$this->filter();
-	}
-	
-	protected function filter()
-	{
-		foreach($this->table->getRows() as $key => $row)
-		{
-			$value = $row->getColumn($this->columnValueToRead);
-			if(!is_null($this->totalValueUsedAsDivisor))
-			{
-				$divisor = $this->totalValueUsedAsDivisor;
-			}
-			else
-			{
-				$divisor = $row->getColumn($this->columnNameUsedAsDivisor);
-			}
-			$percentage = Piwik::getPercentageSafe($value, $divisor, $this->percentagePrecision);
-			$row->addColumn($this->columnNamePercentageToAdd, $percentage);
-		}
+		return Piwik::getPercentageSafe($value, $divisor, $this->quotientPrecision) . '%';
 	}
 }

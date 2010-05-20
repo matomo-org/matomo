@@ -62,7 +62,18 @@ class Piwik_Actions_API
 	
 	public function getPageUrls( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-		return $this->getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = $this->getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
+		
+		// Average time on page = total time on page / number visits on that page
+		$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_page', 'sum_time_spent', 'nb_visits', 0));
+		
+		// Bounce rate = single page visits on this page / visits started on this page
+		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'entry_bounce_count', 'entry_nb_visits', 0));
+		
+		// % Exit = Number of visits that finished on this page / visits on this page
+		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_visits', 0));
+		
+		return $dataTable;
 	}
 
 	public function getPageTitles( $idSite, $period, $date, $expanded = false, $idSubtable = false)

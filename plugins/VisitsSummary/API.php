@@ -55,7 +55,7 @@ class Piwik_VisitsSummary_API
 		$dataTable = $archive->getDataTableFromNumeric($toFetch);
 		if($bounceRateRequested !== false)
 		{
-			$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_count', 'bounce_rate', 'nb_visits', 0));
+			$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'bounce_count', 'nb_visits', 0));
 			$dataTable->deleteColumns($toFetch);
 		}
 		return $dataTable;

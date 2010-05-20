@@ -47,8 +47,12 @@ class Piwik_Translate
 		{
 			return;
 		}
-		
-		require PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
+		$path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
+		if(!is_readable($path))
+		{
+			throw new Exception('Language file '.$language.' not found.');
+		}
+		require $path;
 		$this->mergeTranslationArray($translations);
 		$this->setLocale();
 	}
