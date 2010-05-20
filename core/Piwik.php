@@ -593,20 +593,21 @@ class Piwik
 		
 		if($days > 0)
 		{
-			return sprintf("%d days %d hours", $days, $hours);
+			$return = sprintf(Piwik_Translate('General_DaysHours'), $days, $hours);
 		}
 		elseif($hours > 0)
 		{
-			return sprintf("%d hours %d min", $hours, $minutes);
+			$return = sprintf(Piwik_Translate('General_HoursMinutes'), $hours, $minutes);
 		}
 		elseif($minutes > 0)
 		{
-			return sprintf("%d&nbsp;min&nbsp;%ds", $minutes, $seconds);		
+			$return = sprintf(Piwik_Translate('General_MinutesSeconds'), $minutes, $seconds);		
 		}
 		else
 		{
-			return sprintf("%ds", $seconds);		
+			$return = sprintf(Piwik_Translate('General_Seconds'), $seconds);		
 		}
+		return str_replace(' ', '&nbsp;', $return);
 	}
 	
 	static public function getRandomTitle()
