@@ -88,7 +88,7 @@ class Piwik_Goals extends Piwik_Plugin
 	static public function getRecordName($recordName, $idGoal = false, $visitorReturning = false)
 	{
 		$idGoalStr = $returningStr = '';
-		if($idGoal !== false)
+		if(!empty($idGoal))
 		{
 			$idGoalStr = $idGoal . "_";
 		}

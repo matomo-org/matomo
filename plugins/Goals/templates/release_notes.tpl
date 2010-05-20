@@ -21,15 +21,15 @@ Work left to do on the Goal Tracking plugin:
 - Test summary row works ok with subtables campaigns
 - Numeric records by the goal plugin can contain a lot of value=0 rows. Instead, we should only record the numeric value if it is not zero, and assume zero when not found. 
 - The goal table, by segment, for example goal conversions by country, should really display number of conversions as well as the current "conversion rate" by goal. Having the absolute number for each country / search engine / etc. is critical.
+
 Known bugs
-- see bug described in http://forum.piwik.org/index.php?showtopic=150
-- clicking on a goal report, then clicking on Overview, the global conversion and conversion rate doesn't display as the idGoal is still in the hash parameters list
 - Your top converting keyword include keyword without conversions?
 - The Goal total nb conversions should be sum of all goal conversions (wrong number when deleting a Goal) 
 - After adding goal, the window should ideally refresh to the goal report page, and not to the dashboard
 - Outlink trailing slash is automatically deleted from the URL, there would be a problem when trying to exact match a URL with trailing slash
 - lines with 0 visits and no conversion should not appear
 - clicking on the graph for a given goal redirects to the dashboard instead of redirecting to the goal report for the clicked date
+- see bug described in http://forum.piwik.org/index.php?showtopic=150
 
 Feature requests
 - need to clarify that goals are triggered once per visit max, but can be triggered multiple times by one unique visitor > need option to force only once per uniq visitor? (ie. e-commerce transaction)
