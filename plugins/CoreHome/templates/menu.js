@@ -47,7 +47,7 @@ menu.prototype =
 			.superfish({
 				pathClass : 'current',
 				animation : {opacity:'show'},
-				delay : 1000
+				delay : 2000
 			});
 		this.param.superfish.find("li")
 			.click( self.onClickLI )
