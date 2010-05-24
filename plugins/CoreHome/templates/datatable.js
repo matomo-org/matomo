@@ -148,7 +148,7 @@ dataTable.prototype =
 		
 		if(displayLoading)
 		{
-			$('#'+self.workingDivId+' .pk-loadingDataTable').css('display','block');
+			$('#'+self.workingDivId+' .pk-loadingDataTable').last().css('display','block');
 		}
 		
 		$.ajax(self.buildAjaxRequest(callbackSuccess));
