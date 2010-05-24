@@ -153,10 +153,14 @@ dashboard.prototype =
 	{
 		var self = this;
 
-		function onStart() {
+		function onStart(event, ui) {
+			if(!jQuery.support.noCloneEvent) {
+				$('object', this).hide();
+			}
 		}
 
 		function onStop(event, ui) {
+			$('object', this).show();
 			$('.widgetHover', this).removeClass('widgetHover');
 			$('.widgetTopHover', this).removeClass('widgetTopHover');
 			$('.button#close', this).hide();
@@ -173,7 +177,7 @@ dashboard.prototype =
 						forcePlaceholderSize: true,
 						placeholder: 'hover',
 						handle: '.widgetTop',
-						helper: 'original',
+						helper: 'clone',
 						start: onStart,
 						stop: onStop
 					});
