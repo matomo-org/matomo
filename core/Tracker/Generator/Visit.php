@@ -32,10 +32,14 @@ class Piwik_Tracker_Generator_Visit extends Piwik_Tracker_Visit
 	
 	protected function getCurrentTimestamp()
 	{
-		self::$timestampToUse = max(@$this->visitorInfo['visit_last_action_time'],self::$timestampToUse);
-		self::$timestampToUse += mt_rand(4,1840);
 		return self::$timestampToUse;
 	}
+	
+	public function generateTimestamp()
+	{
+		self::$timestampToUse = max(@$this->visitorInfo['visit_last_action_time'],self::$timestampToUse);
+		self::$timestampToUse += mt_rand(4,1840);
+	}		
 	
 	protected function updateCookie()
 	{
