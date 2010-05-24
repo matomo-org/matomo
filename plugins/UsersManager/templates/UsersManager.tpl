@@ -60,6 +60,10 @@
 </form>
 </div>
 
+{ajaxErrorDiv}
+{ajaxLoadingDiv}
+<div id="accessUpdated" class="ajaxSuccess"><p>{'General_Done'|translate}!</p></div>
+
 <table class="admin" id="access">
 <thead>
 <tr>
@@ -84,20 +88,20 @@
 </tbody>
 </table>
 
-<div id="accessUpdated" class="ajaxSuccess"><p>{'General_Done'|translate}!</p></div>
-
 <div class="dialog" id="confirm"> 
 	<p>{'UsersManager_ChangeAllConfirm'|translate:"<span id='login'></span>"}</p>
 	<input id="yes" type="button" value="{'General_Yes'|translate}" />
 	<input id="no" type="button" value="{'General_No'|translate}" />
 </div> 
 
-{ajaxErrorDiv}
-{ajaxLoadingDiv}
 {if $userIsSuperUser}
 	<br />
 	<h2>{'UsersManager_UsersManagement'|translate}</h2>
 	<p>{'UsersManager_UsersManagementMainDescription'|translate}</p>
+
+	{ajaxErrorDiv id=ajaxErrorUsersManagement}
+	{ajaxLoadingDiv id=ajaxLoadingUsersManagement}
+
 	<table class="admin" id="users">
 		<thead>
 			<tr>

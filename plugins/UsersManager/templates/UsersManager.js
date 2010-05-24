@@ -11,7 +11,7 @@ function changeSite()
 
 function getUpdateUserAJAX( row )
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingUsersManagement', 'ajaxErrorUsersManagement');
 	
 	var parameters = {};
 	parameters.module = 'API';
@@ -31,7 +31,7 @@ function getUpdateUserAJAX( row )
 
 function getDeleteUserAJAX( login )
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingUsersManagement', 'ajaxErrorUsersManagement');
 		
 	var parameters = {};
 	parameters.module = 'API';
@@ -47,7 +47,7 @@ function getDeleteUserAJAX( login )
 
 function getAddUserAJAX( row )
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingUsersManagement', 'ajaxErrorUsersManagement');
 	
 	var parameters = {};
 	parameters.module = 'API';
