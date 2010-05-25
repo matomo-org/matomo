@@ -123,7 +123,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		
 		$view->ignoreCookieSet = $this->isIgnoreCookieFound();
 		$this->initViewAnonymousUserSettings($view);
-		
+		$view->piwikHost = Piwik_Url::getCurrentHost();
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
