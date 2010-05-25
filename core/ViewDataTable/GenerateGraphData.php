@@ -89,7 +89,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 
 		if (!Zend_Registry::get('config')->General->serve_widget_and_data)
 		{
-			@header( "Content-type: application/json" );
+			@header( "Content-Type: application/json" );
 		}
 
 		// Graphs require the full dataset, setting limit to null (same as 'no limit')

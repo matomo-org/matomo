@@ -119,7 +119,7 @@ class Piwik_API_ResponseBuilder
 					"</result>";
 			break;
 			case 'json':
-				@header( "Content-type: application/json" );
+				@header( "Content-Type: application/json" );
 				// we remove the \n from the resulting string as this is not allowed in json
 				$message = str_replace("\n","",$message);
 				$return = '{"result":"error", "message":"'.$message.'"}';
@@ -230,7 +230,7 @@ class Piwik_API_ResponseBuilder
 					"</result>";
 			break;
 			case 'json':
-				@header( "Content-type: application/json" );
+				@header( "Content-Type: application/json" );
 				$return = '{"result":"success", "message":"'.$message.'"}';
 			break;
 			case 'php':
@@ -242,7 +242,7 @@ class Piwik_API_ResponseBuilder
 			break;
 			
 			case 'csv':
-				header("Content-type: application/vnd.ms-excel");
+				header("Content-Type: application/vnd.ms-excel");
 				header("Content-Disposition: attachment; filename=piwik-report-export.csv");	
 				$return = "message\n".$message;
 			break;
