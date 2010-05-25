@@ -75,7 +75,7 @@
 {else}{'UsersManager_YourVisitsAreNotIgnored'|translate:"<strong>":"</strong>"}{/if}</p>
 <span style='margin-left:20px'>
 <a href='{url token_auth=$token_auth action=setIgnoreCookie}#excludeCookie'>&rsaquo; {if $ignoreCookieSet}{'UsersManager_ClickHereToDeleteTheCookie'|translate}
-{else}{'UsersManager_ClickHereToSetTheCookie'|translate}{/if} 
+{else}{'UsersManager_ClickHereToSetTheCookie'|translate:$piwikHost}{/if} 
 <br />
 </a></span>
 

@@ -625,7 +625,7 @@ class Piwik
 						'Free web analytics',
 						'Free web statistics',
 				);
-		$id = abs(intval(md5(substr(Piwik_Url::getCurrentHost(),7))));
+		$id = abs(intval(md5(Piwik_Url::getCurrentHost())));
 		$title = $titles[ $id % count($titles)];
 		return $title;
 	}
