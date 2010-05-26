@@ -34,7 +34,8 @@ class Piwik_View implements Piwik_iView
 	private $template = '';
 	private $smarty = false;
 	private $variables = array();
-	
+	private $contentType = 'text/html; charset=utf-8';
+
 	public function __construct( $templateFile, $smConf = array(), $filter = true )
 	{
 		$this->template = $templateFile;
@@ -139,13 +140,18 @@ class Piwik_View implements Piwik_iView
 			$this->totalNumberOfQueries = 0;
 		}
  
-		@header('Content-Type: text/html; charset=utf-8');
+		@header('Content-Type: '.$this->contentType);
 		@header("Pragma: ");
 		@header("Cache-Control: no-store, must-revalidate");
 		
 		return $this->smarty->fetch($this->template);
 	}
-	
+
+	public function setContentType( $contentType )
+	{
+		$this->contentType = $contentType;
+	}
+
 	public function addForm( $form )
 	{
 		// Create the renderer object	
