@@ -70,10 +70,10 @@ class Test_Piwik_DataTable extends UnitTestCase
 		$table = $this->getSimpleTestDataTable();
 		$rowsCount = $table->getRowsCount();
 
-		$this->assertTrue($table->getLastRow(), $table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW));
+		$this->assertEqual($table->getLastRow(), $table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW));
 		$table->deleteRow(Piwik_DataTable::ID_SUMMARY_ROW);
 		
-		$this->assertTrue($table->getLastRow(), $table->getRowFromId($rowsCount-2));
+		$this->assertEqual($table->getLastRow(), $table->getRowFromId($rowsCount-2));
 	}
 	
 	public function test_getRowFromIdSubDataTable()
