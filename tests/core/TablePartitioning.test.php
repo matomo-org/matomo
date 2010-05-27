@@ -48,7 +48,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	
     	$this->assertTrue( in_array($tablename, $allTablesInstalled), "$tablename !==".var_export($allTablesInstalled,true));
     	$this->assertTrue( $tablename, $p->getTableName());
-    	$this->assertEqual( $tablename, (string)$p);
+    	$this->assertEqual( $tablename, (string)$p->__toString());
     }
 	
 	// test monthly
@@ -68,7 +68,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$allTablesInstalled = Piwik::getTablesInstalled( $forceReload = true );
     	$this->assertTrue( in_array($tablename, $allTablesInstalled));
     	$this->assertTrue( $tablename, $p->getTableName());
-    	$this->assertEqual( $tablename, (string)$p);
+    	$this->assertEqual( $tablename, (string)$p->__toString());
     }
         
 	// test daily
@@ -88,7 +88,7 @@ class Test_Piwik_TablePartitioning extends Test_Database
     	$allTablesInstalled = Piwik::getTablesInstalled();
     	$this->assertTrue( in_array($tablename, $allTablesInstalled));
     	$this->assertTrue( $tablename, $p->getTableName());
-    	$this->assertEqual( $tablename, (string)$p);
+    	$this->assertEqual( $tablename, (string)$p->__toString());
     }
     
 }
