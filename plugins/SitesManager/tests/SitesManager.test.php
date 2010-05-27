@@ -780,7 +780,7 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', '', $newDefaultTimezone);
     	$site = new Piwik_Site($idsite);
     	$this->assertEqual($site->getTimezone(), $newDefaultTimezone);
-    	$this->assertEqual($site->getCreationDate(), date('Y-m-d'));
+    	$this->assertEqual($site->getCreationDate()->toString(), date('Y-m-d'));
     	$this->assertEqual($site->getCurrency(), $newDefaultCurrency);
     	$this->assertEqual($site->getExcludedIps(), '');
     	$this->assertEqual($site->getExcludedQueryParameters(), '');
