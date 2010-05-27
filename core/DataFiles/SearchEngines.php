@@ -52,10 +52,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'portal.1und1.de'			=> array('1und1', 'search'),
 		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?mc=suche%40web%40home.suche%40web&allparams=&smode=&su={k}&search=Suche&webRb='),
 
-		// 3271
-		'nmsearch.3721.com'			=> array('3271', 'p'),
-		'seek.3721.com'				=> array('3271', 'p'),
-
 		// A9
 		'www.a9.com'				=> array('A9', ''),
 		'a9.com'					=> array('A9', ''),
@@ -1311,7 +1307,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'tw.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'uk.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'us.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'www.yahoo.com.cn'			=> array('Yahoo!', 'p'),
+		'search.cn.yahoo.com'		=> array('Yahoo!', 'p'),
+		'one.cn.yahoo.com'			=> array('Yahoo!', 'p'),
+		'cns.3721.com'				=> array('Yahoo!', 'p'),	// acquired by Yahoo!
 
 		'au.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
 		'de.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
