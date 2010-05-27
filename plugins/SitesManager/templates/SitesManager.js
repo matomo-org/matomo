@@ -131,8 +131,8 @@ $(document).ready( function() {
 				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />'+excludedQueryParametersHelp+'</td>\
 				<td>'+getTimezoneSelector(defaultTimezone)+'<br />' + timezoneHelp + '</td>\
 				<td>'+getCurrencySelector(defaultCurrency)+'<br />' + currencyHelp + '</td>\
-				<td><img src="plugins/UsersManager/images/ok.png" class="addsite" href="#" /></td>\
-	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel" /></td>\
+				<td><img src="plugins/UsersManager/images/ok.png" class="addsite" href="#" title="' + _pk_translate('SitesManager_Save_js') + '" /></td>\
+	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel" title="' + _pk_translate('SitesManager_Cancel_js') +'" /></td>\
 	 		</tr>')
 	  			.appendTo('#editSites')
 		;
@@ -208,7 +208,7 @@ $(document).ready( function() {
 			$(this)
 				.toggle()
 				.parent()
-				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateSite" />')
+				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateSite" title="' + _pk_translate('SitesManager_Save_js') + '" />')
 							.click( function(){ $.ajax( getUpdateSiteAJAX( $('tr#'+idRow) ) ); } ) 
 					);
 		}
