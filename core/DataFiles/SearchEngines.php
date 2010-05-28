@@ -385,7 +385,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'blogs.gigablast.com'		=> array('Gigablast (Blogs)', 'q'),
 		'travel.gigablast.com'		=> array('Gigablast (Travel)', 'q'),
 		'dir.gigablast.com'			=> array('Gigablast (Directory)', 'q'),
-		'gov.gigablast.com'			=> array('Gigablast (Gov)', 'q'),
 
 		// GMX
 		'suche.gmx.net'				=> array('GMX', 'su'),
