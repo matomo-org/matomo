@@ -63,8 +63,8 @@ broadcast.propagateAjax = function (ajaxUrl)
     // available in global scope
     var currentHashStr = window.location.hash;
 
-    // Because $.history plugin doens't care about # or ? sign infront of the query string
-    // We take it out if exist;
+    // Because $.history plugin doesn't care about # or ? sign in front of the query string
+    // We take it out if it exists
     currentHashStr = currentHashStr.replace(/^\?|^#/,'');
     ajaxUrl = ajaxUrl.replace(/^\?|&#/,'');
 
