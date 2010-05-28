@@ -120,7 +120,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.aolrecherches.aol.fr'	=> array('AOL', array('query', 'q')),
 		'www.aolimages.aol.fr'		=> array('AOL', array('query', 'q')),
 		'www.recherche.aol.fr'		=> array('AOL', array('query', 'q')),
-		'aolsearcht.aol.com'		=> array('AOL', array('query', 'q')),
 		'find.web.aol.com'			=> array('AOL', array('query', 'q')),
 		'recherche.aol.ca'			=> array('AOL', array('query', 'q')),
 		'aolsearch.aol.co.uk'		=> array('AOL', array('query', 'q')),
@@ -195,7 +194,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Bing Images
 		'www.bing.com/images/search'=> array('Bing Images', 'q', 'search?q={k}'),
-	
+
 		// Blogdigger
 		'www.blogdigger.com'		=> array('Blogdigger', 'q'),
 
@@ -235,9 +234,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.comcast.net'			=> array('Comcast', 'query'),
 		'search.comcast.net'		=> array('Comcast', 'q'),
 		'search3.comcast.com'		=> array('Comcast', 'url'),
-
-		// Comet systems
-		'search.cometsystems.com'	=> array('CometSystems', 'q'),
 
 		// Compuserve
 		'suche.compuserve.de'		=> array('Compuserve.de (Powered by Google)', 'q'),
@@ -672,7 +668,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Google Custom Search
 		'www.google.com/cse'		=> array('Google Custom Search', 'q'),
-	
+
 		// Google translation
 		'translate.google.com'		=> array('Google Translations', 'q'),
 
@@ -805,9 +801,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.icq.com'			=> array('ICQ', 'q'),
 
 		// Ilse
-		'spsearch.ilse.nl'			=> array('Startpagina', 'search_for'),
-		'be.ilse.nl'				=> array('Ilse BE', 'query'),
-		'search.ilse.nl'			=> array('Ilse NL', 'search_for'),
+		'www.ilse.nl'				=> array('Ilse NL', 'search_for', '?search_for={k}'),
 
 		// Iwon
 		'search.iwon.com'			=> array('Iwon', 'searchfor'),
@@ -1256,7 +1250,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// WebSearch
 		'is1.websearch.com'			=> array('WebSearch', 'qkw'),
 		'www.websearch.com'			=> array('WebSearch', 'qkw'),
-		'websearch.cs.com'			=> array('WebSearch', 'query'),
 
 		// Webtip
 		'www.webtip.de'				=> array('Webtip', 'keyword'),
@@ -1313,7 +1306,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		'au.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
 		'de.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
-		'us.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'), 
+		'us.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
 		'de.dir.yahoo.com'			=> array('Yahoo! Webverzeichnis', ''),
 		'cf.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
 		'fr.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
