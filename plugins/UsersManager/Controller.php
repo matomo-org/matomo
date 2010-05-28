@@ -147,7 +147,9 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 
 	protected function getIgnoreCookie()
 	{
-		return new Piwik_Cookie(Piwik_Tracker_Visit::COOKIE_IGNORE_VISITS);
+		$cookie_name = Zend_Registry::get('config')->Tracker->ignore_visits_cookie_name;
+		$cookie_path = Zend_Registry::get('config')->Tracker->cookie_path;
+		return new Piwik_Cookie($cookie_name, null, $cookie_path);
 	}
 	
 	protected function isIgnoreCookieFound()

@@ -54,8 +54,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected $refererUrlParse;
 	protected $currentUrlParse;
 
-	const COOKIE_IGNORE_VISITS = 'piwik_ignore';
-	
 	function setRequest($requestArray)
 	{
 		$this->request = $requestArray;
@@ -519,7 +517,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function isIgnoreCookieFound()
 	{
-		$cookie = new Piwik_Cookie(Piwik_Tracker_Visit::COOKIE_IGNORE_VISITS);
+		$cookie = new Piwik_Cookie($this->getIgnoreVisitsCookieName());
 		if($cookie->isCookieFound())
 		{
 			printDebug('Piwik ignore cookie was found, visit not tracked.');
@@ -560,6 +558,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected function getCookieName()
 	{
 		return Piwik_Tracker_Config::getInstance()->Tracker['cookie_name'] . $this->idsite;
+	}
+
+	/**
+	 * Returns the cookie name used to ignore/exclude webmaster visits
+	 *
+	 * @return string
+	 */
+	protected function getIgnoreVisitsCookieName()
+	{
+		return Piwik_Tracker_Config::getInstance()->Tracker['ignore_visits_cookie_name'];
 	}
 
 	/**
