@@ -190,6 +190,9 @@ cookie_expire = 63072000
 ; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
 cookie_path = 
 
+; name of the cookie to ignore visits
+ignore_visits_cookie_name = piwik_ignore 
+
 ; variable name to track any campaign, for example CPC campaign
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referer named 'Adwords-CPC'
 campaign_var_name			= piwik_campaign
