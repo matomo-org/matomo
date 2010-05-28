@@ -636,7 +636,7 @@ class Piwik_SitesManager_API
     		'USD' => 'US Dollar ($)',
             'EUR' => 'Euro (€)',
             'JPY' => 'Japanese Yen (¥)',
-            'GBP' => 'British Pound Sterling (K£)',
+            'GBP' => 'British Pound Sterling (£)',
             'AUD' => 'Australian Dollar (A$)',
             'KRW' => 'South Korean Won (₩)',
             'BRL' => 'Brazilian Real (R$)',
