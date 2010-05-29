@@ -1086,30 +1086,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Seek
 		'www.seek.fr'				=> array('Searchalot', 'qry_str'),
 
-		// Seekport
-		'www.seekport.at'			=> array('Seekport', 'query'),
-		'www.seekport.de'			=> array('Seekport', 'query'),
-		'www.seekport.es'			=> array('Seekport', 'query'),
-		'www.seekport.fr'			=> array('Seekport', 'query'),
-		'www.seekport.it'			=> array('Seekport', 'query'),
-		'www.seekport.co.uk'		=> array('Seekport', 'query'),
-
-		// Seekport (blogs)
-		'blogs.seekport.at'			=> array('Seekport (Blogs)', 'query'),
-		'blogs.seekport.de'			=> array('Seekport (Blogs)', 'query'),
-		'blogs.seekport.es'			=> array('Seekport (Blogs)', 'query'),
-		'blogs.seekport.fr'			=> array('Seekport (Blogs)', 'query'),
-		'blogs.seekport.it'			=> array('Seekport (Blogs)', 'query'),
-		'blogs.seekport.co.uk'		=> array('Seekport (Blogs)', 'query'),
-
-		// Seekport (news)
-		'news.seekport.at'			=> array('Seekport (News)', 'query'),
-		'news.seekport.de'			=> array('Seekport (News)', 'query'),
-		'news.seekport.es'			=> array('Seekport (News)', 'query'),
-		'news.seekport.fr'			=> array('Seekport (News)', 'query'),
-		'news.seekport.it'			=> array('Seekport (News)', 'query'),
-		'news.seekport.co.uk'		=> array('Seekport (News)', 'query'),
-
 		// Searchscout
 		'www.searchscout.com'		=> array('Search Scout', 'gt_keywords'),
 
