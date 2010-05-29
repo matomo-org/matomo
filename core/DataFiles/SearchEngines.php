@@ -1080,8 +1080,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Search.ch
 		'www.search.ch'				=> array('Search.ch', 'q'),
 
-		// Search a lot
-		'www.searchalot.com'		=> array('Searchalot', 'query'),
+		// Searchalot
+		'www.searchalot.com'		=> array('Searchalot', 'q', '?q={k}'),
+		'searchalot.com'			=> array('Searchalot', 'q'),
 
 		// Seek
 		'www.seek.fr'				=> array('Searchalot', 'qry_str'),
