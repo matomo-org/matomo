@@ -304,7 +304,11 @@ class Piwik_Http
 			@curl_setopt_array($ch, $curl_options);
 
 			$response = @curl_exec($ch);
-			if($response === false)
+			if($response === true)
+			{
+				$response = '';
+			}
+			else if($response === false)
 			{
 				$errstr = curl_error($ch);
 				if($errstr != '')
