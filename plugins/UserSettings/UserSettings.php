@@ -30,10 +30,10 @@ class Piwik_UserSettings extends Piwik_Plugin
 	}
 
 	static public $browserType_display = array(
-		'ie'     => 'Trident (Internet Explorer)',
-		'gecko'  => 'Gecko (Firefox, SeaMonkey)',
+		'ie'     => 'Trident (IE)',
+		'gecko'  => 'Gecko (Firefox)',
 		'khtml'  => 'KHTML (Konqueror)',
-		'webkit' => 'WebKit (Safari, Chrome)',
+		'webkit' => 'WebKit (Safari)',
 		'opera'  => 'Presto (Opera)',
 	);
 
