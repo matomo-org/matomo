@@ -292,18 +292,21 @@ class Piwik_Http
 				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
 				CURLOPT_REFERER => 'http://'.Piwik_Common::getIpString(),
 			);
+			@curl_setopt_array($ch, $curl_options);
+
 			if(is_resource($file))
 			{
-				// write directly to file
-				$curl_options[CURLOPT_FILE] = $file;
+				@curl_setopt($ch, CURLOPT_FILE, $file);
 			}
 			else
 			{
-				$curl_options[CURLOPT_RETURNTRANSFER] = true;
+				@curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			}
-			@curl_setopt_array($ch, $curl_options);
 
+			ob_start();
 			$response = @curl_exec($ch);
+			ob_end_clean();
+
 			if($response === true)
 			{
 				$response = '';
@@ -315,6 +318,7 @@ class Piwik_Http
 				{
 					throw new Exception('curl_exec: '.$errstr);
 				}
+				$response = '';
 			}
 
 			$contentLength = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
