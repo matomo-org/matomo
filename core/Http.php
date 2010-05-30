@@ -283,23 +283,28 @@ class Piwik_Http
 			$ch = @curl_init();
 
 			$curl_options = array(
-				CURLOPT_URL => $aUrl,
-				CURLOPT_HEADER => false,
-				CURLOPT_CONNECTTIMEOUT => $timeout,
+				// internal to ext/curl
 				CURLOPT_BINARYTRANSFER => is_resource($file),
-				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_MAXREDIRS => 5,
-				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
+
+				// curl options (sorted oldest to newest)
+				CURLOPT_URL => $aUrl,
 				CURLOPT_REFERER => 'http://'.Piwik_Common::getIpString(),
+				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
+				CURLOPT_HEADER => false,
+				CURLOPT_FOLLOWLOCATION => true,
+				CURLOPT_MAXREDIRS => 5, 
+				CURLOPT_CONNECTTIMEOUT => $timeout,
 			);
 			@curl_setopt_array($ch, $curl_options);
 
 			if(is_resource($file))
 			{
+				// write output directly to file
 				@curl_setopt($ch, CURLOPT_FILE, $file);
 			}
 			else
 			{
+				// internal to ext/curl
 				@curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			}
 
