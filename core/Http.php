@@ -291,11 +291,23 @@ class Piwik_Http
 				CURLOPT_REFERER => 'http://'.Piwik_Common::getIpString(),
 				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
 				CURLOPT_HEADER => false,
-				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_MAXREDIRS => 5, 
 				CURLOPT_CONNECTTIMEOUT => $timeout,
 			);
 			@curl_setopt_array($ch, $curl_options);
+
+			/*
+			 * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if
+			 * in safe_mode or open_basedir is set
+			 */
+			if((string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '')
+			{ 
+				$curl_options = array(
+					// curl options (sorted oldest to newest)
+					CURLOPT_FOLLOWLOCATION => true,
+					CURLOPT_MAXREDIRS => 5, 
+				);
+				@curl_setopt_array($ch, $curl_options);
+			}
 
 			if(is_resource($file))
 			{
