@@ -87,12 +87,16 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			$topSegment = array();
 			foreach($datatable->getRows() as $row)
 			{
-				$topSegment[] = array (
-					'name' => $row->getColumn('label'),
-					'nb_conversions' => $row->getColumn($columnNbConversions),
-					'conversion_rate' => $row->getColumn($columnConversionRate),
-					'metadata' => $row->getMetadata(),
-				);
+				$conversions = $row->getColumn($columnNbConversions);
+				if($conversions > 0)
+				{
+    				$topSegment[] = array (
+    					'name' => $row->getColumn('label'),
+    					'nb_conversions' => $conversions,
+    					'conversion_rate' => $row->getColumn($columnConversionRate),
+    					'metadata' => $row->getMetadata(),
+    				);
+				}
 			}
 			$topSegments[$segmentName] = $topSegment;
 		}
