@@ -203,7 +203,7 @@ class Piwik_FrontController
 			}
 
 			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 
 			if($exceptionToThrow)
 			{

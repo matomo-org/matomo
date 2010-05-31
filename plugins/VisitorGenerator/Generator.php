@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @category Piwik
- * @package Piwik
+ * @category Piwik_Plugin
+ * @package Piwik_VisitorGenerator_Generator
  */
 
 /**
@@ -31,13 +31,12 @@
  * - action_name 
  * - HTML title
  * 
- * @package Piwik
- * @subpackage Piwik_Tracker
+ * @package Piwik_VisitorGenerator_Generator
  * 
- * 											"Le Generator, il est trop Fort!"
- * 											- Random fan
+ * 	"Le Generator, il est trop Fort!"
+ * 	- Random fan
  */
-class Piwik_Tracker_Generator
+class Piwik_VisitorGenerator_Generator
 {
 	/**
 	 * GET parameters array of values to be used for the current visit
@@ -296,7 +295,7 @@ class Piwik_Tracker_Generator
 		 */
 		// we load some real referers to be used by the generator
 		$referers = array();
-		require_once PIWIK_INCLUDE_PATH . '/misc/generateVisitsData/Referers.php';
+		require_once PIWIK_INCLUDE_PATH . '/plugins/VisitorGenerator/data/Referers.php';
 
 		$this->addParam('urlref',$referers);
 
@@ -305,8 +304,8 @@ class Piwik_Tracker_Generator
 		
 		// load some user agent and accept language
 		$userAgent = $acceptLanguages = array();
-		require_once PIWIK_INCLUDE_PATH . '/misc/generateVisitsData/UserAgent.php';
-		require_once PIWIK_INCLUDE_PATH . '/misc/generateVisitsData/AcceptLanguage.php';
+		require_once PIWIK_INCLUDE_PATH . '/plugins/VisitorGenerator/data/UserAgent.php';
+		require_once PIWIK_INCLUDE_PATH . '/plugins/VisitorGenerator/data/AcceptLanguage.php';
 		$this->userAgents=$userAgent;
 		$this->acceptLanguage=$acceptLanguages;
 	}
@@ -345,7 +344,7 @@ class Piwik_Tracker_Generator
 		for($i = 0; $i < $nbVisitors; $i++)
 		{
 			$nbActions = mt_rand(1, $nbActionsMaxPerVisit);
-			Piwik_Tracker_Generator_Visit::setTimestampToUse($this->getTimestampToUse());
+			Piwik_VisitorGenerator_Visit::setTimestampToUse($this->getTimestampToUse());
 						
 			$this->generateNewVisit();
 			for($j = 1; $j <= $nbActions; $j++)
@@ -617,7 +616,7 @@ class Piwik_Tracker_Generator
 	protected function saveVisit()
 	{
 		$this->setFakeRequest();
-		$process = new Piwik_Tracker_Generator_Tracker();
+		$process = new Piwik_VisitorGenerator_Tracker();
 		$process->main();
 		unset($process);
 	}	
