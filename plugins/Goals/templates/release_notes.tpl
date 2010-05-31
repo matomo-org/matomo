@@ -23,7 +23,6 @@ Work left to do on the Goal Tracking plugin:
 - The goal table, by segment, for example goal conversions by country, should really display number of conversions as well as the current "conversion rate" by goal. Having the absolute number for each country / search engine / etc. is critical.
 
 Known bugs
-- Your top converting keyword include keyword without conversions?
 - The Goal total nb conversions should be sum of all goal conversions (wrong number when deleting a Goal) 
 - After adding goal, the window should ideally refresh to the goal report page, and not to the dashboard
 - Outlink trailing slash is automatically deleted from the URL, there would be a problem when trying to exact match a URL with trailing slash
