@@ -63,7 +63,7 @@ class Piwik_Date
 		elseif (!is_int($dateString)
 			&& ($dateString = strtotime($dateString)) === false) 
 		{
-			throw new Exception("Date format must be: YYYY-MM-DD, or 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
+			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")));
 		}
 		else
 		{

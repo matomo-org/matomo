@@ -23,7 +23,7 @@ class Piwik_Updates_0_4_4 extends Piwik_Updates
 			$rc = @unlink($obsoleteFile);
 			if(!$rc)
 			{
-				throw new Piwik_Updater_UpdateErrorException("Unable to delete $obsoleteFile");
+				throw new Exception(Piwik_TranslateException('General_ExceptionUndeletableFile', array($obsoleteFile))); 
 			}
 		}
 	}

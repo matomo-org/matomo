@@ -620,8 +620,7 @@ class Piwik_UsersManager_API
 	{
 		if(strlen($md5Password) != 32) 
 		{
-			throw new Exception("UsersManager.getTokenAuth is expecting a MD5-hashed password (32 chars long string). 
-								Please call the md5() function on the password before calling this method.");
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionPasswordMD5HashExpected'));
 		}
 		return md5($userLogin . $md5Password );
 	}

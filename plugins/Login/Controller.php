@@ -110,13 +110,13 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$password = Piwik_Common::getRequestVar('password', null, 'string');
 		if(strlen($password) != 32)
 		{
-			throw new Exception("The password parameter is expected to be a MD5 hash of the password.");
+			throw new Exception(Piwik_TranslateException('Login_ExceptionPasswordMD5HashExpected'));
 		}
 
 		$login = Piwik_Common::getRequestVar('login', null, 'string');
 		if($login == Zend_Registry::get('config')->superuser->login)
-		{
-			throw new Exception("The Super User cannot be authenticated using the 'logme' mechanism.");
+		{			
+			throw new Exception(Piwik_TranslateException('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
 		}
 
 		$currentUrl = 'index.php';

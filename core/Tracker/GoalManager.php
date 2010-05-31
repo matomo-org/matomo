@@ -52,7 +52,7 @@ class Piwik_Tracker_GoalManager
 				return $goal;
 			}
 		}
-		throw new Exception("The goal id = $idGoal couldn't be found.");
+		throw new Exception(Piwik_TranslateException('General_ExceptionGoalNotFound', array($idGoal)));
 	}
 
 	static public function getGoalIds( $idSite )
@@ -129,7 +129,7 @@ class Piwik_Tracker_GoalManager
 					$match = ($matched == 0);
 					break;
 				default:
-					throw new Exception("Pattern type $pattern_type not valid.");
+					throw new Exception(Piwik_TranslateException('General_ExceptionInvalidGoalPattern', array($pattern_type)));
 					break;
 			}
 			if($match)

@@ -215,8 +215,8 @@ class Piwik_API_Proxy
 					}
 				}
 			} catch(Exception $e) {
-				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request. ");
-			}			
+				throw new Exception(Piwik_TranslateException('General_ExceptionVariableNotFound', array($name)));
+			}
 			$finalParameters[] = $requestValue;
 		}
 		return $finalParameters;
@@ -282,7 +282,7 @@ class Piwik_API_Proxy
 	{
 		if(!$this->isMethodAvailable($className, $methodName))
 		{
-			throw new Exception("The method '$methodName' does not exist or is not available in the module '".$className."'.");
+			throw new Exception(Piwik_TranslateException('General_ExceptionMethodNotFound', array($methodName,$className)));
 		}
 	}
 	

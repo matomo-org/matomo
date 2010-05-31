@@ -85,7 +85,8 @@ abstract class Piwik_DataTable_Renderer
 			Piwik_Loader::autoload($className);
 			return new $className;			
 		} catch(Exception $e) {
-			throw new Exception("Renderer format '$name' not valid. Try 'xml' or 'json' or 'csv' or 'html' or 'php' or 'original' instead.");
+			$availableRenderers = 'xml, json, csv, tsv, html, php, original';
+			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidRendererFormat', array($name, $availableRenderers)));
 		}		
 	}	
 }
