@@ -103,8 +103,7 @@ class Piwik_Goals_API
 		if($patternType == 'exact' 
 			&& substr($pattern, 0, 4) != 'http')
 		{
-			throw new Exception("If you choose 'exact match', the matching string must be a 
-				URL starting with http:// or https://. For example, 'http://www.yourwebsite.com/newsletter/subscribed.html'.");
+			throw new Exception(Piwik_TranslateException('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
 		}
 	}
 	

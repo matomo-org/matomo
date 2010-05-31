@@ -108,11 +108,11 @@ class Piwik_Config
 		$this->defaultConfig = new Piwik_Config_Ini($this->pathIniFileDefaultConfig, null, true);
 		if(!is_readable($this->pathIniFileUserConfig))
 		{
-			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
+			throw new Exception(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound',array($this->pathIniFileUserConfig)));
 		}
 		if(is_null($this->defaultConfig))
 		{
-			throw new Exception("The configuration file {$this->pathIniFileUserConfig} could not be read. Your host may have disabled parse_ini_file().");
+			throw new Exception(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod',array($this->pathIniFileUserConfig,"parse_ini_file()")));
 		}
 		$this->userConfig = new Piwik_Config_Ini($this->pathIniFileUserConfig, null, true);
 	}

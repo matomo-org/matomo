@@ -374,15 +374,15 @@ class Piwik_SitesManager_API
 					return true;
 				}
 			}
-		}
-		throw new Exception('The timezone "'.$timezone.'" is not valid. Please enter a valid timezone.');
+		}		
+		throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidTimezone', array($timezone)));
 	}
 	
 	private function checkValidCurrency($currency)
 	{
 		if(!in_array($currency, array_keys($this->getCurrencyList())))
-		{
-			throw new Exception('The currency "'.$currency.'" is not valid. Please enter a valid currency symbol (USD, EUR, etc.)');
+		{			
+			throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
 		}
 	}
 	
@@ -402,7 +402,7 @@ class Piwik_SitesManager_API
 		{
 			if(!$this->isValidIp($ip))
 			{
-				throw new Exception('The IP to exclude "'.$ip.'" does not have a valid IP format (eg. 1.2.3.4 or 1.2.3.*).');
+				throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4 or 1.2.3.*")));
 			}
 		}
 		$ips = implode(',', $ips);

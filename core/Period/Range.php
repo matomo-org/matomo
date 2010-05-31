@@ -72,10 +72,6 @@ class Piwik_Period_Range extends Piwik_Period
 			case 'year':
 				$startDate = $date->subMonth( 12 * $n );					
 			break;
-			
-			default:
-				throw new Exception(sprintf(self::$unknowPeriodException, $this->strPeriod));
-			break;
 		}
 		return $startDate;
 	}
@@ -155,7 +151,7 @@ class Piwik_Period_Range extends Piwik_Period
 		}
 		else
 		{
-			throw new Exception("The date '$this->strDate' is not a date range. Should have the following format: 'lastN' or 'previousN' or 'YYYY-MM-DD,YYYY-MM-DD'.");
+			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
 		}
 		$endSubperiod = Piwik_Period::factory($this->strPeriod, $endDate);
 		

@@ -244,7 +244,7 @@ abstract class Piwik_ArchiveProcessing
 		$timeToLiveSeconds = (int)$timeToLiveSeconds;
 		if($timeToLiveSeconds <= 0)
 		{
-			throw new Exception('Today archive time to live must be a number of seconds greater than zero');
+			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidArchiveTimeToLive'));
 		}
 		Piwik_SetOption(self::OPTION_TODAY_ARCHIVE_TTL, $timeToLiveSeconds, $autoload = true);
 	}

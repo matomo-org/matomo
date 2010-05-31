@@ -499,7 +499,7 @@ abstract class Piwik_Controller
 	protected function checkTokenInUrl()
 	{
 		if(Piwik_Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
-			throw new Piwik_Access_NoAccessException('Token is not valid.');
+			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
 		}
 	}
 }

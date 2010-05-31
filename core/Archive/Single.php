@@ -452,7 +452,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		if($data === false 
 			&& $idSubTable !== null)
 		{
-			throw new Exception("You are requesting a precise subTable but there is not such data in the Archive.");
+			throw new Exception(Piwik_TranslateException('General_ExceptionSubtableNotFoundInArchive'));
 		}
 	
 		return $table;

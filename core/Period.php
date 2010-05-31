@@ -30,8 +30,7 @@ abstract class Piwik_Period
 	protected $subperiodsProcessed = false;
 	protected $label = null;
 	protected $date = null;
-	
-	protected static $unknowPeriodException = "The period '%s' is not supported. Try 'day' or 'week' or 'month' or 'year'";
+	static protected $errorAvailablePeriods = 'day, week, month, year';
 	
 	public function __construct( $date )
 	{	
@@ -64,11 +63,12 @@ abstract class Piwik_Period
 				break;
 				
 			default:
-				throw new Exception(sprintf(self::$unknowPeriodException, $strPeriod));
+				throw new Exception(Piwik_TranslateException('General_ExceptionInvalidPeriod', array($strPeriod, self::$errorAvailablePeriods))); 
 				break;
 		}
 	}
 
+	
 	/**
 	 * Returns the first day of the period
 	 *

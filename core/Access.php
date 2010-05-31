@@ -279,7 +279,7 @@ class Piwik_Access
 	{
 		if($this->isSuperUser === false)
 		{
-			throw new Piwik_Access_NoAccessException("You can't access this resource as it requires a 'superuser' access.");
+			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilege', array("'superuser'")));
 		}
 	}
 
@@ -297,7 +297,7 @@ class Piwik_Access
 		$idSitesAccessible = $this->getSitesIdWithAdminAccess();
 		if(count($idSitesAccessible) == 0)
 		{
-			throw new Piwik_Access_NoAccessException("You can't access this resource as it requires an 'admin' access for at least one website.");
+			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
 		}
 	}
 	
@@ -311,7 +311,7 @@ class Piwik_Access
 		$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
 		if(count($idSitesAccessible) == 0)
 		{
-			throw new Piwik_Access_NoAccessException("You can't access this resource as it requires a 'view' access for at least one website.");
+			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
 		}
 	}
 
@@ -337,7 +337,7 @@ class Piwik_Access
 		{
 			if(!in_array($idsite, $idSitesAccessible))
 			{
-				throw new Piwik_Access_NoAccessException("You can't access this resource as it requires an 'admin' access for the website id = $idsite.");
+				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'admin'", $idsite)));
 			}
 		}
 	}
@@ -366,7 +366,7 @@ class Piwik_Access
 		{
 			if(!in_array($idsite, $idSitesAccessible))
 			{
-				throw new Piwik_Access_NoAccessException("You can't access this resource as it requires a 'view' access for the website id = $idsite.");
+				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
 			}
 		}
 	}

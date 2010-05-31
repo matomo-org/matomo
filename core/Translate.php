@@ -50,7 +50,7 @@ class Piwik_Translate
 		$path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
 		if(!is_readable($path))
 		{
-			throw new Exception('Language file '.$language.' not found.');
+			throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
 		}
 		require $path;
 		$this->mergeTranslationArray($translations);
