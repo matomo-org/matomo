@@ -20,7 +20,7 @@ class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 		Piwik::createDatabaseObject();
 		Piwik::setUserIsSuperUser();
 		$pluginsManager = Piwik_PluginsManager::getInstance();
-		$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+		$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 		
 		$apiGenerator = new Piwik_API_DocumentationGenerator_CallAllMethods();
 		$requestUrls = $apiGenerator->getAllRequestsWithParameters();

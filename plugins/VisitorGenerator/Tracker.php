@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  * 
- * @category Piwik
- * @package Piwik
+ * @category Piwik_Plugin
+ * @package Piwik_VisitorGenerator
  */
 
 /**
@@ -16,10 +16,9 @@
  * - doesn't print the 1pixel transparent GIF at the end of the visit process
  * - overwrite the Tracker Visit object to use so we use our own Tracker_visit @see Piwik_Tracker_Generator_Visit
  * 
- * @package Piwik
- * @subpackage Piwik_Tracker
+ * @package Piwik_VisitorGenerator
  */
-class Piwik_Tracker_Generator_Tracker extends Piwik_Tracker
+class Piwik_VisitorGenerator_Tracker extends Piwik_Tracker
 {
 	/**
 	 * Does nothing instead of sending headers
@@ -36,13 +35,13 @@ class Piwik_Tracker_Generator_Tracker extends Piwik_Tracker
 	}
 	
 	/**
-	 * Returns our 'generator home made' Piwik_Tracker_Generator_Visit object.
+	 * Returns our 'generator home made' Piwik_VisitorGenerator_Visit object.
 	 *
-	 * @return Piwik_Tracker_Generator_Visit
+	 * @return Piwik_VisitorGenerator_Visit
 	 */
 	protected function getNewVisitObject()
 	{
-		$visit = new Piwik_Tracker_Generator_Visit();
+		$visit = new Piwik_VisitorGenerator_Visit();
 		$visit->generateTimestamp();
 		return $visit;
 	}	

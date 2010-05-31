@@ -285,7 +285,7 @@ class Piwik_Tracker
 				&& count($pluginsTracker) != 0)
 			{
 				Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
-				Piwik_PluginsManager::getInstance()->setPluginsToLoad( $pluginsTracker['Plugins_Tracker'] );
+				Piwik_PluginsManager::getInstance()->loadPlugins( $pluginsTracker['Plugins_Tracker'] );
 				
 				printDebug("Loading plugins: { ". implode(",", $pluginsTracker['Plugins_Tracker']) . "}");
 			}

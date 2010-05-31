@@ -157,7 +157,7 @@ class Piwik_PluginsManager
 		Zend_Registry::get('config')->Plugins = $plugins;
 	}
 	
-	public function setPluginsToLoad( array $pluginsToLoad )
+	public function loadPlugins( array $pluginsToLoad )
 	{
 		// case no plugins to load
 		if(is_null($pluginsToLoad))
@@ -165,7 +165,7 @@ class Piwik_PluginsManager
 			$pluginsToLoad = array();
 		}
 		$this->pluginsToLoad = $pluginsToLoad;
-		$this->loadPlugins();
+		$this->reloadPlugins();
 	}
 	
 	public function doNotLoadPlugins()
@@ -240,7 +240,7 @@ class Piwik_PluginsManager
 	 * Register the observers for every plugin.
 	 * 
 	 */
-	public function loadPlugins()
+	private function reloadPlugins()
 	{
 		$this->pluginsToLoad = array_unique($this->pluginsToLoad);
 
