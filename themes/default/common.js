@@ -111,6 +111,10 @@ piwikHelper.ajaxHandleResponse = function(response, loadingDivID, errorDivID)
 		{
 			urlToRedirect += '&' + updatedUrl;
 		}
+		var currentHashStr = window.location.hash;
+		if(currentHashStr.length > 0) {
+			urlToRedirect += currentHashStr;
+		}
 		piwikHelper.redirectToUrl(urlToRedirect);
 	}
 }
