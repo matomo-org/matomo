@@ -69,10 +69,17 @@ broadcast.propagateAjax = function (ajaxUrl)
     ajaxUrl = ajaxUrl.replace(/^\?|&#/,'');
 
     var params_vals = ajaxUrl.split("&");
-    for( var i=0; i<params_vals.length; i++ ) {
-        currentHashStr   = broadcast.updateParamValue(params_vals[i],currentHashStr);
+    for( var i=0; i<params_vals.length; i++ ) 
+    {
+        currentHashStr = broadcast.updateParamValue(params_vals[i],currentHashStr);
     }
 
+	// if the module is not 'Goals', we specifically unset the 'idGoal' parameter
+	// this is to ensure that the URLs are clean (and that clicks on graphs work as expected - they are broken with the extra parameter)
+    if(broadcast.getParamValue('module', currentHashStr) != 'Goals')
+    {
+    	currentHashStr = broadcast.updateParamValue('idGoal=', currentHashStr);
+    }
     // Let history know about this new Hash and load it.
     $.historyLoad(currentHashStr);
 };
@@ -140,12 +147,17 @@ broadcast.updateParamValue = function(newParamValue,urlStr)
 
     var paramName = p_v[0];
     var valFromUrl = broadcast.getParamValue(paramName,urlStr);
-
+    // if set 'idGoal=' then we remove the parameter from the URL automatically (rather than passing an empty value)
+    var paramValue = p_v[1];
+    if(paramValue == '') 
+    {
+    	newParamValue = '';
+    }
     if( valFromUrl != '') {
         // replacing current param=value to newParamValue;
         var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
         urlStr = urlStr.replace( regToBeReplace, newParamValue );
-    } else {
+    } else if(newParamValue != '') {
         urlStr += (urlStr == '') ? newParamValue : '&' + newParamValue;
     }
 
