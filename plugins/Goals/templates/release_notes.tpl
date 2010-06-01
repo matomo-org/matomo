@@ -25,8 +25,6 @@ Work left to do on the Goal Tracking plugin:
 
 Known bugs
 - Outlink trailing slash is automatically deleted from the URL, there would be a problem when trying to exact match a URL with trailing slash
-- lines with 0 visits and no conversion should not appear
-- clicking on the graph for a given goal redirects to the dashboard instead of redirecting to the goal report for the clicked date
 - see bug described in http://forum.piwik.org/index.php?showtopic=150
 
 Feature requests

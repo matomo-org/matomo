@@ -47,7 +47,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry'));
+		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
 	}
 	
 	function archivePeriod( $notification )
