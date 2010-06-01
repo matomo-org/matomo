@@ -1,7 +1,5 @@
 <?php 
 
-setlocale(LC_TIME, 'pl_PL.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'pl_PL.UTF-8',
 	'General_TranslatorName' => 'Marcin Kowol, Maciej Zawadziński, Artur Warchoł, Tomasz Urbański',
