@@ -135,7 +135,6 @@ class Piwik_API_DataTableGenericFilter
 				{
 					$datatable->setRowsCountBeforeLimitFilter();
 				}
-				$filterParameters = array_merge(array($datatable), $filterParameters);
 				$datatable->filter($filterName, $filterParameters);
 				$filterApplied = true;
 			}
