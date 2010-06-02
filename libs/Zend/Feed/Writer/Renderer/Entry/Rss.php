@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Rss.php 20241 2010-01-12 20:19:46Z padraic $
+ * @version    $Id: Rss.php 22065 2010-04-30 14:04:57Z padraic $
  */
 
 /**
@@ -217,6 +217,37 @@ class Zend_Feed_Writer_Renderer_Entry_Rss
         $data = $this->_container->getEnclosure();
         if ((!$data || empty($data))) {
             return;
+        }
+        if (!isset($data['type'])) {
+            // require_once 'Zend/Feed/Exception.php';
+            $exception = new Zend_Feed_Exception('Enclosure "type" is not set');
+            if (!$this->_ignoreExceptions) {
+                throw $exception;
+            } else {
+                $this->_exceptions[] = $exception;
+                return;
+            }
+        }
+        if (!isset($data['length'])) {
+            // require_once 'Zend/Feed/Exception.php';
+            $exception = new Zend_Feed_Exception('Enclosure "length" is not set');
+            if (!$this->_ignoreExceptions) {
+                throw $exception;
+            } else {
+                $this->_exceptions[] = $exception;
+                return;
+            }
+        }
+        if (isset($data['length']) && (int) $data['length'] <= 0) {
+            // require_once 'Zend/Feed/Exception.php';
+            $exception = new Zend_Feed_Exception('Enclosure "length" must be an integer'
+            . ' indicating the content\'s length in bytes');
+            if (!$this->_ignoreExceptions) {
+                throw $exception;
+            } else {
+                $this->_exceptions[] = $exception;
+                return;
+            }
         }
         $enclosure = $this->_dom->createElement('enclosure');
         $enclosure->setAttribute('type', $data['type']);

@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 20507 2010-01-21 22:21:07Z padraic $
+ * @version    $Id: Entry.php 22301 2010-05-26 10:15:13Z padraic $
  */
 
 /**
@@ -260,8 +260,6 @@ class Zend_Feed_Reader_Extension_Atom_Entry
 
         if (!$description) {
             $description = null;
-        } else {
-            $description = html_entity_decode($description, ENT_QUOTES, $this->getEncoding());
         }
 
         $this->_data['description'] = $description;
@@ -425,8 +423,6 @@ class Zend_Feed_Reader_Extension_Atom_Entry
 
         if (!$title) {
             $title = null;
-        } else {
-            $title = html_entity_decode($title, ENT_QUOTES, $this->getEncoding());
         }
 
         $this->_data['title'] = $title;
@@ -544,7 +540,7 @@ class Zend_Feed_Reader_Extension_Atom_Entry
                 $categoryCollection[] = array(
                     'term' => $category->getAttribute('term'),
                     'scheme' => $category->getAttribute('scheme'),
-                    'label' => html_entity_decode($category->getAttribute('label'))
+                    'label' => $category->getAttribute('label')
                 );
             }
         } else {

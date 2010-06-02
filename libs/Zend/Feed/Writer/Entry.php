@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 20519 2010-01-22 14:06:24Z padraic $
+ * @version    $Id: Entry.php 22065 2010-04-30 14:04:57Z padraic $
  */
 
 /**
@@ -592,20 +592,15 @@ class Zend_Feed_Writer_Entry
     }
     
     /**
-     * Adds an enclosure to the entry.
+     * Adds an enclosure to the entry. The array parameter may contain the
+     * keys 'uri', 'type' and 'length'. Only 'uri' is required for Atom, though the
+     * others must also be provided or RSS rendering (where they are required)
+     * will throw an Exception.
      *
      * @param array $enclosures
      */
     public function setEnclosure(array $enclosure)
     {
-        if (!isset($enclosure['type'])) {
-            // require_once 'Zend/Feed/Exception.php';
-            throw new Zend_Feed_Exception('Enclosure "type" is not set');
-        }
-        if (!isset($enclosure['length'])) {
-            // require_once 'Zend/Feed/Exception.php';
-            throw new Zend_Feed_Exception('Enclosure "length" is not set');
-        }
         if (!isset($enclosure['uri'])) {
             // require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('Enclosure "uri" is not set');
@@ -613,11 +608,6 @@ class Zend_Feed_Writer_Entry
         if (!Zend_Uri::check($enclosure['uri'])) {
             // require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('Enclosure "uri" is not a valid URI/IRI');
-        }
-        if ((int) $enclosure['length'] <= 0) {
-            // require_once 'Zend/Feed/Exception.php';
-            throw new Zend_Feed_Exception('Enclosure "length" must be an integer'
-            . ' indicating the content\'s length in bytes');
         }
         $this->_data['enclosure'] = $enclosure;
     }

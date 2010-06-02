@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 20412 2010-01-19 07:02:01Z thomas $
+ * @version    $Id: Abstract.php 22225 2010-05-21 09:12:52Z bittarman $
  */
 
 /**
@@ -278,10 +278,10 @@ abstract class Zend_Validate_Db_Abstract extends Zend_Validate_Abstract
          */
         $select = new Zend_Db_Select($this->_adapter);
         $select->from($this->_table, array($this->_field), $this->_schema)
-               ->where($this->_adapter->quoteIdentifier($this->_field).' = ?', $value);
+               ->where($this->_adapter->quoteIdentifier($this->_field, true).' = ?', $value);
         if ($this->_exclude !== null) {
             if (is_array($this->_exclude)) {
-                $select->where($this->_adapter->quoteIdentifier($this->_exclude['field']).' != ?', $this->_exclude['value']);
+                $select->where($this->_adapter->quoteIdentifier($this->_exclude['field'], true).' != ?', $this->_exclude['value']);
             } else {
                 $select->where($this->_exclude);
             }

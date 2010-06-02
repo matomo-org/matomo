@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Curl.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Curl.php 22221 2010-05-21 07:00:58Z dragonbe $
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -73,23 +73,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
      *
      * @var array
      */
-    protected $_invalidOverwritableCurlOptions = array(
-        CURLOPT_HTTPGET,
-        CURLOPT_POST,
-        CURLOPT_PUT,
-        CURLOPT_CUSTOMREQUEST,
-        CURLOPT_HEADER,
-        CURLOPT_RETURNTRANSFER,
-        CURLOPT_HTTPHEADER,
-        CURLOPT_POSTFIELDS,
-        CURLOPT_INFILE,
-        CURLOPT_INFILESIZE,
-        CURLOPT_PORT,
-        CURLOPT_MAXREDIRS,
-        CURLOPT_CONNECTTIMEOUT,
-        CURL_HTTP_VERSION_1_1,
-        CURL_HTTP_VERSION_1_0,
-    );
+    protected $_invalidOverwritableCurlOptions;
 
     /**
      * Response gotten from server
@@ -119,6 +103,23 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
             // require_once 'Zend/Http/Client/Adapter/Exception.php';
             throw new Zend_Http_Client_Adapter_Exception('cURL extension has to be loaded to use this Zend_Http_Client adapter.');
         }
+        $this->_invalidOverwritableCurlOptions = array(
+            CURLOPT_HTTPGET,
+            CURLOPT_POST,
+            CURLOPT_PUT,
+            CURLOPT_CUSTOMREQUEST,
+            CURLOPT_HEADER,
+            CURLOPT_RETURNTRANSFER,
+            CURLOPT_HTTPHEADER,
+            CURLOPT_POSTFIELDS,
+            CURLOPT_INFILE,
+            CURLOPT_INFILESIZE,
+            CURLOPT_PORT,
+            CURLOPT_MAXREDIRS,
+            CURLOPT_CONNECTTIMEOUT,
+            CURL_HTTP_VERSION_1_1,
+            CURL_HTTP_VERSION_1_0,
+        );
     }
 
     /**
@@ -332,6 +333,11 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
             case Zend_Http_Client::TRACE:
                 $curlMethod = CURLOPT_CUSTOMREQUEST;
                 $curlValue = "TRACE";
+                break;
+            
+            case Zend_Http_Client::HEAD:
+                $curlMethod = CURLOPT_CUSTOMREQUEST;
+                $curlValue = "HEAD";
                 break;
 
             default:
