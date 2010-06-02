@@ -123,11 +123,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
 		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 
-		$authenticated = $this->authenticateAndRedirect($login, $password, $urlToRedirect);
-		if($authenticated === false)
-		{
-			echo Piwik_Translate('Login_LoginPasswordNotCorrect');
-		}
+		$this->authenticateAndRedirect($login, $password, $urlToRedirect);
 	}
 
 	/**
