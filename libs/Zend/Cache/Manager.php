@@ -165,7 +165,7 @@ class Zend_Cache_Manager
                 || !$this->_optionTemplates[$name]['backend']['options']['tag_cache'] instanceof Zend_Cache_Core)
             ) {
                 $this->_optionTemplates[$name]['backend']['options']['tag_cache']
-                    = $this->getCache(self::PAGETAGCACHE );
+                    = $this->getCache(self::PAGETAGCACHE);
             }
             $this->_caches[$name] = Zend_Cache::factory(
                 $this->_optionTemplates[$name]['frontend']['name'],
