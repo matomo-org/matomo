@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
@@ -59,22 +59,24 @@ class Piwik_Db_Adapter
 	 */
 	public static function getAdapters()
 	{
-		$path = PIWIK_INCLUDE_PATH . '/core/Db/Adapter';
-		$pathLength = strlen($path) + 1;
-		$adapters = Piwik::globr($path, '*.php');
+		// supported adapters
+		$adapters = array(
+			'Pdo_Mysql',
+			'Mysqli',
+//			'Pdo_Pgsql',
+//			'Pdo_Mssql',
+		);
+
 		$adapterNames = array();
-		foreach($adapters as $adapter)
+		foreach($adapters as $adapterName)
 		{
-			$adapterName = str_replace('/', '_', substr($adapter, $pathLength, -strlen('.php')));
 			$className = 'Piwik_Db_Adapter_'.$adapterName;
 			if(call_user_func(array($className, 'isEnabled')))
 			{
 				$adapterNames[strtoupper($adapterName)] = call_user_func(array($className, 'getDefaultPort'));
 			}
 		}
-		// little hack to return PDO_MYSQL first by default
-		$adapterNames = array_reverse($adapterNames, $preserve_keys = true);
-        		
+
 		return $adapterNames;
 	}
 }
