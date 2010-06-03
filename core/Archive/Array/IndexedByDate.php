@@ -42,7 +42,14 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		return 'date';
 	}
 	
-	protected function loadMetadata(Piwik_DataTable_Array $table, Piwik_Archive $archive)
+	/**
+	 * Adds metadata information to the Piwik_DataTable_Array 
+	 * using the information given by the Archive
+	 *
+	 * @param Piwik_DataTable_Array $table
+	 * @param Piwik_Archive $archive
+	 */
+	protected function loadMetadata(Piwik_DataTable_Array $table, $archive)
 	{
 		$table->metadata[$archive->getPrettyDate()] = array( 
 				'timestamp' => $archive->getTimestampStartDate(),
