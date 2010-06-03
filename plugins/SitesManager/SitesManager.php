@@ -19,7 +19,6 @@ class Piwik_SitesManager extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'SitesManager',
 			'description' => Piwik_Translate('SitesManager_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

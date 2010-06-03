@@ -19,7 +19,6 @@ class Piwik_Live extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Live',
 			'description' => Piwik_Translate('Live_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

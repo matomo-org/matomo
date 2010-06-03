@@ -19,7 +19,6 @@ class Piwik_Provider extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Provider',
 			'description' => Piwik_Translate('Provider_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

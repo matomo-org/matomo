@@ -26,7 +26,6 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'ExampleRssWidget',
 			'description' => Piwik_Translate('ExampleRssWidget_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

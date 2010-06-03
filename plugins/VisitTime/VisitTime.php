@@ -19,7 +19,6 @@ class Piwik_VisitTime extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'VisitTime',
 			'description' =>  Piwik_Translate('VisitTime_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

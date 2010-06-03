@@ -36,7 +36,6 @@ class Piwik_ExampleUI extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'ExampleUI',
 			'description' => Piwik_Translate('ExampleUI_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

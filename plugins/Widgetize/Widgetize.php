@@ -19,7 +19,6 @@ class Piwik_Widgetize extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Widgetize',
 			'description' => Piwik_Translate('Widgetize_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

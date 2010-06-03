@@ -19,7 +19,6 @@ class Piwik_MultiSites extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'MultiSites',
 			'description' => Piwik_Translate('MultiSites_PluginDescription'),
 			'author' => 'ClearCode.cc',
 			'author_homepage' => "http://clearcode.cc/",

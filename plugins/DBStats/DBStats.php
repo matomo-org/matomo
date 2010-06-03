@@ -19,7 +19,6 @@ class Piwik_DBStats extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'DBStats',
 			'description' => Piwik_Translate('DBStats_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

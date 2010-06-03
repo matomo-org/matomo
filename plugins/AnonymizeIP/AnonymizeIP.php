@@ -23,7 +23,6 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'AnonymizeIP',
 			'description' => Piwik_Translate('AnonymizeIP_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

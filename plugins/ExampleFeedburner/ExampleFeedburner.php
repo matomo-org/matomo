@@ -26,7 +26,6 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'ExampleFeedburner',
 			'description' => Piwik_Translate('ExampleFeedburner_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

@@ -19,7 +19,6 @@ class Piwik_Dashboard extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Dashboard',
 			'description' => Piwik_Translate('Dashboard_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
