@@ -531,18 +531,6 @@ class Piwik
 		return round($size, 1)." ".$val;
 	}
 
-	/**
-	 * Returns true if PHP was invoked as CGI or command-line interface (shell)
-	 *
-	 * @deprecated deprecated in 0.4.4
-	 * @see Piwik_Common::isPhpCliMode()
-	 * @return bool true if PHP invoked as a CGI or from CLI
-	 */
-	static public function isPhpCliMode()
-	{
-		return Piwik_Common::isPhpCliMode();
-	}
-	
 	static public function getCurrency($idSite)
 	{
 		static $symbols = null;
@@ -1301,17 +1289,6 @@ class Piwik
 	}
 
 	/**
-	 * API was simplified in 0.2.27, but we maintain backward compatibility 
-	 * when calling Piwik::prefixTable
-	 *
-	 * @deprecated as of 0.2.27
-	 */
-	static public function prefixTable( $table )
-	{
-		return Piwik_Common::prefixTable($table);
-	}
-	
-	/**
 	 * Names of all the prefixed tables in piwik
 	 * Doesn't use the DB 
 	 *
@@ -1445,16 +1422,6 @@ class Piwik
 		Zend_Registry::get('db')->closeConnection();
 	}
 	
-	/**
-	 * Returns the MySQL database server version
-	 *
-	 * @deprecated 0.4.4
-	 */
-	static public function getMysqlVersion()
-	{
-		return Piwik_FetchOne("SELECT VERSION()");
-	}
-
 	/**
 	 * Checks the database server version against the required minimum
 	 * version.
@@ -1632,7 +1599,7 @@ class Piwik
 		// The anonymous user is the user that is assigned by default 
 		// note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
 		$db = Zend_Registry::get('db');
-		$db->query("INSERT INTO ". Piwik::prefixTable("user") . " 
+		$db->query("INSERT INTO ". Piwik_Common::prefixTable("user") . " 
 					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '".Piwik_Date::factory('now')->getDatetime()."' );" );
 	}
 
