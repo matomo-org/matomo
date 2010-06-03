@@ -37,7 +37,200 @@ class Piwik
 			'month'	=> 3,
 			'year'	=> 4,
 		);
+
+/*
+ * Prefix/unprefix class name
+ */
+
+	/**
+	 * Prefix class name (if needed)
+	 *
+	 * @param string $class
+	 * @return string
+	 */	
+	static public function prefixClass( $class )
+	{
+		if(substr_count($class, Piwik::CLASSES_PREFIX) > 0)
+		{
+			return $class;
+		}
+		return Piwik::CLASSES_PREFIX.$class;
+	}
+
+	/**
+	 * Unprefix class name (if needed)
+	 *
+	 * @param string $class
+	 * @return string
+	 */	
+	static public function unprefixClass( $class )
+	{
+		$lenPrefix = strlen(Piwik::CLASSES_PREFIX);
+		if(substr($class, 0, $lenPrefix) == Piwik::CLASSES_PREFIX)
+		{
+			return substr($class, $lenPrefix);
+		}
+		return $class;
+	}
+
+/*
+ * Installation / Uninstallation
+ */
+
+	/**
+	 * Installation helper
+	 */
+	static public function install()
+	{
+		Piwik_Common::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
+	}
+
+	/**
+	 * Uninstallation helper
+	 */	
+	static public function uninstall()
+	{
+		$db = Zend_Registry::get('db');
+		$db->query( "DROP TABLE IF EXISTS ". implode(", ", self::getTablesNames()) );
+	}
+
+/*
+ * File and directory operations
+ */
+
+	/**
+	 * Copy recursively from $source to $target.
+	 * 
+	 * @param string $source eg. './tmp/latest'
+	 * @param string $target eg. '.'
+	 * @param bool   $excludePhp
+	 */
+	static public function copyRecursive($source, $target, $excludePhp=false )
+	{
+		if ( is_dir( $source ) )
+		{
+			@mkdir( $target );
+			$d = dir( $source );
+			while ( false !== ( $entry = $d->read() ) )
+			{
+				if ( $entry == '.' || $entry == '..' )
+				{
+					continue;
+				}
+			   
+				$sourcePath = $source . '/' . $entry;		   
+				if ( is_dir( $sourcePath ) )
+				{
+					self::copyRecursive( $sourcePath, $target . '/' . $entry, $excludePhp );
+					continue;
+				}
+				$destPath = $target . '/' . $entry;
+				self::copy($sourcePath, $destPath, $excludePhp);
+			}
+			$d->close();
+		}
+		else
+		{
+			self::copy($source, $target, $excludePhp);
+		}
+	}
 	
+	/**
+	 * Copy individual file from $source to $target.
+	 * 
+	 * @param string $source eg. './tmp/latest/index.php'
+	 * @param string $target eg. './index.php'
+	 * @param bool   $excludePhp
+	 * @return bool
+	 */
+	static public function copy($source, $dest, $excludePhp=false)
+	{
+		static $phpExtensions = array('php', 'tpl');
+
+		if($excludePhp)
+		{
+			$path_parts = pathinfo($source);
+			if(in_array($path_parts['extension'], $phpExtensions))
+			{
+				return true;
+			}
+		}
+
+		if(!@copy( $source, $dest ))
+		{
+			@chmod($dest, 0755);
+	   		if(!@copy( $source, $dest )) 
+	   		{
+				throw new Exception("
+				Error while copying file to <code>$dest</code>. <br />
+				Please check that the web server has enough permission to overwrite this file. <br />
+				For example, on a linux server, if your apache user is www-data you can try to execute:<br />
+				<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br />
+				<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br />
+					");
+	   		}
+		}
+		return true;
+	}
+
+	/**
+	 * Recursively delete a directory
+	 *
+	 * @param string $dir Directory name
+	 * @param boolean $deleteRootToo Delete specified top-level directory as well
+	 */
+	static public function unlinkRecursive($dir, $deleteRootToo)
+	{
+		if(!$dh = @opendir($dir))
+		{
+			return;
+		}
+		while (false !== ($obj = readdir($dh)))
+		{
+			if($obj == '.' || $obj == '..')
+			{
+				continue;
+			}
+	
+			if (!@unlink($dir . '/' . $obj))
+			{
+				self::unlinkRecursive($dir.'/'.$obj, true);
+			}
+		}
+		closedir($dh);
+		if ($deleteRootToo)
+		{
+			@rmdir($dir);
+		}
+		return;
+	} 
+	
+	/**
+	 * Recursively find pathnames that match a pattern
+	 * @see glob()
+	 *
+	 * @param string $sDir directory
+	 * @param string $sPattern pattern
+	 * @param int $nFlags glob() flags
+	 * @return array
+	 */
+	public static function globr($sDir, $sPattern, $nFlags = NULL)
+	{
+		if(($aFiles = glob("$sDir/$sPattern", $nFlags)) == false)
+		{
+			$aFiles = array();
+		}
+		if(($aDirs = glob("$sDir/*", GLOB_ONLYDIR)) != false)
+		{
+			foreach ($aDirs as $sSubDir)
+			{
+				$aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
+				$aFiles = array_merge($aFiles, $aSubFiles);
+			}
+		}
+		return $aFiles;
+	}
+
 	/**
 	 * Checks that the directories Piwik needs write access are actually writable
 	 * Displays a nice error page if permissions are missing on some directories
@@ -212,26 +405,9 @@ class Piwik
 		return $messages;
 	}
 
-	/**
-	 * Returns the Javascript code to be inserted on every page to track
-	 *
-	 * @param int $idSite
-	 * @param string $piwikUrl http://path/to/piwik/directory/ 
-	 * @param string $actionName
-	 * @return string
-	 */
-	static public function getJavascriptCode($idSite, $piwikUrl, $actionName = "''")
-	{	
-		$jsTag = file_get_contents( PIWIK_INCLUDE_PATH . "/core/Tracker/javascriptTag.tpl");
-		$jsTag = nl2br(htmlentities($jsTag));
-		$piwikUrl = preg_match('~^(http|https)://(.*)$~', $piwikUrl, $matches);
-		$piwikUrl = $matches[2];
-		$jsTag = str_replace('{$actionName}', $actionName, $jsTag);
-		$jsTag = str_replace('{$idSite}', $idSite, $jsTag);
-		$jsTag = str_replace('{$piwikUrl}', $piwikUrl, $jsTag);
-		$jsTag = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsTag);
-		return $jsTag;
-	}
+/*
+ * PHP environment settings
+ */
 
 	/**
 	 * Set maximum script execution time.
@@ -301,6 +477,10 @@ class Piwik
 		
 		return false;
 	}
+
+/*
+ * Logging and error handling
+ */
 	
 	static public function log($message = '')
 	{
@@ -328,33 +508,23 @@ class Piwik
 		print(Piwik_Log_Formatter_ScreenFormatter::getFormattedString($output));
 		exit;
 	}
-	
-	/**
-	 * Computes the division of i1 by i2. If either i1 or i2 are not number, or if i2 has a value of zero
-	 * we return 0 to avoid the division by zero.
-	 *
-	 * @param numeric $i1
-	 * @param numeric $i2
-	 * @return numeric The result of the division or zero 
-	 */
-	static public function secureDiv( $i1, $i2 )
-	{
-		if ( is_numeric($i1) && is_numeric($i2) && floatval($i2) != 0)
-		{ 
-			return $i1 / $i2;
-		}   
-		return 0;
-	}
+
+/*
+ * Profiling
+ */
+
 	static public function getQueryCount()
 	{
 		$profiler = Zend_Registry::get('db')->getProfiler();
 		return $profiler->getTotalNumQueries();
 	}
+
 	static public function getDbElapsedSecs()
 	{
 		$profiler = Zend_Registry::get('db')->getProfiler();
 		return $profiler->getTotalElapsedSecs();
 	}
+
 	static public function printQueryCount()
 	{
 		$totalTime = self::getDbElapsedSecs();
@@ -513,22 +683,35 @@ class Piwik
 			Piwik::log("Memory usage function not found.");
 		}
 	}
+
+/*
+ * Amounts, Percentages, Currency, Time, Math Operations, and Pretty Printing
+ */
 	
-	static public function getPrettySizeFromBytes($size)
+	/**
+	 * Computes the division of i1 by i2. If either i1 or i2 are not number, or if i2 has a value of zero
+	 * we return 0 to avoid the division by zero.
+	 *
+	 * @param numeric $i1
+	 * @param numeric $i2
+	 * @return numeric The result of the division or zero 
+	 */
+	static public function secureDiv( $i1, $i2 )
 	{
-		$bytes = array('','K','M','G','T');
-		foreach($bytes as $val) 
+		if ( is_numeric($i1) && is_numeric($i2) && floatval($i2) != 0)
+		{ 
+			return $i1 / $i2;
+		}   
+		return 0;
+	}
+
+	static public function getPercentageSafe($dividend, $divisor, $precision = 0)
+	{
+		if($divisor == 0)
 		{
-			if($size > 1024)
-			{
-				$size = $size / 1024;
-			}
-			else
-			{
-				break;
-			}
+			return 0;
 		}
-		return round($size, 1)." ".$val;
+		return round(100 * $dividend / $divisor, $precision);
 	}
 
 	static public function getCurrency($idSite)
@@ -556,16 +739,24 @@ class Piwik
 		}
 		return sprintf("$currencyBefore&nbsp;%s$currencyAfter", $value);
 	}
-	
-	static public function getPercentageSafe($dividend, $divisor, $precision = 0)
+		
+	static public function getPrettySizeFromBytes($size)
 	{
-		if($divisor == 0)
+		$bytes = array('','K','M','G','T');
+		foreach($bytes as $val) 
 		{
-			return 0;
+			if($size > 1024)
+			{
+				$size = $size / 1024;
+			}
+			else
+			{
+				break;
+			}
 		}
-		return round(100 * $dividend / $divisor, $precision);
+		return round($size, 1)." ".$val;
 	}
-	
+
 	static public function getPrettyTimeFromSeconds($numberOfSeconds)
 	{
 		$numberOfSeconds = (double)$numberOfSeconds;
@@ -597,7 +788,28 @@ class Piwik
 		}
 		return str_replace(' ', '&nbsp;', $return);
 	}
-	
+
+	/**
+	 * Returns the Javascript code to be inserted on every page to track
+	 *
+	 * @param int $idSite
+	 * @param string $piwikUrl http://path/to/piwik/directory/ 
+	 * @param string $actionName
+	 * @return string
+	 */
+	static public function getJavascriptCode($idSite, $piwikUrl, $actionName = "''")
+	{	
+		$jsTag = file_get_contents( PIWIK_INCLUDE_PATH . "/core/Tracker/javascriptTag.tpl");
+		$jsTag = nl2br(htmlentities($jsTag));
+		$piwikUrl = preg_match('~^(http|https)://(.*)$~', $piwikUrl, $matches);
+		$piwikUrl = $matches[2];
+		$jsTag = str_replace('{$actionName}', $actionName, $jsTag);
+		$jsTag = str_replace('{$idSite}', $idSite, $jsTag);
+		$jsTag = str_replace('{$piwikUrl}', $piwikUrl, $jsTag);
+		$jsTag = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsTag);
+		return $jsTag;
+	}
+
 	static public function getRandomTitle()
 	{
 		$titles = array( 'Web analytics',
@@ -617,261 +829,11 @@ class Piwik
 		$title = $titles[ $id % count($titles)];
 		return $title;
 	}
-	
-	static public function getTableCreateSql( $tableName )
-	{
-		$tables = Piwik::getTablesCreateSql();
-		
-		if(!isset($tables[$tableName]))
-		{
-			throw new Exception("The table '$tableName' SQL creation code couldn't be found.");
-		}
-		
-		return $tables[$tableName];
-	}
-	
-	static public function getTablesCreateSql()
-	{
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
-		$tables = array(
-			'user' => "CREATE TABLE {$prefixTables}user (
-						  login VARCHAR(100) NOT NULL,
-						  password CHAR(32) NOT NULL,
-						  alias VARCHAR(45) NOT NULL,
-						  email VARCHAR(100) NOT NULL,
-						  token_auth CHAR(32) NOT NULL,
-						  date_registered TIMESTAMP NULL,
-						  PRIMARY KEY(login),
-						  UNIQUE KEY uniq_keytoken(token_auth)
-						)  DEFAULT CHARSET=utf8 
-			",
-			
-			'access' => "CREATE TABLE {$prefixTables}access (
-						  login VARCHAR(100) NOT NULL,
-						  idsite INTEGER UNSIGNED NOT NULL,
-						  access VARCHAR(10) NULL,
-						  PRIMARY KEY(login, idsite)
-						)  DEFAULT CHARSET=utf8 
-			",
-			
-			'site' => "CREATE TABLE {$prefixTables}site (
-						  idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-						  name VARCHAR(90) NOT NULL,
-						  main_url VARCHAR(255) NOT NULL,
-  						  ts_created TIMESTAMP NULL,
-  						  timezone VARCHAR( 50 ) NOT NULL,
-  						  currency CHAR( 3 ) NOT NULL,
-  						  excluded_ips TEXT NOT NULL,
-  						  excluded_parameters VARCHAR ( 255 ) NOT NULL,
-						  PRIMARY KEY(idsite)
-						)  DEFAULT CHARSET=utf8 
-			",
-			
-			'site_url' => "CREATE TABLE {$prefixTables}site_url (
-							  idsite INTEGER(10) UNSIGNED NOT NULL,
-							  url VARCHAR(255) NOT NULL,
-							  PRIMARY KEY(idsite, url)
-						)  DEFAULT CHARSET=utf8 
-			",
-			
-			'goal' => "	CREATE TABLE `{$prefixTables}goal` (
-							  `idsite` int(11) NOT NULL,
-							  `idgoal` int(11) NOT NULL,
-							  `name` varchar(50) NOT NULL,
-							  `match_attribute` varchar(20) NOT NULL,
-							  `pattern` varchar(255) NOT NULL,
-							  `pattern_type` varchar(10) NOT NULL,
-							  `case_sensitive` tinyint(4) NOT NULL,
-							  `revenue` float NOT NULL,
-							  `deleted` tinyint(4) NOT NULL default '0',
-							  PRIMARY KEY  (`idsite`,`idgoal`)
-							)  DEFAULT CHARSET=utf8 
-			",
-			
-			'logger_message' => "CREATE TABLE {$prefixTables}logger_message (
-									  idlogger_message INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-									  timestamp TIMESTAMP NULL,
-									  message TEXT NULL,
-									  PRIMARY KEY(idlogger_message)
-									)  DEFAULT CHARSET=utf8 
-			",
-			
-			'logger_api_call' => "CREATE TABLE {$prefixTables}logger_api_call (
-									  idlogger_api_call INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-									  class_name VARCHAR(255) NULL,
-									  method_name VARCHAR(255) NULL,
-									  parameter_names_default_values TEXT NULL,
-									  parameter_values TEXT NULL,
-									  execution_time FLOAT NULL,
-									  caller_ip INT UNSIGNED NULL,
-									  timestamp TIMESTAMP NULL,
-									  returned_value TEXT NULL,
-									  PRIMARY KEY(idlogger_api_call)
-									)  DEFAULT CHARSET=utf8 
-			",
-			
-			'logger_error' => "CREATE TABLE {$prefixTables}logger_error (
-									  idlogger_error INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-									  timestamp TIMESTAMP NULL,
-									  message TEXT NULL,
-									  errno INTEGER UNSIGNED NULL,
-									  errline INTEGER UNSIGNED NULL,
-									  errfile VARCHAR(255) NULL,
-									  backtrace TEXT NULL,
-									  PRIMARY KEY(idlogger_error)
-									) DEFAULT CHARSET=utf8 
-			",
-			
-			'logger_exception' => "CREATE TABLE {$prefixTables}logger_exception (
-									  idlogger_exception INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-									  timestamp TIMESTAMP NULL,
-									  message TEXT NULL,
-									  errno INTEGER UNSIGNED NULL,
-									  errline INTEGER UNSIGNED NULL,
-									  errfile VARCHAR(255) NULL,
-									  backtrace TEXT NULL,
-									  PRIMARY KEY(idlogger_exception)
-									)  DEFAULT CHARSET=utf8 
-			",
-			
-			
-			'log_action' => "CREATE TABLE {$prefixTables}log_action (
-									  idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-									  name TEXT,
-									  hash INTEGER(10) UNSIGNED NOT NULL,
-  									  type TINYINT UNSIGNED NULL,
-									  PRIMARY KEY(idaction),
-									  INDEX index_type_hash (type, hash)
-						)  DEFAULT CHARSET=utf8 
-			",
-					
-			'log_visit' => "CREATE TABLE {$prefixTables}log_visit (
-							  idvisit INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-							  idsite INTEGER(10) UNSIGNED NOT NULL,
-							  visitor_localtime TIME NOT NULL,
-							  visitor_idcookie CHAR(32) NOT NULL,
-							  visitor_returning TINYINT(1) NOT NULL,
-							  visit_first_action_time DATETIME NOT NULL,
-							  visit_last_action_time DATETIME NOT NULL,
-							  visit_server_date DATE NOT NULL, 
-							  visit_exit_idaction_url INTEGER(11) NOT NULL,
-							  visit_entry_idaction_url INTEGER(11) NOT NULL,
-							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
-							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
-							  visit_goal_converted TINYINT(1) NOT NULL,
-							  referer_type INTEGER UNSIGNED NULL,
-							  referer_name VARCHAR(70) NULL,
-							  referer_url TEXT NOT NULL,
-							  referer_keyword VARCHAR(255) NULL,
-							  config_md5config CHAR(32) NOT NULL,
-							  config_os CHAR(3) NOT NULL,
-							  config_browser_name VARCHAR(10) NOT NULL,
-							  config_browser_version VARCHAR(20) NOT NULL,
-							  config_resolution VARCHAR(9) NOT NULL,
-							  config_pdf TINYINT(1) NOT NULL,
-							  config_flash TINYINT(1) NOT NULL,
-							  config_java TINYINT(1) NOT NULL,
-							  config_director TINYINT(1) NOT NULL,
-							  config_quicktime TINYINT(1) NOT NULL,
-							  config_realplayer TINYINT(1) NOT NULL,
-							  config_windowsmedia TINYINT(1) NOT NULL,
-							  config_gears TINYINT(1) NOT NULL,
-							  config_silverlight TINYINT(1) NOT NULL,
-							  config_cookie TINYINT(1) NOT NULL,
-							  location_ip INT UNSIGNED NOT NULL,
-							  location_browser_lang VARCHAR(20) NOT NULL,
-							  location_country CHAR(3) NOT NULL,
-							  location_continent CHAR(3) NOT NULL,
-							  PRIMARY KEY(idvisit),
-							  INDEX index_idsite_idvisit (idsite, idvisit),
-							  INDEX index_idsite_date_config (idsite, visit_server_date, config_md5config(8)),
-							  INDEX index_idsite_datetime_config (idsite, visit_last_action_time, config_md5config(8))
-							)  DEFAULT CHARSET=utf8 
-			",		
-			
-			'log_conversion' => "CREATE TABLE `{$prefixTables}log_conversion` (
-									  idvisit int(10) unsigned NOT NULL,
-									  idsite int(10) unsigned NOT NULL,
-									  visitor_idcookie char(32) NOT NULL,
-									  server_time datetime NOT NULL,
-									  idaction_url int(11) default NULL,
-									  idlink_va int(11) default NULL,
-									  referer_idvisit int(10) unsigned default NULL,
-									  referer_visit_server_date date default NULL,
-									  referer_type int(10) unsigned default NULL,
-									  referer_name varchar(70) default NULL,
-									  referer_keyword varchar(255) default NULL,
-									  visitor_returning tinyint(1) NOT NULL,
-									  location_country char(3) NOT NULL,
-									  location_continent char(3) NOT NULL,
-									  url text NOT NULL,
-									  idgoal int(10) unsigned NOT NULL,
-									  revenue float default NULL,
-									  PRIMARY KEY  (idvisit, idgoal),
-									  INDEX index_idsite_datetime ( idsite, server_time )
-									) DEFAULT CHARSET=utf8 
-			",
-							
-			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
-											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
-											  idvisit INTEGER(10) UNSIGNED NOT NULL,
-											  idaction_url INTEGER(10) UNSIGNED NOT NULL,
-											  idaction_url_ref INTEGER(10) UNSIGNED NOT NULL,
-											  idaction_name INTEGER(10) UNSIGNED,
-											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
-											  PRIMARY KEY(idlink_va),
-											  INDEX index_idvisit(idvisit)
-											)  DEFAULT CHARSET=utf8 
-			",
-		
-			'log_profiling' => "CREATE TABLE {$prefixTables}log_profiling (
-								  query TEXT NOT NULL,
-								  count INTEGER UNSIGNED NULL,
-								  sum_time_ms FLOAT NULL,
-								  UNIQUE KEY query(query(100))
-								)  DEFAULT CHARSET=utf8 
-			",
-			
-			'option' => "CREATE TABLE `{$prefixTables}option` (
-								option_name VARCHAR( 64 ) NOT NULL,
-								option_value LONGTEXT NOT NULL,
-								autoload TINYINT NOT NULL DEFAULT '1',
-								PRIMARY KEY ( option_name )
-								)  DEFAULT CHARSET=utf8 
-			",
-								
-			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
-									  idarchive INTEGER UNSIGNED NOT NULL,
-									  name VARCHAR(255) NOT NULL,
-									  idsite INTEGER UNSIGNED NULL,
-									  date1 DATE NULL,
-								  	  date2 DATE NULL,
-									  period TINYINT UNSIGNED NULL,
-								  	  ts_archived DATETIME NULL,
-								  	  value FLOAT NULL,
-									  PRIMARY KEY(idarchive, name),
-									  INDEX index_idsite_dates_period(idsite, date1, date2, period, ts_archived),
-									  INDEX index_period_archived(period, ts_archived)
-									)  DEFAULT CHARSET=utf8 
-			",
-			'archive_blob'	=> "CREATE TABLE {$prefixTables}archive_blob (
-									  idarchive INTEGER UNSIGNED NOT NULL,
-									  name VARCHAR(255) NOT NULL,
-									  idsite INTEGER UNSIGNED NULL,
-									  date1 DATE NULL,
-									  date2 DATE NULL,
-									  period TINYINT UNSIGNED NULL,
-									  ts_archived DATETIME NULL,
-									  value MEDIUMBLOB NULL,
-									  PRIMARY KEY(idarchive, name),
-									  INDEX index_period_archived(period, ts_archived)
-									)  DEFAULT CHARSET=utf8 
-			",
-		);
-		return $tables;
-	}
 
+/*
+ * Access
+ */
+	
 	/**
 	 * Get current user login
 	 *
@@ -890,16 +852,6 @@ class Piwik
 	static public function getCurrentUserTokenAuth()
 	{
 		return Zend_Registry::get('access')->getTokenAuth();
-	}
-	
-	/**
-	 * Returns the plugin currently being used to display the page
-	 *
-	 * @return Piwik_Plugin
-	 */
-	static public function getCurrentPlugin()
-	{
-		return Piwik_PluginsManager::getInstance()->getLoadedPlugin(Piwik::getModule());
 	}
 	
 	/**
@@ -951,18 +903,6 @@ class Piwik
 		} catch( Exception $e){
 			return false;
 		}
-	}
-	
-	/**
-	 * Returns the name of the Login plugin currently being used.
-	 * Must be used since it is not allowed to hardcode 'Login' in URLs
-	 * in case another Login plugin is being used.
-	 * 
-	 * @return string
-	 */
-	static public function getLoginPluginName()
-	{
-		return Zend_Registry::get('auth')->getName();
 	}
 	
 	/**
@@ -1088,38 +1028,33 @@ class Piwik
 		Zend_Registry::get('access')->checkUserHasSomeViewAccess();
 	}
 
+/*
+ * Current module, action, plugin
+ */
+
 	/**
-	 * Prefix class name (if needed)
-	 *
-	 * @param string $class
+	 * Returns the name of the Login plugin currently being used.
+	 * Must be used since it is not allowed to hardcode 'Login' in URLs
+	 * in case another Login plugin is being used.
+	 * 
 	 * @return string
-	 */	
-	static public function prefixClass( $class )
+	 */
+	static public function getLoginPluginName()
 	{
-		if(substr_count($class, Piwik::CLASSES_PREFIX) > 0)
-		{
-			return $class;
-		}
-		return Piwik::CLASSES_PREFIX.$class;
+		return Zend_Registry::get('auth')->getName();
 	}
 
 	/**
-	 * Unprefix class name (if needed)
+	 * Returns the plugin currently being used to display the page
 	 *
-	 * @param string $class
-	 * @return string
-	 */	
-	static public function unprefixClass( $class )
+	 * @return Piwik_Plugin
+	 */
+	static public function getCurrentPlugin()
 	{
-		$lenPrefix = strlen(Piwik::CLASSES_PREFIX);
-		if(substr($class, 0, $lenPrefix) == Piwik::CLASSES_PREFIX)
-		{
-			return substr($class, $lenPrefix);
-		}
-		return $class;
+		return Piwik_PluginsManager::getInstance()->getLoadedPlugin(Piwik::getModule());
 	}
-
-	/**
+	
+		/**
 	 * Returns the current module read from the URL (eg. 'API', 'UserSettings', etc.)
 	 *
 	 * @return string
@@ -1155,224 +1090,9 @@ class Piwik
 		Piwik_Url::redirectToUrl($newUrl);
 	}
 
-	/**
-	 * Recursively delete a directory
-	 *
-	 * @param string $dir Directory name
-	 * @param boolean $deleteRootToo Delete specified top-level directory as well
-	 */
-	static public function unlinkRecursive($dir, $deleteRootToo)
-	{
-		if(!$dh = @opendir($dir))
-		{
-			return;
-		}
-		while (false !== ($obj = readdir($dh)))
-		{
-			if($obj == '.' || $obj == '..')
-			{
-				continue;
-			}
-	
-			if (!@unlink($dir . '/' . $obj))
-			{
-				self::unlinkRecursive($dir.'/'.$obj, true);
-			}
-		}
-		closedir($dh);
-		if ($deleteRootToo)
-		{
-			@rmdir($dir);
-		}
-		return;
-	} 
-	
-	/**
-	 * Copy recursively from $source to $target.
-	 * 
-	 * @param string $source eg. './tmp/latest'
-	 * @param string $target eg. '.'
-	 * @param bool   $excludePhp
-	 */
-	static public function copyRecursive($source, $target, $excludePhp=false )
-	{
-		if ( is_dir( $source ) )
-		{
-			@mkdir( $target );
-			$d = dir( $source );
-			while ( false !== ( $entry = $d->read() ) )
-			{
-				if ( $entry == '.' || $entry == '..' )
-				{
-					continue;
-				}
-			   
-				$sourcePath = $source . '/' . $entry;		   
-				if ( is_dir( $sourcePath ) )
-				{
-					self::copyRecursive( $sourcePath, $target . '/' . $entry, $excludePhp );
-					continue;
-				}
-				$destPath = $target . '/' . $entry;
-				self::copy($sourcePath, $destPath, $excludePhp);
-			}
-			$d->close();
-		}
-		else
-		{
-			self::copy($source, $target, $excludePhp);
-		}
-	}
-	
-	/**
-	 * Copy individual file from $source to $target.
-	 * 
-	 * @param string $source eg. './tmp/latest/index.php'
-	 * @param string $target eg. './index.php'
-	 * @param bool   $excludePhp
-	 * @return bool
-	 */
-	static public function copy($source, $dest, $excludePhp=false)
-	{
-		static $phpExtensions = array('php', 'tpl');
-
-		if($excludePhp)
-		{
-			$path_parts = pathinfo($source);
-			if(in_array($path_parts['extension'], $phpExtensions))
-			{
-				return true;
-			}
-		}
-
-		if(!@copy( $source, $dest ))
-		{
-			@chmod($dest, 0755);
-	   		if(!@copy( $source, $dest )) 
-	   		{
-				throw new Exception("
-				Error while copying file to <code>$dest</code>. <br />
-				Please check that the web server has enough permission to overwrite this file. <br />
-				For example, on a linux server, if your apache user is www-data you can try to execute:<br />
-				<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br />
-				<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br />
-					");
-	   		}
-		}
-		return true;
-	}
-
-	/**
-	 * Recursively find pathnames that match a pattern
-	 * @see glob()
-	 *
-	 * @param string $sDir directory
-	 * @param string $sPattern pattern
-	 * @param int $nFlags glob() flags
-	 * @return array
-	 */
-	public static function globr($sDir, $sPattern, $nFlags = NULL)
-	{
-		if(($aFiles = glob("$sDir/$sPattern", $nFlags)) == false)
-		{
-			$aFiles = array();
-		}
-		if(($aDirs = glob("$sDir/*", GLOB_ONLYDIR)) != false)
-		{
-			foreach ($aDirs as $sSubDir)
-			{
-				$aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
-				$aFiles = array_merge($aFiles, $aSubFiles);
-			}
-		}
-		return $aFiles;
-	}
-
-	/**
-	 * Names of all the prefixed tables in piwik
-	 * Doesn't use the DB 
-	 *
-	 * @return array Table names
-	 */
-	static public function getTablesNames()
-	{
-		$aTables = array_keys(self::getTablesCreateSql());
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
-		$return = array();
-		foreach($aTables as $table)
-		{
-			$return[] = $prefixTables.$table;
-		}
-		return $return;
-	}
-	
-	static $tablesInstalled = null;
-
-	/**
-	 * Get list of tables installed
-	 *
-	 * @param bool $forceReload Invalidate cache
-	 * @param string $idSite
-	 * @return array Tables installed
-	 */	
-	static public function getTablesInstalled($forceReload = true,  $idSite = null)
-	{
-		if(is_null(self::$tablesInstalled)
-			|| $forceReload === true)
-		{
-			$db = Zend_Registry::get('db');
-			$config = Zend_Registry::get('config');
-			$prefixTables = $config->database->tables_prefix;
-			
-			$allTables = $db->fetchCol("SHOW TABLES");
-			
-			// all the tables to be installed
-			$allMyTables = self::getTablesNames();
-			
-			// we get the intersection between all the tables in the DB and the tables to be installed
-			$tablesInstalled = array_intersect($allMyTables, $allTables);
-			
-			// at this point we have only the piwik tables which is good
-			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
-			$idSiteInSql = "no";
-			if(!is_null($idSite))
-			{
-				$idSiteInSql = $idSite;
-			}
-			$allArchiveNumeric = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */ 
-												SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
-			$allArchiveBlob = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */ 
-												SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
-					
-			$allTablesReallyInstalled = array_merge($tablesInstalled, $allArchiveNumeric, $allArchiveBlob);
-			
-			self::$tablesInstalled = $allTablesReallyInstalled;
-		}
-		return 	self::$tablesInstalled;
-	}
-
-	/**
-	 * Create database
-	 */
-	static public function createDatabase( $dbName = null )
-	{
-		if(is_null($dbName))
-		{
-			$dbName = Zend_Registry::get('config')->database->dbname;
-		}
-		Piwik_Exec("CREATE DATABASE IF NOT EXISTS ".$dbName);
-	}
-
-	/**
-	 * Drop database
-	 */
-	static public function dropDatabase()
-	{
-		$dbName = Zend_Registry::get('config')->database->dbname;
-		Piwik_Exec("DROP DATABASE IF EXISTS " . $dbName);
-
-	}
+/*
+ * Global database object
+ */
 
 	/**
 	 * Create database object and connect to database
@@ -1421,7 +1141,7 @@ class Piwik
 	{
 		Zend_Registry::get('db')->closeConnection();
 	}
-	
+
 	/**
 	 * Checks the database server version against the required minimum
 	 * version.
@@ -1444,6 +1164,10 @@ class Piwik
 	{
 		return Zend_Registry::get('db')->isConnectionUTF8();
 	}
+
+/*
+ * Global log object
+ */
 
 	/**
 	 * Create log object
@@ -1498,7 +1222,11 @@ class Piwik
 			Zend_Registry::set($loggerType, $logger);
 		}
 	}
-	
+
+/*
+ * Global config object
+ */
+
 	/**
 	 * Create configuration object
 	 *
@@ -1511,6 +1239,10 @@ class Piwik
 		$config->init();
 	}
 
+/*
+ * Global access object
+ */
+
 	/**
 	 * Create access object
 	 */
@@ -1519,30 +1251,10 @@ class Piwik
 		Zend_Registry::set('access', new Piwik_Access());
 	}
 
-	/**
-	 * Drop specific tables
-	 */	
-	static public function dropTables( $doNotDelete = array() )
-	{
-		$tablesAlreadyInstalled = self::getTablesInstalled();
-		$db = Zend_Registry::get('db');
-		
-		$doNotDeletePattern = '/('.implode('|',$doNotDelete).')/';
-		
-		foreach($tablesAlreadyInstalled as $tableName)
-		{
-			
-			if( count($doNotDelete) == 0
-				|| (!in_array($tableName,$doNotDelete)
-					&& !preg_match($doNotDeletePattern,$tableName)
-					)
-				)
-			{
-				$db->query("DROP TABLE `$tableName`");
-			}
-		}			
-	}
-	
+/*
+ * User input validation
+ */
+
 	/**
 	 * Returns true if the email is a valid email
 	 * 
@@ -1574,7 +1286,11 @@ class Piwik
 			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
 		}
 	}
-	
+
+/*
+ * Date / Timezone
+ */
+
 	/**
 	 * Returns true if the current php version supports timezone manipulation
 	 * (most likely if php >= 5.2)
@@ -1590,43 +1306,21 @@ class Piwik
     		function_exists( 'timezone_open' ) &&
     		function_exists( 'timezone_offset_get' );
 	}
-	
+
+/*
+ * DDL SQL
+ */
+
+	// @todo REFACTOR	
 	/**
 	 * Creates an entry in the User table for the "anonymous" user. 
 	 */
 	static public function createAnonymousUser()
 	{
-		// The anonymous user is the user that is assigned by default 
-		// note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
-		$db = Zend_Registry::get('db');
-		$db->query("INSERT INTO ". Piwik_Common::prefixTable("user") . " 
-					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '".Piwik_Date::factory('now')->getDatetime()."' );" );
+		Piwik_Db_Schema_MySQL::createAnonymousUser();
 	}
 
-	/**
-	 * Create all tables
-	 */	
-	static public function createTables()
-	{
-		$db = Zend_Registry::get('db');
-		$config = Zend_Registry::get('config');
-		$prefixTables = $config->database->tables_prefix;
-
-		$tablesAlreadyInstalled = self::getTablesInstalled();
-		$tablesToCreate = self::getTablesCreateSql();
-		unset($tablesToCreate['archive_blob']);
-		unset($tablesToCreate['archive_numeric']);
-
-		foreach($tablesToCreate as $tableName => $tableSql)
-		{
-			$tableName = $prefixTables . $tableName;
-			if(!in_array($tableName, $tablesAlreadyInstalled))
-			{
-				$db->query( $tableSql );
-			}
-		}
-	}
-
+	// @todo REFACTOR
 	/**
 	 * Truncate all tables
 	 */
@@ -1639,20 +1333,76 @@ class Piwik
 		}
 	}
 
+	// @todo REFACTOR
 	/**
-	 * Installation helper
-	 */
-	static public function install()
+	 * Create all tables
+	 */	
+	static public function createTables()
 	{
-		Piwik_Common::mkdir(Zend_Registry::get('config')->smarty->compile_dir);
+		Piwik_Db_Schema_MySQL::createTables();
 	}
 
+	// @todo REFACTOR
 	/**
-	 * Uninstallation helper
+	 * Drop specific tables
 	 */	
-	static public function uninstall()
+	static public function dropTables( $doNotDelete = array() )
 	{
-		$db = Zend_Registry::get('db');
-		$db->query( "DROP TABLE IF EXISTS ". implode(", ", self::getTablesNames()) );
+		Piwik_Db_Schema_MySQL::dropTables($doNotDelete);
+	}
+	
+	// @todo REFACTOR
+	static public function getTableCreateSql( $tableName )
+	{
+		return Piwik_Db_Schema_MySQL::getTableCreateSql($tableName);
+	}
+	
+	// @todo REFACTOR
+	static public function getTablesCreateSql()
+	{
+		return Piwik_Db_Schema_MySQL::getTablesCreateSql();
+	}
+
+	// @todo REFACTOR	
+	/**
+	 * Names of all the prefixed tables in piwik
+	 * Doesn't use the DB 
+	 *
+	 * @return array Table names
+	 */
+	static public function getTablesNames()
+	{
+		return Piwik_Db_Schema_MySQL::getTablesNames();
+	}
+
+	// @todo REFACTOR	
+	/**
+	 * Get list of tables installed
+	 *
+	 * @param bool $forceReload Invalidate cache
+	 * @param string $idSite
+	 * @return array Tables installed
+	 */	
+	static public function getTablesInstalled($forceReload = true,  $idSite = null)
+	{
+		return Piwik_Db_Schema_MySQL::getTablesInstalled($forceReload, $idSite);
+	}
+
+	// @todo REFACTOR
+	/**
+	 * Create database
+	 */
+	static public function createDatabase( $dbName = null )
+	{
+		Piwik_Db_Schema_MySQL::createDatabase($dbName);
+	}
+
+	// @todo REFACTOR
+	/**
+	 * Drop database
+	 */
+	static public function dropDatabase()
+	{
+		Piwik_Db_Schema_MySQL::dropDatabase();
 	}
 }
