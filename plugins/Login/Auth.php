@@ -42,7 +42,7 @@ class Piwik_Login_Auth implements Piwik_Auth
 		}
 
 		$login = Piwik_FetchOne(
-					'SELECT login FROM '.Piwik::prefixTable('user').' WHERE token_auth = ?',
+					'SELECT login FROM '.Piwik_Common::prefixTable('user').' WHERE token_auth = ?',
 					array($this->token_auth)
 		);
 		if($login !== false)

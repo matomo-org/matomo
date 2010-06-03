@@ -148,7 +148,7 @@ class Piwik_LanguagesManager_API
 	public function getLanguageForUser( $login )
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
-		return Piwik_FetchOne('SELECT language FROM '.Piwik::prefixTable('user_language') .
+		return Piwik_FetchOne('SELECT language FROM '.Piwik_Common::prefixTable('user_language') .
 					' WHERE login = ? ', array($login ));
 	}
 	
@@ -162,7 +162,7 @@ class Piwik_LanguagesManager_API
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
 		$paramsBind = array($login, $languageCode, $languageCode);
-		Piwik_Query('INSERT INTO '.Piwik::prefixTable('user_language') .
+		Piwik_Query('INSERT INTO '.Piwik_Common::prefixTable('user_language') .
 					' (login, language)
 						VALUES (?,?)
 					ON DUPLICATE KEY UPDATE language=?',

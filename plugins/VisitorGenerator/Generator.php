@@ -199,9 +199,9 @@ class Piwik_VisitorGenerator_Generator
 	public function emptyAllLogTables()
 	{
 		$db = Zend_Registry::get('db');
-		$db->query('TRUNCATE TABLE '.Piwik::prefixTable('log_action'));
-		$db->query('TRUNCATE TABLE '.Piwik::prefixTable('log_visit'));
-		$db->query('TRUNCATE TABLE '.Piwik::prefixTable('log_link_visit_action'));
+		$db->query('TRUNCATE TABLE '.Piwik_Common::prefixTable('log_action'));
+		$db->query('TRUNCATE TABLE '.Piwik_Common::prefixTable('log_visit'));
+		$db->query('TRUNCATE TABLE '.Piwik_Common::prefixTable('log_link_visit_action'));
 	}
 	
 	/**
@@ -323,7 +323,7 @@ class Piwik_VisitorGenerator_Generator
 		{
 			if($this->reinitProfilingAtEveryRequest)
 			{
-				$all = Piwik_Query('TRUNCATE TABLE '.Piwik::prefixTable('log_profiling').'' );
+				$all = Piwik_Query('TRUNCATE TABLE '.Piwik_Common::prefixTable('log_profiling').'' );
 			}
 		}
 	}

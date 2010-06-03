@@ -36,7 +36,7 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 	function install()
 	{
 		try{
-			Piwik_Exec('ALTER TABLE '.Piwik::prefixTable('site'). " ADD `feedburnerName` VARCHAR( 100 ) DEFAULT NULL");
+			Piwik_Exec('ALTER TABLE '.Piwik_Common::prefixTable('site'). " ADD `feedburnerName` VARCHAR( 100 ) DEFAULT NULL");
 		} catch(Exception $e){
 			// mysql code error 1060: column already exists
 			// if there is another error we throw the exception, otherwise it is OK as we are simply reinstalling the plugin
@@ -49,7 +49,7 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 	
 	function uninstall()
 	{
-		Piwik_Query('ALTER TABLE '.Piwik::prefixTable('site'). " DROP `feedburnerName`");
+		Piwik_Query('ALTER TABLE '.Piwik_Common::prefixTable('site'). " DROP `feedburnerName`");
 	}
 }
 
@@ -70,7 +70,7 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('feedburner');
 		$idSite = Piwik_Common::getRequestVar('idSite',1,'int');
-		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName FROM '.Piwik::prefixTable('site').
+		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName FROM '.Piwik_Common::prefixTable('site').
 								' WHERE idsite = ?', $idSite );
 		if(empty($feedburnerFeedName))
 		{
@@ -144,7 +144,7 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 		// we save the value in the DB for an authenticated user
 		if(Piwik::getCurrentUserLogin() != 'anonymous')
 		{
-			Piwik_Query('UPDATE '.Piwik::prefixTable('site').' 
+			Piwik_Query('UPDATE '.Piwik_Common::prefixTable('site').' 
 						 SET feedburnerName = ? WHERE idsite = ?', 
 				array(Piwik_Common::getRequestVar('name','','string'), Piwik_Common::getRequestVar('idSite',1,'int'))
 				);

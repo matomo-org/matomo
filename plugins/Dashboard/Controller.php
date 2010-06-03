@@ -52,7 +52,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	protected function saveLayoutForUser( $login, $idDashboard, $layout)
 	{
 		$paramsBind = array($login, $idDashboard, $layout, $layout);
-		Piwik_Query('INSERT INTO '.Piwik::prefixTable('user_dashboard') .
+		Piwik_Query('INSERT INTO '.Piwik_Common::prefixTable('user_dashboard') .
 					' (login, iddashboard, layout)
 						VALUES (?,?,?)
 					ON DUPLICATE KEY UPDATE layout=?',
@@ -70,7 +70,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	protected function getLayoutForUser( $login, $idDashboard)
 	{
 		$paramsBind = array($login, $idDashboard);
-		$return = Piwik_FetchAll('SELECT layout FROM '.Piwik::prefixTable('user_dashboard') .
+		$return = Piwik_FetchAll('SELECT layout FROM '.Piwik_Common::prefixTable('user_dashboard') .
 					' WHERE login = ? AND iddashboard = ?', $paramsBind);
 		if(count($return) == 0)
 		{

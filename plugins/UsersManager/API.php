@@ -75,7 +75,7 @@ class Piwik_UsersManager_API
 		Piwik::checkUserIsSuperUser();
 		
 		$db = Zend_Registry::get('db');
-		$users = $db->fetchAll("SELECT * FROM ".Piwik::prefixTable("user")." ORDER BY login ASC");
+		$users = $db->fetchAll("SELECT * FROM ".Piwik_Common::prefixTable("user")." ORDER BY login ASC");
 		return $users;
 	}
 	
@@ -89,7 +89,7 @@ class Piwik_UsersManager_API
 		Piwik::checkUserHasSomeAdminAccess();
 		
 		$db = Zend_Registry::get('db');
-		$users = $db->fetchAll("SELECT login FROM ".Piwik::prefixTable("user")." ORDER BY login ASC");
+		$users = $db->fetchAll("SELECT login FROM ".Piwik_Common::prefixTable("user")." ORDER BY login ASC");
 		$return = array();
 		foreach($users as $login)
 		{
@@ -121,7 +121,7 @@ class Piwik_UsersManager_API
 		
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT login,idsite 
-								FROM ".Piwik::prefixTable("access")
+								FROM ".Piwik_Common::prefixTable("access")
 								." WHERE access = ?", $access);
 		$return = array();
 		foreach($users as $user)
@@ -153,7 +153,7 @@ class Piwik_UsersManager_API
 		
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT login,access 
-								FROM ".Piwik::prefixTable("access")
+								FROM ".Piwik_Common::prefixTable("access")
 								." WHERE idsite = ?", $idSite);
 		$return = array();
 		foreach($users as $user)
@@ -188,7 +188,7 @@ class Piwik_UsersManager_API
 		
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT idsite,access 
-								FROM ".Piwik::prefixTable("access")
+								FROM ".Piwik_Common::prefixTable("access")
 								." WHERE login = ?", $userLogin);
 		$return = array();
 		foreach($users as $user)
@@ -216,7 +216,7 @@ class Piwik_UsersManager_API
 		
 		$db = Zend_Registry::get('db');
 		$user = $db->fetchRow("SELECT * 
-								FROM ".Piwik::prefixTable("user")
+								FROM ".Piwik_Common::prefixTable("user")
 								." WHERE login = ?", $userLogin);
 		return $user;
 	}
@@ -235,7 +235,7 @@ class Piwik_UsersManager_API
 		
 		$db = Zend_Registry::get('db');
 		$user = $db->fetchRow("SELECT * 
-								FROM ".Piwik::prefixTable("user")
+								FROM ".Piwik_Common::prefixTable("user")
 								." WHERE email = ?", $userEmail);
 		return $user;
 	}
@@ -318,7 +318,7 @@ class Piwik_UsersManager_API
 		
 		$db = Zend_Registry::get('db');
 		
-		$db->insert( Piwik::prefixTable("user"), array(
+		$db->insert( Piwik_Common::prefixTable("user"), array(
 									'login' => $userLogin,
 									'password' => $passwordTransformed,
 									'alias' => $alias,
@@ -378,7 +378,7 @@ class Piwik_UsersManager_API
 		
 		$db = Zend_Registry::get('db');
 											
-		$db->update( Piwik::prefixTable("user"), 
+		$db->update( Piwik_Common::prefixTable("user"), 
 					array(
 						'password' => $password,
 						'alias' => $alias,
@@ -420,7 +420,7 @@ class Piwik_UsersManager_API
 	public function userExists( $userLogin )
 	{
 		$count = Piwik_FetchOne("SELECT count(*) 
-													FROM ".Piwik::prefixTable("user"). " 
+													FROM ".Piwik_Common::prefixTable("user"). " 
 													WHERE login = ?", $userLogin);
 		return $count != 0;
 	}
@@ -434,7 +434,7 @@ class Piwik_UsersManager_API
 	{
 		Piwik::checkUserHasSomeAdminAccess();
 		$count = Piwik_FetchOne("SELECT count(*) 
-													FROM ".Piwik::prefixTable("user"). " 
+													FROM ".Piwik_Common::prefixTable("user"). " 
 													WHERE email = ?", $userEmail);
 		return $count != 0;	
 	}
@@ -495,7 +495,7 @@ class Piwik_UsersManager_API
 		{
 			foreach($idSites as $idsite)
 			{
-				$db->insert(	Piwik::prefixTable("access"),
+				$db->insert(	Piwik_Common::prefixTable("access"),
 								array(	"idsite" => $idsite, 
 										"login" => $userLogin,
 										"access" => $access)
@@ -573,7 +573,7 @@ class Piwik_UsersManager_API
 	private function deleteUserOnly( $userLogin )
 	{
 		$db = Zend_Registry::get('db');
-		$db->query("DELETE FROM ".Piwik::prefixTable("user")." WHERE login = ?", $userLogin);
+		$db->query("DELETE FROM ".Piwik_Common::prefixTable("user")." WHERE login = ?", $userLogin);
 
 		Piwik_PostEvent('UsersManager.deleteUser', $userLogin);
 	}
@@ -594,7 +594,7 @@ class Piwik_UsersManager_API
 		
 		if(is_null($idSites))
 		{
-			$db->query(	"DELETE FROM ".Piwik::prefixTable("access").
+			$db->query(	"DELETE FROM ".Piwik_Common::prefixTable("access").
 						" WHERE login = ?",
 					array( $userLogin) );
 		}
@@ -602,7 +602,7 @@ class Piwik_UsersManager_API
 		{
 			foreach($idSites as $idsite)
 			{
-				$db->query(	"DELETE FROM ".Piwik::prefixTable("access").
+				$db->query(	"DELETE FROM ".Piwik_Common::prefixTable("access").
 							" WHERE idsite = ? AND login = ?",
 						array($idsite, $userLogin)
 				);

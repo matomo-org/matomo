@@ -53,7 +53,7 @@ class Piwik_Goals_API
 		// save in db
 		$db = Zend_Registry::get('db');
 		$idGoal = $db->fetchOne("SELECT max(idgoal) + 1 
-								FROM ".Piwik::prefixTable('goal')." 
+								FROM ".Piwik_Common::prefixTable('goal')." 
 								WHERE idsite = ?", $idSite);
 		if($idGoal == false)
 		{
@@ -62,7 +62,7 @@ class Piwik_Goals_API
 		$this->checkPatternIsValid($patternType, $pattern);
 		$name = $this->checkName($name);
 		$pattern = $this->checkPattern($pattern);
-		$db->insert(Piwik::prefixTable('goal'),
+		$db->insert(Piwik_Common::prefixTable('goal'),
 					array( 
 						'idsite' => $idSite,
 						'idgoal' => $idGoal,
@@ -84,7 +84,7 @@ class Piwik_Goals_API
 		$name = $this->checkName($name);
 		$pattern = $this->checkPattern($pattern);
 		$this->checkPatternIsValid($patternType, $pattern);
-		Zend_Registry::get('db')->update( Piwik::prefixTable('goal'), 
+		Zend_Registry::get('db')->update( Piwik_Common::prefixTable('goal'), 
 					array(
 						'name' => $name,
 						'match_attribute' => $matchAttribute,
@@ -120,12 +120,12 @@ class Piwik_Goals_API
 	public function deleteGoal( $idSite, $idGoal )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
-		Piwik_Query("UPDATE ".Piwik::prefixTable('goal')."
+		Piwik_Query("UPDATE ".Piwik_Common::prefixTable('goal')."
 										SET deleted = 1
 										WHERE idsite = ? 
 											AND idgoal = ?",
 									array($idSite, $idGoal));
-		Piwik_Query("DELETE FROM ".Piwik::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
+		Piwik_Query("DELETE FROM ".Piwik_Common::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
 	
