@@ -70,17 +70,6 @@ abstract class Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the plugin name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		$info = $this->getInformation();
-		return $info['name'];
-	}
-
-	/**
 	 * Returns the plugin version number
 	 *
 	 * @return string
@@ -92,12 +81,13 @@ abstract class Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the UserCountry part when the plugin class is Piwik_UserCountry
+	 * Returns the plugin's base name without the "Piwik_" prefix,
+	 * e.g., "UserCountry" when the plugin class is "Piwik_UserCountry"
 	 *
 	 * @return string
 	 */
 	public function getClassName()
 	{
-		return substr(get_class($this), strlen("Piwik_"));
+		return Piwik::unprefixClass(get_class($this));
 	}
 }

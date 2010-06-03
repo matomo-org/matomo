@@ -112,7 +112,7 @@ class Piwik_View implements Piwik_iView
 	{
 		try {
 			$this->currentModule = Piwik::getModule();
-			$this->currentPluginName = Piwik::getCurrentPlugin()->getName();
+			$this->currentPluginName = Piwik::getCurrentPlugin()->getClassName();
 			$this->userLogin = Piwik::getCurrentUserLogin();
 			
 			$showWebsiteSelectorInUserInterface = Zend_Registry::get('config')->General->show_website_selector_in_user_interface;
