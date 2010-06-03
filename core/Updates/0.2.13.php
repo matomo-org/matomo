@@ -20,7 +20,7 @@ class Piwik_Updates_0_2_13 extends Piwik_Updates
 		$tables = Piwik::getTablesCreateSql();
 
 		return array(
-			'DROP TABLE IF EXISTS `'. Piwik::prefixTable('option') .'`' => false,
+			'DROP TABLE IF EXISTS `'. Piwik_Common::prefixTable('option') .'`' => false,
 			$tables['option'] => false,
 		);
 	}

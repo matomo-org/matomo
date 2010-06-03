@@ -18,8 +18,8 @@ class Piwik_Updates_0_5_5 extends Piwik_Updates
 	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		$sqlarray = array(
-			'DROP INDEX index_idsite_date ON ' . Piwik::prefixTable('log_visit') => '1091',
-			'CREATE INDEX index_idsite_date_config ON ' . Piwik::prefixTable('log_visit') . ' (idsite, visit_server_date, config_md5config(8))' => '1061',
+			'DROP INDEX index_idsite_date ON ' . Piwik_Common::prefixTable('log_visit') => '1091',
+			'CREATE INDEX index_idsite_date_config ON ' . Piwik_Common::prefixTable('log_visit') . ' (idsite, visit_server_date, config_md5config(8))' => '1061',
 		);
 
 		$tables = Piwik::getTablesInstalled();

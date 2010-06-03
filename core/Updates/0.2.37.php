@@ -18,7 +18,7 @@ class Piwik_Updates_0_2_37 extends Piwik_Updates
 	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		return array(
-			'DELETE FROM `'.  Piwik::prefixTable('user_dashboard') ."`
+			'DELETE FROM `'.  Piwik_Common::prefixTable('user_dashboard') ."`
 				WHERE layout LIKE '%.getLastVisitsGraph%'
 				OR layout LIKE '%.getLastVisitsReturningGraph%'" => false,
 		);

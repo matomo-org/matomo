@@ -18,9 +18,9 @@ class Piwik_Updates_0_6_3 extends Piwik_Updates
 	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		return array(
-			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('log_visit') .'`
 				CHANGE `location_ip` `location_ip` INT UNSIGNED NOT NULL' => false,
-			'ALTER TABLE `'. Piwik::prefixTable('logger_api_call') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('logger_api_call') .'`
 				CHANGE `caller_ip` `caller_ip` INT UNSIGNED' => false,
 		);
 	}
