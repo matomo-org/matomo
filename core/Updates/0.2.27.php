@@ -18,10 +18,10 @@ class Piwik_Updates_0_2_27 extends Piwik_Updates
 	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		$sqlarray = array(
-			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('log_visit') .'`
 				ADD `visit_goal_converted` VARCHAR( 1 ) NOT NULL AFTER `visit_total_time`' => false,
 			// 0.2.27 [826]
-			'ALTER IGNORE TABLE `'. Piwik::prefixTable('log_visit') .'`
+			'ALTER IGNORE TABLE `'. Piwik_Common::prefixTable('log_visit') .'`
 				CHANGE `visit_goal_converted` `visit_goal_converted` TINYINT(1) NOT NULL' => false,
 		);
 

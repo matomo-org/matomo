@@ -23,23 +23,23 @@ class Piwik_Updates_0_2_10 extends Piwik_Updates
 			$tables['option'] => false,
 
 			// 0.1.7 [463]
-			'ALTER IGNORE TABLE `'. Piwik::prefixTable('log_visit') .'`
+			'ALTER IGNORE TABLE `'. Piwik_Common::prefixTable('log_visit') .'`
 				 CHANGE `location_provider` `location_provider` VARCHAR( 100 ) DEFAULT NULL' => '1054',
 
 			// 0.1.7 [470]
-			'ALTER TABLE `'. Piwik::prefixTable('logger_api_call') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('logger_api_call') .'`
 				CHANGE `parameter_names_default_values` `parameter_names_default_values` TEXT,
 				CHANGE `parameter_values` `parameter_values` TEXT,
 				CHANGE `returned_value` `returned_value` TEXT' => false,
-			'ALTER TABLE `'. Piwik::prefixTable('logger_error') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('logger_error') .'`
 				CHANGE `message` `message` TEXT' => false,
-			'ALTER TABLE `'. Piwik::prefixTable('logger_exception') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('logger_exception') .'`
 				CHANGE `message` `message` TEXT' => false,
-			'ALTER TABLE `'. Piwik::prefixTable('logger_message') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('logger_message') .'`
 				CHANGE `message` `message` TEXT' => false,
 
 			// 0.2.2 [489]
-			'ALTER IGNORE TABLE `'. Piwik::prefixTable('site') .'`
+			'ALTER IGNORE TABLE `'. Piwik_Common::prefixTable('site') .'`
 				 CHANGE `feedburnerName` `feedburnerName` VARCHAR( 100 ) DEFAULT NULL' => '1054',
 		);
 	}

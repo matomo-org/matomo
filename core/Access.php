@@ -163,8 +163,8 @@ class Piwik_Access
 	static public function getSqlAccessSite($select)
 	{
 		return "SELECT ". $select ."
-						  FROM ".Piwik::prefixTable('access'). " as t1 
-							JOIN ".Piwik::prefixTable('site')." as t2 USING (idsite) ".
+						  FROM ".Piwik_Common::prefixTable('access'). " as t1 
+							JOIN ".Piwik_Common::prefixTable('site')." as t2 USING (idsite) ".
 						" WHERE login = ?";
 	}
 	

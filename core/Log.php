@@ -42,7 +42,7 @@ abstract class Piwik_Log extends Zend_Log
 
 		$this->fileFormatter = $fileFormatter;
 		$this->screenFormatter = $screenFormatter;
-		$this->logToDatabaseTableName = Piwik::prefixTable($logToDatabaseTableName);
+		$this->logToDatabaseTableName = Piwik_Common::prefixTable($logToDatabaseTableName);
 		$this->logToDatabaseColumnMapping = $logToDatabaseColumnMapping;
 	}
 	

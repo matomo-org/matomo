@@ -19,9 +19,9 @@ class Piwik_Updates_0_2_33 extends Piwik_Updates
 	{
 		$sqlarray = array(
 			// 0.2.33 [1020]
-			'ALTER TABLE `'. Piwik::prefixTable('user_dashboard') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('user_dashboard') .'`
 				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '1146',
-			'ALTER TABLE `'. Piwik::prefixTable('user_language') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('user_language') .'`
 				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '1146',
 		);
 

@@ -122,7 +122,7 @@ class Piwik_Updater
 				}
 			}
 			// unfortunately had to extract this query from the Piwik_Option class
-    		$queries[] = 'UPDATE '.Piwik::prefixTable('option').' 
+    		$queries[] = 'UPDATE '.Piwik_Common::prefixTable('option').' 
     				SET option_value = "' .$fileVersion.'" 
     				WHERE option_name = "'. $this->getNameInOptionTable($componentName).'";';
 		}

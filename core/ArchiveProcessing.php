@@ -426,10 +426,10 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->loadNextIdarchive();
 		$this->insertNumericRecord('done', Piwik_ArchiveProcessing::DONE_ERROR);
-		$this->logTable 			= Piwik::prefixTable('log_visit');
-		$this->logVisitActionTable 	= Piwik::prefixTable('log_link_visit_action');
-		$this->logActionTable	 	= Piwik::prefixTable('log_action');
-		$this->logConversionTable	= Piwik::prefixTable('log_conversion');
+		$this->logTable 			= Piwik_Common::prefixTable('log_visit');
+		$this->logVisitActionTable 	= Piwik_Common::prefixTable('log_link_visit_action');
+		$this->logActionTable	 	= Piwik_Common::prefixTable('log_action');
+		$this->logConversionTable	= Piwik_Common::prefixTable('log_conversion');
 		
 		$temporary = 'definitive archive';
 		if($this->isArchiveTemporary())
