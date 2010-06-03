@@ -361,7 +361,7 @@ class Piwik_PluginsManager
 		try{
 			$plugin->install();
 		} catch(Exception $e) {
-			throw new Piwik_PluginsManager_PluginException($plugin->getName(), $plugin->getClassName(), $e->getMessage());		}	
+			throw new Piwik_PluginsManager_PluginException($plugin->getClassName(), $e->getMessage());		}	
 	}
 	
 	
@@ -493,13 +493,13 @@ class Piwik_PluginsManager
  */
 class Piwik_PluginsManager_PluginException extends Exception 
 {
-	function __construct($pluginName, $className, $message)
+	function __construct($pluginName, $message)
 	{
 		parent::__construct("There was a problem installing the plugin ". $pluginName . ": " . $message. "
 				If this plugin has already been installed, and if you want to hide this message</b>, you must add the following line under the 
 				[PluginsInstalled] 
 				entry in your config/config.ini.php file:
-				PluginsInstalled[] = $className" );
+				PluginsInstalled[] = $pluginName" );
 	}
 }
 
