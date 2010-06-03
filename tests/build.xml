@@ -76,7 +76,7 @@
 		</copy>	
 	</target>
 
-	<target name="test" depends="process-build-resources-pdo-mysql">
+	<target name="test-pdo-mysql" depends="process-build-resources-pdo-mysql">
 
 		<echo>PDO_MYSQL unit tests started</echo>
 
@@ -97,7 +97,7 @@
 		</copy>	
 	</target>
 
-	<target name="test-pdo-mysql" depends="process-build-resources-mysqli">
+	<target name="test-mysqli" depends="process-build-resources-mysqli">
 
 		<echo>MYSQLI unit tests started</echo>
 
