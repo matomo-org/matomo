@@ -211,7 +211,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		
 		Piwik::setMaxExecutionTime(0);
 		
-		if(Piwik::isPhpCliMode())
+		if(Piwik_Common::isPhpCliMode())
 		{
 			$view = Piwik_View::factory('update_welcome');
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
