@@ -66,7 +66,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	function deleteUserLanguage($notification)
 	{
 		$userLogin = $notification->getNotificationObject();
-		Piwik_Query('DELETE FROM ' . Piwik::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
+		Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	{
 		// we catch the exception
 		try{
-			$sql = "CREATE TABLE ". Piwik::prefixTable('user_language')." (
+			$sql = "CREATE TABLE ". Piwik_Common::prefixTable('user_language')." (
 					login VARCHAR( 100 ) NOT NULL ,
 					language VARCHAR( 10 ) NOT NULL ,
 					PRIMARY KEY ( login )
@@ -97,7 +97,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	public function uninstall()
 	{
-		$sql = "DROP TABLE ". Piwik::prefixTable('user_language') ;
+		$sql = "DROP TABLE ". Piwik_Common::prefixTable('user_language') ;
 		Piwik_Exec($sql);		
 	}
 
