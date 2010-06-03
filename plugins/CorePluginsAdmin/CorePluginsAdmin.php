@@ -19,7 +19,6 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'CorePluginsAdmin',
 			'description' => Piwik_Translate('CorePluginsAdmin_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

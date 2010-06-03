@@ -18,7 +18,6 @@ class Piwik_VisitorGenerator extends Piwik_Plugin {
 
 	public function getInformation() {
 		$info = array(
-				'name' => 'VisitorGenerator',
 				'description' => Piwik_Translate('VisitorGenerator_PluginDescription'),
 				'author' => 'Piwik',
 				'author_homepage' => 'http://piwik.org/',

@@ -19,7 +19,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'VisitorInterest',
 			'description' => Piwik_Translate('VisitorInterest_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

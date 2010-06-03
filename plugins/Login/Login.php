@@ -19,7 +19,6 @@ class Piwik_Login extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Login',
 			'description' => Piwik_Translate('Login_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

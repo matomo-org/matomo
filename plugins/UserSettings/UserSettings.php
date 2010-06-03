@@ -19,7 +19,6 @@ class Piwik_UserSettings extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'UserSettings',
 			'description' => Piwik_Translate('UserSettings_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

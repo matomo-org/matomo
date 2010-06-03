@@ -20,7 +20,6 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'LanguagesManager',
 			'description' => Piwik_Translate('LanguagesManager_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

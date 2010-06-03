@@ -23,7 +23,6 @@ class Piwik_Referers extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Referers',
 			'description' => Piwik_Translate('Referers_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

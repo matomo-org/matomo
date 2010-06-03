@@ -19,7 +19,6 @@ class Piwik_Feedback extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Feedback',
 			'description' => Piwik_Translate('Feedback_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

@@ -32,7 +32,6 @@ class Piwik_Actions extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Actions',
 			'description' => Piwik_Translate('Actions_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

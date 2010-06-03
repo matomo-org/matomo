@@ -19,7 +19,6 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'CoreUpdater',
 			'description' => Piwik_Translate('CoreUpdater_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

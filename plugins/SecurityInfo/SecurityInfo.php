@@ -19,7 +19,6 @@ class Piwik_SecurityInfo extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Security Information',
 			'description' => Piwik_Translate('SecurityInfo_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

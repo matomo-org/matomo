@@ -19,7 +19,6 @@ class Piwik_API extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'API',
 			'description' => Piwik_Translate('API_PluginDescription'),
 			'homepage' => 'misc/redirectToUrl.php?url=http://dev.piwik.org/trac/wiki/API/Reference',
 			'author' => 'Piwik',

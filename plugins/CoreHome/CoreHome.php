@@ -19,7 +19,6 @@ class Piwik_CoreHome extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'CoreHome',
 			'description' => Piwik_Translate('CoreHome_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

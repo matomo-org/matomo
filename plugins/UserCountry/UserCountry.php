@@ -19,7 +19,6 @@ class Piwik_UserCountry extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'UserCountry',
 			'description' => Piwik_Translate('UserCountry_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

@@ -19,7 +19,6 @@ class Piwik_UsersManager extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'UsersManager',
 			'description' => Piwik_Translate('UsersManager_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

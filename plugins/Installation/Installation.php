@@ -21,7 +21,6 @@ class Piwik_Installation extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Installation',
 			'description' => Piwik_Translate('Installation_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

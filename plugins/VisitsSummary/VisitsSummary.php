@@ -19,7 +19,6 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'VisitsSummary',
 			'description' => Piwik_Translate('VisitsSummary_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
