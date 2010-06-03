@@ -16,17 +16,6 @@
 class Piwik_Db_Adapter
 {
 	/**
-	 * Get adapter class name
-	 *
-	 * @param string $adapterName
-	 * @return string
-	 */
-	private static function getAdapterClassName($adapterName)
-	{
-		return 'Piwik_Db_Adapter_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($adapterName))));
-	}
-
-	/**
 	 * Create adapter
 	 *
 	 * @param string $adapterName
@@ -38,6 +27,28 @@ class Piwik_Db_Adapter
 		$className = self::getAdapterClassName($adapterName);
 		$adapter = new $className($config);
 		return $adapter;
+	}
+
+	/**
+	 * Get adapter class name
+	 *
+	 * @param string $adapterName
+	 * @return string
+	 */
+	private static function getAdapterClassName($adapterName)
+	{
+		return 'Piwik_Db_Adapter_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($adapterName))));
+	}
+
+	/**
+	 * Get schema class name
+	 *
+	 * @param string $schemaName
+	 * @return string
+	 */
+	private static function getSchemaClassName($schemaName)
+	{
+		return 'Piwik_Db_Schema_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($schemaName))));
 	}
 
 	/**
