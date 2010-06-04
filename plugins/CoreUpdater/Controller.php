@@ -245,7 +245,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$coreToUpdate = false;
 
 		// handle case of existing database with no tables
-		if(Piwik::isInstalled())
+		if(!Piwik::isInstalled())
 		{
 			$this->errorMessages[] = Piwik_Translate('CoreUpdater_EmptyDatabaseError', Zend_Registry::get('config')->database->dbname);
 			$this->coreError = true;
