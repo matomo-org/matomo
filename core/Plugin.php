@@ -20,7 +20,6 @@ abstract class Piwik_Plugin
 {
 	/**
 	 * Returns the plugin details
-	 * 	'name' => string               // plugin name
 	 * 	'description' => string        // 1-2 sentence description of the plugin
 	 * 	'author' => string             // plugin author 
 	 * 	'author_homepage' => string    // author homepage URL (or email "mailto:youremail@example.org")
@@ -86,7 +85,7 @@ abstract class Piwik_Plugin
 	 *
 	 * @return string
 	 */
-	public function getClassName()
+	final public function getClassName()
 	{
 		return Piwik::unprefixClass(get_class($this));
 	}
