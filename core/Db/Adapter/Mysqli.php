@@ -13,7 +13,7 @@
 /**
  * @package Piwik
  */
-class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_iAdapter
+class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_Adapter_Interface
 {
 	public function __construct($config)
 	{
