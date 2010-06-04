@@ -92,7 +92,7 @@ class Piwik_Db_Adapter
 	}
 }
 
-interface Piwik_Db_iAdapter
+interface Piwik_Db_Adapter_Interface
 {
 	/**
 	 * Reset the configuration variables in this adapter.

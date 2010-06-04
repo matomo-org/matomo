@@ -13,7 +13,7 @@
 /**
  * @package Piwik
  */
-class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_iAdapter
+class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_Adapter_Interface
 {
 	/**
 	 * Reset the configuration variables in this adapter.
