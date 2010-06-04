@@ -12,24 +12,12 @@
 
 /**
  * MySQL schema
- * 
+ *
  * @package Piwik
  */
-class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
+class Piwik_Db_Schema_MySQL implements Piwik_Db_Schema_Interface
 {
-	static public function getTableCreateSql( $tableName )
-	{
-		$tables = Piwik::getTablesCreateSql();
-		
-		if(!isset($tables[$tableName]))
-		{
-			throw new Exception("The table '$tableName' SQL creation code couldn't be found.");
-		}
-		
-		return $tables[$tableName];
-	}
-	
-	static public function getTablesCreateSql()
+	public function getTablesCreateSql()
 	{
 		$config = Zend_Registry::get('config');
 		$prefixTables = $config->database->tables_prefix;
@@ -43,17 +31,17 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 						  date_registered TIMESTAMP NULL,
 						  PRIMARY KEY(login),
 						  UNIQUE KEY uniq_keytoken(token_auth)
-						)  DEFAULT CHARSET=utf8 
+						)  DEFAULT CHARSET=utf8
 			",
-			
+
 			'access' => "CREATE TABLE {$prefixTables}access (
 						  login VARCHAR(100) NOT NULL,
 						  idsite INTEGER UNSIGNED NOT NULL,
 						  access VARCHAR(10) NULL,
 						  PRIMARY KEY(login, idsite)
-						)  DEFAULT CHARSET=utf8 
+						)  DEFAULT CHARSET=utf8
 			",
-			
+
 			'site' => "CREATE TABLE {$prefixTables}site (
 						  idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 						  name VARCHAR(90) NOT NULL,
@@ -64,16 +52,16 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
   						  excluded_ips TEXT NOT NULL,
   						  excluded_parameters VARCHAR ( 255 ) NOT NULL,
 						  PRIMARY KEY(idsite)
-						)  DEFAULT CHARSET=utf8 
+						)  DEFAULT CHARSET=utf8
 			",
-			
+
 			'site_url' => "CREATE TABLE {$prefixTables}site_url (
 							  idsite INTEGER(10) UNSIGNED NOT NULL,
 							  url VARCHAR(255) NOT NULL,
 							  PRIMARY KEY(idsite, url)
-						)  DEFAULT CHARSET=utf8 
+						)  DEFAULT CHARSET=utf8
 			",
-			
+
 			'goal' => "	CREATE TABLE `{$prefixTables}goal` (
 							  `idsite` int(11) NOT NULL,
 							  `idgoal` int(11) NOT NULL,
@@ -85,17 +73,17 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 							  `revenue` float NOT NULL,
 							  `deleted` tinyint(4) NOT NULL default '0',
 							  PRIMARY KEY  (`idsite`,`idgoal`)
-							)  DEFAULT CHARSET=utf8 
+							)  DEFAULT CHARSET=utf8
 			",
-			
+
 			'logger_message' => "CREATE TABLE {$prefixTables}logger_message (
 									  idlogger_message INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 									  timestamp TIMESTAMP NULL,
 									  message TEXT NULL,
 									  PRIMARY KEY(idlogger_message)
-									)  DEFAULT CHARSET=utf8 
+									)  DEFAULT CHARSET=utf8
 			",
-			
+
 			'logger_api_call' => "CREATE TABLE {$prefixTables}logger_api_call (
 									  idlogger_api_call INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 									  class_name VARCHAR(255) NULL,
@@ -107,9 +95,9 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 									  timestamp TIMESTAMP NULL,
 									  returned_value TEXT NULL,
 									  PRIMARY KEY(idlogger_api_call)
-									)  DEFAULT CHARSET=utf8 
+									)  DEFAULT CHARSET=utf8
 			",
-			
+
 			'logger_error' => "CREATE TABLE {$prefixTables}logger_error (
 									  idlogger_error INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 									  timestamp TIMESTAMP NULL,
@@ -119,9 +107,9 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 									  errfile VARCHAR(255) NULL,
 									  backtrace TEXT NULL,
 									  PRIMARY KEY(idlogger_error)
-									) DEFAULT CHARSET=utf8 
+									) DEFAULT CHARSET=utf8
 			",
-			
+
 			'logger_exception' => "CREATE TABLE {$prefixTables}logger_exception (
 									  idlogger_exception INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 									  timestamp TIMESTAMP NULL,
@@ -131,10 +119,9 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 									  errfile VARCHAR(255) NULL,
 									  backtrace TEXT NULL,
 									  PRIMARY KEY(idlogger_exception)
-									)  DEFAULT CHARSET=utf8 
+									)  DEFAULT CHARSET=utf8
 			",
-			
-			
+
 			'log_action' => "CREATE TABLE {$prefixTables}log_action (
 									  idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 									  name TEXT,
@@ -142,9 +129,9 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
   									  type TINYINT UNSIGNED NULL,
 									  PRIMARY KEY(idaction),
 									  INDEX index_type_hash (type, hash)
-						)  DEFAULT CHARSET=utf8 
+						)  DEFAULT CHARSET=utf8
 			",
-					
+
 			'log_visit' => "CREATE TABLE {$prefixTables}log_visit (
 							  idvisit INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 							  idsite INTEGER(10) UNSIGNED NOT NULL,
@@ -153,7 +140,7 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 							  visitor_returning TINYINT(1) NOT NULL,
 							  visit_first_action_time DATETIME NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
-							  visit_server_date DATE NOT NULL, 
+							  visit_server_date DATE NOT NULL,
 							  visit_exit_idaction_url INTEGER(11) NOT NULL,
 							  visit_entry_idaction_url INTEGER(11) NOT NULL,
 							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
@@ -186,9 +173,9 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 							  INDEX index_idsite_idvisit (idsite, idvisit),
 							  INDEX index_idsite_date_config (idsite, visit_server_date, config_md5config(8)),
 							  INDEX index_idsite_datetime_config (idsite, visit_last_action_time, config_md5config(8))
-							)  DEFAULT CHARSET=utf8 
-			",		
-			
+							)  DEFAULT CHARSET=utf8
+			",
+
 			'log_conversion' => "CREATE TABLE `{$prefixTables}log_conversion` (
 									  idvisit int(10) unsigned NOT NULL,
 									  idsite int(10) unsigned NOT NULL,
@@ -209,9 +196,9 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 									  revenue float default NULL,
 									  PRIMARY KEY  (idvisit, idgoal),
 									  INDEX index_idsite_datetime ( idsite, server_time )
-									) DEFAULT CHARSET=utf8 
+									) DEFAULT CHARSET=utf8
 			",
-							
+
 			'log_link_visit_action' => "CREATE TABLE {$prefixTables}log_link_visit_action (
 											  idlink_va INTEGER(11) NOT NULL AUTO_INCREMENT,
 											  idvisit INTEGER(10) UNSIGNED NOT NULL,
@@ -221,25 +208,25 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
 											  PRIMARY KEY(idlink_va),
 											  INDEX index_idvisit(idvisit)
-											)  DEFAULT CHARSET=utf8 
+											)  DEFAULT CHARSET=utf8
 			",
-		
+
 			'log_profiling' => "CREATE TABLE {$prefixTables}log_profiling (
 								  query TEXT NOT NULL,
 								  count INTEGER UNSIGNED NULL,
 								  sum_time_ms FLOAT NULL,
 								  UNIQUE KEY query(query(100))
-								)  DEFAULT CHARSET=utf8 
+								)  DEFAULT CHARSET=utf8
 			",
-			
+
 			'option' => "CREATE TABLE `{$prefixTables}option` (
 								option_name VARCHAR( 64 ) NOT NULL,
 								option_value LONGTEXT NOT NULL,
 								autoload TINYINT NOT NULL DEFAULT '1',
 								PRIMARY KEY ( option_name )
-								)  DEFAULT CHARSET=utf8 
+								)  DEFAULT CHARSET=utf8
 			",
-								
+
 			'archive_numeric'	=> "CREATE TABLE {$prefixTables}archive_numeric (
 									  idarchive INTEGER UNSIGNED NOT NULL,
 									  name VARCHAR(255) NOT NULL,
@@ -252,8 +239,9 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 									  PRIMARY KEY(idarchive, name),
 									  INDEX index_idsite_dates_period(idsite, date1, date2, period, ts_archived),
 									  INDEX index_period_archived(period, ts_archived)
-									)  DEFAULT CHARSET=utf8 
+									)  DEFAULT CHARSET=utf8
 			",
+
 			'archive_blob'	=> "CREATE TABLE {$prefixTables}archive_blob (
 									  idarchive INTEGER UNSIGNED NOT NULL,
 									  name VARCHAR(255) NOT NULL,
@@ -265,21 +253,33 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 									  value MEDIUMBLOB NULL,
 									  PRIMARY KEY(idarchive, name),
 									  INDEX index_period_archived(period, ts_archived)
-									)  DEFAULT CHARSET=utf8 
+									)  DEFAULT CHARSET=utf8
 			",
 		);
 		return $tables;
 	}
 
+	public function getTableCreateSql( $tableName )
+	{
+		$tables = Piwik::getTablesCreateSql();
+
+		if(!isset($tables[$tableName]))
+		{
+			throw new Exception("The table '$tableName' SQL creation code couldn't be found.");
+		}
+
+		return $tables[$tableName];
+	}
+
 	/**
 	 * Names of all the prefixed tables in piwik
-	 * Doesn't use the DB 
+	 * Doesn't use the DB
 	 *
 	 * @return array Table names
 	 */
-	static public function getTablesNames()
+	public function getTablesNames()
 	{
-		$aTables = array_keys(self::getTablesCreateSql());
+		$aTables = array_keys($this->getTablesCreateSql());
 		$config = Zend_Registry::get('config');
 		$prefixTables = $config->database->tables_prefix;
 		$return = array();
@@ -289,8 +289,8 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 		}
 		return $return;
 	}
-	
-	static $tablesInstalled = null;
+
+	private $tablesInstalled = null;
 
 	/**
 	 * Get list of tables installed
@@ -298,24 +298,24 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 	 * @param bool $forceReload Invalidate cache
 	 * @param string $idSite
 	 * @return array Tables installed
-	 */	
-	static public function getTablesInstalled($forceReload = true,  $idSite = null)
+	 */
+	public function getTablesInstalled($forceReload = true,  $idSite = null)
 	{
-		if(is_null(self::$tablesInstalled)
+		if(is_null($this->tablesInstalled)
 			|| $forceReload === true)
 		{
 			$db = Zend_Registry::get('db');
 			$config = Zend_Registry::get('config');
 			$prefixTables = $config->database->tables_prefix;
-			
+
 			$allTables = $db->fetchCol("SHOW TABLES");
-			
+
 			// all the tables to be installed
-			$allMyTables = self::getTablesNames();
-			
+			$allMyTables = $this->getTablesNames();
+
 			// we get the intersection between all the tables in the DB and the tables to be installed
 			$tablesInstalled = array_intersect($allMyTables, $allTables);
-			
+
 			// at this point we have only the piwik tables which is good
 			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
 			$idSiteInSql = "no";
@@ -323,22 +323,32 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 			{
 				$idSiteInSql = $idSite;
 			}
-			$allArchiveNumeric = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */ 
+			$allArchiveNumeric = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */
 												SHOW TABLES LIKE '".$prefixTables."archive_numeric%'");
-			$allArchiveBlob = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */ 
+			$allArchiveBlob = $db->fetchCol("/* SHARDING_ID_SITE = ".$idSiteInSql." */
 												SHOW TABLES LIKE '".$prefixTables."archive_blob%'");
-					
+
 			$allTablesReallyInstalled = array_merge($tablesInstalled, $allArchiveNumeric, $allArchiveBlob);
-			
-			self::$tablesInstalled = $allTablesReallyInstalled;
+
+			$this->tablesInstalled = $allTablesReallyInstalled;
 		}
-		return 	self::$tablesInstalled;
+		return 	$this->tablesInstalled;
+	}
+
+	/**
+	 * Do tables exist?
+	 *
+	 * @return bool True if tables exist; false otherwise
+	 */
+	public function hasTables()
+	{
+		return count($this->getTablesInstalled()) != 0;
 	}
 
 	/**
 	 * Create database
 	 */
-	static public function createDatabase( $dbName = null )
+	public function createDatabase( $dbName = null )
 	{
 		if(is_null($dbName))
 		{
@@ -350,7 +360,7 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 	/**
 	 * Drop database
 	 */
-	static public function dropDatabase()
+	public function dropDatabase()
 	{
 		$dbName = Zend_Registry::get('config')->database->dbname;
 		Piwik_Exec("DROP DATABASE IF EXISTS " . $dbName);
@@ -358,52 +368,16 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 	}
 
 	/**
-	 * Drop specific tables
-	 */	
-	static public function dropTables( $doNotDelete = array() )
-	{
-		$tablesAlreadyInstalled = self::getTablesInstalled();
-		$db = Zend_Registry::get('db');
-		
-		$doNotDeletePattern = '/('.implode('|',$doNotDelete).')/';
-		
-		foreach($tablesAlreadyInstalled as $tableName)
-		{
-			
-			if( count($doNotDelete) == 0
-				|| (!in_array($tableName,$doNotDelete)
-					&& !preg_match($doNotDeletePattern,$tableName)
-					)
-				)
-			{
-				$db->query("DROP TABLE `$tableName`");
-			}
-		}			
-	}
-	
-	/**
-	 * Creates an entry in the User table for the "anonymous" user. 
-	 */
-	static public function createAnonymousUser()
-	{
-		// The anonymous user is the user that is assigned by default 
-		// note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
-		$db = Zend_Registry::get('db');
-		$db->query("INSERT INTO ". Piwik_Common::prefixTable("user") . " 
-					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '".Piwik_Date::factory('now')->getDatetime()."' );" );
-	}
-
-	/**
 	 * Create all tables
-	 */	
-	static public function createTables()
+	 */
+	public function createTables()
 	{
 		$db = Zend_Registry::get('db');
 		$config = Zend_Registry::get('config');
 		$prefixTables = $config->database->tables_prefix;
 
-		$tablesAlreadyInstalled = self::getTablesInstalled();
-		$tablesToCreate = self::getTablesCreateSql();
+		$tablesAlreadyInstalled = $this->getTablesInstalled();
+		$tablesToCreate = $this->getTablesCreateSql();
 		unset($tablesToCreate['archive_blob']);
 		unset($tablesToCreate['archive_numeric']);
 
@@ -413,6 +387,53 @@ class Piwik_Db_Schema_MySQL extends Piwik_Db_Schema
 			if(!in_array($tableName, $tablesAlreadyInstalled))
 			{
 				$db->query( $tableSql );
+			}
+		}
+	}
+
+	/**
+	 * Creates an entry in the User table for the "anonymous" user.
+	 */
+	public function createAnonymousUser()
+	{
+		// The anonymous user is the user that is assigned by default
+		// note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
+		$db = Zend_Registry::get('db');
+		$db->query("INSERT INTO ". Piwik_Common::prefixTable("user") . "
+					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '".Piwik_Date::factory('now')->getDatetime()."' );" );
+	}
+
+	/**
+	 * Truncate all tables
+	 */
+	public function truncateAllTables()
+	{
+		$tablesAlreadyInstalled = $this->getTablesInstalled($forceReload = true);
+		foreach($tablesAlreadyInstalled as $table)
+		{
+			Piwik_Query("TRUNCATE `$table`");
+		}
+	}
+
+	/**
+	 * Drop specific tables
+	 */
+	public function dropTables( $doNotDelete = array() )
+	{
+		$tablesAlreadyInstalled = $this->getTablesInstalled();
+		$db = Zend_Registry::get('db');
+
+		$doNotDeletePattern = '/('.implode('|',$doNotDelete).')/';
+
+		foreach($tablesAlreadyInstalled as $tableName)
+		{
+			if( count($doNotDelete) == 0
+				|| (!in_array($tableName,$doNotDelete)
+					&& !preg_match($doNotDeletePattern,$tableName)
+					)
+				)
+			{
+				$db->query("DROP TABLE `$tableName`");
 			}
 		}
 	}
