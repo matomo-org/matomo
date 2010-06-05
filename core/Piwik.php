@@ -1124,7 +1124,6 @@ class Piwik
 		{
 			$adapter = $dbInfos['adapter'];
 			$db = Piwik_Db_Adapter::factory($adapter, $dbInfos);
-			$db->getConnection();
 		}
 		Zend_Registry::set('db', $db);
 	}
