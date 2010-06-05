@@ -1104,7 +1104,6 @@ class Piwik
  * Global database object
  */
 
-	// @todo REFACTOR
 	/**
 	 * Create database object and connect to database
 	 */
@@ -1123,24 +1122,9 @@ class Piwik
 		Piwik_PostEvent('Reporting.createDatabase', $db);
 		if(is_null($db))
 		{
-			if($dbInfos['port'][0] == '/')
-			{
-				$dbInfos['unix_socket'] = $dbInfos['port'];
-				unset($dbInfos['host']);
-				unset($dbInfos['port']);
-			}
-
 			$adapter = $dbInfos['adapter'];
-
-			// not used by Zend Framework
-			unset($dbInfos['tables_prefix']);
-			unset($dbInfos['adapter']);
-
 			$db = Piwik_Db_Adapter::factory($adapter, $dbInfos);
 			$db->getConnection();
-
-			Zend_Db_Table::setDefaultAdapter($db);
-			$db->resetConfig(); // we don't want this information to appear in the logs
 		}
 		Zend_Registry::set('db', $db);
 	}
