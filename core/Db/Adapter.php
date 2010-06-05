@@ -37,6 +37,7 @@ class Piwik_Db_Adapter
 
 		$className = self::getAdapterClassName($adapterName);
 		$adapter = new $className($dbInfos);
+		$adapter->getConnection();
 
 		Zend_Db_Table::setDefaultAdapter($adapter);
 
