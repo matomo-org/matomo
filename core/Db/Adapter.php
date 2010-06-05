@@ -18,14 +18,31 @@ class Piwik_Db_Adapter
 	/**
 	 * Create adapter
 	 *
-	 * @param string $adapterName
-	 * @oaran array $config
+	 * @param string $adapterName database adapter name
+	 * @oaran array $dbInfos database connection info
 	 * @return mixed (Piwik_Db_Adapter_Mysqli, Piwik_Db_Adapter_Pdo_Mysql, etc)
 	 */
-	public static function factory($adapterName, $config)
+	public static function factory($adapterName, & $dbInfos)
 	{
+		if($dbInfos['port'][0] == '/')
+		{
+			$dbInfos['unix_socket'] = $dbInfos['port'];
+			unset($dbInfos['host']);
+			unset($dbInfos['port']);
+		}
+
+		// not used by Zend Framework
+		unset($dbInfos['tables_prefix']);
+		unset($dbInfos['adapter']);
+
 		$className = self::getAdapterClassName($adapterName);
-		$adapter = new $className($config);
+		$adapter = new $className($dbInfos);
+
+		Zend_Db_Table::setDefaultAdapter($adapter);
+
+		// we don't want this information to appear in the logs
+		$adapter->resetConfig();
+
 		return $adapter;
 	}
 
@@ -142,5 +159,4 @@ interface Piwik_Db_Adapter_Interface
 	 * @return bool
 	 */
 	public function isConnectionUTF8();
-
 }
