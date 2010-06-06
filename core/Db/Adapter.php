@@ -34,6 +34,7 @@ class Piwik_Db_Adapter
 		// not used by Zend Framework
 		unset($dbInfos['tables_prefix']);
 		unset($dbInfos['adapter']);
+		unset($dbInfos['schema']);
 
 		$className = self::getAdapterClassName($adapterName);
 		$adapter = new $className($dbInfos);
@@ -41,7 +42,7 @@ class Piwik_Db_Adapter
 
 		Zend_Db_Table::setDefaultAdapter($adapter);
 
-		// we don't want this information to appear in the logs
+		// we don't want the connection information to appear in the logs
 		$adapter->resetConfig();
 
 		return $adapter;
@@ -56,17 +57,6 @@ class Piwik_Db_Adapter
 	private static function getAdapterClassName($adapterName)
 	{
 		return 'Piwik_Db_Adapter_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($adapterName))));
-	}
-
-	/**
-	 * Get schema class name
-	 *
-	 * @param string $schemaName
-	 * @return string
-	 */
-	private static function getSchemaClassName($schemaName)
-	{
-		return 'Piwik_Db_Schema_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($schemaName))));
 	}
 
 	/**
@@ -88,25 +78,33 @@ class Piwik_Db_Adapter
 	 */
 	public static function getAdapters()
 	{
-		// supported adapters
-		$adapters = array(
+		static $adapterNames = array(
+			// currently supported by Piwik
 			'Pdo_Mysql',
 			'Mysqli',
+
+			// other adapters supported by Zend_Db
 //			'Pdo_Pgsql',
 //			'Pdo_Mssql',
+//			'Sqlsrv',
+//			'Pdo_Ibm',
+//			'Db2',
+//			'Pdo_Oci',
+//			'Oracle',
 		);
 
-		$adapterNames = array();
-		foreach($adapters as $adapterName)
+		$adapters = array();
+
+		foreach($adapterNames as $adapterName)
 		{
 			$className = 'Piwik_Db_Adapter_'.$adapterName;
 			if(call_user_func(array($className, 'isEnabled')))
 			{
-				$adapterNames[strtoupper($adapterName)] = call_user_func(array($className, 'getDefaultPort'));
+				$adapters[strtoupper($adapterName)] = call_user_func(array($className, 'getDefaultPort'));
 			}
 		}
 
-		return $adapterNames;
+		return $adapters;
 	}
 }
 

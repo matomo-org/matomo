@@ -464,6 +464,14 @@ class Piwik
 		return false;
 	}
 
+	/**
+	 * Set PHP memory limit
+	 *
+	 * Note: system settings may prevent scripts from overriding the master value
+	 *
+	 * @param int $minimumMemoryLimit
+	 * @return bool true if set; false otherwise
+	 */
 	static public function setMemoryLimit($minimumMemoryLimit)
 	{
 		$currentValue = self::getMemoryLimitValue();
@@ -476,6 +484,11 @@ class Piwik
 		return false;
 	}
 
+	/**
+	 * Raise PHP memory limit if below the minimum required
+	 *
+	 * @return bool true if set; false otherwise
+	 */
 	static public function raiseMemoryLimitIfNecessary()
 	{
 		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
@@ -523,18 +536,31 @@ class Piwik
  * Profiling
  */
 
+	/**
+	 * Get total number of queries
+	 *
+	 * @return int number of queries
+	 */
 	static public function getQueryCount()
 	{
 		$profiler = Zend_Registry::get('db')->getProfiler();
 		return $profiler->getTotalNumQueries();
 	}
 
+	/**
+	 * Get total elapsed time (in seconds)
+	 *
+	 * @return int elapsed time
+	 */
 	static public function getDbElapsedSecs()
 	{
 		$profiler = Zend_Registry::get('db')->getProfiler();
 		return $profiler->getTotalElapsedSecs();
 	}
 
+	/**
+	 * Print number of queries and elapsed time
+	 */
 	static public function printQueryCount()
 	{
 		$totalTime = self::getDbElapsedSecs();
@@ -542,6 +568,11 @@ class Piwik
 		Piwik::log("Total queries = $queryCount (total sql time = ".round($totalTime,2)."s)");
 	}
 
+	/**
+	 * Print profiling report for the tracker
+	 *
+	 * @param Piwik_Tracker_Db $db Tracker database object (or null)
+	 */
 	static public function printSqlProfilingReportTracker( $db = null )
 	{
 		if(!function_exists('maxSumMsFirst'))
@@ -579,7 +610,6 @@ class Piwik
 	/**
 	 * Outputs SQL Profiling reports
 	 * It is automatically called when enabling the SQL profiling in the config file enable_sql_profiler
-	 *
 	 */
 	static function printSqlProfilingReportZend()
 	{
@@ -635,6 +665,11 @@ class Piwik
 		Piwik::getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery);
 	}
 
+	/**
+	 * Log a breakdown by query
+	 *
+	 * @param array $infoIndexedByQuery
+	 */
 	static private function getSqlProfilingQueryBreakdownOutput( $infoIndexedByQuery )
 	{
 		Piwik::log('<hr /><b>Breakdown by query</b>');
@@ -655,11 +690,20 @@ class Piwik
 		Piwik::log($output);
 	}
 
+	/**
+	 * Print timer
+	 */
 	static public function printTimer()
 	{
 		echo Zend_Registry::get('timer');
 	}
 
+	/**
+	 * Print memory leak
+	 *
+	 * @param string $prefix
+	 * @param string $suffix
+	 */
 	static public function printMemoryLeak($prefix = '', $suffix = '<br />')
 	{
 		echo $prefix;
@@ -667,6 +711,11 @@ class Piwik
 		echo $suffix;
 	}
 
+	/**
+	 * Print memory usage
+	 *
+	 * @param string $prefixString
+	 */
 	static public function printMemoryUsage( $prefixString = null )
 	{
 		$memory = false;
@@ -715,6 +764,14 @@ class Piwik
 		return 0;
 	}
 
+	/**
+	 * Safely compute a percentage.  Return 0 to avoid division by zero.
+	 *
+	 * @param numeric $dividend
+	 * @param numeric $divisor
+	 * @param int $precision
+	 * @return numeric
+	 */
 	static public function getPercentageSafe($dividend, $divisor, $precision = 0)
 	{
 		if($divisor == 0)
@@ -724,6 +781,12 @@ class Piwik
 		return round(100 * $dividend / $divisor, $precision);
 	}
 
+	/**
+	 * Get currency symbol for a site
+	 *
+	 * @param int $idSite
+	 * @return string
+	 */
 	static public function getCurrency($idSite)
 	{
 		static $symbols = null;
@@ -735,6 +798,13 @@ class Piwik
 		return $symbols[$site->getCurrency()];
 	}
 
+	/**
+	 * Pretty format monetary value for a site
+	 *
+	 * @param numeric $value
+	 * @param int $idSite
+	 * @return string
+	 */
 	static public function getPrettyMoney($value, $idSite)
 	{
 		$currencyBefore = self::getCurrency($idSite);
@@ -750,6 +820,12 @@ class Piwik
 		return sprintf("$currencyBefore&nbsp;%s$currencyAfter", $value);
 	}
 
+	/**
+	 * Pretty format a memory size value
+	 *
+	 * @param numeric $size in bytes
+	 * @return string
+	 */
 	static public function getPrettySizeFromBytes($size)
 	{
 		$bytes = array('','K','M','G','T');
@@ -767,6 +843,12 @@ class Piwik
 		return round($size, 1)." ".$val;
 	}
 
+	/**
+	 * Pretty format a time
+	 *
+	 * @param numeric $numberOfSeconds
+	 * @return string
+	 */
 	static public function getPrettyTimeFromSeconds($numberOfSeconds)
 	{
 		$numberOfSeconds = (double)$numberOfSeconds;
@@ -820,21 +902,27 @@ class Piwik
 		return $jsTag;
 	}
 
+	/**
+	 * Generate a title for image tags
+	 *
+	 * @return string
+	 */
 	static public function getRandomTitle()
 	{
-		$titles = array( 'Web analytics',
-						'Analytics',
-						'real time web analytics',
-						'real time analytics',
-						'Open source analytics',
-						'Open source web analytics',
-						'Google Analytics alternative',
-						'open source Google Analytics',
-						'Free analytics',
-						'Analytics software',
-						'Free web analytics',
-						'Free web statistics',
-				);
+		static $titles = array(
+			'Web analytics',
+			'Analytics',
+			'Real time web analytics',
+			'Real time analytics',
+			'Open source analytics',
+			'Open source web analytics',
+			'Google Analytics alternative',
+			'Open source Google Analytics',
+			'Free analytics',
+			'Analytics software',
+			'Free web analytics',
+			'Free web statistics',
+		);
 		$id = abs(intval(md5(Piwik_Url::getCurrentHost())));
 		$title = $titles[ $id % count($titles)];
 		return $title;

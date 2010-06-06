@@ -11,7 +11,9 @@
  */
 
 /**
- * Schema
+ * Schema abstraction
+ *
+ * Note: no relation to the ZF proposals for Zend_Db_Schema_Manager
  *
  * @package Piwik
  */
@@ -36,20 +38,114 @@ class Piwik_Db_Schema
 		return self::$instance;
 	}
 
-	private function __construct()
+	/**
+	 * Get schema class name
+	 *
+	 * @param string $schemaName
+	 * @return string
+	 */
+	private static function getSchemaClassName($schemaName)
 	{
+		return 'Piwik_Db_Schema_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($schemaName))));
+	}
+
+	/**
+	 * Get list of schemas
+	 *
+	 * @return array
+	 */
+	public static function getSchemas($adapterName)
+	{
+		static $allSchemaNames = array(
+			// MySQL storage engines
+			'MYSQL' => array(
+				'Myisam',
+//				'Sharding',
+//				'Innodb',
+//				'Infinidb',
+			),
+
+			// Microsoft SQL Server
+//			'MSSQL' => array( 'Mssql' ),
+
+			// PostgreSQL
+//			'PDO_PGSQL' => array( 'Pgsql' ),
+
+			// IBM DB2
+//			'IBM' => array( 'Ibm' ),
+
+			// Oracle
+//			'OCI' => array( 'Oci' ),
+		);
+
+		$adapterName = strtoupper($adapterName);
+		switch($adapterName)
+		{
+			case 'PDO_MYSQL':
+			case 'MYSQLI':
+				$adapterName = 'MYSQL';
+				break;
+
+			case 'PDO_MSSQL':
+			case 'SQLSRV':
+				$adapterName = 'MSSQL';
+				break;
+
+			case 'PDO_IBM':
+			case 'DB2':
+				$adapterName = 'IBM';
+				break;
+
+			case 'PDO_OCI':
+			case 'ORACLE':
+				$adapterName = 'OCI';
+				break;
+		}
+		$schemaNames = $allSchemaNames[$adapterName];
+
+		$schemas = array();
+
+		foreach($schemaNamess as $schemaName)
+		{
+			$className = 'Piwik_Db_Schema_'.$schemaName;
+			if(call_user_func(array($className, 'isAvailable')))
+			{
+				$schemas[] = $schemaName;
+			}
+		}
+
+		return $schemas;
+	}
+
+	/**
+	 * Load schema
+	 */
+	private function loadSchema()
+	{
+		$config = Zend_Registry::get('config');
+		$dbInfos = $config->database->toArray();
+		if(isset($dbInfos['schema']))
+		{
+			$schemaName = $dbInfos['schema'];
+		}
+		else
+		{
+			$schemaName = 'Myisam';
+		}
+		$className = self::getSchemaClassName($schemaName);
+		$this->schema = new $className();
 	}
 
 	/**
 	 * Returns an instance that subclasses Piwik_Db_Schema
 	 *
-	 * @return Piwik_Db_Schema
+	 * @return Piwik_Db_Schema_Interface
 	 */
 	private function getSchema()
 	{
 		if ($this->schema === null)
 		{
-			$this->schema = new Piwik_Db_Schema_MySQL();
+			$this->loadSchema();
 		}
 		return $this->schema;
 	}
@@ -158,6 +254,8 @@ class Piwik_Db_Schema
 
 interface Piwik_Db_Schema_Interface
 {
+	static public function isAvailable();
+
 	public function getTableCreateSql($tableName);
 	public function getTablesCreateSql();
 

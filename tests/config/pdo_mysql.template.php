@@ -17,6 +17,7 @@ password=	@database.main.password@
 dbname=		@database.main.name@
 adapter=	PDO_MYSQL
 tables_prefix=	piwik_
+schema=		Myisam
 
 [database_tests]
 host=		@database.test.host@
@@ -26,3 +27,4 @@ password=	@database.test.password@
 dbname=		@database.test.name@
 adapter=	PDO_MYSQL
 tables_prefix=	piwiktests_
+schema=		Myisam
