@@ -39,7 +39,7 @@ class Piwik_Session extends Zend_Session
 			{
 				$sessionPath = $matches[1];
 			}
-			if(ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_writable($sessionPath))
+			if(ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_readable($sessionPath) || !@is_writable($sessionPath))
 			{
 				$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
 				$ok = true;
