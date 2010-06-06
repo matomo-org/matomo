@@ -60,10 +60,6 @@ class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Pi
 	 */
 	public static function isEnabled()
 	{
-		/**
-		 * @todo This adapter is incomplete.
-		 */
-		return false;
 		$extensions = @get_loaded_extensions();
 		return in_array('PDO', $extensions) && in_array('pdo_pgsql', $extensions);
 	}
@@ -80,32 +76,6 @@ class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Pi
 		// the alternative, bytea fields, incur a space and time
 		// penalty for encoding/decoding
 		return false;
-	}
-
-	/**
-	 * Pre-process SQL to handle MySQL-isms
-	 *
-	 * @return string
-	 */
-	public function preprocessSql($query)
-	{
-		$search = array(
-			// In MySQL, OPTION is still a reserved keyword; Piwik uses 
-			// backticking in case table_prefix is empty.
-			'`',
-
-			// MySQL implicitly does 'ORDER BY column' when there's a
-			// 'GROUP BY column'; Piwik uses 'ORDER BY NULL' when order
-			// doesn't matter, for better performance.
-			'ORDER BY NULL',
-		);
-
-		$replace = array(
-			'',
-			'',
-		);
-
-		$query = str_replace($search, $replace, $query);
 	}
 
 	/**
