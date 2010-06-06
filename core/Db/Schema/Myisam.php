@@ -15,8 +15,19 @@
  *
  * @package Piwik
  */
-class Piwik_Db_Schema_MySQL implements Piwik_Db_Schema_Interface
+class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 {
+	/**
+	 * Is the storage engine available?
+	 *
+	 * @return bool True if MyISAM storage engine available; false otherwise
+	 */
+	static public function isAvailable()
+	{
+		// @todo implement the test
+		return true;
+	}
+
 	public function getTablesCreateSql()
 	{
 		$config = Zend_Registry::get('config');
