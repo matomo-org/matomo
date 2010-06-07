@@ -60,7 +60,6 @@ class Piwik_Db_Schema
 			// MySQL storage engines
 			'MYSQL' => array(
 				'Myisam',
-//				'Sharding',
 //				'Innodb',
 //				'Infinidb',
 			),
@@ -122,18 +121,24 @@ class Piwik_Db_Schema
 	 */
 	private function loadSchema()
 	{
-		$config = Zend_Registry::get('config');
-		$dbInfos = $config->database->toArray();
-		if(isset($dbInfos['schema']))
+		$schema = null;
+		Piwik_PostEvent('Schema.loadSchema', $schema);
+		if($schema === null)
 		{
-			$schemaName = $dbInfos['schema'];
+			$config = Zend_Registry::get('config');
+			$dbInfos = $config->database->toArray();
+			if(isset($dbInfos['schema']))
+			{
+				$schemaName = $dbInfos['schema'];
+			}
+			else
+			{
+				$schemaName = 'Myisam';
+			}
+			$className = self::getSchemaClassName($schemaName);
+			$schema = new $className();
 		}
-		else
-		{
-			$schemaName = 'Myisam';
-		}
-		$className = self::getSchemaClassName($schemaName);
-		$this->schema = new $className();
+		$this->schema = $schema;
 	}
 
 	/**
