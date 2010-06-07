@@ -18,16 +18,38 @@
 class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 {
 	/**
-	 * Is the storage engine available?
+	 * Is this MySQL storage engine available?
 	 *
-	 * @return bool True if MyISAM storage engine available; false otherwise
+	 * @param string $engineName
+	 * @return bool True if available and enabled; false otherwise
+	 */
+	static private function hasStorageEngine($engineName)
+	{
+		$db = Zend_Registry::get('db');
+		$allEngines = $db->fetchAssoc('SHOW ENGINES');
+		if(key_exists($engineName, $allEngines))
+		{
+			$support = $allEngines[$engineName]['Support'];
+			return $support == 'DEFAULT' || $support == 'YES';
+		}
+		return false;
+	}
+
+	/**
+	 * Is this schema available?
+	 *
+	 * @return bool True if schema is available; false otherwise
 	 */
 	static public function isAvailable()
 	{
-		// @todo implement the test
-		return true;
+		return self::hasStorageEngine('MyISAM');
 	}
 
+	/**
+	 * Get the SQL to create Piwik tables
+	 *
+	 * @return array of strings containing SQL
+	 */
 	public function getTablesCreateSql()
 	{
 		$config = Zend_Registry::get('config');
@@ -270,6 +292,12 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 		return $tables;
 	}
 
+	/**
+	 * Get the SQL to create a specific Piwik table
+	 *
+	 * @param string $tableName
+	 * @return string SQL
+	 */
 	public function getTableCreateSql( $tableName )
 	{
 		$tables = Piwik::getTablesCreateSql();
@@ -358,6 +386,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 
 	/**
 	 * Create database
+	 *
+	 * @param string $dbName
 	 */
 	public function createDatabase( $dbName = null )
 	{
@@ -428,6 +458,8 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 
 	/**
 	 * Drop specific tables
+	 *
+	 * @param array $doNotDelete Names of tables to not delete
 	 */
 	public function dropTables( $doNotDelete = array() )
 	{

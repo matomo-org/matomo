@@ -1394,8 +1394,19 @@ class Piwik
  */
 
 	/**
+	 * Is the schema available?
+	 *
+	 * @return bool True if schema is available; false otherwise
+	 */
+	static public function isAvailable()
+	{
+		return Piwik_Db_Schema::getInstance()->isAvailable();
+	}
+
+	/**
 	 * Get the SQL to create a specific Piwik table
 	 *
+	 * @param string $tableName
 	 * @return string SQL
 	 */
 	static public function getTableCreateSql( $tableName )
@@ -1415,6 +1426,8 @@ class Piwik
 
 	/**
 	 * Create database
+	 *
+	 * @param string $dbName
 	 */
 	static public function createDatabase( $dbName = null )
 	{
@@ -1455,6 +1468,8 @@ class Piwik
 
 	/**
 	 * Drop specific tables
+	 *
+	 * @param array $doNotDelete Names of tables to not delete
 	 */
 	static public function dropTables( $doNotDelete = array() )
 	{
