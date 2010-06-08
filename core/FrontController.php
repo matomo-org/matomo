@@ -160,13 +160,14 @@ class Piwik_FrontController
 		try {
 			Piwik::printSqlProfilingReportZend();
 			Piwik::printQueryCount();
+/*		
+			if(Piwik::getModule() !== 'API')
+			{
+				Piwik::printMemoryUsage();
+				Piwik::printTimer();
+			}
+ */
 		} catch(Exception $e) {}
-		
-		if(Piwik::getModule() !== 'API')
-		{
-//			Piwik::printMemoryUsage();
-//			Piwik::printTimer();
-		}
 	}
 	
 	/**
