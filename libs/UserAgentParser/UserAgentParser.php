@@ -128,6 +128,8 @@ class UserAgentParser
 
 	// WebKit version numbers to Apple Safari version numbers (if Version/X.Y.Z not present)
 	static protected $safariVersions = array(
+			'533.16'	=> array('5', '0'),
+			'533.4'		=> array('4', '1'),
 			'526.11.2'	=> array('4', '0'),
 			'525.26'	=> array('3', '2'),
 			'525.13'	=> array('3', '1'),
@@ -191,6 +193,7 @@ class UserAgentParser
 			'iPod'					=> 'IPD',
 			'iPad'					=> 'IPA',
 			'iPhone'				=> 'IPH',
+//			'iOS'					=> 'IOS',
 			'Darwin'				=> 'MAC',
 			'Macintosh'				=> 'MAC',
 			'Power Macintosh'		=> 'MAC',
