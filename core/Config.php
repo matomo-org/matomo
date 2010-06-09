@@ -105,16 +105,25 @@ class Piwik_Config
 	
 	public function init()
 	{
+		if(!is_readable($this->pathIniFileDefaultConfig))
+		{
+			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathIniFileDefaultConfig)));
+		}
 		$this->defaultConfig = new Piwik_Config_Ini($this->pathIniFileDefaultConfig, null, true);
+		if(is_null($this->defaultConfig) || count($this->defaultConfig->toArray()) == 0)
+		{
+			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathIniFileDefaultConfig, "parse_ini_file()")));
+		}
+
 		if(!is_readable($this->pathIniFileUserConfig))
 		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound',array($this->pathIniFileUserConfig)));
-		}
-		if(is_null($this->defaultConfig))
-		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod',array($this->pathIniFileUserConfig,"parse_ini_file()")));
+			throw new Exception(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathIniFileUserConfig)));
 		}
 		$this->userConfig = new Piwik_Config_Ini($this->pathIniFileUserConfig, null, true);
+		if(is_null($this->userConfig) || count($this->userConfig->toArray()) == 0)
+		{
+			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathIniFileUserConfig, "parse_ini_file()")));
+		}
 	}
 	
 	/**
