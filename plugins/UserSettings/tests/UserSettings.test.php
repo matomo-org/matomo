@@ -461,6 +461,14 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
 			array('WS3', 'Windows Server 2003 / XP x64', 'Win S2003')),
 
+		// Internet Explorer with misbehaving Google Tool Bar
+		'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; GTB6.5; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)' => array(
+			array('IE', 'Internet Explorer', 'IE', '8.0', '8', '0', 'ie'),
+			array('WXP', 'Windows XP', 'Win XP')),
+		'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; GTB0.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)' => array(
+			array('IE', 'Internet Explorer', 'IE', '8.0', '8', '0', 'ie'),
+			array('WXP', 'Windows XP', 'Win XP')),
+
 		// Iron
 		'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/531.0 (KHTML, like Gecko) Iron/3.0.189.0 Safari/531.0' => array(
 			array('IR', 'Iron', 'Iron', '3.0', '3', '0', 'webkit'),
