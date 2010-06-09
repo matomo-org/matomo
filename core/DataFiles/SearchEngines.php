@@ -288,6 +288,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.dogpile.com'		=> array('Dogpile', 'q'),
 		'nbci.dogpile.com'			=> array('Dogpile', 'q'),
 
+		// DuckDuckGo
+		'duckduckgo'				=> array('DuckDuckGo', 'q', '?q={k}'),
+
 		// earthlink
 		'search.earthlink.net'		=> array('Earthlink', 'q'),
 
