@@ -64,6 +64,20 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		return $toReturn;
 	}
 	
+	function renderException()
+	{
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		
+		$return = array('result' => 'error', 'message' => $exceptionMessage);
+		
+		if($this->serialize)
+		{
+			$return = serialize($return);
+		}
+		
+		return $return;
+	}
+	
 	/**
 	 * Produces a flat php array from the DataTable, putting "columns" and "metadata" on the same level.
 	 * 

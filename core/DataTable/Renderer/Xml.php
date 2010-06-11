@@ -27,6 +27,20 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		return $this->renderTable($this->table);
 	}
 	
+	function renderException()
+	{
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		
+		@header("Content-Type: text/xml;charset=utf-8");
+		$return = 
+			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
+			"<result>\n".
+			"\t<error message=\"".$exceptionMessage."\" />\n".
+			"</result>";		
+		
+		return $return;
+	}
+	
 	protected function getArrayFromDataTable($table)
 	{
 		$renderer = new Piwik_DataTable_Renderer_Php();

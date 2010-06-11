@@ -21,7 +21,19 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 {
 	public function render()
 	{
+		Piwik_DataTable_Renderer_Json::renderHeader();
 		return $this->renderTable($this->table);
+	}
+	
+	function renderException()
+	{
+		Piwik_DataTable_Renderer_Json::renderHeader();
+		
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		$exceptionMessage = str_replace("\n", "", $exceptionMessage);
+		$exceptionMessage = '{"result":"error", "message":"'.$exceptionMessage.'"}';
+		
+		return $this->jsonpWrap("\"".$exceptionMessage."\"");
 	}
 	
 	protected function renderTable($table)
@@ -38,6 +50,11 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 		}
 		$str = json_encode($array);
 		
+		return $this->jsonpWrap($str);
+	}
+	
+	protected function jsonpWrap($str)
+	{		
 		if(($jsonCallback = Piwik_Common::getRequestVar('jsoncallback', false)) !== false)
 		{
 			if(preg_match('/^[0-9a-zA-Z]*$/', $jsonCallback) > 0)
@@ -45,6 +62,12 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 				$str = $jsonCallback . "(" . $str . ")";
 			}
 		}
+		
 		return $str;
+	}
+	
+	static private function renderHeader ()
+	{
+		@header( "Content-Type: application/json" );
 	}
 }

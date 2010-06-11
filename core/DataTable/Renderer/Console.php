@@ -25,6 +25,12 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 		return $this->renderTable($this->table);
 	}
 	
+	function renderException()
+	{
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		return 'Error: '.$exceptionMessage;
+	}
+	
 	function setPrefixRow($str)
 	{
 		$this->prefixRows = $str;
