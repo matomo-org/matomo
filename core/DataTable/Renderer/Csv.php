@@ -66,6 +66,12 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 		return $this->output($this->renderTable($this->table));
 	}
 	
+	function renderException()
+	{
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		return 'Error: '.$exceptionMessage;
+	}
+	
 	public function setConvertToUnicode($bool)
 	{
 		$this->convertToUnicode = $bool;

@@ -104,41 +104,30 @@ class Piwik_API_ResponseBuilder
 	 */
 	public function getResponseException(Exception $e)
 	{
-		$message = htmlentities($e->getMessage(), ENT_COMPAT, "UTF-8");
-		switch($this->outputFormat)
+		$format = strtolower($this->outputFormat);
+		
+		if( $format == 'original' )
 		{
-			case 'original':
-				throw $e;
-			break;
-			case 'xml':
-				@header("Content-Type: text/xml;charset=utf-8");
-				$return = 
-					"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
-					"<result>\n".
-					"\t<error message=\"".$message."\" />\n".
-					"</result>";
-			break;
-			case 'json':
-				@header( "Content-Type: application/json" );
-				// we remove the \n from the resulting string as this is not allowed in json
-				$message = str_replace("\n","",$message);
-				$return = '{"result":"error", "message":"'.$message.'"}';
-			break;
-			case 'php':
-				$return = array('result' => 'error', 'message' => $message);
-				if($this->caseRendererPHPSerialize())
-				{
-					$return = serialize($return);
-				}
-			break;
-			case 'html':
-				$return = nl2br($message);
-			break;
-			default:
-				$return = 'Error: '.$message;
-			break;
+			throw $e;
 		}
-		return $return;
+		
+		try
+		{
+			$renderer = Piwik_DataTable_Renderer::factory($format);
+		
+		} catch (Exception $e) {
+			
+			return "Error: " . $e->getMessage();
+		}
+		
+		$renderer->setException($e);
+		
+		if($format == 'php')
+		{
+			$renderer->setSerialize($this->caseRendererPHPSerialize());
+		}		
+		
+		return $renderer->renderException();
 	}
 	
 	/**
@@ -300,5 +289,5 @@ class Piwik_API_ResponseBuilder
 			$dataTable->addRowsFromSimpleArray($array);
 			return $this->getRenderedDataTable($dataTable);
 		}
-	}	
+	}
 }

@@ -38,6 +38,12 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		return $this->renderTable($this->table);
 	}
 	
+	function renderException()
+	{
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		return nl2br($exceptionMessage);
+	}
+	
 	protected function renderTable($table)
 	{
 		if($table instanceof Piwik_DataTable_Array)
