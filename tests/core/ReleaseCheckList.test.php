@@ -38,6 +38,18 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     	$this->checkEqual(array('log' => 'logger_error'), array('screen'));
     	$this->checkEqual(array('log' => 'logger_api_call'), null);
     }
+    
+    public function test_templatesDontContainDebug()
+    {
+    	$patternFailIfFound = '{debug}';
+    	$files = Piwik::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.tpl');
+    	foreach($files as $file)
+    	{
+    		$content = file_get_contents($file);
+    		$this->assertFalse(strpos($content, $patternFailIfFound), 'found in '.$file);
+    	}
+    }
+    
     private function checkEqual($key, $valueExpected)
     {
     	$section = key($key);
