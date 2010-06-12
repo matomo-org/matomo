@@ -861,16 +861,18 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 */
 	public static function functionExists($functionName)
 	{
+		// eval() is a language construct
+		$exists = $functionName == 'eval' || function_exists($functionName);
 		if(extension_loaded('suhosin'))
 		{
 			$blacklist = @ini_get("suhosin.executor.func.blacklist");
 			if(!empty($blacklist))
 			{
 				$blacklistFunctions = array_map('strtolower', array_map('trim', explode(',', $blacklist)));
-				return function_exists($functionName) && !in_array($functionName, $blacklistFunctions);
+				return $exists && !in_array($functionName, $blacklistFunctions);
 			}
 
 		}
-		return function_exists($functionName);
+		return $exists;
 	}
 }
