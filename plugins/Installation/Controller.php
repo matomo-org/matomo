@@ -110,6 +110,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'parse_ini_file'  => 'Installation_SystemCheckParseIniFileHelp',
 			'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
 			'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
+			'eval'            => 'Installation_SystemCheckEvalHelp',
 		);
 
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
@@ -711,6 +712,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$needed_functions = array(
 			'debug_backtrace',
 			'create_function',
+			'eval',
 		);
 		$infos['needed_functions'] = $needed_functions;
 		$infos['missing_functions'] = array();

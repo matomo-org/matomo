@@ -501,6 +501,7 @@ $translations = array(
 	'Installation_SystemCheckParseIniFileHelp' => 'This built-in function has been disabled on your host. Piwik will attempt to emulate this function but may encounter further security restrictions. Tracker performance will also be impacted.',
 	'Installation_SystemCheckDebugBacktraceHelp' => 'View::factory won\'t be able to create views for the calling module.',
 	'Installation_SystemCheckCreateFunctionHelp' => 'Piwik uses anonymous functions for callbacks.',
+	'Installation_SystemCheckEvalHelp' => 'Required by HTML QuickForm and Smarty templating system.',
 	'Installation_SystemCheckMbstring' => 'mbstring',
 	'Installation_SystemCheckMbstringHelp' => 'You should set mbstring.func_overload to "0".',
 	'Installation_SystemCheckFileIntegrity' => 'File integrity',
