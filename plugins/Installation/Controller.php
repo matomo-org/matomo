@@ -316,7 +316,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->someTablesInstalled = true;
 
 			$minimumCountPiwikTables = 12;
-			$baseTablesInstalled = preg_grep('/archive_numeric|archive_blob/', $tablesInstalled, PREG_GREP_INVERT);
 
 			Piwik::createAccessObject();
 			Piwik::setUserIsSuperUser();
@@ -656,7 +655,16 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos = array();
 
 		$infos['directories'] = Piwik::checkDirectoriesWritable();
-		Piwik::createHtAccessFiles();
+
+		$serverSoftware = $_SERVER['SERVER_SOFTWARE'];
+		if(preg_match('/^Microsoft-IIS\/(.+)/', $serverSoftware, $matches) && version_compare($matches[1], '7') >= 0)
+		{
+			Piwik::createWebConfigFiles();
+		}
+		else
+		{
+			Piwik::createHtAccessFiles();
+		}
 
 		$infos['phpVersion_minimum'] = $minimumPhpVersion;
 		$infos['phpVersion'] = phpversion();
@@ -764,7 +772,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['isIpv4'] = false;
 		}
 
-		$infos['serverVersion'] = addslashes($_SERVER['SERVER_SOFTWARE']);
+		$infos['serverVersion'] = addslashes($serverSoftware);
 		$infos['serverOs'] = @php_uname();
 		$infos['serverTime'] = date('H:i:s');
 

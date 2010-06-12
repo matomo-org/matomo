@@ -349,6 +349,62 @@ class Piwik
 	}
 
 	/**
+	 * Generate web.config files at runtime
+	 *
+	 * Note: for IIS 7 and above
+	 */
+	static public function createWebConfigFiles()
+	{
+		@file_put_contents(PIWIK_INCLUDE_PATH . '/web.config',
+'<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.webServer>
+    <security>
+      <requestFiltering>
+        <hiddenSegments>
+          <add segment="config" />
+          <add segment="core" />
+          <add segment="lang" />
+        </hiddenSegments>
+        <fileExtensions>
+          <add fileExtension=".tpl" allowed="false" />
+        </fileExtensions>
+      </requestFiltering>
+    </security>
+    <directoryBrowse enabled="false" />
+    <defaultDocument>
+      <files>
+        <remove value="index.php" />
+        <add value="index.php" />
+      </files>
+    </defaultDocument>
+  </system.webServer>
+</configuration>');
+
+		// deny direct access to .php files
+		$directoriesToProtect = array(
+			'/libs',
+			'/plugins',
+		);
+		foreach($directoriesToProtect as $directoryToProtect)
+		{
+			@file_put_contents(PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
+'<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.webServer>
+    <security>
+      <requestFiltering>
+        <denyUrlSequences>
+          <add sequence=".php" />
+        </denyUrlSequences>
+      </requestFiltering>
+    </security>
+  </system.webServer>
+</configuration>');
+		}
+	}
+
+	/**
 	 * Get file integrity information (in PIWIK_INCLUDE_PATH).
 	 *
 	 * @return array(bool, string, ...) Return code (true/false), followed by zero or more error messages
