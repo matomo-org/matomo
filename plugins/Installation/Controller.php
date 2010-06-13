@@ -862,7 +862,17 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	public static function functionExists($functionName)
 	{
 		// eval() is a language construct
-		$exists = $functionName == 'eval' || function_exists($functionName);
+		if($functionName == 'eval')
+		{
+			// does not check suhosin.executor.eval.whitelist (or blacklist)
+			if(extension_loaded('suhosin'))
+			{
+				return @ini_get("suhosin.executor.disable_eval") != "1";
+			}
+			return true;
+		}
+
+		$exists = function_exists($functionName);
 		if(extension_loaded('suhosin'))
 		{
 			$blacklist = @ini_get("suhosin.executor.func.blacklist");
