@@ -317,6 +317,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->someTablesInstalled = true;
 
 			$minimumCountPiwikTables = 12;
+			$baseTablesInstalled = preg_grep('/archive_numeric|archive_blob/', $tablesInstalled, PREG_GREP_INVERT);
 
 			Piwik::createAccessObject();
 			Piwik::setUserIsSuperUser();
