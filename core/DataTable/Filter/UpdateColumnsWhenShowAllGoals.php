@@ -18,10 +18,11 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 {
 	protected $mappingIdToNameGoal;
 	
-	public function __construct( $table, $mappingToApply = null )
+	public function __construct( $table, $processOnlyIdGoal )
 	{
 		parent::__construct($table);
 		$this->mappingIdToNameGoal = Piwik_Archive::$mappingFromIdToNameGoal;
+		$this->processOnlyIdGoal = $processOnlyIdGoal;
 		$this->filter();
 	}
 	
@@ -61,6 +62,7 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 				{
 					$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $roundingPrecision);
 				}
+				$newColumns['goals_conversion_rate'] = $conversionRate;
 				
 				if($nbVisits == 0)
 				{
@@ -70,8 +72,14 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 				{
 					$revenuePerVisit = round( $revenue / $nbVisits, $roundingPrecision );
 				}
+				$newColumns['revenue_per_visit'] = $revenuePerVisit;
 				foreach($currentColumns[Piwik_Archive::INDEX_GOALS] as $goalId => $columnValue)
 				{
+					if($this->processOnlyIdGoal != 0
+						&& $this->processOnlyIdGoal != $goalId)
+					{
+						continue;
+					}
 					$name = 'goal_' . $goalId . '_conversion_rate';
 					if($nbVisits == 0)
 					{
@@ -87,9 +95,19 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 					$name = 'goal_' . $goalId . '_nb_conversions';
 					$newColumns[$name] = $columnValue[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
 					$expectedColumns[$name] = true;
+					
+					$name = 'goal_' . $goalId . '_revenue_per_visit';
+					if($nbVisits == 0)
+					{
+						$value = $invalidDivision;
+					}
+					else
+					{
+						$revenuePerVisit = round( $columnValue[Piwik_Archive::INDEX_GOAL_REVENUE] / $nbVisits, $roundingPrecision );
+					}
+					$newColumns[$name] = $revenuePerVisit;
+					$expectedColumns[$name] = true;
 				}
-				$newColumns['revenue_per_visit'] = $revenuePerVisit;
-				$newColumns['goals_conversion_rate'] = $conversionRate;
 			}
 			
 			$row->setColumns($newColumns);

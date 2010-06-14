@@ -1,16 +1,6 @@
-{literal}
-<style>
-.goalInlineHelp{
-	color:#9B9B9B;
-}
-.tableForm { 
-	width:700px;
-}
-</style>
-{/literal}
 <span id='GoalForm' style="display:none;">
 <form>
-<table class="tableForm">
+<table class="tableForm tableFormGoals">
 	<tbody>
 		<tr>
             <td>{'Goals_GoalName'|translate} </td>

@@ -59,6 +59,15 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	function addWidgets()
 	{
+		Piwik_AddWidget('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
+		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
+		if(count($goals) > 0)
+		{
+			foreach($goals as $goal) 
+			{
+        		Piwik_AddWidget('Goals_Goals', $goal['name'], 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
+			}
+		}
 	}
 	
 	function addMenus()

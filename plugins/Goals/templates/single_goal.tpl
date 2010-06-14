@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="plugins/Goals/templates/goals.css" />
 {include file="Goals/templates/title_and_evolution_graph.tpl"}
 
 <div style="clear:both;"></div>
@@ -10,31 +11,18 @@
     <li>{'Goals_ReturningVisitorsConversionRateIs'|translate:"<b>$conversion_rate_returning%</b>"}, {'Goals_NewVisitorsConversionRateIs'|translate:"<b>$conversion_rate_new%</b>"}</li>
 	</ul>
 {/if}
-<hr />
-{$tableByConversion}
 
-<hr />
+
 {literal}
-<style>
-ul.ulGoalTopElements {
-	list-style-type:circle;
-	margin-left:30px;
-}
-.ulGoalTopElements a {
-	text-decoration:none;
-	color:#0033CC;
-	border-bottom:1px dotted #0033CC;
-	line-height:2em;
-}
-.goalTopElement { 
-	border-bottom:1px dotted; 
-} 
-</style>
-<script>
+<script type="text/javascript">
 $(document).ready( function() {
-	$('.goalTopElement')
-		.tooltip()
-		;
-	});
+	$('.goalTopElement').tooltip();
+});
 </script>
 {/literal}
+
+{if $displayFullReport}
+	{if $nb_conversions > 0}
+		{include file="Goals/templates/table_by_segment.tpl"}
+	{/if}
+{/if}
