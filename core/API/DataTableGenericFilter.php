@@ -58,7 +58,8 @@ class Piwik_API_DataTableGenericFilter
 								'filter_add_columns_when_show_all_columns'	=> array('integer')
 						),
 			'UpdateColumnsWhenShowAllGoals'	=> array(
-								'filter_update_columns_when_show_all_goals'	=> array('integer')
+								'filter_update_columns_when_show_all_goals'	=> array('integer'),
+								'filter_only_display_idgoal' => array('integer', '0'),
 						),
 			'Sort' => array(
 								'filter_sort_column' 		=> array('string'),

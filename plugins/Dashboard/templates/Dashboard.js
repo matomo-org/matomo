@@ -96,6 +96,10 @@ dashboard.prototype =
 			$('#'+uniqueId+'>.widgetContent', self.dashboardElement).html(loadedContent);
 		}
 		widget = widgetsHelper.getWidgetObjectFromUniqueId(uniqueId);
+		if(widget == false)
+		{
+			return;
+		}
 		widgetParameters = widget["parameters"];
 		$.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent));
 	},

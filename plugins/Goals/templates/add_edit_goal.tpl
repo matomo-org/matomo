@@ -1,3 +1,4 @@
+<br/><br/><br/>
 
 <div id="AddEditGoals">
 {if isset($onlyShowAddNewGoal)}
@@ -24,20 +25,20 @@
 <script type="text/javascript">
 
 var mappingMatchTypeName = {ldelim} 
-	"url": "URL", 
-	"file": "filename", 
-	"external_website": "external website URL" 
+	"url": "{'Goals_URL'|translate|escape}", 
+	"file": "{'Goals_Filename'|translate|escape}", 
+	"external_website": "{'Goals_ExternalWebsiteUrl'|translate|escape}" 
 {rdelim};
 var mappingMatchTypeExamples = {ldelim}
-	"url": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'checkout/confirmation'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://example.com/thank-you.html'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"matches the expression '(.*)\\\/demo\\\/(.*)'"}", 
-	"file": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'files/brochure.pdf'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://example.com/files/brochure.pdf'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"'(.*)\\\.zip'"}", 
-	"external_website": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'amazon.com'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://mypartner.com/landing.html'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'"}" 
+	"url": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'checkout/confirmation'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_IsExactly'|translate:"'http://example.com/thank-you.html'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"matches the expression '(.*)\\\/demo\\\/(.*)'"|escape}", 
+	"file": "{'General_ForExampleShort'|translate|escape} {'Goals_Contains'|translate:"'files/brochure.pdf'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_IsExactly'|translate:"'http://example.com/files/brochure.pdf'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"'(.*)\\\.zip'"|escape}", 
+	"external_website": "{'General_ForExampleShort'|translate|escape} {'Goals_Contains'|translate:"'amazon.com'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_IsExactly'|translate:"'http://mypartner.com/landing.html'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'"|escape}" 
 {rdelim};
 bindGoalForm();
 

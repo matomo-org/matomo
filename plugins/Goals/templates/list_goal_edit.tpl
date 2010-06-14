@@ -1,6 +1,5 @@
-
 <span id='EditGoals' style="display:none;">
-	<table class="tableForm">
+	<table class="tableForm tableFormGoals">
 	<thead style="font-weight:bold">
 		<td>Id</td>
         <td>{'Goals_GoalName'|translate}</td>

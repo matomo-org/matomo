@@ -33,6 +33,10 @@ class Piwik_WidgetsList
 		$widgetCategory = Piwik_Translate($widgetCategory);
 		$widgetName = Piwik_Translate($widgetName);
 		$widgetUniqueId = 'widget' . $controllerName . $controllerAction;
+		foreach($customParameters as $name => $value)
+		{
+			$widgetUniqueId .= $name . $value;
+		}
 		self::$widgets[$widgetCategory][] = array( 
 					'name' => $widgetName,
 					'uniqueId' => $widgetUniqueId,

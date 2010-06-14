@@ -1,7 +1,10 @@
 <script type="text/javascript" src="plugins/CoreHome/templates/sparkline.js"></script>
 
 <a name="evolutionGraph" graphId="{$nameGraphEvolution}"></a>
-<h2>{$title}</h2>
+
+{if $displayFullReport}
+	<h2>{if isset($goalName)}{'Goals_GoalX'|translate:$goalName}{else}{'Goals_GoalsOverview'|translate}{/if}</h2>
+{/if}
 {$graphEvolution}
 
 <div id='leftcolumn'>

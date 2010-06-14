@@ -87,7 +87,7 @@ $(document).ready( function() {
 	For example, for idSite=1 and date=yesterday, you can write: <span id='exportFullDashboard'></span>
 	</p>
 	<p>	<b>&rsaquo; Select a report, and copy paste in your page the embed code below the widget:</b>
-	<div id="widgetChooser">
+	<div id="widgetChooser" style='height:600px'>
 		<div class="subMenu" id="sub1"></div>
 		<div class="subMenu" id="sub2"></div>
 		<div class="subMenu" id="sub3"></div>

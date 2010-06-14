@@ -26,6 +26,9 @@
 	border: 1px solid #CBD3E7;
 }
 
+.widgetContent h2 {
+	font-size:1.2em;
+}
 .widgetTop {
 	background: #F0F0FA;
 	-moz-border-radius:4px 4px 0 0;
