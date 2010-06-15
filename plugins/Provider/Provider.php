@@ -85,10 +85,10 @@ class Piwik_Provider extends Piwik_Plugin
 
 	function archivePeriod( $notification )
 	{
-		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_providers;
+		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
 		$archiveProcessing = $notification->getNotificationObject();
 		$dataTableToSum = array( 'Provider_hostnameExt' );
-		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTableLevelZero);
+		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
 	}
 
 	/**
@@ -103,8 +103,8 @@ class Piwik_Provider extends Piwik_Plugin
 		$interestByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableProvider = $archiveProcessing->getDataTableFromArray($interestByProvider);
 		$columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_providers;
-		$archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized($maximumRowsInDataTableLevelZero, null, $columnToSortByBeforeTruncation));
+		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
+		$archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
 		destroy($tableProvider);
 	}
 	

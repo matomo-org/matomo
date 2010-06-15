@@ -39,6 +39,7 @@ class Piwik_UserSettings_API
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
 		$dataTable->queueFilter('ReplaceColumnNames');
+		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
 

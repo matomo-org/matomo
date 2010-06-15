@@ -126,11 +126,19 @@ function Piwik_getBrowserVersion($str)
 function Piwik_getBrowsersLogo($label)
 {
 	$id = Piwik_getBrowserId($label);
+	// For aggregated row 'Others'
+	if(empty($id)) {
+		$id = 'UNK';
+	}
 	return  'plugins/UserSettings/images/browsers/'. $id . '.gif';
 }
 
 function Piwik_getOSLogo($label)
 {
+	// For aggregated row 'Others'
+	if(empty($label)) {
+		$label = 'UNK';
+	}
 	$path = 'plugins/UserSettings/images/os/'. $label . '.gif';
 	return $path;
 }
