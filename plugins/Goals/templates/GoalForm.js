@@ -3,7 +3,7 @@ function showAddNewGoal()
 {
 	$("#GoalForm").show();
 	$("#EditGoals").hide();
-	$.scrollTo("#AddEditGoals", 400);
+	piwikHelper.lazyScrollTo("#AddEditGoals", 400);
 	return false;
 }
 
@@ -11,7 +11,7 @@ function showEditGoals()
 {
 	$("#EditGoals").show();
 	$("#GoalForm").hide();
-	$.scrollTo("#AddEditGoals", 400);
+	piwikHelper.lazyScrollTo("#AddEditGoals", 400);
 	return false;
 }
 
@@ -79,7 +79,7 @@ function bindGoalForm()
 function getAjaxDeleteGoal(idGoal)
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf('goalAjaxLoading');
-	$.scrollTo("#AddEditGoals", 400);
+	piwikHelper.lazyScrollTo("#AddEditGoals", 400);
 	
 	var parameters = {};
 	parameters.idSite = piwik.idSite;
@@ -95,7 +95,7 @@ function getAjaxDeleteGoal(idGoal)
 function getAjaxAddGoal()
 {
 	var ajaxRequest = piwikHelper.getStandardAjaxConf('goalAjaxLoading');
-	$.scrollTo("#AddEditGoals", 400);
+	piwikHelper.lazyScrollTo("#AddEditGoals", 400);
 	var parameters = {};
 	
 	parameters.idSite = piwik.idSite;

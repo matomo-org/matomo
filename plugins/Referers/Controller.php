@@ -76,9 +76,9 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 
-	function getKeywords( $fetch = false, $viewDataTable = null)
+	function getKeywords( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory($viewDataTable);
+		$view = Piwik_ViewDataTable::factory();
 		$view->init( $this->pluginName, 	__FUNCTION__, 
 											'Referers.getKeywords', 
 											'getSearchEnginesFromKeywordId'
