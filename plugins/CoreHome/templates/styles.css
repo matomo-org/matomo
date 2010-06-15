@@ -11,6 +11,10 @@ h2 {
 	clear:both;
 }
 
+h2 a {
+	text-decoration:none;
+}
+
 h3 {
 	font-size: 1.3em;
 	margin-top: 2em;

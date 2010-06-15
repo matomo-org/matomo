@@ -60,7 +60,7 @@ $(document).ready( function() {
 			// otherwise, screen would jump down to the table when loading the report 
 			if(countLoaded > 1)
 			{
-				$.scrollTo("#titleGoalsBySegment", 400);
+				piwikHelper.lazyScrollTo("#titleGoalsBySegment", 400);
 			}
 		};
 		$('#tableGoalsBySegment').hide();

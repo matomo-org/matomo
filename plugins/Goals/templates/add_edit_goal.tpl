@@ -32,7 +32,7 @@ var mappingMatchTypeName = {ldelim}
 var mappingMatchTypeExamples = {ldelim}
 	"url": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'checkout/confirmation'"|escape} \
 		<br />{'General_ForExampleShort'|translate|escape} {'Goals_IsExactly'|translate:"'http://example.com/thank-you.html'"|escape} \
-		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"matches the expression '(.*)\\\/demo\\\/(.*)'"|escape}", 
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"'(.*)\\\/demo\\\/(.*)'"|escape}", 
 	"file": "{'General_ForExampleShort'|translate|escape} {'Goals_Contains'|translate:"'files/brochure.pdf'"|escape} \
 		<br />{'General_ForExampleShort'|translate|escape} {'Goals_IsExactly'|translate:"'http://example.com/files/brochure.pdf'"|escape} \
 		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"'(.*)\\\.zip'"|escape}", 

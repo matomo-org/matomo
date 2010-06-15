@@ -110,7 +110,7 @@ a {
 	float: left;
 	height: 22px;
 	padding-left: 10px;
-	width:650px; /* when this is not set, wrong display in safari/chrome? */
+	width:620px; /* when this is not set, wrong display in safari/chrome? */
 }
 #topLeftBar, #topRightBar {
 	font-family: arial, sans-serif !important;

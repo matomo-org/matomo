@@ -24,6 +24,9 @@ ul.ulGoalTopElements {
 	border:0;
 }
 
+#titleGoalsBySegment {
+	padding-top:30px;
+}
 .goalInlineHelp {
 	color:#9B9B9B;
 }
