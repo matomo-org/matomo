@@ -5,7 +5,7 @@
     <h2>{'Goals_AddNewGoal'|translate}</h2>
 {else}
 	<h2>
-	{'Goals_AddNewGoalOrEditExistingGoal'|translate:"<a onclick='' name='linkAddNewGoal'>+":"</a>":"<a onclick='' name='linkEditGoals'>":"</a>"}
+	{'Goals_AddNewGoalOrEditExistingGoal'|translate:"<a onclick='' name='linkAddNewGoal'><u>+":"</u></a>":"<a onclick='' name='linkEditGoals'><u>":"</u></a>"}
 	</h2>
 {/if}
 
