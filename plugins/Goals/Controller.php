@@ -190,51 +190,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	
 	protected function getAvailableGoalSegments()
 	{
-		return array(
-        	Piwik_Translate('VisitTime_ColumnServerTime') => array(
-        		array(
-        			'name' => Piwik_Translate('VisitTime_ColumnServerTime'),
-        			'module' => 'VisitTime',
-        			'action' => 'getVisitInformationPerServerTime',
-        		),
-        	),
-        	
-        	Piwik_Translate('Referers_Referers') => array(
-        		array(
-        			'name' => Piwik_Translate('Referers_Keywords'),
-        			'module' => 'Referers',
-        			'action' => 'getKeywords',
-        		),
-        		array(
-        			'name' => Piwik_Translate('Referers_SearchEngines'),
-        			'module' => 'Referers',
-        			'action' => 'getSearchEngines',
-        		),
-        		array(
-        			'name' => Piwik_Translate('Referers_Websites'),
-        			'module' => 'Referers',
-        			'action' => 'getWebsites',
-        		),
-        		array(
-        			'name' => Piwik_Translate('Referers_Campaigns'),
-        			'module' => 'Referers',
-        			'action' => 'getCampaigns',
-        		),
-        	),
-        	
-        	Piwik_Translate('UserCountry_Location') => array(
-        		array(
-        			'name' => Piwik_Translate('UserCountry_Country'),
-        			'module' => 'UserCountry',
-        			'action' => 'getCountry',
-        		),
-        		array(
-        			'name' => Piwik_Translate('UserCountry_Continent'),
-        			'module' => 'UserCountry',
-        			'action' => 'getContinent',
-        		),
-        	),
-        );
+		$segments = array();
+		Piwik_PostEvent('Goals.getAvailableGoalSegments', $segments);
+		return $segments;
 	}
 	
 	protected function getTopSegments($idGoal)

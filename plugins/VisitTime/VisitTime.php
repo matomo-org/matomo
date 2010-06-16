@@ -34,6 +34,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
 		);
 		return $hooks;
 	}
@@ -49,6 +50,18 @@ class Piwik_VisitTime extends Piwik_Plugin
 		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime', 'action' => 'index'));
 	}
 
+	function addGoalSegments( $notification )
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments[Piwik_Translate('VisitTime_ColumnServerTime')] = array(
+        		array(
+        			'name' => Piwik_Translate('VisitTime_ColumnServerTime'),
+        			'module' => 'VisitTime',
+        			'action' => 'getVisitInformationPerServerTime',
+        		),
+        	);
+	}
+	
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();

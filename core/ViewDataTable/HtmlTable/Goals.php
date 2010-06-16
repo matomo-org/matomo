@@ -27,11 +27,13 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		$this->processOnlyIdGoal = Piwik_Common::getRequestVar('idGoal', 0, 'int');
 		$this->viewProperties['show_exclude_low_population'] = true;
 		$this->viewProperties['show_goals'] = true;
+		
 		$this->setColumnsTranslations( array(
 			'goal_%s_conversion_rate' => '%s conversion rate',
 			'goal_%s_nb_conversions' => '%s conversions',
 			'goal_%s_revenue_per_visit' => '%s revenue per visit',
 		));
+		
 		$this->setColumnsToDisplay( array(	
 			'label', 
 			'nb_visits', 
@@ -41,32 +43,22 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			'goal_%s_revenue_per_visit',
 			'revenue_per_visit',
 		));
+		
+		// We ensure that the 'Sort by' column is actually displayed in the table
+		// eg. most daily reports sort by nb_uniq_visitors but this column is not displayed in the Goals table
+		$columnsToDisplay = $this->getColumnsToDisplay();
+		$columnToSortBy = $this->getSortedColumn();
+		
+		if(!in_array($columnToSortBy, $columnsToDisplay))
+		{
+			$this->setSortedColumn('nb_visits', 'desc');
+		}
 		parent::main();
 	}
 	
 	public function disableSubTableWhenShowGoals()
 	{
 		$this->controllerActionCalledWhenRequestSubTable = null;
-	}
-	
-	protected function getRequestString()
-	{
-		$requestString = parent::getRequestString();
-		if($this->processOnlyIdGoal != 0)
-		{
-			$requestString .= "&filter_only_display_idgoal=".$this->processOnlyIdGoal;
-		}
-		return $requestString . '&filter_update_columns_when_show_all_goals=1';
-	}	
-	
-	protected $columnsToPercentageFilter = array();
-	protected $columnsToRevenueFilter = array();
-	protected $columnsToConversionFilter = array();
-	protected $idSite = false;
-	
-	private function getIdSite()
-	{
-		return $this->idSite;
 	}
 	
 	public function setColumnsToDisplay($columnsNames)
@@ -114,6 +106,26 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			}
 		}
 		parent::setColumnsToDisplay($newColumnsNames);
+	}
+	
+	protected function getRequestString()
+	{
+		$requestString = parent::getRequestString();
+		if($this->processOnlyIdGoal != 0)
+		{
+			$requestString .= "&filter_only_display_idgoal=".$this->processOnlyIdGoal;
+		}
+		return $requestString . '&filter_update_columns_when_show_all_goals=1';
+	}	
+	
+	protected $columnsToPercentageFilter = array();
+	protected $columnsToRevenueFilter = array();
+	protected $columnsToConversionFilter = array();
+	protected $idSite = false;
+	
+	private function getIdSite()
+	{
+		return $this->idSite;
 	}
 	
 	protected function postDataTableLoadedFromAPI()

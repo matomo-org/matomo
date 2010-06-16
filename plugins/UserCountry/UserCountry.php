@@ -34,6 +34,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
 		);
 		return $hooks;
 	}	
@@ -47,6 +48,23 @@ class Piwik_UserCountry extends Piwik_Plugin
 	function addMenu()
 	{
 		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
+	}
+	
+	function addGoalSegments( $notification )
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments[Piwik_Translate('UserCountry_Location')] = array(
+        		array(
+        			'name' => Piwik_Translate('UserCountry_Country'),
+        			'module' => 'UserCountry',
+        			'action' => 'getCountry',
+        		),
+        		array(
+        			'name' => Piwik_Translate('UserCountry_Continent'),
+        			'module' => 'UserCountry',
+        			'action' => 'getContinent',
+        		),
+        	);
 	}
 	
 	function archivePeriod( $notification )

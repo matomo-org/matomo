@@ -766,6 +766,15 @@ abstract class Piwik_ViewDataTable
 		$this->variablesDefault['filter_sort_order'] = $order;
 	}
 	
+	/**
+	 * Returns the column name on which the table will be sorted
+	 * 
+	 * @return string
+	 */
+	public function getSortedColumn()
+	{
+		return $this->variablesDefault['filter_sort_column'];
+	}
 
 	/**
 	 * Sets translation string for given column
