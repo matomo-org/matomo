@@ -16,7 +16,7 @@
  */
 class Piwik_VisitTime_Controller extends Piwik_Controller 
 {
-	function index()
+	public function index()
 	{
 		$view = Piwik_View::factory('index');
 		$view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
@@ -24,7 +24,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 		
-	function getVisitInformationPerServerTime( $fetch = false)
+	public function getVisitInformationPerServerTime( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitTime.getVisitInformationPerServerTime" );
@@ -42,7 +42,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
-	function getVisitInformationPerLocalTime( $fetch = false)
+	public function getVisitInformationPerLocalTime( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitTime.getVisitInformationPerLocalTime" );

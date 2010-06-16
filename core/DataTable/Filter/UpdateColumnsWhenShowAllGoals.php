@@ -18,7 +18,13 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 {
 	protected $mappingIdToNameGoal;
 	
-	public function __construct( $table, $processOnlyIdGoal )
+	/**
+	 * @param $table
+	 * @param $enable Automatically set to true when filter_update_columns_when_show_all_goals is found in the API request
+	 * @param $processOnlyIdGoal
+	 * @return unknown_type
+	 */
+	public function __construct( $table, $enable, $processOnlyIdGoal )
 	{
 		parent::__construct($table);
 		$this->mappingIdToNameGoal = Piwik_Archive::$mappingFromIdToNameGoal;
@@ -37,7 +43,7 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 			$newColumns = array();
 			
 			$nbVisits = 0;
-			// visits could be undefined when there is a convertion but no visit
+			// visits could be undefined when there is a conversion but no visit
 			if(isset($currentColumns[Piwik_Archive::INDEX_NB_VISITS]))
 			{
 				$nbVisits = $currentColumns[Piwik_Archive::INDEX_NB_VISITS];
