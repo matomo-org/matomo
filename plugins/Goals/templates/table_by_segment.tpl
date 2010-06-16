@@ -1,4 +1,3 @@
-<br/>
 <h2 id='titleGoalsBySegment'>{if isset($idGoal)}
 	{'Goals_GoalConversionsBySegment'|translate:$goalName}
 	{else}{'Goals_ConversionsOverviewBySegment'|translate}{/if}</h2> 

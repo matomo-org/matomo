@@ -96,7 +96,12 @@ class Piwik_VisitTime extends Piwik_Plugin
 		$query = $archiveProcessing->queryConversionsBySingleSegment("HOUR(server_time)");
 		while($row = $query->fetch())
 		{
-			$this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+			$goalByServerTime[$row['label']][$row['idgoal']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+		}
+		$goalByServerTime = $this->convertServerTimeToLocalTimezone($goalByServerTime, $archiveProcessing);
+		foreach($goalByServerTime as $hour => $goals)
+		{
+			$this->interestByServerTime[$hour][Piwik_Archive::INDEX_GOALS] = $goals;
 		}
 		$archiveProcessing->enrichConversionsByLabelArray($this->interestByServerTime);
 	}

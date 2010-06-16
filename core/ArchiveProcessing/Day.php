@@ -355,6 +355,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	}
 	
 	/**
+	 * Given an array of stats, it will process the sum of goal conversions 
+	 * and sum of revenue and add it in the stats array in two new fields.
+	 * 
+	 * @param $interestByLabel Passed by reference, it will be modified as follows:
 	 * Input: 
 	 * 		array( 
 	 * 			LABEL  => array( Piwik_Archive::INDEX_NB_VISITS => X, 
@@ -366,10 +370,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * 			LABEL2 => array( Piwik_Archive::INDEX_NB_VISITS => Y, [...] )
 	 * 			);
 	 * 
+	 * 
 	 * Output:
 	 * 		array(
 	 * 			LABEL  => array( Piwik_Archive::INDEX_NB_VISITS => X, 
-	 * 							 
+	 * 							 Piwik_Archive::INDEX_NB_CONVERSIONS => Y, // sum of all conversions
+	 * 							 Piwik_Archive::INDEX_REVENUE => Z, // sum of all revenue
 	 * 							 Piwik_Archive::INDEX_GOALS => array(
 	 * 								idgoal1 => array( [...] ), 
 	 * 								idgoal2 => array( [...] ),

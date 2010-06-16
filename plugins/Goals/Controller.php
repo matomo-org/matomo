@@ -191,6 +191,14 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	protected function getAvailableGoalSegments()
 	{
 		return array(
+        	Piwik_Translate('VisitTime_ColumnServerTime') => array(
+        		array(
+        			'name' => Piwik_Translate('VisitTime_ColumnServerTime'),
+        			'module' => 'VisitTime',
+        			'action' => 'getVisitInformationPerServerTime',
+        		),
+        	),
+        	
         	Piwik_Translate('Referers_Referers') => array(
         		array(
         			'name' => Piwik_Translate('Referers_Keywords'),
