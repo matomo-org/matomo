@@ -70,6 +70,7 @@ class UserAgentParser
 			'flock'							=> 'FL',
 			'fluid'							=> 'FD',
 			'galeon'						=> 'GA',
+			'google earth'					=> 'GE',
 			'hana'							=> 'HA',
 			'hotjava'						=> 'HJ',
 			'ibrowse'						=> 'IB',
@@ -122,7 +123,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE'),
 			'opera'  => array('OP'),
 		);
 

@@ -357,6 +357,11 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('GA', 'Galeon', 'Galeon', '1.0', '1', '0', 'gecko'),
 			array('LIN', 'Linux', 'Linux')),
 
+		// Google Earth embedded browser
+		'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.4 (KHTML, like Gecko) Google Earth/5.2.1.1329 Safari/532.4' => array(
+			array('GE', 'Google Earth', 'Google Earth', '5.2', '5', '2', 'webkit'),
+			array('WI7', 'Windows 7', 'Win 7')),
+
 		// GreenBrowser (treat as IE)
 		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.0.04506; Media Center PC 5.0; .NET CLR 3.5.21022; GreenBrowser)' => array(
 			array('IE', 'Internet Explorer', 'IE', '6.0', '6', '0', 'ie'),
