@@ -120,9 +120,9 @@ class UserAgentParser
 	// browser family (by layout engine)
 	static protected $browserType = array(
 			'ie'	 => array('IE'),
-			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'FL', 'KP', 'KZ'),
+			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI'),
 			'opera'  => array('OP'),
 		);
 
@@ -298,10 +298,12 @@ class UserAgentParser
 		);
 
 		$browsers = self::$browsers;
+
+		// derivative browsers often clone the base browser's useragent
 		unset($browsers['firefox']);
 		unset($browsers['mozilla']);
 		unset($browsers['safari']);
-		unset($browsers['opera']);
+
 		$browsersPattern = str_replace(')', '\)', implode('|', array_keys($browsers)));
 
 		$results = array();
@@ -309,16 +311,21 @@ class UserAgentParser
 		// Misbehaving IE add-ons
 		$userAgent = preg_replace('/[; ]Mozilla\/[0-9.]+ \([^)]+\)/', '', $userAgent);
 
-		if (preg_match_all("/(^opera|$browsersPattern)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
+		if (preg_match_all("/($browsersPattern)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			|| preg_match_all("/(firefox|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			|| preg_match_all("/^(mozilla)\/([0-9]+)([\.0-9a-z-]+)?(?: \[[a-z]{2}\])? (?:\([^)]*\))$/i", $userAgent, $results)
 			|| preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
 			)
 		 {
-			$count = count($results[0])-1;
+			// browser code (usually the first match)
+			$count = 0;
+			$info['id'] = self::$browsers[strtolower($results[1][0])];
 
-		 	// browser code
-		 	$info['id'] = self::$browsers[strtolower($results[1][$count])];
+			// sometimes there's a better match at the end
+			if(($info['id'] == 'IE' || $info['id'] == 'LX') && (count($results[0]) > 1)) {
+				$count = count($results[0]) - 1;
+				$info['id'] = self::$browsers[strtolower($results[1][$count])];
+			}
 
 			// Netscape fix
 			if($info['id'] == 'MO' && $count == 0) {
