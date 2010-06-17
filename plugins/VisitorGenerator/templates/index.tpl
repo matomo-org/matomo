@@ -36,7 +36,7 @@
 {'VisitorGenerator_NotReversible'|translate:'<b>':'</b>'}<br /><br />
 {'VisitorGenerator_AreYouSure'|translate}<br />
 </p>
-<input type="checkbox" name="choice" id="choice" /> <label for="choice">{'VisitorGenerator_ChoiceYes'|translate}</label>
+<input type="checkbox" name="choice" id="choice" value="yes" /> <label for="choice">{'VisitorGenerator_ChoiceYes'|translate}</label>
 <br />
 <input type="hidden" value="{$token_auth}" name="token_auth" />
 <input type="submit" value="{'VisitorGenerator_Submit'|translate}" name="submit" class="submit" />
