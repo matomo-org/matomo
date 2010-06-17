@@ -48,7 +48,7 @@ class PhpSecInfo_Test_Application_Php extends PhpSecInfo_Test_Application
 			return PHPSECINFO_TEST_RESULT_ERROR;
 		}
 
-		if ( $this->current_value === $this->recommended_value ) {
+		if (version_compare($this->current_value, $this->recommended_value) >= 0 ) {
 			return PHPSECINFO_TEST_RESULT_OK;
 		}
 
