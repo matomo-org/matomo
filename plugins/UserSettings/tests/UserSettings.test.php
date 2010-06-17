@@ -303,23 +303,27 @@ class Test_Piwik_UserSettings extends UnitTestCase
 			array('NDS', 'Nintendo DS', 'DS')),
 
 		// Flock
+		'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Flock/3.0.0.3737 Chrome/4.1.249.1071 Safari/532.5' => array(
+			array('FL', 'Flock', 'Flock', '3.0', '3', '0', 'webkit'),
+			array('WI7', 'Windows 7', 'Win 7')),
+		// pre-3.0 is actually gecko
 		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7 Flock/2.5.6 (.NET CLR 3.5.30729)' => array(
-			array('FL', 'Flock', 'Flock', '2.5', '2', '5', 'gecko'),
+			array('FL', 'Flock', 'Flock', '2.5', '2', '5', 'webkit'),
 			array('WXP', 'Windows XP', 'Win XP')),
 		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.1.7) Gecko/20091221 AppleWebKit/531.21.8 KHTML/4.3.5 (like Gecko) Firefox/3.5.7 Flock/2.5.6 (.NET CLR 3.5.30729)' => array(
-			array('FL', 'Flock', 'Flock', '2.5', '2', '5', 'gecko'),
+			array('FL', 'Flock', 'Flock', '2.5', '2', '5', 'webkit'),
 			array('WXP', 'Windows XP', 'Win XP')),
 		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.1.7) Gecko/20091221 AppleWebKit/531.21.8 (KHTML, like Gecko) Firefox/3.5.7 Flock/2.5.6 (.NET CLR 3.5.30729)' => array(
-			array('FL', 'Flock', 'Flock', '2.5', '2', '5', 'gecko'),
+			array('FL', 'Flock', 'Flock', '2.5', '2', '5', 'webkit'),
 			array('WXP', 'Windows XP', 'Win XP')),
 		'Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.1.9) Gecko/20071106 Firefox/2.0.0.9 Flock/1.0.1' => array(
-			array('FL', 'Flock', 'Flock', '1.0', '1', '0', 'gecko'),
+			array('FL', 'Flock', 'Flock', '1.0', '1', '0', 'webkit'),
 			array('MAC', 'Mac OS', 'Mac OS')),
 		'Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.8.1.8) Gecko/20071101 Firefox/2.0.0.8 Flock/1.0' => array(
-			array('FL', 'Flock', 'Flock', '1.0', '1', '0', 'gecko'),
+			array('FL', 'Flock', 'Flock', '1.0', '1', '0', 'webkit'),
 			array('MAC', 'Mac OS', 'Mac OS')),
 		'Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.8b5) Gecko/20051021 Flock/0.4 Firefox/1.0+' => array(
-			array('FL', 'Flock', 'Flock', '0.4', '0', '4', 'gecko'),
+			array('FL', 'Flock', 'Flock', '0.4', '0', '4', 'webkit'),
 			array('MAC', 'Mac OS', 'Mac OS')),
 
 		// Fluid
