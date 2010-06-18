@@ -607,6 +607,12 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function insertRecord($record)
 	{
+		// We choose not to record records with a value of 0 
+		if($record->value == 0)
+		{
+			return;
+		}
+		
 		// table to use to save the data
 		if(is_numeric($record->value))
 		{
