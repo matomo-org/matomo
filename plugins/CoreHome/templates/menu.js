@@ -107,7 +107,7 @@ menu.prototype =
 		if($li.find('ul li').size() != 0 || no_sub_menu == true) {
 			// we clicked on a MAIN LI
 			$.fn.superfish.currentActiveMenu = $li;
-			$li.find('ul > li:first').addClass('sfHover');
+			$li.find('>ul li:first').addClass('sfHover');
 			$li.find('ul').css({'display':'block','visibility': 'visible'});
 		} else {
 		// we are in the SUB UL LI
