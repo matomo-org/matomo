@@ -192,7 +192,14 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$segments = array();
 		Piwik_PostEvent('Goals.getAvailableGoalSegments', $segments);
-		return $segments;
+		$segmentsByGroup = array();
+		foreach($segments as $segment)
+		{
+			$group = $segment['group'];
+			unset($segment['group']);
+			$segmentsByGroup[$group][] = $segment;
+		}
+		return $segmentsByGroup;
 	}
 	
 	protected function getTopSegments($idGoal)

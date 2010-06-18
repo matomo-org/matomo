@@ -71,33 +71,38 @@ class Piwik_Referers extends Piwik_Plugin
 	function addGoalSegments( $notification )
 	{
 		$segments =& $notification->getNotificationObject();
-		$segments[Piwik_Translate('Referers_Referers')] = array(
+		$segments = array_merge($segments, array(
         		array(
-        			'name' => Piwik_Translate('Referers_Keywords'),
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Keywords'),
         			'module' => 'Referers',
         			'action' => 'getKeywords',
         		),
         		array(
-        			'name' => Piwik_Translate('Referers_SearchEngines'),
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_SearchEngines'),
         			'module' => 'Referers',
         			'action' => 'getSearchEngines',
         		),
         		array(
-        			'name' => Piwik_Translate('Referers_Websites'),
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Websites'),
         			'module' => 'Referers',
         			'action' => 'getWebsites',
         		),
         		array(
-        			'name' => Piwik_Translate('Referers_Campaigns'),
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Campaigns'),
         			'module' => 'Referers',
         			'action' => 'getCampaigns',
         		),
         		array(
-        			'name' => Piwik_Translate('Referers_Type'),
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Type'),
         			'module' => 'Referers',
         			'action' => 'getRefererType',
         		),
-        	);
+    	));
 	}
 	
 	function archivePeriod( $notification )

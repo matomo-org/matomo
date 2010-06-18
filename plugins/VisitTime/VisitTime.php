@@ -53,13 +53,12 @@ class Piwik_VisitTime extends Piwik_Plugin
 	function addGoalSegments( $notification )
 	{
 		$segments =& $notification->getNotificationObject();
-		$segments[Piwik_Translate('VisitTime_ColumnServerTime')] = array(
-        		array(
-        			'name' => Piwik_Translate('VisitTime_ColumnServerTime'),
+		$segments[] = array(
+					'group'  => Piwik_Translate('VisitTime_ColumnServerTime'),
+        			'name'   => Piwik_Translate('VisitTime_ColumnServerTime'),
         			'module' => 'VisitTime',
         			'action' => 'getVisitInformationPerServerTime',
-        		),
-        	);
+    	);
 	}
 	
 	function archivePeriod( $notification )
