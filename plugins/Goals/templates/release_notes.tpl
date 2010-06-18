@@ -3,11 +3,7 @@
 <b>About the Goal Tracking Plugin</b><br />
 <pre>
 Work left to do on the Goal Tracking plugin:
-- add conversions by hour as segment in reports
-- Goal conversions by hour are not accurate (no timezone conversion)
-- Outlink trailing slash is automatically deleted from the URL, there would be a problem 
-when trying to exact match a URL with trailing slash
-- Test summary row works ok with subtables campaigns
+- must have segments define the group name in the array, not in the row index
 - Numeric records by the goal plugin can contain a lot of value=0 rows. Instead, 
 we should only record the numeric value if it is not zero, and assume zero when not found. 
 - Add visits with conversion sparkline in VisitsSummary overview 	
