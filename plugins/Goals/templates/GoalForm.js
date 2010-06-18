@@ -73,6 +73,7 @@ function bindGoalForm()
 	
 	$('a[name=linkAddNewGoal]').click( function(){ 
 		initAndShowAddGoalForm();
+		piwikHelper.lazyScrollTo('#goal_name');
 	} );
 }
 
