@@ -1,22 +1,25 @@
 <br/><br/><br/>
 
-<div id="AddEditGoals">
 {if isset($onlyShowAddNewGoal)}
     <h2>{'Goals_AddNewGoal'|translate}</h2>
 {else}
-	<h2>
-	{'Goals_AddNewGoalOrEditExistingGoal'|translate:"<a onclick='' name='linkAddNewGoal'><u>+":"</u></a>":"<a onclick='' name='linkEditGoals'><u>":"</u></a>"}
-	</h2>
+	<h2>Goals management</h2>
+	<ul class='listCircle'>
+		<li><a onclick='' name='linkAddNewGoal'><u>{'Goals_CreateNewGOal'|translate}</u></a></li>
+		<li><a onclick='' name='linkEditGoals'>{'Goals_ViewAndEditGoals'|translate}</a></li>
+		<li>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}</li>
+	</ul>
+	<br/>
 {/if}
 
 {ajaxErrorDiv}
 {ajaxLoadingDiv id=goalAjaxLoading}
 	
-{if !isset($onlyShowAddNewGoal)}
-	{include file="Goals/templates/list_goal_edit.tpl"}
-{/if}
-	{include file="Goals/templates/form_add_goal.tpl"}
-	
+<div id="AddEditGoals">
+	{if !isset($onlyShowAddNewGoal)}
+		{include file="Goals/templates/list_goal_edit.tpl"}
+	{/if}
+		{include file="Goals/templates/form_add_goal.tpl"}
 	<a id='bottom'></a>
 </div>
 

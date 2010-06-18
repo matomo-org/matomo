@@ -11,7 +11,7 @@ ul.ulGoalTopElements {
 .goalTopElement { 
 	border-bottom:1px dotted; 
 } 
-.segmentSelector ul {
+.listCircle {
 	list-style:circle outside none;
 	margin-left:30px;
 }

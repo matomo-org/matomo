@@ -16,6 +16,8 @@
  */
 class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTable_Filter
 {
+	const GOALS_OVERVIEW = -1;
+	const GOALS_FULL_TABLE = 0;
 	protected $mappingIdToNameGoal;
 	
 	/**

@@ -29,6 +29,4 @@
 	{if $userCanEditGoals}
 		{include file=Goals/templates/add_edit_goal.tpl}
 	{/if}
-	
-	{include file="Goals/templates/release_notes.tpl}
 {/if}
