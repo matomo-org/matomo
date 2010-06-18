@@ -53,18 +53,20 @@ class Piwik_UserCountry extends Piwik_Plugin
 	function addGoalSegments( $notification )
 	{
 		$segments =& $notification->getNotificationObject();
-		$segments[Piwik_Translate('UserCountry_Location')] = array(
+		$segments = array_merge($segments, array(
         		array(
-        			'name' => Piwik_Translate('UserCountry_Country'),
+        			'group'  => Piwik_Translate('UserCountry_Location'),
+        			'name'   => Piwik_Translate('UserCountry_Country'),
         			'module' => 'UserCountry',
         			'action' => 'getCountry',
         		),
         		array(
-        			'name' => Piwik_Translate('UserCountry_Continent'),
+        			'group'  => Piwik_Translate('UserCountry_Location'),
+        			'name'   => Piwik_Translate('UserCountry_Continent'),
         			'module' => 'UserCountry',
         			'action' => 'getContinent',
         		),
-        	);
+        	));
 	}
 	
 	function archivePeriod( $notification )

@@ -3,7 +3,6 @@
 <b>About the Goal Tracking Plugin</b><br />
 <pre>
 Work left to do on the Goal Tracking plugin:
-- must have segments define the group name in the array, not in the row index
 - Add visits with conversion sparkline in VisitsSummary overview 	
 - Provide documentation, screenshots, blog post + add screenshot and inline help in "Add a New Goal"
   Need to clarify that goals are triggered once per visit max, but can be triggered multiple 
