@@ -43,6 +43,7 @@
 			<fileset dir="${basedir}/..">
 				<include name="config/**" />
 				<include name="core/**" />
+				<include name="js/**" />
 				<include name="lang/**" />
 				<include name="libs/**" />
 				<include name="misc/**" />
