@@ -24,7 +24,7 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 	 * @param $processOnlyIdGoal
 	 * @return unknown_type
 	 */
-	public function __construct( $table, $enable, $processOnlyIdGoal )
+	public function __construct( $table, $enable = true, $processOnlyIdGoal )
 	{
 		parent::__construct($table);
 		$this->mappingIdToNameGoal = Piwik_Archive::$mappingFromIdToNameGoal;

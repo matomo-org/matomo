@@ -107,6 +107,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
 		$query = $archiveProcessing->queryConversionsBySingleSegment("HOUR(server_time)");
+		$goalByServerTime = array();
 		while($row = $query->fetch())
 		{
 			$goalByServerTime[$row['label']][$row['idgoal']] = $archiveProcessing->getGoalRowFromQueryRow($row);

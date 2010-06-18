@@ -48,7 +48,6 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		// eg. most daily reports sort by nb_uniq_visitors but this column is not displayed in the Goals table
 		$columnsToDisplay = $this->getColumnsToDisplay();
 		$columnToSortBy = $this->getSortedColumn();
-		
 		if(!in_array($columnToSortBy, $columnsToDisplay))
 		{
 			$this->setSortedColumn('nb_visits', 'desc');
