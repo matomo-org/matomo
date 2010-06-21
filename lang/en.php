@@ -27,6 +27,7 @@ $translations = array(
 	'General_Edit' => 'Edit',
 	'General_Ok' => 'Ok',
 	'General_Close' => 'Close',
+	'General_OrCancel' => 'or %s Cancel %s',
 	'General_Logout' => 'Sign out',
 	'General_Username' => 'Username',
 	'General_Done' => 'Done',

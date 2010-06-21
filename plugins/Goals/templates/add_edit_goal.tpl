@@ -17,7 +17,8 @@
 	{if !isset($onlyShowAddNewGoal)}
 		{include file="Goals/templates/list_goal_edit.tpl"}
 	{/if}
-		{include file="Goals/templates/form_add_goal.tpl"}
+	{include file="Goals/templates/form_add_goal.tpl"}
+	<div id='goalsCancel'>{'General_OrCancel'|translate:"<a id='goalsCancelLink'>":"</a>"}</div>
 	<a id='bottom'></a>
 </div>
 

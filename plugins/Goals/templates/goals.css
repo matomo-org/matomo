@@ -33,3 +33,8 @@ ul.ulGoalTopElements {
 .tableFormGoals { 
 	width:700px;
 }
+#goalsCancel {
+	margin-left:550px;
+	margin-top:20px;
+	display:none;
+}
