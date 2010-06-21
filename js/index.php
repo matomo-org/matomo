@@ -75,7 +75,7 @@ if (file_exists($file) && function_exists('readfile')) {
 	} else {
 		header('Last-Modified: ' . $lastModified);
 		header('Content-Length: ' . filesize($file));
-		header('Content-Type: application/x-javascript; charset=UTF-8');
+		header('Content-Type: application/javascript; charset=UTF-8');
 
 		if ($compressed) {
 			header('Content-Encoding: ' . $encoding);
