@@ -135,9 +135,17 @@ class Piwik_Translate
 		return $js;
 	}
 
+	/**
+	 * Set locale
+	 *
+	 * @see http://php.net/setlocale
+	 */
 	private function setLocale()
 	{
-		setlocale(LC_ALL, $GLOBALS['Piwik_translations']['General_Locale']);
+		$locale = $GLOBALS['Piwik_translations']['General_Locale'];
+		$locale_variant = str_replace('UTF-8', 'UTF8', $locale);
+		setlocale(LC_ALL, $locale, $locale_variant);
+		setlocale(LC_CTYPE, '');
 	}
 }
 
