@@ -1,5 +1,3 @@
-<br/><br/><br/>
-
 {if isset($onlyShowAddNewGoal)}
     <h2>{'Goals_AddNewGoal'|translate}</h2>
 {else}

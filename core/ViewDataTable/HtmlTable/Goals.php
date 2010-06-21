@@ -24,7 +24,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	public function main()
 	{
 		$this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-		$this->processOnlyIdGoal = Piwik_Common::getRequestVar('idGoal', 0, 'int');
+		$this->processOnlyIdGoal = Piwik_Common::getRequestVar('filter_only_display_idgoal', 0, 'int');
 		$this->viewProperties['show_exclude_low_population'] = true;
 		$this->viewProperties['show_goals'] = true;
 		
@@ -37,10 +37,10 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		$this->setColumnsToDisplay( array(	
 			'label', 
 			'nb_visits', 
-			'goals_conversion_rate',
 			'goal_%s_nb_conversions',
 			'goal_%s_conversion_rate',
 			'goal_%s_revenue_per_visit',
+			'goals_conversion_rate',
 			'revenue_per_visit',
 		));
 		
@@ -76,7 +76,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 				foreach($goals as $goal)
 				{
 					$idgoal = $goal['idgoal'];
-					if($this->processOnlyIdGoal != 0
+					if($this->processOnlyIdGoal > Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_FULL_TABLE
 						&& $this->processOnlyIdGoal != $idgoal)
 					{
 						continue;
@@ -88,7 +88,13 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 					{
 						$this->columnsToPercentageFilter[] = $columnNameGoal;
 					}
-					elseif(strstr($columnNameGoal, '_revenue') !== false)
+					// For the goal table (when the flag icon is clicked), we only display the per Goal Conversion rate
+					elseif($this->processOnlyIdGoal == Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_OVERVIEW)
+					{
+						continue;
+					}
+
+					if(strstr($columnNameGoal, '_revenue') !== false)
 					{
 						$this->columnsToRevenueFilter[] = $columnNameGoal;
 					}
@@ -110,7 +116,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	protected function getRequestString()
 	{
 		$requestString = parent::getRequestString();
-		if($this->processOnlyIdGoal != 0)
+		if($this->processOnlyIdGoal > Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_FULL_TABLE)
 		{
 			$requestString .= "&filter_only_display_idgoal=".$this->processOnlyIdGoal;
 		}
