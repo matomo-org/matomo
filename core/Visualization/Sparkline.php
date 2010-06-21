@@ -49,18 +49,22 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 		$width = self::getWidth();
 		$height = self::getHeight();
 		
-		$data = $this->values;
 		$sparkline = new Sparkline_Line();
 		$sparkline->SetColor('lineColor', 22, 44, 74); // dark blue
 		$sparkline->SetColorHtml('red', '#FF7F7F');
 		$sparkline->SetColorHtml('blue', '#55AAFF');
 		$sparkline->SetColorHtml('green', '#75BF7C');
 		
-		$data = array_reverse($data);
 		$min = $max = $last = null;
 		$i = 0;
 		foreach($this->values as $value)
 		{
+			// 50% should be plotted as 50
+			$toRemove = '%';
+			if(strpos($value, $toRemove) !== false)
+			{
+				$value = str_replace($toRemove, '', $value);
+			}
 			$sparkline->SetData($i, $value);
 			if(	null == $min || $value <= $min[1])
 			{
