@@ -1,18 +1,35 @@
 
 function showAddNewGoal()
 {
+	hideForms();
 	$("#GoalForm").show();
-	$("#EditGoals").hide();
+	showCancel();
 	piwikHelper.lazyScrollTo("#AddEditGoals", 400);
 	return false;
 }
 
 function showEditGoals()
 {
+	hideForms();
 	$("#EditGoals").show();
-	$("#GoalForm").hide();
+	showCancel();
 	piwikHelper.lazyScrollTo("#AddEditGoals", 400);
 	return false;
+}
+
+function hideForms()
+{
+	$("#GoalForm").hide();
+	$("#EditGoals").hide();
+}
+
+function showCancel()
+{
+	$("#goalsCancel").show();
+	$('#goalsCancelLink').click( function(){
+		hideForms();
+		$("#goalsCancel").hide();
+	});
 }
 
 // init the goal form with existing goal value, if any
