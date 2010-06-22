@@ -1,4 +1,20 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ *
+ * @category Piwik_Plugin
+ * @package Piwik_VisitorGenerator
+ */
+
+/**
+ * Referer: strings
+ * 
+ * @package Piwik_VisitorGenerator
+ */
 $referers = array(
 "http://www.google.fr/search?hl=fr&q=statistique langues internet&btnG=Recherche Google&meta=",
 "http://annusiteperso.free.fr/",
