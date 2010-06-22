@@ -1026,7 +1026,8 @@ class Piwik_Common
 	 */
 	static public function isPhpCliMode()
 	{
+		$remoteAddr = @$_SERVER['REMOTE_ADDR'];
 		return	PHP_SAPI == 'cli' ||
-				(substr(PHP_SAPI, 0, 3) == 'cgi' && @$_SERVER['REMOTE_ADDR'] == '');
+				(substr(PHP_SAPI, 0, 3) == 'cgi' && empty($remoteAddr));
 	}
 }
