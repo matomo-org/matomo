@@ -1,4 +1,20 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ *
+ * @category Piwik_Plugin
+ * @package Piwik_VisitorGenerator
+ */
+
+/**
+ * Accept-Language: strings
+ * 
+ * @package Piwik_VisitorGenerator
+ */
 $acceptLanguages = array(
 "fr",
 "fr,fr-fr;q=0.8,en-us",

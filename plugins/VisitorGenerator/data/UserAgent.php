@@ -1,4 +1,20 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ *
+ * @category Piwik_Plugin
+ * @package Piwik_VisitorGenerator
+ */
+
+/**
+ * User-Agent: strings
+ * 
+ * @package Piwik_VisitorGenerator
+ */
 $userAgent = array(
 "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)",
 "Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0 )",
