@@ -108,6 +108,11 @@ class Piwik_Url
 		{
 			$url = $_SERVER['SCRIPT_NAME'];
 		}
+
+		if($url[0] !== '/')
+		{
+			$url = '/' . $url;
+		}
 		return $url;
 	}
 
