@@ -17,6 +17,8 @@
  */
 class Piwik_Actions_Controller extends Piwik_Controller 
 {
+	const ACTIONS_REPORT_ROWS_DISPLAY = 100;
+	
 	protected function getPageUrlsView($currentAction, $controllerActionSubtable)
 	{
 		$view = Piwik_ViewDataTable::factory();
@@ -247,11 +249,10 @@ class Piwik_Actions_Controller extends Piwik_Controller
 			$view->setTemplate('CoreHome/templates/datatable_actions_recursive.tpl');
 		}
 		// disable Footer icons
-		$view->disableOffsetInformation();
 		$view->disableShowAllViewsIcons();
 		$view->disableShowAllColumns();
 		
-		$view->setLimit( 100 );
+		$view->setLimit( self::ACTIONS_REPORT_ROWS_DISPLAY );
 		$view->main();
 		// we need to rewrite the phpArray so it contains all the recursive arrays
 		if($currentlySearching)
