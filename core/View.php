@@ -9,7 +9,6 @@
  * @category Piwik
  * @package Piwik
  */
-
 /*
  * Transition for pre-Piwik 0.4.4
  * @todo Remove this post-1.0

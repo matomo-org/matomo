@@ -257,6 +257,9 @@ class Piwik_Db_Schema
 	}
 }
 
+/**
+ * @package Piwik
+ */
 interface Piwik_Db_Schema_Interface
 {
 	static public function isAvailable();

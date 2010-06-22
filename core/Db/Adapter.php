@@ -19,7 +19,7 @@ class Piwik_Db_Adapter
 	 * Create adapter
 	 *
 	 * @param string $adapterName database adapter name
-	 * @oaran array $dbInfos database connection info
+	 * @param array $dbInfos database connection info
 	 * @return mixed (Piwik_Db_Adapter_Mysqli, Piwik_Db_Adapter_Pdo_Mysql, etc)
 	 */
 	public static function factory($adapterName, & $dbInfos)
@@ -108,6 +108,9 @@ class Piwik_Db_Adapter
 	}
 }
 
+/**
+ * @package Piwik
+ */
 interface Piwik_Db_Adapter_Interface
 {
 	/**
