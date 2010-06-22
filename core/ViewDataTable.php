@@ -136,6 +136,11 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected $columnsToDisplay = array();
 
+	/**
+	 * Variable that is used as the DIV ID in the rendered HTML
+	 *
+	 * @var string
+	 */
 	protected $uniqIdTable = null;
 	
 	/**
