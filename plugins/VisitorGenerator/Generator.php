@@ -7,7 +7,7 @@
  * @version $Id$
  * 
  * @category Piwik_Plugin
- * @package Piwik_VisitorGenerator_Generator
+ * @package Piwik_VisitorGenerator
  */
 
 /**
@@ -31,7 +31,7 @@
  * - action_name 
  * - HTML title
  * 
- * @package Piwik_VisitorGenerator_Generator
+ * @package Piwik_VisitorGenerator
  * 
  * 	"Le Generator, il est trop Fort!"
  * 	- Random fan
