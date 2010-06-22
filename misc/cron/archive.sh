@@ -29,7 +29,7 @@
 #
 #===========================================================================
 
-for TEST_PHP_BIN in php5 php; do
+for TEST_PHP_BIN in php5 php php-cli php-cgi; do
   if which $TEST_PHP_BIN >/dev/null 2>/dev/null; then
     PHP_BIN=`which $TEST_PHP_BIN`
     break
@@ -55,10 +55,10 @@ PIWIK_CONFIG="$PIWIK_CRON_FOLDER"/../../config/config.ini.php
 PIWIK_SUPERUSER=`sed '/^\[superuser\]/,$!d;/^login[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
 PIWIK_SUPERUSER_MD5_PASSWORD=`sed '/^\[superuser\]/,$!d;/^password[ \t]*=[ \t]*"*/!d;s///;s/"*[ \t]*$//;q' $PIWIK_CONFIG`
 
-CMD_TOKEN_AUTH="$PHP_BIN $PIWIK_PATH -- module=API&method=UsersManager.getTokenAuth&userLogin=$PIWIK_SUPERUSER&md5Password=$PIWIK_SUPERUSER_MD5_PASSWORD&format=php&serialize=0"
+CMD_TOKEN_AUTH="$PHP_BIN -q $PIWIK_PATH -- module=API&method=UsersManager.getTokenAuth&userLogin=$PIWIK_SUPERUSER&md5Password=$PIWIK_SUPERUSER_MD5_PASSWORD&format=php&serialize=0"
 TOKEN_AUTH=`$CMD_TOKEN_AUTH`
 
-CMD_GET_ID_SITES="$PHP_BIN $PIWIK_PATH -- module=API&method=SitesManager.getAllSitesId&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
+CMD_GET_ID_SITES="$PHP_BIN -q $PIWIK_PATH -- module=API&method=SitesManager.getAllSitesId&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
 ID_SITES=`$CMD_GET_ID_SITES`
 echo "Starting Piwik archiving..."
 echo ""
@@ -69,7 +69,7 @@ for idsite in $ID_SITES; do
     for period in day week year; do
       echo ""
       echo "Archiving period = $period for idsite = $idsite..."
-      CMD="$PHP_BIN $PIWIK_PATH -- module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH";
+      CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last52&format=xml&token_auth=$TOKEN_AUTH";
       $CMD
     done
 
