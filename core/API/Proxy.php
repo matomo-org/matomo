@@ -12,6 +12,9 @@
 
 /**
  * To differentiate between "no value" and default value of null
+ * 
+ * @package Piwik
+ * @subpackage Piwik_API
  */
 class Piwik_API_Proxy_NoDefaultValue {}
 

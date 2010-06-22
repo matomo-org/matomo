@@ -11,7 +11,6 @@
  */
 
 /**
- *
  * @package Piwik_Dashboard
  */
 class Piwik_Dashboard extends Piwik_Plugin
