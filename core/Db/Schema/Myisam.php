@@ -14,6 +14,7 @@
  * MySQL schema
  *
  * @package Piwik
+ * @subpackage Piwik_Db
  */
 class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 {

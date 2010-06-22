@@ -12,6 +12,7 @@
 
 /**
  * @package Piwik
+ * @subpackage Piwik_Db
  */
 class Piwik_Db_Adapter
 {
@@ -110,6 +111,7 @@ class Piwik_Db_Adapter
 
 /**
  * @package Piwik
+ * @subpackage Piwik_Db
  */
 interface Piwik_Db_Adapter_Interface
 {
