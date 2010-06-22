@@ -20,6 +20,7 @@
  * will read the value minimumMemoryLimit under the [General] section of the config file
  * 
  * @package Piwik
+ * @subpackage Piwik_Config
  */
 class Piwik_Config
 {
@@ -332,6 +333,7 @@ class Piwik_Config
  * Subclasses Zend_Config_Ini so we can use our own parse_ini_file() wrapper.
  *
  * @package Piwik
+ * @subpackage Piwik_Config
  */
 class Piwik_Config_Ini extends Zend_Config_Ini
 {
