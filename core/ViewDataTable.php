@@ -135,6 +135,8 @@ abstract class Piwik_ViewDataTable
 	 * @var array
 	 */
 	protected $columnsToDisplay = array();
+
+	protected $uniqIdTable = null;
 	
 	/**
 	 * Method to be implemented by the ViewDataTable_*.
@@ -442,7 +444,7 @@ abstract class Piwik_ViewDataTable
 	 * @see datatable.js
 	 * @return string
 	 */
-	protected function getUniqueIdViewDataTable()
+	protected function loadUniqueIdViewDataTable()
 	{
 		// if we request a subDataTable the $this->currentControllerAction DIV ID is already there in the page
 		// we make the DIV ID really unique by appending the ID of the subtable requested
@@ -460,6 +462,27 @@ abstract class Piwik_ViewDataTable
 			$uniqIdTable = $this->currentControllerName . $this->currentControllerAction;
 		}
 		return $uniqIdTable;
+	}
+
+	/**
+	 *  Sets the $uniqIdTable variable that is used as the DIV ID in the rendered HTML
+	 */
+	public function setUniqueIdViewDataTable($uniqIdTable)
+	{
+		$this->viewProperties['uniqueId'] = $uniqIdTable;
+		$this->uniqIdTable = $uniqIdTable;
+	}
+
+	/**
+	 *  Returns current value of $uniqIdTable variable that is used as the DIV ID in the rendered HTML
+	 */
+	public function getUniqueIdViewDataTable()
+	{
+		if( $this->uniqIdTable == null )
+		{
+			$this->uniqIdTable = $this->loadUniqueIdViewDataTable();
+		}
+		return $this->uniqIdTable;
 	}
 	
 	/**
