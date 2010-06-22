@@ -12,6 +12,7 @@
 
 /**
  * @package Piwik
+ * @subpackage Piwik_Db
  */
 class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_Adapter_Interface
 {

@@ -16,6 +16,7 @@
  * Note: no relation to the ZF proposals for Zend_Db_Schema_Manager
  *
  * @package Piwik
+ * @subpackage Piwik_Db
  */
 class Piwik_Db_Schema
 {
