@@ -10,15 +10,15 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 require_once "Database.test.php";
 class Test_Piwik_ArchiveProcessing extends Test_Database
 {
-    public function setUp()
-    {
-    	parent::setUp();
+	public function setUp()
+	{
+		parent::setUp();
 
 		// setup the access layer
-    	$pseudoMockAccess = new FakeAccess;
+		$pseudoMockAccess = new FakeAccess;
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
-    }
+	}
     
 	
 	public function tearDown()
@@ -103,7 +103,10 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		// when browsers don't trigger archives, we force ArchiveProcessing 
 		// to fetch any of the most recent archive
 		Piwik_ArchiveProcessing::setBrowserTriggerArchiving(false);
-		$dateMinArchived = 0;
+		if(!Piwik_Common::isPhpCliMode())
+		{
+			$dateMinArchived = 0;
+		}
 		$this->assertEqual($archiveProcessing->getMinTimeArchivedProcessed(), $dateMinArchived);
 		
 		$this->assertEqual($archiveProcessing->getStartDatetimeUTC(), date('Y-m-d').' 01:00:00');
