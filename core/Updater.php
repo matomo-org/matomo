@@ -203,7 +203,10 @@ class Piwik_Updater
 			foreach( $files as $file)
 			{
 				$fileVersion = basename($file, '.php');
-				if(version_compare($currentVersion, $fileVersion) == -1)
+				if( // if the update is from a newer version
+					version_compare($currentVersion, $fileVersion) == -1
+					// but we don't execute updates from non existing future releases 
+					&& version_compare($fileVersion, $newVersion) == -1)
 				{
 					$componentsWithUpdateFile[$name][$file] = $fileVersion;
 				}
