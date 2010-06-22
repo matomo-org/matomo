@@ -746,6 +746,7 @@ actionDataTable.prototype =
 	onClickSort: dataTable.prototype.onClickSort,
 	handleLinkedRows: dataTable.prototype.handleLinkedRows,
 	truncate: dataTable.prototype.truncate,
+	handleOffsetInformation: dataTable.prototype.handleOffsetInformation,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
@@ -786,7 +787,7 @@ actionDataTable.prototype =
 		self.handleExportBox(domElem);
 		self.handleSort(domElem);
 		self.handleLinkedRows(domElem);
-		
+		self.handleOffsetInformation(domElem);
 		if( self.workingDivId != undefined)
 		{
 			self.handleSearchBox(domElem, self.dataTableLoaded );
