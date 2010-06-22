@@ -103,6 +103,9 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 		// when browsers don't trigger archives, we force ArchiveProcessing 
 		// to fetch any of the most recent archive
 		Piwik_ArchiveProcessing::setBrowserTriggerArchiving(false);
+		// see isArchivingDisabled()
+		// Running in CLI doesn't impact the time to live today's archive we are loading
+		// From CLI, we will not return data that is 'stale' 
 		if(!Piwik_Common::isPhpCliMode())
 		{
 			$dateMinArchived = 0;
