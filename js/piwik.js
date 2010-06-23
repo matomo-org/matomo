@@ -6,7 +6,7 @@
  * @version $Id$
  */
 
-/*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false; strict:false */
+/*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false, strict:false */
 /*global window escape unescape ActiveXObject */
 
 // Note: YUICompressor 2.4.2 won't compress piwik_log() because of the the "evil" eval().
@@ -18,6 +18,8 @@
  *
  * This version of piwik.js is known to not work with:
  * - IE4 (and below) - try..catch and for..in not introduced until IE5
+ *
+ * @todo Move to minimum EMCAScript v3 (IE5.5).
  */
 
 // Guard against loading the script twice
@@ -93,11 +95,11 @@ if (!this.Piwik) {
 			 * Delay/pause (blocks UI)
 			 */
 			if (isDefined(expireDateTime)) {
-				var now = new Date();
+				var now;
 
-				while (now.getTime() < expireDateTime) {
+				do {
 					now = new Date();
-				}
+				} while (now.getTime() < expireDateTime);
 			}
 
 			executePluginMethod('unload');
@@ -122,19 +124,24 @@ if (!this.Piwik) {
 		 */
 		function addReadyListener() {
 			if (documentAlias.addEventListener) {
+//				addEventListener(documentAlias, "DOMContentLoaded", function ready() { // named functions added in IE 5.5
 				addEventListener(documentAlias, "DOMContentLoaded", function () {
+//                        documentAlias.removeEventListener("DOMContentLoaded", ready, false);
                         documentAlias.removeEventListener("DOMContentLoaded", arguments.callee, false);
 						loadHandler();
 					});
 			} else if (documentAlias.attachEvent) {
-				documentAlias.attachEvent("onreadystatechange", function () {
+//				documentAlias.attachEvent("onreadystatechange", function ready() {
+				documentAlias.attachEvent("onreadystatechange", function () { // named functions added in IE 5.5
 					if (documentAlias.readyState === "complete") {
+//						documentAlias.detachEvent("onreadystatechange", ready);
 						documentAlias.detachEvent("onreadystatechange", arguments.callee);
 						loadHandler();
 					}
 				});
 
 				if (documentAlias.documentElement.doScroll && windowAlias == windowAlias.top) {
+//					(function ready() { // named functions added in IE 5.5
 					(function () {
 						if (hasLoaded) {
 							return;
@@ -142,6 +149,7 @@ if (!this.Piwik) {
 						try {
 							documentAlias.documentElement.doScroll("left");
 						} catch (error) {
+//							setTimeout(ready, 0);
 							setTimeout(arguments.callee, 0);
 							return;
 						}
@@ -172,13 +180,13 @@ if (!this.Piwik) {
 			configTrackerSiteId = siteId || '',
 
 			// Document URL
-			configUrl = documentAlias.location.href,
+			configCustomUrl,
 
 			// Document title
 			configTitle = documentAlias.title,
 
 			// Extensions to be treated as download links
-			configDownloadExtensions = '7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wma|wmv|wpd||xls|xml|z|zip',
+			configDownloadExtensions = '7z|aac|arc|arj|asf|asx|avi|bin|csv|deb|dmg|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|rpm|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wma|wmv|wpd||xls|xml|z|zip',
 
 			// Hosts or alias(es) to not treat as outlinks
 			configHostsAlias = [hostnameAlias],
@@ -296,7 +304,7 @@ if (!this.Piwik) {
 						// the remote chance that this gets fixed someday.
 						return String(value);
 
-			        case 'object':
+					case 'object':
 						// Make an array to hold the partial results of stringifying this object value.
 						partial = [];
 
@@ -478,7 +486,8 @@ if (!this.Piwik) {
 				var i, now, request;
 				now = new Date();
 				request = 'idsite=' + configTrackerSiteId +
-				        '&url=' + escapeWrapper(configUrl) +
+						'&rec=1' + 
+				        '&url=' + escapeWrapper(isDefined(configCustomUrl) ? configCustomUrl : documentAlias.location.href) +
 				        '&res=' + screenAlias.width + 'x' + screenAlias.height +
 				        '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
 				        '&cookie=' + browserHasCookies +
@@ -496,9 +505,9 @@ if (!this.Piwik) {
 			/*
 			 * Log the page view / visit
 			 */
-			function logPageView() {
+			function logPageView(customTitle) {
 				var request = getRequest();
-				request += '&action_name=' + escapeWrapper(configTitle); // refs #530;
+				request += '&action_name=' + escapeWrapper(isDefined(customTitle) ? customTitle : configTitle); // refs #530;
 
 				// encode custom data
 				if (isDefined(configCustomData)) {
@@ -534,11 +543,12 @@ if (!this.Piwik) {
 			}
 			
 			/*
-			 * Log the click with the server
+			 * Log the link or click  with the server
 			 */
-			function logClick(url, linkType, customData) {
+			function logLink(url, linkType, customData) {
 				var request;
 				request = 'idsite=' + configTrackerSiteId +
+						  '&rec=1' + 
 				          '&' + linkType + '=' + escapeWrapper(url) +
 				          '&rand=' + Math.random() +
 				          '&redirect=0';
@@ -589,7 +599,7 @@ if (!this.Piwik) {
 			 * Construct regular expression of classes
 			 */
 			function getClassesRegExp(configClasses, defaultClass) {
-				var i, classesRegExp = '(^| )(piwik_' + defaultClass;
+				var i, classesRegExp = '(^| )(piwik[_-]' + defaultClass;
 
 				if (isDefined(configClasses)) {
 					for (i = 0; i < configClasses.length; i++) {
@@ -676,7 +686,7 @@ if (!this.Piwik) {
 						// track outlinks and all downloads
 						linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
 						if (linkType) {
-							logClick(sourceHref, linkType);
+							logLink(sourceHref, linkType);
 						}
 					}
 				}
@@ -844,7 +854,7 @@ if (!this.Piwik) {
 				 */
 				setCustomUrl: function (url) {
 					if (isDefined(url)) {
-						configUrl = url;
+						configCustomUrl = url;
 					}
 				},
 
@@ -935,14 +945,14 @@ if (!this.Piwik) {
 				 * Manually log a click from your own code
 				 */
 				trackLink: function (sourceUrl, linkType, customData) {
-					logClick(sourceUrl, linkType, customData);
+					logLink(sourceUrl, linkType, customData);
 				},
 
 				/*
 				 * Log visit to this page
 				 */
-				trackPageView: function () {
-					logPageView();
+				trackPageView: function (customTitle) {
+					logPageView(customTitle);
 				}
 			};
 		}

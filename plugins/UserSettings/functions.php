@@ -10,9 +10,6 @@
  * @package Piwik_UserSettings
  */
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
-
 /**
  * @see libs/UserAgentParser/UserAgentParser.php
  */
@@ -32,7 +29,7 @@ function Piwik_getOSLabel($osId)
 	}
 	if( $osId == 'UNK')
 	{
-		return Piwik_Translate('General_Unknown');
+		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
 	return $osId;
 }
@@ -46,7 +43,7 @@ function Piwik_getOSShortLabel($osId)
 	}
 	if( $osId == 'UNK')
 	{
-		return Piwik_Translate('General_Unknown');
+		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
 	return $osId;
 }
@@ -59,7 +56,7 @@ function Piwik_getBrowserTypeLabel($oldLabel)
 	}
 	if($oldLabel == 'unknown')
 	{
-		return Piwik_Translate('General_Unknown');
+		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
 	return $oldLabel;
 }
@@ -78,7 +75,7 @@ function Piwik_getConfigurationLabel($str)
 	$browser = UserAgentParser::getBrowserNameFromId($name);
 	if($browser === false)
 	{
-		$browser = Piwik_Translate('General_Unknown');
+		$browser = html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
 	$resolution = $values[2];
 	return $os . " / " . $browser . " / " . $resolution;
@@ -95,7 +92,7 @@ function Piwik_getBrowserLabel($oldLabel)
 	}
 	if( $browserId == 'UNK')
 	{
-		return Piwik_Translate('General_Unknown');
+		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
 	return $oldLabel;
 }
@@ -111,7 +108,7 @@ function Piwik_getBrowserShortLabel($oldLabel)
 	}
 	if( $browserId == 'UNK')
 	{
-		return Piwik_Translate('General_Unknown');
+		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
 	return $oldLabel;
 }
@@ -129,11 +126,19 @@ function Piwik_getBrowserVersion($str)
 function Piwik_getBrowsersLogo($label)
 {
 	$id = Piwik_getBrowserId($label);
+	// For aggregated row 'Others'
+	if(empty($id)) {
+		$id = 'UNK';
+	}
 	return  'plugins/UserSettings/images/browsers/'. $id . '.gif';
 }
 
 function Piwik_getOSLogo($label)
 {
+	// For aggregated row 'Others'
+	if(empty($label)) {
+		$label = 'UNK';
+	}
 	$path = 'plugins/UserSettings/images/os/'. $label . '.gif';
 	return $path;
 }
@@ -171,14 +176,6 @@ function Piwik_getScreenTypeFromResolution($resolution)
 
 function Piwik_getBrowserFamily($browserLabel)
 {
-	$familyNameToUse = 'unknown';
-	foreach(Piwik_UserSettings::$browserType as $familyName => $aBrowsers)
-	{			
-		if(in_array(substr($browserLabel, 0, 2), $aBrowsers))
-		{
-			$familyNameToUse = $familyName;
-			break;				
-		}
-	}
+	$familyNameToUse = UserAgentParser::getBrowserFamilyFromId(substr($browserLabel, 0, 2));
 	return $familyNameToUse;	
-}			
+}

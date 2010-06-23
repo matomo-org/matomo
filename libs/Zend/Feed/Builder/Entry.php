@@ -15,9 +15,9 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 16205 2009-06-21 19:08:45Z thomas $
+ * @version    $Id: Entry.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -29,7 +29,7 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Builder_Entry extends ArrayObject
@@ -224,7 +224,7 @@ class Zend_Feed_Builder_Entry extends ArrayObject
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            require_once 'Zend/Feed/Builder/Exception.php';
+            // require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception("you have to define the name of the category");
         }
 
@@ -263,7 +263,7 @@ class Zend_Feed_Builder_Entry extends ArrayObject
                 /**
                  * @see Zend_Feed_Builder_Exception
                  */
-                require_once 'Zend/Feed/Builder/Exception.php';
+                // require_once 'Zend/Feed/Builder/Exception.php';
                 throw new Zend_Feed_Builder_Exception("you have to supply an url for your enclosure");
             }
             $type = isset($enclosure['type']) ? $enclosure['type'] : '';

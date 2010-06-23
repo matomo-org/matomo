@@ -19,6 +19,8 @@ broadcast.init = function() {
 	// Initialize history plugin.
 	// The callback is called at once by present location.hash
 	$.historyInit(broadcast.pageload);
+	
+	piwikHelper.showAjaxLoading();
 }
 
 /************************************************
@@ -61,16 +63,23 @@ broadcast.propagateAjax = function (ajaxUrl)
     // available in global scope
     var currentHashStr = window.location.hash;
 
-    // Because $.history plugin doens't care about # or ? sign infront of the query string
-    // We take it out if exist;
+    // Because $.history plugin doesn't care about # or ? sign in front of the query string
+    // We take it out if it exists
     currentHashStr = currentHashStr.replace(/^\?|^#/,'');
     ajaxUrl = ajaxUrl.replace(/^\?|&#/,'');
 
     var params_vals = ajaxUrl.split("&");
-    for( var i=0; i<params_vals.length; i++ ) {
-        currentHashStr   = broadcast.updateParamValue(params_vals[i],currentHashStr);
+    for( var i=0; i<params_vals.length; i++ ) 
+    {
+        currentHashStr = broadcast.updateParamValue(params_vals[i],currentHashStr);
     }
 
+	// if the module is not 'Goals', we specifically unset the 'idGoal' parameter
+	// this is to ensure that the URLs are clean (and that clicks on graphs work as expected - they are broken with the extra parameter)
+    if(broadcast.getParamValue('action', currentHashStr) != 'goalReport')
+    {
+    	currentHashStr = broadcast.updateParamValue('idGoal=', currentHashStr);
+    }
     // Let history know about this new Hash and load it.
     $.historyLoad(currentHashStr);
 };
@@ -106,7 +115,10 @@ broadcast.propagateNewPage = function (str)
     for( var i=0; i<params_vals.length; i++ ) {
         // update both the current search query and hash string
         currentSearchStr = broadcast.updateParamValue(params_vals[i],currentSearchStr);
-        currentHashStr   = broadcast.updateParamValue(params_vals[i],currentHashStr);
+
+        if(currentHashStr.length != 0 ) {
+        	currentHashStr   = broadcast.updateParamValue(params_vals[i],currentHashStr);
+        }
     }
 
     // Now load the new page.
@@ -135,12 +147,17 @@ broadcast.updateParamValue = function(newParamValue,urlStr)
 
     var paramName = p_v[0];
     var valFromUrl = broadcast.getParamValue(paramName,urlStr);
-
+    // if set 'idGoal=' then we remove the parameter from the URL automatically (rather than passing an empty value)
+    var paramValue = p_v[1];
+    if(paramValue == '') 
+    {
+    	newParamValue = '';
+    }
     if( valFromUrl != '') {
         // replacing current param=value to newParamValue;
         var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
         urlStr = urlStr.replace( regToBeReplace, newParamValue );
-    } else {
+    } else if(newParamValue != '') {
         urlStr += (urlStr == '') ? newParamValue : '&' + newParamValue;
     }
 
@@ -154,8 +171,7 @@ broadcast.loadAjaxContent = function(urlAjax)
 {
     urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
 
-    // showing loading...
-    $('#loadingPiwik').show();
+	piwikHelper.showAjaxLoading();
     $('#content').hide();
 
     $("object").remove();
@@ -164,21 +180,21 @@ broadcast.loadAjaxContent = function(urlAjax)
 
     function sectionLoaded(content)
     {
-	if(content.substring(0, 14) == '<!DOCTYPE html') {
-		window.location.reload();
-		return;
-	}
+		if(content.substring(0, 14) == '<!DOCTYPE html') {
+			window.location.reload();
+			return;
+		}
 
         if(urlAjax == broadcast.lastUrlRequested) {
-	    $('#content').html( content ).show();
-	    $('#loadingPiwik').hide();
-	    broadcast.lastUrlRequested = null;
-	}
+		    $('#content').html( content ).show();
+			piwikHelper.hideAjaxLoading();
+		    broadcast.lastUrlRequested = null;
+		}
     }
-    piwikMenu.activateMenu(
-        broadcast.getParamValue('module', urlAjax),
-        broadcast.getParamValue('action', urlAjax),
-        broadcast.getParamValue('idGoal', urlAjax)
+	piwikMenu.activateMenu(
+	    broadcast.getParamValue('module', urlAjax),
+	    broadcast.getParamValue('action', urlAjax),
+	    broadcast.getParamValue('idGoal', urlAjax)
     );
     ajaxRequest = {
         type: 'GET',

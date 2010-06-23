@@ -20,7 +20,7 @@ function Piwik_getHostnameName($in)
 {
 	if(empty($in))
 	{
-		return Piwik_Translate('General_Unknown');
+		return html_entity_decode(Piwik_Translate('General_Unknown'), ENT_COMPAT, 'UTF-8');
 	}
 	if(strtolower($in) === 'ip')
 	{
@@ -41,6 +41,10 @@ function Piwik_getHostnameName($in)
  */
 function Piwik_getHostnameUrl($in)
 {
+	if($in == Piwik_DataTable::LABEL_SUMMARY_ROW) 
+	{ 
+		return false;
+	}
 	if(empty($in)
 		|| strtolower($in) === 'ip')
 	{

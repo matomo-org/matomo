@@ -23,11 +23,10 @@ class Piwik_Referers extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Referers',
-			'description' => 'Reports the Referers data: Search Engines, Keywords, Websites, Campaign Tracking, Direct Entry. ',
+			'description' => Piwik_Translate('Referers_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 		);
 		
 		return $info;
@@ -40,6 +39,7 @@ class Piwik_Referers extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
+			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
 		);
 		return $hooks;
 	}
@@ -62,10 +62,47 @@ class Piwik_Referers extends Piwik_Plugin
 	
 	function addMenus()
 	{
-		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers'));
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers', 'action' => 'index'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuSearchEngines', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'getWebsites'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'getCampaigns'));
+	}
+	
+	function addGoalSegments( $notification )
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments = array_merge($segments, array(
+        		array(
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Keywords'),
+        			'module' => 'Referers',
+        			'action' => 'getKeywords',
+        		),
+        		array(
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_SearchEngines'),
+        			'module' => 'Referers',
+        			'action' => 'getSearchEngines',
+        		),
+        		array(
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Websites'),
+        			'module' => 'Referers',
+        			'action' => 'getWebsites',
+        		),
+        		array(
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Campaigns'),
+        			'module' => 'Referers',
+        			'action' => 'getCampaigns',
+        		),
+        		array(
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Type'),
+        			'module' => 'Referers',
+        			'action' => 'getRefererType',
+        		),
+    	));
 	}
 	
 	function archivePeriod( $notification )
@@ -150,7 +187,7 @@ class Piwik_Referers extends Piwik_Plugin
 		destroy($this->distinctUrls);
 	}
 	
-	protected function archiveDayAggregateVisits($archiveProcessing)
+	protected function archiveDayAggregateVisits(Piwik_ArchiveProcessing $archiveProcessing)
 	{
 		$query = "SELECT 	referer_type, 
 							referer_name, 
@@ -164,11 +201,12 @@ class Piwik_Referers extends Piwik_Plugin
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count,
 							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
 				 	FROM ".$archiveProcessing->logTable."
-				 	WHERE visit_server_date = ?
+				 	WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
 				 		AND idsite = ?
 				 	GROUP BY referer_type, referer_name, referer_url, referer_keyword
 				 	ORDER BY nb_visits DESC";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
 
 		$this->interestBySearchEngine =
 			$this->interestByKeyword =

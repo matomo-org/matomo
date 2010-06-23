@@ -26,7 +26,7 @@
 /**
  * Base class for form elements
  */ 
-require_once 'HTML/QuickForm/element.php';
+require_once dirname(__FILE__) . '/element.php';
 
 /**
  * HTML class for a form element group
@@ -298,7 +298,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      */
     function toHtml()
     {
-        include_once('HTML/QuickForm/Renderer/Default.php');
+        include_once(dirname(__FILE__) . '/Renderer/Default.php');
         $renderer = new HTML_QuickForm_Renderer_Default();
         $renderer->setElementTemplate('{element}');
         $this->accept($renderer);

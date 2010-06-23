@@ -7,6 +7,9 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once PIWIK_PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
 
+class Test_Piwik_Cookie_Mock_Class {
+}
+
 require_once 'Common.php';
 class Test_Piwik_Common extends UnitTestCase
 {
@@ -590,7 +593,7 @@ class Test_Piwik_Common extends UnitTestCase
 		{
 			if(isset($info[2]) && $info[2] !== false)
 			{
-				$this->assertTrue(strrpos($info[2], "{k}") !== false, "$host search URL is not defined correctly, found {$info[2]} but must contain the macro {k}");
+				$this->assertTrue(strrpos($info[2], "{k}") !== false, $host . " search URL is not defined correctly, must contain the macro {k}");
 			}
 		}
 	}
@@ -649,7 +652,24 @@ class Test_Piwik_Common extends UnitTestCase
 			
 			// new google url formats
 			'http://www.google.com/url?sa=t&source=web&ct=res&cd=7&url=http%3A%2F%2Fwww.example.com%2Fmypage.htm&ei=0SjdSa-1N5O8M_qW8dQN&rct=j&q=flowers&usg=AFQjCNHJXSUh7Vw7oubPaO3tZOzz-F-u_w&sig2=X8uCFh6IoPtnwmvGMULQfw'
-				=> array('name' => 'Google', 'keywords' => 'flowers')
+				=> array('name' => 'Google', 'keywords' => 'flowers'),
+			'http://www.google.com/webhp?tab=mw#hl=en&source=hp&q=test+hash&btnG=Google+Search&aq=f&aqi=&aql=&oq=&fp=22b4dcbb1403dc0f'
+				=> false,
+			'http://www.google.com/#hl=en&source=hp&q=test+hash&aq=f&aqi=n1g5g-s1g1g-s1g2&aql=&oq=&fp=22b4dcbb1403dc0f'
+				=> false,
+				
+			// new google image format
+			'http://www.google.com/imgres?imgurl=http://www.imagedomain.com/zoom/34782_ZOOM.jpg&imgrefurl=http://www.mydomain.com/product/Omala-Govindra-Tank-XS-Brown-and-Chile.html&usg=__BD6z_JrJRAFjScDRhj4Tp8Vm_Zo=&h=610&w=465&sz=248&hl=en&start=3&itbs=1&tbnid=aiNVNce9-ZYAPM:&tbnh=136&tbnw=104&prev=/images%3Fq%3DFull%2BSupport%2BTummy%26hl%3Den%26safe%3Doff%26sa%3DG%26gbv%3D2%26tbs%3Disch:1'
+				=> array('name' => 'Google Images', 'keywords' => 'full support tummy'),
+
+			// Google CSE is not standard google
+			'http://www.google.com/cse?cx=006944612449134755049%3Ahq5up-97k4u&cof=FORID%3A10&q=piwik&ad=w9&num=10&rurl=http%3A%2F%2Fwww.homepagle.com%2Fsearch.php%3Fcx%3D006944612449134755049%253Ahq5up-97k4u%26cof%3DFORID%253A10%26q%3D89'
+				=> array('name' => 'Google Custom Search', 'keywords' => 'piwik'),
+				
+			// bing image search has a special URL
+			'http://www.bing.com/images/search?q=piwik&go=&form=QBIL'
+				=> array('name' => 'Bing Images', 'keywords' => 'piwik'),
+				
 		);
 		
 		foreach($urls as $refererUrl => $expectedReturnedValue) {
@@ -658,9 +678,102 @@ class Test_Piwik_Common extends UnitTestCase
 			$result = $expectedReturnedValue === $returnedValue;
 			$this->assertTrue($result);
 			if(!$result) {
-				echo "error in extracting from $refererUrl got ".$exported."<br>";
+				$this->fail("error in extracting from $refererUrl got ".$exported."<br>");
 			}
 		}
 	}
+
+    public function testUnserializeArray()
+    {
+		$a = array('value1', 'value2');
+		$as = serialize($a);
+		$expected = 'a:2:{i:0;s:6:"value1";i:1;s:6:"value2";}';
+		$this->assertEqual( $as, $expected );
+
+		$ua = Piwik_Common::unserialize_array($as);
+		$this->assertTrue( is_array($ua) && count($ua) == 2 && $ua[0] === 'value1' && $ua[1] === 'value2' );
+
+		$a = 'O:31:"Test_Piwik_Cookie_Phantom_Class":0:{}';
+		try {
+			unserialize($a);
+			$this->fail("Expected exception not raised");
+		} catch(Exception $expected) {
+			$this->pass("test: unserializing an object where class not (yet) defined<br>\n");
+		}
+
+		$ua = Piwik_Common::unserialize_array($a);
+		$this->assertEqual( $a, $ua );
+
+		$a = 'O:28:"Test_Piwik_Cookie_Mock_Class":0:{}';
+		try {
+			unserialize($a);
+			$this->pass("test: unserializing an object where class is defined<br>\n");
+		} catch(Exception $unexpected) {
+			$this->fail("Unexpected exception raised");
+		}
+
+		$ua = Piwik_Common::unserialize_array($a);
+		$this->assertEqual( $a, $ua );
+
+		$a = 'a:1:{i:0;O:28:"Test_Piwik_Cookie_Mock_Class":0:{}}';
+		try {
+			unserialize($a);
+			$this->pass("test: unserializing nested object where class is defined<br>\n");
+		} catch(Exception $unexpected) {
+			$this->fail("Unexpected exception raised");
+		}
+
+		$ua = Piwik_Common::unserialize_array($a);
+		$this->assertEqual( $a, $ua );
+
+		$a = 'a:2:{i:0;s:4:"test";i:1;O:28:"Test_Piwik_Cookie_Mock_Class":0:{}}';
+		try {
+			unserialize($a);
+			$this->pass("test: unserializing another nested object where class is defined<br>\n");
+		} catch(Exception $unexpected) {
+			$this->fail("Unexpected exception raised");
+		}
+
+		$ua = Piwik_Common::unserialize_array($a);
+		$this->assertEqual( $a, $ua );
+
+		$a = 'O:28:"Test_Piwik_Cookie_Mock_Class":1:{s:34:"'."\0".'Test_Piwik_Cookie_Mock_Class'."\0".'name";s:4:"test";}';
+		try {
+			unserialize($a);
+			$this->pass("test: unserializing object with member where class is defined<br>\n");
+		} catch(Exception $unexpected) {
+			$this->fail("Unexpected exception raised");
+		}
+
+		$ua = Piwik_Common::unserialize_array($a);
+		$this->assertEqual( $a, $ua );
+
+		$a = 'a:1:{s:4:"test";s:1:"'."\0".'";}';
+		try {
+			unserialize($a);
+			$this->pass("test: unserializing with leading null byte<br>\n");
+		} catch(Exception $unexpected) {
+			$this->fail("Unexpected exception raised");
+		}
+
+		$ua = Piwik_Common::unserialize_array($a);
+		$this->assertEqual( $a, $ua );
+
+		$a = 'a:1:{s:4:"test";s:3:"'."a\0b".'";}';
+		try {
+			unserialize($a);
+			$this->pass("test: unserializing with leading intervening byte<br>\n");
+		} catch(Exception $unexpected) {
+			$this->fail("Unexpected exception raised");
+		}
+
+		$ua = Piwik_Common::unserialize_array($a);
+		$this->assertEqual( $a, $ua );
+
+		// arrays and objects cannot be used as keys, i.e., generates "Warning: Illegal offset type ..."
+		$a = 'a:2:{i:0;a:0:{}O:28:"Test_Piwik_Cookie_Mock_Class":0:{}s:4:"test";';
+		$ua = Piwik_Common::unserialize_array($a);
+		$this->assertEqual( $a, $ua );
+    }
 }
 

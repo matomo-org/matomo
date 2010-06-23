@@ -13,14 +13,19 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_37 implements Piwik_iUpdate
+class Piwik_Updates_0_2_37 extends Piwik_Updates
 {
-	static function update()
+	static function getSql($adapter = 'PDO_MYSQL')
 	{
-		Piwik_Updater::updateDatabase(__FILE__, array(
-			'DELETE FROM `'.  Piwik::prefixTable('user_dashboard') ."`
+		return array(
+			'DELETE FROM `'.  Piwik_Common::prefixTable('user_dashboard') ."`
 				WHERE layout LIKE '%.getLastVisitsGraph%'
 				OR layout LIKE '%.getLastVisitsReturningGraph%'" => false,
-		));
+		);
+	}
+
+	static function update()
+	{
+		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 	}
 }

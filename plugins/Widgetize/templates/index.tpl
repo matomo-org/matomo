@@ -1,6 +1,6 @@
 {assign var=showSitesSelection value=true}
 {assign var=showPeriodSelection value=true}
-{include file="CoreAdminHome/templates/header.tpl"}
+{include file="CoreHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='Dashboard'}
 
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/styles.css" />
@@ -8,16 +8,16 @@
 <link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/cloud.css" />
 <link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
 
-<script type="text/javascript" src="themes/default/common.js"></script>
 <script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
 <script type="text/javascript" src="libs/jquery/tooltip/jquery.tooltip.js"></script>
 <script type="text/javascript" src="libs/jquery/truncate/jquery.truncate.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.scrollTo.js"></script>
+<script type="text/javascript" src="themes/default/common.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/datatable.js"></script>
 <script type="text/javascript" src="plugins/Dashboard/templates/widgetMenu.js"></script>
 
 <script type="text/javascript" src="plugins/Widgetize/templates/widgetize.js"></script>
-<script src="http://cdn.clearspring.com/launchpad/v2/standalone.js" type="text/javascript"></script>
+
 {literal}
 <style>
 .menu {
@@ -64,9 +64,11 @@ $(document).ready( function() {
 	menu.registerCallbackOnWidgetLoad( widgetized.callbackAddExportButtonsUnderWidget );
 	menu.registerCallbackOnMenuHover( widgetized.deleteEmbedElements );
 	menu.show();
+	var dashboardUrl = document.location.protocol + '//' + document.location.hostname + document.location.pathname + '?module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&idSite=1&period=week&date=yesterday';
 	$('#exportFullDashboard').html(
-		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+document.location.protocol + '//' + document.location.hostname + document.location.pathname + '?'+'module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&idSite=1&period=week&date=yesterday" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
+		widgetized.getInputFormWithHtml( 'dashboardEmbed', '<iframe src="'+ dashboardUrl +'" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>')
 	);
+	$('#linkDashboardUrl').attr('href',dashboardUrl); 
 });
 
 {/literal}
@@ -74,13 +76,18 @@ $(document).ready( function() {
 
 <div style="max-width:980px;">
 	<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
-	If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
-	to the anonymous user in the <a href='index.php?module=UsersManager'>Users Management section</a>.
-	<br>Note: You can also display the full Piwik dashboard in your application or website in an Iframe. 
+	<p><b>&rsaquo; Widget authentication:</b> If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
+	to the anonymous user in the <a href='index.php?module=UsersManager'>Users Management section</a>. 
+	<br />Alternatively, if you are publishing widgets on a password protected or private page, 
+	you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret token_auth parameter (found in the <a href='{url module=API action=listAllAPI}' target='_blank'>API page</a>) in the widget URL. 
+	</p>
+	<p><b>&rsaquo; Widgetize the full dashboard:</b> You can also display the full Piwik dashboard in your application or website in an IFRAME (<a href='' target='_blank' id='linkDashboardUrl'>see example</a>). 
+    The date parameter can be set to a specific calendar date, "today", or "yesterday".  The period parameter can be set to "day", "week", "month", or "year".
+    The language parameter can be set to the language code of a translation, such as language=fr.
 	For example, for idSite=1 and date=yesterday, you can write: <span id='exportFullDashboard'></span>
 	</p>
-	
-	<div id="widgetChooser">
+	<p>	<b>&rsaquo; Select a report, and copy paste in your page the embed code below the widget:</b>
+	<div id="widgetChooser" style='height:600px'>
 		<div class="subMenu" id="sub1"></div>
 		<div class="subMenu" id="sub2"></div>
 		<div class="subMenu" id="sub3"></div>

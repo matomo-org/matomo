@@ -16,13 +16,19 @@
  */
 class Piwik_ExampleRssWidget extends Piwik_Plugin
 {
+	/**
+	 * Return information about this plugin.
+	 *
+	 * @see Piwik_Plugin
+	 *
+	 * @return array
+	 */
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Example Rss Widget',
-			'description' => 'Example Plugin: How to create a new widget that reads a RSS feed?',
+			'description' => Piwik_Translate('ExampleRssWidget_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}

@@ -15,21 +15,21 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Rss.php 18266 2009-09-18 18:32:30Z padraic $
+ * @version    $Id: Rss.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
 /**
  * @see Zend_Feed_Abstract
  */
-require_once 'Zend/Feed/Abstract.php';
+// require_once 'Zend/Feed/Abstract.php';
 
 /**
  * @see Zend_Feed_Entry_Rss
  */
-require_once 'Zend/Feed/Entry/Rss.php';
+// require_once 'Zend/Feed/Entry/Rss.php';
 
 
 /**
@@ -43,7 +43,7 @@ require_once 'Zend/Feed/Entry/Rss.php';
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Rss extends Zend_Feed_Abstract
@@ -82,7 +82,7 @@ class Zend_Feed_Rss extends Zend_Feed_Abstract
         // Find the base channel element and create an alias to it.
         $rdfTags = $this->_element->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'RDF');
         if ($rdfTags->length != 0) {
-        	$this->_element = $rdfTags->item(0);
+            $this->_element = $rdfTags->item(0);
         } else  {
             $this->_element = $this->_element->getElementsByTagName('channel')->item(0);
         }
@@ -90,7 +90,7 @@ class Zend_Feed_Rss extends Zend_Feed_Abstract
             /**
              * @see Zend_Feed_Exception
              */
-            require_once 'Zend/Feed/Exception.php';
+            // require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('No root <channel> element found, cannot parse channel.');
         }
 
@@ -282,11 +282,12 @@ class Zend_Feed_Rss extends Zend_Feed_Abstract
         $author = '';
         $email = '';
         if (isset($array->itunes->owner)) {
-            if (isset($array->itunes->owner['name'])) {
-                $author = $array->itunes->owner['name'];
+            $itunesOwner = $array->itunes->owner;
+            if (isset($itunesOwner['name'])) {
+                $author = $itunesOwner['name'];
             }
-            if (isset($array->itunes->owner['email'])) {
-                $email = $array->itunes->owner['email'];
+            if (isset($itunesOwner['email'])) {
+                $email = $itunesOwner['email'];
             }
         }
         if (empty($author) && isset($array->author)) {
@@ -411,6 +412,9 @@ class Zend_Feed_Rss extends Zend_Feed_Abstract
 
             if (isset($dataentry->guid)) {
                 $guid = $this->_element->createElement('guid', $dataentry->guid);
+                if (!Zend_Uri::check($dataentry->guid)) {
+                    $guid->setAttribute('isPermaLink', 'false');
+                }
                 $item->appendChild($guid);
             }
 
@@ -514,7 +518,7 @@ class Zend_Feed_Rss extends Zend_Feed_Abstract
             /**
              * @see Zend_Feed_Exception
              */
-            require_once 'Zend/Feed/Exception.php';
+            // require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('Cannot send RSS because headers have already been sent.');
         }
 

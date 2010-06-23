@@ -23,13 +23,22 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	
 	function redirectToCoreHomeIndex()
 	{
-		// redirect to Login only for anonymous user
-		if((bool)Zend_Registry::get('config')->General->default_module_login == true
-			&& Piwik::getCurrentUserLogin() == 'anonymous')
+		$defaultReport = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT);
+		$module = 'CoreHome';
+		$action = 'index';
+		
+		// User preference: default report to load is the All Websites dashboard
+		if($defaultReport == 'MultiSites' 
+			&& Piwik_PluginsManager::getInstance()->isPluginActivated('MultiSites'))
 		{
-			return Piwik_FrontController::dispatch('Login', false);
+			$module = 'MultiSites';
 		}
-		parent::redirectToIndex('CoreHome', 'index');
+		if($defaultReport == Piwik::getLoginPluginName())
+		{
+			$module = Piwik::getLoginPluginName();
+		}
+		
+		parent::redirectToIndex($module, $action);
 	}
 	
 	public function showInContext()
@@ -37,7 +46,6 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		$controllerName = Piwik_Common::getRequestVar('moduleToLoad');
 		$actionName = Piwik_Common::getRequestVar('actionToLoad', 'index');
 		$view = $this->getDefaultIndexView();
-		$view->basicHtmlView = true;
 		$view->content = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName );
 		echo $view->render();	
 	}
@@ -51,8 +59,33 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		return $view;
 	}
 	
+	protected function setDateTodayIfWebsiteCreatedToday()
+	{
+		$date = Piwik_Common::getRequestVar('date', false);
+		if($date == 'today') 
+		{
+			return;
+		} 
+		$websiteId = Piwik_Common::getRequestVar('idSite', false);
+		if ($websiteId) {
+			$website = new Piwik_Site($websiteId);
+			$datetimeCreationDate = $this->site->getCreationDate()->getDatetime();
+			$creationDateLocalTimezone = Piwik_Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
+			$todayLocalTimezone = Piwik_Date::factory('now', $website->getTimezone())->toString('Y-m-d');
+			if( $creationDateLocalTimezone == $todayLocalTimezone ) 
+			{
+				Piwik::redirectToModule( 'CoreHome', 'index', 
+										array(	'date' => 'today', 
+												'idSite' => $websiteId, 
+												'period' => Piwik_Common::getRequestVar('period')) 
+				);
+			}
+		}
+	}
+	
 	public function index()
 	{
+		$this->setDateTodayIfWebsiteCreatedToday();
 		$view = $this->getDefaultIndexView();
 		echo $view->render();		
 	}

@@ -24,7 +24,7 @@
 /**
  * A concrete renderer for HTML_QuickForm, based on QuickForm 2.x built-in one
  */ 
-require_once 'HTML/QuickForm/Renderer/Default.php';
+require_once dirname(__FILE__) . '/Default.php';
 
 /**
  * A renderer that makes it quick and easy to create customized forms.

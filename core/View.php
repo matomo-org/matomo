@@ -9,7 +9,6 @@
  * @category Piwik
  * @package Piwik
  */
-
 /*
  * Transition for pre-Piwik 0.4.4
  * @todo Remove this post-1.0
@@ -34,7 +33,8 @@ class Piwik_View implements Piwik_iView
 	private $template = '';
 	private $smarty = false;
 	private $variables = array();
-	
+	private $contentType = 'text/html; charset=utf-8';
+
 	public function __construct( $templateFile, $smConf = array(), $filter = true )
 	{
 		$this->template = $templateFile;
@@ -50,7 +50,7 @@ class Piwik_View implements Piwik_iView
 		}
 
 		$this->smarty->template_dir = $smConf->template_dir->toArray();
-		array_walk($this->smarty->template_dir, array("Piwik_View","addPiwikPath"), PIWIK_USER_PATH);
+		array_walk($this->smarty->template_dir, array("Piwik_View","addPiwikPath"), PIWIK_INCLUDE_PATH);
 
 		$this->smarty->plugins_dir = $smConf->plugins_dir->toArray();
 		array_walk($this->smarty->plugins_dir, array("Piwik_View","addPiwikPath"), PIWIK_INCLUDE_PATH);
@@ -61,8 +61,12 @@ class Piwik_View implements Piwik_iView
 		$this->smarty->cache_dir = $smConf->cache_dir;
 		Piwik_View::addPiwikPath($this->smarty->cache_dir, null, PIWIK_USER_PATH);
 
-		$this->smarty->error_reporting = $smConf->debugging;
-		$this->smarty->error_reporting = $smConf->error_reporting;
+		$error_reporting = $smConf->error_reporting;
+		if($error_reporting != (string)(int)$error_reporting)
+		{
+			$error_reporting = self::bitwise_eval($error_reporting);
+		}
+		$this->smarty->error_reporting = $error_reporting;
 
 		$this->smarty->assign('tag', 'piwik=' . Piwik_Version::VERSION);
 		if($filter)
@@ -100,17 +104,20 @@ class Piwik_View implements Piwik_iView
 		return $this->smarty->get_template_vars($key);
 	}
 
+	/**
+	 * Render view
+	 */
 	public function render()
 	{
 		try {
 			$this->currentModule = Piwik::getModule();
-			$this->currentPluginName = Piwik::getCurrentPlugin()->getName();
+			$this->currentPluginName = Piwik::getCurrentPlugin()->getClassName();
 			$this->userLogin = Piwik::getCurrentUserLogin();
 			
 			$showWebsiteSelectorInUserInterface = Zend_Registry::get('config')->General->show_website_selector_in_user_interface;
 			if($showWebsiteSelectorInUserInterface)
 			{
-				$sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
+				$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
 				usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
 				$this->sites = $sites;
 			}
@@ -122,7 +129,7 @@ class Piwik_View implements Piwik_iView
 			$this->piwik_version = Piwik_Version::VERSION;
 			$this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
 
-			$this->loginModule = Zend_Registry::get('auth')->getName();
+			$this->loginModule = Piwik::getLoginPluginName();
 		} catch(Exception $e) {
 			// can fail, for example at installation (no plugin loaded yet)		
 		}
@@ -135,13 +142,28 @@ class Piwik_View implements Piwik_iView
 			$this->totalNumberOfQueries = 0;
 		}
  
-		@header('Content-Type: text/html; charset=utf-8');
+		@header('Content-Type: '.$this->contentType);
 		@header("Pragma: ");
 		@header("Cache-Control: no-store, must-revalidate");
 		
 		return $this->smarty->fetch($this->template);
 	}
-	
+
+	/**
+	 * Set Content-Type field in HTTP response
+	 *
+	 * @param string $contentType
+	 */
+	public function setContentType( $contentType )
+	{
+		$this->contentType = $contentType;
+	}
+
+	/**
+	 * Add form to view
+	 *
+	 * @param Piwik_Form $form
+	 */
 	public function addForm( $form )
 	{
 		// Create the renderer object	
@@ -154,7 +176,13 @@ class Piwik_View implements Piwik_iView
 		$this->smarty->assign('form_data', $renderer->toArray());
 		$this->smarty->assign('element_list', $form->getElementList());
 	}
-	
+
+	/**
+	 * Assign value to a variable for use in Smarty template
+	 *
+	 * @param string|array $var
+	 * @param mixed $value
+	 */
 	public function assign($var, $value=null)
 	{
 		if (is_string($var))
@@ -170,6 +198,9 @@ class Piwik_View implements Piwik_iView
 		}
 	}
 
+	/**
+	 * Clear compiled Smarty templates 
+	 */
 	public function clearCompiledTemplates()
 	{
 		$this->smarty->clear_compiled_tpl();
@@ -192,12 +223,46 @@ class Piwik_View implements Piwik_iView
 	}
 */
 
+	/**
+	 * Prepend relative paths with absolute Piwik path
+	 *
+	 * @param string $value relative path (pass by reference)
+	 * @param int $key (don't care)
+	 * @param string $path Piwik root
+	 */
 	static public function addPiwikPath(&$value, $key, $path)
 	{
 		if($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR)
 		{
 			$value = $path ."/$value";
 		}
+	}
+
+	/**
+	 * Evaluate expression containing only bitwise operators.
+	 * Replaces defined constants with corresponding values.
+	 * Does not use eval() or create_function().
+	 *
+	 * @param string $expression Expression.
+	 * @return string
+	 */
+	static public function bitwise_eval($expression)
+	{
+		// replace defined constants
+		$buf = get_defined_constants(true);
+
+		// use only the 'Core' PHP constants, e.g., E_ALL, E_STRICT, ...
+		$consts = isset($buf['Core']) ? $buf['Core'] : (isset($buf['mhash']) ? $buf['mhash'] : $buf['internal']);
+		$expression = str_replace(' ', '', strtr($expression, $consts));
+
+		// bitwise operators in order of precedence (highest to lowest)
+		// @todo: boolean ! (NOT) and parentheses aren't handled
+		$expression = preg_replace_callback('/~(-?[0-9]+)/', create_function('$matches', 'return (string)((~(int)$matches[1]));'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)&(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]&(int)$matches[2]);'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)\^(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]^(int)$matches[2]);'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)\|(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]|(int)$matches[2]);'), $expression);
+
+		return (string)((int)$expression & PHP_INT_MAX);
 	}
 
 	/**
@@ -211,10 +276,10 @@ class Piwik_View implements Piwik_iView
 		Piwik_PostEvent('View.getViewType', $viewType);
 
 		// get caller
-		$bt = debug_backtrace();
-		if(!isset($bt[0]))
+		$bt = @debug_backtrace();
+		if($bt === null || !isset($bt[0]))
 		{
-			throw new Exception("View factory cannot be invoked directly");
+			throw new Exception("View factory cannot be invoked");
 		}
 		$path = dirname($bt[0]['file']);
 

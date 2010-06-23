@@ -20,16 +20,16 @@ if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
 }
 @ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
 @set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
-
+@ini_set('memory_limit', -1);
+require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 					
 require_once 'simpletest/autorun.php';
 require_once 'simpletest/mock_objects.php';
-SimpleTest :: prefer(new HtmlReporter());
+SimpleTest::prefer(new HtmlReporter());
 
 error_reporting(E_ALL|E_NOTICE);
-//@date_default_timezone_set('Europe/London');
-@date_default_timezone_set('America/Toronto');
+@date_default_timezone_set('UTC');
 
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Exception.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Loader.php';
@@ -41,6 +41,11 @@ function dump($var)
 	print("<pre>");
 	var_export($var);
 	print("</pre>");
+}
+
+function printDebug($text)
+{
+	return;
 }
 
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Registry.php';

@@ -14,22 +14,22 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Hash.php 18148 2009-09-16 19:27:43Z thomas $
+ * @version   $Id: Hash.php 20358 2010-01-17 19:03:49Z thomas $
  */
 
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * Validator for the hash of given files
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_Hash extends Zend_Validate_Abstract
@@ -45,9 +45,9 @@ class Zend_Validate_File_Hash extends Zend_Validate_Abstract
      * @var array Error message templates
      */
     protected $_messageTemplates = array(
-        self::DOES_NOT_MATCH => "The file '%value%' does not match the given hashes",
-        self::NOT_DETECTED   => "There was no hash detected for the given file",
-        self::NOT_FOUND      => "The file '%value%' could not be found"
+        self::DOES_NOT_MATCH => "File '%value%' does not match the given hashes",
+        self::NOT_DETECTED   => "A hash could not be evaluated for the given file",
+        self::NOT_FOUND      => "File '%value%' could not be found"
     );
 
     /**
@@ -70,13 +70,11 @@ class Zend_Validate_File_Hash extends Zend_Validate_Abstract
         } elseif (is_scalar($options)) {
             $options = array('hash1' => $options);
         } elseif (!is_array($options)) {
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception('Invalid options to validator provided');
         }
 
         if (1 < func_num_args()) {
-// @todo: Preperation for 2.0... needs to be cleared with the dev-team
-//          trigger_error('Multiple constructor options are deprecated in favor of a single options array', E_USER_NOTICE);
             $options['algorithm'] = func_get_arg(1);
         }
 
@@ -118,7 +116,7 @@ class Zend_Validate_File_Hash extends Zend_Validate_Abstract
         if (is_string($options)) {
             $options = array($options);
         } else if (!is_array($options)) {
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception("False parameter given");
         }
 
@@ -131,7 +129,7 @@ class Zend_Validate_File_Hash extends Zend_Validate_Abstract
         }
 
         if (!in_array($algorithm, $known)) {
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception("Unknown algorithm '{$algorithm}'");
         }
 
@@ -154,7 +152,7 @@ class Zend_Validate_File_Hash extends Zend_Validate_Abstract
     public function isValid($value, $file = null)
     {
         // Is file readable ?
-        require_once 'Zend/Loader.php';
+        // require_once 'Zend/Loader.php';
         if (!Zend_Loader::isReadable($value)) {
             return $this->_throw($file, self::NOT_FOUND);
         }

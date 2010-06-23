@@ -88,7 +88,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
 
 		// we catch exceptions in the caller (i.e., oneClickUpdate)
-		$fetched = Piwik::fetchRemoteFile(self::LATEST_PIWIK_URL, $this->pathPiwikZip);
+		$fetched = Piwik_Http::fetchRemoteFile(self::LATEST_PIWIK_URL, $this->pathPiwikZip);
 	}
 	
 	private function oneClick_Unpack()
@@ -139,6 +139,11 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private function oneClick_Copy()
 	{
 		/*
+		 * Overwrite the downloaded robots.txt with our local copy
+		 */
+		Piwik::copy(PIWIK_DOCUMENT_ROOT . '/robots.txt', $this->pathRootExtractedPiwik . '/robots.txt');
+
+		/*
 		 * Copy all files to PIWIK_INCLUDE_PATH.
 		 * These files are accessed through the dispatcher.
 		 */
@@ -185,17 +190,29 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 	}
 
-	public function runUpdaterAndExit($updater, $componentsWithUpdateFile)
+	public function index()
 	{
+		$language = Piwik_Common::getRequestVar('language', '');
+		if(!empty($language))
+		{
+			Piwik_LanguagesManager_API::getInstance()->setLanguageForSession($language);
+		}
+		$this->runUpdaterAndExit();
+	}
+
+	protected function runUpdaterAndExit()
+	{
+		$updater = new Piwik_Updater();
+		$componentsWithUpdateFile = Piwik_CoreUpdater::getComponentUpdates($updater);		
 		if(empty($componentsWithUpdateFile))
 		{
-			return;
+			Piwik::redirectToModule('CoreHome');
 		}
-
-		if(Piwik::isPhpCliMode())
+		
+		Piwik::setMaxExecutionTime(0);
+		
+		if(Piwik_Common::isPhpCliMode())
 		{
-			Piwik::setMaxExecutionTime(0);
-
 			$view = Piwik_View::factory('update_welcome');
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 
@@ -207,12 +224,14 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		}
 		else if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1)
 		{
+			$this->warningMessages = array();
 			$view = Piwik_View::factory('update_database_done');
 			$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 		}
 		else
 		{
 			$view = Piwik_View::factory('update_welcome');
+    		$view->queries = $updater->getSqlQueriesToExecute();
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 		}
 		exit;
@@ -221,13 +240,12 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private function doWelcomeUpdates($view, $componentsWithUpdateFile)
 	{
 		$view->new_piwik_version = Piwik_Version::VERSION;
-
+		$view->commandUpgradePiwik = "<br /><code>php ".Piwik_Common::getPathToPiwikRoot()."/index.php  -- \"module=CoreUpdater\" </code>";
 		$pluginNamesToUpdate = array();
 		$coreToUpdate = false;
 
 		// handle case of existing database with no tables
-		$tablesInstalled = Piwik::getTablesInstalled();
-		if(count($tablesInstalled) == 0)
+		if(!Piwik::isInstalled())
 		{
 			$this->errorMessages[] = Piwik_Translate('CoreUpdater_EmptyDatabaseError', Zend_Registry::get('config')->database->dbname);
 			$this->coreError = true;
@@ -254,7 +272,20 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 				}
 			}
 		}
+
+		// check file integrity
+		$integrityInfo = Piwik::getFileIntegrityInformation();
+		if(isset($integrityInfo[1]))
+		{
+			if($integrityInfo[0] == false)
+			{
+				$this->warningMessages[] = '<b>'.Piwik_Translate('General_FileIntegrityWarningExplanation').'</b>';
+			}
+			$this->warningMessages = array_merge($this->warningMessages, array_slice($integrityInfo, 1));
+		}
+
 		$view->coreError = $this->coreError;
+		$view->warningMessages = $this->warningMessages;
 		$view->errorMessages = $this->errorMessages;
 		$view->current_piwik_version = $currentVersion;
 		$view->pluginNamesToUpdate = $pluginNamesToUpdate;
@@ -299,12 +330,5 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 				}
 			}
 		}
-	}
-
-	public function saveLanguage()
-	{
-		$language = Piwik_Common::getRequestVar('language');
-		Piwik_LanguagesManager_API::setLanguageForSession($language);
-		Piwik_Url::redirectToReferer();
 	}
 }

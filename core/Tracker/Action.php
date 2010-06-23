@@ -65,6 +65,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	private $actionType;
 	private $actionUrl;
 	
+	static private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid');
+	
 	public function setRequest($requestArray)
 	{
 		$this->request = $requestArray;
@@ -117,15 +119,52 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	
 	protected function setActionName($name)
 	{
+		$name = $this->truncate($name);
 		$this->actionName = $name;
 	}
+	
 	protected function setActionType($type)
 	{
 		$this->actionType = $type;
 	}
+	
 	protected function setActionUrl($url)
 	{
+		$url = self::excludeQueryParametersFromUrl($url, $this->idSite);
+		$url = $this->truncate($url);
 		$this->actionUrl = $url;
+	}
+	
+	static public function excludeQueryParametersFromUrl($originalUrl, $idSite)
+	{
+		$website = Piwik_Common::getCacheWebsiteAttributes( $idSite );
+		$originalUrl = Piwik_Common::unsanitizeInputValue($originalUrl);
+		$parsedUrl = @parse_url($originalUrl);
+		if(empty($parsedUrl['query']))
+		{
+			return $originalUrl;
+		}
+		$excludedParameters = isset($website['excluded_parameters']) ? $website['excluded_parameters'] : array();
+		$parametersToExclude = array_merge($excludedParameters, self::$queryParametersToExclude);
+		
+		$parametersToExclude = array_map('strtolower', $parametersToExclude);
+		$queryParameters = Piwik_Common::getArrayFromQueryString($parsedUrl['query']);
+		
+		$validQuery = '';
+		$separator = '&';
+		foreach($queryParameters as $name => $value)
+		{
+			if(!in_array(strtolower($name), $parametersToExclude))
+			{
+				$validQuery .= $name.'='.$value.$separator;
+			}
+		}
+		$parsedUrl['query'] = substr($validQuery,0,-strlen($separator));
+		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
+		printDebug('Excluded parameters "'.implode(',',$excludedParameters).'" from URL.
+					 Before was <br/><code>"'.$originalUrl.'"</code>, <br/>
+					 After is <br/><code>"'.$url.'"</code>');
+		return $url;
 	}
 	
 	public function init()
@@ -134,6 +173,12 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$this->setActionName($info['name']);
 		$this->setActionType($info['type']);
 		$this->setActionUrl($info['url']);
+	}
+	
+	protected function truncate( $label )
+	{
+		$limit = Piwik_Tracker_Config::getInstance()->Tracker['page_maximum_length'];
+		return substr($label, 0, $limit);
 	}
 	
 	/**
@@ -288,8 +333,10 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			$actionType = self::TYPE_ACTION_URL;
 			$url = Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
 
-			// get the delimiter, by default '/'
-			$actionCategoryDelimiter = Piwik_Tracker_Config::getInstance()->General['action_category_delimiter'];
+			// get the delimiter, by default '/'; BC, we read the old action_category_delimiter first (see #1067) 
+			$actionCategoryDelimiter = isset(Piwik_Tracker_Config::getInstance()->General['action_category_delimiter'])
+										? Piwik_Tracker_Config::getInstance()->General['action_category_delimiter']
+										: Piwik_Tracker_Config::getInstance()->General['action_url_category_delimiter'];
 			
 			// create an array of the categories delimited by the delimiter
 			$split = explode($actionCategoryDelimiter, $actionName);

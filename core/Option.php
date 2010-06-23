@@ -54,7 +54,7 @@ class Piwik_Option
 			return $this->all[$name];
 		}
 		$value = Piwik_FetchOne( 'SELECT option_value 
-							FROM `' . Piwik::prefixTable('option') . '`
+							FROM `' . Piwik_Common::prefixTable('option') . '`
 							WHERE option_name = ?', $name);
 		if($value === false)
 		{
@@ -74,7 +74,7 @@ class Piwik_Option
 	public function set($name, $value, $autoload = 0)
 	{
 		$autoload = (int)$autoload;
-		Piwik_Query('INSERT INTO `'. Piwik::prefixTable('option') . '` (option_name, option_value, autoload) '.
+		Piwik_Query('INSERT INTO `'. Piwik_Common::prefixTable('option') . '` (option_name, option_value, autoload) '.
 					' VALUES (?, ?, ?) '.
 					' ON DUPLICATE KEY UPDATE option_value = ?', 
 					array($name, $value, $autoload, $value));
@@ -89,13 +89,24 @@ class Piwik_Option
 			return;
 		}
 		$all = Piwik_FetchAll('SELECT option_value, option_name
-								FROM `'. Piwik::prefixTable('option') . '` 
+								FROM `'. Piwik_Common::prefixTable('option') . '` 
 								WHERE autoload = 1');
 		foreach($all as $option)
 		{
 			$this->all[$option['option_name']] = $option['option_value'];
 		}
 		$loaded = true;
+	}
+	
+	/**
+	 * Clears the cache 
+	 * Used in unit tests to reset the state of the object between tests
+	 * 
+	 * @return void
+	 */
+	public function clearCache()
+	{
+		$this->all = array();
 	}
 }
 

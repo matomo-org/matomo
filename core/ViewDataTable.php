@@ -82,6 +82,14 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected $dataTable = null; 
 		
+	
+	/**
+	 * List of filters to apply after the data has been loaded from the API
+	 * 
+	 * @var array
+	 */
+	protected $queuedFilters = array();
+	
 	/**
 	 * @see init()
 	 * @var string
@@ -121,8 +129,19 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected $columnsTranslations = array();
 	
-	
+	/**
+	 * Array of columns set to display
+	 * 
+	 * @var array
+	 */
 	protected $columnsToDisplay = array();
+
+	/**
+	 * Variable that is used as the DIV ID in the rendered HTML
+	 *
+	 * @var string
+	 */
+	protected $uniqIdTable = null;
 	
 	/**
 	 * Method to be implemented by the ViewDataTable_*.
@@ -251,7 +270,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_all_views_icons'] = Piwik_Common::getRequestVar('show_all_views_icons', true);
 		$this->viewProperties['show_export_as_image_icon'] = Piwik_Common::getRequestVar('show_export_as_image_icon', false);
 		$this->viewProperties['show_exclude_low_population'] = Piwik_Common::getRequestVar('show_exclude_low_population', true);
-		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);;
+		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);
 		$this->viewProperties['show_footer'] = Piwik_Common::getRequestVar('show_footer', true);
 		$this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
@@ -344,6 +363,21 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Hook called after the dataTable has been loaded from the API
+	 * Can be used to add, delete or modify the data freshly loaded
+	 */
+	protected function postDataTableLoadedFromAPI()
+	{
+		// Apply datatable filters that were queued by the controllers
+		foreach($this->queuedFilters as $filter)
+		{
+			$filterName = $filter[0];
+			$filterParameters = $filter[1];
+			$this->dataTable->filter($filterName, $filterParameters);
+		}
+	}
+	
+	/**
 	 * @return string URL to call the API, eg. "method=Referers.getKeywords&period=day&date=yesterday"...
 	 */
 	protected function getRequestString()
@@ -415,7 +449,7 @@ abstract class Piwik_ViewDataTable
 	 * @see datatable.js
 	 * @return string
 	 */
-	protected function getUniqueIdViewDataTable()
+	protected function loadUniqueIdViewDataTable()
 	{
 		// if we request a subDataTable the $this->currentControllerAction DIV ID is already there in the page
 		// we make the DIV ID really unique by appending the ID of the subtable requested
@@ -433,6 +467,27 @@ abstract class Piwik_ViewDataTable
 			$uniqIdTable = $this->currentControllerName . $this->currentControllerAction;
 		}
 		return $uniqIdTable;
+	}
+
+	/**
+	 *  Sets the $uniqIdTable variable that is used as the DIV ID in the rendered HTML
+	 */
+	public function setUniqueIdViewDataTable($uniqIdTable)
+	{
+		$this->viewProperties['uniqueId'] = $uniqIdTable;
+		$this->uniqIdTable = $uniqIdTable;
+	}
+
+	/**
+	 *  Returns current value of $uniqIdTable variable that is used as the DIV ID in the rendered HTML
+	 */
+	public function getUniqueIdViewDataTable()
+	{
+		if( $this->uniqIdTable == null )
+		{
+			$this->uniqIdTable = $this->loadUniqueIdViewDataTable();
+		}
+		return $this->uniqIdTable;
 	}
 	
 	/**
@@ -721,7 +776,7 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function setLimit( $limit )
 	{
-		if($limit != 0)
+		if($limit !== 0)
 		{
 			$this->variablesDefault['filter_limit'] = $limit;
 		}
@@ -739,6 +794,15 @@ abstract class Piwik_ViewDataTable
 		$this->variablesDefault['filter_sort_order'] = $order;
 	}
 	
+	/**
+	 * Returns the column name on which the table will be sorted
+	 * 
+	 * @return string
+	 */
+	public function getSortedColumn()
+	{
+		return $this->variablesDefault['filter_sort_column'];
+	}
 
 	/**
 	 * Sets translation string for given column
@@ -746,9 +810,10 @@ abstract class Piwik_ViewDataTable
 	 * @param string $columnName column name
 	 * @param string $columnTranslation column name translation
 	 */
-	public function setColumnTranslation( $columnName, $columnTranslation )
+	public function setColumnTranslation( $columnName, $columnTranslation, $columnDescription = false )
 	{
 		$this->columnsTranslations[$columnName] = $columnTranslation;
+		$this->columnsDescriptions[$columnName] = $columnDescription;
 	}
 	
 	/**
@@ -762,10 +827,20 @@ abstract class Piwik_ViewDataTable
 		{
 			return html_entity_decode($this->columnsTranslations[$columnName], ENT_COMPAT, 'UTF-8');
 		}
-		else
+		return $columnName;
+	}
+	
+	/**
+	 * Returns column description, or false
+	 * @param string $columnName column name
+	 */
+	public function getColumnDescription( $columnName )
+	{
+		if( !empty($this->columnsDescriptions[$columnName]) )
 		{
-			return $columnName;
+			return html_entity_decode($this->columnsDescriptions[$columnName], ENT_COMPAT, 'UTF-8');
 		}
+		return false;
 	}
 
 	/**
@@ -829,5 +904,19 @@ abstract class Piwik_ViewDataTable
 			throw new Exception("$parameter is already defined for this DataTable.");
 		}
 		$this->variablesDefault[$parameter] = $value;
+	}
+	
+	/**
+	 * Queues a Datatable filter, that will be applied once the datatable is loaded from the API.
+	 * Useful when the controller needs to add columns, or decorate existing columns, when these filters don't 
+	 * necessarily make sense directly in the API. 
+	 * 
+	 * @param $filterName
+	 * @param $parameters
+	 * @return void
+	 */
+	public function queueFilter($filterName, $parameters)
+	{
+		$this->queuedFilters[] = array($filterName, $parameters);
 	}
 }

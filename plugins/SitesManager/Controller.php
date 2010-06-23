@@ -19,15 +19,54 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 	function index()
 	{
 		$view = Piwik_View::factory('SitesManager');
-		$sites = Piwik_SitesManager_API::getSitesWithAdminAccess();
+		$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
 		foreach($sites as &$site)
 		{
-			$site['alias_urls'] = Piwik_SitesManager_API::getSiteUrlsFromId($site['idsite']);
+			$site['alias_urls'] = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($site['idsite']);
+			$site['excluded_ips'] = str_replace(',','<br/>', $site['excluded_ips']);
+			$site['excluded_parameters'] = str_replace(',','<br/>', $site['excluded_parameters']);
 		}
 		$view->adminSites = $sites;
+		
+		$timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
+		$view->timezoneSupported = Piwik::isTimezoneSupportEnabled();
+		$view->timezones = json_encode($timezones);
+		$view->defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
+
+		$view->currencies = json_encode(Piwik_SitesManager_API::getInstance()->getCurrencyList());
+		$view->defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
+		
+		$view->utcTime = Piwik_Date::now()->getDatetime();
+		$excludedIpsGlobal = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
+		$view->globalExcludedIps = str_replace(',',"\n", $excludedIpsGlobal);
+		$excludedQueryParametersGlobal = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
+		$view->globalExcludedQueryParameters = str_replace(',',"\n", $excludedQueryParametersGlobal);
+		$view->currentIpAddress = Piwik_Common::getIpString();
+
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
+	}
+	
+	function setGlobalSettings()
+	{
+		$response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
+		
+		try {
+    		$this->checkTokenInUrl();
+    		$timezone = Piwik_Common::getRequestVar('timezone', false);
+    		$excludedIps = Piwik_Common::getRequestVar('excludedIps', false);
+    		$excludedQueryParameters = Piwik_Common::getRequestVar('excludedQueryParameters', false);
+    		$currency = Piwik_Common::getRequestVar('currency', false);
+    		Piwik_SitesManager_API::getInstance()->setDefaultTimezone($timezone);
+    		Piwik_SitesManager_API::getInstance()->setDefaultCurrency($currency);
+    		Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($excludedQueryParameters);
+    		Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIps);
+			$toReturn = $response->getResponse();
+		} catch(Exception $e ) {
+			$toReturn = $response->getResponseException( $e );
+		}
+		echo $toReturn;
 	}
 	
 	function displayJavascriptCode()
@@ -38,6 +77,8 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('DisplayJavascriptCode');
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
+		$site = new Piwik_Site($idSite);
+		$view->displaySiteName = $site->getName();
 		$view->jsTag = $jsTag;
 		echo $view->render();
 	}

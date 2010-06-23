@@ -47,7 +47,7 @@ class Piwik_Common
 		static $prefixTable = null;
 		if(is_null($prefixTable))
 		{
-			if(defined('PIWIK_TRACKER_MODE') && PIWIK_TRACKER_MODE)
+			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 			{
 				$prefixTable = Piwik_Tracker_Config::getInstance()->database['tables_prefix'];
 			}
@@ -84,23 +84,40 @@ class Piwik_Common
 		{
 			return $cacheContent;
 		}
-		if(defined('PIWIK_TRACKER_MODE')
-			&& PIWIK_TRACKER_MODE)
+		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 		{
 			require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 			require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 			require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
-			Zend_Registry::set('db', Piwik_Tracker::getDatabase());
-			Piwik::createAccessObject();
-			Piwik::createConfigObject();
-			Piwik::setUserIsSuperUser();
+			try {
+				$access = Zend_Registry::get('access');
+			} catch (Exception $e) {
+				Piwik::createAccessObject();
+			}
+			try {
+				$config = Zend_Registry::get('config');
+			} catch (Exception $e) {
+				Piwik::createConfigObject();
+			}
+			try {
+				$db = Zend_Registry::get('db');
+			} catch (Exception $e) {
+				Piwik::createDatabaseObject();
+			}
+
 			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 		}
 
+		$isSuperUser = Piwik::isUserIsSuperUser();
+		Piwik::setUserIsSuperUser();
 		$content = array();
 		Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
+		
+		// we remove the temporary Super user privilege
+		Piwik::setUserIsSuperUser($isSuperUser);
+		
 		// if nothing is returned from the plugins, we don't save the content
 		// this is not expected: all websites are expected to have at least one URL
 		if(!empty($content))
@@ -139,6 +156,16 @@ class Piwik_Common
 		$cache->delete($filename);
 	}
 
+	/**
+	 * Deletes all Tracker cache files
+	 */
+	static public function deleteAllCache()
+	{
+		$cache = new Piwik_CacheFile('tracker');
+		$cache->deleteAll();
+	}
+	
+	
 	/**
 	 * Returns the path and query part from a URL.
 	 * Eg. http://piwik.org/test/index.php?module=CoreHome will return /test/index.php?module=CoreHome
@@ -190,7 +217,6 @@ class Piwik_Common
 
 	/**
 	 * Returns an URL query string in an array format
-	 * The input query string should be htmlspecialchar'ed
 	 *
 	 * @param string urlQuery
 	 * @return array array( param1=> value1, param2=>value2)
@@ -243,6 +269,35 @@ class Piwik_Common
 	}
 
 	/**
+	 * Builds a URL from the result of parse_url function
+	 * Copied from the PHP comments at http://php.net/parse_url
+	 * @param array
+	 */
+    static public function getParseUrlReverse($parsed) 
+    {
+        if (!is_array($parsed)) 
+        {
+        	return false;
+        }
+        
+        $uri = !empty($parsed['scheme']) ? $parsed['scheme'].':'.((strtolower($parsed['scheme']) == 'mailto') ? '' : '//') : '';
+        $uri .= !empty($parsed['user']) ? $parsed['user'].(!empty($parsed['pass']) ? ':'.$parsed['pass'] : '').'@' : '';
+        $uri .= !empty($parsed['host']) ? $parsed['host'] : '';
+        $uri .= !empty($parsed['port']) ? ':'.$parsed['port'] : '';
+        
+        if (!empty($parsed['path'])) 
+        {
+            $uri .= (substr($parsed['path'], 0, 1) == '/') 
+            			? $parsed['path'] 
+            			: ((!empty($uri) ? '/' : '' ) . $parsed['path']);
+        }
+        
+        $uri .= !empty($parsed['query']) ? '?'.$parsed['query'] : '';
+        $uri .= !empty($parsed['fragment']) ? '#'.$parsed['fragment'] : '';
+        return $uri;
+    }
+    
+	/**
 	 * Create directory if permitted
 	 *
 	 * @param string $path
@@ -272,10 +327,11 @@ class Piwik_Common
 	 * Apache-specific; for IIS @see web.config
 	 *
 	 * @param string $path without trailing slash
+	 * @param string $content
 	 */
-	static public function createHtAccess( $path )
+	static public function createHtAccess( $path, $content = "<Files \"*\">\nDeny from all\n</Files>\n" )
 	{
-		@file_put_contents($path . '/.htaccess', 'Deny from all');
+		@file_put_contents($path . '/.htaccess', $content);
 	}
 
 	/**
@@ -355,8 +411,8 @@ class Piwik_Common
 		{
 			$value = self::sanitizeInputValue($value);
 
-			// Undo the damage caused by magic_quotes -- only before php 5.3 as it is now deprecated
-			if ( version_compare(phpversion(), '5.3') === -1
+			// Undo the damage caused by magic_quotes; deprecated in php 5.3 but not removed until php 6
+			if ( version_compare(phpversion(), '6') === -1
 				&& get_magic_quotes_gpc())
 			{
 				$value = stripslashes($value);
@@ -508,6 +564,30 @@ class Piwik_Common
 	}
 
 	/**
+	 * Unserialize (serialized) array
+	 *
+	 * @param string
+	 * @return array or original string if not unserializable
+	 */
+	public static function unserialize_array( $str )
+	{
+		// we set the unserialized version only for arrays as you can have set a serialized string on purpose
+		if (preg_match('/^a:[0-9]+:{/', $str)
+			&& !preg_match('/(^|;|{|})O:[0-9]+:"/', $str)
+			&& strpos($str, "\0") === false)
+		{
+			if( ($arrayValue = @unserialize($str)) !== false
+				&& is_array($arrayValue) )
+			{
+				return $arrayValue;
+			}
+		}
+
+		// return original string
+		return $str;
+	}
+
+	/**
 	 * Returns a 32 characters long uniq ID
 	 *
 	 * @return string 32 chars
@@ -518,13 +598,47 @@ class Piwik_Common
 	}
 
 	/**
+	 * Get salt from [superuser] section
+	 *
+	 * @return string
+	 */
+	static public function getSalt()
+	{
+		static $salt = null;
+		if(is_null($salt))
+		{
+			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
+			{
+				$salt = Piwik_Tracker_Config::getInstance()->superuser['salt'];
+			}
+			else
+			{
+				$config = Zend_Registry::get('config');
+				if($config !== false)
+				{
+					$salt = $config->superuser->salt;
+				}
+			}
+		}
+		return $salt;
+	}
+
+	/**
 	 * Convert dotted IP to a stringified integer representation
 	 *
 	 * @return string ip
 	 */
 	static public function getIp()
 	{
-		return sprintf("%u", ip2long(self::getIpString()));
+		$ip = self::getIpString();
+
+		// accept ipv4-mapped addresses
+		if(strpos($ip, '::ffff:') === 0)
+		{
+			$ip = substr($ip, 7);
+		}
+
+		return sprintf("%u", ip2long($ip));
 	}
 
 	/**
@@ -534,38 +648,34 @@ class Piwik_Common
 	 */
 	static public function getIpString()
 	{
-		if(isset($_SERVER['HTTP_CLIENT_IP'])
-		&& ($ip = self::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']))
-		&& strpos($ip, "unknown") === false)
+		// note: these may be spoofed
+		static $clientHeaders = array(
+			// ISP proxy
+			'HTTP_CLIENT_IP',
+
+			// de facto standard
+			'HTTP_X_FORWARDED_FOR',
+		);
+
+		foreach($clientHeaders as $clientHeader)
 		{
-			return $ip;
+			if(!empty($_SERVER[$clientHeader]))
+			{
+				$ip = self::getFirstIpFromList($_SERVER[$clientHeader]);
+				if(!empty($ip) && stripos($ip, 'unknown') === false)
+				{
+					return $ip;
+				}
+			}
 		}
-		elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-		&& $ip = self::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_FOR'])
-		&& isset($ip)
-		&& !empty($ip)
-		&& strpos($ip, "unknown")===false )
-		{
-			return $ip;
-		}
-		elseif( isset($_SERVER['HTTP_CLIENT_IP'])
-		&& strlen( self::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']) ) != 0 )
-		{
-			return self::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']);
-		}
-		else if( isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-		&& strlen ($ip = self::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_FOR'])) != 0)
-		{
-			return $ip;
-		}
-		elseif(isset($_SERVER['REMOTE_ADDR']))
+
+		// default
+		if(isset($_SERVER['REMOTE_ADDR']))
 		{
 			return self::getFirstIpFromList($_SERVER['REMOTE_ADDR']);
 		}
-		else
-		{
-			return '0.0.0.0';
-		}
+
+		return '0.0.0.0';
 	}
 
 	/**
@@ -575,7 +685,7 @@ class Piwik_Common
 	 *
 	 * @return string first element before ','
 	 */
-	static private function getFirstIpFromList($ip)
+	static public function getFirstIpFromList($ip)
 	{
 		$p = strpos($ip, ',');
 		if($p!==false)
@@ -657,14 +767,23 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns the visitor country based only on the Browser 'accepted language' information
+	 * Returns the visitor country based on the Browser 'accepted language'
+	 * information, but provides a hook for geolocation via IP address.
 	 *
 	 * @param string $lang browser lang
 	 * @param bool If set to true, some assumption will be made and detection guessed more often, but accuracy could be affected
+	 * @param string $ip
 	 * @return string 2 letter ISO code
 	 */
-	static public function getCountry( $lang, $enableLanguageToCountryGuess )
+	static public function getCountry( $lang, $enableLanguageToCountryGuess, $ip )
 	{
+		$country = null;
+		Piwik_PostEvent('Common.getCountry', $country, $ip);
+		if($country)
+		{
+			return $country;
+		}
+
 		if(empty($lang) || strlen($lang) < 2)
 		{
 			return 'xx';
@@ -797,13 +916,26 @@ class Piwik_Common
 		{
 			return false;
 		}
+		// some search engines (eg. Bing Images) use the same domain 
+		// as an existing search engine (eg. Bing), we must also use the url path 
+		$refererPath = '';
+		if(isset($refererParsed['path']))
+		{
+			$refererPath = $refererParsed['path'];
+		}
+		// no search query
 		if(!isset($refererParsed['query']))
 		{
 			return false;
 		}
 		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 
-		if(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
+		$refererHostPath = $refererHost . $refererPath;
+		if(array_key_exists($refererHostPath, $GLOBALS['Piwik_SearchEngines']))
+		{
+			$refererHost = $refererHostPath;
+		}
+		elseif(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
 			return false;
 		}
@@ -824,10 +956,12 @@ class Piwik_Common
 		}
 		$query = $refererParsed['query'];
 
-		if($searchEngineName == 'Google Images')
+		if($searchEngineName == 'Google Images'
+			|| ($searchEngineName == 'Google' && strpos($refererUrl, '/imgres') !== false) )
 		{
 			$query = urldecode(trim(strtolower(self::getParameterFromQueryString($query, 'prev'))));
 			$query = str_replace('&', '&amp;', strstr($query, '?'));
+			$searchEngineName = 'Google Images';
 		}
 
 		foreach($variableNames as $variableName)
@@ -892,7 +1026,8 @@ class Piwik_Common
 	 */
 	static public function isPhpCliMode()
 	{
+		$remoteAddr = @$_SERVER['REMOTE_ADDR'];
 		return	PHP_SAPI == 'cli' ||
-				(substr(PHP_SAPI, 0, 3) == 'cgi' && @$_SERVER['REMOTE_ADDR'] == '');
+				(substr(PHP_SAPI, 0, 3) == 'cgi' && empty($remoteAddr));
 	}
 }

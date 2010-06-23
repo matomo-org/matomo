@@ -14,22 +14,22 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: FilesSize.php 18148 2009-09-16 19:27:43Z thomas $
+ * @version   $Id: FilesSize.php 20455 2010-01-20 22:54:18Z thomas $
  */
 
 /**
  * @see Zend_Validate_File_Size
  */
-require_once 'Zend/Validate/File/Size.php';
+// require_once 'Zend/Validate/File/Size.php';
 
 /**
  * Validator for the size of all files which will be validated in sum
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
@@ -47,7 +47,7 @@ class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
     protected $_messageTemplates = array(
         self::TOO_BIG      => "All files in sum should have a maximum size of '%max%' but '%size%' were detected",
         self::TOO_SMALL    => "All files in sum should have a minimum size of '%min%' but '%size%' were detected",
-        self::NOT_READABLE => "One or more files can not be read"
+        self::NOT_READABLE => "One or more files can not be read",
     );
 
     /**
@@ -76,14 +76,11 @@ class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
         } elseif (is_scalar($options)) {
             $options = array('max' => $options);
         } elseif (!is_array($options)) {
-            require_once 'Zend/Validate/Exception.php';
+            // require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception('Invalid options to validator provided');
         }
 
         if (1 < func_num_args()) {
-// @todo: Preperation for 2.0... needs to be cleared with the dev-team
-//          trigger_error('Multiple constructor options are deprecated in favor of a single options array', E_USER_NOTICE);
-
             $argv = func_get_args();
             array_shift($argv);
             $options['max'] = array_shift($argv);
@@ -107,7 +104,7 @@ class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
      */
     public function isValid($value, $file = null)
     {
-        require_once 'Zend/Loader.php';
+        // require_once 'Zend/Loader.php';
         if (is_string($value)) {
             $value = array($value);
         }
@@ -131,12 +128,14 @@ class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
 
             // limited to 2GB files
             $size += @filesize($files);
-            $this->_setSize($size);
+            $this->_size = $size;
             if (($max !== null) && ($max < $size)) {
                 if ($this->useByteString()) {
-                    $this->setMax($this->_toByteString($max));
+                    $this->_max  = $this->_toByteString($max);
+                    $this->_size = $this->_toByteString($size);
                     $this->_throw($file, self::TOO_BIG);
-                    $this->setMax($max);
+                    $this->_max  = $max;
+                    $this->_size = $size;
                 } else {
                     $this->_throw($file, self::TOO_BIG);
                 }
@@ -146,9 +145,11 @@ class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
         // Check that aggregate files are >= minimum size
         if (($min !== null) && ($size < $min)) {
             if ($this->useByteString()) {
-                $this->setMin($this->_toByteString($min));
+                $this->_min  = $this->_toByteString($min);
+                $this->_size = $this->_toByteString($size);
                 $this->_throw($file, self::TOO_SMALL);
-                $this->setMin($min);
+                $this->_min  = $min;
+                $this->_size = $size;
             } else {
                 $this->_throw($file, self::TOO_SMALL);
             }

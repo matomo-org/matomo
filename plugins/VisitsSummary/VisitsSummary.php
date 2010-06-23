@@ -19,11 +19,10 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Visits Summary',
-			'description' => 'Reports the general Analytics numbers: visits, unique visitors, number of actions, Bounce Rate, etc.',
+			'description' => Piwik_Translate('VisitsSummary_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 		);
 		return $info;
 	}
@@ -45,7 +44,7 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'VisitsSummary_SubmenuOverview', array('module' => 'VisitsSummary'), true);
+		Piwik_AddMenu('General_Visitors', 'VisitsSummary_SubmenuOverview', array('module' => 'VisitsSummary', 'action' => 'index'), true);
 	}
 }
 

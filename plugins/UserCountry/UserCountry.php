@@ -19,11 +19,10 @@ class Piwik_UserCountry extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Visitors Country',
-			'description' => 'Reports the Country of the visitors.',
+			'description' => Piwik_Translate('UserCountry_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 		);
 		return $info;
 	}
@@ -35,6 +34,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
 		);
 		return $hooks;
 	}	
@@ -47,7 +47,26 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry'));
+		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
+	}
+	
+	function addGoalSegments( $notification )
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments = array_merge($segments, array(
+        		array(
+        			'group'  => Piwik_Translate('UserCountry_Location'),
+        			'name'   => Piwik_Translate('UserCountry_Country'),
+        			'module' => 'UserCountry',
+        			'action' => 'getCountry',
+        		),
+        		array(
+        			'group'  => Piwik_Translate('UserCountry_Location'),
+        			'name'   => Piwik_Translate('UserCountry_Continent'),
+        			'module' => 'UserCountry',
+        			'action' => 'getContinent',
+        		),
+        	));
 	}
 	
 	function archivePeriod( $notification )

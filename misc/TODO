@@ -1,7 +1,0 @@
-To fix
-======
-- ADD forward of non true show_values to forward when specified from URL to ajax
- 
-CHANGES DONE TO LIBRARIES
-=========================
-- fixed PEAR so that it works under PHP5 with STRICT MODE enabled

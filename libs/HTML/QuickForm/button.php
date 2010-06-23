@@ -25,7 +25,7 @@
 /**
  * Base class for <input /> form elements
  */
-require_once 'HTML/QuickForm/input.php';
+require_once dirname(__FILE__) . '/input.php';
 
 /**
  * HTML class for an <input type="button" /> elements

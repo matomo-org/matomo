@@ -27,7 +27,7 @@
 /**
  * An abstract base class for QuickForm renderers
  */
-require_once 'HTML/QuickForm/Renderer.php';
+require_once dirname(__FILE__) . '/../Renderer.php';
 
 /**
  * A concrete renderer for HTML_QuickForm, makes an array of form contents

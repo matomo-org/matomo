@@ -24,7 +24,12 @@
 abstract class Piwik_DataTable_Renderer
 {
 	protected $table;
+	protected $exception;
 	protected $renderSubTables = false;
+	
+	public function __construct()
+	{
+	}
 	
 	public function setRenderSubTables($enableRenderSubTable)
 	{
@@ -42,6 +47,13 @@ abstract class Piwik_DataTable_Renderer
 	 * @return string
 	 */
 	abstract public function render();
+	
+	/**
+	 * Computes the exception output and returns the string/binary
+	 * 
+	 * @return string
+	 */
+	abstract public function renderException();	
 	
 	/**
 	 * @see render()
@@ -67,6 +79,19 @@ abstract class Piwik_DataTable_Renderer
 	}
 	
 	/**
+	 * Set the Exception to be rendered
+	 * @param Exception $exception to be rendered
+	 */
+	public function setException($exception)
+	{
+		if(!($exception instanceof Exception))
+		{
+			throw new Exception("The exception renderer accepts only an Exception object.");
+		}
+		$this->exception = $exception;
+	}
+	
+	/**
 	 * Returns the DataTable associated to the output format $name
 	 * 
 	 * @throws exception If the renderer is unknown
@@ -75,18 +100,25 @@ abstract class Piwik_DataTable_Renderer
 	static public function factory( $name )
 	{
 		$name = ucfirst(strtolower($name));
-		$path = PIWIK_INCLUDE_PATH .'/core/DataTable/Renderer/'.$name.'.php';
 		$className = 'Piwik_DataTable_Renderer_' . $name;
 		
-		if( Piwik_Common::isValidFilename($name)
-			&& Zend_Loader::isReadable($path) )
-		{
-			require_once $path; // prefixed by PIWIK_INCLUDE_PATH
+		try {
+			Piwik_Loader::autoload($className);
 			return new $className;			
-		}
-		else
-		{
-			throw new Exception("Renderer format '$name' not valid. Try 'xml' or 'json' or 'csv' or 'html' or 'php' or 'original' instead.");
+		} catch(Exception $e) {
+			$availableRenderers = 'xml, json, csv, tsv, html, php, original';
+			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidRendererFormat', array($name, $availableRenderers)));
 		}		
-	}	
+	}
+	
+	/**
+	 * Returns $rawData after all applicable characters have been converted to HTML entities.
+	 * 
+	 * @param String $rawData to be converted
+	 * @return String
+	 */
+	static protected function renderHtmlEntities( $rawData )
+	{
+		return htmlentities($rawData, ENT_COMPAT, "UTF-8");
+	}
 }

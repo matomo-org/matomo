@@ -30,8 +30,7 @@ abstract class Piwik_Period
 	protected $subperiodsProcessed = false;
 	protected $label = null;
 	protected $date = null;
-	
-	protected static $unknowPeriodException = "The period '%s' is not supported. Try 'day' or 'week' or 'month' or 'year'";
+	static protected $errorAvailablePeriods = 'day, week, month, year';
 	
 	public function __construct( $date )
 	{	
@@ -44,7 +43,7 @@ abstract class Piwik_Period
 	 * @param $date Piwik_Date object
 	 * @return Piwik_Period
 	 */
-	static public function factory($strPeriod, $date)
+	static public function factory($strPeriod, Piwik_Date $date)
 	{
 		switch ($strPeriod) {
 			case 'day':
@@ -64,11 +63,12 @@ abstract class Piwik_Period
 				break;
 				
 			default:
-				throw new Exception(sprintf(self::$unknowPeriodException, $strPeriod));
+				throw new Exception(Piwik_TranslateException('General_ExceptionInvalidPeriod', array($strPeriod, self::$errorAvailablePeriods))); 
 				break;
 		}
 	}
 
+	
 	/**
 	 * Returns the first day of the period
 	 *
@@ -186,25 +186,6 @@ abstract class Piwik_Period
 		$this->subperiods[] = $date;
 	}
 	
-	/**
-	 * A period is finished if all the subperiods are finished
-	 */
-	public function isFinished()
-	{
-		if(!$this->subperiodsProcessed)
-		{
-			$this->generate();
-		}
-		foreach($this->subperiods as $period)
-		{
-			if(!$period->isFinished())
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-		
 	public function toString()
 	{
 		if(!$this->subperiodsProcessed)
@@ -221,8 +202,7 @@ abstract class Piwik_Period
 	
 	public function __toString()
 	{
-		$elements = $this->toString();
-		return implode(",", $elements);
+		return implode(",", $this->toString());
 	}
 	
 	public function get( $part= null )
@@ -231,7 +211,7 @@ abstract class Piwik_Period
 		{
 			$this->generate();
 		}
-		return $this->date->get($part);
+		return $this->date->toString($part);
 	}
 	
 	abstract public function getPrettyString();

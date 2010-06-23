@@ -48,7 +48,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Google&copy;', 'bool' => false, 'goals' => array('idgoal=1' => array('revenue'=> 5.5, 'nb_conversions' => 10)), 'nb_uniq_visitors' => 11, 'nb_visits' => 11, 'nb_actions' => 17, 'max_actions' => '5', 'sum_visit_length' => 517, 'bounce_count' => 9),
 						Piwik_DataTable_Row::METADATA => array('url' => 'http://www.google.com/display"and,properly', 'logo' => './plugins/Referers/images/searchEngines/www.google.com.png'),
 					 ),
-			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Yahoo!', 'bool' => true, 'nb_uniq_visitors' => 15, 'nb_visits' => 151, 'nb_actions' => 147, 'max_actions' => '50', 'sum_visit_length' => 517, 'bounce_count' => 90),
+			array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'Yahoo!', 'nb_uniq_visitors' => 15, 'bool' => true, 'nb_visits' => 151, 'nb_actions' => 147, 'max_actions' => '50', 'sum_visit_length' => 517, 'bounce_count' => 90),
 						Piwik_DataTable_Row::METADATA => array('url' => 'http://www.yahoo.com', 'logo' => './plugins/Referers/images/searchEngines/www.yahoo.com.png'),
 						Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subDataTableForRow2,
 					 )
@@ -127,8 +127,8 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	</row>
 	<row>
 		<label>Yahoo!</label>
-		<bool>1</bool>
 		<nb_uniq_visitors>15</nb_uniq_visitors>
+		<bool>1</bool>
 		<nb_visits>151</nb_visits>
 		<nb_actions>147</nb_actions>
 		<max_actions>50</max_actions>
@@ -215,6 +215,7 @@ class Test_Piwik_DataTable_Renderer extends UnitTestCase
 	function test_CSV_test1()
 	{
 		$dataTable = $this->getDataTableTest();
+		
 	  	$render = new Piwik_DataTable_Renderer_Csv();
 	  	$render->setTable($dataTable);
 	  	$render->convertToUnicode = false;
@@ -286,7 +287,7 @@ Yahoo!,1,,,15,151,147,50,517,90,http://www.yahoo.com,./plugins/Referers/images/s
 	  	$render = new Piwik_DataTable_Renderer_Json();
 	  	$render->setTable($dataTable);
 	  	$render->setRenderSubTables(true);
-		$expected = '[{"label":"Google&copy;","bool":false,"goals":{"idgoal=1":{"revenue":5.5,"nb_conversions":10}},"nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9,"url":"http:\/\/www.google.com\/display\"and,properly","logo":".\/plugins\/Referers\/images\/searchEngines\/www.google.com.png"},{"label":"Yahoo!","bool":true,"nb_uniq_visitors":15,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"url":"http:\/\/www.yahoo.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.yahoo.com.png","idsubdatatable":1,"subtable":[{"label":"sub1","count":1,"bool":false},{"label":"sub2","count":2,"bool":true}]}]';
+		$expected = '[{"label":"Google&copy;","bool":false,"goals":{"idgoal=1":{"revenue":5.5,"nb_conversions":10}},"nb_uniq_visitors":11,"nb_visits":11,"nb_actions":17,"max_actions":"5","sum_visit_length":517,"bounce_count":9,"url":"http:\/\/www.google.com\/display\"and,properly","logo":".\/plugins\/Referers\/images\/searchEngines\/www.google.com.png"},{"label":"Yahoo!","nb_uniq_visitors":15,"bool":true,"nb_visits":151,"nb_actions":147,"max_actions":"50","sum_visit_length":517,"bounce_count":90,"url":"http:\/\/www.yahoo.com","logo":".\/plugins\/Referers\/images\/searchEngines\/www.yahoo.com.png","idsubdatatable":1,"subtable":[{"label":"sub1","count":1,"bool":false},{"label":"sub2","count":2,"bool":true}]}]';
 		$rendered = $render->render();
 
 		$this->assertEqual( $expected,$rendered);
@@ -366,8 +367,8 @@ Yahoo!,1,,,15,151,147,50,517,90,http://www.yahoo.com,./plugins/Referers/images/s
 					  1 =>
 					  array (
 					    'label' => 'Yahoo!',
-					    'bool' => true,
 					    'nb_uniq_visitors' => 15,
+					    'bool' => true,
 					    'nb_visits' => 151,
 					    'nb_actions' => 147,
 					    'max_actions' => '50',
@@ -1120,7 +1121,7 @@ idSite,row2,15";
 
 
 	  	$expected=
-"- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br>\n- 2 ['visits' => 3] [] [idsubtable = $idsubtable1]<br>\n*- 1 ['visits' => 1] [] [idsubtable = $idsubsubtable]<br>\n**- 1 ['visits' => 2] [] [idsubtable = ]<br>\n- 3 ['visits' => 9] [] [idsubtable = $idsubtable2]<br>\n*- 1 ['visits' => 5] [] [idsubtable = ]<br>\n";
+"- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br />\n- 2 ['visits' => 3] [] [idsubtable = $idsubtable1]<br />\n*- 1 ['visits' => 1] [] [idsubtable = $idsubsubtable]<br />\n**- 1 ['visits' => 2] [] [idsubtable = ]<br />\n- 3 ['visits' => 9] [] [idsubtable = $idsubtable2]<br />\n*- 1 ['visits' => 5] [] [idsubtable = ]<br />\n";
 	  	/*
 	  	 * RENDER
 	  	 */
@@ -1147,7 +1148,7 @@ idSite,row2,15";
 
 	  	);
 
-	  	$expected="- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br>\n";
+	  	$expected="- 1 ['visits' => 245, 'visitors' => 245] ['logo' => 'test.png'] [idsubtable = ]<br />\n";
 
 	  	/*
 	  	 * RENDER

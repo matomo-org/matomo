@@ -10,9 +10,6 @@
  * @package Piwik
  */
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
-
 /**
  * @see libs/open-flash-chart/php-ofc-library/open-flash-chart.php
  * @link http://teethgrinder.co.uk/open-flash-chart-2/
@@ -128,8 +125,12 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	
 	public function render()
 	{
-		@header("Pragma: ");
-		@header("Cache-Control: no-store, must-revalidate");
+		if(Piwik_Url::getCurrentScheme() == 'https' ||
+			Zend_Registry::get('config')->General->reverse_proxy)
+		{
+			@header("Pragma: ");
+			@header("Cache-Control: must-revalidate");
+		}
 		return $this->chart->toPrettyString();
 	}
 	

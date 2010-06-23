@@ -16,10 +16,15 @@
 class Piwik_WidgetsList
 {
 	static protected $widgets = null;
+	static protected $hookCalled = false;
 	
 	static function get()
 	{
-		Piwik_PostEvent('WidgetsList.add');
+		if(!self::$hookCalled)
+		{
+			self::$hookCalled = true;
+			Piwik_PostEvent('WidgetsList.add');
+		}
 		return self::$widgets;
 	}
 	
@@ -28,6 +33,10 @@ class Piwik_WidgetsList
 		$widgetCategory = Piwik_Translate($widgetCategory);
 		$widgetName = Piwik_Translate($widgetName);
 		$widgetUniqueId = 'widget' . $controllerName . $controllerAction;
+		foreach($customParameters as $name => $value)
+		{
+			$widgetUniqueId .= $name . $value;
+		}
 		self::$widgets[$widgetCategory][] = array( 
 					'name' => $widgetName,
 					'uniqueId' => $widgetUniqueId,
@@ -35,6 +44,23 @@ class Piwik_WidgetsList
 											'action' => $controllerAction
 										) + $customParameters
 									);
+	}
+	
+	static function isDefined($controllerName, $controllerAction)
+	{
+		$widgetsList = self::get();
+		foreach($widgetsList as $widgetCategory => $widgets) 
+		{
+			foreach($widgets as $widget)
+			{
+    			if($widget['parameters']['module'] == $controllerName
+    				&& $widget['parameters']['action'] == $controllerAction)
+    			{
+    				return true;
+    			}
+			}
+		}
+		return false;
 	}
 }
 
@@ -46,4 +72,9 @@ function Piwik_GetWidgetsList()
 function Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
 {
 	Piwik_WidgetsList::add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters);
+}
+
+function Piwik_IsWidgetDefined($controllerName, $controllerAction)
+{
+	return Piwik_WidgetsList::isDefined($controllerName, $controllerAction);
 }

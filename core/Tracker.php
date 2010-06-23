@@ -35,6 +35,7 @@ class Piwik_Tracker
 	const STATE_LOGGING_DISABLE = 10;
 	const STATE_EMPTY_REQUEST = 11;
 	const STATE_TRACK_ONLY = 12;
+	const STATE_NOSCRIPT_REQUEST = 13;
 		
 	const COOKIE_INDEX_IDVISITOR 				= 1;
 	const COOKIE_INDEX_TIMESTAMP_LAST_ACTION 	= 2;
@@ -110,7 +111,7 @@ class Piwik_Tracker
 			
 			case self::STATE_EMPTY_REQUEST:
 				printDebug("Empty request => Piwik page");
-				echo "<a href='index.php'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
+				echo "<a href='/'>Piwik</a> is a free open source <a href='http://piwik.org'>web analytics</a> alternative to Google analytics.";
 			break;
 			
 			case self::STATE_TO_REDIRECT_URL:
@@ -121,6 +122,7 @@ class Piwik_Tracker
 				printDebug("Data push, tracking only");
 			break;
 
+			case self::STATE_NOSCRIPT_REQUEST:
 			case self::STATE_NOTHING_TO_NOTICE:
 			default:
 				printDebug("Nothing to notice => default behaviour");
@@ -131,8 +133,10 @@ class Piwik_Tracker
 		
 		if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 		{
-			self::$db->recordProfiling();
-			Piwik::printSqlProfilingReportTracker(self::$db);
+			if(isset(self::$db)) {
+				self::$db->recordProfiling();
+				Piwik::printSqlProfilingReportTracker(self::$db);
+			}
 		}
 		
 		self::disconnectDatabase();
@@ -237,7 +241,7 @@ class Piwik_Tracker
 		if( !isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG'] ) 
 		{
 			$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-			header("Content-type: image/gif");
+			header("Content-Type: image/gif");
 			print(base64_decode($trans_gif_64));
 		}
 	}
@@ -281,7 +285,7 @@ class Piwik_Tracker
 				&& count($pluginsTracker) != 0)
 			{
 				Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
-				Piwik_PluginsManager::getInstance()->setPluginsToLoad( $pluginsTracker['Plugins_Tracker'] );
+				Piwik_PluginsManager::getInstance()->loadPlugins( $pluginsTracker['Plugins_Tracker'] );
 				
 				printDebug("Loading plugins: { ". implode(",", $pluginsTracker['Plugins_Tracker']) . "}");
 			}
@@ -328,9 +332,14 @@ class Piwik_Tracker
 
 	protected function handleEmptyRequest()
 	{
-		if( count($this->request) == 0)
+		$countParameters = count($this->request);
+		if($countParameters == 0) 
 		{
 			$this->setState(self::STATE_EMPTY_REQUEST);
+		}
+		if($countParameters == 1 )
+		{
+			$this->setState(self::STATE_NOSCRIPT_REQUEST);
 		}
 	}
 	
@@ -344,19 +353,22 @@ class Piwik_Tracker
 	}
 }
 
-function printDebug( $info = '' )
+if(!function_exists('printDebug')) 
 {
-	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
-	{
-		if(is_array($info))
-		{
-			print("<pre>");
-			print(var_export($info,true));
-			print("</pre>");
-		}
-		else
-		{
-			print($info . "<br>\n");
-		}
-	}
+    function printDebug( $info = '' )
+    {
+    	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
+    	{
+    		if(is_array($info))
+    		{
+    			print("<pre>");
+    			print(var_export($info,true));
+    			print("</pre>");
+    		}
+    		else
+    		{
+    			print($info . "<br />\n");
+    		}
+    	}
+    }
 }

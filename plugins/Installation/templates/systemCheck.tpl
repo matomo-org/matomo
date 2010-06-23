@@ -82,13 +82,28 @@
 			<small>
 				{foreach from=$infos.missing_extensions item=missing_extension}
 					<p>
-					{$helpMessages[$missing_extension]|translate}
+					<i>{$helpMessages[$missing_extension]|translate}</i>
 					</p>
 				{/foreach}
 			</small>
 		</td>
 	</tr>
 	{/if}
+	<tr>
+		<td class="label">{'Installation_SystemCheckFunctions'|translate}</td>
+		<td>{foreach from=$infos.needed_functions item=needed_function}
+				{$needed_function}
+				{if in_array($needed_function, $infos.missing_functions)}
+					{$error}
+					<p>
+					<i>{$helpMessages[$needed_function]|translate}</i>
+					</p>
+				{else}
+					{$ok}<br />
+				{/if}
+			{/foreach}
+		</td>
+	</tr>
 	<tr>
 		<td valign="top">
 			{'Installation_SystemCheckWriteDirs'|translate}
@@ -121,11 +136,35 @@
 <h1>{'Optional'|translate}</h1>
 <table class="infos">
 	<tr>
+		<td class="label">{'Installation_SystemCheckFileIntegrity'|translate}</td>
+		<td>
+		{if empty($infos.integrityErrorMessages)}
+			{$ok}
+		{else}
+			{if $infos.integrity}
+				{$warning} <i>{$infos.integrityErrorMessages[0]}</i>
+			{else}
+				{$error} <i>{$infos.integrityErrorMessages[0]}</i>
+			{/if}
+			{if count($infos.integrityErrorMessages) > 1}
+				<button id="more-results" class="ui-button ui-state-default ui-corner-all">{'General_Details'|translate}</button>
+			{/if}
+		{/if}
+		</td>
+	</tr>
+	<tr>
 		<td class="label">{'Installation_SystemCheckMemoryLimit'|translate}</td>
 		<td>
 			{$infos.memoryCurrent}
 			{if $infos.memory_ok}{$ok}{else}{$warning} 
 				<br /><i>{'Installation_SystemCheckMemoryLimitHelp'|translate}</i>{/if}	
+		</td>
+	</tr>
+	<tr>
+		<td class="label">{'SitesManager_Timezone'|translate}</td>
+		<td>
+			{if $infos.timezone}{$ok}{else}{$warning} 
+				<br /><i>{'SitesManager_AdvancedTimezoneSupportNotFound'|translate}</i>{/if}	
 		</td>
 	</tr>
 	<tr>
@@ -148,16 +187,22 @@
 			{if $infos.gd_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckGDHelp'|translate}</i>{/if}
 		</td>
 	</tr>
+	{if $infos.hasMbstring}
+	<tr>
+		<td class="label">{'Installation_SystemCheckMbstring'|translate}</td>
+		<td>
+			{if $infos.multibyte_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckMbstringHelp'|translate}</i>{/if}
+		</td>
+	</tr>
+	{/if}
 	<tr>
 		<td class="label">{'Installation_SystemCheckFunctions'|translate}</td>
-		<td>{foreach from=$infos.needed_functions item=needed_function}
-				{$needed_function}
-				{if in_array($needed_function, $infos.missing_functions)}
+		<td>{foreach from=$infos.desired_functions item=desired_function}
+				{$desired_function}
+				{if in_array($desired_function, $infos.missing_desired_functions)}
 					{$warning}
 					<p>
-					<small>
-					{$helpMessages[$needed_function]|translate}
-					</small>
+					<i>{$helpMessages[$desired_function]|translate}</i>
 					</p>
 				{else}
 					{$ok}<br />
@@ -165,10 +210,24 @@
 			{/foreach}
 		</td>
 	</tr>
+	<tr>
+		<td class="label">{'Installation_SystemCheckProtocol'|translate}</td>
+		<td>
+			{if $infos.protocol_ok}{$ok}{else}{$warning} {$infos.protocol}<br /><i>{'Installation_SystemCheckProtocolHelp'|translate}</i><br /><br /><code>[General]</code><br /><code>reverse_proxy = 1</code><br />{/if}
+		</td>
+	</tr>
+	<tr>
+		<td class="label">{'Installation_SystemCheckIpv4'|translate}</td>
+		<td>
+			{if $infos.isIpv4}{$ok}{else}{$warning}<br /><i>{'Installation_SystemCheckIpv4Help'|translate}</i>{/if}
+		</td>
+	</tr>
 </table>
 
+{include file="Installation/templates/integrityDetails.tpl"}
+
 <p>
-{$link} <a href="http://piwik.org/docs/requirements/" target="_blank">{'Installation_Requirements'|translate}</a> 
+{$link} <a href="misc/redirectToUrl.php?url=http://piwik.org/docs/requirements/" target="_blank">{'Installation_Requirements'|translate}</a> 
 </p>
 
 {if !$showNextStep}

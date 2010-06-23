@@ -1,4 +1,4 @@
-                 Piwik - piwik.org
+                  Piwik - piwik.org
 
 Description 
 ===========	
@@ -20,10 +20,10 @@ Piwik is released under the GPL v3 license, see misc/license.txt
 
 Requirements
 ============
-- php 5.1.3 minimum
-- mysql 4.1
-- php PDO module enabled
+- php 5.1.3 or greater
+- mysql 4.1 or greater, mysqli or PDO library must be enabled
 - OS / server independant
+See http://piwik.org/docs/requirements/
 
 Install 
 =======
@@ -31,10 +31,11 @@ Install
 - Point your browser to the directory
 - Follow the steps
 - Add the given javascript code to your pages
+See http://piwik.org/docs/installation/
 
 Changelog
 =========
-see http://piwik.org/changelog/
+See http://piwik.org/changelog/
 
 API
 ===

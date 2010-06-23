@@ -13,14 +13,18 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_4_4 implements Piwik_iUpdate
+class Piwik_Updates_0_4_4 extends Piwik_Updates
 {
 	static function update()
 	{
-		$obsoleteFile = '/libs/open-flash-chart/php-ofc-library/ofc_upload_image.php';
-		if(file_exists(PIWIK_DOCUMENT_ROOT . $obsoleteFile))
+		$obsoleteFile = PIWIK_DOCUMENT_ROOT . '/libs/open-flash-chart/php-ofc-library/ofc_upload_image.php';
+		if(file_exists($obsoleteFile))
 		{
-			@unlink(PIWIK_DOCUMENT_ROOT . $obsoleteFile);
+			$rc = @unlink($obsoleteFile);
+			if(!$rc)
+			{
+				throw new Exception(Piwik_TranslateException('General_ExceptionUndeletableFile', array($obsoleteFile))); 
+			}
 		}
 	}
 }

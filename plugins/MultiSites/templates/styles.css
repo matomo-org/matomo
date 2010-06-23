@@ -1,0 +1,46 @@
+.indicator {
+	background-image: url("../images/loading-blue.gif");
+	background-position:	center;
+	background-repeat: no-repeat;
+	height: 20px;
+	width: 60px;
+	margin: auto;
+	border: 0px !important;
+}
+.clean {
+    border: 0px !important;
+}
+#multisites td, #multisites tr, #multisites .sparkline {
+    text-align: center;
+    vertical-align: middle;
+    padding: 1px ;
+    margin: 0px ;
+}
+#multisites td.multisites-label {
+    padding-left: 15px ;
+    text-align:left;
+    width: 250px;
+}
+#multisites td.multisites-label a:hover {
+    text-decoration: underline;
+}
+#multisites td.multisites-column, #multisites th.multisites-column  {
+	width:70px;
+}
+#multisites td.multisites-column-evolution, #multisites th.multisites-column-evolution  {
+	width:70px;
+}
+.multisites_asc
+{
+	width: 10px;
+	height: 12px;
+	display: inline-block;
+	background-image: url('plugins/MultiSites/images/arrow_asc.gif');
+}
+.multisites_desc
+{
+	width: 10px;
+	height: 13px;
+	display: inline-block;
+	background-image: url('plugins/MultiSites/images/arrow_desc.gif');
+}

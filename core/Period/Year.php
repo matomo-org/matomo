@@ -43,7 +43,7 @@ class Piwik_Period_Year extends Piwik_Period
 		}
 		parent::generate();
 		
-		$year = $this->date->get("Y");
+		$year = $this->date->toString("Y");
 		for($i=1; $i<=12; $i++)
 		{
 			$this->addSubperiod( new Piwik_Period_Month(

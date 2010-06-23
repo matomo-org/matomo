@@ -14,16 +14,16 @@
  *
  * @category   Zend
  * @package    Zend_Auth
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Auth.php 18039 2009-09-09 03:35:19Z ralph $
+ * @version    $Id: Auth.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
 /**
  * @category   Zend
  * @package    Zend_Auth
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Auth
@@ -87,7 +87,7 @@ class Zend_Auth
             /**
              * @see Zend_Auth_Storage_Session
              */
-            require_once 'Zend/Auth/Storage/Session.php';
+            // require_once 'Zend/Auth/Storage/Session.php';
             $this->setStorage(new Zend_Auth_Storage_Session());
         }
 
@@ -119,11 +119,11 @@ class Zend_Auth
         /**
          * ZF-7546 - prevent multiple succesive calls from storing inconsistent results
          * Ensure storage has clean state
-         */ 
+         */
         if ($this->hasIdentity()) {
             $this->clearIdentity();
         }
-        
+
         if ($result->isValid()) {
             $this->getStorage()->write($result->getIdentity());
         }

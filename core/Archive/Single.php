@@ -134,9 +134,12 @@ class Piwik_Archive_Single extends Piwik_Archive
 	{
 		if(!is_null($this->archiveProcessing))
 		{
-			return $this->archiveProcessing->getTimestampStartDate();
+			$timestamp = $this->archiveProcessing->getTimestampStartDate();
+			if(!empty($timestamp))
+			{
+				return $timestamp;
+			}
 		}
-		
 		return $this->period->getDateStart()->getTimestamp();
 	}
 		
@@ -152,18 +155,20 @@ class Piwik_Archive_Single extends Piwik_Archive
 		{
 			$this->isThereSomeVisits = false;
 			$this->alreadyChecked = true;
-			
+			$logMessage = "Preparing archive: ";
 			// if the END of the period is BEFORE the website creation date
 			// we already know there are no stats for this period
 			// we add one day to make sure we don't miss the day of the website creation
 			if( $this->period->getDateEnd()->addDay(2)->isEarlier( $this->site->getCreationDate() ) )
 			{
-				return;				
+				Piwik::log("$logMessage skipped, archive is before the website was created.");
+				return;
 			}
 			
 			// if the starting date is in the future we know there is no visit
-			if( $this->period->getDateStart()->subDay(1)->isLater( Piwik_Date::today() ) )
+			if( $this->period->getDateStart()->subDay(2)->isLater( Piwik_Date::today() ) )
 			{
+				Piwik::log("$logMessage skipped, archive is after today.");
 				return;
 			}
 			
@@ -173,11 +178,16 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$archiveProcessing->setSite($this->site);
 			$archiveProcessing->setPeriod($this->period);
 			$idArchive = $archiveProcessing->loadArchive();
-			if($idArchive === null)
+			if(empty($idArchive))
 			{
+				Piwik::log("$logMessage not archived yet, starting processing...");
 				$archiveJustProcessed = true;
 				$archiveProcessing->launchArchiving();
 				$idArchive = $archiveProcessing->getIdArchive();
+			}
+			else
+			{
+				Piwik::log("$logMessage archive already processed [id = $idArchive]...");
 			}
 			$this->isThereSomeVisits = $archiveProcessing->isThereSomeVisits;
 			$this->idArchive = $idArchive;
@@ -442,7 +452,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		if($data === false 
 			&& $idSubTable !== null)
 		{
-			throw new Exception("You are requesting a precise subTable but there is not such data in the Archive.");
+			throw new Exception(Piwik_TranslateException('General_ExceptionSubtableNotFoundInArchive'));
 		}
 	
 		return $table;

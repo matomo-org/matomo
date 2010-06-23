@@ -16,8 +16,9 @@
 
 <form {$form_data.attributes}>
 	<p>
-		<label>{'Login_Login'|translate}:<br />
-		<input type="text" name="form_login" id="form_login" class="input" value="" size="20" tabindex="10" /></label>
+		<label>{'General_Username'|translate}:<br />
+		<input type="text" name="form_login" id="form_login" class="input" value="" size="20" tabindex="10" />
+		<input type="hidden" name="form_nonce" id="form_nonce" value="{$nonce}" /></label>
 	</p>
 
 	<p>
@@ -27,14 +28,13 @@
 	{*
 		<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> Remember Me</label></p>
 	*}
-	{$form_data.form_url.html}
 	<p class="submit">
 		<input type="submit" value="{'Login_LogIn'|translate}" tabindex="100" />
 	</p>
 </form>
 
 <p id="nav">
-<a href="index.php?module=Login&amp;action=lostPassword&amp;form_url={$urlToRedirect|escape:url}" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
+<a href="index.php?module=Login&amp;action=lostPassword" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
 </p>
 
 </div>

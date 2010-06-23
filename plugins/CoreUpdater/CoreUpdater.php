@@ -19,11 +19,10 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Updater',
-			'description' => 'Piwik updating mechanism',
+			'description' => Piwik_Translate('CoreUpdater_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 		);
 	}
 
@@ -36,34 +35,34 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 		return $hooks;
 	}
 
-	function dispatch()
+	public static function getComponentUpdates($updater)
 	{
-		$language = Piwik_Common::getRequestVar('language', '', 'string');
-		if($language != '')
-		{
-			$updaterController = new Piwik_CoreUpdater_Controller();
-			$updaterController->saveLanguage();
-			exit;
-		}
-
-		$updater = new Piwik_Updater();
 		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
-		
-		$plugins = Piwik_PluginsManager::getInstance()->getInstalledPlugins();
+
+		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
 		foreach($plugins as $pluginName => $plugin)
 		{
 			$updater->addComponentToCheck($pluginName, $plugin->getVersion());
 		}
 		
 		$componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
-		if(count($componentsWithUpdateFile) == 0)
+		if(count($componentsWithUpdateFile) == 0 && !$updater->hasNewVersion('core'))
 		{
-			return;
+			return null;
 		}
-			
-		$updaterController = new Piwik_CoreUpdater_Controller();
-		$updaterController->runUpdaterAndExit($updater, $componentsWithUpdateFile);
-	}	
+
+		return $componentsWithUpdateFile;
+	}
+
+	function dispatch()
+	{
+		$module = Piwik_Common::getRequestVar('module', '', 'string');
+		$updater = new Piwik_Updater();
+		if(self::getComponentUpdates($updater) !== null && $module != 'CoreUpdater')
+		{
+			Piwik::redirectToModule('CoreUpdater');
+		}
+	}
 
 	function updateCheck()
 	{

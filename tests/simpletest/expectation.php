@@ -441,6 +441,8 @@ class OutsideMarginExpectation extends WithinMarginExpectation {
     }
 }
 
+// test() method is incompatible with SimpleExpectation (php 5.3.1)
+if(0){
 /**
  *    Test for reference.
  *    @package SimpleTest
@@ -490,6 +492,7 @@ class ReferenceExpectation extends SimpleExpectation {
     function _getValue() {
         return $this->_value;
     }
+}
 }
 
 /**

@@ -10,9 +10,6 @@
  * @package Piwik_UserSettings
  */
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
-
 /**
  * @see plugins/UserSettings/functions.php
  */
@@ -42,8 +39,10 @@ class Piwik_UserSettings_API
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
 		$dataTable->queueFilter('ReplaceColumnNames');
+		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
+
 	public function getResolution( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('UserSettings_resolution', $idSite, $period, $date);

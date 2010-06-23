@@ -1,7 +1,6 @@
 {assign var=showSitesSelection value=false}
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
-{include file="CoreAdminHome/templates/menu.tpl"}
 
 <div style="max-width:980px;">
 
@@ -20,7 +19,7 @@
 	<tbody id="plugins">
 	{foreach from=$pluginsName key=name item=plugin}
 	{if !$plugin.alwaysActivated}
-		<tr class={if $plugin.activated}"active"{else}class="deactivate"{/if}>
+		<tr class={if $plugin.activated}"active"{else}"deactivate"{/if}>
 			<td class="name">
 				{if isset($plugin.info.homepage)}<a title="{'CorePluginsAdmin_PluginHomepage'|translate}" href="{$plugin.info.homepage}">{/if}
 				{$name}
@@ -30,7 +29,7 @@
 			<td class="desc">
 				{$plugin.info.description|nl2br}
 				&nbsp;<cite>By 
-					{if isset($plugin.info.author_homepage)}<a title="Author Homepage" href="{$plugin.info.author_homepage}">{/if}
+					{if isset($plugin.info.author_homepage)}<a title="Author Homepage" href="misc/redirectToUrl.php?url={$plugin.info.author_homepage}">{/if}
 					{$plugin.info.author}{if isset($plugin.info.author_homepage)}</a>{/if}.</cite>
 			</td>
 			<td class="status">
@@ -41,8 +40,8 @@
 			
 			<td class="togl action-links" {if $plugin.alwaysActivated}title="{'CorePluginsAdmin_ActivatedHelp'|translate}"{/if}>
 				{if $plugin.alwaysActivated} <center>-</center>  
-				{elseif $plugin.activated}<a href=index.php?module=CorePluginsAdmin&action=deactivate&pluginName={$name}>{'CorePluginsAdmin_Deactivate'|translate}</a>
-				{else}<a href=index.php?module=CorePluginsAdmin&action=activate&pluginName={$name}>{'CorePluginsAdmin_Activate'|translate}</a>{/if}
+				{elseif $plugin.activated}<a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={$name}&token_auth={$token_auth}'>{'CorePluginsAdmin_Deactivate'|translate}</a>
+				{else}<a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={$name}&token_auth={$token_auth}'>{'CorePluginsAdmin_Activate'|translate}</a>{/if}
 			</td> 
 		</tr>
 	{/if}

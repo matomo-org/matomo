@@ -15,22 +15,22 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Frontend
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Function.php 16541 2009-07-07 06:59:03Z bkarwin $
+ * @version    $Id: Function.php 20379 2010-01-18 14:40:57Z mabe $
  */
 
 
 /**
  * @see Zend_Cache_Core
  */
-require_once 'Zend/Cache/Core.php';
+// require_once 'Zend/Cache/Core.php';
 
 
 /**
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Frontend
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Frontend_Function extends Zend_Cache_Core
@@ -76,7 +76,7 @@ class Zend_Cache_Frontend_Function extends Zend_Cache_Core
      * @param  array  $parameters       Function parameters
      * @param  array  $tags             Cache tags
      * @param  int    $specificLifetime If != false, set a specific lifetime for this cache record (null => infinite lifetime)
-     * @param  int   $priority         integer between 0 (very low priority) and 10 (maximum priority) used by some particular backends             
+     * @param  int   $priority         integer between 0 (very low priority) and 10 (maximum priority) used by some particular backends
      * @return mixed Result
      */
     public function call($name, $parameters = array(), $tags = array(), $specificLifetime = false, $priority = 8)
@@ -89,14 +89,14 @@ class Zend_Cache_Frontend_Function extends Zend_Cache_Core
             // We do not have not cache
             return call_user_func_array($name, $parameters);
         }
+
         $id = $this->_makeId($name, $parameters);
-        if ($this->test($id)) {
+        if ( ($rs = $this->load($id)) && isset($rs[0], $rs[1])) {
             // A cache is available
-            $result = $this->load($id);
-            $output = $result[0];
-            $return = $result[1];
+            $output = $rs[0];
+            $return = $rs[1];
         } else {
-            // A cache is not available
+            // A cache is not available (or not valid for this frontend)
             ob_start();
             ob_implicit_flush(false);
             $return = call_user_func_array($name, $parameters);
@@ -105,6 +105,7 @@ class Zend_Cache_Frontend_Function extends Zend_Cache_Core
             $data = array($output, $return);
             $this->save($data, $id, $tags, $specificLifetime, $priority);
         }
+
         echo $output;
         return $return;
     }

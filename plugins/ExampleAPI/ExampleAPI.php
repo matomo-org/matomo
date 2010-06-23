@@ -19,15 +19,18 @@ class Piwik_ExampleAPI extends Piwik_Plugin
 {
 	/**
 	 * Return information about this plugin.
+	 *
+	 * @see Piwik_Plugin
+	 *
 	 * @return array
 	 */
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Example API',
-			'description' => 'Example Plugin: How to create an API for your plugin, to export your data in multiple formats without any special coding? Visit the <a href="index.php?module=API&action=listAllAPI#ExampleAPI">ExampleAPI example methods</a>.',
+			'description' => Piwik_Translate('ExampleAPI_PluginDescription'),
+			'homepage' => 'index.php?module=API&action=listAllAPI#ExampleAPI',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}

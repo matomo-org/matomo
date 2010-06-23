@@ -38,15 +38,32 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	
 	function init($currentControllerName,
 						$currentControllerAction, 
-						$apiMethodToRequestDataTable )
+						$apiMethodToRequestDataTable,
+						$controllerActionCalledWhenRequestSubTable = null)
 	{
 		parent::init($currentControllerName,
 						$currentControllerAction, 
-						$apiMethodToRequestDataTable );
+						$apiMethodToRequestDataTable,
+						$controllerActionCalledWhenRequestSubTable);
 		
 		$this->setParametersToModify(array('date' => Piwik_Common::getRequestVar('date', 'last30', 'string')));
 		$this->disableShowAllViewsIcons();
 		$this->disableShowTable();
+	}
+	
+	
+	/**
+     * We ensure that the graph for a given Goal has a different ID than the 'Goals Overview' graph
+     * so that both can display on the dashboard at the same time
+     */
+	public function getUniqueIdViewDataTable()
+	{
+		$id = parent::getUniqueIdViewDataTable();
+		if(isset($this->parametersToModify['idGoal']))
+		{
+			$id .= $this->parametersToModify['idGoal'];
+		}
+		return $id;
 	}
 	
 	/**

@@ -24,7 +24,7 @@
 /**
  * A concrete renderer for HTML_QuickForm, makes an object from form contents
  */ 
-require_once 'HTML/QuickForm/Renderer/Object.php';
+require_once dirname(__FILE__) . '/Object.php';
 
 /**
  * QuickForm renderer for Flexy template engine, static version.
@@ -116,7 +116,10 @@ class HTML_QuickForm_Renderer_ObjectFlexy extends HTML_QuickForm_Renderer_Object
         if($name = $header->getName()) {
             $this->_obj->header->$name = $header->toHtml();
         } else {
-            $this->_obj->header[$this->_sectionCount] = $header->toHtml();
+            // $this->_obj->header[$this->_sectionCount] = $header->toHtml();
+            $tmp = $this->_obj->header;
+            $tmp[$this->_sectionCount] = $header->toHtml();
+            $this->_obj->header = $tmp;
         }
         $this->_currentSection = $this->_sectionCount++;
     } // end func renderHeader

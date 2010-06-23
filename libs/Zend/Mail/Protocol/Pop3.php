@@ -11,13 +11,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
- * 
+ *
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Pop3.php 16219 2009-06-21 19:45:39Z thomas $
+ * @version    $Id: Pop3.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
@@ -25,7 +25,7 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Protocol_Pop3
@@ -34,7 +34,7 @@ class Zend_Mail_Protocol_Pop3
      * Default timeout in seconds for initiating session
      */
     const TIMEOUT_CONNECTION = 30;
-    
+
     /**
      * saves if server supports top
      * @var null|bool
@@ -57,7 +57,7 @@ class Zend_Mail_Protocol_Pop3
     /**
      * Public constructor
      *
-     * @param  string      $host  hostname of IP address of POP3 server, if given connect() is called
+     * @param  string      $host  hostname or IP address of POP3 server, if given connect() is called
      * @param  int|null    $port  port of POP3 server, null for default (110 or 995 for ssl)
      * @param  bool|string $ssl   use ssl? 'SSL', 'TLS' or false
      * @throws Zend_Mail_Protocol_Exception
@@ -82,7 +82,7 @@ class Zend_Mail_Protocol_Pop3
     /**
      * Open connection to POP3 server
      *
-     * @param  string      $host  hostname of IP address of POP3 server
+     * @param  string      $host  hostname or IP address of POP3 server
      * @param  int|null    $port  of POP3 server, default is 110 (995 for ssl)
      * @param  string|bool $ssl   use 'SSL', 'TLS' or false
      * @return string welcome message
@@ -105,8 +105,9 @@ class Zend_Mail_Protocol_Pop3
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            require_once 'Zend/Mail/Protocol/Exception.php';
-            throw new Zend_Mail_Protocol_Exception('cannot connect to host : ' . $errno . ' : ' . $errstr);
+            // require_once 'Zend/Mail/Protocol/Exception.php';
+            throw new Zend_Mail_Protocol_Exception('cannot connect to host; error = ' . $errstr .
+                                                   ' (errno = ' . $errno . ' )');
         }
 
         $welcome = $this->readResponse();
@@ -126,7 +127,7 @@ class Zend_Mail_Protocol_Pop3
                 /**
                  * @see Zend_Mail_Protocol_Exception
                  */
-                require_once 'Zend/Mail/Protocol/Exception.php';
+                // require_once 'Zend/Mail/Protocol/Exception.php';
                 throw new Zend_Mail_Protocol_Exception('cannot enable TLS');
             }
         }
@@ -149,7 +150,7 @@ class Zend_Mail_Protocol_Pop3
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            require_once 'Zend/Mail/Protocol/Exception.php';
+            // require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('send failed - connection closed?');
         }
     }
@@ -169,7 +170,7 @@ class Zend_Mail_Protocol_Pop3
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            require_once 'Zend/Mail/Protocol/Exception.php';
+            // require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('read failed - connection closed?');
         }
 
@@ -185,7 +186,7 @@ class Zend_Mail_Protocol_Pop3
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            require_once 'Zend/Mail/Protocol/Exception.php';
+            // require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('last request failed');
         }
 
@@ -384,7 +385,7 @@ class Zend_Mail_Protocol_Pop3
                 /**
                  * @see Zend_Mail_Protocol_Exception
                  */
-                require_once 'Zend/Mail/Protocol/Exception.php';
+                // require_once 'Zend/Mail/Protocol/Exception.php';
                 throw new Zend_Mail_Protocol_Exception('top not supported and no fallback wanted');
             }
         }

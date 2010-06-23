@@ -1,7 +1,17 @@
+function changeSite()
+{
+	var action = $('form#accessSites').attr('action');
+	var idsite = getIdSites();
+
+	action = action + '&idsite=' + idsite;
+
+	window.location = action;
+	return false;
+}
+
 function getUpdateUserAJAX( row )
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingUsersManagement', 'ajaxErrorUsersManagement');
 	
 	var parameters = {};
 	parameters.module = 'API';
@@ -21,8 +31,7 @@ function getUpdateUserAJAX( row )
 
 function getDeleteUserAJAX( login )
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingUsersManagement', 'ajaxErrorUsersManagement');
 		
 	var parameters = {};
 	parameters.module = 'API';
@@ -38,8 +47,7 @@ function getDeleteUserAJAX( login )
 
 function getAddUserAJAX( row )
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	piwikHelper.toggleAjaxLoading();
+	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingUsersManagement', 'ajaxErrorUsersManagement');
 	
 	var parameters = {};
 	parameters.module = 'API';
@@ -110,15 +118,16 @@ function bindUpdateAccess()
 	// callback called when the ajax request Update the user permissions is successful
 	function successCallback (response)
 	{
+		piwikHelper.hideAjaxLoading();
 		// if the permission couldn't be granted
 		if(response.result == "error") 
 		{
-			piwikHelper.ajaxShowError(response.message);
+			piwikHelper.showAjaxError(response.message);
 		}
 		// if the permission change was successful
 		else
 		{
-			piwikHelper.ajaxHideError();
+			piwikHelper.hideAjaxError();
 			
 			$(self).parent().parent().find('.accessGranted')
 				.attr("src","plugins/UsersManager/images/no-access.png" )
@@ -163,7 +172,7 @@ $(document).ready( function() {
 	// when click on edituser, the cells become editable
 	$('.edituser')
 		.click( function() {
-			piwikHelper.ajaxHideError();
+			piwikHelper.hideAjaxError();
 			var idRow = $(this).attr('id');
 			if(alreadyEdited[idRow]==1) return;
 			alreadyEdited[idRow] = 1;
@@ -175,7 +184,7 @@ $(document).ready( function() {
 					var idName = $(n).attr('id');
 					if(idName != 'userLogin')
 					{
-						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25">';
+						var contentAfter = '<input id="'+idName+'" value="'+contentBefore+'" size="25" />';
 						$(n).html(contentAfter);
 					}
 				}
@@ -184,7 +193,7 @@ $(document).ready( function() {
 			$(this)
 				.toggle()
 				.parent()
-				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateuser">')
+				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateuser" />')
 				.click( function(){ $.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); } ) 
 			);
 		});
@@ -197,7 +206,7 @@ $(document).ready( function() {
 	// when click on deleteuser, the we ask for confirmation and then delete the user
 	$('.deleteuser')
 		.click( function() {
-			piwikHelper.ajaxHideError();
+			piwikHelper.hideAjaxError();
 			var idRow = $(this).attr('id');
 			var loginToDelete = $(this).parent().parent().find('#userLogin').html();
 			if( confirm(sprintf(_pk_translate('UsersManager_DeleteConfirm_js'),'"'+loginToDelete+'"')) )
@@ -208,7 +217,7 @@ $(document).ready( function() {
 	);
 	
 	$('.addrow').click( function() {
-		piwikHelper.ajaxHideError();
+		piwikHelper.hideAjaxError();
 		$(this).toggle();
 		
 		var numberOfRows = $('table#users')[0].rows.length;
@@ -216,21 +225,22 @@ $(document).ready( function() {
 		var newRowId = 'row' + newRowId;
 	
 		$(' <tr id="'+newRowId+'">\
-				<td><input id="useradd_login" value="login?" size=10></td>\
-				<td><input id="useradd_password" value="password" size=10></td>\
-				<td><input id="useradd_email" value="email@domain.com" size=15></td>\
-				<td><input id="useradd_alias" value="alias" size=15></td>\
+				<td><input id="useradd_login" value="login?" size="10" /></td>\
+				<td><input id="useradd_password" value="password" size="10" /></td>\
+				<td><input id="useradd_email" value="email@domain.com" size="15" /></td>\
+				<td><input id="useradd_alias" value="alias" size="15" /></td>\
 				<td>-</td>\
-				<td><img src="plugins/UsersManager/images/ok.png" class="adduser"></td>\
-	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel"></td>\
+				<td><img src="plugins/UsersManager/images/ok.png" class="adduser" /></td>\
+	  			<td><img src="plugins/UsersManager/images/remove.png" class="cancel" /></td>\
 	 		</tr>')
 	  			.appendTo('#users')
 		;
 		$('#'+newRowId).keypress( submitOnEnter );
 		$('.adduser').click( function(){ $.ajax( getAddUserAJAX($('tr#'+newRowId)) ); } );
-		$('.cancel').click(function() { piwikHelper.ajaxHideError(); $(this).parents('tr').remove();  $('.addrow').toggle(); });
+		$('.cancel').click(function() { piwikHelper.hideAjaxError(); $(this).parents('tr').remove();  $('.addrow').toggle(); });
 	});
 
 	$('.updateAccess')
 		.click( bindUpdateAccess );
+	$('#accessUpdated').hide();
 });	

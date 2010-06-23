@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Table
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Definition.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Definition.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
@@ -26,17 +26,17 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Table
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Table_Definition
 {
-    
+
     /**
      * @var array
      */
     protected $_tableConfigs = array();
-    
+
     /**
      * __construct()
      *
@@ -50,7 +50,7 @@ class Zend_Db_Table_Definition
             $this->setOptions($options);
         }
     }
-    
+
     /**
      * setConfig()
      *
@@ -62,7 +62,7 @@ class Zend_Db_Table_Definition
         $this->setOptions($config->toArray());
         return $this;
     }
-    
+
     /**
      * setOptions()
      *
@@ -76,7 +76,7 @@ class Zend_Db_Table_Definition
         }
         return $this;
     }
-    
+
     /**
      * @param string $tableName
      * @param array  $tableConfig
@@ -87,15 +87,15 @@ class Zend_Db_Table_Definition
         // @todo logic here
         $tableConfig[Zend_Db_Table::DEFINITION_CONFIG_NAME] = $tableName;
         $tableConfig[Zend_Db_Table::DEFINITION] = $this;
-        
+
         if (!isset($tableConfig[Zend_Db_Table::NAME])) {
             $tableConfig[Zend_Db_Table::NAME] = $tableName;
         }
-        
+
         $this->_tableConfigs[$tableName] = $tableConfig;
         return $this;
     }
-    
+
     /**
      * getTableConfig()
      *
@@ -106,7 +106,7 @@ class Zend_Db_Table_Definition
     {
         return $this->_tableConfigs[$tableName];
     }
-    
+
     /**
      * removeTableConfig()
      *
@@ -116,7 +116,7 @@ class Zend_Db_Table_Definition
     {
         unset($this->_tableConfigs[$tableName]);
     }
-    
+
     /**
      * hasTableConfig()
      *

@@ -16,12 +16,22 @@
  */
 class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTable_Filter
 {
+	const GOALS_OVERVIEW = -1;
+	const GOALS_FULL_TABLE = 0;
+	
 	protected $mappingIdToNameGoal;
 	
-	public function __construct( $table, $mappingToApply = null )
+	/**
+	 * @param $table
+	 * @param $enable Automatically set to true when filter_update_columns_when_show_all_goals is found in the API request
+	 * @param $processOnlyIdGoal
+	 * @return unknown_type
+	 */
+	public function __construct( $table, $enable = true, $processOnlyIdGoal )
 	{
 		parent::__construct($table);
 		$this->mappingIdToNameGoal = Piwik_Archive::$mappingFromIdToNameGoal;
+		$this->processOnlyIdGoal = $processOnlyIdGoal;
 		$this->filter();
 	}
 	
@@ -36,14 +46,13 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 			$newColumns = array();
 			
 			$nbVisits = 0;
-			// visits could be undefined when there is a convertion but no visit
+			// visits could be undefined when there is a conversion but no visit
 			if(isset($currentColumns[Piwik_Archive::INDEX_NB_VISITS]))
 			{
 				$nbVisits = $currentColumns[Piwik_Archive::INDEX_NB_VISITS];
 			}
 			$newColumns['nb_visits'] = $nbVisits;
 			$newColumns['label'] = $currentColumns['label'];
-			
 			if(isset($currentColumns[Piwik_Archive::INDEX_GOALS]))
 			{
 				$nbVisitsConverted = $revenue = 0;
@@ -61,6 +70,7 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 				{
 					$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $roundingPrecision);
 				}
+				$newColumns['goals_conversion_rate'] = $conversionRate;
 				
 				if($nbVisits == 0)
 				{
@@ -70,8 +80,16 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 				{
 					$revenuePerVisit = round( $revenue / $nbVisits, $roundingPrecision );
 				}
+				$newColumns['revenue_per_visit'] = $revenuePerVisit;
 				foreach($currentColumns[Piwik_Archive::INDEX_GOALS] as $goalId => $columnValue)
 				{
+					if($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
+						&& $this->processOnlyIdGoal != $goalId)
+					{
+						continue;
+					}
+					
+					// Goal Conversion rate
 					$name = 'goal_' . $goalId . '_conversion_rate';
 					if($nbVisits == 0)
 					{
@@ -84,12 +102,32 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 					$newColumns[$name] = $value;
 					$expectedColumns[$name] = true;
 					
+					// When the table is displayed by clicking on the flag icon, we only display the columns
+					// Visits, Conversions, Per goal conversion rate, Revenue
+					if($this->processOnlyIdGoal == self::GOALS_OVERVIEW)
+					{
+						continue;
+					}
+					
+					// Goal Conversions
 					$name = 'goal_' . $goalId . '_nb_conversions';
 					$newColumns[$name] = $columnValue[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
 					$expectedColumns[$name] = true;
+					
+					// Goal Revenue per visit
+					$name = 'goal_' . $goalId . '_revenue_per_visit';
+					if($nbVisits == 0)
+					{
+						$value = $invalidDivision;
+					}
+					else
+					{
+						$revenuePerVisit = round( $columnValue[Piwik_Archive::INDEX_GOAL_REVENUE] / $nbVisits, $roundingPrecision );
+					}
+					$newColumns[$name] = $revenuePerVisit;
+					$expectedColumns[$name] = true;
+					
 				}
-				$newColumns['revenue_per_visit'] = $revenuePerVisit;
-				$newColumns['goals_conversion_rate'] = $conversionRate;
 			}
 			
 			$row->setColumns($newColumns);

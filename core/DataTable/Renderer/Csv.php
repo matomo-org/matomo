@@ -31,7 +31,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	 *
 	 * @var string
 	 */
-	public $separator = ',';
+	public $separator = ",";
 	
 	/**
 	 * Line end 
@@ -61,9 +61,25 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	 */
 	public $exportIdSubtable = true;
 	
-	function render()
+	public function render()
 	{
 		return $this->output($this->renderTable($this->table));
+	}
+	
+	function renderException()
+	{
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		return 'Error: '.$exceptionMessage;
+	}
+	
+	public function setConvertToUnicode($bool)
+	{
+		$this->convertToUnicode = $bool;
+	}
+	
+	public function setSeparator($separator)
+	{
+		$this->separator = $separator;
 	}
 	
 	protected function renderTable($table)
@@ -234,7 +250,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			$value = 0;
 		}
 		if(strpos($value, '"') !== false 
-			|| strpos($value, ',') !== false )
+			|| strpos($value, $this->separator) !== false )
 		{
 			$value = '"'. str_replace('"', '""', $value). '"';
 		}
@@ -248,7 +264,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			return 'No data available';
 		}
 		// silent fail otherwise unit tests fail
-		@header("Content-type: application/vnd.ms-excel");
+		@header("Content-Type: application/vnd.ms-excel");
 		@header("Content-Disposition: attachment; filename=piwik-report-export.csv");
 		if($this->convertToUnicode 
 			&& function_exists('mb_convert_encoding'))

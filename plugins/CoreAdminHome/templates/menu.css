@@ -1,5 +1,5 @@
 #tablist {
-	padding: 3px 0;
+	padding-bottom: 1px;
 	margin-left: 0;
 	margin-bottom: 0;
 	margin-top: 0.1em;
@@ -10,6 +10,7 @@
 	list-style: none;
 	display: inline;
 	margin: 0;
+	padding-bottom:3px;
 }
 
 #tablist li a {
@@ -24,9 +25,11 @@
 
 #tablist li a:link,#tablist li a:visited {
 	color: black;
+	-moz-border-radius:4px 4px 0 0;
+	-webkit-border-radius:4px 4px 0 0;
 }
 
-#tablist li a:hover {
+#tablist li a:hover, #tablist li a.active {
 	color: black;
 	background: #defdbb;
 	border-color: black;

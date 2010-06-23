@@ -23,14 +23,13 @@
 		<label>{'Login_LoginOrEmail'|translate}:<br />
 		<input type="text" name="form_login" id="form_login" class="input" value="" size="20" tabindex="10" /></label>
 	</p>
-	{$form_data.form_url.html}
 	<p class="submit">
 		<input type="submit" value="{'Login_RemindPassword'|translate}" tabindex="100" />
 	</p>
 </form>
 
 <p id="nav">
-<a href="index.php?module=Login&amp;form_url={$urlToRedirect|escape:url}" title="{'Login_LogIn'|translate}">{'Login_LogIn'|translate}</a>
+<a href="index.php?module=Login" title="{'Login_LogIn'|translate}">{'Login_LogIn'|translate}</a>
 </p>
 
 </div>

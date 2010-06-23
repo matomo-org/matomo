@@ -15,16 +15,16 @@
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage Zend_Auth_Adapter_Http
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Http.php 16200 2009-06-21 18:50:06Z thomas $
+ * @version    $Id: Http.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
 /**
  * @see Zend_Auth_Adapter_Interface
  */
-require_once 'Zend/Auth/Adapter/Interface.php';
+// require_once 'Zend/Auth/Adapter/Interface.php';
 
 
 /**
@@ -35,7 +35,7 @@ require_once 'Zend/Auth/Adapter/Interface.php';
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage Zend_Auth_Adapter_Http
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @todo       Support auth-int
  * @todo       Track nonces, nonce-count, opaque for replay protection and stale support
@@ -171,7 +171,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            require_once 'Zend/Auth/Adapter/Exception.php';
+            // require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception(__CLASS__  . ' requires the \'hash\' extension');
         }
 
@@ -184,7 +184,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            require_once 'Zend/Auth/Adapter/Exception.php';
+            // require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('Config key \'accept_schemes\' is required');
         }
 
@@ -194,7 +194,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            require_once 'Zend/Auth/Adapter/Exception.php';
+            // require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('No supported schemes given in \'accept_schemes\'. Valid values: '
                                                 . implode(', ', $this->_supportedSchemes));
         }
@@ -208,7 +208,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            require_once 'Zend/Auth/Adapter/Exception.php';
+            // require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('Config key \'realm\' is required, and must contain only printable '
                                                 . 'characters, excluding quotation marks and colons');
         } else {
@@ -222,7 +222,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
                 /**
                  * @see Zend_Auth_Adapter_Exception
                  */
-                require_once 'Zend/Auth/Adapter/Exception.php';
+                // require_once 'Zend/Auth/Adapter/Exception.php';
                 throw new Zend_Auth_Adapter_Exception('Config key \'digest_domains\' is required, and must contain '
                                                     . 'only printable characters, excluding quotation marks');
             } else {
@@ -234,7 +234,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
                 /**
                  * @see Zend_Auth_Adapter_Exception
                  */
-                require_once 'Zend/Auth/Adapter/Exception.php';
+                // require_once 'Zend/Auth/Adapter/Exception.php';
                 throw new Zend_Auth_Adapter_Exception('Config key \'nonce_timeout\' is required, and must be an '
                                                     . 'integer');
             } else {
@@ -368,7 +368,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            require_once 'Zend/Auth/Adapter/Exception.php';
+            // require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('Request and Response objects must be set before calling '
                                                 . 'authenticate()');
         }
@@ -403,7 +403,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             // challenge again the client
             return $this->_challengeClient();
         }
-        
+
         switch ($clientScheme) {
             case 'basic':
                 $result = $this->_basicAuth($authHeader);
@@ -415,7 +415,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
                 /**
                  * @see Zend_Auth_Adapter_Exception
                  */
-                require_once 'Zend/Auth/Adapter/Exception.php';
+                // require_once 'Zend/Auth/Adapter/Exception.php';
                 throw new Zend_Auth_Adapter_Exception('Unsupported authentication scheme');
         }
 
@@ -502,14 +502,14 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            require_once 'Zend/Auth/Adapter/Exception.php';
+            // require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('The value of the client Authorization header is required');
         }
         if (empty($this->_basicResolver)) {
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            require_once 'Zend/Auth/Adapter/Exception.php';
+            // require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('A basicResolver object must be set before doing Basic '
                                                 . 'authentication');
         }
@@ -521,7 +521,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            require_once 'Zend/Auth/Adapter/Exception.php';
+            // require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('Unable to base64_decode Authorization header value');
         }
 
@@ -559,14 +559,14 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            require_once 'Zend/Auth/Adapter/Exception.php';
+            // require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('The value of the client Authorization header is required');
         }
         if (empty($this->_digestResolver)) {
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            require_once 'Zend/Auth/Adapter/Exception.php';
+            // require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('A digestResolver object must be set before doing Digest authentication');
         }
 
@@ -625,7 +625,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
                 /**
                  * @see Zend_Auth_Adapter_Exception
                  */
-                require_once 'Zend/Auth/Adapter/Exception.php';
+                // require_once 'Zend/Auth/Adapter/Exception.php';
                 throw new Zend_Auth_Adapter_Exception('Client requested an unsupported qop option');
         }
         // Using hash() should make parameterizing the hash algorithm

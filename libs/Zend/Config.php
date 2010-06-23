@@ -14,16 +14,16 @@
  *
  * @category   Zend
  * @package    Zend_Config
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Config.php 16201 2009-06-21 18:51:15Z thomas $
+ * @version    $Id: Config.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 
 /**
  * @category   Zend
  * @package    Zend_Config
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Config implements Countable, Iterator
@@ -83,7 +83,7 @@ class Zend_Config implements Countable, Iterator
 
     /**
      * Load file error string.
-     * 
+     *
      * Is null if there was no error while file loading
      *
      * @var string
@@ -165,15 +165,15 @@ class Zend_Config implements Countable, Iterator
             $this->_count = count($this->_data);
         } else {
             /** @see Zend_Config_Exception */
-            require_once 'Zend/Config/Exception.php';
+            // require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception('Zend_Config is read only');
         }
     }
-    
+
     /**
      * Deep clone of this instance to ensure that nested Zend_Configs
      * are also cloned.
-     * 
+     *
      * @return void
      */
     public function __clone()
@@ -234,7 +234,7 @@ class Zend_Config implements Countable, Iterator
             $this->_skipNextIteration = true;
         } else {
             /** @see Zend_Config_Exception */
-            require_once 'Zend/Config/Exception.php';
+            // require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception('Zend_Config is read only');
         }
 
@@ -374,7 +374,7 @@ class Zend_Config implements Countable, Iterator
             }
         }
     }
-    
+
     /**
      * Returns if this Zend_Config object is read only or not.
      *
@@ -384,7 +384,7 @@ class Zend_Config implements Countable, Iterator
     {
         return !$this->_allowModifications;
     }
-    
+
     /**
      * Get the current extends
      *
@@ -394,7 +394,7 @@ class Zend_Config implements Countable, Iterator
     {
         return $this->_extends;
     }
-    
+
     /**
      * Set an extend for Zend_Config_Writer
      *
@@ -410,7 +410,7 @@ class Zend_Config implements Countable, Iterator
             $this->_extends[$extendingSection] = $extendedSection;
         }
     }
-    
+
     /**
      * Throws an exception if $extendingSection may not extend $extendedSection,
      * and tracks the section extension if it is valid.
@@ -427,7 +427,7 @@ class Zend_Config implements Countable, Iterator
         while (array_key_exists($extendedSectionCurrent, $this->_extends)) {
             if ($this->_extends[$extendedSectionCurrent] == $extendingSection) {
                 /** @see Zend_Config_Exception */
-                require_once 'Zend/Config/Exception.php';
+                // require_once 'Zend/Config/Exception.php';
                 throw new Zend_Config_Exception('Illegal circular inheritance detected');
             }
             $extendedSectionCurrent = $this->_extends[$extendedSectionCurrent];
@@ -445,7 +445,7 @@ class Zend_Config implements Countable, Iterator
      * @param integer $errline
      */
     protected function _loadFileErrorHandler($errno, $errstr, $errfile, $errline)
-    { 
+    {
         if ($this->_loadFileErrorStr === null) {
             $this->_loadFileErrorStr = $errstr;
         } else {
@@ -453,4 +453,32 @@ class Zend_Config implements Countable, Iterator
         }
     }
 
+    /**
+     * Merge two arrays recursively, overwriting keys of the same name
+     * in $firstArray with the value in $secondArray.
+     *
+     * @param  mixed $firstArray  First array
+     * @param  mixed $secondArray Second array to merge into first array
+     * @return array
+     */
+    protected function _arrayMergeRecursive($firstArray, $secondArray)
+    {
+        if (is_array($firstArray) && is_array($secondArray)) {
+            foreach ($secondArray as $key => $value) {
+                if (isset($firstArray[$key])) {
+                    $firstArray[$key] = $this->_arrayMergeRecursive($firstArray[$key], $value);
+                } else {
+                    if($key === 0) {
+                        $firstArray= array(0=>$this->_arrayMergeRecursive($firstArray, $value));
+                    } else {
+                        $firstArray[$key] = $value;
+                    }
+                }
+            }
+        } else {
+            $firstArray = $secondArray;
+        }
+
+        return $firstArray;
+    }
 }

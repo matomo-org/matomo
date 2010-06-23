@@ -58,7 +58,8 @@ class Piwik_API_DataTableGenericFilter
 								'filter_add_columns_when_show_all_columns'	=> array('integer')
 						),
 			'UpdateColumnsWhenShowAllGoals'	=> array(
-								'filter_update_columns_when_show_all_goals'	=> array('integer')
+								'filter_update_columns_when_show_all_goals'	=> array('integer'),
+								'filter_only_display_idgoal' => array('integer', Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_OVERVIEW),
 						),
 			'Sort' => array(
 								'filter_sort_column' 		=> array('string'),
@@ -84,15 +85,23 @@ class Piwik_API_DataTableGenericFilter
 		if($datatable instanceof Piwik_DataTable_Array )
 		{
 			$tables = $datatable->getArray();
+			$filterWasApplied = false;
 			foreach($tables as $table)
 			{
-				$this->applyGenericFilters($table);
+				$filterWasApplied = $this->applyGenericFilters($table);
+				// if no generic filter was applied to the first table, we can return
+				// as no filter would be applied to any other dataTable
+				if(!$filterWasApplied)
+				{
+					return;
+				}
 			}
 			return;
 		}
 		
 		$genericFilters = self::getGenericFiltersInformation();
 		
+		$filterApplied = false;
 		foreach($genericFilters as $filterName => $parameters)
 		{
 			$filterParameters = array();
@@ -123,18 +132,14 @@ class Piwik_API_DataTableGenericFilter
 
 			if(!$exceptionRaised)
 			{
-				// a generic filter class name must follow this pattern
-				$class = "Piwik_DataTable_Filter_".$filterName;
 				if($filterName == 'Limit')
 				{
 					$datatable->setRowsCountBeforeLimitFilter();
 				}
-				// build the set of parameters for the filter					
-				$filterParameters = array_merge(array($datatable), $filterParameters);
-				// use Reflection to create a new instance of the filter, given parameters $filterParameters
-				$reflectionObj = new ReflectionClass($class);
-				$filter = $reflectionObj->newInstanceArgs($filterParameters); 
+				$datatable->filter($filterName, $filterParameters);
+				$filterApplied = true;
 			}
 		}
+		return $filterApplied;
 	}
 }

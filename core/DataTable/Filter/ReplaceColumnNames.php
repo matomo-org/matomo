@@ -77,9 +77,10 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 		$newColumns = array();
 		foreach($columns as $columnName => $columnValue)
 		{
-			if(isset(Piwik_Archive::$mappingFromIdToName[$columnName]))
+			if(isset($this->mappingToApply[$columnName]))
 			{
-				$columnName = Piwik_Archive::$mappingFromIdToName[$columnName];
+				$columnName = $this->mappingToApply[$columnName];
+				
 				if($columnName == 'goals')
 				{
 					$newSubColumns = array();

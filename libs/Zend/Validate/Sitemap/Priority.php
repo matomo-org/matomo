@@ -15,15 +15,15 @@
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage Sitemap
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Priority.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Priority.php 21365 2010-03-07 09:38:41Z thomas $
  */
 
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * Validates whether a given value is valid as a sitemap <priority> value
@@ -33,7 +33,7 @@ require_once 'Zend/Validate/Abstract.php';
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage Sitemap
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Sitemap_Priority extends Zend_Validate_Abstract
@@ -42,7 +42,8 @@ class Zend_Validate_Sitemap_Priority extends Zend_Validate_Abstract
      * Validation key for not valid
      *
      */
-    const NOT_VALID = 'invalidSitemapPriority';
+    const NOT_VALID = 'sitemapPriorityNotValid';
+    const INVALID   = 'sitemapPriorityInvalid';
 
     /**
      * Validation failure message template definitions
@@ -50,7 +51,8 @@ class Zend_Validate_Sitemap_Priority extends Zend_Validate_Abstract
      * @var array
      */
     protected $_messageTemplates = array(
-        self::NOT_VALID => "'%value%' is not a valid sitemap priority",
+        self::NOT_VALID => "'%value%' is no valid sitemap priority",
+        self::INVALID   => "Invalid type given, the value should be a integer, a float or a numeric string",
     );
 
     /**
@@ -63,13 +65,18 @@ class Zend_Validate_Sitemap_Priority extends Zend_Validate_Abstract
      */
     public function isValid($value)
     {
-        $this->_setValue($value);
-
         if (!is_numeric($value)) {
+            $this->_error(self::INVALID);
             return false;
         }
 
-        $value = (float)$value;
-        return $value >= 0 && $value <= 1;
+        $this->_setValue($value);
+        $value = (float) $value;
+        if ($value < 0 || $value > 1) {
+            $this->_error(self::NOT_VALID);
+            return false;
+        }
+
+        return true;
     }
 }

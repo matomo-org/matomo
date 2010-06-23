@@ -52,7 +52,7 @@ class Piwik_Log_Exception extends Piwik_Log
 		$event['errline'] 	= $exception->getLine();
 		$event['backtrace'] = $exception->getTraceAsString();
 
-		parent::log($event, Piwik_Log::CRIT);
+		parent::log($event, Piwik_Log::CRIT, null);
 	}
 }
 
@@ -80,7 +80,7 @@ class Piwik_Log_Exception_Formatter_ScreenFormatter extends Piwik_Log_Formatter_
 		$backtrace = $event['backtrace'] ;
 
 		$outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'html', 'string'));
-		$response = new Piwik_API_ResponseBuilder(null, $outputFormat);
+		$response = new Piwik_API_ResponseBuilder($outputFormat);
 		$message = $response->getResponseException(new Exception($errstr));
 		return parent::format($message);
 	}

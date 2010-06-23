@@ -39,14 +39,18 @@ function smarty_outputfilter_ajaxcdn($source, &$smarty)
 	$swfobject_version = Zend_Registry::get('config')->General->swfobject_version;
 
 	$pattern = array(
+		'~<link rel="stylesheet" type="text/css" href="libs/jquery/themes/([^"]*)" class="ui-theme" />~',
 		'~<script type="text/javascript" src="libs/jquery/jquery\.js([^"]*)">~',
 		'~<script type="text/javascript" src="libs/jquery/jquery-ui\.js([^"]*)">~',
+		'~<script type="text/javascript" src="libs/jquery/jquery-ui-18n\.js([^"]*)">~',
 		'~<script type="text/javascript" src="libs/swfobject/swfobject\.js([^"]*)">~',
 	);
 
 	$replace = array(
+		'<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/themes/\\1" class="ui-theme" />',
 		'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/'.$jquery_version.'/jquery.min.js">',
 		'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/jquery-ui.min.js">',
+		'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/i18n/jquery-ui-18n.min.js">',
 		'<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/'.$swfobject_version.'/swfobject.js">',
 	);
 

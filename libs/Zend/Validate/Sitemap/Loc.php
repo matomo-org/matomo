@@ -15,20 +15,20 @@
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage Sitemap
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Loc.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Loc.php 21365 2010-03-07 09:38:41Z thomas $
  */
 
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @see Zend_Uri
  */
-require_once 'Zend/Uri.php';
+// require_once 'Zend/Uri.php';
 
 /**
  * Validates whether a given value is valid as a sitemap <loc> value
@@ -38,7 +38,7 @@ require_once 'Zend/Uri.php';
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage Sitemap
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Sitemap_Loc extends Zend_Validate_Abstract
@@ -47,7 +47,8 @@ class Zend_Validate_Sitemap_Loc extends Zend_Validate_Abstract
      * Validation key for not valid
      *
      */
-    const NOT_VALID = 'invalidSitemapLoc';
+    const NOT_VALID = 'sitemapLocNotValid';
+    const INVALID   = 'sitemapLocInvalid';
 
     /**
      * Validation failure message template definitions
@@ -55,7 +56,8 @@ class Zend_Validate_Sitemap_Loc extends Zend_Validate_Abstract
      * @var array
      */
     protected $_messageTemplates = array(
-        self::NOT_VALID => "'%value%' is not a valid sitemap location",
+        self::NOT_VALID => "'%value%' is no valid sitemap location",
+        self::INVALID   => "Invalid type given, the value should be a string",
     );
 
     /**
@@ -68,12 +70,18 @@ class Zend_Validate_Sitemap_Loc extends Zend_Validate_Abstract
      */
     public function isValid($value)
     {
-        $this->_setValue($value);
-
         if (!is_string($value)) {
+            $this->_error(self::INVALID);
             return false;
         }
 
-        return Zend_Uri::check($value);
+        $this->_setValue($value);
+        $result = Zend_Uri::check($value);
+        if ($result !== true) {
+            $this->_error(self::NOT_VALID);
+            return false;
+        }
+
+        return true;
     }
 }

@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
@@ -26,11 +26,12 @@ class Piwik_Url
 	 */
 	static public function getCurrentUrl()
 	{
-		return	self::getCurrentHost()
-				. self::getCurrentScriptName() 
-				. self::getCurrentQueryString();
+		return self::getCurrentScheme() . '://'
+			. self::getCurrentHost()
+			. self::getCurrentScriptName() 
+			. self::getCurrentQueryString();
 	}
-	
+
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org/dir1/dir2/index.php"
@@ -39,10 +40,11 @@ class Piwik_Url
 	 */
 	static public function getCurrentUrlWithoutQueryString()
 	{
-		return	self::getCurrentHost()
-				. self::getCurrentScriptName() ;
+		return self::getCurrentScheme() . '://'
+			. self::getCurrentHost()
+			. self::getCurrentScriptName();
 	}
-	
+
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org/dir1/dir2/"
@@ -51,9 +53,9 @@ class Piwik_Url
 	 */
 	static public function getCurrentUrlWithoutFileName()
 	{
-		$host = self::getCurrentHost();
-		$urlDir = self::getCurrentScriptPath();
-		return $host.$urlDir;
+		return self::getCurrentScheme() . '://'
+			. self::getCurrentHost()
+			. self::getCurrentScriptPath();
 	}
 
 	/**
@@ -76,7 +78,7 @@ class Piwik_Url
 		}
 		return $urlDir;
 	}
-	
+
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "/dir1/dir2/index.php"
@@ -106,7 +108,33 @@ class Piwik_Url
 		{
 			$url = $_SERVER['SCRIPT_NAME'];
 		}
+
+		if($url[0] !== '/')
+		{
+			$url = '/' . $url;
+		}
 		return $url;
+	}
+
+	/**
+	 * If the current URL is 'http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return 'http'
+	 *
+	 * @return string 'https' or 'http'
+	 */
+	static public function getCurrentScheme()
+	{
+		if(isset($_SERVER['HTTPS'])
+				&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)
+			)
+		{
+			$scheme = 'https';
+		}
+		else 
+		{
+			$scheme = 'http';
+		}
+		return $scheme;
 	}
 
 	/**
@@ -117,30 +145,19 @@ class Piwik_Url
 	 */
 	static public function getCurrentHost()
 	{
-		if(isset($_SERVER['HTTPS'])
-			&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)
-			)
+		if (!empty($_SERVER['HTTP_X_FORWARDED_HOST']))
 		{
-			$url = 'https';
+			return Piwik_Common::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_HOST']);
 		}
-		else
-		{
-			$url = 'http';
-		}
-		
-		$url .= '://';
-		
+
 		if(isset($_SERVER['HTTP_HOST']))
 		{
-			$url .= $_SERVER['HTTP_HOST'];
+			return $_SERVER['HTTP_HOST'];
 		}
-		else
-		{
-			$url .= 'unknown';
-		}
-		return $url;
+
+		return 'unknown';
 	}
-		
+
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "?param1=value1&param2=value2"
@@ -157,7 +174,7 @@ class Piwik_Url
 		}
 		return $url;
 	}
-	
+
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return 
@@ -173,7 +190,7 @@ class Piwik_Url
 		$urlValues = Piwik_Common::getArrayFromQueryString($queryString);
 		return $urlValues;
 	}
-	
+
 	/**
 	 * Given an array of name-values, it will return the current query string 
 	 * with the new requested parameter key-values;
@@ -196,7 +213,7 @@ class Piwik_Url
 		}
 		return '';
 	}
-	
+
 	/**
 	 * Given an array of parameters name->value, returns the query string.
 	 * Also works with array values using the php array syntax for GET parameters.
@@ -228,7 +245,7 @@ class Piwik_Url
 		$query = substr($query, 0, -1);
 		return $query;
 	}
-	
+
 	/**
 	 * Redirects the user to the Referer if found. 
 	 * If the user doesn't have a referer set, it redirects to the current URL without query string.
@@ -242,7 +259,7 @@ class Piwik_Url
 		}
 		self::redirectToUrl(self::getCurrentUrlWithoutQueryString());
 	}
-	
+
 	/**
 	 * Redirects the user to the specified URL
 	 *
@@ -253,7 +270,7 @@ class Piwik_Url
 		header("Location: $url");
 		exit;
 	}
-	
+
 	/**
 	 * Returns the HTTP_REFERER header, false if not found.
 	 *
@@ -265,6 +282,48 @@ class Piwik_Url
 		{
 			return $_SERVER['HTTP_REFERER'];
 		}
+		return false;
+	}
+
+	/**
+	 * Is the URL on the same host and in the same script path?
+	 *
+	 * @param string $url
+	 * @return bool True if local; false otherwise.
+	 */
+	static public function isLocalUrl($url)
+	{
+		// handle case-sensitivity differences
+		$pathContains = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ? 'stripos' : 'strpos';
+
+		// test the scheme/protocol portion of the reconstructed "current" URL
+		if(stripos($url, 'http://') === 0 || stripos($url, 'https://') === 0)
+		{
+			// determine the offset to begin the comparison
+			$offset = strpos($url, '://');
+			$current = strstr(self::getCurrentUrlWithoutFileName(), '://');
+			if($pathContains($url, $current, $offset) === $offset)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get local referer, i.e., on the same host and in the same script path.
+	 *
+	 * @return string|false
+	 */
+	static public function getLocalReferer()
+	{
+		// verify that the referer contains the current URL (minus the filename & query parameters), http://example.org/dir1/dir2/
+		$referer = self::getReferer();
+		if($referer !== false && self::isLocalUrl($referer)) {
+			return $referer;
+		}
+
 		return false;
 	}
 }

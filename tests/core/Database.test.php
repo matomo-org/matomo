@@ -14,18 +14,24 @@ class Test_Database extends UnitTestCase
 	{
 		parent::__construct( $title );
 		print("The test class extends Test_Database: the test Piwik database is created once in the constructor, and all tables are truncated at the end of EACH unit test method.<br>");
-		
-		Piwik::createConfigObject();
-		Zend_Registry::get('config')->setTestEnvironment();	
-		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
-		Piwik::createDatabaseObject();
-		Piwik::createLogObject();
-
-		Piwik::dropDatabase();
-		Piwik::createDatabase();
-		Piwik::disconnectDatabase();
-		Piwik::createDatabaseObject();
-		Piwik::createTables();
+		try {
+    		Piwik::createConfigObject();
+    		Zend_Registry::get('config')->setTestEnvironment();	
+    		Piwik_Tracker_Config::getInstance()->setTestEnvironment();
+    		Piwik::createDatabaseObject();
+    		Piwik::createLogObject();
+    
+    		Piwik::dropDatabase();
+    		Piwik::createDatabase();
+    		Piwik::disconnectDatabase();
+    		Piwik::createDatabaseObject();
+    		Piwik::createTables();
+    		Piwik_PluginsManager::getInstance()->installLoadedPlugins();
+		} catch(Exception $e) {
+			echo $e->getMessage();
+			echo "<br/><b>TEST INITIALIZATION FAILED!";
+			throw $e;
+		}
 	}
 	public function __destruct()
 	{
@@ -36,6 +42,8 @@ class Test_Database extends UnitTestCase
 	
 	public function tearDown()
 	{
+		Piwik_Option::getInstance()->clearCache();
+		Piwik_Common::deleteAllCache();
 		Piwik::truncateAllTables();
 	}
 	
@@ -78,9 +86,9 @@ class FakeAccess
 		}
 	}
 	
-	static public function setSuperUser()
+	static public function setSuperUser($bool = true)
 	{
-		self::$superUser = true;
+		self::$superUser = $bool;
 	}
 
 	static public function reloadAccess()
@@ -94,7 +102,7 @@ class FakeAccess
 		}
 		else
 		{
-			$websitesAccess=Piwik_SitesManager_API::getAllSitesId();
+			$websitesAccess=Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		
 		if(!is_array($idSites))
@@ -119,7 +127,7 @@ class FakeAccess
 		}
 		else
 		{
-			$websitesAccess=Piwik_SitesManager_API::getAllSitesId();
+			$websitesAccess=Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		
 		if(!is_array($idSites))
@@ -175,7 +183,7 @@ class FakeAccess
 	{
 		if(self::$superUser)
 		{
-			return Piwik_SitesManager_API::getAllSitesId();
+			return Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		return  self::$idSitesAdmin;
 	}
@@ -184,7 +192,7 @@ class FakeAccess
 	{
 		if(self::$superUser)
 		{
-			return Piwik_SitesManager_API::getAllSitesId();
+			return Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		return  self::$idSitesView;
 	}
@@ -192,7 +200,7 @@ class FakeAccess
 	{
 		if(self::$superUser)
 		{
-			return Piwik_SitesManager_API::getAllSitesId();
+			return Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		return  array_merge(self::$idSitesView,self::$idSitesAdmin);
 	}

@@ -12,12 +12,12 @@ $.fn.spy = function(settings) {
 	spy.parsing = 0;
 	spy.waitTimer = 0;
 	spy.json = null;
-	
+
 	if (!settings.ajax) {
 		alert("An AJAX/AJAH URL must be set for the spy to work.");
 		return;
 	}
-	
+
 	spy.attachHolder = function() {
 		// not mad on this, but the only way to parse HTML collections
 		if (o.method == 'html')
@@ -37,7 +37,7 @@ $.fn.spy = function(settings) {
 		else
 			return 0;
 	}
-	
+
 	spy.parse = function(e, r) {
 		spy.parsing = 1; // flag to stop pull via ajax
 		if (o.method == 'html') {
@@ -45,7 +45,7 @@ $.fn.spy = function(settings) {
 		} else if (o.method == 'json') {
 			eval('spy.json = ' + r); // convert text to json
 		}
-		
+
 		if ((o.method == 'json' && spy.json.constructor == Array) || o.method == 'html') {
 			if (spy.parseItem(e)) {
 				spy.waitTimer = window.setInterval(function() {
@@ -65,7 +65,7 @@ $.fn.spy = function(settings) {
 			spy.parsing = 0;
 		}
 	}
-	
+
 	// returns true if there's more to parse
 	spy.parseItem = function(e) {
 		if (o.method == 'html') {
@@ -74,7 +74,7 @@ $.fn.spy = function(settings) {
 			if (i.size() > 0) {
 				i.hide();
 				spy.addItem(e, i);
-			}		
+			}
 			return ($('div#_spyTmp').find('div').size() != 0);
 		} else {
 			if (spy.json.length) {
@@ -85,20 +85,21 @@ $.fn.spy = function(settings) {
 			return (spy.json.length != 0);
 		}
 	}
-	
+
 	spy.addItem = function(e, i) {
 		if (! o.isDupe.call(this, i, spy.last)) {
 			spy.last = i; // note i is a pointer - so when it gets modified, so does spy.last
-			$('#' + e.id + ' > div:gt(' + (o.limit - 1) + ')').remove();
+			$('#' + e.id + ' > div:gt(' + (o.limit - 2) + ')').remove();
+			$('#' + e.id + ' > div:gt(' + (o.limit - o.fadeLast - 2) + ')').fadeEachDown();
 			o.push.call(e, i);
 			$('#' + e.id + ' > div:first').fadeIn(o.fadeInSpeed);
 		}
 	}
-	
+
 	spy.push = function(r) {
 		$('#' + this.id).prepend(r);
 	}
-	
+
 	var o = {
 		limit: (settings.limit || 10),
 		ajax: settings.ajax,
@@ -109,7 +110,7 @@ $.fn.spy = function(settings) {
 		fadeInSpeed: (settings.fadeInSpeed || 'slow'), // 1400 = crawl
 		customParameterName: settings.customParameterName,
 		customParameterValueCallback: settings.customParameterValueCallback,
-		isDupe: (settings.isDupe || spy.isDupe),
+		isDupe: (settings.isDupe || spy.isDupe)
 	};
 
 	spy.attachHolder();
@@ -125,8 +126,19 @@ $.fn.spy = function(settings) {
 				$.get(o.ajax, parameters, function(r) {
 					spy.parse(e, r);
 				});
-			}	
+			}
 		}, o.timeout);
+	});
+};
+
+$.fn.fadeEachDown = function() {
+	var s = this.size()+5;
+	return this.each(function(i) {
+		var o = 1 - (s == 1 ? 0.5 : 0.85/s*(i+1));
+		var e = this.style;
+		if (window.ActiveXObject)
+			e.filter = "alpha(opacity=" + o*100 + ")";
+		e.opacity = o;
 	});
 };
 
@@ -137,3 +149,6 @@ function pauseSpy() {
 function playSpy() {
 	spyRunning = 1; return false;
 }
+
+
+

@@ -14,7 +14,6 @@ form {
 	padding: 16px 16px 40px 16px;
 	font-weight: bold;
 	-moz-border-radius: 5px;
-	-khtml-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
@@ -34,7 +33,6 @@ form .forgetmenot {
 	border-width: 1px;
 	border-style: solid;
 	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	cursor: default;

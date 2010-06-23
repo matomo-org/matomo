@@ -25,9 +25,6 @@ class Piwik_Login_ResetPasswordForm extends Piwik_Form
 
 	function init()
 	{
-		$currentUrl = 'index.php';
-		$urlToGoAfter = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
-
 		$resetToken = Piwik_Common::getRequestVar('token', '', 'string');
 
 		$formElements = array(
@@ -35,7 +32,6 @@ class Piwik_Login_ResetPasswordForm extends Piwik_Form
 			array('password', 'form_password'),
 			array('password', 'form_password_bis'),
 			array('text', 'form_token'),
-			array('hidden', 'form_url', $urlToGoAfter),
 		);
 		$this->addElements( $formElements );
 
@@ -45,7 +41,7 @@ class Piwik_Login_ResetPasswordForm extends Piwik_Form
 		$this->setDefaults($defaults);
 
 		$formRules = array(
-			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Login')), 'required'),
+			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('General_Username')), 'required'),
 			array('form_password', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Password')), 'required'),
 			array('form_password_bis', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_PasswordRepeat')), 'required'),
 			array('form_token', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_PasswordResetToken')), 'required'),

@@ -2,14 +2,14 @@
 {assign var='helpMessage' value='CoreUpdater_HelpMessageContent'|translate:'<a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/faq/">':'</a>':'</li><li>'}
 
 {if $coreError}
-	<br><br>
+	<br /><br />
 	<div class="error">
-		<img src="themes/default/images/error_medium.png"> {'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate}
+		<img src="themes/default/images/error_medium.png" /> {'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate}
 		{foreach from=$errorMessages item=message}
-		<pre>{$message}</pre>
+		<pre>{$message}</pre><br />
 		{/foreach}
 	</div>
-	<br>
+	<br />
 	<p>{'CoreUpdater_HelpMessageIntroductionWhenError'|translate}
 	<ul><li>{$helpMessage}</li></ul></p>
 
@@ -23,38 +23,38 @@
 	
 	{if count($warningMessages) > 0}
 		<div class="warning">
-			<p><img src="themes/default/images/warning_medium.png"> {'CoreUpdater_WarningMessages'|translate}</p>
+			<p><img src="themes/default/images/warning_medium.png" /> {'CoreUpdater_WarningMessages'|translate}</p>
 			{foreach from=$warningMessages item=message}
-			<pre>{$message}</pre>
+			<pre>{$message}</pre><br />
 			{/foreach}
 		</div>
 	{/if}
 						
 	{if count($errorMessages) > 0}
 		<div class="warning">
-			<p><img src="themes/default/images/warning_medium.png"> {'CoreUpdater_ErrorDuringPluginsUpdates'|translate}</p>
+			<p><img src="themes/default/images/warning_medium.png" /> {'CoreUpdater_ErrorDuringPluginsUpdates'|translate}</p>
 			{foreach from=$errorMessages item=message}
-			<pre>{$message}</pre>
+			<pre>{$message}</pre><br />
 			{/foreach}
 			
 			{if isset($deactivatedPlugins) && count($deactivatedPlugins) > 0}
 			{assign var=listOfDeactivatedPlugins value=$deactivatedPlugins|@implode:', '}
-			<p style="color:red"><img src="themes/default/images/error_medium.png"> {'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate:$listOfDeactivatedPlugins}</p>
+			<p style="color:red"><img src="themes/default/images/error_medium.png" /> {'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate:$listOfDeactivatedPlugins}</p>
 			{/if}
 		</div>
 	{/if}
 	
 	{if count($errorMessages) > 0 || count($warningMessages) > 0}
-		<br>
+		<br />
 		<p>{'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate}
 		<ul><li>{$helpMessage}</li></ul>
 		</p>
+	{else}
+		<p class="success">{'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate}</p>
 	{/if}
-		
-	<p class="success">{'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate}</p>
 
 	<form action="index.php">
-	<input type="submit" class="submit" value="{'CoreUpdater_ContinueToPiwik'|translate}"/>
+	<input type="submit" class="submit" value="{'CoreUpdater_ContinueToPiwik'|translate}" />
 	</form>
 {/if}
 

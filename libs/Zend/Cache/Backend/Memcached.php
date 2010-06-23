@@ -15,27 +15,27 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Memcached.php 16541 2009-07-07 06:59:03Z bkarwin $
+ * @version    $Id: Memcached.php 22208 2010-05-20 16:59:02Z mabe $
  */
 
 
 /**
  * @see Zend_Cache_Backend_Interface
  */
-require_once 'Zend/Cache/Backend/ExtendedInterface.php';
+// require_once 'Zend/Cache/Backend/ExtendedInterface.php';
 
 /**
  * @see Zend_Cache_Backend
  */
-require_once 'Zend/Cache/Backend.php';
+// require_once 'Zend/Cache/Backend.php';
 
 
 /**
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
@@ -155,16 +155,16 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
                 $server['failure_callback'] = self::DEFAULT_FAILURE_CALLBACK;
             }
             if ($this->_options['compatibility']) {
-				// No status for compatibility mode (#ZF-5887)
-            	$this->_memcache->addServer($server['host'], $server['port'], $server['persistent'],
+                // No status for compatibility mode (#ZF-5887)
+                $this->_memcache->addServer($server['host'], $server['port'], $server['persistent'],
                                         $server['weight'], $server['timeout'],
                                         $server['retry_interval']);
-			} else {
-				$this->_memcache->addServer($server['host'], $server['port'], $server['persistent'],
+            } else {
+                $this->_memcache->addServer($server['host'], $server['port'], $server['persistent'],
                                         $server['weight'], $server['timeout'],
                                         $server['retry_interval'],
                                         $server['status'], $server['failure_callback']);
-			}
+            }
         }
     }
 
@@ -178,7 +178,7 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
     public function load($id, $doNotTestCacheValidity = false)
     {
         $tmp = $this->_memcache->get($id);
-        if (is_array($tmp)) {
+        if (is_array($tmp) && isset($tmp[0])) {
             return $tmp[0];
         }
         return false;
@@ -219,13 +219,14 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
         } else {
             $flag = 0;
         }
-        // #ZF-5702 : we try add() first becase set() seems to be slower
-        if (!($result = $this->_memcache->add($id, array($data, time(), $lifetime), $flag, $lifetime))) {
-            $result = $this->_memcache->set($id, array($data, time(), $lifetime), $flag, $lifetime);
-        }
+
+        // ZF-8856: using set because add needs a second request if item already exists
+        $result = @$this->_memcache->set($id, array($data, time(), $lifetime), $flag, $lifetime);
+
         if (count($tags) > 0) {
-            $this->_log("Zend_Cache_Backend_Memcached::save() : tags are unsupported by the Memcached backend");
+            $this->_log(self::TAGS_UNSUPPORTED_BY_SAVE_OF_MEMCACHED_BACKEND);
         }
+
         return $result;
     }
 
@@ -237,7 +238,7 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
      */
     public function remove($id)
     {
-        return $this->_memcache->delete($id);
+        return $this->_memcache->delete($id, 0);
     }
 
     /**
@@ -380,25 +381,26 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
     {
         $mems = $this->_memcache->getExtendedStats();
 
-        $memSize = 0;
-        $memUsed = 0;
+        $memSize = null;
+        $memUsed = null;
         foreach ($mems as $key => $mem) {
-        	if ($mem === false) {
-                Zend_Cache::throwException('can\'t get stat from ' . $key);
-        	} else {
-        		$eachSize = $mem['limit_maxbytes'];
-        		if ($eachSize == 0) {
-                    Zend_Cache::throwException('can\'t get memory size from ' . $key);
-        		}
+            if ($mem === false) {
+                $this->_log('can\'t get stat from ' . $key);
+                continue;
+            }
 
-        		$eachUsed = $mem['bytes'];
-		        if ($eachUsed > $eachSize) {
-		            $eachUsed = $eachSize;
-		        }
+            $eachSize = $mem['limit_maxbytes'];
+            $eachUsed = $mem['bytes'];
+            if ($eachUsed > $eachSize) {
+                $eachUsed = $eachSize;
+            }
 
-        		$memSize += $eachSize;
-        		$memUsed += $eachUsed;
-        	}
+            $memSize += $eachSize;
+            $memUsed += $eachUsed;
+        }
+
+        if ($memSize === null || $memUsed === null) {
+            Zend_Cache::throwException('Can\'t get filling percentage');
         }
 
         return ((int) (100. * ($memUsed / $memSize)));
@@ -466,7 +468,7 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
             }
             // #ZF-5702 : we try replace() first becase set() seems to be slower
             if (!($result = $this->_memcache->replace($id, array($data, time(), $newLifetime), $flag, $newLifetime))) {
-            	$result = $this->_memcache->set($id, array($data, time(), $newLifetime), $flag, $newLifetime);
+                $result = $this->_memcache->set($id, array($data, time(), $newLifetime), $flag, $newLifetime);
             }
             return $result;
         }

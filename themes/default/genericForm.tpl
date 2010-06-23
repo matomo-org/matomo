@@ -2,7 +2,7 @@
 {if $form_data.errors}
 	<div class="warning">
 		<img src="themes/default/images/warning_medium.png">
-	<strong>Please fix the following errors:</strong>
+	<strong>{'Installation_PleaseFixTheFollowingErrors'|translate}:</strong>
 	<ul>
 	{foreach from=$form_data.errors item=data}
 	<li>{$data}</li>

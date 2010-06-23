@@ -11,7 +11,6 @@
  */
 
 /**
- *
  * @package Piwik_Dashboard
  */
 class Piwik_Dashboard extends Piwik_Plugin
@@ -19,11 +18,10 @@ class Piwik_Dashboard extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Dashboard',
-			'description' => 'Your Web Analytics Dashboard. You can customize Your Dashboard: add new widgets, change the order of your widgets. Each user can access his own custom Dashboard.',
+			'description' => Piwik_Translate('Dashboard_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 		);
 	}
 
@@ -32,6 +30,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 		return array( 
 			'template_js_import' => 'js',
 			'template_css_import' => 'css',
+			'UsersManager.deleteUser' => 'deleteDashboardLayout',
 		);
 	}
 
@@ -48,19 +47,25 @@ class Piwik_Dashboard extends Piwik_Plugin
 	{
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/Dashboard/templates/dashboard.css\" />\n";
 	}
-	
+
+	function deleteDashboardLayout($notification)
+	{
+		$userLogin = $notification->getNotificationObject();
+		Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
+	}
+
 	public function install()
 	{
 		// we catch the exception
 		try{
-			$sql = "CREATE TABLE ". Piwik::prefixTable('user_dashboard')." (
+			$sql = "CREATE TABLE ". Piwik_Common::prefixTable('user_dashboard')." (
 					login VARCHAR( 100 ) NOT NULL ,
 					iddashboard INT NOT NULL ,
 					layout TEXT NOT NULL,
 					PRIMARY KEY ( login , iddashboard )
 					)  DEFAULT CHARSET=utf8 " ;
 			Piwik_Exec($sql);
-		} catch(Zend_Db_Statement_Exception $e){
+		} catch(Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
 			if(!Zend_Registry::get('db')->isErrNo($e, '1050'))
@@ -72,7 +77,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 	
 	public function uninstall()
 	{
-		$sql = "DROP TABLE ". Piwik::prefixTable('user_dashboard') ;
+		$sql = "DROP TABLE ". Piwik_Common::prefixTable('user_dashboard') ;
 		Piwik_Exec($sql);		
 	}
 	

@@ -19,11 +19,10 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Visits Frequency',
-			'description' => 'Reports various statistics about the Returning Visitor versus the First time visitor.',
+			'description' => Piwik_Translate('VisitFrequency_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 		);
 		return $info;
 	}
@@ -47,7 +46,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency'));
+		Piwik_AddMenu('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency', 'action' => 'index'));
 	}
 	
 	function archivePeriod( $notification )
@@ -67,6 +66,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	
 	function archiveDay($notification)
 	{
+		/* @var $archiveProcessing Piwik_ArchiveProcessing */
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		$query = "SELECT 	count(distinct visitor_idcookie) as nb_uniq_visitors_returning,
@@ -77,11 +77,11 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 							sum(case visit_total_actions when 1 then 1 else 0 end) as bounce_count_returning,
 							sum(case visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted_returning
 				 	FROM ".$archiveProcessing->logTable."
-				 	WHERE visit_server_date = ?
+				 	WHERE visit_last_action_time >= ?
+						AND visit_last_action_time <= ?
 				 		AND idsite = ?
-				 		AND visitor_returning = 1
-				 	GROUP BY visitor_returning";
-		$row = $archiveProcessing->db->fetchRow($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ) );
+				 		AND visitor_returning = 1";
+		$row = $archiveProcessing->db->fetchRow($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ) );
 		
 		if($row === false || $row === null)
 		{

@@ -41,17 +41,9 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
-	function testClearspring()
-	{
-		$view = Piwik_View::factory('test_widget');
-		$view->url1 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&filter_limit=5&token_auth='.Piwik::getCurrentUserTokenAuth();
-		$view->url2 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=VisitTime&actionToWidgetize=getVisitInformationPerServerTime&idSite=1&period=day&date=yesterday&viewDataTable=graphVerticalBar&show_footer=0&token_auth='.Piwik::getCurrentUserTokenAuth();
-		$view->url3 = Piwik_Url::getCurrentUrlWithoutQueryString().'?module=Widgetize&action=iframe&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=cloud&show_footer=1&filter_limit=15&show_search=false&token_auth='.Piwik::getCurrentUserTokenAuth();
-		echo $view->render();
-	}
-	
 	function js()
 	{
+		Piwik_API_Request::reloadAuthUsingTokenAuth();
 		$controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
 		$actionName = Piwik_Common::getRequestVar('actionToWidgetize');
 		$parameters = array ( $fetch = true );
@@ -65,6 +57,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 
 	function iframe()
 	{		
+		Piwik_API_Request::reloadAuthUsingTokenAuth();
 		$controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
 		$actionName = Piwik_Common::getRequestVar('actionToWidgetize');
 		$parameters = array ( $fetch = true );

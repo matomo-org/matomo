@@ -1,3 +1,27 @@
+Introduction
+
+* The js/ folder contains:
+
+  - index.php - a servlet described below
+  - piwik.js - the uncompressed piwik.js source for you to study or reference
+  - README - this documentation file
+
+Why Use "js/index.php"?
+
+* js/index.php (or implicitly as "js/") can be used to serve up the minified
+  piwik.js
+
+  - it supports conditional-GET and Last-Modified, so piwik.js can be cached
+    by the browser
+  - it supports deflate/gzip compression if your web server (e.g., Apache
+    without mod_deflate or mod_gzip), shrinking the data transfer to 3.5K
+
+* js/index.php (or implicitly as "js/") can also act as a proxy to piwik.php
+
+* If you are concerned about the impact of browser-based privacy filters which
+  attempt to block tracking, you can change your tracking code to use "js/"
+  instead of "piwik.js" and "piwik.php", respectively.
+
 Deployment
 
 * piwik.js is minified using YUICompressor 2.4.2.
@@ -12,13 +36,8 @@ Deployment
     $ cd /path/to/piwik/js/
     $ sed 's/eval/replacedEvilString/' <piwik.js | java -jar yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' > piwik-min.js && cp piwik-min.js ../piwik.js
     
-  This will generate the minify /path/to/piwik/js/piwik-min.js and copy it to /path/to/piwik/piwik.js
-
-* The uncompressed piwik.js resides in the js/ folder. If you omit the filename,
-  js/index.php will serve the minified version.  A side effect of this feature
-  is that it is not currently blockable by various AdBlock filters.
-
-	<script src="http"//yoursite/js/" type="text/javascript">
+  This will generate the minify /path/to/piwik/js/piwik-min.js and copy it to
+  /path/to/piwik/piwik.js
 
 * In a production environment, the tests/javascript folder is not used and can
   be removed (if present).

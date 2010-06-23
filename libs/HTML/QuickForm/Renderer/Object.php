@@ -24,7 +24,7 @@
 /**
  * An abstract base class for QuickForm renderers
  */
-require_once 'HTML/QuickForm/Renderer.php';
+require_once dirname(__FILE__) . '/../Renderer.php';
 
 /**
  * A concrete renderer for HTML_QuickForm, makes an object from form contents
@@ -138,7 +138,10 @@ class HTML_QuickForm_Renderer_Object extends HTML_QuickForm_Renderer
     {
         $hobj = new StdClass;
         $hobj->header = $header->toHtml();
-        $this->_obj->sections[$this->_sectionCount] = $hobj;
+        // $this->_obj->sections[$this->_sectionCount] = $hobj;
+        $tmp = $this->_obj->sections;
+        $tmp[$this->_sectionCount] = $hobj;
+        $this->_obj->sections = $tmp;
         $this->_currentSection = $this->_sectionCount++;
     }
 
@@ -231,11 +234,24 @@ class HTML_QuickForm_Renderer_Object extends HTML_QuickForm_Renderer
     {
         $name = $elObj->name;
         if(is_object($this->_currentGroup) && $elObj->type != 'group') {
-            $this->_currentGroup->elements[] = $elObj;
+            // $this->_currentGroup->elements[] = $elObj;
+            $tmp = $this->_currentGroup->elements;
+            $tmp[] = $elObj;
+            $this->_currentGroup->elements = $tmp;
         } elseif (isset($this->_currentSection)) {
-            $this->_obj->sections[$this->_currentSection]->elements[] = $elObj;
+            // $this->_obj->sections[$this->_currentSection]->elements[] = $elObj;
+            $tmpSections = $this->_obj->sections;
+            $tmpCurrentSection = $tmpSections[$this->_currentSection];
+            $tmpElements = $tmpCurrentSection->elements;
+            $tmpElements[] = $elObj;
+            $tmpCurrentSection->elements = $tmpElements;
+            $tmpSections[$this->_currentSection] = $tmpCurrentSection;
+            $this->_obj->sections = $tmpSections;
         } else {
-            $this->_obj->elements[] = $elObj;
+            // $this->_obj->elements[] = $elObj;
+            $tmp = $this->_obj->elements;
+            $tmp[] = $elObj;
+            $this->_obj->elements = $tmp;
         }
     }
 

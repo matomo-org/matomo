@@ -10,9 +10,6 @@
  * @package Piwik
  */
 
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
-
 /**
  * @see core/PluginsManager.php
  * @see core/Translate.php
@@ -108,7 +105,7 @@ class Piwik_FrontController
 		if(!class_exists($controllerClassName, false))
 		{
 			$moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
-			if( !Zend_Loader::isReadable($moduleController))
+			if(!is_readable($moduleController))
 			{
 				throw new Exception("Module controller $moduleController not found!");
 			}
@@ -163,13 +160,14 @@ class Piwik_FrontController
 		try {
 			Piwik::printSqlProfilingReportZend();
 			Piwik::printQueryCount();
+/*		
+			if(Piwik::getModule() !== 'API')
+			{
+				Piwik::printMemoryUsage();
+				Piwik::printTimer();
+			}
+ */
 		} catch(Exception $e) {}
-		
-		if(Piwik::getModule() !== 'API')
-		{
-//			Piwik::printMemoryUsage();
-//			Piwik::printTimer();
-		}
 	}
 	
 	/**
@@ -206,16 +204,21 @@ class Piwik_FrontController
 			}
 
 			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 
 			if($exceptionToThrow)
 			{
 				throw $exceptionToThrow;
 			}
 
-			Piwik_Translate::getInstance()->loadUserTranslation();
 
-			Piwik::createDatabaseObject();
+			try {
+				Piwik::createDatabaseObject();
+			} catch(Exception $e) {
+				Piwik_PostEvent('FrontController.badConfigurationFile', $e);
+				throw $e;
+			}
+
 			Piwik::createLogObject();
 			
 			// creating the access object, so that core/Updates/* can enforce Super User and use some APIs
@@ -230,16 +233,18 @@ class Piwik_FrontController
 				$authAdapter = Zend_Registry::get('auth');
 			} catch(Exception $e){
 				throw new Exception("Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
-									<br>You can activate the plugin by adding:<br>
-									<code>Plugins[] = Login</code><br>
+									<br />You can activate the plugin by adding:<br />
+									<code>Plugins[] = Login</code><br />
 									under the <code>[Plugins]</code> section in your config/config.inc.php");
 			}
 			
 			Zend_Registry::get('access')->reloadAccess($authAdapter);
+			Piwik_Translate::getInstance()->loadUserTranslation();
 			
 			Piwik::raiseMemoryLimitIfNecessary();
 
 			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
+			$pluginsManager->loadTranslations();
 			$pluginsManager->postLoadPlugins();
 			
 			Piwik_PostEvent('FrontController.checkForUpdates');

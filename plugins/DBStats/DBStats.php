@@ -19,11 +19,10 @@ class Piwik_DBStats extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Database statistics',
-			'description' => 'This plugin reports the database usage by Piwik tables.',
+			'description' => Piwik_Translate('DBStats_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 		);
 	}
 
@@ -34,6 +33,9 @@ class Piwik_DBStats extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddAdminMenu('DBStats_DatabaseUsage', array('module' => 'DBStats', 'action' => 'index'));		
+		Piwik_AddAdminMenu('DBStats_DatabaseUsage', 
+							array('module' => 'DBStats', 'action' => 'index'),
+							Piwik::isUserIsSuperUser(),
+							$order = 9);		
 	}
 }

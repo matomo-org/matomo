@@ -10,7 +10,7 @@ menu.prototype =
 		if(urlLoaded == menu.prototype.lastUrlRequested)
 		{
 			$('#content').html( content ).show();
-			$('#loadingPiwik').hide();
+			piwikHelper.hideAjaxLoading();
 			menu.prototype.lastUrlRequested = null;
 		}
 	},
@@ -47,7 +47,7 @@ menu.prototype =
 			.superfish({
 				pathClass : 'current',
 				animation : {opacity:'show'},
-				delay : 1000
+				delay : 2000
 			});
 		this.param.superfish.find("li")
 			.click( self.onClickLI )
@@ -130,8 +130,10 @@ menu.prototype =
 };
 
 $(document).ready( function(){
-	piwikMenu = new menu();
-	piwikMenu.init();
-	piwikMenu.loadFirstSection();
-	broadcast.init();
+	if($('.nav').size()) {
+		piwikMenu = new menu();
+		piwikMenu.init();
+		piwikMenu.loadFirstSection();
+		broadcast.init();
+	}
 });

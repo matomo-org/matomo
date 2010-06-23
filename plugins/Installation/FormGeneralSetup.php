@@ -16,6 +16,25 @@
  */
 class Piwik_Installation_FormGeneralSetup extends Piwik_Form
 {
+	function __construct()
+	{
+		parent::__construct($action = '', $attributes = 'autocomplete="off"');
+	}
+	
+	function validate()
+	{
+		try {
+    		$login = $this->getSubmitValue('login');
+    		if(!empty($login))
+    		{
+    			Piwik::checkValidLoginString($login);
+    		}
+		} catch(Exception $e) {
+			$this->_errors['login'] = $e->getMessage();
+		}
+		return parent::validate();
+	}
+	
 	function init()
 	{
 		$urlToGoAfter = 'index.php' . Piwik_Url::getCurrentQueryString();

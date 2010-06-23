@@ -2,7 +2,6 @@
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='SitesManager'}
-{include file="CoreAdminHome/templates/menu.tpl"}
 
 {literal}
 <style>
@@ -13,7 +12,7 @@ code {
 	border-width:1px 1px 1px 5px;
 	direction:ltr;
 	display:block;
-	font-size:80%;
+	font-size:90%;
 	margin:2px 2px 20px;
 	padding:4px;
 	text-align:left;
@@ -22,7 +21,7 @@ code {
 </style>
 {/literal}
 
-<h2>{$siteName}</h2>
+<h2>{$displaySiteName}</h2>
 <p>{'SitesManager_JsTrackingTagHelp'|translate}:</p>
 
 <code>{$jsTag}</code>

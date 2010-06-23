@@ -19,11 +19,10 @@ class Piwik_VisitTime extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Visits Time',
-			'description' => 'Reports the Local and Server time. Server time information can be useful to schedule a maintenance on the Website.',
+			'description' =>  Piwik_Translate('VisitTime_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 		);
 		return $info;
 	}
@@ -35,6 +34,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
 		);
 		return $hooks;
 	}
@@ -47,9 +47,20 @@ class Piwik_VisitTime extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime'));
+		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime', 'action' => 'index'));
 	}
 
+	function addGoalSegments( $notification )
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments[] = array(
+					'group'  => Piwik_Translate('VisitTime_ColumnServerTime'),
+        			'name'   => Piwik_Translate('VisitTime_ColumnServerTime'),
+        			'module' => 'VisitTime',
+        			'action' => 'getVisitInformationPerServerTime',
+    	);
+	}
+	
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -73,16 +84,37 @@ class Piwik_VisitTime extends Piwik_Plugin
 		$labelSQL = "HOUR(visitor_localtime)";
 		$this->interestByLocalTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		
-		$labelSQL = "HOUR(visit_first_action_time)";
+		$labelSQL = "HOUR(visit_last_action_time)";
 		$this->interestByServerTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+		$this->interestByServerTime = $this->convertServerTimeToLocalTimezone($this->interestByServerTime, $archiveProcessing);
+	}
+	
+	protected function convertServerTimeToLocalTimezone($interestByServerTime, $archiveProcessing)
+	{
+		$date = Piwik_Date::factory($archiveProcessing->getStartDatetimeUTC())->toString();
+		$timezone = $archiveProcessing->site->getTimezone();
+		$visitsByHourTz = array();
+		foreach($interestByServerTime as $hour => $stats)
+		{
+			$datetime = $date . ' '.$hour.':00:00';
+			$hourInTz = (int)Piwik_Date::factory($datetime, $timezone)->toString('H');
+			$visitsByHourTz[$hourInTz] = $stats;
+		}
+		return $visitsByHourTz;
 	}
 	
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
 		$query = $archiveProcessing->queryConversionsBySingleSegment("HOUR(server_time)");
+		$goalByServerTime = array();
 		while($row = $query->fetch())
 		{
-			$this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+			$goalByServerTime[$row['label']][$row['idgoal']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+		}
+		$goalByServerTime = $this->convertServerTimeToLocalTimezone($goalByServerTime, $archiveProcessing);
+		foreach($goalByServerTime as $hour => $goals)
+		{
+			$this->interestByServerTime[$hour][Piwik_Archive::INDEX_GOALS] = $goals;
 		}
 		$archiveProcessing->enrichConversionsByLabelArray($this->interestByServerTime);
 	}

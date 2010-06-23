@@ -156,6 +156,11 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 *  final DataTable (ie. the number of distinct LABEL over the period) (eg. the number of distinct keywords over the last month)
 	 * 
 	 * @param string|array Field name(s) of DataTable to select so we can get the sum 
+	 * @param array (current_column_name => new_column_name) for columns that must change names when summed (eg. unique visitors go from nb_uniq_visitors to sum_daily_nb_uniq_visitors)
+	 * @param int Max row count of parent datatable to archive  
+	 * @param int Max row count of children datatable(s) to archive
+	 * @param string Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count) 
+	 * 
 	 * @return array  array (
 	 * 					nameTable1 => number of rows, 
 	 *  				nameTable2 => number of rows,
@@ -283,10 +288,14 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 
 	protected function computeNbUniqVisitors()
 	{
-		$query = "SELECT count(distinct visitor_idcookie) as nb_uniq_visitors FROM ".$this->logTable."
-			  WHERE visit_server_date >= ? AND visit_server_date <= ? AND idsite = ?";
+		$query = "
+			SELECT count(distinct visitor_idcookie) as nb_uniq_visitors 
+			FROM ".$this->logTable."
+			WHERE visit_last_action_time >= ?
+    				AND visit_last_action_time <= ? 
+    				AND idsite = ?";
 
-		return Zend_Registry::get('db')->fetchOne($query, array( $this->strDateStart, $this->strDateEnd, $this->idsite ));
+		return Zend_Registry::get('db')->fetchOne($query, array( $this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite ));
 	}
 	
 	/**
@@ -297,46 +306,53 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	{
 		parent::postCompute();
 		
-		$blobTable = $this->tableArchiveBlob->getTableName();
-		$numericTable = $this->tableArchiveNumeric->getTableName();
-		
-		// delete out of date records maximum once per day (DELETE request is costly)
-		$key = 'lastPurge_' . $blobTable;
-		$timestamp = Piwik_GetOption($key); 
-		if(!$timestamp 
-			|| $timestamp < time() - 86400 )
-		{
-			// we delete out of date daily archives from table, maximum once per day
-			// those for day N that were processed on day N (means the archives are only partial as the day wasn't finished)
-			$query = "/* SHARDING_ID_SITE = ".$this->idsite." */ 	DELETE 
-						FROM %s
-						WHERE period = ? 
-							AND date1 = DATE(ts_archived)
-							AND DATE(ts_archived) <> CURRENT_DATE()
-						";
-			Piwik_Query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
-			Piwik_Query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
-			
-			// we delete out of date Period records (week/month/etc)
-			// we delete archives that were archived before the end of the period
-			// and only if they are at least 1 day old (so we don't delete archives computed today that may be stil valid) 
-			$query = "	DELETE 
-						FROM %s
-						WHERE period > ? 
-							AND DATE(ts_archived) <= date2
-							AND date(ts_archived) < date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
-						";
-			
-			Piwik_Query(sprintf($query, $blobTable), Piwik::$idPeriods['day']);
-			Piwik_Query(sprintf($query, $numericTable), Piwik::$idPeriods['day']);
-			
-			Piwik_SetOption($key, time());
-		}
-		
 		foreach($this->archives as $archive)
 		{
 			destroy($archive);
 		}
 		$this->archives = array();
+		
+		$blobTable = $this->tableArchiveBlob->getTableName();
+		$numericTable = $this->tableArchiveNumeric->getTableName();
+		
+		$key = 'lastPurge_' . $blobTable;
+		$timestamp = Piwik_GetOption($key); 
+		if(!$timestamp 
+			|| $timestamp < time() - 86400)
+		{
+			Piwik_SetOption($key, time());
+			
+			// we delete out of date daily archives from table, maximum once per day
+			// we only delete archives processed that are older than 1 day, to not delete archives we just processed
+			$yesterday = Piwik_Date::factory('yesterday')->getDateTime();
+			$result = Piwik_FetchAll("
+							SELECT idarchive
+							FROM $numericTable
+							WHERE name='done'
+								AND value = ". Piwik_ArchiveProcessing::DONE_OK_TEMPORARY ."
+								AND ts_archived < ?", array($yesterday));
+			
+			$idArchivesToDelete = array();
+			if(!empty($result))
+			{
+    			foreach($result as $row) {
+    				$idArchivesToDelete[] = $row['idarchive'];
+    			}
+    			$query = "/* SHARDING_ID_SITE = ".$this->idsite." */ 	
+    						DELETE 
+    						FROM %s
+    						WHERE idarchive IN (".implode(',',$idArchivesToDelete).")
+    						";
+    			
+    			Piwik_Query(sprintf($query, $blobTable));
+    			Piwik_Query(sprintf($query, $numericTable));
+			}
+			Piwik::log("Purging temporary archives: done [ purged archives older than $yesterday from $blobTable and $numericTable ] [Deleted IDs: ". implode(',',$idArchivesToDelete)."]");
+		}
+		else
+		{
+			Piwik::log("Purging temporary archives: skipped.");
+		}
+		
 	}	
 }

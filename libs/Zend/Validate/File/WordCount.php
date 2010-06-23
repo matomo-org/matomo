@@ -14,22 +14,22 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: WordCount.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version   $Id: WordCount.php 20358 2010-01-17 19:03:49Z thomas $
  */
 
 /**
  * @see Zend_Validate_File_Count
  */
-require_once 'Zend/Validate/File/Count.php';
+// require_once 'Zend/Validate/File/Count.php';
 
 /**
  * Validator for counting all words in a file
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_WordCount extends Zend_Validate_File_Count
@@ -48,7 +48,7 @@ class Zend_Validate_File_WordCount extends Zend_Validate_File_Count
     protected $_messageTemplates = array(
         self::TOO_MUCH => "Too much words, maximum '%max%' are allowed but '%count%' were counted",
         self::TOO_LESS => "Too less words, minimum '%min%' are expected but '%count%' were counted",
-        self::NOT_FOUND => "The file '%value%' could not be found"
+        self::NOT_FOUND => "File '%value%' could not be found",
     );
 
     /**
@@ -64,7 +64,7 @@ class Zend_Validate_File_WordCount extends Zend_Validate_File_Count
     public function isValid($value, $file = null)
     {
         // Is file readable ?
-        require_once 'Zend/Loader.php';
+        // require_once 'Zend/Loader.php';
         if (!Zend_Loader::isReadable($value)) {
             return $this->_throw($file, self::NOT_FOUND);
         }

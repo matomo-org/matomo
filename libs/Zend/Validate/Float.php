@@ -14,25 +14,25 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Float.php 17470 2009-08-08 22:27:09Z thomas $
+ * @version    $Id: Float.php 21664 2010-03-27 21:39:38Z thomas $
  */
 
 /**
  * @see Zend_Validate_Abstract
  */
-require_once 'Zend/Validate/Abstract.php';
+// require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @see Zend_Locale_Format
  */
-require_once 'Zend/Locale/Format.php';
+// require_once 'Zend/Locale/Format.php';
 
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Float extends Zend_Validate_Abstract
@@ -45,7 +45,7 @@ class Zend_Validate_Float extends Zend_Validate_Abstract
      */
     protected $_messageTemplates = array(
         self::INVALID   => "Invalid type given, value should be float, string, or integer",
-        self::NOT_FLOAT => "'%value%' does not appear to be a float"
+        self::NOT_FLOAT => "'%value%' does not appear to be a float",
     );
 
     protected $_locale;
@@ -53,13 +53,30 @@ class Zend_Validate_Float extends Zend_Validate_Abstract
     /**
      * Constructor for the float validator
      *
-     * @param string|Zend_Locale $locale
+     * @param string|Zend_Config|Zend_Locale $locale
      */
     public function __construct($locale = null)
     {
-        if ($locale !== null) {
-            $this->setLocale($locale);
+        if ($locale instanceof Zend_Config) {
+            $locale = $locale->toArray();
         }
+
+        if (is_array($locale)) {
+            if (array_key_exists('locale', $locale)) {
+                $locale = $locale['locale'];
+            } else {
+                $locale = null;
+            }
+        }
+
+        if (empty($locale)) {
+            // require_once 'Zend/Registry.php';
+            if (Zend_Registry::isRegistered('Zend_Locale')) {
+                $locale = Zend_Registry::get('Zend_Locale');
+            }
+        }
+
+        $this->setLocale($locale);
     }
 
     /**
@@ -77,7 +94,7 @@ class Zend_Validate_Float extends Zend_Validate_Abstract
      */
     public function setLocale($locale = null)
     {
-        require_once 'Zend/Locale.php';
+        // require_once 'Zend/Locale.php';
         $this->_locale = Zend_Locale::findLocale($locale);
         return $this;
     }
@@ -97,28 +114,19 @@ class Zend_Validate_Float extends Zend_Validate_Abstract
             return false;
         }
 
+        if (is_float($value)) {
+            return true;
+        }
+
         $this->_setValue($value);
-        if ($this->_locale === null) {
-            $locale        = localeconv();
-            $valueFiltered = str_replace($locale['thousands_sep'], '', (string) $value);
-            $valueFiltered = str_replace($locale['decimal_point'], '.', $valueFiltered);
-
-            if (strval(floatval($valueFiltered)) != $valueFiltered) {
+        try {
+            if (!Zend_Locale_Format::isFloat($value, array('locale' => $this->_locale))) {
                 $this->_error(self::NOT_FLOAT);
                 return false;
             }
-
-        } else {
-            try {
-                if (!Zend_Locale_Format::isFloat($value, array('locale' => 'en')) &&
-                    !Zend_Locale_Format::isFloat($value, array('locale' => $this->_locale))) {
-                    $this->_error(self::NOT_FLOAT);
-                    return false;
-                }
-            } catch (Zend_Locale_Exception $e) {
-                $this->_error(self::NOT_FLOAT);
-                return false;
-            }
+        } catch (Zend_Locale_Exception $e) {
+            $this->_error(self::NOT_FLOAT);
+            return false;
         }
 
         return true;

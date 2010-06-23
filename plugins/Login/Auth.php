@@ -28,7 +28,7 @@ class Piwik_Login_Auth implements Piwik_Auth
 	{
 		$rootLogin = Zend_Registry::get('config')->superuser->login;
 		$rootPassword = Zend_Registry::get('config')->superuser->password;
-		$rootToken = Piwik_UsersManager_API::getTokenAuth($rootLogin, $rootPassword);
+		$rootToken = Piwik_UsersManager_API::getInstance()->getTokenAuth($rootLogin, $rootPassword);
 
 		if($this->login == $rootLogin
 			&& $this->token_auth == $rootToken)
@@ -42,7 +42,7 @@ class Piwik_Login_Auth implements Piwik_Auth
 		}
 
 		$login = Piwik_FetchOne(
-					'SELECT login FROM '.Piwik::prefixTable('user').' WHERE token_auth = ?',
+					'SELECT login FROM '.Piwik_Common::prefixTable('user').' WHERE token_auth = ?',
 					array($this->token_auth)
 		);
 		if($login !== false)

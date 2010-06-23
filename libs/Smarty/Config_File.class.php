@@ -22,7 +22,7 @@
  * smarty-discussion-subscribe@googlegroups.com 
  *
  * @link http://www.smarty.net/
- * @version 2.6.25
+ * @version 2.6.26
  * @copyright Copyright: 2001-2005 New Digital Group, Inc.
  * @author Andrei Zmievski <andrei@php.net>
  * @access public

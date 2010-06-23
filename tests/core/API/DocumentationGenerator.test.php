@@ -15,13 +15,12 @@ class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 	{
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();	
-		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 		Piwik::createLogObject();
 		Piwik::createAccessObject();
 		Piwik::createDatabaseObject();
 		Piwik::setUserIsSuperUser();
 		$pluginsManager = Piwik_PluginsManager::getInstance();
-		$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+		$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 		
 		$apiGenerator = new Piwik_API_DocumentationGenerator_CallAllMethods();
 		$requestUrls = $apiGenerator->getAllRequestsWithParameters();

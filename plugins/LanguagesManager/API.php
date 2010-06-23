@@ -27,8 +27,9 @@ class Piwik_LanguagesManager_API
 		}
 		return self::$instance;
 	}
-	static protected $availableLanguageNames = null;
-	static protected $languageNames = null;
+
+	protected $availableLanguageNames = null;
+	protected $languageNames = null;
 	
 	/**
 	 * Returns true if specified language is available
@@ -36,10 +37,10 @@ class Piwik_LanguagesManager_API
 	 * @param string $languageCode
 	 * @return bool true if language available; false otherwise
 	 */
-	static public function isLanguageAvailable($languageCode)
+	public function isLanguageAvailable($languageCode)
 	{
 		return $languageCode !== false
-			&& in_array($languageCode, self::getAvailableLanguages());
+			&& in_array($languageCode, $this->getAvailableLanguages());
 	}
 	
 	/**
@@ -47,11 +48,11 @@ class Piwik_LanguagesManager_API
 	 *
 	 * @return array Arry of strings, each containing its ISO language code
 	 */
-	static public function getAvailableLanguages()
+	public function getAvailableLanguages()
 	{
-		if(!is_null(self::$languageNames))
+		if(!is_null($this->languageNames))
 		{
-			return self::$languageNames;
+			return $this->languageNames;
 		}
 		$path = PIWIK_INCLUDE_PATH . "/lang/";
 		$languages = glob($path . "*.php");
@@ -61,7 +62,7 @@ class Piwik_LanguagesManager_API
 		{
 			$languageNames[] = substr($language, $pathLength, -strlen('.php'));
 		}
-		self::$languageNames = $languageNames;
+		$this->languageNames = $languageNames;
 		return $languageNames;
 	}
 
@@ -70,11 +71,11 @@ class Piwik_LanguagesManager_API
 	 *
 	 * @return array Array of arrays
 	 */
-	static public function getAvailableLanguagesInfo()
+	public function getAvailableLanguagesInfo()
 	{
 		require PIWIK_INCLUDE_PATH . '/lang/en.php';
 		$englishTranslation = $translations;
-		$filenames = self::getAvailableLanguages();
+		$filenames = $this->getAvailableLanguages();
 		$languagesInfo = array();
 		foreach($filenames as $filename) 
 		{
@@ -99,22 +100,22 @@ class Piwik_LanguagesManager_API
 	 *
 	 * @return array Arry of array, each containing its ISO language code and name of the language
 	 */ 
-	static public function getAvailableLanguageNames()
+	public function getAvailableLanguageNames()
 	{
-		if(!is_null(self::$availableLanguageNames))
+		if(!is_null($this->availableLanguageNames))
 		{
-			return self::$availableLanguageNames;
+			return $this->availableLanguageNames;
 		}
 		
-		$filenames = self::getAvailableLanguages();
+		$filenames = $this->getAvailableLanguages();
 		$languagesInfo = array();
 		foreach($filenames as $filename) 
 		{
 			require PIWIK_INCLUDE_PATH . "/lang/$filename.php";
 			$languagesInfo[] = array( 'code' => $filename, 'name' => $translations['General_OriginalLanguageName']);
 		}
-		self::$availableLanguageNames = $languagesInfo;
-		return self::$availableLanguageNames;
+		$this->availableLanguageNames = $languagesInfo;
+		return $this->availableLanguageNames;
 	}
 	
 	/**
@@ -123,9 +124,9 @@ class Piwik_LanguagesManager_API
 	 * @param string $languageCode ISO language code
 	 * @return array|false Array of arrays, each containing 'label' (translation index)  and 'value' (translated string); false if language unavailable
 	 */
-	static public function getTranslationsForLanguage($languageCode)
+	public function getTranslationsForLanguage($languageCode)
 	{
-		if(!self::isLanguageAvailable($languageCode))
+		if(!$this->isLanguageAvailable($languageCode))
 		{
 			return false;
 		}
@@ -144,10 +145,10 @@ class Piwik_LanguagesManager_API
 	 * @param string $login
 	 * @param string|false $layout
 	 */
-	static public function getLanguageForUser( $login )
+	public function getLanguageForUser( $login )
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
-		return Piwik_FetchOne('SELECT language FROM '.Piwik::prefixTable('user_language') .
+		return Piwik_FetchOne('SELECT language FROM '.Piwik_Common::prefixTable('user_language') .
 					' WHERE login = ? ', array($login ));
 	}
 	
@@ -157,11 +158,11 @@ class Piwik_LanguagesManager_API
 	 * @param string $login
 	 * @param string $languageCode
 	 */
-	static public function setLanguageForUser($login, $languageCode)
+	public function setLanguageForUser($login, $languageCode)
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
 		$paramsBind = array($login, $languageCode, $languageCode);
-		Piwik_Query('INSERT INTO '.Piwik::prefixTable('user_language') .
+		Piwik_Query('INSERT INTO '.Piwik_Common::prefixTable('user_language') .
 					' (login, language)
 						VALUES (?,?)
 					ON DUPLICATE KEY UPDATE language=?',
@@ -173,7 +174,7 @@ class Piwik_LanguagesManager_API
 	 *
 	 * @return string|null
 	 */
-	static public function getLanguageForSession()
+	public function getLanguageForSession()
 	{
 		$session = new Zend_Session_Namespace("Piwik_LanguagesManager");
 		if(isset($session->language))
@@ -188,7 +189,7 @@ class Piwik_LanguagesManager_API
 	 *
 	 * @param string $languageCode ISO language code
 	 */
-	static public function setLanguageForSession($languageCode)
+	public function setLanguageForSession($languageCode)
 	{
 		$session = new Zend_Session_Namespace("Piwik_LanguagesManager");
 		$session->language = $languageCode;

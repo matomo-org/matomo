@@ -19,29 +19,21 @@ class Piwik_UserSettings extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Visitors Settings',
-			'description' => 'Reports various User Settings: Browser, Browser Family, Operating System, Plugins, Resolution, Global Settings.',
+			'description' => Piwik_Translate('UserSettings_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 		);
 		
 		return $info;
 	}
 
-	// source: http://en.wikipedia.org/wiki/List_of_web_browsers
-	static public $browserType = array(
-		"ie"	=> array("IE"),
-		"gecko" => array("NS", "PX", "FF", "FB", "CA", "GA", "KM", "MO", "SM"),
-		"khtml" => array("SF", "KO", "OW", "CH", "AR"),
-		"opera" => array("OP")
-	);
-
 	static public $browserType_display = array(
-		'ie' => 'Internet Explorer',
-		'gecko' => 'Gecko (Mozilla, Netscape)',
-		'khtml' => 'KHTML (Safari, Chrome)',
-		'opera' => 'Opera',
+		'ie'     => 'Trident (IE)',
+		'gecko'  => 'Gecko (Firefox)',
+		'khtml'  => 'KHTML (Konqueror)',
+		'webkit' => 'WebKit (Safari)',
+		'opera'  => 'Presto (Opera)',
 	);
 
 	function getListHooksRegistered()
@@ -68,12 +60,14 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'UserSettings_SubmenuSettings', array('module' => 'UserSettings'));
+		Piwik_AddMenu('General_Visitors', 'UserSettings_SubmenuSettings', array('module' => 'UserSettings', 'action' => 'index'));
 	}
 	
 	function archiveDay( $notification )
 	{
 		require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
+		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
+		$columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
 		
 		$archiveProcessing = $notification->getNotificationObject();
 		$this->archiveProcessing = $archiveProcessing;
@@ -82,21 +76,21 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$labelSQL = "CONCAT(config_os, ';', config_browser_name, ';', config_resolution)";
 		$interestByConfiguration = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableConfiguration = $archiveProcessing->getDataTableFromArray($interestByConfiguration);
-		$archiveProcessing->insertBlobRecord($recordName, $tableConfiguration->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tableConfiguration->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
 		destroy($tableConfiguration);
 		
 		$recordName = 'UserSettings_os';
 		$labelSQL = "config_os";
 		$interestByOs = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableOs = $archiveProcessing->getDataTableFromArray($interestByOs);
-		$archiveProcessing->insertBlobRecord($recordName, $tableOs->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tableOs->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
 		destroy($tableOs);
 		
 		$recordName = 'UserSettings_browser';
 		$labelSQL = "CONCAT(config_browser_name, ';', config_browser_version)";
 		$interestByBrowser = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableBrowser = $archiveProcessing->getDataTableFromArray($interestByBrowser);
-		$archiveProcessing->insertBlobRecord($recordName, $tableBrowser->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tableBrowser->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
 		
 		$recordName = 'UserSettings_browserType';
 		$tableBrowserType = $this->getTableBrowserByType($tableBrowser);
@@ -109,7 +103,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$interestByResolution = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableResolution = $archiveProcessing->getDataTableFromArray($interestByResolution);
 		$tableResolution->filter('ColumnCallbackDeleteRow', array('label', 'Piwik_UserSettings_keepStrlenGreater'));
-		$archiveProcessing->insertBlobRecord($recordName, $tableResolution->getSerialized());
+		$archiveProcessing->insertBlobRecord($recordName, $tableResolution->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
 		
 		$recordName = 'UserSettings_wideScreen';
 		$tableWideScreen = $this->getTableWideScreen($tableResolution);
@@ -126,6 +120,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
+		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
 		
 		$dataTableToSum = array( 
 				'UserSettings_configuration',
@@ -137,7 +132,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'UserSettings_plugin',
 		);
 		
-		$archiveProcessing->archiveDataTable($dataTableToSum);
+		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
 	}
 	
 	protected function getTableWideScreen($tableResolution)

@@ -15,30 +15,30 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Firebug.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Firebug.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /** Zend_Log */
-require_once 'Zend/Log.php';
+// require_once 'Zend/Log.php';
 
 /** Zend_Log_Writer_Abstract */
-require_once 'Zend/Log/Writer/Abstract.php';
+// require_once 'Zend/Log/Writer/Abstract.php';
 
 /** Zend_Log_Formatter_Firebug */
-require_once 'Zend/Log/Formatter/Firebug.php';
+// require_once 'Zend/Log/Formatter/Firebug.php';
 
 /** Zend_Wildfire_Plugin_FirePhp */
-require_once 'Zend/Wildfire/Plugin/FirePhp.php';
+// require_once 'Zend/Wildfire/Plugin/FirePhp.php';
 
 /**
  * Writes log messages to the Firebug Console via FirePHP.
- * 
+ *
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Log_Writer_Firebug extends Zend_Log_Writer_Abstract
@@ -56,35 +56,47 @@ class Zend_Log_Writer_Firebug extends Zend_Log_Writer_Abstract
                                        Zend_Log::NOTICE => Zend_Wildfire_Plugin_FirePhp::INFO,
                                        Zend_Log::INFO   => Zend_Wildfire_Plugin_FirePhp::INFO,
                                        Zend_Log::DEBUG  => Zend_Wildfire_Plugin_FirePhp::LOG);
-    
+
     /**
      * The default logging style for un-mapped priorities
      * @var string
-     */    
+     */
     protected $_defaultPriorityStyle = Zend_Wildfire_Plugin_FirePhp::LOG;
-    
+
     /**
      * Flag indicating whether the log writer is enabled
      * @var boolean
      */
     protected $_enabled = true;
-    
+
     /**
      * Class constructor
      */
     public function __construct()
     {
-        if (php_sapi_name()=='cli') {
+        if (php_sapi_name() == 'cli') {
             $this->setEnabled(false);
         }
-        
+
         $this->_formatter = new Zend_Log_Formatter_Firebug();
     }
-    
+   
+    /**
+     * Create a new instance of Zend_Log_Writer_Firebug
+     * 
+     * @param  array|Zend_Config $config
+     * @return Zend_Log_Writer_Firebug
+     * @throws Zend_Log_Exception
+     */
+    static public function factory($config)
+    {
+        return new self();
+    }
+
     /**
      * Enable or disable the log writer.
-     * 
-     * @param boolean $enabled Set to TRUE to enable the log writer 
+     *
+     * @param boolean $enabled Set to TRUE to enable the log writer
      * @return boolean The previous value.
      */
     public function setEnabled($enabled)
@@ -93,43 +105,43 @@ class Zend_Log_Writer_Firebug extends Zend_Log_Writer_Abstract
         $this->_enabled = $enabled;
         return $previous;
     }
-    
+
     /**
      * Determine if the log writer is enabled.
-     * 
+     *
      * @return boolean Returns TRUE if the log writer is enabled.
      */
     public function getEnabled()
     {
         return $this->_enabled;
     }
-    
+
     /**
      * Set the default display style for user-defined priorities
-     * 
+     *
      * @param string $style The default log display style
      * @return string Returns previous default log display style
-     */    
+     */
     public function setDefaultPriorityStyle($style)
     {
         $previous = $this->_defaultPriorityStyle;
         $this->_defaultPriorityStyle = $style;
         return $previous;
     }
-    
+
     /**
      * Get the default display style for user-defined priorities
-     * 
+     *
      * @return string Returns the default log display style
-     */    
+     */
     public function getDefaultPriorityStyle()
     {
         return $this->_defaultPriorityStyle;
     }
-    
+
     /**
      * Set a display style for a logging priority
-     * 
+     *
      * @param int $priority The logging priority
      * @param string $style The logging display style
      * @return string|boolean The previous logging display style if defined or TRUE otherwise
@@ -146,7 +158,7 @@ class Zend_Log_Writer_Firebug extends Zend_Log_Writer_Abstract
 
     /**
      * Get a display style for a logging priority
-     * 
+     *
      * @param int $priority The logging priority
      * @return string|boolean The logging display style if defined or FALSE otherwise
      */
@@ -169,15 +181,15 @@ class Zend_Log_Writer_Firebug extends Zend_Log_Writer_Abstract
         if (!$this->getEnabled()) {
             return;
         }
-      
+
         if (array_key_exists($event['priority'],$this->_priorityStyles)) {
             $type = $this->_priorityStyles[$event['priority']];
         } else {
             $type = $this->_defaultPriorityStyle;
         }
-        
+
         $message = $this->_formatter->format($event);
-        
+
         $label = isset($event['firebugLabel'])?$event['firebugLabel']:null;
 
         Zend_Wildfire_Plugin_FirePhp::getInstance()->send($message,

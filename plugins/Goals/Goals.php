@@ -26,11 +26,10 @@ class Piwik_Goals extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => '(ALPHA) Goal Tracking',
-			'description' => 'Create Goals and see reports about your goal conversions: evolution over time, revenue per visit, conversions per referer, per keyword, etc.',
+			'description' => Piwik_Translate('Goals_PluginDescription'),
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
-			'version' => '0.1',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 			'TrackerPlugin' => true, // this plugin must be loaded during the stats logging
 		);
 		
@@ -55,11 +54,20 @@ class Piwik_Goals extends Piwik_Plugin
 		
 		// add the 'goal' entry in the website array
 		$array =& $notification->getNotificationObject();
-		$array['goals'] = Piwik_Goals_API::getGoals($idsite);
+		$array['goals'] = Piwik_Goals_API::getInstance()->getGoals($idsite);
 	}
 	
 	function addWidgets()
 	{
+		Piwik_AddWidget('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
+		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
+		if(count($goals) > 0)
+		{
+			foreach($goals as $goal) 
+			{
+        		Piwik_AddWidget('Goals_Goals', $goal['name'], 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
+			}
+		}
 	}
 	
 	function addMenus()
@@ -67,14 +75,14 @@ class Piwik_Goals extends Piwik_Plugin
 		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
 		if(count($goals)==0)
 		{
-			Piwik_AddMenu('Goals', 'Add a new Goal', array('module' => 'Goals', 'action' => 'addNewGoal'));
+			Piwik_AddMenu('Goals_Goals', 'Goals_AddNewGoal', array('module' => 'Goals', 'action' => 'addNewGoal'));
 		}
 		else
 		{
-			Piwik_AddMenu('Goals', 'Overview', array('module' => 'Goals'));
+			Piwik_AddMenu('Goals_Goals', 'Goals_Overview', array('module' => 'Goals', 'action' => 'index'));
 			foreach($goals as $goal) 
 			{
-				Piwik_AddMenu('Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+				Piwik_AddMenu('Goals_Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
 			}
 		}
 	}
@@ -88,7 +96,7 @@ class Piwik_Goals extends Piwik_Plugin
 	static public function getRecordName($recordName, $idGoal = false, $visitorReturning = false)
 	{
 		$idGoalStr = $returningStr = '';
-		if($idGoal !== false)
+		if(!empty($idGoal))
 		{
 			$idGoalStr = $idGoal . "_";
 		}
@@ -180,14 +188,14 @@ class Piwik_Goals extends Piwik_Plugin
 					$metricName = Piwik_Archive::$mappingFromIdToNameGoal[$metricId];
 					$recordName = self::getRecordName($metricName, $idgoal, $visitor_returning);
 					$archiveProcessing->insertNumericRecord($recordName, $value);
-//					echo $record . "<br>";
+//					echo $record . "<br />";
 				}
 			}
 		}
 	
 		// Stats for all goals
 		$totalAllGoals = array(
-			self::getRecordName('conversion_rate')	=> round(100 * $archiveProcessing->getNumberOfVisitsConverted() / $archiveProcessing->getNumberOfVisits(), self::ROUNDING_PRECISION),
+			self::getRecordName('conversion_rate')	=> $this->getConversionRate($archiveProcessing->getNumberOfVisitsConverted(), $archiveProcessing),
 			self::getRecordName('nb_conversions')	=> $nb_conversions,
 			self::getRecordName('revenue') 			=> $revenue,
 		);
