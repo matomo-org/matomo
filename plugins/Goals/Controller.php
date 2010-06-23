@@ -224,7 +224,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
 												&filter_sort_column=$columnNbConversions
 												&filter_limit=3");
 			$datatable = $request->process();
-			echo $datatable;
 			$topSegment = array();
 			foreach($datatable->getRows() as $row)
 			{
