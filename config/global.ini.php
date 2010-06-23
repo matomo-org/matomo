@@ -254,6 +254,7 @@ Plugins[] 		= Dashboard
 Plugins[] 		= MultiSites
 Plugins[] 		= Referers
 Plugins[] 		= UserSettings
+Plugins[]       = Goals
 
 Plugins[] 		= UserCountry
 Plugins[] 		= VisitsSummary

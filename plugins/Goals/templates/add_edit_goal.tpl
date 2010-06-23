@@ -1,7 +1,10 @@
 {if isset($onlyShowAddNewGoal)}
     <h2>{'Goals_AddNewGoal'|translate}</h2>
+    <p>{'Goals_DescriptionGoalsManagement'|translate} </p>
+    <p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
+    </p>
 {else}
-	<h2>Goals management</h2>
+	<h2>{'Goals_GoalsManagement'|translate}</h2>
 	<ul class='listCircle'>
 		<li><a onclick='' name='linkAddNewGoal'><u>{'Goals_CreateNewGOal'|translate}</u></a></li>
 		<li><a onclick='' name='linkEditGoals'>{'Goals_ViewAndEditGoals'|translate}</a></li>
@@ -18,7 +21,9 @@
 		{include file="Goals/templates/list_goal_edit.tpl"}
 	{/if}
 	{include file="Goals/templates/form_add_goal.tpl"}
-	<div id='goalsCancel'>{'General_OrCancel'|translate:"<a id='goalsCancelLink'>":"</a>"}</div>
+	{if !isset($onlyShowAddNewGoal)}
+		<div id='goalsCancel'>{'General_OrCancel'|translate:"<a id='goalsCancelLink'>":"</a>"}</div>
+	{/if}
 	<a id='bottom'></a>
 </div>
 
