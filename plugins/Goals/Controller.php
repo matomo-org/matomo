@@ -219,10 +219,12 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			$request = new Piwik_API_Request("method=$apiMethod
 												&format=original
 												&filter_update_columns_when_show_all_goals=1
+												&filter_only_display_idgoal=". Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_FULL_TABLE ."
 												&filter_sort_order=desc
 												&filter_sort_column=$columnNbConversions
 												&filter_limit=3");
 			$datatable = $request->process();
+			echo $datatable;
 			$topSegment = array();
 			foreach($datatable->getRows() as $row)
 			{
