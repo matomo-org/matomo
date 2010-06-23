@@ -1,5 +1,5 @@
 /**
- * Copyright 2007, 2008, 2009, 2010  Matthieu Aubrey
+ * Copyright 2007, 2008, 2009, 2010  Matthieu Aubry
  * All rights reserved.
  *
  * @link http://dev.piwik.org/trac/browser/trunk/libs/jquery/truncate
