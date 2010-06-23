@@ -1,4 +1,5 @@
 {loadJavascriptTranslations plugins='CoreHome'}
+<script type="text/javascript" src="libs/jquery/jquery-calendar.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/calendar.js"></script>
 <script type="text/javascript" src="plugins/CoreHome/templates/date.js"></script>
 
@@ -10,11 +11,11 @@
 			{foreach from=$otherPeriods item=thisPeriod} | <a href='{url period=$thisPeriod}'>{$periodsNames.$thisPeriod.singular}</a>{/foreach}
 		</span>
 	</span>
-	<br />
-	<span id="datepicker"></span>
+	<br/>
+	<span id="calendar"></span>
 </span>
 
-{literal}<script type="text/javascript">
+{literal}<script language="javascript">
 $(document).ready(function() {
      // this will trigger to change only the period value on search query and hash string.
      $("#otherPeriods a").bind('click',function(e) {
@@ -26,4 +27,5 @@ $(document).ready(function() {
 });</script>
 {/literal}
 
-<div style="clear:both;"></div>
+<div style="clear:both"></div>
+

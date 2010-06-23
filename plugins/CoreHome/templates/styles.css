@@ -11,10 +11,6 @@ h2 {
 	clear:both;
 }
 
-h2 a {
-	text-decoration:none;
-}
-
 h3 {
 	font-size: 1.3em;
 	margin-top: 2em;
@@ -24,7 +20,6 @@ h3 {
 p {
 	padding-bottom: 1em;
 	margin-right: 1em;
-	margin-left:1em;
 }
 
 /* Content */
@@ -50,14 +45,26 @@ p {
 	padding-left:10px;
 }
 
-/* Calendar*/
-div.ui-datepicker {
-	font-size: 62.5%;
+#calendar {
+	display: block;
 }
 
-.ui-datepicker-current-period a, .ui-datepicker-current-period a:link, .ui-datepicker-current-period a:visited {
-	border: 1px solid #2E85FF;
+/* Calendar*/
+.calendar td.dateToday,.calendar td.dateToday a {
+	font-weight: bold;
+}
+
+.calendar td.dateUsedStats,.calendar td.dateUsedStats a {
 	color: #2E85FF;
+	border-color: #2E85FF;
+}
+
+.calendar td.calendar_unselectable {
+	color: #F2F7FF;
+}
+
+.calendar {
+	line-height: 1.33;
 }
 
 #otherPeriods a {
@@ -85,7 +92,6 @@ div .sparkline {
 	margin-top:10px;
 	border-bottom:1px solid white;
 }
-
 .sparkline img {
 	vertical-align: middle;
 	padding-right: 10px;

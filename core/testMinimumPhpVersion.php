@@ -10,6 +10,9 @@
  * @package Piwik
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die;
+
 /**
  * This file is executed before anything else. 
  * It checks the minimum PHP version required to run Piwik.
@@ -45,7 +48,7 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 {
 	if($optionalTrace)
 	{
-		$optionalTrace = '<font color="#888888">Backtrace:<br /><pre>'.$optionalTrace.'</pre></font>';
+		$optionalTrace = '<font color="#888888">Backtrace:<br/><pre>'.$optionalTrace.'</pre></font>';
 	}
 	if($optionalLinks)
 	{
@@ -66,7 +69,6 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	exit;
 }
 
-// added in PHP 4.3.0
 if (!function_exists('file_get_contents'))
 {
 	function file_get_contents($filename)

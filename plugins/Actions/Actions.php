@@ -19,8 +19,7 @@
  */
 class Piwik_Actions extends Piwik_Plugin
 {
-	static protected $actionUrlCategoryDelimiter = null;
-	static protected $actionTitleCategoryDelimiter = null;
+	static protected $actionCategoryDelimiter = null;
 	static protected $defaultActionName = null;
 	static protected $defaultActionNameWhenNotDefined = null;
 	static protected $defaultActionUrlWhenNotDefined = null;
@@ -32,10 +31,11 @@ class Piwik_Actions extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'description' => Piwik_Translate('Actions_PluginDescription'),
+			'name' => 'Actions',
+			'description' => 'Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic!',
 			'author' => 'Piwik',
-			'author_homepage' => 'http://piwik.org/',
-			'version' => Piwik_Version::VERSION,
+			'homepage' => 'http://piwik.org/',
+			'version' => '0.1',
 		);
 		return $info;
 	}
@@ -53,18 +53,7 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	public function __construct()
 	{
-		// for BC, we read the old style delimiter first (see #1067)
-		$actionDelimiter = Zend_Registry::get('config')->General->action_category_delimiter;
-		if(empty($actionDelimiter)) 
-		{
-    		self::$actionUrlCategoryDelimiter =  Zend_Registry::get('config')->General->action_url_category_delimiter;
-    		self::$actionTitleCategoryDelimiter =  Zend_Registry::get('config')->General->action_title_category_delimiter;
-		}
-		else
-		{
-			self::$actionUrlCategoryDelimiter = self::$actionTitleCategoryDelimiter = $actionDelimiter;
-		}
-		
+		self::$actionCategoryDelimiter =  Zend_Registry::get('config')->General->action_category_delimiter;
 		self::$defaultActionName = Zend_Registry::get('config')->General->action_default_name;
 		self::$defaultActionNameWhenNotDefined = Zend_Registry::get('config')->General->action_default_name_when_not_defined;
 		self::$defaultActionUrlWhenNotDefined = Zend_Registry::get('config')->General->action_default_url_when_not_defined;
@@ -75,8 +64,6 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPagesEntry', 'Actions', 'getEntryPageUrls');
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPagesExit', 'Actions', 'getExitPageUrls');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPages', 'Actions', 'getPageUrls');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPageTitles', 'Actions', 'getPageTitles');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
@@ -86,8 +73,6 @@ class Piwik_Actions extends Piwik_Plugin
 	function addMenus()
 	{
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPages', array('module' => 'Actions', 'action' => 'getPageUrls'));
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'getEntryPageUrls'));
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'getExitPageUrls'));
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'getPageTitles'));
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'getOutlinks'));
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'getDownloads'));
@@ -128,7 +113,6 @@ class Piwik_Actions extends Piwik_Plugin
 	public function archiveDay( $notification )
 	{
 		//TODO Actions should use integer based keys like other archive in piwik
-		/* @var $archiveProcessing Piwik_ArchiveProcessing */
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		$this->actionsTablesByType = array(
@@ -159,12 +143,11 @@ class Piwik_Actions extends Piwik_Plugin
 					FROM (".$archiveProcessing->logTable." as t1
 						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
 							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 ON (t2.idaction_url = t3.idaction)
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
+					WHERE visit_server_date = ?
 						AND idsite = ?
 					GROUP BY t3.idaction
 					ORDER BY nb_hits DESC";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 
 		/*
@@ -178,12 +161,11 @@ class Piwik_Actions extends Piwik_Plugin
 					FROM (".$archiveProcessing->logTable." as t1
 						LEFT JOIN ".$archiveProcessing->logVisitActionTable." as t2 USING (idvisit))
 							LEFT JOIN ".$archiveProcessing->logActionTable." as t3 ON (t2.idaction_name = t3.idaction)
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
+					WHERE visit_server_date = ?
 						AND idsite = ?
 					GROUP BY t3.idaction
 					ORDER BY nb_hits DESC";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 
 		/*
@@ -198,12 +180,11 @@ class Piwik_Actions extends Piwik_Plugin
 							sum(case visit_total_actions when 1 then 1 else 0 end) as entry_bounce_count
 					FROM ".$archiveProcessing->logTable." 
 						JOIN ".$archiveProcessing->logActionTable." ON (visit_entry_idaction_url = idaction)
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
+					WHERE visit_server_date = ?
 						AND idsite = ?
 					GROUP BY visit_entry_idaction_url
 					";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 
@@ -213,15 +194,15 @@ class Piwik_Actions extends Piwik_Plugin
 		$query = "SELECT 	name,
 							type,
 							count(distinct visitor_idcookie) as exit_nb_uniq_visitors,
-							count(*) as exit_nb_visits
+							count(*) as exit_nb_visits,
+							sum(case visit_total_actions when 1 then 1 else 0 end) as exit_bounce_count
 				 	FROM ".$archiveProcessing->logTable." 
 						JOIN ".$archiveProcessing->logActionTable." ON (visit_exit_idaction_url = idaction)
-				 	WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
+				 	WHERE visit_server_date = ?
 				 		AND idsite = ?
 				 	GROUP BY visit_exit_idaction_url
 					";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		
 		/*
@@ -233,12 +214,11 @@ class Piwik_Actions extends Piwik_Plugin
 					FROM (".$archiveProcessing->logTable." log_visit 
 						JOIN ".$archiveProcessing->logVisitActionTable." log_link_visit_action USING (idvisit))
 							JOIN ".$archiveProcessing->logActionTable."  log_action ON (log_action.idaction = log_link_visit_action.idaction_url_ref)
-					WHERE visit_last_action_time >= ?
-						AND visit_last_action_time <= ?
+					WHERE visit_server_date = ?
 				 		AND idsite = ?
 				 	GROUP BY idaction_url_ref
 				";
-		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->getStartDatetimeUTC(), $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite ));
+		$query = $archiveProcessing->db->query($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ));
 		$modified = $this->updateActionsTableWithRowQuery($query);
 		$this->archiveDayRecordInDatabase($archiveProcessing);
 	}
@@ -340,21 +320,12 @@ class Piwik_Actions extends Piwik_Plugin
 			}
 		}
 		
-	    if($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) 
-	    {
-	    	$categoryDelimiter = self::$actionTitleCategoryDelimiter;
-	    } 
-	    else 
-	    {
-	    	$categoryDelimiter = self::$actionUrlCategoryDelimiter;
-	    }
-	    
-		if(empty($categoryDelimiter))
+		if(empty(self::$actionCategoryDelimiter))
 		{
 			return array( trim($name) );
 		}
 
-		$split = explode($categoryDelimiter, $name, self::$limitLevelSubCategory);
+		$split = explode(self::$actionCategoryDelimiter, $name, self::$limitLevelSubCategory);
 
 		// trim every category and remove empty categories
 		$split = array_map('trim', $split);
@@ -378,14 +349,9 @@ class Piwik_Actions extends Piwik_Plugin
 		$rowsProcessed = 0;
 		while( $row = $query->fetch() )
 		{
-			// in some unknown case, the type field is NULL, as reported in #1082 - we ignore this page view
-			if(empty($row['type'])) {
-				continue;
-			}
-			
 			$actionExplodedNames = $this->getActionExplodedNames($row['name'], $row['type']);
 
-			// we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
+			// we work on the root table of the given TYPE (either ACTION or DOWNLOAD or OUTLINK etc.)
 			$currentTable =& $this->actionsTablesByType[$row['type']];
 
 			// go to the level of the subcategory
@@ -404,7 +370,7 @@ class Piwik_Actions extends Piwik_Plugin
 			{
 				$actionName = '/' . $actionName;
 			}
-			else 
+			else if( $row['type'] == Piwik_Tracker_Action::TYPE_ACTION_NAME )
 			{
 				$actionName = ' ' . $actionName;
 			}
@@ -429,14 +395,6 @@ class Piwik_Actions extends Piwik_Plugin
 							Piwik_DataTable_Row::METADATA => array('url' => (string)$row['name']),
 						));
 				}
-			}
-			
-			// For pages that bounce, we don't know the time on page.
-			if($row['type'] == Piwik_Tracker_Action::TYPE_ACTION_URL
-				&& isset($row['nb_visits'])
-				&& !isset($row['sum_time_spent']))
-			{
-				$row['sum_time_spent'] = Zend_Registry::get('config')->Tracker->default_time_one_page_visit * $row['nb_visits'];
 			}
 			
 			foreach($row as $name => $value)

@@ -24,7 +24,7 @@
 /**
  * Base class for form elements
  */ 
-require_once dirname(__FILE__) . '/element.php';
+require_once 'HTML/QuickForm/element.php';
 
 /**
  * HTML class for static data

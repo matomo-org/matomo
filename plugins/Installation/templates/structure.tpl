@@ -5,9 +5,7 @@
 <title>Piwik &rsaquo; {'Installation_Installation'|translate}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<link rel="stylesheet" type="text/css" href="themes/default/common.css" />
-<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />
+{postEvent name="template_css_import"}
 
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
@@ -18,17 +16,12 @@
 $(document).ready( function(){
 	$('#toFade').fadeOut(4000, function(){ $(this).css('display', 'hidden'); } );
 	$('input:first').focus();
-	$('#progressbar').progressbar({
-{/literal}
-		value: {$percentDone}
-{literal}
 	});
-});
 </script>
 {/literal}
 
 {literal}
-<style type="text/css">
+<style>
 div.both {
 	clear: both;
 }
@@ -51,7 +44,7 @@ body {
 }
 
 #logo {
-	padding:30px;
+	padding:30;
 }
 
 h1 {
@@ -65,12 +58,6 @@ h3 {
 	margin-top:10px;
 	font-size:17px;
 	color:#3F5163;
-}
-
-.topBarElem {
-	font-family:arial,sans-serif !important;
-	font-size:13px;
-	line-height:1.33;
 }
 
 .error {
@@ -93,16 +80,11 @@ h3 {
 	padding:10;	
 }
 .warning {
-	margin:10px;
 	color:#ff5502;
 	font-size:130%;
 	font-weight:bold;
-	padding:10px 20px 10px 30px;	
+	padding:10;	
 	border: 1px solid #ff5502;
-}
-
-.warning ul {
-	list-style:disc;
 }
 
 .success img, .warning img {
@@ -131,8 +113,10 @@ h3 {
 	margin: auto;
 	background: #FFFFFF;
 	padding: 0.2em 2em 2em 2em;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
+	
+					-moz-border-radius: 8px;
+					-khtml-border-radius: 8px;
+					-webkit-border-radius: 8px;
 }
 /* form errors */
 #adminErrors {
@@ -146,20 +130,20 @@ h3 {
 	font-size:90%;
 }
 
-#generalInstall ul {
+#generalInstall UL {
 	list-style-type: decimal;
 }
-li.futureStep {
+LI.futureStep {
 	color: #d3d3d3;
 }
-li.actualStep {
+LI.actualStep {
 	font-weight: bold;
 }
-li.pastStep {
+LI.pastStep {
 	color: #008000;
 }
 
-p.nextStep a {
+P.nextStep A {
 	font-weight: bold;
 	padding: 0.5em;
 	color: #ae0000;
@@ -167,6 +151,21 @@ p.nextStep a {
 	float:right;
 	font-size:35px;
 	line-height:1em;
+}
+
+#installPercent {
+	width: 100%;
+	height: 1.5em;
+	margin: 0;
+	padding: 0;
+	background-color: #eee;
+	border: 1px solid #ddd;
+}
+#installPercent P {
+	height: 1.5em;
+	background-color: #8aaecc;
+	margin: 0;
+	padding: 0;
 }
 
 td {
@@ -202,15 +201,11 @@ input {
 {/literal}
 </head>
 <body>
-
 <div id="main">
 	<div id="content">
 		<div id="logo">
 			<span id="title">Piwik</span> &nbsp;&nbsp;&nbsp;<span id="subtitle"># {'General_OpenSourceWebAnalytics'|translate}</span>
-		</div>
-		<div style="float:right" id="topRightBar">
-		<br />
-		{postEvent name="template_topBar"}
+			<span style="float:right">{postEvent name="template_topBar"}</span>
 		</div>
 		<div class="both"></div>
 
@@ -229,13 +224,13 @@ input {
 		
 		<div class="both"></div>
 		
-		<br />
-		<br />
 		<h3>{'Installation_InstallationStatus'|translate}</h3>
 		
-		<div id="progressbar"></div>
-		{'Installation_PercentDone'|translate:$percentDone} 
+		<div id="installPercent">
+		<p style="width: {$percentDone}%;"></p>
 	</div>
+	
+	{'Installation_PercentDone'|translate:$percentDone} 
 </div>
 </body>
 </html>

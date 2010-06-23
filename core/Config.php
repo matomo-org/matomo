@@ -20,7 +20,6 @@
  * will read the value minimumMemoryLimit under the [General] section of the config file
  * 
  * @package Piwik
- * @subpackage Piwik_Config
  */
 class Piwik_Config
 {
@@ -38,8 +37,7 @@ class Piwik_Config
 	protected $pathIniFileDefaultConfig 	= null;
 	protected $configFileUpdated 			= false;
 	protected $doWriteFileWhenUpdated		= true;
-	protected $cachedConfigArray 			= array();
-	protected $isTestEnvironment			= false;
+	protected $cachedConfigArray = array();
 	
 	/**
 	 * Storing the correct cwd() because the value is not correct in the destructor
@@ -106,25 +104,12 @@ class Piwik_Config
 	
 	public function init()
 	{
-		if(!is_readable($this->pathIniFileDefaultConfig))
+		$this->defaultConfig = new Zend_Config_Ini($this->pathIniFileDefaultConfig, null, true);
+		if(!Zend_Loader::isReadable($this->pathIniFileUserConfig))
 		{
-			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathIniFileDefaultConfig)));
+			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
 		}
-		$this->defaultConfig = new Piwik_Config_Ini($this->pathIniFileDefaultConfig, null, true);
-		if(is_null($this->defaultConfig) || count($this->defaultConfig->toArray()) == 0)
-		{
-			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathIniFileDefaultConfig, "parse_ini_file()")));
-		}
-
-		if(!is_readable($this->pathIniFileUserConfig))
-		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathIniFileUserConfig)));
-		}
-		$this->userConfig = new Piwik_Config_Ini($this->pathIniFileUserConfig, null, true);
-		if(is_null($this->userConfig) || count($this->userConfig->toArray()) == 0)
-		{
-			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathIniFileUserConfig, "parse_ini_file()")));
-		}
+		$this->userConfig = new Zend_Config_Ini($this->pathIniFileUserConfig, null, true);
 	}
 	
 	/**
@@ -169,13 +154,8 @@ class Piwik_Config
 				$configFile .= "\n";
 			}
 			chdir($this->correctCwd);
-			@file_put_contents($this->pathIniFileUserConfig, $configFile );
+			file_put_contents($this->pathIniFileUserConfig, $configFile );
 		}
-	}
-	
-	public function isFileWritable()
-	{
-		return is_writable($this->pathIniFileUserConfig);
 	}
 	
 	/**
@@ -183,21 +163,7 @@ class Piwik_Config
 	 */
 	public function setTestEnvironment()
 	{
-		$this->isTestEnvironment = true;
 		$this->database = $this->database_tests->toArray();
-		// for unit tests, we set that no plugin is installed. This will force
-		// the test initialization to create the plugins tables, execute ALTER queries, etc.
-		$this->PluginsInstalled = array();
-		$this->disableSavingConfigurationFileUpdates();
-	}
-
-	/**
-	 * Is the config file set to use the test values?
-	 * @return bool
-	 */
-	public function isTestEnvironment()
-	{
-		return $this->isTestEnvironment;
 	}
 	
 	/**
@@ -326,49 +292,5 @@ class Piwik_Config
 			$this->cacheConfigArray();
 		}
 		return $this->cachedConfigArray[$name];
-	}
-}
-
-/**
- * Subclasses Zend_Config_Ini so we can use our own parse_ini_file() wrapper.
- *
- * @package Piwik
- * @subpackage Piwik_Config
- */
-class Piwik_Config_Ini extends Zend_Config_Ini
-{
-    /**
-     * Handle any errors from parse_ini_file
-     *
-     * @param integer $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param integer $errline
-     */
-	public function _parseFileErrorHandler($errno, $errstr, $errfile, $errline)
-	{
-		$this->_loadFileErrorHandler($errno, $errstr, $errfile, $errline);
-	}
-
-	/**
-	 * Load ini file configuration
-	 *
-	 * Derived from Zend_Config_Ini->_loadIniFile() and Zend_Config_Ini->_parseIniFile()
-	 * @license New BSD License
-	 *
-	 * @param string $filename
-	 * @return array
-	 */
-	protected function _loadIniFile($filename)
-	{
-		set_error_handler(array($this, '_parseFileErrorHandler'));
-		$iniArray = _parse_ini_file($filename, true);
-		restore_error_handler();
-		// Check if there was an error while loading the file
-		if ($this->_loadFileErrorStr !== null) {
-			throw new Zend_Config_Exception($this->_loadFileErrorStr);
-		}
-
-		return $iniArray;
 	}
 }

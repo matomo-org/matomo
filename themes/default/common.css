@@ -22,9 +22,6 @@ ol,ul {
 blockquote,q {
 	quotes: none;
 }
-label {
-	cursor:pointer;
-}
 /* remember to define focus styles! */
 :focus {
 	outline: 0;
@@ -35,13 +32,6 @@ ins {
 }
 del {
 	text-decoration: line-through;
-}
-/* br clear="all" deprecated */
-br.clearAll {
-	clear: both;
-	height: 0;
-	line-height: 0;
-	font-size: px; /*for IE*/
 }
 /* start piwik styles */
 body {
@@ -95,8 +85,6 @@ a {
 	padding:5px;
 	font-weight:bold; 
 	right:10px;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
 }
 #header_message, #header_message a { 
 	color:#FF7F00; 
@@ -110,7 +98,7 @@ a {
 	float: left;
 	height: 22px;
 	padding-left: 10px;
-	width:620px; /* when this is not set, wrong display in safari/chrome? */
+	width:550px; /* when this is not set, wrong display in safari/chrome? */
 }
 #topLeftBar, #topRightBar {
 	font-family: arial, sans-serif !important;
@@ -174,7 +162,7 @@ a {
 .tableForm .submit {
 	text-align:center;
 }
-input.submit {
+.submit input{
 	margin-top:15px;
 	background:transparent url(./images/background-submit.png) repeat scroll 0%;
 	font-size:1.4em;
@@ -183,9 +171,8 @@ input.submit {
 	border-width:3px;
 	color:#333;
 	padding:0.15em;
-	align:center;
 }
-.ajaxError {
+#ajaxError {
 	color: red;
 	text-align: center;
 	font-weight: bold;
@@ -193,29 +180,4 @@ input.submit {
 	border: 3px solid red;
 	margin: 10px;
 	padding: 10px;
-	-moz-border-radius:9px;
-	-webkit-border-radius:9px;
 }
-.ajaxSuccess {
-	padding: 20px;
-	margin:10px;
-	display: block;
-	color:#301901;
-	border: 1px solid #e6db55;
-	-moz-border-radius:3px;
-	-webkit-border-radius:3px;
-	background-color: #ffffe0;
-	padding:0 0.6em;
-	display:inline-block;
-}
-/* extending the jquery UI css for inline help */
-.ui-widget { 
-	text-align:justify;
-}
-
-.ui-inline-help {
-	width:170px;
-	margin-top:20px;
-	padding:0 0.7em;
-}
-

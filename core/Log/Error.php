@@ -51,7 +51,7 @@ class Piwik_Log_Error extends Piwik_Log
 		$event['errline'] = $errline;
 		$event['backtrace'] = $backtrace;
 		
-		parent::log($event, Piwik_Log::ERR, null);
+		parent::log($event, Piwik_Log::ERR);
 	}
 }
 
@@ -106,10 +106,10 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
 	        default:                    $strReturned .=  "Unknown error ($errno)"; break;
 	    }
 	    $strReturned .= ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
-	    $strReturned .= "<br /><br />Backtrace --&gt;<div style=\"font-family:Courier;font-size:10pt\">";
-	    $strReturned .= str_replace("\n", "<br />\n", $backtrace);
-	    $strReturned .= "</div><br /><br />";
-	    $strReturned .= "\n</pre></div><br />";
+	    $strReturned .= "<br><br>Backtrace --><DIV style='font-family:Courier;font-size:10pt'>";
+	    $strReturned .= str_replace("\n", "<br>\n", $backtrace);
+	    $strReturned .= "</div><br><br>";
+	    $strReturned .= "\n</pre></div><br>";
 	    
 	    return parent::format($strReturned);
     }

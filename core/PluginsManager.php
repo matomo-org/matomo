@@ -10,6 +10,9 @@
  * @package Piwik
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die;
+
 /**
  * @see core/PluginsFunctions/Menu.php
  * @see core/PluginsFunctions/AdminMenu.php
@@ -39,13 +42,7 @@ class Piwik_PluginsManager
 	protected $loadedPlugins = array();
 	
 	protected $doLoadAlwaysActivatedPlugins = true;
-	protected $pluginToAlwaysActivate = array(  'CoreHome', 
-												'CoreUpdater', 
-												'CoreAdminHome', 
-												'CorePluginsAdmin', 
-												'Installation', 
-												'SitesManager', 
-												'UsersManager' );
+	protected $pluginToAlwaysActivate = array( 'CoreHome', 'CoreUpdater', 'CoreAdminHome', 'CorePluginsAdmin' );
 
 	static private $instance = null;
 	
@@ -115,7 +112,7 @@ class Piwik_PluginsManager
 			if($key !== false)
 			{
 				unset($pluginsTracker[$key]);
-				Zend_Registry::get('config')->Plugins_Tracker = array('Plugins_Tracker' => $pluginsTracker);
+				Zend_Registry::get('config')->Plugins_Tracker = $pluginsTracker;
 			}
 		}
 	}
@@ -157,7 +154,7 @@ class Piwik_PluginsManager
 		Zend_Registry::get('config')->Plugins = $plugins;
 	}
 	
-	public function loadPlugins( array $pluginsToLoad )
+	public function setPluginsToLoad( array $pluginsToLoad )
 	{
 		// case no plugins to load
 		if(is_null($pluginsToLoad))
@@ -165,7 +162,7 @@ class Piwik_PluginsManager
 			$pluginsToLoad = array();
 		}
 		$this->pluginsToLoad = $pluginsToLoad;
-		$this->reloadPlugins();
+		$this->loadPlugins();
 	}
 	
 	public function doNotLoadPlugins()
@@ -177,22 +174,13 @@ class Piwik_PluginsManager
 	{
 		$this->doLoadAlwaysActivatedPlugins = false;
 	}
-
-	public function loadTranslations()
-	{
-		$plugins = $this->getLoadedPlugins();
-
-		foreach($plugins as $plugin)
-		{
-			$this->loadTranslation( $plugin, $this->languageToLoad );
-		}
-	}
-
+	
 	public function postLoadPlugins()
 	{
 		$plugins = $this->getLoadedPlugins();
 		foreach($plugins as $plugin)
 		{
+			$this->loadTranslation( $plugin, $this->languageToLoad );
 			$plugin->postLoad();
 		}
 	}
@@ -204,7 +192,9 @@ class Piwik_PluginsManager
 	 */
 	public function getLoadedPluginsName()
 	{
-		return array_map('get_class', $this->getLoadedPlugins());
+		$oPlugins = $this->getLoadedPlugins();
+		$pluginNames = array_map('get_class',$oPlugins);
+		return $pluginNames;
 	}
 	
 	/**
@@ -240,7 +230,7 @@ class Piwik_PluginsManager
 	 * Register the observers for every plugin.
 	 * 
 	 */
-	private function reloadPlugins()
+	public function loadPlugins()
 	{
 		$this->pluginsToLoad = array_unique($this->pluginsToLoad);
 
@@ -258,17 +248,17 @@ class Piwik_PluginsManager
 					&& $this->isPluginActivated($pluginName))
 				{
 					$this->addPluginObservers( $newPlugin );
+					$this->addLoadedPlugin( $pluginName, $newPlugin);
 				}
 			}
 		}
 	}
 	
 	/**
-	 * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry
+	 * Loads the plugin filename and instanciates the plugin with the given name, eg. UserCountry
 	 * Do NOT give the class name ie. Piwik_UserCountry, but give the plugin name ie. UserCountry 
 	 *
-	 * @param string $pluginName
-	 * @return Piwik_Plugin
+	 * @param Piwik_Plugin $pluginName
 	 */
 	public function loadPlugin( $pluginName )
 	{
@@ -288,8 +278,7 @@ class Piwik_PluginsManager
 
 		if(!file_exists($path))
 		{
-			throw new Exception("Unable to load plugin '$pluginName' because '$path' couldn't be found.
-			You can manually uninstall the plugin by removing the line <code>Plugins[] = $pluginName</code> from the Piwik config file.");
+			throw new Exception("Unable to load plugin '$pluginName' because '$path' couldn't be found.");
 		}
 
 		// Don't remove this.
@@ -306,9 +295,6 @@ class Piwik_PluginsManager
 		{
 			throw new Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
 		}
-
-		$this->addLoadedPlugin( $pluginName, $newPlugin);
-
 		return $newPlugin;
 	}
 	
@@ -361,7 +347,7 @@ class Piwik_PluginsManager
 		try{
 			$plugin->install();
 		} catch(Exception $e) {
-			throw new Piwik_PluginsManager_PluginException($plugin->getClassName(), $e->getMessage());		}	
+			throw new Piwik_PluginsManager_PluginException($plugin->getName(), $plugin->getClassName(), $e->getMessage());		}	
 	}
 	
 	
@@ -395,12 +381,12 @@ class Piwik_PluginsManager
 	 */
 	private function loadTranslation( $plugin, $langCode )
 	{
-		// we are in Tracker mode if Piwik_Loader is not (yet) loaded
-		if(!class_exists('Piwik_Loader', false))
+		// we are certainly in Tracker mode, Zend is not loaded
+		if(!class_exists('Zend_Loader', false))
 		{
 			return ;
 		}
-
+		
 		$infos = $plugin->getInformation();		
 		if(!isset($infos['translationAvailable']))
 		{
@@ -412,7 +398,7 @@ class Piwik_PluginsManager
 		{
 			return;
 		}
-	
+		
 		$pluginName = $plugin->getClassName();
 		
 		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName .'/lang/%s.php';
@@ -450,6 +436,13 @@ class Piwik_PluginsManager
 		return $pluginNames;
 	}
 	
+	public function getInstalledPlugins()
+	{
+		$plugins = $this->getLoadedPlugins();
+		$installed = $this->getInstalledPluginsName();
+		return array_intersect_key($plugins, array_combine($installed, array_fill(0, count($installed), 1)));
+	}
+
 	private function installPluginIfNecessary( Piwik_Plugin $plugin )
 	{
 		$pluginName = $plugin->getClassName();
@@ -493,24 +486,18 @@ class Piwik_PluginsManager
  */
 class Piwik_PluginsManager_PluginException extends Exception 
 {
-	function __construct($pluginName, $message)
+	function __construct($pluginName, $className, $message)
 	{
 		parent::__construct("There was a problem installing the plugin ". $pluginName . ": " . $message. "
 				If this plugin has already been installed, and if you want to hide this message</b>, you must add the following line under the 
 				[PluginsInstalled] 
 				entry in your config/config.ini.php file:
-				PluginsInstalled[] = $pluginName" );
+				PluginsInstalled[] = $className" );
 	}
 }
 
 /**
  * Post an event to the dispatcher which will notice the observers
- * 
- * @param $eventName The event name
- * @param $object Object, array or string that the listeners can read and/or modify.
- *                Listeners can call $object =& $notification->getNotificationObject(); to fetch and then modify this variable.
- * @param $info Additional array of data that can be used by the listeners, but not edited
- * @return void
  */
 function Piwik_PostEvent( $eventName,  &$object = null, $info = array() )
 {
@@ -543,11 +530,11 @@ class Piwik_Event_Notification extends Event_Notification
 				$className = is_object($callback[0]) ? get_class($callback[0]) : $callback[0];
 				$method = $callback[1];
 
-				echo "after $className -> $method <br />";
+				echo "after $className -> $method <br>";
 				echo "-"; Piwik::printTimer();
-				echo "<br />";
+				echo "<br>";
 				echo "-"; Piwik::printMemoryLeak();
-				echo "<br />";
+				echo "<br>";
 			}
 		}
 	}

@@ -120,7 +120,7 @@ abstract class Piwik_Archive
 	{
 		if($idSite === 'all')
 		{
-			$sites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+			$sites = Piwik_SitesManager_API::getSitesIdWithAtLeastViewAccess();
 		}
 		else
 		{

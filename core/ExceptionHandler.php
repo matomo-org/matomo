@@ -32,7 +32,7 @@ function Piwik_ExceptionHandler(Exception $exception)
 		$formatter = new Piwik_Log_Exception_Formatter_ScreenFormatter();
 		
 		$message = $formatter->format($event);
-		$message .= "<br /><br />And this exception raised another exception \"". $e->getMessage()."\"";
+		$message .= "<br><br>And this exception raised another exception \"". $e->getMessage()."\"";
 		
 		Piwik::exitWithErrorMessage( $message );
 	}

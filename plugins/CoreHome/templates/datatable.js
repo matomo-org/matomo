@@ -131,7 +131,7 @@ dataTable.prototype =
 	
 	// Function called to trigger the AJAX request 
 	// The ajax request contains the function callback to trigger if the request is successful or failed
-	// displayLoading = false When we don't want to display the Loading... DIV .pk-loadingDataTable
+	// displayLoading = false When we don't want to display the Loading... DIV #loadingDataTable
 	// for example when the script add a Loading... it self and doesn't want to display the generic Loading
 	reloadAjaxDataTable: function(displayLoading, callbackSuccess)
 	{
@@ -148,7 +148,7 @@ dataTable.prototype =
 		
 		if(displayLoading)
 		{
-			$('#'+self.workingDivId+' .pk-loadingDataTable').last().css('display','block');
+			$('#'+self.workingDivId+' #loadingDataTable').css('display','block');
 		}
 		
 		$.ajax(self.buildAjaxRequest(callbackSuccess));
@@ -170,15 +170,14 @@ dataTable.prototype =
 		{
 			// we add class to the table so that we can give a different style to the subtable
 			$(content).find('table.dataTable').addClass('subDataTable');
-			$(content).find('.dataTableFeatures').addClass('subDataTable');
+			$(content).find('#dataTableFeatures').addClass('subDataTable');
 			
 			//we force the initialisation of subdatatables
-			dataTableSel.html( $(content) );
+			dataTableSel.html( $(content).html() );
 		}
 		else
 		{
-			dataTableSel.find('object').remove();
-			dataTableSel.html( $(content) );
+			dataTableSel.html( $(content).html() );
 			piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 		}
 	},	
@@ -205,50 +204,8 @@ dataTable.prototype =
 		self.handleLowPopulationLink(domElem);
 		self.handleOffsetInformation(domElem);
 		self.handleExportBox(domElem);
-		self.handleLinkedRows(domElem);
 		self.applyCosmetics(domElem);
 		self.handleSubDataTable(domElem);
-	},
-	
-	handleLinkedRows: function(domElem)
-	{
-		var self = this;
-		
-		var urlLinkFoundDom = $("tr td:first-child:has('.urlLink')", domElem);
-		if(urlLinkFoundDom.length == 0)
-		{
-			self.truncate( $("table tr td:first-child", domElem) );
-		}
-		else
-		{
-			urlLinkFoundDom.each( function(){
-				// we add a link based on the <span id="urlLink"> present in the column label (the first column)
-				// if this span is there, we add the link around the HTML in the TD
-				// but we add this link only for the rows that are not clickable already (subDataTable)
-				var imgToPrepend = '';
-				if( $(this).find('img').length == 0 )
-				{
-					var imageLinkWidth = 10;
-					var imageLinkHeight = 9;
-					imgToPrepend = '<img class="link" width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="themes/default/images/link.gif" /> ';
-				}
-				var urlLinkDom = $('.urlLink',this);
-				var urlToLink = $(urlLinkDom).html();
-				$(urlLinkDom).remove();
-				
-				var truncationOffsetBecauseImageIsPrepend = -2; //website subtable needs -9. 
-
-				self.truncate( $(this), truncationOffsetBecauseImageIsPrepend );
-				if( urlToLink.match("javascript:") )
-				{
-					$(this).prepend(imgToPrepend).wrapInner('<a href="#" onclick="' + urlToLink.replace("javascript:","") + '"></a>');
-				}
-				else
-				{
-					$(this).prepend(imgToPrepend).wrapInner('<a target="_blank" href="' + urlToLink + '"></a>');
-				} 	
-			});
-		}
 	},
 	
 	// if sorting the columns is enabled, when clicking on a column, 
@@ -282,13 +239,7 @@ dataTable.prototype =
 			$(".sortable#"+self.param.filter_sort_column+' #thDIV', domElem).parent()
 				.addClass('columnSorted')
 				.prepend('<div id="sortIconContainer"><img id="sortIcon" width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+prefixSortIcon+ self.param.filter_sort_order+'.png" /></div>');
-			
-
-			$("th.sortable", domElem)
-					.hover( function() { $(this).css({ cursor: "pointer"}); }, 
-							function() { $(this).css({ cursor: "auto"});
-					});
-	}
+		}
 	},
 	
 	// Add behaviour to the low population link
@@ -297,7 +248,7 @@ dataTable.prototype =
 		var self = this;
 		
 		// Set the string for the DIV, either "Exclude low pop" or "Include all"
-		$('.dataTableExcludeLowPopulation', domElem)
+		$('#dataTableExcludeLowPopulation', domElem)
 			.each(
 				function()
 				{
@@ -350,7 +301,7 @@ dataTable.prototype =
 			currentPattern = '';
 		}
 		
-		$('.dataTableSearchPattern', domElem)
+		$('#dataTableSearchPattern', domElem)
 			.show()
 			.each(function(){
 				// when enter is pressed in the input field we submit the form
@@ -396,7 +347,7 @@ dataTable.prototype =
 				{
 					var target = this;
 					var clearImg = $('<span style="position: relative;">\
-							<img src="plugins/CoreHome/templates/images/reset_search.png" style="position: absolute; top: 4px; left: -15px; cursor: pointer; display: inline;" title="Clear" />\
+							<img src="plugins/CoreHome/templates/images/reset_search.png" style="position: absolute; top: 4px; left: -15px; cursor: pointer; display: inline;" title="Clear"/>\
 							</span>')
 						.click( function() {
 							$('#keyword', target).val('');
@@ -414,7 +365,7 @@ dataTable.prototype =
 	{
 		var self = this;
 		
-		$('.dataTablePages', domElem).each(
+		$('#dataTablePages', domElem).each(
 			function(){
 				var offset = 1+Number(self.param.filter_offset);
 				var offsetEnd = Number(self.param.filter_offset) + Number(self.param.filter_limit);
@@ -433,7 +384,7 @@ dataTable.prototype =
 		);
 		
 		// Display the next link if the total Rows is greater than the current end row
-		$('.dataTableNext', domElem)
+		$('#dataTableNext', domElem)
 			.each(function(){
 				var offsetEnd = Number(self.param.filter_offset) 
 									+ Number(self.param.filter_limit);
@@ -452,7 +403,7 @@ dataTable.prototype =
 		;
 		
 		// Display the previous link if the current offset is not zero
-		$('.dataTablePrevious', domElem)
+		$('#dataTablePrevious', domElem)
 			.each(function(){
 					var offset = 1+Number(self.param.filter_offset);
 					if(offset != 1)
@@ -485,18 +436,18 @@ dataTable.prototype =
 		}
 		
 		// When the (+) image is hovered, the export buttons are displayed 
-		$('.dataTableFooterIconsShow', domElem)
+		$('#dataTableFooterIconsShow', domElem)
 			.show()
 			.hover( function() {
 					$(this).fadeOut('slow');
-					$('.exportToFormatIcons', $(this).parent()).show('slow');
+					$('#exportToFormat', $(this).parent()).show('slow');
 				}, function(){}
 		);
 		
 		//timeout object used to hide the datatable export buttons
 		var timeout = null;
 		
-		$('.dataTableFooterIcons', domElem)
+		$('#dataTableFooterIcons', domElem)
 			.hover( function() {
 					//display 'hand' cursor
 					$(this).css({ cursor: "pointer"});
@@ -515,8 +466,8 @@ dataTable.prototype =
 					//set a timeout that will hide export buttons after a few moments
 					var dom = this;
 					timeout = setTimeout(function(){
-						$('.exportToFormatIcons', dom).fadeOut('fast', function(){	//queue the two actions
-						$('.dataTableFooterIconsShow', dom).show('fast');});
+						$('#exportToFormat', dom).fadeOut('fast', function(){	//queue the two actions
+						$('#dataTableFooterIconsShow', dom).show('fast');});
 					}, 1000);
 				}
 		);
@@ -530,7 +481,7 @@ dataTable.prototype =
 				}
 		);
 		
-		$('.tableGoals', domElem)
+		$('#tableGoals', domElem)
 			.show()
 			.click(
 				function(){
@@ -543,7 +494,7 @@ dataTable.prototype =
 				}
 		);
 		
-		$('.tableAllColumnsSwitch', domElem)
+		$('#tableAllColumnsSwitch', domElem)
 			.show()
 			.click(
 				function(){
@@ -560,8 +511,8 @@ dataTable.prototype =
 				}
 		);
 		
-		$('.exportToFormatIcons img', domElem).click(function(){
-			$(this).siblings('.linksExportToFormat').toggle();
+		$('#exportToFormat img', domElem).click(function(){
+			$(this).siblings('#linksExportToFormat').toggle();
 		});
 		
 		$('.exportToFormat', domElem).attr( 'href', function(){
@@ -626,6 +577,42 @@ dataTable.prototype =
 	applyCosmetics: function(domElem)
 	{
 		var self = this;
+		
+		var urlLinkFoundDom = $("tr:not('.subDataTable') td:first-child:has('#urlLink')", domElem);
+		if(urlLinkFoundDom.length == 0)
+		{
+			self.truncate( $("table tr td:first-child", domElem) );
+		}
+		else
+		{
+			var imageLinkWidth = 10;
+			var imageLinkHeight = 9;
+			urlLinkFoundDom.each( function(){
+				// we add a link based on the <span id="urlLink"> present in the column label (the first column)
+				// if this span is there, we add the link around the HTML in the TD
+				// but we add this link only for the rows that are not clickable already (subDataTable)
+				var imgToPrepend = '';
+				if( $(this).find('img').length == 0 )
+				{
+					imgToPrepend = '<img width="'+imageLinkWidth+'" height="'+imageLinkHeight+'" src="themes/default/images/link.gif" /> ';
+				}
+				var urlLinkDom = $('#urlLink',this);
+				var urlToLink = $(urlLinkDom).html();
+				$(urlLinkDom).remove();
+				
+				var truncationOffsetBecauseImageIsPrepend = -2; //website subtable needs -9. 
+				self.truncate( $(this), truncationOffsetBecauseImageIsPrepend );
+
+				if( urlToLink.match("javascript:") )
+				{
+					$(this).prepend(imgToPrepend).wrapInner('<a href="#" onclick="' + urlToLink.replace("javascript:","") + '"></a>');
+				}
+				else
+				{
+					$(this).prepend(imgToPrepend).wrapInner('<a target="_blank" href="' + urlToLink + '"></a>');
+				}
+			});
+		}
 
 		// Add some styles on the cells even/odd
 		// label (first column of a data row) or not
@@ -635,6 +622,14 @@ dataTable.prototype =
 		$("tr:odd td", domElem).slice(1).addClass('columnodd');
 		$("tr:even td", domElem).slice(1).addClass('columneven');
 		
+		// Change cursor on mouse hover if sort is enabled
+		if( self.param.enable_sort ) 
+		{
+			$("th.sortable", domElem)
+				.hover( function() { $(this).css({ cursor: "pointer"}); }, 
+						function() { $(this).css({ cursor: "auto"});
+				});
+		}
 	},
  	
  	//behaviour for 'nested DataTable' (DataTable loaded on a click on a row)
@@ -661,7 +656,7 @@ dataTable.prototype =
 					'<tr>'+
 						'<td colspan="'+numberOfColumns+'" class="cellSubDataTable">'+
 							'<div id="'+divIdToReplaceWithSubTable+'">'+
-								'<span class="pk-loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('CoreHome_Loading_js') +'</span>'+
+								'<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('CoreHome_Loading_js') +'</span>'+
 							'</div>'+
 						'</td>'+
 					'</tr>'
@@ -744,9 +739,6 @@ actionDataTable.prototype =
 	handleExportBox: dataTable.prototype.handleExportBox,
 	handleSort: dataTable.prototype.handleSort,
 	onClickSort: dataTable.prototype.onClickSort,
-	handleLinkedRows: dataTable.prototype.handleLinkedRows,
-	truncate: dataTable.prototype.truncate,
-	handleOffsetInformation: dataTable.prototype.handleOffsetInformation,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
@@ -786,12 +778,10 @@ actionDataTable.prototype =
 		
 		self.handleExportBox(domElem);
 		self.handleSort(domElem);
-		self.handleLinkedRows(domElem);
-		self.handleOffsetInformation(domElem);
 		if( self.workingDivId != undefined)
 		{
-			self.handleSearchBox(domElem, self.dataTableLoaded );
-			self.handleLowPopulationLink(domElem, self.dataTableLoaded );
+			self.handleSearchBox(domElem, self.actionsDataTableLoaded );
+			self.handleLowPopulationLink(domElem, self.actionsDataTableLoaded );
 		}
 	},
 	
@@ -850,8 +840,8 @@ actionDataTable.prototype =
 				$("td:first-child:odd", this).addClass('label labeleven');
 				$("td:first-child:even", this).addClass('label labelodd');
 				// we truncate the labels columns from the second row
-//				$("td:first-child", this).truncate(30);
-//			    $('.truncated', this).tooltip();
+				$("td:first-child", this).truncate(30);
+			    $('.truncated', this).tooltip();
 			})
 			.removeClass('rowToProcess');
 	},
@@ -885,7 +875,7 @@ actionDataTable.prototype =
 			$(domElem).after( '\
 			<tr id="'+divIdToReplaceWithSubTable+'" class="cellSubDataTable">\
 				<td colspan="'+numberOfColumns+'">\
-						<span class="pk-loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
+						<span id="loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
 				</td>\
 			</tr>\
 			');
@@ -951,7 +941,7 @@ actionDataTable.prototype =
 	},
 	
 	//called when the full table actions is loaded
-	dataTableLoaded: function(response)
+	actionsDataTableLoaded: function(response)
 	{
 		var content = $(response);
 		var idToReplace = $(content).attr('id');		
@@ -961,7 +951,7 @@ actionDataTable.prototype =
 		self.parentId = '';
 	
 		var dataTableSel = $('#'+idToReplace);
-		dataTableSel.html( $(content) );
+		dataTableSel.html($(content).html());
 		piwikHelper.lazyScrollTo(dataTableSel[0], 400);
 	},
 	
@@ -986,8 +976,7 @@ actionDataTable.prototype =
 		}
 		
 		// we execute the bindDataTableEvent function for the new DIV
-		self.init(self.workingDivId, $('#'+self.workingDivId));
-//		self.init(self.workingDivId, $('#'+idToReplace));
+		self.init(self.workingDivId, $('#'+idToReplace));
 		
 		//bind back the click event (disabled to avoid double-click problem)
 		self.disabledRowDom.click(
@@ -1001,7 +990,7 @@ actionDataTable.prototype =
 //helper function for actionDataTable
 function getLevelFromClass( style) 
 {
-	if (!style || typeof style == "undefined") return 0;
+	if (typeof style == "undefined") return 0;
 	
 	var currentLevelIndex = style.indexOf('level');
 	var currentLevel = 0;
@@ -1015,7 +1004,7 @@ function getLevelFromClass( style)
 //helper function for actionDataTable
 function getNextLevelFromClass( style )
 {
-	if (!style || typeof style == "undefined") return 0;
+	if (typeof style == "undefined") return 0;
 	currentLevel = getLevelFromClass(style);
 	newLevel = currentLevel;
 	// if this is not a row to process so 

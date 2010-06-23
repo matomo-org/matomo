@@ -79,29 +79,14 @@ dashboard.prototype =
 		// load all widgets
 		$('.widget', self.dashboardElement).each( function() {
 			var uniqueId = $(this).attr('id');
-			self.reloadWidget(uniqueId);
+			function onWidgetLoadedReplaceElementWithContent(loadedContent)
+			{
+				$('#'+uniqueId+'>.widgetContent', self.dashboardElement).html(loadedContent);
+			}
+			widget = widgetsHelper.getWidgetObjectFromUniqueId(uniqueId);
+			widgetParameters = widget["parameters"];
+			$.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent));
 		});
-	},
-
-	reloadEnclosingWidget: function(domNodeInsideWidget)
-	{
-		var uniqueId = $(domNodeInsideWidget).parents('.widget').attr('id');
-		this.reloadWidget(uniqueId);
-	},
-	
-	reloadWidget: function(uniqueId) 
-	{
-		function onWidgetLoadedReplaceElementWithContent(loadedContent)
-		{
-			$('#'+uniqueId+'>.widgetContent', self.dashboardElement).html(loadedContent);
-		}
-		widget = widgetsHelper.getWidgetObjectFromUniqueId(uniqueId);
-		if(widget == false)
-		{
-			return;
-		}
-		widgetParameters = widget["parameters"];
-		$.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent));
 	},
 	
 	addDummyWidgetAtBottomOfColumn: function(columnNumber)
@@ -124,14 +109,13 @@ dashboard.prototype =
 		}
 		columnElement = $(self.dashboardColumnsElement[columnNumber]);
 		emptyWidgetContent = '<div class="sortable">'+
-								widgetsHelper.getEmptyWidgetHtml(uniqueId, widgetName)+
+								widgetsHelper.getEmptyWidgetHtml(uniqueId, widgetName, _pk_translate('Dashboard_LoadingWidget_js'))+
 							'</div>';
 		if(addWidgetOnTop) {
 			columnElement.prepend(emptyWidgetContent);
 		} else {
 			columnElement.append(emptyWidgetContent);
 		}
-		
 		widgetElement = $('#'+ uniqueId);
 		widgetElement
 			.hover( function() {
@@ -157,14 +141,10 @@ dashboard.prototype =
 	{
 		var self = this;
 
-		function onStart(event, ui) {
-			if(!jQuery.support.noCloneEvent) {
-				$('object', this).hide();
-			}
+		function onStart() {
 		}
 
 		function onStop(event, ui) {
-			$('object', this).show();
 			$('.widgetHover', this).removeClass('widgetHover');
 			$('.widgetTopHover', this).removeClass('widgetTopHover');
 			$('.button#close', this).hide();
@@ -181,7 +161,7 @@ dashboard.prototype =
 						forcePlaceholderSize: true,
 						placeholder: 'hover',
 						handle: '.widgetTop',
-						helper: 'clone',
+						helper: 'original',
 						start: onStart,
 						stop: onStop
 					});
@@ -241,7 +221,7 @@ dashboard.prototype =
 			var ajaxRequest =
 			{
 				type: 'POST',
-				url: 'index.php?module=Dashboard&action=saveLayout&token_auth='+piwik.token_auth,
+				url: 'index.php?module=Dashboard&action=saveLayout',
 				dataType: 'html',
 				async: true,
 				error: piwikHelper.ajaxHandleError,

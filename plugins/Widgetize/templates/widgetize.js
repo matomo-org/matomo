@@ -4,7 +4,7 @@ function widgetize()
 	
 	this.getInputFormWithHtml = function(inputId, htmlEmbed)
 	{
-		return '<input class="formEmbedCode" id="'+inputId+'" value="'+ htmlEmbed.replace(/"/g, '&quot;') +'" onclick="javascript:document.getElementById(\''+inputId+'\').focus();document.getElementById(\''+inputId+'\').select();" readonly="true" type="text" />';
+		return '<input class="formEmbedCode" id="'+inputId+'" value="'+ htmlEmbed.replace(/"/g, '&quot;') +'" onclick="javascript:document.getElementById(\''+inputId+'\').focus();document.getElementById(\''+inputId+'\').select();" readonly="true" type="text">';
 	}
 	
 	this.getEmbedUrl = function( parameters, exportFormat )
@@ -84,9 +84,21 @@ function widgetize()
 						'</span>'+
 					'</div>'
 				);
-		});
-				
+			});
+		
+		// Add the Clearspring Export 
+		$(exportButtonsElement).append(
+			'<div id="embedThisWidgetEverywhere">'+
+				'<div id="exportThisWidget">'+
+					'<label for="flashEmbed">&rsaquo; Export anywhere!</label>'+
+					'<img src="http://cdn.clearspring.com/launchpad/static/cs_button_share1.gif">'+
+				'</div>'+
+				'<div id="exportThisWidgetMenu"></div>'+
+			'</div>'
+		);
+
 		// We then replace the div iframeDivToExport with the actual Iframe html
+		// Clearspring will then build a widget that has the same html as this div
 		$('#iframeDivToExport')
 			.html(widgetIframeHtml);
 
@@ -95,8 +107,17 @@ function widgetize()
 			.parent()
 			.append(exportButtonsElement);
 		
+		// Call clearspring
+		$Launchpad.ShowButton({
+								actionElement : "exportThisWidget",
+								targetElement : "exportThisWidgetMenu",
+								userId : "4797da88692e4fe9",
+								widgetName : widgetName + " - Piwik",
+								source : "iframeDivToExport"
+		});
+
 		// JS is buggy at least on IE
 		//var widgetJS = '<script type="text/javascript" src="'+ getEmbedUrl(pluginId, actionId, "js") +'"></scr'+'ipt>';
-		//divEmbedThisWidget.append('<br />Embed JS: '+ getInputFormWithHtml('javascriptEmbed', widgetJS));
+		//divEmbedThisWidget.append('<br/>Embed JS: '+ getInputFormWithHtml('javascriptEmbed', widgetJS));
 	}
 }

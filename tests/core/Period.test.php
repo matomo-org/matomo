@@ -55,6 +55,7 @@ class Test_Piwik_Period extends UnitTestCase
 	function test_day_isFinished_today()
 	{
 		$period = new Piwik_Period_Day( Piwik_Date::today());
+		$this->assertEqual( $period->isFinished(), false);
 		$this->assertEqual( $period->toString(), date("Y-m-d"));
 		$this->assertEqual( $period->getSubperiods(), array());
 		$this->assertEqual( $period->getNumberOfSubperiods(), 0);
@@ -64,6 +65,7 @@ class Test_Piwik_Period extends UnitTestCase
 	{
 		
 		$period = new Piwik_Period_Day( Piwik_Date::yesterday());
+		$this->assertEqual( $period->isFinished(), true);
 		$this->assertEqual( $period->toString(), date("Y-m-d", time()-86400));
 		$this->assertEqual( $period->getSubperiods(), array());
 		$this->assertEqual( $period->getNumberOfSubperiods(), 0);
@@ -73,6 +75,7 @@ class Test_Piwik_Period extends UnitTestCase
 	function test_day_isFinished_tomorrow()
 	{	
 		$period = new Piwik_Period_Day( Piwik_Date::factory(date("Y-m-d",time()+86400)));
+		$this->assertEqual( $period->isFinished(), false);
 		$this->assertEqual( $period->toString(), date("Y-m-d", time()+86400));
 		$this->assertEqual( $period->getSubperiods(), array());
 		$this->assertEqual( $period->getNumberOfSubperiods(), 0);
@@ -82,6 +85,7 @@ class Test_Piwik_Period extends UnitTestCase
 	function test_day_isFinished_31stfeb()
 	{	
 		$period = new Piwik_Period_Day( Piwik_Date::factory("2007-02-31"));
+		$this->assertEqual( $period->isFinished(), true);
 		$this->assertEqual( $period->toString(), "2007-03-03");
 		$this->assertEqual( $period->getSubperiods(), array());
 		$this->assertEqual( $period->getNumberOfSubperiods(), 0);
@@ -220,6 +224,7 @@ class Test_Piwik_Period extends UnitTestCase
 			"2006-12-31",);
 		$this->assertEqual( $month->toString(), $correct);
 	 	$this->assertEqual( $month->getNumberOfSubperiods(), 31);
+	 	$this->assertEqual( $month->isFinished(), true);
 	 }
 	 // testing month feb leap year
 	 function test_month_FebLeap()
@@ -257,6 +262,7 @@ class Test_Piwik_Period extends UnitTestCase
 			"2024-02-29",);
 		$this->assertEqual( $month->toString(), $correct);
 	 	$this->assertEqual( $month->getNumberOfSubperiods(), 29);
+	 	$this->assertEqual( $month->isFinished(), false);
 	 }
 	 // testing month feb non-leap year
 	 function test_month_FebNonLeap()
@@ -293,6 +299,7 @@ class Test_Piwik_Period extends UnitTestCase
 			"2023-02-28",);
 		$this->assertEqual( $month->toString(), $correct);
 	 	$this->assertEqual( $month->getNumberOfSubperiods(), 28);
+	 	$this->assertEqual( $month->isFinished(), false);
 	 }
 	 // testing jan
 	  function test_month_Jan()
@@ -332,6 +339,7 @@ class Test_Piwik_Period extends UnitTestCase
 			"2007-01-31",);
 		$this->assertEqual( $month->toString(), $correct);
 	 	$this->assertEqual( $month->getNumberOfSubperiods(), 31);
+	 	$this->assertEqual( $month->isFinished(), true);
 	 }
 	 // testing month containing a time change (DST)
 	 
@@ -372,6 +380,7 @@ class Test_Piwik_Period extends UnitTestCase
 			"2007-03-31",);
 		$this->assertEqual( $month->toString(), $correct);
 	 	$this->assertEqual( $month->getNumberOfSubperiods(), 31);
+	 	$this->assertEqual( $month->isFinished(), true);
 	 }
 	  function test_month_DSTChangeOct()
 	 {
@@ -410,6 +419,7 @@ class Test_Piwik_Period extends UnitTestCase
 			"2017-10-31",);
 		$this->assertEqual( $month->toString(), $correct);
 	 	$this->assertEqual( $month->getNumberOfSubperiods(), 31);
+	 	$this->assertEqual( $month->isFinished(), false);
 	 }
 	/**
 	 * Testing Period_Week
@@ -436,6 +446,7 @@ class Test_Piwik_Period extends UnitTestCase
 			"2006-01-01",);
 		$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
+	 	$this->assertEqual( $week->isFinished(), true);
 	 }
 	// test week between 2 months Week Mai 29 To Mai 31 2006
 	function test_week_Between2month()
@@ -451,6 +462,7 @@ class Test_Piwik_Period extends UnitTestCase
 			"2006-06-04",);
 		$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
+	 	$this->assertEqual( $week->isFinished(), true);
 	 }
 	// test week between feb and march for leap year
 	function test_week_febLeapyear()
@@ -467,9 +479,11 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$week = new Piwik_Period_Week( Piwik_Date::factory('2023-02-27'));
 	 	$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
+	 	$this->assertEqual( $week->isFinished(), false);
 	 	$week = new Piwik_Period_Week( Piwik_Date::factory('2023-03-01'));
 	 	$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
+	 	$this->assertEqual( $week->isFinished(), false);
 	 }
 	// test week between feb and march for no leap year
 	function test_week_febnonLeapyear()
@@ -486,9 +500,11 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$week = new Piwik_Period_Week( Piwik_Date::factory('2024-02-27'));
 	 	$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
+	 	$this->assertEqual( $week->isFinished(), false);
 	 	$week = new Piwik_Period_Week( Piwik_Date::factory('2024-03-01'));
 	 	$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
+	 	$this->assertEqual( $week->isFinished(), false);
 	 }
 	// test week normal middle of the month
 	function test_week_middleofmonth()
@@ -505,6 +521,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$week = new Piwik_Period_Week( Piwik_Date::factory('2024-10-09'));
 	 	$this->assertEqual( $week->toString(), $correct);
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 7);
+	 	$this->assertEqual( $week->isFinished(), false);
 	 }
 	 
 	 /**
@@ -531,7 +548,9 @@ class Test_Piwik_Period extends UnitTestCase
 		
 	 	$year = new Piwik_Period_Year( Piwik_Date::factory('2024-10-09'));
 	 	$this->assertEqual( $year->getNumberOfSubperiods(), 12);
+	 	$this->assertEqual( $year->isFinished(), false);
 	 	$this->assertEqual( $year->toString(), $correct);
+	 	
 	 }
 	 
 	// test past
@@ -554,6 +573,7 @@ class Test_Piwik_Period extends UnitTestCase
 			
 	 	$week = new Piwik_Period_Year( Piwik_Date::factory('2000-02-15'));
 	 	$this->assertEqual( $week->getNumberOfSubperiods(), 12);
+	 	$this->assertEqual( $week->isFinished(), true);
 	 	$this->assertEqual( $week->toString(), $correct);
 	 }
 	 
@@ -561,6 +581,7 @@ class Test_Piwik_Period extends UnitTestCase
 	// test range 1
 	function test_range_today()
 	{
+		
 	 	$range = new Piwik_Period_Range( 'day', 'last1' );
 	 	$today = Piwik_Date::today();
 	 	
@@ -570,21 +591,7 @@ class Test_Piwik_Period extends UnitTestCase
 		$correct = array_reverse($correct);
 	 		
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
-	 	$this->assertEqual( $range->toString(), $correct);
-	}
-	
-	function test_range_today_UtcPlus12()
-	{
-		// rather ugly test, UTC+23 doesn't exist, but it's a way to test that last1 in UTC+23 will be "our" UTC tomorrow
-	 	$range = new Piwik_Period_Range( 'day', 'last1', 'UTC+23' );
-	 	$today = Piwik_Date::now()->addHour(23);
-	 	
-	 	$correct=array(
-			$today->toString(),
-		);
-		$correct = array_reverse($correct);
-	 		
-	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
+	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	}
 	
@@ -602,6 +609,7 @@ class Test_Piwik_Period extends UnitTestCase
 		$correct = array_reverse($correct);
 	 		
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 2);
+	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 	// test range 3
@@ -619,6 +627,7 @@ class Test_Piwik_Period extends UnitTestCase
 		$correct = array_reverse($correct);
 	 		
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 50);
+	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 	// test range 4
@@ -636,6 +645,7 @@ class Test_Piwik_Period extends UnitTestCase
 		$correct = array_reverse($correct);
 	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 3);
+	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 	 
@@ -652,6 +662,7 @@ class Test_Piwik_Period extends UnitTestCase
  				);
 	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
+	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 
@@ -678,6 +689,7 @@ class Test_Piwik_Period extends UnitTestCase
  				);
 	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
+	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 	// test range date1,date2
@@ -718,6 +730,7 @@ class Test_Piwik_Period extends UnitTestCase
  		);
 	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
+	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 	// test range date1,date2
@@ -758,6 +771,7 @@ class Test_Piwik_Period extends UnitTestCase
 			  ),
  		);
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
+	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 	// test range date1,date2
@@ -837,6 +851,7 @@ class Test_Piwik_Period extends UnitTestCase
  		);
 	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), count($correct));
+	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 
@@ -859,6 +874,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	
 	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 50);
+	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 	 
@@ -868,6 +884,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$range = new Piwik_Period_Range( 'week', 'last1' );
 	 	$currentWeek = new Piwik_Period_Week(Piwik_Date::today());
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
+	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), array($currentWeek->toString()));
 	 }
 	 
@@ -889,6 +906,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$correct = array_reverse($correct);
 		
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 20);
+	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 	 
@@ -898,6 +916,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$range = new Piwik_Period_Range( 'month', 'last1' );
  		$month = new Piwik_Period_Month(Piwik_Date::today());
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
+	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), array($month->toString()));
 	 }
 	 
@@ -921,6 +940,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	
 	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 10);
+	 	$this->assertEqual( $range->isFinished(), true);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 
@@ -942,6 +962,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$correct = array_reverse($correct);
 	 	
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 10);
+	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), $correct);
 	 }
 	 
@@ -952,6 +973,7 @@ class Test_Piwik_Period extends UnitTestCase
 	 	$range = new Piwik_Period_Range( 'year', 'last1' );
 	 	$currentYear = new Piwik_Period_Year(Piwik_Date::today());
 	 	$this->assertEqual( $range->getNumberOfSubperiods(), 1);
+	 	$this->assertEqual( $range->isFinished(), false);
 	 	$this->assertEqual( $range->toString(), array($currentYear->toString()));
 	 }
 }

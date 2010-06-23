@@ -15,15 +15,15 @@
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage Sitemap
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Changefreq.php 21365 2010-03-07 09:38:41Z thomas $
+ * @version    $Id: Changefreq.php 17470 2009-08-08 22:27:09Z thomas $
  */
 
 /**
  * @see Zend_Validate_Abstract
  */
-// require_once 'Zend/Validate/Abstract.php';
+require_once 'Zend/Validate/Abstract.php';
 
 /**
  * Validates whether a given value is valid as a sitemap <changefreq> value
@@ -33,7 +33,7 @@
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage Sitemap
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Sitemap_Changefreq extends Zend_Validate_Abstract
@@ -42,8 +42,7 @@ class Zend_Validate_Sitemap_Changefreq extends Zend_Validate_Abstract
      * Validation key for not valid
      *
      */
-    const NOT_VALID = 'sitemapChangefreqNotValid';
-    const INVALID   = 'sitemapChangefreqInvalid';
+    const NOT_VALID = 'invalidSitemapChangefreq';
 
     /**
      * Validation failure message template definitions
@@ -51,8 +50,7 @@ class Zend_Validate_Sitemap_Changefreq extends Zend_Validate_Abstract
      * @var array
      */
     protected $_messageTemplates = array(
-        self::NOT_VALID => "'%value%' is no valid sitemap changefreq",
-        self::INVALID   => "Invalid type given, the value should be a string",
+        self::NOT_VALID => "'%value%' is not a valid sitemap changefreq",
     );
 
     /**
@@ -75,12 +73,8 @@ class Zend_Validate_Sitemap_Changefreq extends Zend_Validate_Abstract
      */
     public function isValid($value)
     {
-        if (!is_string($value)) {
-            $this->_error(self::INVALID);
-            return false;
-        }
-
         $this->_setValue($value);
+
         if (!is_string($value)) {
             return false;
         }

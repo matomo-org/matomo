@@ -77,11 +77,11 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 		echo "<h2>Simple tag cloud</h2>";
 		$this->echoSimpleTagClouds();
 		
-		echo "<br /><br /><h2>Advanced tag cloud: with logos and links</h2>
+		echo "<br/><br/><h2>Advanced tag cloud: with logos and links</h2>
 		<ul style='list-style-type:disc;margin-left:50px'>
 			<li>The logo size is proportional to the value returned by the API</li>
 			<li>The logo is linked to a specific URL</li>
-		</ul><br /><br />";
+		</ul><br/><br/>";
 		$this->echoAdvancedTagClouds();
 	}
 	function echoSimpleTagClouds()

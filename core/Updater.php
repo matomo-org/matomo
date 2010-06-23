@@ -10,6 +10,9 @@
  * @package Piwik
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die;
+
 /**
  * @see core/Option.php
  */
@@ -58,20 +61,10 @@ class Piwik_Updater
 	public function recordComponentSuccessfullyUpdated($name, $version)
 	{
 		try {
-			Piwik_SetOption($this->getNameInOptionTable($name), $version, $autoload = 1);
+			Piwik_SetOption('version_'.$name, $version, $autoload = 1);
 		} catch(Exception $e) {
 			// case when the option table is not yet created (before 0.2.10)
 		}
-	}
-	
-	/**
-	 * Returns the flag name to use in the option table to record current schema version
-	 * @param string $name
-	 * @return string
-	 */
-	private function getNameInOptionTable($name)
-	{
-		return 'version_'.$name;
 	}
 	
 	/**
@@ -87,79 +80,34 @@ class Piwik_Updater
 	}
 
 	/**
-	 * Component has a new version?
-	 *
-	 * @param string $componentName
-	 * @return bool TRUE if compoment is to be updated; FALSE if not
-	 */
-	public function hasNewVersion($componentName)
-	{
-		return isset($this->componentsWithNewVersion) &&
-			isset($this->componentsWithNewVersion[$componentName]);
-	}
-
-	/**
-	 * Returns the list of SQL queries that would be executed during the update
-	 * 
-	 * @return array of SQL queries 
-	 */
-	public function getSqlQueriesToExecute()
-	{
-		$queries = array();
-		foreach($this->componentsWithUpdateFile as $componentName => $componentUpdateInfo) 
-		{
-			foreach($componentUpdateInfo as $file => $fileVersion)
-			{
-				require_once $file; // prefixed by PIWIK_INCLUDE_PATH
-
-				$className = $this->getUpdateClassName($componentName, $fileVersion);
-				if(class_exists($className, false))
-				{
-					$queriesForComponent = call_user_func( array($className, 'getSql'));
-					foreach($queriesForComponent as $query => $error) {
-						$queries[] = $query.';';
-					}
-				}
-			}
-			// unfortunately had to extract this query from the Piwik_Option class
-    		$queries[] = 'UPDATE '.Piwik_Common::prefixTable('option').' 
-    				SET option_value = "' .$fileVersion.'" 
-    				WHERE option_name = "'. $this->getNameInOptionTable($componentName).'";';
-		}
-		return $queries;
-	}
-	
-	private function getUpdateClassName($componentName, $fileVersion)
-	{
-		$suffix = strtolower(str_replace(array('-','.'), '_', $fileVersion));
-		if($componentName == 'core')
-		{
-			return 'Piwik_Updates_' . $suffix;
-		}
-		return 'Piwik_'. $componentName .'_Updates_' . $suffix;
-	}
-	
-	/**
 	 * Update the named component
 	 *
-	 * @param string $componentName 'core', or plugin name
+	 * @param string $name
 	 * @return array of warning strings if applicable
 	 */
-	public function update($componentName)
+	public function update($name)
 	{
 		$warningMessages = array();
-		foreach($this->componentsWithUpdateFile[$componentName] as $file => $fileVersion)
+		foreach($this->componentsWithUpdateFile[$name] as $file => $fileVersion)
 		{
 			try {
 				require_once $file; // prefixed by PIWIK_INCLUDE_PATH
 
-				$className = $this->getUpdateClassName($componentName, $fileVersion);
+				if($name == 'core')
+				{
+					$className = 'Piwik_Updates_' . str_replace('.', '_', $fileVersion);
+				}
+				else
+				{
+					$className = 'Piwik_'. $name .'_Updates_' . str_replace('.', '_', $fileVersion);
+				}
+
 				if(class_exists($className, false))
 				{
 					call_user_func( array($className, 'update') );
 				}
 
-				$this->recordComponentSuccessfullyUpdated($componentName, $fileVersion);
+				$this->recordComponentSuccessfullyUpdated($name, $fileVersion);
 			} catch( Piwik_Updater_UpdateErrorException $e) {
 				throw $e;
 			} catch( Exception $e) {
@@ -168,7 +116,7 @@ class Piwik_Updater
 		}
 		
 		// to debug, create core/Updates/X.php, update the core/Version.php, throw an Exception in the try, and comment the following line
-		$this->recordComponentSuccessfullyUpdated($componentName, $this->componentsWithNewVersion[$componentName][self::INDEX_NEW_VERSION]);
+		$this->recordComponentSuccessfullyUpdated($name, $this->componentsWithNewVersion[$name][self::INDEX_NEW_VERSION]);
 		return $warningMessages;
 	}
 
@@ -197,9 +145,8 @@ class Piwik_Updater
 			$files = glob( $pathToUpdates );
 			if($files === false)
 			{
-				$files = array();
+				continue;
 			}
-
 			foreach( $files as $file)
 			{
 				$fileVersion = basename($file, '.php');
@@ -299,8 +246,7 @@ class Piwik_Updater
 			try {
 				Piwik_Exec( $update );
 			} catch(Exception $e) {
-				if(($ignoreError === false) 
-					|| !Zend_Registry::get('db')->isErrNo($e, $ignoreError))
+				if(($ignoreError === false) || !Zend_Registry::get('db')->isErrNo($e, $ignoreError))
 				{
 					$message =  $file .":\nError trying to execute the query '". $update ."'.\nThe error was: ". $e->getMessage();
 					throw new Piwik_Updater_UpdateErrorException($message);

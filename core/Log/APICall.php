@@ -47,7 +47,7 @@ class Piwik_Log_APICall extends Piwik_Log
 		$event['execution_time'] = $executionTime;
 		$event['returned_value'] = is_array($returnedValue) ? serialize($returnedValue) : $returnedValue;
 		
-		parent::log($event, Piwik_Log::INFO, null);
+		parent::log($event, Piwik_Log::INFO);
 	}
 }
 
@@ -67,8 +67,8 @@ class Piwik_Log_APICall_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
      */
     public function format($event)
     {
-    	$str =  "\n<br /> ";
-    	$str .= "Called: {$event['class_name']}.{$event['method_name']} (took {$event['execution_time']}ms)\n<br /> ";
+    	$str =  "\n<br> ";
+    	$str .= "Called: {$event['class_name']}.{$event['method_name']} (took {$event['execution_time']}ms) \n<br>";
     	$str .= "Parameters: ";
     	$parameterNamesAndDefault = unserialize($event['parameter_names_default_values']);
     	$parameterValues = unserialize($event['parameter_values']);
@@ -90,10 +90,10 @@ class Piwik_Log_APICall_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
     		
     		$i++;
     	}
-    	$str .=  "\n<br /> ";
+    	$str .=  "\n<br> ";
     	
 //    	$str .= "Returned: ".$this->formatValue($event['returned_value']);
-    	$str .=  "\n<br /> ";
+    	$str .=  "\n<br> ";
     	return parent::format($str);
     }
     

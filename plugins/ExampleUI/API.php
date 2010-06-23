@@ -26,11 +26,11 @@ class Piwik_ExampleUI_API
 		return self::$instance;
 	}
 	
-	public function getTemperaturesEvolution($date, $period)
+	function getTemperaturesEvolution($date, $period)
 	{
 		$period = new Piwik_Period_Range($period, 'last30');
-		$dateStart = $period->getDateStart()->toString('Y-m-d'); // eg. "2009-04-01"
-		$dateEnd = $period->getDateEnd()->toString('Y-m-d'); // eg. "2009-04-30"
+		$dateStart = $period->getDateStart()->get('Y-m-d'); // eg. "2009-04-01"
+		$dateEnd = $period->getDateEnd()->get('Y-m-d'); // eg. "2009-04-30"
 		
 		// here you could select from your custom table in the database, eg.
 		$query = "SELECT AVG(temperature)
@@ -56,7 +56,7 @@ class Piwik_ExampleUI_API
 	}
 	
 	// we generate an array of random server temperatures
-	public function getTemperatures()
+	function getTemperatures()
 	{
 		$xAxis = array(
 			'0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h', 
@@ -75,7 +75,7 @@ class Piwik_ExampleUI_API
 		return $dataTable;
 	}
 	
-	public function getPlanetRatios()
+	function getPlanetRatios()
 	{
 		$planetRatios = array(
 			'Mercury' => 0.382,
@@ -93,7 +93,7 @@ class Piwik_ExampleUI_API
 		return $dataTable;
 	}
 	
-	public function getPlanetRatiosWithLogos()
+	function getPlanetRatiosWithLogos()
 	{
 		$planetsDataTable = $this->getPlanetRatios();
 		foreach($planetsDataTable->getRows() as $row)

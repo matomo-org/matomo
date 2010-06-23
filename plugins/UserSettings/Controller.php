@@ -58,7 +58,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										__FUNCTION__, 
 										'UserSettings.getOS'
 									);
-		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnOperatingSystem'));
+		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnOperatinsSystem'));
 		return $this->renderView($view, $fetch);
 	}
 	

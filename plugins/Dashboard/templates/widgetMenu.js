@@ -55,7 +55,7 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
 	return ajaxRequest;
 };
 
-widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
+widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName, widgetLoadingString)
 {
 	return '<div id="'+uniqueId+'" class="widget">'+
 				'<div class="widgetTop">'+
@@ -66,7 +66,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
 				'</div>'+
 				'<div class="widgetContent">'+ 
 					'<div class="widgetLoading">'+
-						_pk_translate('Dashboard_LoadingWidget_js') +
+						widgetLoadingString +
 					'</div>'+
 				'</div>'+
 			'</div>';
@@ -194,7 +194,10 @@ widgetMenu.prototype =
 										widgetUniqueId, 
 										'<div title="'+_pk_translate("Dashboard_AddPreviewedWidget_js")+'">'+
 											_pk_translate('Dashboard_WidgetPreview_js')+
-										'</div>'
+										'</div>', 
+										'<span id="loadingPiwik">'+
+											'<img src="themes/default/images/loading-blue.gif"> ' +_pk_translate('Dashboard_LoadingWidget_js') +
+										'</span>'
 				);
 				$('#sub3').html(emptyWidgetHtml);
 				
@@ -228,7 +231,6 @@ widgetMenu.prototype =
 			self.filterOutAlreadyLoadedWidget();
 			$.blockUI({
 					message: self.menuElement, 
-					centerY: 0,
 					css: {width:'', top: '5%',left:'10%', right:'10%', margin:"0px", textAlign:'', cursor:'', border:'0px'}
 			});
 		}
@@ -307,7 +309,7 @@ widgetMenu.prototype =
 			);
 			$.extend($.blockUI.defaults.overlayCSS, { backgroundColor: '#000000', opacity: '0.4'});
 			$.extend($.blockUI.defaults,{ fadeIn: 0, fadeOut: 0 });
-			$(document).keydown( function(e) {
+			$(window).keydown( function(e) {
 				var key = e.keyCode || e.which;
 				if(key == 27) {
 					self.hideMenu();

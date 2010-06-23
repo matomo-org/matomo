@@ -18,7 +18,7 @@ class Test_Piwik_Url extends UnitTestCase
     {
     	$this->assertEqual(Piwik_Url::getCurrentQueryStringWithParametersModified(array()),Piwik_Url::getCurrentQueryString() );
     	$this->assertEqual(Piwik_Url::getCurrentUrl(), Piwik_Url::getCurrentUrlWithoutQueryString());
-    	$this->assertEqual(Piwik_Url::getCurrentUrl(), Piwik_Url::getCurrentScheme() . '://' . Piwik_Url::getCurrentHost() . Piwik_Url::getCurrentScriptName() );
+    	$this->assertEqual(Piwik_Url::getCurrentUrl(), Piwik_Url::getCurrentHost() . Piwik_Url::getCurrentScriptName() );
     	
     	print("<br>\nPiwik_Url::getCurrentQueryStringWithParametersModified() "
     				. Piwik_Url::getCurrentQueryStringWithParametersModified(array()));

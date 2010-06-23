@@ -20,14 +20,14 @@ abstract class Piwik_Plugin
 {
 	/**
 	 * Returns the plugin details
-	 * 	'description' => string        // 1-2 sentence description of the plugin
-	 * 	'author' => string             // plugin author 
-	 * 	'author_homepage' => string    // author homepage URL (or email "mailto:youremail@example.org")
-	 * 	'homepage' => string           // plugin homepage URL
-	 * 	'version' => string            // plugin version number; examples and 3rd party plugins must not use Piwik_Version::VERSION;
-	 *                                 // 3rd party plugins must increment the version number with each plugin release
+	 * 	'name' => string             // plugin name
+	 * 	'description' => string      // 1/2 sentences description of the plugin 
+	 * 	'author' => string           // plugin author 
+	 * 	'author_homepage' => string  // author homepage (or email "mailto:youremail@example.org")
+	 * 	'homepage' => string         // plugin homepage
+	 * 	'version' => string          // plugin version number
 	 *  'translationAvailable' => bool // is there a translation file in plugins/your-plugin/lang/* ?
-	 * 	'TrackerPlugin' => bool        // should we load this plugin during the stats logging process?
+	 * 	'TrackerPlugin' => bool     // should we load this plugin during the stats logging process?
 	 */
 	abstract function getInformation();
 
@@ -69,6 +69,17 @@ abstract class Piwik_Plugin
 	}
 	
 	/**
+	 * Returns the plugin name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		$info = $this->getInformation();
+		return $info['name'];
+	}
+
+	/**
 	 * Returns the plugin version number
 	 *
 	 * @return string
@@ -80,13 +91,12 @@ abstract class Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the plugin's base name without the "Piwik_" prefix,
-	 * e.g., "UserCountry" when the plugin class is "Piwik_UserCountry"
+	 * Returns the UserCountry part when the plugin class is Piwik_UserCountry
 	 *
 	 * @return string
 	 */
-	final public function getClassName()
+	public function getClassName()
 	{
-		return Piwik::unprefixClass(get_class($this));
+		return substr(get_class($this), strlen("Piwik_"));
 	}
 }

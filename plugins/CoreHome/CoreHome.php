@@ -19,10 +19,11 @@ class Piwik_CoreHome extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'description' => Piwik_Translate('CoreHome_PluginDescription'),
+			'name' => 'Homepage',
+			'description' => 'Web Analytics Reports Structure.',
 			'author' => 'Piwik',
-			'author_homepage' => 'http://piwik.org/',
-			'version' => Piwik_Version::VERSION,
+			'homepage' => 'http://piwik.org/',
+			'version' => '0.1',
 		);
 	}
 }

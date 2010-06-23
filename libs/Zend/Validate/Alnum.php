@@ -14,33 +14,33 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Alnum.php 20442 2010-01-20 15:15:40Z matthew $
+ * @version    $Id: Alnum.php 17467 2009-08-08 18:06:55Z thomas $
  */
 
 /**
  * @see Zend_Validate_Abstract
  */
-// require_once 'Zend/Validate/Abstract.php';
+require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Alnum extends Zend_Validate_Abstract
 {
     const INVALID      = 'alnumInvalid';
     const NOT_ALNUM    = 'notAlnum';
-    const STRING_EMPTY = 'alnumStringEmpty';
+    const STRING_EMPTY = 'stringEmpty';
 
     /**
      * Whether to allow white space characters; off by default
      *
      * @var boolean
-     * @deprecated
+     * @depreciated
      */
     public $allowWhiteSpace;
 
@@ -58,30 +58,18 @@ class Zend_Validate_Alnum extends Zend_Validate_Abstract
      */
     protected $_messageTemplates = array(
         self::INVALID      => "Invalid type given, value should be float, string, or integer",
-        self::NOT_ALNUM    => "'%value%' contains characters which are non alphabetic and no digits",
-        self::STRING_EMPTY => "'%value%' is an empty string",
+        self::NOT_ALNUM    => "'%value%' has not only alphabetic and digit characters",
+        self::STRING_EMPTY => "'%value%' is an empty string"
     );
 
     /**
      * Sets default option values for this instance
      *
-     * @param  boolean|Zend_Config $allowWhiteSpace
+     * @param  boolean $allowWhiteSpace
      * @return void
      */
     public function __construct($allowWhiteSpace = false)
     {
-        if ($allowWhiteSpace instanceof Zend_Config) {
-            $allowWhiteSpace = $allowWhiteSpace->toArray();
-        }
-
-        if (is_array($allowWhiteSpace)) {
-            if (array_key_exists('allowWhiteSpace', $allowWhiteSpace)) {
-                $allowWhiteSpace = $allowWhiteSpace['allowWhiteSpace'];
-            } else {
-                $allowWhiteSpace = false;
-            }
-        }
-
         $this->allowWhiteSpace = (boolean) $allowWhiteSpace;
     }
 
@@ -133,7 +121,7 @@ class Zend_Validate_Alnum extends Zend_Validate_Abstract
             /**
              * @see Zend_Filter_Alnum
              */
-            // require_once 'Zend/Filter/Alnum.php';
+            require_once 'Zend/Filter/Alnum.php';
             self::$_filter = new Zend_Filter_Alnum();
         }
 

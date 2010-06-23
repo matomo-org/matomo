@@ -10,6 +10,9 @@
  * @package Piwik
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die;
+
 /**
  * @see libs/sparkline/lib/Sparkline_Line.php
  * @link http://sparkline.org
@@ -49,22 +52,18 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 		$width = self::getWidth();
 		$height = self::getHeight();
 		
+		$data = $this->values;
 		$sparkline = new Sparkline_Line();
 		$sparkline->SetColor('lineColor', 22, 44, 74); // dark blue
 		$sparkline->SetColorHtml('red', '#FF7F7F');
 		$sparkline->SetColorHtml('blue', '#55AAFF');
 		$sparkline->SetColorHtml('green', '#75BF7C');
 		
+		$data = array_reverse($data);
 		$min = $max = $last = null;
 		$i = 0;
 		foreach($this->values as $value)
 		{
-			// 50% should be plotted as 50
-			$toRemove = '%';
-			if(strpos($value, $toRemove) !== false)
-			{
-				$value = str_replace($toRemove, '', $value);
-			}
 			$sparkline->SetData($i, $value);
 			if(	null == $min || $value <= $min[1])
 			{
@@ -78,12 +77,14 @@ class Piwik_Visualization_Sparkline implements Piwik_iView
 			$i++;
 		}
 		$sparkline->SetYMin(0);
-		$sparkline->SetYMax($max[1]);
-		$sparkline->SetPadding( 3, 0, 2, 0 ); // top, right, bottom, left
-//		$font = FONT_2;
-		$sparkline->SetFeaturePoint($min[0],  $min[1],  'red', 5);
-		$sparkline->SetFeaturePoint($max[0],  $max[1],  'green', 5);
-		$sparkline->SetFeaturePoint($last[0], $last[1], 'blue', 5);
+		$sparkline->setYMax($max[1] + 0.5); // the +0.5 seems to be mandatory to not lose some pixels when value = max
+		$sparkline->SetPadding( 3, 0, 2, 0);
+		$font = FONT_2;
+		// the -0.5 is a hack as the sparkline samping rendering is obviously slightly bugged
+		// (see also fix marked as //FIX FROM PIWIK in libs/sparkline/lib/Sparkline.php)
+		$sparkline->SetFeaturePoint($min[0] -1,  $min[1],  'red', 5);
+		$sparkline->SetFeaturePoint($max[0] -1,  $max[1],  'green', 5);
+		$sparkline->SetFeaturePoint($last[0] -1, $last[1], 'blue', 5);
 		$sparkline->SetLineSize(3); // for renderresampled, linesize is on virtual image
 		$ratio = 1;
 //		var_dump($min);var_dump($max);var_dump($lasts);exit;

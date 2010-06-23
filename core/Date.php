@@ -18,192 +18,66 @@
 class Piwik_Date
 {
 	/**
-	 * Builds a Piwik_Date object
-	 * 
-	 * @param int timestamp
-	 */
-	protected function __construct( $timestamp, $timezone = 'UTC')
-	{
-		if(!is_int( $timestamp ))
-		{
-			throw new Exception("Piwik_Date is expecting a unix timestamp");
-		}
-		$this->timezone = $timezone;
-		$this->timestamp = $timestamp ;
-	}
-	
-	
-	/**
 	 * Returns a Piwik_Date objects. 
+	 * Accepts strings 'today' 'yesterday' or any YYYY-MM-DD or timestamp
 	 *
-	 * @param string $strDate 'today' 'yesterday' or any YYYY-MM-DD or timestamp
-	 * @param string $timezone if specified, the dateString will be relative to this $timezone. 
-	 * 				For example, today in UTC+12 will be a timestamp in the future for UTC.
-     *              This is different from using ->setTimezone() 
-	 * @return Piwik_Date 
+	 * @param string $strDate
+	 * @return Piwik_Date
 	 */
-	static public function factory($dateString, $timezone = null)
+	static public function factory($dateString)
 	{
-		if($dateString == 'now')
+		if($dateString == 'today') 
 		{
-			$date = self::now();
+			return self::today();
 		}
-		elseif($dateString == 'today') 
+		if($dateString == 'yesterday')
 		{
-			$date = self::today();
+			return self::yesterday();
 		}
-		elseif($dateString == 'yesterday')
-		{
-			$date = self::yesterday();
-		}
-		elseif($dateString == 'yesterdaySameTime')
-		{
-			$date = self::yesterdaySameTime();
-		}
-		elseif (!is_int($dateString)
+		if (!is_int($dateString)
 			&& ($dateString = strtotime($dateString)) === false) 
 		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")));
+			throw new Exception("Date format must be: YYYY-MM-DD, or 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
 		}
-		else
-		{
-			$date = new Piwik_Date($dateString);
-		}
-		if(is_null($timezone))
-		{
-			return $date;
-		}
-		
-		// manually adjust for UTC timezones
-		$utcOffset = self::extractUtcOffset($timezone);
-		if($utcOffset !== false)
-		{
-			return $date->addHour($utcOffset);
-		}
-		
-		date_default_timezone_set($timezone);
-		$datetime = $date->getDatetime();
-		date_default_timezone_set('UTC');
-		
-		$date = Piwik_Date::factory(strtotime($datetime));
-		
-		return $date;
+		return new Piwik_Date($dateString);
 	}
 	
-	/*
-	 * The stored timestamp is always UTC based.
-	 * The returned timestamp via getTimestamp() will have the conversion applied
-	 */
 	protected $timestamp = null;
-	
-	/*
-	 * Timezone the current date object is set to.
-	 * Timezone will only affect the returned timestamp via getTimestamp()
-	 */
- 	protected $timezone = 'UTC';
 
- 	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
- 	
- 	/**
- 	 * Returns the datetime start in UTC
- 	 * 
- 	 * @return string
- 	 */
- 	function getDateStartUTC()
- 	{
- 		$dateStartUTC = date('Y-m-d', $this->timestamp);
- 		$date = Piwik_Date::factory($dateStartUTC)->setTimezone($this->timezone);
- 		return $date->toString(self::DATE_TIME_FORMAT);
- 	}
-
- 	/**
- 	 * Returns the datetime of the current timestamp
- 	 * 
- 	 * @return string
- 	 */
- 	function getDatetime()
- 	{
- 		return $this->toString(self::DATE_TIME_FORMAT);
- 	}
- 	
- 	/**
- 	 * Returns the datetime end in UTC
- 	 * 
- 	 * @return string
- 	 */
- 	function getDateEndUTC()
- 	{
- 		$dateEndUTC = date('Y-m-d 23:59:59', $this->timestamp);
- 		$date = Piwik_Date::factory($dateEndUTC)->setTimezone($this->timezone);
- 		return $date->toString(self::DATE_TIME_FORMAT);
- 	}
- 	
 	/**
-	 * Returns a new date object, copy of $this, with the timezone set
-	 * This timezone is used to offset the UTC timestamp returned by @see getTimestamp()
-	 * Doesn't modify $this
-	 * 
-	 * @param string $timezone 'UTC', 'Europe/London', ...  
-	 */
-	public function setTimezone($timezone)
-	{
-		return new Piwik_Date($this->timestamp, $timezone);
-	}
-	
-	/**
-	 * Helper function that returns the offset in the timezone string 'UTC+14'
-	 * Returns false if the timezone is not UTC+X or UTC-X
-	 * 
-	 * @param $timezone
-	 * @return int or false
-	 */
-	static protected function extractUtcOffset($timezone)
-	{
-		if($timezone == 'UTC')
-		{
-			return 0;
-		}
-		$start = substr($timezone, 0, 4);
-		if($start != 'UTC-' 
-			&& $start != 'UTC+')
-		{
-			return false;
-		}
-		$offset = (float)substr($timezone, 4);
-		if($start == 'UTC-') {
-			$offset = -$offset;
-		}
-		return $offset;
-	}
-	
-	/**
-	 * Returns the unix timestamp of the date in UTC, 
-	 * converted from the date timezone
+	 * Returns the unix timestamp of the date
 	 *
 	 * @return int
 	 */
 	public function getTimestamp()
 	{
-		$utcOffset = self::extractUtcOffset($this->timezone);
-		if($utcOffset !== false) {
-			return (int)($this->timestamp - $utcOffset * 3600);
+		return $this->timestamp;
+	}
+	
+	/**
+	 * Builds a Piwik_Date object
+	 * 
+	 * @param int timestamp
+	 */
+	protected function __construct( $date )
+	{
+		if(!is_int( $date ))
+		{
+			throw new Exception("Piwik_Date is expecting a unix timestamp");
 		}
-		// @fixme
-		// The following code seems clunky - I thought the DateTime php class would allow to return timestamps
-		// after applying the timezone offset. Instead, the underlying timestamp is not changed.
-		// I decided to get the date without the timezone information, and create the timestamp from the truncated string. 
-		// Unit tests pass (@see Date.test.php) but I'm pretty sure this is not the right way to do it
-		date_default_timezone_set($this->timezone);
-		$dtzone = timezone_open('UTC');
-		$time = date('r', $this->timestamp);
-		$dtime = date_create($time);
-		date_timezone_set($dtime, $dtzone);
-		$dateWithTimezone = date_format($dtime, 'r');
-		$dateWithoutTimezone = substr($dateWithTimezone, 0, -6);
-		$timestamp = strtotime($dateWithoutTimezone);
-		date_default_timezone_set('UTC');
-
-		return (int)$timestamp;
+		$this->timestamp =  $date ;
+	}
+	
+	/**
+	 * Sets the time part of the date
+	 * Doesn't modify $this
+	 * 
+	 * @param string $time HH:MM:SS
+	 * @return Piwik_Date The new date with the time part set
+	 */
+	public function setTime($time)
+	{
+		return new Piwik_Date( strtotime( $this->get("j F Y") . " $time"));
 	}
 	
 	/**
@@ -239,7 +113,7 @@ class Piwik_Date
 	{
 		return date($part, $this->getTimestamp());
 	}
-
+	
 	/**
 	 * @see toString()
 	 *
@@ -248,6 +122,149 @@ class Piwik_Date
 	public function __toString()
 	{
 		return $this->toString();
+	}
+
+    /**
+     * Sets a new day
+     * Returned is the new date object
+     * Doesn't modify $this
+     * 
+     * @param int Day eg. 31
+     * @return Piwik_Date  new date
+     */
+	public function setDay( $day )
+	{
+		$ts = $this->getTimestamp();
+		$result = mktime( 
+						date('H', $ts),
+						date('i', $ts),
+						date('s', $ts),
+						date('n', $ts),
+						1,
+						date('Y', $ts)
+					);
+		return new Piwik_Date( $result );
+	}
+	
+    /**
+     * Sets a new year
+     * Returned is the new date object
+     * Doesn't modify $this
+     * 
+     * @param int 2010
+     * @return Piwik_Date  new date
+     */
+	public function setYear( $year )
+	{
+		$ts = $this->getTimestamp();
+		$result = mktime( 
+						date('H', $ts),
+						date('i', $ts),
+						date('s', $ts),
+						date('n', $ts),
+						date('j', $ts),
+						$year
+					);
+		return new Piwik_Date( $result );
+	}
+	
+
+
+    /**
+     * Subtracts days from the existing date object and returns a new Piwik_Date object
+     * Returned is the new date object
+     * Doesn't modify $this
+     * 
+     * @return Piwik_Date  new date
+     */
+    public function subDay( $n )
+    {
+    	if($n === 0) 
+    	{
+    		return clone $this;
+    	}
+    	$ts = strtotime("-$n day", $this->getTimestamp());
+		return new Piwik_Date( $ts );
+    }
+    
+    /**
+     * Subtracts a month from the existing date object.
+     * Returned is the new date object
+     * Doesn't modify $this
+     * 
+     * @return Piwik_Date  new date
+     */
+    public function subMonth( $n )
+    {
+    	if($n === 0) 
+    	{
+    		return clone $this;
+    	}
+		$ts = $this->getTimestamp();
+		$result = mktime( 
+						date('H', $ts),
+						date('i', $ts),
+						date('s', $ts),
+						date('n', $ts) - $n,
+						1, // we set the day to 1
+						date('Y', $ts)
+					);
+		return new Piwik_Date( $result );
+    }
+    
+    /**
+     * Returns a representation of a date or datepart
+     *
+     * @param  string  OPTIONAL Part of the date to return, if null the timestamp is returned
+     * @return integer|string  date or datepart
+     */
+	public function get($part = null)
+	{
+		if(is_null($part))
+		{
+			return $this->getTimestamp();
+		}
+		return date($part, $this->getTimestamp());
+	}
+	
+	/**
+	 * Returns a localized date string, given a template. 
+	 * Allowed tags are: %day%, %shortDay%, %longDay%, etc.
+	 * 
+	 * @param $template string eg. %shortMonth% %longYear%
+	 * @return string eg. "Aug 2009"
+	 */
+	public function getLocalized($template)
+	{
+		$day = $this->toString('j');
+		$dayOfWeek = $this->toString('N');
+		$monthOfYear = $this->toString('n');
+		$patternToValue = array(
+			"%day%" => $day,
+			"%shortMonth%" => Piwik_Translate('General_ShortMonth_'.$monthOfYear),
+			"%longMonth%" => Piwik_Translate('General_LongMonth_'.$monthOfYear),
+			"%shortDay%" => Piwik_Translate('General_ShortDay_'.$dayOfWeek),
+			"%longDay%" => Piwik_Translate('General_LongDay_'.$dayOfWeek),
+			"%longYear%" => $this->toString('Y'),
+			"%shortYear%" => $this->toString('y'),
+			"%time%" => $this->toString('H:i:s T')
+		);
+		$out = str_replace(array_keys($patternToValue), array_values($patternToValue), $template);
+		return $out;
+	}
+	
+    /**
+     * Adds days to the existing date object.
+     * Returned is the new date object
+     * Doesn't modify $this
+     * 
+     * @param int Number of days to add
+     * @return  Piwik_Date new date
+     */
+	public function addDay( $n )
+	{
+		$ts = strtotime("+$n day", $this->getTimestamp());
+		return new Piwik_Date( $ts );
 	}
 
     /**
@@ -272,7 +289,6 @@ class Piwik_Date
 		}
 		return 1;
     }
-    
     /**
      * Compares the month of the current date against the given $date month
      * Returns 0 if equal, -1 if current month is earlier or 1 if current month is later
@@ -303,17 +319,7 @@ class Piwik_Date
 	 */
 	public function isToday()
 	{
-		return $this->toString('Y-m-d') === Piwik_Date::factory('today', $this->timezone)->toString('Y-m-d');
-	}
-	
-	/**
-	 * Returns a date object set to now (same as today, except that the time is also set)
-	 * 
-	 * @return Piwik_Date
-	 */
-	static public function now()
-	{
-		return new Piwik_date(time());
+		return $this->get('Y-m-d') === date('Y-m-d', time());
 	}
 	
 	/**
@@ -334,190 +340,5 @@ class Piwik_Date
 	static public function yesterday()
 	{
 		return new Piwik_Date(strtotime("yesterday"));
-	}
-	
-	/**
-	 * Returns a date object set to yesterday same time of day
-	 * 
-	 * @return Piwik_Date
-	 */
-	static public function yesterdaySameTime()
-	{
-		return new Piwik_Date(strtotime("yesterday ".date('H:i:s')));
-	}
-	
-	/**
-	 * Sets the time part of the date
-	 * Doesn't modify $this
-	 * 
-	 * @param string $time HH:MM:SS
-	 * @return Piwik_Date The new date with the time part set
-	 */
-	public function setTime($time)
-	{
-		return new Piwik_Date( strtotime( date("Y-m-d", $this->timestamp) . " $time"), $this->timezone);
-	}
-	
-    /**
-     * Sets a new day
-     * Returned is the new date object
-     * Doesn't modify $this
-     * 
-     * @param int Day eg. 31
-     * @return Piwik_Date  new date
-     */
-	public function setDay( $day )
-	{
-		$ts = $this->timestamp;
-		$result = mktime( 
-						date('H', $ts),
-						date('i', $ts),
-						date('s', $ts),
-						date('n', $ts),
-						1,
-						date('Y', $ts)
-					);
-		return new Piwik_Date( $result, $this->timezone );
-	}
-	
-    /**
-     * Sets a new year
-     * Returned is the new date object
-     * Doesn't modify $this
-     * 
-     * @param int 2010
-     * @return Piwik_Date  new date
-     */
-	public function setYear( $year )
-	{
-		$ts = $this->timestamp;
-		$result = mktime( 
-						date('H', $ts),
-						date('i', $ts),
-						date('s', $ts),
-						date('n', $ts),
-						date('j', $ts),
-						$year
-					);
-		return new Piwik_Date( $result, $this->timezone );
-	}
-	
-    /**
-     * Subtracts days from the existing date object and returns a new Piwik_Date object
-     * Returned is the new date object
-     * Doesn't modify $this
-     * 
-     * @return Piwik_Date  new date
-     */
-    public function subDay( $n )
-    {
-    	if($n === 0) 
-    	{
-    		return clone $this;
-    	}
-    	$ts = strtotime("-$n day", $this->timestamp);
-		return new Piwik_Date( $ts, $this->timezone );
-    }
-    
-    /**
-     * Subtracts a month from the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
-     * 
-     * @return Piwik_Date  new date
-     */
-    public function subMonth( $n )
-    {
-    	if($n === 0) 
-    	{
-    		return clone $this;
-    	}
-		$ts = $this->timestamp;
-		$result = mktime( 
-						date('H', $ts),
-						date('i', $ts),
-						date('s', $ts),
-						date('n', $ts) - $n,
-						1, // we set the day to 1
-						date('Y', $ts)
-					);
-		return new Piwik_Date( $result, $this->timezone );
-    }
-	
-	/**
-	 * Returns a localized date string, given a template. 
-	 * Allowed tags are: %day%, %shortDay%, %longDay%, etc.
-	 * 
-	 * @param $template string eg. %shortMonth% %longYear%
-	 * @return string eg. "Aug 2009"
-	 */
-	public function getLocalized($template)
-	{
-		$day = $this->toString('j');
-		$dayOfWeek = $this->toString('N');
-		$monthOfYear = $this->toString('n');
-		$patternToValue = array(
-			"%day%" => $day,
-			"%shortMonth%" => Piwik_Translate('General_ShortMonth_'.$monthOfYear),
-			"%longMonth%" => Piwik_Translate('General_LongMonth_'.$monthOfYear),
-			"%shortDay%" => Piwik_Translate('General_ShortDay_'.$dayOfWeek),
-			"%longDay%" => Piwik_Translate('General_LongDay_'.$dayOfWeek),
-			"%longYear%" => $this->toString('Y'),
-			"%shortYear%" => $this->toString('y'),
-			"%time%" => $this->toString('H:i:s')
-		);
-		$out = str_replace(array_keys($patternToValue), array_values($patternToValue), $template);
-		return $out;
-	}
-
-    /**
-     * Adds days to the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
-     * 
-     * @param int Number of days to add
-     * @return  Piwik_Date new date
-     */
-	public function addDay( $n )
-	{
-		$ts = strtotime("+$n day", $this->timestamp);
-		return new Piwik_Date( $ts, $this->timezone );
-	}
-	
-    /**
-     * Adds hours to the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
-     * 
-     * @param int Number of hours to add
-     * @return  Piwik_Date new date
-     */
-	public function addHour( $n )
-	{
-		$minutes = 0;
-		if($n != round($n))
-		{
-			$minutes = abs($n - floor($n)) * 60;
-			$n = floor($n);
-		}
-		if($n > 0 ) 
-		{
-			$n = '+'.$n;
-		}
-		$ts = strtotime("$n hour $minutes minutes", $this->timestamp);
-		return new Piwik_Date( $ts, $this->timezone );
-	}
-
-	/**
-	 * Substract hour to the existing date object.
-     * Returned is the new date object
-     * Doesn't modify $this
-     * 
-     * @param int Number of hours to substract
-     * @return  Piwik_Date new date
-     */
-	public function subHour( $n )
-	{
-		return $this->addHour(-$n);
 	}
 }

@@ -15,23 +15,23 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Abstract.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 /** Zend_Log_Filter_Priority */
-// require_once 'Zend/Log/Filter/Priority.php';
+require_once 'Zend/Log/Filter/Priority.php';
 
 /**
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Abstract.php 16219 2009-06-21 19:45:39Z thomas $
  */
-abstract class Zend_Log_Writer_Abstract implements Zend_Log_FactoryInterface
+abstract class Zend_Log_Writer_Abstract
 {
     /**
      * @var array of Zend_Log_Filter_Interface
@@ -104,26 +104,4 @@ abstract class Zend_Log_Writer_Abstract implements Zend_Log_FactoryInterface
      */
     abstract protected function _write($event);
 
-    /**
-     * Validate and optionally convert the config to array
-     * 
-     * @param  array|Zend_Config $config Zend_Config or Array
-     * @return array
-     * @throws Zend_Log_Exception
-     */
-    static protected function _parseConfig($config)
-    {
-        if ($config instanceof Zend_Config) {
-            $config = $config->toArray();
-        }
-
-        if (!is_array($config)) {
-            // require_once 'Zend/Log/Exception.php';
-            throw new Zend_Log_Exception(
-				'Configuration must be an array or instance of Zend_Config'
-			);
-        }
-
-        return $config;
-    }
 }

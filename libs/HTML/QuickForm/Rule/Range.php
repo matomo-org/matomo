@@ -24,7 +24,7 @@
 /**
  * Abstract base class for QuickForm validation rules 
  */
-require_once dirname(__FILE__) . '/../Rule.php';
+require_once 'HTML/QuickForm/Rule.php';
 
 /**
  * Checks that the length of value is within range

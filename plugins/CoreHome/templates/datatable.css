@@ -1,4 +1,3 @@
-
 /*Overriding some dataTable css for better dashboard display*/
 .widget .dataTableWrapper, 
 .widget .dataTableAllColumnsWrapper,
@@ -53,7 +52,6 @@ table.dataTable td.label,
 table.subDataTable td.label,
 table.dataTableActions td.label {
 	width: 100%;
-	white-space:nowrap;
 }
 
 table.dataTable img,
@@ -83,15 +81,6 @@ table.dataTable th {
 	background: #D4E3ED url(images/bg_header.jpg) repeat-x;
 }
 
-table.dataTable th.first {
-	-moz-border-radius:6px 0 0 0;
-	-webkit-border-radius:6px 0 0 0;
-}
-
-table.dataTable th.last {
-	-moz-border-radius:0 6px 0 0;
-	-webkit-border-radius:0 6px 0 0;
-}
 table.dataTable th.columnSorted {
 	font-weight: bold;
 	padding-right: 20px;
@@ -219,86 +208,85 @@ table thead div {
 	position: absolute;
 }
 
-.dataTablePages {
+#dataTablePages {
 	color: #BFBFBF;
 	font-weight: bold;
 	margin: 10px;
 	font-size: 0.9em;
 }
 
-.dataTableSearchPattern {
+#dataTableSearchPattern {
 	display: inline;
 	white-space: nowrap;
 }
 
-.dataTableSearchPattern input {
+#dataTableSearchPattern input {
 	font-size: 0.7em;
 	padding: 2px;
 	border: 1px solid #B3B3B3;
 	color: #0C183A;
 }
 
-.dataTableSearchPattern input:hover {
+#dataTableSearchPattern input:hover {
 	background: #F7F7FF none repeat scroll 0%;
 }
 
-.dataTableSearchPattern #keyword {
+#dataTableSearchPattern #keyword {
 	background: transparent url(images/search.png) no-repeat scroll 4px
 		center;
 	padding: 3px 3px 3px 20px;
 }
 
-.dataTableExcludeLowPopulation,.dataTableNext,.dataTablePrevious {
+#dataTableExcludeLowPopulation,#dataTableNext,#dataTablePrevious {
 	font-size: 0.9em;
 	color: #184A83;
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-/* @todo are these supposed to be together? */
-.subDataTable.dataTableFeatures {
+.subDataTable#dataTableFeatures {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	width: 100%;
 }
 
-.dataTableFeatures {
+#dataTableFeatures {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	width: 100%;
 	text-align: center;
 }
 
-.dataTableExcludeLowPopulation {
+#dataTableExcludeLowPopulation {
 	float: right;
 	font-size: 0.8em;
 	color: #C3C6D8;
 	text-align: right;
 }
 
-.dataTableNext,.dataTablePrevious,.dataTableSearchPattern,.pk-loadingDataTable
+#dataTableNext,#dataTablePrevious,#dataTableSearchPattern,#loadingDataTable
 {
 	display: none;
 }
 
-.subDataTable .dataTableFooterIcons {
+.subDataTable #dataTableFooterIcons {
 	height: 0px;
 }
 
-.dataTableFooterIcons {
+#dataTableFooterIcons {
 	float: right;
 	height: 18px;
 }
 
-.exportToFormatIcons {
+#exportToFormat {
 	float: right;
 }
 
-.dataTableFooterIconsShow {
+#dataTableFooterIconsShow {
 	float: right;
 }
 
-.dataTableFooterIcons,.dataTableFooterIcons a {
+#dataTableFooterIcons,#dataTableFooterIcons a {
 	text-decoration: none;
 	color: #8894B1;
 	font-size:0.9em;
@@ -308,7 +296,7 @@ table thead div {
 	clear: both;
 }
 
-.pk-loadingDataTable {
+#loadingDataTable {
 	float: left;
 	font-size: 0.9em;
 	color: #193B6C;
@@ -320,7 +308,6 @@ table.dataTableActions tr td.labelodd {
 	background-image: none;
 }
 
-
 /* levels higher than 4 have a default padding left */
 tr.subActionsDataTable td.label,tr.actionsDataTable td.label {
 	padding-left: 7em;
@@ -331,32 +318,27 @@ tr.level0 td.label {
 }
 
 tr.level1 td.label {
-	padding-left: +2.5em;
-}
-
-tr.level2 td.label {
 	padding-left: +3.5em;
 }
 
+tr.level2 td.label {
+	padding-left: +5.5em;
+}
+
 tr.level3 td.label {
-	padding-left: +4.5em;
+	padding-left: +6.5em;
 }
 
 tr.level4 td.label {
-	padding-left: +5em;
+	padding-left: +7em;
 }
 
-/* less right margins for the link image in the Pa*/
-table.dataTableActions img.link {
-	margin-right: 0.3em;
-	margin-left:-0.5em;
-}
 tr td.label img.plusMinus {
+	margin-left: -1em;
 	margin-right: 0em;
-	margin-left:-1em;
 }
 
-.pk-emptyDataTable {
+#emptyDatatable {
 	padding-top: 20px;
 	padding-bottom: 10px;
 	text-align: center;

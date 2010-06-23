@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Imap.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Imap.php 18499 2009-10-08 22:24:02Z yoshida@zend.co.jp $
  */
 
 
@@ -25,7 +25,7 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Protocol_Imap
@@ -50,7 +50,7 @@ class Zend_Mail_Protocol_Imap
     /**
      * Public constructor
      *
-     * @param  string   $host  hostname or IP address of IMAP server, if given connect() is called
+     * @param  string   $host  hostname of IP address of IMAP server, if given connect() is called
      * @param  int|null $port  port of IMAP server, null for default (143 or 993 for ssl)
      * @param  bool     $ssl   use ssl? 'SSL', 'TLS' or false
      * @throws Zend_Mail_Protocol_Exception
@@ -71,9 +71,9 @@ class Zend_Mail_Protocol_Imap
     }
 
     /**
-     * Open connection to IMAP server
+     * Open connection to POP3 server
      *
-     * @param  string      $host  hostname or IP address of IMAP server
+     * @param  string      $host  hostname of IP address of POP3 server
      * @param  int|null    $port  of IMAP server, default is 143 (993 for ssl)
      * @param  string|bool $ssl   use 'SSL', 'TLS' or false
      * @return string welcome message
@@ -96,16 +96,15 @@ class Zend_Mail_Protocol_Imap
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            // require_once 'Zend/Mail/Protocol/Exception.php';
-            throw new Zend_Mail_Protocol_Exception('cannot connect to host; error = ' . $errstr .
-                                                   ' (errno = ' . $errno . ' )');
+            require_once 'Zend/Mail/Protocol/Exception.php';
+            throw new Zend_Mail_Protocol_Exception('cannot connect to host : ' . $errno . ' : ' . $errstr);
         }
 
         if (!$this->_assumedNextLine('* OK')) {
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            // require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('host doesn\'t allow connection');
         }
 
@@ -116,7 +115,7 @@ class Zend_Mail_Protocol_Imap
                 /**
                  * @see Zend_Mail_Protocol_Exception
                  */
-                // require_once 'Zend/Mail/Protocol/Exception.php';
+                require_once 'Zend/Mail/Protocol/Exception.php';
                 throw new Zend_Mail_Protocol_Exception('cannot enable TLS');
             }
         }
@@ -135,7 +134,7 @@ class Zend_Mail_Protocol_Imap
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            // require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('cannot read - connection closed?');
         }
 
@@ -209,7 +208,7 @@ class Zend_Mail_Protocol_Imap
                 $token = substr($token, 1);
             }
             if ($token[0] == '"') {
-                if (preg_match('%^\(*"((.|\\\\|\\")*?)" *%', $line, $matches)) {
+                if (preg_match('%^"((.|\\\\|\\")*?)" *%', $line, $matches)) {
                     $tokens[] = $matches[1];
                     $line = substr($line, strlen($matches[0]));
                     continue;
@@ -348,14 +347,14 @@ class Zend_Mail_Protocol_Imap
                     /**
                      * @see Zend_Mail_Protocol_Exception
                      */
-                    // require_once 'Zend/Mail/Protocol/Exception.php';
+                    require_once 'Zend/Mail/Protocol/Exception.php';
                     throw new Zend_Mail_Protocol_Exception('cannot write - connection closed?');
                 }
                 if (!$this->_assumedNextLine('+ ')) {
                     /**
                      * @see Zend_Mail_Protocol_Exception
                      */
-                    // require_once 'Zend/Mail/Protocol/Exception.php';
+                    require_once 'Zend/Mail/Protocol/Exception.php';
                     throw new Zend_Mail_Protocol_Exception('cannot send literal string');
                 }
                 $line = $token[1];
@@ -368,7 +367,7 @@ class Zend_Mail_Protocol_Imap
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            // require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('cannot write - connection closed?');
         }
     }
@@ -629,7 +628,7 @@ class Zend_Mail_Protocol_Imap
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            // require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('the single id was not found in response');
         }
 

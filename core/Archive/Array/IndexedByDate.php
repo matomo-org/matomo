@@ -25,7 +25,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 	 */
 	function __construct(Piwik_Site $oSite, $strPeriod, $strDate)
 	{
-		$rangePeriod = new Piwik_Period_Range($strPeriod, $strDate, $oSite->getTimezone());
+		$rangePeriod = new Piwik_Period_Range($strPeriod, $strDate);
 		foreach($rangePeriod->getSubperiods() as $subPeriod)
 		{
 			$startDate = $subPeriod->getDateStart();
@@ -42,13 +42,6 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		return 'date';
 	}
 	
-	/**
-	 * Adds metadata information to the Piwik_DataTable_Array 
-	 * using the information given by the Archive
-	 *
-	 * @param Piwik_DataTable_Array $table
-	 * @param Piwik_Archive $archive
-	 */
 	protected function loadMetadata(Piwik_DataTable_Array $table, $archive)
 	{
 		$table->metadata[$archive->getPrettyDate()] = array( 
@@ -98,22 +91,21 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		$arrayValues = array();
 		foreach($queries as $table => $aIds)
 		{
-			$inIds = implode(', ', array_filter($aIds));
+			$inIds = implode(', ', $aIds);
 			if(empty($inIds))
 			{
 				// Probable timezone configuration error, i.e., mismatch between PHP and MySQL server.
 				continue;
 			}
 
-			$sql = "SELECT value, name, date1 as startDate
+			$sql = "SELECT value, name, UNIX_TIMESTAMP(date1) as timestamp
 									FROM $table
 									WHERE idarchive IN ( $inIds )
 										AND name IN ( $inNames )";
 			$values = $db->fetchAll($sql);
 			foreach($values as $value)
 			{
-				$timestamp = Piwik_Date::factory($value['startDate'])->getTimestamp();
-				$arrayValues[$timestamp][$value['name']] = (float)$value['value'];
+				$arrayValues[$value['timestamp']][$value['name']] = (float)$value['value'];
 			}			
 		}
 		

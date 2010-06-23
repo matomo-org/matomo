@@ -19,10 +19,11 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'description' => Piwik_Translate('VisitorInterest_PluginDescription'),
+			'name' => 'Visitors Interest',
+			'description' => 'Reports about the Visitor Interest: number of pages viewed, time spent on the Website.',
 			'author' => 'Piwik',
-			'author_homepage' => 'http://piwik.org/',
-			'version' => Piwik_Version::VERSION,
+			'homepage' => 'http://piwik.org/',
+			'version' => '0.1',
 		);
 		
 		return $info;
@@ -73,7 +74,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	function addMenu()
 	{
 		Piwik_RenameMenuEntry('General_Visitors', 'VisitFrequency_SubmenuFrequency', 
-							  'General_Visitors', 'VisitorInterest_Engagement' );
+							  'General_Visitors', 'VisitorInterest_SubmenuFrequencyLoyalty' );
 	}
 
 	function postLoad()
@@ -158,13 +159,13 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		return $table;
 	}
 	
-	static public function headerVisitsFrequency($notification)
+	public function headerVisitsFrequency($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '<div id="leftcolumn">';
 	}
 	
-	static public function footerVisitsFrequency($notification)
+	public function footerVisitsFrequency($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '</div>

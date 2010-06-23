@@ -4,7 +4,7 @@
 		{$arrayDataTable.message} 
 	{else}
 		{if count($arrayDataTable) == 0}
-			<div class="pk-emptyDataTable">{'CoreHome_TableNoData'|translate}</div>
+			<div id="emptyDatatable">{'CoreHome_TableNoData'|translate}</div>
 		{else}
 			<table cellspacing="0" class="dataTable dataTableActions"> 
 			<thead>

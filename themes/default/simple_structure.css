@@ -8,6 +8,7 @@ html { background: #eee; }
 	margin:auto;
 	margin-top: 30px;
 	-moz-border-radius: 12px;
+	-khtml-border-radius: 12px;
 	-webkit-border-radius: 12px;
 }
 #h1 {
@@ -26,7 +27,7 @@ html { background: #eee; }
 }
 p, dt {
 	line-height: 120%;
-	padding-bottom: 1em;
+	padding-bottom: 2px;
 	margin:10;
 }
 a { color: #006; }
@@ -36,6 +37,7 @@ a { color: #006; }
 	padding: 5px 7px 7px;
 	border: 1px solid #a3a3a3;
 	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	color: #246;
@@ -72,8 +74,4 @@ a { color: #006; }
 .error img, .success img, .warning img {
 	border:0;
 	vertical-align:bottom;
-}
-.warning, .error {
-	-moz-border-radius:4px; 
-	-webkit-border-radius:4px; 
 }

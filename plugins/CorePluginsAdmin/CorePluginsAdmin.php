@@ -19,10 +19,11 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'description' => Piwik_Translate('CorePluginsAdmin_PluginDescription'),
+			'name' => 'Plugins Management',
+			'description' => 'Plugins Administration Interface.',
 			'author' => 'Piwik',
-			'author_homepage' => 'http://piwik.org/',
-			'version' => Piwik_Version::VERSION,
+			'homepage' => 'http://piwik.org/',
+			'version' => '0.1',
 		);
 	}
 	
@@ -33,9 +34,6 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddAdminMenu('CorePluginsAdmin_MenuPlugins', 
-							array('module' => 'CorePluginsAdmin', 'action' => 'index'),
-							Piwik::isUserIsSuperUser(),
-							$order = 7);		
+		Piwik_AddAdminMenu('CorePluginsAdmin_MenuPlugins', array('module' => 'CorePluginsAdmin', 'action' => 'index'));		
 	}
 }

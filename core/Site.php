@@ -25,19 +25,13 @@ class Piwik_Site
 		$this->id = $idsite;
 		if(!isset(self::$infoSites[$this->id]))
 		{
-			self::$infoSites[$this->id] = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+			self::$infoSites[$this->id] = Piwik_SitesManager_API::getSiteFromId($idsite);
 		}
 	}
 	
 	function __toString()
 	{
-		return "site id=".$this->getId().",
-				 name=".$this->getName() .",
-				 url = ". $this->getMainUrl() .",
-				 IPs excluded = ".$this->getExcludedIps().",
-				 timezone = ".$this->getTimezone().",
-				 currency = ".$this->getCurrency().",
-				 creation date = ".$this->getCreationDate();
+		return "site id=".$this->getId().", name=".$this->getName();
 	}
 	
 	function getName()
@@ -60,26 +54,6 @@ class Piwik_Site
 		$date = self::$infoSites[$this->id]['ts_created'];
 		return Piwik_Date::factory($date);
 	}
-
-	function getTimezone()
-	{
-		return self::$infoSites[$this->id]['timezone'];
-	}
-	
-	function getCurrency()
-	{
-		return self::$infoSites[$this->id]['currency'];
-	}
-	
-	function getExcludedIps()
-	{
-		return self::$infoSites[$this->id]['excluded_ips'];
-	}
-	
-	function getExcludedQueryParameters()
-	{
-		return self::$infoSites[$this->id]['excluded_parameters'];
-	}
 	
 	/**
 	 * @param string comma separated idSite list
@@ -95,10 +69,5 @@ class Piwik_Site
 			$validIds[] = $id;
 		}
 		return $validIds;
-	}
-	
-	static public function clearCache()
-	{
-		self::$infoSites = array();
 	}
 }

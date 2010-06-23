@@ -48,39 +48,36 @@ class Piwik_Tracker_Config
 	 * @var array
 	 */
 	public $config = array();
-	protected $initialized = false;
+	protected $init = false;
 	
 	public function init($pathIniFileUser = null, $pathIniFileGlobal = null)
 	{
-		if(is_null($pathIniFileGlobal))
-		{
-			$pathIniFileGlobal = PIWIK_USER_PATH . '/config/global.ini.php'; 
-		}
-		$this->configGlobal = _parse_ini_file($pathIniFileGlobal, true);
-
 		if(is_null($pathIniFileUser))
 		{
 			$pathIniFileUser = PIWIK_USER_PATH . '/config/config.ini.php'; 
 		}
-		$this->configUser = _parse_ini_file($pathIniFileUser, true);
-		if($this->configUser)
+		if(is_null($pathIniFileGlobal))
 		{
-			foreach($this->configUser as $section => &$sectionValues)
-			{ 
-				foreach($sectionValues as $name => &$value)
+			$pathIniFileGlobal = PIWIK_USER_PATH . '/config/global.ini.php'; 
+		}
+		$this->configUser = parse_ini_file($pathIniFileUser, true);
+		$this->configGlobal = parse_ini_file($pathIniFileGlobal, true);
+	
+		foreach($this->configUser as $section => &$sectionValues)
+		{ 
+			foreach($sectionValues as $name => &$value)
+			{
+				if(is_array($value)) 
 				{
-					if(is_array($value)) 
-					{
-						$value = array_map("html_entity_decode", $value);
-					} 
-					else 
-					{
-						$value = html_entity_decode($value);
-					}
+					$value = array_map("html_entity_decode", $value);
+				} 
+				else 
+				{
+					$value = html_entity_decode($value);
 				}
 			}
 		}
-		$this->initialized = true;
+		$this->init = true;
 	}
 	
 	/**
@@ -93,7 +90,7 @@ class Piwik_Tracker_Config
 	 */
 	public function __get( $name )
 	{
-		if(!$this->initialized)
+		if(!$this->init)
 		{
 			$this->init();
 		}

@@ -26,19 +26,13 @@
  */
 class Piwik_ExampleUI extends Piwik_Plugin
 {
-	/**
-	 * Return information about this plugin.
-	 *
-	 * @see Piwik_Plugin
-	 *
-	 * @return array
-	 */
 	public function getInformation()
 	{
 		return array(
-			'description' => Piwik_Translate('ExampleUI_PluginDescription'),
+			'name' => 'Example User Interface',
+			'description' => 'Example Plugin: This plugin shows how to work with the Piwik UI: create tables, graphs, etc.',
 			'author' => 'Piwik',
-			'author_homepage' => 'http://piwik.org/',
+			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}

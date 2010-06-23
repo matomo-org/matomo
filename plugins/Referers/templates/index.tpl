@@ -4,7 +4,7 @@
 <h2>{'Referers_Evolution'|translate}</h2>
 {$graphEvolutionReferers}
 
-<br />
+<br/>
 <div id='leftcolumn'>
 	<h2>{'Referers_Type'|translate}</h2>
 	<div id='leftcolumn'>
@@ -26,7 +26,7 @@
 	{$dataTableRefererType}
 </div>
 
-<div style="clear:both;"></div>
+<div style="clear:both" />
 
 <p>View 
 	<a href="javascript:broadcast.propagateAjax('module=Referers&action=getSearchEnginesAndKeywords')">{'Referers_SubmenuSearchEngines'|translate}</a>,

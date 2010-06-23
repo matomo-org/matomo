@@ -146,7 +146,10 @@ class Piwik_Access
 		
 		// we join with site in case there are rows in access for an idsite that doesn't exist anymore
 		// (backward compatibility ; before we deleted the site without deleting rows in _access table)
-		$accessRaw = Piwik_FetchAll(self::getSqlAccessSite("access, t2.idsite"), $this->login);
+		$accessRaw = Piwik_FetchAll("SELECT access, t2.idsite
+						  FROM ".Piwik::prefixTable('access'). " as t1 
+							JOIN ".Piwik::prefixTable('site')." as t2 USING (idsite) ".
+						" WHERE login = ?", $this->login);
 		foreach($accessRaw as $access)
 		{
 			$this->idsitesByAccess[$access['access']][] = $access['idsite'];
@@ -155,20 +158,6 @@ class Piwik_Access
 	}
 
 	/**
-	 * Returns the SQL query joining sites and access table for a given login
-	 * 
-	 * @param $select eg. "MIN(ts_created)"
-	 * @return string SQL query
-	 */
-	static public function getSqlAccessSite($select)
-	{
-		return "SELECT ". $select ."
-						  FROM ".Piwik_Common::prefixTable('access'). " as t1 
-							JOIN ".Piwik_Common::prefixTable('site')." as t2 USING (idsite) ".
-						" WHERE login = ?";
-	}
-	
-	/**
 	 * Reload super user access
 	 *
 	 * @return bool
@@ -176,7 +165,7 @@ class Piwik_Access
 	protected function reloadAccessSuperUser()
 	{
 		$this->isSuperUser = true;
-		$this->idsitesByAccess['superuser'] = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+		$this->idsitesByAccess['superuser'] = Piwik_SitesManager_API::getAllSitesId();
 		return true;
 	}
 	
@@ -184,17 +173,9 @@ class Piwik_Access
 	 * We bypass the normal auth method and give the current user Super User rights.
 	 * This should be very carefully used.
 	 */
-	public function setSuperUser($bool = true)
+	public function setSuperUser()
 	{
-		if($bool) 
-		{
-			$this->reloadAccessSuperUser();
-		}
-		else
-		{
-			$this->isSuperUser = false;
-			$this->idsitesByAccess['superuser'] = array();
-		}
+		$this->reloadAccessSuperUser();
 	}
 	
 	/**
@@ -242,7 +223,8 @@ class Piwik_Access
 			$this->idsitesByAccess['superuser'])
 		);
 	}
-	
+
+
 	/**
 	 * Returns an array of ID sites for which the user has an ADMIN access.
 	 *
@@ -279,7 +261,7 @@ class Piwik_Access
 	{
 		if($this->isSuperUser === false)
 		{
-			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilege', array("'superuser'")));
+			throw new Piwik_Access_NoAccessException("You can't access this resource as it requires a 'superuser' access.");
 		}
 	}
 
@@ -290,14 +272,10 @@ class Piwik_Access
 	 */
 	public function checkUserHasSomeAdminAccess()
 	{
-		if($this->isSuperUser())
-		{
-			return;
-		}
 		$idSitesAccessible = $this->getSitesIdWithAdminAccess();
 		if(count($idSitesAccessible) == 0)
 		{
-			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
+			throw new Piwik_Access_NoAccessException("You can't access this resource as it requires an 'admin' access for at least one website.");
 		}
 	}
 	
@@ -311,7 +289,7 @@ class Piwik_Access
 		$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
 		if(count($idSitesAccessible) == 0)
 		{
-			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
+			throw new Piwik_Access_NoAccessException("You can't access this resource as it requires a 'view' access for at least one website.");
 		}
 	}
 
@@ -337,7 +315,7 @@ class Piwik_Access
 		{
 			if(!in_array($idsite, $idSitesAccessible))
 			{
-				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'admin'", $idsite)));
+				throw new Piwik_Access_NoAccessException("You can't access this resource as it requires an 'admin' access for the website id = $idsite.");
 			}
 		}
 	}
@@ -366,7 +344,7 @@ class Piwik_Access
 		{
 			if(!in_array($idsite, $idSitesAccessible))
 			{
-				throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
+				throw new Piwik_Access_NoAccessException("You can't access this resource as it requires a 'view' access for the website id = $idsite.");
 			}
 		}
 	}

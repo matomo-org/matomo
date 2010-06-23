@@ -21,7 +21,7 @@
  * @link http://smarty.php.net/
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
- * @version 2.6.26
+ * @version 2.6.25
  * @copyright 2001-2005 New Digital Group, Inc.
  * @package Smarty
  */
@@ -2047,57 +2047,27 @@ class Smarty_Compiler extends Smarty {
                 break;
 
             case 'get':
-                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
-                    $this->_syntax_error("(secure mode) super global access not permitted",
-                                         E_USER_WARNING, __FILE__, __LINE__);
-                    return;
-                }
-                $compiled_ref = "\$_GET";
+                $compiled_ref = "\$this->_supers['get']";
                 break;
 
             case 'post':
-                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
-                    $this->_syntax_error("(secure mode) super global access not permitted",
-                                         E_USER_WARNING, __FILE__, __LINE__);
-                    return;
-                }
-                $compiled_ref = "\$_POST";
+                $compiled_ref = "\$this->_supers['post']";
                 break;
 
             case 'cookies':
-                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
-                    $this->_syntax_error("(secure mode) super global access not permitted",
-                                         E_USER_WARNING, __FILE__, __LINE__);
-                    return;
-                }
-                $compiled_ref = "\$_COOKIE";
+                $compiled_ref = "\$this->_supers['cookies']";
                 break;
 
             case 'env':
-                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
-                    $this->_syntax_error("(secure mode) super global access not permitted",
-                                         E_USER_WARNING, __FILE__, __LINE__);
-                    return;
-                }
-                $compiled_ref = "\$_ENV";
+                $compiled_ref = "\$this->_supers['env']";
                 break;
 
             case 'server':
-                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
-                    $this->_syntax_error("(secure mode) super global access not permitted",
-                                         E_USER_WARNING, __FILE__, __LINE__);
-                    return;
-                }
-                $compiled_ref = "\$_SERVER";
+                $compiled_ref = "\$this->_supers['server']";
                 break;
 
             case 'session':
-                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
-                    $this->_syntax_error("(secure mode) super global access not permitted",
-                                         E_USER_WARNING, __FILE__, __LINE__);
-                    return;
-                }
-                $compiled_ref = "\$_SESSION";
+                $compiled_ref = "\$this->_supers['session']";
                 break;
 
             /*
@@ -2105,13 +2075,8 @@ class Smarty_Compiler extends Smarty {
              * compiler.
              */
             case 'request':
-                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
-                    $this->_syntax_error("(secure mode) super global access not permitted",
-                                         E_USER_WARNING, __FILE__, __LINE__);
-                    return;
-                }
                 if ($this->request_use_auto_globals) {
-                    $compiled_ref = "\$_REQUEST";
+                    $compiled_ref = "\$this->_supers['request']";
                     break;
                 } else {
                     $this->_init_smarty_vars = true;

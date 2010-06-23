@@ -38,12 +38,6 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		return $this->renderTable($this->table);
 	}
 	
-	function renderException()
-	{
-		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
-		return nl2br($exceptionMessage);
-	}
-	
 	protected function renderTable($table)
 	{
 		if($table instanceof Piwik_DataTable_Array)
@@ -102,7 +96,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 			if(count($metadata) != 0)
 			{
 				$someMetadata = true;
-				$metadata = implode("<br />", $metadata);
+				$metadata = implode("<br>", $metadata);
 				$this->tableStructure[$i]['_metadata'] = $metadata;
 			}
 			

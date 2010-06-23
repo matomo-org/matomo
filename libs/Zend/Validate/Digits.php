@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Zend Framework
  *
@@ -14,26 +15,28 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Digits.php 21136 2010-02-22 22:30:50Z thomas $
+ * @version    $Id: Digits.php 16933 2009-07-21 20:24:35Z matthew $
  */
+
 
 /**
  * @see Zend_Validate_Abstract
  */
-// require_once 'Zend/Validate/Abstract.php';
+require_once 'Zend/Validate/Abstract.php';
+
 
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Digits extends Zend_Validate_Abstract
 {
     const NOT_DIGITS   = 'notDigits';
-    const STRING_EMPTY = 'digitsStringEmpty';
+    const STRING_EMPTY = 'stringEmpty';
     const INVALID      = 'digitsInvalid';
 
     /**
@@ -49,7 +52,7 @@ class Zend_Validate_Digits extends Zend_Validate_Abstract
      * @var array
      */
     protected $_messageTemplates = array(
-        self::NOT_DIGITS   => "'%value%' contains characters which are not digits; but only digits are allowed",
+        self::NOT_DIGITS   => "'%value%' contains not only digit characters",
         self::STRING_EMPTY => "'%value%' is an empty string",
         self::INVALID      => "Invalid type given, value should be string, integer or float",
     );
@@ -77,7 +80,7 @@ class Zend_Validate_Digits extends Zend_Validate_Abstract
         }
 
         if (null === self::$_filter) {
-            // require_once 'Zend/Filter/Digits.php';
+            require_once 'Zend/Filter/Digits.php';
             self::$_filter = new Zend_Filter_Digits();
         }
 
@@ -88,4 +91,5 @@ class Zend_Validate_Digits extends Zend_Validate_Abstract
 
         return true;
     }
+
 }

@@ -8,11 +8,11 @@
 		   {/foreach}
 		</select>
 		{hiddenurl idSite=null}
-		<input type="submit" value="go" />
+		<input type="submit" value="go"/>
 		</form>
 	</span>
 
-	{literal}<script type="text/javascript">
+	{literal}<script language="javascript">
 	$(document).ready(function() {
 		var extraPadding = 0;
 		// if there is only one website, we dont show the arrows image, so no need to add the extra padding

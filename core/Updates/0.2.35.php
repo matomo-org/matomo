@@ -13,18 +13,13 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_35 extends Piwik_Updates
+class Piwik_Updates_0_2_35 implements Piwik_iUpdate
 {
-	static function getSql($adapter = 'PDO_MYSQL')
-	{
-		return array(
-			'ALTER TABLE `'. Piwik_Common::prefixTable('user_dashboard') .'`
-				CHANGE `layout` `layout` TEXT NOT NULL' => false,
-		);
-	}
-
 	static function update()
 	{
-		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+		Piwik_Updater::updateDatabase(__FILE__, array(
+			'ALTER TABLE `'. Piwik::prefixTable('user_dashboard') .'`
+				CHANGE `layout` `layout` TEXT NOT NULL' => false,
+		));
 	}
 }

@@ -19,10 +19,11 @@ class Piwik_Provider extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'description' => Piwik_Translate('Provider_PluginDescription'),
+			'name' => 'Provider',
+			'description' => 'Reports the Provider of the visitors.',
 			'author' => 'Piwik',
-			'author_homepage' => 'http://piwik.org/',
-			'version' => Piwik_Version::VERSION,
+			'homepage' => 'http://piwik.org/',
+			'version' => '0.1',
 			'TrackerPlugin' => true, // this plugin must be loaded during the stats logging
 		);
 		
@@ -44,25 +45,19 @@ class Piwik_Provider extends Piwik_Plugin
 	function install()
 	{
 		// add column hostname / hostname ext in the visit table
-		$query = "ALTER IGNORE TABLE `".Piwik_Common::prefixTable('log_visit')."` ADD `location_provider` VARCHAR( 100 ) NULL";
+		$query = "ALTER IGNORE TABLE `".Piwik::prefixTable('log_visit')."` ADD `location_provider` VARCHAR( 100 ) NULL";
 		
 		// if the column already exist do not throw error. Could be installed twice...
 		try {
 			Piwik_Exec($query);
 		}
-		catch(Exception $e) {
-			if(!Zend_Registry::get('db')->isErrNo($e, '1060'))
-			{
-				throw $e;
-			}
-		}
-
+		catch(Exception $e){}
 	}
 	
 	function uninstall()
 	{
 		// add column hostname / hostname ext in the visit table
-		$query = "ALTER TABLE `".Piwik_Common::prefixTable('log_visit')."` DROP `location_provider`";
+		$query = "ALTER TABLE `".Piwik::prefixTable('log_visit')."` DROP `location_provider`";
 		Piwik_Exec($query);
 	}
 	
@@ -85,10 +80,9 @@ class Piwik_Provider extends Piwik_Plugin
 
 	function archivePeriod( $notification )
 	{
-		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
 		$archiveProcessing = $notification->getNotificationObject();
 		$dataTableToSum = array( 'Provider_hostnameExt' );
-		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
+		$archiveProcessing->archiveDataTable($dataTableToSum);
 	}
 
 	/**
@@ -102,9 +96,7 @@ class Piwik_Provider extends Piwik_Plugin
 		$labelSQL = "location_provider";
 		$interestByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableProvider = $archiveProcessing->getDataTableFromArray($interestByProvider);
-		$columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
-		$archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
+		$archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized());
 		destroy($tableProvider);
 	}
 	
@@ -153,13 +145,6 @@ class Piwik_Provider extends Piwik_Plugin
 		}
 		else
 		{
-			$cleanHostname = null;
-			Piwik_PostEvent('Provider.getCleanHostname', $cleanHostname, $hostname);
-			if($cleanHostname !== null)
-			{
-				return $cleanHostname;
-			}
-
 			$e = explode('.', $hostname);
 			$s = sizeof($e);
 			
@@ -188,13 +173,13 @@ class Piwik_Provider extends Piwik_Plugin
 		return trim(strtolower(@gethostbyaddr(long2ip($ip))));
 	}
 
-	static public function headerUserCountry($notification)
+	public function headerUserCountry($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '<div id="leftcolumn">';
 	}
 	
-	static public function footerUserCountry($notification)
+	public function footerUserCountry($notification)
 	{
 		$out =& $notification->getNotificationObject();
 		$out = '</div>

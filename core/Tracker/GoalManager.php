@@ -52,7 +52,7 @@ class Piwik_Tracker_GoalManager
 				return $goal;
 			}
 		}
-		throw new Exception(Piwik_TranslateException('General_ExceptionGoalNotFound', array($idGoal)));
+		throw new Exception("The goal id = $idGoal couldn't be found.");
 	}
 
 	static public function getGoalIds( $idSite )
@@ -71,14 +71,14 @@ class Piwik_Tracker_GoalManager
 		return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
 	}
 
+	//TODO does this code work for manually triggered goals, with custom revenue?
 	function detectGoalsMatchingUrl($idSite, $action)
 	{
 		if(!$this->isGoalPluginEnabled())
 		{
 			return false;
 		}
-		$sanitizedUrl = $action->getActionUrl();
-		$url = htmlspecialchars_decode($sanitizedUrl);
+		$url = $action->getActionUrl();
 		$actionType = $action->getActionType();
 		$goals = $this->getGoalDefinitions($idSite);
 		foreach($goals as $goal)
@@ -129,12 +129,12 @@ class Piwik_Tracker_GoalManager
 					$match = ($matched == 0);
 					break;
 				default:
-					throw new Exception(Piwik_TranslateException('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+					throw new Exception("Pattern type $pattern_type not valid.");
 					break;
 			}
 			if($match)
 			{
-				$goal['url'] = $sanitizedUrl;
+				$goal['url'] = $url;
 				$this->convertedGoals[] = $goal;
 			}
 		}
@@ -154,9 +154,7 @@ class Piwik_Tracker_GoalManager
 			return false;
 		}
 		$goal = $goals[$idGoal];
-		
-		$url = Piwik_Common::getRequestVar( 'url', '', 'string', $request);
-		$goal['url'] = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite);
+		$goal['url'] = Piwik_Common::getRequestVar( 'url', '', 'string', $request);
 		$goal['revenue'] = Piwik_Common::getRequestVar('revenue', $goal['revenue'], 'float', $request);
 		$this->convertedGoals[] = $goal;
 		return true;
@@ -164,22 +162,15 @@ class Piwik_Tracker_GoalManager
 
 	function recordGoals($visitorInformation, $action)
 	{
-		$location_country = isset($visitorInformation['location_country']) 
-							? $visitorInformation['location_country'] 
-							: Piwik_Common::getCountry( 
-										Piwik_Common::getBrowserLanguage(), 
-										$enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess'], $visitorInformation['location_ip'] 
-							);
-							
-		$location_continent = isset($visitorInformation['location_continent']) 
-								? $visitorInformation['location_continent'] 
-								: Piwik_Common::getContinent($location_country);
+		$location_country = isset($visitorInformation['location_country']) ? $visitorInformation['location_country'] : Piwik_Common::getCountry(Piwik_Common::getBrowserLanguage(), $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess']);
+		$location_continent = isset($visitorInformation['location_continent']) ? $visitorInformation['location_continent'] : Piwik_Common::getContinent($location_country);
 
 		$goal = array(
 			'idvisit' 			=> $visitorInformation['idvisit'],
 			'idsite' 			=> $visitorInformation['idsite'],
 			'visitor_idcookie' 	=> $visitorInformation['visitor_idcookie'],
 			'server_time' 		=> Piwik_Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
+			'visit_server_date' => $visitorInformation['visit_server_date'],
 			'location_country'  => $location_country,
 			'location_continent'=> $location_continent,
 			'visitor_returning' => $this->cookie->get( Piwik_Tracker::COOKIE_INDEX_VISITOR_RETURNING ),
@@ -216,14 +207,14 @@ class Piwik_Tracker_GoalManager
 
 			try {
 				Piwik_Tracker::getDatabase()->query(
-					"INSERT IGNORE INTO " . Piwik_Common::prefixTable('log_conversion') . "	($fields)
+					"INSERT INTO " . Piwik_Common::prefixTable('log_conversion') . "	($fields)
 					VALUES ($bindFields) ", array_values($newGoal)
 				);
 			} catch( Exception $e) {
-				if(Piwik_Tracker::getDatabase()->isErrNo($e, '1062'))
+				if(Piwik_Tracker::isErrNo($e, '1062'))
 				{
 					// integrity violation when same visit converts to the same goal twice
-					printDebug("--&gt; Goal already recorded for this (idvisit, idgoal)");
+					printDebug("--> Goal already recorded for this (idvisit, idgoal)");
 				}
 				else
 				{

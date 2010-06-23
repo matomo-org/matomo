@@ -34,7 +34,8 @@ class Piwik_DataTable_Filter_ColumnCallbackDeleteRow extends Piwik_DataTable_Fil
 		foreach($this->table->getRows() as $key => $row)
 		{
 			$columnValue = $row->getColumn($this->columnToFilter);
-			if( !call_user_func( $this->function, $columnValue))
+			if( $columnValue !== false 
+				&& !call_user_func( $this->function, $columnValue))
 			{
 				$this->table->deleteRow($key);
 			}

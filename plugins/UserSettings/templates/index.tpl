@@ -13,7 +13,7 @@
 	<h2>{'UserSettings_Configurations'|translate}</h2>
 	{$dataTableConfiguration}
 	
-	<h2>{'UserSettings_OperatingSystems'|translate}</h2>
+	<h2>{'UserSettings_OperatinsSystems'|translate}</h2>
 	{$dataTableOS}
 	
 	<h2>{'UserSettings_Resolutions'|translate}</h2>

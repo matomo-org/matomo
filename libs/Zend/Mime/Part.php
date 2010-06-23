@@ -14,22 +14,22 @@
  *
  * @category   Zend
  * @package    Zend_Mime
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Part.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Part.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 /**
  * Zend_Mime
  */
-// require_once 'Zend/Mime.php';
+require_once 'Zend/Mime.php';
 
 /**
  * Class representing a MIME part.
  *
  * @category   Zend
  * @package    Zend_Mime
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mime_Part {
@@ -92,7 +92,7 @@ class Zend_Mime_Part {
     public function getEncodedStream()
     {
         if (!$this->_isStream) {
-            // require_once 'Zend/Mime/Exception.php';
+            require_once 'Zend/Mime/Exception.php';
             throw new Zend_Mime_Exception('Attempt to get a stream from a string part');
         }
 
@@ -109,7 +109,7 @@ class Zend_Mime_Part {
                     )
                 );
                 if (!is_resource($filter)) {
-                    // require_once 'Zend/Mime/Exception.php';
+                    require_once 'Zend/Mime/Exception.php';
                     throw new Zend_Mime_Exception('Failed to append quoted-printable filter');
                 }
                 break;
@@ -124,7 +124,7 @@ class Zend_Mime_Part {
                     )
                 );
                 if (!is_resource($filter)) {
-                    // require_once 'Zend/Mime/Exception.php';
+                    require_once 'Zend/Mime/Exception.php';
                     throw new Zend_Mime_Exception('Failed to append base64 filter');
                 }
                 break;

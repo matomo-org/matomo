@@ -161,10 +161,6 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 			return;
 		}
 		$row = current($rows);
-		if($row === false)
-		{
-			return;
-		}
 		$this->columnToSort = $this->selectColumnToSort($row);
 		
 		$value = $row->getColumn($this->columnToSort);

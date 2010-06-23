@@ -588,13 +588,14 @@ class Piwik_DataTable
 	 */
 	public function getRowsCount()
 	{
+		$count = count($this->rows);
 		if(is_null($this->summaryRow))
 		{
-			return count($this->rows);
+			return $count;
 		}
 		else
 		{
-			return count($this->rows) + 1;
+			return $count + 1;
 		}
 	}
 
@@ -819,7 +820,10 @@ class Piwik_DataTable
 		$table1->rebuildIndex();
 		$table2->rebuildIndex();
 		
-		if($table1->getRowsCount() != $table2->getRowsCount())
+		$countrows1 = $table1->getRowsCount();
+		$countrows2 = $table2->getRowsCount();
+		
+		if($countrows1 != $countrows2)
 		{
 			return false;
 		}
@@ -827,8 +831,11 @@ class Piwik_DataTable
 		foreach($rows1 as $row1)
 		{
 			$row2 = $table2->getRowFromLabel($row1->getColumn('label'));
-			if($row2 === false
-				|| !Piwik_DataTable_Row::isEqual($row1,$row2))
+			if($row2 === false)
+			{
+				return false;
+			}
+			if( !Piwik_DataTable_Row::isEqual($row1,$row2) )
 			{
 				return false;
 			}

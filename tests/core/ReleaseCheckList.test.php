@@ -11,14 +11,6 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 
 class Test_Piwik_ReleaseCheckList extends UnitTestCase
 {
-	public function test_checkPatchedQuickform()
-	{
-		// we patched quickform so that it supports SELECT optgroup html tags
-		// see patch: http://pear.php.net/bugs/bug.php?id=1283&edit=12&patch=add-optgroup-support&revision=latest
-		$this->assertTrue(method_exists('HTML_QuickForm_select', '_optionToHtml'));
-		$this->assertTrue(method_exists('HTML_QuickForm_select', '_isInOptGroup'));
-	}
-	
     public function test_checkThatConfigurationValuesAreProductionValues()
     {
     	$this->globalConfig = parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
@@ -32,24 +24,11 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     	$this->checkEqual(array('Tracker' => 'record_statistics'), '1');
     	$this->checkEqual(array('Tracker' => 'visit_standard_length'), '1800');
     	$this->checkEqual(array('Tracker' => 'enable_detect_unique_visitor_using_settings'), '1');
-    	// logging messages are disabled
-    	$this->checkEqual(array('log' => 'logger_message'), '');
+    	$this->checkEqual(array('log' => 'logger_message'), array('screen'));
     	$this->checkEqual(array('log' => 'logger_exception'), array('screen'));
     	$this->checkEqual(array('log' => 'logger_error'), array('screen'));
     	$this->checkEqual(array('log' => 'logger_api_call'), null);
     }
-    
-    public function test_templatesDontContainDebug()
-    {
-    	$patternFailIfFound = '{debug}';
-    	$files = Piwik::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.tpl');
-    	foreach($files as $file)
-    	{
-    		$content = file_get_contents($file);
-    		$this->assertFalse(strpos($content, $patternFailIfFound), 'found in '.$file);
-    	}
-    }
-    
     private function checkEqual($key, $valueExpected)
     {
     	$section = key($key);
@@ -91,6 +70,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 	function test_piwikTrackerDebugIsOff()
 	{
 		$this->assertTrue(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']));
+		define('PIWIK_ENABLE_TRACKING', false);
 		include PIWIK_PATH_TEST_TO_ROOT . "/piwik.php";
 		$this->assertTrue($GLOBALS['PIWIK_TRACKER_DEBUG'] === false);
 	}
@@ -99,6 +79,7 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
 	{
 		Piwik::createConfigObject();
 		Zend_Registry::get('config')->setTestEnvironment();	
+		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 
 		$jqueryJs = file_get_contents( PIWIK_DOCUMENT_ROOT . '/libs/jquery/jquery.js', false, NULL, 0, 512 );
 		$this->assertTrue( preg_match('/jQuery (?:JavaScript Library )?v?([0-9.]+)/', $jqueryJs, $matches) );

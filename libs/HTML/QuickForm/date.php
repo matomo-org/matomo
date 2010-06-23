@@ -24,11 +24,11 @@
 /**
  * Class for a group of form elements
  */
-require_once dirname(__FILE__) . '/group.php';
+require_once 'HTML/QuickForm/group.php';
 /**
  * Class for <select></select> elements
  */
-require_once dirname(__FILE__) . '/select.php';
+require_once 'HTML/QuickForm/select.php';
 
 /**
  * Class for a group of elements used to input dates (and times).
@@ -494,7 +494,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
 
     function toHtml()
     {
-        include_once(dirname(__FILE__) . '/Renderer/Default.php');
+        include_once('HTML/QuickForm/Renderer/Default.php');
         $renderer = new HTML_QuickForm_Renderer_Default();
         $renderer->setElementTemplate('{element}');
         parent::accept($renderer);

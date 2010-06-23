@@ -23,4 +23,28 @@
       match="piwik"
       />
   </parameter>
+  <parameter
+    name="SetAclParameterConfig"
+    description="Sets the ACL on the configuration folder"
+    defaultValue="{Application Path}/config"
+    tags="Hidden"
+    >
+    <parameterEntry
+      type="ProviderPath"
+      scope="setAcl"
+      match="piwik/config"
+      />
+  </parameter>
+  <parameter
+    name="SetAclParameterTmp"
+    description="Sets the ACL on the tmp folder"
+    defaultValue="{Application Path}/tmp"
+    tags="Hidden"
+    >
+    <parameterEntry
+      type="ProviderPath"
+      scope="setAcl"
+      match="piwik/tmp"
+      />
+  </parameter>
 </parameters>

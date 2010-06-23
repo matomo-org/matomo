@@ -25,7 +25,7 @@
 /**
  * HTML class for static data
  */ 
-require_once dirname(__FILE__) . '/static.php';
+require_once 'HTML/QuickForm/static.php';
 
 /**
  * HTML class for a link type field

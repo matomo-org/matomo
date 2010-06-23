@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$("#periodString").hide();
 	$("#otherPeriods").hide();
-	$("#datepicker").hide();
+	$("#calendar").hide();
 	$("#periodString").show();
 	
 	// we get the content of the div before modifying it (append image, etc.)
@@ -54,7 +54,7 @@ $(document).ready(function(){
 				{
 					$("#currentPeriod:not(.hoverPeriod)")
 						.addClass("hoverPeriod")
-						.append('&nbsp;<img src="plugins/CoreHome/templates/images/more_period.gif" style="vertical-align:middle" />');
+						.append('&nbsp;<img src="plugins/CoreHome/templates/images/more_period.gif" style="vertical-align:middle">');
 				}
 			}, function(){
 				restoreCurrentPeriod();
@@ -83,10 +83,6 @@ $(document).ready(function(){
 			
 		})
 		.click(function(){
-			$("#datepicker").toggle();
-			if($("#datepicker").is(":visible"))
-			{
-				$("#datepicker .ui-state-highlight").removeClass('ui-state-highlight');
-			}
+			$("#calendar").toggle();
 		});
 } );

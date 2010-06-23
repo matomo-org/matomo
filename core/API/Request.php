@@ -87,7 +87,7 @@ class Piwik_API_Request
 		$outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'xml', 'string', $this->request));
 		
 		// create the response
-		$response = new Piwik_API_ResponseBuilder($outputFormat, $this->request);
+		$response = new Piwik_API_ResponseBuilder($this->request, $outputFormat);
 		
 		try {
 			// read parameters
@@ -101,7 +101,13 @@ class Piwik_API_Request
 			}
 			$module = "Piwik_" . $module . "_API";
 
-			self::reloadAuthUsingTokenAuth($this->request);
+			// if a token_auth is specified in the API request, we load the right permissions
+			$token_auth = Piwik_Common::getRequestVar('token_auth', '', 'string', $this->request);
+			if($token_auth)
+			{
+				Piwik_PostEvent('API.Request.authenticate', $token_auth);
+				Zend_Registry::get('access')->reloadAccess();
+			}
 			
 			// call the method 
 			$returnedValue = Piwik_API_Proxy::getInstance()->call($module, $method, $this->request);
@@ -113,25 +119,6 @@ class Piwik_API_Request
 		return $toReturn;
 	}
 
-	/**
-	 * If the token_auth is found in the $request parameter, 
-	 * the current session will be authenticated using this token_auth.
-	 * It will overwrite the previous Auth object.
-	 * 
-	 * @param $request If null, uses the default request ($_GET)
-	 * @return void
-	 */
-	static public function reloadAuthUsingTokenAuth($request = null)
-	{
-		// if a token_auth is specified in the API request, we load the right permissions
-		$token_auth = Piwik_Common::getRequestVar('token_auth', '', 'string', $request);
-		if($token_auth)
-		{
-			Piwik_PostEvent('API.Request.authenticate', $token_auth);
-			Zend_Registry::get('access')->reloadAccess();
-		}
-	}
-	
 	/**
 	 * Returns array( $class, $method) from the given string $class.$method
 	 * 

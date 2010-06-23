@@ -11,32 +11,32 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
- *
+ * 
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Maildir.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Maildir.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 
 /**
  * @see Zend_Mail_Storage_Folder_Maildir
  */
-// require_once 'Zend/Mail/Storage/Folder/Maildir.php';
+require_once 'Zend/Mail/Storage/Folder/Maildir.php';
 
 /**
  * @see Zend_Mail_Storage_Writable_Interface
  */
-// require_once 'Zend/Mail/Storage/Writable/Interface.php';
+require_once 'Zend/Mail/Storage/Writable/Interface.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Maildir
@@ -49,7 +49,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
      * @var bool|int
      */
     protected $_quota;
-
+    
     /**
      * create a new maildir
      *
@@ -66,7 +66,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                 /**
                  * @see Zend_Mail_Storage_Exception
                  */
-                // require_once 'Zend/Mail/Storage/Exception.php';
+                require_once 'Zend/Mail/Storage/Exception.php';
                 throw new Zend_Mail_Storage_Exception('maildir must be a directory if already exists');
             }
         } else {
@@ -74,7 +74,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                 /**
                  * @see Zend_Mail_Storage_Exception
                  */
-                // require_once 'Zend/Mail/Storage/Exception.php';
+                require_once 'Zend/Mail/Storage/Exception.php';
                 $dir = dirname($dir);
                 if (!file_exists($dir)) {
                     throw new Zend_Mail_Storage_Exception("parent $dir not found");
@@ -85,7 +85,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                 }
             }
         }
-
+        
         foreach (array('cur', 'tmp', 'new') as $subdir) {
             if (!@mkdir($dir . DIRECTORY_SEPARATOR . $subdir)) {
                 // ignore if dir exists (i.e. was already valid maildir or two processes try to create one)
@@ -93,13 +93,13 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                     /**
                      * @see Zend_Mail_Storage_Exception
                      */
-                    // require_once 'Zend/Mail/Storage/Exception.php';
+                    require_once 'Zend/Mail/Storage/Exception.php';
                     throw new Zend_Mail_Storage_Exception('could not create subdir ' . $subdir);
                 }
             }
         }
     }
-
+    
     /**
      * Create instance with parameters
      * Additional parameters are (see parent for more):
@@ -112,11 +112,11 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
         if (is_array($params)) {
             $params = (object)$params;
         }
-
+        
         if (!empty($params->create) && isset($params->dirname) && !file_exists($params->dirname . DIRECTORY_SEPARATOR . 'cur')) {
             self::initMaildir($params->dirname);
         }
-
+        
         parent::__construct($params);
     }
 
@@ -154,7 +154,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('folder already exists');
         }
 
@@ -162,7 +162,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('invalid name - folder parts may not be empty');
         }
 
@@ -178,7 +178,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('invalid name - no directory seprator allowed in folder name');
         }
 
@@ -199,7 +199,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('error while creating new folder, may be created incompletly');
         }
 
@@ -241,7 +241,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('delete children first');
         }
 
@@ -249,7 +249,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('wont delete INBOX');
         }
 
@@ -257,7 +257,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('wont delete selected folder');
         }
 
@@ -271,7 +271,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                 /**
                  * @see Zend_Mail_Storage_Exception
                  */
-                // require_once 'Zend/Mail/Storage/Exception.php';
+                require_once 'Zend/Mail/Storage/Exception.php';
                 throw new Zend_Mail_Storage_Exception("error opening $subdir");
             }
             while (($entry = readdir($dh)) !== false) {
@@ -282,7 +282,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                     /**
                      * @see Zend_Mail_Storage_Exception
                      */
-                    // require_once 'Zend/Mail/Storage/Exception.php';
+                    require_once 'Zend/Mail/Storage/Exception.php';
                     throw new Zend_Mail_Storage_Exception("error cleaning $subdir");
                 }
             }
@@ -292,7 +292,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                     /**
                      * @see Zend_Mail_Storage_Exception
                      */
-                    // require_once 'Zend/Mail/Storage/Exception.php';
+                    require_once 'Zend/Mail/Storage/Exception.php';
                     throw new Zend_Mail_Storage_Exception("error removing $subdir");
                 }
             }
@@ -304,7 +304,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception("error removing maindir");
         }
 
@@ -345,7 +345,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('new folder cannot be a child of old folder');
         }
 
@@ -356,7 +356,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('wont rename INBOX');
         }
 
@@ -364,7 +364,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('wont rename selected folder');
         }
 
@@ -387,7 +387,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                 /**
                  * @see Zend_Mail_Storage_Exception
                  */
-                // require_once 'Zend/Mail/Storage/Exception.php';
+                require_once 'Zend/Mail/Storage/Exception.php';
                 throw new Zend_Mail_Storage_Exception('error while moving ' . $subdir);
             }
         }
@@ -442,7 +442,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                 /**
                  * @see Zend_Mail_Storage_Exception
                  */
-                // require_once 'Zend/Mail/Storage/Exception.php';
+                require_once 'Zend/Mail/Storage/Exception.php';
                 throw new Zend_Mail_Storage_Exception('problems creating tmp dir');
             }
         }
@@ -464,7 +464,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                     /**
                      * @see Zend_Mail_Storage_Exception
                      */
-                    // require_once 'Zend/Mail/Storage/Exception.php';
+                    require_once 'Zend/Mail/Storage/Exception.php';
                     throw new Zend_Mail_Storage_Exception('could not open temp file');
                 }
                 break;
@@ -476,7 +476,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception("tried $max_tries unique ids for a temp file, but all were taken"
                                                 . ' - giving up');
         }
@@ -500,7 +500,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('recent flag may not be set');
         }
 
@@ -520,7 +520,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('unknown flag(s): ' . $wanted_flags);
         }
 
@@ -545,8 +545,8 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
-            throw new Zend_Mail_Storage_Exception('storage is over quota!');
+            require_once 'Zend/Mail/Storage/Exception.php';
+            throw new Zend_Mail_Storage_Exception('storage is over quota!');            
         }
 
         if ($folder === null) {
@@ -587,7 +587,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             $exception = new Zend_Mail_Storage_Exception('cannot link message file to final dir');
         }
         @unlink($temp_file['filename']);
@@ -618,10 +618,10 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
-            throw new Zend_Mail_Storage_Exception('storage is over quota!');
+            require_once 'Zend/Mail/Storage/Exception.php';
+            throw new Zend_Mail_Storage_Exception('storage is over quota!');            
         }
-
+    
         if (!($folder instanceof Zend_Mail_Storage_Folder)) {
             $folder = $this->getFolders($folder);
         }
@@ -656,13 +656,13 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             $exception = new Zend_Mail_Storage_Exception('cannot copy message file');
         } else if (!link($temp_file['filename'], $new_file)) {
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             $exception = new Zend_Mail_Storage_Exception('cannot link message file to final dir');
         }
         @unlink($temp_file['filename']);
@@ -677,7 +677,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                                     'flags'    => $flags,
                                     'filename' => $new_file);
         }
-
+        
         if ($this->_quota) {
             $this->_addQuotaEntry((int)$size, 1);
         }
@@ -695,16 +695,16 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
         if (!($folder instanceof Zend_Mail_Storage_Folder)) {
             $folder = $this->getFolders($folder);
         }
-
+        
         if ($folder->getGlobalName() == $this->_currentFolder
             || ($this->_currentFolder == 'INBOX' && $folder->getGlobalName() == '/')) {
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('target is current folder');
         }
-
+        
         $filedata = $this->_getFileData($id);
         $old_file = $filedata['filename'];
         $flags = $filedata['flags'];
@@ -734,7 +734,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             $exception = new Zend_Mail_Storage_Exception('cannot move message file');
         }
         @unlink($temp_file['filename']);
@@ -770,7 +770,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('cannot rename file');
         }
 
@@ -790,16 +790,16 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
     public function removeMessage($id)
     {
         $filename = $this->_getFileData($id, 'filename');
-
+        
         if ($this->_quota) {
             $size = filesize($filename);
         }
-
+        
         if (!@unlink($filename)) {
             /**
              * @see Zend_Mail_Storage_Exception
              */
-            // require_once 'Zend/Mail/Storage/Exception.php';
+            require_once 'Zend/Mail/Storage/Exception.php';
             throw new Zend_Mail_Storage_Exception('cannot remove message');
         }
         unset($this->_files[$id - 1]);
@@ -809,7 +809,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             $this->_addQuotaEntry(0 - (int)$size, -1);
         }
     }
-
+    
     /**
      * enable/disable quota and set a quota value if wanted or needed
      *
@@ -824,7 +824,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
     public function setQuota($value) {
         $this->_quota = $value;
     }
-
+    
     /**
      * get currently set quota
      *
@@ -839,7 +839,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                 /**
                  * @see Zend_Mail_Storage_Exception
                  */
-                // require_once 'Zend/Mail/Storage/Exception.php';
+                require_once 'Zend/Mail/Storage/Exception.php';
                 throw new Zend_Mail_Storage_Exception('cannot open maildirsize');
             }
             $definition = fgets($fh);
@@ -855,10 +855,10 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             }
             return $quota;
         }
-
+        
         return $this->_quota;
     }
-
+    
     /**
      * @see http://www.inter7.com/courierimap/README.maildirquota.html "Calculating maildirsize"
      */
@@ -873,10 +873,10 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             try {
                 $quota = $this->getQuota(true);
             } catch (Zend_Mail_Storage_Exception $e) {
-                throw new Zend_Mail_Storage_Exception('no quota definition found', 0, $e);
+                throw new Zend_Mail_Storage_Exception('no quota defintion found');
             }
         }
-
+        
         $folders = new RecursiveIteratorIterator($this->getFolders(), RecursiveIteratorIterator::SELF_FIRST);
         foreach ($folders as $folder) {
             $subdir = $folder->getGlobalName();
@@ -888,29 +888,29 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             if ($subdir == 'Trash') {
                 continue;
             }
-
+            
             foreach (array('cur', 'new') as $subsubdir) {
                 $dirname = $this->_rootdir . $subdir . DIRECTORY_SEPARATOR . $subsubdir . DIRECTORY_SEPARATOR;
                 if (!file_exists($dirname)) {
                     continue;
                 }
                 // NOTE: we are using mtime instead of "the latest timestamp". The latest would be atime
-                // and as we are accessing the directory it would make the whole calculation useless.
+                // and as we are accessing the directory it would make the whole calculation useless.    
                 $timestamps[$dirname] = filemtime($dirname);
 
                 $dh = opendir($dirname);
-                // NOTE: Should have been checked in constructor. Not throwing an exception here, quotas will
+                // NOTE: Should have been checked in constructor. Not throwing an exception here, quotas will 
                 // therefore not be fully enforeced, but next request will fail anyway, if problem persists.
                 if (!$dh) {
                     continue;
                 }
-
-
+                
+                                
                 while (($entry = readdir()) !== false) {
                     if ($entry[0] == '.' || !is_file($dirname . $entry)) {
                         continue;
                     }
-
+                    
                     if (strpos($entry, ',S=')) {
                         strtok($entry, '=');
                         $filesize = strtok(':');
@@ -930,7 +930,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                 }
             }
         }
-
+        
         $tmp = $this->_createTmpFile();
         $fh = $tmp['handle'];
         $definition = array();
@@ -951,10 +951,10 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                 break;
             }
         }
-
+        
         return array('size' => $total_size, 'count' => $messages, 'quota' => $quota);
     }
-
+    
     /**
      * @see http://www.inter7.com/courierimap/README.maildirquota.html "Calculating the quota for a Maildir++"
      */
@@ -1001,9 +1001,9 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
                 $messages   += $count;
             }
         }
-
+        
         $over_quota = false;
-        $over_quota = $over_quota || (isset($quota['size'])  && $total_size > $quota['size']);
+        $over_quota = $over_quota || (isset($quota['size'])  && $total_size > $quota['size']); 
         $over_quota = $over_quota || (isset($quota['count']) && $messages   > $quota['count']);
         // NOTE: $maildirsize equals false if it wasn't set (AKA we recalculated) or it's only
         // one line, because $maildirsize[0] gets unsetted.
@@ -1015,18 +1015,18 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             $messages   = $result['count'];
             $quota      = $result['quota'];
             $over_quota = false;
-            $over_quota = $over_quota || (isset($quota['size'])  && $total_size > $quota['size']);
+            $over_quota = $over_quota || (isset($quota['size'])  && $total_size > $quota['size']); 
             $over_quota = $over_quota || (isset($quota['count']) && $messages   > $quota['count']);
         }
-
+        
         if ($fh) {
             // TODO is there a safe way to keep the handle open for writing?
             fclose($fh);
         }
-
+        
         return array('size' => $total_size, 'count' => $messages, 'quota' => $quota, 'over_quota' => $over_quota);
     }
-
+    
     protected function _addQuotaEntry($size, $count = 1) {
         if (!file_exists($this->_rootdir . 'maildirsize')) {
             // TODO: should get file handler from _calculateQuota
@@ -1035,7 +1035,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
         $count = (int)$count;
         file_put_contents($this->_rootdir . 'maildirsize', "$size $count\n", FILE_APPEND);
     }
-
+    
     /**
      * check if storage is currently over quota
      *

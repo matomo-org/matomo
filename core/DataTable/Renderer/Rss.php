@@ -25,12 +25,6 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		return $this->renderTable($this->table);
 	}
 	
-	function renderException()
-	{
-		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
-		return 'Error: '.$exceptionMessage;
-	}
-	
 	protected function renderTable($table)
 	{
 		if(!($table instanceof Piwik_DataTable_Array)
@@ -53,9 +47,8 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 			$site = $table->metadata[$date]['site'];
 	
 			$pudDate = date('r', $timestamp);
-			
-			$dateInSiteTimezone = Piwik_Date::factory($timestamp)->setTimezone($site->getTimezone())->toString('Y-m-d');
-			$thisPiwikUrl = htmlentities($piwikUrl . "&date=$dateInSiteTimezone");
+			$dateUrl = date('Y-m-d', $timestamp);
+			$thisPiwikUrl = htmlentities($piwikUrl . "&date=$dateUrl");
 			$siteName = $site->getName();
 			$title = $siteName . " on ". $date;
 			
@@ -105,7 +98,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 	{
 		if($table->getRowsCount() == 0)
 		{
-			return "<b><i>Empty table</i></b><br />\n";
+			return "<b><i>Empty table</i></b> <br>\n";
 		}
 
 		$i = 1;		

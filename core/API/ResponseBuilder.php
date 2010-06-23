@@ -19,7 +19,7 @@ class Piwik_API_ResponseBuilder
 	private $request = null;
 	private $outputFormat = null;
 	
-	public function __construct($outputFormat, $request = array())
+	public function __construct($request, $outputFormat)
 	{
 		$this->request = $request;
 		$this->outputFormat = $outputFormat;
@@ -49,17 +49,11 @@ class Piwik_API_ResponseBuilder
 	 * 
 	 * @throws Exception If an object/resource is returned, if any of conversion fails, etc. 
 	 * 
-	 * @param mixed The initial returned value, before post process. If set to null, success response is returned. 
+	 * @param mixed The initial returned value, before post process
 	 * @return mixed Usually a string, but can still be a PHP data structure if the format requested is 'original'
 	 */
-	public function getResponse($value = null)
+	public function getResponse($value)
 	{ 
-		// when null or void is returned from the api call, we handle it as a successful operation 
-		if(!isset($value))
-		{
-			return $this->handleSuccess();
-		}
-		
 		// If the returned value is an object DataTable we
 		// apply the set of generic filters if asked in the URL
 		// and we render the DataTable according to the format specified in the URL
@@ -77,6 +71,12 @@ class Piwik_API_ResponseBuilder
 		if(is_array($value))
 		{
 			return $this->handleArray($value);
+		}
+		
+		// when null or void is returned from the api call, we handle it as a successful operation 
+		if(!isset($value))
+		{
+			return $this->handleSuccess();
 		}
 		
 		// original data structure requested, we return without process
@@ -104,30 +104,41 @@ class Piwik_API_ResponseBuilder
 	 */
 	public function getResponseException(Exception $e)
 	{
-		$format = strtolower($this->outputFormat);
-		
-		if( $format == 'original' )
+		$message = htmlentities($e->getMessage(), ENT_COMPAT, "UTF-8");
+		switch($this->outputFormat)
 		{
-			throw $e;
+			case 'original':
+				throw $e;
+			break;
+			case 'xml':
+				@header("Content-Type: text/xml;charset=utf-8");
+				$return = 
+					"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
+					"<result>\n".
+					"\t<error message=\"".$message."\" />\n".
+					"</result>";
+			break;
+			case 'json':
+				@header( "Content-type: application/json" );
+				// we remove the \n from the resulting string as this is not allowed in json
+				$message = str_replace("\n","",$message);
+				$return = '{"result":"error", "message":"'.$message.'"}';
+			break;
+			case 'php':
+				$return = array('result' => 'error', 'message' => $message);
+				if($this->caseRendererPHPSerialize())
+				{
+					$return = serialize($return);
+				}
+			break;
+			case 'html':
+				$return = nl2br($message);
+			break;
+			default:
+				$return = 'Error: '.$message;
+			break;
 		}
-		
-		try
-		{
-			$renderer = Piwik_DataTable_Renderer::factory($format);
-		
-		} catch (Exception $e) {
-			
-			return "Error: " . $e->getMessage();
-		}
-		
-		$renderer->setException($e);
-		
-		if($format == 'php')
-		{
-			$renderer->setSerialize($this->caseRendererPHPSerialize());
-		}		
-		
-		return $renderer->renderException();
+		return $return;
 	}
 	
 	/**
@@ -191,10 +202,6 @@ class Piwik_API_ResponseBuilder
 		{
 			$renderer->setTableId($this->request['method']);
 		}
-		else if($format == 'csv')
-		{
-			$renderer->setConvertToUnicode( Piwik_Common::getRequestVar('convertToUnicode', true, 'int') );
-		}
 		
 		return $renderer->render();
 	}
@@ -219,7 +226,7 @@ class Piwik_API_ResponseBuilder
 					"</result>";
 			break;
 			case 'json':
-				@header( "Content-Type: application/json" );
+				@header( "Content-type: application/json" );
 				$return = '{"result":"success", "message":"'.$message.'"}';
 			break;
 			case 'php':
@@ -231,7 +238,7 @@ class Piwik_API_ResponseBuilder
 			break;
 			
 			case 'csv':
-				header("Content-Type: application/vnd.ms-excel");
+				header("Content-type: application/vnd.ms-excel");
 				header("Content-Disposition: attachment; filename=piwik-report-export.csv");	
 				$return = "message\n".$message;
 			break;
@@ -289,5 +296,5 @@ class Piwik_API_ResponseBuilder
 			$dataTable->addRowsFromSimpleArray($array);
 			return $this->getRenderedDataTable($dataTable);
 		}
-	}
+	}	
 }

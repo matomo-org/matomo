@@ -15,31 +15,31 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db2.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Db2.php 16541 2009-07-07 06:59:03Z bkarwin $
  *
  */
 
 /**
  * @see Zend_Db
  */
-// require_once 'Zend/Db.php';
+require_once 'Zend/Db.php';
 
 /**
  * @see Zend_Db_Adapter_Abstract
  */
-// require_once 'Zend/Db/Adapter/Abstract.php';
+require_once 'Zend/Db/Adapter/Abstract.php';
 
 /**
  * @see Zend_Db_Statement_Db2
  */
-// require_once 'Zend/Db/Statement/Db2.php';
+require_once 'Zend/Db/Statement/Db2.php';
 
 
 /**
  * @package    Zend_Db
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -127,7 +127,7 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
             /**
              * @see Zend_Db_Adapter_Db2_Exception
              */
-            // require_once 'Zend/Db/Adapter/Db2/Exception.php';
+            require_once 'Zend/Db/Adapter/Db2/Exception.php';
             throw new Zend_Db_Adapter_Db2_Exception('The IBM DB2 extension is required for this adapter but the extension is not loaded');
         }
 
@@ -184,7 +184,7 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
             /**
              * @see Zend_Db_Adapter_Db2_Exception
              */
-            // require_once 'Zend/Db/Adapter/Db2/Exception.php';
+            require_once 'Zend/Db/Adapter/Db2/Exception.php';
             throw new Zend_Db_Adapter_Db2_Exception(db2_conn_errormsg(), db2_conn_error());
         }
     }
@@ -223,10 +223,10 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
     {
         $this->_connect();
         $stmtClass = $this->_defaultStmtClass;
-        // if (!class_exists($stmtClass)) {
-            // require_once 'Zend/Loader.php';
-            // Zend_Loader::loadClass($stmtClass);
-        // }
+        if (!class_exists($stmtClass)) {
+            require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass($stmtClass);
+        }
         $stmt = new $stmtClass($this, $sql);
         $stmt->setFetchMode($this->_fetchMode);
         return $stmt;
@@ -258,7 +258,7 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
                 /**
                  * @see Zend_Db_Adapter_Db2_Exception
                  */
-                // require_once 'Zend/Db/Adapter/Db2/Exception.php';
+                require_once 'Zend/Db/Adapter/Db2/Exception.php';
                 throw new Zend_Db_Adapter_Db2_Exception("execution mode not supported");
                 break;
         }
@@ -373,7 +373,7 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
         if ($schemaName === null && $this->_config['schema'] != null) {
             $schemaName = $this->_config['schema'];
         }
-
+        
         if (!$this->_isI5) {
 
             $sql = "SELECT DISTINCT c.tabschema, c.tabname, c.colname, c.colno,
@@ -402,14 +402,14 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
             $sql = "SELECT DISTINCT C.TABLE_SCHEMA, C.TABLE_NAME, C.COLUMN_NAME, C.ORDINAL_POSITION,
                 C.DATA_TYPE, C.COLUMN_DEFAULT, C.NULLS ,C.LENGTH, C.SCALE, LEFT(C.IDENTITY,1),
                 LEFT(tc.TYPE, 1) AS tabconsttype, k.COLSEQ
-                FROM QSYS2.SYSCOLUMNS C
+                FROM QSYS2.SYSCOLUMNS C     
                 LEFT JOIN (QSYS2.syskeycst k JOIN QSYS2.SYSCST tc
                     ON (k.TABLE_SCHEMA = tc.TABLE_SCHEMA
                       AND k.TABLE_NAME = tc.TABLE_NAME
-                      AND LEFT(tc.type,1) = 'P'))
+                      AND LEFT(tc.type,1) = 'P'))                  
                     ON (C.TABLE_SCHEMA = k.TABLE_SCHEMA
                        AND C.TABLE_NAME = k.TABLE_NAME
-                       AND C.COLUMN_NAME = k.COLUMN_NAME)
+                       AND C.COLUMN_NAME = k.COLUMN_NAME)                          
                 WHERE "
                  . $this->quoteInto('UPPER(C.TABLE_NAME) = UPPER(?)', $tableName);
 
@@ -583,7 +583,7 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
             /**
              * @see Zend_Db_Adapter_Db2_Exception
              */
-            // require_once 'Zend/Db/Adapter/Db2/Exception.php';
+            require_once 'Zend/Db/Adapter/Db2/Exception.php';
             throw new Zend_Db_Adapter_Db2_Exception(
                 db2_conn_errormsg($this->_connection),
                 db2_conn_error($this->_connection));
@@ -603,7 +603,7 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
             /**
              * @see Zend_Db_Adapter_Db2_Exception
              */
-            // require_once 'Zend/Db/Adapter/Db2/Exception.php';
+            require_once 'Zend/Db/Adapter/Db2/Exception.php';
             throw new Zend_Db_Adapter_Db2_Exception(
                 db2_conn_errormsg($this->_connection),
                 db2_conn_error($this->_connection));
@@ -631,14 +631,14 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
                 /**
                  * @see Zend_Db_Adapter_Db2_Exception
                  */
-                // require_once 'Zend/Db/Adapter/Db2/Exception.php';
+                require_once 'Zend/Db/Adapter/Db2/Exception.php';
                 throw new Zend_Db_Adapter_Db2_Exception('FETCH_BOUND is not supported yet');
                 break;
             default:
                 /**
                  * @see Zend_Db_Adapter_Db2_Exception
                  */
-                // require_once 'Zend/Db/Adapter/Db2/Exception.php';
+                require_once 'Zend/Db/Adapter/Db2/Exception.php';
                 throw new Zend_Db_Adapter_Db2_Exception("Invalid fetch mode '$mode' specified");
                 break;
         }
@@ -659,7 +659,7 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
             /**
              * @see Zend_Db_Adapter_Db2_Exception
              */
-            // require_once 'Zend/Db/Adapter/Db2/Exception.php';
+            require_once 'Zend/Db/Adapter/Db2/Exception.php';
             throw new Zend_Db_Adapter_Db2_Exception("LIMIT argument count=$count is not valid");
         }
 
@@ -668,7 +668,7 @@ class Zend_Db_Adapter_Db2 extends Zend_Db_Adapter_Abstract
             /**
              * @see Zend_Db_Adapter_Db2_Exception
              */
-            // require_once 'Zend/Db/Adapter/Db2/Exception.php';
+            require_once 'Zend/Db/Adapter/Db2/Exception.php';
             throw new Zend_Db_Adapter_Db2_Exception("LIMIT argument offset=$offset is not valid");
         }
 

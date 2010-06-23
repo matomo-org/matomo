@@ -42,7 +42,7 @@ abstract class Piwik_Log extends Zend_Log
 
 		$this->fileFormatter = $fileFormatter;
 		$this->screenFormatter = $screenFormatter;
-		$this->logToDatabaseTableName = Piwik_Common::prefixTable($logToDatabaseTableName);
+		$this->logToDatabaseTableName = Piwik::prefixTable($logToDatabaseTableName);
 		$this->logToDatabaseColumnMapping = $logToDatabaseColumnMapping;
 	}
 	
@@ -61,6 +61,7 @@ abstract class Piwik_Log extends Zend_Log
 	
 	function addWriteToNull()
 	{
+		Zend_Loader::loadClass('Zend_Log_Writer_Null');
 		$this->addWriter( new Zend_Log_Writer_Null );
 	}
 	
@@ -89,7 +90,7 @@ abstract class Piwik_Log extends Zend_Log
 	/**
 	 * Log an event
 	 */
-	public function log($event, $priority, $extras = null)
+	public function log($event, $priority)
 	{
 		// sanity checks
 		if (empty($this->_writers)) {
@@ -138,7 +139,8 @@ class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 		}
 		$ts = $event['timestamp'];
 		unset($event['timestamp']);
-		return $ts . ' ' . implode(" ", $event) . "\n";
+		$str = $ts . ' ' . implode(" ", $event) . "\n";
+		return $str;
 	}
 }
 
@@ -154,10 +156,11 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 		// no injection in error messages, backtrace when displayed on screen
 		return array_map('htmlspecialchars', $event);
 	}
-
+	
 	function format($string)
 	{
-		return self::getFormattedString($string);
+		$string = self::getFormattedString($string);
+		return $string;
 	}
 	
 	static public function getFormattedString($string)
@@ -165,17 +168,7 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 		if(Piwik_Common::isPhpCliMode())
 		{
 			$string = str_replace(array('<br>','<br />','<br/>'), "\n", $string);
-			if(is_array($string))
-			{
-				for($i=0; $i< count($string); $i++)
-				{
-					$string[$i] = strip_tags($string[$i]);
-				}
-			}
-			else
-			{
-				$string = strip_tags($string);
-			}
+			$string = strip_tags($string);
 		}
 		return $string;
 	}

@@ -16,38 +16,37 @@
  */
 class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 {
-	public function index()
+	function getDefaultAction()
 	{
-		return $this->redirectToIndex('UsersManager', 'userSettings');
+		return 'redirectToIndex';
+	}
+	
+	function redirectToIndex()
+	{
+		if(Piwik::isUserIsSuperUser()) 
+		{
+			$module = 'CorePluginsAdmin';
+		} 
+		else 
+		{
+			$module = 'SitesManager';
+		}
+		header("Location:index.php?module=" . $module);
 	}
 
-	public function generalSettings()
+	public function index()
 	{
-		$view = Piwik_View::factory('generalSettings');
-		$view->enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
-		$view->todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
-		
-		$this->setGeneralVariablesView($view);
-		$view->menu = Piwik_GetAdminMenu();
+		Piwik::checkUserIsSuperUser();
+		$view = $this->getDefaultIndexView();
 		echo $view->render();
 	}
 	
-	public function setGeneralSettings()
+	protected function getDefaultIndexView()
 	{
-		$response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
-		try {
-    		Piwik::checkUserIsSuperUser();
-    		$this->checkTokenInUrl();
-    		$enableBrowserTriggerArchiving = Piwik_Common::getRequestVar('enableBrowserTriggerArchiving');
-    		$todayArchiveTimeToLive = Piwik_Common::getRequestVar('todayArchiveTimeToLive');
-
-    		Piwik_ArchiveProcessing::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
-    		Piwik_ArchiveProcessing::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
-			$toReturn = $response->getResponse();
-		} catch(Exception $e ) {
-			$toReturn = $response->getResponseException( $e );
-		}
-		echo $toReturn;
+		$view = Piwik_View::factory('index');
+		$view->content = '';
+		$this->setGeneralVariablesView($view);
+		$view->menu = Piwik_GetAdminMenu();
+		return $view;
 	}
-	
 }

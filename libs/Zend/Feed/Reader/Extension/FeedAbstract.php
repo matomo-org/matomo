@@ -14,36 +14,36 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FeedAbstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: FeedAbstract.php 16711 2009-07-14 16:10:54Z matthew $
  */
 
 /**
  * @see Zend_Feed_Reader
  */
-// require_once 'Zend/Feed/Reader.php';
+require_once 'Zend/Feed/Reader.php';
 
 /**
  * @see Zend_Feed_Reader_Entry_Atom
  */
-// require_once 'Zend/Feed/Reader/Entry/Atom.php';
+require_once 'Zend/Feed/Reader/Entry/Atom.php';
 
 
 /**
  * @see Zend_Feed_Reader_Entry_Rss
  */
-// require_once 'Zend/Feed/Reader/Entry/Rss.php';
+require_once 'Zend/Feed/Reader/Entry/Rss.php';
 
 /**
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Feed_Reader_Extension_FeedAbstract
 {
-    /**
+	/**
      * Parsed feed data
      *
      * @var array
@@ -139,33 +139,10 @@ abstract class Zend_Feed_Reader_Extension_FeedAbstract
         return $this->_data;
     }
 
-    /**
-     * Set the XPath query
-     *
-     * @param  DOMXPath $xpath
-     * @return Zend_Feed_Reader_Extension_EntryAbstract
-     */
-    public function setXpath(DOMXPath $xpath)
-    {
-        $this->_xpath = $xpath;
-        $this->_registerNamespaces();
-        return $this;
-    }
-
-    /**
-     * Get the DOMXPath object
-     *
-     * @return string
-     */
-    public function getXpath()
-    {
-        return $this->_xpath;
-    }
-
-    /**
+        /**
      * Get the XPath prefix
-     *
-     * @return string
+	 *
+	 * @return string
      */
     public function getXpathPrefix()
     {

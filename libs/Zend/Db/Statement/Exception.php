@@ -15,15 +15,15 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Statement
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Exception.php 20514 2010-01-22 07:57:10Z ralph $
+ * @version    $Id: Exception.php 17860 2009-08-27 22:48:48Z beberlei $
  */
 
 /**
  * @see Zend_Db_Exception
  */
-// require_once 'Zend/Db/Exception.php';
+require_once 'Zend/Db/Exception.php';
 
 /**
  * Zend_Db_Statement_Exception
@@ -31,19 +31,36 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Statement
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Statement_Exception extends Zend_Db_Exception
 {
     /**
+     * @var Exception
+     */
+    protected $_chainedException = null;
+
+    /**
+     * @param string $message
+     * @param string|int $code
+     * @param Exception $chainedException
+     */
+    public function __construct($message = null, $code = null, Exception $chainedException=null)
+    {
+        $this->message = $message;
+        $this->code = $code;
+        $this->_chainedException = $chainedException;
+    }
+
+    /**
      * Check if this general exception has a specific database driver specific exception nested inside.
-     *
+     * 
      * @return bool
      */
     public function hasChainedException()
     {
-        return ($this->getPrevious() !== null);
+        return ($this->_chainedException!==null);
     }
 
     /**
@@ -51,6 +68,6 @@ class Zend_Db_Statement_Exception extends Zend_Db_Exception
      */
     public function getChainedException()
     {
-        return $this->getPrevious();
+        return $this->_chainedException;
     }
 }

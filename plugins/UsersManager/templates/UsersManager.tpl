@@ -2,6 +2,7 @@
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='UsersManager'}
+{include file="CoreAdminHome/templates/menu.tpl"}
 
 {literal}
 <style>
@@ -15,6 +16,17 @@
 	text-align:center;
 }
 
+#accessUpdated {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+	width: 350px;
+	margin: 10px;
+	padding: 10px;
+	display: none;
+	border: 3px solid green;
+	color: green;
+}
 #access td, #users td {
 	spacing: 0px;
 	padding: 2px 5px 5px 4px;
@@ -44,7 +56,7 @@
 <p>{'UsersManager_MainDescription'|translate}</p>
 <div id="sites">
 <form method="post" action="{url action=index}" id="accessSites">
-	<p>{'UsersManager_Sites'|translate}: <select id="selectIdsite" name="idsite" onchange="changeSite()">
+	<p>{'UsersManager_Sites'|translate}: <select id="selectIdsite" name="idsite" onchange="this.form.submit()">
 	
 	<optgroup label="{'UsersManager_AllWebsites'|translate}">
 		<option label="{'UsersManager_AllWebsites'|translate}" value="all" {if $idSiteSelected=='all'} selected="selected"{/if}>{'UsersManager_ApplyToAllWebsites'|translate}</option>
@@ -60,10 +72,6 @@
 </form>
 </div>
 
-{ajaxErrorDiv}
-{ajaxLoadingDiv}
-<div id="accessUpdated" class="ajaxSuccess"><p>{'General_Done'|translate}!</p></div>
-
 <table class="admin" id="access">
 <thead>
 <tr>
@@ -75,9 +83,9 @@
 </thead>
 
 <tbody>
-{assign var=accesValid value="<img src='plugins/UsersManager/images/ok.png' class='accessGranted' />"}
-{assign var=accesInvalid value="<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />"}
 {foreach from=$usersAccessByWebsite key=login item=access}
+{assign var=accesValid value="<img src='plugins/UsersManager/images/ok.png' class='accessGranted'>"}
+{assign var=accesInvalid value="<img src='plugins/UsersManager/images/no-access.png' class='updateAccess'>"}
 <tr>
 	<td id='login'>{$login}</td>
 	<td id='noaccess'>{if $access=='noaccess' and $idSiteSelected!='all'}{$accesValid}{else}{$accesInvalid}{/if}&nbsp;</td>
@@ -88,24 +96,24 @@
 </tbody>
 </table>
 
+<div id="accessUpdated">{'General_Done'|translate}!</div>
+
 <div class="dialog" id="confirm"> 
 	<p>{'UsersManager_ChangeAllConfirm'|translate:"<span id='login'></span>"}</p>
-	<input id="yes" type="button" value="{'General_Yes'|translate}" />
-	<input id="no" type="button" value="{'General_No'|translate}" />
+	<input id="yes" type="button" value="{'General_Yes'|translate}"/>
+	<input id="no" type="button" value="{'General_No'|translate}"/>
 </div> 
 
 {if $userIsSuperUser}
-	<br />
+	<br/>
 	<h2>{'UsersManager_UsersManagement'|translate}</h2>
 	<p>{'UsersManager_UsersManagementMainDescription'|translate}</p>
-
-	{ajaxErrorDiv id=ajaxErrorUsersManagement}
-	{ajaxLoadingDiv id=ajaxLoadingUsersManagement}
-
+	<div id="ajaxError" style="display:none"></div>
+	<div id="ajaxLoading" style="display:none"><div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> {'General_LoadingData'|translate}</div></div>
 	<table class="admin" id="users">
 		<thead>
 			<tr>
-				<th>{'General_Username'|translate}</th>
+				<th>{'UsersManager_Login'|translate}</th>
 				<th>{'UsersManager_Password'|translate}</th>
 				<th>{'UsersManager_Email'|translate}</th>
 				<th>{'UsersManager_Alias'|translate}</th>
@@ -124,15 +132,15 @@
 					<td id="email" class="editable">{$user.email}</td>
 					<td id="alias" class="editable">{$user.alias}</td>
 					<td id="alias">{$user.token_auth}</td>
-					<td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#' /></td>
-					<td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete" /></td>
+					<td><img src='plugins/UsersManager/images/edit.png' class="edituser" id="row{$i}" href='#'></td>
+					<td><img src='plugins/UsersManager/images/remove.png' class="deleteuser" id="row{$i}" value="Delete"></td>
 				</tr>
 				{/if}
 			{/foreach}
 		</tbody>
 	</table>
 	
-	<div class="addrow"><a href="#"><img src='plugins/UsersManager/images/add.png' /> {'UsersManager_AddUser'|translate}</a></div>
+	<div class="addrow"><a href="#"><img src='plugins/UsersManager/images/add.png'> {'UsersManager_AddUser'|translate}</a></div>
 {/if}
 
 {include file="CoreAdminHome/templates/footer.tpl"}

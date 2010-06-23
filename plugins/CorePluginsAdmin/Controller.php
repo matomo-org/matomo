@@ -20,54 +20,38 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 	{
 		Piwik::checkUserIsSuperUser();
 		
-		$plugins = array();
-	
 		$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
+		$loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+		$plugins = array();
 		foreach($listPlugins as $pluginName)
 		{
 			$oPlugin = Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);
-			$plugins[$pluginName] = array(
-			 	'activated' => Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName),
-				'alwaysActivated' => Piwik_PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
-			);
+			$plugins[$pluginName]= array( 	'activated' => Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName),
+											'alwaysActivated' => Piwik_PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
+											'info' => $oPlugin->getInformation()
+									);
 		}
-
-		Piwik_PluginsManager::getInstance()->loadTranslations();
-
-		$loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
-		foreach($loadedPlugins as $oPlugin)
-		{
-			$pluginName = $oPlugin->getClassName();
-			$plugins[$pluginName]['info'] = $oPlugin->getInformation();
-		}
-
+		
 		$view = Piwik_View::factory('manage');
 		$view->pluginsName = $plugins;
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
-		if(!Zend_Registry::get('config')->isFileWritable())
-		{
-			$view->configFileNotWritable = true;
-		}
-		
 		echo $view->render();
 	}
 
 	function deactivate()
 	{
 		Piwik::checkUserIsSuperUser();
-		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
-		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin&action=index');
+		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin');
 	}
 
 	function activate()
 	{
 		Piwik::checkUserIsSuperUser();
-		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
-		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin&action=index');
+		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin');
 	}
 }

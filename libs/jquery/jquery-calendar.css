@@ -1,0 +1,190 @@
+/* Main Style Sheet for jQuery Calendar */
+#calendar_div,.calendar_inline {
+	font-size: 14px;
+	padding: 0;
+	margin: 0;
+}
+
+#calendar_div {
+	display: none;
+	border: 1px solid #777;
+	z-index: 10; /*must have*/
+}
+
+#calendar_div,.calendar_control,.calendar_links,.calendar_header,.calendar
+	{
+	width: 185px;
+}
+
+.calendar_inline {
+	float: left;
+	display: block;
+	border: 0;
+}
+
+.calendar_dialog {
+	padding: 5px !important;
+	border: 4px ridge #ddd !important;
+}
+
+button.calendar_trigger {
+	width: 25px;
+}
+
+img.calendar_trigger {
+	margin: 2px;
+	vertical-align: middle;
+}
+
+.calendar_prompt {
+	float: left;
+	width: 181px;
+	padding: 2px;
+	background: #ddd;
+	color: #000;
+}
+
+* html .calendar_prompt {
+	width: 185px;
+}
+
+.calendar_control,.calendar_links,.calendar_header,.calendar {
+	clear: both;
+	float: left;
+	color: #fff;
+}
+
+.calendar_control {
+	background: #400;
+}
+
+.calendar_links {
+	background: #000;
+}
+
+.calendar_control,.calendar_links {
+	font-weight: bold;
+	font-size: 80%;
+	letter-spacing: 1px;
+}
+
+.calendar_links label { /* disabled links */
+	padding: 2px 5px;
+	color: #888;
+}
+
+.calendar_clear,.calendar_prev {
+	float: left;
+}
+
+.calendar_current {
+	float: left;
+	width: 35%;
+	text-align: center;
+}
+
+.calendar_close,.calendar_next {
+	float: right;
+}
+
+.calendar_header {
+	background: #333;
+	text-align: center;
+	font-weight: bold;
+}
+
+.calendar_header select {
+	background: #333;
+	color: #fff;
+	border: 0px;
+	font-weight: bold;
+}
+
+.calendar {
+	background: #ccc;
+	text-align: center;
+	font-size: 100%;
+}
+
+.calendar a {
+	display: block;
+	width: 100%;
+}
+
+.calendar .calendar_titleRow {
+	background: #777;
+}
+
+.calendar .calendar_daysRow {
+	background: #eee;
+	color: #666;
+}
+
+.calendar .calendar_daysCell {
+	color: #000;
+	border: 1px solid #ddd;
+}
+
+#calendar .calendar_daysCell a {
+	display: block;
+}
+
+.calendar .calendar_weekEndCell {
+	background: #ddd;
+}
+
+.calendar .calendar_daysCellOver {
+	background: #fff;
+	border: 1px solid #777;
+}
+
+.calendar .calendar_unselectable {
+	color: #888;
+}
+
+/* ________ CALENDAR LINKS _______
+
+** Reset link properties and then override them with !important */
+#calendar_div a,.calendar_inline a {
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+	background: none;
+	color: #000;
+}
+
+.calendar_inline .calendar_links a {
+	padding: 0 5px !important;
+}
+
+.calendar_control a,.calendar_links a {
+	padding: 2px 5px !important;
+	color: #eee !important;
+}
+
+.calendar_titleRow a {
+	color: #eee !important;
+}
+
+.calendar_control a:hover {
+	background: #fdd !important;
+	color: #333 !important;
+}
+
+.calendar_links a:hover,.calendar_titleRow a:hover {
+	background: #ddd !important;
+	color: #333 !important;
+}
+
+/* ___________ IE6 IFRAME FIX ________ */
+.calendar_cover {
+	display: none; /*sorry for IE5*/
+	display /**/: block; /*sorry for IE5*/
+	position: absolute; /*must have*/
+	z-index: -1; /*must have*/
+	filter: mask(); /*must have*/
+	top: -4px; /*must have*/
+	left: -4px; /*must have*/
+	width: 193px; /*must have to match width and borders*/
+	height: 200px; /*must have to match maximum height*/
+}

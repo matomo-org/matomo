@@ -46,12 +46,11 @@ class Piwik_Cookie
 	 * 
 	 * @param string cookie Name
 	 * @param int The timestamp after which the cookie will expire, eg time() + 86400
-	 * @param string The path on the server in which the cookie will be available on. 
 	 */
-	public function __construct( $cookieName, $expire = null, $path = null)
+	public function __construct( $cookieName, $expire = null)
 	{
 		$this->name = $cookieName;
-		$this->path = $path;
+		
 		$this->expire = $expire;
 		if(is_null($expire)
 			|| !is_numeric($expire)
@@ -59,7 +58,6 @@ class Piwik_Cookie
 		{
 			$this->expire = $this->getDefaultExpire();
 		}
-		
 		
 		if($this->isCookieFound())
 		{
@@ -141,7 +139,7 @@ class Piwik_Cookie
 	public function save()
 	{
 		$this->setP3PHeader();
-		$this->setCookie( $this->name, $this->generateContentString(), $this->expire, $this->path);
+		$this->setCookie( $this->name, $this->generateContentString(), $this->expire);
 	}
 	
 	/**
@@ -166,7 +164,13 @@ class Piwik_Cookie
 				$varValue = base64_decode($varValue);
 
 				// some of the values may be serialized array so we try to unserialize it
-				$varValue = Piwik_Common::unserialize_array($varValue);
+				if( ($arrayValue = @unserialize($varValue)) !== false
+					// we set the unserialized version only for arrays as you can have set a serialized string on purpose
+					&& is_array($arrayValue)
+					)
+				{
+					$varValue = $arrayValue;
+				}
 			}
 			
 			$this->set($varName, $varValue);
@@ -241,12 +245,12 @@ class Piwik_Cookie
 	 */
 	public function __toString()
 	{
-		$str = "&lt;-- Content of the cookie '{$this->name}' <br />\n";
+		$str = "<-- Content of the cookie '{$this->name}' <br>\n";
 		foreach($this->value as $name => $value )
 		{
-			$str .= $name . " = " . var_export($this->get($name), true) . "<br />\n";
+			$str .= $name . " = " . var_export($this->get($name), true) . "<br>\n";
 		}
-		$str .= "--&gt; <br />\n";
+		$str .= "--> <br>\n";
 		return $str;
 	}
 	

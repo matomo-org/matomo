@@ -10,6 +10,9 @@
  * @package Piwik_Referers
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die;
+
 /**
  * @see plugins/Referers/functions.php
  */
@@ -54,7 +57,7 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 	
-	public function getRefererType($idSite, $period, $date, $typeReferer = false)
+	function getRefererType($idSite, $period, $date, $typeReferer = false)
 	{
 		$dataTable = $this->getDataTable('Referers_type', $idSite, $period, $date, $expanded = false);
 		if($typeReferer !== false)
@@ -65,13 +68,13 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 	
-	public function getKeywords($idSite, $period, $date, $expanded = false)
+	function getKeywords($idSite, $period, $date, $expanded = false)
 	{
 		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword', $idSite, $period, $date, $expanded);
 		return $dataTable;
 	}
 
-	public function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable)
+	function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_searchEngineByKeyword',$idSite, $period, $date, $expanded = false, $idSubtable);
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
@@ -84,7 +87,7 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 
-	public function getSearchEngines($idSite, $period, $date, $expanded = false)
+	function getSearchEngines($idSite, $period, $date, $expanded = false)
 	{
 		$dataTable = $this->getDataTable('Referers_keywordBySearchEngine',$idSite, $period, $date, $expanded);
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', 'Piwik_getSearchEngineUrlFromName') );
@@ -92,7 +95,7 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 
-	public function getKeywordsFromSearchEngineId($idSite, $period, $date, $idSubtable)
+	function getKeywordsFromSearchEngineId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_keywordBySearchEngine',$idSite, $period, $date, $expanded = false, $idSubtable);
 		
@@ -104,25 +107,25 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 
-	public function getCampaigns($idSite, $period, $date, $expanded = false)
+	function getCampaigns($idSite, $period, $date, $expanded = false)
 	{
 		$dataTable = $this->getDataTable('Referers_keywordByCampaign',$idSite, $period, $date, $expanded);
 		return $dataTable;
 	}
 
-	public function getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable)
+	function getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_keywordByCampaign',$idSite, $period, $date, $expanded = false, $idSubtable);
 		return $dataTable;
 	}
 
-	public function getWebsites($idSite, $period, $date, $expanded = false)
+	function getWebsites($idSite, $period, $date, $expanded = false)
 	{
 		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date, $expanded);
 		return $dataTable;
 	}
 	
-	public function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable)
+	function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable)
 	{
 		$dataTable = $this->getDataTable('Referers_urlByWebsite',$idSite, $period, $date, $expanded = false, $idSubtable);
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array( 'label', 'url', create_function('$label', 'return $label;')) );
@@ -130,27 +133,27 @@ class Piwik_Referers_API
 		return $dataTable;
 	}
 
-	public function getNumberOfDistinctSearchEngines($idSite, $period, $date)
+	function getNumberOfDistinctSearchEngines($idSite, $period, $date)
 	{
 		return $this->getNumeric('Referers_distinctSearchEngines', $idSite, $period, $date);
 	}
 
-	public function getNumberOfDistinctKeywords($idSite, $period, $date)
+	function getNumberOfDistinctKeywords($idSite, $period, $date)
 	{
 		return $this->getNumeric('Referers_distinctKeywords', $idSite, $period, $date);
 	}
 
-	public function getNumberOfDistinctCampaigns($idSite, $period, $date)
+	function getNumberOfDistinctCampaigns($idSite, $period, $date)
 	{
 		return $this->getNumeric('Referers_distinctCampaigns', $idSite, $period, $date);
 	}
 
-	public function getNumberOfDistinctWebsites($idSite, $period, $date)
+	function getNumberOfDistinctWebsites($idSite, $period, $date)
 	{
 		return $this->getNumeric('Referers_distinctWebsites', $idSite, $period, $date);
 	}
 
-	public function getNumberOfDistinctWebsitesUrls($idSite, $period, $date)
+	function getNumberOfDistinctWebsitesUrls($idSite, $period, $date)
 	{
 		return $this->getNumeric('Referers_distinctWebsitesUrls', $idSite, $period, $date);
 	}

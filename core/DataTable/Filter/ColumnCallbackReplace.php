@@ -35,13 +35,7 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 	{
 		foreach($this->table->getRows() as $key => $row)
 		{
-			// when a value is not defined, we set it to zero by default (rather than displaying '-')
-			$value = $this->getElementToReplace($row, $this->columnToFilter);
-			if($value === false)
-			{
-				$value = 0;
-			}
-			$parameters = array($value);
+			$parameters = array($this->getElementToReplace($row, $this->columnToFilter));
 			if(!is_null($this->functionParameters))
 			{
 				$parameters = array_merge($parameters, $this->functionParameters);

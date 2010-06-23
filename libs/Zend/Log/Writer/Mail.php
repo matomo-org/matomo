@@ -15,19 +15,19 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mail.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Mail.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 /** Zend_Log_Writer_Abstract */
-// require_once 'Zend/Log/Writer/Abstract.php';
+require_once 'Zend/Log/Writer/Abstract.php';
 
 /** Zend_Log_Exception */
-// require_once 'Zend/Log/Exception.php';
+require_once 'Zend/Log/Exception.php';
 
 /** Zend_Log_Formatter_Simple*/
-// require_once 'Zend/Log/Formatter/Simple.php';
+require_once 'Zend/Log/Formatter/Simple.php';
 
 /**
  * Class used for writing log messages to email via Zend_Mail.
@@ -39,9 +39,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mail.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Mail.php 16219 2009-06-21 19:45:39Z thomas $
  */
 class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
 {
@@ -116,18 +116,6 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
         $this->_mail      = $mail;
         $this->_layout    = $layout;
         $this->_formatter = new Zend_Log_Formatter_Simple();
-    }
-    
-    /**
-     * Create a new instance of Zend_Log_Writer_Mail
-     * 
-     * @param  array|Zend_Config $config
-     * @return Zend_Log_Writer_Mail
-     * @throws Zend_Log_Exception
-     */
-    static public function factory($config)
-    {
-        throw new Zend_Exception('Zend_Log_Writer_Mail does not currently implement a factory');
     }
 
     /**

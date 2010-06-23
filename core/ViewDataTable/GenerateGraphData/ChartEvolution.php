@@ -28,11 +28,11 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		$this->view = new Piwik_Visualization_Chart_Evolution();
 	}
 	
-	protected function guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite)
+	protected function guessUnitFromRequestedColumnNames($requestedColumnNames)
 	{
 		$nameToUnit = array(
 			'_rate' => '%',
-			'_revenue' => Piwik::getCurrency($idSite),
+			'_revenue' => Piwik::getCurrency(),
 		);
 		foreach($requestedColumnNames as $columnName)
 		{
@@ -119,12 +119,11 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 				$yAxisLabelToValueCleaned[$yAxisLabel][] = $columnValue;
 			}
 		}
-		$idSite = Piwik_Common::getRequestVar('idSite');
 		
 		$unit = $this->yAxisUnit;
 		if(empty($unit))
 		{
-			$unit = $this->guessUnitFromRequestedColumnNames($requestedColumnNames, $idSite);
+			$unit = $this->guessUnitFromRequestedColumnNames($requestedColumnNames);
 		}
 		
 		$this->view->setAxisXLabels($xLabels);
@@ -146,62 +145,23 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		if($this->isLinkEnabled())
 		{
 			$axisXOnClick = array();
-			$queryStringAsHash = $this->getQueryStringAsHash();
 			foreach($this->dataTable->metadata as $idDataTable => $metadataDataTable)
 			{
 				$period = $metadataDataTable['period'];
 				$dateInUrl = $period->getDateStart();
-				$parameters = array(
-							'idSite' => $idSite,
-							'period' => $period->getLabel(),
-							'date' => $dateInUrl->toString()
-				);
-				$hash = '';
-				if(!empty($queryStringAsHash))
-				{
-					$hash = '#' . Piwik_Url::getQueryStringFromParameters( $queryStringAsHash + $parameters);
-				}
 				$link = Piwik_Url::getCurrentUrlWithoutQueryString() . 
 						'?' .
 						Piwik_Url::getQueryStringFromParameters( array(
 							'module' => 'CoreHome',
 							'action' => 'index',
-						) + $parameters)
-						. $hash;
+							'idSite' => Piwik_Common::getRequestVar('idSite'),
+							'period' => $period->getLabel(),
+							'date' => $dateInUrl,
+						));
 				$axisXOnClick[] = $link;
 			}
 			$this->view->setAxisXOnClick($axisXOnClick);
 		}
-	}
-	
-	/**
-	 * We link the graph dots to the same report as currently being displayed (only the date would change).
-	 * 
-	 * In some cases the widget is loaded within a report that doesn't exist as such.
-	 * For example, the dashboards loads the 'Last visits graph' widget which can't be directly linked to.
-	 * Instead, the graph must link back to the dashboard. 
-	 * 
-	 * In other cases, like Visitors>Overview or the Goals graphs, we can link the graph clicks to the same report.
-	 * 
-	 * To detect whether or not we can link to a report, we simply check if the current URL from which it was loaded
-	 * belongs to the menu or not. If it doesn't belong to the menu, we do not append the hash to the URL, 
-	 * which results in loading the dashboard.
-	 * 
-	 * @return array Query string array to append to the URL hash or false if the dashboard should be displayed
-	 */
-	private function getQueryStringAsHash()
-	{
-		$queryString = Piwik_Url::getArrayFromCurrentQueryString();
-		$piwikParameters = array('idSite', 'date', 'period', 'XDEBUG_SESSION_START', 'KEY');
-		foreach($piwikParameters as $parameter)
-		{
-			unset($queryString[$parameter]);
-		}
-		if(Piwik_IsMenuUrlFound($queryString))
-		{
-			return $queryString;
-		}
-		return false;
 	}
 
 	private function isLinkEnabled() 

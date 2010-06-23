@@ -45,3 +45,4 @@ class Test_Piwik extends UnitTestCase
     	
     }
 }
+

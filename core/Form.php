@@ -23,13 +23,13 @@ abstract class Piwik_Form extends HTML_QuickForm
 {
 	protected $a_formElements = array();
 	
-	function __construct( $action = '', $attributes = '' )
+	function __construct( $action = '' )
 	{
 		if(empty($action))
 		{
 			$action = Piwik_Url::getCurrentQueryString();
 		}
-		parent::HTML_QuickForm('form', 'POST', $action, $target='', $attributes);
+		parent::HTML_QuickForm('form', 'POST', $action);
 		
 		$this->registerRule( 'checkEmail', 'function', 'Piwik_Form_isValidEmailString');
 		$this->registerRule( 'fieldHaveSameValue', 'function', 'Piwik_Form_fieldHaveSameValue');
@@ -93,16 +93,6 @@ abstract class Piwik_Form extends HTML_QuickForm
 			if($value->_attributes['name'] == $nameElement)
 			{
 				$this->_elements[$key]->_attributes['checked'] = 'checked';
-			}
-		}
-	}
-	function setSelected( $nameElement, $value )
-	{
-		foreach( $this->_elements as $key => $value)
-		{
-			if($value->_attributes['name'] == $nameElement)
-			{
-				$this->_elements[$key]->_attributes['selected'] = 'selected';
 			}
 		}
 	}

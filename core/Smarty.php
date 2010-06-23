@@ -10,6 +10,9 @@
  * @package Piwik
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die;
+
 /**
  * @see libs/Smarty/Smarty.class.php
  * @link http://smarty.net

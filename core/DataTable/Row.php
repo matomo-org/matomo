@@ -122,7 +122,7 @@ class Piwik_DataTable_Row
 			$metadata[] = "'$name' => $value";
 		}
 		$metadata = implode(", ", $metadata);
-		$output = "# [".$columns."] [".$metadata."] [idsubtable = " . $this->getIdSubDataTable()."]<br />\n";
+		$output = "# [".$columns."] [".$metadata."] [idsubtable = " . $this->getIdSubDataTable()."]<br>\n";
 		return $output;
 	}
 	

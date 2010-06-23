@@ -37,8 +37,6 @@ abstract class Piwik_Controller
 	 * @var Piwik_Date|null 
 	 */
 	protected $date;
-	protected $idSite;
-	protected $site = null;
 	
 	/**
 	 * Builds the controller object, reads the date from the request, extracts plugin name from 
@@ -47,58 +45,15 @@ abstract class Piwik_Controller
 	{
 		$aPluginName = explode('_', get_class($this));
 		$this->pluginName = $aPluginName[1];
-		$date = Piwik_Common::getRequestVar('date', 'yesterday', 'string');
-		try {
-			$this->idSite = Piwik_Common::getRequestVar('idSite', false, 'int');
-			$this->site = new Piwik_Site($this->idSite);
-			$date = $this->getDateParameterInTimezone($date, $this->site->getTimezone());
-			$this->setDate($date);
+		$this->strDate = Piwik_Common::getRequestVar('date', 'yesterday', 'string');
+		try{
+			// the date looks like YYYY-MM-DD we can build it
+			$this->date = Piwik_Date::factory($this->strDate);
+			$this->strDate = $this->date->toString();
 		} catch(Exception $e){
 			// the date looks like YYYY-MM-DD,YYYY-MM-DD or other format
 			$this->date = null;
 		}
-	}
-	
-	/**
-	 * Helper method to convert "today" or "yesterday" to the default timezone specified.
-	 * If the date is absolute, ie. YYYY-MM-DD, it will not be converted to the timezone
-	 * @param $date today, yesterday, YYYY-MM-DD
-	 * @param $defaultTimezone
-	 * @return Piwik_Date
-	 */
-	protected function getDateParameterInTimezone($date, $defaultTimezone )
-	{
-		$timezone = null;
-		// if the requested date is not YYYY-MM-DD, we need to ensure
-		//  it is relative to the website's timezone
-		if(in_array($date, array('today', 'yesterday')))
-		{
-			// today is at midnight; we really want to get the time now, so that
-			// * if the website is UTC+12 and it is 5PM now in UTC, the calendar will allow to select the UTC "tomorrow"
-			// * if the website is UTC-12 and it is 5AM now in UTC, the calendar will allow to select the UTC "yesterday" 
-			if($date == 'today')
-			{
-				$date = 'now';
-			}
-			elseif($date == 'yesterday')
-			{
-				$date = 'yesterdaySameTime';
-			}
-			$timezone = $defaultTimezone;
-		}
-		return Piwik_Date::factory($date, $timezone);
-	}
-
-	/**
-	 * Sets the date to be used by all other methods in the controller.
-	 * If the date has to be modified, it should be called just after the controller construct
-	 * @param $date
-	 * @return void
-	 */
-	protected function setDate(Piwik_Date $date)
-	{
-		$this->date = $date;
-		$this->strDate = $this->date->toString();
 	}
 	
 	/**
@@ -226,13 +181,14 @@ abstract class Piwik_Controller
 		{
 			$period = $paramsToSet['period'];
 		}
-		$last30Relative = new Piwik_Period_Range($period, $range, $this->site->getTimezone() );
+		$last30Relative = new Piwik_Period_Range($period, $range );
 		
 		$last30Relative->setDefaultEndDate(Piwik_Date::factory($endDate));
 		
 		$paramDate = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
 		
 		$params = array_merge($paramsToSet , array(	'date' => $paramDate ) );
+		
 		return $params;
 	}
 	
@@ -272,37 +228,6 @@ abstract class Piwik_Controller
 		return $url;
 	}
 	
-	/**
-	 * Sets the first date available in the calendar
-	 * @param $minDate
-	 * @param $view
-	 * @return void
-	 */
-	protected function setMinDateView(Piwik_Date $minDate, $view)
-	{
-		$view->minDateYear = $minDate->toString('Y');
-		$view->minDateMonth = $minDate->toString('m');
-		$view->minDateDay = $minDate->toString('d');
-	}
-	
-	/**
-	 * Sets "today" in the calendar. Today does not always mean "UTC" today, eg. for websites in UTC+12.
-	 * @param $maxDate
-	 * @param $view
-	 * @return void
-	 */
-	protected function setMaxDateView(Piwik_Date $maxDate, $view)
-	{
-		$view->maxDateYear = $maxDate->toString('Y');
-		$view->maxDateMonth = $maxDate->toString('m');
-		$view->maxDateDay = $maxDate->toString('d');
-	}
-	
-	/**
-	 * Sets general variables to the view that are used by various templates and Javascript
-	 * @param $view
-	 * @return void
-	 */
 	protected function setGeneralVariablesView($view)
 	{
 		$view->date = $this->strDate;
@@ -311,35 +236,29 @@ abstract class Piwik_Controller
 			$this->setPeriodVariablesView($view);
 			$period = Piwik_Period::factory(Piwik_Common::getRequestVar('period'), Piwik_Date::factory($this->strDate));
 			$view->prettyDate = $period->getLocalizedLongString();
-			$view->idSite = $this->idSite;
-			if(is_null($this->site))
-			{
-				throw new Exception("invalid website");
-			}
-			$view->siteName = $this->site->getName();
-			$view->siteMainUrl = $this->site->getMainUrl();
+			$idSite = Piwik_Common::getRequestVar('idSite');
+			$view->idSite = $idSite;
+			$site = new Piwik_Site($idSite);
+			$view->siteName = $site->getName();
+			$view->siteMainUrl = $site->getMainUrl();
 			
-			$datetimeMinDate = $this->site->getCreationDate()->getDatetime();
-			$minDate = Piwik_Date::factory($datetimeMinDate, $this->site->getTimezone());
-			$this->setMinDateView($minDate, $view);
+			$minDate = $site->getCreationDate();
+			$view->minDateYear = $minDate->toString('Y');
+			$view->minDateMonth = $minDate->toString('m');
+			$view->minDateDay = $minDate->toString('d');
 
-			$maxDate = Piwik_Date::factory('now', $this->site->getTimezone());
-			$this->setMaxDateView($maxDate, $view);
+			$maxDate = Piwik_Date::factory('today');
+			$view->maxDateYear = $maxDate->toString('Y');
+			$view->maxDateMonth = $maxDate->toString('m');
+			$view->maxDateDay = $maxDate->toString('d');
 
-			$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
 			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
 
-			$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
 		}
 	}
 	
-	/**
-	 * Sets general period variables (available periods, current period, period labels) used by templates 
-	 * @param $view
-	 * @return void
-	 */
 	public static function setPeriodVariablesView($view)
 	{
 		if(isset($view->period))
@@ -369,137 +288,44 @@ abstract class Piwik_Controller
 		$view->periodsNames = $periodNames;
 	}
 	
-	/**
-	 * Helper method used to redirect the current http request to another module/action
-	 * If specified, will also redirect to a given website, period and /or date
-	 * 
-	 * @param $moduleToRedirect eg. "MultiSites"
-	 * @param $actionToRedirect eg. "index"
-	 * @param $websiteId eg. 1
-	 * @param $defaultPeriod eg. "day"
-	 * @param $defaultDate eg. "today"
-	 * @return issues a http header redirect and exits
-	 */
-	function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null)
+	function redirectToIndex($moduleToRedirect, $actionToRedirect)
 	{
-		if(is_null($websiteId))
-		{
-			$websiteId = $this->getDefaultWebsiteId();
-		}
-		if(is_null($defaultDate))
-		{
-			$defaultDate = $this->getDefaultDate();
-		}
-		if(is_null($defaultPeriod))
-		{
-			$defaultPeriod = $this->getDefaultPeriod();
-		}
-
-		if($websiteId) {
-			header("Location:index.php?module=".$moduleToRedirect
-									."&action=".$actionToRedirect
-									."&idSite=".$websiteId
-									."&period=".$defaultPeriod
-									."&date=".$defaultDate);
-			exit;
-		}
-		
-		if(Piwik::isUserIsSuperUser())
-		{
-			Piwik_ExitWithMessage("Error: no website were found in this Piwik installation. 
-			<br />Check the table '". Piwik_Common::prefixTable('site') ."' that should contain your Piwik websites.", false, true);
-		}
-		
-		$currentLogin = Piwik::getCurrentUserLogin();
-		if(!empty($currentLogin)
-			&& $currentLogin != 'anonymous')
-		{
-			$errorMessage = sprintf(Piwik_Translate('CoreHome_NoPrivileges'),$currentLogin);
-			$errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=". Zend_Registry::get('auth')->getName() ."&amp;action=logout'>&rsaquo; ". Piwik_Translate('General_Logout'). "</a></b><br />";
-			Piwik_ExitWithMessage($errorMessage, false, true);
-		}
-
-		Piwik_FrontController::dispatch(Piwik::getLoginPluginName(), false);
-		exit;
-	}
-	
-
-	/**
-	 * Returns default website that Piwik should load 
-	 * @return Piwik_Site
-	 */
-	protected function getDefaultWebsiteId()
-	{
-		$defaultWebsiteId = false;
-	
-		// User preference: default website ID to load
-		$defaultReport = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT);
-		if(is_numeric($defaultReport)) 
-		{
-			$defaultWebsiteId = $defaultReport;
-		}
-		
-		Piwik_PostEvent( 'Controller.getDefaultWebsiteId', $defaultWebsiteId );
-		
-		if($defaultWebsiteId) 
-		{
-			return $defaultWebsiteId;
-		}
-		
-		$sitesId = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+		$sitesId = Piwik_SitesManager_API::getSitesIdWithAtLeastViewAccess();
 		if(!empty($sitesId))
 		{
-			return $sitesId[0];
+			$firstSiteId = $sitesId[0];
+			$firstSite = new Piwik_Site($firstSiteId);
+			if ($firstSite->getCreationDate()->isToday()) 
+			{
+				$defaultDate = 'today';
+			}
+			else
+			{
+				$defaultDate = Zend_Registry::get('config')->General->default_day;
+			}
+			$defaultPeriod = Zend_Registry::get('config')->General->default_period;
+			header("Location:index.php?module=".$moduleToRedirect."&action=".$actionToRedirect."&idSite=$firstSiteId&period=$defaultPeriod&date=$defaultDate");
 		}
-		return false;
-	}
-
-	/**
-	 * Returns default date for Piwik reports
-	 * @return string today, 2010-01-01, etc.
-	 */
-	protected function getDefaultDate()
-	{
-		$userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
-		if($userSettingsDate === false)
+		else
 		{
-			return Zend_Registry::get('config')->General->default_day;
+			if(Piwik::isUserIsSuperUser())
+			{
+				Piwik_ExitWithMessage("Error: no website were found in this Piwik installation. 
+				<br>Check the table '". Piwik::prefixTable('site') ."' that should contain your Piwik websites.", false, true);
+			}
+			$currentLogin = Piwik::getCurrentUserLogin();
+			if(!empty($currentLogin)
+				&& $currentLogin != 'anonymous')
+			{
+				$errorMessage = sprintf(Piwik_Translate('CoreHome_NoPrivileges'),$currentLogin);
+				$errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=". Zend_Registry::get('auth')->getName() ."&amp;action=logout'>&rsaquo; ". Piwik_Translate('General_Logout'). "</a></b><br />";
+				Piwik_ExitWithMessage($errorMessage, false, true);
+			}
+			else
+			{
+				Piwik_FrontController::dispatch('Login', false);
+			}
 		}
-		if($userSettingsDate == 'yesterday')
-		{
-			return $userSettingsDate;
-		}
-		return 'today';
-	}
-	
-	/**
-	 * Returns default date for Piwik reports
-	 * @return string today, 2010-01-01, etc.
-	 */
-	protected function getDefaultPeriod()
-	{
-		$userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
-		if($userSettingsDate === false)
-		{
-			return Zend_Registry::get('config')->General->default_period;
-		}
-		if(in_array($userSettingsDate, array('today','yesterday')))
-		{
-			return 'day';
-		}
-		return $userSettingsDate;
-	}
-	
-	/**
-	 * Checks that the specified token matches the current logged in user token
-	 * Protection against CSRF
-	 * 
-	 * @return throws exception if token doesn't match
-	 */
-	protected function checkTokenInUrl()
-	{
-		if(Piwik_Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
-			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
-		}
+		exit;
 	}
 }

@@ -7,9 +7,6 @@
 		</div></div>
 		<script type="text/javascript">
 <!--
-			{if $flashParameters.includeData}
-			piwikHelper.OFC.set("{$chartDivId}", '{$flashParameters.data}');
-			{/if}
 			swfobject.embedSWF(
 				"{$flashParameters.ofcLibraryPath}open-flash-chart.swf?{$tag}",
 				"{$chartDivId}",
@@ -17,10 +14,10 @@
 				"{$flashParameters.requiredFlashVersion}",
 				"{$flashParameters.swfLibraryPath}expressInstall.swf",
 				{literal}{{/literal}
-					"{if $flashParameters.includeData}x-{/if}data-file":"{$urlGraphData|escape:"url"}",
 				{if $flashParameters.includeData}
 					"id":"{$chartDivId}",
 				{/if}
+					"{if $flashParameters.includeData}x-{/if}data-file":"{$urlGraphData|escape:"url"}",
 					"loading":"{'General_Loading'|translate|escape:"html"}"
 				{literal}},
 				{{/literal}
@@ -31,6 +28,9 @@
 					"bgcolor":"#FFFFFF"
 				{literal}}{/literal}
 			);
+			{if $flashParameters.includeData}
+			piwikHelper.OFC.set("{$chartDivId}", '{$flashParameters.data}');
+			{/if}
 //-->
 		</script>
 	{else}

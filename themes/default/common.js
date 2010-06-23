@@ -47,42 +47,6 @@ piwikHelper.findSWFGraph = function(name) {
 	return null;
 }
 
-piwikHelper.showAjaxError = function( string, errorDivID )
-{
-	errorDivID = errorDivID || 'ajaxError';
-	$('#'+errorDivID).html(string).show();
-}
-
-piwikHelper.hideAjaxError = function(errorDivID)
-{
-	errorDivID = errorDivID || 'ajaxError';
-	$('#'+errorDivID).hide();
-}
-
-piwikHelper.showAjaxLoading = function(loadingDivID)
-{
-	loadingDivID = loadingDivID || 'ajaxLoading';
-	$('#'+loadingDivID).show();
-}
-piwikHelper.hideAjaxLoading = function(loadingDivID)
-{
-	loadingDivID = loadingDivID || 'ajaxLoading';
-	$('#'+loadingDivID).hide();
-}
-
-piwikHelper.getStandardAjaxConf = function(loadingDivID, errorDivID)
-{
-	piwikHelper.showAjaxLoading(loadingDivID);
-	piwikHelper.hideAjaxError(errorDivID);
-	var ajaxRequest = {};
-	ajaxRequest.type = 'GET';
-	ajaxRequest.url = 'index.php';
-	ajaxRequest.dataType = 'json';
-	ajaxRequest.error = piwikHelper.ajaxHandleError;
-	ajaxRequest.success = function(response) { piwikHelper.ajaxHandleResponse(response, loadingDivID, errorDivID); };
-	return ajaxRequest;
-}
-
 piwikHelper.redirectToUrl = function(url) {
 	window.location = url;
 }
@@ -95,44 +59,55 @@ piwikHelper.ajaxHandleError = function()
 		}, 2000);
 }
 
-piwikHelper.ajaxHandleResponse = function(response, loadingDivID, errorDivID)
+piwikHelper.ajaxShowError = function( string )
+{
+	$('#ajaxError').html(string).show();
+}
+
+piwikHelper.ajaxHideError = function()
+{
+	$('#ajaxError').hide();
+}
+
+piwikHelper.ajaxHandleResponse = function(response)
 {
 	if(response.result == "error") 
 	{
-		piwikHelper.hideAjaxLoading(loadingDivID);
-		piwikHelper.showAjaxError(response.message, errorDivID);
+		piwikHelper.ajaxShowError(response.message);
 	}
 	else
 	{
-		// add updated=1 to the URL so that a "Your changes have been saved" message is displayed
-		var urlToRedirect = String(window.location.pathname) + String(window.location.search);
-		updatedUrl = 'updated=1';
-		if(urlToRedirect.search(new RegExp(updatedUrl)) == -1)
-		{
-			urlToRedirect += '&' + updatedUrl;
-		}
-		var currentHashStr = window.location.hash;
-		if(currentHashStr.length > 0) {
-			urlToRedirect += currentHashStr;
-		}
-		piwikHelper.redirectToUrl(urlToRedirect);
+		window.location.reload();
 	}
+	piwikHelper.toggleAjaxLoading();
 }
 
-/**
- * Scrolls the window to the jquery element 'elem' 
- * if the top of the element is not currently visible on screen
- * @param elem Selector for the DOM node to scroll to, eg. '#myDiv'  
- * @param time Specifies the duration of the animation in ms
- */ 
+piwikHelper.toggleAjaxLoading = function()
+{
+	$('#ajaxLoading').toggle();
+}
+
+piwikHelper.getStandardAjaxConf = function()
+{
+	var ajaxRequest = {};
+	ajaxRequest.type = 'GET';
+	ajaxRequest.url = 'index.php';
+	ajaxRequest.dataType = 'json';
+	ajaxRequest.error = piwikHelper.ajaxHandleError;
+	ajaxRequest.success = piwikHelper.ajaxHandleResponse;
+	return ajaxRequest;
+}
+
+// Scrolls the window to the jquery element 'elem' if necessary.
+// "time" specifies the duration of the animation in ms
 piwikHelper.lazyScrollTo = function(elem, time)
 {
 	var elemTop = $(elem).offset().top;
-	// only scroll the page if the graph is not visible 
+	//only scroll the page if the graph is not visible 
 	if(elemTop < $(window).scrollTop()
 	|| elemTop > $(window).scrollTop()+$(window).height())
 	{
-		// scroll the page smoothly to the graph
+		//scroll the page smoothly to the graph
 		$.scrollTo(elem, time);
 	}
 }

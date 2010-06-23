@@ -23,12 +23,12 @@ class Piwik_LanguagesManager_Controller extends Piwik_Controller
 	public function saveLanguage()
 	{
 		$language = Piwik_Common::getRequestVar('language');
-		Piwik_LanguagesManager_API::getInstance()->setLanguageForSession($language);
+		Piwik_LanguagesManager_API::setLanguageForSession($language);
 		if(Zend_Registry::isRegistered('access')) {
 			$currentUser = Piwik::getCurrentUserLogin();
 			if($currentUser && $currentUser !== 'anonymous')
 			{
-				Piwik_LanguagesManager_API::getInstance()->setLanguageForUser($currentUser, $language);
+				Piwik_LanguagesManager_API::setLanguageForUser($currentUser, $language);
 			}
 		}
 		Piwik_Url::redirectToReferer();

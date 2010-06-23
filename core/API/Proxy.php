@@ -12,9 +12,6 @@
 
 /**
  * To differentiate between "no value" and default value of null
- * 
- * @package Piwik
- * @subpackage Piwik_API
  */
 class Piwik_API_Proxy_NoDefaultValue {}
 
@@ -218,8 +215,8 @@ class Piwik_API_Proxy
 					}
 				}
 			} catch(Exception $e) {
-				throw new Exception(Piwik_TranslateException('General_ExceptionVariableNotFound', array($name)));
-			}
+				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request. Add the parameter '&$name=' (with a value) in the URL.");
+			}			
 			$finalParameters[] = $requestValue;
 		}
 		return $finalParameters;
@@ -235,7 +232,7 @@ class Piwik_API_Proxy
 		$module = self::getModuleNameFromClassName($fileName);
 		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/API.php';
 
-		if(is_readable($path))
+		if(Zend_Loader::isReadable($path))
 		{
 			require_once $path; // prefixed by PIWIK_INCLUDE_PATH
 		}
@@ -285,7 +282,7 @@ class Piwik_API_Proxy
 	{
 		if(!$this->isMethodAvailable($className, $methodName))
 		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionMethodNotFound', array($methodName,$className)));
+			throw new Exception("The method '$methodName' does not exist or is not available in the module '".$className."'.");
 		}
 	}
 	

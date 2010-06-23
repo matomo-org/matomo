@@ -15,25 +15,25 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Statement
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mysqli.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Mysqli.php 18195 2009-09-17 20:58:05Z bittarman $
  */
 
 
 /**
  * @see Zend_Db_Statement
  */
-// require_once 'Zend/Db/Statement.php';
+require_once 'Zend/Db/Statement.php';
 
-
+    
 /**
  * Extends for Mysqli
  *
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Statement
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
@@ -73,7 +73,7 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
             /**
              * @see Zend_Db_Statement_Mysqli_Exception
              */
-            // require_once 'Zend/Db/Statement/Mysqli/Exception.php';
+            require_once 'Zend/Db/Statement/Mysqli/Exception.php';
             throw new Zend_Db_Statement_Mysqli_Exception("Mysqli prepare error: " . $mysqli->error, $mysqli->errno);
         }
     }
@@ -210,7 +210,7 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
             /**
              * @see Zend_Db_Statement_Mysqli_Exception
              */
-            // require_once 'Zend/Db/Statement/Mysqli/Exception.php';
+            require_once 'Zend/Db/Statement/Mysqli/Exception.php';
             throw new Zend_Db_Statement_Mysqli_Exception("Mysqli statement execute error : " . $this->_stmt->error, $this->_stmt->errno);
         }
 
@@ -222,7 +222,7 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
                 /**
                  * @see Zend_Db_Statement_Mysqli_Exception
                  */
-                // require_once 'Zend/Db/Statement/Mysqli/Exception.php';
+                require_once 'Zend/Db/Statement/Mysqli/Exception.php';
                 throw new Zend_Db_Statement_Mysqli_Exception("Mysqli statement metadata error: " . $this->_stmt->error, $this->_stmt->errno);
             }
         }
@@ -275,12 +275,12 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
         // fetch the next result
         $retval = $this->_stmt->fetch();
         switch ($retval) {
-            case null: // end of data
-            case false: // error occurred
-                $this->_stmt->reset();
-                return false;
-            default:
-                // fallthrough
+	        case null: // end of data
+	        case false: // error occurred
+	            $this->_stmt->reset();
+	            return false;
+	        default:
+	            // fallthrough
         }
 
         // make sure we have a fetch mode
@@ -319,7 +319,7 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
                 /**
                  * @see Zend_Db_Statement_Mysqli_Exception
                  */
-                // require_once 'Zend/Db/Statement/Mysqli/Exception.php';
+                require_once 'Zend/Db/Statement/Mysqli/Exception.php';
                 throw new Zend_Db_Statement_Mysqli_Exception("Invalid fetch mode '$style' specified");
                 break;
         }
@@ -339,7 +339,7 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
         /**
          * @see Zend_Db_Statement_Mysqli_Exception
          */
-        // require_once 'Zend/Db/Statement/Mysqli/Exception.php';
+        require_once 'Zend/Db/Statement/Mysqli/Exception.php';
         throw new Zend_Db_Statement_Mysqli_Exception(__FUNCTION__.'() is not implemented');
     }
 

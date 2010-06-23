@@ -96,7 +96,7 @@ class Piwik_API_DocumentationGenerator
 					$str .= "</span>";
 				}
 				$str .= '</small>';
-				$str .= "\n<br />";
+				$str .= "\n<br>";
 			}
 		}
 		return $str;

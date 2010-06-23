@@ -17,13 +17,7 @@
 class Piwik_DataTable_Filter_AddColumnsWhenShowAllColumns extends Piwik_DataTable_Filter
 {
 	protected $roundPrecision = 1;
-	
-	/**
-	 * @param $table
-	 * @param $enable Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
-	 * @return void
-	 */
-	public function __construct( $table, $enable = true )
+	public function __construct( $table )
 	{
 		parent::__construct($table);
 		$this->filter();

@@ -24,7 +24,7 @@
 /**
  * HTML class for a text field
  */ 
-require_once dirname(__FILE__) . '/text.php';
+require_once 'HTML/QuickForm/text.php';
 
 /**
  * HTML class for an autocomplete element

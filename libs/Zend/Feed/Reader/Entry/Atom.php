@@ -14,35 +14,35 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Atom.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Atom.php 16966 2009-07-22 15:22:18Z padraic $
  */
 
 /**
  * @see Zend_Feed_Reader
  */
-// require_once 'Zend/Feed/Reader.php';
+require_once 'Zend/Feed/Reader.php';
 
 /**
  * @see Zend_Feed_Reader_EntryInterface
  */
-// require_once 'Zend/Feed/Reader/EntryInterface.php';
+require_once 'Zend/Feed/Reader/EntryInterface.php';
 
 /**
  * @see Zend_Feed_Reader_EntryAbstract
  */
-// require_once 'Zend/Feed/Reader/EntryAbstract.php';
+require_once 'Zend/Feed/Reader/EntryAbstract.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_Atom_Entry
  */
-// require_once 'Zend/Feed/Reader/Extension/Atom/Entry.php';
+require_once 'Zend/Feed/Reader/Extension/Atom/Entry.php';
 
 /**
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract implements Zend_Feed_Reader_EntryInterface
@@ -74,12 +74,9 @@ class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract impleme
 
         $threadClass = Zend_Feed_Reader::getPluginLoader()->getClassName('Thread_Entry');
         $this->_extensions['Thread_Entry'] = new $threadClass($entry, $entryKey, $type);
-        
-        $threadClass = Zend_Feed_Reader::getPluginLoader()->getClassName('DublinCore_Entry');
-        $this->_extensions['DublinCore_Entry'] = new $threadClass($entry, $entryKey, $type);
     }
 
-    /**
+	/**
      * Get the specified author
      *
      * @param  int $index
@@ -298,7 +295,7 @@ class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract impleme
             return $this->_data['commentcount'];
         }
 
-        $commentcount = $this->getExtension('Thread')->getCommentCount();
+        $commentcount = $this->getExtension('Thread')>getCommentCount();
 
         if (!$commentcount) {
             $commentcount = $this->getExtension('Atom')->getCommentCount();
@@ -343,46 +340,6 @@ class Zend_Feed_Reader_Entry_Atom extends Zend_Feed_Reader_EntryAbstract impleme
         $this->_data['commentfeedlink'] = $commentfeedlink;
 
         return $this->_data['commentfeedlink'];
-    }
-    
-    /**
-     * Get category data as a Zend_Feed_Reader_Collection_Category object
-     *
-     * @return Zend_Feed_Reader_Collection_Category
-     */
-    public function getCategories()
-    {
-        if (array_key_exists('categories', $this->_data)) {
-            return $this->_data['categories'];
-        }
-
-        $categoryCollection = $this->getExtension('Atom')->getCategories();
-        
-        if (count($categoryCollection) == 0) {
-            $categoryCollection = $this->getExtension('DublinCore')->getCategories();
-        }
-
-        $this->_data['categories'] = $categoryCollection;
-
-        return $this->_data['categories'];
-    }
-    
-    /**
-     * Get source feed metadata from the entry
-     *
-     * @return Zend_Feed_Reader_Feed_Atom_Source|null
-     */
-    public function getSource()
-    {
-        if (array_key_exists('source', $this->_data)) {
-            return $this->_data['source'];
-        }
-
-        $source = $this->getExtension('Atom')->getSource();
-
-        $this->_data['source'] = $source;
-
-        return $this->_data['source']; 
     }
 
     /**

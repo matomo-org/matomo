@@ -45,14 +45,6 @@ abstract class Piwik_ArchiveProcessing
 	 * @var int
 	 */
 	const DONE_ERROR = 2;
-	
-	/**
-	 * Flag indicates the archive is over a period that is not finished, eg. the current day, current week, etc.
-	 * Archives flagged will be regularly purged from the DB.
-	 * 
-	 * @var int
-	 */
-	const DONE_OK_TEMPORARY = 3;
 
 	/**
 	 * Idarchive in the DB for the requested archive
@@ -104,11 +96,11 @@ abstract class Piwik_ArchiveProcessing
 	protected $tableArchiveBlob;
 	
 	/**
-	 * Minimum timestamp looked at for processed archives  
+	 * Maximum timestamp above which a given archive is considered out of date 
 	 *
 	 * @var int
 	 */
-	protected $minDatetimeArchiveProcessedUTC = false;
+	protected $maxTimestampArchive;
 
 	/**
 	 * Compress blobs
@@ -116,13 +108,6 @@ abstract class Piwik_ArchiveProcessing
 	 * @var bool
 	 */
 	protected $compressBlob;
-	
-	/**
-	 * Is the current archive temporary. ie.
-	 * - today 
-	 * - current week / month / year
-	 */
-	protected $temporaryArchive;
 	
 	/**
 	 * Id of the current site
@@ -136,7 +121,7 @@ abstract class Piwik_ArchiveProcessing
 	 * Period of the current archive
 	 * Can be accessed by plugins (that is why it's public)
 	 * 
-	 * @var $period Piwik_Period
+	 * @var Piwik_Period
 	 */
 	public $period 	= null;
 	
@@ -149,14 +134,14 @@ abstract class Piwik_ArchiveProcessing
 	public $site 	= null;
 	
 	/**
-	 * Starting datetime in UTC
+	 * Starting date @see Piwik_Date::toString()
 	 *
 	 * @var string
 	 */
-	public $startDatetimeUTC;
+	public $strDateStart;
 	
 	/**
-	 * Ending date in UTC
+	 * Ending date @see Piwik_Date::toString()
 	 *
 	 * @var string
 	 */
@@ -198,9 +183,6 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public $isThereSomeVisits = false;
 	
-	protected $startTimestampUTC;
-	protected $endTimestampUTC;
-	
 	/**
 	 * Constructor
 	 */
@@ -236,142 +218,61 @@ abstract class Piwik_ArchiveProcessing
 		return $process;
 	}
 	
-	const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
-	const OPTION_BROWSER_TRIGGER_ARCHIVING = 'enableBrowserTriggerArchiving';
-	
-	static public function setTodayArchiveTimeToLive($timeToLiveSeconds)
-	{
-		$timeToLiveSeconds = (int)$timeToLiveSeconds;
-		if($timeToLiveSeconds <= 0)
-		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidArchiveTimeToLive'));
-		}
-		Piwik_SetOption(self::OPTION_TODAY_ARCHIVE_TTL, $timeToLiveSeconds, $autoload = true);
-	}
-	
-	static public function getTodayArchiveTimeToLive()
-	{
-		$timeToLive = Piwik_GetOption(self::OPTION_TODAY_ARCHIVE_TTL);
-		if($timeToLive !== false)
-		{
-			return $timeToLive;
-		}
-		return Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated;
-	}
-
-	static public function setBrowserTriggerArchiving($enabled)
-	{
-		if(!is_bool($enabled))
-		{
-			throw new Exception('Browser trigger archiving must be set to true or false.');
-		}
-		Piwik_SetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING, (int)$enabled, $autoload = true);
-		
-	}
-	static public function isBrowserTriggerArchivingEnabled()
-	{
-		$browserArchivingEnabled = Piwik_GetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING);
-		if($browserArchivingEnabled !== false)
-		{
-			return (bool)$browserArchivingEnabled;
-		}
-		return (bool)Zend_Registry::get('config')->General->enable_browser_archiving_triggering;
-	}
-	
 	public function getIdArchive()
 	{
 		return $this->idArchive;
 	}
 	
 	/**
-	 * Sets object attributes that will be used throughout the process
+	 * Inits the object
 	 */
-	public function init()
-	{
+	protected function loadArchiveProperties()
+	{		
 		$this->idsite = $this->site->getId();
+		
 		$this->periodId = $this->period->getId();
-
-		$dateStartLocalTimezone = $this->period->getDateStart();
-		$dateEndLocalTimezone = $this->period->getDateEnd();
+		
+		$this->dateStart = $this->period->getDateStart();
+		$this->dateEnd = $this->period->getDateEnd();
 		
 		$this->tableArchiveNumeric = new Piwik_TablePartitioning_Monthly('archive_numeric');
 		$this->tableArchiveNumeric->setIdSite($this->idsite);
-		$this->tableArchiveNumeric->setTimestamp($dateStartLocalTimezone->getTimestamp());
+		$this->tableArchiveNumeric->setTimestamp($this->dateStart->get());
 		$this->tableArchiveBlob = new Piwik_TablePartitioning_Monthly('archive_blob');
 		$this->tableArchiveBlob->setIdSite($this->idsite);	
-		$this->tableArchiveBlob->setTimestamp($dateStartLocalTimezone->getTimestamp());
+		$this->tableArchiveBlob->setTimestamp($this->dateStart->get());
 
-		$dateStartUTC = $dateStartLocalTimezone->setTimezone($this->site->getTimezone());
-		$dateEndUTC = $dateEndLocalTimezone->setTimezone($this->site->getTimezone());
-		$this->startDatetimeUTC = $dateStartUTC->getDateStartUTC();
-		$this->endDatetimeUTC = $dateEndUTC->getDateEndUTC();
-
-		$this->startTimestampUTC = $dateStartUTC->getTimestamp();
-		$this->endTimestampUTC = strtotime($this->endDatetimeUTC);
+		$this->strDateStart = $this->dateStart->toString();
+		$this->strDateEnd = $this->dateEnd->toString();
 		
-		$this->minDatetimeArchiveProcessedUTC = $this->getMinTimeArchivedProcessed();
-		$db = Zend_Registry::get('db');
-		$this->compressBlob = $db->hasBlobDataType();
-	}
-
-	public function getStartDatetimeUTC()
-	{
-		return $this->startDatetimeUTC;
-	}
-	
-	public function getEndDatetimeUTC()
-	{
-		return $this->endDatetimeUTC;
-	}
-	
-	public function isArchiveTemporary()
-	{
-		return $this->temporaryArchive;
-	}
-	
-	/**
-	 * Returns the minimum archive processed datetime to look at
-	 *  
-	 * @return string Datetime string, or false if must look at any archive available
-	 */
-	public function getMinTimeArchivedProcessed()
-	{
-		$this->temporaryArchive = false;
 		// if the current archive is a DAY and if it's today,
-		// we set this minDatetimeArchiveProcessedUTC that defines the lifetime value of today's archive
+		// we set this maxTimestampArchive that defines the lifetime value of today's archive
+		$this->maxTimestampArchive = 0;
 		if( $this->period->getNumberOfSubperiods() == 0
-			&& $this->startTimestampUTC <= time() && $this->endTimestampUTC > time()
+			&& $this->period->toString() == date("Y-m-d")
 			)
 		{
-			$this->temporaryArchive = true;
-			$minDatetimeArchiveProcessedUTC = time() - self::getTodayArchiveTimeToLive();
-			// see #1150; if new archives are not triggered from the browser, 
-			// we still want to try and return the latest archive available for today (rather than return nothing)
-			if($this->isArchivingDisabled())
-			{
-				return false;
-			}
+			$this->maxTimestampArchive = time() - Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated;
 		}
 		// either
 		// - if the period we're looking for is finished, we look for a ts_archived that 
 		//   is greater than the last day of the archive 
 		// - if the period we're looking for is not finished, we look for a recent enough archive
-		//   recent enough means minDatetimeArchiveProcessedUTC = 00:00:01 this morning
+		//   recent enough means maxTimestampArchive = 00:00:01 this morning
 		else
 		{
-			if($this->endTimestampUTC <= time())
+			if($this->period->isFinished())
 			{
-				$minDatetimeArchiveProcessedUTC = $this->endTimestampUTC+1;
+				$this->maxTimestampArchive = $this->period->getDateEnd()->setTime('00:00:00')->addDay(1)->getTimestamp();
 			}
 			else
 			{
-    			$this->temporaryArchive = true;
-				$minDatetimeArchiveProcessedUTC = Piwik_Date::today()
-													->setTimezone($this->site->getTimezone())
-													->getTimestamp();
+				$this->maxTimestampArchive = Piwik_Date::today()->getTimestamp();
 			}
 		}
-		return $minDatetimeArchiveProcessedUTC;
+
+		$db = Zend_Registry::get('db');
+		$this->compressBlob = $db->hasBlobDataType();
 	}
 	
 	/**
@@ -385,7 +286,7 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function loadArchive()
 	{
-		$this->init();
+		$this->loadArchiveProperties();
 		$this->idArchive = $this->isArchived();
 	
 		if($this->idArchive === false
@@ -426,19 +327,10 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->loadNextIdarchive();
 		$this->insertNumericRecord('done', Piwik_ArchiveProcessing::DONE_ERROR);
-		$this->logTable 			= Piwik_Common::prefixTable('log_visit');
-		$this->logVisitActionTable 	= Piwik_Common::prefixTable('log_link_visit_action');
-		$this->logActionTable	 	= Piwik_Common::prefixTable('log_action');
-		$this->logConversionTable	= Piwik_Common::prefixTable('log_conversion');
-		
-		$temporary = 'definitive archive';
-		if($this->isArchiveTemporary())
-		{
-			$temporary = 'temporary archive';
-		}
-		Piwik::log("Processing archive '" . $this->period->getLabel() . "', 
-								idsite = ". $this->idsite." ($temporary) - 
-								UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
+		$this->logTable 			= Piwik::prefixTable('log_visit');
+		$this->logVisitActionTable 	= Piwik::prefixTable('log_link_visit_action');
+		$this->logActionTable	 	= Piwik::prefixTable('log_action');
+		$this->logConversionTable	= Piwik::prefixTable('log_conversion');
 	}
 	
 	/**
@@ -451,17 +343,12 @@ abstract class Piwik_ArchiveProcessing
 	{
 		// delete the first done = ERROR 
 		Piwik_Query("/* SHARDING_ID_SITE = ".$this->idsite." */ 
-					DELETE FROM ".$this->tableArchiveNumeric->getTableName()." 
-					WHERE idarchive = ? AND name = 'done'",
+							DELETE FROM ".$this->tableArchiveNumeric->getTableName()." 
+							WHERE idarchive = ? AND name = 'done'",
 					array($this->idArchive)
-		);
+				);
 		
-		$flag = Piwik_ArchiveProcessing::DONE_OK;
-		if($this->isArchiveTemporary())
-		{
-			$flag = Piwik_ArchiveProcessing::DONE_OK_TEMPORARY;
-		}
-		$this->insertNumericRecord('done', $flag);
+		$this->insertNumericRecord('done', Piwik_ArchiveProcessing::DONE_OK);
 		
 		Piwik_DataTable_Manager::getInstance()->deleteAll();
 	}
@@ -513,8 +400,14 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function getTimestampStartDate()
 	{
+		// case when archive processing is in the past or the future, the starting date has not been set or processed yet
+		if(is_null($this->timestampDateStart))
+		{
+			return Piwik_Date::factory($this->strDateStart)->getTimestamp();
+		}
 		return $this->timestampDateStart;
 	}
+	
 
 	// exposing the number of visits publicly (number used to compute conversions rates)
 	protected $nb_visits = null;
@@ -545,9 +438,7 @@ abstract class Piwik_ArchiveProcessing
 	protected function loadNextIdarchive()
 	{
 		$db = Zend_Registry::get('db');
-		$id = $db->fetchOne("/* SHARDING_ID_SITE = ".$this->idsite." */ 
-						SELECT max(idarchive) 
-						FROM ".$this->tableArchiveNumeric->getTableName());
+		$id = $db->fetchOne("/* SHARDING_ID_SITE = ".$this->idsite." */ SELECT max(idarchive) FROM ".$this->tableArchiveNumeric->getTableName());
 		if(empty($id))
 		{
 			$id = 0;
@@ -607,31 +498,23 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function insertRecord($record)
 	{
-		
 		// table to use to save the data
 		if(is_numeric($record->value))
 		{
-    		// We choose not to record records with a value of 0 
-    		if($record->value == 0)
-    		{
-    			return;
-    		}
 			$table = $this->tableArchiveNumeric;
 		}
 		else
 		{
 			$table = $this->tableArchiveBlob;
 		}
-
-		// ignore duplicate idarchive
-		// @see http://dev.piwik.org/trac/ticket/987
-		$query = "INSERT IGNORE INTO ".$table->getTableName()." (idarchive, idsite, date1, date2, period, ts_archived, name, value)
+		
+		$query = "INSERT INTO ".$table->getTableName()." (idarchive, idsite, date1, date2, period, ts_archived, name, value)
 					VALUES (?,?,?,?,?,?,?,?)";
 		Piwik_Query($query, 
 							array(	$this->idArchive,
 									$this->idsite, 
-									$this->period->getDateStart()->toString('Y-m-d'), 
-									$this->period->getDateEnd()->toString('Y-m-d'), 
+									$this->strDateStart, 
+									$this->strDateEnd, 
 									$this->periodId, 
 									date("Y-m-d H:i:s"),
 									$record->name,
@@ -645,7 +528,7 @@ abstract class Piwik_ArchiveProcessing
 	 * Returns false if the archive needs to be computed.
 	 * 
 	 * An archive is available if
-	 * - for today, the archive was computed less than minDatetimeArchiveProcessedUTC seconds ago
+	 * - for today, the archive was computed less than maxTimestampArchive seconds ago
 	 * - for any other day, if the archive was computed once this day was finished
 	 * - for other periods, if the archive was computed once the period was finished
 	 *
@@ -654,27 +537,20 @@ abstract class Piwik_ArchiveProcessing
 	protected function isArchived()
 	{
 		$bindSQL = array(	$this->idsite, 
-							$this->period->getDateStart()->toString('Y-m-d'), 
-							$this->period->getDateEnd()->toString('Y-m-d'), 
-							$this->periodId, 
-		);
+								$this->strDateStart, 
+								$this->strDateEnd, 
+								$this->periodId, 
+								);
+		$timeStampWhere = " AND UNIX_TIMESTAMP(ts_archived) >= ? ";
+		$bindSQL[] = $this->maxTimestampArchive;
 		
-		$timeStampWhere = '';
-		
-		if($this->minDatetimeArchiveProcessedUTC)
-		{
-    		$timeStampWhere = " AND ts_archived >= ? ";
-    		$bindSQL[] = Piwik_Date::factory($this->minDatetimeArchiveProcessedUTC)->getDatetime();
-		}
-		
-		$sqlQuery = "	SELECT idarchive, value, name, date1 as startDate
+		$sqlQuery = "	SELECT idarchive, value, name, UNIX_TIMESTAMP(date1) as timestamp
 						FROM ".$this->tableArchiveNumeric->getTableName()."
 						WHERE idsite = ?
 							AND date1 = ?
 							AND date2 = ?
 							AND period = ?
 							AND ( (name = 'done' AND value = ".Piwik_ArchiveProcessing::DONE_OK.")
-									OR (name = 'done' AND value = ".Piwik_ArchiveProcessing::DONE_OK_TEMPORARY.")
 									OR name = 'nb_visits')
 							$timeStampWhere
 						ORDER BY ts_archived DESC";
@@ -691,7 +567,7 @@ abstract class Piwik_ArchiveProcessing
 			if($result['name'] == 'done')
 			{
 				$idarchive = $result['idarchive'];
-				$this->timestampDateStart = Piwik_Date::factory($result['startDate'])->getTimestamp();
+				$this->timestampDateStart = $result['timestamp'];
 				break;
 			}
 		}
@@ -703,7 +579,7 @@ abstract class Piwik_ArchiveProcessing
 			return false;
 		}
 		
-		// we look for the nb_visits result for this most recent archive
+		// we look for the nb_visits result for this more recent archive
 		foreach($results as $result)
 		{
 			if($result['name'] == 'nb_visits' 
@@ -723,11 +599,19 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function isArchivingDisabled()
 	{
-		if(!self::isBrowserTriggerArchivingEnabled()
-			&& !Piwik_Common::isPhpCliMode())
+		static $archivingIsDisabled = null;
+		if(is_null($archivingIsDisabled))
 		{
-			return true;
+			$archivingIsDisabled = false;
+			$enableBrowserArchivingTriggering = (bool)Zend_Registry::get('config')->General->enable_browser_archiving_triggering;
+			if($enableBrowserArchivingTriggering == false)
+			{
+				if( !Piwik_Common::isPhpCliMode())
+				{
+					$archivingIsDisabled = true;
+				}
+			}
 		}
-		return false;
+		return $archivingIsDisabled;
 	}
 }

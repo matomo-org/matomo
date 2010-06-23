@@ -67,12 +67,8 @@ class Sparkline_Bar extends Sparkline {
   // data setting
   //
   function SetData($x, $y, $color = null, $underscore = false, $series = 1) {
-	if(!is_numeric($x)) {
-	    $x = trim($x);
-	}
-	if(!is_numeric($y)) {
-	    $y = trim($y);
-	}
+    $x = trim($x);
+    $y = trim($y);
 
     $this->Debug("Sparkline_Bar :: SetData($x, $y, $series)", DEBUG_SET);
 

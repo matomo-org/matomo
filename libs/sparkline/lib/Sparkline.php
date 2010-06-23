@@ -60,8 +60,8 @@ class Sparkline extends Object {
     //
     $this->graphAreaPx = array(array($this->graphAreaPx[0][0],
                                    $this->graphAreaPx[0][1]),
-                             array($this->graphAreaPx[1][0] + $x - 1,
-                                   $this->graphAreaPx[1][1] + $y - 1));
+                             array($this->graphAreaPx[1][0] + $x, //FIX FROM PIWIK
+                                   $this->graphAreaPx[1][1] + $y)); //FIX FROM PIWIK
     
     $this->imageHandle = $this->CreateImageHandle($x, $y);
 
@@ -356,9 +356,12 @@ class Sparkline extends Object {
   }
 
   function DrawTextRelative($string, $x, $y, $color, $position, $padding = 2, $font = FONT_1, $handle = false) {
+    if(empty($string))
+	{
+		return;
+	}
     $this->Debug("Sparkline :: DrawTextRelative('$string', $x, $y, '$color', $position, $font, $padding)", DEBUG_DRAW);
-      
-    if (!empty($string) && !$this->IsError() &&
+    if (!$this->IsError() &&
         $colorHandle = $this->GetColorHandle($color)) {
       if ($handle === false) $handle = $this->imageHandle;
 

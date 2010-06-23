@@ -28,6 +28,7 @@ class Piwik_CacheFile
     function __construct($directory)
     {
     	$this->cachePath = PIWIK_USER_PATH . '/tmp/cache/' . $directory . '/';
+//    	echo $this->cachePath;exit;
     }
     
 	/**
@@ -110,13 +111,5 @@ class Piwik_CacheFile
             return true;
         }
         return false;
-    }
-    
-    /**
-     * A function to delete all cache entries in the directory
-     */
-    function deleteAll()
-    {
-    	Piwik::unlinkRecursive($this->cachePath, $deleteRootToo = false);
     }
 }

@@ -41,6 +41,15 @@ class Piwik_Period_Day extends Piwik_Period
 		return $out;
 	}
 	
+	public function isFinished()
+	{
+		$todayMidnight = Piwik_Date::today();
+		if($this->date->isEarlier($todayMidnight))
+		{
+			return true;
+		}
+	}
+	
 	public function getNumberOfSubperiods()
 	{
 		return 0;

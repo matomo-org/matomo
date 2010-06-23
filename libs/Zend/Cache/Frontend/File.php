@@ -15,66 +15,66 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Frontend
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: File.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: File.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 
 /**
  * @see Zend_Cache_Core
  */
-// require_once 'Zend/Cache/Core.php';
+require_once 'Zend/Cache/Core.php';
 
 
 /**
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Frontend
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Frontend_File extends Zend_Cache_Core
 {
-
-    /**
-     * Consts for master_files_mode
-     */
-    const MODE_AND = 'AND';
-    const MODE_OR  = 'OR';
-
+	
+	/**
+	 * Consts for master_files_mode
+	 */
+	const MODE_AND = 'AND';
+	const MODE_OR  = 'OR';
+	
     /**
      * Available options
      *
      * ====> (string) master_file :
      * - a complete path of the master file
      * - deprecated (see master_files)
-     *
+     * 
      * ====> (array) master_files :
      * - an array of complete path of master files
      * - this option has to be set !
-     *
+     * 
      * ====> (string) master_files_mode :
      * - Zend_Cache_Frontend_File::MODE_AND or Zend_Cache_Frontend_File::MODE_OR
      * - if MODE_AND, then all master files have to be touched to get a cache invalidation
      * - if MODE_OR (default), then a single touched master file is enough to get a cache invalidation
      *
      * ====> (boolean) ignore_missing_master_files
-     * - if set to true, missing master files are ignored silently
+     * - if set to true, missing master files are ignored silently 
      * - if set to false (default), an exception is thrown if there is a missing master file
      * @var array available options
      */
     protected $_specificOptions = array(
-        'master_file' => null,
+    	'master_file' => null,
         'master_files' => null,
-        'master_files_mode' => 'OR',
-        'ignore_missing_master_files' => false
+    	'master_files_mode' => 'OR',
+    	'ignore_missing_master_files' => false
     );
 
     /**
      * Master file mtimes
      *
      * Array of int
-     *
+     * 
      * @var array
      */
     private $_masterFile_mtimes = null;
@@ -95,10 +95,10 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
             Zend_Cache::throwException('master_files option must be set');
         }
     }
-
+    
     /**
      * Change the master_file option
-     *
+     * 
      * @param string $masterFile the complete path and name of the master file
      */
     public function setMasterFiles($masterFiles)
@@ -109,27 +109,27 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
         $this->_masterFile_mtimes = array();
         $i = 0;
         foreach ($masterFiles as $masterFile) {
-            $this->_masterFile_mtimes[$i] = @filemtime($masterFile);
-            if ((!($this->_specificOptions['ignore_missing_master_files'])) && (!($this->_masterFile_mtimes[$i]))) {
-                Zend_Cache::throwException('Unable to read master_file : '.$masterFile);
-            }
-            $i++;
+        	$this->_masterFile_mtimes[$i] = @filemtime($masterFile);
+        	if ((!($this->_specificOptions['ignore_missing_master_files'])) && (!($this->_masterFile_mtimes[$i]))) {
+        		Zend_Cache::throwException('Unable to read master_file : '.$masterFile);     
+        	}
+        	$i++;
         }
     }
-
+    
     /**
      * Change the master_file option
-     *
-     * To keep the compatibility
-     *
+     * 
+     * To keep the compatibility 
+     * 
      * @deprecated
      * @param string $masterFile the complete path and name of the master file
-     */
+     */    
     public function setMasterFile($masterFile)
     {
-          $this->setMasterFiles(array(0 => $masterFile));
+  		$this->setMasterFiles(array(0 => $masterFile));
     }
-
+    
     /**
      * Public frontend to set an option
      *
@@ -145,7 +145,7 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
         if ($name == 'master_file') {
             $this->setMasterFile($value);
         } else if ($name == 'master_files') {
-            $this->setMasterFiles($value);
+        	$this->setMasterFiles($value);
         } else {
             parent::setOption($name, $value);
         }
@@ -174,33 +174,33 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
      * Test if a cache is available for the given id
      *
      * @param  string $id Cache id
-     * @return int|false Last modified time of cache entry if it is available, false otherwise
+     * @return boolean True is a cache is available, false else
      */
     public function test($id)
     {
         $lastModified = parent::test($id);
         if ($lastModified) {
-            if ($this->_specificOptions['master_files_mode'] == self::MODE_AND) {
-                // MODE_AND
-                foreach($this->_masterFile_mtimes as $masterFileMTime) {
-                    if ($masterFileMTime) {
-                        if ($lastModified > $masterFileMTime) {
-                            return $lastModified;
-                        }
-                    }
-                }
-            } else {
-                // MODE_OR
-                $res = true;
-                foreach($this->_masterFile_mtimes as $masterFileMTime) {
-                    if ($masterFileMTime) {
-                        if ($lastModified <= $masterFileMTime) {
-                            return false;
-                        }
-                    }
-                }
-                return $lastModified;
-            }
+        	if ($this->_specificOptions['master_files_mode'] == self::MODE_AND) {
+        		// MODE_AND
+        		foreach($this->_masterFile_mtimes as $masterFileMTime) {
+        			if ($masterFileMTime) {
+        				if ($lastModified > $masterFileMTime) {
+        					return $lastModified;
+        				}
+        			}
+        		}
+        	} else {
+        		// MODE_OR
+        		$res = true;
+        		foreach($this->_masterFile_mtimes as $masterFileMTime) {
+        			if ($masterFileMTime) {
+        				if ($lastModified <= $masterFileMTime) {
+        					return false;
+        				}
+        			}
+        		}
+        		return $lastModified;
+        	}
         }
         return false;
     }

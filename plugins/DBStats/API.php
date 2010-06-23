@@ -27,7 +27,7 @@ class Piwik_DBStats_API
 		return self::$instance;
 	}
 
- 	public function getDBStatus()
+ 	static public function getDBStatus()
 	{
 		Piwik::checkUserIsSuperUser();
 		$configDb = Zend_Registry::get('config')->database->toArray();
@@ -45,16 +45,13 @@ class Piwik_DBStats_API
 		return $status;
 	}
 	
-	public function getTableStatus($table, $field = '') 
+	static public function getTableStatus($table, $field = '') 
 	{
 		Piwik::checkUserIsSuperUser();
 		$db = Zend_Registry::get('db');
 		// http://dev.mysql.com/doc/refman/5.1/en/show-table-status.html
-		$tables = $db->fetchAll("SHOW TABLE STATUS LIKE ". $db->quote($table));
+		$tables = $db->fetchAll("SHOW TABLE STATUS LIKE ?", $table);
 
-		if(!isset($tables[0])) {
-			throw new Exception('Error, table or field not found');
-		}
 		if ($field == '')
 		{
 			return $tables[0];
@@ -65,7 +62,7 @@ class Piwik_DBStats_API
 		}
 	}
 
-	public function getAllTablesStatus() 
+	static public function getAllTablesStatus() 
 	{
 		Piwik::checkUserIsSuperUser();
 		$db = Zend_Registry::get('db');
@@ -75,7 +72,7 @@ class Piwik_DBStats_API
 		$table = array();
 		foreach($tablesPiwik as $tableName) 
 		{
-			$t = $this->getTableStatus($tableName);
+			$t = self::getTableStatus($tableName);
 			$total['Data_length'] += $t['Data_length'];
 			$total['Index_length'] += $t['Index_length'];
 			$total['Rows'] += $t['Rows'];

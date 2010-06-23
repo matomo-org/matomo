@@ -14,22 +14,22 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Count.php 21326 2010-03-04 20:32:39Z thomas $
+ * @version   $Id: Count.php 18148 2009-09-16 19:27:43Z thomas $
  */
 
 /**
  * @see Zend_Validate_Abstract
  */
-// require_once 'Zend/Validate/Abstract.php';
+require_once 'Zend/Validate/Abstract.php';
 
 /**
  * Validator for counting all given files
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_Count extends Zend_Validate_Abstract
@@ -37,16 +37,16 @@ class Zend_Validate_File_Count extends Zend_Validate_Abstract
     /**#@+
      * @const string Error constants
      */
-    const TOO_MANY = 'fileCountTooMany';
-    const TOO_FEW  = 'fileCountTooFew';
+    const TOO_MUCH = 'fileCountTooMuch';
+    const TOO_LESS = 'fileCountTooLess';
     /**#@-*/
 
     /**
      * @var array Error message templates
      */
     protected $_messageTemplates = array(
-        self::TOO_MANY => "Too many files, maximum '%max%' are allowed but '%count%' are given",
-        self::TOO_FEW  => "Too few files, minimum '%min%' are expected but '%count%' are given",
+        self::TOO_MUCH => "Too much files, maximum '%max%' are allowed but '%count%' are given",
+        self::TOO_LESS => "Too less files, minimum '%min%' are expected but '%count%' are given"
     );
 
     /**
@@ -110,11 +110,13 @@ class Zend_Validate_File_Count extends Zend_Validate_Abstract
         } elseif (is_string($options) || is_numeric($options)) {
             $options = array('max' => $options);
         } elseif (!is_array($options)) {
-            // require_once 'Zend/Validate/Exception.php';
+            require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception ('Invalid options to validator provided');
         }
 
         if (1 < func_num_args()) {
+// @todo: Preperation for 2.0... needs to be cleared with the dev-team
+//          trigger_error('Multiple arguments are deprecated in favor of an array of named arguments', E_USER_NOTICE);
             $options['min'] = func_get_arg(0);
             $options['max'] = func_get_arg(1);
         }
@@ -152,13 +154,13 @@ class Zend_Validate_File_Count extends Zend_Validate_Abstract
         }
 
         if (!is_string($min) and !is_numeric($min)) {
-            // require_once 'Zend/Validate/Exception.php';
+            require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception ('Invalid options to validator provided');
         }
 
         $min = (integer) $min;
         if (($this->_max !== null) && ($min > $this->_max)) {
-            // require_once 'Zend/Validate/Exception.php';
+            require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception("The minimum must be less than or equal to the maximum file count, but $min >"
                                             . " {$this->_max}");
         }
@@ -191,13 +193,13 @@ class Zend_Validate_File_Count extends Zend_Validate_Abstract
         }
 
         if (!is_string($max) and !is_numeric($max)) {
-            // require_once 'Zend/Validate/Exception.php';
+            require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception ('Invalid options to validator provided');
         }
 
         $max = (integer) $max;
         if (($this->_min !== null) && ($max < $this->_min)) {
-            // require_once 'Zend/Validate/Exception.php';
+            require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception("The maximum must be greater than or equal to the minimum file count, but "
                                             . "$max < {$this->_min}");
         }
@@ -241,25 +243,14 @@ class Zend_Validate_File_Count extends Zend_Validate_Abstract
      */
     public function isValid($value, $file = null)
     {
-        if (($file !== null) && !array_key_exists('destination', $file)) {
-            $file['destination'] = dirname($value);
-        }
-
-        if (($file !== null) && array_key_exists('tmp_name', $file)) {
-            $value = $file['destination'] . DIRECTORY_SEPARATOR . $file['name'];
-        }
-
-        if (($file === null) || !empty($file['tmp_name'])) {
-            $this->addFile($value);
-        }
-
+        $this->addFile($value);
         $this->_count = count($this->_files);
         if (($this->_max !== null) && ($this->_count > $this->_max)) {
-            return $this->_throw($file, self::TOO_MANY);
+            return $this->_throw($file, self::TOO_MUCH);
         }
 
         if (($this->_min !== null) && ($this->_count < $this->_min)) {
-            return $this->_throw($file, self::TOO_FEW);
+            return $this->_throw($file, self::TOO_LESS);
         }
 
         return true;

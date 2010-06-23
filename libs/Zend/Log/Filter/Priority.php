@@ -15,23 +15,23 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Filter
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Priority.php 20260 2010-01-13 18:29:22Z ralph $
+ * @version    $Id: Priority.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
-/** Zend_Log_Filter_Abstract */
-// require_once 'Zend/Log/Filter/Abstract.php';
+/** Zend_Log_Filter_Interface */
+require_once 'Zend/Log/Filter/Interface.php';
 
 /**
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Filter
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Priority.php 20260 2010-01-13 18:29:22Z ralph $
+ * @version    $Id: Priority.php 16219 2009-06-21 19:45:39Z thomas $
  */
-class Zend_Log_Filter_Priority extends Zend_Log_Filter_Abstract
+class Zend_Log_Filter_Priority implements Zend_Log_Filter_Interface
 {
     /**
      * @var integer
@@ -51,41 +51,15 @@ class Zend_Log_Filter_Priority extends Zend_Log_Filter_Abstract
      * @param  string   $operator  Comparison operator
      * @throws Zend_Log_Exception
      */
-    public function __construct($priority, $operator = NULL)
+    public function __construct($priority, $operator = '<=')
     {
         if (! is_integer($priority)) {
-            // require_once 'Zend/Log/Exception.php';
+            require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Priority must be an integer');
         }
 
         $this->_priority = $priority;
-        $this->_operator = is_null($operator) ? '<=' : $operator;
-    }
-
-    /**
-     * Create a new instance of Zend_Log_Filter_Priority
-     * 
-     * @param  array|Zend_Config $config
-     * @return Zend_Log_Filter_Priority
-     * @throws Zend_Log_Exception
-     */
-    static public function factory($config) 
-    {
-        $config = self::_parseConfig($config);
-        $config = array_merge(array(
-            'priority' => null, 
-            'operator' => null,
-        ), $config);
-
-        // Add support for constants
-        if (!is_numeric($config['priority']) && isset($config['priority']) && defined($config['priority'])) {
-            $config['priority'] = constant($config['priority']);
-        }
-
-        return new self(
-            (int) $config['priority'], 
-            $config['operator']
-        );
+        $this->_operator = $operator;
     }
 
     /**
@@ -98,4 +72,5 @@ class Zend_Log_Filter_Priority extends Zend_Log_Filter_Abstract
     {
         return version_compare($event['priority'], $this->_priority, $this->_operator);
     }
+
 }

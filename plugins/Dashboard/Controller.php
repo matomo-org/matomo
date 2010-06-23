@@ -21,12 +21,16 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view = Piwik_View::factory($template);
 		$this->setGeneralVariablesView($view);
 
-		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
-		$layout = $this->getLayout();
-		if(empty($layout)) {
-			$layout = $this->getDefaultLayout();
+		// layout was JSON.stringified
+		$layout = html_entity_decode($this->getLayout());
+		$layout = str_replace("\\\"", "\"", $layout);
+
+		if(!empty($layout)
+			&& strstr($layout, '[[') == false) {
+			$layout = "'$layout'";
 		}
 		$view->layout = $layout;
+		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
 		return $view;
 	}
 	
@@ -52,7 +56,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	protected function saveLayoutForUser( $login, $idDashboard, $layout)
 	{
 		$paramsBind = array($login, $idDashboard, $layout, $layout);
-		Piwik_Query('INSERT INTO '.Piwik_Common::prefixTable('user_dashboard') .
+		Piwik_Query('INSERT INTO '.Piwik::prefixTable('user_dashboard') .
 					' (login, iddashboard, layout)
 						VALUES (?,?,?)
 					ON DUPLICATE KEY UPDATE layout=?',
@@ -70,7 +74,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	protected function getLayoutForUser( $login, $idDashboard)
 	{
 		$paramsBind = array($login, $idDashboard);
-		$return = Piwik_FetchAll('SELECT layout FROM '.Piwik_Common::prefixTable('user_dashboard') .
+		$return = Piwik_FetchAll('SELECT layout FROM '.Piwik::prefixTable('user_dashboard') .
 					' WHERE login = ? AND iddashboard = ?', $paramsBind);
 		if(count($return) == 0)
 		{
@@ -86,14 +90,14 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	 */
 	public function saveLayout()
 	{
-		$this->checkTokenInUrl();
 		$layout = Piwik_Common::getRequestVar('layout');
 		$idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int' );
 		$currentUser = Piwik::getCurrentUserLogin();
+
 		if($currentUser == 'anonymous')
 		{
 			$session = new Zend_Session_Namespace("Piwik_Dashboard");
-			$session->dashboardLayout = $layout;
+			$session->idDashboard = $layout;
 		}
 		else
 		{
@@ -115,84 +119,16 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		{
 			$session = new Zend_Session_Namespace("Piwik_Dashboard");
 
-			if(!isset($session->dashboardLayout))
+			if(!isset($session->idDashboard))
 			{
 				return false;
 			}
-			$layout = $session->dashboardLayout;
+			return $session->idDashboard;
 		}
 		else
 		{
-			$layout = $this->getLayoutForUser($currentUser,$idDashboard);
-		}
-	
-		// layout was JSON.stringified
-		$layout = html_entity_decode($layout);
-		$layout = str_replace("\\\"", "\"", $layout);
-
-		// compatibility with the old layout format
-		if(!empty($layout)
-			&& strstr($layout, '[[') == false) {
-			$layout = "'$layout'";
-		}
-		$layout = $this->removeDisabledPluginFromLayout($layout);
-		return $layout;
-	}
-	
-	protected function removeDisabledPluginFromLayout($layout)
-	{
-		$layout = str_replace("\n", "", $layout);
-		// if the json decoding works (ie. new Json format)
-		// we will only return the widgets that are from enabled plugins
-		if($layoutObject = json_decode($layout, $assoc = false)) 
-		{
-			foreach($layoutObject as &$row) 
-			{
-				if(!is_array($row))
-				{
-					$row = array();
-					continue;
-				}
-
-				foreach($row as $widgetId => $widget)
-				{
-					if(isset($widget->parameters->module)) {
-						$controllerName = $widget->parameters->module;
-						$controllerAction = $widget->parameters->action;
-						if(!Piwik_IsWidgetDefined($controllerName, $controllerAction))
-						{
-							unset($row[$widgetId]);
-						}
-					}
-				}
-			}
-			$layout = json_encode($layoutObject);
-		}
-		return $layout;
-	}
-	
-	protected function getDefaultLayout()
-	{
-		$defaultLayout = '[
-    		[
-    			{"uniqueId":"widgetVisitsSummarygetEvolutionGraph","parameters":{"module":"VisitsSummary","action":"getEvolutionGraph","columns":["nb_visits"]}},
-    			{"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}},
-    			{"uniqueId":"widgetUserSettingsgetBrowser","parameters":{"module":"UserSettings","action":"getBrowser"}},
-    			{"uniqueId":"widgetUserCountrygetCountry","parameters":{"module":"UserCountry","action":"getCountry"}},
-    			{"uniqueId":"widgetExampleFeedburnerfeedburner","parameters":{"module":"ExampleFeedburner","action":"feedburner"}}
-    		],
-    		[
-    			{"uniqueId":"widgetReferersgetKeywords","parameters":{"module":"Referers","action":"getKeywords"}},
-    			{"uniqueId":"widgetReferersgetWebsites","parameters":{"module":"Referers","action":"getWebsites"}}
-    		],
-    		[
-    			{"uniqueId":"widgetReferersgetSearchEngines","parameters":{"module":"Referers","action":"getSearchEngines"}},
-    			{"uniqueId":"widgetVisitTimegetVisitInformationPerServerTime","parameters":{"module":"VisitTime","action":"getVisitInformationPerServerTime"}},
-    			{"uniqueId":"widgetExampleRssWidgetrssPiwik","parameters":{"module":"ExampleRssWidget","action":"rssPiwik"}}
-    		]
-    	]';
-		$defaultLayout = $this->removeDisabledPluginFromLayout($defaultLayout);
-		return $defaultLayout;
+			return $this->getLayoutForUser($currentUser,$idDashboard);
+		}		
 	}
 }
 

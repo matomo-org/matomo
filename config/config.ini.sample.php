@@ -17,4 +17,3 @@ password		= datatabasePassword
 dbname			= databaseName
 adapter			= PDO_MYSQL ; PDO_MYSQL, MYSQLI, or PDO_PGSQL
 tables_prefix	= piwik_
-;charset		= utf8

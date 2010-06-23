@@ -10,6 +10,9 @@
  * @package Piwik_UserCountry
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die;
+
 /**
  * @see core/DataFiles/Countries.php
  * @see plugins/UserCountry/functions.php

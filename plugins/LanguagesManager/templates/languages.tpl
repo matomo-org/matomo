@@ -3,16 +3,15 @@
 		<form action="index.php?{if $currentModule != ''}module=LanguagesManager&{/if}action=saveLanguage" method="get">
 		<select name="language">
 			<option value="{$currentLanguageCode}">{$currentLanguageName}</option>
-			<option href='misc/redirectToUrl.php?url=http://piwik.org/translations/'>{'LanguagesManager_AboutPiwikTranslations'|translate}</option>
 			{foreach from=$languages item=language}
 			<option value="{$language.code}">{$language.name}</option>
 			{/foreach}
 		</select>
-		<input type="submit" value="go" />
+		<input type="submit" value="go"/>
 		</form>
 	</span>
 	
-	{literal}<script type="text/javascript">
+	{literal}<script language="javascript">
 	$(document).ready(function() {
 		$("#languageSelection").fdd2div({CssClassName:"formDiv"});
 		$("#languageSelection").show();

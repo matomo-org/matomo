@@ -21,10 +21,11 @@ class Piwik_Installation extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'description' => Piwik_Translate('Installation_PluginDescription'),
+			'name' => 'Installation',
+			'description' => 'Installation process of Piwik. The Installation is usually done once only. If the configuration file config/config.inc.php is deleted, the installation will start again.',
 			'author' => 'Piwik',
-			'author_homepage' => 'http://piwik.org/',
-			'version' => Piwik_Version::VERSION,
+			'homepage' => 'http://piwik.org/',
+			'version' => '0.1',
 		);
 		
 		return $info;
@@ -34,7 +35,6 @@ class Piwik_Installation extends Piwik_Plugin
 	{
 		$hooks = array(
 			'FrontController.NoConfigurationFile' => 'dispatch',
-			'FrontController.badConfigurationFile' => 'dispatch',
 		);
 		return $hooks;
 	}
@@ -49,18 +49,8 @@ class Piwik_Installation extends Piwik_Plugin
 		return new $this->installationControllerName();
 	}
 
-	function dispatch($notification = null)
+	function dispatch()
 	{
-		if($notification)
-		{
-			$exception = $notification->getNotificationObject();
-			$message = $exception->getMessage();
-		}
-		else
-		{
-			$message = '';
-		}
-
 		Piwik_Translate::getInstance()->loadUserTranslation();
 
 		Piwik_PostEvent('Installation.startInstallation', $this);
@@ -69,7 +59,7 @@ class Piwik_Installation extends Piwik_Plugin
 		$controller = $this->getInstallationController();
 		if(in_array($step, array_keys($controller->getInstallationSteps())) || $step == 'saveLanguage')
 		{
-			$controller->$step($message);
+			$controller->$step();
 		}
 		else
 		{

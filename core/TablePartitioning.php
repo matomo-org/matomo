@@ -108,7 +108,11 @@ class Piwik_TablePartitioning_Monthly extends Piwik_TablePartitioning
 	protected function generateTableName()
 	{
 		$config = Zend_Registry::get('config');
-		return $config->database->tables_prefix . $this->tableName . "_" . date("Y_m", $this->timestamp);
+		$prefixTables = $config->database->tables_prefix;
+		
+		$date = date("Y_m", $this->timestamp);
+		
+		return $prefixTables . $this->tableName . "_" . $date;
 	}
 		
 }
@@ -127,6 +131,10 @@ class Piwik_TablePartitioning_Daily extends Piwik_TablePartitioning
 	protected function generateTableName()
 	{
 		$config = Zend_Registry::get('config');
-		return $config->database->tables_prefix . $this->tableName . "_" . date("Y_m_d", $this->timestamp);
+		$prefixTables = $config->database->tables_prefix;
+		
+		$date = date("Y_m_d", $this->timestamp);
+		
+		return $prefixTables . $this->tableName . "_" . $date;
 	}		
 }

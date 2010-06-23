@@ -1,9 +1,15 @@
+body {
+	font-family: Georgia, Trebuchet MS, arial, sans-serif;
+}
+
 img {
 	vertical-align: baseline;
 }
+
 textarea {
 	font-size: 1em;
 }
+
 a {
 	color: black;
 }
@@ -34,12 +40,14 @@ table.admin tbody tr {
 table.admin tbody td {
 	color: #414141;
 	text-align: left;
-	vertical-align:top;
 }
 
 table.admin tbody th {
 	text-align: left;
 	padding: 2px;
+}
+table.admin tbody td {
+	vertical-align:middle;
 }
 table.admin tbody td, table.admin tbody th {
 	color: #536C2A;
@@ -87,16 +95,20 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 h2 {
 	border-bottom-color:#DADADA;
 	color:#666666;
+	-x-system-font:none;
 	border-bottom-style:solid;
 	border-bottom-width:1px;
 	clear:both;
 	font-family:Georgia,"Times New Roman",Times,serif;
 	font-size:24px;
 	font-size-adjust:none;
+	font-stretch:normal;
 	font-style:normal;
+	font-variant:normal;
 	font-weight:normal;
+	line-height:normal;
 	margin:5px 0pt 0pt -4px;
-	padding:0pt 0px 7px 0pt;
+	padding:0pt 280px 7px 0pt;
 }
 
 p {
@@ -108,19 +120,7 @@ p {
 	margin:0pt 15px;
 	padding:0pt;
 }
-textarea, input, select {
-	background-color:#FFFFFF;
-	border-color:#939EA5;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-style:solid;
-	border-width:1px;
-	margin:1px;
-	padding:3px;
-}
-input[disabled] {
-	background-color:#F7F7F7;
-}
+
 .adminTable {
 	border-width: 1px;
 	border-style: solid;
@@ -139,9 +139,8 @@ input[disabled] {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #ccc;
-	font-size: 13px;
+	font-size: 11px;
 	vertical-align: text-top;
-	vertical-align:top;
 }
 .adminTable td {
 	padding: 7px 15px 9px 10px;
@@ -188,24 +187,4 @@ input[disabled] {
 }
 .adminTable .active {
 	background-color: #ECF9DD;
-}
-
-.adminTable .ui-inline-help {
-	margin-top:0;
-	width:100%;
-}
-/* admin table, without borders */
-.adminTableNoBorder {
-	border:0;
-}
-.adminTableNoBorder td, .adminTableNoBorder th {
-	border:0;
-}
-
-/* other styles */
-
-.form-description {
-	color:#666666;
-	font-style:italic;
-	margin-left:10px;
 }

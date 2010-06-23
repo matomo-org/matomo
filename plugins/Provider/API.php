@@ -10,6 +10,9 @@
  * @package Piwik_Provider
  */
 
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die;
+
 /**
  * @see plugins/Provider/functions.php
  */
@@ -42,7 +45,6 @@ class Piwik_Provider_API
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getHostnameUrl'));
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getHostnameName'));
 		$dataTable->queueFilter('ReplaceColumnNames');
-		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
 }

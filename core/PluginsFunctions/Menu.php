@@ -60,21 +60,6 @@ class Piwik_Menu
 		}
 	}
 	
-	function isUrlFound($url)
-	{
-		$menu = Piwik_Menu::getInstance()->get();
-		foreach($menu as $mainMenuName => $subMenus)
-		{
-			foreach($subMenus as $subMenuName => $menuUrl)
-			{
-				if($menuUrl == $url)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 	/*
 	 * 
 	 */
@@ -176,11 +161,6 @@ class Piwik_Menu
 			}
 		}
 	}
-}
-
-function Piwik_IsMenuUrlFound($url)
-{
-	return Piwik_Menu::getInstance()->isUrlFound($url);
 }
 
 function Piwik_GetMenu()

@@ -14,20 +14,20 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: StringLength.php 20358 2010-01-17 19:03:49Z thomas $
+ * @version    $Id: StringLength.php 16223 2009-06-21 20:04:53Z thomas $
  */
 
 /**
  * @see Zend_Validate_Abstract
  */
-// require_once 'Zend/Validate/Abstract.php';
+require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_StringLength extends Zend_Validate_Abstract
@@ -42,7 +42,7 @@ class Zend_Validate_StringLength extends Zend_Validate_Abstract
     protected $_messageTemplates = array(
         self::INVALID   => "Invalid type given, value should be a string",
         self::TOO_SHORT => "'%value%' is less than %min% characters long",
-        self::TOO_LONG  => "'%value%' is more than %max% characters long",
+        self::TOO_LONG  => "'%value%' is greater than %max% characters long"
     );
 
     /**
@@ -79,39 +79,15 @@ class Zend_Validate_StringLength extends Zend_Validate_Abstract
     /**
      * Sets validator options
      *
-     * @param  integer|array|Zend_Config $options
+     * @param  integer $min
+     * @param  integer $max
      * @return void
      */
-    public function __construct($options = array())
+    public function __construct($min = 0, $max = null, $encoding = null)
     {
-        if ($options instanceof Zend_Config) {
-            $options = $options->toArray();
-        } else if (!is_array($options)) {
-            $options     = func_get_args();
-            $temp['min'] = array_shift($options);
-            if (!empty($options)) {
-                $temp['max'] = array_shift($options);
-            }
-
-            if (!empty($options)) {
-                $temp['encoding'] = array_shift($options);
-            }
-
-            $options = $temp;
-        }
-
-        if (!array_key_exists('min', $options)) {
-            $options['min'] = 0;
-        }
-
-        $this->setMin($options['min']);
-        if (array_key_exists('max', $options)) {
-            $this->setMax($options['max']);
-        }
-
-        if (array_key_exists('encoding', $options)) {
-            $this->setEncoding($options['encoding']);
-        }
+        $this->setMin($min);
+        $this->setMax($max);
+        $this->setEncoding($encoding);
     }
 
     /**
@@ -137,7 +113,7 @@ class Zend_Validate_StringLength extends Zend_Validate_Abstract
             /**
              * @see Zend_Validate_Exception
              */
-            // require_once 'Zend/Validate/Exception.php';
+            require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception("The minimum must be less than or equal to the maximum length, but $min >"
                                             . " $this->_max");
         }
@@ -170,7 +146,7 @@ class Zend_Validate_StringLength extends Zend_Validate_Abstract
             /**
              * @see Zend_Validate_Exception
              */
-            // require_once 'Zend/Validate/Exception.php';
+            require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception("The maximum must be greater than or equal to the minimum length, but "
                                             . "$max < $this->_min");
         } else {
@@ -202,7 +178,7 @@ class Zend_Validate_StringLength extends Zend_Validate_Abstract
             $orig   = iconv_get_encoding('internal_encoding');
             $result = iconv_set_encoding('internal_encoding', $encoding);
             if (!$result) {
-                // require_once 'Zend/Validate/Exception.php';
+                require_once 'Zend/Validate/Exception.php';
                 throw new Zend_Validate_Exception('Given encoding not supported on this OS!');
             }
 

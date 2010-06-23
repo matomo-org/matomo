@@ -27,7 +27,7 @@ class Piwik_Goals_API
 		return self::$instance;
 	}
 	
-	public function getGoals( $idSite )
+	static public function getGoals( $idSite )
 	{
 		$goals = Piwik_FetchAll("SELECT * 
 											FROM ".Piwik_Common::prefixTable('goal')." 
@@ -53,16 +53,16 @@ class Piwik_Goals_API
 		// save in db
 		$db = Zend_Registry::get('db');
 		$idGoal = $db->fetchOne("SELECT max(idgoal) + 1 
-								FROM ".Piwik_Common::prefixTable('goal')." 
+								FROM ".Piwik::prefixTable('goal')." 
 								WHERE idsite = ?", $idSite);
 		if($idGoal == false)
 		{
 			$idGoal = 1;
 		}
-		$this->checkPatternIsValid($patternType, $pattern);
-		$name = $this->checkName($name);
-		$pattern = $this->checkPattern($pattern);
-		$db->insert(Piwik_Common::prefixTable('goal'),
+		self::checkPatternIsValid($patternType, $pattern);
+		$name = self::checkName($name);
+		$pattern = self::checkPattern($pattern);
+		$db->insert(Piwik::prefixTable('goal'),
 					array( 
 						'idsite' => $idSite,
 						'idgoal' => $idGoal,
@@ -81,10 +81,10 @@ class Piwik_Goals_API
 	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
-		$name = $this->checkName($name);
-		$pattern = $this->checkPattern($pattern);
-		$this->checkPatternIsValid($patternType, $pattern);
-		Zend_Registry::get('db')->update( Piwik_Common::prefixTable('goal'), 
+		$name = self::checkName($name);
+		$pattern = self::checkPattern($pattern);
+		self::checkPatternIsValid($patternType, $pattern);
+		Zend_Registry::get('db')->update( Piwik::prefixTable('goal'), 
 					array(
 						'name' => $name,
 						'match_attribute' => $matchAttribute,
@@ -103,7 +103,8 @@ class Piwik_Goals_API
 		if($patternType == 'exact' 
 			&& substr($pattern, 0, 4) != 'http')
 		{
-			throw new Exception(Piwik_TranslateException('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
+			throw new Exception("If you choose 'exact match', the matching string must be a 
+				URL starting with http:// or https://. For example, 'http://www.yourwebsite.com/newsletter/subscribed.html'.");
 		}
 	}
 	
@@ -120,12 +121,12 @@ class Piwik_Goals_API
 	public function deleteGoal( $idSite, $idGoal )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
-		Piwik_Query("UPDATE ".Piwik_Common::prefixTable('goal')."
+		Piwik_Query("UPDATE ".Piwik::prefixTable('goal')."
 										SET deleted = 1
 										WHERE idsite = ? 
 											AND idgoal = ?",
 									array($idSite, $idGoal));
-		Piwik_Query("DELETE FROM ".Piwik_Common::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
+		Piwik_Query("DELETE FROM ".Piwik::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
 	
@@ -156,7 +157,7 @@ class Piwik_Goals_API
 		$request = new Piwik_API_Request("method=VisitFrequency.getVisitsReturning&idSite=$idSite&period=$period&date=$date&format=original");
 		$nbVisitsReturning = $request->process();
 //		echo $nbVisitsConvertedReturningVisitors;
-//		echo "<br />". $nbVisitsReturning;exit;
+//		echo "<br>". $nbVisitsReturning;exit;
 
 		return Piwik::getPercentageSafe($nbVisitsConvertedReturningVisitors, $nbVisitsReturning, Piwik_Goals::ROUNDING_PRECISION);
 	}
@@ -210,7 +211,7 @@ class Piwik_Goals_API
 		return $dataTable;
 	}
 	
-	protected function getNumeric( $idSite, $period, $date, $toFetch )
+	protected static function getNumeric( $idSite, $period, $date, $toFetch )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
@@ -220,16 +221,16 @@ class Piwik_Goals_API
 
 	public function getConversions( $idSite, $period, $date, $idGoal = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
+		return self::getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
 	}
 	
 	public function getConversionRate( $idSite, $period, $date, $idGoal = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('conversion_rate', $idGoal));
+		return self::getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('conversion_rate', $idGoal));
 	}
 	
 	public function getRevenue( $idSite, $period, $date, $idGoal = false )
 	{
-		return $this->getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('revenue', $idGoal));
+		return self::getNumeric( $idSite, $period, $date, Piwik_Goals::getRecordName('revenue', $idGoal));
 	}
 }

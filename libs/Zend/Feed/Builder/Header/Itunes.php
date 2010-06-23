@@ -15,9 +15,9 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Itunes.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Itunes.php 16205 2009-06-21 19:08:45Z thomas $
  */
 
 
@@ -28,7 +28,7 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Builder_Header_Itunes extends ArrayObject
@@ -66,14 +66,14 @@ class Zend_Feed_Builder_Header_Itunes extends ArrayObject
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            // require_once 'Zend/Feed/Builder/Exception.php';
+            require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception("you have to set at least one itunes category");
         }
         if ($nb > 3) {
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            // require_once 'Zend/Feed/Builder/Exception.php';
+            require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception("you have to set at most three itunes categories");
         }
         foreach ($categories as $i => $category) {
@@ -81,7 +81,7 @@ class Zend_Feed_Builder_Header_Itunes extends ArrayObject
                 /**
                  * @see Zend_Feed_Builder_Exception
                  */
-                // require_once 'Zend/Feed/Builder/Exception.php';
+                require_once 'Zend/Feed/Builder/Exception.php';
                 throw new Zend_Feed_Builder_Exception("you have to set the main category (category #$i)");
             }
         }
@@ -112,16 +112,16 @@ class Zend_Feed_Builder_Header_Itunes extends ArrayObject
     public function setOwner($name = '', $email = '')
     {
         if (!empty($email)) {
-            /**
-             * @see Zend_Validate_EmailAddress
-             */
-            // require_once 'Zend/Validate/EmailAddress.php';
+        	/**
+        	 * @see Zend_Validate_EmailAddress
+        	 */
+        	require_once 'Zend/Validate/EmailAddress.php';
             $validate = new Zend_Validate_EmailAddress();
             if (!$validate->isValid($email)) {
                 /**
                  * @see Zend_Feed_Builder_Exception
                  */
-                // require_once 'Zend/Feed/Builder/Exception.php';
+                require_once 'Zend/Feed/Builder/Exception.php';
                 throw new Zend_Feed_Builder_Exception("you have to set a valid email address into the itunes owner's email property");
             }
         }
@@ -182,7 +182,7 @@ class Zend_Feed_Builder_Header_Itunes extends ArrayObject
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            // require_once 'Zend/Feed/Builder/Exception.php';
+            require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception("you have to set yes or no to the itunes block property");
         }
         $this->offsetSet('block', $block);
@@ -203,7 +203,7 @@ class Zend_Feed_Builder_Header_Itunes extends ArrayObject
             /**
              * @see Zend_Feed_Builder_Exception
              */
-            // require_once 'Zend/Feed/Builder/Exception.php';
+            require_once 'Zend/Feed/Builder/Exception.php';
             throw new Zend_Feed_Builder_Exception("you have to set yes, no or clean to the itunes explicit property");
         }
         $this->offsetSet('explicit', $explicit);

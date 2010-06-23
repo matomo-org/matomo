@@ -7,15 +7,10 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 	require_once PIWIK_PATH_TEST_TO_ROOT . "/tests/config_test.php";
 }
 
-require_once PIWIK_PATH_TEST_TO_ROOT . '/tests/core/Database.test.php';
+require_once "Database.test.php";
 
 class Test_Piwik_SitesManager extends Test_Database
 {
-	public function __construct()
-	{
-		Piwik_PluginsManager::getInstance()->unloadPlugin('ExampleFeedburner');
-		parent::__construct();
-	}
     public function setUp()
     {
     	parent::setUp();
@@ -24,9 +19,6 @@ class Test_Piwik_SitesManager extends Test_Database
     	$pseudoMockAccess = new FakeAccess;
 		FakeAccess::$superUser = true;
 		Zend_Registry::set('access', $pseudoMockAccess);
-		
-		// clear static Site cache
-		Piwik_Site::clearCache();
     }
     
     /**
@@ -35,7 +27,7 @@ class Test_Piwik_SitesManager extends Test_Database
 	public function test_addSite_emptyName()
     {
     	try {
-    		Piwik_SitesManager_API::getInstance()->addSite("",array("http://piwik.net"));
+    		Piwik_SitesManager_API::addSite("",array("http://piwik.net"));
     	}
     	catch (Exception $expected) {
             return;
@@ -49,7 +41,7 @@ class Test_Piwik_SitesManager extends Test_Database
     public function test_addSite_noUrls()
     {
     	try {
-    		Piwik_SitesManager_API::getInstance()->addSite("name",array());
+    		Piwik_SitesManager_API::addSite("name",array());
     	}
     	catch (Exception $expected) {
             return;
@@ -63,7 +55,7 @@ class Test_Piwik_SitesManager extends Test_Database
     public function test_addSite_wrongUrls1()
     {
     	try {
-    		Piwik_SitesManager_API::getInstance()->addSite("name",array(""));
+    		Piwik_SitesManager_API::addSite("name",array(""));
     	}
     	catch (Exception $expected) {
             return;
@@ -76,7 +68,7 @@ class Test_Piwik_SitesManager extends Test_Database
     public function test_addSite_wrongUrls2()
     {
     	try {
-    		Piwik_SitesManager_API::getInstance()->addSite("name","");
+    		Piwik_SitesManager_API::addSite("name","");
     	}
     	catch (Exception $expected) {
             return;
@@ -90,7 +82,7 @@ class Test_Piwik_SitesManager extends Test_Database
     public function test_addSite_wrongUrls3()
     {
     	try {
-    		Piwik_SitesManager_API::getInstance()->addSite("name","httpww://piwik.net");
+    		Piwik_SitesManager_API::addSite("name","httpww://piwik.net");
     	}
     	catch (Exception $expected) {
             return;
@@ -104,61 +96,12 @@ class Test_Piwik_SitesManager extends Test_Database
     public function test_addSite_wrongUrls4()
     {
     	try {
-    		Piwik_SitesManager_API::getInstance()->addSite("name","httpww://piwik.net/gqg~#");
+    		Piwik_SitesManager_API::addSite("name","httpww://piwik.net/gqg~#");
     	}
     	catch (Exception $expected) {
             return;
         }
         $this->fail("Exception not raised.");
-    }
-    
-    /**
-     * Test with valid IPs
-     */
-    public function test_addSite_excludedIpsAndtimezoneAndCurrencyAndExcludedQueryParameters_valid()
-    {
-    	$ips = '1.2.3.4,1.1.1.*,1.2.*.*,1.*.*.*';
-    	$timezone = 'Europe/Paris'; 
-    	$currency = 'EUR';
-    	$excludedQueryParameters = 'p1,P2, P33333';
-    	$expectedExcludedQueryParameters = 'p1,P2,P33333';
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ips, $excludedQueryParameters,$timezone, $currency);
-    	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
-    	$this->assertEqual($siteInfo['excluded_ips'], $ips);
-    	$this->assertEqual($siteInfo['timezone'], $timezone);
-    	$this->assertEqual($siteInfo['currency'], $currency);
-    	$this->assertEqual($siteInfo['excluded_parameters'], $expectedExcludedQueryParameters);
-    }
-    
-    /**
-     * Test with invalid IPs
-     */
-    public function test_addSite_excludedIps_notValid()
-    {
-    	$invalidIps = array(
-    		'35817587341',
-    		'ieagieha',
-    		'1.2.3',
-    		'*.1.1.1',
-    		'*.*.1.1',
-    		'*.*.*.1',
-    		'*.*.*.*',
-    		'1.1.1.1.1',
-    	); 
-    	foreach($invalidIps as $ip)
-    	{
-    		$raised = false;
-    		try {
-    			$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ip);
-    		} catch(Exception $e) {
-    			$raised = true;
-    		}
-    		if(!$raised) 
-    		{
-    			$this->fail('was expecting invalid IP exception to raise');
-    		}
-    	}
-    	$this->pass();
     }
     
     /**
@@ -168,13 +111,13 @@ class Test_Piwik_SitesManager extends Test_Database
     {
     	$url = "http://piwik.net/";
     	$urlOK = "http://piwik.net";
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("name",$url);
+    	$idsite = Piwik_SitesManager_API::addSite("name",$url);
     	$this->assertIsA( $idsite,'int');
     	
-    	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+    	$siteInfo = Piwik_SitesManager_API::getSiteFromId($idsite);
     	$this->assertEqual($siteInfo['main_url'], $urlOK);
     	
-    	$siteUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrls = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	$this->assertTrue(count($siteUrls)===1);
     }
     
@@ -185,13 +128,13 @@ class Test_Piwik_SitesManager extends Test_Database
     {
     	$urls = array("http://piwik.net/","http://piwik.com","https://piwik.net/test/");
     	$urlsOK = array("http://piwik.net","http://piwik.com","https://piwik.net/test");
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("super website",$urls);
+    	$idsite = Piwik_SitesManager_API::addSite("super website",$urls);
     	$this->assertIsA( $idsite,'int');
     	
-    	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+    	$siteInfo = Piwik_SitesManager_API::getSiteFromId($idsite);
     	$this->assertEqual($siteInfo['main_url'], $urlsOK[0]);
     	
-    	$siteUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrls = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	$this->assertEqual($siteUrls, $urlsOK);
     }
     
@@ -201,10 +144,10 @@ class Test_Piwik_SitesManager extends Test_Database
     public function test_addSite_strangeName()
     {
     	$name = "supertest(); ~@@()''!£\$'%%^'!£";
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite($name,"http://piwik.net");
+    	$idsite = Piwik_SitesManager_API::addSite($name,"http://piwik.net");
     	$this->assertIsA( $idsite,'int');
     	
-    	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+    	$siteInfo = Piwik_SitesManager_API::getSiteFromId($idsite);
     	$this->assertEqual($siteInfo['name'], $name);
     	
     }
@@ -214,14 +157,14 @@ class Test_Piwik_SitesManager extends Test_Database
     public function test_addSite()
     {
     	$name = "website ";
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite($name,array("http://piwik.net","http://piwik.com/test/"));
+    	$idsite = Piwik_SitesManager_API::addSite($name,array("http://piwik.net","http://piwik.com/test/"));
     	$this->assertIsA( $idsite,'int');
     	
-    	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+    	$siteInfo = Piwik_SitesManager_API::getSiteFromId($idsite);
     	$this->assertEqual($siteInfo['name'], $name);
     	$this->assertEqual($siteInfo['main_url'], "http://piwik.net");
     	
-    	$siteUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrls = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	$this->assertEqual($siteUrls, array("http://piwik.net","http://piwik.com/test"));
     	   	
     	return $idsite;
@@ -234,7 +177,7 @@ class Test_Piwik_SitesManager extends Test_Database
     {
     	$idsite = $this->test_addSite();
     	
-    	$siteUrlsBefore = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrlsBefore = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	$toAdd = array(	"http://piwik1.net",
 						"http://piwik2.net", 
@@ -252,10 +195,10 @@ class Test_Piwik_SitesManager extends Test_Database
 							"http://l42578gqege.f4", 
 							"http://super.com/test/test/atqata675675/te");
     	
-    	$insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls($idsite, $toAdd);
+    	$insertedUrls = Piwik_SitesManager_API::addSiteAliasUrls($idsite, $toAdd);
     	$this->assertEqual($insertedUrls, count($toAdd));
     	
-    	$siteUrlsAfter = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrlsAfter = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	$shouldHave = array_merge($siteUrlsBefore, $toAddValid);
     	sort($shouldHave);
@@ -272,14 +215,14 @@ class Test_Piwik_SitesManager extends Test_Database
     {    	
     	$idsite = $this->test_addSite();
     	
-    	$siteUrlsBefore = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrlsBefore = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	$toAdd = array_merge($siteUrlsBefore, array("http://piwik1.net","http://piwik2.net"));
     	
-    	$insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls($idsite, $toAdd);
+    	$insertedUrls = Piwik_SitesManager_API::addSiteAliasUrls($idsite, $toAdd);
     	$this->assertEqual($insertedUrls, count($toAdd) - count($siteUrlsBefore));
     	
-    	$siteUrlsAfter = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrlsAfter = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	$shouldHave = $toAdd;
     	sort($shouldHave);
@@ -296,14 +239,14 @@ class Test_Piwik_SitesManager extends Test_Database
     {
     	$idsite = $this->test_addSite();
     	
-    	$siteUrlsBefore = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrlsBefore = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	$toAdd = array();
     	
-    	$insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls($idsite, $toAdd);
+    	$insertedUrls = Piwik_SitesManager_API::addSiteAliasUrls($idsite, $toAdd);
     	$this->assertEqual($insertedUrls, count($toAdd));
     	
-    	$siteUrlsAfter = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrlsAfter = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	$shouldHave = $siteUrlsBefore;
     	sort($shouldHave);
@@ -320,14 +263,14 @@ class Test_Piwik_SitesManager extends Test_Database
     {
     	$idsite = $this->test_addSite();
     	
-    	$siteUrlsBefore = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrlsBefore = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	$toAdd = $siteUrlsBefore;
     	
-    	$insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls($idsite, $toAdd);
+    	$insertedUrls = Piwik_SitesManager_API::addSiteAliasUrls($idsite, $toAdd);
     	$this->assertEqual($insertedUrls, 0);
     	
-    	$siteUrlsAfter = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$siteUrlsAfter = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	$shouldHave = $siteUrlsBefore;
     	sort($shouldHave);
@@ -344,7 +287,7 @@ class Test_Piwik_SitesManager extends Test_Database
     	$idsite = $this->test_addSite();
     	$toAdd = array("htt{}p://pigeq.com/test");
     	try {
-    		$insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls($idsite, $toAdd);
+    		$insertedUrls = Piwik_SitesManager_API::addSiteAliasUrls($idsite, $toAdd);
     	}
     	catch (Exception $expected) {
             return;
@@ -359,7 +302,7 @@ class Test_Piwik_SitesManager extends Test_Database
     {
     	$toAdd = array("http://pigeq.com/test");
     	try {
-    		$insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls(-1, $toAdd);
+    		$insertedUrls = Piwik_SitesManager_API::addSiteAliasUrls(-1, $toAdd);
     	}
     	catch (Exception $expected) {
             return;
@@ -375,7 +318,7 @@ class Test_Piwik_SitesManager extends Test_Database
     	$toAdd = array("http://pigeq.com/test");
     	
     	try {
-    		$insertedUrls = Piwik_SitesManager_API::getInstance()->addSiteAliasUrls(155, $toAdd);
+    		$insertedUrls = Piwik_SitesManager_API::addSiteAliasUrls(155, $toAdd);
     	}
     	catch (Exception $expected) {
             return;
@@ -388,7 +331,7 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_getAllSitesId_noId()
     {
-    	$ids = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+    	$ids = Piwik_SitesManager_API::getAllSitesId();
     	$this->assertEqual(array(),$ids);
     }
     
@@ -399,14 +342,14 @@ class Test_Piwik_SitesManager extends Test_Database
     {
     	$name="tetq";
     	$idsites = array(
-    				Piwik_SitesManager_API::getInstance()->addSite($name,array("http://piwik.net","http://piwik.com/test/")),
-    				Piwik_SitesManager_API::getInstance()->addSite($name,array("http://piwik.net","http://piwik.com/test/")),
-    				Piwik_SitesManager_API::getInstance()->addSite($name,array("http://piwik.net","http://piwik.com/test/")),
-    				Piwik_SitesManager_API::getInstance()->addSite($name,array("http://piwik.net","http://piwik.com/test/")),
-    				Piwik_SitesManager_API::getInstance()->addSite($name,array("http://piwik.net","http://piwik.com/test/")),
+    				Piwik_SitesManager_API::addSite($name,array("http://piwik.net","http://piwik.com/test/")),
+    				Piwik_SitesManager_API::addSite($name,array("http://piwik.net","http://piwik.com/test/")),
+    				Piwik_SitesManager_API::addSite($name,array("http://piwik.net","http://piwik.com/test/")),
+    				Piwik_SitesManager_API::addSite($name,array("http://piwik.net","http://piwik.com/test/")),
+    				Piwik_SitesManager_API::addSite($name,array("http://piwik.net","http://piwik.com/test/")),
     		);
     	
-    	$ids = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+    	$ids = Piwik_SitesManager_API::getAllSitesId();
     	$this->assertEqual($idsites,$ids);
     }
     
@@ -417,7 +360,7 @@ class Test_Piwik_SitesManager extends Test_Database
     {
     	
     	try {
-    		$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId(0);
+    		$siteInfo = Piwik_SitesManager_API::getSiteFromId(0);
     	}
     	catch (Exception $expected) {
             return;
@@ -432,7 +375,7 @@ class Test_Piwik_SitesManager extends Test_Database
     {
     	
     	try {
-    		$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId("x1");
+    		$siteInfo = Piwik_SitesManager_API::getSiteFromId("x1");
     	}
     	catch (Exception $expected) {
             return;
@@ -445,7 +388,7 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_getSiteFromId_wrongId3()
     {
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site",array("http://piwik.net","http://piwik.com/test/"));
+    	$idsite = Piwik_SitesManager_API::addSite("site",array("http://piwik.net","http://piwik.com/test/"));
     	$this->assertEqual($idsite,1);
     	
     	// set noaccess to site 1
@@ -453,7 +396,7 @@ class Test_Piwik_SitesManager extends Test_Database
 		FakeAccess::setIdSitesAdmin (array());
     	
     	try {
-    		$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId(1);
+    		$siteInfo = Piwik_SitesManager_API::getSiteFromId(1);
     	}
     	catch (Exception $expected) {
             return;
@@ -467,10 +410,10 @@ class Test_Piwik_SitesManager extends Test_Database
     function test_getSiteFromId_normalId()
     {
     	$name = "website ''";
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite($name,array("http://piwik.net","http://piwik.com/test/"));
+    	$idsite = Piwik_SitesManager_API::addSite($name,array("http://piwik.net","http://piwik.com/test/"));
     	$this->assertIsA( $idsite,'int');
     	
-    	$siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+    	$siteInfo = Piwik_SitesManager_API::getSiteFromId($idsite);
     	$this->assertEqual($siteInfo['name'], $name);
     	$this->assertEqual($siteInfo['main_url'], "http://piwik.net");
     }
@@ -483,7 +426,7 @@ class Test_Piwik_SitesManager extends Test_Database
     {
 		FakeAccess::setIdSitesAdmin (array());
     	
-    	$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
+    	$sites = Piwik_SitesManager_API::getSitesWithAdminAccess();
     	$this->assertEqual($sites, array());
     }
     
@@ -492,18 +435,18 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_getSitesWithAdminAccess()
     {
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com/test/"));
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com/test/"));
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
+    	$idsite = Piwik_SitesManager_API::addSite("site1",array("http://piwik.net","http://piwik.com/test/"));
+    	$idsite = Piwik_SitesManager_API::addSite("site2",array("http://piwik.com/test/"));
+    	$idsite = Piwik_SitesManager_API::addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net"),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org"),
     	);
     		
 		FakeAccess::setIdSitesAdmin (array(1,3));
 		
-    	$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
+    	$sites = Piwik_SitesManager_API::getSitesWithAdminAccess();
     	
     	// we dont test the ts_created
     	unset($sites[0]['ts_created']);
@@ -519,7 +462,7 @@ class Test_Piwik_SitesManager extends Test_Database
 		FakeAccess::setIdSitesView (array());
 		FakeAccess::setIdSitesAdmin (array());
     	
-    	$sites = Piwik_SitesManager_API::getInstance()->getSitesWithViewAccess();
+    	$sites = Piwik_SitesManager_API::getSitesWithViewAccess();
     	$this->assertEqual($sites, array());
     }
     
@@ -528,19 +471,19 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_getSitesWithViewAccess()
     {
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com/test/"));
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com/test/"));
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
+    	$idsite = Piwik_SitesManager_API::addSite("site1",array("http://piwik.net","http://piwik.com/test/"));
+    	$idsite = Piwik_SitesManager_API::addSite("site2",array("http://piwik.com/test/"));
+    	$idsite = Piwik_SitesManager_API::addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net"),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org"),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
 		FakeAccess::setIdSitesAdmin (array());
     	
-    	$sites = Piwik_SitesManager_API::getInstance()->getSitesWithViewAccess();
+    	$sites = Piwik_SitesManager_API::getSitesWithViewAccess();
     	// we dont test the ts_created
     	unset($sites[0]['ts_created']);
     	unset($sites[1]['ts_created']);
@@ -555,7 +498,7 @@ class Test_Piwik_SitesManager extends Test_Database
 		FakeAccess::setIdSitesView (array());
 		FakeAccess::setIdSitesAdmin (array());
     	
-    	$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
+    	$sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
     	$this->assertEqual($sites, array());
     }
     
@@ -564,19 +507,19 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_getSitesWithAtLeastViewAccess()
     {
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com/test/"));
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com/test/"));
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
+    	$idsite = Piwik_SitesManager_API::addSite("site1",array("http://piwik.net","http://piwik.com/test/"));
+    	$idsite = Piwik_SitesManager_API::addSite("site2",array("http://piwik.com/test/"));
+    	$idsite = Piwik_SitesManager_API::addSite("site3",array("http://piwik.org"));
     	
     	$resultWanted = array(
-    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
-    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD'),
+    		0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net"),
+    		1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org"),
     	);
     		
 		FakeAccess::setIdSitesView (array(1,3));
 		FakeAccess::setIdSitesAdmin (array());
     	
-    	$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
+    	$sites = Piwik_SitesManager_API::getSitesWithAtLeastViewAccess();
     	// we dont test the ts_created
     	unset($sites[0]['ts_created']);
     	unset($sites[1]['ts_created']);
@@ -589,9 +532,9 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_getSiteUrlsFromId_noUrls()
     {
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net"));
+    	$idsite = Piwik_SitesManager_API::addSite("site1",array("http://piwik.net"));
     	
-    	$urls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$urls = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	$this->assertEqual(array("http://piwik.net"),$urls);
     }
     
@@ -606,14 +549,14 @@ class Test_Piwik_SitesManager extends Test_Database
 						"http://piwik.com");
 		sort($site);
 		
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$site);
+    	$idsite = Piwik_SitesManager_API::addSite("site1",$site);
     	
 
     	$siteWanted = array("http://piwik.net",
 						"http://piwik.org",	
 						"http://piwik.com");
 		sort($siteWanted);
-    	$urls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$urls = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	
     	$this->assertEqual($siteWanted, $urls);
@@ -628,7 +571,7 @@ class Test_Piwik_SitesManager extends Test_Database
 		FakeAccess::setIdSitesAdmin (array());
     	
     	try {
-    		Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId(1);
+    		Piwik_SitesManager_API::getSiteUrlsFromId(1);
     	}
     	catch (Exception $expected) {
             return;
@@ -645,12 +588,12 @@ class Test_Piwik_SitesManager extends Test_Database
 						"http://piwiknew.net",
 						"http://piwiknew.org",
 						"http://piwiknew.fr");
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$urls);
+    	$idsite = Piwik_SitesManager_API::addSite("site1",$urls);
     	
     	$newMainUrl = "http://main.url";
-    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl );
+    	Piwik_SitesManager_API::updateSite($idsite, "test toto@{}", $newMainUrl );
     	
-    	$allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$allUrls = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	
     	$this->assertEqual($allUrls[0], $newMainUrl);
     	$aliasUrls = array_slice($allUrls,1);
@@ -662,12 +605,12 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     function test_updateSite_strangeNameNoUrl()
     {
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1","http://main.url");
+    	$idsite = Piwik_SitesManager_API::addSite("site1","http://main.url");
     	$newName ="test toto@{'786'}";
     	
-    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, $newName );
+    	Piwik_SitesManager_API::updateSite($idsite, $newName );
     	
-    	$site = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+    	$site = Piwik_SitesManager_API::getSiteFromId($idsite);
     	
     	$this->assertEqual($site['name'],$newName);
     	// url didn't change because parameter url NULL in updateSite
@@ -686,168 +629,20 @@ class Test_Piwik_SitesManager extends Test_Database
 						"http://piwiknew.net",
 						"http://piwiknew.org",
 						"http://piwiknew.fr");
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$urls);
+    	$idsite = Piwik_SitesManager_API::addSite("site1",$urls);
     	
     	$newurls = array("http://piwiknew2.com",
 						"http://piwiknew2.net",
 						"http://piwiknew2.org",
 						"http://piwiknew2.fr");
-    	Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}",$newurls );
+    	Piwik_SitesManager_API::updateSite($idsite, "test toto@{}",$newurls );
     	
-    	$allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idsite);
+    	$allUrls = Piwik_SitesManager_API::getSiteUrlsFromId($idsite);
     	sort($allUrls);
     	sort($newurls);
     	
     	$this->assertEqual($allUrls,$newurls);
 
     }
-
-    function test_addSites_invalidTimezone()
-    {
-    	// trying invalid timezones
-    	try {
-    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', '', 'UTC+15');
-    		$this->fail('invalid timezone should raise an exception');
-    	} catch(Exception $e) {
-    	}
-    	try {
-    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', '', 'Paris');
-    		$this->fail('invalid timezone should raise an exception');
-    	} catch(Exception $e) {
-    	}
-    	$this->pass();
-    }
-    
-    function test_addSites_invalidCurrency()
-    {
-    	$invalidCurrency = '€';
-    	try {
-    		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', 'UTC', $invalidCurrency);
-    		$this->fail('invalid currency should raise an exception');
-    	} catch(Exception $e) {
-    	}
-    	$this->pass();
-    }
-    
-    function test_setDefaultTimezoneAndCurrencyAndExcludedQueryParametersAndExcludedIps()
-    {
-    	// test that they return default values
-    	$defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
-    	$this->assertEqual($defaultTimezone, 'UTC');
-    	$defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
-    	$this->assertEqual($defaultCurrency, 'USD');
-    	$excludedIps = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
-    	$this->assertEqual($excludedIps, '');
-    	$excludedQueryParameters = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
-    	$this->assertEqual($excludedQueryParameters, '');
-    
-    	// test that when not specified, defaults are set as expected  
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'));
-    	$site = new Piwik_Site($idsite);
-    	$this->assertEqual($site->getTimezone(), 'UTC');
-    	$this->assertEqual($site->getCurrency(), 'USD');
-    	$this->assertEqual($site->getExcludedQueryParameters(), '');
-    	$this->assertEqual($site->getExcludedIps(), '');
-
-    	// set the global timezone and get it
-    	$newDefaultTimezone = 'UTC+5.5';
-    	Piwik_SitesManager_API::getInstance()->setDefaultTimezone($newDefaultTimezone);
-    	$defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
-    	$this->assertEqual($defaultTimezone, $newDefaultTimezone);
-
-    	// set the default currency and get it
-    	$newDefaultCurrency = 'EUR';
-    	Piwik_SitesManager_API::getInstance()->setDefaultCurrency($newDefaultCurrency);
-    	$defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
-    	$this->assertEqual($defaultCurrency, $newDefaultCurrency);
-    	
-    	// set the global IPs to exclude and get it
-    	$newGlobalExcludedIps = '1.1.1.*,1.1.*.*,150.1.1.1';
-    	Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($newGlobalExcludedIps);
-    	$globalExcludedIps = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
-    	$this->assertEqual($globalExcludedIps, $newGlobalExcludedIps);
-    	
-    	// set the global URL query params to exclude and get it
-    	$newGlobalExcludedQueryParameters = 'PHPSESSID,blabla, TesT';
-    	// removed the space
-    	$expectedGlobalExcludedQueryParameters = 'PHPSESSID,blabla,TesT';
-    	Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($newGlobalExcludedQueryParameters);
-    	$globalExcludedQueryParameters = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
-    	$this->assertEqual($globalExcludedQueryParameters, $expectedGlobalExcludedQueryParameters);
-
-    	// create a website and check that default currency and default timezone are set
-    	// however, excluded IPs and excluded query Params are not returned
-    	$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'), '', '', $newDefaultTimezone);
-    	$site = new Piwik_Site($idsite);
-    	$this->assertEqual($site->getTimezone(), $newDefaultTimezone);
-    	$this->assertEqual($site->getCreationDate()->toString(), date('Y-m-d'));
-    	$this->assertEqual($site->getCurrency(), $newDefaultCurrency);
-    	$this->assertEqual($site->getExcludedIps(), '');
-    	$this->assertEqual($site->getExcludedQueryParameters(), '');
-    }
-    
-    function test_getSitesIdFromSiteUrl_SuperUser()
-    {
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com"));
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com","http://piwik.net"));
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.com","http://piwik.org"));
-
-		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.org');
-		$this->assertTrue(count($idsites) == 1);
-
-		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');
-		$this->assertTrue(count($idsites) == 2);
-
-		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
-		$this->assertTrue(count($idsites) == 3);
-	}
-
-	function test_getSitesIdFromSiteUrl_User()
-	{
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array("http://piwik.net","http://piwik.com"));
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site2",array("http://piwik.com","http://piwik.net"));
-		$idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.com","http://piwik.org"));
-
-		$saveAccess = Zend_Registry::get('access');
-
-		Piwik_UsersManager_API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
-		Piwik_UsersManager_API::getInstance()->setUserAccess("user1", "view", array(1));
-
-    	Piwik_UsersManager_API::getInstance()->addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
-		Piwik_UsersManager_API::getInstance()->setUserAccess("user2", "view", array(1));
-		Piwik_UsersManager_API::getInstance()->setUserAccess("user2", "admin", array(3));
-
-    	Piwik_UsersManager_API::getInstance()->addUser("user3", "geqgegagae", "tegst3@tesgt.com", "alias");
-		Piwik_UsersManager_API::getInstance()->setUserAccess("user3", "view", array(1,2));
-		Piwik_UsersManager_API::getInstance()->setUserAccess("user3", "admin", array(3));
-
-    	$pseudoMockAccess = new FakeAccess;
-		FakeAccess::$superUser = false;
-		FakeAccess::$identity = 'user1';
-		FakeAccess::setIdSitesView (array(1));
-		FakeAccess::setIdSitesAdmin (array());
-		Zend_Registry::set('access', $pseudoMockAccess);
-		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
-		$this->assertTrue(count($idsites) == 1);
-
-    	$pseudoMockAccess = new FakeAccess;
-		FakeAccess::$superUser = false;
-		FakeAccess::$identity = 'user2';
-		FakeAccess::setIdSitesView (array(1));
-		FakeAccess::setIdSitesAdmin (array(3));
-		Zend_Registry::set('access', $pseudoMockAccess);
-		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
-		$this->assertTrue(count($idsites) == 2);
-
-    	$pseudoMockAccess = new FakeAccess;
-		FakeAccess::$superUser = false;
-		FakeAccess::$identity = 'user3';
-		FakeAccess::setIdSitesView (array(1,2));
-		FakeAccess::setIdSitesAdmin (array(3));
-		Zend_Registry::set('access', $pseudoMockAccess);
-		$idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
-		$this->assertTrue(count($idsites) == 3);
-
-		Zend_Registry::set('access', $saveAccess);
-	}
 }
+

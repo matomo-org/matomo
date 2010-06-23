@@ -28,13 +28,12 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	 */
 	function init($currentControllerName,
 						$currentControllerAction, 
-						$apiMethodToRequestDataTable,
-						$controllerActionCalledWhenRequestSubTable = null)
+						$apiMethodToRequestDataTable )
 	{
 		parent::init($currentControllerName,
 						$currentControllerAction, 
-						$apiMethodToRequestDataTable,
-						$controllerActionCalledWhenRequestSubTable);
+						$apiMethodToRequestDataTable );
+
 		$this->dataTableTemplate = 'CoreHome/templates/graph.tpl';
 		
 		$this->disableOffsetInformation();
@@ -68,8 +67,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	/**
 	 * We persist the parametersToModify values in the javascript footer.
-	 * This is used by the "export links" that use the "date" attribute 
-	 * from the json properties array in the datatable footer.
+	 * This is used by the "export links" that use the "date" attribute from the json properties array in the datatable footer.
 	 */
 	protected function getJavascriptVariablesToSet()
 	{
@@ -127,19 +125,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 
 		foreach($this->parametersToModify as $key => $val)
 		{
-			// We do not forward filter data to the graph controller.
-			// This would cause the graph to have filter_limit=5 set by default, 
-			// which would break them (graphs need the full dataset to build the "Others" aggregate value)
-			if(strpos($key, 'filter_') !== false)
-			{
-				continue;
-			}
-			if (is_array($val)) 
-			{
+			if (is_array($val)) {
 				$_GET[$key] = unserialize(serialize($val));
-			} 
-			else 
-			{
+			} else {
 				$_GET[$key] = $val;
 			}
 		}
@@ -147,7 +135,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 
 		$_GET = $saveGet;
 
-		return str_replace(array("\r", "\n", "'", '\"'), array('', '', "\\'", '\\\"'), $content);
+		return str_replace(array("\r", "\n", "'"), array('', '', "\\'"), $content);
 	}
 
 	protected function getFlashParameters()

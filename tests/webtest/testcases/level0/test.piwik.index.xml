@@ -39,8 +39,7 @@
 	                <verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 	                <verifyText description="check page text" text="Piwik" />
 	                <verifyText description="check page text" text="Welcome!" />
-	                <verifyText description="check page text" text="This process is split up into 9 easy steps and will take around 5 minutes" />
-
+	                <verifyText description="check page text" text="This process is split up into 8 easy steps and will take around 5 minutes" />
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
 	            
@@ -81,19 +80,7 @@
 					
 					<clickButton description="click 'Go!' button" label="Go!"/>
 					
-	            	<!-- 4. databaseCheck -->
-<!--	            	
-	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
-					<verifyText description="check page text" text="Piwik" />
-	                <verifyText description="check page text" text="Database check" />
-	                
-	            	&checkForErrors;
-	            	&verifyLinksAndImages;
-
-	            	<clickLink description="click 'Next'" label="Next &raquo;" />
--->
-	            	
-					<!-- 5. tablesCreation -->
+					<!-- 4. tablesCreation -->
 					
 	            	<not description="check if no error">
 	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
@@ -113,7 +100,7 @@
 					
 					<clickLink description="click 'Next'" label="Next &raquo;" />
 					
-					<!-- 6. generalSetup -->
+					<!-- 5. generalSetup -->
 					
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
@@ -129,7 +116,7 @@
 					
 					<clickButton description="click 'Go!' button" label="Go!"/>
 					
-					<!-- 7. firstWebsiteSetup -->
+					<!-- 6. firstWebsiteSetup -->
 					
 	            	<not description="check if no error">
 	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
@@ -148,11 +135,10 @@
 					
 					<setInputField description="set Piwik site name" name="siteName" value="Dummy Site Name" />
 					<setInputField description="set Piwik URL" name="url" value="${wt.config.protocol}://${wt.config.host}:${wt.config.port}${wt.config.basepath}" />
-					<setSelectField description="set Piwik timezone" name="timezone" value="UTC" />
 
 					<clickButton description="click 'Go!' button" label="Go!"/>
 					
-					<!-- 8. displayJavascriptCode -->
+					<!-- 7. displayJavascriptCode -->
 					
 	            	<not description="check if no error">
 	            		<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']"/>
@@ -171,7 +157,7 @@
 	            	
 	            	<clickLink description="click 'Next'" label="Next &raquo;" />
 	            	
-	            	<!-- 9. finished -->
+	            	<!-- 8. finished -->
 	            	
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
@@ -184,7 +170,7 @@
 	            	
 	            	<!-- logging in -->
 	            	
-	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Sign in" />
+	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Login" />
 					<verifyText description="check page text" text="Piwik" />
 					<verifyText description="check page text" text="Lost your password?" />
 					
@@ -193,14 +179,13 @@
 					
 					<setInputField description="set Piwik login" htmlId="form_login" value="piwik_login" />
 					<setInputField description="set Piwik password" htmlId="form_password" value="piwik_password" />
-
 					<clickButton description="click 'Sign in' button" label="Sign in"/>
 					
 					<!-- logged in -->
 					
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Web Analytics Reports" />
 	            	<verifyText description="check page text" text="Piwik" />
-					<verifyText description="check page text" text="Dashboard" />
+					<verifyText description="check page text" text="Your Dashboard" />
 					<verifyText description="check page text" text="Hello" />
 
 	            </steps>

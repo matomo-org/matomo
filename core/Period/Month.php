@@ -55,4 +55,18 @@ class Piwik_Period_Month extends Piwik_Period
 			$currentDay = $currentDay->addDay(1);
 		}
 	}
+	
+	public function isFinished()
+	{
+		if(!$this->subperiodsProcessed)
+		{
+			$this->generate();
+		}
+		// a month is finished 
+		// if current month > month AND current year == year
+		// OR if current year > year
+		$year = $this->date->get("Y");
+		return ( date("m") > $this->date->get("m") && date("Y") == $year)
+				||  date("Y") > $year;
+	}
 }

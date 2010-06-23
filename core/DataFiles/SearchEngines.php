@@ -1,37 +1,37 @@
 <?php
 /**
  * Piwik - Open source web analytics
- *
+ * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
- *
+ * 
  * @category Piwik
  * @package DataFiles
  */
 
 /**
  * Search Engine database
- *
+ * 
  * ======================================
  * HOW TO ADD A SEARCH ENGINE TO THE LIST
  * ======================================
  * If you want to add a new entry, please email us the information + icon at hello at piwik.org
  *
  * See also: http://piwik.org/faq/general/#faq_39
- *
+ * 
  * Detail of a line:
  * Url => array( SearchEngineName, KeywordParameter, [path containing the keyword], [charset used by the search engine])
- *
+ * 
  * The main search engine URL has to be at the top of the list for the given search Engine.
- * You can add new search engines icons by adding the icon in the plugins/Referers/images/SearchEngines directory
+ * You can add new search engines icons by adding the icon in the plugins/Referers/images/SearchEngines directory 
  * using the format 'mainSearchEngineUrl.png'. Example: www.google.com.png
- * To help Piwik link directly the search engine result page for the keyword, specify the third entry in the array
+ * To help Piwik link directly the search engine result page for the keyword, specify the third entry in the array 
  * using the macro {k} that will automatically be replaced by the keyword.
- *
+ * 
  *  A simple example is:
  *  'www.google.com'		=> array('Google', 'q', 'search?q={k}'),
- *
+ * 
  *  A more complicated example, with an array of possible variable names, and a custom charset:
  *  'www.baidu.com'			=> array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', 'gb2312'),
  */
@@ -50,7 +50,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// 1und1
 		'portal.1und1.de'			=> array('1und1', 'search'),
-		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?mc=suche%40web%40home.suche%40web&allparams=&smode=&su={k}&search=Suche&webRb='),
+
+		// 3271
+		'nmsearch.3721.com'			=> array('3271', 'p'),
+		'seek.3721.com'				=> array('3271', 'p'),
 
 		// A9
 		'www.a9.com'				=> array('A9', ''),
@@ -68,6 +71,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Acoon
 		'www.acoon.de'				=> array('Acoon', 'begriff'),
+
+		// Acont
+		'acont.de'					=> array('Acont', 'query'),
 
 		// Alexa
 		'www.alexa.com'				=> array('Alexa', 'q', 'search?q={k}'),
@@ -120,6 +126,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.aolrecherches.aol.fr'	=> array('AOL', array('query', 'q')),
 		'www.aolimages.aol.fr'		=> array('AOL', array('query', 'q')),
 		'www.recherche.aol.fr'		=> array('AOL', array('query', 'q')),
+		'aolsearcht.aol.com'		=> array('AOL', array('query', 'q')),
 		'find.web.aol.com'			=> array('AOL', array('query', 'q')),
 		'recherche.aol.ca'			=> array('AOL', array('query', 'q')),
 		'aolsearch.aol.co.uk'		=> array('AOL', array('query', 'q')),
@@ -149,7 +156,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Ask
 		'www.ask.com'				=> array('Ask', array('ask', 'q'), 'web?q={k}'),
 		'web.ask.com'				=> array('Ask', array('ask', 'q')),
-		'images.ask.com'			=> array('Ask', 'q'),
 		'ask.reference.com'			=> array('Ask', 'q'),
 		'www.ask.co.uk'				=> array('Ask', 'q'),
 		'uk.ask.com'				=> array('Ask', 'q'),
@@ -192,9 +198,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Bing
 		'www.bing.com'				=> array('Bing', 'q', 'search?q={k}'),
 
-		// Bing Images
-		'www.bing.com/images/search'=> array('Bing Images', 'q', 'search?q={k}'),
-
 		// Blogdigger
 		'www.blogdigger.com'		=> array('Blogdigger', 'q'),
 
@@ -233,7 +236,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Comcast
 		'www.comcast.net'			=> array('Comcast', 'query'),
 		'search.comcast.net'		=> array('Comcast', 'q'),
-		'search3.comcast.com'		=> array('Comcast', 'url'),
+
+		// Comet systems
+		'search.cometsystems.com'	=> array('CometSystems', 'q'),
 
 		// Compuserve
 		'suche.compuserve.de'		=> array('Compuserve.de (Powered by Google)', 'q'),
@@ -269,9 +274,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Deskfeeds
 		'www.deskfeeds.com'			=> array('Deskfeeds', 'sx'),
 
-		// Digg
-		'digg.com'					=> array('Digg', 's', 'search?s={k}'),
-
 		// Dino
 		'www.dino-online.de'		=> array('Dino', 'query'),
 
@@ -288,15 +290,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.dogpile.com'		=> array('Dogpile', 'q'),
 		'nbci.dogpile.com'			=> array('Dogpile', 'q'),
 
-		// DuckDuckGo
-		'duckduckgo.com'			=> array('DuckDuckGo', 'q', '?q={k}'),
-
 		// earthlink
 		'search.earthlink.net'		=> array('Earthlink', 'q'),
-
-		// Ecosia (powered by Bing)
-		'ecosia.org'				=> array('Ecosia', 'q', 'search.php?q={k}'),
-		'www.ecosia.org'			=> array('Ecosia', 'q'),
 
 		// Eniro
 		'www.eniro.se'				=> array('Eniro', 'q'),
@@ -328,9 +323,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// eo
 		'eo.st'						=> array('eo', 'q'),
 
-		// Facebook
-		'www.facebook.com'			=> array('Facebook', 'q', 'search/?q={k}'),
-
 		// Feedminer
 		'www.feedminer.com'			=> array('Feedminer', 'q'),
 
@@ -343,7 +335,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Fireball
 		'suche.fireball.de'			=> array('Fireball', 'query'),
-		'www.fireball.de'			=> array('Fireball', 'q'),
 
 		// Firstfind
 		'www.firstsfind.com'		=> array('Firstsfind', 'qry'),
@@ -353,13 +344,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Flix
 		'www.flix.de'				=> array('Flix.de', 'keyword'),
-
-		// Forestle
-		'de.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
-		'at.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
-		'ch.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
-		'us.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
-		'fr.forestle.org'			=> array('Forestle', 'q', 'search.php?q={k}'),
 
 		// Free
 		'search.free.fr'			=> array('Free', 'q'),
@@ -381,13 +365,14 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'froogle.google.co.uk'		=> array('Google (Froogle)', 'q'),
 
 		// GAIS
-		'gais.cs.ccu.edu.tw'		=> array('GAIS', 'query'),
+		'gais.cs.ccu.edu.tw'		=> array('GAIS)', 'query'),
 
 		// Gigablast
 		'www.gigablast.com'			=> array('Gigablast', 'q'),
 		'blogs.gigablast.com'		=> array('Gigablast (Blogs)', 'q'),
 		'travel.gigablast.com'		=> array('Gigablast (Travel)', 'q'),
 		'dir.gigablast.com'			=> array('Gigablast (Directory)', 'q'),
+		'gov.gigablast.com'			=> array('Gigablast (Gov)', 'q'),
 
 		// GMX
 		'suche.gmx.net'				=> array('GMX', 'su'),
@@ -411,10 +396,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.gogole.com'			=> array('Google', 'q'),
 		'www.gppgle.com'			=> array('Google', 'q'),
 		'go.google.com'				=> array('Google', 'q'),
-		'www.google.ad'				=> array('Google', 'q'),
 		'www.google.ae'				=> array('Google', 'q'),
-		'www.google.am'				=> array('Google', 'q'),
-		'www.google.it.ao'			=> array('Google', 'q'),
 		'www.google.as'				=> array('Google', 'q'),
 		'www.google.at'				=> array('Google', 'q'),
 		'wwwgoogle.at'				=> array('Google', 'q'),
@@ -423,28 +405,21 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.az'				=> array('Google', 'q'),
 		'www.google.ba'				=> array('Google', 'q'),
 		'www.google.be'				=> array('Google', 'q'),
-		'www.google.bf'				=> array('Google', 'q'),
 		'www.google.bg'				=> array('Google', 'q'),
 		'google.bg'					=> array('Google', 'q'),
 		'www.google.bi'				=> array('Google', 'q'),
-		'www.google.bj'				=> array('Google', 'q'),
-		'www.google.bs'				=> array('Google', 'q'),
 		'www.google.ca'				=> array('Google', 'q'),
 		'ww.google.ca'				=> array('Google', 'q'),
 		'w.google.ca'				=> array('Google', 'q'),
-		'www.google.cat'			=> array('Google', 'q'),
 		'www.google.cc'				=> array('Google', 'q'),
 		'www.google.cd'				=> array('Google', 'q'),
-		'google.cf'					=> array('Google', 'q'),
 		'www.google.cg'				=> array('Google', 'q'),
 		'www.google.ch'				=> array('Google', 'q'),
 		'ww.google.ch'				=> array('Google', 'q'),
 		'w.google.ch'				=> array('Google', 'q'),
 		'www.google.ci'				=> array('Google', 'q'),
-		'google.co.ck'				=> array('Google', 'q'),
 		'www.google.cl'				=> array('Google', 'q'),
 		'www.google.cn'				=> array('Google', 'q'),
-		'google.cm'					=> array('Google', 'q'),
 		'www.google.co'				=> array('Google', 'q'),
 		'www.google.cz'				=> array('Google', 'q'),
 		'wwwgoogle.cz'				=> array('Google', 'q'),
@@ -452,14 +427,11 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'ww.google.de'				=> array('Google', 'q'),
 		'w.google.de'				=> array('Google', 'q'),
 		'wwwgoogle.de'				=> array('Google', 'q'),
-		'google.dm'					=> array('Google', 'q'),
-		'google.dz'					=> array('Google', 'q'),
 		'www.google.ee'				=> array('Google', 'q'),
 		'www.google.dj'				=> array('Google', 'q'),
 		'www.google.dk'				=> array('Google', 'q'),
 		'www.google.es'				=> array('Google', 'q'),
 		'www.google.fi'				=> array('Google', 'q'),
-		'www.googel.fi'				=> array('Google', 'q'),
 		'www.google.fm'				=> array('Google', 'q'),
 		'gogole.fr'					=> array('Google', 'q'),
 		'www.gogole.fr'				=> array('Google', 'q'),
@@ -469,53 +441,35 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.fr'				=> array('Google', 'q'),
 		'www.google.fr.'			=> array('Google', 'q'),
 		'google.fr'					=> array('Google', 'q'),
-		'www.google.ga'				=> array('Google', 'q'),
+		'www.google.gg'				=> array('Google', 'q'),
 		'google.ge'					=> array('Google', 'q'),
 		'w.google.ge'				=> array('Google', 'q'),
 		'ww.google.ge'				=> array('Google', 'q'),
 		'www.google.ge'				=> array('Google', 'q'),
-		'www.google.gg'				=> array('Google', 'q'),
 		'google.gr'					=> array('Google', 'q'),
+		'www.googel.fi'				=> array('Google', 'q'),
 		'www.google.gl'				=> array('Google', 'q'),
 		'www.google.gm'				=> array('Google', 'q'),
-		'www.google.gp'				=> array('Google', 'q'),
 		'www.google.gr'				=> array('Google', 'q'),
-		'www.google.gy'				=> array('Google', 'q'),
 		'www.google.hn'				=> array('Google', 'q'),
 		'www.google.hr'				=> array('Google', 'q'),
-		'www.google.ht'				=> array('Google', 'q'),
 		'www.google.hu'				=> array('Google', 'q'),
 		'www.google.ie'				=> array('Google', 'q'),
-		'www.google.im'				=> array('Google', 'q'),
 		'www.google.is'				=> array('Google', 'q'),
 		'www.google.it'				=> array('Google', 'q'),
-		'www.google.je'				=> array('Google', 'q'),
 		'www.google.jo'				=> array('Google', 'q'),
-		'www.google.ki'				=> array('Google', 'q'),
-		'www.google.kg'				=> array('Google', 'q'),
 		'www.google.kz'				=> array('Google', 'q'),
-		'www.google.la'				=> array('Google', 'q'),
 		'www.google.li'				=> array('Google', 'q'),
 		'www.google.lk'				=> array('Google', 'q'),
 		'www.google.lt'				=> array('Google', 'q'),
 		'www.google.lu'				=> array('Google', 'q'),
 		'www.google.lv'				=> array('Google', 'q'),
 		'www.google.md'				=> array('Google', 'q'),
-		'www.google.me'				=> array('Google', 'q'),
-		'www.google.mg'				=> array('Google', 'q'),
-		'www.google.mk'				=> array('Google', 'q'),
-		'www.google.ml'				=> array('Google', 'q'),
-		'www.google.mn'				=> array('Google', 'q'),
 		'www.google.ms'				=> array('Google', 'q'),
 		'www.google.mu'				=> array('Google', 'q'),
-		'www.google.mv'				=> array('Google', 'q'),
 		'www.google.mw'				=> array('Google', 'q'),
-		'www.google.ne'				=> array('Google', 'q'),
 		'www.google.nl'				=> array('Google', 'q'),
 		'www.google.no'				=> array('Google', 'q'),
-		'www.google.nr'				=> array('Google', 'q'),
-		'www.google.nu'				=> array('Google', 'q'),
-		'www.google.ps'				=> array('Google', 'q'),
 		'www.google.pl'				=> array('Google', 'q'),
 		'www.google.pn'				=> array('Google', 'q'),
 		'www.google.pt'				=> array('Google', 'q'),
@@ -523,26 +477,16 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.rs'				=> array('Google', 'q'),
 		'www.google.ru'				=> array('Google', 'q'),
 		'www.google.rw'				=> array('Google', 'q'),
-		'www.google.sc'				=> array('Google', 'q'),
 		'www.google.se'				=> array('Google', 'q'),
 		'www.google.sh'				=> array('Google', 'q'),
 		'www.google.si'				=> array('Google', 'q'),
 		'www.google.sk'				=> array('Google', 'q'),
 		'www.google.sm'				=> array('Google', 'q'),
 		'www.google.sn'				=> array('Google', 'q'),
-		'www.google.st'				=> array('Google', 'q'),
 		'www.google.td'				=> array('Google', 'q'),
-		'www.google.tg'				=> array('Google', 'q'),
-		'www.google.tk'				=> array('Google', 'q'),
-		'www.google.tl'				=> array('Google', 'q'),
-		'www.google.tm'				=> array('Google', 'q'),
-		'www.google.to'				=> array('Google', 'q'),
 		'www.google.tt'				=> array('Google', 'q'),
 		'www.google.uz'				=> array('Google', 'q'),
-		'www.google.vu'				=> array('Google', 'q'),
 		'www.google.vg'				=> array('Google', 'q'),
-		'www.google.ws'				=> array('Google', 'q'),
-		'www.google.co.bw'			=> array('Google', 'q'),
 		'www.google.co.cr'			=> array('Google', 'q'),
 		'www.google.co.gg'			=> array('Google', 'q'),
 		'www.google.co.hu'			=> array('Google', 'q'),
@@ -555,36 +499,23 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.co.ke'			=> array('Google', 'q'),
 		'www.google.co.kr'			=> array('Google', 'q'),
 		'www.google.co.ma'			=> array('Google', 'q'),
-		'www.google.co.mz'			=> array('Google', 'q'),
 		'www.google.co.nz'			=> array('Google', 'q'),
 		'www.google.co.th'			=> array('Google', 'q'),
-		'www.google.co.tz'			=> array('Google', 'q'),
-		'www.google.co.ug'			=> array('Google', 'q'),
 		'www.google.co.uk'			=> array('Google', 'q'),
-		'www.google.co.uz'			=> array('Google', 'q'),
-		'www.google.co.vi'			=> array('Google', 'q'),
 		'www.google.co.ve'			=> array('Google', 'q'),
 		'www.google.co.za'			=> array('Google', 'q'),
-		'www.google.co.zm'			=> array('Google', 'q'),
 		'www.google.co.zw'			=> array('Google', 'q'),
-		'www.google.com.af'			=> array('Google', 'q'),
-		'www.google.com.ag'			=> array('Google', 'q'),
-		'www.google.com.ai'			=> array('Google', 'q'),
 		'www.google.com.ar'			=> array('Google', 'q'),
 		'www.google.com.au'			=> array('Google', 'q'),
-		'www.google.com.bd'			=> array('Google', 'q'),
 		'www.google.com.bh'			=> array('Google', 'q'),
-		'www.google.com.bn'			=> array('Google', 'q'),
 		'www.google.com.bo'			=> array('Google', 'q'),
 		'www.google.com.br'			=> array('Google', 'q'),
 		'www.google.com.by'			=> array('Google', 'q'),
-		'www.google.com.bz'			=> array('Google', 'q'),
 		'www.google.com.co'			=> array('Google', 'q'),
 		'www.google.com.cu'			=> array('Google', 'q'),
 		'www.google.com.do'			=> array('Google', 'q'),
 		'www.google.com.ec'			=> array('Google', 'q'),
 		'www.google.com.eg'			=> array('Google', 'q'),
-		'www.google.com.et'			=> array('Google', 'q'),
 		'www.google.com.fj'			=> array('Google', 'q'),
 		'www.google.com.gh'			=> array('Google', 'q'),
 		'www.google.com.gi'			=> array('Google', 'q'),
@@ -592,9 +523,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.com.gt'			=> array('Google', 'q'),
 		'www.google.com.hk'			=> array('Google', 'q'),
 		'www.google.com.jm'			=> array('Google', 'q'),
-		'www.google.com.kh'			=> array('Google', 'q'),
 		'www.google.com.kw'			=> array('Google', 'q'),
-		'www.google.com.lb'			=> array('Google', 'q'),
 		'www.google.com.ly'			=> array('Google', 'q'),
 		'www.google.com.mt'			=> array('Google', 'q'),
 		'www.google.com.mx'			=> array('Google', 'q'),
@@ -615,11 +544,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.com.qa'			=> array('Google', 'q'),
 		'www.google.com.ru'			=> array('Google', 'q'),
 		'www.google.com.sa'			=> array('Google', 'q'),
-		'www.google.com.sb'			=> array('Google', 'q'),
 		'www.google.com.sg'			=> array('Google', 'q'),
-		'www.google.com.sl'			=> array('Google', 'q'),
 		'www.google.com.sv'			=> array('Google', 'q'),
-		'www.google.com.tj'			=> array('Google', 'q'),
 		'www.google.com.tr'			=> array('Google', 'q'),
 		'www.google.com.tw'			=> array('Google', 'q'),
 		'www.google.com.ua'			=> array('Google', 'q'),
@@ -667,9 +593,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'blogsearch.google.ru'		=> array('Google Blogsearch', 'q'),
 		'blogsearch.google.co.in'	=> array('Google Blogsearch', 'q'),
 		'blogsearch.google.co.uk'	=> array('Google Blogsearch', 'q'),
-
-		// Google Custom Search
-		'www.google.com/cse'		=> array('Google Custom Search', 'q'),
 
 		// Google translation
 		'translate.google.com'		=> array('Google Translations', 'q'),
@@ -767,7 +690,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Goyellow.de
 		'www.goyellow.de'			=> array('GoYellow.de', 'MDN'),
 
-		// Gule Sider
+		// Gule Sider:
 		'www.gulesider.no'			=> array('Gule Sider', 'q'),
 
 		// HighBeam
@@ -803,7 +726,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.icq.com'			=> array('ICQ', 'q'),
 
 		// Ilse
-		'www.ilse.nl'				=> array('Ilse NL', 'search_for', '?search_for={k}'),
+		'spsearch.ilse.nl'			=> array('Startpagina', 'search_for'),
+		'be.ilse.nl'				=> array('Ilse BE', 'query'),
+		'search.ilse.nl'			=> array('Ilse NL', 'search_for'),
 
 		// Iwon
 		'search.iwon.com'			=> array('Iwon', 'searchfor'),
@@ -960,23 +885,23 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'ariadna.elmundo.es'		=> array('El Mundo', 'q'),
 
 		// MySpace
-		'searchservice.myspace.com'	=> array('MySpace', 'qry', 'index.cfm?fuseaction=sitesearch.results&type=Web&qry={k}'),
+		'searchservice.myspace.com'	=> array('MySpace', 'qry'),
 
-		// MySearch / MyWay / MyWebSearch (default: powered by Ask.com)
-		'www.mysearch.com'			=> array('MyWebSearch', 'searchfor', 'search/Ajmain.jhtml?searchfor={k}'),
+		// MyWebSearch
+		'kf.mysearch.myway.com'		=> array('MyWebSearch', 'searchfor'),
 		'ms114.mysearch.com'		=> array('MyWebSearch', 'searchfor'),
 		'ms146.mysearch.com'		=> array('MyWebSearch', 'searchfor'),
-		'kf.mysearch.myway.com'		=> array('MyWebSearch', 'searchfor'),
+		'mysearch.myway.com'		=> array('MyWebSearch', 'searchfor'),
+		'searchfr.myway.com'		=> array('MyWebSearch', 'searchfor'),
 		'ki.mysearch.myway.com'		=> array('MyWebSearch', 'searchfor'),
-		'search.myway.com'			=> array('MyWebSearch', 'searchfor'),
-		'search.mywebsearch.com'	=> array('MyWebSearch', 'searchfor', 'mywebsearch/Ajmain.jhtml?searchfor={k}'),
-
+		'search.mywebsearch.com'	=> array('MyWebSearch', 'searchfor'),
+		'www.mywebsearch.com'		=> array('MyWebSearch', 'searchfor'),
 
 		// Najdi
 		'www.najdi.si'				=> array('Najdi.si', 'q'),
 
 		// Naver
-		'search.naver.com'			=> array('Naver', 'query', 'search.naver?query={k}', 'x-windows-949'),
+		'search.naver.com'			=> array('Naver', 'query'),
 
 		// Needtofind
 		'ko.search.need2find.com'	=> array('Needtofind', 'searchfor'),
@@ -1014,7 +939,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Onet
 		'szukaj.onet.pl'			=> array('Onet.pl', 'qt'),
 
-		// Online.no
+		// Online.no:
 		'www.online.no'				=> array('Online.no', 'q'),
 		'online.no'					=> array('Online.no', 'q'),
 
@@ -1026,7 +951,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'bbs2.openfind.com.tw'		=> array('Openfind (BBS)', 'query'),
 		'news.openfind.com.tw'		=> array('Openfind (News)', 'query'),
 
-		// Opplysningen 1881
+		// Opplysningen 1881:
 		'www.1881.no'				=> array('Opplysningen 1881', 'Query'),
 
 		// Overture
@@ -1056,9 +981,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'data.quicksearches.net'	=> array('QuickSearches', 'q'),
 
 		// Qualigo
-		'www.qualigo.at'			=> array('Qualigo', 'q'),
-		'www.qualigo.ch'			=> array('Qualigo', 'q'),
 		'www.qualigo.de'			=> array('Qualigo', 'q'),
+		'www.qualigo.ch'			=> array('Qualigo', 'q'),
+		'www.qualigo.at'			=> array('Qualigo', 'q'),
 		'www.qualigo.nl'			=> array('Qualigo', 'q'),
 
 		// Rambler
@@ -1069,11 +994,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Reacteur.com
 		'www.reacteur.com'			=> array('Reacteur', 'kw'),
 
-		// RPMFind
-		'www.rpmfind.net'			=> array('rpmfind', 'query', 'linux/rpm2html/search.php?query={k}'),
-		'rpmfind.net'				=> array('rpmfind', 'query'),
-		'fr2.rpmfind.net'			=> array('rpmfind', 'query'),
-
 		// Sapo
 		'pesquisa.sapo.pt'			=> array('Sapo', 'q'),
 
@@ -1083,12 +1003,35 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Search.ch
 		'www.search.ch'				=> array('Search.ch', 'q'),
 
-		// Searchalot
-		'www.searchalot.com'		=> array('Searchalot', 'q', '?q={k}'),
-		'searchalot.com'			=> array('Searchalot', 'q'),
+		// Search a lot
+		'www.searchalot.com'		=> array('Searchalot', 'query'),
 
 		// Seek
 		'www.seek.fr'				=> array('Searchalot', 'qry_str'),
+
+		// Seekport
+		'www.seekport.de'			=> array('Seekport', 'query'),
+		'www.seekport.co.uk'		=> array('Seekport', 'query'),
+		'www.seekport.fr'			=> array('Seekport', 'query'),
+		'www.seekport.at'			=> array('Seekport', 'query'),
+		'www.seekport.es'			=> array('Seekport', 'query'),
+		'www.seekport.it'			=> array('Seekport', 'query'),
+
+		// Seekport (blogs)
+		'blogs.seekport.de'			=> array('Seekport (Blogs)', 'query'),
+		'blogs.seekport.co.uk'		=> array('Seekport (Blogs)', 'query'),
+		'blogs.seekport.fr'			=> array('Seekport (Blogs)', 'query'),
+		'blogs.seekport.at'			=> array('Seekport (Blogs)', 'query'),
+		'blogs.seekport.es'			=> array('Seekport (Blogs)', 'query'),
+		'blogs.seekport.it'			=> array('Seekport (Blogs)', 'query'),
+
+		// Seekport (news)
+		'news.seekport.de'			=> array('Seekport (News)', 'query'),
+		'news.seekport.co.uk'		=> array('Seekport (News)', 'query'),
+		'news.seekport.fr'			=> array('Seekport (News)', 'query'),
+		'news.seekport.at'			=> array('Seekport (News)', 'query'),
+		'news.seekport.es'			=> array('Seekport (News)', 'query'),
+		'news.seekport.it'			=> array('Seekport (News)', 'query'),
 
 		// Searchscout
 		'www.searchscout.com'		=> array('Search Scout', 'gt_keywords'),
@@ -1103,13 +1046,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'bg.setooz.com'				=> array('Setooz', 'query'),
 		'el.setooz.com'				=> array('Setooz', 'query'),
 		'et.setooz.com'				=> array('Setooz', 'query'),
-		'fi.setooz.com'				=> array('Setooz', 'query'),
-		'hu.setooz.com'				=> array('Setooz', 'query'),
-		'lt.setooz.com'				=> array('Setooz', 'query'),
 		'lv.setooz.com'				=> array('Setooz', 'query'),
+		'lt.setooz.com'				=> array('Setooz', 'query'),
+		'hu.setooz.com'				=> array('Setooz', 'query'),
 		'no.setooz.com'				=> array('Setooz', 'query'),
 		'pl.setooz.com'				=> array('Setooz', 'query'),
 		'sk.setooz.com'				=> array('Setooz', 'query'),
+		'fi.setooz.com'				=> array('Setooz', 'query'),
 		'sv.setooz.com'				=> array('Setooz', 'query'),
 		'tr.setooz.com'				=> array('Setooz', 'query'),
 		'uk.setooz.com'				=> array('Setooz', 'query'),
@@ -1126,11 +1069,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Skynet
 		'search.skynet.be'			=> array('Skynet', 'keywords'),
 
-		// Sogou
-		'www.sogou.com'				=> array('Sogou', 'query', 'web?query={k}'),
-
 		// soso.com
-		'www.soso.com'				=> array('Soso', 'w', 'q?w={k}', 'gb2312'),
+		'www.soso.com'				=> array('Soso', 'w'),
 
 		// Sphere
 		'www.sphere.com'			=> array('Sphere', 'q'),
@@ -1169,12 +1109,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search-dyn.tiscali.de'		=> array('Tiscali', 'key'),
 		'hledani.tiscali.cz'		=> array('Tiscali', 'query', false, 'windows-1250'),
 
-		// Tixuma
-		'www.tixuma.de'				=> array('Tixuma', 'sc', 'index.php?mp=search&stp=&sc={k}&tg=0'),
-
 		// T-Online
 		'suche.t-online.de'			=> array('T-Online', 'q'),
-		'navigationshilfe.t-online.de'=> array('T-Online', 'q', 'dtag/dns/results?mode=search_top&q={k}'),
 
 		// Trouvez.com
 		'www.trouvez.com'			=> array('Trouvez.com', 'query'),
@@ -1220,30 +1156,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'suche.web.de'				=> array('Web.de (Websuche)', 'su'),
 		'dir.web.de'				=> array('Web.de (Directory)', 'su'),
 
-		// Web.nl
-		'www.web.nl'				=> array('Web.nl', 'query'),
-
-		// Weborama
-		'www.weborama.fr'			=> array('weborama', 'query'),
-
-		// WebSearch
-		'is1.websearch.com'			=> array('WebSearch', 'qkw'),
-		'www.websearch.com'			=> array('WebSearch', 'qkw'),
-
 		// Webtip
 		'www.webtip.de'				=> array('Webtip', 'keyword'),
-
-		// Wedoo
-		'fr.wedoo.com'				=> array('Wedoo', 'keyword'),
-
-		// Witch
-		'www.witch.de'				=> array('Witch', 'search'),
-
-		// WXS
-		'wxsl.nl'					=> array('Planet Internet', 'q'),
-
-		// WWW
-		'search.www.ee'				=> array('www värav', 'query'),
 
 		// X-recherche
 		'www.x-recherche.com'		=> array('X-Recherche', 'mots'),
@@ -1260,32 +1174,28 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'au.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'br.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'ch.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'ca.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'cade.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'cf.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'de.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'es.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'espanol.search.yahoo.com'	=> array('Yahoo!', 'p'),
+		'ca.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'cf.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'fr.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'hk.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'espanol.search.yahoo.com'	=> array('Yahoo!', 'p'),
+		'es.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'id.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'it.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'kr.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'mx.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'nl.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'qc.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'ru.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'se.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'tw.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'uk.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'cade.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'tw.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'se.search.yahoo.com'		=> array('Yahoo!', 'p'),
 		'us.search.yahoo.com'		=> array('Yahoo!', 'p'),
-		'search.cn.yahoo.com'		=> array('Yahoo!', 'p'),
-		'one.cn.yahoo.com'			=> array('Yahoo!', 'p'),
-		'cns.3721.com'				=> array('Yahoo!', 'p'),	// acquired by Yahoo!
+		'ru.search.yahoo.com'		=> array('Yahoo!', 'p'),
+		'www.yahoo.com.cn'			=> array('Yahoo!', 'p'),
 
 		'au.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
-		'de.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
-		'us.yhs.search.yahoo.com'	=> array('Yahoo!', 'p', 'avg/search?p={k}'),
+
 		'de.dir.yahoo.com'			=> array('Yahoo! Webverzeichnis', ''),
 		'cf.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
 		'fr.dir.yahoo.com'			=> array('Yahoo! Directory', ''),
@@ -1295,7 +1205,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Yandex
 		'yandex.ru'					=> array('Yandex', 'text', 'yandsearch?text={k}'),
-		'yandex.ua'					=> array('Yandex', 'text'),
 		'www.yandex.ru'				=> array('Yandex', 'text'),
 		'search.yaca.yandex.ru'		=> array('Yandex', 'text'),
 		'ya.ru'						=> array('Yandex', 'text'),
@@ -1314,6 +1223,33 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Yellowmap
 		'www.yellowmap.de'			=> array('Yellowmap', ' '),
 		'yellowmap.de'				=> array('Yellowmap', ' '),
+
+		// Wanadoo
+		'search.ke.wanadoo.fr'		=> array('Wanadoo', 'kw'),
+		'busca.wanadoo.es'			=> array('Wanadoo', 'buscar'),
+
+		// Wedoo
+		'fr.wedoo.com'				=> array('Wedoo', 'keyword'),
+
+		// Web.nl
+		'www.web.nl'				=> array('Web.nl', 'query'),
+
+		// Weborama
+		'www.weborama.fr'			=> array('weborama', 'query'),
+
+		// WebSearch
+		'is1.websearch.com'			=> array('WebSearch', 'qkw'),
+		'www.websearch.com'			=> array('WebSearch', 'qkw'),
+		'websearch.cs.com'			=> array('WebSearch', 'query'),
+
+		// Witch
+		'www.witch.de'				=> array('Witch', 'search'),
+
+		// WWW
+		'search.www.ee'				=> array('www värav', 'query'),
+
+		// WXS
+		'wxsl.nl'					=> array('Planet Internet', 'q'),
 
 		// Zoek
 		'www3.zoek.nl'				=> array('Zoek', 'q'),

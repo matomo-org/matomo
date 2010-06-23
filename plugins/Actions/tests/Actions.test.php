@@ -56,11 +56,7 @@ class Test_Piwik_Actions extends UnitTestCase
 			),
 			array(
 				'params' =>	array( 'name' => '', 'type' => Piwik_Tracker_Action::TYPE_ACTION_NAME),
-				'expected' => array( Zend_Registry::get('config')->General->action_default_name_when_not_defined ),
-			),
-			array(
-				'params' =>	array( 'name' => '', 'type' => Piwik_Tracker_Action::TYPE_ACTION_URL),
-				'expected' => array( Zend_Registry::get('config')->General->action_default_url_when_not_defined ),
+				'expected' => array( 'index' ),
 			),
 			array(
 				'params' =>	array( 'name' => 'http://example.org/download.zip', 'type' => Piwik_Tracker_Action::TYPE_DOWNLOAD),

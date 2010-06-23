@@ -2,10 +2,10 @@
 ; If you want to change some of these default values, the best practise is to override 
 ; them in your configuration file in config/config.ini.php. If you directly edit this file,
 ; you risk losing your changes when you upgrade Piwik. 
-; For example if you want to override action_title_category_delimiter, 
+; For example if you want to override enable_browser_archiving_triggering, 
 ; edit config/config.ini.php and add the following:
 ; [General]
-; action_title_category_delimiter = "-"
+; enable_browser_archiving_triggering = 0
 
 [superuser]
 login			= root
@@ -19,10 +19,6 @@ dbname			=
 tables_prefix	= 
 port			= 3306
 adapter			= PDO_MYSQL
-; if charset is set to utf8, Piwik will ensure that it is storing its data using UTF8 charset.
-; it will add a sql query SET at each page view.
-; Piwik should work correctly without this setting.  
-;charset		= utf8
 
 [database_tests]
 host 			= localhost
@@ -48,21 +44,45 @@ enable_sql_profiler = 0
 track_visits_inside_piwik_ui = 0
 
 [General]
-; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
+; Time in seconds after which an archive will be computed again. 
+; This setting is used only for today's statistics.
+; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
+time_before_today_archive_considered_outdated = 10
+
+; When loading piwik interface, we redirect the user to 'yesterday' statistics by default
+; Possible values: yesterday, today, or any YYYY-MM-DD
+default_day = yesterday
+; Possible values: day, week, month, year
+default_period = day
+
+; When loading piwik interface, Piwik will load by default the CoreHome module
+; You can override the setting to force the user to login. 
+; This is useful when you have some websites view "anonymous" access but you want to 
+; force users to login instead of viewing the first anonymous website available 
+default_module_login = 0
+
+; When loading the piwik interface in the browser (as opposed to from the PHP-CLI client)
+; should we launch the archiving process if the archives have not yet been processed?
+; You want to set it to 0 when triggering the archiving is done through a crontab, 
+; so that your users do not trigger archiving in their browser when this is not expected
+enable_browser_archiving_triggering = 1
+
+; character used to automatically create categories in the "Action" "Downloads" reports
 ; for example a URL like "example.com/blog/development/first-post" will create 
 ; the page first-post in the subcategory development which belongs to the blog category
-action_url_category_delimiter = /
-
-; similar to above, but this delimiter is only used for page titles in the Actions > Page titles report
-action_title_category_delimiter = /
+action_category_delimiter = /
 
 ; this action name is used when the URL ends with a slash / 
 ; it is useful to have an actual string to write in the UI
-action_default_name = index
+action_default_name 		= index
 
 ; this action name is used when the URL has no page title or page URL defined
 action_default_name_when_not_defined = "page title not defined"
 action_default_url_when_not_defined = "page url not defined"
+
+; currency used by default when reporting money in Piwik
+; the trailing space is required for php 5.2.x vs 5.3 compatibility
+default_currency = "$ "
 
 ; if you want all your users to use Piwik in only one language, disable the LanguagesManager
 ; plugin, and set this default_language (users won't see the language drop down) 
@@ -79,26 +99,10 @@ API_datatable_default_limit = 50
 ; as it slows down the loading of the Piwik UI by setting this value to 0
 show_website_selector_in_user_interface = 1
 
-; This setting is overriden in the UI, under "User Settings". 
-; The date and period loaded by Piwik uses the defaults below. Possible values: yesterday, today.
-default_day = yesterday
-; Possible values: day, week, month, year.
-default_period = day
-
-; This setting is overriden in the UI, under "General Settings". This is the default value used if the setting hasn't been overriden via the UI.
-; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
-; Defaults to 10 seconds so that by default, Piwik provides real time reporting.
-time_before_today_archive_considered_outdated = 10
-
-; This setting is overriden in the UI, under "General Settings". The default value is to allow browsers
-; to trigger the Piwik archiving process.
-enable_browser_archiving_triggering = 1
-
 ; PHP minimum required version (minimum requirement known to date = ->newInstanceArgs)
 minimum_php_version = 5.1.3
 
 ; MySQL minimum required version
-; note: timezone support added in 4.1.3
 minimum_mysql_version = 4.1
 
 ; PostgreSQL minimum required version
@@ -113,10 +117,6 @@ login_cookie_name = piwik_auth
 ; login cookie expiration (30 days)
 login_cookie_expire = 2592000
 
-; The path on the server in which the cookie will be available on. 
-; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
-login_cookie_path = 
-
 ; email address that appears as a Sender in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Piwik domain
 login_password_recovery_email_address = "password-recovery@{DOMAIN}"
@@ -126,36 +126,28 @@ login_password_recovery_email_name = Piwik
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referers tables (keywords, search engines, campaigns, etc.)
-datatable_archiving_maximum_rows_referers = 1000
+datatable_archiving_maximum_rows_referers = 500
 ; maximum number of rows for any of the Referers subtable (search engines by keyword, keyword by campaign, etc.)
 datatable_archiving_maximum_rows_subtable_referers = 50
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
 datatable_archiving_maximum_rows_actions = 500
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
-; note: should not exceed the display limit in Piwik_Actions_Controller::ACTIONS_REPORT_ROWS_DISPLAY
-;       because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
 datatable_archiving_maximum_rows_subtable_actions = 100
-
-; maximum number of rows for other tables (Providers, User settings configurations)
-datatable_archiving_maximum_rows_standard = 500
 
 ; by default, Piwik uses self-hosted AJAX libraries.
 ; If set to 1, Piwik uses a Content Distribution Network
 use_ajax_cdn = 0
 
 ; required AJAX library versions
-jquery_version = 1.4.2
-jqueryui_version = 1.8.2
+jquery_version = 1.3.2
+jqueryui_version = 1.7.2
 swfobject_version = 2.2
 
 ; If set to 0, Flash widgets require separate HTTP requests
 ; (i.e., one request to load the JavaScript which instantiates Open Flash Chart; the other request is made by OFC to download the JSON data for the chart)
 ; If set to 1, Piwik uses a single HTTP request per Flash widget to serve both the widget and data
 serve_widget_and_data = 1
-
-; If set to 1, Piwik adds a response header to workaround the IE+Flash+HTTPS bug.
-reverse_proxy = 0
 
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
@@ -164,8 +156,8 @@ record_statistics			= 1
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds after his last page view, it will be recorded as a new visit  
 visit_standard_length       = 1800
 
-; visitors that stay on the website and view only one page will be considered staying 0 second
-default_time_one_page_visit = 0
+; visitors that stay on the website and view only one page will be considered staying 10 seconds
+default_time_one_page_visit = 10
 
 ; if set to 0, any goal conversion will be credited to the last more recent non empty referer. 
 ; when set to 1, the first ever referer used to reach the website will be used
@@ -188,13 +180,6 @@ cookie_name	= piwik_visitor
 ; by default, the Piwik tracking cookie expires in 2 years
 cookie_expire = 63072000
 
-; The path on the server in which the cookie will be available on. 
-; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
-cookie_path = 
-
-; name of the cookie to ignore visits
-ignore_visits_cookie_name = piwik_ignore 
-
 ; variable name to track any campaign, for example CPC campaign
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referer named 'Adwords-CPC'
 campaign_var_name			= piwik_campaign
@@ -203,19 +188,10 @@ campaign_var_name			= piwik_campaign
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' then it will be counted as a campaign referer named 'Adwords-CPC' with the keyword 'My killer keyword'
 campaign_keyword_var_name	= piwik_kwd
 
-; maximum length of a Page Title or a Page URL recorded in the log_action.name table
-page_maximum_length = 1024;
-
-; number of octets in IP address to mask, in order to anonymize a visitor's IP address
-; if the AnonymizeIP plugin is deactivated, this value is ignored
-; for IPv4 addresses, valid values are 0..4
-ip_address_mask_length = 1
-
-
 [log]
 ;possible values for log: screen, database, file
-; by default, standard logging/debug messages are hidden from screen
-;logger_message[]		= screen
+; normal messages
+logger_message[]		= screen
 logger_error[]			= screen
 logger_exception[]		= screen
 
@@ -242,6 +218,9 @@ cache_dir		= tmp/cache
 ; error reporting inside Smarty
 error_reporting = E_ALL|E_NOTICE
 
+; allow smarty debugging using {debug}
+debugging		= 1
+
 [Plugins]
 Plugins[] 		= CorePluginsAdmin
 Plugins[] 		= CoreAdminHome
@@ -251,7 +230,6 @@ Plugins[] 		= Widgetize
 Plugins[] 		= LanguagesManager
 Plugins[] 		= Actions
 Plugins[] 		= Dashboard
-Plugins[] 		= MultiSites
 Plugins[] 		= Referers
 Plugins[] 		= UserSettings
 

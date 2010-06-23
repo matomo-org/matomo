@@ -47,12 +47,8 @@ class Piwik_Translate
 		{
 			return;
 		}
-		$path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
-		if(!is_readable($path))
-		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
-		}
-		require $path;
+		
+		require PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
 		$this->mergeTranslationArray($translations);
 		$this->setLocale();
 	}
@@ -78,11 +74,9 @@ class Piwik_Translate
 		{
 			return $language;
 		}
-
 		Piwik_PostEvent('Translate.getLanguageToLoad', $language);
 		
-		$language = Piwik_Common::getRequestVar('language', is_null($language) ? '' : $language, 'string');
-		if(empty($language))
+		if(is_null($language) || empty($language))
 		{
 			$language = Zend_Registry::get('config')->General->default_language;
 		}
@@ -116,7 +110,7 @@ class Piwik_Translate
 			$moduleRegex .= $module.'|'; 
 		}
 		$moduleRegex = substr($moduleRegex, 0, -1);
-		$moduleRegex .= ')_.*_js$#i';
+		$moduleRegex .= ')_([^_]+)_js$#i';
 		
 		foreach($GLOBALS['Piwik_translations'] as $key => $value)
 		{
@@ -130,22 +124,14 @@ class Piwik_Translate
 				'for(var i in translations) { piwik_translations[i] = translations[i];} ';
 		$js .= 'function _pk_translate(translationStringId) { '.
 			'if( typeof(piwik_translations[translationStringId]) != \'undefined\' ){  return piwik_translations[translationStringId]; }'.
-			'return "The string "+translationStringId+" was not loaded in javascript. Make sure it is suffixed with _js and that you called  {loadJavascriptTranslations plugins=\'\$YOUR_PLUGIN_NAME\'} before your javascript code.";}';
+			'return "The string "+translationStringId+" was not loaded in javascript. Make sure it is prefixed with _js";}';
 		
 		return $js;
 	}
 
-	/**
-	 * Set locale
-	 *
-	 * @see http://php.net/setlocale
-	 */
 	private function setLocale()
 	{
-		$locale = $GLOBALS['Piwik_translations']['General_Locale'];
-		$locale_variant = str_replace('UTF-8', 'UTF8', $locale);
-		setlocale(LC_ALL, $locale, $locale_variant);
-		setlocale(LC_CTYPE, '');
+		setlocale(LC_ALL, $GLOBALS['Piwik_translations']['General_Locale']);
 	}
 }
 
