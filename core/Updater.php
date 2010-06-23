@@ -206,7 +206,7 @@ class Piwik_Updater
 				if( // if the update is from a newer version
 					version_compare($currentVersion, $fileVersion) == -1
 					// but we don't execute updates from non existing future releases 
-					&& version_compare($fileVersion, $newVersion) == -1)
+					&& version_compare($fileVersion, $newVersion) <= 0)
 				{
 					$componentsWithUpdateFile[$name][$file] = $fileVersion;
 				}
