@@ -386,6 +386,7 @@ $translations = array(
 	'Goals_Goals' => 'Goals',
 	'Goals_Overview' => 'Overview',
 	'Goals_GoalsOverview' => 'Goals overview',
+	'Goals_GoalsManagement' => 'Goals management',
 	'Goals_ConversionsOverviewBySegment' => 'Conversions overview by segment',
 	'Goals_GoalConversionsBySegment' => 'Goal %s conversions by segment',
 	'Goals_ViewGoalsBySegment' => 'View goals by %s',
