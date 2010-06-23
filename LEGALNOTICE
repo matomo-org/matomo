@@ -100,6 +100,12 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://pear.php.net/package/Event_Dispatcher/
 	License:  Modified BSD
 
+	Name:  HTML Common
+	Link:  http://pear.php.net/package/HTML_Common
+	License:  PHP 3.01
+	Notes:
+	- this license is not GPL v3 compatible
+
 	Name:  HTML QuickForm
 	Link:  http://pear.php.net/package/HTML_QuickForm/
 	License:  PHP 3.01
