@@ -1,0 +1,136 @@
+COPYRIGHT
+
+	Piwik - Open Source Web Analytics
+	Copyright (C) 2010  Matthieu Aubry
+
+	This software consists of contributions made by many individuals.
+	For exact contribution history, see the tickets, patches,
+	and svn revision history, available at http://dev.piwik.org/trac/.
+
+
+SOFTWARE LICENSE
+
+	The free software license of Piwik is GNU General Public License v3 or
+	later.  A copy of GNU GPL v3 should have been included in this software
+	package in misc/gpl-3.0.txt.
+
+
+TRADEMARK
+
+	Piwik (TM) is an internationally registered trademark.
+
+	The software license does not grant any rights under trademark
+	law for use of the trademark.  Refer to http://piwik.org/trademark/
+	for up-to-date trademark licensing information.
+
+
+THIRD-PARTY COMPONENTS AND LIBRARIES
+
+	The following components/libraries are redistributed in this package,
+	and subject to their respective licenses.
+
+	Name:  jQuery
+	Link:  http://jquery.com/
+	License:  Dual-licensed: MIT or GPL
+	Notes:
+	- GPL version not explicitly stated in source but GPL v2 is in git
+	- includes Sizzle.js - multi-licensed: MIT, Modified BSD, or GPL [v2]
+
+	Name:  jQuery UI
+	Link:  http://jqueryui.com/
+	License:  Dual-licensed: MIT or GPL
+	Notes:
+	- GPL version not explicitly stated in source but GPL v2 is in git
+
+	Name:  fdd2div
+	Link:  http://code.google.com/p/fdd2div/
+	License:  GPL v3
+
+	Name:  jquery.bgiframe
+	Link:  http://plugins.jquery.com/project/bgiframe
+	License:  Dual licensed: MIT or GPL
+
+	Name:  jquery.blockUI
+	Link:  http://jquery.malsup.com/block/
+	License:  Dual licensed: MIT or GPL
+
+	Name:  jquery.history
+	Link:  http://www.mikage.to/jquery/jquery_history.html
+	License:  MIT
+
+	Name:  jquery.scrollTo
+	Link:  http://plugins.jquery.com/project/ScrollTo
+	License:  Dual licensed: MIT or GPL
+
+	Name:  jquery.spy
+	Link:  http://leftlogic.com/lounge/articles/jquery_spy2
+	License:  unspecified
+
+	Name:  Superfish
+	Link:  http://users.tpg.com.au/j_birch/plugins/superfish/
+	License:  GPL
+
+	Name:  Tooltip
+	Link:  http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/
+	License:  Dual licensed: MIT or GPL
+
+	Name:  jquery.truncate
+	Link:  http://dev.piwik.org/trac/browser/trunk/libs/jquery/truncate
+	License:  Modified BSD
+
+	Name:  json2.js
+	Link:  http://json.org/
+	License:  Public domain
+	Notes:
+	- reference implementation
+
+	Name:  sparkline
+	Link:  https//sourceforge.net/projects/sparkline/
+	License:  Dual-licensed: Modified BSD or GPL v2
+
+	Name:  swfObject
+	Link:  http://code.google.com/p/swfobject/
+	License:  MIT
+
+	Name:  upgrade.php
+	Link:  http://upgradephp.berlios.de/
+	License:  Public domain
+
+	Name:  Event Dispatcher (and Notification)
+	Link:  http://pear.php.net/package/Event_Dispatcher/
+	License:  Modified BSD
+
+	Name:  HTML QuickForm
+	Link:  http://pear.php.net/package/HTML_QuickForm/
+	License:  PHP 3.01
+	Notes:
+	- this license is not GPL v3 compatible
+
+	Name:  Open Flash Chart
+	Link:  http://teethgrinder.co.uk/open-flash-chart-2/
+	License:  LGPL
+	Notes:
+	- includes JSON.php (Modified BSD)
+
+	Name:  PclZip
+	Link:  http://www.phpconcept.net/pclzip/
+	License:  LGPL
+	Notes:
+	- GPL version not explicitly stated but tarball contains LGPL v2.1
+
+	Name:  PhpSecInfo
+	Link:  http://phpsec.org/projects/phpsecinfo/
+	License:  Modified BSD
+
+	Name:  Smarty
+	Link:  http://smarty.net/
+	License:  LGPL v2.1 or later
+
+	Name:  UserAgentParser
+	Link:  http://dev.piwik.org/trac/browser/trunk/libs/UserAgentParser
+	License:  Modified BSD
+
+	Name: Zend Framework
+	Link:  http://www.zendframework.com/
+	License:  Modified BSD
+

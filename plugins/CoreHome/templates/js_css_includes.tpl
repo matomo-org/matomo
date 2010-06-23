@@ -9,8 +9,8 @@
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.bgiframe.js"></script>
-<script type="text/javascript" src="libs/jquery/tooltip/jquery.tooltip.js"></script>
-<script type="text/javascript" src="libs/jquery/truncate/jquery.truncate.js"></script>
+<script type="text/javascript" src="libs/jquery/jquery.tooltip.js"></script>
+<script type="text/javascript" src="libs/jquery/jquery.truncate.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.scrollTo.js"></script>
 <script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
 <script type="text/javascript" src="libs/jquery/fdd2div-modified.js"></script>
