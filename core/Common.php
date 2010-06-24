@@ -309,10 +309,7 @@ class Piwik_Common
 		if(!is_dir($path))
 		{
 			$directoryParent = self::realpath(dirname($path));
-			if( is_writable($directoryParent) )
-			{
-				mkdir($path, $mode, true);
-			}
+			@mkdir($directoryParent, $mode, $recursive = true);
 		}
 
 		if($denyAccess)
