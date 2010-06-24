@@ -107,7 +107,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'ch.altavista.com'			=> array('AltaVista', 'q'),
 
 		// Apollo Latvia
-		'apollo.lv/portal/search/'	=> array('Apollo lv', 'q'),
+		'apollo.lv/portal/search/'	=> array('Apollo lv', 'q', '?cof=FORID%3A11&q={k}&search_where=www'),
 
 		// APOLLO7
 		'www.apollo7.de'			=> array('Apollo7', 'query'),
@@ -317,9 +317,14 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.everyclick.com'		=> array('Everyclick', 'keyword'),
 
 		// Excite
-		'www.excite.it'				=> array('Excite', 'q'),
+		'search.excite.it'			=> array('Excite', 'q', 'web/?q={k}'),
 		'msxml.excite.com'			=> array('Excite', 'qkw'),
-		'www.excite.fr'				=> array('Excite', 'search'),
+		'search.excite.fr'			=> array('Excite', 'q', 'web/?q={k}'),
+		'search.excite.de'			=> array('Excite', 'q', 'web/?q={k}'),
+		'search.excite.co.uk'		=> array('Excite', 'q', 'web/?q={k}'),
+		'search.excite.es'			=> array('Excite', 'q', 'web/?q={k}'),
+		'search.excite.nl'			=> array('Excite', 'q', 'web/?q={k}'),
+		'www.excite.co.jp'			=> array('Excite', 'search', 'search.gw?search={k}'),
 
 		// Exalead
 		'www.exalead.fr'			=> array('Exalead', 'q', 'search/results?q={k}'),
@@ -382,6 +387,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// GAIS
 		'gais.cs.ccu.edu.tw'		=> array('GAIS', 'query'),
+
+		// Geona 
+		'geona.net'					=> array('Geona', 'q', 'search?q={k}'),
+		'www.geona.net'				=> array('Geona', 'q', 'search?q={k}'),
 
 		// Gigablast
 		'www.gigablast.com'			=> array('Gigablast', 'q'),
@@ -1113,6 +1122,16 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'sv.setooz.com'				=> array('Setooz', 'query'),
 		'tr.setooz.com'				=> array('Setooz', 'query'),
 		'uk.setooz.com'				=> array('Setooz', 'query'),
+		'ar.setooz.com'				=> array('Setooz', 'query'),
+		'bs.setooz.com'				=> array('Setooz', 'query'),
+		'cs.setooz.com'				=> array('Setooz', 'query'),
+		'da.setooz.com'				=> array('Setooz', 'query'),
+		'hr.setooz.com'				=> array('Setooz', 'query'),
+		'nl.setooz.com'				=> array('Setooz', 'query'),
+		'fa.setooz.com'				=> array('Setooz', 'query'),
+		'ro.setooz.com'				=> array('Setooz', 'query'),
+		'sr.setooz.com'				=> array('Setooz', 'query'),
+		'ur.setooz.com'				=> array('Setooz', 'query'),
 
 		// Seznam
 		'search.seznam.cz'			=> array('Seznam', 'q'),
@@ -1163,10 +1182,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.teoma.com'				=> array('Teoma', 't'),
 
 		// Tiscali
-		'rechercher.nomade.tiscali.fr'=> array('Tiscali', 's'),
+		'search.tiscali.it'			=> array('Tiscali', 'key'),
 		'search-dyn.tiscali.it'		=> array('Tiscali', 'key'),
-		'www.tiscali.co.uk'			=> array('Tiscali', 'query'),
-		'search-dyn.tiscali.de'		=> array('Tiscali', 'key'),
 		'hledani.tiscali.cz'		=> array('Tiscali', 'query', false, 'windows-1250'),
 
 		// Tixuma
@@ -1212,6 +1229,12 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'volny.zlatestranky.cz'		=> array('Volny', 'search', 'fulltext/?search={k}', 'windows-1250'),
 		'web.volny.cz'				=> array('Volny', 'search', false, 'windows-1250'),
 
+		// Walhello 
+		'www.walhello.info'			=> array('Walhello', 'key', 'search?key={k}'),
+		'www.walhello.com'			=> array('Walhello', 'key', 'search?key={k}'),
+		'www.walhello.de'			=> array('Walhello', 'key', 'search?key={k}'),
+		'www.walhello.nl'			=> array('Walhello', 'key', 'search?key={k}'),
+
 		// Wanadoo
 		'search.ke.wanadoo.fr'		=> array('Wanadoo', 'kw'),
 		'busca.wanadoo.es'			=> array('Wanadoo', 'buscar'),
@@ -1227,8 +1250,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.weborama.fr'			=> array('weborama', 'query'),
 
 		// WebSearch
-		'is1.websearch.com'			=> array('WebSearch', 'qkw'),
-		'www.websearch.com'			=> array('WebSearch', 'qkw'),
+		'www.websearch.com'			=> array('WebSearch', array('qkw', 'q'), 'search/results2.aspx?q={k}'), 
 
 		// Webtip
 		'www.webtip.de'				=> array('Webtip', 'keyword'),
