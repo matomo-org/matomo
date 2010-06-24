@@ -66,7 +66,6 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     {
     	$pluginsShouldBeDisabled = array(
     		'DBStats',
-    		'Goals',
     		'Live',
     	);
     	foreach($pluginsShouldBeDisabled as $pluginName)
