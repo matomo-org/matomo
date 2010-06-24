@@ -2,6 +2,9 @@
 	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	font-size:0.9em;
 	padding:0.2em;
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 0;
 }
 #feedback-faq ul {
 	list-style-type:disc;
