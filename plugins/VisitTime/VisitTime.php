@@ -41,8 +41,8 @@ class Piwik_VisitTime extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'VisitTime_SubmenuTimes', 'VisitTime_WidgetLocalTime', 'VisitTime', 'getVisitInformationPerLocalTime');
-		Piwik_AddWidget( 'VisitTime_SubmenuTimes', 'VisitTime_WidgetServerTime', 'VisitTime', 'getVisitInformationPerServerTime');
+		Piwik_AddWidget( 'VisitsSummary_VisitsSummary', 'VisitTime_WidgetLocalTime', 'VisitTime', 'getVisitInformationPerLocalTime');
+		Piwik_AddWidget( 'VisitsSummary_VisitsSummary', 'VisitTime_WidgetServerTime', 'VisitTime', 'getVisitInformationPerServerTime');
 	}
 	
 	function addMenu()

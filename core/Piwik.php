@@ -909,7 +909,11 @@ class Piwik
 	static public function getPrettyTimeFromSeconds($numberOfSeconds)
 	{
 		$numberOfSeconds = (double)$numberOfSeconds;
-		$days = floor($numberOfSeconds / 86400);
+		
+		$secondsInYear = 86400 * 365.25;
+		$years = floor($numberOfSeconds / $secondsInYear);
+		$minusYears = $numberOfSeconds - $years * $secondsInYear;
+		$days = floor($minusYears / 86400);
 
 		$minusDays = $numberOfSeconds - $days * 86400;
 		$hours = floor($minusDays / 3600);
@@ -919,7 +923,11 @@ class Piwik
 
 		$seconds = $minusDaysAndHours - $minutes * 60;
 
-		if($days > 0)
+		if($years > 0)
+		{
+			$return = sprintf(Piwik_Translate('General_YearsDays'), $years, $days);
+		}
+		elseif($days > 0)
 		{
 			$return = sprintf(Piwik_Translate('General_DaysHours'), $days, $hours);
 		}

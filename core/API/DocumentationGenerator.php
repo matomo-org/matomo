@@ -120,6 +120,7 @@ class Piwik_API_DocumentationGenerator
 			'email' => 'test@example.org',
 		
 			'languageCode' => 'fr',
+			'url' => 'http://forum.piwik.org/'
 		);
 		
 		foreach($parametersToSet as $name => $value)
