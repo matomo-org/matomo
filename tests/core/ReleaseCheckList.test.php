@@ -65,8 +65,11 @@ class Test_Piwik_ReleaseCheckList extends UnitTestCase
     public function test_checkThatGivenPluginsAreDisabledByDefault()
     {
     	$pluginsShouldBeDisabled = array(
+		'AnonymizeIP',
     		'DBStats',
     		'Live',
+		'SecurityInfo',
+		'VisitorGenerator',
     	);
     	foreach($pluginsShouldBeDisabled as $pluginName)
     	{
