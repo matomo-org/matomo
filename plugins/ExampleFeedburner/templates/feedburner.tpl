@@ -26,8 +26,8 @@
 <table class='feedburner' align="center" cellpadding="2" style='text-align:center'>
 	<tr>
 		<td></td>
-		<td style="text-decoration:underline;">Previous</td>
-		<td style="text-decoration:underline;">Yesterday</td>
+		<td style="text-decoration:underline;">{'General_Previous'|translate}</td>
+		<td style="text-decoration:underline;">{'General_Yesterday'|translate}</td>
 		<td></td>
 	</tr>
 	<tr>
@@ -52,6 +52,6 @@
 {/if}
 
 <center>
-<input id="feedburnerName" type="text" value="{$feedburnerFeedName}" />
-<input id="feedburnerSubmit" type="submit" value="ok" />
+	<input id="feedburnerName" type="text" value="{$feedburnerFeedName}" />
+	<input id="feedburnerSubmit" type="submit" value="{'General_Ok'|translate}" />
 </center>
