@@ -44,4 +44,25 @@ class Test_Piwik extends UnitTestCase
     	$this->assertTrue( Piwik::secureDiv( 11.0, 'a' ) === 0 );
     	
     }
+    
+    public function test_getPrettyTimeFromSeconds()
+    {
+    	Piwik_Translate::getInstance()->loadEnglishTranslation();
+    	$tests = array(
+    		30 => '30s',
+    		60 => '1 min 0s',
+    		100 => '1 min 40s',
+    		3600 => '1 hours 0 min',
+    		3700 => '1 hours 1 min',
+    		86400 + 3600 * 10 => '1 days 10 hours',
+    		86400 * 365 => '365 days 0 hours',
+    		(86400 * (365.25 + 10)) => '1 years 10 days',
+    		
+    	);
+    	foreach($tests as $seconds => $expected)
+    	{
+    		$this->assertEqual( Piwik::getPrettyTimeFromSeconds($seconds), str_replace(' ','&nbsp;', $expected));
+    	}
+    	Piwik_Translate::getInstance()->unloadEnglishTranslation();
+    }
 }

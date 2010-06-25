@@ -38,6 +38,12 @@ class Piwik_Translate
 		$this->setLocale();
 		$this->englishLanguageLoaded = true;
 	}
+	
+	public function unloadEnglishTranslation()
+	{
+		$GLOBALS['Piwik_translations'] = array();
+		$this->englishLanguageLoaded = false;
+	}
 
 	public function loadUserTranslation()
 	{
