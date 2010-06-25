@@ -254,7 +254,7 @@ Plugins[] 		= Dashboard
 Plugins[] 		= MultiSites
 Plugins[] 		= Referers
 Plugins[] 		= UserSettings
-Plugins[]       = Goals
+Plugins[]		= Goals
 
 Plugins[] 		= UserCountry
 Plugins[] 		= VisitsSummary
@@ -265,7 +265,6 @@ Plugins[] 		= ExampleAPI
 Plugins[] 		= ExamplePlugin
 Plugins[]		= ExampleRssWidget
 Plugins[] 		= ExampleFeedburner
-Plugins[] 		= ExampleRssWidget
 Plugins[] 		= Provider
 Plugins[]		= Feedback
 
@@ -273,6 +272,7 @@ Plugins[] 		= Login
 Plugins[] 		= UsersManager
 Plugins[] 		= SitesManager
 Plugins[] 		= Installation
+Plugins[] 		= CoreUpdater
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
