@@ -120,7 +120,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			$rows = array();
 			$query = $this->prepare( $query, $parameters );
 			$rs = mysqli_query($this->connection, $query);
-			while($row = mysqli_fetch_array($rs, MYSQL_ASSOC)) 
+			while($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) 
 			{
 				$rows[] = $row;
 			}
@@ -159,7 +159,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			{
 				return false;
 			}
-			$row = mysqli_fetch_array($rs, MYSQL_ASSOC);
+			$row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
 			mysqli_free_result($rs);
 
 			if(self::$profiling)
