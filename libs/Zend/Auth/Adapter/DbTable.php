@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTable.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: DbTable.php 22458 2010-06-18 22:47:46Z ralph $
  */
 
 
@@ -118,17 +118,17 @@ class Zend_Auth_Adapter_DbTable implements Zend_Auth_Adapter_Interface
     /**
      * __construct() - Sets configuration options
      *
-     * @param  Zend_Db_Adapter_Abstract $zendDb
+     * @param  Zend_Db_Adapter_Abstract $zendDb If null, default database adapter assumed
      * @param  string                   $tableName
      * @param  string                   $identityColumn
      * @param  string                   $credentialColumn
      * @param  string                   $credentialTreatment
      * @return void
      */
-    public function __construct(Zend_Db_Adapter_Abstract $zendDb, $tableName = null, $identityColumn = null,
+    public function __construct(Zend_Db_Adapter_Abstract $zendDb = null, $tableName = null, $identityColumn = null,
                                 $credentialColumn = null, $credentialTreatment = null)
     {
-        $this->_zendDb = $zendDb;
+        $this->_setDbAdapter($zendDb);
 
         if (null !== $tableName) {
             $this->setTableName($tableName);
@@ -145,6 +145,32 @@ class Zend_Auth_Adapter_DbTable implements Zend_Auth_Adapter_Interface
         if (null !== $credentialTreatment) {
             $this->setCredentialTreatment($credentialTreatment);
         }
+    }
+
+    /**
+     * _setDbAdapter() - set the database adapter to be used for quering
+     *
+     * @param Zend_Db_Adapter_Abstract 
+     * @throws Zend_Auth_Adapter_Exception
+     * @return Zend_Auth_Adapter_DbTable
+     */
+    protected function _setDbAdapter(Zend_Db_Adapter_Abstract $zendDb = null)
+    {
+        $this->_zendDb = $zendDb;
+
+        /**
+         * If no adapter is specified, fetch default database adapter.
+         */
+        if(null === $this->_zendDb) {
+            // require_once 'Zend/Db/Table/Abstract.php';
+            $this->_zendDb = Zend_Db_Table_Abstract::getDefaultAdapter();
+            if (null === $this->_zendDb) {
+                // require_once 'Zend/Auth/Adapter/Exception.php';
+                throw new Zend_Auth_Adapter_Exception('No database adapter present');
+            }
+        }
+        
+        return $this;
     }
 
     /**
@@ -305,7 +331,7 @@ class Zend_Auth_Adapter_DbTable implements Zend_Auth_Adapter_Interface
         $dbSelect = $this->_authenticateCreateSelect();
         $resultIdentities = $this->_authenticateQuerySelect($dbSelect);
 
-        if ( ($authResult = $this->_authenticateValidateResultset($resultIdentities)) instanceof Zend_Auth_Result) {
+        if ( ($authResult = $this->_authenticateValidateResultSet($resultIdentities)) instanceof Zend_Auth_Result) {
             return $authResult;
         }
 

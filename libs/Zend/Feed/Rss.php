@@ -282,12 +282,11 @@ class Zend_Feed_Rss extends Zend_Feed_Abstract
         $author = '';
         $email = '';
         if (isset($array->itunes->owner)) {
-            $itunesOwner = $array->itunes->owner;
-            if (isset($itunesOwner['name'])) {
-                $author = $itunesOwner['name'];
+            if (isset($array->itunes->owner['name'])) {
+                $author = $array->itunes->owner['name'];
             }
-            if (isset($itunesOwner['email'])) {
-                $email = $itunesOwner['email'];
+            if (isset($array->itunes->owner['email'])) {
+                $email = $array->itunes->owner['email'];
             }
         }
         if (empty($author) && isset($array->author)) {

@@ -16,7 +16,7 @@
  * @package   Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Upload.php 20431 2010-01-19 21:36:05Z thomas $
+ * @version   $Id: Upload.php 22399 2010-06-09 19:08:28Z thomas $
  */
 
 /**
@@ -156,6 +156,7 @@ class Zend_Validate_File_Upload extends Zend_Validate_Abstract
      */
     public function isValid($value, $file = null)
     {
+        $this->_messages = null;
         if (array_key_exists($value, $this->_files)) {
             $files[$value] = $this->_files[$value];
         } else {

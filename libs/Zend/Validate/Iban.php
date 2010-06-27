@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Iban.php 21563 2010-03-19 10:10:45Z thomas $
+ * @version    $Id: Iban.php 22401 2010-06-09 19:25:49Z thomas $
  */
 
 /**
@@ -123,14 +123,14 @@ class Zend_Validate_Iban extends Zend_Validate_Abstract
             }
         }
 
-        if ($locale !== false) {
+        if (empty($locale)) {
             // require_once 'Zend/Registry.php';
             if (Zend_Registry::isRegistered('Zend_Locale')) {
                 $locale = Zend_Registry::get('Zend_Locale');
             }
         }
 
-        if (!empty($locale)) {
+        if ($locale !== null) {
             $this->setLocale($locale);
         }
     }
