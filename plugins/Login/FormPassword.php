@@ -14,27 +14,24 @@
  *
  * @package Piwik_Login
  */
-class Piwik_Login_Form extends Piwik_Form
+class Piwik_Login_FormPassword extends Piwik_QuickForm
 {
 	function __construct()
 	{
 		parent::__construct();
 		// reset
-		$this->updateAttributes('id="loginform" name="loginform"');
+		$this->updateAttributes('id="lostpasswordform" name="lostpasswordform"');
 	}
 
 	function init()
 	{
 		$formElements = array(
 			array('text', 'form_login'),
-			array('password', 'form_password'),
-			array('hidden', 'form_nonce'),
 		);
 		$this->addElements( $formElements );
 
 		$formRules = array(
-			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('General_Username')), 'required'),
-			array('form_password', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Password')), 'required'),
+			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_LoginOrEmail')), 'required'),
 		);
 		$this->addRules( $formRules );
 

@@ -14,7 +14,7 @@
  *
  * @package Piwik_Login
  */
-class Piwik_Login_ResetPasswordForm extends Piwik_Form
+class Piwik_Login_FormResetPassword extends Piwik_QuickForm
 {
 	function __construct()
 	{
