@@ -162,7 +162,7 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * Add form to view
 	 *
-	 * @param Piwik_Form $form
+	 * @param Piwik_QuickForm $form
 	 */
 	public function addForm( $form )
 	{

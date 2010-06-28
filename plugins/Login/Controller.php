@@ -69,7 +69,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	{
 		$urlToRedirect = self::getRefererToRedirect();
 
-		$form = new Piwik_Login_Form();
+		$form = new Piwik_Login_FormLogin();
 		if($form->validate())
 		{
 			$nonce = $form->getSubmitValue('form_nonce');
@@ -154,7 +154,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$messageNoAccess = null;
 		$urlToRedirect = self::getRefererToRedirect();
 
-		$form = new Piwik_Login_PasswordForm();
+		$form = new Piwik_Login_FormPassword();
 		if($form->validate())
 		{
 			$loginMail = $form->getSubmitValue('form_login');
@@ -243,7 +243,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$messageNoAccess = null;
 		$urlToRedirect = self::getRefererToRedirect();
 
-		$form = new Piwik_Login_ResetPasswordForm();
+		$form = new Piwik_Login_FormResetPassword();
 		if($form->validate())
 		{
 			$loginMail = $form->getSubmitValue('form_login');

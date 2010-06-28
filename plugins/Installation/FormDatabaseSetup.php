@@ -14,7 +14,7 @@
  * 
  * @package Piwik_Installation
  */
-class Piwik_Installation_FormDatabaseSetup extends Piwik_Form
+class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm
 {
 	function __construct()
 	{
