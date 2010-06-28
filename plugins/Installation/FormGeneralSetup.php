@@ -16,7 +16,7 @@
  */
 class Piwik_Installation_FormGeneralSetup extends Piwik_QuickForm
 {
-	function __construct()
+	function __construct( $action = '', $attributes = '' )
 	{
 		parent::__construct($action = '', $attributes = 'autocomplete="off"');
 	}
