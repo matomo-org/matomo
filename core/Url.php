@@ -94,22 +94,36 @@ class Piwik_Url
 		} 
 		else if( !empty($_SERVER['REQUEST_URI']) ) 
 		{
-			if( ($pos = strpos($_SERVER['REQUEST_URI'], "?")) !== false ) 
+			$requestUri = $_SERVER['REQUEST_URI'];
+
+			// strip http://host (Apache+Rails anomaly)
+			if(preg_match('~^https?://[^/]+($|/.*)~', $requestUri, $matches))
 			{
-				$url = substr($_SERVER['REQUEST_URI'], 0, $pos);
+				$requestUri = $matches[1];
+			}
+
+			// strip parameters
+			if( ($pos = strpos($requestUri, "?")) !== false ) 
+			{
+				$url = substr($requestUri, 0, $pos);
 			} 
 			else 
 			{
-				$url = $_SERVER['REQUEST_URI'];
+				$url = $requestUri;
 			}
 		} 
-		
+
+	 	/**
+		 * SCRIPT_NAME is our fallback, though it may not be set correctly
+		 *
+		 * @see http://php.net/manual/en/reserved.variables.php
+		 */
 		if(empty($url))
 		{
 			$url = $_SERVER['SCRIPT_NAME'];
 		}
 
-		if($url[0] !== '/')
+		if(!isset($url[0]) || $url[0] !== '/')
 		{
 			$url = '/' . $url;
 		}
