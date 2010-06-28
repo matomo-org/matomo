@@ -16,9 +16,9 @@
  */
 class Piwik_Login_FormPassword extends Piwik_QuickForm
 {
-	function __construct()
+	function __construct( $action = '', $attributes = '' )
 	{
-		parent::__construct();
+		parent::__construct($action, $attributes);
 		// reset
 		$this->updateAttributes('id="lostpasswordform" name="lostpasswordform"');
 	}
