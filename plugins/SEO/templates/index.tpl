@@ -4,7 +4,7 @@
 	<form method="post" style="padding: 8px;" >
 	  <div align="left" class="mediumtext">
 		  {'Installation_SetupWebSiteURL'|translate|ucfirst} 
-		  <input type="text" id="url" size="40" value="{$urlToRank|escape}" class="textbox" />
+		  <input type="text" id="url" size="40" value="{$urlToRank}" class="textbox" />
 		  <span style="padding-left:2px;"> 
 		  <input type="submit" id ="rankbutton" value="{'SEO_Rank'|translate}" />
 		  </span>
@@ -16,7 +16,7 @@
 	   		{if empty($ranks)}
 	   			{'General_Error'|translate}
 	   		{else}
-	   			{'SEO Rankings for %s'|translate:"<a href='misc/redirectToUrl.php?url=$urlToRank' target='_blank'>$urlToRank</a>"}
+	   			{'SEO_SEORankingsFor'|translate:"<a href='$urlToRank' target='_blank'>$urlToRank</a>"}
 	   			<table cellspacing='2' style='margin:auto;line-height:1.5em;padding-top:10px'>
 	   			{foreach from=$ranks item=rank}
 	   			<tr>
