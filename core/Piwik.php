@@ -567,7 +567,6 @@ class Piwik
 	static public function log($message = '')
 	{
 		Zend_Registry::get('logger_message')->logEvent($message);
-		Zend_Registry::get('logger_message')->logEvent( "<br />" . PHP_EOL);
 	}
 
 	static public function error($message = '')
