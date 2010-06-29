@@ -62,7 +62,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		Piwik_PostEvent('Tracker.setRequest.idSite', $idsite);
 		if($idsite <= 0)
 		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidIdsite'));
+			throw new Exception('Invalid idSite');
 		}
 		$this->idsite = $idsite;
 	}

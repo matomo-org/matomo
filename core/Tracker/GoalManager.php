@@ -52,7 +52,7 @@ class Piwik_Tracker_GoalManager
 				return $goal;
 			}
 		}
-		throw new Exception(Piwik_TranslateException('General_ExceptionGoalNotFound', array($idGoal)));
+		throw new Exception('Goal not found');
 	}
 
 	static public function getGoalIds( $idSite )

@@ -161,8 +161,6 @@ $translations = array(
 	'General_ExceptionInvalidPeriod' => 'The period \'%s\' is not supported. Try any of the following instead: %s',
 	'General_ExceptionInvalidDateRange' => 'The date \'%s\' is not a correct date range. It should have the following format: %s.',
 	'General_ExceptionGoalNotFound' => 'The goal id = %s couldn\'t be found.',
-	'General_ExceptionInvalidGoalPattern' => 'Pattern type %s not valid.',
-	'General_ExceptionInvalidIdsite' => 'The \'idsite\' in the request is invalid.',	
 	'General_ExceptionUndeletableFile' => 'Unable to delete %s', 
 	'General_ExceptionPrivilege' => 'You can\'t access this resource as it requires a %s access.', 
 	'General_ExceptionPrivilegeAtLeastOneWebsite' => 'You can\'t access this resource as it requires an %s access for at least one website.', 
