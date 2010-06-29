@@ -25,4 +25,36 @@ class Piwik_Widgetize extends Piwik_Plugin
 			'version' => Piwik_Version::VERSION,
 		);
 	}
+	
+	public function getListHooksRegistered()
+	{
+		return array( 
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'AssetManager.getCssFiles' => 'getCssFiles'
+		);
+	}	
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+
+		$jsFiles[] = "libs/swfobject/swfobject.js";
+		$jsFiles[] = "libs/jquery/jquery.tooltip.js";
+		$jsFiles[] = "libs/jquery/jquery.truncate.js";
+		$jsFiles[] = "libs/jquery/jquery.scrollTo.js";
+		$jsFiles[] = "themes/default/common.js";
+		$jsFiles[] = "plugins/CoreHome/templates/datatable.js";
+		$jsFiles[] = "plugins/Dashboard/templates/widgetMenu.js";
+		$jsFiles[] = "plugins/Widgetize/templates/widgetize.js";
+	}	
+	
+	function getCssFiles( $notification )
+	{
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/CoreHome/templates/styles.css";
+		$cssFiles[] = "plugins/CoreHome/templates/datatable.css";
+		$cssFiles[] = "plugins/CoreHome/templates/cloud.css";
+		$cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
+	}	
 }

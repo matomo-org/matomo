@@ -1,6 +1,4 @@
 {loadJavascriptTranslations plugins='CoreHome'}
-<script type="text/javascript" src="plugins/CoreHome/templates/calendar.js"></script>
-<script type="text/javascript" src="plugins/CoreHome/templates/date.js"></script>
 
 <span id="periodString">
 	<span id="date"><img src='themes/default/images/icon-calendar.gif' style="vertical-align:middle" alt="" /> {$prettyDate}</span> -&nbsp;

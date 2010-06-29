@@ -28,24 +28,28 @@ class Piwik_Dashboard extends Piwik_Plugin
 	public function getListHooksRegistered()
 	{
 		return array( 
-			'template_js_import' => 'js',
-			'template_css_import' => 'css',
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'AssetManager.getCssFiles' => 'getCssFiles',
 			'UsersManager.deleteUser' => 'deleteDashboardLayout',
 		);
 	}
 
-	function js()
+	function getJsFiles( $notification )
 	{
-		echo '
-<script type="text/javascript" src="plugins/Dashboard/templates/widgetMenu.js"></script>
-<script type="text/javascript" src="libs/javascript/json2.js"></script>
-<script type="text/javascript" src="plugins/Dashboard/templates/Dashboard.js"></script>
-		';
-	}
-
-	function css()
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/Dashboard/templates/widgetMenu.js";
+		$jsFiles[] = "libs/javascript/json2.js";
+		$jsFiles[] = "plugins/Dashboard/templates/Dashboard.js";
+	}	
+	
+	function getCssFiles( $notification )
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/Dashboard/templates/dashboard.css\" />\n";
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
+		$cssFiles[] = "plugins/CoreHome/templates/datatable.css";
+		$cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
 	}
 
 	function deleteDashboardLayout($notification)

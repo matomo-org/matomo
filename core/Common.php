@@ -308,8 +308,7 @@ class Piwik_Common
 	{
 		if(!is_dir($path))
 		{
-			$directoryParent = self::realpath(dirname($path));
-			@mkdir($directoryParent, $mode, $recursive = true);
+			mkdir($path, $mode, $recursive = true);
 		}
 
 		if($denyAccess)

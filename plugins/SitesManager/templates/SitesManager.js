@@ -1,121 +1,128 @@
-function getDeleteSiteAJAX( idSite )
-{
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
+function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurrency ) {
 
-	var parameters = {};
-	parameters.module = 'API';
-	parameters.format = 'json';
- 	parameters.method =  'SitesManager.deleteSite';
- 	parameters.idSite = idSite;
- 	parameters.token_auth = piwik.token_auth;
-	
-	ajaxRequest.data = parameters;
-	
-	return ajaxRequest;
-}
+	var timezones = _timezones;
+	var currencies = _currencies;
+	var defaultTimezone = _defaultTimezone;
+	var defaultCurrency = _defaultCurrency;
 
-function getAddSiteAJAX( row )
-{
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
+	function getDeleteSiteAJAX( idSite )
+	{
+		var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	
-	var parameters = {};
- 	var siteName = $(row).find('input#name').val();
- 	var urls =  $(row).find('textarea#urls').val();
-	urls = getApiFormatUrls(urls);
-	var excludedIps = $(row).find('textarea#excludedIps').val();
-	excludedIps = getApiFormatTextarea(excludedIps);
-	var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
-	var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
-	var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
-	excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
-	
-	var request = '';
-	request += '&module=API';
-	request += '&format=json';
-	request += '&method=SitesManager.addSite';
-	siteName = encodeURIComponent(siteName);
-	request += '&siteName='+siteName;
-	request += '&timezone='+timezone;
-	request += '&currency='+currency;
-	request += '&excludedIps='+excludedIps;
-	request += '&excludedQueryParameters='+excludedQueryParameters;
-	$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
- 	request += '&token_auth=' + piwik.token_auth;
- 	
-	ajaxRequest.data = request;
- 	
-	return ajaxRequest;
-}
-
-function getApiFormatUrls(urls)
-{
-	var aUrls = urls.trim().split("\n");
-	for(var i=0; i < aUrls.length; i++) {
-		aUrls[i] = encodeURIComponent(aUrls[i]);
+		var parameters = {};
+		parameters.module = 'API';
+		parameters.format = 'json';
+	 	parameters.method =  'SitesManager.deleteSite';
+	 	parameters.idSite = idSite;
+	 	parameters.token_auth = piwik.token_auth;
+		
+		ajaxRequest.data = parameters;
+		
+		return ajaxRequest;
 	}
-	return aUrls;
-}
-function getApiFormatTextarea(textareaContent)
-{
-	return textareaContent.trim().split("\n").join(',');
-}
-
-function getUpdateSiteAJAX( row )
-{
-	var ajaxRequest = piwikHelper.getStandardAjaxConf();
 	
-	var siteName = $(row).find('input#siteName').val();
-	var idSite = $(row).children('#idSite').html();
-	var urls = $(row).find('textarea#urls').val();
-	urls = getApiFormatUrls(urls);
-	var excludedIps = $(row).find('textarea#excludedIps').val();
-	excludedIps = getApiFormatTextarea(excludedIps);
-	var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
-	excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
-	var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
-	var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
-	var request = '';
-	request += '&module=API';
-	request += '&format=json';
-	request += '&method=SitesManager.updateSite';
-	siteName = encodeURIComponent(siteName);
-	request += '&siteName='+siteName;
-	request += '&idSite='+idSite;
-	request += '&timezone='+timezone;
-	request += '&currency='+currency;
-	request += '&excludedIps='+excludedIps;
-	request += '&excludedQueryParameters='+excludedQueryParameters;
-	$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
- 	request += '&token_auth=' + piwik.token_auth;
- 	
-	ajaxRequest.data = request;
+	function getAddSiteAJAX( row )
+	{
+		var ajaxRequest = piwikHelper.getStandardAjaxConf();
+		
+		var parameters = {};
+	 	var siteName = $(row).find('input#name').val();
+	 	var urls =  $(row).find('textarea#urls').val();
+		urls = getApiFormatUrls(urls);
+		var excludedIps = $(row).find('textarea#excludedIps').val();
+		excludedIps = getApiFormatTextarea(excludedIps);
+		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
+		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
+		var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
+		excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
+		
+		var request = '';
+		request += '&module=API';
+		request += '&format=json';
+		request += '&method=SitesManager.addSite';
+		siteName = encodeURIComponent(siteName);
+		request += '&siteName='+siteName;
+		request += '&timezone='+timezone;
+		request += '&currency='+currency;
+		request += '&excludedIps='+excludedIps;
+		request += '&excludedQueryParameters='+excludedQueryParameters;
+		$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
+	 	request += '&token_auth=' + piwik.token_auth;
+	 	
+		ajaxRequest.data = request;
+	 	
+		return ajaxRequest;
+	}
 	
-	return ajaxRequest;
-}
+	function getApiFormatUrls(urls)
+	{
+		var aUrls = urls.trim().split("\n");
+		for(var i=0; i < aUrls.length; i++) {
+			aUrls[i] = encodeURIComponent(aUrls[i]);
+		}
+		return aUrls;
+	}
+	function getApiFormatTextarea(textareaContent)
+	{
+		return textareaContent.trim().split("\n").join(',');
+	}
+	
+	function getUpdateSiteAJAX( row )
+	{
+		var ajaxRequest = piwikHelper.getStandardAjaxConf();
+		
+		var siteName = $(row).find('input#siteName').val();
+		var idSite = $(row).children('#idSite').html();
+		var urls = $(row).find('textarea#urls').val();
+		urls = getApiFormatUrls(urls);
+		var excludedIps = $(row).find('textarea#excludedIps').val();
+		excludedIps = getApiFormatTextarea(excludedIps);
+		var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
+		excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
+		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
+		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
+		var request = '';
+		request += '&module=API';
+		request += '&format=json';
+		request += '&method=SitesManager.updateSite';
+		siteName = encodeURIComponent(siteName);
+		request += '&siteName='+siteName;
+		request += '&idSite='+idSite;
+		request += '&timezone='+timezone;
+		request += '&currency='+currency;
+		request += '&excludedIps='+excludedIps;
+		request += '&excludedQueryParameters='+excludedQueryParameters;
+		$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
+	 	request += '&token_auth=' + piwik.token_auth;
+	 	
+		ajaxRequest.data = request;
+		
+		return ajaxRequest;
+	}
+	
+	function getGlobalSettingsAJAX()
+	{
+		var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingGlobalSettings', 'ajaxErrorGlobalSettings');
+		var timezone = encodeURIComponent($('#defaultTimezone option:selected').val());
+		var currency = encodeURIComponent($('#defaultCurrency option:selected').val());
+		var excludedIps = $('textarea#globalExcludedIps').val();
+		excludedIps = getApiFormatTextarea(excludedIps);
+		var excludedQueryParameters = $('textarea#globalExcludedQueryParameters').val();
+		excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
+		var request = '';
+		request += 'module=SitesManager';
+		request += '&action=setGlobalSettings';
+		request += '&format=json';
+		request += '&timezone='+timezone;
+		request += '&currency='+currency;
+		request += '&excludedIps='+excludedIps;
+		request += '&excludedQueryParameters='+excludedQueryParameters;
+	 	request += '&token_auth=' + piwik.token_auth;
+		ajaxRequest.data = request;
+		return ajaxRequest;
+	}
 
-function getGlobalSettingsAJAX()
-{
-	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingGlobalSettings', 'ajaxErrorGlobalSettings');
-	var timezone = encodeURIComponent($('#defaultTimezone option:selected').val());
-	var currency = encodeURIComponent($('#defaultCurrency option:selected').val());
-	var excludedIps = $('textarea#globalExcludedIps').val();
-	excludedIps = getApiFormatTextarea(excludedIps);
-	var excludedQueryParameters = $('textarea#globalExcludedQueryParameters').val();
-	excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
-	var request = '';
-	request += 'module=SitesManager';
-	request += '&action=setGlobalSettings';
-	request += '&format=json';
-	request += '&timezone='+timezone;
-	request += '&currency='+currency;
-	request += '&excludedIps='+excludedIps;
-	request += '&excludedQueryParameters='+excludedQueryParameters;
- 	request += '&token_auth=' + piwik.token_auth;
-	ajaxRequest.data = request;
-	return ajaxRequest;
-}
-
-$(document).ready( function() {
+	this.init = function () {
 	$('.addRowSite').click( function() {
 		piwikHelper.hideAjaxError();
 		$(this).toggle();
@@ -136,8 +143,16 @@ $(document).ready( function() {
 	 		</tr>')
 	  			.appendTo('#editSites')
 		;
-		$('.addsite').click( function(){ $.ajax( getAddSiteAJAX($('tr#'+newRowId)) ); } );
-		$('.cancel').click(function() { piwikHelper.hideAjaxError(); $(this).parents('tr').remove();  $('.addRowSite').toggle(); });
+		
+		$('.addsite').click( function(){ 
+			$.ajax( getAddSiteAJAX($('tr#'+newRowId)) ); 
+		});
+		
+		$('.cancel').click(function() { 
+			piwikHelper.hideAjaxError(); 
+			$(this).parents('tr').remove();  
+			$('.addRowSite').toggle(); 
+		});
 		return false;
 	 } );
 	
@@ -211,58 +226,58 @@ $(document).ready( function() {
 				.prepend( $('<img src="plugins/UsersManager/images/ok.png" class="updateSite" title="' + _pk_translate('SitesManager_Save_js') + '" />')
 							.click( function(){ $.ajax( getUpdateSiteAJAX( $('tr#'+idRow) ) ); } ) 
 					);
+		});
+	
+		$('#globalSettingsSubmit').click( function() {
+			$.ajax( getGlobalSettingsAJAX() );
+		});
+	
+		$('#defaultTimezone').html( getTimezoneSelector(defaultTimezone));
+		$('#defaultCurrency').html( getCurrencySelector(defaultCurrency));
+		
+		$('td.editableSite').click( function(){ $(this).parent().find('.editSite').click(); } );
+	}
+	
+	function getTimezoneSelector(selectedTimezone)
+	{
+		var html = '<select id="timezones">';
+		for(var continent in timezones) {
+			html += '<optgroup label="' + continent + '">';
+			for(var timezoneId in timezones[continent]) {
+				var selected = '';
+				if(timezoneId == selectedTimezone) {
+					selected = ' selected="selected" ';
+				}
+				html += '<option ' + selected + ' value="'+ timezoneId + '">' + timezones[continent][timezoneId] + '</option>';
+			}
+			html += "</optgroup>\n";
 		}
-	);
+		html += '</select>';
+		return html;
+	}
 	
-	$('#globalSettingsSubmit').click( function() {
-		$.ajax( getGlobalSettingsAJAX() );
-	});
-
-	$('#defaultTimezone').html( getTimezoneSelector(defaultTimezone));
-	$('#defaultCurrency').html( getCurrencySelector(defaultCurrency));
 	
-	$('td.editableSite').click( function(){ $(this).parent().find('.editSite').click(); } );
-});
-
-function getTimezoneSelector(selectedTimezone)
-{
-	var html = '<select id="timezones">';
-	for(var continent in timezones) {
-		html += '<optgroup label="' + continent + '">';
-		for(var timezoneId in timezones[continent]) {
+	function getCurrencySelector(selectedCurrency)
+	{
+		var html = '<select id="currencies">';
+		for(var currency in currencies) {
 			var selected = '';
-			if(timezoneId == selectedTimezone) {
+			if(currency == selectedCurrency) {
 				selected = ' selected="selected" ';
 			}
-			html += '<option ' + selected + ' value="'+ timezoneId + '">' + timezones[continent][timezoneId] + '</option>';
+			html += '<option ' + selected + ' value="'+ currency + '">' + currencies[currency] + '</option>';
 		}
-		html += "</optgroup>\n";
+		html += '</select>';
+		return html;
 	}
-	html += '</select>';
-	return html;
-}
-
-
-function getCurrencySelector(selectedCurrency)
-{
-	var html = '<select id="currencies">';
-	for(var currency in currencies) {
-		var selected = '';
-		if(currency == selectedCurrency) {
-			selected = ' selected="selected" ';
-		}
-		html += '<option ' + selected + ' value="'+ currency + '">' + currencies[currency] + '</option>';
-	}
-	html += '</select>';
-	return html;
-}
-
-function submitSiteOnEnter(e)
-{
-	var key=e.keyCode || e.which;
-	if (key==13)
+	
+	function submitSiteOnEnter(e)
 	{
-		$(this).parent().find('.updateSite').click();
-		$(this).find('.addsite').click();
+		var key=e.keyCode || e.which;
+		if (key==13)
+		{
+			$(this).parent().find('.updateSite').click();
+			$(this).find('.addsite').click();
+		}
 	}
 }

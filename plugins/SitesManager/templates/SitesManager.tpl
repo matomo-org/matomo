@@ -35,15 +35,15 @@ var excludedQueryParametersHelp = '{$excludedQueryParametersHelp|escape:javascri
 var timezoneHelp = '{$timezoneHelpPlain|inlineHelp|escape:javascript}';
 var currencyHelp = '{$currencyHelpPlain|escape:javascript}';
 {assign var=defaultTimezoneHelp value=$defaultTimezoneHelpPlain|inlineHelp};
-var timezones = {$timezones};
-var currencies = {$currencies};
-var defaultTimezone = '{$defaultTimezone}';
-var defaultCurrency = '{$defaultCurrency}';
-</script>
 
-<script type="text/javascript" src="plugins/SitesManager/templates/SitesManager.js"></script>
+var sitesManager = new SitesManager ( {$timezones}, {$currencies}, '{$defaultTimezone}', '{$defaultCurrency}');
 
 {literal}
+$(document).ready( function() {
+	sitesManager.init();
+});
+</script>
+
 <style>
 .addRowSite:hover, .editableSite:hover, .addsite:hover, .cancel:hover, .deleteSite:hover, .editSite:hover, .updateSite:hover{
 	cursor: pointer;

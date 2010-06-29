@@ -3,9 +3,6 @@
 {assign var=showMenu value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 
-<style>
-{fetch file="plugins/API/templates/styles.css"}
-</style>
 <h2>{'API_QuickDocumentationTitle'|translate}</h2>
 <p>{'API_PluginDescription'|translate}</p>
 

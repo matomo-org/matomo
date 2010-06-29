@@ -21,7 +21,8 @@
 }
 </style>
 {/literal}
-	{postEvent name="template_css_import"}
+
+	{includeAssets type="css"}
 
 	<script type="text/javascript" src="libs/jquery/jquery.js"></script>
 	<script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>

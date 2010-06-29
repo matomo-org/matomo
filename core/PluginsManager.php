@@ -118,6 +118,9 @@ class Piwik_PluginsManager
 				Zend_Registry::get('config')->Plugins_Tracker = array('Plugins_Tracker' => $pluginsTracker);
 			}
 		}
+		
+		// Delete merged js/css files to force regenerations to exclude the deactivated plugin
+		Piwik_AssetManager::removeMergedAssets();
 	}
 	
 	public function installLoadedPlugins()
@@ -155,6 +158,9 @@ class Piwik_PluginsManager
 		
 		// the config file will automatically be saved with the new plugin
 		Zend_Registry::get('config')->Plugins = $plugins;
+		
+		// Delete merged js/css files to force regenerations to include the activated plugin
+		Piwik_AssetManager::removeMergedAssets();		
 	}
 	
 	public function loadPlugins( array $pluginsToLoad )

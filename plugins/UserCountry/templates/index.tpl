@@ -1,7 +1,5 @@
 {postEvent name="template_headerUserCountry"}
 
-<script type="text/javascript" src="plugins/CoreHome/templates/sparkline.js"></script>
-
 <h2>{'UserCountry_Country'|translate}</h2>
 {$dataTableCountry}
 

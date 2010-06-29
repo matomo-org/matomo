@@ -3,21 +3,6 @@
 {include file="CoreHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='Dashboard'}
 
-<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/styles.css" />
-<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/datatable.css" />
-<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/cloud.css" />
-<link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
-
-<script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
-<script type="text/javascript" src="libs/jquery/jquery.tooltip.js"></script>
-<script type="text/javascript" src="libs/jquery/jquery.truncate.js"></script>
-<script type="text/javascript" src="libs/jquery/jquery.scrollTo.js"></script>
-<script type="text/javascript" src="themes/default/common.js"></script>
-<script type="text/javascript" src="plugins/CoreHome/templates/datatable.js"></script>
-<script type="text/javascript" src="plugins/Dashboard/templates/widgetMenu.js"></script>
-
-<script type="text/javascript" src="plugins/Widgetize/templates/widgetize.js"></script>
-
 {literal}
 <style>
 .menu {

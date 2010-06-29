@@ -2,7 +2,6 @@
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='UsersManager'}
-<script type="text/javascript" src="plugins/CoreAdminHome/templates/generalSettings.js"></script>
 
 <h2>{'General_GeneralSettings'|translate}</h2>
 

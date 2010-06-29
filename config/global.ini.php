@@ -47,6 +47,10 @@ enable_sql_profiler = 0
 ; this is useful for Piwik developers as an easy way to create data in their local Piwik
 track_visits_inside_piwik_ui = 0
 
+; if set to 1, javascript and css files will be included individually
+; this option must be set to 1 when adding, removing or modifying javascript and css files
+disable_merged_assets = 0
+
 [General]
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
 ; for example a URL like "example.com/blog/development/first-post" will create 

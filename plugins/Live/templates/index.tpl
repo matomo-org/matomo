@@ -1,6 +1,4 @@
 {literal}
-<script type="text/javascript" src="plugins/Live/templates/scripts/spy.js"></script>
-
 <script type="text/javascript" charset="utf-8">
 
 	$(document).ready(function() {

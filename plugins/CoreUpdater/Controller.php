@@ -17,7 +17,7 @@
 class Piwik_CoreUpdater_Controller extends Piwik_Controller
 {
 	const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';
-	const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest';
+	const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest/';
 	const LATEST_PIWIK_URL = 'http://piwik.org/latest.zip';
 
 	private $coreError = false;
@@ -296,6 +296,9 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 	private function doExecuteUpdates($view, $updater, $componentsWithUpdateFile)
 	{
+		// Delete merged js/css files to force regenerations based on new versions of css/js files
+		Piwik_AssetManager::removeMergedAssets();	
+		
 		$this->loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile);
 
 		$view->coreError = $this->coreError;

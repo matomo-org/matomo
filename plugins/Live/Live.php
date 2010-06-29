@@ -29,15 +29,25 @@ class Piwik_Live extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
-			'template_css_import' => 'css',
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'AssetManager.getCssFiles' => 'getCssFiles',
 			'WidgetsList.add' => 'addWidget',
 			'Menu.add' => 'addMenu',
 		);
 	}
-
-	function css()
+	
+	function getCssFiles( $notification )
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "themes/default/styles.css";
+	}	
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/Live/templates/scripts/spy.js";
 	}
 
 	function addMenu()

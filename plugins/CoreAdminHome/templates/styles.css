@@ -1,10 +1,10 @@
-img {
+.admin img {
 	vertical-align: baseline;
 }
 textarea {
 	font-size: 1em;
 }
-a {
+.admin a {
 	color: black;
 }
 
@@ -84,7 +84,7 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 	padding: 15px;
 }
 
-h2 {
+.admin h2 {
 	border-bottom-color:#DADADA;
 	color:#666666;
 	border-bottom-style:solid;
@@ -99,16 +99,17 @@ h2 {
 	padding:0pt 0px 7px 0pt;
 }
 
-p {
+.admin p {
 	margin-top:10px;
 	line-height:140%;
 	padding-bottom:0.8em;
 }
-#content {
+#content.admin {
 	margin:0pt 15px;
 	padding:0pt;
 }
-textarea, input, select {
+
+.admin textarea, .admin input, .admin select {
 	background-color:#FFFFFF;
 	border-color:#939EA5;
 	-moz-border-radius:4px;
@@ -118,6 +119,7 @@ textarea, input, select {
 	margin:1px;
 	padding:3px;
 }
+
 input[disabled] {
 	background-color:#F7F7F7;
 }

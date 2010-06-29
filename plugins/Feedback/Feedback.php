@@ -29,18 +29,23 @@ class Piwik_Feedback extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
-			'template_css_import' => 'css',
-			'template_js_import' => 'js',
+			'AssetManager.getCssFiles' => 'getCssFiles',
+			'AssetManager.getJsFiles' => 'getJsFiles',
 		);
 	}
 
-	function css()
+	function getCssFiles( $notification )
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/Feedback/templates/styles.css\" />\n";
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/Feedback/templates/styles.css";
 	}
 
-	function js()
+	function getJsFiles( $notification )
 	{
-		echo "<script type=\"text/javascript\" src=\"plugins/Feedback/templates/feedback.js\"></script>\n";
-	}
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/Feedback/templates/feedback.js";
+	}	
+	
 }
