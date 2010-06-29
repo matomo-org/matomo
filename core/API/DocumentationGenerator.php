@@ -85,6 +85,7 @@ class Piwik_API_DocumentationGenerator
 									<a target=_blank href='$exampleUrl&format=PHP&prettyDisplay=true$token_auth'>PHP</a>, 
 									<a target=_blank href='$exampleUrl&format=JSON$token_auth'>Json</a>, 
 									<a target=_blank href='$exampleUrl&format=Csv$token_auth'>Csv</a>, 
+									<a target=_blank href='$exampleUrl&format=Tsv$token_auth'>Tsv (Excel)</a>, 
 									<a target=_blank href='$exampleUrl&format=Html$token_auth'>Basic html</a> 
 									$lastNUrls
 									]";
