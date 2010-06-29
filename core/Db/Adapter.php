@@ -21,30 +21,38 @@ class Piwik_Db_Adapter
 	 *
 	 * @param string $adapterName database adapter name
 	 * @param array $dbInfos database connection info
+	 * @param bool $connect
 	 * @return mixed (Piwik_Db_Adapter_Mysqli, Piwik_Db_Adapter_Pdo_Mysql, etc)
 	 */
-	public static function factory($adapterName, & $dbInfos)
+	public static function factory($adapterName, & $dbInfos, $connect = true)
 	{
-		if($dbInfos['port'][0] == '/')
+		if($connect)
 		{
-			$dbInfos['unix_socket'] = $dbInfos['port'];
-			unset($dbInfos['host']);
-			unset($dbInfos['port']);
-		}
+			if($dbInfos['port'][0] == '/')
+			{
+				$dbInfos['unix_socket'] = $dbInfos['port'];
+				unset($dbInfos['host']);
+				unset($dbInfos['port']);
+			}
 
-		// not used by Zend Framework
-		unset($dbInfos['tables_prefix']);
-		unset($dbInfos['adapter']);
-		unset($dbInfos['schema']);
+			// not used by Zend Framework
+			unset($dbInfos['tables_prefix']);
+			unset($dbInfos['adapter']);
+			unset($dbInfos['schema']);
+		}
 
 		$className = self::getAdapterClassName($adapterName);
 		$adapter = new $className($dbInfos);
-		$adapter->getConnection();
 
-		Zend_Db_Table::setDefaultAdapter($adapter);
+		if($connect)
+		{
+			$adapter->getConnection();
 
-		// we don't want the connection information to appear in the logs
-		$adapter->resetConfig();
+			Zend_Db_Table::setDefaultAdapter($adapter);
+
+			// we don't want the connection information to appear in the logs
+			$adapter->resetConfig();
+		}
 
 		return $adapter;
 	}
