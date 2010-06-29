@@ -10,20 +10,20 @@
 */
 class Piwik_SEO_RankChecker 
 {
-    var $url;
-	var $results = array();
+	private $url;
+	private $results = array();
 
-    function __construct($url) 
+    public function __construct($url)
 	{
 		$this->url = preg_replace('/http\:\/\//si', '', $url);
     }
 
-    function getPage ($url) 
+    private function getPage ($url)
 	{
 		return Piwik_Http::sendHttpRequest($url, $timeout = 5, @$_SERVER['HTTP_USER_AGENT']);
     }
 
-    function getPagerank () 
+    public function getPagerank ()
 	{
     	$chwrite = $this->CheckHash($this->HashURL($this->url));
     	
@@ -35,19 +35,19 @@ class Piwik_SEO_RankChecker
         return $value;
     }
 
-    function getAlexaRank () 
+    public function getAlexaRank ()
 	{
     	$url = $this->url;
         $xml = simplexml_load_file('http://data.alexa.com/data?cli=10&url=' . $url);
         return $xml->SD->POPULARITY['TEXT'];
     }
     
-    function getDmoz () 
+    public function getDmoz ()
 	{
-        $url = ereg_replace('^www\.', '', $this->url);
+        $url = preg_replace('/^www\./', '', $this->url);
         $url = "http://search.dmoz.org/cgi-bin/search?search=$url";
         $data = $this->getPage($url);
-        if (ereg('<center>No <b><a href="http://dmoz\.org/">Open Directory Project</a></b> results found</center>', $data)) 
+        if (preg_match('<center>No <b><a href="http://dmoz\.org/">Open Directory Project</a></b> results found</center>', $data))
         {
             $value = false;
         } 
@@ -58,12 +58,12 @@ class Piwik_SEO_RankChecker
         return $value;
     }
     
-    function getYahooDirectory () 
+    public function getYahooDirectory ()
 	{
-        $url = ereg_replace('^www\.', '', $this->url);
+        $url = preg_replace('/^www\./', '', $this->url);
         $url = "http://search.yahoo.com/search/dir?p=$url";
         $data = $this->getPage($url);
-        if (ereg('No Directory Search results were found\.', $data)) {
+        if (preg_match('No Directory Search results were found\.', $data)) {
             $value = false;
         } else {
             $value = true;
@@ -71,7 +71,7 @@ class Piwik_SEO_RankChecker
         return $value;
     }
     
-    function getBacklinksGoogle () 
+    public function getBacklinksGoogle ()
 	{
         $url = $this->url;
         $url = 'http://www.google.com/search?q=link%3A'.urlencode($url);
@@ -82,7 +82,7 @@ class Piwik_SEO_RankChecker
 
     }
 
-    function getBacklinksYahoo () 
+    public function getBacklinksYahoo ()
 	{
         $url = $this->url;
         $url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode("http://$url");
@@ -92,9 +92,9 @@ class Piwik_SEO_RankChecker
         return $value;
     }
     
-    function getAge () 
+    public function getAge ()
 	{
-        $url = ereg_replace('^www\.', '', $this->url);
+        $url = preg_replace('/^www\./', '', $this->url);
         $url = "http://www.who.is/whois-com/ip-address/$url";
         $data = $this->getPage($url);
         preg_match('#Creation Date: ([a-z0-9-]+)#si', $data, $p);
@@ -110,7 +110,7 @@ class Piwik_SEO_RankChecker
         return $value;
     }
 
-    function getIndexedYahoo () 
+    public function getIndexedYahoo ()
 	{
         $url = $this->url;
         $url = 'http://siteexplorer.search.yahoo.com/search?p='.urlencode("http://$url");
@@ -120,7 +120,7 @@ class Piwik_SEO_RankChecker
         return $value;
     }
 
-    function toInt($string) 
+    private function toInt($string)
 	{
         return preg_replace('#[^0-9]#si', '', $string);
     }
@@ -131,7 +131,7 @@ class Piwik_SEO_RankChecker
      */
     
     //--> for google Piwik_SEO_Ranks 
-    function StrToNum($Str, $Check, $Magic) 
+    private function StrToNum($Str, $Check, $Magic)
     { 
         $Int32Unit = 4294967296;  // 2^32 
     
@@ -156,7 +156,7 @@ class Piwik_SEO_RankChecker
     /* 
     * Genearate a hash for a url 
     */ 
-    function HashURL($String) 
+    private function HashURL($String)
     { 
         $Check1 = $this->StrToNum($String, 0x1505, 0x21); 
         $Check2 = $this->StrToNum($String, 0, 0x1003F); 
@@ -176,7 +176,7 @@ class Piwik_SEO_RankChecker
     /* 
     * genearate a checksum for the hash string 
     */ 
-    function CheckHash($Hashnum) 
+    private function CheckHash($Hashnum)
     { 
         $CheckByte = 0; 
         $Flag = 0; 

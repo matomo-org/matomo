@@ -1108,4 +1108,5 @@ $translations = array(
 	'SEO_Rank' => 'Rank',
 	'SEO_Backlinks' => 'Backlinks',
 	'SEO_Pages' => 'Pages',
+	'SEO_SEORankingsFor' => 'SEO Rankings for %s',
 );
