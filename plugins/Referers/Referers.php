@@ -35,6 +35,7 @@ class Piwik_Referers extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
+			'AssetManager.getJsFiles' => 'getJsFiles',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
@@ -42,6 +43,13 @@ class Piwik_Referers extends Piwik_Plugin
 			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
 		);
 		return $hooks;
+	}
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
 	}
 
 	function __construct()

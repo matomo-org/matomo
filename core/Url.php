@@ -144,11 +144,7 @@ class Piwik_Url
 		{
 			$scheme = 'https';
 		}
-		else 
-		{
-			$scheme = 'http';
-		}
-		return $scheme;
+		return 'http';
 	}
 
 	/**

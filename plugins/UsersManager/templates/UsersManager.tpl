@@ -38,7 +38,6 @@
 }
 </style>
 {/literal}
-<script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>
 
 <h2>{'UsersManager_ManageAccess'|translate}</h2>
 <p>{'UsersManager_MainDescription'|translate}</p>

@@ -4,11 +4,6 @@
 {assign var=showPeriodSelection value=true}
 {include file="CoreHome/templates/header.tpl"}
 
-<script type="text/javascript" src="plugins/MultiSites/templates/common.js"></script>
-<style>
-{fetch file="plugins/MultiSites/templates/styles.css"}
-</style>
-
 <div id="multisites" style="margin: auto">
 <div id="main">
 {include file="MultiSites/templates/row.tpl" assign="row"}

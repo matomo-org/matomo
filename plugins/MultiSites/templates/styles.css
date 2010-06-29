@@ -35,12 +35,12 @@
 	width: 10px;
 	height: 12px;
 	display: inline-block;
-	background-image: url('plugins/MultiSites/images/arrow_asc.gif');
+	background-image: url('../images/arrow_asc.gif');
 }
 .multisites_desc
 {
 	width: 10px;
 	height: 13px;
 	display: inline-block;
-	background-image: url('plugins/MultiSites/images/arrow_desc.gif');
+	background-image: url('../images/arrow_desc.gif');
 }

@@ -285,11 +285,12 @@ class Piwik
 		if( $directoriesToCheck == null )
 		{
 			$directoriesToCheck = array(
-				'/config',
-				'/tmp',
-				'/tmp/templates_c',
-				'/tmp/cache',
-				'/tmp/latest',
+				'/config/',
+				'/tmp/',
+				'/tmp/templates_c/',
+				'/tmp/cache/',
+				'/tmp/latest/',
+				'/tmp/assets/',
 			);
 		}
 

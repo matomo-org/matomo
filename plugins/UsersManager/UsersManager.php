@@ -30,7 +30,18 @@ class Piwik_UsersManager extends Piwik_Plugin
 	
 	function getListHooksRegistered()
 	{
-		return array('AdminMenu.add' => 'addMenu');
+		return array(
+				'AdminMenu.add' => 'addMenu',
+				'AssetManager.getJsFiles' => 'getJsFiles'
+		);
+	}
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/UsersManager/templates/UsersManager.js";	
+		$jsFiles[] = "plugins/UsersManager/templates/userSettings.js";
 	}
 	
 	function addMenu()

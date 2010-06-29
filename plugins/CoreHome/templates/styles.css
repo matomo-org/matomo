@@ -21,14 +21,14 @@ h3 {
 	color: #1D3256;
 }
 
-p {
+.home p {
 	padding-bottom: 1em;
 	margin-right: 1em;
 	margin-left:1em;
 }
 
 /* Content */
-#content {
+#content.home {
 	margin-left: 10px;
 }
 

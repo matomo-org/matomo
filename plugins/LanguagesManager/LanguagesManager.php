@@ -30,17 +30,19 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	public function getListHooksRegistered()
 	{
 		return array( 
-			'template_css_import' => 'css',
+			'AssetManager.getCssFiles' => 'getCssFiles',
 			'template_topBar' => 'showLanguagesSelector',
 			'Translate.getLanguageToLoad' => 'getLanguageToLoad',
 			'UsersManager.deleteUser' => 'deleteUserLanguage',
 		);
 	}
-
-	function css()
+	
+	function getCssFiles( $notification )
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
-	}
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "themes/default/styles.css";
+	}	
 
 	/**
 	 * Show styled language selection drop-down list

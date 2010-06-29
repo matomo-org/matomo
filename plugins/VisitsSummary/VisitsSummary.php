@@ -30,10 +30,18 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
+			'AssetManager.getJsFiles' => 'getJsFiles',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
 		);
 	}
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
+	}	
 	
 	function addWidgets()
 	{

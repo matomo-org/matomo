@@ -26,4 +26,18 @@ class Piwik_API extends Piwik_Plugin
 			'version' => Piwik_Version::VERSION,
 		);
 	}
+	
+	function getListHooksRegistered()
+	{
+		return array(
+			'AssetManager.getCssFiles' => 'getCssFiles'
+		);
+	}
+	
+	function getCssFiles( $notification )
+	{
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/API/templates/styles.css";
+	}
 }

@@ -184,9 +184,10 @@ class Piwik_FrontController
 			Zend_Registry::set('timer', new Piwik_Timer);
 			
 			$directoriesToCheck = array(
-					'/tmp', 
-					'/tmp/templates_c',
-					'/tmp/cache',
+					'/tmp/',
+					'/tmp/templates_c/',
+					'/tmp/cache/',
+					'/tmp/assets/'
 			);
 			
 			Piwik::checkDirectoriesWritableOrDie($directoriesToCheck);

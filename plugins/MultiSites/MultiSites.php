@@ -29,18 +29,21 @@ class Piwik_MultiSites extends Piwik_Plugin
 	public function getListHooksRegistered()
 	{
 		return array(
-			'template_css_import' => 'css',
-			'template_js_import' => 'js',
+			'AssetManager.getCssFiles' => 'getCssFiles',
+			'AssetManager.getJsFiles' => 'getJsFiles',
 		);
 	}
-
-	public function css()
+	function getJsFiles( $notification )
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/MultiSites/templates/styles.css\" />\n";
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/MultiSites/templates/common.js";
 	}
-
-	public function js()
+	
+	function getCssFiles( $notification )
 	{
-		echo "<script type=\"text/javascript\" src=\"plugins/MultiSites/templates/common.js\"></script>\n";
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/MultiSites/templates/styles.css";
 	}
 }

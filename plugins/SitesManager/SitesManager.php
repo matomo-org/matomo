@@ -30,7 +30,8 @@ class Piwik_SitesManager extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
-			'template_css_import' => 'css',
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AdminMenu.add' => 'addMenu',
 			'Common.fetchWebsiteAttributes' => 'recordWebsiteDataInCache',
 		);
@@ -44,9 +45,18 @@ class Piwik_SitesManager extends Piwik_Plugin
 							$order = 5);		
 	}
 	
-	function css()
+	function getCssFiles( $notification )
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "themes/default/styles.css";
+	}	
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/SitesManager/templates/SitesManager.js";
 	}
 	
 	/**

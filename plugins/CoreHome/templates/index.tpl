@@ -7,7 +7,7 @@
 {ajaxLoadingDiv}
 {ajaxRequestErrorDiv}
 
-<div id="content">
+<div id="content" class="home">
 {if $content}{$content}{/if}
 </div>
 
