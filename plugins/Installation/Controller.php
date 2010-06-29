@@ -187,7 +187,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					Piwik::createDatabaseObject($dbInfos);
 					$this->session->databaseCreated = true;
 				} catch (Zend_Db_Adapter_Exception $e) {
-					$db = Piwik_Db_Adapter::factory($adapter, $dbInfos);
+					$db = Piwik_Db_Adapter::factory($adapter, $dbInfos, $connect = false);
 
 					// database not found, we try to create  it
 					if($db->isErrNo($e, '1049'))
