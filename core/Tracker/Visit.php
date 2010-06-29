@@ -216,8 +216,15 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * In the case of a known visit, we have to do the following actions:
 	 *
 	 * 1) Insert the new action
-	 *
 	 * 2) Update the visit information
+	 *
+	 * This method triggers two events:
+	 *
+	 * Tracker.knownVisitorUpdate is triggered before the visit information is updated
+	 * Event data is an array with the values to be updated (could be changed by plugins)
+	 *
+	 * Tracker.knownVisitorInformation is triggered after saving the new visit data
+	 * Even data is an array with updated information about the visit
 	 */
 	protected function handleKnownVisit($actionUrlId, $someGoalsConverted)
 	{
@@ -225,41 +232,57 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($serverTime);
 		printDebug("Visit known. Current date is ".$datetimeServer);
 
-		$sqlUpdateGoalConverted = '';
+		// gather information that needs to be updated
+		$valuesToUpdate = array();
 		if($someGoalsConverted)
 		{
-			$sqlUpdateGoalConverted = " visit_goal_converted = 1,";
+			$valuesToUpdate['visit_goal_converted'] = 1;
 		}
 
-		$sqlActionIdUpdate = '';
+		$sqlActionUpdate = '';
 		if(!empty($actionUrlId))
 		{
-			$sqlActionIdUpdate = "visit_exit_idaction_url = ". $actionUrlId .",
-									visit_total_actions = visit_total_actions + 1, ";
-			$this->visitorInfo['visit_exit_idaction_url'] = $actionUrlId;
+			$valuesToUpdate['visit_exit_idaction_url'] = $actionUrlId;
+			$sqlActionUpdate = "visit_total_actions = visit_total_actions + 1, ";
 		}
+
+		$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];
+		$valuesToUpdate['visit_last_action_time'] = $datetimeServer;
+		$valuesToUpdate['visit_total_time'] = $visitTotalTime;
+
+		// trigger event before update
+		Piwik_PostEvent('Tracker.knownVisitorUpdate', $valuesToUpdate);
+
+		// build sql query
+		$updateParts = $sqlBind = array();
+
+		foreach($valuesToUpdate AS $name => $value)
+		{
+			$updateParts[] = $name." = ?";
+			$sqlBind[] = $value;
+		}
+
 		$sqlQuery = "/* SHARDING_ID_SITE = ". $this->idsite ." */
-							UPDATE ". Piwik_Common::prefixTable('log_visit')."
-							SET $sqlActionIdUpdate
-								$sqlUpdateGoalConverted
-								visit_last_action_time = ?,
-								visit_total_time = ?
-							WHERE idsite = ? 
-								AND idvisit = ?
-								AND visitor_idcookie = ?
-							LIMIT 1";
-		$sqlBind = array( 	$datetimeServer,
-							$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'],
-							$this->idsite,
-							$this->visitorInfo['idvisit'],
-							$this->visitorInfo['visitor_idcookie'] );
-							
+						UPDATE ". Piwik_Common::prefixTable('log_visit')."
+						SET $sqlActionUpdate ".implode($updateParts, ', ')."
+						WHERE idsite = ?
+							AND idvisit = ?
+							AND visitor_idcookie = ?
+						LIMIT 1";
+		array_push($sqlBind, $this->idsite, $this->visitorInfo['idvisit'], $this->visitorInfo['visitor_idcookie'] );
+
 		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
-		
+
 		printDebug('Updating visitor with idvisit='.$this->visitorInfo['idvisit'].', setting visit_last_action_time='.$datetimeServer.' and visit_total_time='.$visitTotalTime);
 		if(Piwik_Tracker::getDatabase()->rowCount($result) == 0)
 		{
 			throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase("The visitor with visitor_idcookie=".$this->visitorInfo['visitor_idcookie']." and idvisit=".$this->visitorInfo['idvisit']." wasn't found in the DB, we fallback to a new visitor");
+		}
+
+		// update visitorInfo
+		foreach($valuesToUpdate AS $name => $value)
+		{
+			$this->visitorInfo[$name] = $value;
 		}
 
 		$this->visitorInfo['idsite'] = $this->idsite;
