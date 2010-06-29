@@ -1,6 +1,5 @@
 {if isset($onlyShowAddNewGoal)}
     <h2>{'Goals_AddNewGoal'|translate}</h2>
-    <p>{'Goals_DescriptionGoalsManagement'|translate} </p>
     <p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
     </p>
 {else}
