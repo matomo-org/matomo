@@ -49,11 +49,10 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		{
 			$view->configFileNotWritable = true;
 		}
-		
 		echo $view->render();
 	}
 
-	function deactivate()
+	public function deactivate()
 	{
 		Piwik::checkUserIsSuperUser();
 		$this->checkTokenInUrl();
@@ -62,7 +61,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin&action=index');
 	}
 
-	function activate()
+	public function activate()
 	{
 		Piwik::checkUserIsSuperUser();
 		$this->checkTokenInUrl();
