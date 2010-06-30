@@ -298,6 +298,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	{
 		// Delete merged js/css files to force regenerations based on new versions of css/js files
 		Piwik_AssetManager::removeMergedAssets();	
+		Piwik_View::clearCompiledTemplates();
 		
 		$this->loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile);
 
