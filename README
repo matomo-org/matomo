@@ -49,9 +49,8 @@ Check the full documentation on http://dev.piwik.org/trac/wiki/API/Reference
 
 Generate fake data
 ==================
-To generate thousands of fake visits to get some data to play with, 
-you can see the script /misc/generateVisits.php
-you can edit the number of visits to generate, the number of actions per visit, and the days
+You can generate fake data in your Piwik install so you can play with the User Interface and 
+get a feel for Piwik. You can go the Plugins page in the admin area, and enable the VisitorGenerator plugin.
 
 Contact
 =======
