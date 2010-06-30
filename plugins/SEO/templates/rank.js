@@ -15,7 +15,7 @@ $(document).ready(function() {
 			data: { 
 					module: 'SEO',
 					action :'getRank',
-					url: encodeURIComponent( $('#url').val() ), 
+					url: encodeURIComponent( $('#seoUrl').val() ), 
 					idSite: piwik.idSite
 				}
 		};
@@ -27,4 +27,5 @@ $(document).ready(function() {
 		getRank();
 		return false ;
 	});
+
 });

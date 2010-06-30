@@ -98,15 +98,12 @@ class Piwik_SEO_RankChecker
         $url = "http://www.who.is/whois-com/ip-address/$url";
         $data = $this->getPage($url);
         preg_match('#Creation Date: ([a-z0-9-]+)#si', $data, $p);
-        if(isset($p[1])) 
+        if(!isset($p[1])) 
 		{
-            $value = time() - strtotime($p[1]);
-            $value = Piwik::getPrettyTimeFromSeconds($value);
-        } 
-        else 
-		{
-            $value = false;
-        }
+			return null;
+		}
+        $value = time() - strtotime($p[1]);
+        $value = Piwik::getPrettyTimeFromSeconds($value);
         return $value;
     }
 
