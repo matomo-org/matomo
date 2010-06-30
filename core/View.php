@@ -201,9 +201,10 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * Clear compiled Smarty templates 
 	 */
-	public function clearCompiledTemplates()
+	static public function clearCompiledTemplates()
 	{
-		$this->smarty->clear_compiled_tpl();
+		$view = Piwik_View::factory();
+		$view->smarty->clear_compiled_tpl();
 	}
 
 /*
@@ -215,8 +216,6 @@ class Piwik_View implements Piwik_iView
 		}
 		return false;
 	}
-
-
 	public function setCaching($caching)
 	{
 		$this->smarty->caching = $caching;
@@ -271,7 +270,7 @@ class Piwik_View implements Piwik_iView
 	 * @param $templateName Template name (e.g., 'index')
 	 * @param $viewType     View type (e.g., Piwik_View::CLI)
 	 */
-	static public function factory( $templateName, $viewType = null)
+	static public function factory( $templateName = null, $viewType = null)
 	{
 		Piwik_PostEvent('View.getViewType', $viewType);
 
@@ -320,12 +319,15 @@ class Piwik_View implements Piwik_iView
 		if($viewType != self::MOBILE)
 		{
 			$templateFile = $path.'/templates/'.$templateName.'.tpl';
-			if(!file_exists($templateFile))
-			{
-				throw new Exception('Template not found: '.$templateFile);
-			}
 		}
-
+		
+		// Specified template not found
+		// We allow for no specified template 
+		if(!empty($templateName)
+			&& !file_exists($templateFile))
+		{
+			throw new Exception('Template not found: '.$templateFile);
+		}
 		return new Piwik_View($templateFile);
 	}
 }

@@ -74,6 +74,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	{
 		// Delete merged js/css files to force regenerations based on updated activated plugin list
 		Piwik_AssetManager::removeMergedAssets();
+		Piwik_View::clearCompiledTemplates();
 		
 		$view = new Piwik_Installation_View(
 						$this->pathView . 'welcome.tpl',
