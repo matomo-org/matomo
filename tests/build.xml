@@ -174,7 +174,7 @@
 		<antcall target="test-pdo-mysql"/>
 		<!-- antcall target="test-mysqli"/ -->
 		<antcall target="webtest"/>
-		<antcall target="chmod"/>
+		<!-- antcall target="chmod"/ -->
 		<antcall target="phpdoc"/>
 		<antcall target="schemaspy"/>
 	</target>
