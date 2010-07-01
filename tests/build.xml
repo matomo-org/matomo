@@ -120,7 +120,7 @@
 		<exec executable="${php.executable}" dir="${basedir}/../build" failonerror="true" failifexecutionfails="true">
 			<arg value="${phpdocumentor.home}/phpDocumentor/phpdoc.inc" />
 			<arg value="--useconfig"/>
-			<arg path="${basedir}/../misc/phpdoc-config.ini"/>
+			<arg file="${basedir}/../misc/phpdoc-config.ini"/>
 		</exec>
 
 		<copy todir="${phpdocumentor.report.dir}" overwrite="true" failonerror="true" verbose="true">
