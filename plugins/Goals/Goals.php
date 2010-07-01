@@ -40,6 +40,7 @@ class Piwik_Goals extends Piwik_Plugin
 	{
 		$hooks = array(
 			'AssetManager.getJsFiles' => 'getJsFiles',
+			'AssetManager.getCssFiles' => 'getCssFiles',
 			'Common.fetchWebsiteAttributes' => 'fetchGoalsFromDb',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
@@ -55,6 +56,13 @@ class Piwik_Goals extends Piwik_Plugin
 		
 		$jsFiles[] = "plugins/Goals/templates/GoalForm.js";
 		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
+	}
+
+	function getCssFiles( $notification )
+	{
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/Goals/templates/goals.css";
 	}	
 	
 	function fetchGoalsFromDb($notification)

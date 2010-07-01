@@ -11,3 +11,6 @@
 	<div class="sparkline">{sparkline src=$urlSparklineBounceRate} {'VisitsSummary_NbVisitsBounced'|translate:"<strong>$bounceRate%</strong>"}</div>
 </div>
 <div style="clear:both;"></div>
+
+{include file=CoreHome/templates/sparkline_footer.tpl}
+
