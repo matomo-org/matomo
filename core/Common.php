@@ -308,7 +308,7 @@ class Piwik_Common
 	{
 		if(!is_dir($path))
 		{
-			mkdir($path, $mode, $recursive = true);
+			@mkdir($path, $mode, $recursive = true);
 		}
 
 		if($denyAccess)
