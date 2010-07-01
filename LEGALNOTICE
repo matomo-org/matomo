@@ -75,7 +75,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	License:  Dual licensed: MIT or GPL
 
 	Name:  jquery.truncate
-	Link:  http://dev.piwik.org/trac/browser/trunk/libs/jquery/truncate
+	Link:  http://dev.piwik.org/trac/browser/trunk/libs/jquery/truncate/
 	License:  Modified BSD
 
 	Name:  json2.js
@@ -83,6 +83,14 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	License:  Public domain
 	Notes:
 	- reference implementation
+
+	Name:  cssmin
+	Link:  http://code.google.com/p/cssmin/
+	License:  MIT
+
+	Name:  jsmin
+	Link:  http://code.google.com/p/jsmin-php/
+	License:  MIT
 
 	Name:  sparkline
 	Link:  https//sourceforge.net/projects/sparkline/
@@ -133,10 +141,9 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	License:  LGPL v2.1 or later
 
 	Name:  UserAgentParser
-	Link:  http://dev.piwik.org/trac/browser/trunk/libs/UserAgentParser
+	Link:  http://dev.piwik.org/trac/browser/trunk/libs/UserAgentParser/
 	License:  Modified BSD
 
 	Name: Zend Framework
 	Link:  http://www.zendframework.com/
 	License:  Modified BSD
-
