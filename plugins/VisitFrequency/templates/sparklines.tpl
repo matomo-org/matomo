@@ -1,3 +1,4 @@
+
 <div class="sparkline">{sparkline src=$urlSparklineNbVisitsReturning}
 {'VisitFrequency_ReturnVisits'|translate:"<strong>$nbVisitsReturning</strong>"}</div>
 <div class="sparkline">{sparkline src=$urlSparklineNbActionsReturning}
@@ -9,3 +10,5 @@
  {'VisitFrequency_ReturnTotalTime'|translate:"<strong>$sumtimeVisitLengthReturning</strong>"}</div>
 <div class="sparkline">{sparkline src=$urlSparklineBounceRateReturning}
  {'VisitFrequency_ReturnBounceRate'|translate:"<strong>$bounceRateReturning%</strong>"} </div>
+{include file=CoreHome/templates/sparkline_footer.tpl}
+

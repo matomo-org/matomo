@@ -1,4 +1,4 @@
-$(document).ready( function(){
+function initializeSparklines () {
 	$("a[name='evolutionGraph']").each( function() {
 		var graph = $(this);
 		if(graph && graph.size() > 0) {
@@ -33,4 +33,4 @@ $(document).ready( function(){
 			});
 		}
 	});
-});
+}

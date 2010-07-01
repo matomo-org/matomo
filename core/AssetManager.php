@@ -36,6 +36,7 @@ class Piwik_AssetManager
 	const MERGED_FILE_DIR = "tmp/assets/";
 	const CSS_IMPORT_DIRECTIVE = "<link rel='stylesheet' type='text/css' href='%s' /> \n";
 	const JS_IMPORT_DIRECTIVE = "<script type='text/javascript' src='%s'> </script> \n";
+	const MINIFIED_JS_RATIO = 100;
 	
 	/**
 	 * Returns CSS file inclusion directive(s) using the markup <link>
@@ -88,7 +89,7 @@ class Piwik_AssetManager
 		// Generate asset when none exists
 		if ( !$mergedCssFileHash )
 		{
-			$mergedCssFileHash = self::generateMergedCssFile();			
+			$mergedCssFileHash = self::generateMergedCssFile();
 		}
 
 		return sprintf ( self::CSS_IMPORT_DIRECTIVE, self::MERGED_FILE_DIR . $mergedCssFileHash . ".css" );
@@ -109,14 +110,14 @@ class Piwik_AssetManager
 		foreach ($files as $file) {
 			
 			self::validateCssFile ( $file );
-						
+			
 			$fileLocation = self::getAbsoluteLocation($file);
 			$content = file_get_contents ($fileLocation);
 			
 			// Rewrite css url directives
 			$baseDirectory = "../../" . dirname($file) . "/";
 			$content = preg_replace ("/(url\(['\"]?)([^'\")]*)/", "$1" . $baseDirectory . "$2", $content);
-						
+			
 			$mergedContent = $mergedContent . $content;
 		}
 
@@ -200,8 +201,8 @@ class Piwik_AssetManager
 		
 		// Generate asset when none exists
 		if ( !$mergedJsFileHash )
-		{			
-			$mergedJsFileHash = self::generateMergedJsFile();			
+		{
+			$mergedJsFileHash = self::generateMergedJsFile();
 		}
 		
 		return sprintf ( self::JS_IMPORT_DIRECTIVE, self::MERGED_FILE_DIR . $mergedJsFileHash . ".js" ); 
@@ -226,10 +227,13 @@ class Piwik_AssetManager
 			$fileLocation = self::getAbsoluteLocation($file);
 			$content = file_get_contents ($fileLocation);
 			
-			$mergedContent = $mergedContent . $content;
+			if ( !self::isMinifiedJs($content) )
+			{
+				$content = JSMin::minify($content);
+			}
+			
+			$mergedContent = $mergedContent . PHP_EOL . $content;
 		}
-		
-		$mergedContent = JSMin::minify($mergedContent);
 		
 		// Compute HASH
 		$hashcode = md5($mergedContent);
@@ -421,4 +425,27 @@ class Piwik_AssetManager
 		self::removeMergedAsset("js");
 	}
 	
+	/**
+	 * Indicates if the provided javascript content has already been minified or not.
+	 * The heuristic is based on a custom ratio : (size of file) / (number of lines).
+	 * The threshold (100) has been found empirically on existing files : 
+	 * - the ratio never exceeds 50 for non-minified content and
+	 * - it never goes under 150 for minified content.
+	 *
+	 * @throws Boolean
+	 */
+	private static function isMinifiedJs ( $content )
+	{
+		$lineCount = substr_count($content, "\n");
+		if ( $lineCount == 0 )
+		{
+			return true;
+		}
+		
+		$contentSize = strlen($content);
+		
+		$ratio = $contentSize / $lineCount;
+		
+		return $ratio > self::MINIFIED_JS_RATIO;
+	}
 }

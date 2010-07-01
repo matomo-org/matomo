@@ -59,7 +59,7 @@ $(document).ready( function() {
 {/literal}
 </script>
 
-<div style="max-width:980px;">
+<div class="widgetize" style="max-width:980px;">
 	<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
 	<p><b>&rsaquo; Widget authentication:</b> If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
 	to the anonymous user in the <a href='index.php?module=UsersManager'>Users Management section</a>. 

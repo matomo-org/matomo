@@ -47,3 +47,6 @@
 	<strong>{$numberDistinctCampaigns}</strong> {'Referers_DistinctCampaigns'|translate}</div>
 </td></tr>
 </table>
+
+{include file=CoreHome/templates/sparkline_footer.tpl}
+
