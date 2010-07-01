@@ -31,8 +31,15 @@ class Piwik_MultiSites extends Piwik_Plugin
 		return array(
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AssetManager.getJsFiles' => 'getJsFiles',
+			'TopMenu.add' => 'addTopMenu',
 		);
 	}
+
+	public function addTopMenu()
+	{
+		Piwik_AddTopMenu('General_MultiSitesSummary', array('module' => 'MultiSites', 'action' => 'index'), true, 3);
+	}
+
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();

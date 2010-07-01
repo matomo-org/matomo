@@ -16,7 +16,9 @@
 
 </head>
 <body>
+{if !isset($showTopMenu) || $showTopMenu}
 {include file="CoreHome/templates/top_bar.tpl"}
+{/if}
 
 <div id="header">
 {include file="CoreHome/templates/header_message.tpl"}

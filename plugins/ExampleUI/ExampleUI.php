@@ -62,9 +62,12 @@ class Piwik_ExampleUI extends Piwik_Plugin
 			'Sparklines' => 'sparklines',
 			'Misc' => 'misc',
 		);
+
+		Piwik_AddMenu('UI Framework', '', array('module' => 'ExampleUI', 'action' => 'dataTables'), true, 30);
+		$order = 1;
 		foreach($menus as $subMenu => $action) 
 		{
-			Piwik_AddMenu('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action));
+			Piwik_AddMenu('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action), true, $order++);
 		}
 	}	
 }

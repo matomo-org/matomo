@@ -31,7 +31,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	{
 		return array( 
 			'AssetManager.getCssFiles' => 'getCssFiles',
-			'template_topBar' => 'showLanguagesSelector',
+			'TopMenu.add' => 'showLanguagesSelector',
 			'Translate.getLanguageToLoad' => 'getLanguageToLoad',
 			'UsersManager.deleteUser' => 'deleteUserLanguage',
 		);
@@ -56,7 +56,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$view->languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguageNames();
 		$view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
 		$view->currentLanguageName = self::getLanguageNameForCurrentUser();
-		echo $view->render();
+		Piwik_AddTopMenu('LanguageSelector', $view->render(), true, 20, true);
 	}
 	
 	function getLanguageToLoad($notification)
@@ -141,7 +141,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	static protected function getLanguageFromPreferences()
 	{
-		if ($language = Piwik_LanguagesManager_API::getInstance()->getLanguageForSession())
+		if(($language = Piwik_LanguagesManager_API::getInstance()->getLanguageForSession()) != null)
 		{
 			return $language;
 		}

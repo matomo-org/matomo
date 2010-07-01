@@ -30,8 +30,14 @@ class Piwik_CoreHome extends Piwik_Plugin
 	{
 		return array(
 			'AssetManager.getCssFiles' => 'getCssFiles',
-			'AssetManager.getJsFiles' => 'getJsFiles'
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'TopMenu.add' => 'addTopMenu',
 		);
+	}
+
+	public function addTopMenu()
+	{
+		Piwik_AddTopMenu('General_Dashboard', array('module' => 'CoreHome', 'action' => 'index'), true, 1);
 	}
 
 	function getCssFiles( $notification )

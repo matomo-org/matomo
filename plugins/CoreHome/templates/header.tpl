@@ -11,5 +11,7 @@
 {include file="CoreHome/templates/js_css_includes.tpl"}
 </head>
 <body>
+{if !isset($showTopMenu) || $showTopMenu}
 {include file="CoreHome/templates/top_bar.tpl"}
+{/if}
 {include file="CoreHome/templates/top_screen.tpl"}

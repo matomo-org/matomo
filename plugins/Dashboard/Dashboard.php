@@ -31,7 +31,13 @@ class Piwik_Dashboard extends Piwik_Plugin
 			'AssetManager.getJsFiles' => 'getJsFiles',
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'UsersManager.deleteUser' => 'deleteDashboardLayout',
+			'Menu.add' => 'addMenus',
 		);
+	}
+
+	public function addMenus()
+	{
+		Piwik_AddMenu('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex'), true, 5);
 	}
 
 	function getJsFiles( $notification )
@@ -86,5 +92,3 @@ class Piwik_Dashboard extends Piwik_Plugin
 	}
 	
 }
-
-Piwik_AddMenu('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex'));

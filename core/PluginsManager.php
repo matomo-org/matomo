@@ -11,13 +11,17 @@
  */
 
 /**
- * @see core/PluginsFunctions/Menu.php
- * @see core/PluginsFunctions/AdminMenu.php
+ * @see core/Menu/Abstract.php
+ * @see core/Menu/Main.php
+ * @see core/Menu/Admin.php
+ * @see core/Menu/Top.php
  * @see core/PluginsFunctions/WidgetsList.php
  * @see core/PluginsFunctions/Sql.php
  */
-require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Menu.php';
-require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/AdminMenu.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Menu/Abstract.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Menu/Main.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Menu/Admin.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Menu/Top.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/WidgetsList.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Sql.php';
 

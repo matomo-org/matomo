@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Piwik - Open source web analytics
  * 
@@ -14,9 +15,10 @@
  * 
  * @package Piwik_Widgetize
  */
-class Piwik_Widgetize extends Piwik_Plugin
+class Piwik_Widgetize extends Piwik_Plugin 
 {
-	public function getInformation()
+
+	public function getInformation() 
 	{
 		return array(
 			'description' => Piwik_Translate('Widgetize_PluginDescription'),
@@ -26,15 +28,21 @@ class Piwik_Widgetize extends Piwik_Plugin
 		);
 	}
 	
-	public function getListHooksRegistered()
+	public function getListHooksRegistered() 
 	{
 		return array( 
 			'AssetManager.getJsFiles' => 'getJsFiles',
-			'AssetManager.getCssFiles' => 'getCssFiles'
+			'AssetManager.getCssFiles' => 'getCssFiles',
+			'TopMenu.add' => 'addTopMenu',
 		);
 	}	
 	
-	function getJsFiles( $notification )
+	public function addTopMenu() 
+	{
+		Piwik_AddTopMenu('General_Widgets', array('module' => 'Widgetize', 'action' => 'index'), true, 5);
+	}
+
+	function getJsFiles($notification) 
 	{
 		$jsFiles = &$notification->getNotificationObject();
 
@@ -48,7 +56,7 @@ class Piwik_Widgetize extends Piwik_Plugin
 		$jsFiles[] = "plugins/Widgetize/templates/widgetize.js";
 	}	
 	
-	function getCssFiles( $notification )
+	function getCssFiles($notification) 
 	{
 		$cssFiles = &$notification->getNotificationObject();
 		
