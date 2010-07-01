@@ -170,7 +170,7 @@
 	</target>
 
 	<target name="all">
-		<antcall target="chmod"/>
+		<!-- antcall target="chmod"/ -->
 		<antcall target="test-pdo-mysql"/>
 		<!-- antcall target="test-mysqli"/ -->
 		<antcall target="webtest"/>
