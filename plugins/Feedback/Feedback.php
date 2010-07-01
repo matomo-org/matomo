@@ -31,7 +31,13 @@ class Piwik_Feedback extends Piwik_Plugin
 		return array(
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AssetManager.getJsFiles' => 'getJsFiles',
+			'TopMenu.add' => 'addTopMenu',
 		);
+	}
+
+	public function addTopMenu()
+	{
+		Piwik_AddTopMenu('General_GiveUsYourFeedback', array('module' => 'Feedback', 'action' => 'index'), true, 11);
 	}
 
 	function getCssFiles( $notification )

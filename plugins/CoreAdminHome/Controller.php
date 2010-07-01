@@ -28,6 +28,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		$view->todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
 		
 		$this->setGeneralVariablesView($view);
+		$view->topMenu = Piwik_GetTopMenu();
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}

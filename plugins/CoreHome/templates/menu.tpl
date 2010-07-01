@@ -4,8 +4,8 @@
 	<a name='{$level2._url|@urlRewriteWithParameters}' href='index.php{$level2._url|@urlRewriteBasicView}'>{$level1|translate}</a>
 	<ul>
 	{foreach from=$level2 key=name item=urlParameters name=level2}
-		{if $name != '_url'}
-		<li><a name='{$urlParameters|@urlRewriteWithParameters}' href='index.php{$urlParameters|@urlRewriteBasicView}'>{$name|translate}</a></li>
+		{if strpos($name, '_') !== 0}
+		<li><a name='{$urlParameters._url|@urlRewriteWithParameters}' href='index.php{$urlParameters._url|@urlRewriteBasicView}'>{$name|translate}</a></li>
 		{/if}
  	{/foreach}
  	</ul>

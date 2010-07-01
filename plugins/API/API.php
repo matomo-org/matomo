@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Piwik - Open source web analytics
  * 
@@ -14,10 +15,9 @@
  * 
  * @package Piwik_API
  */
-class Piwik_API extends Piwik_Plugin
-{
-	public function getInformation()
-	{
+class Piwik_API extends Piwik_Plugin {
+
+	public function getInformation() {
 		return array(
 			'description' => Piwik_Translate('API_PluginDescription'),
 			'homepage' => 'misc/redirectToUrl.php?url=http://dev.piwik.org/trac/wiki/API/Reference',
@@ -27,17 +27,21 @@ class Piwik_API extends Piwik_Plugin
 		);
 	}
 	
-	function getListHooksRegistered()
-	{
+	function getListHooksRegistered() {
 		return array(
-			'AssetManager.getCssFiles' => 'getCssFiles'
+			'AssetManager.getCssFiles' => 'getCssFiles',
+			'TopMenu.add' => 'addTopMenu',
 		);
 	}
 	
-	function getCssFiles( $notification )
-	{
+	public function addTopMenu() {
+		Piwik_AddTopMenu('General_API', array('module' => 'API', 'action' => 'listAllAPI'), true, 7);
+	}
+
+	function getCssFiles($notification) {
 		$cssFiles = &$notification->getNotificationObject();
 		
 		$cssFiles[] = "plugins/API/templates/styles.css";
 	}
+
 }

@@ -70,10 +70,11 @@ class Piwik_Referers extends Piwik_Plugin
 	
 	function addMenus()
 	{
-		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers', 'action' => 'index'));
-		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuSearchEngines', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));
-		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'getWebsites'));
-		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'getCampaigns'));
+		Piwik_AddMenu('Referers_Referers', '', array('module' => 'Referers', 'action' => 'index'), true, 20);
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers', 'action' => 'index'), true, 1);
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuSearchEngines', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'), true, 2);
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'getWebsites'), true, 3);
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'getCampaigns'), true, 4);
 	}
 	
 	function addGoalSegments( $notification )

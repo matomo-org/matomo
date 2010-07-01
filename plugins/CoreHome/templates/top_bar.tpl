@@ -1,12 +1,17 @@
-{assignTopBar}
-
 <div id="topBars">
 
 <div id="topLeftBar">
-{foreach from=$topBarElements item=element}
-	<span class="topBarElem">{if $element.0 == $currentModule}<b>{else}<a href="index.php{$element.2|@urlRewriteWithParameters}" {if isset($element.3)}{$element.3}{/if}>{/if}{$element.1}{if $element.0 == $currentModule}</b>{else}</a>{/if}</span>
+{foreach from=$topMenu key=label item=menu name=topMenu}
+    <span class="topBarElem">
+        {if isset($menu._html)}
+            {$menu._html}
+        {elseif $menu._url.module == $currentModule}
+            <b>{$label|translate}</b>
+        {else}
+            <a id="topmenu-{$menu._url.module|strtolower}" href="index.php{$menu._url|@urlRewriteWithParameters}">{$label|translate}</a>
+        {/if}
+    </span>
 {/foreach}
-{postEvent name="template_topBar"} 
 </div>
 
 <div id="topRightBar">

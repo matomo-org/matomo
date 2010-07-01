@@ -1,5 +1,5 @@
 $(function() {
-	var feedback = $('a#topbar-feedback');
+	var feedback = $('a#topmenu-feedback');
 	if (feedback.size()) {
 		var fbDiv = $('<div id="feedback-dialog"></div>').appendTo('body');
 

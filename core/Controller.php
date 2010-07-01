@@ -122,7 +122,6 @@ abstract class Piwik_Controller
 		'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
 		'avg_time_on_site' => 'General_ColumnAvgTimeOnSite',
 		'bounce_rate' => 'General_ColumnBounceRate',
-	
 		'revenue_per_visit' => 'General_ColumnValuePerVisit',
 		'goals_conversion_rate' => 'General_ColumnVisitsWithConversions',
 	);
@@ -326,6 +325,7 @@ abstract class Piwik_Controller
 			$maxDate = Piwik_Date::factory('now', $this->site->getTimezone());
 			$this->setMaxDateView($maxDate, $view);
 
+			$view->topMenu = Piwik_GetTopMenu();
 			$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
 			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
 
