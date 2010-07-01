@@ -3,7 +3,7 @@ $(function() {
 	if (feedback.size()) {
 		var fbDiv = $('<div id="feedback-dialog"></div>').appendTo('body');
 
-		$('#topbar-feedback').click(function() {
+		$('a#topmenu-feedback').click(function() {
 			if(fbDiv.html() == '') {
 				fbDiv.html('<div id="feedback-loading"><img alt="" src="themes/default/images/loading-blue.gif"> '+translations.CoreHome_Loading_js+'</div>');
 			}
