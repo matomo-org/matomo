@@ -16,12 +16,6 @@
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 
 /**
- * @see mysqli_set_charset
- * @see parse_ini_file
- */
-require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/common.php';
-
-/**
  * Main piwik helper class.
  * Contains static functions you can call from the plugins.
  *

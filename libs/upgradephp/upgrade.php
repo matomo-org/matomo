@@ -1,16 +1,17 @@
 <?php
 /**
  * api:		php
- * title:	WentPHP5 / upgrade.php
+ * title:	upgrade.php
  * description:	Emulates functions from new PHP versions on older interpreters.
- * version:	15
+ * version:	17
  * license:	Public Domain
- * url:		http://freshmeat.net/p/upgradephp
+ * url:		http://freshmeat.net/projects/upgradephp
  * type:	functions
  * category:	library
  * priority:	auto
+ * load_if:     (PHP_VERSION<5.2)
  * sort:	-255
- * provides:	upgrade-php, api:php5
+ * provides:	upgrade-php, api:php5, json
  *
  *
  * By loading this library you get PHP version independence. It provides
@@ -18,13 +19,13 @@
  * functions or constants using IDENTICAL NAMES. So this doesn't slow down
  * script execution on setups where the native functions already exist. It
  * is meant as quick drop-in solution. It spares you from rewriting code or
- * using cumbersome workarounds, instead of the more powerful v5 functions.
+ * using cumbersome workarounds instead of the more powerful v5 functions.
  * 
  * It cannot mirror PHP5s extended OO-semantics and functionality into PHP4
  * however. A few features are added here that weren't part of PHP yet. And
  * some other function collections are separated out into the ext/ directory.
  * It doesn't produce many custom error messages (YAGNI), and instead leaves
- * reporting to invoked functions or for execution on native PHP.
+ * reporting to invoked functions or for native PHP execution.
  * 
  * And further this is PUBLIC DOMAIN (no copyright, no license, no warranty)
  * so therefore compatible to ALL open source licenses. You could rip this
@@ -35,6 +36,21 @@
  *
  */
 
+/**
+ * @since PHP 5
+ */
+if(!defined('E_STRICT')) {            define('E_STRICT', 2048); }
+
+/**
+ * @since PHP 5.2.0
+ */
+if(!defined('E_RECOVERABLE_ERROR')) { define('E_RECOVERABLE_ERROR', 4096); }
+
+/**
+ * @since PHP 5.3.0
+ */
+if(!defined('E_DEPRECATED')) {        define('E_DEPRECATED', 8192); }
+if(!defined('E_USER_DEPRECATED')) {   define('E_USER_DEPRECATED', 16384); }
 
 /**
  *                                   ------------------------------ 5.2 ---
@@ -77,15 +93,6 @@
  *    stream_*
  *
  */
-
-
-
-/**
- * @since unknown
- */
-if (!defined("E_RECOVERABLE_ERROR")) { define("E_RECOVERABLE_ERROR", 4096); }
-
-
 
 /**
  * Converts PHP variable or array into a "JSON" (JavaScript value expression
@@ -132,7 +139,7 @@ if (!function_exists("json_encode")) {
          if (!utf8_decode($var)) {
             $var = utf8_encode($var);
          }
-         $var = str_replace(array("\\", "\"", "/", "\b", "\f", "\n", "\r", "\t"), array("\\\\", "\\\"", "\\/", "\\b", "\\f", "\\n", "\\r", "\\t"), $var);
+         $var = str_replace(array("\\", "\"", "/", "\b", "\f", "\n", "\r", "\t"), array("\\\\", '\"', "\\/", "\\b", "\\f", "\\n", "\\r", "\\t"), $var);
          $json = '"' . $var . '"';
          //@COMPAT: for fully-fully-compliance   $var = preg_replace("/[\000-\037]/", "", $var);
       }
@@ -157,8 +164,6 @@ if (!function_exists("json_encode")) {
       return($json);
    }
 }
-
-
 
 /**
  * Parses a JSON (JavaScript value expression) string into a PHP variable
@@ -338,16 +343,12 @@ if (!function_exists("json_decode")) {
    }
 }
 
-
-
 /**
  * Constants for future 64-bit integer support.
  *
  */
 if (!defined("PHP_INT_SIZE")) { define("PHP_INT_SIZE", 4); }
 if (!defined("PHP_INT_MAX")) { define("PHP_INT_MAX", 2147483647); }
-
-
 
 /**
  * @flag bugfix
@@ -359,9 +360,6 @@ if (!defined("M_SQRTPI")) { define("M_SQRTPI", 1.7724538509055); }
 if (!defined("M_LNPI")) { define("M_LNPI", 1.1447298858494); }
 if (!defined("M_EULER")) { define("M_EULER", 0.57721566490153); }
 if (!defined("M_SQRT3")) { define("M_SQRT3", 1.7320508075689); }
-
-
-
 
 /**
  * removes entities &lt; &gt; &amp; and eventually &quot; from HTML string
@@ -425,5 +423,133 @@ if (!function_exists("ctype_alnum")) {
    function ctype_print($text) {
       return ctype_punct($text) && ctype_graph($text);
    }
+}
 
+/**
+ * Sets the default client character set.
+ *
+ * @compat
+ *    Procedural style
+ * @bugs
+ *    PHP documentation says this function exists in PHP 5 >= 5.0.5,
+ *    but it also depends on the versions of external libraries, e.g.,
+ *    php_mysqli.dll and libmysql.dll.
+ *
+ * @param $link    mysqli MySQLi connection resource
+ * @param $charset string Character set
+ * @return bool           TRUE on success, FALSE on failure
+ */
+if (in_array('mysqli', @get_loaded_extensions()) && !function_exists('mysqli_set_charset')) {
+	function mysqli_set_charset($link, $charset)
+	{
+		return mysqli_query($link, "SET NAMES '$charset'");
+	}
+}
+
+/**
+ * parse_ini_file() replacement.
+ * Behaves like parse_ini_file($filename, $process_sections);
+ *
+ * @author Andrew Sohn <asohn (at) aircanopy (dot) net>
+ * @author anthon (dot) pang (at) gmail (dot) com
+ *
+ * @param string $filename
+ * @param bool $process_sections (defaults to false)
+ * @return array
+ */
+if(function_exists('parse_ini_file')) {
+	// provide a wrapper
+	function _parse_ini_file($filename, $process_sections = false) {
+		return parse_ini_file($filename, $process_sections);
+	}
+} else {
+	// we can't redefine parse_ini_file() if it has been disabled
+	function _parse_ini_file($filename, $process_sections = false)
+	{
+		if(function_exists('file_get_contents')) {
+			$ini = file_get_contents($filename);
+		} else if(function_exists('file') && version_compare(phpversion(), '6') >= 0) {
+			$ini = implode(file($filename), FILE_TEXT);
+		} else if(function_exists('fopen') && function_exists('fread')) {
+			$handle = fopen($filename, 'r');
+			$ini = fread($handle, filesize($filename));
+			fclose($handle);
+		} else {
+			return false;
+		}
+
+		if(is_string($ini)) { $ini = explode("\n", str_replace("\r", "\n", $ini)); }
+		if (count($ini) == 0) { return array(); }
+
+		$sections = array();
+		$values = array();
+		$result = array();
+		$globals = array();
+		$i = 0;
+		foreach ($ini as $line) {
+			$line = trim($line);
+			$line = str_replace("\t", " ", $line);
+
+			// Comments
+			if (!preg_match('/^[a-zA-Z0-9[]/', $line)) {continue;}
+
+			// Sections
+			if ($line{0} == '[') {
+				$tmp = explode(']', $line);
+				$sections[] = trim(substr($tmp[0], 1));
+				$i++;
+				continue;
+			}
+
+			// Key-value pair
+			list($key, $value) = explode('=', $line, 2);
+			$key = trim($key);
+			$value = trim($value);
+			if (strstr($value, ";")) {
+				$tmp = explode(';', $value);
+				if (count($tmp) == 2) {
+					if ((($value{0} != '"') && ($value{0} != "'")) ||
+							preg_match('/^".*"\s*;/', $value) || preg_match('/^".*;[^"]*$/', $value) ||
+							preg_match("/^'.*'\s*;/", $value) || preg_match("/^'.*;[^']*$/", $value) ){
+						$value = $tmp[0];
+					}
+				} else {
+					if ($value{0} == '"') {
+						$value = preg_replace('/^"(.*)".*/', '$1', $value);
+					} elseif ($value{0} == "'") {
+						$value = preg_replace("/^'(.*)'.*/", '$1', $value);
+					} else {
+						$value = $tmp[0];
+					}
+				}
+			}
+
+			$value = trim($value);
+			$value = trim($value, "'\"");
+
+			if ($i == 0) {
+				if (substr($key, -2) == '[]') {
+					$globals[substr($key, 0, -2)][] = $value;
+				} else {
+					$globals[$key] = $value;
+				}
+			} else {
+				if (substr($key, -2) == '[]') {
+					$values[$i-1][substr($key, 0, -2)][] = $value;
+				} else {
+					$values[$i-1][$key] = $value;
+				}
+			}
+		}
+
+		for($j = 0; $j < $i; $j++) {
+			if ($process_sections === true) {
+				$result[$sections[$j]] = $values[$j];
+			} else {
+				$result[] = $values[$j];
+			}
+		}
+
+		return $result + $globals;
+	}
 }
