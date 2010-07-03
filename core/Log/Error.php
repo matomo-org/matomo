@@ -102,7 +102,8 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
 	        case E_USER_NOTICE:         $strReturned .=  "User Notice";            break;
 	        case E_STRICT:              $strReturned .=  "Strict Notice";          break;
 	        case E_RECOVERABLE_ERROR:   $strReturned .=  "Recoverable Error";      break;
-	        case E_EXCEPTION:   		$strReturned .=  "Exception";				break;
+	        case E_DEPRECATED:          $strReturned .=  "Deprecated";             break;
+	        case E_USER_DEPRECATED:     $strReturned .=  "User Deprecated";        break;
 	        default:                    $strReturned .=  "Unknown error ($errno)"; break;
 	    }
 	    $strReturned .= ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
