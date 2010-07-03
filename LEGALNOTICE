@@ -134,7 +134,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 
 	Name:  PEAR (base system)
 	Link:  http://pear.php.net/package/PEAR
-	License:  PHP 3.01
+	License:  Modified BSD
 
 	Name:  PhpSecInfo
 	Link:  http://phpsec.org/projects/phpsecinfo/
