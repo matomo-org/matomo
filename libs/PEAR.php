@@ -523,7 +523,7 @@ class PEAR
 
         if (intval(PHP_VERSION) < 5) {
             // little non-eval hack to fix bug #12147
-            include 'PEAR/FixPHP5PEARWarnings.php';
+            include dirname(__FILE__) . '/PEAR/FixPHP5PEARWarnings.php';
             return $a;
         }
 
@@ -727,7 +727,7 @@ class PEAR
 }
 
 if (PEAR_ZE2) {
-    include_once 'PEAR5.php';
+    include_once dirname(__FILE__) . '/PEAR5.php';
 }
 
 function _PEAR_call_destructors()
