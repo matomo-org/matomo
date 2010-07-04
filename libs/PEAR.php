@@ -249,7 +249,7 @@ class PEAR
      */
     static function isError($data, $code = null)
     {
-        if (!is_a($data, 'PEAR_Error')) {
+        if (!($data instanceof PEAR_Error)) {
             return false;
         }
 
@@ -302,7 +302,7 @@ class PEAR
      */
     function setErrorHandling($mode = null, $options = null)
     {
-        if (isset($this) && is_a($this, 'PEAR')) {
+        if (isset($this) && ($this instanceof PEAR)) {
             $setmode     = &$this->_default_error_mode;
             $setoptions  = &$this->_default_error_options;
         } else {
@@ -554,7 +554,7 @@ class PEAR
      */
     function &throwError($message = null, $code = null, $userinfo = null)
     {
-        if (isset($this) && is_a($this, 'PEAR')) {
+        if (isset($this) && ($this instanceof PEAR)) {
             $a = &$this->raiseError($message, $code, null, null, $userinfo);
             return $a;
         }
@@ -649,7 +649,7 @@ class PEAR
     function pushErrorHandling($mode, $options = null)
     {
         $stack = &$GLOBALS['_PEAR_error_handler_stack'];
-        if (isset($this) && is_a($this, 'PEAR')) {
+        if (isset($this) && ($this instanceof PEAR)) {
             $def_mode    = &$this->_default_error_mode;
             $def_options = &$this->_default_error_options;
         } else {
@@ -658,7 +658,7 @@ class PEAR
         }
         $stack[] = array($def_mode, $def_options);
 
-        if (isset($this) && is_a($this, 'PEAR')) {
+        if (isset($this) && ($this instanceof PEAR)) {
             $this->setErrorHandling($mode, $options);
         } else {
             PEAR::setErrorHandling($mode, $options);
@@ -680,7 +680,7 @@ class PEAR
         array_pop($stack);
         list($mode, $options) = $stack[sizeof($stack) - 1];
         array_pop($stack);
-        if (isset($this) && is_a($this, 'PEAR')) {
+        if (isset($this) && ($this instanceof PEAR)) {
             $this->setErrorHandling($mode, $options);
         } else {
             PEAR::setErrorHandling($mode, $options);
