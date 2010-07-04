@@ -62,7 +62,7 @@ class Piwik_Http
 		if($destinationPath)
 		{
 			// Ensure destination directory exists 
-			Piwik_Common::mkdir($destinationPath);
+			Piwik_Common::mkdir(basedir($destinationPath));
 			if (($file = @fopen($destinationPath, 'wb')) === false || !is_resource($file))
 			{
 				throw new Exception('Error while creating the file: ' . $destinationPath);
