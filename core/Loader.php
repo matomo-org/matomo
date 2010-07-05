@@ -72,7 +72,8 @@ class Piwik_Loader
 			$lastSlash = strrpos($classPath, '/');
 			$classPath = ($lastSlash === false) ? '' : substr($classPath, 0, $lastSlash);
 		}
-		throw new Exception("$class could not be autoloaded.");
+
+		return false;
 	}
 }
 
