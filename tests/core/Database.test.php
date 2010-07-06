@@ -8,12 +8,20 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 }
 Mock::generate('Piwik_Access');
 
+/**
+ * Tests exending Test_Database are much slower to run: the setUp will 
+ * create all Piwik tables in a freshly empty test database.
+ * 
+ * This allows each test method to start from a clean DB and setup initial state to 
+ * then test it.
+ * 
+ */
 class Test_Database extends UnitTestCase
 {
+	static $warningDisplayed = false;
 	function __construct( $title = '')
 	{
 		parent::__construct( $title );
-		print("The test class extends Test_Database: the test Piwik database is created once in the constructor, and all tables are truncated at the end of EACH unit test method.<br>");
 		try {
     		Piwik::createConfigObject();
     		Zend_Registry::get('config')->setTestEnvironment();	
