@@ -11,7 +11,6 @@
  */
 
 /**
- *
  * @package Piwik_Referers
  */
 class Piwik_Referers extends Piwik_Plugin
@@ -20,6 +19,7 @@ class Piwik_Referers extends Piwik_Plugin
 	protected $columnToSortByBeforeTruncation;
 	protected $maximumRowsInDataTableLevelZero;
 	protected $maximumRowsInSubDataTable;
+	
 	public function getInformation()
 	{
 		$info = array(
@@ -48,7 +48,6 @@ class Piwik_Referers extends Piwik_Plugin
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();
-		
 		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
 	}
 
@@ -59,6 +58,9 @@ class Piwik_Referers extends Piwik_Plugin
 		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
 	}
 	
+	/**
+	 * Adds Referer widgets
+	 */
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetKeywords', 'Referers', 'getKeywords');
@@ -68,6 +70,9 @@ class Piwik_Referers extends Piwik_Plugin
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
 	}
 	
+	/**
+	 * Adds Web Analytics menus
+	 */
 	function addMenus()
 	{
 		Piwik_AddMenu('Referers_Referers', '', array('module' => 'Referers', 'action' => 'index'), true, 20);
@@ -77,6 +82,12 @@ class Piwik_Referers extends Piwik_Plugin
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'getCampaigns'), true, 4);
 	}
 	
+	/**
+	 * Adds Goal segments, so that the segments are displayed in the UI Goal Overview page
+	 * 
+	 * @param $notification
+	 * @return void
+	 */
 	function addGoalSegments( $notification )
 	{
 		$segments =& $notification->getNotificationObject();
@@ -114,6 +125,13 @@ class Piwik_Referers extends Piwik_Plugin
     	));
 	}
 	
+	/**
+	 * Period archiving: sums up daily stats and sums report tables, 
+	 * making sure that tables are still truncated.
+	 * 
+	 * @param $notification
+	 * @return void
+	 */
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -169,6 +187,12 @@ class Piwik_Referers extends Piwik_Plugin
 		}
 	}
 	
+	/**
+	 * Hooks on daily archive to trigger various log processing
+	 * 
+	 * @param $notification
+	 * @return void
+	 */
 	public function archiveDay( $notification )
 	{
 		/**
@@ -196,6 +220,13 @@ class Piwik_Referers extends Piwik_Plugin
 		destroy($this->distinctUrls);
 	}
 	
+	/**
+	 * Daily archive: processes all Referers reports, eg. Visits by Keyword, 
+	 * Visits by websites, etc.
+	 * 
+	 * @param $archiveProcessing
+	 * @return void
+	 */
 	protected function archiveDayAggregateVisits(Piwik_ArchiveProcessing $archiveProcessing)
 	{
 		$query = "SELECT 	referer_type, 
@@ -289,6 +320,13 @@ class Piwik_Referers extends Piwik_Plugin
 		}
 	}
 	
+	/**
+	 * Daily Goal archiving:  processes reports of Goal conversions by Keyword,
+	 * Goal conversions by Referer Websites, etc.
+	 * 
+	 * @param $archiveProcessing
+	 * @return void
+	 */
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
 		$query = $archiveProcessing->queryConversionsBySegment("referer_type,referer_name,referer_keyword");
@@ -342,6 +380,12 @@ class Piwik_Referers extends Piwik_Plugin
 		$archiveProcessing->enrichConversionsByLabelArrayHasTwoLevels($this->interestByCampaignAndKeyword);
 	}
 	
+	/**
+	 * Records the daily stats (numeric or datatable blob) into the archive tables.
+	 *  
+	 * @param $archiveProcessing
+	 * @return void
+	 */
 	protected function archiveDayRecordInDatabase($archiveProcessing)
 	{
 		$numericRecords = array(

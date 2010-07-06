@@ -18,7 +18,7 @@ class Piwik_Site
 {
 	protected $id = null;
 	
-	protected static $infoSites = array();
+	public static $infoSites = array();
 
 	function __construct($idsite)
 	{
@@ -42,12 +42,12 @@ class Piwik_Site
 	
 	function getName()
 	{
-		return self::$infoSites[$this->id]['name'];
+		return $this->get('name');
 	}
 	
 	function getMainUrl()
 	{
-		return self::$infoSites[$this->id]['main_url'];
+		return $this->get('main_url');
 	}
 	
 	function getId()
@@ -55,30 +55,38 @@ class Piwik_Site
 		return $this->id;
 	}
 	
+	protected function get( $name)
+	{
+		if(!isset(self::$infoSites[$this->id][$name]))
+		{
+			throw new Exception('Requested website was not loaded. ');
+		}
+		return self::$infoSites[$this->id][$name];
+	}
 	function getCreationDate()
 	{
-		$date = self::$infoSites[$this->id]['ts_created'];
+		$date = $this->get('ts_created');
 		return Piwik_Date::factory($date);
 	}
 
 	function getTimezone()
 	{
-		return self::$infoSites[$this->id]['timezone'];
+		return $this->get('timezone');
 	}
 	
 	function getCurrency()
 	{
-		return self::$infoSites[$this->id]['currency'];
+		return $this->get('currency');
 	}
 	
 	function getExcludedIps()
 	{
-		return self::$infoSites[$this->id]['excluded_ips'];
+		return $this->get('excluded_ips');
 	}
 	
 	function getExcludedQueryParameters()
 	{
-		return self::$infoSites[$this->id]['excluded_parameters'];
+		return $this->get('excluded_parameters');
 	}
 	
 	/**

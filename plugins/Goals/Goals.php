@@ -126,6 +126,13 @@ class Piwik_Goals extends Piwik_Plugin
 		return 'Goal_' . $returningStr . $idGoalStr . $recordName;
 	}
 	
+	/**
+	 * Hooks on Period archiving. 
+	 * Sums up Goal conversions stats, and processes overall conversion rate
+	 * 
+	 * @param $notification
+	 * @return void
+	 */
 	function archivePeriod($notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -160,6 +167,13 @@ class Piwik_Goals extends Piwik_Plugin
 		$archiveProcessing->insertNumericRecord(self::getRecordName('conversion_rate'), $conversion_rate);
 	}
 	
+	/**
+	 * Hooks on the Daily archiving.
+	 * Will process Goal stats overall and for each Goal. 
+	 * Also processes the New VS Returning visitors conversion stats.
+	 * @param $notification
+	 * @return void
+	 */
 	function archiveDay( $notification )
 	{
 		/**

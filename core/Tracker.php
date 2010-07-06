@@ -49,11 +49,22 @@ class Piwik_Tracker
 	const COOKIE_INDEX_REFERER_KEYWORD			= 10;
 	const COOKIE_INDEX_VISITOR_RETURNING		= 11;
 	
+	static protected $forcedDateTime = null;
+	static protected $forcedIpString = null;
+	
 	public function __construct($args = null)
 	{
 		$this->request = $args ? $args : $_GET + $_POST;
 	}
-
+	public static function setForceIp($ipString)
+	{
+		self::$forcedIpString = $ipString;
+	}
+	public static function setForceDateTime( $dateTime )
+	{
+		self::$forcedDateTime = $dateTime;
+	}
+	
 	public function main()
 	{
 		$this->init();
@@ -227,7 +238,7 @@ class Piwik_Tracker
 	
 		if(is_null($visit))
 		{
-			$visit = new Piwik_Tracker_Visit();
+			$visit = new Piwik_Tracker_Visit( self::$forcedIpString, self::$forcedDateTime );
 		}
 		elseif(!($visit instanceof Piwik_Tracker_Visit_Interface ))
 		{

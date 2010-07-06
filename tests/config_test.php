@@ -31,6 +31,8 @@ SimpleTest::prefer(new HtmlReporter());
 error_reporting(E_ALL|E_NOTICE);
 @date_default_timezone_set('UTC');
 
+$_COOKIE = array();
+
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Exception.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Loader.php';
 require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';

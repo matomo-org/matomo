@@ -21,8 +21,8 @@ class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 		Piwik::setUserIsSuperUser();
 		$pluginsManager = Piwik_PluginsManager::getInstance();
 		$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
-		
 		$apiGenerator = new Piwik_API_DocumentationGenerator_CallAllMethods();
+		
 		$requestUrls = $apiGenerator->getAllRequestsWithParameters();
 		$this->assertTrue(count($requestUrls) > 20);
 		foreach($requestUrls as $url)
@@ -54,7 +54,7 @@ class Piwik_API_DocumentationGenerator_CallAllMethods extends Piwik_API_Document
 			$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
 			foreach($info as $methodName => $infoMethod)
 			{
-				$params = $this->getStrListParameters($class, $methodName);
+				$params = $this->getParametersString($class, $methodName);
 				$exampleUrl = $this->getExampleUrl($class, $methodName, $parametersToSet);
 				if($exampleUrl !== false)
 				{

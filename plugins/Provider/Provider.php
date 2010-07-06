@@ -92,7 +92,7 @@ class Piwik_Provider extends Piwik_Plugin
 	}
 
 	/**
-	 * Archive the provider count
+	 * Daily archive: processes the report Visits by Provider
 	 */
 	function archiveDay($notification)
 	{

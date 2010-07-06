@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>dev.piwik.org</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>360</sum_time_spent>
+		<idsubdatatable>57</idsubdatatable>
+		<subtable>
+			<row>
+				<label> /svn</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>360</sum_time_spent>
+				<url>http://dev.piwik.org/svn</url>
+			</row>
+		</subtable>
+	</row>
+</result>

@@ -200,7 +200,7 @@ class Test_Piwik_SitesManager extends Test_Database
      */
     public function test_addSite_strangeName()
     {
-    	$name = "supertest(); ~@@()''!£\$'%%^'!£";
+    	$name = "supertest(); ~@@()''!£\$'%%^'!£ போ";
     	$idsite = Piwik_SitesManager_API::getInstance()->addSite($name,"http://piwik.net");
     	$this->assertIsA( $idsite,'int');
     	

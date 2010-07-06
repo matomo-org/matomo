@@ -58,7 +58,12 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 	set_exception_handler('Piwik_ExceptionHandler');
 	printDebug($_GET);
 	Piwik_Tracker_Db::enableProfiling();
-	Piwik::createConfigObject();
+	// Config might have been created by proxy-piwik.php
+	try {
+		$config = Zend_Registry::get('config');
+	} catch (Exception $e) {
+		Piwik::createConfigObject();
+	}
 	Piwik::createLogObject();
 }
 

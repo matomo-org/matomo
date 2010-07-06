@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idgoal>1</idgoal>
+		<name>triggered js</name>
+		<match_attribute>manually</match_attribute>
+		<revenue>0</revenue>
+		<deleted>0</deleted>
+	</row>
+	<row>
+		<idgoal>2</idgoal>
+		<name>matching purchase.htm</name>
+		<match_attribute>url</match_attribute>
+		<pattern>purchase.htm</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<revenue>1</revenue>
+		<deleted>0</deleted>
+	</row>
+</result>
