@@ -348,7 +348,16 @@ class Piwik_DataTable_Row
 			if($columnToSumName != 'label')
 			{
 				$thisColumnValue = $this->getColumn($columnToSumName);
-				$newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
+				
+				// Max operation
+				if($columnToSumName == Piwik_Archive::INDEX_MAX_ACTIONS )
+				{
+					$newValue = max($thisColumnValue, $columnToSumValue);
+				}
+				else
+				{
+					$newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
+				}
 				$this->setColumn( $columnToSumName, $newValue);
 			}
 		}
