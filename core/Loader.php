@@ -47,8 +47,9 @@ class Piwik_Loader
 	 * Load class by name
 	 *
 	 * @param string $class Class name
+	 * @throws Exception if class not found
 	 */
-	public static function autoload($class)
+	public static function loadClass($class)
 	{
 		$classPath = self::getClassFileName($class);
 		while(!empty($classPath))
@@ -70,6 +71,20 @@ class Piwik_Loader
 			// truncate to find file with multiple class definitions
 			$lastSlash = strrpos($classPath, '/');
 			$classPath = ($lastSlash === false) ? '' : substr($classPath, 0, $lastSlash);
+		}
+		throw new Exception("Class \"$class\" not found.");
+	}
+
+	/**
+	 * Autoloader
+	 *
+	 * @param string $class Class name
+	 */
+	public static function autoload($class)
+	{
+		try {
+			@self::loadClass($class);
+		} catch (Exception $e) {
 		}
 	}
 }
