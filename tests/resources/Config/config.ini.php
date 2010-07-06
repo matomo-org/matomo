@@ -1,4 +1,4 @@
-[General]
+[GeneralSection]
 login="tes&quot;t"
 password=test
 
