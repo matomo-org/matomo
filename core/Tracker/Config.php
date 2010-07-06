@@ -129,10 +129,15 @@ class Piwik_Tracker_Config
 	 */
 	public function setTestEnvironment()
 	{
-		foreach(self::$toRestoreFromGlobalConfig as $section) {
+		if(!$this->initialized)
+		{
+			$this->init();
+		}
+		foreach(self::$toRestoreFromGlobalConfig as $section) 
+		{
 			if(isset($this->configGlobal[$section]))
 			{
-				$this->configUser = $this->configGlobal[$section];
+				$this->configUser[$section] = $this->configGlobal[$section];
 			}
 		}
 		$this->database = $this->database_tests;
