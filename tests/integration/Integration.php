@@ -149,7 +149,6 @@ abstract class Test_Integration extends Test_Database
     	$pluginsManager = Piwik_PluginsManager::getInstance();
     	$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
     	$pluginsManager->installLoadedPlugins();
-		
 	}
 	
 	/**
@@ -176,10 +175,13 @@ abstract class Test_Integration extends Test_Database
 	 * If any API is set as excluded (see list below) then it will be ignored.
 	 * 
 	 * @param $parametersToSet 
-	 * @param $formats Array of formats to fetch from API
+	 * @param $formats Array of 'format' to fetch from API
+	 * @param $periods Array of 'period' to query API
+	 * @param $setDateLastN If set to true, the 'date' parameter will be rewritten to query instead a range of dates, rather than one period only.
+	 * 
 	 * @return array of API URLs query strings
 	 */ 
-	protected function generateUrlsApi( $parametersToSet, $formats )
+	protected function generateUrlsApi( $parametersToSet, $formats, $periods, $setDateLastN = false )
 	{
 		// List of Modules, or Module.Method that should not be called as part of the XML output compare
 		// Usually these modules either return random changing data, or are already tester in specific unit tests. 
@@ -224,21 +226,46 @@ abstract class Test_Integration extends Test_Database
     				continue;
     			}
     			
-    			// Generate for each specified format
-    			foreach($formats as $format)
+    			foreach($periods as $period)
     			{
-    				$parametersToSet['format'] = $format;
-        			$exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
-        			if($exampleUrl === false) 
+    				$parametersToSet['period'] = $period;
+    				
+					// If date must be a date range, we process this date range by adding 6 periods to it
+    				if($setDateLastN === true)
+    				{
+    					if(!isset($parametersToSet['dateRewriteBackup']))
+    					{
+    						$parametersToSet['dateRewriteBackup'] = $parametersToSet['date'];
+    					}
+    					$lastCount = 6;
+    					$firstDate = $parametersToSet['dateRewriteBackup'];
+    					$secondDate = date('Y-m-d', strtotime("+$lastCount " . $period . "s", strtotime($firstDate)));
+    					$parametersToSet['date'] = $firstDate . ',' . $secondDate;
+    				}
+    				
+        			// Generate for each specified format
+        			foreach($formats as $format)
         			{
-        				$skipped[] = $apiId;
-        				continue;
+        				$parametersToSet['format'] = $format;
+            			$exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
+            			if($exampleUrl === false) 
+            			{
+            				$skipped[] = $apiId;
+            				continue;
+            			}
+            			
+            			// Remove the first ? in the query string
+            			$exampleUrl = substr($exampleUrl, 1);
+            			$apiRequestId = $apiId;
+            			if(strpos($exampleUrl, 'period=') !== false)
+            			{
+            				$apiRequestId .= '_' . $period;
+            			}
+            			
+            			$apiRequestId .= '.' . $format;
+            			
+        				$requestUrls[$apiRequestId] = $exampleUrl;
         			}
-        			
-        			// Remove the first ? in the query string
-        			$exampleUrl = substr($exampleUrl, 1);
-        			$apiRequestId = $apiId . '.' . $format;
-    				$requestUrls[$apiRequestId] = $exampleUrl;
     			}
     		}
     	}
@@ -255,15 +282,20 @@ abstract class Test_Integration extends Test_Database
 	 * 
 	 * @param $testName Used to write the output in a file, used as filename prefix
 	 * @param $formats String or array of formats to fetch from API 
-	 * @param $idSite
-	 * @param $dateTime
+	 * @param $idSite Id site
+	 * @param $dateTime Date time string of reports to request
+	 * @param $setDateLastN When set to true, 'date' parameter passed to API request will be rewritten to query a range of dates rather than 1 date only
+	 * 
 	 * @return void
 	 */
-	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false)
+	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false, $periods = 'day', $setDateLastN = false)
 	{
+		$path = $this->getPathToTestDirectory();
+		$pathProcessed = $path . "/processed/";
+		$pathExpected = $path . "/expected/";
+		
 		$parametersToSet = array(
 			'idSite' 	=> $idSite,
-			'period' 	=> 'day',
 			'date'		=> date('Y-m-d', strtotime($dateTime)),
 			'expanded'  => '1',
 			'piwikUrl'  => 'http://example.org/piwik/'
@@ -276,14 +308,15 @@ abstract class Test_Integration extends Test_Database
 		{
 			$formats = array($formats);
 		}
-		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats);
+		if(!is_array($periods))
+		{
+			$periods = array($periods);
+		}
+		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $setDateLastN);
     	
     	foreach($requestUrls as $apiId => $requestUrl)
     	{
     		$request = new Piwik_API_Request($requestUrl);
-    		$path = $this->getPathToTestDirectory();
-    		$pathProcessed = $path . "/processed/";
-    		$pathExpected = $path . "/expected/";
     		
         	// $TEST_NAME - $API_METHOD
     		$filename = $testName . '__' . $apiId;
@@ -294,20 +327,22 @@ abstract class Test_Integration extends Test_Database
     		$response = (string)@$request->process();
     		file_put_contents( $pathProcessed . $filename, $response );
     		
-    		$expected = file_get_contents( $pathExpected . $filename);
+    		$expectedFilePath = $pathExpected . $filename;
+    		$expected = file_get_contents($expectedFilePath  );
     		if(empty($expected))
     		{
-    			$this->fail(" ERROR: Could not find set of 'expected' files. For new tests, to pass the test, you can copy files from /processed into $pathExpected  after checking the output is valid.");
+    			$this->fail(" ERROR: Could not find expected API output '$expectedFilePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $pathExpected  after checking that the output is valid.");
+    			continue;
     		}
 			// When tests run on Windows EOL delimiters are not the same as UNIX default EOL used in the renderers
     		$expected = str_replace("\r\n", "\n", $expected); 
     		$this->assertEqual(trim($response), trim($expected), "In $filename, %s");
     		if($response != $expected){
-    			echo 'ERROR FOR' . $apiId . ' -- FETCHED RESPONSE, EXPECTED RESPONSE';
+    			var_dump('ERROR FOR' . $apiId . ' -- FETCHED RESPONSE, EXPECTED RESPONSE');
     			echo "\n";
-    			echo ($response);
+    			var_dump($response);
     			echo "\n";
-    			echo ($expected);
+    			var_dump($expected);
     			echo "\n";
     		}
     	}

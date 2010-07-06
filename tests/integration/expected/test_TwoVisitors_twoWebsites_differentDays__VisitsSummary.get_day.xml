@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2010-01-03">
+			<nb_uniq_visitors>2</nb_uniq_visitors>
+			<nb_visits>2</nb_visits>
+			<nb_actions>2</nb_actions>
+			<max_actions>1</max_actions>
+			<bounce_count>2</bounce_count>
+		</result>
+		<result date="2010-01-04" />
+		<result date="2010-01-05">
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>1</nb_visits>
+			<nb_actions>2</nb_actions>
+			<max_actions>2</max_actions>
+		</result>
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+	<result idSite="2">
+		<result date="2010-01-03" />
+		<result date="2010-01-04">
+			<bounce_count>1</bounce_count>
+			<max_actions>1</max_actions>
+			<nb_actions>1</nb_actions>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>1</nb_visits>
+		</result>
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+</results>
