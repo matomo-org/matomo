@@ -74,10 +74,6 @@ class Test_PHP_Related extends UnitTestCase
 		$this->assertEqual($elem1, 'key');
 		$this->assertEqual($elem2, 'elem2');
 	}
-	function test_TMP()
-	{
-		echo md5('root'.md5('nintendo'));
-	}
 	
 	public function testStringEqualszero()
 	{
