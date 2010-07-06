@@ -22,6 +22,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * the output changes as expected (eg. More accurate browser detection, adding a new metric in the 
  * API results, etc.
  * 
+ * @see TODO list http://dev.piwik.org/trac/ticket/1465
  */
 class Test_Piwik_Integration_Main extends Test_Integration
 {
@@ -207,29 +208,4 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite = 'all', $dateTime, $periods, $setDateLastN = true);
 	}
 	
-	
-	/**
-	 * To do list (to be converted as a ticket)
-     * - test widgets HTML output?
-	 * - test Std API parameters filter_*
-	 * - Add unit tests for: Goal API add/update/delete, LanguagesManager, DBStats, SEO.getRank, Live.getLast*
-	 * - Call API to fetch custom subtables
-	 *        23 => string 'Piwik_Referers_API.getSearchEnginesFromKeywordId' (length=48)
-     *        24 => string 'Piwik_Referers_API.getKeywordsFromSearchEngineId' (length=48)
-	 *        25 => string 'Piwik_Referers_API.getKeywordsFromCampaignId' (length=44)
-	 *        26 => string 'Piwik_Referers_API.getUrlsFromWebsiteId' (length=39)
-	 *  - Test API authentication with token_auth
-	 *  
-	 *  PiwikTracker:
-	 *  - Unknown visitor, detect outlink on one of the alias host -> is it new visit, or request to ignore? probably ignore
-	 *  - set cookies in request
- 	 *  - set cookies from response (optional)
- 	 *  - negative id site should not throw exception
-	 * - Tracker API should forward http headers 'HTTP_CLIENT_IP' 'HTTP_X_FORWARDED_FOR', used in the tracking algorithm
-	 *   which would allow for testing their parsing
-	 *   
-	 *   Later
-	 * - report on performance of tracker and API/archiving. Reuse in a load testing suite. 
-	 *   How to report on historical data though? possible with Hudson? 
-	 */
 }
