@@ -3,6 +3,7 @@
 	<row>
 		<name>piwik</name>
 		<license>GPL</license>
+		<logo>logo.png</logo>
 	</row>
 	<row>
 		<name>google analytics</name>

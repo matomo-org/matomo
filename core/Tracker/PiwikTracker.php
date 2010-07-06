@@ -2,9 +2,10 @@
 /**
  * Piwik - Open source web analytics
  * 
- * @link http://piwik.org
- * @license This simple class to access Piwik Tracker API is released under BSD License
- *          http://www.opensource.org/licenses/bsd-license.php
+ * Client to record visits, page views, Goals, in a Piwik server.
+ * For more information, see http://piwik.org/XXXXXXXXXX
+ * 
+ * @license released under BSD License http://www.opensource.org/licenses/bsd-license.php
  * @version $Id$
  */
 class PiwikTracker

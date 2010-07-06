@@ -91,6 +91,21 @@ abstract class Piwik_DataTable_Renderer
 		$this->exception = $exception;
 	}
 	
+
+	static protected $availableRenderers = array(   'xml', 
+        											'json', 
+        											'csv', 
+        											'tsv', 
+        											'html', 
+        											'php', 
+        											'original'
+	);
+	
+	static public function getRenderers()
+	{
+		return self::$availableRenderers;
+	}
+	
 	/**
 	 * Returns the DataTable associated to the output format $name
 	 * 
@@ -106,7 +121,7 @@ abstract class Piwik_DataTable_Renderer
 			Piwik_Loader::autoload($className);
 			return new $className;			
 		} catch(Exception $e) {
-			$availableRenderers = 'xml, json, csv, tsv, html, php, original';
+			$availableRenderers = implode(', ', self::getRenderers());
 			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidRendererFormat', array($name, $availableRenderers)));
 		}		
 	}
