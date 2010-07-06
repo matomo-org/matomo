@@ -287,7 +287,10 @@ abstract class Test_Integration extends Test_Database
         	// $TEST_NAME - $API_METHOD
     		$filename = $testName . '__' . $apiId;
     		
-    		$response = $request->process();
+    		// Cast as string is important. For example when calling 
+    		// with format=original, objects or php arrays can be returned.
+    		// we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
+    		$response = (string)@$request->process();
     		file_put_contents( $pathProcessed . $filename, $response );
     		
     		$expected = file_get_contents( $pathExpected . $filename);
@@ -295,10 +298,16 @@ abstract class Test_Integration extends Test_Database
     		{
     			$this->fail(" ERROR: Could not find set of 'expected' files. For new tests, to pass the test, you can copy files from /processed into $pathExpected  after checking the output is valid.");
     		}
-    		$this->assertEqual($response, $expected, "In $filename, %s");
+			// When tests run on Windows EOL delimiters are not the same as UNIX default EOL used in the renderers
+    		$expected = str_replace("\r\n", "\n", $expected); 
+    		$this->assertEqual(trim($response), trim($expected), "In $filename, %s");
     		if($response != $expected){
-    			echo $apiId;
-    			var_dump($response);
+    			echo 'ERROR FOR' . $apiId . ' -- FETCHED RESPONSE, EXPECTED RESPONSE';
+    			echo "\n";
+    			echo ($response);
+    			echo "\n";
+    			echo ($expected);
+    			echo "\n";
     		}
     	}
     	$this->pass();

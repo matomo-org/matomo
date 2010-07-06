@@ -97,8 +97,7 @@ abstract class Piwik_DataTable_Renderer
         											'csv', 
         											'tsv', 
         											'html', 
-        											'php', 
-        											'original'
+        											'php' 
 	);
 	
 	static public function getRenderers()
