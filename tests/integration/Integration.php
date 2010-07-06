@@ -161,11 +161,12 @@ abstract class Test_Integration extends Test_Database
 		parent::setUp();
 		// Make sure translations are loaded to check messages in English 
     	Piwik_Translate::getInstance()->loadEnglishTranslation();
+    	
 	}
 	
 	function tearDown() 
 	{
-		parent::setUp();
+		parent::tearDown();
     	Piwik_Translate::getInstance()->unloadEnglishTranslation();
 	}
 	
