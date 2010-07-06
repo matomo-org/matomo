@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>piwik.org</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<exit_nb_visits>1</exit_nb_visits>
+		<idsubdatatable>55</idsubdatatable>
+		<subtable>
+			<row>
+				<label> /latest.zip</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+				<exit_nb_visits>1</exit_nb_visits>
+				<url>http://piwik.org/latest.zip</url>
+			</row>
+		</subtable>
+	</row>
+</result>

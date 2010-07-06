@@ -53,9 +53,9 @@ class Piwik_Option
 		{
 			return $this->all[$name];
 		}
-		$value = Piwik_FetchOne( 'SELECT option_value 
-							FROM `' . Piwik_Common::prefixTable('option') . '`
-							WHERE option_name = ?', $name);
+		$value = Piwik_FetchOne( 'SELECT option_value '. 
+							'FROM `' . Piwik_Common::prefixTable('option') . '`'.
+							'WHERE option_name = ?', $name);
 		if($value === false)
 		{
 			return false;

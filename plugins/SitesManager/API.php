@@ -41,20 +41,20 @@ class Piwik_SitesManager_API
 	 * This tag must be included on every page to be tracked by Piwik
 	 *
 	 * @param int $idSite
+	 * @param string $customTitle Custom title given to the pageview
 	 * @return string The Javascript tag ready to be included on the HTML pages
 	 */
-	public function getJavascriptTag( $idSite, $piwikUrl = '', $actionName = '')
+	public function getJavascriptTag( $idSite, $piwikUrl = '')
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 		
-		$actionName = "'".addslashes(Piwik_Common::sanitizeInputValues($actionName))."'";
 		if(empty($piwikUrl))
 		{
 			$piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		}
 		$piwikUrl = addslashes(Piwik_Common::sanitizeInputValues($piwikUrl));
 		
-		$htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl, $actionName);
+		$htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl);
 		$htmlEncoded = str_replace(array('<br>','<br />','<br/>'), '', $htmlEncoded);
 		return html_entity_decode($htmlEncoded);
 	}

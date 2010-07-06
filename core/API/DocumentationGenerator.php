@@ -59,7 +59,7 @@ class Piwik_API_DocumentationGenerator
 			
 			foreach($info as $methodName => $infoMethod)
 			{
-				$params = $this->getStrListParameters($class, $methodName);
+				$params = $this->getParametersString($class, $methodName);
 				$str .= "\n" . "- <b>$moduleName.$methodName " . $params . "</b>";
 				$str .= '<small>';
 				
@@ -112,7 +112,7 @@ class Piwik_API_DocumentationGenerator
 	 * @param methodName the method
 	 * @return string|false when not possible
 	 */
-	protected function getExampleUrl($class, $methodName, $parametersToSet = array())
+	public function getExampleUrl($class, $methodName, $parametersToSet = array())
 	{
 		$knowExampleDefaultParametersValues = array(
 			'access' => 'view',
@@ -121,7 +121,7 @@ class Piwik_API_DocumentationGenerator
 			'email' => 'test@example.org',
 		
 			'languageCode' => 'fr',
-			'url' => 'http://forum.piwik.org/'
+			'url' => 'http://forum.piwik.org/',
 		);
 		
 		foreach($parametersToSet as $name => $value)
@@ -158,19 +158,16 @@ class Piwik_API_DocumentationGenerator
 		$urlExample = '?module=API&method='.$moduleName.'.'.$methodName.'&';
 		foreach($aParameters as $nameVariable=> $defaultValue)
 		{
+			if(isset($knowExampleDefaultParametersValues[$nameVariable]))
+			{
+				$exampleValue = $knowExampleDefaultParametersValues[$nameVariable];
+				$urlExample .= $nameVariable . '=' . $exampleValue . '&';
+			}
 			// if there isn't a default value for a given parameter, 
 			// we need a 'know default value' or we can't generate the link
-			if($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue)
+			elseif($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue)
 			{
-				if(isset($knowExampleDefaultParametersValues[$nameVariable]))
-				{
-					$exampleValue = $knowExampleDefaultParametersValues[$nameVariable];
-					$urlExample .= $nameVariable . '=' . $exampleValue . '&';
-				}
-				else
-				{
-					return false;
-				}
+				return false;
 			}
 		}
 		
@@ -185,7 +182,7 @@ class Piwik_API_DocumentationGenerator
 	 * @param string The method name
 	 * @return string For example "(idSite, period, date = 'today')"
 	 */
-	protected function getStrListParameters($class, $name)
+	public function getParametersString($class, $name)
 	{
 		$aParameters = Piwik_API_Proxy::getInstance()->getParametersList($class, $name);
 		$asParameters = array();

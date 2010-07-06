@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Yahoo!</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<goals>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>1</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>1</revenue>
+		<idsubdatatable>74</idsubdatatable>
+		<url>http://search.yahoo.com</url>
+		<logo>plugins/Referers/images/searchEngines/search.yahoo.com.png</logo>
+		<subtable>
+			<row>
+				<label>purchase</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+			</row>
+		</subtable>
+	</row>
+</result>

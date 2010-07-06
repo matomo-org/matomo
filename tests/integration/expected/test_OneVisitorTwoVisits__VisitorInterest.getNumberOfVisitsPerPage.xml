@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>1 page</label>
+		<nb_visits>1</nb_visits>
+	</row>
+	<row>
+		<label>2 pages</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>3 pages</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>4 pages</label>
+		<nb_visits>1</nb_visits>
+	</row>
+	<row>
+		<label>5 pages</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>6-7 pages</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>8-10 pages</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>11-14 pages</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>15-20 pages</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>20+ pages</label>
+		<nb_visits>0</nb_visits>
+	</row>
+</result>

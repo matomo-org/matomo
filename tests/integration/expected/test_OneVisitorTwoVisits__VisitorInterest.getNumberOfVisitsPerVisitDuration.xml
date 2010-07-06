@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>0-30s</label>
+		<nb_visits>1</nb_visits>
+	</row>
+	<row>
+		<label>30-60s</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>1-2 min</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>2-4 min</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>4-6 min</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>6-8 min</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>8-11 min</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>11-15 min</label>
+		<nb_visits>0</nb_visits>
+	</row>
+	<row>
+		<label>15+ min</label>
+		<nb_visits>1</nb_visits>
+	</row>
+</result>

@@ -7,6 +7,10 @@
 ; [General]
 ; action_title_category_delimiter = "-"
 
+;--------
+; WARNING - YOU SHOULD NOT EDIT THIS FILE DIRECTLY - Edit config.ini.php instead.
+;--------
+
 [superuser]
 login			= root
 password		= 

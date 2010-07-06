@@ -18,16 +18,17 @@ class Piwik_UserSettings extends Piwik_Plugin
 {	
 	public function getInformation()
 	{
-		$info = array(
+		return array(
 			'description' => Piwik_Translate('UserSettings_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
-		
-		return $info;
 	}
 
+	/*
+	 * Mapping between the browser family shortcode and the displayed name
+	 */
 	static public $browserType_display = array(
 		'ie'     => 'Trident (IE)',
 		'gecko'  => 'Gecko (Firefox)',
@@ -36,6 +37,9 @@ class Piwik_UserSettings extends Piwik_Plugin
 		'opera'  => 'Presto (Opera)',
 	);
 
+	/*
+	 * List of hooks 
+	 */
 	function getListHooksRegistered()
 	{
 		$hooks = array(
@@ -47,6 +51,9 @@ class Piwik_UserSettings extends Piwik_Plugin
 		return $hooks;
 	}
 	
+	/**
+	 * Adds the various User Settings widgets
+	 */
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetResolutions', 'UserSettings', 'getResolution');
@@ -58,11 +65,22 @@ class Piwik_UserSettings extends Piwik_Plugin
 		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetGlobalVisitors', 'UserSettings', 'getConfiguration');
 	}
 	
+	/**
+	 * Adds the User Settings menu
+	 */
 	function addMenu()
 	{
 		Piwik_AddMenu('General_Visitors', 'UserSettings_SubmenuSettings', array('module' => 'UserSettings', 'action' => 'index'));
 	}
 	
+	/**
+	 * Daily archive of User Settings report. Processes reports for Visits by Resolution,
+	 * by Browser, Browser family, etc. Some reports are built from the logs, some reports 
+	 * are superset of an existing report (eg. Browser family is built from the Browser report)
+	 * 
+	 * @param $notification
+	 * @return void
+	 */
 	function archiveDay( $notification )
 	{
 		require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
@@ -117,6 +135,11 @@ class Piwik_UserSettings extends Piwik_Plugin
 		destroy($tablePlugin);
 	}
 	
+	/**
+	 * Period archiving: simply sums up daily archives
+	 * @param $notification
+	 * @return void
+	 */
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -135,7 +158,13 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
 	}
 	
-	protected function getTableWideScreen($tableResolution)
+	/**
+	 * Returns the report Visits by Screen type given the Resolution table
+	 * 
+	 * @param $tableResolution 
+	 * @return Piwik_DataTable
+	 */
+	protected function getTableWideScreen(Piwik_DataTable $tableResolution)
 	{
 		$nameToRow = array();
 		foreach($tableResolution->getRows() as $row)
@@ -156,7 +185,13 @@ class Piwik_UserSettings extends Piwik_Plugin
 		return $tableWideScreen;
 	}
 	
-	protected function getTableBrowserByType($tableBrowser)
+	/**
+	 * Returns the report Visits by Browser family given the Browser report
+	 * 
+	 * @param $tableBrowser 
+	 * @return Piwik_DataTable
+	 */
+	protected function getTableBrowserByType(Piwik_DataTable $tableBrowser)
 	{		
 		$nameToRow = array();
 		foreach($tableBrowser->getRows() as $row)
@@ -176,6 +211,10 @@ class Piwik_UserSettings extends Piwik_Plugin
 		return $tableBrowserType;
 	}
 	
+	/**
+	 * Returns SQL that processes stats for Plugins
+	 * @return unknown_type
+	 */
 	protected function getDataTablePlugin()
 	{
 		$toSelect = "sum(case config_pdf when 1 then 1 else 0 end) as pdf, 

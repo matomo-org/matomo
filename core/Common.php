@@ -624,17 +624,20 @@ class Piwik_Common
 	 *
 	 * @return string ip
 	 */
-	static public function getIp()
+	static public function getIp( $ipStringFrom = false )
 	{
-		$ip = self::getIpString();
-
-		// accept ipv4-mapped addresses
-		if(strpos($ip, '::ffff:') === 0)
+		if($ipStringFrom === false) 
 		{
-			$ip = substr($ip, 7);
+			$ipStringFrom = self::getIpString();
 		}
 
-		return sprintf("%u", ip2long($ip));
+		// accept ipv4-mapped addresses
+		if(strpos($ipStringFrom, '::ffff:') === 0)
+		{
+			$ipStringFrom = substr($ipStringFrom, 7);
+		}
+
+		return sprintf("%u", ip2long($ipStringFrom));
 	}
 
 	/**

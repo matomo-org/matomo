@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Gecko (Firefox)</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1440</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<shortLabel>Gecko</shortLabel>
+	</row>
+</result>

@@ -27,6 +27,13 @@ class Piwik_Tracker_Config
 {
 	static private $instance = null;
 	
+	/*
+	 * For Unit tests, the locally overwritten config/config.ini.php should not interfere with Integration tests.
+	 * We therefore overwrite the config files with the default values from global.ini.php when running these tests
+	 * @see setTestEnvironment()
+	 */
+	static public $toRestoreFromGlobalConfig = array('Debug', 'General', 'Tracker');
+	
 	/**
 	 * Returns singleton
 	 *
@@ -113,14 +120,17 @@ class Piwik_Tracker_Config
 		}
 		return count($section) ? $section : null;
 	}
-
+	
 	/**
 	 * If called, we use the database_tests credentials
 	 * and test configuration overrides
 	 */
-	public function setTestEnvironment($configTest = array())
+	public function setTestEnvironment()
 	{
+		foreach(self::$toRestoreFromGlobalConfig as $section) {
+			$this->$section = $this->configGlobal[$section];
+		}
 		$this->database = $this->database_tests;
-		$this->config = $configTest;
+		$this->PluginsInstalled = array();	
 	}
 }

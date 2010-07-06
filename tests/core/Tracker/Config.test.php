@@ -10,7 +10,7 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 require_once 'Tracker/Config.php';
 class Test_Piwik_TrackerConfig extends UnitTestCase
 {
-	public function testUserConfigOverwritesSectionGlobalConfigValue()
+	public function test_UserConfigOverwritesGlobalConfig()
     {
     	$userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Config/config.ini.php';
     	$globalFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Config/global.ini.php';
@@ -31,6 +31,7 @@ class Test_Piwik_TrackerConfig extends UnitTestCase
     	$expectedArray = array('value1', 'value2');
     	$array = $config->TestArrayOnlyInGlobalFile;
     	$this->assertEqual($array['my_array'], $expectedArray);
+
     }
 }
 

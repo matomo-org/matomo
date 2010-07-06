@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<name>piwik</name>
+		<license>GPL</license>
+	</row>
+	<row>
+		<name>google analytics</name>
+		<license>commercial</license>
+	</row>
+</result>

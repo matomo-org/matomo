@@ -136,7 +136,7 @@ class Piwik_Access
 		}
 		$this->login = $result->getIdentity();
 		$this->token_auth = $result->getTokenAuth();
-			
+		
 		// case the superUser is logged in
 		if($result->getCode() == Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE)
 		{
@@ -277,7 +277,7 @@ class Piwik_Access
 	 */
 	public function checkUserIsSuperUser()
 	{
-		if($this->isSuperUser === false)
+		if(!$this->isSuperUser())
 		{
 			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionPrivilege', array("'superuser'")));
 		}
@@ -308,6 +308,10 @@ class Piwik_Access
 	 */
 	public function checkUserHasSomeViewAccess()
 	{
+		if($this->isSuperUser())
+		{
+			return;
+		}
 		$idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
 		if(count($idSitesAccessible) == 0)
 		{
@@ -324,6 +328,11 @@ class Piwik_Access
 	 */
 	public function checkUserHasAdminAccess( $idSites )
 	{
+		if($this->isSuperUser())
+		{
+			return;
+		}
+		
 		if($idSites === 'all')
 		{
 			$idSites = $this->getSitesIdWithAtLeastViewAccess();
@@ -351,6 +360,10 @@ class Piwik_Access
 	 */
 	public function checkUserHasViewAccess( $idSites )
 	{
+		if($this->isSuperUser())
+		{
+			return;
+		}
 		if($idSites === 'all')
 		{
 			$idSites = $this->getSitesIdWithAtLeastViewAccess();

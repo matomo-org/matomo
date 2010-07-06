@@ -378,7 +378,7 @@ class Piwik_Http
 	 * @param int $tries
 	 * @return true on success, throws Exception on failure
 	 */
-	static public function fetchRemoteFile($url, $pathDestination, $tries = 0)
+	static public function fetchRemoteFile($url, $pathDestination = null, $tries = 0)
 	{
 		@ignore_user_abort(true);
 		Piwik::setMaxExecutionTime(0);

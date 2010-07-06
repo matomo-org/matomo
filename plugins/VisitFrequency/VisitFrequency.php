@@ -42,7 +42,6 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();
-		
 		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
 	}	
 	
