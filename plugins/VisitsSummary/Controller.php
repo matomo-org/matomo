@@ -73,11 +73,8 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		
 		$dataTableVisit = self::getVisitsSummary();
 		$dataRow = $dataTableVisit->getFirstRow();
-		if($view->period != 'year')
-		{
-			$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_uniq_visitors')));
-			$view->nbUniqVisitors = $dataRow->getColumn('nb_uniq_visitors');
-		}
+		$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_uniq_visitors')));
+		$view->nbUniqVisitors = $dataRow->getColumn('nb_uniq_visitors');
 		$nbVisits = $dataRow->getColumn('nb_visits');
 		$view->nbVisits = $nbVisits;
 		$view->nbActions = $dataRow->getColumn('nb_actions');
