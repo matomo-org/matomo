@@ -32,6 +32,7 @@ class Test_Piwik_Integration_ExampleAPI extends Test_Integration
 		// one could generate fake inputs, and check that ouputs are processed as expected
 		// @see tests/integration/ for more info
 		$this->setApiToCall( 'ExampleAPI' );
-        $this->callGetApiCompareOutput(__FUNCTION__);
+		$renderers = Piwik_DataTable_Renderer::getRenderers();
+        $this->callGetApiCompareOutput(__FUNCTION__, $renderers);
 	}
 }

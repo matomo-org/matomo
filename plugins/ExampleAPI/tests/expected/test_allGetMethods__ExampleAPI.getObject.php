@@ -1,0 +1,1 @@
+a:2:{s:6:"result";s:5:"error";s:7:"message";s:42:"The API cannot handle this data structure.";}

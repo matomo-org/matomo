@@ -46,13 +46,9 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Loop over all widgets and call with standard parameters. Check HTML output.
 	 * 
 	 */
-	// TODO
-	// ExampleUI own integration test
 	// test periods
 	// test several websites
-	// test all formats
-	
-	
+
 	/*
 	 * Testing various wrong Tracker requests. 
 	 * API will archive and output empty stats.
@@ -92,7 +88,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$this->checkResponse($t->doTrackPageView('visit from IP globally excluded'));
 		
 		
-        $this->callGetApiCompareOutput(__FUNCTION__, $idSite, $dateTime);
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
 	
 	
@@ -162,7 +158,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // -
         // End of second visit
         
-        $this->callGetApiCompareOutput(__FUNCTION__, $idSite, $dateTime);
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
 
 	

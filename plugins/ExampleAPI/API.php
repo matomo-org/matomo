@@ -11,12 +11,26 @@
  */
 
 /**
- * ExampleAPI API
- *
- * <p><b>HOW TO VIEW THE API IN ACTION</b></p>
- * <p>Go to the API page in the Piwik user interface
- * and try the API of the plugin ExampleAPI</p>
- *
+ * This is an example of a basic API file. Each plugin can have one public API.
+ * Each public function in this class will be available to be called via the API.
+ * Protected and private members will not be callable.
+ * 
+ * Functions can be called internally using the PHP objects directly, or via the 
+ * Piwik Web APIs, using HTTP requests. For more information, check out:
+ * http://dev.piwik.org/trac/wiki/API/CallingTechniques
+ * 
+ * Parameters are passed automatically from the GET request to the API functions.
+ * 
+ * Common API uses include: 
+ * - requesting stats for a given date and period, for one or several websites
+ * - creating, editing, deleting entities (Goals, Websites, Users)
+ * - any logic that could be useful to a larger scope than the Controller (make a setting editable for example)
+ * 
+ * It is highly recommended that all the plugin logic is done inside API implementations, and the 
+ * Controller and other objects would all call the API internally using, eg.
+ *  Piwik_ExampleAPI_API::getInstance()->getSum(1, 2);
+ * 
+ * 
  * @package Piwik_ExampleAPI
  */
 class Piwik_ExampleAPI_API
@@ -57,18 +71,12 @@ class Piwik_ExampleAPI_API
 	}
 
 	/**
-	 * Get Golden Ratio
-	 * @return float
-	 */
-	public function getGoldenRatio()
-	{
-		//http://en.wikipedia.org/wiki/Golden_ratio
-		return 1.618033988749894848204586834365;
-	}
-
-	/**
-	 * Get object
-	 * @return Piwik_MagicObject
+	 * Returns a custom object.
+	 * API format conversion will fail for this custom object. 
+	 * If used internally, the data structure can be returned untouched by using
+	 * the API parameter 'format=original'
+	 * 
+	 * @return Piwik_MagicObject Will return a standard Piwik error when called from the Web APIs
 	 */
 	public function getObject()
 	{
@@ -76,8 +84,24 @@ class Piwik_ExampleAPI_API
 	}
 
 	/**
-	 * Get null
-	 * @return null
+	 * Sums two floats and returns the result.
+	 * The paramaters are set automatically from the GET request
+	 * when the API function is called. You can also use default values
+	 * as shown in this example.
+	 * 
+	 * @param $a
+	 * @param $b
+	 * @return float
+	 */
+	public function getSum($a = 0, $b = 0)
+	{
+		return (float)($a + $b);
+	}
+	
+	/**
+	 * Returns null value
+	 * 
+	 * @return null 
 	 */
 	public function getNull()
 	{
@@ -86,15 +110,21 @@ class Piwik_ExampleAPI_API
 
 	/**
 	 * Get array of descriptive text
+	 * When called from the Web API, you see that simple arrays like this one
+	 * are automatically converted in the various formats (xml, csv, etc.)
+	 * 
 	 * @return array
 	 */
 	public function getDescriptionArray()
 	{
-		return array('piwik','open source','web analytics','free');
+		return array('piwik','open source','web analytics','free', 'Strong message: Свободный Тибет');
 	}
 
 	/**
-	 * Get data table
+	 * Returns a custom data table.
+	 * This data table will be converted to all available formats 
+	 * when requested in the API request.
+	 * 
 	 * @return Piwik_DataTable
 	 */
 	public function getCompetitionDatatable()
@@ -103,6 +133,10 @@ class Piwik_ExampleAPI_API
 
 		$row1 = new Piwik_DataTable_Row();
 		$row1->setColumns( array('name' => 'piwik', 'license' => 'GPL'));
+		
+		// Rows Metadata is useful to store non stats data for example (logos, urls, etc.)
+		// When printed out, they are simply merged with columns 
+		$row1->setMetadata('logo', 'logo.png');
 		$dataTable->addRow($row1);
 
 		$dataTable->addRowFromSimpleArray( array('name' => 'google analytics', 'license' => 'commercial')  );
@@ -112,6 +146,7 @@ class Piwik_ExampleAPI_API
 
 	/**
 	 * Get more information on the Answer to Life...
+	 * 
 	 * @return string
 	 */
 	public function getMoreInformationAnswerToLife()

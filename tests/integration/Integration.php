@@ -9,6 +9,7 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 Mock::generate('Piwik_Access');
 
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/PiwikTracker.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php';
 
 /**
  * Base class for Integration tests.
@@ -174,9 +175,10 @@ abstract class Test_Integration extends Test_Database
 	 * If any API is set as excluded (see list below) then it will be ignored.
 	 * 
 	 * @param $parametersToSet 
+	 * @param $formats Array of formats to fetch from API
 	 * @return array of API URLs query strings
-	 */
-	protected function generateUrlsApi( $parametersToSet )
+	 */ 
+	protected function generateUrlsApi( $parametersToSet, $formats )
 	{
 		// List of Modules, or Module.Method that should not be called as part of the XML output compare
 		// Usually these modules either return random changing data, or are already tester in specific unit tests. 
@@ -221,19 +223,22 @@ abstract class Test_Integration extends Test_Database
     				continue;
     			}
     			
-				
-				// Try and generate a URL using specified default parameters
-    			$params = $apiMetadata->getParametersString($class, $methodName);
-    			$exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
-    			if($exampleUrl === false)
+    			// Generate for each specified format
+    			foreach($formats as $format)
     			{
-    				$skipped[] = $apiId;
-    				continue;
+    				$parametersToSet['format'] = $format;
+        			$exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
+        			if($exampleUrl === false) 
+        			{
+        				$skipped[] = $apiId;
+        				continue;
+        			}
+        			
+        			// Remove the first ? in the query string
+        			$exampleUrl = substr($exampleUrl, 1);
+        			$apiRequestId = $apiId . '.' . $format;
+    				$requestUrls[$apiRequestId] = $exampleUrl;
     			}
-    			
-    			// Remove the first ? in the query string
-    			$exampleUrl = substr($exampleUrl, 1);
-				$requestUrls[$apiId] = $exampleUrl;
     		}
     	}
 //    	var_dump($skipped);
@@ -248,11 +253,12 @@ abstract class Test_Integration extends Test_Database
 	 * and compare with the expected outputs.
 	 * 
 	 * @param $testName Used to write the output in a file, used as filename prefix
+	 * @param $formats String or array of formats to fetch from API 
 	 * @param $idSite
 	 * @param $dateTime
 	 * @return void
 	 */
-	function callGetApiCompareOutput($testName, $idSite = false, $dateTime = false)
+	function callGetApiCompareOutput($testName, $formats = 'xml', $idSite = false, $dateTime = false)
 	{
 		$parametersToSet = array(
 			'idSite' 	=> $idSite,
@@ -265,7 +271,11 @@ abstract class Test_Integration extends Test_Database
 		// Give it enough time for the current API test to finish (call all get* APIs)
 		Zend_Registry::get('config')->General->time_before_today_archive_considered_outdated = 10;
 		
-		$requestUrls = $this->generateUrlsApi($parametersToSet);
+		if(!is_array($formats))
+		{
+			$formats = array($formats);
+		}
+		$requestUrls = $this->generateUrlsApi($parametersToSet, $formats);
     	
     	foreach($requestUrls as $apiId => $requestUrl)
     	{
@@ -275,7 +285,7 @@ abstract class Test_Integration extends Test_Database
     		$pathExpected = $path . "/expected/";
     		
         	// $TEST_NAME - $API_METHOD
-    		$filename = $testName .'__'. $apiId .'.xml';
+    		$filename = $testName . '__' . $apiId;
     		
     		$response = $request->process();
     		file_put_contents( $pathProcessed . $filename, $response );

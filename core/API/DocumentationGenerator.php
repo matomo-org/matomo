@@ -154,6 +154,10 @@ class Piwik_API_DocumentationGenerator
 		
 		// we try to give an URL example to call the API
 		$aParameters = Piwik_API_Proxy::getInstance()->getParametersList($class, $methodName);
+		// Kindly force some known generic parameters to appear in the final list
+		// the parameter 'format' can be set to all API methods (used in tests)
+		$aParameters['format'] = false;
+		
 		$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
 		$urlExample = '?module=API&method='.$moduleName.'.'.$methodName.'&';
 		foreach($aParameters as $nameVariable=> $defaultValue)
