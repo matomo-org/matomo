@@ -38,6 +38,17 @@ require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Loader.php';
 require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
 //set_error_handler('Piwik_ErrorHandler');
 
+$timer = new Piwik_Timer;
+
+function displayFooter()
+{
+	global $timer;
+	echo $timer."<br>";
+	echo $timer->getMemoryLeak();
+}
+
+register_shutdown_function('displayFooter');
+
 function dump($var)
 {
 	print("<pre>");
