@@ -64,7 +64,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 
 	Name:  jquery.spy
 	Link:  http://leftlogic.com/lounge/articles/jquery_spy2
-	License:  unspecified
+	License:  MIT
 
 	Name:  Superfish
 	Link:  http://users.tpg.com.au/j_birch/plugins/superfish/
@@ -108,17 +108,17 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://pear.php.net/package/Event_Dispatcher/
 	License:  Modified BSD
 
-	Name:  HTML Common
-	Link:  http://pear.php.net/package/HTML_Common
-	License:  PHP 3.01
-	Notes:
-	- this license is not GPL v3 compatible
+	Name:  HTML Common2
+	Link:  http://pear.php.net/package/HTML_Common2/
+	License:  Modified BSD
 
-	Name:  HTML QuickForm
-	Link:  http://pear.php.net/package/HTML_QuickForm/
-	License:  PHP 3.01
-	Notes:
-	- this license is not GPL v3 compatible
+	Name:  HTML QuickForm2
+	Link:  http://pear.php.net/package/HTML_QuickForm2/
+	License:  Modified BSD
+
+	Name:  HTML QuickForm2_Renderer_Smarty
+	Link:  http://www.phcomp.co.uk/tmp/Smarty.phps
+	License:  Modified BSD
 
 	Name:  Open Flash Chart
 	Link:  http://teethgrinder.co.uk/open-flash-chart-2/

@@ -14,74 +14,77 @@
  * 
  * @package Piwik_Installation
  */
-class Piwik_Installation_FormGeneralSetup extends Piwik_QuickForm
+class Piwik_Installation_FormGeneralSetup extends Piwik_QuickForm2
 {
-	function __construct( $action = '', $attributes = '' )
+	function __construct( $id = 'generalsetupform', $method = 'post', $attributes = null, $trackSubmit = false)
 	{
-		parent::__construct($action = '', $attributes = 'autocomplete="off"');
+		parent::__construct($id,  $method, $attributes = array('autocomplete' => 'off'), $trackSubmit);
 	}
-	
-	function validate()
+
+	function init()
+	{
+		HTML_QuickForm2_Factory::registerRule('checkLogin', 'Piwik_Installation_FormGeneralSetup_Rule_isValidLoginString');
+		HTML_QuickForm2_Factory::registerRule('checkEmail', 'Piwik_Installation_FormGeneralSetup_Rule_isValidEmailString');
+
+		$login = $this->addElement('text', 'login')
+		              ->setLabel(Piwik_Translate('Installation_SuperUserLogin'));
+		$login->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_SuperUserLogin')));
+		$login->addRule('checkLogin');
+
+		$password = $this->addElement('password', 'password')
+		                 ->setLabel(Piwik_Translate('Installation_Password'));
+		$password->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_Password')));
+
+		$passwordBis = $this->addElement('password', 'password_bis')
+		     ->setLabel(Piwik_Translate('Installation_PasswordRepeat'));
+		$passwordBis->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_PasswordRepeat')));
+		$passwordBis->addRule('eq', Piwik_Translate( 'Installation_PasswordDoNotMatch'), $password);
+
+		$email = $this->addElement('text', 'email')
+		              ->setLabel(Piwik_Translate('Installation_Email'));
+		$email->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_Email')));
+		$email->addRule('checkEmail', Piwik_Translate( 'UsersManager_ExceptionInvalidEmail'));
+
+		$this->addElement('checkbox', 'subscribe_newsletter_security', null, array(
+			'content' => '&nbsp;&nbsp;' . Piwik_Translate('Installation_SecurityNewsletter'),
+		));
+
+		$this->addElement('checkbox', 'subscribe_newsletter_community', null, array(
+			'content' => '&nbsp;&nbsp;' . Piwik_Translate('Installation_CommunityNewsletter'),
+		));
+
+		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo')));
+
+		// default values
+		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
+			'subscribe_newsletter_community' => 1,
+			'subscribe_newsletter_security' => 1,
+		)));
+	}
+}
+
+class Piwik_Installation_FormGeneralSetup_Rule_isValidLoginString extends HTML_QuickForm2_Rule
+{
+	function validateOwner()
 	{
 		try {
-    		$login = $this->getSubmitValue('login');
+    		$login = $this->owner->getValue();
     		if(!empty($login))
     		{
     			Piwik::checkValidLoginString($login);
     		}
 		} catch(Exception $e) {
-			$this->_errors['login'] = $e->getMessage();
+			$this->setMessage($e->getMessage());
+			return false;
 		}
-		return parent::validate();
+		return true;
 	}
-	
-	function init()
-	{
-		$urlToGoAfter = 'index.php' . Piwik_Url::getCurrentQueryString();
+}
 
-		$formElements = array(
-			array('text', 'login', Piwik_Translate('Installation_SuperUserLogin')),
-			array('password', 'password', Piwik_Translate('Installation_Password')),
-			array('password', 'password_bis', Piwik_Translate('Installation_PasswordRepeat')),
-			array('text', 'email', Piwik_Translate('Installation_Email')),
-			array('checkbox', 'subscribe_newsletter_security', '', '&nbsp;&nbsp;' . Piwik_Translate('Installation_SecurityNewsletter')),
-			array('checkbox', 'subscribe_newsletter_community', '', '&nbsp;&nbsp;'. Piwik_Translate('Installation_CommunityNewsletter')),
-		);
-		$this->addElements( $formElements );
-		
-		if(!$this->isSubmitted()
-			|| $this->getSubmitValue('subscribe_newsletter_community') == '1')
-		{
-			$this->setChecked('subscribe_newsletter_community');
-		}
-		if(!$this->isSubmitted()
-			|| $this->getSubmitValue('subscribe_newsletter_security') == '1')
-		{
-			$this->setChecked('subscribe_newsletter_security');
-		}
-		
-		$formRules = array();
-		foreach($formElements as $row)
-		{
-			// checkboxes are not required (form should validate when unchecked)
-			if(in_array($row[1],array('subscribe_newsletter_security','subscribe_newsletter_community')))
-			{
-				continue;
-			}
-			$formRules[] = array($row[1], Piwik_Translate('General_Required', $row[2]), 'required');
-		}
-		
-		$formRules[] = array( 	'email', 
-								Piwik_Translate( 'UsersManager_ExceptionInvalidEmail'), 
-								'checkEmail'
-		);
-		$formRules[] = array( 	'password',
-								Piwik_Translate( 'Installation_PasswordDoNotMatch'),
-								'fieldHaveSameValue',
-								'password_bis'
-		);
-		
-		$this->addRules( $formRules );	
-		$this->addElement('submit', 'submit', Piwik_Translate('Installation_SubmitGo'));
-	}	
+class Piwik_Installation_FormGeneralSetup_Rule_isValidEmailString extends HTML_QuickForm2_Rule
+{
+	function validateOwner()
+	{
+		return Piwik::isValidEmailString($this->owner->getValue());
+	}
 }

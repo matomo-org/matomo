@@ -162,19 +162,25 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * Add form to view
 	 *
-	 * @param Piwik_QuickForm $form
+	 * @param Piwik_QuickForm2 $form
 	 */
 	public function addForm( $form )
 	{
-		// Create the renderer object	
-		$renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, false, false);
-		
-		// build the HTML for the form
-		$form->accept($renderer);
-		
-		// assign array with form data
-		$this->smarty->assign('form_data', $renderer->toArray());
-		$this->smarty->assign('element_list', $form->getElementList());
+		if($form instanceof Piwik_QuickForm2)
+		{
+			HTML_QuickForm2_Renderer::register('smarty', 'HTML_QuickForm2_Renderer_Smarty');
+
+			// Create the renderer object	
+			$renderer = HTML_QuickForm2_Renderer::factory('smarty');
+			$renderer->setOption('group_errors', true);
+
+			// build the HTML for the form
+			$form->render($renderer);
+
+			// assign array with form data
+			$this->smarty->assign('form_data', $renderer->toArray());
+			$this->smarty->assign('element_list', $form->getElementList());
+		}
 	}
 
 	/**
