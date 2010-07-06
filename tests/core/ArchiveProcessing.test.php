@@ -33,6 +33,8 @@ class Test_Piwik_ArchiveProcessing extends Test_Database
 												$excludedIps = "",
 												$excludedQueryParameters = "",
 												$timezone);
+												
+		Piwik_Site::clearCache();
     	return new Piwik_Site($idsite);
 	}
 

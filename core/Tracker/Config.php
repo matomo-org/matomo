@@ -56,6 +56,8 @@ class Piwik_Tracker_Config
 	 */
 	public $config = array();
 	protected $initialized = false;
+	protected $configGlobal = false;
+	protected $configUser = false;
 	
 	public function init($pathIniFileUser = null, $pathIniFileGlobal = null)
 	{
@@ -128,7 +130,10 @@ class Piwik_Tracker_Config
 	public function setTestEnvironment()
 	{
 		foreach(self::$toRestoreFromGlobalConfig as $section) {
-			$this->$section = $this->configGlobal[$section];
+			if(isset($this->configGlobal[$section]))
+			{
+				$this->configUser = $this->configGlobal[$section];
+			}
 		}
 		$this->database = $this->database_tests;
 		$this->PluginsInstalled = array();	
