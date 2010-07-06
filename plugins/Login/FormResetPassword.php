@@ -14,41 +14,38 @@
  *
  * @package Piwik_Login
  */
-class Piwik_Login_FormResetPassword extends Piwik_QuickForm
+class Piwik_Login_FormResetPassword extends Piwik_QuickForm2
 {
-	function __construct( $action = '', $attributes = '' )
+	function __construct( $id = 'resetpasswordform', $method = 'post', $attributes = null, $trackSubmit = false)
 	{
-		parent::__construct($action, $attributes);
-		// reset
-		$this->updateAttributes('id="resetpasswordform" name="resetpasswordform"');
+		parent::__construct($id,  $method, $attributes, $trackSubmit);
 	}
 
 	function init()
 	{
-		$resetToken = Piwik_Common::getRequestVar('token', '', 'string');
+		$this->addElement('text', 'form_login')
+		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Username')));
 
-		$formElements = array(
-			array('text', 'form_login'),
-			array('password', 'form_password'),
-			array('password', 'form_password_bis'),
-			array('text', 'form_token'),
-		);
-		$this->addElements( $formElements );
+		$password = $this->addElement('password', 'form_password');
+		$password->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_Password')));
 
-		$defaults = array(
-			'form_token' => $resetToken,
-		);
-		$this->setDefaults($defaults);
+		$passwordBis = $this->addElement('password', 'form_password_bis');
+		$passwordBis->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_PasswordRepeat')));
+		$passwordBis->addRule('eq', Piwik_Translate( 'Login_PasswordsDoNotMatch'), $password);
 
-		$formRules = array(
-			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('General_Username')), 'required'),
-			array('form_password', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Password')), 'required'),
-			array('form_password_bis', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_PasswordRepeat')), 'required'),
-			array('form_token', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_PasswordResetToken')), 'required'),
-			array('form_password', Piwik_Translate( 'Login_PasswordsDoNotMatch'), 'fieldHaveSameValue', 'form_password_bis'),
-		);
-		$this->addRules( $formRules );
+		$this->addElement('text', 'form_token')
+		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_PasswordResetToken')));
 
 		$this->addElement('submit', 'submit');
+
+		$resetToken = Piwik_Common::getRequestVar('token', '', 'string');
+		if(!empty($resetToken)) {
+			// default values
+			$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
+				'form_token' => $resetToken,
+			)));
+
+			$this->attributes['action'] = Piwik_Url::getCurrentQueryStringWithParametersModified( array('token' => null) );
+		}
 	}
 }

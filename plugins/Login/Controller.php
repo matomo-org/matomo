@@ -95,7 +95,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
-		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
 	}
 
@@ -165,7 +164,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->AccessErrorString = $messageNoAccess;
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
-		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
 	}
 
@@ -256,7 +254,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->AccessErrorString = $messageNoAccess;
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
-		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
 	}
 

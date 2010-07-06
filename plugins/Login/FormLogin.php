@@ -14,29 +14,22 @@
  *
  * @package Piwik_Login
  */
-class Piwik_Login_FormLogin extends Piwik_QuickForm
+class Piwik_Login_FormLogin extends Piwik_QuickForm2
 {
-	function __construct( $action = '', $attributes = '' )
+	function __construct( $id = 'loginform', $method = 'post', $attributes = null, $trackSubmit = false)
 	{
-		parent::__construct($action, $attributes);
-		// reset
-		$this->updateAttributes('id="loginform" name="loginform"');
+		parent::__construct($id,  $method, $attributes, $trackSubmit);
 	}
 
 	function init()
 	{
-		$formElements = array(
-			array('text', 'form_login'),
-			array('password', 'form_password'),
-			array('hidden', 'form_nonce'),
-		);
-		$this->addElements( $formElements );
+		$this->addElement('text', 'form_login')
+		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Username')));
 
-		$formRules = array(
-			array('form_login', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('General_Username')), 'required'),
-			array('form_password', sprintf(Piwik_Translate('General_Required'), Piwik_Translate('Login_Password')), 'required'),
-		);
-		$this->addRules( $formRules );
+		$this->addElement('password', 'form_password')
+		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_Password')));
+
+		$this->addElement('hidden', 'form_nonce');
 
 		$this->addElement('submit', 'submit');
 	}

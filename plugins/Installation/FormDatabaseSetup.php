@@ -14,14 +14,15 @@
  * 
  * @package Piwik_Installation
  */
-class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm
+class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
 {
-	function __construct( $action = '', $attributes = '' )
+	function __construct( $id = 'databasesetupform', $method = 'post', $attributes = null, $trackSubmit = false)
 	{
-		parent::__construct($action = '', $attributes = 'autocomplete="off"');
+		parent::__construct($id,  $method, $attributes = array('autocomplete' => 'off'), $trackSubmit);
 	}
+
 	function init()
-	{		
+	{
 		$availableAdapters = Piwik_Db_Adapter::getAdapters();
 		$adapters = array();
 		foreach($availableAdapters as $adapter => $port)
@@ -29,26 +30,35 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm
 			$adapters[$adapter] = $adapter;
 		}
 
-		$formElements = array(
-			array('text', 'host', Piwik_Translate('Installation_DatabaseSetupServer'), 'value='.'localhost'),
-			array('text', 'username', Piwik_Translate('Installation_DatabaseSetupLogin')), 
-			array('password', 'password', Piwik_Translate('Installation_DatabaseSetupPassword')), 
-			array('text', 'dbname', Piwik_Translate('Installation_DatabaseSetupDatabaseName')),
-			array('text', 'tables_prefix', Piwik_Translate('Installation_DatabaseSetupTablePrefix'), 'value='.'piwik_'),
-			array('select', 'adapter', Piwik_Translate('Installation_DatabaseSetupAdapter'), $adapters),
-		);
-		$this->addElements( $formElements );
-		
-		$formRules = array();
-		foreach($formElements as $row)
-		{
-			if($row[1] != 'password' && $row[1] != 'tables_prefix')
-			{
-				$formRules[] = array($row[1], Piwik_Translate('General_Required', $row[2]), 'required');
-			}
-		}
-		$this->addRules( $formRules );	
-		
-		$this->addElement('submit', 'submit', Piwik_Translate('Installation_SubmitGo'));
-	}	
+		$this->addElement('text', 'host')
+		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupServer'))
+		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_DatabaseSetupServer')));
+
+		$this->addElement('text', 'username')
+		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupLogin'))
+		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_DatabaseSetupLogin')));
+
+		$this->addElement('password', 'password')
+		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupPassword'));
+
+		$this->addElement('text', 'dbname')
+		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupDatabaseName'))
+		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_DatabaseSetupDatabaseName')));
+
+		$this->addElement('text', 'tables_prefix')
+		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupTablePrefix'));
+
+		$this->addElement('select', 'adapter')
+		     ->setLabel(Piwik_Translate('Installation_DatabaseSetupAdapter'))
+		     ->loadOptions($adapters)
+		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_DatabaseSetupAdapter')));
+
+		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo')));
+
+		// default values
+		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
+			'host' => 'localhost',
+			'tables_prefix' => 'piwik',
+		)));
+	}
 }
