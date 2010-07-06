@@ -67,6 +67,11 @@ class Piwik_Session extends Zend_Session
 			}
 		}
 
-		Zend_Session::start();
+		try {
+			Zend_Session::start();
+		} catch(Exception $e) {
+			// This message is not translateable because translations haven't been loaded yet.
+			Piwik_ExitWithMessage('Unable to start session.  Check that session.save_path or tmp/sessions is writeable.');
+		}
 	}
 }

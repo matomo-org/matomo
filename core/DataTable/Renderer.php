@@ -117,7 +117,7 @@ abstract class Piwik_DataTable_Renderer
 		$className = 'Piwik_DataTable_Renderer_' . $name;
 		
 		try {
-			Piwik_Loader::autoload($className);
+			Piwik_Loader::loadClass($className);
 			return new $className;			
 		} catch(Exception $e) {
 			$availableRenderers = implode(', ', self::getRenderers());
