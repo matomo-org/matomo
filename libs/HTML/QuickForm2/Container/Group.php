@@ -46,7 +46,7 @@
 /**
  * Base class for all HTML_QuickForm2 containers
  */
-require_once 'HTML/QuickForm2/Container.php';
+// require_once 'HTML/QuickForm2/Container.php';
 
 /**
  * Base class for QuickForm2 groups of elements
@@ -317,7 +317,7 @@ class HTML_QuickForm2_Container_Group extends HTML_QuickForm2_Container
 
     public function __toString()
     {
-        require_once 'HTML/QuickForm2/Renderer.php';
+        // require_once 'HTML/QuickForm2/Renderer.php';
 
         return $this->render(
                    HTML_QuickForm2_Renderer::factory('default')

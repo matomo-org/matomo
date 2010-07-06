@@ -46,7 +46,7 @@
 /**
  * Base class for HTML_QuickForm2 rules
  */
-require_once 'HTML/QuickForm2/Rule.php';
+// require_once 'HTML/QuickForm2/Rule.php';
 
 /**
  * Rule checking that the field is not empty

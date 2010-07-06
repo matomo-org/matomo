@@ -47,7 +47,7 @@
 /**
  * Abstract base class for QuickForm2 renderers
  */
-require_once 'HTML/QuickForm2/Renderer.php';
+// require_once 'HTML/QuickForm2/Renderer.php';
 
 /**
  * A renderer for HTML_QuickForm2 building an array of form elements

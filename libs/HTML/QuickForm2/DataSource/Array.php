@@ -46,7 +46,7 @@
 /**
  * Interface for data sources used by HTML_QuickForm2 objects
  */
-require_once 'HTML/QuickForm2/DataSource.php';
+// require_once 'HTML/QuickForm2/DataSource.php';
 
 /**
  * Array-based data source for HTML_QuickForm2 objects

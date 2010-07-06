@@ -44,13 +44,13 @@
  */
 
 /** The class representing a page of a multipage form */
-require_once 'HTML/QuickForm2/Controller/Page.php';
+// require_once 'HTML/QuickForm2/Controller/Page.php';
 
 /** Object wrapping around session variable used to store controller data */
-require_once 'HTML/QuickForm2/Controller/SessionContainer.php';
+// require_once 'HTML/QuickForm2/Controller/SessionContainer.php';
 
 /** Class presenting the values stored in session by Controller as submitted ones */
-require_once 'HTML/QuickForm2/DataSource/Session.php';
+// require_once 'HTML/QuickForm2/DataSource/Session.php';
 
 /**
  * Class implementing the Page Controller pattern for multipage forms
@@ -295,7 +295,9 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
             && in_array($actionName, array('next', 'back', 'submit', 'display', 'jump'))
         ) {
             $className = 'HTML_QuickForm2_Controller_Action_' . ucfirst($actionName);
-            HTML_QuickForm2_Loader::loadClass($className);
+            if (!class_exists($className)) {
+                HTML_QuickForm2_Loader::loadClass($className);
+            }
             $this->addHandler($actionName, new $className());
         }
         if (isset($this->handlers[$actionName])) {

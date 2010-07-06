@@ -46,7 +46,7 @@
 /**
  * Base class for all HTML_QuickForm2 elements
  */
-require_once 'HTML/QuickForm2/Node.php';
+// require_once 'HTML/QuickForm2/Node.php';
 
 /**
  * Abstract base class for simple QuickForm2 containers
@@ -433,7 +433,7 @@ abstract class HTML_QuickForm2_Container extends HTML_QuickForm2_Node
 
     public function __toString()
     {
-        require_once 'HTML/QuickForm2/Renderer.php';
+        // require_once 'HTML/QuickForm2/Renderer.php';
 
         return $this->render(HTML_QuickForm2_Renderer::factory('default'))->__toString();
     }

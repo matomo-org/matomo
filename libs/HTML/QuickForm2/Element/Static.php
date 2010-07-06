@@ -46,7 +46,7 @@
 /**
  * Base class for simple HTML_QuickForm2 elements (not Containers)
  */
-require_once 'HTML/QuickForm2/Element.php';
+// require_once 'HTML/QuickForm2/Element.php';
 
 /**
  * Class for static elements that only contain text or markup

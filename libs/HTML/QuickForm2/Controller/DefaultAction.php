@@ -44,7 +44,7 @@
  */
 
 /** Class for <input type="image" /> elements */
-require_once 'HTML/QuickForm2/Element/InputImage.php';
+// require_once 'HTML/QuickForm2/Element/InputImage.php';
 
 /**
  * A hidden button used to submit the form when the user presses Enter

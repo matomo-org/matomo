@@ -46,7 +46,7 @@
 /**
  * Base class for exceptions in PEAR
  */
-require_once 'PEAR/Exception.php';
+// require_once 'PEAR/Exception.php';
 
 /**
  * Base class for exceptions in HTML_QuickForm2 package
