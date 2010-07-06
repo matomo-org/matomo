@@ -46,7 +46,7 @@
 /**
  * Rule checking that the form field is not empty
  */
-require_once 'HTML/QuickForm2/Rule/Nonempty.php';
+// require_once 'HTML/QuickForm2/Rule/Nonempty.php';
 
 /**
  * Rule for required elements

@@ -46,7 +46,7 @@
 /**
  * Validates values using regular expressions
  */
-require_once 'HTML/QuickForm2/Rule/Regex.php';
+// require_once 'HTML/QuickForm2/Rule/Regex.php';
 
 /**
  * Checks that the element's value does not match a regular expression

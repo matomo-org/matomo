@@ -46,7 +46,7 @@
 /**
  * Abstract base class for QuickForm2 renderers
  */
-require_once 'HTML/QuickForm2/Renderer.php';
+// require_once 'HTML/QuickForm2/Renderer.php';
 
 /**
  * Default renderer for QuickForm2

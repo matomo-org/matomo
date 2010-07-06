@@ -44,7 +44,7 @@
  */
 
 /** Interface for Controller action handlers */
-require_once 'HTML/QuickForm2/Controller/Action.php';
+// require_once 'HTML/QuickForm2/Controller/Action.php';
 
 /**
  * Action handler for a 'submit' button

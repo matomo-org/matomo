@@ -46,7 +46,7 @@
 /**
  * Class with static methods for loading classes and files
  */
-require_once 'HTML/QuickForm2/Loader.php';
+// require_once 'HTML/QuickForm2/Loader.php';
 
 /**
  * Static factory class
@@ -166,7 +166,9 @@ class HTML_QuickForm2_Factory
             throw new HTML_QuickForm2_InvalidArgumentException("Element type '$type' is not known");
         }
         list($className, $includeFile) = self::$elementTypes[$type];
-        HTML_QuickForm2_Loader::loadClass($className, $includeFile);
+        if (!class_exists($className)) {
+            HTML_QuickForm2_Loader::loadClass($className, $includeFile);
+        }
         return new $className($name, $attributes, $data);
     }
 
@@ -218,7 +220,9 @@ class HTML_QuickForm2_Factory
             throw new HTML_QuickForm2_InvalidArgumentException("Rule '$type' is not known");
         }
         list($className, $includeFile) = self::$registeredRules[$type];
-        HTML_QuickForm2_Loader::loadClass($className, $includeFile);
+        if (!class_exists($className)) {
+            HTML_QuickForm2_Loader::loadClass($className, $includeFile);
+        }
         if (isset(self::$registeredRules[$type][2])) {
             $config = call_user_func(array($className, 'mergeConfig'), $config,
                                      self::$registeredRules[$type][2]);

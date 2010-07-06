@@ -46,7 +46,7 @@
 /**
  * HTML_Common2 - base class for HTML elements
  */
-require_once 'HTML/Common2.php';
+// require_once 'HTML/Common2.php';
 
 // By default, we generate element IDs with numeric indexes appended even for
 // elements with unique names. If you want IDs to be equal to the element
@@ -58,17 +58,17 @@ if (null === HTML_Common2::getOption('id_force_append_index')) {
 /**
  * Exception classes for HTML_QuickForm2
  */
-require_once 'HTML/QuickForm2/Exception.php';
+// require_once 'HTML/QuickForm2/Exception.php';
 
 /**
  * Static factory class for QuickForm2 elements
  */
-require_once 'HTML/QuickForm2/Factory.php';
+// require_once 'HTML/QuickForm2/Factory.php';
 
 /**
  * Base class for HTML_QuickForm2 rules
  */
-require_once 'HTML/QuickForm2/Rule.php';
+// require_once 'HTML/QuickForm2/Rule.php';
 
 
 /**
@@ -668,7 +668,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     {
         foreach ($this->filters as $filter) {
             if (is_array($value) && !empty($filter['recursive'])) {
-                array_walk_recursive(&$value, 
+                array_walk_recursive($value, 
                     array('HTML_QuickForm2_Node', 'applyFilter'), $filter);
             } else {
                 self::applyFilter($value, null, $filter);

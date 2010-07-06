@@ -46,7 +46,7 @@
 /**
  * Abstract base class for QuickForm2 renderers
  */
-require_once 'HTML/QuickForm2/Renderer.php';
+// require_once 'HTML/QuickForm2/Renderer.php';
 
 /**
  * Proxy class for HTML_QuickForm2 renderers and their plugins
@@ -135,7 +135,9 @@ class HTML_QuickForm2_Renderer_Proxy extends HTML_QuickForm2_Renderer
         // any additional plugins since last __call()?
         for ($i = count($this->_plugins); $i < count($this->_pluginClasses); $i++) {
             list($className, $includeFile) = $this->_pluginClasses[$i];
-            HTML_QuickForm2_Loader::loadClass($className, $includeFile);
+            if (!class_exists($className)) {
+                HTML_QuickForm2_Loader::loadClass($className, $includeFile);
+            }
             $this->addPlugin($i, new $className);
         }
         if (isset($this->_pluginMethods[$lower])) {

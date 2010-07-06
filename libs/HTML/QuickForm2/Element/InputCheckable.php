@@ -46,7 +46,7 @@
 /**
  * Base class for <input> elements
  */
-require_once 'HTML/QuickForm2/Element/Input.php';
+// require_once 'HTML/QuickForm2/Element/Input.php';
 
 /**
  * Base class for <input> elements having 'checked' attribute (checkboxes and radios)

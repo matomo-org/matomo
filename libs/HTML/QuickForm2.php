@@ -46,12 +46,12 @@
 /**
  * Abstract base class for QuickForm2 containers
  */
-require_once 'HTML/QuickForm2/Container.php';
+// require_once 'HTML/QuickForm2/Container.php';
 
 /**
  * Data source for HTML_QuickForm2 objects based on superglobal arrays
  */
-require_once 'HTML/QuickForm2/DataSource/SuperGlobal.php';
+// require_once 'HTML/QuickForm2/DataSource/SuperGlobal.php';
 
 /**
  * Class representing a HTML form

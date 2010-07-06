@@ -180,7 +180,7 @@ abstract class HTML_QuickForm2_Controller_Page
     */
     public function setDefaultAction($actionName, $imageSrc = '')
     {
-        require_once 'HTML/QuickForm2/Controller/DefaultAction.php';
+        // require_once 'HTML/QuickForm2/Controller/DefaultAction.php';
 
         if (0 == count($this->form)) {
             $image = $this->form->appendChild(

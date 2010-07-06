@@ -46,7 +46,7 @@
 /**
  * Rule checking the value via a callback function (method)
  */
-require_once 'HTML/QuickForm2/Rule/Callback.php';
+// require_once 'HTML/QuickForm2/Rule/Callback.php';
 
 /**
  * Rule checking the value via a callback function (method) with logical negation

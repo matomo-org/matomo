@@ -46,7 +46,7 @@
 /**
  * Exception classes for HTML_QuickForm2
  */
-require_once 'HTML/QuickForm2/Exception.php';
+// require_once 'HTML/QuickForm2/Exception.php';
 
 /**
  * Javascript aggregator and builder class

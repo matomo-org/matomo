@@ -46,7 +46,7 @@
 /**
  * Base class for fieldsets
  */
-require_once 'HTML/QuickForm2/Container.php';
+// require_once 'HTML/QuickForm2/Container.php';
 
 /**
  * Concrete implementation of a container for fieldsets
