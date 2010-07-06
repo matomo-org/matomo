@@ -696,9 +696,9 @@ class Test_Piwik_Common extends UnitTestCase
 		$a = 'O:31:"Test_Piwik_Cookie_Phantom_Class":0:{}';
 		try {
 			unserialize($a);
-			$this->fail("Expected exception not raised");
-		} catch(Exception $expected) {
 			$this->pass("test: unserializing an object where class not (yet) defined<br>\n");
+		} catch(Exception $expected) {
+			$this->fail("Unexpected exception raised");
 		}
 
 		$ua = Piwik_Common::unserialize_array($a);
