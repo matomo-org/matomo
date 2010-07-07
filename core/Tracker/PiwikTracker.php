@@ -101,7 +101,7 @@ class PiwikTracker
     	return $url;
     }
     
-	public public function setUrl( $url )
+    public function setUrl( $url )
     {
     	$this->pageUrl = $url;
     }
