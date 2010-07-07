@@ -1,8 +1,6 @@
 <div id='leftcolumn'>
 	<div class="sparkline">{sparkline src=$urlSparklineNbVisits} {'VisitsSummary_NbVisits'|translate:"<strong>$nbVisits</strong>"}</div>
-	{if isset($urlSparklineNbUniqVisitors)}
 	<div class="sparkline">{sparkline src=$urlSparklineNbUniqVisitors} {'VisitsSummary_NbUniqueVisitors'|translate:"<strong>$nbUniqVisitors</strong>"}</div>
-	{/if}
 	<div class="sparkline">{sparkline src=$urlSparklineNbActions} {'VisitsSummary_NbActionsDescription'|translate:"<strong>$nbActions</strong>"}</div>
 </div>
 <div id='rightcolumn'>
