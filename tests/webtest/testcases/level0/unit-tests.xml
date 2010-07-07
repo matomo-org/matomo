@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE project [
+	<!ENTITY time  SYSTEM "../modules/time.xml">
+	<!ENTITY checkForErrors SYSTEM "../modules/errors.xml">
+	<!ENTITY verifyLinksAndImages SYSTEM "../modules/common_pages.xml">
+]>
+
+<project name="Smoke test level0 - deploy test" basedir="."	default="webtest">
+	&time;
+	<target name="webtest">
+		<webtest name="unit tests">
+			<steps>
+				<echo>Piwik install - dbsetup: db.name: ${db.name}</echo>
+				<sql
+					driver="com.mysql.jdbc.Driver"
+					url="jdbc:mysql://${db.host}:${db.port}/"
+					userid="${db.username}"
+					password="${db.password}"
+				>
+					<classpath>
+						<pathelement location="${basedir}/../lib/java/mysql-connector-java-5.1.7.jar" />
+					</classpath>		
+					<transaction>
+						DROP DATABASE IF EXISTS ${db.name};
+					</transaction>
+					<transaction>
+						CREATE DATABASE IF NOT EXISTS ${db.name};
+					</transaction>
+				</sql>	            
+
+				<invoke description="get account index" url="/tests/all_tests.php" />
+
+				<verifyTitle description="check the title is parsed correctly" text="all_tests.php" />
+				<verifyText description="check page text" text="Piwik unit tests" />
+
+				<not description="total failure">
+					<verifyText description="check for 0 passes" text="&lt;strong&gt;0&lt;/strong&gt; passes" />
+				</not>
+
+				<verifyText description="no failures" text="&lt;strong&gt;0&lt;/strong&gt; fails" />
+
+				<verifyText description="no exceptions" text="&lt;strong&gt;0&lt;/strong&gt; exceptions" />
+			</steps>
+		</webtest>
+	</target>
+</project>
