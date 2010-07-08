@@ -478,12 +478,20 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->displayfirstWebsiteSetupSuccess = true;
 			$this->session->firstWebsiteSetupSuccessMessage = true;
 		}
+		$siteName = $this->session->site_name;
+		$idSite = $this->session->site_idSite;
 
-		$view->websiteName = urldecode($this->session->site_name);
+		// Load the Tracking code and help text from the SitesManager 
+		$viewTrackingHelp = new Piwik_View('SitesManager/templates/DisplayJavascriptCode.tpl');
+		$viewTrackingHelp->displaySiteName = $siteName;
+		$viewTrackingHelp->jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
+		$viewTrackingHelp->idSite = $idSite;
+		$viewTrackingHelp->currentUrlWithoutFilename = Piwik_Url::getCurrentUrlWithoutFileName();
 
-		$jsTag = Piwik::getJavascriptCode($this->session->site_idSite, Piwik_Url::getCurrentUrlWithoutFileName());
-
-		$view->javascriptTag = $jsTag;
+		// Assign the html output to a smarty variable
+		$view->trackingHelp = $viewTrackingHelp->render();
+		$view->displaySiteName = urldecode($siteName);
+		
 		$view->showNextStep = true;
 
 		$this->session->currentStepDone = __FUNCTION__;

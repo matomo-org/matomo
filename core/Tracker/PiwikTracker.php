@@ -3,17 +3,34 @@
  * Piwik - Open source web analytics
  * 
  * Client to record visits, page views, Goals, in a Piwik server.
- * For more information, see http://piwik.org/XXXXXXXXXX
+ * For more information, see http://piwik.org/docs/tracking-api/
+ * 
+ * Note: Piwik Cookies are not forwarded in the request and from the response
  * 
  * @license released under BSD License http://www.opensource.org/licenses/bsd-license.php
  * @version $Id$
+ * @link http://piwik.org/docs/tracking-api/
  */
 class PiwikTracker
 {
-	static public $API_URL = 'http://localhost/trunk/piwik.php';
+	/**
+	 * Piwik base URL, for example http://example.org/piwik/
+	 * Must be set before using the class by calling 
+	 *  PiwikTracker::$url = 'http://yourwebsite.org/piwik/';
+	 * 
+	 * @var string
+	 */
+	static public $URL = '';
 	
 	const VERSION = 1;
 	
+	/**
+	 * Builds a PiwikTracker object, used to track visits, pages and Goal conversions 
+	 * for a specific website, by using the Piwik Tracking API.
+	 * 
+	 * @param $idSite Id site to be tracked
+	 * @param $apiUrl If set, will overwrite PiwikTracker::$url
+	 */
     function __construct( $idSite, $apiUrl = false )
     {
     	$this->userAgent = false;
@@ -32,83 +49,57 @@ class PiwikTracker
     	$this->acceptLanguage = @$_SERVER['HTTP_ACCEPT_LANGUAGE'];
     	$this->userAgent = @$_SERVER['HTTP_USER_AGENT'];
     	if(!empty($apiUrl)) {
-    		self::$API_URL = $apiUrl;
+    		self::$URL = $apiUrl;
     	}
     }
-	
-    protected function sendRequest($url)
-    {
-		if(function_exists('stream_context_create')) {
-			$timeout = 600; // Allow debug while blocking the request
-			$stream_options = array(
-				'http' => array(
-                  'user_agent' => $this->userAgent,
-                  'header' => "Accept-Language: " . $this->acceptLanguage . "\r\n" .
-							  "Cookie: \r\n",
-				  'timeout' => $timeout, // PHP 5.2.1
-				)
-			);
-			$ctx = stream_context_create($stream_options);
-		}
-		$response = @file_get_contents($url, 0, $ctx);
-		return $response;
-    }
     
+    /**
+     * Tracks a page view
+     * 
+     * @param $documentTitle string Page view name as it will appear in Piwik reports
+     * @return string Response
+     */
     public function doTrackPageView( $documentTitle )
     {
     	$url = $this->getUrlTrackPageView($documentTitle);
     	return $this->sendRequest($url);
     } 
     
-    public function doTrackAction($actionUrl, $actionType)
-    {
-        // Referer could be udpated to be the current URL temporarily (mimic JS behavior)
-    	$url = $this->getUrlTrackAction($actionUrl, $actionType);
-    	return $this->sendRequest($url);
-    }
-    
+    /**
+     * Tracks a Goal
+     * 
+     * @param $idGoal int Id Goal to record a conversion
+     * @param $revenue int Revenue for this conversion
+     * @return string Response
+     */
     public function doTrackGoal($idGoal, $revenue = false)
     {
     	$url = $this->getUrlTrackGoal($idGoal, $revenue);
     	return $this->sendRequest($url);
     }
     
-    public function getUrlTrackPageView( $documentTitle = false )
+    /**
+     * Tracks a download or outlink
+     * 
+     * @param $actionUrl URL of the download or outlink
+     * @param $actionType Type of the action: 'download' or 'link'
+     * @return string Response
+     */
+    public function doTrackAction($actionUrl, $actionType)
     {
-    	$url = $this->getRequest( $this->idSite );
-    	if(!empty($documentTitle)) {
-    		$url .= '&action_name=' . urlencode($documentTitle);
-    	}
-    	return $url;
+        // Referer could be udpated to be the current URL temporarily (to mimic JS behavior)
+    	$url = $this->getUrlTrackAction($actionUrl, $actionType);
+    	return $this->sendRequest($url); 
     }
     
-    public function getUrlTrackAction($actionUrl, $actionType)
-    {
-    	$url = $this->getRequest( $this->idSite );
-		$url .= '&'.$actionType.'=' . $actionUrl .
-				'&redirect=0';
-		
-    	return $url;
-    }
-    
-    public function getUrlTrackGoal($idGoal, $revenue = false)
-    {
-    	$url = $this->getRequest( $this->idSite );
-		$url .= '&idgoal=' . $idGoal;
-    	if(!empty($revenue)) {
-    		$url .= '&revenue=' . $revenue;
-    	}
-    	return $url;
-    }
-    
-    public function setUrl( $url )
+	public function setUrl( $url )
     {
     	$this->pageUrl = $url;
     }
-    
-    public function setIp($ip)
+
+    public function setUrlReferer( $url )
     {
-    	$this->ip = $ip;
+    	$this->urlReferer = $url;
     }
     
     public function setCustomData( $data )
@@ -126,11 +117,6 @@ class PiwikTracker
     	$this->userAgent = $userAgent;
     }
     
-    public function setForceVisitDateTime($dateTime)
-    {
-    	$this->forcedDatetime = $dateTime;
-    }
-    
     public function setLocalTime($time)
     {
     	list($hour, $minute, $second) = explode(':', $time);
@@ -143,11 +129,6 @@ class PiwikTracker
     {
     	$this->width = $width;
     	$this->height = $height;
-    }
-    
-    public function setUrlReferer( $url )
-    {
-    	$this->urlReferer = $url;
     }
     
     public function setBrowserHasCookies( $bool )
@@ -169,10 +150,85 @@ class PiwikTracker
     		'&ag='.(int)$silverlight
     	;
     }
+
+    // Note: this will only work when used in tests
+    public function setForceVisitDateTime($dateTime)
+    {
+    	$this->forcedDatetime = $dateTime;
+    }
+
+    // Note: this will only work when used in tests
+    public function setIp($ip)
+    {
+    	$this->ip = $ip;
+    }
+    
+    /**
+     * @see doTrackPageView()
+     */
+    public function getUrlTrackPageView( $documentTitle = false )
+    {
+    	$url = $this->getRequest( $this->idSite );
+    	if(!empty($documentTitle)) {
+    		$url .= '&action_name=' . urlencode($documentTitle);
+    	}
+    	return $url;
+    }
+    
+    /**
+     * @see doTrackGoal()
+     */
+    public function getUrlTrackGoal($idGoal, $revenue = false)
+    {
+    	$url = $this->getRequest( $this->idSite );
+		$url .= '&idgoal=' . $idGoal;
+    	if(!empty($revenue)) {
+    		$url .= '&revenue=' . $revenue;
+    	}
+    	return $url;
+    }
+        
+    /**
+     * @see doTrackAction()
+     */
+    public function getUrlTrackAction($actionUrl, $actionType)
+    {
+    	$url = $this->getRequest( $this->idSite );
+		$url .= '&'.$actionType.'=' . $actionUrl .
+				'&redirect=0';
+		
+    	return $url;
+    }
+    
+    protected function sendRequest($url)
+    {
+		if(function_exists('stream_context_create')) {
+			$timeout = 600; // Allow debug while blocking the request
+			$stream_options = array(
+				'http' => array(
+                  'user_agent' => $this->userAgent,
+                  'header' => "Accept-Language: " . $this->acceptLanguage . "\r\n" .
+							  "Cookie: \r\n",
+				  'timeout' => $timeout, // PHP 5.2.1
+				)
+			);
+			$ctx = stream_context_create($stream_options);
+		}
+		$response = @file_get_contents($url, 0, $ctx);
+		return $response;
+    }
     
     protected function getRequest( $idSite )
     {
-    	$url = self::$API_URL .
+    	if(empty(self::$URL))
+    	{
+    		throw new Exception('You must first set the Piwik Tracker URL by calling PiwikTracker::$URL = \'http://your-website.org/piwik/\';');
+    	}
+    	if(strpos(self::$URL, '/piwik.php') === false)
+    	{
+    		self::$URL .= '/piwik.php';
+    	}
+    	$url = self::$URL .
 	 		'?idsite=' . $idSite .
 			'&rec=1' .
 			'&apiv=' . self::VERSION . 
@@ -198,6 +254,12 @@ class PiwikTracker
     	return $url;
     }
 
+	/**
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return "/dir1/dir2/index.php"
+	 *
+	 * @return string
+	 */
 	static protected function getCurrentScriptName()
 	{
 		$url = '';
@@ -221,6 +283,13 @@ class PiwikTracker
 		return $url;
 	}
 
+
+	/**
+	 * If the current URL is 'http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return 'http'
+	 *
+	 * @return string 'https' or 'http'
+	 */
 	static protected function getCurrentScheme()
 	{
 		if(isset($_SERVER['HTTPS'])
@@ -231,6 +300,12 @@ class PiwikTracker
 		return 'http';
 	}
 
+	/**
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return "http://example.org"
+	 *
+	 * @return string
+	 */
 	static protected function getCurrentHost()
 	{
 		if(isset($_SERVER['HTTP_HOST'])) {
@@ -239,6 +314,12 @@ class PiwikTracker
 		return 'unknown';
 	}
 
+	/**
+	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
+	 * will return "?param1=value1&param2=value2"
+	 *
+	 * @return string
+	 */
 	static protected function getCurrentQueryString()
 	{
 		$url = '';	
@@ -250,6 +331,11 @@ class PiwikTracker
 		return $url;
 	}
 	
+	/**
+	 * Returns the current full URL (scheme, host, path and query string.
+	 *  
+	 * @return string
+	 */
     static protected function getCurrentUrl()
     {
 		return self::getCurrentScheme() . '://'
