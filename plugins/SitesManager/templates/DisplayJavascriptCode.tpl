@@ -1,31 +1,78 @@
-{assign var=showSitesSelection value=false}
-{assign var=showPeriodSelection value=false}
-{include file="CoreAdminHome/templates/header.tpl"}
-{loadJavascriptTranslations plugins='SitesManager'}
 
 {literal}
 <style>
 code {
-	background-color:#F0F7FF;
-	border-color:#00008B;
+	background-color:#F6F9F9;
+	border-color:#3B3BB5;
 	border-style:dashed dashed dashed solid;
 	border-width:1px 1px 1px 5px;
 	direction:ltr;
-	display:block;
-	font-size:90%;
-	margin:2px 2px 20px;
-	padding:4px;
+	display:table;
+	font-size:100%;
+	margin:12px 2px 0px;
+	padding:5px 50px 5px 15px;
 	text-align:left;
+	line-height:1.3em;
 	font-family: "Courier New" Courier monospace;
+}
+.trackingHelp ul { 
+	padding-left:40px;
+	list-style-type:square;
+}
+.trackingHelp ul li {
+	margin-bottom:10px;
+}
+.trackingHelp h3 {
+	margin-top:20px;
+}
+.trackingHelp .toggleHelp {
+	display:none;
+}
+p {
+	text-align:justify;
 }
 </style>
 {/literal}
+<div class='trackingHelp'>
 
-<h2>{$displaySiteName}</h2>
-<p>{'SitesManager_JsTrackingTagHelp'|translate}:</p>
+<p>To record visitors, visits and page views in Piwik, you must add a Tracking code in all your pages. 
+We recommend to use the standard Javascript Tracking tag.
+</p>
+<h3>Standard Javascript Tracking tag</h3>
+Copy and paste the following code in all the pages you want to track with Piwik. 
+<br/>In most websites, blogs, CMS, etc. you can edit your website templates and add this code in a "footer" file.
+
+<p>{'SitesManager_JsTrackingTagHelp'|translate}, just before the &lt;/body&gt; tag.</p>
 
 <code>{$jsTag}</code>
 
-<ul style="list-style-type:disc; padding-left:20px">
-{include file=SitesManager/templates/JavascriptTagHelp.tpl}
-</ul>
+<br/>
+If you want to do more than tracking a page view,  
+please check out the <a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/docs/javascript-tracking/">
+Piwik Javascript Tracking documentation</a> for the list of available functions.
+
+{include file='SitesManager/templates/DisplayAlternativeTags.tpl'}
+
+</div>
+
+
+{literal}
+<script type='text/javascript'>
+$(document).ready( function() {
+	$('.toggleHelp').each(function() {
+		var id = $(this).attr('id');
+		// show 'display' link
+		$(this).show(); 
+		// hide help block
+		$('.'+id).hide();
+	});
+
+	// click on Display links will toggle help text
+	$('.toggleHelp').click( function() {
+		// on click, show help block, hide link
+		$('.'+ $(this).attr('id')).show();
+		$(this).hide();
+	});
+});
+</script>
+{/literal}

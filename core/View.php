@@ -105,7 +105,9 @@ class Piwik_View implements Piwik_iView
 	}
 
 	/**
-	 * Render view
+	 * Renders the current view.
+	 * 
+	 * @return string Generated template
 	 */
 	public function render()
 	{

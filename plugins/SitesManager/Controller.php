@@ -16,6 +16,9 @@
  */
 class Piwik_SitesManager_Controller extends Piwik_Controller
 {
+	/*
+	 * Main view showing listing of websites and settings 
+	 */
 	function index()
 	{
 		$view = Piwik_View::factory('SitesManager');
@@ -48,6 +51,9 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
+	/*
+	 * Records Global settings when user submit changes
+	 */
 	function setGlobalSettings()
 	{
 		$response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
@@ -69,17 +75,48 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		echo $toReturn;
 	}
 	
+	/**
+	 * Displays the admin UI page showing all tracking tags
+	 * @return unknown_type
+	 */
 	function displayJavascriptCode()
 	{
 		$idSite = Piwik_Common::getRequestVar('idsite', 1);
 		Piwik::checkUserHasViewAccess($idSite);
 		$jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
-		$view = Piwik_View::factory('DisplayJavascriptCode');
+		$view = Piwik_View::factory('Tracking');
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		$site = new Piwik_Site($idSite);
 		$view->displaySiteName = $site->getName();
 		$view->jsTag = $jsTag;
+		$view->currentUrlWithoutFilename = Piwik_Url::getCurrentUrlWithoutFileName();
+		echo $view->render();
+	}
+	
+	/*
+	 *  User will download a file called PiwikTracker.php that is the content of the actual script
+	 */ 
+	function downloadPiwikTracker()
+	{
+		$path = PIWIK_INCLUDE_PATH . '/core/Tracker/';
+		$filename = 'PiwikTracker.php';
+        header('Content-type: text/php');
+        header('Content-Disposition: attachment; filename="'.$filename.'"');
+        echo file_get_contents( $path . $filename);
+	}
+	
+	/**
+	 * Used to generate the doc at http://piwik.org/docs/tracking-api/
+	 */
+	function displayAlternativeTagsHelp()
+	{
+		$view = Piwik_View::factory('DisplayAlternativeTags');
+		$view->idSite = Piwik_Common::getRequestVar('idSite');
+		$view->piwikUrl = Piwik_Common::getRequestVar('piwikUrl');
+		
+		// Links are prefixed, need to be absolute for this page as it is externally loaded
+		$view->currentUrlWithoutFilename = Piwik_Url::getCurrentUrlWithoutFileName();
 		echo $view->render();
 	}
 }
