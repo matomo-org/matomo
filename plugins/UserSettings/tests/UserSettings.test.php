@@ -711,9 +711,18 @@ class Test_Piwik_UserSettings extends UnitTestCase
 		'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_5; en-us) AppleWebKit/527.3+ (KHTML, like Gecko) Version/3.1.2 Safari/525.20.1' => array(
 			array('SF', 'Safari', 'Safari', '3.1', '3', '1', 'webkit'),
 			array('MAC', 'Mac OS', 'Mac OS')),
-		'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10' => array(
+		'Mozilla/5.0 (iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10' => array(
 			array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
 			array('IPA', 'iPad', 'iPad')),
+		'Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B367 Safari/531.21.10' => array(
+			array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
+			array('IPA', 'iPad', 'iPad')),
+		'Mozilla/5.0 (iPod; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7' => array(
+			array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
+			array('IPD', 'iPod', 'iPod')),
+		'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7' => array(
+			array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
+			array('IPH', 'iPhone', 'iPhone')),
 
 		// SeaMonkey (formerly Mozilla Suite and rebranded versions)
 		'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.8) Gecko/20071008 Iceape/1.1.5 (Ubuntu-1.1.5-1ubuntu0.7.10)' => array(
