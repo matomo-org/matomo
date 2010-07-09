@@ -58,6 +58,10 @@ class Piwik_Loader
 			for($i = 0; $i < count(self::$dirs); $i++)
 			{
 				$path = PIWIK_INCLUDE_PATH . self::$dirs[$i] . $classPath . '.php';
+				if(strpos($path, '..'))
+				{
+					continue;
+				}
 				if(file_exists($path))
 				{
 					require_once $path; // prefixed by PIWIK_INCLUDE_PATH
