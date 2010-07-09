@@ -11,7 +11,7 @@ The Simple Image Tracker tag can be used when Javascript is disallowed.
 </p>
 <code>
 &lt;!-- Piwik Image Tracker --&gt;<br/>
-&lt;img src="http://{$piwikUrl}piwik.php?idsite={$idSite}&rec=1" style="border:0" alt="" /&gt;<br/>
+&lt;img src="{$piwikUrl}piwik.php?idsite={$idSite}&rec=1" style="border:0" alt="" /&gt;<br/>
 &lt;!-- End Piwik Piwik --&gt;<br/>
 </code>
 </div>
