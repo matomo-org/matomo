@@ -1,19 +1,20 @@
 COPYRIGHT
 
 	Piwik - Open Source Web Analytics
-	Copyright (C) 2010  Matthieu Aubry
 
-	This software consists of contributions made by many individuals.
-	Main contributors are listed in http://piwik.org/the-piwik-team/.
-	For exact contribution history, see the tickets, patches,
-	and svn revision history, available at http://dev.piwik.org/trac/.
+	The software package is:
+
+		Copyright (C) 2010  Matthieu Aubry
+
+	Individual contributions, components, and libraries are copyright
+	their respective authors.
 
 
 SOFTWARE LICENSE
 
-	The free software license of Piwik is GNU General Public License v3 or
-	later.  A copy of GNU GPL v3 should have been included in this software
-	package in misc/gpl-3.0.txt.
+	The free software license of Piwik is GNU General Public License v3
+	or later.  A copy of GNU GPL v3 should have been included in this
+	software package in misc/gpl-3.0.txt.
 
 
 TRADEMARK
@@ -23,6 +24,21 @@ TRADEMARK
 	The software license does not grant any rights under trademark
 	law for use of the trademark.  Refer to http://piwik.org/trademark/
 	for up-to-date trademark licensing information.
+
+*
+* The above legal notice applies to the aggregate software.
+* You may not remove this legal notice or modify the software
+* in such a way that misrepresents the origin of the software.
+*
+
+CREDITS
+
+	The software consists of contributions made by many individuals.
+	Major contributors are listed in http://piwik.org/the-piwik-team/.
+
+	For detailed contribution history, refer to the source, tickets,
+	patches, and svn revision history, available at
+	http://dev.piwik.org/trac/.
 
 
 THIRD-PARTY COMPONENTS AND LIBRARIES
