@@ -58,7 +58,7 @@ class Piwik_Loader
 			for($i = 0; $i < count(self::$dirs); $i++)
 			{
 				$path = PIWIK_INCLUDE_PATH . self::$dirs[$i] . $classPath . '.php';
-				if(strpos($path, '..'))
+				if(strpos($path, '..') !== false)
 				{
 					continue;
 				}
