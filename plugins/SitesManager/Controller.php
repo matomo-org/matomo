@@ -81,7 +81,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 	 */
 	function displayJavascriptCode()
 	{
-		$idSite = Piwik_Common::getRequestVar('idSite', 1);
+		$idSite = Piwik_Common::getRequestVar('idSite');
 		Piwik::checkUserHasViewAccess($idSite);
 		$jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
 		$view = Piwik_View::factory('Tracking');
