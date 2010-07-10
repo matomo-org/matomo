@@ -98,17 +98,16 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	
 	function getPlugin( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
-		$view->init( $this->pluginName,  __FUNCTION__, 'UserSettings.getPlugin' );
-		$view->disableSearchBox();
-		$view->disableExcludeLowPopulation();
-		$view->disableSort();
-		$view->disableOffsetInformation();
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getPlugin'
+									);
+		$view->disableShowAllViewsIcons();
 		$view->disableShowAllColumns();
-		$view->disallowPercentageInGraphTooltip();
-		$view->setColumnsToDisplay( array('label','nb_visits') );
+		$view->setSortedColumn('nb_visits');
+		$view->setColumnsToDisplay( array('label','nb_visits','nb_visits_percentage') );
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnPlugin'));
-		$view->setGraphLimit( 10 );
+		$view->setColumnTranslation('nb_visits_percentage', '');
 		$view->setLimit( 10 );
 		return $this->renderView($view, $fetch);
 	}

@@ -93,6 +93,22 @@ class Piwik_UserSettings_API
 	public function getPlugin( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('UserSettings_plugin', $idSite, $period, $date);
+		
+		// Get sum of visits to calculate percentage, but ignore IE users cause plugin detection doesn't work there
+		try {
+			$browserTypes	= $this->getDataTable('UserSettings_browserType', $idSite, $period, $date);
+			$ieStats		= $browserTypes->getRowFromLabel('ie');
+			$ieVisits		= $ieStats->getColumn(Piwik_Archive::INDEX_NB_VISITS);
+		} 
+		catch(Exception $e) 
+		{
+			$ieVisits 	= 0;
+		}
+		$archive	= Piwik_Archive::build($idSite, $period, $date);
+		$visitsSum	= $archive->getNumeric('nb_visits');
+		$visitsSum	= $visitsSum - $ieVisits;
+		
+		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', 'nb_visits', $visitsSum, 1));
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getPluginsLogo'));
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
 		return $dataTable;
