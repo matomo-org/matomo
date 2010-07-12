@@ -455,6 +455,7 @@ $translations = array(
 	'Installation_DatabaseCreation' => 'Database creation',
 	'Installation_PleaseFixTheFollowingErrors' => 'Please fix the following errors',
 	'Installation_LargePiwikInstances' => 'Help for large Piwik instances',
+	'Installation_JsTag' => 'Javascript Tag',
 	'Installation_JsTagArchivingHelp' => 'For medium and high traffic websites, check out the  <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">How to setup auto archiving page</a> to make Piwik run really fast!',
 	'Installation_Congratulations' => 'Congratulations',
 	'Installation_CongratulationsHelp' => '<p>Congratulations! Your Piwik installation is complete.</p><p>Make sure your JavaScript code is entered on your pages, and wait for your first visitors!</p>',

@@ -3,7 +3,7 @@
 {if isset($displayfirstWebsiteSetupSuccess)}
 
 <span id="toFade" class="success">
-	{'Installation_SetupWebsiteSetupSuccess'|translate:$websiteName}
+	{'Installation_SetupWebsiteSetupSuccess'|translate:$displaySiteName}
 	<img src="themes/default/images/success_medium.png" />
 </span>
 {/if}
