@@ -17,7 +17,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>1</revenue>
-		<idsubdatatable>75</idsubdatatable>
+		<idsubdatatable>61</idsubdatatable>
 		<url>http://search.yahoo.com</url>
 		<logo>plugins/Referers/images/searchEngines/search.yahoo.com.png</logo>
 		<subtable>
