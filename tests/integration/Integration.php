@@ -94,14 +94,41 @@ abstract class Test_Integration extends Test_Database
 		{
 			$apiToCall = array($apiToCall);
 		}
-		$this->apiToCall= $apiToCall;
+		$this->apiToCall = $apiToCall;
+	}
+	
+	/**
+	 * Sets a list of API methods to not call during the test
+	 * @param $apiNotToCall eg. 'ExampleAPI.getPiwikVersion'
+	 * @return void
+	 */
+	protected function setApiNotToCall( $apiNotToCall )
+	{
+		if(!is_array($apiNotToCall))
+		{
+			$apiNotToCall = array($apiNotToCall);
+		}
+		$this->apiNotToCall = $apiNotToCall;
 	}
 	
 	protected $apiToCall = array();
 	
-	/*
+	// List of Modules, or Module.Method that should not be called as part of the XML output compare
+	// Usually these modules either return random changing data, or are already tested in specific unit tests. 
+	protected $apiNotToCall = array(
+			'LanguagesManager',
+			'DBStats',
+			'UsersManager',
+			'SitesManager',
+			'ExampleUI',
+			'Live',
+			'SEO',
+			'ExampleAPI',
+		);
+	
+	/**
 	 * Checks that the response is a GIF image as expected.
-	 * 
+	 * @return Will fail the test if the response is not the expected GIF
 	 */
 	protected function checkResponse($response)
 	{
@@ -183,19 +210,6 @@ abstract class Test_Integration extends Test_Database
 	 */ 
 	protected function generateUrlsApi( $parametersToSet, $formats, $periods, $setDateLastN = false )
 	{
-		// List of Modules, or Module.Method that should not be called as part of the XML output compare
-		// Usually these modules either return random changing data, or are already tester in specific unit tests. 
-		// Live! should also be tested and its API finalized. 
-		$apiNotToTest = array(
-			'LanguagesManager',
-			'DBStats',
-			'UsersManager',
-			'SitesManager',
-			'ExampleUI',
-			'Live',
-			'SEO',
-			'ExampleAPI',
-		);
 		
 		// Get the URLs to query against the API for all functions starting with get*
 		$skipped = $requestUrls = array();
@@ -208,19 +222,17 @@ abstract class Test_Integration extends Test_Database
     			$apiId = $moduleName.'.'.$methodName;
     			
     			// If Api to test were set, we only test these
-    			if(!empty($this->apiToCall))
+    			if(!empty($this->apiToCall)
+    				&& in_array($moduleName, $this->apiToCall) === false
+    				&& in_array($apiId, $this->apiToCall) === false)
     			{
-        			if(in_array($moduleName, $this->apiToCall) === false
-        				&& in_array($apiId, $this->apiToCall) === false)
-        			{
-        				$skipped[] = $apiId;
-        				continue;
-    				}
+    				$skipped[] = $apiId;
+    				continue;
     			}
     			// Excluded modules from test
     			elseif(strpos($methodName, 'get') !== 0
-    				|| in_array($moduleName, $apiNotToTest) === true
-    				|| in_array($apiId, $apiNotToTest) === true)
+    				|| in_array($moduleName, $this->apiNotToCall) === true
+    				|| in_array($apiId, $this->apiNotToCall) === true)
     			{
     				$skipped[] = $apiId;
     				continue;
