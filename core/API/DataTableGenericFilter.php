@@ -63,7 +63,7 @@ class Piwik_API_DataTableGenericFilter
 						),
 			'Sort' => array(
 								'filter_sort_column' 		=> array('string'),
-								'filter_sort_order' 		=> array('string'),
+								'filter_sort_order' 		=> array('string', 'desc'),
 						),
 			'Limit' => array(
 								'filter_offset' 			=> array('integer', '0'),
