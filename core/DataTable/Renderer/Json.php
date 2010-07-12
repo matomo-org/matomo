@@ -48,6 +48,11 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 		{
 			$array = array('value' => $array);
 		}
+
+		// decode all entities
+		$callback = create_function('&$value,$key', '$value = html_entity_decode($value, ENT_QUOTES, "UTF-8");');
+		array_walk_recursive($array, $callback);
+		
 		$str = json_encode($array);
 		
 		return $this->jsonpWrap($str);
