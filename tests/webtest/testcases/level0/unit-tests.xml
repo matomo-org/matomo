@@ -29,6 +29,10 @@
 					</transaction>
 				</sql>	            
 
+        <antWrapper>
+          <replace file="${basedir}/../build/config/config.ini.php" token="[database]" value="[database_tests]" failOnNoReplacements=true"/>
+        </antWrapper>
+
 				<invoke description="get account index" url="/tests/all_tests.php" />
 
 				<verifyTitle description="check the title is parsed correctly" text="all_tests.php" />
