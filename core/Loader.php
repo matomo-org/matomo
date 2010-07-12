@@ -25,9 +25,15 @@ class Piwik_Loader
 	 *
 	 * @param string $class Class name
 	 * @return string Class file name
+	 * @throws Exception if class name is invalid
 	 */
 	protected static function getClassFileName($class)
 	{
+		if(strspn($class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_') !== strlen($class))
+		{
+			throw new Exception("Invalid class name \"$class\".");
+		}
+
 		$class = str_replace('_', '/', $class);
 
 		if($class == 'Piwik')
