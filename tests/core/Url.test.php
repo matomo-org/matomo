@@ -36,8 +36,9 @@ class Test_Piwik_Url extends UnitTestCase
     				. Piwik_Url::getCurrentQueryString());
     	print("<br>\nPiwik_Url::getArrayFromCurrentQueryString() -> ");
     	var_dump(Piwik_Url::getArrayFromCurrentQueryString());
-    	print("<br>\nPiwik_Url::getCurrentQueryStringWithParametersModified() "
+    	print("<br>\nPiwik_Url::getCurrentQueryStringWithParametersModified() -> "
     				. Piwik_Url::getCurrentQueryStringWithParametersModified(array()));
+    	echo '<br>';
     	
         // setting parameter to null should remove it from url
         // test on Url.test.php?test=value

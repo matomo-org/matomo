@@ -231,8 +231,8 @@ class Piwik_API_ResponseBuilder
 			break;
 			
 			case 'csv':
-				header("Content-Type: application/vnd.ms-excel");
-				header("Content-Disposition: attachment; filename=piwik-report-export.csv");	
+				@header("Content-Type: application/vnd.ms-excel");
+				@header("Content-Disposition: attachment; filename=piwik-report-export.csv");	
 				$return = "message\n".$message;
 			break;
 			
