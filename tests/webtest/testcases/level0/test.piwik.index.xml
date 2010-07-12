@@ -50,7 +50,7 @@
 	            	
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
-	                <verifyText description="check page text" text="System check" />
+	                <verifyText description="check page text" text="System Check" />
 	                <verifyText description="check page text" text="Optional" />
 	                
 	            	&checkForErrors;
@@ -68,7 +68,7 @@
 
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
-	                <verifyText description="check page text" text="Database setup" />
+	                <verifyText description="check page text" text="Database Setup" />
 	                
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
@@ -85,7 +85,7 @@
 <!--	            	
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
-	                <verifyText description="check page text" text="Database check" />
+	                <verifyText description="check page text" text="Database Check" />
 	                
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
@@ -141,7 +141,7 @@
 				
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
-					<verifyText description="check page text" text="Setup a website" />
+					<verifyText description="check page text" text="Setup a Website" />
 					
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
@@ -164,7 +164,7 @@
 
 	            	<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 					<verifyText description="check page text" text="Piwik" />
-					<verifyText description="check page text" text="JavaScript tag" />
+					<verifyText description="check page text" text="JavaScript Tag" />
 
 	            	&checkForErrors;
 	            	&verifyLinksAndImages;
