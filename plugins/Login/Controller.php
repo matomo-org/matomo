@@ -199,13 +199,12 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$mail = new Piwik_Mail();
 			$mail->addTo($email, $login);
 			$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));
-			$mail->setBodyText(
-				str_replace(
+			$bodyText = str_replace(
 					'\n',
 					"\n",
 					sprintf(Piwik_Translate('Login_MailPasswordRecoveryBody'), $login, $ip, $url, $resetToken)
-				) . "\n"
-			);
+				) . "\n";
+			$mail->setBodyText($bodyText);
 
 			$piwikHost = $_SERVER['HTTP_HOST'];
 			if(strlen($piwikHost) == 0)
@@ -279,10 +278,15 @@ class Piwik_Login_Controller extends Piwik_Controller
 			return Piwik_Translate('Login_InvalidOrExpiredToken');
 		}
 
+		$view = Piwik_View::factory('passwordchanged');
 		try
 		{
 			if( $user['email'] == Zend_Registry::get('config')->superuser->email )
 			{
+    			if(!Zend_Registry::get('config')->isFileWritable())
+    			{
+    				throw new Exception(Piwik_Translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)","<br/>")));
+    			}
 				$user['password'] = md5($password);
 				Zend_Registry::get('config')->superuser = $user;
 			}
@@ -296,7 +300,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$view->ErrorString = $e->getMessage();
 		}
 
-		$view = Piwik_View::factory('passwordchanged');
 		$view->linkTitle = Piwik::getRandomTitle();
 		echo $view->render();
 

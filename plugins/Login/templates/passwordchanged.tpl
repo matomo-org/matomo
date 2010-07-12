@@ -4,7 +4,6 @@
 
 {if isset($ErrorString)}
 	<div id="login_error"><strong>{'General_Error'|translate}</strong>: {$ErrorString}<br />
-	{'Login_ContactAdmin'|translate}
 	</div>
 {else}
 	<p class="message">

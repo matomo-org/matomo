@@ -16,7 +16,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/integration/Integration.php';
  * 
  * The test calls the Piwik tracker with known sets of data, expected errors, 
  * and can test the output of the tracker beacon, as well as calling 
- * all API functions, and Widgets, and compare their XML/HTML output with the 'expected output'.
+ * all API functions and compare their HTML output with the 'expected output'.
  * 
  * If an algorithm changes in the Tracker or in the Archiving, tests can easily be run to check that 
  * the output changes as expected (eg. More accurate browser detection, adding a new metric in the 
@@ -74,7 +74,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		$t->setIp($excludedIpBis);
 		$this->checkResponse($t->doTrackPageView('visit from IP globally excluded'));
 		
-		
+		// this will output empty XML result sets as no visit was tracked
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
 	
