@@ -336,7 +336,7 @@ abstract class Test_Integration extends Test_Database
     		// Cast as string is important. For example when calling 
     		// with format=original, objects or php arrays can be returned.
     		// we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
-    		$response = (string)@$request->process();
+    		$response = (string)$request->process();
     		file_put_contents( $pathProcessed . $filename, $response );
     		
     		$expectedFilePath = $pathExpected . $filename;

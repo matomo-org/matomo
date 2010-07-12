@@ -39,4 +39,4 @@ if(!empty($customDatetime))
 // calling us waits for the full request to process before unblocking
 ob_start();
 include '../../piwik.php';
-ob_end_flush();
+ob_flush();

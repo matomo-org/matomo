@@ -22,33 +22,13 @@ if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
 @ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
 @set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 @ini_set('memory_limit', -1);
-require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/upgrade.php';
-require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
+error_reporting(E_ALL|E_NOTICE);
+@date_default_timezone_set('UTC');
 					
 require_once 'simpletest/autorun.php';
 require_once 'simpletest/mock_objects.php';
 SimpleTest::prefer(new HtmlReporter());
-
-error_reporting(E_ALL|E_NOTICE);
-@date_default_timezone_set('UTC');
-
 $_COOKIE = array();
-
-require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Exception.php';
-require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Loader.php';
-require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
-//set_error_handler('Piwik_ErrorHandler');
-
-$timer = new Piwik_Timer;
-
-function displayFooter()
-{
-	global $timer;
-	echo $timer."<br>";
-	echo $timer->getMemoryLeak();
-}
-
-register_shutdown_function('displayFooter');
 
 function dump($var)
 {
@@ -61,7 +41,21 @@ function printDebug($text)
 {
 	return;
 }
+function displayFooter()
+{
+	global $timer;
+	echo $timer."<br>";
+	echo $timer->getMemoryLeak();
+	ob_flush();
+}
+register_shutdown_function('displayFooter');
 
+
+require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/upgrade.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
+require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Exception.php';
+require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Loader.php';
+require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Registry.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Config/Ini.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Zend/Config.php';
@@ -79,3 +73,7 @@ assert_options(ASSERT_WARNING, 	1);
 assert_options(ASSERT_BAIL, 	0);
 
 define('PIWIK_CONFIG_TEST_INCLUDED', true);
+
+$timer = new Piwik_Timer;
+// output buffer is flushed in the function displayFooter()
+ob_start();
