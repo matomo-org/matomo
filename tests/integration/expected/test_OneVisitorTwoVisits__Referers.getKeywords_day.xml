@@ -17,7 +17,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>1</revenue>
-		<idsubdatatable>77</idsubdatatable>
+		<idsubdatatable>63</idsubdatatable>
 		<subtable>
 			<row>
 				<label>Yahoo!</label>
