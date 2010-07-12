@@ -349,8 +349,9 @@ abstract class Test_Integration extends Test_Database
 			// When tests run on Windows EOL delimiters are not the same as UNIX default EOL used in the renderers
     		$expected = str_replace("\r\n", "\n", $expected); 
     		$this->assertEqual(trim($response), trim($expected), "In $filename, %s");
-    		if($response != $expected){
-    			var_dump('ERROR FOR' . $apiId . ' -- FETCHED RESPONSE, EXPECTED RESPONSE');
+    		if($response != $expected)
+    		{
+    			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, EXPECTED RESPONSE');
     			echo "\n";
     			var_dump($response);
     			echo "\n";
