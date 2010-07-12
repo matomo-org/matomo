@@ -50,7 +50,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 		}
 
 		// decode all entities
-		$callback = create_function('&$value,$key', '$value = html_entity_decode($value, ENT_QUOTES, "UTF-8");');
+		$callback = create_function('&$value,$key', 'if(is_string($value)){$value = html_entity_decode($value, ENT_QUOTES, "UTF-8");}');
 		array_walk_recursive($array, $callback);
 		
 		$str = json_encode($array);
