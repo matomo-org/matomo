@@ -210,7 +210,6 @@ abstract class Test_Integration extends Test_Database
 	 */ 
 	protected function generateUrlsApi( $parametersToSet, $formats, $periods, $setDateLastN = false )
 	{
-		
 		// Get the URLs to query against the API for all functions starting with get*
 		$skipped = $requestUrls = array();
 		$apiMetadata = new Piwik_API_DocumentationGenerator;
@@ -259,6 +258,7 @@ abstract class Test_Integration extends Test_Database
         			foreach($formats as $format)
         			{
         				$parametersToSet['format'] = $format;
+        				$parametersToSet['hideIdSubDatable'] = 1;
             			$exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
             			if($exampleUrl === false) 
             			{
@@ -283,6 +283,7 @@ abstract class Test_Integration extends Test_Database
     	}
 //    	var_dump($skipped);
 //    	var_dump($requestUrls);
+//    	exit;
     	return $requestUrls;
 	}
 	

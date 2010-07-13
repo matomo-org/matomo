@@ -26,6 +26,7 @@ abstract class Piwik_DataTable_Renderer
 	protected $table;
 	protected $exception;
 	protected $renderSubTables = false;
+	protected $hideIdSubDatatable = false;
 	
 	public function __construct()
 	{
@@ -34,6 +35,11 @@ abstract class Piwik_DataTable_Renderer
 	public function setRenderSubTables($enableRenderSubTable)
 	{
 		$this->renderSubTables = (bool)$enableRenderSubTable;
+	}
+
+	public function setHideIdSubDatableFromResponse($bool)
+	{
+		$this->hideIdSubDatatable = (bool)$bool;
 	}
 	
 	protected function isRenderSubtables()

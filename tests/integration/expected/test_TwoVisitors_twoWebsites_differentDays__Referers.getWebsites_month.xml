@@ -11,7 +11,6 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-				<idsubdatatable>132</idsubdatatable>
 				<subtable>
 					<row>
 						<label>http://referer.com/Other_Page.htm</label>
@@ -54,7 +53,6 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<idsubdatatable>133</idsubdatatable>
 				<subtable>
 					<row>
 						<label>http://only-homepage-referer.com/</label>
