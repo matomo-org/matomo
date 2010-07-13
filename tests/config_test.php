@@ -27,7 +27,7 @@ error_reporting(E_ALL|E_NOTICE);
 					
 require_once 'simpletest/autorun.php';
 require_once 'simpletest/mock_objects.php';
-SimpleTest::prefer(new HtmlReporter());
+
 $_COOKIE = array();
 
 function dump($var)
@@ -41,15 +41,6 @@ function printDebug($text)
 {
 	return;
 }
-function displayFooter()
-{
-	global $timer;
-	echo $timer."<br>";
-	echo $timer->getMemoryLeak();
-	ob_flush();
-}
-register_shutdown_function('displayFooter');
-
 
 require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
@@ -74,6 +65,5 @@ assert_options(ASSERT_BAIL, 	0);
 
 define('PIWIK_CONFIG_TEST_INCLUDED', true);
 
-$timer = new Piwik_Timer;
-// output buffer is flushed in the function displayFooter()
-ob_start();
+require_once 'reporter.php';
+SimpleTest::prefer(new HtmlTimerReporter());
