@@ -299,7 +299,8 @@ abstract class Piwik_Controller
 	}
 	
 	/**
-	 * Sets general variables to the view that are used by various templates and Javascript
+	 * Sets general variables to the view that are used by various templates and Javascript.
+	 * If any error happens, displays the login screen
 	 * @param $view
 	 * @return void
 	 */
@@ -309,7 +310,9 @@ abstract class Piwik_Controller
 		
 		try {
 			$this->setPeriodVariablesView($view);
-			$period = Piwik_Period::factory(Piwik_Common::getRequestVar('period'), Piwik_Date::factory($this->strDate));
+			$periodString = Piwik_Common::getRequestVar('period');
+			$date = Piwik_Date::factory($this->strDate);
+			$period = Piwik_Period::factory($periodString, $date);
 			$view->prettyDate = $period->getLocalizedLongString();
 			$view->idSite = $this->idSite;
 			if(is_null($this->site))
@@ -332,7 +335,7 @@ abstract class Piwik_Controller
 
 			$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
 		} catch(Exception $e) {
-			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
+			self::redirectToIndex( Piwik::getLoginPluginName(), $action = 'index' );
 		}
 	}
 	
