@@ -35,7 +35,7 @@
 
 				<invoke description="get account index" url="/tests/all_tests.php" />
 
-				<verifyTitle description="check the title is parsed correctly" text="all_tests.php" />
+				<verifyTitle description="check the title is parsed correctly" text="Piwik - running all tests" />
 				<verifyText description="check page text" text="Piwik unit tests" />
 
 				<not description="total failure">

@@ -1,10 +1,7 @@
 <?php
 class HtmlTimerReporter extends HtmlReporter
 {
-    protected $intro;
-    protected $timer;
-
-    function HtmlTimerReporter($intro) {
+    function HtmlTimerReporter($intro = '') {
         $this->HtmlReporter();
         $this->timer = new Piwik_Timer;
         $this->intro = $intro;
