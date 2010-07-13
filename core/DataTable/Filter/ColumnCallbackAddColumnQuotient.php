@@ -47,6 +47,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 		{
 			$this->columnNameUsedAsDivisor = $divisorValueOrDivisorColumnName;
 		}
+		$this->quotientPrecision = $quotientPrecision;
 		$this->filter();
 	}
 	

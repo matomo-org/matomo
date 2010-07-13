@@ -7,4 +7,7 @@
 	<sum_visit_length>0</sum_visit_length>
 	<bounce_count>0</bounce_count>
 	<nb_visits_converted>0</nb_visits_converted>
+	<bounce_rate>0%</bounce_rate>
+	<nb_actions_per_visit>0</nb_actions_per_visit>
+	<avg_visit_length>0</avg_visit_length>
 </result>
