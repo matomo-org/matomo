@@ -39,9 +39,12 @@ foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/plugins', '*/tests/*.php') as $file)
 array_unshift($toInclude, PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php');
 $toInclude[] = PIWIK_INCLUDE_PATH . '/tests/core/ReleaseCheckList.test.php';
 
-foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/tests/integration', '*.test.php') as $file)
+if(!Piwik_Common::isPhpCliMode())
 {
-	$toInclude[] = $file;
+	foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/tests/integration', '*.test.php') as $file)
+	{
+		$toInclude[] = $file;
+	}
 }
 foreach($toInclude as $file)
 {
