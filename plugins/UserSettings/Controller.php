@@ -104,11 +104,12 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 									);
 		$view->disableShowAllViewsIcons();
 		$view->disableShowAllColumns();
-		$view->setSortedColumn('nb_visits');
-		$view->setColumnsToDisplay( array('label','nb_visits','nb_visits_percentage') );
+		$view->setColumnsToDisplay( array('label','nb_visits_percentage','nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnPlugin'));
-		$view->setColumnTranslation('nb_visits_percentage', '');
+		$view->setColumnTranslation('nb_visits_percentage', str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits')));
+		$view->setSortedColumn('nb_visits_percentage');
 		$view->setLimit( 10 );
+		$view->setFooterMessage( Piwik_Translate('UserSettings_PluginDetectionDoesNotWorkInIE'));
 		return $this->renderView($view, $fetch);
 	}
 	

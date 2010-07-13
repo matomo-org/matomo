@@ -1,4 +1,8 @@
 <div class="dataTableFeatures">
+{if !empty($properties.show_footer_message)}
+	<div class='datatableFooterMessage'>{$properties.show_footer_message}</div>
+{/if}
+
 {if $properties.show_exclude_low_population}
 	<span class="dataTableExcludeLowPopulation"></span>
 {/if}

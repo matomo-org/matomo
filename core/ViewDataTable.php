@@ -783,6 +783,16 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Will display a message in the DataTable footer. 
+	 * 
+	 * @param $message String
+	 */
+	public function setFooterMessage( $message )
+	{
+		$this->viewProperties['show_footer_message'] = $message;
+	}
+	
+	/**
 	 * Sets the dataTable column to sort by. This sorting will be applied before applying the (offset, limit) filter. 
 	 *
 	 * @param int|string $columnId eg. 'nb_visits' for some tables, or Piwik_Archive::INDEX_NB_VISITS for others

@@ -94,10 +94,12 @@ class Piwik_UserSettings_API
 	{
 		$dataTable = $this->getDataTable('UserSettings_plugin', $idSite, $period, $date);
 		
-		$ieVisits 	= 0;
-		// Get sum of visits to calculate percentage, but ignore IE users cause plugin detection doesn't work there
+		// Get sum of visits to calculate percentage, 
+		// but ignore IE users cause plugin detection doesn't work on IE
 		$browserTypes	= $this->getDataTable('UserSettings_browserType', $idSite, $period, $date);
 		$ieStats		= $browserTypes->getRowFromLabel('ie');
+
+		$ieVisits 	= 0;
 		if($ieStats !== false)
 		{
 			$ieVisits = $ieStats->getColumn(Piwik_Archive::INDEX_NB_VISITS);
@@ -106,7 +108,10 @@ class Piwik_UserSettings_API
 		$visitsSum	= $archive->getNumeric('nb_visits');
 		$visitsSum	= $visitsSum - $ieVisits;
 		
-		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', 'nb_visits', $visitsSum, 1));
+		// The filter must be applied now so that the new column can 
+		// be sorted by the generic filters (applied right after this function exits)
+		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Piwik_Archive::INDEX_NB_VISITS, $visitsSum, 1));
+		
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getPluginsLogo'));
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
 		return $dataTable;

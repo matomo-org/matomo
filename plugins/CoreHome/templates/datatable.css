@@ -219,6 +219,13 @@ table thead div {
 	position: absolute;
 }
 
+.datatableFooterMessage {
+	color: #888888;
+	text-align:left;
+	margin: 10px;
+	font-size: 0.9em;
+}
+
 .dataTablePages {
 	color: #BFBFBF;
 	font-weight: bold;
