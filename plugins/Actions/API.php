@@ -71,7 +71,7 @@ class Piwik_Actions_API
 		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'entry_bounce_count', 'entry_nb_visits', 0));
 		
 		// % Exit = Number of visits that finished on this page / visits on this page
-		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_visits', 0));
+		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_hits', 0));
 		
 		return $dataTable;
 	}

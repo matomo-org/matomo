@@ -132,6 +132,12 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // Track same Goal twice (after 24 minutes), should only be tracked once
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
         $this->checkResponse($t->doTrackGoal($idGoal = 1, $revenue = 42));
+        
+        // Final page view (after 27 min)
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
+        $t->setUrl( 'http://example.org/index.htm' );
+        $this->checkResponse($t->doTrackPageView( 'Looking at homepage (again)...'));
+        
         // -
         // End of first visit: 24min
         
@@ -141,8 +147,8 @@ class Test_Piwik_Integration_Main extends Test_Integration
         // -
         // Start of returning visit, 1 hour after first page view
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
-        $t->setUrlReferer( 'http://search.yahoo.com/search?p=purchase');
         $t->setUrl( 'http://example.org/store/purchase.htm' );
+        $t->setUrlReferer( 'http://search.yahoo.com/search?p=purchase');
         
         // Goal Tracking URL matching, testing custom referer including keyword
         $this->checkResponse($t->doTrackPageView( 'Purchasing...'));
