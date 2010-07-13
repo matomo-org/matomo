@@ -32,7 +32,8 @@ class Piwik_VisitsSummary_API
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 	
-		$bounceRateRequested = false;
+		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = false;
+		$countColumnsRequested = count($columns);
 		if(!empty($columns))
 		{
 			$toFetch = $columns;
@@ -40,9 +41,18 @@ class Piwik_VisitsSummary_API
 			{
 				$toFetch = array('nb_visits', 'bounce_count');
 			}
+			elseif(($actionsPerVisitRequested = array_search('nb_actions_per_visit', $toFetch)) !== false)
+			{
+				$toFetch = array('nb_actions', 'nb_visits');
+			}
+			elseif(($averageVisitDurationRequested = array_search('avg_visit_length', $toFetch)) !== false)
+			{
+				$toFetch = array('sum_visit_length', 'nb_visits');
+			}
 		}
 		else
 		{
+    		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = true;
 			$toFetch = array(	'max_actions',
 								'nb_uniq_visitors', 
 								'nb_visits',
@@ -52,10 +62,29 @@ class Piwik_VisitsSummary_API
 								'nb_visits_converted',
 							);
 		}
+
 		$dataTable = $archive->getDataTableFromNumeric($toFetch);
+		
+		// Process ratio metrics from base metrics, when requested
 		if($bounceRateRequested !== false)
 		{
 			$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'bounce_count', 'nb_visits', 0));
+		}
+		if($actionsPerVisitRequested !== false)
+		{
+			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_actions_per_visit', 'nb_actions', 'nb_visits', 1));
+		}
+		if($averageVisitDurationRequested !== false)
+		{
+			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_visit_length', 'sum_visit_length', 'nb_visits', 0));
+		}
+		
+		// If only a computed metrics was requested, we delete other metrics 
+		// that we selected only to process this one metric 
+		if($countColumnsRequested == 1
+			&& ($bounceRateRequested || $actionsPerVisitRequested || $averageVisitDurationRequested)
+			) 
+		{
 			$dataTable->deleteColumns($toFetch);
 		}
 		return $dataTable;

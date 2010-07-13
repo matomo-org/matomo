@@ -7,4 +7,7 @@
 	<sum_visit_length>1620</sum_visit_length>
 	<bounce_count>1</bounce_count>
 	<nb_visits_converted>2</nb_visits_converted>
+	<bounce_rate>50%</bounce_rate>
+	<nb_actions_per_visit>3</nb_actions_per_visit>
+	<avg_visit_length>810</avg_visit_length>
 </result>

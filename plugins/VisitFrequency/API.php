@@ -31,7 +31,9 @@ class Piwik_VisitFrequency_API
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		$bounceRateReturningRequested = false;
+		
+		$bounceRateReturningRequested = $averageVisitDurationReturningRequested = $actionsPerVisitReturningRequested = false;
+		$countColumnsRequested = count($columns);
 		if(!empty($columns))
 		{
 			$toFetch = $columns;
@@ -39,9 +41,18 @@ class Piwik_VisitFrequency_API
 			{
 				$toFetch = array('nb_visits_returning', 'bounce_count_returning');
 			}
+			elseif(($actionsPerVisitReturningRequested = array_search('nb_actions_per_visit_returning', $toFetch)) !== false)
+			{
+				$toFetch = array('nb_actions_returning', 'nb_visits_returning');
+			}
+			elseif(($averageVisitDurationReturningRequested = array_search('avg_visit_length_returning', $toFetch)) !== false)
+			{
+				$toFetch = array('sum_visit_length_returning', 'nb_visits_returning');
+			}
 		}
 		else
 		{ 
+			$bounceRateReturningRequested = $averageVisitDurationReturningRequested = $actionsPerVisitReturningRequested = true;
 			$toFetch = array( 	'nb_uniq_visitors_returning',
 								'nb_visits_returning',
 								'nb_actions_returning',
@@ -52,9 +63,27 @@ class Piwik_VisitFrequency_API
 					);
 		}
 		$dataTable = $archive->getDataTableFromNumeric($toFetch);
+		
+		// Process ratio metrics
 		if($bounceRateReturningRequested !== false)
 		{
 			$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate_returning', 'bounce_count_returning', 'nb_visits_returning', 0));
+		}
+		if($actionsPerVisitReturningRequested !== false)
+		{
+			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_actions_per_visit_returning', 'nb_actions_returning', 'nb_visits_returning', 1));
+		}
+		if($averageVisitDurationReturningRequested !== false)
+		{
+			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_visit_length_returning', 'sum_visit_length_returning', 'nb_visits_returning', 0));
+		}
+	
+		// If only a computed metrics was requested, we delete other metrics 
+		// that we selected only to process this one metric 
+		if($countColumnsRequested == 1
+			&& ($bounceRateReturningRequested || $averageVisitDurationReturningRequested || $actionsPerVisitReturningRequested)
+			) 
+		{
 			$dataTable->deleteColumns($toFetch);
 		}
 		return $dataTable;
@@ -76,11 +105,6 @@ class Piwik_VisitFrequency_API
 	public function getActionsReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_actions_returning');
-	}
-	
-	public function getMaxActionsReturning( $idSite, $period, $date )
-	{
-		return $this->getNumeric( $idSite, $period, $date, 'max_actions_returning');
 	}
 	
 	public function getSumVisitsLengthReturning( $idSite, $period, $date )

@@ -120,6 +120,7 @@ abstract class Piwik_Controller
 		'sum_visit_length' => 'General_ColumnSumVisitLength',
 		'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
 		'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
+		'avg_visit_length' => 'General_VisitDuration',
 		'avg_time_on_site' => 'General_ColumnAvgTimeOnSite',
 		'bounce_rate' => 'General_ColumnBounceRate',
 		'revenue_per_visit' => 'General_ColumnValuePerVisit',

@@ -11,7 +11,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<idsubdatatable>67</idsubdatatable>
+				<idsubdatatable>80</idsubdatatable>
 				<subtable>
 					<row>
 						<label>http://referer.com/page.htm?param=valuewith some spaces</label>
@@ -34,10 +34,10 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>2</nb_actions>
 				<max_actions>2</max_actions>
-				<sum_visit_length>0</sum_visit_length>
+				<sum_visit_length>360</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<idsubdatatable>8</idsubdatatable>
+				<idsubdatatable>22</idsubdatatable>
 				<subtable>
 					<row>
 						<label>http://referer.com/Other_Page.htm</label>
@@ -45,7 +45,7 @@
 						<nb_visits>1</nb_visits>
 						<nb_actions>2</nb_actions>
 						<max_actions>2</max_actions>
-						<sum_visit_length>0</sum_visit_length>
+						<sum_visit_length>360</sum_visit_length>
 						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
 					</row>
@@ -69,7 +69,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-				<idsubdatatable>8</idsubdatatable>
+				<idsubdatatable>22</idsubdatatable>
 				<subtable>
 					<row>
 						<label>http://only-homepage-referer.com/</label>
