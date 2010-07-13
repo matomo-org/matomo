@@ -41,5 +41,5 @@ function smarty_function_logoHtml($params, &$smarty)
 	{
 		$alt = "title='".$params['alt']."' alt='".$params['alt']."'";
 	}
-	return " <img $alt $width $height src=".$params['metadata']['logo']." />";
+	return " <img $alt $width $height src='".$params['metadata']['logo']."' />";
 }
