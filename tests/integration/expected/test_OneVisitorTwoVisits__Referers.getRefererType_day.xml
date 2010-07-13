@@ -22,9 +22,9 @@
 		<label>Websites</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
-		<nb_actions>4</nb_actions>
-		<max_actions>4</max_actions>
-		<sum_visit_length>1440</sum_visit_length>
+		<nb_actions>5</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>1620</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 	</row>

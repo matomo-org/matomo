@@ -4,7 +4,7 @@
 		<label>piwik.org</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
-		<exit_nb_visits>1</exit_nb_visits>
+		<sum_time_spent>180</sum_time_spent>
 		<idsubdatatable>56</idsubdatatable>
 		<subtable>
 			<row>
@@ -12,8 +12,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
-				<exit_nb_visits>1</exit_nb_visits>
+				<sum_time_spent>180</sum_time_spent>
 				<url>http://piwik.org/latest.zip</url>
 			</row>
 		</subtable>
