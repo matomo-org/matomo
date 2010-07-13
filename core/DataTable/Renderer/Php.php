@@ -30,6 +30,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	{
 		$this->serialize = (bool)$bool;
 	}
+	
 	public function setPrettyDisplay($bool)
 	{
 		$this->prettyDisplay = (bool)$bool;
@@ -145,13 +146,14 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		foreach($array as $row)
 		{
 			$newRow = $row['columns'] + $row['metadata'];
-			if(isset($row['idsubdatatable']))
+			if(isset($row['idsubdatatable'])
+				&& $this->hideIdSubDatatable === false)
 			{
 				$newRow += array('idsubdatatable' => $row['idsubdatatable']);
-				if(isset($row['subtable']))
-				{
-					$newRow += array('subtable' => $this->flattenArray($row['subtable']) );
-				}
+			}
+			if(isset($row['subtable']))
+			{
+				$newRow += array('subtable' => $this->flattenArray($row['subtable']) );
 			}
 			$flatArray[] = $newRow;
 		}		
@@ -192,18 +194,23 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 				&& $row->getIdSubDataTable() !== null)
 			{
 				try{
-					$subTable =  $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
+					$subTable = $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
 					$newRow['subtable'] = $subTable;
-					if(isset($newRow['metadata']['idsubdatatable_in_db']))
+					if($this->hideIdSubDatatable === false
+						&& isset($newRow['metadata']['idsubdatatable_in_db']))
 					{
 						$newRow['columns']['idsubdatatable'] = $newRow['metadata']['idsubdatatable_in_db'];
-						unset($newRow['metadata']['idsubdatatable_in_db']);
 					}
+					unset($newRow['metadata']['idsubdatatable_in_db']);
 				} catch (Exception $e) {
 					// the subtables are not loaded we dont do anything 
 				}
 			}
-			
+			if($this->hideIdSubDatatable !== false)
+			{
+				unset($newRow['idsubdatatable']);
+			}
+					
 			$array[] = $newRow;
 		}
 		return $array;

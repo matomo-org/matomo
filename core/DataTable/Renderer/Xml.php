@@ -47,6 +47,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		$renderer->setRenderSubTables($this->isRenderSubtables());
 		$renderer->setSerialize(false);
 		$renderer->setTable($table);
+		$renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
 		return $renderer->flatRender();
 	}
 	

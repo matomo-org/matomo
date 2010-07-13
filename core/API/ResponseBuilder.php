@@ -182,6 +182,7 @@ class Piwik_API_ResponseBuilder
 		$renderer = Piwik_DataTable_Renderer::factory($format);
 		$renderer->setTable($dataTable);
 		$renderer->setRenderSubTables(Piwik_Common::getRequestVar('expanded', false, 'int', $this->request));
+		$renderer->setHideIdSubDatableFromResponse(Piwik_Common::getRequestVar('hideIdSubDatable', false, 'int', $this->request));
 		if($format == 'php')
 		{
 			$renderer->setSerialize( $this->caseRendererPHPSerialize());

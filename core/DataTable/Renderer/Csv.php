@@ -185,7 +185,8 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			if($this->exportIdSubtable)
 			{
 				$idsubdatatable = $row->getIdSubDataTable();
-				if($idsubdatatable !== false)
+				if($idsubdatatable !== false
+					&& $this->hideIdSubDatatable === false)
 				{
 					$csvRow['idsubdatatable'] = $idsubdatatable;
 				}
