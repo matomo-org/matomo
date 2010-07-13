@@ -474,7 +474,7 @@ dataTable.prototype =
 			);
 	},
 	
-	// DataTable view box (data, table, cloud, graph, ...)
+	// DataTable view box (simple table, all columns table, Goals table, pie graph, tag cloud, graph, ...)
 	handleExportBox: function(domElem)
 	{
 		var self = this;
@@ -523,11 +523,12 @@ dataTable.prototype =
 		
 		$('.viewDataTable', domElem).click(
 			function(){
-					var viewDataTable = $(this).attr('format');
-					self.resetAllFilters();
-					self.param.viewDataTable = viewDataTable;
-					self.reloadAjaxDataTable();
-				}
+				var viewDataTable = $(this).attr('format');
+				self.resetAllFilters();
+				self.param.viewDataTable = viewDataTable;
+				self.reloadAjaxDataTable();
+				self.notifyDashboardViewDataTableChange($(this), viewDataTable);
+			}
 		);
 		
 		$('.tableGoals', domElem)
@@ -540,6 +541,7 @@ dataTable.prototype =
 					delete self.param.enable_filter_excludelowpop;
 					self.param.viewDataTable = 'tableGoals';
 					self.reloadAjaxDataTable();
+					self.notifyDashboardViewDataTableChange($(this), self.param.viewDataTable);
 				}
 		);
 		
@@ -557,6 +559,7 @@ dataTable.prototype =
 						self.param.enable_filter_excludelowpop = 0; 
 					}
 					self.reloadAjaxDataTable();
+					self.notifyDashboardViewDataTableChange($(this), self.param.viewDataTable);
 				}
 		);
 		
@@ -590,6 +593,17 @@ dataTable.prototype =
 		);
 	},
 
+	// Tell dashboard that the ViewDataTable of this table was updated,
+	// Dashboard will records the new View type in the layout and restore it next reload
+	notifyDashboardViewDataTableChange: function(domWidget, newViewDataTable)
+	{
+		if(piwik.dashboardObject)
+		{
+			widgetUniqueId = $(domWidget).parents('.widget').attr('id');
+			piwik.dashboardObject.setDataTableViewChanged(widgetUniqueId, newViewDataTable);
+		}
+	},
+	
 	truncate: function(domElemToTruncate, truncationOffset)
 	{
 		var self = this;
