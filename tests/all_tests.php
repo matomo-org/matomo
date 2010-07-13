@@ -6,17 +6,15 @@ Piwik::createConfigObject();
 $databaseTestName = Zend_Registry::get('config')->database_tests->dbname;
 Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 Piwik::setMaxExecutionTime(300);
-?>
 
-<h2>Piwik unit tests</h2> 
+$intro = '<h2>Piwik unit tests</h2> 
 <p>Some of the tests require a database access. The database used for tests is different from your normal Piwik database. 
 You may need to create this database ; you can edit the settings for the unit tests database access in your config file 
 /config/global.ini.php</p>
-<p><b>The database used in your tests is called "<?php echo $databaseTestName; ?>". Create it if necessary.</b></p>
-<p><a href='core'>Run the tests by module</a></p>
-<hr>
+<p><b>The database used in your tests is called "' . $databaseTestName . '". Create it if necessary.</b></p>
+<p><a href="core">Run the tests by module</a></p>
+<hr>';
 
-<?php
 require_once(SIMPLE_TEST . 'unit_tester.php');
 require_once(SIMPLE_TEST . 'reporter.php');
 
@@ -58,7 +56,7 @@ foreach($toInclude as $file)
 	$test->addFile($file);
 }
 
-$test->run(new HtmlReporter());
+$test->run(new HtmlTimerReporter($intro));
 
 /*
 assertTrue($x)					Fail if $x is false
