@@ -309,7 +309,7 @@ abstract class Test_Integration extends Test_Database
 		
 		if(!is_writable($pathProcessed))
 		{
-			$this->fail('To run the tests, you need to give create the following directory and give write permissions.<code><br/>mkdir '. $pathProcessed.'<br/>chmod 777 '.$pathProcessed.'</code><br/>');
+			$this->fail('To run the tests, you need to give write permissions to the following directory (create it if it doesn\'t exist).<code><br/>mkdir '. $pathProcessed.'<br/>chmod 777 '.$pathProcessed.'</code><br/>');
 		}
 		$parametersToSet = array(
 			'idSite' 	=> $idSite,
