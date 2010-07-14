@@ -22,8 +22,12 @@ Check for example plugins/SitesManager/tests/ or plugins/UserCountry/tests/
 ==================
 Integration tests allow to test how major Piwik components interact together.
 A test will typically generate hits to the Tracker (record visits and page views)
-and then test all API responses and for each API output. It then checks that they match expected XML.
-You can then use Text Compare softwares (eg. WinMerge on Win) to easily view changes.
+and then test all API responses and for each API output. It then checks that they match expected XML (or CSV, json, etc.).
+If a test fails, you can compare the processed/ and expected/ directories in a graphical 
+text compare tool, such as WinMerge on Win, to easily view changes between files.
+If changes are expected due to the code changes you make, simply copy the file from processed/ to 
+expected/, and test will then pass. Otherwise, if you didn't expect to modify the API outputs, 
+it might be that your changes are breaking some features unexpectedly.
 
 The main test is located tests/integration/Main.test.php
 See also http://dev.piwik.org/trac/ticket/1465   
