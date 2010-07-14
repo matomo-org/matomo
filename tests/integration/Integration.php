@@ -307,6 +307,10 @@ abstract class Test_Integration extends Test_Database
 		$pathProcessed = $path . "/processed/";
 		$pathExpected = $path . "/expected/";
 		
+		if(!is_writable($pathProcessed))
+		{
+			$this->fail('To run the tests, you need to give create the following directory and give write permissions.<code><br/>mkdir '. $pathProcessed.'<br/>chmod 777 '.$pathProcessed.'</code><br/>');
+		}
 		$parametersToSet = array(
 			'idSite' 	=> $idSite,
 			'date'		=> date('Y-m-d', strtotime($dateTime)),
