@@ -236,6 +236,10 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	 * @return string
 	 */
 	private function prepare($query, $parameters) {
+		if(!$parameters)
+		{
+			$parameters = array();
+		}
 		foreach($parameters as $i=>$p) 
 		{
 			$parameters[$i] = addslashes($p);
