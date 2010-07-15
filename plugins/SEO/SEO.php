@@ -7,10 +7,12 @@
  * @version $Id$
  * 
  * @category Piwik_Plugins
- * @package Piwik_SEOPlugin
+ * @package Piwik_SEO
  */
 
- 
+/**
+ * @package Piwik_SEO
+ */
 class Piwik_SEO extends Piwik_Plugin
 {
 	public function getInformation()

@@ -159,6 +159,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://phpsec.org/projects/phpsecinfo/
 	License:  Modified BSD
 
+	Name:  RankChecker
+	Link:  http://www.getrank.org/free-pagerank-script
+	License:  GPL
+
 	Name:  Smarty
 	Link:  http://smarty.net/
 	License:  LGPL v2.1 or later
