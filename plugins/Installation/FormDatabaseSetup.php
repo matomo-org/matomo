@@ -58,7 +58,7 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
 		// default values
 		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
 			'host' => 'localhost',
-			'tables_prefix' => 'piwik',
+			'tables_prefix' => 'piwik_',
 		)));
 	}
 }
