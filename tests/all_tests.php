@@ -37,7 +37,7 @@ foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/plugins', '*/tests/*.php') as $file)
 array_unshift($toInclude, PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php');
 $toInclude[] = PIWIK_INCLUDE_PATH . '/tests/core/ReleaseCheckList.test.php';
 
-if(!Piwik_Common::isPhpCliMode())
+if(isset($_SERVER['REQUEST_URI']) && isset($_SERVER['HTTP_HOST']))
 {
 	foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/tests/integration', '*.test.php') as $file)
 	{
