@@ -3,6 +3,8 @@
     <p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
     </p>
 {else}
+	
+    <div class="clear"></div>
 	<h2>{'Goals_GoalsManagement'|translate}</h2>
 	<ul class='listCircle'>
 		<li><a onclick='' name='linkAddNewGoal'><u>{'Goals_CreateNewGOal'|translate}</u></a></li>

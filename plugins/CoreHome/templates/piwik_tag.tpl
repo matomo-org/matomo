@@ -1,5 +1,5 @@
 {if $piwikUrl == 'http://piwik.org/demo/' || $debugTrackVisitsInsidePiwikUI}
-<div style="clear:both;"></div>
+<div class="clear"></div>
 {literal}
 <!-- Piwik -->
 <script src="piwik.js" type="text/javascript"></script>

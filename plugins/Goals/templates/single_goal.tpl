@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="plugins/Goals/templates/goals.css" />
 {include file="Goals/templates/title_and_evolution_graph.tpl"}
 
-<div style="clear:both;"></div>
+<div class="clear"></div>
 {if $nb_conversions > 0}
     <h2>{'Goals_ConversionsOverview'|translate}</h2>
 	<ul class="ulGoalTopElements">
