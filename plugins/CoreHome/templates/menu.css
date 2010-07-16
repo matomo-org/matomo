@@ -4,12 +4,10 @@
 }
 
 .nav {
+	position:relative; 
 	z-index:10;
-	padding-bottom: 2.5em;
-	height: 2.5em;
-	float: left;
-	line-height: 1.0;
-	margin-bottom: 1.5em;
+	height: 34px;
+	line-height: 1;
 	position: relative;
 	width:100%;
 }
@@ -22,12 +20,16 @@
 
 /* LEVEL1 NORMAL */
 .nav li {
-	background: #DFE6FF;
-	border-left: 1px solid #fff;
+	background: #f1f1f1;
 	float: left;
 	list-style: none;
 	z-index: 49;
-	margin-right:1px;
+	margin-right:-1px;
+	border: 1px solid #dddddd;
+	border-bottom:0;
+	border-radius: 4px 4px 0 0 ;
+	-moz-border-radius:  4px 4px 0 0 ;
+	-webkit-border-radius:  4px 4px 0 0 ;
 }
 
 .nav li.current ul {
@@ -38,68 +40,97 @@
 	z-index: 50;
 }
 
-/* LEVEL2 NORMAL */
-.nav li li {
-	background: #FBFFFF;
-	border-left-color: #AABDE6;
-}
 
 .nav a {
-	border-bottom: 1px solid #CFDEFF;
-	color: #13a;
+	border-bottom: 1px solid #dddddd;
+	color: #444444;
+	font-size:18px;
 	display: block;
 	float: left;
-	padding: .75em 0 .75em 1em;
+	padding: 8px 27px 0px 27px;
+	height:25px;
 	text-decoration: none;
-	width: 8em;
-}
-
-.nav li ul {
-	left: 0;
-	top: -999em;
-	position: absolute;
-}
-
-.nav li, .nav li:hover,.nav li.sfHover,.nav li.current,.nav a:focus,.nav a:hover,.nav a:active{
-	-moz-border-radius:5px 5px 0 0;
-	-webkit-border-radius:5px 5px 0 0;
-}
-
-/* LEVEL1 HOVER */
-.nav li:hover,.nav li.sfHover,.nav li.current,.nav a:focus,.nav a:hover,.nav a:active {
-	background: #C9D5FF;
-	-moz-border-radius:5px 5px 0 0;
-	-webkit-border-radius:5px 5px 0 0;
-}
-
-.nav li {
 	font-weight: normal;
 }
 
-.nav li.sfHover {
-	font-weight: bold;
+.nav a .sf-sub-indicator{ 
+	display:none; 
+}
+
+
+/* LEVEL1 HOVER */
+.nav li:hover,.nav li.sfHover,.nav li.current{
+	background: #fff;
+}
+
+.nav li:hover a,.nav li.sfHover a,.nav li.current a,.nav a:focus,.nav a:hover,.nav a:active {
+	color:#e87500;
+}
+
+
+.nav li:hover a{
+	text-decoration:underline; 
+}
+.nav li.sfActive.sfHover a, .nav li.sfActive:hover a {
+	border-bottom-color: #fff;
+}
+
+.nav li ul {
+	padding:9px 0 5px 0;
+	left: 0px;
+	top: -999em;
+	position: absolute;
+	height:25px;
+	width:100%;
+	background:none;
+	
+}
+
+.nav li:hover  ul{}
+.nav ul.hidden { 
+	zdisplay:none!important; 
+}
+
+
+/* LEVEL2 NORMAL */
+.nav li li {
+	background: none;
+	border:0;
+}
+
+
+.nav li li  {
+	background: none!important;
+	text-align:center; 
+}
+.nav li li a {
+	padding:5px 0px 5px 0px;
+	font-size:14px;
+	border:0;
+	float:none; 
+	display:inline-block; 
+	height:auto; 
+	background: none!important;
+	color: #444444!important;
+	text-decoration:none!important; 
 }
 
 /* LEVEL2 HOVER */
-.nav li li:hover,.nav li li.sfHover,.nav li li a:focus,.nav li li a:hover,.nav li li a:active
-	{
-	background: #C9F6FF;
-	font-weight: bold;
+.nav li li:hover a,.nav li li.sfHover a,.nav li li a:focus,.nav li li a:hover,.nav li li a:active{
+	color:#e87500!important;
 }
 
-.nav li.sfHover a,.nav li.current a,.nav a:focus,.nav a:hover,.nav a:active
-	{
-	border-bottom: none;
+
+.nav li li.sfHover a,.nav li li.current a {
+	font-weight: bold;
+	text-decoration:none!important; 
 }
 
-.nav li li.current a {
-	font-weight: bold;
-}
 
 .nav li:hover ul, /* pure CSS hover is removed below */ body .nav li.current ul,
 	/* this must be more specific than the .superfish override below */ ul.nav li.sfHover ul
 	{
-	top: 2.5em;
+	top: 35px;
 }
 
 .nav li:hover li ul,.nav li.sfHover li ul {
@@ -108,7 +139,7 @@
 
 .nav li li:hover ul, /* pure CSS hover is removed below */ ul.nav li li.sfHover ul
 	{
-	top: 2.5em;
+	top: 35px;
 }
 
 /*following rule negates pure CSS hovers

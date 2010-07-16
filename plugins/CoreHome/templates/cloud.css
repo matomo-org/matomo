@@ -1,5 +1,5 @@
 .tagCloud {
-	width:100%;
+	padding:10px;
 }
 .tagCloud img {
 	border:0;
@@ -15,30 +15,31 @@
 	text-decoration: line-through;
 }
 .tagCloud span.size0, .tagCloud span.size0 a {
-	color: #344971;
+	color: #255792;
 	font-size: 28px;
 }
 .tagCloud span.size1, .tagCloud span.size1 a {
-	color: #344971;
+	color: #255792;
 	font-size: 24px;
 }
 .tagCloud span.size2, .tagCloud span.size2 a {
-	color: #4B74AD;
+	color: #255792;
 	font-size:20px;
 }
 .tagCloud span.size3, .tagCloud span.size3 a {
-	color: #A3A8B6;
+	color: #255792;
 	font-size: 16px;
 }
 .tagCloud span.size4, .tagCloud span.size4 a {
-	color: #A3A8B6;
+	color: #255792;
 	font-size: 15px;
 }
 .tagCloud span.size5, .tagCloud span.size5 a {
-	color: #A3A8B6;
+	color: #255792;
 	font-size: 14px;
 }
 .tagCloud span.size6, .tagCloud span.size6 a {
-	color: #A3A8B6;
+	color: #255792;
 	font-size: 11px;
 }
+

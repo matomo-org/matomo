@@ -1,19 +1,43 @@
-#feedback-form input, #feedback-form textarea, #feedback-sent textarea, #feedback-form select, #feedback-faq p, #feedback-form p, #feedback-sent div, #feedback-sent p, #feedback-faq li {
-	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	font-size:0.9em;
-	padding:0.2em;
-	margin-left: 0;
-	margin-right: 0;
-	margin-top: 0;
+#feedback-form input, #feedback-form textarea, #feedback-sent textarea, #feedback-form select{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12px;
+	border:1px solid #d4d4d4;
+	margin:0 0 20px 0;
+	padding:5px 12px;
+	border-radius:2px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	color:#255792;
+	background: url("../../../themes/default/images/inp_bg.png") repeat-x 0 0;
+	
 }
-#feedback-faq ul {
-	list-style-type:disc;
-	list-style-position:inside;
-	padding-left:2.5em;
-}
+
 #feedback-faq, #feedback-form, #feedback-sent {
-	margin-right:1em;
+	font-family: Arial, Helvetica, sans-serif;
+	color:#5e5e5c;
+	font-size:14px;
+	line-height:24px;
+	padding:0px 20px 15px 0;
 }
+
+#feedback-faq strong, #feedback-sent strong {
+	color:#5e5e5c;
+}
+
+#feedback-faq ul, #feedback-sent ul {
+	list-style:none;
+	padding:0 0 0 20px;
+	font-size:12px;
+	line-height:18px;
+}
+
+#feedback-faq a, #feedback-sent a{
+	color:#5176a0;
+	text-decoration:none; 
+	font-weight:bold; 
+}
+
+
 #feedback-error {
 	color: red;
 	text-align: center;
@@ -29,3 +53,26 @@
 	margin: 10px;
 	padding: 10px;
 }
+
+#feedback-form .feedback-submit{
+	background: #B5B0A7 url("../../../themes/default/images/dashboard_h_bg_hover.png") repeat-x 0 0;
+	color:#fff;
+	border:0;
+	padding:5px 20px;
+	margin:0;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	cursor:pointer; 
+	display:inline-block; 
+	margin:0;
+}
+
+#feedback-form { font-size:12px; line-height:18px;}
+#feedback-form label{ float:left; width:135px; padding:4px 15px 0 0; text-align:right; position:relative;  }
+#feedback-form label i{ font-style:normal; color:#cbcbcb; }
+#feedback-form br{ clear:both;  }
+
+#feedback-home{ float:left; margin:-7px 0 0 20px; }
+
+.ui-dialog .ui-widget-header{ background:none; border:0; font:bold 18px Arial, Helvetica, sans-serif; color: #7e7363;	clear:both;}

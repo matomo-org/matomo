@@ -3,12 +3,15 @@
 {include file="CoreHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='Dashboard'}
 
+
 {literal}
 <style>
+.widgetize{ width:980px; padding:15px 15px 0 15px; }
+.widgetize p{ padding: 0 0 20px 0; }
 .menu {
 	display: inline;
 }
-.formEmbedCode{
+.widgetize .formEmbedCode{
 	font-size: 11px;
 	text-decoration: none;
 	background-color: #FBFDFF;
@@ -17,10 +20,10 @@
 }
 
 #periodString {
-	margin-left:500px;
+	margin-left:15px;
 }
 
-label {
+.widgetize label {
 	color:#666666;
 	line-height:18px;
 	margin-right:5px;
@@ -59,7 +62,11 @@ $(document).ready( function() {
 {/literal}
 </script>
 
-<div class="widgetize" style="max-width:980px;">
+<div class="top_controls_inner">
+    {include file="CoreHome/templates/period_select.tpl"}
+</div>
+
+<div class="widgetize">
 	<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
 	<p><b>&rsaquo; Widget authentication:</b> If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
 	to the anonymous user in the <a href='index.php?module=UsersManager'>Users Management section</a>. 

@@ -139,7 +139,7 @@ dashboard.prototype =
 			columnElement.append(emptyWidgetContent);
 		}
 		
-		widgetElement = $('#'+ uniqueId);
+		widgetElement = $('#'+ uniqueId, self.dashboardElement);
 		widgetElement
 			.hover( function() {
 					$(this).addClass('widgetHover');
@@ -213,7 +213,7 @@ dashboard.prototype =
 		});
 		$.blockUI({
 			message: question, 
-			css: { width: '300px', border:'1px solid black' }
+			css: { width: 650, border:0, background:"none", top:90 }
 		});
 	},
 	

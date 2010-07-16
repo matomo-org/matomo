@@ -42,6 +42,7 @@
 
 /* main data table */
 table.dataTable {
+	border:0;
 	width: 100%;
 	padding: 0;
 	border-spacing: 0;
@@ -72,78 +73,92 @@ table.dataTable tr.subDataTable {
 	cursor: pointer;
 }
 
+
+
 table.dataTable th {
 	margin: 0;
-	color: #6D929B;
-	border-right: 1px solid #C1DAD7;
-	border-bottom: 1px solid #C1DAD7;
-	border-top: 1px solid #C1DAD7;
+	color: #255792;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
-	background: #D4E3ED url(images/bg_header.jpg) repeat-x;
+	background: #e4e2d7;
+	font-size:12px;
+	font-weight:normal; 
+	border-left:1px solid #d4d0c4;
 }
 
 table.dataTable th.first {
-	-moz-border-radius:6px 0 0 0;
-	-webkit-border-radius:6px 0 0 0;
 }
 
 table.dataTable th.last {
-	-moz-border-radius:0 6px 0 0;
-	-webkit-border-radius:0 6px 0 0;
 }
 table.dataTable th.columnSorted {
 	font-weight: bold;
 	padding-right: 20px;
+	background: #d5d3c8;
 }
 
 table.dataTable td {
-	border-right: 1px solid #C1DAD7;
-	border-bottom: 1px solid #C1DAD7;
 	border-left: 0;
 	padding: 5px 5px 5px 12px;
 	background: #fff;
+	border-left:1px solid #e7e7e7;
+	border-bottom:1px solid #e7e7e7;
 }
 
 table.dataTable td,table.dataTable td a {
 	margin: 0;
 	text-decoration: none;
-	color: #4f6b72;
+	color: #444;
 }
 
-table.dataTable td.labeleven,table.dataTable td.columneven {
-	background: #F9FAFA;
+
+
+table.dataTable tr:hover>td{
+	background-color:#ffffed;
 }
+table.dataTable tr.subDataTable:hover>td{
+	background-color:#ffffcb;
+}
+table.dataTable tr:hover>td.cellSubDataTable{
+	background-color:#fff;
+}
+
+td.clean{ background-color:#fff!important;}
+
 
 table.dataTable td.columneven {
-	color: #797268;
+	background: #efeeec;
+}
+table.dataTable td.columnodd {
+	background: #f6f5f3;
 }
 
 table.dataTable td.labeleven {
+	background: #F9FAFA;
 	background-image: url(images/bullet2.gif);
 	background-repeat: no-repeat;
-	color: #797268;
 }
 
 table.dataTable td.labelodd {
 	background: #fff url(images/bullet1.gif) no-repeat;
 }
 
+
 table.dataTable td.label,table.subActionsDataTable td.label,table.actionsDataTable td.label
 {
 	border-top: 0;
-	border-left: 1px solid #C1DAD7;
+	border-left: 0;
 }
 
 table.dataTable th.label {
-	border-left: 1px solid #C1DAD7;
+	border-left: 0;
 }
 
 /* the cell containing the subdatatable */
 table.dataTable .cellSubDataTable {
-	border-left: 1px solid #C1DAD7;
 	padding: 0;
 	margin: 0;
+	border-left:0;
 }
 
 /* A link in a column in the DataTable */
@@ -163,15 +178,18 @@ table.subDataTable td {
 
 table.subDataTable thead th {
 	font-weight: normal;
-	font-size: 1.1em;
+	font-size: 12px;
 	text-align: left;
-	border: 0;
-	border-bottom:1px solid #D1D1D1;
-	border-right:1px solid #D1D1D1;
-	border-top:1px solid #D1D1D1;
 	padding: .3em 1em;
-	color: #333333;
-	background: #FFE9C6;
+	background: #f1f0eb;
+	border: 0;
+	border-top: 1px solid #e7e7e7;
+	border-bottom: 1px solid #e7e7e7;
+}
+
+
+table.subDataTable th.columnSorted {
+	background: #e3e1d9;
 }
 
 table.subDataTable td.labeleven,table.subDataTable td.labelodd {
@@ -179,8 +197,7 @@ table.subDataTable td.labeleven,table.subDataTable td.labelodd {
 }
 
 table.subDataTable td {
-	border-right: 1px solid #E5E5E5;
-	border-bottom: 1px solid #E5E5E5;
+	border-bottom: 1px solid #e7e7e7;
 	border-left: 0;
 }
 
@@ -230,35 +247,49 @@ table thead div {
 	color: #BFBFBF;
 	font-weight: bold;
 	margin: 10px;
-	font-size: 0.9em;
+	font-size: 12px;
 }
 
 .dataTableSearchPattern {
-	display: inline;
+	margin:8px 0;
+	display: block!important;
 	white-space: nowrap;
+	background:  url(../../../themes/default/images/search_bg.png) no-repeat center 0;
+	text-align:center; 
 }
 
 .dataTableSearchPattern input {
-	font-size: 0.7em;
-	padding: 2px;
-	border: 1px solid #B3B3B3;
-	color: #0C183A;
+	vertical-align:top; 
+	font-size:10px!important;
+	color:#454545!important;
+	border:0!important;
+	background:transparent!important;
+	width:21px;
+	height:17px;
+	overflow:hidden; 
+	opacity:0;
+	filter:Alpha(opacity:0);
+	cursor:pointer; 
 }
 
 .dataTableSearchPattern input:hover {
-	background: #F7F7FF none repeat scroll 0%;
+	
 }
 
 .dataTableSearchPattern #keyword {
-	background: transparent url(images/search.png) no-repeat scroll 4px
-		center;
-	padding: 3px 3px 3px 20px;
+	width:114px;
+	height:auto;
+	overflow:visible; 
+	padding:2px 6px;
+	opacity:1;
+	filter:Alpha(opacity:100); 
+	cursor:text; 
+	
 }
 
 .dataTableExcludeLowPopulation,.dataTableNext,.dataTablePrevious {
-	font-size: 0.9em;
+	font-size: 12px;
 	color: #184A83;
-	text-decoration: underline;
 	cursor: pointer;
 }
 
@@ -266,20 +297,19 @@ table thead div {
 .subDataTable.dataTableFeatures {
 	padding-top: 0px;
 	padding-bottom: 5px;
-	width: 100%;
 }
 
 .dataTableFeatures {
 	padding-top: 10px;
-	padding-bottom: 10px;
-	width: 100%;
 	text-align: center;
 }
 
 .dataTableExcludeLowPopulation {
+	display:inline-block; 
 	float: right;
-	font-size: 0.8em;
-	color: #C3C6D8;
+	padding:2px 0 0 6px;
+	font-size:10px;
+	color: #255792;
 	text-align: right;
 }
 
@@ -292,23 +322,86 @@ table thead div {
 	height: 0px;
 }
 
+
 .dataTableFooterIcons {
-	float: right;
-	height: 18px;
+	display:block; 
+	height: 20px;
+	overflow:hidden; 
+	white-space:nowrap; 
+	font-size:10px;
+	padding:6px 5px;
+	border-top:1px solid #948c7d;
+}
+
+.dataTableFooterWrap{ position:relative;  width:800px;}
+
+.tableIcon{
+	background:#f2f1ed;
+	display:inline-block; 
+	float:left; 
+	margin:0 1px 0 0;
+	padding:2px;
+	border-radius:2px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+}
+.tableIcon:hover{
+	background:#e9e8e1;
+}
+
+.activeIcon{
+	background:#e9e8e1;
+}
+
+.dataTableFooterActiveItem{ position:absolute; top:-6px; left:0px;}
+
+.exportToFormatItems{
+	background:#dcdacf;
+	float:left; 
+	margin:0 1px 0 0;
+	padding:4px 6px 3px 6px;
+	color: #968d7f;
+	border-radius:2px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+}
+
+.exportToFormatItems img{
+	vertical-align:middle; 
+	margin:-4px -3px -2px 2px;
+}
+
+.tableIconsGroup{
+	float:left; 
+	padding-right:4px;
+}
+
+.tableIconsGroupActive{
+	display:block; 
+	float:left; 
+	background:#dcdacf;
+	border-radius:2px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+}
+.tableIconsGroupActive .tableIcon{
+	background:none;
+}
+.tableIconsGroupActive .tableIcon:hover{
+	background:#e9e8e1;
 }
 
 .exportToFormatIcons {
-	float: right;
+	float: left;
 }
 
 .dataTableFooterIconsShow {
-	float: right;
+	float: left;
 }
 
 .dataTableFooterIcons,.dataTableFooterIcons a {
 	text-decoration: none;
-	color: #8894B1;
-	font-size:0.9em;
+	color: #255792;
 }
 
 .dataTableSpacer {

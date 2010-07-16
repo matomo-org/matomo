@@ -16,8 +16,8 @@ $(function() {
 					title: feedback.html(),
 					bgiframe: true,
 					modal: true,
-					height: 480,
-					width: 500,
+					width: 650,
+					position: ['center', 90],
 					resizable: false,
 					autoOpen: false
 				});

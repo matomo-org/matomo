@@ -21,9 +21,4 @@
 	
 	<h2>{'UserSettings_WideScreen'|translate}</h2>
 	{$dataTableWideScreen}
-</div>	
-
-
-
-
-
+</div>

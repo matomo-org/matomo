@@ -159,7 +159,7 @@ function bindUpdateAccess()
 		});
 		
 		$('#no', question).click($.unblockUI);
-		$.blockUI({message: question, css: { width: '300px' }});
+		$.blockUI({message: question, css: { width: '650px', top:90 }});
 	}
 	else
 	{

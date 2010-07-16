@@ -1,8 +1,10 @@
+
+
 $(document).ready(function(){
-	$("#periodString").hide();
-	$("#otherPeriods").hide();
-	$("#datepicker").hide();
-	$("#periodString").show();
+	//$("#periodString").hide();
+	//$("#otherPeriods").hide();
+	//$("#datepicker").hide();
+	//$("#periodString").show();
 	
 	// we get the content of the div before modifying it (append image, etc.)
 	// so we can restore its value when we want
@@ -75,6 +77,22 @@ $(document).ready(function(){
 				$("#otherPeriods").fadeIn();
 
 			});
+			
+	
+	var periodWidget={
+		show:function(){
+			this.isOpen=1;
+			$("#periodMore").show();
+		},
+		hide:function(){
+			this.isOpen=0;
+			$("#periodMore").hide();
+		},
+		toggle:function(e){
+			if(!this.isOpen) this.show();
+			else this.hide();
+		}
+	};
 
 	$("#periodString #date")
 		.hover( function(){
@@ -83,10 +101,16 @@ $(document).ready(function(){
 			
 		})
 		.click(function(){
-			$("#datepicker").toggle();
-			if($("#datepicker").is(":visible"))
+			periodWidget.toggle();
+			if($("#periodMore").is(":visible"))
 			{
-				$("#datepicker .ui-state-highlight").removeClass('ui-state-highlight');
+				$("#periodMore .ui-state-highlight").removeClass('ui-state-highlight');
 			}
 		});
+		
+	$('#periodString').hover(function(){periodWidget.isHover=1}, function(){periodWidget.isHover=0});
+	$('body').bind('mouseup',function(e){ if(periodWidget.isOpen && !periodWidget.isHover) periodWidget.hide();});
+	
+	
+	
 } );

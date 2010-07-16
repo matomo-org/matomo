@@ -1,3 +1,6 @@
+#multisites { border:0; padding:0px 15px;}
+
+
 .indicator {
 	background-image: url("../images/loading-blue.gif");
 	background-position:	center;
@@ -26,21 +29,34 @@
 }
 #multisites td.multisites-column, #multisites th.multisites-column  {
 	width:70px;
+	white-space:nowrap; 
 }
 #multisites td.multisites-column-evolution, #multisites th.multisites-column-evolution  {
 	width:70px;
 }
 .multisites_asc
 {
-	width: 10px;
-	height: 12px;
+	width: 16px;
+	height: 13px;
 	display: inline-block;
-	background-image: url('../images/arrow_asc.gif');
+	background-image: url(../../../themes/default/images/sortdesc.png);
 }
 .multisites_desc
 {
-	width: 10px;
+	width: 16px;
 	height: 13px;
 	display: inline-block;
-	background-image: url('../images/arrow_desc.gif');
+	background-image: url(../../../themes/default/images/sortasc.png);
+}
+
+.multiSitesCont{ 
+	width:850px; 
+	padding:10px 0;
+}
+
+
+
+.admin_header_message{ 	position:absolute; top:70px;
+	right:10px; 
+	z-index:20;
 }
