@@ -124,6 +124,7 @@ abstract class Test_Integration extends Test_Database
 			'Live',
 			'SEO',
 			'ExampleAPI',
+			'Pdfexport',
 		);
 	
 	/**
@@ -259,6 +260,7 @@ abstract class Test_Integration extends Test_Database
         			{
         				$parametersToSet['format'] = $format;
         				$parametersToSet['hideIdSubDatable'] = 1;
+        				$parametersToSet['serialize'] = 1;
             			$exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
             			if($exampleUrl === false) 
             			{
