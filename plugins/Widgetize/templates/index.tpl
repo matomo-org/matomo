@@ -6,8 +6,14 @@
 
 {literal}
 <style>
-.widgetize{ width:980px; padding:15px 15px 0 15px; }
-.widgetize p{ padding: 0 0 20px 0; }
+.widgetize{ 
+	width:980px; 
+	padding:15px 15px 0 15px; 
+	font-size:13px; 
+}
+.widgetize p{ 
+	padding: 0 0 20px 0; 
+}
 .menu {
 	display: inline;
 }

@@ -15,10 +15,12 @@
 
 	{literal}<script type="text/javascript">
 	$(document).ready(function() {
+		var inlineWaddingWidth=22;
+		var staticPaddingWidth=34;
 		$("#sitesSelection").fdd2div({CssClassName:"custom_select"});
 		$("#sitesSelectionWrapper").show();
 		if($("#sitesSelection ul")[0]){
-			var widthSitesSelection = Math.max($("#sitesSelection ul").width()+22, $("#selectedSiteName").width()+34);
+			var widthSitesSelection = Math.max($("#sitesSelection ul").width()+inlineWaddingWidth, $("#selectedSiteName").width()+staticPaddingWidth);
 			$("#sitesSelectionWrapper").css('padding-right', widthSitesSelection);
 			$("#sitesSelection").css('width', widthSitesSelection);
 	
@@ -30,7 +32,7 @@
 					broadcast.propagateNewPage( 'idSite='+new_idSite );
 			});
 		}else{
-			var widthSitesSelection = Math.max($("#sitesSelection").width()+20);
+			var widthSitesSelection = Math.max($("#sitesSelection").width()+inlineWaddingWidth);
 			$("#sitesSelectionWrapper").css('padding-right', widthSitesSelection);
 		}
 	});</script>
@@ -45,7 +47,7 @@
     
         <a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=1" class="custom_select_main_link custom_select_collapsed">BuyForSeniors</a>
         
-        <div class="custom_select_block" style="display:none;">
+        <div class="custom_select_block">
             <ul class="custom_select_ul_list"
                 <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=4">CCSlaughterhouse</a></li>
                 <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=8">CMSJam</a></li>
@@ -71,7 +73,7 @@
 	{literal}<script type="text/javascript">
     	$("#sitesSelectionSearch .custom_select_main_link").click(function(){
 			$("#sitesSelectionSearch .custom_select_main_link").toggleClass("custom_select_loading");
-			$("#sitesSelectionSearch .custom_select_block").toggle();
+			$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
 			return false;
 		});
     </script>{/literal}

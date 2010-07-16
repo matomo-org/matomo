@@ -88,9 +88,17 @@ widgetMenu.prototype =
 		self.menuElement = $('#widgetChooser');		
 		self.buildMenu();
 		
+		//close widget onClickOutside
 		if($('#addWidget')[0]){
-			$('#addWidget').hover(function(){self.isHover=1}, function(){self.isHover=0});
-			$('body').bind('mouseup',function(e){ if(self.widgetIsOpen && !self.isHover) self.hide();});
+			$('#addWidget').hover(
+					function(){self.isHover=1}, 
+					function(){self.isHover=0}
+			);
+			$('body').bind('mouseup',function(e){ 
+				if(self.widgetIsOpen && !self.isHover){
+					self.hide();
+				}
+			});
 		}
 	},
 	
@@ -203,7 +211,11 @@ widgetMenu.prototype =
 										'</div>'
 				);
 				$('#sub3').html(emptyWidgetHtml);
-				$('#sub3').width(self.dashboard?$(".col:first", self.dashboard.dashboardElement).width():600);
+				
+				//Widget width auto detection
+				var defaultWidgetWidth=600;
+				var currentWidgetWidth=$(".col:first", self.dashboard.dashboardElement).width()
+				$('#sub3').width(self.dashboard?currentWidgetWidth:defaultWidgetWidth);
 				
 				$('#sub3 .widgetTop').click(function() {
 					self.movePreviewToDashboard();
@@ -234,11 +246,6 @@ widgetMenu.prototype =
 			self.initWidgetMenuForDashboard();
 			self.filterOutAlreadyLoadedWidget();
 			self.menuElement.show();
-			/*$.blockUI({
-					message: self.menuElement, 
-					centerY: 0,
-					css: {width:'', top: '5%',left:'10%', right:'10%', margin:"0px", textAlign:'', cursor:'', border:'0px'}
-			});*/
 		}
 		self.resetMenuState();
 		self.bindEvents();
@@ -308,7 +315,6 @@ widgetMenu.prototype =
 			widgetContentLoadedInPreview = $('.widgetContent', this).clone(true);
 			widgetContentToReplace.replaceWith( widgetContentLoadedInPreview );
 		});
-		//self.hideMenu();
 		self.dashboard.makeSortable();
 		self.dashboard.saveLayout();
 	},
@@ -323,16 +329,6 @@ widgetMenu.prototype =
 							self.movePreviewToDashboard(); 
 						}
 			});
-			/*
-			$('.button#hideMenu', self.menuElement)
-				.click(function() { self.hideMenu(); }
-			);
-			$('#closeMenuIcon', self.menuElement)
-				.click(function() { self.hideMenu(); }
-			);
-			$.extend($.blockUI.defaults.overlayCSS, { backgroundColor: '#000000', opacity: '0.4'});
-			$.extend($.blockUI.defaults,{ fadeIn: 0, fadeOut: 0 });
-			*/
 			$(document).keydown( function(e) {
 				var key = e.keyCode || e.which;
 				if(key == 27) {
