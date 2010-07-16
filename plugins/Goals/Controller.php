@@ -158,6 +158,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 		}
+
+		$columns = !is_array($columns) ? array($columns) : $columns;
+
 		if(empty($idGoal))
 		{
 			$idGoal = Piwik_Common::getRequestVar('idGoal', false);

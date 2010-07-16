@@ -1,5 +1,5 @@
-
 <script type="text/javascript" defer="defer">
+/* TODO 0- REFACTOR */
 $(document).ready(function(){literal}{{/literal} 
 	actionDataTables['{$properties.uniqueId}'] = new actionDataTable();
 	actionDataTables['{$properties.uniqueId}'].param = {literal}{{/literal} 

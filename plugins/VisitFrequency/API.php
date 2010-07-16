@@ -27,33 +27,34 @@ class Piwik_VisitFrequency_API
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date, $columns = array() )
+	public function get( $idSite, $period, $date, $columns = false )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		
+		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
+		$countColumnsRequested = is_array($columns) ? count($columns) : 0;
+		
 		$bounceRateReturningRequested = $averageVisitDurationReturningRequested = $actionsPerVisitReturningRequested = false;
-		$countColumnsRequested = count($columns);
 		if(!empty($columns))
 		{
-			$toFetch = $columns;
-			if(($bounceRateReturningRequested = array_search('bounce_rate_returning', $toFetch)) !== false)
+			if(($bounceRateReturningRequested = array_search('bounce_rate_returning', $columns)) !== false)
 			{
-				$toFetch = array('nb_visits_returning', 'bounce_count_returning');
+				$columns = array('nb_visits_returning', 'bounce_count_returning');
 			}
-			elseif(($actionsPerVisitReturningRequested = array_search('nb_actions_per_visit_returning', $toFetch)) !== false)
+			elseif(($actionsPerVisitReturningRequested = array_search('nb_actions_per_visit_returning', $columns)) !== false)
 			{
-				$toFetch = array('nb_actions_returning', 'nb_visits_returning');
+				$columns = array('nb_actions_returning', 'nb_visits_returning');
 			}
-			elseif(($averageVisitDurationReturningRequested = array_search('avg_visit_length_returning', $toFetch)) !== false)
+			elseif(($averageVisitDurationReturningRequested = array_search('avg_visit_length_returning', $columns)) !== false)
 			{
-				$toFetch = array('sum_visit_length_returning', 'nb_visits_returning');
+				$columns = array('sum_visit_length_returning', 'nb_visits_returning');
 			}
 		}
 		else
 		{ 
 			$bounceRateReturningRequested = $averageVisitDurationReturningRequested = $actionsPerVisitReturningRequested = true;
-			$toFetch = array( 	'nb_uniq_visitors_returning',
+			$columns = array( 	'nb_uniq_visitors_returning',
 								'nb_visits_returning',
 								'nb_actions_returning',
 								'max_actions_returning',
@@ -62,7 +63,7 @@ class Piwik_VisitFrequency_API
 								'nb_visits_converted_returning',
 					);
 		}
-		$dataTable = $archive->getDataTableFromNumeric($toFetch);
+		$dataTable = $archive->getDataTableFromNumeric($columns);
 		
 		// Process ratio metrics
 		if($bounceRateReturningRequested !== false)
@@ -84,7 +85,7 @@ class Piwik_VisitFrequency_API
 			&& ($bounceRateReturningRequested || $averageVisitDurationReturningRequested || $actionsPerVisitReturningRequested)
 			) 
 		{
-			$dataTable->deleteColumns($toFetch);
+			$dataTable->deleteColumns($columns);
 		}
 		return $dataTable;
 	}

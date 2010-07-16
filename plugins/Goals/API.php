@@ -222,27 +222,37 @@ class Piwik_Goals_API
 		return Piwik::getPercentageSafe($convertedNewVisits, $newVisits, Piwik_Goals::ROUNDING_PRECISION);
 	}
 	
+	/**
+	 * Returns Goals data
+	 * 
+	 * @param $idSite
+	 * @param $period
+	 * @param $date
+	 * @param $idGoal
+	 * @param $columns Comma separated list of metrics to fetch: nb_conversions, conversion_rate, revenue
+	 * @return Piwik_DataTable
+	 */
 	public function get( $idSite, $period, $date, $idGoal = false, $columns = array() )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		if(!empty($columns))
+		
+		// array values are comma separated
+		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
+		
+		if(empty($columns))
 		{
-			$toFetch = $columns;
-		}
-		else
-		{
-			$toFetch = array(
+			$columns = array(
 						'nb_conversions',
 						'conversion_rate', 
 						'revenue',
 					);
-			foreach($toFetch as &$columnName)
+			foreach($columns as &$columnName)
 			{
 				$columnName = Piwik_Goals::getRecordName($columnName, $idGoal);
 			}
 		}
-		$dataTable = $archive->getDataTableFromNumeric($toFetch);
+		$dataTable = $archive->getDataTableFromNumeric($columns);
 		return $dataTable;
 	}
 	

@@ -186,7 +186,7 @@ function getSparklineImg(id, column, params)
 	{
 		column = 'uniq_visitors';
 	}
-	return '<img class="sparkline" alt="" src="?module=MultiSites&action=getEvolutionGraph&period=' + params['period'] + '&date=' + params['dateToStr'] + '&evolutionBy=' + params['evolutionBy'] + '&columns[]=nb_' + column  + '&idSite=' + id + '&idsite=' + id + '&viewDataTable=sparkline" width="100" height="25" />';
+	return '<img class="sparkline" alt="" src="?module=MultiSites&action=getEvolutionGraph&period=' + params['period'] + '&date=' + params['dateToStr'] + '&evolutionBy=' + params['evolutionBy'] + '&columns=nb_' + column  + '&idSite=' + id + '&idsite=' + id + '&viewDataTable=sparkline" width="100" height="25" />';
 }
 
 

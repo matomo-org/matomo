@@ -268,6 +268,14 @@ abstract class Piwik_Controller
 							'module' => $this->pluginName)
 					+ $customParameters
 				);
+		// convert array values to comma separated
+		foreach($params as &$value)
+		{
+			if(is_array($value))
+			{
+				$value = implode(',', $value);
+			}
+		}
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
 		return $url;
 	}

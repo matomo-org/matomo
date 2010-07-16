@@ -77,7 +77,15 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	{
 		if(!is_array($columnsNames)) 
 		{
-			$columnsNames = array($columnsNames);
+			if(strpos($columnsNames, ',') !== false)
+			{
+        		// array values are comma separated
+        		$columnsNames = explode(',', $columnsNames);
+			}
+			else
+			{
+				$columnsNames = array($columnsNames);
+			}
 		}
 		$this->setParametersToModify( array('columns' => $columnsNames) );
 	}
