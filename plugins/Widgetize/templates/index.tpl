@@ -75,7 +75,7 @@ $(document).ready( function() {
 <div class="widgetize">
 	<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
 	<p><b>&rsaquo; Widget authentication:</b> If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
-	to the anonymous user in the <a href='index.php?module=UsersManager'>Users Management section</a>. 
+	to the anonymous user in the <a href='index.php?module=UsersManager' target='_blank'>Users Management section</a>. 
 	<br />Alternatively, if you are publishing widgets on a password protected or private page, 
 	you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret token_auth parameter (found in the <a href='{url module=API action=listAllAPI}' target='_blank'>API page</a>) in the widget URL. 
 	</p>

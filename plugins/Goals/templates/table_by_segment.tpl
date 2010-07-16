@@ -20,7 +20,7 @@
 	
 	<div id='tableGoalsBySegment'></div>
 </div>
-<div style='clear:both'></div>
+<div class="clear"></div>
 {literal}
 <script type="text/javascript">
 $(document).ready( function() {

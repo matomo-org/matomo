@@ -7,6 +7,7 @@
 	{assign var=conversion_rate value=$goal.conversion_rate}
 	{assign var=name value=$goal.name}
 	
+    <div class="clear"></div>
 	<h2 style="padding-top: 30px;">
 		{if $displayFullReport}<a href="javascript:broadcast.propagateAjax('module=Goals&action=goalReport&idGoal={$goal.id}')">{/if}
 		{'Goals_GoalX'|translate:"'$name'"}

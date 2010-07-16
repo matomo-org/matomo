@@ -1,3 +1,4 @@
+{if !false}
 <div class="sites_selection">
 <span id="sitesSelectionWrapper" style="display:none;" >
 	<label>{'General_Website'|translate}</label><span id="selectedSiteName" style="display:none">{$siteName}</span>
@@ -15,12 +16,12 @@
 
 	{literal}<script type="text/javascript">
 	$(document).ready(function() {
-		var inlineWaddingWidth=22;
+		var inlinePaddingWidth=22;
 		var staticPaddingWidth=34;
 		$("#sitesSelection").fdd2div({CssClassName:"custom_select"});
 		$("#sitesSelectionWrapper").show();
 		if($("#sitesSelection ul")[0]){
-			var widthSitesSelection = Math.max($("#sitesSelection ul").width()+inlineWaddingWidth, $("#selectedSiteName").width()+staticPaddingWidth);
+			var widthSitesSelection = Math.max($("#sitesSelection ul").width()+inlinePaddingWidth, $("#selectedSiteName").width()+staticPaddingWidth);
 			$("#sitesSelectionWrapper").css('padding-right', widthSitesSelection);
 			$("#sitesSelection").css('width', widthSitesSelection);
 	
@@ -32,15 +33,14 @@
 					broadcast.propagateNewPage( 'idSite='+new_idSite );
 			});
 		}else{
-			var widthSitesSelection = Math.max($("#sitesSelection").width()+inlineWaddingWidth);
+			var widthSitesSelection = Math.max($("#sitesSelection").width()+inlinePaddingWidth);
 			$("#sitesSelectionWrapper").css('padding-right', widthSitesSelection);
 		}
 	});</script>
 	{/literal}
 </span>
 </div>
-
-<!-- new site selection autocomplete control (html example) 
+{else}
 <div class="sites_autocomplete">
     <label>Website</label>
     <div id="sitesSelectionSearch" class="custom_select">
@@ -78,4 +78,4 @@
 		});
     </script>{/literal}
 </div>
--->
+{/if}
