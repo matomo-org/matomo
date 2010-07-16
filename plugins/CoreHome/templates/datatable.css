@@ -30,10 +30,12 @@
 
 .dataTableActionsWrapper {
 	width: 500px;
+	min-height:1px;
 }
 
 .dataTableGraphWrapper {
 	width: 500px;
+	min-height:1px;
 }
 
 .dataTableGraphEvolutionWrapper {
@@ -412,7 +414,7 @@ table thead div {
 	float: left;
 	font-size: 0.9em;
 	color: #193B6C;
-	padding: 0.5em;
+	padding: 0 0.5em;
 }
 
 /* Actions table */

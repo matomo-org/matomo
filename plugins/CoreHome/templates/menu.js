@@ -116,7 +116,6 @@ menu.prototype =
 		piwikMenu.param.superfish.find("li").removeClass('sfHover');
 		if($li.find('ul li').size() != 0 || no_sub_menu == true) {
 			// we clicked on a MAIN LI
-			//alert($li.find('ul li')[0].tagName);
 			$.fn.superfish.currentActiveMenu = $li;
 			$li.find('>ul li:first').addClass('sfHover');
 			$li.find('ul').addClass("hidden");//css({'display':'block','visibility': 'visible'});

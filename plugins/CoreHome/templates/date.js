@@ -1,10 +1,6 @@
 
 
 $(document).ready(function(){
-	//$("#periodString").hide();
-	//$("#otherPeriods").hide();
-	//$("#datepicker").hide();
-	//$("#periodString").show();
 	
 	// we get the content of the div before modifying it (append image, etc.)
 	// so we can restore its value when we want
@@ -78,7 +74,7 @@ $(document).ready(function(){
 
 			});
 			
-	
+	//period widget handler
 	var periodWidget={
 		show:function(){
 			this.isOpen=1;
@@ -107,9 +103,17 @@ $(document).ready(function(){
 				$("#periodMore .ui-state-highlight").removeClass('ui-state-highlight');
 			}
 		});
-		
-	$('#periodString').hover(function(){periodWidget.isHover=1}, function(){periodWidget.isHover=0});
-	$('body').bind('mouseup',function(e){ if(periodWidget.isOpen && !periodWidget.isHover) periodWidget.hide();});
+	
+	//close periodString onClickOutside
+	$('#periodString').hover(
+		 function(){periodWidget.isHover=1}, 
+		 function(){periodWidget.isHover=0}
+	);
+	$('body').bind('mouseup',function(e){ 
+		if(periodWidget.isOpen && !periodWidget.isHover) {
+			periodWidget.hide();
+		}
+	});
 	
 	
 	

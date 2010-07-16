@@ -252,6 +252,7 @@ a {
 .sites_selection .custom_select_ul_list li a:hover{
 	background:#ebeae6;
 }
+.sites_selection #selectedSiteName{ white-space:nowrap; }
 
 
 /*sites_autocomplete*/
@@ -273,7 +274,7 @@ a {
 	position:relative; 
 	z-index:19;
 	padding:6px 6px 5px 6px;
-	background:#fff url(./images/sites_autocomplete.png) repeat-x 0 0;
+	background:#fff url(./images/sites_selection.png) repeat-x 0 0;
 	border: 1px solid #d4d4d4;	
 	color:#255792;
 	border-radius:4px;
@@ -354,6 +355,9 @@ a {
 	filter:Alpha(opacity:0);
 	cursor:pointer; 
 }
+
+.custom_select_block{ height:0; overflow:hidden; }
+.custom_select_block_show{ height:auto; overflow:visible;  }
 
 /*------------------------*/
 

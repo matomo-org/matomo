@@ -1,4 +1,7 @@
-#multisites { border:0; padding:0px 15px;}
+#multisites { 
+	border:0; 
+	padding:0px 15px;
+}
 
 
 .indicator {
@@ -12,6 +15,9 @@
 }
 .clean {
     border: 0px !important;
+}
+#multisites th {
+    cursor:pointer; 
 }
 #multisites td, #multisites tr, #multisites .sparkline {
     text-align: center;
@@ -56,7 +62,4 @@
 
 
 
-.admin_header_message{ 	position:absolute; top:70px;
-	right:10px; 
-	z-index:20;
-}
+.admin_header_message{ 	position:absolute; 	top:70px; 	right:10px; 	z-index:20;}

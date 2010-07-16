@@ -41,20 +41,20 @@
 
 <table id="mt" class="dataTable" cellspacing="0">
 	<thead>
-		<th id="names" class="label">
-			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'names');">{'General_Website'|translate}</span>
+		<th id="names" class="label" onClick="params = setOrderBy(this,allSites, params, 'names');">
+			<span>{'General_Website'|translate}</span>
 			<span class="arrow multisites_desc"></span>
 		</th>
-		<th id="visits" class="multisites-column" style="width: 100px">
-			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'visits');">{'General_ColumnNbVisits'|translate}</span>
+		<th id="visits" class="multisites-column" style="width: 100px" onClick="params = setOrderBy(this,allSites, params, 'visits');">
+			<span>{'General_ColumnNbVisits'|translate}</span>
 			<span class="arrow"></span>
 		</th>
-		<th id="actions" class="multisites-column" style="width: 110px">
-			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'actions');">{'General_ColumnPageviews'|translate}</span>
+		<th id="actions" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'actions');">
+			<span>{'General_ColumnPageviews'|translate}</span>
 			<span class="arrow"></span>
 		</th>
-		<th id="unique" class="multisites-column" style="width: 120px">
-			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'unique');">{'General_ColumnNbUniqVisitors'|translate}</span>
+		<th id="unique" class="multisites-column" style="width: 120px" onClick="params = setOrderBy(this,allSites, params, 'unique');">
+			<span>{'General_ColumnNbUniqVisitors'|translate}</span>
 			<span class="arrow"></span>
 		</th>
 		<th id="evolution" style=" width:350px" colspan="2">

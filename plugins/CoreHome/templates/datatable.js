@@ -467,7 +467,7 @@ dataTable.prototype =
 				}, function(){}
 		);
 		
-		//dataTableFooterActiveItem position
+		//footer arrow position element name
 		self.jsViewDataTable=$('.dataTableFooterWrap', domElem).attr('var');
 		
 		$('.tableAllColumnsSwitch a', domElem)
@@ -493,6 +493,7 @@ dataTable.prototype =
 				}
 			)
 		
+		//handle Graph View icons
 		$('.tableGraphViews a', domElem)
 			.click(function(){
 				var viewDataTable = $(this).attr('format');
@@ -506,6 +507,10 @@ dataTable.prototype =
 		//Graph icon Collapsed functionality
 		self.currentGraphViewIcon=0;
 		self.graphViewEnabled=0;
+		self.graphViewStartingThreads=0;
+		self.graphViewStartingKeep=false; //show keep flag
+		
+		//define collapsed icons
 		$('.tableGraphCollapsed a', domElem)
 			.each(function(i){
 				if(self.jsViewDataTable==$(this).attr('var')){
@@ -519,22 +524,42 @@ dataTable.prototype =
 		
 		$('.tableGraphCollapsed', domElem).hover(
 			function(){
+				//Graph icon onmouseover
+				if(self.graphViewStartingThreads>0) return self.graphViewStartingKeep=true; //exit if animation is not finished
 				$(this).addClass('tableIconsGroupActive');
 				$('a', this).each(function(i){
-					if(self.currentGraphViewIcon!=i) $(this).show('fast');
-					else if (self.graphViewEnabled) $('.dataTableFooterActiveItem', domElem).animate({left:this.parentNode.offsetLeft+i*(this.offsetWidth+1)}, "fast");
+					if(self.currentGraphViewIcon!=i || self.graphViewEnabled){
+						self.graphViewStartingThreads++;
+					}
+					if(self.currentGraphViewIcon!=i){
+						//show other icons
+						$(this).show('fast', function(){self.graphViewStartingThreads--});
+					}
+					else if (self.graphViewEnabled){
+						//set footer arrow position
+						$('.dataTableFooterActiveItem', domElem).animate({left:$(this).parent().position().left+i*(this.offsetWidth+1)}, "fast", function(){self.graphViewStartingThreads--});
+					}
 				});
 				self.exportToFormatHide(domElem);
 			},
 			function(){
+				//Graph icon onmouseout
+				if(self.graphViewStartingKeep) return self.graphViewStartingKeep=false; //exit while icons animate
 				$('a', this).each(function(i){
-					if(self.currentGraphViewIcon!=i) $(this).hide('fast');
-					else if (self.graphViewEnabled) $('.dataTableFooterActiveItem', domElem).animate({left:this.parentNode.offsetLeft}, "fast");
+					if(self.currentGraphViewIcon!=i){
+						//hide other icons
+						$(this).hide('fast');
+					}
+					else if (self.graphViewEnabled){
+						//set footer arrow position
+						$('.dataTableFooterActiveItem', domElem).animate({left:$(this).parent().position().left}, "fast");
+					}
 				});
 				$(this).removeClass('tableIconsGroupActive');
 			}
 		);
 		
+		//handle exportToFormat icons
 		self.exportToFormat=null;
 		$('.exportToFormatIcons a', domElem).click(function(){
 			self.exportToFormat={};
@@ -543,7 +568,12 @@ dataTable.prototype =
 			self.exportToFormat.obj=$(this).hide();
 		});
 		
-		$('body').bind('mouseup',function(e){if(self.exportToFormat) self.exportToFormatHide(domElem);});
+		//close exportToFormat onClickOutside
+		$('body').bind('mouseup',function(e){
+				if(self.exportToFormat){
+					self.exportToFormatHide(domElem);
+				}
+		});
 		
 		
 		$('.exportToFormatItems a', domElem).attr( 'href', function(){
@@ -628,16 +658,33 @@ dataTable.prototype =
 			);
 	},
 	
+	//footer arrow position handler
 	setActiveIcon: function(obj, domElem)
 	{	
 		if(!obj) return false;
+		
 		var lastActiveIcon=this.lastActiveIcon;
-		if(lastActiveIcon) $(lastActiveIcon).removeClass("activeIcon");
+		
+		if(lastActiveIcon){
+			$(lastActiveIcon).removeClass("activeIcon");
+		}
+		
 		$(obj).addClass("activeIcon");
 		this.lastActiveIcon=obj;
+		
 		var target=$('.dataTableFooterActiveItem', domElem);
-		if(obj.offsetWidth) target.css({left:obj.offsetLeft});
-		else setTimeout(function(){target.css({left:obj.offsetLeft});},100);
+		
+		if(obj.offsetWidth){
+			//set arrow position
+			target.css({left:$(obj).position().left});
+		}
+		else{
+			//set arrow position with delay (for ajax widget loading)
+			setTimeout(function(){
+				target.css({left:$(obj).position().left});
+			},100);
+		}
+		
 		return lastActiveIcon;
 		
 	},

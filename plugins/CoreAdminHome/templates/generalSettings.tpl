@@ -3,8 +3,6 @@
 {include file="CoreAdminHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='UsersManager'}
 
-<br />
-<br />
 <h2>{'General_GeneralSettings'|translate}</h2>
 
 {ajaxErrorDiv id=ajaxError}
