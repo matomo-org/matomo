@@ -283,12 +283,69 @@ class Piwik_API_ResponseBuilder
 			{
 				return serialize($array);
 			}
+			return $array;
 		}
-		else
+		$multiDimensional = $this->handleMultiDimensionalArray($array);
+		if($multiDimensional !== false)
 		{
-			$dataTable = new Piwik_DataTable();
-			$dataTable->addRowsFromSimpleArray($array);
-			return $this->getRenderedDataTable($dataTable);
+			return $multiDimensional;
 		}
+		
+		$dataTable = new Piwik_DataTable();
+		$dataTable->addRowsFromSimpleArray($array);
+		return $this->getRenderedDataTable($dataTable);
+	}
+	
+    /**
+     * Is this a multi dimensional array? 
+	 * Multi dim arrays are not supported by the Datatable renderer.
+     * We manually render these.
+     * 
+     * array(
+     * 		array(
+     * 			1,
+     * 			2 => array( 1,
+     * 						2
+     * 			)
+     *		), 
+     *		array( 2,
+     *			   3
+     *		)
+     *	);
+     * 
+     * @return String or false if it isn't a multidim array
+     */ 
+	protected function handleMultiDimensionalArray($array)
+	{
+		$first = reset($array);
+		foreach($array as $first)
+		{
+			if(is_array($first))
+			{
+    			foreach($first as $key => $value)
+    			{
+    				// Yes, this is a multi dim array
+    				if(is_array($value))
+    				{
+    					switch($this->outputFormat)
+    					{
+    						case 'json':
+    							@header( "Content-Type: application/json" );
+    							return json_encode($array);
+    						break;
+    						case 'php':
+            					if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
+                    			{
+                    				return serialize($array);
+                    			}
+                    			return $array;
+    						default:
+    						break;
+    					}
+    				}
+    			}
+			}
+		}
+		return false;
 	}
 }

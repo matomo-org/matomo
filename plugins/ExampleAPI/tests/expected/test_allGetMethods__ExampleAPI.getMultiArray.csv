@@ -1,0 +1,21 @@
+Error:  Data structure returned is not convertible in the requested format. Try to call this method with the parameters '&amp;format=original&amp;serialize=1'; you will get the original php data structure serialized. The data structure looks like this: 
+ $data = array (
+  'Limitation' =&gt; 
+  array (
+    0 =&gt; 'Multi dimensional arrays is only supported by format=JSON',
+    1 =&gt; 'Known limitation',
+  ),
+  'Second Dimension' =&gt; 
+  array (
+    0 =&gt; true,
+    1 =&gt; false,
+    2 =&gt; 1,
+    3 =&gt; 0,
+    4 =&gt; 152,
+    5 =&gt; 'test',
+    6 =&gt; 
+    array (
+      42 =&gt; 'end',
+    ),
+  ),
+); 

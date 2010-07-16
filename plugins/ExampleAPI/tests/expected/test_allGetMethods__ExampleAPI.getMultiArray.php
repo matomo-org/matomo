@@ -1,0 +1,1 @@
+a:2:{s:10:"Limitation";a:2:{i:0;s:57:"Multi dimensional arrays is only supported by format=JSON";i:1;s:16:"Known limitation";}s:16:"Second Dimension";a:7:{i:0;b:1;i:1;b:0;i:2;i:1;i:3;i:0;i:4;i:152;i:5;s:4:"test";i:6;a:1:{i:42;s:3:"end";}}}

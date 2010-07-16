@@ -157,8 +157,10 @@ class Piwik_API_DocumentationGenerator
 		// Kindly force some known generic parameters to appear in the final list
 		// the parameter 'format' can be set to all API methods (used in tests)
 		// the parameter 'hideIdSubDatable' is used for integration tests only
+		// the parameter 'serialize' sets php outputs human readable, used in integration tests and debug
 		$aParameters['format'] = false;
 		$aParameters['hideIdSubDatable'] = false;
+		$aParameters['serialize'] = false;
 		
 		$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
 		$urlExample = '?module=API&method='.$moduleName.'.'.$methodName.'&';

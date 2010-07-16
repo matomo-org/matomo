@@ -153,6 +153,24 @@ class Piwik_ExampleAPI_API
 	{
 		return "Check http://en.wikipedia.org/wiki/The_Answer_to_Life,_the_Universe,_and_Everything";
 	}
+	
+	/**
+	 * Returns a Multidimensional Array
+	 * Only supported in JSON
+	 * 
+	 * @return array
+	 */
+	public function getMultiArray()
+	{
+		$return = array(
+			'Limitation' => array(
+				"Multi dimensional arrays is only supported by format=JSON", 
+				"Known limitation"
+			),
+			'Second Dimension' => array( true, false, 1, 0, 152, 'test', array( 42 => 'end') ),
+		);
+		return $return;
+	}
 }
 
 /**
