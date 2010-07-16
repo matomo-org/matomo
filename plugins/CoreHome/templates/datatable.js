@@ -820,14 +820,6 @@ dataTable.prototype =
 actionDataTable.prototype = new dataTable;
 actionDataTable.prototype.constructor = actionDataTable;
 
-
-//A list of all our actionDataTables
-//Test if the object have already been initialized (multiple includes)
-if(typeof actionDataTables == "undefined")
-{
-	var actionDataTables = {};
-}
-
 //actionDataTable constructor
 function actionDataTable()
 {
