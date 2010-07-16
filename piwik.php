@@ -27,7 +27,7 @@ if(!defined('PIWIK_USER_PATH'))
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
-}
+} 
 
 @ignore_user_abort(true);
 
