@@ -194,10 +194,6 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 				$timer = $this->initProfiler();
 			}
 			
-			if(!is_array($parameters))
-			{
-				$parameters = array( $parameters );
-			}
 			$query = $this->prepare( $query, $parameters );
 			$result = mysqli_query($this->connection, $query);
 			if(!is_bool($result))
@@ -240,6 +236,11 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 		{
 			$parameters = array();
 		}
+		else if(!is_array($parameters))
+		{
+			$parameters = array( $parameters );
+		}
+
 		foreach($parameters as $i=>$p) 
 		{
 			$parameters[$i] = addslashes($p);
