@@ -38,6 +38,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 		}
+		$columns = !is_array($columns) ? array($columns) : $columns;
 		$view->setColumnsToDisplay($columns);
 		$view->setColumnsTranslations(array(	
 			'nb_visits_returning' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),

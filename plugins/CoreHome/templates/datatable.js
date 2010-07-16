@@ -62,6 +62,11 @@ dataTable.prototype =
 		self.reloadAjaxDataTable();
 	},
 	
+	setGraphedColumn: function( columnName )
+	{
+		this.param.columns = columnName;
+	},
+	
 	//Reset DataTable filters (used before a reload or view change)
 	resetAllFilters: function()
 	{
@@ -132,7 +137,7 @@ dataTable.prototype =
 		//Extract the configuration from the datatable and pass it to the API
 		for(var key in self.param)
 		{
-			if(typeof self.param[key] != "undefined") 
+			if(typeof self.param[key] != "undefined")
 				ajaxRequest.data[key] = self.param[key];
 		}
 		

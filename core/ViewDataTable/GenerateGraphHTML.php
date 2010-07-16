@@ -136,12 +136,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 			}
 			if (is_array($val)) 
 			{
-				$_GET[$key] = unserialize(serialize($val));
+				$val = implode(',', $val);
 			} 
-			else 
-			{
-				$_GET[$key] = $val;
-			}
+			$_GET[$key] = $val;
 		}
 		$content = Piwik_FrontController::getInstance()->fetchDispatch( $this->currentControllerName, $this->currentControllerAction, array());
 

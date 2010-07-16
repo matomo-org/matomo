@@ -236,14 +236,16 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	public function getEvolutionGraph( $fetch = false, $typeReferer = false, $columns = false)
 	{
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getRefererType');
-		if(empty($columns))
-		{
-			$columns = Piwik_Common::getRequestVar('columns');
-		}
 		if(empty($typeReferer))
 		{
 			$typeReferer = Piwik_Common::getRequestVar('typeReferer');
 		}
+		if(empty($columns))
+		{
+			$columns = Piwik_Common::getRequestVar('columns');
+		}
+		
+		$columns = !is_array($columns) ? array($columns) : $columns;
 		$view->setColumnsToDisplay($columns);
 		$view->setParametersToModify(array('typeReferer' => $typeReferer));
 		foreach($columns as $columnName)

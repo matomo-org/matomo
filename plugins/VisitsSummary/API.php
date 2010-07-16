@@ -27,33 +27,35 @@ class Piwik_VisitsSummary_API
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date, $columns = array() )
+	public function get( $idSite, $period, $date, $columns = false)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 	
+		// array values are comma separated
+		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
+		$countColumnsRequested = is_array($columns) ? count($columns) : 0;
+		
 		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = false;
-		$countColumnsRequested = count($columns);
 		if(!empty($columns))
 		{
-			$toFetch = $columns;
-			if(($bounceRateRequested = array_search('bounce_rate', $toFetch)) !== false)
+			if(($bounceRateRequested = array_search('bounce_rate', $columns)) !== false)
 			{
-				$toFetch = array('nb_visits', 'bounce_count');
+				$columns = array('nb_visits', 'bounce_count');
 			}
-			elseif(($actionsPerVisitRequested = array_search('nb_actions_per_visit', $toFetch)) !== false)
+			elseif(($actionsPerVisitRequested = array_search('nb_actions_per_visit', $columns)) !== false)
 			{
-				$toFetch = array('nb_actions', 'nb_visits');
+				$columns = array('nb_actions', 'nb_visits');
 			}
-			elseif(($averageVisitDurationRequested = array_search('avg_visit_length', $toFetch)) !== false)
+			elseif(($averageVisitDurationRequested = array_search('avg_visit_length', $columns)) !== false)
 			{
-				$toFetch = array('sum_visit_length', 'nb_visits');
+				$columns = array('sum_visit_length', 'nb_visits');
 			}
 		}
 		else
 		{
     		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = true;
-			$toFetch = array(	'max_actions',
+			$columns = array(	'max_actions',
 								'nb_uniq_visitors', 
 								'nb_visits',
 								'nb_actions', 
@@ -63,7 +65,7 @@ class Piwik_VisitsSummary_API
 							);
 		}
 
-		$dataTable = $archive->getDataTableFromNumeric($toFetch);
+		$dataTable = $archive->getDataTableFromNumeric($columns);
 		
 		// Process ratio metrics from base metrics, when requested
 		if($bounceRateRequested !== false)
@@ -85,7 +87,7 @@ class Piwik_VisitsSummary_API
 			&& ($bounceRateRequested || $actionsPerVisitRequested || $averageVisitDurationRequested)
 			) 
 		{
-			$dataTable->deleteColumns($toFetch);
+			$dataTable->deleteColumns($columns);
 		}
 		return $dataTable;
 	}

@@ -5,18 +5,27 @@ function initializeSparklines () {
 			//try to find sparklines and add them clickable behaviour
 			$(this).parent().find('div.sparkline').each( function() {
 				var url = "";
+				var sparklineUrl = '';
 				//find the sparkline and get it's src attribute
 				$("img.sparkline", this).each(function() {
 					//search viewDataTable parameter and replace it with value for chart
 					var reg = new RegExp("(viewDataTable=sparkline)", "g");
-					url = this.src.replace(reg,'viewDataTable=generateDataChartEvolution');
+					sparklineUrl = this.src;
+					url = sparklineUrl.replace(reg,'viewDataTable=generateDataChartEvolution');
 				});
 				if(url != ""){
 					//on click, reload the graph with the new url
 					$(this).click( function() {
+						var idDataTable = graph.attr('graphId');
 						//get the main page graph and reload with new data
-						piwikHelper.findSWFGraph(graph.attr('graphId')+"Chart_swf").reload(url);
+						piwikHelper.findSWFGraph(idDataTable+"Chart_swf").reload(url);
 						piwikHelper.lazyScrollTo(graph[0], 400);
+						// Set the new clicked column in the datatable object
+						var sparklineColumn = broadcast.getValueFromUrl('columns', sparklineUrl);
+						if(dataTables[idDataTable])
+						{
+							dataTables[idDataTable].setGraphedColumn(sparklineColumn);
+						}
 					});
 					$(this).hover( 	
 						function() { 

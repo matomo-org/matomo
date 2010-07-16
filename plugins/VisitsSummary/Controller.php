@@ -39,6 +39,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 		}
+		$columns = !is_array($columns) ? array($columns) : $columns;
 		$view->setColumnsToDisplay($columns);
 		return $this->renderView($view, $fetch);
 	}
