@@ -43,8 +43,8 @@ http://dev.piwik.org/svn/trunk/tests/webtest/testcases/level0/
 
  CONTINOUS INTEGRATION
 ======================
-We currently use continuous integration build server, located at:
-http://bamboo.openx.org:8085/browse/PIWIK-TRUNK/
+We currently use Hudson as continuous integration build server. More information:
+http://piwik.org/qa
 
  PARTICIPATE
 ============
