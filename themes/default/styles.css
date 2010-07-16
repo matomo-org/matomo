@@ -16,15 +16,15 @@
 	padding:2px 4px 2px 4px;
 }
 .formDiv a.collapsed{
-	background:#FFF url('images/collapsed_arrows.gif') no-repeat right center;
-	padding-right:16px;
-	color:#000;
+	background:#FFF url('images/sortdesc.png') no-repeat right center;
+	padding-right:18px;
+	color:#255792;
 	text-decoration:none;
 }
 .formDiv a.expanded{
-	background:#176999 url('images/expanded_arrows.gif') no-repeat right center;
-	padding-right:16px;
-	color:#FFF;
+	background: url('images/sortasc.png') no-repeat right center;
+	padding-right:18px;
+	color:#255792;
 	text-decoration:none;
 }
 .formDiv a:hover{

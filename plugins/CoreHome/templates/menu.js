@@ -33,7 +33,7 @@ menu.prototype =
 	onClickLI: function ()
 	{
 		var self = this;
-		var urlAjax = $('a',this).attr('name');
+		var urlAjax = $(this).attr('name');
 		 broadcast.propagateAjax(urlAjax);
 	
 		return false;
@@ -43,13 +43,19 @@ menu.prototype =
 	init: function()
 	{
 		var self = this;
+		
+		
+		//sub LI auto height
+		$('.nav li li').each(function(){$(this).css({width:$('a', this).width()+30});});
+		
+		
 		this.param.superfish = $('.nav')
 			.superfish({
 				pathClass : 'current',
 				animation : {opacity:'show'},
 				delay : 2000
 			});
-		this.param.superfish.find("li")
+		this.param.superfish.find("li a")
 			.click( self.onClickLI )
 			;
 
@@ -95,6 +101,10 @@ menu.prototype =
 		} else {
 			$li = $("#" + module + "_" + action);
 		}
+		
+		if(this.activeLI) this.activeLI.removeClass('sfActive');
+		this.activeLI=($li.id?$li.parent().parent():$("#" + module)).addClass('sfActive');
+		
 
 		// we can't find this li based on Module_action? then li only be the main menu. e.g Dashboard.
 		var no_sub_menu = false;
@@ -106,9 +116,10 @@ menu.prototype =
 		piwikMenu.param.superfish.find("li").removeClass('sfHover');
 		if($li.find('ul li').size() != 0 || no_sub_menu == true) {
 			// we clicked on a MAIN LI
+			//alert($li.find('ul li')[0].tagName);
 			$.fn.superfish.currentActiveMenu = $li;
 			$li.find('>ul li:first').addClass('sfHover');
-			$li.find('ul').css({'display':'block','visibility': 'visible'});
+			$li.find('ul').addClass("hidden");//css({'display':'block','visibility': 'visible'});
 		} else {
 		// we are in the SUB UL LI
 			$.fn.superfish.currentActiveMenu = $li.parents('li');
@@ -122,7 +133,7 @@ menu.prototype =
 	{
 		var self=this;
         if(broadcast.isHashExists() == false) {
-            $('li:first', self.param.superfish)
+            $('li:first a:first', self.param.superfish)
 		    .click()
 		    .each(function(){ $(this).showSuperfishUl(); });
         }

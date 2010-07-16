@@ -16,25 +16,23 @@
 
 </head>
 <body>
+<div id="root">
 {if !isset($showTopMenu) || $showTopMenu}
 {include file="CoreHome/templates/top_bar.tpl"}
 {/if}
 
 <div id="header">
-{include file="CoreHome/templates/header_message.tpl"}
 {include file="CoreHome/templates/logo.tpl"}
 {if $showPeriodSelection}{include file="CoreHome/templates/period_select.tpl"}{/if}
 {include file="CoreHome/templates/js_disabled_notice.tpl"}
 </div>
 
-<br class="clearAll" />
-
-<div id="content" class="admin">
-
 {ajaxRequestErrorDiv}
 {if !isset($showMenu) || $showMenu}
 	{include file="CoreAdminHome/templates/menu.tpl"}
 {/if}
+
+<div id="content" class="admin">
 
 {if !empty($configFileNotWritable)}
 <div class="ajaxSuccess" style="display:normal">

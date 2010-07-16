@@ -10,9 +10,9 @@
 	{$value.wordTruncated}{/if}{if false !== $labelMetadata[$value.word].url}</a>{/if}</span>
 	{/foreach}
 {/if}
+</div>
 {if $properties.show_footer}
 	{include file="CoreHome/templates/datatable_footer.tpl"}
 {/if}
 {include file="CoreHome/templates/datatable_js.tpl"}
-</div>
 </div>

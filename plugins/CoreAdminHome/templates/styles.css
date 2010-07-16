@@ -8,6 +8,11 @@ textarea {
 	color: black;
 }
 
+#content.admin {
+	margin:0px 15px;
+	padding:0px 0 0 0;
+}
+
 table.admin {
 	font-size: 0.9em;
 	font-family: Arial, Helvetica, verdana sans-serif;
@@ -85,30 +90,17 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 }
 
 .admin h2 {
-	border-bottom-color:#DADADA;
-	color:#666666;
-	border-bottom-style:solid;
-	border-bottom-width:1px;
-	clear:both;
-	font-family:Georgia,"Times New Roman",Times,serif;
+	border-bottom:1px solid #DADADA;
+	margin:10px -15px 15px 0px;
+	padding:0pt 0px 5px 0pt;
 	font-size:24px;
-	font-size-adjust:none;
-	font-style:normal;
-	font-weight:normal;
-	margin:5px 0pt 0pt -4px;
-	padding:0pt 0px 7px 0pt;
 }
 
 .admin p {
-	margin-top:10px;
+	smargin-top:10px;
 	line-height:140%;
-	padding-bottom:0.8em;
+	padding-bottom:20px;
 }
-#content.admin {
-	margin:0pt 15px;
-	padding:0pt;
-}
-
 .admin textarea, .admin input, .admin select {
 	background-color:#FFFFFF;
 	border-color:#939EA5;

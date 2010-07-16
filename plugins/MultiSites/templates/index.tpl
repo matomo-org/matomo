@@ -1,10 +1,12 @@
-<img src="plugins/MultiSites/images/arrow_desc.gif" style="display: none" />
-<img src="plugins/MultiSites/images/arrow_asc.gif" style="display: none" />
 {assign var=showSitesSelection value=false}
 {assign var=showPeriodSelection value=true}
 {include file="CoreHome/templates/header.tpl"}
 
-<div id="multisites" style="margin: auto">
+<div class="admin_header_message">
+	{include file="CoreHome/templates/header_message.tpl"}
+</div>
+
+<div id="multisites">
 <div id="main">
 {include file="MultiSites/templates/row.tpl" assign="row"}
 <script type="text/javascript">
@@ -28,10 +30,18 @@
 </script>
 
 {postEvent name="template_headerMultiSites"}
-<div align="center">
-<table id="mt" class="dataTable" cellspacing="0" style="width:850px;">
+
+<div class="top_controls_inner">
+    {include file="CoreHome/templates/period_select.tpl"}
+</div>
+
+<div class="multiSitesCont">
+
+<h1>{'General_AllWebsitesDashboard'|translate}</h1>
+
+<table id="mt" class="dataTable" cellspacing="0">
 	<thead>
-		<th id="names" class="label" style="text-align:center">
+		<th id="names" class="label">
 			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'names');">{'General_Website'|translate}</span>
 			<span class="arrow multisites_desc"></span>
 		</th>
@@ -47,7 +57,7 @@
 			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'unique');">{'General_ColumnNbUniqVisitors'|translate}</span>
 			<span class="arrow"></span>
 		</th>
-		<th id="evolution" style="text-align:center; width:350px" colspan="2">
+		<th id="evolution" style=" width:350px" colspan="2">
 		<span class="arrow "></span>
 			<span class="evolution" style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> {'MultiSites_Evolution'|translate}</span>
 			<select class="selector" id="evolution_selector" onchange="params['evolutionBy'] = $('#evolution_selector').val(); switchEvolution(params);">
@@ -90,5 +100,6 @@ refreshAfter(5*60*1000);
 </div>
 </div>
 
+</div>
 </body>
 </html>

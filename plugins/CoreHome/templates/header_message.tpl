@@ -1,4 +1,6 @@
 <span id="header_message">
+	<span class="header_message_short">About Piwik {$piwik_version}</span>
+    <span class="header_message_full">
 {if $piwikUrl == 'http://piwik.org/demo/'}
 	{'General_YouAreCurrentlyViewingDemoOfPiwik'|translate:"<a target='_blank' href='http://piwik.org'>Piwik</a>":"<a href='http://piwik.org/'>":"</a>":"<a href='http://piwik.org'>piwik.org</a>"}
 {elseif $latest_version_available}
@@ -11,4 +13,5 @@
 {else}
 	{'General_PiwikIsACollaborativeProjectYouCanContribute'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org'>":"$piwik_version</a>":"<br />":"<a target='_blank' href='misc/redirectToUrl.php?url=http://piwik.org/contribute/'>":"</a>"}
 {/if}
+	</span>
 </span>

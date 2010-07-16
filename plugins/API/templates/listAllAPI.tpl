@@ -3,6 +3,10 @@
 {assign var=showMenu value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 
+<div class="top_controls_inner">
+    {include file="CoreHome/templates/period_select.tpl"}
+</div>
+
 <h2>{'API_QuickDocumentationTitle'|translate}</h2>
 <p>{'API_PluginDescription'|translate}</p>
 
