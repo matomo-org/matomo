@@ -348,7 +348,10 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 			$config = Zend_Registry::get('config');
 			$prefixTables = $config->database->tables_prefix;
 
-			$allTables = $db->fetchCol("SHOW TABLES");
+			// '_' matches any character; force it to be literal
+			$prefixTables = str_replace('_', '\_', $prefixTables);
+
+			$allTables = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."%'");
 
 			// all the tables to be installed
 			$allMyTables = $this->getTablesNames();
