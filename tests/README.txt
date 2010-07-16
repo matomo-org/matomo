@@ -3,20 +3,20 @@ This document briefly describes how to use and modify Piwik tests.
  
  HOW TO RUN PIWIK TESTS
 =======================
-You can run all tests by calling the file tests/all_tests.php
+To run tests, you must use the SVN trunk. Tests files are not in the Piwik zip archive.
+You can get the latest SVN at: http://dev.piwik.org/svn/
+Run all tests by calling the file tests/all_tests.php in your browser.
 The file will run all unit tests and integration tests.
 
 You can also run one test file at a time by executing the test file directly eg. 
-http://dev.piwik.org/svn/trunk/tests/core/DataTable.test.php
+http://path/to/piwik/trunk/tests/core/DataTable.test.php
 
  UNIT TESTs
 ===========
-Piwik tests use the Simpletest Unit Testing framework.
-Piwik unit tests suite can be found in the Piwik SVN: 
-http://dev.piwik.org/svn/trunk/tests/
-
-Plugins can also integrate unit tests, in a tests/ directory inside the plugin folder.
-Check for example plugins/SitesManager/tests/ or plugins/UserCountry/tests/
+Unit tests use the Simpletest Unit Testing framework.
+Plugins can also integrate their own unit tests, 
+in a tests/ directory inside the plugin folder.
+Check for example the plugins plugins/SitesManager/tests/ or plugins/UserCountry/tests/
 
  INTEGRATION TESTS
 ==================
@@ -44,7 +44,7 @@ http://dev.piwik.org/svn/trunk/tests/webtest/testcases/level0/
  CONTINOUS INTEGRATION
 ======================
 We currently use Hudson as continuous integration build server. More information:
-http://piwik.org/qa
+http://piwik.org/qa/
 
  PARTICIPATE
 ============
