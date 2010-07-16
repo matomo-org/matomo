@@ -142,7 +142,7 @@ class Piwik_Url
 				&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)
 			)
 		{
-			$scheme = 'https';
+			return 'https';
 		}
 		return 'http';
 	}
