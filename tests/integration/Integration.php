@@ -135,15 +135,13 @@ abstract class Test_Integration extends Test_Database
 	{
     	$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 		$expectedResponse = base64_decode($trans_gif_64); 
-		$this->assertEqual($expectedResponse, $response);
-		
+		$this->assertEqual($expectedResponse, $response, "");
 		if($response == $expectedResponse) 
 		{
 			$this->pass();
 			return;
 		}
-		echo $response;
-		$this->fail("Response was not the expected GIF image: see above. ");
+		echo "Expected GIF beacon, got: <br/>\n" . $response ."<br/>\n";
 	}
 	
 	/**
