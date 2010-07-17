@@ -381,8 +381,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 			$this->session->superuser_infos = $superUserInfos;
 
-			$host = 'http://api.piwik.org/1.0/';
-			$host .= 'subscribeNewsletter/';
+			$url = Zend_Registry::get('config')->General->api_service_url;
+			$url .= '/1.0/subscribeNewsletter/';
 			$params = array(
 				'email' => $form->getSubmitValue('email'),
 				'security' => $form->getSubmitValue('subscribe_newsletter_security'),
@@ -394,7 +394,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			{
 				if( !isset($params['security']))  { $params['security'] = '0'; }
 				if( !isset($params['community'])) { $params['community'] = '0'; }
-				$url = $host . '?' . http_build_query($params, '', '&');
+				$url .= '?' . http_build_query($params, '', '&');
 				try {
 					Piwik_Http::sendHttpRequest($url, $timeout = 2);
 				} catch(Exception $e) {

@@ -165,6 +165,16 @@ serve_widget_and_data = 1
 ; If set to 1, Piwik adds a response header to workaround the IE+Flash+HTTPS bug.
 reverse_proxy = 0
 
+; The release server is an essential part of the Piwik infrastructure/ecosystem
+; to provide the latest software version.
+latest_version_url = http://piwik.org/latest.zip
+
+; The API server is an essential part of the Piwik infrastructure/ecosystem to
+; provide services to Piwik installations, e.g., getLatestVersion and
+; subscribeNewsletter.
+api_service_url = http://api.piwik.org
+
+
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
