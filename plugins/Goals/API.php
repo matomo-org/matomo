@@ -93,7 +93,7 @@ class Piwik_Goals_API
 						'pattern' => $pattern,
 						'pattern_type' => $patternType,
 						'case_sensitive' => (int)$caseSensitive,
-						'revenue' => $revenue,
+						'revenue' => (float)$revenue,
 						'deleted' => 0,
 					));
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
