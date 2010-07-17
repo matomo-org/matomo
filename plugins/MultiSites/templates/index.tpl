@@ -75,7 +75,7 @@
 	<tr row_id="last" >
 		<td colspan="8" class="clean" style="padding: 20px">
 		<span id="prev" class="pager"  style="padding-right: 20px;"></span>
-		<span id="dataTablePages">
+		<span class="dataTablePages">
 			<span id="counter">
 		</span>
 		</span>
