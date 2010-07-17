@@ -8,6 +8,10 @@
  * @see Main.test.php
  * 
  */
+// Wrapping the request inside ob_start() calls to ensure that the Test
+// calling us waits for the full request to process before unblocking
+ob_start();
+
 define('PIWIK_INCLUDE_PATH', '../..');
 define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 
@@ -35,8 +39,5 @@ if(!empty($customDatetime))
 	Piwik_Tracker::setForceDateTime($customDatetime);
 }
 
-// Wrapping the request inside ob_start() calls to ensure that the Test
-// calling us waits for the full request to process before unblocking
-ob_start();
 include '../../piwik.php';
 ob_flush();

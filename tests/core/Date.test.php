@@ -142,6 +142,7 @@ class Test_Piwik_Date extends UnitTestCase
     	$dateTime = '2010-01-03 11:22:33';
     	$expectedTime = '2010-01-05 11:28:33';
 		$this->assertEqual(Piwik_Date::factory($dateTime)->addHour(48.1)->getDatetime(), $expectedTime);
+		$this->assertEqual(Piwik_Date::factory($dateTime)->addHour(48.1)->subHour(48.1)->getDatetime(), $dateTime);
 	}
 }
 
