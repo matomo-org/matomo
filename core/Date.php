@@ -495,7 +495,6 @@ class Piwik_Date
 	public function addHour( $n )
 	{
 		$isNegative = ($n < 0);
-		$ts = $this->timestamp;
 		$minutes = 0;
 		if($n != round($n))
 		{
@@ -503,18 +502,11 @@ class Piwik_Date
 			$n = floor(abs($n));
 			if($isNegative) {
 				$minutes *= -1;
-				$n *= -1;
-			} else {
-				$minutes = '+'.$minutes;
+    			$n *= -1;
 			}
-    		$ts = strtotime("$minutes minutes", $ts);
 		}
-		if(!$isNegative) 
-		{
-			$n = '+'.$n;
-		}
-		$ts = strtotime("$n hour", $ts);
-		return new Piwik_Date( $ts, $this->timezone );
+		$ts = $this->timestamp + $minutes * 60 + $n * 3600;
+		return new Piwik_Date( (int)$ts, $this->timezone );
 	}
 
 	/**
