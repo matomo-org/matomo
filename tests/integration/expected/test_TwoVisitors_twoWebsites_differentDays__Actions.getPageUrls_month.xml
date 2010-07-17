@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2010-01">
+			<row>
+				<label>/homepage</label>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<sum_time_spent>360</sum_time_spent>
+				<entry_nb_visits>2</entry_nb_visits>
+				<entry_nb_actions>3</entry_nb_actions>
+				<entry_sum_visit_length>360</entry_sum_visit_length>
+				<entry_bounce_count>1</entry_bounce_count>
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>180</avg_time_on_page>
+				<bounce_rate>50%</bounce_rate>
+				<exit_rate>50%</exit_rate>
+				<url>http://example.org/homepage</url>
+			</row>
+			<row>
+				<label>/thankyou</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<url>http://example.org/thankyou</url>
+			</row>
+			<row>
+				<label>/products</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>1</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>1</entry_bounce_count>
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<url>http://example.org/products</url>
+			</row>
+		</result>
+		<result date="2010-02" />
+		<result date="2010-03" />
+		<result date="2010-04" />
+		<result date="2010-05" />
+		<result date="2010-06" />
+		<result date="2010-07" />
+	</result>
+	<result idSite="2">
+		<result date="2010-01">
+			<row>
+				<label>/home</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>1</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>1</entry_bounce_count>
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<url>http://example2.com/home</url>
+			</row>
+		</result>
+		<result date="2010-02" />
+		<result date="2010-03" />
+		<result date="2010-04" />
+		<result date="2010-05" />
+		<result date="2010-06" />
+		<result date="2010-07" />
+	</result>
+</results>
