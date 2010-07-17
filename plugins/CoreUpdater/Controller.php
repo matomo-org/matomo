@@ -18,7 +18,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 {
 	const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';
 	const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest/';
-	const LATEST_PIWIK_URL = 'http://piwik.org/latest.zip';
 
 	private $coreError = false;
 	private $warningMessages = array();
@@ -43,8 +42,9 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 		Piwik::setMaxExecutionTime(0);
 
+		$url = Zend_Registry::get('config')->General->latest_version_url;
 		$steps = array(
-			array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', self::LATEST_PIWIK_URL)),
+			array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', $url)),
 			array('oneClick_Unpack', Piwik_Translate('CoreUpdater_UnpackingTheUpdate')),
 			array('oneClick_Verify', Piwik_Translate('CoreUpdater_VerifyingUnpackedFiles')),
 			array('oneClick_CreateConfigFileBackup', Piwik_Translate('CoreUpdater_CreatingBackupOfConfigurationFile', self::CONFIG_FILE_BACKUP)),
@@ -88,7 +88,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
 
 		// we catch exceptions in the caller (i.e., oneClickUpdate)
-		$fetched = Piwik_Http::fetchRemoteFile(self::LATEST_PIWIK_URL, $this->pathPiwikZip);
+		$url = Zend_Registry::get('config')->General->latest_version_url;
+		$fetched = Piwik_Http::fetchRemoteFile($url, $this->pathPiwikZip);
 	}
 	
 	private function oneClick_Unpack()
