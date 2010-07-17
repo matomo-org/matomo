@@ -195,7 +195,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$t->setUrl('http://example.org/homepage');
     	$this->checkResponse($t->doTrackPageView('second visitor, two days later a new visit'));
     	// Second page view 6 minutes later
-    	$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48.1)->getDatetime());
+    	$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
     	$t->setUrl('http://example.org/thankyou');
     	$this->checkResponse($t->doTrackPageView('second pageview'));
     	
