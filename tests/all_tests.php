@@ -37,12 +37,22 @@ foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/plugins', '*/tests/*.php') as $file)
 array_unshift($toInclude, PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php');
 $toInclude[] = PIWIK_INCLUDE_PATH . '/tests/core/ReleaseCheckList.test.php';
 
-if((isset($_SERVER['PATH_INFO']) || isset($_SERVER['REQUEST_URI']) || isset($_SERVER['SCRIPT_NAME'])) && isset($_SERVER['HTTP_HOST']))
+if((isset($_SERVER['PATH_INFO']) 	
+	|| isset($_SERVER['REQUEST_URI']) 
+	|| isset($_SERVER['SCRIPT_NAME'])) 
+	&& isset($_SERVER['HTTP_HOST']))
 {
 	foreach(Piwik::globr(PIWIK_INCLUDE_PATH . '/tests/integration', '*.test.php') as $file)
 	{
 		$toInclude[] = $file;
 	}
+}
+else
+{
+	$intro .= ' <br/><div style="color:red;font-weight:bold">ERROR:</div> You do not appear to run the unit tests via your browser. 
+		Integration tests (require that you run with a few system variables set (PATH_INFO or REQUEST_URI)
+		so that Piwik can call itself via http to test the Tracker APIs. <br/>
+		Skipping integration tests....<br/>';
 }
 foreach($toInclude as $file)
 {
