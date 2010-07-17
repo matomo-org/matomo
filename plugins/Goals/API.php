@@ -92,7 +92,7 @@ class Piwik_Goals_API
 						'match_attribute' => $matchAttribute,
 						'pattern' => $pattern,
 						'pattern_type' => $patternType,
-						'case_sensitive' => $caseSensitive,
+						'case_sensitive' => (int)$caseSensitive,
 						'revenue' => $revenue,
 						'deleted' => 0,
 					));
