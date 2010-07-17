@@ -106,7 +106,7 @@ class Test_Piwik_Date extends UnitTestCase
 		$date = Piwik_Date::factory('2010-01-01')->setTimezone('Europe/Paris');
 		$dateExpected = clone $date;
 		$date = $date->addHour(2);
-		$dateExpected = $dateExpected->addHour(1)->addHour(1)->addHour(1)->subHour(1);
+		$dateExpected = $dateExpected->addHour(1.1)->addHour(0.9)->addHour(1)->subHour(1);
 		$this->assertEqual($date->getTimestamp(), $dateExpected->getTimestamp());
 	}
 	
