@@ -344,7 +344,8 @@ abstract class Test_Integration extends Test_Database
     		// with format=original, objects or php arrays can be returned.
     		// we also hide errors to prevent the 'headers already sent' in the ResponseBuilder (which sends Excel headers multiple times eg.)
     		$response = (string)$request->process();
-    		file_put_contents( $pathProcessed . $filename, $response );
+    		$processedFilePath = $pathProcessed . $filename;
+    		file_put_contents( $processedFilePath, $response );
     		
     		$expectedFilePath = $pathExpected . $filename;
     		$expected = file_get_contents($expectedFilePath  );
@@ -355,10 +356,10 @@ abstract class Test_Integration extends Test_Database
     		}
 			// When tests run on Windows EOL delimiters are not the same as UNIX default EOL used in the renderers
     		$expected = str_replace("\r\n", "\n", $expected); 
-    		$this->assertEqual(trim($response), trim($expected), "In $filename, %s");
+    		$this->assertEqual(trim($response), trim($expected), "<br/>\Differences with expected in: $processedFilePath ");
     		if($response != $expected)
     		{
-    			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, EXPECTED RESPONSE');
+    			var_dump('ERROR FOR ' . $apiId . ' -- FETCHED RESPONSE, then EXPECTED RESPONSE');
     			echo "\n";
     			var_dump($response);
     			echo "\n";
