@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2010-01-03">
+			<row>
+				<label>/products</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>1</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>1</entry_bounce_count>
+				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+				<exit_nb_visits>1</exit_nb_visits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<url>http://example.org/products</url>
+			</row>
+			<row>
+				<label>/homepage</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>1</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>1</entry_bounce_count>
+				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+				<exit_nb_visits>1</exit_nb_visits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<url>http://example.org/homepage</url>
+			</row>
+		</result>
+		<result date="2010-01-04" />
+		<result date="2010-01-05">
+			<row>
+				<label>/thankyou</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+				<exit_nb_visits>1</exit_nb_visits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<url>http://example.org/thankyou</url>
+			</row>
+			<row>
+				<label>/homepage</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>360</sum_time_spent>
+				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>2</entry_nb_actions>
+				<entry_sum_visit_length>360</entry_sum_visit_length>
+				<entry_bounce_count>0</entry_bounce_count>
+				<avg_time_on_page>360</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<url>http://example.org/homepage</url>
+			</row>
+		</result>
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+	<result idSite="2">
+		<result date="2010-01-03" />
+		<result date="2010-01-04">
+			<row>
+				<label>/home</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>1</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>1</entry_bounce_count>
+				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+				<exit_nb_visits>1</exit_nb_visits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<url>http://example2.com/home</url>
+			</row>
+		</result>
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+</results>
