@@ -28,6 +28,7 @@ error_reporting(E_ALL|E_NOTICE);
 require_once 'simpletest/autorun.php';
 require_once 'simpletest/mock_objects.php';
 
+require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 $_COOKIE = array();
 
 function dump($var)
