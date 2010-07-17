@@ -43,12 +43,6 @@ class Test_Piwik_Date extends UnitTestCase
 		$this->assertEqual( strtotime(date("Y-m-d",strtotime('-1day')). " 00:00:00"), $date->getTimestamp());
 	}
 
-	function test_addHour_longHours()
-	{
-    	$dateTime = '2010-01-03 11:22:33';
-    	$expectedTime = '2010-01-05 11:28:33';
-		$this->assertEqual(Piwik_Date::factory($dateTime)->addHour(48.1)->getDatetime(), $expectedTime);
-	}
 	function test_factoryTimezone()
 	{
 		// now in UTC converted to UTC+10 means adding 10 hours 
@@ -142,6 +136,12 @@ class Test_Piwik_Date extends UnitTestCase
 		$dayExpected = '2010-03-27 18:15:00';
 		$date = Piwik_Date::factory($dayStart)->subHour(5.75);
 		$this->assertEqual($date->getDatetime(), $dayExpected);
+	}
+	function test_addHour_longHours()
+	{
+    	$dateTime = '2010-01-03 11:22:33';
+    	$expectedTime = '2010-01-05 11:28:33';
+		$this->assertEqual(Piwik_Date::factory($dateTime)->addHour(48.1)->getDatetime(), $expectedTime);
 	}
 }
 
