@@ -158,7 +158,6 @@ table.dataTable th.label {
 
 /* the cell containing the subdatatable */
 table.dataTable .cellSubDataTable {
-	padding: 0;
 	margin: 0;
 	border-left:0;
 }
@@ -171,7 +170,7 @@ table.dataTable td #urlLink {
 /* SUBDATATABLE */ /* a datatable inside another datatable */
 table.subDataTable {
 	background: #FFFFFF;
-	margin: 10px;
+	margin: 5px 10px;
 }
 
 table.subDataTable td {
