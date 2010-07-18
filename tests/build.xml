@@ -56,7 +56,7 @@
 		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="false" resultproperty="result-pdo-mysql" failifexecutionfails="true">		
 			<arg value="all_tests.php" />
 		</exec>
-		<move file="${basedir}../build/tests/integration/processed" todo="${basedir}../build/tests/integration/processed-pdo-mysql" />
+		<move file="${basedir}../build/tests/integration/processed" todir="${basedir}../build/tests/integration/processed-pdo-mysql" />
 
 		<echo>PDO_MYSQL unit tests finished</echo>
 	</target>
@@ -76,7 +76,7 @@
 		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="false" resultproperty="result-mysqli" failifexecutionfails="true">		
 			<arg value="all_tests.php" />
 		</exec>
-		<move file="${basedir}../build/tests/integration/processed" todo="${basedir}../build/tests/integration/processed-mysqli" />
+		<move file="${basedir}../build/tests/integration/processed" todir="${basedir}../build/tests/integration/processed-mysqli" />
 
 		<echo>MYSQLI unit tests finished</echo>
 	</target>
