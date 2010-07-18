@@ -34,9 +34,30 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
-			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
+			'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
+	}
+
+	public function getReportMetadata($notification) 
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('VisitsSummary_VisitsSummary'),
+			'name' => Piwik_Translate('VisitTime_WidgetLocalTime'),
+			'module' => 'VisitTime',
+			'action' => 'getVisitInformationPerLocalTime',
+			'dimension' => Piwik_Translate('VisitTime_ColumnLocalTime'),
+		);
+		
+		$reports[] = array(
+			'category' => Piwik_Translate('VisitsSummary_VisitsSummary'),
+			'name' => Piwik_Translate('VisitTime_WidgetServerTime'),
+			'module' => 'VisitTime',
+			'action' => 'getVisitInformationPerServerTime',
+			'dimension' => Piwik_Translate('VisitTime_ColumnServerTime'),
+		);
 	}
 	
 	function addWidgets()
@@ -50,14 +71,13 @@ class Piwik_VisitTime extends Piwik_Plugin
 		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime', 'action' => 'index'));
 	}
 
-	function addGoalSegments( $notification )
+	function getReportsWithGoalMetrics( $notification )
 	{
 		$segments =& $notification->getNotificationObject();
-		$segments[] = array(
-					'group'  => Piwik_Translate('VisitTime_ColumnServerTime'),
-        			'name'   => Piwik_Translate('VisitTime_ColumnServerTime'),
-        			'module' => 'VisitTime',
-        			'action' => 'getVisitInformationPerServerTime',
+		$segments[] = array('category'  => Piwik_Translate('VisitTime_ColumnServerTime'),
+                			'name'   => Piwik_Translate('VisitTime_ColumnServerTime'),
+                			'module' => 'VisitTime',
+                			'action' => 'getVisitInformationPerServerTime',
     	);
 	}
 	

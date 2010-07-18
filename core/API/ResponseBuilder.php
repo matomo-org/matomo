@@ -333,12 +333,22 @@ class Piwik_API_ResponseBuilder
     							@header( "Content-Type: application/json" );
     							return json_encode($array);
     						break;
+    						
     						case 'php':
             					if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
                     			{
                     				return serialize($array);
                     			}
                     			return $array;
+                    			
+    						case 'xml':
+    							@header("Content-Type: text/xml;charset=utf-8");
+                				$xml = 
+                					"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
+                					"<result>\n".
+    										$this->convertMultiDimensionalArrayToXml($array).
+									"\n</result>";
+                				return $xml;
     						default:
     						break;
     					}
@@ -348,4 +358,27 @@ class Piwik_API_ResponseBuilder
 		}
 		return false;
 	}
+	
+    protected function convertMultiDimensionalArrayToXml($array, $level = 0) 
+    { 
+        $xml=""; 
+        foreach ($array as $key=>$value) { 
+        	if(is_numeric($key)){
+        		$key = 'row';
+        	}
+        	$key = str_replace(' ', '_', $key);
+        	$marginLeft = str_repeat("\t", $level + 1);
+            if (is_array($value)) { 
+                $xml.=	$marginLeft .
+                		"<$key>\n". 
+                    		$this->convertMultiDimensionalArrayToXml($value, $level + 1).
+                			"\n". $marginLeft .
+                		"</$key>\n"; 
+            } else { 
+                $xml.= $marginLeft . 
+                		"<$key>".$value."</$key>\n"; 
+            } 
+        } 
+        return $xml; 
+    } 
 }

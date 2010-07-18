@@ -246,13 +246,20 @@ class Piwik_Goals_API
 						'nb_conversions',
 						'conversion_rate', 
 						'revenue',
-					);
-			foreach($columns as &$columnName)
-			{
-				$columnName = Piwik_Goals::getRecordName($columnName, $idGoal);
-			}
+			);
 		}
-		$dataTable = $archive->getDataTableFromNumeric($columns);
+		$columnsToSelect = array();
+		foreach($columns as &$columnName)
+		{
+			$columnsToSelect[] = Piwik_Goals::getRecordName($columnName, $idGoal);
+		}
+		$dataTable = $archive->getDataTableFromNumeric($columnsToSelect);
+		
+		// Rewrite column names as we expect them
+		foreach($columnsToSelect as $id => $oldName)
+		{
+			$dataTable->renameColumn($oldName, $columns[$id]);
+		}
 		return $dataTable;
 	}
 	

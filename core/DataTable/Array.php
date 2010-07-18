@@ -160,6 +160,14 @@ class Piwik_DataTable_Array
 		}
 	}
 	
+	public function renameColumn($oldName, $newName)
+	{
+		foreach($this->array as $table)
+		{
+			$table->renameColumn($oldName, $newName);
+		}
+	}
+	
 	public function deleteColumns($columns)
 	{
 		foreach($this->array as $table)

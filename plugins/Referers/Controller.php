@@ -250,7 +250,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->setParametersToModify(array('typeReferer' => $typeReferer));
 		foreach($columns as $columnName)
 		{
-			$columnTranslation = $this->standardColumnNameToTranslation[$columnName];
+			$columnTranslation = $view->getColumnTranslation($columnName);
 			$refererTypeTranslation = $this->refererTypeToLabel[$typeReferer];
 			$view->setColumnTranslation(
 				$columnName, 

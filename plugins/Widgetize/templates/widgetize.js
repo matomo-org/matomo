@@ -73,8 +73,8 @@ function widgetize()
 			.each(function() {
 				var htmlEmbed = $(this).parent().html();
 
-				htmlEmbed = htmlEmbed.replace(/ (data=")/, ' $1' + unescape(piwik.piwik_url));
-				htmlEmbed = htmlEmbed.replace(/ (value=")x-(data-file=)/, ' $1$2' + piwik.piwik_url + 'index.php');
+				htmlEmbed = htmlEmbed.replace(/ (data=")/, ' $1' + piwik.piwik_url);
+				htmlEmbed = htmlEmbed.replace(/ (value=")x-(data-file=)/, ' $1$2' + escape(piwik.piwik_url) + 'index.php');
 
 				$(exportButtonsElement).append(
 					'<div id="embedThisWidgetFlash">'+

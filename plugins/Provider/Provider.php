@@ -29,7 +29,7 @@ class Piwik_Provider extends Piwik_Plugin
 		return $info;
 	}
 	
-	function getListHooksRegistered()
+	public function getListHooksRegistered()
 	{
 		$hooks = array(
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
@@ -37,8 +37,21 @@ class Piwik_Provider extends Piwik_Plugin
 			'Tracker.newVisitorInformation' => 'logProviderInfo',
 			'WidgetsList.add' => 'addWidget',
 			'Menu.add' => 'addMenu',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
+	}
+
+	public function getReportMetadata($notification)
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('Provider_WidgetProviders'),
+			'name' => Piwik_Translate('Provider_ColumnProvider'),
+			'module' => 'Provider',
+			'action' => 'getProvider',
+			'dimension' => Piwik_Translate('Provider_ColumnProvider'),
+		);
 	}
 	
 	function install()
@@ -203,4 +216,5 @@ class Piwik_Provider extends Piwik_Plugin
 		$out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider','getProvider');
 		$out .= '</div>';
 	}
+
 }

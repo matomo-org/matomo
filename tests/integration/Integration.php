@@ -125,6 +125,7 @@ abstract class Test_Integration extends Test_Database
 			'SEO',
 			'ExampleAPI',
 			'Pdfexport',
+			'API',
 		);
 	
 	/**
@@ -228,9 +229,11 @@ abstract class Test_Integration extends Test_Database
     				continue;
     			}
     			// Excluded modules from test
-    			elseif(strpos($methodName, 'get') !== 0
+    			elseif(
+    				(strpos($methodName, 'get') !== 0
     				|| in_array($moduleName, $this->apiNotToCall) === true
     				|| in_array($apiId, $this->apiNotToCall) === true)
+    			)
     			{
     				$skipped[] = $apiId;
     				continue;

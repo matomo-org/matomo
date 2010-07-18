@@ -41,7 +41,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * API will archive and output empty stats.
 	 * 
 	 */
-	function test_noVisit()
+	function stest_noVisit()
 	{
 		$dateTime = '2009-01-04 00:11:42';
 		$idSite = $this->createWebsite($dateTime);
@@ -88,7 +88,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * - In a returning visit, tracks a Goal conversion 
 	 *   URL matching, with custom referer and keyword
 	 */
-	function test_OneVisitorTwoVisits() 
+	function stest_OneVisitorTwoVisits() 
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-03-06 11:22:33';
@@ -163,7 +163,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	 * Tests API for period=day/week/month/year, requesting data for both websites, 
 	 * and requesting data for last N periods.
 	 */
-	function test_TwoVisitors_twoWebsites_differentDays()
+	function stest_TwoVisitors_twoWebsites_differentDays()
 	{
 		// Tests run in UTC, the Tracker in UTC
     	$dateTime = '2010-01-03 11:22:33';
@@ -214,6 +214,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$idSite = 'all';
     	// Request data for the last 6 periods
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite = 'all', $dateTime, $periods, $setDateLastN = true);
+	}
+	
+	function test_apiGetReportMetadata()
+	{
+		$this->setApiNotToCall(array());
+		$this->setApiToCall( 'API' );
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml');
 	}
 	
 }

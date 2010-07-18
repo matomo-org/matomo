@@ -40,12 +40,6 @@ class Piwik_Option
 	
 	private function __construct() {}
 
-	/**
-	 * Returns the option value for the requested option $name
-	 *
-	 * @param string $name 
-	 * @return string|false if not found
-	 */
 	public function get($name)
 	{
 		$this->autoload();
@@ -64,13 +58,6 @@ class Piwik_Option
 		return $value;
 	}
 	
-	/**
-	 * Sets the option value in the database
-	 *
-	 * @param string $name
-	 * @param string $value
-	 * @param int $autoload if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
-	 */
 	public function set($name, $value, $autoload = 0)
 	{
 		$autoload = (int)$autoload;
@@ -110,11 +97,24 @@ class Piwik_Option
 	}
 }
 
+/**
+ * Returns the option value for the requested option $name
+ *
+ * @param string $name 
+ * @return string|false if not found
+ */
 function Piwik_GetOption($name)
 {
 	return Piwik_Option::getInstance()->get($name);
 }
 
+/**
+ * Sets the option value in the database
+ *
+ * @param string $name
+ * @param string $value
+ * @param int $autoload if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
+ */
 function Piwik_SetOption($name, $value, $autoload = 0)
 {
 	Piwik_Option::getInstance()->set($name, $value, $autoload);
