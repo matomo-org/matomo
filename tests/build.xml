@@ -139,9 +139,9 @@
 	<target name="all">
 		<antcall target="test-pdo-mysql"/>
 		<!-- antcall target="test-mysqli"/ -->
-		<antcall target="webtest"/>
 		<antcall target="phpdoc"/>
 		<antcall target="schemaspy"/>
+		<antcall target="webtest"/>
 		<fail>
 			<condition>
 				<or>
