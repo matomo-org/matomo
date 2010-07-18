@@ -35,8 +35,49 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
+	}
+
+	public function getReportMetadata($notification) 
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('VisitorInterest_WidgetLengths'),
+			'module' => 'VisitTime',
+			'action' => 'getNumberOfVisitsPerVisitDuration',
+			'dimension' => Piwik_Translate('VisitorInterest_ColumnVisitDuration'),
+			'metrics' => array( 'nb_visits' ),
+		);
+		
+		$reports[] = array(
+			'category' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('VisitorInterest_WidgetPages'),
+			'module' => 'VisitTime',
+			'action' => 'getNumberOfVisitsPerPage',
+			'dimension' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'),
+			'metrics' => array( 'nb_visits' ),
+		);
+	}
+
+	function addWidgets()
+	{
+		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetLengths', 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration');
+		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetPages', 'VisitorInterest', 'getNumberOfVisitsPerPage');
+	}
+	
+	function addMenu()
+	{
+		Piwik_RenameMenuEntry('General_Visitors', 'VisitFrequency_SubmenuFrequency', 
+							  'General_Visitors', 'VisitorInterest_Engagement' );
+	}
+
+	function postLoad()
+	{
+		Piwik_AddAction('template_headerVisitsFrequency', array('Piwik_VisitorInterest','headerVisitsFrequency'));
+		Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest','footerVisitsFrequency'));
 	}
 	
 	protected $timeGap = array(
@@ -63,26 +104,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			array(15, 20),
 			array(20)
 		);
-
-	function addWidgets()
-	{
-		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetLengths', 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration');
-		Piwik_AddWidget( 'General_Visitors', 'VisitorInterest_WidgetPages', 'VisitorInterest', 'getNumberOfVisitsPerPage');
-	}
-	
-	function addMenu()
-	{
-		Piwik_RenameMenuEntry('General_Visitors', 'VisitFrequency_SubmenuFrequency', 
-							  'General_Visitors', 'VisitorInterest_Engagement' );
-	}
-
-	function postLoad()
-	{
-		Piwik_AddAction('template_headerVisitsFrequency', array('Piwik_VisitorInterest','headerVisitsFrequency'));
-		Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest','footerVisitsFrequency'));
-	}
-	
-	
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();

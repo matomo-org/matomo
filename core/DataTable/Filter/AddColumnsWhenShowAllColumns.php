@@ -53,6 +53,7 @@ class Piwik_DataTable_Filter_AddColumnsWhenShowAllColumns extends Piwik_DataTabl
 			$row->addColumn('avg_time_on_site', $averageTimeOnSite);
 			$row->addColumn('bounce_rate', $bounceRate);
 		}
+		$this->table->filter('ColumnCallbackReplace', array('bounce_rate', create_function('$bounceRate', 'return $bounceRate."%";')));
 		$this->table->deleteRows($rowsIdToDelete);
 	}
 }

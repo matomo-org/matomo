@@ -112,21 +112,6 @@ abstract class Piwik_Controller
 		return 'index';
 	}
 
-	protected $standardColumnNameToTranslation = array(
-		'label' => 'General_ColumnLabel',
-		'nb_visits' => 'General_ColumnNbVisits',
-		'nb_actions' => 'General_ColumnNbActions',
-		'max_actions' => 'General_ColumnMaxActions',
-		'sum_visit_length' => 'General_ColumnSumVisitLength',
-		'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
-		'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
-		'avg_visit_length' => 'General_VisitDuration',
-		'avg_time_on_site' => 'General_ColumnAvgTimeOnSite',
-		'bounce_rate' => 'General_ColumnBounceRate',
-		'revenue_per_visit' => 'General_ColumnValuePerVisit',
-		'goals_conversion_rate' => 'General_ColumnVisitsWithConversions',
-	);
-
 	/**
 	 * Given an Object implementing Piwik_iView interface, we either:
 	 * - echo the output of the rendering if fetch = false
@@ -148,8 +133,6 @@ abstract class Piwik_Controller
 							)
 				);
 
-		$standardColumnNameToTranslation = array_map('Piwik_Translate', $this->standardColumnNameToTranslation);
-		$view->setColumnsTranslations($standardColumnNameToTranslation);
 		$view->main();
 		$rendered = $view->getView()->render();
 		if($fetch)

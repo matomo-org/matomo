@@ -35,15 +35,38 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	{
 		return array(
 			'AssetManager.getJsFiles' => 'getJsFiles',
+			'API.getReportMetadata' => 'getReportMetadata',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+		);
+	}
+	
+	public function getReportMetadata($notification) 
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('VisitsSummary_VisitsSummary'),
+			'name' => Piwik_Translate('VisitsSummary_VisitsSummary'),
+			'module' => 'VisitsSummary',
+			'action' => 'get',
+			'metrics' => array(
+								'avg_visit_length' => Piwik_Translate('General_VisitDuration'),
+								'max_actions' => Piwik_Translate('General_ColumnMaxActions'),
+								'nb_uniq_visitors', 
+								'nb_visits',
+								'nb_actions', 
+								'nb_visits_converted',
+								'bounce_rate',
+								'nb_actions_per_visit',
+//								'sum_visit_length',
+			),
+			
 		);
 	}
 	
 	function getJsFiles( $notification )
 	{
 		$jsFiles = &$notification->getNotificationObject();
-		
 		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
 	}	
 	

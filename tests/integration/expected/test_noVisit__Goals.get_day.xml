@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<Goal_nb_conversions>0</Goal_nb_conversions>
-	<Goal_conversion_rate>0</Goal_conversion_rate>
-	<Goal_revenue>0</Goal_revenue>
+	<nb_conversions>0</nb_conversions>
+	<conversion_rate>0</conversion_rate>
+	<revenue>0</revenue>
 </result>

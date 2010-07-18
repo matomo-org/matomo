@@ -40,23 +40,54 @@ class Piwik_Referers extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
-			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
+			'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
+	}	
+
+	public function getReportMetadata($notification) 
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports = array_merge($reports, array(
+        		array(
+        			'category' => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Keywords'),
+        			'module' => 'Referers',
+        			'action' => 'getKeywords',
+        			'dimension' => Piwik_Translate('Referers_ColumnKeyword'),
+        		),
+        		array(
+        			'category'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_SearchEngines'),
+        			'module' => 'Referers',
+        			'action' => 'getSearchEngines',
+        			'dimension' => Piwik_Translate('Referers_ColumnSearchEngine'),
+        		),
+        		array(
+        			'category'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Websites'),
+        			'module' => 'Referers',
+        			'action' => 'getWebsites',
+        			'dimension' => Piwik_Translate('Referers_ColumnWebsite'),
+        		),
+        		array(
+        			'category'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Campaigns'),
+        			'module' => 'Referers',
+        			'action' => 'getCampaigns',
+        			'dimension' => Piwik_Translate('Referers_ColumnCampaign'),
+        		),
+        		array(
+        			'category'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Type'),
+        			'module' => 'Referers',
+        			'action' => 'getRefererType',
+        			'dimension' => Piwik_Translate('Referers_ColumnRefererType')
+        		),
+    	));
 	}
 	
-	function getJsFiles( $notification )
-	{
-		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
-	}
-
-	function __construct()
-	{
-		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_referers;
-		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
-	}
 	
 	/**
 	 * Adds Referer widgets
@@ -88,41 +119,49 @@ class Piwik_Referers extends Piwik_Plugin
 	 * @param $notification
 	 * @return void
 	 */
-	function addGoalSegments( $notification )
+	function getReportsWithGoalMetrics( $notification )
 	{
 		$segments =& $notification->getNotificationObject();
 		$segments = array_merge($segments, array(
-        		array(
-        			'group'  => Piwik_Translate('Referers_Referers'),
-        			'name'   => Piwik_Translate('Referers_Keywords'),
-        			'module' => 'Referers',
-        			'action' => 'getKeywords',
+        		array(	'category'  => Piwik_Translate('Referers_Referers'),
+            			'name'   => Piwik_Translate('Referers_Keywords'),
+            			'module' => 'Referers',
+            			'action' => 'getKeywords',
         		),
-        		array(
-        			'group'  => Piwik_Translate('Referers_Referers'),
-        			'name'   => Piwik_Translate('Referers_SearchEngines'),
-        			'module' => 'Referers',
-        			'action' => 'getSearchEngines',
+        		array(	'category'  => Piwik_Translate('Referers_Referers'),
+            			'name'   => Piwik_Translate('Referers_SearchEngines'),
+            			'module' => 'Referers',
+            			'action' => 'getSearchEngines',
         		),
-        		array(
-        			'group'  => Piwik_Translate('Referers_Referers'),
-        			'name'   => Piwik_Translate('Referers_Websites'),
-        			'module' => 'Referers',
-        			'action' => 'getWebsites',
+        		array(	'category'  => Piwik_Translate('Referers_Referers'),
+            			'name'   => Piwik_Translate('Referers_Websites'),
+            			'module' => 'Referers',
+            			'action' => 'getWebsites',
         		),
-        		array(
-        			'group'  => Piwik_Translate('Referers_Referers'),
-        			'name'   => Piwik_Translate('Referers_Campaigns'),
-        			'module' => 'Referers',
-        			'action' => 'getCampaigns',
+        		array(	'category'  => Piwik_Translate('Referers_Referers'),
+            			'name'   => Piwik_Translate('Referers_Campaigns'),
+            			'module' => 'Referers',
+            			'action' => 'getCampaigns',
         		),
-        		array(
-        			'group'  => Piwik_Translate('Referers_Referers'),
-        			'name'   => Piwik_Translate('Referers_Type'),
-        			'module' => 'Referers',
-        			'action' => 'getRefererType',
+        		array(	'category'  => Piwik_Translate('Referers_Referers'),
+            			'name'   => Piwik_Translate('Referers_Type'),
+            			'module' => 'Referers',
+            			'action' => 'getRefererType',
         		),
     	));
+	}
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
+	}
+
+	function __construct()
+	{
+		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
+		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_referers;
+		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_referers;
 	}
 	
 	/**

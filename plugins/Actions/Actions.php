@@ -47,30 +47,71 @@ class Piwik_Actions extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
 	}
-	
-	public function __construct()
+
+	public function getReportMetadata($notification)
 	{
-		// for BC, we read the old style delimiter first (see #1067)
-		$actionDelimiter = Zend_Registry::get('config')->General->action_category_delimiter;
-		if(empty($actionDelimiter)) 
-		{
-    		self::$actionUrlCategoryDelimiter =  Zend_Registry::get('config')->General->action_url_category_delimiter;
-    		self::$actionTitleCategoryDelimiter =  Zend_Registry::get('config')->General->action_title_category_delimiter;
-		}
-		else
-		{
-			self::$actionUrlCategoryDelimiter = self::$actionTitleCategoryDelimiter = $actionDelimiter;
-		}
+		$reports = &$notification->getNotificationObject();
+
+		$limitedMetrics = array(
+			
+		);
+		$metrics = 
 		
-		self::$defaultActionName = Zend_Registry::get('config')->General->action_default_name;
-		self::$defaultActionNameWhenNotDefined = Zend_Registry::get('config')->General->action_default_name_when_not_defined;
-		self::$defaultActionUrlWhenNotDefined = Zend_Registry::get('config')->General->action_default_url_when_not_defined;
-		$this->columnToSortByBeforeTruncation = 'nb_visits';
-		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
-		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
+		// Page views URLs, Downloads and Outlinks have the full set of metrics
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_SubmenuPages'),
+			'module' => 'Actions',
+			'action' => 'getPageUrls',
+    		'dimension' => Piwik_Translate('Actions_ColumnPageURL'),
+			'metrics' => array(
+            		'bounce_rate', 
+            		'nb_visits',
+                    'entry_nb_visits' => Piwik_Translate('General_ColumnEntrances'), 
+                    'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
+                    'nb_visits' => Piwik_Translate('General_ColumnUniquePageviews'),
+                    'avg_time_on_page' => Piwik_Translate('General_ColumnAverageTimeOnPage'),
+                    'bounce_rate' => Piwik_Translate('General_ColumnBounceRate'),
+                    'exit_rate' => Piwik_Translate('General_ColumnExitRate'), 
+                    'exit_nb_visits' => Piwik_Translate('General_ColumnExits'), 
+        			// 'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'), 
+    		),
+		);
+
+		// Page titles, downloads and outlinks only report basic metrics
+		$metrics = array(	'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
+            				'nb_visits',
+            				'nb_uniq_visitors',
+		);
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_SubmenuOutlinks'),
+			'module' => 'Actions',
+			'action' => 'getOutlinks',
+			'dimension' => Piwik_Translate('Actions_ColumnClickedURL'),
+			'metrics' => $metrics,
+		);
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_SubmenuDownloads'),
+			'module' => 'Actions',
+			'action' => 'getDownloads',
+			'dimension' => Piwik_Translate('Actions_ColumnDownloadURL'),
+			'metrics' => $metrics,
+		);
+		
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_SubmenuPageTitles'),
+			'module' => 'Actions',
+			'action' => 'getPageTitles',
+			'dimension' => Piwik_Translate('Actions_ColumnPageName'),
+			'metrics' => $metrics,
+		);
 	}
 	
 	function addWidgets()
@@ -105,6 +146,28 @@ class Piwik_Actions extends Piwik_Plugin
 		'entry_nb_uniq_visitors', 
 		'exit_nb_uniq_visitors',
 	);
+	
+	public function __construct()
+	{
+		// for BC, we read the old style delimiter first (see #1067)
+		$actionDelimiter = Zend_Registry::get('config')->General->action_category_delimiter;
+		if(empty($actionDelimiter)) 
+		{
+    		self::$actionUrlCategoryDelimiter =  Zend_Registry::get('config')->General->action_url_category_delimiter;
+    		self::$actionTitleCategoryDelimiter =  Zend_Registry::get('config')->General->action_title_category_delimiter;
+		}
+		else
+		{
+			self::$actionUrlCategoryDelimiter = self::$actionTitleCategoryDelimiter = $actionDelimiter;
+		}
+		
+		self::$defaultActionName = Zend_Registry::get('config')->General->action_default_name;
+		self::$defaultActionNameWhenNotDefined = Zend_Registry::get('config')->General->action_default_name_when_not_defined;
+		self::$defaultActionUrlWhenNotDefined = Zend_Registry::get('config')->General->action_default_url_when_not_defined;
+		$this->columnToSortByBeforeTruncation = 'nb_visits';
+		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
+		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
+	}
 	
 	function archivePeriod( $notification )
 	{
@@ -483,5 +546,6 @@ class Piwik_Actions extends Piwik_Plugin
 		$currentTable =& $this->actionsTablesByType;
 		return $rowsProcessed;
 	}
+
 }
 

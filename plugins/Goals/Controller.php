@@ -42,7 +42,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$view = $this->getGoalReportView();
 		$view->displayFullReport = true;
-        $view->goalSegments = $this->getAvailableGoalSegments();
+        $view->goalSegments = Piwik_Goals::getReportsWithGoalMetrics();
 		echo $view->render();
 	}
 	
@@ -64,7 +64,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		}
 		$view->idGoal = $idGoal;
 		$view->goalName = $goalDefinition['name'];
-		$view->graphEvolution = $this->getEvolutionGraph(true, array(Piwik_Goals::getRecordName('nb_conversions', $idGoal)), $idGoal);
+		$view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'), $idGoal);
 		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph'.$idGoal;
 		$view->topSegments = $this->getTopSegments($idGoal);
 		
@@ -80,7 +80,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$view = $this->getOverviewView();
 		$view->goalsJSON = json_encode($this->goals);
-        $view->goalSegments = $this->getAvailableGoalSegments();
+        $view->goalSegments = Piwik_Goals::getReportsWithGoalMetrics();
 		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
 		$view->displayFullReport = true;
 		echo $view->render();
@@ -98,20 +98,20 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('overview');
 		$this->setGeneralVariablesView($view);
 		
-		$view->graphEvolution = $this->getEvolutionGraph(true, array(Piwik_Goals::getRecordName('nb_conversions')));
+		$view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'));
 		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph'; 
 
 		// sparkline for the historical data of the above values
-		$view->urlSparklineConversions		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('nb_conversions'))));
-		$view->urlSparklineConversionRate 	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('conversion_rate'))));
-		$view->urlSparklineRevenue 			= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('revenue'))));
+		$view->urlSparklineConversions		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_conversions')));
+		$view->urlSparklineConversionRate 	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('conversion_rate')));
+		$view->urlSparklineRevenue 			= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('revenue')));
 
 		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=0");
 		$datatable = $request->process();
 		$dataRow = $datatable->getFirstRow();
-		$view->nb_conversions = $dataRow->getColumn('Goal_nb_conversions');
-		$view->conversion_rate = $dataRow->getColumn('Goal_conversion_rate');
-		$view->revenue = $dataRow->getColumn('Goal_revenue');
+		$view->nb_conversions = $dataRow->getColumn('nb_conversions');
+		$view->conversion_rate = $dataRow->getColumn('conversion_rate');
+		$view->revenue = $dataRow->getColumn('revenue');
 		
 		$goalMetrics = array();
 		foreach($this->goals as $idGoal => $goal)
@@ -191,22 +191,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
-	protected function getAvailableGoalSegments()
-	{
-		$segments = array();
-		Piwik_PostEvent('Goals.getAvailableGoalSegments', $segments);
-		$segmentsByGroup = array();
-		foreach($segments as $segment)
-		{
-			$group = $segment['group'];
-			unset($segment['group']);
-			$segmentsByGroup[$group][] = $segment;
-		}
-		return $segmentsByGroup;
-	}
 	
 	protected function getTopSegments($idGoal)
-	{
+	{ 
 		$columnNbConversions = 'goal_'.$idGoal.'_nb_conversions';
 		$columnConversionRate = 'goal_'.$idGoal.'_conversion_rate';
 		
@@ -253,12 +240,12 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$dataRow = $datatable->getFirstRow();
 		return array (
 				'id'				=> $idGoal,
-				'nb_conversions' 	=> $dataRow->getColumn(Piwik_Goals::getRecordName('nb_conversions', $idGoal)),
-				'conversion_rate'	=> round($dataRow->getColumn(Piwik_Goals::getRecordName('conversion_rate', $idGoal)), 1),
-				'revenue'			=> $dataRow->getColumn(Piwik_Goals::getRecordName('revenue', $idGoal)),
-				'urlSparklineConversions' 		=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('nb_conversions', $idGoal)), 'idGoal' => $idGoal)),
-				'urlSparklineConversionRate' 	=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('conversion_rate', $idGoal)), 'idGoal' => $idGoal)),
-				'urlSparklineRevenue' 			=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('revenue', $idGoal)), 'idGoal' => $idGoal)),
+				'nb_conversions' 	=> $dataRow->getColumn('nb_conversions'),
+				'conversion_rate'	=> round($dataRow->getColumn('conversion_rate'), 1),
+				'revenue'			=> $dataRow->getColumn('revenue'),
+				'urlSparklineConversions' 		=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_conversions'), 'idGoal' => $idGoal)),
+				'urlSparklineConversionRate' 	=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('conversion_rate'), 'idGoal' => $idGoal)),
+				'urlSparklineRevenue' 			=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('revenue'), 'idGoal' => $idGoal)),
 		);
 	}
 }

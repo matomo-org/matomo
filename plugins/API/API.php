@@ -27,7 +27,7 @@ class Piwik_API extends Piwik_Plugin {
 		);
 	}
 	
-	function getListHooksRegistered() {
+	public function getListHooksRegistered() {
 		return array(
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'TopMenu.add' => 'addTopMenu',
@@ -38,10 +38,109 @@ class Piwik_API extends Piwik_Plugin {
 		Piwik_AddTopMenu('General_API', array('module' => 'API', 'action' => 'listAllAPI'), true, 7);
 	}
 
-	function getCssFiles($notification) {
+	public function getCssFiles($notification) {
 		$cssFiles = &$notification->getNotificationObject();
 		
 		$cssFiles[] = "plugins/API/templates/styles.css";
 	}
 
+}
+
+
+class Piwik_API_API {
+	static private $instance = null;
+
+	/**
+	 * @return Piwik_API_API
+	 */
+	static public function getInstance()
+	{
+		if (self::$instance == null)
+		{
+			$c = __CLASS__;
+			self::$instance = new $c();
+		}
+		return self::$instance;
+	}
+
+	public function getDefaultMetrics() 
+	{
+		$translations = array(
+			// Standard metrics
+    		'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
+    		'nb_visits' => 'General_ColumnNbVisits',
+    		'nb_actions' => 'General_ColumnNbActions',
+			'nb_visits_converted' => 'General_ColumnVisitsWithConversions',
+// Do not display these in reports, as they are not so relevant
+//    		'max_actions' => 'General_ColumnMaxActions',
+//    		'sum_visit_length' => 'General_ColumnSumVisitLength',
+//			'bounce_count'
+		);
+		$translations = array_map('Piwik_Translate', $translations);
+		return $translations;
+	}
+
+	public function getDefaultProcessedMetrics()
+	{
+		$translations = array(
+			// Processed in AddColumnsWhenShowAllColumns
+			'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
+    		'avg_time_on_site' => 'General_ColumnAvgTimeOnSite',
+    		'bounce_rate' => 'General_ColumnBounceRate',
+		);
+		return array_map('Piwik_Translate', $translations);
+	}
+	
+	/**
+	 * Triggers a hook to ask plugins for available Reports.
+	 *
+	 * @param array $idSites
+	 * @return array
+	 */
+	public function getReportMetadata($idSites = array()) {
+		if (!is_array($idSites)) {
+			$idSites = array($idSites);
+		}
+
+		$availableReports = array();
+		Piwik_PostEvent('API.getReportMetadata', $availableReports, $idSites);
+
+		foreach ($availableReports as &$availableReport) {
+			if (!isset($availableReport['metrics'])) {
+				$availableReport['metrics'] = $this->getDefaultMetrics();
+			}
+			if (!isset($availableReport['processedMetrics'])) {
+				$availableReport['processedMetrics'] = $this->getDefaultProcessedMetrics();
+			}
+		}
+		
+		// Some plugins need to add custom metrics after all plugins hooked in
+		Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $idSites);
+		
+		// If a translation is not set for a given column, 
+		// Is it a know column?
+		$knownMetrics = array_merge( $this->getDefaultMetrics(), $this->getDefaultProcessedMetrics() );
+		foreach($availableReports as &$availableReport)
+		{
+			$metrics = $availableReport['metrics'];
+			$cleanedMetrics = array();
+			foreach($metrics as $metricId => $metricTranslation)
+			{
+				// simply the column name was given, ie 
+				// 'metric' => array( 'nb_visits' )
+				// $metricTranslation is in this case nb_visits
+				if(is_numeric($metricId)
+					&& isset($knownMetrics[$metricTranslation]))
+				{
+					$metricId = $metricTranslation;
+					$metricTranslation = $knownMetrics[$metricTranslation];
+				}
+				// else, the column already has a translation set
+				
+				$cleanedMetrics[$metricId] = $metricTranslation;
+			}
+			$availableReport['metrics'] = $cleanedMetrics;
+		}
+		return $availableReports;
+	}
 }

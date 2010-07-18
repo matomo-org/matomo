@@ -35,8 +35,39 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
+	}
+
+	public function getReportMetadata($notification) 
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('VisitFrequency_VisitFrequency'),
+			'module' => 'VisitFrequency',
+			'action' => 'get',
+			'metrics' => array(
+    			'nb_visits_returning' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
+    			'nb_actions_returning' => Piwik_Translate('VisitFrequency_ColumnActionsByReturningVisits'), 
+    			'avg_visit_length_returning' => Piwik_Translate('VisitFrequency_ColumnAverageVisitDurationForReturningVisitors'),
+    			'bounce_rate_returning' => Piwik_Translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
+    			'nb_actions_per_visit_returning' => Piwik_Translate('VisitFrequency_ColumnAvgActionsPerReturningVisit'),
+// Not displayed
+//    			'nb_uniq_visitors_returning',
+//    			'nb_visits_converted_returning',
+//    			'sum_visit_length_returning',
+//    			'max_actions_returning',
+//    			'bounce_count_returning',
+			),
+		);
+	}
+
+	function addWidgets()
+	{
+		Piwik_AddWidget( 'General_Visitors', 'VisitFrequency_WidgetOverview', 'VisitFrequency', 'getSparklines');
+		Piwik_AddWidget( 'General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph', array('columns' => array('nb_visits_returning')));
 	}
 	
 	function getJsFiles( $notification )
@@ -44,12 +75,6 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		$jsFiles = &$notification->getNotificationObject();
 		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
 	}	
-	
-	function addWidgets()
-	{
-		Piwik_AddWidget( 'General_Visitors', 'VisitFrequency_WidgetOverview', 'VisitFrequency', 'getSparklines');
-		Piwik_AddWidget( 'General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph', array('columns' => array('nb_visits_returning')));
-	}
 	
 	function addMenu()
 	{

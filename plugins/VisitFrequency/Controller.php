@@ -47,6 +47,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 			'bounce_rate_returning' => Piwik_Translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
 			'nb_actions_per_visit_returning' => Piwik_Translate('VisitFrequency_ColumnAvgActionsPerReturningVisit'),
 		));
+	
 		return $this->renderView($view, $fetch);
 	}
 	

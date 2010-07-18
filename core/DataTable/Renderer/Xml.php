@@ -256,6 +256,8 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 				$out .= $prefixLine."\t\t<$rowId>".$value."</$rowId>\n";
 				continue;
 			}
+
+			// Handing case idgoal=7, creating a new array for that one
 			$rowAttribute = '';
 			if(($equalFound = strstr($rowId, '=')) !== false)
 			{

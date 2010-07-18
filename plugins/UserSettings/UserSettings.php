@@ -38,6 +38,22 @@ class Piwik_UserSettings extends Piwik_Plugin
 	);
 
 	/*
+	 * Defines API reports. 
+	 * Also used to define Widgets.
+	 * 
+	 * @array Category, Report Name, API Module, API action, Translated column name
+	 */
+	protected $reportMetadata = array(
+		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetResolutions', 'UserSettings', 'getResolution', 'UserSettings_ColumnResolution' ),
+		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetBrowsers', 'UserSettings', 'getBrowser', 'UserSettings_ColumnBrowser'),
+		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetPlugins', 'UserSettings', 'getPlugin', 'UserSettings_ColumnPlugin'),
+		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetWidescreen', 'UserSettings', 'getWideScreen', 'UserSettings_ColumnTypeOfScreen'),
+		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetBrowserFamilies', 'UserSettings', 'getBrowserType', 'UserSettings_ColumnBrowserFamily'),
+		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetOperatingSystems', 'UserSettings', 'getOS', 'UserSettings_ColumnOperatingSystem'),
+		array( 'UserSettings_VisitorSettings', 'UserSettings_WidgetGlobalVisitors', 'UserSettings', 'getConfiguration', 'UserSettings_ColumnConfiguration'),
+	);
+	
+	/*
 	 * List of hooks 
 	 */
 	function getListHooksRegistered()
@@ -47,8 +63,38 @@ class Piwik_UserSettings extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
+	}
+
+	/*
+	 * Registers reports metadata
+	 */
+	public function getReportMetadata($notification) 
+	{
+		$reports = &$notification->getNotificationObject();
+		foreach($this->reportMetadata as $report)
+		{
+			list( $category, $name, $apiModule, $apiAction, $columnName ) = $report;
+    		$report = array(
+    			'category' => Piwik_Translate($category),
+    			'name' => Piwik_Translate($name),
+    			'module' => $apiModule,
+    			'action' => $apiAction,
+    			'dimension' => $columnName,
+    		);
+    		
+    		// getPlugin returns only a subset of metrics
+    		if($apiAction == 'getPlugin')
+    		{
+    			$report['metrics'] = array(
+    				'nb_visits',
+    				'nb_visits_percentage' => Piwik_Translate('General_ColumnPercentageVisits')
+    			);
+    		}
+    		$reports[] = $report;
+		}
 	}
 	
 	/**
@@ -56,13 +102,12 @@ class Piwik_UserSettings extends Piwik_Plugin
 	 */
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetResolutions', 'UserSettings', 'getResolution');
-		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetBrowsers', 'UserSettings', 'getBrowser');
-		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetPlugins', 'UserSettings', 'getPlugin');
-		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetWidescreen', 'UserSettings', 'getWideScreen');
-		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetBrowserFamilies', 'UserSettings', 'getBrowserType');
-		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetOperatingSystems', 'UserSettings', 'getOS');
-		Piwik_AddWidget( 'UserSettings_VisitorSettings', 'UserSettings_WidgetGlobalVisitors', 'UserSettings', 'getConfiguration');
+		// in this case, Widgets have same names as API reports 
+		foreach($this->reportMetadata as $report)
+		{
+			list( $category, $name, $controllerName, $controllerAction ) = extract($report);
+			Piwik_AddWidget( $category, $name, $controllerName, $controllerAction );
+		}
 	}
 	
 	/**

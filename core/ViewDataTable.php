@@ -275,6 +275,9 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
 		$this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
+		
+		$standardColumnNameToTranslation = Piwik_API_API::getInstance()->getDefaultMetrics();
+		$this->setColumnsTranslations($standardColumnNameToTranslation);
 	}
 
 	/**
