@@ -66,7 +66,11 @@ foreach($toInclude as $file)
 	$test->addFile($file);
 }
 
-$test->run(new HtmlTimerReporter($intro));
+$result = $test->run(new HtmlTimerReporter($intro));
+if (SimpleReporter::inCli()) {
+	exit($result ? 0 : 1);
+}
+
 
 /*
 assertTrue($x)					Fail if $x is false
