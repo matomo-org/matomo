@@ -56,7 +56,7 @@
 		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="false" resultproperty="result-pdo-mysql" failifexecutionfails="true">		
 			<arg value="all_tests.php" />
 		</exec>
-		<move file="${basedir}/../build/tests/integration/processed" todir="${basedir}/../build/tests/integration/processed-pdo-mysql" />
+		<move file="${basedir}/../build/tests/integration/processed" tofile="${basedir}/../build/tests/integration/processed-pdo-mysql" />
 
 		<echo>PDO_MYSQL unit tests finished</echo>
 	</target>
@@ -76,7 +76,7 @@
 		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="false" resultproperty="result-mysqli" failifexecutionfails="true">		
 			<arg value="all_tests.php" />
 		</exec>
-		<move file="${basedir}/../build/tests/integration/processed" todir="${basedir}/../build/tests/integration/processed-mysqli" />
+		<move file="${basedir}/../build/tests/integration/processed" tofile="${basedir}/../build/tests/integration/processed-mysqli" />
 
 		<echo>MYSQLI unit tests finished</echo>
 	</target>
@@ -92,7 +92,7 @@
 
 		<delete dir="${basedir}/../build/phpdocumentor-report"/>
 		<mkdir dir="${basedir}/../build/phpdocumentor-report"/>
-		<exec executable="${php.executable}" dir="${basedir}/../build" failonerror="true" failifexecutionfails="true">
+		<exec executable="${php.executable}" dir="${basedir}/../build" failonerror="false" resultproperty="result-phpdoc" failifexecutionfails="true">
 			<arg value="${phpdocumentor.home}/phpDocumentor/phpdoc.inc" />
 			<arg value="--useconfig"/>
 			<arg file="${basedir}/../misc/phpdoc-config.ini"/>
@@ -112,7 +112,7 @@
 		<mkdir dir="${basedir}/../build/schemaspy-report"/>
 
 		<echo message="Generating schema for MySql" />
-		<java jar="${basedir}/lib/java/schemaSpy_3.1.1.jar" fork="true"  failonerror="true" maxmemory="256m" dir="${basedir}">
+		<java jar="${basedir}/lib/java/schemaSpy_3.1.1.jar" fork="true"  failonerror="false" resultproperty="result-schemaspy" maxmemory="256m" dir="${basedir}">
 			<arg value="-t"/>
 			<arg value="mysql"/>
 			<arg value="-host"/>
@@ -144,11 +144,12 @@
 		<antcall target="schemaspy"/>
 		<fail>
 			<condition>
-				<isfailure code="result-pdo-mysql" />
-				<!-- or>
+				<or>
 					<isfailure code="result-pdo-mysql" />
-					<isfailure code="result-mysqli" />
-				</or -->
+					<!-- isfailure code="result-mysqli" /-->
+					<isfailure code="result-phpdoc" />
+					<isfailure code="result-schemaspy" />
+				</or>
 			</condition>
 		</fail>
 	</target>
