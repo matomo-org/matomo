@@ -3,35 +3,6 @@
 	<property file="build.properties" />
 	<property file="defaults.properties" />
 
-	<target name="chmod">
-		<condition property="chmodcondition">
-			<and>
-				<os family="unix"/>
-				<available file="${basedir}/../build" type="dir"/>
-			</and>
-		</condition>
-		<antcall target="chmod-inner"/>		
-	</target>
-
-	<target name="chmod-inner" if="chmodcondition">
-
-		<property file="${basedir}/webtest/config/webtest.properties" />
-
-		<copy file="${basedir}/webtest/chmod.php" tofile="${basedir}/../build/chmod.php" overwrite="true">
-			<filterset>
-			      <filter token="PATH" value="${basedir}/../build"/>
-		    </filterset>
-		</copy>
-
-		<!-- <get src="${wt.config.protocol}://${wt.config.host}:${wt.config.port}/${wt.config.basepath}/chmod.php" dest="/dev/null" ignoreerrors="true"/> -->
-
-		<exec executable="wget">
-			<arg value="${wt.config.protocol}://${wt.config.host}:${wt.config.port}/${wt.config.basepath}/chmod.php"/>
-			<arg value="--output-document=/dev/null" />
-			<arg value="--no-check-certificate" />
-		</exec>
-	</target>
-
 	<target name="clean">
 		<delete dir="${basedir}/../build" />
 		<delete dir="${basedir}/results" />
@@ -55,9 +26,10 @@
 				<include name="*" />
 			</fileset>
 		</copy>
-		<mkdir dir="${basedir}/../build/tmp/templates_c"/>
-		<mkdir dir="${basedir}/../build/tmp/cache"/>
-		<mkdir dir="${basedir}/../build/tmp/latest"/>
+		<delete dir="${basedir}/../build/build" />
+		<mkdir dir="${basedir}/../build/tmp/templates_c" />
+		<mkdir dir="${basedir}/../build/tmp/cache" />
+		<mkdir dir="${basedir}/../build/tmp/latest" />
 		<chmod perm="a+rw">
 			<dirset dir="${basedir}/../build">
 				<include name="config" />
@@ -78,16 +50,15 @@
 	</target>
 
 	<target name="test-pdo-mysql" depends="process-build-resources-pdo-mysql">
-
 		<echo>PDO_MYSQL unit tests started</echo>
 
-		<mkdir dir="${basedir}/../build/test-results"/>
-		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="true" failifexecutionfails="true">		
+		<mkdir dir="${basedir}/../build/tests/integration/processed"/>
+		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="false" resultproperty="result-pdo-mysql" failifexecutionfails="true">		
 			<arg value="all_tests.php" />
 		</exec>
+		<move file="${basdir}../build/tests/integration/processed" todo="${basdir}../build/tests/integration/processed-pdo-mysql" />
 
 		<echo>PDO_MYSQL unit tests finished</echo>
-
 	</target>
 
 	<target name="process-build-resources-mysqli" depends="prepare-build-filesystem">
@@ -99,24 +70,28 @@
 	</target>
 
 	<target name="test-mysqli" depends="process-build-resources-mysqli">
-
 		<echo>MYSQLI unit tests started</echo>
 
-		<mkdir dir="${basedir}/../build/test-results"/>
-		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="true" failifexecutionfails="true">		
+		<mkdir dir="${basedir}/../build/tests/integration/processed"/>
+		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="false" resultproperty="result-mysqli" failifexecutionfails="true">		
 			<arg value="all_tests.php" />
 		</exec>
+		<move file="${basdir}../build/tests/integration/processed" todo="${basdir}../build/tests/integration/processed-mysqli" />
 
 		<echo>MYSQLI unit tests finished</echo>
+	</target>
 
+	<target name="webtest">
+		<mkdir dir="${basedir}/../build/tests/integration/processed"/>
+		<delete file="${basedir}/../build/config/config.ini.php"/>
+		<ant antfile="${basedir}/build-canoo.xml"/>
 	</target>
 
 	<target name="phpdoc">
-
 		<echo>phpDocumentor started</echo>
 
-		<delete dir="${basedir}/build/phpdocumentor-report"/>
-		<mkdir dir="${basedir}/build/phpdocumentor-report"/>
+		<delete dir="${basedir}/../build/phpdocumentor-report"/>
+		<mkdir dir="${basedir}/../build/phpdocumentor-report"/>
 		<exec executable="${php.executable}" dir="${basedir}/../build" failonerror="true" failifexecutionfails="true">
 			<arg value="${phpdocumentor.home}/phpDocumentor/phpdoc.inc" />
 			<arg value="--useconfig"/>
@@ -128,20 +103,13 @@
 		</copy>
 
 		<echo>phpDocumentor finished</echo>		
-
-	</target>
-
-	<target name="webtest">
-		<delete file="${basedir}/../build/config/config.ini.php"/>
-		<ant antfile="${basedir}/build-canoo.xml"/>
 	</target>
 
 	<target name="schemaspy">
-
 		<echo>SchemaSpy started</echo>
 
-		<delete dir="${basedir}/build/schemaspy-report"/>
-		<mkdir dir="${basedir}/build/schemaspy-report"/>
+		<delete dir="${basedir}/../build/schemaspy-report"/>
+		<mkdir dir="${basedir}/../build/schemaspy-report"/>
 
 		<echo message="Generating schema for MySql" />
 		<java jar="${basedir}/lib/java/schemaSpy_3.1.1.jar" fork="true"  failonerror="true" maxmemory="256m" dir="${basedir}">
@@ -156,27 +124,34 @@
 			<arg value="-u"/>
 			<arg value="${database.main.username}"/>
 			<arg value="-o"/>
-			<arg path="${basedir}/build/schemaspy-report"/>
+			<arg path="${basedir}/../build/schemaspy-report"/>
 			<arg value="-p"/>
 			<arg value="${database.main.password}"/>
 		</java>
 
 		<copy todir="${schemaspy.report.dir}" overwrite="true" failonerror="true" verbose="true">
-			<fileset dir="${basedir}/build/schemaspy-report"/>
+			<fileset dir="${basedir}/../build/schemaspy-report"/>
 		</copy>
 
 		<echo>SchemaSpy finished</echo>
-
 	</target>
 
 	<target name="all">
-		<!-- antcall target="chmod"/ -->
+		<antcall target="webtest"/>
 		<antcall target="test-pdo-mysql"/>
 		<!-- antcall target="test-mysqli"/ -->
 		<antcall target="webtest"/>
-		<!-- antcall target="chmod"/ -->
 		<antcall target="phpdoc"/>
 		<antcall target="schemaspy"/>
+		<fail>
+			<condition>
+				<isfailure code="result-pdo-mysql" />
+				<!-- or>
+					<isfailure code="result-pdo-mysql" />
+					<isfailure code="result-mysqli" />
+				</or -->
+			</condition>
+		</fail>
 	</target>
 
 </project>
