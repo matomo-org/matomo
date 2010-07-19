@@ -210,6 +210,7 @@ a {
 
 /*sites_selection*/
 .sites_selection{ 
+	z-index:30;
 	position:absolute; 
 	top:71px; 
 	right:0;
