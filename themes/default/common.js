@@ -175,3 +175,10 @@ function save_image(chartId) {
 String.prototype.trim = function() {
 	return this.replace(/^\s+|\s+$/g,"");
 }
+
+//Helper function :
+//returns true if the event keypress passed in parameter is the ENTER key
+function isEnterKey(e)
+{
+	return (window.event?window.event.keyCode:e.which)==13; 
+}
