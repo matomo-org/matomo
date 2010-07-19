@@ -10,8 +10,15 @@
  * @package Piwik
  */
 
-require_once ("libs/cssmin/cssmin.php");
-require_once ("libs/jsmin/jsmin.php");
+/**
+ * @see libs/cssmin/cssmin.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/libs/cssmin/cssmin.php';
+
+/**
+ * @see libs/jsmin/jsmin.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
 
 /**
  * Piwik_AssetManager is the class used to manage the inclusion of UI assets:
