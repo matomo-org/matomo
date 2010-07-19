@@ -12,16 +12,6 @@ function dataTable()
 	this.param = {};
 }
 
-
-// Helper function :
-// returns true if the event keypress passed in parameter is the ENTER key
-function isEnterKey(e)
-{
-	return (window.event?window.event.keyCode:e.which)==13; 
-}
-
-
-
 //Prototype of the DataTable object
 dataTable.prototype =
 {
@@ -337,7 +327,6 @@ dataTable.prototype =
 						{
 							if(isEnterKey(e))
 							{ 
-								
 								$(this).siblings(':submit').submit(); 
 							} 
 						} 

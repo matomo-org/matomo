@@ -2,16 +2,28 @@
 <script type="text/javascript">
 	var idSite = {$idSite};
 {literal}
-	$(document).ready(function(){ 
+
+function initFeedburner()
+{
+
 	function getName()
 	{
 		return $("#feedburnerName").val();
 	}
+	$("#feedburnerName").bind("keyup", function(e) {
+		if(isEnterKey(e)) { 
+			$("#feedburnerSubmit").click(); 
+		} 
+	}); 
 	$("#feedburnerSubmit").click( function(){
 		var feedburnerName = getName();
 		$.get('?module=ExampleFeedburner&action=saveFeedburnerName&idSite='+idSite+'&name='+feedburnerName);
 		piwik.dashboardObject.reloadEnclosingWidget($(this));
+		initFeedburner();
 	});
+}
+$(document).ready(function(){
+	initFeedburner();
 });
 </script>
 <style>
