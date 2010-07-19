@@ -56,7 +56,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 			// sum_visit_length / nb_visits => Avg. Time on Site 
 			// bounce_count=> Bounce Rate
 			$actionsPerVisit = round($this->getColumn($row, Piwik_Archive::INDEX_NB_ACTIONS, 'nb_actions') / $nbVisits, $this->roundPrecision);
-			$averageTimeOnSite = round($this->getColumn($row, Piwik_Archive::INDEX_SUM_VISIT_LENGTH, 'sum_visit_length') / $nbVisits, $this->roundPrecision);
+			$averageTimeOnSite = round($this->getColumn($row, Piwik_Archive::INDEX_SUM_VISIT_LENGTH, 'sum_visit_length') / $nbVisits, $rounding = 0);
 			$bounceRate = round(100 * $this->getColumn($row, Piwik_Archive::INDEX_BOUNCE_COUNT, 'bounce_count') / $nbVisits, $this->roundPrecision);
 			$row->addColumn('nb_actions_per_visit', $actionsPerVisit);
 			$row->addColumn('avg_time_on_site', $averageTimeOnSite);
