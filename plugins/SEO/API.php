@@ -12,6 +12,9 @@
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 
+/**
+ * @package Piwik_SEO
+ */
 class Piwik_SEO_API 
 {
 	static private $instance = null;

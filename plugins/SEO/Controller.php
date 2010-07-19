@@ -10,6 +10,9 @@
  * @package Piwik_SEO
  */
  
+/**
+ * @package Piwik_SEO
+ */
 class Piwik_SEO_Controller extends Piwik_Controller
 {	
 	function getRank()
