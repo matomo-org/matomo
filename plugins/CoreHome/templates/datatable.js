@@ -288,11 +288,6 @@ dataTable.prototype =
 				.addClass('columnSorted')
 				.prepend('<div id="sortIconContainer"><img id="sortIcon" width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+prefixSortIcon+ self.param.filter_sort_order+'.png" /></div>');
 			
-
-			$("th.sortable", domElem)
-					.hover( function() { $(this).css({ cursor: "pointer"}); }, 
-							function() { $(this).css({ cursor: "auto"});
-					});
 	}
 	},
 	
@@ -863,10 +858,7 @@ actionDataTable.prototype =
 				.click( function()
 				{
 					self.onClickActionSubDataTable(this)
-				})
-				.hover(	function() { $(this).css({ cursor: "pointer"});	},
-						function() { $(this).css({ cursor: "auto"}); }
-		 		);
+				});
 		}
 		
 		self.applyCosmetics(domElem);
