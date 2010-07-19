@@ -1,0 +1,157 @@
+<project name="piwik" default="all" basedir=".">
+
+	<property file="build.properties" />
+	<property file="defaults.properties" />
+
+	<target name="clean">
+		<delete dir="${basedir}/../build" />
+		<delete dir="${basedir}/results" />
+	</target>
+
+	<target name="prepare-build-filesystem" depends="clean">
+		<mkdir dir="${basedir}/../build" />
+		<copy todir="${basedir}/../build">
+			<fileset dir="${basedir}/..">
+				<include name="config/**" />
+				<include name="core/**" />
+				<include name="js/**" />
+				<include name="lang/**" />
+				<include name="libs/**" />
+				<include name="misc/**" />
+				<include name="plugins/**" />
+				<include name="tests/**" />
+				<include name="themes/**" />
+				<include name="tmp/**" />
+				<include name="*.*" />
+				<include name="*" />
+			</fileset>
+		</copy>
+		<delete dir="${basedir}/../build/build" />
+		<mkdir dir="${basedir}/../build/tmp/templates_c" />
+		<mkdir dir="${basedir}/../build/tmp/cache" />
+		<mkdir dir="${basedir}/../build/tmp/latest" />
+		<chmod perm="a+rw">
+			<dirset dir="${basedir}/../build">
+				<include name="config" />
+				<include name="tmp" />
+				<include name="tmp/templates_c" />
+				<include name="tmp/cache" />
+				<include name="tmp/latest" />
+			</dirset>
+		</chmod>
+	</target>
+
+	<target name="process-build-resources-pdo-mysql" depends="prepare-build-filesystem">
+		<copy file="${basedir}/config/pdo_mysql.template.php" tofile="${basedir}/../build/config/config.ini.php" overwrite="true">
+			<filterset>
+				<filtersfile file="${basedir}/build.properties"/>
+			</filterset>
+		</copy>	
+	</target>
+
+	<target name="test-pdo-mysql" depends="process-build-resources-pdo-mysql">
+		<echo>PDO_MYSQL unit tests started</echo>
+
+		<mkdir dir="${basedir}/../build/tests/integration/processed"/>
+		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="false" resultproperty="result-pdo-mysql" failifexecutionfails="true">		
+			<arg value="all_tests.php" />
+		</exec>
+		<move file="${basedir}/../build/tests/integration/processed" tofile="${basedir}/../build/tests/integration/processed-pdo-mysql" />
+
+		<echo>PDO_MYSQL unit tests finished</echo>
+	</target>
+
+	<target name="process-build-resources-mysqli" depends="prepare-build-filesystem">
+		<copy file="${basedir}/config/mysqli.template.php" tofile="${basedir}/../build/config/config.ini.php" overwrite="true">
+			<filterset>
+				<filtersfile file="${basedir}/build.properties"/>
+			</filterset>
+		</copy>	
+	</target>
+
+	<target name="test-mysqli" depends="process-build-resources-mysqli">
+		<echo>MYSQLI unit tests started</echo>
+
+		<mkdir dir="${basedir}/../build/tests/integration/processed"/>
+		<exec executable="${php.executable}" dir="${basedir}/../build/tests" failonerror="false" resultproperty="result-mysqli" failifexecutionfails="true">		
+			<arg value="all_tests.php" />
+		</exec>
+		<move file="${basedir}/../build/tests/integration/processed" tofile="${basedir}/../build/tests/integration/processed-mysqli" />
+
+		<echo>MYSQLI unit tests finished</echo>
+	</target>
+
+	<target name="webtest">
+		<mkdir dir="${basedir}/../build/tests/integration/processed"/>
+		<delete file="${basedir}/../build/config/config.ini.php"/>
+		<ant antfile="${basedir}/build-canoo.xml"/>
+	</target>
+
+	<target name="phpdoc">
+		<echo>phpDocumentor started</echo>
+
+		<delete dir="${basedir}/../build/phpdocumentor-report"/>
+		<mkdir dir="${basedir}/../build/phpdocumentor-report"/>
+		<exec executable="${php.executable}" dir="${basedir}/../build" failonerror="false" resultproperty="result-phpdoc" failifexecutionfails="true">
+			<arg value="${phpdocumentor.home}/phpDocumentor/phpdoc.inc" />
+			<arg value="--useconfig"/>
+			<arg file="${basedir}/../misc/phpdoc-config.ini"/>
+		</exec>
+
+		<copy todir="${phpdocumentor.report.dir}" overwrite="true" failonerror="true" verbose="true">
+			<fileset dir="${basedir}/../build/documentation"/>
+		</copy>
+
+		<echo>phpDocumentor finished</echo>		
+	</target>
+
+	<target name="schemaspy">
+		<echo>SchemaSpy started</echo>
+
+		<delete dir="${basedir}/../build/schemaspy-report"/>
+		<mkdir dir="${basedir}/../build/schemaspy-report"/>
+
+		<echo message="Generating schema for MySql" />
+		<java jar="${basedir}/lib/java/schemaSpy_3.1.1.jar" fork="true"  failonerror="false" resultproperty="result-schemaspy" maxmemory="256m" dir="${basedir}">
+			<arg value="-t"/>
+			<arg value="mysql"/>
+			<arg value="-host"/>
+			<arg value="${database.main.host}:${database.main.port}"/>
+			<arg value="-db"/>
+			<arg value="${database.main.name}"/>
+			<arg value="-cp"/>
+			<arg path="${basedir}/lib/java/mysql-connector-java-5.1.7.jar"/>
+			<arg value="-u"/>
+			<arg value="${database.main.username}"/>
+			<arg value="-o"/>
+			<arg path="${basedir}/../build/schemaspy-report"/>
+			<arg value="-p"/>
+			<arg value="${database.main.password}"/>
+		</java>
+
+		<copy todir="${schemaspy.report.dir}" overwrite="true" failonerror="true" verbose="true">
+			<fileset dir="${basedir}/../build/schemaspy-report"/>
+		</copy>
+
+		<echo>SchemaSpy finished</echo>
+	</target>
+
+	<target name="all">
+		<antcall target="test-pdo-mysql"/>
+		<!-- antcall target="test-mysqli"/ -->
+		<antcall target="phpdoc"/>
+		<antcall target="schemaspy"/>
+		<antcall target="webtest"/>
+		<fail>
+			<condition>
+				<or>
+					<isfailure code="result-pdo-mysql" />
+					<!-- isfailure code="result-mysqli" /-->
+					<isfailure code="result-phpdoc" />
+					<isfailure code="result-schemaspy" />
+				</or>
+			</condition>
+		</fail>
+	</target>
+
+</project>
