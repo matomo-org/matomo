@@ -14,7 +14,7 @@
  * @package Piwik
  * @subpackage Piwik_DataTable
  */
-class Piwik_DataTable_Filter_AddColumnsWhenShowAllColumns extends Piwik_DataTable_Filter
+class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_Filter
 {
 	protected $roundPrecision = 1;
 	
@@ -29,12 +29,21 @@ class Piwik_DataTable_Filter_AddColumnsWhenShowAllColumns extends Piwik_DataTabl
 		$this->filter();
 	}
 	
+	protected function getColumn($row, $columnIdRaw, $columnIdReadable)
+	{
+		$raw = $row->getColumn($columnIdRaw);
+		if($raw !== false)
+		{
+			return $raw;
+		}
+		return $row->getColumn($columnIdReadable);
+	}
 	protected function filter()
 	{
 		$rowsIdToDelete = array();		
 		foreach($this->table->getRows() as $key => $row)
 		{
-			$nbVisits = $row->getColumn(Piwik_Archive::INDEX_NB_VISITS);
+			$nbVisits = $this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS, 'nb_visits');
 			if($nbVisits == 0)
 			{
 				// case of keyword/website/campaign with a conversion for this day, 
@@ -46,9 +55,9 @@ class Piwik_DataTable_Filter_AddColumnsWhenShowAllColumns extends Piwik_DataTabl
 			// nb_actions / nb_visits => Actions/visit
 			// sum_visit_length / nb_visits => Avg. Time on Site 
 			// bounce_count=> Bounce Rate
-			$actionsPerVisit = round($row->getColumn(Piwik_Archive::INDEX_NB_ACTIONS) / $nbVisits, $this->roundPrecision);
-			$averageTimeOnSite = round($row->getColumn(Piwik_Archive::INDEX_SUM_VISIT_LENGTH) / $nbVisits, $this->roundPrecision);
-			$bounceRate = round(100 * $row->getColumn(Piwik_Archive::INDEX_BOUNCE_COUNT) / $nbVisits, $this->roundPrecision);
+			$actionsPerVisit = round($this->getColumn($row, Piwik_Archive::INDEX_NB_ACTIONS, 'nb_actions') / $nbVisits, $this->roundPrecision);
+			$averageTimeOnSite = round($this->getColumn($row, Piwik_Archive::INDEX_SUM_VISIT_LENGTH, 'sum_visit_length') / $nbVisits, $this->roundPrecision);
+			$bounceRate = round(100 * $this->getColumn($row, Piwik_Archive::INDEX_BOUNCE_COUNT, 'bounce_count') / $nbVisits, $this->roundPrecision);
 			$row->addColumn('nb_actions_per_visit', $actionsPerVisit);
 			$row->addColumn('avg_time_on_site', $averageTimeOnSite);
 			$row->addColumn('bounce_rate', $bounceRate);

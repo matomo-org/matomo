@@ -88,7 +88,7 @@ class Piwik_API_API
 	public function getDefaultProcessedMetrics()
 	{
 		$translations = array(
-			// Processed in AddColumnsWhenShowAllColumns
+			// Processed in AddColumnsProcessedMetrics
 			'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
     		'avg_time_on_site' => 'General_ColumnAvgTimeOnSite',
     		'bounce_rate' => 'General_ColumnBounceRate',

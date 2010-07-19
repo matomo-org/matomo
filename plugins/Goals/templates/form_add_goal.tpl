@@ -1,10 +1,13 @@
 <div id='GoalForm' style="display:none;">
 <form>
 <table class="dataTable tableFormGoals">
+		<tr class="first">
+			<th colspan="2">Create a Goal</th>
+		<tr>
 	<tbody>
 		<tr>
-            <th class="first">{'Goals_GoalName'|translate} </th>
-			<th><input type="text" name="name" value="" size="28" id="goal_name" class="inp" /></th>
+            <td class="first">{'Goals_GoalName'|translate} </th>
+			<td><input type="text" name="name" value="" size="28" id="goal_name" class="inp" /></th>
 		</tr>
 		<tr>
 			<td style='width:240px;' class="first">{'Goals_GoalIsTriggered'|translate}
