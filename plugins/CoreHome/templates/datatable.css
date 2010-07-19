@@ -240,7 +240,6 @@ table thead div {
 	color: #888888;
 	text-align:left;
 	margin: 10px;
-	font-size: 0.9em;
 }
 
 .dataTablePages {
@@ -251,7 +250,8 @@ table thead div {
 }
 
 .dataTableSearchPattern {
-	margin:8px 0;
+	margin:8px 0 0 0;
+	height:30px;
 	display: block!important;
 	white-space: nowrap;
 	background:  url(../../../themes/default/images/search_bg.png) no-repeat center 0;
@@ -410,7 +410,6 @@ table thead div {
 
 .pk-loadingDataTable {
 	float: left;
-	font-size: 0.9em;
 	color: #193B6C;
 	padding: 0 0.5em;
 }
@@ -453,6 +452,7 @@ table.dataTableActions img.link {
 }
 tr td.label img.plusMinus {
 	margin-right: 0em;
+	.margin-right: 4px;
 	margin-left:-1em;
 }
 
@@ -460,6 +460,5 @@ tr td.label img.plusMinus {
 	padding-top: 20px;
 	padding-bottom: 10px;
 	text-align: center;
-	font-size: 0.9em;
 	font-style: italic;
 }
