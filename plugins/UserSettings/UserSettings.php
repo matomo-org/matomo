@@ -82,7 +82,7 @@ class Piwik_UserSettings extends Piwik_Plugin
     			'name' => Piwik_Translate($name),
     			'module' => $apiModule,
     			'action' => $apiAction,
-    			'dimension' => $columnName,
+    			'dimension' => Piwik_Translate($columnName),
     		);
     		
     		// getPlugin returns only a subset of metrics

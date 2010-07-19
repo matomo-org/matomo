@@ -283,7 +283,7 @@
 		<name>Visitor browsers</name>
 		<module>UserSettings</module>
 		<action>getBrowser</action>
-		<dimension>UserSettings_ColumnBrowser</dimension>
+		<dimension>Browser</dimension>
 		<metrics>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
@@ -304,7 +304,7 @@
 		<name>Browsers by family</name>
 		<module>UserSettings</module>
 		<action>getBrowserType</action>
-		<dimension>UserSettings_ColumnBrowserFamily</dimension>
+		<dimension>Browser family</dimension>
 		<metrics>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
@@ -325,7 +325,7 @@
 		<name>Global visitors configuration</name>
 		<module>UserSettings</module>
 		<action>getConfiguration</action>
-		<dimension>UserSettings_ColumnConfiguration</dimension>
+		<dimension>Configuration</dimension>
 		<metrics>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
@@ -346,7 +346,7 @@
 		<name>Operating systems</name>
 		<module>UserSettings</module>
 		<action>getOS</action>
-		<dimension>UserSettings_ColumnOperatingSystem</dimension>
+		<dimension>Operating system</dimension>
 		<metrics>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
@@ -367,7 +367,7 @@
 		<name>List of Plugins</name>
 		<module>UserSettings</module>
 		<action>getPlugin</action>
-		<dimension>UserSettings_ColumnPlugin</dimension>
+		<dimension>Plugin</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
@@ -386,7 +386,7 @@
 		<name>Screen resolutions</name>
 		<module>UserSettings</module>
 		<action>getResolution</action>
-		<dimension>UserSettings_ColumnResolution</dimension>
+		<dimension>Resolution</dimension>
 		<metrics>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
@@ -407,7 +407,7 @@
 		<name>Normal / Widescreen</name>
 		<module>UserSettings</module>
 		<action>getWideScreen</action>
-		<dimension>UserSettings_ColumnTypeOfScreen</dimension>
+		<dimension>Type of screen</dimension>
 		<metrics>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
