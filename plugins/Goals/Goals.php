@@ -62,7 +62,7 @@ class Piwik_Goals extends Piwik_Plugin
 		// Example: Conversion rate for Goal 2 for the keyword 'piwik' 
 		$goalProcessedMetrics = array(
     		'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
-    		'goals_conversion_rate' => Piwik_Translate('General_ColumnVisitsWithConversions'),
+    		'conversion_rate' => Piwik_Translate('General_ColumnVisitsWithConversions'),
 		);
 		
 		$goalMetrics = array(

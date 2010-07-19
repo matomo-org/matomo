@@ -276,7 +276,10 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
 		$this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
 		
-		$standardColumnNameToTranslation = Piwik_API_API::getInstance()->getDefaultMetrics();
+		$standardColumnNameToTranslation = array_merge(
+			Piwik_API_API::getInstance()->getDefaultMetrics(),
+			Piwik_API_API::getInstance()->getDefaultProcessedMetrics()
+		);
 		$this->setColumnsTranslations($standardColumnNameToTranslation);
 	}
 

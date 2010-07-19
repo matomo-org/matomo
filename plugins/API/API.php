@@ -51,7 +51,8 @@ class Piwik_API extends Piwik_Plugin {
  * 
  * @package Piwik_API
  */
-class Piwik_API_API {
+class Piwik_API_API 
+{
 	static private $instance = null;
 
 	/**
@@ -98,13 +99,12 @@ class Piwik_API_API {
 	/**
 	 * Triggers a hook to ask plugins for available Reports.
 	 *
-	 * @param array $idSites
+	 * @param string $idSites Comma separated list of website Ids
 	 * @return array
 	 */
-	public function getReportMetadata($idSites = array()) {
-		if (!is_array($idSites)) {
-			$idSites = array($idSites);
-		}
+	public function getReportMetadata($idSites = false) 
+	{
+		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 
 		$availableReports = array();
 		Piwik_PostEvent('API.getReportMetadata', $availableReports, $idSites);
