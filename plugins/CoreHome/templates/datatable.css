@@ -86,6 +86,9 @@ table.dataTable th {
 	font-weight:normal; 
 	border-left:1px solid #d4d0c4;
 }
+table.dataTable th.sortable{
+	cursor:pointer; 
+}
 
 table.dataTable th.first {
 }
@@ -423,6 +426,10 @@ table.dataTableActions tr td.labelodd {
 /* levels higher than 4 have a default padding left */
 tr.subActionsDataTable td.label,tr.actionsDataTable td.label {
 	padding-left: 7em;
+}
+
+tr.subActionsDataTable.rowToProcess{ 
+	cursor:pointer; 
 }
 
 tr.level0 td.label {
