@@ -30,7 +30,7 @@
 				</sql>	            
 
 				<antWrapper>
-					<replace file="${basedir}/../build/config/config.ini.php" token="[database]" value="[database_tests]"/>
+					<replace file="${basedir}/../../config/config.ini.php" token="[database]" value="[database_tests]"/>
 				</antWrapper>
 
 				<invoke description="get all_tests" url="/tests/all_tests.php" />
