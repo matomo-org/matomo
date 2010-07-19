@@ -279,70 +279,6 @@
 
 	</row>
 	<row>
-		<category>User Country</category>
-		<name>Continent</name>
-		<module>UserCountry</module>
-		<action>getContinent</action>
-		<dimension>Continent</dimension>
-		<metrics>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
-			<nb_visits>Visits</nb_visits>
-			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
-
-		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
-		<metricsGoal>
-			<nb_conversions>Conversions</nb_conversions>
-			<conversion_rate>Conversion Rate</conversion_rate>
-			<revenue>Revenue</revenue>
-
-		</metricsGoal>
-		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
-			<conversion_rate>Visits with Conversions</conversion_rate>
-
-		</processedMetricsGoal>
-
-	</row>
-	<row>
-		<category>User Country</category>
-		<name>Country</name>
-		<module>UserCountry</module>
-		<action>getCountry</action>
-		<dimension>Country</dimension>
-		<metrics>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
-			<nb_visits>Visits</nb_visits>
-			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
-
-		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
-		<metricsGoal>
-			<nb_conversions>Conversions</nb_conversions>
-			<conversion_rate>Conversion Rate</conversion_rate>
-			<revenue>Revenue</revenue>
-
-		</metricsGoal>
-		<processedMetricsGoal>
-			<revenue_per_visit>Value per Visit</revenue_per_visit>
-			<conversion_rate>Visits with Conversions</conversion_rate>
-
-		</processedMetricsGoal>
-
-	</row>
-	<row>
 		<category>Visitor Settings</category>
 		<name>Visitor browsers</name>
 		<module>UserSettings</module>
@@ -489,7 +425,7 @@
 	</row>
 	<row>
 		<category>Visitors</category>
-		<name>Visit Frequency</name>
+		<name>Visitors</name>
 		<module>VisitFrequency</module>
 		<action>get</action>
 		<metrics>
@@ -506,6 +442,70 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 
 		</processedMetrics>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Continent</name>
+		<module>UserCountry</module>
+		<action>getContinent</action>
+		<dimension>Continent</dimension>
+		<metrics>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_visits>Visits</nb_visits>
+			<nb_actions>Actions</nb_actions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<conversion_rate>Visits with Conversions</conversion_rate>
+
+		</processedMetricsGoal>
+
+	</row>
+	<row>
+		<category>Visitors</category>
+		<name>Country</name>
+		<module>UserCountry</module>
+		<action>getCountry</action>
+		<dimension>Country</dimension>
+		<metrics>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_visits>Visits</nb_visits>
+			<nb_actions>Actions</nb_actions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Value per Visit</revenue_per_visit>
+			<conversion_rate>Visits with Conversions</conversion_rate>
+
+		</processedMetricsGoal>
 
 	</row>
 	<row>
