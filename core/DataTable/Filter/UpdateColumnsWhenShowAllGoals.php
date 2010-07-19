@@ -70,7 +70,7 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 				{
 					$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $roundingPrecision);
 				}
-				$newColumns['goals_conversion_rate'] = $conversionRate;
+				$newColumns['conversion_rate'] = $conversionRate;
 				
 				if($nbVisits == 0)
 				{
@@ -133,7 +133,7 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 			$row->setColumns($newColumns);
 		}
 		$expectedColumns['revenue_per_visit'] = true;
-		$expectedColumns['goals_conversion_rate'] = true;
+		$expectedColumns['conversion_rate'] = true;
 		
 		// make sure all goals values are set, 0 by default
 		// if no value then sorting would put at the end

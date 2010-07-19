@@ -32,6 +32,11 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			'goal_%s_conversion_rate' => '%s conversion rate',
 			'goal_%s_nb_conversions' => '%s conversions',
 			'goal_%s_revenue_per_visit' => '%s revenue per visit',
+		
+			'nb_conversions' => Piwik_Translate('Goals_ColumnConversions'), 
+			'conversion_rate' => Piwik_Translate('Goals_ColumnConversionRate'), 
+			'revenue' => Piwik_Translate('Goals_ColumnRevenue'),
+    		'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
 		));
 		
 		$this->setColumnsToDisplay( array(	
@@ -40,7 +45,8 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			'goal_%s_nb_conversions',
 			'goal_%s_conversion_rate',
 			'goal_%s_revenue_per_visit',
-			'goals_conversion_rate',
+		
+			'conversion_rate',
 			'revenue_per_visit',
 		));
 		
@@ -136,7 +142,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	protected function postDataTableLoadedFromAPI()
 	{
 		parent::postDataTableLoadedFromAPI();
-		$this->columnsToPercentageFilter[] = 'goals_conversion_rate';
+		$this->columnsToPercentageFilter[] = 'conversion_rate';
 		foreach($this->columnsToPercentageFilter as $columnName)
 		{
 			$this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$rate', 'return sprintf("%.1f",$rate)."%";')));
