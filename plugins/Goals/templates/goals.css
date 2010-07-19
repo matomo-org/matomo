@@ -11,13 +11,28 @@ ul.ulGoalTopElements {
 .goalTopElement { 
 	border-bottom:1px dotted; 
 } 
-.listCircle {
-	list-style:circle outside none;
-	margin-left:30px;
+
+.segmentSelector{ 
+	font-weight:bold; 
+	float: left;
+	width: 220px; 
+	min-height:450px;
+}
+	
+
+.segmentSelector ul.listCircle{
+	font-weight:normal; 
+	list-style:none;
+	padding:4px 0;
+}
+.segmentSelector ul li{
+	background:#fff url(../../../themes/default/images/li_dbl_gray.gif) no-repeat 6px 10px;
+	padding:0 0 0 21px;
+	line-height:22px;
 }
 .segmentSelector ul li .segment{
 	cursor:pointer;
-	border-bottom:1px dotted black;
+	border-bottom:1px solid #d0d0d0;
 }
 .segmentSelector ul li.activeSegment .segment {
 	font-weight: bold;
@@ -30,11 +45,94 @@ ul.ulGoalTopElements {
 .goalInlineHelp {
 	color:#9B9B9B;
 }
-.tableFormGoals { 
-	width:700px;
+
+#AddEditGoals{  
+	width:614px;
 }
+
+
+.tableFormGoals { 
+	border-radius:4px!important;
+	-moz-border-radius:4px!important;
+	-webkit-border-radius:4px!important;
+	border-top:1px solid #cdc8bf!important;
+	border-bottom:1px solid #948c7d!important;
+}
+
+.tableFormGoals tr td.first, .tableFormGoals tr th.first{ 
+	border-left:0!important;
+}
+
+.tableFormGoals tr th{ 
+	white-space:nowrap; 
+	padding-top:10px!important;
+	padding-bottom:10px!important;
+}
+.tableFormGoals tr td, .tableFormGoals tr th{ 
+	border-bottom:0!important;
+	border-top:1px solid #E7E7E7!important;
+}
+
+
+
+#GoalForm .tableFormGoals th, #EditGoals .tableFormGoals th, #EditGoals .tableFormGoals td{ 
+	vertical-align:middle!important; 
+}
+
+#GoalForm tr:hover{ 
+	background:none!important;
+}
+
 #goalsCancel {
-	margin-left:550px;
-	margin-top:20px;
-	display:none;
+	text-align:right; 
+	clear:both; 
+	padding:10px 0;
+	font-size:10px;
+	display:none; 
+}
+
+.goalEntry{ 
+	margin:0 0 20px 0; 
+	padding:0 0 10px 0; 
+	border-bottom:1px solid #7e7363; 
+	width:614px;
+}
+
+#AddEditGoals .inp{  
+	border-radius:4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border:1px solid #d4d4d4;
+	background:#fff url(../../../themes/default/images/inp_bg.png) repeat-x 0 0;
+	padding:3px 10px;
+	color:#255792;
+}
+#AddEditGoals select.inp{  
+	padding-right:3px;
+	padding-left:7px;
+	margin-right:6px;
+}
+
+#AddEditGoals .but_submit{
+	clear:both; 
+	color:#fff;
+	font:18px Arial, Helvetica, sans-serif;
+	padding:3px 10px;
+	border-radius:4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border:0;
+	background:#847b6d url(../../../themes/default/images/dashboard_h_bg_hover.png) repeat-x 0 0;
+	float:right; 
+	margin:12px 0 0 0;
+}
+
+#AddEditGoals .link_but{
+	white-space:nowrap;
+	display:inline-block; 
+	margin:0 10px 0 0;
+}
+#AddEditGoals .link_but img{
+	white-space:nowrap; 
+	margin:0 1px 0 0!important;
 }

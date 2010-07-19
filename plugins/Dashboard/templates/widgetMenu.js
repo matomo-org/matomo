@@ -214,12 +214,7 @@ widgetMenu.prototype =
 				
 				//Widget width auto detection
 				var defaultWidgetWidth=600;
-				if(self.dashboard) {
-                    var currentWidgetWidth=$(".col:first", self.dashboard.dashboardElement).width();
-                }
-				$('#sub3').width(self.dashboard?currentWidgetWidth:defaultWidgetWidth);
-				
-				$('#sub3 .widgetTop').click(function() {
+				var currentWidgetWidth=self.dashboard?$(".col:first", self.dashboard.dashboardElement).width():defaultWidgetWidth;								$('#sub3').width(currentWidgetWidth);								$('#sub3 .widgetTop').click(function() {
 					self.movePreviewToDashboard();
 				});
 				

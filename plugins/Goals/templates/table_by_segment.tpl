@@ -2,7 +2,7 @@
 	{'Goals_GoalConversionsBySegment'|translate:$goalName}
 	{else}{'Goals_ConversionsOverviewBySegment'|translate}{/if}</h2> 
 
-<div class='segmentSelector' style='float: left;width: 220px;padding-left: 10px;height:450px'>
+<div class='segmentSelector'>
 	{foreach from=$goalSegments key=segmentFamilyName item=segments}
 		{'Goals_ViewGoalsBySegment'|translate:$segmentFamilyName}
 		<ul class='listCircle'>

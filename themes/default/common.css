@@ -84,6 +84,7 @@ a {
 .top_controls{ 
 	position:relative; 
 	height:32px; 
+	.z-index:11;
 }
 
 .top_controls_inner{ 
@@ -198,7 +199,7 @@ a {
 	color:#444444; 
 }
 
-#header{ padding:10px 0 0 0; height:60px; }
+#header{ padding:10px 0 0 0; min-height:60px; }
 
 #logo {
 	display: block;
@@ -379,7 +380,7 @@ a {
 #javascriptDisable, #javascriptDisable a {
 	font-weight: bold;
 	color: #F88D22;
-	padding-left:1em;
+	padding:15px;
 	clear:both;
 }
 #topBars{ position:absolute; top:0; right:0; z-index:20; color:#9c9c9c; white-space:nowrap; }

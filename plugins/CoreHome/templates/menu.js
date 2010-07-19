@@ -46,7 +46,7 @@ menu.prototype =
 		
 		
 		//sub LI auto height
-		$('.nav li li').each(function(){$(this).css({width:$('a', this).width()+30});});
+		$('.nav li li a').each(function(){$(this).css({width:$(this).width()+30, paddingLeft:0, paddingRight:0});});
 		
 		
 		this.param.superfish = $('.nav')
@@ -55,6 +55,9 @@ menu.prototype =
 				animation : {opacity:'show'},
 				delay : 2000
 			});
+		this.param.superfish.find("ul")
+			.click( function(e){ e.stopPropagation()} )
+			;
 		this.param.superfish.find("li a")
 			.click( self.onClickLI )
 			;
@@ -93,6 +96,7 @@ menu.prototype =
 
     activateMenu : function(module,action,idGoal)
     {
+		
 		// getting the right li is a little tricky since goals uses idGoal, and overview is index.
 		var $li = '';
 		// So, if module is Goals, idGoal is present, and action is not Index, must be one of the goals
@@ -103,8 +107,7 @@ menu.prototype =
 		}
 		
 		if(this.activeLI) this.activeLI.removeClass('sfActive');
-		this.activeLI=($li.id?$li.parent().parent():$("#" + module)).addClass('sfActive');
-		
+		this.activeLI=($li.attr("id")?$li.parent().parent():$("#" + module)).addClass('sfActive');
 
 		// we can't find this li based on Module_action? then li only be the main menu. e.g Dashboard.
 		var no_sub_menu = false;
