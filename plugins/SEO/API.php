@@ -10,6 +10,9 @@
  * @package Piwik_SEO
  */
 
+/**
+ * @see plugins/Referers/functions.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 
 /**

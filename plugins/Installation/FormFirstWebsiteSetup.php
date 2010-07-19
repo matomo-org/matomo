@@ -53,6 +53,11 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_QuickForm2
 	}	
 }
 
+/**
+ * Timezone validation rule
+ *
+ * @package Piwik_Installation
+ */
 class Piwik_Installation_FormFirstWebsiteSetup_Rule_isValidTimezone extends HTML_QuickForm2_Rule
 {
 	function validateOwner()

@@ -10,25 +10,27 @@
  * @package Piwik
  */
 
+require_once ("libs/cssmin/cssmin.php");
+require_once ("libs/jsmin/jsmin.php");
+
 /**
- * Piwik_AssetManager is the class used to manage the inclusion of UI assets: Javascript and CSS files.
+ * Piwik_AssetManager is the class used to manage the inclusion of UI assets:
+ * JavaScript and CSS files.
  * 
- * It performs the following actions :
+ * It performs the following actions:
  * 	- Identifies required assets
  *  - Includes assets in the rendered HTML page
  *  - Manages asset merging and minifying
  *  - Manages both server-side and client-side cache
- *  
- * Whether assets are included individually or as merged files is defined by the 
- * global option 'disable_merged_assets'. When set to 1, files will be included individually.
- * When set to 0, files will be included within a pair of files: 1 javascript and 1 css file.
+ *
+ * Whether assets are included individually or as merged files is defined by
+ * the global option 'disable_merged_assets'. When set to 1, files will be
+ * included individually.
+ * When set to 0, files will be included within a pair of files: 1 JavaScript
+ * and 1 css file.
  *
  * @package Piwik
  */
-
-require_once ("libs/cssmin/cssmin.php");
-require_once ("libs/jsmin/jsmin.php");
-
 class Piwik_AssetManager
 {		
 	const CSS_IMPORT_EVENT = "AssetManager.getCssFiles";
