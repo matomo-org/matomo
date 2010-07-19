@@ -428,7 +428,7 @@ tr.subActionsDataTable td.label,tr.actionsDataTable td.label {
 	padding-left: 7em;
 }
 
-tr.subActionsDataTable.rowToProcess{ 
+tr.subActionsDataTable{ 
 	cursor:pointer; 
 }
 
