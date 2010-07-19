@@ -45,7 +45,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 	{
 		$reports = &$notification->getNotificationObject();
 		$reports[] = array(
-			'category' => Piwik_Translate('UserCountry_UserCountry'),
+			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('UserCountry_Country'),
 			'module' => 'UserCountry',
 			'action' => 'getCountry',
@@ -53,7 +53,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 		
 		$reports[] = array(
-			'category' => Piwik_Translate('UserCountry_UserCountry'),
+			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('UserCountry_Continent'),
 			'module' => 'UserCountry',
 			'action' => 'getContinent',

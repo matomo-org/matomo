@@ -34,6 +34,17 @@ class Test_Piwik_Integration_Main extends Test_Integration
 		return PIWIK_INCLUDE_PATH . '/tests/integration';
 	}
 	
+	/**
+	 * This tests the output of the API plugin API (which returns metadata about all API reports from all plugins)
+	 * @return 
+	 */
+	function test_apiGetReportMetadata()
+	{
+		$this->setApiNotToCall(array());
+		$this->setApiToCall( 'API' );
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml');
+	}
+	
 	/*
 	 * Testing various wrong Tracker requests and check that they behave as expected:
 	 * not throwing errors and not recording data.
@@ -214,13 +225,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$idSite = 'all';
     	// Request data for the last 6 periods
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite = 'all', $dateTime, $periods, $setDateLastN = true);
-	}
-	
-	function test_apiGetReportMetadata()
-	{
-		$this->setApiNotToCall(array());
-		$this->setApiToCall( 'API' );
-        $this->callGetApiCompareOutput(__FUNCTION__, 'xml');
 	}
 	
 }
