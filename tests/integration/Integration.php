@@ -22,6 +22,74 @@ abstract class Test_Integration extends Test_Database
 	abstract function getPathToTestDirectory();
 
 	/**
+	 * Load english translations to ensure API response have english text
+	 * @see tests/core/Test_Database#setUp()
+	 */
+	function setUp() 
+	{
+		parent::setUp();
+		// Make sure translations are loaded to check messages in English 
+    	Piwik_Translate::getInstance()->loadEnglishTranslation();
+    	
+    	// List of Modules, or Module.Method that should not be called as part of the XML output compare
+    	// Usually these modules either return random changing data, or are already tested in specific unit tests. 
+		$this->setApiNotToCall(array(
+			'LanguagesManager',
+			'DBStats',
+			'UsersManager',
+			'SitesManager',
+			'ExampleUI',
+			'Live',
+			'SEO',
+			'ExampleAPI',
+			'Pdfexport',
+			'API',
+		));
+	}
+	
+	function tearDown() 
+	{
+		parent::tearDown();
+    	Piwik_Translate::getInstance()->unloadEnglishTranslation();
+	}
+	
+	protected $apiToCall = array();
+	protected $apiNotToCall = array();
+	
+	/**
+	 * Forces the test to only call and fetch XML for the specified plugins, 
+	 * or exact API methods.
+	 * 
+	 * If not called, all default tests will be executed.
+	 * 
+	 * @param $apiToCall array( 'ExampleAPI', 'Plugin.getData' )
+	 * @return void
+	 */
+	protected function setApiToCall( $apiToCall )
+	{
+		if(!is_array($apiToCall))
+		{
+			$apiToCall = array($apiToCall);
+		}
+		$this->apiToCall = $apiToCall;
+	}
+	
+	/**
+	 * Sets a list of API methods to not call during the test
+	 * @param $apiNotToCall eg. 'ExampleAPI.getPiwikVersion'
+	 * @return void
+	 */
+	protected function setApiNotToCall( $apiNotToCall )
+	{
+		if(!is_array($apiNotToCall))
+		{
+			$apiNotToCall = array($apiNotToCall);
+		}
+		$this->apiNotToCall = $apiNotToCall;
+	}
+	
+	
+	/**
 	 * Returns a PiwikTracker object that you can then use to track pages or goals.
 	 * 
 	 * @param $idSite
@@ -80,55 +148,6 @@ abstract class Test_Integration extends Test_Database
 	}
 	
 	/**
-	 * Forces the test to only call and fetch XML for the specified plugins, 
-	 * or exact API methods.
-	 * 
-	 * If not called, all default tests will be executed.
-	 * 
-	 * @param $apiToCall array( 'ExampleAPI', 'Plugin.getData' )
-	 * @return void
-	 */
-	protected function setApiToCall( $apiToCall )
-	{
-		if(!is_array($apiToCall))
-		{
-			$apiToCall = array($apiToCall);
-		}
-		$this->apiToCall = $apiToCall;
-	}
-	
-	/**
-	 * Sets a list of API methods to not call during the test
-	 * @param $apiNotToCall eg. 'ExampleAPI.getPiwikVersion'
-	 * @return void
-	 */
-	protected function setApiNotToCall( $apiNotToCall )
-	{
-		if(!is_array($apiNotToCall))
-		{
-			$apiNotToCall = array($apiNotToCall);
-		}
-		$this->apiNotToCall = $apiNotToCall;
-	}
-	
-	protected $apiToCall = array();
-	
-	// List of Modules, or Module.Method that should not be called as part of the XML output compare
-	// Usually these modules either return random changing data, or are already tested in specific unit tests. 
-	protected $apiNotToCall = array(
-			'LanguagesManager',
-			'DBStats',
-			'UsersManager',
-			'SitesManager',
-			'ExampleUI',
-			'Live',
-			'SEO',
-			'ExampleAPI',
-			'Pdfexport',
-			'API',
-		);
-	
-	/**
 	 * Checks that the response is a GIF image as expected.
 	 * @return Will fail the test if the response is not the expected GIF
 	 */
@@ -178,23 +197,6 @@ abstract class Test_Integration extends Test_Database
     	$pluginsManager->installLoadedPlugins();
 	}
 	
-	/**
-	 * Load english translations to ensure API response have english text
-	 * @see tests/core/Test_Database#setUp()
-	 */
-	function setUp() 
-	{
-		parent::setUp();
-		// Make sure translations are loaded to check messages in English 
-    	Piwik_Translate::getInstance()->loadEnglishTranslation();
-    	
-	}
-	
-	function tearDown() 
-	{
-		parent::tearDown();
-    	Piwik_Translate::getInstance()->unloadEnglishTranslation();
-	}
 	
 	/**
 	 * Given a list of default parameters to set, returns the URLs of APIs to call
