@@ -145,6 +145,17 @@ class Piwik_API_API
 			}
 			$availableReport['metrics'] = $cleanedMetrics;
 		}
+		
+		// Sort results to ensure consistent order
+		usort($availableReports, array($this, "sort"));
+		
 		return $availableReports;
+	}
+	
+	private function sort($a, $b)
+	{
+		return ($category = strcmp($a['category'], $b['category'])) != 0 	
+				? $category
+				: strcmp($a['action'], $b['action']);
 	}
 }
