@@ -1,7 +1,7 @@
 <project name="piwik" default="all" basedir=".">
 
 	<property file="build.properties" />
-	<property file="${workspace.home}/tests/defaults.properties" />
+	<property file="defaults.properties" />
 
 	<target name="phpdoc">
 		<echo>phpDocumentor started</echo>
