@@ -145,10 +145,10 @@
 		<fail>
 			<condition>
 				<or>
-					<equals arg1="${result-pdo-mysql}" arg2="1"/>
-					<equals arg1="${result-phpdoc}" arg2="1"/>
-					<equals arg1="${result-schemaspy}" arg2="1"/>
-					<!-- isfailure code="result-mysqli" /-->
+					<isfailure code="${result-pdo-mysql}" />
+					<!-- isfailure code="${result-mysqli" /-->
+					<isfailure code="${result-phpdoc}" />
+					<isfailure code="${result-schemaspy}" />
 				</or>
 			</condition>
 		</fail>
