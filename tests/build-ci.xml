@@ -70,15 +70,43 @@
 		<ant antfile="${basedir}/build-canoo.xml"/>
 	</target>
 
+	<target name="schemaspy">
+		<echo>SchemaSpy started</echo>
+
+		<delete dir="${basedir}/../schemaspy-report"/>
+		<mkdir dir="${basedir}/../schemaspy-report"/>
+
+		<java jar="${basedir}/lib/java/schemaSpy_3.1.1.jar" fork="true" failonerror="false" resultproperty="result-schemaspy" maxmemory="256m" dir="${basedir}">
+			<arg value="-t"/>
+			<arg value="mysql"/>
+			<arg value="-host"/>
+			<arg value="${database.main.host}:${database.main.port}"/>
+			<arg value="-db"/>
+			<arg value="${database.main.name}"/>
+			<arg value="-cp"/>
+			<arg path="${basedir}/lib/java/mysql-connector-java-5.1.7.jar"/>
+			<arg value="-u"/>
+			<arg value="${database.main.username}"/>
+			<arg value="-o"/>
+			<arg path="${basedir}/../schemaspy-report"/>
+			<arg value="-p"/>
+			<arg value="${database.main.password}"/>
+		</java>
+
+		<echo>SchemaSpy finished</echo>
+	</target>
+
 	<target name="all">
 		<antcall target="test-pdo-mysql"/>
 		<antcall target="test-mysqli"/>
 		<antcall target="webtest"/>
+		<antcall target="schemaspy"/>
 		<fail>
 			<condition>
 				<or>
 					<equals arg1="${result-mysqli}" arg2="1"/>
 					<equals arg1="${result-pdo-mysql}" arg2="1"/>
+					<equals arg1="${result-schemaspy}" arg2="1"/>
 				</or>
 			</condition>
 		</fail>
