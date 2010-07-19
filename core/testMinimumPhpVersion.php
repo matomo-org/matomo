@@ -66,9 +66,18 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	exit;
 }
 
-// added in PHP 4.3.0
 if (!function_exists('file_get_contents'))
 {
+	/**
+	 * Reads entire file into a string.
+	 * This function is not 100% compatible with the native function.
+	 *
+	 * @see http://php.net/file_get_contents
+	 * @since PHP 4.3.0
+	 *
+	 * @param string $filename Name of the file to read.
+	 * @return string The read data or false on failure.
+	 */
 	function file_get_contents($filename)
 	{
 		$fhandle = fopen($filename, "r");
