@@ -15,7 +15,7 @@
 			</filterset>
 		</copy>
 
-		<exec executable="${php.executable}" dir="${workspace.home}/" failonerror="false" resultproperty="result-phpdoc" failifexecutionfails="true">
+		<exec executable="${php.executable}" dir="${workspace.home}/" failonerror="true" failifexecutionfails="true">
 			<arg value="${phpdocumentor.home}/phpDocumentor/phpdoc.inc" />
 			<arg value="--useconfig"/>
 			<arg file="${basedir}/phpdoc-config.ini"/>
@@ -30,7 +30,7 @@
 		<delete dir="${basedir}/schemaspy-report"/>
 		<mkdir dir="${basedir}/schemaspy-report"/>
 
-		<java jar="${workspace.home}/lib/java/schemaSpy_3.1.1.jar" fork="true" failonerror="false" resultproperty="result-schemaspy" maxmemory="256m" dir="${workspace.home}">
+		<java jar="${workspace.home}/tests/lib/java/schemaSpy_3.1.1.jar" fork="true" failonerror="true" maxmemory="256m" dir="${workspace.home}">
 			<arg value="-t"/>
 			<arg value="mysql"/>
 			<arg value="-host"/>
@@ -53,14 +53,6 @@
 	<target name="all">
 		<antcall target="phpdoc"/>
 		<antcall target="schemaspy"/>
-		<fail>
-			<condition>
-				<or>
-					<equals arg1="${result-phpdoc}" arg2="1"/>
-					<equals arg1="${result-schemaspy}" arg2="1"/>
-				</or>
-			</condition>
-		</fail>
 	</target>
 
 </project>
