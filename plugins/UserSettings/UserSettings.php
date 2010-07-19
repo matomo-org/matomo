@@ -105,7 +105,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		// in this case, Widgets have same names as API reports 
 		foreach($this->reportMetadata as $report)
 		{
-			list( $category, $name, $controllerName, $controllerAction ) = extract($report);
+			list( $category, $name, $controllerName, $controllerAction ) = $report;
 			Piwik_AddWidget( $category, $name, $controllerName, $controllerAction );
 		}
 	}
