@@ -152,6 +152,7 @@ a {
 
 /* About Piwik box top right */
 #header_message {
+	z-index:20;
 	cursor:default; 
 	position: absolute;
 	right:4px;
