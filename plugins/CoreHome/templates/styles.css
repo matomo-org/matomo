@@ -16,6 +16,7 @@ h2 {
 
 h2 a {
 	text-decoration:none;
+ 	color: #7e7363;
 }
 
 h3 {
@@ -59,6 +60,7 @@ h3 {
 /* Content */
 #content.home {
 	padding-top:5px;
+	font-size:14px;
 }
 
 

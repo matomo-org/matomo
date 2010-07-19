@@ -17,11 +17,11 @@
 {literal}<script type="text/javascript">
 $(document).ready(function() {
      // this will trigger to change only the period value on search query and hash string.
-     $("#otherPeriods input").bind('focus',function(e) {
-        e.preventDefault();                            
+     $("#otherPeriods input").bind('click',function(e) {
         var request_URL = $(e.target).attr("value");
         var new_period = broadcast.getValueFromUrl('period',request_URL);
         broadcast.propagateNewPage('period='+new_period);
+		return true;
     });
 });</script>
 {/literal}

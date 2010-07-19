@@ -7,8 +7,8 @@
 	{assign var=conversion_rate value=$goal.conversion_rate}
 	{assign var=name value=$goal.name}
 	
-    <div class="clear"></div>
-	<h2 style="padding-top: 30px;">
+    <div class="goalEntry">
+	<h2>
 		{if $displayFullReport}<a href="javascript:broadcast.propagateAjax('module=Goals&action=goalReport&idGoal={$goal.id}')">{/if}
 		{'Goals_GoalX'|translate:"'$name'"}
 		{if $displayFullReport}</a>{/if}
@@ -21,6 +21,8 @@
 		<div class="sparkline">{sparkline src=$goal.urlSparklineConversionRate}
 		{'Goals_ConversionRate'|translate:"<strong>$conversion_rate%</strong>"}</div>
 	</div>
+    <br class="clear" />
+    </div>
 {/foreach}
 
 {if $displayFullReport}
