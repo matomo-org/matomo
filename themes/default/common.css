@@ -114,6 +114,10 @@ a {
 }
 #periodString #date{
 	cursor:pointer; 
+	display:inline-block; 
+	padding:5px 10px 6px 10px;
+	margin:-5px -10px -6px -10px;
+	
 }
 #periodString #date img{
 	vertical-align:middle; 
@@ -383,7 +387,14 @@ a {
 	padding:15px;
 	clear:both;
 }
-#topBars{ position:absolute; top:0; right:0; z-index:20; color:#9c9c9c; white-space:nowrap; }
+#topBars{ 
+	position:absolute; 
+	top:0; 
+	right:0; 
+	z-index:40; 
+	color:#9c9c9c; 
+	white-space:nowrap; 
+}
 
 #topRightBar {
 	float:left;
