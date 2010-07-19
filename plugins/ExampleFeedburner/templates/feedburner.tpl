@@ -33,7 +33,7 @@ $(document).ready(function(){
 {/literal}
 
 {if !is_array($fbStats)}
-	{$fbStats}
+	<p style='margin-top:20px'>{$fbStats}</p>
 {else}
 <table class='feedburner' align="center" cellpadding="2" style='text-align:center'>
 	<tr>

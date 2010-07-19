@@ -12,14 +12,15 @@ ul.ulGoalTopElements {
 	border-bottom:1px dotted; 
 } 
 
+
 .segmentSelector{ 
-	font-weight:bold; 
 	float: left;
 	width: 220px; 
 	min-height:450px;
 }
-	
-
+.segmentCategory {
+	margin-top:10px;
+}
 .segmentSelector ul.listCircle{
 	font-weight:normal; 
 	list-style:none;

@@ -4,14 +4,16 @@
 
 <div class='segmentSelector'>
 	{foreach from=$goalSegments key=segmentFamilyName item=segments}
-		{'Goals_ViewGoalsBySegment'|translate:$segmentFamilyName}
-		<ul class='listCircle'>
-		{foreach from=$segments item=segment}
-			<li title='{'Goals_ViewGoalsBySegment'|translate:$segment.name}' class='goalSegment' module='{$segment.module}' action='{$segment.action}'>
-				<span class='segment'>{$segment.name}</span>
-			</li>
-		{/foreach}
-		</ul>
+		<div class='segmentCategory'>
+			{'Goals_ViewGoalsBySegment'|translate:$segmentFamilyName}
+			<ul class='listCircle'>
+			{foreach from=$segments item=segment}
+				<li title='{'Goals_ViewGoalsBySegment'|translate:$segment.name}' class='goalSegment' module='{$segment.module}' action='{$segment.action}'>
+					<span class='segment'>{$segment.name}</span>
+				</li>
+			{/foreach}
+			</ul>
+		</div>
 	{/foreach}
 </div>
 

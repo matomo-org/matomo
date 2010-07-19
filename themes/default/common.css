@@ -157,7 +157,7 @@ a {
 
 /* About Piwik box top right */
 #header_message {
-	z-index:20;
+	z-index:0;
 	cursor:default; 
 	position: absolute;
 	right:4px;
@@ -174,6 +174,7 @@ a {
 #header_message:hover, #header_message.active {
 	width:auto;
 	height:auto; 
+	z-index:35;
 }
 #header_message .header_short{ display:block; white-space:nowrap;  }
 #header_message .header_full{ display:none; }

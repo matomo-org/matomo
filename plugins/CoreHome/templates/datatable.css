@@ -118,7 +118,7 @@ table.dataTable td,table.dataTable td a {
 
 
 table.dataTable tr:hover>td{
-	background-color:#ffffed;
+	background-color:#FFFFF7;
 }
 table.dataTable tr.subDataTable:hover>td{
 	background-color:#ffffcb;

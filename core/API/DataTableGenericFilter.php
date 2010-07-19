@@ -54,7 +54,7 @@ class Piwik_API_DataTableGenericFilter
 								'filter_excludelowpop' 		=> array('string'), 
 								'filter_excludelowpop_value'=> array('float', '0'),
 						),
-			'AddColumnsWhenShowAllColumns'	=> array(
+			'AddColumnsProcessedMetrics'	=> array(
 								'filter_add_columns_when_show_all_columns'	=> array('integer')
 						),
 			'UpdateColumnsWhenShowAllGoals'	=> array(
