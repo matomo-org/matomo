@@ -63,6 +63,11 @@ class Piwik_Installation_FormGeneralSetup extends Piwik_QuickForm2
 	}
 }
 
+/**
+ * Login id validation rule
+ *
+ * @package Piwik_Installation
+ */
 class Piwik_Installation_FormGeneralSetup_Rule_isValidLoginString extends HTML_QuickForm2_Rule
 {
 	function validateOwner()
@@ -81,6 +86,11 @@ class Piwik_Installation_FormGeneralSetup_Rule_isValidLoginString extends HTML_Q
 	}
 }
 
+/**
+ * Email address validation rule
+ *
+ * @package Piwik_Installation
+ */
 class Piwik_Installation_FormGeneralSetup_Rule_isValidEmailString extends HTML_QuickForm2_Rule
 {
 	function validateOwner()

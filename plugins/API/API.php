@@ -47,6 +47,10 @@ class Piwik_API extends Piwik_Plugin {
 }
 
 
+/**
+ * 
+ * @package Piwik_API
+ */
 class Piwik_API_API {
 	static private $instance = null;
 
