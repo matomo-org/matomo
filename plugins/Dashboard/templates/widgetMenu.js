@@ -214,7 +214,9 @@ widgetMenu.prototype =
 				
 				//Widget width auto detection
 				var defaultWidgetWidth=600;
-				var currentWidgetWidth=$(".col:first", self.dashboard.dashboardElement).width();
+				if(self.dashboard) {
+                    var currentWidgetWidth=$(".col:first", self.dashboard.dashboardElement).width();
+                }
 				$('#sub3').width(self.dashboard?currentWidgetWidth:defaultWidgetWidth);
 				
 				$('#sub3 .widgetTop').click(function() {
