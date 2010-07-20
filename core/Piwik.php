@@ -272,7 +272,7 @@ class Piwik
 	 * Checks if directories are writable and create them if they do not exist.
 	 *
 	 * @param array $directoriesToCheck array of directories to check - if not given default Piwik directories that needs write permission are checked
-	 * @return array direcory name => true|false (is writable)
+	 * @return array directory name => true|false (is writable)
 	 */
 	static public function checkDirectoriesWritable($directoriesToCheck = null)
 	{
@@ -313,7 +313,43 @@ class Piwik
 	}
 
 	/**
-	 * Generate .htaccess files at runtime to avoid permission problems.
+	 * Check if this installation can be auto-updated.
+	 *
+	 * For performance, we look for clues rather than an exhaustive test.
+	 */
+	static public function canAutoUpdate()
+	{
+		if(!is_writable(PIWIK_INCLUDE_PATH . '/') ||
+			!is_writable(PIWIK_DOCUMENT_ROOT . '/index.php') ||
+			!is_writable(PIWIK_INCLUDE_PATH . '/core') ||
+			!is_writable(PIWIK_USER_PATH . '/config/global.ini.php'))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Generate default robots.txt, favicon.ico, etc to suppress
+	 * 404 (Not Found) errors in the web server logs, if Piwik
+	 * is installed in the web root (or top level of subdomain).
+	 *
+	 * @see misc/crossdomain.xml
+	 */
+	static public function createWebRootFiles()
+	{
+		$filesToCreate = array(
+			'/robots.txt',
+			'/favicon.ico',
+		);
+		foreach($filesToCreate as $file)
+		{
+			@file_put_contents(PIWIK_DOCUMENT_ROOT . $file, '');
+		}
+	}
+
+	/**
+	 * Generate Apache .htaccess files to restrict access
 	 */
 	static public function createHtAccessFiles()
 	{
@@ -345,7 +381,7 @@ class Piwik
 	}
 
 	/**
-	 * Generate web.config files at runtime
+	 * Generate IIS web.config files to restrict access
 	 *
 	 * Note: for IIS 7 and above
 	 */
@@ -407,9 +443,6 @@ class Piwik
 	 */
 	static public function getFileIntegrityInformation()
 	{
-		$exclude = array(
-			'robots.txt',
-		);
 		$messages = array();
 		$messages[] = true;
 
@@ -435,11 +468,6 @@ class Piwik
 		$hasMd5 = function_exists('md5');
 		foreach($files as $path => $props)
 		{
-			if(in_array($path, $exclude))
-			{
-				continue;
-			}
-
 			$file = PIWIK_INCLUDE_PATH . '/' . $path;
 
 			if(!file_exists($file))

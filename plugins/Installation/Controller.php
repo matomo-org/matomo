@@ -669,6 +669,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos = array();
 
 		$infos['directories'] = Piwik::checkDirectoriesWritable();
+		$infos['can_auto_update'] = Piwik::canAutoUpdate();
 
 		$serverSoftware = $_SERVER['SERVER_SOFTWARE'];
 		if(preg_match('/^Microsoft-IIS\/(.+)/', $serverSoftware, $matches) && version_compare($matches[1], '7') >= 0)
@@ -679,6 +680,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			Piwik::createHtAccessFiles();
 		}
+		Piwik::createWebRootFiles();
 
 		$infos['phpVersion_minimum'] = $minimumPhpVersion;
 		$infos['phpVersion'] = phpversion();
