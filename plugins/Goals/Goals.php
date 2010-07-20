@@ -57,17 +57,16 @@ class Piwik_Goals extends Piwik_Plugin
 		$idSites = $notification->getNotificationInfo();
 		$reports = &$notification->getNotificationObject();
 	
-		// Processed in UpdateColumnsWhenShowAllGoals
+		// Processed in AddColumnsProcessedMetricsGoal
 		// These metrics will also be available for some reports, for each goal
 		// Example: Conversion rate for Goal 2 for the keyword 'piwik' 
 		$goalProcessedMetrics = array(
     		'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
-    		'conversion_rate' => Piwik_Translate('General_ColumnVisitsWithConversions'),
-		);
+    	);
 		
 		$goalMetrics = array(
 			'nb_conversions' => Piwik_Translate('Goals_ColumnConversions'), 
-			'conversion_rate' => Piwik_Translate('Goals_ColumnConversionRate'), 
+			'conversion_rate' => Piwik_Translate('General_ColumnConversionRate'), 
 			'revenue' => Piwik_Translate('Goals_ColumnRevenue')
 		);
 
@@ -77,7 +76,8 @@ class Piwik_Goals extends Piwik_Plugin
 			'name' => Piwik_Translate('Goals_Goals'),
 			'module' => 'Goals',
 			'action' => 'get',
-			'metrics' => $goalMetrics
+			'metrics' => $goalMetrics,
+			'processedMetrics' => array(),
 		);
 		
 		/* 
@@ -118,6 +118,7 @@ class Piwik_Goals extends Piwik_Plugin
 					'action' => 'get',
 					'parameters' => array('idGoal' => $goal['idgoal']),
 					'metrics' => $goalMetrics,
+					'processedMetrics' => false,
 				);
 			}
 		}

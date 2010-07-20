@@ -46,19 +46,21 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 		$reports[] = array(
 			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('VisitorInterest_WidgetLengths'),
-			'module' => 'VisitTime',
+			'module' => 'VisitorInterest',
 			'action' => 'getNumberOfVisitsPerVisitDuration',
 			'dimension' => Piwik_Translate('VisitorInterest_ColumnVisitDuration'),
 			'metrics' => array( 'nb_visits' ),
+			'processedMetrics' => false,
 		);
 		
 		$reports[] = array(
 			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('VisitorInterest_WidgetPages'),
-			'module' => 'VisitTime',
+			'module' => 'VisitorInterest',
 			'action' => 'getNumberOfVisitsPerPage',
 			'dimension' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'),
 			'metrics' => array( 'nb_visits' ),
+			'processedMetrics' => false,
 		);
 	}
 

@@ -49,19 +49,22 @@ class Test_Piwik extends UnitTestCase
     {
     	Piwik_Translate::getInstance()->loadEnglishTranslation();
     	$tests = array(
-    		30 => '30s',
-    		60 => '1 min 0s',
-    		100 => '1 min 40s',
-    		3600 => '1 hours 0 min',
-    		3700 => '1 hours 1 min',
-    		86400 + 3600 * 10 => '1 days 10 hours',
-    		86400 * 365 => '365 days 0 hours',
-    		(86400 * (365.25 + 10)) => '1 years 10 days',
+    		30 => array('30s', '00:00:30'),
+    		60 => array('1 min 0s', '00:01:00'),
+    		100 => array('1 min 40s', '00:01:40'),
+    		3600 => array('1 hours 0 min', '01:00:00'),
+    		3700 => array('1 hours 1 min', '01:01:40'),
+    		86400 + 3600 * 10 => array('1 days 10 hours', '34:00:00'),
+    		86400 * 365 => array('365 days 0 hours', '8760:00:00'),
+    		(86400 * (365.25 + 10)) => array('1 years 10 days', '9006:00:00'),
     		
     	);
     	foreach($tests as $seconds => $expected)
     	{
-    		$this->assertEqual( Piwik::getPrettyTimeFromSeconds($seconds), str_replace(' ','&nbsp;', $expected));
+    		$sentenceExpected = str_replace(' ','&nbsp;', $expected[0]);
+    		$numericExpected = $expected[1];
+    		$this->assertEqual( Piwik::getPrettyTimeFromSeconds($seconds, $sentence = true), $sentenceExpected);
+    		$this->assertEqual( Piwik::getPrettyTimeFromSeconds($seconds, $sentence = false), $numericExpected);
     	}
     	Piwik_Translate::getInstance()->unloadEnglishTranslation();
     }

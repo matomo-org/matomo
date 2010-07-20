@@ -51,7 +51,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 			'metrics' => array(
     			'nb_visits_returning' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
     			'nb_actions_returning' => Piwik_Translate('VisitFrequency_ColumnActionsByReturningVisits'), 
-    			'avg_visit_length_returning' => Piwik_Translate('VisitFrequency_ColumnAverageVisitDurationForReturningVisitors'),
+    			'avg_time_on_site_returning' => Piwik_Translate('VisitFrequency_ColumnAverageVisitDurationForReturningVisitors'),
     			'bounce_rate_returning' => Piwik_Translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
     			'nb_actions_per_visit_returning' => Piwik_Translate('VisitFrequency_ColumnAvgActionsPerReturningVisit'),
 // Not displayed
@@ -61,6 +61,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 //    			'max_actions_returning',
 //    			'bounce_count_returning',
 			),
+			'processedMetrics' => false,
 		);
 	}
 

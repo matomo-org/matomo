@@ -69,17 +69,16 @@ class Piwik_Actions extends Piwik_Plugin
 			'action' => 'getPageUrls',
     		'dimension' => Piwik_Translate('Actions_ColumnPageURL'),
 			'metrics' => array(
-            		'bounce_rate', 
-            		'nb_visits',
-                    'entry_nb_visits' => Piwik_Translate('General_ColumnEntrances'), 
-                    'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
                     'nb_visits' => Piwik_Translate('General_ColumnUniquePageviews'),
+                    'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
+                    'entry_nb_visits' => Piwik_Translate('General_ColumnEntrances'), 
                     'avg_time_on_page' => Piwik_Translate('General_ColumnAverageTimeOnPage'),
                     'bounce_rate' => Piwik_Translate('General_ColumnBounceRate'),
-                    'exit_rate' => Piwik_Translate('General_ColumnExitRate'), 
                     'exit_nb_visits' => Piwik_Translate('General_ColumnExits'), 
+                    'exit_rate' => Piwik_Translate('General_ColumnExitRate'), 
         			// 'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'), 
     		),
+			'processedMetrics' => false,
 		);
 
 		// Page titles, downloads and outlinks only report basic metrics
@@ -94,6 +93,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'action' => 'getOutlinks',
 			'dimension' => Piwik_Translate('Actions_ColumnClickedURL'),
 			'metrics' => $metrics,
+			'processedMetrics' => false,
 		);
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
@@ -102,6 +102,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'action' => 'getDownloads',
 			'dimension' => Piwik_Translate('Actions_ColumnDownloadURL'),
 			'metrics' => $metrics,
+			'processedMetrics' => false,
 		);
 		
 		$reports[] = array(
@@ -111,6 +112,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'action' => 'getPageTitles',
 			'dimension' => Piwik_Translate('Actions_ColumnPageName'),
 			'metrics' => $metrics,
+			'processedMetrics' => false,
 		);
 	}
 	

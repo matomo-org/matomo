@@ -12,12 +12,6 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 
 		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
 
 	</row>
 	<row>
@@ -32,12 +26,6 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 
 		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
 
 	</row>
 	<row>
@@ -52,12 +40,6 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 
 		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
 
 	</row>
 	<row>
@@ -67,21 +49,15 @@
 		<action>getPageUrls</action>
 		<dimension>Page URL</dimension>
 		<metrics>
-			<bounce_rate>Bounce Rate</bounce_rate>
 			<nb_visits>Unique Pageviews</nb_visits>
-			<entry_nb_visits>Entrances</entry_nb_visits>
 			<nb_hits>Pageviews</nb_hits>
+			<entry_nb_visits>Entrances</entry_nb_visits>
 			<avg_time_on_page>Avg. time on page</avg_time_on_page>
-			<exit_rate>Exit rate</exit_rate>
+			<bounce_rate>Bounce Rate</bounce_rate>
 			<exit_nb_visits>Exits</exit_nb_visits>
+			<exit_rate>Exit rate</exit_rate>
 
 		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
 
 	</row>
 	<row>
@@ -107,13 +83,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 
@@ -128,13 +104,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
@@ -145,7 +121,6 @@
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
-			<conversion_rate>Visits with Conversions</conversion_rate>
 
 		</processedMetricsGoal>
 
@@ -160,13 +135,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
@@ -177,7 +152,6 @@
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
-			<conversion_rate>Visits with Conversions</conversion_rate>
 
 		</processedMetricsGoal>
 
@@ -192,13 +166,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
@@ -209,7 +183,6 @@
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
-			<conversion_rate>Visits with Conversions</conversion_rate>
 
 		</processedMetricsGoal>
 
@@ -224,13 +197,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
@@ -241,7 +214,6 @@
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
-			<conversion_rate>Visits with Conversions</conversion_rate>
 
 		</processedMetricsGoal>
 
@@ -256,13 +228,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
@@ -273,7 +245,6 @@
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
-			<conversion_rate>Visits with Conversions</conversion_rate>
 
 		</processedMetricsGoal>
 
@@ -288,13 +259,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 
@@ -309,13 +280,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 
@@ -330,13 +301,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 
@@ -351,13 +322,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 
@@ -373,12 +344,6 @@
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
 
 		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
 
 	</row>
 	<row>
@@ -391,13 +356,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 
@@ -412,13 +377,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 
@@ -431,17 +396,11 @@
 		<metrics>
 			<nb_visits_returning>Returning Visits</nb_visits_returning>
 			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
-			<avg_visit_length_returning>Avg. Visit Duration for Returning Visitors (in seconds)</avg_visit_length_returning>
+			<avg_time_on_site_returning>Avg. Visit Duration for Returning Visitors (in seconds)</avg_time_on_site_returning>
 			<bounce_rate_returning>Bounce rate for Returning Visits</bounce_rate_returning>
 			<nb_actions_per_visit_returning>Avg. Actions per Returning visit</nb_actions_per_visit_returning>
 
 		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
 
 	</row>
 	<row>
@@ -454,13 +413,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
@@ -471,7 +430,6 @@
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
-			<conversion_rate>Visits with Conversions</conversion_rate>
 
 		</processedMetricsGoal>
 
@@ -486,13 +444,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
@@ -503,7 +461,6 @@
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
-			<conversion_rate>Visits with Conversions</conversion_rate>
 
 		</processedMetricsGoal>
 
@@ -511,37 +468,25 @@
 	<row>
 		<category>Visitors</category>
 		<name>Pages per visit</name>
-		<module>VisitTime</module>
+		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsPerPage</action>
 		<dimension>Pages per visit</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 
 		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
 
 	</row>
 	<row>
 		<category>Visitors</category>
 		<name>Length of Visits</name>
-		<module>VisitTime</module>
+		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsPerVisitDuration</action>
 		<dimension>Visit duration</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 
 		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
 
 	</row>
 	<row>
@@ -550,22 +495,15 @@
 		<module>VisitsSummary</module>
 		<action>get</action>
 		<metrics>
-			<avg_visit_length>Avg. Visit Duration (in seconds)</avg_visit_length>
-			<max_actions>Maximum actions in one visit</max_actions>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
-			<bounce_rate>Bounce Rate</bounce_rate>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
+			<max_actions>Maximum actions in one visit</max_actions>
 
 		</metrics>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-
-		</processedMetrics>
 
 	</row>
 	<row>
@@ -578,13 +516,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 
@@ -599,13 +537,13 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_visits>Visits</nb_visits>
 			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
 		<metricsGoal>
@@ -616,7 +554,6 @@
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
-			<conversion_rate>Visits with Conversions</conversion_rate>
 
 		</processedMetricsGoal>
 

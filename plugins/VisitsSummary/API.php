@@ -47,7 +47,7 @@ class Piwik_VisitsSummary_API
 			{
 				$columns = array('nb_actions', 'nb_visits');
 			}
-			elseif(($averageVisitDurationRequested = array_search('avg_visit_length', $columns)) !== false)
+			elseif(($averageVisitDurationRequested = array_search('avg_time_on_site', $columns)) !== false)
 			{
 				$columns = array('sum_visit_length', 'nb_visits');
 			}
@@ -78,7 +78,7 @@ class Piwik_VisitsSummary_API
 		}
 		if($averageVisitDurationRequested !== false)
 		{
-			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_visit_length', 'sum_visit_length', 'nb_visits', 0));
+			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site', 'sum_visit_length', 'nb_visits', 0));
 		}
 		
 		// If only a computed metrics was requested, we delete other metrics 

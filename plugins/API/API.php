@@ -75,8 +75,9 @@ class Piwik_API_API
     		'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
     		'nb_visits' => 'General_ColumnNbVisits',
     		'nb_actions' => 'General_ColumnNbActions',
-			'nb_visits_converted' => 'General_ColumnVisitsWithConversions',
 // Do not display these in reports, as they are not so relevant
+// They are used to process metrics below
+//			'nb_visits_converted' => 'General_ColumnVisitsWithConversions',
 //    		'max_actions' => 'General_ColumnMaxActions',
 //    		'sum_visit_length' => 'General_ColumnSumVisitLength',
 //			'bounce_count'
@@ -92,6 +93,7 @@ class Piwik_API_API
 			'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
     		'avg_time_on_site' => 'General_ColumnAvgTimeOnSite',
     		'bounce_rate' => 'General_ColumnBounceRate',
+    		'conversion_rate' => 'General_ColumnConversionRate',
 		);
 		return array_map('Piwik_Translate', $translations);
 	}
@@ -121,29 +123,34 @@ class Piwik_API_API
 		// Some plugins need to add custom metrics after all plugins hooked in
 		Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $idSites);
 		
-		// If a translation is not set for a given column, 
-		// Is it a know column?
 		$knownMetrics = array_merge( $this->getDefaultMetrics(), $this->getDefaultProcessedMetrics() );
 		foreach($availableReports as &$availableReport)
 		{
+			// Ensure all metrics have a translation
 			$metrics = $availableReport['metrics'];
 			$cleanedMetrics = array();
 			foreach($metrics as $metricId => $metricTranslation)
 			{
-				// simply the column name was given, ie 
-				// 'metric' => array( 'nb_visits' )
-				// $metricTranslation is in this case nb_visits
+				// When simply the column name was given, ie 'metric' => array( 'nb_visits' )
+				// $metricTranslation is in this case nb_visits. We look for a known translation.
 				if(is_numeric($metricId)
 					&& isset($knownMetrics[$metricTranslation]))
 				{
 					$metricId = $metricTranslation;
 					$metricTranslation = $knownMetrics[$metricTranslation];
 				}
-				// else, the column already has a translation set
-				
 				$cleanedMetrics[$metricId] = $metricTranslation;
 			}
 			$availableReport['metrics'] = $cleanedMetrics;
+			
+			// Remove array elements that are false (to clean up API output)
+			foreach($availableReport as $attributeName => $attributeValue)
+			{
+				if(empty($attributeValue))
+				{
+					unset($availableReport[$attributeName]);
+				}
+			}
 		}
 		
 		// Sort results to ensure consistent order
@@ -152,6 +159,12 @@ class Piwik_API_API
 		return $availableReports;
 	}
 	
+	/**
+	 * API metadata are sorted by category/name
+	 * @param $a
+	 * @param $b
+	 * @return int
+	 */
 	private function sort($a, $b)
 	{
 		return ($category = strcmp($a['category'], $b['category'])) != 0 	

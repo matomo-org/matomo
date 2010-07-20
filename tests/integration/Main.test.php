@@ -180,7 +180,7 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	$dateTime = '2010-01-03 11:22:33';
     	$idSite = $this->createWebsite($dateTime);
     	$idSite2 = $this->createWebsite($dateTime);
-    	$this->setApiToCall(array('VisitsSummary.get', 'Referers.getWebsites', 'Actions.getPageUrls'));
+    	$this->setApiToCall(array('VisitsSummary.get','Referers.getWebsites', 'Actions.getPageUrls'));
     	ob_start();
     	
     	// -
@@ -217,6 +217,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $t2->setUrlReferer('http://only-homepage-referer.com/');
         $t2->setUrl('http://example2.com/home');
         $this->checkResponse($t2->doTrackPageView('Website 2 page view'));
+        
+        // Returning visitor on Idsite 2 1 day later, one page view, with chinese referer
+//TODO when we can test frequency, when Piwik_Tracker_Client supports cookies read/send
+//    	$t2->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48 + 10)->getDatetime());
+//        $t2->setUrlReferer('http://www.baidu.com/s?wd=%D0%C2+%CE%C5&n=2');
+//        $t2->setUrl('http://example2.com/home');
+//        $this->checkResponse($t2->doTrackPageView('I\'m a returning visitor...'));
         
         // -
     	// Test Referer.get* methods in XML

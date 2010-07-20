@@ -14,90 +14,102 @@
  * @package Piwik
  * @subpackage Piwik_DataTable
  */
-class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTable_Filter
+class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTable_Filter_AddColumnsProcessedMetrics
 {
+	
+	/*
+	 * Process main goal metrics: conversion rate, revenue per visit
+	 */
+	const GOALS_MINIMAL_REPORT = -2;
+	/*
+	 * Process main goal metrics, and conversion rate per goal 
+	 */
 	const GOALS_OVERVIEW = -1;
+	/*
+	 * Process all goal and per-goal metrics 
+	 */
 	const GOALS_FULL_TABLE = 0;
 	
 	protected $mappingIdToNameGoal;
 	
 	/**
+	 * Adds processed goal metrics to a table: 
+	 * - global conversion rate, 
+	 * - global revenue per visit.
+	 * Can also process per-goal metrics:
+	 * - conversion rate
+	 * - nb conversions
+	 * - revenue per visit
+	 * 
 	 * @param $table
-	 * @param $enable Automatically set to true when filter_update_columns_when_show_all_goals is found in the API request
-	 * @param $processOnlyIdGoal
-	 * @return unknown_type
+	 * @param $enable should be true (automatically set to true when filter_update_columns_when_show_all_goals is found in the API request)
+	 * @param $processOnlyIdGoal Defines what metrics to add (don't process metrics when you don't display them)
+	 * 			If self::GOALS_FULL_TABLE, all Goal metrics (and per goal metrics) will be processed
+	 * 			If self::GOALS_OVERVIEW, only the main goal metrics will be added
+	 * 			If an int > 0, then will process only metrics for this specific Goal
+	 * @return void
 	 */
 	public function __construct( $table, $enable = true, $processOnlyIdGoal )
 	{
-		parent::__construct($table);
 		$this->mappingIdToNameGoal = Piwik_Archive::$mappingFromIdToNameGoal;
 		$this->processOnlyIdGoal = $processOnlyIdGoal;
-		$this->filter();
+		parent::__construct($table);
 	}
 	
 	protected function filter()
 	{
-		$invalidDivision = 'N/A';
 		$roundingPrecision = 2;
 		$expectedColumns = array();
 		foreach($this->table->getRows() as $key => $row)
 		{
 			$currentColumns = $row->getColumns();
 			$newColumns = array();
-			
-			$nbVisits = 0;
+
 			// visits could be undefined when there is a conversion but no visit
-			if(isset($currentColumns[Piwik_Archive::INDEX_NB_VISITS]))
+			$nbVisits = (int)$this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS);
+
+//			$newColumns['nb_visits'] = $nbVisits;
+//			$newColumns['label'] = $currentColumns['label'];
+			
+			$goals = $this->getColumn($currentColumns, Piwik_Archive::INDEX_GOALS); 
+			if($goals)
 			{
-				$nbVisits = $currentColumns[Piwik_Archive::INDEX_NB_VISITS];
-			}
-			$newColumns['nb_visits'] = $nbVisits;
-			$newColumns['label'] = $currentColumns['label'];
-			if(isset($currentColumns[Piwik_Archive::INDEX_GOALS]))
-			{
-				$nbVisitsConverted = $revenue = 0;
-				if(isset($currentColumns[Piwik_Archive::INDEX_NB_VISITS_CONVERTED]))
-				{
-					$nbVisitsConverted = $currentColumns[Piwik_Archive::INDEX_NB_VISITS_CONVERTED];
-					$revenue = $currentColumns[Piwik_Archive::INDEX_REVENUE];
-				}
-	
-				if($nbVisitsConverted == 0)
-				{
-					$conversionRate = $invalidDivision;
-				}
-				else
-				{
-					$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $roundingPrecision);
-				}
-				$newColumns['conversion_rate'] = $conversionRate;
+				$revenue = (int)$this->getColumn($currentColumns, Piwik_Archive::INDEX_REVENUE);
 				
 				if($nbVisits == 0)
 				{
-					$revenuePerVisit = $invalidDivision;
+					$revenuePerVisit = $this->invalidDivision;
 				}
 				else
 				{
 					$revenuePerVisit = round( $revenue / $nbVisits, $roundingPrecision );
 				}
 				$newColumns['revenue_per_visit'] = $revenuePerVisit;
-				foreach($currentColumns[Piwik_Archive::INDEX_GOALS] as $goalId => $columnValue)
+				
+				if($this->processOnlyIdGoal == self::GOALS_MINIMAL_REPORT)
+				{
+					$row->addColumns($newColumns);
+					continue;
+				}
+				
+				foreach($goals as $goalId => $columnValue)
 				{
 					if($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
 						&& $this->processOnlyIdGoal != $goalId)
 					{
 						continue;
 					}
+    				$conversions = (int)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS);
 					
 					// Goal Conversion rate
 					$name = 'goal_' . $goalId . '_conversion_rate';
 					if($nbVisits == 0)
 					{
-						$value = $invalidDivision;
+						$value = $this->invalidDivision;
 					}
 					else
 					{
-						$value = round(100 * $columnValue[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS] / $nbVisits, $roundingPrecision);
+						$value = round(100 * $conversions / $nbVisits, $roundingPrecision) . "%";
 					}
 					$newColumns[$name] = $value;
 					$expectedColumns[$name] = true;
@@ -111,18 +123,18 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 					
 					// Goal Conversions
 					$name = 'goal_' . $goalId . '_nb_conversions';
-					$newColumns[$name] = $columnValue[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
+					$newColumns[$name] = $conversions;
 					$expectedColumns[$name] = true;
 					
 					// Goal Revenue per visit
 					$name = 'goal_' . $goalId . '_revenue_per_visit';
 					if($nbVisits == 0)
 					{
-						$value = $invalidDivision;
+						$value = $this->invalidDivision;
 					}
 					else
 					{
-						$revenuePerVisit = round( $columnValue[Piwik_Archive::INDEX_GOAL_REVENUE] / $nbVisits, $roundingPrecision );
+						$revenuePerVisit = round( (float)$this->getColumn($columnValue, Piwik_Archive::INDEX_GOAL_REVENUE) / $nbVisits, $roundingPrecision );
 					}
 					$newColumns[$name] = $revenuePerVisit;
 					$expectedColumns[$name] = true;
@@ -130,7 +142,7 @@ class Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals extends Piwik_DataTab
 				}
 			}
 			
-			$row->setColumns($newColumns);
+			$row->addColumns($newColumns);
 		}
 		$expectedColumns['revenue_per_visit'] = true;
 		$expectedColumns['conversion_rate'] = true;

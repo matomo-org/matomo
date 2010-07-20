@@ -50,17 +50,18 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 			'module' => 'VisitsSummary',
 			'action' => 'get',
 			'metrics' => array(
-								'avg_visit_length' => Piwik_Translate('General_VisitDuration'),
-								'max_actions' => Piwik_Translate('General_ColumnMaxActions'),
 								'nb_uniq_visitors', 
 								'nb_visits',
 								'nb_actions', 
-								'nb_visits_converted',
-								'bounce_rate',
 								'nb_actions_per_visit',
+								'bounce_rate',
+								'avg_time_on_site' => Piwik_Translate('General_VisitDuration'),
+								'max_actions' => Piwik_Translate('General_ColumnMaxActions'),
+// Used to process metrics, not displayed/used directly
 //								'sum_visit_length',
+//								'nb_visits_converted',
 			),
-			
+			'processedMetrics' => false,
 		);
 	}
 	

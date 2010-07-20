@@ -92,6 +92,8 @@ class Piwik_UserSettings extends Piwik_Plugin
     				'nb_visits',
     				'nb_visits_percentage' => Piwik_Translate('General_ColumnPercentageVisits')
     			);
+    			// There is no processedMetrics for this report
+				$report['processedMetrics'] = array();
     		}
     		$reports[] = $report;
 		}
