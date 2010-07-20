@@ -40,7 +40,6 @@ $translations = array(
 	'API_QuickDocumentation' => '<h2>Documentación rápida de API</h2><p>Se non ten datos hoxe, primeiro pode <a href=\'misc/generateVisits.php\' target=_blank>xerar algúns datos</a> usando o script de xeración de visitas.</p><p>Pode probar os distintos formatos dispoñibles para cada método. É realmente sinxelo extraer o dato que desexe desde piwik!</p><p><b>Para máis información bótelle un  ollo á<a href=\'http://dev.piwik.org/trac/wiki/API\'>A documentación oficial de API</a> ou a <a href=\'http://dev.piwik.org/trac/wiki/API/Reference\'>Referencia API</a>.</b></P><h2>Autentificación de usuario</h2><p>Se desexa <b>obter os datos nos seus scripts, nun crontab, etc. </b> necesitará engadir o parámetro  <code><u>&token_auth=%s</u></code> ás chamadas da API a URLs que requiran a identificación do usuario.</p><p>Esta token_auth é secreta, así como o seu contrasinal de usuario, <b>¡non lla dea a ninguén!</p>',
 	'API_LoadedAPIs' => '%s APIs foro cargadas con éxito',
 	'CoreHome_NoPrivileges' => 'Está identificado como \'%s\', pero semella que non ten os permisos en Piwik.<br />Contacte co administrador do seu sistema Piwik para que lle dea acceso para entrar á páxina.',
-	'CoreHome_JavascriptDisabled' => 'JavaScript ten que estar activado se quere ver Piwik da forma estándar.<br>Semella que o seu navegador non soporta JavaScipt, ou que está deshabilitado.<br>Para usar a vista estándar, active JavaScript dende as opcións do seu navegador, despois %1svolva intentalo%2s.<br>',
 	'CoreHome_TableNoData' => 'Non hai datos para esta táboa.',
 	'CoreHome_CategoryNoData' => 'Non hai datos nesta categoría. Intente "Incluir todos os datos".',
 	'CoreHome_ShowJSCode' => 'Ver o código javascript para insertar',
@@ -454,7 +453,6 @@ $translations = array(
 	'UsersManager_MenuUsers' => 'Usuario',
 	'UsersManager_DeleteConfirm_js' => 'Está seguro de que desexa eliminar ao usuario %s?',
 	'UsersManager_ExceptionLoginExists' => 'O nome de usuario \'%s\' xa existe.',
-	'UsersManager_ExceptionLoginExists' => 'O nome de usuario \'%s\' xa existe.',
 	'UsersManager_ExceptionInvalidLogin' => 'O nome de usuario só pode conter letras, números, \'_\' , \'-\' ou \'.\'',
 	'UsersManager_ExceptionInvalidPassword' => 'A lonxitude do contrasinal debe ter entre 6 e 26 caracteres',
 	'UsersManager_ExceptionInvalidEmail' => 'O enderezo electrónico non ten un formato correcto.',
@@ -462,7 +460,6 @@ $translations = array(
 	'UsersManager_ExceptionAdminAnonymous' => 'Non pode concederlle o acceso de \'administrador\' a un usuario \'anónimo\'.',
 	'UsersManager_ExceptionEditAnonymous' => 'O usuario anónimo non pode ser eliminado ou modificado, xa que é empregado por Piwik para identificar a usuarios  non conectados. Por exemplo, pode facer as súas estatísticas públicas dando acceso á \'visión\' aos visitantes \'anónimos\'.',
 	'UsersManager_ExceptionUserDoesNotExist' => 'O usuario \'%s\' non existe.',
-	/** Revisar a seguinte liña, a traducción non ten sentido **/
 	'UsersManager_ExceptionAccessValues' => 'O parámetro debe ter acceso a un dos seguintes valores: [%s]',
 	'SitesManager_Sites' => 'Sitios',
 	'SitesManager_JsCode' => 'Código Javascript',

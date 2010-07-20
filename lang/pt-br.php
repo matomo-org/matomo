@@ -1,7 +1,4 @@
 <?php 
-
-setlocale(LC_TIME, 'pt_BR.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'pt_BR.UTF-8',
 	'General_TranslatorName' => 'Marcos Napier, Marcela Ferraro
@@ -122,7 +119,6 @@ $translations = array(
 	'Actions_ColumnClickedURL' => 'URL clicado',
 	'Actions_ColumnDownloadURL' => 'Download URL',
 	'CoreHome_NoPrivileges' => 'Voc&ecirc; est&aacute; logado como \'%s\' mas parece que voc&ecirc; n&atilde;o tem permiss&atilde;o atribu&iacute;das.<br />Solicite ao administrador que conceda permiss&atilde;o de acesso \'view\' ao website.',
-	'CoreHome_JavascriptDisabled' => 'O JavaScript precisa estar ativado para que voc&ecirc; possa usar o Piwik no modo padr&atilde;o.<br />No entanto, parece que o JavaScript est&aacute; desabilitado ou n&atilde;o &eacute; suportado pelo seu navegador.<br />Para a visualiza&ccedil;&atilde;o padr&atilde;o, habilite o JavaScript mudando as op&ccedil;&otilde;es do seu navegador, depois %1stente novamente%2s.<br />',
 	'CoreHome_TableNoData' => 'Sem dados para esta tabela.',
 	'CoreHome_CategoryNoData' => 'Sem dados nesta categoria. Tente o "Incluir toda a popula&ccedil;&atilde;o".',
 	'CoreHome_ShowJSCode' => 'Mostra o código JavaScript a inserir',
@@ -388,7 +384,6 @@ $translations = array(
 	'Referers_DistinctKeywords' => 'Palavras chave distintas',
 	'Referers_DistinctCampaigns' => 'Campanhas distintas',
 	'Referers_DistinctWebsites' => 'Websites distintos',
-	'Referers_UsingNDistinctUrls' => '(usando %2s URLs distintos)',
 	'SitesManager_Sites' => 'Websites',
 	'SitesManager_JsCode' => 'C&oacute;digo Javascript',
 	'SitesManager_JsCodeHelp' => 'Este &eacute; o c&oacute;digo javascript que voc&ecirc; deve incluir em todas as suas p&aacute;ginas',
@@ -781,10 +776,8 @@ $translations = array(
 	'VisitorInterest_WidgetPages' => 'P&aacute;ginas por Visita',
 	'VisitorInterest_SubmenuFrequencyLoyalty' => 'Frequ&ecirc;ncia e Lealdade',
 	'VisitorInterest_PlusXMin' => '%s min',
-	'VisitorInterest_BetweenXYMinutes' => '%1s-%1s min',
 	'VisitorInterest_OnePage' => '1 página',
 	'VisitorInterest_NPages' => '%s páginas',
-	'VisitorInterest_BetweenXYSeconds' => '%1s-%2ss',
 	'VisitorInterest_ColumnVisitDuration' => 'Duração da visita',
 	'VisitorInterest_ColumnPagesPerVisit' => 'Páginas por visita',
 	'VisitsSummary_NbVisits' => '%s visitas',
@@ -841,7 +834,6 @@ $translations = array(
 	'General_GeneralSettings' => 'Configurações Gerais',
 	'General_AllowPiwikArchivingToTriggerBrowser' => 'Permitir que o Piwik salve numa trigger quando relatórios são vistos do navegador',
 	'General_ArchivingInlineHelp' => 'Para sites com tráfego de médio a alto, é recomendado desabilitar a trigger que salva do navegador. Em vez disso, nós recomendamos que instale um cron job para processar os relatorios Piwik a cada hora.',
-	'General_ArchivingTriggerDescription' => 'Recomendado para grandes instalações Piwik, você precisa instalar um cron job para processar os relatórios automaticamente.',
 	'General_SeeTheOfficialDocumentationForMoreInformation' => 'Veja a  %s documentação oficial%s para mais informações.',
 	'General_ReportsForTodayWillBeProcessedAtMostEvery' => 'Relatórios de hoje serão processados no máximo a cada',
 	'General_NSeconds' => '%s segundos',
@@ -923,7 +915,6 @@ $translations = array(
 	'ExampleUI_PluginDescription' => 'Plugin Exemplo: Esse plugin mostra como trabalhar com o Piwik UI: criar tabelas, gráficos, etc.',
 	'Feedback_PluginDescription' => 'Envie seu FeedBack para a Equipe Piwik. Compartilhe suas ideias e sugestões conosco!',
 	'Feedback_DoYouHaveBugReportOrFeatureRequest' => 'Você tem algum bug pra relatar ou alguma caracteristica para pedir?',
-	'Feedback_ViewAnswersToFAQ' => 'Ver respostas para %s as questões mais perguntadas.',
 	'Feedback_WhyAreMyVisitsNoTracked' => 'Porque as visitas no meu website não estão sendo rastreadas?',
 	'Feedback_HowToExclude' => 'Como excluir rastreamento de minhas visitas?',
 	'Feedback_WhyWrongCountry' => 'Porque o Piwik mostra minha visita de um país errado?',

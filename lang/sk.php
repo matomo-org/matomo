@@ -1,7 +1,4 @@
 <?php 
-
-setlocale(LC_TIME, 'sk_SK.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'sk_SK.UTF-8',
 	'General_TranslatorName' => 'Zdenko Podobný',
@@ -78,7 +75,6 @@ $translations = array(
 	'API_QuickDocumentation' => '<h2>API skrátená dokumentácia</h2><p>Pokiaľ ešte nemáte dáta pre dnešný deň, tak si najskôr nejaké <a href=\'misc/generateVisits.php\' target=_blank>vygenerujte</a> s použitím skriptu na generovanie návštevníkov.</p><p>Môžete vyskúšať rôzne formáty dostupné pre každú metódu. Je veľmi ľahké extrahovať ktorékoľvek dáta z piwik!</p><p><b>Viac informácií nájdete v <a href=\'http://dev.piwik.org/trac/wiki/API\'>oficiálnej API Dokumentácií</a> alebo v <a href=\'http://dev.piwik.org/trac/wiki/API/Reference\'>API Referenčnej príručke</a>.</b></P><h2>Autentifikácia používateľov</h2><p>Ak chcete <b>požadovať dáta vo svojich skriptoch, cez crontab atď.,</b> budete potrebovať pridať parameter <code><u>&token_auth=%s</u></code> k volaniu API URL, ktorá vyžaduje autentifikáciu.</p><p>Parameter token_auth je tajný, rovnako ako vaše prihlasovacie údaje (login) a heslo, <b>nikomu ho neposkytnite!</p>',
 	'API_LoadedAPIs' => 'Úspešne načítané %s API',
 	'CoreHome_NoPrivileges' => 'Ste prihlásený ako \'%s\', ale zdá sa, že nemáte žiadne práva na nastavovanie Piwik.<br />Požiadajte svojho Piwik administrátora, aby vám dal prístup na prezeranie(\'view\') k webstránke.',
-	'CoreHome_JavascriptDisabled' => 'JavaScript musí byť povolený, ak chcete používať Piwik v štandardnom zobrazení.<br />Akokoľvek — zdá sa že, JavaScript buď nie je povolený, alebo podporovaný vašim prehliadačom.<br />Pre štandardné zobrazenie povoľte JavaScript zmenou nastavení Vášho prehliadača, a potom %1sskúste znova%2s.<br />',
 	'CoreHome_TableNoData' => 'Pre túto tabuľku nie sú dáta.',
 	'CoreHome_CategoryNoData' => 'Pre túto kategóriu nie sú dáta. Skúste použiť „Vrátane celej populácie“.',
 	'CoreHome_ShowJSCode' => 'Zobraziť javascript kód pre vloženie',
@@ -507,10 +503,8 @@ $translations = array(
 	'VisitorInterest_WidgetPages' => 'Strany na návštevu',
 	'VisitorInterest_SubmenuFrequencyLoyalty' => 'Frekvencia & Lojalita',
 	'VisitorInterest_PlusXMin' => '%s min',
-	'VisitorInterest_BetweenXYMinutes' => '%1s-%2s min',
 	'VisitorInterest_OnePage' => '1 stránka',
 	'VisitorInterest_NPages' => '%s stránok',
-	'VisitorInterest_BetweenXYSeconds' => '%1s-%2ss',
 	'Login_LoginPasswordNotCorrect' => 'Meno používateľa a heslo nie sú správne',
 	'Login_Login' => 'Meno používateľa',
 	'Login_Password' => 'Heslo',
@@ -522,7 +516,6 @@ $translations = array(
 	'Login_PasswordReminder' => 'Vložte prosím svoje meno používateľa alebo e-mailovú adresu. E-mailom Vám bude doručené nové heslo.',
 	'Login_InvalidUsernameEmail' => 'Neplatné meno používateľa alebo e-mailová adresa',
 	'Login_MailTopicPasswordRecovery' => 'Obnova hesla',
-	'Login_MailPasswordRecoveryBody' => 'Ahoj %1s, \n\n Tvoje nové heslo je: %2s \n\n Teraz sa môžeš prihlásiť: %3s',
 	'Login_PasswordSent' => 'Heslo bolo práve odoslané. Skontrolujte si e-mail.',
 	'Login_ContactAdmin' => 'Možné dôvody: Váš server ma zakázanú funkciu mail().<br /> Skontaktujte svojho administrátora Piwik.',
 	'UsersManager_UsersManagement' => 'Správa používateľov',
@@ -726,7 +719,6 @@ $translations = array(
 	'Goals_ColumnConversionRate' => 'Miera konverzie',
 	'Goals_ColumnRevenue' => 'Tržba',
 	'Provider_ColumnProvider' => 'Poskytovateľ',
-	'Referers_MetricsFromRefererTypeGraphLegend' => '%1s (z %2s)',
 	'Referers_ColumnRefererType' => 'Typ odkazu',
 	'Referers_ColumnSearchEngine' => 'Vyhľadávač',
 	'Referers_ColumnWebsite' => 'Portál',
@@ -738,7 +730,6 @@ $translations = array(
 	'Referers_DistinctKeywords' => 'rôzne kľúčové strany',
 	'Referers_DistinctCampaigns' => 'rôzne kampane',
 	'Referers_DistinctWebsites' => 'rôzne portály',
-	'Referers_UsingNDistinctUrls' => '(používanie %2s rôznych url)',
 	'UserSettings_VisitorSettings' => 'Nastavenia návštevníkov',
 	'UserSettings_ColumnBrowserFamily' => 'Rodina prehliadača',
 	'UserSettings_ColumnBrowser' => 'Prehliadač',
