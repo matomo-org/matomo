@@ -74,7 +74,7 @@ class Test_Languages_Manager extends UnitTestCase
 					$cleanedStrings[$stringLabel] = $stringValue;
 				}
 			}
-//			if($writeCleanedFile)
+			if($writeCleanedFile)
 			{
 				$this->writeCleanedTranslationFile($cleanedStrings, $language);
 			}
