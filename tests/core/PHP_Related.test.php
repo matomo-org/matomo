@@ -311,6 +311,19 @@ class Test_PHP_Related extends UnitTestCase
 		$this->assertTrue(!is_bool($return));
 	}
 	
+
+	function isThisForReal()
+	{
+		// no error here??
+		$bla = false;
+		$bla = unserialize($bla);
+		$blabla = $bla['test'];
+		
+		$blabis = null;
+		$blabis = unserialize($blabis);
+		$blablabis = $blabis['test'];
+		$this->pass();
+	}
 }
 
 
