@@ -45,6 +45,7 @@ abstract class Test_Integration extends Test_Database
 			'Pdfexport',
 			'API',
 		));
+		$this->setApiToCall( array());
 	}
 	
 	function tearDown() 
