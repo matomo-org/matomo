@@ -432,6 +432,7 @@ class Piwik
 		$files = Manifest::$files;
 
 		$hasMd5file = function_exists('md5_file');
+		$hasMd5 = function_exists('md5');
 		foreach($files as $path => $props)
 		{
 			if(in_array($path, $exclude))
@@ -447,7 +448,21 @@ class Piwik
 			}
 			else if(filesize($file) != $props[0])
 			{
-				$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+				if(!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf')))
+				{
+					// files that contain binary data (e.g., images) must match the file size
+					$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+				}
+				else
+				{
+					// convert end-of-line characters and re-test text files
+					$content = @file_get_contents($file);
+					$content = str_replace("\r\n", "\n", $content);
+					if(@md5($content) !== $props[1])
+					{
+						$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+					}
+				}
 			}
 			else if($hasMd5file && (@md5_file($file) !== $props[1]))
 			{
