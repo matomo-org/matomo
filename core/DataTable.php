@@ -552,7 +552,7 @@ class Piwik_DataTable
 	/**
 	 * Returns the array of Piwik_DataTable_Row
 	 * 
-	 * @return array of Piwik_DataTable_Row
+	 * @return Piwik_DataTable_Row
 	 */
 	public function getRows()
 	{

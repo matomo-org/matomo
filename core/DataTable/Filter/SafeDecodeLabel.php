@@ -17,10 +17,12 @@
 class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
 {
 	private $columnToDecode;
-	public function __construct( $table )
+	private $outputHtml;
+	public function __construct( $table, $outputHTML = true )
 	{
 		parent::__construct($table);
 		$this->columnToDecode = 'label';
+		$this->outputHtml = (bool)$outputHTML;
 		$this->filter();
 	}
 	
@@ -31,14 +33,14 @@ class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
 			$value = $row->getColumn($this->columnToDecode);
 			if($value !== false)
 			{
-				$row->setColumn( 
-								$this->columnToDecode, 
-								htmlspecialchars(
-									htmlspecialchars_decode(
+				$value = htmlspecialchars_decode(
 										urldecode($value),
-										ENT_QUOTES), 
-									ENT_QUOTES)
-					);
+										ENT_QUOTES);
+				if($this->outputHtml)
+				{
+					$value = htmlspecialchars($value, ENT_QUOTES);
+				}
+				$row->setColumn($this->columnToDecode,$value);
 			}
 		}
 	}

@@ -315,6 +315,18 @@ class Piwik_DataTable_Row
 		$this->c[self::COLUMNS][$name] = $value;
 	}
 	
+	/**
+	 * Add columns to the row
+	 * @param $columns array( name => value , ...)
+	 * @return void
+	 */
+	public function addColumns($columns)
+	{
+		foreach($columns as $name => $value)
+		{
+			$this->addColumn($name, $value);
+		}
+	}
 	
 	/**
 	 * Add a new metadata to the row. If the column already exists, throws an exception.

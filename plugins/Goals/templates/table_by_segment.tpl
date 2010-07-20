@@ -45,7 +45,7 @@ $(document).ready( function() {
 			'module': module,
 			'action': action,
 			'viewDataTable': 'tableGoals',
-			'filter_only_display_idgoal': idGoal.length ? idGoal : 0 // 0 is Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_FULL_TABLE
+			'filter_only_display_idgoal': idGoal.length ? idGoal : 0 // 0 is Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
 		};
 		var onWidgetLoadedCallback = function (response) {
 			if(widgetUniqueId != self.expectedWidgetUniqueId) {

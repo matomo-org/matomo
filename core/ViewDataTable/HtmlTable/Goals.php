@@ -34,7 +34,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 			'goal_%s_revenue_per_visit' => '%s revenue per visit',
 		
 			'nb_conversions' => Piwik_Translate('Goals_ColumnConversions'), 
-			'conversion_rate' => Piwik_Translate('Goals_ColumnConversionRate'), 
+			'conversion_rate' => Piwik_Translate('General_ColumnConversionRate'), 
 			'revenue' => Piwik_Translate('Goals_ColumnRevenue'),
     		'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
 		));
@@ -82,7 +82,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 				foreach($goals as $goal)
 				{
 					$idgoal = $goal['idgoal'];
-					if($this->processOnlyIdGoal > Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_FULL_TABLE
+					if($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
 						&& $this->processOnlyIdGoal != $idgoal)
 					{
 						continue;
@@ -95,7 +95,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 						$this->columnsToPercentageFilter[] = $columnNameGoal;
 					}
 					// For the goal table (when the flag icon is clicked), we only display the per Goal Conversion rate
-					elseif($this->processOnlyIdGoal == Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_OVERVIEW)
+					elseif($this->processOnlyIdGoal == Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW)
 					{
 						continue;
 					}
@@ -122,7 +122,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	protected function getRequestString()
 	{
 		$requestString = parent::getRequestString();
-		if($this->processOnlyIdGoal > Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_FULL_TABLE)
+		if($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE)
 		{
 			$requestString .= "&filter_only_display_idgoal=".$this->processOnlyIdGoal;
 		}

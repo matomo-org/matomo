@@ -89,7 +89,7 @@ vertical-align:middle;
 		<thead>
 			<tr>
 			<th>{'SitesManager_Id'|translate}</th>
-			<th>{'SitesManager_Name'|translate}</th>
+			<th>{'General_Name'|translate}</th>
 			<th>{'SitesManager_Urls'|translate}</th>
 			<th>{'SitesManager_ExcludedIps'|translate}</th>
 			<th>{'SitesManager_ExcludedParameters'|translate|replace:" ":"<br />"}</th>

@@ -892,6 +892,20 @@ class Piwik
 		return $symbols[$site->getCurrency()];
 	}
 
+	static public function getPrettyValue($idSite, $columnName, $value, $htmlAllowed, $timeAsSentence)
+	{
+		// Display time in human readable
+		if(strpos($columnName, 'time') !== false)
+		{
+			return Piwik::getPrettyTimeFromSeconds($value, $timeAsSentence);
+		}
+		// Add revenue symbol to revenues
+		if(strpos($columnName, 'revenue') !== false)
+		{
+			return Piwik::getPrettyMoney($value, $idSite, $htmlAllowed);
+		}
+		return $value;
+	}
 	/**
 	 * Pretty format monetary value for a site
 	 *
@@ -899,19 +913,30 @@ class Piwik
 	 * @param int $idSite
 	 * @return string
 	 */
-	static public function getPrettyMoney($value, $idSite)
+	static public function getPrettyMoney($value, $idSite, $htmlAllowed = true)
 	{
 		$currencyBefore = self::getCurrency($idSite);
-		$currencyAfter = '';
 
+		$space = ' ';
+		if($htmlAllowed)
+		{
+			$space = '&nbsp;';
+		}
+		
+		$currencyAfter = '';
 		// manually put the currency symbol after the amount for euro
 		// (maybe more currencies prefer this notation?)
 		if(in_array($currencyBefore,array('€')))
 		{
-			$currencyAfter = '&nbsp;'.$currencyBefore;
+			$currencyAfter = $space.$currencyBefore;
 			$currencyBefore = '';
 		}
-		return sprintf("$currencyBefore&nbsp;%s$currencyAfter", $value);
+		$amount = (int)$value;
+		if($value != round($value))
+		{
+			$amount = sprintf( "%01.2f", $value);
+		}
+		return $currencyBefore . $space . $amount . $currencyAfter;
 	}
 
 	/**
@@ -941,12 +966,21 @@ class Piwik
 	 * Pretty format a time
 	 *
 	 * @param numeric $numberOfSeconds
+	 * @param bool If set to true, will output "5min 17s", if false "00:05:17"
 	 * @return string
 	 */
-	static public function getPrettyTimeFromSeconds($numberOfSeconds)
+	static public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true)
 	{
-		$numberOfSeconds = (double)$numberOfSeconds;
+		$numberOfSeconds = (int)$numberOfSeconds;
 		
+		// Display 01:45:17 time format
+		if($displayTimeAsSentence === false)
+		{
+			$hours = floor( $numberOfSeconds / 3600);
+			$minutes = floor( ($reminder = ($numberOfSeconds - $hours * 3600)) / 60 );
+			$seconds = $reminder - $minutes * 60;
+			return sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) .':'. sprintf("%02s", $seconds);
+		}
 		$secondsInYear = 86400 * 365.25;
 		$years = floor($numberOfSeconds / $secondsInYear);
 		$minusYears = $numberOfSeconds - $years * $secondsInYear;
@@ -1598,4 +1632,5 @@ class Piwik
 	{
 		return Piwik_Db_Schema::getInstance()->getTablesInstalled($forceReload, $idSite);
 	}
+		
 }

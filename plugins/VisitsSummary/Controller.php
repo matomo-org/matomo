@@ -68,7 +68,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	{
 		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_visits')));
 		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions')));
-		$view->urlSparklineAvgVisitDuration = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('avg_visit_length')));
+		$view->urlSparklineAvgVisitDuration = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('avg_time_on_site')));
 		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('max_actions')));
 		$view->urlSparklineActionsPerVisit 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions_per_visit')));
 		$view->urlSparklineBounceRate 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('bounce_rate')));
@@ -80,7 +80,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$nbVisits = $dataRow->getColumn('nb_visits');
 		$view->nbVisits = $nbVisits;
 		$view->nbActions = $dataRow->getColumn('nb_actions');
-		$view->averageVisitDuration = $dataRow->getColumn('avg_visit_length');
+		$view->averageVisitDuration = $dataRow->getColumn('avg_time_on_site');
 		$nbBouncedVisits = $dataRow->getColumn('bounce_count');
 		$view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
 		$view->maxActions = $dataRow->getColumn('max_actions');

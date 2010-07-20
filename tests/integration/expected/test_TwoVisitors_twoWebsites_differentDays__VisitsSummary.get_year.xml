@@ -10,7 +10,7 @@
 			<sum_visit_length>360</sum_visit_length>
 			<bounce_rate>67%</bounce_rate>
 			<nb_actions_per_visit>1.3</nb_actions_per_visit>
-			<avg_visit_length>120</avg_visit_length>
+			<avg_time_on_site>120</avg_time_on_site>
 		</result>
 		<result date="2011" />
 		<result date="2012" />
@@ -28,7 +28,7 @@
 			<nb_visits>1</nb_visits>
 			<bounce_rate>100%</bounce_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
-			<avg_visit_length>0</avg_visit_length>
+			<avg_time_on_site>0</avg_time_on_site>
 		</result>
 		<result date="2011" />
 		<result date="2012" />
