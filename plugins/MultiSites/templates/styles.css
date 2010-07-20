@@ -57,10 +57,20 @@
 }
 
 .multiSitesCont{ 
-	width:850px; 
 	padding:10px 0;
 }
 
+#mt {
+    width: 100%;
+    max-width: 1024px;
+}
 
+#mt thead :first-child {
+    -moz-border-radius-topleft: 7px;
+    -webkit-border-top-left-radius: 7px
+}
 
-.admin_header_message{ 	position:absolute; 	top:70px; 	right:10px; 	z-index:20;}
+#mt thead :last-child {
+    -moz-border-radius-topright: 7px;
+    -webkit-border-top-right-radius: 7px;
+}
