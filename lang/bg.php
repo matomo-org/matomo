@@ -1,7 +1,4 @@
 <?php 
-
-setlocale(LC_TIME, 'bg_BG.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'bg_BG.UTF-8',
 	'General_TranslatorName' => 'Kristalin Chavdarov
@@ -252,7 +249,6 @@ Virosss@abv.bg, www.coffebreak.info',
 	'Referers_DistinctKeywords' => 'отделни ключови думи',
 	'Referers_DistinctCampaigns' => 'отделни кампании',
 	'Referers_DistinctWebsites' => 'отделни сайтове',
-	'Referers_UsingNDistinctUrls' => ' (използват %2s отделни адреси (url) )',
 	'Referers_SubmenuEvolution' => 'Развитие',
 	'Referers_SubmenuSearchEngines' => 'Търсачки & Ключови думи',
 	'Referers_SubmenuWebsites' => 'Сайтове',
@@ -591,10 +587,8 @@ Virosss@abv.bg, www.coffebreak.info',
 	'VisitorInterest_WidgetPages' => 'Импресии / Посещения',
 	'VisitorInterest_SubmenuFrequencyLoyalty' => 'Честота & Лоялност',
 	'VisitorInterest_PlusXMin' => '%s мин',
-	'VisitorInterest_BetweenXYMinutes' => '%1s-%1s мин',
 	'VisitorInterest_OnePage' => '1 страница',
 	'VisitorInterest_NPages' => '%s страници',
-	'VisitorInterest_BetweenXYSeconds' => '%1s-%2sс',
 	'Login_LoginPasswordNotCorrect' => 'Потребителското име & Паролата не са верни',
 	'Login_Login' => 'Потребителско име',
 	'Login_Password' => 'Парола',

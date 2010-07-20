@@ -36,7 +36,8 @@ class Test_Languages_Manager extends UnitTestCase
 		$languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages();
 		foreach($languages as $language)
 		{
-			ob_start(); 
+			ob_start();
+			$writeCleanedFile = false; 
 			$strings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage($language);
 			$content = ob_get_flush();
 			$this->assertTrue(strpos(serialize($strings), "<script") === false, " language file containing javascript");
@@ -44,6 +45,7 @@ class Test_Languages_Manager extends UnitTestCase
 			$this->assertTrue(strlen($content) == 0, "buffer was ".strlen($content)." long but should be zero. Translation file for '$language' must be buggy.");
 			
 			// checking that translated strings have the same number of %s as the english source strings
+			$cleanedStrings = array();
 			foreach($strings as $string)
 			{
 				$stringLabel = $string['label'];
@@ -54,12 +56,48 @@ class Test_Languages_Manager extends UnitTestCase
 				{
 					$englishParametersCount = $englishStringsWithParameters[$stringLabel];
 					$countTranslation = $this->getCountParametersToReplace($stringValue);
-					//$this->assertEqual($countTranslation, $englishParametersCount,
-					//			"The string $stringLabel has $englishParametersCount parameters in English, but $countTranslation in the language $language.");
+					if($englishParametersCount != $countTranslation)
+					{
+						// Write fixed file in given location
+						// Will trigger a ->fail()
+						$writeCleanedFile = true;
+                		echo "The string $stringLabel has $englishParametersCount parameters in English, but $countTranslation in the language $language. <br/>\n";
+					}
+					else
+					{
+						$cleanedStrings[$stringLabel] = $stringValue;
+					}
 				}
+				// No %s found
+				else
+				{
+					$cleanedStrings[$stringLabel] = $stringValue;
+				}
+			}
+//			if($writeCleanedFile)
+			{
+				$this->writeCleanedTranslationFile($cleanedStrings, $language);
 			}
 		}
 		$this->pass();
+	}
+	
+	private function writeCleanedTranslationFile($translations, $language)
+	{
+		$pathFixedTranslations = PIWIK_INCLUDE_PATH . '/tmp/';
+		$filename = $language . '.php';
+		$tstr = '<?php '.PHP_EOL;
+		$tstr .= '$translations = array('.PHP_EOL;
+		foreach($translations as $key => $value)
+		{
+			$tstr .= "\t'".$key."' => '".addcslashes($value,"'")."',".PHP_EOL;
+		}
+		$tstr .= ');'.PHP_EOL;
+		$path = $pathFixedTranslations . $filename;
+		file_put_contents($path, $tstr);
+		$this->fail('Translation file errors detected in '.$filename.'... 
+					Wrote cleaned translation file in: '.$path .".
+					You can copy the cleaned files to /langs/<br/>\n");
 	}
 	
 	private function getCountParametersToReplace($string)
@@ -78,3 +116,4 @@ class Test_Languages_Manager extends UnitTestCase
 		$this->assertFalse(Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage("../no-language"));
 	}
 }
+

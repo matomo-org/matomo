@@ -1,17 +1,17 @@
-<?php
+<?php 
 $translations = array(
 	'General_Locale' => 'eu_ES.UTF-8',
 	'General_TranslatorName' => 'Librezale.org',
 	'General_TranslatorEmail' => 'librezale@librezale.org',
 	'General_EnglishLanguageName' => 'Basque',
 	'General_OriginalLanguageName' => 'Euskara',
-	'General_HelloUser'	=> 'Kaixo %s!',
+	'General_HelloUser' => 'Kaixo %s!',
 	'General_OpenSourceWebAnalytics' => 'Kode irekiko web analitikak',
 	'General_Dashboard' => 'Arbela',
 	'General_MultiSitesSummary' => 'Webgune guztiak',
 	'General_API' => 'APIa',
 	'General_Widgets' => 'Widget-ak',
-	'General_Settings'	=> 'Ezarpenak',
+	'General_Settings' => 'Ezarpenak',
 	'General_GiveUsYourFeedback' => 'Emaiguzu zure iritzia!',
 	'General_Unknown' => 'Ezezaguna',
 	'General_Required' => '%s behar da',
@@ -276,7 +276,6 @@ $translations = array(
 	'Referers_DistinctKeywords' => 'gako-hitz desberdin',
 	'Referers_DistinctCampaigns' => 'kanpaina desberdin',
 	'Referers_DistinctWebsites' => 'webgune desberdin',
-	'Referers_UsingNDistinctUrls' => ' (%2s url desberdin erabiliz)',
 	'Referers_SubmenuEvolution' => 'Bilakaera',
 	'Referers_SubmenuSearchEngines' => 'Bilaketa-motorrak eta gako-hitzak',
 	'Referers_SubmenuWebsites' => 'Webguneak',
@@ -630,10 +629,8 @@ $translations = array(
 	'VisitorInterest_WidgetPages' => 'Orriak bisitako',
 	'VisitorInterest_SubmenuFrequencyLoyalty' => 'Maiztasuna eta leialtasuna',
 	'VisitorInterest_PlusXMin' => '%s min',
-	'VisitorInterest_BetweenXYMinutes' => '%1s-%1s min',
 	'VisitorInterest_OnePage' => 'orri bat',
 	'VisitorInterest_NPages' => '%s orri',
-	'VisitorInterest_BetweenXYSeconds' => '%1s-%2ss',
 	'Login_LoginPasswordNotCorrect' => 'Erabiltzaile-izena eta pasahitza ez datoz bat',
 	'Login_Login' => 'Erabiltzaile-izena',
 	'Login_Password' => 'Pasahitza',
@@ -651,7 +648,22 @@ $translations = array(
 	'Login_InvalidUsernameEmail' => 'Erabiltzaile-izen edo helbide elektroniko baliogabea',
 	'Login_InvalidOrExpiredToken' => 'Tokena baliogabea da edo iraungi egin da',
 	'Login_MailTopicPasswordRecovery' => 'Pasahitza berreskuratzea',
-	'Login_MailPasswordRecoveryBody' => "Kaixo %s,\n\nPasahitza berrezartzeko eskaria jaso da %s helbidetik.\n\nZure pasahitza berrezartzeko:\n\n1) Zoaz pasahitza berrezartzeko inprimakira:\n\t%s\n\n2) Idatz ezazu ondorengo tokena:\n\t%s\n\n3) Bete eta bidal ezazu inprimakia (zure pasahitz berria birritan sartuz) inprimakia.\n\nOharra: tokena 24 ordutan iraungiko da.\n",
+	'Login_MailPasswordRecoveryBody' => 'Kaixo %s,
+
+Pasahitza berrezartzeko eskaria jaso da %s helbidetik.
+
+Zure pasahitza berrezartzeko:
+
+1) Zoaz pasahitza berrezartzeko inprimakira:
+	%s
+
+2) Idatz ezazu ondorengo tokena:
+	%s
+
+3) Bete eta bidal ezazu inprimakia (zure pasahitz berria birritan sartuz) inprimakia.
+
+Oharra: tokena 24 ordutan iraungiko da.
+',
 	'Login_PasswordSent' => 'Zure pasahitza berrezartzeko informazioa bidali da. Begira ezazu zure posta elektronikoa.',
 	'Login_ContactAdmin' => 'Arrazoi posiblea: zure ostalariak mail() funtzioa ezgaituta izan dezake.<br />Jar zaitez harremanetan zure Piwik kudeatzailearekin.',
 	'UsersManager_UsersManagement' => 'Erabiltzaileen kudeaketa',
@@ -736,7 +748,7 @@ Konturatu ez dela beharrezkoa URLak \'www\'-rekin edo gabe zehaztea, Piwik-ek au
 	'Installation_SetupWebSiteName' => 'webgunearen izena',
 	'Installation_SetupWebSiteURL' => 'webgunearen URLa',
 	'Installation_SetupWebsiteError' => 'Errorea gertatu da webgunea gehitzean',
-	'Installation_SetupWebsiteSetupSuccess' => 	'%s webgunea ondo sortu da!',
+	'Installation_SetupWebsiteSetupSuccess' => '%s webgunea ondo sortu da!',
 	'Installation_GeneralSetup' => 'Konfigurazio orokorra',
 	'Installation_GeneralSetupSuccess' => 'Konfigurazio orokorra ondo burutu da',
 	'Installation_SuperUserLogin' => 'supererabiltzaile-izena',
@@ -755,7 +767,8 @@ Konturatu ez dela beharrezkoa URLak \'www\'-rekin edo gabe zehaztea, Piwik-ek au
 	'Installation_SystemCheckPhp' => 'PHP bertsioa',
 	'Installation_SystemCheckExtensions' => 'Beharrezko bestelako hedapenak',
 	'Installation_SystemCheckDatabaseHelp' => 'Piwik-ek mysqli hedapena edo PDO eta pdo_mysql hedapenak behar ditu.',
-	'Installation_SystemCheckPdoAndMysqliHelp' => "Linux zerbitzari batean ondorengo aukerekin konpila dezakezu php:: %s\nGehitu ondorengo lerroak zure php.ini fitxategian: %s",
+	'Installation_SystemCheckPdoAndMysqliHelp' => 'Linux zerbitzari batean ondorengo aukerekin konpila dezakezu php:: %s
+Gehitu ondorengo lerroak zure php.ini fitxategian: %s',
 	'Installation_SystemCheckPhpPdoAndMysqliSite' => 'Argibide gehiago: <a style="color:red" href="http://php.net/pdo">PHP PDO</a> eta <a style="color:red" href="http://php.net/mysqli">MYSQLI</a>.',
 	'Installation_SystemCheckWinPdoAndMysqliHelp' => 'Windows zerbitzari batean ondorengo lerroak gehi ditzakezu zure php.ini fitxategian: %s',
 	'Installation_SystemCheckSplHelp' => 'Standard PHP Library (SPL) lehenetsita gaituta duela konfiguratu eta birkonpilatu behar duzu PHP.',
