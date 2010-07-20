@@ -60,11 +60,6 @@
 	padding:10px 0;
 }
 
-#mt {
-    width: 100%;
-    max-width: 1024px;
-}
-
 #mt thead :first-child {
     -moz-border-radius-topleft: 7px;
     -webkit-border-top-left-radius: 7px
