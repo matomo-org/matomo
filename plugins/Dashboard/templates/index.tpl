@@ -12,7 +12,16 @@
 {literal}
 <script type="text/javascript">
 $(document).ready( function() {
+        // Standard dashboard
+		if($('#periodString').length) 
+		{
 		$('#addWidget').css({left:$('#periodString')[0].offsetWidth+25});
+        }
+		// Embed dashboard
+		else 
+		{
+        	$('#addWidget').css({left:7, top:42});
+        }
 		piwik.dashboardObject = new dashboard();
 		var widgetMenuObject = new widgetMenu(piwik.dashboardObject);
 		piwik.dashboardObject.init(piwik.dashboardLayout);
