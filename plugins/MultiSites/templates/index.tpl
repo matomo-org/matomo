@@ -2,10 +2,6 @@
 {assign var=showPeriodSelection value=true}
 {include file="CoreHome/templates/header.tpl"}
 
-<div class="admin_header_message">
-	{include file="CoreHome/templates/header_message.tpl"}
-</div>
-
 <div id="multisites">
 <div id="main">
 {include file="MultiSites/templates/row.tpl" assign="row"}
@@ -33,6 +29,7 @@
 
 <div class="top_controls_inner">
     {include file="CoreHome/templates/period_select.tpl"}
+    {include file="CoreHome/templates/header_message.tpl"}
 </div>
 
 <div class="multiSitesCont">

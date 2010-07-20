@@ -39,12 +39,6 @@ class Piwik_DataTable_Simple extends Piwik_DataTable
 		$this->addRowsFromSimpleArray(array($array));
 	}
 	
-	function getColumn($columnName)
-	{
-		$columns = parent::getColumn($columnName);
-		return reset($columns);
-	}
-	
 	function setColumn($columnName, $value)
 	{
 		$this->getLastRow()->setColumn($columnName, $value);
