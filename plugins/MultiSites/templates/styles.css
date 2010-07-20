@@ -4,6 +4,9 @@
 	font-size:14px;
 }
 
+#multisites .top_controls_inner  {
+	height:10px;
+}
 
 .indicator {
 	background-image: url("../images/loading-blue.gif");
@@ -57,7 +60,6 @@
 }
 
 .multiSitesCont{ 
-	padding:10px 0;
 	width:850px; 
 	margin:auto;
 }
