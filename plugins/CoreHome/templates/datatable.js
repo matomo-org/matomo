@@ -760,7 +760,7 @@ dataTable.prototype =
 					'<tr>'+
 						'<td colspan="'+numberOfColumns+'" class="cellSubDataTable">'+
 							'<div id="'+divIdToReplaceWithSubTable+'">'+
-								'<span class="pk-loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('CoreHome_Loading_js') +'</span>'+
+								'<span class="pk-loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('General_Loading_js') +'</span>'+
 							'</div>'+
 						'</td>'+
 					'</tr>'
