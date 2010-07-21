@@ -1,4 +1,4 @@
-<h1>{'Installation_Tables'|translate}</h1>
+<h2>{'Installation_Tables'|translate}</h2>
 
 {if isset($someTablesInstalled)}
 	<div class="warning">{'Installation_TablesWithSameNamesFound'|translate:"<span id='linkToggle'>":"</span>"}

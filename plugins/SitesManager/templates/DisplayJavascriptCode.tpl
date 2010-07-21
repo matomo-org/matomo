@@ -22,7 +22,7 @@ code {
 .trackingHelp ul li {
 	margin-bottom:10px;
 }
-.trackingHelp h3 {
+.trackingHelp h2 {
 	margin-top:20px;
 }
 .trackingHelp .toggleHelp {
@@ -33,6 +33,9 @@ p {
 }
 </style>
 {/literal}
+
+<h2>{'SitesManager_TrackingTags'|translate:$displaySiteName}</h2>
+
 <div class='trackingHelp'>
 To record visitors, visits and page views in Piwik, you must add a Tracking code in all your pages. 
 We recommend to use the standard Javascript Tracking tag.

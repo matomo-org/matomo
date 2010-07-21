@@ -1,4 +1,4 @@
-<h1>{'Installation_Congratulations'|translate}</h1>
+<h2>{'Installation_Congratulations'|translate}</h2>
 
 {'Installation_CongratulationsHelp'|translate}
 

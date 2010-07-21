@@ -3,7 +3,7 @@
 {assign var=warning value="<img src='themes/default/images/warning.png' />"}
 {assign var=link value="<img src='themes/default/images/link.gif' />"}
 
-<h1>{'Installation_SystemCheck'|translate}</h1>
+<h2>{'Installation_SystemCheck'|translate}</h2>
 
 <table class="infosServer">
 	<tr>
@@ -132,7 +132,7 @@
 	</div>
 	<br />
 {/if}
-<h1>{'Optional'|translate}</h1>
+<h2>{'Optional'|translate}</h2>
 <table class="infos">
 	<tr>
 		<td class="label">{'Installation_SystemCheckFileIntegrity'|translate}</td>

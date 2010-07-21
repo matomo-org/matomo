@@ -3,7 +3,7 @@
 {assign var=warning value="<img src='themes/default/images/warning.png' />"}
 {assign var=link value="<img src='themes/default/images/link.gif' />"}
 
-<h1>{'Installation_DatabaseCheck'|translate}</h1>
+<h2>{'Installation_DatabaseCheck'|translate}</h2>
 
 <table class="infosServer">
 	<tr>

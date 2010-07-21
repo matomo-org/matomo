@@ -7,7 +7,7 @@
 </span>
 {/if}
 
-<h1>{'Installation_SetupWebsite'|translate}</h1>
+<h2>{'Installation_SetupWebsite'|translate}</h2>
 
 {if isset($errorMessage)}
 	<div class="error">
