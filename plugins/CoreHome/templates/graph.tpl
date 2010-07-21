@@ -21,7 +21,7 @@
 				{if $flashParameters.includeData}
 					"id":"{$chartDivId}",
 				{/if}
-					"loading":"{'General_Loading'|translate|escape:"html"}"
+					"loading":"{'General_Loading_Js'|translate|escape:"html"}"
 				{literal}},
 				{{/literal}
 					"allowScriptAccess":"always",

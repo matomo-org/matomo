@@ -36,7 +36,7 @@ class Piwik_SecurityInfo_Controller extends Piwik_Controller
 		unset($results['test_results']['Core']['upload_max_filesize']);
 
 		$view = Piwik_View::factory('index');
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		$view->results = $results;
 		echo $view->render();

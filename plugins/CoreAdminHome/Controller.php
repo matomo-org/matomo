@@ -27,7 +27,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		$view->enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
 		$view->todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
 		
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->topMenu = Piwik_GetTopMenu();
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();

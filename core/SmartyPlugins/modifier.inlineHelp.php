@@ -18,9 +18,8 @@ function smarty_modifier_inlineHelp($text)
 	return 
 		'<div class="ui-widget">'.
 			'<div class="ui-inline-help ui-state-highlight ui-corner-all">'.
-				'<p style="font-size:8pt;"><span class="ui-icon ui-icon-info" style="float:left;margin-right:.3em;"></span>'.
-					$text.
-				'</p>'.
+				'<span class="ui-icon ui-icon-info" style="float:left;margin-right:.3em;"></span>'.
+				$text.
 			'</div>'.
 		'</div>';
 }

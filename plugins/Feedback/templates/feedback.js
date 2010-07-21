@@ -5,7 +5,7 @@ $(function() {
 
 		$('a#topmenu-feedback').click(function() {
 			if(fbDiv.html() == '') {
-				fbDiv.html('<div id="feedback-loading"><img alt="" src="themes/default/images/loading-blue.gif"> '+translations.CoreHome_Loading_js+'</div>');
+				fbDiv.html('<div id="feedback-loading"><img alt="" src="themes/default/images/loading-blue.gif"> '+ _pk_translate('General_Loading_js') +'</div>');
 			}
 			if($('#feedback-loading' ,fbDiv).length) {
 				$.get(feedback.attr('href'), function(data) {

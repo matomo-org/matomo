@@ -22,7 +22,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		$sitesList = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
 
 		$view = Piwik_View::factory('index');
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->assign('sitesList', $sitesList);
 
 		$view->menu = Piwik_GetAdminMenu();
@@ -108,7 +108,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		// Init view
 		$view = Piwik_View::factory('generate');
 		$view->menu = Piwik_GetAdminMenu();
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->assign('dates', $dates);
 		$view->assign('timer', $timer);
 		$view->assign('nbActionsTotal', $nbActionsTotal);

@@ -46,7 +46,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		$view->globalExcludedQueryParameters = str_replace(',',"\n", $excludedQueryParametersGlobal);
 		$view->currentIpAddress = Piwik_Common::getIpString();
 
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}
@@ -85,7 +85,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		Piwik::checkUserHasViewAccess($idSite);
 		$jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
 		$view = Piwik_View::factory('Tracking');
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		$site = new Piwik_Site($idSite);
 		$view->displaySiteName = $site->getName();

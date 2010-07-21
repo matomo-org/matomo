@@ -49,7 +49,9 @@ class Piwik_PluginsManager
 												'CorePluginsAdmin', 
 												'Installation', 
 												'SitesManager', 
-												'UsersManager' );
+												'UsersManager',
+												'API',
+	);
 
 	static private $instance = null;
 	
