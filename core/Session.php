@@ -19,6 +19,12 @@ class Piwik_Session extends Zend_Session
 {
     public static function start($options = false)
 	{
+		// use cookies to store session id on the client side
+		@ini_set('session.use_cookies', '1');
+
+		// prevent attacks involving session ids passed in URLs
+		@ini_set('session.use_only_cookies', '1');
+
 		// don't use the default: PHPSESSID
 		$sessionName = defined('PIWIK_SESSION_NAME') ? PIWIK_SESSION_NAME : 'PIWIK_SESSID';
 		@ini_set('session.name', $sessionName);
