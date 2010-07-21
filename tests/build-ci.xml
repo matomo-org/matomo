@@ -96,11 +96,7 @@
 		<echo>SchemaSpy finished</echo>
 	</target>
 
-	<target name="all">
-		<antcall target="test-pdo-mysql"/>
-		<antcall target="test-mysqli"/>
-		<antcall target="webtest"/>
-		<antcall target="schemaspy"/>
+	<target name="all" depends="test-pdo-mysql,test-mysqli,webtest,schemaspy">
 		<fail>
 			<condition>
 				<or>
