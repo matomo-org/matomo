@@ -61,7 +61,7 @@
 
 {ajaxErrorDiv}
 {ajaxLoadingDiv}
-<div id="accessUpdated" class="ajaxSuccess"><p>{'General_Done'|translate}!</p></div>
+<div id="accessUpdated" class="ajaxSuccess">{'General_Done'|translate}!</div>
 
 <table class="admin" id="access">
 <thead>

@@ -58,15 +58,15 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
-		Piwik::redirectToModule('CorePluginsAdmin', 'index', array('token_auth'=>false, 'pluginName' =>false));
+		Piwik_Url::redirectToReferer();
 	}
-
+	
 	public function activate()
 	{
 		Piwik::checkUserIsSuperUser();
 		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
-		Piwik::redirectToModule('CorePluginsAdmin');
+		Piwik_Url::redirectToReferer();
 	}
 }

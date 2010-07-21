@@ -87,6 +87,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('Tracking');
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
+		$view->idSite = $idSite;
 		$site = new Piwik_Site($idSite);
 		$view->displaySiteName = $site->getName();
 		$view->jsTag = $jsTag;
