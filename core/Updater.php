@@ -81,7 +81,7 @@ class Piwik_Updater
 	 */
 	public function getComponentsWithUpdateFile()
 	{
-		$this->componentsWithNewVersion = $this->loadComponentsWithNewVersion();
+		$this->componentsWithNewVersion = $this->getComponentsWithNewVersion();
 		$this->componentsWithUpdateFile = $this->loadComponentsWithUpdateFile();
 		return $this->componentsWithUpdateFile;
 	}
@@ -231,7 +231,7 @@ class Piwik_Updater
 	 *
 	 * @return array array( componentName => array( oldVersion, newVersion), [...])
 	 */
-	private function loadComponentsWithNewVersion()
+	public function getComponentsWithNewVersion()
 	{
 		$componentsToUpdate = array();
 		

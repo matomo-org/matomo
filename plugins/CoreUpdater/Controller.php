@@ -293,10 +293,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 	private function doExecuteUpdates($view, $updater, $componentsWithUpdateFile)
 	{
-		// Delete merged js/css files to force regenerations based on new versions of css/js files
-		Piwik_AssetManager::removeMergedAssets();	
-		Piwik_View::clearCompiledTemplates();
-		
 		$this->loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile);
 
 		$view->coreError = $this->coreError;
