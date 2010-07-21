@@ -338,18 +338,18 @@ class Piwik_AssetManager
 				return false;
 				
 			case 1:
-				
 				$mergedFile = $matchingFiles[0];
 				$hashcode = basename($mergedFile, ".".$type);
 				
 				if ( empty($hashcode) ) {
-					throw new Exception ("The merged asset : " . $mergedFile . " couldn't be parsed for getting the hashcode.");
+					//"The merged asset : " . $mergedFile . " couldn't be parsed for getting the hashcode.
+					return false;
 				}
-				
 				return $hashcode;
-				
 			default:
-				throw Exception ("There are more than 1 merged file of the same type in the merged file directory. This should never happen. Please delete all files in piwik/tmp/assets/ and refresh the page.");	
+				// There are more than 1 merged file of the same type in the merged file directory. 
+				// This should never happen. Please delete all files in piwik/tmp/assets/ and refresh the page.");
+				return false;
 		}		
 	}
 	
