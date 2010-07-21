@@ -36,8 +36,8 @@ div.both {
 body {
 	background-color: #F9F9F9;
 	text-align: center;
-	font-family:Georgia,"Times New Roman",Times,serif;
-	font-size:19px;
+	font-family:Arial,Georgia,"Times New Roman",Times,serif;
+	font-size:17px;
 }
 
 #title{
@@ -54,7 +54,7 @@ body {
 	padding:30px;
 }
 
-h1 {
+h2 {
 	font-size:20px;
 	color:#666666;
 	border-bottom:1px solid #DADADA;
@@ -77,10 +77,12 @@ h3 {
 	color:red;
 	font-size:100%;
 	font-weight:bold;
-	border: 1px solid red;
+	border: 2px solid red;
 	width: 550px;
-	padding:20;
+	padding:20px;
+	margin-bottom:10px;
 }
+
 .error img {
 	border:0;
 	float:right;
@@ -110,10 +112,6 @@ h3 {
 	vertical-align:bottom;
 }
 
-#detailInstall {
-	width:70%;
-	float: right;
-}
 
 /* Cadre general */
 #main {
@@ -141,9 +139,14 @@ h3 {
 }
 /* listing all the steps */
 #generalInstall {
-	width: 30%;
 	float: left;
-	font-size:90%;
+	margin-left:20px;
+	width:19%;
+}
+
+#detailInstall {
+	width:75%;
+	float: right;
 }
 
 #generalInstall ul {
@@ -192,7 +195,7 @@ td {
 }
 
 input {
-	font-size:1.1em;
+	font-size:18px;
 	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
 	border-width:1px;
 	color:#3A2B16;

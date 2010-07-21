@@ -1,4 +1,4 @@
-<h1>{'Installation_DatabaseSetup'|translate}</h1>
+<h2>{'Installation_DatabaseSetup'|translate}</h2>
 
 {if isset($errorMessage)}
 	<div class="error">

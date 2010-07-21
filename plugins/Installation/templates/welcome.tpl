@@ -1,4 +1,4 @@
-<h1>{'Installation_Welcome'|translate}</h1>
+<h2>{'Installation_Welcome'|translate}</h2>
 
 {if $newInstall}
 {'Installation_WelcomeHelp'|translate:$totalNumberOfSteps}

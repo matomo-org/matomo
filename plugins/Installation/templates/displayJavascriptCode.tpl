@@ -8,10 +8,9 @@
 </span>
 {/if}
 
-<h1>{'SitesManager_TrackingTags'|translate:$displaySiteName}</h1>
 {$trackingHelp}
 <br/><br/>
-<h1>{'Installation_LargePiwikInstances'|translate}</h1>
+<h2>{'Installation_LargePiwikInstances'|translate}</h2>
 {'Installation_JsTagArchivingHelp'|translate}
 
 {literal}
