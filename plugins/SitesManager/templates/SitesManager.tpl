@@ -112,7 +112,7 @@ vertical-align:middle;
 				<td id="currency" class="editableSite">{$site.currency}</td>
 				<td><img src='plugins/UsersManager/images/edit.png' class="editSite" id="row{$i}" href='#' title="{'General_Edit'|translate}" /></td>
 				<td><img src='plugins/UsersManager/images/remove.png' class="deleteSite" id="row{$i}" title="{'General_Delete'|translate}" value="{'General_Delete'|translate}" /></td>
-				<td><a href='{url action=displayJavascriptCode idSite=$site.idsite}'>{'SitesManager_ShowTrackingTag'|translate}</a></td>
+				<td><a href='{url action=displayJavascriptCode idSite=$site.idsite updated=false}'>{'SitesManager_ShowTrackingTag'|translate}</a></td>
 			</tr>
 			{/foreach}
 		</tbody>
