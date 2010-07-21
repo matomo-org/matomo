@@ -43,7 +43,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 
 		$view = Piwik_View::factory('manage');
 		$view->pluginsName = $plugins;
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		if(!Zend_Registry::get('config')->isFileWritable())
 		{
@@ -58,7 +58,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
-		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin&action=index');
+		Piwik::redirectToModule('CorePluginsAdmin', 'index', array('token_auth'=>false, 'pluginName' =>false));
 	}
 
 	public function activate()
@@ -67,6 +67,6 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
-		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin&action=index');
+		Piwik::redirectToModule('CorePluginsAdmin');
 	}
 }

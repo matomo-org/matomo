@@ -109,12 +109,16 @@ function launchAjaxRequest(self, successCallback)
 				) 
 			);	
 }
-
+function hideAccessUpdated()
+{
+	setTimeout(function(){
+		$('#accessUpdated').fadeOut(500);
+	}, 2000);
+}
 function bindUpdateAccess()
 {
-	$('#accessUpdated').hide();
 	var self = this;
-	
+	hideAccessUpdated(1);
 	// callback called when the ajax request Update the user permissions is successful
 	function successCallback (response)
 	{
@@ -139,7 +143,7 @@ function bindUpdateAccess()
 				.attr('class',"accessGranted" )
 				;
 			$('#accessUpdated').show();
-			$('#accessUpdated').fadeOut(1500);
+			hideAccessUpdated();
 		}
 	}
 	
@@ -168,6 +172,7 @@ function bindUpdateAccess()
 }
 
 $(document).ready( function() {
+	$('#accessUpdated').hide();
 	var alreadyEdited = new Array;
 	// when click on edituser, the cells become editable
 	$('.edituser')
@@ -242,5 +247,4 @@ $(document).ready( function() {
 
 	$('.updateAccess')
 		.click( bindUpdateAccess );
-	$('#accessUpdated').hide();
 });	

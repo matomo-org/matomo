@@ -476,16 +476,16 @@ input.submit, .admin input.submit {
 	-webkit-border-radius:9px;
 }
 .ajaxSuccess {
-	padding: 20px;
+	font-size:14px;
 	margin:10px;
-	display: block;
+	padding:15px ;
 	color:#301901;
+	display:inline-block;
+	background-color: #ffffe0;
 	border: 1px solid #e6db55;
+	border-radius:border-radius:3px;
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
-	background-color: #ffffe0;
-	padding:0 0.6em;
-	display:inline-block;
 }
 /* extending the jquery UI css for inline help */
 .ui-widget { 
@@ -493,12 +493,12 @@ input.submit, .admin input.submit {
 }
 
 .ui-inline-help {
+	padding:0.7em;
 	width:170px;
 	margin-top:20px;
-	padding:0 0.7em;
+	font-size:8pt;
+	line-height:140%;
 }
-
-
 
 .ui-datepicker{ 
 	border: 1px solid #fff!important;

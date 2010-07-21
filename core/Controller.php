@@ -319,15 +319,25 @@ abstract class Piwik_Controller
 
 			$maxDate = Piwik_Date::factory('now', $this->site->getTimezone());
 			$this->setMaxDateView($maxDate, $view);
-
-			$view->topMenu = Piwik_GetTopMenu();
-			$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
-			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
-
-			$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
+			$this->setBasicVariablesView($view);
 		} catch(Exception $e) {
 			self::redirectToIndex( Piwik::getLoginPluginName(), $action = 'index' );
 		}
+	}
+	
+	/**
+	 * Will only set the minimal variables in the view object
+	 * Used by Admin screens
+	 * 
+	 * @param $view
+	 */
+	public function setBasicVariablesView($view)
+	{
+		$view->topMenu = Piwik_GetTopMenu();
+		$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
+		$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
+
+		$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
 	}
 	
 	/**

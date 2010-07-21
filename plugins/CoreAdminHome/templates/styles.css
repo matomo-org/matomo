@@ -15,7 +15,7 @@ textarea {
 }
 
 .admin #header_message{
-	margin-top:-12px;
+	margin-top:-10px;
 }
 
 table.admin {
@@ -183,7 +183,8 @@ input[disabled] {
 	font-weight: bold;
 }
 .adminTable a {
-	color:#2583AD;
+	border-bottom:1px dotted;
+	color:#2B5C97;
 }
 .adminTable .active {
 	background-color: #ECF9DD;

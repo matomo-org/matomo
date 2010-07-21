@@ -69,7 +69,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
 		$view->formUrl = Piwik_Url::getCurrentUrl();
 		$view->websites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}
@@ -124,7 +124,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$view->ignoreCookieSet = $this->isIgnoreCookieFound();
 		$this->initViewAnonymousUserSettings($view);
 		$view->piwikHost = Piwik_Url::getCurrentHost();
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}
