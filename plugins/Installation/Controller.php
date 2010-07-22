@@ -806,7 +806,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;
 		}
 
-		$infos['isWindows'] = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN';
+		$infos['isWindows'] = Piwik_Common::isWindows();
 
 		$infos['protocol_ok'] = true;
 		$infos['protocol'] = self::getProtocolInformation();
