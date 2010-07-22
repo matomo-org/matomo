@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div class="widget" style="margin-top:50px">
+<div class="widget">
 {$content}
 </div>
 
