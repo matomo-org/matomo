@@ -128,7 +128,7 @@ class HTML_QuickForm2_Element_InputImage extends HTML_QuickForm2_Element_Input
         }
     }
 
-    protected function updateValue()
+    public function updateValue()
     {
         foreach ($this->getDataSources() as $ds) {
             if ($ds instanceof HTML_QuickForm2_DataSource_Submit) {

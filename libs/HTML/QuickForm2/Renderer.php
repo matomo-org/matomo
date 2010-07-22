@@ -212,7 +212,7 @@ abstract class HTML_QuickForm2_Renderer
     *
     * @return   array
     */
-    protected function exportMethods()
+    public function exportMethods()
     {
         return array();
     }

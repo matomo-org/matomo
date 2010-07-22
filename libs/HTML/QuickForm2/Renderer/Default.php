@@ -149,7 +149,7 @@ class HTML_QuickForm2_Renderer_Default extends HTML_QuickForm2_Renderer
     */
     public $groupId = array();
 
-    protected function exportMethods()
+    public function exportMethods()
     {
         return array(
             'reset',

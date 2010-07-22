@@ -138,7 +138,7 @@ class HTML_QuickForm2_Element_Static extends HTML_QuickForm2_Element
     *
     * Static elements content can be updated with default form values.
     */
-    protected function updateValue()
+    public function updateValue()
     {
         foreach ($this->getDataSources() as $ds) {
             if (!$ds instanceof HTML_QuickForm2_DataSource_Submit &&
