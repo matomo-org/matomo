@@ -4,7 +4,7 @@
 $token_auth = 'anonymous';
 
 // we call the REST API and request the 100 first keywords for the last month for the idsite=1
-$url = "http://piwik.org/demo/";
+$url = "http://demo.piwik.org/";
 $url .= "?module=API&method=Referers.getKeywords";
 $url .= "&idSite=1&period=month&date=yesterday";
 $url .= "&format=PHP&filter_limit=20";

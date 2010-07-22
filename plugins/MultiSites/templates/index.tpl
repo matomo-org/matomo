@@ -34,7 +34,7 @@
 
 <div class="multiSitesCont">
 
-<h1>{'General_AllWebsitesDashboard'|translate}</h1>
+<h2>{'General_AllWebsitesDashboard'|translate}</h2>
 
 <table id="mt" class="dataTable" cellspacing="0">
 	<thead>
