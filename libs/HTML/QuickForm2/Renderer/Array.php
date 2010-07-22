@@ -160,7 +160,7 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
         $this->options['static_labels'] = false;
     }
 
-    protected function exportMethods()
+    public function exportMethods()
     {
         return array(
             'reset',

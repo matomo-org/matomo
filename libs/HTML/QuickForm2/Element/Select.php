@@ -555,7 +555,7 @@ class HTML_QuickForm2_Element_Select extends HTML_QuickForm2_Element
         return $this->optionContainer->addOptgroup($label, $attributes);
     }
 
-    protected function updateValue()
+    public function updateValue()
     {
         if (!$this->getAttribute('multiple')) {
             parent::updateValue();

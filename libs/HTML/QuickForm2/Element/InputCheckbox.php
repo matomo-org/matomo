@@ -74,7 +74,7 @@ class HTML_QuickForm2_Element_InputCheckbox extends HTML_QuickForm2_Element_Inpu
         }
     }
 
-    protected function updateValue()
+    public function updateValue()
     {
         $name = $this->getName();
         if ('[]' == substr($name, -2)) {

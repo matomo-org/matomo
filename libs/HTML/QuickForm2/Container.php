@@ -357,7 +357,7 @@ abstract class HTML_QuickForm2_Container extends HTML_QuickForm2_Node
     * The default behaviour is just to call the updateValue() methods of
     * contained elements, since default Container doesn't have any value itself
     */
-    protected function updateValue()
+    public function updateValue()
     {
         foreach ($this as $child) {
             $child->updateValue();

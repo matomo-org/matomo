@@ -332,24 +332,26 @@ class Piwik_AssetManager
 		
 		$matchingFiles = glob( $mergedFileDirectory . "*." . $type );
 		
+		if($matchingFiles === false)
+		{
+			return false;
+		}
 		switch ( count($matchingFiles) )
 		{
 			case 0:				
 				return false;
 				
 			case 1:
-				
 				$mergedFile = $matchingFiles[0];
 				$hashcode = basename($mergedFile, ".".$type);
 				
 				if ( empty($hashcode) ) {
-					throw new Exception ("The merged asset : " . $mergedFile . " couldn't be parsed for getting the hashcode.");
+					throw new Exception("The merged asset : " . $mergedFile . " couldn't be parsed for getting the hashcode.");
 				}
-				
 				return $hashcode;
-				
 			default:
-				throw Exception ("There are more than 1 merged file of the same type in the merged file directory. This should never happen. Please delete all files in piwik/tmp/assets/ and refresh the page.");	
+				throw new Exception("There are more than 1 merged file of the same type in the merged file directory. 
+				This should not happen. Please delete all files in piwik/tmp/assets/ and refresh the page.");
 		}		
 	}
 	

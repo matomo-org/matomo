@@ -96,17 +96,13 @@
 		<echo>SchemaSpy finished</echo>
 	</target>
 
-	<target name="all">
-		<antcall target="test-pdo-mysql"/>
-		<antcall target="test-mysqli"/>
-		<antcall target="webtest"/>
-		<antcall target="schemaspy"/>
+	<target name="all" depends="test-pdo-mysql,test-mysqli,webtest,schemaspy">
 		<fail>
 			<condition>
 				<or>
-					<equals arg1="${result-mysqli}" arg2="1"/>
-					<equals arg1="${result-pdo-mysql}" arg2="1"/>
-					<equals arg1="${result-schemaspy}" arg2="1"/>
+					<isfailure code="${result-mysqli}"/>
+					<isfailure code="${result-pdo-mysql}"/>
+					<isfailure code="${result-schemaspy}"/>
 				</or>
 			</condition>
 		</fail>
