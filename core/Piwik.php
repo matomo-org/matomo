@@ -166,13 +166,21 @@ class Piwik
 			@chmod($dest, 0755);
 	   		if(!@copy( $source, $dest ))
 	   		{
-				throw new Exception("
-				Error while copying file to <code>$dest</code>. <br />
-				Please check that the web server has enough permission to overwrite this file. <br />
-				For example, on a linux server, if your apache user is www-data you can try to execute:<br />
-				<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br />
-				<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br />
-					");
+				$message = "Error while copying file to <code>$dest</code>. <br />"
+				         . "Please check that the web server has enough permission to overwrite this file. <br />";
+
+				if(Piwik_Common::isWindows())
+				{
+					$message .= "On Windows, you can try to execute:<br />"
+					          . "<code>cacls ".Piwik_Common::getPathToPiwikRoot()." /t /g ".get_current_user().":f</code><br />";
+				}
+				else
+				{
+					$message = "For example, on a linux server, if your apache user is www-data you can try to execute:<br />"
+					         . "<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br />"
+					         . "<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br />";
+				}
+				throw new Exception($message);
 	   		}
 		}
 		return true;
@@ -255,15 +263,21 @@ class Piwik
 			$realpath = Piwik_Common::realpath($dir);
 			if(!empty($realpath) && $bool === false)
 			{
-				$directoryList .= "<code>chmod 777 $realpath</code><br />";
+				if(Piwik_Common::isWindows())
+				{
+					$directoryList .= "<code>cacls $realpath /t /g ".get_current_user().":f</code><br />";
+				}
+				else
+				{
+					$directoryList .= "<code>chmod 777 $realpath</code><br />";
+				}
 			}
 		}
-		$directoryList .= '';
-		$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your Linux server:</P>";
-		$directoryMessage .= $directoryList;
-		$directoryMessage .= "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 777 (with your FTP software, right click on the directories, permissions).";
-		$directoryMessage .= "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.";
-		$directoryMessage .= "<p>If you need more help, try <a href='misc/redirectToUrl.php?url=http://piwik.org'>Piwik.org</a>.";
+		$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your Linux server:</p>"
+		                  . "<blockquote>$directoryList</blockquote>"
+		                  . "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 777 (with your FTP software, right click on the directories, permissions).</p>"
+		                  . "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.</p>"
+		                  . "<p>If you need more help, try <a href='misc/redirectToUrl.php?url=http://piwik.org'>Piwik.org</a>.</p>";
 
 		Piwik_ExitWithMessage($directoryMessage, false, true);
 	}

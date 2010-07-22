@@ -304,7 +304,7 @@ class Piwik_Url
 	static public function isLocalUrl($url)
 	{
 		// handle case-sensitivity differences
-		$pathContains = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ? 'stripos' : 'strpos';
+		$pathContains = Piwik_Common::isWindows() ? 'stripos' : 'strpos';
 
 		// test the scheme/protocol portion of the reconstructed "current" URL
 		if(stripos($url, 'http://') === 0 || stripos($url, 'https://') === 0)

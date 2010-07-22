@@ -1029,4 +1029,15 @@ class Piwik_Common
 		return	PHP_SAPI == 'cli' ||
 				(substr(PHP_SAPI, 0, 3) == 'cgi' && empty($remoteAddr));
 	}
+
+	/**
+	 * Returns true if running on a Windows operating system
+	 *
+	 * @since added in 0.6.5
+	 * @return bool true if PHP detects it is running on Windows; else false
+	 */
+	static public function isWindows()
+	{
+		return strtoupper(substr(PHP_OS, 0, 3)) == 'WIN';
+	}
 }
