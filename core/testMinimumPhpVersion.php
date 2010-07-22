@@ -54,7 +54,7 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
 						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/docs/">Piwik Documentation</a></li>
 						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://forum.piwik.org/">Piwik Forums</a></li>
-						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/demo">Piwik Online Demo</a></li>
+						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://demo.piwik.org">Piwik Online Demo</a></li>
 						</ul>';
 	}
 	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');

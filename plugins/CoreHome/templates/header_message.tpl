@@ -1,9 +1,9 @@
 {* testing *}
-{assign var=test_latest_version_available value="1.0"}
-{assign var=test_piwikUrl value='http://piwik.org/demo/'}
-<span id="header_message" class="{if $piwikUrl == 'http://piwik.org/demo/' || !$latest_version_available}header_info{else}header_alert{/if}">
+{assign var=latest_version_available value="1.0"}
+{assign var=test_piwikUrl value='http://demo.piwik.org/'}
+<span id="header_message" class="{if $piwikUrl == 'http://demo.piwik.org/' || !$latest_version_available}header_info{else}header_alert{/if}">
 <span class="header_short">
-	{if $piwikUrl == 'http://piwik.org/demo/'}
+	{if $piwikUrl == 'http://demo.piwik.org/'}
 		{'General_YouAreViewingDemoShortMessage'|translate}
 	{elseif $latest_version_available}
 		{'General_NewUpdatePiwikX'|translate:$latest_version_available}
@@ -13,7 +13,7 @@
 </span>
 
 <span class="header_full">
-	{if $piwikUrl == 'http://piwik.org/demo/'}
+	{if $piwikUrl == 'http://demo.piwik.org/'}
 		{'General_YouAreViewingDemoShortMessage'|translate}<br/>
 		{'General_DownloadFullVersion'|translate:"<a href='http://piwik.org/'>":"</a>":"<a href='http://piwik.org'>piwik.org</a>"}
 	{elseif $latest_version_available}
