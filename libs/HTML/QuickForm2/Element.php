@@ -92,7 +92,7 @@ abstract class HTML_QuickForm2_Element extends HTML_QuickForm2_Node
     * The default behaviour is to go through the complete list of the data
     * sources until the non-null value is found.
     */
-    protected function updateValue()
+    public function updateValue()
     {
         $name = $this->getName();
         foreach ($this->getDataSources() as $ds) {

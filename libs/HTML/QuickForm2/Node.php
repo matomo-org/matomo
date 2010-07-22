@@ -477,7 +477,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
    /**
     * Called when the element needs to update its value from form's data sources
     */
-    abstract protected function updateValue();
+   abstract public function updateValue();
 
    /**
     * Adds a validation rule

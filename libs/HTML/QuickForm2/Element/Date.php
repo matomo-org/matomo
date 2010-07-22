@@ -309,7 +309,7 @@ class HTML_QuickForm2_Element_Date extends HTML_QuickForm2_Container_Group
     * Since the date element also accepts a timestamp as value, the default
     * group behavior is changed.
     */
-    protected function updateValue()
+    public function updateValue()
     {
         $name = $this->getName();
         foreach ($this->getDataSources() as $ds) {
