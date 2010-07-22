@@ -1,6 +1,3 @@
-{* testing *}
-{assign var=latest_version_available value="1.0"}
-{assign var=test_piwikUrl value='http://demo.piwik.org/'}
 <span id="header_message" class="{if $piwikUrl == 'http://demo.piwik.org/' || !$latest_version_available}header_info{else}header_alert{/if}">
 <span class="header_short">
 	{if $piwikUrl == 'http://demo.piwik.org/'}
