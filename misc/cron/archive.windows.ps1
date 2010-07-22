@@ -27,7 +27,7 @@ foreach($phpTestBin in $BINS)
 {
   if(Get-Command $phpTestBin -ea SilentlyContinue)
   {
-    $PHP_BIN = Get-Command $phpTestBin|Select-Object -ExpandProperty Definition
+    $PHP_BIN = (Get-Command $phpTestBin).Definition
     break
   }
 }
