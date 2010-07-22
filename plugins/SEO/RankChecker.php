@@ -53,7 +53,7 @@ class Piwik_SEO_RankChecker
 	public function getAlexaRank()
 	{
 		$url = $this->url;
-		$xml = simplexml_load_file('http://data.alexa.com/data?cli=10&url=' . $url);
+		$xml = simplexml_load_string($this->getPage('http://data.alexa.com/data?cli=10&url=' . $url));
 		return $xml->SD->POPULARITY['TEXT'];
 	}
 
