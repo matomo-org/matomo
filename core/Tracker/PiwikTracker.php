@@ -29,7 +29,8 @@ class PiwikTracker
 	 * for a specific website, by using the Piwik Tracking API.
 	 * 
 	 * @param $idSite Id site to be tracked
-	 * @param $apiUrl If set, will overwrite PiwikTracker::$url
+	 * @param $apiUrl "http://example.org/piwik/" or "http://piwik.example.org/"
+	 * 				If set, will overwrite PiwikTracker::$url
 	 */
     function __construct( $idSite, $apiUrl = false )
     {

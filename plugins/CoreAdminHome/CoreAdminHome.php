@@ -83,7 +83,8 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 	{
 		$tablesPiwik = Piwik::getTablesInstalled();
 		$archiveTables = array_filter ($tablesPiwik, array("Piwik_CoreAdminHome", "isArchiveTable"));
-		Piwik_Exec("OPTIMIZE TABLE " . implode(",", $archiveTables) );
+		$query = "OPTIMIZE TABLE " . implode(",", $archiveTables);
+		Piwik_Exec( $query );
 	}
 	
 	private function isArchiveTable ( $tableName )
