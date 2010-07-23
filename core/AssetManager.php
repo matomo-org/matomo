@@ -295,7 +295,6 @@ class Piwik_AssetManager
 		Piwik_PostEvent(self::JS_IMPORT_EVENT, $jsFiles);
 		$jsFiles = array_unique($jsFiles);
 		$jsFiles = self::ensureJsFilesSorted($jsFiles);
-		var_dump($jsFiles);exit;
 		return $jsFiles; 		
 	}
 	
