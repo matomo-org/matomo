@@ -68,6 +68,7 @@ class Piwik_API_Proxy
 	 */
 	public function getMetadata()
 	{
+		ksort($this->metadataArray);
 		return $this->metadataArray;
 	}
 	
