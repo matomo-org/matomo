@@ -82,7 +82,9 @@ $piwikTracker->doTrackGoal($idGoal = 1, $revenue = 42);<br/>
 </li>
 </ul>
 </p>
-<p>
-Read more about the Piwik Tracking API <a href='{$currentUrlWithoutFilename}misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-api/' target='_blank'>in the documentation</a>
-</p>
+{if !isset($calledExternally) || !$calledExternally}
+	<p>
+	Read more about the Piwik Tracking API <a href='{$currentUrlWithoutFilename}misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-api/' target='_blank'>in the documentation</a>
+	</p>
+{/if}
 </div>
