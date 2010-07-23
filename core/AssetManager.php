@@ -293,7 +293,40 @@ class Piwik_AssetManager
 	private static function getJsFiles()   
 	{	
 		Piwik_PostEvent(self::JS_IMPORT_EVENT, $jsFiles);
-		return array_unique($jsFiles); 		
+		$jsFiles = array_unique($jsFiles);
+		$jsFiles = self::ensureJsFilesSorted($jsFiles);
+		var_dump($jsFiles);exit;
+		return $jsFiles; 		
+	}
+	
+	/**
+	 * Maybe work around a silly algorithm difference in array_unique in PHP 5.2.9?
+	 * Ensure core JS (jquery etc.) are loaded first otherwise triggers errors.
+	 */ 
+	private static function ensureJsFilesSorted($jsFiles)
+	{
+		$priorityJsOrdered = array('common.js', 'swfobject.js', 'jquery-ui.js', 'jquery.js');
+		$newJsFiles = array();
+		foreach($priorityJsOrdered as $count => $js)
+		{
+			foreach($jsFiles as $id => $jsPath)
+			{
+				if(($pos = strpos($jsPath, $js)) !== false)
+				{
+    				$newJsFiles = array_merge(array($jsPath), $newJsFiles);
+				}
+				elseif($count == 0)
+				{
+					$newJsFiles[] = $jsPath;
+				}
+				if($pos !== false
+					&& $count > 0)
+				{
+					break;
+				}
+			}
+		}
+		return $newJsFiles;
 	}
 	
 	/**
