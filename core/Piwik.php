@@ -1320,7 +1320,26 @@ class Piwik
 	{
 		return Piwik_Common::getRequestVar('action', '', 'string');
 	}
-
+	
+	/**
+	 * Helper method used in API function to introduce array elements in API parameters.
+	 * Array elements can be passed by comma separated values, or using the notation
+	 * array[]=value1&array[]=value2 in the URL. 
+	 * This function will handle both cases and return the array.
+	 * 
+	 * @param $columns String or array
+	 * @return array 
+	 */
+	static public function getArrayFromApiParameter($columns)
+	{
+		return $columns === false
+				? array()
+				: (is_array($columns) 
+					? $columns 
+					: explode(',', $columns)
+					);
+	}
+	
 	/**
 	 * Redirect to module (and action)
 	 *

@@ -33,8 +33,8 @@ class Piwik_VisitsSummary_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 	
 		// array values are comma separated
-		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
-		$countColumnsRequested = is_array($columns) ? count($columns) : 0;
+		$columns = Piwik::getArrayFromApiParameter($columns);
+		$countColumnsRequested = count($columns);
 		
 		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = false;
 		if(!empty($columns))

@@ -236,9 +236,7 @@ class Piwik_Goals_API
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		
-		// array values are comma separated
-		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
+		$columns = Piwik::getArrayFromApiParameter($columns);
 		
 		if(empty($columns))
 		{
