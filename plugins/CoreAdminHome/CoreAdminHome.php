@@ -31,8 +31,18 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		return array( 
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AssetManager.getJsFiles' => 'getJsFiles',
-			'AdminMenu.add' => 'addMenu'
+			'AdminMenu.add' => 'addMenu',
+			'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
 		);
+	}
+	
+	function getScheduledTasks ( $notification )
+	{
+		$tasks = &$notification->getNotificationObject();
+		$optimizeArchiveTableTask = new Piwik_ScheduledTask ( 'Piwik_CoreAdminHome',
+															'optimizeArchiveTable',
+															new Piwik_ScheduledTime_Monthly() );
+		$tasks[] = $optimizeArchiveTableTask;
 	}
 	
 	function getCssFiles( $notification )
@@ -67,5 +77,17 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 							array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
 							Piwik::isUserIsSuperUser(),
 							$order = 6);
+	}
+	
+	function optimizeArchiveTable()
+	{
+		$tablesPiwik = Piwik::getTablesInstalled();
+		$archiveTables = array_filter ($tablesPiwik, array("Piwik_CoreAdminHome", "isArchiveTable"));
+		Piwik_Exec("OPTIMIZE TABLE " . implode(",", $archiveTables) );
+	}
+	
+	private function isArchiveTable ( $tableName )
+	{
+		return preg_match ( '/'.Piwik_Common::prefixTable('archive_').'/', $tableName ) > 0;
 	}
 }

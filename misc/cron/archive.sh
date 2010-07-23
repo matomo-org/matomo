@@ -2,6 +2,8 @@
 
 # Description
 # This cron script will automatically run Piwik archiving every hour.
+# The script will also run scheduled tasks configured within piwik using 
+# the event hook 'TaskScheduler.getScheduledTasks'
 
 # It automatically fetches the Super User token_auth 
 # and triggers the archiving for all websites for all periods.
@@ -79,4 +81,10 @@ for idsite in $ID_SITES; do
 done
 
 echo "Piwik archiving finished."
+
+echo "Starting Scheduled tasks..."
+	CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.runScheduledTime&token_auth=$TOKEN_AUTH";
+	$CMD
+echo "Finished Scheduled tasks."
+
 
