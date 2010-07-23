@@ -29,11 +29,9 @@ class Piwik_CoreAdminHome_API
 
 	/**
 	 * Will run all scheduled tasks due to run at this time.
-	 * @deprecated Not deprecated, but this flag ensures the API is not listed in the page, 
-	 * 				as it shouldn't be used appart from the crontab directly. 
 	 * @return void
 	 */
-	public function runScheduledTime ( )
+	public function runScheduledTime()
 	{
 		Piwik::checkUserIsSuperUser();
 		Piwik_TaskScheduler::runTasks();

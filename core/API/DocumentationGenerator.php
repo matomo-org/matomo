@@ -16,6 +16,7 @@
  */
 class Piwik_API_DocumentationGenerator
 {
+	protected $modulesToHide = array('CoreAdminHome');
 	protected $countPluginsLoaded = 0;
 
 	/**
@@ -55,6 +56,10 @@ class Piwik_API_DocumentationGenerator
 		foreach(Piwik_API_Proxy::getInstance()->getMetadata() as $class => $info)
 		{
 			$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
+			if(in_array($moduleName, $this->modulesToHide))
+			{
+				continue;
+			}
 			$str .= "\n<h2 id='$moduleName'>Module ".$moduleName."</h2>";
 			
 			foreach($info as $methodName => $infoMethod)
