@@ -43,7 +43,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 
 	public function addTopMenu()
 	{
-		Piwik_AddTopMenu('General_Dashboard', array('module' => 'CoreHome', 'action' => false), true, 1);
+		Piwik_AddTopMenu('General_Dashboard', array('module' => 'CoreHome', 'action' => 'index'), true, 1);
 	}
 	
 	function getJsFiles( $notification )
