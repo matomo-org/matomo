@@ -27,13 +27,13 @@
 			<div class="tableIconsGroup">
             	<span class="tableAllColumnsSwitch">
                     {if $properties.show_table}
-                    <a class="tableIcon" format="table" var="table"><img title="{'General_DisplayNormalTable'|translate}" src="themes/default/images/table.png" /></a>
+                    <a class="tableIcon" format="table" var="table"><img title="{'General_DisplaySimpleTable'|translate}" src="themes/default/images/table.png" /></a>
                     {/if}
                     {if $properties.show_table_all_columns}
-                    <a class="tableIcon" format="tableAllColumns" var="tableAllColumns"><img title="{'General_DisplayMoreData'|translate}" src="themes/default/images/table_more.png" /></a>
+                    <a class="tableIcon" format="tableAllColumns" var="tableAllColumns"><img title="{'General_DisplayTableWithMoreMetrics'|translate}" src="themes/default/images/table_more.png" /></a>
                     {/if}
                     {if $properties.show_goals}
-					<a class="tableIcon" format="tableGoals" var="tableGoals"><img title="{'General_DisplayGoals'|translate}" src="themes/default/images/goal.png" /></a>
+					<a class="tableIcon" format="tableGoals" var="tableGoals"><img title="{'General_DisplayTableWithGoalMetrics'|translate}" src="themes/default/images/goal.png" /></a>
                     {/if}
                 </span>
            </div>
@@ -56,7 +56,7 @@
            {/if}			
            
 			<div class="tableIconsGroup">
-				<span class="exportToFormatIcons"><a class="tableIcon" var="export"><img width="16" height="16" src="themes/default/images/export.png" title="{'General_Export'|translate}" /></a></span>
+				<span class="exportToFormatIcons"><a class="tableIcon" var="export"><img width="16" height="16" src="themes/default/images/export.png" title="{'General_ExportThisReport'|translate}" /></a></span>
 				<span class="exportToFormatItems" style="display:none"> 
 					Export: 
 					<a target="_blank" methodToCall="{$properties.apiMethodToRequestDataTable}" format="CSV" filter_limit="100">CSV</a> | 
