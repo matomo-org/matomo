@@ -32,8 +32,8 @@ class Piwik_VisitFrequency_API
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		
-		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
-		$countColumnsRequested = is_array($columns) ? count($columns) : 0;
+		$columns = Piwik::getArrayFromApiParameter($columns);
+		$countColumnsRequested = count($columns);
 		
 		$bounceRateReturningRequested = $averageVisitDurationReturningRequested = $actionsPerVisitReturningRequested = false;
 		if(!empty($columns))
