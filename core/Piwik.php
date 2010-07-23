@@ -924,7 +924,7 @@ class Piwik
 	/**
 	 * Pretty format monetary value for a site
 	 *
-	 * @param numeric $value
+	 * @param numeric|string $value
 	 * @param int $idSite
 	 * @return string
 	 */
@@ -946,12 +946,16 @@ class Piwik
 			$currencyAfter = $space.$currencyBefore;
 			$currencyBefore = '';
 		}
-		$amount = (int)$value;
-		if($value != round($value))
+
+		// if the input is a number (it could be a string or INPUT form), 
+		// and if this number is not an int, we round to precision 2
+		if(is_numeric($value)
+			&& $value != round($value))
 		{
-			$amount = sprintf( "%01.2f", $value);
+			$precision = 2;
+			$value = sprintf( "%01.".$precision."f", $value);
 		}
-		return $currencyBefore . $space . $amount . $currencyAfter;
+		return $currencyBefore . $space . $value . $currencyAfter;
 	}
 
 	/**
