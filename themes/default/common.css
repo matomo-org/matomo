@@ -260,6 +260,8 @@ a {
 	line-height:18px;
 }
 .sites_selection .custom_select_ul_list li {
+	padding-bottom:1px;
+	padding-top:1px;
 }
 .sites_selection .custom_select_ul_list li a{
 	line-height:18px;
