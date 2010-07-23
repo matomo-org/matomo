@@ -115,6 +115,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('DisplayAlternativeTags');
 		$view->idSite = Piwik_Common::getRequestVar('idSite');
 		$view->piwikUrl = Piwik_Common::getRequestVar('piwikUrl');
+		$view->calledExternally = true;
 		
 		// Links are prefixed, need to be absolute for this page as it is externally loaded
 		$view->currentUrlWithoutFilename = Piwik_Url::getCurrentUrlWithoutFileName();
