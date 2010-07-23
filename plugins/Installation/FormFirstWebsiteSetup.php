@@ -38,7 +38,6 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_QuickForm2
 		$url = $this->addElement('text', 'url')
 		            ->setLabel(Piwik_Translate('Installation_SetupWebSiteURL'));
 		$url->setAttribute('style', 'color:rgb(153, 153, 153);');
-		$url->setValue($urlExample);
 		$url->setAttribute('onfocus', $javascriptOnClickUrlExample);
 		$url->setAttribute('onclick', $javascriptOnClickUrlExample);
 		$url->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_SetupWebSiteURL')));
@@ -50,6 +49,11 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_QuickForm2
 		$tz->addRule('checkTimezone', Piwik_Translate('General_NotValid', Piwik_Translate('Installation_Timezone')));
 
 		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo')));
+
+		// default values
+		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
+			'url' => $urlExample,
+		)));
 	}	
 }
 
