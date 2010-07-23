@@ -24,9 +24,17 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 	public function generalSettings()
 	{
 		$view = Piwik_View::factory('generalSettings');
-		$view->enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
-		$view->todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
-		
+		$enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
+		$todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
+		$showWarningCron = false;
+		if(!$enableBrowserTriggerArchiving
+			&& $todayArchiveTimeToLive < 3600)
+		{
+			$showWarningCron = true;
+		}
+		$view->showWarningCron = $showWarningCron;
+		$view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
+		$view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 		$this->setBasicVariablesView($view);
 		$view->topMenu = Piwik_GetTopMenu();
 		$view->menu = Piwik_GetAdminMenu();
