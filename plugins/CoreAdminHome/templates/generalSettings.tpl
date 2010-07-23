@@ -37,6 +37,13 @@
 	</td>
 	<td width='450px'>
 	{capture assign=archiveTodayTTLHelp}
+		{if $showWarningCron}
+			<strong>
+			{'General_NewReportsWillBeProcessedByCron'|translate}<br/>
+			{'General_ReportsWillBeProcessedAtMostEveryHour'|translate}
+			{'General_IfArchivingIsFastYouCanSetupCronRunMoreOften'|translate}<br/>
+			</strong>
+		{/if}
 		{'General_SmallTrafficYouCanLeaveDefault'|translate:10}<br /> 
 		{'General_MediumToHighTrafficItIsRecommendedTo'|translate:1800:3600}
 	{/capture}
