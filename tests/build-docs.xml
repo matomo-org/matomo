@@ -2,6 +2,7 @@
 
 	<property file="build.properties" />
 	<property file="defaults.properties" />
+	<property environment="env" />
 
 	<target name="phpdoc">
 		<echo>phpDocumentor started</echo>
