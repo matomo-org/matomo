@@ -43,7 +43,7 @@ class HtmlReporter extends SimpleReporter {
         print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
         print "<html>\n<head>\n<title>$test_name</title>\n";
         print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" .
-                $this->_character_set . "\">\n";
+                $this->_character_set . "\" />\n";
         print "<style type=\"text/css\">\n";
         print $this->_getCss() . "\n";
         print "</style>\n";
