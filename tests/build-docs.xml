@@ -6,19 +6,19 @@
 	<target name="phpdoc">
 		<echo>phpDocumentor started</echo>
 
-		<delete dir="${basedir}/documentation"/>
-		<mkdir dir="${basedir}/documentation"/>
+		<delete dir="${env.WORKSPACE}/documentation"/>
+		<mkdir dir="${env.WORKSPACE}/documentation"/>
 
-		<copy file="${workspace.home}/misc/phpdoc-config.ini" tofile="${basedir}/phpdoc-config.ini">
+		<copy file="${workspace.home}/misc/phpdoc-config.ini" tofile="${env.WORKSPACE}/phpdoc-config.ini">
 			<filterset>
-				<filter token="target = documentation" value="target = ${basedir}/documentation"/>
+				<filter token="target = documentation" value="target = ${env.WORKSPACE}/documentation"/>
 			</filterset>
 		</copy>
 
 		<exec executable="${php.executable}" dir="${workspace.home}/" failonerror="true" failifexecutionfails="true">
 			<arg value="${phpdocumentor.home}/phpDocumentor/phpdoc.inc" />
 			<arg value="--useconfig"/>
-			<arg file="${basedir}/phpdoc-config.ini"/>
+			<arg file="${env.WORKSPACE}/phpdoc-config.ini"/>
 		</exec>
 
 		<echo>phpDocumentor finished</echo>		
