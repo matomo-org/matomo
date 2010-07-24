@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
  * @version $Id$
  *
- * @category Piwik_Plugin
+ * @category Piwik_Plugins
  * @package Piwik_VisitorGenerator
  */
 
