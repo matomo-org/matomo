@@ -36,6 +36,11 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		$view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
 		$view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 		
+	
+		if(!Zend_Registry::get('config')->isFileWritable())
+		{
+			$view->configFileNotWritable = true;
+		}
 		$view->mail = Zend_Registry::get('config')->mail->toArray();
 		
 		$this->setBasicVariablesView($view);
