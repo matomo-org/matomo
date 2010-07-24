@@ -369,11 +369,18 @@ class Piwik_API_ResponseBuilder
         	$key = str_replace(' ', '_', $key);
         	$marginLeft = str_repeat("\t", $level + 1);
             if (is_array($value)) { 
-                $xml.=	$marginLeft .
+            	if(empty($value))
+            	{
+            		$xml .= $marginLeft . "<$key/>\n";
+            	}
+            	else
+            	{
+                    $xml.=	$marginLeft .
                 		"<$key>\n". 
                     		$this->convertMultiDimensionalArrayToXml($value, $level + 1).
                 			"\n". $marginLeft .
-                		"</$key>\n"; 
+                		"</$key>\n";
+            	} 
             } else { 
                 $xml.= $marginLeft . 
                 		"<$key>".$value."</$key>\n"; 

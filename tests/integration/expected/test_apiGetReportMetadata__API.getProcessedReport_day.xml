@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>Sunday 4 January 2009</prettyDate>
+	<metadata>
+		<category>General_Visitors</category>
+		<name>UserCountry_Country</name>
+		<module>UserCountry</module>
+		<action>getCountry</action>
+		<dimension>UserCountry_Country</dimension>
+		<metrics>
+			<nb_uniq_visitors>General_ColumnNbUniqVisitors</nb_uniq_visitors>
+			<nb_visits>General_ColumnNbVisits</nb_visits>
+			<nb_actions>General_ColumnNbActions</nb_actions>
+
+		</metrics>
+		<processedMetrics>
+			<nb_actions_per_visit>General_ColumnActionsPerVisit</nb_actions_per_visit>
+			<avg_time_on_site>General_ColumnAvgTimeOnSite</avg_time_on_site>
+			<bounce_rate>General_ColumnBounceRate</bounce_rate>
+			<conversion_rate>General_ColumnConversionRate</conversion_rate>
+
+		</processedMetrics>
+		<metricsGoal>
+			<nb_conversions>Goals_ColumnConversions</nb_conversions>
+			<conversion_rate>General_ColumnConversionRate</conversion_rate>
+			<revenue>Goals_ColumnRevenue</revenue>
+
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>General_ColumnValuePerVisit</revenue_per_visit>
+
+		</processedMetricsGoal>
+
+	</metadata>
+	<columns>
+		<label>UserCountry_Country</label>
+		<nb_uniq_visitors>General_ColumnNbUniqVisitors</nb_uniq_visitors>
+		<nb_visits>General_ColumnNbVisits</nb_visits>
+		<nb_actions>General_ColumnNbActions</nb_actions>
+		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+		<bounce_rate>Bounce Rate</bounce_rate>
+		<conversion_rate>General_ColumnConversionRate</conversion_rate>
+		<revenue>Goals_ColumnRevenue</revenue>
+
+	</columns>
+	<reportData>
+		<row>
+			<label>France</label>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>1</nb_visits>
+			<nb_actions>1</nb_actions>
+			<conversion_rate>0</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+
+		</row>
+
+	</reportData>
+	<reportMetadata>
+		<row>
+			<code>fr</code>
+			<logo>plugins/UserCountry/flags/fr.png</logo>
+			<logoWidth>18</logoWidth>
+			<logoHeight>12</logoHeight>
+
+		</row>
+
+	</reportMetadata>
+
+</result>

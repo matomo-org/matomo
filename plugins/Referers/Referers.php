@@ -51,18 +51,18 @@ class Piwik_Referers extends Piwik_Plugin
 		$reports = &$notification->getNotificationObject();
 		$reports = array_merge($reports, array(
         		array(
+        			'category'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Type'),
+        			'module' => 'Referers',
+        			'action' => 'getRefererType',
+        			'dimension' => Piwik_Translate('Referers_ColumnRefererType')
+        		),
+        		array(
         			'category' => Piwik_Translate('Referers_Referers'),
         			'name'   => Piwik_Translate('Referers_Keywords'),
         			'module' => 'Referers',
         			'action' => 'getKeywords',
         			'dimension' => Piwik_Translate('Referers_ColumnKeyword'),
-        		),
-        		array(
-        			'category'  => Piwik_Translate('Referers_Referers'),
-        			'name'   => Piwik_Translate('Referers_SearchEngines'),
-        			'module' => 'Referers',
-        			'action' => 'getSearchEngines',
-        			'dimension' => Piwik_Translate('Referers_ColumnSearchEngine'),
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
@@ -73,17 +73,17 @@ class Piwik_Referers extends Piwik_Plugin
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_SearchEngines'),
+        			'module' => 'Referers',
+        			'action' => 'getSearchEngines',
+        			'dimension' => Piwik_Translate('Referers_ColumnSearchEngine'),
+        		),
+        		array(
+        			'category'  => Piwik_Translate('Referers_Referers'),
         			'name'   => Piwik_Translate('Referers_Campaigns'),
         			'module' => 'Referers',
         			'action' => 'getCampaigns',
         			'dimension' => Piwik_Translate('Referers_ColumnCampaign'),
-        		),
-        		array(
-        			'category'  => Piwik_Translate('Referers_Referers'),
-        			'name'   => Piwik_Translate('Referers_Type'),
-        			'module' => 'Referers',
-        			'action' => 'getRefererType',
-        			'dimension' => Piwik_Translate('Referers_ColumnRefererType')
         		),
     	));
 	}
