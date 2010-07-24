@@ -149,6 +149,7 @@ class Piwik_AssetManager
 		// Write the content in the new file
 		fwrite($newFile, $mergedContent);
 		fclose($newFile);
+		@chmod($newFilePath, 0755);
 
 		return $hashcode;
 	}
@@ -251,7 +252,7 @@ class Piwik_AssetManager
 		self::removeMergedAsset("js");
 		
 		// Tries to open the new file
-		$newFilePath = self::getLocationFromHash($hashcode, "js"); 		
+		$newFilePath = self::getLocationFromHash($hashcode, "js");
 		$newFile = fopen($newFilePath, "w");	
 
 		if (!$newFile) {
@@ -261,6 +262,7 @@ class Piwik_AssetManager
 		// Write the content in the new file
 		fwrite($newFile, $mergedContent);
 		fclose($newFile);
+		@chmod($newFilePath, 0755);
 	
 		return $hashcode;
 	}
