@@ -101,6 +101,27 @@ abstract class Piwik_Log extends Zend_Log
 		// pack into event required by filters and writers
 		$event = array_merge( $event, $this->_extras);
 
+		// Truncate the backtrace which can be too long to display in the browser
+		if(!empty($event['backtrace']))
+		{
+			$maxSizeOutputBytes = 1024 * 1024; // no more than 1M output please
+			$truncateBacktraceLineAfter = 1000;
+			$maxLines = ceil($maxSizeOutputBytes / $truncateBacktraceLineAfter);
+			$bt = explode("\n", $event['backtrace']);
+			foreach($bt as $count => &$line)
+			{
+				if(strlen($line) > $truncateBacktraceLineAfter)
+				{
+					$line = substr($line, 0, $truncateBacktraceLineAfter) . '...';
+				}
+				if($count > $maxLines)
+				{
+					$line .= "\nTruncated error message.";
+					break;
+				}
+			}
+			$event['backtrace'] = implode("\n", $bt);
+		}
 		// abort if rejected by the global filters
 		foreach ($this->_filters as $filter) {
 			if (! $filter->accept($event)) {
