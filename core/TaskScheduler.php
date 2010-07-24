@@ -32,7 +32,13 @@ class Piwik_TaskScheduler
 	static public function runTasks()
 	{
 		// Gets the array where rescheduled timetables are stored
-		$timetable = unserialize(Piwik_GetOption(self::TIMETABLE_OPTION_STRING));
+		$option = Piwik_GetOption(self::TIMETABLE_OPTION_STRING);
+		if(!is_string($option))
+		{
+			return;
+		}
+
+		$timetable = unserialize($option);
 		
 		// Collects tasks
 		Piwik_PostEvent(self::GET_TASKS_EVENT, $tasks);
