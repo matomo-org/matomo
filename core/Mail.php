@@ -20,55 +20,39 @@
 class Piwik_Mail extends Zend_Mail
 {
 	/**
-	 * Public constructor, default charset utf-8
-	 *
+	 * Default charset utf-8
 	 * @param string $charset
 	 */
 	public function __construct($charset = 'utf-8')
 	{
 		parent::__construct($charset);
-		$this->setTransport();
+		$this->initSmtpTransport();
 	}
 	
-	
-	public function setTransport()
+	private function initSmtpTransport()
 	{
-		try
+		$config = Zend_Registry::get('config')->mail;
+		if ( empty($config->host) 
+			 || !empty($config->port) 
+			 || $config->transport != 'smtp')
 		{
-			$config = Zend_Registry::get('config')->mail;
-			if ( !empty($config->host) 
-				 && !empty($config->port) 
-				 && strcmp($config->transport,"smtp") ==0
-			)
-			{
-				if ( !empty($config->auth->type)
-					 || !empty($config->auth->username)
-					 || !empty($config->auth->password)
-				)
-				{
-					$config_param = array('auth' => $config->auth->type,
-					'username' => $config->auth->username,
-					'password' => $config->auth->password);
-				}
-				
-				$smtp_address = $config->host;
-				$smtp_port = $config->port;
-				if(isset($config_param))
-				{
-					$tr = new Zend_Mail_Transport_Smtp("$smtp_address",$config_param);
-				}
-				else
-				{
-					$tr = new Zend_Mail_Transport_Smtp("$smtp_address");
-				}			
-				Piwik_Mail::setDefaultTransport($tr);
-				ini_set("smtp_port","$smtp_port");
-			}
+			return;
 		}
-		catch(Exception $e)
+		$smtpConfig = array();
+		if ( !empty($config->auth->type)
+			 || !empty($config->auth->username)
+			 || !empty($config->auth->password)
+		)
 		{
-			throw new Exception("Configuration SMTP error");
+			$smtpConfig = array(
+    						'auth' => $config->auth->type,
+            				'username' => $config->auth->username,
+            				'password' => $config->auth->password
+			);
 		}
 		
+		$tr = new Zend_Mail_Transport_Smtp($config->host,$smtpConfig);
+		Piwik_Mail::setDefaultTransport($tr);
+		ini_set("smtp_port",$config->port);
 	}
 }

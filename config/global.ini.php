@@ -304,9 +304,9 @@ PluginsInstalled[] = Installation
 Plugins_Tracker[] = Provider
 
 [mail]
-transport = 	 					; name of the protocol: smtp 
-port = 25 							; port of the smtp: by default 25
-host = 								; server address example: smtp.gmail.com 
-type =  							; by default: NONE for example: LOGIN 
-username =  						; your username
-password =  						; your password 
+transport = 	 					; smtp or empty 
+port = 25
+host = 								; SMTP server address 
+type =  							; SMTP Auth type. By default: NONE. For example: LOGIN 
+username =  						; SMTP username
+password =  						; SMTP password 

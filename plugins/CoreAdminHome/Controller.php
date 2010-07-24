@@ -35,6 +35,9 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		$view->showWarningCron = $showWarningCron;
 		$view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
 		$view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
+		
+		$view->mail = Zend_Registry::get('config')->mail->toArray();
+		
 		$this->setBasicVariablesView($view);
 		$view->topMenu = Piwik_GetTopMenu();
 		$view->menu = Piwik_GetAdminMenu();
@@ -52,6 +55,17 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 
     		Piwik_ArchiveProcessing::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
     		Piwik_ArchiveProcessing::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+    		
+    		// Update email settings
+			$mail = Zend_Registry::get('config')->mail;
+			$mail->transport = (Piwik_Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
+			$mail->port = Piwik_Common::getRequestVar('mailPort', 25);
+			$mail->host = Piwik_Common::getRequestVar('mailHost', '');
+			$mail->type = Piwik_Common::getRequestVar('mailType', '');
+			$mail->username = Piwik_Common::getRequestVar('mailUsername', '');
+			$mail->password = Piwik_Common::getRequestVar('mailPassword', '');
+			Zend_Registry::get('config')->mail = $mail->toArray();
+			
 			$toReturn = $response->getResponse();
 		} catch(Exception $e ) {
 			$toReturn = $response->getResponseException( $e );
