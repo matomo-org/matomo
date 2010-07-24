@@ -4,7 +4,7 @@
 		{$arrayDataTable.message} 
 	{else}
 		{if count($arrayDataTable) == 0}
-		<div class="pk-emptyDataTable">{'CoreHome_TableNoData'|translate}</div>
+		<div class="pk-emptyDataTable">{'CoreHome_ThereIsNoDataForThisReport'|translate}</div>
 		{else}
 			<a name="{$properties.uniqueId}"></a>
 			<table cellspacing="0" class="dataTable"> 

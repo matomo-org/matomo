@@ -301,10 +301,9 @@ abstract class Piwik_Controller
 		
 		try {
 			$this->setPeriodVariablesView($view);
-			$periodString = Piwik_Common::getRequestVar('period');
-			$date = Piwik_Date::factory($this->strDate);
-			$period = Piwik_Period::factory($periodString, $date);
-			$view->prettyDate = $period->getLocalizedLongString();
+			
+			$date = Piwik_Date::factory($this->strDate); 
+			$view->prettyDate = Piwik_Period::factory(Piwik_Common::getRequestVar('period'), $date)->getPrettyString();
 			$view->idSite = $this->idSite;
 			if(is_null($this->site))
 			{

@@ -42,7 +42,15 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	{
 		$this->setApiNotToCall(array());
 		$this->setApiToCall( 'API' );
-        $this->callGetApiCompareOutput(__FUNCTION__, 'xml');
+		$dateTime = '2009-01-04 00:11:42';
+		$idSite = $this->createWebsite($dateTime);
+		
+        $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
+    	// Record 1st page view
+        $t->setUrl( 'http://example.org/index.htm' );
+        $this->checkResponse($t->doTrackPageView( 'incredible title!'));
+        
+        $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
 	
 	/*
