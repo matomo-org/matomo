@@ -209,3 +209,7 @@ input[disabled] {
 	font-style:italic;
 	margin-left:10px;
 }
+
+#smtpSettings {
+	margin-left:50px;
+}
