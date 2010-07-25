@@ -98,6 +98,40 @@ class Piwik_API_API
 		return array_map('Piwik_Translate', $translations);
 	}
 	
+    /*
+     * Loads reports metadata, then return the requested one (possibly matching parameters, if passed)
+     */
+	public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array())
+    {
+    	static $reportsMetadata = array();
+    	if(!isset($reportsMetadata[$idSite]))
+    	{
+    		$reportsMetadata[$idSite] = Piwik_API_API::getInstance()->getReportMetadata($idSite);
+    	}
+    	
+    	foreach($reportsMetadata[$idSite] as $report)
+    	{
+    		if($report['module'] == $apiModule
+    			&& $report['action'] == $apiAction)
+			{
+				if(empty($apiParameters))
+				{
+        			return array($report);
+				}
+				if(empty($report['parameters']))
+				{
+					continue;
+				}
+				$diff = array_diff($report['parameters'], $apiParameters);
+				if(empty($diff))
+				{
+					return array($report);
+				}
+			}
+    	}
+    	return false;
+    }
+    
 	/**
 	 * Triggers a hook to ask plugins for available Reports.
 	 * Returns metadata information about each report (category, name, dimension, metrics, etc.) 
@@ -168,10 +202,11 @@ class Piwik_API_API
     	}
         // Is this report found in the Metadata available reports?
         $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters);
-        if(!$reportMetadata)
+        if(empty($reportMetadata))
         {
         	throw new Exception("Requested report not found in the list of available reports. \n");
         }
+        $reportMetadata = reset($reportMetadata);
         
 		// Generate Api call URL passing custom parameters
 		$parameters = array_merge( $apiParameters, array(
@@ -342,40 +377,6 @@ class Piwik_API_API
     	);
     }
 
-    /*
-     * Loads reports metadata, then return the requested one (possibly matching parameters, if passed)
-     */
-	private function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array())
-    {
-    	static $reportsMetadata = array();
-    	if(!isset($reportsMetadata[$idSite]))
-    	{
-    		$reportsMetadata[$idSite] = Piwik_API_API::getInstance()->getReportMetadata($idSite);
-    	}
-    	
-    	foreach($reportsMetadata[$idSite] as $report)
-    	{
-    		if($report['module'] == $apiModule
-    			&& $report['action'] == $apiAction)
-			{
-				if(empty($apiParameters))
-				{
-        			return $report;
-				}
-				if(empty($report['parameters']))
-				{
-					continue;
-				}
-				$diff = array_diff($report['parameters'], $apiParameters);
-				if(empty($diff))
-				{
-					return $report;
-				}
-			}
-    	}
-    	return false;
-    }
-    
 	/**
 	 * API metadata are sorted by category/name
 	 * @param $a
