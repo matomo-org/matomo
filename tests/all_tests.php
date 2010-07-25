@@ -13,7 +13,7 @@ You may need to create this database ; you can edit the settings for the unit te
 /config/global.ini.php</p>
 <p><b>The database used in your tests is called "' . $databaseTestName . '". Create it if necessary.</b></p>
 <p><a href="core">Run the tests by module</a></p>
-<hr>';
+<hr/>';
 
 require_once(SIMPLE_TEST . 'unit_tester.php');
 require_once(SIMPLE_TEST . 'reporter.php');
