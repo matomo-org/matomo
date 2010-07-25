@@ -29,6 +29,7 @@
 		<delete dir="${basedir}/../build/build" />
 		<mkdir dir="${basedir}/../build/tmp/templates_c" />
 		<mkdir dir="${basedir}/../build/tmp/cache" />
+		<mkdir dir="${basedir}/../build/tmp/cache/tracker" />
 		<mkdir dir="${basedir}/../build/tmp/latest" />
 		<chmod perm="a+rw">
 			<dirset dir="${basedir}/../build">
