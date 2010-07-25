@@ -498,14 +498,28 @@ class Piwik_Date
 		$minutes = 0;
 		if($n != round($n))
 		{
-			$minutes = abs($n - floor(abs($n))) * 60;
+			if($n >= 1 || $n <= -1)
+			{
+    			$extraMinutes = floor(abs($n));
+    			if($isNegative)
+    			{
+    				$extraMinutes = -$extraMinutes;
+    			}
+    			$minutes = abs($n - $extraMinutes) * 60;
+    			if($isNegative) {
+    				$minutes *= -1;
+    			}
+			}
+			else
+			{
+				$minutes = $n * 60;
+			}
 			$n = floor(abs($n));
 			if($isNegative) {
-				$minutes *= -1;
     			$n *= -1;
 			}
 		}
-		$ts = $this->timestamp + $minutes * 60 + $n * 3600;
+		$ts = $this->timestamp + round($minutes * 60) + $n * 3600;
 		return new Piwik_Date( (int)$ts, $this->timezone );
 	}
 

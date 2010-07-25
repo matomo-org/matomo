@@ -100,6 +100,7 @@ class Piwik_API_API
 	
 	/**
 	 * Triggers a hook to ask plugins for available Reports.
+	 * Returns metadata information about each report (category, name, dimension, metrics, etc.) 
 	 *
 	 * @param string $idSites Comma separated list of website Ids
 	 * @return array
@@ -341,6 +342,9 @@ class Piwik_API_API
     	);
     }
 
+    /*
+     * Loads reports metadata, then return the requested one (possibly matching parameters, if passed)
+     */
 	private function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array())
     {
     	static $reportsMetadata = array();
