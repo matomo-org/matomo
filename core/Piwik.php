@@ -919,6 +919,15 @@ class Piwik
 		return $symbols[$site->getCurrency()];
 	}
 
+	/**
+	 * For the given value, based on the column name, will apply: pretty time, pretty money
+	 * @param $idSite
+	 * @param $columnName
+	 * @param $value
+	 * @param $htmlAllowed
+	 * @param $timeAsSentence
+	 * @return string
+	 */
 	static public function getPrettyValue($idSite, $columnName, $value, $htmlAllowed, $timeAsSentence)
 	{
 		// Display time in human readable
@@ -933,6 +942,7 @@ class Piwik
 		}
 		return $value;
 	}
+	
 	/**
 	 * Pretty format monetary value for a site
 	 *
@@ -961,13 +971,21 @@ class Piwik
 
 		// if the input is a number (it could be a string or INPUT form), 
 		// and if this number is not an int, we round to precision 2
-		if(is_numeric($value)
-			&& $value != round($value))
+		if(is_numeric($value))
 		{
-			$precision = 2;
-			$value = sprintf( "%01.".$precision."f", $value);
+			if($value == round($value))
+			{
+				// 0.0 => 0
+				$value = round($value);
+			}
+			else
+			{
+				$precision = 2;
+				$value = sprintf( "%01.".$precision."f", $value);
+			}
 		}
-		return $currencyBefore . $space . $value . $currencyAfter;
+		$prettyMoney = $currencyBefore . $space . $value . $currencyAfter;
+		return $prettyMoney;
 	}
 
 	/**
@@ -1048,6 +1066,16 @@ class Piwik
 		return str_replace(' ', '&nbsp;', $return);
 	}
 
+	/**
+	 * Returns relative path to the App logo
+	 * 
+	 * @return string
+	 */
+	public function getLogoPath()
+	{
+		return PIWIK_INCLUDE_PATH . '/themes/default/images/logo.png';
+	}
+	
 	/**
 	 * Returns the Javascript code to be inserted on every page to track
 	 *

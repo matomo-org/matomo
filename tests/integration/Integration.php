@@ -42,7 +42,7 @@ abstract class Test_Integration extends Test_Database
 			'Live',
 			'SEO',
 			'ExampleAPI',
-			'Pdfexport',
+			'PDFReports',
 			'API',
 		));
 		$this->setApiToCall( array());

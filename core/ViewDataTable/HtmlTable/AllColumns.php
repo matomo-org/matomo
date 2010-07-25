@@ -47,7 +47,8 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 										$columnUniqueVisitors, 
 										'nb_actions_per_visit', 
 										'avg_time_on_site', 
-										'bounce_rate'));
+										'bounce_rate',
+										'conversion_rate'));
 		$this->dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', create_function('$averageTimeOnSite', 'return Piwik::getPrettyTimeFromSeconds($averageTimeOnSite);')));
 	}
 }

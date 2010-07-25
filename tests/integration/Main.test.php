@@ -35,7 +35,9 @@ class Test_Piwik_Integration_Main extends Test_Integration
 	}
 	
 	/**
-	 * This tests the output of the API plugin API (which returns metadata about all API reports from all plugins)
+	 * This tests the output of the API plugin API 
+	 * It will return metadata about all API reports from all plugins
+	 * as well as the data itself, pre-processed and ready to be displayed
 	 * @return 
 	 */
 	function test_apiGetReportMetadata()
@@ -49,6 +51,9 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	// Record 1st page view
         $t->setUrl( 'http://example.org/index.htm' );
         $this->checkResponse($t->doTrackPageView( 'incredible title!'));
+        Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        $this->checkResponse($t->doTrackGoal($idGoal = 1, $revenue = 42.256));
         
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}

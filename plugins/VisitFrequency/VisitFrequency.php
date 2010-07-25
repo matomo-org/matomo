@@ -45,7 +45,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		$reports = &$notification->getNotificationObject();
 		$reports[] = array(
 			'category' => Piwik_Translate('General_Visitors'),
-			'name' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
 			'module' => 'VisitFrequency',
 			'action' => 'get',
 			'metrics' => array(

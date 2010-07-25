@@ -390,7 +390,7 @@
 	</row>
 	<row>
 		<category>Visitors</category>
-		<name>Visitors</name>
+		<name>Returning Visits</name>
 		<module>VisitFrequency</module>
 		<action>get</action>
 		<metrics>
