@@ -10,8 +10,8 @@ class HtmlTimerReporter extends HtmlReporter
     function paintHeader($test_name) {
         ob_start();
 
+	@header('Content-type: text/html; charset=' . $this->_character_set);
         $this->sendNoCacheHeaders();
-	header('Content-type: text/html; charset=' . $this->_character_set);
         print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
         print "<html>\n<head>\n<title>$test_name</title>\n";
         print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" .
@@ -45,6 +45,7 @@ class HtmlTimerReporter extends HtmlReporter
         print "</div>\n";
         print "</body>\n</html>\n";
 
+	@header('Content-disposition: ', true);
         ob_end_flush();
     }
 }
