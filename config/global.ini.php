@@ -302,6 +302,7 @@ PluginsInstalled[] = Installation
 
 [Plugins_Tracker]
 Plugins_Tracker[] = Provider
+Plugins_Tracker[] = Goals
 
 [mail]
 transport = 	 					; smtp or empty 
