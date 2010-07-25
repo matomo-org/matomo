@@ -29,8 +29,12 @@ class Piwik_Session extends Zend_Session
 		$sessionName = defined('PIWIK_SESSION_NAME') ? PIWIK_SESSION_NAME : 'PIWIK_SESSID';
 		@ini_set('session.name', $sessionName);
 
-		// we consider this a misconfiguration (i.e., Piwik doesn't implement user-defined session handler functions)
-		if(ini_get('session.save_handler') == 'user')
+		// we consider these to be misconfigurations, in that
+		//  - user - Piwik doesn't implement user-defined session handler functions
+		// -  mm - is not recommended, not supported, not available for Windows, and has a potential concurrency issue
+		$currentSaveHandler = ini_get('session.save_handler');
+		if($currentSaveHandler == 'user'
+			|| $currentSaveHandler == 'mm')
 		{
 			@ini_set('session.save_handler', 'files');
 			@ini_set('session.save_path', '');
