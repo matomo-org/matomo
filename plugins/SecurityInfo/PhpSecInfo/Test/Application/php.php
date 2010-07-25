@@ -26,7 +26,7 @@ class PhpSecInfo_Test_Application_Php extends PhpSecInfo_Test_Application
 	var $recommended_value = null;
 
 	function _retrieveCurrentValue() {
-		$this->current_value = PHP_VERSION;;
+		$this->current_value = phpversion();;
 
 		$url = 'http://php.net/releases/?serialize=1&version=5';
 		$timeout = Piwik_UpdateCheck::SOCKET_TIMEOUT;
