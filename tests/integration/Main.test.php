@@ -51,9 +51,9 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	// Record 1st page view
         $t->setUrl( 'http://example.org/index.htm' );
         $this->checkResponse($t->doTrackPageView( 'incredible title!'));
-        Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+        $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
-        $this->checkResponse($t->doTrackGoal($idGoal = 1, $revenue = 42.256));
+        $this->checkResponse($t->doTrackGoal($idGoal, $revenue = 42.256));
         
         $this->callGetApiCompareOutput(__FUNCTION__, 'xml', $idSite, $dateTime);
 	}
@@ -149,13 +149,13 @@ class Test_Piwik_Integration_Main extends Test_Integration
         $this->checkResponse($t->doTrackAction( 'http://piwik.org/latest.zip', 'download' ));
         
         // Create Goal 1: Triggered by JS, after 18 minutes
-        Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+        $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
-        $this->checkResponse($t->doTrackGoal($idGoal = 1, $revenue = 42));
+        $this->checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
         
         // Track same Goal twice (after 24 minutes), should only be tracked once
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
-        $this->checkResponse($t->doTrackGoal($idGoal = 1, $revenue = 42));
+        $this->checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
         
         // Final page view (after 27 min)
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
