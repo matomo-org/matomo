@@ -16,7 +16,7 @@ class PiwikTracker
 	/**
 	 * Piwik base URL, for example http://example.org/piwik/
 	 * Must be set before using the class by calling 
-	 *  PiwikTracker::$url = 'http://yourwebsite.org/piwik/';
+	 *  PiwikTracker::$URL = 'http://yourwebsite.org/piwik/';
 	 * 
 	 * @var string
 	 */
@@ -30,7 +30,7 @@ class PiwikTracker
 	 * 
 	 * @param $idSite Id site to be tracked
 	 * @param $apiUrl "http://example.org/piwik/" or "http://piwik.example.org/"
-	 * 				If set, will overwrite PiwikTracker::$url
+	 * 				If set, will overwrite PiwikTracker::$URL
 	 */
     function __construct( $idSite, $apiUrl = false )
     {
