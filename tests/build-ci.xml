@@ -12,14 +12,12 @@
 		<mkdir dir="${basedir}/../tmp/cache" />
 		<mkdir dir="${basedir}/../tmp/latest" />
 		<mkdir dir="${basedir}/../tmp/sessions" />
+		
 		<chmod perm="a+rw">
 			<dirset dir="${basedir}/..">
 				<include name="config" />
 				<include name="tmp" />
-				<include name="tmp/templates_c" />
-				<include name="tmp/cache" />
-				<include name="tmp/latest" />
-				<include name="tmp/sessions" />
+				<include name="tmp/**" />
 			</dirset>
 		</chmod>
 	</target>
