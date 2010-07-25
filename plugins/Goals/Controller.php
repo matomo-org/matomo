@@ -70,9 +70,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		
 		// conversion rate for new and returning visitors
 		$conversionRateReturning = $this->getConversionRateReturningVisitors($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $idGoal);
-		$view->conversion_rate_returning = round( $conversionRateReturning, self::CONVERSION_RATE_PRECISION );
+		$view->conversion_rate_returning = round( $conversionRateReturning, self::CONVERSION_RATE_PRECISION ) . "%";
 		$conversionRateNew = $this->getConversionRateNewVisitors($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $idGoal);
-		$view->conversion_rate_new = round( $conversionRateNew, self::CONVERSION_RATE_PRECISION );
+		$view->conversion_rate_new = round( $conversionRateNew, self::CONVERSION_RATE_PRECISION ) . "%";
 		return $view;
 	}
 	
@@ -241,7 +241,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		return array (
 				'id'				=> $idGoal,
 				'nb_conversions' 	=> $dataRow->getColumn('nb_conversions'),
-				'conversion_rate'	=> round($dataRow->getColumn('conversion_rate'), 1),
+				'conversion_rate'	=> $dataRow->getColumn('conversion_rate'),
 				'revenue'			=> $dataRow->getColumn('revenue'),
 				'urlSparklineConversions' 		=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_conversions'), 'idGoal' => $idGoal)),
 				'urlSparklineConversionRate' 	=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('conversion_rate'), 'idGoal' => $idGoal)),

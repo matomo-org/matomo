@@ -109,9 +109,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 					}
 					else
 					{
-						$value = round(100 * $conversions / $nbVisits, $roundingPrecision) . "%";
+						$value = round(100 * $conversions / $nbVisits, $roundingPrecision);
 					}
-					$newColumns[$name] = $value;
+        			$newColumns[$name] = $value. "%";
 					$expectedColumns[$name] = true;
 					
 					// When the table is displayed by clicking on the flag icon, we only display the columns
@@ -130,7 +130,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 					$name = 'goal_' . $goalId . '_revenue_per_visit';
 					if($nbVisits == 0)
 					{
-						$value = $this->invalidDivision;
+						$revenuePerVisit = $this->invalidDivision;
 					}
 					else
 					{
@@ -157,7 +157,12 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 			{
 				if(false === $row->getColumn($name))
 				{
-					$row->addColumn($name, 0);
+					$value = 0;
+					if(strpos($name, 'conversion_rate') !== false)
+					{
+						$value = '0%';
+					}
+					$row->addColumn($name, $value);
 				}
 			}
 		}

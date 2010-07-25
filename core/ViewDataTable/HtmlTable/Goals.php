@@ -90,12 +90,9 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 					$name = Piwik_Translate($this->getColumnTranslation($columnName), $goal['name']);
 					$columnNameGoal = str_replace('%s', $idgoal, $columnName);
 					$this->setColumnTranslation($columnNameGoal, $name);
-					if(strstr($columnNameGoal, '_rate') !== false)
-					{
-						$this->columnsToPercentageFilter[] = $columnNameGoal;
-					}
-					// For the goal table (when the flag icon is clicked), we only display the per Goal Conversion rate
-					elseif($this->processOnlyIdGoal == Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW)
+					if(strstr($columnNameGoal, '_rate') === false
+						// For the goal table (when the flag icon is clicked), we only display the per Goal Conversion rate
+						&& $this->processOnlyIdGoal == Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW)
 					{
 						continue;
 					}
@@ -129,7 +126,6 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 		return $requestString . '&filter_update_columns_when_show_all_goals=1';
 	}	
 	
-	protected $columnsToPercentageFilter = array();
 	protected $columnsToRevenueFilter = array();
 	protected $columnsToConversionFilter = array();
 	protected $idSite = false;
@@ -142,10 +138,12 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	protected function postDataTableLoadedFromAPI()
 	{
 		parent::postDataTableLoadedFromAPI();
-		$this->columnsToPercentageFilter[] = 'conversion_rate';
-		foreach($this->columnsToPercentageFilter as $columnName)
+		foreach($this->getColumnsToDisplay() as $columnName)
 		{
-			$this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$rate', 'return sprintf("%.1f",$rate)."%";')));
+			if(strpos($columnName, 'conversion_rate'))
+			{
+    			$this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$rate', 'if($rate==0) return "0%"; else return $rate;')));
+			}
 		}
 		$this->columnsToRevenueFilter[] = 'revenue_per_visit';
 		foreach($this->columnsToRevenueFilter as $columnName)

@@ -16,8 +16,8 @@
  */
 class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_Filter
 {
-	protected $invalidDivision = '0';
-	protected $roundPrecision = 1;
+	protected $invalidDivision = 0;
+	protected $roundPrecision = 2;
 	
 	/**
 	 * @param $table
@@ -52,9 +52,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 			}
 			else
 			{
-				$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $this->roundPrecision) . "%";
+				$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $this->roundPrecision);
 			}
-			$row->addColumn('conversion_rate', $conversionRate);
+			$row->addColumn('conversion_rate', $conversionRate."%");
 		
 			// nb_actions / nb_visits => Actions/visit
 			// sum_visit_length / nb_visits => Avg. Time on Site 

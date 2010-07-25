@@ -306,6 +306,14 @@ class Piwik_API_API
     	$newReport = array();
     	foreach($reportTable as $rowId => $row)
     	{
+    		// ensure all displayed columns have 0 values
+    		foreach($columns as $id => $name)
+    		{
+    			if(!isset($row[$id]))
+    			{
+    				$row[$id] = 0;
+    			}
+    		}
     		$newRow = array();
     		foreach($row as $columnId => $value)
     		{
