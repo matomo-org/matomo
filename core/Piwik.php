@@ -290,6 +290,10 @@ class Piwik
 	 */
 	static public function checkDirectoriesWritable($directoriesToCheck = null)
 	{
+		static $publicFolders = array(
+			'/tmp/assets/',
+		);
+
 		if( $directoriesToCheck == null )
 		{
 			$directoriesToCheck = array(
@@ -305,6 +309,7 @@ class Piwik
 		$resultCheck = array();
 		foreach($directoriesToCheck as $directoryToCheck)
 		{
+			$overrideUmask = in_array($directoryToCheck, $publicFolders);
 			if( !preg_match('/^'.preg_quote(PIWIK_USER_PATH, '/').'/', $directoryToCheck) )
 			{
 				$directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
@@ -312,7 +317,14 @@ class Piwik
 
 			if(!file_exists($directoryToCheck))
 			{
+				// the mode in mkdir is modified by the current umask
 				Piwik_Common::mkdir($directoryToCheck, 0755, false);
+
+				// override an overly restrictive umask for public folders only
+				if($overrideUmask)
+				{
+					@chmod($directoryToCheck, 0755);
+				}
 			}
 
 			$directory = Piwik_Common::realpath($directoryToCheck);
