@@ -21,7 +21,7 @@
 				<include name="plugins/**" />
 				<include name="tests/**" />
 				<include name="themes/**" />
-				<include name="tmp/**" />
+				<!-- include name="tmp/**" /-->
 				<include name="*.*" />
 				<include name="*" />
 			</fileset>
@@ -36,6 +36,7 @@
 				<include name="tmp" />
 				<include name="tmp/templates_c" />
 				<include name="tmp/cache" />
+				<include name="tmp/cache/tracker" />
 				<include name="tmp/latest" />
 			</dirset>
 		</chmod>
