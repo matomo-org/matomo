@@ -37,7 +37,7 @@ class HtmlTimerReporter extends HtmlReporter
         print "<strong>" . $this->getPassCount() . "</strong> passes, ";
         print "<strong>" . $this->getFailCount() . "</strong> fails and ";
         print "<strong>" . $this->getExceptionCount() . "</strong> exceptions.";
-        print "<br> ";
+        print "<br/> ";
         print $this->timer;
         print " - 	";
         print $this->timer->getMemoryLeak();
