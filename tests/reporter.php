@@ -44,6 +44,7 @@ class HtmlTimerReporter extends HtmlReporter
         print "</div>\n";
         print "</body>\n</html>\n";
 
+	header('Content-type: text/html; charset=' . $this->_character_set);
         ob_end_flush();
     }
 }
