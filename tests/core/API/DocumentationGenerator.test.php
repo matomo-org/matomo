@@ -19,6 +19,7 @@ class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 		Piwik::createAccessObject();
 		Piwik::createDatabaseObject();
 		Piwik::setUserIsSuperUser();
+    	Piwik_Translate::getInstance()->loadEnglishTranslation();
 		$pluginsManager = Piwik_PluginsManager::getInstance();
 		$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 		$apiGenerator = new Piwik_API_DocumentationGenerator_CallAllMethods();
@@ -33,6 +34,7 @@ class Test_Piwik_API_DocumentationGenerator extends UnitTestCase
 //			var_dump($output);
 			$this->assertTrue(!empty($output));
 		}
+    	Piwik_Translate::getInstance()->unloadEnglishTranslation();
 		$this->pass();
 	}
 }
