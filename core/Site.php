@@ -95,6 +95,10 @@ class Piwik_Site
 	 */
 	static public function getIdSitesFromIdSitesString( $string )
 	{
+		if(is_array($string))
+		{
+			return $string;
+		}
 		$ids = explode(',', $string);
 		$validIds = array();
 		foreach($ids as $id)
