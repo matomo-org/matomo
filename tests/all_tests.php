@@ -60,7 +60,7 @@ foreach($toInclude as $file)
 //		|| !preg_match('/Documentation/', $file) // Debug: only run this one test in the context of all_tests.php
 		)
 	{
-		print("The file '$file' is not valid: doesn't end with '.test.php' extension. \n<br>");
+		print("The file '$file' is not valid: doesn't end with '.test.php' extension. \n<br/>");
 		continue;
 	}
 	$test->addFile($file);
