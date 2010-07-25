@@ -498,7 +498,7 @@ class Piwik_Date
 		$minutes = 0;
 		if($n != round($n))
 		{
-			$minutes = (abs($n) - floor(abs($n))) * 60;
+			$minutes = abs($n - floor(abs($n))) * 60;
 			$n = floor(abs($n));
 			if($isNegative) {
 				$minutes *= -1;
