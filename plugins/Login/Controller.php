@@ -206,15 +206,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 				) . "\n";
 			$mail->setBodyText($bodyText);
 
-			$piwikHost = $_SERVER['HTTP_HOST'];
-			if(strlen($piwikHost) == 0)
-			{
-				$piwikHost = 'piwik.org';
-			}
 
 			$fromEmailName = Zend_Registry::get('config')->General->login_password_recovery_email_name;
 			$fromEmailAddress = Zend_Registry::get('config')->General->login_password_recovery_email_address;
-			$fromEmailAddress = str_replace('{DOMAIN}', $piwikHost, $fromEmailAddress);
 			$mail->setFrom($fromEmailAddress, $fromEmailName);
 			@$mail->send();
 		}

@@ -40,6 +40,8 @@ class Piwik_TaskScheduler
 
 		$timetable = unserialize($option);
 		
+		// Force trigger all Scheduled tasks, uncomment
+		// $timetable = array();
 		// Collects tasks
 		Piwik_PostEvent(self::GET_TASKS_EVENT, $tasks);
 
@@ -50,9 +52,7 @@ class Piwik_TaskScheduler
 			$className = $task->getClassName();
 			$methodName = $task->getMethodName();
 
-			$fullyQualifiedMethodName = $className . '.' . $methodName;
-			
-			$rescheduledTime = $timetable[$fullyQualifiedMethodName];
+			$fullyQualifiedMethodName = get_class($className) . '.' . $methodName;
 			
 			/*
 			 * Task has to be executed if :
@@ -60,9 +60,9 @@ class Piwik_TaskScheduler
 			 *  - that task has already been executed and the current system time is greater than the
 			 *    rescheduled time.
 			 */
-			if ( !isset($rescheduledTime) 	
-				|| (isset($rescheduledTime) 
-					&& time() >= $rescheduledTime) )
+			if ( !isset($timetable[$fullyQualifiedMethodName]) 	
+				|| (isset($timetable[$fullyQualifiedMethodName]) 
+					&& time() >= $timetable[$fullyQualifiedMethodName]) )
 			{
 				// Updates the rescheduled time
 				$timetable[$fullyQualifiedMethodName] = $scheduledTime->getRescheduledTime();

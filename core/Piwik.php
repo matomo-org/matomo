@@ -1125,6 +1125,16 @@ class Piwik
  * Access
  */
 
+	static public function getCurrentUserEmail()
+	{
+		if(!Piwik::isUserIsSuperUser())
+		{
+			$user = Piwik_UsersManager_API::getInstance()->getUser(Piwik::getCurrentUserLogin());
+			return $user['email']; 
+		}
+		$superuser = Zend_Registry::get('config')->superuser;
+		return $superuser->email;
+	}
 	/**
 	 * Get current user login
 	 *

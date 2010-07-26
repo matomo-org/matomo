@@ -11,6 +11,31 @@ function piwikHelper()
 }
 
 /*
+ * Displays a Modal window popover. Text will be taken from the DOM node domSelector.
+ * When user clicks Yes in Modal,onValidate() will be executed.
+ * 
+ * On clicking No, or esc key, the modal will fade out.
+ */
+piwikHelper.windowModal = function( domSelector, onValidate )
+{
+	var question = $(domSelector);
+	$(document).keydown( function( e ) { 
+		if( e.which == 27)  $.unblockUI(); }
+	);
+	$('#no', question).unbind('click').click($.unblockUI);
+	$('#yes', question).unbind('click').click(function() {
+		onValidate();
+		$.unblockUI();
+	});
+	$.blockUI({
+		message: question, 
+		css: { width: 650, border:0, background:"none", top:90 }
+	});
+	
+	$.unblockUI
+}
+
+/*
  *  Returns query string for an object of key,values
  *  Note: we don't use $.param from jquery as it doesn't return array values the PHP way (returns a=v1&a=v2 instead of a[]=v1&a[]=v2)
  *  Example:
@@ -135,6 +160,11 @@ piwikHelper.lazyScrollTo = function(elem, time)
 		// scroll the page smoothly to the graph
 		$.scrollTo(elem, time);
 	}
+}
+
+piwikHelper.getApiFormatTextarea = function (textareaContent)
+{
+	return textareaContent.trim().split("\n").join(',');
 }
 
 piwikHelper.OFC = (function () {

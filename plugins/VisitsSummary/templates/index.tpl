@@ -3,7 +3,7 @@
 <h2>{'VisitsSummary_EvolutionOverLastPeriods'|translate:$periodsNames.$period.plural}</h2>
 {$graphEvolutionVisitsSummary}
 
-<h2>{'VisitsSummary_Report'|translate}</h2>
+<h2>{'General_Report'|translate}</h2>
 {include file=VisitsSummary/templates/sparklines.tpl}
 
 <br /><br /><br />

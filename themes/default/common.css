@@ -569,3 +569,102 @@ input.submit, .admin input.submit {
 }
 
 .ui-datepicker td.ui-datepicker-current-period .ui-state-default:hover, .ui-datepicker td.ui-datepicker-current-period .ui-state-hover:hover{ background:#978c7c!important;}
+
+
+.centerLargeDiv { 
+	width:850px; 
+	margin:auto;
+}
+
+
+/* Add / Edit / List entities */
+#entityContainer{  
+	width:800px;
+	font-size:14px;
+}
+.entityInlineHelp {
+	color:#9B9B9B;
+	margin-top:5px;
+}
+.entityTable { 
+	border-radius:4px!important;
+	-moz-border-radius:4px!important;
+	-webkit-border-radius:4px!important;
+	border-top:1px solid #cdc8bf!important;
+	border-bottom:1px solid #948c7d!important;
+}
+.entityTable tr th {
+	font-size:16px;
+}
+.entityTable tr td.first, .entityTable tr th.first{ 
+	border-left:0!important;
+	vertical-align:middle;
+}
+.entityTable tr th{ 
+	white-space:nowrap; 
+	padding-top:10px!important;
+	padding-bottom:10px!important;
+}
+.entityTable tr td, .entityTable tr th{ 
+	border-bottom:0!important;
+	border-top:1px solid #E7E7E7!important;
+}
+.entityTable tr td a {
+	text-decoration:underline;
+}
+#entityAddContainer .entityTable th, #entityEditContainer .entityTable th, #entityEditContainer .entityTable td{ 
+	vertical-align:middle!important; 
+}
+
+#entityAddContainer .entityTable tr td.first{
+	font-weight:bold;
+}
+#entityAddContainer tr:hover{ 
+	background:none!important;
+}
+
+.entityCancel {
+	float:right; 
+	clear:both; 
+	padding:10px 0;
+	font-size:12px;
+}
+
+#entityContainer .inp{  
+	border-radius:4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border:1px solid #d4d4d4;
+	background:#fff url(../../../themes/default/images/inp_bg.png) repeat-x 0 0;
+	padding:3px 10px;
+	color:#255792;
+}
+#entityContainer select.inp{  
+	padding-right:3px;
+	padding-left:7px;
+	margin-right:6px;
+}
+
+#entityContainer .but_submit{
+	clear:both; 
+	color:#fff;
+	font:18px Arial, Helvetica, sans-serif;
+	padding:3px 10px;
+	border-radius:4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border:0;
+	background:#847b6d url(../../../themes/default/images/dashboard_h_bg_hover.png) repeat-x 0 0;
+	float:right; 
+	margin:12px 0 0 0;
+}
+#entityContainer .link_but {
+	white-space:nowrap;
+	display:inline-block; 
+	margin:0 10px 0 0;
+	text-decoration:none;
+}
+#entityContainer .link_but img{
+	white-space:nowrap; 
+	margin:0 1px 0 0!important;
+}

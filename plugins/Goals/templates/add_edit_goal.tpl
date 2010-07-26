@@ -17,17 +17,17 @@
 {ajaxErrorDiv}
 {ajaxLoadingDiv id=goalAjaxLoading}
 	
-<div id="AddEditGoals">
+<div id="entityContainer">
 	{if !isset($onlyShowAddNewGoal)}
 		{include file="Goals/templates/list_goal_edit.tpl"}
 	{/if}
 	{include file="Goals/templates/form_add_goal.tpl"}
 	{if !isset($onlyShowAddNewGoal)}
-		<div id='goalsCancel'>{'General_OrCancel'|translate:"<a id='goalsCancelLink'>":"</a>"}</div>
+		<div class='entityCancel' style='display:none'>{'General_OrCancel'|translate:"<a id='entityCancelLink'>":"</a>"}</div>
 	{/if}
 	<a id='bottom'></a>
 </div>
-
+<br/><br/>
 {loadJavascriptTranslations plugins='Goals'}
 <script type="text/javascript">
 

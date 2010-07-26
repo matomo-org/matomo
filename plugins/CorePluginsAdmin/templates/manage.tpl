@@ -11,7 +11,7 @@
 	<tr>
 		<th>{'CorePluginsAdmin_Plugin'|translate}</th>
 		<th class="num">{'CorePluginsAdmin_Version'|translate}</th>
-		<th>{'CorePluginsAdmin_Description'|translate}</th>
+		<th>{'General_Description'|translate}</th>
 		<th class="status">{'CorePluginsAdmin_Status'|translate}</th>
 		<th class="action-links">{'CorePluginsAdmin_Action'|translate}</th>
 	</tr>

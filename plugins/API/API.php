@@ -186,6 +186,18 @@ class Piwik_API_API
 					unset($availableReport[$attributeName]);
 				}
 			}
+			
+			// Processing a uniqueId for each report, 
+			// can be used by UIs as a key to match a given report
+			$uniqueId = $availableReport['module'] . '_' . $availableReport['action'];
+			if(!empty($availableReport['parameters']))
+			{
+				foreach($availableReport['parameters'] as $key => $value)
+				{
+					$uniqueId .= '_' . $key . '--' . $value;
+				}
+			}
+			$availableReport['uniqueId'] = $uniqueId;
 		}
 		
 		// Sort results to ensure consistent order
@@ -224,7 +236,6 @@ class Piwik_API_API
         } catch(Exception $e) {
         	throw new Exception("API returned an error: ".$e->getMessage()."\n");
         }
-        
         
         // Table with a Dimension (Keywords, Pages, Browsers, etc.)
         if(isset($reportMetadata['dimension']))

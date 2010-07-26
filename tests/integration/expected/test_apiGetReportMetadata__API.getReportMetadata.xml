@@ -12,6 +12,7 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 
 		</metrics>
+		<uniqueId>Actions_getDownloads</uniqueId>
 
 	</row>
 	<row>
@@ -26,6 +27,7 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 
 		</metrics>
+		<uniqueId>Actions_getOutlinks</uniqueId>
 
 	</row>
 	<row>
@@ -40,6 +42,7 @@
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 
 		</metrics>
+		<uniqueId>Actions_getPageTitles</uniqueId>
 
 	</row>
 	<row>
@@ -58,6 +61,7 @@
 			<exit_rate>Exit rate</exit_rate>
 
 		</metrics>
+		<uniqueId>Actions_getPageUrls</uniqueId>
 
 	</row>
 	<row>
@@ -71,6 +75,7 @@
 			<revenue>Revenue</revenue>
 
 		</metrics>
+		<uniqueId>Goals_get</uniqueId>
 
 	</row>
 	<row>
@@ -92,6 +97,7 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<uniqueId>Provider_getProvider</uniqueId>
 
 	</row>
 	<row>
@@ -123,6 +129,7 @@
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
+		<uniqueId>Referers_getCampaigns</uniqueId>
 
 	</row>
 	<row>
@@ -154,6 +161,7 @@
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
+		<uniqueId>Referers_getKeywords</uniqueId>
 
 	</row>
 	<row>
@@ -185,6 +193,7 @@
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
+		<uniqueId>Referers_getRefererType</uniqueId>
 
 	</row>
 	<row>
@@ -216,6 +225,7 @@
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
+		<uniqueId>Referers_getSearchEngines</uniqueId>
 
 	</row>
 	<row>
@@ -247,6 +257,7 @@
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
+		<uniqueId>Referers_getWebsites</uniqueId>
 
 	</row>
 	<row>
@@ -268,6 +279,7 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<uniqueId>UserSettings_getBrowser</uniqueId>
 
 	</row>
 	<row>
@@ -289,6 +301,7 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<uniqueId>UserSettings_getBrowserType</uniqueId>
 
 	</row>
 	<row>
@@ -310,6 +323,7 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<uniqueId>UserSettings_getConfiguration</uniqueId>
 
 	</row>
 	<row>
@@ -331,6 +345,7 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<uniqueId>UserSettings_getOS</uniqueId>
 
 	</row>
 	<row>
@@ -344,6 +359,7 @@
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
 
 		</metrics>
+		<uniqueId>UserSettings_getPlugin</uniqueId>
 
 	</row>
 	<row>
@@ -365,6 +381,7 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<uniqueId>UserSettings_getResolution</uniqueId>
 
 	</row>
 	<row>
@@ -386,6 +403,7 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<uniqueId>UserSettings_getWideScreen</uniqueId>
 
 	</row>
 	<row>
@@ -401,6 +419,7 @@
 			<nb_actions_per_visit_returning>Avg. Actions per Returning visit</nb_actions_per_visit_returning>
 
 		</metrics>
+		<uniqueId>VisitFrequency_get</uniqueId>
 
 	</row>
 	<row>
@@ -432,6 +451,7 @@
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
+		<uniqueId>UserCountry_getContinent</uniqueId>
 
 	</row>
 	<row>
@@ -463,6 +483,7 @@
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
+		<uniqueId>UserCountry_getCountry</uniqueId>
 
 	</row>
 	<row>
@@ -475,6 +496,7 @@
 			<nb_visits>Visits</nb_visits>
 
 		</metrics>
+		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
 
 	</row>
 	<row>
@@ -487,6 +509,7 @@
 			<nb_visits>Visits</nb_visits>
 
 		</metrics>
+		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
 
 	</row>
 	<row>
@@ -504,6 +527,7 @@
 			<max_actions>Maximum actions in one visit</max_actions>
 
 		</metrics>
+		<uniqueId>VisitsSummary_get</uniqueId>
 
 	</row>
 	<row>
@@ -525,6 +549,7 @@
 			<conversion_rate>Conversion Rate</conversion_rate>
 
 		</processedMetrics>
+		<uniqueId>VisitTime_getVisitInformationPerLocalTime</uniqueId>
 
 	</row>
 	<row>
@@ -556,6 +581,7 @@
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
+		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
 
 	</row>
 
