@@ -249,7 +249,7 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * Evaluate expression containing only bitwise operators.
 	 * Replaces defined constants with corresponding values.
-	 * Does not use eval() or create_function().
+	 * Does not use eval().
 	 *
 	 * @param string $expression Expression.
 	 * @return string
@@ -265,10 +265,10 @@ class Piwik_View implements Piwik_iView
 
 		// bitwise operators in order of precedence (highest to lowest)
 		// @todo: boolean ! (NOT) and parentheses aren't handled
-		$expression = preg_replace_callback('/~(-?[0-9]+)/', create_function('$matches', 'return (string)((~(int)$matches[1]));'), $expression);
-		$expression = preg_replace_callback('/(-?[0-9]+)&(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]&(int)$matches[2]);'), $expression);
-		$expression = preg_replace_callback('/(-?[0-9]+)\^(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]^(int)$matches[2]);'), $expression);
-		$expression = preg_replace_callback('/(-?[0-9]+)\|(-?[0-9]+)/', create_function('$matches', 'return (string)((int)$matches[1]|(int)$matches[2]);'), $expression);
+		$expression = preg_replace_callback('/~(-?[0-9]+)/', @create_function('$matches', 'return (string)((~(int)$matches[1]));'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)&(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]&(int)$matches[2]);'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)\^(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]^(int)$matches[2]);'), $expression);
+		$expression = preg_replace_callback('/(-?[0-9]+)\|(-?[0-9]+)/', @create_function('$matches', 'return (string)((int)$matches[1]|(int)$matches[2]);'), $expression);
 
 		return (string)((int)$expression & PHP_INT_MAX);
 	}
