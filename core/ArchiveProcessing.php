@@ -305,7 +305,6 @@ abstract class Piwik_ArchiveProcessing
 		$dateEndUTC = $dateEndLocalTimezone->setTimezone($this->site->getTimezone());
 		$this->startDatetimeUTC = $dateStartUTC->getDateStartUTC();
 		$this->endDatetimeUTC = $dateEndUTC->getDateEndUTC();
-
 		$this->startTimestampUTC = $dateStartUTC->getTimestamp();
 		$this->endTimestampUTC = strtotime($this->endDatetimeUTC);
 		
@@ -340,7 +339,8 @@ abstract class Piwik_ArchiveProcessing
 		// if the current archive is a DAY and if it's today,
 		// we set this minDatetimeArchiveProcessedUTC that defines the lifetime value of today's archive
 		if( $this->period->getNumberOfSubperiods() == 0
-			&& $this->startTimestampUTC <= time() && $this->endTimestampUTC > time()
+			&& ($this->startTimestampUTC > time() ||
+				($this->startTimestampUTC <= time() && $this->endTimestampUTC > time()))
 			)
 		{
 			$this->temporaryArchive = true;
