@@ -125,12 +125,15 @@ login_cookie_expire = 2592000
 ; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
 login_cookie_path = 
 
+
 ; email address that appears as a Sender in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Piwik domain
 login_password_recovery_email_address = "password-recovery@{DOMAIN}"
-
 ; name that appears as a Sender in the password recovery email
 login_password_recovery_email_name = Piwik
+
+; standard email address displayed when sending emails
+noreply_email_address = "noreply@{DOMAIN}"
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referers tables (keywords, search engines, campaigns, etc.)
@@ -292,6 +295,7 @@ Plugins[] 		= UsersManager
 Plugins[] 		= SitesManager
 Plugins[] 		= Installation
 Plugins[] 		= CoreUpdater
+Plugins[]       = PDFReports
 
 [PluginsInstalled]
 PluginsInstalled[] = Login

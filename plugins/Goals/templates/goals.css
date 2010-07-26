@@ -1,3 +1,17 @@
+.goalTopElement { 
+	border-bottom:1px dotted; 
+} 
+.goalEntry{ 
+	margin:0 0 20px 0; 
+	padding:0 0 10px 0; 
+	border-bottom:1px solid #7e7363; 
+	width:614px;
+}
+
+/* segment selector */
+#titleGoalsBySegment {
+	padding-top:30px;
+}
 ul.ulGoalTopElements {
 	list-style-type:circle;
 	margin-left:30px;
@@ -8,11 +22,6 @@ ul.ulGoalTopElements {
 	border-bottom:1px dotted #0033CC;
 	line-height:2em;
 }
-.goalTopElement { 
-	border-bottom:1px dotted; 
-} 
-
-
 .segmentSelector{ 
 	float: left;
 	width: 220px; 
@@ -40,100 +49,3 @@ ul.ulGoalTopElements {
 	border:0;
 }
 
-#titleGoalsBySegment {
-	padding-top:30px;
-}
-.goalInlineHelp {
-	color:#9B9B9B;
-}
-
-#AddEditGoals{  
-	width:614px;
-}
-
-
-.tableFormGoals { 
-	border-radius:4px!important;
-	-moz-border-radius:4px!important;
-	-webkit-border-radius:4px!important;
-	border-top:1px solid #cdc8bf!important;
-	border-bottom:1px solid #948c7d!important;
-}
-
-.tableFormGoals tr td.first, .tableFormGoals tr th.first{ 
-	border-left:0!important;
-}
-
-.tableFormGoals tr th{ 
-	white-space:nowrap; 
-	padding-top:10px!important;
-	padding-bottom:10px!important;
-}
-.tableFormGoals tr td, .tableFormGoals tr th{ 
-	border-bottom:0!important;
-	border-top:1px solid #E7E7E7!important;
-}
-
-
-
-#GoalForm .tableFormGoals th, #EditGoals .tableFormGoals th, #EditGoals .tableFormGoals td{ 
-	vertical-align:middle!important; 
-}
-
-#GoalForm tr:hover{ 
-	background:none!important;
-}
-
-#goalsCancel {
-	text-align:right; 
-	clear:both; 
-	padding:10px 0;
-	font-size:10px;
-	display:none; 
-}
-
-.goalEntry{ 
-	margin:0 0 20px 0; 
-	padding:0 0 10px 0; 
-	border-bottom:1px solid #7e7363; 
-	width:614px;
-}
-
-#AddEditGoals .inp{  
-	border-radius:4px;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border:1px solid #d4d4d4;
-	background:#fff url(../../../themes/default/images/inp_bg.png) repeat-x 0 0;
-	padding:3px 10px;
-	color:#255792;
-}
-#AddEditGoals select.inp{  
-	padding-right:3px;
-	padding-left:7px;
-	margin-right:6px;
-}
-
-#AddEditGoals .but_submit{
-	clear:both; 
-	color:#fff;
-	font:18px Arial, Helvetica, sans-serif;
-	padding:3px 10px;
-	border-radius:4px;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border:0;
-	background:#847b6d url(../../../themes/default/images/dashboard_h_bg_hover.png) repeat-x 0 0;
-	float:right; 
-	margin:12px 0 0 0;
-}
-
-#AddEditGoals .link_but{
-	white-space:nowrap;
-	display:inline-block; 
-	margin:0 10px 0 0;
-}
-#AddEditGoals .link_but img{
-	white-space:nowrap; 
-	margin:0 1px 0 0!important;
-}

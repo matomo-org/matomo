@@ -1,5 +1,5 @@
-<div id='EditGoals' style="display:none;">
-	<table class="dataTable tableFormGoals">
+<div id='entityEditContainer' style="display:none;">
+	<table class="dataTable entityTable">
 	<thead>
 	<tr>
 		<th class="first">Id</td>

@@ -174,7 +174,14 @@ abstract class Test_Integration extends Test_Database
 	protected function getTrackerUrl()
 	{
 		$piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
-		$piwikUrl = substr($piwikUrl, 0, strpos($piwikUrl, 'tests/')) . 'tests/integration/proxy-piwik.php'; 
+
+		$pathBeforeRoot = 'tests';
+		// Running from a plugin
+		if(strpos($piwikUrl, 'plugins/') !== false)
+		{
+			$pathBeforeRoot = 'plugins';
+		}
+		$piwikUrl = substr($piwikUrl, 0, strpos($piwikUrl, $pathBeforeRoot.'/')) . 'tests/integration/proxy-piwik.php'; 
 		return $piwikUrl;
 	}
 	

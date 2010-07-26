@@ -1,5 +1,4 @@
 {assign var=showSitesSelection value=false}
-{assign var=showPeriodSelection value=true}
 {include file="CoreHome/templates/header.tpl"}
 
 <div id="multisites">
@@ -32,7 +31,7 @@
     {include file="CoreHome/templates/header_message.tpl"}
 </div>
 
-<div class="multiSitesCont">
+<div class="centerLargeDiv">
 
 <h2>{'General_AllWebsitesDashboard'|translate}</h2>
 

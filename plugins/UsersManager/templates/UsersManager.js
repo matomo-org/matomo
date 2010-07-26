@@ -155,15 +155,12 @@ function bindUpdateAccess()
 		//ask confirmation
 		var userLogin = $(this).parent().parent().find('#login').html();
 		$('.dialog#confirm #login').text( userLogin ); // if changed here change also the launchAjaxRequest
-		var question = $('.dialog#confirm');
-		$('#yes', question).click(function()
-		{
+
+		function onValidate()
+		{			
 			launchAjaxRequest(target, successCallback);	
-			$.unblockUI();
-		});
-		
-		$('#no', question).click($.unblockUI);
-		$.blockUI({message: question, css: { width: '650px', top:90 }});
+		}
+		piwikHelper.windowModal( '.dialog#confirm', onValidate)
 	}
 	else
 	{

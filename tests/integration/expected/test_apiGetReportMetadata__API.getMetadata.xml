@@ -29,6 +29,7 @@
 			<revenue_per_visit>Value per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
+		<uniqueId>UserCountry_getCountry</uniqueId>
 
 	</row>
 

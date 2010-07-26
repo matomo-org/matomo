@@ -19,7 +19,7 @@
 	</div>
 	<div id='rightcolumn'>
 		<div class="sparkline">{sparkline src=$goal.urlSparklineConversionRate}
-		{'Goals_ConversionRate'|translate:"<strong>$conversion_rate%</strong>"}</div>
+		{'Goals_ConversionRate'|translate:"<strong>$conversion_rate</strong>"}</div>
 	</div>
     <br class="clear" />
     </div>

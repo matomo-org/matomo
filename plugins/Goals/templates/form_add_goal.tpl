@@ -1,13 +1,15 @@
-<div id='GoalForm' style="display:none;">
+<div id='entityAddContainer' style="display:none;">
 <form>
-<table class="dataTable tableFormGoals">
+<table class="dataTable entityTable">
+	<thead>
 		<tr class="first">
 			<th colspan="2">Create a Goal</th>
 		<tr>
+	</thead>
 	<tbody>
 		<tr>
             <td class="first">{'Goals_GoalName'|translate} </th>
-			<td><input type="text" name="name" value="" size="28" id="goal_name" class="inp" /></th>
+			<td><input type="text" name="name" value="" size="28" id="goal_name" class="inp" /></td>
 		</tr>
 		<tr>
 			<td style='width:240px;' class="first">{'Goals_GoalIsTriggered'|translate}
@@ -40,7 +42,7 @@
 			
 				<input type="text" name="pattern" value="" size="16" class="inp" />
 				<br />
-				<div id="examples_pattern" class="goalInlineHelp"></div>
+				<div id="examples_pattern" class="entityInlineHelp"></div>
 				<br />
 				<span style="float:right">
 				{'Goals_Optional'|translate} <input type="checkbox" id="case_sensitive" />
@@ -57,8 +59,8 @@
 	<tbody>
 		<tr>
             <td class="first">(optional) {'Goals_DefaultRevenue'|translate}</td>
-			<td>{' <input type="text" name="revenue" size="1" value="0" class="inp" /> '|money:$idSite}
-            <div class="goalInlineHelp"> {'Goals_DefaultRevenueHelp'|translate} </div>
+			<td>{' <input type="text" name="revenue" size="2" value="0" class="inp" /> '|money:$idSite}
+            <div class="entityInlineHelp"> {'Goals_DefaultRevenueHelp'|translate} </div>
 			</td>
 		</tr>
 		<tr>

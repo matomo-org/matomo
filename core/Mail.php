@@ -29,11 +29,21 @@ class Piwik_Mail extends Zend_Mail
 		$this->initSmtpTransport();
 	}
 	
+	public function setFrom($email, $name)
+	{
+		$piwikHost = $_SERVER['HTTP_HOST'];
+		if(strlen($piwikHost) == 0)
+		{
+			$piwikHost = 'piwik.org';
+		}
+		$email = str_replace('{DOMAIN}', $piwikHost, $email);
+		parent::setFrom($email, $name);
+	}
+	
 	private function initSmtpTransport()
 	{
 		$config = Zend_Registry::get('config')->mail;
 		if ( empty($config->host) 
-			 || !empty($config->port) 
 			 || $config->transport != 'smtp')
 		{
 			return;

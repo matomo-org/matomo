@@ -30,11 +30,11 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 	 	var urls =  $(row).find('textarea#urls').val();
 		urls = getApiFormatUrls(urls);
 		var excludedIps = $(row).find('textarea#excludedIps').val();
-		excludedIps = getApiFormatTextarea(excludedIps);
+		excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
 		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
 		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
 		var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
-		excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
+		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		
 		var request = '';
 		request += '&module=API';
@@ -62,10 +62,6 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		}
 		return aUrls;
 	}
-	function getApiFormatTextarea(textareaContent)
-	{
-		return textareaContent.trim().split("\n").join(',');
-	}
 	
 	function getUpdateSiteAJAX( row )
 	{
@@ -76,9 +72,9 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		var urls = $(row).find('textarea#urls').val();
 		urls = getApiFormatUrls(urls);
 		var excludedIps = $(row).find('textarea#excludedIps').val();
-		excludedIps = getApiFormatTextarea(excludedIps);
+		excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
 		var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
-		excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
+		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
 		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
 		var request = '';
@@ -106,9 +102,9 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		var timezone = encodeURIComponent($('#defaultTimezone option:selected').val());
 		var currency = encodeURIComponent($('#defaultCurrency option:selected').val());
 		var excludedIps = $('textarea#globalExcludedIps').val();
-		excludedIps = getApiFormatTextarea(excludedIps);
+		excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
 		var excludedQueryParameters = $('textarea#globalExcludedQueryParameters').val();
-		excludedQueryParameters = getApiFormatTextarea(excludedQueryParameters);
+		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		var request = '';
 		request += 'module=SitesManager';
 		request += '&action=setGlobalSettings';

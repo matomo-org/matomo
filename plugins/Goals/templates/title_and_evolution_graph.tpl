@@ -16,7 +16,7 @@
 </div>
 <div id='rightcolumn'>
 	<div class="sparkline">{sparkline src=$urlSparklineConversionRate}
-	{'Goals_OverallConversionRate'|translate:"<strong>$conversion_rate%</strong>"}</div>
+	{'Goals_OverallConversionRate'|translate:"<strong>$conversion_rate</strong>"}</div>
 </div>
 
 

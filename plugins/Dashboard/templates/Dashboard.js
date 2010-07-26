@@ -199,22 +199,16 @@ dashboard.prototype =
 	onDeleteItem: function(target, ev)
 	{
 		var self = this;
-		   
-		var question = $('.dialog#confirm');
-		$('#no', question).click($.unblockUI);
-		$('#yes', question).click(function() {
+		function onDelete()
+		{			
 			var item = $(target).parents('.sortable');
-			$.unblockUI();
 			item.fadeOut(200, function() {
 				$(this).remove();
 				self.saveLayout();
 				self.makeSortable();
 			});
-		});
-		$.blockUI({
-			message: question, 
-			css: { width: 650, border:0, background:"none", top:90 }
-		});
+		}
+		piwikHelper.windowModal( '.dialog#confirm', onDelete)
 	},
 	
 	// Called by DataTables when the View type changes.
