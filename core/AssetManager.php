@@ -54,16 +54,13 @@ class Piwik_AssetManager
 	 */
 	public static function getCssAssets()
 	{
-		if ( self::getDisableMergedAssets() ) {
-			
+		if ( self::getDisableMergedAssets() ) 
+		{
 			// Individual includes mode
 			self::removeMergedAsset("css");
 			return self::getIndividualCssIncludes();
-						
-		} else {
-			
-			return self::getMergedCssInclude();			
-		}	
+		} 
+		return self::getMergedCssInclude();			
 	}
 	
 	/**
@@ -73,16 +70,13 @@ class Piwik_AssetManager
 	 */
 	public static function getJsAssets()
 	{
-		if ( self::getDisableMergedAssets() ) {
-			
+		if ( self::getDisableMergedAssets() ) 
+		{
 			// Individual includes mode
 			self::removeMergedAsset("js");
 			return self::getIndividualJsIncludes();
-		
-		} else {
-			
-			return self::getMergedJsInclude();
-		}
+		} 
+		return self::getMergedJsInclude();
 	}
 	
 	/**
@@ -274,16 +268,13 @@ class Piwik_AssetManager
 	 */
 	private static function getIndividualJsIncludes()   
 	{
-		$jsIncludeString = '';
-		
 		$jsFiles = self::getJsFiles();
-		
-		foreach ($jsFiles as $jsFile) {
-
-			self::validateJsFile ( $jsFile );
+		$jsIncludeString = '';
+		foreach ($jsFiles as $jsFile) 
+		{
+			self::validateJsFile( $jsFile );
 			$jsIncludeString = $jsIncludeString . sprintf ( self::JS_IMPORT_DIRECTIVE, $jsFile );
 		}
-		
 		return $jsIncludeString;	
 	}
 	
@@ -301,8 +292,8 @@ class Piwik_AssetManager
 	}
 	
 	/**
-	 * Maybe work around a silly algorithm difference in array_unique in PHP 5.2.9?
-	 * Ensure core JS (jquery etc.) are loaded first otherwise triggers errors.
+	 * Working around the fact that plugins can be loaded in different orders,
+	 * but we need to ensure core JS (jquery etc.) are loaded first otherwise triggers errors.
 	 */ 
 	private static function ensureJsFilesSorted($jsFiles)
 	{
@@ -316,7 +307,8 @@ class Piwik_AssetManager
 				{
     				$newJsFiles = array_merge(array($jsPath), $newJsFiles);
 				}
-				elseif($count == 0)
+				elseif($count == 0
+					&& array_search(basename(PIWIK_INCLUDE_PATH . '/' . $jsPath), $priorityJsOrdered) === false)
 				{
 					$newJsFiles[] = $jsPath;
 				}
