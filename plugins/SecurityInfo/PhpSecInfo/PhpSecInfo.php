@@ -228,7 +228,7 @@ class PhpSecInfo
 		//echo "<pre>"; echo print_r($test_root, true); echo "</pre>";
 
 		while (false !== ($entry = $test_root->read())) {
-			if ( is_dir($test_root->path.DIRECTORY_SEPARATOR.$entry) && !preg_match('~^(\.(.*)|_vti_cnf)$~', $entry) ) {
+			if ( is_dir($test_root->path.DIRECTORY_SEPARATOR.$entry) && !preg_match('~^(\.|_vti)(.*)$~', $entry) ) {
 				$test_dirs[] = $entry;
 			}
 		}
