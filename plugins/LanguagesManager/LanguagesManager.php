@@ -56,7 +56,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$view->languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguageNames();
 		$view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
 		$view->currentLanguageName = self::getLanguageNameForCurrentUser();
-		Piwik_AddTopMenu('LanguageSelector', $view->render(), true, 20, true);
+		Piwik_AddTopMenu('LanguageSelector', $view->render(), true, $order = 30, true);
 	}
 	
 	function getLanguageToLoad($notification)
