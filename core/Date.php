@@ -546,11 +546,13 @@ class Piwik_Date
      */
 	public function addPeriod( $n, $period )
 	{
-		if($n < 0) {
+		if($n < 0) 
+		{
 			$ts = strtotime("$n $period", $this->timestamp);
 		}
-		else {
-		$ts = strtotime("+$n $period", $this->timestamp);
+		else 
+		{
+			$ts = strtotime("+$n $period", $this->timestamp);
 		}
 		return new Piwik_Date( $ts, $this->timezone );
 	}
@@ -566,5 +568,5 @@ class Piwik_Date
 	public function subPeriod( $n, $period )
 	{
 		return $this->addPeriod(-$n, $period );
-}
+	}
 }
