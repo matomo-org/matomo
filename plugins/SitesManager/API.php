@@ -209,7 +209,7 @@ class Piwik_SitesManager_API
 
 		if($limit)
 		{
-			$limit = "LIMIT $limit";
+			$limit = "LIMIT " . (int)$limit;		
 		}
 		
 		$db = Zend_Registry::get('db');
