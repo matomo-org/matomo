@@ -376,7 +376,7 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		$matches = array();
 		$isUrl = false;
-		
+		$name = str_replace("\n", "", $name);
 		preg_match('@^http[s]?://([^/]+)[/]?([^#]*)[#]?(.*)$@i', $name, $matches);
 
 		if( count($matches) )
@@ -392,7 +392,7 @@ class Piwik_Actions extends Piwik_Plugin
 		{
 			if( $isUrl )
 			{
-				return array($urlHost, '/' . $urlPath);
+				return array(trim($urlHost), '/' . trim($urlPath));
 			}
 		}
 
@@ -433,7 +433,7 @@ class Piwik_Actions extends Piwik_Plugin
 		    } else {
 		        $defaultName = self::$defaultActionUrlWhenNotDefined;
 		    }
-			return array( $defaultName );
+			return array( trim($defaultName) );
 		}
 
 		return array_values( $split );
@@ -540,7 +540,6 @@ class Piwik_Actions extends Piwik_Plugin
 					$currentTable->addColumn($name, $value);
 				}
 			}
-			// simple count 
 			$rowsProcessed++;
 		}
 
