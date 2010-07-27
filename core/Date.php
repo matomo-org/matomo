@@ -546,7 +546,25 @@ class Piwik_Date
      */
 	public function addPeriod( $n, $period )
 	{
+		if($n < 0) {
+			$ts = strtotime("$n $period", $this->timestamp);
+		}
+		else {
 		$ts = strtotime("+$n $period", $this->timestamp);
+		}
 		return new Piwik_Date( $ts, $this->timezone );
 	}
+
+	/**
+     * Subtracts period from the existing date object.
+     * Returned is the new date object
+     * Doesn't modify $this
+     *
+     * @param int Number of period to sub
+     * @return  Piwik_Date new date
+     */
+	public function subPeriod( $n, $period )
+	{
+		return $this->addPeriod(-$n, $period );
+}
 }

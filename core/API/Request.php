@@ -55,6 +55,14 @@ class Piwik_API_Request
 		
 		if(!is_null($request))
 		{
+                        if(is_array($request)) {
+                            $url = array();
+                            foreach ($request as $key => $value) {
+                                $url[] = $key . "=" . $value;
+                            }
+                            $request = implode("&", $url);
+                        }
+
 			$request = trim($request);
 			$request = str_replace(array("\n","\t"),'', $request);
 			parse_str($request, $requestArray);
