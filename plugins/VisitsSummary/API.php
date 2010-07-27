@@ -55,13 +55,14 @@ class Piwik_VisitsSummary_API
 		else
 		{
     		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = true;
-			$columns = array(	'max_actions',
-								'nb_uniq_visitors', 
+			$columns = array(	
 								'nb_visits',
+								'nb_uniq_visitors', 
 								'nb_actions', 
-								'sum_visit_length',
-								'bounce_count',
 								'nb_visits_converted',
+								'bounce_count',
+								'sum_visit_length',
+								'max_actions',
 							);
 		}
 
