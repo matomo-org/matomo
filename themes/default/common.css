@@ -302,7 +302,7 @@ a {
 	border-radius:4px;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
-	white-space:nowrap; 
+	/*white-space:nowrap;*/
 }
 
 .sites_autocomplete .custom_select_main_link{
@@ -333,14 +333,14 @@ a {
 	height:auto;
 	display:block;
 	text-decoration:none; 
-	white-space:nowrap; 
+	/*white-space:nowrap; */
 }
 .sites_autocomplete .custom_select_ul_list li a:hover{
 	background:#ebeae6;
 }
 
 .sites_autocomplete .custom_select_all {
-	padding:8px 0 0 4px;
+	padding:0px 0 0 4px;
 }
 .sites_autocomplete .custom_select_all a{
 	text-decoration:none; 

@@ -154,10 +154,10 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return array array for each site, an array of information (idsite, name, main_url, etc.)
 	 */
-	public function getSitesWithAtLeastViewAccess()
+	public function getSitesWithAtLeastViewAccess($limit = false)
 	{
 		$sitesId = $this->getSitesIdWithAtLeastViewAccess();
-		return $this->getSitesFromIds($sitesId);
+		return $this->getSitesFromIds($sitesId, $limit);
 	}
 	
 	/**
@@ -200,17 +200,23 @@ class Piwik_SitesManager_API
 	 * 
 	 * @param array list of website ID
 	 */
-	private function getSitesFromIds( $idSites )
+	private function getSitesFromIds( $idSites, $limit )
 	{
 		if(count($idSites) === 0)
 		{
 			return array();
 		}
+
+		if($limit)
+		{
+			$limit = "LIMIT $limit";
+		}
+		
 		$db = Zend_Registry::get('db');
 		$sites = $db->fetchAll("SELECT * 
 								FROM ".Piwik_Common::prefixTable("site")." 
 								WHERE idsite IN (".implode(", ", $idSites).")
-								ORDER BY idsite ASC");
+								ORDER BY idsite ASC $limit");
 		return $sites;
 	}
 
@@ -894,5 +900,20 @@ class Piwik_SitesManager_API
 		$urls = array_unique($urls);
 		
 		return $urls;
+	}
+
+        static public function getPatternMatchSites($pattern)
+	{
+		$ids = self::getSitesIdWithAtLeastViewAccess();
+		$ids_str = '';
+		foreach($ids as $id_num => $id_val)
+		{
+		    $ids_str .= $id_val.' , ';
+		}
+		$ids_str .= $id_val;
+
+		$db = Zend_Registry::get('db');
+		$sites = $db->fetchAll("SELECT idsite, name, main_url FROM ".Piwik_Common::prefixTable('site')." s	WHERE (s.name like ? OR s.main_url like ?) AND idsite in ($ids_str) LIMIT ".Zend_Registry::get('config')->General->site_selector_max_sites, array('%'.$pattern.'%', 'http%'.$pattern.'%')) ;
+		return $sites;
 	}
 }

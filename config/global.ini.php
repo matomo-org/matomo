@@ -64,6 +64,12 @@ action_url_category_delimiter = /
 ; similar to above, but this delimiter is only used for page titles in the Actions > Page titles report
 action_title_category_delimiter = /
 
+; minimum number of websites to run autocompleter
+autocomplete_min_sites = 5
+
+; maximum number of websites showed in search results in autocompleter
+site_selector_max_sites = 10
+
 ; this action name is used when the URL ends with a slash / 
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
