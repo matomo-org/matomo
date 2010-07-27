@@ -406,6 +406,7 @@ class Piwik_AssetManager
 		if (!is_dir($mergedFileDirectory))
 		{
 			Piwik_Common::mkdir($mergedFileDirectory, 0755, false);
+			@chmod($mergedFileDirectory, 0755);
 		}
 		
 		if (!is_writable($mergedFileDirectory))
