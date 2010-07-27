@@ -200,7 +200,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @param array list of website ID
 	 */
-	private function getSitesFromIds( $idSites, $limit )
+	private function getSitesFromIds( $idSites, $limit = false )
 	{
 		if(count($idSites) === 0)
 		{
