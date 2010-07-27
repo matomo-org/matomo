@@ -1,5 +1,3 @@
-
-
 <script type="text/javascript">
 
 {literal}
@@ -75,7 +73,7 @@ $(document).ready(function() {
 			<option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
 		{/foreach}
 	</select>
-<!--<div class="dataTableFooterIcons userCountryMapFooterIcons">
+{*<div class="dataTableFooterIcons userCountryMapFooterIcons">
 	<div class="dataTableFooterWrap" var="table">
 		<div class="tableIconsGroup">
 			<select id="userCountryMapSelectMetrics" style="height: 19px; font-size: 10px;">
@@ -89,5 +87,5 @@ $(document).ready(function() {
 		</div>
 	</div>
 
-</div>-->
+</div>*}
 </div>
