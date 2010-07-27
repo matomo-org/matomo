@@ -101,8 +101,8 @@ class Piwik_AssetManager
 	/**
 	 * Generate the merged css file.
 	 *
-	 * @throws Exception if a file can not be opened in write mode
 	 * @return string Hashcode of the merged file.
+	 * @throws Exception if a file can not be opened in write mode
 	 */
 	private static function generateMergedCssFile()
 	{
@@ -175,15 +175,36 @@ class Piwik_AssetManager
 	 */
 	private static function getCssFiles()   
 	{
+		$cssFiles = array();
 		Piwik_PostEvent(self::CSS_IMPORT_EVENT, $cssFiles);
-		return array_unique ( $cssFiles ); 		
+		$cssFiles = self::sortCssFiles($cssFiles);
+		return $cssFiles;
 	}
-	
+
+	/**
+	 * Ensure CSS stylesheets are loaded in a particular order regardless of the order that plugins are loaded.
+	 *
+	 * @param array $cssFiles Array of CSS stylesheet files
+	 * @return array
+	 */ 
+	private static function sortCssFiles($cssFiles)
+	{
+		$priorityCssOrdered = array(
+			'themes/default/common.css',
+			'themes/default/',
+			'libs/',
+			'plugins/',
+		);
+
+		return self::prioritySort($priorityCssOrdered, $cssFiles);
+	}
+
 	/**
 	 * Check the validity of the css file
 	 *
-	 * @throws Exception if css file is not valid
+	 * @param string $cssFile CSS file name
 	 * @return boolean
+	 * @throws Exception if a file can not be opened in write mode
 	 */
 	private static function validateCssFile ( $cssFile )   
 	{
@@ -215,8 +236,8 @@ class Piwik_AssetManager
 	/**
 	 * Generate the merged js file.
 	 *
-	 * @throws Exception if a file can not be opened in write mode
 	 * @return string Hashcode of the merged file.
+	 * @throws Exception if a file can not be opened in write mode
 	 */
 	private static function generateMergedJsFile()
 	{
@@ -284,49 +305,39 @@ class Piwik_AssetManager
 	 * @return Array
 	 */
 	private static function getJsFiles()   
-	{	
+	{
+		$jsFiles = array();
 		Piwik_PostEvent(self::JS_IMPORT_EVENT, $jsFiles);
-		$jsFiles = array_unique($jsFiles);
-		$jsFiles = self::ensureJsFilesSorted($jsFiles);
+		$jsFiles = self::sortJsFiles($jsFiles);
 		return $jsFiles; 		
 	}
 	
 	/**
-	 * Working around the fact that plugins can be loaded in different orders,
-	 * but we need to ensure core JS (jquery etc.) are loaded first otherwise triggers errors.
+	 * Ensure core JS (jQuery etc.) are loaded in a particular order regardless of the order that plugins are loaded.
+	 *
+	 * @param array $jsFiles Arry of JavaScript files
+	 * @return array
 	 */ 
-	private static function ensureJsFilesSorted($jsFiles)
+	private static function sortJsFiles($jsFiles)
 	{
-		$priorityJsOrdered = array('common.js', 'swfobject.js', 'jquery-ui.js', 'jquery.js');
-		$newJsFiles = array();
-		foreach($priorityJsOrdered as $count => $js)
-		{
-			foreach($jsFiles as $id => $jsPath)
-			{
-				if(($pos = strpos($jsPath, $js)) !== false)
-				{
-    				$newJsFiles = array_merge(array($jsPath), $newJsFiles);
-				}
-				elseif($count == 0
-					&& array_search(basename(PIWIK_INCLUDE_PATH . '/' . $jsPath), $priorityJsOrdered) === false)
-				{
-					$newJsFiles[] = $jsPath;
-				}
-				if($pos !== false
-					&& $count > 0)
-				{
-					break;
-				}
-			}
-		}
-		return $newJsFiles;
+		$priorityJsOrdered = array(
+			'libs/jquery/jquery.js',
+			'libs/jquery/jquery-ui.js',
+			'libs/',
+			'themes/default/common.js',
+			'themes/default/',
+			'plugins/',
+		);
+
+		return self::prioritySort($priorityJsOrdered, $jsFiles);
 	}
 	
 	/**
 	 * Check the validity of the js file
 	 *
-	 * @throws Exception if js file is not valid
+	 * @param string $jsFile JavaScript file name
 	 * @return boolean
+	 * @throws Exception if js file is not valid
 	 */
 	private static function validateJsFile ( $jsFile )   
 	{
@@ -335,7 +346,7 @@ class Piwik_AssetManager
 			throw new Exception("The js asset with 'src' = " . $jsFile . " is not readable");
 		}
 	}
-	
+
 	/**
 	 * Returns the global option disable_merged_assets
 	 *
@@ -349,8 +360,9 @@ class Piwik_AssetManager
 	/**
 	 * Gets the hashcode of the merged file according to its type
 	 *
-	 * @throws Exception if there is more than one file of the same type.
+	 * @param string $type js|css
 	 * @return string The hashcode of the merged file, false if not present.
+	 * @throws Exception if there is more than one file of the same type.
 	 */
 	private static function getMergedAssetHash ($type)
 	{	
@@ -384,8 +396,8 @@ class Piwik_AssetManager
 	/**
 	 * Check if the merged file directory exists and is writable.
 	 *
-	 * @throws Exception if directory is not writable.
 	 * @return string The directory location
+	 * @throws Exception if directory is not writable.
 	 */
 	private static function getMergedFileDirectory ()
 	{
@@ -407,6 +419,7 @@ class Piwik_AssetManager
 	/**
 	 * Remove the previous merged file if it exists
 	 *
+	 * @param string $type js|css
 	 * @throws Exception if the file couldn't be deleted
 	 */	
 	private static function removeMergedAsset($type)
@@ -426,7 +439,8 @@ class Piwik_AssetManager
 	/**
 	 * Check if asset is readable
 	 *
-	 * @throws Boolean
+	 * @param string $relativePath Relative path to file
+	 * @return boolean
 	 */  
 	private static function assetIsReadable ($relativePath)
 	{
@@ -436,17 +450,21 @@ class Piwik_AssetManager
 	/**
 	 * Returns the full path of an asset file
 	 *
-	 * @throws string
+	 * @param string $relativePath Relative path to file
+	 * @return string
 	 */  
 	private static function getAbsoluteLocation ($relativePath)
 	{
-		return PIWIK_USER_PATH . "/" . $relativePath;
+		// served by web server directly, so must be a public path
+		return PIWIK_DOCUMENT_ROOT . "/" . $relativePath;
 	}	
 	
 	/**
 	 * Returns the full path of the merged file based on its hash.
 	 *
-	 * @throws string
+	 * @param string $hash Computed hash
+	 * @param string $type js|css
+	 * @return string
 	 */
 	private static function getLocationFromHash ( $hash, $type )
 	{
@@ -463,13 +481,14 @@ class Piwik_AssetManager
 	}
 	
 	/**
-	 * Indicates if the provided javascript content has already been minified or not.
+	 * Indicates if the provided JavaScript content has already been minified or not.
 	 * The heuristic is based on a custom ratio : (size of file) / (number of lines).
 	 * The threshold (100) has been found empirically on existing files : 
 	 * - the ratio never exceeds 50 for non-minified content and
 	 * - it never goes under 150 for minified content.
 	 *
-	 * @throws Boolean
+	 * @param string $content Contents of the JavaScript file
+	 * @return boolean
 	 */
 	private static function isMinifiedJs ( $content )
 	{
@@ -484,5 +503,22 @@ class Piwik_AssetManager
 		$ratio = $contentSize / $lineCount;
 		
 		return $ratio > self::MINIFIED_JS_RATIO;
+	}
+
+	/**
+	 * Sort files according to priority order. Duplicates are also removed.
+	 *
+	 * @param array $priorityOrder Ordered array of paths (first to last) serving as buckets
+	 * @param array $files Unsorted array of files
+	 * @return array
+	 */
+	public static function prioritySort($priorityOrder, $files)
+	{
+		$newFiles = array();
+		foreach($priorityOrder as $filePattern)
+		{
+			$newFiles = array_merge($newFiles, preg_grep('~^' . $filePattern . '~', $files));
+		}
+		return array_keys(array_flip($newFiles));
 	}
 }
