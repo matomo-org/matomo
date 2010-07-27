@@ -68,7 +68,7 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 			}
 
 			if( $patternNotFoundInChildren
-				&& !Piwik_DataTable_Filter_Pattern::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter))	
+				&& !Piwik_DataTable_Filter_Pattern::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter), $invertedMatch = false)	
 			)
 			{
 				$table->deleteRow($key);

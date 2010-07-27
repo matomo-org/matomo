@@ -43,9 +43,9 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	/*
 	 * Performs case insensitive match
 	 */
-	static public function match($pattern, $patternQuoted, $string)
+	static public function match($pattern, $patternQuoted, $string, $invertedMatch)
 	{
-		return @preg_match($patternQuoted . "i",  $string) == 1 ^ $this->invertedMatch;
+		return @preg_match($patternQuoted . "i",  $string) == 1 ^ $invertedMatch;
 	}
 	
 	protected function filter()
@@ -56,7 +56,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 			// - negative search with -piwik
 			// - exact match with ""
 			// see (?!pattern) 	A subexpression that performs a negative lookahead search, which matches the search string at any point where a string not matching pattern begins. 
-			if( !self::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter)))
+			if( !self::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter), $this->invertedMatch))
 			{
 				$this->table->deleteRow($key);
 			}
