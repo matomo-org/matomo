@@ -169,7 +169,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 
 	Name:  TCPDF
 	Link:  http://sourceforge.net/projects/tcpdf
-	License:  LPGL v3 or later
+	License:  LGPL v3 or later
 
 	Name:  UserAgentParser
 	Link:  http://dev.piwik.org/trac/browser/trunk/libs/UserAgentParser/
