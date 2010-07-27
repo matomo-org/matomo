@@ -65,12 +65,12 @@ class Piwik_API_DataTableGenericFilter
 								'filter_sort_column' 		=> array('string'),
 								'filter_sort_order' 		=> array('string', 'desc'),
 						),
+			'Truncate' => array(
+								'filter_truncate'			=> array('integer'),
+						),
 			'Limit' => array(
 								'filter_offset' 			=> array('integer', '0'),
 								'filter_limit' 				=> array('integer'),
-						),
-			'Truncate' => array(
-								'filter_truncate'			=> array('integer'),
 						),
 		);
 		
