@@ -144,12 +144,39 @@ class Test_Piwik_Date extends UnitTestCase
 		$date = Piwik_Date::factory($dayStart)->subHour(5.75);
 		$this->assertEqual($date->getDatetime(), $dayExpected);
 	}
+
 	function test_addHour_longHours()
 	{
     	$dateTime = '2010-01-03 11:22:33';
     	$expectedTime = '2010-01-05 11:28:33';
 		$this->assertEqual(Piwik_Date::factory($dateTime)->addHour(48.1)->getDatetime(), $expectedTime);
 		$this->assertEqual(Piwik_Date::factory($dateTime)->addHour(48.1)->subHour(48.1)->getDatetime(), $dateTime);
+	}
+
+	function test_addPeriod()
+	{
+		$date = Piwik_Date::factory('2010-01-01');
+		$dateExpected = Piwik_Date::factory('2010-01-06');
+		$date = $date->addPeriod(5, 'day');
+		$this->assertEqual($date->getTimestamp(), $dateExpected->getTimestamp());
+
+		$date = Piwik_Date::factory('2010-03-01');
+		$dateExpected = Piwik_Date::factory('2010-04-05');
+		$date = $date->addPeriod(5, 'week');
+		$this->assertEqual($date->getTimestamp(), $dateExpected->getTimestamp());
+}
+
+	function test_subPeriod()
+	{
+		$date = Piwik_Date::factory('2010-03-01');
+		$dateExpected = Piwik_Date::factory('2010-02-15');
+		$date = $date->subPeriod(2, 'week');
+		$this->assertEqual($date->getTimestamp(), $dateExpected->getTimestamp());
+
+		$date = Piwik_Date::factory('2010-12-15');
+		$dateExpected = Piwik_Date::factory('2005-12-15');
+		$date = $date->subPeriod(5, 'year');
+		$this->assertEqual($date->getTimestamp(), $dateExpected->getTimestamp());
 	}
 }
 
