@@ -21,19 +21,15 @@ class Piwik_UserCountryMap extends Piwik_Plugin
 		return array(
 			'name' => 'User Country Map',
 			'description' => 'This plugin shows a zoomable world map of your visitors location.',
-			'author' => 'Gregor Aisch',
-			'author_homepage' => 'http://vis4.net/',
-			'version' => '0.7',
-			'translationAvailable' => true,
+			'author' => 'Piwik',
+			'author_homepage' => 'http://piwik.org/',
+			'version' => Piwik_Version::VERSION,
 		);
 	}
 	
 	function postLoad()
 	{
-		// we register the widgets so they appear in the "Add a new widget" window in the dashboard
-		// Note that the first two parameters can be either a normal string, or an index to a translation string
 		Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountry_WidgetCountries').' ('.Piwik_Translate('UserCountryMap_worldMap').')', 'UserCountryMap', 'worldMap');
-		
 	}
 }
 
@@ -43,17 +39,8 @@ class Piwik_UserCountryMap extends Piwik_Plugin
  */
 class Piwik_UserCountryMap_Controller extends Piwik_Controller
 {	
-	
-	
-	/**
-	 * See the result on piwik/?module=ExamplePlugin&action=exampleWidget
-	 * or in the dashboard > Add a new widget 
-	 *
-	 */
 	function worldMap()
 	{
-		
-		
 		$view = Piwik_View::factory('worldmap');
 		
 		$view->dataUrl = "?module=API"
@@ -85,20 +72,20 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		$metaData = $request->process();
 		
 		$metrics = array();
-		foreach ($metaData[0]['metrics'] as $id => $val) $metrics[] = array($id, $val);
-		foreach ($metaData[0]['processedMetrics'] as $id => $val) $metrics[] = array($id, $val);
+		foreach ($metaData[0]['metrics'] as $id => $val)
+		{
+			$metrics[] = array($id, $val);
+		} 
+		foreach ($metaData[0]['processedMetrics'] as $id => $val) 
+		{
+			$metrics[] = array($id, $val);
+		}
 		
 		$view->metrics = $metrics;
-		
 		$view->defaultMetric = 'nb_visits';
-		
 		echo $view->render();
-		
 	}
 
-	/*
-	 *
-	 */
 	function exportImage()
 	{
 		$view = Piwik_View::factory('exportImage');
@@ -113,6 +100,4 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		echo base64_decode($_POST['imagedata']);
 		exit;
 	}
-	
-	
 }
