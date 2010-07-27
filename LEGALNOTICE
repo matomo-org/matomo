@@ -43,6 +43,30 @@ CREDITS
 	http://dev.piwik.org/trac/.
 
 
+SEPARATELY LICENSED COMPONENTS AND LIBRARIES
+
+	The following components/libraries are distributed in this package,
+	and subject to their respective licenses.
+
+	Name:  jquery.truncate
+	Link:  http://dev.piwik.org/trac/browser/trunk/libs/jquery/truncate/
+	License:  New BSD
+
+	Name:  PiwikMap.swf (map data build and map renderer)
+	Link:  http://bitbucket.org/gka/piwik-map/overview
+	License:  MIT
+	Notes:
+	- depends on as3corelib (http://code.google.com/p/as3corelib/); New BSD
+
+	Name:  PiwikTracker
+	Link: http://dev.piwik.org/trac/browser/trunk/core/Tracker/PiwikTracker.php
+	License:  New BSD
+
+	Name:  UserAgentParser
+	Link:  http://dev.piwik.org/trac/browser/trunk/libs/UserAgentParser/
+	License:  New BSD
+
+
 THIRD-PARTY COMPONENTS AND LIBRARIES
 
 	The following components/libraries are redistributed in this package,
@@ -53,7 +77,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	License:  Dual-licensed: MIT or GPL
 	Notes:
 	- GPL version not explicitly stated in source but GPL v2 is in git
-	- includes Sizzle.js - multi-licensed: MIT, Modified BSD, or GPL [v2]
+	- includes Sizzle.js - multi-licensed: MIT, New BSD, or GPL [v2]
 
 	Name:  jQuery UI
 	Link:  http://jqueryui.com/
@@ -93,10 +117,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/
 	License:  Dual licensed: MIT or GPL
 
-	Name:  jquery.truncate
-	Link:  http://dev.piwik.org/trac/browser/trunk/libs/jquery/truncate/
-	License:  Modified BSD
-
 	Name:  json2.js
 	Link:  http://json.org/
 	License:  Public domain
@@ -113,7 +133,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 
 	Name:  sparkline
 	Link:  https//sourceforge.net/projects/sparkline/
-	License:  Dual-licensed: Modified BSD or GPL v2
+	License:  Dual-licensed: New BSD or GPL v2
 
 	Name:  swfObject
 	Link:  http://code.google.com/p/swfobject/
@@ -125,25 +145,25 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 
 	Name:  Event Dispatcher (and Notification)
 	Link:  http://pear.php.net/package/Event_Dispatcher/
-	License:  Modified BSD
+	License:  New BSD
 
 	Name:  HTML Common2
 	Link:  http://pear.php.net/package/HTML_Common2/
-	License:  Modified BSD
+	License:  New BSD
 
 	Name:  HTML QuickForm2
 	Link:  http://pear.php.net/package/HTML_QuickForm2/
-	License:  Modified BSD
+	License:  New BSD
 
 	Name:  HTML QuickForm2_Renderer_Smarty
 	Link:  http://www.phcomp.co.uk/tmp/Smarty.phps
-	License:  Modified BSD
+	License:  New BSD
 
 	Name:  Open Flash Chart
 	Link:  http://teethgrinder.co.uk/open-flash-chart-2/
 	License:  LGPL
 	Notes:
-	- includes JSON.php (Modified BSD)
+	- includes JSON.php (New BSD)
 
 	Name:  PclZip
 	Link:  http://www.phpconcept.net/pclzip/
@@ -153,11 +173,11 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 
 	Name:  PEAR (base system)
 	Link:  http://pear.php.net/package/PEAR
-	License:  Modified BSD
+	License:  New BSD
 
 	Name:  PhpSecInfo
 	Link:  http://phpsec.org/projects/phpsecinfo/
-	License:  Modified BSD
+	License:  New BSD
 
 	Name:  RankChecker
 	Link:  http://www.getrank.org/free-pagerank-script
@@ -171,10 +191,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://sourceforge.net/projects/tcpdf
 	License:  LGPL v3 or later
 
-	Name:  UserAgentParser
-	Link:  http://dev.piwik.org/trac/browser/trunk/libs/UserAgentParser/
-	License:  Modified BSD
-
 	Name: Zend Framework
 	Link:  http://www.zendframework.com/
-	License:  Modified BSD
+	License:  New BSD
