@@ -1,4 +1,4 @@
-{if !false}
+{if !$show_autocompleter}
 <div class="sites_selection">
 <span id="sitesSelectionWrapper" style="display:none;" >
 	<label>{'General_Website'|translate}</label><span id="selectedSiteName" style="display:none">{$siteName}</span>
@@ -42,40 +42,38 @@
 </div>
 {else}
 <div class="sites_autocomplete">
-    <label>Website</label>
+    <label>{'General_Website'|translate}</label>
     <div id="sitesSelectionSearch" class="custom_select">
     
-        <a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=1" class="custom_select_main_link custom_select_collapsed">BuyForSeniors</a>
+        <a href="index.php?module=CoreHome&amp;action=index&amp;period={$period}&amp;date={$date}&amp;idSite={$idSite}" class="custom_select_main_link custom_select_collapsed">{$siteName}</a>
         
         <div class="custom_select_block">
-            <ul class="custom_select_ul_list"
-                <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=4">CCSlaughterhouse</a></li>
-                <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=8">CMSJam</a></li>
-                <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=2">DazzlingDonna</a></li>
-                <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=9">eBuzdsdsdsdsdz- Coach</a></li>
-                <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=7">HabariTips</a></li>
-                <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=30">Name</a></li>
-                <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=5">PressKitTemplates</a></li>
-                <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=32">UTC+12</a></li>
-                <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=3">VistaJunkie</a></li>
-                <li><a href="index.php?module=CoreHome&amp;action=index&amp;period=month&amp;date=2009-06-19&amp;idSite=6">WowWayCool</a></li>
+            <div id="custom_select_container">
+            <ul class="custom_select_ul_list" >
+                {foreach from=$sites item=info}
+                    <li><a {if $idSite==$info.idsite} style="display: none"{/if} href="index.php?module=CoreHome&amp;action=index&amp;period={$period}&amp;date={$date}&amp;idSite={$info.idsite}">{$info.name}</a></li>
+				{/foreach}
             </ul>
-            
-            <div class="custom_select_all"><a href="#">All websites...</a></div>
+            </div>
+            <div class="custom_select_all" style="clear: both">
+				<br />
+				<a href="index.php?module=MultiSites&amp;action=index&amp;period={$period}&amp;date={$date}&amp;idSite={$idSite}">{'General_MultiSitesSummary'|translate}</a>
+			</div>
             
             <div class="custom_select_search">
                 <input type="text" length="15" id="keyword" class="inp">
+                <input type="hidden" class="max_sitename_width" id="max_sitename_width" value="130" />
                 <input type="submit" value="Search" class="but">
+				<img title="Clear" id="reset" style="position: relative; top: 4px; left: -44px; cursor: pointer; display: none;" src="plugins/CoreHome/templates/images/reset_search.png"/>
             </div>
         </div>
 	</div>
     
 	{literal}<script type="text/javascript">
-    	$("#sitesSelectionSearch .custom_select_main_link").click(function(){
-			$("#sitesSelectionSearch .custom_select_main_link").toggleClass("custom_select_loading");
-			$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
-			return false;
-		});
+$("#sitesSelectionSearch .custom_select_main_link").click(function(){
+	$("#sitesSelectionSearch .custom_select_block").toggleClass("custom_select_block_show");
+	return false;
+});
     </script>{/literal}
 </div>
 {/if}

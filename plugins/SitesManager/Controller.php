@@ -121,4 +121,36 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		$view->currentUrlWithoutFilename = Piwik_Url::getCurrentUrlWithoutFileName();
 		echo $view->render();
 	}
+	
+	function getSitesForAutocompleter()
+	{
+		$pattern = Piwik_Common::getRequestVar('term');
+		$sites = Piwik_SitesManager_API::getPatternMatchSites($pattern);
+		$pattern = str_replace('%', '', $pattern);
+		if(!count($sites))
+		{
+			$results[] = array('label' => Piwik_Translate('SitesManager_NotFound')."&nbsp;<span style='color: black'>$pattern</span>.", 'id' => '#');
+		}
+		else
+		{
+			foreach($sites as $s)
+			{
+				$hl_name = $s['name'];
+				if(strlen($pattern) > 0)
+				{
+					preg_match_all("/$pattern+/i", $hl_name, $matches);
+					if (is_array($matches[0]) && count($matches[0]) >= 1)
+					{
+						foreach ($matches[0] as $match)
+						{
+							$hl_name = str_replace($match, '<span style="color: black">'.$match.'</span>', $s['name']);
+						}
+					}
+				}
+				$results[] = array('label' => $hl_name, 'id' => $s['idsite'], 'name' => $s['name'] );
+			}
+		}
+
+		print json_encode($results);
+	}
 }

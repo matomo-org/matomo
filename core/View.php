@@ -120,7 +120,7 @@ class Piwik_View implements Piwik_iView
 			$showWebsiteSelectorInUserInterface = Zend_Registry::get('config')->General->show_website_selector_in_user_interface;
 			if($showWebsiteSelectorInUserInterface)
 			{
-				$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess();
+				$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess(Zend_Registry::get('config')->General->site_selector_max_sites);
 				usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
 				$this->sites = $sites;
 			}
@@ -131,6 +131,14 @@ class Piwik_View implements Piwik_iView
 			$this->userIsSuperUser = Piwik::isUserIsSuperUser();
 			$this->piwik_version = Piwik_Version::VERSION;
 			$this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
+			if(Zend_Registry::get('config')->General->autocomplete_min_sites <= count($sites))
+			{
+				$this->show_autocompleter = true;
+			}
+			else
+			{
+				$this->show_autocompleter = false;
+			}
 
 			$this->loginModule = Piwik::getLoginPluginName();
 		} catch(Exception $e) {

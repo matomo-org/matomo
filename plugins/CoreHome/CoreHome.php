@@ -44,6 +44,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$cssFiles[] = "plugins/CoreHome/templates/menu.css";
 		$cssFiles[] = "plugins/CoreHome/templates/datatable.css";
 		$cssFiles[] = "plugins/CoreHome/templates/cloud.css";
+                $cssFiles[] = "plugins/CoreHome/templates/jquery.ui.autocomplete.css";
 	}
 
 	function getJsFiles( $notification )
@@ -68,6 +69,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$jsFiles[] = "plugins/CoreHome/templates/menu.js";	
 		$jsFiles[] = "plugins/CoreHome/templates/calendar.js";
 		$jsFiles[] = "plugins/CoreHome/templates/date.js";
+		$jsFiles[] = "plugins/CoreHome/templates/autocomplete.js";
 	}
 	
 }
