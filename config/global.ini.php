@@ -232,6 +232,13 @@ page_maximum_length = 1024;
 ; for IPv4 addresses, valid values are 0..4
 ip_address_mask_length = 1
 
+[mail]
+transport = 	 					; smtp or empty 
+port = 25
+host = 								; SMTP server address 
+type =  							; SMTP Auth type. By default: NONE. For example: LOGIN 
+username =  						; SMTP username
+password =  						; SMTP password 
 
 [log]
 ;possible values for log: screen, database, file
@@ -295,7 +302,8 @@ Plugins[] 		= UsersManager
 Plugins[] 		= SitesManager
 Plugins[] 		= Installation
 Plugins[] 		= CoreUpdater
-Plugins[]       = PDFReports
+; disabled in 0.7-rc1
+;Plugins[]       = PDFReports
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
@@ -308,10 +316,3 @@ PluginsInstalled[] = Installation
 Plugins_Tracker[] = Provider
 Plugins_Tracker[] = Goals
 
-[mail]
-transport = 	 					; smtp or empty 
-port = 25
-host = 								; SMTP server address 
-type =  							; SMTP Auth type. By default: NONE. For example: LOGIN 
-username =  						; SMTP username
-password =  						; SMTP password 
