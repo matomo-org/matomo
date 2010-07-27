@@ -31,7 +31,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 		$this->patternToSearch = $patternToSearch;
 		$this->patternToSearchQuoted = self::getPatternQuoted($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
-                $this->invertedMatch = $invertedMatch;
+        $this->invertedMatch = $invertedMatch;
 		$this->filter();
 	}
 	
