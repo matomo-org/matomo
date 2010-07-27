@@ -215,7 +215,7 @@ class PiwikTracker
 			);
 			$ctx = stream_context_create($stream_options);
 		}
-		$response = @file_get_contents($url, 0, $ctx);
+		$response = file_get_contents($url, 0, $ctx);
 		return $response;
     }
     
