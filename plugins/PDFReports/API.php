@@ -282,7 +282,7 @@ class Piwik_PDFReports_API
 			$email = trim($email);
 			if(!Piwik::isValidEmailString($email))
 			{
-				throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidEmail' . ' ('.$email.')'));
+				throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidEmail') . ' ('.$email.')');
 			}
 		}
 		$additionalEmails = implode(',',$additionalEmails);

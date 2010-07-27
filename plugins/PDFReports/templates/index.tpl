@@ -18,7 +18,6 @@
 	</div>
 </div>
 
-
 <div class="dialog" id="confirm">
         <h2>{'PDFReports_AreYouSureYouWantToDeleteReport'|translate}</h2>
 		<input id="yes" type="button" value="{'General_Yes'|translate}" />
