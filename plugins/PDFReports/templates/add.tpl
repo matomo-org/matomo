@@ -1,4 +1,4 @@
-<div id='entityAddContainer' style="display:nosne;">
+<div id='entityAddContainer'>
 <div class='entityCancel'>
 	{'PDFReports_CancelAndReturnToPDF'|translate:"<a class='entityCancelLink'>":"</a>"}
 </div>

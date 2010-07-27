@@ -635,7 +635,7 @@ input.submit, .admin input.submit {
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 	border:1px solid #d4d4d4;
-	background:#fff url(../../../themes/default/images/inp_bg.png) repeat-x 0 0;
+	background:#fff url(../../themes/default/images/inp_bg.png) repeat-x 0 0;
 	padding:3px 10px;
 	color:#255792;
 }
@@ -654,7 +654,7 @@ input.submit, .admin input.submit {
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 	border:0;
-	background:#847b6d url(../../../themes/default/images/dashboard_h_bg_hover.png) repeat-x 0 0;
+	background:#847b6d url(../../themes/default/images/dashboard_h_bg_hover.png) repeat-x 0 0;
 	float:right; 
 	margin:12px 0 0 0;
 }
