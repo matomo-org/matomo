@@ -93,3 +93,5 @@ $(document).ready( function() {
 	</div>
 	<div id='iframeDivToExport' style='display:none;'></div>
 </div>
+
+{include file="CoreHome/templates/piwik_tag.tpl"}

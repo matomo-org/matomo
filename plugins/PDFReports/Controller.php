@@ -1,4 +1,15 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ * 
+ * @category Piwik_Plugins
+ * @package Piwik_PDFReports
+ */
+
 class Piwik_PDFReports_Controller extends Piwik_Controller
 {	
     public function index()
@@ -14,7 +25,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 			$reportsByCategory[$report['category']][] = $report;
 		}
 		
-		$reports = Piwik_PDFReports_API::getInstance()->getReports($this->idSite);
+		$reports = Piwik_PDFReports_API::getInstance()->getReports($this->idSite, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = true);
 		$reportsById = array();
 		foreach($reports as &$report)
 		{

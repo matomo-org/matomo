@@ -1,4 +1,14 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ * 
+ * @category Piwik_Plugins
+ * @package Piwik_PDFReports
+ */
 
 class Piwik_PDFReports_API
 {
@@ -122,11 +132,19 @@ class Piwik_PDFReports_API
 	 * 
 	 * @throws Exception if $idReport was specified but the report wasn't found
 	 */
-	public function getReports($idSite = false, $period = false, $idReport = false)
+	public function getReports($idSite = false, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = false)
 	{
 		$sqlWhere = '';
 		$bind = array();
-		$bind[] = Piwik::getCurrentUserLogin();
+		
+		// Super user gets all reports back, other users only their own
+		if(!Piwik::isUserIsSuperUser()
+			|| $ifSuperUserReturnOnlySuperUserReports)
+		{
+			$sqlWhere .= "AND login = ?";
+			$bind[] = Piwik::getCurrentUserLogin();
+		}
+		
 		if(!empty($period))
 		{
 			$this->checkPeriod($period);
@@ -147,8 +165,7 @@ class Piwik_PDFReports_API
 		
 		$reports = Piwik_FetchAll("SELECT * 
     							FROM ".Piwik_Common::prefixTable('pdf')." 
-    							WHERE login = ?
-    								AND deleted = 0
+    							WHERE deleted = 0
     								$sqlWhere", $bind);
     								
     	// When a specific report was requested and not found, throw an error
@@ -242,7 +259,7 @@ class Piwik_PDFReports_API
     		$pdf->setReport($report['metadata'], $report['reportData'], $report['columns'], $report['reportMetadata']);
     		$pdf->paintReport();
         }
-        $outputFilename = 'Piwik Report-'.$prettyDate.'-'.$websiteName.".pdf";	
+        $outputFilename = 'Analytics report - '.$prettyDate.' - '.$websiteName.".pdf";	
         
         switch($outputType)
         { 

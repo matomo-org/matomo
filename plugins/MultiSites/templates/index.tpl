@@ -96,6 +96,8 @@ refreshAfter(5*60*1000);
 </div>
 </div>
 
+{include file="CoreHome/templates/piwik_tag.tpl"}
+
 </div>
 </body>
 </html>

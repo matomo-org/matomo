@@ -34,7 +34,6 @@ class Piwik_CoreAdminHome_API
 	public function runScheduledTime()
 	{
 		Piwik::checkUserIsSuperUser();
-		Piwik_TaskScheduler::runTasks();
-		return true;
+		return Piwik_TaskScheduler::runTasks();
 	}
 }

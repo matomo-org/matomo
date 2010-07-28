@@ -26,3 +26,5 @@
     {$list_api_methods_with_links}
     <br />
 </div>
+
+{include file="CoreHome/templates/piwik_tag.tpl"}

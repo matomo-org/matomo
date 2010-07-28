@@ -62,7 +62,7 @@ TOKEN_AUTH=`$CMD_TOKEN_AUTH`
 
 CMD_GET_ID_SITES="$PHP_BIN -q $PIWIK_PATH -- module=API&method=SitesManager.getAllSitesId&token_auth=$TOKEN_AUTH&format=csv&convertToUnicode=0"
 ID_SITES=`$CMD_GET_ID_SITES`
-echo "Starting Piwik archiving..."
+echo "Starting Piwik reports archiving..."
 echo ""
 for idsite in $ID_SITES; do
   TEST_IS_NUMERIC=`echo $idsite | egrep '^[0-9]+$'`
@@ -80,11 +80,12 @@ for idsite in $ID_SITES; do
   fi
 done
 
-echo "Piwik archiving finished."
+echo "Reports archiving finished."
 
 echo "Starting Scheduled tasks..."
-	CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.runScheduledTime&token_auth=$TOKEN_AUTH";
+echo ""
+	CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.runScheduledTime&format=csv&convertToUnicode=0&token_auth=$TOKEN_AUTH";
 	$CMD
 echo "Finished Scheduled tasks."
-
+echo ""
 
