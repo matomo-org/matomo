@@ -31,7 +31,7 @@ class Piwik_Mail extends Zend_Mail
 	
 	public function setFrom($email, $name)
 	{
-		$piwikHost = $_SERVER['HTTP_HOST'];
+		$piwikHost = @$_SERVER['HTTP_HOST'];
 		if(strlen($piwikHost) == 0)
 		{
 			$piwikHost = 'piwik.org';

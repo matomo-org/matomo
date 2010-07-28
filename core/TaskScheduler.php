@@ -12,7 +12,7 @@
 
 /**
  * Piwik_TaskScheduler is the class used to manage the execution of periodicaly planned task.
- * 
+ *
  * It performs the following actions :
  * 	- Identifies tasks of Piwik
  *  - Runs tasks
@@ -24,7 +24,7 @@ class Piwik_TaskScheduler
 {
 	const GET_TASKS_EVENT = "TaskScheduler.getScheduledTasks";
 	const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
-	
+
 	/*
 	 * runTasks collects tasks defined within piwik plugins, runs them if they are scheduled and reschedules
 	 * the tasks that have been executed.
@@ -33,18 +33,28 @@ class Piwik_TaskScheduler
 	{
 		// Gets the array where rescheduled timetables are stored
 		$option = Piwik_GetOption(self::TIMETABLE_OPTION_STRING);
-		if(!is_string($option))
+		if($option === false)
+		{
+			$timetable = array();
+		}
+		elseif(!is_string($option))
 		{
 			return;
 		}
+		else
+		{
+			$timetable = unserialize($option);
+		}
+
 
 		$timetable = unserialize($option);
-		
+
 		// Force trigger all Scheduled tasks, uncomment
 		// $timetable = array();
 		// Collects tasks
 		Piwik_PostEvent(self::GET_TASKS_EVENT, $tasks);
 
+		$return = array();
 		// Loop through each task
 		foreach ($tasks as $task)
 		{
@@ -53,24 +63,34 @@ class Piwik_TaskScheduler
 			$methodName = $task->getMethodName();
 
 			$fullyQualifiedMethodName = get_class($className) . '.' . $methodName;
-			
+				
 			/*
 			 * Task has to be executed if :
 			 * 	- it is the first time, ie. rescheduledTime is not set
 			 *  - that task has already been executed and the current system time is greater than the
 			 *    rescheduled time.
 			 */
-			if ( !isset($timetable[$fullyQualifiedMethodName]) 	
-				|| (isset($timetable[$fullyQualifiedMethodName]) 
-					&& time() >= $timetable[$fullyQualifiedMethodName]) )
+			if ( !isset($timetable[$fullyQualifiedMethodName])
+    			|| (isset($timetable[$fullyQualifiedMethodName])
+    			&& time() >= $timetable[$fullyQualifiedMethodName]) )
 			{
 				// Updates the rescheduled time
 				$timetable[$fullyQualifiedMethodName] = $scheduledTime->getRescheduledTime();
 				Piwik_SetOption(self::TIMETABLE_OPTION_STRING, serialize($timetable));
 
 				// Run the task
-				call_user_func ( array($className,$methodName) );
+				try {
+					$timer = new Piwik_Timer;
+					call_user_func ( array($className,$methodName) );
+					$message = $timer->__toString();
+				} catch(Exception $e) {
+					$message = 'ERROR: '.$e->getMessage();
+				}
+				$return[] = array('task' => $fullyQualifiedMethodName, 'output' => $message);
+
 			}
 		}
+		return $return;
+
 	}
 }

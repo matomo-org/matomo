@@ -1,4 +1,15 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id$
+ * 
+ * @category Piwik_Plugins
+ * @package Piwik_PDFReports
+ */
+
 class Piwik_PDFReports extends Piwik_Plugin
 {
 	public function getInformation()
@@ -60,7 +71,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 			list($outputFilename, $prettyDate, $websiteName) = 
 											Piwik_PDFReports_API::getInstance()->generateReport(
 													$report['idreport'], 
-													Piwik_Date::now()->toString('Y-m-d'),
+													Piwik_Date::now()->subPeriod(1, $period),
 													$report['idsite'],
 													$outputType = Piwik_PDFReports_API::OUTPUT_PDF_SAVE_ON_DISK
 													);
@@ -81,18 +92,6 @@ class Piwik_PDFReports extends Piwik_Plugin
 		$message .= "\n" . Piwik_Translate('PDFReports_PleaseFindAttachedFile', array($periods[$report['period']], $websiteName));
 		$subject = "Reports " . $websiteName . " - ".$prettyDate;
 
-		$mail = new Piwik_Mail();
-		$mail->setSubject($subject);
-		$mail->setBodyText($message);
-		foreach ($emails as $email)
-		{
-			$mail->addTo($email);
-		}
-		
-		$fromEmailName = Piwik_Translate('PDFReports_PiwikReports');
-		$fromEmailAddress = Zend_Registry::get('config')->General->noreply_email_address;
-		$mail->setFrom($fromEmailAddress, $fromEmailName);
-		
 		if(!file_exists($outputFilename))
 		{
 			throw new Exception("The PDF file wasn't found in $outputFilename");
@@ -101,6 +100,13 @@ class Piwik_PDFReports extends Piwik_Plugin
 		$handle = fopen($outputFilename, "r");
 		$contents = fread($handle, filesize($outputFilename));
 		fclose($handle);
+		
+		$mail = new Piwik_Mail();
+		$mail->setSubject($subject);
+		$mail->setBodyText($message);
+		$fromEmailName = Piwik_Translate('PDFReports_PiwikReports');
+		$fromEmailAddress = Zend_Registry::get('config')->General->noreply_email_address;
+		$mail->setFrom($fromEmailAddress, $fromEmailName);
 		$mail->createAttachment(	$contents, 
 									'application/pdf', 
 									Zend_Mime::DISPOSITION_INLINE, 
@@ -108,18 +114,23 @@ class Piwik_PDFReports extends Piwik_Plugin
 									$filename
 		);
 		
+		foreach ($emails as $email)
+		{
+			$mail->addTo($email);
+    
+    		try {
+    			$mail->send();
+    		} catch(Exception $e) {
+    			throw new Exception("An error occured while sending the PDF Report 
+    								to ". implode(', ',$mail->getRecipients()). ". Error was '". $e->getMessage()."'");
+    		}
+    		$mail->clearRecipients();
+		}
 		// Update flag in DB
 		Zend_Registry::get('db')->update( Piwik_Common::prefixTable('pdf'), 
 					array( 'ts_last_sent' => Piwik_Date::now()->getDatetime() ),
 					"idreport = " . $report['idreport']
 		);	
-
-		try {
-			$mail->send();
-		} catch(Exception $e) {
-			throw new Exception("An error occured while sending the PDF Report 
-								to ". implode(', ',$mail->getRecipients()). ". Error was '". $e->getMessage()."'");
-		}
 		
 		// Remove PDF file
 		unlink($outputFilename);
