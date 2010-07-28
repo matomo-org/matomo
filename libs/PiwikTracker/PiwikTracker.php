@@ -31,8 +31,8 @@ class PiwikTracker
 	 * Builds a PiwikTracker object, used to track visits, pages and Goal conversions 
 	 * for a specific website, by using the Piwik Tracking API.
 	 * 
-	 * @param $idSite int Id site to be tracked
-	 * @param $apiUrl string "http://example.org/piwik/" or "http://piwik.example.org/"
+	 * @param int $idSite Id site to be tracked
+	 * @param string $apiUrl "http://example.org/piwik/" or "http://piwik.example.org/"
 	 * 						 If set, will overwrite PiwikTracker::$URL
 	 */
     function __construct( $idSite, $apiUrl = false )
@@ -59,7 +59,7 @@ class PiwikTracker
     
     /**
      * Sets the current URL being tracked
-     * @param $url string
+     * @param string $url
      */
 	public function setUrl( $url )
     {
@@ -68,7 +68,7 @@ class PiwikTracker
 
     /**
      * Sets the URL referer used to track Referers details for new visits.
-     * @param $url string
+     * @param string $url
      */
     public function setUrlReferer( $url )
     {
@@ -79,7 +79,7 @@ class PiwikTracker
      * Sets custom data to be passed to the piwik.php script, 
      * with the variable name 'data'. Data will be JSON encoded.
      * 
-     * @param $data Mixed (array, strings, ints, etc.)
+     * @param mixed $data An array, strings, ints, etc.
      */
     public function setCustomData( $data )
     {
@@ -89,7 +89,7 @@ class PiwikTracker
     /**
      * Sets the Browser language. Used to detect visitor Countries.
      * 
-     * @param $acceptLanguage string
+     * @param string $acceptLanguage
      */
     public function setBrowserLanguage( $acceptLanguage )
     {
@@ -99,7 +99,7 @@ class PiwikTracker
     /**
      * Sets the user agent, used to detect OS and browser.
      * 
-     * @param $userAgent string
+     * @param string $userAgent
      */
     public function setUserAgent($userAgent)
     {
@@ -109,7 +109,7 @@ class PiwikTracker
     /**
      * Sets local visitor time.
      * 
-     * @param $time string HH:MM:SS format
+     * @param string $time HH:MM:SS format
      */
     public function setLocalTime($time)
     {
@@ -121,8 +121,9 @@ class PiwikTracker
     
     /**
      * Sets user resolution width and height.
-     * @param $width
-     * @param $height
+     *
+     * @param int $width
+     * @param int $height
      */
     public function setResolution($width, $height)
     {
@@ -132,7 +133,8 @@ class PiwikTracker
     
     /**
      * Sets cookie support (Cookie appears in the List of plugins report)
-     * @param $bool
+     *
+     * @param bool $bool
      */
     public function setBrowserHasCookies( $bool )
     {
@@ -141,15 +143,16 @@ class PiwikTracker
     
     /**
      * Sets visitor browser supported plugins 
-     * @param $flash
-     * @param $java
-     * @param $director
-     * @param $quickTime
-     * @param $realPlayer
-     * @param $pdf
-     * @param $windowsMedia
-     * @param $gears
-     * @param $silverlight
+     *
+     * @param bool $flash
+     * @param bool $java
+     * @param bool $director
+     * @param bool $quickTime
+     * @param bool $realPlayer
+     * @param bool $pdf
+     * @param bool $windowsMedia
+     * @param bool $gears
+     * @param bool $silverlight
      */
     public function setPlugins($flash = false, $java = false, $director = false, $quickTime = false, $realPlayer = false, $pdf = false, $windowsMedia = false, $gears = false, $silverlight = false)
     {
@@ -169,7 +172,7 @@ class PiwikTracker
     /**
      * Tracks a page view
      * 
-     * @param $documentTitle string Page view name as it will appear in Piwik reports
+     * @param string $documentTitle Page view name as it will appear in Piwik reports
      * @return string Response
      */
     public function doTrackPageView( $documentTitle )
@@ -181,8 +184,8 @@ class PiwikTracker
     /**
      * Tracks a Goal
      * 
-     * @param $idGoal int Id Goal to record a conversion
-     * @param $revenue int Revenue for this conversion
+     * @param int $idGoal Id Goal to record a conversion
+     * @param int $revenue Revenue for this conversion
      * @return string Response
      */
     public function doTrackGoal($idGoal, $revenue = false)
@@ -194,8 +197,8 @@ class PiwikTracker
     /**
      * Tracks a download or outlink
      * 
-     * @param $actionUrl URL of the download or outlink
-     * @param $actionType Type of the action: 'download' or 'link'
+     * @param string $actionUrl URL of the download or outlink
+     * @param string $actionType Type of the action: 'download' or 'link'
      * @return string Response
      */
     public function doTrackAction($actionUrl, $actionType)
@@ -207,7 +210,7 @@ class PiwikTracker
 
     /**
      * @see doTrackPageView()
-     * @param $documentTitle string Page view name as it will appear in Piwik reports
+     * @param string $documentTitle Page view name as it will appear in Piwik reports
      * @return string URL to piwik.php with all parameters set to track the pageview
      */
     public function getUrlTrackPageView( $documentTitle = false )
@@ -221,8 +224,8 @@ class PiwikTracker
     
     /**
      * @see doTrackGoal()
-     * @param $actionUrl URL of the download or outlink
-     * @param $actionType Type of the action: 'download' or 'link'
+     * @param string $actionUrl URL of the download or outlink
+     * @param string $actionType Type of the action: 'download' or 'link'
      * @return string URL to piwik.php with all parameters set to track the goal conversion
      */
     public function getUrlTrackGoal($idGoal, $revenue = false)
@@ -237,8 +240,8 @@ class PiwikTracker
         
     /**
      * @see doTrackAction()
-     * @param $actionUrl URL of the download or outlink
-     * @param $actionType Type of the action: 'download' or 'link'
+     * @param string $actionUrl URL of the download or outlink
+     * @param string $actionType Type of the action: 'download' or 'link'
      * @return string URL to piwik.php with all parameters set to track an action
      */
     public function getUrlTrackAction($actionUrl, $actionType)
