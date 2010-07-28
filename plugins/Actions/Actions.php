@@ -62,7 +62,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$metrics = 
 		
 		// Page views URLs, Downloads and Outlinks have the full set of metrics
-		$reports[] = array(
+		$reports[$priority = 100] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
 			'name' => Piwik_Translate('Actions_SubmenuPages'),
 			'module' => 'Actions',
@@ -84,8 +84,7 @@ class Piwik_Actions extends Piwik_Plugin
 		// Page titles, downloads and outlinks only report basic metrics
 		$metrics = array(	'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
             				'nb_visits',
-            				'nb_uniq_visitors',
-		);
+    	);
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
 			'name' => Piwik_Translate('Actions_SubmenuOutlinks'),
@@ -104,7 +103,10 @@ class Piwik_Actions extends Piwik_Plugin
 			'metrics' => $metrics,
 			'processedMetrics' => false,
 		);
-		
+		// Downloads and outlinks don't have nb_uniq_visitors metrics
+		// But Page title report does
+		$metrics[] = 'nb_uniq_visitors';
+	
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
 			'name' => Piwik_Translate('Actions_SubmenuPageTitles'),
@@ -114,6 +116,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'metrics' => $metrics,
 			'processedMetrics' => false,
 		);
+		
 	}
 	
 	function addWidgets()

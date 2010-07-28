@@ -50,7 +50,7 @@ class Piwik_Referers extends Piwik_Plugin
 	{
 		$reports = &$notification->getNotificationObject();
 		$reports = array_merge($reports, array(
-        		array(
+        		$priority = 200 => array(
         			'category'  => Piwik_Translate('Referers_Referers'),
         			'name'   => Piwik_Translate('Referers_Type'),
         			'module' => 'Referers',

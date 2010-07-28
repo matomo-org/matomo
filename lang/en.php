@@ -1158,6 +1158,7 @@ $translations = array(
 	'VisitTime_SubmenuTimes' => 'Times',
 	'VisitTime_NHour' => '%sh',
 	'Widgetize_PluginDescription' => 'The plugin makes it very easy to export any Piwik Widget in your Blog, Website or on Igoogle and Netvibes!',
+	'PDFReports_PluginDescription' => 'Create and download your custom PDF reports, and have them emailed daily, weekly or monthly.',
 	'PDFReports_ManagePdfReports' => 'Manage PDF Reports',
 	'PDFReports_PDF' => 'PDF',
 	'PDFReports_EmailSchedule' => 'Email Schedule',
