@@ -23,7 +23,7 @@ class Piwik_UserCountryMap extends Piwik_Plugin
 			'description' => 'This plugin shows a zoomable world map of your visitors location.',
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
-			'version' => Piwik_Version::VERSION,
+			'version' => Piwik_Version::VERSION
 		);
 	}
 	
@@ -86,14 +86,23 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
+	/*
+	 * shows the traditional extra page where the user
+	 * is able to download the exported image via right - click
+	 *
+	 * note: this is a fallback for older flashplayer versions
+	 */
 	function exportImage()
 	{
 		$view = Piwik_View::factory('exportImage');
 		$view->imageData = 'data:image/png;base64,'.$_POST['imageData'];		
 		echo $view->render();
-	
 	}
 	
+	/*
+	 * this outputs the image straight forward and is directly called
+	 * via flash download process
+	 */
 	function outputImage()
 	{
 		header('Content-Type: image/png');
