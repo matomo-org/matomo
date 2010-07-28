@@ -52,11 +52,15 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	Link:  http://dev.piwik.org/trac/browser/trunk/libs/jquery/truncate/
 	License:  New BSD
 
-	Name:  PiwikMap.swf (map data build and map renderer)
-	Link:  http://bitbucket.org/gka/piwik-map/overview
-	License:  MIT
+	Name:  PiwikMap.swf - map renderer
+	Link:  http://dev.piwik.org/trac/browser/worldmap/trunk/mapRenderer
+	License:  GPL
 	Notes:
 	- depends on as3corelib (http://code.google.com/p/as3corelib/); New BSD
+
+	Name:  PiwikMap - data builder
+	Link:  http://bitbucket.org/gka/piwik-map/overview
+	License:  MIT
 
 	Name:  PiwikTracker
 	Link: http://dev.piwik.org/trac/browser/trunk/libs/PiwikTracker/PiwikTracker.php
