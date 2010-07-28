@@ -98,6 +98,7 @@ $translations = array(
 	'General_Seconds' => '%ss',
 	'General_Save' => 'Save',
 	'General_ForExampleShort' => 'eg.',
+	'General_YouMustBeLoggedIn' => 'You must be logged in to access this functionnality.',
 	'General_Website' => 'Website',
 	'General_GeneralSettings' => 'General Settings',
 	'General_AllowPiwikArchivingToTriggerBrowser' => 'Allow Piwik archiving to trigger when reports are viewed from the browser',
@@ -1179,5 +1180,5 @@ $translations = array(
 	'PDFReports_PleaseFindAttachedFile' => 'Please find in attached file your %1$s report for %2$s.',
 	'PDFReports_AreYouSureYouWantToDeleteReport' => 'Are you sure you want to delete this PDF Report and its schedule?',
 	'PDFReports_ThereIsNoPDFReportToManage' => 'There is no PDF Report to manage for website %s',
-	'PDFReports_YouMustBeLoggedIn' => 'You must be logged in to create and schedule custom PDF Reports.',
+	'PDFReports_YouMustBeLoggedIn' => ' logged in to create and schedule custom PDF Reports.',
 );

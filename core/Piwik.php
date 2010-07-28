@@ -1210,7 +1210,7 @@ class Piwik
 	{
 		if(Piwik::getCurrentUserLogin() == 'anonymous')
 		{
-			throw new Exception('You must be logged in to access this functionnality.');
+			throw new Exception(Piwik_Translate('General_YouMustBeLoggedIn'));
 		}
 	}
 	
