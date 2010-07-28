@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_4 extends Piwik_Updates
 {
-	static function getSql($adapter = 'PDO_MYSQL')
+	static function getSql($schema = 'Myisam')
 	{
 		return array(
 			// 0.4 [1140]
