@@ -8,7 +8,7 @@ if(!defined('PIWIK_CONFIG_TEST_INCLUDED'))
 }
 Mock::generate('Piwik_Access');
 
-require_once PIWIK_INCLUDE_PATH . '/core/Tracker/PiwikTracker.php';
+require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/core/Database.test.php';
 
 /**
