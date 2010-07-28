@@ -43,7 +43,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	public function getReportMetadata($notification) 
 	{
 		$reports = &$notification->getNotificationObject();
-		$reports[$priority = 60] = array(
+		$reports[] = array(
 			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
 			'module' => 'VisitFrequency',

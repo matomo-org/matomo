@@ -43,7 +43,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 	public function getReportMetadata($notification) 
 	{
 		$reports = &$notification->getNotificationObject();
-		$reports[$priority = 80] = array(
+		$reports[] = array(
 			'category' => Piwik_Translate('VisitsSummary_VisitsSummary'),
 			'name' => Piwik_Translate('VisitTime_WidgetLocalTime'),
 			'module' => 'VisitTime',
@@ -51,7 +51,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'dimension' => Piwik_Translate('VisitTime_ColumnLocalTime'),
 		);
 		
-		$reports[$priority = 81] = array(
+		$reports[] = array(
 			'category' => Piwik_Translate('VisitsSummary_VisitsSummary'),
 			'name' => Piwik_Translate('VisitTime_WidgetServerTime'),
 			'module' => 'VisitTime',

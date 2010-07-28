@@ -62,7 +62,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$metrics = 
 		
 		// Page views URLs, Downloads and Outlinks have the full set of metrics
-		$reports[$priority = 100] = array(
+		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
 			'name' => Piwik_Translate('Actions_SubmenuPages'),
 			'module' => 'Actions',

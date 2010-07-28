@@ -199,7 +199,7 @@ class Piwik_API_API
 			$availableReport['uniqueId'] = $uniqueId;
 		}
 		// Sort results to ensure consistent order
-		ksort($availableReports);
+		usort($availableReports, array($this, 'sort'));
 		return $availableReports;
 	}
 
