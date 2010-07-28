@@ -21,10 +21,10 @@ abstract class Piwik_Updates
 	/**
 	 * Return SQL to be executed in this update
 	 *
-	 * @param string Adapter name
+	 * @param string Schema name
 	 * @return array
 	 */
-	static function getSql($adapter = 'PDO_MYSQL')
+	static function getSql($schema = 'Myisam')
 	{
 		return array();
 	}
@@ -32,5 +32,7 @@ abstract class Piwik_Updates
 	/**
 	 * Incremental version update
 	 */
-	abstract static function update();
+	static function update()
+	{
+	}
 }

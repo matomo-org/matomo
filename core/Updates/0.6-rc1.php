@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_6_rc1 extends Piwik_Updates
 {
-	static function getSql($adapter = 'PDO_MYSQL')
+	static function getSql($schema = 'Myisam')
 	{
 		$defaultTimezone = 'UTC';
 		$defaultCurrency = 'USD';

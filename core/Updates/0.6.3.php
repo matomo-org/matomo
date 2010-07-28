@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_6_3 extends Piwik_Updates
 {
-	static function getSql($adapter = 'PDO_MYSQL')
+	static function getSql($schema = 'Myisam')
 	{
 		return array(
 			'ALTER TABLE `'. Piwik_Common::prefixTable('log_visit') .'`
