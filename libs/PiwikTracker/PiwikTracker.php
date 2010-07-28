@@ -11,6 +11,8 @@
  * @version $Id$
  * @link http://piwik.org/docs/tracking-api/
  *
+ * @category Piwik
+ * @package PiwikTracker
  */
 class PiwikTracker
 {
