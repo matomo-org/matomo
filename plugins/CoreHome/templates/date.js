@@ -105,16 +105,11 @@ $(document).ready(function(){
 		});
 	
 	//close periodString onClickOutside
-	$('#periodString').hover(
-		 function(){periodWidget.isHover=1}, 
-		 function(){periodWidget.isHover=0}
-	);
 	$('body').bind('mouseup',function(e){ 
-		if(periodWidget.isOpen && !periodWidget.isHover) {
+		if($('#periodString', e.target).length && periodWidget.isOpen) {
 			periodWidget.hide();
 		}
 	});
-	
 	
 	
 } );
