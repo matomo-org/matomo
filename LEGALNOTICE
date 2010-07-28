@@ -198,3 +198,8 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Name: Zend Framework
 	Link:  http://www.zendframework.com/
 	License:  New BSD
+
+
+Notes:
+- the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
+  licenses, which are GPL compatible.
