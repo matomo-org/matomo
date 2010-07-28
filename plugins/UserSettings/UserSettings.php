@@ -97,7 +97,6 @@ class Piwik_UserSettings extends Piwik_Plugin
 				$report['processedMetrics'] = array();
     		}
     		$reports[] = $report;
-    		$count++;
 		}
 	}
 	
