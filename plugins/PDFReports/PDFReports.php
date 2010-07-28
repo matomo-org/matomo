@@ -121,8 +121,8 @@ class Piwik_PDFReports extends Piwik_Plugin
     		try {
     			$mail->send();
     		} catch(Exception $e) {
-    			throw new Exception("An error occured while sending the PDF Report 
-    								to ". implode(', ',$mail->getRecipients()). ". Error was '". $e->getMessage()."'");
+    			throw new Exception("An error occured while sending the PDF Report ".
+    								" to ". implode(', ',$mail->getRecipients()). ". Error was '". $e->getMessage()."'");
     		}
     		$mail->clearRecipients();
 		}

@@ -46,6 +46,7 @@ class Test_Database extends UnitTestCase
 	}
 	public function setUp()
 	{
+		Piwik_Common::deleteAllCache();
 	}
 	
 	public function tearDown()

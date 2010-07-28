@@ -25,7 +25,6 @@ class Piwik_Tracker_GoalManager
 	 */
 	protected $action = null;
 	protected $convertedGoals = array();
-	protected $idsite = null;
 
 	function setCookie($cookie)
 	{
@@ -162,7 +161,7 @@ class Piwik_Tracker_GoalManager
 		return true;
 	}
 
-	function recordGoals($visitorInformation, $action)
+	function recordGoals($idSite, $visitorInformation, $action)
 	{
 		$location_country = isset($visitorInformation['location_country']) 
 							? $visitorInformation['location_country'] 
@@ -177,7 +176,7 @@ class Piwik_Tracker_GoalManager
 
 		$goal = array(
 			'idvisit' 			=> $visitorInformation['idvisit'],
-			'idsite' 			=> $visitorInformation['idsite'],
+			'idsite' 			=> $idSite,
 			'visitor_idcookie' 	=> $visitorInformation['visitor_idcookie'],
 			'server_time' 		=> Piwik_Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
 			'location_country'  => $location_country,

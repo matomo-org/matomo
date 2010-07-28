@@ -64,7 +64,14 @@ class Piwik_Tracker
 	{
 		self::$forcedDateTime = $dateTime;
 	}
-	
+	protected function getCurrentTimestamp()
+	{
+		if(!is_null(self::$forcedDateTime))
+		{
+    		return strtotime(self::$forcedDateTime);
+		}
+		return time();
+	}
 	public function main()
 	{
 		$this->init();
@@ -83,10 +90,12 @@ class Piwik_Tracker
 			} catch(Piwik_Tracker_Visit_Excluded $e) {
 			}
 		}
+		
+		Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
 
 		$this->end();
-	}	
-	
+	}
+
 	/**
 	 * Returns the date in the "Y-m-d H:i:s" PHP format
 	 * @return string

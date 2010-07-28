@@ -287,12 +287,3 @@ class Piwik_FrontController_PluginDeactivatedException extends Exception
 	}
 }
 
-/**
- * For more information: @link http://dev.piwik.org/trac/ticket/374
- */
-function destroy(&$var) 
-{
-	if (is_object($var)) $var->__destruct();
-	unset($var);
-	$var = null;
-}

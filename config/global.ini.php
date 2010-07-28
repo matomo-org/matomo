@@ -209,6 +209,13 @@ enable_detect_unique_visitor_using_settings = 1
 ; The mapping is defined in core/DataFiles/LanguageToCountry.php,
 enable_language_to_country_guess = 1
 
+; When the misc/cron/archive.sh cron hasn't been setup, we still need to regularly run some maintenance tasks.
+; Visits to the Tracker will try to trigger Scheduled Tasks (eg. scheduled PDF reports by email).
+; Scheduled tasks will only run if 'Enable Piwik Archiving from Browser' is enabled in the General Settings.
+; Tasks run once every hour maximum, they might not run every hour if traffic is low.
+; Set to 0 to disable Scheduled tasks completely.
+scheduled_tasks_min_interval = 3600
+
 ; name of the cookie used to store the visitor information
 cookie_name	= piwik_visitor
 

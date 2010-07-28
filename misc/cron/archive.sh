@@ -84,7 +84,7 @@ echo "Reports archiving finished."
 
 echo "Starting Scheduled tasks..."
 echo ""
-	CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.runScheduledTime&format=csv&convertToUnicode=0&token_auth=$TOKEN_AUTH";
+	CMD="$PHP_BIN -q $PIWIK_PATH -- module=API&method=CoreAdminHome.runScheduledTasks&format=csv&convertToUnicode=0&token_auth=$TOKEN_AUTH";
 	$CMD
 echo "Finished Scheduled tasks."
 echo ""
