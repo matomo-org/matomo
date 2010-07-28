@@ -120,7 +120,6 @@ class Test_Piwik_Integration_Main extends Test_Integration
     	
         $t = $this->getTracker($idSite, $dateTime, $defaultInit = true);
         $t->setUrlReferer( 'http://referer.com/page.htm?param=valuewith some spaces');
-    	ob_start();
     	
     	// Testing URL excluded parameters
     	$parameterToExclude = 'excluded_parameter';

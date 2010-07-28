@@ -266,7 +266,7 @@ abstract class Piwik_ArchiveProcessing
 			throw new Exception('Browser trigger archiving must be set to true or false.');
 		}
 		Piwik_SetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING, (int)$enabled, $autoload = true);
-		
+		Piwik_Common::clearCacheGeneral();
 	}
 	static public function isBrowserTriggerArchivingEnabled()
 	{
@@ -436,9 +436,9 @@ abstract class Piwik_ArchiveProcessing
 		{
 			$temporary = 'temporary archive';
 		}
-		Piwik::log("Processing archive '" . $this->period->getLabel() . "', 
-								idsite = ". $this->idsite." ($temporary) - 
-								UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
+		Piwik::log("Processing archive '" . $this->period->getLabel() . "', " 
+								."idsite = ". $this->idsite." ($temporary) - " 
+								."UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
 	}
 	
 	/**

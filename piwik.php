@@ -8,15 +8,14 @@
  * 
  * @package Piwik
  */
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
+define('PIWIK_ENABLE_TRACKING', true);
 
 if(file_exists('bootstrap.php'))
 {
 	require_once 'bootstrap.php';
 }
-
-$GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_MODE'] = true;
-define('PIWIK_ENABLE_TRACKING', true);
 error_reporting(E_ALL|E_NOTICE);
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));

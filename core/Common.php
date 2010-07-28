@@ -64,6 +64,18 @@ class Piwik_Common
 	}
 
 	/**
+	 * @var Piwik_CacheFile
+	 */
+	static $trackerCache = null;
+	static protected function getTrackerCache()
+	{
+		if(is_null(self::$trackerCache))
+		{
+			self::$trackerCache = new Piwik_CacheFile('tracker');
+		}
+		return self::$trackerCache;
+	}
+	/**
 	 * Returns array containing data about the website: goals, URLs, etc.
 	 *
 	 * @param int $idSite
@@ -71,25 +83,126 @@ class Piwik_Common
 	 */
 	static function getCacheWebsiteAttributes( $idSite )
 	{
-		require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-
-		static $cache = null;
-		if(is_null($cache))
-		{
-			$cache = new Piwik_CacheFile('tracker');
-		}
-		$filename = $idSite;
-		$cacheContent = $cache->get($filename);
-		if($cacheContent !== false)
+		$cache = self::getTrackerCache();
+		if(($cacheContent = $cache->get($idSite)) !== false)
 		{
 			return $cacheContent;
 		}
-		if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
+		
+		self::initCorePiwikInTrackerMode();
+		
+		$isSuperUser = Piwik::isUserIsSuperUser();
+		Piwik::setUserIsSuperUser();
+		$content = array();
+		Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
+		
+		// we remove the temporary Super user privilege
+		Piwik::setUserIsSuperUser($isSuperUser);
+		
+		// if nothing is returned from the plugins, we don't save the content
+		// this is not expected: all websites are expected to have at least one URL
+		if(!empty($content))
 		{
-			require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
+			$cache->set($idSite, $content);
+		}
+		return $content;
+	}
+	
+	static public function clearCacheGeneral()
+	{
+		self::getTrackerCache()->delete('general');
+	}
+	
+	/**
+	 * Returns array containing Piwik global data
+	 * @return array
+	 */
+	static protected function getCacheGeneral()
+	{
+		$cache = self::getTrackerCache();
+		$cacheId = 'general';
+		$expectedRows = 2;
+		if(($cacheContent = $cache->get($cacheId)) !== false
+			&& count($cacheContent) == $expectedRows)
+		{
+			return $cacheContent;
+		}
+		self::initCorePiwikInTrackerMode();
+		$cacheContent = array ( 
+			'isBrowserTriggerArchivingEnabled' => Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled(),
+			'lastTrackerCronRun' => Piwik_GetOption('lastTrackerCronRun') 
+		);
+		return $cacheContent;
+	}
+
+	static protected function setCacheGeneral($value)
+	{
+		$cache = self::getTrackerCache();
+		$cacheId = 'general';
+		$cache->set($cacheId, $value);
+		return true;
+	}
+	
+	/**
+	 * Tracker requests will automatically trigger the Scheduled tasks.
+	 * This is useful for users who don't setup the cron, 
+	 * but still want daily/weekly/monthly PDF reports emailed automatically.
+	 * 
+	 * This is similar to calling the API CoreAdminHome.runScheduledTasks (see misc/cron/archive.sh)
+	 * @return 
+	 */
+	public static function runScheduledTasks($now)
+	{
+		// Currently, there is no hourly tasks. When there are some, 
+		// this could be too agressive minimum interval (some hours would be skipped in case of low traffic)
+		$minimumInterval = Piwik_Tracker_Config::getInstance()->Tracker['scheduled_tasks_min_interval'];
+		
+		// If the user disabled browser archiving, he has already setup a cron
+		// To avoid parallel requests triggering the Scheduled Tasks, 
+		// Get last time tasks started executing 
+		$cache = Piwik_Common::getCacheGeneral();
+		if($minimumInterval <= 0
+			|| empty($cache['isBrowserTriggerArchivingEnabled']))
+		{
+			printDebug("-> Scheduled tasks not running in Tracker: Browser archiving is disabled.");
+			return;
+		}
+		$nextRunTime = $cache['lastTrackerCronRun'] + $minimumInterval;
+		if($cache['lastTrackerCronRun'] === false
+			|| $nextRunTime < $now )
+		{
+			$cache['lastTrackerCronRun'] = $now;
+			Piwik_Common::setCacheGeneral( $cache );
+			Piwik_Common::initCorePiwikInTrackerMode();
+			printDebug('-> Scheduled Tasks: Starting...');
+			// Scheduled tasks assume Super User is running
+			Piwik::setUserIsSuperUser();
+			// While each plugins should ensure that necessary languages are loaded,
+			// we ensure English translations at least are loaded 
+			Piwik_Translate::getInstance()->loadEnglishTranslation();
+			
+			$resultTasks = Piwik_TaskScheduler::runTasks();
+			Piwik::setUserIsSuperUser(false);
+			printDebug($resultTasks);
+			printDebug('Finished Scheduled Tasks.');
+		}
+		else
+		{
+			printDebug("-> Scheduled tasks not triggered.");
+		}
+		printDebug("Next run will be from: ". date('Y-m-d H:i:s', $nextRunTime) .' UTC');
+	}
+	
+	static protected function initCorePiwikInTrackerMode()
+	{
+		static $init = false;
+		if(!empty($GLOBALS['PIWIK_TRACKER_MODE'])
+			&& $init === false)
+		{
+			$init = true;
+			require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 			require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 			require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
-
 			try {
 				$access = Zend_Registry::get('access');
 			} catch (Exception $e) {
@@ -109,22 +222,7 @@ class Piwik_Common
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 		}
-
-		$isSuperUser = Piwik::isUserIsSuperUser();
-		Piwik::setUserIsSuperUser();
-		$content = array();
-		Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
 		
-		// we remove the temporary Super user privilege
-		Piwik::setUserIsSuperUser($isSuperUser);
-		
-		// if nothing is returned from the plugins, we don't save the content
-		// this is not expected: all websites are expected to have at least one URL
-		if(!empty($content))
-		{
-			$cache->set($filename, $content);
-		}
-		return $content;
 	}
 
 	/**
@@ -152,8 +250,7 @@ class Piwik_Common
 	static public function deleteCacheWebsiteAttributes( $idSite )
 	{
 		$cache = new Piwik_CacheFile('tracker');
-		$filename = $idSite;
-		$cache->delete($filename);
+		$cache->delete($idSite);
 	}
 
 	/**
@@ -1040,4 +1137,15 @@ class Piwik_Common
 	{
 		return strtoupper(substr(PHP_OS, 0, 3)) == 'WIN';
 	}
+}
+
+
+/**
+ * For more information: @link http://dev.piwik.org/trac/ticket/374
+ */
+function destroy(&$var) 
+{
+	if (is_object($var)) $var->__destruct();
+	unset($var);
+	$var = null;
 }

@@ -31,7 +31,7 @@ class Piwik_CoreAdminHome_API
 	 * Will run all scheduled tasks due to run at this time.
 	 * @return void
 	 */
-	public function runScheduledTime()
+	public function runScheduledTasks()
 	{
 		Piwik::checkUserIsSuperUser();
 		return Piwik_TaskScheduler::runTasks();
