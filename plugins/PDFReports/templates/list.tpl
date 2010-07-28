@@ -11,7 +11,15 @@
 	</tr>
 	</thead>
 	
-	{if empty($reports)}
+	{if $userLogin=='anonymous'}
+		<tr><td colspan=6> 
+		<br/>
+		{'PDFReports_YouMustBeLoggedIn'|translate}
+		<br/>&rsaquo; <a href='index.php?module={$loginModule}'>{'Login_LogIn'|translate}</a></strong>   
+		<br/><br/> 
+		</td></tr>
+		</table>
+	{elseif empty($reports)}
 		<tr><td colspan=6> 
 		<br/>
 		{'PDFReports_ThereIsNoPDFReportToManage'|translate:$siteName}. 
@@ -35,7 +43,9 @@
 			</tr>
 		{/foreach}
 		</table>
-		<br/>
-		<a onclick='' id='linkAddReport'>&rsaquo; {'PDFReports_CreateAndSchedulePDFReport'|translate}</a>
+		{if $userLogin != 'anonymous'}
+			<br/>
+			<a onclick='' id='linkAddReport'>&rsaquo; {'PDFReports_CreateAndSchedulePDFReport'|translate}</a>
+		{/if}
 	{/if}
 </div>

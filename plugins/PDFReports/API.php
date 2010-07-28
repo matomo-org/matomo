@@ -45,6 +45,7 @@ class Piwik_PDFReports_API
 	 */
 	public function addReport( $idSite, $description, $period, $reports, $emailMe = true, $additionalEmails = false)
 	{
+		Piwik::checkUserIsNotAnonymous();
 		Piwik::checkUserHasViewAccess($idSite);
 		$this->checkPeriod($period);
 		$description = $this->checkDescription($description);
@@ -186,7 +187,7 @@ class Piwik_PDFReports_API
 	 * @param int $idReport If not passed, will generate a PDF containing all reports.
 	 * @param bool $outputType 
 	 */
-	public function generateReport($idReport, $date, $idSite = false, $outputType = false)
+	public function generateReport($idReport, $date, $idSite = false, $outputType = false, $periodUsedFullReport = 'day')
 	{
 		// Available reports
 		static $reportMetadata = null;
@@ -199,7 +200,7 @@ class Piwik_PDFReports_API
 		if($idReport == 0)
 		{
 			$reports = $reportMetadata;
-			$period = 'day';
+			$period = $periodUsedFullReport;
 			$description = Piwik_Translate('PDFReports_DefaultPDFContainingAllReports');
 		}
 		// Template is a custom template

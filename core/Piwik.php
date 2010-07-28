@@ -1206,6 +1206,14 @@ class Piwik
 		}
 	}
 
+	static public function checkUserIsNotAnonymous()
+	{
+		if(Piwik::getCurrentUserLogin() == 'anonymous')
+		{
+			throw new Exception('You must be logged in to access this functionnality.');
+		}
+	}
+	
 	/**
 	 * Helper method user to set the current as Super User.
 	 * This should be used with great care as this gives the user all permissions.

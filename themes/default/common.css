@@ -609,7 +609,7 @@ input.submit, .admin input.submit {
 	border-bottom:0!important;
 	border-top:1px solid #E7E7E7!important;
 }
-.entityTable tr td a {
+table.entityTable tr td a {
 	text-decoration:underline;
 }
 #entityAddContainer .entityTable th, #entityEditContainer .entityTable th, #entityEditContainer .entityTable td{ 
