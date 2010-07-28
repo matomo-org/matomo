@@ -43,7 +43,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	public function getReportMetadata($notification) 
 	{
 		$reports = &$notification->getNotificationObject();
-		$reports[$priority = 70] = array(
+		$reports[] = array(
 			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('VisitorInterest_WidgetLengths'),
 			'module' => 'VisitorInterest',
@@ -53,7 +53,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 			'processedMetrics' => false,
 		);
 		
-		$reports[$priority = 71] = array(
+		$reports[] = array(
 			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('VisitorInterest_WidgetPages'),
 			'module' => 'VisitorInterest',

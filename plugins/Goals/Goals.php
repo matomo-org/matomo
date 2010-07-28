@@ -71,7 +71,7 @@ class Piwik_Goals extends Piwik_Plugin
 		);
 
 		// General Goal metrics: conversions, conv rate, revenue
-		$reports[$priority = 300] = array(
+		$reports[] = array(
 			'category' => Piwik_Translate('Goals_Goals'),
 			'name' => Piwik_Translate('Goals_Goals'),
 			'module' => 'Goals',
@@ -106,14 +106,12 @@ class Piwik_Goals extends Piwik_Plugin
 		if(count($idSites) == 1)
 		{
 			$goals = Piwik_Goals_API::getInstance()->getGoals(reset($idSites));
-			$count = 0;
 			foreach($goals as $goal) 
 			{
 				// Add the general Goal metrics: ie. total Goal conversions, 
 				// Goal conv rate or Goal total revenue.
 				// This API call requires a custom parameter
-				$priority = 160 + $count;
-				$reports[$priority] = array(
+				$reports[] = array(
 					'category' => Piwik_Translate('Goals_Goals'),
 					'name' => Piwik_Translate('Goals_GoalX', $goal['name']),
 					'module' => 'Goals',
@@ -122,7 +120,6 @@ class Piwik_Goals extends Piwik_Plugin
 					'metrics' => $goalMetrics,
 					'processedMetrics' => false,
 				);
-				$count++;
 			}
 		}
 	}

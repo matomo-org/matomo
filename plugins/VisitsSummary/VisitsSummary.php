@@ -44,7 +44,7 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	public function getReportMetadata($notification) 
 	{
 		$reports = &$notification->getNotificationObject();
-		$reports[$priority = 10] = array(
+		$reports[] = array(
 			'category' => Piwik_Translate('VisitsSummary_VisitsSummary'),
 			'name' => Piwik_Translate('VisitsSummary_VisitsSummary'),
 			'module' => 'VisitsSummary',

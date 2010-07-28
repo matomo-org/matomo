@@ -75,7 +75,6 @@ class Piwik_UserSettings extends Piwik_Plugin
 	{
 		$reports = &$notification->getNotificationObject();
 		
-		$count = 0;
 		foreach($this->reportMetadata as $report)
 		{
 			list( $category, $name, $apiModule, $apiAction, $columnName ) = $report;
@@ -97,8 +96,7 @@ class Piwik_UserSettings extends Piwik_Plugin
     			// There is no processedMetrics for this report
 				$report['processedMetrics'] = array();
     		}
-    		$priority = 30 + $count;
-    		$reports[$priority] = $report;
+    		$reports[] = $report;
     		$count++;
 		}
 	}
