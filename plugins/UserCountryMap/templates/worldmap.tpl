@@ -8,15 +8,15 @@ $(document).ready(function() {
 	var params = {
 		menu: "false",
 		scale: "noScale",
-		allowFullscreen: "true",
-		allowScriptAccess: "always",
-		allowNetworking: "true",
+		allowscriptaccess: "always",
 		wmode: "opaque",
-		bgcolor: "#FFFFFF"
+		bgcolor: "#FFFFFF",
+		allowfullscreen: "true",
 	};
 	
 {/literal}
 
+	{* this hacks helps jquery to distingish between safari and chrome. *}
 	$.browser.chrome = /chrome/.test(navigator.userAgent.toLowerCase());
 	if ($.browser.chrome) $.browser.safari = false;
 	
@@ -27,7 +27,8 @@ $(document).ready(function() {
 	fv.satMax = {$satMax};
 	fv.lgtMin = {$lgtMin};
 	fv.lgtMax = {$lgtMax};
-	fv.iconOffset = $('#userCountryMapSelectMetrics').width()+13+($.browser.safari ? 22 : 0);
+	{* we need to add 22 pixel for safari due to wrong width calculation for the select *}
+	fv.iconOffset = $('#userCountryMapSelectMetrics').width() + 13 + ($.browser.safari ? 22 : 0);
 	fv.defaultMetric = "{$defaultMetric}";
 	
 	fv.txtLoading = encodeURIComponent("{'General_Loading_js'|translate}");
@@ -38,6 +39,7 @@ $(document).ready(function() {
 {literal}	
 	
 	var attr = { id:"UserCountryMap" };
+	
 	swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf", "UserCountryMap_map", "100%", "300", 
 		"9.0.0", "libs/swfobject/expressInstall.swf", fv, params, attr);
 	
@@ -59,7 +61,7 @@ $(document).ready(function() {
 	});
 	
 	$("#UserCountryMap")[0].height = Math.round($('#widgetUserCountryMapworldMap').width() *.55);
-	$("#UserCountryMap")[0].setIconOffset($('#userCountryMapSelectMetrics').width()+13);
+	
 });
 
 {/literal}
@@ -73,19 +75,4 @@ $(document).ready(function() {
 			<option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
 		{/foreach}
 	</select>
-{*<div class="dataTableFooterIcons userCountryMapFooterIcons">
-	<div class="dataTableFooterWrap" var="table">
-		<div class="tableIconsGroup">
-			<select id="userCountryMapSelectMetrics" style="height: 19px; font-size: 10px;">
-				{foreach from=$metrics item=metric}
-					<option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
-				{/foreach}
-			</select>
-		</div>
-		<div class="tableIconsGroup">
-			<span class="exportToFormatIcons"><a class="tableIcon" var="export_png"><img src="themes/default/images/image.png" title="{'General_ExportAsImage_js'|translate}" height="16" width="16"></a></span>
-		</div>
-	</div>
-
-</div>*}
 </div>
