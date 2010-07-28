@@ -31,9 +31,9 @@ class PiwikTracker
 	 * Builds a PiwikTracker object, used to track visits, pages and Goal conversions 
 	 * for a specific website, by using the Piwik Tracking API.
 	 * 
-	 * @param $idSite Id site to be tracked
-	 * @param $apiUrl "http://example.org/piwik/" or "http://piwik.example.org/"
-	 * 				If set, will overwrite PiwikTracker::$URL
+	 * @param $idSite int Id site to be tracked
+	 * @param $apiUrl string "http://example.org/piwik/" or "http://piwik.example.org/"
+	 * 						 If set, will overwrite PiwikTracker::$URL
 	 */
     function __construct( $idSite, $apiUrl = false )
     {
@@ -57,6 +57,115 @@ class PiwikTracker
     	}
     }
     
+    /**
+     * Sets the current URL being tracked
+     * @param $url string
+     */
+	public function setUrl( $url )
+    {
+    	$this->pageUrl = $url;
+    }
+
+    /**
+     * Sets the URL referer used to track Referers details for new visits.
+     * @param $url string
+     */
+    public function setUrlReferer( $url )
+    {
+    	$this->urlReferer = $url;
+    }
+    
+    /**
+     * Sets custom data to be passed to the piwik.php script, 
+     * with the variable name 'data'. Data will be JSON encoded.
+     * 
+     * @param $data Mixed (array, strings, ints, etc.)
+     */
+    public function setCustomData( $data )
+    {
+    	$this->customData = json_encode($data);
+    }
+    
+    /**
+     * Sets the Browser language. Used to detect visitor Countries.
+     * 
+     * @param $acceptLanguage string
+     */
+    public function setBrowserLanguage( $acceptLanguage )
+    {
+    	$this->acceptLanguage = $acceptLanguage;
+    }
+    
+    /**
+     * Sets the user agent, used to detect OS and browser.
+     * 
+     * @param $userAgent string
+     */
+    public function setUserAgent($userAgent)
+    {
+    	$this->userAgent = $userAgent;
+    }
+    
+    /**
+     * Sets local visitor time.
+     * 
+     * @param $time string HH:MM:SS format
+     */
+    public function setLocalTime($time)
+    {
+    	list($hour, $minute, $second) = explode(':', $time);
+    	$this->localHour = (int)$hour;
+    	$this->localMinute = (int)$minute;
+    	$this->localSecond = (int)$second;
+    }
+    
+    /**
+     * Sets user resolution width and height.
+     * @param $width
+     * @param $height
+     */
+    public function setResolution($width, $height)
+    {
+    	$this->width = $width;
+    	$this->height = $height;
+    }
+    
+    /**
+     * Sets cookie support (Cookie appears in the List of plugins report)
+     * @param $bool
+     */
+    public function setBrowserHasCookies( $bool )
+    {
+    	$this->hasCookies = $bool ;
+    }
+    
+    /**
+     * Sets visitor browser supported plugins 
+     * @param $flash
+     * @param $java
+     * @param $director
+     * @param $quickTime
+     * @param $realPlayer
+     * @param $pdf
+     * @param $windowsMedia
+     * @param $gears
+     * @param $silverlight
+     */
+    public function setPlugins($flash = false, $java = false, $director = false, $quickTime = false, $realPlayer = false, $pdf = false, $windowsMedia = false, $gears = false, $silverlight = false)
+    {
+    	$this->plugins = 
+    		'&fla='.(int)$flash.
+    		'&java='.(int)$java.
+    		'&dir='.(int)$director.
+    		'&qt='.(int)$quickTime.
+    		'&realp='.(int)$realPlayer.
+    		'&pdf='.(int)$pdf.
+    		'&wma='.(int)$windowsMedia.
+    		'&gears='.(int)$gears.
+    		'&ag='.(int)$silverlight
+    	;
+    }
+
     /**
      * Tracks a page view
      * 
@@ -95,80 +204,11 @@ class PiwikTracker
     	$url = $this->getUrlTrackAction($actionUrl, $actionType);
     	return $this->sendRequest($url); 
     }
-    
-	public function setUrl( $url )
-    {
-    	$this->pageUrl = $url;
-    }
 
-    public function setUrlReferer( $url )
-    {
-    	$this->urlReferer = $url;
-    }
-    
-    public function setCustomData( $data )
-    {
-    	$this->customData = json_encode($data);
-    }
-    
-    public function setBrowserLanguage( $acceptLanguage )
-    {
-    	$this->acceptLanguage = $acceptLanguage;
-    }
-    
-    public function setUserAgent($userAgent)
-    {
-    	$this->userAgent = $userAgent;
-    }
-    
-    public function setLocalTime($time)
-    {
-    	list($hour, $minute, $second) = explode(':', $time);
-    	$this->localHour = (int)$hour;
-    	$this->localMinute = (int)$minute;
-    	$this->localSecond = (int)$second;
-    }
-    
-    public function setResolution($width, $height)
-    {
-    	$this->width = $width;
-    	$this->height = $height;
-    }
-    
-    public function setBrowserHasCookies( $bool )
-    {
-    	$this->hasCookies = $bool ;
-    }
-    
-    public function setPlugins($flash = false, $java = false, $director = false, $quickTime = false, $realPlayer = false, $pdf = false, $windowsMedia = false, $gears = false, $silverlight = false)
-    {
-    	$this->plugins = 
-    		'&fla='.(int)$flash.
-    		'&java='.(int)$java.
-    		'&dir='.(int)$director.
-    		'&qt='.(int)$quickTime.
-    		'&realp='.(int)$realPlayer.
-    		'&pdf='.(int)$pdf.
-    		'&wma='.(int)$windowsMedia.
-    		'&gears='.(int)$gears.
-    		'&ag='.(int)$silverlight
-    	;
-    }
-
-    // Note: this will only work when used in tests
-    public function setForceVisitDateTime($dateTime)
-    {
-    	$this->forcedDatetime = $dateTime;
-    }
-
-    // Note: this will only work when used in tests
-    public function setIp($ip)
-    {
-    	$this->ip = $ip;
-    }
-    
     /**
      * @see doTrackPageView()
+     * @param $documentTitle string Page view name as it will appear in Piwik reports
+     * @return string URL to piwik.php with all parameters set to track the pageview
      */
     public function getUrlTrackPageView( $documentTitle = false )
     {
@@ -181,6 +221,9 @@ class PiwikTracker
     
     /**
      * @see doTrackGoal()
+     * @param $actionUrl URL of the download or outlink
+     * @param $actionType Type of the action: 'download' or 'link'
+     * @return string URL to piwik.php with all parameters set to track the goal conversion
      */
     public function getUrlTrackGoal($idGoal, $revenue = false)
     {
@@ -194,6 +237,9 @@ class PiwikTracker
         
     /**
      * @see doTrackAction()
+     * @param $actionUrl URL of the download or outlink
+     * @param $actionType Type of the action: 'download' or 'link'
+     * @return string URL to piwik.php with all parameters set to track an action
      */
     public function getUrlTrackAction($actionUrl, $actionType)
     {
@@ -202,6 +248,24 @@ class PiwikTracker
 				'&redirect=0';
 		
     	return $url;
+    }
+
+    /**
+     * Do not use - this will only work when used in Piwik unit tests
+     * @ignore
+     */
+    public function setForceVisitDateTime($dateTime)
+    {
+    	$this->forcedDatetime = $dateTime;
+    }
+    
+    /**
+     * Do not use - this will only work when used in Piwik unit tests
+     * @ignore
+     */
+    public function setIp($ip)
+    {
+    	$this->ip = $ip;
     }
     
     protected function sendRequest($url)
