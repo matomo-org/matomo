@@ -44,7 +44,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 	public function getReportMetadata($notification) 
 	{
 		$reports = &$notification->getNotificationObject();
-		$reports[] = array(
+		$reports[$priority = 20] = array(
 			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('UserCountry_Country'),
 			'module' => 'UserCountry',
@@ -52,7 +52,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'dimension' => Piwik_Translate('UserCountry_Country'),
 		);
 		
-		$reports[] = array(
+		$reports[$priority = 21] = array(
 			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('UserCountry_Continent'),
 			'module' => 'UserCountry',

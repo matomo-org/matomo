@@ -72,8 +72,8 @@ class Piwik_API_API
 	{
 		$translations = array(
 			// Standard metrics
-    		'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
     		'nb_visits' => 'General_ColumnNbVisits',
+    		'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
     		'nb_actions' => 'General_ColumnNbActions',
 // Do not display these in reports, as they are not so relevant
 // They are used to process metrics below
@@ -145,7 +145,6 @@ class Piwik_API_API
 
 		$availableReports = array();
 		Piwik_PostEvent('API.getReportMetadata', $availableReports, $idSites);
-
 		foreach ($availableReports as &$availableReport) {
 			if (!isset($availableReport['metrics'])) {
 				$availableReport['metrics'] = $this->getDefaultMetrics();
@@ -199,10 +198,8 @@ class Piwik_API_API
 			}
 			$availableReport['uniqueId'] = $uniqueId;
 		}
-		
 		// Sort results to ensure consistent order
-		usort($availableReports, array($this, "sort"));
-		
+		ksort($availableReports);
 		return $availableReports;
 	}
 

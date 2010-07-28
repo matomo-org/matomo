@@ -45,7 +45,7 @@ class Piwik_Provider extends Piwik_Plugin
 	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
-		$reports[] = array(
+		$reports[$priority = 40] = array(
 			'category' => Piwik_Translate('Provider_WidgetProviders'),
 			'name' => Piwik_Translate('Provider_ColumnProvider'),
 			'module' => 'Provider',
