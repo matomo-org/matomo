@@ -62,10 +62,12 @@ a {
 
 
 #loadingPiwik {
-	font-weight: bold;
 	font-size: 1.1em;
-	color: #193B6C;
+	color: #29251C;
 	padding: 0.5em;
+}
+#loadingPiwik img {
+	margin-right:5px;
 }
 #loadingError {
 	font-weight: bold;
@@ -576,60 +578,7 @@ input.submit, .admin input.submit {
 	margin:auto;
 }
 
-
-/* Add / Edit / List entities */
-#entityContainer{  
-	width:800px;
-	font-size:14px;
-}
-.entityInlineHelp {
-	color:#9B9B9B;
-	margin-top:5px;
-}
-.entityTable { 
-	border-radius:4px!important;
-	-moz-border-radius:4px!important;
-	-webkit-border-radius:4px!important;
-	border-top:1px solid #cdc8bf!important;
-	border-bottom:1px solid #948c7d!important;
-}
-.entityTable tr th {
-	font-size:16px;
-}
-.entityTable tr td.first, .entityTable tr th.first{ 
-	border-left:0!important;
-	vertical-align:middle;
-}
-.entityTable tr th{ 
-	white-space:nowrap; 
-	padding-top:10px!important;
-	padding-bottom:10px!important;
-}
-.entityTable tr td, .entityTable tr th{ 
-	border-bottom:0!important;
-	border-top:1px solid #E7E7E7!important;
-}
-table.entityTable tr td a {
-	text-decoration:underline;
-}
-#entityAddContainer .entityTable th, #entityEditContainer .entityTable th, #entityEditContainer .entityTable td{ 
-	vertical-align:middle!important; 
-}
-
-#entityAddContainer .entityTable tr td.first{
-	font-weight:bold;
-}
-#entityAddContainer tr:hover{ 
-	background:none!important;
-}
-
-.entityCancel {
-	float:right; 
-	clear:both; 
-	padding:10px 0;
-	font-size:12px;
-}
-
+/* Main div for the Form and tables */
 #entityContainer .inp{  
 	border-radius:4px;
 	-moz-border-radius:4px;
@@ -667,4 +616,84 @@ table.entityTable tr td a {
 #entityContainer .link_but img{
 	white-space:nowrap; 
 	margin:0 1px 0 0!important;
+}
+#entityAddContainer .entityTable th, #entityEditContainer .entityTable th, #entityEditContainer .entityTable td{ 
+	vertical-align:middle!important; 
+}
+
+#entityAddContainer .entityTable tr td.first{
+	font-weight:bold;
+}
+#entityAddContainer tr:hover{ 
+	background:none!important;
+}
+
+/* Add / Edit / List entities */
+#entityContainer{  
+	width:800px;
+	font-size:14px;
+}
+.entityInlineHelp {
+	color:#9B9B9B;
+	margin-top:5px;
+}
+.entityTable { 
+	border-radius:4px!important;
+	-moz-border-radius:4px!important;
+	-webkit-border-radius:4px!important;
+	border-top:1px solid #cdc8bf!important;
+	border-bottom:1px solid #948c7d!important;
+}
+.entityTable tr th {
+	font-size:16px;
+}
+.entityTable tr td.first, .entityTable tr th.first{ 
+	border-left:0!important;
+	vertical-align:middle;
+}
+.entityTable tr th{ 
+	white-space:nowrap; 
+	padding-top:10px!important;
+	padding-bottom:10px!important;
+}
+.entityTable tr td, .entityTable tr th{ 
+	border-bottom:0!important;
+	border-top:1px solid #E7E7E7!important;
+}
+table.entityTable tr td a {
+	text-decoration:underline;
+}
+
+
+/* cancel button below Forms */
+.entityCancel {
+	float:right; 
+	clear:both; 
+	padding:10px 0;
+	font-size:12px;
+}
+
+
+/* List with grey arrows on left */
+.entityList ul.listCircle{
+	font-weight:normal; 
+	list-style:none;
+	padding:4px 0;
+}
+.entityList ul li{
+	background:#fff url(../../themes/default/images/li_dbl_gray.gif) no-repeat 6px 10px;
+	padding:0 0 0 21px;
+	line-height:22px;
+}
+.entityList ul li .segment{
+	cursor:pointer;
+	border-bottom:1px solid #d0d0d0;
+}
+.entityList ul li.activeSegment .segment {
+	font-weight: bold;
+	border:0;
+}
+
+.entityList ul.listCircle li a { 
+	color:#000;
 }
