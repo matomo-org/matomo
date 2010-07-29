@@ -52,10 +52,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'portal.1und1.de'			=> array('1und1', 'search'),
 		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?mc=suche%40web%40home.suche%40web&allparams=&smode=&su={k}&search=Suche&webRb='),
 
-		// A9
-		'www.a9.com'				=> array('A9', ''),
-		'a9.com'					=> array('A9', ''),
-
 		// Abacho
 		'search.abacho.com'			=> array('Abacho', 'q'),
 
