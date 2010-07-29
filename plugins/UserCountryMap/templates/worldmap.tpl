@@ -64,10 +64,16 @@ $(document).ready(function() {
 	$("#UserCountryMap")[0].height = Math.round($('#widgetUserCountryMapworldMap').width() *.55);
 
 });
-
+</script>
+<style>
+/* The default SELECT is larger than space available */
+#userCountryMapSelectMetrics {
+	width:125px;
+	padding:0;
+}
+</style>
 {/literal}
 
-</script>
 <div id="UserCountryMap_content" style="position:relative; overflow:hidden;">
 	<div id="UserCountryMap_map">{'General_RequiresFlash'|translate}</div>
 	<div style="height:3px"></div>
