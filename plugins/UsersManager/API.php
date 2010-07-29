@@ -75,7 +75,9 @@ class Piwik_UsersManager_API
 		Piwik::checkUserIsSuperUser();
 		
 		$db = Zend_Registry::get('db');
-		$users = $db->fetchAll("SELECT * FROM ".Piwik_Common::prefixTable("user")." ORDER BY login ASC");
+		$users = $db->fetchAll("SELECT * 
+								FROM ".Piwik_Common::prefixTable("user")." 
+								ORDER BY login ASC");
 		return $users;
 	}
 	
@@ -89,7 +91,9 @@ class Piwik_UsersManager_API
 		Piwik::checkUserHasSomeAdminAccess();
 		
 		$db = Zend_Registry::get('db');
-		$users = $db->fetchAll("SELECT login FROM ".Piwik_Common::prefixTable("user")." ORDER BY login ASC");
+		$users = $db->fetchAll("SELECT login 
+								FROM ".Piwik_Common::prefixTable("user")." 
+								ORDER BY login ASC");
 		$return = array();
 		foreach($users as $login)
 		{
