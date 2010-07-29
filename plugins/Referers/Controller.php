@@ -68,7 +68,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 									'Referers.getRefererType'
 								);
 		$view->disableSearchBox();
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		$view->disableExcludeLowPopulation();
 		$view->enableShowGoals();
 		$view->setColumnsToDisplay( array('label', 'nb_visits') );

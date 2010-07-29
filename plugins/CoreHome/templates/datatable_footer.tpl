@@ -8,6 +8,11 @@
 {if $properties.show_offset_information}
 <div>
 	<span class="dataTablePages"></span>
+</div>
+{/if}
+
+{if $properties.show_pagination_control}
+<div>
 	<span class="dataTablePrevious">&lsaquo; {'General_Previous'|translate}</span>
 	<span class="dataTableNext">{'General_Next'|translate} &rsaquo;</span>
 </div>

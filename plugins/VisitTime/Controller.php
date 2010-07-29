@@ -36,7 +36,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		$view->setGraphLimit( 24 );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		$view->enableShowGoals();
 		
 		return $this->renderView($view, $fetch);
@@ -53,7 +53,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		$view->setGraphLimit( 24 );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		
 		return $this->renderView($view, $fetch);
 	}

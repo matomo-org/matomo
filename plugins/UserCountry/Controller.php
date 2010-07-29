@@ -41,7 +41,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 	{
 		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getContinent", 'graphVerticalBar');
 		$view->disableSearchBox();
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_Continent'));
 		return $this->renderView($view, $fetch);
 	}

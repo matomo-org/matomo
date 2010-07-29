@@ -37,7 +37,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 						$controllerActionCalledWhenRequestSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/graph.tpl';
 		
-		$this->disableOffsetInformation();
+		$this->disableOffsetInformationAndPaginationControls();
 		$this->disableExcludeLowPopulation();
 		$this->disableSearchBox();
 		$this->enableShowExportAsImageIcon();
