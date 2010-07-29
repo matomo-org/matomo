@@ -1,7 +1,7 @@
 <?php 
 $translations = array(
 	'General_Locale' => 'ru_RU.UTF-8',
-	'General_TranslatorName' => 'Fat Cow, <a href="http://www.fatcow.com">www.fatcow.com</a>',
+	'General_TranslatorName' => '<a href="http://www.fatcow.com">Fat Cow</a>',
 	'General_TranslatorEmail' => 'by.marcis@gmail.com',
 	'General_EnglishLanguageName' => 'Belarussian',
 	'General_OriginalLanguageName' => 'Беларуская',
