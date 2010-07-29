@@ -202,6 +202,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		unset($goalManager);
 		unset($action);
+		
+		printDebug("<pre>");
+		printDebug($this->cookie);
+		printDebug("</pre>");
 	}
 
 	protected function handleAction($action)
@@ -617,7 +621,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getCookieName()
 	{
-		return Piwik_Tracker_Config::getInstance()->Tracker['cookie_name'] . $this->idsite;
+		return Piwik_Tracker_Config::getInstance()->Tracker['cookie_name'];
 	}
 
 	/**
@@ -682,7 +686,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected function recognizeTheVisitor()
 	{
 		$this->visitorKnown = false;
-		$this->setCookie( new Piwik_Cookie( $this->getCookieName(), $this->getCookieExpire(), $this->getCookiePath() ) );
+		$this->setCookie( new Piwik_Cookie( 
+								$this->getCookieName(), 
+								$this->getCookieExpire(), 
+								$this->getCookiePath(),
+								$key = $this->idsite ) );
 
 		/*
 		 * Case the visitor has the piwik cookie.
@@ -857,6 +865,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		printDebug("We manage the cookie...");
 
+		
 		if( isset($this->visitorInfo['referer_type'])
 			&& $this->visitorInfo['referer_type'] != Piwik_Common::REFERER_TYPE_DIRECT_ENTRY)
 		{

@@ -21,6 +21,11 @@
 class Piwik_Cookie
 {
 	/**
+	 * Don't create a cookie bigger than 1k
+	 */
+	const MAX_COOKIE_SIZE = 1024;
+	
+	/**
 	 * The name of the cookie 
 	 */
 	protected $name = null;
@@ -47,8 +52,9 @@ class Piwik_Cookie
 	 * @param string cookie Name
 	 * @param int The timestamp after which the cookie will expire, eg time() + 86400
 	 * @param string The path on the server in which the cookie will be available on. 
+	 * @param string $keyStore Will be used to store several bits of data (eg. one array per website)
 	 */
-	public function __construct( $cookieName, $expire = null, $path = null)
+	public function __construct( $cookieName, $expire = null, $path = null, $keyStore = false)
 	{
 		$this->name = $cookieName;
 		$this->path = $path;
@@ -60,7 +66,7 @@ class Piwik_Cookie
 			$this->expire = $this->getDefaultExpire();
 		}
 		
-		
+		$this->keyStore = $keyStore;
 		if($this->isCookieFound())
 		{
 			$this->loadContentFromCookie();
@@ -140,8 +146,19 @@ class Piwik_Cookie
 	 */
 	public function save()
 	{
+		$cookieString = $this->generateContentString();
+		if(strlen($cookieString) > self::MAX_COOKIE_SIZE)
+		{
+			// If the cookie was going to be too large, instead, delete existing cookie and start afresh
+			// This will result in slightly less accuracy in the case 
+			// where someone visits more than dozen websites tracked by the same Piwik
+			// This will usually be the Piwik super user itself checking all his websites regularly
+			$this->delete();
+			return;
+		}
+		
 		$this->setP3PHeader();
-		$this->setCookie( $this->name, $this->generateContentString(), $this->expire, $this->path);
+		$this->setCookie( $this->name, $cookieString, $this->expire, $this->path);
 	}
 	
 	/**
@@ -169,7 +186,7 @@ class Piwik_Cookie
 				$varValue = Piwik_Common::unserialize_array($varValue);
 			}
 			
-			$this->set($varName, $varValue);
+			$this->value[$varName] = $varValue;
 		}
 	}
 	
@@ -207,19 +224,30 @@ class Piwik_Cookie
 	 * A cookie has to stay small and its size shouldn't increase over time!
 	 * 
 	 * @param string Name of the value to save; the name will be used to retrieve this value
-	 * @param string|array|numeric Value to save
+	 * @param string|array|numeric Value to save. If null, entry will be deleted from cookie.
 	 */
 	public function set( $name, $value )
 	{
 		$name = self::escapeValue($name);
+		
+		// Delete value if $value === null
 		if(is_null($value))
 		{
-			unset($this->value[$name]);
+			if($this->keyStore === false)
+			{
+				unset($this->value[$name]);
+				return;
+			}
+			unset($this->value[$this->keyStore][$name]);
+			return;
 		}
-		else
+		
+		if($this->keyStore === false)
 		{
 			$this->value[$name] = $value;
+			return;
 		}
+		$this->value[$this->keyStore][$name] = $value;
 	}
 	
 	/**
@@ -231,7 +259,15 @@ class Piwik_Cookie
 	public function get( $name )
 	{
 		$name = self::escapeValue($name);
-		return isset($this->value[$name]) ? self::escapeValue($this->value[$name]) : false;
+		if($this->keyStore === false)
+		{
+    		return isset($this->value[$name]) 
+    					? self::escapeValue($this->value[$name]) 
+    					: false;
+		}
+		return isset($this->value[$this->keyStore][$name])
+					? self::escapeValue($this->value[$this->keyStore][$name])
+					: false;
 	}
 	
 	/**
@@ -241,12 +277,8 @@ class Piwik_Cookie
 	 */
 	public function __toString()
 	{
-		$str = "&lt;-- Content of the cookie '{$this->name}' <br />\n";
-		foreach($this->value as $name => $value )
-		{
-			$str .= $name . " = " . var_export($this->get($name), true) . "<br />\n";
-		}
-		$str .= "--&gt; <br />\n";
+		$str = 'COOKIE '.$this->name.', rows count: '.count($this->value). ', cookie size = '.strlen($this->generateContentString()).' bytes<br/>';
+		$str .= var_export($this->value, $return = true);
 		return $str;
 	}
 	
