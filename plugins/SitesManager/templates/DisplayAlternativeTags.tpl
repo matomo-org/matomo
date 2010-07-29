@@ -14,6 +14,13 @@ The Simple Image Tracker tag can be used when Javascript is disallowed.
 &lt;img src="{$piwikUrl}piwik.php?idsite={$idSite}&rec=1" style="border:0" alt="" /&gt;<br/>
 &lt;!-- End Piwik --&gt;<br/>
 </code>
+<br/>
+The following parameters can also be passed to the image URL:
+<ul> 
+	<li><i>action_name</i> - Defines the custom Page Title for this page view</li>
+	<li><i>idgoal</i> - The request will trigger the given Goal</li>
+	<li><i>revenue</i> - Used with idgoal, defines the custom revenue for this conversion</li>
+</ul>
 </div>
 
 <h3>Piwik Tracking API (Advanced users)</h3>
