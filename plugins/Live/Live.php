@@ -40,7 +40,7 @@ class Piwik_Live extends Piwik_Plugin
 	{
 		$cssFiles = &$notification->getNotificationObject();
 		
-		$cssFiles[] = "themes/default/styles.css";
+		$cssFiles[] = "plugins/Live/templates/live.css";
 	}	
 	
 	function getJsFiles( $notification )
