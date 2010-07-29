@@ -70,8 +70,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	protected function getLayoutForUser( $login, $idDashboard)
 	{
 		$paramsBind = array($login, $idDashboard);
-		$return = Piwik_FetchAll('SELECT layout FROM '.Piwik_Common::prefixTable('user_dashboard') .
-					' WHERE login = ? AND iddashboard = ?', $paramsBind);
+		$return = Piwik_FetchAll('SELECT layout 
+								FROM '.Piwik_Common::prefixTable('user_dashboard') .
+								'WHERE login = ? 
+									AND iddashboard = ?', $paramsBind);
 		if(count($return) == 0)
 		{
 			return false;

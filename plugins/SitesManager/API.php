@@ -68,7 +68,9 @@ class Piwik_SitesManager_API
 	public function getSiteFromId( $idSite )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$site = Zend_Registry::get('db')->fetchRow("SELECT * FROM ".Piwik_Common::prefixTable("site")." WHERE idsite = ?", $idSite);
+		$site = Zend_Registry::get('db')->fetchRow("SELECT * 
+													FROM ".Piwik_Common::prefixTable("site")." 
+													WHERE idsite = ?", $idSite);
 		return $site;
 	}
 	
@@ -233,17 +235,28 @@ class Piwik_SitesManager_API
 		if(Piwik::isUserIsSuperUser())
 		{
 			$ids = Zend_Registry::get('db')->fetchAll(
-					'SELECT idsite FROM ' . Piwik_Common::prefixTable('site') . ' WHERE main_url = ? ' .
-					'UNION SELECT idsite FROM ' . Piwik_Common::prefixTable('site_url') . ' WHERE url = ?', array($url, $url));
+					'SELECT idsite 
+					FROM ' . Piwik_Common::prefixTable('site') . ' 
+					WHERE main_url = ? ' .
+					'UNION 
+					SELECT idsite 
+					FROM ' . Piwik_Common::prefixTable('site_url') . ' 
+					WHERE url = ?', array($url, $url));
 		}
 		else
 		{
 			$login = Piwik::getCurrentUserLogin();
 			$ids = Zend_Registry::get('db')->fetchAll(
-					'SELECT idsite FROM ' . Piwik_Common::prefixTable('site') . ' WHERE main_url = ? ' .
-					'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ') ' .
-					'UNION SELECT idsite FROM ' . Piwik_Common::prefixTable('site_url') . ' WHERE url = ? ' .
-					'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ')', array($url, $login, $url, $login));
+					'SELECT idsite 
+					FROM ' . Piwik_Common::prefixTable('site') . ' 
+					WHERE main_url = ? ' .
+						'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ') ' .
+					'UNION 
+					SELECT idsite 
+					FROM ' . Piwik_Common::prefixTable('site_url') . ' 
+					WHERE url = ? ' .
+						'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ')', 
+					array($url, $login, $url, $login));
 		}
 
 		return $ids;
@@ -913,7 +926,14 @@ class Piwik_SitesManager_API
 		$ids_str .= $id_val;
 
 		$db = Zend_Registry::get('db');
-		$sites = $db->fetchAll("SELECT idsite, name, main_url FROM ".Piwik_Common::prefixTable('site')." s	WHERE (s.name like ? OR s.main_url like ?) AND idsite in ($ids_str) LIMIT ".Zend_Registry::get('config')->General->site_selector_max_sites, array('%'.$pattern.'%', 'http%'.$pattern.'%')) ;
+		$bind = array('%'.$pattern.'%', 'http%'.$pattern.'%');
+		$sites = $db->fetchAll("SELECT idsite, name, main_url 
+								FROM ".Piwik_Common::prefixTable('site')." s	
+								WHERE (		s.name like ? 
+										OR 	s.main_url like ?) 
+									AND idsite in ($ids_str) 
+								LIMIT ".Zend_Registry::get('config')->General->site_selector_max_sites, 
+							$bind) ;
 		return $sites;
 	}
 }

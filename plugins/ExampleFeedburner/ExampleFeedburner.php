@@ -70,8 +70,9 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('feedburner');
 		$idSite = Piwik_Common::getRequestVar('idSite',1,'int');
-		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName FROM '.Piwik_Common::prefixTable('site').
-								' WHERE idsite = ?', $idSite );
+		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName 
+											  FROM '.Piwik_Common::prefixTable('site').
+											' WHERE idsite = ?', $idSite );
 		if(empty($feedburnerFeedName))
 		{
 			$feedburnerFeedName = 'Piwik';

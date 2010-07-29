@@ -39,9 +39,9 @@ class Piwik_Goals_API
 	public function getGoals( $idSite )
 	{
 		$goals = Piwik_FetchAll("SELECT * 
-											FROM ".Piwik_Common::prefixTable('goal')." 
-											WHERE idsite = ?
-												AND deleted = 0", $idSite);
+								FROM ".Piwik_Common::prefixTable('goal')." 
+								WHERE idsite = ?
+									AND deleted = 0", $idSite);
 		$cleanedGoals = array();
 		foreach($goals as &$goal)
 		{
