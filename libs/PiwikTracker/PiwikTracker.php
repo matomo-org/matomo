@@ -271,6 +271,9 @@ class PiwikTracker
     	$this->ip = $ip;
     }
     
+    /**
+     * @ignore
+     */
     protected function sendRequest($url)
     {
 		if(function_exists('stream_context_create')) {
@@ -289,6 +292,9 @@ class PiwikTracker
 		return $response;
     }
     
+    /**
+     * @ignore
+     */
     protected function getRequest( $idSite )
     {
     	if(empty(self::$URL))
@@ -330,6 +336,7 @@ class PiwikTracker
 	 * will return "/dir1/dir2/index.php"
 	 *
 	 * @return string
+     * @ignore
 	 */
 	static protected function getCurrentScriptName()
 	{
@@ -360,6 +367,7 @@ class PiwikTracker
 	 * will return 'http'
 	 *
 	 * @return string 'https' or 'http'
+     * @ignore
 	 */
 	static protected function getCurrentScheme()
 	{
@@ -376,6 +384,7 @@ class PiwikTracker
 	 * will return "http://example.org"
 	 *
 	 * @return string
+     * @ignore
 	 */
 	static protected function getCurrentHost()
 	{
@@ -390,6 +399,7 @@ class PiwikTracker
 	 * will return "?param1=value1&param2=value2"
 	 *
 	 * @return string
+     * @ignore
 	 */
 	static protected function getCurrentQueryString()
 	{
@@ -406,6 +416,7 @@ class PiwikTracker
 	 * Returns the current full URL (scheme, host, path and query string.
 	 *  
 	 * @return string
+     * @ignore
 	 */
     static protected function getCurrentUrl()
     {
