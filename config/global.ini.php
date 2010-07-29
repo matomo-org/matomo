@@ -316,7 +316,8 @@ Plugins[] 		= SitesManager
 Plugins[] 		= Installation
 Plugins[] 		= CoreUpdater
 ; disabled in 0.7-rc1
-;Plugins[]       = PDFReports
+Plugins[]       = PDFReports
+Plugins[] 		= UserCountryMap
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
