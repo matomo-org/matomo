@@ -17,121 +17,18 @@
 		}
 	});
 
-	// first I'm ensuring that 'last' has been initialised (with last.constructor == Object),
-	// then prev.html() == last.html() will return true if the HTML is the same, or false,
-	// if I have a different entry.
-	function check_for_dupe(prev, last)
-	{
-		if (last.constructor == Object)	{
-			return (prev.html() == last.html());
-		}
-		else {
-			return 0;
-		}
-	}
-
-	function lastIdVisit()
-	{
-		updateTotalVisits();
-		updateVisitBox();
-		return $('#visitsLive > div:lt(2) .idvisit').html();
-	}
-
-	var pauseImage = "plugins/Live/templates/images/pause.gif";
-	var pauseDisabledImage = "plugins/Live/templates/images/pause_disabled.gif";
-	var playImage = "plugins/Live/templates/images/play.gif";
-	var playDisabledImage = "plugins/Live/templates/images/play_disabled.gif";
-
-	function onClickPause()
-	{
-		$('#pauseImage').attr('src', pauseImage);
-		$('#playImage').attr('src', playDisabledImage);
-		return pauseSpy();
-	}
-	function onClickPlay()
-	{
-		$('#playImage').attr('src', playImage);
-		$('#pauseImage').attr('src', pauseDisabledImage);
-		return playSpy();
-	}
-
 	// updates the numbers of total visits in startbox
 	function updateTotalVisits()
 	{
 		$("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=ajaxTotalVisitors");
 	}
-
 	// updates the visit table, to refresh the already presented visitors pages
 	function updateVisitBox()
 	{
 		$("#visitsLive").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart");
 	}
 
-	/* TOOLTIP */
-		$('#visitsLive label').tooltip({
-		    track: true,
-		    delay: 0,
-		    showURL: false,
-		    showBody: " - ",
-		    fade: 250
-		});
-
 </script>
-
-<style>
- #visitsLive {
-        text-align:left;
-        font-size:90%;
-        color:#444444;
- }
- #visitsLive .datetime, #visitsLive .country, #visitsLive .referer, #visitsLive .settings, #visitsLive .returning , #visitsLive .countActions{
-        border-bottom: 1px solid #d3d1c5;
-        border-right:1px solid #d3d1c5;
-        padding:5px 5px 5px 12px;
-}
-
- #visitsLive .datetime {
-        background:#E4E2D7;
-        border-top:1px solid #d3d1c5;
-        margin:0;
-        text-align:left;
-}
-
- #visitsLive .country {
-        background:#FFFFFF url(plugins/CoreHome/templates/images/bullet1.gif) no-repeat scroll 0 0;
-}
-
- #visitsLive .referer {
-        background:#F9FAFA none repeat scroll 0 0;
-}
-
-#visitsLive .referer:hover {
-        background:#FFFFF7;
-}
-
- #visitsLive .pagesTitle {
-         display:block;
-         float:left;
-}
-
- #visitsLive .countActions {
-         background:#FFFFFF none repeat scroll 0 0;
- }
-
- #visitsLive .settings {
-         background:#FFFFFF none repeat scroll 0 0;
- }
-
- #visitsLive .returning {
-         background:#F9FAFA none repeat scroll 0 0;
- }
-
- .visitsLiveFooter a.rightLink{
-         float:right;
-         padding-right:20px;
- }
-
-</style>
 {/literal}
 
 <div id="visitsTotal">

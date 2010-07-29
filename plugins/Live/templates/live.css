@@ -1,0 +1,53 @@
+@CHARSET "UTF-8";
+
+ #visitsLive {
+        text-align:left;
+        font-size:90%;
+        color:#444444;
+ }
+ #visitsLive .datetime, #visitsLive .country, #visitsLive .referer, #visitsLive .settings, #visitsLive .returning , #visitsLive .countActions{
+        border-bottom: 1px solid #d3d1c5;
+        border-right:1px solid #d3d1c5;
+        padding:5px 5px 5px 12px;
+}
+
+ #visitsLive .datetime {
+        background:#E4E2D7;
+        border-top:1px solid #d3d1c5;
+        margin:0;
+        text-align:left;
+}
+
+ #visitsLive .country {
+        background:#FFFFFF url(plugins/CoreHome/templates/images/bullet1.gif) no-repeat scroll 0 0;
+}
+
+ #visitsLive .referer {
+        background:#F9FAFA none repeat scroll 0 0;
+}
+
+#visitsLive .referer:hover {
+        background:#FFFFF7;
+}
+
+ #visitsLive .pagesTitle {
+         display:block;
+         float:left;
+}
+
+ #visitsLive .countActions {
+         background:#FFFFFF none repeat scroll 0 0;
+ }
+
+ #visitsLive .settings {
+         background:#FFFFFF none repeat scroll 0 0;
+ }
+
+ #visitsLive .returning {
+         background:#F9FAFA none repeat scroll 0 0;
+ }
+
+ .visitsLiveFooter a.rightLink{
+         float:right;
+         padding-right:20px;
+ }
