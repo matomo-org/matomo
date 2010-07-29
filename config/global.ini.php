@@ -88,11 +88,6 @@ datatable_default_limit = 10
 ; default number of rows returned in API responses
 API_datatable_default_limit = 50
 
-; if set to 1, the website selector will be displayed in the Piwik UI
-; if your Piwik installation has thousands of websites, you may disable the website selector
-; as it slows down the loading of the Piwik UI by setting this value to 0
-show_website_selector_in_user_interface = 1
-
 ; This setting is overriden in the UI, under "User Settings". 
 ; The date and period loaded by Piwik uses the defaults below. Possible values: yesterday, today.
 default_day = yesterday
