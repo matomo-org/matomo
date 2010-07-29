@@ -1,6 +1,6 @@
-<div class="home" id="content" style="display: block;"><a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
-<h2>Besucherverlauf</h2>
-
+<div class="home" id="content" style="display: block;">
+<a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
+<h2>{'Live_VisitorLog'|translate}</h2>
 <div id="{$properties.uniqueId}">
 
 {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}

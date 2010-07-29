@@ -1,33 +1,37 @@
 {literal}
 <script type="text/javascript" charset="utf-8">
 
-	$(document).ready(function() {
-		if($('#_spyTmp').size() == 0) {
-			$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
-			$('#visitsLive').spy({
-				limit: 10,
-				ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart',
-				fadeLast: 2,
-				isDupe: check_for_dupe,
-				timeout: 8000,
-				customParameterName: 'minIdVisit',
-				customParameterValueCallback: lastIdVisit,
-				fadeInSpeed: 600
-			});
-		}
-	});
+$(document).ready(function() {
+	initSpy();
+});
 
-	// updates the numbers of total visits in startbox
-	function updateTotalVisits()
-	{
-		$("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=ajaxTotalVisitors");
+function initSpy()
+{
+	if($('#_spyTmp').size() == 0) {
+		$('#visitsLive > div:gt(2)').fadeEachDown(); // initial fade
+		$('#visitsLive').spy({
+			limit: 10,
+			ajax: 'index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart',
+			fadeLast: 2,
+			isDupe: check_for_dupe,
+			timeout: 8000,
+			customParameterName: 'minIdVisit',
+			customParameterValueCallback: lastIdVisit,
+			fadeInSpeed: 600
+		});
 	}
-	// updates the visit table, to refresh the already presented visitors pages
-	function updateVisitBox()
-	{
-		$("#visitsLive").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart");
-	}
+}
 
+//updates the numbers of total visits in startbox
+function updateTotalVisits()
+{
+	$("#visitsTotal").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=ajaxTotalVisitors");
+}
+//updates the visit table, to refresh the already presented visitors pages
+function updateVisitBox()
+{
+	$("#visitsLive").load("index.php?module=Live&idSite={/literal}{$idSite}{literal}&action=getLastVisitsStart");
+}
 </script>
 {/literal}
 

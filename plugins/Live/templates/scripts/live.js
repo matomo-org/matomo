@@ -1,19 +1,25 @@
+
 // first I'm ensuring that 'last' has been initialised (with last.constructor == Object),
 // then prev.html() == last.html() will return true if the HTML is the same, or false,
 // if I have a different entry.
 function check_for_dupe(prev, last)
 {
-if (last.constructor == Object)	{
-	return (prev.html() == last.html());
+	if (last.constructor == Object)	
+	{
+		return (prev.html() == last.html());
+	}
+	else 
+	{
+		return 0;
+	}
 }
-else {
-	return 0;
-}
-}
+
+
 function lastIdVisit()
 {
 	updateTotalVisits();
 	updateVisitBox();
+
 	return $('#visitsLive > div:lt(2) .idvisit').html();
 }
 var pauseImage = "plugins/Live/templates/images/pause.gif";
