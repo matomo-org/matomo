@@ -46,7 +46,14 @@
  #visitsLive .returning {
          background:#F9FAFA none repeat scroll 0 0;
  }
-
+.visitsLiveFooter img {
+	vertical-align:middle;	
+}
+ .visitsLiveFooter {
+ 	line-height:2.5em;
+ }
+ 
+ 
  .visitsLiveFooter a.rightLink{
          float:right;
          padding-right:20px;
