@@ -33,7 +33,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_ColumnVisitDuration'));
 		$view->disableSort();
 		$view->disableExcludeLowPopulation();
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		$view->disableSearchBox();
 		$view->disableShowAllColumns();
 		
@@ -48,7 +48,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->setSortedColumn( 'nb_visits', 'asc' );
 		$view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'));
 		$view->disableExcludeLowPopulation();
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		$view->disableSearchBox();
 		$view->disableSort();
 		$view->disableShowAllColumns();

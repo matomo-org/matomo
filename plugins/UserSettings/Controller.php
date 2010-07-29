@@ -81,7 +81,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										'graphPie'
 									);
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnBrowserFamily'));
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -92,7 +92,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										'UserSettings.getWideScreen'
 									);
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnTypeOfScreen'));
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		return $this->renderView($view, $fetch);
 	}
 	
